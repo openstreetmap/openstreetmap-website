@@ -423,15 +423,30 @@ ko:
       introduction: 근처의 지물을 찾으려면 지도에서 클릭하세요.
       nearby: 근처 지물
       enclosing: 근접 지역 내 지물
+  nodes:
+    timeout:
+      sorry: 죄송합니다, %{id} id인 노드에 대한 데이터를 가져오는데 너무 오래 걸립니다.
   old_nodes:
     not_found:
       sorry: '죄송합니다. 버전 %{version}의 노드 #%{id}를 찾을 수 없습니다.'
+    timeout:
+      sorry: 죄송합니다, %{id} id인 노드의 역사를 가져오는데 너무 오래 걸립니다.
+  ways:
+    timeout:
+      sorry: 죄송합니다, %{id} id인 길 데이터를 가져오는데 너무 오래 걸립니다.
   old_ways:
     not_found:
       sorry: '죄송합니다. 버전 %{version}의 경로 #%{id}를 찾을 수 없습니다.'
+    timeout:
+      sorry: 죄송합니다, %{id} id인 길 역사를 가져오는데 너무 오래 걸립니다.
+  relations:
+    timeout:
+      sorry: 죄송합니다, %{id} id인 관계 데이터를 가져오는데 너무 오래 걸립니다.
   old_relations:
     not_found:
       sorry: '죄송합니다. 버전 %{version}의 관계 #%{id}를 찾을 수 없습니다.'
+    timeout:
+      sorry: 죄송합니다, %{id} id인 관계 역사를 가져오는데 너무 오래 걸립니다.
   changeset_comments:
     feeds:
       comment:
@@ -474,6 +489,8 @@ ko:
     heading:
       title: 바뀜집합 %{id}
       created_by_html: '%{created}에 의해 %{link_user}이(가) 생성되었습니다.'
+    no_such_entry:
+      heading: 'id에 해당하는 엔트리 없음: %{id}'
     show:
       title: '바뀜집합: %{id}'
       created: '생성 시기: %{when}'
@@ -556,7 +573,7 @@ ko:
       login: 로그인
     no_such_entry:
       title: 해당 일기 항목이 없음
-      heading: '%{id} ID 항목 없음'
+      heading: 'id에 해당하는 엔트리 없음: %{id}'
       body: 안타깝게도, ID가 %{id}인 일기 항목이나 댓글이 없습니다. 맞춤법이나 클릭한 링크의 유효성을 확인해 주세요.
     diary_entry:
       posted_by_html: '%{link_user}님이 %{language_link}로 %{created}에 게시함.'
@@ -1679,6 +1696,7 @@ ko:
       to: 받는이
       subject: 제목
       date: 날짜
+      actions: 동작
     message_summary:
       unread_button: 읽지 않음으로 표시
       read_button: 읽음으로 표시
@@ -1704,6 +1722,8 @@ ko:
       people_mapping_nearby: 근처에 매핑한 사람
     muted:
       title: 알림에서 제외된 메시지
+      messages:
+        other: 알림 미표시 메시지 %{count}개
     reply:
       wrong_user: '''%{user}''님으로 로그인하고 있지만 답장을 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 답장을
         하려면 올바른 사용자로 로그인하세요.'
@@ -1783,6 +1803,7 @@ ko:
   sessions:
     new:
       tab_title: 로그인
+      login_to_authorize_html: '%{client_app_name}에 접근하려면 오픈스트리트맵에 로그인하십시오.'
       email or username: 이메일 주소 또는 사용자 이름
       password: 비밀번호
       remember: 로그인 상태를 기억하기
@@ -1826,6 +1847,9 @@ ko:
       diary_entries:
         older: 이전 항목
         newer: 다음 항목
+      issues:
+        older: 이전 문제
+        newer: 새 문제
       traces:
         older: 이전 궤적
         newer: 다음 궤적
@@ -1833,6 +1857,7 @@ ko:
         older: 옛 차단내역
         newer: 최근 차단내역
       users:
+        older: 이전 사용자
         newer: 신규 사용자
   site:
     about:
@@ -2162,13 +2187,16 @@ ko:
           golf: 골프장
           park: 공원
           common: 공유지
+          built_up: 시가지
           resident: 주거 지역
           retail: 소매 지역
           industrial: 산업 지역
           commercial: 상업/관공서 지역
           heathland: 황무지
+          scrubland: 관목지
           lake: 호수
           reservoir: 저수지
+          intermittent_water: 간헐적인 수역
           glacier: 빙하
           reef: 암초
           wetland: 습지
@@ -2186,6 +2214,9 @@ ko:
           hospital: 병원
           building: 주요 건물
           station: 철도역
+          railway_halt: 철도 간이역
+          subway_station: 지하철역
+          tram_stop: 전차 정거장
           summit: 산꼭대기
           peak: 봉우리
           tunnel: 점선 테두리 = 터널
@@ -2364,7 +2395,9 @@ ko:
       account_settings: 계정 설정
       oauth2_applications: OAuth 2 애플리케이션
       oauth2_authorizations: OAuth 2 인가
+      muted_users: 알림에서 제외된 사용자
     auth_providers:
+      openid_url: 오픈ID URL
       openid_login_button: 계속
       openid:
         title: OpenID로 로그인하기
@@ -2396,7 +2429,10 @@ ko:
       read_gpx: 비공개 GPS 궤적 읽기
       write_gpx: GPS 궤적 업로드
       write_notes: 참고 수정
+      write_redactions: 지도 데이터 삭제
       read_email: 사용자 이메일 주소 읽기
+      consume_messages: 사용자 메시지 읽기, 상태 업데이트 및 삭제
+      send_messages: 다른 사용자에게 개인 메시지 보내기
       skip_authorization: 애플리케이션 자동 승인
   oauth2_applications:
     index:
@@ -2469,6 +2505,8 @@ ko:
       continue: 가입하기
       terms accepted: 새 기여자 약관에 동의해 주셔서 감사합니다!
       email_help:
+        privacy_policy: 개인정보처리방침
+        privacy_policy_title: 이메일 주소 섹션을 포함한 OSMF 개인 정보 보호 정책
         html: 당신의 주소는 공개적으로 노출되지 않습니다. 자세한 내용은 %{privacy_policy_link}를 참조하세요.
       consider_pd_html: 내 기여가 %{consider_pd_link}에 속함을 선언합니다.
       consider_pd: 퍼블릭 도메인
@@ -2532,6 +2570,8 @@ ko:
       remove as friend: 친구 제거
       add as friend: 친구 추가
       mapper since: '가입일:'
+      last map edit: '마지막 지도 편집:'
+      no activity yet: 아직 활동이 없습니다
       uid: '사용자 아이디:'
       ct status: '기여자 약관:'
       ct undecided: 정의되지 않음
@@ -2575,6 +2615,8 @@ ko:
       summary_no_ip_html: '%{name}이(가) %{date}에 만들어짐'
       empty: 일치하는 사용자를 찾을 수 없습니다
     page:
+      found_users:
+        other: 사용자 %{count}명 찾음
       confirm: 선택한 사용자 확인
       hide: 선택한 사용자 숨기기
     suspended:
@@ -2620,12 +2662,14 @@ ko:
       title: '%{name} 사용자에 대한 차단 편집'
       heading_html: '%{name} 사용자에 대한 차단 편집'
       period: 사용자가 지금부터 얼마나 오랫동안 API에서 차단하나요.
+      revoke: 차단 해제
     filter:
       block_period: 차단 기간은 드롭 다운 목록에서 선택할 수 있는 값 중 하나여야 합니다.
     create:
       flash: '%{name} 사용자를 차단했습니다.'
     update:
       only_creator_can_edit: 이 차단을 한 운영자만 편집할 수 있습니다.
+      inactive_block_cannot_be_reactivated: 이 차단은 비활성화되어 있으므로 다시 활성화할 수 없습니다.
       success: 차단이 업데이트되었습니다.
     index:
       title: 사용자 차단
@@ -2684,10 +2728,13 @@ ko:
       blocks_by_me: 내가 차단한 내역
       blocks_by_user: '%{user}님이 차단한 내역'
       block: '#%{id} 차단'
+      new_block: 최근 차단
   user_mutes:
     index:
       title: 알림에서 제외된 사용자
       my_muted_users: 나의 알림에서 제외된 사용자
+      you_have_muted_n_users:
+        other: 사용자 %{count}명에게서 오는 알림을 표시하지 않도록 했습니다
       table:
         thead:
           muted_user: 알림에서 제외된 사용자

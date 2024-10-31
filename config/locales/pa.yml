@@ -33,6 +33,9 @@ pa:
       oauth2_application:
         create: ਇੰਦਰਾਜ ਕਰਾਓ
         update: ਨਵਿਆਉ
+      redaction:
+        create: ਸੁਧਾਈ ਬਣਾਓ
+        update: ਸੁਧਾਈ ਸੰਭਾਲੋ
       trace:
         create: ਚੜ੍ਹਾਉ
         update: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
@@ -40,13 +43,20 @@ pa:
         create: ਬਲਾਕ ਬਣਾਓ
         update: ਰੋਕ ਨਵਿਆਉ
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ਵਰਤੋਂਕਾਰ_n  ਨਹੀਂ ਹੋ ਸਕਦੇ ਜਦੋਂ ਤੱਕ n ਤੁਹਾਡੀ ਵਰਤੋਂਕਾਰ
+          ਸ਼ਿਨਾਖਤ(id) ਨਹੀਂ ਹੈ
+      models:
+        user_mute:
+          is_already_muted: ਪਹਿਲਾਂ ਹੀ ਚੁੱਪ ਹੈ
     models:
       acl: ਅਸੈੱਸ ਕੰਟਰੋਲ ਲਿਸਟ
-      changeset: ਤਬਦੀਲੀ ਲੜੀ
+      changeset: ਤਬਦੀਲੀ-ਲੜੀਆਂ
       changeset_tag: ਤਬਦੀਲੀ ਲੜੀ ਨਿਸ਼ਾਨ
       country: ਮੁਲਕ
-      diary_comment: ਡਾਇਰੀ ਟਿੱਪਣੀ
-      diary_entry: ਡਾਇਰੀ ਇੰਦਰਾਜ
+      diary_comment: ਰੋਜ਼ਨਾਮਚਾ ਟਿੱਪਣੀ
+      diary_entry: ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ
       friend: ਦੋਸਤ
       issue: ਮੁੱਦਾ
       language: ਬੋਲੀ
@@ -66,8 +76,8 @@ pa:
       relation_tag: ਸਬੰਧ ਟੈਗ
       report: ਇਤਲਾਹ ਦਿਓ
       session: ਸੈਸ਼ਨ
-      trace: ਟਰੇਸ
-      tracepoint: ਟਰੇਸ ਪੁਆਇੰਟ
+      trace: ਖੁਰਾ-ਖੋਜ
+      tracepoint: ਖੁਰਾ-ਖੋਜ ਥਾਂ
       tracetag: ਟਰੇਸ ਨਿਸ਼ਾਨ
       user: ਵਰਤੋਂਕਾਰ
       user_preference: ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ
@@ -79,20 +89,28 @@ pa:
       client_application:
         name: ਨਾਮ (ਲੋੜੀਂਦਾ)
         url: ਮੁੱਢਲਾ Application URL (ਲੋੜੀਂਦਾ ਹੈ)
+        callback_url: ਮੁੜਕੇ-ਫੋਨ-ਕਰੋ  URL
         support_url: ਮਦਦ URL
         allow_read_prefs: ਉਹਨਾਂ ਦੀਆਂ ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਨੂੰ ਪੜ੍ਹੋ
         allow_write_prefs: ਉਹਨਾਂ ਦੀਆਂ ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਨੂੰ ਸੋਧੋ
+        allow_write_diary: ਰੋਜ਼ਨਾਮਚਾ ਦਰਜ਼ ਕਰੋ, ਟਿੱਪਣੀਆਂ ਕਰੋ ਅਤੇ ਦੋਸਤ ਬਣਾਓ
         allow_write_api: ਨਕਸ਼ੇ ਨੂੰ ਸੋਧੋ
+        allow_read_gpx: ਉਹਨਾਂ ਦੇ ਨਿੱਜੀ GPS ਖੁਰਾ-ਖੋਜ ਪੜ੍ਹੋ
+        allow_write_gpx: GPS ਖੁਰਾ-ਖੋਜ ਜੋੜੋ
+        allow_write_notes: ਨੋਟਾਂ ਨੂੰ ਸੋਧੋ
       diary_comment:
         body: ਮੁੱਖ ਭਾਗ
       diary_entry:
         user: ਵਰਤੋਂਕਾਰ
         title: ਵਿਸ਼ਾ
+        body: ਮੁੱਖ ਭਾਗ
         latitude: ਅਕਸ਼ਾਂਸ਼
         longitude: ਲੰਬਕਾਰ
         language_code: ਬੋਲੀ
       doorkeeper/application:
         name: ਨਾਂ
+        redirect_uri: URIs ਵਾਪਸ-ਮੋੜੋ
+        confidential: ਗੁਪਤ ਅਰਜ਼ੀ?
         scopes: ਇਜਾਜ਼ਤਾਂ
       friend:
         user: ਵਰਤੋਂਕਾਰ
@@ -106,8 +124,9 @@ pa:
         longitude: ਲੰਬਕਾਰ
         public: ਜਨਤਕ
         description: ਵੇਰਵਾ
-        visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
-        tagstring: 'ਟੈਗ:'
+        gpx_file: GPS ਖੁਰਾ-ਖੋਜ ਫਾਇਲ ਚੁਣੋ
+        visibility: ਦਿੱਸਣਯੋਗਤਾ
+        tagstring: ਟੈਗ
       message:
         sender: ਭੇਜਣ ਵਾਲਾ
         title: ਵਿਸ਼ਾ
@@ -120,11 +139,12 @@ pa:
         category: ਆਪਣੀ ਇਤਲਾਹ ਦਾ ਕਾਰਨ ਚੁਣੋ
         details: ਕਿਰਪਾ ਕਰਕੇ ਸਮੱਸਿਆ ਬਾਰੇ ਕੁਝ ਹੋਰ ਵੇਰਵੇ ਪ੍ਰਦਾਨ ਕਰੋ (ਲੋੜੀਂਦਾ)
       user:
+        auth_uid: UID ਦੀ ਪ੍ਰਮਾਣਿਕਤਾ
         email: ਈਮੇਲ
         new_email: 'ਨਵਾਂ ਈਮੇਲ ਪਤਾ:'
         active: ਸਰਗਰਮ
         display_name: ਨਾਂ ਵਿਖਾਓ
-        description: ਵੇਰਵਾ
+        description: ਪ੍ਰੋਫਾਈਲ ਵੇਰਵਾ
         home_lat: ਅਕਸ਼ਾਂਸ਼
         home_lon: 'ਰੇਖਾਂਸ਼:'
         languages: ਤਰਜੀਹੀ ਬੋਲੀਆਂ
@@ -132,6 +152,8 @@ pa:
         pass_crypt: ਪਛਾਣ-ਸ਼ਬਦ
         pass_crypt_confirmation: ਪਛਾਣ-ਸ਼ਬਦ ਦੀ ਤਸਦੀਕ ਕਰੋ
     help:
+      doorkeeper/application:
+        redirect_uri: ਹਰ URI ਲਈ ਇੱਕ ਲਕੀਰ ਦੀ ਵਰਤੋਂ ਕਰੋ
       user:
         new_email: (ਜਨਤਕ ਤੌਰ 'ਤੇ ਕਦੇ ਨਹੀਂ ਪ੍ਰਦਰਸ਼ਿਤ)
   datetime:
@@ -192,10 +214,15 @@ pa:
       comment:
         opened_at_html: '%{when} ਬਣਾਇਆ ਗਿਆ'
         opened_at_by_html: '%{when} ਨੂੰ %{user} ਵੱਲੋਂ ਬਣਾਇਆ ਗਿਆ'
+        commented_at_html: '%{when} ਨਵਿਆਇਆ ਗਿਆ'
+        commented_at_by_html: '%{when}  ਨੂੰ %{user} ਵੱਲੋਂ ਨਵਿਆਈਆ ਗਿਆ'
         closed_at_html: '%{when} ਹੱਲ ਕੀਤਾ'
         closed_at_by_html: '%{when} ਨੂੰ %{user} ਵੱਲੋਂ ਹੱਲ ਕੀਤਾ ਗਿਆ'
         reopened_at_html: '%{when} ਮੁੜ ਸਰਗਰਮ ਕੀਤਾ'
         reopened_at_by_html: '%{when} ਨੂੰ %{user} ਵੱਲੋਂ ਮੁੜ ਸਰਗਰਮ ਕੀਤਾ'
+      rss:
+        title: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਦੇ ਨੋਟ
+        commented: ਨਵੀਂ ਟਿੱਪਣੀ (%{place} ਦੇ ਨੇੜੇ)
       entry:
         comment: ਟਿੱਪਣੀ
         full: ਪੂਰੀ ਟਿੱਪਣੀ
@@ -222,7 +249,7 @@ pa:
   accounts:
     edit:
       title: ਖਾਤਾ ਸੋਧੋ
-      my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
+      my settings: ਮੇਰੀਆਂ ਤਰਜੀਹਾਂ
       current email address: 'ਮੌਜੂਦਾ ਈਮੇਲ ਪਤਾ:'
       external auth: ਬਾਹਰੀ ਪ੍ਰਮਾਣਿਕਤਾ
       openid:
@@ -255,7 +282,8 @@ pa:
     deleted_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਵੱਲੋਂ ਮਿਟਾਇਆ ਗਿਆ'
     edited_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਵੱਲੋਂ ਸੋਧਿਆ ਗਿਆ'
     version: ਵਰਜਨ
-    in_changeset: ਤਬਦੀਲੀਆਂ
+    redacted_version: ਸੋਧਿਆ ਸੰਸਕਰਣ
+    in_changeset: ਤਬਦੀਲੀ-ਲੜੀਆਂ
     anonymous: ਬੇਪਛਾਣ
     no_comment: (ਕੋਈ ਟਿੱਪਣੀ ਨਹੀਂ)
     part_of: ਦਾ ਹਿੱਸਾ
@@ -265,8 +293,11 @@ pa:
     download_xml: XML ਲਾਹੋ
     view_history: ਅਤੀਤ ਵੇਖੋ
     view_details: ਵੇਰਵੇ ਵੇਖੋ
+    view_redacted_data: ਸੋਧਿਆ ਡੇਟਾ ਵੇਖੋ
     location: 'ਟਿਕਾਣਾ:'
     relation:
+      title_html: 'ਰਿਸ਼ਤਾ: %{name}'
+      history_title_html: 'ਰਿਸ਼ਤਾ ਇਤਿਹਾਸ: %{name}'
       members: ਜੀਅ
     relation_member:
       entry_role_html: '%{type} %{name} %{role} ਵਜੋਂ'
@@ -304,6 +335,9 @@ pa:
       loading: ਲੱਦ ਰਿਹਾ ਹੈ...
     tag_details:
       tags: ਟੈਗ
+      wiki_link:
+        key: '%{key} ਟੈਗ ਲਈ ਵਿਕੀ ਵੇਰਵਾ ਸਫ਼ਾ'
+        tag: '%{key} =%{value} ਟੈਗ ਲਈ ਵਿਕੀ ਵੇਰਵਾ ਸਫ਼ਾ'
       wikipedia_link: '%{page} ਲੇਖ ਵਿਕੀਪੀਡੀਆ ਉੱਤੇ'
       telephone_link: '%{phone_number} ਨੂੰ ਫੋਨ ਕਰੋ'
       colour_preview: ਰੰਗ %{colour_value} ਝਲਕ
@@ -313,11 +347,29 @@ pa:
       introduction: ਨੇੜਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਲੱਭਣ ਲਈ ਨਕਸ਼ੇ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।
       nearby: ਨੇੜਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
       enclosing: ਨੱਥੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
+  changeset_comments:
+    feeds:
+      comment:
+        commented_at_by_html: '%{when} %{user} ਵੱਲੋਂ ਨਵਿਆਓਣਾ ਕੀਤਾ ਗਿਆ'
+      timeout:
+        sorry: ਮਾਫ਼ ਕਰਨਾ, ਤੁਹਾਡੇ ਦੁਆਰਾ ਬੇਨਤੀ ਕੀਤੀ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਦੀਆਂ ਟਿੱਪਣੀਆਂ ਦੀ ਸੂਚੀ
+          ਨੂੰ ਮੁੜ-ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਬਹੁਤ ਲੰਮਾ ਸਮਾਂ ਲੱਗਿਆ ਹੈ।
   changesets:
     changeset:
       no_edits: (ਕੋਈ ਸੋਧ ਨਹੀਂ)
+      view_changeset_details: ਤਬਦੀਲੀ-ਲੜੀਆਂ ਦੇ ਬਦਲੇ ਵੇਰਵੇ ਵੇਖੋ
     index:
-      title: ਤਬਦੀਲੀਆਂ
+      title: ਤਬਦੀਲੀ-ਲੜੀਆਂ
+      title_user: '%{user} ਵੱਲੋਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ'
+      title_user_link_html: '%{user_link} ਵੱਲੋਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ'
+      title_friend: ਮੇਰੇ ਦੋਸਤਾਂ ਵੱਲੋਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ
+      title_nearby: ਨੇੜਲੇ ਵਰਤੋਂਕਾਰਾਂ ਵੱਲੋਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ
+      empty: ਕੋਈ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਨਹੀਂ ਮਿਲਿਆਂ।
+      empty_area: ਇਸ ਖੇਤਰ ਵਿੱਚ ਕੋਈ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਨਹੀਂ ਹਨ।
+      empty_user: ਇਸ ਵਰਤੋਂਕਾਰ ਵੱਲੋਂ ਕੋਈ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਨਹੀਂ ਜੋੜਿਆਂ ਹਨ।
+      no_more: ਕੋਈ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਨਹੀਂ ਮਿਲਿਆਂ।
+      no_more_area: ਇਸ ਖੇਤਰ ਵਿੱਚ ਕੋਈ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਨਹੀਂ ਹਨ।
+      no_more_user: ਇਸ ਵਰਤੋਂਕਾਰ ਵੱਲੋਂ ਕੋਈ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਨਹੀਂ ਜੋੜਿਆਂ ਹਨ।
       load_more: ਹੋਰ ਪੜ੍ਹੋ
       feed:
         title: ਤਬਦੀਲੀ ਲੜੀ %{id}
@@ -325,6 +377,18 @@ pa:
         created: ਬਣਾਇਆ ਗਿਆ
         closed: ਬੰਦ ਹੋਇਆ
         belongs_to: ਲੇਖਕ
+    subscribe:
+      heading: ਹੇਠਾਂ ਦਿੱਤੀ ਵੱਲੋਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਦੀ ਗੱਲਬਾਤ ਲਈ ਗਾਹਕ ਬਣੋ?
+      button: ਚਰਚਾ ਲਈ ਗਾਹਕ ਬਣੋ
+    unsubscribe:
+      heading: ਹੇਠਾਂ ਦਿੱਤੀਆਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ ਚਰਚਾ ਤੋਂ ਗਾਹਕੀ ਹਟਾਓ?
+      button: ਚਰਚਾ ਤੋਂ ਗਾਹਕੀ ਹਟਾਓ
+    heading:
+      title: ਤਬਦੀਲੀ-ਲੜੀ %{id}
+      created_by_html: '%{link_user} ਵੱਲੋਂ %{created} ਨੂੰ ਬਣਾਇਆ ਗਿਆ।'
+    no_such_entry:
+      body: ਮਾਫ਼ ਕਰਨਾ, id %{id} ਨਾਲ ਕੋਈ ਤਬਦੀਲੀ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਸ਼ਬਦ-ਜੋੜ ਦੀ
+        ਜਾਂਚ ਕਰੋ, ਜਾਂ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਹਾਡੇ ਵੱਲੋਂ ਕਲਿੱਕ ਕੀਤੀ ਗਈ ਕੜੀ ਗਲਤ ਹੈ।
     show:
       title: 'ਤਬਦੀਲੀ ਲੜੀ: %{id}'
       created: 'ਬਣਾਇਆ ਗਿਆ: %{when}'
@@ -335,6 +399,8 @@ pa:
       closed_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਵੱਲੋਂ ਬੰਦ ਕੀਤਾ ਗਿਆ'
       discussion: ਗੱਲ-ਬਾਤ
       join_discussion: ਗੱਲਬਾਤ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਦਾਖ਼ਲ ਹੋਵੋ
+      still_open: ਤਬਦੀਲੀ-ਲੜੀ ਅਜੇ ਵੀ ਖੁੱਲ੍ਹੀ ਏ - ਤਬਦੀਲੀ-ਲੜੀ ਬੰਦ ਹੋਣ 'ਤੇ ਚਰਚਾ ਖੁੱਲ੍ਹ
+        ਜਾਵੇਗੀ।
       subscribe: ਗਾਹਕ ਬਣੋ
       unsubscribe: ਗਾਹਕੀ ਰੱਦ ਕਰੋ
       comment_by_html: '%{user} %{time_ago} ਤੋਂ ਟਿੱਪਣੀ'
@@ -349,17 +415,45 @@ pa:
       m away: '%{count}ਮੀਟਰ ਪਰ੍ਹਾਂ'
       latest_edit_html: 'ਤਾਜ਼ੇ ਸੋਧ (%{ago}):'
     popup:
-      your location: ਤੁਹਾਡੀ ਸਥਿਤੀ
+      your location: ਤੁਹਾਡਾ ਟਿਕਾਣਾ
+      nearby mapper: ਨੇਡ਼ਲੇ ਨਕਸ਼ਾ-ਨਵੀਸ਼
       friend: ਦੋਸਤ
     show:
+      no_home_location_html: '%{edit_profile_link} ਅਤੇ ਨੇਡ਼ਲੇ ਵਰਤੋਂਕਾਰ ਨੂੰ ਵੇਖਣ ਲਈ
+        ਆਪਣੇ ਘਰ ਦਾ ਟਿਕਾਣਾ ਕਾਇਮ ਕਰੋ।'
       my friends: ਮੇਰੇ ਦੋਸਤ
       no friends: ਤੁਸੀਂ ਅਜੇ ਕੋਈ ਮਿੱਤਰ ਨਹੀਂ ਜੋੜਿਆ।
       nearby users: ਨੇੜੇ-ਤੇੜੇ ਦੇ ਹੋਰ ਵਰਤੋਂਕਾਰ
+      no nearby users: ਅਜੇ ਤੱਕ ਇੱਥੇ ਨੇੜੇ ਕੋਈ ਹੋਰ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਹਨ ਜੋ  ਨਕਸ਼ਾ-ਉਲੀਕਣ
+        ਨੂੰ ਸਵੀਕਾਰ ਕਰਦੇ ਹਨ।
+      friends_changesets: ਦੋਸਤਾਂ ਦਿਆਂ ਤਬਦੀਲੀ-ਲੜੀਆਂ
+      friends_diaries: ਦੋਸਤਾਂ ਦੇ ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼
+      nearby_changesets: ਨੇੜਲੇ ਵਰਤੋਂਕਾਰ ਦੀ ਤਬਦੀਲੀ-ਲੜੀਆਂ
+      nearby_diaries: ਨੇੜਲੇ ਵਰਤੋਂਕਾਰ ਦੇ ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼
   diary_entries:
+    new:
+      title: ਰੋਜ਼ਨਾਮਚੇ 'ਚ ਨਵਾਂ ਇੰਦਰਾਜ
     form:
       location: ਟਿਕਾਣਾ
       use_map_link: ਨਕਸ਼ਾ ਵਰਤੋ
+    index:
+      title: ਵਰਤੋਂਕਾਰਾਂ ਦੇ ਰੋਜ਼ਨਾਮਚੇ
+      title_friends: ਦੋਸਤਾਂ ਦੇ ਰੋਜ਼ਨਾਮਚੇ
+      title_nearby: ਨੇਡ਼ਲੇ ਵਰਤੋਂਕਾਰਾਂ ਦੇ ਰੋਜ਼ਨਾਮਚੇ
+      user_title: '%{user} ਦੇ ਰੋਜ਼ਨਾਮਚੇ'
+      in_language_title: '%{language} ਵਿੱਚ ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼'
+      new: ਰੋਜ਼ਨਾਮਚੇ 'ਚ ਨਵਾਂ ਇੰਦਰਾਜ
+      new_title: ਮੇਰੇ ਰੋਜ਼ਨਾਮਚੇ ਵਿੱਚ ਇੱਕ ਨਵਾਂ ਇੰਦਰਾਜ਼ ਲਿਖੋ
+      my_diary: ਮੇਰਾ ਰੋਜ਼ਨਾਮਚਾ
+      no_entries: ਕੋਈ ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼ ਨਹੀਂ ਏ
+    page:
+      recent_entries: ਹਾਲੀਆ ਦੇ ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼
+    edit:
+      title: ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼ ਨੂੰ ਸੋਧੋ
+      marker_text: ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ਼ ਟਿਕਾਣਾ
     show:
+      title: '%{user} ਦੇ ਰੋਜ਼ਨਾਮਚੇ ਦਾ | %{title}'
+      user_title: '%{user} ਦੇ ਰੋਜ਼ਨਾਮਚੇ'
       discussion: ਗੱਲ-ਬਾਤ
       subscribe: ਗਾਹਕ ਬਣੋ
       unsubscribe: ਗਾਹਕੀ ਰੱਦ ਕਰੋ
@@ -367,48 +461,88 @@ pa:
       login_to_leave_a_comment_html: ਟਿੱਪਣੀ ਛੱਡਣ ਵਾਸਤੇ %{login_link}
       login: ਦਾਖ਼ਲ ਹੋਵੋ
     no_such_entry:
-      title: ਅਜਿਹਾ ਕੋਈ ਡਾਇਰੀ ਇੰਦਰਾਜ ਨਹੀਂ
+      title: ਅਜਿਹਾ ਕੋਈ ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ ਨਹੀਂ ਏ
     diary_entry:
+      posted_by_html: |-
+        %{link_user} ਵੱਲੋਂ %{created} ਨੂੰ %{language_link} ਵਿੱਚ ਜੋੜਿਆ ਗਿਆ।
+        ਐਮ ਵੱਲੋਂ 10 ਨੂੰ ਪੰਜਾਬੀ ਵਿੱਚ ਪੋਸਟ ਕੀਤਾ ਗਿਆ।
+      updated_at_html: ਆਖਰੀ ਵਾਰ %{updated} ਨੂੰ ਨਵਿਆਈਆ ਗਿਆ।
       comment_link: ਇਸ ਇੰਦਰਾਜ 'ਤੇ ਟਿੱਪਣੀ ਕਰੋ
-      reply_link: ਇਸ ਇੰਦਰਾਜ ਦਾ ਜੁਆਬ ਦਿਉ
+      reply_link: ਲੇਖਕ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜੋ
+      comment_count:
+        one: '%{count} ਟਿੱਪਣੀ'
+        other: '%{count} ਟਿੱਪਣੀਆਂ'
       no_comments: ਕੋਈ ਟਿੱਪਣੀਆਂ ਨਹੀਂ
       edit_link: ਇਹ ਇੰਦਰਾਜ ਸੋਧੋ
       hide_link: ਇਹ ਇੰਦਰਾਜ ਲੁਕਾਉ
       unhide_link: ਇਹ ਇੰਦਰਾਜ ਮੁੜ-ਵਿਖਾਓ
       confirm: ਤਸਦੀਕ ਕਰੋ
     diary_comment:
+      comment_from_html: '%{link_user} ਵੱਲੋਂ %{comment_created_at} ''ਤੇ ਟਿੱਪਣੀ'
       hide_link: ਇਹ ਟਿੱਪਣੀ ਲੁਕਾਉ
       unhide_link: ਇਸ ਟਿੱਪਣੀ ਨੂੰ ਮੁੜ-ਵਿਖਾਓ
       confirm: ਤਸਦੀਕ ਕਰੋ
+      report: ਇਸ ਟਿੱਪਣੀ ਦੀ ਇਤਲਾਹ ਦਿਓ
     location:
       location: 'ਟਿਕਾਣਾ:'
+    subscribe:
+      button: ਚਰਚਾ ਲਈ ਗਾਹਕੀ ਲਓ
+    unsubscribe:
+      button: ਚਰਚਾ ਤੋਂ ਗਾਹਕੀ ਹਟਾਓ
   diary_comments:
+    index:
+      title: ਰੋਜ਼ਨਾਮਚਾ ਟਿੱਪਣੀਆਂ %{user} ਵੱਲੋਂ ਜੋੜੀਆਂ ਗਈਆਂ
+      heading: '%{user} ਦੀਆਂ ਰੋਜ਼ਨਾਮਚਾ ਟਿੱਪਣੀਆਂ'
+      subheading_html: ਰੋਜ਼ਨਾਮਚਾ ਟਿੱਪਣੀਆਂ %{user} ਵੱਲੋਂ ਜੋੜੀਆਂ ਗਈਆਂ
+      no_comments: ਕੋਈ ਰੋਜ਼ਨਾਮਚਾ ਟਿੱਪਣੀਆਂ ਨਹੀਂ ਹਨ
     page:
       post: ਡਾਕ
       when: ਕਦੋਂ
       comment: ਟਿੱਪਣੀ
+  doorkeeper:
+    scopes:
+      email: ਆਪਣਾ ਈਮੇਲ ਪਤਾ ਵੇਖੋ
+      openid: ਆਪਣੇ ਖਾਤੇ ਦੀ ਤਸਦੀਕ ਕਰੋ
+      phone: ਆਪਣਾ ਫ਼ੋਨ ਨੰਬਰ ਵੇਖੋ
+      profile: ਆਪਣੀ ਪ੍ਰੋਫਾਈਲ ਜਾਣਕਾਰੀ ਵੇਖੋ
   errors:
     contact:
+      contact_url_title: ਵੱਖ-ਵੱਖ ਸੰਪਰਕ ਚੈਨਲਾਂ ਬਾਰੇ ਦੱਸਿਆ
       contact: ਰਾਬਤਾ
+    bad_request:
+      title: ਮਾਡ਼ੀ ਬੇਨਤੀ
     forbidden:
       title: ਵਰਜਿਤ
+    internal_server_error:
+      title: ਆਦੇਸ਼ਕਾਰੀ ਦੀ ਗਲਤੀ
+    not_found:
+      title: ਫਾਇਲ ਨਹੀਂ ਲੱਭੀ
   friendships:
     make_friend:
       heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
       button: ਦੋਸਤ ਵਜੋਂ ਜੋੜੋ
       success: '%{name} ਹੁਣ ਤੁਹਾਡਾ ਦੋਸਤ ਹੈ!'
+      failed: ਮੁਆਫ ਕਰਨਾ,%{name} ਨੂੰ ਦੋਸਤ ਵਜੋਂ ਜੋਡ਼ਨ ਵਿੱਚ ਅਸਫਲ ਰਿਹਾ।
       already_a_friend: ਤੁਸੀਂ ਪਹਿਲੋਂ ਹੀ %{name} ਨਾਲ਼ ਯਾਰੀ ਪਾ ਚੁੱਕੇ ਹੋ।
+      limit_exceeded: ਤੁਸੀਂ ਹਾਲ ਹੀ ਵਿੱਚ ਬਹੁਤ ਸਾਰੇ ਵਰਤੋਂਕਾਰਾਂ ਨਾਲ ਦੋਸਤੀ ਕੀਤੀ ਹੈ। ਕਿਰਪਾ
+        ਕਰਕੇ ਹੋਰ ਦੋਸਤੀ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕੁਝ ਸਮਾਂ ਉਡੀਕ ਕਰੋ।
     remove_friend:
       heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਤੋੜਨੀ ਹੈ?'
       button: ਯਾਰੀ ਤੋੜੋ
+      success: '%{name} ਨੂੰ ਤੁਹਾਡੇ ਦੋਸਤਾਂ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ।'
+      not_a_friend: '%{name} ਤੁਹਾਡੇ ਦੋਸਤਾਂ ਵਿੱਚੋਂ ਇੱਕ ਨਹੀਂ ਹੈ।'
   geocoder:
     search:
       title:
         latlon: ਅੰਦਰੂਨੀ
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: ਕੇਬਲ ਕਾਰ
+          gondola: ਗੋਂਡੋਲਾ ਲਿਫਟ
         aeroway:
           aerodrome: ਏਰੋਡਰੋਮ
+          airstrip: ਹਵਾਈ ਪੱਟੀ
           apron: ਐਪਰਨ
           gate: ਹਵਾਈ ਅੱਡੇ ਦਾ ਦਰਵਾਜ਼ਾ
           helipad: ਹੈਲੀਪੈਡ
@@ -424,6 +558,7 @@ pa:
           bench: ਬੈਂਚ
           bicycle_parking: ਸਾਈਕਲ ਪਾਰਕਿੰਗ
           bicycle_rental: ਕਿਰਾਏ 'ਤੇ ਸਾਈਕਲ
+          bicycle_repair_station: ਸਾਈਕਲ ਮੁਰੰਮਤ ਥਾਂ
           biergarten: ਬੀਅਰ ਬਾਗ਼
           boat_rental: ਕਿਸ਼ਤੀ ਕਿਰਾਇਆ
           brothel: ਕੋਠਾ
@@ -459,22 +594,28 @@ pa:
           hospital: ਹਸਪਤਾਲ
           hunting_stand: ਸ਼ਿਕਾਰ ਸਟੈਂਡ
           ice_cream: ਆਈਸ ਕਰੀਮ
+          internet_cafe: ਇੰਟਰਨੈੱਟ ਕੈਫੇ
           kindergarten: ਬਾਲਵਾੜੀ
-          library: ਪੁਸਤਕਾਲਾ
+          language_school: ਭਾਸ਼ਾ ਸਕੂਲ
+          library: ਕਿਤਾਬਘਰ
           marketplace: ਮੰਡੀ ਦੀ ਥਾਂ
           monastery: ਮੱਠ
           motorcycle_parking: ਮੋਟਰਸਾਈਕਲ ਪਾਰਕਿੰਗ
+          music_school: ਸੰਗੀਤ ਸਕੂਲ
           nightclub: ਰਾਤ ਦਾ ਕਲੱਬ
           nursing_home: ਨਰਸਿੰਗ ਹੋਮ
           parking: ਪਾਰਕਿੰਗ
           parking_entrance: ਪਾਰਕਿੰਗ ਪਰਵੇਸ਼
-          pharmacy: ਫ਼ਾਰਮੇਸੀ
+          payment_terminal: ਭੁਗਤਾਨ ਜੰਤਰ
+          pharmacy: ਦਵਾਈ ਦੀ ਹੱਟੀ
           place_of_worship: ਭਗਤੀ ਦਾ ਘਰ
           police: ਪੁਲਿਸ
           post_box: ਡਾਕ ਬਕਸਾ
           post_office: ਡਾਕ ਘਰ
           prison: ਜੇਲ੍ਹ
           pub: ਪਬ
+          public_bath: ਜਨਤਕ ਇਸ਼ਨਾਨਘਰ
+          public_bookcase: ਜਨਤਕ ਕਿਤਾਬ-ਅਲਮਾਰੀ
           public_building: ਜਨਤਕ ਇਮਾਰਤ
           recycling: ਰੀਸਾਈਕਲ ਬਿੰਦੂ
           restaurant: ਰੈਸਟੋਰੈਂਟ
@@ -492,15 +633,22 @@ pa:
           townhall: ਟਾਊਨ ਹਾਲ
           training: ਸਿਖਲਾਈ ਦੀ ਸਹੂਲਤ
           university: ਯੂਨੀਵਰਸਿਟੀ
+          vehicle_inspection: ਗੱਡੀ ਨਿਰੀਖਣ
           vending_machine: ਮਾਲ-ਵੇਚੂ ਮਸ਼ੀਨ
           veterinary: ਡੰਗਰਾਂ ਦਾ ਹਸਪਤਾਲ
           village_hall: ਪਿੰਡ ਦਾ ਪੰਚਾਇਤ ਘਰ
           waste_basket: ਕੂੜਾਦਾਨ
           waste_disposal: ਕੂੜੇਦਾਨ
+          watering_place: ਪਾਣੀ ਵਾਲੀ ਥਾਂ
+          water_point: ਪਾਣੀ ਦੀ ਥਾਂ
+          weighbridge: ਧਰਮ ਕੰਡਾ
+          "yes": ਸਹੂਲਤਾਂ
         boundary:
+          aboriginal_lands: ਆਦਿਵਾਸੀ ਜ਼ਮੀਨਾਂ
           administrative: ਪ੍ਰਬੰਧਕੀ ਸਰਹੱਦ
           census: ਮਰਦਮਸ਼ੁਮਾਰੀ ਸਰਹੱਦ
           national_park: ਕੌਮੀ ਬਾਗ਼
+          political: ਚੋਣ ਹੱਦ
           protected_area: ਸੁਰੱਖਿਅਤ ਖੇਤਰ
           "yes": ਹੱਦ
         bridge:
@@ -512,23 +660,58 @@ pa:
         building:
           apartment: ਅਪਾਰਟਮੈਂਟ
           apartments: ਅਪਾਰਟਮੈਂਟ
+          cabin: ਕੋਠੜੀ
+          church: ਧਾਰਮਿਕ ਥਾਂ
+          civic: ਨਾਗਰਿਕ ਇਮਾਰਤ
+          college: ਕਾਲਜ ਦੀ ਇਮਾਰਤ
+          commercial: ਵਪਾਰਕ ਇਮਾਰਤ
+          construction: ਉਸਾਰੀ ਹੇਠ ਇਮਾਰਤ
+          cowshed: ਗਊਸ਼ਾਲਾ
+          detached: ਵੱਖ ਕੀਤਾ ਘਰ
+          garage: ਗਰਾਜ
+          garages: ਗਰਾਜਾਂ
+          hospital: ਹਸਪਤਾਲ ਦੀ ਇਮਾਰਤ
+          hotel: ਹੋਟਲ ਦੀ ਇਮਾਰਤ
           house: ਘਰ
+          hut: ਕੁੱਲੀ
+          kindergarten: ਬਾਲਵਾੜੀ ਇਮਾਰਤ
+          office: ਦਫ਼ਤਰ ਦੀ ਇਮਾਰਤ
+          public: ਜਨਤਕ ਇਮਾਰਤ
+          residential: ਰਿਹਾਇਸ਼ੀ ਇਮਾਰਤ
+          retail: ਪ੍ਰਚੂਨ ਇਮਾਰਤ
           roof: ਛੱਤ
+          ruins: ਟੁੱਟੀ ਇਮਾਰਤ
+          school: ਸਕੂਲ ਦੀ ਇਮਾਰਤ
+          shed: ਢਾਰਾ
+          stable: ਤਬੇਲਾ
+          static_caravan: ਕਾਰਵਾਂ
+          temple: ਮੰਦਰ ਦੀ ਇਮਾਰਤ
+          train_station: ਰੇਲ ਅੱਡਾ ਇਮਾਰਤ
+          university: ਵਿਸ਼ਵ-ਵਿਦਿਆਲੇ ਦੀ ਇਮਾਰਤ
+          warehouse: ਗੁਦਾਮ
           "yes": ਇਮਾਰਤ
+        club:
+          "yes": ਕਲੱਬ
         craft:
+          beekeeper: ਮਧੂ ਮੱਖੀ ਪਾਲਣ ਵਾਲਾ
+          blacksmith: ਲੋਹਾਰ
           brewery: ਬਰੂਅਰੀ
           carpenter: ਤਰਖਾਣ
+          confectionery: ਮਿਠਾਈ
           electrician: ਇਲੈਕਟਰੀਸ਼ਨ
           gardener: ਮਾਲੀ
+          handicraft: ਦਸਤਕਾਰੀ
           painter: ਚਿੱਤਰਕਾਰ
           photographer: ਫ਼ੋਟੋਗ੍ਰਾਫ਼ਰ
           plumber: ਨਲਸਾਜ਼
+          sawmill: ਆਰਾ ਚੱਕੀ
           shoemaker: ਮੋਚੀ
           tailor: ਦਰਜੀ
           "yes": ਕਰਾਫਟ ਦੁਕਾਨ
         emergency:
           ambulance_station: ਐਂਬੂਲੈਂਸ ਸਟੇਸ਼ਨ
           defibrillator: ਡੀਫਿਬ੍ਰੀਲੇਟਰ
+          fire_extinguisher: ਅੱਗ ਬੁਝਾਉਣ ਵਾਲਾ ਜੰਤਰ
           fire_water_pond: ਅੱਗ ਦੇ ਪਾਣੀ ਦਾ ਟੋਆ
           landing_site: ਸੰਕਟਕਾਲੀਨ ਉਤਰ ਸਥਾਨ
           phone: ਐਮਰਜੈਂਸੀ ਫ਼ੋਨ
@@ -537,6 +720,7 @@ pa:
           bridleway: ਘੋੜ-ਰਾਹ
           bus_stop: ਬੱਸ ਅੱਡਾ
           construction: ਉਸਾਰੀ ਹੇਠ ਹਾਈਵੇ
+          crossing: ਪਾਰ-ਕਰਨਾ
           cycleway: ਸਾਈਕਲ ਰਾਹ
           elevator: ਲਿਫਟ
           emergency_access_point: ਐਮਰਜੈਂਸੀ ਪਹੁੰਚ ਬਿੰਦੂ
@@ -562,10 +746,12 @@ pa:
           services: ਮੋਟਰਵੇ ਸੇਵਾਵਾਂ
           speed_camera: ਗਤੀ ਕੈਮਰਾ
           steps: ਪੌੜੀਆਂ
+          stop: ਰੁੱਕ ਜਾਓ
           street_lamp: ਗਲੀ ਬੱਤੀ
           tertiary: ਤੀਜੇ ਪੱਧਰ ਦੀ ਸੜਕ
           tertiary_link: ਤੀਜੇ ਪੱਧਰ ਦੀ ਸੜਕ
           track: ਟਰੈਕ
+          traffic_mirror: ਆਵਾਜਾਈ ਸ਼ੀਸ਼ਾ
           traffic_signals: ਟਰੈਫਿਕ ਸਿਗਨਲ
           trunk: ਟਰੰਕ ਸੜਕ
           trunk_link: ਟਰੰਕ ਸੜਕ
@@ -573,10 +759,14 @@ pa:
           unclassified: ਅਵਰਗੀਕ੍ਰਿਤ ਰੋਡ
           "yes": ਸੜਕ
         historic:
+          aircraft: ਇਤਿਹਾਸਕ ਹਵਾਈ ਜਹਾਜ਼
           archaeological_site: ਪੁਰਾਤੱਤਵ ਸਥਾਨ
           battlefield: ਜੰਗ ਦਾ ਮੈਦਾਨ
+          boundary_stone: ਹੱਦ ਪੱਥਰ
           building: ਇਤਿਹਾਸਕ ਇਮਾਰਤ
+          cannon: ਇਤਿਹਾਸਕ ਤੋਪ
           castle: ਗੜ੍ਹੀ
+          charcoal_pile: ਇਤਿਹਾਸਕ ਕੋਲੇ ਦਾ ਢੇਰ
           church: ਗਿਰਜਾ
           city_gate: ਸ਼ਹਿਰ ਗੇਟ
           citywalls: ਸ਼ਹਿਰ ਦੀਆੰ ਕੰਧਾੰ
@@ -585,21 +775,29 @@ pa:
           house: ਘਰ
           manor: ਮੈਨਰ
           memorial: ਯਾਦਗਾਰ
+          milestone: ਇਤਿਹਾਸਕ ਮੀਲ ਪੱਥਰ
           mine: ਖਾਨ
           monument: ਸਮਾਰਕ
+          railway: ਇਤਿਹਾਸਕ ਰੇਲ-ਗੱਡੀ
           ruins: ਖੰਡਰ
           stone: ਪੱਥਰ
           tomb: ਮਕਬਰਾ
           tower: ਬੁਰਜ
+          wayside_chapel: ਰਾਹ ਦੇ ਕੰਢੇ ਛੋਟਾ ਗਿਰਜਾਘਰ
+          wayside_cross: ਰਾਹ ਦੇ ਕੰਢੇ ਕਰਾਸ
+          wayside_shrine: ਰਾਹ ਦੇ ਕੰਢੇ ਮੰਦਰ
+          "yes": ਇਤਿਹਾਸਕ ਥਾਂ
         junction:
           "yes": ਜੰਕਸ਼ਨ
         landuse:
+          allotments: ਹਿੱਸਾ
+          aquaculture: ਜਲ ਖੇਤੀਬਾਡ਼ੀ
           basin: ਹੌਜ਼ੀ
           cemetery: ਸ਼ਮਸ਼ਾਨ
           commercial: ਵਪਾਰਕ ਖੇਤਰ
-          conservation: ਰੱਖ
-          construction: ਉਸਾਰੀ
-          farmland: ਖੇਤ ਭੂਮੀ
+          conservation: ਸੰਭਾਲ ਖੇਤਰ
+          construction: ਉਸਾਰੀ ਖੇਤਰ
+          farmland: ਖੇਤੀਬਾੜੀ ਦੀ ਜ਼ਮੀਨ
           farmyard: ਫਾਰਮਯਾਰਡ
           forest: ਜੰਗਲ
           garages: ਗੈਰਜ
@@ -609,24 +807,32 @@ pa:
           military: ਫ਼ੌਜੀ ਇਲਾਕਾ
           mine: ਖਾਨ
           orchard: ਬਗ਼ੀਚਾ
+          plant_nursery: ਬੂਟਿਆਂ ਦੀ ਪਨੀਰੀ
+          quarry: ਖੱਡ
           railway: ਰੇਲਵੇ
           recreation_ground: ਮਨੋਰੰਜਨ ਮੈਦਾਨ
+          religious: ਧਾਰਮਿਕ ਥਾਂ
           reservoir: ਸਰੋਵਰ
           residential: ਰਿਹਾਇਸ਼ੀ ਇਲਾਕਾ
           retail: ਪਰਚੂਨ ਖੇਤਰ
           village_green: ਸ਼ਾਮਲਾਤ
           vineyard: ਅੰਗੂਰਾਂ ਦਾ ਬਾਗ਼
+          "yes": ਜ਼ਮੀਨ ਦੀ ਵਰਤੋਂ
         leisure:
           common: ਸ਼ਾਮਲਾਟ
           dog_park: ਕੁੱਤਾ ਪਾਰਕ
+          firepit: ਅੱਗ ਦਾ ਟੋਆ
           fishing: ਮੱਛੀ-ਖੋਜ ਇਲਾਕਾ
           fitness_centre: ਫਿੱਟਨੈੱਸ ਕੇੰਦਰ
           fitness_station: ਤੰਦਰੁਸਤੀ ਅੱਡਾ
           garden: ਬਾਗ਼
           golf_course: ਗੋਲਫ਼ ਮੈਦਾਨ
+          horse_riding: ਘੋੜ ਸਵਾਰੀ ਕੇਂਦਰ
           ice_rink: ਬਰਫ਼ੀਲਾ ਫ਼ਰਸ਼
+          marina: ਸਮੁੰਦਰੀ ਕਿਨਾਰਾ
           miniature_golf: ਨਿੱਕੀ ਗੋਲਫ਼
           nature_reserve: ਕੁਦਰਤੀ ਰੱਖ
+          outdoor_seating: ਬਾਹਰੀ ਬੈਠਣ ਦੀ ਥਾਂ
           park: ਪਾਰਕ
           pitch: ਖੇਡ ਦੀ ਬੀੜ
           playground: ਖੇਡ ਮੈਦਾਨ
@@ -638,13 +844,34 @@ pa:
           track: ਭੱਜਣ ਲਈ ਟਰੈਕ
           water_park: ਜਲ ਪਾਰਕ
         man_made:
+          advertising: ਇਸ਼ਤਿਹਾਰਬਾਜ਼ੀ
+          avalanche_protection: ਬਰਫ਼ੀਲੇ ਤੂਫ਼ਾਨ ਤੋਂ ਬਚਾਅ
+          beehive: ਮਖਿਆਲ
+          bridge: ਪੁਲ
+          bunker_silo: ਬੰਕਰ
+          chimney: ਚਿਮਨੀ
+          crane: ਕਰੇਨ
+          flagpole: ਝੰਡੇ ਦਾ ਡੰਡਾ
+          kiln: ਭੱਠਾ/ਭੱਠੀ
           lighthouse: ਲਾਈਟਹਾਊਸ
+          mast: ਸ਼ਤੀਰ
+          mine: ਖਾਨ
           pipeline: ਪਾਈਪਲਾਈਨ
+          silo: ਭੜੋਲਾ
+          snow_cannon: ਬਰਫ ਦੀ ਤੋਪ
+          snow_fence: ਬਰਫ ਦੀ ਵਾਡ਼
+          surveillance: ਨਿਗਰਾਨੀ
           tower: ਬੁਰਜ
+          utility_pole: ਬਿਜਲੀ ਦਾ ਖੰਬਾ
+          water_tap: ਪਾਣੀ ਦੀ ਟੂਟੀ
+          water_well: ਖੂਹ
           works: ਫੈਕਟਰੀ
+          "yes": ਮਨੁੱਖ ਦੁਆਰਾ ਬਣਾਇਆ
         military:
           airfield: ਫ਼ੌਜੀ ਉਡਾਣ-ਖੇਤਰ
           barracks: ਬੈਰਕ
+          checkpoint: ਨਾਕਾ
+          "yes": ਫੌਜ
         mountain_pass:
           "yes": ਦੱਰਾ
         natural:
@@ -658,6 +885,7 @@ pa:
           forest: ਜੰਗਲ
           geyser: ਗੀਜ਼ਰ
           glacier: ਗਲੇਸ਼ੀਅਰ
+          grassland: ਘਾਹ ਦਾ ਮੈਦਾਨ
           heath: ਸਿਹਤ
           hill: ਪਹਾੜੀ
           island: ਟਾਪੂ
@@ -670,6 +898,7 @@ pa:
           reef: ਰੀਫ਼
           ridge: ਰਿੱਜ
           rock: ਚਟਾਨ
+          saddle: ਕਾਠੀ
           sand: ਰੇਤ
           scree: ਰੇੜ੍ਹ
           scrub: ਝਾੜ ਬਰੋਟਾ
@@ -677,26 +906,35 @@ pa:
           stone: ਪੱਥਰ
           strait: ਪਣਜੋੜ
           tree: ਦਰੱਖ਼ਤ
+          tree_row: ਰੁੱਖ ਦੀ ਕਤਾਰ
           valley: ਘਾਟੀ
           volcano: ਜਵਾਲਾਮੁਖੀ
           water: ਪਾਣੀ
           wetland: ਨਮ ਇਲਾਕਾ
-          wood: ਜੰਗਲ
+          wood: ਲੱਕੜ
+          "yes": ਕੁਦਰਤੀ ਗੁਣ
         office:
-          accountant: ਅਕਾਊਂਟੈਂਟ
+          accountant: ਲੇਖਾਕਾਰ
           administrative: ਪ੍ਰਸ਼ਾਸਨ
           architect: ਨਕਸ਼ਾਕਾਰ
           company: ਕੰਪਨੀ
+          educational_institution: ਵਿਦਿਅਕ ਸੰਸਥਾ
           employment_agency: ਰੁਜ਼ਗਾਰ ਏਜੰਸੀ
           estate_agent: ਜਾਇਦਾਦ ਕਰਿੰਦਾ
+          financial: ਵਿੱਤੀ ਦਫਤਰ
           government: ਸਰਕਾਰੀ ਦਫ਼ਤਰ
           insurance: ਬੀਮਾ ਦਫ਼ਤਰ
           lawyer: ਵਕੀਲ
+          newspaper: ਅਖ਼ਬਾਰ ਦਾ ਦਫ਼ਤਰ
           ngo: ਐੱਨ੦ਜੀ੦ਓ ਦਫ਼ਤਰ
+          notary: ਨੋਟਰੀ
+          religion: ਧਾਰਮਿਕ ਦਫ਼ਤਰ
+          research: ਖੋਜ ਦਫ਼ਤਰ
           telecommunication: ਦੂਰ-ਸੰਚਾਰ ਦਫ਼ਤਰ
           travel_agent: ਟਰੈਵਲ ਏਜੰਸੀ
           "yes": ਦਫ਼ਤਰ
         place:
+          allotments: ਹਿੱਸਾ
           city: ਸ਼ਹਿਰ
           country: ਮੁਲਕ
           county: ਰਾਜ
@@ -718,7 +956,7 @@ pa:
           suburb: ਉਪਨਗਰ
           town: ਕਸਬਾ
           village: ਪਿੰਡ
-          "yes": ਥਾੰ
+          "yes": ਥਾਂ
         railway:
           abandoned: ਛੱਡਿਆ ਹੋਇਆ ਰੇਲਵੇ
           construction: ਉਸਾਰੀ ਹੇਠ ਰੇਲਵੇ
@@ -731,12 +969,13 @@ pa:
           monorail: ਇਕਹਿਰੀ ਰੇਲ
           narrow_gauge: ਭੀੜੀ ਰੇਲ
           platform: ਰੇਲਗੱਡੀ ਦਾ ਅੱਡਾ
+          rail: ਰੇਲਗੱਡੀ
           station: ਰੇਲਵੇ ਸਟੇਸ਼ਨ
           subway: ਸੱਬਵੇ
           subway_entrance: ਸਬਵੇ ਪ੍ਰਵੇਸ਼
           tram: ਟਰਾਮਵੇ
           tram_stop: ਟਰਾਮ ਅੱਡਾ
-          yard: ਰੇਲਵੇ ਯਾਰਡ
+          yard: ਰੇਲ-ਵਾੜਾ
         shop:
           antiques: ਪ੍ਰਾਚੀਨ
           art: ਕਲਾ ਹੱਟੀ
@@ -744,7 +983,7 @@ pa:
           beauty: ਬਿਊਟੀ ਪਾਰਲਰ
           beverages: ਪੀਣ ਪਦਾਰਥਾਂ ਦੀ ਹੱਟੀ
           bicycle: ਸਾਈਕਲਾਂ ਦੀ ਦੁਕਾਨ
-          books: ਕਿਤਾਬਾਂ ਦੀ ਦੁਕਾਨ
+          books: ਕਿਤਾਬਾਂ ਦੀ ਹੱਟੀ
           boutique: ਬੁਟੀਕ
           butcher: ਕਸਾਈ
           car: ਕਾਰਾਂ ਦੀ ਦੁਕਾਨ
@@ -752,20 +991,25 @@ pa:
           car_repair: ਕਾਰ ਮੁਰੰਮਤ
           carpet: ਗ਼ਲੀਚਿਆਂ ਦੀ ਦੁਕਾਨ
           charity: ਦਾਨ ਦੀ ਹੱਟੀ
+          cheese: ਪਨੀਰ ਦੀ ਹੱਟੀ
           chemist: ਦਵਾਈਆਂ ਦੀ ਦੁਕਾਨ
+          chocolate: ਚਾਕਲੇਟ
           clothes: ਬਜਾਜੀ ਹੱਟੀ
+          coffee: ਕੌਫੀ ਦੀ ਹੱਟੀ
           computer: ਕੰਪਿਊਟਰਾਂ ਦੀ ਦੁਕਾਨ
           confectionery: ਹਲਵਾਈ
           convenience: ਸੌਖ ਕੇਂਦਰ
           copyshop: ਕਾਪੀ ਹੱਟੀ
           cosmetics: ਸੁਰਖੀ-ਬਿੰਦੀ ਦੀ ਦੁਕਾਨ
+          curtain: ਪਰਦੇ ਦੀ ਹੱਟੀ
           deli: ਡੇਲੀ
           department_store: ਡਿਪਾਰਟਮੈਂਟ ਸਟੋਰ
           discount: ਛੋਟ ਵਾਲੀਆਂ ਚੀਜ਼ਾਂ ਦੀ ਦੁਕਾਨ
-          doityourself: ਆਪ ਕਰੋ
+          doityourself: ਇਹ-ਆਪਣੇ-ਆਪ-ਕਰੋ ਹੱਟੀ
           dry_cleaning: ਡਰਾਈ ਕਲੀਨਰ
           electronics: ਬਿਜਲਾਣੂ ਦੁਕਾਨ
           estate_agent: ਜਾਇਦਾਦ ਕਰਿੰਦਾ
+          fabric: ਕੱਪਡ਼ੇ ਦੀ ਹੱਟੀ
           farm: ਫ਼ਾਰਮ ਦੁਕਾਨ
           fashion: ਫ਼ੈਸ਼ਨਾਂ ਦੀ ਹੱਟੀ
           florist: ਫੁੱਲਾਂ ਦੀ ਦੁਕਾਨ
@@ -776,37 +1020,49 @@ pa:
           general: ਜਨਰਲ ਸਟੋਰ
           gift: ਤੋਹਫ਼ਿਆਂ ਦੀ ਦੁਕਾਨ
           grocery: ਰਾਸ਼ਨ ਦੀ ਹੱਟੀ
-          hairdresser: ਵਾਲ ਤਿਆਰ ਕਰਨ ਵਾਲਾ
+          hairdresser: ਹਜਾਮਤ-ਹੱਟੀ
           hardware: ਹਾਰਡਵੇਅਰ ਸਟੋਰ
           hifi: ਹਾਈ-ਫ਼ਾਈ
+          houseware: ਘਰੇਲੂ ਸਮਾਨ ਦੀ ਹੱਟੀ
+          interior_decoration: ਅੰਦਰੂਨੀ ਸਜਾਵਟ
           jewelry: ਗਹਿਣਿਆਂ ਦੀ ਦੁਕਾਨ
           kiosk: ਖੋਖਾ
+          kitchen: ਰਸੋਈ ਦੀ ਹੱਟੀ
           laundry: ਧੋਬੀਘਾਟ
+          lottery: ਲਾਟਰੀ
           mall: ਮਾਲ
+          massage: ਮਾਲਸ਼ ਦੀ ਹੱਟੀ
           mobile_phone: ਮੋਬਾਈਲ ਫੋਨਾਂ ਦੀ ਦੁਕਾਨ
           motorcycle: ਮੋਟਰਸਾਈਕਲਾਂ ਦੀ ਦੁਕਾਨ
           music: ਸੰਗੀਤ ਦੀ ਦੁਕਾਨ
+          musical_instrument: ਸੰਗੀਤ ਜੰਤਰ
           newsagent: ਅਖ਼ਬਾਰਾਂ ਦਾ ਏਜੰਟ
           optician: ਐਨਕਸਾਜ਼
           organic: ਕਾਰਬਨੀ ਖ਼ੁਰਾਕ ਦੀ ਹੱਟੀ
           outdoor: ਮੈਦਾਨੀ ਵਸਤਾਂ ਦੀ ਹੱਟੀ
           pet: ਪਾਲਤੂ ਜਾਨਵਰਾਂ ਦੀ ਦੁਕਾਨ
           photo: ਤਸਵੀਰਾਂ ਦੀ ਦੁਕਾਨ
+          sewing: ਸਿਲਾਈ ਦੀ ਹੱਟੀ
           shoes: ਜੁੱਤੀਆਂ ਦੀ ਦੁਕਾਨ
           sports: ਖੇਡਾਂ ਦੀ ਦੁਕਾਨ
           stationery: ਸਟੇਸ਼ਨਰੀ ਦੀ ਦੁਕਾਨ
           supermarket: ਸੁਪਰਮਾਰਕਿਟ
           tailor: ਦਰਜੀ
+          tea: ਚਾਹ ਦੀ ਦੁਕਾਨ
+          tobacco: ਤੰਬਾਕੂ ਦੀ ਦੁਕਾਨ
           toys: ਖਿਡੌਣਿਆਂ ਦੀ ਦੁਕਾਨ
           travel_agency: ਟਰੈਵਲ ਏਜੰਸੀ
+          vacant: ਖਾਲੀ ਦੁਕਾਨ
           video: ਵੀਡੀਓ ਦੀ ਦੁਕਾਨ
+          wholesale: ਥੋਕ ਦੀ ਦੁਕਾਨ
+          wine: ਸ਼ਰਾਬ ਦੀ ਦੁਕਾਨ
           "yes": ਹੱਟੀ
         tourism:
-          apartment: ਅਪਾਰਟਮੈਂਟ
+          apartment: ਛੁੱਟੀਆਂ ਦਾ ਅਪਾਰਟਮੈਂਟ
           artwork: ਕਾਰੀਗਰੀ
           attraction: ਖਿੱਚ
           bed_and_breakfast: ਮੰਜਾ ਤੇ ਨਾਸ਼ਤਾ
-          cabin: ਕੈਬਿਨ
+          cabin: ਸੈਲਾਨੀ ਕੋਠੜੀ
           camp_site: ਛਾਉਣੀ
           caravan_site: ਕਾਫ਼ਲਾ ਟਿਕਾਣਾ
           chalet: ਲੱਕੜ ਦਾ ਘਰ
@@ -844,15 +1100,66 @@ pa:
           "yes": ਜਲਮਾਰਗ
       admin_levels:
         level2: ਦੇਸ਼ ਦੀ ਹੱਦ
+        level3: ਇਲਾਕੇ ਦੀ ਹੱਦ
         level4: ਰਾਜ ਦੀ ਹੱਦ
         level5: ਇਲਾਕੇ ਦੀ ਹੱਦ
         level6: ਕਾਊਂਟੀ ਦੀ ਹੱਦ
+        level7: ਨਗਰਪਾਲਿਕਾ ਹੱਦ
         level8: ਸ਼ਹਿਰ ਦੀ ਹੱਦ
         level9: ਪਿੰਡ ਦੀ ਹੱਦ
         level10: ਉਪਨਗਰ ਦੀ ਜੂਹ
+        level11: ਗੁਆਂਢ ਦੀ ਹੱਦ
     results:
       no_results: ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਲੱਭੇ
       more_results: ਹੋਰ ਨਤੀਜੇ
+  issues:
+    index:
+      title: ਮੁੱਦੇ
+      select_type: ਕਿਸਮ ਚੁਣੋ
+      select_last_updated_by: ਵੱਲੋਂ ਆਖਰੀ ਵਾਰ ਨਵਿਆਈਆ ਨੂੰ  ਚੁਣੋ
+      not_updated: ਨਵਿਆਈਆ ਨਹੀਂ ਗਿਆ
+      search: ਲੱਭੋ
+      search_guidance: 'ਮੁੱਦੇ ਲੱਭੋ:'
+      states:
+        ignored: ਨਜ਼ਰਅੰਦਾਜ਼ ਕੀਤਾ
+        open: ਖੋਲ੍ਹੋ
+        resolved: ਹੱਲ-ਕੱਢਿਆ ਗਿਆ
+    page:
+      user_not_found: ਵਰਤੋਂਕਾਰ ਮੌਜੂਦ ਨਹੀਂ ਹੈ
+      issues_not_found: ਅਜਿਹੀਆਂ ਕੋਈ ਸਮੱਸਿਆਵਾਂ ਨਹੀਂ ਮਿਲੀਆਂ
+      reports: ਇਤਲਾਹਵਾਂ
+      last_updated: ਆਖਰੀ ਵਾਰ ਨਵਿਆਈਆ ਗਿਆ
+      last_updated_time_ago_user_html: '%{time_ago} %{user} ਵੱਲੋਂ'
+      states:
+        ignored: ਨਜ਼ਰਅੰਦਾਜ਼ ਕੀਤਾ
+        open: ਖੋਲ੍ਹੋ
+        resolved: ਹੱਲ-ਕੱਢਿਆ ਗਿਆ
+    show:
+      no_reports: ਕੋਈ ਇਤਲਾਹ ਨਹੀਂ
+      report_created_at_html: ਪਹਿਲੀ ਵਾਰ %{datetime} ਨੂੰ ਇਤਲਾਹ ਕੀਤੀ ਗਈ
+      last_resolved_at_html: ਆਖਰੀ ਵਾਰ %{datetime} 'ਤੇ ਹੱਲ ਕੀਤਾ ਗਿਆ
+      resolve: ਹੱਲ-ਕੱਢੋ
+      ignore: ਨਜ਼ਰਅੰਦਾਜ਼ ਕਰੋ
+      reopen: ਮੁਡ਼ ਖੋਲ੍ਹੋ
+      other_issues_against_this_user: ਇਸ ਵਰਤੋਂਕਾਰ ਦੇ ਖਿਲਾਫ ਹੋਰ ਮੁੱਦੇ
+      no_other_issues: ਇਸ ਵਰਤੋਂਕਾਰ ਦੇ ਖਿਲਾਫ ਕੋਈ ਹੋਰ ਮੁੱਦੇ ਨਹੀਂ ਹਨ।
+      comments_on_this_issue: ਇਸ ਮੁੱਦੇ 'ਤੇ ਟਿੱਪਣੀ
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, ਟਿੱਪਣੀ #%{comment_id}'
+  reports:
+    new:
+      title_html: ਇਤਲਾਹ ਦਿਓ %{link}
+      categories:
+        diary_entry:
+          threat_label: ਇਸ ਰੋਜ਼ਨਾਮਚੇ ਵਿੱਚ ਇੱਕ ਧਮਕੀ ਹੈ
+          other_label: ਹੋਰ
+        diary_comment:
+          other_label: ਹੋਰ
+        user:
+          other_label: ਹੋਰ
+        note:
+          other_label: ਹੋਰ
   layouts:
     logo:
       alt_text: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਮਾਰਕਾ
@@ -864,12 +1171,17 @@ pa:
     edit: ਸੋਧੋ
     history: ਪੁਰਾਣਾ
     export: ਬਰਾਮਦ
+    issues: ਮੁੱਦੇ
+    gps_traces: GPS ਖੁਰਾ-ਖੋਜ
+    user_diaries: ਵਰਤੋਂਕਾਰਾਂ ਦੇ ਰੋਜ਼ਨਾਮਚੇ
     edit_with: '%{editor} ਨਾਲ ਸੋਧੋ'
     intro_header: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਉੱਤੇ ਜੀ ਆਇਆਂ ਨੂੰ
     partners_partners: ਜੋੜੀਦਾਰ
+    tou: ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ
     help: ਮਦਦ
     about: ਬਾਬਤ
     copyright: ਨਕਲ-ਹੱਕ
+    communities: ਭਾਈਚਾਰੇ
     learn_more: ਹੋਰ ਜਾਣੋ
     more: ਹੋਰ
   user_mailer:
@@ -908,6 +1220,7 @@ pa:
       button: ਤਸਦੀਕ ਕਰੋ
       already active: ਇਹ ਖਾਤਾ ਪਹਿਲੋਂ ਹੀ ਤਸਦੀਕ ਹੋ ਚੁੱਕਾ ਹੈ।
       unknown token: ਉਸ ਤਸਦੀਕੀ ਕੋਡ ਦੀ ਮਿਆਦ ਜਾਂ ਹੋਂਦ ਖ਼ਤਮ ਹੋ ਚੁੱਕੀ ਹੈ।
+      click_here: ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ
     confirm_resend:
       failure: ਵਰਤੋਂਕਾਰ %{name} ਨਹੀਂ ਲੱਭਿਆ।
     confirm_email:
@@ -923,12 +1236,15 @@ pa:
       to: ਵੱਲ
       subject: ਵਿਸ਼ਾ
       date: ਮਿਤੀ
+      actions: ਕਾਰਵਾਈਆਂ
     message_summary:
+      unread_button: ਨਾ ਪਡ਼੍ਹੇ ਹੋਏ ਵਜੋਂ ਨਿਸ਼ਾਨ ਲਾਓ
+      read_button: ਪੜ੍ਹੇ ਵਜੋਂ ਨਿਸ਼ਾਨ ਲਾਓ
       destroy_button: ਮਿਟਾਓ
     new:
       title: ਸੁਨੇਹਾ ਘੱਲੋ
     create:
-      message_sent: ਸੁਨੇਹਾ ਭੇਜਿਆ ਗਿਆ
+      message_sent: ਸੁਨੇਹਾ ਘੱਲਿਆ ਗਿਆ
     no_such_message:
       title: ਅਜਿਹਾ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ
       heading: ਅਜਿਹਾ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ
@@ -938,11 +1254,15 @@ pa:
       title: ਸੁਨੇਹਾ ਪੜ੍ਹੋ
       reply_button: ਜੁਆਬ
       unread_button: ਅਣ-ਪੜ੍ਹਿਆ ਨਿਸ਼ਾਨ ਲਾਉ
+      destroy_button: ਮਿਟਾਓ
       back: ਪਿਛਾਂਹ
     sent_message_summary:
       destroy_button: ਮਿਟਾਓ
     heading:
       my_inbox: ਮੇਰਾ ਇਨਬਾਕਸ
+    mark:
+      as_read: ਸੁਨੇਹੇ ਨੂੰ ਪਡ਼੍ਹਿਆ ਗਿਆ ਵਜੋਂ ਨਿਸ਼ਾਨਬੱਧ ਕੀਤਾ ਗਿਆ
+      as_unread: ਸੁਨੇਹੇ ਨੂੰ ਨਹੀਂ-ਪਡ਼੍ਹਿਆ ਵਜੋਂ ਨਿਸ਼ਾਨਬੱਧ ਕੀਤਾ ਗਿਆ
     destroy:
       destroyed: ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ
   passwords:
@@ -956,43 +1276,88 @@ pa:
       reset: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
     update:
       flash changed: ਤੁਹਾਡਾ ਪਛਾਣ ਸ਼ਬਦ ਬਦਲਿਆ ਜਾ ਚੁੱਕਾ ਹੈ।
+  preferences:
+    show:
+      title: ਮੇਰੀਆਂ ਤਰਜੀਹਾਂ
+      preferred_languages: ਤਰਜੀਹੀ ਬੋਲੀਆਂ
+      edit_preferences: ਤਰਜੀਹਾਂ ਨੂੰ ਸੋਧੋ
+    edit:
+      title: ਤਰਜੀਹਾਂ ਨੂੰ ਸੋਧੋ
+      save: ਤਰਜੀਹਾਂ ਨੂੰ ਨਵਿਆਓ
+      cancel: ਰੱਦ ਕਰੋ
+    update:
+      failure: ਤਰਜੀਹਾਂ ਨੂੰ ਨਵਿਆਈਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।
+    update_success_flash:
+      message: ਤਰਜੀਹਾਂ ਨਵਿਆਈਆਂ ਗਈਆਂ।
   profiles:
     edit:
+      cancel: ਰੱਦ ਕਰੋ
       image: 'ਤਸਵੀਰ:'
       gravatar:
         gravatar: ਗਰੈਵੇਤਾਰ ਵਰਤੋ
+        what_is_gravatar: ਗਰਾਵਤਾਰ ਕੀ ਹੈ?
       new image: ਇੱਕ ਤਸਵੀਰ ਜੋੜੋ
       keep image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਰੱਖੋ
       delete image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਹਟਾਉ
       replace image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਵਟਾਉ
       home location: ਘਰ ਦਾ ਟਿਕਾਣਾ
-      no home location: ਤੁਸੀਂ ਆਪਣੇ ਘਰ ਦੀ ਸਥਿਤੀ ਨਹੀਂ ਦੱਸੀ ਹੈ।
+      no home location: ਤੁਸੀਂ ਆਪਣੇ ਘਰ ਦਾ ਟਿਕਾਣਾਂ ਨਹੀਂ ਦਾਖਲ ਕੀਤਾ ਹੈ।
+      show: ਵਿਖਾਓ
+      delete: ਮਿਟਾਓ
+    update:
+      success: ਪ੍ਰੋਫਾਈਲ ਨਵਿਆਈਆ ਗਿਆ।
   sessions:
     new:
       tab_title: ਦਾਖ਼ਲ ਹੋਵੋ
       email or username: 'ਈਮੇਲ ਪਤਾ ਜਾਂ ਵਰਤੋਂਕਾਰ-ਨਾਂ:'
-      password: 'ਪਛਾਣ-ਸ਼ਬਦ:'
+      password: ਲੰਘ-ਸ਼ਬਦ
       remember: ਮੈਨੂੰ ਯਾਦ ਰੱਖੋ
       lost password link: ਆਪਣਾ ਪਛਾਣ-ਸ਼ਬਦ ਗੁਆ ਦਿੱਤਾ?
       login_button: ਦਾਖ਼ਲ ਹੋਵੋ
+      or: ਜਾਂ
+      auth failure: ਮੁਆਫ ਕਰਨਾ, ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਨਾਲ ਦਾਖਲ ਨਹੀਂ ਹੋ ਸਕਿਆ।
     destroy:
       title: ਬਾਹਰ ਆਉ
       heading: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਤੋਂ ਬਾਹਰ ਆਓ
       logout_button: ਬਾਹਰ ਆਉ
+    suspended_flash:
+      suspended: ਮੁਆਫ ਕਰਨਾ, ਸ਼ੱਕੀ ਗਤੀਵਿਧੀ ਕਾਰਨ ਤੁਹਾਡਾ ਖਾਤਾ ਮੁਅੱਤਲ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।
   shared:
+    markdown_help:
+      headings: ਸਿਰਨਾਵੇਂ
+      heading: ਸਿਰਨਾਵਾਂ
+      link: ਕੜੀ
+      text: ਲਿਖਤ
+      image: ਤਸਵੀਰ
+    richtext_field:
+      edit: ਸੋਧ
+      preview: ਝਾਤ
+      help: ਮਦਦ
     pagination:
       diary_comments:
         older: ਪੁਰਾਣੀਆਂ ਟਿੱਪਣੀਆਂ
         newer: ਨਵੀਆਂ ਟਿੱਪਣੀਆਂ
+      issues:
+        older: ਪੁਰਾਣੇ ਮੁੱਦੇ
+        newer: ਨਵੇਂ ਮੁੱਦੇ
       traces:
         older: ਪੁਰਾਣੇ ਖੁਰਾ-ਖੋਜ
         newer: ਨਵੇਂ ਖੁਰਾ-ਖੋਜ
+      users:
+        older: ਪੁਰਾਣੇ ਵਰਤੋਂਕਾਰ
+        newer: ਨਵੇਂ ਵਰਤੋਂਕਾਰ
   site:
     about:
       heading_html: '%{copyright}ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ %{br} ਯੋਗਦਾਨੀ'
       local_knowledge_title: ਸਥਾਨੀ ਗਿਆਨ
+      community_driven_user_diaries: ਵਰਤੋਂਕਾਰਾਂ ਦੇ ਰੋਜ਼ਨਾਮਚੇ
       open_data_title: ਡਾਟਾ ਖੋਲ੍ਹੋ
+      open_data_open_data: ਡਾਟਾ ਖੋਲ੍ਹੋ
+      open_data_copyright_license: ਨਕਲ-ਹੱਕ ਤੇ ਲਸੰਸ ਸਫ਼ਾ
       legal_title: ਕਾਨੂੰਨੀ
+      legal_1_1_terms_of_use: ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ
+      legal_1_1_aup: ਸਵੀਕਾਰਯੋਗ ਵਰਤੋਂ ਨੀਤੀਆਂ
+      legal_1_1_privacy_policy: ਨਿੱਜਤਾ ਨੀਤੀ
       partners_title: ਸਾਂਝੀਦਾਰ
     copyright:
       title: ਨਕਲ-ਹੱਕ ਤੇ ਲਾਇਸੰਸ
@@ -1005,11 +1370,30 @@ pa:
         mapping_link: ਨਕਸ਼ਾਬੰਦੀ ਸ਼ੁਰੂ ਕਰੋ
       legal_babble:
         introduction_1_osm_foundation: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਸੰਸਥਾ
+        introduction_2_legal_code: ਕਾਨੂੰਨੀ ਜ਼ਾਬਤਾ
         credit_title_html: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਨੂੰ ਕਿਵੇਂ ਸੇਹਰਾ ਦੇਣਾ ਹੈ
         credit_1_html: 'ਜਿੱਥੇ ਤੁਸੀਂ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਡੇਟਾ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋ, ਤੁਹਾਨੂੰ
           ਹੇਠ ਲਿਖੀਆਂ ਦੋ ਚੀਜ਼ਾਂ ਕਰਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ:'
+        credit_3_attribution_guidelines: ਗੁਣ-ਸੰਬੰਧੀ ਦਿਸ਼ਾ-ਨਿਰਦੇਸ਼
+        credit_4_1_this_copyright_page: ਇਹ ਨਕਲ-ਹੱਕ ਸਫ਼ਾ
         more_title_html: ਹੋਰ ਜਾਣਕਾਰੀ ਲੱਭਣ ਵਾਸਤੇ
         contributors_title_html: ਸਾਡੇ ਯੋਗਦਾਨੀ
+        contributors_at_austria: ਆਸਟਰੀਆ
+        contributors_at_stadt_wien: ਸਟੈਡਟ ਵਿਏਨ
+        contributors_at_land_vorarlberg: ਲੈਂਡ ਵੋਰਾਰਲਬਰ੍ਗ
+        contributors_au_australia: ਆਸਟਰੇਲੀਆ
+        contributors_ca_canada: ਕੈਨੇਡਾ
+        contributors_cz_czechia: ਚੈਕੀਆ
+        contributors_fi_finland: ਫਿਨਲੈਂਡ
+        contributors_fr_france: ਫ਼ਰਾਂਸ
+        contributors_hr_croatia: ਕਰੋਸ਼ੀਆ
+        contributors_nl_netherlands: ਨੀਦਰਲੈਂਡ
+        contributors_nz_new_zealand: ਨਿਊਜ਼ੀਲੈਂਡ
+        contributors_rs_serbia: ਸਰਬੀਆ
+        contributors_si_slovenia: ਸਲੋਵੇਨੀਆ
+        contributors_es_spain: ਸਪੇਨ
+        contributors_za_south_africa: ਦੱਖਣੀ ਅਫ਼ਰੀਕਾ
+        contributors_2_contributors_page: ਯੋਗਦਾਨ ਪਾਉਣ ਵਾਲੇਆਂ ਦਾ ਵਰਕਾ
     edit:
       user_page_link: ਵਰਤੋਂਕਾਰ ਵਰਕਾ
       anon_edits_link_text: ਪਤਾ ਕਰੋ ਕਿ ਅਜਿਹਾ ਕਿਉਂ ਹੈ।
@@ -1033,15 +1417,22 @@ pa:
       title: ਮਦਦ ਲੈਣੀ
       welcome:
         url: /ਜੀ ਆਇਆਂ ਨੂੰ
-        title: ਓ.ਐੱਸ.ਐੱਮ. 'ਤੇ ਜੀ ਆਇਆਂ ਨੂੰ
+        title: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਉੱਤੇ ਜੀ ਆਇਆਂ ਨੂੰ
       beginners_guide:
         title: ਸ਼ੁਰੂਆਤੀ ਦਸਤੀ
+      mailing_lists:
+        title: ਡਾਕ ਸੂਚੀਆਂ
       irc:
         title: ਆਈ.ਆਰ.ਸੀ
+      welcomemat:
+        title: ਸੰਸਥਾਵਾਂ ਲਈ
       wiki:
-        title: wiki.openstreetmap.org
+        title: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਵਿਕੀ
+    potlatch:
+      change_preferences: ਇੱਥੇ ਆਪਣੀਆਂ ਤਰਜੀਹਾਂ ਬਦਲੋ
     any_questions:
       title: ਕੋਈ ਸੁਆਲ?
+      get_help_here: ਇੱਥੇ ਮਦਦ ਪ੍ਰਾਪਤ ਕਰੋ
     sidebar:
       search_results: ਖੋਜ ਨਤੀਜੇ
     search:
@@ -1058,20 +1449,31 @@ pa:
           trunk: ਟਰੰਕ ਸੜਕ
           primary: ਮੁੱਢਲੀ ਸੜਕ
           secondary: ਸਕੈਂਡਰੀ ਸੜਕ
+          pedestrian: ਪੈਦਲ ਜਾਣ ਲਈ ਰਾਹ
           track: ਟਰੈਕ
           bridleway: ਘੋੜ-ਰਾਹ
           cycleway: ਸਾਈਕਲ ਦਾ ਰਾਹ
           footway: ਪੈਦਲ ਰਾਹ
           rail: ਰੇਲਵੇ
+          train: ਰੇਲਗੱਡੀ
           subway: ਸਬ-ਵੇਅ
+          ferry: ਕਿਸ਼ਤੀ
+          light_rail: ਹਲਕੀ ਰੇਲ
+          bus: ਬੱਸ
           cable_car: ਕੇਬਲ ਕਾਰ
           chair_lift: ਕੁਰਸੀ ਲਿਫ਼ਟ
           runway: ਹਵਾਈ ਅੱਡੇ ਦੀ ਉਡਾਣ ਪੱਟੀ
           taxiway: ਟੈਕਸੀਵੇਅ
           apron: ਹਵਾਈ ਅੱਡੇ ਦਾ ਐਪਰਨ
           admin: ਪ੍ਰਬੰਧਕੀ ਸਰਹੱਦ
+          capital: ਰਾਜਧਾਨੀ
+          city: ਸ਼ਹਿਰ
+          orchard: ਬਗ਼ੀਚਾ
+          vineyard: ਅੰਗੂਰਾਂ ਦਾ ਬਾਗ਼
           forest: ਜੰਗਲ
           wood: ਲੱਕੜ
+          grass: ਘਾਹ
+          sand: ਰੇਤ
           golf: ਗੋਲਫ਼ ਮੈਦਾਨ
           park: ਪਾਰਕ
           common: ਸ਼ਾਮਲਾਟ
@@ -1080,7 +1482,7 @@ pa:
           industrial: ਉਦਯੋਗਿਕ ਖੇਤਰ
           commercial: ਵਪਾਰਕ ਖੇਤਰ
           lake: ਝੀਲ
-          reservoir: ਕੁੰਡ
+          reservoir: ਸਰੋਵਰ
           farm: ਖੇਤ
           cemetery: ਸ਼ਮਸ਼ਾਨ
           pitch: ਖੇਡ ਦੀ ਪਿੱਚ
@@ -1089,21 +1491,32 @@ pa:
           military: ਫ਼ੌਜੀ ਇਲਾਕਾ
           school: ਸਕੂਲ
           university: ਯੂਨੀਵਰਸਿਟੀ
+          hospital: ਹਸਪਤਾਲ
           building: ਮਹੱਤਵਪੂਰਨ ਇਮਾਰਤ
           station: ਰੇਲਵੇ ਸਟੇਸ਼ਨ
           summit: ਸਿਖਰ
           peak: ਚੋਟੀ
+          private: ਨਿੱਜੀ ਲਾਂਘਾ
           construction: ਉਸਾਰੀ ਹੇਠ ਸੜਕਾਂ
+          bicycle_rental: ਸਾਈਕਲ ਕਿਰਾਏ 'ਤੇ
     welcome:
       title: ਜੀ ਆਇਆਂ ਨੂੰ!
       whats_on_the_map:
         title: ਨਕਸ਼ੇ ਉੱਤੇ ਕੀ ਹੈ
+        real_and_current: ਅਸਲੀ ਅਤੇ ਮੌਜੂਦਾ
+      basic_terms:
+        title: ਨਕਸ਼ਾ-ਉਲੀਕਣ ਲਈ ਬੁਨਿਆਦੀ ਸ਼ਰਤਾਂ
+        editor: ਸੋਧਕ
+        way: ਰਾਹ
       rules:
         title: ਨਿਯਮ!
+        imports: ਦਰਾਮਦ
       start_mapping: ਨਕਸ਼ਾਬੰਦੀ ਸ਼ੁਰੂ ਕਰੋ
       add_a_note:
         title: ਸੋਧਣ ਦੀ ਵਿਹਲ ਨਹੀਂ? ਕੋਈ ਨੋਟ ਜੋੜੋ!
+        the_map: ਨਕਸ਼ਾ
     communities:
+      title: ਭਾਈਚਾਰੇ
       local_chapters:
         title: ਸਥਾਨਕ ਸ਼ਾਖਾਵਾਂ
   traces:
@@ -1111,6 +1524,7 @@ pa:
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
       help: ਮਦਦ
     edit:
+      cancel: ਰੱਦ ਕਰੋ
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
     show:
       title: ਖੁਰਾ-ਖੋਜ %{name} ਵੇਖ ਰਿਹਾ ਹੈ
@@ -1133,7 +1547,9 @@ pa:
       visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
     trace:
       pending: ਲਮਕਦਾ
-      count_points: '%{count} ਬਿੰਦੂ'
+      count_points:
+        one: '%{count} ਇਕਾਈ'
+        other: '%{count} ਇਕਾਈਆ'
       more: ਹੋਰ
       trace_details: ਖੁਰਾ-ਖੋਜ ਦਾ ਵੇਰਵਾ ਵੇਖੋ
       view_map: ਨਕਸ਼ਾ ਵੇਖੋ
@@ -1143,38 +1559,92 @@ pa:
       private: ਨਿੱਜੀ
       trackable: ਪੈੜ ਕੱਢਣਯੋਗ
     index:
+      public_traces: ਜਨਤਕ GPS ਖੁਰਾ-ਖੋਜ
+      my_gps_traces: ਮੇਰੇ GPS ਖੁਰਾ-ਖੋਜ
+      public_traces_from: '%{user} ਤੋਂ ਜਨਤਕ GPS ਖੁਰਾ-ਖੋਜ'
       tagged_with: '%{tags} ਨਾਲ਼ ਨਿਸ਼ਾਨਦੇਹ'
+      wiki_page: ਵਿਕੀ ਸਫ਼ਾ
       upload_trace: ਕੋਈ ਖੁਰਾ-ਖੋਜ ਚੜ੍ਹਾਉ
+      all_traces: ਸਾਰੇ ਖੁਰਾ-ਖੋਜ
+      my_traces: ਮੇਰੇ ਖੁਰਾ-ਖੋਜ
+      traces_from: '%{user} ਤੋਂ ਜਨਤਕ ਖੁਰਾ-ਖੋਜ'
   application:
+    settings_menu:
+      account_settings: ਖਾਤਾ ਤਰਜੀਹਾਂ
     auth_providers:
+      openid_login_button: ਜਾਰੀ ਰੱਖੋ
       google:
+        title: ਗੂਗਲ ਨਾਲ ਦਾਖਲ ਹੋਵੋ
         alt: ਗੂਗਲ ਮਾਰਕਾ
       facebook:
+        title: ਫੇਸਬੁੱਕ ਨਾਲ ਦਾਖਲ ਹੋਵੋ
         alt: ਫੇਸਬੁੱਕ ਮਾਰਕਾ
+      microsoft:
+        title: ਮਾਈਕਰੋਸੌਫਟ ਨਾਲ ਦਾਖਲ ਹੋਵੋ
       github:
+        title: GitHub ਨਾਲ ਦਾਖਲ ਹੋਵੋ
         alt: GitHub ਮਾਰਕਾ
       wikipedia:
+        title: ਵਿਕੀਪੀਡੀਆ ਨਾਲ ਦਾਖਲ ਹੋਵੋ
         alt: ਵਿਕੀਪੀਡੀਆ ਮਾਰਕਾ
+  oauth:
+    scopes:
+      read_prefs: ਪੜ੍ਹਨ ਦੀਆਂ ਤਰਜੀਹਾਂ
+      read_gpx: ਨਿੱਜੀ GPS ਖੁਰਾ-ਖੋਜ ਪੜ੍ਹੋ
+  oauth2_applications:
+    index:
+      name: ਨਾਂ
+      permissions: ਇਜਾਜ਼ਤਾਂ
+    application:
+      edit: ਸੋਧ
+      delete: ਮਿਟਾਓ
+    show:
+      edit: ਸੋਧ
+      delete: ਮਿਟਾਓ
+      permissions: ਇਜਾਜ਼ਤਾਂ
+  oauth2_authorizations:
+    new:
+      authorize: ਅਧਿਕਾਰ ਦਿਓ
+      deny: ਇਨਕਾਰ ਕਰੋ
+    error:
+      title: ਇੱਕ ਗਲਤੀ ਆਈ ਹੈ।
+    show:
+      title: ਅਧਿਕਾਰ ਕੋਡ
+  oauth2_authorized_applications:
+    index:
+      permissions: ਇਜਾਜ਼ਤਾਂ
+      last_authorized: ਆਖਰੀ ਵਾਰ ਅਧਿਕਾਰ ਦਿਤਾ
   users:
     new:
-      title: ਭਰਤੀ ਹੋਵੋ
+      title: ਖਾਤਾ ਬਣਾਓ
+      tab_title: ਖਾਤਾ ਬਣਾਓ
       about:
         header: ਮੁਫ਼ਤ ਅਤੇ ਸੋਧਣਯੋਗ
         welcome: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਉੱਤੇ ਜੀ ਆਇਆਂ ਨੂੰ
-      continue: ਭਰਤੀ ਹੋਵੋ
+      by_signing_up:
+        privacy_policy: ਨਿੱਜਤਾ ਨੀਤੀ
+      continue: ਖਾਤਾ ਬਣਾਓ
+      email_help:
+        privacy_policy: ਨਿੱਜਤਾ ਨੀਤੀ
+      or: ਜਾਂ
     terms:
       title: ਸ਼ਰਤਾਂ
       heading: ਸ਼ਰਤਾਂ
+      heading_ct: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
       consider_pd_why: ਇਹ ਕੀ ਹੈ?
       informal_translations: ਗ਼ੈਰ-ਰਸਮੀ ਤਰਜਮਾ
+      continue: ਜਾਰੀ ਰੱਖੋ
       cancel: ਰੱਦ ਕਰੋ
       legale_select: 'ਆਪਣੀ ਰਿਹਾਇਸ਼ ਦਾ ਦੇਸ਼ ਚੁਣੋ:'
       legale_names:
         france: ਫ਼ਰਾਂਸ
         italy: ਇਟਲੀ
         rest_of_world: ਬਾਕੀ ਦੁਨੀਆਂ
+    terms_declined_flash:
+      terms_declined_link: ਇਹ ਵਿਕੀ ਸਫ਼ਾ
     no_such_user:
       title: ਕੋਈ ਅਜਿਹਾ ਵਰਤੋਂਕਾਰ ਨਹੀਂ
+      deleted: ਮਿਟਾਇਆ ਹੋਇਆ
     show:
       my diary: ਮੇਰਾ ਰੋਜ਼ਨਾਮਚਾ
       my edits: ਮੇਰੀਆਂ ਸੋਧਾਂ
@@ -1182,8 +1652,9 @@ pa:
       my notes: ਮੇਰੇ ਨੋਟ
       my messages: ਮੇਰੇ ਸੁਨੇਹੇ
       my profile: ਮੇਰਾ ਖ਼ਾਕਾ
-      my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
+      my settings: ਮੇਰੀਆਂ ਤਰਜੀਹਾਂ
       my comments: ਮੇਰੀਆਂ ਟਿੱਪਣੀਆਂ
+      my_preferences: ਮੇਰੀਆਂ ਤਰਜੀਹਾਂ
       blocks on me: ਮੇਰੇ ਉੱਤੇ ਰੋਕਾਂ
       blocks by me: ਮੇਰੇ ਵੱਲੋਂ ਰੋਕਾਂ
       send message: ਸੁਨੇਹਾ ਘੱਲੋ
@@ -1193,7 +1664,7 @@ pa:
       notes: ਨਕਸ਼ੇ ਦੇ ਨੋਟ
       remove as friend: ਯਾਰੀ ਤੋੜੋ
       add as friend: ਯਾਰੀ ਪਾਉ
-      mapper since: 'ਕਦੋਂ ਤੋਂ ਨਕਸ਼ਾਸਾਜ਼:'
+      mapper since: 'ਕਦੋਂ ਤੋਂ ਨਕਸ਼ਾ-ਨਵੀਸ਼:'
       ct status: 'ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
       ct undecided: ਦੁਚਿੱਤੀ 'ਚ
       ct declined: ਮਨਜ਼ੂਰ ਨਹੀਂ ਹੈ
@@ -1209,7 +1680,7 @@ pa:
       comments: ਟਿੱਪਣੀਆਂ
       create_block: ਇਸ ਵਰਤੋਂਕਾਰ 'ਤੇ ਰੋਕ ਲਾਉ
       activate_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰੋ
-      confirm_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਤਸਦੀਕ ਕਰੋ
+      confirm_user: ਇਸ ਵਰਤੋਂਕਾਰ ਦੀ ਤਸਦੀਕ ਕਰੋ
       hide_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਲੁਕਾਉ
       unhide_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਮੁੜ-ਵਿਖਾਓ
       delete_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਮਿਟਾਉ
@@ -1227,6 +1698,8 @@ pa:
   user_blocks:
     not_found:
       back: ਤਤਕਰੇ ਵੱਲ ਵਾਪਸ
+    edit:
+      revoke: ਪਾਬੰਦੀਆਂ ਨੂੰ ਰੱਦ ਕਰੋ
     update:
       success: ਰੋਕ ਨਵਿਆਈ ਗਈ।
     helper:
@@ -1235,6 +1708,7 @@ pa:
           one: '%{count} ਘੰਟਾ'
           other: '%{count} ਘੰਟੇ'
     show:
+      duration: 'ਮਿਆਦ:'
       status: ਹਾਲਾਤ
       edit: ਸੋਧੋ
       reason: 'ਰੋਕ ਦਾ ਕਾਰਨ:'
@@ -1247,8 +1721,16 @@ pa:
       creator_name: ਸਿਰਜਣਹਾਰ
       reason: ਰੋਕ ਦਾ ਕਾਰਨ
       status: ਦਰਜਾ
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: ਕਾਰਵਾਈਆਂ
+        tbody:
+          send_message: ਸੁਨੇਹਾ ਘੱਲੋ
   notes:
     index:
+      id: ਸ਼ਿਨਾਖਤ
       creator: ਸਿਰਜਣਹਾਰ
       description: ਵੇਰਵਾ
       created_at: ਕਦੋਂ ਸਿਰਜਿਆ ਗਿਆ
@@ -1259,9 +1741,12 @@ pa:
       hide: ਉਹਲੇ ਕਰੋ
       resolve: ਹੱਲ਼ ਕੱਢੋ
       reactivate: ਮੁੜ ਚਾਲੂ ਕਰੋ
+      comment_and_resolve: ਟਿੱਪਣੀ ਕਰੋ ਅਤੇ ਹੱਲ ਕਰੋ
       comment: ਟਿੱਪਣੀ ਕਰੋ
     new:
       title: ਨਵੀੰ ਟਿੱਪਣੀ
+      anonymous_warning_log_in: ਦਾਖ਼ਲ ਹੋਵੋ
+      anonymous_warning_sign_up: ਖਾਤਾ ਬਣਾਓ
       add: ਟਿੱਪਣੀ ਜੋੜੋ
     notes_paging_nav:
       showing_page: ਸਫ਼ਾ %{page}
@@ -1282,6 +1767,8 @@ pa:
       download: ਉਤਾਰੋ
       short_url: ਨਿੱਕਾ ਯੂ.ਆਰ.ਐੱਲ.
       view_larger_map: ਵਡੇਰਾ ਨਕਸ਼ਾ ਵੇਖੋ
+    embed:
+      report_problem: ਸਮੱਸਿਆ ਦੀ ਇਤਲਾਹ ਦਿਓ
     key:
       title: ਨਕਸ਼ੇ ਦਾ ਟੀਕਾ
       tooltip: ਨਕਸ਼ੇ ਦਾ ਟੀਕਾ
@@ -1300,13 +1787,82 @@ pa:
         header: ਨਕਸ਼ੇ ਦੀਆਂ ਤਹਿਆਂ
         notes: ਨਕਸ਼ੇ ਦੇ ਨੋਟ
         data: ਨਕਸ਼ੇ ਦੀ ਸਮੱਗਰੀ
+        gps: ਜਨਤਕ GPS ਖੁਰਾ-ਖੋਜ
         title: ਤਹਿਆਂ
+      make_a_donation: ਦਾਨ ਦਿਉ
     site:
       edit_tooltip: ਨਕਸ਼ਾ ਸੋਧੋ
       edit_disabled_tooltip: ਨਕਸ਼ਾ ਸੋਧਣ ਵਾਸਤੇ ਅੰਦਰ ਨੂੰ ਜਾਉ
       createnote_tooltip: ਨਕਸ਼ੇ 'ਤੇ ਕੋਈ ਨੋਟ ਜੋੜੋ
       createnote_disabled_tooltip: ਨਕਸ਼ੇ 'ਤੇ ਕੋਈ ਨੋਟ ਜੋੜਨ ਵਾਸਤੇ ਅੰਦਰ ਨੂੰ ਜਾਉ
+    directions:
+      ascend: ਚਡ਼੍ਹਾਈ
+      engines:
+        fossgis_osrm_bike: ਸੈਕਲ (OSRM)
+        fossgis_osrm_car: ਕਾਰ (OSRM)
+        fossgis_osrm_foot: ਪੈਦਲ (OSRM)
+        graphhopper_bicycle: ਸੈਕਲ (GraphHopper)
+      distance: ਵਾਟ
+      distance_m: '%{distance}ਮੀਟਰ'
+      distance_km: '%{distance}ਕਿਲੋਮੀਟਰ'
+      errors:
+        no_place: ਮਾਫ਼ ਕਰਨਾ - '%{place}' ਨੂੰ ਲੱਭ ਨਹੀਂ ਸਕਿਆ।
+      instructions:
+        continue_without_exit: '%{name} ''ਤੇ ਚੱਲੀ-ਚੱਲੋ'
+        slight_right_without_exit: '%{name} ਉੱਤੇ ਥੋੜ੍ਹਾ ਜਿਹਾ ਸੱਜੇ ਪਾਸੇ'
+        onramp_right_without_directions: ਢਲਾਣਦਾਰ-ਰਾਹ ਉੱਤੇ ਸੱਜੇ ਮੁੜੋ
+        onramp_right: ਢਲਾਣਦਾਰ-ਰਾਹ ਉੱਤੇ ਸੱਜੇ ਮੁੜੋ
+        merge_right_without_exit: '%{name} ਉੱਤੇ ਸੱਜੇ ਪਾਸੇ ਰਲੋ'
+        fork_right_without_exit: ਦੋਸੜਕੇ 'ਤੇ %{name} ਵਲ ਸੱਜੇ ਪਾਸੇ ਮੁਡ਼ੋ
+        turn_right_without_exit: '%{name} ਉੱਤੇ ਸੱਜੇ ਮੁੜੋ'
+        turn_left_without_exit: '%{name} ਵੱਲ ਖੱਬੇ ਮੁੜੋ'
+        offramp_left_with_exit: ਖੱਬੇ ਪਾਸੇ %{exit} ਤੋਂ ਬਾਹਰ ਨਿਕਲੋ
+        offramp_left_with_name: '%{name} ਉੱਤੇ ਖੱਬੇ ਪਾਸੇ ਢਲਾਣਦਾਰ-ਰਾਹ ਲਵੋ'
+        offramp_left_with_directions: '%{directions} ਵੱਲ ਖੱਬੇ ਪਾਸੇ ਢਲਾਣਦਾਰ-ਰਾਹ ਲਵੋ'
+        onramp_left_without_directions: ਢਲਾਣਦਾਰ-ਰਾਹ ਉੱਤੇ ਖੱਬੇ ਪਾਸੇ ਮੁਡ਼ੋ
+        onramp_left: ਢਲਾਣਦਾਰ-ਰਾਹ ਉੱਤੇ ਖੱਬੇ ਪਾਸੇ ਮੁੜੋ
+        endofroad_left_without_exit: ਸੜਕ ਦੇ ਅਖੀਰ ਵਿੱਚ %{name} ਵੱਲ ਖੱਬੇ ਮੁੜੋ
+        merge_left_without_exit: '%{name} ਉੱਤੇ ਖੱਬੇ ਪਾਸੇ ਰਲੋ'
+        fork_left_without_exit: ਦੋਸੜਕੇ 'ਤੇ %{name}' ਤੇ ਖੱਬੇ ਪਾਸੇ ਮੁਡ਼ੋ
+        slight_left_without_exit: '%{name} ਉੱਤੇ ਥੋੜ੍ਹਾ ਜਿਹਾ ਖੱਬੇ ਪਾਸੇ'
+        follow_without_exit: '%{name} ਦੇ ਨਾਲ ਚੱਲੀ-ਚੱਲੋ'
+        roundabout_without_exit: ਗੋਲ ਚੱਕਰ 'ਤੋਂ ਨਿਕਲ ਕੇ %{name} ਉੱਤੇ ਜਾਓ
+        leave_roundabout_without_exit: ਗੋਲ ਚੱਕਰ-%{name} ਛੱਡੋ
+        stay_roundabout_without_exit: ਗੋਲ ਚੱਕਰ - %{name} 'ਤੇ ਰਹੋ
+        start_without_exit: '%{name} ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ'
+        destination_without_exit: ਟਿਕਾਣਾ 'ਤੇ ਪਹੁੰਚ ਗਏ।
+        end_oneway_without_exit: '%{name} ''ਤੇ ਇੱਕ-ਤਰਫਾ ਰਾਹ ਦੀ ਸਮਾਪਤੀ'
+        roundabout_with_exit: ਗੋਲ ਚੱਕਰ 'ਤੋਂ %{exit} ਨਿਕਲ ਕੇ %{name} ਉੱਤੇ ਜਾਓ
+        roundabout_with_exit_ordinal: ਗੋਲ ਚੱਕਰ 'ਤੋਂ %{exit} ਕੱਢ ਕੇ %{name} ਉੱਤੇ ਜਾਓ
+        exit_roundabout: ਗੋਲ ਚੱਕਰ ਤੋਂ %{name} ਉੱਤੇ ਬਾਹਰ ਨਿਕਲੋ
+        unnamed: ਅਣਜਾਣ ਸਡ਼ਕ
+        exit_counts:
+          first: ਪਹਿਲਾ
+          second: ਦੂਜਾ
+          third: ਤੀਜਾ
+          fourth: ਚੌਥਾ
+          fifth: 5ਵਾਂ(ਪੰਜਵਾਂ)
+          sixth: 6ਵਾਂ(ਛੇਵਾਂ)
+          seventh: 7ਵਾਂ(ਸੱਤਵਾਂ)
+          eighth: 8ਵਾਂ(ਅੱਠਵਾਂ)
+          ninth: 9ਵਾਂ(ਨੌਵਾਂ)
+          tenth: 10ਵਾਂ(ਦਸਵਾਂ)
+      time: ਵਕਤ
+    query:
+      way: ਰਾਹ
+      error: '%{server} ਨਾਲ ਸੰਪਰਕ ਕਰਨ ਵਿੱਚ ਗਲਤੀ: %{error}'
+    context:
+      show_address: ਪਤਾ ਦਿਖਾਓ
+      query_features: ਪੁੱਛਗਿੱਛ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
+      centre_map: ਨਕਸ਼ੇ ਦਾ ਕੇਂਦਰ ਇੱਥੇ
   redactions:
     show:
+      description: 'ਵੇਰਵਾ:'
+      user: ਸਿਰਜਣਹਾਰ
       confirm: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
+    update:
+      flash: ਤਬਦੀਲੀਆਂ ਸੰਭਾਲੀਆਂ ਗਈਆਂ ਹਨ।
+  validations:
+    invalid_characters: ਗਲਤ ਅੱਖਰ ਸ਼ਾਮਲ ਹਨ
+    url_characters: ਖਾਸ URL ਅੱਖਰ (%{characters}) ਸ਼ਾਮਲ ਹਨ
 ...

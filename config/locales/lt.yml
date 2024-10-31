@@ -140,7 +140,7 @@ lt:
         longitude: Ilguma
         public: Viešas
         description: Aprašymas
-        gpx_file: Įkelti GPX failą
+        gpx_file: Pasirinkite GPS sekimo failą
         visibility: Matomumas
         tagstring: Žymos
       message:
@@ -366,6 +366,7 @@ lt:
     deleted_ago_by_html: Ištrinta %{user} %{time_ago}
     edited_ago_by_html: Redaguota %{user} %{time_ago}
     version: Versija
+    redacted_version: Redaguota versija
     in_changeset: Pakeitimas
     anonymous: anonimas
     no_comment: (nėra komentaro)
@@ -382,7 +383,10 @@ lt:
       other: '%{count} kelių'
     download_xml: Atsisiųsti XML
     view_history: Žiūrėti istoriją
+    view_unredacted_history: Žiūrėti neredaguotą versiją
     view_details: Žiūrėti detales
+    view_redacted_data: Žiūrėti redaguotus duomenis
+    view_redaction_message: Žiūrėti redaguotą pranešimą
     location: 'Vieta:'
     node:
       title_html: 'Taškas: %{name}'
@@ -428,8 +432,7 @@ lt:
         note: pastaba
     timeout:
       title: Laiko pabaigos klaida
-      sorry: Atsiprašome, bet duomenys objekto su id %{id} ir tipo %{type} buvo ištraukiami
-        per ilgai.
+      sorry: Atsiprašome, bet %{type} su %{id} gauti užtruko per ilgai.
       type:
         node: taškas
         way: kelias
@@ -445,8 +448,8 @@ lt:
         way: kelias
         relation: ryšys
     start_rjs:
-      feature_warning: Įkeliami %{num_features} geoobjektai, todėl jūsų naršyklė gali
-        sulėtėti ir nesugebėti klausyti komandų. Ar tikrai norite rodyti šiuos duomenis?
+      feature_warning: Įkeliami %{num_features} objektai, todėl jūsų naršyklė gali
+        sulėtėti ar neatsakyti. Ar tikrai norite rodyti šiuos duomenis?
       load_data: Kraunami duomenys
       loading: Kraunama...
     tag_details:
@@ -465,9 +468,22 @@ lt:
       introduction: Spauskite ant žemėlapio, norėdami rasti gretimus objektus
       nearby: Artimi objektai
       enclosing: Gaubiantys objektai
+  ways:
+    timeout:
+      sorry: Atsiprašome, užtruko per ilgai gauti kelio, kurio id %{id}, duomenis.
+  old_ways:
+    not_found:
+      sorry: Atsiprašome, kelio %{id} %{version} versija nerasta.
+    timeout:
+      sorry: Atsiprašome, užtruko per ilgai gauti kelio, kurio id %{id}, istoriją.
+  relations:
+    timeout:
+      sorry: Atsiprašome, užtruko per ilgai gauti sąsają su id %{id}.
   old_relations:
     not_found:
       sorry: Atsiprašome, santykio %{id} versijos %{version} nepavyko rasti.
+    timeout:
+      sorry: Atsiprašome, užtruko per ilgai gauti sąsajos su id %{id} istoriją.
   changeset_comments:
     feeds:
       comment:
@@ -502,8 +518,23 @@ lt:
         created: Sukurtas
         closed: Uždarytas
         belongs_to: Autorius
+    subscribe:
+      heading: Prenumeruoti šią pakeitimų rinkinio diskusiją?
+      button: Prenumeruokite diskusiją
+    unsubscribe:
+      heading: Atsisakyti šio pakeitimų rinkinio diskusijos prenumeratos?
+      button: Atsisakyti diskusijos prenumeratos
+    heading:
+      title: Pakeitimų rinkinys %{id}
+      created_by_html: Sukūrė %{link_user} %{created}.
+    no_such_entry:
+      heading: 'Nėra įrašo su id: %{id}'
+      body: Atsiprašome, nėra pakeitimų rinkinio su id %{id}. Patikrinkite rašybą,
+        o gal nuoroda, kurią spustelėjote, yra neteisinga.
     show:
       title: 'Pakeitimas: %{id}'
+      created: 'Sukurta: %{when}'
+      closed: 'Uždaryta: %{when}'
       created_ago_html: Sukurta %{time_ago}
       closed_ago_html: Uždaryta %{time_ago}
       created_ago_by_html: Sukurta %{user} %{time_ago}
@@ -577,6 +608,9 @@ lt:
     show:
       title: '%{user} dienoraštis | %{title}'
       user_title: '%{user} dienoraštis'
+      discussion: Diskusija
+      subscribe: Prenumeruoti
+      unsubscribe: Atsisakyti prenumeratos
       leave_a_comment: Palikti komentarą
       login_to_leave_a_comment_html: '%{login_link}, kad paliktumėte komentarą'
       login: Prisijungti
@@ -618,6 +652,12 @@ lt:
       all:
         title: OpenStreetMap dienoraščio įrašai
         description: Paskutiniai OpenStreetMap naudotojų dienoraščių įrašai
+    subscribe:
+      heading: Užsiprenumeruoti šią dienoraščio įrašo diskusiją?
+      button: Prenumeruokite diskusiją
+    unsubscribe:
+      heading: Atsisakyti šios dienoraščio įrašo diskusijos prenumeratos?
+      button: Atsisakyti diskusijos prenumeratos
   diary_comments:
     index:
       title: Dienoraščio komentarus pridėjo %{user}
@@ -628,7 +668,18 @@ lt:
       post: Įrašas
       when: Kada
       comment: Komentaras
+    new:
+      heading: Pridėti komentarą prie šios dienoraščio įrašo diskusijos?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Autorizacijos serveris reikalauja galutinio naudotojo
+          abonemento pasirinkimo
+        consent_required: Autorizacijos serveriui reikalingas galutinio naudotojo
+          sutikimas
+        interaction_required: Autorizacijos serveris reikalauja galutinio naudotojo
+          sąveikos
+        login_required: Autorizacijos serveriui reikalingas galutinio naudotojo autentifikavimas
     flash:
       applications:
         create:
@@ -646,6 +697,10 @@ lt:
       contact_the_community_html: Jei radote neveikiančią nuorodą ar klaidą, prašome
         %{contact_link} su OpenStreetMap bendruomene. Prašome įrašyti tikslų užklausos
         universalųjį adresą (URL).
+    bad_request:
+      title: Bloga užklausa
+      description: Operacija, kurios paprašėte „OpenStreetMap“ serveryje, negalima
+        (HTTP 400)
     forbidden:
       title: Uždrausta
       description: Jūsų prašomas veiksmas OpenStreetMap serveryje yra leidžiamas tik
@@ -1428,6 +1483,7 @@ lt:
       title: Problemos
       select_status: Parinkite būseną
       select_type: Pasirinkite tipą
+      select_last_updated_by: Pasirinkite Paskutinį kartą atnaujino
       reported_user: Pranešęs naudotojas
       not_updated: Neatnaujinta
       search: Ieškoti
@@ -1439,6 +1495,7 @@ lt:
     page:
       user_not_found: Naudotojo nėra
       issues_not_found: Tokių problemų nerasta
+      reported_user: Praneštas naudotojas
       status: Būsena
       reports: Pranešimai
       last_updated: Paskutinis atnaujinimas
@@ -1449,6 +1506,10 @@ lt:
         many: '{%count} pranešimas'
         other: '%{count} pranešimų'
       reported_item: Praneštas elementas
+      states:
+        ignored: Ignoruota
+        open: Atidaryta
+        resolved: Išspręsta
     show:
       title: '%{status} Problema #%{issue_id}'
       reports:
@@ -1543,13 +1604,17 @@ lt:
     intro_header: Sveiki atvykę į OpenStreetMap!
     intro_text: OpenStreetMap yra pasaulio žemėlapis, kuriamas žmonių, tokių kaip
       jūs. Jis atviras ir laisvas - naudojamas pagal atvirą licenciją.
+    hosting_partners_2024_html: Prieglobą palaiko %{fastly}, %{corpmembers} ir kiti
+      %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: OSMF korporacijos nariai
     partners_partners: partneriai
     tou: Naudojimo sąlygos
     osm_offline: Šiuo metu OpenStreetMap duomenų bazė išjungta, nes vykdomi svarbūs
       priežiūros darbai.
     osm_read_only: OpenStreetMap duomenų bazė šiuo metu dirba tik skaitymo režimu,
       nes vykdomi esminiai priežiūros darbai.
+    nothing_to_preview: Nėra ką peržiūrėti.
     help: Pagalba
     about: Apie
     copyright: Teisės ir licencija
@@ -1558,6 +1623,7 @@ lt:
     more: Daugiau
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap dienoraščio įrašas #%{id}'
       subject: '[OpenStreetMap] %{user} pakomentavo dienoraščio įrašą'
       hi: Sveiki, %{to_user},
       header: '%{from_user} pakomentavo jūsų OpenStreetMap dienoraščio įrašą su tema
@@ -1568,6 +1634,8 @@ lt:
         galite adresu %{commenturl} arba nusiųsti žinutę autoriui adresu %{replyurl}
       footer_html: Jūs taip pat galite perskaityti komentarą %{readurl} ir pakomentuoti
         %{commenturl} arba nusiųsti žinutę autoriui %{replyurl}
+      footer_unsubscribe: Diskusijos prenumeratos galite atsisakyti %{unsubscribeurl}
+      footer_unsubscribe_html: Diskusijos prenumeratos galite atsisakyti %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Sveiki, %{to_user},
@@ -1587,18 +1655,30 @@ lt:
       befriend_them: 'Galite pridėti juos prie draugų: %{befriendurl}'
       befriend_them_html: Galite pridėti juos prie draugų %{befriendurl}
     gpx_description:
-      description_with_tags_html: 'Panašu, kad Jūsų GPX failas %{trace_name} su aprašymu
+      description_with_tags: 'Panašu, kad jūsų failas %{trace_name} su aprašymu %{trace_description}
+        ir šiomis žymomis: %{tags}'
+      description_with_tags_html: 'Panašu, kad jūsų failas %{trace_name} su aprašymu
         %{trace_description} ir šiomis žymomis: %{tags}'
-      description_with_no_tags_html: Panašu, kad Jūsų GPX failas %{trace_name} su
-        aprašymu %{trace_description} ir be žymų
+      description_with_no_tags: Panašu, kad jūsų failas %{trace_name} su aprašymu
+        %{trace_description} ir be žymų
+      description_with_no_tags_html: Panašu, kad jūsų failas %{trace_name} su aprašymu
+        %{trace_description} ir be žymų
     gpx_failure:
       hi: Sveiki, %{to_user},
-      failed_to_import: 'nebuvo sėkmingai importuotas. Štai klaidos pranešimas:'
+      failed_to_import: 'nepavyko importuoti kaip GPS sekimo failas. Patvirtinkite,
+        kad failas yra galiojantis GPX failas arba archyvas, kuriame yra palaikomo
+        formato GPX failas (-ai) (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Ar gali būti failo formato ar sintaksės problemų? Importavimo klaida:'
+      more_info: Daugiau informacijos apie GPX importo nesėkmes ir kaip jų išvengti
+        galima rasti %{url}.
       more_info_html: Daugiau informacijos apie GPX įkėlimo klaidas ir kaip jų išvengti
         rasite adresu %{url}
       subject: '[OpenStreetMap] Nepavyko įkelti pėdsako (GPX)'
     gpx_success:
       hi: Sveiki, %{to_user},
+      trace_location: Jūsų pėdsakai pasiekiami %{trace_url}
+      all_your_traces: Visus sėkmingai įkeltus GPX pėdsakus rasite %{url}
+      all_your_traces_html: Visus sėkmingai įkeltus GPX pėdsakus rasite %{url}.
       subject: '[OpenStreetMap] Sėkmingai įkeltas pėdsakas (GPX)'
     signup_confirm:
       subject: '[OpenStreetMap] Sveiki atvykę į OpenStreetMap'
@@ -1624,6 +1704,7 @@ lt:
       click_the_link: Jei tai jūs, paspauskite žemiau esančią nuorodą, kad iš naujo
         nustatytumėte slaptažodį.
     note_comment_notification:
+      description: 'OpenStreetMap pastaba #%{id}'
       anonymous: Anoniminis naudotojas
       greeting: Sveiki,
       commented:
@@ -1658,9 +1739,10 @@ lt:
           Pastaba yra netoli %{place}.'
         commented_note_html: '%{commenter} pakartotinai aktyvavo žemėlapio pastabą,
           kurią Jūs pakomentavote. Pastaba yra netoliese %{place}.'
-      details: Daugiau informacijos apie pastabą galima rasti %{url}.
-      details_html: Daugiau informacijos apie pastabą galima rasti %{url}.
+      details: Atsakykite arba sužinokite daugiau apie pastabą %{url}.
+      details_html: Atsakykite arba sužinokite daugiau apie pastabą %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap pakeitimų rinkinys #%{id}'
       hi: Sveiki, %{to_user},
       commented:
         subject_own: '[OpenStreetMap] %{commenter} pakomentavo vieną iš jūsų pakeitimų'
@@ -1675,12 +1757,12 @@ lt:
         partial_changeset_with_comment: su komentaru '%{changeset_comment}'
         partial_changeset_with_comment_html: su komentaru '%{changeset_comment}'
         partial_changeset_without_comment: be komentaro
-      details: Daugiau informacijos apie pakeitimą rasite čia %{url}.
-      details_html: Daugiau informacijos apie pakeitimą rasite adresu %{url}.
-      unsubscribe: Jei norite atsisakyti šio pakeitimo atnaujinimų, eikite į %{url}
-        ir spauskite „Atsisakyti“.
-      unsubscribe_html: Jei norite atsisakyti šio pakeitimo atnaujinimų, atidarykite
-        šią nuorodą %{url} ir spauskite „Atsisakyti“.
+      details: Atsakykite arba sužinokite daugiau apie pakeitimų rinkinį %{url}.
+      details_html: Atsakykite arba sužinokite daugiau apie pakeitimų rinkinį %{url}.
+      unsubscribe: Galite atsisakyti šio pakeitimų rinkinio naujinių prenumeratos
+        %{url}.
+      unsubscribe_html: Galite atsisakyti šio pakeitimų rinkinio naujinių prenumeratos
+        %{url}.
   confirmations:
     confirm:
       heading: Patikrinkite savo pašto dėžutę!
@@ -1760,18 +1842,18 @@ lt:
     muted:
       title: Nutildyti pranešimai
     reply:
-      wrong_user: Jūs prisijungęs kaip „%{user}“, bet pranešimas, kuriuo jūsų prašyta
-        atsakyti, nebuvo nusiųstas tam naudotojui. Prisijunkite prie teisingos naudotojo
-        paskyros, jei norite atsakyti.
+      wrong_user: Jūs prisijungę kaip „%{user}“, bet pranešimas, į kurį rašyta atsakyti,
+        nebuvo siųstas tam naudotojui. Prisijunkite prie teisingos naudotojo paskyros,
+        jei norite atsakyti.
     show:
       title: Skaityti pranešimą
       reply_button: Atsakyti
       unread_button: Pažymėti neperskaitytu
       destroy_button: Trinti
       back: Grįžti
-      wrong_user: Jūs prisijungęs kaip „%{user}“, bet pranešimas, kurį jūsų prašyta
-        perskaityti, nebuvo nusiųstas to ar tam naudotojui. Prisijunkite prie teisingos
-        naudotojo paskyros, jei norite tai perskaityti.
+      wrong_user: Jūs prisijungę kaip „%{user}“, bet pranešimas, kuri prašėte perskaityti,
+        nebuvo siųstas tam naudotojui. Prisijunkite prie teisingos naudotojo paskyros,
+        jei norite perskaityti.
     sent_message_summary:
       destroy_button: Ištrinti
     heading:
@@ -1795,6 +1877,9 @@ lt:
       help_text: Įveskite elektroninio pašto adresą, kurį naudojote užsiregistruodami.
         Mes atsiųsime nuorodą į elektroninį paštą, kurią galėsite naudoti norėdami
         iš naujo nustatyti slaptažodį.
+    create:
+      send_paranoid_instructions: Jei jūsų el. pašto adresas yra mūsų duomenų bazėje,
+        po kelių minučių į savo el. pašto adresą gausite slaptažodžio atkūrimo nuorodą.
     edit:
       title: Iš naujo nustatyti slaptažodį
       heading: Iš naujo nustatyti naudotojo %{user} slaptažodį
@@ -1846,12 +1931,14 @@ lt:
   sessions:
     new:
       tab_title: Prisijungti
+      login_to_authorize_html: Prisijunkite prie OpenStreetMap, kad pasiektumėte %{client_app_name}.
       email or username: 'El. pašto adresas ar naudotojo vardas:'
       password: Slaptažodis
       remember: Prisiminti prisijungimą
       lost password link: Pamiršote slaptažodį?
       login_button: Prisijungti
-      with external: 'Alternatyviai, naudokite trečią šalį prisijungimui:'
+      with external: arba prisijunkite naudodami trečiąją šalį
+      or: ar
       auth failure: Atsiprašome, negalite prisijungti su tokiais duomenimis.
     destroy:
       title: Atsijungti
@@ -1880,6 +1967,7 @@ lt:
     richtext_field:
       edit: Redaguoti
       preview: Peržiūrėti
+      help: Pagalba
     pagination:
       diary_comments:
         older: Senesni komentarai
@@ -1887,9 +1975,18 @@ lt:
       diary_entries:
         older: Senesni įrašai
         newer: Naujesni įrašai
+      issues:
+        older: Senesnės problemos
+        newer: Naujesnės problemos
       traces:
         older: Senesni pėdsakai
         newer: Naujesni pėdsakai
+      user_blocks:
+        older: Senesni blokavimai
+        newer: Naujesni blokavimai
+      users:
+        older: Senesni naudotojai
+        newer: Naujesni naudotojai
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} bendradarbiai'
@@ -1902,6 +1999,14 @@ lt:
         orotofoto nuotraukas, GPS įrenginius ir paprastus lauko žemėlapius, tikrindami,
         kad OSM duomenys yra teisingi ir aktualūs.
       community_driven_title: Bendruomenės vystomas
+      community_driven_1_html: |-
+        OpenStreetMap bendruomenė yra įvairi, aistringa ir auga kiekvieną dieną.
+        Mūsų bendradarbiai yra entuziastai žemėlapių kūrėjai, GIS profesionalai, inžinieriai
+        jie valdo OSM serverius, humanitarai apibrėžia stichinių nelaimių paveiktas teritorijas
+        ir daug daugiau.
+        Norėdami sužinoti daugiau apie bendruomenę, apsilankykite %{osm_blog_link},
+        %{user_diaries_link}, %{community_blogs_link} ir
+        %{osm_foundation_link} svetainėje.
       community_driven_osm_blog: OpenStreetMap tinklaraštis
       community_driven_user_diaries: naudotojų dienoraščiai
       community_driven_community_blogs: bendruomenių tinklaraščiai
@@ -1927,6 +2032,8 @@ lt:
         Prašome %{contact_the_osmf_link}
         Jei turite licencijų, autorių teisių ar kitų teisinių klausimų.
       legal_2_1_contact_the_osmf: susisiekti su OSMF
+      legal_2_2_html: OpenStreetMap, didinamojo stiklo logotipas ir žemėlapio būsena
+        yra %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: OSMF registruotie prekių ženklai
       partners_title: Partneriai
     copyright:
@@ -1950,6 +2057,12 @@ lt:
         introduction_1_open_data: atviri duomenys
         introduction_1_odc_odbl: Open Data Commons Open Database licencija
         introduction_1_osm_foundation: OpenStreetMap fondas
+        introduction_2_html: Galite laisvai kopijuoti, platinti, perduoti ir pritaikyti
+          mūsų duomenis, jei tik nurodysite OpenStreetMap ir jo pagalbininkus. Jei
+          pakeisite arba remsitės mūsų duomenimis, rezultatus galite platinti tik
+          pagal tą pačią licenciją. Pilnas %{legal_code_link} paaiškina jūsų teises
+          ir pareigas.
+        introduction_2_legal_code: teisinis kodas
         introduction_3_html: Mūsų dokumentai yra licencijuoti pagal %{creative_commons_link}
           licenciją (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
@@ -1959,7 +2072,20 @@ lt:
         credit_2_1: Nurodykite priskyrimą naudojant OpenStreetMap autorių teisių pranešimą.
         credit_2_2: Paaiškinkite, kad duomenys yra prieinami pagal atviros duomenų
           bazės licenciją.
+        credit_3_html: |-
+          Autorių teisių įspėjimui taikome skirtingus reikalavimus,
+          atsižvelgiant į tai, kaip naudojate mūsų duomenis. Pavyzdžiui, taikomos skirtingos
+          taisyklės, kaip rodyti pranešimą apie autorių teises, atsižvelgiant į tai, ar
+          sukūrėte naršomą žemėlapį, spausdintą žemėlapį ar statinį vaizdą. Visą informaciją apie
+          reikalavimus rasite %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: Priskyrimo gairės
+        credit_4_1_html: "Kad būtų aišku, duomenys yra prieinami pagal Open\nDatabase
+          licenciją, galite nurodyti į %{this_copyright_page_link}.\nAlternatyviai
+          arba, jei platinate OSM\nduomenų forma, galite pateikti nuorodą tiesiai
+          į licenciją (-as). Medijoje,\nkur nuorodos neįmanomos (pvz., spausdintuose
+          kūriniuose), siūlome\nnukreipti savo skaitytojus į openstreetmap.org (galbūt
+          išplečiant\n'OpenStreetMap' šiuo visu adresu) ir į opendatacommons.org.
+          \nŠiame pavyzdyje nuoroda rodoma žemėlapio kampe."
         credit_4_1_this_copyright_page: šį autorių teisių puslapį
         attribution_example:
           alt: Pavyzdys kaip galima priskirti paskyrimus OpenStreetMap svetainėje
@@ -1968,13 +2094,26 @@ lt:
         more_1_1_html: Skaitykite daugiau apie mūsų duomenų naudojimą ir kaip mums
           priskirti autorystę apsilankę %{osmf_licence_page_link}.
         more_1_1_osmf_licence_page: OSMF licencijos puslapis
+        more_2_1_html: Nors OpenStreetMap yra atvirų duomenų, mes negalime teikti
+          nemokamo žemėlapių API trečiosioms šalims. Žiūrėkite mūsų %{api_usage_policy_link},
+          %{tile_usage_policy_link} ir %{nominatim_usage_policy_link}.
         more_2_1_api_usage_policy: API naudojimo politika
+        more_2_1_tile_usage_policy: Plytelių naudojimo politika
+        more_2_1_nominatim_usage_policy: Nominatim naudojimo politika
         contributors_title_html: Mūsų autoriai
         contributors_intro_html: Mūsų autoriai yra tūkstančiai įvairių žmonių. Taip
           pat įtrauktas ir laisvai prieinamas turinys iš valstybinių kartografijos
           agentūrų bei įvairių kitų šaltinių.
+        contributors_at_credit_html: |-
+          %{austria}: yra duomenų iš %{stadt_wien_link} (pagal %{cc_by_link}), %{land_vorarlberg_link}
+          ir Land Tirol (pagal %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Austrija
+        contributors_at_stadt_wien: Vienos miestas
+        contributors_at_land_vorarlberg: Forarlbergo žemė
         contributors_at_cc_by_at_with_amendments: CC BY AT su pakeitimais
+        contributors_au_credit_html: |-
+          %{australia}: įtraukta arba sukurta naudojant administracines ribas © %{geoscape_australia_link}
+          licencijuota Australijos Sandraugos pagal %{cc_licence_link}.
         contributors_au_australia: Australija
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Creative Commons Attribution 4.0 tarptautinė licencija
@@ -2001,6 +2140,12 @@ lt:
           %{france}: yra duomenų iš
           Bendrojo mokesčių valdytojo.
         contributors_fr_france: Prancūzija
+        contributors_hr_credit_html: |-
+          %{croatia}: yra duomenų iš %{dgu_link} ir %{open_data_portal}
+          (vieša Kroatijos informacija).
+        contributors_hr_croatia: Kroatija
+        contributors_hr_dgu: Kroatijos valstybinė geodezijos administracija
+        contributors_hr_open_data_portal: Nacionalinis atvirų duomenų portalas
         contributors_nl_credit_html: '%{netherlands}: Yra &copy; AND duomenų, 2007
           (%{and_link})'
         contributors_nl_netherlands: Nyderlandai
@@ -2033,7 +2178,13 @@ lt:
         contributors_za_south_africa: Pietų Afrika
         contributors_za_ngi: 'Vyriausiasis direktoratas: Nacionalinė geografinė erdvinė
           informacija'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: yra Ordnance
+          apklausos duomenų © Karūnos autorių teisės ir duomenų bazės teisės 2010-2023.
         contributors_gb_united_kingdom: Jungtinė Karalystė
+        contributors_2_html: |-
+          Norėdami gauti daugiau informacijos apie šiuos ir kitus šaltinius, kurie buvo naudojami
+          siekiant pagerinti OpenStreetMap, žiūrėkite %{contributors_page_link} OpenStreetMap Viki.
         contributors_2_contributors_page: Pagalbininkų puslapis
         contributors_footer_2_html: Duomenų įtraukimas į OpenStreetMap nereiškia,
           kad originalių duomenų tiekėjas remia OpenStreetMap. Nenumatomos jokios
@@ -2044,6 +2195,8 @@ lt:
           leidimo naudoti.
         infringement_2_1_takedown_procedure: pašalinimo procedūra
         infringement_2_1_online_filing_page: pildymo internetu puslapis
+        trademarks_title: Prekių ženklai
+        trademarks_1_1_trademark_policy: Prekių ženklų politika
     index:
       js_1: Jūs arba naudojate naršyklę, nepalaikančią JavaScript, arba išjungėte
         JavaScript palaikymą.
@@ -2117,8 +2270,8 @@ lt:
         title: Pradedančiojo vadovas
         description: Bendruomenės palaikomas vadovas pradedantiesiems.
       community:
-        title: Bendruomenės forumas
-        description: Bendra vieta pokalbiams apie OpenStreetMap.
+        title: Pagalba ir bendruomenės forumas
+        description: Bendra vieta, kur galima ieškoti pagalbos ir kalbėtis apie „OpenStreetMap“.
       mailing_lists:
         title: El. pašto grupės
         description: Užduokite klausimą ar diskutuokite apie įdomius dalykus daugelyje
@@ -2148,6 +2301,8 @@ lt:
       change_preferences: Pakeiskite savo nustatymus čia
     any_questions:
       title: Turite klausimų?
+      get_help_here: Gaukite pagalbą čia
+      welcome_mat: Žiūrėkite pasveikinimą
     sidebar:
       search_results: Paieškos rezultatai
     search:
@@ -2168,6 +2323,7 @@ lt:
           primary: Pirmosios reikšmės kelias
           secondary: Antros reikšmės kelias
           unclassified: Neklasifikuotas kelias
+          pedestrian: Pėsčiųjų kelias
           track: Pėdsakas
           bridleway: Raitųjų takas
           cycleway: Dviračių takas
@@ -2231,6 +2387,9 @@ lt:
           hospital: Ligoninė
           building: Didelis pastatas
           station: Geležinkelio stotis
+          railway_halt: Geležinkelio sustojimas
+          subway_station: Metro stotis
+          tram_stop: Tramvajaus stotelė
           summit: Viršūnė
           peak: Viršukalnė
           tunnel: Punktyriniai kraštai = tiltas
@@ -2251,12 +2410,21 @@ lt:
         instrukcija su svarbiausiais dalykais, kuriuos turėtumėte žinoti.
       whats_on_the_map:
         title: Kas yra žemėlapyje
+        on_the_map_html: |-
+          „OpenStreetMap“ yra vieta žemėlapiams sudaryti, kur dalykai %{real_and_current} –
+          čia yra milijonai pastatų, kelių ir kitos informacijos apie vietas. Galite nustatyti
+          bet kokias jums įdomias realaus pasaulio funkcijas.
+        real_and_current: tikri ir dabartiniai
       basic_terms:
         title: Pagrindiniai žymėjimo terminai
         paragraph_1: OpenStreetMap turi savo žodyną. Čia keli pagrindiniai naudojami
           terminai/žodžiai.
+        an_editor_html: '%{editor} yra programa ar svetainėje, skirta redaguoti žemėlapį.'
+        a_node_html: '%{node} yra taškas žemėlapyje, pvz., restoranas ar medis.'
         a_way_html: '%{way} – tai linija arba teritorija, kaip kelias, upelis, ežeras
           ar pastatas.'
+        a_tag_html: '%{tag} yra šiek tiek duomenų apie tašką arba kelią, pvz., restorano
+          pavadinimas arba kelio greičio ribojimas.'
         editor: redaktorius
         node: taškas
         way: kelias
@@ -2280,6 +2448,9 @@ lt:
         Jos taip pat gali būti formalios arba neformalios.
       local_chapters:
         title: Vietiniai skyriai
+      other_groups:
+        title: Kitos grupės
+        communities_wiki: Bendruomenių viki puslapis
   traces:
     visibility:
       private: Privatus (dalinamas tik kaip anonimiškas, taškai nesurikiuoti)
@@ -2349,6 +2520,8 @@ lt:
       identifiable: IDENTIFIKUOJAMAS
       private: PRIVATUS
       trackable: ATSEKAMAS
+      details_with_tags_html: '%{time_ago}, %{user}, %{tags}'
+      details_without_tags_html: '%{time_ago} %{user}'
     index:
       public_traces: Vieši GPS pėdsakai
       my_gps_traces: Mano GPS pėdsakai
@@ -2396,29 +2569,33 @@ lt:
       account_settings: Paskyros nustatymai
       oauth2_applications: „OAuth 2“ programos
       oauth2_authorizations: „OAuth 2“ prieigos teisės
+      muted_users: Nutildyti naudotojai
     auth_providers:
+      openid_url: OpenID URL
+      openid_login_button: Tęsti
       openid:
-        title: Prisijunkite su OpenID
-        alt: Prisijunkite su OpenID URL
+        title: Prisijungti su OpenID
+        alt: OpenID logotipas
       google:
-        title: Prisijunkite su Google
-        alt: Prisijunkite su Google OpenID
+        title: Prisijungti su Google
+        alt: Google logotipas
       facebook:
         title: Prisijungti su Facebook
-        alt: Prisijungti su Facebook paskyra
+        alt: Facebook logotipas
       microsoft:
         title: Prisijungti su Microsoft
-        alt: Prisijungti su Microsoft paskyra
+        alt: Microsoft logotipas
       github:
         title: Prisijungti su GitHub
-        alt: Prisijungti su GitHub Paskyra
+        alt: GitHub logotipas
       wikipedia:
         title: Prisijungti su Vikipedija
-        alt: Prisijungti su Vikipedija Paskyra
+        alt: Vikipedijos logotipas
   oauth:
     permissions:
       missing: Jūs nesuteikėte leidimo programai pasiekti šios priemonės
     scopes:
+      openid: Prisijungti su OpenStreetMap
       read_prefs: Skaityti naudotojo parinktis
       write_prefs: Keisti naudotojo parinktis
       write_diary: Sukurti dienoraščio įrašus, komentarus ir pridėti draugus
@@ -2426,8 +2603,13 @@ lt:
       read_gpx: Skaityti privačius GPS pėdsakus
       write_gpx: Įkelti GPS pėdsakus
       write_notes: Keisti pastabas
+      write_redactions: Redaguoti žemėlapio duomenis
       read_email: Skaityti naudotojo el. pašto adresą
+      consume_messages: Skaityti, atnaujinti būseną ir ištrinti naudotojo pranešimus
+      send_messages: Siųsti asmenines žinutes kitiems naudotojams
       skip_authorization: Automatinis programos patvirtinimas
+    for_roles:
+      moderator: Šis leidimas skirtas veiksmams, prieinamiems tik moderatoriams
   oauth2_applications:
     index:
       title: Mano klientinės programos
@@ -2472,6 +2654,7 @@ lt:
       title: Mano programos su prieigos teisėmis
       application: Programa
       permissions: Leidimai
+      last_authorized: Paskutinį kartą įgaliota
       no_applications_html: Jūs dar nesuteikėte leidimų nei vienai programai naudojančiai
         %{oauth2}.
     application:
@@ -2480,21 +2663,41 @@ lt:
   users:
     new:
       title: Sukurti paskyrą
+      tab_title: Užsiregistruoti
+      signup_to_authorize_html: Prisiregistruokite naudodami „OpenStreetMap“, kad
+        pasiektumėte %{client_app_name}.
       no_auto_account_create: Deja šiuo metu negalime jums automatiškai sukurti paskyros.
+      please_contact_support_html: Susisiekite su %{support_link} dėl paskyros sukūrimo
+        – mes pasistengsime kuo greičiau išnagrinėti užklausą.
+      support: pagalba
       about:
-        header: Laisvas ir redaguojamas
+        header: Laisvas ir redaguojamas.
         paragraph_1: Skirtingai nuo kitų žemėlapių, OpenStreetMap žemėlapį visiškai
           sukūrė žmonės, tokie kaip tu, ir jį nemokamai gali taisyti, atnaujinti,
           atsisiųsti ir naudoti kiekvienas.
-        paragraph_2: Užsiregistruok ir pradėk prisidėti. Atsiųsime el. laišką, kad
-          patvirtintume tavo paskyrą.
+        paragraph_2: Užsiregistruokite ir prisidėkite.
+        welcome: Sveiki atvykę į OpenStreetMap
+      duplicate_social_email: Jei jau turite OpenStreetMap paskyrą ir norite naudoti
+        trečiosios šalies tapatybės teikėją, prisijunkite naudodami slaptažodį ir
+        pakeiskite paskyros nustatymus.
       display name description: Jūsų viešai rodomas naudotojo vardas. Jei norėsite,
         galėsite jį vėliau pakeisti savo nustatymuose.
       by_signing_up:
+        html: Prisiregistruodami sutinkate su mūsų %{tou_link}, %{privacy_policy_link}
+          ir %{contributor_terms_link}.
         privacy_policy: privatumo politika
+        contributor_terms: bendraautorių sąlygos
       continue: Užsiregistruoti
       terms accepted: Ačiū, kad patvirtinote naująsias talkininkų sąlygas!
-      use external auth: Alternatyviai, naudokite trečią šalį prisijungimui
+      email_help:
+        privacy_policy: privatumo politika
+        privacy_policy_title: OSMF privatumo politika, įskaitant skyrių apie el. pašto
+          adresus
+        html: Jūsų adresas nerodomas viešai, daugiau informacijos rasite mūsų %{privacy_policy_link}.
+      consider_pd_html: Manau, kad mano indėlis yra %{consider_pd_link}.
+      consider_pd: viešo domeno
+      or: ar
+      use external auth: arba prisijunkite naudodami trečiąją šalį
     terms:
       title: Sąlygos
       heading: Sąlygos
@@ -2503,10 +2706,18 @@ lt:
         sąlygas, tai padarius, pažymėti abi varneles ir tada spausti tęsimo mygtuką.
       contributor_terms_explain: Ši sutartis valdo jūsų dabartinį ir būsimą indėlį.
       read_ct: Aš perskaičiau ir sutinku su aukščiau pateiktomis talkininko sąlygomis
+      tou_explain_html: Šie %{tou_link} reglamentuoja svetainės ir kitos OSMF teikiamos
+        infrastruktūros naudojimą. Prašome paspausti nuorodą, perskaityti ir sutikti
+        su tekstu.
       read_tou: Aš perskaičiau ir sutinku su naudojimo sąlygomis
       consider_pd: Be pirmiau paminėtų, laikau, kad mano indėlis būtų Viešo Naudojimo
       consider_pd_why: kas tai?
+      guidance_info_html: 'Informacija, padedanti suprasti šiuos terminus: %{readable_summary_link}
+        ir kai kurie %{informal_translations_link}'
+      readable_summary: žmogui skirta santrauka
+      informal_translations: neformalūs vertimai
       continue: Tęsti
+      cancel: Atšaukti
       you need to accept or decline: Norėdami tęsti perskaitykite ir sutikite, arba
         nesutikite su Talkininkų sąlygomis.
       legale_select: 'Gyvenamoji vieta:'
@@ -2515,6 +2726,8 @@ lt:
         italy: Italija
         rest_of_world: Likęs pasaulis
     terms_declined_flash:
+      terms_declined_html: Apgailestaujame, kad nusprendėte nesutikti su naujomis
+        bendraautoriu sąlygomis. Norėdami gauti daugiau informacijos, žr. %{terms_declined_link}.
       terms_declined_link: šis viki puslapis
     no_such_user:
       title: Nėra tokio naudotojo
@@ -2535,6 +2748,8 @@ lt:
       my_dashboard: Mano valdymo skydelis
       blocks on me: Apribojimai man
       blocks by me: Mano sukurti apribojimai
+      create_mute: Nutildyti šį naudotoją
+      destroy_mute: Nebetildyti šio naudotojo
       edit_profile: Redaguoti profilį
       send message: Siųsti žinutę
       diary: Dienoraštis
@@ -2544,6 +2759,9 @@ lt:
       remove as friend: Nebedraugauti
       add as friend: Pridėti draugą
       mapper since: 'Žymi nuo:'
+      last map edit: 'Paskutinis žemėlapio keitimas:'
+      no activity yet: Kol kas nėra veiklos
+      uid: 'Naudotojo id:'
       ct status: Talkininkų sąlygos
       ct undecided: Nenuspręsta
       ct declined: Atmesta
@@ -2554,14 +2772,18 @@ lt:
       role:
         administrator: Šis naudotojas yra administratorius
         moderator: Šis naudotojas yra moderatorius
+        importer: Šis naudotojas yra importuotojas
         grant:
           administrator: Suteikti administratoriaus teises
           moderator: Suteikti moderatoriaus teises
+          importer: Suteikti importuotojui prieigą
         revoke:
           administrator: Atšaukti administratoriaus teises
           moderator: Atšaukti moderatoriaus teises
+          importer: Atšaukti importuotojo prieigą
       block_history: Aktyvūs blokavimai
       moderator_history: Gauti užblokavimai
+      revoke_all_blocks: Atšaukti visus blokavimus
       comments: Komentarai
       create_block: Blokuoti šį naudotoją
       activate_user: Aktyvuoti šį naudotoją
@@ -2605,9 +2827,9 @@ lt:
         Jei esate naujokas OpenStreetMap, prašome sukurti naują paskyrą
         naudodami žemiau pateiktą formą.
       option_2: |-
-        Jei jau turite sąskaitą, galite prisijungti prie savo sąskaitos
-        naudodami savo vartotojo vardą ir slaptažodį, ir tada susieti paskyrą
-        su savo ID, savo vartotojo nustatymuose.
+        Jei jau turite paskyrą, galite prisijungti prie savo paskyros
+        naudodami savo naudotojo vardą ir slaptažodį, ir tada susieti paskyrą
+        su savo ID, savo naudotojo nustatymuose.
   user_role:
     filter:
       not_a_role: Eilutė „%{role}“ nėra tinkama rolė.
@@ -2636,6 +2858,7 @@ lt:
       heading_html: Keičiamas naudotojo %{name} blokavimas
       period: Kiek laiko, pradedant nuo šios minutės, naudotojui bus uždrausta naudotis
         API.
+      revoke: Atšaukti blokavimą
     filter:
       block_period: Blokavimo periodo reikšmė turi būti pasirinkta iš iškrentančio
         sąrašo.
@@ -2643,11 +2866,24 @@ lt:
       flash: Naudotojas %{name} užblokuotas.
     update:
       only_creator_can_edit: Tik šį blokavimą sukūręs moderatorius gali jį keisti.
+      only_creator_can_edit_without_revoking: Tik šį blokavimą sukūręs moderatorius
+        gali jį keisti jo nepašalinant.
+      only_creator_or_revoker_can_edit: Tik šį blokavimą sukūręs ar atšaukęs moderatorius
+        gali jį keisti.
+      inactive_block_cannot_be_reactivated: Šis blokavimas neaktyvus ir jo negalima
+        iš naujo suaktyvinti.
       success: Blokavimas atnaujintas.
     index:
       title: Naudotojų blokavimai
       heading: Naudotojo blokavimų sąrašas
       empty: Niekas dar nebuvo blokuojamas.
+    revoke_all:
+      title: Atšaukiami visi %{block_on} blokavimai
+      heading_html: Atšaukiami visi %{block_on} blokavimai
+      empty: '%{name} neturi aktyvių blokavimų.'
+      confirm: Ar tikrai norite atšaukti %{active_blocks}?
+      revoke: Atšaukti!
+      flash: Visi aktyvūs blokavimai atšaukti.
     helper:
       time_future_html: Baigiasi po %{time}.
       until_login: Aktyvus iki naudotojo prisijungimo.
@@ -2707,6 +2943,31 @@ lt:
       reason: Blokavimo priežastis
       status: Būsena
       revoker_name: Atšaukė
+    navigation:
+      all_blocks: Visi blokavimai
+      blocks_on_me: Mano blokavimai
+      blocks_on_user: '%{user} blokavimai'
+      blocks_by_me: Mano sukurti blokavimai
+      blocks_by_user: '%{user} sukurti blokavimai'
+      block: 'Blokavimas #%{id}'
+      new_block: Naujas blokavimas
+  user_mutes:
+    index:
+      title: Nutildyti naudotojai
+      my_muted_users: Mano nutildyti naudotojai
+      table:
+        thead:
+          muted_user: Nutildytas naudotojas
+          actions: Veiksmai
+        tbody:
+          unmute: Nebetildyti
+          send_message: Siųsti žinutę
+    create:
+      notice: Nutildėte %{name}.
+      error: '%{name} nepavyko nutildyti. %{full_message}.'
+    destroy:
+      notice: Nebetildote %{name}.
+      error: Nepavyko nebetildyti naudotojo. Bandykite dar kartą.
   notes:
     index:
       title: Pastabas pateikė arba komentavo %{user}

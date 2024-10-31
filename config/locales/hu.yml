@@ -151,7 +151,7 @@ hu:
         longitude: Földrajzi hosszúság
         public: Nyilvános
         description: Leírás
-        gpx_file: GPX fájl feltöltése
+        gpx_file: GPX fájl kiválasztása
         visibility: Láthatóság
         tagstring: Címkék
       message:
@@ -366,6 +366,7 @@ hu:
     view_unredacted_history: Módosítatlan előzményeket megtekintése
     view_details: Részletek megtekintése
     view_redacted_data: Módosított előzményeket megtekintése
+    view_redaction_message: Adattörlési üzenet megtekintése
     location: 'Hely:'
     node:
       title_html: '%{name} pont'
@@ -444,15 +445,36 @@ hu:
       introduction: Kattints a térképre a közeli objektumok megtalálásához.
       nearby: Közeli objektumok
       enclosing: A helyet körülvevő objektumok
+  nodes:
+    timeout:
+      sorry: Sajnáljuk, a %{id} azonosítójú csomópont adatainak lekérése túl sokáig
+        tartott.
   old_nodes:
     not_found:
       sorry: 'Sajnáljuk, nem található meg #%{id} pont %{version} verziója.'
+    timeout:
+      sorry: Sajnáljuk, a %{id} azonosítójú csomópont előzményeinek lekérése túl sokáig
+        tartott.
+  ways:
+    timeout:
+      sorry: Sajnáljuk, a %{id} azonosítójú úthoz tartozó adatok lekérése túl sokáig
+        tartott.
   old_ways:
     not_found:
       sorry: 'Sajnáljuk, nem található meg #%{id} vonal %{version} verziója.'
+    timeout:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú út előzményeinek lekérése túl sokáig
+        tartott.
+  relations:
+    timeout:
+      sorry: Sajnáljuk, a %{id} azonosítójú reláció adatainak lekérése túl sokáig
+        tartott.
   old_relations:
     not_found:
       sorry: 'Sajnáljuk, nem található meg #%{id} kapcsolat %{version} verziója.'
+    timeout:
+      sorry: Sajnáljuk, a %{id} azonosítójú reláció előzményeinek lekérése túl sokáig
+        tartott.
   changeset_comments:
     feeds:
       comment:
@@ -580,6 +602,8 @@ hu:
       title: '%{user} naplója | %{title}'
       user_title: '%{user} naplója'
       discussion: Megbeszélés
+      subscribe: Feliratkozás
+      unsubscribe: Leiratkozás
       leave_a_comment: Hozzászólás
       login_to_leave_a_comment_html: '%{login_link} a hozzászóláshoz'
       login: Bejelentkezés
@@ -638,6 +662,8 @@ hu:
       post: Bejegyzés
       when: Mikor
       comment: Hozzászólás
+    new:
+      heading: Hozzáfűzől egy megjegyzést a következő naplóhozzászóláshoz?
   doorkeeper:
     errors:
       messages:
@@ -678,6 +704,9 @@ hu:
       contact_the_community_html: Nyugodtan keresd fel az OpenStreetMap közösséget
         (%{contact_link}), ha hibás linket vagy más hibát találtál. Kérjük, ne felejtsd
         el feljegyezni a hibás oldal pontos URL-jét.
+    bad_request:
+      title: Rossz kérés
+      description: Az OpenStreetMap szerveren kért művelet nem érvényes (HTTP 400)
     forbidden:
       title: Tiltott
       description: Az OpenStreetMap szerveren kért művelet csak a rendszergazdáknak
@@ -871,6 +900,7 @@ hu:
           college: Főiskolai épület
           commercial: Kereskedelmi épület
           construction: Épülő épület
+          cowshed: Tehénistálló
           detached: Családi ház
           dormitory: Kollégiumépület
           duplex: Ikerház
@@ -900,6 +930,7 @@ hu:
           shed: Fészer
           stable: Lóistálló
           static_caravan: Álló lakókocsi
+          sty: Disznóól
           temple: Nem keresztény templomépület
           terrace: Sorház
           train_station: Vasútállomás-épület
@@ -1498,6 +1529,7 @@ hu:
     page:
       user_not_found: A felhasználó nem létezik
       issues_not_found: Nem található ilyen probléma
+      reported_user: Bejelentett felhasználó
       status: Állapot
       reports: Bejelentések
       last_updated: Utoljára frissítve
@@ -1506,6 +1538,10 @@ hu:
         one: '%{count} bejelentés'
         other: '%{count} bejelentés'
       reported_item: Jelentett elem
+      states:
+        ignored: Mellőzve
+        open: Nyitva
+        resolved: Megoldva
     show:
       title: '#%{issue_id} probléma %{status}'
       reports:
@@ -1606,6 +1642,7 @@ hu:
       munkát végeznek.
     osm_read_only: Az OpenStreetMap-adatbázis jelenleg csak olvasható, miközben alapvető
       adatbázis-karbantartási munkát végeznek.
+    nothing_to_preview: Nincs mit megtekinteni.
     help: Súgó
     about: Névjegy
     copyright: Szerzői jog és licenc
@@ -1645,13 +1682,23 @@ hu:
       befriend_them: 'Te is hozzáadhatod ismerősként itt: %{befriendurl}.'
       befriend_them_html: 'Te is hozzáadhatod ismerősként itt: %{befriendurl}'
     gpx_description:
+      description_with_tags: Úgy tűnik, a te %{trace_name} nevű, %{trace_description}
+        leírással és %{tags} címkékkel rendelkező fájlod
       description_with_tags_html: Úgy tűnik, a te %{trace_name} nevű, %{trace_description}
-        leírással és %{tags} címkékkel rendelkező GPX fájlod
+        leírással és %{tags} címkékkel rendelkező fájlod
+      description_with_no_tags: Úgy tűnik, a te %{trace_name} nevű, %{trace_description}
+        leírású, címke nélküli fájlod
       description_with_no_tags_html: Úgy tűnik, a te %{trace_name} nevű, %{trace_description}
-        leírású, címke nélküli GPX fájlod
+        leírású, címke nélküli fájlod
     gpx_failure:
       hi: Szia %{to_user}!
-      failed_to_import: 'importálása sikertelen. Ez a hiba:'
+      failed_to_import: 'nem sikerült GPS nyomkövetési fájlként importálni. Kérjük,
+        ellenőrizze, hogy a fájl egy érvényes GPX-fájl vagy egy GPX-fájl(oka)t tartalmazó
+        archívum a támogatott formátumban (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2). . Formátum- vagy szintaktikai probléma lehet a fájllal? Itt van
+        az importálási hiba:'
+      more_info: 'További információ a GPX importálási hibáiról és azok elkerüléséről
+        itt található: %{url}.'
       more_info_html: 'A GPX importálási hibákról és elkerülésükről további tájékoztatás
         olvasható itt: %{url}.'
       subject: '[OpenStreetMap] Sikertelen GPX importálás'
@@ -1661,6 +1708,9 @@ hu:
         one: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points} ponttal.
         other: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points}
           ponttal.
+      trace_location: 'Nyomkövetése itt érhető el: %{trace_url}'
+      all_your_traces: 'Az összes sikeresen feltöltött GPX nyomkövetés megtalálható
+        itt: %{url}'
       all_your_traces_html: 'Az összes sikeresen feltöltött GPX nyomkövetés megtalálható
         itt: %{url}.'
       subject: '[OpenStreetMap] Sikeres GPX importálás'
@@ -1722,8 +1772,8 @@ hu:
           A jegyzet %{place} közelében van.'
         commented_note_html: '%{commenter} újra megnyitott egy jegyzetet, amelyhez
           hozzászóltál. A jegyzet %{place} közelében van.'
-      details: 'A jegyzetről további részletek találhatók itt: %{url}.'
-      details_html: 'A jegyzetről további részletek találhatók itt: %{url}.'
+      details: 'Válaszolj vagy tudj meg többet a jegyzetről itt: %{url}.'
+      details_html: 'Válaszolj vagy tudj meg többet a jegyzetről itt: %{url}.'
     changeset_comment_notification:
       description: 'OpenStreetMap módosításcsomag #%{id}'
       hi: Szia %{to_user}!
@@ -1742,8 +1792,8 @@ hu:
         partial_changeset_with_comment: „%{changeset_comment}” hozzászólással
         partial_changeset_with_comment_html: '%{changeset_comment} hozzászólással'
         partial_changeset_without_comment: hozzászólás nélkül
-      details: 'A módosításcsomagról további részletek találhatók itt: %{url}.'
-      details_html: 'A módosításcsomagról további részletek találhatók itt: %{url}.'
+      details: 'Válaszolj, vagy tudj meg többet a változtatásokról itt: %{url}.'
+      details_html: 'Válaszolj, vagy tudj meg többet a változtatásokról itt: %{url}.'
       unsubscribe: 'Az ehhez a módosításcsomaghoz tartozó frissítésekről való leiratkozáshoz
         látogass el a következő oldalra: %{url}.'
       unsubscribe_html: 'Az ehhez a módosításcsomaghoz tartozó frissítésekről való
@@ -1916,12 +1966,15 @@ hu:
   sessions:
     new:
       tab_title: Bejelentkezés
+      login_to_authorize_html: Jelentkezz be az OpenStreetMap alkalmazásba a %{client_app_name}
+        eléréséhez.
       email or username: E-mail-cím vagy felhasználónév
       password: Jelszó
       remember: Emlékezz rám
       lost password link: Elfelejtetted a jelszavad?
       login_button: Bejelentkezés
-      with external: 'Alternatívaként használj külső fiókot a bejelentkezéshez:'
+      with external: vagy használj külső fiókot a bejelentkezéshez
+      or: vagy
       auth failure: Sajnáljuk, ilyen adatokkal nem tudsz bejelentkezni.
     destroy:
       title: Kijelentkezés
@@ -1951,6 +2004,7 @@ hu:
     richtext_field:
       edit: Szerkesztés
       preview: Előnézet
+      help: Súgó
     pagination:
       diary_comments:
         older: Régebbi hozzászólások
@@ -1958,6 +2012,9 @@ hu:
       diary_entries:
         older: Régebbi bejegyzések
         newer: Újabb bejegyzések
+      issues:
+        older: Régebbi problémák
+        newer: Újabb problémák
       traces:
         older: Régebbi nyomvonalak
         newer: Újabb nyomvonalak
@@ -2091,27 +2148,73 @@ hu:
         contributors_at_land_vorarlberg: Vorarlberg tartomány
         contributors_at_land_vorarlberg_url: https://vorarlberg.at/-/wms-dienste
         contributors_at_cc_by_at_with_amendments: módosított CC BY AT
+        contributors_au_credit_html: |-
+          %{australia}: Az adminisztratív határok © %{geoscape_australia_link}
+          felhasználása, illetve fejlesztése az Ausztrál Nemzetközösség által a %{cc_licence_link} alatt.
         contributors_au_australia: Ausztrália
         contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Creative Commons Nevezd meg! 4.0 nemzetközi licenc
+          (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: adatokat tartalmaz a következő forrásokból:
+          GeoBase®, GeoGratis (© Department of Natural
+          Resources Canada), CanVec (© Department of Natural
+          Resources Canada), és StatCan (Geography Division,
+          Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: |-
+          %{czechia}: Az Állami Földmérési
+          and Kataszteri Hivatal adatait tartalmazza, a %{cc_licence_link} licenc alatt
         contributors_cz_czechia: Csehország
+        contributors_cz_cc_licence: Creative Commons Nevezd meg! 4.0 nemzetközi licenc
+          (CC BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: A Finnországi Topográfiai Adatbázis
+          National Land Survey adatait és más adatkészleteket tartalmazza a %{nlsfi_license_link} alatt.
         contributors_fi_finland: Finnország
         contributors_fi_nlsfi_license: NLSFI licenc
         contributors_fr_credit_html: '%{france}: adatokat tartalmaz a következő forrásból:
           Direction Générale des Impôts.'
         contributors_fr_france: Franciaország
+        contributors_hr_credit_html: '%{croatia}: adatokat tartalmaz a következő forrásokból:
+          %{dgu_link} és %{open_data_portal} (Horvátország nyilvános információi)'
+        contributors_hr_croatia: Horvátország
+        contributors_hr_dgu: Horvátországi Állami Geodéziai Igazgatóság
+        contributors_hr_open_data_portal: Országos Nyílt Adat Portál
         contributors_nl_credit_html: '%{netherlands}: &copy; AND adatokat tartalmaz,
           2007 (%{and_link})'
         contributors_nl_netherlands: Hollandia
+        contributors_nz_credit_html: '%{new_zealand}: adatokat tartalmaz a következő
+          forrásból: %{linz_data_service_link} és újrafelhasználásra licencelve %{cc_by_link}
+          alatt.'
         contributors_nz_new_zealand: Új-Zéland
+        contributors_nz_linz_data_service: LINZ Data Service
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: '%{serbia}: adatokat tartalmaz az alábbi forrásból:
+          %{rgz_link} és %{open_data_portal} (Szerbia nyilvános információi), 2018.'
         contributors_rs_serbia: Szerbia
         contributors_rs_rgz: Szerb Geodéziai Hatóság
+        contributors_rs_open_data_portal: Országos Nyílt Adat Portál
+        contributors_si_credit_html: '%{slovenia}: adatokat tartalmazz az alábbi forrásból:
+          %{gu_link} és %{mkgp_link} (Szlovénia nyilvános információi).'
         contributors_si_slovenia: Szlovénia
+        contributors_si_gu: Földmérési és Térképészeti Hatóság
         contributors_si_mkgp: Mezőgazdasági, Erdészeti és Élelmiszerügyi Minisztérium
+        contributors_es_credit_html: |-
+          %{spain}: A
+          Spanish National Geographic Institute-tól (%{ign_link}) és
+          National Cartographic System-től (%{scne_link})
+          -től származó adatokat tartalmaz, amelyeket a %{cc_by_link} alatt újrafelhasználhatóak.
         contributors_es_spain: Spanyolország
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: A %{ngi_link} forrásból származó
+          adatokat tartalmazza, az állam szerzői joga fenntartva.'
         contributors_za_south_africa: Dél-Afrika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
         contributors_gb_united_kingdom: Egyesült Királyság
+        contributors_2_html: Ezekről és más, az OpenStreetMap fejlesztésére használt
+          forrásokról további részletekért tekintsd meg a %{contributors_page_link}
+          részt az OpenStreetMap Wikin.
         contributors_2_contributors_page: Közreműködők oldala
         contributors_footer_2_html: Az adatok befoglalása az OpenStreetMapbe nem jelenti
           azt, hogy az eredeti adatszolgáltató támogatja az OpenStreetMapet, garanciát
@@ -2121,6 +2224,11 @@ hu:
           ne adjanak hozzá adatokat egyetlen szerzői jogvédett forrásból se (pl. Google
           Térkép vagy nyomtatott térképek) a szerzői jog tulajdonosának kifejezett
           engedélye nélkül.
+        infringement_2_1_html: |-
+          Ha úgy gondolod, hogy a szerzői jog által védett anyagokat nem megfelelően adták hozzá az OpenStreetMap adatbázishoz vagy ehhez az oldalhoz, kérjük, tekintsd meg
+          %{takedown_procedure_link} oldalunkat, vagy fájlokat közvetlenül a
+          %{online_filing_page_link} címen.
+        infringement_2_1_takedown_procedure: eltávolítási eljárás
         infringement_2_1_online_filing_page: on-line bejelentési oldal
         trademarks_title: Védjegyek
         trademarks_1_1_html: |-
@@ -2326,6 +2434,9 @@ hu:
           hospital: Kórház
           building: Fontosabb épület
           station: Vasútállomás
+          railway_halt: Vasúti megálló
+          subway_station: Metrómegálló
+          tram_stop: Villamosmegálló
           summit: Hegycsúcs
           peak: Hegycsúcs
           tunnel: Szaggatott szegély = alagút
@@ -2476,6 +2587,7 @@ hu:
       identifiable: AZONOSÍTHATÓ
       private: NEM NYILVÁNOS
       trackable: NYOMKÖVETHETŐ
+      details_with_tags_html: '%{time_ago}, %{user} itt: %{tags}'
       details_without_tags_html: '%{user} által %{time_ago}'
     index:
       public_traces: Nyilvános GPS-nyomvonalak
@@ -2524,24 +2636,26 @@ hu:
       oauth2_authorizations: OAuth 2 engedélyek
       muted_users: Elnémított felhasználók
     auth_providers:
+      openid_url: OpenID URL
+      openid_login_button: Folytatás
       openid:
         title: Bejelentkezés OpenID-vel
-        alt: Bejelentkezés OpenID-URL-lel
+        alt: OpenID-logó
       google:
         title: Bejelentkezés Google-lel
-        alt: Bejelentkezés Google OpenID-vel
+        alt: Google logó
       facebook:
         title: Bejelentkezés Facebook-kal
-        alt: Bejelentkezés Facebook fiókkal
+        alt: Facebook logó
       microsoft:
         title: Bejelentkezés Microsofttal.
-        alt: Bejelentkezés Microsoft fiókkal
+        alt: Microsoft logó
       github:
         title: Bejelentkezés GitHub-bal
-        alt: Bejelentkezés GitHub fiókkal
+        alt: GitHub logó
       wikipedia:
         title: Bejelentkezés Wikipédiával
-        alt: Wikipédia fiókkal való bejelentkezés
+        alt: Wikipédia logó
   oauth:
     permissions:
       missing: Nem engedted meg az alkalmazás számára, hogy hozzáférjen ehhez a létesítményhez
@@ -2556,7 +2670,12 @@ hu:
       write_notes: Jegyzetek módosítása
       write_redactions: Térképadatok szerkesztése
       read_email: Felhasználó e-mail-címének elolvasása
+      consume_messages: Felhasználói üzenetek olvasása, státuszénak módosítása és
+        törlése
+      send_messages: Privát üzenetek küldése más felhasználóknak
       skip_authorization: Alkalmazás automatikus jóváhagyása
+    for_roles:
+      moderator: Ez az engedély csak a moderátorok számára elérhető műveletekre vonatkozik
   oauth2_applications:
     index:
       title: Kliensalkalmazásaim
@@ -2610,6 +2729,9 @@ hu:
   users:
     new:
       title: Felhasználói fiók létrehozása
+      tab_title: Regisztráció
+      signup_to_authorize_html: Regisztrálj az OpenStreetMap szolgáltatással a %{client_app_name}
+        eléréséhez.
       no_auto_account_create: Sajnos jelenleg nem tudunk neked létrehozni automatikusan
         egy felhasználói fiókot.
       please_contact_support_html: Kérjük, lépj kapcsolatba velünk (%{support_link}),
@@ -2617,21 +2739,35 @@ hu:
         feldolgozni.
       support: támogatás
       about:
-        header: Szabad és szerkeszthető
+        header: Szabad és szerkeszthető.
         paragraph_1: Más térképekkel ellentétben az OpenStreetMap-et teljes mértékben
           hozzád hasonló emberek hozzák létre, és bárki ingyenesen javíthatja, frissítheti,
           letöltheti és használhatja.
-        paragraph_2: Regisztrálj a közreműködés megkezdéséhez. A fiókod megerősítéséhez
-          küldeni fogunk egy e-mailt.
+        paragraph_2: Regisztrálj a közreműködés megkezdéséhez.
+        welcome: Üdvözlünk az OpenStreetMapen
+      duplicate_social_email: Ha már rendelkezel OpenStreetMap fiókkal, és külső identitásszolgáltatót
+        szeretnél használni, kérjük, jelentkezz be jelszavaddal, és módosítsd fiókod
+        beállításait.
       display name description: A nyilvánosan megjelenített felhasználóneved. A beállításaidban
         később megváltoztathatod.
       by_signing_up:
+        html: 'A regisztrációval elfogadod a következőt: %{tou_link}, %{privacy_policy_link}
+          és %{contributor_terms_link}.'
         privacy_policy: adatvédelmi irányelvek
         privacy_policy_title: Az OSMF adatvédelmi szabályzata, beleértve az e-mail
           címekről szóló részt
+        contributor_terms: közreműködői feltételek
       continue: Regisztráció
       terms accepted: Köszönjük, hogy elfogadtad az új közreműködési feltételeket!
-      use external auth: Alternatívaként használhatsz külső fiókokat a bejelentkezéshez
+      email_help:
+        privacy_policy: adatvédelmi irányelvek
+        privacy_policy_title: Az OSMF adatvédelmi szabályzata, beleértve az e-mail
+          címekről szóló részt
+        html: Címed nem jelenik meg nyilvánosan, további információért tekintsd meg
+          a %{privacy_policy_link} oldalunkat.
+      consider_pd: közkincs
+      or: vagy
+      use external auth: vagy használhatsz külső fiókokat a bejelentkezéshez
     terms:
       title: Feltételek
       heading: Feltételek
@@ -2648,9 +2784,12 @@ hu:
       read_tou: Elolvastam és elfogadom a felhasználási feltételeket
       consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
       consider_pd_why: mi ez?
+      guidance_info_html: 'Információk a kifejezések megértéséhez: egy %{readable_summary_link}
+        és néhány %{informal_translations_link}'
       readable_summary: ember által olvasható összefoglaló
       informal_translations: informális fordítások
       continue: Folytatás
+      cancel: Mégse
       you need to accept or decline: A folytatáshoz kérjük, olvasd el, majd fogadd
         el vagy utasítsd el az új közreműködési feltételeket.
       legale_select: 'Kérlek, válaszd ki a lakóhelyed szerinti országot:'
@@ -2692,6 +2831,8 @@ hu:
       remove as friend: Ismerős eltávolítása
       add as friend: Felvétel ismerősnek
       mapper since: 'Térképszerkesztő ezóta:'
+      last map edit: 'Legutóbbi térképszerkesztés:'
+      no activity yet: Még nincs tevékenység
       uid: 'Felhasználói azonosító:'
       ct status: 'Hozzájárulási feltételek:'
       ct undecided: Nem eldöntött
@@ -2789,6 +2930,7 @@ hu:
       title: '%{name} blokkolásának szerkesztése'
       heading_html: '%{name} blokkolásának szerkesztése'
       period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
+      revoke: Blokk visszavonása
     filter:
       block_period: A blokkolási időszaknak egy, a legördülő listából kiválasztható
         értéknek kell lennie.
@@ -2796,6 +2938,12 @@ hu:
       flash: '%{name} felhasználó blokkolva lett.'
     update:
       only_creator_can_edit: Csak a blokkolást létrehozó moderátor szerkesztheti.
+      only_creator_can_edit_without_revoking: Csak a blokkot létrehozó moderátor szerkesztheti
+        azt visszavonás nélkül.
+      only_creator_or_revoker_can_edit: Csak azok a moderátorok szerkeszthetik, akik
+        létrehozták vagy visszavonták ezt a blokkot.
+      inactive_block_cannot_be_reactivated: Ez a blokk inaktív, és nem aktiválható
+        újra.
       success: Blokkolás frissítve.
     index:
       title: Felhasználói blokkolások
@@ -2805,6 +2953,7 @@ hu:
       title: '%{block_on} valamennyi blokkolásának visszavonása'
       heading_html: '%{block_on} valamennyi blokkolásának visszavonása'
       empty: '%{name} nem rendelkezik aktív blokkolással.'
+      confirm: Biztos benne, hogy visszavonod a %{active_blocks} blookkolást?
       active_blocks:
         one: '%{count} aktív blokkolás'
         other: '%{count} aktív blokkolás'
@@ -2859,6 +3008,14 @@ hu:
       reason: Blokkolás indoklása
       status: Állapot
       revoker_name: 'Visszavonta:'
+    navigation:
+      all_blocks: Minden blokk
+      blocks_on_me: Engem sújtó blokkolások
+      blocks_on_user: '%{user} blokkolásai'
+      blocks_by_me: Általam kiosztott blokkolások
+      blocks_by_user: '%{user} blokkolásai'
+      block: '#%{id} blokk'
+      new_block: Újabb blokkolások
   user_mutes:
     index:
       title: Elnémított felhasználók
@@ -2919,6 +3076,7 @@ hu:
       reactivate: Újraaktiválás
       comment_and_resolve: Hozzászólás és megoldás
       comment: Hozzászólás
+      log_in_to_comment: Jelentkezzen be, hogy megjegyzést fűzhessen ehhez a jegyzethez
       report_link_html: Ha ez a jegyzet eltávolítandó érzékeny információkat tartalmaz,
         akkor használhatod a %{link} funkciót.
       other_problems_resolve: A jegyzettel kapcsolatos összes többi problémánál légy
@@ -2931,12 +3089,18 @@ hu:
       intro: Hibát találtál vagy valami hiányzik? Tudasd a többi térképezővel, hogy
         javítani tudjuk. Mozgasd a jelölőt a megfelelő helyre, és minél pontosabban
         írd le a problémát.
+      anonymous_warning_html: Nem vagy  bejelentkezve. Kérlek %{log_in} vagy %{sign_up},
+        ha frissítéseket szeretne kapni a hozzászólásodról.
+      anonymous_warning_log_in: jelentkezz be
+      anonymous_warning_sign_up: regisztrálj
       advice: A jegyzeted nyilvános és használható a térkép frissítéséhez, ezért ne
         adj meg személyes adatokat vagy jogvédett térképről vagy katalógusokból származó
         információkat.
       add: Jegyzet hozzáadása
     notes_paging_nav:
       showing_page: '%{page} oldal'
+      next: Következő
+      previous: Előző
   javascripts:
     close: Bezárás
     share:
@@ -2951,7 +3115,7 @@ hu:
       custom_dimensions: Kiterjedés megadása
       format: 'Formátum:'
       scale: 'Méretarány:'
-      image_dimensions: A kép a normál réteget fogja megjeleníteni %{width}×%{height}
+      image_dimensions: A kép a %{layer} réteget fogja megjeleníteni %{width}×%{height}
         képpont méretben.
       download: Letöltés
       short_url: Rövid URL
@@ -2959,7 +3123,8 @@ hu:
       center_marker: Legyen a helyjelölő a térkép középpontja
       paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
       view_larger_map: Nagyobb térkép
-      only_standard_layer: Csak az alapréteget lehet képként exportálni
+      only_standard_layer: Csak az alap, kerékpáros és szállítási rétegeket lehet
+        képként exportálni
     embed:
       report_problem: Probléma bejelentése
     key:
@@ -2982,6 +3147,7 @@ hu:
         standard: Alapértelmezett
         cycle_map: Kerékpártérkép
         transport_map: Tömegközlekedés
+        tracestracktop_topo: Tracetrack Topo
         hot: Humanitárius
       layers:
         header: Térképnézetek
@@ -2993,7 +3159,12 @@ hu:
       openstreetmap_contributors: OpenStreetMap közreműködők
       make_a_donation: Adományozz
       website_and_api_terms: Webhely és API feltételek
+      cyclosm_credit: 'A %{cyclosm_link} csempestílusa: %{osm_france_link}'
       osm_france: OpenStreetMap Franciaország
+      thunderforest_credit: A csempék a %{thunderforest_link} jóvoltából
+      andy_allan: Andy Allan
+      tracestrack_credit: A csempék a %{tracestrack_link} jóvoltából
+      hotosm_credit: 'A %{hotosm_link} csempestílusa: %{osm_france_link}'
       hotosm_name: Humanitárius OpenStreetMap csapat
     site:
       edit_tooltip: Térkép szerkesztése
@@ -3129,6 +3300,7 @@ hu:
       empty: Nincs megjeleníthető adattörlési művelet.
       heading: Adattörlések listája
       title: Adattörlések listája
+      new: Új adattörlési művelet
     new:
       heading: Információ megadása új adattörlési művelethez
       title: Új adattörlési művelet létrehozása

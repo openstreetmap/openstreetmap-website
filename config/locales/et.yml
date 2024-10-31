@@ -127,7 +127,7 @@ et:
         longitude: Pikkus
         public: Avalik
         description: Kirjeldus
-        gpx_file: Laadi üles GPX-fail
+        gpx_file: Vali GPX-rajafail
         visibility: Nähtavus
         tagstring: Sildid
       message:
@@ -1555,13 +1555,16 @@ et:
       befriend_them: Sa võid ta lisada oma sõbraks aadressil %{befriendurl}.
       befriend_them_html: Saad ta ka enda sõbraks lisada aadressil %{befriendurl}.
     gpx_description:
-      description_with_tags_html: Tundub, et sinu GPX-fail %{trace_name} kirjeldusega
+      description_with_tags_html: Tundub, et sinu fail %{trace_name} kirjeldusega
         %{trace_description} ning siltidega %{tags}
-      description_with_no_tags_html: Tundub, et sinu siltideta GPX-fail %{trace_name}
+      description_with_no_tags_html: Tundub, et sinu siltideta fail %{trace_name}
         kirjeldusega %{trace_description}
     gpx_failure:
       hi: Tere, %{to_user}
-      failed_to_import: 'importimine ebaõnnestus. Siin on viga:'
+      failed_to_import: 'importimine GPS-rajafailiks ebaõnnestus. Palun veendu, et
+        sinu fail on korrektne GPX-fail või arhiiv, mis sisaldab GPX-faili või GPX-faile
+        ja mille vorming on toetatud (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Kas sinu failis võib olla vormingu- või süntaksiviga? Siin on importimisviga:'
       more_info_html: Rohkem teavet GPX-failide importimise funktsiooni ja nende vältimise
         kohta leiad aadressilt %{url}.
       subject: '[OpenStreetMap] GPX-faili importimine nurjus'
@@ -2479,24 +2482,25 @@ et:
       oauth2_authorizations: OAuth 2 volitused
       muted_users: Vaigistatud kasutajad
     auth_providers:
+      openid_login_button: Jätka
       openid:
         title: Logi sisse OpenID-ga
-        alt: Logi sisse OpenID URL-iga
+        alt: OpenID logo
       google:
         title: Logi sisse Google'i kaudu
-        alt: Logi sisse Google'i OpenID-ga
+        alt: Google'i logo
       facebook:
         title: Logi sisse Facebooki kaudu
-        alt: Logi sisse Facebooki kontoga
+        alt: Facebooki logo
       microsoft:
         title: Logi sisse Microsofti kaudu
-        alt: Logi sisse Microsofti kontoga
+        alt: Microsofti logo
       github:
         title: Logi sisse GitHubi kaudu
-        alt: Logi sisse GitHubi kontoga
+        alt: GitHubi logo
       wikipedia:
         title: Logi sisse Vikipeedia kaudu
-        alt: Logi sisse Vikipeedia kontoga
+        alt: Vikipeedia logo
   oauth:
     scopes:
       openid: Sisse logida kasutades OpenStreetMapi
@@ -2509,6 +2513,9 @@ et:
       write_notes: Muuta märkusi
       write_redactions: Katta kaardiandmed kinni
       read_email: Lugeda kasutaja e-posti aadressi
+      consume_messages: Lugeda ja kustutada kasutaja sõnumeid ning uuendada nende
+        olekut
+      send_messages: Saata teistele kasutajatele erasõnumeid
       skip_authorization: Kiita rakendus heaks automaatselt
   oauth2_applications:
     index:
@@ -2577,6 +2584,9 @@ et:
       continue: Registreeru
       terms accepted: Täname, et nõustusid uute kaastöötingimustega!
       email_help:
+        privacy_policy: andmekaitsereeglitega
+        privacy_policy_title: OSMF-i andmekaitsereeglid, sealhulgas peatükk e-posti
+          aadresside kohta
         html: Sinu aadressi ei kuvata avalikult, tutvu meie %{privacy_policy_link}.
       consider_pd_html: Pean enda kaastööd %{consider_pd_link} kuuluvaks.
       consider_pd: avalikku omandisse
@@ -2709,13 +2719,14 @@ et:
         ja parooli ning siduda seejärel kasutajasätetes konto oma ID-ga.
   user_role:
     filter:
-      not_a_role: String `%{role}' ei ole kehtiv roll.
+      not_a_role: String '%{role}' ei ole kehtiv roll.
       already_has_role: Kasutajal on juba roll %{role}.
       doesnt_have_role: Kasutajal ei ole rolli %{role}.
     grant:
-      are_you_sure: Oled kindel, et soovid anda rolli `%{role}' kasutajale `%{name}'?
+      are_you_sure: Kas oled kindel, et soovid anda rolli '%{role}' kasutajale '%{name}'?
     revoke:
-      are_you_sure: Oled kindel, et soovid tühistada kasutaja `%{name}' rolli `%{role}'?
+      are_you_sure: Kas oled kindel, et soovid tühistada kasutaja '%{name}' rolli
+        '%{role}'?
   user_blocks:
     model:
       non_moderator_update: Blokeeringu loomiseks või uuendamiseks pead olema moderaator.
@@ -2895,14 +2906,15 @@ et:
       custom_dimensions: Vali suurus käsitsi
       format: 'Vorming:'
       scale: 'Mõõtkava:'
-      image_dimensions: Pildil näeb tavakaarti suurusega %{width} × %{height}
+      image_dimensions: Pildil näeb kihti %{layer} suuruses %{width} × %{height}
       download: Laadi alla
       short_url: Lühilink
       include_marker: Lisa marker
       center_marker: Tsentreeri kaart markerile
       paste_html: Kopeeri HTML-kood oma veebilehele
       view_larger_map: Vaata suuremat kaarti
-      only_standard_layer: Ainult tavakaarti saab pildina eksportida
+      only_standard_layer: Ainult tava-, ratta- ja transpordikaardi kihte saab pildina
+        eksportida
     embed:
       report_problem: Teata probleemist
     key:
