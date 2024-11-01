@@ -23,5 +23,9 @@ xml.wpt("lon" => note.lon, "lat" => note.lat) do
     xml.status note.status
 
     xml.date_closed note.closed_at if note.closed?
+
+    note.tags.each do |k, v|
+      xml.tag(:k => k, :v => v)
+    end
   end
 end

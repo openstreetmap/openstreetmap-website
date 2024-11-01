@@ -20,6 +20,8 @@ json.properties do
   json.status note.status
   json.closed_at note.closed_at.to_s if note.closed?
 
+  json.tags note.tags unless note.tags.empty?
+
   json.comments(note.comments) do |comment|
     json.date comment.created_at.to_s
 
