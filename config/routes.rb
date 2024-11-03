@@ -132,7 +132,7 @@ OpenStreetMap::Application.routes.draw do
   end
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 
-  get "/user/:display_name/history" => "changesets#index"
+  get "/user/:display_name/history" => "changesets#index", :as => :user_history
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
   get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
