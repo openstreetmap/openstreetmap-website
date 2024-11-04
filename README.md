@@ -7,7 +7,7 @@
 This is `openstreetmap-website`, the [Ruby on Rails](https://rubyonrails.org/)
 application that powers the [OpenStreetMap](https://www.openstreetmap.org) website and API.
 
-This repository consists of:
+This repository consists off:
 
 * The web site, including user accounts, diary entries, user-to-user messaging.
 * The XML- and JSON-based editing [API](https://wiki.openstreetmap.org/wiki/API_v0.6).
