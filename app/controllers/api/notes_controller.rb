@@ -83,11 +83,25 @@ module Api
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
       comment = params[:text]
 
+      # Extract the tags, if present
+      tags = []
+      if params[:tags].present?
+        parsed_tags = JSON.parse(params[:tags])
+        parsed_tags.each do |key, value|
+          tags << { :k => key.presence || "", :v => value.presence || "" }
+        end
+      end
+
       # Include in a transaction to ensure that there is always a note_comment for every note
       Note.transaction do
         # Create the note
         @note = Note.create(:lat => lat, :lon => lon)
         raise OSM::APIBadUserInput, "The note is outside this world" unless @note.in_world?
+
+        # Create a NoteTag for each tag in the tags array
+        tags.each do |tag|
+          @note.note_tags.create(:k => tag[:k], :v => tag[:v])
+        end
 
         # Save the note
         @note.save!
