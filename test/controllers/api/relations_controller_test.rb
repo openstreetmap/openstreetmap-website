@@ -1066,7 +1066,7 @@ module Api
 
       # create a new changeset for this operation, so we are assured
       # that the bounding box will be newly-generated.
-      changeset_id = with_controller(Api::ChangesetsController.new) do
+      with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
         put changeset_create_path, :params => xml, :headers => auth_header
         assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
