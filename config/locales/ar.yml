@@ -166,7 +166,7 @@ ar:
         longitude: خط الطول
         public: عام
         description: الوصف
-        gpx_file: رفع ملف GPX
+        gpx_file: اختر ملف تتبع GPS
         visibility: الرؤية
         tagstring: الوسوم
       message:
@@ -463,7 +463,8 @@ ar:
         note: ملحوظة
     timeout:
       title: خطأ انتهاء الوقت
-      sorry: عذرًا، بيانات %{type} بالمعرّف %{id} استغرقت وقتًا طويلا للاسترداد.
+      sorry: عذراً، استغرق استرداد البيانات الخاصة بـ %{type} بالمعرف %{id} وقتًا
+        طويلاً.
       type:
         node: العقدة
         way: الطريق
@@ -479,8 +480,8 @@ ar:
         way: طريق
         relation: علاقة
     start_rjs:
-      feature_warning: يجري تحميل ميزات %{num_features}، والتي يمكن أن تجعل متصفّحك
-        بطيئاً أو عديم الاستجابة. هل أنت متأكد من رغبتك بعرض هذه البيانات؟
+      feature_warning: جارٍ تحميل %{num_features} من الميزات، مما قد يؤدي إلى بطء
+        متصفحك أو عدم استجابته. هل أنت متأكد من أنك تريد عرض هذه البيانات؟
       load_data: تحميل البيانات
       loading: جارٍ التحميل...
     tag_details:
@@ -639,6 +640,9 @@ ar:
       comment_count:
         zero: لا تعليق
         one: '%{count} تعليق'
+        two: تعليقان
+        few: تعليقات قليلة
+        many: تعليقات كثيرة
         other: '%{count} تعليقات'
       no_comments: لا يوجد تعليقات
       edit_link: عدل هذه المدخلة
@@ -1626,17 +1630,20 @@ ar:
       befriend_them: "\uFEFFيمكنك أيضًا إضافتهم كصديق على %{befriendurl}."
       befriend_them_html: يمكنك أيضًا إضافتهم كصديق على %{befriendurl}.
     gpx_description:
-      description_with_tags: 'ويبدو ذالك ملف GPX الخاص بك هو %{trace_name} مع الوصف
-        %{trace_description} والعلامات التالية: %{tags}'
-      description_with_tags_html: 'يبدو أن ملف GPX الخاص بك %{trace_name} مع الوصف
-        %{trace_description} والعلامات التالية: %{tags}'
-      description_with_no_tags: يبدو أن ملف GPX الخاص بك %{trace_name} ومع ذالك الوصف
-        %{trace_description} وبدون وسوم
-      description_with_no_tags_html: يبدو أن ملف GPX الخاص بك %{trace_name} مع الوصف
-        %{trace_description} وبدون وسوم
+      description_with_tags: 'يبدو أن ملفك هو %{trace_name} مع الوصف %{trace_description}
+        والعلامات التالية: %{tags}'
+      description_with_tags_html: 'يبدو أن ملفك هو %{trace_name} مع الوصف %{trace_description}
+        والعلامات التالية: %{tags}'
+      description_with_no_tags: يبدو أن ملفك هو %{trace_name} مع الوصف %{trace_description}
+        ولا يحتوي على علامات
+      description_with_no_tags_html: يبدو أن ملفك هو %{trace_name} مع الوصف %{trace_description}
+        ولا يحتوي على علامات
     gpx_failure:
       hi: مرحبًا %{to_user}،
-      failed_to_import: 'فشل الاستيراد، الخطأ هو:'
+      failed_to_import: 'فشل استيراد الملف كملف تتبع GPS. يرجى التأكد من أن الملف
+        عبارة عن ملف GPX صالح أو أرشيف يحتوي على ملفات GPX بتنسيق مدعوم (.tar.gz،
+        .tar.bz2، .tar، .zip، .gpx.gz، .gpx.bz2). هل يمكن أن تكون هناك مشكلة في التنسيق
+        أو بناء الجملة في الملف؟ إليك خطأ الاستيراد:'
       more_info: أكثر معلومة عن جي بي اكس يستورد الفشل و كيف ل يتجنب هم يستطيع يكون
         وجد في%{url}.
       more_info_html: يمكن العثور على مزيد من المعلومات حول إخفاقات استيراد GPX وكيفية
@@ -1702,8 +1709,8 @@ ar:
           الملاحظة بالقرب من %{place}.
         commented_note_html: أعاد %{commenter} تنشيط ملاحظة الخريطة التي علقت عليها.
           الملاحظة قريبة من %{place}.
-      details: يمكن العثور على مزيد من التفاصيل حول هذه الملاحظة في %{url}.
-      details_html: يمكن العثور على مزيد من التفاصيل حول الملاحظة على %{url}.
+      details: قم بالرد أو التعرف على المزيد حول الملاحظة على %{url}.
+      details_html: قم بالرد أو التعرف على المزيد حول الملاحظة على %{url}.
     changeset_comment_notification:
       hi: أهلا %{to_user}،
       commented:
@@ -1721,12 +1728,12 @@ ar:
         partial_changeset_with_comment: مع تعليق '%{changeset_comment}'
         partial_changeset_with_comment_html: مع التعليق " %{changeset_comment}"
         partial_changeset_without_comment: بدون تعليق
-      details: يمكن العثور على مزيد من التفاصيل حول مجموعة التغييرات في %{url}.
-      details_html: يمكن العثور على مزيد من التفاصيل حول مجموعة التغييرات على %{url}.
-      unsubscribe: لإلغاء الاشتراك من التحديثات لهذه التغييرات؛ قم بزيارة %{url} وانقر
-        على "إلغاء الاشتراك".
-      unsubscribe_html: لإلغاء الاشتراك في تحديثات هذه المجموعة ، قم بزيارة %{url}
-        وانقر فوق "إلغاء الاشتراك".
+      details: قم بالرد أو التعرف على المزيد حول مجموعة التغييرات على %{url}.
+      details_html: قم بالرد أو التعرف على المزيد حول مجموعة التغييرات على %{url}.
+      unsubscribe: يمكنك إلغاء الاشتراك في التحديثات الخاصة بمجموعة التغييرات هذه
+        على %{url}.
+      unsubscribe_html: يمكنك إلغاء الاشتراك في التحديثات الخاصة بمجموعة التغييرات
+        هذه على %{url}.
   confirmations:
     confirm:
       heading: تحقق من بريدك الإلكتروني
@@ -1802,16 +1809,18 @@ ar:
     muted:
       title: الرسائل المخفية
     reply:
-      wrong_user: "\uFEFFأنت مسجل للدخول باسم '%{user}' ولكن الرسالة التي طلبت الرد
-        عليها لم تكن مرسلة لذلك المستخدم؛ يُرجَى تسجيل الدخول كمستخدم صحيح للرد."
+      wrong_user: لقد قمت بتسجيل الدخول باسم '%{user}' ولكن الرسالة التي طلبت الرد
+        عليها لم يتم إرسالها إلى هذا المستخدم. يرجى تسجيل الدخول باسم المستخدم الصحيح
+        حتى تتمكن من الرد.
     show:
       title: اقرأ الرسالة
       reply_button: رد
       unread_button: التعليم كغير مقروءة
       destroy_button: احذف
       back: رجوع
-      wrong_user: "\uFEFFأنت مسجل للدخول باسم '%{user}' ولكن الرسالة التي طلبت قراءتها
-        لم تكن من أو إلى ذلك المستخدم؛ يُرجَى تسجيل الدخول كمستخدم صحيح للرد."
+      wrong_user: لقد قمت بتسجيل الدخول باسم '%{user}' ولكن الرسالة التي طلبت قراءتها
+        لم يتم إرسالها من قبل هذا المستخدم أو إليه. يرجى تسجيل الدخول باسم المستخدم
+        الصحيح حتى تتمكن من قراءتها.
     sent_message_summary:
       destroy_button: حذف
     heading:
@@ -1828,7 +1837,7 @@ ar:
     new:
       title: نسيان كلمة السر
       heading: أنسيت كلمة السر؟
-      email address: 'عنوان البريد الإلكتروني:'
+      email address: عنوان البريد الإلكتروني
       new password button: أعد ضبط كلمة السر
       help_text: أدخل عنوان البريد الإلكتروني الذي استخدمته للتسجيل، وسوف نرسل عليه
         رابطا يمكنك استخدامه لإعادة تعيين كلمة المرور.
@@ -1877,12 +1886,12 @@ ar:
   sessions:
     new:
       tab_title: تسجيل الدخول
-      email or username: 'عنوان البريد الإلكتروني أو اسم المستخدم:'
-      password: 'كلمة السر:'
+      email or username: عنوان البريد الإلكتروني أو اسم المستخدم
+      password: كلمة المرور
       remember: تذكرني
       lost password link: أنسيت كلمة المرور؟
       login_button: تسجيل الدخول
-      with external: 'بدلا من ذلك، استخدم طرفا ثالثا لتسجيل الدخول:'
+      with external: أو قم بتسجيل الدخول باستخدام طرف ثالث
       auth failure: آسف، لا يمكن الدخول بتلك التفاصيل.
     destroy:
       title: تسجيل الخروج
@@ -1940,10 +1949,11 @@ ar:
       community_driven_community_blogs: مدونات المجتمع
       community_driven_osm_foundation: مؤسسة OSM
       open_data_title: البيانات المفتوحة
-      open_data_1_html: "\nOpenStreetMap هو %{open_data}: أنت حر في استخدامه لأي غرض\n
-        طالما أنك تنسب إلى OpenStreetMap والمساهمين فيه. إذا قمت بتعديل أو \n بناء
-        على البيانات بطرق معينة ، فيجوز لك توزيع النتيجة فقط\nتحت نفس الترخيص. راجع
-        %{copyright_license_link} للحصول على التفاصيل."
+      open_data_1_html: |-
+        OpenStreetMap هو %{open_data}: يمكنك استخدامه لأي غرض
+         طالما أنك تنسب الفضل إلى OpenStreetMap ومساهميه. إذا قمت بتعديل أو
+        البناء على البيانات بطرق معينة، فيجوز لك توزيع النتيجة فقط
+        بموجب نفس الترخيص. راجع %{copyright_license_link} للحصول على التفاصيل.
       open_data_open_data: البيانات المفتوحة
       open_data_copyright_license: صفحة حقوق النشر والترخيص
       legal_title: قانوني
@@ -2170,14 +2180,14 @@ ar:
           ferry: عبارة
           bus: حافلة
           cable_car: عربة أسلاك
-          chair_lift: تلفريك
+          chair_lift: مصعد كرسي
           runway: مدرج مطار
-          taxiway: مدرج مطار لمناورات الطائرات
+          taxiway: ممر الطائرات
           apron: ساحة مطار
           admin: حدود إدارية
           city: مدينة
           forest: غابة
-          wood: غابة
+          wood: خشب
           golf: ملعب غولف
           park: منتزه
           common: شائع
@@ -2202,7 +2212,7 @@ ar:
           building: مبنى كبير
           station: محطة قطار
           summit: قمة
-          peak: ذروة
+          peak: قمة
           tunnel: غطاء متقطع = نفق
           bridge: غطاء أسود = جسر
           private: وصول خصوصي
@@ -2278,8 +2288,12 @@ ar:
     trace:
       pending: في الانتظار
       count_points:
-        one: 1 نقطة
-        other: '%{count} نقاط'
+        zero: لا نقاط
+        one: '%{count} نقطة'
+        two: نقطتان
+        few: نقاط قليلة
+        many: نقاط كثيرة
+        other: '%{count} نقطة'
       more: المزيد
       trace_details: اعرض تفاصيل الأثر
       view_map: اعرض الخريطة
@@ -2324,23 +2338,23 @@ ar:
       account_settings: إعدادات الحساب
     auth_providers:
       openid:
-        title: تسجيل الدخول بOpenID
-        alt: تسجيل الدخول باستخدام مسار OpenID
+        title: تسجيل الدخول باستخدام OpenID
+        alt: شعار OpenID
       google:
         title: تسجيل الدخول باستخدام جوجل
-        alt: تسجيل الدخول ب Google OpenID
+        alt: شعار جوجل
       facebook:
-        title: تسجيل الدخول باستخدام فيس بوك
-        alt: تسجيل الدخول بحساب فيسبوك
+        title: تسجيل الدخول باستخدام الفيسبوك
+        alt: شعار الفيسبوك
       microsoft:
-        title: تسجيل الدخول مع مايكروسوفت
-        alt: تسجيل الدخول بحساب مايكروسوفت
+        title: تسجيل الدخول باستخدام مايكروسوفت
+        alt: شعار مايكروسوفت
       github:
-        title: تسجيل الدخول بجيثب
-        alt: تسجيل الدخول باستخدام حساب جيثب
+        title: تسجيل الدخول باستخدام GitHub
+        alt: شعار GitHub
       wikipedia:
-        title: تسجيل الدخول عبر ويكيبيديا
-        alt: سجل الدخول باستخدام حساب ويكيبيديا
+        title: تسجيل الدخول باستخدام ويكيبيديا
+        alt: شعار ويكيبيديا
   oauth:
     permissions:
       missing: لم تسمح بالوصول إلى التطبيق لهذا المرفق
@@ -2367,12 +2381,12 @@ ar:
       no_auto_account_create: للأسف نحن غير قادرين في الوقت الحالي على إنشاء حساب
         لك تلقائيًا.
       about:
-        header: حًرَّة وقابلة للتحرير
+        header: مجاني وقابل للتعديل.
       display name description: اسم المستخدم الخاص بك الظاهر علنًا، يمكنك تغيير هذا
         في التفضيلات في وقت لاحق.
       continue: أنشئ حسابًا
       terms accepted: نشكرك على قبول شروط المساهم الجديدة!
-      use external auth: 'بدلا من ذلك، استخدم طرفا ثالثا لتسجيل الدخول:'
+      use external auth: أو قم بالتسجيل مع طرف ثالث
     terms:
       title: شروط
       heading: شروط
@@ -2474,19 +2488,20 @@ ar:
       option_1: |-
         إذا كنت جديدا في خريطة الشارع المفتوح، الرجاء إنشاء حساب جديد
         باستخدام النموذج أدناه.
-      option_2: "إذا كان لديك حساب بالفعل، فيمكنك تسجيل الدخول إلى حسابك \nباستخدام
-        اسم المستخدم وكلمة المرور الخاصة بك، ثم ربط الحساب \nبمعرفك في إعدادات المستخدم
-        الخاصة بك."
+      option_2: |-
+        إذا كان لديك حساب بالفعل، فيمكنك تسجيل الدخول إلى حسابك
+         باستخدام اسم المستخدم وكلمة المرور، ثم ربط الحساب
+         بمعرفك في إعدادات المستخدم الخاصة بك.
   user_role:
     filter:
-      not_a_role: السلسلة `%{role}' ليست دور صالح.
+      not_a_role: السلسلة '%{role}' ليست دورًا صالحًا.
       already_has_role: لدى المستخدم الدور  %{role} سابقًا
       doesnt_have_role: ليس للمستخدم الدور %{role}.
       not_revoke_admin_current_user: لا يمكن إبطال دور المشرف من المستخدم الحالي.
     grant:
-      are_you_sure: هل أنت متأكد من أنك تريد منح الدور `%{role}' إلى المستخدم `%{name}'؟
+      are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
     revoke:
-      are_you_sure: هل أنت متأكد من أنك تريد إبطال الدور `%{role}' من المستخدم `%{name}'؟
+      are_you_sure: هل أنت متأكد أنك تريد إلغاء الدور '%{role}' من المستخدم '%{name}'؟
   user_blocks:
     model:
       non_moderator_update: يجب أن تكون وسيط لإنشاء أو تحديث عرقلة.
@@ -2523,21 +2538,39 @@ ar:
       time_past_html: انتهى %{time}.
       block_duration:
         hours:
-          few: '%{count} ساعات'
-          one: ساعة واحد
-          two: ساعتين
+          zero: لا ساعة
+          one: '%{count} ساعة'
+          two: ساعتان
+          few: ساعات قليلة
+          many: ساعات كثيرة
           other: '%{count} ساعة'
         days:
+          zero: لا يوم
           one: يوم واحد
+          two: يومان
+          few: أيام قليلة
+          many: أيام كثيرة
           other: '%{count} أيام'
         weeks:
-          one: أسبوع واحد
-          other: '%{count} أسابيع'
+          zero: لا أسبوع
+          one: '%{count} أسبوع'
+          two: أسبوعان
+          few: أسابيع قليلة
+          many: أسابيع كثيرة
+          other: '%{count} أسبوع'
         months:
+          zero: لا شهر
           one: شهر واحد
+          two: شهران
+          few: شهور قليلة
+          many: شهور كثيرة
           other: '%{count} أشهر'
         years:
+          zero: لا سنة
           one: سنة واحدة
+          two: سنتان
+          few: سنين قليلة
+          many: سنين كثيرة
           other: '%{count} سنوات'
     blocks_on:
       title: العرقلات على %{name}
@@ -2585,7 +2618,7 @@ ar:
     index:
       title: ملاحظات مقدمة أو علق عليها %{user}
       heading: ملاحظات %{user}
-      subheading_html: تم إرسال الملاحظات أو التعليق عليها بواسطة %{user}
+      subheading_html: ملاحظات %{submitted} أو %{commented} بواسطة %{user}
       no_notes: لا توجد ملاحظات
       id: معرف
       creator: منشئ
@@ -2635,7 +2668,7 @@ ar:
       center_marker: مركز الخريطة على العلامة
       paste_html: ألصق HTML لتضمينه في موقع ويب
       view_larger_map: عرض خريطة بحجم أكبر
-      only_standard_layer: يمكن استيراد الطبقة القياسية فقط كصورة
+      only_standard_layer: يمكن تصدير الطبقات القياسية وخريطة الدورة والنقل فقط كصورة
     embed:
       report_problem: أبلغ عن مشكلة
     key:
