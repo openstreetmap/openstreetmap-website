@@ -92,6 +92,61 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => :errors, :action => :forbidden
   end
 
+  def test_destroy_success
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "tested-1st-tag-key", :v => "tested-1st-tag-value")
+    create(:changeset_tag, :changeset => changeset, :k => "tested-2nd-tag-key", :v => "tested-2nd-tag-value")
+    other_changeset = create(:changeset)
+    create(:changeset_tag, :changeset => other_changeset, :k => "tested-1st-tag-key", :v => "tested-1st-tag-value")
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    assert_difference "ChangesetTag.count", -1 do
+      delete changeset_tags_path(changeset, :key => "tested-1st-tag-key")
+      assert_redirected_to changeset_tags_path(changeset)
+    end
+    assert_equal({ "tested-2nd-tag-key" => "tested-2nd-tag-value" }, changeset.tags)
+  end
+
+  def test_destroy_fail_no_changeset
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    delete changeset_tags_path(999111, :key => "nope")
+    assert_response :not_found
+  end
+
+  def test_destroy_fail_no_key
+    changeset = create(:changeset)
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    delete changeset_tags_path(changeset, :key => "nope")
+    assert_response :not_found
+  end
+
+  def test_destroy_fail_not_logged_in
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "tested-tag-key", :v => "tested-tag-value")
+
+    delete changeset_tags_path(changeset, :key => "tested-tag-key")
+    assert_response :forbidden
+  end
+
+  def test_destroy_fail_not_moderator
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "tested-tag-key", :v => "tested-tag-value")
+    user = create(:user)
+
+    session_for(user)
+
+    delete changeset_tags_path(changeset, :key => "tested-tag-key")
+    assert_redirected_to :controller => :errors, :action => :forbidden
+  end
+
   private
 
   def check_tag_table_row(row, changeset, key, value)
