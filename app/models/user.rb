@@ -423,8 +423,8 @@ class User < ApplicationRecord
     if moderator?
       Settings.moderator_changeset_comments_per_hour
     else
-      previous_comments = changeset_comments.limit(200).count
-      max_comments = previous_comments / 200.0 * Settings.max_changeset_comments_per_hour
+      previous_comments = changeset_comments.limit(Settings.comments_to_max_changeset_comments).count
+      max_comments = previous_comments / Settings.comments_to_max_changeset_comments.to_f * Settings.max_changeset_comments_per_hour
       max_comments = max_comments.floor.clamp(Settings.initial_changeset_comments_per_hour, Settings.max_changeset_comments_per_hour)
       max_comments /= 2**active_reports
       max_comments.floor.clamp(Settings.min_changeset_comments_per_hour, Settings.max_changeset_comments_per_hour)
