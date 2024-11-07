@@ -5,3 +5,11 @@
 <h2><%= t ".changeset_html", :id => link_to(@changeset.id, @changeset) %></h2>
 
 <p><%= changeset_details(@changeset) %></p>
+
+<% unless @changeset.tags.empty? %>
+  <div class='mb-3 border border-secondary-subtle rounded overflow-hidden'>
+    <table class='mb-0 table align-middle'>
+      <%= render :partial => "tag", :collection => @changeset.tags.sort %>
+    </table>
+  </div>
+<% end %>
