@@ -130,7 +130,11 @@ OpenStreetMap::Application.routes.draw do
       resource :feed, :only => :show, :defaults => { :format => "rss" }
     end
 
-    resources :tags, :controller => "changeset_tags", :param => :key, :only => [:index, :destroy]
+    resources :tags, :controller => "changeset_tags", :only => :index do
+      collection do
+        post "delete"
+      end
+    end
   end
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 

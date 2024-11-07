@@ -2,10 +2,10 @@
   <th class='py-1 border-secondary-subtle table-secondary fw-normal' dir='auto'><%= format_key(tag[0]) %></th>
   <td class='py-1 border-secondary-subtle border-start' dir='auto'><%= format_value(tag[0], tag[1]) %></td>
   <td class='py-1 border-secondary-subtle text-end'>
-    <%= button_to t(".delete"),
-                  changeset_tag_path(@changeset, tag[0]),
-                  :method => :delete,
-                  :data => { :confirm => t(".confirm_delete", :k => tag[0], :v => tag[1]) },
-                  :class => "btn btn-sm btn-danger" %>
-  </td>
+    <%= form_tag delete_changeset_tags_path(@changeset) do %>
+      <%= hidden_field_tag "base64_key", Base64.urlsafe_encode64(tag[0]) %>
+      <%= button_tag t(".delete"),
+                     :data => { :confirm => t(".confirm_delete", :k => tag[0], :v => tag[1]) },
+                     :class => "btn btn-sm btn-danger" %>
+    <% end %>
 </tr>
