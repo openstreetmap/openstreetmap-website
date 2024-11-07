@@ -5,7 +5,7 @@
     <%= button_to t(".delete"),
                   changeset_tags_path(@changeset),
                   :method => :delete,
-                  :params => { :key => tag[0] },
+                  :params => { :base64_key => Base64.urlsafe_encode64(tag[0]) },
                   :data => { :confirm => t(".confirm_delete", :k => tag[0], :v => tag[1]) },
                   :class => "btn btn-sm btn-danger" %>
   </td>

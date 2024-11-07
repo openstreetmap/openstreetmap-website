@@ -66,6 +66,23 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_success_empty_tag
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "", :v => "")
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    get changeset_tags_path(changeset)
+    assert_response :success
+
+    assert_dom ".content-body" do
+      assert_dom "tbody tr", :count => 1 do |rows|
+        check_tag_table_row rows[0], changeset, "", ""
+      end
+    end
+  end
+
   def test_show_fail_no_changeset
     moderator_user = create(:moderator_user)
 
@@ -103,10 +120,24 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
     session_for(moderator_user)
 
     assert_difference "ChangesetTag.count", -1 do
-      delete changeset_tags_path(changeset, :key => "tested-1st-tag-key")
+      delete changeset_tags_path(changeset, :base64_key => Base64.urlsafe_encode64("tested-1st-tag-key"))
       assert_redirected_to changeset_tags_path(changeset)
     end
     assert_equal({ "tested-2nd-tag-key" => "tested-2nd-tag-value" }, changeset.tags)
+  end
+
+  def test_destroy_success_empty_tag
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "", :v => "")
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    assert_difference "ChangesetTag.count", -1 do
+      delete changeset_tags_path(changeset, :base64_key => Base64.urlsafe_encode64(""))
+      assert_redirected_to changeset_tags_path(changeset)
+    end
+    assert_empty changeset.tags
   end
 
   def test_destroy_fail_no_changeset
@@ -114,7 +145,7 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
 
     session_for(moderator_user)
 
-    delete changeset_tags_path(999111, :key => "nope")
+    delete changeset_tags_path(999111, :base64_key => Base64.urlsafe_encode64("nope"))
     assert_response :not_found
   end
 
@@ -124,15 +155,17 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
 
     session_for(moderator_user)
 
-    delete changeset_tags_path(changeset, :key => "nope")
+    delete changeset_tags_path(changeset, :base64_key => Base64.urlsafe_encode64("tested-missing-tag"))
     assert_response :not_found
+
+    assert_dom ".content-body", :text => /tested-missing-tag could not be found/
   end
 
   def test_destroy_fail_not_logged_in
     changeset = create(:changeset)
     create(:changeset_tag, :changeset => changeset, :k => "tested-tag-key", :v => "tested-tag-value")
 
-    delete changeset_tags_path(changeset, :key => "tested-tag-key")
+    delete changeset_tags_path(changeset, :base64_key => Base64.urlsafe_encode64("tested-tag-key"))
     assert_response :forbidden
   end
 
@@ -143,7 +176,7 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
 
     session_for(user)
 
-    delete changeset_tags_path(changeset, :key => "tested-tag-key")
+    delete changeset_tags_path(changeset, :base64_key => Base64.urlsafe_encode64("tested-tag-key"))
     assert_redirected_to :controller => :errors, :action => :forbidden
   end
 
@@ -153,8 +186,8 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
     assert_dom row, "th", :text => key
     assert_dom row, "td", :text => value
     assert_dom row, "td form[action='#{changeset_tags_path(changeset)}']" do
-      assert_dom "input[type='hidden'][name='key']" do
-        assert_dom "> @value", key
+      assert_dom "input[type='hidden'][name='base64_key']" do
+        assert_dom "> @value", Base64.urlsafe_encode64(key)
       end
       assert_dom "button", :text => "Delete"
     end
