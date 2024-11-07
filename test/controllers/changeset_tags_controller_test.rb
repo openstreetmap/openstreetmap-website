@@ -21,6 +21,8 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
       assert_dom "h2", :text => "Changeset: #{changeset.id}" do
         assert_dom "a[href='#{changeset_path(changeset)}']"
       end
+
+      assert_dom "a[href='#{user_path(changeset.user)}']"
     end
   end
 
