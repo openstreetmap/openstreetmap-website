@@ -152,7 +152,7 @@ OpenStreetMap::Application.routes.draw do
       resource :feed, :only => :show, :defaults => { :format => "rss" }
     end
 
-    resource :tags, :controller => "changeset_tags", :only => :show
+    resource :tags, :controller => "changeset_tags", :only => [:show, :destroy]
   end
   get "/changeset/:id/subscribe", :id => /\d+/, :to => redirect(:path => "/changeset/%{id}/subscription")
   get "/changeset/:id/unsubscribe", :id => /\d+/, :to => redirect(:path => "/changeset/%{id}/subscription")

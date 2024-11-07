@@ -12,4 +12,6 @@ class ChangesetTagsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
+
+  def destroy; end
 end

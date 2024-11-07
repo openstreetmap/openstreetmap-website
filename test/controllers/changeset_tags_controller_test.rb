@@ -6,6 +6,10 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/changeset/1/tags", :method => :get },
       { :controller => "changeset_tags", :action => "show", :changeset_id => "1" }
     )
+    assert_routing(
+      { :path => "/changeset/1/tags", :method => :delete },
+      { :controller => "changeset_tags", :action => "destroy", :changeset_id => "1" }
+    )
   end
 
   def test_show_success
@@ -90,8 +94,14 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
 
   private
 
-  def check_tag_table_row(row, _changeset, key, value)
+  def check_tag_table_row(row, changeset, key, value)
     assert_dom row, "th", :text => key
     assert_dom row, "td", :text => value
+    assert_dom row, "td form[action='#{changeset_tags_path(changeset)}']" do
+      assert_dom "input[type='hidden'][name='key']" do
+        assert_dom "> @value", key
+      end
+      assert_dom "button", :text => "Delete"
+    end
   end
 end
