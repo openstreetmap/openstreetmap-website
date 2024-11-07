@@ -6,6 +6,10 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/changeset/1/tags", :method => :get },
       { :controller => "changeset_tags", :action => "index", :changeset_id => "1" }
     )
+    assert_routing(
+      { :path => "/changeset/1/tags/key", :method => :delete },
+      { :controller => "changeset_tags", :action => "destroy", :changeset_id => "1", :key => "key" }
+    )
   end
 
   def test_index_success
@@ -40,6 +44,9 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
       assert_dom "tbody tr", :count => 1 do
         assert_dom "th", :text => "tested-tag-key"
         assert_dom "td", :text => "tested-tag-value"
+        assert_dom "td form[action='#{changeset_tag_path(changeset, 'tested-tag-key')}']" do
+          assert_dom "button", :text => "Delete"
+        end
       end
     end
   end
@@ -59,8 +66,14 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
       assert_dom "tbody tr", :count => 2 do |rows|
         assert_dom rows[0], "th", :text => "tested-1st-tag-key"
         assert_dom rows[0], "td", :text => "tested-1st-tag-value"
+        assert_dom rows[0], "td form[action='#{changeset_tag_path(changeset, 'tested-1st-tag-key')}']" do
+          assert_dom "button", :text => "Delete"
+        end
         assert_dom rows[1], "th", :text => "tested-2nd-tag-key"
         assert_dom rows[1], "td", :text => "tested-2nd-tag-value"
+        assert_dom rows[1], "td form[action='#{changeset_tag_path(changeset, 'tested-2nd-tag-key')}']" do
+          assert_dom "button", :text => "Delete"
+        end
       end
     end
   end
