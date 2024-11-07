@@ -66,6 +66,12 @@ bn:
         create: বাধা তৈরি করুন
         update: বাধা হালনাগাদ করুন
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: n আপনার ব্যবহারকারী আইডি না হলে user_n হবে না
+      models:
+        user_mute:
+          is_already_muted: ইতিমধ্যেই মিউট করা হয়েছে
     models:
       acl: প্রবেশাধিকার নিয়ন্ত্রণ তালিকা
       changeset: পরিবর্তনসমূহ
@@ -252,6 +258,7 @@ bn:
         reopened_at_by_html: '%{when} %{user} দ্বারা পুনর্সক্রিয়'
       rss:
         title: ওপেনস্ট্রিটম্যাপ টীকা
+        description_all: রিপোর্ট করা, মন্তব্য করা বা বন্ধ করা নোটের তালিকা
         description_area: নোটের তালিকা, রিপোর্ট করা, মন্তব্য করা বা আপনার এলাকায়
           বন্ধ করা [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: নোট %{id}-এর জন্য একটি আরএসএস চারণ
@@ -286,6 +293,8 @@ bn:
         retain_changeset_discussions: আপনার পরিবর্তন ধার্য আলোচনাগুলি, যদি করে থাকেন,
           রয়ে যাবে।
         retain_email: আপমার ইমেইল ঠিকানা রয়ে যাবে।
+        recent_editing_html: আপনি সম্প্রতি সম্পাদনা করেছেন বলে আপনার অ্যাকাউন্টটি
+          বর্তমানে মুছে ফেলা যাবে না। %{time} পরে মুছে ফেলা সম্ভব হবে।
         confirm_delete: আপনি কি নিশ্চিত?
         cancel: বাতিল করুন
   accounts:
@@ -337,6 +346,7 @@ bn:
     deleted_ago_by_html: '%{user} কর্তৃক %{time_ago} অপসারিত'
     edited_ago_by_html: '%{user} কর্তৃক %{time_ago} সম্পাদিত'
     version: সংস্করণ
+    redacted_version: সংশোধিত সংস্করণ
     in_changeset: পরিবর্তনসমূহ
     anonymous: নামহীন
     no_comment: (কোনো মন্তব্য নেই)
@@ -349,6 +359,7 @@ bn:
       other: '%{count}টি রাস্তা'
     download_xml: XML ডাউনলোড করুন
     view_history: ইতিহাস দেখুন
+    view_unredacted_history: অসংশোধিত ইতিহাস দেখুন
     view_details: বিস্তারিত দেখুন
     location: 'অবস্থান:'
     node:
@@ -470,6 +481,7 @@ bn:
     index:
       title: পরিবর্তনধার্য
       title_user: '%{user} কর্তৃক পরিবর্তন ধার্য'
+      title_user_link_html: '%{user_link}-এর দ্বারা পরিবর্তনগুলি'
       title_friend: আমার বন্ধুদের দ্বারা পরিবর্তনসেট
       title_nearby: কাছকাছি ব্যবহারকারীর পরিবর্তনধার্য
       empty: কোনো পরিবর্তনধার্য পাওয়া যায়নি।
@@ -485,8 +497,16 @@ bn:
         created: তৈরি হয়েছে
         closed: বন্ধ হয়েছে
         belongs_to: লেখক
+    subscribe:
+      button: আলোচনায় সাবস্ক্রাইব করুন
+    unsubscribe:
+      button: আলোচনায় আনসাবস্ক্রাইব করুন
+    no_such_entry:
+      heading: '%{id} আইডির কোনো ভুক্তি নেই'
     show:
       title: 'পরিবর্তনধার্য: %{id}'
+      created: 'তৈরি করা হয়েছে: %{when}'
+      closed: 'বন্ধ করা হয়েছে: %{when}'
       created_ago_html: '%{time_ago} তৈরি'
       closed_ago_html: '%{time_ago} বন্ধকৃত'
       created_ago_by_html: '%{user} কর্তৃক %{time_ago} তৈরিকৃত'
@@ -495,6 +515,8 @@ bn:
       join_discussion: আলোচনায় যোগ দিতে প্রবেশ করুন
       still_open: চেঞ্জসেট এখনও খোলা - চেঞ্জসেট বন্ধ হয়ে গেলে আলোচনা খোলা হবে।
       hidden_comment_by_html: '%{user} %{time_ago} মন্তব্যটি লুকিয়েছেন'
+      hide_comment: লুকান
+      unhide_comment: দৃশ্যমান করুন
       comment: মন্তব্য
       changesetxml: পরিবর্তনধার্য এক্সএমএল
       osmchangexml: osmChange এক্সএমএল
@@ -618,7 +640,10 @@ bn:
         create:
           notice: অ্যাপ্লিকেশন নিবন্ধিত।
     scopes:
+      address: আপনার আসল ঠিকানা দেখুন
       email: আপনার ইমেইল ঠিকানা দেখুন
+      phone: আপনার ফোন নম্বর দেখুন
+      profile: আপনার প্রোফাইলের তথ্য দেখুন
   errors:
     contact:
       contact: যোগাযোগ
@@ -1196,28 +1221,35 @@ bn:
           fashion: ফ্যাশন সামগ্রীর দোকান
           florist: ফুলওয়ালা
           food: খাবারের দোকান
+          frame: ফ্রেমের দোকান
           funeral_directors: অন্ত্যেষ্টিক্রিয়া পরিচালকবৃন্দ
           furniture: আসবাবপত্র
           garden_centre: বাগান কেন্দ্র
+          gas: গ্যাসের দোকান
           general: সাধারণ দোকান
           gift: উপহারের দোকান
           greengrocer: সবজিওয়ালা
           grocery: মুদি দোকান
           hairdresser: নাপিত
           hardware: যন্ত্রাংশের দোকান
+          health_food: স্বাস্থ্যকর খাবারের দোকান
           hearing_aids: শ্রবণসহায়ক যন্ত্র
+          herbalist: ভেষজ বিশেষজ্ঞ
           hifi: হাই-ফাই দোকান
           houseware: ঘরোয়া জিনিসের দোকান
           ice_cream: আইসক্রিমের দোকান
           interior_decoration: ভিতরের সজ্জা
           jewelry: গহনার দোকান
+          kiosk: কিয়স্কের দোকান
           kitchen: রান্নাঘরের দোকান
           laundry: ধোপার দোকান
           locksmith: চাবিওয়ালা
           lottery: লটারি
           mall: বিপণী বিতান
           massage: ম্যাসেজ
+          medical_supply: চিকিৎসা সামগ্রীর দোকান
           mobile_phone: মোবাইল ফোনের দোকান
+          money_lender: ঋণদাতা
           motorcycle: মোটোরসইকেলের দোকান
           motorcycle_repair: মোটরসাইকেল মেরামতের দোকান
           music: সঙ্গীতের দোকান
@@ -1226,8 +1258,11 @@ bn:
           nutrition_supplements: পুষ্টি সম্পূরক
           optician: চশমা বিক্রেতা
           organic: জৈব খাদ্যের দোকান
+          outdoor: আউটডোর দোকান
           paint: রঙের দোকান
+          pastry: পেস্ট্রির দোকান
           perfumery: সুগন্ধিশালা
+          pet: পোষা প্রাণীর দোকান
           photo: ছবির দোকান
           seafood: সামুদ্রিক খাবার
           second_hand: পুরনো-সামগ্রীর দোকান
@@ -1251,6 +1286,7 @@ bn:
           wine: মদের দোকান
           "yes": দোকান
         tourism:
+          artwork: শিল্পকর্ম
           attraction: আকর্ষণ
           cabin: পর্যটক কেবিন
           camp_site: ক্যাম্পের স্থল
@@ -1287,6 +1323,7 @@ bn:
           "yes": জলপথ
       admin_levels:
         level2: রাষ্ট্রের সীমানা
+        level3: অঞ্চলের সীমানা
         level4: রাজ্যের সীমানা
         level5: অঞ্চলের সীমানা
         level6: প্রদেশের সীমানা
@@ -1304,10 +1341,12 @@ bn:
       select_type: প্রকার নির্বাচন করুন
       search: অনুসন্ধান
       states:
+        ignored: উপেক্ষিত
         open: খুলুন
         resolved: মীমাংসিত
     page:
       user_not_found: ব্যবহারকারীর অস্তিত্ব নেই
+      issues_not_found: এই ধরনের কোনও ইস্যু পাওয়া যায়নি
       status: স্থিতি
       reports: অভিযোগ
       last_updated: সর্বশেষ হালনাগাদ
@@ -1315,6 +1354,9 @@ bn:
       reports_count:
         one: '%{count}টি প্রতিবেদন'
         other: '%{count}টি প্রতিবেদন'
+      states:
+        open: খুলুন
+        resolved: মীমাংসিত
     show:
       resolve: মীমাংসা করুন
       ignore: উপেক্ষা করুন
@@ -1322,6 +1364,7 @@ bn:
       reports_of_this_issue: এই সমস্যা প্রতিবেদন করুন
       read_reports: প্রতিবেদন পড়ুন
       new_reports: নতুন প্রতিবেদন
+      comments_on_this_issue: এই বিষয়ে মন্তব্যসমূহ
     helper:
       reportable_title:
         note: 'টীকা #%{note_id}'
@@ -1542,20 +1585,29 @@ bn:
       delete image: বর্তমান ছবিটি অপসারণ করুন
       replace image: বর্তমান ছবি বদল করুন
       home location: বাড়ির অবস্থান
+      show: দেখাও
+      delete: অপসারণ
     update:
       success: প্রোফাইল পরিবর্তিত হয়েছে।
   sessions:
     new:
-      tab_title: প্রবেশ
+      tab_title: প্রবেশ করুন
       email or username: ইমেইল ঠিকানা অথবা ব্যবহারকারী নাম
       password: পাসওয়ার্ড
       remember: আমাকে মনে রাখো
       lost password link: পাসওয়ার্ড ভুলে গেছেন?
       login_button: প্রবেশ করুন
+      or: অথবা
       auth failure: দুঃখিত, এই তথ্য দিয়ে প্রবেশ করানো যাচ্ছে না।
     destroy:
       title: প্রস্থান
+      heading: ওপেনস্ট্রিটম্যাপ থেকে লগআউট করুন
       logout_button: প্রস্থান
+    suspended_flash:
+      suspended: দুঃখিত, সন্দেহজনক কার্যকলাপের কারণে আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে।
+      contact_support_html: আপনি যদি এই বিষয়ে আলোচনা করতে চান তাহলে অনুগ্রহ করে %{support_link}-এর
+        সাথে যোগাযোগ করুন।
+      support: সহায়তা
   shared:
     markdown_help:
       heading_html: '%{kramdown_link} দিয়ে পার্স করা হয়েছে'
@@ -1573,6 +1625,7 @@ bn:
     richtext_field:
       edit: সম্পাদনা
       preview: প্রাকদর্শন
+      help: সাহায্য
     pagination:
       diary_comments:
         older: পুরাতন মন্তব্য
