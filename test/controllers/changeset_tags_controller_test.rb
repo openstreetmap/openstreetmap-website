@@ -16,6 +16,12 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
 
     get changeset_tags_path(changeset)
     assert_response :success
+
+    assert_dom ".content-body" do
+      assert_dom "h2", :text => "Changeset: #{changeset.id}" do
+        assert_dom "a[href='#{changeset_path(changeset)}']"
+      end
+    end
   end
 
   def test_index_fail_no_changeset
