@@ -10,8 +10,24 @@ class ChangesetTagsController < ApplicationController
   def index
     @changeset = Changeset.find(params[:changeset_id])
   rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
+    render :action => "changeset_not_found", :status => :not_found
   end
 
-  def destroy; end
+  def destroy
+    begin
+      @changeset = Changeset.find(params[:changeset_id])
+    rescue ActiveRecord::RecordNotFound
+      render :action => "changeset_not_found", :status => :not_found
+      return
+    end
+    begin
+      @changeset_tag = ChangesetTag.find([params[:changeset_id], params[:key]])
+    rescue ActiveRecord::RecordNotFound
+      render :action => "tag_not_found", :status => :not_found
+      return
+    end
+
+    @changeset_tag.delete
+    redirect_to changeset_tags_path(@changeset)
+  end
 end
