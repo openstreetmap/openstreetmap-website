@@ -54,6 +54,7 @@ class Ability
         can [:read, :create, :destroy], UserMute
 
         if user.moderator?
+          can :manage, ChangesetTag
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:read, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment

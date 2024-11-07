@@ -151,6 +151,8 @@ OpenStreetMap::Application.routes.draw do
     namespace :changeset_comments, :as => :comments, :path => :comments do
       resource :feed, :only => :show, :defaults => { :format => "rss" }
     end
+
+    resource :tags, :controller => "changeset_tags", :only => :show
   end
   get "/changeset/:id/subscribe", :id => /\d+/, :to => redirect(:path => "/changeset/%{id}/subscription")
   get "/changeset/:id/unsubscribe", :id => /\d+/, :to => redirect(:path => "/changeset/%{id}/subscription")
