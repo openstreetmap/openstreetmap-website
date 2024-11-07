@@ -7,5 +7,9 @@ class ChangesetTagsController < ApplicationController
 
   authorize_resource
 
-  def index; end
+  def index
+    Changeset.find(params[:changeset_id])
+  rescue ActiveRecord::RecordNotFound
+    render :action => "not_found", :status => :not_found
+  end
 end

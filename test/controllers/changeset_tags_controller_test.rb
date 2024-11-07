@@ -18,6 +18,15 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  def test_index_fail_no_changeset
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    get changeset_tags_path(999111)
+    assert_response :not_found
+  end
+
   def test_index_fail_not_logged_in
     changeset = create(:changeset)
 
