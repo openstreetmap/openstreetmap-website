@@ -149,6 +149,16 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_destroy_fail_invalid_key_encoding
+    changeset = create(:changeset)
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    delete changeset_tags_path(changeset, :base64_key => "ZnJvbV9jb")
+    assert_response :not_found
+  end
+
   def test_destroy_fail_no_key
     changeset = create(:changeset)
     moderator_user = create(:moderator_user)
