@@ -129,6 +129,8 @@ OpenStreetMap::Application.routes.draw do
     namespace :changeset_comments, :as => :comments, :path => :comments do
       resource :feed, :only => :show, :defaults => { :format => "rss" }
     end
+
+    resources :tags, :controller => "changeset_tags", :only => :index
   end
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 

@@ -53,6 +53,7 @@ class Ability
         can [:index, :create, :destroy], UserMute
 
         if user.moderator?
+          can :manage, ChangesetTag
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
