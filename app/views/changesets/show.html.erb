@@ -105,9 +105,13 @@
 </div>
 
 <div class='secondary-actions'>
-  <%= link_to t(".changesetxml"), api_changeset_path(@changeset) %>
+  <%= link_to t(".changesetxml"), api_changeset_path(@changeset), :class => "text-nowrap" %>
   &middot;
-  <%= link_to t(".osmchangexml"), api_changeset_download_path(@changeset) %>
+  <%= link_to t(".osmchangexml"), api_changeset_download_path(@changeset), :class => "text-nowrap" %>
+  <% if can? :manage, ChangesetTag %>
+    &middot;
+    <%= link_to t(".manage_tags"), changeset_tags_path(@changeset), :class => "text-nowrap" %>
+  <% end %>
 </div>
 
 <% if @next_by_user || @prev_by_user %>

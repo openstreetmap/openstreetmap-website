@@ -334,6 +334,33 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_dom "a[href='#{changeset_path changeset5}']", :count => 1
   end
 
+  def test_show_no_manage_tags_link_for_anonymous_users
+    changeset = create(:changeset)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    assert_dom ".secondary-actions a[href='#{changeset_tags_path changeset}']", :count => 0
+  end
+
+  def test_show_no_manage_tags_link_for_regular_users
+    changeset = create(:changeset)
+    user = create(:user)
+
+    session_for(user)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    assert_dom ".secondary-actions a[href='#{changeset_tags_path changeset}']", :count => 0
+  end
+
+  def test_show_manage_tags_link
+    changeset = create(:changeset)
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    assert_dom ".secondary-actions a[href='#{changeset_tags_path changeset}']", :count => 1
+  end
+
   ##
   # This should display the last 20 non-empty changesets
   def test_feed
