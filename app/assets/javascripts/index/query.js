@@ -289,18 +289,10 @@ OSM.Query = function (map) {
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, radius, featureStyle).addTo(map);
-
-    $(document).everyTime(75, "fadeQueryMarker", function (i) {
-      if (i === 10) {
-        map.removeLayer(marker);
-      } else {
-        marker.setStyle({
-          opacity: 1 - (i * 0.1),
-          fillOpacity: 0.5 - (i * 0.05)
-        });
-      }
-    }, 10);
+    marker = L.circle(latlng, Object.assign({
+      radius: radius,
+      className: "query-marker"
+    }, featureStyle)).addTo(map);
 
     runQuery(latlng, radius, nearby, $("#query-nearby"), false);
     runQuery(latlng, radius, isin, $("#query-isin"), true, compareSize);
