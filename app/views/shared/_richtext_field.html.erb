@@ -15,7 +15,14 @@
       <div id="<%= id %>_edit" class="tab-pane show active">
         <%= builder.text_area(attribute, options.merge(:wrapper => false, "data-preview-url" => preview_url(:type => type))) %>
       </div>
-      <div id="<%= id %>_preview" class="tab-pane richtext text-break"></div>
+      <div id="<%= id %>_preview" class="tab-pane">
+        <div class="richtext_placeholder text-center py-5" hidden>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+          </div>
+        </div>
+        <div class="richtext text-break"></div>
+      </div>
       <div id="<%= id %>_help" class="tab-pane">
         <div class="card bg-body-tertiary h-100">
           <div class="card-body">
