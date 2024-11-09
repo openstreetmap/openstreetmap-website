@@ -34,6 +34,7 @@ class ChangesetTagsController < ApplicationController
     end
 
     @changeset_tag.delete
+    flash[:notice] = t ".success", :k => @changeset_tag.k, :v => @changeset_tag.v
     redirect_to changeset_tags_path(@changeset)
   end
 end

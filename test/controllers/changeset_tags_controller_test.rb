@@ -124,6 +124,7 @@ class ChangesetTagsControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to changeset_tags_path(changeset)
     end
     assert_equal({ "tested-2nd-tag-key" => "tested-2nd-tag-value" }, changeset.tags)
+    assert_match(/tested-1st-tag-key=tested-1st-tag-value deleted successfully/, flash[:notice])
   end
 
   def test_delete_success_empty_tag
