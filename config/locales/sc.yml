@@ -2267,44 +2267,61 @@ sc:
           cycleway_local: Pista tziclàbile locale
           footway: Caminu pro pedones
           rail: Ferrovia
+          train: Trenu
           subway: Metropolitana
+          light_rail: Trenu lèbiu/metropolitana lèbia
+          tram: Tram
+          bus: Postale
           cable_car: Funivia
           chair_lift: ascensore carrotzina
           runway: Pista de aeroportu
           taxiway: carrera de furriada
           apron: Àrea de parchègiu de sos aèreos
           admin: Làcana amministrativa
+          capital: Capitale
+          city: Tzitade
+          vineyard: Bìngia
           forest: Litu
           wood: Buscu
+          farmland: Terras de coltivu
+          grass: Erba
+          meadow: Pradu
+          bare_rock: Roca nuda
+          sand: Arena
           golf: Campu de golf
           park: Parcu
           common: Comunu
+          built_up: Zona fraigada
           resident: Àrea de residèntzia
           retail: Àrea cummertziale
           industrial: Àrea industriale
           commercial: Àrea cummertziale
           heathland: Istruvina
           lake: Lagu
-          reservoir: riserva de abba
+          reservoir: Riserva de abba
           farm: Fatoria
           brownfield: Terrinu industriale abbandonadu
           cemetery: Campusantu
           allotments: Giardinos familiares
           pitch: Campu isportivu
           centre: Tzentru isportivu
+          beach: Marina
           reserve: Reserva naturale
           military: Zona militare
           school: Iscola
-          university: universidade
+          university: Universidade
+          hospital: Ispidale
           building: Edifìtziu significativu
           station: Istatzione ferroviària
+          tram_stop: Firmada de su tram
           summit: Cùcuru de monte
-          peak: cùcuru
+          peak: Cùcuru
           tunnel: Lìnia trategiada = galleria
           bridge: Oros nieddos = ponte
           private: Atzessu privadu
           destination: Atzessu pro sa destinatzione
           construction: Caminos in costrutzione
+          bus_stop: Firmada de su postale
           bicycle_shop: Butega de bitzicletas
           bicycle_parking: Parchègiu pro bitzicletas
           toilets: Còmodu
@@ -2505,24 +2522,26 @@ sc:
       oauth2_applications: Aplicatziones OAuth 2
       oauth2_authorizations: Autorizatziones OAuth 2
     auth_providers:
+      openid_url: URL OpenID
+      openid_login_button: Sighi
       openid:
         title: Intra cun OpenID
-        alt: Intra cun un'URL de OpenID
+        alt: Logotipu de OpenID
       google:
         title: Intra cun Google
-        alt: Intra cun un'OpenID de Google
+        alt: Logotipu de Google
       facebook:
         title: Intra cun Facebook
-        alt: Intra cun unu contu de Facebook
+        alt: Logotipu de Facebook
       microsoft:
         title: Intra cun Microsoft
-        alt: Intra cun unu contu de Microsoft
+        alt: Logotipu de Microsoft
       github:
         title: Intra cun GitHub
-        alt: Intra cun unu contu de GitHub
+        alt: Logotipu de GitHub
       wikipedia:
         title: Intra cun Wikipedia
-        alt: Intra cun unu contu de Wikipedia
+        alt: Logotipu de Wikipedia
   oauth:
     permissions:
       missing: No as cuntzèdidu s'atzessu a custa caraterìstica  a s'aplicatzione
@@ -2582,6 +2601,7 @@ sc:
       title: Sas aplicatziones autorizadas meas
       application: Aplicatzione
       permissions: Permissos
+      last_authorized: Ùrtima autorizatzione
       no_applications_html: No as galu autorizadu peruna aplicatzione %{oauth2}.
     application:
       revoke: Rèvoca s'atzessu
@@ -2589,6 +2609,8 @@ sc:
   users:
     new:
       title: Iscrie·ti
+      tab_title: Registrati·ti
+      signup_to_authorize_html: Registra·ti cun OpenStreetMap pro atzèdere a %{client_app_name}.
       no_auto_account_create: A dolu mannu como non semus in gradu de creare unu contu
         pro tene in automàticu.
       please_contact_support_html: Cuntata %{support_link} pro fàghere in manera chi
@@ -2596,12 +2618,15 @@ sc:
         su prus in presse chi podimus.
       support: assistèntzia
       about:
-        header: Lìbera e modificàbile
+        header: Lìbera e modificàbile.
         paragraph_1: A diferèntzia de àteras mapas, OpenStreetMap est totu realizada
           dae persones che a tie e chie si siat la podet currègere, agiornare, iscarrigare
           o impreare in manera lìbera.
-        paragraph_2: Registra·ti pro incumintzare a contribuire. T'amus a imbiare
-          una lìtera eletrònica pro cunfirmare su contu tuo.
+        paragraph_2: Registra·ti pro incumintzare a contribuire.
+        welcome: Bene bènnidu in OpenStreetMap
+      duplicate_social_email: Si tenes giai unu contu de OpenStreetMap e boles impreare
+        unu frunidore de identidade esternu, intra impreende sa crae tua e muda sas
+        impostaduras de su contu tuo.
       display name description: Su nùmene de utente chi s'at a mustrare in manera
         pùblica. Lu podes cambiare prus a tardu in sas preferèntzias.
       by_signing_up:
@@ -2836,6 +2861,12 @@ sc:
       reason: Resone de su blocu
       status: Istadu
       revoker_name: Revocadu dae
+    navigation:
+      all_blocks: Totu sos blocos
+      blocks_on_me: Blocos subra a mene
+      blocks_by_me: Blocos fatos dae mene
+      block: 'Blocu #%{id}'
+      new_block: Blocu nou
   notes:
     index:
       title: Notas insertadas o cummentadas dae %{user}
@@ -2884,12 +2915,16 @@ sc:
       intro: As agatadu una faddina o carchi cosa chi mancat? Informa sos àteros mapadores
         a manera chi lu potzant acontzare. Move su marcadore a sa positzione curreta
         e iscrie una nota pro descrìere su problema.
+      anonymous_warning_log_in: intra
+      anonymous_warning_sign_up: registra·ti
       advice: Sa nota tua est pùblica e si podet impreare pro atualizare sa mapa,
         duncas non nch'insertes peruna informatzione personale o informatzione de
         mapas cun deretu de autore o elencos.
       add: Annanghe una nota
     notes_paging_nav:
       showing_page: Pàgina %{page}
+      next: Imbeniente
+      previous: Antepostu
   javascripts:
     close: Serra
     share:
