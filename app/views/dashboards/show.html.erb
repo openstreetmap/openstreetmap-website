@@ -27,19 +27,19 @@
     </div>
 
     <div class="col-md">
-      <h2><%= t ".my friends" %></h2>
+      <h2><%= t ".followings" %></h2>
 
       <% if friends.empty? %>
-        <%= t ".no friends" %>
+        <%= t ".no followings" %>
       <% else %>
         <nav class='secondary-actions mb-3'>
           <ul class='clearfix'>
-            <li><%= link_to t(".friends_changesets"), friend_changesets_path %></li>
-            <li><%= link_to t(".friends_diaries"), friends_diary_entries_path %></li>
+            <li><%= link_to t(".followed_changesets"), friend_changesets_path %></li>
+            <li><%= link_to t(".followed_diaries"), friends_diary_entries_path %></li>
           </ul>
         </nav>
         <div>
-          <%= render :partial => "contact", :collection => friends, :locals => { :type => "friend" } %>
+          <%= render :partial => "contact", :collection => friends, :locals => { :type => "following" } %>
         </div>
       <% end %>
 
