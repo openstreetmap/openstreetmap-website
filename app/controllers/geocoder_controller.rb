@@ -206,13 +206,22 @@ class GeocoderController < ApplicationController
     if query = params[:query]
       query.strip!
 
-      if latlon = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
-                  query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
-        params.merge!(to_decdeg(latlon.named_captures.compact)).delete(:query)
+      if match = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
+                 query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
+        captures = match.named_captures.compact
+        params.merge! :lat => dms_to_decdeg("ns", "ns", captures),
+                      :lon => dms_to_decdeg("ew", "ew", captures)
+        params.delete(:query)
 
-      elsif latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$})
-        params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
-
+      elsif match = query.match(%r{^
+                      (?<ns>[+-]?)\s*#{dms_regexp('ns', :comma => false)}
+                      (?:\s+|\s*[,/]\s*)
+                      (?<ew>[+-]?)\s*#{dms_regexp('ew', :comma => false)}
+                    $}x)
+        captures = match.named_captures.compact
+        params.merge! :lat => dms_to_decdeg("ns", "+-", captures),
+                      :lon => dms_to_decdeg("ew", "+-", captures)
+        params.delete(:query)
         params[:latlon_digits] = true
       end
     end
@@ -220,28 +229,28 @@ class GeocoderController < ApplicationController
     params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
   end
 
-  def dms_regexp(name_prefix)
+  def dms_regexp(prefix, comma: true)
+    final_fraction = comma ? /(?:[.,]\d+)?/ : /(?:[.]\d+)?/
     /
-      (?: (?<#{name_prefix}d>\d{1,3}(?:\.\d+)?)°? ) |
-      (?: (?<#{name_prefix}d>\d{1,3})°?\s*(?<#{name_prefix}m>\d{1,2}(?:\.\d+)?)['′]? ) |
-      (?: (?<#{name_prefix}d>\d{1,3})°?\s*(?<#{name_prefix}m>\d{1,2})['′]?\s*(?<#{name_prefix}s>\d{1,2}(?:\.\d+)?)["″]? )
+      (?: (?<#{prefix}d>\d{1,3}#{final_fraction})°? ) |
+      (?: (?<#{prefix}d>\d{1,3})°?\s*(?<#{prefix}m>\d{1,2}#{final_fraction})['′]? ) |
+      (?: (?<#{prefix}d>\d{1,3})°?\s*(?<#{prefix}m>\d{1,2})['′]?\s*(?<#{prefix}s>\d{1,2}#{final_fraction})["″]? )
     /x
   end
 
-  def to_decdeg(captures)
-    ns = captures.fetch("ns").casecmp?("s") ? -1 : 1
-    nsd = BigDecimal(captures.fetch("nsd", "0"))
-    nsm = BigDecimal(captures.fetch("nsm", "0"))
-    nss = BigDecimal(captures.fetch("nss", "0"))
+  def dms_to_decdeg(prefix, directions, captures)
+    extract_number = ->(suffix) { captures.fetch("#{prefix}#{suffix}", "0").sub(",", ".") }
 
-    ew = captures.fetch("ew").casecmp?("w") ? -1 : 1
-    ewd = BigDecimal(captures.fetch("ewd", "0"))
-    ewm = BigDecimal(captures.fetch("ewm", "0"))
-    ews = BigDecimal(captures.fetch("ews", "0"))
-
-    lat = ns * (nsd + (nsm / 60) + (nss / 3600))
-    lon = ew * (ewd + (ewm / 60) + (ews / 3600))
-
-    { :lat => lat.round(6).to_s("F"), :lon => lon.round(6).to_s("F") }
+    positive_direction, negative_direction = directions.chars
+    sign = captures.fetch(prefix, positive_direction).casecmp?(negative_direction) ? "-" : ""
+    deg = if captures["#{prefix}m"] || captures["#{prefix}s"]
+            d = BigDecimal extract_number.call("d")
+            m = BigDecimal extract_number.call("m")
+            s = BigDecimal extract_number.call("s")
+            (d + (m / 60) + (s / 3600)).round(6).to_s("F")
+          else
+            extract_number.call("d")
+          end
+    "#{sign}#{deg}"
   end
 end

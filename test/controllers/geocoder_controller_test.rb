@@ -44,6 +44,37 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "+50.06773/+14.37742"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
+      assert @controller.params[:latlon_digits]
+    end
+  end
+
+  ##
+  # Test identification of basic lat/lon pairs with degrees
+  def test_identify_latlon_basic_d
+    [
+      "25.79° -80.27°",
+      "25.79°/-80.27°",
+      "25.79°, -80.27°",
+      "+25.79° -80.27°",
+      "+25.79°/-80.27°",
+      "+25.79°, -80.27°"
+    ].each do |code|
+      latlon_check code, 25.79, -80.27
+      assert @controller.params[:latlon_digits]
+    end
+  end
+
+  ##
+  # Test identification of basic lat/lon pairs with degrees/mins
+  def test_identify_latlon_basic_dm
+    [
+      "25° 47.70852 -80° 16.61904",
+      "25° 47.70852, -80° 16.61904",
+      "25° 47.70852' -80° 16.61904'",
+      "25° 47.70852', -80° 16.61904'"
+    ].each do |code|
+      latlon_check code, 25.795142, -80.276984
+      assert @controller.params[:latlon_digits]
     end
   end
 
@@ -57,6 +88,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50.06773N, 14.37742E"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -70,6 +102,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50°N 14°E"
     ].each do |code|
       latlon_check code, 50, 14
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -83,6 +116,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50.06773N, 14.37742W"
     ].each do |code|
       latlon_check code, 50.06773, -14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -96,6 +130,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50.06773S, 14.37742E"
     ].each do |code|
       latlon_check code, -50.06773, 14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -109,6 +144,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50.06773S, 14.37742W"
     ].each do |code|
       latlon_check code, -50.06773, -14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -125,6 +161,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50° 04.064' N, 014° 22.645' E"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -141,6 +178,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50° 04.064' N, 014° 22.645' W"
     ].each do |code|
       latlon_check code, 50.06773, -14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -157,6 +195,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50° 04.064' S, 014° 22.645' E"
     ].each do |code|
       latlon_check code, -50.06773, 14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -173,6 +212,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50° 04.064' S, 014° 22.645' W"
     ].each do |code|
       latlon_check code, -50.06773, -14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -188,6 +228,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50°4'3.828\"N 14°22'38.712\"E"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -203,6 +244,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50°4'3.828\"N 14°22'38.712\"W"
     ].each do |code|
       latlon_check code, 50.06773, -14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -218,6 +260,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50°4'3.828\"S 14°22'38.712\"E"
     ].each do |code|
       latlon_check code, -50.06773, 14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -233,6 +276,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50°4'3.828\"S 14°22'38.712\"W"
     ].each do |code|
       latlon_check code, -50.06773, -14.37742
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
@@ -270,6 +314,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     latlon_check "N15 E1 5",    15, 1.083333
     latlon_check "N15 E1 5 9",  15, 1.085833
     latlon_check "N1 5 E1 5 9", 1.083333, 1.085833
+    assert_nil @controller.params[:latlon_digits]
   end
 
   #
@@ -281,6 +326,20 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "N 0° 0' 0.4428\", W 0° 0' 1.6416\""
     ].each do |code|
       latlon_check code, 0.0000123, -0.0000456
+    end
+  end
+
+  #
+  # Test identification of lat/lon pairs with decimal comma
+  def test_identify_latlon_nw_decimal_comma
+    [
+      "N 28° 34' 31,098\" W 16° 11' 14,592\"",
+      "N 28° 34' 31,098\", W 16° 11' 14,592\"",
+      "28° 34' 31,098\" N 16° 11' 14,592\" W",
+      "28° 34' 31,098\" N, 16° 11' 14,592\" W"
+    ].each do |code|
+      latlon_check code, 28.575305, -16.187387
+      assert_nil @controller.params[:latlon_digits]
     end
   end
 
