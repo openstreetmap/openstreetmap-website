@@ -6,8 +6,10 @@
    */
   $(document).on("change", ".richtext_container textarea", function () {
     var container = $(this).closest(".richtext_container");
+    var preview = container.find(".tab-pane[id$='_preview']");
 
-    container.find(".tab-pane[id$='_preview']").empty();
+    preview.children(".richtext_placeholder").attr("hidden", true);
+    preview.children(".richtext").empty();
   });
 
   /*
@@ -31,14 +33,14 @@
     var editor = container.find("textarea");
     var preview = container.find(".tab-pane[id$='_preview']");
 
-    if (preview.contents().length === 0) {
-      preview.oneTime(500, "loading", function () {
-        preview.addClass("loading");
+    if (preview.children(".richtext").contents().length === 0) {
+      preview.oneTime(200, "loading", function () {
+        preview.children(".richtext_placeholder").removeAttr("hidden");
       });
 
-      preview.load(editor.data("previewUrl"), { text: editor.val() }, function () {
+      preview.children(".richtext").load(editor.data("previewUrl"), { text: editor.val() }, function () {
         preview.stopTime("loading");
-        preview.removeClass("loading");
+        preview.children(".richtext_placeholder").attr("hidden", true);
       });
     }
   });
