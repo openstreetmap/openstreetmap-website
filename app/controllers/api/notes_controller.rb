@@ -398,8 +398,10 @@ module Api
 
       comment = note.comments.create!(attributes)
 
-      note.comments.map(&:author).uniq.each do |user|
-        UserMailer.note_comment_notification(comment, user).deliver_later if notify && user && user != current_user && user.visible?
+      if notify
+        note.subscribers.visible.each do |user|
+          UserMailer.note_comment_notification(comment, user).deliver_later if current_user != user
+        end
       end
 
       NoteSubscription.find_or_create_by(:note => note, :user => current_user) if current_user

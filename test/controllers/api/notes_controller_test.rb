@@ -271,6 +271,58 @@ module Api
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
     end
 
+    def test_comment_without_notifications_success
+      # Ensure that emails are sent to users
+      first_user = create(:user)
+      second_user = create(:user)
+      third_user = create(:user)
+
+      note_with_comments_by_users = create(:note) do |note|
+        create(:note_comment, :note => note, :author => first_user)
+        create(:note_comment, :note => note, :author => second_user)
+      end
+
+      auth_header = bearer_authorization_header third_user
+
+      assert_difference "NoteComment.count", 1 do
+        assert_difference "NoteSubscription.count", 1 do
+          assert_no_difference "ActionMailer::Base.deliveries.size" do
+            perform_enqueued_jobs do
+              post comment_api_note_path(note_with_comments_by_users, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            end
+          end
+        end
+      end
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal "open", js["properties"]["status"]
+      assert_equal 3, js["properties"]["comments"].count
+      assert_equal "commented", js["properties"]["comments"].last["action"]
+      assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+      assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      subscription = NoteSubscription.last
+      assert_equal third_user, subscription.user
+      assert_equal note_with_comments_by_users, subscription.note
+
+      get api_note_path(note_with_comments_by_users, :format => "json")
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal "open", js["properties"]["status"]
+      assert_equal 3, js["properties"]["comments"].count
+      assert_equal "commented", js["properties"]["comments"].last["action"]
+      assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+      assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      ActionMailer::Base.deliveries.clear
+    end
+
     def test_comment_with_notifications_success
       # Ensure that emails are sent to users
       first_user = create(:user)
@@ -281,6 +333,8 @@ module Api
         create(:note_comment, :note => note, :author => first_user)
         create(:note_comment, :note => note, :author => second_user)
       end
+      create(:note_subscription, :note => note_with_comments_by_users, :user => first_user)
+      create(:note_subscription, :note => note_with_comments_by_users, :user => second_user)
 
       auth_header = bearer_authorization_header third_user
 
