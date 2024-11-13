@@ -405,6 +405,9 @@ $(document).ready(function () {
 
     if (OSM.router.route(this.pathname + this.search + this.hash)) {
       e.preventDefault();
+      if (this.pathname !== "/directions") {
+        $("header").addClass("closed");
+      }
     }
   });
 

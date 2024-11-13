@@ -8,27 +8,23 @@
   <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <%= content_for :header %>
-    <div class="btn-group">
-      <div id="edit_tab" class="btn-group">
-        <%= link_to t("layouts.edit"),
-                    edit_path,
-                    :class => "btn btn-outline-primary geolink editlink",
-                    :id => "editanchor",
-                    :data => { :editor => preferred_editor } %>
-        <button class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split' type='button' data-bs-toggle='dropdown'></button>
-        <ul class='dropdown-menu'>
-          <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-            <li>
-              <%= link_to t("layouts.edit_with", :editor => t("editor.#{editor}.description")),
-                          edit_path(:editor => editor),
-                          :data => { :editor => editor },
-                          :class => "geolink editlink dropdown-item" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-      <%= link_to t("layouts.history"), history_path, :class => "btn btn-outline-primary geolink flex-grow-1", :id => "history_tab" %>
-      <%= link_to t("layouts.export"), export_path, :class => "btn btn-outline-primary geolink", :id => "export_tab" %>
+    <div id="edit_tab" class="btn-group">
+      <%= link_to t("layouts.edit"),
+                  edit_path,
+                  :class => "btn btn-outline-primary geolink editlink",
+                  :id => "editanchor",
+                  :data => { :editor => preferred_editor } %>
+      <button class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split flex-grow-0' type='button' data-bs-toggle='dropdown'></button>
+      <ul class='dropdown-menu'>
+        <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
+          <li>
+            <%= link_to t("layouts.edit_with", :editor => t("editor.#{editor}.description")),
+                        edit_path(:editor => editor),
+                        :data => { :editor => editor },
+                        :class => "geolink editlink dropdown-item" %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </nav>
   <nav class='secondary d-flex gap-2 align-items-center'>
@@ -41,6 +37,12 @@
           <% end -%>
         </li>
       <% end %>
+      <li class="compact-hide nav-item">
+        <%= link_to t("layouts.history"), history_path, :class => header_nav_link_class(history_path) %>
+      </li>
+      <li class="compact-hide nav-item">
+        <%= link_to t("layouts.export"), export_path, :class => header_nav_link_class(export_path) %>
+      </li>
       <li class="compact-hide nav-item">
         <%= link_to t("layouts.gps_traces"), traces_path, :class => header_nav_link_class(traces_path) %>
       </li>
@@ -70,6 +72,8 @@
               <% end -%>
             </li>
           <% end %>
+          <li><%= link_to t("layouts.history"), history_path, :class => "dropdown-item" %></li>
+          <li><%= link_to t("layouts.export"), export_path, :class => "dropdown-item" %></li>
           <li><%= link_to t("layouts.gps_traces"), traces_path, :class => "dropdown-item" %></li>
           <li><%= link_to t("layouts.user_diaries"), diary_entries_path, :class => "dropdown-item" %></li>
           <li><%= link_to t("layouts.communities"), communities_path, :class => "dropdown-item" %></li>
