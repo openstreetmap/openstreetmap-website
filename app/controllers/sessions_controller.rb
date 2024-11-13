@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    session[:remember_me] ||= params[:remember_me]
+    session[:remember_me] = params[:remember_me] == "yes"
 
     referer = safe_referer(params[:referer]) if params[:referer]
 

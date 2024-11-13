@@ -54,6 +54,24 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
+  def test_login_remembered
+    user = create(:user)
+
+    post login_path, :params => { :username => user.display_name, :password => "test", :remember_me => "yes" }
+    assert_redirected_to root_path
+
+    assert_equal 28 * 86400, session[:_remember_for]
+  end
+
+  def test_login_not_remembered
+    user = create(:user)
+
+    post login_path, :params => { :username => user.display_name, :password => "test", :remember_me => "0" }
+    assert_redirected_to root_path
+
+    assert_nil session[:_remember_for]
+  end
+
   def test_logout_without_referer
     post logout_path
     assert_redirected_to root_path
