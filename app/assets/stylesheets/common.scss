@@ -82,6 +82,16 @@ time[title] {
   100% { opacity: 1 }
 }
 
+/* Bootstrap close button overrides for nested light/dark themes */
+
+[data-bs-theme="dark"] .btn-close {
+  filter: var(--bs-btn-close-white-filter);
+}
+
+[data-bs-theme="light"] .btn-close {
+  filter: none;
+}
+
 /* Rules for the header */
 
 #menu-icon {
@@ -502,7 +512,7 @@ body.small-nav {
   }
 
   .leaflet-control-scale-line {
-    @extend .border-light, .border-opacity-75;
+    border-color: rgba(var(--bs-light-rgb), .75) !important;
   }
 }
 
