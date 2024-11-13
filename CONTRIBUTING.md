@@ -1,3 +1,5 @@
+# Contributing
+
 * https://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
 * https://rubyonrails.org/ - The homepage of Rails, also has links and tutorials.
 
