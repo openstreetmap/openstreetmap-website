@@ -76,7 +76,7 @@ For iD, do the following:
 
 An example excerpt from settings.local.yml:
 
-```
+```yaml
 # Default editor
 default_editor: "id"
 # OAuth 2 Client ID for iD
@@ -99,7 +99,7 @@ To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discus
 
 An example excerpt from settings.local.yml:
 
-```
+```yaml
 # OAuth 2 Client ID for the web site
 oauth_application: "SGm8QJ6tmoPXEaUPIZzLUmm1iujltYZVWCp9hvGsqXg"
 # OAuth 2 Client Secret for the web site
