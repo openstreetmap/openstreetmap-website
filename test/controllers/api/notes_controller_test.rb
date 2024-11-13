@@ -1,4 +1,5 @@
 require "test_helper"
+require "json"
 
 module Api
   class NotesControllerTest < ActionDispatch::IntegrationTest
@@ -105,7 +106,18 @@ module Api
       assert_difference "Note.count", 1 do
         assert_difference "NoteComment.count", 1 do
           assert_no_difference "NoteSubscription.count" do
-            post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
+            assert_difference "NoteTag.count", 2 do
+              post api_notes_path(
+                :lat => -1.0,
+                :lon => -1.0,
+                :tags => {
+                  "created_by" => "OSM_TEST",
+                  "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր" => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ"
+                }.to_json,
+                :text => "This is a comment",
+                :format => "json"
+              )
+            end
           end
         end
       end
@@ -116,6 +128,9 @@ module Api
       assert_equal "Point", js["geometry"]["type"]
       assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
       assert_equal "open", js["properties"]["status"]
+      assert_equal 2, js["properties"]["tags"].count
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
       assert_equal 1, js["properties"]["comments"].count
       assert_equal "opened", js["properties"]["comments"].last["action"]
       assert_equal "This is a comment", js["properties"]["comments"].last["text"]
@@ -131,6 +146,9 @@ module Api
       assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
       assert_equal id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
+      assert_equal 2, js["properties"]["tags"].count
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
       assert_equal 1, js["properties"]["comments"].count
       assert_equal "opened", js["properties"]["comments"].last["action"]
       assert_equal "This is a comment", js["properties"]["comments"].last["text"]
