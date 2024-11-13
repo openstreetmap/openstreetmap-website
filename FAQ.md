@@ -1,3 +1,5 @@
+# Frequently Asked Questions
+
 ## How do I create a banner to promote my OpenStreetMap event?
 
 We occasionally display banner images on the main page of [openstreetmap.org](https://www.openstreetmap.org/) to
