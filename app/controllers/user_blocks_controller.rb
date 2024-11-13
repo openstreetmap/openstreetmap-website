@@ -29,7 +29,7 @@ class UserBlocksController < ApplicationController
   end
 
   def show
-    if current_user && current_user == @user_block.user
+    if current_user && current_user == @user_block.user && !@user_block.deactivates_at
       @user_block.needs_view = false
       @user_block.deactivates_at = [@user_block.ends_at, Time.now.utc].max
       @user_block.save!

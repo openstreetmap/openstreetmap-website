@@ -147,14 +147,72 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
     assert_select "h1 a[href='#{user_path active_block.creator}']", :text => active_block.creator.display_name
     assert UserBlock.find(active_block.id).needs_view
+  end
 
-    # Login as the blocked user
-    session_for(active_block.user)
+  ##
+  # test clearing needs_view by showing a zero-hour block to the blocked user
+  def test_show_sets_deactivates_at_for_zero_hour_block
+    user = create(:user)
+    session_for(user)
 
-    # Now viewing it should mark it as seen
-    get user_block_path(:id => active_block)
-    assert_response :success
-    assert_not UserBlock.find(active_block.id).needs_view
+    freeze_time do
+      block = create(:user_block, :needs_view, :zero_hour, :user => user)
+      assert block.needs_view
+      assert_nil block.deactivates_at
+
+      travel 1.hour
+
+      get user_block_path(block)
+      assert_response :success
+      block.reload
+      assert_not block.needs_view
+      assert_equal Time.now.utc, block.deactivates_at
+
+      travel 1.hour
+
+      get user_block_path(block)
+      assert_response :success
+      block.reload
+      assert_not block.needs_view
+      assert_equal Time.now.utc - 1.hour, block.deactivates_at
+    end
+  end
+
+  ##
+  # test clearing needs_view by showing a timed block to the blocked user
+  def test_show_sets_deactivates_at_for_timed_block
+    user = create(:user)
+    session_for(user)
+
+    freeze_time do
+      block = create(:user_block, :needs_view, :created_at => Time.now.utc, :ends_at => Time.now.utc + 24.hours, :user => user)
+      assert block.needs_view
+      assert_nil block.deactivates_at
+
+      travel 1.hour
+
+      get user_block_path(block)
+      assert_response :success
+      block.reload
+      assert_not block.needs_view
+      assert_equal Time.now.utc + 23.hours, block.deactivates_at
+
+      travel 1.hour
+
+      get user_block_path(block)
+      assert_response :success
+      block.reload
+      assert_not block.needs_view
+      assert_equal Time.now.utc + 22.hours, block.deactivates_at
+
+      travel 24.hours
+
+      get user_block_path(block)
+      assert_response :success
+      block.reload
+      assert_not block.needs_view
+      assert_equal Time.now.utc - 2.hours, block.deactivates_at
+    end
   end
 
   ##
