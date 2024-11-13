@@ -25,8 +25,6 @@
 //= require qs/dist/qs
 
 $(document).ready(function () {
-  var loaderTimeout;
-
   var map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
@@ -39,11 +37,7 @@ $(document).ready(function () {
 
     map.setSidebarOverlaid(false);
 
-    clearTimeout(loaderTimeout);
-
-    loaderTimeout = setTimeout(function () {
-      $("#sidebar_loader").show();
-    }, 200);
+    $("#sidebar_loader").show().addClass("delayed-fade-in");
 
     // IE<10 doesn't respect Vary: X-Requested-With header, so
     // prevent caching the XHR response as a full-page URL.
@@ -60,9 +54,8 @@ $(document).ready(function () {
       url: content_path,
       dataType: "html",
       complete: function (xhr) {
-        clearTimeout(loaderTimeout);
         $("#flash").empty();
-        $("#sidebar_loader").hide();
+        $("#sidebar_loader").removeClass("delayed-fade-in").hide();
 
         var content = $(xhr.responseText);
 
