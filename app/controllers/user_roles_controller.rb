@@ -9,15 +9,15 @@ class UserRolesController < ApplicationController
 
   before_action :lookup_user
   before_action :require_valid_role
-  before_action :not_in_role, :only => [:grant]
-  before_action :in_role, :only => [:revoke]
+  before_action :not_in_role, :only => :create
+  before_action :in_role, :only => :destroy
 
-  def grant
+  def create
     @user.roles.create(:role => @role, :granter => current_user)
     redirect_to user_path(@user)
   end
 
-  def revoke
+  def destroy
     # checks that administrator role is not revoked from current user
     if current_user == @user && @role == "administrator"
       flash[:error] = t("user_role.filter.not_revoke_admin_current_user")
