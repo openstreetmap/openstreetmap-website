@@ -1,6 +1,13 @@
 * https://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
 * https://rubyonrails.org/ - The homepage of Rails, also has links and tutorials.
 
+## Assigning Issues
+
+We don't assign issues to individual contributors. You are welcome to work on any
+issue, and there's no need to ask first.
+
+For more details see [our FAQ](FAQ.md)]
+
 ## Coding style
 
 We use [Rubocop](https://github.com/rubocop-hq/rubocop) (for ruby files)
