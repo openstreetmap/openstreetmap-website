@@ -8,7 +8,7 @@
     var container = $(this).closest(".richtext_container");
     var preview = container.find(".tab-pane[id$='_preview']");
 
-    preview.children(".richtext_placeholder").attr("hidden", true);
+    preview.children(".richtext_placeholder").attr("hidden", true).removeClass("delayed-fade-in");
     preview.children(".richtext").empty();
   });
 
@@ -34,13 +34,10 @@
     var preview = container.find(".tab-pane[id$='_preview']");
 
     if (preview.children(".richtext").contents().length === 0) {
-      preview.oneTime(200, "loading", function () {
-        preview.children(".richtext_placeholder").removeAttr("hidden");
-      });
+      preview.children(".richtext_placeholder").removeAttr("hidden").addClass("delayed-fade-in");
 
       preview.children(".richtext").load(editor.data("previewUrl"), { text: editor.val() }, function () {
-        preview.stopTime("loading");
-        preview.children(".richtext_placeholder").attr("hidden", true);
+        preview.children(".richtext_placeholder").attr("hidden", true).removeClass("delayed-fade-in");
       });
     }
   });
