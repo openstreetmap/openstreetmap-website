@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class FriendshipsTest < ApplicationSystemTestCase
+class FollowsTest < ApplicationSystemTestCase
   test "show message when max frienships limit is exceeded" do
     befriendee = create(:user)
 
