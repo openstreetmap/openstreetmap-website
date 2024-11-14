@@ -172,9 +172,6 @@ $(document).ready(function () {
     });
     moreItemWidth = $("#compact-secondary-nav").width();
 
-    $("header").removeClass("text-nowrap");
-    $("header nav.secondary > ul").removeClass("flex-nowrap");
-
     updateHeader();
 
     $(window).resize(updateHeader);

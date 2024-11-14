@@ -28,7 +28,7 @@
     </div>
   </nav>
   <nav class='secondary d-flex gap-2 flex-grow-1 align-items-center'>
-    <ul class='nav flex-grow-1 justify-content-end flex-nowrap'>
+    <ul class='nav flex-grow-1'>
       <% if Settings.status != "database_offline" && can?(:index, Issue) %>
         <li class="nav-item">
           <%= link_to issues_path(:status => "open"), :class => header_nav_link_class(issues_path) do %>
@@ -61,7 +61,7 @@
       <li class="nav-item">
         <%= link_to t("layouts.about"), about_path, :class => header_nav_link_class(about_path) %>
       </li>
-      <li id="compact-secondary-nav" class="dropdown nav-item">
+      <li id="compact-secondary-nav" class="dropdown nav-item ms-auto">
         <button class="dropdown-toggle nav-link btn btn-outline-secondary border-0 bg-body text-secondary" type="button" data-bs-toggle="dropdown"><%= t "layouts.more" %></button>
         <ul class="dropdown-menu">
         </ul>
