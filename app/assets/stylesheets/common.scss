@@ -504,7 +504,13 @@ body.small-nav {
 @include color-mode(dark) {
   .leaflet-tile-container,
   .mapkey-table-entry td:first-child > * {
-    filter: brightness(.8);
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  }
+
+  /* Reset filter for everything inside of the tile container, so that it
+   * doesn't get applied multiple times via inheritance. */
+  .leaflet-tile-container * {
+    filter: none;
   }
 
   .leaflet-control-attribution a {
