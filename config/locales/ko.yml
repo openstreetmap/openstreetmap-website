@@ -622,6 +622,11 @@ ko:
       when: 날짜
       comment: 의견
   doorkeeper:
+    errors:
+      messages:
+        consent_required: 인가 서버에는 최종 사용자의 동의가 필요합니다
+        interaction_required: 인가 서버에는 최종 사용자의 소통이 필요합니다
+        login_required: 인가 서버에는 최종 사용자의 인증이 필요합니다
     flash:
       applications:
         create:
@@ -1582,6 +1587,9 @@ ko:
       hi: 안녕하세요 %{to_user}님,
       loaded:
         other: 가능한 점 %{count}개 가운데 점 %{trace_points}개를 성공적으로 불러왔습니다.
+      trace_location: 트레이스는 %{trace_url}에서 볼 수 있습니다
+      all_your_traces: 성공적으로 업로드한 모든 GPX 트레이스는 %{url}에서 볼 수 있습니다
+      all_your_traces_html: 성공적으로 업로드한 모든 GPX 트레이스는 %{url}에서 볼 수 있습니다.
       subject: '[OpenStreetMap] GPX 가져오기 성공'
     signup_confirm:
       subject: '[OpenStreetMap] 오픈스트리트맵에 오신 것을 환영합니다'
@@ -1753,6 +1761,9 @@ ko:
       email address: 이메일 주소
       new password button: 비밀번호 재설정
       help_text: 가입할 때 사용한 이메일 주소를 입력하세요, 비밀번호를 재설정하여 사용할 수 있는 링크를 보내드립니다.
+    create:
+      send_paranoid_instructions: 귀하의 이메일 주소가 데이터베이스에 존재하는 경우 몇 분 후에 귀하의 이메일 주소로 비밀번호
+        복구 링크를 받게 됩니다.
     edit:
       title: 비밀번호 재설정
       heading: '%{user}의 비밀번호 재설정'
@@ -2676,6 +2687,7 @@ ko:
       heading: 사용자 차단 목록
       empty: 아직 차단하지 않았습니다.
     revoke_all:
+      empty: '%{name}님은 현재 차단되어 있지 않습니다.'
       revoke: 해제!
       flash: 모든 차단 내역이 비활성화되었습니다.
     helper:
@@ -2735,6 +2747,8 @@ ko:
       my_muted_users: 나의 알림에서 제외된 사용자
       you_have_muted_n_users:
         other: 사용자 %{count}명에게서 오는 알림을 표시하지 않도록 했습니다
+      user_mute_admins_and_moderators: 관리자와 중재자의 알림은 받지 않도록 할 수 있지만, 해당 사용자의 메시지의
+        알림은 받지 않도록 할 수 없습니다.
       table:
         thead:
           muted_user: 알림에서 제외된 사용자
@@ -2792,6 +2806,8 @@ ko:
       title: 새로운 참고
       intro: 실수했거나 없는 무언가를 발견했나요? 다른 매퍼에게 알려주어 고칠 수 있게 해주세요. 마커를 올바른 위치로 이동하고, 참고를
         남겨 문제를 설명해주세요.
+      anonymous_warning_html: 로그인하지 않았습니다. 노트에 대한 업데이트를 받으려면 %{log_in} 또는 %{sign_up}해
+        주십시오.
       anonymous_warning_log_in: 로그인
       anonymous_warning_sign_up: 가입하기
       advice: 노트는 공개되어 지도 업데이트에 쓰일 수 있으므로 개인정보 또는 저작권이 있는 지도나 디렉터리 리스팅의 정보를 입력하지 마십시오.
@@ -2814,14 +2830,14 @@ ko:
       custom_dimensions: 사용자 지정 치수 설정
       format: '형식:'
       scale: '축척:'
-      image_dimensions: 이미지가 %{width} x %{height}로 표준 레이어를 표시합니다
+      image_dimensions: 이미지가 %{width} x %{height}로 %{layer} 레이어를 표시합니다
       download: 다운로드
       short_url: 짧은 URL
       include_marker: 표시 포함
       center_marker: 표시의 가운데 지도
       paste_html: HTML을 붙여 넣어 웹사이트에 포함시키세요
       view_larger_map: 큰 지도 보기
-      only_standard_layer: 표준 레이어만 그림으로 내보낼 수 있습니다
+      only_standard_layer: 표준, 사이클 지도, 교통 레이어만 그림으로 내보낼 수 있습니다
     embed:
       report_problem: 문제점 보고
     key:
