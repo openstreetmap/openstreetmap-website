@@ -60,7 +60,7 @@ module UserHelper
                 :size => "36"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button btn btn-light p-2",
+      :class => "auth_button btn btn-outline-secondary border p-2",
       :title => t("application.auth_providers.#{provider}.title")
     )
   end
