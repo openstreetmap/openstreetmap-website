@@ -74,6 +74,30 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  map.contextmenu.addItem({
+    separator: true
+  });
+
+  const darkModeMenuItems = [
+    {
+      name: "brightness100"
+    },
+    {
+      name: "brightness80"
+    },
+    {
+      name: "brightness60"
+    },
+    {
+      name: "invert"
+    }
+  ];
+  darkModeMenuItems.forEach((menuItem) => {
+    map.contextmenu.addItem({
+      text: I18n.t("javascripts.map.filters." + menuItem.name),
+    });
+  });
+
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
     else map.contextmenu.enable();
