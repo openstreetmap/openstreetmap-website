@@ -74,9 +74,9 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
-  map.contextmenu.addItem({
+  let darkModeMenuElements = $(map.contextmenu.addItem({
     separator: true
-  });
+  }));
 
   const darkModeMenuItems = [
     {
@@ -93,10 +93,21 @@ OSM.initializeContextMenu = function (map) {
     }
   ];
   darkModeMenuItems.forEach((menuItem) => {
-    map.contextmenu.addItem({
+    const darkModeMenuElement = $(map.contextmenu.addItem({
       text: I18n.t("javascripts.map.filters." + menuItem.name),
-    });
+    }));
+    darkModeMenuElements = darkModeMenuElements.add(darkModeMenuElement);
   });
+
+  const prefersDarkQuery = matchMedia("(prefers-color-scheme: dark)");
+  L.DomEvent.on(prefersDarkQuery, 'change', () => {
+    updateDarkModeMenu();
+  });
+  updateDarkModeMenu();
+
+  function updateDarkModeMenu() {
+    darkModeMenuElements.toggle(prefersDarkQuery.matches);
+  }
 
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
