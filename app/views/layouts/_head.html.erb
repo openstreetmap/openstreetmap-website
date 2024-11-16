@@ -5,7 +5,11 @@
   <%= javascript_include_tag "turbo", :type => "module" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "i18n/#{I18n.locale}" %>
-  <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
+  <% if preferred_site_color_scheme == "auto" %>
+    <%= stylesheet_link_tag "screen-auto-#{dir}", :media => "screen" %>
+  <% else %>
+    <%= stylesheet_link_tag "screen-manual-#{dir}", :media => "screen" %>
+  <% end %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
   <%= render :partial => "layouts/meta" %>
