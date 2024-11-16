@@ -84,24 +84,32 @@ OSM.initializeContextMenu = function (map) {
 
   const darkModeMenuItems = [
     {
-      name: "brightness100"
+      name: "brightness100",
+      filter: "none"
     },
     {
-      name: "brightness80"
+      name: "brightness80",
+      filter: "brightness(.8)"
     },
     {
-      name: "brightness60"
+      name: "brightness60",
+      filter: "brightness(.6)"
     },
     {
-      name: "invert"
+      name: "invert",
+      filter: "invert(.8) hue-rotate(180deg)"
     }
   ];
   darkModeMenuItems.forEach((menuItem) => {
+    if (selectedDarkModeFilter === menuItem.name) {
+      $(":root").css("--dark-mode-filter", menuItem.filter);
+    }
     const darkModeMenuElement = $(map.contextmenu.addItem({
       text: I18n.t("javascripts.map.filters." + menuItem.name),
       callback: () => {
         selectedDarkModeFilter = menuItem.name;
         Cookies.set("_osm_dark_mode_filter", menuItem.name, { secure: true, expires: expiry, path: "/", samesite: "lax" });
+        $(":root").css("--dark-mode-filter", menuItem.filter);
         updateDarkModeMenu();
       }
     }));
