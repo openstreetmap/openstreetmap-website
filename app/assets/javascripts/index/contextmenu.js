@@ -74,6 +74,7 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  let selectedDarkModeFilter = "brightness80";
   let darkModeMenuElements = $(map.contextmenu.addItem({
     separator: true
   }));
@@ -95,7 +96,16 @@ OSM.initializeContextMenu = function (map) {
   darkModeMenuItems.forEach((menuItem) => {
     const darkModeMenuElement = $(map.contextmenu.addItem({
       text: I18n.t("javascripts.map.filters." + menuItem.name),
+      callback: () => {
+        selectedDarkModeFilter = menuItem.name;
+        updateDarkModeMenu();
+      }
     }));
+    darkModeMenuElement.prepend(
+      $("<input type='radio' tabindex='-1' class='leaflet-contextmenu-icon pe-none'>")
+        .data("filter", menuItem.name)
+        .css("transform", "scale(80%)")
+    );
     darkModeMenuElements = darkModeMenuElements.add(darkModeMenuElement);
   });
 
@@ -107,6 +117,9 @@ OSM.initializeContextMenu = function (map) {
 
   function updateDarkModeMenu() {
     darkModeMenuElements.toggle(prefersDarkQuery.matches);
+    darkModeMenuElements.find("input[type='radio']").each(function () {
+      $(this).prop("checked", $(this).data("filter") == selectedDarkModeFilter);
+    });
   }
 
   map.on("mousedown", function (e) {
