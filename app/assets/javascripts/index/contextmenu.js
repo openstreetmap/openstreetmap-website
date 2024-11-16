@@ -130,7 +130,7 @@ OSM.initializeContextMenu = function (map) {
   function updateDarkModeMenu() {
     darkModeMenuElements.toggle(prefersDarkQuery.matches);
     darkModeMenuElements.find("input[type='radio']").each(function () {
-      $(this).prop("checked", $(this).data("filter") == selectedDarkModeFilter);
+      $(this).prop("checked", $(this).data("filter") === selectedDarkModeFilter);
     });
   }
 
