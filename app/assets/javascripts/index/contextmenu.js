@@ -74,7 +74,10 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
-  let selectedDarkModeFilter = "brightness80";
+  const expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
+  let selectedDarkModeFilter = Cookies.get("_osm_dark_mode_filter") || "brightness80";
+
   let darkModeMenuElements = $(map.contextmenu.addItem({
     separator: true
   }));
@@ -98,6 +101,7 @@ OSM.initializeContextMenu = function (map) {
       text: I18n.t("javascripts.map.filters." + menuItem.name),
       callback: () => {
         selectedDarkModeFilter = menuItem.name;
+        Cookies.set("_osm_dark_mode_filter", menuItem.name, { secure: true, expires: expiry, path: "/", samesite: "lax" });
         updateDarkModeMenu();
       }
     }));
