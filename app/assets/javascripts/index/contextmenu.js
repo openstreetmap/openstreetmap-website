@@ -122,7 +122,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   const prefersDarkQuery = matchMedia("(prefers-color-scheme: dark)");
-  L.DomEvent.on(prefersDarkQuery, 'change', () => {
+  L.DomEvent.on(prefersDarkQuery, "change", () => {
     updateDarkModeMenu();
   });
   updateDarkModeMenu();
