@@ -19,7 +19,15 @@
         <li><%= locale %></li>
       <% end %>
     </ul>
+  </dd>
 
+  <dt class="col-sm-4"><%= t ".preferred_color_scheme" %></dt>
+  <dd class="col-sm-8">
+    <% if request.cookies["_osm_color_scheme"] == "light" %>
+      <%= t ".color_schemes.light" %>
+    <% else %>
+      <%= t ".color_schemes.auto" %>
+    <% end %>
   </dd>
 </dl>
 
