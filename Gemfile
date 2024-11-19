@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 7.2.0"
+gem "rails", "~> 8.0.0"
 gem "turbo-rails"
 
 # Require json for multi_json
@@ -61,7 +61,7 @@ gem "http_accept_language", "~> 2.1.1"
 gem "i18n-js", "~> 4.2.3"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
-gem "rails-i18n", "~> 7.0.0"
+gem "rails-i18n", "~> 8.0.0"
 gem "rails_param"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations", "< 2.0.0"
