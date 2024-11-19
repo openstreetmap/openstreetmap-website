@@ -15,6 +15,8 @@
 //= require ohm.style.woodblock
 //= require ohm.style.japanese
 //= require ohm.style.railway
+//= require leaflet-ohm-timeslider.js
+//= require decimaldate.js
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
