@@ -117,6 +117,9 @@ gem "connection_pool"
 gem "dalli"
 gem "kgio"
 
+# Load secure_headers for Content-Security-Policy support
+gem "secure_headers"
+
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails"
 
