@@ -1,0 +1,38 @@
+<% content_for :heading do %>
+  <h1><%= t ".my_muted_users" %></h1>
+<% end %>
+
+<%= render :partial => "settings_menu" %>
+
+<h4>
+  <%= t ".you_have_muted_n_users", :count => @muted_users.size %>
+</h4>
+<p>
+  <%= t ".user_mute_explainer" %>
+  <em><%= t ".user_mute_admins_and_moderators" %></em>
+</p>
+
+<% if @muted_users.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= t ".table.thead.muted_user" %></th>
+        <th class="d-flex justify-content-end"><%= t ".table.thead.actions" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @muted_users.each do |user| %>
+        <tr>
+          <td>
+            <%= user_thumbnail_tiny user %>
+            <%= link_to user.display_name, user %>
+          </td>
+          <td class="text-nowrap text-end">
+            <%= link_to t(".table.tbody.unmute"), user_mute_path(user), :method => :delete, :class => "btn btn-sm btn-primary" %>
+            <%= link_to t(".table.tbody.send_message"), new_message_path(user), :class => "btn btn-sm btn-secondary" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

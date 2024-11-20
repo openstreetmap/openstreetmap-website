@@ -3,7 +3,6 @@ module Auth
 
   def self.providers
     @providers[I18n.locale] ||= {
-      I18n.t("auth.providers.none") => "",
       I18n.t("auth.providers.openid") => "openid"
     }.tap do |providers|
       providers[I18n.t("auth.providers.google")] = "google" if Settings.key?(:google_auth_id)

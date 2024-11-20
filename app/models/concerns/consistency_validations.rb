@@ -4,32 +4,21 @@ module ConsistencyValidations
   # Generic checks that are run for the updates and deletes of
   # node, ways and relations. This code is here to avoid duplication,
   # and allow the extension of the checks without having to modify the
-  # code in 6 places for all the updates and deletes. Some of these tests are
-  # needed for creates, but are currently not run :-(
+  # code in 6 places for all the updates and deletes.
   # This will throw an exception if there is an inconsistency
-  def check_consistency(old, new, user)
+  def check_update_element_consistency(old, new, user)
     if new.id != old.id || new.id.nil? || old.id.nil?
       raise OSM::APIPreconditionFailedError, "New and old IDs don't match on #{new.class}. #{new.id} != #{old.id}."
     elsif new.version != old.version
       raise OSM::APIVersionMismatchError.new(new.id, new.class.to_s, new.version, old.version)
-    elsif new.changeset.nil?
-      raise OSM::APIChangesetMissingError
-    elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError
-    elsif !new.changeset.open?
-      raise OSM::APIChangesetAlreadyClosedError, new.changeset
     end
+
+    check_changeset_consistency(new.changeset, user)
   end
 
   # This is similar to above, just some validations don't apply
-  def check_create_consistency(new, user)
-    if new.changeset.nil?
-      raise OSM::APIChangesetMissingError
-    elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError
-    elsif !new.changeset.open?
-      raise OSM::APIChangesetAlreadyClosedError, new.changeset
-    end
+  def check_create_element_consistency(new, user)
+    check_changeset_consistency(new.changeset, user)
   end
 
   ##

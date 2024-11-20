@@ -25,9 +25,9 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
                  :type => "application/osmChange+xml"
 
       if !changeset.tags.empty? && changeset.tags.key?("comment")
-        entry.title t("browse.changeset.feed.title_comment", :id => changeset.id, :comment => changeset.tags["comment"]), :type => "html"
+        entry.title t(".feed.title_comment", :id => changeset.id, :comment => changeset.tags["comment"])
       else
-        entry.title t("browse.changeset.feed.title", :id => changeset.id)
+        entry.title t(".feed.title", :id => changeset.id)
       end
 
       if changeset.user.data_public?
@@ -41,16 +41,16 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         xhtml.style "th { text-align: left } tr { vertical-align: top }"
         xhtml.table do |table|
           table.tr do |tr|
-            tr.th t("browse.created")
+            tr.th t(".feed.created")
             tr.td l(changeset.created_at)
           end
           table.tr do |tr|
-            tr.th t("browse.closed")
+            tr.th t(".feed.closed")
             tr.td l(changeset.closed_at)
           end
           if changeset.user.data_public?
             table.tr do |tr|
-              tr.th t("browse.changeset.belongs_to")
+              tr.th t(".feed.belongs_to")
               tr.td do |td|
                 td.a changeset.user.display_name, :href => user_url(changeset.user, :only_path => false)
               end

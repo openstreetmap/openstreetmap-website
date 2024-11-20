@@ -10,7 +10,7 @@ $(document).ready(function () {
     var params = {};
 
     if (mapParams.object) {
-      params.id = mapParams.object.type[0] + mapParams.object.id;
+      params.id = mapParams.object.type + '/' + mapParams.object.id;
       mapParams = OSM.parseHash(location.hash);
       if (mapParams.center) {
         params.map = mapParams.zoom + '/' + mapParams.center.lat + '/' + mapParams.center.lng;

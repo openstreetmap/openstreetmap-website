@@ -9,42 +9,78 @@ class UserRolesHelperTest < ActionView::TestCase
     icon = role_icon(current_user, "moderator")
     assert_dom_equal "", icon
 
+    icon = role_icon(current_user, "importer")
+    assert_dom_equal "", icon
+
     icon = role_icon(create(:moderator_user), "moderator")
-    expected = <<~HTML.delete("\n")
-      <picture>
-      <source srcset="/images/roles/moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/moderator.svg" border="0" alt="This user is a moderator" title="This user is a moderator" src="/images/roles/moderator.png" width="20" height="20" />
-      </picture>
-    HTML
-    assert_dom_equal expected, icon
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "svg:root", :count => 1 do
+      assert_dom "> title", :text => "This user is a moderator"
+    end
+
+    icon = role_icon(create(:importer_user), "importer")
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "svg:root", :count => 1 do
+      assert_dom "> title", :text => "This user is a importer"
+    end
   end
 
   def test_role_icon_administrator
     self.current_user = create(:administrator_user)
 
-    user = create(:user)
-    icon = role_icon(user, "moderator")
-    expected = <<~HTML.delete("\n")
-      <a data-confirm="Are you sure you want to grant the role `moderator&#39; to the user `#{user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(user.display_name)}/role/moderator/grant">
-      <picture>
-      <source srcset="/images/roles/blank_moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/blank_moderator.svg" border="0" alt="Grant moderator access" title="Grant moderator access" src="/images/roles/blank_moderator.png" width="20" height="20" />
-      </picture>
-      </a>
-    HTML
-    assert_dom_equal expected, icon
+    create(:user) do |user|
+      icon = role_icon(user, "moderator")
+      icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']", :count => 1 do
+        assert_dom "> svg", :count => 1 do
+          assert_dom "> title", :text => "Grant moderator access"
+        end
+      end
 
-    moderator_user = create(:moderator_user)
-    icon = role_icon(moderator_user, "moderator")
-    expected = <<~HTML.delete("\n")
-      <a data-confirm="Are you sure you want to revoke the role `moderator&#39; from the user `#{moderator_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(moderator_user.display_name)}/role/moderator/revoke">
-      <picture>
-      <source srcset="/images/roles/moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/moderator.svg" border="0" alt="Revoke moderator access" title="Revoke moderator access" src="/images/roles/moderator.png" width="20" height="20" />
-      </picture>
-      </a>
-    HTML
-    assert_dom_equal expected, icon
+      icon = role_icon(user, "importer")
+      icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']", :count => 1 do
+        assert_dom "> svg", :count => 1 do
+          assert_dom "> title", :text => "Grant importer access"
+        end
+      end
+    end
+
+    create(:moderator_user) do |user|
+      icon = role_icon(user, "moderator")
+      icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='delete']", :count => 1 do
+        assert_dom "> svg", :count => 1 do
+          assert_dom "> title", :text => "Revoke moderator access"
+        end
+      end
+
+      icon = role_icon(user, "importer")
+      icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']", :count => 1 do
+        assert_dom "> svg", :count => 1 do
+          assert_dom "> title", :text => "Grant importer access"
+        end
+      end
+    end
+
+    create(:importer_user) do |user|
+      icon = role_icon(user, "moderator")
+      icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']", :count => 1 do
+        assert_dom "> svg", :count => 1 do
+          assert_dom "> title", :text => "Grant moderator access"
+        end
+      end
+
+      icon = role_icon(user, "importer")
+      icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='delete']", :count => 1 do
+        assert_dom "> svg", :count => 1 do
+          assert_dom "> title", :text => "Revoke importer access"
+        end
+      end
+    end
   end
 
   def test_role_icons_normal
@@ -54,83 +90,83 @@ class UserRolesHelperTest < ActionView::TestCase
     assert_dom_equal "", icons
 
     icons = role_icons(create(:moderator_user))
-    expected = <<~HTML.delete("\n")
-      <picture>
-      <source srcset="/images/roles/moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/moderator.svg" border="0" alt="This user is a moderator" title="This user is a moderator" src="/images/roles/moderator.png" width="20" height="20" />
-      </picture>
-    HTML
-    assert_dom_equal expected, icons
+    icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+    assert_dom icons_dom, "svg:root > title", :text => "This user is a moderator"
+
+    icons = role_icons(create(:importer_user))
+    icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+    assert_dom icons_dom, "svg:root > title", :text => "This user is a importer"
 
     icons = role_icons(create(:super_user))
-    expected = <<~HTML.delete("\n")
-      <picture>
-      <source srcset="/images/roles/administrator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/administrator.svg" border="0" alt="This user is an administrator" title="This user is an administrator" src="/images/roles/administrator.png" width="20" height="20" />
-      </picture>
-       <picture>
-      <source srcset="/images/roles/moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/moderator.svg" border="0" alt="This user is a moderator" title="This user is a moderator" src="/images/roles/moderator.png" width="20" height="20" />
-      </picture>
-    HTML
-    assert_dom_equal expected, icons
+    icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+    assert_dom icons_dom, "svg:root", :count => 3 do
+      assert_dom "> title", :text => "This user is an administrator"
+      assert_dom "> title", :text => "This user is a moderator"
+      assert_dom "> title", :text => "This user is a importer"
+    end
   end
 
   def test_role_icons_administrator
     self.current_user = create(:administrator_user)
 
-    user = create(:user)
-    icons = role_icons(user)
-    expected = <<~HTML.delete("\n")
-      <a data-confirm="Are you sure you want to grant the role `administrator&#39; to the user `#{user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(user.display_name)}/role/administrator/grant">
-      <picture>
-      <source srcset="/images/roles/blank_administrator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/blank_administrator.svg" border="0" alt="Grant administrator access" title="Grant administrator access" src="/images/roles/blank_administrator.png" width="20" height="20" />
-      </picture>
-      </a>
-       <a data-confirm="Are you sure you want to grant the role `moderator&#39; to the user `#{user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(user.display_name)}/role/moderator/grant">
-      <picture>
-      <source srcset="/images/roles/blank_moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/blank_moderator.svg" border="0" alt="Grant moderator access" title="Grant moderator access" src="/images/roles/blank_moderator.png" width="20" height="20" />
-      </picture>
-      </a>
-    HTML
-    assert_dom_equal expected, icons
+    create(:user) do |user|
+      icons = role_icons(user)
+      icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+      assert_dom icons_dom, "a:root", :count => 3
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant administrator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant moderator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant importer access"
+      end
+    end
 
-    moderator_user = create(:moderator_user)
-    icons = role_icons(moderator_user)
-    expected = <<~HTML.delete("\n")
-      <a data-confirm="Are you sure you want to grant the role `administrator&#39; to the user `#{moderator_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(moderator_user.display_name)}/role/administrator/grant">
-      <picture>
-      <source srcset="/images/roles/blank_administrator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/blank_administrator.svg" border="0" alt="Grant administrator access" title="Grant administrator access" src="/images/roles/blank_administrator.png" width="20" height="20" />
-      </picture>
-      </a>
-       <a data-confirm="Are you sure you want to revoke the role `moderator&#39; from the user `#{moderator_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(moderator_user.display_name)}/role/moderator/revoke">
-      <picture>
-      <source srcset="/images/roles/moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/moderator.svg" border="0" alt="Revoke moderator access" title="Revoke moderator access" src="/images/roles/moderator.png" width="20" height="20" />
-      </picture>
-      </a>
-    HTML
-    assert_dom_equal expected, icons
+    create(:moderator_user) do |user|
+      icons = role_icons(user)
+      icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+      assert_dom icons_dom, "a:root", :count => 3
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant administrator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='delete']" do
+        assert_dom "> svg > title", :text => "Revoke moderator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant importer access"
+      end
+    end
 
-    super_user = create(:super_user)
-    icons = role_icons(super_user)
-    expected = <<~HTML.delete("\n")
-      <a data-confirm="Are you sure you want to revoke the role `administrator&#39; from the user `#{super_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(super_user.display_name)}/role/administrator/revoke">
-      <picture>
-      <source srcset="/images/roles/administrator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/administrator.svg" border="0" alt="Revoke administrator access" title="Revoke administrator access" src="/images/roles/administrator.png" width="20" height="20" />
-      </picture>
-      </a>
-       <a data-confirm="Are you sure you want to revoke the role `moderator&#39; from the user `#{super_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(super_user.display_name)}/role/moderator/revoke">
-      <picture>
-      <source srcset="/images/roles/moderator.svg" type="image/svg+xml">
-      <img srcset="/images/roles/moderator.svg" border="0" alt="Revoke moderator access" title="Revoke moderator access" src="/images/roles/moderator.png" width="20" height="20" />
-      </picture>
-      </a>
-    HTML
-    assert_dom_equal expected, icons
+    create(:importer_user) do |user|
+      icons = role_icons(user)
+      icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+      assert_dom icons_dom, "a:root", :count => 3
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant administrator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']" do
+        assert_dom "> svg > title", :text => "Grant moderator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='delete']" do
+        assert_dom "> svg > title", :text => "Revoke importer access"
+      end
+    end
+
+    create(:super_user) do |user|
+      icons = role_icons(user)
+      icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
+      assert_dom icons_dom, "a:root", :count => 3
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='delete']" do
+        assert_dom "> svg > title", :text => "Revoke administrator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='delete']" do
+        assert_dom "> svg > title", :text => "Revoke moderator access"
+      end
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='delete']" do
+        assert_dom "> svg > title", :text => "Revoke importer access"
+      end
+    end
   end
 end

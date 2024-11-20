@@ -2,10 +2,8 @@
 
 module Api
   class ChangesetsController < ApiController
-    require "xml/libxml"
-
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
-    before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
+    before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
 
     authorize_resource
@@ -13,19 +11,59 @@ module Api
     before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
     before_action :set_request_formats, :except => [:create, :close, :upload]
 
-    around_action :api_call_handle_error
-    around_action :api_call_timeout, :except => [:upload]
+    skip_around_action :api_call_timeout, :only => [:upload]
 
     # Helper methods for checking consistency
     include ConsistencyValidations
+
+    ##
+    # query changesets by bounding box, time, user or open/closed status.
+    def index
+      raise OSM::APIBadUserInput, "cannot use order=oldest with time" if params[:time] && params[:order] == "oldest"
+
+      # find any bounding box
+      bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
+
+      # create the conditions that the user asked for. some or all of
+      # these may be nil.
+      changesets = Changeset.all
+      changesets = conditions_bbox(changesets, bbox)
+      changesets = conditions_user(changesets, params["user"], params["display_name"])
+      changesets = conditions_time(changesets, params["time"])
+      changesets = conditions_from_to(changesets, params["from"], params["to"])
+      changesets = conditions_open(changesets, params["open"])
+      changesets = conditions_closed(changesets, params["closed"])
+      changesets = conditions_ids(changesets, params["changesets"])
+
+      # sort the changesets
+      changesets = if params[:order] == "oldest"
+                     changesets.order(:created_at => :asc)
+                   else
+                     changesets.order(:created_at => :desc)
+                   end
+
+      # limit the result
+      changesets = changesets.limit(result_limit)
+
+      # preload users, tags and comments, and render result
+      @changesets = changesets.preload(:user, :changeset_tags, :comments)
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
+    end
 
     ##
     # Return XML giving the basic info about the changeset. Does not
     # return anything about the nodes, ways and relations in the changeset.
     def show
       @changeset = Changeset.find(params[:id])
-      @include_discussion = params[:include_discussion].presence
-      render "changeset"
+      if params[:include_discussion].presence
+        @comments = @changeset.comments
+        @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:restore, ChangesetComment)
+        @comments = @comments.includes(:author)
+      end
 
       respond_to do |format|
         format.xml
@@ -35,8 +73,6 @@ module Api
 
     # Create a changeset from XML.
     def create
-      assert_method :put
-
       cs = Changeset.from_xml(request.raw_post, :create => true)
 
       # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
@@ -44,7 +80,7 @@ module Api
       cs.save_with_tags!
 
       # Subscribe user to changeset comments
-      cs.subscribers << current_user
+      cs.subscribe(current_user)
 
       render :plain => cs.id.to_s
     end
@@ -53,8 +89,6 @@ module Api
     # marks a changeset as closed. this may be called multiple times
     # on the same changeset, so is idempotent.
     def close
-      assert_method :put
-
       changeset = Changeset.find(params[:id])
       check_changeset_consistency(changeset, current_user)
 
@@ -80,18 +114,16 @@ module Api
     # Returns: a diffResult document, as described in
     # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
     def upload
-      # only allow POST requests, as the upload method is most definitely
-      # not idempotent, as several uploads with placeholder IDs will have
-      # different side-effects.
-      # see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.2
-      assert_method :post
-
       changeset = Changeset.find(params[:id])
       check_changeset_consistency(changeset, current_user)
 
       diff_reader = DiffReader.new(request.raw_post, changeset)
       Changeset.transaction do
         result = diff_reader.commit
+        # the number of changes in this changeset has already been
+        # updated and is visible in this transaction so we don't need
+        # to allow for any more when checking the limit
+        check_rate_limit(0)
         render :xml => result.to_s
       end
     end
@@ -121,13 +153,7 @@ module Api
       # almost sensible ordering available. this would be much nicer if
       # global (SVN-style) versioning were used - then that would be
       # unambiguous.
-      elements.sort! do |a, b|
-        if a.timestamp == b.timestamp
-          a.version <=> b.version
-        else
-          a.timestamp <=> b.timestamp
-        end
-      end
+      elements.sort_by! { |e| [e.timestamp, e.version] }
 
       # generate an output element for each operation. note: we avoid looking
       # at the history because it is simpler - but it would be more correct to
@@ -155,45 +181,6 @@ module Api
     end
 
     ##
-    # query changesets by bounding box, time, user or open/closed status.
-    def query
-      raise OSM::APIBadUserInput, "cannot use order=oldest with time" if params[:time] && params[:order] == "oldest"
-
-      # find any bounding box
-      bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
-
-      # create the conditions that the user asked for. some or all of
-      # these may be nil.
-      changesets = Changeset.all
-      changesets = conditions_bbox(changesets, bbox)
-      changesets = conditions_user(changesets, params["user"], params["display_name"])
-      changesets = conditions_time(changesets, params["time"])
-      changesets = conditions_from_to(changesets, params["from"], params["to"])
-      changesets = conditions_open(changesets, params["open"])
-      changesets = conditions_closed(changesets, params["closed"])
-      changesets = conditions_ids(changesets, params["changesets"])
-
-      # sort the changesets
-      changesets = if params[:order] == "oldest"
-                     changesets.order(:created_at => :asc)
-                   else
-                     changesets.order(:created_at => :desc)
-                   end
-
-      # limit the result
-      changesets = changesets.limit(result_limit)
-
-      # preload users, tags and comments, and render result
-      @changesets = changesets.preload(:user, :changeset_tags, :comments)
-      render "changesets"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
-    ##
     # updates a changeset's tags. none of the changeset's attributes are
     # user-modifiable, so they will be ignored.
     #
@@ -202,15 +189,12 @@ module Api
     #
     # after succesful update, returns the XML of the changeset.
     def update
-      # request *must* be a PUT.
-      assert_method :put
-
       @changeset = Changeset.find(params[:id])
       new_changeset = Changeset.from_xml(request.raw_post)
 
       check_changeset_consistency(@changeset, current_user)
       @changeset.update_from(new_changeset, current_user)
-      render "changeset"
+      render "show"
 
       respond_to do |format|
         format.xml
@@ -229,14 +213,14 @@ module Api
 
       # Find the changeset and check it is valid
       changeset = Changeset.find(id)
-      raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribers.exists?(current_user.id)
+      raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribed?(current_user)
 
       # Add the subscriber
-      changeset.subscribers << current_user
+      changeset.subscribe(current_user)
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changeset"
+      render "show"
 
       respond_to do |format|
         format.xml
@@ -255,14 +239,14 @@ module Api
 
       # Find the changeset and check it is valid
       changeset = Changeset.find(id)
-      raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribers.exists?(current_user.id)
+      raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribed?(current_user)
 
       # Remove the subscriber
-      changeset.subscribers.delete(current_user)
+      changeset.unsubscribe(current_user)
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changeset"
+      render "show"
 
       respond_to do |format|
         format.xml
@@ -279,7 +263,6 @@ module Api
     ##
     # if a bounding box was specified do some sanity checks.
     # restrict changesets to those enclosed by a bounding box
-    # we need to return both the changesets and the bounding box
     def conditions_bbox(changesets, bbox)
       if bbox
         bbox.check_boundaries
@@ -346,7 +329,7 @@ module Api
         changesets.where("closed_at >= ? and created_at <= ?", from, to)
       else
         # if there is no comma, assume its a lower limit on time
-        changesets.where("closed_at >= ?", Time.parse(time).utc)
+        changesets.where(:closed_at => Time.parse(time).utc..)
       end
       # stupid Time seems to throw both of these for bad parsing, so
       # we have to catch both and ensure the correct code path is taken.

@@ -7,7 +7,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     get "/api/#{Settings.api_version}/user/details"
     assert_response :unauthorized
 
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :success
 
     # now block the user
@@ -15,9 +15,10 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :user_id => blocked_user.id,
       :creator_id => create(:moderator_user).id,
       :reason => "testing",
-      :ends_at => Time.now.utc + 5.minutes
+      :ends_at => Time.now.utc + 5.minutes,
+      :deactivates_at => Time.now.utc + 5.minutes
     )
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :forbidden
   end
 
@@ -29,20 +30,22 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :user_id => blocked_user.id,
       :creator_id => moderator.id,
       :reason => "testing",
-      :ends_at => Time.now.utc + 5.minutes
+      :ends_at => Time.now.utc + 5.minutes,
+      :deactivates_at => Time.now.utc + 5.minutes
     )
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :forbidden
 
     # revoke the ban
     get "/login"
     assert_response :success
-    post "/login", :params => { "username" => moderator.email, "password" => "test", :referer => "/blocks/#{block.id}/revoke" }
+    post "/login", :params => { "username" => moderator.email, "password" => "test", :referer => "/user_blocks/#{block.id}/edit" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "user_blocks/revoke"
-    post "/blocks/#{block.id}/revoke", :params => { "confirm" => "yes" }
+    assert_template "user_blocks/edit"
+    put "/user_blocks/#{block.id}", :params => { :user_block_period => "0",
+                                                 :user_block => { :needs_view => false, :reason => "Unblocked" } }
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -50,7 +53,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     reset!
 
     # access the API again. this time it should work
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :success
   end
 end

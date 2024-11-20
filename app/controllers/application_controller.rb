@@ -10,19 +10,38 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied, :with => :deny_access
   check_authorization
 
+  rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
+
   before_action :fetch_body
-  around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
   attr_accessor :current_user, :oauth_token
 
   helper_method :current_user
   helper_method :oauth_token
 
+  def self.allow_thirdparty_images(**options)
+    content_security_policy(options) do |policy|
+      policy.img_src("*")
+    end
+  end
+
+  def self.allow_social_login(**options)
+    content_security_policy(options) do |policy|
+      policy.form_action(*policy.form_action, "accounts.google.com", "*.facebook.com", "login.microsoftonline.com", "github.com", "meta.wikimedia.org")
+    end
+  end
+
+  def self.allow_all_form_action(**options)
+    content_security_policy(options) do |policy|
+      policy.form_action(nil)
+    end
+  end
+
   private
 
   def authorize_web
     if session[:user]
-      self.current_user = User.where(:id => session[:user], :status => %w[active confirmed suspended]).first
+      self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
 
       if session[:fingerprint] &&
          session[:fingerprint] != current_user.fingerprint
@@ -44,8 +63,6 @@ class ApplicationController < ActionController::Base
           redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
         end
       end
-    elsif session[:token]
-      session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
 
     session[:fingerprint] = current_user.fingerprint if current_user && session[:fingerprint].nil?
@@ -160,7 +177,7 @@ class ApplicationController < ActionController::Base
     # TODO: some sort of escaping of problem characters in the message
     response.headers["Error"] = message
 
-    if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
+    if request.headers["X-Error-Format"]&.casecmp?("xml")
       result = OSM::API.new.xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
@@ -198,21 +215,26 @@ class ApplicationController < ActionController::Base
 
   ##
   # wrap a web page in a timeout
-  def web_timeout(&block)
-    Timeout.timeout(Settings.web_timeout, Timeout::Error, &block)
+  def web_timeout(&)
+    raise Timeout::Error if Settings.web_timeout.negative?
+
+    Timeout.timeout(Settings.web_timeout, &)
   rescue ActionView::Template::Error => e
     e = e.cause
 
     if e.is_a?(Timeout::Error) ||
        (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
-      ActiveRecord::Base.connection.raw_connection.cancel
-      render :action => "timeout"
+      respond_to_timeout
     else
       raise
     end
   rescue Timeout::Error
+    respond_to_timeout
+  end
+
+  def respond_to_timeout
     ActiveRecord::Base.connection.raw_connection.cancel
-    render :action => "timeout"
+    render :action => "timeout", :status => :gateway_timeout
   end
 
   ##
@@ -229,13 +251,15 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
-    append_content_security_policy_directives(
-      :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url],
-      :form_action => %w[render.openstreetmap.org],
-      :style_src => %w['unsafe-inline']
-    )
+    policy = request.content_security_policy.clone
+
+    policy.child_src(*policy.child_src, "http://127.0.0.1:8111", "https://127.0.0.1:8112")
+    policy.frame_src(*policy.frame_src, "http://127.0.0.1:8111", "https://127.0.0.1:8112")
+    policy.connect_src(*policy.connect_src, Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
+    policy.form_action(*policy.form_action, "render.openstreetmap.org")
+    policy.style_src(*policy.style_src, :unsafe_inline)
+
+    request.content_security_policy = policy
 
     case Settings.status
     when "database_offline", "api_offline"
@@ -245,10 +269,6 @@ class ApplicationController < ActionController::Base
     end
 
     request.xhr? ? "xhr" : "map"
-  end
-
-  def allow_thirdparty_images
-    append_content_security_policy_directives(:img_src => %w[*])
   end
 
   def preferred_editor
@@ -273,23 +293,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def better_errors_allow_inline
-    yield
-  rescue StandardError
-    append_content_security_policy_directives(
-      :script_src => %w['unsafe-inline'],
-      :style_src => %w['unsafe-inline']
-    )
-
-    raise
-  end
-
   def current_ability
     Ability.new(current_user)
   end
 
   def deny_access(_exception)
-    if doorkeeper_token || current_token
+    if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
@@ -308,22 +317,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # extract authorisation credentials from headers, returns user = nil if none
-  def auth_data
-    if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
-      authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
-    elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi
-      authdata = request.env["REDIRECT_X_HTTP_AUTHORIZATION"].to_s.split
-    elsif request.env.key? "HTTP_AUTHORIZATION" # regular location
-      authdata = request.env["HTTP_AUTHORIZATION"].to_s.split
+  def invalid_parameter(_exception)
+    if request.get?
+      respond_to do |format|
+        format.html { redirect_to :controller => "/errors", :action => "bad_request" }
+        format.any { head :bad_request }
+      end
+    else
+      head :bad_request
     end
-    # only basic authentication supported
-    user, pass = Base64.decode64(authdata[1]).split(":", 2) if authdata && authdata[0] == "Basic"
-    [user, pass]
   end
-
-  # override to stop oauth plugin sending errors
-  def invalid_oauth_response; end
 
   # clean any referer parameter
   def safe_referer(referer)
@@ -347,7 +350,7 @@ class ApplicationController < ActionController::Base
   end
 
   def scope_enabled?(scope)
-    doorkeeper_token&.includes_scope?(scope) || current_token&.includes_scope?(scope)
+    doorkeeper_token&.includes_scope?(scope)
   end
 
   helper_method :scope_enabled?

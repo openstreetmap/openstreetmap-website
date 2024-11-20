@@ -18,7 +18,7 @@ module OpenStreetMap
       def store_translations(locale, data, options = {})
         locale = ::I18n::Locale::Tag::Rfc4646.tag(locale).to_s
 
-        super(locale, data, options)
+        super
       end
     end
 

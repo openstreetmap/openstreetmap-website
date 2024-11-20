@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   include EmailMethods
   include SessionMethods
   include UserMethods
+  include PaginationMethods
 
   layout "site"
 
@@ -16,7 +17,9 @@ class UsersController < ApplicationController
   before_action :check_database_writable, :only => [:new, :go_public]
   before_action :require_cookies, :only => [:new]
   before_action :lookup_user_by_name, :only => [:set_status, :destroy]
-  before_action :allow_thirdparty_images, :only => [:show]
+
+  allow_thirdparty_images :only => :show
+  allow_social_login :only => :new
 
   ##
   # display a list of users matching specified criteria
@@ -29,16 +32,18 @@ class UsersController < ApplicationController
 
       redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
     else
-      @params = params.permit(:status, :ip)
+      @params = params.permit(:status, :ip, :before, :after)
 
-      conditions = {}
-      conditions[:status] = @params[:status] if @params[:status]
-      conditions[:creation_ip] = @params[:ip] if @params[:ip]
+      users = User.all
+      users = users.where(:status => @params[:status]) if @params[:status]
+      users = users.where(:creation_address => @params[:ip]) if @params[:ip]
 
-      @user_pages, @users = paginate(:users,
-                                     :conditions => conditions,
-                                     :order => :id,
-                                     :per_page => 50)
+      @users_count = users.limit(501).count
+      @users_count = I18n.t("count.at_least_pattern", :count => 500) if @users_count > 500
+
+      @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
+
+      render :partial => "page" if turbo_frame_request_id == "pagination"
     end
   end
 
@@ -55,28 +60,27 @@ class UsersController < ApplicationController
 
   def new
     @title = t ".title"
-    @referer = if params[:referer]
-                 safe_referer(params[:referer])
-               else
-                 session[:referer]
-               end
+    @referer = safe_referer(params[:referer])
 
-    append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
-    )
+    parse_oauth_referer @referer
 
     if current_user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
       redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
+      @email_hmac = params[:email_hmac]
+
       self.current_user = User.new(:email => params[:email],
-                                   :email_confirmation => params[:email],
                                    :display_name => params[:nickname],
                                    :auth_provider => params[:auth_provider],
                                    :auth_uid => params[:auth_uid])
 
-      flash.now[:notice] = render_to_string :partial => "auth_association"
+      if current_user.valid? || current_user.errors[:email].empty?
+        flash.now[:notice] = render_to_string :partial => "auth_association"
+      else
+        flash.now[:warning] = t ".duplicate_social_email"
+      end
     else
       check_signup_allowed
 
@@ -88,11 +92,7 @@ class UsersController < ApplicationController
     self.current_user = User.new(user_params)
 
     if check_signup_allowed(current_user.email)
-      session[:referer] = safe_referer(params[:referer]) if params[:referer]
-
-      Rails.logger.info "create: #{session[:referer]}"
-
-      if current_user.auth_provider.present? && current_user.pass_crypt.empty?
+      if current_user.auth_uid.present?
         # We are creating an account with external authentication and
         # no password was specified so create a random one
         current_user.pass_crypt = SecureRandom.base64(16)
@@ -102,14 +102,9 @@ class UsersController < ApplicationController
       if current_user.invalid?
         # Something is wrong with a new user, so rerender the form
         render :action => "new"
-      elsif current_user.auth_provider.present?
-        # Verify external authenticator before moving on
-        session[:new_user] = current_user
-        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
-        session[:new_user] = current_user
-        redirect_to :action => :terms
+        save_new_user params[:email_hmac], params[:referer]
       end
     end
   end
@@ -133,7 +128,7 @@ class UsersController < ApplicationController
       if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to edit_account_path
-      elsif current_user.nil? && session[:new_user].nil?
+      elsif current_user.nil?
         redirect_to login_path(:referer => request.fullpath)
       end
     end
@@ -169,55 +164,6 @@ class UsersController < ApplicationController
       referer = safe_referer(params[:referer]) if params[:referer]
 
       redirect_to referer || edit_account_path
-    else
-      self.current_user = session.delete(:new_user)
-
-      if check_signup_allowed(current_user.email)
-        current_user.data_public = true
-        current_user.description = "" if current_user.description.nil?
-        current_user.creation_ip = request.remote_ip
-        current_user.languages = http_accept_language.user_preferred_languages
-        current_user.terms_agreed = Time.now.utc
-        current_user.tou_agreed = Time.now.utc
-        current_user.terms_seen = true
-
-        if current_user.auth_uid.blank?
-          current_user.auth_provider = nil
-          current_user.auth_uid = nil
-        end
-
-        if current_user.save
-          SIGNUP_IP_LIMITER&.update(request.remote_ip)
-          SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
-
-          flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
-
-          referer = welcome_path
-
-          begin
-            uri = URI(session[:referer])
-            %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
-              editor = Rack::Utils.parse_query(uri.query).slice("editor")
-              referer = welcome_path({ "zoom" => m[1],
-                                       "lat" => m[2],
-                                       "lon" => m[3] }.merge(editor))
-            end
-          rescue StandardError
-            # Use default
-          end
-
-          if current_user.status == "active"
-            session[:referer] = referer
-            successful_login(current_user)
-          else
-            session[:token] = current_user.tokens.create.token
-            UserMailer.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_later
-            redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
-          end
-        else
-          render :action => "new", :referer => params[:referer]
-        end
-      end
     end
   end
 
@@ -243,6 +189,7 @@ class UsersController < ApplicationController
   ##
   # omniauth success callback
   def auth_success
+    referer = request.env["omniauth.params"]["referer"]
     auth_info = request.env["omniauth.auth"]
 
     provider = auth_info[:provider]
@@ -254,7 +201,7 @@ class UsersController < ApplicationController
                      when "openid"
                        uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
                        uid.match(%r{https://me.yahoo.com/(.*)})
-                     when "google", "facebook", "microsoft"
+                     when "google", "facebook", "microsoft", "github", "wikipedia"
                        true
                      else
                        false
@@ -271,13 +218,6 @@ class UsersController < ApplicationController
       session[:user_errors] = current_user.errors.as_json
 
       redirect_to edit_account_path
-    elsif session[:new_user]
-      session[:new_user].auth_provider = provider
-      session[:new_user].auth_uid = uid
-
-      session[:new_user].activate if email_verified && email == session[:new_user].email
-
-      redirect_to :action => "terms"
     else
       user = User.find_by(:auth_provider => provider, :auth_uid => uid)
 
@@ -290,17 +230,18 @@ class UsersController < ApplicationController
       if user
         case user.status
         when "pending"
-          unconfirmed_login(user)
+          unconfirmed_login(user, referer)
         when "active", "confirmed"
-          successful_login(user, request.env["omniauth.params"]["referer"])
+          successful_login(user, referer)
         when "suspended"
-          failed_login({ :partial => "sessions/suspended_flash" })
+          failed_login({ :partial => "sessions/suspended_flash" }, user.display_name, referer)
         else
-          failed_login t("sessions.new.auth failure")
+          failed_login(t("sessions.new.auth failure"), user.display_name, referer)
         end
       else
-        redirect_to :action => "new", :nickname => name, :email => email,
-                    :auth_provider => provider, :auth_uid => uid
+        email_hmac = UsersController.message_hmac(email) if email_verified && email
+        redirect_to :action => "new", :nickname => name, :email => email, :email_hmac => email_hmac,
+                    :auth_provider => provider, :auth_uid => uid, :referer => referer
       end
     end
   end
@@ -315,7 +256,65 @@ class UsersController < ApplicationController
     redirect_to origin || login_url
   end
 
+  def self.message_hmac(text)
+    sha256 = Digest::SHA256.new
+    sha256 << Rails.application.key_generator.generate_key("openstreetmap/email_address")
+    sha256 << text
+    Base64.urlsafe_encode64(sha256.digest)
+  end
+
   private
+
+  def save_new_user(email_hmac, referer = nil)
+    current_user.data_public = true
+    current_user.description = "" if current_user.description.nil?
+    current_user.creation_address = request.remote_ip
+    current_user.languages = http_accept_language.user_preferred_languages
+    current_user.terms_agreed = Time.now.utc
+    current_user.tou_agreed = Time.now.utc
+    current_user.terms_seen = true
+
+    if current_user.auth_uid.blank?
+      current_user.auth_provider = nil
+      current_user.auth_uid = nil
+    elsif email_hmac && ActiveSupport::SecurityUtils.secure_compare(email_hmac, UsersController.message_hmac(current_user.email))
+      current_user.activate
+    end
+
+    if current_user.save
+      SIGNUP_IP_LIMITER&.update(request.remote_ip)
+      SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
+
+      flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
+
+      referer = welcome_path(welcome_options(referer))
+
+      if current_user.status == "active"
+        successful_login(current_user, referer)
+      else
+        session[:pending_user] = current_user.id
+        UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
+        redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
+      end
+    else
+      render :action => "new", :referer => params[:referer]
+    end
+  end
+
+  def welcome_options(referer = nil)
+    uri = URI(referer) if referer.present?
+
+    return { "oauth_return_url" => uri&.to_s } if uri&.path == oauth_authorization_path
+
+    begin
+      %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
+        editor = Rack::Utils.parse_query(uri.query).slice("editor")
+        return { "zoom" => m[1], "lat" => m[2], "lon" => m[3] }.merge(editor)
+      end
+    rescue StandardError
+      # Use default
+    end
+  end
 
   ##
   # ensure that there is a "user" instance variable
@@ -328,9 +327,10 @@ class UsersController < ApplicationController
   ##
   # return permitted user parameters
   def user_params
-    params.require(:user).permit(:email, :email_confirmation, :display_name,
+    params.require(:user).permit(:email, :display_name,
                                  :auth_provider, :auth_uid,
-                                 :pass_crypt, :pass_crypt_confirmation)
+                                 :pass_crypt, :pass_crypt_confirmation,
+                                 :consider_pd)
   end
 
   ##
@@ -347,6 +347,8 @@ class UsersController < ApplicationController
                  else
                    domain_mx_servers(domain)
                  end
+
+    return true if Acl.allow_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
 
     blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
 

@@ -1,0 +1,21 @@
+<div class='mb-3'>
+  <% if @user %>
+    <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
+  <% else %>
+    <div class="row">
+      <div class="col-auto">
+        <%= user_thumbnail diary_entry.user %>
+      </div>
+      <div class="col">
+        <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
+      </div>
+    </div>
+  <% end %>
+
+  <small class='text-body-secondary'>
+    <%= t("diary_entries.diary_entry.posted_by_html", :link_user => (link_to diary_entry.user.display_name, diary_entry.user), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to diary_entry.language.name, :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code)) %>
+    <% if (l(diary_entry.updated_at, :format => :blog) != l(diary_entry.created_at, :format => :blog)) %>
+      <%= t("diary_entries.diary_entry.updated_at_html", :updated => l(diary_entry.updated_at, :format => :blog)) %>
+    <% end %>
+  </small>
+</div>

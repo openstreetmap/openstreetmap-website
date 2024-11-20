@@ -1,15 +1,36 @@
-<div id="<%= id %>_container" class="row richtext_container">
-  <div id="<%= id %>_content" class="col-sm-8 mb-3 mb-sm-0 richtext_content">
-    <%= builder.text_area(attribute, options.merge(:wrapper => false, "data-preview-url" => preview_url(:type => type))) %>
-    <div id="<%= id %>_preview" class="richtext_preview richtext text-break"></div>
-  </div>
-  <div id="<%= id %>_help" class="col-sm-4 richtext_help">
-    <div class="card bg-light h-100">
-      <div class="card-body">
-        <%= render :partial => "shared/#{type}_help" %>
-        <%= submit_tag t(".edit"), :id => "#{id}_doedit", :class => "richtext_doedit btn btn-primary", :disabled => true %>
-        <%= submit_tag t(".preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview btn btn-primary" %>
+<div class="richtext_container">
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <button type="button" class="nav-link active" data-bs-toggle="tab" data-bs-target="#<%= id %>_edit"><%= t(".edit") %></button>
+    </li>
+    <li class="nav-item">
+      <button type="button" class="nav-link" data-bs-toggle="tab" data-bs-target="#<%= id %>_preview"><%= t(".preview") %></button>
+    </li>
+    <li class="nav-item d-block d-sm-none">
+      <button type="button" class="nav-link" data-bs-toggle="tab" data-bs-target="#<%= id %>_help"><%= t(".help") %></button>
+    </li>
+  </ul>
+  <div class="row g-3">
+    <div class="tab-content col-sm-8">
+      <div id="<%= id %>_edit" class="tab-pane show active">
+        <%= builder.text_area(attribute, options.merge(:wrapper => false, "data-preview-url" => preview_url(:type => type))) %>
+      </div>
+      <div id="<%= id %>_preview" class="tab-pane">
+        <div class="richtext_placeholder text-center py-5" hidden>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+          </div>
+        </div>
+        <div class="richtext text-break"></div>
+      </div>
+      <div id="<%= id %>_help" class="tab-pane">
+        <div class="card bg-body-tertiary h-100">
+          <div class="card-body">
+            <%= render :partial => "shared/#{type}_help" %>
+          </div>
+        </div>
       </div>
     </div>
+    <aside class="col-sm-4 d-none d-sm-block richtext_help_sidebar"></aside>
   </div>
 </div>

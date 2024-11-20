@@ -1,0 +1,50 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <%= link_to t(".all_blocks"),
+                user_blocks_path,
+                :class => ["nav-link", { :active => action_name == "index" }] %>
+  </li>
+  <% if current_user&.blocks&.exists? %>
+    <li class="nav-item">
+      <%= link_to t(".blocks_on_me"),
+                  user_blocks_on_path(current_user),
+                  :class => ["nav-link", { :active => action_name == "blocks_on" && current_user == @user }] %>
+    </li>
+  <% end %>
+  <% on_user = @user || @user_block&.user %>
+  <% if on_user != current_user && on_user&.blocks&.exists? %>
+    <li class="nav-item">
+      <%= link_to t(".blocks_on_user", :user => on_user.display_name),
+                  user_blocks_on_path(on_user),
+                  :class => ["nav-link", { :active => action_name == "blocks_on" }] %>
+    </li>
+  <% end %>
+  <% if current_user&.blocks_created&.exists? %>
+    <li class="nav-item">
+      <%= link_to t(".blocks_by_me"),
+                  user_blocks_by_path(current_user),
+                  :class => ["nav-link", { :active => action_name == "blocks_by" && current_user == @user }] %>
+    </li>
+  <% end %>
+  <% by_user = @user || @user_block&.creator %>
+  <% if by_user != current_user && by_user&.blocks_created&.exists? %>
+    <li class="nav-item">
+      <%= link_to t(".blocks_by_user", :user => by_user.display_name),
+                  user_blocks_by_path(by_user),
+                  :class => ["nav-link", { :active => action_name == "blocks_by" }] %>
+    </li>
+  <% end %>
+  <% if @user_block&.persisted? %>
+    <li class="nav-item">
+      <%= link_to t(".block", :id => @user_block.id),
+                  user_block_path(@user_block),
+                  :class => "nav-link active" %>
+    </li>
+  <% elsif @user_block&.new_record? %>
+    <li class="nav-item">
+      <%= link_to t(".new_block"),
+                  new_user_block_path,
+                  :class => "nav-link active" %>
+    </li>
+  <% end %>
+</ul>

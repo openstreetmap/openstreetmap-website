@@ -4,13 +4,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
   def test_index
     # Access issues list without login
     get issues_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => issues_path)
 
     # Access issues list as normal user
     session_for(create(:user))
     get issues_path
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issues list as administrator
@@ -29,24 +27,22 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     # Access issue without login
-    get issue_path(:id => issue)
-    assert_response :redirect
+    get issue_path(issue)
     assert_redirected_to login_path(:referer => issue_path(issue))
 
     # Access issue as normal user
     session_for(create(:user))
-    get issue_path(:id => issue)
-    assert_response :redirect
+    get issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issue as administrator
     session_for(create(:administrator_user))
-    get issue_path(:id => issue)
+    get issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
 
     # Access issue as moderator
     session_for(create(:moderator_user))
-    get issue_path(:id => issue)
+    get issue_path(issue)
     assert_response :success
   end
 
@@ -55,24 +51,22 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
 
     # Access issue without login
-    get issue_path(:id => issue)
-    assert_response :redirect
+    get issue_path(issue)
     assert_redirected_to login_path(:referer => issue_path(issue))
 
     # Access issue as normal user
     session_for(create(:user))
-    get issue_path(:id => issue)
-    assert_response :redirect
+    get issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issue as moderator
     session_for(create(:moderator_user))
-    get issue_path(:id => issue)
+    get issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
 
     # Access issue as administrator
     session_for(create(:administrator_user))
-    get issue_path(:id => issue)
+    get issue_path(issue)
     assert_response :success
   end
 
@@ -81,24 +75,23 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     # Resolve issue without login
-    post resolve_issue_path(:id => issue)
+    post resolve_issue_path(issue)
     assert_response :forbidden
 
     # Resolve issue as normal user
     session_for(create(:user))
-    post resolve_issue_path(:id => issue)
-    assert_response :redirect
+    post resolve_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Resolve issue as administrator
     session_for(create(:administrator_user))
-    post resolve_issue_path(:id => issue)
+    post resolve_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.resolved?
+    assert_not_predicate issue.reload, :resolved?
 
     # Resolve issue as moderator
     session_for(create(:moderator_user))
-    post resolve_issue_path(:id => issue)
+    post resolve_issue_path(issue)
     assert_response :redirect
     assert_predicate issue.reload, :resolved?
   end
@@ -108,24 +101,23 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
 
     # Resolve issue without login
-    post resolve_issue_path(:id => issue)
+    post resolve_issue_path(issue)
     assert_response :forbidden
 
     # Resolve issue as normal user
     session_for(create(:user))
-    post resolve_issue_path(:id => issue)
-    assert_response :redirect
+    post resolve_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Resolve issue as moderator
     session_for(create(:moderator_user))
-    post resolve_issue_path(:id => issue)
+    post resolve_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.resolved?
+    assert_not_predicate issue.reload, :resolved?
 
     # Resolve issue as administrator
     session_for(create(:administrator_user))
-    post resolve_issue_path(:id => issue)
+    post resolve_issue_path(issue)
     assert_response :redirect
     assert_predicate issue.reload, :resolved?
   end
@@ -135,24 +127,23 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     # Ignore issue without login
-    post ignore_issue_path(:id => issue)
+    post ignore_issue_path(issue)
     assert_response :forbidden
 
     # Ignore issue as normal user
     session_for(create(:user))
-    post ignore_issue_path(:id => issue)
-    assert_response :redirect
+    post ignore_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Ignore issue as administrator
     session_for(create(:administrator_user))
-    post ignore_issue_path(:id => issue)
+    post ignore_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.ignored?
+    assert_not_predicate issue.reload, :ignored?
 
     # Ignore issue as moderator
     session_for(create(:moderator_user))
-    post ignore_issue_path(:id => issue)
+    post ignore_issue_path(issue)
     assert_response :redirect
     assert_predicate issue.reload, :ignored?
   end
@@ -162,24 +153,23 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
 
     # Ignore issue without login
-    post ignore_issue_path(:id => issue)
+    post ignore_issue_path(issue)
     assert_response :forbidden
 
     # Ignore issue as normal user
     session_for(create(:user))
-    post ignore_issue_path(:id => issue)
-    assert_response :redirect
+    post ignore_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Ignore issue as moderator
     session_for(create(:moderator_user))
-    post ignore_issue_path(:id => issue)
+    post ignore_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.ignored?
+    assert_not_predicate issue.reload, :ignored?
 
     # Ignore issue as administrator
     session_for(create(:administrator_user))
-    post ignore_issue_path(:id => issue)
+    post ignore_issue_path(issue)
     assert_response :redirect
     assert_predicate issue.reload, :ignored?
   end
@@ -191,24 +181,23 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue.resolve!
 
     # Reopen issue without login
-    post reopen_issue_path(:id => issue)
+    post reopen_issue_path(issue)
     assert_response :forbidden
 
     # Reopen issue as normal user
     session_for(create(:user))
-    post reopen_issue_path(:id => issue)
-    assert_response :redirect
+    post reopen_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Reopen issue as administrator
     session_for(create(:administrator_user))
-    post reopen_issue_path(:id => issue)
+    post reopen_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.open?
+    assert_not_predicate issue.reload, :open?
 
     # Reopen issue as moderator
     session_for(create(:moderator_user))
-    post reopen_issue_path(:id => issue)
+    post reopen_issue_path(issue)
     assert_response :redirect
     assert_predicate issue.reload, :open?
   end
@@ -220,24 +209,23 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     issue.resolve!
 
     # Reopen issue without login
-    post reopen_issue_path(:id => issue)
+    post reopen_issue_path(issue)
     assert_response :forbidden
 
     # Reopen issue as normal user
     session_for(create(:user))
-    post reopen_issue_path(:id => issue)
-    assert_response :redirect
+    post reopen_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Reopen issue as moderator
     session_for(create(:moderator_user))
-    post reopen_issue_path(:id => issue)
+    post reopen_issue_path(issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.open?
+    assert_not_predicate issue.reload, :open?
 
     # Reopen issue as administrator
     session_for(create(:administrator_user))
-    post reopen_issue_path(:id => issue)
+    post reopen_issue_path(issue)
     assert_response :redirect
     assert_predicate issue.reload, :open?
   end

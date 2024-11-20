@@ -37,9 +37,11 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   def test_identify_latlon_basic
     [
       "50.06773 14.37742",
+      "50.06773/14.37742",
       "50.06773, 14.37742",
       "+50.06773 +14.37742",
-      "+50.06773, +14.37742"
+      "+50.06773, +14.37742",
+      "+50.06773/+14.37742"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
     end
@@ -55,6 +57,19 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50.06773N, 14.37742E"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
+    end
+  end
+
+  ##
+  # Test identification of integer lat/lon pairs using N/E with degrees
+  def test_identify_latlon_ne_d_int_deg
+    [
+      "N50 E14",
+      "N50° E14°",
+      "50N 14E",
+      "50°N 14°E"
+    ].each do |code|
+      latlon_check code, 50, 14
     end
   end
 
@@ -222,6 +237,54 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Test identification of lat/lon pairs with missing fractions
+  def test_no_identify_latlon_ne_missing_fraction_part
+    [
+      "N50. E14.",
+      "N50.° E14.°",
+      "50.N 14.E",
+      "50.°N 14.°E",
+      "N50 1.' E14 2.'",
+      "N50° 1.' E14° 2.'",
+      "50N 1.' 14 2.'E",
+      "50° 1.'N 14° 2.'E",
+      "N50 1' 3,\" E14 2' 4.\"",
+      "N50° 1' 3.\" E14° 2' 4.\"",
+      "50N 1' 3.\" 14 2' 4.\"E",
+      "50° 1' 3.\"N 14° 2' 4.\"E"
+    ].each do |code|
+      get search_path(:query => code)
+      assert_response :success
+      assert_template :search
+      assert_template :layout => "map"
+      assert_equal %w[osm_nominatim], assigns(:sources).pluck(:name)
+    end
+  end
+
+  #
+  # Test identification of lat/lon pairs with mixed precision
+  def test_identify_latlon_ne_mixed_precision
+    latlon_check "N1 5 E15",    1.083333, 15
+    latlon_check "N1 5 9 E15",  1.085833, 15
+    latlon_check "N1 5 9 E1 5", 1.085833, 1.083333
+    latlon_check "N15 E1 5",    15, 1.083333
+    latlon_check "N15 E1 5 9",  15, 1.085833
+    latlon_check "N1 5 E1 5 9", 1.083333, 1.085833
+  end
+
+  #
+  # Test identification of lat/lon pairs with values close to zero
+  def test_identify_latlon_close_to_zero
+    [
+      "0.0000123 -0.0000456",
+      "+0.0000123 -0.0000456",
+      "N 0° 0' 0.4428\", W 0° 0' 1.6416\""
+    ].each do |code|
+      latlon_check code, 0.0000123, -0.0000456
+    end
+  end
+
+  ##
   # Test identification of US zipcodes
   def test_identify_us_postcode
     %w[
@@ -364,19 +427,23 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :search
     assert_template :layout => "map"
-    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources)
+    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
-    assert_in_delta lat, @controller.params[:lat]
-    assert_in_delta lon, @controller.params[:lon]
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
+    assert_in_delta lat, @controller.params[:lat].to_f
+    assert_in_delta lon, @controller.params[:lon].to_f
 
     get search_path(:query => query), :xhr => true
     assert_response :success
     assert_template :search
     assert_template :layout => "xhr"
-    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources)
+    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
-    assert_in_delta lat, @controller.params[:lat]
-    assert_in_delta lon, @controller.params[:lon]
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
+    assert_in_delta lat, @controller.params[:lat].to_f
+    assert_in_delta lon, @controller.params[:lon].to_f
   end
 
   def search_check(query, sources)
@@ -384,13 +451,13 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :search
     assert_template :layout => "map"
-    assert_equal sources, assigns(:sources)
+    assert_equal sources, assigns(:sources).pluck(:name)
 
     get search_path(:query => query), :xhr => true
     assert_response :success
     assert_template :search
     assert_template :layout => "xhr"
-    assert_equal sources, assigns(:sources)
+    assert_equal sources, assigns(:sources).pluck(:name)
   end
 
   def results_check(*results)
@@ -415,6 +482,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :error
     assert_template :layout => nil
-    assert_select "p.search_results_error", error
+    assert_select ".alert.alert-danger", error
   end
 end

@@ -31,12 +31,12 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_rss_link_to
     link = rss_link_to(:controller => :diary_entries, :action => :rss)
-    assert_dom_equal "<a class=\"rsssmall\" href=\"/diary/rss\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
+    assert_dom_equal "<a href=\"/diary/rss\"><img height=\"16\" src=\"/images/RSS.png\" width=\"16\" class=\"align-text-bottom\" /></a>", link
   end
 
   def test_atom_link_to
     link = atom_link_to(:controller => :changesets, :action => :feed)
-    assert_dom_equal "<a class=\"rsssmall\" href=\"/history/feed\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
+    assert_dom_equal "<a href=\"/history/feed\"><img height=\"16\" src=\"/images/RSS.png\" width=\"16\" class=\"align-text-bottom\" /></a>", link
   end
 
   def test_dir
@@ -57,22 +57,35 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_friendly_date
     date = friendly_date(Time.utc(2014, 3, 5, 18, 58, 23))
-    assert_match %r{^<span title=" *5 March 2014 at 18:58">.*</span>$}, date
+    assert_match %r{^<time title=" *5 March 2014 at 18:58" datetime="2014-03-05T18:58:23Z">.*</time>$}, date
 
     date = friendly_date(Time.now.utc - 1.hour)
-    assert_match %r{^<span title=".*">about 1 hour</span>$}, date
+    assert_match %r{^<time title=".*">about 1 hour</time>$}, date
 
     date = friendly_date(Time.now.utc - 2.days)
-    assert_match %r{^<span title=".*">2 days</span>$}, date
+    assert_match %r{^<time title=".*">2 days</time>$}, date
 
     date = friendly_date(Time.now.utc - 3.weeks)
-    assert_match %r{^<span title=".*">21 days</span>$}, date
+    assert_match %r{^<time title=".*">21 days</time>$}, date
 
     date = friendly_date(Time.now.utc - 4.months)
-    assert_match %r{^<span title=".*">4 months</span>$}, date
+    assert_match %r{^<time title=".*">4 months</time>$}, date
   end
 
-  def test_body_class; end
+  def test_friendly_date_ago
+    date = friendly_date_ago(Time.utc(2014, 3, 5, 18, 58, 23))
+    assert_match %r{^<time title=" *5 March 2014 at 18:58" datetime="2014-03-05T18:58:23Z">.*</time>$}, date
 
-  def test_current_page_class; end
+    date = friendly_date_ago(Time.now.utc - 1.hour)
+    assert_match %r{^<time title=".*">about 1 hour ago</time>$}, date
+
+    date = friendly_date_ago(Time.now.utc - 2.days)
+    assert_match %r{^<time title=".*">2 days ago</time>$}, date
+
+    date = friendly_date_ago(Time.now.utc - 3.weeks)
+    assert_match %r{^<time title=".*">21 days ago</time>$}, date
+
+    date = friendly_date_ago(Time.now.utc - 4.months)
+    assert_match %r{^<time title=".*">4 months ago</time>$}, date
+  end
 end

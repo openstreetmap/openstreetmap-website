@@ -13,80 +13,91 @@ OpenStreetMap::Application.routes.draw do
     get "versions" => "versions#show"
   end
 
-  scope "api/0.6" do
-    get "capabilities" => "api/capabilities#show"
-    get "permissions" => "api/permissions#show"
+  scope "api/0.6", :module => :api do
+    get "capabilities" => "capabilities#show"
+    get "permissions" => "permissions#show"
 
-    put "changeset/create" => "api/changesets#create"
-    post "changeset/:id/upload" => "api/changesets#upload", :as => :changeset_upload, :id => /\d+/
-    get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
-    get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
-    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "api/changesets#update", :id => /\d+/
-    put "changeset/:id/close" => "api/changesets#close", :as => :changeset_close, :id => /\d+/
-    get "changesets" => "api/changesets#query"
-    post "changeset/:id/comment" => "api/changeset_comments#create", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "api/changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "api/changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
+    put "changeset/create" => "changesets#create"
+    post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
+    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
+    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
+    post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
+    put "changeset/:id" => "changesets#update", :id => /\d+/
+    put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
+    get "changesets" => "changesets#index"
+    post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    put "node/create" => "api/nodes#create"
-    get "node/:id/ways" => "api/ways#ways_for_node", :as => :node_ways, :id => /\d+/
-    get "node/:id/relations" => "api/relations#relations_for_node", :as => :node_relations, :id => /\d+/
-    get "node/:id/history" => "api/old_nodes#history", :as => :api_node_history, :id => /\d+/
-    post "node/:id/:version/redact" => "api/old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "api/old_nodes#version", :as => :node_version, :id => /\d+/, :version => /\d+/
-    get "node/:id" => "api/nodes#show", :as => :api_node, :id => /\d+/
-    put "node/:id" => "api/nodes#update", :id => /\d+/
-    delete "node/:id" => "api/nodes#delete", :id => /\d+/
-    get "nodes" => "api/nodes#index"
+    put "node/create" => "nodes#create"
+    get "node/:id/ways" => "ways#ways_for_node", :as => :node_ways, :id => /\d+/
+    get "node/:id/relations" => "relations#relations_for_node", :as => :node_relations, :id => /\d+/
+    get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
+    post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
+    get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
+    get "node/:id" => "nodes#show", :as => :api_node, :id => /\d+/
+    put "node/:id" => "nodes#update", :id => /\d+/
+    delete "node/:id" => "nodes#delete", :id => /\d+/
+    get "nodes" => "nodes#index"
 
-    put "way/create" => "api/ways#create"
-    get "way/:id/history" => "api/old_ways#history", :as => :api_way_history, :id => /\d+/
-    get "way/:id/full" => "api/ways#full", :as => :way_full, :id => /\d+/
-    get "way/:id/relations" => "api/relations#relations_for_way", :as => :way_relations, :id => /\d+/
-    post "way/:id/:version/redact" => "api/old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "api/old_ways#version", :as => :way_version, :id => /\d+/, :version => /\d+/
-    get "way/:id" => "api/ways#show", :as => :api_way, :id => /\d+/
-    put "way/:id" => "api/ways#update", :id => /\d+/
-    delete "way/:id" => "api/ways#delete", :id => /\d+/
-    get "ways" => "api/ways#index"
+    put "way/create" => "ways#create"
+    get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
+    get "way/:id/full" => "ways#full", :as => :way_full, :id => /\d+/
+    get "way/:id/relations" => "relations#relations_for_way", :as => :way_relations, :id => /\d+/
+    post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
+    get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
+    get "way/:id" => "ways#show", :as => :api_way, :id => /\d+/
+    put "way/:id" => "ways#update", :id => /\d+/
+    delete "way/:id" => "ways#delete", :id => /\d+/
+    get "ways" => "ways#index"
 
-    put "relation/create" => "api/relations#create"
-    get "relation/:id/relations" => "api/relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
-    get "relation/:id/history" => "api/old_relations#history", :as => :api_relation_history, :id => /\d+/
-    get "relation/:id/full" => "api/relations#full", :as => :relation_full, :id => /\d+/
-    post "relation/:id/:version/redact" => "api/old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "api/old_relations#version", :as => :relation_version, :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "api/relations#show", :as => :api_relation, :id => /\d+/
-    put "relation/:id" => "api/relations#update", :id => /\d+/
-    delete "relation/:id" => "api/relations#delete", :id => /\d+/
-    get "relations" => "api/relations#index"
+    put "relation/create" => "relations#create"
+    get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
+    get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
+    get "relation/:id/full" => "relations#full", :as => :relation_full, :id => /\d+/
+    post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
+    get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
+    get "relation/:id" => "relations#show", :as => :api_relation, :id => /\d+/
+    put "relation/:id" => "relations#update", :id => /\d+/
+    delete "relation/:id" => "relations#delete", :id => /\d+/
+    get "relations" => "relations#index"
 
-    get "map" => "api/map#index"
+    get "map" => "map#index"
 
-    get "trackpoints" => "api/tracepoints#index"
+    get "trackpoints" => "tracepoints#index"
 
-    get "user/:id" => "api/users#show", :id => /\d+/, :as => :api_user
-    get "user/details" => "api/users#details"
-    get "user/gpx_files" => "api/users#gpx_files"
-    get "users" => "api/users#index", :as => :api_users
+    get "user/:id" => "users#show", :id => /\d+/, :as => :api_user
+    get "user/details" => "users#details"
+    get "user/gpx_files" => "users#gpx_files"
+    get "users" => "users#index", :as => :api_users
 
-    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
+    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "user_preferences" do
       collection do
-        put "" => "api/user_preferences#update_all", :as => ""
+        put "" => "user_preferences#update_all", :as => ""
       end
     end
 
-    post "gpx/create" => "api/traces#create"
-    get "gpx/:id" => "api/traces#show", :as => :api_trace, :id => /\d+/
-    put "gpx/:id" => "api/traces#update", :id => /\d+/
-    delete "gpx/:id" => "api/traces#destroy", :id => /\d+/
-    get "gpx/:id/details" => "api/traces#show", :id => /\d+/
-    get "gpx/:id/data" => "api/traces#data", :as => :api_trace_data
+    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :destroy], :controller => "messages", :as => :api_messages do
+      collection do
+        get "inbox"
+        get "outbox"
+      end
+    end
 
+    post "/user/messages/:id" => "messages#update", :as => :api_message_update
+
+    post "gpx/create" => "traces#create"
+    get "gpx/:id" => "traces#show", :as => :api_trace, :id => /\d+/
+    put "gpx/:id" => "traces#update", :id => /\d+/
+    delete "gpx/:id" => "traces#destroy", :id => /\d+/
+    get "gpx/:id/details" => "traces#show", :id => /\d+/
+    get "gpx/:id/data" => "traces#data", :as => :api_trace_data
+  end
+
+  namespace :api, :path => "api/0.6" do
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "api/notes", :as => :api_notes do
+    resources :notes, :except => [:new, :edit, :update], :id => /\d+/, :controller => "notes" do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -99,25 +110,27 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    post "notes/addPOIexec" => "api/notes#create"
-    post "notes/closePOIexec" => "api/notes#close"
-    post "notes/editPOIexec" => "api/notes#comment"
-    get "notes/getGPX" => "api/notes#index", :format => "gpx"
-    get "notes/getRSSfeed" => "api/notes#feed", :format => "rss"
-
-    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "api/user_blocks", :as => :api_user_blocks
+    resources :user_blocks, :only => :show, :id => /\d+/, :controller => "user_blocks"
   end
 
   # Data browsing
-  get "/way/:id" => "browse#way", :id => /\d+/, :as => :way
-  get "/way/:id/history" => "browse#way_history", :id => /\d+/, :as => :way_history
-  get "/node/:id" => "browse#node", :id => /\d+/, :as => :node
-  get "/node/:id/history" => "browse#node_history", :id => /\d+/, :as => :node_history
-  get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
-  get "/relation/:id/history" => "browse#relation_history", :id => /\d+/, :as => :relation_history
-  get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
-  get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
-  resources :notes, :path => "note", :only => [:show, :new]
+  get "/way/:id" => "ways#show", :id => /\d+/, :as => :way
+  get "/way/:id/history" => "old_ways#index", :id => /\d+/, :as => :way_history
+  resources :old_ways, :path => "/way/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+  get "/node/:id" => "nodes#show", :id => /\d+/, :as => :node
+  get "/node/:id/history" => "old_nodes#index", :id => /\d+/, :as => :node_history
+  resources :old_nodes, :path => "/node/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+  get "/relation/:id" => "relations#show", :id => /\d+/, :as => :relation
+  get "/relation/:id/history" => "old_relations#index", :id => /\d+/, :as => :relation_history
+  resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+  resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
+    match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
+
+    namespace :changeset_comments, :as => :comments, :path => :comments do
+      resource :feed, :only => :show, :defaults => { :format => "rss" }
+    end
+  end
+  resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 
   get "/user/:display_name/history" => "changesets#index"
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
@@ -153,7 +166,11 @@ OpenStreetMap::Application.routes.draw do
   get "/about" => "site#about"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
-  get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
+  scope "/history" do
+    namespace :changeset_comments, :path => :comments, :as => :changesets_comments do
+      resource :feed, :only => :show, :defaults => { :format => "rss" }
+    end
+  end
   get "/export" => "site#export"
   get "/login" => "sessions#new"
   post "/login" => "sessions#create"
@@ -171,8 +188,12 @@ OpenStreetMap::Application.routes.draw do
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]
   post "/user/go_public" => "users#go_public"
-  match "/user/reset-password" => "passwords#reset_password", :via => [:get, :post], :as => :user_reset_password
-  match "/user/forgot-password" => "passwords#lost_password", :via => [:get, :post], :as => :user_forgot_password
+  scope :user, :as => "user" do
+    get "forgot-password" => "passwords#new"
+    post "forgot-password" => "passwords#create"
+    get "reset-password" => "passwords#edit"
+    post "reset-password" => "passwords#update"
+  end
   get "/user/suspended" => "users#suspended"
 
   get "/index.html", :to => redirect(:path => "/")
@@ -202,8 +223,10 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/:id" => "traces#show", :as => "show_trace"
-  get "/user/:display_name/traces/:id/picture" => "traces#picture", :as => "trace_picture"
-  get "/user/:display_name/traces/:id/icon" => "traces#icon", :as => "trace_icon"
+  scope "/user/:display_name/traces/:trace_id", :module => :traces do
+    get "picture" => "pictures#show", :as => "trace_picture"
+    get "icon" => "icons#show", :as => "trace_icon"
+  end
   get "/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/tag/%{tag}")
   get "/traces/tag/:tag" => "traces#index"
   get "/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces")
@@ -227,23 +250,27 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary/comments/:page" => "diary_entries#comments", :page => /[1-9][0-9]*/
-  get "/user/:display_name/diary/comments/" => "diary_entries#comments", :as => :diary_comments
+  get "/user/:display_name/diary/comments/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary/comments")
+  get "/user/:display_name/diary/comments" => "diary_comments#index", :as => :diary_comments
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
-    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/
+    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/ do
+      member do
+        post :hide, :unhide
+      end
+    end
   end
-  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/, :as => :comment_diary_entry
-  post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
-  post "/user/:display_name/diary/:id/unhide" => "diary_entries#unhide", :id => /\d+/, :as => :unhide_diary_entry
-  post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entries#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
-  post "/user/:display_name/diary/:id/unhidecomment/:comment" => "diary_entries#unhidecomment", :id => /\d+/, :comment => /\d+/, :as => :unhide_diary_comment
-  post "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :as => :diary_entry_subscribe, :id => /\d+/
-  post "/user/:display_name/diary/:id/unsubscribe" => "diary_entries#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
+  match "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :via => [:get, :post], :as => :diary_entry_subscribe, :id => /\d+/
+  match "/user/:display_name/diary/:id/unsubscribe" => "diary_entries#unsubscribe", :via => [:get, :post], :as => :diary_entry_unsubscribe, :id => /\d+/
+  post "/user/:display_name/diary/:id/comments" => "diary_comments#create", :id => /\d+/, :as => :comment_diary_entry
+  post "/diary_comments/:comment/hide" => "diary_comments#hide", :comment => /\d+/, :as => :hide_diary_comment
+  post "/diary_comments/:comment/unhide" => "diary_comments#unhide", :comment => /\d+/, :as => :unhide_diary_comment
 
   # user pages
-  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
+  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy] do
+    resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
+  end
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
@@ -280,9 +307,12 @@ OpenStreetMap::Application.routes.draw do
   # messages
   resources :messages, :only => [:create, :show, :destroy] do
     post :mark
+    patch :unmute
+
     match :reply, :via => [:get, :post]
     collection do
       get :inbox
+      get :muted
       get :outbox
     end
   end
@@ -291,25 +321,18 @@ OpenStreetMap::Application.routes.draw do
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
 
-  # oauth admin pages (i.e: for setting up new clients, etc...)
+  # muting users
   scope "/user/:display_name" do
-    resources :oauth_clients
+    resource :user_mute, :only => [:create, :destroy], :path => "mute"
   end
-  match "/oauth/revoke" => "oauth#revoke", :via => [:get, :post]
-  match "/oauth/authorize" => "oauth#authorize", :via => [:get, :post], :as => :authorize
-  get "/oauth/token" => "oauth#token", :as => :token
-  match "/oauth/request_token" => "oauth#request_token", :via => [:get, :post], :as => :request_token
-  match "/oauth/access_token" => "oauth#access_token", :via => [:get, :post], :as => :access_token
-  get "/oauth/test_request" => "oauth#test_request", :as => :test_request
+  resources :user_mutes, :only => [:index]
 
-  # roles and banning pages
-  post "/user/:display_name/role/:role/grant" => "user_roles#grant", :as => "grant_role"
-  post "/user/:display_name/role/:role/revoke" => "user_roles#revoke", :as => "revoke_role"
+  # banning pages
   get "/user/:display_name/blocks" => "user_blocks#blocks_on", :as => "user_blocks_on"
   get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
   get "/blocks/new/:display_name" => "user_blocks#new", :as => "new_user_block"
-  resources :user_blocks
-  match "/blocks/:id/revoke" => "user_blocks#revoke", :via => [:get, :post], :as => "revoke_user_block"
+  resources :user_blocks, :except => :new
+  match "/user/:display_name/blocks/revoke_all" => "user_blocks#revoke_all", :via => [:get, :post], :as => "revoke_all_user_blocks"
 
   # issues and reports
   resources :issues do
@@ -328,6 +351,7 @@ OpenStreetMap::Application.routes.draw do
   resources :redactions
 
   # errors
+  match "/400", :to => "errors#bad_request", :via => :all
   match "/403", :to => "errors#forbidden", :via => :all
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all

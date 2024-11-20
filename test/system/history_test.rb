@@ -28,27 +28,29 @@ class HistoryTest < ApplicationSystemTestCase
       create_visible_changeset(user, "next-changeset")
     end
 
-    visit "#{user_path(user)}/history"
-    changesets = find "div.changesets"
-    changesets.assert_text "bottom-changeset-in-batch-1"
-    changesets.assert_no_text "bottom-changeset-in-batch-2"
-    changesets.assert_no_text "first-changeset-in-history"
-    changesets.assert_selector "ol", :count => 1
-    changesets.assert_selector "li", :count => PAGE_SIZE
+    assert_nothing_raised do
+      visit "#{user_path(user)}/history"
+      changesets = find "div.changesets"
+      changesets.assert_text "bottom-changeset-in-batch-1"
+      changesets.assert_no_text "bottom-changeset-in-batch-2"
+      changesets.assert_no_text "first-changeset-in-history"
+      changesets.assert_selector "ol", :count => 1
+      changesets.assert_selector "li", :count => PAGE_SIZE
 
-    changesets.find(".changeset_more a.btn").click
-    changesets.assert_text "bottom-changeset-in-batch-1"
-    changesets.assert_text "bottom-changeset-in-batch-2"
-    changesets.assert_no_text "first-changeset-in-history"
-    changesets.assert_selector "ol", :count => 1
-    changesets.assert_selector "li", :count => 2 * PAGE_SIZE
+      changesets.find(".changeset_more a.btn").click
+      changesets.assert_text "bottom-changeset-in-batch-1"
+      changesets.assert_text "bottom-changeset-in-batch-2"
+      changesets.assert_no_text "first-changeset-in-history"
+      changesets.assert_selector "ol", :count => 1
+      changesets.assert_selector "li", :count => 2 * PAGE_SIZE
 
-    changesets.find(".changeset_more a.btn").click
-    changesets.assert_text "bottom-changeset-in-batch-1"
-    changesets.assert_text "bottom-changeset-in-batch-2"
-    changesets.assert_text "first-changeset-in-history"
-    changesets.assert_selector "ol", :count => 1
-    changesets.assert_selector "li", :count => (2 * PAGE_SIZE) + 1
+      changesets.find(".changeset_more a.btn").click
+      changesets.assert_text "bottom-changeset-in-batch-1"
+      changesets.assert_text "bottom-changeset-in-batch-2"
+      changesets.assert_text "first-changeset-in-history"
+      changesets.assert_selector "ol", :count => 1
+      changesets.assert_selector "li", :count => (2 * PAGE_SIZE) + 1
+    end
   end
 
   def create_visible_changeset(user, comment)

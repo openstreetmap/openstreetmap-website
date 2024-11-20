@@ -3,12 +3,6 @@
 # abort on error
 set -e
 
-# set locale to UTF-8 compatible. apologies to non-english speakers...
-locale-gen en_GB.utf8
-update-locale LANG=en_GB.utf8 LC_ALL=en_GB.utf8
-export LANG=en_GB.utf8
-export LC_ALL=en_GB.utf8
-
 # make sure we have up-to-date packages
 apt-get update
 
@@ -18,8 +12,8 @@ apt-get upgrade -y
 # install packages as explained in INSTALL.md
 apt-get install -y ruby ruby-dev ruby-bundler \
                      libxml2-dev libxslt1-dev nodejs npm \
-                     build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev libvips-dev \
+                     build-essential git-core firefox-esr \
+                     postgresql postgresql-contrib libpq-dev libvips-dev libyaml-dev \
                      libsasl2-dev libffi-dev libgd-dev libarchive-dev libbz2-dev
 npm install --global yarn
 

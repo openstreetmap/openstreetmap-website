@@ -31,9 +31,11 @@ L.OSM.sidebar = function (selector) {
         map.panBy([-paneWidth, 0], { animate: false });
       }
       $(sidebar).hide();
+      $("#content").addClass("overlay-right-sidebar");
       current = currentButton = $();
     } else {
       $(sidebar).show();
+      $("#content").removeClass("overlay-right-sidebar");
       current = pane;
       currentButton = button || $();
       if ($("html").attr("dir") === "rtl") {

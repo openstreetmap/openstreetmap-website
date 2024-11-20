@@ -32,11 +32,11 @@ module ShortLink
         else
           3.times do
             x <<= 1
-            x |= 1 unless (t & 32).zero?
+            x |= 1 unless t.nobits?(32)
             t <<= 1
 
             y <<= 1
-            y |= 1 unless (t & 32).zero?
+            y |= 1 unless t.nobits?(32)
             t <<= 1
           end
           z += 3

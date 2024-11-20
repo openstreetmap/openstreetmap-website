@@ -9,7 +9,7 @@ are two alternatives which make it easier to get a consistent development enviro
 * **Vagrant** This installs the software into a virtual machine. For Vagrant instructions see [VAGRANT.md](VAGRANT.md).
 * **Docker** This installs the software using containerization. For Docker instructions see [DOCKER.md](DOCKER.md).
 
-These instructions are based on Ubuntu 22.04 LTS, which is the platform used by the OSMF servers.
+These instructions are based on Ubuntu 24.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
 We don't recommend attempting to develop or deploy this software on Windows. Some Ruby gems may not be supported. If you need to use Windows the easiest solutions in order are [Docker](DOCKER.md), [Vagrant](VAGRANT.md), and Ubuntu in a virtual machine.
@@ -22,12 +22,12 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 3.0+
-* PostgreSQL 9.1+
+* Ruby 3.1+
+* PostgreSQL 13+
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
-These can be installed on Ubuntu 22.04 or later with:
+These can be installed on Ubuntu 24.04 or later with:
 
 ```
 sudo apt-get update
@@ -35,7 +35,7 @@ sudo apt-get install ruby ruby-dev ruby-bundler \
                      libvips-dev libxml2-dev libxslt1-dev nodejs \
                      build-essential git-core \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     libffi-dev libgd-dev libarchive-dev libbz2-dev npm
+                     libffi-dev libgd-dev libarchive-dev libyaml-dev libbz2-dev npm
 sudo npm install --global yarn
 ```
 
@@ -51,7 +51,7 @@ sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib libpq-devel \
                  perl-podlators libffi-devel gd-devel libarchive-devel \
-                 bzip2-devel nodejs-yarn vips-devel
+                 libyaml-devel bzip2-devel nodejs-yarn vips-devel
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
@@ -125,7 +125,7 @@ If you want to add in the full history later on, perhaps to run `git blame` or `
 
 ## Ruby gems
 
-We use [Bundler](http://gembundler.com/) to manage the rubygems required for the project.
+We use [Bundler](https://bundler.io/) to manage the rubygems required for the project.
 
 ```
 cd openstreetmap-website
@@ -226,11 +226,11 @@ After installing this software, you may need to carry out some [configuration st
 
 # Ruby development install and versions<a name="rbenv"></a> (optional)
 
-For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside eachother. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
+For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside each other. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
 
 If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
 
-* For Ubuntu, you do not need to install the following packages: `ruby3.0 libruby3.0 ruby3.0-dev bundler`,
+* For Ubuntu, you do not need to install the following packages: `ruby ruby-dev ruby-bundler`,
 * For Fedora, you do not need to install the following packages: `ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems`
 * For MacOSX, you do not need to `brew install ruby` - but make sure you've installed a version of Ruby using `rbenv` before running `gem install bundler`!
 

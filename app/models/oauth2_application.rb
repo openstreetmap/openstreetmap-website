@@ -1,3 +1,28 @@
+# == Schema Information
+#
+# Table name: oauth_applications
+#
+#  id           :bigint(8)        not null, primary key
+#  owner_type   :string           not null
+#  owner_id     :bigint(8)        not null
+#  name         :string           not null
+#  uid          :string           not null
+#  secret       :string           not null
+#  redirect_uri :text             not null
+#  scopes       :string           default(""), not null
+#  confidential :boolean          default(TRUE), not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_oauth_applications_on_owner_type_and_owner_id  (owner_type,owner_id)
+#  index_oauth_applications_on_uid                      (uid) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (owner_id => users.id)
+#
 class Oauth2Application < Doorkeeper::Application
   belongs_to :owner, :polymorphic => true
 

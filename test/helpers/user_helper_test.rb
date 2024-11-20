@@ -8,12 +8,12 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_image(user)
-    assert_match %r{^<img class="user_image border border-grey" .* src="/images/avatar_large.png" />$}, image
+    assert_match %r{^<img class="user_image border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_image(user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="/images/avatar_large.png" />$}, image
+    assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
     image = user_image(gravatar_user)
-    assert_match %r{^<img class="user_image border border-grey" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_image border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_image(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -24,13 +24,13 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_thumbnail(user)
-    assert_match %r{^<img class="user_thumbnail border border-grey" .* src="/images/avatar_small.png" />$}, image
+    assert_match %r{^<img class="user_thumbnail border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail(user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="/images/avatar_small.png" />$}, image
+    assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail(gravatar_user)
-    assert_match %r{^<img class="user_thumbnail border border-grey" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -41,13 +41,13 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_thumbnail_tiny(user)
-    assert_match %r{^<img class="user_thumbnail_tiny border border-grey" .* src="/images/avatar_small.png" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail_tiny(user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="/images/avatar_small.png" />$}, image
+    assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user)
-    assert_match %r{^<img class="user_thumbnail_tiny border border-grey" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -109,14 +109,10 @@ class UserHelperTest < ActionView::TestCase
     assert_match %r{^<img .* width="50" height="50" .* />$}, thumbnail
   end
 
-  def test_openid_logo
-    logo = openid_logo
-    assert_match %r{^<img .* src="/images/openid_small.png" />$}, logo
-  end
-
   def test_auth_button
-    button = auth_button("google", "google")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" class=\"rounded-3\" src=\"/images/google.svg\" /></a>", button)
+    button = auth_button("google")
+    img_tag = "<img alt=\"Google logo\" class=\"rounded-1\" src=\"/images/auth_providers/google.svg\" width=\"36\" height=\"36\" />"
+    assert_equal("<a class=\"auth_button btn btn-outline-secondary border p-2\" title=\"Log in with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\">#{img_tag}</a>", button)
   end
 
   private

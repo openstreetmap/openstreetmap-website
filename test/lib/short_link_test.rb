@@ -20,7 +20,7 @@ class ShortLinkTest < ActiveSupport::TestCase
       # smaller range.
       distance = Math.sqrt(((lat - lat2)**2) + ((lon - lon2)**2))
       max_distance = 360.0 / (1 << (zoom + 8)) * 0.5 * Math.sqrt(5)
-      assert max_distance > distance, "Maximum expected error exceeded: #{max_distance} <= #{distance} for (#{lat}, #{lon}, #{zoom})."
+      assert_operator max_distance, :>, distance, "Maximum expected error exceeded: #{max_distance} <= #{distance} for (#{lat}, #{lon}, #{zoom})."
     end
   end
 

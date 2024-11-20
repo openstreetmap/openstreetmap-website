@@ -5,11 +5,7 @@ class ApiCapability
 
   def initialize(token)
     if Settings.status != "database_offline"
-      user = if token.respond_to?(:resource_owner_id)
-               User.find(token.resource_owner_id)
-             elsif token.respond_to?(:user)
-               token.user
-             end
+      user = User.find(token.resource_owner_id)
 
       if user&.active?
         can [:create, :comment, :close, :reopen], Note if scope?(token, :write_notes)
@@ -19,23 +15,19 @@ class ApiCapability
         can [:gpx_files], User if scope?(token, :read_gpx)
         can [:index, :show], UserPreference if scope?(token, :read_prefs)
         can [:update, :update_all, :destroy], UserPreference if scope?(token, :write_prefs)
+        can [:inbox, :outbox, :show, :update, :destroy], Message if scope?(token, :consume_messages)
+        can [:create], Message if scope?(token, :send_messages)
 
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scope?(token, :write_api)
           can :create, ChangesetComment if scope?(token, :write_api)
-          can [:create, :update, :delete], Node if scope?(token, :write_api)
-          can [:create, :update, :delete], Way if scope?(token, :write_api)
-          can [:create, :update, :delete], Relation if scope?(token, :write_api)
+          can [:create, :update, :delete], [Node, Way, Relation] if scope?(token, :write_api)
         end
 
         if user.moderator?
           can [:destroy, :restore], ChangesetComment if scope?(token, :write_api)
           can :destroy, Note if scope?(token, :write_notes)
-          if user&.terms_agreed?
-            can :redact, OldNode if scope?(token, :write_api)
-            can :redact, OldWay if scope?(token, :write_api)
-            can :redact, OldRelation if scope?(token, :write_api)
-          end
+          can :redact, [OldNode, OldWay, OldRelation] if user&.terms_agreed? && scope?(token, :write_redactions)
         end
       end
     end

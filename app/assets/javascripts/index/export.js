@@ -58,7 +58,6 @@ OSM.Export = function (map) {
   }
 
   page.pushstate = page.popstate = function (path) {
-    $("#export_tab").addClass("current");
     OSM.loadSidebarContent(path, page.load);
   };
 
@@ -93,8 +92,6 @@ OSM.Export = function (map) {
     map
       .removeLayer(locationFilter)
       .off("moveend", update);
-
-    $("#export_tab").removeClass("current");
   };
 
   return page;

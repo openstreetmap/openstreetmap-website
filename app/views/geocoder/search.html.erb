@@ -4,10 +4,9 @@
 
 <% @sources.each do |source| %>
   <h4>
-    <%= t(".title.results_from_html", :results_link => link_to(t(".title.#{source}"),
-                                                               t(".title.#{source}_url"))) %>
+    <%= link_to t(".title.#{source[:name]}"), source[:url].to_s %>
   </h4>
-  <div class="search_results_entry mx-n3" data-href="<%= url_for @params.merge(:action => "search_#{source}") %>">
+  <div class="search_results_entry mx-n3" data-href="<%= url_for @params.merge(:action => "search_#{source[:name]}") %>">
     <div class="text-center loader">
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>

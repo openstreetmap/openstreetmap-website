@@ -5,7 +5,7 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_check_empty_message_fails
     message = build(:message, :title => nil, :body => nil, :sent_on => nil)
-    assert_not message.valid?
+    assert_not_predicate message, :valid?
     assert_predicate message.errors[:title], :any?
     assert_predicate message.errors[:body], :any?
     assert_predicate message.errors[:sent_on], :any?
@@ -23,7 +23,7 @@ class MessageTest < ActiveSupport::TestCase
     message = create(:message, :unread)
     message.sender = nil
     message.recipient = nil
-    assert_not message.valid?
+    assert_not_predicate message, :valid?
 
     assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
     message.from_user_id = 0
@@ -173,6 +173,26 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "Test message", message.title
     assert_equal "This is a test & a message", message.body
     assert_equal "text", message.body_format
+  end
+
+  def test_notify_recipient
+    message = create(:message)
+    assert_not_predicate message, :muted?
+    assert_predicate message, :notify_recipient?
+  end
+
+  def test_notify_recipient_for_muted_messages
+    message = create(:message, :muted)
+    assert_predicate message, :muted?
+    assert_not_predicate message, :notify_recipient?
+  end
+
+  def test_unmuting_a_muted_message
+    message = create(:message, :muted)
+    assert_predicate message, :muted?
+
+    message.unmute
+    assert_not_predicate message, :muted?
   end
 
   private

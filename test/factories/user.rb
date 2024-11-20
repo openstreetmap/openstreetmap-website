@@ -1,8 +1,10 @@
+pass_crypt = PasswordHash.create("test").first
+
 FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
     sequence(:display_name) { |n| "User #{n}" }
-    pass_crypt { Digest::MD5.hexdigest("test") }
+    pass_crypt { pass_crypt }
 
     # These attributes are not the defaults, but in most tests we want
     # a 'normal' user who can log in without being redirected etc.
@@ -44,6 +46,12 @@ FactoryBot.define do
     trait :deleted do
       after(:build) do |user, _evaluator|
         user.soft_destroy
+      end
+    end
+
+    factory :importer_user do
+      after(:create) do |user, _evaluator|
+        create(:user_role, :role => "importer", :user => user)
       end
     end
 

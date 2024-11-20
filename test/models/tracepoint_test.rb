@@ -5,6 +5,6 @@ class TracepointTest < ActiveSupport::TestCase
     tracepoint = create(:tracepoint)
     assert_predicate tracepoint, :valid?
     tracepoint.timestamp = nil
-    assert_not tracepoint.valid?
+    assert_not_predicate tracepoint, :valid?
   end
 end

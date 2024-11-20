@@ -4,7 +4,7 @@
 
 <% if Settings.status != "gpx_offline" %>
   <% if @trace.inserted %>
-    <img src="<%= url_for :controller => "traces", :action => "picture", :id => @trace.id, :display_name => @trace.user.display_name %>">
+    <%= trace_picture(@trace) %>
   <% else %>
     <span class="text-danger"><%= t ".pending" %></span>
   <% end %>
@@ -31,12 +31,12 @@
               :latitude => tag.span(number_with_delimiter(@trace.latitude), :class => "latitude"),
               :longitude => tag.span(number_with_delimiter(@trace.longitude), :class => "longitude") %>
       </div>
-      (<%= link_to t(".map"), :controller => "site", :action => "index", :mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %> / <%= link_to t(".edit"), :controller => "site", :action => "edit", :gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %>)</td>
+      (<%= link_to t(".map"), root_path(:mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}") %> / <%= link_to t(".edit"), edit_path(:gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}") %>)</td>
   </tr>
   <% end %>
   <tr>
     <th><%= t ".owner" %></th>
-    <td><%= link_to @trace.user.display_name, user_path(@trace.user) %></td>
+    <td><%= link_to @trace.user.display_name, @trace.user %></td>
   </tr>
   <tr>
     <th><%= t ".description" %></th>
@@ -63,6 +63,6 @@
     <% if current_user == @trace.user %>
       <%= link_to t(".edit_trace"), edit_trace_path(@trace), :class => "btn btn-outline-primary" %>
     <% end %>
-    <%= link_to t(".delete_trace"), { :controller => "traces", :action => "destroy", :id => @trace.id }, { :method => :delete, :class => "btn btn-outline-danger", :data => { :confirm => t(".confirm_delete") } } %>
+    <%= link_to t(".delete_trace"), @trace, { :method => :delete, :class => "btn btn-outline-danger", :data => { :confirm => t(".confirm_delete") } } %>
   </div>
 <% end %>

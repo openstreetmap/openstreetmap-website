@@ -4,7 +4,7 @@
 
 <div>
   <h4><%= t(".description") %></h4>
-  <div class="note-description">
+  <div class="overflow-hidden ms-2">
     <%= h(@note_comments.first.body.to_html) %>
   </div>
 
@@ -33,7 +33,7 @@
       <ul class="list-unstyled">
         <% @note_comments.drop(1).each do |comment| %>
           <li id="c<%= comment.id %>">
-            <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
+            <small class='text-body-secondary'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <div class="mx-2">
               <%= comment.body.to_html %>
             </div>
@@ -49,32 +49,44 @@
         <div class="mb-3">
           <textarea class="form-control" name="text" cols="40" rows="5" maxlength="2000"></textarea>
         </div>
-        <div class="btn-wrapper">
+        <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
+        </div>
+        <div class="d-flex flex-wrap gap-1">
           <% if current_user.moderator? -%>
-            <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+            <%= button_tag t(".hide"), :name => "hide", :class => "btn btn-light",
                                        :data => { :method => "DELETE",
                                                   :url => api_note_url(@note, "json") } %>
           <% end -%>
-          <%= submit_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
+          <%= button_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
                                         :data => { :method => "POST",
                                                    :url => close_api_note_url(@note, "json"),
                                                    :default_action_text => t(".resolve"),
                                                    :comment_action_text => t(".comment_and_resolve") } %>
-          <%= submit_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
+          <%= button_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
                                         :data => { :method => "POST",
                                                    :url => comment_api_note_url(@note, "json") } %>
         </div>
       </form>
+    <% else -%>
+      <p>
+        <%= link_to t(".log_in_to_comment"), login_path(:referer => request.fullpath) %>
+      </p>
     <% end -%>
   <% else %>
     <form class="mb-3" action="#">
       <input type="hidden" name="text" value="" autocomplete="off">
-      <div class="btn-wrapper">
+      <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
-          <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
+          <%= button_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+                                     :data => { :method => "DELETE",
+                                                :url => api_note_url(@note, "json") } %>
         <% end -%>
         <% if current_user -%>
-          <input type="submit" name="reopen" value="<%= t(".reactivate") %>" class="btn btn-primary" data-method="POST" data-url="<%= reopen_api_note_url(@note, "json") %>">
+          <%= button_tag t(".reactivate"), :name => "reopen", :class => "btn btn-primary",
+                                           :data => { :method => "POST",
+                                                      :url => reopen_api_note_url(@note, "json") } %>
         <% end -%>
       </div>
     </form>
@@ -82,7 +94,7 @@
 
   <% if current_user && current_user != @note.author %>
     <p>
-      <small class="text-muted">
+      <small class="text-body-secondary">
         <%= t ".report_link_html", :link => report_link(t(".report"), @note) %>
         <% if @note.status == "open" %>
           <%= t ".other_problems_resolve", :link => report_link(t(".report"), @note) %>
@@ -94,8 +106,8 @@
   <% end %>
 
   <% if @note.freshly_closed? %>
-    <small class="text-muted">
-      <%= t ".disappear_date_html", :disappear_in => disappear_in(@note) %>
+    <small class="text-body-secondary">
+      <%= t ".disappear_date_html", :disappear_in => friendly_date(@note.freshly_closed_until) %>
     </small>
   <% end %>
 </div>

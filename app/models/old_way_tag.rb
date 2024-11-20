@@ -2,19 +2,18 @@
 #
 # Table name: way_tags
 #
-#  way_id  :bigint(8)        default(0), not null, primary key
+#  way_id  :bigint(8)        not null, primary key
 #  k       :string           not null, primary key
 #  v       :string           not null
 #  version :bigint(8)        not null, primary key
 #
 # Foreign Keys
 #
-#  way_tags_id_fkey  (way_id => ways.way_id)
+#  way_tags_id_fkey  (["way_id", "version"] => ways.["way_id", "version"])
 #
 
 class OldWayTag < ApplicationRecord
   self.table_name = "way_tags"
-  self.primary_keys = "way_id", "version", "k"
 
   belongs_to :old_way, :foreign_key => [:way_id, :version], :inverse_of => :old_tags
 

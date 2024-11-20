@@ -11,7 +11,9 @@
 #
 # Indexes
 #
-#  index_changeset_comments_on_created_at  (created_at)
+#  index_changeset_comments_on_author_id_and_created_at     (author_id,created_at)
+#  index_changeset_comments_on_changeset_id_and_created_at  (changeset_id,created_at)
+#  index_changeset_comments_on_created_at                   (created_at)
 #
 # Foreign Keys
 #

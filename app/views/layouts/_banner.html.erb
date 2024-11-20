@@ -1,4 +1,9 @@
 <% unless (banner = next_banner()).nil? %>
-<%= link_to (image_tag banner[:img], :srcset => banner[:srcset], :alt => banner[:alt], :title => banner[:alt]), banner[:link] %>
-<button type="button" class="btn-close <%= "btn-close-white" if banner[:dark] %> position-absolute top-0 end-0 m-4" id="<%= banner_cookie(banner[:id]) %>" aria-label="<%= t("javascripts.close") %>"></button>
+  <%= tag.div :id => "banner", :class => "position-relative", :data => { :bs_theme => (banner[:dark] ? "dark" : "light") } do %>
+    <%= link_to (image_tag banner[:img], :srcset => banner[:srcset], :alt => banner[:alt], :title => banner[:alt]), banner[:link] %>
+    <button type="button"
+            class="btn-close position-absolute top-0 end-0 m-4 opacity-100 bg-white bg-opacity-50"
+            id="<%= banner_cookie(banner[:id]) %>"
+            aria-label="<%= t("javascripts.close") %>"></button>
+  <% end %>
 <% end %>

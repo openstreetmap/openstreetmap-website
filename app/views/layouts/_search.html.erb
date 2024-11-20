@@ -1,50 +1,65 @@
+<% search_query = if params[:query]
+                    params[:query]
+                  elsif params[:lat] && params[:lon]
+                    "#{params[:lat]}, #{params[:lon]}"
+                  end %>
+
 <div class="search_forms">
-  <form method="GET" action="<%= search_path %>" class="search_form px-1 py-2">
+  <form method="GET" action="<%= search_path %>" class="search_form bg-body-secondary px-1 py-2">
     <div class="row gx-2 mx-0">
       <div class="col">
         <div class="input-group flex-nowrap">
-          <div class='query_wrapper position-relative flex-grow-1'>
-            <%= link_to t("site.search.where_am_i"), "#", :class => "describe_location position-absolute", :title => t("site.search.where_am_i_title") %>
-            <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
+          <%= text_field_tag "query", search_query, :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control z-0 py-1 px-2", :dir => "auto" %>
+          <div class="input-group-text border-start-0 p-0 position-relative">
+            <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 top-0 bottom-0 m-1 btn btn-outline-primary border-0 p-1 bg-transparent text-primary link-body-emphasis link-opacity-100-hover", :title => t("site.search.where_am_i_title") %>
           </div>
-          <div class="input-group-append">
-            <%= submit_tag t("site.search.submit_text"), :class => "btn btn-sm btn-primary", :data => { :disable_with => false } %>
-          </div>
+          <%= button_tag :class => "btn btn-primary p-1", :title => t("site.search.submit_text") do %>
+            <svg width="24" height="20">
+              <circle cx="13" cy="7" r="6.5" fill="#fff8" stroke="#fff" />
+              <path d="M9.75 12.629 A6.5 6.5 0 0 1 7.371 10.25" fill="none" stroke="#fff" stroke-width="1.5" />
+              <line x1="1" y1="19" x2="1.5" y2="18.5" stroke="#fff8" stroke-width="2" />
+              <line x1="1.5" y1="18.5" x2="6" y2="14" stroke="#fff" stroke-width="2.5" />
+              <line x1="6" y1="14" x2="6.5" y2="13.5" stroke="#fff8" stroke-width="2" />
+              <line x1="6.5" y1="13.5" x2="8.5" y2="11.5" stroke="#fff" stroke-width="1.5" />
+            </svg>
+          <% end %>
         </div>
       </div>
     </div>
   </form>
 
-  <form method="GET" action="<%= directions_path %>" class="directions_form pb-3">
-    <div class="d-flex flex-row-reverse px-3 py-3"><button type="button" class="btn-close" aria-label="<%= t("javascripts.close") %>"></button></div>
+  <form method="GET" action="<%= directions_path %>" class="directions_form bg-body-secondary pb-2">
+    <div class="d-flex flex-row-reverse px-3 pt-3 pb-1"><button type="button" class="btn-close" aria-label="<%= t("javascripts.close") %>"></button></div>
 
-    <div class="row gx-2 m-1">
-      <div class="col-1">
-        <%= image_tag "marker-green.png", :class => "routing_marker mx-auto d-block", :data => { :type => "from" }, :draggable => "true" %>
+    <div class="d-flex flex-column mx-2 gap-1">
+      <div class="d-flex gap-1 align-items-center">
+        <div class="d-flex flex-column gap-1 flex-grow-1">
+          <div class="d-flex gap-2 align-items-center">
+            <div class="routing_marker_column flex-shrink-0">
+              <%= image_tag "marker-green.png", :class => "img-fluid", :data => { :type => "from" }, :draggable => "true" %>
+            </div>
+            <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <div class="routing_marker_column flex-shrink-0">
+              <%= image_tag "marker-red.png", :class => "img-fluid", :data => { :type => "to" }, :draggable => "true" %>
+            </div>
+            <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
+          </div>
+        </div>
+        <div>
+          <button type="button" class="reverse_directions btn btn-outline-secondary border-0 p-2" title="<%= t("site.search.reverse_directions_text") %>">
+            <svg class="d-block" width="20" height="20" viewBox="-10 -10 20 20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m-4 -2 0 10 m-4 -4 4 4 4 -4" />
+              <path d="m4 2 0 -10 m4 4 -4 -4 -4 4" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div class="col">
-        <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
-      </div>
-    </div>
-    <div class="row gx-2 m-1">
-      <div class="col-1">
-        <%= image_tag "marker-red.png", :class => "routing_marker mx-auto d-block", :data => { :type => "to" }, :draggable => "true" %>
-      </div>
-      <div class="col">
-        <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
-      </div>
-    </div>
-    <div class="row gx-2 m-1">
-      <div class="col offset-1">
-        <select class="routing_engines form-select form-select-sm" name="routing_engines"></select>
-      </div>
-      <div class="col-auto">
-        <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-sm btn-primary", :data => { :disable_with => false } %>
-      </div>
-    </div>
-    <div class="row gx-2 m-1">
-      <div class="col offset-1">
-        <button class="btn btn-sm btn-link reverse_directions"><%= t("site.search.reverse_directions_text") %></button>
+      <div class="d-flex gap-2 align-items-center">
+        <div class="routing_marker_column flex-shrink-0"></div>
+        <select class="routing_engines form-select py-1 px-2" name="routing_engines"></select>
+        <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-primary py-1 px-2", :data => { :disable_with => false } %>
       </div>
     </div>
 

@@ -8,7 +8,7 @@ module OSM
   # The base class for API Errors.
   class APIError < RuntimeError
     def initialize(message = "Generic API Error")
-      super message
+      super
     end
 
     def status
@@ -19,7 +19,7 @@ module OSM
   # Raised when access is denied.
   class APIAccessDenied < APIError
     def initialize
-      super "Access denied"
+      super("Access denied")
     end
 
     def status
@@ -30,7 +30,7 @@ module OSM
   # Raised when an API object is not found.
   class APINotFoundError < APIError
     def initialize
-      super "Object not found"
+      super("Object not found")
     end
 
     def status
@@ -41,7 +41,7 @@ module OSM
   # Raised when a precondition to an API action fails sanity check.
   class APIPreconditionFailedError < APIError
     def initialize(message = "")
-      super "Precondition failed: #{message}"
+      super("Precondition failed: #{message}")
     end
 
     def status
@@ -55,7 +55,7 @@ module OSM
       @object = object
       @object_id = object_id
 
-      super "The #{object} with the id #{object_id} has already been deleted"
+      super("The #{object} with the id #{object_id} has already been deleted")
     end
 
     attr_reader :object, :object_id
@@ -68,7 +68,7 @@ module OSM
   # Raised when the user logged in isn't the same as the changeset
   class APIUserChangesetMismatchError < APIError
     def initialize
-      super "The user doesn't own that changeset"
+      super("The user doesn't own that changeset")
     end
 
     def status
@@ -81,7 +81,7 @@ module OSM
     def initialize(changeset)
       @changeset = changeset
 
-      super "The changeset #{changeset.id} was closed at #{changeset.closed_at}"
+      super("The changeset #{changeset.id} was closed at #{changeset.closed_at}")
     end
 
     attr_reader :changeset
@@ -96,7 +96,7 @@ module OSM
     def initialize(changeset)
       @changeset = changeset
 
-      super "The changeset #{changeset.id} is not yet closed."
+      super("The changeset #{changeset.id} is not yet closed.")
     end
 
     attr_reader :changeset
@@ -111,7 +111,7 @@ module OSM
     def initialize(changeset)
       @changeset = changeset
 
-      super "You are already subscribed to changeset #{changeset.id}."
+      super("You are already subscribed to changeset #{changeset.id}.")
     end
 
     attr_reader :changeset
@@ -126,7 +126,7 @@ module OSM
     def initialize(changeset)
       @changeset = changeset
 
-      super "You are not subscribed to changeset #{changeset.id}."
+      super("You are not subscribed to changeset #{changeset.id}.")
     end
 
     attr_reader :changeset
@@ -139,7 +139,7 @@ module OSM
   # Raised when a change is expecting a changeset, but the changeset doesn't exist
   class APIChangesetMissingError < APIError
     def initialize
-      super "You need to supply a changeset to be able to make a change"
+      super("You need to supply a changeset to be able to make a change")
     end
 
     def status
@@ -151,7 +151,7 @@ module OSM
   # the changeset ID that the diff was uploaded to.
   class APIChangesetMismatchError < APIError
     def initialize(provided, allowed)
-      super "Changeset mismatch: Provided #{provided} but only #{allowed} is allowed"
+      super("Changeset mismatch: Provided #{provided} but only #{allowed} is allowed")
     end
 
     def status
@@ -163,7 +163,7 @@ module OSM
   # modify, or delete
   class APIChangesetActionInvalid < APIError
     def initialize(provided)
-      super "Unknown action #{provided}, choices are create, modify, delete"
+      super("Unknown action #{provided}, choices are create, modify, delete")
     end
 
     def status
@@ -175,7 +175,7 @@ module OSM
   # they should.
   class APIBadXMLError < APIError
     def initialize(model, xml, message = "")
-      super "Cannot parse valid #{model} from xml string #{xml}. #{message}"
+      super("Cannot parse valid #{model} from xml string #{xml}. #{message}")
     end
 
     def status
@@ -191,7 +191,7 @@ module OSM
       @provided = provided
       @latest = latest
 
-      super "Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}"
+      super("Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}")
     end
 
     attr_reader :provided, :latest, :id, :type
@@ -209,7 +209,7 @@ module OSM
       @id = id
       @tag_key = tag_key
 
-      super "Element #{type}/#{id} has duplicate tags with key #{tag_key}"
+      super("Element #{type}/#{id} has duplicate tags with key #{tag_key}")
     end
 
     attr_reader :type, :id, :tag_key
@@ -223,7 +223,7 @@ module OSM
   # This prevents ways from being to long and difficult to work with
   class APITooManyWayNodesError < APIError
     def initialize(id, provided, max)
-      super "You tried to add #{provided} nodes to way #{id}, however only #{max} are allowed"
+      super("You tried to add #{provided} nodes to way #{id}, however only #{max} are allowed")
 
       @id = id
       @provided = provided
@@ -241,7 +241,7 @@ module OSM
   # This prevents relations from being too complex and difficult to work with
   class APITooManyRelationMembersError < APIError
     def initialize(id, provided, max)
-      super "You tried to add #{provided} members to relation #{id}, however only #{max} are allowed"
+      super("You tried to add #{provided} members to relation #{id}, however only #{max} are allowed")
 
       @id = id
       @provided = provided
@@ -275,7 +275,7 @@ module OSM
   # raised when an API call is made using a method not supported on that URI
   class APIBadMethodError < APIError
     def initialize(supported_method)
-      super "Only method #{supported_method} is supported on this URI"
+      super("Only method #{supported_method} is supported on this URI")
     end
 
     def status
@@ -287,7 +287,7 @@ module OSM
   # raised when an API call takes too long
   class APITimeoutError < APIError
     def initialize
-      super "Request timed out"
+      super("Request timed out")
     end
 
     def status
@@ -300,7 +300,7 @@ module OSM
   # an element - only historical versions can be redacted.
   class APICannotRedactError < APIError
     def initialize
-      super "Cannot redact current version of element, only historical versions may be redacted."
+      super("Cannot redact current version of element, only historical versions may be redacted.")
     end
 
     def status
@@ -313,7 +313,7 @@ module OSM
     def initialize(note)
       @note = note
 
-      super "The note #{note.id} was closed at #{note.closed_at}"
+      super("The note #{note.id} was closed at #{note.closed_at}")
     end
 
     attr_reader :note
@@ -328,7 +328,7 @@ module OSM
     def initialize(note)
       @note = note
 
-      super "The note #{note.id} is already open"
+      super("The note #{note.id} is already open")
     end
 
     attr_reader :note
@@ -343,7 +343,7 @@ module OSM
     def initialize(key)
       @key = key
 
-      super "Duplicate preferences with key #{key}"
+      super("Duplicate preferences with key #{key}")
     end
 
     attr_reader :key
@@ -355,8 +355,23 @@ module OSM
 
   # Raised when a rate limit is exceeded
   class APIRateLimitExceeded < APIError
+    def initialize
+      super("Rate limit exceeded")
+    end
+
     def status
       :too_many_requests
+    end
+  end
+
+  # Raised when a size limit is exceeded
+  class APISizeLimitExceeded < APIError
+    def initialize
+      super("Size limit exceeded")
+    end
+
+    def status
+      :payload_too_large
     end
   end
 
@@ -498,15 +513,8 @@ module OSM
   end
 
   # Construct a random token of a given length
-  def self.make_token(length = 30)
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    token = ""
-
-    length.times do
-      token += chars[(rand * chars.length).to_i].chr
-    end
-
-    token
+  def self.make_token(length = 24)
+    SecureRandom.urlsafe_base64(length)
   end
 
   # Return an SQL fragment to select a given area of the globe
@@ -527,7 +535,8 @@ module OSM
 
   # Return the HTTP client to use
   def self.http_client
-    @http_client ||= Faraday.new(:request => { :timeout => 15 })
+    @http_client ||= Faraday.new(:request => { :timeout => 15 },
+                                 :headers => { :user_agent => Settings.server_url })
   end
 
   # Return the MaxMindDB database handle

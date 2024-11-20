@@ -4,7 +4,7 @@ module OpenStreetMap
       def perform(mailer, mail_method, delivery_method, *args, **kwargs)
         kwargs = args.pop if kwargs.empty? && args.last.is_a?(Hash)
 
-        super(mailer, mail_method, delivery_method, *args, **kwargs)
+        super
       end
     end
   end

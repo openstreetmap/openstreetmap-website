@@ -1,0 +1,29 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "HTTP Verb Confusion",
+      "warning_code": 118,
+      "fingerprint": "9567bbac855c6ec5552572700ec809d7c1d77f59953e6725aeca54fee5091674",
+      "check_name": "VerbConfusion",
+      "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
+      "file": "app/controllers/application_controller.rb",
+      "line": 312,
+      "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
+      "code": "if request.get? then\n  respond_to do\n   format.html do\n   redirect_to(:controller => \"/errors\", :action => \"bad_request\")\n   end\n  format.any do\n   head(:bad_request)\n   end\n   end\nelse\n  head(:bad_request)\nend",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationController",
+        "method": "invalid_parameter"
+      },
+      "user_input": "request.get?",
+      "confidence": "Weak",
+      "cwe_id": [
+        352
+      ],
+      "note": ""
+    }
+  ],
+  "updated": "2024-04-11 10:07:03 +0100",
+  "brakeman_version": "6.1.2"
+}

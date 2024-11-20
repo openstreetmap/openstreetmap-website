@@ -1,10 +1,10 @@
+//= require ./directions-endpoint
 //= require_self
 //= require_tree ./directions
 //= require qs/dist/qs
 
 OSM.Directions = function (map) {
-  var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
-  var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
+  var routeRequest = null; // jqXHR object of an ongoing route request or null
   var chosenEngine;
 
   var popup = L.popup({ autoPanPadding: [100, 100] });
@@ -21,9 +21,20 @@ OSM.Directions = function (map) {
     weight: 12
   });
 
+  var endpointDragCallback = function (dragging) {
+    if (!map.hasLayer(polyline)) return;
+    if (dragging && !chosenEngine.draggable) return;
+    if (dragging && routeRequest) return;
+
+    getRoute(false, !dragging);
+  };
+  var endpointChangeCallback = function () {
+    getRoute(true, true);
+  };
+
   var endpoints = [
-    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN),
-    Endpoint($("input[name='route_to']"), OSM.MARKER_RED)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointChangeCallback)
   ];
 
   var expiry = new Date();
@@ -42,101 +53,6 @@ OSM.Directions = function (map) {
   engines.forEach(function (engine, i) {
     select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
   });
-
-  function Endpoint(input, iconUrl) {
-    var endpoint = {};
-
-    endpoint.marker = L.marker([0, 0], {
-      icon: L.icon({
-        iconUrl: iconUrl,
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowUrl: OSM.MARKER_SHADOW,
-        shadowSize: [41, 41]
-      }),
-      draggable: true,
-      autoPan: true
-    });
-
-    endpoint.marker.on("drag dragend", function (e) {
-      var dragging = (e.type === "drag");
-      if (dragging && !chosenEngine.draggable) return;
-      if (dragging && awaitingRoute) return;
-      endpoint.setLatLng(e.target.getLatLng());
-      if (map.hasLayer(polyline)) {
-        getRoute(false, !dragging);
-      }
-    });
-
-    input.on("keydown", function () {
-      input.removeClass("error");
-    });
-
-    input.on("change", function (e) {
-      awaitingGeocode = true;
-
-      // make text the same in both text boxes
-      var value = e.target.value;
-      endpoint.setValue(value);
-    });
-
-    endpoint.setValue = function (value, latlng) {
-      endpoint.value = value;
-      delete endpoint.latlng;
-      input.removeClass("error");
-      input.val(value);
-
-      if (latlng) {
-        endpoint.setLatLng(latlng);
-      } else {
-        endpoint.getGeocode();
-      }
-    };
-
-    endpoint.getGeocode = function () {
-      // if no one has entered a value yet, then we can't geocode, so don't
-      // even try.
-      if (!endpoint.value) {
-        return;
-      }
-
-      endpoint.awaitingGeocode = true;
-
-      var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
-
-      $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
-        endpoint.awaitingGeocode = false;
-        endpoint.hasGeocode = true;
-        if (json.length === 0) {
-          input.addClass("error");
-          alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
-          return;
-        }
-
-        endpoint.setLatLng(L.latLng(json[0]));
-
-        input.val(json[0].display_name);
-
-        if (awaitingGeocode) {
-          awaitingGeocode = false;
-          getRoute(true, true);
-        }
-      });
-    };
-
-    endpoint.setLatLng = function (ll) {
-      var precision = OSM.zoomPrecision(map.getZoom());
-      input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
-      endpoint.hasGeocode = true;
-      endpoint.latlng = ll;
-      endpoint.marker
-        .setLatLng(ll)
-        .addTo(map);
-    };
-
-    return endpoint;
-  }
 
   $(".directions_form .reverse_directions").on("click", function () {
     var coordFrom = endpoints[0].latlng,
@@ -159,12 +75,9 @@ OSM.Directions = function (map) {
 
   $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
-    var route_from = endpoints[0].value;
-    if (route_from) {
-      OSM.router.route("/?query=" + encodeURIComponent(route_from) + OSM.formatHash(map));
-    } else {
-      OSM.router.route("/" + OSM.formatHash(map));
-    }
+    $(".describe_location").toggle(!endpoints[0].value);
+    $(".search_form input[name='query']").val(endpoints[0].value);
+    OSM.router.route("/" + OSM.formatHash(map));
   });
 
   function formatDistance(m) {
@@ -201,21 +114,7 @@ OSM.Directions = function (map) {
 
   function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
-    if (awaitingRoute) awaitingRoute.abort();
-
-    // go fetch geocodes for any endpoints which have not already
-    // been geocoded.
-    for (var ep_i = 0; ep_i < 2; ++ep_i) {
-      var endpoint = endpoints[ep_i];
-      if (!endpoint.hasGeocode && !endpoint.awaitingGeocode) {
-        endpoint.getGeocode();
-        awaitingGeocode = true;
-      }
-    }
-    if (endpoints[0].awaitingGeocode || endpoints[1].awaitingGeocode) {
-      awaitingGeocode = true;
-      return;
-    }
+    if (routeRequest) routeRequest.abort();
 
     var o = endpoints[0].latlng,
         d = endpoints[1].latlng;
@@ -237,14 +136,14 @@ OSM.Directions = function (map) {
     $("#sidebar_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
 
-    awaitingRoute = chosenEngine.getRoute([o, d], function (err, route) {
-      awaitingRoute = null;
+    routeRequest = chosenEngine.getRoute([o, d], function (err, route) {
+      routeRequest = null;
 
       if (err) {
         map.removeLayer(polyline);
 
         if (reportErrors) {
-          $("#sidebar_content").html("<p class=\"search_results_error\">" + I18n.t("javascripts.directions.errors.no_route") + "</p>");
+          $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
         }
 
         return;
@@ -268,7 +167,7 @@ OSM.Directions = function (map) {
           I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
-      var turnByTurnTable = $("<table class='table table-sm mb-3'>")
+      var turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
         .append($("<tbody>"));
       var directionsCloseButton = $("<button type='button' class='btn-close'>")
         .attr("aria-label", I18n.t("javascripts.close"));
@@ -307,7 +206,7 @@ OSM.Directions = function (map) {
         var row = $("<tr class='turn'/>");
         row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
         row.append("<td>" + instruction);
-        row.append("<td class='distance'>" + dist);
+        row.append("<td class='distance text-body-secondary text-end'>" + dist);
 
         row.on("click", function () {
           popup
@@ -357,7 +256,7 @@ OSM.Directions = function (map) {
     getRoute(true, true);
   });
 
-  $(".routing_marker").on("dragstart", function (e) {
+  $(".routing_marker_column img").on("dragstart", function (e) {
     var dt = e.originalEvent.dataTransfer;
     dt.effectAllowed = "move";
     var dragData = { type: $(this).data("type") };
@@ -386,9 +285,14 @@ OSM.Directions = function (map) {
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
-      endpoints[type === "from" ? 0 : 1].setLatLng(ll);
-      getRoute(true, true);
+      var precision = OSM.zoomPrecision(map.getZoom());
+      var value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
+      var llWithPrecision = L.latLng(ll.lat.toFixed(precision), ll.lng.toFixed(precision));
+      endpoints[type === "from" ? 0 : 1].setValue(value, llWithPrecision);
     });
+
+    endpoints[0].enable();
+    endpoints[1].enable();
 
     var params = Qs.parse(location.search.substring(1)),
         route = (params.route || "").split(";"),
@@ -407,8 +311,6 @@ OSM.Directions = function (map) {
     endpoints[1].setValue(params.to || "", to);
 
     map.setSidebarOverlaid(!from || !to);
-
-    getRoute(true, true);
   };
 
   page.load = function() {
@@ -433,11 +335,12 @@ OSM.Directions = function (map) {
     $(".directions_form").hide();
     $("#map").off("dragend dragover drop");
 
+    endpoints[0].disable();
+    endpoints[1].disable();
+
     map
       .removeLayer(popup)
-      .removeLayer(polyline)
-      .removeLayer(endpoints[0].marker)
-      .removeLayer(endpoints[1].marker);
+      .removeLayer(polyline);
   };
 
   return page;

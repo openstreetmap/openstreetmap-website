@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "changeset_#{type.pluralize}" do %>
+  <%= render :partial => "paging_nav", :locals => { :type => type, :pages => pages } %>
+  <ul class="list-unstyled" data-turbo="false">
+    <% elements.each do |element| %>
+      <%= element_list_item type, element do
+            t "printable_name.current_and_old_links_html",
+              :current_link => link_to(printable_element_name(element), :controller => type.pluralize, :action => :show, :id => element.id[0]),
+              :old_link => link_to(printable_element_version(element), :controller => "old_#{type.pluralize}", :action => :show, :id => element.id[0], :version => element.version)
+          end %>
+    <% end %>
+  </ul>
+<% end %>

@@ -2,9 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # use official ubuntu image for virtualbox
+  # use official debian image
+  config.vm.box = "debian/bookworm64"
+
+  # configure virtualbox provider
   config.vm.provider "virtualbox" do |vb, override|
-    override.vm.box = "ubuntu/jammy64"
     override.vm.synced_folder ".", "/srv/openstreetmap-website"
     vb.customize ["modifyvm", :id, "--memory", "4096"]
     vb.customize ["modifyvm", :id, "--cpus", "2"]
@@ -14,16 +16,16 @@ Vagrant.configure("2") do |config|
   # Use sshfs sharing if available, otherwise NFS sharing
   sharing_type = Vagrant.has_plugin?("vagrant-sshfs") ? "sshfs" : "nfs"
 
-  # use third party image and sshfs or NFS sharing for lxc
+  # configure lxc provider
   config.vm.provider "lxc" do |_, override|
-    override.vm.box = "generic/ubuntu2204"
     override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => sharing_type
   end
 
-  # use third party image and sshfs or NFS sharing for libvirt
-  config.vm.provider "libvirt" do |_, override|
-    override.vm.box = "generic/ubuntu2204"
+  # configure libvirt provider
+  config.vm.provider "libvirt" do |libvirt, override|
     override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => sharing_type
+    libvirt.memory = 4096
+    libvirt.cpus = 2
   end
 
   # configure shared package cache if possible

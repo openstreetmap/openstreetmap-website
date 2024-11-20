@@ -1,21 +1,21 @@
-<div class="row diary-comment py-3<%= " text-muted bg-danger bg-opacity-10" unless diary_comment.visible? %>">
-  <div class="col-auto">
+<div class="row diary-comment border-bottom py-3<%= " text-body-secondary bg-danger bg-opacity-10" unless diary_comment.visible? %>">
+  <div class="col-auto pe-0 text-center">
     <%= user_thumbnail diary_comment.user %>
   </div>
   <div class="col">
-    <p class="text-muted m-0" id="comment<%= diary_comment.id %>"><%= t(".comment_from_html", :link_user => (link_to diary_comment.user.display_name, user_path(diary_comment.user)), :comment_created_at => link_to(l(diary_comment.created_at, :format => :friendly), :anchor => "comment#{diary_comment.id}")) %>
+    <p class="text-body-secondary m-0" id="comment<%= diary_comment.id %>"><%= t(".comment_from_html", :link_user => (link_to diary_comment.user.display_name, diary_comment.user), :comment_created_at => link_to(l(diary_comment.created_at, :format => :friendly), :anchor => "comment#{diary_comment.id}")) %>
       <% if current_user and diary_comment.user.id != current_user.id %>
         | <%= report_link(t(".report"), diary_comment) %>
       <% end %>
     </p>
 
     <div class="richtext text-break"><%= diary_comment.body.to_html %></div>
-    <% if can? :hidecomment, DiaryEntry %>
+    <% if can? :hide, DiaryComment %>
       <span>
         <% if diary_comment.visible? %>
-          <%= link_to t(".hide_link"), hide_diary_comment_path(:display_name => diary_comment.diary_entry.user.display_name, :id => diary_comment.diary_entry.id, :comment => diary_comment.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+          <%= link_to t(".hide_link"), hide_diary_comment_path(diary_comment), :method => :post, :data => { :confirm => t(".confirm") } %>
         <% else %>
-          <%= link_to t(".unhide_link"), unhide_diary_comment_path(:display_name => diary_comment.diary_entry.user.display_name, :id => diary_comment.diary_entry.id, :comment => diary_comment.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+          <%= link_to t(".unhide_link"), unhide_diary_comment_path(diary_comment), :method => :post, :data => { :confirm => t(".confirm") } %>
         <% end %>
       </span>
     <% end %>

@@ -32,6 +32,7 @@ ENV["RAILS_ENV"] = "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "webmock/minitest"
+require "minitest/focus" unless ENV["CI"]
 
 WebMock.disable_net_connect!(:allow_localhost => true)
 
@@ -133,52 +134,16 @@ module ActiveSupport
     end
 
     ##
-    # return request header for HTTP Basic Authorization
-    def basic_authorization_header(user, pass)
-      { "Authorization" => format("Basic %<auth>s", :auth => Base64.encode64("#{user}:#{pass}")) }
-    end
-
-    ##
     # return request header for HTTP Bearer Authorization
-    def bearer_authorization_header(token)
+    def bearer_authorization_header(token_or_user = nil, scopes: Oauth::SCOPES)
+      token = case token_or_user
+              when nil then create(:oauth_access_token, :scopes => scopes).token
+              when User then create(:oauth_access_token, :resource_owner_id => token_or_user.id, :scopes => scopes).token
+              when Doorkeeper::AccessToken then token_or_user.token
+              when String then token_or_user
+              end
+
       { "Authorization" => "Bearer #{token}" }
-    end
-
-    ##
-    # make an OAuth signed request
-    def signed_request(method, uri, options = {})
-      uri = URI.parse(uri)
-      uri.scheme ||= "http"
-      uri.host ||= "www.example.com"
-
-      oauth = options.delete(:oauth)
-      params = options.fetch(:params, {}).transform_keys(&:to_s)
-
-      oauth[:consumer] ||= oauth[:token].client_application
-
-      helper = OAuth::Client::Helper.new(nil, oauth)
-
-      request = OAuth::RequestProxy.proxy(
-        "method" => method.to_s.upcase,
-        "uri" => uri,
-        "parameters" => params.merge(helper.oauth_parameters)
-      )
-
-      request.sign!(oauth)
-
-      method(method).call(request.signed_uri, **options)
-    end
-
-    ##
-    # make an OAuth signed GET request
-    def signed_get(uri, options = {})
-      signed_request(:get, uri, options)
-    end
-
-    ##
-    # make an OAuth signed POST request
-    def signed_post(uri, options = {})
-      signed_request(:post, uri, options)
     end
 
     ##
@@ -204,7 +169,7 @@ module ActiveSupport
     ##
     # Not sure this is the best response we could give
     def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
-      assert_response :unauthorized, msg
+      assert_response :forbidden, msg
       # assert_equal @response.headers['Error'], ""
     end
 
@@ -239,13 +204,6 @@ module ActiveSupport
           text_parts.concat(email_text_parts(part))
         end
       end
-    end
-
-    def sign_in_as(user)
-      visit login_path
-      fill_in "username", :with => user.email
-      fill_in "password", :with => "test"
-      click_on "Login", :match => :first
     end
 
     def session_for(user)
@@ -370,6 +328,60 @@ module ActiveSupport
 
         el << tag_el
       end
+    end
+
+    def with_settings(settings)
+      saved_settings = Settings.to_hash.slice(*settings.keys)
+
+      Settings.merge!(settings)
+
+      yield
+    ensure
+      Settings.merge!(saved_settings)
+    end
+
+    def with_user_account_deletion_delay(value, &)
+      freeze_time
+
+      with_settings(:user_account_deletion_delay => value, &)
+    ensure
+      unfreeze_time
+    end
+
+    # This is a convenience method for checks of resources rendered in a map view sidebar
+    # First we check that when we don't have an id, it will correctly return a 404
+    # then we check that we get the correct 404 when a non-existant id is passed
+    # then we check that it will get a successful response, when we do pass an id
+    def sidebar_browse_check(path, id, template)
+      path_method = method(path)
+
+      assert_raise ActionController::UrlGenerationError do
+        get path_method.call
+      end
+
+      assert_raise ActionController::UrlGenerationError do
+        get path_method.call(:id => -10) # we won't have an id that's negative
+      end
+
+      get path_method.call(:id => 0)
+      assert_response :not_found
+      assert_template "browse/not_found"
+      assert_template :layout => "map"
+
+      get path_method.call(:id => 0), :xhr => true
+      assert_response :not_found
+      assert_template "browse/not_found"
+      assert_template :layout => "xhr"
+
+      get path_method.call(:id => id)
+      assert_response :success
+      assert_template template
+      assert_template :layout => "map"
+
+      get path_method.call(:id => id), :xhr => true
+      assert_response :success
+      assert_template template
+      assert_template :layout => "xhr"
     end
   end
 end

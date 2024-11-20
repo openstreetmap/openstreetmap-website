@@ -1,26 +1,45 @@
 # Be sure to restart your server when you modify this file.
 
-# Define an application-wide content security policy
-# For further information see the following documentation
-# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+# Define an application-wide content security policy.
+# See the Securing Rails Applications Guide for more information:
+# https://guides.rubyonrails.org/security.html#content-security-policy-header
 
-# Rails.application.configure do
-#   config.content_security_policy do |policy|
-#     policy.default_src :self, :https
-#     policy.font_src    :self, :https, :data
-#     policy.img_src     :self, :https, :data
-#     policy.object_src  :none
-#     policy.script_src  :self, :https
-#     policy.style_src   :self, :https
-#     # Specify URI for violation reports
-#     # policy.report_uri "/csp-violation-report-endpoint"
-#   end
-#
-#   # Generate session nonces for permitted importmap and inline scripts
-#   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-#   config.content_security_policy_nonce_directives = %w(script-src)
-#
-#   # Report CSP violations to a specified URI. See:
-#   # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only
-#   # config.content_security_policy_report_only = true
-# end
+Rails.application.configure do
+  connect_src = [:self]
+  img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "gps.tile.openstreetmap.org", "*.tile.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
+  script_src = [:self]
+
+  connect_src << Settings.matomo["location"] if defined?(Settings.matomo)
+  img_src << Settings.matomo["location"] if defined?(Settings.matomo)
+  script_src << Settings.matomo["location"] if defined?(Settings.matomo)
+
+  img_src << Settings.avatar_storage_url if Settings.key?(:avatar_storage_url)
+  img_src << Settings.trace_image_storage_url if Settings.key?(:trace_image_storage_url)
+
+  config.content_security_policy do |policy|
+    policy.default_src :self
+    policy.child_src(:self)
+    policy.connect_src(*connect_src)
+    policy.font_src(:none)
+    policy.form_action(:self)
+    policy.frame_ancestors(:self)
+    policy.frame_src(:self)
+    policy.img_src(*img_src)
+    policy.manifest_src(:self)
+    policy.media_src(:none)
+    policy.object_src(:self)
+    policy.plugin_types
+    policy.script_src(*script_src)
+    policy.style_src(:self)
+    policy.worker_src(:none)
+    policy.manifest_src(:self)
+    policy.report_uri(Settings.csp_report_url) if Settings.key?(:csp_report_url)
+  end
+
+  # Generate session nonces for permitted importmap and inline scripts
+  config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(24) }
+  config.content_security_policy_nonce_directives = %w[style-src]
+
+  # Report violations without enforcing the policy.
+  config.content_security_policy_report_only = true unless Settings.csp_enforce
+end

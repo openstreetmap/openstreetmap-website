@@ -1,7 +1,7 @@
 class RenameBugsToNotes < ActiveRecord::Migration[4.2]
   def self.up
-    rename_enumeration "map_bug_status_enum", "note_status_enum"
-    rename_enumeration "map_bug_event_enum", "note_event_enum"
+    rename_enum "map_bug_status_enum", :to => "note_status_enum"
+    rename_enum "map_bug_event_enum", :to => "note_event_enum"
 
     rename_table :map_bugs, :notes
     rename_index :notes, "map_bugs_changed_idx", "notes_updated_at_idx"
@@ -23,7 +23,7 @@ class RenameBugsToNotes < ActiveRecord::Migration[4.2]
     rename_index :notes, "notes_updated_at_idx", "map_bugs_changed_idx"
     rename_table :notes, :map_bugs
 
-    rename_enumeration "note_event_enum", "map_bug_event_enum"
-    rename_enumeration "note_status_enum", "map_bug_status_enum"
+    rename_enum "note_event_enum", :to => "map_bug_event_enum"
+    rename_enum "note_status_enum", :to => "map_bug_status_enum"
   end
 end

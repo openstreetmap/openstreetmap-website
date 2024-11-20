@@ -80,7 +80,7 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   def test_available
-    assert Locale.available.count <= I18n.available_locales.count
+    assert_operator Locale.available.count, :<=, I18n.available_locales.count
   end
 
   def test_preferred

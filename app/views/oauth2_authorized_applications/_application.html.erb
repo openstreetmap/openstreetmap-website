@@ -5,9 +5,12 @@
   <td class="align-middle">
     <ul class="list-unstyled mb-0">
       <% application.authorized_scopes_for(current_user).each do |scope| -%>
-        <li><%= t "oauth.scopes.#{scope}" %></li>
+        <li><%= authorization_scope(scope) %></li>
       <% end -%>
     </ul>
+  </td>
+  <td class="align-middle">
+    <%= friendly_date_ago(application.authorized_tokens.where(:resource_owner_id => current_user).maximum(:created_at)) %>
   </td>
   <td class="align-middle text-end">
     <%= link_to t(".revoke"), oauth_authorized_application_path(application), { :method => :delete, :class => "btn btn-outline-danger", :data => { :confirm => t(".confirm_revoke") } } %>

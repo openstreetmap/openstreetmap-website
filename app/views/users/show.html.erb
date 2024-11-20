@@ -14,7 +14,8 @@
               <span class='badge count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
             </li>
             <li>
-              <%= link_to t(".my notes"), user_notes_path(@user) %>
+              <%= link_to t(".my notes"), user_notes_path(current_user) %>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.note_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
@@ -26,6 +27,7 @@
             </li>
             <li>
               <%= link_to t(".my comments"), diary_comments_path(current_user) %>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.diary_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".my settings"), edit_account_path %>
@@ -59,6 +61,7 @@
             </li>
             <li>
               <%= link_to t(".notes"), user_notes_path(@user) %>
+              <span class='badge count-number'><%= number_with_delimiter(@user.note_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>
@@ -76,16 +79,17 @@
             </li>
             <li>
               <%= link_to t(".comments"), diary_comments_path(@user) %>
+              <span class='badge count-number'><%= number_with_delimiter(@user.diary_comments.size) %></span>
             </li>
-            <li>
-              <% if current_user and current_user.friends_with?(@user) %>
-                <%= link_to t(".remove as friend"), remove_friend_path(:display_name => @user.display_name), :method => :post %>
-              <% elsif current_user %>
-                <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name), :method => :post %>
-              <% else %>
-                <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name) %>
-              <% end %>
-            </li>
+            <% if current_user %>
+              <li>
+                <% if current_user.friends_with?(@user) %>
+                  <%= link_to t(".remove as friend"), remove_friend_path(:display_name => @user.display_name), :method => :post %>
+                <% else %>
+                  <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name), :method => :post %>
+                <% end %>
+              </li>
+            <% end %>
 
             <% if @user.blocks.exists? %>
               <li>
@@ -101,6 +105,12 @@
               </li>
             <% end %>
 
+            <% if can?(:revoke_all, UserBlock) and @user.blocks.active.exists? %>
+              <li>
+                <%= link_to t(".revoke_all_blocks"), revoke_all_user_blocks_path(@user) %>
+              </li>
+            <% end %>
+
             <% if can?(:create, UserBlock) %>
               <li>
                 <%= link_to t(".create_block"), new_user_block_path(@user) %>
@@ -112,15 +122,27 @@
                 <%= report_link(t(".report"), @user) %>
               </li>
             <% end %>
+
+            <% if current_user and UserMute.exists?(owner: current_user, subject: @user) %>
+              <li>
+              <%= link_to t(".destroy_mute"), user_mute_path(@user), :method => :delete %>
+              </li>
+            <% elsif current_user %>
+              <li>
+              <%= link_to t(".create_mute"), user_mute_path(@user), :method => :post, :title => t("user_mutes.index.user_mute_explainer") %>
+              </li>
+            <% end %>
           </ul>
         </nav>
       <% end %>
 
-      <div class='text-muted'>
+      <div class='text-body-secondary'>
         <small>
           <dl class="list-inline">
             <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
             <dd class="list-inline-item"><%= l @user.created_at.to_date, :format => :long %></dd>
+            <dt class="list-inline-item m-0"><%= t ".last map edit" %></dt>
+            <dd class="list-inline-item"><%= l @user.changesets.first&.created_at&.to_date, :format => :long, :default => t(".no activity yet") %></dd>
             <% unless @user.terms_agreed %>
               <dt class="list-inline-item m-0"><%= t ".ct status" %></dt>
               <dd class="list-inline-item">
@@ -190,17 +212,17 @@
       <% end %>
 
       <% if current_user and current_user.administrator? -%>
-        <div class='text-muted'>
+        <div class='text-body-secondary'>
           <small>
             <dl class="list-inline">
               <dt class="list-inline-item m-0"><%= t ".email address" %></dt>
               <dd class="list-inline-item"><%= @user.email %></dd>
-              <% unless @user.creation_ip.nil? -%>
+              <% unless @user.creation_address.nil? -%>
                 <dt class="list-inline-item m-0"><%= t ".created from" %></dt>
-                <dd class="list-inline-item"><%= @user.creation_ip %></dd>
+                <dd class="list-inline-item"><%= link_to @user.creation_address, users_path(:ip => @user.creation_address) %></dd>
               <% end -%>
               <dt class="list-inline-item m-0"><%= t ".status" %></dt>
-              <dd class="list-inline-item"><%= @user.status.capitalize %></dd>
+              <dd class="list-inline-item"><%= link_to @user.status.capitalize, users_path(:status => @user.status) %></dd>
               <dt class="list-inline-item m-0"><%= t ".spam score" %></dt>
               <dd class="list-inline-item"><%= @user.spam_score %></dd>
             </dl>

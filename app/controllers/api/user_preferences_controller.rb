@@ -1,11 +1,10 @@
 # Update and read user preferences, which are arbitrary key/val pairs
 module Api
   class UserPreferencesController < ApiController
+    before_action :check_api_writable, :only => [:update_all, :update, :destroy]
     before_action :authorize
 
     authorize_resource
-
-    around_action :api_call_handle_error
 
     before_action :set_request_formats
 
@@ -66,7 +65,7 @@ module Api
         pref.k = params[:preference_key]
       end
 
-      pref.v = request.raw_post.chomp
+      pref.v = request.raw_post.chomp.force_encoding("UTF-8")
       pref.save!
 
       render :plain => ""

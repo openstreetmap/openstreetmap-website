@@ -82,7 +82,7 @@ module Api
       assert_response :gone
 
       # check chat a non-existent relation is not returned
-      get api_relation_path(:id => 0)
+      get api_relation_path(0)
       assert_response :not_found
     end
 
@@ -102,7 +102,7 @@ module Api
       second_relation = create(:relation_member, :member => node).relation
       _super_relation = create(:relation_member, :member => second_relation).relation
       # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => node, :relation => relation_with_node, :sequence_id => 2)
+      create(:relation_member, :member => node, :relation => relation_with_node)
       # should not include deleted relations
       deleted_relation = create(:relation, :deleted)
       create(:relation_member, :member => node, :relation => deleted_relation)
@@ -122,7 +122,7 @@ module Api
       second_relation = create(:relation_member, :member => way).relation
       _super_relation = create(:relation_member, :member => second_relation).relation
       # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => way, :relation => relation_with_way, :sequence_id => 2)
+      create(:relation_member, :member => way, :relation => relation_with_way)
       # should not include deleted relations
       deleted_relation = create(:relation, :deleted)
       create(:relation_member, :member => way, :relation => deleted_relation)
@@ -142,7 +142,7 @@ module Api
       second_relation = create(:relation_member, :member => relation).relation
       _super_relation = create(:relation_member, :member => second_relation).relation
       # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => relation, :relation => relation_with_relation, :sequence_id => 2)
+      create(:relation_member, :member => relation, :relation => relation_with_relation)
       # should not include deleted relations
       deleted_relation = create(:relation, :deleted)
       create(:relation_member, :member => relation, :relation => deleted_relation)
@@ -178,11 +178,11 @@ module Api
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get relations_path, :params => { :relations => "" }
+      get relations_path(:relations => "")
       assert_response :bad_request
 
       # test a working call
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "relation", :count => 4
@@ -193,7 +193,7 @@ module Api
       end
 
       # test a working call with json format
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -205,7 +205,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
 
       # check error when a non-existent relation is included
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
       assert_response :not_found
     end
 
@@ -221,7 +221,7 @@ module Api
       node = create(:node)
       way = create(:way_with_nodes, :nodes_count => 2)
 
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # create an relation without members
       xml = "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
@@ -263,7 +263,7 @@ module Api
                       "relation upload did not return success status"
 
       ## Now try with the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create an relation without members
       xml = "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
@@ -286,7 +286,7 @@ module Api
       assert checkrelation.visible,
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
 
       ###
@@ -315,7 +315,7 @@ module Api
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
 
       ###
@@ -343,7 +343,7 @@ module Api
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
 
       ###
@@ -371,7 +371,7 @@ module Api
       assert checkrelation.visible,
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
     end
 
@@ -391,7 +391,7 @@ module Api
       relation = create(:relation)
       create_list(:relation_tag, 4, :relation => relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       with_relation(relation.id) do |rel|
         # alter one of the tags
@@ -423,7 +423,7 @@ module Api
       relation = create(:relation)
       create_list(:relation_tag, 4, :relation => relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       with_relation(relation.id) do |rel|
         # alter one of the tags
@@ -450,10 +450,10 @@ module Api
       relation = create(:relation)
       other_relation = create(:relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       with_relation(relation.id) do |rel|
         update_changeset(rel, changeset.id)
-        put api_relation_path(:id => other_relation.id), :params => rel.to_s, :headers => auth_header
+        put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
         assert_response :bad_request
       end
     end
@@ -466,7 +466,7 @@ module Api
       user = create(:user)
       changeset = create(:changeset, :user => user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create a relation with non-existing node as member
       xml = "<osm><relation changeset='#{changeset.id}'>" \
@@ -487,7 +487,7 @@ module Api
       changeset = create(:changeset, :user => user)
       node = create(:node)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create some xml that should return an error
       xml = "<osm><relation changeset='#{changeset.id}'>" \
@@ -522,7 +522,7 @@ module Api
       assert_response :unauthorized
 
       ## Then try with the private user, to make sure that you get a forbidden
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # this shouldn't work, as we should need the payload...
       delete api_relation_path(relation), :headers => auth_header
@@ -560,11 +560,11 @@ module Api
       assert_response :forbidden
 
       # this won't work since the relation never existed
-      delete api_relation_path(:id => 0), :headers => auth_header
+      delete api_relation_path(0), :headers => auth_header
       assert_response :forbidden
 
       ## now set auth for the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # this shouldn't work, as we should need the payload...
       delete api_relation_path(relation), :headers => auth_header
@@ -612,8 +612,7 @@ module Api
 
       # valid delete should return the new version number, which should
       # be greater than the old version number
-      assert @response.body.to_i > multi_tag_relation.version,
-             "delete request should return a new version number for relation"
+      assert_operator @response.body.to_i, :>, multi_tag_relation.version, "delete request should return a new version number for relation"
 
       # this won't work since the relation is already deleted
       xml = update_changeset(xml_for_relation(deleted_relation), changeset.id)
@@ -633,7 +632,7 @@ module Api
                       "should be able to delete a relation used in an old relation (#{@response.body})"
 
       # this won't work since the relation never existed
-      delete api_relation_path(:id => 0), :headers => auth_header
+      delete api_relation_path(0), :headers => auth_header
       assert_response :not_found
     end
 
@@ -642,15 +641,15 @@ module Api
     # box of all its members into the changeset.
     def test_tag_modify_bounding_box
       relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
+      node1 = create(:node, :lat => 0.3, :lon => 0.3)
+      node2 = create(:node, :lat => 0.5, :lon => 0.5)
       way = create(:way)
       create(:way_node, :way => way, :node => node1)
       create(:relation_member, :relation => relation, :member => way)
       create(:relation_member, :relation => relation, :member => node2)
       # the relation contains nodes1 and node2 (node1
-      # indirectly via the way), so the bbox should be [3,3,5,5].
-      check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id, auth_header|
+      # indirectly via the way), so the bbox should be [0.3,0.3,0.5,0.5].
+      check_changeset_modify(BoundingBox.new(0.3, 0.3, 0.5, 0.5)) do |changeset_id, auth_header|
         # add a tag to an existing relation
         relation_xml = xml_for_relation(relation)
         relation_element = relation_xml.find("//osm/relation").first
@@ -696,7 +695,7 @@ module Api
           update_changeset(relation_xml, changeset_id)
 
           # upload the change
-          put api_relation_path(:id => relation.id), :params => relation_xml.to_s, :headers => auth_header
+          put api_relation_path(relation), :params => relation_xml.to_s, :headers => auth_header
           assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
           # get it back and check the ordering
@@ -744,7 +743,7 @@ module Api
       way1 = create(:way_with_nodes, :nodes_count => 2)
       way2 = create(:way_with_nodes, :nodes_count => 2)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       doc_str = <<~OSM
         <osm>
@@ -763,7 +762,7 @@ module Api
       relation_id = @response.body.to_i
 
       # get it back and check the ordering
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
@@ -778,18 +777,18 @@ module Api
       doc.find("//osm/relation").first["version"] = 1.to_s
 
       # upload the next version of the relation
-      put api_relation_path(:id => relation_id), :params => doc.to_s, :headers => auth_header
+      put api_relation_path(relation_id), :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't update relation: #{@response.body}"
       assert_equal 2, @response.body.to_i
 
       # get it back again and check the ordering again
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get relation_version_path(:id => relation_id, :version => 2)
+        get api_old_relation_path(relation_id, 2)
         assert_response :success, "can't read back version 2 of the relation #{relation_id}"
         check_ordering(doc, @response.body)
       end
@@ -817,20 +816,20 @@ module Api
       doc = XML::Parser.string(doc_str).parse
 
       ## First try with the private user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       put relation_create_path, :params => doc.to_s, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       put relation_create_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
       # get it back and check the ordering
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{relation_id}"
       check_ordering(doc, @response.body)
     end
@@ -856,20 +855,20 @@ module Api
         </osm>
       OSM
       doc = XML::Parser.string(doc_str).parse
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       put relation_create_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
       # check the ordering in the current tables:
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get relation_version_path(:id => relation_id, :version => 1)
+        get api_old_relation_path(relation_id, 1)
         assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
         check_ordering(doc, @response.body)
       end
@@ -880,14 +879,14 @@ module Api
     # still technically valid.
     def test_remove_all_members
       relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
+      node1 = create(:node, :lat => 0.3, :lon => 0.3)
+      node2 = create(:node, :lat => 0.5, :lon => 0.5)
       way = create(:way)
       create(:way_node, :way => way, :node => node1)
       create(:relation_member, :relation => relation, :member => way)
       create(:relation_member, :relation => relation, :member => node2)
 
-      check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id, auth_header|
+      check_changeset_modify(BoundingBox.new(0.3, 0.3, 0.5, 0.5)) do |changeset_id, auth_header|
         relation_xml = xml_for_relation(relation)
         relation_xml
           .find("//osm/relation/member")
@@ -905,6 +904,117 @@ module Api
         assert_equal(0, checkrelation.members.length,
                      "relation contains members but they should have all been deleted")
       end
+    end
+
+    ##
+    # test initial rate limit
+    def test_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 1)
+
+      # create authentication header
+      auth_header = bearer_authorization_header user
+
+      # try creating a relation
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "relation create did not return success status"
+
+      # get the id of the relation we created
+      relationid = @response.body
+
+      # try updating the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation update did not hit rate limit"
+
+      # try deleting the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation delete did not hit rate limit"
+
+      # try creating a relation, which should be rate limited
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation create did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 1
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = bearer_authorization_header user
+
+      # try creating a relation
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "relation create did not return success status"
+
+      # get the id of the relation we created
+      relationid = @response.body
+
+      # try updating the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation update did not hit rate limit"
+
+      # try deleting the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation delete did not hit rate limit"
+
+      # try creating a relation, which should be rate limited
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation create did not hit rate limit"
     end
 
     private
@@ -952,18 +1062,18 @@ module Api
     # that the changeset bounding box is +bbox+.
     def check_changeset_modify(bbox)
       ## First test with the private user to check that you get a forbidden
-      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      auth_header = bearer_authorization_header create(:user, :data_public => false)
 
       # create a new changeset for this operation, so we are assured
       # that the bounding box will be newly-generated.
-      changeset_id = with_controller(Api::ChangesetsController.new) do
+      with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
         put changeset_create_path, :params => xml, :headers => auth_header
         assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
       end
 
       ## Now do the whole thing with the public user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # create a new changeset for this operation, so we are assured
       # that the bounding box will be newly-generated.
@@ -979,7 +1089,7 @@ module Api
 
       # now download the changeset to check its bounding box
       with_controller(Api::ChangesetsController.new) do
-        get changeset_show_path(:id => changeset_id)
+        get changeset_show_path(changeset_id)
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -996,10 +1106,10 @@ module Api
     # doc is returned.
     def with_relation(id, ver = nil)
       if ver.nil?
-        get api_relation_path(:id => id)
+        get api_relation_path(id)
       else
         with_controller(OldRelationsController.new) do
-          get relation_version_path(:id => id, :version => ver)
+          get api_old_relation_path(id, ver)
         end
       end
       assert_response :success
@@ -1012,12 +1122,12 @@ module Api
     # the parsed XML doc is returned.
     def with_update(rel, headers)
       rel_id = rel.find("//osm/relation").first["id"].to_i
-      put api_relation_path(:id => rel_id), :params => rel.to_s, :headers => headers
+      put api_relation_path(rel_id), :params => rel.to_s, :headers => headers
       assert_response :success, "can't update relation: #{@response.body}"
       version = @response.body.to_i
 
       # now get the new version
-      get api_relation_path(:id => rel_id)
+      get api_relation_path(rel_id)
       assert_response :success
       new_rel = xml_parse(@response.body)
 
@@ -1043,13 +1153,13 @@ module Api
         change << modify
         modify << doc.import(rel.find("//osm/relation").first)
 
-        post changeset_upload_path(:id => cs_id), :params => doc.to_s, :headers => headers
+        post changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
         assert_response :success, "can't upload diff relation: #{@response.body}"
         version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
       end
 
       # now get the new version
-      get api_relation_path(:id => rel_id)
+      get api_relation_path(rel_id)
       assert_response :success
       new_rel = xml_parse(@response.body)
 

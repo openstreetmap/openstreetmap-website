@@ -4,14 +4,14 @@ require File.join(File.dirname(__FILE__), "..", "config", "environment")
 
 if recipient = ARGV[0].match(/^c-(\d+)-(\d+)-(.*)$/)
   comment = DiaryComment.find(recipient[1])
-  digest = comment.digest
+  expected_token = comment.notification_token(recipient[2])
   date = comment.created_at
   from = comment.diary_entry.subscribers.find(recipient[2])
   to = comment.user
   token = recipient[3]
 elsif recipient = ARGV[0].match(/^m-(\d+)-(.*)$/)
   message = Message.find(recipient[1])
-  digest = message.digest
+  expected_token = message.notification_token
   date = message.sent_on
   from = message.recipient
   to = message.sender
@@ -20,8 +20,8 @@ else
   exit 0
 end
 
+exit 0 unless ActiveSupport::SecurityUtils.secure_compare(token, expected_token)
 exit 0 unless from.active?
-exit 0 unless token == digest[0, 6]
 exit 0 if date < 1.month.ago
 
 message&.update(:message_read => true)
@@ -33,6 +33,6 @@ mail = Mail.new($stdin.read
 message = Message.from_mail(mail, from, to)
 message.save!
 
-UserMailer.message_notification(message).deliver
+UserMailer.message_notification(message).deliver if message.notify_recipient?
 
 exit 0

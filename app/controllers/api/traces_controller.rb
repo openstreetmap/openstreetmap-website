@@ -1,16 +1,13 @@
 module Api
   class TracesController < ApiController
-    before_action :check_database_readable, :except => [:show, :data]
-    before_action :check_database_writable, :only => [:create, :update, :destroy]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
     before_action :set_locale
     before_action :authorize
 
     authorize_resource
 
-    before_action :check_api_readable, :only => [:show, :data]
-    before_action :check_api_writable, :only => [:create, :update, :destroy]
     before_action :offline_error, :only => [:create, :destroy, :data]
-    around_action :api_call_handle_error
+    skip_around_action :api_call_timeout, :only => :create
 
     def show
       @trace = Trace.visible.find(params[:id])
@@ -35,7 +32,7 @@ module Api
         trace = do_create(params[:file], tags, description, visibility)
 
         if trace.id
-          TraceImporterJob.perform_later(trace)
+          trace.schedule_import
           render :plain => trace.id.to_s
         elsif trace.valid?
           head :internal_server_error
@@ -66,7 +63,7 @@ module Api
       if trace.user == current_user
         trace.visible = false
         trace.save!
-        TraceDestroyerJob.perform_later(trace)
+        trace.schedule_destruction
 
         head :ok
       else
@@ -115,7 +112,7 @@ module Api
       trace.save!
 
       # Finally save the user's preferred privacy level
-      if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
+      if pref = current_user.preferences.find_by(:k => "gps.trace.visibility")
         pref.v = visibility
         pref.save
       else
