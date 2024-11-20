@@ -1,0 +1,512 @@
+/**
+ * MAIN CONTROL LOOK AND FEEL
+ */
+
+.leaflet-ohm-timeslider {
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    border: 1px solid black;
+
+    /* prevent text selection, because it's usually button double-clicks */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.leaflet-ohm-timeslider select,
+.leaflet-ohm-timeslider button,
+.leaflet-ohm-timeslider input[type="number"],
+.leaflet-ohm-timeslider input[type="text"] {
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: black;
+    height: 25px;
+    padding: 0 5px;
+    font-size: 12px;
+    line-height: normal !important;
+    box-sizing: border-box;
+}
+.leaflet-ohm-timeslider button {
+    cursor: pointer;
+    padding: 1px 5px;
+}
+.leaflet-ohm-timeslider button.leaflet-ohm-timeslider-outofsync {
+    color: white;
+    background-color: #3A69FF;
+}
+
+
+/**
+ * EXPAND/COLLAPSE BEHAVIOR
+ */
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-expandcollapse {
+    position: absolute;
+
+    background-color: white;
+    background-size: cover;
+
+    border: 1px solid black;
+
+    cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+    /* wide screen, this goes to the top-left of the main box */
+    .leaflet-ohm-timeslider {
+        border-top-left-radius: 0;
+    }
+
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-expandcollapse {
+        top: -30px;
+        left: -1px;
+
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-style: none !important;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-expandcollapse span {
+        display: inline-block;
+        width: 35px;
+        height: 25px;
+
+        background-image: url(./assets/chevron-right.svg);
+        background-size: cover;
+        transform: rotate(90deg);
+    }
+    .leaflet-ohm-timeslider.leaflet-ohm-timeslider-expanded div.leaflet-ohm-timeslider-expandcollapse span {
+        margin-left: 10px;
+    }
+    .leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed div.leaflet-ohm-timeslider-expandcollapse span {
+        margin-right: 10px;
+        transform: rotate(-90deg);
+    }
+
+    .leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed .leaflet-ohm-timeslider-datereadout {
+        padding: 0px 10px;
+        margin: 3px;
+    }
+}
+@media screen and (min-width: 768px) {
+    /* wide screen, this goes to the left of the main box */
+    .leaflet-ohm-timeslider {
+        border-top-left-radius: 0;
+    }
+
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-expandcollapse {
+        top: -1px;
+        left: -30px;
+
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+        border-right-style: none !important;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-expandcollapse span {
+        display: inline-block;
+        width: 30px;
+        height: 37px;
+
+        margin-top: 4px;
+
+        background-image: url(./assets/chevron-right.svg);
+        background-size: cover;
+    }
+
+    .leaflet-ohm-timeslider.leaflet-ohm-timeslider-expanded div.leaflet-ohm-timeslider-expandcollapse span {
+    }
+    .leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed div.leaflet-ohm-timeslider-expandcollapse span {
+        transform: scaleX(-1);
+    }
+
+    .leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed .leaflet-ohm-timeslider-datereadout {
+        padding: 0px 10px;
+        margin: 3px 3px 3px 0;
+        min-height:40px;
+    }
+}
+
+.leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed .leaflet-ohm-timeslider-datereadout button {
+    display: none;
+}
+
+.leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed div.leaflet-ohm-timeslider-rangeinputs,
+.leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed div.leaflet-ohm-timeslider-playcontrols-wrap,
+.leaflet-ohm-timeslider.leaflet-ohm-timeslider-collapsed div.leaflet-ohm-timeslider-slider-wrap {
+    display: none;
+}
+
+
+/**
+ * INPUTS: DATE RANGE REPRESENTED BY THE SLISER
+ */
+
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs {
+    padding: 10px;
+}
+
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs select {
+    padding: 2px 0;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs input[type="number"].leaflet-ohm-timeslider-rangeinputs-day {
+    width: 50px;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs input[type="number"].leaflet-ohm-timeslider-rangeinputs-year {
+    width: 66px;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs button {
+}
+
+@media screen and (min-width: 768px) {
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs {
+        display: flex;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-title {
+        line-height: 2;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-separator {
+        line-height: 2;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-mindate {
+        padding-left: 10px;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-maxdate {
+        padding-left: 10px;
+        white-space: nowrap;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-submit {
+        padding-left: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-title {
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-separator {
+        display: none;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs select {
+        width: calc(100% - 123px);
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-submit {
+        text-align: right;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-mindate,
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-rangeinputs div.leaflet-ohm-timeslider-rangeinputs-maxdate {
+        padding-bottom: 10px;
+    }
+}
+
+
+/**
+ * INPUTS: SLIDER
+ */
+
+.leaflet-ohm-timeslider input.leaflet-ohm-timeslider-sliderbar {
+    width: 100%;
+    height: 12px;
+
+    -webkit-appearance: none;
+    appearance: none;
+    background: #000000; /* see options.sliderColorBefore and options.sliderColorAfter instead */
+
+    border: 2px solid #003AFA;
+
+    margin: 1em 0;
+}
+.leaflet-ohm-timeslider input.leaflet-ohm-timeslider-sliderbar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    background-color: #333333;
+    background-image: url(./assets/sliderhandle.svg);
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+.leaflet-ohm-timeslider input.leaflet-ohm-timeslider-sliderbar::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    background-color: #333333;
+    background-image: url(./assets/sliderhandle.svg);
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+
+/**
+ * SLIDER WRAPPER: DATE READOUTS
+ */
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-slider-wrap {
+    display: flex;
+
+    border-bottom: 1px solid black;
+    padding: 10px 10px;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-slider-wrap > div {
+    flex: 1;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-slider-wrap > div:first-child,
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-slider-wrap > div:last-child {
+    width: 125px;
+    flex: 0 0 100px;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-slider-wrap > div:last-child {
+    text-align: right;
+}
+
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-datereadout {
+    background-color: #3A69FF;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    padding: 10px 0;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-datereadout button {
+    float: right;
+
+    width: 25px;
+    height: 25px;
+    margin: 5px 5px 0 0;
+
+    border-color: white;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg' aria-labelledby='title' aria-describedby='desc' role='img' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3EPencil%3C/title%3E%3Cdesc%3EA solid styled icon from Orion Icon Library.%3C/desc%3E%3Cpath d='M10.239 42.86L45.812 7.328l10.848 10.86L21.086 53.72z' fill='%23FFFFFF' data-name='layer1'%3E%3C/path%3E%3Cpath fill='%23FFFFFF' d='M59.492 15.358l2.259-2.258A7.674 7.674 0 1 0 50.9 2.248L48.639 4.5z' data-name='layer2'%3E%3C/path%3E%3Cpath d='M7.851 46.135L-.073 64.024 17.816 56.1l-9.965-9.965z' fill='%23FFFFFF' data-name='layer1'%3E%3C/path%3E%3C/svg%3E");
+    background-size: 17px 17px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+/**
+ * PLAYBACK CONTROLS
+ */
+
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap {
+    padding: 10px 10px;
+
+    display: flex;
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-buttons {
+}
+.leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-settings {
+}
+
+@media screen and (max-width: 768px) {
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-buttons {
+        flex: 0 0 125px;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-settings {
+        width: 100%;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-settings > div {
+        padding-bottom: 5px;
+        text-align: right;
+    }
+}
+@media screen and (min-width: 768px) {
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-buttons {
+        flex: 0 0 125px;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-settings {
+        text-align: right;
+        width: 100%;
+    }
+    .leaflet-ohm-timeslider div.leaflet-ohm-timeslider-playcontrols-wrap div.leaflet-ohm-timeslider-playcontrols-settings > div {
+        display: inline-block;
+        line-height: 25px;
+    }
+}
+
+.leaflet-ohm-timeslider span[role="button"][tabindex="0"] {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+
+    cursor: pointer;
+
+    line-height: 1;
+    vertical-align: bottom;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.leaflet-ohm-timeslider span[role="button"][data-timeslider="play"] {
+    background-image: url(./assets/play.svg);
+}
+.leaflet-ohm-timeslider span[role="button"][data-timeslider="pause"] {
+    background-image: url(./assets/pause.svg);
+}
+.leaflet-ohm-timeslider span[role="button"][data-timeslider="prev"] {
+    background-image: url(./assets/prev.svg);
+}
+.leaflet-ohm-timeslider span[role="button"][data-timeslider="next"] {
+    background-image: url(./assets/next.svg);
+}
+.leaflet-ohm-timeslider span[role="button"][data-timeslider="reset"] {
+    background-image: url(./assets/reset.svg);
+}
+
+
+/**
+ * MODALS
+ */
+
+.leaflet-ohm-timeslider-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 5000;
+/* display: none; after we test basic principle */
+
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+}
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background-color: black;
+    opacity: 0.5;
+}
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-panel {
+    position: relative;
+    width: auto;
+    pointer-events: none;
+
+    display: flex;
+    align-items: center;
+
+    height: 500px;
+    width: 500px;
+    margin: auto;
+}
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
+    max-height: 100%;
+    overflow: hidden;
+    pointer-events: auto;
+    cursor: default;
+}
+
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content .leaflet-ohm-timeslider-modal-head {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content .leaflet-ohm-timeslider-modal-close {
+    cursor: pointer;
+    font-size: 24px;
+}
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content .leaflet-ohm-timeslider-modal-head h4 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content .leaflet-ohm-timeslider-modal-body {
+    padding: 0 16px 0 16px;
+    font-size: 13px;
+}
+
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content .leaflet-ohm-timeslider-modal-foot {
+    padding: 16px 16px 20px 16px;
+    text-align: right;
+}
+
+.leaflet-ohm-timeslider-modal .leaflet-ohm-timeslider-modal-content .leaflet-ohm-timeslider-modal-body p {
+    margin-bottom: 16px;
+}
+
+.leaflet-ohm-timeslider-modal hr {
+    background-color: 1px solid #F0EFEF;
+    margin: 0;
+}
+
+.leaflet-ohm-timeslider-modal button {
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #3A69FF;
+    border: 1px solid #3A69FF;
+    color: black;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.leaflet-ohm-timeslider-modal button:hover,
+.leaflet-ohm-timeslider-modal button:focus,
+.leaflet-ohm-timeslider-modal button:active {
+    color: #000;
+    background-color: #85a2ff;
+    border-color: #7e9dff;
+    box-shadow: 0 0 0 0.25rem rgb(95 124 217 / 50%);
+}
+.leaflet-ohm-timeslider-modal button:disabled {
+    opacity: 0.5;
+    cursor: notallowed;
+}
+
+.leaflet-ohm-timeslider-modal button[data-timeslider="datepickersubmit"] {
+    color: white;
+}
+.leaflet-ohm-timeslider-modal button[data-timeslider="datepickercancel"] {
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+
+/**
+ * DATE PICKER MODAL
+ */
+
+.leaflet-ohm-timeslider-modal.leaflet-ohm-timeslider-datepicker .leaflet-ohm-timeslider-modal-panel {
+}
+.leaflet-ohm-timeslider-modal.leaflet-ohm-timeslider-datepicker .leaflet-ohm-timeslider-modal-panel select {
+    padding: 2px 0;
+}
+.leaflet-ohm-timeslider-modal.leaflet-ohm-timeslider-datepicker .leaflet-ohm-timeslider-modal-panel input[type="number"].leaflet-ohm-timeslider-datepicker-day {
+    width: 50px;
+}
+.leaflet-ohm-timeslider-modal.leaflet-ohm-timeslider-datepicker .leaflet-ohm-timeslider-modal-panel input[type="number"].leaflet-ohm-timeslider-datepicker-year {
+    width: 66px;
+}
