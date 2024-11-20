@@ -168,7 +168,7 @@ sv:
         longitude: Longitud
         public: Offentlig
         description: Beskrivning
-        gpx_file: Ladda upp GPX-fil
+        gpx_file: Välj GPS-spårningsfil
         visibility: Synlighet
         tagstring: Taggar
       message:
@@ -383,7 +383,7 @@ sv:
     view_unredacted_history: Visa oredigerad historik
     view_details: Visa detaljer
     view_redacted_data: Visa redigerad data
-    view_redaction_message: Visa redigeringsmeddelande
+    view_redaction_message: Visa maskeringsmeddelande
     location: 'Plats:'
     node:
       title_html: 'Nod: %{name}'
@@ -433,7 +433,7 @@ sv:
         changeset: ändringsuppsättning
         note: not
     redacted:
-      redaction: Omarbetning %{id}
+      redaction: Maskering %{id}
       message_html: Version %{version} av denna %{type} kan inte visas då den har
         tagits bort. Se %{redaction_link} för detaljer.
       type:
@@ -462,15 +462,30 @@ sv:
       introduction: Klicka på kartan för att hitta funktioner i närheten.
       nearby: Finns i närheten
       enclosing: Omgivande kartobjekt
+  nodes:
+    timeout:
+      sorry: Tyvärr tog data för noden med id %{id} för lång tid att hämta.
   old_nodes:
     not_found:
       sorry: 'Tyvärr, nod #%{id} version %{version} kunde inte hittas.'
+    timeout:
+      sorry: Tyvärr tog historiken för noden med id %{id} för lång tid att hämta.
+  ways:
+    timeout:
+      sorry: Tyvärr tog data för vägen med id %{id} för lång tid att hämta.
   old_ways:
     not_found:
       sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
+    timeout:
+      sorry: Tyvärr tog historiken för vägen med id %{id} för lång tid att hämta.
+  relations:
+    timeout:
+      sorry: Tyvärr tog data för relationen med id %{id} för lång tid att hämta.
   old_relations:
     not_found:
       sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
+    timeout:
+      sorry: Tyvärr tog historiken för relationen med id %{id} för lång tid att hämta.
   changeset_comments:
     feeds:
       comment:
@@ -1520,6 +1535,7 @@ sv:
     page:
       user_not_found: Användaren finns inte
       issues_not_found: Inga sådana ärenden hittades
+      reported_user: Rapporterad användare
       status: Status
       reports: Rapporter
       last_updated: Senast uppdaterad
@@ -1528,6 +1544,10 @@ sv:
         one: '%{count} rapport'
         other: '%{count} rapporter'
       reported_item: Rapporterat objekt
+      states:
+        ignored: Ignorerad
+        open: Öppen
+        resolved: Löst
     show:
       title: '%{status} Ärende nr %{issue_id}'
       reports:
@@ -1629,6 +1649,7 @@ sv:
       databasunderhåll pågår.
     osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
       databasunderhåll pågår.
+    nothing_to_preview: Ingenting att förhandsvisa.
     help: Hjälp
     about: Om
     copyright: Upphovsrätt
@@ -1671,13 +1692,23 @@ sv:
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
       befriend_them_html: Du kan också lägga till dem som en vän på %{befriendurl}.
     gpx_description:
-      description_with_tags_html: 'Det ser ut som att din GPX-fil %{trace_name} med
-        beskrivningen %{trace_description} och följande taggar: %{tags}'
-      description_with_no_tags_html: Det ser ut som att din GPX-fil %{trace_name}
-        med beskrivningen %{trace_description} och inga taggar
+      description_with_tags: 'Det verkar som att din fil %{trace_name} med beskrivningen
+        %{trace_description} och följande taggar: %{tags}'
+      description_with_tags_html: 'Det verkar som att din fil %{trace_name} med beskrivningen
+        %{trace_description} och följande taggar: %{tags}'
+      description_with_no_tags: Det verkar som att din fil %{trace_name} med beskrivningen
+        %{trace_description} och inga taggar
+      description_with_no_tags_html: Det verkar som att din fil %{trace_name} med
+        beskrivningen %{trace_description} och inga taggar
     gpx_failure:
       hi: Hej %{to_user},
-      failed_to_import: 'misslyckats med att importera. Här är felet:'
+      failed_to_import: 'kunde inte importera som en GPS-spårningsfil. Kontrollera
+        att din fil är en giltig GPX-fil eller ett arkiv som innehåller GPX-filer
+        i ett format som stöds (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Skulle det kunna vara problem med ett format eller syntax med din fil? Här
+        är importeringsfelet:'
+      more_info: Mer information om GPX-importeringsfel och hur man undviker dem finns
+        på %{url}.
       more_info_html: Mer information om misslyckade GPX-importer och hur man undviker
         dem återfinns på %{url}.
       subject: '[OpenStreetMap] Misslyckades importera GPX'
@@ -1686,6 +1717,8 @@ sv:
       loaded:
         one: inläst med %{trace_points} av %{count} möjlig punkt.
         other: inläst med %{trace_points} av %{count} möjliga punkter.
+      trace_location: Ditt spår finns på %{trace_url}
+      all_your_traces: Alla dina uppladdade GPX-spår finns på %{url}
       all_your_traces_html: Alla dina framgångsrikt uppladdade GPX-spår finns på %{url}.
       subject: '[OpenStreetMap] Lyckades importera GPX'
     signup_confirm:
@@ -1978,6 +2011,7 @@ sv:
     richtext_field:
       edit: Redigera
       preview: Förhandsgranska
+      help: Hjälp
     pagination:
       diary_comments:
         older: Äldre kommentarer
@@ -1985,6 +2019,9 @@ sv:
       diary_entries:
         older: Äldre inlägg
         newer: Nyare inlägg
+      issues:
+        older: Äldre problem
+        newer: Nyare problem
       traces:
         older: Äldre GPS-spår
         newer: Nyare GPS-spår
@@ -2413,6 +2450,9 @@ sv:
           hospital: Sjukhus
           building: Viktig byggnad
           station: Järnvägsstation
+          railway_halt: Järnvägsstopp
+          subway_station: Tunnelbanestation
+          tram_stop: Spårvagnshållplats
           summit: Höjd
           peak: Topp
           tunnel: Streckade kanter = tunnel
@@ -2650,6 +2690,8 @@ sv:
       write_notes: Ändra anteckningar
       write_redactions: Omarbeta kartdata
       read_email: Läs användarens e-postadress
+      consume_messages: Läs, uppdatera status och radera användarmeddelanden
+      send_messages: Skicka privata meddelanden till andra användare
       skip_authorization: Godkänn applikation automatiskt
     for_roles:
       moderator: Denna behörighet är till för åtgärder som endast är tillgängliga
@@ -2768,6 +2810,7 @@ sv:
       continue: |2-
 
         Fortsätt
+      cancel: Avbryt
       you need to accept or decline: Läs igenom och godkänn eller avböj de nya bidragsvillkoren
         för att fortsätta.
       legale_select: 'Hemland:'
@@ -2885,17 +2928,17 @@ sv:
         med ditt ID i dina användarinställningar.
   user_role:
     filter:
-      not_a_role: Strängen `%{role}' är inte en korrekt roll.
+      not_a_role: Strängen '%{role}' är inte en giltig roll.
       already_has_role: Användaren har redan rollen %{role}.
       doesnt_have_role: Användaren har inte rollen %{role}.
       not_revoke_admin_current_user: Kan inte återkalla administratörsroll från nuvarande
         användare.
     grant:
-      are_you_sure: Är du säker på att du vill ge rollen `%{role}' till användaren
-        `%{name}'?
+      are_you_sure: Är du säker på att du vill ge rollen '%{role}' till användaren
+        '%{name}'?
     revoke:
-      are_you_sure: Är du säker på att du vill återkalla rollen `%{role}' från användaren
-        `%{name}'?
+      are_you_sure: Är du säker på att du vill återkalla rollen '%{role}' från användaren
+        '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Måste vara en moderator för att skapa eller uppdatera
@@ -2912,6 +2955,7 @@ sv:
       title: Redigera blockering på %{name}
       heading_html: Redigera blockering på %{name}
       period: Hur lång tid, från och med nu, användaren ska vara blockerad från API:t.
+      revoke: Återkalla blockering
     filter:
       block_period: Blockeringsperioden måste ha ett av värdena i rullgardinslistan.
     create:
@@ -2919,8 +2963,12 @@ sv:
     update:
       only_creator_can_edit: Bara moderatorn som skapade denna blockering kan redigera
         den.
+      only_creator_can_edit_without_revoking: Endast moderatorn som skapade blockeringen
+        kan redigera den utan att återkalla den.
       only_creator_or_revoker_can_edit: Endast moderatorer som skapade eller drog
         tillbaka den här blockeringen kan redigera den.
+      inactive_block_cannot_be_reactivated: Den här blockeringen är inaktiv och kan
+        inte återaktiveras.
       success: Blockering uppdaterad.
     index:
       title: Användarblockeringar
@@ -2992,6 +3040,7 @@ sv:
       blocks_by_me: Blockeringar av mig
       blocks_by_user: Blockeringar av %{user}
       block: 'Blockering #%{id}'
+      new_block: Ny blockering
   user_mutes:
     index:
       title: Tystade användare
@@ -3074,6 +3123,8 @@ sv:
       add: Lägg till anteckning
     notes_paging_nav:
       showing_page: Sida %{page}
+      next: Nästa
+      previous: Föregående
   javascripts:
     close: Stäng
     share:
@@ -3258,12 +3309,13 @@ sv:
       centre_map: Centrera kartan här
   redactions:
     edit:
-      heading: Redigera redaktering
-      title: Redigera redaktering
+      heading: Redigera maskering
+      title: Redigera maskering
     index:
       empty: Inga maskeringar att visa.
       heading: Lista över maskeringar
       title: Lista över maskeringar
+      new: Ny maskering
     new:
       heading: Ange information för ny maskering
       title: Skapa ny maskering

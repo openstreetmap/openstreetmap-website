@@ -184,4 +184,38 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_template "notes/new"
     assert_select "#sidebar_content a[href='#{login_path(:referer => new_note_path)}']", :count => 0
   end
+
+  def test_index_filter_by_status
+    user = create(:user)
+    other_user = create(:user)
+
+    open_note = create(:note, :status => "open")
+    create(:note_comment, :note => open_note, :author => user)
+
+    closed_note = create(:note, :status => "closed")
+    create(:note_comment, :note => closed_note, :author => user)
+
+    hidden_note = create(:note, :status => "hidden")
+    create(:note_comment, :note => hidden_note, :author => user)
+
+    commented_note = create(:note, :status => "open")
+    create(:note_comment, :note => commented_note, :author => other_user)
+    create(:note_comment, :note => commented_note, :author => user)
+
+    get user_notes_path(user, :status => "all")
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 3
+
+    get user_notes_path(user, :status => "open")
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 2
+
+    get user_notes_path(user, :status => "closed")
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 1
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 3
+  end
 end
