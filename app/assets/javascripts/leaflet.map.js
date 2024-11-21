@@ -18,19 +18,13 @@ L.OSM.Map = L.Map.extend({
     this.baseLayers = [];
 
     for (const layerDefinition of OSM.LAYER_DEFINITIONS) {
-      if (layerDefinition.apiKeyId && !OSM[layerDefinition.apiKeyId]) continue;
-
-      const layerOptions = {
+      const layer = new L.OSM[layerDefinition.leafletOsmId]({
         attribution: makeAttribution(layerDefinition.credit),
         code: layerDefinition.code,
         keyid: layerDefinition.keyId,
-        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`)
-      };
-      if (layerDefinition.apiKeyId) {
-        layerOptions.apikey = OSM[layerDefinition.apiKeyId];
-      }
-
-      const layer = new L.OSM[layerDefinition.leafletOsmId](layerOptions);
+        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`),
+        apikey: layerDefinition.apiKey
+      });
       this.baseLayers.push(layer);
     }
 
