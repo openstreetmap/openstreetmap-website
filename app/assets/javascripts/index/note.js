@@ -37,31 +37,35 @@ OSM.Note = function (map) {
   };
 
   function initialize(path, id) {
-    content.find("button[type=submit]").on("click", function (e) {
+    content.find("button[name]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
-      var form = e.target.form;
-
-      $(form).find("button[type=submit]").prop("disabled", true);
-
-      $.ajax({
+      var name = $(e.target).attr("name");
+      var ajaxSettings = {
         url: data.url,
         type: data.method,
         oauth: true,
-        data: { text: $(form.text).val() },
-        success: function () {
-          OSM.loadSidebarContent(path, function () {
+        success: () => {
+          OSM.loadSidebarContent(path, () => {
             initialize(path, id);
             moveToNote();
           });
         },
-        error: function (xhr) {
-          $(form).find("#comment-error")
+        error: (xhr) => {
+          content.find("#comment-error")
             .text(xhr.responseText)
-            .prop("hidden", false);
-          updateButtons(form);
+            .prop("hidden", false)
+            .get(0).scrollIntoView({ block: "nearest" });
+          updateButtons();
         }
-      });
+      };
+
+      if (name !== "subscribe" && name !== "unsubscribe") {
+        ajaxSettings.data = { text: $("textarea").val() };
+      }
+
+      content.find("button[name]").prop("disabled", true);
+      $.ajax(ajaxSettings);
     });
 
     content.find("textarea").on("input", function (e) {
@@ -82,14 +86,16 @@ OSM.Note = function (map) {
     }
   }
 
-  function updateButtons(form) {
-    $(form).find("button[type=submit]").prop("disabled", false);
-    if ($(form.text).val() === "") {
-      $(form.close).text($(form.close).data("defaultActionText"));
-      $(form.comment).prop("disabled", true);
+  function updateButtons() {
+    var resolveButton = content.find("button[name='close']");
+    var commentButton = content.find("button[name='comment']");
+
+    content.find("button[name]").prop("disabled", false);
+    if (content.find("textarea").val() === "") {
+      resolveButton.text(resolveButton.data("defaultActionText"));
+      commentButton.prop("disabled", true);
     } else {
-      $(form.close).text($(form.close).data("commentActionText"));
-      $(form.comment).prop("disabled", false);
+      resolveButton.text(resolveButton.data("commentActionText"));
     }
   }
 
