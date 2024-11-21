@@ -70,6 +70,8 @@ $(document).ready(function () {
   // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
   Turbo.session.drive = false;
 
+  $("body").css("--dark-mode-map-filter", "invert(.9) hue-rotate(180deg)");
+
   var headerWidth = 0,
       compactWidth = 0;
 
