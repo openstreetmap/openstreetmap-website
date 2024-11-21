@@ -24,7 +24,8 @@ L.OSM.Map = L.Map.extend({
         attribution: makeAttribution(layerDefinition.credit),
         code: layerDefinition.code,
         keyid: layerDefinition.keyId,
-        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`)
+        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`),
+        darkFilter: layerDefinition.darkFilter
       };
       if (layerDefinition.apiKeyId) {
         layerOptions.apikey = OSM[layerDefinition.apiKeyId];
