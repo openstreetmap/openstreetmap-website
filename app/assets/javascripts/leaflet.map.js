@@ -15,67 +15,69 @@ L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    var copyright_link = $("<a>", {
-      href: "/copyright",
-      text: I18n.t("javascripts.map.openstreetmap_contributors")
-    }).prop("outerHTML");
-    var copyright = I18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
-
-    var donate = $("<a>", {
-      "href": "https://supporting.openstreetmap.org",
-      "class": "donate-attr",
-      "text": I18n.t("javascripts.map.make_a_donation")
-    }).prop("outerHTML");
-
-    var terms = $("<a>", {
-      href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
-      text: I18n.t("javascripts.map.website_and_api_terms")
-    }).prop("outerHTML");
-
-    var cyclosm_link = $("<a>", {
-      href: "https://www.cyclosm.org",
-      target: "_blank",
-      text: I18n.t("javascripts.map.cyclosm_name")
-    }).prop("outerHTML");
-    var osm_france_link = $("<a>", {
-      href: "https://openstreetmap.fr/",
-      target: "_blank",
-      text: I18n.t("javascripts.map.osm_france")
-    }).prop("outerHTML");
-    var cyclosm = I18n.t("javascripts.map.cyclosm_credit", { cyclosm_link: cyclosm_link, osm_france_link: osm_france_link });
-
-    var thunderforest_link = $("<a>", {
-      href: "https://www.thunderforest.com/",
-      target: "_blank",
-      text: I18n.t("javascripts.map.andy_allan")
-    }).prop("outerHTML");
-    var thunderforest = I18n.t("javascripts.map.thunderforest_credit", { thunderforest_link: thunderforest_link });
-
-    var tracestrack_link = $("<a>", {
-      href: "https://www.tracestrack.com/",
-      target: "_blank",
-      text: I18n.t("javascripts.map.tracestrack")
-    }).prop("outerHTML");
-    var tracestrack = I18n.t("javascripts.map.tracestrack_credit", { tracestrack_link: tracestrack_link });
-
-    var hotosm_link = $("<a>", {
-      href: "https://www.hotosm.org/",
-      target: "_blank",
-      text: I18n.t("javascripts.map.hotosm_name")
-    }).prop("outerHTML");
-    var hotosm = I18n.t("javascripts.map.hotosm_credit", { hotosm_link: hotosm_link, osm_france_link: osm_france_link });
+    const layerCredits = {
+      mapnik: {
+        id: "make_a_donation",
+        href: "https://supporting.openstreetmap.org",
+        donate: true
+      },
+      cyclosm: {
+        id: "cyclosm_credit",
+        children: {
+          cyclosm_link: {
+            id: "cyclosm_name",
+            href: "https://www.cyclosm.org"
+          },
+          osm_france_link: {
+            id: "osm_france",
+            href: "https://openstreetmap.fr/"
+          }
+        }
+      },
+      thunderforest: {
+        id: "thunderforest_credit",
+        children: {
+          thunderforest_link: {
+            id: "andy_allan",
+            href: "https://www.thunderforest.com/"
+          }
+        }
+      },
+      tracestrack: {
+        id: "tracestrack_credit",
+        children: {
+          tracestrack_link: {
+            id: "tracestrack",
+            href: "https://www.tracestrack.com/"
+          }
+        }
+      },
+      hotosm: {
+        id: "hotosm_credit",
+        children: {
+          hotosm_link: {
+            id: "hotosm_name",
+            href: "https://www.hotosm.org/"
+          },
+          osm_france_link: {
+            id: "osm_france",
+            href: "https://openstreetmap.fr/"
+          }
+        }
+      }
+    };
 
     this.baseLayers = [];
 
     this.baseLayers.push(new L.OSM.Mapnik({
-      attribution: copyright + " &hearts; " + donate + ". " + terms,
+      attribution: makeAttribution("mapnik"),
       code: "M",
       keyid: "mapnik",
       name: I18n.t("javascripts.map.base.standard")
     }));
 
     this.baseLayers.push(new L.OSM.CyclOSM({
-      attribution: copyright + ". " + cyclosm + ". " + terms,
+      attribution: makeAttribution("cyclosm"),
       code: "Y",
       keyid: "cyclosm",
       name: I18n.t("javascripts.map.base.cyclosm")
@@ -83,7 +85,7 @@ L.OSM.Map = L.Map.extend({
 
     if (OSM.THUNDERFOREST_KEY) {
       this.baseLayers.push(new L.OSM.CycleMap({
-        attribution: copyright + ". " + thunderforest + ". " + terms,
+        attribution: makeAttribution("thunderforest"),
         apikey: OSM.THUNDERFOREST_KEY,
         code: "C",
         keyid: "cyclemap",
@@ -91,7 +93,7 @@ L.OSM.Map = L.Map.extend({
       }));
 
       this.baseLayers.push(new L.OSM.TransportMap({
-        attribution: copyright + ". " + thunderforest + ". " + terms,
+        attribution: makeAttribution("thunderforest"),
         apikey: OSM.THUNDERFOREST_KEY,
         code: "T",
         keyid: "transportmap",
@@ -101,7 +103,7 @@ L.OSM.Map = L.Map.extend({
 
     if (OSM.TRACESTRACK_KEY) {
       this.baseLayers.push(new L.OSM.TracestrackTopo({
-        attribution: copyright + ". " + tracestrack + ". " + terms,
+        attribution: makeAttribution("tracestrack"),
         apikey: OSM.TRACESTRACK_KEY,
         code: "P",
         keyid: "tracestracktopo",
@@ -110,7 +112,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     this.baseLayers.push(new L.OSM.HOT({
-      attribution: copyright + ". " + hotosm + ". " + terms,
+      attribution: makeAttribution("hotosm"),
       code: "H",
       keyid: "hot",
       name: I18n.t("javascripts.map.base.hot")
@@ -132,6 +134,51 @@ L.OSM.Map = L.Map.extend({
         this.setMaxZoom(event.layer.options.maxZoom);
       }
     });
+
+    function makeAttribution(id) {
+      const layerCredit = layerCredits[id];
+      let attribution = "";
+
+      attribution += I18n.t("javascripts.map.copyright_text", {
+        copyright_link: $("<a>", {
+          href: "/copyright",
+          text: I18n.t("javascripts.map.openstreetmap_contributors")
+        }).prop("outerHTML")
+      });
+
+      attribution += layerCredit.donate ? " &hearts; " : ". ";
+      attribution += makeCredit(layerCredit);
+      attribution += ". ";
+
+      attribution += $("<a>", {
+        href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+        text: I18n.t("javascripts.map.website_and_api_terms")
+      }).prop("outerHTML");
+
+      return attribution;
+    }
+
+    function makeCredit(credit) {
+      const children = {};
+      for (const childId in credit.children) {
+        children[childId] = makeCredit(credit.children[childId]);
+      }
+      const text = I18n.t(`javascripts.map.${credit.id}`, children);
+      if (credit.href) {
+        const link = $("<a>", {
+          href: credit.href,
+          text: text
+        });
+        if (credit.donate) {
+          link.addClass("donate-attr");
+        } else {
+          link.attr("target", "_blank");
+        }
+        return link.prop("outerHTML");
+      } else {
+        return text;
+      }
+    }
   },
 
   updateLayers: function (layerParam) {
