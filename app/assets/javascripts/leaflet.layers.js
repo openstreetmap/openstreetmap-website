@@ -15,6 +15,7 @@ L.OSM.layers = function (options) {
         .appendTo(baseSection);
 
       var mapContainer = $("<div class='position-absolute top-0 start-0 bottom-0 end-0 z-0 bg-body-secondary'>")
+        .css("--dark-mode-map-filter", layer.options.darkFilter)
         .appendTo(buttonContainer);
 
       var input = $("<input type='radio' class='btn-check' name='layer'>")
