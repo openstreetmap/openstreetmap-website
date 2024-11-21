@@ -60,13 +60,7 @@ L.OSM.layers = function (options) {
       });
 
       input.on("click", function () {
-        layers.forEach(function (other) {
-          if (other === layer) {
-            map.addLayer(other);
-          } else {
-            map.removeLayer(other);
-          }
-        });
+        map.updateLayers(layer.options.code);
         map.fire("baselayerchange", { layer: layer });
       });
 
