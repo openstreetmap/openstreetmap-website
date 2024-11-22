@@ -86,6 +86,17 @@ OSM.initializeDataLayer = function (map) {
 
     if (dataLoader) dataLoader.abort();
 
+    let spanLoading = $("#layers-data-loading");
+
+    if (!spanLoading.length) {
+      spanLoading = $("<span>")
+        .attr("id", "layers-data-loading")
+        .attr("class", "spinner-border spinner-border-sm ms-1")
+        .attr("role", "status")
+        .html("<span class='visually-hidden'>" + I18n.t("browse.start_rjs.loading") + "</span>")
+        .appendTo($("#label-layers-data"));
+    }
+
     dataLoader = $.ajax({
       url: url,
       success: function (xml) {
@@ -114,6 +125,7 @@ OSM.initializeDataLayer = function (map) {
         }
 
         dataLoader = null;
+        spanLoading.remove();
       }
     });
   }
