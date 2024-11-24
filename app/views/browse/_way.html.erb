@@ -25,18 +25,18 @@
       <details <%= "open" if way.way_nodes.count < 10 %>>
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled">
-          <% visited_way_nodes = {} %>
-          <% way.way_nodes.each do |wn| %>
+          <% group_way_nodes(way).each do |node_group| %>
             <li>
               <div>
-                <%= element_single_current_link "node", wn.node %>
+                <% node_group[:nodes].each do |node| %>
+                  <%= element_single_current_link "node", node %>
+                <% end %>
               </div>
-              <% related_ways = wn.node.ways.uniq.sort.reject { |w| w.id == wn.way_id } %>
-              <% if related_ways.size.positive? %>
-                <%= tag.details :class => "ms-4", :open => !visited_way_nodes[wn.node.id] do %>
-                  <summary><%= t ".also_part_of_ways", :count => related_ways.size %></summary>
+              <% if node_group[:related_ways].size.positive? %>
+                <%= tag.details :class => "ms-4", :open => node_group[:open] do %>
+                  <summary><%= t ".also_part_of_ways", :count => node_group[:related_ways].size %></summary>
                   <ul class="list-unstyled">
-                    <% related_ways.each do |related_way| %>
+                    <% node_group[:related_ways].each do |related_way| %>
                       <li>
                         <%= element_single_current_link "way", related_way %>
                       </li>
@@ -44,7 +44,6 @@
                   </ul>
                 <% end %>
               <% end %>
-              <% visited_way_nodes[wn.node.id] = true %>
             </li>
           <% end %>
         </ul>

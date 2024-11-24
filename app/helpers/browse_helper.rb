@@ -1,4 +1,34 @@
 module BrowseHelper
+  def group_way_nodes(way)
+    groups = []
+
+    way.way_nodes.each do |way_node|
+      related_ways = related_ways_of_way_node(way_node)
+      if !groups.empty? && way_node.node.tags.empty? && groups.last[:nodes].last.tags.empty? && groups.last[:related_ways] == related_ways
+        groups.last[:nodes] << way_node.node
+      else
+        groups << {
+          :nodes => [way_node.node],
+          :related_ways => related_ways
+        }
+      end
+    end
+
+    visited_single_nodes = {}
+
+    groups.each do |group|
+      if group[:nodes].size == 1
+        id = group[:nodes].first.id
+        group[:open] = !visited_single_nodes[id]
+        visited_single_nodes[id] = true
+      else
+        group[:open] = true
+      end
+    end
+
+    groups
+  end
+
   def element_single_current_link(type, object)
     link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
@@ -115,5 +145,13 @@ module BrowseHelper
 
   def name_locales(object)
     object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
+  end
+
+  def same_related_ways(wn1, wn2)
+    wn1.node.ways.uniq.sort == wn2.node.ways.uniq.sort
+  end
+
+  def related_ways_of_way_node(way_node)
+    way_node.node.ways.uniq.sort.reject { |related_way| related_way.id == way_node.way_id }
   end
 end

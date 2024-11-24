@@ -48,8 +48,23 @@ class WaysControllerTest < ActionDispatch::IntegrationTest
     assert_dom "p", /#{Regexp.quote("the way with the id #{way.id}")}/
   end
 
-  def test_show_nodes
+  def test_show_nodes_collapsed
     way = create(:way_with_nodes, :nodes_count => 2)
+
+    get way_path(way, :xhr => true)
+    assert_response :success
+    assert_dom "ul:has(> li a[href='#{node_path way.nodes[0]}']):has(> li a[href='#{node_path way.nodes[0]}'])", :count => 1 do
+      assert_dom "> li", :count => 1 do |list_items|
+        assert_dom list_items, "a[href='#{node_path way.nodes[0]}']"
+        assert_dom list_items, "a[href='#{node_path way.nodes[1]}']"
+      end
+    end
+  end
+
+  def test_show_nodes_separate
+    way = create(:way_with_nodes, :nodes_count => 2)
+    create(:node_tag, :node => way.nodes[0], :k => "name", :v => "Distinct Node 0")
+    create(:node_tag, :node => way.nodes[1], :k => "name", :v => "Distinct Node 1")
 
     get way_path(way, :xhr => true)
     assert_response :success
