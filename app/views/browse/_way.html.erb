@@ -25,15 +25,19 @@
       <details <%= "open" if way.way_nodes.count < 10 %>>
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled browse-element-list">
-          <% way.way_nodes.each do |wn| %>
-            <%= element_list_item "node", wn.node do %>
-              <%= element_single_current_link "node", wn.node %>
-              <% related_ways = wn.node.ways.reject { |w| w.id == wn.way_id } %>
+          <% group_way_nodes(way).each do |node_group| %>
+            <%= element_list_item "node", node_group[:nodes].first do %>
+              <% node_group[:nodes].each_with_index do |node, i| %>
+                <%= " · " if i.positive? %>
+                <%= element_single_current_link "node", node %>
+              <% end %>
               <% icon_connector = " " %>
-              <% if related_ways.size > 0 then %>
+              <% if node_group[:related_ways].size.positive? %>
                 (<%= t ".also_part_of_html",
-                       :count => related_ways.size,
-                       :related_ways => to_sentence(related_ways.map { |w| element_icon("way", w) + icon_connector + element_single_current_link("way", w) }) %>)
+                       :count => node_group[:related_ways].size,
+                       :related_ways => to_sentence(node_group[:related_ways].map do |w|
+                                                      element_icon("way", w) + icon_connector + element_single_current_link("way", w)
+                                                    end) %>)
               <% end %>
             <% end %>
           <% end %>

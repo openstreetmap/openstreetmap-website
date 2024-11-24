@@ -1,4 +1,22 @@
 module BrowseHelper
+  def group_way_nodes(way)
+    groups = []
+
+    way.way_nodes.each do |way_node|
+      related_ways = related_ways_of_way_node(way_node)
+      if !groups.empty? && way_node.node.tags.empty? && groups.last[:nodes].last.tags.empty? && groups.last[:related_ways] == related_ways
+        groups.last[:nodes] << way_node.node
+      else
+        groups << {
+          :nodes => [way_node.node],
+          :related_ways => related_ways
+        }
+      end
+    end
+
+    groups
+  end
+
   def element_icon(type, object)
     selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }
 
@@ -118,5 +136,9 @@ module BrowseHelper
 
   def name_locales(object)
     object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
+  end
+
+  def related_ways_of_way_node(way_node)
+    way_node.node.ways.uniq.sort.reject { |related_way| related_way.id == way_node.way_id }
   end
 end
