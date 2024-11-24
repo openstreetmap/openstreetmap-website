@@ -965,8 +965,14 @@ img.trace_image {
   .node::before,
   .way::before,
   .relation::before {
+    content: "";
     display: inline-block;
+    background-size: calc(1em * 1.25) auto;
+    background-position: left center;
+    background-repeat: no-repeat;
+    vertical-align: text-bottom;
     width: 25px;
+    height: calc(1em * 1.25);
     margin-left: -25px;
   }
 
@@ -974,14 +980,14 @@ img.trace_image {
     margin-left: 25px;
   }
 
-  .node::before     { content: image-url('browse/node.svg'); }
-  .way::before      { content: image-url('browse/way.svg'); }
-  .relation::before { content: image-url('browse/relation.svg'); }
+  .node::before     { background-image: image-url('browse/node.svg'); }
+  .way::before      { background-image: image-url('browse/way.svg'); }
+  .relation::before { background-image: image-url('browse/relation.svg'); }
 }
 
 @each $class, $item in $map-sidebar-icons {
   .browse-section #{$class}::before {
-    content: image-url('browse/#{map.get($item, "filename")}');
+    background-image: image-url('browse/#{map.get($item, "filename")}');
   }
 
   @if map.get($item, "invert") {
