@@ -37,6 +37,14 @@ module BrowseHelper
     end
   end
 
+  def element_single_current_link_without_icon(type, object)
+    link_to object, { :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+      element_strikethrough object do
+        printable_element_name object
+      end
+    end
+  end
+
   def element_list_item(type, object, &block)
     tag.li :class => element_class(type, object), :title => element_title(object) do
       element_strikethrough object, &block

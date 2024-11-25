@@ -26,14 +26,15 @@
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled">
           <% group_way_nodes(way).each do |node_group| %>
-            <li>
+            <%= tag.li :class => element_class("node", node_group[:nodes].first) do %>
               <div>
-                <% node_group[:nodes].each do |node| %>
-                  <%= element_single_current_link "node", node %>
+                <% node_group[:nodes].each_with_index do |node, i| %>
+                  <%= " · " if i.positive? %>
+                  <%= element_single_current_link_without_icon "node", node %>
                 <% end %>
               </div>
               <% if node_group[:related_ways].size.positive? %>
-                <%= tag.details :class => "ms-4", :open => node_group[:open] do %>
+                <%= tag.details :open => node_group[:open] do %>
                   <summary><%= t ".also_part_of_ways", :count => node_group[:related_ways].size %></summary>
                   <ul class="list-unstyled">
                     <% node_group[:related_ways].each do |related_way| %>
@@ -44,7 +45,7 @@
                   </ul>
                 <% end %>
               <% end %>
-            </li>
+            <% end %>
           <% end %>
         </ul>
       </details>
