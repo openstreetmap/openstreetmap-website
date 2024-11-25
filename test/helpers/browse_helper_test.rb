@@ -66,7 +66,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "<s>test</s>", deleted_output
   end
 
-  def test_element_class
+  def test_element_icon
     node = create(:node, :with_history, :version => 2)
     node_v1 = node.old_nodes.find_by(:version => 1)
     node_v2 = node.old_nodes.find_by(:version => 2)
@@ -76,60 +76,35 @@ class BrowseHelperTest < ActionView::TestCase
     add_old_tags_selection(node_v2)
     add_old_tags_selection(node_v1)
 
-    assert_equal "node", element_class("node", create(:node))
-    assert_equal "node", element_class("node", create(:node, :deleted))
+    icon = element_icon("node", create(:node))
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "img:root", :count => 1 do
+      assert_dom "> @title", 0
+    end
 
-    assert_equal "node building yes shop gift tourism museum", element_class("node", node)
-    assert_equal "node building yes shop gift tourism museum", element_class("node", node_v2)
-    assert_equal "node", element_class("node", node_v1)
-  end
+    icon = element_icon("node", create(:node, :deleted))
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "img:root", :count => 1 do
+      assert_dom "> @title", 0
+    end
 
-  def test_element_title
-    node = create(:node, :with_history, :version => 2)
-    node_v1 = node.old_nodes.find_by(:version => 1)
-    node_v2 = node.old_nodes.find_by(:version => 2)
-    node_v1.redact!(create(:redaction))
+    icon = element_icon("node", node)
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "img:root", :count => 1 do
+      assert_dom "> @title", "building=yes, shop=gift, and tourism=museum"
+    end
 
-    add_tags_selection(node)
-    add_old_tags_selection(node_v2)
-    add_old_tags_selection(node_v1)
+    icon = element_icon("node", node_v2)
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "img:root", :count => 1 do
+      assert_dom "> @title", "building=yes, shop=gift, and tourism=museum"
+    end
 
-    assert_equal "", element_title(create(:node))
-    assert_equal "", element_title(create(:node, :deleted))
-
-    assert_equal "building=yes, shop=gift, and tourism=museum", element_title(node)
-    assert_equal "building=yes, shop=gift, and tourism=museum", element_title(node_v2)
-    assert_equal "", element_title(node_v1)
-  end
-
-  def test_icon_tags
-    node = create(:node, :with_history, :version => 2)
-    node_v1 = node.old_nodes.find_by(:version => 1)
-    node_v2 = node.old_nodes.find_by(:version => 2)
-    node_v1.redact!(create(:redaction))
-
-    add_tags_selection(node)
-
-    tags = icon_tags(node)
-    assert_equal 3, tags.count
-    assert_includes tags, %w[building yes]
-    assert_includes tags, %w[tourism museum]
-    assert_includes tags, %w[shop gift]
-
-    add_old_tags_selection(node_v2)
-    add_old_tags_selection(node_v1)
-
-    tags = icon_tags(node_v2)
-    assert_equal 3, tags.count
-    assert_includes tags, %w[building yes]
-    assert_includes tags, %w[tourism museum]
-    assert_includes tags, %w[shop gift]
-
-    tags = icon_tags(node_v1)
-    assert_equal 3, tags.count
-    assert_includes tags, %w[building yes]
-    assert_includes tags, %w[tourism museum]
-    assert_includes tags, %w[shop gift]
+    icon = element_icon("node", node_v1)
+    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    assert_dom icon_dom, "img:root", :count => 1 do
+      assert_dom "> @title", 0
+    end
   end
 
   private
