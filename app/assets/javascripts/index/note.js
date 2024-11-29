@@ -60,7 +60,7 @@ OSM.Note = function (map) {
         }
       };
 
-      if (name !== "subscribe" && name !== "unsubscribe") {
+      if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
         ajaxSettings.data = { text: $("textarea").val() };
       }
 
