@@ -502,17 +502,29 @@ body.small-nav {
 }
 
 @include color-mode(dark) {
-  .leaflet-tile-container .leaflet-tile,
-  .mapkey-table-entry td:first-child > * {
-    filter: brightness(.8);
-  }
-
   .leaflet-container .leaflet-control-attribution a {
     color: var(--bs-link-color);
   }
 
   .leaflet-control-scale-line {
     border-color: rgba(var(--bs-light-rgb), .75) !important;
+  }
+}
+
+@mixin dark-map-color-scheme {
+  .leaflet-tile-container .leaflet-tile,
+  .mapkey-table-entry td:first-child > * {
+    filter: brightness(.8);
+  }
+}
+
+body[data-map-theme="dark"] {
+  @include dark-map-color-scheme;
+}
+
+@include color-mode(dark) {
+  body:not([data-map-theme]) {
+    @include dark-map-color-scheme;
   }
 }
 
