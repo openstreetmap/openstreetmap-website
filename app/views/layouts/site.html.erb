@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<%= tag.html :lang => I18n.locale, :dir => dir, :data => { :bs_theme => (preferred_site_color_scheme if preferred_site_color_scheme != "auto") } do %>
+<%= tag.html :lang => I18n.locale,
+             :dir => dir,
+             :data => { :bs_theme => (preferred_color_scheme(:site) if preferred_color_scheme(:site) != "auto") } do %>
   <%= render :partial => "layouts/head" %>
   <body class="<%= body_class %>">
     <%= render :partial => "layouts/header" %>
