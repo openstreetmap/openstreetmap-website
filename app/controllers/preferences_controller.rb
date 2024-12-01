@@ -29,6 +29,11 @@ class PreferencesController < ApplicationController
       success &= site_color_scheme_preference.update(:v => params[:site_color_scheme])
     end
 
+    if params[:map_color_scheme]
+      map_color_scheme_preference = current_user.preferences.find_or_create_by(:k => "map.color_scheme")
+      success &= map_color_scheme_preference.update(:v => params[:map_color_scheme])
+    end
+
     if success
       # Use a partial so that it is rendered during the next page load in the correct language.
       flash[:notice] = { :partial => "preferences/update_success_flash" }
