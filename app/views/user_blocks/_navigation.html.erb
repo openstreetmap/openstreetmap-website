@@ -14,7 +14,7 @@
   <% on_user = @user || @user_block&.user %>
   <% if on_user != current_user && on_user&.blocks&.exists? %>
     <li class="nav-item">
-      <%= link_to t(".blocks_on_user", :user => on_user.display_name),
+      <%= link_to t(".blocks_on_user_html", :user => tag.span(on_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
                   user_blocks_on_path(on_user),
                   :class => ["nav-link", { :active => action_name == "blocks_on" }] %>
     </li>
@@ -29,7 +29,7 @@
   <% by_user = @user || @user_block&.creator %>
   <% if by_user != current_user && by_user&.blocks_created&.exists? %>
     <li class="nav-item">
-      <%= link_to t(".blocks_by_user", :user => by_user.display_name),
+      <%= link_to t(".blocks_by_user_html", :user => tag.span(by_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
                   user_blocks_by_path(by_user),
                   :class => ["nav-link", { :active => action_name == "blocks_by" }] %>
     </li>
