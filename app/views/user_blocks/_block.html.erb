@@ -1,9 +1,9 @@
 <tr>
   <% if @show_user_name %>
-  <td><%= link_to block.user.display_name, block.user, :class => "username d-inline-block text-truncate text-wrap" %></td>
+  <td><%= link_to block.user.display_name, block.user, :class => "username d-inline-block text-truncate text-wrap", :dir => "auto" %></td>
   <% end %>
   <% if @show_creator_name %>
-  <td><%= link_to block.creator.display_name, block.creator, :class => "username d-inline-block text-truncate text-wrap" %></td>
+  <td><%= link_to block.creator.display_name, block.creator, :class => "username d-inline-block text-truncate text-wrap", :dir => "auto" %></td>
   <% end %>
   <td><%= h truncate(block.reason) %></td>
   <td><%= h block_status(block) %></td>
@@ -11,7 +11,7 @@
     <% if block.revoker_id.nil? %>
       <%= t(".not_revoked") %>
     <% else %>
-      <%= link_to block.revoker.display_name, block.revoker %>
+      <%= link_to block.revoker.display_name, block.revoker, :class => "username d-inline-block text-truncate text-wrap", :dir => "auto" %>
     <% end %>
   </td>
   <td><%= link_to t(".show"), block %></td>
