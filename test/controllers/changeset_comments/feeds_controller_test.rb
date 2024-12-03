@@ -75,7 +75,7 @@ module ChangesetComments
       end
       assert_response :error
       assert_equal "application/rss+xml; charset=utf-8", @response.header["Content-Type"]
-      assert_dom "rss>channel>title", :text => "OpenStreetMap changeset discussion"
+      assert_dom "rss>channel>title", :text => "OpenHistoricalMap changeset discussion"
       assert_dom "rss>channel>description", :text => /the list of changeset comments you requested took too long to retrieve/
     end
 
@@ -85,7 +85,7 @@ module ChangesetComments
       end
       assert_response :error
       assert_equal "application/rss+xml; charset=utf-8", @response.header["Content-Type"]
-      assert_dom "rss>channel>title", :text => "OpenStreetMap changeset #123 discussion"
+      assert_dom "rss>channel>title", :text => "OpenHistoricalMap changeset #123 discussion"
       assert_dom "rss>channel>description", :text => /the list of changeset comments you requested took too long to retrieve/
     end
   end

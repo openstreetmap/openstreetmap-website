@@ -28,7 +28,7 @@ class UserLogoutTest < ApplicationSystemTestCase
     assert_no_content "Log In"
 
     visit logout_path
-    assert_content "Logout from OpenStreetMap"
+    assert_content "Logout from OpenHistoricalMap"
 
     click_on "Logout"
     assert_content "Log In"
@@ -39,7 +39,7 @@ class UserLogoutTest < ApplicationSystemTestCase
     assert_no_content "Log In"
 
     visit logout_path(:referer => "/traces")
-    assert_content "Logout from OpenStreetMap"
+    assert_content "Logout from OpenHistoricalMap"
 
     click_on "Logout"
     assert_content "Log In"

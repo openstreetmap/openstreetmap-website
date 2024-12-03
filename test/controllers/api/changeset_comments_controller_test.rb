@@ -69,7 +69,7 @@ module Api
 
       email = ActionMailer::Base.deliveries.first
       assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{user.display_name} has commented on one of your changesets", email.subject
+      assert_equal "[OpenHistoricalMap] #{user.display_name} has commented on one of your changesets", email.subject
       assert_equal private_user.email, email.to.first
 
       ActionMailer::Base.deliveries.clear
@@ -88,12 +88,12 @@ module Api
       email = ActionMailer::Base.deliveries.find { |e| e.to.first == private_user.email }
       assert_not_nil email
       assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{user2.display_name} has commented on one of your changesets", email.subject
+      assert_equal "[OpenHistoricalMap] #{user2.display_name} has commented on one of your changesets", email.subject
 
       email = ActionMailer::Base.deliveries.find { |e| e.to.first == user.email }
       assert_not_nil email
       assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{user2.display_name} has commented on a changeset you are interested in", email.subject
+      assert_equal "[OpenHistoricalMap] #{user2.display_name} has commented on a changeset you are interested in", email.subject
 
       ActionMailer::Base.deliveries.clear
     end
