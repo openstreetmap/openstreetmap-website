@@ -33,6 +33,7 @@ class Report < ApplicationRecord
     when "DiaryEntry", "DiaryComment" then %w[spam offensive threat other]
     when "User" then %w[spam offensive threat vandal other]
     when "Note" then %w[spam personal abusive other]
+    when "Changeset" then %w[undiscussed_import mechanical_edit edit_error spam vandalism other]
     else %w[other]
     end
   end
