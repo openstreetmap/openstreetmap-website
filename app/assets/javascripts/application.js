@@ -74,7 +74,7 @@ $(document).ready(function () {
       $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
       secondaryMenuItems = [],
       moreItemWidth = 0,
-      breakpointWidth = 768;
+      breakpointWidth = 576;
 
   function updateHeader() {
     var windowWidth = $(window).width();
