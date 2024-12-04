@@ -23,13 +23,6 @@ json.tags changeset.tags unless changeset.tags.empty?
 
 if @comments
   json.comments(@comments) do |comment|
-    json.id comment.id
-    json.visible comment.visible
-    json.date comment.created_at.xmlschema
-    if comment.author.data_public?
-      json.uid comment.author.id
-      json.user comment.author.display_name
-    end
-    json.text comment.body
+    json.partial! comment
   end
 end

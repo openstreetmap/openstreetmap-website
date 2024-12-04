@@ -1,5 +1,7 @@
 module Api
   class NotesController < ApiController
+    include QueryMethods
+
     before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
     before_action :setup_user_auth, :only => [:create, :show]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
@@ -36,7 +38,9 @@ module Api
       @max_lat = bbox.max_lat
 
       # Find the notes we want to return
-      @notes = notes.bbox(bbox).order("updated_at DESC").limit(result_limit).preload(:comments)
+      notes = notes.bbox(bbox).order("updated_at DESC")
+      notes = query_limit(notes)
+      @notes = notes.preload(:comments)
 
       # Render the result
       respond_to do |format|
@@ -231,8 +235,9 @@ module Api
 
       # Find the comments we want to return
       @comments = NoteComment.where(:note => notes)
-                             .order(:created_at => :desc).limit(result_limit)
-                             .preload(:author, :note => { :comments => :author })
+                             .order(:created_at => :desc)
+      @comments = query_limit(@comments)
+      @comments = @comments.preload(:author, :note => { :comments => :author })
 
       # Render the result
       respond_to do |format|
@@ -248,47 +253,19 @@ module Api
       @notes = bbox_condition(@notes)
 
       # Add any user filter
-      if params[:display_name] || params[:user]
-        if params[:display_name]
-          @user = User.find_by(:display_name => params[:display_name])
-
-          raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless @user
-        else
-          @user = User.find_by(:id => params[:user])
-
-          raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless @user
-        end
-
-        @notes = @notes.joins(:comments).where(:note_comments => { :author_id => @user })
-      end
+      user = query_conditions_user_value
+      @notes = @notes.joins(:comments).where(:note_comments => { :author_id => user }) if user
 
       # Add any text filter
       @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]
 
       # Add any date filter
-      if params[:from]
-        begin
-          from = Time.parse(params[:from]).utc
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
-        end
-
-        begin
-          to = if params[:to]
-                 Time.parse(params[:to]).utc
-               else
-                 Time.now.utc
-               end
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
-        end
-
-        @notes = if params[:sort] == "updated_at"
-                   @notes.where(:updated_at => from..to)
-                 else
-                   @notes.where(:created_at => from..to)
-                 end
-      end
+      time_filter_property = if params[:sort] == "updated_at"
+                               :updated_at
+                             else
+                               :created_at
+                             end
+      @notes = query_conditions_time(@notes, time_filter_property)
 
       # Choose the sort order
       @notes = if params[:sort] == "created_at"
@@ -306,7 +283,8 @@ module Api
                end
 
       # Find the notes we want to return
-      @notes = @notes.distinct.limit(result_limit).preload(:comments)
+      @notes = query_limit(@notes.distinct)
+      @notes = @notes.preload(:comments)
 
       # Render the result
       respond_to do |format|
@@ -322,20 +300,6 @@ module Api
     #------------------------------------------------------------
     # utility functions below.
     #------------------------------------------------------------
-
-    ##
-    # Get the maximum number of results to return
-    def result_limit
-      if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_note_query_limit
-          params[:limit].to_i
-        else
-          raise OSM::APIBadUserInput, "Note limit must be between 1 and #{Settings.max_note_query_limit}"
-        end
-      else
-        Settings.default_note_query_limit
-      end
-    end
 
     ##
     # Generate a condition to choose which notes we want based
