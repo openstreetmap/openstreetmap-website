@@ -119,7 +119,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to diary_entry_path(entry.user, entry, :anchor => "comment#{comment.id}")
     email = ActionMailer::Base.deliveries.first
     assert_equal [user.email], email.to
-    assert_equal "[OpenStreetMap] #{other_user.display_name} commented on a diary entry", email.subject
+    assert_equal "[OpenHistoricalMap] #{other_user.display_name} commented on a diary entry", email.subject
     assert_match(/New comment/, email.text_part.decoded)
     assert_match(/New comment/, email.html_part.decoded)
     ActionMailer::Base.deliveries.clear
@@ -161,7 +161,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to diary_entry_path(entry.user, entry, :anchor => "comment#{comment.id}")
     email = ActionMailer::Base.deliveries.first
     assert_equal [user.email], email.to
-    assert_equal "[OpenStreetMap] #{other_user.display_name} commented on a diary entry", email.subject
+    assert_equal "[OpenHistoricalMap] #{other_user.display_name} commented on a diary entry", email.subject
     assert_match %r{http://example.com/spam}, email.text_part.decoded
     assert_match %r{http://example.com/spam}, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
