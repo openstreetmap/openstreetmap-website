@@ -6,6 +6,10 @@
       <p><%= t ".issues_not_found" %></p>
     <% end %>
   <% else %>
+    <%= render "shared/pagination",
+               :newer_id => @newer_issues_id,
+               :older_id => @older_issues_id %>
+
     <table class="table table-sm">
       <thead>
         <tr>
@@ -35,6 +39,7 @@
         <% end %>
       </tbody>
     </table>
+
     <%= render "shared/pagination",
                :newer_id => @newer_issues_id,
                :older_id => @older_issues_id %>
