@@ -65,10 +65,9 @@ OSM.Directions = function (map) {
     if (coordTo) {
       routeTo = coordTo.lat + "," + coordTo.lng;
     }
+    endpoints[0].swapCachedReverseGeocodes(endpoints[1]);
 
     OSM.router.route("/directions?" + Qs.stringify({
-      from: $("#route_to").val(),
-      to: $("#route_from").val(),
       route: routeTo + ";" + routeFrom
     }));
   });
@@ -287,17 +286,14 @@ OSM.Directions = function (map) {
       var ll = map.containerPointToLatLng(pt);
       var precision = OSM.zoomPrecision(map.getZoom());
       var value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
-      var llWithPrecision = L.latLng(ll.lat.toFixed(precision), ll.lng.toFixed(precision));
-      endpoints[type === "from" ? 0 : 1].setValue(value, llWithPrecision);
+      endpoints[type === "from" ? 0 : 1].setValue(value);
     });
 
     endpoints[0].enable();
     endpoints[1].enable();
 
     var params = Qs.parse(location.search.substring(1)),
-        route = (params.route || "").split(";"),
-        from = route[0] && L.latLng(route[0].split(",")),
-        to = route[1] && L.latLng(route[1].split(","));
+        route = (params.route || "").split(";");
 
     if (params.engine) {
       var engineIndex = findEngine(params.engine);
@@ -307,10 +303,10 @@ OSM.Directions = function (map) {
       }
     }
 
-    endpoints[0].setValue(params.from || "", from);
-    endpoints[1].setValue(params.to || "", to);
+    endpoints[0].setValue(params.from || route[0] || "");
+    endpoints[1].setValue(params.to || route[1] || "");
 
-    map.setSidebarOverlaid(!from || !to);
+    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
 
   page.load = function () {
