@@ -3,11 +3,19 @@
 ohmVectorStyles.JapaneseScroll = {
   "version": 8,
   "name": "ohm-japanese-scroll-map",
-  "metadata": {"maputnik:renderer": "mbgljs"},
+  "metadata": { "maputnik:renderer": "mbgljs" },
   "sources": {
     "osm": {
       "type": "vector",
-      "tiles": ohmTileServicesLists[ohmTileServiceName],
+      "tiles": [
+        "https://vtiles.staging.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "ne": {
+      "type": "vector",
+      "tiles": [
+        "https://vtiles.staging.openhistoricalmap.org/maps/ne/{z}/{x}/{y}.pbf"
+      ]
     }
   },
   "sprite": "https://openhistoricalmap.github.io/map-styles/japanese_scroll/jp_spritesheet_template",
@@ -19,8 +27,8 @@ ohmVectorStyles.JapaneseScroll = {
       "minzoom": 0,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": {"visibility": "visible"},
-      "paint": {"background-color": "rgba(239, 229, 210, 1)"}
+      "layout": { "visibility": "visible" },
+      "paint": { "background-color": "rgba(239, 229, 210, 1)" }
     },
     {
       "id": "background-pattern",
@@ -28,7 +36,7 @@ ohmVectorStyles.JapaneseScroll = {
       "minzoom": 0,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "background-color": "rgba(239, 229, 210, 1)",
         "background-pattern": "jp-water"
@@ -41,8 +49,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "land",
       "minzoom": 0,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(92, 87, 78, 1)"}
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(92, 87, 78, 1)" }
     },
     {
       "id": "land-pattern",
@@ -51,7 +59,7 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "land",
       "minzoom": 0,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-color": "rgba(236, 225, 203, 0.58)",
         "fill-pattern": "jp-paper"
@@ -62,19 +70,43 @@ ohmVectorStyles.JapaneseScroll = {
       "type": "fill",
       "source": "osm",
       "source-layer": "water_areas",
-      "minzoom": 3,
+      "minzoom": 8,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(239, 229, 210, 1)", "fill-opacity": 0.29}
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(239, 229, 210, 1)", "fill-opacity": 0.29}
+    },
+    {
+      "id": "water_areas-ne",
+      "type": "fill",
+      "source": "ne",
+      "source-layer": "water_areas",
+      "minzoom": 0,
+      "maxzoom": 8,
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(239, 229, 210, 1)", "fill-opacity": 0.29}
     },
     {
       "id": "water_areas-pattern",
       "type": "fill",
       "source": "osm",
       "source-layer": "water_areas",
-      "minzoom": 3,
+      "minzoom": 8,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "fill-color": "rgba(207, 179, 125, 1)",
+        "fill-opacity": 1,
+        "fill-pattern": "jp-water"
+      }
+    },
+    {
+      "id": "water_areas-pattern-ne",
+      "type": "fill",
+      "source": "ne",
+      "source-layer": "water_areas",
+      "minzoom": 0,
+      "maxzoom": 8,
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-color": "rgba(207, 179, 125, 1)",
         "fill-opacity": 1,
@@ -88,10 +120,20 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "water_lines",
       "minzoom": 13,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "stream"]],
+      "filter": ["==", ["get", "type"], "stream"],
       "paint": {
         "line-color": "rgba(207, 179, 125, 1)",
-        "line-width": {"stops": [[13, 0.5], [15, 0.8], [20, 2]]},
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13,
+          0.5,
+          15,
+          0.8,
+          20,
+          2
+        ],
         "line-opacity": 0.29
       }
     },
@@ -102,10 +144,10 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "water_lines",
       "minzoom": 15,
       "maxzoom": 24,
-      "filter": ["all", ["in", "type", "ditch", "drain"]],
+      "filter": ["in", ["get", "type"], ["literal", ["ditch", "drain"]]],
       "paint": {
         "line-color": "rgba(207, 179, 125, 1)",
-        "line-width": {"stops": [[15, 0.2], [20, 1.5]]},
+        "line-width": ["interpolate", ["linear"], ["zoom"], 15, 0.2, 20, 1.5],
         "line-opacity": 0.29
       }
     },
@@ -116,10 +158,22 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "water_lines",
       "minzoom": 8,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "canal"]],
+      "filter": ["==", ["get", "type"], "canal"],
       "paint": {
         "line-color": "rgba(207, 179, 125, 1)",
-        "line-width": {"stops": [[8, 0.5], [13, 0.5], [14, 1], [20, 3]]},
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          8,
+          0.5,
+          13,
+          0.5,
+          14,
+          1,
+          20,
+          3
+        ],
         "line-opacity": 0.29
       }
     },
@@ -130,13 +184,25 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "water_lines",
       "minzoom": 8,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "river"]],
-      "layout": {"visibility": "visible"},
+      "filter": ["==", ["get", "type"], "river"],
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-color": "rgba(235, 222, 196, 1)",
-        "line-width": {
-          "stops": [[8, 1], [12, 1.5], [13, 2], [14, 5], [20, 12]]
-        },
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          8,
+          1,
+          12,
+          1.5,
+          13,
+          2,
+          14,
+          5,
+          20,
+          12
+        ],
         "line-opacity": 1
       }
     },
@@ -147,10 +213,20 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "water_lines",
       "minzoom": 13,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "dam"]],
+      "filter": ["==", ["get", "type"], "dam"],
       "paint": {
         "line-color": "rgba(207, 179, 125, 1)",
-        "line-width": {"stops": [[13, 0.5], [15, 0.8], [20, 2]]},
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13,
+          0.5,
+          15,
+          0.8,
+          20,
+          2
+        ],
         "line-opacity": 0.29
       }
     },
@@ -158,15 +234,15 @@ ohmVectorStyles.JapaneseScroll = {
       "id": "state_lines_admin4",
       "type": "line",
       "source": "osm",
-      "source-layer": "land_ohm",
+      "source-layer": "land_ohm_lines",
       "minzoom": 5,
       "maxzoom": 20,
       "filter": [
         "all",
-        ["==", "admin_level", 4],
-        ["==", "type", "administrative"]
+        ["==", ["get", "admin_level"], 4],
+        ["==", ["get", "type"], "administrative"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-color": "rgba(202, 196, 196, 1)",
         "line-width": 3,
@@ -177,11 +253,11 @@ ohmVectorStyles.JapaneseScroll = {
       "id": "admin_countrylines_z10",
       "type": "line",
       "source": "osm",
-      "source-layer": "land_ohm",
+      "source-layer": "land_ohm_lines",
       "minzoom": 0,
       "maxzoom": 20,
-      "filter": ["all", ["in", "admin_level", 1, 2]],
-      "layout": {"visibility": "visible"},
+      "filter": ["in", ["get", "admin_level"], ["literal", [1, 2]]],
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-color": "rgba(157, 169, 174, 1)",
         "line-width": ["interpolate", ["linear"], ["zoom"], 0, 4, 8, 6],
@@ -195,8 +271,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 14,
-      "filter": ["all", ["in", "type", "subway"]],
-      "layout": {"visibility": "none"},
+      "filter": ["in", ["get", "type"], ["literal", ["subway"]]],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(153, 153, 153, 1)",
         "line-width": [
@@ -217,7 +293,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 9,
-      "filter": ["all", ["==", "type", "tertiary"], ["==", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "tertiary"],
+        ["==", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -243,7 +323,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 8,
-      "filter": ["all", ["==", "type", "secondary"], ["==", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary"],
+        ["==", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -270,7 +354,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 6,
       "maxzoom": 20,
-      "filter": ["all", ["in", "type", "primary"], ["==", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["in", ["get", "type"], ["literal", ["primary"]]],
+        ["==", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -299,8 +387,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway", "motorway_link", "trunk", "trunk_link"],
-        ["==", "tunnel", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["motorway", "motorway_link", "trunk", "trunk_link"]]
+        ],
+        ["==", ["get", "tunnel"], 1]
       ],
       "layout": {
         "visibility": "none",
@@ -327,7 +419,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 9,
-      "filter": ["all", ["==", "type", "tertiary"], ["==", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "tertiary"],
+        ["==", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -352,7 +448,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 8,
-      "filter": ["all", ["==", "type", "secondary"], ["==", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary"],
+        ["==", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -377,8 +477,12 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 6,
-      "filter": ["all", ["==", "type", "primary"], ["==", "tunnel", 1]],
-      "layout": {"visibility": "none"},
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "primary"],
+        ["==", ["get", "tunnel"], 1]
+      ],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#f5f5f5",
         "line-width": [
@@ -401,8 +505,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway", "motorway_link", "trunk", "trunk_link"],
-        ["==", "tunnel", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["motorway", "motorway_link", "trunk", "trunk_link"]]
+        ],
+        ["==", ["get", "tunnel"], 1]
       ],
       "layout": {
         "visibility": "none",
@@ -431,13 +539,29 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "tram", "funicular", "monorail"],
-        ["!in", "service", "yard", "siding"]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["funicular", "monorail", "tram"]]
+        ],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(197, 197, 197, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1,
+          14,
+          1.25,
+          20,
+          2.25
+        ]
       }
     },
     {
@@ -449,13 +573,25 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "miniature", "narrow_gauge"],
-        ["!in", "service", "yard", "siding"]
+        ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1,
+          14,
+          1.25,
+          20,
+          2.25
+        ]
       }
     },
     {
@@ -467,10 +603,10 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "miniature", "narrow_gauge"],
-        ["!in", "service", "yard", "siding"]
+        ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
         "line-width": 4,
@@ -486,13 +622,29 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "dismantled", "abandoned", "disused", "razed"],
-        ["!in", "service", "yard", "siding"]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["abandoned", "dismantled", "disused", "razed"]]
+        ],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1,
+          14,
+          1.25,
+          20,
+          2.25
+        ]
       }
     },
     {
@@ -504,10 +656,14 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "dismantled", "abandoned", "disused", "razed"],
-        ["!in", "service", "yard", "siding"]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["abandoned", "dismantled", "disused", "razed"]]
+        ],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
         "line-width": 6,
@@ -523,13 +679,29 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["light_rail", "preserved", "rail"]]
+        ],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1,
+          14,
+          1.25,
+          20,
+          2.25
+        ]
       }
     },
     {
@@ -541,13 +713,31 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["light_rail", "preserved", "rail"]]
+        ],
+        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
-        "line-width": {"stops": [[6, 2], [7, 3], [8, 4], [9, 5], [10, 6]]},
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6,
+          2,
+          7,
+          3,
+          8,
+          4,
+          9,
+          5,
+          10,
+          6
+        ],
         "line-dasharray": [0.2, 2]
       }
     },
@@ -560,13 +750,25 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "construction", "proposed"],
-        ["in", "class", "railway"]
+        ["in", ["get", "type"], ["literal", ["construction", "proposed"]]],
+        ["in", ["get", "class"], ["literal", ["railway"]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(215, 215, 215, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1,
+          14,
+          1.25,
+          20,
+          2.25
+        ]
       }
     },
     {
@@ -578,10 +780,10 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "construction", "proposed"],
-        ["in", "class", "railway"]
+        ["in", ["get", "type"], ["literal", ["construction", "proposed"]]],
+        ["in", ["get", "class"], ["literal", ["railway"]]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(215, 215, 215, 1)",
         "line-width": 6,
@@ -595,8 +797,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 12,
       "maxzoom": 24,
-      "filter": ["in", "type", "raceway"],
-      "layout": {"visibility": "none"},
+      "filter": ["in", ["get", "type"], ["literal", ["raceway"]]],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(255, 249, 241, 1)",
         "line-width": [
@@ -618,8 +820,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "track"]],
-      "layout": {"visibility": "none"},
+      "filter": ["==", ["get", "type"], "track"],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -640,8 +842,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "track"]],
-      "layout": {"visibility": "none"},
+      "filter": ["==", ["get", "type"], "track"],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(251, 247, 245, 1)",
         "line-width": [
@@ -662,8 +864,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "track"]],
-      "layout": {"visibility": "none"},
+      "filter": ["==", ["get", "type"], "track"],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#b3b3b3",
         "line-dasharray": [0.3, 1],
@@ -685,8 +887,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["in", "type", "pedestrian"]],
-      "layout": {"visibility": "none"},
+      "filter": ["in", ["get", "type"], ["literal", ["pedestrian"]]],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -707,8 +909,12 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["in", "type", "footway", "cycleway", "path"]],
-      "layout": {"visibility": "none"},
+      "filter": [
+        "in",
+        ["get", "type"],
+        ["literal", ["cycleway", "footway", "path"]]
+      ],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -730,8 +936,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "pier"]],
-      "layout": {"visibility": "none"},
+      "filter": ["==", ["get", "type"], "pier"],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -752,8 +958,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all", ["in", "type", "steps"]],
-      "layout": {"visibility": "none"},
+      "filter": ["in", ["get", "type"], ["literal", ["steps"]]],
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -776,13 +982,14 @@ ohmVectorStyles.JapaneseScroll = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": [
-        "all",
-        ["in", "type", "unclassified", "living_street", "raceway"]
+        "in",
+        ["get", "type"],
+        ["literal", ["living_street", "raceway", "unclassified"]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "rgba(255, 207, 0, 1)",
-        "line-width": {"stops": [[14, 4], [18, 16]]}
+        "line-width": ["interpolate", ["linear"], ["zoom"], 14, 4, 18, 16]
       }
     },
     {
@@ -794,8 +1001,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "residential", "service", "unclassified"],
-        ["==", "bridge", 0]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["residential", "service", "unclassified"]]
+        ],
+        ["==", ["get", "bridge"], 0]
       ],
       "layout": {
         "visibility": "none",
@@ -822,7 +1033,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 10.01,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "tertiary"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "tertiary"],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -847,7 +1062,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 10.01,
-      "filter": ["all", ["==", "type", "secondary"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary"],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -872,7 +1091,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 10.01,
-      "filter": ["all", ["in", "type", "primary_link"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["in", ["get", "type"], ["literal", ["primary_link"]]],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "none",
         "line-cap": "round",
@@ -899,9 +1122,9 @@ ohmVectorStyles.JapaneseScroll = {
       "minzoom": 10.01,
       "filter": [
         "all",
-        ["in", "type", "primary"],
-        ["!=", "tunnel", 1],
-        ["!=", "ford", "yes"]
+        ["in", ["get", "type"], ["literal", ["primary"]]],
+        ["!=", ["get", "tunnel"], 1],
+        ["!=", ["get", "ford"], "yes"]
       ],
       "layout": {
         "visibility": "none",
@@ -909,7 +1132,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {"stops": [[10, "#d5d5d5"], [11, "#b3b3b3"]]},
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "#d5d5d5",
+          11,
+          "#b3b3b3"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -930,8 +1161,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway_link", "trunk_link"],
-        ["!=", "tunnel", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["motorway_link", "trunk_link"]]
+        ],
+        ["!=", ["get", "tunnel"], 1]
       ],
       "layout": {
         "visibility": "none",
@@ -939,9 +1174,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[9, "rgba(255, 255, 255, 1)"], [14, "#b3b3b3"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9,
+          "rgba(255, 255, 255, 1)",
+          14,
+          "#b3b3b3"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -962,8 +1203,8 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway", "trunk"],
-        ["!=", "tunnel", 1]
+        ["in", ["get", "type"], ["literal", ["motorway", "trunk"]]],
+        ["!=", ["get", "tunnel"], 1]
       ],
       "layout": {
         "visibility": "none",
@@ -971,7 +1212,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {"stops": [[10, "#d5d5d5"], [11, "#b3b3b3"]]},
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "#d5d5d5",
+          11,
+          "#b3b3b3"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -992,8 +1241,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "residential", "service", "unclassified"],
-        ["==", "bridge", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["residential", "service", "unclassified"]]
+        ],
+        ["==", ["get", "bridge"], 1]
       ],
       "layout": {
         "visibility": "none",
@@ -1019,7 +1272,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 9,
-      "filter": ["all", ["==", "type", "tertiary"], ["==", "bridge", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "tertiary"],
+        ["==", ["get", "bridge"], 1]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "round",
@@ -1051,7 +1308,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 8,
-      "filter": ["all", ["==", "type", "secondary"], ["==", "bridge", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary"],
+        ["==", ["get", "bridge"], 1]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "round",
@@ -1086,8 +1347,8 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "primary", "primary_link"],
-        ["==", "bridge", 1]
+        ["in", ["get", "type"], ["literal", ["primary", "primary_link"]]],
+        ["==", ["get", "bridge"], 1]
       ],
       "layout": {
         "line-cap": "round",
@@ -1123,8 +1384,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway", "motorway_link", "trunk", "trunk_link"],
-        ["==", "bridge", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["motorway", "motorway_link", "trunk", "trunk_link"]]
+        ],
+        ["==", ["get", "bridge"], 1]
       ],
       "layout": {
         "visibility": "visible",
@@ -1157,7 +1422,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 8,
-      "filter": ["all", ["==", "type", "secondary_link"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary_link"],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "round",
@@ -1189,14 +1458,26 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 6,
-      "filter": ["all", ["in", "type", "primary_link"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["in", ["get", "type"], ["literal", ["primary_link"]]],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
-        "line-color": {"stops": [[10, "#D5D5D5"], [11, "#ffffff"]]},
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "#D5D5D5",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1224,8 +1505,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway_link", "trunk_link"],
-        ["!=", "tunnel", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["motorway_link", "trunk_link"]]
+        ],
+        ["!=", ["get", "tunnel"], 1]
       ],
       "layout": {
         "visibility": "visible",
@@ -1233,9 +1518,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(204, 204, 204, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(204, 204, 204, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1262,8 +1553,9 @@ ohmVectorStyles.JapaneseScroll = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": [
-        "all",
-        ["in", "type", "residential", "service", "unclassified"]
+        "in",
+        ["get", "type"],
+        ["literal", ["residential", "service", "unclassified"]]
       ],
       "layout": {
         "visibility": "visible",
@@ -1297,16 +1589,26 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 9,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "tertiary"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "tertiary"],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(217, 217, 217, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(217, 217, 217, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1331,16 +1633,26 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 8,
-      "filter": ["all", ["==", "type", "secondary"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary"],
+        ["!=", ["get", "tunnel"], 1]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(217, 217, 217, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(217, 217, 217, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1367,9 +1679,9 @@ ohmVectorStyles.JapaneseScroll = {
       "minzoom": 6,
       "filter": [
         "all",
-        ["in", "type", "primary"],
-        ["!=", "tunnel", 1],
-        ["!=", "ford", "yes"]
+        ["in", ["get", "type"], ["literal", ["primary"]]],
+        ["!=", ["get", "tunnel"], 1],
+        ["!=", ["get", "ford"], "yes"]
       ],
       "layout": {
         "visibility": "visible",
@@ -1377,9 +1689,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(217, 217, 217, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(217, 217, 217, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1407,8 +1725,8 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway", "trunk"],
-        ["!=", "tunnel", 1]
+        ["in", ["get", "type"], ["literal", ["motorway", "trunk"]]],
+        ["!=", ["get", "tunnel"], 1]
       ],
       "layout": {
         "visibility": "visible",
@@ -1416,9 +1734,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(204, 204, 204, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(204, 204, 204, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1443,8 +1767,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 9,
-      "filter": ["all", ["==", "ford", "yes"]],
-      "layout": {"visibility": "visible"},
+      "filter": ["==", ["get", "ford"], "yes"],
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -1468,10 +1792,14 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "residential", "service", "unclassified"],
-        ["==", "bridge", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["residential", "service", "unclassified"]]
+        ],
+        ["==", ["get", "bridge"], 1]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -1492,12 +1820,22 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 9,
       "maxzoom": 24,
-      "filter": ["all", ["==", "type", "tertiary"], ["==", "bridge", 1]],
-      "layout": {"visibility": "none"},
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "tertiary"],
+        ["==", ["get", "bridge"], 1]
+      ],
+      "layout": { "visibility": "none" },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(217, 217, 217, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(217, 217, 217, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1515,12 +1853,22 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 8,
-      "filter": ["all", ["==", "type", "secondary"], ["==", "bridge", 1]],
-      "layout": {"visibility": "none"},
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "secondary"],
+        ["==", ["get", "bridge"], 1]
+      ],
+      "layout": { "visibility": "none" },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(217, 217, 217, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(217, 217, 217, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1538,12 +1886,22 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 6,
-      "filter": ["all", ["in", "type", "primary"], ["==", "bridge", 1]],
-      "layout": {"visibility": "none"},
+      "filter": [
+        "all",
+        ["in", ["get", "type"], ["literal", ["primary"]]],
+        ["==", ["get", "bridge"], 1]
+      ],
+      "layout": { "visibility": "none" },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(217, 217, 217, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(217, 217, 217, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1564,8 +1922,12 @@ ohmVectorStyles.JapaneseScroll = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["in", "type", "motorway", "motorway_link", "trunk", "trunk_link"],
-        ["==", "bridge", 1]
+        [
+          "in",
+          ["get", "type"],
+          ["literal", ["motorway", "motorway_link", "trunk", "trunk_link"]]
+        ],
+        ["==", ["get", "bridge"], 1]
       ],
       "layout": {
         "visibility": "none",
@@ -1573,9 +1935,15 @@ ohmVectorStyles.JapaneseScroll = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(204, 204, 204, 1)"], [11, "#ffffff"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          "rgba(204, 204, 204, 1)",
+          11,
+          "#ffffff"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1594,12 +1962,18 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 8,
       "maxzoom": 9,
-      "filter": ["all", ["in", "type", "secondary"]],
-      "layout": {"visibility": "visible"},
+      "filter": ["in", ["get", "type"], ["literal", ["secondary"]]],
+      "layout": { "visibility": "visible" },
       "paint": {
-        "line-color": {
-          "stops": [[7, "#b3b3b3"], [8, "rgba(210, 210, 210, 1)"]]
-        },
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          7,
+          "#b3b3b3",
+          8,
+          "rgba(210, 210, 210, 1)"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1618,10 +1992,18 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 7,
       "maxzoom": 9,
-      "filter": ["all", ["in", "type", "trunk", "primary"]],
-      "layout": {"visibility": "none"},
+      "filter": ["in", ["get", "type"], ["literal", ["primary", "trunk"]]],
+      "layout": { "visibility": "none" },
       "paint": {
-        "line-color": {"stops": [[7, "#b3b3b3"], [9, "#EAEAEA"]]},
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          7,
+          "#b3b3b3",
+          9,
+          "#EAEAEA"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1640,10 +2022,18 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "transport_lines",
       "minzoom": 6,
       "maxzoom": 9,
-      "filter": ["all", ["==", "type", "motorway"]],
-      "layout": {"visibility": "visible"},
+      "filter": ["==", ["get", "type"], "motorway"],
+      "layout": { "visibility": "visible" },
       "paint": {
-        "line-color": {"stops": [[6, "#b3b3b3"], [9, "#EAEAEA"]]},
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6,
+          "#b3b3b3",
+          9,
+          "#EAEAEA"
+        ],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -1661,18 +2051,26 @@ ohmVectorStyles.JapaneseScroll = {
       "type": "fill",
       "source": "osm",
       "source-layer": "other_areas",
-      "filter": ["all", ["==", "class", "man_made"], ["==", "type", "bridge"]],
-      "layout": {"visibility": "none"},
-      "paint": {"fill-color": "rgba(255, 255, 255, 1)"}
+      "filter": [
+        "all",
+        ["==", ["get", "class"], "man_made"],
+        ["==", ["get", "type"], "bridge"]
+      ],
+      "layout": { "visibility": "none" },
+      "paint": { "fill-color": "rgba(255, 255, 255, 1)" }
     },
     {
       "id": "man_made_bridge_line",
       "type": "line",
       "source": "osm",
       "source-layer": "other_lines",
-      "filter": ["all", ["==", "class", "man_made"], ["==", "type", "bridge"]],
-      "layout": {"visibility": "none"},
-      "paint": {"line-color": "rgba(255, 255, 255, 1)", "line-width": 3}
+      "filter": [
+        "all",
+        ["==", ["get", "class"], "man_made"],
+        ["==", ["get", "type"], "bridge"]
+      ],
+      "layout": { "visibility": "none" },
+      "paint": { "line-color": "rgba(255, 255, 255, 1)", "line-width": 3}
     },
     {
       "id": "city_labels_z6",
@@ -1681,15 +2079,27 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "place_points",
       "minzoom": 6,
       "maxzoom": 15,
-      "filter": ["all", ["==", "type", "city"], ["!=", "capital", "yes"]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "city"],
+        ["!=", ["get", "capital"], "yes"]
+      ],
       "layout": {
-        "text-field": "{name}",
+        "text-field": ["to-string", ["get", "name"]],
         "text-font": ["BernerBasisschrift"],
         "text-transform": "uppercase",
-        "text-size": {"stops": [[6, 13], [10, 15]]},
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 13, 10, 15],
         "visibility": "visible",
         "icon-image": "woodblock-3-tiered-house-small-2",
-        "icon-offset": {"stops": [[6, [0, -12]], [10, [0, -15]]]},
+        "icon-offset": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6,
+          ["literal", [0, -12]],
+          10,
+          ["literal", [0, -15]]
+        ],
         "icon-size": 1,
         "icon-anchor": "bottom",
         "text-letter-spacing": 0.1,
@@ -1709,15 +2119,27 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "place_points",
       "minzoom": 4,
       "maxzoom": 15,
-      "filter": ["all", ["==", "type", "city"], ["==", "capital", "yes"]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "city"],
+        ["==", ["get", "capital"], "yes"]
+      ],
       "layout": {
-        "text-field": "{name}",
+        "text-field": ["to-string", ["get", "name"]],
         "text-font": ["BernerBasisschrift"],
         "text-transform": "uppercase",
-        "text-size": {"stops": [[6, 16], [10, 20]]},
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 16, 10, 20],
         "visibility": "visible",
         "icon-image": "woodblock-3-tiered-house-small",
-        "icon-offset": {"stops": [[6, [0, -16]], [10, [0, -16]]]},
+        "icon-offset": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6,
+          ["literal", [0, -16]],
+          10,
+          ["literal", [0, -16]]
+        ],
         "icon-size": 1,
         "icon-anchor": "bottom",
         "text-letter-spacing": 0.1,
@@ -1732,40 +2154,22 @@ ohmVectorStyles.JapaneseScroll = {
       }
     },
     {
-      "id": "state_labels",
+      "id": "state_points_labels-centroids",
       "type": "symbol",
       "source": "osm",
-      "source-layer": "state_label_points",
-      "minzoom": 5,
-      "maxzoom": 10,
-      "filter": ["all", ["==", "scalerank", 2]],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
-        "text-transform": "uppercase",
-        "text-size": {"stops": [[4, 7], [10, 16]]},
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(166, 166, 170, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "state_points_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "place_points",
+      "source-layer": "land_ohm_centroids",
       "minzoom": 5,
       "maxzoom": 20,
-      "filter": ["all", ["in", "type", "state", "territory"]],
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "administrative"],
+        ["==", ["get", "admin_level"], 4]
+      ],
       "layout": {
         "visibility": "visible",
-        "text-field": "{name}",
+        "text-field": ["to-string", ["get", "name"]],
         "text-font": ["BernerBasisschrift"],
-        "text-size": {"stops": [[6, 15], [10, 18]]},
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 15, 10, 18],
         "text-line-height": 0.8,
         "text-transform": "uppercase",
         "symbol-spacing": 25,
@@ -1782,123 +2186,65 @@ ohmVectorStyles.JapaneseScroll = {
       }
     },
     {
-      "id": "state_lines_labels",
+      "id": "state_points_labels",
       "type": "symbol",
       "source": "osm",
-      "source-layer": "land_ohm",
-      "minzoom": 4,
+      "source-layer": "place_points",
+      "minzoom": 5,
       "maxzoom": 20,
-      "filter": [
-        "all",
-        ["==", "admin_level", 4],
-        ["==", "type", "administrative"]
-      ],
+      "filter": ["in", ["get", "type"], ["literal", ["state", "territory"]]],
       "layout": {
-        "visibility": "none",
-        "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
-        "text-size": {"stops": [[6, 10], [10, 14]]},
-        "text-line-height": 1,
+        "visibility": "visible",
+        "text-field": ["to-string", ["get", "name"]],
+        "text-font": ["BernerBasisschrift"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 15, 10, 18],
+        "text-line-height": 0.8,
         "text-transform": "uppercase",
         "symbol-spacing": 25,
         "symbol-avoid-edges": true,
-        "symbol-placement": "point"
+        "symbol-placement": "point",
+        "text-letter-spacing": 0.1,
+        "text-max-width": 7
       },
       "paint": {
-        "text-color": "rgba(101, 108, 108, 1)",
-        "text-halo-width": 1,
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-width": 12,
         "text-halo-blur": 2,
-        "text-halo-color": "rgba(220, 231, 232, 1)"
+        "text-halo-color": "rgba(222, 115, 115, 1)"
       }
     },
     {
-      "id": "statecapital_labels_z10",
+      "id": "country_points_labels-centroids",
       "type": "symbol",
       "source": "osm",
-      "source-layer": "populated_places",
-      "minzoom": 10,
-      "maxzoom": 20,
-      "filter": ["all", ["==", "featurecla", "Admin-1 capital"]],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": ["Open Sans Bold"],
-        "text-size": 10,
-        "text-transform": "uppercase",
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "statecapital_labels_z4",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "populated_places",
-      "minzoom": 4,
-      "maxzoom": 10,
-      "filter": ["all", ["==", "featurecla", "Admin-1 capital"]],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": ["Open Sans Bold"],
-        "text-size": {"stops": [[4, 7], [10, 10]]},
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "admin_countryl_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "land_ohm",
+      "source-layer": "land_ohm_centroids",
       "minzoom": 0,
-      "maxzoom": 14,
-      "filter": ["all", ["==", "admin_level", 2]],
+      "maxzoom": 10,
+      "filter": [
+        "all",
+        ["==", ["get", "type"], "administrative"],
+        ["==", ["get", "admin_level"], 2]
+      ],
       "layout": {
-        "visibility": "none",
-        "text-field": "{name}",
-        "text-size": {"stops": [[4, 10], [6, 12], [8, 14]]},
-        "text-font": ["Open Sans Bold"],
+        "visibility": "visible",
+        "text-field": ["to-string", ["get", "name"]],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 4, 16, 6, 15],
+        "text-font": ["BernerBasisschrift"],
         "symbol-placement": "point",
         "text-justify": "center",
-        "symbol-avoid-edges": false
+        "symbol-avoid-edges": false,
+        "text-transform": "uppercase",
+        "text-letter-spacing": 0.07,
+        "text-max-width": 7,
+        "text-line-height": 0.8
       },
       "paint": {
-        "text-color": "rgba(101, 108, 108, 1)",
-        "text-halo-width": 1,
-        "text-halo-color": "rgba(220, 231, 232, 1)",
+        "text-color": "rgba(14, 5, 5, 1)",
+        "text-halo-width": 15,
+        "text-halo-color": "rgba(236, 106, 106, 1)",
         "text-halo-blur": 2,
         "text-opacity": 1,
         "text-translate-anchor": "map"
-      }
-    },
-    {
-      "id": "country_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "country_label_points",
-      "minzoom": 3,
-      "maxzoom": 7,
-      "filter": ["all", ["==", "scalerank", 0]],
-      "layout": {
-        "text-field": "{sr_subunit}",
-        "text-font": [],
-        "text-size": {"stops": [[3, 11], [7, 13]]},
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 5
       }
     },
     {
@@ -1908,11 +2254,11 @@ ohmVectorStyles.JapaneseScroll = {
       "source-layer": "place_points",
       "minzoom": 0,
       "maxzoom": 10,
-      "filter": ["all", ["==", "type", "country"]],
+      "filter": ["==", ["get", "type"], "country"],
       "layout": {
         "visibility": "visible",
-        "text-field": "{name}",
-        "text-size": {"stops": [[4, 16], [6, 15]]},
+        "text-field": ["to-string", ["get", "name"]],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 4, 16, 6, 15],
         "text-font": ["BernerBasisschrift"],
         "symbol-placement": "point",
         "text-justify": "center",
@@ -1937,8 +2283,8 @@ ohmVectorStyles.JapaneseScroll = {
       "source": "osm",
       "source-layer": "landuse_points",
       "minzoom": 7,
-      "layout": {"visibility": "visible", "icon-image": "mountain"}
+      "layout": { "visibility": "visible", "icon-image": "mountain" }
     }
   ],
   "id": "io6r61fxt"
-}
+};
