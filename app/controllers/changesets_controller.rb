@@ -79,28 +79,33 @@ class ChangesetsController < ApplicationController
     @changeset = Changeset.find(params[:id])
     case turbo_frame_request_id
     when "changeset_nodes"
-      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
-      render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages }
+      load_nodes
+
+      render :partial => "elements", :locals => { :type => "node", :paginator => @nodes_paginator }
     when "changeset_ways"
-      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
-      render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages }
+      load_ways
+
+      render :partial => "elements", :locals => { :type => "way", :paginator => @ways_paginator }
     when "changeset_relations"
-      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
-      render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages }
+      load_relations
+
+      render :partial => "elements", :locals => { :type => "relation", :paginator => @relations_paginator }
     else
       @comments = if current_user&.moderator?
                     @changeset.comments.unscope(:where => :visible).includes(:author)
                   else
                     @changeset.comments.includes(:author)
                   end
-      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
-      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
-      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
+      load_nodes
+      load_ways
+      load_relations
+
       if @changeset.user.active? && @changeset.user.data_public?
         changesets = conditions_nonempty(@changeset.user.changesets)
         @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
         @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
       end
+
       render :layout => map_layout
     end
   rescue ActiveRecord::RecordNotFound
@@ -162,5 +167,51 @@ class ChangesetsController < ApplicationController
   # this should be applied to all changeset list displays
   def conditions_nonempty(changesets)
     changesets.where("num_changes > 0")
+  end
+
+  def load_nodes
+    nodes = OldNode.where(:changeset => @changeset).order(:node_id, :version)
+    @nodes_paginator = ElementsPaginator.new(nodes, 20, params[:node_page])
+  end
+
+  def load_ways
+    ways = OldWay.where(:changeset => @changeset).order(:way_id, :version)
+    @ways_paginator = ElementsPaginator.new(ways, 20, params[:way_page])
+  end
+
+  def load_relations
+    relations = OldRelation.where(:changeset => @changeset).order(:relation_id, :version)
+    @relations_paginator = ElementsPaginator.new(relations, 20, params[:relation_page])
+  end
+
+  class ElementsPaginator
+    attr_reader :elements_count, :elements_per_page, :current_page, :current_page_elements
+
+    def initialize(elements, elements_per_page, current_page = 1)
+      @elements_count = elements.count
+      @elements_per_page = elements_per_page.to_i
+      @current_page = current_page.to_i.clamp(1, pages_count)
+      @current_page_elements = elements.offset(@elements_per_page * (@current_page - 1)).limit(@elements_per_page)
+    end
+
+    def pages_count
+      [1, 1 + ((elements_count - 1) / elements_per_page)].max
+    end
+
+    def pages
+      1..pages_count
+    end
+
+    def pages_window(window_size, page = current_page)
+      [page - window_size, pages.first].max..[page + window_size, pages.last].min
+    end
+
+    def lower_element_number(page = current_page)
+      (elements_per_page * (page - 1)) + 1
+    end
+
+    def upper_element_number(page = current_page)
+      [elements_per_page * page, elements_count].min
+    end
   end
 end
