@@ -7,7 +7,9 @@
 Rails.application.configure do
   connect_src = [:self]
   img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "gps.tile.openstreetmap.org", "*.tile.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
-  script_src = [:self]
+  script_src = [:self, "openhistoricalmap.github.io"]
+  style_src = [:self, "openhistoricalmap.github.io"]
+  worker_src = [:self, :blob, "0.0.0.0:3000"]
 
   connect_src << Settings.matomo["location"] if defined?(Settings.matomo)
   img_src << Settings.matomo["location"] if defined?(Settings.matomo)
@@ -30,8 +32,8 @@ Rails.application.configure do
     policy.object_src(:self)
     policy.plugin_types
     policy.script_src(*script_src)
-    policy.style_src(:self)
-    policy.worker_src(:none)
+    policy.style_src(*style_src)
+    policy.worker_src(*worker_src)
     policy.manifest_src(:self)
     policy.report_uri(Settings.csp_report_url) if Settings.key?(:csp_report_url)
   end
