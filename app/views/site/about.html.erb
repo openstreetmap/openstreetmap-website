@@ -1,3 +1,4 @@
+<% content_for(:content_class) { "bg-body-secondary" } %>
 <% I18n.with_locale @locale do %>
   <%= tag.div :lang => @locale, :dir => t("html.dir") do %>
     <div class="container-lg attr">
@@ -11,67 +12,109 @@
         </div>
       </div>
       <div class='row'>
-        <div class="px-5 py-4 bg-dark">
+        <div class="px-5 py-4 bg-black bg-opacity-75">
           <h1 class="text-white fw-light"><%= t ".used_by_html", :name => tag.span("OpenStreetMap", :class => "user-name") %></h1>
         </div>
       </div>
     </div>
 
-    <div class='bg-white px-5 py-4'>
+    <div class='bg-body px-5 py-4'>
       <p class="lead"><%= t ".lede_text" %></p>
 
-      <%= render :layout => "about_section", :locals => { :icon => "local", :title => "local_knowledge" } do %>
-        <p><%= t "site.about.local_knowledge_html" %></p>
-      <% end %>
+      <section>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <svg width="30" height="30" class="flex-shrink-0">
+            <circle cx="15" cy="15" r="13" fill="none" stroke="#c0c0c0" stroke-width="4" />
+            <path d="m 15,22 c 0,0 5,-4.5199 5,-8 0,-3 -2,-5 -5,-5 -3,0 -5,2 -5,5 0,3.4801 5,8 5,8 z" fill="#c0c0c0" />
+          </svg>
+          <h2 class="flex-grow-1 mb-0"><%= t ".local_knowledge_title" %></h2>
+        </div>
+        <p><%= t ".local_knowledge_html" %></p>
+      </section>
 
-      <%= render :layout => "about_section", :locals => { :icon => "community", :title => "community_driven" } do %>
+      <section>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <svg width="30" height="30" class="flex-shrink-0">
+            <circle cx="15" cy="15" r="13" fill="none" stroke="#c0c0c0" stroke-width="4" />
+            <path d="m 15,7 -6,6 0,7 4,0 0,-4 4,0 0,4 4,0 0,-7 z" fill="#c0c0c0" />
+          </svg>
+          <h2 class="flex-grow-1 mb-0"><%= t ".community_driven_title" %></h2>
+        </div>
         <p>
-          <%= t "site.about.community_driven_1_html", :osm_blog_link => link_to(t("site.about.community_driven_osm_blog"),
-                                                                                t("site.about.community_driven_osm_blog_url")),
-                                                      :user_diaries_link => link_to(t("site.about.community_driven_user_diaries"),
-                                                                                    diary_entries_path),
-                                                      :community_blogs_link => link_to(t("site.about.community_driven_community_blogs"),
-                                                                                       t("site.about.community_driven_community_blogs_url")),
-                                                      :osm_foundation_link => link_to(t("site.about.community_driven_osm_foundation"),
-                                                                                      t("site.about.community_driven_osm_foundation_url")) %>
+          <%= t ".community_driven_1_html", :osm_blog_link => link_to(t(".community_driven_osm_blog"),
+                                                                      t(".community_driven_osm_blog_url")),
+                                            :user_diaries_link => link_to(t(".community_driven_user_diaries"),
+                                                                          diary_entries_path),
+                                            :community_blogs_link => link_to(t(".community_driven_community_blogs"),
+                                                                             t(".community_driven_community_blogs_url")),
+                                            :osm_foundation_link => link_to(t(".community_driven_osm_foundation"),
+                                                                            t(".community_driven_osm_foundation_url")) %>
         </p>
-      <% end %>
+      </section>
 
-      <%= render :layout => "about_section", :locals => { :id => "open-data", :icon => "open", :title => "open_data" } do %>
+      <section id="open-data">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <svg width="30" height="30" class="flex-shrink-0">
+            <circle cx="15" cy="15" r="13" fill="none" stroke="#c0c0c0" stroke-width="4" />
+            <path d="M20.196 18 a6 6 0 1 1 0 -6" fill="none" stroke="#c0c0c0" stroke-width="3" />
+          </svg>
+          <h2 class="flex-grow-1 mb-0"><%= t ".open_data_title" %></h2>
+        </div>
         <p>
-          <%= t "site.about.open_data_1_html", :open_data => tag.i(t("site.about.open_data_open_data")),
-                                               :copyright_license_link => link_to(t("site.about.open_data_copyright_license"),
-                                                                                  copyright_path) %></p>
-      <% end %>
+          <%= t ".open_data_1_html", :open_data => tag.i(t(".open_data_open_data")),
+                                     :copyright_license_link => link_to(t(".open_data_copyright_license"),
+                                                                        copyright_path) %></p>
+      </section>
 
-      <%= render :layout => "about_section", :locals => { :id => "legal", :icon => "legal", :title => "legal" } do %>
+      <section id="legal">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <svg width="30" height="30" class="flex-shrink-0">
+            <circle cx="15" cy="15" r="13" fill="none" stroke="#c0c0c0" stroke-width="4" />
+            <g fill="none" stroke="#c0c0c0" stroke-width="1.125" stroke-linecap="round">
+              <path transform="translate(15 15) scale(2.2 1.75) rotate(45)"
+                    d="M.5 1 a1 1 0 0 0 0 -2 h-2.5 a1 1 0 0 1 0 -2 h.5" />
+              <path transform="translate(15 15) scale(-2.2 -1.75) rotate(45)"
+                    d="M.5 1 a1 1 0 0 0 0 -2 h-2.5 a1 1 0 0 1 0 -2 h.5" />
+            </g>
+          </svg>
+          <h2 class="flex-grow-1 mb-0"><%= t ".legal_title" %></h2>
+        </div>
         <p>
-          <%= t "site.about.legal_1_1_html", :openstreetmap_foundation_link => link_to(t("site.about.legal_1_1_openstreetmap_foundation"),
-                                                                                       t("site.about.legal_1_1_openstreetmap_foundation_url")),
-                                             :terms_of_use_link => link_to(t("site.about.legal_1_1_terms_of_use"),
-                                                                           t("site.about.legal_1_1_terms_of_use_url")),
-                                             :aup_link => link_to(t("site.about.legal_1_1_aup"),
-                                                                  t("site.about.legal_1_1_aup_url")),
-                                             :privacy_policy_link => link_to(t("site.about.legal_1_1_privacy_policy"),
-                                                                             t("site.about.legal_1_1_privacy_policy_url")) %>
+          <%= t ".legal_1_1_html", :openstreetmap_foundation_link => link_to(t(".legal_1_1_openstreetmap_foundation"),
+                                                                             t(".legal_1_1_openstreetmap_foundation_url")),
+                                   :terms_of_use_link => link_to(t(".legal_1_1_terms_of_use"),
+                                                                 t(".legal_1_1_terms_of_use_url")),
+                                   :aup_link => link_to(t(".legal_1_1_aup"),
+                                                        t(".legal_1_1_aup_url")),
+                                   :privacy_policy_link => link_to(t(".legal_1_1_privacy_policy"),
+                                                                   t(".legal_1_1_privacy_policy_url")) %>
         </p>
         <p>
-          <%= t "site.about.legal_2_1_html", :contact_the_osmf_link => link_to(t("site.about.legal_2_1_contact_the_osmf"),
-                                                                               t("site.about.legal_2_1_contact_the_osmf_url")) %>
+          <%= t ".legal_2_1_html", :contact_the_osmf_link => link_to(t(".legal_2_1_contact_the_osmf"),
+                                                                     t(".legal_2_1_contact_the_osmf_url")) %>
         </p>
         <p>
-          <%= t "site.about.legal_2_2_html", :registered_trademarks_link => link_to(t("site.about.legal_2_2_registered_trademarks"),
-                                                                                    t("site.about.legal_2_2_registered_trademarks_url")) %>
+          <%= t ".legal_2_2_html", :registered_trademarks_link => link_to(t(".legal_2_2_registered_trademarks"),
+                                                                          t(".legal_2_2_registered_trademarks_url")) %>
         </p>
-      <% end %>
+      </section>
 
-      <%= render :layout => "about_section", :locals => { :id => "partners", :icon => "partners", :title => "partners" } do %>
-        <p><%= t "layouts.hosting_partners_html", :ucl => link_to(t("layouts.partners_ucl"), "https://www.ucl.ac.uk"),
-                                                  :fastly => link_to(t("layouts.partners_fastly"), "https://www.fastly.com/"),
-                                                  :bytemark => link_to(t("layouts.partners_bytemark"), "https://www.bytemark.co.uk"),
-                                                  :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
+      <section id="partners">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <svg width="30" height="30" class="flex-shrink-0">
+            <circle cx="15" cy="15" r="13" fill="none" stroke="#c0c0c0" stroke-width="4" />
+            <g stroke="#c0c0c0" stroke-width="4" stroke-linecap="round">
+              <line x1="11" y1="15" x2="19" y2="15" />
+              <line x1="15" y1="11" x2="15" y2="19" />
+            </g>
+          </svg>
+          <h2 class="flex-grow-1 mb-0"><%= t ".partners_title" %></h2>
+        </div>
+        <p><%= t "layouts.hosting_partners_2024_html", :fastly => link_to(t("layouts.partners_fastly"), "https://www.fastly.com/"),
+                                                       :corpmembers => link_to(t("layouts.partners_corpmembers"), "https://osmfoundation.org/wiki/Corporate_Members"),
+                                                       :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
         </p>
-      <% end %>
+      </section>
     </div>
   <% end %>
 <% end %>
