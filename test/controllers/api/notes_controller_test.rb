@@ -5,7 +5,7 @@ module Api
     def setup
       super
       # Stub nominatim response for note locations
-      stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+      stub_request(:get, %r{^https://nominatim\.openhistoricalmap\.org/reverse\?})
         .to_return(:status => 404)
     end
 
@@ -365,13 +365,13 @@ module Api
       email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
       assert_not_nil email
       assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on one of your notes", email.subject
+      assert_equal "[OpenHistoricalMap] #{third_user.display_name} has commented on one of your notes", email.subject
       assert_equal first_user.email, email.to.first
 
       email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
       assert_not_nil email
       assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
+      assert_equal "[OpenHistoricalMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
 
       get api_note_path(note_with_comments_by_users, :format => "json")
       assert_response :success
