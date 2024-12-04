@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "issues" %>
+<% end %>
+
 <% content_for :heading do %>
 <h1><%= t ".title", :status => @issue.status.humanize, :issue_id => @issue.id %></h1>
 <p><%= @issue.reportable.model_name.human %> : <%= link_to reportable_title(@issue.reportable), reportable_url(@issue.reportable) %></p>
@@ -43,6 +47,13 @@
 <div class="row">
   <div class="col-md-8">
     <h3><%= t ".reports_of_this_issue" %></h3>
+
+    <div class="mb-3" data-report-controls>
+      <% @category_counts.each do |category, count| %>
+        <input type="checkbox" class="btn-check" id="btn-check-<%= category %>" value="<%= category %>" checked autocomplete="off">
+        <label class="btn btn-sm btn-outline-secondary" for="btn-check-<%= category %>"><%= category %> <span class="badge count-number"><%= count %></span></label>
+      <% end %>
+    </div>
 
     <% if @read_reports.present? %>
     <div class="bg-body-tertiary text-body-secondary">
