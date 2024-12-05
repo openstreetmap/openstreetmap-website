@@ -161,7 +161,7 @@ pt-PT:
         longitude: Longitude
         public: Público
         description: Descrição
-        gpx_file: Enviar ficheiro GPX
+        gpx_file: Escolher ficheiro GPX
         visibility: Visibilidade
         tagstring: Etiquetas
       message:
@@ -409,7 +409,6 @@ pt-PT:
         way: Linha
         relation: Relação
     containing_relation:
-      entry_html: Relação %{relation_name}
       entry_role_html: Relação %{relation_name} (como %{relation_role})
     not_found:
       title: Não encontrado
@@ -470,12 +469,23 @@ pt-PT:
     timeout:
       sorry: Lamentamos, mas o histórico do nó com o id %{id} demorou muito para ser
         obido.
+  ways:
+    timeout:
+      sorry: Os dados para a linha com o id %{id} levaram demasiado tempo a ser carregados.
   old_ways:
     not_found:
       sorry: 'Desculpe, não foi possível encontrar #%{id} versão %{version}.'
+    timeout:
+      sorry: O histórico da linha com o id %{id} levou demasiado tempo a ser carregado.
+  relations:
+    timeout:
+      sorry: Os dados para a relação com o id %{id} levaram demasiado tempo a ser
+        carregados.
   old_relations:
     not_found:
       sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
+    timeout:
+      sorry: O histórico da relação com o id %{id} levou demasiado tempo a ser carregado.
   changeset_comments:
     feeds:
       comment:
@@ -1692,17 +1702,21 @@ pt-PT:
       befriend_them: Também podes adicioná-lo como amigo em %{befriendurl}.
       befriend_them_html: Também podes adicionar este utilizador como amigo em %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Parece que o teu ficheiro GPX %{trace_name} com a descrição
-        %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_tags_html: 'Parece que o teu ficheiro GPX %{trace_name} com
-        a descrição %{trace_description} e as etiquetas: %{tags}'
-      description_with_no_tags: Parece que o teu ficheiro GPX %{trace_name} com a
+      description_with_tags: 'Parece que o teu ficheiro %{trace_name} com a descrição
+        %{trace_description} e as etiquetas: %{tags}'
+      description_with_tags_html: 'Parece que o teu ficheiro %{trace_name} com a descrição
+        %{trace_description} e as etiquetas: %{tags}'
+      description_with_no_tags: Parece que o teu ficheiro %{trace_name} com a descrição
+        %{trace_description} e sem etiquetas
+      description_with_no_tags_html: Parece que o teu ficheiro %{trace_name} com a
         descrição %{trace_description} e sem etiquetas
-      description_with_no_tags_html: Parece que o teu ficheiro GPX %{trace_name} com
-        a descrição %{trace_description} e sem etiquetas
     gpx_failure:
       hi: Olá, %{to_user}.
-      failed_to_import: 'falhou na importação. Eis o erro:'
+      failed_to_import: 'não pôde ser importado como ficheiro de rota GPS. Verifica
+        se o teu ficheiro é um ficheiro GPX válido ou um arquivo com ficheiro(s) GPX
+        no formato suportado (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Será
+        que existe algum problema de formato ou sintaxe com o ficheiro? Este é o erro
+        de importação:'
       more_info: Podes encontrar mais informações sobre falhas de importação de ficheiros
         GPX e como as evitar em %{url}.
       more_info_html: Podes encontrar mais informações sobre falhas de importação
@@ -1886,7 +1900,7 @@ pt-PT:
         one: '%{count} mensagem silenciada'
         other: Tens %{count} mensagens silenciadas
     reply:
-      wrong_user: Estás autenticado como `%{user}', mas a mensagem a que pretendes
+      wrong_user: Iniciaste sessão como `%{user}', mas a mensagem a que pretendes
         responder não foi enviada para esse utilizador. Por favor, entra na conta
         correta para poderes responder.
     show:
@@ -1895,7 +1909,7 @@ pt-PT:
       unread_button: Marcar como não lida
       destroy_button: Eliminar
       back: Voltar
-      wrong_user: Estás autenticado como `%{user}', mas a mensagem que pediste para
+      wrong_user: Iniciaste sessão como `%{user}', mas a mensagem que pediste para
         ler não foi enviada por ou para esse utilizador. Por favor, entra na conta
         correta para poderes ler a mensagem.
     sent_message_summary:
@@ -2436,6 +2450,9 @@ pt-PT:
           hospital: Hospital
           building: Edifício importante
           station: Estação ferroviária
+          railway_halt: Paragem ferroviária
+          subway_station: Estação de metro
+          tram_stop: Paragem de elétrico
           summit: Cume
           peak: Pico
           tunnel: Linha tracejada = túnel
@@ -2606,7 +2623,7 @@ pt-PT:
       upload_trace: Enviar rota GPS
       all_traces: Todas as Rotas
       my_traces: As Minhas Rotas
-      traces_from: Rotas Públicas de %{user}
+      traces_from_html: Rotas Públicas de %{user}
       remove_tag_filter: Eliminar filtro de etiqueta
     destroy:
       scheduled_for_deletion: Rota programada para eliminação
@@ -2794,6 +2811,7 @@ pt-PT:
       informal_translations: traduções informais
       continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined
+      cancel: Cancelar
       you need to accept or decline: Por favor, lê e, em seguida, aceita ou recusa
         os novos Termos do Contribuidor para continuar.
       legale_select: 'País de residência:'
@@ -2912,13 +2930,13 @@ pt-PT:
         ao teu ID nas tuas definições de utilizador.
   user_role:
     filter:
-      not_a_role: A expressão `%{role}' não é um cargo válido.
+      not_a_role: O texto `%{role}' não corresponde a um cargo válido.
       already_has_role: O utilizador já tem o cargo %{role}.
       doesnt_have_role: O utilizador não tem o cargo %{role}.
       not_revoke_admin_current_user: Não foi possível retirar os direitos de administrador
         do atual utilizador.
     grant:
-      are_you_sure: Tens a certeza de que pretendes conceder o cargo `%{role}' ao
+      are_you_sure: Tens a certeza de que pretendes atribuir o cargo `%{role}' ao
         utilizador `%{name}'?
     revoke:
       are_you_sure: Tens a certeza de que pretendes retirar o cargo `%{role}' ao utilizador
@@ -3022,9 +3040,9 @@ pt-PT:
     navigation:
       all_blocks: Todos os bloqueios
       blocks_on_me: Quem me bloqueou
-      blocks_on_user: Bloqueios a %{user}
+      blocks_on_user_html: Bloqueios a %{user}
       blocks_by_me: Os meus bloqueios
-      blocks_by_user: Bloqueios de %{user}
+      blocks_by_user_html: Bloqueios de %{user}
       block: 'Bloqueio #%{id}'
       new_block: Novo Bloqueio
   user_mutes:
@@ -3066,6 +3084,11 @@ pt-PT:
       description: Descrição
       created_at: Criada em
       last_changed: Última alteração
+      apply: Aplicar
+      all: Todas
+      open: Abrir
+      closed: Encerrada
+      status: Estado
     show:
       title: 'Nota: %{id}'
       description: Descrição
@@ -3084,6 +3107,9 @@ pt-PT:
       report: denunciar esta nota
       anonymous_warning: Esta nota inclui comentários de utilizadores anónimos que
         devem ser confirmados por fonte independente.
+      discussion: Discussão
+      subscribe: Subscrever
+      unsubscribe: Cancelar subscrição
       hide: Esconder
       resolve: Marcar como resolvida
       reactivate: Reabrir
@@ -3112,6 +3138,8 @@ pt-PT:
       add: Adicionar Nota
     notes_paging_nav:
       showing_page: Página %{page}
+      next: Próxima
+      previous: Anterior
   javascripts:
     close: Fechar
     share:
@@ -3307,6 +3335,7 @@ pt-PT:
       empty: Não existem supressões para mostrar.
       heading: Lista de supressões
       title: Lista de supressões
+      new: Nova redação
     new:
       heading: Introduza a informação da nova supressão
       title: A criar uma nova supressão

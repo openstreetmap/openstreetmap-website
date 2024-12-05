@@ -78,8 +78,8 @@ hu:
           is_already_muted: már el van némítva
     models:
       acl: Hozzáférés-szabályzási lista
-      changeset: Módosításkészlet
-      changeset_tag: Módosításkészlet címkéje
+      changeset: Módosításcsomag
+      changeset_tag: Módosításcsomag címkéje
       country: Ország
       diary_comment: Hozzászólás a naplóhoz
       diary_entry: Naplóbejegyzés
@@ -188,11 +188,10 @@ hu:
       trace:
         tagstring: vesszővel elválasztva
       user_block:
-        reason: A felhasználó letiltásának oka. Kérjük, légy a lehető legnyugodtabb
-          és észszerűbb, adj meg minél több részletet a helyzetről, és ne feledd,
-          hogy az üzenet nyilvánosan látható lesz. Gondolj arra, hogy nem minden felhasználó
-          érti a közösségi szakzsargont, ezért kérjük, próbálj laikus kifejezéseket
-          használni.
+        reason: A felhasználó letiltásának oka. Légy a lehető legnyugodtabb és ésszerűbb,
+          adj meg minél több részletet a helyzetről, és ne feledd, hogy az üzenet
+          nyilvánosan látható lesz. Gondolj arra, hogy nem minden felhasználó érti
+          a közösségi szakzsargont, ezért kérjük, próbálj laikus kifejezéseket használni.
         needs_view: Be kell-e jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
       user:
         new_email: (soha nem jelenik meg nyilvánosan)
@@ -264,11 +263,11 @@ hu:
         reopened_at_by_html: 'Újraaktiválta %{user} ekkor: %{when}'
       rss:
         title: OpenStreetMap jegyzetek
-        description_all: Jelentett, kommentált vagy lezárt feljegyzések listája
+        description_all: Jelentett, kommentált vagy lezárt jegyzetek listája
         description_area: Bejelentett, hozzászólással ellátott vagy lezárt jegyzetek
           a területeden [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: RSS hírcsatorna a %{id} jegyzethez
-        opened: új megjegyzés (%{place} közelében)
+        description_item: RSS hírcsatorna a(z) %{id} jegyzethez
+        opened: új jegyzet (%{place} közelében)
         commented: új hozzászólás (%{place} közelében)
         closed: lezárt jegyzet (%{place} közelében)
         reopened: újraaktivált jegyzet (%{place} közelében)
@@ -295,7 +294,7 @@ hu:
           megmaradnak, de nem lesznek láthatóak.
         retain_notes: Térképjegyzeteid és jegyzethozzászólásaid (ha vannak) megmaradnak,
           de nem lesznek láthatóak.
-        retain_changeset_discussions: A módosításkészletekhez fűzött hozzászólásaid
+        retain_changeset_discussions: A módosításcsomagokhoz fűzött hozzászólásaid
           (ha vannak) megőrződnek.
         retain_email: Az e-mail-címed is megmarad.
         recent_editing_html: Mivel nemrégiben szerkesztettél, fiókod jelenleg nem
@@ -351,7 +350,7 @@ hu:
     edited_ago_by_html: Szerkesztette %{user} %{time_ago}
     version: Verzió
     redacted_version: Szerkesztett verzió
-    in_changeset: Módosításkészlet
+    in_changeset: Módosításcsomag
     anonymous: névtelen
     no_comment: (nincs hozzászólás)
     part_of: 'Része ennek:'
@@ -369,10 +368,10 @@ hu:
     view_redaction_message: Adattörlési üzenet megtekintése
     location: 'Hely:'
     node:
-      title_html: '%{name} pont'
+      title_html: 'Pont: %{name}'
       history_title_html: '%{name} pont előzményei'
     way:
-      title_html: '%{name} vonal'
+      title_html: 'Vonal: %{name}'
       history_title_html: '%{name} vonal előzményei'
       nodes: Pontok
       nodes_count:
@@ -382,7 +381,7 @@ hu:
         one: '%{related_ways} vonal része'
         other: '%{related_ways} vonalak része'
     relation:
-      title_html: '%{name} kapcsolat'
+      title_html: 'Kapcsolat: %{name}'
       history_title_html: '%{name} kapcsolat előzményei'
       members: Tagok
       members_count:
@@ -395,7 +394,6 @@ hu:
         way: 'Vonal:'
         relation: 'Kapcsolat:'
     containing_relation:
-      entry_html: '%{relation_name} kapcsolat'
       entry_role_html: '%{relation_name} kapcsolat (mint %{relation_role})'
     not_found:
       title: Nem található
@@ -404,7 +402,7 @@ hu:
         node: pont
         way: vonal
         relation: kapcsolat
-        changeset: módosításkészlet
+        changeset: módosításcsomag
         note: jegyzet
     timeout:
       title: Időtúllépési hiba
@@ -414,7 +412,7 @@ hu:
         node: pont
         way: vonal
         relation: kapcsolat
-        changeset: módosításkészlet
+        changeset: módosításcsomag
         note: jegyzet
     redacted:
       redaction: '%{id} adattörlési művelet'
@@ -447,13 +445,13 @@ hu:
       enclosing: A helyet körülvevő objektumok
   nodes:
     timeout:
-      sorry: Sajnáljuk, a %{id} azonosítójú csomópont adatainak lekérése túl sokáig
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú pont adatainak lekérése túl sokáig
         tartott.
   old_nodes:
     not_found:
       sorry: 'Sajnáljuk, nem található meg #%{id} pont %{version} verziója.'
     timeout:
-      sorry: Sajnáljuk, a %{id} azonosítójú csomópont előzményeinek lekérése túl sokáig
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú pont előzményeinek lekérése túl sokáig
         tartott.
   ways:
     timeout:
@@ -478,53 +476,53 @@ hu:
   changeset_comments:
     feeds:
       comment:
-        comment: 'Új hozzászólás #%{changeset_id} módosításkészlethez %{author} felhasználótól'
+        comment: 'Új hozzászólás #%{changeset_id} módosításcsomaghoz  %{author} felhasználótól'
         commented_at_by_html: '%{user} frissítette ekkor: %{when}'
       show:
-        title_all: OpenStreetMap módosításkészlet-megbeszélés
-        title_particular: 'A #%{changeset_id} OpenStreetMap módosításkészlethez tartozó
+        title_all: OpenStreetMap módosításcsomag-megbeszélés
+        title_particular: 'A #%{changeset_id} OpenStreetMap módosításcsomaghoz tartozó
           megbeszélés'
       timeout:
-        sorry: Sajnáljuk, túl sokáig tartott az általad kért módosításkészlet-hozzászólások
+        sorry: Sajnáljuk, túl sokáig tartott az általad kért módosításcsomag-hozzászólások
           listájának lekérése.
   changesets:
     changeset:
       no_edits: (nincs szerkesztés)
-      view_changeset_details: Módosításkészlet részleteinek megtekintése
+      view_changeset_details: Módosításcsomag részleteinek megtekintése
     index:
-      title: Módosításkészletek
-      title_user: '%{user} módosításkészletei'
-      title_user_link_html: '%{user_link} módosításkészletei'
-      title_friend: Ismerősök módosításkészletei
-      title_nearby: Közeli felhasználók módosításkészletei
-      empty: Nem található módosításkészlet
-      empty_area: Ezen a területen nincs módosításkészlet.
-      empty_user: Ettől a felhasználótól nincs módosításkészlet.
-      no_more: Nem találtunk több módosításkészletet.
-      no_more_area: Ezen a területen nincs több módosításkészlet.
-      no_more_user: Ettől a felhasználótól nincs több módosításkészlet.
+      title: Módosításcsomagok
+      title_user: '%{user} módosításcsomagjai'
+      title_user_link_html: '%{user_link} módosításcsomagjai'
+      title_friend: Ismerősök módosításcsomagjai
+      title_nearby: Közeli felhasználók módosításcsomagjai
+      empty: Nem található módosításcsomag.
+      empty_area: Ezen a területen nincs módosításcsomag.
+      empty_user: Ettől a felhasználótól nincs módosításcsomag.
+      no_more: Nem található több módosításcsomag.
+      no_more_area: Ezen a területen nincs több módosításcsomag.
+      no_more_user: Ettől a felhasználótól nincs több módosításcsomag.
       load_more: Továbbiak betöltése
       feed:
-        title: '%{id} módosításkészlet'
-        title_comment: '%{id} módosításkészlet - %{comment}'
+        title: '%{id} módosításcsomag'
+        title_comment: '%{id} módosításcsomag – %{comment}'
         created: Létrehozva
         closed: Lezárva
         belongs_to: Szerző
     subscribe:
-      heading: Feliratkozol a következő módosításkészlet megbeszélésére?
+      heading: Feliratkozol a következő módosításcsomag-megbeszélésére?
       button: Feliratkozás a megbeszélésre
     unsubscribe:
-      heading: Leiratkozol a következő módosításkészlet megbeszéléséről?
+      heading: Leiratkozol a következő módosításcsomag-megbeszéléséről?
       button: Leiratkozás a megbeszélésről
     heading:
-      title: '%{id} számú módosításkészlet'
+      title: '%{id} számú módosításcsomag'
       created_by_html: 'Létrehozta: %{link_user} (%{created}).'
     no_such_entry:
       heading: Nincs %{id} azonosítójú naplóbejegyzés
-      body: Sajnáljuk, nincs %{id} azonosítójú módosításkészlet. Ellenőrizd a helyességét.
-        Az is lehet, hogy rossz linkre kattintottál.
+      body: Sajnáljuk, nincs %{id} azonosítójú módosításcsomag. Ellenőrizd, hogy jól
+        írtad-e. Az is lehet, hogy rossz linkre kattintottál.
     show:
-      title: '%{id} módosításkészlet'
+      title: 'Módosításcsomag: %{id}'
       created: 'Létrehozva: %{when}'
       closed: 'Lezárva: %{when}'
       created_ago_html: Létrehozva %{time_ago}
@@ -533,8 +531,8 @@ hu:
       closed_ago_by_html: Lezárta %{user} %{time_ago}
       discussion: Megbeszélés
       join_discussion: Jelentkezz be, hogy bekapcsolódhass a megbeszélésbe
-      still_open: A módosításkészlet még nyitva van – a megbeszélés akkor nyílik meg,
-        ha a módosításkészlet lezárul.
+      still_open: A módosításcsomag még nyitva van – a megbeszélés akkor nyílik meg,
+        ha a módosításcsomag lezárul.
       subscribe: Feliratkozás
       unsubscribe: Leiratkozás
       comment_by_html: Hozzászólt %{user} %{time_ago}
@@ -542,8 +540,8 @@ hu:
       hide_comment: elrejtés
       unhide_comment: megjelenítés
       comment: Hozzászólás
-      changesetxml: Módosításkészlet adatai (XML)
-      osmchangexml: Módosításkészlet tartalma (osmChange XML)
+      changesetxml: Módosításcsomag XML-ben
+      osmchangexml: osmChange XML
     paging_nav:
       nodes: Pontok (%{count})
       nodes_paginated: 'Pontok (%{x}-%{y} ennyiből: %{count})'
@@ -552,7 +550,7 @@ hu:
       relations: Kapcsolatok (%{count})
       relations_paginated: 'Kapcsolatok (%{x}-%{y} ennyiből: %{count})'
     timeout:
-      sorry: Sajnáljuk, az általad kért módosításkészletek listájának beolvasása túl
+      sorry: Sajnáljuk, az általad kért módosításcsomagok listájának lekérése túl
         sokáig tartott.
   dashboards:
     contact:
@@ -573,9 +571,9 @@ hu:
       nearby users: További közeli felhasználók
       no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben
         szerkesztenek.
-      friends_changesets: ismerősök módosításkészletei
+      friends_changesets: ismerősök módosításcsomagjai
       friends_diaries: ismerősök naplóbejegyzései
-      nearby_changesets: közeli felhasználók módosításkészletei
+      nearby_changesets: közeli felhasználók módosításcsomagjai
       nearby_diaries: közeli felhasználók naplóbejegyzései
   diary_entries:
     new:
@@ -611,8 +609,7 @@ hu:
       title: Nincs ilyen naplóbejegyzés
       heading: 'Nincs naplóbejegyzés ezzel az azonosítóval: %{id}'
       body: Sajnáljuk, de nincs %{id} azonosítójú naplóbejegyzés vagy hozzászólás.
-        Kérjük, ellenőrizd a kifejezés helyességét. Az is lehet, hogy rossz linkre
-        kattintottál.
+        Ellenőrizd, hogy jól írtad-e. Az is lehet, hogy rossz linkre kattintottál.
     diary_entry:
       posted_by_html: '%{link_user} bejegyzése %{language_link} nyelven ekkor: %{created}'
       updated_at_html: 'Utolsó frissítés: %{updated}'
@@ -702,8 +699,8 @@ hu:
       contact_url_title: A különféle kapcsolatfelvételi csatornák magyarázata
       contact: kapcsolat
       contact_the_community_html: Nyugodtan keresd fel az OpenStreetMap közösséget
-        (%{contact_link}), ha hibás linket vagy más hibát találtál. Kérjük, ne felejtsd
-        el feljegyezni a hibás oldal pontos URL-jét.
+        (%{contact_link}), ha hibás linket vagy más hibát találtál. Ne felejtsd el
+        feljegyezni a hibás oldal pontos URL-jét.
     bad_request:
       title: Rossz kérés
       description: Az OpenStreetMap szerveren kért művelet nem érvényes (HTTP 400)
@@ -1574,7 +1571,7 @@ hu:
     helper:
       reportable_title:
         diary_comment: '%{entry_title} naplóbejegyzés, #%{comment_id} hozzászólás'
-        note: 'Megjegyzés #%{note_id}'
+        note: '#%{note_id} jegyzet'
   issue_comments:
     create:
       comment_created: Hozzászólásod sikeresen létrehozva
@@ -1584,7 +1581,7 @@ hu:
       title_html: '%{link} bejelentése'
       missing_params: Nem hozhatsz létre új bejelentést
       disclaimer:
-        intro: 'Mielőtt elküldöd a bejelentést, kérjük, győződj meg a következőkről:'
+        intro: 'Mielőtt elküldöd a bejelentést, győződj meg a következőkről:'
         not_just_mistake: Biztos vagy abban, hogy a probléma nem csupán egy hiba
         unable_to_fix: A problémát nem tudod megoldani a sem magad, sem a közösség
           tagjainak segítségével
@@ -1607,9 +1604,9 @@ hu:
           vandal_label: Ez a felhasználó vandál
           other_label: Egyéb
         note:
-          spam_label: A megjegyzés spam
-          personal_label: A megjegyzés személyes adatot tartalmaz
-          abusive_label: A megjegyzés sértő
+          spam_label: A jegyzet spam
+          personal_label: A jegyzet személyes adatot tartalmaz
+          abusive_label: A jegyzet sértő
           other_label: Egyéb
     create:
       successful_report: Bejelentésedet sikeresen regisztráltuk
@@ -1692,11 +1689,11 @@ hu:
         %{trace_description} leírású, címke nélküli fájlod
     gpx_failure:
       hi: Szia %{to_user}!
-      failed_to_import: 'nem sikerült GPS nyomkövetési fájlként importálni. Kérjük,
-        ellenőrizze, hogy a fájl egy érvényes GPX-fájl vagy egy GPX-fájl(oka)t tartalmazó
-        archívum a támogatott formátumban (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
-        .gpx.bz2). . Formátum- vagy szintaktikai probléma lehet a fájllal? Itt van
-        az importálási hiba:'
+      failed_to_import: 'nem sikerült GPS nyomkövetési fájlként importálni. Ellenőrizd,
+        hogy a fájl egy érvényes GPX-fájl vagy egy GPX-fájl(oka)t tartalmazó archívum
+        a támogatott formátumban (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        . Formátum- vagy szintaktikai probléma lehet a fájllal? Itt látható az importálási
+        hiba:'
       more_info: 'További információ a GPX importálási hibáiról és azok elkerüléséről
         itt található: %{url}.'
       more_info_html: 'A GPX importálási hibákról és elkerülésükről további tájékoztatás
@@ -1738,7 +1735,7 @@ hu:
       click_the_link: Ha ez Te vagy, akkor a jelszó alaphelyzetbe állításához kattints
         az alábbi hivatkozásra.
     note_comment_notification:
-      description: 'OpenStreetMap megjegyzés #%{id}'
+      description: 'OpenStreetMap jegyzet #%{id}'
       anonymous: Egy névtelen felhasználó
       greeting: Szia!
       commented:
@@ -1775,27 +1772,27 @@ hu:
       details: 'Válaszolj, vagy tudj meg többet a jegyzetről itt: %{url}.'
       details_html: 'Válaszolj, vagy tudj meg többet a jegyzetről itt: %{url}.'
     changeset_comment_notification:
-      description: 'OpenStreetMap módosításkészlet #%{id}'
+      description: 'OpenStreetMap módosításcsomag #%{id}'
       hi: Szia %{to_user}!
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} hozzászólt az egyik módosításkészletedhez'
-        subject_other: '[OpenStreetMap] %{commenter} hozzászólt egy módosításkészlethez,
+        subject_own: '[OpenStreetMap] %{commenter} hozzászólt az egyik módosításcsomagodhoz'
+        subject_other: '[OpenStreetMap] %{commenter} hozzászólt egy módosításcsomaghoz,
           amely téged is érdekel'
-        your_changeset: '%{commenter} hozzászólt az egyik módosításkészletedhez ekkor:
+        your_changeset: '%{commenter} hozzászólt az egyik módosításcsomagodhoz ekkor:
           %{time}'
-        your_changeset_html: '%{commenter} hozzászólt az egyik módosításkészletedhez
+        your_changeset_html: '%{commenter} hozzászólt az egyik módosításcsomagodhoz
           ekkor: %{time}'
         commented_changeset: '%{commenter} hozzászólt %{changeset_author} általad
-          is figyelt módosításkészletéhez ekkor: %{time}'
+          is figyelt módosításcsomagjához ekkor: %{time}'
         commented_changeset_html: '%{commenter} hozzászólt %{changeset_author} általad
-          is figyelt módosításkészletéhez ekkor: %{time}'
+          is figyelt módosításcsomagjához ekkor: %{time}'
         partial_changeset_with_comment: „%{changeset_comment}” hozzászólással
         partial_changeset_with_comment_html: '%{changeset_comment} hozzászólással'
         partial_changeset_without_comment: hozzászólás nélkül
-      details: 'Válaszolj, vagy tudj meg többet a módosításkészletről itt: %{url}.'
-      details_html: 'Válaszolj, vagy tudj meg többet a módosításkészletről itt: %{url}.'
-      unsubscribe: 'A módosításkészlet frissüléseiről leiratkozhatsz itt: %{url}.'
-      unsubscribe_html: 'A módosításkészlet frissüléseiről leiratkozhatsz itt: %{url}.'
+      details: 'Válaszolj, vagy tudj meg többet a módosításcsomagról itt: %{url}.'
+      details_html: 'Válaszolj, vagy tudj meg többet a módosításcsomagról itt: %{url}.'
+      unsubscribe: 'A módosításcsomag frissüléseiről leiratkozhatsz itt: %{url}.'
+      unsubscribe_html: 'A módosításcsomag frissüléseiről leiratkozhatsz itt: %{url}.'
   confirmations:
     confirm:
       heading: Nézd meg az e-mailjeidet!
@@ -1821,7 +1818,7 @@ hu:
       failure: Ezzel a tokennel már meg lett erősítve egy e-mail cím.
       unknown_token: Ez a megerősítő kód lejárt, vagy nem létezik.
     resend_success_flash:
-      confirmation_sent: Küldtünk egy új megerősítő megjegyzést a(z) %{email} címre.
+      confirmation_sent: Küldtünk egy új megerősítő üzenetet a(z) %{email} címre.
         Amint megerősíted fiókodat, kezdhetsz is térképezni.
       whitelist: Ha olyan antispam rendszert használsz, amely visszaigazolási kéréseket
         küld, akkor kérjük, ellenőrizd, hogy a(z) %{sender} az engedélyezett listán
@@ -2209,6 +2206,8 @@ hu:
           adatokat tartalmazza, az állam szerzői joga fenntartva.'
         contributors_za_south_africa: Dél-Afrika
         contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_gb_credit_html: "%{united_kingdom}: Térképészeti Szolgálat adatai
+          &copy; Királyi szerzői és adatbázisjog \n2010-2023."
         contributors_gb_united_kingdom: Egyesült Királyság
         contributors_2_html: Ezekről és más, az OpenStreetMap fejlesztésére használt
           forrásokról további részletekért tekintsd meg a %{contributors_page_link}
@@ -2542,10 +2541,15 @@ hu:
       trace_uploaded: A GPX-fájl feltöltődött, és várakozik az adatbázisba való beillesztésre.
         Ez általában fél órán belül megtörténik, és kapni fogsz egy e-mailt, amint
         elkészült.
-      upload_failed: A GPX feltöltése meghiúsult. Kérjük, próbáld meg újra.
-      traces_waiting: '%{count} nyomvonalad várakozik feltöltésre. Kérjük, fontold
-        meg, hogy megvárod, amíg ezek befejeződnek mielőtt feltöltesz továbbiakat,
-        hogy így ne tartsd fel a többi felhasználót a sorban.'
+      upload_failed: A GPX feltöltése meghiúsult. A rendszergazda értesítést kapott
+        a hibáról. Próbáld meg újra.
+      traces_waiting:
+        one: '%{count} nyomvonalad várakozik feltöltésre. Kérjük, várd meg, amíg ezek
+          befejeződnek, mielőtt feltöltesz továbbiakat, hogy ne tartsd fel a többi
+          felhasználót a sorban.'
+        other: '%{count} nyomvonalad várakozik feltöltésre. Kérjük, várd meg, amíg
+          ezek befejeződnek, mielőtt feltöltesz továbbiakat, hogy ne tartsd fel a
+          többi felhasználót a sorban.'
     edit:
       cancel: Mégse
       title: 'Nyomvonal szerkesztése: %{name}'
@@ -2603,7 +2607,7 @@ hu:
       upload_trace: Nyomvonal feltöltése
       all_traces: Minden nyomvonal
       my_traces: Saját nyomvonalak
-      traces_from: '%{user} nyilvános nyomvonalai'
+      traces_from_html: '%{user} nyilvános nyomvonalai'
       remove_tag_filter: Címkeszűrő eltávolítása
     destroy:
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
@@ -2746,8 +2750,7 @@ hu:
         paragraph_2: Regisztrálj a közreműködés megkezdéséhez.
         welcome: Üdvözlünk az OpenStreetMapen
       duplicate_social_email: Ha már rendelkezel OpenStreetMap fiókkal, és külső identitásszolgáltatót
-        szeretnél használni, kérjük, jelentkezz be jelszavaddal, és módosítsd fiókod
-        beállításait.
+        szeretnél használni, jelentkezz be jelszavaddal, és módosítsd fiókod beállításait.
       display name description: A nyilvánosan megjelenített felhasználóneved. A beállításaidban
         később megváltoztathatod.
       by_signing_up:
@@ -3013,9 +3016,9 @@ hu:
     navigation:
       all_blocks: Minden blokk
       blocks_on_me: Engem sújtó blokkolások
-      blocks_on_user: '%{user} blokkolásai'
+      blocks_on_user_html: '%{user} blokkolásai'
       blocks_by_me: Általam kiosztott blokkolások
-      blocks_by_user: '%{user} blokkolásai'
+      blocks_by_user_html: '%{user} blokkolásai'
       block: '#%{id} blokk'
       new_block: Újabb blokkolások
   user_mutes:
@@ -3061,11 +3064,11 @@ hu:
       closed: Lezárva
       status: Állapot
     show:
-      title: '%{id} jegyzet'
+      title: 'Jegyzet: %{id}'
       description: Leírás
-      open_title: '%{note_name} megoldatlan jegyzet'
-      closed_title: '%{note_name} megoldott jegyzet'
-      hidden_title: '%{note_name} rejtett jegyzet'
+      open_title: 'Megoldatlan jegyzet: %{note_name}'
+      closed_title: 'Megoldott jegyzet: %{note_name}'
+      hidden_title: Elrejtett jegyzet %{note_name}
       event_opened_by_html: Létrehozta %{user} %{time_ago}
       event_opened_by_anonymous_html: Létrehozta egy névtelen felhasználó %{time_ago}
       event_commented_by_html: Hozzászólt %{user} %{time_ago}
