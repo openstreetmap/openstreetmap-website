@@ -74,6 +74,8 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  OSM.darkMode.manageMapContextMenu(map);
+
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
     else map.contextmenu.enable();
