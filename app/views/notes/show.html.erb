@@ -9,19 +9,17 @@
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
-    <ul class="list-unstyled">
-      <li><%= note_event("opened", @note.created_at, @note.author) %></li>
-      <% if @note.status == "closed" %>
-        <li><%= note_event(@note.status, @note.closed_at, @note.all_comments.last.author) %></li>
-      <% end %>
-      <li>
-        <%= t "browse.location" %>
-        <%= link_to(t(".coordinates_html",
-                      :latitude => tag.span(number_with_delimiter(@note.lat), :class => "latitude"),
-                      :longitude => tag.span(number_with_delimiter(@note.lon), :class => "longitude")),
-                    root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}")) %>
-      </li>
-    </ul>
+    <p class="mb-2"><%= note_event("opened", @note.created_at, @note.author) %></p>
+    <% if @note.status == "closed" %>
+      <p class="mb-2"><%= note_event(@note.status, @note.closed_at, @note.all_comments.last.author) %></p>
+    <% end %>
+    <p>
+      <%= t "browse.location" %>
+      <%= link_to t(".coordinates_html",
+                    :latitude => tag.span(number_with_delimiter(@note.lat), :class => "latitude"),
+                    :longitude => tag.span(number_with_delimiter(@note.lon), :class => "longitude")),
+                  root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}") %>
+    </p>
   </div>
 
   <% if @note_comments.find { |comment| comment.author.nil? } -%>
