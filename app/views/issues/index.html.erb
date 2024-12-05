@@ -15,7 +15,7 @@
     </div>
     <div class="mb-3 col-md-auto">
       <%= select_tag :issue_type,
-                     options_for_select(@issue_types, params[:issue_type]),
+                     options_for_select(@issue_types.map { |issue_type| [issue_type.constantize.model_name.human, issue_type] }, params[:issue_type]),
                      :include_blank => t(".select_type"),
                      :data => { :behavior => "category_dropdown" },
                      :class => "form-select" %>
