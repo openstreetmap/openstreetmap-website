@@ -44,12 +44,14 @@ module Api
       get api_nodes_path
 
       assert_response :bad_request
+      assert_match "parameter nodes is required", @response.body
     end
 
     def test_index_empty_param
       get api_nodes_path(:nodes => "")
 
       assert_response :bad_request
+      assert_match "No nodes were given", @response.body
     end
 
     def test_index

@@ -52,12 +52,14 @@ module Api
       get api_ways_path
 
       assert_response :bad_request
+      assert_match "parameter ways is required", @response.body
     end
 
     def test_index_empty_param
       get api_ways_path(:ways => "")
 
       assert_response :bad_request
+      assert_match "No ways were given", @response.body
     end
 
     def test_index
