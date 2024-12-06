@@ -436,10 +436,12 @@ module Api
       # check error when no parameter provided
       get nodes_path
       assert_response :bad_request
+      assert_match "parameter nodes is required", @response.body
 
       # check error when no parameter value provided
       get nodes_path(:nodes => "")
       assert_response :bad_request
+      assert_match "No nodes were given", @response.body
 
       # test a working call
       get nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}")

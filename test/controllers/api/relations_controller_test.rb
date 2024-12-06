@@ -176,10 +176,12 @@ module Api
       # check error when no parameter provided
       get relations_path
       assert_response :bad_request
+      assert_match "parameter relations is required", @response.body
 
       # check error when no parameter value provided
       get relations_path(:relations => "")
       assert_response :bad_request
+      assert_match "No relations were given", @response.body
 
       # test a working call
       get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
