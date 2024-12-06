@@ -59,10 +59,12 @@ module Api
       # check error when no parameter provided
       get api_ways_path
       assert_response :bad_request
+      assert_match "parameter ways is required", @response.body
 
       # check error when no parameter value provided
       get api_ways_path(:ways => "")
       assert_response :bad_request
+      assert_match "No ways were given", @response.body
 
       # test a working call
       get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
