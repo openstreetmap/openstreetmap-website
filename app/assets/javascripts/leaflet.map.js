@@ -24,7 +24,8 @@ L.OSM.Map = L.Map.extend({
         attribution: makeAttribution(layerDefinition.credit),
         code: layerDefinition.code,
         keyid: layerDefinition.keyId,
-        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`)
+        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`),
+        darkFilter: layerDefinition.darkFilter
       };
       if (layerDefinition.apiKeyId) {
         layerOptions.apikey = OSM[layerDefinition.apiKeyId];
@@ -97,18 +98,23 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function (layerParam) {
-    var layers = layerParam || "M",
-        layersAdded = "";
+    var layerCodes = layerParam || "M",
+        addedLayer;
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
-      if (layers.indexOf(this.baseLayers[i].options.code) >= 0) {
+      if (layerCodes.indexOf(this.baseLayers[i].options.code) >= 0 && !addedLayer) {
         this.addLayer(this.baseLayers[i]);
-        layersAdded = layersAdded + this.baseLayers[i].options.code;
-      } else if (i === 0 && layersAdded === "") {
+        addedLayer = this.baseLayers[i];
+      } else if (i === 0 && !addedLayer) {
         this.addLayer(this.baseLayers[i]);
+        addedLayer = this.baseLayers[i];
       } else {
         this.removeLayer(this.baseLayers[i]);
       }
+    }
+
+    if (addedLayer) {
+      $("body").css("--dark-mode-map-filter", addedLayer.options.darkFilter);
     }
   },
 
