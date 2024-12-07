@@ -20,17 +20,26 @@ L.OSM.Map = L.Map.extend({
     for (const layerDefinition of OSM.LAYER_DEFINITIONS) {
       if (layerDefinition.apiKeyId && !OSM[layerDefinition.apiKeyId]) continue;
 
-      const layerOptions = {
-        attribution: makeAttribution(layerDefinition.credit),
-        code: layerDefinition.code,
-        keyid: layerDefinition.keyId,
-        name: I18n.t(`javascripts.map.base.${layerDefinition.nameId}`)
-      };
-      if (layerDefinition.apiKeyId) {
-        layerOptions.apikey = OSM[layerDefinition.apiKeyId];
+      let layerConstructor = L.OSM.TileLayer;
+      const layerOptions = {};
+
+      for (const [property, value] of Object.entries(layerDefinition)) {
+        if (property === "credit") {
+          layerOptions.attribution = makeAttribution(value);
+        } else if (property === "keyId") {
+          layerOptions.keyid = value;
+        } else if (property === "nameId") {
+          layerOptions.name = I18n.t(`javascripts.map.base.${value}`);
+        } else if (property === "apiKeyId") {
+          layerOptions.apikey = OSM[value];
+        } else if (property === "leafletOsmId") {
+          layerConstructor = L.OSM[value];
+        } else {
+          layerOptions[property] = value;
+        }
       }
 
-      const layer = new L.OSM[layerDefinition.leafletOsmId](layerOptions);
+      const layer = new layerConstructor(layerOptions);
       this.baseLayers.push(layer);
     }
 
