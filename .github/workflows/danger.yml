@@ -24,10 +24,10 @@ jobs:
           bundler-cache: true
       - name: Create base branch
         run: |
-          git fetch ${{ github.event.pull_request.base.repo.clone_url }} ${{ github.event.pull_request.base.ref }}:danger_base
+          git fetch ${{ github.event.pull_request.base.repo.clone_url }} ${{ github.event.pull_request.base.sha }}:danger_base
       - name: Create head branch
         run: |
-          git fetch ${{ github.event.pull_request.head.repo.clone_url }} ${{ github.event.pull_request.head.ref }}:danger_head
+          git fetch ${{ github.event.pull_request.head.repo.clone_url }} ${{ github.event.pull_request.head.sha }}:danger_head
       - name: Danger
         env:
           DANGER_GITHUB_BEARER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
