@@ -1,7 +1,8 @@
-<li><%= linked_name = link_to printable_element_name(containing_relation.relation), containing_relation.relation, :class => "relation"
-        if containing_relation.member_role.blank?
-          linked_name
-        else
-          t ".entry_role_html", :relation_name => linked_name, :relation_role => containing_relation.member_role
-        end %>
-</li>
+<%= element_list_item "relation", containing_relation.relation do %>
+  <%= linked_name = link_to printable_element_name(containing_relation.relation), containing_relation.relation
+      if containing_relation.member_role.blank?
+        linked_name
+      else
+        t ".entry_role_html", :relation_name => linked_name, :relation_role => containing_relation.member_role
+      end %>
+<% end %>
