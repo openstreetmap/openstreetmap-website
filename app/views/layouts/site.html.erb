@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" dir="<%= dir %>">
+<%= tag.html :lang => I18n.locale, :dir => dir, :data => { :bs_theme => (preferred_site_color_scheme if preferred_site_color_scheme != "auto") } do %>
   <%= render :partial => "layouts/head" %>
   <body class="<%= body_class %>">
     <%= render :partial => "layouts/header" %>
@@ -8,4 +8,4 @@
     <noscript><p><img src="<%= request.protocol %><%= Settings.matomo["location"] %>/matomo.php?idsite=<%= Settings.matomo["site"] %>" class="matomo" alt="" /></p></noscript>
     <% end -%>
   </body>
-</html>
+<% end %>
