@@ -25,15 +25,28 @@
       <details <%= "open" if way.way_nodes.count < 10 %>>
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled">
+          <% visited_way_nodes = {} %>
           <% way.way_nodes.each do |wn| %>
             <li>
-              <%= element_single_current_link "node", wn.node %>
-              <% related_ways = wn.node.ways.reject { |w| w.id == wn.way_id } %>
-              <% if related_ways.size > 0 then %>
-                (<%= t ".also_part_of_html",
-                       :count => related_ways.size,
-                       :related_ways => to_sentence(related_ways.map { |w| element_single_current_link "way", w }) %>)
+              <% related_ways = wn.node.ways.uniq.sort.reject { |w| w.id == wn.way_id } %>
+              <% if related_ways.size.zero? %>
+                <%= element_single_current_link "node", wn.node %>
+              <% else %>
+                <div>
+                  <%= element_single_current_link "node", wn.node %>
+                </div>
+                <%= tag.details :class => "ms-4", :open => !visited_way_nodes[wn.node.id] do %>
+                  <summary><%= t ".also_part_of_ways", :count => related_ways.size %></summary>
+                  <ul class="list-unstyled">
+                    <% related_ways.each do |related_way| %>
+                      <li>
+                        <%= element_single_current_link "way", related_way %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
               <% end %>
+              <% visited_way_nodes[wn.node.id] = true %>
             </li>
           <% end %>
         </ul>
