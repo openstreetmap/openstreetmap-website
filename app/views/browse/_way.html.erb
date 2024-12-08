@@ -14,7 +14,7 @@
       <h4><%= t "browse.part_of" %></h4>
       <details <%= "open" if way.containing_relation_members.count < 10 %>>
         <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.uniq.count %></summary>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled browse-element-list">
           <%= render :partial => "browse/containing_relation", :collection => way.containing_relation_members.uniq %>
         </ul>
       </details>
@@ -24,17 +24,28 @@
       <h4><%= t ".nodes" %></h4>
       <details <%= "open" if way.way_nodes.count < 10 %>>
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
-        <ul class="list-unstyled">
-          <% way.way_nodes.each do |wn| %>
-            <li>
-              <%= element_single_current_link "node", wn.node %>
-              <% related_ways = wn.node.ways.reject { |w| w.id == wn.way_id } %>
-              <% if related_ways.size > 0 then %>
-                (<%= t ".also_part_of_html",
-                       :count => related_ways.size,
-                       :related_ways => to_sentence(related_ways.map { |w| element_single_current_link "way", w }) %>)
+        <ul class="list-unstyled browse-element-list">
+          <% group_way_nodes(way).each do |node_group| %>
+            <%= element_list_item "node", node_group[:nodes].first do %>
+              <div>
+                <% node_group[:nodes].each_with_index do |node, i| %>
+                  <%= " · " if i.positive? %>
+                  <%= element_single_current_link "node", node %>
+                <% end %>
+              </div>
+              <% if node_group[:related_ways].size.positive? %>
+                <%= tag.details :open => node_group[:open] do %>
+                  <summary><%= t ".also_part_of_ways", :count => node_group[:related_ways].size %></summary>
+                  <ul class="list-unstyled browse-element-list">
+                    <% node_group[:related_ways].each do |related_way| %>
+                      <%= element_list_item "way", related_way do %>
+                        <%= element_single_current_link "way", related_way %>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                <% end %>
               <% end %>
-            </li>
+            <% end %>
           <% end %>
         </ul>
       </details>

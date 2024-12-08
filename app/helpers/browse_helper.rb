@@ -1,15 +1,73 @@
 module BrowseHelper
+  def group_way_nodes(way)
+    groups = []
+
+    way.way_nodes.each do |way_node|
+      related_ways = related_ways_of_way_node(way_node)
+      if !groups.empty? && way_node.node.tags.empty? && groups.last[:nodes].last.tags.empty? && groups.last[:related_ways] == related_ways
+        groups.last[:nodes] << way_node.node
+      else
+        groups << {
+          :nodes => [way_node.node],
+          :related_ways => related_ways
+        }
+      end
+    end
+
+    visited_single_nodes = {}
+
+    groups.each do |group|
+      if group[:nodes].size == 1
+        id = group[:nodes].first.id
+        group[:open] = !visited_single_nodes[id]
+        visited_single_nodes[id] = true
+      else
+        group[:open] = true
+      end
+    end
+
+    groups
+  end
+
+  def element_icon(type, object)
+    icon_data = { :filename => "#{type}.svg" }
+
+    unless object.redacted?
+      target_tags = object.tags.find_all { |k, _v| BROWSE_ICONS.key? k.to_sym }.sort
+      title = target_tags.map { |k, v| "#{k}=#{v}" }.to_sentence unless target_tags.empty?
+
+      target_tags.each do |k, v|
+        k = k.to_sym
+        v = v.to_sym
+        if v != :* && BROWSE_ICONS[k].key?(v)
+          icon_data = BROWSE_ICONS[k][v]
+        elsif BROWSE_ICONS[k].key?(:*)
+          icon_data = BROWSE_ICONS[k][:*]
+        end
+      end
+    end
+
+    image_tag "browse/#{icon_data[:filename]}",
+              :size => 20,
+              :class => ["object-fit-none browse-icon", { "browse-icon-invertable" => icon_data[:invert] }],
+              :title => title
+  end
+
   def element_single_current_link(type, object)
-    link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+    link_to object, { :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
         printable_element_name object
       end
     end
   end
 
-  def element_list_item(type, object, &block)
-    tag.li :class => element_class(type, object), :title => element_title(object) do
-      element_strikethrough object, &block
+  def element_list_item(type, object, &)
+    tag.li(tag.div(element_icon(type, object) + tag.div(:class => "align-self-center", &), :class => "d-flex gap-1"))
+  end
+
+  def element_list_item_with_strikethrough(type, object, &)
+    element_list_item type, object do
+      element_strikethrough object, &
     end
   end
 
@@ -49,20 +107,6 @@ module BrowseHelper
       tag.s(&)
     else
       yield
-    end
-  end
-
-  def element_class(type, object)
-    classes = [type]
-    classes += icon_tags(object).flatten.map { |t| h(t) } unless object.redacted?
-    classes.join(" ")
-  end
-
-  def element_title(object)
-    if object.redacted?
-      ""
-    else
-      h(icon_tags(object).map { |k, v| "#{k}=#{v}" }.to_sentence)
     end
   end
 
@@ -107,13 +151,11 @@ module BrowseHelper
 
   private
 
-  ICON_TAGS = %w[aeroway amenity barrier building highway historic landuse leisure man_made natural office railway shop tourism waterway].freeze
-
-  def icon_tags(object)
-    object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
-  end
-
   def name_locales(object)
     object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
+  end
+
+  def related_ways_of_way_node(way_node)
+    way_node.node.ways.uniq.sort.reject { |related_way| related_way.id == way_node.way_id }
   end
 end
