@@ -32,6 +32,10 @@ xml.rss("version" => "2.0",
         xml.geo :lat, comment.note.lat
         xml.geo :long, comment.note.lon
         xml.georss :point, "#{comment.note.lat} #{comment.note.lon}"
+
+        comment.note.tags.each do |k, v|
+          xml.tag(:k => k, :v => v)
+        end
       end
     end
   end
