@@ -25,6 +25,48 @@ module UserBlocksHelper
     end
   end
 
+  def block_short_status(block)
+    if block.active?
+      if block.needs_view?
+        if block.ends_at > Time.now.utc
+          t("user_blocks.helper.short.active_unread")
+        else
+          t("user_blocks.helper.short.expired_unread")
+        end
+      else
+        t("user_blocks.helper.short.active")
+      end
+    else
+      if block.revoker_id.nil?
+        if block.updated_at > block.ends_at
+          t("user_blocks.helper.short.read_html", :time => block_short_time_in_past(block.updated_at))
+        else
+          t("user_blocks.helper.short.ended")
+        end
+      else
+        t("user_blocks.helper.short.revoked_html", :name => link_to(block.revoker.display_name, block.revoker,
+                                                                    :class => "username d-inline-block text-truncate text-wrap align-bottom",
+                                                                    :dir => "auto"))
+      end
+    end
+  end
+
+  def block_short_time_in_future(time)
+    tag.time l(time.to_date),
+             :datetime => time.xmlschema,
+             :title => t("user_blocks.helper.short.time_in_future_title",
+                         :time_absolute => l(time, :format => :friendly),
+                         :time_relative => time_ago_in_words(time))
+  end
+
+  def block_short_time_in_past(time)
+    tag.time l(time.to_date),
+             :datetime => time.xmlschema,
+             :title => t("user_blocks.helper.short.time_in_past_title",
+                         :time_absolute => l(time, :format => :friendly),
+                         :time_relative => time_ago_in_words(time, :scope => :"datetime.distance_in_words_ago"))
+  end
+
   def block_duration_in_words(duration)
     # Ensure the requested duration isn't negative, even by a millisecond
     duration = 0 if duration.negative?
