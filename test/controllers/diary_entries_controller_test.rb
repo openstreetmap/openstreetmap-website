@@ -390,7 +390,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   def test_index_friends
     user = create(:user)
     other_user = create(:user)
-    friendship = create(:friendship, :befriender => user)
+    friendship = create(:follow, :befriender => user)
     diary_entry = create(:diary_entry, :user => friendship.befriendee)
     _other_entry = create(:diary_entry, :user => other_user)
 
