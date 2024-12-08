@@ -6,8 +6,12 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
-        { :path => "/api/0.6/gpx/create", :method => :post },
+        { :path => "/api/0.6/gpx", :method => :post },
         { :controller => "api/traces", :action => "create" }
+      )
+      assert_recognizes(
+        { :controller => "api/traces", :action => "create" },
+        { :path => "/api/0.6/gpx/create", :method => :post }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1", :method => :get },
@@ -186,7 +190,7 @@ module Api
       user = create(:user)
 
       # First with no auth
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
       assert_response :unauthorized
 
       # Rewind the file
@@ -200,7 +204,7 @@ module Api
 
       # Create trace and import tracepoints in background job
       perform_enqueued_jobs do
-        post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
       end
 
       assert_response :success
@@ -232,7 +236,7 @@ module Api
       # Now authenticated, with the legacy public flag
       assert_not_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
       auth_header = bearer_authorization_header user
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
+      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -251,7 +255,7 @@ module Api
       second_user = create(:user)
       assert_nil second_user.preferences.find_by(:k => "gps.trace.visibility")
       auth_header = bearer_authorization_header second_user
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
+      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
