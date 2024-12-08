@@ -21,6 +21,12 @@ class PreferencesController < ApplicationController
                                     else
                                       params[:user][:preferred_editor]
                                     end
+
+    cookies["_osm_color_scheme"] = {
+      :value => params[:color_scheme],
+      :expires => 10.years.from_now
+    }
+
     if current_user.save
       # Use a partial so that it is rendered during the next page load in the correct language.
       flash[:notice] = { :partial => "preferences/update_success_flash" }

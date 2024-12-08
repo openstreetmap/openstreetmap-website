@@ -7,6 +7,14 @@
 
   <%= f.text_field :languages %>
 
+  <div class="mb-3">
+    <%= label_tag "color_scheme", t("preferences.show.preferred_color_scheme"), :class => "form-label" %>
+    <%= select_tag "color_scheme",
+                   options_for_select([[t("preferences.show.color_schemes.auto"), "auto"],
+                                       [t("preferences.show.color_schemes.light"), "light"]], request.cookies["_osm_color_scheme"]),
+                   :class => "form-select" %>
+  </div>
+
   <%= f.primary t(".save") %>
   <%= link_to t(".cancel"), preferences_path, :class => "btn btn-link" %>
 <% end %>
