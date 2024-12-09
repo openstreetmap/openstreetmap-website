@@ -19,4 +19,8 @@ xml.item do
   xml.geo :lat, note.lat
   xml.geo :long, note.lon
   xml.georss :point, "#{note.lat} #{note.lon}"
+
+  note.tags.each do |k, v|
+    xml.dc :subject, "#{k}=#{v}"
+  end
 end

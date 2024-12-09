@@ -1,4 +1,5 @@
 require "test_helper"
+require "json"
 
 module Api
   class NotesControllerTest < ActionDispatch::IntegrationTest
@@ -105,7 +106,18 @@ module Api
       assert_difference "Note.count", 1 do
         assert_difference "NoteComment.count", 1 do
           assert_no_difference "NoteSubscription.count" do
-            post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
+            assert_difference "NoteTag.count", 2 do
+              post api_notes_path(
+                :lat => -1.0,
+                :lon => -1.0,
+                :tags => {
+                  "created_by" => "OSM_TEST",
+                  "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր" => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ"
+                }.to_json,
+                :text => "This is a comment",
+                :format => "json"
+              )
+            end
           end
         end
       end
@@ -116,6 +128,9 @@ module Api
       assert_equal "Point", js["geometry"]["type"]
       assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
       assert_equal "open", js["properties"]["status"]
+      assert_equal 2, js["properties"]["tags"].count
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
       assert_equal 1, js["properties"]["comments"].count
       assert_equal "opened", js["properties"]["comments"].last["action"]
       assert_equal "This is a comment", js["properties"]["comments"].last["text"]
@@ -131,6 +146,9 @@ module Api
       assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
       assert_equal id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
+      assert_equal 2, js["properties"]["tags"].count
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
       assert_equal 1, js["properties"]["comments"].count
       assert_equal "opened", js["properties"]["comments"].last["action"]
       assert_equal "This is a comment", js["properties"]["comments"].last["text"]
@@ -594,6 +612,8 @@ module Api
 
     def test_show_success
       open_note = create(:note_with_comments)
+      create(:note_tag, :note => open_note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => open_note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
 
       get api_note_path(open_note, :format => "xml")
       assert_response :success
@@ -610,6 +630,8 @@ module Api
             assert_select "comment", :count => 1
           end
         end
+        assert_select "tag[k='created_by'][v='OSM_TEST']", :count => 1
+        assert_select "tag[k='삭ÒX~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|傥4ր'][v='Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|؇Őϋ']", :count => 1
       end
 
       get api_note_path(open_note, :format => "rss")
@@ -624,6 +646,10 @@ module Api
             assert_select "geo|lat", open_note.lat.to_s
             assert_select "geo|long", open_note.lon.to_s
             assert_select "georss|point", "#{open_note.lon} #{open_note.lon}"
+            assert_select "dc|subject", :count => 2 do |values|
+              assert_equal "created_by=OSM_TEST", values[0].text
+              assert_equal '삭ÒX~`!@#$%^&*()-=_+,<.>/?;:\'"[{}]\\|傥4ր=Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:\'"[{}]\\|؇Őϋ', values[1].text
+            end
           end
         end
       end
@@ -643,6 +669,8 @@ module Api
       assert_equal close_api_note_url(open_note, :format => "json"), js["properties"]["close_url"]
       assert_equal open_note.created_at.to_s, js["properties"]["date_created"]
       assert_equal open_note.status, js["properties"]["status"]
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
 
       get api_note_path(open_note, :format => "gpx")
       assert_response :success
@@ -658,6 +686,8 @@ module Api
             assert_select "url", api_note_url(open_note, :format => "gpx")
             assert_select "comment_url", comment_api_note_url(open_note, :format => "gpx")
             assert_select "close_url", close_api_note_url(open_note, :format => "gpx")
+            assert_select "tag[k='created_by'][v='OSM_TEST']", :count => 1
+            assert_select "tag[k='삭ÒX~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|傥4ր'][v='Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|؇Őϋ']", :count => 1
           end
         end
       end
@@ -1171,18 +1201,30 @@ module Api
 
     def test_feed_success
       position = (1.1 * GeoRecord::SCALE).to_i
-      create(:note_with_comments, :latitude => position, :longitude => position)
-      create(:note_with_comments, :latitude => position, :longitude => position)
+      a_note = create(:note_with_comments, :latitude => position, :longitude => position)
+      create(:note_tag, :note => a_note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => a_note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
+      b_note = create(:note_with_comments, :latitude => position, :longitude => position)
+      create(:note_tag, :note => b_note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => b_note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
       position = (1.5 * GeoRecord::SCALE).to_i
-      create(:note_with_comments, :latitude => position, :longitude => position)
-      create(:note_with_comments, :latitude => position, :longitude => position)
+      c_note = create(:note_with_comments, :latitude => position, :longitude => position)
+      create(:note_tag, :note => c_note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => c_note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
+      d_note = create(:note_with_comments, :latitude => position, :longitude => position)
+      create(:note_tag, :note => d_note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => d_note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
 
       get feed_api_notes_path(:format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
-          assert_select "item", :count => 4
+          assert_select "item", :count => 4 do |items|
+            items.each do |item|
+              assert_select item, "dc|subject", :count => 2
+            end
+          end
         end
       end
 
