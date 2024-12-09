@@ -1,6 +1,6 @@
 module BrowseHelper
   def element_icon(type, object)
-    selected_icon_data = { :filename => "#{type}.svg" }
+    selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }
 
     unless object.redacted?
       target_tags = object.tags.find_all { |k, _v| BROWSE_ICONS.key? k }.sort
@@ -8,7 +8,7 @@ module BrowseHelper
 
       target_tags.each do |k, v|
         icon_data = BROWSE_ICONS[k][v] || BROWSE_ICONS[k][:*]
-        selected_icon_data = icon_data if icon_data
+        selected_icon_data = icon_data if icon_data && icon_data[:priority] > selected_icon_data[:priority]
       end
     end
 
