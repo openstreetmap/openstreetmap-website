@@ -26,8 +26,6 @@ L.OSM.Map = L.Map.extend({
       for (const [property, value] of Object.entries(layerDefinition)) {
         if (property === "credit") {
           layerOptions.attribution = makeAttribution(value);
-        } else if (property === "keyId") {
-          layerOptions.keyid = value;
         } else if (property === "nameId") {
           layerOptions.name = I18n.t(`javascripts.map.base.${value}`);
         } else if (property === "apiKeyId") {
@@ -134,7 +132,7 @@ L.OSM.Map = L.Map.extend({
   getMapBaseLayerId: function () {
     var baseLayerId;
     this.eachLayer(function (layer) {
-      if (layer.options && layer.options.keyid) baseLayerId = layer.options.keyid;
+      if (layer.options && layer.options.layerId) baseLayerId = layer.options.layerId;
     });
     return baseLayerId;
   },
