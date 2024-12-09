@@ -207,7 +207,7 @@ $(document).ready(function () {
   if (OSM.MATOMO) {
     map.on("layeradd", function (e) {
       if (e.layer.options) {
-        var goal = OSM.MATOMO.goals[e.layer.options.keyid];
+        var goal = OSM.MATOMO.goals[e.layer.options.layerId];
 
         if (goal) {
           $("body").trigger("matomogoal", goal);
