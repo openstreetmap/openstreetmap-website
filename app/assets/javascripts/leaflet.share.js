@@ -337,7 +337,8 @@ L.OSM.share = function (options) {
     }
 
     function update() {
-      var canEmbed = map.getMapBaseLayerId() !== "tracestracktopo";
+      const layer = map.getMapBaseLayer();
+      var canEmbed = layer && layer.options.canEmbed;
       var bounds = map.getBounds();
 
       $("#link_marker")
@@ -410,15 +411,15 @@ L.OSM.share = function (options) {
       $("#mapnik_image_width").text(mapWidth);
       $("#mapnik_image_height").text(mapHeight);
 
-      const layer = map.getMapBaseLayerId();
+      const layerId = map.getMapBaseLayerId();
       const layerKeys = new Map([
         ["mapnik", "standard"],
         ["cyclemap", "cycle_map"],
         ["transportmap", "transport_map"]
       ]);
 
-      $("#mapnik_image_layer").text(layerKeys.has(layer) ? I18n.t(`javascripts.map.base.${layerKeys.get(layer)}`) : "");
-      $("#map_format").val(layer);
+      $("#mapnik_image_layer").text(layerKeys.has(layerId) ? I18n.t(`javascripts.map.base.${layerKeys.get(layerId)}`) : "");
+      $("#map_format").val(layerId);
 
       $("#map_zoom").val(map.getZoom());
       $("#mapnik_lon").val(map.getCenter().lng);
