@@ -23,15 +23,7 @@ OSM = {
   FOSSGIS_VALHALLA_URL:    <%= Settings.fossgis_valhalla_url.to_json %>,
   DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
 
-<% if Settings.key?(:thunderforest_key) %>
-  THUNDERFOREST_KEY:       <%= Settings.thunderforest_key.to_json %>,
-<% end %>
-
-<% if Settings.key?(:tracestrack_key) %>
-  TRACESTRACK_KEY:         <%= Settings.tracestrack_key.to_json %>,
-<% end %>
-
-  LAYER_DEFINITIONS:       <%= YAML.load_file(Rails.root.join("config/layers.yml")).to_json %>,
+  LAYER_DEFINITIONS:       <%= MapLayers::definitions("config/layers.yml").to_json %>,
   LAYERS_WITH_MAP_KEY:     <%= YAML.load_file(Rails.root.join("config/key.yml")).keys.to_json %>,
 
   MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
