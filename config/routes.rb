@@ -86,12 +86,14 @@ OpenStreetMap::Application.routes.draw do
     end
 
     post "/user/messages/:id" => "messages#update", :as => :api_message_update
-
-    get "gpx/:id/data" => "traces#data", :as => :api_trace_data
   end
 
   namespace :api, :path => "api/0.6" do
-    resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/
+    resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/ do
+      scope :module => :traces do
+        resource :data, :only => :show
+      end
+    end
     post "gpx/create" => "traces#create", :id => /\d+/, :as => :trace_create
     get "gpx/:id/details" => "traces#show", :id => /\d+/, :as => :trace_details
 

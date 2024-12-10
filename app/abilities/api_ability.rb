@@ -22,7 +22,7 @@ class ApiAbility
 
       if user&.active?
         can [:comment, :close, :reopen], Note
-        can [:create, :show, :update, :destroy, :data], Trace
+        can [:create, :show, :update, :destroy], Trace
         can [:details, :gpx_files], User
         can [:index, :show, :update, :update_all, :destroy], UserPreference
 
