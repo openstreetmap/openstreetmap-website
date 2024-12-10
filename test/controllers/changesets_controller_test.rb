@@ -175,6 +175,28 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Check the not found of the user changesets listing for a suspended user
+  [
+    ["suspended", :suspend!],
+    ["deleted", :hide!]
+  ].each do |status, method|
+    test "index for #{status} user" do
+      user = create(:user)
+      create(:changeset, :user => user)
+      create(:changeset, :closed, :user => user)
+      user.send(method)
+
+      get history_path(:format => "html", :display_name => user.display_name)
+      assert_response :not_found
+      assert_template "users/no_such_user"
+
+      get history_path(:format => "html", :display_name => user.display_name, :list => "1"), :xhr => true
+      assert_response :not_found
+      assert_template "users/no_such_user"
+    end
+  end
+
+  ##
   # Check the not found of the index user changesets
   def test_index_user_not_found
     get history_path(:format => "html", :display_name => "Some random user")
