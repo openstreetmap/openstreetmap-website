@@ -1,15 +1,38 @@
 module BrowseHelper
+  def element_icon(type, object)
+    selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }
+
+    unless object.redacted?
+      target_tags = object.tags.find_all { |k, _v| BROWSE_ICONS.key? k }.sort
+      title = target_tags.map { |k, v| "#{k}=#{v}" }.to_sentence unless target_tags.empty?
+
+      target_tags.each do |k, v|
+        icon_data = BROWSE_ICONS[k][v] || BROWSE_ICONS[k][:*]
+        selected_icon_data = icon_data if icon_data && icon_data[:priority] > selected_icon_data[:priority]
+      end
+    end
+
+    image_tag "browse/#{selected_icon_data[:filename]}",
+              :size => 20,
+              :class => ["align-bottom object-fit-none browse-icon", { "browse-icon-invertible" => selected_icon_data[:invert] }],
+              :title => title
+  end
+
   def element_single_current_link(type, object)
-    link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+    link_to object, { :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
         printable_element_name object
       end
     end
   end
 
-  def element_list_item(type, object, &block)
-    tag.li :class => element_class(type, object), :title => element_title(object) do
-      element_strikethrough object, &block
+  def element_list_item(type, object, &)
+    tag.li(tag.div(element_icon(type, object) + tag.div(:class => "align-self-center", &), :class => "d-flex gap-1"))
+  end
+
+  def element_list_item_with_strikethrough(type, object, &)
+    element_list_item type, object do
+      element_strikethrough object, &
     end
   end
 
@@ -49,20 +72,6 @@ module BrowseHelper
       tag.s(&)
     else
       yield
-    end
-  end
-
-  def element_class(type, object)
-    classes = [type]
-    classes += icon_tags(object).flatten.map { |t| h(t) } unless object.redacted?
-    classes.join(" ")
-  end
-
-  def element_title(object)
-    if object.redacted?
-      ""
-    else
-      h(icon_tags(object).map { |k, v| "#{k}=#{v}" }.to_sentence)
     end
   end
 
@@ -106,12 +115,6 @@ module BrowseHelper
   end
 
   private
-
-  ICON_TAGS = %w[aeroway amenity barrier building highway historic landuse leisure man_made natural office railway shop tourism waterway].freeze
-
-  def icon_tags(object)
-    object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
-  end
 
   def name_locales(object)
     object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
