@@ -279,7 +279,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :preferred_editor
+  def preferred_color_scheme(subject)
+    if current_user
+      current_user.preferences.find_by(:k => "#{subject}.color_scheme")&.v || "auto"
+    else
+      "auto"
+    end
+  end
+
+  helper_method :preferred_editor, :preferred_color_scheme
 
   def update_totp
     if Settings.key?(:totp_key)

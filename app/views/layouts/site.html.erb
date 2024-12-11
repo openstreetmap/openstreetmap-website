@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" dir="<%= dir %>">
+<%= tag.html :lang => I18n.locale,
+             :dir => dir,
+             :data => { :bs_theme => (preferred_color_scheme(:site) if preferred_color_scheme(:site) != "auto") } do %>
   <%= render :partial => "layouts/head" %>
-  <body class="<%= body_class %>">
+  <%= tag.body :class => body_class,
+               :data => { :map_theme => (preferred_color_scheme(:map) if preferred_color_scheme(:map) != "auto") } do %>
     <%= render :partial => "layouts/header" %>
     <%= render :partial => "layouts/content" %>
     <% if defined?(Settings.matomo) -%>
     <noscript><p><img src="<%= request.protocol %><%= Settings.matomo["location"] %>/matomo.php?idsite=<%= Settings.matomo["site"] %>" class="matomo" alt="" /></p></noscript>
     <% end -%>
-  </body>
-</html>
+  <% end %>
+<% end %>
