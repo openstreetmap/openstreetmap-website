@@ -6,8 +6,12 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
-        { :path => "/api/0.6/gpx/create", :method => :post },
+        { :path => "/api/0.6/gpx", :method => :post },
         { :controller => "api/traces", :action => "create" }
+      )
+      assert_recognizes(
+        { :controller => "api/traces", :action => "create" },
+        { :path => "/api/0.6/gpx/create", :method => :post }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1", :method => :get },
@@ -24,14 +28,6 @@ module Api
       assert_recognizes(
         { :controller => "api/traces", :action => "show", :id => "1" },
         { :path => "/api/0.6/gpx/1/details", :method => :get }
-      )
-      assert_routing(
-        { :path => "/api/0.6/gpx/1/data", :method => :get },
-        { :controller => "api/traces", :action => "data", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/gpx/1/data.xml", :method => :get },
-        { :controller => "api/traces", :action => "data", :id => "1", :format => "xml" }
       )
     end
 
@@ -93,91 +89,6 @@ module Api
       assert_response :not_found
     end
 
-    # Test downloading a trace through the api
-    def test_data
-      public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
-
-      # First with no auth
-      get api_trace_data_path(public_trace_file)
-      assert_response :unauthorized
-
-      # Now with some other user, which should work since the trace is public
-      auth_header = bearer_authorization_header
-      get api_trace_data_path(public_trace_file), :headers => auth_header
-      follow_redirect!
-      follow_redirect!
-      check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-
-      # And finally we should be able to do it with the owner of the trace
-      auth_header = bearer_authorization_header public_trace_file.user
-      get api_trace_data_path(public_trace_file), :headers => auth_header
-      follow_redirect!
-      follow_redirect!
-      check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-    end
-
-    # Test downloading a compressed trace through the api
-    def test_data_compressed
-      identifiable_trace_file = create(:trace, :visibility => "identifiable", :fixture => "d")
-
-      # Authenticate as the owner of the trace we will be using
-      auth_header = bearer_authorization_header identifiable_trace_file.user
-
-      # First get the data as is
-      get api_trace_data_path(identifiable_trace_file), :headers => auth_header
-      follow_redirect!
-      follow_redirect!
-      check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/gzip", "gpx.gz"
-
-      # Now ask explicitly for XML format
-      get api_trace_data_path(identifiable_trace_file, :format => "xml"), :headers => auth_header
-      check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
-
-      # Now ask explicitly for GPX format
-      get api_trace_data_path(identifiable_trace_file, :format => "gpx"), :headers => auth_header
-      check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
-    end
-
-    # Check an anonymous trace can't be downloaded by another user through the api
-    def test_data_anon
-      anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
-
-      # First with no auth
-      get api_trace_data_path(anon_trace_file)
-      assert_response :unauthorized
-
-      # Now with some other user, which shouldn't work since the trace is anon
-      auth_header = bearer_authorization_header
-      get api_trace_data_path(anon_trace_file), :headers => auth_header
-      assert_response :forbidden
-
-      # And finally we should be able to do it with the owner of the trace
-      auth_header = bearer_authorization_header anon_trace_file.user
-      get api_trace_data_path(anon_trace_file), :headers => auth_header
-      follow_redirect!
-      follow_redirect!
-      check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
-    end
-
-    # Test downloading a trace that doesn't exist through the api
-    def test_data_not_found
-      deleted_trace_file = create(:trace, :deleted)
-
-      # Try first with no auth, as it should require it
-      get api_trace_data_path(:id => 0)
-      assert_response :unauthorized
-
-      # Login, and try again
-      auth_header = bearer_authorization_header
-      get api_trace_data_path(:id => 0), :headers => auth_header
-      assert_response :not_found
-
-      # Now try a trace which did exist but has been deleted
-      auth_header = bearer_authorization_header deleted_trace_file.user
-      get api_trace_data_path(deleted_trace_file), :headers => auth_header
-      assert_response :not_found
-    end
-
     # Test creating a trace through the api
     def test_create
       # Get file to use
@@ -186,7 +97,7 @@ module Api
       user = create(:user)
 
       # First with no auth
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
       assert_response :unauthorized
 
       # Rewind the file
@@ -200,7 +111,7 @@ module Api
 
       # Create trace and import tracepoints in background job
       perform_enqueued_jobs do
-        post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
       end
 
       assert_response :success
@@ -232,7 +143,7 @@ module Api
       # Now authenticated, with the legacy public flag
       assert_not_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
       auth_header = bearer_authorization_header user
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
+      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -251,7 +162,7 @@ module Api
       second_user = create(:user)
       assert_nil second_user.preferences.find_by(:k => "gps.trace.visibility")
       auth_header = bearer_authorization_header second_user
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
+      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -353,13 +264,6 @@ module Api
     end
 
     private
-
-    def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
-      assert_response :success
-      assert_equal digest, Digest::MD5.hexdigest(response.body)
-      assert_equal content_type, response.media_type
-      assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
-    end
 
     ##
     # build XML for traces

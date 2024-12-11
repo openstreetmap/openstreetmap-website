@@ -86,16 +86,17 @@ OpenStreetMap::Application.routes.draw do
     end
 
     post "/user/messages/:id" => "messages#update", :as => :api_message_update
-
-    post "gpx/create" => "traces#create"
-    get "gpx/:id" => "traces#show", :as => :api_trace, :id => /\d+/
-    put "gpx/:id" => "traces#update", :id => /\d+/
-    delete "gpx/:id" => "traces#destroy", :id => /\d+/
-    get "gpx/:id/details" => "traces#show", :id => /\d+/
-    get "gpx/:id/data" => "traces#data", :as => :api_trace_data
   end
 
   namespace :api, :path => "api/0.6" do
+    resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/ do
+      scope :module => :traces do
+        resource :data, :only => :show
+      end
+    end
+    post "gpx/create" => "traces#create", :id => /\d+/, :as => :trace_create
+    get "gpx/:id/details" => "traces#show", :id => /\d+/, :as => :trace_details
+
     # Map notes API
     resources :notes, :except => [:new, :edit, :update], :id => /\d+/, :controller => "notes" do
       collection do

@@ -6,7 +6,7 @@ module Api
 
     authorize_resource
 
-    before_action :offline_error, :only => [:create, :destroy, :data]
+    before_action :offline_error, :only => [:create, :destroy]
     skip_around_action :api_call_timeout, :only => :create
 
     def show
@@ -66,24 +66,6 @@ module Api
         trace.schedule_destruction
 
         head :ok
-      else
-        head :forbidden
-      end
-    end
-
-    def data
-      trace = Trace.visible.find(params[:id])
-
-      if trace.public? || trace.user == current_user
-        if request.format == Mime[:xml]
-          send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
-        elsif request.format == Mime[:gpx]
-          send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
-        elsif trace.file.attached?
-          redirect_to rails_blob_path(trace.file, :disposition => "attachment")
-        else
-          send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
-        end
       else
         head :forbidden
       end
