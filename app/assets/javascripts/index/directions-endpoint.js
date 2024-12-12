@@ -36,9 +36,13 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   function markerDragListener(e) {
     var latlng = convertLatLngToZoomPrecision(e.target.getLatLng());
 
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
+
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
     endpoint.value = input.val();
+    if (e.type === "dragend") getReverseGeocode();
     dragCallback(e.type === "drag");
   }
 
@@ -52,26 +56,54 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     endpoint.setValue(value);
   }
 
-  endpoint.setValue = function (value, latlng) {
+  endpoint.setValue = function (value) {
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
+    input.removeClass("is-invalid");
+
+    var coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
+    var latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
+
+    if (latlng && endpoint.cachedReverseGeocode && endpoint.cachedReverseGeocode.latlng.equals(latlng)) {
+      setLatLng(latlng);
+      if (endpoint.cachedReverseGeocode.notFound) {
+        endpoint.value = value;
+        input.addClass("is-invalid");
+      } else {
+        endpoint.value = endpoint.cachedReverseGeocode.value;
+      }
+      input.val(endpoint.value);
+      changeCallback();
+      return;
+    }
+
     endpoint.value = value;
     removeLatLng();
-    input.removeClass("is-invalid");
     input.val(value);
 
     if (latlng) {
       setLatLng(latlng);
       setInputValueFromLatLng(latlng);
+      getReverseGeocode();
       changeCallback();
     } else if (endpoint.value) {
       getGeocode();
     }
   };
 
+  endpoint.swapCachedReverseGeocodes = function (otherEndpoint) {
+    var g0 = endpoint.cachedReverseGeocode;
+    var g1 = otherEndpoint.cachedReverseGeocode;
+    delete endpoint.cachedReverseGeocode;
+    delete otherEndpoint.cachedReverseGeocode;
+    if (g0) otherEndpoint.cachedReverseGeocode = g0;
+    if (g1) endpoint.cachedReverseGeocode = g1;
+  };
+
   function getGeocode() {
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
     var geocodeUrl = OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox;
 
-    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     endpoint.geocodeRequest = $.getJSON(geocodeUrl, function (json) {
       delete endpoint.geocodeRequest;
       if (json.length === 0) {
@@ -82,9 +114,27 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
       setLatLng(L.latLng(json[0]));
 
+      endpoint.value = json[0].display_name;
       input.val(json[0].display_name);
 
       changeCallback();
+    });
+  }
+
+  function getReverseGeocode() {
+    var latlng = endpoint.latlng.clone();
+    var reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?lat=" + latlng.lat + "&lon=" + latlng.lng + "&format=json";
+
+    endpoint.geocodeRequest = $.getJSON(reverseGeocodeUrl, function (json) {
+      delete endpoint.geocodeRequest;
+      if (!json || !json.display_name) {
+        endpoint.cachedReverseGeocode = { latlng: latlng, notFound: true };
+        return;
+      }
+
+      endpoint.value = json.display_name;
+      input.val(json.display_name);
+      endpoint.cachedReverseGeocode = { latlng: latlng, value: endpoint.value };
     });
   }
 
