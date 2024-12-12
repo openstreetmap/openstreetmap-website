@@ -171,6 +171,7 @@ ru:
       message: Сообщение
       node: Точка
       node_tag: Тег точки
+      note: Заметка
       old_node: Старая точка
       old_node_tag: Старый тег точки
       old_relation: Старое отношение
@@ -563,15 +564,36 @@ ru:
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
       enclosing: Окружающие объекты
+  nodes:
+    timeout:
+      sorry: Извините, данные для точки с id %{id} потребовали слишком много времени
+        для извлечения.
   old_nodes:
     not_found:
       sorry: 'К сожалению, узел #%{id} версии %{version} не найден.'
+    timeout:
+      sorry: Извините, история точки с id %{id} потребовала слишком много времени
+        для извлечения.
+  ways:
+    timeout:
+      sorry: Извините, данные для линии с id %{id} потребовали слишком много времени
+        для извлечения.
   old_ways:
     not_found:
       sorry: 'К сожалению, путь #%{id} версии %{version} не найден.'
+    timeout:
+      sorry: Извините, история линии с id %{id} потребовала слишком много времени
+        для извлечения.
+  relations:
+    timeout:
+      sorry: Извините, данные для отношения с id %{id} потребовали слишком много времени
+        для извлечения.
   old_relations:
     not_found:
       sorry: 'К сожалению, отношение #%{id} версии %{version} не найдено.'
+    timeout:
+      sorry: Извините, история отношения с id %{id} потребовала слишком много времени
+        для извлечения.
   changeset_comments:
     feeds:
       comment:
@@ -1638,7 +1660,10 @@ ru:
         other: '%{count} сообщений'
       reported_item: Элемент в сообщении
     show:
-      title: '%{status} Проблема #%{issue_id}'
+      title:
+        open: 'Открытая проблема #%{issue_id}'
+        ignored: 'Проигнорированная проблема #%{issue_id}'
+        resolved: 'Разрешённая проблема #%{issue_id}'
       reports:
         one: 1 сообщение
         few: '%{count} сообщения'
@@ -2989,7 +3014,6 @@ ru:
       reason: 'Причина блокировки:'
       revoker: 'Разблокировавший:'
     block:
-      not_revoked: (не разблокирован)
       show: Показать
       edit: Править
     page:
@@ -2997,7 +3021,6 @@ ru:
       creator_name: Автор
       reason: Причина блокировки
       status: Состояние
-      revoker_name: Разблокировал
   user_mutes:
     index:
       title: Заглушённые пользователи

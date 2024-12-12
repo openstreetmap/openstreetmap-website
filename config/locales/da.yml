@@ -84,11 +84,12 @@ da:
       diary_comment: Blogkommentar
       diary_entry: Blogindlæg
       friend: Ven
-      issue: Problem
+      issue: Sag
       language: Sprog
       message: Meddelelse
       node: Punkt
       node_tag: Punktegenskab
+      note: Bemærkning
       old_node: Tidligere punkt
       old_node_tag: Tidligere punktegenskab
       old_relation: Tidligere relation
@@ -1506,7 +1507,7 @@ da:
       more_results: Flere resultater
   issues:
     index:
-      title: Problemer
+      title: Sager
       select_status: Vælg status
       select_type: Vælg type
       select_last_updated_by: Vælg sidst opdateret af
@@ -1516,7 +1517,7 @@ da:
       search_guidance: 'Søgning blandt sager:'
       states:
         ignored: Ignoréret
-        open: Åbn
+        open: Åben
         resolved: Løst
     page:
       user_not_found: Brugeren findes ikke
@@ -1535,7 +1536,10 @@ da:
         open: Åben
         resolved: Løst
     show:
-      title: '%{status} Sag #%{issue_id}'
+      title:
+        open: Åben sag %{issue_id}
+        ignored: 'Ignoreret sag #%{issue_id}'
+        resolved: Løst sag %{issue_id}
       reports:
         one: '%{count} rapport'
         other: '%{count} rapporter'
@@ -1618,7 +1622,7 @@ da:
     edit: Redigér
     history: Historik
     export: Eksportér
-    issues: Problemer
+    issues: Sager
     gps_traces: GPS-spor
     user_diaries: Brugerblogs
     edit_with: Redigér med %{editor}
@@ -1924,6 +1928,16 @@ da:
       title: Mine præferencer
       preferred_editor: Foretrukken editor
       preferred_languages: Foretrukne sprog
+      preferred_site_color_scheme: Foretrukket farvetema for webside
+      site_color_schemes:
+        auto: Auto
+        light: Lyst
+        dark: Mørkt
+      preferred_map_color_scheme: Foretrukket farvetema for kort
+      map_color_schemes:
+        auto: Auto
+        light: Lyst
+        dark: Mørkt
       edit_preferences: Rediger præferencer
     edit:
       title: Rediger præferencer
@@ -2008,8 +2022,8 @@ da:
         older: Ældre indlæg
         newer: Nyere indlæg
       issues:
-        older: Ældre problemer
-        newer: Nyere problemer
+        older: Ældre sager
+        newer: Nyere sager
       traces:
         older: Ældre spor
         newer: Nyere spor
@@ -2982,6 +2996,15 @@ da:
         years:
           one: '%{count} år'
           other: '%{count} år'
+      short:
+        ended: ophørt
+        revoked_html: ophævet af %{name}
+        active: aktiv
+        active_unread: aktiv ulæst
+        expired_unread: udløbet ulæst
+        read_html: læst %{time}
+        time_in_future_title: '%{time_absolute}; om %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     blocks_on:
       title: Blokeringer af %{name}
       heading_html: Liste over blokeringer af %{name}
@@ -3000,15 +3023,15 @@ da:
       reason: 'Årsag til blokering:'
       revoker: 'Tilbagekalder:'
     block:
-      not_revoked: (ikke tilbagekaldt)
       show: Vis
       edit: Redigér
     page:
       display_name: Blokkeret bruger
       creator_name: Oprettet af
       reason: Årsag til blokering
+      start: Start
+      end: Slut
       status: Status
-      revoker_name: Tilbagekaldt af
     navigation:
       all_blocks: Alle blokeringer
       blocks_on_me: Blokeringer af mig
