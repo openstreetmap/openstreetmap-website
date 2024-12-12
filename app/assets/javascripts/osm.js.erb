@@ -231,5 +231,13 @@ OSM = {
         Math.pow(Math.sin(latdiff / 2), 2) +
         Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
       ));
+  },
+
+  isDarkMap: function() {
+    var siteTheme = $('html').attr('data-bs-theme');
+    var mapTheme = $('html').attr('data-map-theme');
+    if (mapTheme) return mapTheme === 'dark';
+    if (siteTheme) return siteTheme === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
   }
 };
