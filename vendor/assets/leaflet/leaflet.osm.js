@@ -12,7 +12,7 @@ L.OSM.TileLayer = L.TileLayer.extend({
     options = L.Util.setOptions(this, options);
     url = isDarkMap ? options.darkUrl : options.lightUrl;
     if (url) this.schemeClass = isDarkMap ? 'dark' : 'light';
-    L.TileLayer.prototype.initialize.call(this, options.url);
+    L.TileLayer.prototype.initialize.call(this, url || options.url);
     this.on('add', function () {
       if (this._container && this.schemeClass) this._container.classList.add(this.schemeClass);
       if (this._container && this.options.filter) this._container.style.setProperty('--dark-mode-map-filter', this.options.filter);
