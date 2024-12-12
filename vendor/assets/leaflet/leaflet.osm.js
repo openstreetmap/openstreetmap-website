@@ -8,14 +8,17 @@ L.OSM.TileLayer = L.TileLayer.extend({
 
   initialize: function (options) {
     isDarkMap = OSM.isDarkMap();
-    options.filter = (isDarkMap ? options.darkFilter : options.lightFilter) || options.filter;
+    options.filter = (isDarkMap ? options.darkFilter : options.lightFilter) || options.filter || 'none';
     options = L.Util.setOptions(this, options);
     url = isDarkMap ? options.darkUrl : options.lightUrl;
     if (url) this.schemeClass = isDarkMap ? 'dark' : 'light';
     L.TileLayer.prototype.initialize.call(this, url || options.url);
     this.on('add', function () {
-      if (this._container && this.schemeClass) this._container.classList.add(this.schemeClass);
-      if (this._container && this.options.filter) this._container.style.setProperty('--dark-mode-map-filter', this.options.filter);
+      if (this._container) {
+        if (this.schemeClass) this._container.classList.add(this.schemeClass);
+        this._container.style.setProperty('--dark-mode-map-filter', this.options.filter);
+        if (document.getElementById('map').contains(this._container)) document.querySelector('.key-ui').style.setProperty('--dark-mode-map-filter', this.options.filter);
+      }
     });
   }
 });
