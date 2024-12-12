@@ -26,6 +26,8 @@ class Note < ApplicationRecord
   has_many :subscriptions, :class_name => "NoteSubscription"
   has_many :subscribers, :through => :subscriptions, :source => :user
 
+  has_many :note_tags
+
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
   validates :latitude, :longitude, :numericality => { :only_integer => true }
