@@ -22,6 +22,8 @@
     </p>
   </div>
 
+  <%= render :partial => "browse/tag_details", :object => @note.tags %>
+
   <% if @note_comments.find { |comment| comment.author.nil? } -%>
     <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
