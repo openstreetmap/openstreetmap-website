@@ -1,8 +1,9 @@
 <turbo-frame id="pagination" target="_top" data-turbo="false">
-  <%= form_tag do %>
+  <%= form_tag @params, :method => :put do %>
     <div class="row">
       <div class="col">
         <%= render "shared/pagination",
+                   :translation_scope => "shared.pagination.users",
                    :newer_id => @newer_users_id,
                    :older_id => @older_users_id %>
       </div>
@@ -24,12 +25,13 @@
           </td>
         </tr>
       </thead>
-      <%= render @users %>
+      <%= render :partial => "user", :collection => @users %>
     </table>
 
     <div class="row">
       <div class="col">
         <%= render "shared/pagination",
+                   :translation_scope => "shared.pagination.users",
                    :newer_id => @newer_users_id,
                    :older_id => @older_users_id %>
       </div>
