@@ -1,8 +1,25 @@
-<h4 class="fs-5"><%= type_and_paginated_count(type, pages) %></h4>
-<% if pages.page_count > 1 %>
+<% if pages.page_count == 1 %>
+  <h4 class="fs-5">
+    <%= t ".#{type.pluralize}_title" %>
+    <span class="badge count-number">
+      <%= pages.item_count %>
+    </span>
+  </h4>
+<% elsif pages.page_count > 1 %>
+  <h4 class="fs-5">
+    <%= t ".#{type.pluralize}_title" %>
+    <span class="badge count-number">
+      <%= t ".range", :x => pages.current_page.first_item,
+                      :y => pages.current_page.last_item,
+                      :count => pages.item_count %>
+    </span>
+  </h4>
+
   <%= sidebar_classic_pagination(pages, "#{type}_page") do |page|
         {
-          :title => type_and_paginated_count(type, pages, page),
+          :title => t(".#{type.pluralize}_paginated", :x => page.first_item,
+                                                      :y => page.last_item,
+                                                      :count => pages.item_count),
           :data => { :turbo => "true" }
         }
       end %>
