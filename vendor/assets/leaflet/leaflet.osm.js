@@ -14,10 +14,11 @@ L.OSM.TileLayer = L.TileLayer.extend({
     if (url) this.schemeClass = isDarkMap ? 'dark' : 'light';
     L.TileLayer.prototype.initialize.call(this, url || options.url);
     this.on('add', function () {
-      if (this._container) {
-        if (this.schemeClass) this._container.classList.add(this.schemeClass);
-        this._container.style.setProperty('--dark-mode-map-filter', this.options.filter);
-        if (document.getElementById('map').contains(this._container)) document.querySelector('.key-ui').style.setProperty('--dark-mode-map-filter', this.options.filter);
+      container = this.getContainer();
+      if (container) {
+        if (this.schemeClass) container.classList.add(this.schemeClass);
+        container.style.setProperty('--dark-mode-map-filter', this.options.filter);
+        if (document.getElementById('map').contains(container)) document.querySelector('.key-ui').style.setProperty('--dark-mode-map-filter', this.options.filter);
       }
     });
   }
