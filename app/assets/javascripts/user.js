@@ -10,6 +10,13 @@ $(document).ready(function () {
   var defaultHomeZoom = 12;
   var map, marker, deleted_lat, deleted_lon;
 
+  const locationInput = {
+    dirty: true,
+    request: null,
+    countryName: "",
+    deletedText: null
+  };
+
   if ($("#map").length) {
     map = L.map("map", {
       attributionControl: false,
@@ -73,6 +80,7 @@ $(document).ready(function () {
 
         deleted_lat = null;
         deleted_lon = null;
+        locationInput.deletedText = null;
         respondToHomeUpdate();
       }).on("moveend", function () {
         var lat = $("#home_lat").val().trim(),
@@ -93,7 +101,24 @@ $(document).ready(function () {
       $("#home_lat, #home_lon").on("input", function () {
         deleted_lat = null;
         deleted_lon = null;
+        locationInput.deletedText = null;
         respondToHomeUpdate();
+      });
+
+      $("#location_name").on("input", function () {
+        locationInput.dirty = true;
+        deleted_lat = null;
+        deleted_lon = null;
+        locationInput.deletedText = null;
+
+        updateLocationWarning();
+        respondToHomeUpdate(false);
+      });
+
+      $("#location_default_name").on("click", function () {
+        $("#location_name").val(locationInput.countryName);
+        $("#location_name_warning").addClass("d-none");
+        locationInput.dirty = false;
       });
 
       $("#home_show").click(function () {
@@ -104,24 +129,34 @@ $(document).ready(function () {
       });
 
       $("#home_delete").click(function () {
-        var lat = $("#home_lat").val(),
-            lon = $("#home_lon").val();
+        let lat = $("#home_lat").val(),
+            lon = $("#home_lon").val(),
+            locationName = $("#location_name").val();
 
-        $("#home_lat, #home_lon").val("");
+        $("#location_name_warning").addClass("d-none");
+        $("#home_lat, #home_lon, #location_name").val("");
         deleted_lat = lat;
         deleted_lon = lon;
-        respondToHomeUpdate();
+        locationInput.deletedText = locationName;
+
+        respondToHomeUpdate(false);
         $("#home_undelete").trigger("focus");
       });
 
       $("#home_undelete").click(function () {
         $("#home_lat").val(deleted_lat);
         $("#home_lon").val(deleted_lon);
+        $("#location_name").val(locationInput.deletedText);
         deleted_lat = null;
         deleted_lon = null;
-        respondToHomeUpdate();
+        locationInput.deletedText = null;
+
+        updateLocationWarning();
+        respondToHomeUpdate(false);
         $("#home_delete").trigger("focus");
       });
+
+      updateHomeLocation();
     } else {
       $("[data-user]").each(function () {
         var user = $(this).data("user");
@@ -133,14 +168,18 @@ $(document).ready(function () {
     }
   }
 
-  function respondToHomeUpdate() {
-    var lat = $("#home_lat").val().trim(),
+  function respondToHomeUpdate(updateLocationName = true) {
+    let lat = $("#home_lat").val().trim(),
         lon = $("#home_lon").val().trim(),
+        locationName = $("#location_name").val().trim(),
         location;
 
     try {
       if (lat && lon) {
         location = L.latLng(lat, lon);
+        if (updateLocationName) {
+          updateHomeLocation();
+        }
       }
       $("#home_lat, #home_lon").removeClass("is-invalid");
     } catch (error) {
@@ -150,8 +189,11 @@ $(document).ready(function () {
 
     $("#home_message").toggleClass("invisible", Boolean(location));
     $("#home_show").prop("hidden", !location);
-    $("#home_delete").prop("hidden", !location);
-    $("#home_undelete").prop("hidden", !(!location && deleted_lat && deleted_lon));
+    $("#home_delete").prop("hidden", !location && !locationName);
+    $("#home_undelete").prop("hidden", !(
+      (!location || !locationName) &&
+      ((deleted_lat && deleted_lon) || locationInput.deletedText)
+    ));
     if (location) {
       marker.setLatLng([lat, lon]);
       marker.addTo(map);
@@ -175,6 +217,48 @@ $(document).ready(function () {
       $("input#user_auth_uid").show().prop("disabled", false);
     } else {
       $("input#user_auth_uid").hide().prop("disabled", true);
+    }
+  }
+
+  function updateHomeLocation() {
+    const lat = $("#home_lat").val().trim();
+    const lon = $("#home_lon").val().trim();
+    if (!lat || !lon) {
+      return;
+    }
+
+    const geocodeUrl = "/geocoder/search_osm_nominatim_reverse";
+    const params = {
+      format: "json",
+      lat,
+      lon,
+      zoom: 3
+    };
+
+    if (locationInput.request) locationInput.request.abort();
+    locationInput.request = $.ajax({
+      url: geocodeUrl,
+      method: "POST",
+      data: params,
+      success: function (country) {
+        locationInput.request = null;
+        locationInput.countryName = country;
+        $("#location_default_name").text(I18n.t("javascripts.profiles.edit.location_autofill", { country }));
+        if (locationInput.dirty) {
+          updateLocationWarning();
+        } else {
+          $("#location_name").val(locationInput.countryName);
+        }
+      }
+    });
+  }
+
+  function updateLocationWarning() {
+    const locationName = $("#location_name").val();
+    if (!locationInput.dirty || locationName.includes(locationInput.countryName)) {
+      $("#location_name_warning").addClass("d-none");
+    } else {
+      $("#location_name_warning").removeClass("d-none");
     }
   }
 
