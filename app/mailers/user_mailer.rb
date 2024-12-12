@@ -123,7 +123,7 @@ class UserMailer < ApplicationMailer
     with_recipient_locale friendship.befriendee do
       @friendship = friendship
       @viewurl = user_url(@friendship.befriender)
-      @friendurl = make_friend_url(@friendship.befriender)
+      @followurl = follow_url(@friendship.befriender)
       @author = @friendship.befriender.display_name
 
       attach_user_avatar(@friendship.befriender)
