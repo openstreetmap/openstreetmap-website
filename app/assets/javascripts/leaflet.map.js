@@ -35,7 +35,7 @@ L.OSM.Map = L.Map.extend({
         } else if (property === "darkUrl") {
           if (OSM.isDarkMap()) {
             layerOptions.url = value;
-            layerOptions.schemeClass = 'dark';
+            layerOptions.schemeClass = "dark";
           }
         } else {
           layerOptions[property] = value;
@@ -57,17 +57,19 @@ L.OSM.Map = L.Map.extend({
       code: "G"
     });
 
-    this.on("layeradd", function ({layer}) {
+    this.on("layeradd", function ({ layer }) {
       if (this.baseLayers.indexOf(layer) >= 0) {
         this.setMaxZoom(layer.options.maxZoom);
         const container = layer.getContainer();
         if (!container) return;
         if (layer.options.schemeClass) container.classList.add(layer.options.schemeClass);
         const filterRecievers = [container];
-        if (document.getElementById('map').contains(container))
-          filterRecievers.push(document.querySelector('.key-ui'));
-        for (let el of filterRecievers)
-          el.style.setProperty('--dark-mode-map-filter', layer.options.filter || 'none');
+        if (document.getElementById("map").contains(container)) {
+          filterRecievers.push(document.querySelector(".key-ui"));
+        }
+        for (let el of filterRecievers) {
+          el.style.setProperty("--dark-mode-map-filter", layer.options.filter || "none");
+        }
       }
     });
 
@@ -389,16 +391,18 @@ L.extend(L.Icon.Default.prototype, {
   }
 });
 
-OSM.isDarkMap = function() {
+OSM.isDarkMap = function () {
   var themeFlags = [
-    $('body').attr('data-map-theme'),
-    $('html').attr('data-bs-theme')
+    $("body").attr("data-map-theme"),
+    $("html").attr("data-bs-theme")
   ];
-  for (var themeFlag of themeFlags)
-    if (themeFlag)
-      return themeFlag === 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
+  for (var themeFlag of themeFlags) {
+    if (themeFlag) {
+      return themeFlag === "dark";
+    }
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
 
 OSM.getUserIcon = function (url) {
   return L.icon({
