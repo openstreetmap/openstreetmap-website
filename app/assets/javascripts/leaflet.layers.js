@@ -31,6 +31,9 @@ L.OSM.layers = function (options) {
         var miniMap = L.map(mapContainer[0], { attributionControl: false, zoomControl: false, keyboard: false })
           .addLayer(new layer.constructor(layer.options));
 
+        if (layer.options.schemeClass)
+          miniMap.getPane('tilePane').classList.add(layer.options.schemeClass);
+
         miniMap.dragging.disable();
         miniMap.touchZoom.disable();
         miniMap.doubleClickZoom.disable();
