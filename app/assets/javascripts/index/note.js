@@ -34,18 +34,17 @@ OSM.Note = function (map) {
   page.load = function (path, id) {
     initialize(path, id);
     moveToNote();
-    page.load = function() {
+    page.load = function () {
       // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
       // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
-      function originalLoadFunction () {
+      function originalLoadFunction() {
         initialize(moveToNote);
       }  // end originalLoadFunction
 
       // "if map.timeslider" only try to add the timeslider if we don't already have it
       if (map.timeslider) {
         originalLoadFunction();
-      }
-      else {
+      } else {
         var params = querystring.parse(location.hash.substring(1));
         addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
       }
@@ -63,7 +62,7 @@ OSM.Note = function (map) {
           url: data.url,
           type: data.method,
           oauth: true,
-          data: { text: $(form.text).val() },
+          data: {text: $(form.text).val()},
           success: function () {
             OSM.loadSidebarContent(path, function () {
               initialize(path, id);
@@ -115,7 +114,7 @@ OSM.Note = function (map) {
 
       if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
         OSM.router.withoutMoveListener(function () {
-          map.setView(latLng, 15, { reset: true });
+          map.setView(latLng, 15, {reset: true});
         });
       }
     }
@@ -125,4 +124,5 @@ OSM.Note = function (map) {
     };
 
     return page;
-  };
+  }
+};
