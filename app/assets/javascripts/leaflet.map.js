@@ -67,6 +67,51 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
+    this.ohmMaplibreOptions = {
+      attribution: `<a href="https://wiki.openstreetmap.org/wiki/OHM">OHM</a> &hearts; ${donate}`,
+      localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
+      minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
+      maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
+    }
+
+    /* see also timeslider.js and viewreset/baselayerchange handlers */
+
+    this.baseLayers.push(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "O",
+        keyid: "historical",
+        name: I18n.t("javascripts.map.base.historical"),
+        style: ohmVectorStyles.Original,
+      })
+    ));
+
+    this.baseLayers.push(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "R",
+        keyid: "railway",
+        name: I18n.t("javascripts.map.base.railway"),
+        style: ohmVectorStyles.Railway,
+      })
+    ));
+
+    this.baseLayers.push(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "W",
+        keyid: "woodblock",
+        name: I18n.t("javascripts.map.base.woodblock"),
+        style: ohmVectorStyles.Woodblock,
+      })
+    ));
+
+    this.baseLayers.push(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "J",
+        keyid: "japanese",
+        name: I18n.t("javascripts.map.base.japanesescroll"),
+        style: ohmVectorStyles.JapaneseScroll,
+      })
+    ));
+
     this.baseLayers.push(new L.OSM.Mapnik({
       attribution: copyright + " &hearts; " + donate + ". " + terms,
       code: "M",

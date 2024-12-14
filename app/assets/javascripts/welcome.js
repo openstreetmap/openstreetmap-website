@@ -31,7 +31,9 @@ $(document).ready(function () {
       if (navigator.geolocation) {
         // handle firefox's weird implementation
         // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
-        window.setTimeout(manualEdit, 4000);
+        window.setTimeout(() => {
+          manualEdit
+        }, 4000);
 
         navigator.geolocation.getCurrentPosition(geoSuccess, manualEdit);
       } else {

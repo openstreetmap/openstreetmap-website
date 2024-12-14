@@ -30,9 +30,8 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
   if (params && params.daterange && typeof params.daterange == 'string' && params.daterange.match(/^\-?\d{1,4}\-\d\d\-\d\d,\-?\d{1,4}\-\d\d\-\d\d$/)) {
     sliderOptions.range = params.daterange.split(',');
   }
-
   // change basemap = MBGL gone and so is the real timeslider, so reinstate a new one
-  // add the slider IF the the OSM vector map is the layer showing
+  // add the slider IF the OSM vector map is the layer showing
   if (getHistoryLayerIfShowing()) {
     addTimeSliderToMap(sliderOptions);
   }
@@ -42,6 +41,7 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
     // by now, the timeslider is already gone from the visible map, along with the MBGL map
     // but the Leaflet wrapper will leave behind an empty DIV, and those pile up
     const oldctrl = this._container.querySelector('div.leaflet-control.leaflet-ohm-timeslider');
+
     if (oldctrl) oldctrl.parentElement.removeChild(oldctrl);
 
     if (this.timeslider) this.timeslider.autoplayPause();
@@ -72,11 +72,12 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
   function addTimeSliderToMap (slideroptions) {
     const ohmlayer = getHistoryLayerIfShowing();
     slideroptions.vectorLayer = ohmlayer;
+
     map.timeslider = new L.Control.OHMTimeSlider(slideroptions).addTo(map);
 
     // if a callback was given for when the slider is ready, poll until it becomes ready
     if (onreadycallback) {
-      var waitforslider = setInterval(function () {
+      var waitforslider = setInterval(() => {
         var ready = ! getHistoryLayerIfShowing() || map.timeslider;
         if (ready) {
           clearInterval(waitforslider);
