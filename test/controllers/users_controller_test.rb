@@ -329,4 +329,97 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get auth_failure_path, :params => { :origin => "http://www.google.com" }
     assert_redirected_to login_path
   end
+
+  def test_show_heatmap_data
+    user = create(:user)
+    # Create two changesets
+    create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
+    create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
+
+    get user_path(user.display_name)
+    assert_response :success
+    # The data should not be empty
+    assert_not_nil assigns(:heatmap_data)
+
+    heatmap_data = assigns(:heatmap_data)
+    # The data should be in the right format
+    assert(heatmap_data.all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
+  end
+
+  def test_show_heatmap_data_caching
+    # Enable caching to be able to test
+    Rails.cache.clear
+    @original_cache_store = Rails.cache
+    Rails.cache = ActiveSupport::Cache::MemoryStore.new
+
+    user = create(:user)
+
+    # Create an initial changeset
+    create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 15)
+
+    # First request to populate the cache
+    get user_path(user.display_name)
+    first_response_data = assigns(:heatmap_data)
+    assert_not_nil first_response_data, "Expected heatmap data to be assigned on the first request"
+    assert_equal 1, first_response_data.size, "Expected one entry in the heatmap data"
+
+    # Inspect cache after the first request
+    cached_data = Rails.cache.read("heatmap_data_user_#{user.id}")
+    assert_equal first_response_data, cached_data, "Expected the cache to contain the first response data"
+
+    # Add a new changeset to the database
+    create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
+
+    # Second request
+    get user_path(user.display_name)
+    second_response_data = assigns(:heatmap_data)
+
+    # Confirm that the cache is still being used
+    assert_equal first_response_data, second_response_data, "Expected cached data to be returned on the second request"
+
+    # Clear the cache and make a third request to confirm new data is retrieved
+    Rails.cache.clear
+    get user_path(user.display_name)
+    third_response_data = assigns(:heatmap_data)
+
+    # Ensure the new entry is now included
+    assert_equal 2, third_response_data.size, "Expected two entries in the heatmap data after clearing the cache"
+
+    # Reset caching config to defaults
+    Rails.cache.clear
+    Rails.cache = @original_cache_store
+  end
+
+  def test_show_heatmap_data_no_changesets
+    user = create(:user)
+
+    get user_path(user.display_name)
+    assert_response :success
+    # There should be no entries in heatmap data
+    assert_empty assigns(:heatmap_data)
+  end
+
+  def test_heatmap_rendering
+    # Test user with no changesets
+    user_without_changesets = create(:user)
+    get user_path(user_without_changesets)
+    assert_response :success
+    assert_select "div#cal-heatmap", 0
+
+    # Test user with changesets
+    user_with_changesets = create(:user)
+    create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 42)
+    create(:changeset, :user => user_with_changesets, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
+    get user_path(user_with_changesets)
+    assert_response :success
+    assert_select "div#cal-heatmap[data-heatmap]" do |elements|
+      # Check the data-heatmap attribute is present and contains expected JSON
+      heatmap_data = JSON.parse(elements.first["data-heatmap"])
+      expected_data = [
+        { "date" => 4.months.ago.to_date.to_s, "total_changes" => 39 },
+        { "date" => 3.months.ago.to_date.to_s, "total_changes" => 42 }
+      ]
+      assert_equal expected_data, heatmap_data
+    end
+  end
 end
