@@ -82,6 +82,7 @@ vi:
       message: Thư
       node: Nốt
       node_tag: Thẻ Nốt
+      note: Ghi chú
       old_node: Nốt Cũ
       old_node_tag: Thẻ Nốt Cũ
       old_relation: Quan hệ Cũ
@@ -373,7 +374,7 @@ vi:
         way: Lối
         relation: Quan hệ
     containing_relation:
-      entry_role_html: 'Quan hệ %{relation_name} (vai trò: %{relation_role})'
+      entry_role_html: '%{relation_name} (vai trò: %{relation_role})'
     not_found:
       title: Không Tìm thấy
       sorry: 'Rất tiếc, không tìm thấy %{type} #%{id}.'
@@ -385,8 +386,8 @@ vi:
         note: ghi chú
     timeout:
       title: Lỗi Hết Thời gian Chờ
-      sorry: Rất tiếc, việc lấy dữ liệu loại %{type} có ID %{id} vượt quá thời gian
-        cho phép.
+      sorry: Rất tiếc, việc lấy dữ liệu cho phần tử kiểu %{type} số %{id} vượt quá
+        thời gian cho phép.
       type:
         node: nốt
         way: lối
@@ -424,20 +425,30 @@ vi:
       enclosing: Yếu tố bao gồm
   nodes:
     timeout:
-      sorry: Rất tiếc, việc lấy dữ liệu cho node có ID %{id} vượt quá thời gian cho
-        phép.
+      sorry: Rất tiếc, việc lấy dữ liệu cho nốt số %{id} vượt quá thời gian cho phép.
   old_nodes:
     not_found:
       sorry: 'Rất tiếc, không tìm thấy nốt #%{id} phiên bản %{version}.'
     timeout:
-      sorry: Rất tiếc, việc lấy lịch sử cho node có ID %{id} vượt quá thời gian cho
-        phép.
+      sorry: Rất tiếc, việc lấy lịch sử cho nốt số %{id} vượt quá thời gian cho phép.
+  ways:
+    timeout:
+      sorry: Rất tiếc, việc lấy dữ liệu cho lối số %{id} vượt quá thời gian cho phép.
   old_ways:
     not_found:
       sorry: 'Rất tiếc, không tìm thấy lối #%{id} phiên bản %{version}.'
+    timeout:
+      sorry: Rất tiếc, việc lấy lịch sử cho lối số %{id} vượt quá thời gian cho phép.
+  relations:
+    timeout:
+      sorry: Rất tiếc, việc lấy dữ liệu cho quan hệ số %{id} vượt quá thời gian cho
+        phép.
   old_relations:
     not_found:
       sorry: 'Rất tiếc, không tìm thấy #%{id} phiên bản %{version}.'
+    timeout:
+      sorry: Rất tiếc, việc lấy lịch sử cho quan hệ số %{id} vượt quá thời gian cho
+        phép.
   changeset_comments:
     feeds:
       comment:
@@ -619,6 +630,8 @@ vi:
       post: Mục nhật ký
       when: Lúc đăng
       comment: Nhận xét
+    new:
+      heading: Thêm bình luận vào cuộc thảo luận về mục nhật ký sau đây?
   doorkeeper:
     errors:
       messages:
@@ -1397,6 +1410,7 @@ vi:
     page:
       user_not_found: Người dùng không tồn tại
       issues_not_found: Không tìm thấy vấn đề
+      reported_user: Người dùng Báo cáo
       status: Trạng thái
       reports: Báo cáo
       last_updated: Lần Cập nhật Cuối
@@ -1404,7 +1418,15 @@ vi:
       reports_count:
         other: '%{count} Báo cáo'
       reported_item: Mục Báo cáo
+      states:
+        ignored: Bỏ qua
+        open: Mở
+        resolved: Giải quyết
     show:
+      title:
+        open: 'Vấn đề Mở #%{issue_id}'
+        ignored: 'Vấn đề Bỏ qua #%{issue_id}'
+        resolved: 'Vấn đề Giải quyết #%{issue_id}'
       reports:
         other: '%{count} báo cáo'
       no_reports: Không có báo cáo
@@ -1503,6 +1525,7 @@ vi:
       hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
     osm_read_only: Cơ sở dữ liệu OpenStreetMap đang bị khóa không được sửa đổi trong
       lúc đang thực hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
+    nothing_to_preview: Không có gì để xem trước.
     help: Trợ giúp
     about: Giới thiệu
     copyright: Bản quyền
@@ -1544,13 +1567,21 @@ vi:
       befriend_them_html: Bạn cũng có thể thêm họ vào danh sách bạn bè của bạn tại
         %{befriendurl}.
     gpx_description:
-      description_with_tags_html: 'Hình như tập tin GPX %{trace_name} của bạn có lời
-        miêu tả %{trace_description} và các thẻ sau: %{tags}'
-      description_with_no_tags_html: Hình như tập tin GPX %{trace_name} của bạn có
-        lời miêu tả %{trace_description} và không có thẻ
+      description_with_tags: 'Hình như tập tin %{trace_name} của bạn có lời miêu tả
+        %{trace_description} và các thẻ sau: %{tags}'
+      description_with_tags_html: 'Hình như tập tin %{trace_name} của bạn có lời miêu
+        tả %{trace_description} và các thẻ sau: %{tags}'
+      description_with_no_tags: Hình như tập tin %{trace_name} của bạn có lời miêu
+        tả %{trace_description} và không có thẻ
+      description_with_no_tags_html: Hình như tập tin %{trace_name} của bạn có lời
+        miêu tả %{trace_description} và không có thẻ
     gpx_failure:
       hi: Chào %{to_user},
-      failed_to_import: 'không nhập thành công. Đã gặp lỗi này:'
+      failed_to_import: 'không nhập thành công là tập tin tuyến GPS. Vui lòng kiểm
+        tra rằng tập tin của bạn là tập tin GPX hợp lệ hoặc gói chứa (các) tập tin
+        dưới định dạng được hỗ trợ (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Tập tin của bạn có phải có vấn đề định dạng hoặc cú pháp không? Lỗi nhập là:'
+      more_info: Tìm hiểu thêm về lỗi nhập GPX và cách tránh lỗi tại %{url}.
       more_info_html: Tìm hiểu thêm về lỗi nhập GPX và cách tránh lỗi tại %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=vi
       subject: '[OpenStreetMap] Nhập GPX thất bại'
@@ -1558,6 +1589,9 @@ vi:
       hi: Chào %{to_user},
       loaded:
         other: tải thành công với %{trace_points} điểm trên tổng số %{count} điểm.
+      trace_location: Tuyến GPX của bạn có sẵn tại %{trace_url}
+      all_your_traces: Bạn có thể truy cập tất cả các tuyến GPX mà bạn đã tải lên
+        thành công tại %{url}
       all_your_traces_html: Bạn có thể truy cập tất cả các tuyến GPX mà bạn đã tải
         lên thành công tại %{url}.
       subject: '[OpenStreetMap] Nhập GPX thành công'
@@ -1770,6 +1804,16 @@ vi:
       title: Tùy chỉnh
       preferred_editor: Trình vẽ Ưu tiên
       preferred_languages: Ngôn ngữ Ưu tiên
+      preferred_site_color_scheme: Bộ màu Trang Ưa thích
+      site_color_schemes:
+        auto: Tự động
+        light: Sáng
+        dark: Tối
+      preferred_map_color_scheme: Bộ màu Bản đồ Ưa thích
+      map_color_schemes:
+        auto: Tự động
+        light: Sáng
+        dark: Tối
       edit_preferences: Thay đổi Tùy chỉnh
     edit:
       title: Thay đổi Tùy chỉnh
@@ -1846,6 +1890,7 @@ vi:
     richtext_field:
       edit: Sửa đổi
       preview: Xem trước
+      help: Trợ giúp
     pagination:
       diary_comments:
         older: Các Nhận xét Cũ hơn
@@ -1853,6 +1898,9 @@ vi:
       diary_entries:
         older: Mục cũ hơn
         newer: Mục mới hơn
+      issues:
+        older: Vấn đề Cũ hơn
+        newer: Vấn đề Mới hơn
       traces:
         older: Tuyến đường Cũ hơn
         newer: Tuyến đường Mới hơn
@@ -2030,6 +2078,8 @@ vi:
         infringement_1_html: Những người đóng góp vào OSM được khuyên không bao giờ
           bổ sung dữ liệu từ những nguồn có bản quyền (chẳng hạn Bản đồ Google hoặc
           các bản đồ trên giấy) trước khi các nhà giữ bản quyền cho phép rõ ràng.
+        infringement_2_1_takedown_procedure: thủ tục tháo gỡ
+        infringement_2_1_online_filing_page: trang nộp đơn trực tuyến
         trademarks_title: Nhãn hiệu
         trademarks_1_1_html: |-
           OpenStreetMap, biểu trưng kính lúp, và State of the Map là các nhãn hiệu do Quỹ OpenStreetMap đăng ký. Nếu bạn có thắc mắc về việc sử dụng các nhãn hiệu, xin vui lòng xem
@@ -2422,6 +2472,7 @@ vi:
       oauth2_authorizations: Ủy quyền OAuth 2
       muted_users: Người dùng bị Tắt tiếng
     auth_providers:
+      openid_url: Địa chỉ OpenID
       openid_login_button: Tiếp tục
       openid:
         title: Đăng nhập qua OpenID
@@ -2571,6 +2622,7 @@ vi:
       informal_translations: bản dịch không chính thức
       continue: Tiếp tục
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
+      cancel: Hủy bỏ
       you need to accept or decline: Để tiếp tục, xin vui lòng đọc các Điều khoản
         Đóng góp mới và chấp nhận hoặc từ chối chúng.
       legale_select: 'Vui lòng chọn quốc gia cư trú:'
@@ -2776,6 +2828,8 @@ vi:
       display_name: Người bị cấm
       creator_name: Người cấm
       reason: Lý do cấm
+      start: Bắt đầu
+      end: Kết thúc
       status: Trạng thái
     navigation:
       all_blocks: Tất cả các Tác vụ Cấm
@@ -2784,6 +2838,7 @@ vi:
       blocks_by_me: Tác vụ Cấm bởi Tôi
       blocks_by_user_html: Tác vụ Cấm bởi %{user}
       block: Tác vụ cấm số %{id}
+      new_block: Tác vụ Cấm Mới
   user_mutes:
     index:
       title: Người dùng bị Tắt tiếng
@@ -2820,6 +2875,11 @@ vi:
       description: Miêu tả
       created_at: Lúc tạo
       last_changed: Thay đổi gần đây nhất
+      apply: Áp dụng
+      all: Tất cả
+      open: Mở
+      closed: Đóng
+      status: Trạng thái
     show:
       title: 'Ghi chú: %{id}'
       description: Miêu tả
@@ -2838,6 +2898,9 @@ vi:
       report: báo cáo ghi chú này
       anonymous_warning: Ghi chú này có bình luận của người dùng vô danh đóng góp;
         các bình luận này cần được xác nhận lại.
+      discussion: Thảo luận
+      subscribe: Theo dõi
+      unsubscribe: Ngừng theo dõi
       hide: Ẩn
       resolve: Giải quyết
       reactivate: Mở lại
@@ -2866,6 +2929,8 @@ vi:
       add: Thêm Ghi chú
     notes_paging_nav:
       showing_page: Trang %{page}
+      next: Sau
+      previous: Trước
   javascripts:
     close: Đóng
     share:
@@ -2880,14 +2945,15 @@ vi:
       custom_dimensions: Tùy biến kích thước
       format: 'Định dạng:'
       scale: 'Tỷ lệ:'
-      image_dimensions: Hình của lớp tiêu chuẩn với kích thước %{width}×%{height}
+      image_dimensions: Hình của lớp %{layer} với kích thước %{width}×%{height}
       download: Tải về
       short_url: URL Ngắn gọn
       include_marker: Ghim trên bản đồ
       center_marker: Chuyển ghim vào giữa bản đồ
       paste_html: Dán HTML để nhúng vào trang Web
       view_larger_map: Xem Bản đồ Rộng hơn
-      only_standard_layer: Chỉ có thể xuất lớp chuẩn ra hình ảnh
+      only_standard_layer: Chỉ có thể xuất các lớp Chuẩn, Bản đồ Xe đạp, và Bản đồ
+        Giao thông ra hình ảnh
     embed:
       report_problem: Báo vấn đề
     key:
