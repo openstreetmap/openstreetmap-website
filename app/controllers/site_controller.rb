@@ -137,11 +137,7 @@ class SiteController < ApplicationController
   def export; end
 
   def offline
-    flash.now[:warning] = if Settings.status == "database_offline"
-                            t("layouts.osm_offline")
-                          else
-                            t("layouts.osm_read_only")
-                          end
+    flash.now[:warning] = { :partial => "layouts/offline_flash" }
     render :html => nil, :layout => true
   end
 
