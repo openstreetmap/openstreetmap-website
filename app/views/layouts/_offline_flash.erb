@@ -1,0 +1,5 @@
+<% if %w[database_offline api_offline].include? Settings.status %>
+  <%= t("layouts.osm_offline") %>
+<% elsif %w[database_readonly api_readonly].include? Settings.status %>
+  <%= t("layouts.osm_read_only") %>
+<% end %>

@@ -259,12 +259,7 @@ class ApplicationController < ActionController::Base
 
     request.content_security_policy = policy
 
-    case Settings.status
-    when "database_offline", "api_offline"
-      flash.now[:warning] = t("layouts.osm_offline")
-    when "database_readonly", "api_readonly"
-      flash.now[:warning] = t("layouts.osm_read_only")
-    end
+    flash.now[:warning] = { :partial => "layouts/offline_flash" } unless api_status == "online"
 
     request.xhr? ? "xhr" : "map"
   end
