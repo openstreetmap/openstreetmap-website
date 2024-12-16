@@ -53,6 +53,23 @@ class UsersController < ApplicationController
     if @user &&
        (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
+
+      one_year_ago = 1.year.ago
+      @heatmap_data = Rails.cache.fetch("heatmap_data_user_#{@user.id}", :expires_in => 1.day) do
+        Changeset
+          .where(:user_id => @user.id)
+          .where(:created_at => one_year_ago..)
+          .where(:num_changes => 1..)
+          .group("date_trunc('day', created_at)")
+          .select("date_trunc('day', created_at) AS date, SUM(num_changes) AS total_changes")
+          .order("date")
+          .map do |changeset|
+            {
+              :date => changeset.date.to_date.to_s,
+              :total_changes => changeset.total_changes.to_i
+            }
+          end
+      end
     else
       render_unknown_user params[:display_name]
     end
