@@ -1,5 +1,17 @@
-<% if %w[database_offline api_offline].include? Settings.status %>
-  <%= t(".osm_offline") %>
-<% elsif %w[database_readonly api_readonly].include? Settings.status %>
-  <%= t(".osm_read_only") %>
-<% end %>
+<div class="d-flex flex-column gap-2">
+  <% if %w[database_offline api_offline].include? Settings.status %>
+    <p class="mb-0">
+      <%= t(".osm_offline") %>
+    </p>
+  <% elsif %w[database_readonly api_readonly].include? Settings.status %>
+    <p class="mb-0">
+      <%= t(".osm_read_only") %>
+    </p>
+  <% end %>
+
+  <% if Settings.status_announcement_url %>
+    <p class="mb-0">
+      <%= link_to t(".announcement"), Settings.status_announcement_url %>
+    </p>
+  <% end %>
+</div>
