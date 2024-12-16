@@ -9,6 +9,15 @@
     </p>
   <% end %>
 
+  <% if Settings.status_expected_restore_date %>
+    <% expected_restore_time = Time.parse(Settings.status_expected_restore_date).utc %>
+    <% if expected_restore_time > Time.now.utc %>
+      <p class="mb-0">
+        <%= t ".expected_restore_html", :time => friendly_date(expected_restore_time) %>
+      </p>
+    <% end %>
+  <% end %>
+
   <% if Settings.status_announcement_url %>
     <p class="mb-0">
       <%= link_to t(".announcement"), Settings.status_announcement_url %>
