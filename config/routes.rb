@@ -77,17 +77,17 @@ OpenStreetMap::Application.routes.draw do
         put "" => "user_preferences#update_all", :as => ""
       end
     end
+  end
 
-    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :update, :destroy], :controller => "messages", :as => :api_messages do
+  namespace :api, :path => "api/0.6" do
+    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :update, :destroy] do
       collection do
         get "inbox"
         get "outbox"
       end
     end
     post "/user/messages/:id" => "messages#update"
-  end
 
-  namespace :api, :path => "api/0.6" do
     resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/ do
       scope :module => :traces do
         resource :data, :only => :show
