@@ -7,4 +7,6 @@ class Oauth2AuthorizationsController < Doorkeeper::AuthorizationsController
   allow_all_form_action :only => :new
 
   authorize_resource :class => false
+
+  before_action :check_database_writable
 end
