@@ -44,5 +44,7 @@ class NotesController < ApplicationController
     render :template => "browse/not_found", :status => :not_found
   end
 
-  def new; end
+  def new
+    render :action => :new_readonly if api_status != "online"
+  end
 end
