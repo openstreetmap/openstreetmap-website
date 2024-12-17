@@ -144,13 +144,6 @@ L.OSM.Map = L.Map.extend({
       }));
     }
 
-    this.baseLayers.push(new L.OSM.OPNVKarte({
-      attribution: copyright + ". " + memomaps + ". " + terms,
-      code: "O",
-      keyid: "opnvkarte",
-      name: I18n.t("javascripts.map.base.opnvkarte")
-    }));
-
     this.baseLayers.push(new L.OSM.HOT({
       attribution: copyright + ". " + hotosm + ". " + terms,
       code: "H",
@@ -178,7 +171,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function (layerParam) {
-    var layers = layerParam || "M",
+    var layers = layerParam || "O",
         layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
