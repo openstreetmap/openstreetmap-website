@@ -46,8 +46,12 @@ module Api
         { :controller => "api/messages", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/user/messages/1", :method => :post },
+        { :path => "/api/0.6/user/messages/1", :method => :put },
         { :controller => "api/messages", :action => "update", :id => "1" }
+      )
+      assert_recognizes(
+        { :controller => "api/messages", :action => "update", :id => "1" },
+        { :path => "/api/0.6/user/messages/1", :method => :post }
       )
       assert_routing(
         { :path => "/api/0.6/user/messages/1", :method => :delete },
@@ -253,27 +257,27 @@ module Api
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
       # attempt to mark message as read by recipient, not authenticated
-      post api_message_path(:id => msg.id), :params => { :read_status => true }
+      put api_message_path(:id => msg.id), :params => { :read_status => true }
       assert_response :unauthorized
 
       # attempt to mark message as read by recipient, not allowed
-      post api_message_path(:id => msg.id), :params => { :read_status => true }, :headers => user3_auth
+      put api_message_path(:id => msg.id), :params => { :read_status => true }, :headers => user3_auth
       assert_response :forbidden
 
       # missing parameter
-      post api_message_path(:id => msg.id), :headers => recipient_auth
+      put api_message_path(:id => msg.id), :headers => recipient_auth
       assert_response :bad_request
 
       # wrong type of parameter
-      post api_message_path(:id => msg.id),
-           :params => { :read_status => "not a boolean" },
-           :headers => recipient_auth
+      put api_message_path(:id => msg.id),
+          :params => { :read_status => "not a boolean" },
+          :headers => recipient_auth
       assert_response :bad_request
 
       # mark message as read by recipient
-      post api_message_path(:id => msg.id, :format => "json"),
-           :params => { :read_status => true },
-           :headers => recipient_auth
+      put api_message_path(:id => msg.id, :format => "json"),
+          :params => { :read_status => true },
+          :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -292,9 +296,9 @@ module Api
       assert_equal msg.body, jsm["body"]
 
       # mark message as unread by recipient
-      post api_message_path(:id => msg.id, :format => "json"),
-           :params => { :read_status => false },
-           :headers => recipient_auth
+      put api_message_path(:id => msg.id, :format => "json"),
+          :params => { :read_status => false },
+          :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)

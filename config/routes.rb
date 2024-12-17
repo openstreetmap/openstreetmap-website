@@ -78,14 +78,13 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :destroy], :controller => "messages", :as => :api_messages do
+    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :update, :destroy], :controller => "messages", :as => :api_messages do
       collection do
         get "inbox"
         get "outbox"
       end
     end
-
-    post "/user/messages/:id" => "messages#update", :as => :api_message_update
+    post "/user/messages/:id" => "messages#update"
   end
 
   namespace :api, :path => "api/0.6" do
