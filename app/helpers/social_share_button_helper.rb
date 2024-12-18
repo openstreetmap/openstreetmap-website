@@ -13,18 +13,10 @@ module SocialShareButtonHelper
 
   # Generates a set of social share buttons based on the specified options.
   def social_share_buttons(opts = {})
-    sites = opts.fetch(:allow_sites, [])
-    valid_sites, invalid_sites = filter_allowed_sites(sites)
-
-    # Log invalid sites
-    invalid_sites.each do |invalid_site|
-      Rails.logger.error("Invalid site or icon not configured: #{invalid_site}")
-    end
-
     tag.div(
       :class => "social-share-button d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
-      valid_sites.map do |site|
+      SOCIAL_SHARE_CONFIG.map do |site, icon|
         link_options = {
           :rel => ["nofollow", opts[:rel]].compact,
           :class => "ssb-icon rounded-circle",
@@ -33,27 +25,13 @@ module SocialShareButtonHelper
         }
 
         link_to generate_share_url(site, opts), link_options do
-          image_tag(icon_path(site), :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
+          image_tag(icon, :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
         end
       end.join.html_safe
     end
   end
 
   private
-
-  def filter_allowed_sites(sites)
-    valid_sites = sites.empty? ? SOCIAL_SHARE_CONFIG.keys : sites.select { |site| valid_site?(site) }
-    invalid_sites = sites - valid_sites
-    [valid_sites, invalid_sites]
-  end
-
-  def icon_path(site)
-    SOCIAL_SHARE_CONFIG[site.to_sym] || ""
-  end
-
-  def valid_site?(site)
-    SOCIAL_SHARE_CONFIG.key?(site.to_sym)
-  end
 
   def generate_share_url(site, params)
     site = site.to_sym
