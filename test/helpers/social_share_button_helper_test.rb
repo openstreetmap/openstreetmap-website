@@ -4,13 +4,14 @@ class SocialShareButtonHelperTest < ActionView::TestCase
   include SocialShareButtonHelper
 
   def test_social_share_buttons
-    result = social_share_buttons(:title => "Test Title", :url => "https://example.com")
-    assert_includes result, "email"
-    assert_includes result, "bluesky"
-    assert_includes result, "facebook"
-    assert_includes result, "linkedin"
-    assert_includes result, "mastodon"
-    assert_includes result, "telegram"
-    assert_includes result, "x"
+    buttons = social_share_buttons(:title => "Test Title", :url => "https://example.com")
+    buttons_dom = Rails::Dom::Testing.html_document_fragment.parse(buttons)
+
+    SOCIAL_SHARE_CONFIG.each_value do |icon|
+      assert_dom buttons_dom, "div:has(a img[src='/images/#{icon}'])", :count => 1 do
+        assert_dom "a[href*='Test+Title']"
+        assert_dom "a[href*='https%3A%2F%2Fexample.com']"
+      end
+    end
   end
 end
