@@ -338,7 +338,7 @@ L.OSM.share = function (options) {
 
     function update() {
       const layer = map.getMapBaseLayer();
-      var canEmbed = layer && layer.options.canEmbed;
+      var canEmbed = Boolean(layer && layer.options.canEmbed);
       var bounds = map.getBounds();
 
       $("#link_marker")
@@ -411,15 +411,10 @@ L.OSM.share = function (options) {
       $("#mapnik_image_width").text(mapWidth);
       $("#mapnik_image_height").text(mapHeight);
 
-      const layerId = map.getMapBaseLayerId();
-      const layerKeys = new Map([
-        ["mapnik", "standard"],
-        ["cyclemap", "cycle_map"],
-        ["transportmap", "transport_map"]
-      ]);
+      const canDownloadImage = Boolean(layer && layer.options.canDownloadImage);
 
-      $("#mapnik_image_layer").text(layerKeys.has(layerId) ? I18n.t(`javascripts.map.base.${layerKeys.get(layerId)}`) : "");
-      $("#map_format").val(layerId);
+      $("#mapnik_image_layer").text(canDownloadImage ? layer.options.name : "");
+      $("#map_format").val(canDownloadImage ? layer.options.layerId : "");
 
       $("#map_zoom").val(map.getZoom());
       $("#mapnik_lon").val(map.getCenter().lng);
@@ -427,18 +422,9 @@ L.OSM.share = function (options) {
       $("#map_width").val(mapWidth);
       $("#map_height").val(mapHeight);
 
-      if (["cyclemap", "transportmap"].includes(map.getMapBaseLayerId())) {
-        $("#export-image").show();
-        $("#mapnik_scale_row").hide();
-        $("#export-warning").hide();
-      } else if (map.getMapBaseLayerId() === "mapnik") {
-        $("#export-image").show();
-        $("#mapnik_scale_row").show();
-        $("#export-warning").hide();
-      } else {
-        $("#export-image").hide();
-        $("#export-warning").show();
-      }
+      $("#export-image").toggle(canDownloadImage);
+      $("#export-warning").toggle(!canDownloadImage);
+      $("#mapnik_scale_row").toggle(canDownloadImage && layer.options.layerId === "mapnik");
     }
 
     function select() {
