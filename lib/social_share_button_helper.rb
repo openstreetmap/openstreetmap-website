@@ -39,7 +39,7 @@ module SocialShareButtonHelper
     when :linkedin
       "https://www.linkedin.com/sharing/share-offsite/?url=#{URI.encode_www_form_component(params[:url])}"
     when :facebook
-      "https://www.facebook.com/sharer/sharer.php?u=#{URI.encode_www_form_component('params[:url]')}&t=#{URI.encode_www_form_component(params[:title])}"
+      "https://www.facebook.com/sharer/sharer.php?u=#{URI.encode_www_form_component(params[:url])}&t=#{URI.encode_www_form_component(params[:title])}"
     when :mastodon
       "https://mastodonshare.com/?text=#{URI.encode_www_form_component(params[:title])}&url=#{URI.encode_www_form_component(params[:url])}"
     when :telegram
