@@ -130,11 +130,14 @@ L.OSM.Map = L.Map.extend({
   },
 
   getMapBaseLayerId: function () {
-    var baseLayerId;
-    this.eachLayer(function (layer) {
-      if (layer.options && layer.options.layerId) baseLayerId = layer.options.layerId;
-    });
-    return baseLayerId;
+    const layer = this.getMapBaseLayer();
+    if (layer) return layer.options.layerId;
+  },
+
+  getMapBaseLayer: function () {
+    for (const layer of this.baseLayers) {
+      if (this.hasLayer(layer)) return layer;
+    }
   },
 
   getUrl: function (marker) {
