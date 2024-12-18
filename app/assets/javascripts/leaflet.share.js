@@ -130,7 +130,12 @@ L.OSM.share = function (options) {
     $("<div>")
       .attr("id", "export-warning")
       .attr("class", "text-body-secondary")
-      .text(I18n.t("javascripts.share.only_standard_layer"))
+      .text(I18n.t("javascripts.share.only_layers_exported_as_image"))
+      .append(
+        $("<ul>").append(
+          map.baseLayers
+            .filter(layer => layer.options.canDownloadImage)
+            .map(layer => $("<li>").text(layer.options.name))))
       .appendTo($imageSection);
 
     $form = $("<form>")
