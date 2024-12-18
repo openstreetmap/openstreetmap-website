@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def self.allow_thirdparty_images(**options)
     content_security_policy(options) do |policy|
-      policy.img_src("*")
+      policy.img_src("*", :data)
     end
   end
 
