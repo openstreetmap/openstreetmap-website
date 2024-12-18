@@ -67,7 +67,8 @@ class Ability
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
-          can [:set_status, :destroy, :index], User
+          can [:set_status, :destroy], User
+          can [:show, :update], :users_list
           can [:create, :destroy], UserRole
         end
       end

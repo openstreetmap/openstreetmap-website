@@ -9,7 +9,7 @@ class UsersTest < ApplicationSystemTestCase
   test "all users can be selected" do
     create_list(:user, 100)
 
-    visit users_path
+    visit users_list_path
 
     assert_css "tbody input[type=checkbox]:checked", :count => 0
     assert_css "tbody input[type=checkbox]:not(:checked)", :count => 50
