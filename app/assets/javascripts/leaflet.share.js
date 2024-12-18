@@ -337,7 +337,8 @@ L.OSM.share = function (options) {
     }
 
     function update() {
-      var canEmbed = map.getMapBaseLayerId() !== "tracestracktopo";
+      const layer = map.getMapBaseLayer();
+      var canEmbed = layer && layer.options.canEmbed;
       var bounds = map.getBounds();
 
       $("#link_marker")
