@@ -3,6 +3,7 @@ module SocialShareButtonHelper
 
   SOCIAL_SHARE_CONFIG = {
     :email => "social_icons/email.svg",
+    :bluesky => "social_icons/bluesky.svg",
     :facebook => "social_icons/facebook.svg",
     :linkedin => "social_icons/linkedin.svg",
     :mastodon => "social_icons/mastodon.svg",
@@ -44,6 +45,8 @@ module SocialShareButtonHelper
       "https://mastodonshare.com/?text=#{URI.encode_www_form_component(params[:title])}&url=#{URI.encode_www_form_component(params[:url])}"
     when :telegram
       "https://t.me/share/url?url=#{URI.encode_www_form_component(params[:url])}&text=#{URI.encode_www_form_component(params[:title])}"
+    when :bluesky
+      "https://bsky.app/intent/compose?text=#{URI.encode_www_form_component(params[:title])}+#{URI.encode_www_form_component(params[:url])}"
     else
       raise ArgumentError, "Unsupported platform: #{platform}"
     end
