@@ -12,7 +12,7 @@ module SocialShareButtonHelper
   }.freeze
 
   # Generates a set of social share buttons based on the specified options.
-  def render_social_share_buttons(opts = {})
+  def social_share_buttons(opts = {})
     sites = opts.fetch(:allow_sites, [])
     valid_sites, invalid_sites = filter_allowed_sites(sites)
 
