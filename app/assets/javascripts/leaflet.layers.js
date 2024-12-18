@@ -34,6 +34,7 @@ L.OSM.layers = function (options) {
         if (layer.options.schemeClass) {
           miniMap.getPane("tilePane").classList.add(layer.options.schemeClass);
         }
+        miniMap.getPane("tilePane").style.setProperty("--dark-mode-map-filter", layer.options.filter || "none");
 
         miniMap.dragging.disable();
         miniMap.touchZoom.disable();
