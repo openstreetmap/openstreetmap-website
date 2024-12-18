@@ -11,21 +11,51 @@ module SocialShareButtonHelper
     :x => "social_icons/x.svg"
   }.freeze
 
-  def self.filter_allowed_sites(sites)
+  # Generates a set of social share buttons based on the specified options.
+  def render_social_share_buttons(opts = {})
+    sites = opts.fetch(:allow_sites, [])
+    valid_sites, invalid_sites = filter_allowed_sites(sites)
+
+    # Log invalid sites
+    invalid_sites.each do |invalid_site|
+      Rails.logger.error("Invalid site or icon not configured: #{invalid_site}")
+    end
+
+    tag.div(
+      :class => "social-share-button d-flex gap-1 align-items-end flex-wrap mb-3"
+    ) do
+      valid_sites.map do |site|
+        link_options = {
+          :rel => ["nofollow", opts[:rel]].compact,
+          :class => "ssb-icon rounded-circle",
+          :title => I18n.t("application.share.#{site}.title"),
+          :target => "_blank"
+        }
+
+        link_to generate_share_url(site, opts), link_options do
+          image_tag(icon_path(site), :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
+        end
+      end.join.html_safe
+    end
+  end
+
+  private
+
+  def filter_allowed_sites(sites)
     valid_sites = sites.empty? ? SOCIAL_SHARE_CONFIG.keys : sites.select { |site| valid_site?(site) }
     invalid_sites = sites - valid_sites
     [valid_sites, invalid_sites]
   end
 
-  def self.icon_path(site)
+  def icon_path(site)
     SOCIAL_SHARE_CONFIG[site.to_sym] || ""
   end
 
-  def self.valid_site?(site)
+  def valid_site?(site)
     SOCIAL_SHARE_CONFIG.key?(site.to_sym)
   end
 
-  def self.generate_share_url(site, params)
+  def generate_share_url(site, params)
     site = site.to_sym
     case site
     when :email
