@@ -3,17 +3,8 @@ require "test_helper"
 class SocialShareButtonHelperTest < ActionView::TestCase
   include SocialShareButtonHelper
 
-  def setup
-    @options = {
-      :title => "Test Title",
-      :url => "https://example.com",
-      :desc => "Test Description",
-      :via => "testuser"
-    }
-  end
-
   def test_social_share_buttons
-    result = social_share_buttons(@options)
+    result = social_share_buttons(:title => "Test Title", :url => "https://example.com")
     assert_includes result, "email"
     assert_includes result, "bluesky"
     assert_includes result, "facebook"
