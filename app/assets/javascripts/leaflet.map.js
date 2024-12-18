@@ -22,7 +22,7 @@ L.OSM.Map = L.Map.extend({
     var copyright = I18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
 
     var donate = $("<a>", {
-      "href": "https://supporting.openstreetmap.org",
+      "href": "https://openstreetmap.app.neoncrm.com/forms/ohm",
       "class": "donate-attr",
       "text": I18n.t("javascripts.map.make_a_donation")
     }).prop("outerHTML");
