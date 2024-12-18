@@ -8,7 +8,7 @@ const spriteSheetUrls_Original = {
 ohmVectorStyles.Original = {
   "version": 8,
   "name": "ohmbasemap",
-  "metadata": { "maputnik:renderer": "mbgljs" },
+  "metadata": {"maputnik:renderer": "mbgljs"},
   "sources": {
     "osm": {
       "type": "vector",
@@ -41,7 +41,7 @@ ohmVectorStyles.Original = {
       "minzoom": 0,
       "maxzoom": 20,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "background-color": [
           "interpolate",
@@ -61,8 +61,8 @@ ohmVectorStyles.Original = {
       "source-layer": "land",
       "minzoom": 0,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(255, 255, 255, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(255, 255, 255, 1)"}
     },
     {
       "id": "landuse_areas_earth",
@@ -72,15 +72,15 @@ ohmVectorStyles.Original = {
       "minzoom": 0,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "earth"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(248, 247, 242, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(248, 247, 242, 1)"}
     },
     {
       "id": "ohm_landcover_hillshade",
       "type": "raster",
       "source": "ohm_landcover_hillshade",
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "raster-opacity": [
           "interpolate",
@@ -103,7 +103,7 @@ ohmVectorStyles.Original = {
       "minzoom": 10,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "military"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(178, 194, 157, 1)",
         "fill-antialias": false,
@@ -118,8 +118,8 @@ ohmVectorStyles.Original = {
       "minzoom": 4,
       "maxzoom": 10,
       "filter": ["==", ["get", "type"], "military"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(230, 224, 212, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(230, 224, 212, 1)"}
     },
     {
       "id": "military-landusehigh",
@@ -129,8 +129,8 @@ ohmVectorStyles.Original = {
       "minzoom": 10,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "military"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(244, 244, 235, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(244, 244, 235, 1)"}
     },
     {
       "id": "military",
@@ -138,8 +138,8 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "other_areas",
       "filter": ["==", ["get", "class"], "military"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(244, 244, 235, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(244, 244, 235, 1)"}
     },
     {
       "id": "airports",
@@ -149,8 +149,8 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "apron"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(221, 221, 221, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(221, 221, 221, 1)"}
     },
     {
       "id": "landuse_areas_allz",
@@ -160,7 +160,7 @@ ohmVectorStyles.Original = {
       "minzoom": 0,
       "maxzoom": 24,
       "filter": ["in", ["get", "type"], ["literal", ["forest", "nature_reserve", "park", "wood"]]],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -185,7 +185,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -213,7 +213,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -241,7 +241,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -283,7 +283,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -326,7 +326,7 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "park"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.75, 16, 1.25],
         "line-color": "rgba(200, 210, 163, 1)"
@@ -340,7 +340,7 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -368,7 +368,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 9,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -399,7 +399,7 @@ ohmVectorStyles.Original = {
       "minzoom": 9,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "glacier"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(180, 211, 218, 1)",
         "line-dasharray": [2, 2],
@@ -413,7 +413,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -449,7 +449,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -507,7 +507,7 @@ ohmVectorStyles.Original = {
       "minzoom": 9,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "wetland"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(255, 255, 255, 1)",
         "fill-pattern": "wetland-18"
@@ -531,7 +531,7 @@ ohmVectorStyles.Original = {
       "minzoom": 10,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "nature_reserve"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-width": ["interpolate", ["linear"], ["zoom"], 10, 2, 20, 3],
         "line-dasharray": [2.5, 1.5],
@@ -546,8 +546,8 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["in", ["get", "type"], ["literal", ["bare_rock", "peak", "rock", "scree"]]],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(255, 255, 255, 1)", "fill-pattern": "rock" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(255, 255, 255, 1)", "fill-pattern": "rock"}
     },
     {
       "id": "place_areas_plot",
@@ -555,7 +555,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "place_areas",
       "filter": ["==", ["get", "type"], "plot"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(238, 236, 230, 0)",
         "fill-outline-color": "rgba(226, 223, 215, 1)"
@@ -567,7 +567,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "place_areas",
       "filter": ["==", ["get", "type"], "square"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(238, 236, 230, 1)",
         "fill-outline-color": "rgba(226, 223, 215, 1)"
@@ -594,8 +594,8 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "amenity_areas",
       "filter": ["in", ["get", "type"], ["literal", ["school", "university"]]],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(226, 214, 205, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(226, 214, 205, 1)"}
     },
     {
       "id": "water_areas",
@@ -604,7 +604,7 @@ ohmVectorStyles.Original = {
       "source-layer": "water_areas",
       "minzoom": 8,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -624,7 +624,7 @@ ohmVectorStyles.Original = {
       "source-layer": "water_areas",
       "minzoom": 0,
       "maxzoom": 8,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "interpolate",
@@ -667,7 +667,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "place_areas",
       "filter": ["==", ["get", "type"], "islet"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(248, 247, 242, 1)",
         "fill-outline-color": "rgba(226, 223, 215, 1)"
@@ -813,7 +813,7 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "canal"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(111, 145, 160, 1)",
         "line-width": [
@@ -839,7 +839,7 @@ ohmVectorStyles.Original = {
       "minzoom": 8,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "canal"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(153, 201, 222, 1)",
         "line-width": [
@@ -962,8 +962,8 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "other_areas",
       "filter": ["==", ["get", "type"], "pier"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(240, 233, 219, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(240, 233, 219, 1)"}
     },
     {
       "id": "pier_line",
@@ -972,7 +972,7 @@ ohmVectorStyles.Original = {
       "source-layer": "other_lines",
       "minzoom": 12,
       "filter": ["==", ["get", "type"], "pier"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(230, 222, 205, 1)",
         "line-width": ["interpolate", ["linear"], ["zoom"], 12, 2, 18, 7]
@@ -986,7 +986,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(224, 224, 224, 1)",
         "fill-outline-color": "rgba(208, 200, 200, 1)"
@@ -1004,8 +1004,8 @@ ohmVectorStyles.Original = {
         ["==", ["get", "class"], "historic"],
         ["==", ["get", "type"], "ruins"]
       ],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(224, 224, 224, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(224, 224, 224, 1)"}
     },
     {
       "id": "buildings_ruins_outlines",
@@ -1013,7 +1013,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "other_areas",
       "filter": ["==", ["get", "type"], "ruins"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(195, 188, 188, 1)",
         "line-opacity": 1,
@@ -1039,7 +1039,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "class"], "historic"],
         ["==", ["get", "type"], "fort"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(220, 215, 215, 1)",
         "fill-outline-color": "rgba(195, 188, 188, 1)"
@@ -1053,7 +1053,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "helipad"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(240, 240, 240, 1)",
         "fill-outline-color": "rgba(214, 212, 212, 1)"
@@ -1067,7 +1067,7 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "taxiway"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(220, 220, 220, 1)",
         "line-width": [
@@ -1091,7 +1091,7 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "runway"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(220, 220, 220, 1)",
         "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1.5, 18, 25]
@@ -1107,7 +1107,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "class"], "man_made"],
         ["==", ["get", "type"], "bridge"]
       ],
-      "paint": { "fill-color": "rgba(255, 255, 255, 1)" }
+      "paint": {"fill-color": "rgba(255, 255, 255, 1)"}
     },
     {
       "id": "man_made_bridge_line",
@@ -1119,7 +1119,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "class"], "man_made"],
         ["==", ["get", "type"], "bridge"]
       ],
-      "paint": { "line-color": "rgba(255, 255, 255, 1)", "line-width": 3}
+      "paint": {"line-color": "rgba(255, 255, 255, 1)", "line-width": 3}
     },
     {
       "id": "roads_subways_construction",
@@ -1132,7 +1132,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "subway"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(153, 153, 153, 1)",
         "line-width": [
@@ -1406,7 +1406,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "raceway"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 249, 241, 1)",
         "line-width": [
@@ -1433,7 +1433,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "track"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -1459,7 +1459,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "track"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(251, 247, 245, 1)",
         "line-width": [
@@ -1485,7 +1485,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "track"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-dasharray": [0.3, 1],
@@ -1512,7 +1512,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "living_street"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
@@ -1538,7 +1538,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "pedestrian"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -1595,7 +1595,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "pier"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -1621,7 +1621,7 @@ ohmVectorStyles.Original = {
         ["==", ["get", "type"], "construction"],
         ["==", ["get", "construction"], "steps"]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -2223,7 +2223,7 @@ ohmVectorStyles.Original = {
       "source-layer": "transport_lines",
       "minzoom": 9,
       "filter": ["==", ["get", "ford"], "yes"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -2590,9 +2590,9 @@ ohmVectorStyles.Original = {
         "all",
         ["in", ["get", "type"], ["literal", ["funicular", "monorail", "tram"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
-
+        
       ],
-      "layout": { "visibility": "visible", "line-cap": "square" },
+      "layout": {"visibility": "visible", "line-cap": "square"},
       "paint": {
         "line-color": "rgba(192, 198, 207, 1)",
         "line-width": [
@@ -2618,7 +2618,7 @@ ohmVectorStyles.Original = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "filter": ["==", ["get", "type"], "subway"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(166, 170, 187, 1)",
         "line-width": [
@@ -2884,7 +2884,7 @@ ohmVectorStyles.Original = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "raceway"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 249, 241, 1)",
         "line-width": [
@@ -2907,7 +2907,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "track"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -2929,7 +2929,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "track"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(251, 247, 245, 1)",
         "line-width": [
@@ -2951,7 +2951,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "track"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-dasharray": [0.3, 1],
@@ -2974,7 +2974,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "living_street"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
@@ -3023,7 +3023,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "pier"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -3045,7 +3045,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "steps"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -3098,7 +3098,7 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "pedestrian"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#D2D2D5",
         "line-width": [
@@ -3437,8 +3437,8 @@ ohmVectorStyles.Original = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["==", ["get", "type"], "pedestrian"],
-      "layout": { "visibility": "visible" },
+      "filter": ["==", ["get", "type"], "pedestrian"], 
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -3753,7 +3753,7 @@ ohmVectorStyles.Original = {
       "source-layer": "transport_lines",
       "minzoom": 9,
       "filter": ["==", ["get", "ford"], "yes"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -3780,7 +3780,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(162, 175, 191, 1)",
         "line-width": ["interpolate", ["linear"], ["zoom"], 7, 2, 12, 3, 20, 4]
@@ -3798,7 +3798,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
@@ -3833,7 +3833,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none", "line-cap": "square" },
+      "layout": {"visibility": "none", "line-cap": "square"},
       "paint": {
         "line-color": "#A2AFBF",
         "line-width": [
@@ -3868,7 +3868,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["abandoned", "dismantled", "disused", "razed"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
         "line-width": [
@@ -3898,7 +3898,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["abandoned", "dismantled", "disused", "razed"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
@@ -3929,7 +3929,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["abandoned", "dismantled", "disused", "razed"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
         "line-width": [
@@ -4172,7 +4172,7 @@ ohmVectorStyles.Original = {
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]],
         ["==", ["get", "name"], "usage=main"]
       ],
-      "layout": { "visibility": "none", "line-cap": "square" },
+      "layout": {"visibility": "none", "line-cap": "square"},
       "paint": {
         "line-color": "#949FA8",
         "line-width": [
@@ -4216,7 +4216,7 @@ ohmVectorStyles.Original = {
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]],
         ["!=", ["get", "name"], "usage=main"]
       ],
-      "layout": { "visibility": "none", "line-cap": "square" },
+      "layout": {"visibility": "none", "line-cap": "square"},
       "paint": {
         "line-color": "rgba(167, 179, 188, 1)",
         "line-width": [
@@ -4328,7 +4328,7 @@ ohmVectorStyles.Original = {
         ["in", ["get", "type"], ["literal", ["construction", "proposed"]]],
         ["==", ["get", "class"], "railway"]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(199, 204, 213, 1)",
         "line-width": [
@@ -4776,8 +4776,8 @@ ohmVectorStyles.Original = {
         ["==", ["get", "class"], "power"],
         ["==", ["get", "type"], "line"]
       ],
-      "layout": { "visibility": "visible" },
-      "paint": { "line-color": "rgba(164, 129, 136, 1)" }
+      "layout": {"visibility": "visible"},
+      "paint": {"line-color": "rgba(164, 129, 136, 1)"}
     },
     {
       "id": "city_county_lines_admin7_8",
@@ -5225,18 +5225,18 @@ ohmVectorStyles.Original = {
       "filter": [
         "all",
         ["in", ["get", "type"], ["literal", [
-          "camp_site",
-          "garden",
-          "grass",
-          "grassland",
-          "park",
-          "picnic_site",
-          "playground",
-          "recreation_ground",
-          "sports_centre",
-          "stadium",
-          "village_green"
-        ]]
+            "camp_site",
+            "garden",
+            "grass",
+            "grassland",
+            "park",
+            "picnic_site",
+            "playground",
+            "recreation_ground",
+            "sports_centre",
+            "stadium",
+            "village_green"
+          ]]
         ],
         [">", ["get", "area"], 12000]
       ],
@@ -5264,14 +5264,14 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["in", ["get", "type"], ["literal", [
-        "allotmets",
-        "farm",
-        "farmland",
-        "farmyard",
-        "garden",
-        "orchard",
-        "vineyard"
-      ]]
+            "allotmets",
+            "farm",
+            "farmland",
+            "farmyard",
+            "garden",
+            "orchard",
+            "vineyard"
+          ]]
       ],
       "layout": {
         "text-field": ["get", "name"],
@@ -5412,9 +5412,9 @@ ohmVectorStyles.Original = {
       "source-layer": "amenity_areas_centroids",
       "minzoom": 14,
       "maxzoom": 16,
-      "filter": ["in",
-        ["get", "type"],
-        ["literal", [
+      "filter": ["in", 
+      ["get", "type"], 
+      ["literal", [
           "bank",
           "border_control",
           "embassy",
@@ -5453,18 +5453,18 @@ ohmVectorStyles.Original = {
       "minzoom": 14,
       "maxzoom": 16,
       "filter": ["in", ["get", "type"], ["literal", [
-        "bank",
-        "border_control",
-        "embassy",
-        "fire_station",
-        "government",
-        "hospital",
-        "police",
-        "school",
-        "taxi",
-        "townhall",
-        "university"
-      ]]
+          "bank",
+          "border_control",
+          "embassy",
+          "fire_station",
+          "government",
+          "hospital",
+          "police",
+          "school",
+          "taxi",
+          "townhall",
+          "university"
+        ]]
       ],
       "layout": {
         "icon-image": "{type}-12",
@@ -5754,7 +5754,7 @@ ohmVectorStyles.Original = {
       "minzoom": 10,
       "maxzoom": 14,
       "filter": ["==", ["get", "type"], "aerodrome"],
-      "layout": { "icon-image": "airport-18", "text-font": ["OpenHistorical"]}
+      "layout": {"icon-image": "airport-18", "text-font": ["OpenHistorical"]}
     },
     {
       "id": "transport_points",
@@ -5896,33 +5896,33 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "buildings",
       "filter": ["in", ["get", "name"], ["literal", [
-        "Centro di accoglienza Oxfam Italia",
-        "Intermon Oxfam",
-        "Magasin du monde-Oxfam",
-        "OXFAM",
-        "OXFAM Latrines",
-        "OXFAM Water Tank",
-        "OXFAM Water point",
-        "Oxfam",
-        "Oxfam Book Shop",
-        "Oxfam Books",
-        "Oxfam Books & Music",
-        "Oxfam Bookshop",
-        "Oxfam Boutique",
-        "Oxfam Buchshop",
-        "Oxfam Charity Shop",
-        "Oxfam GB",
-        "Oxfam Ireland",
-        "Oxfam Magasins du monde",
-        "Oxfam Music",
-        "Oxfam Novib",
-        "Oxfam Shop",
-        "Oxfam Solidarité",
-        "Oxfam Wereldwinkel",
-        "Oxfam books",
-        "Oxfam wereldwinkel",
-        "oxfam"
-      ]]
+          "Centro di accoglienza Oxfam Italia",
+          "Intermon Oxfam",
+          "Magasin du monde-Oxfam",
+          "OXFAM",
+          "OXFAM Latrines",
+          "OXFAM Water Tank",
+          "OXFAM Water point",
+          "Oxfam",
+          "Oxfam Book Shop",
+          "Oxfam Books",
+          "Oxfam Books & Music",
+          "Oxfam Bookshop",
+          "Oxfam Boutique",
+          "Oxfam Buchshop",
+          "Oxfam Charity Shop",
+          "Oxfam GB",
+          "Oxfam Ireland",
+          "Oxfam Magasins du monde",
+          "Oxfam Music",
+          "Oxfam Novib",
+          "Oxfam Shop",
+          "Oxfam Solidarité",
+          "Oxfam Wereldwinkel",
+          "Oxfam books",
+          "Oxfam wereldwinkel",
+          "oxfam"
+        ]]
       ],
       "layout": {
         "icon-image": "oxfam-18",

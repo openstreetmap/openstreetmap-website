@@ -1,9 +1,9 @@
-/* extends ohmVectorStyles defined in ohm.style.js */
+ /* extends ohmVectorStyles defined in ohm.style.js */
 
 ohmVectorStyles.Woodblock = {
   "version": 8,
   "name": "ohm-woodblock-map",
-  "metadata": { "maputnik:renderer": "mbgljs" },
+  "metadata": {"maputnik:renderer": "mbgljs"},
   "sources": {
     "osm": {
       "type": "vector",
@@ -27,7 +27,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 0,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "background-color": "rgba(207, 179, 125, 1)",
         "background-pattern": "woodblock-paper"
@@ -39,7 +39,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 0,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "background-color": "rgba(207, 179, 125, 1)",
         "background-opacity": 0.29
@@ -52,7 +52,7 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "land",
       "minzoom": 0,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(236, 225, 203, 1)",
         "fill-pattern": "woodblock-paper"
@@ -65,8 +65,8 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "land",
       "minzoom": 0,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(236, 225, 203, 1)", "fill-opacity": 0}
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(236, 225, 203, 1)", "fill-opacity": 0}
     },
     {
       "id": "water_areas",
@@ -75,8 +75,8 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "water_areas",
       "minzoom": 8,
       "maxzoom": 24,
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(207, 179, 125, 1)", "fill-opacity": 0.29}
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(207, 179, 125, 1)", "fill-opacity": 0.29}
     },
     {
       "id": "water_areas-ne",
@@ -85,8 +85,8 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "water_areas",
       "minzoom": 0,
       "maxzoom": 8,
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(207, 179, 125, 1)", "fill-opacity": 0.29}
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(207, 179, 125, 1)", "fill-opacity": 0.29}
     },
     {
       "id": "water_lines_stream",
@@ -160,7 +160,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 8,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "river"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(235, 222, 196, 1)",
         "line-width": [
@@ -213,8 +213,8 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
-      "paint": { "fill-color": "rgba(182, 143, 53, 1)", "fill-opacity": 0.1}
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(182, 143, 53, 1)", "fill-opacity": 0.1}
     },
     {
       "id": "buildings_flat_ruins",
@@ -224,8 +224,8 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], ""],
-      "layout": { "visibility": "none" },
-      "paint": { "fill-color": "rgba(182, 143, 53, 1)", "fill-opacity": 0.1}
+      "layout": {"visibility": "none"},
+      "paint": {"fill-color": "rgba(182, 143, 53, 1)", "fill-opacity": 0.1}
     },
     {
       "id": "t_outlines",
@@ -233,7 +233,7 @@ ohmVectorStyles.Woodblock = {
       "source": "osm",
       "source-layer": "other_areas",
       "filter": ["==", ["get", "type"], "ruins"],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(170, 44, 44, 1)",
         "line-opacity": 1,
@@ -248,7 +248,7 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "buildings",
       "minzoom": 14,
       "filter": ["all"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
         "line-opacity": 1,
@@ -271,7 +271,7 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "transport_lines",
       "minzoom": 14,
       "filter": ["in", ["get", "type"], ["literal", ["subway"]]],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(153, 153, 153, 1)",
         "line-width": [
@@ -481,7 +481,7 @@ ohmVectorStyles.Woodblock = {
         ["==", ["get", "type"], "primary"],
         ["==", ["get", "tunnel"], 1]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#f5f5f5",
         "line-width": [
@@ -543,9 +543,9 @@ ohmVectorStyles.Woodblock = {
           ["get", "type"],
           ["literal", ["funicular", "monorail", "tram"]]
         ],
-        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
+        ["!",["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(197, 197, 197, 1)",
         "line-width": [
@@ -573,9 +573,9 @@ ohmVectorStyles.Woodblock = {
       "filter": [
         "all",
         ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
-        ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
+        ["!",["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
         "line-width": [
@@ -605,7 +605,7 @@ ohmVectorStyles.Woodblock = {
         ["in", ["get", "type"], ["literal", ["miniature", "narrow_gauge"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
         "line-width": 4,
@@ -626,7 +626,7 @@ ohmVectorStyles.Woodblock = {
           ["literal", ["abandoned", "dismantled", "disused", "razed"]]],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
         "line-width": [
@@ -660,7 +660,7 @@ ohmVectorStyles.Woodblock = {
         ],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
         "line-width": 6,
@@ -683,7 +683,7 @@ ohmVectorStyles.Woodblock = {
         ],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
         "line-width": [
@@ -717,7 +717,7 @@ ohmVectorStyles.Woodblock = {
         ],
         ["!", ["in", ["get", "service"], ["literal", ["siding", "yard"]]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
         "line-width": [
@@ -750,7 +750,7 @@ ohmVectorStyles.Woodblock = {
         ["in", ["get", "type"], ["literal", ["construction", "proposed"]]],
         ["in", ["get", "class"], ["literal", ["railway"]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(215, 215, 215, 1)",
         "line-width": [
@@ -780,7 +780,7 @@ ohmVectorStyles.Woodblock = {
         ["in", ["get", "type"], ["literal", ["construction", "proposed"]]],
         ["in", ["get", "class"], ["literal", ["railway"]]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(215, 215, 215, 1)",
         "line-width": 6,
@@ -795,7 +795,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 12,
       "maxzoom": 24,
       "filter": ["in", ["get", "type"], ["literal", ["raceway"]]],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(255, 249, 241, 1)",
         "line-width": [
@@ -818,7 +818,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "track"],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -840,7 +840,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "track"],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(251, 247, 245, 1)",
         "line-width": [
@@ -862,7 +862,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "track"],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-dasharray": [0.3, 1],
@@ -885,7 +885,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["in", ["get", "type"], ["literal", ["pedestrian"]]],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -911,7 +911,7 @@ ohmVectorStyles.Woodblock = {
         ["get", "type"],
         ["literal", ["cycleway", "footway", "path"]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -934,7 +934,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["==", ["get", "type"], "pier"],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -956,7 +956,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 14,
       "maxzoom": 24,
       "filter": ["in", ["get", "type"], ["literal", ["steps"]]],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#b3b3b3",
         "line-width": [
@@ -983,7 +983,7 @@ ohmVectorStyles.Woodblock = {
         ["get", "type"],
         ["literal", ["living_street", "raceway", "unclassified"]]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(255, 207, 0, 1)",
         "line-width": ["interpolate", ["linear"], ["zoom"], 14, 4, 18, 16]
@@ -1765,7 +1765,7 @@ ohmVectorStyles.Woodblock = {
       "source-layer": "transport_lines",
       "minzoom": 9,
       "filter": ["==", ["get", "ford"], "yes"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -1796,7 +1796,7 @@ ohmVectorStyles.Woodblock = {
         ],
         ["==", ["get", "bridge"], 1]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -1822,7 +1822,7 @@ ohmVectorStyles.Woodblock = {
         ["==", ["get", "type"], "tertiary"],
         ["==", ["get", "bridge"], 1]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": [
           "interpolate",
@@ -1855,7 +1855,7 @@ ohmVectorStyles.Woodblock = {
         ["==", ["get", "type"], "secondary"],
         ["==", ["get", "bridge"], 1]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": [
           "interpolate",
@@ -1888,7 +1888,7 @@ ohmVectorStyles.Woodblock = {
         ["in", ["get", "type"], ["literal", ["primary"]]],
         ["==", ["get", "bridge"], 1]
       ],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": [
           "interpolate",
@@ -1960,7 +1960,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 8,
       "maxzoom": 9,
       "filter": ["in", ["get", "type"], ["literal", ["secondary"]]],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": [
           "interpolate",
@@ -1990,7 +1990,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 7,
       "maxzoom": 9,
       "filter": ["in", ["get", "type"], ["literal", ["primary", "trunk"]]],
-      "layout": { "visibility": "none" },
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": [
           "interpolate",
@@ -2020,7 +2020,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 6,
       "maxzoom": 9,
       "filter": ["==", ["get", "type"], "motorway"],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": [
           "interpolate",
@@ -2051,7 +2051,7 @@ ohmVectorStyles.Woodblock = {
       "minzoom": 0,
       "maxzoom": 20,
       "filter": ["in", ["get", "admin_level"], ["literal", [1, 2]]],
-      "layout": { "visibility": "visible" },
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(157, 169, 174, 1)",
         "line-width": ["interpolate", ["linear"], ["zoom"], 0, 4, 8, 6],
@@ -2069,8 +2069,8 @@ ohmVectorStyles.Woodblock = {
         ["==", ["get", "class"], "man_made"],
         ["==", ["get", "type"], "bridge"]
       ],
-      "layout": { "visibility": "none" },
-      "paint": { "fill-color": "rgba(255, 255, 255, 1)" }
+      "layout": {"visibility": "none"},
+      "paint": {"fill-color": "rgba(255, 255, 255, 1)"}
     },
     {
       "id": "man_made_bridge_line",
@@ -2082,8 +2082,8 @@ ohmVectorStyles.Woodblock = {
         ["==", ["get", "class"], "man_made"],
         ["==", ["get", "type"], "bridge"]
       ],
-      "layout": { "visibility": "none" },
-      "paint": { "line-color": "rgba(255, 255, 255, 1)", "line-width": 3}
+      "layout": {"visibility": "none"},
+      "paint": {"line-color": "rgba(255, 255, 255, 1)", "line-width": 3}
     },
     {
       "id": "landuse_areaslabels_park",
@@ -2395,7 +2395,7 @@ ohmVectorStyles.Woodblock = {
           0.9
         ]
       },
-      "paint": { "text-opacity": 1}
+      "paint": {"text-opacity": 1}
     },
     {
       "id": "mermonster",
@@ -2417,7 +2417,7 @@ ohmVectorStyles.Woodblock = {
           1
         ]
       },
-      "paint": { "text-opacity": 1}
+      "paint": {"text-opacity": 1}
     }
   ],
   "id": "io6r61fxt"
