@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "social_share_button" %>
+<% end %>
+
 <% content_for :heading do %>
   <div class="row">
     <div class="col-sm-auto">
@@ -11,6 +15,10 @@
 <% end %>
 
 <%= render @entry %>
+<%= render_social_share_buttons({
+                                  :title => @entry.title,
+                                  :url => diary_entry_url(@entry.user, @entry)
+                                }) %>
 
 <div id="comments" class="comments mb-3 overflow-hidden">
   <div class="row border-bottom border-secondary-subtle">
