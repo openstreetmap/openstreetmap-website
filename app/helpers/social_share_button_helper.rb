@@ -16,7 +16,7 @@ module SocialShareButtonHelper
     tag.div(
       :class => "social-share-button d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
-      SOCIAL_SHARE_CONFIG.map do |site, icon|
+      safe_join(SOCIAL_SHARE_CONFIG.map do |site, icon|
         link_options = {
           :rel => "nofollow",
           :class => "ssb-icon rounded-circle",
@@ -27,7 +27,7 @@ module SocialShareButtonHelper
         link_to generate_share_url(site, title, url), link_options do
           image_tag(icon, :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
         end
-      end.join.html_safe
+      end, "\n")
     end
   end
 
