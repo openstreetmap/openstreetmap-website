@@ -34,13 +34,13 @@ L.OSM.key = function (options) {
     }
 
     function update() {
-      var layer = map.getMapBaseLayerId(),
+      var layerId = map.getMapBaseLayerId(),
           zoom = map.getZoom();
 
       $(".mapkey-table-entry").each(function () {
         var data = $(this).data();
         $(this).toggle(
-          layer === data.layer &&
+          layerId === data.layer &&
           (!data.zoomMin || zoom >= data.zoomMin) &&
           (!data.zoomMax || zoom <= data.zoomMax)
         );
