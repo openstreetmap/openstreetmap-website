@@ -7,8 +7,20 @@ L.OSM.TileLayer = L.TileLayer.extend({
   },
 
   initialize: function (options) {
+    isDarkMap = OSM.isDarkMap();
+    options.filter = (isDarkMap ? options.darkFilter : options.lightFilter) || options.filter || 'none';
     options = L.Util.setOptions(this, options);
-    L.TileLayer.prototype.initialize.call(this, options.url);
+    url = isDarkMap ? options.darkUrl : options.lightUrl;
+    if (url) this.schemeClass = isDarkMap ? 'dark' : 'light';
+    L.TileLayer.prototype.initialize.call(this, url || options.url);
+    this.on('add', function () {
+      container = this.getContainer();
+      if (container) {
+        if (this.schemeClass) container.classList.add(this.schemeClass);
+        container.style.setProperty('--dark-mode-map-filter', this.options.filter);
+        if (document.getElementById('map').contains(container)) document.querySelector('.key-ui').style.setProperty('--dark-mode-map-filter', this.options.filter);
+      }
+    });
   }
 });
 
@@ -39,6 +51,7 @@ L.OSM.CycleMap = L.OSM.TileLayer.extend({
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
     url: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    darkUrl: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey={apikey}',
     maxZoom: 21,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
