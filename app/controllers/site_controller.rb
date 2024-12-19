@@ -107,6 +107,14 @@ class SiteController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       # don't try and derive a location from a missing/deleted object
     end
+
+    if api_status != "online"
+      flash.now[:warning] = { :partial => "layouts/offline_flash" }
+    elsif current_user && !current_user.data_public?
+      flash.now[:warning] = { :partial => "not_public_flash" }
+    else
+      @enable_editor = true
+    end
   end
 
   def copyright
@@ -129,11 +137,7 @@ class SiteController < ApplicationController
   def export; end
 
   def offline
-    flash.now[:warning] = if Settings.status == "database_offline"
-                            t("layouts.osm_offline")
-                          else
-                            t("layouts.osm_read_only")
-                          end
+    flash.now[:warning] = { :partial => "layouts/offline_flash" }
     render :html => nil, :layout => true
   end
 
