@@ -61,7 +61,7 @@ OSM.Note = function (map) {
       };
 
       if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
-        ajaxSettings.data = { text: $("textarea").val() };
+        ajaxSettings.data = { text: content.find("textarea").val() };
       }
 
       content.find("button[name]").prop("disabled", true);
