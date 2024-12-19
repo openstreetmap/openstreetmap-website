@@ -58,6 +58,37 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
+  test "can hide an open note as moderator" do
+    note = create(:note_with_comments)
+    user = create(:moderator_user)
+    sign_in_as(user)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_button "Hide"
+
+      click_on "Hide"
+
+      assert_content "Hidden note ##{note.id}"
+    end
+  end
+
+  test "can hide a closed note as moderator" do
+    note = create(:note_with_comments, :closed)
+    user = create(:moderator_user)
+    sign_in_as(user)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_button "Hide"
+
+      click_on "Hide"
+
+      assert_content "Hidden note ##{note.id}"
+      assert_no_content "<iframe" # leak from share textarea
+    end
+  end
+
   test "can't resolve a note when blocked" do
     note = create(:note_with_comments)
     user = create(:user)
