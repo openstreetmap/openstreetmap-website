@@ -12,71 +12,47 @@ module SocialShareButtonHelper
   }.freeze
 
   # Generates a set of social share buttons based on the specified options.
-  def render_social_share_buttons(opts = {})
-    sites = opts.fetch(:allow_sites, [])
-    valid_sites, invalid_sites = filter_allowed_sites(sites)
-
-    # Log invalid sites
-    invalid_sites.each do |invalid_site|
-      Rails.logger.error("Invalid site or icon not configured: #{invalid_site}")
-    end
-
+  def social_share_buttons(title:, url:)
     tag.div(
       :class => "social-share-button d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
-      valid_sites.map do |site|
+      safe_join(SOCIAL_SHARE_CONFIG.map do |site, icon|
         link_options = {
-          :rel => ["nofollow", opts[:rel]].compact,
+          :rel => "nofollow",
           :class => "ssb-icon rounded-circle",
           :title => I18n.t("application.share.#{site}.title"),
           :target => "_blank"
         }
 
-        link_to generate_share_url(site, opts), link_options do
-          image_tag(icon_path(site), :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
+        link_to generate_share_url(site, title, url), link_options do
+          image_tag(icon, :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
         end
-      end.join.html_safe
+      end, "\n")
     end
   end
 
   private
 
-  def filter_allowed_sites(sites)
-    valid_sites = sites.empty? ? SOCIAL_SHARE_CONFIG.keys : sites.select { |site| valid_site?(site) }
-    invalid_sites = sites - valid_sites
-    [valid_sites, invalid_sites]
-  end
-
-  def icon_path(site)
-    SOCIAL_SHARE_CONFIG[site.to_sym] || ""
-  end
-
-  def valid_site?(site)
-    SOCIAL_SHARE_CONFIG.key?(site.to_sym)
-  end
-
-  def generate_share_url(site, params)
+  def generate_share_url(site, title, url)
     site = site.to_sym
+    title = URI.encode_www_form_component(title)
+    url = URI.encode_www_form_component(url)
+
     case site
     when :email
-      to = params[:to] || ""
-      subject = CGI.escape(params[:title])
-      body = CGI.escape(params[:url])
-      "mailto:#{to}?subject=#{subject}&body=#{body}"
+      "mailto:?subject=#{title}&body=#{url}"
     when :x
-      via_str = params[:via] ? "&via=#{URI.encode_www_form_component(params[:via])}" : ""
-      hashtags_str = params[:hashtags] ? "&hashtags=#{URI.encode_www_form_component(params[:hashtags].join(','))}" : ""
-      "https://x.com/intent/tweet?url=#{URI.encode_www_form_component(params[:url])}&text=#{URI.encode_www_form_component(params[:title])}#{hashtags_str}#{via_str}"
+      "https://x.com/intent/tweet?url=#{url}&text=#{title}"
     when :linkedin
-      "https://www.linkedin.com/sharing/share-offsite/?url=#{URI.encode_www_form_component(params[:url])}"
+      "https://www.linkedin.com/sharing/share-offsite/?url=#{url}"
     when :facebook
-      "https://www.facebook.com/sharer/sharer.php?u=#{URI.encode_www_form_component(params[:url])}&t=#{URI.encode_www_form_component(params[:title])}"
+      "https://www.facebook.com/sharer/sharer.php?u=#{url}&t=#{title}"
     when :mastodon
-      "https://mastodonshare.com/?text=#{URI.encode_www_form_component(params[:title])}&url=#{URI.encode_www_form_component(params[:url])}"
+      "https://mastodonshare.com/?text=#{title}&url=#{url}"
     when :telegram
-      "https://t.me/share/url?url=#{URI.encode_www_form_component(params[:url])}&text=#{URI.encode_www_form_component(params[:title])}"
+      "https://t.me/share/url?url=#{url}&text=#{title}"
     when :bluesky
-      "https://bsky.app/intent/compose?text=#{URI.encode_www_form_component(params[:title])}+#{URI.encode_www_form_component(params[:url])}"
+      "https://bsky.app/intent/compose?text=#{title}+#{url}"
     else
       raise ArgumentError, "Unsupported platform: #{platform}"
     end
