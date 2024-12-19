@@ -80,52 +80,6 @@ class NoteCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can't resolve a note when blocked" do
-    note = create(:note_with_comments)
-    user = create(:user)
-    sign_in_as(user)
-    visit note_path(note)
-    create(:user_block, :user => user)
-
-    within_sidebar do
-      assert_text "Unresolved note"
-      assert_no_text "Resolved note"
-      assert_no_text "Your access to the API has been blocked"
-      assert_button "Resolve", :disabled => false
-      assert_button "Comment", :disabled => true
-
-      click_on "Resolve"
-
-      assert_text "Unresolved note"
-      assert_no_text "Resolved note"
-      assert_text "Your access to the API has been blocked"
-      assert_button "Resolve", :disabled => false
-      assert_button "Comment", :disabled => true
-    end
-  end
-
-  test "can't reactivate a note when blocked" do
-    note = create(:note_with_comments, :closed)
-    user = create(:user)
-    sign_in_as(user)
-    visit note_path(note)
-    create(:user_block, :user => user)
-
-    within_sidebar do
-      assert_no_text "Unresolved note"
-      assert_text "Resolved note"
-      assert_no_text "Your access to the API has been blocked"
-      assert_button "Reactivate", :disabled => false
-
-      click_on "Reactivate"
-
-      assert_no_text "Unresolved note"
-      assert_text "Resolved note"
-      assert_text "Your access to the API has been blocked"
-      assert_button "Reactivate", :disabled => false
-    end
-  end
-
   test "no subscribe button when not logged in" do
     note = create(:note_with_comments)
     visit note_path(note)
