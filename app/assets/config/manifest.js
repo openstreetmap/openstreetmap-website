@@ -7,6 +7,7 @@
 //= link_tree ../opensearch .xml
 //= link_directory ../stylesheets .css
 
+
 //= link_tree ../../../vendor/assets/iD/iD/img
 //= link_directory ../../../vendor/assets/iD/iD/data .json
 //= link_directory ../../../vendor/assets/iD/iD/locales .json
@@ -14,6 +15,10 @@
 //= link_directory ../../../vendor/assets/iD/iD/mapillary-js .js
 //= link_directory ../../../vendor/assets/iD/iD/pannellum .js
 //= link_directory ../../../vendor/assets/iD/iD/pannellum .css
+//= link_directory ../../../vendor/assets/d3 .js
+//= link_directory ../../../vendor/assets/cal-heatmap .js
+//= link_directory ../../../vendor/assets/cal-heatmap .css
+
 
 //= link_tree ../../../vendor/assets/leaflet .png
 
