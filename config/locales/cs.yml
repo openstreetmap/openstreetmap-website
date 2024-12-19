@@ -446,7 +446,7 @@ cs:
         way: Cesta
         relation: Relace
     containing_relation:
-      entry_role_html: Relace %{relation_name} (jako %{relation_role})
+      entry_role_html: '%{relation_name} (jako %{relation_role})'
     not_found:
       title: Nenalezeno
       sorry: 'Je nám líto, ale %{type} #%{id} neexistuje.'
@@ -1109,6 +1109,14 @@ cs:
           wayside_shrine: Boží muka
           wreck: Vrak
           "yes": Historické místo
+        information:
+          guidepost: Rozcestník
+          board: Informační tabule
+          map: Mapa
+          office: turistické informační centrum
+          terminal: Informační terminál
+          sign: Značka
+          stele: Informační sloupek
         junction:
           "yes": Křižovatka
         landuse:
@@ -1181,6 +1189,8 @@ cs:
           track: Běžecká dráha
           water_park: Aquapark
           "yes": Volný čas
+        lock:
+          "yes": Zdymadlo
         man_made:
           adit: Štola
           advertising: Reklamní plocha
@@ -1521,6 +1531,17 @@ cs:
           building_passage: Stavební průchod
           culvert: Propustek
           "yes": Tunel
+        water:
+          lake: Jezero
+          pond: Rybník
+          reservoir: Přehrada
+          basin: Nádrž
+          fishpond: Chovný rybník
+          lagoon: Laguna
+          wastewater: Odpadní voda
+          oxbow: meandrové jezero
+          stream_pool: Tůň
+          lock: Zdymadlo
         waterway:
           artificial: Umělý vodní kanál/průplav
           boatyard: Loděnice
@@ -1981,6 +2002,16 @@ cs:
       title: Moje preference
       preferred_editor: Preferovaný editor
       preferred_languages: Preferované jazyky
+      preferred_site_color_scheme: Preferované barevné schéma webu
+      site_color_schemes:
+        auto: Automaticky
+        light: Světlé
+        dark: Tmavé
+      preferred_map_color_scheme: Preferované barevné schéma mapy
+      map_color_schemes:
+        auto: Automaticky
+        light: Světlé
+        dark: Tmavé
       edit_preferences: Změnit preference
     edit:
       title: Změnit preference
@@ -2929,20 +2960,22 @@ cs:
       report: Nahlásit tohoto uživatele
     go_public:
       flash success: Všechny vaše úpravy jsou nyní veřejné a máte oprávnění k úpravám.
-    index:
-      title: Uživatelé
-      heading: Uživatelé
-      summary_html: '%{name} vytvořeno %{date} z %{ip_address}'
-      summary_no_ip_html: '%{name} vytvořen %{date}'
-      empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
-    page:
-      found_users:
-        one: Nalezen %{count} uživatel
-        few: Nalezeni %{count} uživatelé
-        many: Nalezeno %{count} uživatele
-        other: Nalezeno %{count} uživatelů
-      confirm: Potvrdit vybrané uživatele
-      hide: Skrýt vybrané uživatele
+    lists:
+      show:
+        title: Uživatelé
+        heading: Uživatelé
+        empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
+      page:
+        found_users:
+          one: Nalezen %{count} uživatel
+          few: Nalezeni %{count} uživatelé
+          many: Nalezeno %{count} uživatele
+          other: Nalezeno %{count} uživatelů
+        confirm: Potvrdit vybrané uživatele
+        hide: Skrýt vybrané uživatele
+      user:
+        summary_html: '%{name} vytvořeno %{date} z %{ip_address}'
+        summary_no_ip_html: '%{name} vytvořen %{date}'
     suspended:
       title: Účet pozastaven
       heading: Účet pozastaven
@@ -3006,7 +3039,7 @@ cs:
       success: Blok aktualizován.
     index:
       title: Bloky uživatele
-      heading: Seznam bloků uživatele
+      heading: Seznam blokovaných uživatelů
       empty: Ještě nebyl vytvořen žádny blok.
     revoke_all:
       title: Zrušení všech bloků uživatele %{block_on}
@@ -3051,6 +3084,13 @@ cs:
           few: '%{count} roky'
           many: '%{count} roku'
           other: '%{count} let'
+      short:
+        ended: skončil
+        revoked_html: odvolán uživatelem %{name}
+        active: aktivní
+        active_unread: aktivní nepřečtený
+        expired_unread: vypršel nepřečtený
+        read_html: přečteno %{time}
     blocks_on:
       title: Zablokování uživatele %{name}
       heading_html: Seznam zablokování uživatele %{name}
@@ -3075,6 +3115,8 @@ cs:
       display_name: Zablokovaný uživatel
       creator_name: Autor
       reason: Důvod pro blok
+      start: Začátek
+      end: Konec
       status: Stav
     navigation:
       all_blocks: Všechny bloky
@@ -3173,6 +3215,9 @@ cs:
       advice: Vaše poznámka je veřejná a může sloužit k úpravám mapy, proto nevkládejte
         žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
       add: Přidat poznámku
+    new_readonly:
+      warning: Nové poznámky nelze vytvářet, protože OpenStreetMap API je momentálně
+        v režimu pouze pro čtení.
     notes_paging_nav:
       showing_page: Stránka %{page}
       next: Následující

@@ -282,8 +282,8 @@ cy:
       rss:
         title: Nodiadau OpenStreetMap
         description_all: Rhestr o nodiadau newydd, gyda sylwadau, neu wedi cau
-        description_area: Rhestr o nodiadau, adroddwyd, gyda sylwadau, neu wedi cau
-          yn eich ardal [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_area: Rhestr o nodiadau newydd, gyda sylwadau, neu wedi cau yn
+          eich ardal [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ffrwd RSS ar gyfer nodyn %{id}
         opened: Nodyn newydd (ger %{place})
         commented: Sylw newydd (ger %{place})
@@ -354,6 +354,8 @@ cy:
         bellach yn gyhoeddus yn ddiofyn.
       make_edits_public_button: Gwneud fy holl olygiadau yn gyhoeddus
     update:
+      success_confirm_needed: Diweddarwyd gwybodaeth defnyddiwr yn llwyddiannus. Gwiriwch
+        eich negeseuon e-bost am nodyn i gadarnhau eich cyfeiriad e-bost newydd.
       success: Diweddarwyd gwybodaeth defnyddiwr yn llwyddiannus.
     destroy:
       success: Cyfrif wedi'i ddileu.
@@ -1673,7 +1675,7 @@ cy:
   user_mailer:
     diary_comment_notification:
       description: 'Cofnod Dyddiadur OpenStreetMap #%{id}'
-      subject: '[OpenStreetMap] Gwnaeth %{user} sylw ar gofnod dyddiadur'
+      subject: '[OpenStreetMap] Rhoddodd %{user} sylw ar gofnod dyddiadur'
       hi: Helo %{to_user},
       footer_unsubscribe: Gallwch chi ddad-danysgrifio o'r drafodaeth yn %{unsubscribeurl}
       footer_unsubscribe_html: Gallwch chi ddad-danysgrifio o'r drafodaeth yn %{unsubscribeurl}
@@ -1749,9 +1751,9 @@ cy:
       anonymous: Defnyddiwr dienw
       greeting: Helo,
       commented:
-        subject_own: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar un o''ch nodiadau'
-        subject_other: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar nodyn y mae gennych
-          ddiddordeb ynddo'
+        subject_own: '[OpenStreetMap] Rhoddodd %{commenter} sylw ar un o''ch nodiadau'
+        subject_other: '[OpenStreetMap] Rhoddodd %{commenter} sylw ar nodyn y mae
+          gennych ddiddordeb ynddo'
         your_note: Ysgrifennodd %{commenter} sylw ar un o'ch nodiadau map ger %{place}.
         your_note_html: Ysgrifennodd %{commenter} sylw ar un o'ch nodiadau map ger
           %{place}.
@@ -1766,33 +1768,33 @@ cy:
         commented_note_html: Mae %{commenter} wedi datrys nodyn map rydych chi wedi
           gwneud sylw arno. Mae'r nodyn yn agos i %{place}.
       reopened:
-        subject_own: '[OpenStreetMap] Gwnaeth %{commenter} ail agor un o''ch nodiadau'
-        subject_other: '[OpenStreetMap] Gwnaeth %{commenter} ail agor nodyn y mae
-          gennych ddiddordeb ynddo'
+        subject_own: '[OpenStreetMap] Ailagorodd %{commenter} un o''ch nodiadau'
+        subject_other: '[OpenStreetMap] Ailagorodd %{commenter} nodyn y mae gennych
+          ddiddordeb ynddo'
         your_note: Gwnaeth %{commenter} ail agor un o'ch nodiadau map ger %{place}.
         your_note_html: Gwnaeth %{commenter} ail agor un o'ch nodiadau map ger %{place}.
         commented_note: Gwnaeth %{commenter} ail agor nodyn map rydych chi wedi gwneud
           sylw arno. Mae'r nodyn yn agos i %{place}.
         commented_note_html: Gwnaeth %{commenter} ail agor nodyn map rydych chi wedi
           gwneud sylw arno. Mae'r nodyn yn agos i %{place}.
-      details: 'Ateb neu ddysgu mwy am y nodyn: %{url}.'
-      details_html: 'Ateb neu ddysgu mwy am y nodyn: %{url}.'
+      details: Gallwch ateb neu ddysgu rhagor am y nodyn yn %{url}.
+      details_html: Gallwch ateb neu ddysgu rhagor am y nodyn yn %{url}.
     changeset_comment_notification:
       description: 'Grŵp newid OpenStreetMap #%{id}'
       hi: Helo %{to_user},
       commented:
-        subject_own: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar un o''ch grwpiau
+        subject_own: '[OpenStreetMap] Rhoddodd %{commenter} sylw ar un o''ch grwpiau
           newid'
-        subject_other: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar grŵp newydd y
-          mae gennych ddiddordeb ynddo'
+        subject_other: '[OpenStreetMap] Rhoddodd %{commenter} sylw ar grŵp newydd
+          y mae gennych ddiddordeb ynddo'
         your_changeset: Gwnaeth %{commenter} sylw am %{time} ar un o'ch grwpiau newid
         your_changeset_html: Gwnaeth %{commenter} sylw am %{time} ar un o'ch grwpiau
           newid
-        partial_changeset_with_comment: gyda sylw '%{changeset_comment}'
-        partial_changeset_with_comment_html: gyda sylw '%{changeset_comment}'
+        partial_changeset_with_comment: gyda'r sylw '%{changeset_comment}'
+        partial_changeset_with_comment_html: gyda'r sylw '%{changeset_comment}'
         partial_changeset_without_comment: dim sylw
-      details: 'Ateb neu ddysgu mwy am y grŵp newid: %{url}.'
-      details_html: 'Ateb neu ddysgu mwy am y grŵp newid: %{url}.'
+      details: Gallwch ateb neu ddysgu rhagor am y grŵp newid yn %{url}.
+      details_html: Gallwch ateb neu ddysgu rhagor am y grŵp newid yn %{url}.
       unsubscribe: Gallwch ddad-danysgrifio o ddiweddariadau i'r grŵp newid hwn yn
         %{url}.
       unsubscribe_html: Gallwch ddad-danysgrifio o ddiweddariadau i'r grŵp newid hwn
@@ -1801,11 +1803,13 @@ cy:
     confirm:
       heading: Gwiriwch eich e-byst!
       introduction_1: Rydym wedi anfon e-bost cadarnhau atoch.
+      introduction_2: Cadarnhewch eich cyfrif drwy glicio ar y ddolen yn y neges e-bost
+        a byddwch yn gallu dechrau mapio.
       press confirm button: Pwyswch y botwm cadarnhau isod i alluogi eich cyfrif.
       button: Cadarnhau
       success: Wedi cadarnhau eich cyfrif, diolch am gofrestru!
       already active: Mae'r cyfrif hwn eisoes wedi'i gadarnhau.
-      resend_html: Os oes angen inni ailanfon yr e-bost cadarnhau, %{reconfirm_link}.
+      resend_html: Os bydd angen i ni ailanfon yr e-bost cadarnhau, %{reconfirm_link}.
       click_here: cliciwch yma
     confirm_resend:
       failure: Heb ganfod y defnyddiwr %{name}.
@@ -2705,6 +2709,8 @@ cy:
       terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
       email_help:
         privacy_policy: polisi preifatrwydd
+        html: Ni chaiff eich cyfeiriad e-bost ei arddangos yn gyhoeddus, gweler ein
+          %{privacy_policy_link} am ragor o wybodaeth.
       consider_pd_html: Rwy'n ystyried fy nghyfraniadau i fod yn y %{consider_pd_link}.
       consider_pd: parth cyhoeddus
       or: neu
@@ -2765,7 +2771,7 @@ cy:
       ct status: 'Telerau cyfrannwr:'
       ct undecided: Heb Benderfynu
       ct declined: Wedi Gwrthod
-      email address: 'Cyfeiriad ebost:'
+      email address: 'Cyfeiriad e-bost:'
       created from: 'Crëwyd o:'
       status: 'Statws:'
       spam score: 'Sgôr Sbam:'
@@ -2798,22 +2804,24 @@ cy:
     go_public:
       flash success: Mae eich holl olygiadau nawr yn gyhoeddus a gallech nawr parhau
         i olygu.
-    index:
-      title: Defnyddwyr
-      heading: Defnyddwyr
-      summary_html: Crëwyd %{name} o %{ip_address} ar %{date}
-      summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
-      empty: Heb ganfod unrhyw defnyddwyr sy'n cyfateb
-    page:
-      found_users:
-        zero: Canfuwyd %{count} defnyddiwr
-        one: Canfuwyd %{count} defnyddiwr
-        two: Canfuwyd %{count} ddefnyddiwr
-        few: Canfuwyd %{count} defnyddiwr
-        many: Canfuwyd %{count} defnyddiwr
-        other: Canfuwyd %{count} defnyddiwr
-      confirm: Cadarnhau Defnyddwyr Dewisiedig
-      hide: Cuddio Defnyddwyr Dewisiedig
+    lists:
+      show:
+        title: Defnyddwyr
+        heading: Defnyddwyr
+        empty: Heb ganfod unrhyw defnyddwyr sy'n cyfateb
+      page:
+        found_users:
+          zero: Canfuwyd %{count} defnyddiwr
+          one: Canfuwyd %{count} defnyddiwr
+          two: Canfuwyd %{count} ddefnyddiwr
+          few: Canfuwyd %{count} defnyddiwr
+          many: Canfuwyd %{count} defnyddiwr
+          other: Canfuwyd %{count} defnyddiwr
+        confirm: Cadarnhau Defnyddwyr Dewisiedig
+        hide: Cuddio Defnyddwyr Dewisiedig
+      user:
+        summary_html: Crëwyd %{name} o %{ip_address} ar %{date}
+        summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
@@ -3019,8 +3027,8 @@ cy:
       log_in_to_comment: Mewngofnodwch i ysgrifennu sylw ar y nodyn hwn
       report_link_html: Os yw'r nodyn hwn yn cynnwys gwybodaeth sensitif sydd angen
         ei dileu, gallwch chi %{link}.
-      other_problems_resolve: Ar gyfer pob problem arall gyda'r nodyn, dylech chi
-        ei ddatrys gyda sylw perthnasol.
+      other_problems_resolve: Ar gyfer pob problem arall gyda'r nodyn, dylech ei ddatrys
+        gyda sylw.
       other_problems_resolved: Ar gyfer pob problem arall, mae dim ond datrys yn ddigon.
       disappear_date_html: Bydd y nodyn hwn yn diflannu o'r map mewn %{disappear_in}.
     new:

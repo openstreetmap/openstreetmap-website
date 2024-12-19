@@ -310,7 +310,7 @@ el:
           ημερολογίου σας, εάν υπάρχουν, θα διατηρηθούν αλλά δεν θα εμφανίζονται.
         retain_notes: Οι σημειώσεις στον χάρτη και τα σχόλια των σημειώσεων, εάν υπάρχουν,
           θα διατηρηθούν αλλά δεν θα εμφανίζονται.
-        retain_changeset_discussions: Οι συζητήσεις σας στις ομάδες αλλαγών, εάν υπάρχουν,
+        retain_changeset_discussions: Οι συζητήσεις σας στα σύνολα αλλαγών, εάν υπάρχουν,
           θα διατηρηθούν.
         retain_email: Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας θα διατηρηθεί.
         recent_editing_html: Καθώς έχετε κάνει πρόσφατα επεξεργασία, δεν μπορείτε
@@ -371,7 +371,7 @@ el:
     edited_ago_by_html: Επεξεργάστηκε %{time_ago} από %{user}
     version: Έκδοση
     redacted_version: Επανεξεργασμένη έκδοση
-    in_changeset: Ομάδα αλλαγών
+    in_changeset: Σύνολο αλλαγών
     anonymous: ανώνυμος
     no_comment: (χωρίς σχόλιο)
     part_of: Μέρος του
@@ -418,31 +418,31 @@ el:
       entry_role_html: '%{relation_name} (ως %{relation_role})'
     not_found:
       title: Δεν βρέθηκε
-      sorry: 'Λυπάμαι, το %{type} #%{id} δεν βρέθηκε.'
+      sorry: 'Λυπάμαι, %{type} #%{id} δεν βρέθηκε.'
       type:
-        node: κόμβος
-        way: γραμμή
-        relation: σχέση
-        changeset: ομάδα αλλαγών
-        note: σημείωση
+        node: ο κόμβος
+        way: η γραμμή
+        relation: η σχέση
+        changeset: το σύνολο αλλαγών
+        note: η σημείωση
     timeout:
       title: Σφάλμα λήξης χρόνου
-      sorry: Λυπάμαι, τα δεδομένα για το %{type} με αναγνωριστικό %{id} χρειάστηκαν
-        πολύ χρόνο για να ανακτηθούν.
+      sorry: Λυπάμαι, τα δεδομένα για %{type} με αναγνωριστικό %{id} χρειάστηκαν πολύ
+        χρόνο για να ανακτηθούν.
       type:
-        node: κόμβος
+        node: τον κόμβο
         way: γραμμή
-        relation: σχέση
-        changeset: ομάδα αλλαγών
-        note: σημείωση
+        relation: τη σχέση
+        changeset: σύνολο αλλαγών
+        note: τη σημείωση
     redacted:
-      redaction: Αναθεώρηση %{id}
-      message_html: Η έκδοση %{version} του %{type} δε μπορεί να εμφανιστεί, δεδομένου
+      redaction: την Αναθεώρηση %{id}
+      message_html: Η έκδοση %{version} %{type} δε μπορεί να εμφανιστεί, δεδομένου
         ότι έχει αναθεωρηθεί. Παρακαλούμε δείτε %{redaction_link} για λεπτομέρειες.
       type:
-        node: κόμβος
+        node: του κόμβου
         way: γραμμή
-        relation: σχέση
+        relation: της σχέσης
     start_rjs:
       feature_warning: Η φόρτωση %{num_features} χαρακτηριστικών ενδέχεται να καταστήσει
         τον περιηγητή σας αργό ή να μην αντιδρά. Σίγουρα θέλετε να εμφανίσετε αυτά
@@ -452,19 +452,19 @@ el:
     tag_details:
       tags: Ετικέτες
       wiki_link:
-        key: Η σελίδα περιγραφής της wiki για την ετικέτα %{key}
-        tag: Η σελίδα περιγραφής της wiki για την ετικέτα %{key}=%{value}
+        key: Η σελίδα περιγραφής του wiki για την ετικέτα %{key}
+        tag: Η σελίδα περιγραφής του wiki για την ετικέτα %{key}=%{value}
       wikidata_link: Το αντικείμενο %{page} στο Wikidata
-      wikipedia_link: Το άρθρο %{page} στη Βικιπαίδεια
+      wikipedia_link: Το λήμμα %{page} στη Βικιπαίδεια
       wikimedia_commons_link: Το αντικείμενο %{page} στο Wikimedia Commons
-      telephone_link: Καλέστε %{phone_number}
+      telephone_link: Καλέστε στο %{phone_number}
       colour_preview: Προεπισκόπηση χρώματος %{colour_value}
-      email_link: Email %{email}
+      email_link: Αποστολή μέιλ στο %{email}
     query:
       title: Πληροφορίες χαρακτηριστικών
       introduction: Κάντε κλικ στον χάρτη για να βρείτε κοντινά χαρακτηριστικά.
       nearby: Κοντινά χαρακτηριστικά
-      enclosing: Περικλείει τα χαρακτηριστικά
+      enclosing: Χαρακτηριστικά που περικλείουν
   nodes:
     timeout:
       sorry: Λυπάμαι, τα δεδομένα για τον κόμβο με αναγνωριστικό %{id} χρειάστηκαν
@@ -473,77 +473,78 @@ el:
     not_found:
       sorry: 'Λυπούμαστε, η έκδοση %{version} του κόμβου #%{id} δεν βρέθηκε.'
     timeout:
-      sorry: Λυπάμαι, το ιστορικό για τον κόμβο με αναγνωριστικό %{id} χρειάστηκε
+      sorry: Λυπούμαστε, το ιστορικό για τον κόμβο με αναγνωριστικό %{id} χρειάστηκε
         πολύ χρόνο για να ανακτηθεί.
   ways:
     timeout:
-      sorry: Λυπάμαι, τα δεδομένα για την γραμμή με αναγνωριστικό %{id} χρειάστηκαν
+      sorry: Λυπούμαστε, τα δεδομένα για την γραμμή με αναγνωριστικό %{id} χρειάστηκαν
         πολύ χρόνο για να ανακτηθούν.
   old_ways:
     not_found:
       sorry: 'Λυπούμαστε, η έκδοση %{version} της γραμμής #%{id} δεν βρέθηκε.'
     timeout:
-      sorry: Λυπάμαι, το ιστορικό για την γραμμή με αναγνωριστικό %{id} χρειάστηκε
+      sorry: Λυπόμαστε, το ιστορικό για την γραμμή με αναγνωριστικό %{id} χρειάστηκε
         πολύ χρόνο για να ανακτηθεί.
   relations:
     timeout:
-      sorry: Λυπάμαι, τα δεδομένα για την σχέση με αναγνωριστικό %{id} χρειάστηκαν
+      sorry: Λυπόμαστε, τα δεδομένα για την σχέση με αναγνωριστικό %{id} χρειάστηκαν
         πολύ χρόνο για να ανακτηθούν.
   old_relations:
     not_found:
       sorry: 'Λυπούμαστε, η έκδοση %{version} της σχέσης #%{id} δεν βρέθηκε.'
     timeout:
-      sorry: Λυπάμαι, το ιστορικό για την σχέση με αναγνωριστικό %{id} χρειάστηκε
+      sorry: Λυπόμαστε, το ιστορικό για την σχέση με αναγνωριστικό %{id} χρειάστηκε
         πολύ χρόνο για να ανακτηθεί.
   changeset_comments:
     feeds:
       comment:
-        comment: 'Νέο σχόλιο σχετικά με τις αλλαγές #%{changeset_id} από τον %{author}'
+        comment: 'Νέο σχόλιο σχετικά με το σύνολο αλλαγών #%{changeset_id} από τον
+          %{author}'
         commented_at_by_html: Ενημερώθηκε %{when} πριν από τον %{user}
       show:
-        title_all: Συζήτηση αλλαγών OpenStreetMap
-        title_particular: 'Συζήτηση αλλαγών OpenStreetMap #%{changeset_id}'
+        title_all: Συζήτηση συνόλου αλλαγών OpenStreetMap
+        title_particular: 'Συζήτηση συνόλου αλλαγών OpenStreetMap #%{changeset_id}'
       timeout:
-        sorry: Μας συγχωρείτε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε,
-          χρειάστηκε πολύ χρόνο για να ανακτηθεί.
+        sorry: Λυπόμαστε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε, χρειάστηκε
+          πολύ χρόνο για να ανακτηθεί.
   changesets:
     changeset:
       no_edits: (χωρίς επεξεργασίες)
-      view_changeset_details: Προβολή λεπτομερειών αλλαγών
+      view_changeset_details: Προβολή λεπτομερειών συνόλου αλλαγών
     index:
-      title: Αλλαγές
-      title_user: Αλλαγές από %{user}
-      title_user_link_html: Ομάδες αλλαγών από %{user_link}
-      title_friend: Αλλαγές από τους φίλους μου
-      title_nearby: Αλλαγές από κοντινούς χρήστες
-      empty: Δε βρέθηκαν αλλαγές.
-      empty_area: Χωρίς αλλαγές σε αυτήν την περιοχή.
-      empty_user: Χωρίς αλλαγές από αυτόν τον χρήστη.
-      no_more: Δεν βρέθηκαν άλλες αλλαγές.
-      no_more_area: Δεν υπάρχουν άλλες αλλαγές για αυτήν την περιοχή.
-      no_more_user: Δεν υπάρχουν άλλες αλλαγές από αυτόν τον χρήστη.
+      title: Σύνολα αλλαγών
+      title_user: Σύνολα αλλαγών από %{user}
+      title_user_link_html: Σύνολα αλλαγών από %{user_link}
+      title_friend: Σύνολα αλλαγών από τους φίλους μου
+      title_nearby: Σύνολα αλλαγών από κοντινούς χρήστες
+      empty: Δε βρέθηκαν σύνολα αλλαγών.
+      empty_area: Χωρίς σύνολα αλλαγών σε αυτήν την περιοχή.
+      empty_user: Χωρίς σύνολα αλλαγών από αυτόν τον χρήστη.
+      no_more: Δεν βρέθηκαν άλλα σύνολα αλλαγών.
+      no_more_area: Δεν υπάρχουν άλλα σύνολα αλλαγών σε αυτήν την περιοχή.
+      no_more_user: Δεν υπάρχουν άλλα σύνολα αλλαγών από αυτόν τον χρήστη.
       load_more: Φόρτωση περισσότερων
       feed:
-        title: Ομάδα αλλαγών %{id}
-        title_comment: Ομάδα αλλαγών %{id} - %{comment}
+        title: Σύνολο αλλαγών %{id}
+        title_comment: Σύνολο αλλαγών %{id} - %{comment}
         created: Δημιουργήθηκε
         closed: Έκλεισε
         belongs_to: Συντάκτης
     subscribe:
-      heading: Εγγραφή στην ακόλουθη συζήτηση ομάδας αλλαγών;
-      button: Εγγραφή σε συζήτηση
+      heading: Εγγραφή στην ακόλουθη συζήτηση συνόλου αλλαγών;
+      button: Εγγραφή στη συζήτηση
     unsubscribe:
-      heading: Απεγγραφή από την ακόλουθη συζήτηση ομάδας αλλαγών;
-      button: Απεγγραφή από συζήτηση
+      heading: Απεγγραφή από την ακόλουθη συζήτηση συνόλο αλλαγών;
+      button: Απεγγραφή από τη συζήτηση
     heading:
-      title: Ομάδα αλλαγών %{id}
+      title: Σύνολο αλλαγών %{id}
       created_by_html: Δημιουργήθηκε από %{link_user} στις %{created}.
     no_such_entry:
       heading: 'Δεν υπάρχει καταχώρηση με id: %{id}'
-      body: Λυπούμαστε, δεν υπάρχει ομάδα αλλαγών με το id %{id}. Παρακαλούμε ελέγξτε
+      body: Λυπούμαστε, δεν υπάρχει σύνολο αλλαγών με το id %{id}. Παρακαλούμε ελέγξτε
         για τυχόν ορθογραφικά λάθη ή ίσως ο σύνδεσμος που πατήσατε να είναι λάθος.
     show:
-      title: 'Ομάδα αλλαγών: %{id}'
+      title: 'Σύνολο αλλαγών: %{id}'
       created: 'Δημιουργήθηκε: %{when}'
       closed: 'Έκλεισε: %{when}'
       created_ago_html: Δημιουργήθηκε %{time_ago}
@@ -552,8 +553,8 @@ el:
       closed_ago_by_html: Έκλεισε %{time_ago} από %{user}
       discussion: Συζήτηση
       join_discussion: Συνδεθείτε για συμμετοχή στη συζήτηση
-      still_open: Η ομάδα αλλαγών παραμένει σε εκκρεμότητα - η συζήτηση θα ανοίξει
-        μόλις ολοκληρωθεί η ομάδα αλλαγών.
+      still_open: Το σύνολο αλλαγών παραμένει σε εκκρεμότητα - η συζήτηση θα ανοίξει
+        μόλις ολοκληρωθεί το σύνολο αλλαγών.
       subscribe: Εγγραφείτε ως συνδρομητής
       unsubscribe: Κατάργηση εγγραφής
       comment_by_html: Σχόλιο από %{user} %{time_ago}
@@ -561,7 +562,7 @@ el:
       hide_comment: απόκρυψη
       unhide_comment: επανεμφάνιση
       comment: Σχολιάστε
-      changesetxml: Ομάδας αλλαγών XML
+      changesetxml: XML συνόλου αλλαγών
       osmchangexml: osmChange XML
     paging_nav:
       nodes: Kόμβοι (%{count})
@@ -571,12 +572,12 @@ el:
       relations: Σχέσεις (%{count})
       relations_paginated: Σχέσεις (%{x}-%{y} από %{count})
     timeout:
-      sorry: Λυπάμαι, ο κατάλογος των αλλαγών που ζητήσατε χρειάστηκε πολύ χρόνο για
-        να ανακτηθεί.
+      sorry: Λυπόμαστε, ο κατάλογος των αλλαγών που ζητήσατε χρειάστηκε πολύ χρόνο
+        για να ανακτηθεί.
   dashboards:
     contact:
-      km away: '%{count}km μακριά'
-      m away: '%{count}m μακριά'
+      km away: '%{count} χλμ. μακριά'
+      m away: '%{count} μ. μακριά'
       latest_edit_html: 'Τελευταία επεξεργασία (%{ago}):'
     popup:
       your location: Η τοποθεσία σας
@@ -592,16 +593,16 @@ el:
       nearby users: Άλλοι κοντινοί χρήστες
       no nearby users: Δεν υπάρχουν άλλοι χρήστες που δήλωσαν ότι χαρτογραφούν κοντά
         σας προς το παρόν.
-      friends_changesets: ομάδες αλλαγών φίλων
+      friends_changesets: σύνολα αλλαγών φίλων
       friends_diaries: καταχωρήσεις ημερολογίου φίλων
-      nearby_changesets: ομάδες αλλαγών από κοντινούς χρήστες
+      nearby_changesets: σύνολα αλλαγών από κοντινούς χρήστες
       nearby_diaries: καταχωρήσεις ημερολογίου από κοντινούς χρήστες
   diary_entries:
     new:
       title: Νέα καταχώρηση ημερολογίου
     form:
       location: Τοποθεσία
-      use_map_link: Χρησιμοποίησε τον χάρτη
+      use_map_link: Χρησιμοποιήστε τον χάρτη
     index:
       title: Ημερολόγια χρηστών
       title_friends: Ημερολόγια φίλων
@@ -629,7 +630,7 @@ el:
     no_such_entry:
       title: Δεν υπάρχει τέτοια εγγραφή ημερολογίου
       heading: 'Καμία καταχώρηση με το αναγνωριστικό: %{id}'
-      body: Μας συγχωρείτε, δεν υπάρχει καταχώρηση ή σχόλιο ημερολογίου με το αναγνωριστικό
+      body: Λυπούμαστε, δεν υπάρχει καταχώρηση ή σχόλιο ημερολογίου με το αναγνωριστικό
         %{id}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος
         μέσω του οποίου φτάσατε σε αυτήν την σελίδα.
     diary_entry:
@@ -649,10 +650,10 @@ el:
       report: Αναφορά καταχώρησης
     diary_comment:
       comment_from_html: Σχόλιο από τον χρήστη %{link_user} στις %{comment_created_at}
-      hide_link: Απόκρυψη σχολίου
-      unhide_link: Επανεμφάνιση σχολίου
+      hide_link: Απόκρυψη αυτού του σχολίου
+      unhide_link: Επανεμφάνιση αυτού του σχολίου
       confirm: Επιβεβαίωση
-      report: Αναφορά σχολίου
+      report: Αναφορά αυτού του σχολίου
     location:
       location: 'Τοποθεσία:'
     feed:
@@ -683,8 +684,7 @@ el:
       when: Πότε
       comment: Σχόλιο
     new:
-      heading: Να προσθέσετε ένα σχόλιο στην ακόλοουθη συζήτηση για την καταχώριση
-        ημερολογίου;
+      heading: Προσθήκη σχολίου στην ακόλουθη συζήτηση καταχώρισης ημερολογίου;
   doorkeeper:
     errors:
       messages:
@@ -719,7 +719,7 @@ el:
             του Doorkeeper::OpenidConnect.configure.subject .
     scopes:
       address: Προβολή της φυσικής διεύθυνσης σας
-      email: Προβολή της διεύθυνσης email σας
+      email: Προβολή της διεύθυνσης ηλεκτρονικού ταχυδρομείου σας
       openid: Αυθεντικοποιήστε τον λογαριασμό σας
       phone: Προβολή του αριθμού τηλεφώνου σας
       profile: Προβολή των πληροφοριών του προφίλ σας
@@ -786,11 +786,11 @@ el:
           gate: Πύλη Αεροδρομίου
           hangar: Υπόστεγο για αεροπλάνα
           helipad: Ελικοδρόμιο
-          holding_position: κράτηση θέσης
+          holding_position: Θέση Κράτησης
           navigationaid: Βοήθημα πλοήγησης αεροναυτιλίας
           parking_position: Θέση στάθμευσης
           runway: Διάδρομος
-          taxilane: Λωρίδα ταξί
+          taxilane: Διάδρομος τροχοδρόμισης
           taxiway: Τροχιόδρομος
           terminal: Τερματικός σταθμός αεροδρομίου
           windsock: Ανεμούριο
@@ -802,7 +802,7 @@ el:
           bank: Τράπεζα
           bar: Μπαρ
           bbq: Ψησταριά
-          bench: Πάγκος
+          bench: Παγκάκι
           bicycle_parking: Στάθμευση ποδηλάτων
           bicycle_rental: Ενοικίαση ποδηλάτων
           bicycle_repair_station: Σταθμός επισκευής ποδηλάτου
@@ -811,7 +811,7 @@ el:
           boat_rental: Ενοικίαση σκαφών
           brothel: Οίκος ανοχής
           bureau_de_change: Ανταλλακτήριο συναλλάγματος
-          bus_station: Σταθμός λεωφορείου
+          bus_station: Σταθμός λεωφορείων
           cafe: Καφετέρια
           car_rental: Ενοικίαση αυτοκινήτων
           car_sharing: Συνεπιβατισμός
@@ -826,33 +826,33 @@ el:
           community_centre: Κοινοτικό κέντρο
           conference_centre: Συνεδριακό κέντρο
           courthouse: Δικαστήριο
-          crematorium: Κρεματόριο
+          crematorium: Αποτεφρωτήριο
           dentist: Οδοντίατρος
           doctors: Ιατροί
           drinking_water: Πόσιμο νερό
           driving_school: Σχολή οδηγών
           embassy: Πρεσβεία
-          events_venue: Χώρος Διεξαγωγής Εκδηλώσεων
+          events_venue: Χώρος Εκδηλώσεων
           fast_food: Ταχυφαγείο
           ferry_terminal: Σταθμός πορθμείων
           fire_station: Πυροσβεστικός σταθμός
-          food_court: Προαύλιο φαγητού
+          food_court: Χώρος εστίασης
           fountain: Συντριβάνι
-          fuel: Σταθμός Ανεφοδιασμού
+          fuel: Βενζινάδικο
           gambling: Τυχερά παιχνίδια
           grave_yard: Νεκροταφείο
           grit_bin: Κάδος Χαλικιού
           hospital: Νοσοκομείο
-          hunting_stand: Κυνηγητικό κιόσκι
+          hunting_stand: Κυνηγετικό κιόσκι
           ice_cream: Παγωτό
           internet_cafe: Ίντερνετ καφέ
           kindergarten: Νηπιαγωγείο
-          language_school: Σχολείο γλώσσας
+          language_school: Φροντιστήριο Ξένων Γλωσσών
           library: Βιβλιοθήκη
-          loading_dock: Ράμπα Φόρτωσης-Εκφόρτωσης
-          love_hotel: Ξενοδοχείο Έρωτα
+          loading_dock: Ράμπα Φορτοεκφόρτωσης
+          love_hotel: Ξενοδοχείο Ημιδιαμονής
           marketplace: Αγορά
-          mobile_money_agent: Πρακτορείο Κινητών Χρημάτων
+          mobile_money_agent: Πρακτορείο Χρημάτων Κινητής Τηλεφωνίας
           monastery: Μοναστήρι
           money_transfer: Μεταφορά χρημάτων
           motorcycle_parking: Χώρος στάθμευσης μοτοσικλετών
@@ -861,7 +861,7 @@ el:
           nursing_home: Οίκος ευγηρίας
           parking: Χώρος στάθμευσης
           parking_entrance: Είσοδος χώρου στάθμευσης
-          parking_space: Χώρος στάθμευσης
+          parking_space: Θέση στάθμευσης
           payment_terminal: Τερματικό πληρωμών
           pharmacy: Φαρμακείο
           place_of_worship: Τόπος λατρείας
@@ -1096,6 +1096,8 @@ el:
           wayside_shrine: Εικονοστάσιο στην άκρη του δρόμου
           wreck: Ναυάγιο
           "yes": Ιστορικός Χώρος
+        information:
+          map: Χάρτης
         junction:
           "yes": Διασταύρωση
         landuse:
@@ -1508,6 +1510,10 @@ el:
           building_passage: Πέρασμα κτιρίου
           culvert: Οχετός
           "yes": Σήραγγα
+        water:
+          lake: Λίμνη
+          pond: Λιμνούλα
+          reservoir: Ταμιευτήρας
         waterway:
           artificial: Τεχνητή υδατοδιαδρομή
           boatyard: Ναυπηγείο
@@ -1819,30 +1825,30 @@ el:
       details: Απαντήστε ή μάθετε περισσότερα για τη σημείωση στο %{url}.
       details_html: Απαντήστε ή μάθετε περισσότερα για τη σημείωση στο %{url}.
     changeset_comment_notification:
-      description: 'OpenStreetMap Ομάδα Αλλαγών #%{id}'
+      description: 'Σύνολο Αλλαγών OpenStreetMap #%{id}'
       hi: Γεια σας, %{to_user},
       commented:
         subject_own: '[OpenStreetMap] {{GENDER:%{commenter}|Ο|Η}} %{commenter} σχολίασε
-          μια από τις ομάδες αλλαγών σας.'
+          ένα από τα σύνολα αλλαγών σας.'
         subject_other: '[OpenStreetMap] {{GENDER:%{commenter}|Ο|Η}} %{commenter} σχολίασε
-          μια ομάδα αλλαγών που σας ενδιαφέρει.'
+          ένα σύνολο αλλαγών που σας ενδιαφέρει.'
         your_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
-          στις %{time} σε μία από τις ομάδες αλλαγών σας.'
-        your_changeset_html: Ο/Η %{commenter} άφησε ένα σχόλιο στις %{time} σε μια
-          από τις ομάδες αλλαγών σας
+          στις %{time} σε ένα από τα σύνολα αλλαγών σας.'
+        your_changeset_html: Ο/Η %{commenter} άφησε ένα σχόλιο στις %{time} σε ένα
+          από τα σύνολα αλλαγών σας
         commented_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
-          στις %{time}, σε μία ομάδα αλλαγών που παρακολουθείτε, δημιουργημένη από
+          στις %{time}, σε ένα σύνολο αλλαγών που παρακολουθείτε, δημιουργημένο από
           {{GENDER:%{changeset_author}|τον|την}} %{changeset_author}.'
         commented_changeset_html: Ο/Η %{commenter} άφησε ένα σχόλιο στις %{time} σε
           ένα σύνολο αλλαγών που παρακολουθείτε που δημιουργήθηκε από τον %{changeset_author}
         partial_changeset_with_comment: με το σχόλιο «%{changeset_comment}»
-        partial_changeset_with_comment_html: με σχόλιο '%{changeset_comment}'
+        partial_changeset_with_comment_html: με το σχόλιο «%{changeset_comment}»
         partial_changeset_without_comment: χωρίς σχόλιο
       details: Απαντήστε ή μάθετε περισσότερα σχετικά με το σύνολο αλλαγών στο %{url}.
-      details_html: Απαντήστε ή μάθετε περισσότερα για την ομάδα αλλαγών στο %{url}.
-      unsubscribe: Μπορείτε να απεγγραφείτε από τις ενημερώσεις αυτής της ομάδας αλλαγών
-        στο %{url}.
-      unsubscribe_html: Μπορείτε να απεγγραφείτε από τις ενημερώσεις σε αυτή την ομάδα
+      details_html: Απαντήστε ή μάθετε περισσότερα για το σύνολο αλλαγών στο %{url}.
+      unsubscribe: Μπορείτε να απεγγραφείτε από τις ενημερώσεις αυτού του συνόλου
+        αλλαγών στο %{url}.
+      unsubscribe_html: Μπορείτε να απεγγραφείτε από τις ενημερώσεις αυτού του συνόλου
         αλλαγών στο %{url}.
   confirmations:
     confirm:
@@ -2963,19 +2969,21 @@ el:
     go_public:
       flash success: Όλες οι επεξεργασίες σας είναι τώρα δημόσιες και έχετε τη δυνατότητα
         να επεξεργαστείτε τον χάρτη.
-    index:
-      title: Χρήστες
-      heading: Χρήστες
-      summary_html: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις
-        %{date}'
-      summary_no_ip_html: '%{name} δημιουργήθηκε στις %{date}'
-      empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
-    page:
-      found_users:
-        one: '%{count} χρήστης βρέθηκε'
-        other: '%{count} χρήστες βρέθηκαν'
-      confirm: Επιβεβαίωση Επιλεγμένων Χρηστών
-      hide: Απόκρυψη επιλεγμένων χρηστών
+    lists:
+      show:
+        title: Χρήστες
+        heading: Χρήστες
+        empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
+      page:
+        found_users:
+          one: '%{count} χρήστης βρέθηκε'
+          other: '%{count} χρήστες βρέθηκαν'
+        confirm: Επιβεβαίωση Επιλεγμένων Χρηστών
+        hide: Απόκρυψη επιλεγμένων χρηστών
+      user:
+        summary_html: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις
+          %{date}'
+        summary_no_ip_html: '%{name} δημιουργήθηκε στις %{date}'
     suspended:
       title: Ο Λογαριασμός έχει Ανασταλεί
       heading: Ο Λογαριασμός έχει Ανασταλεί
