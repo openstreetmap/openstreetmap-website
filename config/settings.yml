@@ -1,18 +1,19 @@
 # The server protocol and host
 server_protocol: "http"
 server_url: "openstreetmap.example.com"
+embed_server_url: "https://embed.openhistoricalmap.org/"
 # Publisher
 #publisher_url: ""
 # The generator
-generator: "OpenStreetMap server"
-copyright_owner: "OpenStreetMap and contributors"
-attribution_url: "http://www.openstreetmap.org/copyright"
+generator: "OpenHistoricalMap server"
+copyright_owner: "OpenHistoricalMap and contributors"
+attribution_url: "http://www.openhistoricalmap.org/copyright"
 license_url: "http://opendatacommons.org/licenses/odbl/1-0/"
 # Support email address
-support_email: "openstreetmap@example.com"
+support_email: "ohm-admins@googlegroups.com"
 # Sender addresses for emails
-email_from: "OpenStreetMap <openstreetmap@example.com>"
-email_return_path: "openstreetmap@example.com"
+email_from: "OpenHistoricalMap <ohm-admins@googlegroups.com>"
+email_return_path: "ohm-admins@googlegroups.com"
 # API version
 api_version: "0.6"
 # Application status - possible values are:
@@ -108,7 +109,7 @@ attachments_dir: ":rails_root/public/attachments"
 # List of memcache servers to use for caching
 #memcache_servers: []
 # URL of Nominatim instance to use for geocoding
-nominatim_url: "https://nominatim.openstreetmap.org/"
+nominatim_url: "https://nominatim.openhistoricalmap.org/"
 # Default editor
 default_editor: "id"
 # OAuth application for the web site
@@ -116,7 +117,13 @@ default_editor: "id"
 # OAuth application for iD
 #id_application: ""
 # Imagery to return in capabilities as blacklisted
-imagery_blacklist: []
+imagery_blacklist:
+  # Current Google imagery URLs have google or googleapis in the domain
+  - ".*\\.google(apis)?\\..*/.*"
+  # Blacklist VWorld
+  - "http://xdworld\\.vworld\\.kr:8080/.*"
+  # Blacklist here
+  - ".*\\.here\\.com[/:].*"
 # URL of Overpass instance to use for feature queries
 overpass_url: "https://overpass-api.de/api/interpreter"
 overpass_credentials: false
@@ -142,6 +149,8 @@ fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
 #tracestrack_key: ""
 # Key for generating TOTP tokens
 #totp_key: ""
+# Mastodon url for verification
+mastodon_url: "https://mapstodon.space/@ohm"
 # Enforce Content-Security-Policy
 csp_enforce: false
 # URL for reporting Content-Security-Policy violations
@@ -163,9 +172,9 @@ smtp_port: 25
 smtp_domain: "localhost"
 smtp_enable_starttls_auto: true
 smtp_tls_verify_mode: "none"
-smtp_authentication: null
-smtp_user_name: null
-smtp_password: null
+smtp_authentication: login
+smtp_user_name: ""
+smtp_password: ""
 # Matomo settings for analytics
 #matomo:
 # Signup rate limits
