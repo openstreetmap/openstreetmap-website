@@ -65,9 +65,9 @@ class ApiController < ApplicationController
   def current_ability
     # Use capabilities from the oauth token if it exists and is a valid access token
     if doorkeeper_token&.accessible?
-      ApiAbility.new(nil).merge(ApiCapability.new(doorkeeper_token))
+      ApiAbility.new(doorkeeper_token)
     else
-      ApiAbility.new(current_user)
+      ApiAbility.new(nil)
     end
   end
 
