@@ -37,10 +37,10 @@ class ApiAbility
         can [:inbox, :outbox, :read, :update, :destroy], Message if scope?(token, :consume_messages)
         can :create, Message if scope?(token, :send_messages)
 
-        if user.terms_agreed?
-          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scope?(token, :write_api)
-          can :create, ChangesetComment if scope?(token, :write_api)
-          can [:create, :update, :delete], [Node, Way, Relation] if scope?(token, :write_api)
+        if user.terms_agreed? && scope?(token, :write_api)
+          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
+          can :create, ChangesetComment
+          can [:create, :update, :delete], [Node, Way, Relation]
         end
 
         if user.moderator?
@@ -48,7 +48,9 @@ class ApiAbility
 
           can :destroy, Note if scope?(token, :write_notes)
 
-          can :redact, [OldNode, OldWay, OldRelation] if user&.terms_agreed? && scope?(token, :write_redactions)
+          can :redact, [OldNode, OldWay, OldRelation] if user.terms_agreed? && scope?(token, :write_redactions)
+
+          can :create, UserBlock if scope?(token, :write_blocks)
         end
       end
     end
