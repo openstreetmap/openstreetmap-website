@@ -16,11 +16,11 @@ module Api
     def test_show
       block = create(:user_block)
 
-      get api_user_block_path(:id => block)
+      get api_user_block_path(block)
       assert_response :success
       assert_select "user_block[id='#{block.id}']", 1
 
-      get api_user_block_path(:id => block, :format => "json")
+      get api_user_block_path(block, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -28,7 +28,7 @@ module Api
     end
 
     def test_show_not_found
-      get api_user_block_path(:id => 123)
+      get api_user_block_path(123)
       assert_response :not_found
       assert_equal "text/plain", @response.media_type
     end

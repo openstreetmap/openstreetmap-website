@@ -64,7 +64,7 @@ class UserBlocksController < ApplicationController
         render :action => "new"
       end
     else
-      redirect_to new_user_block_path(:display_name => params[:display_name])
+      redirect_to new_user_block_path(params[:display_name])
     end
   end
 
@@ -101,7 +101,7 @@ class UserBlocksController < ApplicationController
         end
       end
     else
-      redirect_to edit_user_block_path(:id => params[:id])
+      redirect_to edit_user_block_path(params[:id])
     end
   end
 
