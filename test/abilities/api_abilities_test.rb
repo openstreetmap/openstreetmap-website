@@ -21,7 +21,8 @@ end
 
 class UserApiAbilityTest < ApiAbilityTest
   test "Note permissions" do
-    ability = ApiAbility.new create(:user)
+    token = create(:oauth_access_token, :scopes => %w[write_notes])
+    ability = ApiAbility.new token
 
     [:index, :create, :comment, :feed, :show, :search, :close, :reopen].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
@@ -35,7 +36,8 @@ end
 
 class ModeratorApiAbilityTest < ApiAbilityTest
   test "Note permissions" do
-    ability = ApiAbility.new create(:moderator_user)
+    token = create(:oauth_access_token, :scopes => %w[write_notes], :resource_owner_id => create(:moderator_user).id)
+    ability = ApiAbility.new token
 
     [:index, :create, :comment, :feed, :show, :search, :close, :reopen, :destroy].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
