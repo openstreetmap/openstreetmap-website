@@ -165,19 +165,19 @@ module Api
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
       # fail if not authorized
-      get api_message_path(:id => msg.id)
+      get api_message_path(msg)
       assert_response :unauthorized
 
       # only recipient and sender can read the message
-      get api_message_path(:id => msg.id), :headers => user3_auth
+      get api_message_path(msg), :headers => user3_auth
       assert_response :forbidden
 
       # message does not exist
-      get api_message_path(:id => 99999), :headers => user3_auth
+      get api_message_path(99999), :headers => user3_auth
       assert_response :not_found
 
       # verify xml output
-      get api_message_path(:id => msg.id), :headers => recipient_auth
+      get api_message_path(msg), :headers => recipient_auth
       assert_equal "application/xml", response.media_type
       assert_select "message", :count => 1 do
         assert_select "[id='#{msg.id}']"
@@ -194,7 +194,7 @@ module Api
       end
 
       # verify json output
-      get api_message_path(:id => msg.id, :format => "json"), :headers => recipient_auth
+      get api_message_path(msg, :format => "json"), :headers => recipient_auth
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       jsm = js["message"]
@@ -211,7 +211,7 @@ module Api
       assert_equal "markdown", jsm["body_format"]
       assert_equal msg.body, jsm["body"]
 
-      get api_message_path(:id => msg.id), :headers => sender_auth
+      get api_message_path(msg), :headers => sender_auth
       assert_equal "application/xml", response.media_type
       assert_select "message", :count => 1 do
         assert_select "[id='#{msg.id}']"
@@ -228,7 +228,7 @@ module Api
       end
 
       # verify json output
-      get api_message_path(:id => msg.id, :format => "json"), :headers => sender_auth
+      get api_message_path(msg, :format => "json"), :headers => sender_auth
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       jsm = js["message"]
@@ -257,25 +257,25 @@ module Api
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
       # attempt to mark message as read by recipient, not authenticated
-      put api_message_path(:id => msg.id), :params => { :read_status => true }
+      put api_message_path(msg), :params => { :read_status => true }
       assert_response :unauthorized
 
       # attempt to mark message as read by recipient, not allowed
-      put api_message_path(:id => msg.id), :params => { :read_status => true }, :headers => user3_auth
+      put api_message_path(msg), :params => { :read_status => true }, :headers => user3_auth
       assert_response :forbidden
 
       # missing parameter
-      put api_message_path(:id => msg.id), :headers => recipient_auth
+      put api_message_path(msg), :headers => recipient_auth
       assert_response :bad_request
 
       # wrong type of parameter
-      put api_message_path(:id => msg.id),
+      put api_message_path(msg),
           :params => { :read_status => "not a boolean" },
           :headers => recipient_auth
       assert_response :bad_request
 
       # mark message as read by recipient
-      put api_message_path(:id => msg.id, :format => "json"),
+      put api_message_path(msg, :format => "json"),
           :params => { :read_status => true },
           :headers => recipient_auth
       assert_response :success
@@ -296,7 +296,7 @@ module Api
       assert_equal msg.body, jsm["body"]
 
       # mark message as unread by recipient
-      put api_message_path(:id => msg.id, :format => "json"),
+      put api_message_path(msg, :format => "json"),
           :params => { :read_status => false },
           :headers => recipient_auth
       assert_response :success
@@ -330,15 +330,15 @@ module Api
       msg = create(:message, :read, :sender => sender, :recipient => recipient)
 
       # attempt to delete message, not authenticated
-      delete api_message_path(:id => msg.id)
+      delete api_message_path(msg)
       assert_response :unauthorized
 
       # attempt to delete message, by user3
-      delete api_message_path(:id => msg.id), :headers => user3_auth
+      delete api_message_path(msg), :headers => user3_auth
       assert_response :forbidden
 
       # delete message by recipient
-      delete api_message_path(:id => msg.id, :format => "json"), :headers => recipient_auth
+      delete api_message_path(msg, :format => "json"), :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -357,7 +357,7 @@ module Api
       assert_equal msg.body, jsm["body"]
 
       # delete message by sender
-      delete api_message_path(:id => msg.id, :format => "json"), :headers => sender_auth
+      delete api_message_path(msg, :format => "json"), :headers => sender_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
