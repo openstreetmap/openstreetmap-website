@@ -236,20 +236,20 @@ $(document).ready(function () {
           });
 
     if (object && object.type !== "note") query.set("select", object.type + object.id); // can't select notes
-    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query, function () {
-      if (object && object.type === "note") {
-        const noteQuery = new URLSearchParams({ url: osmHost + OSM.apiUrl(object) });
-        sendRemoteEditCommand(remoteEditHost + "/import?" + noteQuery);
-      }
-    }, function () {
-      // eslint-disable-next-line no-alert
-      alert(I18n.t("site.index.remote_failed"));
-    });
+    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query)
+      .then(() => {
+        if (object && object.type === "note") {
+          const noteQuery = new URLSearchParams({ url: osmHost + OSM.apiUrl(object) });
+          sendRemoteEditCommand(remoteEditHost + "/import?" + noteQuery);
+        }
+      })
+      .catch(() => {
+        // eslint-disable-next-line no-alert
+        alert(I18n.t("site.index.remote_failed"));
+      });
 
-    function sendRemoteEditCommand(url, callback, errorCallback) {
-      fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) })
-        .then(callback)
-        .catch(errorCallback);
+    function sendRemoteEditCommand(url) {
+      return fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) });
     }
 
     return false;
