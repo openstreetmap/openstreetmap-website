@@ -32,6 +32,9 @@ L.OSM.Map = L.Map.extend({
           layerOptions.apikey = OSM[value];
         } else if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
+        } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
+          layerConstructor = L.OSM[value];
+          layerOptions.schemeClass = "dark";
         } else {
           layerOptions[property] = value;
         }
@@ -52,9 +55,14 @@ L.OSM.Map = L.Map.extend({
       code: "G"
     });
 
-    this.on("layeradd", function (event) {
-      if (this.baseLayers.indexOf(event.layer) >= 0) {
-        this.setMaxZoom(event.layer.options.maxZoom);
+    this.on("layeradd", function ({ layer }) {
+      if (this.baseLayers.indexOf(layer) < 0) return;
+      this.setMaxZoom(layer.options.maxZoom);
+      const container = layer.getContainer();
+      if (layer.options.schemeClass) container.classList.add(layer.options.schemeClass);
+      for (let filterReceiver of [container, document.querySelector(".key-ui")]) {
+        if (!filterReceiver?.style?.setProperty) continue;
+        filterReceiver.style.setProperty("--dark-mode-map-filter", layer.options.filter || "none");
       }
     });
 
@@ -378,6 +386,17 @@ L.extend(L.Icon.Default.prototype, {
     return L.Icon.Default.imageUrls[url];
   }
 });
+
+OSM.isDarkMap = function () {
+  var themeFlags = [
+    $("body").attr("data-map-theme"),
+    $("html").attr("data-bs-theme")
+  ];
+  for (var themeFlag of themeFlags) {
+    if (themeFlag) return themeFlag === "dark";
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
 
 OSM.getUserIcon = function (url) {
   return L.icon({
