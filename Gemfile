@@ -180,7 +180,7 @@ group :test do
 end
 
 group :development, :test do
-  gem "annotate"
+  gem "annotate", :github => "andynu/annotate_models", :ref => "rails-8-0"
   gem "teaspoon"
   gem "teaspoon-mocha", "~> 2.3.3"
 
