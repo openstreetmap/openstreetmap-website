@@ -15,7 +15,7 @@ class NodeVersionsTest < ActionDispatch::IntegrationTest
     propagate_tags(node, node.old_nodes.last)
 
     ## First try this with a non-public user
-    auth_header = bearer_authorization_header private_user
+    auth_header = request_headers private_user
 
     # setup a simple XML node
     xml_doc = xml_for_node(private_node)
@@ -62,7 +62,7 @@ class NodeVersionsTest < ActionDispatch::IntegrationTest
     # probably should check that they didn't get written to the database
 
     ## Now do it with the public user
-    auth_header = bearer_authorization_header user
+    auth_header = request_headers user
 
     # setup a simple XML node
 
@@ -190,5 +190,9 @@ class NodeVersionsTest < ActionDispatch::IntegrationTest
     node.tags.each do |k, v|
       create(:old_node_tag, :old_node => old_node, :k => k, :v => v)
     end
+  end
+
+  def request_headers(user)
+    bearer_authorization_header(user).merge("Content-Type" => "application/xml")
   end
 end
