@@ -126,7 +126,8 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id/history" => "old_relations#index", :id => /\d+/, :as => :relation_history
   resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
-    match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
+    match :subscribe, :on => :member, :via => [:get, :post]
+    match :unsubscribe, :on => :member, :via => [:get, :post]
 
     namespace :changeset_comments, :as => :comments, :path => :comments do
       resource :feed, :only => :show, :defaults => { :format => "rss" }
@@ -257,7 +258,8 @@ OpenStreetMap::Application.routes.draw do
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/ do
       member do
-        post :hide, :unhide
+        post :hide
+        post :unhide
       end
     end
   end
