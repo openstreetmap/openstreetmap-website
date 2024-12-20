@@ -13,6 +13,7 @@ class ApiAbility
       can :create, Note unless token
 
       can [:read, :download], Changeset
+      can :read, ChangesetComment
       can :read, Tracepoint
       can :read, User
       can :read, Node
