@@ -36,22 +36,27 @@
       </div>
     </div>
 
+    <%= render :partial => "layouts/sticky_close", :locals => { :id => "sidebar_close" } %>
+
     <div id="sidebar_content" class="p-3">
       <%= yield %>
     </div>
 
     <% unless current_user %>
-      <div class="welcome p-3" hidden>
-        <%= render "sidebar_header", :title => t("layouts.intro_header") %>
-        <p class="fs-6 fw-light"><%= t "layouts.intro_text" %></p>
-        <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html",
-                                       :fastly => link_to(t("layouts.partners_fastly"), "https://www.fastly.com/"),
-                                       :corpmembers => link_to(t("layouts.partners_corpmembers"), "https://osmfoundation.org/wiki/Corporate_Members"),
-                                       :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
-        </p>
-        <div class="d-flex gap-2">
-          <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
-          <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
+      <div class="welcome" hidden>
+        <%= render :partial => "layouts/sticky_close", :locals => { :id => nil } %>
+        <div class="p-3">
+          <h2 class="pe-4 text-break"><%= t("layouts.intro_header") %></h2>
+          <p class="fs-6 fw-light"><%= t "layouts.intro_text" %></p>
+          <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html",
+                                         :fastly => link_to(t("layouts.partners_fastly"), "https://www.fastly.com/"),
+                                         :corpmembers => link_to(t("layouts.partners_corpmembers"), "https://osmfoundation.org/wiki/Corporate_Members"),
+                                         :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
+          </p>
+          <div class="d-flex gap-2">
+            <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
+            <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
+          </div>
         </div>
       </div>
     <% end %>
@@ -67,6 +72,7 @@
   </noscript>
 
   <div id="map-ui" class="bg-body z-2">
+    <%= render :partial => "layouts/sticky_close", :locals => { :id => nil } %>
   </div>
 
   <div id="map" tabindex="2" class="bg-body-secondary z-0">
