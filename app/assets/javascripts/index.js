@@ -238,16 +238,8 @@ $(document).ready(function () {
 
   function remoteEditHandler(bbox, object) {
     var remoteEditHost = "http://127.0.0.1:8111",
-        osmHost = location.protocol + "//" + location.host,
-        query = {
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-        };
-
-    if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
-    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query), function () {
+        osmHost = location.protocol + "//" + location.host;
+    sendRemoteEditCommand(remoteEditHost + getLoadAndZoomPath(bbox, object), function () {
       if (object && object.type === "note") {
         var noteQuery = { url: osmHost + OSM.apiUrl(object) };
         sendRemoteEditCommand(remoteEditHost + "/import?" + Qs.stringify(noteQuery));
@@ -265,10 +257,26 @@ $(document).ready(function () {
     return false;
   }
 
+  function getLoadAndZoomPath(bbox, object) {
+    var query = {
+      left: bbox.getWest() - 0.0001,
+      top: bbox.getNorth() + 0.0001,
+      right: bbox.getEast() + 0.0001,
+      bottom: bbox.getSouth() - 0.0001
+    };
+    if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
+    return "/load_and_zoom?" + Qs.stringify(query);
+  }
+
   $("a[data-editor=remote]").click(function (e) {
     var params = OSM.mapParams(this.search);
     remoteEditHandler(map.getBounds(), params.object);
     e.preventDefault();
+  });
+
+  $("a[data-editor=josm_scheme]").click(function () {
+    var params = OSM.mapParams(this.search);
+    $(this).attr("href", "josm:" + getLoadAndZoomPath(map.getBounds(), params.object));
   });
 
   if (OSM.params().edit_help) {
