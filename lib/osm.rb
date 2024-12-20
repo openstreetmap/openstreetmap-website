@@ -506,10 +506,10 @@ module OSM
   end
 
   # Parse a float, raising a specified exception on failure
-  def self.parse_float(str, klass, *args)
+  def self.parse_float(str, klass, *)
     Float(str)
   rescue StandardError
-    raise klass.new(*args)
+    raise klass.new(*)
   end
 
   # Construct a random token of a given length
