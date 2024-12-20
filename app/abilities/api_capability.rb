@@ -10,13 +10,13 @@ class ApiCapability
       if user&.active?
         can [:create, :comment, :close, :reopen], Note if scope?(token, :write_notes)
         can [:create, :destroy], NoteSubscription if scope?(token, :write_notes)
-        can [:show, :data], Trace if scope?(token, :read_gpx)
+        can [:read, :data], Trace if scope?(token, :read_gpx)
         can [:create, :update, :destroy], Trace if scope?(token, :write_gpx)
         can [:details], User if scope?(token, :read_prefs)
         can [:gpx_files], User if scope?(token, :read_gpx)
-        can [:index, :show], UserPreference if scope?(token, :read_prefs)
+        can :read, UserPreference if scope?(token, :read_prefs)
         can [:update, :update_all, :destroy], UserPreference if scope?(token, :write_prefs)
-        can [:inbox, :outbox, :show, :update, :destroy], Message if scope?(token, :consume_messages)
+        can [:inbox, :outbox, :read, :update, :destroy], Message if scope?(token, :consume_messages)
         can [:create], Message if scope?(token, :send_messages)
 
         if user.terms_agreed?

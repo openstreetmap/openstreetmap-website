@@ -4,27 +4,24 @@ class ApiAbility
   include CanCan::Ability
 
   def initialize(user)
-    can :show, :capability
-    can :index, :map
-    can :show, :permission
-    can :show, :version
+    can :read, [:version, :capability, :permission, :map]
 
     if Settings.status != "database_offline"
-      can [:index, :show, :download], Changeset
-      can [:index, :create, :feed, :show, :search], Note
-      can :index, Tracepoint
-      can [:index, :show], User
-      can [:index, :show], Node
-      can [:index, :show, :full, :ways_for_node], Way
-      can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
-      can [:history, :show], [OldNode, OldWay, OldRelation]
-      can [:show], UserBlock
+      can [:read, :download], Changeset
+      can [:read, :create, :feed, :search], Note
+      can :read, Tracepoint
+      can :read, User
+      can :read, Node
+      can [:read, :full, :ways_for_node], Way
+      can [:read, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
+      can [:history, :read], [OldNode, OldWay, OldRelation]
+      can :read, UserBlock
 
       if user&.active?
         can [:comment, :close, :reopen], Note
-        can [:create, :show, :update, :destroy], Trace
+        can [:read, :create, :update, :destroy], Trace
         can [:details, :gpx_files], User
-        can [:index, :show, :update, :update_all, :destroy], UserPreference
+        can [:read, :update, :update_all, :destroy], UserPreference
 
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
