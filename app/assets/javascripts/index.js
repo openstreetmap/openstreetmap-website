@@ -247,19 +247,19 @@ $(document).ready(function () {
         };
 
     if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
-    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query), function () {
-      if (object && object.type === "note") {
-        var noteQuery = { url: osmHost + OSM.apiUrl(object) };
-        sendRemoteEditCommand(remoteEditHost + "/import?" + Qs.stringify(noteQuery));
-      }
-    }, function () {
-      alert(I18n.t("site.index.remote_failed"));
-    });
+    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query))
+      .then(() => {
+        if (object && object.type === "note") {
+          var noteQuery = { url: osmHost + OSM.apiUrl(object) };
+          sendRemoteEditCommand(remoteEditHost + "/import?" + Qs.stringify(noteQuery));
+        }
+      })
+      .catch(() => {
+        alert(I18n.t("site.index.remote_failed"));
+      });
 
-    function sendRemoteEditCommand(url, callback, errorCallback) {
-      fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) })
-        .then(callback)
-        .catch(errorCallback);
+    function sendRemoteEditCommand(url) {
+      return fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) });
     }
 
     return false;
