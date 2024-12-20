@@ -40,29 +40,30 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :author => second_user)
     end
 
-    # Note that the table rows include a header row
-    get user_notes_path(:display_name => first_user.display_name)
+    get user_notes_path(first_user)
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select ".content-heading a[href='#{user_path first_user}']", :text => first_user.display_name
+    assert_select "table.note_list tbody tr", :count => 1
 
-    get user_notes_path(:display_name => second_user.display_name)
+    get user_notes_path(second_user)
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select ".content-heading a[href='#{user_path second_user}']", :text => second_user.display_name
+    assert_select "table.note_list tbody tr", :count => 1
 
-    get user_notes_path(:display_name => "non-existent")
+    get user_notes_path("non-existent")
     assert_response :not_found
 
     session_for(moderator_user)
 
-    get user_notes_path(:display_name => first_user.display_name)
+    get user_notes_path(first_user)
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select "table.note_list tbody tr", :count => 1
 
-    get user_notes_path(:display_name => second_user.display_name)
+    get user_notes_path(second_user)
     assert_response :success
-    assert_select "table.note_list tr", :count => 3
+    assert_select "table.note_list tbody tr", :count => 2
 
-    get user_notes_path(:display_name => "non-existent")
+    get user_notes_path("non-existent")
     assert_response :not_found
   end
 
@@ -73,18 +74,27 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :author => user)
     end
 
-    get user_notes_path(:display_name => user.display_name)
+    get user_notes_path(user)
     assert_response :success
-    assert_select "table.note_list tr", :count => 11
+    assert_select "table.note_list tbody tr", :count => 10
 
-    get user_notes_path(:display_name => user.display_name, :page => 2)
+    get user_notes_path(user, :page => 2)
     assert_response :success
-    assert_select "table.note_list tr", :count => 11
+    assert_select "table.note_list tbody tr", :count => 10
+  end
+
+  def test_index_invalid_paged
+    user = create(:user)
+
+    %w[-1 0 fred].each do |page|
+      get user_notes_path(user, :page => page)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
   end
 
   def test_empty_page
     user = create(:user)
-    get user_notes_path(:display_name => user.display_name)
+    get user_notes_path(user)
     assert_response :success
     assert_select "h4", :html => "No notes"
   end
@@ -92,25 +102,25 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   def test_read_note
     open_note = create(:note_with_comments)
 
-    browse_check :note_path, open_note.id, "notes/show"
+    sidebar_browse_check :note_path, open_note.id, "notes/show"
   end
 
   def test_read_hidden_note
     hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
-    get note_path(:id => hidden_note_with_comment)
+    get note_path(hidden_note_with_comment)
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    get note_path(:id => hidden_note_with_comment), :xhr => true
+    get note_path(hidden_note_with_comment), :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
     session_for(create(:moderator_user))
 
-    browse_check :note_path, hidden_note_with_comment.id, "notes/show"
+    sidebar_browse_check :note_path, hidden_note_with_comment.id, "notes/show"
   end
 
   def test_read_note_hidden_comments
@@ -118,12 +128,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :visible => false)
     end
 
-    browse_check :note_path, note_with_hidden_comment.id, "notes/show"
+    sidebar_browse_check :note_path, note_with_hidden_comment.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 1
 
     session_for(create(:moderator_user))
 
-    browse_check :note_path, note_with_hidden_comment.id, "notes/show"
+    sidebar_browse_check :note_path, note_with_hidden_comment.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 2
   end
 
@@ -133,22 +143,20 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :author => hidden_user)
     end
 
-    browse_check :note_path, note_with_hidden_user_comment.id, "notes/show"
+    sidebar_browse_check :note_path, note_with_hidden_user_comment.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 1
 
     session_for(create(:moderator_user))
 
-    browse_check :note_path, note_with_hidden_user_comment.id, "notes/show"
+    sidebar_browse_check :note_path, note_with_hidden_user_comment.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 1
   end
 
   def test_read_closed_note
     user = create(:user)
-    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc, :comments_count => 2) do |note|
-      create(:note_comment, :event => "closed", :note => note, :author => user)
-    end
+    closed_note = create(:note_with_comments, :closed, :closed_by => user, :comments_count => 2)
 
-    browse_check :note_path, closed_note.id, "notes/show"
+    sidebar_browse_check :note_path, closed_note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 2
     assert_select "div.details", /Resolved by #{user.display_name}/
 
@@ -156,52 +164,58 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     reset!
 
-    browse_check :note_path, closed_note.id, "notes/show"
+    sidebar_browse_check :note_path, closed_note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 1
     assert_select "div.details", /Resolved by deleted/
   end
 
-  def test_new_note
+  def test_new_note_anonymous
     get new_note_path
     assert_response :success
     assert_template "notes/new"
+    assert_select "#sidebar_content a[href='#{login_path(:referer => new_note_path)}']", :count => 1
   end
 
-  private
+  def test_new_note
+    session_for(create(:user))
 
-  # This is a convenience method for most of the above checks
-  # First we check that when we don't have an id, it will correctly return a 404
-  # then we check that we get the correct 404 when a non-existant id is passed
-  # then we check that it will get a successful response, when we do pass an id
-  def browse_check(path, id, template)
-    path_method = method(path)
-
-    assert_raise ActionController::UrlGenerationError do
-      get path_method.call
-    end
-
-    # assert_raise ActionController::UrlGenerationError do
-    #   get path_method.call(:id => -10) # we won't have an id that's negative
-    # end
-
-    get path_method.call(:id => 0)
-    assert_response :not_found
-    assert_template "browse/not_found"
-    assert_template :layout => "map"
-
-    get path_method.call(:id => 0), :xhr => true
-    assert_response :not_found
-    assert_template "browse/not_found"
-    assert_template :layout => "xhr"
-
-    get path_method.call(:id => id)
+    get new_note_path
     assert_response :success
-    assert_template template
-    assert_template :layout => "map"
+    assert_template "notes/new"
+    assert_select "#sidebar_content a[href='#{login_path(:referer => new_note_path)}']", :count => 0
+  end
 
-    get path_method.call(:id => id), :xhr => true
+  def test_index_filter_by_status
+    user = create(:user)
+    other_user = create(:user)
+
+    open_note = create(:note, :status => "open")
+    create(:note_comment, :note => open_note, :author => user)
+
+    closed_note = create(:note, :status => "closed")
+    create(:note_comment, :note => closed_note, :author => user)
+
+    hidden_note = create(:note, :status => "hidden")
+    create(:note_comment, :note => hidden_note, :author => user)
+
+    commented_note = create(:note, :status => "open")
+    create(:note_comment, :note => commented_note, :author => other_user)
+    create(:note_comment, :note => commented_note, :author => user)
+
+    get user_notes_path(user, :status => "all")
     assert_response :success
-    assert_template template
-    assert_template :layout => "xhr"
+    assert_select "table.note_list tbody tr", :count => 3
+
+    get user_notes_path(user, :status => "open")
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 2
+
+    get user_notes_path(user, :status => "closed")
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 1
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 3
   end
 end

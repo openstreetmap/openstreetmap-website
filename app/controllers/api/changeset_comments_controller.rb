@@ -1,15 +1,13 @@
 module Api
   class ChangesetCommentsController < ApiController
     before_action :check_api_writable
-    before_action :check_api_readable, :except => [:create]
     before_action :authorize
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create]
+
     before_action :set_request_formats
-    around_action :api_call_handle_error
-    around_action :api_call_timeout
 
     ##
     # Add a comment to a changeset
@@ -42,7 +40,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "api/changesets/changeset"
+      render "api/changesets/show"
 
       respond_to do |format|
         format.xml
@@ -67,7 +65,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = comment.changeset
-      render "api/changesets/changeset"
+      render "api/changesets/show"
 
       respond_to do |format|
         format.xml
@@ -92,7 +90,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = comment.changeset
-      render "api/changesets/changeset"
+      render "api/changesets/show"
 
       respond_to do |format|
         format.xml
@@ -105,7 +103,7 @@ module Api
     ##
     # Check if the current user has exceed the rate limit for comments
     def rate_limit_exceeded?
-      recent_comments = current_user.changeset_comments.where("created_at >= ?", Time.now.utc - 1.hour).count
+      recent_comments = current_user.changeset_comments.where(:created_at => Time.now.utc - 1.hour..).count
 
       recent_comments >= current_user.max_changeset_comments_per_hour
     end

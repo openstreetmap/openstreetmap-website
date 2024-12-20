@@ -10,9 +10,9 @@
      }
    end %>
 
-<%= tag.li :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data }, :class => "list-group-item" do %>
-  <p class="fst-italic">
-    <a class="changeset_id text-dark stretched-link" href="<%= changeset_path(changeset) %>">
+<%= tag.li :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data }, :class => "list-group-item list-group-item-action" do %>
+  <p class="fs-6 text-truncate text-wrap">
+    <a class="changeset_id link-body-emphasis stretched-link" href="<%= changeset_path(changeset) %>">
       <span><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></span>
     </a>
   </p>
@@ -20,11 +20,11 @@
     <div class="col">
       <%= changeset_details(changeset) %>
       &middot;
-      <a class="changeset_id text-dark" href="<%= changeset_path(changeset) %>">
+      <a class="changeset_id link-body-emphasis" href="<%= changeset_path(changeset) %>">
         #<%= changeset.id %>
       </a>
     </div>
-    <div class="col-auto comments comments-<%= changeset.comments.length %>">
+    <div class="col-auto text-secondary<%= " opacity-50" if changeset.comments.empty? %>">
       <%= changeset.comments.length %>
       <span class="icon note grey"></span>
     </div>

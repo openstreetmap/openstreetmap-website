@@ -1,4 +1,6 @@
+@use "sass:map";
 @import "parameters";
+@import "browse";
 @import "bootstrap";
 @import "rails_bootstrap_forms";
 
@@ -10,25 +12,9 @@ body {
   font-size: $typeheight;
 }
 
-p > img {
-  width: auto;
-  max-width: 100%;
+time[title] {
+  text-decoration: underline dotted;
 }
-
-small, aside {
-  font-size: 12px;
-}
-
-#container { position: relative; }
-
-.small_icon {
-  vertical-align: middle;
-  margin-right: $lineheight * 0.25;
-}
-
-[dir=rtl] { /* no-r2 */ text-align: right; }
-
-[dir=ltr] { /* no-r2 */ text-align: left; }
 
 /* Rules for icons */
 
@@ -37,52 +23,83 @@ small, aside {
   vertical-align: top;
   width: 20px;
   height: 20px;
-  background: transparent image-url("sprite.png") no-repeat 0 0;
-  background-image: image-url("sprite.svg");
+  background: transparent image-url("sprite.svg") no-repeat 0 0;
   text-indent: -9999px;
   overflow: hidden;
 }
 
-.icon.search      { /* no-r2 */ background-position: 0 0; }
-.icon.donate      { /* no-r2 */ background-position: -20px 0; }
-.icon.zoomin      { /* no-r2 */ background-position: -40px 0; }
-.icon.zoomout     { /* no-r2 */ background-position: -60px 0; }
-.icon.geolocate   { /* no-r2 */ background-position: -80px 0; }
-.active .icon.geolocate   { /* no-r2 */ background-position: -80px -20px; }
-.icon.layers      { /* no-r2 */ background-position: -100px 0; }
-.icon.key         { /* no-r2 */ background-position: -120px 0; }
-.icon.share       { /* no-r2 */ background-position: -140px 0; }
-.icon.clipboard   { /* no-r2 */ background-position: -160px 0; }
-.icon.link        { /* no-r2 */ background-position: -180px 0; }
-.icon.close       { /* no-r2 */ background-position: -200px 0; }
-.icon.close:hover { /* no-r2 */ background-position: -200px -20px; }
-.icon.check       { /* no-r2 */ background-position: -220px 0; }
-.icon.note        { /* no-r2 */ background-position: -240px 0; }
-.icon.note.grey   { /* no-r2 */ background-position: -240px -20px; }
-.icon.query       { /* no-r2 */ background-position: -260px 0; }
+.icon.search      { /*rtl:ignore*/ background-position: 0 0; }
+.icon.donate      { /*rtl:ignore*/ background-position: -20px 0; }
+.icon.zoomin      { /*rtl:ignore*/ background-position: -40px 0; }
+.icon.zoomout     { /*rtl:ignore*/ background-position: -60px 0; }
+.icon.geolocate   { /*rtl:ignore*/ background-position: -80px 0; }
+.active .icon.geolocate   { /*rtl:ignore*/ background-position: -80px -20px; }
+.icon.layers      { /*rtl:ignore*/ background-position: -100px 0; }
+.icon.key         { /*rtl:ignore*/ background-position: -120px 0; }
+.icon.share       { /*rtl:ignore*/ background-position: -140px 0; }
+.icon.clipboard   { /*rtl:ignore*/ background-position: -160px 0; }
+.icon.link        { /*rtl:ignore*/ background-position: -180px 0; }
+.icon.close       { /*rtl:ignore*/ background-position: -200px 0; }
+.icon.close:hover { /*rtl:ignore*/ background-position: -200px -20px; }
+.icon.check       { /*rtl:ignore*/ background-position: -220px 0; }
+.icon.note        { /*rtl:ignore*/ background-position: -240px 0; }
+.icon.note.grey   { /*rtl:ignore*/ background-position: -240px -20px; }
+.icon.query       { /*rtl:ignore*/ background-position: -260px 0; }
 
 /* Utility for de-emphasizing content */
 
-.text-muted a {
+.text-body-secondary a {
   color: $blue;
 }
 
-/* Rules for borders */
-/* These add additional colours to those provided by bootstrap */
-.border-grey {
-  border-color: $grey !important;
+/* Bootstrap contextual table classes overrides in dark mode */
+
+@include color-mode(dark) {
+  .table-primary {
+    --bs-table-bg: rgb(var(--bs-primary-rgb), .25);
+  }
+  .table-secondary {
+    --bs-table-bg: rgb(var(--bs-secondary-rgb), .25);
+  }
+  .table-success {
+    --bs-table-bg: rgb(var(--bs-success-rgb), .25);
+  }
+  .table-primary, .table-secondary, .table-success {
+    --bs-table-color: initial;
+    border-color: inherit;
+  }
 }
 
-.border-lightgrey {
-  border-color: $lightgrey !important;
+/* Utility for delayed loading spinner */
+
+.delayed-fade-in {
+  animation: 300ms linear forwards delayed-fade-in;
+}
+
+@keyframes delayed-fade-in {
+  0%   { opacity: 0 }
+  66%  { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+/* Bootstrap close button overrides for nested light/dark themes */
+
+[data-bs-theme="dark"] .btn-close {
+  filter: var(--bs-btn-close-white-filter);
+}
+
+[data-bs-theme="light"] .btn-close {
+  filter: none;
 }
 
 /* Rules for the header */
 
 #menu-icon {
   display: none;
-  float: right;
-  background: image-url("menu-icon.png") no-repeat;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: image-url("menu-icon.svg") no-repeat;
   background-size: 30px 30px;
   width: 30px;
   height: 30px;
@@ -90,60 +107,41 @@ small, aside {
   opacity: 0.6;
 }
 
+@include color-mode(dark) {
+  #menu-icon {
+    filter: invert(1);
+  }
+}
+
 header {
   height: $headerHeight;
   position: relative;
-  z-index: 1001;
   font-size: 14px;
 
-  h1, nav, nav > ul, nav > ul > li {
-    display: inline-block;
-  }
-
   > * {
-    height: 100%;
     padding: $lineheight * 0.5;
   }
 
-  h1, nav.primary {
-    float: left;
-  }
-
-  a, a:hover {
-    text-decoration: none;
-  }
-
-  img.logo {
-    width: 30px;
-    height: 30px;
-    margin-top: -2px;
-    vertical-align: middle;
-  }
-
   h1 {
+    height: $headerHeight;
     font-size: 18px;
-    font-weight: 600;
-    line-height: 1.2;
-    margin: 0;
-    padding-top: 15px;
-
-    a {
-      color: #000;
-    }
-
-    a:hover {
-      color: #000;
-    }
   }
 
   .btn {
     font-size: 14px;
   }
+
+  nav.primary {
+    margin-right: auto;
+  }
+
+  .username {
+    max-width: 12em;
+  }
 }
 
-
 nav.primary {
-  .btn-outline-primary {
+  #edit_tab .btn-outline-primary {
     @include button-outline-variant($green, $color-hover: $white, $active-color: $white);
   }
 
@@ -175,36 +173,8 @@ nav.primary {
 }
 
 nav.secondary {
-  position: absolute;
-  right: 0;
-
   .nav-link {
-    padding: 0.2rem;
-    color: $darkgrey;
-  }
-
-  > ul li.current a {
-    color: darken($darkgrey, 25%);
-  }
-
-  .login-menu {
-    .btn-outline-secondary {
-      @include button-outline-variant($darkgrey, $color-hover: $white, $active-color: $white);
-    }
-  }
-
-  .user-menu {
-    .btn-outline-secondary {
-      @include button-outline-variant($darkgrey, $color-hover: $darkgrey, $active-background: white, $active-border: $darkgrey);
-      border-color: $grey;
-      &:hover {
-        border-color: $grey;
-      }
-    }
-  }
-
-  #inboxanchor {
-    background-color: lighten($grey, 10%);
+    padding: 0.3rem;
   }
 }
 
@@ -235,21 +205,13 @@ body.small-nav {
     display: block;
   }
 
-  nav.primary,
-  nav.secondary {
-    float: none !important;
-    position: relative;
-    display: block;
-    clear: both;
-  }
-
   header {
+    flex-direction: column;
     height: auto;
     min-height: $headerHeight;
-    background: #fff;
 
     &.closed nav {
-      display: none;
+      display: none !important;
     }
 
     .search_forms {
@@ -257,42 +219,23 @@ body.small-nav {
     }
   }
 
-  #sidebar .search_forms,
-  #edit_tab,
-  #export_tab {
+  #sidebar .search_forms {
     display: none;
   }
 
   nav.primary {
+    margin-right: 0;
     padding: 0;
 
-    ul, li {
-      border: none;
-      border-radius: 0;
-      width: 100%;
-    }
-
-    ul {
-      border-top: 1px solid #eee;
-      li {
-        border-bottom: 1px solid #eee;
-        border-right: none;
-        > a {
-          border-radius: 0;
-          width: 100%;
-          text-align: center;
-          font-size: 15px;
-        }
-      }
-    }
-
-    .btn-group {
+    #edit_tab {
       width: 100%;
       padding: 10px;
     }
   }
 
   nav.secondary {
+    flex-direction: column;
+
     .user-menu, .login-menu {
       width: 100%;
     }
@@ -318,17 +261,9 @@ body.small-nav {
 /* Utility for styling notification numbers */
 
 .count-number {
-  background: lighten($green, 30%);
+  background: transparentize(lighten($green, 25%), .25);
   color: $gray-800;
   font-weight: $font-weight-normal;
-}
-
-/* Rules for the message shown in place of the map when javascript is disabled */
-
-#noscript {
-  z-index: 20000000;
-  margin-left: 400px;
-  margin-top: 50px;
 }
 
 /* Rules for Leaflet maps */
@@ -401,24 +336,14 @@ body.small-nav {
   #sidebar {
     float: left;
     width: $sidebarWidth;
-    background: #fff;
 
     #sidebar_loader {
       display: none;
-    }
-
-    #sidebar_content {
-      padding: $spacer;
-    }
-
-    > div {
-      position: relative;
     }
   }
 
   .overlay-sidebar #sidebar {
     position: absolute;
-    z-index: 1000;
     height: auto;
     overflow: hidden;
 
@@ -437,11 +362,6 @@ body.small-nav {
 
   .welcome {
     display: none;
-
-    p {
-      font-size: 110%;
-      font-weight: 300;
-    }
   }
 
   #banner {
@@ -450,11 +370,6 @@ body.small-nav {
     img {
       display: block;
       width: $sidebarWidth;
-    }
-
-    button.btn-close {
-      background-color: rgba(255, 255, 255, 0.5);
-      opacity: 1.0;
     }
   }
 
@@ -473,6 +388,14 @@ body.small-nav {
     .leaflet-marker-draggable {
       cursor: move;
     }
+
+    .query-marker {
+      animation: 1500ms forwards query-marker-fade;
+
+      @keyframes query-marker-fade {
+        to { opacity: 0 }
+      }
+    }
   }
 
   #map-ui {
@@ -481,13 +404,7 @@ body.small-nav {
     float: right;
     width: 250px;
     height: 100%;
-    background: white;
     overflow: auto;
-
-    .section {
-      border-bottom: 1px solid $grey;
-      padding: $spacer;
-    }
   }
 }
 
@@ -501,13 +418,12 @@ body.small-nav {
     }
 
     #map-ui {
-      z-index: 9999;
       width: 100%;
       height: 50%;
       overflow-y: scroll;
     }
 
-    .overlay-sidebar {
+    .overlay-sidebar.overlay-right-sidebar {
       #sidebar {
         position: absolute;
         width: 350px;
@@ -515,7 +431,7 @@ body.small-nav {
         overflow: hidden;
       }
 
-      #map, #map-ui {
+      #map {
         height: 100%;
       }
     }
@@ -523,51 +439,21 @@ body.small-nav {
 }
 
 .layers-ui {
-  .base-layers {
-    .leaflet-container {
-      width: 100%;
-      height: 50px;
-      cursor: pointer;
+  .base-layers > * {
+    height: 3.5rem;
+
+    > .btn {
+      box-sizing: content-box;
+      top: - map.get($border-widths, 4);
+      left: - map.get($border-widths, 4);
+      --bs-btn-border-color: var(--bs-body-bg);
     }
-
-    li  {
-      overflow: hidden;
-      border-radius: 3px;
-      border: 2px solid #fff;
-      margin-bottom: 8px;
-      position: relative;
-      transition: border-color 0.08s ease-in;
-
-      label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 2px 6px;
-        border-bottom-right-radius: 3px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 16px;
-        text-stroke: 2px #fff;
-        background: rgba(255,255,255,.9);
-        z-index: 1000;
-        input[type="radio"] {
-          display: none;
-        }
-      }
-
-      &.active { border-color: darken($green, 10%); }
-      &:hover {
-        border-color: $grey;
-        &.active { border-color: darken($green, 20%); }
-      }
+    > .btn:hover {
+      --bs-btn-border-color: var(--bs-primary-border-subtle);
     }
   }
 
   .overlay-layers {
-    p {
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
     li.disabled { color: $darkgrey; }
   }
 }
@@ -592,31 +478,47 @@ body.small-nav {
   border-top: 0px !important;
 }
 
+.leaflet-popup-content-wrapper, .leaflet-popup-tip,
+.leaflet-contextmenu, .leaflet-contextmenu-item,
+.leaflet-control-attribution, .leaflet-control-scale-line {
+  @extend .bg-body, .text-body;
+}
+
+.leaflet-control-attribution, .leaflet-control-scale-line {
+  @extend .bg-opacity-75;
+  text-shadow: none !important;
+}
+
+.leaflet-contextmenu-item.over {
+  @extend .bg-body-secondary, .border-secondary, .border-opacity-10;
+}
+
 .leaflet-popup-content-wrapper {
-  border-radius: 4px !important;
+  @extend .rounded-1;
+
+  a {
+    color: var(--bs-link-color) !important;
+  }
+}
+
+@include color-mode(dark) {
+  .leaflet-tile-container .leaflet-tile,
+  .mapkey-table-entry td:first-child > * {
+    filter: brightness(.8);
+  }
+
+  .leaflet-container .leaflet-control-attribution a {
+    color: var(--bs-link-color);
+  }
+
+  .leaflet-control-scale-line {
+    border-color: rgba(var(--bs-light-rgb), .75) !important;
+  }
 }
 
 /* Rules for attribution text under the main map shown on printouts */
 
-#attribution {
-  display: none;
-}
-
 .donate-attr { color: darken($green, 10%) !important; }
-
-/* Rules for the sidebar */
-
-#browse_status {
-  input {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  > div {
-   padding: $spacer;
-  }
-}
 
 /* Temporary label size override until we remove site-wide font customisation */
 
@@ -658,38 +560,24 @@ header .search_forms,
   display: none;
 }
 
-/* Rules for the map key which appears in the popout sidebar */
-
-#mapkey {
- .mapkey-table-key img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.search_form {
+  .describe_location {
+    font-size: 10px;
   }
 }
 
 /* Rules for search sidebar */
 
 #sidebar .search_results_entry {
-  ul li {
-    cursor: pointer;
-    &.selected { background: $list-highlight; }
-  }
-
   .search_more .loader {
     display: none;
   }
 }
 
-.search_results_error {
-  color: #f00;
-  padding: 10px 20px;
-}
-
 /* Rules for routing */
 
 div.direction {
-  background-image: image-url('routing-sprite.png');
+  background-image: image-url('routing-sprite.svg');
   width: 20px;
   height: 20px;
   background-repeat: no-repeat;
@@ -698,43 +586,39 @@ div.direction {
 div.direction.i#{$i} { background-position: #{($i)*-20}px 0px; }
 }
 
+@include color-mode(dark) {
+  div.direction {
+    filter: invert(1);
+  }
+}
+
 td.distance {
-    color: $darkgrey;
-    text-align: right;
     font-size: x-small;
 }
 tr.turn {
     cursor: pointer;
 }
-tr.turn:hover {
-    background: $list-highlight;
-}
 
-.routing_marker { width: 15px; cursor: move; }
+.routing_marker_column {
+  width: 15px;
 
-.browse_status {
-  display: none;
+  img {
+    cursor: move;
+  }
 }
 
 /* Rules for the history sidebar */
 
 #sidebar .changesets {
   li {
-    &.selected { background: $list-highlight; }
-    /* color is derived from changeset bbox fillColor in history.js */
+    &.selected {
+      @extend :hover;
+    }
 
     a.stretched-link > span, a:not(.stretched-link), [title] {
       position: relative;
       z-index: 2; /* needs to be higher than Bootstrap's stretched link ::after z-index */
     }
-  }
-
-  .comments {
-    color: $darkgrey;
-  }
-
-  .comments-0 {
-    opacity: 0.5;
   }
 
   .changeset_more .loader {
@@ -761,121 +645,46 @@ tr.turn:hover {
   }
 
   .browse-tag-list {
-    background-color: $offwhite;
     table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    margin-bottom: $spacer;
-
-    th, td {
-      border-bottom: 1px solid $grey;
-    }
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
 
     tr:last-child th, tr:last-child td {
       border-bottom: 0;
     }
-
-    .browse-tag-k,
-    .browse-tag-v {
-      width: 50%;
-      padding: 6px 10px;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-    }
-
-    .browse-tag-k {
-      font-weight: 500;
-      background-color: $offwhite;
-    }
-
-    .browse-tag-v {
-      border-left: 1px solid $grey;
-      background-color: #fff;
-    }
-
-    .colour-preview-box {
-      float: right;
-      width: 14px;
-      height: 14px;
-      margin: 4px 0px;
-      border: 1px solid rgba(0, 0, 0, .1);
-      // add color via inline css on element: background-color: <tag value>;
-    }
-  }
-
-  .subscribe-buttons input {
-    font-size: 90%;
-    line-height: 15px;
-    min-height: 20px;
-  }
-
-  span.action-button:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  .note-description {
-    overflow: hidden;
-    margin: 0 0 10px 10px;
   }
 
   .query-results {
     display: none;
-
-    ul {
-      li {
-        &.query-result {
-          cursor: pointer;
-        }
-
-        &.selected {
-          background: $list-highlight;
-        }
-      }
-    }
   }
 }
 
-/* Bootstrap buttons don't have any vertical margin, so
-   they touch when adjacent buttons wrap onto a new line
-   e.g. wide form buttons on a narrow sidebar */
+/* Force LTR/RTL alignment for placeholder text */
 
-.btn-wrapper {
-  > .btn {
-    margin-bottom: $spacer * 0.25;
-  }
+.form-control::placeholder {
+  text-align: left;
 }
 
 /* Rules for export sidebar */
 
 .export_form {
-  .export_area_inputs,
-  .export_button {
-    text-align: center;
-  }
-
   .export_area_inputs {
-    margin-bottom: $spacer;
     input[type="text"] {
       width: 100px;
-      text-align: center;
     }
   }
 
   .export_boxy {
-    background: $lightgrey;
-
-    #maxlat { margin-top: -1px; }
+    > * {
+        margin: -1px;
+    }
     #minlon {
-      float: left;
-      /* no-r2 */ margin-left: -1px;
+      /*rtl:ignore*/ float: left;
     }
     #maxlon {
-      float: right;
-      /* no-r2 */ margin-right: -1px;
+      /*rtl:ignore*/ float: right;
     }
-    #minlat { margin-bottom: -1px; }
   }
 }
 
@@ -888,18 +697,9 @@ tr.turn:hover {
     bottom: 0;
     width: 100%;
   }
-
-  #map {
-    height: 100%;
-    overflow: hidden;
-  }
 }
 
 /* Rules for non-map content pages */
-
-.content-heading {
-  background: $lightgrey;
-}
 
 .content-inner {
   position: relative;
@@ -908,10 +708,16 @@ tr.turn:hover {
   padding: $lineheight;
 }
 
-/* Overrides for pages that use new layout conventions */
+/* Rules for login and signup pages */
+
+.sessions-new, .users-new, .users-create {
+  #content .content-inner {
+    max-width: 760px;
+  }
+}
 
 .header-illustration {
-  background-position: 0 0;
+  background-position: right;
   background-repeat: no-repeat;
   position: relative;
   min-height: 200px;
@@ -920,26 +726,16 @@ tr.turn:hover {
   bottom: 0;
 
   &.new-user-main {
-    background-image: image-url("sign-up-illustration.png");
+    background-image: image-url("sign-up-illustration.svg");
+    background-position-x: 70px;
   }
 
   &.confirm-main {
-    background-image: image-url("confirm-illustration.png");
+    background-image: image-url("confirm-illustration.svg");
   }
 
   &.new-user-terms {
-    background-image: image-url("terms-illustration.png");
-  }
-
-  &.new-user-arm {
-    height: 110px;
-    width: 130px;
-    left: 280px;
-    top: 180px;
-    background-image: image-url("sign-up-illustration-arm.png");
-    position: absolute;
-    z-index: 100;
-    pointer-events: none;
+    background-image: image-url("terms-illustration.svg");
   }
 }
 
@@ -949,15 +745,10 @@ tr.turn:hover {
   h1 {
     transform: scaleX(-1);
   }
-}
 
-#content.maximised {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 0;
-  z-index: 2000;
+  ul {
+    transform: scaleX(-1);
+  }
 }
 
 /* Rules for small maps in content areas */
@@ -983,18 +774,11 @@ tr.turn:hover {
 /* Rules for user popups on maps */
 
 .user_popup {
-  min-width: 200px;
   p {
     padding: 0 0 5px 0;
     margin: 0 0 0 60px;
     font-size: 12px;
   }
-}
-
-/* Rules for the user list */
-
-#user_list {
-  width: 100%;
 }
 
 /* Rules for the diary entry page */
@@ -1004,14 +788,11 @@ tr.turn:hover {
     height: 400px;
     display: none;
   }
-  .comments {
-    max-width: 740px;
+  .diary-comment .col-auto {
+    width: 62px;
   }
-  .diary-comment {
-    border-top: 1px dashed $grey;
-    &:first-child {
-      border-top: 1px solid $grey;
-    }
+  .diary-comment .col {
+    max-width: 690px;
   }
 }
 
@@ -1034,39 +815,6 @@ tr.turn:hover {
   }
 }
 
-/* Rules for the oauth authorization page */
-
-.oauth-authorize ul {
-  list-style: none;
-}
-
-/* Rules for messages pages */
-
-.messages {
-  .inbox-row {
-    background: $offwhite;
-  }
-
-  .inbox-row-unread {
-    background: #CBEEA7;
-  }
-}
-
-.search_form {
-  background-color: $lightgrey;
-
-  .describe_location {
-    top: 6px;
-    right: 6px;
-    font-size: 10px;
-    color: $blue;
-  }
-}
-
-.directions_form {
-  background-color: $lightgrey;
-}
-
 /* Rules for user images */
 
 img.user_image {
@@ -1080,10 +828,9 @@ img.user_thumbnail {
 }
 
 img.user_thumbnail_tiny {
-  width: auto;
-  height: auto;
-  max-width: 25px;
-  max-height: 25px;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
 }
 
 /* General styles for action lists / subnavs */
@@ -1116,17 +863,14 @@ div.secondary-actions {
 
 /* Rules for rich text */
 
-.richtext,
-.prose {
+.richtext {
   code {
-    background: $lightgrey;
+    background: var(--bs-secondary-bg);
     padding: 2px 3px;
-    direction: inherit; /* fix for Bootstrap < 5.2 */
-    unicode-bidi: unset; /* fix for Bootstrap < 5.2 */
   }
 
   pre {
-    background: $lightgrey;
+    background: var(--bs-secondary-bg);
     padding: 2px 3px;
     white-space: pre-wrap;
 
@@ -1137,82 +881,23 @@ div.secondary-actions {
 
   img {
     padding: $lineheight;
-    background-color: $offwhite;
+    background-color: var(--bs-tertiary-bg);
     display: block;
     max-width: 100%;
     margin: auto;
   }
 
   blockquote {
-    border-left: $lineheight solid $offwhite;
+    border-left: $lineheight solid var(--bs-tertiary-bg);
     padding-left: $lineheight;
     margin: 0;
-    color: $darkgrey;
+    color: var(--bs-secondary-color);
   }
 }
 
-/* Rules for the iD editor */
-
-.id-embed {
-  width: 100%;
-  height: 100%;
-}
-
-/* Rules for the "Welcome" page */
-.site-welcome, .site-fixthemap {
-  .sprite {
-    background-image: image-url("welcome-sprite.png");
-    background-size: 500px 250px;
-    display: block;
-  }
-
-  .sprite.small {
-    width: 50px;
-    height: 50px;
-  }
-
-  .sprite.x {
-    /* no-r2 */ background-position: -50px 0;
-  }
-
-  .sprite.term {
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-
-  .sprite.node {
-    /* no-r2 */ background-position: -100px 0;
-  }
-
-  .sprite.way {
-    /* no-r2 */ background-position: -150px 0;
-  }
-
-  .sprite.tag {
-    /* no-r2 */ background-position: -200px 0;
-  }
-
-  .sprite.editor {
-    /* no-r2 */ background-position: -250px 0;
-  }
-
-  .sprite.question {
-    /* no-r2 */ background-position: -300px 0;
-  }
-
-  .sprite.rules {
-    /* no-r2 */ background-position: -350px 0;
-  }
-
-  .icon.note {
-    background-color: #333;
-    border-radius: 4px;
-  }
-}
+/* Rules for the "About" page */
 
 .site-about #content {
-  background-color: $lightgrey;
-
   .content-inner {
     max-width: 760px;
   }
@@ -1254,37 +939,61 @@ div.secondary-actions {
       margin-left: -1em;
     }
   }
+}
 
-  .icon {
-    width: 30px;
-    height: 30px;
-    background: 40px 40px image-url('about/sprite.png') no-repeat;
+/* Rules for block pages */
 
-    &.local {
-      /* no-r2 */
-      background-position: 0px 0px;
-    }
-    &.community {
-      /* no-r2 */
-      background-position: 0px -40px;
-    }
-    &.open {
-      /* no-r2 */
-      background-position: 0px -80px;
-    }
-    &.partners {
-      /* no-r2 */
-      background-position: 0px -120px;
-    }
-    &.infringement {
-      /* no-r2 */
-      background-position: 0px -160px;
-    }
-    &.legal {
-      /* no-r2 */
-      background-position: -45px -160px;
-    }
+#block_list .username {
+  max-width: 20em;
+}
+
+/* Rules for tabs inside secondary background sections */
+
+.bg-body-secondary .nav-tabs {
+  --bs-border-color: var(--bs-secondary-border-subtle);
+  --bs-secondary-bg: var(--bs-secondary-border-subtle);
+  margin-bottom: -1px;
+}
+
+/* Rules for traces */
+
+img.trace_image {
+  mix-blend-mode: darken;
+}
+
+@include color-mode(dark) {
+  img.trace_image {
+    filter: invert(1);
+    mix-blend-mode: lighten;
   }
 }
 
-@import 'browse';
+/* Rules for map sidebar icons */
+
+.browse-section {
+  .node::before,
+  .way::before,
+  .relation::before {
+    display: inline-block;
+    width: 25px;
+    margin-left: -25px;
+  }
+
+  .node, .way, .relation {
+    margin-left: 25px;
+  }
+}
+
+@each $class, $item in $map-sidebar-icons {
+  .browse-section #{$class}::before {
+    content: image-url('browse/#{map.get($item, "filename")}');
+  }
+
+  @if map.get($item, "invert") {
+    @include color-mode(dark) {
+      .browse-section #{$class}::before {
+        filter: invert(.8) hue-rotate(180deg);
+      }
+    }
+  }
+}

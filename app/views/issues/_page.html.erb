@@ -1,0 +1,42 @@
+<turbo-frame id="pagination" target="_top">
+  <% if @issues.length == 0 %>
+    <% if params[:search_by_user].present? && !@find_user %>
+      <p><%= t ".user_not_found" %></p>
+    <% else %>
+      <p><%= t ".issues_not_found" %></p>
+    <% end %>
+  <% else %>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th><%= t ".status" %></th>
+          <th><%= t ".reports" %></th>
+          <th><%= t ".reported_item" %></th>
+          <th><%= t ".reported_user" %></th>
+          <th><%= t ".last_updated" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @issues.each do |issue| %>
+          <tr>
+            <td><%= t ".states.#{issue.status}" %></td>
+            <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
+            <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
+            <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
+            <td>
+              <% if issue.user_updated %>
+                <%= t ".last_updated_time_ago_user_html", :user => link_to(issue.user_updated.display_name, issue.user_updated),
+                                                          :time_ago => friendly_date_ago(issue.updated_at) %>
+              <% else %>
+                <%= friendly_date_ago(issue.updated_at) %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= render "shared/pagination",
+               :newer_id => @newer_issues_id,
+               :older_id => @older_issues_id %>
+  <% end %>
+</turbo-frame>

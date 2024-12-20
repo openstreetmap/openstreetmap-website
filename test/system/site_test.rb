@@ -4,7 +4,7 @@ class SiteTest < ApplicationSystemTestCase
   test "visiting the index" do
     visit "/"
 
-    assert_selector "h1", :text => "OpenStreetMap"
+    assert_selector "h1", :text => "OpenHistoricalMap"
   end
 
   test "tooltip shows for Layers button" do

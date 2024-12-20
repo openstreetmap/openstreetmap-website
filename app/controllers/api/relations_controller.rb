@@ -1,17 +1,13 @@
 module Api
   class RelationsController < ApiController
-    require "xml/libxml"
-
     before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :check_api_readable, :except => [:create, :update, :delete]
     before_action :authorize, :only => [:create, :update, :delete]
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create, :update, :delete]
-    around_action :api_call_handle_error, :api_call_timeout
-
     before_action :set_request_formats, :except => [:create, :update, :delete]
+    before_action :check_rate_limit, :only => [:create, :update, :delete]
 
     def index
       raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
@@ -44,8 +40,6 @@ module Api
     end
 
     def create
-      assert_method :put
-
       relation = Relation.from_xml(request.raw_post, :create => true)
 
       # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml

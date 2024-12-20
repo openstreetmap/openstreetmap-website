@@ -22,6 +22,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("unknown", "unknown")
     assert_dom_equal "unknown", html
 
+    html = format_value("unknown", "abc;def")
+    assert_dom_equal "abc;def", html
+
+    html = format_value("unknown", "foo;")
+    assert_dom_equal "foo;", html
+
     html = format_value("addr:street", "Rue de l'Amigo")
     assert_dom_equal "Rue de l&#39;Amigo", html
 
@@ -48,7 +54,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
 
     html = format_value("colour", "#f00")
-    assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
+    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    assert_select dom, "svg>rect>@fill", "#f00"
+    assert_match(/#f00$/, html)
 
     html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
@@ -132,6 +140,11 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
 
+    # This verified buried is working
+    links = wikidata_links("buried:wikidata", "Q24")
+    assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
+    assert_equal "Q24", links[0][:title]
+
     links = wikidata_links("species:wikidata", "Q26899")
     assert_equal "//www.wikidata.org/entity/Q26899?uselang=en", links[0][:url]
     assert_equal "Q26899", links[0][:title]
@@ -173,33 +186,41 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "Test", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Test")
-    assert_equal "https://de.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
+    link = wikipedia_link("wikipedia:fr", "Portsea")
+    assert_equal "https://fr.wikipedia.org/wiki/Portsea?uselang=en", link[:url]
+    assert_equal "Portsea", link[:title]
+
     link = wikipedia_link("wikipedia:fr", "de:Test")
-    assert_equal "https://fr.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Englischer Garten (München)#Japanisches Teehaus")
-    assert_equal "https://de.wikipedia.org/wiki/de:Englischer Garten (München)?uselang=en#Japanisches_Teehaus", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Englischer_Garten_%28M%C3%BCnchen%29?uselang=en#Japanisches_Teehaus", link[:url]
     assert_equal "de:Englischer Garten (München)#Japanisches Teehaus", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Alte Brücke (Heidelberg)#Brückenaffe")
-    assert_equal "https://de.wikipedia.org/wiki/de:Alte Brücke (Heidelberg)?uselang=en#Br%C3%BCckenaffe", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Alte_Br%C3%BCcke_%28Heidelberg%29?uselang=en#Br%C3%BCckenaffe", link[:url]
     assert_equal "de:Alte Brücke (Heidelberg)#Brückenaffe", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus")
-    assert_equal "https://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Liste_der_Baudenkm%C3%A4ler_in_Eichst%C3%A4tt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus", link[:url]
     assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", link[:title]
+
+    link = wikipedia_link("wikipedia", "en:Are Years What? (for Marianne Moore)")
+    assert_equal "https://en.wikipedia.org/wiki/Are_Years_What%3F_%28for_Marianne_Moore%29?uselang=en", link[:url]
+    assert_equal "en:Are Years What? (for Marianne Moore)", link[:title]
 
     I18n.with_locale "pt-BR" do
       link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
-      assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
+      assert_equal "https://zh-classical.wikipedia.org/wiki/Test?uselang=pt-BR#Section", link[:url]
       assert_equal "zh-classical:Test#Section", link[:title]
     end
 
     link = wikipedia_link("subject:wikipedia", "en:Catherine McAuley")
-    assert_equal "https://en.wikipedia.org/wiki/en:Catherine McAuley?uselang=en", link[:url]
+    assert_equal "https://en.wikipedia.org/wiki/Catherine_McAuley?uselang=en", link[:url]
     assert_equal "en:Catherine McAuley", link[:title]
 
     link = wikipedia_link("foo", "Test")
@@ -223,6 +244,14 @@ class BrowseTagsHelperTest < ActionView::TestCase
     link = wikimedia_commons_link("wikimedia_commons", "Category:Test_Category")
     assert_equal "//commons.wikimedia.org/wiki/Category:Test_Category?uselang=en", link[:url]
     assert_equal "Category:Test_Category", link[:title]
+
+    link = wikimedia_commons_link("wikimedia_commons", "Category:What If? (Bonn)")
+    assert_equal "//commons.wikimedia.org/wiki/Category:What%20If%3F%20%28Bonn%29?uselang=en", link[:url]
+    assert_equal "Category:What If? (Bonn)", link[:title]
+
+    link = wikimedia_commons_link("wikimedia_commons", "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg")
+    assert_equal "//commons.wikimedia.org/wiki/File:Corsica-vizzavona-abri-southwell.jpg?uselang=en", link[:url]
+    assert_equal "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg", link[:title]
 
     I18n.with_locale "pt-BR" do
       link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")

@@ -21,7 +21,7 @@
 <% end %>
 
 <% content_for :content do %>
-  <div id="sidebar">
+  <div id="sidebar" class="bg-body z-1">
     <%= render :partial => "layouts/search", :locals => { :autofocus => true } %>
 
     <div id="flash">
@@ -36,51 +36,44 @@
       </div>
     </div>
 
-    <div id="sidebar_content">
+    <div id="sidebar_content" class="p-3">
       <%= yield %>
     </div>
 
     <% unless current_user %>
       <div class="welcome p-3" hidden>
         <%= render "sidebar_header", :title => t("layouts.intro_header") %>
-        <div>
-          <p><%= t "layouts.intro_text" %></p>
-          </p>
-          <div class="d-flex mx-n1">
-            <div class="w-50 px-1">
-              <a class="btn btn-primary w-100" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
-            </div>
-            <div class="w-50 px-1">
-              <a class="btn btn-primary w-100" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
-            </div>
-          </div>
+        <p class="fs-6 fw-light"><%= t "layouts.intro_text" %></p>
+        <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html" %>
+        </p>
+        <div class="d-flex gap-2">
+          <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
+          <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
         </div>
       </div>
     <% end %>
 
-    <div id="banner">
-      <%= render :partial => "layouts/banner" %>
-    </div>
+    <%= render :partial => "layouts/banner" %>
   </div>
 
   <noscript>
-    <div id="noscript">
+    <div class="mt-5 p-3">
       <p><%= t "site.index.js_1" %></p>
       <p><%= t "site.index.js_2" %></p>
     </div>
   </noscript>
 
-  <div id="map-ui">
+  <div id="map-ui" class="bg-body z-2">
   </div>
 
-  <div id="map" tabindex="2">
+  <div id="map" tabindex="2" class="bg-body-secondary z-0">
   </div>
 
-  <div id="attribution">
+  <div id="attribution" class="d-none">
     <table>
       <tr>
-        <td class="attribution_license"><%= t "site.index.license.license_url" %></td>
-        <td class="attribution_project"><%= t "site.index.license.project_url" %></td>
+        <td><%= t "site.index.license.license_url" %></td>
+        <td><%= t "site.index.license.project_url" %></td>
       </tr>
       <tr>
         <td colspan="2" class="attribution_notice"><%= t "site.index.license.copyright" %></td>

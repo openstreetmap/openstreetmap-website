@@ -27,7 +27,7 @@ function FOSSGISValhallaEngine(id, costing) {
     5, // kStayLeft = 24;
     20, // kMerge = 25;
     10, // kRoundaboutEnter = 26;
-    11, // kRoundaboutExit = 27;
+    10, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
     0, // kFerryExit = 29;
     null, // kTransit = 30;
@@ -53,7 +53,7 @@ function FOSSGISValhallaEngine(id, costing) {
         data: {
           json: JSON.stringify({
             locations: points.map(function (p) {
-              return { lat: p.lat, lon: p.lng };
+              return { lat: p.lat, lon: p.lng, radius: 5 };
             }),
             costing: costing,
             directions_options: {

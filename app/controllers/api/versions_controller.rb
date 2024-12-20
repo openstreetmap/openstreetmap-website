@@ -1,9 +1,9 @@
 module Api
   class VersionsController < ApiController
+    skip_before_action :check_api_readable
     authorize_resource :class => false
 
     before_action :set_request_formats
-    around_action :api_call_handle_error, :api_call_timeout
 
     # Show the list of available API versions. This will replace the global
     # unversioned capabilities call in due course.

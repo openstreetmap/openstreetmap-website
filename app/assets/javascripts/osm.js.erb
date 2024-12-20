@@ -1,5 +1,6 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= depend_on key.yml
 //= require qs/dist/qs
 
 OSM = {
@@ -26,6 +27,12 @@ OSM = {
   THUNDERFOREST_KEY:       <%= Settings.thunderforest_key.to_json %>,
 <% end %>
 
+<% if Settings.key?(:tracestrack_key) %>
+  TRACESTRACK_KEY:         <%= Settings.tracestrack_key.to_json %>,
+<% end %>
+
+  LAYERS_WITH_MAP_KEY:     <%= YAML.load_file(Rails.root.join("config/key.yml")).keys.to_json %>,
+
   MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
   MARKER_RED:              <%= image_path("marker-red.png").to_json %>,
 
@@ -33,9 +40,9 @@ OSM = {
   MARKER_ICON_2X:          <%= image_path("leaflet/dist/images/marker-icon-2x.png").to_json %>,
   MARKER_SHADOW:           <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
 
-  NEW_NOTE_MARKER:         <%= image_path("new_note_marker.png").to_json %>,
-  OPEN_NOTE_MARKER:        <%= image_path("open_note_marker.png").to_json %>,
-  CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.png").to_json %>,
+  NEW_NOTE_MARKER:         <%= image_path("new_note_marker.svg").to_json %>,
+  OPEN_NOTE_MARKER:        <%= image_path("open_note_marker.svg").to_json %>,
+  CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.svg").to_json %>,
 
   apiUrl: function (object) {
     var apiType = object.type === "note" ? "notes" : object.type;
@@ -236,7 +243,9 @@ OSM = {
   },
 
   zoomPrecision: function(zoom) {
-    return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+    var pixels = Math.pow(2, 8 + zoom);
+    var degrees = 180;
+    return Math.ceil(Math.log10(pixels / degrees));
   },
 
   locationCookie: function(map) {

@@ -1,4 +1,10 @@
-//= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locatecontrol/dist/L.Control.Locate.umd
+
+(function () {
+  $(document).on("change", "#user_all", function () {
+    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
+  });
+}());
 
 $(document).ready(function () {
   var defaultHomeZoom = 12;
@@ -121,7 +127,7 @@ $(document).ready(function () {
         var user = $(this).data("user");
         if (user.lon && user.lat) {
           L.marker([user.lat, user.lon], { icon: OSM.getUserIcon(user.icon) }).addTo(map)
-            .bindPopup(user.description);
+            .bindPopup(user.description, { minWidth: 200 });
         }
       });
     }
@@ -199,10 +205,6 @@ $(document).ready(function () {
   } else {
     enableAuth();
   }
-
-  $("#user_all").change(function () {
-    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
-  });
 
   $("#content.user_confirm").each(function () {
     $(this).hide();

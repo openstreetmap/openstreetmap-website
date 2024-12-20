@@ -14,15 +14,26 @@
         <ul class="clearfix">
           <% unless params[:friends] or params[:nearby] -%>
             <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
-            <% end -%>
+          <% end -%>
 
-            <% if @user && @user == current_user || !@user && current_user %>
-              <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
-            <% end %>
+          <% @languages&.each do |language| %>
+            <li><%= link_to t(".in_language_title", :language => language.name), :action => "index", :language => language.code %></li>
+          <% end %>
 
-            <% if !@user && current_user %>
-              <li><%= link_to t(".my_diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %></li>
-            <% end %>
+          <% if !@user && current_user %>
+            <li><%= link_to t(".my_diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %></li>
+          <% end %>
+
+          <% if @user && @user == current_user || !@user && current_user %>
+            <li>
+              <%= link_to new_diary_entry_path, :class => "icon-link", :title => t(".new_title") do %>
+                <svg width="16" height="16">
+                  <path d="M2 0 a2 2 0 0 0 -2 2 v12 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 v-12 a2 2 0 0 0 -2 -2 z M4 7 h3 v-3 h2 v3 h3 v2 h-3 v3 h-2 v-3 h-3 z" fill="currentColor" />
+                </svg>
+                <%= t(".new") %>
+              <% end %>
+            </li>
+          <% end %>
         </ul>
       </nav>
     </div>
@@ -32,16 +43,8 @@
 <% if @entries.empty? %>
   <h4><%= t ".no_entries" %></h4>
 <% else %>
-  <h4><%= t ".recent_entries" %></h4>
-
-  <%= render @entries %>
-
-  <%= render "shared/pagination",
-             :newer_key => "diary_entries.index.newer_entries",
-             :older_key => "diary_entries.index.older_entries",
-             :newer_id => @newer_entries_id,
-             :older_id => @older_entries_id %>
-<% end %>
+  <%= render :partial => "page" %>
+<% end -%>
 
 <% unless params[:friends] or params[:nearby] -%>
   <% content_for :auto_discovery_link_tag do -%>

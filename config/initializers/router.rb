@@ -5,7 +5,7 @@ module OpenStreetMap
   module Router
     module ForceEncoding
       def normalize_path(path)
-        super(path).force_encoding("UTF-8")
+        super.force_encoding("UTF-8")
       end
     end
   end

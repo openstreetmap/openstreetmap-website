@@ -4,7 +4,6 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
   def test_new_report_without_login
     target_user = create(:user)
     get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
-    assert_response :redirect
     assert_redirected_to login_path(:referer => new_report_path(:reportable_id => target_user.id, :reportable_type => "User"))
   end
 
@@ -25,7 +24,6 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
                           :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
                         })
     end
-    assert_response :redirect
     assert_redirected_to user_path(target_user)
   end
 
@@ -48,7 +46,6 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
                           :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
                         })
     end
-    assert_response :redirect
     assert_redirected_to user_path(target_user)
 
     issue = Issue.last
@@ -92,7 +89,6 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
                           :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
                         })
     end
-    assert_response :redirect
     assert_redirected_to user_path(target_user)
 
     issue = Issue.last

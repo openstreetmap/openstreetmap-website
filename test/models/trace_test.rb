@@ -108,26 +108,26 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_public?
     assert_predicate build(:trace, :visibility => "public"), :public?
-    assert_not build(:trace, :visibility => "private").public?
-    assert_not build(:trace, :visibility => "trackable").public?
+    assert_not_predicate build(:trace, :visibility => "private"), :public?
+    assert_not_predicate build(:trace, :visibility => "trackable"), :public?
     assert_predicate build(:trace, :visibility => "identifiable"), :public?
     assert_predicate build(:trace, :deleted, :visibility => "public"), :public?
   end
 
   def test_trackable?
-    assert_not build(:trace, :visibility => "public").trackable?
-    assert_not build(:trace, :visibility => "private").trackable?
+    assert_not_predicate build(:trace, :visibility => "public"), :trackable?
+    assert_not_predicate build(:trace, :visibility => "private"), :trackable?
     assert_predicate build(:trace, :visibility => "trackable"), :trackable?
     assert_predicate build(:trace, :visibility => "identifiable"), :trackable?
-    assert_not build(:trace, :deleted, :visibility => "public").trackable?
+    assert_not_predicate build(:trace, :deleted, :visibility => "public"), :trackable?
   end
 
   def test_identifiable?
-    assert_not build(:trace, :visibility => "public").identifiable?
-    assert_not build(:trace, :visibility => "private").identifiable?
-    assert_not build(:trace, :visibility => "trackable").identifiable?
+    assert_not_predicate build(:trace, :visibility => "public"), :identifiable?
+    assert_not_predicate build(:trace, :visibility => "private"), :identifiable?
+    assert_not_predicate build(:trace, :visibility => "trackable"), :identifiable?
     assert_predicate build(:trace, :visibility => "identifiable"), :identifiable?
-    assert_not build(:trace, :deleted, :visibility => "public").identifiable?
+    assert_not_predicate build(:trace, :deleted, :visibility => "public"), :identifiable?
   end
 
   def test_mime_type
@@ -202,13 +202,13 @@ class TraceTest < ActiveSupport::TestCase
 
     # Check that the tile has been set prior to the bulk import
     # i.e. that the callbacks have been run correctly
-    assert_equal 3221331576, Tracepoint.where(:trace => trace).first.tile
+    assert_equal 3221331576, Tracepoint.find_by(:trace => trace).tile
   end
 
   def test_import_creates_icon
     trace = create(:trace, :inserted => false, :fixture => "a")
 
-    assert_not trace.icon.attached?
+    assert_not_predicate trace.icon, :attached?
 
     trace.import
 
@@ -218,7 +218,7 @@ class TraceTest < ActiveSupport::TestCase
   def test_import_creates_large_picture
     trace = create(:trace, :inserted => false, :fixture => "a")
 
-    assert_not trace.image.attached?
+    assert_not_predicate trace.image, :attached?
 
     trace.import
 
@@ -287,6 +287,18 @@ class TraceTest < ActiveSupport::TestCase
     trace.import
 
     assert_equal 2, trace.size
+  end
+
+  def test_import_enforces_limit
+    trace = create(:trace, :inserted => false, :fixture => "f")
+
+    with_settings(:max_trace_size => 1) do
+      assert_raise GPX::FileTooBigError do
+        trace.import
+      end
+    end
+
+    assert_not trace.inserted
   end
 
   private

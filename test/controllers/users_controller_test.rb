@@ -340,8 +340,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template :terms
-    # OHM-specific test to ensure no regressions to displaying public domain checkbox.
-    assert_dom "div.mb-3 div.form-check input[name='user[consider_pd]']", false
   end
 
   def test_terms_agreed
@@ -362,8 +360,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_terms_path
     assert_response :success
     assert_template :terms
-    # OHM-specific test to ensure no regressions to displaying public domain checkbox.
-    assert_dom "div.mb-3 div.form-check input[name='user[consider_pd]']", false
 
     post user_save_path, :params => { :user => { :consider_pd => true }, :read_ct => 1, :read_tou => 1 }
     assert_response :redirect
@@ -385,8 +381,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_terms_path, :params => { :referer => "/test" }
     assert_response :success
     assert_template :terms
-    # OHM-specific test to ensure no regressions to displaying public domain checkbox.
-    assert_dom "div.mb-3 div.form-check input[name='user[consider_pd]']", false
 
     post user_save_path, :params => { :user => { :consider_pd => true }, :referer => "/test", :read_ct => 1, :read_tou => 1 }
     assert_response :redirect

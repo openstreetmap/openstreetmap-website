@@ -1,6 +1,10 @@
 class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  before_action :check_api_readable
+
+  around_action :api_call_handle_error, :api_call_timeout
+
   private
 
   ##
@@ -45,19 +49,14 @@ class ApiController < ApplicationController
     end
   end
 
-  def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
+  def authorize(errormessage = "Couldn't authenticate you")
     # make the current_user object from any auth sources we have
     setup_user_auth
 
     # handle authenticate pass/fail
     unless current_user
       # no auth, the user does not exist or the password was wrong
-      if Settings.basic_auth_support
-        response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-        render :plain => errormessage, :status => :unauthorized
-      else
-        render :plain => errormessage, :status => :forbidden
-      end
+      render :plain => errormessage, :status => :unauthorized
 
       false
     end
@@ -67,26 +66,19 @@ class ApiController < ApplicationController
     # Use capabilities from the oauth token if it exists and is a valid access token
     if doorkeeper_token&.accessible?
       ApiAbility.new(nil).merge(ApiCapability.new(doorkeeper_token))
-    elsif Authenticator.new(self, [:token]).allow?
-      ApiAbility.new(nil).merge(ApiCapability.new(current_token))
     else
       ApiAbility.new(current_user)
     end
   end
 
   def deny_access(_exception)
-    if doorkeeper_token || current_token
+    if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       head :forbidden
-    elsif Settings.basic_auth_support
-      realm = "Web Password"
-      errormessage = "Couldn't authenticate you"
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
     else
-      render :plain => errormessage, :status => :forbidden
+      head :unauthorized
     end
   end
 
@@ -103,23 +95,7 @@ class ApiController < ApplicationController
   def setup_user_auth
     logger.info " setup_user_auth"
     # try and setup using OAuth
-    if doorkeeper_token&.accessible?
-      self.current_user = User.find(doorkeeper_token.resource_owner_id)
-    elsif Authenticator.new(self, [:token]).allow?
-      # self.current_user setup by OAuth
-    elsif Settings.basic_auth_support
-      username, passwd = auth_data # parse from headers
-      # authenticate per-scheme
-      self.current_user = if username.nil?
-                            nil # no authentication provided - perhaps first connect (client should retry after 401)
-                          elsif username == "token"
-                            User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
-                          else
-                            User.authenticate(:username => username, :password => passwd) # basic auth
-                          end
-      # log if we have authenticated using basic auth
-      logger.info "Authenticated as user #{current_user.id} using basic authentication" if current_user
-    end
+    self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
 
     # have we identified the user?
     if current_user
@@ -158,7 +134,7 @@ class ApiController < ApplicationController
     report_error message, :bad_request
   rescue OSM::APIError => e
     report_error e.message, e.status
-  rescue AbstractController::ActionNotFound => e
+  rescue AbstractController::ActionNotFound, CanCan::AccessDenied => e
     raise
   rescue StandardError => e
     logger.info("API threw unexpected #{e.class} exception: #{e.message}")
@@ -167,17 +143,9 @@ class ApiController < ApplicationController
   end
 
   ##
-  # asserts that the request method is the +method+ given as a parameter
-  # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
-  def assert_method(method)
-    ok = request.send(:"#{method.to_s.downcase}?")
-    raise OSM::APIBadMethodError, method unless ok
-  end
-
-  ##
   # wrap an api call in a timeout
-  def api_call_timeout(&block)
-    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
+  def api_call_timeout(&)
+    Timeout.timeout(Settings.api_timeout, &)
   rescue ActionView::Template::Error => e
     e = e.cause
 
@@ -191,5 +159,15 @@ class ApiController < ApplicationController
   rescue Timeout::Error
     ActiveRecord::Base.connection.raw_connection.cancel
     raise OSM::APITimeoutError
+  end
+
+  ##
+  # check the api change rate limit
+  def check_rate_limit(new_changes = 1)
+    max_changes = ActiveRecord::Base.connection.select_value(
+      "SELECT api_rate_limit($1)", "api_rate_limit", [current_user.id]
+    )
+
+    raise OSM::APIRateLimitExceeded if new_changes > max_changes
   end
 end

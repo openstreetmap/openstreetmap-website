@@ -1,14 +1,12 @@
 module Api
   class UsersController < ApiController
-    before_action :check_api_readable
     before_action :disable_terms_redirect, :only => [:details]
     before_action :setup_user_auth, :only => [:show, :index]
     before_action :authorize, :only => [:details, :gpx_files]
 
     authorize_resource
 
-    around_action :api_call_handle_error
-    before_action :lookup_user_by_id, :only => [:show]
+    load_resource :only => :show
 
     before_action :set_request_formats, :except => [:gpx_files]
 
@@ -56,14 +54,6 @@ module Api
 
     private
 
-    ##
-    # ensure that there is a "user" instance variable
-    def lookup_user_by_id
-      @user = User.find(params[:id])
-    end
-
-    ##
-    #
     def disable_terms_redirect
       # this is necessary otherwise going to the user terms page, when
       # having not agreed already would cause an infinite redirect loop.

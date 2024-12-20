@@ -1,4 +1,4 @@
-/* extends ohmVectorStyles defined in ohm.style.js */
+ /* extends ohmVectorStyles defined in ohm.style.js */
 
 ohmVectorStyles.Woodblock = {
   "version": 8,

@@ -47,8 +47,6 @@ $ bundle exec rails console
 => #[ ... ]
 >> user.roles.create(:role => "moderator", :granter_id => user.id)
 => #[ ... ]
->> user.save!
-=> true
 >> quit
 ```
 
@@ -63,7 +61,7 @@ For iD, do the following:
 
 * Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My settings page.
 * Click on "Register new application".
-* Unless you have set up alternatives, use Name: "Local iD" and Main Application URL: "http://localhost:3000"
+* Unless you have set up alternatives, use Name: "Local iD" and Redirect URIs: "http://localhost:3000"
 * Check boxes for the following Permissions
   * 'Read user preferences'
   * 'Modify user preferences'
@@ -78,7 +76,7 @@ For iD, do the following:
 
 An example excerpt from settings.local.yml:
 
-```
+```yaml
 # Default editor
 default_editor: "id"
 # OAuth 2 Client ID for iD
@@ -101,7 +99,7 @@ To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discus
 
 An example excerpt from settings.local.yml:
 
-```
+```yaml
 # OAuth 2 Client ID for the web site
 oauth_application: "SGm8QJ6tmoPXEaUPIZzLUmm1iujltYZVWCp9hvGsqXg"
 # OAuth 2 Client Secret for the web site

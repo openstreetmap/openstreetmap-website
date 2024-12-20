@@ -10,11 +10,12 @@ class UserMailer < ApplicationMailer
   before_action :set_shared_template_vars
   before_action :attach_project_logo
 
-  def signup_confirm(user, token)
+  def signup_confirm(user, token, referer = nil)
     with_recipient_locale user do
       @url = url_for(:controller => "confirmations", :action => "confirm",
                      :display_name => user.display_name,
-                     :confirm_string => token.token)
+                     :confirm_string => token,
+                     :referer => referer)
 
       mail :to => user.email,
            :subject => t(".subject")
@@ -25,7 +26,7 @@ class UserMailer < ApplicationMailer
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:controller => "confirmations", :action => "confirm_email",
-                     :confirm_string => token.token)
+                     :confirm_string => token)
 
       mail :to => user.new_email,
            :subject => t(".subject")
@@ -34,8 +35,7 @@ class UserMailer < ApplicationMailer
 
   def lost_password(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "passwords", :action => "reset_password",
-                     :token => token.token)
+      @url = user_reset_password_url(:token => token)
 
       mail :to => user.email,
            :subject => t(".subject")
@@ -45,11 +45,13 @@ class UserMailer < ApplicationMailer
   def gpx_success(trace, possible_points)
     with_recipient_locale trace.user do
       @to_user = trace.user.display_name
+      @trace_url = show_trace_url(trace.user, trace)
       @trace_name = trace.name
       @trace_points = trace.size
       @trace_description = trace.description
       @trace_tags = trace.tags
       @possible_points = possible_points
+      @my_traces_url = url_for(:controller => "traces", :action => "mine")
 
       mail :to => trace.user.email,
            :subject => t(".subject")
@@ -81,7 +83,7 @@ class UserMailer < ApplicationMailer
 
       attach_user_avatar(message.sender)
 
-      mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
+      mail :from => from_address(message.sender.display_name, "m", message.id, message.notification_token),
            :to => message.recipient.email,
            :subject => t(".subject", :message_title => message.title)
     end
@@ -96,13 +98,22 @@ class UserMailer < ApplicationMailer
       @readurl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "comment#{comment.id}")
       @commenturl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "newcomment")
       @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
+      @unsubscribeurl = diary_entry_unsubscribe_url(comment.diary_entry.user, comment.diary_entry)
       @author = @from_user
 
       attach_user_avatar(comment.user)
 
       set_references("diary", comment.diary_entry)
 
-      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
+      set_list_headers(
+        "#{comment.diary_entry.id}.diary.www.openstreetmap.org",
+        t(".description", :id => comment.diary_entry.id),
+        :archive => @readurl,
+        :subscribe => diary_entry_subscribe_url(comment.diary_entry.user, comment.diary_entry),
+        :unsubscribe => @unsubscribeurl
+      )
+
+      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.notification_token(recipient.id), recipient.id),
            :to => recipient.email,
            :subject => t(".subject", :user => comment.user.display_name)
     end
@@ -140,6 +151,12 @@ class UserMailer < ApplicationMailer
 
       set_references("note", comment.note)
 
+      set_list_headers(
+        "#{comment.note.id}.note.www.openstreetmap.org",
+        t(".description", :id => comment.note.id),
+        :archive => @noteurl
+      )
+
       subject = if @owner
                   t(".#{@event}.subject_own", :commenter => @commenter)
                 else
@@ -160,6 +177,7 @@ class UserMailer < ApplicationMailer
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
+      @unsubscribe_url = unsubscribe_changeset_url(comment.changeset)
       @author = @commenter
 
       subject = if @owner
@@ -171,6 +189,14 @@ class UserMailer < ApplicationMailer
       attach_user_avatar(comment.author)
 
       set_references("changeset", comment.changeset)
+
+      set_list_headers(
+        "#{comment.changeset.id}.changeset.www.openstreetmap.org",
+        t(".description", :id => comment.changeset.id),
+        :subscribe => subscribe_changeset_url(comment.changeset),
+        :unsubscribe => @unsubscribe_url,
+        :archive => @changeset_url
+      )
 
       mail :to => recipient.email, :subject => subject
     end
@@ -221,16 +247,16 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def with_recipient_locale(recipient, &block)
-    I18n.with_locale(Locale.available.preferred(recipient.preferred_languages), &block)
+  def with_recipient_locale(recipient, &)
+    I18n.with_locale(Locale.available.preferred(recipient.preferred_languages), &)
   end
 
-  def from_address(name, type, id, digest, user_id = nil)
+  def from_address(name, type, id, token, user_id = nil)
     if Settings.key?(:messages_domain) && domain = Settings.messages_domain
       if user_id
-        "#{name} <#{type}-#{id}-#{user_id}-#{digest[0, 6]}@#{domain}>"
+        "#{name} <#{type}-#{id}-#{user_id}-#{token}@#{domain}>"
       else
-        "#{name} <#{type}-#{id}-#{digest[0, 6]}@#{domain}>"
+        "#{name} <#{type}-#{id}-#{token}@#{domain}>"
       end
     else
       Settings.email_from
@@ -243,5 +269,12 @@ class UserMailer < ApplicationMailer
     headers["X-Entity-Ref-ID"] = ref
     headers["In-Reply-To"] = ref
     headers["References"] = ref
+  end
+
+  def set_list_headers(id, description, options = {})
+    headers["List-ID"] = "#{description} <#{id}>"
+    headers["List-Archive"] = "<#{options[:archive]}>" if options[:archive]
+    headers["List-Subscribe"] = "<#{options[:subscribe]}>" if options[:subscribe]
+    headers["List-Unsubscribe"] = "<#{options[:unsubscribe]}>" if options[:unsubscribe]
   end
 end

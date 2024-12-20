@@ -5,7 +5,7 @@ def yarn_path
 end
 
 def config_file
-  Rails.root.join("config/eslint.json").to_s
+  Rails.root.join("config/eslint.js").to_s
 end
 
 def js_files

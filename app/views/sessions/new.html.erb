@@ -1,51 +1,54 @@
 <% content_for :head do %>
   <%= javascript_include_tag "login" %>
+  <%= javascript_include_tag "auth_providers" %>
 <% end %>
+
+<% content_for :heading_class, "pb-0" %>
 
 <% content_for :heading do %>
-  <h1><%= t ".heading" %></h1>
-<% end %>
-
-<div id="login_login">
-  <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), user_new_path(:referer => params[:referer]) %></p>
-
-  <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
-    <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
-
-    <%= f.text_field :username, :label => t(".email or username"), :tabindex => 1, :value => params[:username] %>
-    <%= f.password_field :password, :label => t(".password"), :tabindex => 2, :value => "", :help => link_to(t(".lost password link"), :controller => "passwords", :action => "lost_password") %>
-    <%= f.form_group do %>
-      <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
-    <% end %>
-
-    <%= f.primary t(".login_button"), :tabindex => 4 %>
+  <% if @client_app_name %>
+    <p class="text-center text-body-secondary fs-6 py-2 mb-0 bg-body"><%= t(".login_to_authorize_html", :client_app_name => @client_app_name) %></p>
   <% end %>
 
-  <hr>
-
-  <div id="loginForm">
-    <div class="mb-3">
-      <label class="form-label"><%= t ".with external" %></label>
-
-      <ul class='list-inline' id="login_auth_buttons">
-        <li class="list-inline-item me-3"><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
-        <% %w[google facebook microsoft github wikipedia].each do |provider| %>
-          <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-            <li class="list-inline-item me-3"><%= auth_button provider, provider %></li>
-          <% end -%>
-        <% end -%>
-      </ul>
-
-      <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
-        <div id='login_openid_url' class="mb-3">
-          <label for='openid_url' class="form-label"><%= t ".openid_html", :logo => openid_logo %></label>
-          <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
-          <%= text_field_tag("openid_url", "", :tabindex => 3, :autocomplete => "on", :class => "openid_url form-control") %>
-          <span class="form-text text-muted">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
-        </div>
-
-        <%= submit_tag t(".login_button"), :tabindex => 6, :id => "login_openid_submit", :class => "btn btn-primary" %>
-      <% end %>
-    </div>
+  <div class="header-illustration new-user-main">
+    <ul class="nav nav-tabs position-absolute bottom-0 fs-6 w-100">
+      <li class="nav-item">
+        <%= link_to t("sessions.new.tab_title"), "#", :class => "nav-link active" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to t("users.new.tab_title"), url_for(:action => :new, :controller => :users, :referer => params[:referer]), :class => "nav-link" %>
+      </li>
+    </ul>
   </div>
-</div>
+<% end %>
+
+<% if @preferred_auth_provider %>
+  <%= render :partial => "auth_providers" %>
+  <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
+<% end %>
+
+<%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
+  <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
+
+  <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :tabindex => 1, :value => params[:username] %>
+
+  <div class="d-flex flex-wrap column-gap-3 justify-content-between align-items-baseline mb-2">
+    <%= f.label :password, t(".password") %>
+    <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
+  </div>
+
+  <%= f.password_field :password, :autocomplete => "on", :tabindex => 2, :value => "", :skip_label => true %>
+
+  <%= f.form_group do %>
+    <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "true") }, "yes" %>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.primary t(".login_button"), :tabindex => 4 %>
+  </div>
+<% end %>
+
+<% unless @preferred_auth_provider %>
+  <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
+  <%= render :partial => "auth_providers" %>
+<% end %>

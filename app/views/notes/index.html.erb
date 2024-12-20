@@ -1,9 +1,23 @@
 <% content_for :heading do %>
   <h1><%= t ".heading", :user => @user.display_name %></h1>
   <p><%= t ".subheading_html",
-           :user => link_to(@user.display_name, user_path(@user)),
+           :user => link_to(@user.display_name, @user),
            :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 bg-primary bg-opacity-25"),
-           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-white") %></p>
+           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
+<% end %>
+
+<%= form_with :url => user_notes_path(@user), :method => :get, :data => { :turbo => true } do %>
+  <div class="row gx-2 align-items-end">
+    <div class="col-sm-auto mb-3">
+      <%= label_tag :status, t(".status") %>
+      <%= select_tag :status,
+                     options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status] || "all"),
+                     :class => "form-select" %>
+    </div>
+    <div class="col-sm-auto mb-3">
+      <%= submit_tag t(".apply"), :name => nil, :class => "btn btn-primary" %>
+    </div>
+  </div>
 <% end %>
 
 <% if @notes.empty? %>
@@ -27,9 +41,9 @@
     <tr<% if note.author == @user %> class="table-primary"<% end %>>
       <td>
         <% if note.closed? %>
-          <%= image_tag("closed_note_marker.png", :alt => "closed", :size => "25x40") %>
+          <%= image_tag("closed_note_marker.svg", :alt => "closed", :width => 25, :height => 40) %>
         <% else %>
-          <%= image_tag("open_note_marker.png", :alt => "open", :size => "25x40") %>
+          <%= image_tag("open_note_marker.svg", :alt => "open", :width => 25, :height => 40) %>
         <% end %>
       </td>
       <td><%= link_to note.id, note %></td>

@@ -142,8 +142,6 @@ OSM.NewNote = function (map) {
 
     newNote.on("remove", function () {
       addNoteButton.removeClass("active");
-    }).on("dragstart", function () {
-      $(newNote).stopTime("removenote");
     }).on("dragend", function () {
       content.find("textarea").focus();
     });

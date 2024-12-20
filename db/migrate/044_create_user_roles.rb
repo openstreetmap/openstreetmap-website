@@ -6,7 +6,7 @@ class CreateUserRoles < ActiveRecord::Migration[4.2]
   end
 
   def self.up
-    create_enumeration :user_role_enum, %w[administrator moderator]
+    create_enum :user_role_enum, %w[administrator moderator]
 
     create_table :user_roles do |t|
       t.column :user_id, :bigint, :null => false

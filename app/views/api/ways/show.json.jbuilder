@@ -1,5 +1,5 @@
 json.partial! "api/root_attributes"
 
-json.elements([@way]) do |way|
-  json.partial! way
+json.elements do
+  json.array! [@way], :partial => "way", :as => :way
 end

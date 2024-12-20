@@ -6,6 +6,7 @@
 # Author: Bilykralik16
 # Author: Chmee2
 # Author: Cvanca
+# Author: Decamexd
 # Author: DemonioCZ
 # Author: DoubyCz
 # Author: Dvorapa
@@ -17,6 +18,7 @@
 # Author: Jaroslav Cerny
 # Author: Jezevec
 # Author: Jkjk
+# Author: Kareyac
 # Author: Korytaacheck
 # Author: Kudlav
 # Author: Kuvaly
@@ -34,12 +36,15 @@
 # Author: MrJaroslavik
 # Author: Nemo bis
 # Author: Patriccck
+# Author: Pavreh
 # Author: Paxt
 # Author: Reaperman
 # Author: Robins7
+# Author: ShaggyCZ - Main
 # Author: Spotter
 # Author: StenSoft
 # Author: Tchoř
+# Author: Tkk
 # Author: Tomasokol
 # Author: Urbanecm
 # Author: Veritaslibero
@@ -58,7 +63,7 @@ cs:
       prompt: Vyberte soubor
     submit:
       diary_comment:
-        create: Uložit
+        create: Okomentovat
       diary_entry:
         create: Publikovat
         update: Aktualizovat
@@ -67,11 +72,11 @@ cs:
       message:
         create: Odeslat
       client_application:
-        create: Zaregistrovat
+        create: Registrovat
         update: Aktualizovat
-      doorkeeper_application:
-        create: Zaregistrovat
-        update: Uložit
+      oauth2_application:
+        create: Registrovat
+        update: Aktualizovat
       redaction:
         create: Vytvořit redakci
         update: Uložit redakci
@@ -84,8 +89,10 @@ cs:
   activerecord:
     errors:
       messages:
-        invalid_email_address: nevypadá jako platná e-mailová adresa
-        email_address_not_routable: není routovatelná
+        display_name_is_user_n: nemůže být user_n, pokud n není vaše ID uživatele
+      models:
+        user_mute:
+          is_already_muted: již je ztlumen
     models:
       acl: Seznam přístupových práv
       changeset: Sada změn
@@ -99,7 +106,6 @@ cs:
       message: Zpráva
       node: Uzel
       node_tag: Tag uzlu
-      notifier: Oznamovatel
       old_node: Starý uzel
       old_node_tag: Tag starého uzlu
       old_relation: Stará relace
@@ -140,9 +146,10 @@ cs:
       diary_entry:
         user: Uživatel
         title: Nadpis
-        latitude: Šířka
-        longitude: Délka
-        language: Jazyk
+        body: Obsah
+        latitude: Zeměpisná šířka
+        longitude: Zeměpisná délka
+        language_code: Jazyk
       doorkeeper/application:
         name: Název
         redirect_uri: URI pro přesměrování
@@ -156,11 +163,11 @@ cs:
         visible: Viditelný
         name: Název souboru
         size: Velikost
-        latitude: Šířka
-        longitude: Délka
+        latitude: Zeměpisná šířka
+        longitude: Zeměpisná délka
         public: Veřejná
         description: Popis
-        gpx_file: Nahrát GPX soubor
+        gpx_file: Vyberte soubor s GPS stopou
         visibility: Viditelnost
         tagstring: Značky
       message:
@@ -176,10 +183,9 @@ cs:
         details: Poskytněte prosím bližší informace k problému (nutné).
       user:
         auth_provider: Poskytovatel autentizace
-        auth_uid: Autentifikační UID
+        auth_uid: Autentizační UID
         email: E-mail
-        email_confirmation: Potvrzení e-mailu
-        new_email: nová emailová adresa
+        new_email: Nová emailová adresa
         active: Aktivní
         display_name: Zobrazované jméno
         description: Popis profilu
@@ -206,11 +212,7 @@ cs:
         needs_view: Potřebuje se uživatel příhlásit před tím, než bude tento blok
           vymazán?
       user:
-        email_confirmation: Vaše adresa se nezobrazuje veřejně, více informací získáte
-          v našich <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Pravidla
-          ochrany osobních údajů OSMF, včetně části o e-mailových adresách">pravidlech
-          ochrany osobních údajů</a>.
-        new_email: (nikde se veřejně nezobrazuje)
+        new_email: (nikdy se veřejně nezobrazuje)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -285,9 +287,9 @@ cs:
   auth:
     providers:
       none: Žádná
-      openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedie
   api:
@@ -302,7 +304,8 @@ cs:
         reopened_at_html: Reaktivováno %{when}
         reopened_at_by_html: Reaktivováno %{when} od %{user}
       rss:
-        title: Poznámky OpenHistoricalMap
+        title: Poznámky OpenStreetMap
+        description_all: Seznam nahlášených, komentovaných nebo uzavřených poznámek
         description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených
           ve vaší oblasti [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
         description_item: RSS kanál k poznámce %{id}
@@ -319,14 +322,14 @@ cs:
         title: Smazat můj účet
         warning: Pozor! Proces smazání účtu je konečný a nelze jej vrátit zpět.
         delete_account: Smazat účet
-        delete_introduction: 'Svůj účet v OpenHistoricalMap můžete smazat pomocí níže
+        delete_introduction: 'Svůj účet v OpenStreetMap můžete smazat pomocí níže
           zobrazeného tlačítka. Uvědomte si prosím následující:'
         delete_profile: Vaše profilové informace včetně avatara, popisu a domovské
           polohy budou odstraněny.
         delete_display_name: Vaše zobrazované jméno bude odstraněno a může být znovu
           použito jinými účty.
-        retain_caveats: 'Některé informace o vás však zůstanou v OpenHistoricalMap
-          zachovány i po smazání vašeho účtu:'
+        retain_caveats: 'Některé informace o vás však zůstanou v OpenStreetMap zachovány
+          i po smazání vašeho účtu:'
         retain_edits: Vaše případné úpravy v mapové databázi budou zachovány.
         retain_traces: Vaše případné nahrané stopy budou zachovány.
         retain_diary_entries: Vaše případné záznamy a komentáře v deníku zůstanou
@@ -335,6 +338,8 @@ cs:
           zachovány, ale nebudou viditelné.
         retain_changeset_discussions: Vaše případné diskuse k sadám změn budou zachovány.
         retain_email: Vaše e-mailová adresa bude zachována.
+        recent_editing_html: Vzhledem k tomu, že jste nedávno upravovali váš účet,
+          nelze aktuálně smazat. Smazání bude možné za %{time}.
         confirm_delete: Jste si jisti?
         cancel: Storno
   accounts:
@@ -349,21 +354,10 @@ cs:
       public editing:
         heading: Veřejné editace
         enabled: Aktivní. Není anonym, smí editovat data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: co to znamená?
         disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou
           anonymní.
         disabled link text: proč nemůžu editovat?
-      public editing note:
-        heading: Veřejné editace
-        html: V současné době jsou vaše editace anonymní a nikdo vám nemůže psát zprávy
-          ani vidět vaši polohu. Pokud chcete ukázat, co jste editovali, a dovolit
-          lidem vás kontaktovat prostřednictvím webu, klikněte na níže zobrazené tlačítko.
-          <b>Od přechodu na API 0.6 mohou mapová data editovat jen veřejní uživatelé</b>.
-          (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">Přečtěte
-          si důvody.</a>)<ul><li>Vaše e-mailová adresa se přepnutím na veřejné editace
-          neprozradí.</li><li>Tuto operaci nelze vrátit a všichni noví uživatelé jsou
-          implicitně veřejní.</li></ul>
       contributor terms:
         heading: Podmínky pro přispěvatele
         agreed: Odsouhlasili jste nové Podmínky pro přispěvatele.
@@ -374,8 +368,20 @@ cs:
         link: https://wiki.openstreetmap.org/wiki/Cs:Open_Database_License/Contributor_Terms?uselang=cs
         link text: co to znamená?
       save changes button: Uložit změny
-      make edits public button: Zvěřejnit všechny moje úpravy
       delete_account: Smazat účet…
+    go_public:
+      heading: Veřejné editace
+      currently_not_public: V současné době jsou vaše úpravy anonymní a lidé vám nemohou
+        posílat zprávy ani zobrazit vaši polohu. Chcete-li zobrazit, co jste upravili,
+        a umožnit lidem, aby vás prostřednictvím webu kontaktovali, klikněte na tlačítko
+        níže.
+      only_public_can_edit: Od přechodu na 0.6 API mohou mapová data upravovat pouze
+        veřejní uživatelé.
+      find_out_why: zjistěte proč
+      email_not_revealed: Vaše e-mailová adresa nebude zveřejněna.
+      not_reversible: Tuto akci nelze vrátit zpět a všichni noví uživatelé jsou nyní
+        ve výchozím nastavení veřejní.
+      make_edits_public_button: Zvěřejnit všechny moje úpravy
     update:
       success_confirm_needed: Uživatelské údaje byly úspěšně aktualizovány. Zkontrolujte
         si e-mail, měla by vám přijít výzva k potvrzení nové e-mailové adresy.
@@ -383,48 +389,31 @@ cs:
     destroy:
       success: Účet smazán.
   browse:
-    created: Vytvořeno
-    closed: Uzavřeno
+    deleted_ago_by_html: Smazáno %{time_ago} uživatelem %{user}
+    edited_ago_by_html: Upraveno %{time_ago} uživatelem %{user}
     version: Verze
+    redacted_version: Upravená verze
     in_changeset: Sada změn
     anonymous: anonym
     no_comment: (bez komentáře)
     part_of: Součást
     part_of_relations:
-      one: 1 relace
+      one: '%{count} relace'
       few: '%{count} relace'
-      many: '%{count} relací'
+      many: '%{count} relace'
       other: '%{count} relací'
     part_of_ways:
-      one: 1 cesta
+      one: '%{count} cesta'
       few: '%{count} cesty'
-      many: '%{count} cest'
+      many: '%{count} cesty'
       other: '%{count} cest'
     download_xml: Stáhnout XML
     view_history: Zobrazit historii
+    view_unredacted_history: Zobrazit neredigovanou historii
     view_details: Zobrazit detaily
+    view_redacted_data: Zobrazit upravená data
+    view_redaction_message: Zobrazit zprávu o revizi
     location: 'Pozice:'
-    common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
-    changeset:
-      title: 'Sada změn: %{id}'
-      belongs_to: Autor
-      node: Uzly (%{count})
-      node_paginated: Uzly (%{x}-%{y} z %{count})
-      way: Cesty (%{count})
-      way_paginated: Cesty (%{x}-%{y} z %{count})
-      relation: Relace (%{count})
-      relation_paginated: Relace (%{x}–%{y} z %{count})
-      comment: Komentáře (%{count})
-      changesetxml: Sada změn XML
-      osmchangexml: osmChange XML
-      feed:
-        title: Sada změn %{id}
-        title_comment: Sada změn %{id} - %{comment}
-      join_discussion: Chcete-li diskutovat, přihlaste se
-      discussion: Diskuse
-      still_open: Sada změn je stále otevřená – diskuse se zpřístupní, jakmile bude
-        sada změn uzavřena.
     node:
       title_html: 'Uzel: %{name}'
       history_title_html: 'Historie uzlu: %{name}'
@@ -433,9 +422,9 @@ cs:
       history_title_html: 'Historie cesty: %{name}'
       nodes: Uzly
       nodes_count:
-        one: 1 uzel
+        one: '%{count} uzel'
         few: '%{count} uzly'
-        many: '%{count} uzlů'
+        many: '%{count} uzlu'
         other: '%{count} uzlů'
       also_part_of_html:
         one: patří do cesty %{related_ways}
@@ -445,9 +434,9 @@ cs:
       history_title_html: 'Historie relace: %{name}'
       members: Prvky
       members_count:
-        one: 1 prvek
+        one: '%{count} prvek'
         few: '%{count} prvky'
-        many: '%{count} prvků'
+        many: '%{count} prvku'
         other: '%{count} prvků'
     relation_member:
       entry_role_html: '%{type} %{name} jako %{role}'
@@ -460,7 +449,7 @@ cs:
       entry_role_html: Relace %{relation_name} (jako %{relation_role})
     not_found:
       title: Nenalezeno
-      sorry: 'Promiňte, ale %{type} #%{id} nebylo možné nalézt.'
+      sorry: 'Je nám líto, ale %{type} #%{id} neexistuje.'
       type:
         node: uzel
         way: cesta
@@ -469,7 +458,7 @@ cs:
         note: poznámka
     timeout:
       title: Vypršel časový limit
-      sorry: Promiňte, ale načítání dat %{type} číslo %{id} trvalo příliš dlouho.
+      sorry: Promiňte, ale načítání dat %{type} s ID %{id} trvalo příliš dlouho.
       type:
         node: uzlu
         way: cesty
@@ -499,50 +488,55 @@ cs:
       wikimedia_commons_link: Položka %{page} na Wikimedia Commons
       telephone_link: Volat %{phone_number}
       colour_preview: Náhled barvy %{colour_value}
-    note:
-      title: 'Poznámka: %{id}'
-      new_note: Nová poznámka
-      description: Popis
-      open_title: 'Nevyřešená poznámka #%{note_name}'
-      closed_title: 'Vyřešená poznámka #%{note_name}'
-      hidden_title: 'Skrytá poznámka #%{note_name}'
-      opened_by_html: Vytvořil %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Vytvořil anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval %{user}
-      commented_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval
-        anonym
-      closed_by_html: Vyřešeno od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Vyřešil anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Znovu aktivoval <abbr title='%{exact_time}'>%{when}</abbr>
-        uživatel %{user}
-      reopened_by_anonymous_html: Znovu aktivoval <abbr title='%{exact_time}'>%{when}</abbr>
-        anonym
-      hidden_by_html: Skryl <abbr title='%{exact_time}'>%{when}</abbr> uživatel %{user}
-      report: Nahlásit tuto poznámku
-      coordinates_html: '%{latitude}, %{longitude}'
+      email_link: Poslat e-mail na %{email}
     query:
       title: Průzkum prvků
       introduction: Pro nalezení okolních prvků klikněte na mapu.
       nearby: Okolní prvky
       enclosing: Umístění prvku
+  nodes:
+    timeout:
+      sorry: Promiňte, ale načítání dat uzlu s id %{id} trvalo příliš dlouho.
+  old_nodes:
+    not_found:
+      sorry: 'Je nám líto, ale verze %{version} uzlu #%{id} nebyla nalezena.'
+    timeout:
+      sorry: Promiňte, ale načítání historie uzlu s id %{id} trvalo příliš dlouho.
+  ways:
+    timeout:
+      sorry: Promiňte, ale načítání dat cesty s id %{id} trvalo příliš dlouho.
+  old_ways:
+    not_found:
+      sorry: 'Je nám líto, ale verze %{version} cesty #%{id} nebyla nalezena.'
+    timeout:
+      sorry: Promiňte, ale načítání historie cesty s id %{id} trvalo příliš dlouho.
+  relations:
+    timeout:
+      sorry: Promiňte, ale načítání dat relace s id %{id} trvalo příliš dlouho.
+  old_relations:
+    not_found:
+      sorry: 'Je nám líto, ale verze %{version} relace #%{id} nebyla nalezena.'
+    timeout:
+      sorry: Promiňte, ale načítání historie relace s id %{id} trvalo příliš dlouho.
+  changeset_comments:
+    feeds:
+      comment:
+        comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
+        commented_at_by_html: Aktualizováno %{when} uživatelem %{user}
+      show:
+        title_all: Diskuse k sadě změn na OpenStreetMap
+        title_particular: 'Diskuse k sadě změn #%{changeset_id} na OpenStreetMap'
+      timeout:
+        sorry: Omlouváme se, ale vámi požadované komentáře k sadě změn se načítaly
+          příliš dlouho.
   changesets:
-    changeset_paging_nav:
-      showing_page: Stránka %{page}
-      next: Následující »
-      previous: « Předchozí
     changeset:
-      anonymous: Anonymní
       no_edits: (žádné změny)
       view_changeset_details: Zobrazit detaily sady změn
-    changesets:
-      id: ID
-      saved_at: Uloženo v
-      user: Uživatel
-      comment: Komentář
-      area: Oblast
     index:
       title: Sady změn
       title_user: Sady změn uživatele %{user}
+      title_user_link_html: Sady změn uživatele %{user_link}
       title_friend: Sady změn mých přátel
       title_nearby: Sady změn uživatelů poblíž
       empty: Nebyly nalezeny žádné sady změn.
@@ -552,24 +546,60 @@ cs:
       no_more_area: Pro tuto oblast nebyly nalezeny žádné další sady změn.
       no_more_user: Nebyly nalezeny žádné další sady změn tohoto uživatele.
       load_more: Načíst další
+      feed:
+        title: Sada změn %{id}
+        title_comment: Sada změn %{id} - %{comment}
+        created: Vytvořeno
+        closed: Uzavřeno
+        belongs_to: Autor
+    subscribe:
+      heading: Přihlásit se k odběru následující diskuse o sadě změn?
+      button: Odebírat diskusi
+    unsubscribe:
+      heading: Zrušit odběr následující diskuse o sadě změn?
+      button: Zrušit odběr diskuse
+    heading:
+      title: Sada změn %{id}
+      created_by_html: Vytvořil uživatel %{link_user} %{created}.
+    no_such_entry:
+      heading: Záznam s ID %{id} neexistuje
+      body: Je nám líto, ale sada změn s ID %{id} neexistuje. Zkontrolujte překlepy
+        nebo jste možná klikli na chybný odkaz.
+    show:
+      title: 'Sada změn: %{id}'
+      created: 'Vytvořeno: %{when}'
+      closed: 'Uzavřeno: %{when}'
+      created_ago_html: Vytvořeno %{time_ago}
+      closed_ago_html: Uzavřeno %{time_ago}
+      created_ago_by_html: Vytvořeno %{time_ago} uživatelem %{user}
+      closed_ago_by_html: Uzavřeno %{time_ago} uživatelem %{user}
+      discussion: Diskuse
+      join_discussion: Chcete-li diskutovat, přihlaste se
+      still_open: Sada změn je stále otevřená – diskuse se zpřístupní, jakmile bude
+        sada změn uzavřena.
+      subscribe: Odebírat
+      unsubscribe: Zrušit odebírání
+      comment_by_html: Komentář od uživatele %{user} %{time_ago}
+      hidden_comment_by_html: Skrytý komentář od uživatele %{user} %{time_ago}
+      hide_comment: skrýt
+      unhide_comment: odkrýt
+      comment: Okomentovat
+      changesetxml: Sada změn XML
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: Uzly (%{count})
+      nodes_paginated: Uzly (%{x}-%{y} z %{count})
+      ways: Cesty (%{count})
+      ways_paginated: Cesty (%{x}-%{y} z %{count})
+      relations: Relace (%{count})
+      relations_paginated: Relace (%{x}–%{y} z %{count})
     timeout:
       sorry: Omlouváme se, ale vámi požadovaný seznam sad změn se načítal příliš dlouho.
-  changeset_comments:
-    comment:
-      comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
-      commented_at_by_html: Aktualizováno %{when} uživatelem %{user}
-    comments:
-      comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
-    index:
-      title_all: Diskuse k sadě změn na OpenHistoricalMap
-      title_particular: 'Diskuse k sadě změn #%{changeset_id} na OpenHistoricalMap'
-    timeout:
-      sorry: Omlouváme se, ale vámi požadované komentáře k sadě změn se načítaly příliš
-        dlouho.
   dashboards:
     contact:
       km away: '%{count} km'
       m away: '%{count} m'
+      latest_edit_html: 'Poslední úprava (%{ago}):'
     popup:
       your location: Vaše poloha
       nearby mapper: Nedaleký uživatel
@@ -604,15 +634,17 @@ cs:
       new_title: Vložit nový záznam do mého uživatelského deníku
       my_diary: Můj deník
       no_entries: Žádné záznamy v deníku
+    page:
       recent_entries: Nedávné deníkové záznamy
-      older_entries: Starší záznamy
-      newer_entries: Novější záznamy
     edit:
       title: Upravit zápis do deníku
       marker_text: Místo deníkového záznamu
     show:
       title: Deník uživatele %{user} | %{title}
       user_title: Deník uživatele %{user}
+      discussion: Diskuse
+      subscribe: Odebírat
+      unsubscribe: Zrušit odběr
       leave_a_comment: Zanechat komentář
       login_to_leave_a_comment_html: '%{login_link} k zanechání komentáře'
       login: Přihlaste se
@@ -627,10 +659,11 @@ cs:
       comment_link: Okomentovat tento záznam
       reply_link: Pošlete zprávu autorovi
       comment_count:
+        one: '%{count} komentář'
         few: '%{count} komentáře'
-        one: 1 komentář
-        zero: Bez komentářů
+        many: '%{count} komentáře'
         other: '%{count} komentářů'
+      no_comments: Bez komentářů
       edit_link: Upravit tento záznam
       hide_link: Skrýt tento záznam
       unhide_link: Zviditelnit tento záznam
@@ -644,35 +677,88 @@ cs:
       report: Nahlásit tento komentář
     location:
       location: 'Místo:'
-      view: Zobrazit
-      edit: Upravit
-      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: Záznamy v OpenHistoricalMap deníku uživatele %{user}
-        description: Nedávné záznamy v OpenHistoricalMap deníku uživatele %{user}
+        title: Záznamy v OpenStreetMap deníku uživatele %{user}
+        description: Nedávné záznamy v OpenStreetMap deníku uživatele %{user}
       language:
-        title: Deníkové záznamy OpenHistoricalMap v jazyce %{language_name}
-        description: Nedávné záznamy v denících uživatelů OpenHistoricalMap v jazyce
-          %{language_name}
+        title: Deníkové záznamy OpenStreetMap v jazyce %{language_name}
+        description: Nedávné záznamy v denících uživatelů OpenStreetMap v jazyce %{language_name}
       all:
-        title: Deníkové záznamy OpenHistoricalMap
-        description: Nedávné záznamy v denících uživatelů OpenHistoricalMap
-    comments:
+        title: Deníkové záznamy OpenStreetMap
+        description: Nedávné záznamy v denících uživatelů OpenStreetMap
+    subscribe:
+      heading: Přihlásit se k odběru následující diskuse k deníkovému záznamu?
+      button: Odebírat diskusi
+    unsubscribe:
+      heading: Odhlásit odběr následující diskuse k deníkovému záznamu?
+      button: Zrušit odběr diskuse
+  diary_comments:
+    index:
       title: Komentáře k deníkům přidané uživatelem %{user}
       heading: Deníkové komentáře uživatele %{user}
       subheading_html: Komentáře k deníkům přidané uživatelem %{user}
       no_comments: Žádné komentáře k deníkům
+    page:
       post: Záznam
       when: Kdy
       comment: Komentář
-      newer_comments: Novější komentáře
-      older_comments: Starší komentáře
+    new:
+      heading: Přidat komentář do následující diskuse k deníkovému záznamu?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Autorizační server vyžaduje výběr účtu koncového
+          uživatele
+        consent_required: Autorizační server vyžaduje souhlas koncového uživatele
+        interaction_required: Autorizační server vyžaduje interakci koncového uživatele
+        login_required: Autorizační server vyžaduje ověření koncového uživatele
     flash:
       applications:
         create:
           notice: Aplikace zaregistrována.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generování tokenu ID se nezdařilo kvůli chybějící
+            konfiguraci Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vidět vaši fyzickou adresu
+      email: Vidět vaši e-mailovou adresu
+      openid: Ztotožnit váš účet
+      phone: Vidět vaše telefonní číslo
+      profile: Vidět informace z vašeho profilu
+  errors:
+    contact:
+      contact_url_title: Vysvětlení různých komunikačních kanálů
+      contact: kontaktovat
+      contact_the_community_html: Neváhejte %{contact_link} komunitu OpenStreetMap,
+        pokud jste našli nefunkční odkaz / chybu. Poznamenejte si přesnou adresu URL
+        vašeho požadavku.
+    bad_request:
+      title: Chybný požadavek
+      description: Operace, kterou jste žádali po serveru OpenStreetMap, není platná
+        (HTTP 400)
+    forbidden:
+      title: Zakázáno
+      description: Operace, kterou jste požadovali na serveru OpenStreetMap, je dostupná
+        pouze správcům (HTTP 403)
+    internal_server_error:
+      title: Chyba aplikace
+      description: Server OpenStreetMap narazil na neočekávanou situaci, která mu
+        zabránila splnit požadavek (HTTP 500)
+    not_found:
+      title: Soubor nenalezen
+      description: Na serveru OpenStreetMap se nepodařilo najít soubor/adresář/operaci
+        API s tímto názvem (HTTP 404)
   friendships:
     make_friend:
       heading: Přidat uživatele %{user} jako přítele?
@@ -688,6 +774,11 @@ cs:
       success: '%{name} byl odstraněn z vašich přátel.'
       not_a_friend: '%{name} není mezi vašimi přáteli.'
   geocoder:
+    search:
+      title:
+        latlon: Interní
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -705,7 +796,7 @@ cs:
           aerodrome: Letiště
           airstrip: Startovací a přistávací dráha
           apron: Odbavovací plocha
-          gate: Brána
+          gate: Letištní brána
           hangar: Hangár
           helipad: Heliport
           holding_position: Vyčkávací místo
@@ -714,7 +805,7 @@ cs:
           runway: Dráha
           taxilane: Dopravní pruh pro taxi
           taxiway: Pojezdová dráha
-          terminal: Terminál
+          terminal: Letištní terminál
           windsock: Větrný rukáv
         amenity:
           animal_boarding: Nakládání zvířat
@@ -851,6 +942,7 @@ cs:
           college: Budova školy
           commercial: Komerční budova
           construction: Budova ve výstavbě
+          cowshed: Kravín
           detached: Rodinný dům
           dormitory: Kolej
           duplex: Dvojdomek
@@ -880,6 +972,7 @@ cs:
           shed: Kůlna
           stable: Stáj
           static_caravan: Karavan
+          sty: Vepřín
           temple: Budova chrámu
           terrace: Terasovitá budova
           train_station: Železniční stanice
@@ -916,7 +1009,6 @@ cs:
           window_construction: Konstrukce oken
           winery: Vinařství
           "yes": Řemeslná dílna
-        crossing: Přechod
         emergency:
           access_point: Přístupový bod
           ambulance_station: Stanoviště záchranné služby
@@ -937,6 +1029,7 @@ cs:
           bus_stop: Autobusová zastávka
           construction: Silnice ve výstavbě
           corridor: Koridor
+          crossing: Přechod
           cycleway: Cyklostezka
           elevator: Výtah
           emergency_access_point: Nouzový lokalizační bod
@@ -1047,7 +1140,7 @@ cs:
           reservoir: Zásobník na vodu
           reservoir_watershed: Povodí nádrže
           residential: Rezidenční oblast
-          retail: Maloobchody
+          retail: Maloobchodní zóna
           village_green: Náves
           vineyard: Vinice
           "yes": Využití krajiny
@@ -1068,7 +1161,7 @@ cs:
           fitness_station: Fitness
           garden: Zahrada
           golf_course: Golfové hřiště
-          horse_riding: Jezdecká stáj
+          horse_riding: Jezdecké centrum
           ice_rink: Kluziště
           marina: Přístav
           miniature_golf: Minigolf
@@ -1347,7 +1440,7 @@ cs:
           health_food: Obchod se zdravou výživou
           hearing_aids: Naslouchací přístroje
           herbalist: Bylinkář
-          hifi: Hi-Fi technika
+          hifi: Hi-Fi obchod
           houseware: Domácí potřeby
           ice_cream: Zmrzlinový obchod
           interior_decoration: Vnitřní dekorace
@@ -1407,7 +1500,7 @@ cs:
           artwork: Umělecké dílo
           attraction: Turistická atrakce
           bed_and_breakfast: Ubytování Bed & Breakfast
-          cabin: Chatka
+          cabin: Turistická útulna
           camp_pitch: Místo pro kempování
           camp_site: Tábořiště, kemp
           caravan_site: Autokemping
@@ -1458,10 +1551,6 @@ cs:
         level9: Hranice vesnice
         level10: Hranice městské části
         level11: Hranice sousedství
-      types:
-        cities: Velkoměsta
-        towns: Města
-        places: Místa
     results:
       no_results: Nenalezeny žádné výsledky
       more_results: Další výsledky
@@ -1475,35 +1564,39 @@ cs:
       not_updated: Neaktualizováno
       search: Hledat
       search_guidance: 'Hledat problémy:'
+      states:
+        ignored: Ignorováno
+        open: Otevřeno
+        resolved: Vyřešeno
+    page:
       user_not_found: Uživatel neexistuje
       issues_not_found: Takové problémy nebyly nalezeny
+      reported_user: Nahlášený uživatel
       status: Stav
       reports: Hlášení
       last_updated: Poslední změna
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> od %{user}
-      link_to_reports: Zobrazit hlášení
+      last_updated_time_ago_user_html: '%{time_ago} uživatelem %{user}'
       reports_count:
-        one: 1 Hlášení
+        one: '%{count} Hlášení'
+        few: '%{count} Hlášení'
+        many: '%{count} Hlášení'
         other: '%{count} Hlášení'
       reported_item: Hlášená položka
       states:
         ignored: Ignorováno
         open: Otevřeno
         resolved: Vyřešeno
-    update:
-      new_report: Vaše hlášení bylo úspěšně zaevidováno
-      successful_update: Vaše hlášení bylo úspěšně upraveno
-      provide_details: Uveďte prosím nutné podrobnosti
     show:
       title: '%{status} Problém #%{issue_id}'
       reports:
-        zero: žádné
-        one: 1 hlášení
+        one: '%{count} hlášení'
+        few: '%{count} hlášení'
+        many: '%{count} hlášení'
         other: '%{count} hlášení'
-      report_created_at: První hlášení v %{datetime}
-      last_resolved_at: Naposledy vyřešeno v %{datetime}
-      last_updated_at: Poslední aktualizace v %{datetime} od %{displayname}
+      no_reports: Žádná hlášení
+      report_created_at_html: První hlášení v %{datetime}
+      last_resolved_at_html: Naposledy vyřešeno v %{datetime}
+      last_updated_at_html: Poslední aktualizace v %{datetime} od %{displayname}
       resolve: Vyřešit
       ignore: Ignorovat
       reopen: Znovu otevřít
@@ -1531,6 +1624,7 @@ cs:
   issue_comments:
     create:
       comment_created: Váš komentář byl úspěšně přiložen
+      issue_reassigned: Váš komentář byl vytvořen a problém byl znovu přidělen
   reports:
     new:
       title_html: Hlášení %{link}
@@ -1568,71 +1662,58 @@ cs:
       provide_details: Prosím poskytněte potřebné bližší informace
   layouts:
     logo:
-      alt_text: Logo OpenHistoricalMap
+      alt_text: Logo OpenStreetMap
     home: Přejít domů
     logout: Odhlásit se
     log_in: Přihlásit se
-    log_in_tooltip: Přihlásit se k existujícímu účtu
     sign_up: Zaregistrovat se
     start_mapping: Začít mapovat
-    sign_up_tooltip: Vytvořit účet pro editaci
     edit: Upravit
     history: Historie
     export: Export
     issues: Problémy
-    data: Data
-    export_data: Export dat
     gps_traces: GPS stopy
-    gps_traces_tooltip: Spravovat GPS stopy
     user_diaries: Deníky uživatelů
-    user_diaries_tooltip: Zobrazit deníky uživatelů
     edit_with: Upravit pomocí %{editor}
-    tag_line: Otevřená wiki-mapa světa
-    intro_header: Vítejte v OpenHistoricalMap!
-    intro_text: OpenHistoricalMap je mapa světa, vytvořená lidmi jako vy a volně využitelná
+    intro_header: Vítejte v OpenStreetMap!
+    intro_text: OpenStreetMap je mapa světa, vytvořená lidmi jako vy a volně využitelná
       pod otevřenou licencí.
-    intro_2_create_account: Vytvořit uživatelský účet
-    partners_title: Partneři
-    hosting_partners_html: Hosting podporují %{ucl}, %{fastly}, %{bytemark} a další
-      %{partners}.
+    partners_fastly: Fastly
+    partners_corpmembers: firemní členové OSMF
     partners_partners: partneři
     tou: Podmínky užití
-    osm_offline: Databáze OpenHistoricalMap je momentálně kvůli probíhající neodkladné
+    osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
       údržbě mimo provoz.
-    osm_read_only: Databáze OpenHistoricalMap je momentálně kvůli probíhající neodkladné
+    osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
       údržbě pouze pro čtení.
-    donate: Podpořte OpenHistoricalMap %{link} Fondu na upgrady hardwaru
+    nothing_to_preview: Není k čemu zobrazovat náhled.
     help: Nápověda
     about: O projektu
     copyright: Autorská práva
-    community: Komunita
-    community_blogs: Komunitní blogy
-    community_blogs_title: Blogy členů komunity OpenHistoricalMap
-    foundation: Nadace
-    foundation_title: Nadace OpenHistoricalMap
-    make_a_donation:
-      title: Podpořte OpenHistoricalMap finančním příspěvkem
-      text: Pošlete příspěvek
+    communities: Komunity
     learn_more: Více informací
     more: Další
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenHistoricalMap] %{user} okomentoval záznam v deníku'
+      description: 'Záznam #%{id} deníku uživatele OpenStreetMap'
+      subject: '[OpenStreetMap] %{user} okomentoval záznam v deníku'
       hi: Ahoj, uživateli %{to_user},
-      header: '%{from_user} okomentoval záznam v deníku na OpenHistoricalMap s předmětem
+      header: '%{from_user} okomentoval záznam v deníku na OpenStreetMap s předmětem
         %{subject}:'
-      header_html: '%{from_user} okomentoval záznam v deníku na OpenHistoricalMap
-        s předmětem %{subject}:'
+      header_html: '%{from_user} okomentoval záznam v deníku na OpenStreetMap s předmětem
+        %{subject}:'
       footer: Můžete si také přečíst komentář na %{readurl} a můžete komentovat na
         %{commenturl} nebo poslat zprávu autorovi na %{replyurl}
       footer_html: Můžete si také přečíst komentář na %{readurl} a můžete komentovat
         na %{commenturl} nebo poslat zprávu autorovi na %{replyurl}
+      footer_unsubscribe: Z odběru diskuse se můžete odhlásit na %{unsubscribeurl}
+      footer_unsubscribe_html: Z odběru diskuse se můžete odhlásit na %{unsubscribeurl}
     message_notification:
-      subject: '[OpenHistoricalMap] %{message_title}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Dobrý den, uživateli %{to_user},
-      header: '%{from_user} vám poslal(a) prostřednictvím OpenHistoricalMap zprávu
-        s předmětem %{subject}:'
-      header_html: '%{from_user} vám poslal(a) prostřednictvím OpenHistoricalMap zprávu
+      header: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem
+        %{subject}:'
+      header_html: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu
         s předmětem %{subject}:'
       footer: Můžete si také přečíst zprávu na %{readurl} a můžete poslat zprávu autorovi
         na %{replyurl}
@@ -1640,32 +1721,46 @@ cs:
         autorovi na %{replyurl}
     friendship_notification:
       hi: Dobrý den, uživateli %{to_user},
-      subject: '[OpenHistoricalMap] %{user} si vás přidal jako přítele'
-      had_added_you: '%{user} si vás na OpenHistoricalMap přidal(a) jako přítele.'
+      subject: '[OpenStreetMap] %{user} si vás přidal jako přítele'
+      had_added_you: '%{user} si vás na OpenStreetMap přidal(a) jako přítele.'
       see_their_profile: Jeho/její profil si můžete prohlédnout na %{userurl}.
       see_their_profile_html: Jeho/její profil si můžete prohlédnout na %{userurl}.
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
       befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
     gpx_description:
-      description_with_tags_html: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
+      description_with_tags: 'Vypadá to, že váš soubor %{trace_name} s popisem %{trace_description}
+        a s těmito značkami: %{tags}'
+      description_with_tags_html: 'Vypadá to, že váš soubor %{trace_name} s popisem
         %{trace_description} a s těmito značkami: %{tags}'
-      description_with_no_tags_html: Vypadá to, že váš GPX soubor %{trace_name} s
-        popisem %{trace_description} a bez značek
+      description_with_no_tags: Vypadá to, že váš soubor %{trace_name} s popisem %{trace_description}
+        a bez značek
+      description_with_no_tags_html: Vypadá to, že váš soubor %{trace_name} s popisem
+        %{trace_description} a bez značek
     gpx_failure:
       hi: Ahoj, %{to_user},
-      failed_to_import: 'se nepodařilo nahrát. Chybové hlášení následuje:'
+      failed_to_import: 'se nepodařilo naimportovat jako GPS stopu. Zkontrolujte si
+        prosím, zda váš soubor je platný soubor GPX nebo archiv obsahující GPX soubor(y)
+        v podporovaném formátu (.tar.gz, tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Možná je u vašeho souboru problém s formátem nebo syntaxí? Zde je chyba importu:'
+      more_info: Více informací o chybách při importu GPX a jak se jim vyhnout, najdete
+        na %{url}.
       more_info_html: Více informací o chybách při importu GPX a jak se jim vyhnout,
         najdete na %{url}.
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=cs
-      subject: '[OpenHistoricalMap] Neúspěšný import GPX'
+      subject: '[OpenStreetMap] Neúspěšný import GPX'
     gpx_success:
       hi: Ahoj %{to_user},
-      loaded_successfully:
-        one: se úspěšně nahrál s %{trace_points} z možného 1 bodu.
-        other: se úspěšně nahrál s %{trace_points} z možných %{possible_points} bodů.
-      subject: '[OpenHistoricalMap] Úspěšný import GPX'
+      loaded:
+        one: úspěšně načteno s %{trace_points} z možného %{count} bodu.
+        few: úspěšně načteno s %{trace_points} z možných %{count} bodů.
+        many: úspěšně načteno s %{trace_points} z možných %{count} bodu.
+        other: úspěšně načteno s %{trace_points} z možných %{count} bodů.
+      trace_location: Vaše stopa je dostupná na %{trace_url}
+      all_your_traces: Všechny úspěšně načtené GPX stopy můžete najít na %{url}
+      all_your_traces_html: Všechny úspěšně načtené GPX stopy můžete najít na %{url}.
+      subject: '[OpenStreetMap] Úspěšný import GPX'
     signup_confirm:
-      subject: '[OpenHistoricalMap] Vítejte v OpenHistoricalMap'
+      subject: '[OpenStreetMap] Vítejte v OpenStreetMap'
       greeting: Ahoj!
       created: Někdo (doufáme, že vy) si právě založil účet na %{site_url}.
       confirm: 'Než budeme pokračovat, potřebujeme potvrdit, že tento požadavek přišel
@@ -1674,26 +1769,26 @@ cs:
       welcome: Jakmile potvrdíte svůj účet, poskytneme vám do začátku trochu dalších
         informací.
     email_confirm:
-      subject: '[OpenHistoricalMap] Potvrzení vaší e-mailové adresy'
+      subject: '[OpenStreetMap] Potvrzení vaší e-mailové adresy'
       greeting: Dobrý den,
       hopefully_you: Někdo (snad vy) požádal o změnu e-mailové adresy na serveru %{server_url}
         na %{new_address}.
       click_the_link: Pokud jste to byli Vy, potvrďte změnu kliknutím na následující
         odkaz.
     lost_password:
-      subject: '[OpenHistoricalMap] Žádost o nové heslo'
-      greeting: Dobrý den,
+      subject: '[OpenStreetMap] Žádost o nové heslo'
+      greeting: Ahoj,
       hopefully_you: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele
         serveru openstreetmap.org s touto e-mailovou adresou.
       click_the_link: Pokud jste to byli Vy, kliknutím na níže uvedený odkaz získáte
         nové heslo.
     note_comment_notification:
+      description: 'Poznámka k OpenStreetMap #%{id}'
       anonymous: Anonymní uživatel
       greeting: Ahoj,
       commented:
-        subject_own: '[OpenHistoricalMap] %{commenter} okomentoval jednu z vašich
-          poznámek'
-        subject_other: '[OpenHistoricalMap] %{commenter} okomentoval jednu z poznámek,
+        subject_own: '[OpenStreetMap] %{commenter} okomentoval jednu z vašich poznámek'
+        subject_other: '[OpenStreetMap] %{commenter} okomentoval jednu z poznámek,
           která vás zajímá'
         your_note: '%{commenter} okomentoval jednu z vašich poznámek k mapě nedaleko
           %{place}.'
@@ -1704,9 +1799,9 @@ cs:
         commented_note_html: '%{commenter} okomentoval poznámku k mapě, kterou jste
           také komentovali. Poznámka je umístěna poblíž %{place}.'
       closed:
-        subject_own: '[OpenHistoricalMap] %{commenter} vyřešil jednu z vašich poznámek'
-        subject_other: '[OpenHistoricalMap] %{commenter} vyřešil jednu z poznámek,
-          která vás zajímá'
+        subject_own: '[OpenStreetMap] %{commenter} vyřešil jednu z vašich poznámek'
+        subject_other: '[OpenStreetMap] %{commenter} vyřešil jednu z poznámek, která
+          vás zajímá'
         your_note: '%{commenter} vyřešil jednu z vašich poznámek k mapě nedaleko %{place}.'
         your_note_html: '%{commenter} vyřešil jednu z vašich poznámek k mapě nedaleko
           %{place}.'
@@ -1715,9 +1810,8 @@ cs:
         commented_note_html: '%{commenter} vyřešil poznámku k mapě, kterou jste komentovali.
           Poznámka je umístěna poblíž %{place}.'
       reopened:
-        subject_own: '[OpenHistoricalMap] %{commenter} reaktivoval jednu z vašich
-          poznámek'
-        subject_other: '[OpenHistoricalMap] %{commenter} reaktivoval jednu z poznámek,
+        subject_own: '[OpenStreetMap] %{commenter} reaktivoval jednu z vašich poznámek'
+        subject_other: '[OpenStreetMap] %{commenter} reaktivoval jednu z poznámek,
           která vás zajímá'
         your_note: '%{commenter} reaktivoval jednu z vašich poznámek k mapě nedaleko
           %{place}.'
@@ -1727,16 +1821,16 @@ cs:
           Poznámka je umístěna poblíž %{place}.'
         commented_note_html: '%{commenter} reaktivoval poznámku k mapě, kterou jste
           komentovali. Poznámka je umístěna poblíž %{place}.'
-      details: Podrobnosti k poznámce můžete najít na %{url}.
-      details_html: Podrobnosti k poznámce můžete najít na %{url}.
+      details: Odpovědět nebo se dozvědět více o této poznámce můžete na %{url}.
+      details_html: Odpovědět nebo se dozvědět více o této poznámce můžete na %{url}.
     changeset_comment_notification:
+      description: 'Sada změn OpenStreetMap #%{id}'
       hi: Dobrý den, uživateli %{to_user},
-      greeting: Dobrý den,
       commented:
-        subject_own: '[OpenHistoricalMap] %{commenter} okomentoval jednu z vašich
-          sad změn'
-        subject_other: '[OpenHistoricalMap] %{commenter} okomentoval jednu ze sad
-          změn, která vás zajímá'
+        subject_own: '[OpenStreetMap] %{commenter} okomentoval jednu z vašich sad
+          změn'
+        subject_other: '[OpenStreetMap] %{commenter} okomentoval jednu ze sad změn,
+          která vás zajímá'
         your_changeset: '%{commenter} zanechal %{time} komentář na jedné z vašich
           sad změn.'
         your_changeset_html: '%{commenter} zanechal %{time} komentář na jedné z vašich
@@ -1748,12 +1842,10 @@ cs:
         partial_changeset_with_comment: s komentářem „%{changeset_comment}“
         partial_changeset_with_comment_html: s komentářem „%{changeset_comment}“
         partial_changeset_without_comment: bez komentáře
-      details: Více informací o této sadě změn lze nalézt na %{url}.
-      details_html: Více informací o této sadě změn lze nalézt na %{url}.
-      unsubscribe: Pro odhlášení z aktualizací této sady změn jděte na %{url} a klikněte
-        na „Zrušit odebírání“.
-      unsubscribe_html: Pro odhlášení z aktualizací této sady změn jděte na %{url}
-        a klikněte na „Zrušit odebírání“.
+      details: Odpovědět nebo se dozvědět více o této sadě změn můžete na %{url}.
+      details_html: Odpovědět nebo se dozvědět více o této sadě změn můžete na %{url}.
+      unsubscribe: Od aktualizací této sady změn se můžete odhlásit na %{url}.
+      unsubscribe_html: Od aktualizací této sady změn se můžete odhlásit na %{url}.
   confirmations:
     confirm:
       heading: Zkontrolujte si e-mail!
@@ -1765,8 +1857,8 @@ cs:
       success: Účet potvrzen, děkujeme za registraci!
       already active: Tento uživatelský účet už byl potvrzen.
       unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
-      reconfirm_html: Pokud potřebujete, abychom vám poslali potvrzovací e-mail znovu,
-        <a href="%{reconfirm}">klikněte zde</a>.
+      resend_html: Pokud potřebujete, abychom znovu poslali potvrzovací e-mail, %{reconfirm_link}.
+      click_here: klikněte zde
     confirm_resend:
       failure: Uživatel %{name} nebyl nalezen.
     confirm_email:
@@ -1786,8 +1878,6 @@ cs:
   messages:
     inbox:
       title: Doručená pošta
-      my_inbox: Má doručená pošta
-      my_outbox: Moje odchozí
       messages: Máte %{new_messages} a %{old_messages}
       new_messages:
         few: '%{count} nové zprávy'
@@ -1797,22 +1887,23 @@ cs:
         few: '%{count} staré zprávy'
         one: '%{count} starou zprávu'
         other: '%{count} starých zpráv'
-      from: Od
-      subject: Předmět
-      date: Datum
       no_messages_yet_html: Zatím nemáte žádné zprávy. Co třeba kontaktovat nějaké
         %{people_mapping_nearby_link}?
       people_mapping_nearby: uživatele poblíž
+    messages_table:
+      from: Od
+      to: Komu
+      subject: Předmět
+      date: Datum
+      actions: Akce
     message_summary:
       unread_button: Označit jako nepřečtené
       read_button: Označit jako přečtené
-      reply_button: Odpovědět
       destroy_button: Smazat
+      unmute_button: Přesunout do doručené pošty
     new:
       title: Odeslat zprávu
       send_message_to_html: Poslat novou zprávu uživateli %{name}
-      subject: Předmět
-      body: Text
       back_to_inbox: Zpět do doručené pošty
     create:
       message_sent: Zpráva odeslána
@@ -1824,57 +1915,64 @@ cs:
       body: Je mi líto, ale žádná zpráva s tímto ID neexistuje.
     outbox:
       title: Odeslaná pošta
-      my_inbox: Moje příchozí
-      my_outbox: Moje odchozí
       messages:
         few: Máte %{count} odeslané zprávy
         one: Máte %{count} odeslanou zprávu
         other: Máte %{count} odeslaných zpráv
-      to: Komu
-      subject: Předmět
-      date: Datum
       no_sent_messages_html: Nemáte žádné odeslané zprávy. Co třeba kontaktovat nějaké
         %{people_mapping_nearby_link}?
       people_mapping_nearby: uživatele poblíž
+    muted:
+      title: Ztlumené zprávy
+      messages:
+        one: Máte %{count} ztlumenou zprávu
+        few: Máte %{count} ztlumené zprávy
+        many: Máte %{count} ztlumené zprávy
+        other: Máte %{count} ztlumených zpráv
     reply:
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, na kterou chcete odpovědět,
         nebyla poslána tomuto uživateli. Pokud na ni chcete odpovědět, přihlaste se
         pod správným účtem.
     show:
       title: Čtení zprávy
-      from: Od
-      subject: Předmět
-      date: Datum
       reply_button: Odpovědět
       unread_button: Označit jako nepřečtené
       destroy_button: Smazat
       back: Zpět
-      to: Komu
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, kterou si chcete přečíst,
         není ani od, ani pro tohoto uživatele. Pokud si ji chcete přečíst, přihlaste
         se pod správným účtem.
     sent_message_summary:
       destroy_button: Smazat
+    heading:
+      my_inbox: Má doručená pošta
+      my_outbox: Moje odchozí
+      muted_messages: Ztlumené zprávy
     mark:
       as_read: Zpráva označena jako přečtená
       as_unread: Zpráva označena jako nepřečtená
+    unmute:
+      notice: Zpráva byla přesunuta do doručené pošty
+      error: Zprávu se nepodařilo přesunout do doručené pošty.
     destroy:
       destroyed: Zpráva smazána
   passwords:
-    lost_password:
+    new:
       title: Ztracené heslo
       heading: Zapomněli jste heslo?
-      email address: 'E-mailová adresa:'
+      email address: E-mailová adresa
       new password button: Resetovat heslo
       help_text: Zadejte e-mailovou adresu, pod kterou jste se zaregistrovali, my
         vám na ni pošleme odkaz, pomocí kterého si nastavíte nové heslo.
-      notice email on way: Škoda zapomenutého hesla :-( e-mail už je na cestě, takže
-        si budete brzy moci zvolit nové.
-      notice email cannot find: Je mi líto, ale nemohu najít tuto e-mailovou adresu.
-    reset_password:
+    create:
+      send_paranoid_instructions: Pokud v naší databázi existuje vaše e-mailová adresa,
+        obdržíte na ni během několika minut odkaz pro obnovení hesla.
+    edit:
       title: Obnovit heslo
       heading: Resetovat heslo pro %{user}
       reset: Resetovat heslo
+      flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
+    update:
       flash changed: Vaše heslo bylo změněno.
       flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
   preferences:
@@ -1899,7 +1997,7 @@ cs:
       image: Obrázek
       gravatar:
         gravatar: Používat Gravatar
-        link: http://wiki.openstreetmap.org/wiki/CS:Gravatar
+        link: https://wiki.openstreetmap.org/wiki/CS:Gravatar
         what_is_gravatar: Co je Gravatar?
         disabled: Gravatar byl zakázán.
         enabled: Zobrazování vašeho Gravataru bylo povoleno.
@@ -1911,64 +2009,36 @@ cs:
       home location: Poloha domova
       no home location: Nezadali jste polohu svého bydliště.
       update home location on click: Upravit pozici domova při kliknutí na mapu?
+      show: Zobrazit
+      delete: Smazat
+      undelete: Vrátit smazání
     update:
       success: Profil nastaven.
       failure: Nepodařilo se nastavit profil.
   sessions:
     new:
-      title: Přihlásit se
-      heading: Přihlášení
-      email or username: 'E-mailová adresa nebo uživatelské jméno:'
-      password: 'Heslo:'
-      openid_html: '%{logo} OpenID:'
+      tab_title: Přihlášení
+      login_to_authorize_html: Pro přístup k %{client_app_name} se přihlaste do OpenStreetMap.
+      email or username: E-mailová adresa nebo uživatelské jméno
+      password: Heslo
       remember: Zapamatuj si mě
       lost password link: Ztratili jste heslo?
-      login_button: Přihlásit
-      register now: Zaregistrujte se
-      with username: 'Máte už na OpenHistoricalMap účet? Přihlaste se svým jménem
-        a heslem:'
-      with external: 'Případně se přihlaste prostřednictvím třetí strany:'
-      new to osm: Jste na OpenHistoricalMap noví?
-      to make changes: Pokud chcete upravovat OpenHistoricalMap, musíte mít uživatelský
-        účet.
-      create account minute: Založte si účet. Zabere to jen chvilku.
-      no account: Nemáte účet?
-      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br
-        />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu,
-        případně si <a href="%{reconfirm}">nechte poslat nový potvrzovací e-mail</a>.
-      account is suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé
-        aktivitě.<br />Pokud to chcete řešit, kontaktujte <a href="%{webmaster}">podporu</a>.
+      login_button: Přihlásit se
+      with external: nebo se přihlaste prostřednictvím třetí strany
+      or: nebo
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
-      openid_logo_alt: Přihlášení pomocí OpenID
-      auth_providers:
-        openid:
-          title: Přihlásit se pomocí OpenID
-          alt: Přihlášení pomocí OpenID URL
-        google:
-          title: Přihlásit se prostřednictvím Google
-          alt: Přihlášení pomocí Google OpenID
-        facebook:
-          title: Přihlásit se přes Facebook
-          alt: Přihlášení pomocí účtu na Facebooku
-        github:
-          title: Přihlásit se přes GitHub
-          alt: Přihlásit se pomocí GitHub účtu
-        wikipedia:
-          title: Přihlásit se účtem na Wikipedii
-          alt: Přihlásit se účtem na Wikipedii
-        wordpress:
-          title: Přihlásit se prostřednictvím Wordpress
-          alt: Přihlášení pomocí Wordpress OpenID
-        aol:
-          title: Přihlásit se prostřednictvím AOL
-          alt: Přihlášení pomocí AOL OpenID
     destroy:
       title: Odhlásit se
-      heading: Odhlášení z OpenHistoricalMap
+      heading: Odhlášení z OpenStreetMap
       logout_button: Odhlásit se
+    suspended_flash:
+      suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé aktivitě.
+      contact_support_html: Kontaktujte prosím %{support_link}, pokud to chcete prodiskutovat.
+      support: podporu
   shared:
     markdown_help:
-      title_html: Zpracovává se <a href="https://kramdown.gettalong.org/quickref.html">kramdownem</a>
+      heading_html: Zpracovává se %{kramdown_link}
+      kramdown: kramdownem
       headings: Nadpisy
       heading: Nadpis
       subheading: Podnadpis
@@ -1981,45 +2051,73 @@ cs:
       image: Obrázek
       alt: Alternativní text
       url: URL
+      codeblock: Blok kódu
     richtext_field:
       edit: Upravit
       preview: Náhled
+      help: Nápověda
+    pagination:
+      diary_comments:
+        older: Starší komentáře
+        newer: Novější komentáře
+      diary_entries:
+        older: Starší záznamy
+        newer: Novější záznamy
+      issues:
+        older: Starší problémy
+        newer: Novější problémy
+      traces:
+        older: Starší stopy
+        newer: Novější stopy
+      user_blocks:
+        older: Starší bloky
+        newer: Novější bloky
+      users:
+        older: Starší uživatelé
+        newer: Novější uživatelé
   site:
     about:
-      next: Další
-      heading_html: <span>&copy;</span>přispěvatelé<br>OpenHistoricalMap
-      used_by_html: OpenHistoricalMap poskytuje mapová data pro tisíce webových stránek,
-        mobilních aplikací a hardwarových zařízení
-      lede_text: OpenHistoricalMap tvoří komunita uživatelů, kteří přidávají a udržují
+      heading_html: '%{copyright}přispěvatelé %{br} OpenStreetMap'
+      used_by_html: '%{name} poskytuje mapová data pro tisíce webových stránek, mobilních
+        aplikací a hardwarových zařízení'
+      lede_text: OpenStreetMap tvoří komunita uživatelů, kteří přidávají a udržují
         data o silnicích, cestách, kavárnách, železničních stanicích a mnohém dalším
         po celém světě.
       local_knowledge_title: Místní znalost
-      local_knowledge_html: OpenHistoricalMap klade důraz na místní znalost. Přispěvatelé
+      local_knowledge_html: OpenStreetMap klade důraz na místní znalost. Přispěvatelé
         využívají letecké snímky, GPS přístroje a klasické mapy, aby ověřili, že OSM
         je přesné a aktuální.
       community_driven_title: Řízeno komunitou
-      community_driven_html: |-
-        Komunita OpenHistoricalMap je různorodá, vášnivá a každý den se rozrůstá. Mezi našimi přispěvateli najdete amatérské kreslíře map, profesionály z oblasti GIS, techniky spravující servery OSM, humanitární pracovníky mapující oblasti zasažené neštěstím a mnohé další.
-        Pokud se chcete o komunitě dozvědět více, prohlédněte si <a href='https://blog.openstreetmap.org'>blog OpenHistoricalMap</a>, <a href='%{diary_path}'>uživatelské deníky</a>, <a href='https://blogs.openstreetmap.org/'>komunitní blogy</a> a webovou stránku <a href='https://www.osmfoundation.org/'>nadace OSM Foundation</a>.
+      community_driven_1_html: |-
+        Komunita OpenStreetMap je různorodá, vášnivá a každý den se rozrůstá. Mezi našimi přispěvateli najdete amatérské kreslíře map, profesionály z oblasti GIS, techniky spravující servery OSM, humanitární pracovníky mapující oblasti zasažené neštěstím a mnohé další.
+        Pokud se chcete o komunitě dozvědět více, prohlédněte si %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} a webovou stránku %{osm_foundation_link}.
+      community_driven_osm_blog: Blog OpenStreetMap
+      community_driven_user_diaries: deníky uživatelů
+      community_driven_community_blogs: komunitní blogy
+      community_driven_osm_foundation: Nadace OSM
       open_data_title: Otevřená data
-      open_data_html: 'OpenHistoricalMap tvoří <i>otevřená data</i>: smíte je užívat
-        pro libovolný účel, pokud uvádíte autorství OpenHistoricalMap a jeho přispěvatelů.
-        Pokud data měníte nebo rozšiřujete jistými způsoby, smíte výsledek šířit jen
-        pod stejnou licencí. Podrobnosti najdete na stránce <a href=''%{copyright_path}''>Autorská
-        práva a licence</a>.'
+      open_data_1_html: 'OpenStreetMap tvoří %{open_data}: smíte je užívat pro libovolný
+        účel, pokud uvádíte autorství OpenStreetMap a jeho přispěvatelů. Pokud data
+        měníte nebo rozšiřujete jistými způsoby, smíte výsledek šířit jen pod stejnou
+        licencí. Podrobnosti najdete na stránce %{copyright_license_link}.'
+      open_data_open_data: otevřená data
+      open_data_copyright_license: Autorská práva a licence
       legal_title: Právní informace
-      legal_1_html: Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně
-        provozuje <a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a>
-        (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Podmínkám
-        užití</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlům
-        přijatelného užití</a> a našim <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlům
-        ochrany osobních údajů</a>.
-      legal_2_html: |-
-        Pokud máte problémy či dotazy týkající se licencování, autorských práv či jiných právních záležitostí, <a href='https://osmfoundation.org/Contact'>kontaktujte prosím OSMF</a>.
-        <br>
-        OpenHistoricalMap, logo s lupou a State of the Map jsou <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registrované ochranné známky OSMF</a>.
+      legal_1_1_html: Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně
+        provozuje %{openstreetmap_foundation_link} (OSMF). Použití všech služeb provozovaných
+        OSMF podléhá našim %{terms_of_use_link}, %{aup_link} a našim %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Nadace OpenStreetMap
+      legal_1_1_terms_of_use: Podmínkám užití
+      legal_1_1_aup: Pravidlům přijatelného užití
+      legal_1_1_privacy_policy: Pravidlům ochrany osobních údajů
+      legal_2_1_html: Pokud máte dotazy týkající se licencování, autorských práv či
+        jiných právních záležitostí, %{contact_the_osmf_link}.
+      legal_2_1_contact_the_osmf: kontaktujte OSMF
+      legal_2_2_html: OpenStreetMap, logo s lupou a State of the Map jsou %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: zapsané ochranné známky OSMF
       partners_title: Partneři
     copyright:
+      title: Autorská práva a licence
       foreign:
         title: O tomto překladu
         html: V případě rozporů mezi touto přeloženou verzí a %{english_original_link}
@@ -2033,67 +2131,166 @@ cs:
         native_link: českou verzi
         mapping_link: začít mapovat
       legal_babble:
-        title_html: Autorská práva a licence
-        intro_1_html: OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup>
-          jsou <i>svobodná data</i>, která za podmínek <a href="https://opendatacommons.org/licenses/odbl/">Open
-          Data Commons Open Database License</a> (ODbL) nabízí nadace <a href="https://osmfoundation.org/">OpenHistoricalMap
-          Foundation</a> (OSMF).
-        intro_2_html: Smíte kopírovat, distribuovat, sdělovat veřejnosti a upravovat
-          naše data, pokud jako zdroj uvedete OpenHistoricalMap a jeho přispěvatele.
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} jsou %{open_data},
+          která za podmínek %{odc_odbl_link} (ODbL) nabízí %{osm_foundation_link}
+          (OSMF).
+        introduction_1_open_data: otevřená data
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: Nadace OpenStreetMap
+        introduction_2_html: Smíte kopírovat, distribuovat, sdělovat veřejnosti a
+          upravovat naše data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele.
           Pokud naše data budete upravovat nebo je použijete ve svém díle, musíte
           výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny
-          v plném <a href="https://opendatacommons.org/licenses/odbl/1.0/">licenčním
-          ujednání</a>.
-        intro_3_1_html: |-
-          Naše dokumentace je pod licencí
-          <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
-        credit_title_html: Jak uvádět OpenHistoricalMap
-        credit_1_html: Vyžadujeme uvádění autorství „© Přispěvatelé OpenHistoricalMap“.
-        credit_2_1_html: |-
-          Také musíte jasně uvést, že data jsou dostupná za podmínek Open Database License, a pokud používáte naše mapové dlaždice, že jejich kartografický obsah je licencován pod CC-BY-SA. To můžete splnit odkázáním na <a href="https://www.openstreetmap.org/copyright">tuto stránku</a>.
-
-          Nebo můžete (a pokud šíříte OSM jako data, tak musíte) uvést název licence a odkaz na ni přímo. Pokud používáte médium, které odkazy neumožňuje (např. v tištěném díle), navrhujeme, abyste své čtenáře nasměrovali na openstreetmap.org (zřejmě rozšířením „OpenHistoricalMap“ do této plné adresy), na opendatacommons.org a, pokud se vás to týká, na creativecommons.org.
+          v plném %{legal_code_link}.
+        introduction_2_legal_code: licenčním ujednání
+        introduction_3_html: Naše dokumentace je licencována pod licencí %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Uveďte autora-Zachovejte
+          licenci 2.0
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.cs
+        credit_title_html: Jak uvádět OpenStreetMap
+        credit_1_html: 'Pokud používáte data OpenStreetMap, máte povinnost učinit
+          následující dvě věci:'
+        credit_2_1: Uvést jako zdroj OpenStreetMap zobrazením naší informace o autorských
+          právech.
+        credit_2_2: Jasně uvést, že data jsou dostupná za podmínek Open Database License.
+        credit_3_html: |-
+          Co se týká uvedení autorských práv, liší se naše požadavky podle toho,
+          jak naše data používáte. Různá pravidla například platí, když tvoříte
+          interaktivní mapu, tištěnou mapu nebo statický obrázek. Podrobné
+          informace k požadavkům naleznete
+          v %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Pokynech pro uvádění původu
+        credit_4_1_html: |-
+          Aby bylo zřejmé, že jsou data dostupná za podmínek Open
+          Database License, můžete odkázat na
+          %{this_copyright_page_link}. Jinou možností – a povinností v případě,
+          že OSM šíříte v datové podobě, můžete uvést a odkázat přímo
+          na licenci. Ve formě, ve které odkazování není možné (např.
+          v tištěných dílech), navrhujeme, abyste čtenáře nasměřovali
+          na openstreetmap.org (např. rozšířením „OpenStreetMap“ na
+          tuto celou adresu) a opendatacommons.org.
+          V tomto příkladu se informace o zdroji objevuje v rohu mapy.
+        credit_4_1_this_copyright_page: tuto stránku k autorským právům
         attribution_example:
-          alt: Příklad, jak uvádět autorství OpenHistoricalMap na webové stránce
+          alt: Příklad, jak uvádět autorství OpenStreetMap na webové stránce
           title: Příklad uvedení autorství
         more_title_html: Další informace
-        more_1_html: O používání našich dat a způsobu uvádění autorství se můžete
-          dočíst více na <a href="https://osmfoundation.org/Licence">licenční stránce
-          OSMF</a>.
+        more_1_1_html: O používání našich dat a způsobu uvádění autorství se můžete
+          dočíst více na %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: licenční stránce OSMF
+        more_2_1_html: |-
+          Přestože jsou OpenStreetMap otevřená data, nemůžeme třetím stranám poskytovat
+          bezplatné mapové API.
+          Vizte naše %{api_usage_policy_link}, %{tile_usage_policy_link} a %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Pravidla použití API
+        more_2_1_tile_usage_policy: Pravidla použití dlaždic
+        more_2_1_nominatim_usage_policy: Pravidla použití Nominatimu
         contributors_title_html: Naši přispěvatelé
         contributors_intro_html: 'Našimi přispěvateli jsou tisíce jednotlivců. Také
           zahrnujeme svobodně licencovaná data z národních zeměměřických úřadů a dalších
           zdrojů, mimo jiné:'
-        contributors_footer_1_html: |-
-          Další podrobnosti o těchto a dalších zdrojích, které se používaly pro vylepšení OpenHistoricalMap, najdete na <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">stránce Contributors</a> na wiki OpenHistoricalMap.
-        contributors_footer_2_html: Zahrnutí dat do OpenHistoricalMap neznamená, že
-          původní poskytovatel dat podporuje OpenHistoricalMap, nabízí jakoukoli záruku
-          nebo přijímá jakoukoli zodpovědnost.
+        contributors_at_credit_html: '%{austria}: Obsahuje data od %{stadt_wien_link}
+          (pod %{cc_by_link}), %{land_vorarlberg_link} a země Tyrolsko (pod %{cc_by_at_with_amendments_link}).'
+        contributors_at_austria: Rakousko
+        contributors_at_stadt_wien: města Vídně
+        contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.cs
+        contributors_at_land_vorarlberg: země Vorarlbersko
+        contributors_at_cc_by_at_with_amendments: CC BY AT s dodatky
+        contributors_au_credit_html: '%{australia}: Zahrnuje nebo využívá Administrative
+          Boundaries © %{geoscape_australia_link}, které Commonwealth of Australia
+          poskytuje za podmínek %{cc_licence_link}.'
+        contributors_au_australia: Austrálie
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: licence Creative Commons Uveďte původ 4.0 Mezinárodní
+          (CC BY 4.0)
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.cs
+        contributors_ca_credit_html: '%{canada}: Obsahuje data z GeoBase&reg;, GeoGratis
+          (&copy; Department of Natural Resources Canada), CanVec (&copy; Department
+          of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).'
+        contributors_ca_canada: Kanada
+        contributors_cz_credit_html: |-
+          %{czechia}: Obsahuje data z produkce Zeměměřického úřadu licencovaná pro
+          opětovné použití pod licencí %{cc_licence_link}
+        contributors_cz_czechia: Česko
+        contributors_cz_cc_licence: Creative Commons Uveďte původ 4.0 Mezinárodní
+          (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.cs
+        contributors_fi_credit_html: '%{finland}: Obsahuje data z topografické databáze
+          a dalších zdrojů finského národního zeměměřického úřadu (Maanmittauslaitos)
+          dostupná pod %{nlsfi_license_link}.'
+        contributors_fi_finland: Finsko
+        contributors_fi_nlsfi_license: licencí NLSFI
+        contributors_fr_credit_html: '%{france}: Obsahuje data pocházející z Direction
+          Générale des Impôts.'
+        contributors_fr_france: Francie
+        contributors_hr_credit_html: '%{croatia}: Obsahuje data od %{dgu_link} a z
+          %{open_data_portal} (chorvatská veřejná data).'
+        contributors_hr_croatia: Chorvatsko
+        contributors_hr_dgu: Státní geodetické správy Chorvatska
+        contributors_hr_open_data_portal: Národního portálu otevřených dat
+        contributors_nl_credit_html: '%{netherlands}: Obsahuje data &copy; AND, 2007
+          (%{and_link})'
+        contributors_nl_netherlands: Nizozemsko
+        contributors_nz_credit_html: '%{new_zealand}: Obsahuje data získaná z %{linz_data_service_link}
+          a licencovaná pro opětovné použití pod licencí %{cc_by_link}.'
+        contributors_nz_new_zealand: Nový Zéland
+        contributors_nz_linz_data_service: datové služby LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.cs
+        contributors_rs_credit_html: '%{serbia}: Obsahuje data %{rgz_link} a %{open_data_portal}
+          (srbská otevřená data), 2018.'
+        contributors_rs_serbia: Srbsko
+        contributors_rs_rgz: Srbského geodetického úřadu
+        contributors_rs_open_data_portal: Národního portálu otevřených dat
+        contributors_si_credit_html: '%{slovenia}: Obsahuje data ze %{gu_link} a %{mkgp_link}
+          (veřejné informace Slovinska).'
+        contributors_si_slovenia: Slovinsko
+        contributors_si_gu: Zeměměřického a mapovacího úřadu
+        contributors_si_mkgp: Ministerstva zemědělství, lesnictví a výživy
+        contributors_es_credit_html: '%{spain}: Obsahuje data pocházející ze španělského
+          Národního geografického institutu (%{ign_link}) a Národního kartografického
+          systému (%{scne_link}) licencovaná pro opětovné použití pod licencí %{cc_by_link}.'
+        contributors_es_spain: Španělsko
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.cs
+        contributors_za_credit_html: '%{south_africa}: Obsahuje data pocházející z
+          %{ngi_link}, State copyright reserved.'
+        contributors_za_south_africa: Jihoafrická republika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_gb_credit_html: '%{united_kingdom}: Obsahuje data Ordnance Survey
+          &copy; Crown copyright a právo k databázi 2010–2023.'
+        contributors_gb_united_kingdom: Spojené království
+        contributors_2_html: Další podrobnosti o těchto a dalších zdrojích, které
+          se používaly pro vylepšení OpenStreetMap, najdete na %{contributors_page_link}
+          na wiki OpenStreetMap.
+        contributors_2_contributors_page: stránce Contributors
+        contributors_footer_2_html: Zahrnutí dat do OpenStreetMap neznamená, že původní
+          poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá
+          jakoukoli zodpovědnost.
         infringement_title_html: Porušení autorských práv
         infringement_1_html: Přispěvatelům OSM připomínáme, že by nikdy neměli přidávat
           data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné
           mapy) bez výslovného svolení držitelů práv.
-        infringement_2_html: Pokud si myslíte, že byl do databáze OpenHistoricalMap
+        infringement_2_1_html: Pokud si myslíte, že byl do databáze OpenStreetMap
           nebo na tento server neoprávněně vložen autorskoprávně chráněný obsah, postupujte
-          podle našeho <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">postupu
-          pro odstranění</a> nebo přímo podejte výzvu pomocí <a href="https://dmca.openstreetmap.org/">on-line
-          formuláře</a>.
-        trademarks_title_html: <span id="trademarks"></span>Ochranné známky
-        trademarks_1_html: OpenHistoricalMap, jeho logo s lupou a State of the Map
-          jsou zapsané ochranné známky OpenHistoricalMap Foundation. Pokud máte dotazy
-          ohledně vašeho používání těchto známek, zašlete své dotazy <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">pracovní
-          skupině pro licencování</a>.
+          podle našeho %{takedown_procedure_link} nebo přímo podejte výzvu pomocí
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: postupu pro odstranění
+        infringement_2_1_online_filing_page: on-line formuláře
+        trademarks_title: Ochranné známky
+        trademarks_1_1_html: OpenStreetMap, jeho logo s lupou a State of the Map jsou
+          zapsané ochranné známky OpenStreetMap Foundation. Pokud máte dotazy ohledně
+          vašeho používání těchto známek, vizte naše %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Pravidla k ochranným známkám
     index:
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript
         zakázaný.
-      js_2: OpenHistoricalMap používá pro svou interaktivní mapu JavaScript.
-      permalink: Trvalý odkaz
-      shortlink: Krátký odkaz
-      createnote: Přidat poznámku
+      js_2: OpenStreetMap používá pro svou interaktivní mapu JavaScript.
       license:
-        copyright: Copyright OpenHistoricalMap a přispěvatelé, pod svobodnou licencí
+        copyright: Copyright OpenStreetMap a přispěvatelé, pod svobodnou licencí
       remote_failed: Editace se nezdařila – ujistěte se, že JOSM nebo Merkaartor běží
         a je zapnuto dálkové ovládání
     edit:
@@ -2103,53 +2300,31 @@ cs:
       user_page_link: uživatelské stránce
       anon_edits_link_text: Proč to tak je?
       id_not_configured: iD nebyl nakonfigurován
-      no_iframe_support: Váš prohlížeč nepodporuje vložené HTML rámy (iframes), které
-        jsou pro tuto funkci nezbytné.
     export:
       title: Export
-      area_to_export: Oblast k exportu
       manually_select: Ručně vybrat jinou oblast
-      format_to_export: Formát exportu
-      osm_xml_data: Data OpenHistoricalMap XML
-      map_image: Obrázek mapy (zobrazuje standardní vrstvu)
-      embeddable_html: Vkládatelné HTML
       licence: Licence
-      licence_details_html: Data OpenHistoricalMap jsou k dispozici pod licencí <a
-        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
-        Database License</a> (ODbL).
+      licence_details_html: Data OpenStreetMap jsou licencována pod %{odbl_link} (ODbL).
+      odbl: Open Data Commons Open Database License
       too_large:
         advice: 'Pokud se tento export nezdaří, zvažte použití jednoho z následujících
           zdrojů:'
-        body: 'Tato oblast je pro export do XML formátu OpenHistoricalMap příliš velká.
+        body: 'Tato oblast je pro export do XML formátu OpenStreetMap příliš velká.
           Přejděte na větší měřítko, zvolte menší oblast, nebo použijte jeden z následujících
           zdrojů pro stahování velkého množství dat:'
         planet:
           title: Planeta OSM
-          description: Pravidelně aktualizované kopie kompletní databáze OpenHistoricalMap
+          description: Pravidelně aktualizované kopie kompletní databáze OpenStreetMap
         overpass:
           title: Overpass API
-          description: Stažení této oblasti z databázového zrcadla OpenHistoricalMap
+          description: Stažení této oblasti z databázového zrcadla OpenStreetMap
         geofabrik:
           title: Soubory Geofabrik
           description: Pravidelně aktualizované extrakty kontinentů zemí a vybraných
             měst
-        metro:
-          title: Extrakty Metro
-          description: Extrakty pro hlavní světová města a jejich okolí
         other:
           title: Další zdroje
-          description: Další zdroje uvedené na wiki OpenHistoricalMap
-      options: Možnosti
-      format: Formát
-      scale: Měřítko
-      max: max.
-      image_size: Velikost obrázku
-      zoom: Zoom
-      add_marker: Přidat do mapy značku
-      latitude: 'Šířka:'
-      longitude: 'Délka:'
-      output: Výstup
-      paste_html: Ke vložení na stránku použijte toto HTML
+          description: Další zdroje uvedené na wiki OpenStreetMap
       export_button: Export
     fixthemap:
       title: Nahlásit problém / opravit mapu
@@ -2159,43 +2334,73 @@ cs:
           title: Přidejte se ke komunitě
           explanation_html: Pokud jste si všimli nějakého nedostatku našich mapových
             dat, např. chybějící silnice nebo vaše adresa, nejlepším řešením je připojit
-            se ke komunitě OpenHistoricalMap a přidat nebo opravit data vlastnoručně.
+            se ke komunitě OpenStreetMap a přidat nebo opravit data vlastnoručně.
         add_a_note:
-          instructions_html: |-
-            Stačí kliknout na <a class='icon note'></a> nebo na stejnou ikonku na zobrazené mapě.
+          instructions_1_html: |-
+            Stačí kliknout na %{note_icon} nebo na stejnou ikonku na zobrazené mapě.
             Tím do mapy přidáte značku, kterou můžete přesunout tažením myší. Přidejte svou zprávu a klikněte na uložit a ostatní uživatelé se na to podívají.
       other_concerns:
         title: Jiné problémy
-        explanation_html: |-
-          Pokud máte pochyby o používání našich dat nebo jejich obsahu, na naší
-          <a href='/copyright'>stránce o autorských právech</a> naleznete více právních informací, případně kontaktujte
-          příslušnou <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>pracovní skupinu OSMF</a>.
+        concerns_html: Pokud máte pochyby o používání našich dat nebo jejich obsahu,
+          na naší %{copyright_link} naleznete více právních informací, případně kontaktujte
+          příslušnou %{working_group_link}.
+        copyright: stránce o autorských právech
+        working_group: pracovní skupinu OSMF
     help:
       title: Nápověda
-      introduction: OpenHistoricalMap nabízí několik zdrojů pro informace o projektu,
+      introduction: OpenStreetMap nabízí několik zdrojů pro informace o projektu,
         otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.
       welcome:
         url: /welcome
-        title: Vítejte v OpenHistoricalMap
-        description: Začněte tímto rychlým průvodcem zahrnujícím základy OpenHistoricalMap.
-      discord:
-        title: switch2osm
-      slack:
+        title: Vítejte v OpenStreetMap
+        description: Začněte tímto rychlým průvodcem zahrnujícím základy OpenStreetMap.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Cs:Pr%C5%AFvodce_za%C4%8D%C3%A1te%C4%8Dn%C3%ADka
+        title: Průvodce začátečníka
+        description: Komunitou spravovaná příručka pro začátečníky.
+      community:
+        title: Nápověda a komunitní fórum
+        description: Sdílený prostor, kde můžete získat pomoc a diskutovat o OpenStreetMap.
+      mailing_lists:
+        title: E-mailové konference
+        description: Položte dotaz nebo diskutujte o zajímavých věcech na některé
+          ze široké nabídky tematických či regionálních e-mailových konferencí.
+      irc:
         title: IRC
+        description: Interaktivní chat v mnoha jazycích a na mnoho témat.
+      switch2osm:
+        title: switch2osm
+        description: Pomoc společnostem a organizacím s přechodem na mapy a další
+          služby založené na OpenStreetMap.
+      welcomemat:
+        title: Pro organizace
+        description: Jste u organizace, která má plány s OpenStreetMap? Podívejte
+          se na uvítací průvodce.
       wiki:
+        url: https://wiki.openstreetmap.org/wiki/Cs:Main_Page?uselang=cs
         title: OpenStreetMap Wiki
-        description: Podrobnou dokumentaci OpenHistoricalMap najdete na wiki.
+        description: Podrobnou dokumentaci OpenStreetMap najdete na wiki.
+    potlatch:
+      removed: Jako preferovaný editor pro OpenStreetMap máte nastaven Potlatch. Protože
+        byl ale Adobe Flash Player ukončen, Potlatch již pro použití ve webovém prohlížeči
+        není dostupný.
+      desktop_application_html: Potlatch můžete stále používat %{download_link}.
+      download: stažením desktopové aplikace pro Mac a Windows
+      id_editor_html: Nebo si můžete jako preferovaný editor nastavit iD, které běží
+        ve webovém prohlížeči tak, jak dříve fungoval Potlatch. %{change_preferences_link}.
+      change_preferences: Preference můžete změnit zde
     any_questions:
       title: Nějaké dotazy?
       paragraph_1_html: |-
-        OpenHistoricalMap nabízí několik zdrojů pro informace o projektu, otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.
-        <a href='%{help_url}'>Zde můžete získat pomoc.</a> Jste u organizace, která má plány s OpenHistoricalMap? <a href='https://welcome.openstreetmap.org/'>Podívejte se na uvítací průvodce.</a>
+        OpenStreetMap má několik zdrojů pro seznámení se s projektem, kladení a zodpovídání
+        otázek a společnou diskuzi a dokumentaci mapovacích témat.
+        %{help_link}. Jste z organizace, která se chystá na OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Získejte pomoc zde
+      welcome_mat: Podívejte se na Welcome Mat
     sidebar:
       search_results: Výsledky hledání
-      close: Zavřít
     search:
       search: Hledat
-      get_directions: Najít trasu
       get_directions_title: Najít trasu mezi dvěma body
       from: Odkud
       to: Kam
@@ -2212,98 +2417,158 @@ cs:
           primary: Silnice první třídy
           secondary: Silnice druhé třídy
           unclassified: Silnice
+          pedestrian: Cesta pro pěší
           track: Lesní a polní cesta
           bridleway: Koňská stezka
           cycleway: Cyklostezka
           cycleway_national: Národní cyklotrasa
           cycleway_regional: Regionální cyklotrasa
           cycleway_local: Místní cyklotrasa
+          cycleway_mtb: Trasa pro horská kola
           footway: Pěší cesta
           rail: Železnice
+          train: Vlak
           subway: Metro
-          tram:
-          - Rychlodráha
-          - tramvaj
-          cable:
-          - Lanovka
-          - sedačková lanovka
-          runway:
-          - Vzletová a přistávací dráha
-          - pojezdová dráha
-          apron:
-          - Letištní odbavovací plocha
-          - terminál
+          ferry: Trajekt
+          light_rail: Rychlodráha
+          tram: Tramvaj
+          trolleybus: Trolejbus
+          bus: Autobus
+          cable_car: Lanovka
+          chair_lift: sedačková lanovka
+          runway: Vzletová a přistávací dráha
+          taxiway: pojezdová dráha
+          apron: Letištní odbavovací plocha
           admin: Administrativní hranice
+          capital: Hlavní město
+          city: Město
+          orchard: Sad
+          vineyard: Vinice
           forest: Les
-          wood: Les
+          wood: les
+          farmland: Pole
+          grass: Tráva
+          meadow: louka
+          bare_rock: Holá skála
+          sand: Písčina
           golf: Golfové hřiště
           park: Park
+          common: Pastvina
+          built_up: Zastavěná plocha
           resident: Obytná oblast
-          common:
-          - Pastvina
-          - louka
           retail: Nákupní oblast
           industrial: Průmyslová oblast
           commercial: Kancelářská oblast
           heathland: Vřesoviště
-          lake:
-          - Jezero
-          - nádrž
+          scrubland: Křoviny
+          lake: Jezero
+          reservoir: nádrž
+          intermittent_water: Občasná vodní plocha
+          glacier: Ledovec
+          reef: Rif
+          wetland: Mokřad
           farm: Farma
           brownfield: Zbořeniště
           cemetery: Hřbitov
           allotments: Zahrádkářská kolonie
           pitch: Sportovní hřiště
           centre: Sportovní centrum
+          beach: Pláž
           reserve: Přírodní rezervace
           military: Vojenský prostor
-          school:
-          - Škola
-          - univerzita
+          school: Škola
+          university: univerzita
+          hospital: nemocnice
           building: Významná budova
           station: Nádraží
-          summit:
-          - Vrchol
-          - hora
+          railway_halt: Železniční zastávka
+          subway_station: Stanice metra
+          tram_stop: Tramvajová zastávka
+          summit: Vrchol
+          peak: hora
           tunnel: Čárkované obrysy = tunel
           bridge: Černé obrysy = most
           private: Soukromý pozemek
           destination: Průjezd zakázán
           construction: Cesta ve výstavbě
+          bus_stop: Autobusová zastávka
           bicycle_shop: Cykloobchod
+          bicycle_rental: Půjčovna kol
           bicycle_parking: Parkoviště pro kola
+          bicycle_parking_small: Malé parkoviště pro kola
           toilets: Záchody
     welcome:
       title: Vítejte!
-      introduction: Vítejte v OpenHistoricalMap, svobodné a editovatelné mapě světa.
-        Teď, když jste se zaregistrovali, můžete začít mapovat. Tady je rychlý přehled
+      introduction: Vítejte v OpenStreetMap, svobodné a editovatelné mapě světa. Teď,
+        když jste se zaregistrovali, můžete začít mapovat. Tady je rychlý přehled
         nejdůležitějších věcí, které budete potřebovat znát.
       whats_on_the_map:
         title: Co patří do mapy
-        on_the_map_html: OpenHistoricalMap je místem pro mapování věcí, které jsou
-          zároveň <em>skutečné a aktuální</em> – zahrnuje miliony budov, silnic a
-          dalších podrobností o místech. Můžete mapovat jakékoli skutečné objekty,
-          které vás zajímají.
-        off_the_map_html: Co <em>nezahrnuje</em> jsou názory jako hodnocení, dřívější
-          či hypotetické objekty a data ze zdrojů chráněných autorským právem. Pokud
-          nemáte speciální svolení, nekopírujte z online nebo papírových map.
+        on_the_map_html: OpenStreetMap je místo pro mapování věcí, které jsou %{real_and_current}
+          – zahrnuje miliony budov, silnic a dalších podrobností o místech. Můžete
+          mapovat cokoli ze skutečného světa, co vás zajímá.
+        real_and_current: skutečné a aktuální
+        off_the_map_html: To, co %{doesnt}, jsou názory jako třeba hodnocení, historické
+          nebo hypotetické prvky a data ze zdrojů chráněných autorským právem. Pokud
+          nemáte speciální povolení, nekopírujte z online nebo papírových map.
+        doesnt: nezahrnuje
       basic_terms:
         title: Základní pojmy pro mapování
-        paragraph_1: OpenHistoricalMap používá trochu vlastního žargonu. Tady je několik
+        paragraph_1: OpenStreetMap používá trochu vlastního žargonu. Tady je několik
           klíčových slov, která se vám budou hodit.
+        an_editor_html: '%{editor} je program nebo webová stránka, pomocí kterých
+          můžete upravovat mapu.'
+        a_node_html: '%{node} je bod na mapě, jako třeba konkrétní restaurace nebo
+          jeden strom.'
+        a_way_html: '%{way} je čára nebo oblast, jako třeba silnice, potok, jezero
+          nebo budova.'
+        a_tag_html: '%{tag} je troška dat o uzlu nebo cestě, jako třeba název restaurace
+          nebo rychlostní limit silnice.'
+        editor: Editor
+        node: Uzel
+        way: Cesta
+        tag: Značka
       rules:
         title: Pravidla!
-        para_1_html: OpenHistoricalMap má jen málo formálních pravidel, ale od všech
-          účastníků očekáváme, že budou spolupracovat a komunikovat s komunitou. Pokud
-          zvažujete jakoukoli jinou činnost než ruční editování, přečtěte si prosím
-          a dodržujte pokyny na stránkách <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Importy</a>
-          a <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automatizované
-          editace</a>.
+        para_1_html: |-
+          OpenStreetMap má jen málo formálních pravidel, ale očekáváme, že všichni účastníci budou spolupracovat
+          s komunitou a komunikovat s ní. Pokud zvažujete jakékoli jiné činnosti než ruční úpravy, přečtěte si a dodržujte pokyny pro
+          %{imports_link} a %{automated_edits_link}.
+        imports: Importy
+        automated_edits: Automatizované úpravy
       start_mapping: Začít mapovat
+      continue_authorization: Pokračovat v autorizaci
       add_a_note:
         title: Nemáte čas editovat? Přidejte poznámku!
         para_1: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat
           a učit se editovat, můžete jednoduše přidat poznámku.
+        para_2_html: |-
+          Stačí přejít na %{map_link} a kliknout na ikonu poznámky: %{note_icon}.
+          Tím přidáte značku na mapu, kterou můžete přesunout přetažením.
+          Přidejte svou zprávu, poté klikněte na Uložit a další mapovači to prozkoumají.
+        the_map: mapu
+    communities:
+      title: Komunity
+      lede_text: |-
+        Do OpenStreetMap přispívají a OpenStreetMap používají lidé z celého světa.
+        Zatímco mnoho jich přispívá jako jednotlivci, někteří utvořili komunity.
+        Tyto skupiny existují v mnoha velikostech a zastupují území od malých městeček po velké regiony zahrnující několik zemí.
+        Mohou být formální i neformální.
+      local_chapters:
+        title: Lokální zastoupení
+        about_text: |-
+          Lokální zastoupení jsou skupiny na úrovni země či regionu, které podstoupily formální proces založení neziskové právnické osoby. Reprezentují mapu dané oblasti a její tvůrce při jednání s místní správou, firmami a médii. Také navázaly vztahy
+          s nadací OpenStreetMap Foundation (OSMF), čímž získaly kontakt na právně a
+          autorskoprávně zodpovědnou organizaci.
+        list_text: 'Následující komunity jsou formálně vedeny jako lokální zastoupení:'
+      other_groups:
+        title: Další skupiny
+        other_groups_html: |-
+          Skupiny není potřeba formálně organizovat do stejné míry jako lokální zastoupení.
+          A mnoho skupin velmi úspěšně působí jako neformální sdružení lidí či
+          komunitní skupina. Kdokoli může založit takovou skupinu nebo se připojit.
+          Více informací najdete na %{communities_wiki_link}.
+        communities_wiki: wiki stránce pro komunity
   traces:
     visibility:
       private: Soukromá (veřejně dostupná jedině jako anonymní, neuspořádané body)
@@ -2313,7 +2578,7 @@ cs:
       identifiable: Identifikovatelná (zobrazuje se v seznamu a jako identifikovatelné
         uspořádané body s časovou značkou)
     new:
-      upload_trace: Nahrát GPS trasu
+      upload_trace: Nahrát GPS stopu
       visibility_help: co tohle znamená?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=cs
       help: Nápověda
@@ -2342,8 +2607,6 @@ cs:
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=cs
     update:
       updated: Stopa nahrána
-    trace_optionals:
-      tags: Štítky
     show:
       title: Zobrazení stopy %{name}
       heading: Zobrazení stopy %{name}
@@ -2365,10 +2628,6 @@ cs:
       trace_not_found: Stopa nenalezena!
       visibility: 'Viditelnost:'
       confirm_delete: Smazat tuto stopu?
-    trace_paging_nav:
-      showing_page: Stránka %{page}
-      older: Starší stopy
-      newer: Novější stopy
     trace:
       pending: ZPRACOVÁVÁ SE
       count_points:
@@ -2384,13 +2643,19 @@ cs:
       identifiable: IDENTIFIKOVATELNÁ
       private: SOUKROMÁ
       trackable: STOPOVATELNÁ
-      by: od
-      in: v
+      details_with_tags_html: '%{time_ago} uživatelem %{user} v %{tags}'
+      details_without_tags_html: '%{time_ago} uživatelem %{user}'
     index:
       public_traces: Veřejné GPS stopy
+      my_gps_traces: Moje GPS stopy
       public_traces_from: Veřejné GPS stopy uživatele %{user}
       description: Procházení nedávno nahraných GPS stop
       tagged_with: se štítky %{tags}
+      empty_title: Tady zatím nic není
+      empty_upload_html: '%{upload_link} nebo si přečtěte více o GPS stopách na %{wiki_link}.'
+      upload_new: Nahrajte novou stopu
+      wiki_page: wiki stránce
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide_1.2
       upload_trace: Nahrát stopu
       all_traces: Všechny stopy
       my_traces: Moje stopy
@@ -2398,15 +2663,13 @@ cs:
       remove_tag_filter: Vymazat filtr tagů
     destroy:
       scheduled_for_deletion: Stopa označena ke smazání
-    make_public:
-      made_public: Stopa zveřejněna
     offline_warning:
       message: Systém pro načítání GPX souborů je momentálně mimo provoz.
     offline:
       heading: GPX úložiště offline
       message: Úložiště GPX souborů a systém pro nahrávání jsou momentálně mimo provoz.
     georss:
-      title: GPS stopy z OpenHistoricalMap
+      title: GPS stopy z OpenStreetMap
     description:
       description_with_count:
         one: GPX soubor s %{count} bodem od uživatele %{user}
@@ -2417,11 +2680,9 @@ cs:
     require_cookies:
       cookies_needed: Vypadá to, že máte zakázány cookies – před pokračováním si je
         v prohlížeči zapněte.
-    require_admin:
-      not_an_admin: Tuto akci může provést jen administrátor.
     setup_user_auth:
-      blocked_zero_hour: Na webu OpenHistoricalMap máte urgentní zprávu. Tuto zprávu
-        si musíte přečíst, než budete moci ukládat své editace.
+      blocked_zero_hour: Na webu OpenStreetMap máte urgentní zprávu. Tuto zprávu si
+        musíte přečíst, než budete moci ukládat své editace.
       blocked: Váš přístup k API byl zablokován. Další informace zjistíte přihlášením
         do webového rozhraní.
       need_to_see_terms: Váš přístup k API byl dočasně zablokován. Přihlašte se prosím
@@ -2429,37 +2690,35 @@ cs:
         odsouhlasit, musíte si je ale zobrazit.
     settings_menu:
       account_settings: Nastavení účtu
-      oauth1_settings: Nastavení OAuth 1
       oauth2_applications: Aplikace OAuth 2
       oauth2_authorizations: Autorizace OAuth 2
+      muted_users: Ztlumení uživatelé
+    auth_providers:
+      openid_url: OpenID URL
+      openid_login_button: Pokračovat
+      openid:
+        title: Přihlásit se pomocí OpenID
+        alt: Logo OpenID
+      google:
+        title: Přihlásit se prostřednictvím Google
+        alt: Logo Googlu
+      facebook:
+        title: Přihlásit se přes Facebook
+        alt: Logo Facebooku
+      microsoft:
+        title: Přihlásit se přes Microsoft
+        alt: Logo Microsoftu
+      github:
+        title: Přihlásit se přes GitHub
+        alt: Logo GitHubu
+      wikipedia:
+        title: Přihlásit se účtem na Wikipedii
+        alt: Logo Wikipedie
   oauth:
-    authorize:
-      title: Autorizovat přístup k vašemu účtu
-      request_access_html: Aplikace %{app_name} žádá o přístup k vašemu účtu %{user}.
-        Vyberte si, zda si přejete, aby aplikace měla následující oprávnění. Můžete
-        jich zvolit libovolný počet.
-      allow_to: 'Umožnit klientské aplikaci:'
-      allow_read_prefs: číst vaše uživatelské nastavení.
-      allow_write_prefs: měnit vaše uživatelské nastavení.
-      allow_write_diary: vytvářet deníkové záznamy, komentovat a navazovat přátelství.
-      allow_write_api: upravovat mapu.
-      allow_read_gpx: číst vaše soukromé GPS stopy.
-      allow_write_gpx: nahrávat GPS stopy.
-      allow_write_notes: měnit poznámky.
-      grant_access: Udělit přístup
-    authorize_success:
-      title: Požadavek na autorizaci povolen
-      allowed_html: Udělili jste aplikaci %{app_name} přístup k vašemu účtu.
-      verification: Ověřovací kód je %{code}.
-    authorize_failure:
-      title: Požadavek na autorizaci se nezdařil
-      denied: Odepřeli jste aplikaci %{app_name} přístup k vašemu účtu.
-      invalid: Autorizační token je neplatný.
-    revoke:
-      flash: Přístup pro aplikaci %{application} byl odvolán.
     permissions:
       missing: Aplikaci jste nedovolili přístup k této funkci
     scopes:
+      openid: Přihlaste se pomocí OpenStreetMap
       read_prefs: Číst preference uživatele
       write_prefs: Měnit preference uživatele
       write_diary: Vytvářet deníkové záznamy, komentovat a navazovat přátelství
@@ -2467,49 +2726,13 @@ cs:
       read_gpx: Číst soukromé GPS stopy
       write_gpx: Nahrávat GPS stopy
       write_notes: Měnit poznámky
+      write_redactions: Skrývat mapová data
       read_email: Přečíst e-mailovou adresu uživatele
+      consume_messages: Číst, aktualizovat stav a mazat zprávy uživatelů
+      send_messages: Posílat soukromé zprávy jiným uživatelům
       skip_authorization: Automaticky schválit aplikaci
-  oauth_clients:
-    new:
-      title: Registrace nové aplikace
-    edit:
-      title: Upravit aplikaci
-    show:
-      title: Podrobnosti OAuth pro %{app_name}
-      key: 'Klíč konzumenta (consumer key):'
-      secret: 'Tajemství konzumenta (consumer secret):'
-      url: 'URL tokenu požadavku:'
-      access_url: 'URL přístupového tokenu:'
-      authorize_url: 'Autorizační URL:'
-      support_notice: Podporujeme HMAC-SHA1 (doporučeno) a podpisy RSA-SHA1.
-      edit: Upravit podrobnosti
-      delete: Smazat klienta
-      confirm: Opravdu?
-      requests: 'Uživatelé se žádají o následující oprávnění:'
-    index:
-      title: Moje nastavení OAuth
-      my_tokens: Mé autorizované aplikace
-      list_tokens: 'Aplikacím byly vaším jménem vydány následující přístupové tokeny:'
-      application: Název aplikace
-      issued_at: Vydáno
-      revoke: Odvolat!
-      my_apps: Mé klientské aplikace
-      no_apps_html: Máte nějakou aplikaci používající standard %{oauth}, která by
-        s námi měla spolupracovat? Aplikaci je potřeba nejdříve zaregistrovat, až
-        poté k nám bude moci posílat OAuth požadavky.
-      oauth: OAuth
-      registered_apps: 'Máte zaregistrovány následující klientské aplikace:'
-      register_new: Zaregistrovat aplikaci
-    form:
-      requests: 'Žádat uživatele o následující oprávnění:'
-    not_found:
-      sorry: Je nám líto, ale nepodařilo se najít %{type}.
-    create:
-      flash: Údaje úspěšně zaregistrovány
-    update:
-      flash: Klientské informace úspěšně aktualizovány
-    destroy:
-      flash: Registrace klientské aplikace zrušena
+    for_roles:
+      moderator: Toto oprávnění je pro akce dostupné pouze moderátorům
   oauth2_applications:
     index:
       title: Mé klientské aplikace
@@ -2555,6 +2778,7 @@ cs:
       title: Mé autorizované aplikace
       application: Aplikace
       permissions: Oprávnění
+      last_authorized: Poslední autorizace
       no_applications_html: Zatím jste neautorizovali žádné %{oauth2} aplikace.
     application:
       revoke: Odebrat přístup
@@ -2562,23 +2786,45 @@ cs:
   users:
     new:
       title: Zaregistrovat se
+      tab_title: Registrace
+      signup_to_authorize_html: Zaregistrujte se pomocí OpenStreetMap pro přístup
+        k %{client_app_name}.
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet
         automaticky.
-      contact_support_html: Pokud chcete zařídit založení účtu, kontaktujte <a href="%{support}">podporu</a>
-        – pokusíme se vaši žádost vyřídit co možná nejrychleji.
+      please_contact_support_html: Kontaktujte prosím %{support_link} a domluvte se
+        na vytvoření účtu – pokusíme se žádost vyřídit co nejrychleji.
+      support: podporu
       about:
-        header: Svobodná a editovatelná
-      email address: 'E-mailová adresa:'
-      confirm email address: 'Potvrdit e-mailovou adresu:'
-      display name: 'Zobrazované jméno:'
+        header: Svobodná a editovatelná.
+        paragraph_1: Na rozdíl od jiných map je OpenStreetMap kompletně vytvořena
+          lidmi jako jste vy a kdokoli ji může zdarma opravit, aktualizovat, stáhnout
+          a používat.
+        paragraph_2: Zaregistrujte se a začněte přispívat.
+        welcome: Vítejte v OpenStreetMap
+      duplicate_social_email: Pokud již máte účet OpenStreetMap a chcete používat
+        poskytovatele identity třetí strany, přihlaste se pomocí svého hesla a upravte
+        nastavení svého účtu.
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete
         si ho později změnit ve svém nastavení.
-      external auth: 'Autentizace třetí stranou:'
-      use external auth: Případně se přihlaste prostřednictvím třetí strany
-      auth no password: S autentizací třetí stranou není heslo potřeba, ale některé
-        další nástroje nebo servery je mohou přesto potřebovat.
+      by_signing_up:
+        html: Registrací souhlasíte s našimi %{tou_link}, %{privacy_policy_link} a
+          %{contributor_terms_link}.
+        privacy_policy: pravidly ochrany osobních údajů
+        privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o
+          e-mailových adresách
+        contributor_terms: podmínkami pro přispěvatele
       continue: Zaregistrovat se
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
+      email_help:
+        privacy_policy: pravidly ochrany osobních údajů
+        privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o
+          e-mailových adresách
+        html: Vaše adresa se nezobrazuje veřejně, více informací získáte na stránce
+          s našimi %{privacy_policy_link}.
+      consider_pd_html: Své příspěvky považuji za %{consider_pd_link}.
+      consider_pd: volné dílo
+      or: nebo
+      use external auth: nebo se přihlaste prostřednictvím třetí strany
     terms:
       title: Podmínky
       heading: Podmínky
@@ -2595,10 +2841,13 @@ cs:
       read_tou: Přečetl jsem si Podmínky užití a souhlasím s nimi
       consider_pd: Navíc k výše uvedenému považuji své příspěvky za volné dílo.
       consider_pd_why: co to znamená?
-      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+      guidance_info_html: 'Informace, které pomohou tyto podmínky pochopit: %{readable_summary_link}
+        a nějaké %{informal_translations_link}'
+      readable_summary: lidsky čitelné shrnutí
+      informal_translations: neoficiální překlady
       continue: Pokračovat
       declined: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
-      decline: Nesouhlasím
+      cancel: Zrušit
       you need to accept or decline: Pro pokračování si prosím přečtěte a přijměte
         nebo odmítněte nové Podmínky pro přispěvatele.
       legale_select: 'Označte zemi, ve které sídlíte:'
@@ -2619,7 +2868,6 @@ cs:
       deleted: smazán
     show:
       my diary: Můj deník
-      new diary entry: nový záznam do deníku
       my edits: Moje úpravy
       my traces: Moje stopy
       my notes: Moje poznámky k mapě
@@ -2631,6 +2879,8 @@ cs:
       my_dashboard: Moje nástěnka
       blocks on me: Moje zablokování
       blocks by me: Zablokování mnou
+      create_mute: Ztlumit tohoto uživatele
+      destroy_mute: Zrušit ztlumení tohoto uživatele
       edit_profile: Upravit profil
       send message: Poslat zprávu
       diary: Deník
@@ -2640,31 +2890,34 @@ cs:
       remove as friend: Odebrat z přátel
       add as friend: Přidat do přátel
       mapper since: 'Účastník projektu od:'
+      last map edit: 'Poslední úprava mapy:'
+      no activity yet: Zatím žádná činnost
+      uid: 'ID uživatele:'
       ct status: 'Podmínky pro přispěvatele:'
       ct undecided: Nerozhodnuto
       ct declined: Odmítnuty
-      latest edit: 'Poslední úprava (%{ago}):'
       email address: 'E-mailová adresa:'
       created from: 'Vytvořeno od:'
       status: 'Stav:'
       spam score: 'Spam skóre:'
-      description: Popis
-      user location: Poloha uživatele
       role:
         administrator: Tento uživatel je správce
         moderator: Tento uživatel je moderátor
+        importer: Tento uživatel je importér
         grant:
           administrator: Přidělit práva správce
           moderator: Přidělit práva moderátora
+          importer: Udělit přístup importérům
         revoke:
           administrator: Odebrat práva správce
           moderator: Odebrat práva moderátora
+          importer: Zrušit přístup importéra
       block_history: Účinná zablokování
       moderator_history: Udělená zablokování
+      revoke_all_blocks: Zrušit všechny bloky
       comments: Komentáře
       create_block: Blokovat tohoto uživatele
       activate_user: Aktivovat tohoto uživatele
-      deactivate_user: Deaktivovat tohoto uživatele
       confirm_user: Potvrdit tohoto uživatele
       unconfirm_user: Nepotvrdit tohoto uživatele
       unsuspend_user: Zrušit pozastavení tohoto uživatele
@@ -2673,33 +2926,30 @@ cs:
       delete_user: Odstranit tohoto uživatele
       confirm: Potvrdit
       report: Nahlásit tohoto uživatele
-    set_home:
-      flash success: Pozice domova byla úspěšně uložena
     go_public:
       flash success: Všechny vaše úpravy jsou nyní veřejné a máte oprávnění k úpravám.
     index:
       title: Uživatelé
       heading: Uživatelé
-      showing:
-        one: Stránka %{page} (%{first_item} z %{items})
-        other: Stránka %{page} (%{first_item}–%{last_item} z %{items})
       summary_html: '%{name} vytvořeno %{date} z %{ip_address}'
       summary_no_ip_html: '%{name} vytvořen %{date}'
+      empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
+    page:
+      found_users:
+        one: Nalezen %{count} uživatel
+        few: Nalezeni %{count} uživatelé
+        many: Nalezeno %{count} uživatele
+        other: Nalezeno %{count} uživatelů
       confirm: Potvrdit vybrané uživatele
       hide: Skrýt vybrané uživatele
-      empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
     suspended:
       title: Účet pozastaven
       heading: Účet pozastaven
       support: podporu
-      body_html: |-
-        <p>
-         Je nám líto, ale váš účet byl pozastaven kvůli podezřelé aktivitě.
-        </p>
-        <p>
-         Toto rozhodnutí zanedlouho posoudí nějaký správce, případně
-         můžete kontaktovat %{webmaster}.
-        </p>
+      automatically_suspended: Omlouváme se, váš účet byl automaticky pozastaven kvůli
+        podezřelé aktivitě.
+      contact_support_html: Toto rozhodnutí bude brzy přezkoumáno správcem, nebo můžete
+        kontaktovat %{support_link}, pokud si to přejete prodiskutovat.
     auth_failure:
       connection_failed: Připojení k poskytovateli autentizace se nezdařilo
       invalid_credentials: Neplatné autentizační údaje
@@ -2708,9 +2958,9 @@ cs:
       invalid_scope: Neplatný rozsah
       unknown_error: Ověření selhalo
     auth_association:
-      heading: Vaše ID dosud není propojeno s účtem OpenHistoricalMap.
-      option_1: Pokud jste na OpenHistoricalMap noví, založte si prosím nový účet
-        pomocí níže zobrazeného formuláře.
+      heading: Vaše ID dosud není propojeno s účtem OpenStreetMap.
+      option_1: Pokud jste na OpenStreetMap noví, založte si prosím nový účet pomocí
+        níže zobrazeného formuláře.
       option_2: Pokud již účet máte, můžete se k němu přihlásit pomocí svého uživatelského
         jména a hesla a poté v uživatelském nastavení účet propojit s vaším ID.
   user_role:
@@ -2718,22 +2968,12 @@ cs:
       not_a_role: Řetězec „%{role}“ neoznačuje platnou roli.
       already_has_role: Uživatel již roli %{role} má.
       doesnt_have_role: Uživatel nemá roli %{role}.
-      not_revoke_admin_current_user: Administrátorskou roli nelze odebrat aktuálně
-        přihlášenému uživateli.
+      not_revoke_admin_current_user: Správcovskou roli nelze odebrat aktuálně přihlášenému
+        uživateli.
     grant:
-      title: Potvrdit přidělení role
-      heading: Potvrdit přidělení role
-      are_you_sure: Opravdu chtete přidělit roli `%{role}' uživateli `%{name}'?
-      confirm: Potvrdit
-      fail: Nelze přidělit roli `%{role}' uživateli `%{name}'. Zkontrolujte prosím,
-        zda jsou uživatel i role platnými údaji.
+      are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
     revoke:
-      title: Potvrdit odebrání role
-      heading: Potvrdit odebrání role
-      are_you_sure: Opravdu chcete odebrat roli `%{role}' uživateli `%{name}'?
-      confirm: Potvrdit
-      fail: Nelze odebrat roli `%{role}' uživateli `%{name}'. Zkontrolujte prosím,
-        zda jsou uživatel i role platnými údaji.
+      are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_blocks:
     model:
       non_moderator_update: K vytvoření nebo aktualizaci bloku musíte být moderátorem.
@@ -2745,40 +2985,40 @@ cs:
       title: Vytvoření bloku na uživatele %{name}
       heading_html: Vytvoření bloku na uživatele %{name}
       period: Jak dlouho (odteď) bude přístup uživatel k API zablokován.
-      tried_contacting: Kontaktoval jsem uživatele a požádal ho, aby přestal.
-      tried_waiting: Dejte uživateli přiměřené množství času, aby mohl na tuto komunikaci
-        reagovat.
-      back: Zobrazit všechny bloky
     edit:
       title: Upravit blok na uživatele %{name}
       heading_html: Úprava bloku na %{name}
       period: Jak dlouho (od nynějška) bude uživatel blokován z užívání API.
-      show: Zobrazit tento blok
-      back: Zobrazit všechny bloky
+      revoke: Odvolat blokování
     filter:
-      block_expired: Tento blok již vypršel, a proto ho nelze upravovat.
       block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
     create:
-      try_contacting: Zkuste prosím kontaktovat uživatele před tím, než bude blokován,
-        a dát mu přiměřenou dobu na odpověď.
-      try_waiting: Zkuste prosím dát uživateli před zablokováním přiměřenou dobu na
-        odpověď.
       flash: Uživatel %{name} zablokován.
     update:
       only_creator_can_edit: Jen moderátor, který tento blok vytvořil, ho může upravovat.
+      only_creator_can_edit_without_revoking: Jen moderátor, který toto blokování
+        vytvořil, ho může upravovat bez jeho odvolání.
+      only_creator_or_revoker_can_edit: Jen moderátoři, kteří toto blokování vytvořili
+        nebo jej odvolali, ho mohou upravovat.
+      inactive_block_cannot_be_reactivated: Toto blokování není aktivní a nelze jej
+        znovu aktivovat.
       success: Blok aktualizován.
     index:
       title: Bloky uživatele
       heading: Seznam bloků uživatele
       empty: Ještě nebyl vytvořen žádny blok.
-    revoke:
-      title: Zrušení bloku pro %{block_on}
-      heading_html: Zrušení bloku pro %{block_on} od %{block_by}
-      time_future: Tento blok skončí v %{time}.
-      past: Teto blok skončil %{time} a již nemůže být zrušen.
-      confirm: Opravdu chcete zrušit tento blok?
-      revoke: Zrušit !
-      flash: Tento blok byl zrušen.
+    revoke_all:
+      title: Zrušení všech bloků uživatele %{block_on}
+      heading_html: Zrušení všech bloků uživatele %{block_on}
+      empty: Uživatel %{name} nemá žádné aktivní bloky.
+      confirm: Opravdu chcete zrušit %{active_blocks}?
+      active_blocks:
+        one: '%{count} aktivní bloky'
+        few: '%{count} aktivní bloky'
+        many: '%{count} aktivního bloku'
+        other: '%{count} aktivních bloků'
+      revoke: Zrušit!
+      flash: Všechny aktivní bloky byly zrušeny.
     helper:
       time_future_html: Končí za %{time}.
       until_login: Aktivní dokud se uživatel nepřihlásí.
@@ -2786,23 +3026,29 @@ cs:
       time_past_html: Ukončeno %{time}.
       block_duration:
         hours:
-          one: 1 hodina
-          other: '%{count} hodiny'
+          one: '%{count} hodina'
+          few: '%{count} hodiny'
+          many: '%{count} hodiny'
+          other: '%{count} hodin'
         days:
-          one: 1 den
+          one: '%{count} den'
           few: '%{count} dny'
+          many: '%{count} dne'
           other: '%{count} dnů'
         weeks:
-          one: 1 týden
+          one: '%{count} týden'
           few: '%{count} týdny'
+          many: '%{count} týdne'
           other: '%{count} týdnů'
         months:
-          one: 1 měsíc
+          one: '%{count} měsíc'
           few: '%{count} měsíce'
+          many: '%{count} měsíce'
           other: '%{count} měsíců'
         years:
-          one: 1 rok
+          one: '%{count} rok'
           few: '%{count} roky'
+          many: '%{count} roku'
           other: '%{count} let'
     blocks_on:
       title: Zablokování uživatele %{name}
@@ -2818,39 +3064,112 @@ cs:
       created: 'Vytvořeno:'
       duration: 'Doba trvání:'
       status: 'Stav:'
-      show: Zobrazit
       edit: Upravit
-      revoke: Zrušit !
-      confirm: Jste si jistý?
       reason: 'Důvod bloku:'
-      back: Zobrazit všechny bloky
       revoker: 'Zrušil:'
-      needs_view: Aby se blok smazal, uživatel se musí nejprve přihlásit.
     block:
       not_revoked: (nezrušeno)
       show: Zobrazit
       edit: Upravit
-      revoke: Zrušit !
-    blocks:
+    page:
       display_name: Zablokovaný uživatel
       creator_name: Autor
       reason: Důvod pro blok
       status: Stav
       revoker_name: Zrušil
-      showing_page: Stránka %{page}
-      next: Následující »
-      previous: « Předchozí
+    navigation:
+      all_blocks: Všechny bloky
+      blocks_on_me: Moje zablokování
+      blocks_on_user: Bloky uživatele %{user}
+      blocks_by_me: Zablokování mnou
+      blocks_by_user: Bloky od uživatele %{user}
+      block: 'Blok #%{id}'
+      new_block: Nové blokování
+  user_mutes:
+    index:
+      title: Ztlumení uživatelé
+      my_muted_users: Mnou ztlumení uživatelé
+      you_have_muted_n_users:
+        one: Ztlumili jste %{count} uživatele
+        few: Ztlumili jste %{count} uživatele
+        many: Ztlumili jste %{count} uživatele
+        other: Ztlumili jste %{count} uživatelů
+      user_mute_explainer: Zprávy od ztlumených uživatelů jsou přesunuty do oddělené
+        složky a nebudete dostávat e-mailová upozornění.
+      user_mute_admins_and_moderators: Správce a moderátory můžete ztlumit, ale jejich
+        zprávy nebudou ztlumeny.
+      table:
+        thead:
+          muted_user: Ztlumený uživatel
+          actions: Akce
+        tbody:
+          unmute: Zrušit ztlumení
+          send_message: Poslat zprávu
+    create:
+      notice: Ztlumili jste uživatele %{name}.
+      error: Uživatele %{name} nebylo možno ztlumit. %{full_message}.
+    destroy:
+      notice: Zrušili jste ztlumení uživatel %{name}.
+      error: Ztlumení uživatele se nepodařilo zrušit. Zkuste to prosím znovu.
   notes:
     index:
       title: Poznámky vytvořené nebo okomentované uživatelem %{user}
       heading: Poznámky uživatele %{user}
-      subheading_html: Poznámky vytvořené nebo okomentované uživatelem %{user}
+      subheading_html: Poznámky %{submitted} nebo %{commented} uživatelem %{user}
+      subheading_submitted: vytvořené
+      subheading_commented: okomentované
       no_notes: Bez poznámek
       id: ID
       creator: Autor
       description: Popis
       created_at: Vytvořeno
       last_changed: Poslední změna
+    show:
+      title: 'Poznámka: %{id}'
+      description: Popis
+      open_title: 'Nevyřešená poznámka #%{note_name}'
+      closed_title: 'Vyřešená poznámka #%{note_name}'
+      hidden_title: 'Skrytá poznámka #%{note_name}'
+      event_opened_by_html: Vytvořeno uživatelem %{user} %{time_ago}
+      event_opened_by_anonymous_html: Vytvořeno anonymním uživatelem %{time_ago}
+      event_commented_by_html: Komentář od uživatele %{user} %{time_ago}
+      event_commented_by_anonymous_html: Komentář od anonymního uživatele %{time_ago}
+      event_closed_by_html: Vyřešeno uživatelem %{user} %{time_ago}
+      event_closed_by_anonymous_html: Vyřešeno anonymním uživatelem %{time_ago}
+      event_reopened_by_html: Znovu aktivováno uživatelem %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Znovu aktivováno anonymním uživatelem %{time_ago}
+      event_hidden_by_html: Skryto uživatelem %{user} %{time_ago}
+      report: nahlásit tuto poznámku
+      anonymous_warning: Tato poznámka zahrnuje komentáře anonymních uživatelů, které
+        by se měly nezávisle ověřit.
+      hide: Skrýt
+      resolve: Vyřešit
+      reactivate: Reaktivovat
+      comment_and_resolve: Okomentovat a vyřešit
+      comment: Okomentovat
+      log_in_to_comment: Chcete-li okomentovat tuto poznámku, přihlaste se
+      report_link_html: Pokud tato poznámka obsahuje citlivé údaje, které je třeba
+        odstranit, můžete %{link}.
+      other_problems_resolve: Pokud má tato poznámka jakýkoli jiný problém, přidejte
+        komentář a označte ji za vyřešenou.
+      other_problems_resolved: U všech ostatních problémů stačí označení za vyřešenou.
+      disappear_date_html: Tato vyřešená poznámka z mapy zmizí za %{disappear_in}.
+    new:
+      title: Nová poznámka
+      intro: Zahlédli jste chybu nebo prázdné místo? Dejte vědět ostatním uživatelům,
+        aby to mohli napravit. Posuňte značku na správné místo a napište poznámku
+        vysvětlující problém.
+      anonymous_warning_html: Nejste přihlášeni. Pokud chcete získávat aktualizace
+        k vaší poznámce, %{log_in} nebo %{sign_up}.
+      anonymous_warning_log_in: přihlaste se
+      anonymous_warning_sign_up: se zaregistrujte
+      advice: Vaše poznámka je veřejná a může sloužit k úpravám mapy, proto nevkládejte
+        žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
+      add: Přidat poznámku
+    notes_paging_nav:
+      showing_page: Stránka %{page}
+      next: Následující
+      previous: Předchozí
   javascripts:
     close: Zavřít
     share:
@@ -2865,14 +3184,15 @@ cs:
       custom_dimensions: Nastavit vlastní rozměry
       format: 'Formát:'
       scale: 'Měřítko:'
-      image_dimensions: Obrázek bude ukazovat standardní vrstvu v %{width} × %{height}
+      image_dimensions: Obrázek bude ukazovat vrstvu %{layer} v %{width} × %{height}
       download: Stáhnout
       short_url: Krátké URL
       include_marker: Vložit značku
       center_marker: Vycentrovat mapu na značku
       paste_html: HTML ke vložení na webovou stránku
       view_larger_map: Zobrazit větší mapu
-      only_standard_layer: Jako obrázek lze exportovat jen standardní vrstvu
+      only_standard_layer: Jako obrázek lze exportovat jen vrstvy Standardní, Cyklomapa
+        a Dopravní
     embed:
       report_problem: Nahlásit problém
     key:
@@ -2886,23 +3206,21 @@ cs:
       locate:
         title: Ukázat moji polohu
         metersPopup:
-          one: Od tohoto bodu jste vzdáleni metr
-          few: Od tohoto bodu jste vzdáleni %{count} metry
-          other: Od tohoto bodu jste vzdáleni %{count} metrů
+          one: Od tohoto bodu jste méně než %{count} metr
+          few: Od tohoto bodu jste méně než %{count} metry
+          many: Od tohoto bodu jste méně než %{count} metru
+          other: Od tohoto bodu jste méně než %{count} metrů
         feetPopup:
           one: Od tohoto bodu jste méně než %{count} stopu
           few: Od tohoto bodu jste méně než %{count} stopy
           many: Od tohoto bodu jste méně než %{count} stopy
           other: Od tohoto bodu jste méně než %{count} stop
       base:
-        historical: Historická
-        woodblock: Dřevořez
-        japanesescroll: Japonský svitek
         standard: Standardní
         cycle_map: Cyklomapa
         transport_map: Dopravní mapa
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitární
-        opnvkarte: ÖPNVKarte
       layers:
         header: Mapové vrstvy
         notes: Poznámky k mapě
@@ -2910,6 +3228,16 @@ cs:
         gps: Veřejné GPS stopy
         overlays: Zapnout vrstvy pro ladění mapy
         title: Vrstvy
+      openstreetmap_contributors: Přispěvatelé OpenStreetMap
+      make_a_donation: Pošlete příspěvek
+      website_and_api_terms: Podmínky webu a API
+      cyclosm_credit: Styl dlaždic od %{cyclosm_link} hostuje %{osm_france_link}
+      osm_france: OpenStreetMap Francie
+      thunderforest_credit: Dlaždice laskavostí %{thunderforest_link}
+      andy_allan: Andyho Allana
+      tracestrack_credit: Dlaždice laskavostí %{tracestrack_link}
+      hotosm_credit: Styl dlaždic od %{hotosm_link} hostuje %{osm_france_link}
+      hotosm_name: Humanitárního týmu OpenStreetMap
     site:
       edit_tooltip: Upravit mapu
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
@@ -2919,33 +3247,11 @@ cs:
       map_data_zoom_in_tooltip: Pro zobrazení mapových dat přejděte na větší měřítko.
       queryfeature_tooltip: Průzkum prvků
       queryfeature_disabled_tooltip: Pro průzkum prvků přejděte na větší měřítko
-    changesets:
-      show:
-        comment: Okomentovat
-        subscribe: Odebírat
-        unsubscribe: Zrušit odebírání
-        hide_comment: skrýt
-        unhide_comment: odkrýt
-    notes:
-      new:
-        intro: Zahlédli jste chybu nebo prázdné místo? Dejte vědět ostatním uživatelům,
-          aby to mohli napravit. Posuňte značku na správné místo a napište poznámku
-          vysvětlující problém.
-        advice: Vaše poznámka je veřejná a může sloužit k úpravám mapy, proto nevkládejte
-          žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
-        add: Přidat poznámku
-      show:
-        anonymous_warning: Tato poznámka zahrnuje komentáře anonymních uživatelů,
-          které by se měly nezávisle ověřit.
-        hide: Skrýt
-        resolve: Vyřešit
-        reactivate: Reaktivovat
-        comment_and_resolve: Okomentovat a vyřešit
-        comment: Okomentovat
+      embed_html_disabled: HTML vkládání není pro tuto mapovou vrstvu k dispozici
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte
       zde.
     directions:
-      ascend: Vystupte
+      ascend: Výstup
       engines:
         fossgis_osrm_bike: Na kole (OSRM)
         fossgis_osrm_car: Autem (OSRM)
@@ -2953,9 +3259,14 @@ cs:
         graphhopper_bicycle: Na kole (GraphHopper)
         graphhopper_car: Autem (GraphHopper)
         graphhopper_foot: Pěšky (GraphHopper)
-      descend: Sestupte
+        fossgis_valhalla_bicycle: Na kole (Valhalla)
+        fossgis_valhalla_car: Autem (Valhalla)
+        fossgis_valhalla_foot: Pěšky (Valhalla)
+      descend: Klesání
       directions: Pokyny
       distance: Vzdálenost
+      distance_m: '%{distance} m'
+      distance_km: '%{distance} km'
       errors:
         no_route: Nepodařilo se nalézt trasu mezi zadanými místy.
         no_place: Omlouváme se – nepodařilo se nám najít „%{place}“.
@@ -3054,9 +3365,10 @@ cs:
       heading: Upravit redakci
       title: Upravit redakci
     index:
-      empty: Žádné opravy k ukázání.
-      heading: Seznam oprav
-      title: Seznam oprav
+      empty: Žádné redakce k ukázání.
+      heading: Seznam redakcí
+      title: Seznam redakcí
+      new: Nová redakce
     new:
       heading: Zadejte informace k nové redakci
       title: Tvorba nové redakce

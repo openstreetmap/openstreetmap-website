@@ -57,7 +57,7 @@ module Api
       assert_response :gone
 
       # check chat a non-existent way is not returned
-      get api_way_path(:id => 0)
+      get api_way_path(0)
       assert_response :not_found
     end
 
@@ -102,11 +102,11 @@ module Api
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get ways_path, :params => { :ways => "" }
+      get ways_path(:ways => "")
       assert_response :bad_request
 
       # test a working call
-      get ways_path, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}" }
+      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "way", :count => 4
@@ -117,7 +117,7 @@ module Api
       end
 
       # test a working call with json format
-      get ways_path, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json" }
+      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -129,7 +129,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
 
       # check error when a non-existent way is included
-      get ways_path, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
+      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")
       assert_response :not_found
     end
 
@@ -146,7 +146,7 @@ module Api
       changeset = create(:changeset, :user => user)
 
       ## First check that it fails when creating a way using a non-public user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # use the first user's open changeset
       changeset_id = private_changeset.id
@@ -161,7 +161,7 @@ module Api
                       "way upload did not return forbidden status"
 
       ## Now use a public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # use the first user's open changeset
       changeset_id = changeset.id
@@ -207,7 +207,7 @@ module Api
       closed_changeset = create(:changeset, :closed, :user => user)
 
       ## First test with a private user to make sure that they are not authorized
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # use the first user's open changeset
       # create a way with non-existing node
@@ -235,7 +235,7 @@ module Api
                       "way upload to closed changeset with a private user did not return 'forbidden'"
 
       ## Now test with a public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # use the first user's open changeset
       # create a way with non-existing node
@@ -301,7 +301,7 @@ module Api
       assert_response :unauthorized
 
       # now set auth using the private user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # this shouldn't work as with the 0.6 api we need pay load to delete
       delete api_way_path(private_way), :headers => auth_header
@@ -345,12 +345,12 @@ module Api
                       "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
 
       # this won't work since the way never existed
-      delete api_way_path(:id => 0), :headers => auth_header
+      delete api_way_path(0), :headers => auth_header
       assert_response :forbidden
 
       ### Now check with a public user
       # now set auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # this shouldn't work as with the 0.6 api we need pay load to delete
       delete api_way_path(way), :headers => auth_header
@@ -379,8 +379,7 @@ module Api
       # check the returned value - should be the new version number
       # valid delete should return the new version number, which should
       # be greater than the old version number
-      assert @response.body.to_i > way.version,
-             "delete request should return a new version number for way"
+      assert_operator @response.body.to_i, :>, way.version, "delete request should return a new version number for way"
 
       # this won't work since the way is already deleted
       xml = xml_for_way(deleted_way)
@@ -395,7 +394,7 @@ module Api
       assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
       # this won't work since the way never existed
-      delete api_way_path(:id => 0), :params => xml.to_s, :headers => auth_header
+      delete api_way_path(0), :params => xml.to_s, :headers => auth_header
       assert_response :not_found
     end
 
@@ -420,7 +419,7 @@ module Api
       ## Second test with the private user
 
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       ## trying to break changesets
 
@@ -458,7 +457,7 @@ module Api
       ## Finally test with the public user
 
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       ## trying to break changesets
 
@@ -542,7 +541,7 @@ module Api
 
       ## Try with the non-public user
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -560,7 +559,7 @@ module Api
 
       ## Now try with the public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -590,7 +589,7 @@ module Api
 
       ## Try with the non-public user
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -608,7 +607,7 @@ module Api
 
       ## Now try with the public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -636,7 +635,7 @@ module Api
 
       ## First test with the non-public user so should be rejected
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # create duplicate tag
       tag_xml = XML::Node.new("tag")
@@ -656,7 +655,7 @@ module Api
 
       ## Now test with the public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create duplicate tag
       tag_xml = XML::Node.new("tag")
@@ -688,7 +687,7 @@ module Api
 
       ## First make sure that you can't with a non-public user
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # add the tag into the existing xml
       way_str = "<osm><way changeset='#{private_changeset.id}'>"
@@ -703,7 +702,7 @@ module Api
 
       ## Now do it with a public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # add the tag into the existing xml
       way_str = "<osm><way changeset='#{changeset.id}'>"
@@ -752,6 +751,111 @@ module Api
         assert_ways_are_equal(Way.find(id),
                               Way.from_xml_node(way_xml))
       end
+    end
+
+    ##
+    # test initial rate limit
+    def test_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 1)
+
+      # create authentication header
+      auth_header = bearer_authorization_header user
+
+      # try creating a way
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "way create did not return success status"
+
+      # get the id of the way we created
+      wayid = @response.body
+
+      # try updating the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='1' changeset='#{changeset.id}'>" \
+            "<nd ref='#{node2.id}'/><nd ref='#{node1.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way update did not hit rate limit"
+
+      # try deleting the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way delete did not hit rate limit"
+
+      # try creating a way, which should be rate limited
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way create did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 1
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = bearer_authorization_header user
+
+      # try creating a way
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "way create did not return success status"
+
+      # get the id of the way we created
+      wayid = @response.body
+
+      # try updating the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='1' changeset='#{changeset.id}'>" \
+            "<nd ref='#{node2.id}'/><nd ref='#{node1.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way update did not hit rate limit"
+
+      # try deleting the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way delete did not hit rate limit"
+
+      # try creating a way, which should be rate limited
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way create did not hit rate limit"
     end
 
     private

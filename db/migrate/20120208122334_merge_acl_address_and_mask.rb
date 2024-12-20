@@ -21,7 +21,7 @@ class MergeAclAddressAndMask < ActiveRecord::Migration[4.2]
       prefix = 0
 
       while netmask != "0.0.0.0"
-        netmask = netmask << 1
+        netmask <<= 1
         prefix += 1
       end
 

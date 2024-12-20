@@ -1,5 +1,6 @@
 class TracesController < ApplicationController
   include UserMethods
+  include PaginationMethods
 
   layout "site", :except => :georss
 
@@ -19,7 +20,7 @@ class TracesController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if display_name.present?
-      target_user = User.active.where(:display_name => display_name).first
+      target_user = User.active.find_by(:display_name => display_name)
       if target_user.nil?
         render_unknown_user display_name
         return
@@ -60,30 +61,18 @@ class TracesController < ApplicationController
 
     @params = params.permit(:display_name, :tag, :before, :after)
 
-    @traces = if params[:before]
-                traces.where("gpx_files.id < ?", params[:before]).order(:id => :desc)
-              elsif params[:after]
-                traces.where("gpx_files.id > ?", params[:after]).order(:id => :asc)
-              else
-                traces.order(:id => :desc)
-              end
-
-    @traces = @traces.limit(20)
-    @traces = @traces.includes(:user, :tags)
-    @traces = @traces.sort.reverse
-
-    @newer_traces = @traces.count.positive? && traces.exists?(["gpx_files.id > ?", @traces.first.id])
-    @older_traces = @traces.count.positive? && traces.exists?(["gpx_files.id < ?", @traces.last.id])
+    @traces, @newer_traces_id, @older_traces_id = get_page_items(traces, :includes => [:user, :tags])
 
     # final helper vars for view
     @target_user = target_user
+
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
-    @trace = Trace.find(params[:id])
+    @trace = Trace.visible.find(params[:id])
 
-    if @trace&.visible? &&
-       (@trace&.public? || @trace&.user == current_user)
+    if @trace.public? || @trace.user == current_user
       @title = t ".title", :name => @trace.name
     else
       flash[:error] = t ".trace_not_found"
@@ -100,11 +89,9 @@ class TracesController < ApplicationController
   end
 
   def edit
-    @trace = Trace.find(params[:id])
+    @trace = Trace.visible.find(params[:id])
 
-    if !@trace.visible?
-      head :not_found
-    elsif current_user.nil? || @trace.user != current_user
+    if current_user.nil? || @trace.user != current_user
       head :forbidden
     else
       @title = t ".title", :name => @trace.name
@@ -126,7 +113,7 @@ class TracesController < ApplicationController
         flash[:notice] = t ".trace_uploaded"
         flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
-        TraceImporterJob.perform_later(@trace)
+        @trace.schedule_import
         redirect_to :action => :index, :display_name => current_user.display_name
       else
         flash[:error] = t(".upload_failed") if @trace.valid?
@@ -148,17 +135,15 @@ class TracesController < ApplicationController
   end
 
   def update
-    @trace = Trace.find(params[:id])
+    @trace = Trace.visible.find(params[:id])
 
-    if !@trace.visible?
-      head :not_found
-    elsif current_user.nil? || @trace.user != current_user
+    if current_user.nil? || @trace.user != current_user
       head :forbidden
     elsif @trace.update(trace_params)
       flash[:notice] = t ".updated"
       redirect_to :action => "show", :display_name => current_user.display_name
     else
-      @title = t ".title", :name => @trace.name
+      @title = t "traces.edit.title", :name => @trace.name
       render :action => "edit"
     end
   rescue ActiveRecord::RecordNotFound
@@ -166,17 +151,15 @@ class TracesController < ApplicationController
   end
 
   def destroy
-    trace = Trace.find(params[:id])
+    trace = Trace.visible.find(params[:id])
 
-    if !trace.visible?
-      head :not_found
-    elsif current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
+    if current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
       head :forbidden
     else
       trace.visible = false
       trace.save
       flash[:notice] = t ".scheduled_for_deletion"
-      TraceDestroyerJob.perform_later(trace)
+      trace.schedule_destruction
       redirect_to :action => :index, :display_name => trace.user.display_name
     end
   rescue ActiveRecord::RecordNotFound
@@ -188,9 +171,9 @@ class TracesController < ApplicationController
   end
 
   def data
-    trace = Trace.find(params[:id])
+    trace = Trace.visible.find(params[:id])
 
-    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
+    if trace.public? || (current_user && current_user == trace.user)
       if Acl.no_trace_download(request.remote_ip)
         head :forbidden
       elsif request.format == Mime[:xml]
@@ -220,48 +203,6 @@ class TracesController < ApplicationController
     @traces = @traces.includes(:user)
   end
 
-  def picture
-    trace = Trace.find(params[:id])
-
-    if trace.visible? && trace.inserted?
-      if trace.public? || (current_user && current_user == trace.user)
-        if trace.icon.attached?
-          redirect_to rails_blob_path(trace.image, :disposition => "inline")
-        else
-          expires_in 7.days, :private => !trace.public?, :public => trace.public?
-          send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => "image/gif", :disposition => "inline")
-        end
-      else
-        head :forbidden
-      end
-    else
-      head :not_found
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
-  def icon
-    trace = Trace.find(params[:id])
-
-    if trace.visible? && trace.inserted?
-      if trace.public? || (current_user && current_user == trace.user)
-        if trace.icon.attached?
-          redirect_to rails_blob_path(trace.icon, :disposition => "inline")
-        else
-          expires_in 7.days, :private => !trace.public?, :public => trace.public?
-          send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => "image/gif", :disposition => "inline")
-        end
-      else
-        head :forbidden
-      end
-    else
-      head :not_found
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
   private
 
   def do_create(file, tags, description, visibility)
@@ -283,7 +224,7 @@ class TracesController < ApplicationController
     # Save the trace object
     if trace.save
       # Finally save the user's preferred privacy level
-      if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
+      if pref = current_user.preferences.find_by(:k => "gps.trace.visibility")
         pref.v = visibility
         pref.save
       else
@@ -303,11 +244,11 @@ class TracesController < ApplicationController
   end
 
   def default_visibility
-    visibility = current_user.preferences.where(:k => "gps.trace.visibility").first
+    visibility = current_user.preferences.find_by(:k => "gps.trace.visibility")
 
     if visibility
       visibility.v
-    elsif current_user.preferences.where(:k => "gps.trace.public", :v => "default").first.nil?
+    elsif current_user.preferences.find_by(:k => "gps.trace.public", :v => "default").nil?
       "private"
     else
       "public"

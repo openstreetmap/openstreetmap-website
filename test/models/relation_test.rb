@@ -235,22 +235,101 @@ class RelationTest < ActiveSupport::TestCase
   # the maximum number of members in a relation.
   def test_max_members_per_relation_limit
     # Speed up unit test by using a small relation member limit
-    default_limit = Settings.max_number_of_relation_members
-    Settings.max_number_of_relation_members = 20
+    with_settings(:max_number_of_relation_members => 20) do
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      relation = create(:relation, :changeset => changeset)
+      node = create(:node, :longitude => 116, :latitude => 39)
+      # Create relation which exceeds the relation member limit by one
+      0.upto(Settings.max_number_of_relation_members) do |i|
+        create(:relation_member, :relation => relation, :member_type => "Node", :member_id => node.id, :sequence_id => i)
+      end
 
+      assert_raise OSM::APITooManyRelationMembersError do
+        relation.create_with_history user
+      end
+    end
+  end
+
+  test "raises missing changeset exception when creating" do
     user = create(:user)
-    changeset = create(:changeset, :user => user)
-    relation = create(:relation, :changeset => changeset)
-    node = create(:node, :longitude => 116, :latitude => 39)
-    # Create relation which exceeds the relation member limit by one
-    0.upto(Settings.max_number_of_relation_members) do |i|
-      create(:relation_member, :relation => relation, :member_type => "Node", :member_id => node.id, :sequence_id => i)
+    relation = Relation.new
+    assert_raises OSM::APIChangesetMissingError do
+      relation.create_with_history(user)
     end
+  end
 
-    assert_raise OSM::APITooManyRelationMembersError do
-      relation.create_with_history user
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    relation = Relation.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      relation.create_with_history(user)
     end
+  end
 
-    Settings.max_number_of_relation_members = default_limit
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    relation = Relation.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      relation.create_with_history(user)
+    end
+  end
+
+  test "raises id precondition exception when updating" do
+    user = create(:user)
+    relation = Relation.new(:id => 23)
+    new_relation = Relation.new(:id => 42)
+    assert_raises OSM::APIPreconditionFailedError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises version mismatch exception when updating" do
+    user = create(:user)
+    relation = Relation.new(:id => 42, :version => 7)
+    new_relation = Relation.new(:id => 42, :version => 12)
+    assert_raises OSM::APIVersionMismatchError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises missing changeset exception when updating" do
+    user = create(:user)
+    relation = Relation.new(:id => 42, :version => 12)
+    new_relation = Relation.new(:id => 42, :version => 12)
+    assert_raises OSM::APIChangesetMissingError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    relation = Relation.new(:id => 42, :version => 12)
+    new_relation = Relation.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises already closed changeset exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    relation = Relation.new(:id => 42, :version => 12)
+    new_relation = Relation.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    relation = Relation.new(:id => 23, :visible => true)
+    new_relation = Relation.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      relation.delete_with_history!(new_relation, user)
+    end
   end
 end

@@ -3,7 +3,7 @@ L.OSM.key = function (options) {
 
   control.onAddPane = function (map, button, $ui) {
     var $section = $("<div>")
-      .attr("class", "section")
+      .attr("class", "p-3")
       .appendTo($ui);
 
     $ui
@@ -24,7 +24,7 @@ L.OSM.key = function (options) {
     }
 
     function updateButton() {
-      var disabled = ["mapnik", "cyclemap"].indexOf(map.getMapBaseLayerId()) === -1;
+      var disabled = OSM.LAYERS_WITH_MAP_KEY.indexOf(map.getMapBaseLayerId()) === -1;
       button
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
@@ -39,11 +39,11 @@ L.OSM.key = function (options) {
 
       $(".mapkey-table-entry").each(function () {
         var data = $(this).data();
-        if (layer === data.layer && zoom >= data.zoomMin && zoom <= data.zoomMax) {
-          $(this).show();
-        } else {
-          $(this).hide();
-        }
+        $(this).toggle(
+          layer === data.layer &&
+          (!data.zoomMin || zoom >= data.zoomMin) &&
+          (!data.zoomMax || zoom <= data.zoomMax)
+        );
       });
     }
   };

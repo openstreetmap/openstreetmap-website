@@ -5,7 +5,7 @@
 
 <p>
   <b><%= t ".user" %></b>
-  <%= link_to(@redaction.user.display_name, user_path(@redaction.user)) %>
+  <%= link_to @redaction.user.display_name, @redaction.user %>
 </p>
 <div class="richtext text-break">
   <b><%= t ".description" %></b>
@@ -18,7 +18,7 @@
     <%= link_to t(".edit"), edit_redaction_path(@redaction), :class => "btn btn-outline-primary" %>
   <% end %>
   <% if can?(:destroy, Redaction) %>
-    <%= link_to t(".destroy"), @redaction, :method => "delete", :class => "btn btn-outline-danger", :remote => true, :data => { :confirm => t(".confirm") } %>
+    <%= link_to t(".destroy"), @redaction, :class => "btn btn-outline-danger", :data => { :turbo => true, :turbo_method => "DELETE", :turbo_confirm => t(".confirm") } %>
   <% end %>
 </div>
 <% end %>

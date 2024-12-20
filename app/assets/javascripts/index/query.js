@@ -1,4 +1,3 @@
-//= require jquery-simulate/jquery.simulate
 //= require qs/dist/qs
 
 OSM.Query = function (map) {
@@ -52,23 +51,8 @@ OSM.Query = function (map) {
   }
 
   $("#sidebar_content")
-    .on("mouseover", ".query-results li.query-result", showResultGeometry)
-    .on("mouseout", ".query-results li.query-result", hideResultGeometry)
-    .on("mousedown", ".query-results li.query-result", function () {
-      var moved = false;
-      $(this).one("click", function (e) {
-        if (!moved) {
-          var geometry = $(this).data("geometry");
-          if (geometry) map.removeLayer(geometry);
-
-          if (!$(e.target).is("a")) {
-            $(this).find("a").simulate("click", e);
-          }
-        }
-      }).one("mousemove", function () {
-        moved = true;
-      });
-    });
+    .on("mouseover", ".query-results a", showResultGeometry)
+    .on("mouseout", ".query-results a", hideResultGeometry);
 
   function interestingFeature(feature) {
     if (feature.tags) {
@@ -125,7 +109,7 @@ OSM.Query = function (map) {
 
   function featureName(feature) {
     var tags = feature.tags,
-        locales = I18n.locales.get();
+        locales = OSM.preferred_languages;
 
     for (var i = 0; i < locales.length; i++) {
       if (tags["name:" + locales[i]]) {
@@ -216,13 +200,14 @@ OSM.Query = function (map) {
 
           if (interestingFeature(element)) {
             var $li = $("<li>")
-              .addClass("query-result list-group-item")
-              .data("geometry", featureGeometry(element))
+              .addClass("list-group-item list-group-item-action")
               .text(featurePrefix(element) + " ")
               .appendTo($ul);
 
             $("<a>")
+              .addClass("stretched-link")
               .attr("href", "/" + element.type + "/" + element.id)
+              .data("geometry", featureGeometry(element))
               .text(featureName(element))
               .appendTo($li);
           }
@@ -230,14 +215,14 @@ OSM.Query = function (map) {
 
         if (results.remark) {
           $("<li>")
-            .addClass("query-result list-group-item")
+            .addClass("list-group-item")
             .text(I18n.t("javascripts.query.error", { server: url, error: results.remark }))
             .appendTo($ul);
         }
 
         if ($ul.find("li").length === 0) {
           $("<li>")
-            .addClass("query-result list-group-item")
+            .addClass("list-group-item")
             .text(I18n.t("javascripts.query.nothing_found"))
             .appendTo($ul);
         }
@@ -246,7 +231,7 @@ OSM.Query = function (map) {
         $section.find(".loader").hide();
 
         $("<li>")
-          .addClass("query-result list-group-item")
+          .addClass("list-group-item")
           .text(I18n.t("javascripts.query." + status, { server: url, error: error }))
           .appendTo($ul);
       }
@@ -268,9 +253,9 @@ OSM.Query = function (map) {
    * To find nearby objects we ask overpass for the union of the
    * following sets:
    *
-   *   node(around:<radius>,<lat>,lng>)
-   *   way(around:<radius>,<lat>,lng>)
-   *   relation(around:<radius>,<lat>,lng>)
+   *   node(around:<radius>,<lat>,<lng>)
+   *   way(around:<radius>,<lat>,<lng>)
+   *   relation(around:<radius>,<lat>,<lng>)
    *
    * to find enclosing objects we first find all the enclosing areas:
    *
@@ -304,18 +289,10 @@ OSM.Query = function (map) {
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, radius, featureStyle).addTo(map);
-
-    $(document).everyTime(75, "fadeQueryMarker", function (i) {
-      if (i === 10) {
-        map.removeLayer(marker);
-      } else {
-        marker.setStyle({
-          opacity: 1 - (i * 0.1),
-          fillOpacity: 0.5 - (i * 0.05)
-        });
-      }
-    }, 10);
+    marker = L.circle(latlng, Object.assign({
+      radius: radius,
+      className: "query-marker"
+    }, featureStyle)).addTo(map);
 
     runQuery(latlng, radius, nearby, $("#query-nearby"), false);
     runQuery(latlng, radius, isin, $("#query-isin"), true, compareSize);
@@ -380,7 +357,7 @@ OSM.Query = function (map) {
   page.unload = function (sameController) {
     if (!sameController) {
       disableQueryMode();
-      $("#sidebar_content .query-results li.query-result.selected").each(hideResultGeometry);
+      $("#sidebar_content .query-results a.selected").each(hideResultGeometry);
     }
   };
 

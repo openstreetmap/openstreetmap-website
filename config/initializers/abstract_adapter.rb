@@ -6,7 +6,7 @@ if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
           if e.is_a?(Timeout::Error) || e.is_a?(OSM::APITimeoutError)
             e
           else
-            super(e, sql)
+            super
           end
         end
       end

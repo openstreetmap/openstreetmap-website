@@ -1,5 +1,6 @@
 class DiaryEntriesController < ApplicationController
   include UserMethods
+  include PaginationMethods
 
   layout "site", :except => :rss
 
@@ -9,9 +10,10 @@ class DiaryEntriesController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => [:show, :comments]
-  before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :allow_thirdparty_images, :only => [:new, :create, :edit, :update, :index, :show, :comments]
+  before_action :lookup_user, :only => :show
+  before_action :check_database_writable, :only => [:new, :create, :edit, :update, :hide, :unhide, :subscribe, :unsubscribe]
+
+  allow_thirdparty_images :only => [:new, :create, :edit, :update, :index, :show]
 
   def index
     if params[:display_name]
@@ -47,6 +49,8 @@ class DiaryEntriesController < ApplicationController
         @title = t ".in_language_title", :language => Language.find(params[:language]).english_name
         entries = entries.where(:language_code => params[:language])
       else
+        candidate_codes = preferred_languages.flat_map(&:candidates).uniq.map(&:to_s)
+        @languages = Language.where(:code => candidate_codes).in_order_of(:code, candidate_codes)
         @title = t ".title"
       end
     end
@@ -55,16 +59,25 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, [:user, :language])
+    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, :includes => [:user, :language])
+
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
     entries = @user.diary_entries
     entries = entries.visible unless can? :unhide, DiaryEntry
-    @entry = entries.where(:id => params[:id]).first
+    @entry = entries.find_by(:id => params[:id])
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
-      @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
+      @opengraph_properties = {
+        "og:title" => @entry.title,
+        "og:image" => @entry.body.image,
+        "og:image:alt" => @entry.body.image_alt,
+        "og:description" => @entry.body.description,
+        "article:published_time" => @entry.created_at.xmlschema
+      }
+      @comments = can?(:unhide, DiaryComment) ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -74,7 +87,7 @@ class DiaryEntriesController < ApplicationController
   def new
     @title = t ".title"
 
-    default_lang = current_user.preferences.where(:k => "diary.default_language").first
+    default_lang = current_user.preferences.find_by(:k => "diary.default_language")
     lang_code = default_lang ? default_lang.v : current_user.preferred_language
     @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
     set_map_location
@@ -99,7 +112,7 @@ class DiaryEntriesController < ApplicationController
     @diary_entry.user = current_user
 
     if @diary_entry.save
-      default_lang = current_user.preferences.where(:k => "diary.default_language").first
+      default_lang = current_user.preferences.find_by(:k => "diary.default_language")
       if default_lang
         default_lang.v = @diary_entry.language_code
         default_lang.save!
@@ -120,7 +133,7 @@ class DiaryEntriesController < ApplicationController
     @title = t "diary_entries.edit.title"
     @diary_entry = DiaryEntry.find(params[:id])
 
-    if current_user != @diary_entry.user ||
+    if cannot?(:update, @diary_entry) ||
        (params[:diary_entry] && @diary_entry.update(entry_params))
       redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     else
@@ -131,45 +144,26 @@ class DiaryEntriesController < ApplicationController
     render :action => "no_such_entry", :status => :not_found
   end
 
-  def comment
-    @entry = DiaryEntry.find(params[:id])
-    @comments = @entry.visible_comments
-    @diary_comment = @entry.comments.build(comment_params)
-    @diary_comment.user = current_user
-    if @diary_comment.save
+  def subscribe
+    @diary_entry = DiaryEntry.find(params[:id])
 
-      # Notify current subscribers of the new comment
-      @entry.subscribers.visible.each do |user|
-        UserMailer.diary_comment_notification(@diary_comment, user).deliver_later if current_user != user
-      end
+    if request.post?
+      @diary_entry.subscriptions.create(:user => current_user) unless @diary_entry.subscribers.exists?(current_user.id)
 
-      # Add the commenter to the subscribers if necessary
-      @entry.subscriptions.create(:user => current_user) unless @entry.subscribers.exists?(current_user.id)
-
-      redirect_to diary_entry_path(@entry.user, @entry)
-    else
-      render :action => "show"
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
 
-  def subscribe
-    diary_entry = DiaryEntry.find(params[:id])
-
-    diary_entry.subscriptions.create(:user => current_user) unless diary_entry.subscribers.exists?(current_user.id)
-
-    redirect_to diary_entry_path(diary_entry.user, diary_entry)
-  rescue ActiveRecord::RecordNotFound
-    render :action => "no_such_entry", :status => :not_found
-  end
-
   def unsubscribe
-    diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params[:id])
 
-    diary_entry.subscriptions.where(:user => current_user).delete_all if diary_entry.subscribers.exists?(current_user.id)
+    if request.post?
+      @diary_entry.subscriptions.where(:user => current_user).delete_all if @diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to diary_entry_path(diary_entry.user, diary_entry)
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+    end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -220,29 +214,6 @@ class DiaryEntriesController < ApplicationController
     redirect_to :action => "index", :display_name => entry.user.display_name
   end
 
-  def hidecomment
-    comment = DiaryComment.find(params[:comment])
-    comment.update(:visible => false)
-    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
-  end
-
-  def unhidecomment
-    comment = DiaryComment.find(params[:comment])
-    comment.update(:visible => true)
-    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
-  end
-
-  def comments
-    @title = t ".title", :user => @user.display_name
-
-    comments = DiaryComment.where(:users => @user)
-    comments = comments.visible unless can? :unhidecomment, DiaryEntry
-
-    @params = params.permit(:display_name, :before, :after)
-
-    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, [:user])
-  end
-
   private
 
   ##
@@ -251,12 +222,6 @@ class DiaryEntriesController < ApplicationController
     params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
   rescue ActionController::ParameterMissing
     ActionController::Parameters.new.permit(:title, :body, :language_code, :latitude, :longitude)
-  end
-
-  ##
-  # return permitted diary comment parameters
-  def comment_params
-    params.require(:diary_comment).permit(:body)
   end
 
   ##
@@ -275,25 +240,5 @@ class DiaryEntriesController < ApplicationController
       @lat = current_user.home_lat
       @zoom = 12
     end
-  end
-
-  def get_page_items(items, includes)
-    id_column = "#{items.table_name}.id"
-    page_items = if params[:before]
-                   items.where("#{id_column} < ?", params[:before]).order(:id => :desc)
-                 elsif params[:after]
-                   items.where("#{id_column} > ?", params[:after]).order(:id => :asc)
-                 else
-                   items.order(:id => :desc)
-                 end
-
-    page_items = page_items.limit(20)
-    page_items = page_items.includes(includes)
-    page_items = page_items.sort.reverse
-
-    newer_items_id = page_items.first.id if page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
-    older_items_id = page_items.last.id if page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
-
-    [page_items, newer_items_id, older_items_id]
   end
 end

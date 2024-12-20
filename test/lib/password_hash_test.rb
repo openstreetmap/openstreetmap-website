@@ -61,6 +61,6 @@ class PasswordHashTest < ActiveSupport::TestCase
     format = Argon2::HashFormat.new(hash)
 
     assert_equal "argon2id", format.variant
-    assert format.version <= 19
+    assert_operator format.version, :<=, 19
   end
 end

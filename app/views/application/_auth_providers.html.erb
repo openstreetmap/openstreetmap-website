@@ -1,0 +1,45 @@
+<% prefered_auth_button_available = @preferred_auth_provider != "openid" && Auth.providers.value?(@preferred_auth_provider) %>
+
+<div>
+  <%= tag.div :id => "login_auth_buttons",
+              :class => ["collapse show row row-cols-1", { "row-cols-sm-2" => prefered_auth_button_available }, "g-2 mb-3"] do %>
+
+    <% if prefered_auth_button_available %>
+      <div class="col justify-content-center d-flex align-items-center flex-wrap">
+        <%= auth_button_preferred @preferred_auth_provider %>
+      </div>
+    <% end %>
+
+    <div class="col justify-content-center d-flex align-items-center flex-wrap gap-2">
+      <% Auth.providers.each_value do |provider| %>
+        <% if provider == "openid" %>
+          <%= button_tag image_tag("auth_providers/openid.svg",
+                                   :alt => t(".openid.alt"),
+                                   :size => "36"),
+                         :type => "button",
+                         :data => { "bs-toggle" => "collapse",
+                                    "bs-target" => "#login_auth_buttons, #openid_login_form" },
+                         :title => t(".openid.title"),
+                         :class => "btn btn-outline-secondary border p-2" %>
+        <% elsif provider != @preferred_auth_provider %>
+          <%= auth_button provider %>
+        <% end -%>
+      <% end -%>
+    </div>
+  <% end %>
+
+  <%# :tabindex starts high to allow rendering at the bottom of the template %>
+  <%= form_tag auth_path(:provider => "openid"), :id => "openid_login_form", :class => "collapse" do %>
+    <div class="mb-3">
+      <label for="openid_url" class="form-label">
+        <%= image_tag "auth_providers/openid.svg", :size => "36", :alt => "", :class => "align-text-bottom" %>
+        <%= t ".openid_url" %>
+      </label>
+      <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
+      <%= text_field_tag("openid_url", "https://", :tabindex => 20, :autocomplete => "on", :class => "form-control") %>
+      <span class="form-text text-body-secondary">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
+    </div>
+
+    <%= submit_tag t(".openid_login_button"), :tabindex => 21, :class => "btn btn-primary" %>
+  <% end %>
+</div>

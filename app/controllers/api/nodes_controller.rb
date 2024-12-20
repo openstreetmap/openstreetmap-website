@@ -2,18 +2,14 @@
 
 module Api
   class NodesController < ApiController
-    require "xml/libxml"
-
     before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :check_api_readable, :except => [:create, :update, :delete]
     before_action :authorize, :only => [:create, :update, :delete]
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create, :update, :delete]
-    around_action :api_call_handle_error, :api_call_timeout
-
     before_action :set_request_formats, :except => [:create, :update, :delete]
+    before_action :check_rate_limit, :only => [:create, :update, :delete]
 
     # Dump the details on many nodes whose ids are given in the "nodes" parameter.
     def index
@@ -51,8 +47,6 @@ module Api
 
     # Create a node from XML.
     def create
-      assert_method :put
-
       node = Node.from_xml(request.raw_post, :create => true)
 
       # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml

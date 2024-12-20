@@ -14,5 +14,9 @@ FactoryBot.define do
     trait :read do
       message_read { true }
     end
+
+    trait :muted do
+      muted { true }
+    end
   end
 end

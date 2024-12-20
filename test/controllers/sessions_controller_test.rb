@@ -35,7 +35,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     get login_path
-    assert_response :redirect
     assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
@@ -46,19 +45,40 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
 
     post login_path, :params => { :username => user.display_name, :password => "test" }
-    assert_response :redirect
     assert_redirected_to root_path
+
+    post login_path, :params => { :username => " #{user.display_name}", :password => "test" }
+    assert_redirected_to root_path
+
+    post login_path, :params => { :username => "#{user.display_name} ", :password => "test" }
+    assert_redirected_to root_path
+  end
+
+  def test_login_remembered
+    user = create(:user)
+
+    post login_path, :params => { :username => user.display_name, :password => "test", :remember_me => "yes" }
+    assert_redirected_to root_path
+
+    assert_equal 28 * 86400, session[:_remember_for]
+  end
+
+  def test_login_not_remembered
+    user = create(:user)
+
+    post login_path, :params => { :username => user.display_name, :password => "test", :remember_me => "0" }
+    assert_redirected_to root_path
+
+    assert_nil session[:_remember_for]
   end
 
   def test_logout_without_referer
     post logout_path
-    assert_response :redirect
     assert_redirected_to root_path
   end
 
   def test_logout_with_referer
     post logout_path, :params => { :referer => "/test" }
-    assert_response :redirect
     assert_redirected_to "/test"
   end
 
@@ -80,11 +100,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     post user_new_path, :params => { :user => user.attributes }
     post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
-
-    assert_difference "User.find_by(:email => user.email).tokens.count", -1 do
-      post logout_path
-    end
-    assert_response :redirect
+    post logout_path
     assert_redirected_to root_path
   end
 end

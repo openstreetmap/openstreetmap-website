@@ -5,34 +5,23 @@ class ApiAbility
 
   def initialize(user)
     can :show, :capability
-    can :index, :change
     can :index, :map
     can :show, :permission
     can :show, :version
 
     if Settings.status != "database_offline"
-      can [:show, :download, :query], Changeset
-      can [:index, :create, :comment, :feed, :show, :search], Note
+      can [:index, :show, :download], Changeset
+      can [:index, :create, :feed, :show, :search], Note
       can :index, Tracepoint
       can [:index, :show], User
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way
       can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
-      can [:history, :version], OldNode
-      can [:history, :version], OldWay
-      can [:history, :version], OldRelation
+      can [:history, :show], [OldNode, OldWay, OldRelation]
       can [:show], UserBlock
-    end
 
-    if user&.active?
-      can :welcome, :site
-      can [:revoke, :authorize], :oauth
-
-      if Settings.status != "database_offline"
-        can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
-        can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
-        can [:close, :reopen], Note
-        can [:new, :create], Report
+      if user&.active?
+        can [:comment, :close, :reopen], Note
         can [:create, :show, :update, :destroy, :data], Trace
         can [:details, :gpx_files], User
         can [:index, :show, :update, :update_all, :destroy], UserPreference
@@ -40,20 +29,14 @@ class ApiAbility
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
           can :create, ChangesetComment
-          can [:create, :update, :delete], Node
-          can [:create, :update, :delete], Way
-          can [:create, :update, :delete], Relation
+          can [:create, :update, :delete], [Node, Way, Relation]
         end
 
         if user.moderator?
           can [:destroy, :restore], ChangesetComment
           can :destroy, Note
 
-          if user.terms_agreed?
-            can :redact, OldNode
-            can :redact, OldWay
-            can :redact, OldRelation
-          end
+          can :redact, [OldNode, OldWay, OldRelation] if user.terms_agreed?
         end
       end
     end

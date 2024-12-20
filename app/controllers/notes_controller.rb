@@ -16,12 +16,15 @@ class NotesController < ApplicationController
   ##
   # Display a list of notes by a specified user
   def index
-    @params = params.permit(:display_name)
+    param! :page, Integer, :min => 1
+
+    @params = params.permit(:display_name, :status)
     @title = t ".title", :user => @user.display_name
     @page = (params[:page] || 1).to_i
     @page_size = 10
     @notes = @user.notes
     @notes = @notes.visible unless current_user&.moderator?
+    @notes = @notes.where(:status => params[:status]) unless params[:status] == "all" || params[:status].blank?
     @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
 
     render :layout => "site"

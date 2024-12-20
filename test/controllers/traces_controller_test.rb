@@ -51,14 +51,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username/traces/1", :method => :get },
       { :controller => "traces", :action => "show", :display_name => "username", :id => "1" }
     )
-    assert_routing(
-      { :path => "/user/username/traces/1/picture", :method => :get },
-      { :controller => "traces", :action => "picture", :display_name => "username", :id => "1" }
-    )
-    assert_routing(
-      { :path => "/user/username/traces/1/icon", :method => :get },
-      { :controller => "traces", :action => "icon", :display_name => "username", :id => "1" }
-    )
 
     assert_routing(
       { :path => "/traces/new", :method => :get },
@@ -172,6 +164,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check the index of traces for a specific user
   def test_index_user
     user = create(:user)
+    checked_user_traces_path = url_for :only_path => true, :controller => "traces", :action => "index", :display_name => user.display_name
     second_user = create(:user)
     third_user = create(:user)
     create(:trace)
@@ -187,18 +180,33 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Test the user with the traces - should see only public ones
     get traces_path(:display_name => user.display_name)
     check_trace_index [trace_b]
+    assert_dom ".nav-tabs" do
+      assert_dom "a[href='#{traces_path}']", :text => "All Traces", :count => 1
+      assert_dom "a[href='#{traces_mine_path}']", :text => "My Traces", :count => 0
+      assert_dom "a[href='#{checked_user_traces_path}']", :text => Regexp.new(Regexp.escape(user.display_name)), :count => 1
+    end
 
     session_for(third_user)
 
     # Should still see only public ones when authenticated as another user
     get traces_path(:display_name => user.display_name)
     check_trace_index [trace_b]
+    assert_dom ".nav-tabs" do
+      assert_dom "a[href='#{traces_path}']", :text => "All Traces", :count => 1
+      assert_dom "a[href='#{traces_mine_path}']", :text => "My Traces", :count => 1
+      assert_dom "a[href='#{checked_user_traces_path}']", :text => Regexp.new(Regexp.escape(user.display_name)), :count => 1
+    end
 
     session_for(user)
 
     # Should see all traces when authenticated as the target user
     get traces_path(:display_name => user.display_name)
     check_trace_index [trace_c, trace_b]
+    assert_dom ".nav-tabs" do
+      assert_dom "a[href='#{traces_path}']", :text => "All Traces", :count => 1
+      assert_dom "a[href='#{traces_mine_path}']", :text => "My Traces", :count => 1
+      assert_dom "a[href='#{checked_user_traces_path}']", :text => Regexp.new(Regexp.escape(user.display_name)), :count => 0
+    end
 
     # Should only see traces with the correct tag when a tag is specified
     get traces_path(:display_name => user.display_name, :tag => "London")
@@ -314,6 +322,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
   end
 
+  def test_index_invalid_paged
+    # Try some invalid paged accesses
+    %w[-1 0 fred].each do |id|
+      get traces_path(:before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get traces_path(:after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
   # Check the RSS feed
   def test_rss
     user = create(:user)
@@ -374,17 +393,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     public_trace_file = create(:trace, :visibility => "public")
 
     # First with no auth, which should work since the trace is public
-    get show_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get show_trace_path(public_trace_file.user, public_trace_file)
     check_trace_show public_trace_file
 
     # Now with some other user, which should work since the trace is public
     session_for(create(:user))
-    get show_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get show_trace_path(public_trace_file.user, public_trace_file)
     check_trace_show public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
     session_for(public_trace_file.user)
-    get show_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get show_trace_path(public_trace_file.user, public_trace_file)
     check_trace_show public_trace_file
   end
 
@@ -393,19 +412,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     anon_trace_file = create(:trace, :visibility => "private")
 
     # First with no auth
-    get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :redirect
+    get show_trace_path(anon_trace_file.user, anon_trace_file)
     assert_redirected_to :action => :index
 
     # Now with some other user, which should not work since the trace is anon
     session_for(create(:user))
-    get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :redirect
+    get show_trace_path(anon_trace_file.user, anon_trace_file)
     assert_redirected_to :action => :index
 
     # And finally we should be able to do it with the owner of the trace
     session_for(anon_trace_file.user)
-    get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get show_trace_path(anon_trace_file.user, anon_trace_file)
     check_trace_show anon_trace_file
   end
 
@@ -414,14 +431,12 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     deleted_trace_file = create(:trace, :deleted)
 
     # First with a trace that has never existed
-    get show_trace_path(:display_name => create(:user).display_name, :id => 0)
-    assert_response :redirect
+    get show_trace_path(create(:user), 0)
     assert_redirected_to :action => :index
 
     # Now with a trace that has been deleted
     session_for(deleted_trace_file.user)
-    get show_trace_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
-    assert_response :redirect
+    get show_trace_path(deleted_trace_file.user, deleted_trace_file)
     assert_redirected_to :action => :index
   end
 
@@ -504,115 +519,10 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  # Test downloading the picture for a trace
-  def test_picture
-    public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
-
-    # First with no auth, which should work since the trace is public
-    get trace_picture_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    check_trace_picture public_trace_file
-
-    # Now with some other user, which should work since the trace is public
-    session_for(create(:user))
-    get trace_picture_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    check_trace_picture public_trace_file
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(public_trace_file.user)
-    get trace_picture_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    check_trace_picture public_trace_file
-  end
-
-  # Check the picture for an anonymous trace can't be downloaded by another user
-  def test_picture_anon
-    anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
-
-    # First with no auth
-    get trace_picture_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :forbidden
-
-    # Now with some other user, which shouldn't work since the trace is anon
-    session_for(create(:user))
-    get trace_picture_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :forbidden
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(anon_trace_file.user)
-    get trace_picture_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    check_trace_picture anon_trace_file
-  end
-
-  # Test downloading the picture for a trace that doesn't exist
-  def test_picture_not_found
-    deleted_trace_file = create(:trace, :deleted)
-
-    # First with a trace that has never existed
-    get trace_picture_path(:display_name => create(:user).display_name, :id => 0)
-    assert_response :not_found
-
-    # Now with a trace that has been deleted
-    session_for(deleted_trace_file.user)
-    get trace_picture_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
-    assert_response :not_found
-  end
-
-  # Test downloading the icon for a trace
-  def test_icon
-    public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
-
-    # First with no auth, which should work since the trace is public
-    get trace_icon_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    check_trace_icon public_trace_file
-
-    # Now with some other user, which should work since the trace is public
-    session_for(create(:user))
-    get trace_icon_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    check_trace_icon public_trace_file
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(public_trace_file.user)
-    get trace_icon_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    check_trace_icon public_trace_file
-  end
-
-  # Check the icon for an anonymous trace can't be downloaded by another user
-  def test_icon_anon
-    anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
-
-    # First with no auth
-    get trace_icon_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :forbidden
-
-    # Now with some other user, which shouldn't work since the trace is anon
-    session_for(create(:user))
-    get trace_icon_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :forbidden
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(anon_trace_file.user)
-    get trace_icon_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    check_trace_icon anon_trace_file
-  end
-
-  # Test downloading the icon for a trace that doesn't exist
-  def test_icon_not_found
-    deleted_trace_file = create(:trace, :deleted)
-
-    # First with a trace that has never existed
-    get trace_icon_path(:display_name => create(:user).display_name, :id => 0)
-    assert_response :not_found
-
-    # Now with a trace that has been deleted
-    session_for(deleted_trace_file.user)
-    get trace_icon_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
-    assert_response :not_found
-  end
-
   # Test fetching the new trace page
   def test_new_get
     # First with no auth
     get new_trace_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => new_trace_path)
 
     # Now authenticated as a user with gps.trace.visibility set
@@ -658,10 +568,9 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # Now authenticated
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
-    assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     assert_match(/file has been uploaded/, flash[:notice])
     trace = Trace.order(:id => :desc).first
@@ -672,7 +581,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_not trace.inserted
     assert_equal File.new(fixture).read, trace.file.blob.download
     trace.destroy
-    assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
   end
 
   # Test creating a trace with validation errors
@@ -684,7 +593,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # Now authenticated
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
-    assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "", :tagstring => "new,trace", :visibility => "trackable" } }
     assert_template :new
@@ -698,7 +607,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First with no auth
     get edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id))
 
     # Now with some other user, which should fail
@@ -752,12 +660,22 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Finally with a trace that we are allowed to edit
     session_for(public_trace_file.user)
     put trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file, :trace => new_details)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal new_details[:description], trace.description
     assert_equal new_details[:tagstring], trace.tagstring
     assert_equal new_details[:visibility], trace.visibility
+  end
+
+  # Test invalid updates
+  def test_update_invalid
+    trace = create(:trace)
+
+    # Invalid visibility
+    session_for(trace.user)
+    put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "new_tag", :visibility => "wrong" })
+    assert_response :success
+    assert_select "title", :text => /^Editing Trace/
   end
 
   # Test destroying a trace
@@ -787,7 +705,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Now with a trace that we are allowed to delete
     session_for(public_trace_file.user)
     delete trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_not trace.visible
@@ -797,7 +714,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     admin = create(:administrator_user)
     session_for(admin)
     delete trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_not trace.visible
@@ -820,7 +736,11 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
             assert_select item, "title", trace.name
             assert_select item, "link", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
             assert_select item, "guid", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
-            assert_select item, "description"
+            assert_select item, "description" do
+              assert_dom_encoded do
+                assert_select "img[src='#{trace_icon_url trace.user, trace}']"
+              end
+            end
             # assert_select item, "dc:creator", trace.user.display_name
             assert_select item, "pubDate", trace.timestamp.rfc822
           end
@@ -843,6 +763,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
             assert_select row, "li", Regexp.new(Regexp.escape("#{trace.size} points")) if trace.inserted?
             assert_select row, "td", Regexp.new(Regexp.escape(trace.description))
             assert_select row, "td", Regexp.new(Regexp.escape("by #{trace.user.display_name}"))
+            assert_select row, "a[href='#{user_path trace.user}']", :text => trace.user.display_name
           end
         end
       end
@@ -855,7 +776,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "table", :count => 1 do
       assert_select "td", /^#{Regexp.quote(trace.name)} /
-      assert_select "td", trace.user.display_name
+      assert_select "td a[href='#{user_path trace.user}']", :text => trace.user.display_name
       assert_select "td", trace.description
     end
   end
@@ -864,21 +785,5 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_equal digest, Digest::MD5.hexdigest(response.body)
     assert_equal content_type, response.media_type
     assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
-  end
-
-  def check_trace_picture(trace)
-    follow_redirect!
-    follow_redirect!
-    assert_response :success
-    assert_equal "image/gif", response.media_type
-    assert_equal trace.large_picture, response.body
-  end
-
-  def check_trace_icon(trace)
-    follow_redirect!
-    follow_redirect!
-    assert_response :success
-    assert_equal "image/gif", response.media_type
-    assert_equal trace.icon_picture, response.body
   end
 end

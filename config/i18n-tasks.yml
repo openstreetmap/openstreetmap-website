@@ -13,7 +13,7 @@ data:
   ## Provide a custom adapter:
   # adapter: I18n::Tasks::Data::FileSystem
 
-  # Locale files or `File.find` patterns where translations are read from:
+  # Locale files or `Find.find` patterns where translations are read from:
   read:
     ## Default:
     - config/locales/en.yml
@@ -52,7 +52,7 @@ data:
 
 # Find translate calls
 search:
-  ## Paths or `File.find` patterns to search in:
+  ## Paths or `Find.find` patterns to search in:
   # paths:
   #  - app/
 
@@ -110,7 +110,9 @@ search:
 #   deepl_api_key: "48E92789-57A3-466A-9959-1A1A1A1A1A1A"
 #   # deepl_host: "https://api.deepl.com"
 #   # deepl_version: "v2"
-
+#   # add additional options to the DeepL.translate call: https://www.deepl.com/docs-api/translate-text/translate-text/
+#   deepl_options:
+#     formality: prefer_less
 ## Do not consider these keys missing:
 # ignore_missing:
 # - 'errors.messages.{accepted,blank,invalid,too_short,too_long}'
@@ -120,12 +122,20 @@ search:
 ignore_unused:
   - 'geocoder.search_osm_nominatim.prefix.*'
   - 'javascripts.*'
+  - 'doorkeeper.*'
+  - 'users.auth_failure.*'   # OmniAuth provider callback error messages
   - 'activerecord.attributes.*'
   - 'activerecord.models.*'
   - 'activerecord.help.*'
   - 'helpers.submit.*'
   - 'datetime.distance_in_words_ago.*'
   - 'reports.new.categories.*' # double interpolation in reports_helper
+  - 'shared.pagination.*'
+  - 'auth.providers.*'
+  - 'time.formats.blog' # used for formatting blog dates
+  - 'time.formats.friendly' # used for formatting dates / times in a friendly way
+  - 'activerecord.errors.models.user_mute.attributes.subject.format' # used for formatting error message during validation in user_mute.rb
+  - 'activerecord.errors.models.user_mute.is_already_muted' # used as part of error message during validation in user_mute.rb
 # - '{devise,kaminari,will_paginate}.*'
 # - 'simple_form.{yes,no}'
 # - 'simple_form.{placeholders,hints,labels}.*'

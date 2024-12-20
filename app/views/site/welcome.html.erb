@@ -11,16 +11,18 @@
 <h2><%= t ".whats_on_the_map.title" %></h2>
 
 <div class='row'>
-  <div class='col'>
-    <div>
-      <span class='sprite small check mx-auto'></span>
-    </div>
+  <div class='col-sm'>
+    <svg width='50' height='50' viewBox='0 0 100 100' class='d-block mx-auto'>
+      <circle cx="50" cy="50" r="45" fill="#70cd8f" />
+      <path d="M31 46h-2l-3 3v2l14 14 5 5 5-5 25-25v-2l-3-3h-2l-25 25z" fill="#fff" />
+    </svg>
     <p><%= t ".whats_on_the_map.on_the_map_html", :real_and_current => tag.em(t(".whats_on_the_map.real_and_current")) %></p>
   </div>
-  <div class='col'>
-    <div class='center'>
-      <span class='sprite small x mx-auto'></span>
-    </div>
+  <div class='col-sm'>
+    <svg width='50' height='50' viewBox='0 0 100 100' class='d-block mx-auto'>
+      <circle cx="50" cy="50" r="45" fill="#cd7070" />
+      <path d="M35 30h-2l-3 3v2l15 15-15 15v2l3 3h2l15-15 15 15h2l3-3v-2l-15-15 15-15v-2l-3-3h-2l-15 15z" fill="#fff" />
+    </svg>
     <p><%= t ".whats_on_the_map.off_the_map_html", :doesnt => tag.em(t(".whats_on_the_map.doesnt")) %></p>
   </div>
 </div>
@@ -29,43 +31,63 @@
 
 <p><%= t ".basic_terms.paragraph_1" %></p>
 
-<div class='clearfix'>
-  <div class='clearfix'>
-    <span class='sprite small term editor float-start'></span>
-    <p><%= t ".basic_terms.an_editor_html", :editor => tag.strong(t(".basic_terms.editor")) %></p>
-  </div>
-  <div class='clearfix'>
-    <span class='sprite small term node float-start'></span>
-    <p><%= t ".basic_terms.a_node_html", :node => tag.strong(t(".basic_terms.node")) %></p>
-  </div>
-  <div class='clearfix'>
-    <span class='sprite small term way float-start'></span>
-    <p><%= t ".basic_terms.a_way_html", :way => tag.strong(t(".basic_terms.way")) %></p>
-  </div>
-  <div class='clearfix'>
-    <span class='sprite small term tag float-start'></span>
-    <p><%= t ".basic_terms.a_tag_html", :tag => tag.strong(t(".basic_terms.tag")) %></p>
-  </div>
-</div>
+<ul class='list-unstyled'>
+  <li class='d-flex align-items-center gap-2 mb-2'>
+    <svg width='50' height='50' viewBox='0 0 100 100' class='flex-shrink-0 align-self-start'>
+      <path d="M19.728 30.552l19.834-15.219L80 65l-19.834 15.219z" fill="#7092ff" opacity=".5" />
+      <path d="M10.597 18.651l19.834-15.219 6.088 7.934-19.834 15.219zm52.613 65.535l19.834-15.219 1.198 17.988-3.967 3.044z" fill="#7092ff" />
+    </svg>
+    <span><%= t ".basic_terms.an_editor_html", :editor => tag.strong(t(".basic_terms.editor")) %></span>
+  </li>
+  <li class='d-flex align-items-center gap-2 mb-2'>
+    <svg width='50' height='50' viewBox='0 0 100 100' class='flex-shrink-0 align-self-start'>
+      <path d="M50 5c-20.71 0-37.5 16.789-37.5 37.5s37.5 52.5 37.5 52.5 37.5-31.789 37.5-52.5-16.789-37.5-37.5-37.5z" fill="#7092ff" />
+      <circle cx="50" cy="42.5" r="15" fill="#fff" />
+    </svg>
+    <span><%= t ".basic_terms.a_node_html", :node => tag.strong(t(".basic_terms.node")) %></span>
+  </li>
+  <li class='d-flex align-items-center gap-2 mb-2'>
+    <svg width='50' height='50' viewBox='0 0 100 100' class='flex-shrink-0 align-self-start'>
+      <line x1="20" y1="80" x2="80" y2="20" stroke="#7092ff" stroke-width="15" />
+      <circle cx="20" cy="80" r="15" fill="#7092ff" />
+      <circle cx="80" cy="20" r="15" fill="#7092ff" />
+      <circle cx="20" cy="80" r="7" fill="#fff" />
+      <circle cx="80" cy="20" r="7" fill="#fff" />
+    </svg>
+    <span><%= t ".basic_terms.a_way_html", :way => tag.strong(t(".basic_terms.way")) %></span>
+  </li>
+  <li class='d-flex align-items-center gap-2 mb-2'>
+    <svg width='50' height='50' viewBox='0 0 100 100' class='flex-shrink-0 align-self-start'>
+      <path d="M25 87l-20-20v-29l20-20h68l2 2v65l-2 2z" fill="#7092ff" />
+      <rect width="10" height="15" x="15" y="45" rx="3" ry="2.25" fill="#fff" />
+    </svg>
+    <span><%= t ".basic_terms.a_tag_html", :tag => tag.strong(t(".basic_terms.tag")) %></span>
+  </li>
+</ul>
 
-<div class='clearfix'>
-  <h2><%= t ".rules.title" %></h2>
-  <span class='sprite small term rules float-start'></span>
+<h2><%= t ".rules.title" %></h2>
+<div class='d-flex align-items-center gap-2'>
+  <svg width='50' height='50' viewBox='0 0 100 100' class='flex-shrink-0 align-self-start'>
+    <circle cx="50" cy="50" r="45" fill="#7092ff" />
+    <path d="M41.072 49.28q0-2.4 1.152-3.84 1.152-1.488 2.64-2.208-1.728-.96-2.688-2.256-.96-1.344-.96-3.264 0-2.88 2.448-4.512 2.448-1.68 7.008-1.68 2.688 0 4.56.48 1.872.432 3.648 1.152l-1.296 3.216q-1.632-.672-3.264-1.104-1.632-.48-3.936-.48-2.88 0-4.08.768-1.152.72-1.152 2.064 0 1.344 1.344 2.304 1.344.912 4.992 2.256 3.696 1.344 5.76 3.072 2.064 1.728 2.064 4.608 0 2.448-1.104 4.032-1.104 1.536-2.496 2.352 1.68.912 2.592 2.208.96 1.248.96 3.072 0 3.312-2.784 5.136-2.736 1.824-7.68 1.824-2.64 0-4.608-.384-1.968-.432-3.504-1.2v-3.6q1.536.72 3.792 1.344 2.256.624 4.512.624 3.552 0 4.896-1.008 1.344-1.056 1.344-2.4 0-.912-.48-1.584-.432-.672-1.776-1.392-1.296-.768-3.936-1.728-2.496-.96-4.32-1.968-1.776-1.008-2.736-2.4-.912-1.392-.912-3.504zm3.6-.48q0 1.776 1.488 3.024 1.536 1.2 5.376 2.64l1.056.384q1.104-.672 2.064-1.68 1.008-1.056 1.008-2.688 0-1.2-.672-2.16-.624-.96-2.256-1.824-1.632-.912-4.608-1.824-1.344.336-2.4 1.44-1.056 1.104-1.056 2.688z" fill="#fff" stroke="#fff" />
+  </svg>
   <p><%= t ".rules.para_1_html", :imports_link => link_to(t(".rules.imports"), t(".rules.imports_url")),
                                  :automated_edits_link => link_to(t(".rules.automated_edits"), t(".rules.automated_edits_url")) %></p>
 </div>
 
-<div class='clearfix'>
-  <%= render "any_questions" %>
-</div>
+<%= render "any_questions" %>
 
-<div class='clearfix text-center'>
-  <p class="display-5"><a href="<%= edit_path %>" class="button start-mapping"><%= t ".start_mapping" %></a></p>
+<div class='text-center mb-3'>
+<% if params[:oauth_return_url] %>
+  <a class="btn btn-primary" href="<%= params[:oauth_return_url] %>"><%= t ".continue_authorization" %></a>
+<% else %>
+  <a class="btn btn-primary start-mapping" href="<%= edit_path %>"><%= t ".start_mapping" %></a>
+<% end %>
 </div>
 
 <div class='alert alert-primary'>
   <h2><%= t ".add_a_note.title" %></h2>
   <p><%= t ".add_a_note.para_1" %></p>
   <p><%= t ".add_a_note.para_2_html", :map_link => link_to(t(".add_a_note.the_map"), root_path),
-                                      :note_icon => tag.span(:class => "icon note") %></p>
+                                      :note_icon => tag.span(:class => "icon note bg-dark rounded-1") %></p>
 </div>

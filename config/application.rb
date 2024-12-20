@@ -11,17 +11,18 @@ module OpenStreetMap
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(:ignore => %w[assets classic_pagination tasks])
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W[#{config.root}/lib]
-
-    # Force requests from old versions of IE (<= IE8) to be UTF-8 encoded.
-    # This has defaulted to false since rails 6.0
-    config.action_view.default_enforce_utf8 = true
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
@@ -34,6 +35,8 @@ module OpenStreetMap
     # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
     # the I18n.default_locale when a translation cannot be found).
     config.i18n.fallbacks = true
+    # Enables custom error message formats
+    config.active_model.i18n_customize_full_message = true
 
     # Use logstash for logging if required
     if Settings.key?(:logstash_path)

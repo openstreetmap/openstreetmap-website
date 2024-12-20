@@ -23,6 +23,8 @@ class Note < ApplicationRecord
 
   has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
   has_many :all_comments, -> { left_joins(:author).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id, :inverse_of => :note
+  has_many :subscriptions, :class_name => "NoteSubscription"
+  has_many :subscribers, :through => :subscriptions, :source => :user
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }

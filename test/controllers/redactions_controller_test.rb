@@ -45,9 +45,17 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show
+    redaction = create(:redaction, :title => "tested-redaction")
+
+    get redaction_path(redaction)
+    assert_response :success
+    assert_dom "h1", :text => /tested-redaction/
+    assert_dom "a[href='#{user_path redaction.user}']", :text => redaction.user.display_name
+  end
+
   def test_new
     get new_redaction_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => new_redaction_path)
   end
 
@@ -63,7 +71,6 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get new_redaction_path
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
@@ -71,7 +78,6 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
 
     post redactions_path(:redaction => { :title => "Foo", :description => "Description here." })
-    assert_response :redirect
     assert_redirected_to(redaction_path(Redaction.find_by(:title => "Foo")))
   end
 
@@ -87,7 +93,6 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     post redactions_path(:redaction => { :title => "Foo", :description => "Description here." })
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
@@ -97,8 +102,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     # create an empty redaction
     redaction = create(:redaction)
 
-    delete redaction_path(:id => redaction)
-    assert_response :redirect
+    delete redaction_path(redaction)
     assert_redirected_to(redactions_path)
   end
 
@@ -109,8 +113,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     redaction = create(:redaction)
     create(:old_node, :redaction => redaction)
 
-    delete redaction_path(:id => redaction)
-    assert_response :redirect
+    delete redaction_path(redaction)
     assert_redirected_to(redaction_path(redaction))
     assert_match(/^Redaction is not empty/, flash[:error])
   end
@@ -118,31 +121,28 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
   def test_delete_non_moderator
     session_for(create(:user))
 
-    delete redaction_path(:id => create(:redaction))
-    assert_response :redirect
+    delete redaction_path(create(:redaction))
     assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_edit
     redaction = create(:redaction)
 
-    get edit_redaction_path(:id => redaction)
-    assert_response :redirect
+    get edit_redaction_path(redaction)
     assert_redirected_to login_path(:referer => edit_redaction_path(redaction))
   end
 
   def test_edit_moderator
     session_for(create(:moderator_user))
 
-    get edit_redaction_path(:id => create(:redaction))
+    get edit_redaction_path(create(:redaction))
     assert_response :success
   end
 
   def test_edit_non_moderator
     session_for(create(:user))
 
-    get edit_redaction_path(:id => create(:redaction))
-    assert_response :redirect
+    get edit_redaction_path(create(:redaction))
     assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
@@ -151,8 +151,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
 
     redaction = create(:redaction)
 
-    put redaction_path(:id => redaction, :redaction => { :title => "Foo", :description => "Description here." })
-    assert_response :redirect
+    put redaction_path(redaction, :redaction => { :title => "Foo", :description => "Description here." })
     assert_redirected_to(redaction_path(redaction))
   end
 
@@ -161,7 +160,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
 
     redaction = create(:redaction)
 
-    put redaction_path(:id => redaction, :redaction => { :title => "Foo", :description => "" })
+    put redaction_path(redaction, :redaction => { :title => "Foo", :description => "" })
     assert_response :success
     assert_template :edit
   end
@@ -171,8 +170,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
 
     redaction = create(:redaction)
 
-    put redaction_path(:id => redaction, :redaction => { :title => "Foo", :description => "Description here." })
-    assert_response :redirect
+    put redaction_path(redaction, :redaction => { :title => "Foo", :description => "Description here." })
     assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 end

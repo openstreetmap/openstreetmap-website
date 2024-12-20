@@ -1,16 +1,17 @@
 L.OSM.share = function (options) {
   var control = L.OSM.sidebarPane(options, "share", "javascripts.share.title", "javascripts.share.title"),
-      marker = L.marker([0, 0], { draggable: true }),
-      locationFilter = new L.LocationFilter({
-        enableButton: false,
-        adjustButton: false
-      });
+    marker = L.marker([0, 0], { draggable: true }),
+    locationFilter = new L.LocationFilter({
+      enableButton: false,
+      adjustButton: false
+    });
 
   control.onAddPane = function (map, button, $ui) {
     // Link / Embed
+    $("#content").addClass("overlay-right-sidebar");
 
     var $linkSection = $("<div>")
-      .attr("class", "section share-link")
+      .attr("class", "share-link p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
     $("<h4>")
@@ -46,10 +47,13 @@ L.OSM.share = function (options) {
         .text(I18n.t("javascripts.share.short_link")))
       .append($("<a class='btn btn-primary'>")
         .attr("for", "embed_html")
+        .attr("id", "embed_link")
+        .attr("data-bs-title", I18n.t("javascripts.site.embed_html_disabled"))
         .attr("href", "#")
         .text(I18n.t("javascripts.share.embed")))
       .on("click", "a", function (e) {
         e.preventDefault();
+        if (!$(this).hasClass("btn-primary")) return;
         var id = "#" + $(this).attr("for");
         $(this).siblings("a")
           .removeClass("active");
@@ -95,13 +99,13 @@ L.OSM.share = function (options) {
           .on("click", select))
       .append(
         $("<p>")
-          .attr("class", "text-muted")
+          .attr("class", "text-body-secondary")
           .text(I18n.t("javascripts.share.paste_html")));
 
     // Geo URI
 
     var $geoUriSection = $("<div>")
-      .attr("class", "section share-geo-uri")
+      .attr("class", "share-geo-uri p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
     $("<h4>")
@@ -116,7 +120,7 @@ L.OSM.share = function (options) {
     // Image
 
     var $imageSection = $("<div>")
-      .attr("class", "section share-image")
+      .attr("class", "share-image p-3")
       .appendTo($ui);
 
     $("<h4>")
@@ -125,7 +129,7 @@ L.OSM.share = function (options) {
 
     $("<div>")
       .attr("id", "export-warning")
-      .attr("class", "text-muted")
+      .attr("class", "text-body-secondary")
       .text(I18n.t("javascripts.share.only_standard_layer"))
       .appendTo($imageSection);
 
@@ -156,6 +160,7 @@ L.OSM.share = function (options) {
     $("<div>")
       .appendTo($form)
       .attr("class", "row mb-3")
+      .attr("id", "mapnik_scale_row")
       .append($("<label>")
         .attr("for", "mapnik_scale")
         .attr("class", "col-auto col-form-label")
@@ -191,7 +196,7 @@ L.OSM.share = function (options) {
             .attr("class", "form-check-input")
             .bind("change", toggleFilter))));
 
-    ["minlon", "minlat", "maxlon", "maxlat"].forEach(function (name) {
+    ["minlon", "minlat", "maxlon", "maxlat", "lat", "lon"].forEach(function (name) {
       $("<input>")
         .attr("id", "mapnik_" + name)
         .attr("name", name)
@@ -200,13 +205,35 @@ L.OSM.share = function (options) {
     });
 
     $("<input>")
+      .attr("id", "map_format")
       .attr("name", "format")
       .attr("value", "mapnik")
       .attr("type", "hidden")
       .appendTo($form);
 
+    $("<input>")
+      .attr("id", "map_zoom")
+      .attr("name", "zoom")
+      .attr("value", map.getZoom())
+      .attr("type", "hidden")
+      .appendTo($form);
+
+    $("<input>")
+      .attr("id", "map_width")
+      .attr("name", "width")
+      .attr("value", 0)
+      .attr("type", "hidden")
+      .appendTo($form);
+
+    $("<input>")
+      .attr("id", "map_height")
+      .attr("name", "height")
+      .attr("value", 0)
+      .attr("type", "hidden")
+      .appendTo($form);
+
     var csrf_param = $("meta[name=csrf-param]").attr("content"),
-        csrf_token = $("meta[name=csrf-token]").attr("content");
+      csrf_token = $("meta[name=csrf-token]").attr("content");
 
     $("<input>")
       .attr("name", csrf_param)
@@ -215,12 +242,13 @@ L.OSM.share = function (options) {
       .appendTo($form);
 
     var args = {
+      layer: "<span id=\"mapnik_image_layer\"></span>",
       width: "<span id=\"mapnik_image_width\"></span>",
       height: "<span id=\"mapnik_image_height\"></span>"
     };
 
     $("<p>")
-      .attr("class", "text-muted")
+      .attr("class", "text-body-secondary")
       .html(I18n.t("javascripts.share.image_dimensions", args))
       .appendTo($form);
 
@@ -309,6 +337,7 @@ L.OSM.share = function (options) {
     }
 
     function update() {
+      var canEmbed = map.getMapBaseLayerId() !== "tracestracktopo";
       var bounds = map.getBounds();
 
       $("#link_marker")
@@ -334,6 +363,14 @@ L.OSM.share = function (options) {
         params.marker = latLng.lat + "," + latLng.lng;
       }
 
+      $("#embed_link")
+        .toggleClass("btn-primary", canEmbed)
+        .toggleClass("btn-secondary", !canEmbed)
+        .tooltip(canEmbed ? "disable" : "enable");
+      if (!canEmbed && $("#embed_link").hasClass("active")) {
+        $("#long_link").click();
+      }
+
       const
         parsedHash = new URLSearchParams(location.hash),
         embeddedMapPath = parsedHash.get('#map'),
@@ -342,10 +379,10 @@ L.OSM.share = function (options) {
 
       $("#embed_html").val(
         "<iframe width=\"425\" height=\"350\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"" +
-          OSM.EMBED_SERVER_URL + location.hash + '&bbox=' + params.bbox +
-          "\" style=\"border: 1px solid black\"></iframe><br/>" +
-          "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
-          escapeHTML(I18n.t("javascripts.share.view_larger_map")) + "</a></small>");
+        OSM.EMBED_SERVER_URL + location.hash + '&bbox=' + params.bbox +
+        "\" style=\"border: 1px solid black\"></iframe><br/>" +
+        "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
+        escapeHTML(I18n.t("javascripts.share.view_larger_map")) + "</a></small>");
 
       // Geo URI
 
@@ -360,9 +397,9 @@ L.OSM.share = function (options) {
       }
 
       var scale = $("#mapnik_scale").val(),
-          size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
-                          L.CRS.EPSG3857.project(bounds.getNorthEast())).getSize(),
-          maxScale = Math.floor(Math.sqrt(size.x * size.y / 0.3136));
+        size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
+          L.CRS.EPSG3857.project(bounds.getNorthEast())).getSize(),
+        maxScale = Math.floor(Math.sqrt(size.x * size.y / 0.3136));
 
       $("#mapnik_minlon").val(bounds.getWest());
       $("#mapnik_minlat").val(bounds.getSouth());
@@ -374,11 +411,34 @@ L.OSM.share = function (options) {
         $("#mapnik_scale").val(scale);
       }
 
-      $("#mapnik_image_width").text(Math.round(size.x / scale / 0.00028));
-      $("#mapnik_image_height").text(Math.round(size.y / scale / 0.00028));
+      const mapWidth = Math.round(size.x / scale / 0.00028);
+      const mapHeight = Math.round(size.y / scale / 0.00028);
+      $("#mapnik_image_width").text(mapWidth);
+      $("#mapnik_image_height").text(mapHeight);
 
-      if (map.getMapBaseLayerId() === "mapnik") {
+      const layer = map.getMapBaseLayerId();
+      const layerKeys = new Map([
+        ["mapnik", "standard"],
+        ["cyclemap", "cycle_map"],
+        ["transportmap", "transport_map"]
+      ]);
+
+      $("#mapnik_image_layer").text(layerKeys.has(layer) ? I18n.t(`javascripts.map.base.${layerKeys.get(layer)}`) : "");
+      $("#map_format").val(layer);
+
+      $("#map_zoom").val(map.getZoom());
+      $("#mapnik_lon").val(map.getCenter().lng);
+      $("#mapnik_lat").val(map.getCenter().lat);
+      $("#map_width").val(mapWidth);
+      $("#map_height").val(mapHeight);
+
+      if (["cyclemap", "transportmap"].includes(map.getMapBaseLayerId())) {
         $("#export-image").show();
+        $("#mapnik_scale_row").hide();
+        $("#export-warning").hide();
+      } else if (map.getMapBaseLayerId() === "mapnik") {
+        $("#export-image").show();
+        $("#mapnik_scale_row").show();
         $("#export-warning").hide();
       } else {
         $("#export-image").hide();
@@ -392,11 +452,11 @@ L.OSM.share = function (options) {
 
     function getScale() {
       var bounds = map.getBounds(),
-          centerLat = bounds.getCenter().lat,
-          halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
-          meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
-          pixelsPerMeter = map.getSize().x / meters,
-          metersPerPixel = 1 / (92 * 39.3701);
+        centerLat = bounds.getCenter().lat,
+        halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
+        meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
+        pixelsPerMeter = map.getSize().x / meters,
+        metersPerPixel = 1 / (92 * 39.3701);
       return Math.round(1 / (pixelsPerMeter * metersPerPixel));
     }
 

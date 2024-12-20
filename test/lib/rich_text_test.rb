@@ -250,6 +250,132 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal 141, r.spam_score.round
   end
 
+  def test_text_no_opengraph_properties
+    r = RichText.new("text", "foo https://example.com/ bar")
+    assert_nil r.image
+    assert_nil r.image_alt
+    assert_nil r.description
+  end
+
+  def test_html_no_opengraph_properties
+    r = RichText.new("html", "foo <a href='https://example.com/'>bar</a> baz")
+    assert_nil r.image
+    assert_nil r.image_alt
+    assert_nil r.description
+  end
+
+  def test_markdown_no_image
+    r = RichText.new("markdown", "foo [bar](https://example.com/) baz")
+    assert_nil r.image
+    assert_nil r.image_alt
+  end
+
+  def test_markdown_image
+    r = RichText.new("markdown", "foo ![bar](https://example.com/image.jpg) baz")
+    assert_equal "https://example.com/image.jpg", r.image
+    assert_equal "bar", r.image_alt
+  end
+
+  def test_markdown_first_image
+    r = RichText.new("markdown", "foo ![bar1](https://example.com/image1.jpg) baz\nfoo ![bar2](https://example.com/image2.jpg) baz")
+    assert_equal "https://example.com/image1.jpg", r.image
+    assert_equal "bar1", r.image_alt
+  end
+
+  def test_markdown_image_with_empty_src
+    r = RichText.new("markdown", "![invalid]()")
+    assert_nil r.image
+    assert_nil r.image_alt
+  end
+
+  def test_markdown_skip_image_with_empty_src
+    r = RichText.new("markdown", "![invalid]() ![valid](https://example.com/valid.gif)")
+    assert_equal "https://example.com/valid.gif", r.image
+    assert_equal "valid", r.image_alt
+  end
+
+  def test_markdown_html_image
+    r = RichText.new("markdown", "<img src='https://example.com/img_element.png' alt='alt text here'>")
+    assert_equal "https://example.com/img_element.png", r.image
+    assert_equal "alt text here", r.image_alt
+  end
+
+  def test_markdown_html_image_without_alt
+    r = RichText.new("markdown", "<img src='https://example.com/img_element.png'>")
+    assert_equal "https://example.com/img_element.png", r.image
+    assert_nil r.image_alt
+  end
+
+  def test_markdown_html_image_with_empty_src
+    r = RichText.new("markdown", "<img src='' alt='forgot src'>")
+    assert_nil r.image
+    assert_nil r.image_alt
+  end
+
+  def test_markdown_skip_html_image_with_empty_src
+    r = RichText.new("markdown", "<img src='' alt='forgot src'> <img src='https://example.com/next_img_element.png' alt='have src'>")
+    assert_equal "https://example.com/next_img_element.png", r.image
+    assert_equal "have src", r.image_alt
+  end
+
+  def test_markdown_html_image_without_src
+    r = RichText.new("markdown", "<img alt='totally forgot src'>")
+    assert_nil r.image
+    assert_nil r.image_alt
+  end
+
+  def test_markdown_skip_html_image_without_src
+    r = RichText.new("markdown", "<img alt='totally forgot src'> <img src='https://example.com/next_img_element.png' alt='have src'>")
+    assert_equal "https://example.com/next_img_element.png", r.image
+    assert_equal "have src", r.image_alt
+  end
+
+  def test_markdown_no_description
+    r = RichText.new("markdown", "#Nope")
+    assert_nil r.description
+  end
+
+  def test_markdown_description
+    r = RichText.new("markdown", "This is an article about something.")
+    assert_equal "This is an article about something.", r.description
+  end
+
+  def test_markdown_description_after_heading
+    r = RichText.new("markdown", "#Heading\n\nHere starts the text.")
+    assert_equal "Here starts the text.", r.description
+  end
+
+  def test_markdown_description_after_image
+    r = RichText.new("markdown", "![bar](https://example.com/image.jpg)\n\nThis is below the image.")
+    assert_equal "This is below the image.", r.description
+  end
+
+  def test_markdown_description_only_first_paragraph
+    r = RichText.new("markdown", "This thing.\n\nMaybe also that thing.")
+    assert_equal "This thing.", r.description
+  end
+
+  def test_markdown_description_elements
+    r = RichText.new("markdown", "*Something* **important** [here](https://example.com/).")
+    assert_equal "Something important here.", r.description
+  end
+
+  def test_markdown_html_description
+    r = RichText.new("markdown", "<p>Can use HTML tags.</p>")
+    assert_equal "Can use HTML tags.", r.description
+  end
+
+  def test_markdown_description_max_length
+    r = RichText.new("markdown", "x" * RichText::MAX_DESCRIPTION_LENGTH)
+    assert_equal "x" * RichText::MAX_DESCRIPTION_LENGTH, r.description
+
+    r = RichText.new("markdown", "y" * (RichText::MAX_DESCRIPTION_LENGTH + 1))
+    assert_equal "#{'y' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+
+    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((RichText::MAX_DESCRIPTION_LENGTH + 1) / 10.0).ceil)
+    assert_equal "#{'z' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+  end
+
   private
 
   def assert_html(richtext, &block)

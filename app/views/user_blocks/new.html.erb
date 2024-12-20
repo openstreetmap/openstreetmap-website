@@ -1,9 +1,11 @@
 <% @title = t ".title", :name => @user.display_name %>
+
+<% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
-  <h1><%= t(".heading_html",
-            :name => link_to(@user.display_name,
-                             user_path(@user))) %></h1>
+  <h1><%= t(".heading_html", :name => link_to(@user.display_name, @user)) %></h1>
+  <%= render :partial => "navigation" %>
 <% end %>
+
 <%= bootstrap_form_for(@user_block) do |f| %>
   <%= hidden_field_tag "display_name", @user.display_name, :autocomplete => "off" %>
   <%= f.richtext_field :reason, :cols => 80, :rows => 20 %>
@@ -20,5 +22,4 @@
   <% end %>
 
   <%= f.primary %>
-  <%= link_to t(".back"), user_blocks_path, :class => "btn btn-link" %>
 <% end %>

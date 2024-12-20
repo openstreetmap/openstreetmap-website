@@ -1,6 +1,41 @@
 require "application_system_test_case"
 
 class IndexTest < ApplicationSystemTestCase
+  test "should remove and add an overlay on share button click" do
+    node = create(:node)
+    visit node_path(node)
+    assert_selector "#content.overlay-right-sidebar"
+    find(".icon.share").click
+    assert_no_selector "#content.overlay-right-sidebar"
+    find(".icon.share").click
+    assert_selector "#content.overlay-right-sidebar"
+  end
+
+  test "should add an overlay on close" do
+    node = create(:node)
+    visit node_path(node)
+    find(".icon.share").click
+    assert_no_selector "#content.overlay-right-sidebar"
+    find(".share-ui .btn-close").click
+    assert_selector "#content.overlay-right-sidebar"
+  end
+
+  test "should not add overlay when not closing right menu popup" do
+    node = create(:node)
+    visit node_path(node)
+    find(".icon.share").click
+
+    find(".icon.key").click
+    assert_no_selector "#content.overlay-right-sidebar"
+    find(".icon.layers").click
+    assert_no_selector "#content.overlay-right-sidebar"
+    find(".icon.key").click
+    assert_no_selector "#content.overlay-right-sidebar"
+
+    find(".icon.key").click
+    assert_selector "#content.overlay-right-sidebar"
+  end
+
   test "node included in edit link" do
     node = create(:node)
     visit node_path(node)

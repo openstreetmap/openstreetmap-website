@@ -112,13 +112,6 @@ L.OSM.Map = L.Map.extend({
       })
     ));
 
-    this.on('baselayerchange', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
-      this.panBy([0, 1]);
-    });
-    this.on('viewreset', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
-      this.panBy([0, 1]);
-    });
-
     this.baseLayers.push(new L.OSM.Mapnik({
       attribution: copyright + " &hearts; " + donate + ". " + terms,
       code: "M",
@@ -150,15 +143,6 @@ L.OSM.Map = L.Map.extend({
         name: I18n.t("javascripts.map.base.transport_map")
       }));
     }
-
-    /*
-    this.baseLayers.push(new L.OSM.OPNVKarte({
-      attribution: copyright + ". " + memomaps + ". " + terms,
-      code: "O",
-      keyid: "opnvkarte",
-      name: I18n.t("javascripts.map.base.opnvkarte")
-    }));
-    */
 
     this.baseLayers.push(new L.OSM.HOT({
       attribution: copyright + ". " + hotosm + ". " + terms,

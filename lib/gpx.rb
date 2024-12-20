@@ -6,8 +6,9 @@ module GPX
 
     attr_reader :possible_points, :actual_points, :tracksegs
 
-    def initialize(file)
+    def initialize(file, options = {})
       @file = file
+      @maximum_points = options[:maximum_points] || Float::INFINITY
     end
 
     def parse_file(reader)
@@ -19,13 +20,14 @@ module GPX
           if reader.name == "trkpt"
             point = TrkPt.new(@tracksegs, reader["lat"].to_f, reader["lon"].to_f)
             @possible_points += 1
+            raise FileTooBigError if @possible_points > @maximum_points
           elsif reader.name == "ele" && point
             point.altitude = reader.read_string.to_f
           elsif reader.name == "time" && point
             point.timestamp = Time.parse(reader.read_string).utc
           end
         when XML::Reader::TYPE_END_ELEMENT
-          if reader.name == "trkpt" && point && point.valid?
+          if reader.name == "trkpt" && point&.valid?
             point.altitude ||= 0
             yield point
             @actual_points += 1
@@ -55,7 +57,7 @@ module GPX
         when "application/x-bzip" then io = Bzip2::FFI::Reader.open(@file)
         end
 
-        parse_file(XML::Reader.io(io), &block)
+        parse_file(XML::Reader.io(io, :options => XML::Parser::Options::NOERROR), &block)
       end
     end
 
@@ -170,6 +172,12 @@ module GPX
       latitude && longitude && timestamp &&
         latitude >= -90 && latitude <= 90 &&
         longitude >= -180 && longitude <= 180
+    end
+  end
+
+  class FileTooBigError < RuntimeError
+    def initialise
+      super("GPX File contains too many points")
     end
   end
 end

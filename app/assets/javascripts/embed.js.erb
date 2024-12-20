@@ -5,15 +5,15 @@
 //= require i18n
 //= require i18n/embed
 
-window.onload = function () {
-  if (navigator.languages) {
-    I18n.locale = navigator.languages[0];
-  } else if (navigator.language) {
-    I18n.locale = navigator.language;
-  }
+if (navigator.languages) {
+  I18n.locale = navigator.languages[0];
+} else if (navigator.language) {
+  I18n.locale = navigator.language;
+}
 
+window.onload = function () {
   var query = (window.location.search || '?').slice(1),
-      args  = {};
+    args  = {};
 
   var pairs = query.split('&');
   for (var i = 0; i < pairs.length; i++) {
@@ -22,15 +22,15 @@ window.onload = function () {
   }
 
   var mapnikOptions = {
-<% if Settings.key?(:tile_cdn_url) %>
+    <% if Settings.key?(:tile_cdn_url) %>
     url: <%= Settings.tile_cdn_url.to_json %>
-<% end %>
+    <% end %>
   };
 
   var thunderforestOptions = {
-<% if Settings.key?(:thunderforest_key) %>
+    <% if Settings.key?(:thunderforest_key) %>
     apikey: <%= Settings.thunderforest_key.to_json %>
-<% end %>
+    <% end %>
   };
 
   var map = L.map("map");
@@ -45,26 +45,26 @@ window.onload = function () {
     new L.OSM.CycleMap(thunderforestOptions).addTo(map);
   } else if (args.layer === "transportmap") {
     new L.OSM.TransportMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "opnvkarte") {
-    new L.OSM.OPNVKarte().addTo(map);
   } else if (args.layer === "hot") {
     new L.OSM.HOT().addTo(map);
+  } else {
+    new L.OSM.Mapnik(mapnikOptions).addTo(map);
   }
 
   if (args.marker) {
     L.marker(args.marker.split(','), {icon: L.icon({
-      iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
-      iconSize: new L.Point(25, 41),
-      iconAnchor: new L.Point(12, 41),
-      shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
-      shadowSize: new L.Point(41, 41)
-    })}).addTo(map);
+        iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
+        iconSize: new L.Point(25, 41),
+        iconAnchor: new L.Point(12, 41),
+        shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
+        shadowSize: new L.Point(41, 41)
+      })}).addTo(map);
   }
 
   if (args.bbox) {
     var bbox = args.bbox.split(',');
     map.fitBounds([L.latLng(bbox[1], bbox[0]),
-                   L.latLng(bbox[3], bbox[2])]);
+      L.latLng(bbox[3], bbox[2])]);
   } else {
     map.fitWorld();
   }

@@ -1,7 +1,7 @@
 //= require_self
 //= require leaflet.sidebar
 //= require leaflet.sidebar-pane
-//= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locatecontrol/dist/L.Control.Locate.umd
 //= require leaflet.locate
 //= require leaflet.layers
 //= require leaflet.key
@@ -12,9 +12,9 @@
 //= require leaflet.contextmenu
 //= require index/contextmenu
 //= require index/search
-//= require index/browse
+//= require index/layers/data
 //= require index/export
-//= require index/notes
+//= require index/layers/notes
 //= require index/history
 //= require index/note
 //= require index/new_note
@@ -26,8 +26,6 @@
 //= require qs/dist/qs
 
 $(document).ready(function () {
-  var loaderTimeout;
-
   var map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
@@ -42,11 +40,7 @@ $(document).ready(function () {
 
     map.setSidebarOverlaid(false);
 
-    clearTimeout(loaderTimeout);
-
-    loaderTimeout = setTimeout(function () {
-      $("#sidebar_loader").show();
-    }, 200);
+    $("#sidebar_loader").show().addClass("delayed-fade-in");
 
     // IE<10 doesn't respect Vary: X-Requested-With header, so
     // prevent caching the XHR response as a full-page URL.
@@ -63,9 +57,8 @@ $(document).ready(function () {
       url: content_path,
       dataType: "html",
       complete: function (xhr) {
-        clearTimeout(loaderTimeout);
         $("#flash").empty();
-        $("#sidebar_loader").hide();
+        $("#sidebar_loader").removeClass("delayed-fade-in").hide();
 
         var content = $(xhr.responseText);
 
@@ -163,12 +156,12 @@ $(document).ready(function () {
   OSM.initializeContextMenu(map);
 
   if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
-    OSM.initializeNotes(map);
+    OSM.initializeNotesLayer(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
       map.addLayer(map.noteLayer);
     }
 
-    OSM.initializeBrowse(map);
+    OSM.initializeDataLayer(map);
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
     }
@@ -178,8 +171,7 @@ $(document).ready(function () {
     }
   }
 
-  var placement = $("html").attr("dir") === "rtl" ? "right" : "left";
-  $(".leaflet-control .control-button").tooltip({ placement: placement, container: "body" });
+  $(".leaflet-control .control-button").tooltip({ placement: "left", container: "body" });
 
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
@@ -241,7 +233,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     var data = $(this).data(),
-        center = L.latLng(data.lat, data.lon);
+      center = L.latLng(data.lat, data.lon);
 
     map.setView(center, data.zoom);
     L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
@@ -249,13 +241,13 @@ $(document).ready(function () {
 
   function remoteEditHandler(bbox, object) {
     var remoteEditHost = "http://127.0.0.1:8111",
-        osmHost = location.protocol + "//" + location.host,
-        query = {
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-        };
+      osmHost = location.protocol + "//" + location.host,
+      query = {
+        left: bbox.getWest() - 0.0001,
+        top: bbox.getNorth() + 0.0001,
+        right: bbox.getEast() + 0.0001,
+        bottom: bbox.getSouth() - 0.0001
+      };
 
     if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
     sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query), function () {
@@ -266,20 +258,10 @@ $(document).ready(function () {
     });
 
     function sendRemoteEditCommand(url, callback) {
-      var iframe = $("<iframe>");
-      var timeoutId = setTimeout(function () {
-        alert(I18n.t("site.index.remote_failed"));
-        iframe.remove();
-      }, 5000);
-
-      iframe
-        .hide()
-        .appendTo("body")
-        .attr("src", url)
-        .on("load", function () {
-          clearTimeout(timeoutId);
-          iframe.remove();
-          if (callback) callback();
+      fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) })
+        .then(callback)
+        .catch(function () {
+          alert(I18n.t("site.index.remote_failed"));
         });
     }
 
@@ -318,13 +300,13 @@ $(document).ready(function () {
       // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
       // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
       function originalLoadFunction () {
-      var params = querystring.parse(location.search.substring(1));      if (params.query) {
-        $("#sidebar .search_form input[name=query]").value(params.query);
-      }
-      if (!("autofocus" in document.createElement("input"))) {
-        $("#sidebar .search_form input[name=query]").focus();
-      }
-      return map.getState();
+        var params = querystring.parse(location.search.substring(1));      if (params.query) {
+          $("#sidebar .search_form input[name=query]").value(params.query);
+        }
+        if (!("autofocus" in document.createElement("input"))) {
+          $("#sidebar .search_form input[name=query]").focus();
+        }
+        return map.getState();
       }  // end originalLoadFunction
 
       // "if map.timeslider" only try to add the timeslider if we don't already have it
@@ -355,7 +337,7 @@ $(document).ready(function () {
       // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
       // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
       function originalLoadFunction () {
-      addObject(type, id, true);
+        addObject(type, id, true);
       }  // end originalLoadFunction
 
       // "if map.timeslider" only try to add the timeslider if we don't already have it
@@ -398,7 +380,9 @@ $(document).ready(function () {
         }
       });
 
-      setTimeout(addOpenHistoricalMapInspector(), 250);
+      setTimeout(() => {
+        addOpenHistoricalMapInspector()
+      }, 250);
 
       $(".colour-preview-box").each(function () {
         $(this).css("background-color", $(this).data("colour"));
@@ -412,17 +396,27 @@ $(document).ready(function () {
     return page;
   };
 
+  OSM.OldBrowse = function () {
+    var page = {};
+
+    page.pushstate = page.popstate = function (path) {
+      OSM.loadSidebarContent(path);
+    };
+
+    return page;
+  };
+
   // add the enhanced inspector
   function addOpenHistoricalMapInspector () {
     var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
-        debug: true,
-        onFeatureFail: function (type, id) {
-            console.log([ 'failed to load feature', type, id ]);
-        },
-        onFeatureLoaded: function (type, id, xmldoc) {
-            console.log([ 'loaded feature', type, id, xmldoc ]);
-        },
-        apiBaseUrl: "/api",  // no trailing /
+      debug: true,
+      onFeatureFail: function (type, id) {
+        console.log([ 'failed to load feature', type, id ]);
+      },
+      onFeatureLoaded: function (type, id, xmldoc) {
+        console.log([ 'loaded feature', type, id, xmldoc ]);
+      },
+      apiBaseUrl: "/api",  // no trailing /
     });
     inspector.selectFeatureFromUrl();
   }
@@ -441,8 +435,11 @@ $(document).ready(function () {
     "/user/:display_name/history": history,
     "/note/:id": OSM.Note(map),
     "/node/:id(/history)": OSM.Browse(map, "node"),
+    "/node/:id/history/:version": OSM.OldBrowse(),
     "/way/:id(/history)": OSM.Browse(map, "way"),
+    "/way/:id/history/:version": OSM.OldBrowse(),
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
+    "/relation/:id/history/:version": OSM.OldBrowse(),
     "/changeset/:id": OSM.Changeset(map),
     "/query": OSM.Query(map)
   });
@@ -455,7 +452,7 @@ $(document).ready(function () {
   OSM.router.load();
 
   $(document).on("click", "a", function (e) {
-    if (e.isDefaultPrevented() || e.isPropagationStopped()) {
+    if (e.isDefaultPrevented() || e.isPropagationStopped() || $(e.target).data("turbo")) {
       return;
     }
 
@@ -471,6 +468,9 @@ $(document).ready(function () {
 
     if (OSM.router.route(this.pathname + this.search + this.hash)) {
       e.preventDefault();
+      if (this.pathname !== "/directions") {
+        $("header").addClass("closed");
+      }
     }
   });
 

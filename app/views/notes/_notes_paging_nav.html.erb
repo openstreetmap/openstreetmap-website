@@ -1,17 +1,36 @@
-<p>
+<nav>
+  <% link_class = "page-link icon-link text-center text-nowrap" %>
+  <ul class="pagination">
+    <% previous_link_content = capture do %>
+      <%= previous_page_svg_tag :class => "flex-shrink-0" %>
+      <%= t(".previous") %>
+    <% end %>
+    <% if @page > 1 %>
+      <li class="page-item">
+        <%= link_to previous_link_content, @params.merge(:page => @page - 1), :class => link_class %>
+      </li>
+    <% else %>
+      <li class="page-item disabled">
+        <%= tag.span previous_link_content, :class => link_class %>
+      </li>
+    <% end %>
 
-<% if @page > 1 %>
-<%= link_to t("changesets.changeset_paging_nav.previous"), @params.merge(:page => @page - 1) %>
-<% else %>
-<%= t("changesets.changeset_paging_nav.previous") %>
-<% end %>
+    <li class="page-item active">
+      <%= tag.span t(".showing_page", :page => @page), :class => link_class %>
+    </li>
 
-| <%= t("changesets.changeset_paging_nav.showing_page", :page => @page) %> |
-
-<% if @notes.size < @page_size %>
-<%= t("changesets.changeset_paging_nav.next") %>
-<% else %>
-<%= link_to t("changesets.changeset_paging_nav.next"), @params.merge(:page => @page + 1) %>
-<% end %>
-
-</p>
+    <% next_link_content = capture do %>
+      <%= t(".next") %>
+      <%= next_page_svg_tag :class => "flex-shrink-0" %>
+    <% end %>
+    <% if @notes.size < @page_size %>
+      <li class="page-item disabled">
+        <%= tag.span next_link_content, :class => link_class %>
+      </li>
+    <% else %>
+      <li class="page-item">
+        <%= link_to next_link_content, @params.merge(:page => @page + 1), :class => link_class %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

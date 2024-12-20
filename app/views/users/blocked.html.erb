@@ -1,12 +1,16 @@
 <% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
-  <div class='header-illustration new-user-main'>
-    <h1><%= t "users.new.title" %></h1>
+  <div class="header-illustration new-user-main">
+    <ul class="nav nav-tabs position-absolute bottom-0 fs-6 w-100">
+      <li class="nav-item">
+        <%= link_to t("sessions.new.tab_title"), url_for(:action => :new, :controller => :sessions), :class => "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to t("users.new.tab_title"), "#", :class => "nav-link active" %>
+      </li>
+    </ul>
   </div>
-  <div class='header-illustration new-user-arm'></div>
 <% end %>
 
-<div class="message">
-  <h1><%= t "users.new.no_auto_account_create" %></h1>
-  <h2><%= t "users.new.please_contact_support_html", :support_link => mail_to(Settings.support_email, t("users.new.support")) %></h2>
-</div>
+<p><strong><%= t "users.new.no_auto_account_create" %></strong></p>
+<p><%= t "users.new.please_contact_support_html", :support_link => mail_to(Settings.support_email, t("users.new.support")) %></p>

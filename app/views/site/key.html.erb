@@ -1,15 +1,19 @@
 <div id="mapkey">
-  <table class="table table-sm table-borderless mapkey-table mb-0">
-    <% YAML.load_file(Rails.root.join("config/key.yml")).each do |name,data| %>
-      <% data.each do |entry| %>
-        <tr class="mapkey-table-entry" data-layer="<%= name %>" data-zoom-min="<%= entry["min_zoom"] %>" data-zoom-max="<%= entry["max_zoom"] %>">
-          <td class="mapkey-table-key align-middle">
-            <%= image_tag "key/#{name}/#{entry['image']}" %>
+  <table class="table table-sm table-borderless mb-0 align-middle">
+    <% @key.each do |layer_name, layer_data| %>
+      <% layer_data.each do |entry| %>
+        <%= tag.tr :class => "mapkey-table-entry", :data => { :layer => layer_name, :zoom_min => entry["min_zoom"], :zoom_max => entry["max_zoom"] } do %>
+          <td>
+            <% if entry["image"] %>
+              <%= image_tag "key/#{layer_name}/#{entry['image']}", :class => "d-block mx-auto" %>
+            <% else %>
+              <%= key_svg_tag :class => "d-block mx-auto", **entry %>
+            <% end %>
           </td>
-          <td class="mapkey-table-value">
-            <%= Array(t(".table.entry.#{entry['name']}")).to_sentence %>
+          <td>
+            <%= entry["name"].map { |feature_name| t ".table.entry.#{feature_name}" }.join(" · ") %>
           </td>
-        </tr>
+        <% end %>
       <% end %>
     <% end %>
   </table>

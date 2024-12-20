@@ -1,13 +1,32 @@
-<% set_title(t("browse.#{@type}.title_html", :name => printable_name(@feature))) %>
+<% set_title(t("browse.#{@type}.title_html", :name => printable_element_name(@feature))) %>
 
-<%= render "sidebar_header", :title => t("browse.#{@type}.title_html", :name => printable_name(@feature)) %>
+<%= render "sidebar_header", :title => t("browse.#{@type}.title_html", :name => printable_element_name(@feature)) %>
 
-<%= render :partial => @type, :object => @feature %>
+<%= render :partial => "browse/#{@type}", :object => @feature %>
 
-<div class='secondary-actions'>
-  <% if @feature.visible? %>
+<% if @feature.visible? %>
+  <div class='secondary-actions'>
     <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
+  </div>
+<% end %>
+<div class='secondary-actions'>
+  <% if @feature.version > 1 %>
+    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => 1 }, :class => "icon-link") do %>
+      <%= previous_page_svg_tag :height => 11, :count => 2 %>
+      <%= "#{t('browse.version')} #1" %>
+    <% end %>
     &middot;
   <% end %>
-  <%= link_to(t("browse.view_history"), :action => "#{@type}_history") %>
+    <%= link_to t("browse.view_history"), :controller => "old_#{@type.pluralize}" %>
+  <% if current_user&.moderator? %>
+    &middot;
+    <%= link_to(t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true }) %>
+  <% end %>
+  <% if @feature.version > 1 %>
+    &middot;
+    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => @feature.version }, :class => "icon-link") do %>
+      <%= "#{t('browse.version')} ##{@feature.version}" %>
+      <%= next_page_svg_tag :height => 11, :count => 2 %>
+    <% end %>
+  <% end %>
 </div>

@@ -2,7 +2,9 @@
   <td>
     <% if Settings.status != "gpx_offline" %>
       <% if trace.inserted %>
-        <a href="<%= url_for :controller => "traces", :action => "show", :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => "traces", :action => "icon", :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
+        <%= link_to trace_icon(trace),
+                    show_trace_path(trace.user, trace),
+                    :class => "d-inline-block" %>
       <% else %>
         <span class="text-danger"><%= t ".pending" %></span>
       <% end %>
@@ -11,7 +13,7 @@
   <td>
     <ul class="list-inline mb-0">
       <li class="list-inline-item">
-        <%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
+        <%= link_to trace.name, show_trace_path(trace.user, trace) %>
       </li>
 
       <% if trace.inserted? %>
@@ -25,20 +27,20 @@
                          when "public", "identifiable" then "success"
                          else "danger"
                          end %>
-        <span class="badge bg-<%= badge_class %> text-white"><%= t(".#{trace.visibility}") %></span>
+        <span class="badge text-bg-<%= badge_class %>"><%= t(".#{trace.visibility}") %></span>
       </li>
     </ul>
-    <p class="text-muted mb-0">
-      <span title="<%= trace.timestamp %>">
-        <%= time_ago_in_words(trace.timestamp, :scope => :"datetime.distance_in_words_ago") %>
-      </span>
-      <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
-      <% if !trace.tags.empty? %>
-        <%= t ".in" %>
-        <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
+    <p class="text-body-secondary mb-0">
+      <% if trace.tags.empty? %>
+        <%= t ".details_without_tags_html", :time_ago => friendly_date_ago(trace.timestamp),
+                                            :user => link_to(trace.user.display_name, trace.user) %>
+      <% else %>
+        <%= t ".details_with_tags_html", :time_ago => friendly_date_ago(trace.timestamp),
+                                         :user => link_to(trace.user.display_name, trace.user),
+                                         :tags => safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
       <% end %>
     </p>
-    <p class="fst-italic mb-0">
+    <p class="fs-6 mb-0">
       <%= trace.description %>
     </p>
   </td>
@@ -47,10 +49,10 @@
       <nav class="secondary-actions">
         <ul>
           <li>
-            <%= link_to t(".view_map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" } %>
+            <%= link_to t(".view_map"), root_path(:mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}") %>
           </li>
           <li>
-            <%= link_to t(".edit_map"), { :controller => "site", :action => "edit", :gpx => trace.id } %>
+            <%= link_to t(".edit_map"), edit_path(:gpx => trace.id) %>
           </li>
         </ul>
       </nav>

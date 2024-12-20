@@ -38,6 +38,7 @@ class Trace < ApplicationRecord
   scope :visible_to, ->(u) { visible.where(:visibility => %w[public identifiable]).or(visible.where(:user => u)) }
   scope :visible_to_all, -> { where(:visibility => %w[public identifiable]) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
+  scope :imported, -> { where(:inserted => true) }
 
   has_one_attached :file, :service => Settings.trace_file_storage
   has_one_attached :image, :service => Settings.trace_image_storage
@@ -80,7 +81,7 @@ class Trace < ApplicationRecord
             :content_type => content_type(attachable.path),
             :identify => false)
     else
-      super(attachable)
+      super
     end
   end
 
@@ -202,7 +203,7 @@ class Trace < ApplicationRecord
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
     file.open do |file|
-      gpx = GPX::File.new(file.path)
+      gpx = GPX::File.new(file.path, :maximum_points => Settings.max_trace_size)
 
       f_lat = 0
       f_lon = 0
@@ -265,6 +266,14 @@ class Trace < ApplicationRecord
 
       gpx
     end
+  end
+
+  def schedule_import
+    TraceImporterJob.new(self).enqueue(:priority => user.traces.where(:inserted => false).count)
+  end
+
+  def schedule_destruction
+    TraceDestroyerJob.perform_later(self)
   end
 
   private

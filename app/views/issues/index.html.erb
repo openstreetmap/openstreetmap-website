@@ -4,7 +4,7 @@
 
 <p><%= t ".search_guidance" %></p>
 
-<%= form_tag(issues_path, :method => :get) do %>
+<%= form_tag(issues_path, :method => :get, :data => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" }) do %>
   <div class="row gx-1">
     <div class="mb-3 col-md-auto">
       <%= select_tag :status,
@@ -40,38 +40,4 @@
   </div>
 <% end %>
 
-<% if @issues.length == 0 %>
-  <p><%= t ".issues_not_found" %></p>
-<% else %>
-  <table class="table table-sm">
-    <thead>
-      <tr>
-        <th><%= t ".status" %></th>
-        <th><%= t ".reports" %></th>
-        <th><%= t ".reported_item" %></th>
-        <th><%= t ".reported_user" %></th>
-        <th><%= t ".last_updated" %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @issues.each do |issue| %>
-        <tr>
-          <td><%= t ".states.#{issue.status}" %></td>
-          <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
-          <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
-          <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
-          <td>
-            <% time_ago_tag = tag.abbr(time_ago_in_words(issue.updated_at, :scope => :"datetime.distance_in_words_ago"),
-                                       :title => l(issue.updated_at)) %>
-            <% if issue.user_updated %>
-              <%= t ".last_updated_time_ago_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated)),
-                                                        :time_ago => time_ago_tag %>
-            <% else %>
-              <%= time_ago_tag %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+<%= render :partial => "page" %>

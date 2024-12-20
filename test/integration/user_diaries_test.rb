@@ -15,19 +15,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     # We can now login
     post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/diary/new" }
     assert_response :redirect
-
-    # Check that there is some payload alerting the user to the redirect
-    # and allowing them to get to the page they are being directed to
-    assert_select "html:root" do
-      assert_select "body" do
-        assert_select "a[href='http://www.example.com/diary/new']"
-      end
-    end
-    # Required due to a bug in the rails testing framework
-    # http://markmail.org/message/wnslvi5xv5moqg7g
-    @html_document = nil
     follow_redirect!
-
     assert_response :success
     assert_template "diary_entries/new"
 

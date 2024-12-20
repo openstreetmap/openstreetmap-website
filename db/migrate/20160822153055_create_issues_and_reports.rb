@@ -1,6 +1,6 @@
 class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
   def up
-    create_enumeration :issue_status_enum, %w[open ignored resolved]
+    create_enum :issue_status_enum, %w[open ignored resolved]
 
     create_table :issues do |t|
       t.string :reportable_type, :null => false

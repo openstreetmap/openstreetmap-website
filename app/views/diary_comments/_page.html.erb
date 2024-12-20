@@ -1,0 +1,24 @@
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <table class="table table-striped" width="100%">
+    <thead>
+      <tr>
+        <th width="25%"><%= t ".post" %></th>
+        <th width="25%"><%= t ".when" %></th>
+        <th width="50%"><%= t ".comment" %></th>
+      </tr>
+    </thead>
+    <% @comments.each do |comment| -%>
+    <tr>
+      <td width="25%" class="<%= "text-body-secondary" unless comment.visible? %>"><%= link_to comment.diary_entry.title, diary_entry_path(comment.diary_entry.user, comment.diary_entry) %></td>
+      <td width="25%" class="<%= "text-body-secondary" unless comment.visible? %>">
+        <%= friendly_date_ago(comment.created_at) %>
+      </td>
+      <td width="50%" class="richtext text-break<%= " text-body-secondary" unless comment.visible? %>"><%= comment.body.to_html %></td>
+    </tr>
+    <% end -%>
+  </table>
+
+  <%= render "shared/pagination",
+             :newer_id => @newer_comments_id,
+             :older_id => @older_comments_id %>
+</turbo-frame>

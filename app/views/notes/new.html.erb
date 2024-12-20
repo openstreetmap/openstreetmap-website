@@ -4,13 +4,18 @@
 
 <div class="note">
   <p class="alert alert-info"><%= t(".intro") %></p>
+  <% if !current_user %>
+    <p class="alert alert-warning"><%= t ".anonymous_warning_html",
+                                         :log_in => link_to(t(".anonymous_warning_log_in"), login_path(:referer => new_note_path)),
+                                         :sign_up => link_to(t(".anonymous_warning_sign_up"), user_new_path) %></p>
+  <% end %>
   <form action="#">
     <input type="hidden" name="lon" autocomplete="off">
     <input type="hidden" name="lat" autocomplete="off">
     <div class="mb-3">
       <textarea class="form-control" name="text" cols="40" rows="10" maxlength="2000" placeholder="<%= t(".advice") %>"></textarea>
     </div>
-    <div class="btn-wrapper">
+    <div>
       <input type="submit" name="add" value="<%= t(".add") %>" disabled="1" class="btn btn-primary">
     </div>
   </form>

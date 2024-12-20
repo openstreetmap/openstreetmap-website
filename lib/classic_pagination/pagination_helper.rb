@@ -130,6 +130,40 @@ module ActionView
 
         html
       end
+
+      def pagination_items(paginator, options)
+        options = DEFAULT_OPTIONS.merge(options)
+        link_to_current_page = options[:link_to_current_page]
+        always_show_anchors = options[:always_show_anchors]
+
+        current_page = paginator.current_page
+        window_pages = current_page.window(options[:window_size]).pages
+
+        first = paginator.first
+        last = paginator.last
+
+        items = []
+
+        if always_show_anchors && !(wp_first = window_pages[0]).first?
+          items.push [first.number.to_s, first]
+          items.push ["...", "disabled"] if wp_first.number - first.number > 1
+        end
+
+        window_pages.each do |page|
+          if current_page == page && !link_to_current_page
+            items.push [page.number.to_s, "active"]
+          else
+            items.push [page.number.to_s, page]
+          end
+        end
+
+        if always_show_anchors && !(wp_last = window_pages[-1]).last?
+          items.push ["...", "disabled"] if last.number - wp_last.number > 1
+          items.push [last.number.to_s, last]
+        end
+
+        items
+      end
     end
   end
 end

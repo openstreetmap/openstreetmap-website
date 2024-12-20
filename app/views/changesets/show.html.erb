@@ -1,0 +1,130 @@
+<% set_title(t(".title", :id => @changeset.id)) %>
+
+<%= render "sidebar_header", :title => t(".title", :id => @changeset.id) %>
+
+<div class="browse-section">
+  <p class="fs-6 overflow-x-auto">
+    <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
+  </p>
+  <p class="details"><%= changeset_details(@changeset) %></p>
+
+  <%= render :partial => "browse/tag_details", :object => @changeset.tags.except("comment") %>
+
+  <div class="row">
+    <div class="col">
+      <h4><%= t(".discussion") %></h4>
+    </div>
+
+    <% if current_user %>
+      <div class="col-auto">
+        <% if @changeset.subscribers.exists?(current_user.id) %>
+          <%= tag.button t(".unsubscribe"),
+                         :class => "btn btn-sm btn-primary",
+                         :name => "unsubscribe",
+                         :data => { :method => "POST",
+                                    :url => api_changeset_unsubscribe_url(@changeset) } %>
+        <% else %>
+          <%= tag.button t(".subscribe"),
+                         :class => "btn btn-sm btn-primary",
+                         :name => "subscribe",
+                         :data => { :method => "POST",
+                                    :url => api_changeset_subscribe_url(@changeset) } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @comments.length > 0 %>
+    <ul class="list-unstyled">
+      <% @comments.each do |comment| %>
+        <% next unless comment.visible || current_user&.moderator? %>
+        <li id="c<%= comment.id %>">
+          <small class='text-body-secondary'>
+            <%= comment_by_options = { :time_ago => friendly_date_ago(comment.created_at),
+                                       :user => link_to(comment.author.display_name, comment.author) }
+                comment.visible ? t(".comment_by_html", **comment_by_options) : t(".hidden_comment_by_html", **comment_by_options) %>
+            <% if current_user&.moderator? %>
+              —
+              <%= tag.button t(".#{comment.visible ? 'hide' : 'unhide'}_comment"),
+                             :class => "btn btn-sm small btn-link link-secondary p-0 align-baseline",
+                             :data => { :method => "POST",
+                                        :url => comment.visible ? changeset_comment_hide_url(comment) : changeset_comment_unhide_url(comment) } %>
+            <% end %>
+          </small>
+          <div class="mx-2">
+            <%= comment.body.to_html %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% unless current_user %>
+    <p>
+      <%= link_to(t(".join_discussion"), login_path(:referer => request.fullpath)) %>
+    </p>
+  <% end %>
+
+  <% if current_user %>
+    <% unless @changeset.open? %>
+      <form action="#" class="mb-3">
+        <div class="mb-3">
+          <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
+        </div>
+        <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
+        </div>
+        <div>
+          <%= tag.button t(".comment"),
+                         :class => "btn btn-primary",
+                         :name => "comment",
+                         :disabled => true,
+                         :data => { :method => "POST",
+                                    :url => changeset_comment_url(@changeset) } %>
+        </div>
+      </form>
+    <% else %>
+      <p>
+        <%= t(".still_open") %>
+      </p>
+    <% end %>
+  <% end %>
+
+  <% unless @ways.empty? %>
+    <%= render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages } %>
+  <% end %>
+
+  <% unless @relations.empty? %>
+    <%= render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages } %>
+  <% end %>
+
+  <% unless @nodes.empty? %>
+    <%= render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages } %>
+  <% end %>
+</div>
+
+<div class='secondary-actions'>
+  <%= link_to(t(".changesetxml"), :controller => "api/changesets", :action => "show") %>
+  &middot;
+  <%= link_to(t(".osmchangexml"), :controller => "api/changesets", :action => "download") %>
+</div>
+
+<% if @next_by_user || @prev_by_user %>
+  <div class='secondary-actions'>
+    <% if @prev_by_user %>
+      <%= link_to @prev_by_user, :class => "icon-link" do %>
+        <%= previous_page_svg_tag :height => 11 %>
+        <%= @prev_by_user.id %>
+      <% end %>
+      &middot;
+    <% end %>
+    <%= user = (@prev_by_user || @next_by_user).user.display_name
+        link_to tag.bdi(user), :controller => "changesets", :action => "index", :display_name => user %>
+    <% if @next_by_user %>
+      &middot;
+      <%= link_to @next_by_user, :class => "icon-link" do %>
+        <%= @next_by_user.id %>
+        <%= next_page_svg_tag :height => 11 %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

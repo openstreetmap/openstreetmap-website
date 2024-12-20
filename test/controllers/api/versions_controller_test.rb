@@ -46,5 +46,17 @@ module Api
       assert_response :success
       assert_select "osm[version]", :count => 0
     end
+
+    def test_versions_available_while_offline
+      with_settings(:status => "api_offline") do
+        get api_versions_path
+        assert_response :success
+        assert_select "osm[generator='#{Settings.generator}']", :count => 1 do
+          assert_select "api", :count => 1 do
+            assert_select "version", Settings.api_version
+          end
+        end
+      end
+    end
   end
 end

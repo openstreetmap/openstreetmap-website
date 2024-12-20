@@ -19,15 +19,15 @@
   <fieldset class="mb-3">
     <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
     <div class="row">
-      <%= f.select(:auth_provider, Auth.providers, :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
+      <%= f.select(:auth_provider, { t("auth.providers.none") => "" }.merge(Auth.providers), :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
       <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }) %>
     </div>
-    <small class="form-text text-muted">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
+    <small class="form-text text-body-secondary">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
   </fieldset>
 
   <div class="mb-3">
     <label class="form-label"><%= t ".public editing.heading" %></label>
-    <span class="form-text text-muted">
+    <span class="form-text text-body-secondary">
       <% if current_user.data_public? %>
         <%= t ".public editing.enabled" %>
         (<a href="<%= t ".public editing.enabled link" %>" target="_new"><%= t ".public editing.enabled link text" %></a>)
@@ -40,7 +40,7 @@
 
   <div class="mb-3">
     <label class="form-label"><%= t ".contributor terms.heading" %></label>
-    <span class="form-text text-muted">
+    <span class="form-text text-body-secondary">
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
         (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
@@ -51,11 +51,11 @@
     </span>
   </div>
 
-  <div class="row justify-content-between">
-    <div class="col-auto btn-wrapper">
+  <div class="row justify-content-between g-1">
+    <div class="col-auto">
       <%= f.primary t(".save changes button") %>
     </div>
-    <div class="col-auto btn-wrapper">
+    <div class="col-auto">
       <%= link_to t(".delete_account"), account_deletion_path, :class => "btn btn-outline-danger" %>
     </div>
   </div>

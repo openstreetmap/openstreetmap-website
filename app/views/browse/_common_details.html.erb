@@ -1,9 +1,13 @@
 <h4>
-  <%= t "browse.version" %>
-  #<%= common_details.version %>
+  <%= if common_details.redacted?
+        t "browse.redacted_version"
+      else
+        t "browse.version"
+      end %>
+  #<%= link_to_unless_current common_details.version, :controller => "old_#{@type.pluralize}", :action => :show, :version => common_details.version %>
 </h4>
 
-<p class="fst-italic">
+<p class="fs-6 overflow-x-auto">
   <% if common_details.changeset.tags["comment"].present? %>
     <%= linkify(common_details.changeset.tags["comment"]) %>
   <% else %>
@@ -14,13 +18,12 @@
 <ul class="list-unstyled">
   <li>
     <%= t "browse.#{common_details.visible? ? :edited : :deleted}_ago_by_html",
-          :time_ago => tag.abbr(time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
-                                :title => l(common_details.timestamp)),
+          :time_ago => friendly_date_ago(common_details.timestamp),
           :user => changeset_user_link(common_details.changeset) %>
   </li>
   <li>
     <%= t "browse.in_changeset" %>
-    #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+    #<%= link_to common_details.changeset_id, changeset_path(common_details.changeset) %>
   </li>
 
   <% if @type == "node" and common_details.visible? %>
@@ -34,4 +37,4 @@
   <% end %>
 </ul>
 
-<%= render :partial => "tag_details", :object => common_details.tags %>
+<%= render :partial => "browse/tag_details", :object => common_details.tags %>

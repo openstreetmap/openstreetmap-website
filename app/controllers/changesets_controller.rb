@@ -4,22 +4,22 @@ class ChangesetsController < ApplicationController
   include UserMethods
 
   layout "site"
-  require "xml/libxml"
 
   before_action :authorize_web
   before_action :set_locale
-  before_action -> { check_database_readable(:need_api => true) }, :only => [:index, :feed]
+  before_action -> { check_database_readable(:need_api => true) }, :only => [:index, :feed, :show]
+  before_action :require_oauth, :only => :show
+  before_action :check_database_writable, :only => [:subscribe, :unsubscribe]
 
   authorize_resource
 
   around_action :web_timeout
 
-  # Helper methods for checking consistency
-  include ConsistencyValidations
-
   ##
   # list non-empty changesets in reverse chronological order
   def index
+    param! :max_id, Integer, :min => 1
+
     @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
 
     if request.format == :atom && @params[:max_id]
@@ -60,7 +60,7 @@ class ChangesetsController < ApplicationController
         changesets = changesets.where(:user => current_user.nearby)
       end
 
-      changesets = changesets.where("changesets.id <= ?", @params[:max_id]) if @params[:max_id]
+      changesets = changesets.where(:changesets => { :id => ..@params[:max_id] }) if @params[:max_id]
 
       @changesets = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
@@ -74,6 +74,67 @@ class ChangesetsController < ApplicationController
     index
   end
 
+  def show
+    @type = "changeset"
+    @changeset = Changeset.find(params[:id])
+    case turbo_frame_request_id
+    when "changeset_nodes"
+      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
+      render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages }
+    when "changeset_ways"
+      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
+      render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages }
+    when "changeset_relations"
+      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
+      render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages }
+    else
+      @comments = if current_user&.moderator?
+                    @changeset.comments.unscope(:where => :visible).includes(:author)
+                  else
+                    @changeset.comments.includes(:author)
+                  end
+      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
+      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
+      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
+      if @changeset.user.active? && @changeset.user.data_public?
+        changesets = conditions_nonempty(@changeset.user.changesets)
+        @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
+        @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
+      end
+      render :layout => map_layout
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :template => "browse/not_found", :status => :not_found, :layout => map_layout
+  end
+
+  ##
+  # subscribe to a changeset
+  def subscribe
+    @changeset = Changeset.find(params[:id])
+
+    if request.post?
+      @changeset.subscribe(current_user) unless @changeset.subscribed?(current_user)
+
+      redirect_to changeset_path(@changeset)
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
+  ##
+  # unsubscribe from a changeset
+  def unsubscribe
+    @changeset = Changeset.find(params[:id])
+
+    if request.post?
+      @changeset.unsubscribe(current_user)
+
+      redirect_to changeset_path(@changeset)
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
   private
 
   #------------------------------------------------------------
@@ -83,7 +144,6 @@ class ChangesetsController < ApplicationController
   ##
   # if a bounding box was specified do some sanity checks.
   # restrict changesets to those enclosed by a bounding box
-  # we need to return both the changesets and the bounding box
   def conditions_bbox(changesets, bbox)
     if bbox
       bbox.check_boundaries

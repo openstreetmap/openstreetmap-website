@@ -12,6 +12,17 @@ class SiteController < ApplicationController
 
   authorize_resource :class => false
 
+  content_security_policy(:only => :edit) do |policy|
+    policy.frame_src(*policy.frame_src, :blob)
+  end
+
+  content_security_policy(:only => :id) do |policy|
+    policy.connect_src("*")
+    policy.img_src(*policy.img_src, "*", :blob)
+    policy.script_src(*policy.script_src, :unsafe_eval)
+    policy.style_src(*policy.style_src, :unsafe_inline)
+  end
+
   def index
     session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
   end
@@ -48,6 +59,15 @@ class SiteController < ApplicationController
 
   def key
     expires_in 7.days, :public => true
+    @key = YAML.load_file(Rails.root.join("config/key.yml"))
+    @key.each_value do |layer_data|
+      layer_data.each do |entry|
+        entry["name"] = Array(entry["name"])
+      end
+      layer_data.each_cons(2) do |entry, next_entry|
+        entry["max_zoom"] = next_entry["min_zoom"] - 1 if entry["name"] == next_entry["name"] && !entry["max_zoom"] && next_entry["min_zoom"]
+      end
+    end
     render :layout => false
   end
 
@@ -60,12 +80,6 @@ class SiteController < ApplicationController
       return
     else
       require_user
-    end
-
-    if %w[id].include?(editor)
-      append_content_security_policy_directives(
-        :frame_src => %w[blob:]
-      )
     end
 
     begin
@@ -96,6 +110,7 @@ class SiteController < ApplicationController
   end
 
   def copyright
+    @title = t ".title"
     @locale = params[:copyright_locale] || I18n.locale
   end
 
@@ -121,17 +136,15 @@ class SiteController < ApplicationController
   end
 
   def preview
-    render :html => RichText.new(params[:type], params[:text]).to_html
+    if params[:text].blank?
+      flash.now[:warning] = t("layouts.nothing_to_preview")
+      render :partial => "layouts/flash"
+    else
+      render :html => RichText.new(params[:type], params[:text]).to_html
+    end
   end
 
   def id
-    append_content_security_policy_directives(
-      :connect_src => %w[*],
-      :img_src => %w[* blob:],
-      :script_src => %w[dev.virtualearth.net 'unsafe-eval'],
-      :style_src => %w['unsafe-inline']
-    )
-
     render :layout => false
   end
 

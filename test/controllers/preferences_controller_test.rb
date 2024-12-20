@@ -36,7 +36,6 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     # Changing to a valid editor should work
     user.preferred_editor = "id"
     put preferences_path, :params => { :user => user.attributes }
-    assert_response :redirect
     assert_redirected_to preferences_path
     follow_redirect!
     assert_template :show
@@ -46,7 +45,6 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     # Changing to the default editor should work
     user.preferred_editor = "default"
     put preferences_path, :params => { :user => user.attributes }
-    assert_response :redirect
     assert_redirected_to preferences_path
     follow_redirect!
     assert_template :show

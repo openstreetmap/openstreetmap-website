@@ -1,10 +1,10 @@
-# openstreetmap-website
+ # openstreetmap-website
 
 [![Lint](https://github.com/openstreetmap/openstreetmap-website/workflows/Lint/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions?query=workflow%3ALint%20branch%3Amaster%20event%3Apush)
 [![Tests](https://github.com/openstreetmap/openstreetmap-website/workflows/Tests/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions?query=workflow%3ATests%20branch%3Amaster%20event%3Apush)
 [![Coverage Status](https://coveralls.io/repos/openstreetmap/openstreetmap-website/badge.svg?branch=master)](https://coveralls.io/r/openstreetmap/openstreetmap-website?branch=master)
 
-This is `openstreetmap-website`, the [Ruby on Rails](http://rubyonrails.org/)
+This is `openstreetmap-website`, the [Ruby on Rails](https://rubyonrails.org/)
 application that powers the [OpenStreetMap](https://www.openstreetmap.org) website and API.
 
 This repository consists of:
@@ -45,6 +45,7 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 
 * Tom Hughes [@tomhughes](https://github.com/tomhughes/)
 * Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
+* Anton Khorev [@AntonKhorev](https://github.com/AntonKhorev/)
 
 
 # Docker for local development
@@ -67,7 +68,7 @@ cp config/settings.yml config/settings.local.yml
 ```
 
 5. Run `docker compose up --build`.
-If you encounter any `SEGFAULT` Code 139 errors, you need to allocate more memory to Docker. Go to the GUI Docker Dashboard > Settings and allocate at least 6GB.
+   If you encounter any `SEGFAULT` Code 139 errors, you need to allocate more memory to Docker. Go to the GUI Docker Dashboard > Settings and allocate at least 6GB.
 
 6. Visit http://localhost:3000
 

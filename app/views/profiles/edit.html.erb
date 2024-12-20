@@ -42,7 +42,7 @@
 
   <fieldset>
     <legend><%= t ".home location" -%></legend>
-    <p id="home_message" class="text-muted m-0<% if current_user.home_location? %> invisible<% end %>"><%= t ".no home location" %></p>
+    <p id="home_message" class="text-body-secondary m-0<% if current_user.home_location? %> invisible<% end %>"><%= t ".no home location" %></p>
     <div class="row">
       <%= f.text_field :home_lat, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "home_lat" %>
       <%= f.text_field :home_lon, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "home_lon" %>
@@ -56,9 +56,9 @@
       <input class="form-check-input" type="checkbox" name="updatehome" value="1" <% unless current_user.home_location? %> checked <% end %> id="updatehome" />
       <label class="form-check-label" for="updatehome"><%= t ".update home location on click" %></label>
     </div>
-    <%= tag.div "", :id => "map", :class => "content_map set_location border border-grey rounded" %>
+    <%= tag.div "", :id => "map", :class => "content_map set_location border border-secondary-subtle rounded z-0" %>
   </fieldset>
 
   <%= f.primary t(".save") %>
-    <%= link_to t(".cancel"), user_path(current_user), :class => "btn btn-link" %>
+    <%= link_to t(".cancel"), current_user, :class => "btn btn-link" %>
 <% end %>

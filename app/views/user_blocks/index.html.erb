@@ -1,10 +1,13 @@
 <% @title = t(".title") %>
+
+<% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
   <h1><%= t(".heading") %></h1>
+  <%= render :partial => "navigation" %>
 <% end %>
 
 <% unless @user_blocks.empty? %>
-<%= render :partial => "blocks", :locals => { :show_revoke_link => can?(:revoke, UserBlock), :show_user_name => true, :show_creator_name => true } %>
+<%= render :partial => "page" %>
 <% else %>
 <p><%= t ".empty" %></p>
 <% end %>

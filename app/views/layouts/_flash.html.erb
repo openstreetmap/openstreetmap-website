@@ -1,35 +1,13 @@
-<% if flash[:error] %>
-  <div class="alert alert-danger row mx-0 mb-0 p-3 rounded-0 align-items-center">
-    <div class="col-auto">
-      <picture>
-        <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml" />
-        <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
-      </picture>
-    </div>
-    <div class="col"><%= render_flash(flash[:error]) %></div>
-  </div>
-<% end %>
-
-<% if flash[:warning] %>
-  <div class="alert alert-warning row mx-0 mb-0 p-3 rounded-0 align-items-center">
-    <div class="col-auto">
-      <picture>
-        <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml"></source>
-        <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
-      </picture>
-    </div>
-    <div class="col"><%= render_flash(flash[:warning]) %></div>
-  </div>
-<% end %>
-
-<% if flash[:notice] %>
-  <div class="alert alert-success row mx-0 mb-0 p-3 rounded-0 align-items-center">
-    <div class="col-auto">
-      <picture>
-        <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml"></source>
-        <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
-      </picture>
-    </div>
-    <div class="col"><%= render_flash(flash[:notice]) %></div>
-  </div>
+<% [[:error, :danger], [:warning, :warning], [:notice, :success]].each do |flash_type, bootstrap_type| %>
+  <% if flash[flash_type] %>
+    <%= tag.div :class => "alert alert-#{bootstrap_type} row mx-0 mb-0 p-3 rounded-0 align-items-center",
+                :data => { :turbo_temporary => true } do %>
+      <div class="col-auto">
+        <%= notice_svg_tag %>
+      </div>
+      <div class="col">
+        <%= render_flash flash[flash_type] %>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>

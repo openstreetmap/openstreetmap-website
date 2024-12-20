@@ -5,17 +5,20 @@
 # Author: Abaksle
 # Author: Bjorni
 # Author: Danieldegroot2
+# Author: Dimitar
 # Author: Dittaeva
 # Author: Eirik
 # Author: Gnonthgol
 # Author: Gunnernett
 # Author: Harald Khan
 # Author: Macofe
+# Author: Maddy from Celeste
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Nghtwlkr
 # Author: Njardarlogar
 # Author: Pladask
+# Author: Pyscowicz
 # Author: Ranveig
 # Author: Ruila
 ---
@@ -24,9 +27,11 @@ nn:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
   helpers:
+    file:
+      prompt: Vel fil
     submit:
       diary_comment:
-        create: Lagre
+        create: Kommenter
       diary_entry:
         create: Publiser
         update: Oppdater
@@ -35,6 +40,9 @@ nn:
       message:
         create: Send
       client_application:
+        create: Registrer
+        update: Oppdater
+      oauth2_application:
         create: Registrer
         update: Oppdater
       redaction:
@@ -47,10 +55,6 @@ nn:
         create: Opprett blokkering
         update: Oppdater blokkering
   activerecord:
-    errors:
-      messages:
-        invalid_email_address: ser ikkje ut til å vere ei gyldig e-postadresse
-        email_address_not_routable: kan ikkje rutast
     models:
       acl: Tilgangskontrolliste
       changeset: Endringssett
@@ -64,7 +68,6 @@ nn:
       message: Melding
       node: Node
       node_tag: Nodemerkelapp
-      notifier: Varsling
       old_node: Gammal node
       old_node_tag: Gammal nodemerkelapp
       old_relation: Gammal relasjon
@@ -99,7 +102,9 @@ nn:
         title: 'Emne:'
         latitude: Breiddegrad
         longitude: Lengdegrad
-        language: Språk
+        language_code: Språk
+      doorkeeper/application:
+        name: Namn
       friend:
         user: Brukar
         friend: Ven
@@ -124,26 +129,31 @@ nn:
         description: Skildring
       user:
         email: E-post
-        new_email: 'Ny e-postadresse:'
+        new_email: Ny e-postadresse
         active: Aktive
         display_name: Visningsnamn
-        description: Skildring
-        home_lat: 'Breiddegrad:'
-        home_lon: 'Lengdegrad:'
-        languages: Språk
+        description: Skildring profilen
+        home_lat: Breiddegrad
+        home_lon: Lengdegrad
+        languages: Føretrekte språk
+        preferred_editor: Føretrekt redigeringsprogram
         pass_crypt: Passord
         pass_crypt_confirmation: Stadfest passord
     help:
       trace:
         tagstring: kommaseparert
       user_block:
+        reason: Årsaka for at brukaren vert blokkert. Ver venleg og ver so sindig
+          og fornuftig som mogleg, gje so mykje opplysingar om situasjonen som du
+          kan med tanke på at meldinga vil vera synleg for ålmenta. Hugs på at ikkje
+          alle brukarar har kjennskap til sjargongen, so prøv å bruka ålmenne omgrep.
         needs_view: Må brukaren logge inn før denne blokkeringa vert fjerna?
       user:
         new_email: ' (vis aldri offentleg)'
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: omkring 1 time sidan
+        one: omkring %{count} time sidan
         other: omkring %{count} timar sidan
       about_x_months:
         one: omkring 1 månad sidan
@@ -154,6 +164,7 @@ nn:
       almost_x_years:
         one: nesten 1 år sidan
         other: nesten %{count} år sidan
+      half_a_minute: for eit halvminutt sidan
       less_than_x_seconds:
         one: mindre enn 1 sekund sidan
         other: mindre enn %{count} sekund sidan
@@ -175,8 +186,6 @@ nn:
       x_years:
         one: 1 år sidan
         other: '%{count} år sidan'
-  printable_name:
-    with_version: '%{id}, v%{version}'
   editor:
     default: Standard (noverande %{name})
     id:
@@ -187,16 +196,17 @@ nn:
       description: Lokalt installert program (JOSM eller Merkaartor)
   auth:
     providers:
-      openid: OpenID
+      none: Ingen
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
     notes:
       comment:
-        opened_at_html: Oppretta for %{when} sidan
-        opened_at_by_html: Oppretta for %{when} sidan av %{user}
+        opened_at_html: Oppretta %{when}
+        opened_at_by_html: Oppretta %{when} av %{user}
         commented_at_html: Oppdatert %{when}
         commented_at_by_html: Oppdatert %{when} av %{user}
         closed_at_html: Løyst %{when}
@@ -204,79 +214,99 @@ nn:
         reopened_at_html: Opna att %{when}
         reopened_at_by_html: Opna att %{when} av %{user}
       rss:
-        title: OpenHistoricalMap-merknadar
+        title: OpenStreetMap-merknadar
         commented: ny kommentar (nær %{place})
       entry:
         comment: Kommentar
         full: Fullstendig merknad
+  account:
+    deletions:
+      show:
+        title: Slett kontoen min
+        warning: Åtvaring! Sletting av konto er endeleg, og kan ikkje gjerast om.
+        delete_account: Slett konto
+        delete_introduction: 'Du kan sletta kontoen din hjå OpenStreetMap med knappen
+          under. Merk fylgjande:'
+        delete_profile: Profilinformasjonen din, medrekna profilbilde, skildring og
+          heimestad vil fjernast.
+        delete_display_name: Det viste namnet ditt vil fjernast, og kan brukast av
+          andre kontoar.
+        retain_caveats: Somme opplysingar vil verte tatt vare på, til og med etter
+          at kontoen din er sletta.
+        retain_edits: Eventuelle endringar av kartdatabasen vil behaldast.
+        retain_traces: Spor du har lasta opp vil behaldast.
+        retain_diary_entries: Innlegg og kommentarar frå deg i brukardagboken vil
+          verte tekne vare på, men skylte frå ålmenta.
+        retain_notes: Merknadane og kommentarane dine vil verte tekne vare på, men
+          skylt frå ålmenta.
+        retain_changeset_discussions: Tilskota dine til diskusjonar om endringssett
+          vil behaldast.
+        retain_email: E-postadressa di vil behaldast.
+        confirm_delete: Er du sikker?
+        cancel: Bryt av
   accounts:
     edit:
       title: Rediger konto
       my settings: Innstellingane mine
-      current email address: 'Noverande e-postadresse:'
+      current email address: Noverande e-postadresse
+      external auth: Ekstern autentisering
       openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: kva er dette?
       public editing:
         heading: Offentleg redigering
         enabled: Aktivert. Ikkje anonym og kan redigere data.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: kva er dette?
         disabled: Deaktivert og kan ikkje redigere data. Alle tidlegare redigeringar
           er anonyme.
         disabled link text: kvifor can eg ikkje redigere?
-      public editing note:
-        heading: 'Offentleg redigering:'
-        html: For augneblunken er redigeringane dine anonyme og folk kan ikkje sende
-          deg meldingar eller sjå posisjonen din. For å vise kva du redigerte og tillate
-          folk å kontakte deg gjennom nettsiden, klikk på knappen nedanfor. <b>Sidan
-          overgangen til 0.6 API-et, kan berre offentlege brukarar redigere kartdata.</b>
-          ( <a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Finn ut kvifor</a>
-          ). <ul><li> di e-postadresse vil ikkje avslørast ved å verte offentleg.
-          </li><li> Denne handlinga kan ikkje omgjerast, og alle nye brukarar er no
-          offentleg tilgjengeleg som standard. </li></ul>
       contributor terms:
-        heading: 'Bidragsytervilkår:'
+        heading: Vilkår for bidragsytarar
         agreed: Du har godkjent dei nye bidragsytervilkåra
         not yet agreed: Du har endå ikkje godkjent dei nye bidragsytervilkåra.
         review link text: Vennligst følg denne lenkja når det passar deg, for å sjå
           igjennom og godkjenne dei nye bidragsytervilkåra.
         agreed_with_pd: Du har òg opplyst at du ansar redigeringane dine for å vere
           offentleg eigedom (Public Domain).
-        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: kva er dette?
       save changes button: Lagre endringar
-      make edits public button: Gjer alle redigeringane mine offentleg
+      delete_account: Slett konto...
+    go_public:
+      heading: Offentleg redigering
+      currently_not_public: Nett no er redigeringane dine anonyme, og folk kan ikkje
+        senda deg meldingar eller sjå kor du er. For å visa kva du har redigert og
+        la folk kontakta deg gjennom nettstaden, klikk på knappen nedanfor.
+      only_public_can_edit: Sidan overgangen til 0.6-API-et, kan berre offentlege
+        brukarar redigera kartdata.
+      find_out_why: finn ut kvifor
+      email_not_revealed: E-postadressa di vil ikkje verte synleg for ålmenta når
+        kontoen din vert offentleg.
+      not_reversible: Denne handlinga kan ikkje omgjerast, og alle nye brukarar er
+        no offentlege frå byrjinga.
+      make_edits_public_button: Gjer alle redigeringane mine offentleg
     update:
       success_confirm_needed: Brukerinformasjon oppdatert. Sjekk eposten din for å
         stadfeste din epostadresse.
       success: Brukerinformasjon oppdatert.
+    destroy:
+      success: Kontoen er sletta.
   browse:
-    created: Oppretta
-    closed: Attlaten
+    deleted_ago_by_html: Sletta %{time_ago} av %{user}
+    edited_ago_by_html: Redigert %{time_ago} av %{user}
     version: 'Versjon:'
+    in_changeset: Endringssett
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del av
+    part_of_relations:
+      one: '%{count} samhøve'
+      other: '%{count} samhøve'
+    part_of_ways:
+      one: 1 line
+      other: '%{count} liner'
     download_xml: Last ned XML
     view_history: Vis historikk
     view_details: Vis detaljar
     location: 'Plassering:'
-    changeset:
-      title: Endringssett %{id}
-      belongs_to: Skapar
-      node: Punkt (%{count})
-      node_paginated: Punkt (%{x}-%{y} av %{count})
-      way: Strekningar (%{count})
-      way_paginated: Strekningar (%{x}-%{y} av %{count})
-      comment: Kommentarar (%{count})
-      changesetxml: XML for endringssett
-      osmchangexml: osmChange XML
-      feed:
-        title: Endringssett %{id}
-        title_comment: 'Endringssett: %{id} - %{comment}'
-      join_discussion: Logg inn for å vere med i diskusjonen
-      discussion: Ordskifte
     node:
       title_html: 'Punkt: %{name}'
       history_title_html: 'Punkthistorikk: %{name}'
@@ -284,13 +314,20 @@ nn:
       title_html: 'Strekning: %{name}'
       history_title_html: 'Strekningshistorikk: %{name}'
       nodes: Punkt
+      nodes_count:
+        one: '%{count} punkt'
+        other: '%{count} punkt'
       also_part_of_html:
         one: delstrekning %{related_ways}
         other: delstrekningar %{related_ways}
     relation:
+      title_html: 'Samhøve: %{name}'
+      history_title_html: 'Samhøvehistorikk: %{name}'
       members: Medlemmar
+      members_count:
+        one: '%{count} medlem'
+        other: '%{count} medlemar'
     relation_member:
-      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Punkt
@@ -300,6 +337,7 @@ nn:
       entry_html: Relasjon %{relation_name}
       entry_role_html: Relasjon %{relation_name} (som %{relation_role})
     not_found:
+      title: Ikkje funne
       sorry: Beklagar, klarte ikkje å finne %{type}-en med ID %{id}.
       type:
         node: node
@@ -308,6 +346,7 @@ nn:
         changeset: endringssett
         note: merknad
     timeout:
+      title: Tida gjekk ut
       sorry: Beklagar, data for %{type} med id %{id} tok for lang tid å hente.
       type:
         node: punkt
@@ -324,6 +363,8 @@ nn:
         way: vegen
         relation: relasjonen
     start_rjs:
+      feature_warning: Hentar %{num_features} kartobjekt, noe som kan gjera at nettlesaren
+        vert treg eller stoppar heilt. Er du sikker på at du vil visa desse datuma?
       load_data: Last inn data
       loading: Lastar...
     tag_details:
@@ -333,49 +374,32 @@ nn:
         tag: Wiki-beskrivelsessiden for %{key}=%{value}-elementet
       wikidata_link: Elementet %{page} på Wikidata
       wikipedia_link: Artikkelen %{page} på Wikipedia
+      wikimedia_commons_link: Sida %{page} på Wikimedia Commons
       telephone_link: Ring %{phone_number}
-    note:
-      title: 'Merknad: %{id}'
-      new_note: Ny merknad
-      description: Skildring
-      open_title: 'Uavklart merknad #%{note_name}'
-      closed_title: 'Avklart merknad: #%{note_name}'
-      hidden_title: 'Gøymd merknad #%{note_name}'
-      opened_by_html: Oppretta av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
-      opened_by_anonymous_html: Oppretta av anonym <abbr title='%{exact_time}'>%{when}
-        sidan</abbr>
-      commented_by_html: Kommentar frå %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Kommentar frå anonym <abbr title='%{exact_time}'>%{when}
-        sidan</abbr>
-      closed_by_html: Løyst av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
-      closed_by_anonymous_html: Løyst av anonym <abbr title='%{exact_time}'>%{when}
-        sidan</abbr>
-      reopened_by_html: Reaktivert av %{user} <abbr title='%{exact_time}'>%{when}
-        sidan</abbr>
-      reopened_by_anonymous_html: Reaktivert av anonym for <abbr title='%{exact_time}'>%{when}
-        sidan</abbr>
-      report: Rapporter denne merknaden
+      colour_preview: Førehandsvising av farga %{colour_value}
     query:
-      title: Førespurnadsfunksjonar
-      nearby: Nærliggjande funksjonar
+      title: Finn objekt
+      introduction: Klikk på kartet for å visa objekt i nærleiken.
+      nearby: Nærliggjande objekt
+      enclosing: Omgjevande objekt
+  changeset_comments:
+    feeds:
+      comment:
+        comment: 'Ny kommentar til endringssett #%{changeset_id} av %{author}'
+        commented_at_by_html: Oppdatert %{when} av %{user}
+      show:
+        title_all: Endringssettdiskusjon hjå OpenStreetMap
+        title_particular: Diskusjon om endringssett %{changeset_id} hjå OpenStreetMap
+      timeout:
+        sorry: Lista over kommentarar til endringssett tok for lang tid å henta.
   changesets:
-    changeset_paging_nav:
-      showing_page: Side %{page}
-      next: Neste »
-      previous: « Førre
     changeset:
-      anonymous: Anonym
       no_edits: (ingen redigeringar)
       view_changeset_details: Vis detaljar for endringssett
-    changesets:
-      id: ID
-      saved_at: Lagra
-      user: Brukar
-      comment: Kommentar
-      area: Område
     index:
       title: Endringssett
       title_user: Endringssett av %{user}
+      title_user_link_html: Endringssett av %{user_link}
       title_friend: Endringssett av venene dine
       title_nearby: Endringssett av brukarar i nærleiken
       empty: Fann ingen endringssett.
@@ -385,20 +409,54 @@ nn:
       no_more_area: Ingen fleire endringssett i dette området.
       no_more_user: Ingen fleire endringssett av denne brukaren.
       load_more: Last inn meir
+      feed:
+        title: Endringssett %{id}
+        title_comment: 'Endringssett: %{id} - %{comment}'
+        created: Oppretta
+        closed: Attlaten
+        belongs_to: Skapar
+    show:
+      title: Endringssett %{id}
+      created_ago_html: Oppretta %{time_ago}
+      closed_ago_html: Lukka %{time_ago}
+      created_ago_by_html: Oppretta %{time_ago} av %{user}
+      closed_ago_by_html: Lukka %{time_ago} av %{user}
+      discussion: Ordskifte
+      join_discussion: Logg inn for å vere med i diskusjonen
+      still_open: Endringssettet er framleis ope – det vert opna for diskusjon når
+        endringssettet vert lukka.
+      subscribe: Abonnér
+      unsubscribe: Avslutt abonnement
+      comment_by_html: Kommentar frå %{user} %{time_ago}
+      hidden_comment_by_html: Skylt kommentar frå %{user} %{time_ago}
+      hide_comment: gøym
+      unhide_comment: vis
+      comment: Kommenter
+      changesetxml: XML for endringssett
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: Punkt (%{count})
+      nodes_paginated: Punkt (%{x}-%{y} av %{count})
+      ways: Strekningar (%{count})
+      ways_paginated: Strekningar (%{x}-%{y} av %{count})
+      relations: Samhøve (%{count})
+      relations_paginated: Samhøve (%{x}–%{y} av %{count})
     timeout:
-      sorry: Lista over endringssett tok for lang tid å hente.
-  changeset_comments:
-    comment:
-      commented_at_by_html: Oppdatert for %{when} sidan av %{user}
+      sorry: Lista over endringssett du ba om tok for lang tid å hente.
   dashboards:
     contact:
       km away: '%{count}km unna'
       m away: '%{count}m unna'
+      latest_edit_html: 'Siste redigering (%{ago}):'
     popup:
       your location: Posisjonen din
       nearby mapper: Brukarar i nærleiken
       friend: Ven
     show:
+      title: Kontrollpanelet mitt
+      no_home_location_html: '%{edit_profile_link} og set heimestaden din for å sjå
+        brukarar i nærleiken.'
+      edit_your_profile: Endra profilen din
       my friends: Mine vener
       no friends: Du har ikkje lagt til nokon venner enno.
       nearby users: Andre brukarar i nærleiken
@@ -412,71 +470,76 @@ nn:
     new:
       title: Ny dagbokoppføring
     form:
-      location: 'Posisjon:'
-      use_map_link: bruk kart
+      location: Stad
+      use_map_link: Bruk kart
     index:
-      title: Brukarane sine dagbøker
-      title_friends: Dagbøkene til venene dine
-      title_nearby: Dagbøkene til naboar
+      title: Brukardagbøker
+      title_friends: Dagbøkene til venane dine
+      title_nearby: Dagbøkene til brukarar i nærleiken
       user_title: '%{user} si dagbok'
       in_language_title: Dagbokoppføringar på %{language}
       new: Ny dagbokoppføring
       new_title: Skriv ei ny oppføring i dagboka di
+      my_diary: Dagboka mi
       no_entries: Ingen oppføringar i dagboka
+    page:
       recent_entries: Nye oppføringer i dagboka
-      older_entries: Eldre oppføringar
-      newer_entries: Nyare oppføringar
     edit:
-      title: Rediger oppføring i dagboka
-      marker_text: Lokasjon for dagbokoppføring
+      title: Rediger dagbokoppføring
+      marker_text: Stad for dagbokoppføring
     show:
-      title: '%{user} sin dagbok | %{title}'
+      title: '%{user} si dagbok | %{title}'
       user_title: '%{user} si dagbok'
       leave_a_comment: Legg igjen ein kommentar
       login_to_leave_a_comment_html: '%{login_link} for å legge igjen ein kommentar'
       login: Logg inn
     no_such_entry:
       title: Inga slik dagbokoppføring
-      heading: Inga oppføring med %{id}
-      body: Det er ingen dagbokinnlegg eller kommentar med ID %{id}. Sjekk om du har
-        skrive feil eller om lenkja er riktig.
+      heading: 'Inga oppføring med ID: %{id}'
+      body: Det finst inkje dagbokinnlegg eller kommentar med ID %{id}. Sjekk om du
+        har skrive feil eller om lenkja er feil.
     diary_entry:
       posted_by_html: Skrive av %{link_user} %{created} på %{language_link}
+      updated_at_html: Sist oppdatert %{updated}.
       comment_link: Kommenter denne oppføringa
-      reply_link: Svar på denne oppføringa
+      reply_link: Send ei melding til forfattaren
       comment_count:
         one: '%{count} kommentar'
-        zero: Ingen kommentarar
         other: '%{count} kommentarar'
+      no_comments: Ingen kommentarar
       edit_link: Rediger denne oppføringa
       hide_link: Skjul denne oppføringa
+      unhide_link: Slutta å skjule denne oppføringa
       confirm: Stadfest
+      report: Melda denne oppføringa
     diary_comment:
       comment_from_html: Kommentar frå %{link_user}, %{comment_created_at}
       hide_link: Skjul denne kommentaren
+      unhide_link: Slutta å skjula denne kommentaren
       confirm: Stadfest
       report: Rapporter denne kommentaren
     location:
-      location: 'Posisjon:'
-      view: Vis
-      edit: Rediger
+      location: 'Stad:'
     feed:
       user:
-        title: Oppføringar i OpenHistoricalMap-dagboka for %{user}
-        description: Nye oppføringar i OpenHistoricalMap-dagboka til %{user}
+        title: Oppføringar i OpenStreetMap-dagboka frå %{user}
+        description: Nye oppføringar i OpenStreetMap-dagboka til %{user}
       language:
-        title: Oppføringar i OpenHistoricalMap-dagbøker på %{language_name}
-        description: Nye oppføringar i dagbøkene til OpenHistoricalMap-brukarar på
-          %{language_name}
+        title: Oppføringar i OpenStreetMap-dagbøker på %{language_name}
+        description: Nye oppføringar i dagbøkene til OpenStreetMap-brukarar på %{language_name}
       all:
-        title: Oppføringar OpenHistoricalMap-dagboka
-        description: Nye oppføringar i dagbøkene til OpenHistoricalMap-brukarar
-    comments:
-      post: Post
+        title: Oppføringar OpenStreetMap-dagboka
+        description: Nylege oppføringar i dagbøkene til OpenStreetMap-brukarar
+  diary_comments:
+    index:
+      title: Kommentarar i dagboka frå %{user}
+      heading: '%{user} sine kommentarar til dagboksoppføringar'
+      subheading_html: Kommentarar i dagboka frå %{user}
+      no_comments: Ingen kommentarar i dagboka
+    page:
+      post: Oppføring
       when: Når
       comment: Kommentar
-      newer_comments: Nyare kommentarar
-      older_comments: Eldre kommentarar
   friendships:
     make_friend:
       heading: Legg til %{user} som ein ven?
@@ -484,30 +547,47 @@ nn:
       success: '%{name} er no venen din!'
       failed: Klarte ikkje leggje til %{name} som ven.
       already_a_friend: Du er allereie venner med %{name}.
+      limit_exceeded: Du har lagt til mange venar i det siste. Ver venleg og vent
+        litt før du legg til fleire.
     remove_friend:
       heading: Fjern %{user} som ein ven?
       button: Fjern som ein ven
       success: '%{name} vart fjerna frå venene dine'
       not_a_friend: '%{name} er ikkje ein av venene dine.'
   geocoder:
+    search:
+      title:
+        latlon: Intern
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Kabelbane
           chair_lift: Stolheis
           drag_lift: Skitrekk
           gondola: Gondolheis
+          magic_carpet: skiband
+          platter: Tallerkenheis
+          pylon: Mast
           station: Fjellheisstasjon
+          t-bar: Ankerheis
+          "yes": Taubane
         aeroway:
           aerodrome: Flyplass
+          airstrip: Landingsstripe
           apron: Flyrampe
           gate: Gate
+          hangar: Hangar
           helipad: Helikopterplass
+          holding_position: Venteposisjon
+          navigationaid: Luftnavigasjonshjelp
+          parking_position: Parkeringsposisjon
           runway: Rullebane
+          taxilane: Taxifelt
           taxiway: Taksebane
-          terminal: Terminal
+          terminal: Flyplassterminal
+          windsock: Vindpose
         amenity:
+          animal_boarding: Dyrepensjonat
           animal_shelter: Dyrehospits
           arts_centre: Kunstsenter
           atm: Minibank
@@ -517,7 +597,9 @@ nn:
           bench: Benk
           bicycle_parking: Sykkelparkering
           bicycle_rental: Sykkelutleige
+          bicycle_repair_station: Sjølvbetent sykkelreparasjonsstad
           biergarten: Uteservering
+          blood_bank: Blodbank
           boat_rental: Båtutleige
           brothel: Bordell
           bureau_de_change: Vekslingskontor
@@ -534,6 +616,7 @@ nn:
           clock: Klokke
           college: Høgskule
           community_centre: Samfunnshus
+          conference_centre: Konferansesenter
           courthouse: Rettsbygning
           crematorium: Krematorium
           dentist: Tannlege
@@ -541,26 +624,37 @@ nn:
           drinking_water: Drikkevatn
           driving_school: Køyreskule
           embassy: Ambassade
+          events_venue: Samlingslokale
           fast_food: Hurtigmat
           ferry_terminal: Ferjeterminal
           fire_station: Brannstasjon
           food_court: Serveringsstadar
           fountain: Fontene
-          fuel: Drivstoff
+          fuel: Bensinstation
           gambling: Gambling
           grave_yard: Gravlund
+          grit_bin: Strøsandkasse
           hospital: Sjukehus
           hunting_stand: Jaktbod
           ice_cream: Iskrem
+          internet_cafe: Internettkafe
           kindergarten: Barnehage
+          language_school: Språkskule
           library: Bibliotek
+          loading_dock: Lastekai
+          love_hotel: Kjærleikshotell
           marketplace: Marknadsplass
+          mobile_money_agent: Mobil pengeagent
           monastery: Kloster
+          money_transfer: Valutaoverføring
           motorcycle_parking: Motorsykkelparkering
+          music_school: Musikkskule
           nightclub: Nattklubb
           nursing_home: Pleieheim
           parking: Parkeringsplass
           parking_entrance: Innkøyring til parkeringsgarasje
+          parking_space: Parkeingsplass
+          payment_terminal: Betalingsterminal
           pharmacy: Apotek
           place_of_worship: Religiøst hus
           police: Politi
@@ -568,9 +662,13 @@ nn:
           post_office: Postkontor
           prison: Fengsel
           pub: Pub
+          public_bath: Badehus
+          public_bookcase: Offentleg bokkasse
           public_building: Offentleg bygning
+          ranger_station: Skogvaktarpost
           recycling: Resirkuleringspunkt
           restaurant: Restaurant
+          sanitary_dump_station: Toalettømmingsstasjon
           school: Skule
           shelter: Tilfluktsrom
           shower: Dusj
@@ -583,76 +681,145 @@ nn:
           theatre: Teater
           toilets: Toalett
           townhall: Rådhus
+          training: Treningsanlegg
           university: Universitet
+          vehicle_inspection: Køyretøykontroll
           vending_machine: Vareautomat
           veterinary: Veterinærklinikk
           village_hall: Forsamlingshus
           waste_basket: Søppelkasse
           waste_disposal: Avfallshandtering
+          waste_dump_site: Avfallsdeponi
+          watering_place: Vatntrau
+          water_point: Vatnpunkt
+          weighbridge: Køyretøyvekt
+          "yes": Fasilitet
         boundary:
+          aboriginal_lands: Urfolksområde
           administrative: Administrativ grense
           census: Folketeljingsgrense
           national_park: Nationalpark
+          political: Valdistriktsgrense
           protected_area: Verna område
+          "yes": Grense
         bridge:
           aqueduct: Akvadukt
+          boardwalk: Strandpromenade
           suspension: Hengebru
           swing: Svingbru
           viaduct: Viadukt
           "yes": Bru
         building:
-          apartments: Bustadblokk
+          apartment: Leilegheit
+          apartments: Leilegheiter
+          barn: Låve
+          bungalow: Bungalow
+          cabin: Hytte
           chapel: Kapell
-          church: Kyrkje
+          church: Kyrkjebygg
+          civic: Offentleg bygnad
+          college: Universitetsbygnad
           commercial: Kommersiell bygning
+          construction: Bygning under bygging
+          detached: Frittståande hus
           dormitory: Sovesal
-          farm: Gårdsbygg
+          duplex: Tomannshus
+          farm: Gardshus
+          farm_auxiliary: Ytterleg gardsbygg
           garage: Garasje
+          garages: Garasjar
+          greenhouse: Drivhus
+          hangar: Hangar
           hospital: Sykehusbygg
-          hotel: Hotell
+          hotel: Hotellbygg
           house: Hus
+          houseboat: Husbåt
+          hut: Hytte
           industrial: Industribygg
+          kindergarten: Barnehagebygnad
+          manufacture: Fabrikkbygnad
           office: Kontorbygg
           public: Offentleg bygg
           residential: Boligbygg
           retail: Detaljsalgbygg
+          roof: Halvtak
+          ruins: Bygnadsruin
           school: Skulebygg
-          terrace: Terrasse
-          train_station: Jernbanestasjon
+          semidetached_house: Rekkjehus
+          service: Tenestebygg
+          shed: Skur
+          stable: Stall
+          static_caravan: Husvogn
+          temple: Tempelbygg
+          terrace: Terrassebygning
+          train_station: Stasjonsbygg
           university: Universitetsbygg
+          warehouse: Lagerhall
           "yes": Bygning
+        club:
+          scout: Speidarklubbhus
+          sport: Idrettslag
+          "yes": Samskipnad
         craft:
+          beekeeper: Bierøktar
+          blacksmith: Smed
           brewery: Bryggeri
           carpenter: Tømrar
+          caterer: Catering
+          confectionery: Godtebutikk
+          dressmaker: Syar
           electrician: Elektrikar
+          electronics_repair: Elektronikkreparatør
           gardener: Gartnar
+          glaziery: Glasmeister
+          handicraft: Kunsthandverkar
+          hvac: Klimakontrollverksemd
+          metal_construction: Metallverkstad
           painter: Målar
           photographer: Fotograf
           plumber: Røyrleggjar
+          roofer: Taktekkjar
+          sawmill: Sagbruk
           shoemaker: Skomakar
+          stonemason: Steinhoggar
           tailor: Skreddar
+          window_construction: Vindaugsnikkar
+          winery: Vingard
           "yes": Handverkbutikk
         emergency:
+          access_point: Tilgjengepunkt
           ambulance_station: Ambulansestasjon
+          assembly_point: Samlingsplass
           defibrillator: Hjartestartar
+          fire_extinguisher: Brannsløkkjar
+          fire_water_pond: Branndam
           landing_site: Nødlandingsplass
+          life_ring: Livbøye
           phone: Nødtelefon
+          siren: Varselsiren
+          suction_point: Naudsugepunkt for brannslange
+          water_tank: Naudvasstank for brannslange
         highway:
           abandoned: Forlaten motorveg
           bridleway: Rideveg
           bus_guideway: Leidde bussfelt
           bus_stop: Busstopp
           construction: Motorveg under konstruksjon
+          corridor: Korridor
+          crossing: Fotgjengarfelt
           cycleway: Sykkelsti
           elevator: Heis
           emergency_access_point: Nødtilgangspunkt
+          emergency_bay: Naudstoppestad
           footway: Gangsti
           ford: Vadestad
+          give_way: Vikeskilt
           living_street: Gatetun
           milestone: Milestolpe
           motorway: Motorveg
           motorway_junction: Motorvegkryss
           motorway_link: Veg til motorveg
+          passing_place: Møteplass
           path: Sti
           pedestrian: Gangveg
           platform: Perrong
@@ -669,50 +836,67 @@ nn:
           services: Motorveitjenester
           speed_camera: Fotoboks
           steps: Trapper
+          stop: Stoppskilt
           street_lamp: Gatelykt
           tertiary: Tertiær veg
           tertiary_link: Kommunal veg
           track: Sti
+          traffic_mirror: Trafikkspeil
           traffic_signals: Trafikklys
+          trailhead: Ende på sti
           trunk: Hovedveg
           trunk_link: Hovedveg
+          turning_circle: Snuplass
+          turning_loop: Vendesløyfe
           unclassified: Uklassifisert veg
           "yes": Veg
         historic:
+          aircraft: Historisk fly
           archaeological_site: Arkeologisk plass
+          bomb_crater: Historisk bombekrater
           battlefield: Slagmark
           boundary_stone: Grensestein
           building: Historisk bygning
           bunker: Bunker
+          cannon: Historisk kanon
           castle: Slott
+          charcoal_pile: Historisk kolmile
           church: Kyrkje
           city_gate: Byport
           citywalls: Bymurar
           fort: Fort
           heritage: Verdsarvsstad
+          hollow_way: Hol veg
           house: Hus
           manor: Herregard
           memorial: Minne
+          milestone: Historisk milepæl
           mine: Gruve
+          mine_shaft: Gruvesjakt
           monument: Monument
+          railway: Historisk jarnveg
           roman_road: Romersk veg
           ruins: Ruinar
+          rune_stone: Runestein
           stone: Stein
           tomb: Grav
           tower: Tårn
+          wayside_chapel: Vegkyrkje
           wayside_cross: Vegkant kross
           wayside_shrine: Vegkant alter
           wreck: Vrak
+          "yes": Historisk stad
         junction:
           "yes": Kryss
         landuse:
           allotments: Kolonihagar
+          aquaculture: Akvakultur
           basin: Elveområde
           brownfield: Tidlegare industriområde
           cemetery: Gravplass
           commercial: Kommersielt område
-          conservation: Freda
-          construction: Kontruksjon
+          conservation: Freda område
+          construction: Byggjeplass
           farmland: Jordbruksland
           farmyard: Gardstun
           forest: Skog
@@ -725,32 +909,43 @@ nn:
           military: Militært område
           mine: Gruve
           orchard: Frukthage
+          plant_nursery: Planteskule
           quarry: Steinbrot
           railway: Jernbane
           recreation_ground: Idrettsplass
+          religious: Religiøs mark
           reservoir: Reservoar
           reservoir_watershed: Nedbørfelt
           residential: Boligområde
-          retail: Detaljsalg
+          retail: Detaljsalområde
           village_green: Landsbypark
           vineyard: Vingård
           "yes": Arealbruk
         leisure:
+          adult_gaming_centre: Vaksenspelehall
+          amusement_arcade: Spillehall
+          bandstand: Musikkpaviljong
           beach_resort: Badestrand
           bird_hide: Fugletårn
+          bleachers: Tilskodarplassar
+          bowling_alley: Bowlinghall
           common: Allmenning
+          dance: Dansesal
           dog_park: Hundepark
+          firepit: Bålgrop
           fishing: Fiskeområde
           fitness_centre: Treningssenter
           fitness_station: Trenings studio
           garden: Hage
           golf_course: Golfbane
-          horse_riding: Riding
+          horse_riding: Ridesenter
           ice_rink: Skøytebane
           marina: Båthavn
           miniature_golf: Minigolf
           nature_reserve: Naturreservat
+          outdoor_seating: Utandørs sitjeplass
           park: Park
+          picnic_table: Piknikbord
           pitch: Sportsarena
           playground: Leikeplass
           recreation_ground: Idrettsplass
@@ -764,24 +959,76 @@ nn:
           water_park: Vannpark
           "yes": Fritid
         man_made:
+          adit: Stoll
+          advertising: Reklame
+          antenna: Antenne
+          avalanche_protection: Skredvern
+          beacon: Fyr
+          beam: Bjelke
+          beehive: Bikube
+          breakwater: Molo
+          bridge: Bru
+          bunker_silo: Bunker
+          cairn: Varde
+          chimney: Skorstein
+          clearcut: Snauhogst
+          communications_tower: Kommunikasjonstårn
+          crane: Kran
+          cross: Kors
+          dolphin: Fortøyingspåle
+          dyke: Dike
+          embankment: Voll
+          flagpole: Flaggstong
+          gasometer: Gassklokke
+          groyne: Høfde
+          kiln: Omn
           lighthouse: Fyr
+          manhole: Kum
+          mast: Mast
+          mine: Gruve
+          mineshaft: Gruvesjakt
+          monitoring_station: Overvakingsstasjon
+          petroleum_well: Oljebrønn
+          pier: Pir
           pipeline: Røyrleidning
+          pumping_station: Pumpestasjon
+          reservoir_covered: Overdekt reservoar
+          silo: Silo
+          snow_cannon: Snøkanon
+          snow_fence: Snøskjerm
+          storage_tank: Lagringstank
+          street_cabinet: Gatekabinett
+          surveillance: Overvaking
+          telescope: Teleskop
           tower: Tårn
+          utility_pole: Straummast
+          wastewater_plant: Kloakkanlegg
+          watermill: Vassmylne
+          water_tap: Vasskran
+          water_tower: Vasstårn
+          water_well: Brønn
+          water_works: Vassverk
+          windmill: Vindmylne
           works: Fabrikk
           "yes": Menneskeskapt
         military:
           airfield: Militær flyplass
           barracks: Kaserner
           bunker: Bunker
+          checkpoint: Kontrollpost
+          trench: Skyttargrav
+          "yes": Militær
         mountain_pass:
           "yes": Fjellovergang
         natural:
+          atoll: Atoll
+          bare_rock: Klippe
           bay: Bukt
           beach: Strand
           cape: Nes
           cave_entrance: Holeinngang
           cliff: Klippe
-          coastline: Kystlinje
+          coastline: Kystline
           crater: Krater
           dune: Sanddyne
           fell: Fjellskrent
@@ -792,12 +1039,15 @@ nn:
           grassland: Grasslette
           heath: Vidde
           hill: Ås
+          hot_spring: Varm kjelde
           island: Øy
+          isthmus: Eid
           land: Land
           marsh: Sump
           moor: Myr
           mud: Gjørme
           peak: Topp
+          peninsula: Halvøy
           point: Punkt
           reef: Rev
           ridge: Rygg
@@ -806,32 +1056,51 @@ nn:
           sand: Sand
           scree: Ur
           scrub: Kratt
+          shingle: Steinstrand
           spring: Kjelde
           stone: Stein
           strait: Stred
           tree: Tre
+          tree_row: Trerekkje
+          tundra: Tundra
           valley: Dal
           volcano: Vulkan
           water: Vatn
           wetland: Våtmark
           wood: Skog
+          "yes": Naturelement
         office:
           accountant: Revisor
           administrative: Administrasjon
+          advertising_agency: Reklamebyrå
           architect: Arkitekt
+          association: Samband
           company: Bedrift
+          diplomatic: Diplomatkontor
+          educational_institution: Utdanningsinstitusjon
           employment_agency: Bemanningsbedrift
+          energy_supplier: Kontor til energiselskap
           estate_agent: Eiendomsmeglar
+          financial: Finanskontor
           government: Statlig kontor
           insurance: Forsikringskontor
+          it: IKT-kontor
           lawyer: Advokat
+          logistics: Logistikkontor
+          newspaper: Avisredaksjon
           ngo: Ikkje-statlig kontor
+          notary: Notarus publicus
+          religion: Religiøst kontor
+          research: Forskingskontor
+          tax_advisor: Skatterådgjevar
           telecommunication: Telefonkontor
           travel_agent: Reisebyrå
           "yes": Kontor
         place:
           allotments: Kolonihagar
+          archipelago: Arkipel
           city: By
+          city_block: Byblokk
           country: Land
           county: Fylke
           farm: Gard
@@ -844,9 +1113,12 @@ nn:
           locality: Plass
           municipality: Kommune
           neighbourhood: Nabolag
+          plot: Tomt
           postcode: Postnummer
+          quarter: Kvartal
           region: Område
           sea: Hav
+          square: Torg
           state: Delstat
           subdivision: Underavdeling
           suburb: Forstad
@@ -855,6 +1127,7 @@ nn:
           "yes": Stad
         railway:
           abandoned: Forlatt jernbane
+          buffer_stop: Sporstoppar
           construction: Jernbane under konstruksjon
           disused: Nedlagt jernbane
           funicular: Kabelbane
@@ -868,6 +1141,7 @@ nn:
           platform: Jernbaneperrong
           preserved: Verna jernbane
           proposed: Føreslått jernbane
+          rail: Jarnveg
           spur: Jernbaneforgrening
           station: Jernbanestasjon
           stop: Jernbanestopp
@@ -876,15 +1150,23 @@ nn:
           switch: Sporveksel
           tram: Sporveg
           tram_stop: Trikkestopp
+          turntable: Dreieskive
           yard: Skiftetomt
         shop:
+          agrarian: Landbruksbutikk
           alcohol: Utanfor lisens
           antiques: Antikviteter
+          appliance: Kvitvareforretning
           art: Kunstbutikk
+          baby_goods: Babybutikk
+          bag: Veskebutikk
           bakery: Bakeri
+          bathroom_furnishing: Badmøbelforretning
           beauty: Skjønnheitssalong
+          bed: Sengetøyforretning
           beverages: Drikkevarebutikk
           bicycle: Sykkelbutikk
+          bookmaker: Bookmaker
           books: Bokhandel
           boutique: Luksusforretning
           butcher: Slaktar
@@ -893,65 +1175,109 @@ nn:
           car_repair: Bilverkstad
           carpet: Teppebutikk
           charity: Veldedighetsbutikk
+          cheese: Ostbutikk
           chemist: Kjemiker
+          chocolate: Sjokolade
           clothes: Klesbutikk
+          coffee: Kaffebutikk
           computer: Databutikk
           confectionery: Konditori
           convenience: Nærbutikk
           copyshop: Kopieringsbutikk
           cosmetics: Kosmetikkforretning
+          craft: Hobbybutikk
+          curtain: Gardinebutikk
+          dairy: Meieributikk
           deli: Delikatessebutikk
           department_store: Varehus
           discount: Tilbudsbutikk
-          doityourself: Gjer-det-sjølv
+          doityourself: Gjer-det-sjølv-butikk
           dry_cleaning: Renseri
+          e-cigarette: E-sigarettbutikk
           electronics: Elektronikkforretning
+          erotic: Sexbutikk
           estate_agent: Eiendomsmegler
+          fabric: Stoffbutikk
           farm: Gardsbutikk
           fashion: Motebutikk
+          fishing: Fiskebutikk
           florist: Blomsterbutikk
           food: Matbutikk
+          frame: Rammeverkstad
           funeral_directors: Begravelsesforretning
           furniture: Møbler
           garden_centre: Hagesenter
+          gas: Gassbutikk
           general: Landhandel
           gift: Gåvebutikk
           greengrocer: Grønsakshandel
           grocery: Daglegvarebutikk
           hairdresser: Frisør
           hardware: Jernvarehandel
-          hifi: Hi-fi
+          health_food: Helsekostforretning
+          hearing_aids: Høyreapparat
+          herbalist: Urtehandel
+          hifi: Hi-fi-butikk
+          houseware: Kjøkkenutstyrsbutikk
+          ice_cream: Iskrembutikk
+          interior_decoration: Innreiingsbutikk
           jewelry: Gullsmed
           kiosk: Kiosk
+          kitchen: Kjøkkenbutikk
           laundry: Vaskeri
+          locksmith: Låsesmed
+          lottery: Lotteri
           mall: Kjøpesenter
+          massage: Massasje
+          medical_supply: Forhandlar av medisinsk utstyr
           mobile_phone: Mobiltelefonbutikk
+          money_lender: Pengeutlånar
           motorcycle: Motorsykkelbutikk
+          motorcycle_repair: Motorsykkelverkstad
           music: Musikkbutikk
+          musical_instrument: Musikkinstrument
           newsagent: Nyhetsbyrå
+          nutrition_supplements: Kosttilskot
           optician: Optikar
           organic: Organisk matbutikk
           outdoor: Utandørs butikk
+          paint: Fargehandel
+          pastry: Bakeri
+          pawnbroker: Pantelånar
+          perfumery: Parfymeri
           pet: Dyrebutikk
+          pet_grooming: Kjæledyrfrisør
           photo: Fotobutikk
+          seafood: Sjømat
           second_hand: Bruktbutikk
+          sewing: Saumforretning
           shoes: Skobutikk
           sports: Sportsbutikk
           stationery: Papirbutikk
+          storage_rental: Lagerhotell
           supermarket: Supermarked
           tailor: Skreddar
+          tattoo: Tatoveringsstudio
+          tea: Tehandel
+          ticket: Billettformidlar
+          tobacco: Tobakksbutikk
           toys: Leikebutikk
           travel_agency: Reisebyrå
+          tyres: Dekkforhandlar
+          vacant: Ledig forretningslokale
           video: Videobutikk
-          wine: Utanfor lisens
+          video_games: Videospelbutikk
+          wholesale: Grosserar
+          wine: Vinforretning
           "yes": Butikk
         tourism:
           alpine_hut: Fjellhytte
-          apartment: Leilegheit
+          apartment: Feriehusvære
           artwork: Kunstverk
           attraction: Attraksjon
           bed_and_breakfast: Bed and breakfast
-          cabin: Hytte
+          cabin: Turisthytte
+          camp_pitch: Teltplass
           camp_site: Teltplass
           caravan_site: Campingplass
           chalet: Fjellhytte
@@ -965,8 +1291,10 @@ nn:
           picnic_site: Piknikplass
           theme_park: Fornøyelsespark
           viewpoint: Utsiktspunkt
+          wilderness_hut: Villmarksstove
           zoo: Dyrepark
         tunnel:
+          building_passage: Bygnadspassasje
           culvert: Stikkrenne
           "yes": Tunnel
         waterway:
@@ -990,102 +1318,187 @@ nn:
           "yes": Vassveg
       admin_levels:
         level2: Riksgrense
+        level3: Regiongrense
         level4: Statsgrense
         level5: Regiongrense
+        level6: Fylkesgrense
+        level7: Kommunegrense
         level8: Bygrense
         level9: Landsbygrense
         level10: Forstadsgrense
-      types:
-        cities: Byar
-        towns: Småbyar
-        places: Stader
+        level11: Grannelagsgrense
     results:
       no_results: Ingen resultat funne
       more_results: Fleire resultat
+  issues:
+    index:
+      title: Saker
+      select_status: Vel stode
+      select_type: Vel type
+      select_last_updated_by: Vel Sist oppdatert av
+      reported_user: Meld brukar
+      not_updated: Ikkje oppdatert
+      search: Søk
+      search_guidance: 'Søk blant saker:'
+      states:
+        ignored: Sett bort frå
+        open: Open
+        resolved: Løyst
+    page:
+      user_not_found: Brukaren finst ikkje
+      issues_not_found: Ingen slike saker funne
+      status: Stode
+      reports: Meldingar
+      last_updated: Sist oppdatert
+      last_updated_time_ago_user_html: '%{time_ago} av %{user}'
+      reports_count:
+        one: '%{count} melding'
+        other: '%{count} meldingar'
+      reported_item: Meld objekt
+    show:
+      title: '%{status} Sak #%{issue_id}'
+      reports:
+        one: '%{count} melding'
+        other: '%{count} meldingar'
+      no_reports: Ingen meldingar
+      report_created_at_html: Fyrst meld %{datetime}
+      last_resolved_at_html: Sist løyst %{datetime}
+      last_updated_at_html: Sis oppdatert %{datetime} av %{displayname}
+      resolve: Løys
+      ignore: Sjå bort frå
+      reopen: Opna att
+      reports_of_this_issue: Meldingar om denne saka
+      read_reports: Les meldingar
+      new_reports: Nye meldingar
+      other_issues_against_this_user: Andre saker mot denne brukaren
+      no_other_issues: Ingen andre saker mot denne brukaren.
+      comments_on_this_issue: Kommentarar om denne saka
+    resolve:
+      resolved: Stoda på saka har vorte sett til «Løyst»
+    ignore:
+      ignored: Stoda på saka har vorte sett til «Sett bort frå»
+    reopen:
+      reopened: Stoda på saka har vorte sett til «Open»
+    comments:
+      comment_from_html: Kommentar frå %{user_link}, skriven %{comment_created_at}
+      reassign_param: Omdeleger saka?
+    reports:
+      reported_by_html: Meld som %{category} av %{user}, %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommentar #%{comment_id}'
+        note: 'Merknad #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Kommentaren din vart oppretta
+      issue_reassigned: Kommentaren din vart oppretta og saka vart delegert om
   reports:
     new:
+      title_html: Meld %{link}
+      missing_params: Kan ikkje oppretta ei ny melding
+      disclaimer:
+        intro: 'Før du sender inn meldinga til moderatorane, pass på at:'
+        not_just_mistake: Du er sikker på at problemet ikkje berre er eit uhell
+        unable_to_fix: Du ikkje kan fikse problemet sjølv eller med hjelp av andre
+        resolve_with_user: Du alt har prød å løyse problemet med brukaren
       categories:
+        diary_entry:
+          spam_label: Dette dagbokinnlegget inneheld spam
+          offensive_label: Dette dagbokinnlegget er usømeleg
+          threat_label: Dette dagbokinnlegget inneheld ein trugsel
+          other_label: Anna
+        diary_comment:
+          spam_label: Denne dagbokskommentaren er eller inneheld spam
+          offensive_label: Denne dagbokskommentaren er usømeleg
+          threat_label: Denne dagbokskommentaren inneheld ein trugsel
+          other_label: Anna
+        user:
+          spam_label: Denne brukarprofilen er eller inneheld spam
+          offensive_label: Denne brukarprofilen er usømeleg
+          threat_label: Denne brukarprofilen inneheld ein trugsel
+          vandal_label: Denne brukaren er ein vandal
+          other_label: Anna
         note:
           spam_label: Denne merknaden er søppel
+          personal_label: Denne merknaden inneheld personopplysingar
           abusive_label: Denne merknaden er støytande
+          other_label: Anna
+    create:
+      successful_report: Meldinga di har vorte registrert
+      provide_details: Du må oppgje dei påkravde opplysingane
   layouts:
-    project_name:
-      title: OpenHistoricalMap
-      h1: OpenHistoricalMap
     logo:
-      alt_text: OpenHistoricalMap-logo
-    home: heim
+      alt_text: OpenStreetMap-logo
+    home: Gå til heimstaden din
     logout: Logg ut
     log_in: Logg inn
-    log_in_tooltip: Logg inn med ein eksisterande konto
     sign_up: Registrer deg
     start_mapping: Start kartlegging
-    sign_up_tooltip: Opprett ein konto for redigering
     edit: Rediger
     history: Historikk
     export: Eksporter
-    data: Data
-    export_data: Eksportar data
+    issues: Problem
     gps_traces: GPS-spor
-    gps_traces_tooltip: Handsam GPS-spor
     user_diaries: Brukardagbok
-    user_diaries_tooltip: Vis brukaren si dagbok
     edit_with: Rediger med %{editor}
-    tag_line: Fritt Wiki-verdenskart
-    intro_header: Velkomen til OpenHistoricalMap!
-    intro_text: OpenHistoricalMap er eit verdskart, laga av folk som deg. Kartet er
-      gratis å bruke under ein open lisens.
-    intro_2_create_account: Opprett ein brukarkonto
-    hosting_partners_html: Drifta er støtta av %{ucl}, %{bytemark} og andre %{partners}.
+    intro_header: Velkomen til OpenStreetMap!
+    intro_text: OpenStreetMap er eit verdskart, laga av folk som deg. Kartet er gratis
+      å bruke under ein open lisens.
+    partners_fastly: Fastly
     partners_partners: partnarar
-    osm_offline: OpenHistoricalMap databasen er for augneblunken utilgjengelig medan
-      essensielt vedlikeholdsarbeid vert utført.
-    osm_read_only: OpenHistoricalMap kan ikkje redigerast akkurat no, på grunn av
-      nødvendig vedlikehaldsarbeid.
-    donate: Støytt OpenHistoricalMap ved %{link} til Hardware Upgrade Fund (eit fond
-      for maskinvareoppgraderinger).
+    tou: Bruksvilkår
+    osm_offline: OpenStreetMap databasen er for augneblunken utilgjengelig medan essensielt
+      vedlikeholdsarbeid vert utført.
+    osm_read_only: OpenStreetMap kan ikkje redigerast akkurat no, på grunn av nødvendig
+      vedlikehaldsarbeid.
     help: Hjelp
     about: Om
     copyright: Opphavsrett
-    community: Samfunnet
-    community_blogs: Bloggar
-    community_blogs_title: Bloggar frå medlemmane i OpenHistoricalMap-felleskapet
-    foundation: Stifting
-    foundation_title: OpenHistoricalMap-stiftinga
-    make_a_donation:
-      title: Støtt OpenHistoricalMap med ei pengegåve
-      text: Gje pengegåve
+    communities: Fellesskap
     learn_more: Les meir
     more: Meir
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenHistoricalMap] %{user} kommenterte på ein oppføring i dagboka
-        di'
+      subject: '[OpenStreetMap] %{user} kommenterte på ein oppføring i dagboka di'
       hi: Hei %{to_user},
-      header: '%{from_user} har kommentert på ditt siste OpenHistoricalMap-dagbokinnlegg
+      header: '%{from_user} har kommentert på ditt siste OpenStreetMap-dagbokinnlegg
+        med emnet %{subject}:'
+      header_html: '%{from_user} har kommentert på OpenStreetMap-dagboksinnlegget
         med emnet %{subject}:'
       footer: Du kan òg lese kommentaren på %{readurl} og du kan kommentere på %{commenturl}
         eller svare på %{replyurl}
+      footer_html: Du kan òg lesa kommentaren på %{readurl}, og du kan kommentera
+        på %{commenturl}, eller senda ei melding til forfattaren på %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hei %{to_user},
-      header: '%{from_user} har sendt deg ei melding gjennom OpenHistoricalMap med
-        emnet %{subject}:'
+      header: '%{from_user} har sendt deg ei melding gjennom OpenStreetMap med emnet
+        %{subject}:'
+      header_html: '%{from_user} har sendt deg ei melding via OpenStreetMap med emnet
+        %{subject}:'
+      footer: Du kan òg lesa meldinga på %{readurl}, og du kan senda ei melding til
+        forfattaren på %{replyurl}
+      footer_html: Du kan òg lesa meldinga på %{readurl}, og du kan senda ei melding
+        til forfattaren på %{replyurl}
     friendship_notification:
       hi: Hei %{to_user},
-      subject: '[OpenHistoricalMap] %{user} la deg til som ein ven'
-      had_added_you: '%{user} har lagt deg til som ven på OpenHistoricalMap.'
+      subject: '[OpenStreetMap] %{user} la deg til som ein ven'
+      had_added_you: '%{user} har lagt deg til som ven på OpenStreetMap.'
       see_their_profile: Du kan sjå profilen deira på %{userurl}.
+      see_their_profile_html: Du kan sjå profilen hens på %{userurl}.
       befriend_them: Du kan òg leggje dei til som ven på %{befriendurl}.
+      befriend_them_html: Du kan òg legga hen til som ein ven på %{befriendurl}.
     gpx_failure:
+      hi: Hei, %{to_user}
       failed_to_import: 'klarte ikkje importere. Her er feilen:'
-      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_import_failures
-      subject: '[OpenHistoricalMap] Feil under import av GPX'
+      more_info_html: Du kan finna meir informasjon om feil ved GPX-importering, og
+        korleis du kan unngå dei, på %{url}.
+      subject: '[OpenStreetMap] Feil under import av GPX'
     gpx_success:
-      loaded_successfully: lasta med %{trace_points} av %{possible_points} moglege
-        punkt.
-      subject: '[OpenHistoricalMap] Vellukka import av GPX'
+      hi: Hei, %{to_user}
+      subject: '[OpenStreetMap] Vellukka import av GPX'
     signup_confirm:
-      subject: '[OpenHistoricalMap] Velkommen til OpenHistoricalMap'
+      subject: '[OpenStreetMap] Velkommen til OpenStreetMap'
       greeting: Hei der!
       created: Nokon (forhåpentligvis deg) laga nettop ein konto på %{site_url}.
       confirm: 'Før me kan gjere noko må me bekrefta at denne forespørselen kom frå
@@ -1094,33 +1507,98 @@ nn:
       welcome: Me vil ynskje velkommen og gje deg litt meir informasjon for å få deg
         igang.
     email_confirm:
-      subject: '[OpenHistoricalMap] Stadfest di e-postadresse'
+      subject: '[OpenStreetMap] Stadfest di e-postadresse'
       greeting: Hei,
+      hopefully_you: Nokon (forhåpentleg du) ynskjer å endra e-postadressa si hjå
+        %{server_url} til %{new_address}.
       click_the_link: Viss det er deg, klikk lenkja nedanfor for å stadfeste endringa.
     lost_password:
-      subject: '[OpenHistoricalMap] Førespurnad om nullstilling av passord'
+      subject: '[OpenStreetMap] Førespurnad om nullstilling av passord'
       greeting: Hei,
+      hopefully_you: Nokon (kanskje du) har bede om å nullstilla passordet for OpenStreetMap-brukarkontoen
+        som er knytt til denne e-postadressa.
       click_the_link: Om dette er deg, vennligst klikk på lenkja under for å tilbakestille
         passordet.
     note_comment_notification:
       anonymous: Ein anonym brukar
       greeting: Hei,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} har kommentert ein av merknadane
+          dine'
+        subject_other: '[OpenStreetMap] %{commenter} har kommentert ein merknad som
+          du er interessert i'
+        your_note: '%{commenter} har kommentert ein av kartmerknadane dine i nærleiken
+          av %{place}.'
+        your_note_html: '%{commenter} har lagt att ein kommentar til ein av kartmerknadane
+          dine i nærleiken av %{place}.'
+        commented_note: '%{commenter} har lagt att ein kommentar til ein kartmerkad
+          som du har kommentert. Merknaden ligg i nærleiken av %{place}.'
+        commented_note_html: '%{commenter} har lagt att ein kommentar til ein kartmerknad
+          som du har kommentert. Merknaden ligg i nærleiken av %{place}.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} har løyst ein av merknadane dine'
+        subject_other: '[OpenStreetMap] %{commenter} har løyst ein merknad du er interessert
+          i'
+        your_note: '%{commenter} har løyst ein av kartmerknadane dine i nærleiken
+          av %{place}.'
+        your_note_html: '%{commenter} har løyst ein av kartmerknadane dine i nærleiken
+          av %{place}.'
+        commented_note: '%{commenter} har løyst ein kartmerknad som du har kommentert.
+          Merknaden ligg i nærleiken av %{place}.'
+        commented_note_html: '%{commenter} har løyst ein kartmerknad som du har kommentert.
+          Merknaden ligg i nærleiken av %{place}.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} har atteraktivert ein av merknadane
+          dine'
+        subject_other: '[OpenStreetMap] %{commenter} har atteraktivert ein merknad
+          som du er interessert i'
+        your_note: '%{commenter} har atteraktivert ein av kartmerknadane dine i nærleiken
+          av %{place}.'
+        your_note_html: '%{commenter} har atteraktivert ein av kartmerknadane dine
+          i nærleiken av %{place}.'
+        commented_note: '%{commenter} har atteraktivert ein kartmerknad som du har
+          kommentert. Merknaden ligg i nærleiken av %{place}.'
+        commented_note_html: '%{commenter} har atteraktivert ein kartmerknad som du
+          har kommentert. Merknaden ligg i nærleiken av %{place}.'
       details: Meir detaljar om notisen kan du finne på %{url}.
+      details_html: Fleire detaljar om merknaden finst på %{url}.
     changeset_comment_notification:
       hi: Hei %{to_user},
-      greeting: Hei,
       commented:
+        subject_own: '[OpenStreetMap] %{commenter} har kommentert eitt av endringssetta
+          dine'
+        subject_other: '[OpenStreetMap] %{commenter} har kommentert eit endringssett
+          som du er interessert i'
+        your_changeset: '%{commenter} la att ein kommentar til eitt av endringssetta
+          dine %{time}'
+        your_changeset_html: '%{commenter} la att ein kommentar til eitt av endringssetta
+          dine %{time}'
+        commented_changeset: '%{commenter} la att ein kommentar til eit endringssett
+          som du overvaker og som er oppretta av %{changeset_author}, %{time}'
+        commented_changeset_html: '%{commenter} la att ein kommentar til eit endringssett
+          som du overvaker og som er oppretta av %{changeset_author}, %{time}'
         partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
+        partial_changeset_with_comment_html: med kommentaren «%{changeset_comment}»
         partial_changeset_without_comment: utan kommentar
+      details: Fleire detaljar om endringssettet finst på %{url}.
+      details_html: Fleire detaljar om endringssettet finst på %{url}.
+      unsubscribe: For å avslutta tinginga på oppdateringar til dette endringssettet,
+        vitja %{url} og klikka "Avslutta tinging".
+      unsubscribe_html: For å avslutta tinginga på oppdateringar til dette endringssettet,
+        vitja %{url} og klikka "Avslutta tinging".
   confirmations:
     confirm:
       heading: Sjekk e-posten din!
       introduction_1: Vi har sendt deg ei e-poststadfesting.
+      introduction_2: Stadfest brukarkontoen din ved å klikka på lenkja i e-posten,
+        so kan du byrja å kartleggja.
       press confirm button: Klikk bekreftknappen nedanfor for å aktivare kontoen din.
       button: Stadfest
       success: Kontoen din er stadfesta - takk for at du registrerte deg.
       already active: Denne kontoen har allereie stadfesta.
-      unknown token: Den stadfestingskoden har utgått eller finst ikkje.
+      unknown token: Den koda ser ikkje ut til å eksistere.
+      resend_html: Viss du treng at vi sender stadfestings-e-posten på nytt, %{reconfirm_link}
+      click_here: klikka her
     confirm_resend:
       failure: Fann ikkje brukaren %{name}.
     confirm_email:
@@ -1130,10 +1608,16 @@ nn:
       button: Stadfest
       success: E-postadressen din er stadfesta - takk for at du registrerte deg.
       failure: Ei e-postadresse er allereie stadfesta med denne nøkkelen.
+      unknown_token: Denne stadfestingskoden er utgått eller finst ikkje.
+    resend_success_flash:
+      confirmation_sent: Vi har sendt ein ny stadfestings-e-post til %{email}, og
+        du vil kunna byrja å kartleggja med ein gong etter at du stadfestar kontoen.
+      whitelist: Viss du bruker eit spamførebyggjingssystem som sender førespurnadar
+        om stadfesting, ver sikker på at %{sender} står på kvitlista, sidan vi ikkje
+        kan svara på slike førespurnadar.
   messages:
     inbox:
-      title: Innboks
-      my_inbox: Min innboks
+      title: Mottekne
       messages: Du har %{new_messages} og %{old_messages}
       new_messages:
         one: '%{count} ny melding'
@@ -1141,22 +1625,21 @@ nn:
       old_messages:
         one: '%{count} gamal melding'
         other: '%{count} gamle meldingar'
-      from: Frå
-      subject: Emne
-      date: Dato
       no_messages_yet_html: Du har ingen meldingar endå. Kanskje du kan prøve å kome
         i kontakt med %{people_mapping_nearby_link}?
       people_mapping_nearby: folk i nærleiken som lagar kart
+    messages_table:
+      from: Frå
+      to: Til
+      subject: Emne
+      date: Dato
     message_summary:
       unread_button: Marker som ulese
       read_button: Marker som lese
-      reply_button: Svar
       destroy_button: Slett
     new:
       title: Send melding
       send_message_to_html: Send ei ny melding til %{name}
-      subject: Emne
-      body: Kropp
       back_to_inbox: Tilbake til innboks
     create:
       message_sent: Melding sendt
@@ -1167,13 +1650,10 @@ nn:
       heading: Inga melding funne
       body: Det er inga melding med den ID-en.
     outbox:
-      title: Utboks
+      title: Sende
       messages:
         one: Du har %{count} send melding
         other: Du har %{count} sende meldingar
-      to: Til
-      subject: Emne
-      date: Dato
       no_sent_messages_html: Du har ikkje sendt nokre meldingar endå. Kanskje du kan
         prøve å kome i kontakt med %{people_mapping_nearby_link}?
       people_mapping_nearby: folk i nærleiken som lagar kart
@@ -1182,125 +1662,171 @@ nn:
         vart ikkje send til den brukaren. Logg inn som korrekt brukar for å svare.
     show:
       title: Les melding
-      from: Frå
-      subject: Emne
-      date: Dato
       reply_button: Svar
       unread_button: Marker som ulese
       destroy_button: Slett
       back: Tilbake
-      to: Til
       wrong_user: Du er logga inn som «%{user}», men meldinga du ynskjer å lese vart
         ikkje send til den brukaren. Logg inn som korrekt brukar for å lese.
     sent_message_summary:
       destroy_button: Slett
+    heading:
+      my_inbox: Mottekne
+      my_outbox: Sende
     mark:
       as_read: Melding markert som lese
       as_unread: Melding markert som ulese
     destroy:
       destroyed: Melding sletta
   passwords:
-    lost_password:
+    new:
       title: Gløymt passord
       heading: Gløymt passord?
       email address: 'E-postadresse:'
       new password button: Nullstill passord
       help_text: Skriv inn e-postadressa du brukte for å registrere deg, og me vil
         sende deg ei lenkje som du kan bruke til å nullstille passordet ditt.
-      notice email on way: Synd at du mista det, men ein e-post er på veg slik at
-        du kan tilbakestille det snart.
-      notice email cannot find: Klarte ikkje finne den e-postadressa. Beklagar.
-    reset_password:
+    edit:
       title: Nullstill passord
       heading: Nullstill passord for %{user}
       reset: Nullstill passord
-      flash changed: Passordet ditt er endra.
       flash token bad: Kunne ikkje finne den nøkkelen. Sjekke URLen kanskje?
+    update:
+      flash changed: Passordet ditt er endra.
   preferences:
+    show:
+      title: Innstillingar
+      preferred_editor: Føretrekt redigeringsprogram
+      preferred_languages: Føretrekte språk
+      edit_preferences: Endra innstillingane
     edit:
+      title: Endra innstillingane
+      save: Oppdater innstillingane
       cancel: Avbryt
+    update:
+      failure: Kunne ikkje oppdatera innstillingane.
+    update_success_flash:
+      message: Innstillingane vart oppdaterte.
   profiles:
     edit:
+      title: Endra profil.
+      save: Oppdater profil
       cancel: Avbryt
-      image: 'Bilete:'
+      image: Bilete
       gravatar:
         gravatar: Bruk Gravatar
-        link: http://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Kva er Gravatar?
+        disabled: Gravatar er avslegen.
+        enabled: Vising av Gravataren din er slege på.
       new image: Legg til eit bilete
       keep image: Hald på gjeldande bilete
       delete image: Fjern gjeldande bilete
       replace image: Erstatt gjeldande bilete
       image size hint: (kvadratiske bilete som er minst 100x100 fungerer best)
-      home location: 'Heimeposisjon:'
+      home location: Heimstad
       no home location: Du har ikkje skrive inn din heimelokasjon.
       update home location on click: Oppdatere heimeplassering når eg klikkar på kartet?
+      show: Vis
+      delete: Sletta
+      undelete: Angra sletting
+    update:
+      success: Profilen vart oppdatert.
+      failure: Kunne ikkje oppdatera profilen.
   sessions:
     new:
-      title: Logg inn
-      heading: Logg inn
+      tab_title: Logg inn
       email or username: 'E-postadresse eller brukarnamn:'
       password: 'Passord:'
-      openid_html: '%{logo} OpenID:'
       remember: Hugs meg
       lost password link: Mista passordet ditt?
       login_button: Logg inn
-      register now: Registrer deg no
-      with username: 'Har du allereie ein OpenHistoricalMap-konto? Logg inn med brukernavnet
-        og passordet ditt:'
       with external: 'Alternativt kan du bruke ein tredjepart til å logge inn:'
-      new to osm: Ny på OpenHistoricalMap?
-      to make changes: For å gjere endringar på OpenHistoricalMap-data, må du ha ein
-        konto.
-      create account minute: Opprett ein konto. Det tek berre eitt minutt.
-      no account: Har du ingen brukarkonto?
-      account not active: Beklagar, kontoen din er ikkje aktivert enno.<br />Bruk
-        lenkja i kontobekreftelseseposten for å aktivare kontoen din, eller <a href="%{reconfirm}">be
-        om ein ny bekreftelsesepost</a>.
-      account is suspended: Beklagar, kontoen din er deaktivert på grunn av mistenkjeleg
-        aktivitet.<br />Vennligst kontakt <a href="%{webmaster}">webmaster</a> viss
-        du ynskjer å diskutere dette.
       auth failure: Beklagar, kunne ikkje logge inn med den informasjonen
-      openid_logo_alt: Logg inn med ein OpenID
-      auth_providers:
-        openid:
-          title: Logg inn med OpenID
-          alt: Logg inn med ein OpenID-URL
-        google:
-          title: Logg inn med Google
-          alt: Logg inn med ein Google OpenID
-        facebook:
-          title: Logg inn med Facebook
-          alt: Logg inn med ein Facebook-konto
-        github:
-          title: Logg inn med GitHub
-          alt: Logg inn med ein GitHub-konto
-        wikipedia:
-          title: Logg inn med Wikipedia
-          alt: Logg inn med ein Wikipedia-konto
-        wordpress:
-          title: Logg inn med Wordpress
-          alt: Logg inn med ein Wordpress OpenID
-        aol:
-          title: Logg inn med AOL
-          alt: Logg inn med ein AOL OpenID
     destroy:
       title: Logg ut
-      heading: Logg ut frå OpenHistoricalMap
+      heading: Logg ut frå OpenStreetMap
       logout_button: Logg ut
+    suspended_flash:
+      suspended: Orsak, kontoen din har vorte suspendert på grunn av tvilsamt åtferd.
+      contact_support_html: Tak kontakt med %{support_link} om du ynskjar å diskutera
+        dette.
+      support: brukarstøtten
+  shared:
+    markdown_help:
+      heading_html: Parsa med %{kramdown_link}
+      headings: Overskrifter
+      heading: Overskrift
+      subheading: Underoverskrift
+      unordered: Usortert liste
+      ordered: Sortert liste
+      first: Fyrste post
+      second: Andre post
+      link: Lenkje
+      text: Tekst
+      image: Bilete
+      alt: Alt-tekst
+      url: URL
+    richtext_field:
+      edit: Endra
+      preview: Førehandsvising
+    pagination:
+      diary_comments:
+        older: Eldre kommentarar
+        newer: Nyare kommentarar
+      diary_entries:
+        older: Eldre oppføringar
+        newer: Nyare oppføringar
+      traces:
+        older: Eldre spor
+        newer: Nyare spor
   site:
     about:
-      next: Neste
-      heading_html: <span>&copy;</span>OpenHistoricalMap<br>bidragsytarar
+      heading_html: '%{copyright}OpenStreetMap-%{br}bidragsytarane'
+      used_by_html: '%{name} leverer kartdata til tusenvis av nettstadar, mobilappar
+        og maskinvare-einingar'
+      lede_text: OpenStreetMap er bygd av eit fellesskap av kartleggjarar som bidreg
+        og held ved like data om vegar, stigar, kafear, jarnbanestasjonar og mykje
+        meir kring verda.
       local_knowledge_title: Lokalkunnskap
+      local_knowledge_html: OpenStreetMap framhevar lokalkunnskap. Bidragsytarar bruker
+        flyfotografi, GPS-apparat og lågteknologiske feltkart for å stadfesta at OSM
+        er noggrann og a jour.
       community_driven_title: Fellesskapsdrive
+      community_driven_1_html: |-
+        OpenStreetMap-fellesskapet er mangfaldig, ihuga og stadig veksande. Bidragsytarane våre omfattar eldhuga kartleggjarar, GIS-fagfolk, ingeniørar som held i gang sørvarane, humanitære arbeidarar som kartlegg område ramma av katastrofar og mange meir.
+        For å læra meir om fellesskapet, sjå %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} og nettstaden til %{osm_foundation_link}.
+      community_driven_osm_blog: OpenStreetMap sin blogg
+      community_driven_user_diaries: brukardagbøker
+      community_driven_community_blogs: fellesskapsbloggar
+      community_driven_osm_foundation: OSM Foundation
       open_data_title: Opne Data
+      open_data_1_html: 'Openstreetmap er %{open_data}: du kan bruka det fritt til
+        kva som helst føremål, so lenge du siterer OpenStreetMap og bidragsytarane.
+        Viss du endrar eller byggjer på dataen på visse sett, kan du berre publisere
+        resultata under den same lisensen. Sjå %{copyright_license_link} for detaljar.'
+      open_data_open_data: ope data
+      open_data_copyright_license: sida om opphavsrett og lisensar
       legal_title: Juridisk
+      legal_1_1_html: Denne nettstaden og fleira andre tilknytte tenester er formelt
+        drivne av %{openstreetmap_foundation_link} (OSMF) på vegner av fellesskapet.
+        Bruk av alle tenester som OSMF driv er underlagd %{terms_of_use_link}, %{aup_link}
+        og %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
+      legal_1_1_terms_of_use: bruksvilkåra
+      legal_1_1_aup: vilkåra for akseptabel bruk
+      legal_1_1_privacy_policy: personvernspolitikken
+      legal_2_1_html: Kontakt %{contact_the_osmf_link} om du har spørsmål knytte til
+        lisens, opphavsrett eller andre juridiske emne.
+      legal_2_1_contact_the_osmf: tak kontakt med OSMF
+      legal_2_2_html: OpenStreetMap, aukeglas-logoen og State of the Map er %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: regristrerte varemerke til OSMF
       partners_title: Partnarar
     copyright:
+      title: Opphavsrett og lisensar
       foreign:
         title: Om denne omsetjinga
-        html: I tilfelle konflikt mellom denne omsette sida og %{english_original_link}
-          har den engelske versjonen presedens
+        html: Om denne omsetjinga kjem i motsetjing med %{english_original_link},
+          gjeld den engelske teksten.
         english_link: den engelske originalen
       native:
         title: Om denne sida
@@ -1310,66 +1836,144 @@ nn:
         native_link: Nynorsk versjon
         mapping_link: start kartlegging
       legal_babble:
-        title_html: Opphavsrett og lisensar
-        intro_1_html: Data frå OpenHistoricalMap er <i>åpne data</i>, lisensiert under
-          <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open
-          Database License</a> (ODbL).
-        intro_2_html: "Du er fri til å kopiere, distribuere, overføre og tilpasse
-          dataa våre, så lenge du godskriv OpenHistoricalMap og bidragsytarane\n  deira.
-          Dersom du endrar eller byggjer på dataa våre, kan du berre distribuere resultatet
-          under same lisens. \n  Den fullstendige <a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">juridiske\n
-          \ teksten</a> forklarer rettane og ansvaret."
-        intro_3_1_html: |-
-          Kartografien i våre kartfliser, og dokumentasjonen vår, er lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-             Commons Navngivelse-DelPåSammeVilkår 2.0</a> (CC BY-SA).
-        credit_title_html: Korleis kreditere OpenHistoricalMap
-        credit_1_html: Me krev at du brukar godskrivinga «© OpenHistoricalMap-bidragsytarane».
-        credit_2_1_html: Du må óg gjere det klart at dataa er tilgjengeleg under Open
-          Database License, og dersom du brukar kartflisene, at kartografien er lisensiert
-          under CC BY-SA. Du kan gjere dette ved å lenkje til <a href="http://www.openstreetmap.org/copyright">denne
-          sida</a>. Alternativt, og eit krav om du distribuerer OSM i dataform, kan
-          du nemne og lenkje til lisensen eller lisensane. I former der lenkjer er
-          umogleg (t.d. trykte verk), føreslår me at du viser lesarane dine til openstreetmap.org
-          (kanskje ved å utvide «OpenHistoricalMap» til denne fulle adressa), til
-          opendatacommons.org, og dersom relevant, til creativecommons.org.
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} er %{open_data},
+          med lisens %{odc_odbl_link} (ODbL) av %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: ope data
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: OpenStreetMap Foundation
+        introduction_2_html: Du har rett til å kopiera, spreia, overføra og tilpassa
+          dataen vår, so lengje du siterer OpenStreetMap og bidragsytarane. Dersom
+          du endrar eller byggjer på dataen, kan du berre publisera resultatet under
+          den same lisensen. Den fulle %{legal_code_link} forklårar rettane og skyldnadene
+          dine.
+        introduction_2_legal_code: juridiske teksten
+        introduction_3_html: Dokumentasjonen vår er publisert under lisensen %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Navngiving-DelPåSameVilkår
+          2.0
+        credit_title_html: Korleis kreditere OpenStreetMap
+        credit_1_html: 'Når du bruker data frå OpenStreetMap, krevst to ting av deg:'
+        credit_2_1: Godskriv OpenStreetMap ved å visa opphavsrettsfråsegna vår.
+        credit_2_2: Gjer det tydeleg at dataen er tilgjengeleg under vilkåra av Open
+          Database License.
+        credit_3_html: Me har ulike krav til korleis opphavsrettsfråsegna skal visast,
+          avhengig av korleis du bruker dataen vår. Til dømes finst det ulike reglar
+          for vising av fråsegna avhengig av om du har skapt eit interaktivt kart
+          på nett, eit trykt kart eller eit statisk bilete. Utdjupande detaljar om
+          krava finn du i %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Retningslinene for kjeldetilvising
+        credit_4_1_html: For å gjera det tydeleg at dataen er tilgjengeleg under vilkåra
+          til Open Database License, kan du lenkja til %{this_copyright_page_link}.
+          Du kan òg – og må, dersom du distribuerer OSM i dataform – namngje og lenkja
+          direkte til lisensane. I medium der lenkjer ikkje er moglege (t.d. trykksaker),
+          rår vi til å visa til openstreetmap.org (kan henda ved å utvida «OpenStreetMap»
+          til den fulle adressa) og til opendatacommons.org. I dette dømet er kjeldetilvisinga
+          i hjørnet på kartet.
+        credit_4_1_this_copyright_page: denne sida om opphavsrett
         attribution_example:
-          alt: Døme på korleis ein syner OpenHistoricalMap som kjelde på ei vevside
+          alt: Døme på korleis ein syner OpenStreetMap som kjelde på ei vevside
           title: Døme på kjeldehenvising
         more_title_html: Finn ut meir
-        more_1_html: |-
-          Les meir om korleis du brukar dataa våre, og korleis du krediterer oss, i den <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiske
-            FAQ-en</a>.
+        more_1_1_html: Les meir om å bruke dataen vår, og korleis å godskriva oss,
+          på %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: OSMF si side om lisens.
+        more_2_1_html: |-
+          Enda OpenStreetMap er ope data, kan vi ikkje levera eit gratis kart-API til tredje partar.
+          Sjå %{api_usage_policy_link}, %{tile_usage_policy_link} og %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Retningslina for bruk av API
+        more_2_1_tile_usage_policy: Retningslina for bruk av kartfliser
+        more_2_1_nominatim_usage_policy: REtningslina for bruk av Nominatim
         contributors_title_html: Bidragsytarane våre
         contributors_intro_html: 'Me har tusenvis av individuelle bidragsytarar. Me
           inkluderer óg åpne datasett frå nasjonale karttjenester og andre kjelder,
           bland anna frå:'
-        contributors_footer_1_html: |2-
-            For detaljar om desse og andre kjelder som har blitt brukt for å forbetra
-            OpenHistoricalMap, sjå <a href="http://wiki.openstreetmap.org/wiki/Contributors">Bidragsytarar
-            sida</a> på OpenStreetMap Wikien.
+        contributors_at_credit_html: '%{austria}: Inneheld data frå %{stadt_wien_link}
+          (under %{cc_by_link}), %{land_vorarlberg_link} og Land Tirol (under %{cc_by_at_with_amendments_link}).'
+        contributors_at_austria: Austerrike
+        contributors_at_stadt_wien: Byen Wien
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT med tillegg
+        contributors_au_credit_html: '%{australia}: Inneheld eller er utvikla med
+          administrative grenser («Administrative Boundaries») &copy; %{geoscape_australia_link}
+          lisensert av Australia under %{cc_licence_link}.'
+        contributors_au_australia: Australia
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Creative Commons Namngiving 4.0 Internasjonal
+          lisens (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: Inneheld data frå
+          GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada) og StatCan (Geography Division,
+          Statistics Canada).
+        contributors_ca_canada: Canada
+        contributors_fi_credit_html: '%{finland}: Inneheld data frå  Lantmäteriverket
+          sin topografisk database og andre datasett, under %{nlsfi_license_link}.'
+        contributors_fi_finland: Finland
+        contributors_fi_nlsfi_license: Lantmäteriverket sin lisens
+        contributors_fr_credit_html: '%{france}: Inneheld data frå Direction Générale
+          des Impôts.'
+        contributors_fr_france: Frankrike
+        contributors_nl_credit_html: '%{netherlands}: Inneheld &copy; AND data, 2007
+          (%{and_link})'
+        contributors_nl_netherlands: Nederland
+        contributors_nz_credit_html: '%{new_zealand}: Inneheld data frå %{linz_data_service_link}
+          som er lisensert for ombruk under %{cc_by_link}.'
+        contributors_nz_new_zealand: Ny-Zealand
+        contributors_nz_linz_data_service: LINZ Data Service
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: '%{serbia}: Inneheld data frå %{rgz_link} og
+          %{open_data_portal} (offentleg informasjon Serbia), 2018.'
+        contributors_rs_serbia: Serbia
+        contributors_rs_rgz: Serbian Geodetic Authority
+        contributors_rs_open_data_portal: National Open Data Portal
+        contributors_si_credit_html: '%{slovenia}: Inneheld data frå %{gu_link} og
+          %{mkgp_link} (offentleg informasjon Slovenia)'
+        contributors_si_slovenia: Slovenia
+        contributors_si_gu: Oppmålings- og kartleggjingsmyndigheita
+        contributors_si_mkgp: Ministeriet for jordbruk, skogbruk og mat
+        contributors_es_credit_html: '%{spain}: Inneheld data frå National Geographic
+          Institute (%{ign_link}) og National Cartographic System (%{scne_link}),
+          lisensert for ombruk under %{cc_by_link}.'
+        contributors_es_spain: Spania
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{%{south_africa}: Inneheld data frå %{ngi_link},
+          statleg opphavsrett reservert.'
+        contributors_za_south_africa: Sør-Afrika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_gb_credit_html: '%{united_kingdom}: Inneheld data frå Ordnance
+          Survey &copy; Crown copyright og database right 2010–2023.'
+        contributors_gb_united_kingdom: Storbritannia
+        contributors_2_html: For fleire detaljar om desse og andre kjelder som har
+          vorte brukte for å forbetre OpenStreetMap, sjå %{contributors_page_link}
+          på OpenStreetMap sin wiki.
+        contributors_2_contributors_page: Bidragsytarar-sida
         contributors_footer_2_html: |2-
-            Inkludering av data i OpenHistoricalMap inneber ikkje at den opphavlege
-            dataleverandøren støttar OpenHistoricalMap, gjev nokon garanti eller
+            Inkludering av data i OpenStreetMap inneber ikkje at den opphavlege
+            dataleverandøren støttar OpenStreetMap, gjev nokon garanti eller
             godtek noko erstatningsansvar.
         infringement_title_html: Illegal kopiering
         infringement_1_html: |-
           OSM-bidragsytarar vert minna på å aldri leggje til data frå opphavsrettsbeskytta kjelder (t.d. Google Maps eller utskrivne kart) utan
             uttrykkeleg løyve frå rettighetshavere.
-        infringement_2_html: "Dersom du trur at kopibeskytta materiale har blitt lagt
-          inn i OpenHistoricalMap databasen eller denne sida, venligst henvend deg
-          til vår <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">takedown
-          \nprosedyre</a> eller direkte til vårt <a href=\"https://dmca.openstreetmap.org/\">online
-          skjema</a>."
+        infringement_2_1_html: Dersom du trur at innhald som er verna av opphavsrett
+          har vorte føydd til urettkomment i OpenStreetMap sin database eller nettstad,
+          ver venleg og fylg %{takedown_procedure_link}, eller klaga direkte gjennom
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: prosedyren for fjerning av materiale
+        infringement_2_1_online_filing_page: klageformularet
+        trademarks_title: Varemerke
+        trademarks_1_1_html: OpenStreetMap, lupe-logoen og «State of the Map» er registrerte
+          varemerke av OpenStreetMap Foundation. Viss du har spørsmål om bruken av
+          varemerka, sjå %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Varemerkeretningslinene
     index:
       js_1: Du har ein nettleser som ikkje støttar JavaScript eller så har du slått
         av JavaScript.
-      js_2: OpenHistoricalMap brukar JavaScript på kartsidene.
-      permalink: Permanent lenkje
-      shortlink: Kort lenkje
-      createnote: Legg til ein notis
+      js_2: OpenStreetMap brukar JavaScript på kartsidene.
       license:
-        copyright: Kopibeskytta OpenHistoricalMap og bidragsytarar, under ein open
-          lisens
+        copyright: Kopibeskytta OpenStreetMap og bidragsytarar, under ein open lisens
       remote_failed: Klarte ikkje redigere - forsikre deg at JOSM eller Merkaartor
         er lasta og fjernkontrollvalget er aktivert
     edit:
@@ -1377,40 +1981,32 @@ nn:
       not_public_description_html: Du kan ikkje lenger redigere kartet om du ikkje
         gjer det. Du kan gjere redigeringane dine offentlege frå din %{user_page}.
       user_page_link: brukarside
-      anon_edits_html: (%{link})
       anon_edits_link_text: Finn ut kvifor dette er tilfellet.
       id_not_configured: iD er ikkje konfigurert
-      no_iframe_support: Nettlesaren din støttar ikkje HTML iframes som er naudsynt
-        for denne eigenskapen.
     export:
       title: Eksporter
-      area_to_export: Område som skal eksporterast
       manually_select: Vel eit anna område manuelt
-      format_to_export: Format for eksport
-      osm_xml_data: OpenHistoricalMap XML-data
-      map_image: Kartblad (viser standard laget)
-      embeddable_html: HTML som kan byggjast inn
       licence: Lisens
-      licence_details_html: Data frå OpenHistoricalMap er lisensiert under <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL).
+      licence_details_html: Data frå OpenStreetMap er lisensert under %{odbl_link}
+        (ODbL).
+      odbl: Open Data Commons Open Database License
       too_large:
-        body: Dette området er for stort for å eksporterast som OpenHistoricalMap
-          XML-data. Zoom inn eller vel eit mindre område.
+        advice: 'Viss eksporten ovafor slår feil, kan du bruka ein av kjeldene nedafor:'
+        body: Dette området er for stort for å eksporterast som OpenStreetMap XML-data.
+          Zoom inn eller vel eit mindre område.
         planet:
           title: Planet OSM
+          description: Jamleg oppdaterte kopiar av heile databasen til OpenStreetMap
+        overpass:
+          title: Overpass-API
+          description: Last ned denne avgrensingsramma frå ein spegel av OpenStreetMap
+            sin database
+        geofabrik:
+          title: Geofabrik-nedlastingar
+          description: Jamleg oppdaterte utdrag av kontinent, land og utvalde byar
         other:
           title: Andre kjelder
-      options: Val
-      format: Format
-      scale: Skala
-      max: maks
-      image_size: Bildestørrelse
-      zoom: Zoom
-      add_marker: Legg til ein markør på kartet
-      latitude: 'Brei:'
-      longitude: 'Len:'
-      output: Utdata
-      paste_html: Lim inn HTML som skal byggjast inn i nettstad
+          description: Yttarlegare kjelder hjå OpenStreetMap sin wiki
       export_button: Eksporter
     fixthemap:
       title: Rapporter eit problem/Korriger kartet
@@ -1418,27 +2014,53 @@ nn:
         title: Korleis hjelpe til
         join_the_community:
           title: Ver med i fellesskapen
+          explanation_html: Viss du har merka eit problem med dataen vår, til dømes
+            at det manglar ein veg eller adresse, er det beste å bli med i OpenStreetMap-fellesskapet
+            og føya til eller vøla opplysinga sjølv.
+        add_a_note:
+          instructions_1_html: |-
+            Berre klikk på %{note_icon}, eller det tilsvarande ikonet på kartvisinga.
+            Dette vil legga til ein markør på kartet, som du kan flytta ved å dra i han. Legg til meldinga di og klikk «Lagra», og andre brukarar vil undersøka saka.
       other_concerns:
         title: Andre problemstillingar
+        concerns_html: Dersom du har bekymringar om korleis dataen vår vert brukt
+          eller om innhaldet, sjå %{copyright_link} for meir juridisk informasjon,
+          eller tak kontakt med den relevante %{working_group_link}.
+        copyright: sida om opphavsrett
+        working_group: OSMF-arbeidsgruppa
     help:
       title: Få hjelp
+      introduction: OpenStreetMap har fleire resursar for å læra om prosjektet, stilla
+        og svara på spørsmål og å diskutera og dokumentera kartleggjingsrelaterte
+        tema i lag.
       welcome:
         url: /velkommen
-        title: Velkomen til OSM
-      discord:
-        title: switch2osm
-      slack:
+        title: Velkomen til OpenStreetMap
+        description: Byrja med denne snøgge rettleiinga om det grunnleggjande hjå
+          OpenStreetMap.
+      beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Nn:Beginners%27_guide
+        title: Hjelp for nybegynnarar
+        description: Dugnadsbasert guide for nybegynnarar.
+      community:
+        title: Fellesskapsforum
+        description: Ein stad for samtaler om OpenStreetMap.
+      mailing_lists:
+        title: E-postlister
+        description: Spør eit spørsmål eller diskuter interessante tema på ei rekke
+          av temabaserte eller regionale e-postlister.
+      irc:
         title: IRC
+      switch2osm:
+        title: switch2osm
       wiki:
         title: wiki.openstreetmap.org
     any_questions:
       title: Spørsmål?
     sidebar:
       search_results: Søkjeresultat
-      close: Lukk
     search:
       search: Søk
-      get_directions: Få køyrerettleiing
       get_directions_title: Finn vegen mellom to punkt
       from: Frå
       to: Til
@@ -1463,34 +2085,24 @@ nn:
           footway: Gangveg
           rail: Jernbane
           subway: Undergrunnsbane
-          tram:
-          - Bybane
-          - trikk
-          cable:
-          - Kabelvogn
-          - stolheis
-          runway:
-          - Flystripe
-          - taksebane
-          apron:
-          - terminal
-          - terminal
+          cable_car: Kabelvogn
+          chair_lift: stolheis
+          runway: Flystripe
+          taxiway: taksebane
+          apron: terminal
           admin: Administrativ grense
           forest: Skog
           wood: Ved
           golf: Golfbane
           park: Park
+          common: Vanleg
           resident: Boligområde
-          common:
-          - Vanleg
-          - snever
           retail: Detaljsalgområde
           industrial: Industriområde
           commercial: Kommersielt område
           heathland: Heilandskap
-          lake:
-          - Innsjø
-          - reservoar
+          lake: Innsjø
+          reservoir: reservoar
           farm: Gard
           brownfield: Tidlegare industriområde
           cemetery: Gravplass
@@ -1499,14 +2111,12 @@ nn:
           centre: Sportssenter
           reserve: Naturreservat
           military: Militært område
-          school:
-          - Skule
-          - universitet
+          school: Skule
+          university: universitet
           building: Viktig bygning
           station: Jernbanestasjon
-          summit:
-          - Topp
-          - fjelltopp
+          summit: Topp
+          peak: fjelltopp
           tunnel: Streka kant = tunnel
           bridge: Sort kant = bru
           private: Privat tilgjenge
@@ -1535,7 +2145,6 @@ nn:
         punkt med tidsstempel)
     new:
       visibility_help: kva tyder dette?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjelp
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1551,9 +2160,6 @@ nn:
       title: Redigerer spor %{name}
       heading: Redigerer spor %{name}
       visibility_help: kva tyder dette?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-    trace_optionals:
-      tags: Merkelappar
     show:
       title: Viser spor %{name}
       heading: Viser spor %{name}
@@ -1573,10 +2179,6 @@ nn:
       delete_trace: Slett dette sporet
       trace_not_found: Sporet vart ikkje funne!
       visibility: 'Synligheit:'
-    trace_paging_nav:
-      showing_page: Side %{page}
-      older: Eldre spor
-      newer: Nyare spor
     trace:
       pending: VENTAR
       count_points: '%{count} punkt'
@@ -1588,8 +2190,6 @@ nn:
       identifiable: IDENTIFISERBAR
       private: PRIVAT
       trackable: SPORBAR
-      by: av
-      in: i
     index:
       public_traces: Offentlege GPS-spor
       public_traces_from: Offentlege GPS-spor frå %{user}
@@ -1598,8 +2198,6 @@ nn:
       upload_trace: Last opp eit GPS-spor
     destroy:
       scheduled_for_deletion: Spor planlagt sletta
-    make_public:
-      made_public: Spor gjort offentleg
     offline_warning:
       message: Systemet for opplasting av GPX-filer er ikkje tilgjengeleg for augneblunken.
     offline:
@@ -1607,7 +2205,7 @@ nn:
       message: Systemet for opplasting og lagring av GPX-filer er ikkje tilgjengeleg
         for augneblunken.
     georss:
-      title: OpenHistoricalMap GPS-spor
+      title: OpenStreetMap GPS-spor
     description:
       description_without_count: GPX-fil frå %{user}
   application:
@@ -1620,71 +2218,25 @@ nn:
       need_to_see_terms: Tilgjenget ditt til API-eit er mellombels stoppa. Logg inn
         på nettsiden for å lese bidragsytervilkårene. Du treng ikkje godta vilkåra,
         men du må lese dei.
-  oauth:
-    authorize:
-      title: Autoriser tilgang til kontoen din
-      request_access_html: Applikasjonen %{app_name} ber om tilgjenge til kontoen
-        din, %{user}. Sjekk om du vil at applikasjonen skal ha følgjande løyve. Du
-        kan velje så mange eller så få som du vil.
-      allow_to: 'Gje programmet lov til å:'
-      allow_read_prefs: lese brukarinnstillingane dine.
-      allow_write_prefs: endre brukarinnstillingane dine
-      allow_write_diary: opprette dagbokoppføringar, kommentarar og finne venner.
-      allow_write_api: endre kartet.
-      allow_read_gpx: lese dine private GPS-spor.
-      allow_write_gpx: laste opp GPS-spor.
-      allow_write_notes: endre notisar.
-      grant_access: Gje tilgang
-    authorize_success:
-      title: Autorisasjonsførespurnad tillaten
-      allowed_html: Du har gitt programmet %{app_name} tilgang til kontoen din.
-      verification: Stadfestingskoden er %{code}.
-    authorize_failure:
-      title: Mislykka førespurnad om autorisering
-      denied: Du har nekta programmet %{app_name} tilgang til kontoen din.
-      invalid: Autoriseringsnykelen (token) er ikkje gyldig.
-    revoke:
-      flash: Du sletta nøkkelen for %{application}
-  oauth_clients:
-    new:
-      title: Registrer ein ny applikasjon
-    edit:
-      title: Rediger programvara di
-    show:
-      title: OAuth-detaljar for %{app_name}
-      key: 'Forbrukarnøkkel:'
-      secret: 'Forbrukarhemmelegheit:'
-      url: 'URL for forespørelsnøkkel:'
-      access_url: URL for tilgangensnøkkel
-      authorize_url: 'Godkjenn URL:'
-      support_notice: Me støttar HMAC-SHA1 (tilrådt) og RSA-SHA1 signaturar.
-      edit: Rediger detaljar
-      delete: Ta bort klient
-      confirm: Er du sikker?
-      requests: 'Ber om følgjande løyve frå brukaren:'
-    index:
-      title: Mine OAuth-detaljar
-      my_tokens: Dei autoriserte applikasjonane mine
-      list_tokens: 'Følgjande nøklar er utskrivne til program i namnet ditt:'
-      application: Programnamn
-      issued_at: Utskrive
-      revoke: Tilbakekall!
-      my_apps: Mine klientapplikasjoner
-      no_apps_html: Har du eit program som du vil registrere for bruk med oss gjennom
-        %{oauth}-standarden? Då må du først registrere ditt nettprogram før det kan
-        gjere OAuth-førespurnader til denne tenesta.
-      registered_apps: 'Du har registrert følgjande klientapplikasjoner:'
-      register_new: Registrer applikasjonen din
-    form:
-      requests: 'Be om følgjande løyve frå brukaren:'
-    not_found:
-      sorry: Klarte ikkje finne den %{type}-en.
-    create:
-      flash: Vellukka registrering av informasjonen
-    update:
-      flash: Oppdaterte klientinformasjonen
-    destroy:
-      flash: Øydelagt klientapplikasjonsregistreringen
+    auth_providers:
+      openid:
+        title: Logg inn med OpenID
+        alt: Logg inn med ein OpenID-URL
+      google:
+        title: Logg inn med Google
+        alt: Logg inn med ein Google OpenID
+      facebook:
+        title: Logg inn med Facebook
+        alt: Logg inn med ein Facebook-konto
+      microsoft:
+        title: Logg inn med Microsoft
+        alt: Logg inn med ein Microsoft-konto
+      github:
+        title: Logg inn med GitHub
+        alt: Logg inn med ein GitHub-konto
+      wikipedia:
+        title: Logg inn med Wikipedia
+        alt: Logg inn med ein Wikipedia-konto
   oauth2_applications:
     new:
       title: Registrer ein ny applikasjon
@@ -1693,13 +2245,8 @@ nn:
       title: Registrer deg
       no_auto_account_create: Beklagelegvis kan me for augneblunken ikkje opprette
         ein konto for deg automatisk.
-      contact_support_html: Kontakt <a href="%{support}">webmaster</a> for å opprette
-        ein konto. Me vil prøve å handsame førespurnaden så fort som mogleg.
       about:
         header: Fri og redigerbar
-      email address: 'E-postadresse:'
-      confirm email address: 'Stadfest e-postadresse:'
-      display name: 'Visningsnavn:'
       display name description: Ditt offentleg framviste brukernavn. Du kan endre
         dette seinare i innstellingane.
       continue: Registrer deg
@@ -1710,9 +2257,6 @@ nn:
       consider_pd: I tillegg til den ovannemnde avtala ansar eg bidraga mine for å
         vere i public domain
       consider_pd_why: kva er dette?
-      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_i_want_my_contributions_to_be_public_domain
-      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      decline: Avslå
       you need to accept or decline: Les og deretter anten godta eller avslå dei nye
         bidragsytervilkåra for å halde fram.
       legale_select: 'Vel ditt bostedsland:'
@@ -1720,8 +2264,6 @@ nn:
         france: Frankrike
         italy: Italia
         rest_of_world: Resten av verda
-    terms_declined_flash:
-      terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_terms_declined
     no_such_user:
       title: Ingen brukar funnet
       heading: Brukaren %{user} finst ikkje
@@ -1730,7 +2272,6 @@ nn:
       deleted: sletta
     show:
       my diary: Mi dagbok
-      new diary entry: ny dagbokoppføring
       my edits: Mine endringar
       my traces: Mine spor
       my notes: Mine merknadar
@@ -1751,13 +2292,10 @@ nn:
       ct status: 'Bidragsytarvilkår:'
       ct undecided: Usikker
       ct declined: Avslått
-      latest edit: 'Siste redigering (%{ago}):'
       email address: 'E-postadresse:'
       created from: 'Oppretta frå:'
       status: 'Status:'
       spam score: 'Spamresultat:'
-      description: Skildring
-      user location: Posisjonen til brukaren
       role:
         administrator: Denne brukaren er ein administrator
         moderator: Denne brukaren er ein moderator
@@ -1772,38 +2310,27 @@ nn:
       comments: Kommentarar
       create_block: Blokér denne brukaren
       activate_user: Aktivér denne brukaren
-      deactivate_user: Deaktivér denne brukaren
       confirm_user: Stadfest denne brukaren
       hide_user: Gøym denne brukaren
       unhide_user: Gøym ikkje lenger denne brukaren
       delete_user: Slett denne brukaren
       confirm: Stadfest
       report: Rapporter denne brukaren
-    set_home:
-      flash success: Heimelokasjon lagra
     go_public:
       flash success: Alle redigeringane dine er no offentleg, og du har lov til å
         redigere.
     index:
       title: Brukarar
       heading: Brukarar
-      showing:
-        one: Side %{page} (%{first_item} av %{items})
-        other: Sside %{page} (%{first_item}-%{last_item} av %{items})
       summary_html: '%{name} oppretta frå %{ip_address} den %{date}'
       summary_no_ip_html: '%{name} oppretta %{date}'
+      empty: Ingen samsvarande brukarar funne
+    page:
       confirm: Stadfest valde brukarar
       hide: Skjul valde brukarar
-      empty: Ingen samsvarande brukarar funne
     suspended:
       title: Konto stengt
       heading: Konto stengt
-      body_html: |-
-        <p>
-        Beklagar, kontoen din har vorte automatisk deaktivert på grunn av mistenkjeleg aktivitet.
-        </p>
-        <p>
-        Denne avgjerda vil gjennomgåast av ein administrator snart, eller du kan kontakte %{webmaster} viss du ynskjer å diskutere dette.
     auth_failure:
       invalid_scope: Ugyldig avgrensning
   user_role:
@@ -1812,20 +2339,10 @@ nn:
       already_has_role: Brukaren har allereie rollen %{role}.
       doesnt_have_role: Brukaren har ikkje rollen %{role}.
     grant:
-      title: Stadfest rolletildeling
-      heading: Stadfest rolletildeling
       are_you_sure: Er du sikker på at du vil gje rollen `%{role}' til brukaren `%{name}'?
-      confirm: Stadfest
-      fail: Kunne ikkje gje rollen "%{role}" til brukar "%{name}". Sjekk at brukaren
-        og rollen er gyldig.
     revoke:
-      title: Stadfest fjerning av rolle
-      heading: Stadfest fjerning av rolle
       are_you_sure: Er du sikker på at du vil fjerne rollen "%{role}" frå brukaren
         "%{name}"?
-      confirm: Stadfest
-      fail: Kunne ikkje fjerne rollen "%{role}" frå brukar "%{name}". Sjekk at nytter
-        og rolle er gyldig.
   user_blocks:
     model:
       non_moderator_update: Må vere ein moderator for å opprette eller oppdatere ei
@@ -1838,24 +2355,14 @@ nn:
       title: Opprettar blokkering av %{name}
       heading_html: Opprettar blokkering av %{name}
       period: Kor lenge, frå no av, brukaren vil blokkerast frå API-en.
-      tried_contacting: Eg har kontakta brukaren og bede dei stoppe.
-      tried_waiting: Eg har gjeve brukaren rimeleg med tid til å svare på desse kommunikasjonane.
-      back: Vis alle blokkeringar
     edit:
       title: Endrar blokkering av %{name}
       heading_html: Endrar blokkering av %{name}
       period: Kor lenge, frå no av, brukaren vil blokkerast frå API-en.
-      show: Vis denne blokkeringa
-      back: Vis alle blokkeringar
     filter:
-      block_expired: Blokkeringa har allereie utløpt og kan ikkje endrast.
       block_period: Blokkeringsperioden må vere ein av verdia som kan vert frå valde
         rullegardinen.
     create:
-      try_contacting: Vennligst prøv å kontakte brukaren før du blokkerer dei og gje
-        dei rimeleg med tid til å svare.
-      try_waiting: Vennligst prøv å gje brukaren rimeleg med tid til å svare før du
-        blokkerer dei.
       flash: Oppretta ei blokkering av brukar %{name}.
     update:
       only_creator_can_edit: Berre moderatoren som oppretta blokkeringa kan endre
@@ -1865,14 +2372,6 @@ nn:
       title: Brukerblokkeringer
       heading: Liste over brukarblokkeringar
       empty: Ingen blokkeringar har vorte utførde enno.
-    revoke:
-      title: Tilbakekaller blokkering på %{block_on}
-      heading_html: Tilbakekaller blokkering på %{block_on} av %{block_by}
-      time_future: Denne blokkeringa endar i %{time}
-      past: Denne blokkeringa enda %{time} sidan og kan ikkje tilbakekalles no.
-      confirm: Er du sikker på at du vil tilbakekalle denne blokkeringa?
-      revoke: Tilbakekall!
-      flash: Denne blokkeringa har vorte tilbakekalt.
     helper:
       time_future_html: Sluttar om %{time}.
       until_login: Aktiv inntil brukaren loggar inn.
@@ -1896,28 +2395,19 @@ nn:
       heading_html: '%{block_on} blokkert av %{block_by}'
       created: Oppretta
       status: Status
-      show: Vis
       edit: Rediger
-      revoke: Tilbakekall!
-      confirm: Er du sikker?
       reason: 'Årsak for blokkering:'
-      back: Vis alle blokkeringar
       revoker: 'Tilbakekaller:'
-      needs_view: Brukaren må logge inn før denne blokkeringa vert fjerna.
     block:
       not_revoked: (ikkje tilbakekalt)
       show: Vis
       edit: Rediger
-      revoke: Tilbakekall!
-    blocks:
+    page:
       display_name: Blokkert brukar
       creator_name: Oppretta av
       reason: Årsak for blokkering
       status: Status
       revoker_name: Tilbakekalt av
-      showing_page: Side %{page}
-      next: Neste »
-      previous: « Forrige
   notes:
     index:
       heading: '%{user} sine merknadar'
@@ -1927,6 +2417,25 @@ nn:
       description: Skildring
       created_at: Oppretta den
       last_changed: Sist endra
+    show:
+      title: 'Merknad: %{id}'
+      description: Skildring
+      open_title: 'Uavklart merknad #%{note_name}'
+      closed_title: 'Avklart merknad: #%{note_name}'
+      hidden_title: 'Gøymd merknad #%{note_name}'
+      report: Rapporter denne merknaden
+      anonymous_warning: Denne merknaden har kommentarar frå anonyme brukarar og bør
+        stadfestast.
+      hide: Gøym
+      resolve: Løys
+      reactivate: Reaktiver
+      comment_and_resolve: Kommenter og løys
+      comment: Kommenter
+    new:
+      title: Ny merknad
+      add: Legg til merknad
+    notes_paging_nav:
+      showing_page: Side %{page}
   javascripts:
     close: Lat att
     share:
@@ -1979,25 +2488,8 @@ nn:
       createnote_disabled_tooltip: Zoom inn for å leggje til ein merknad på kartet
       map_notes_zoom_in_tooltip: Zoom inn for å sjå kartmerknadar
       map_data_zoom_in_tooltip: Zoom inn for å sjå kartdata
-      queryfeature_tooltip: Førespurnadsfunksjonar
-    changesets:
-      show:
-        comment: Kommenter
-        subscribe: Abonnér
-        unsubscribe: Avslutt abonnement
-        hide_comment: gøym
-        unhide_comment: vis
-    notes:
-      new:
-        add: Legg til merknad
-      show:
-        anonymous_warning: Denne merknaden har kommentarar frå anonyme brukarar og
-          bør stadfestast.
-        hide: Gøym
-        resolve: Løys
-        reactivate: Reaktiver
-        comment_and_resolve: Kommenter og løys
-        comment: Kommenter
+      queryfeature_tooltip: Finn objekt
+      queryfeature_disabled_tooltip: Forstørra for å finna objekt
     directions:
       ascend: Stigande
       engines:
@@ -2057,7 +2549,7 @@ nn:
       directions_to: Vegskildring hit
       add_note: Legg til ein merknad her
       show_address: Vis adresse
-      query_features: Søkjefunksjonar
+      query_features: Finn objekt
       centre_map: Sentrer kartet her
   redactions:
     edit:

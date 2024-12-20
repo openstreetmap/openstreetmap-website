@@ -1,0 +1,15 @@
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <%= render "shared/pagination",
+             :newer_id => @newer_traces_id,
+             :older_id => @older_traces_id %>
+
+  <table id="trace_list" class="table table-borderless table-striped">
+    <tbody>
+      <%= render @traces %>
+    </tbody>
+  </table>
+
+  <%= render "shared/pagination",
+             :newer_id => @newer_traces_id,
+             :older_id => @older_traces_id %>
+</turbo-frame>

@@ -71,4 +71,17 @@ class ChangesetTest < ActiveSupport::TestCase
       Changeset.from_xml(xml, :create => true)
     end
   end
+
+  def test_subscription
+    changeset = create(:changeset)
+    user = create(:user)
+
+    assert_not changeset.subscribed?(user)
+
+    changeset.subscribe(user)
+    assert changeset.subscribed?(user)
+
+    changeset.unsubscribe(changeset.subscribers.first)
+    assert_not changeset.subscribed?(user)
+  end
 end

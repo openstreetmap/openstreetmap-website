@@ -9,7 +9,7 @@ require:
   - rubocop-rake
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   NewCops: enable
   Exclude:
     - 'vendor/**/*'
@@ -45,8 +45,15 @@ Naming/FileName:
 Naming/MethodParameterName:
   Enabled: false
 
+# This conflicts with Strong Migrations, which can't check `change_table`
+Rails/BulkChangeTable:
+  Enabled: false
+
 Rails/CreateTableWithTimestamps:
   Enabled: false
+
+Rails/FindBy:
+  IgnoreWhereFirst: false
 
 Rails/FindEach:
   Enabled: false

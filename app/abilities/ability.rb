@@ -4,71 +4,71 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:relation, :relation_history, :way, :way_history, :node, :node_history,
-         :changeset, :query], :browse
-    can [:show, :new], Note
+    can :query, :browse
+    can :show, [Node, Way, Relation]
+    can [:index, :show], [OldNode, OldWay, OldRelation]
+    can [:show, :create], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :ohm_privacy_policy], :site
     can [:finish, :embed], :export
     can [:search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
-    can [:token, :request_token, :access_token, :test_request], :oauth
 
     if Settings.status != "database_offline"
-      can [:index, :feed], Changeset
-      can :index, ChangesetComment
+      can [:index, :feed, :show], Changeset
+      can :show, ChangesetComment
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
-      can [:index, :rss, :show, :comments], DiaryEntry
+      can [:index, :rss, :show], DiaryEntry
+      can :index, DiaryComment
       can [:index], Note
-      can [:lost_password, :reset_password], :password
+      can [:create, :update], :password
       can [:index, :show], Redaction
-      can [:new, :create, :destroy], :session
-      can [:index, :show, :data, :georss, :picture, :icon], Trace
-      can [:terms, :new, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
+      can [:create, :destroy], :session
+      can [:index, :show, :data, :georss], Trace
+      can [:terms, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
       can [:index, :show, :blocks_on, :blocks_by], UserBlock
-      can [:index, :show], Node
-      can [:index, :show, :full, :ways_for_node], Way
-      can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
-      can [:history, :version], OldNode
-      can [:history, :version], OldWay
-      can [:history, :version], OldRelation
     end
 
     if user&.active?
       can :welcome, :site
-      can [:revoke, :authorize], :oauth
       can [:show], :deletion
 
       if Settings.status != "database_offline"
-        can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
-        can [:index, :new, :create, :show, :edit, :update, :destroy], :oauth2_application
+        can [:subscribe, :unsubscribe], Changeset
+        can [:index, :create, :show, :update, :destroy], :oauth2_application
         can [:index, :destroy], :oauth2_authorized_application
-        can [:new, :show, :create, :destroy], :oauth2_authorization
-        can [:edit, :update, :destroy], :account
+        can [:show, :create, :destroy], :oauth2_authorization
+        can [:update, :destroy], :account
         can [:show], :dashboard
-        can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
+        can [:create, :subscribe, :unsubscribe], DiaryEntry
+        can :update, DiaryEntry, :user => user
+        can [:create], DiaryComment
         can [:make_friend, :remove_friend], Friendship
-        can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
+        can [:create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
         can [:close, :reopen], Note
-        can [:show, :edit, :update], :preference
-        can [:edit, :update], :profile
-        can [:new, :create], Report
-        can [:mine, :new, :create, :edit, :update, :destroy], Trace
+        can [:show, :update], :preference
+        can :update, :profile
+        can :create, Report
+        can [:mine, :create, :update, :destroy], Trace
         can [:account, :go_public], User
+        can [:index, :create, :destroy], UserMute
 
         if user.moderator?
-          can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
+          can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
-          can [:new, :create, :edit, :update, :destroy], Redaction
-          can [:new, :edit, :create, :update, :revoke], UserBlock
+          can [:create, :update, :destroy], Redaction
+          can [:create, :revoke_all], UserBlock
+          can :update, UserBlock, :creator => user
+          can :update, UserBlock, :revoker => user
+          can :update, UserBlock, :active? => true
         end
 
         if user.administrator?
-          can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
+          can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:set_status, :destroy, :index], User
-          can [:grant, :revoke], UserRole
+          can [:create, :destroy], UserRole
         end
       end
     end
