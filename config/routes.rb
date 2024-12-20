@@ -71,15 +71,15 @@ OpenStreetMap::Application.routes.draw do
     get "user/details" => "users#details"
     get "user/gpx_files" => "users#gpx_files"
     get "users" => "users#index", :as => :api_users
+  end
 
-    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "user_preferences" do
+  namespace :api, :path => "api/0.6" do
+    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences" do
       collection do
         put "" => "user_preferences#update_all", :as => ""
       end
     end
-  end
 
-  namespace :api, :path => "api/0.6" do
     resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :update, :destroy] do
       collection do
         get "inbox"
