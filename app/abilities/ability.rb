@@ -5,8 +5,7 @@ class Ability
 
   def initialize(user)
     can :query, :browse
-    can :show, [Node, Way, Relation]
-    can [:index, :show], [OldNode, OldWay, OldRelation]
+    can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
     can [:show, :create], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site
@@ -14,47 +13,47 @@ class Ability
     can [:search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
 
     if Settings.status != "database_offline"
-      can [:index, :feed, :show], Changeset
-      can :show, ChangesetComment
+      can [:read, :feed], Changeset
+      can :read, ChangesetComment
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
-      can [:index, :rss, :show], DiaryEntry
-      can :index, DiaryComment
+      can [:read, :rss], DiaryEntry
+      can :read, DiaryComment
       can [:index], Note
       can [:create, :update], :password
-      can [:index, :show], Redaction
+      can :read, Redaction
       can [:create, :destroy], :session
-      can [:index, :show, :data, :georss], Trace
-      can [:terms, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
-      can [:index, :show, :blocks_on, :blocks_by], UserBlock
+      can [:read, :data, :georss], Trace
+      can [:read, :terms, :create, :save, :suspended, :auth_success, :auth_failure], User
+      can [:read, :blocks_on, :blocks_by], UserBlock
     end
 
     if user&.active?
       can :welcome, :site
-      can [:show], :deletion
+      can :read, :deletion
 
       if Settings.status != "database_offline"
         can [:subscribe, :unsubscribe], Changeset
-        can [:index, :create, :show, :update, :destroy], :oauth2_application
-        can [:index, :destroy], :oauth2_authorized_application
-        can [:show, :create, :destroy], :oauth2_authorization
+        can [:read, :create, :update, :destroy], :oauth2_application
+        can [:read, :destroy], :oauth2_authorized_application
+        can [:read, :create, :destroy], :oauth2_authorization
         can [:update, :destroy], :account
-        can [:show], :dashboard
+        can :read, :dashboard
         can [:create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
         can [:create], DiaryComment
         can [:make_friend, :remove_friend], Friendship
-        can [:create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
+        can [:read, :create, :reply, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
         can [:close, :reopen], Note
-        can [:show, :update], :preference
+        can [:read, :update], :preference
         can :update, :profile
         can :create, Report
         can [:mine, :create, :update, :destroy], Trace
         can [:account, :go_public], User
-        can [:index, :create, :destroy], UserMute
+        can [:read, :create, :destroy], UserMute
 
         if user.moderator?
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
-          can [:index, :show, :resolve, :ignore, :reopen], Issue
+          can [:read, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:create, :update, :destroy], Redaction
           can [:create, :revoke_all], UserBlock
@@ -65,10 +64,10 @@ class Ability
 
         if user.administrator?
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
-          can [:index, :show, :resolve, :ignore, :reopen], Issue
+          can [:read, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:set_status, :destroy], User
-          can [:show, :update], :users_list
+          can [:read, :update], :users_list
           can [:create, :destroy], UserRole
         end
       end
