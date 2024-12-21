@@ -22,10 +22,6 @@ module Api
         { :controller => "api/users", :action => "details", :format => "json" }
       )
       assert_routing(
-        { :path => "/api/0.6/user/gpx_files", :method => :get },
-        { :controller => "api/users", :action => "gpx_files" }
-      )
-      assert_routing(
         { :path => "/api/0.6/users", :method => :get },
         { :controller => "api/users", :action => "index" }
       )
@@ -403,33 +399,6 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
-    end
-
-    def test_gpx_files
-      user = create(:user)
-      trace1 = create(:trace, :user => user) do |trace|
-        create(:tracetag, :trace => trace, :tag => "London")
-      end
-      trace2 = create(:trace, :user => user) do |trace|
-        create(:tracetag, :trace => trace, :tag => "Birmingham")
-      end
-      # check that nothing is returned when not logged in
-      get user_gpx_files_path
-      assert_response :unauthorized
-
-      # check that we get a response when logged in
-      auth_header = bearer_authorization_header user
-      get user_gpx_files_path, :headers => auth_header
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      assert_select "gpx_file[id='#{trace1.id}']", 1 do
-        assert_select "tag", "London"
-      end
-      assert_select "gpx_file[id='#{trace2.id}']", 1 do
-        assert_select "tag", "Birmingham"
-      end
     end
 
     private
