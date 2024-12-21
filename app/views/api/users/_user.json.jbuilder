@@ -4,7 +4,7 @@ json.user do
   json.account_created user.created_at.xmlschema
   json.description user.description if user.description
 
-  if current_user && current_user == user && can?(:details, User)
+  if current_user && current_user == user && can?(:read, :user_details)
     json.contributor_terms do
       json.agreed user.terms_agreed.present?
       json.pd user.consider_pd
@@ -45,7 +45,7 @@ json.user do
     end
   end
 
-  if current_user && current_user == user && can?(:details, User)
+  if current_user && current_user == user && can?(:read, :user_details)
     if user.home_location?
       json.home do
         json.lat user.home_lat
