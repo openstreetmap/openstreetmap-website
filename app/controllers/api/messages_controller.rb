@@ -11,20 +11,6 @@ module Api
 
     before_action :set_request_formats
 
-    def inbox
-      @skip_body = true
-      @messages = Message.includes(:sender, :recipient).where(:to_user_id => current_user.id)
-
-      show_messages
-    end
-
-    def outbox
-      @skip_body = true
-      @messages = Message.includes(:sender, :recipient).where(:from_user_id => current_user.id)
-
-      show_messages
-    end
-
     # Dump the details on a message given in params[:id]
     def show
       @message = Message.includes(:sender, :recipient).find(params[:id])
@@ -109,38 +95,6 @@ module Api
       respond_to do |format|
         format.xml { render :action => :show }
         format.json { render :action => :show }
-      end
-    end
-
-    private
-
-    def show_messages
-      @messages = @messages.where(:muted => false)
-      if params[:order].nil? || params[:order] == "newest"
-        @messages = @messages.where(:id => ..params[:from_id]) unless params[:from_id].nil?
-        @messages = @messages.order(:id => :desc)
-      elsif params[:order] == "oldest"
-        @messages = @messages.where(:id => params[:from_id]..) unless params[:from_id].nil?
-        @messages = @messages.order(:id => :asc)
-      else
-        raise OSM::APIBadUserInput, "Invalid order specified"
-      end
-
-      limit = params[:limit]
-      if !limit
-        limit = Settings.default_message_query_limit
-      elsif !limit.to_i.positive? || limit.to_i > Settings.max_message_query_limit
-        raise OSM::APIBadUserInput, "Messages limit must be between 1 and #{Settings.max_message_query_limit}"
-      else
-        limit = limit.to_i
-      end
-
-      @messages = @messages.limit(limit)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
   end
