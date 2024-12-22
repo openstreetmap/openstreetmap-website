@@ -80,13 +80,12 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :update, :destroy] do
-      collection do
-        get "inbox"
-        get "outbox"
-      end
+    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :update, :destroy]
+    namespace :messages, :path => "user/messages" do
+      resource :inbox, :only => :show
+      resource :outbox, :only => :show
     end
-    post "/user/messages/:id" => "messages#update"
+    post "/user/messages/:id" => "messages#update", :as => nil
 
     resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/ do
       scope :module => :traces do
