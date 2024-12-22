@@ -61,7 +61,7 @@ L.OSM.Map = L.Map.extend({
       const container = layer.getContainer();
       if (layer.options.schemeClass) container.classList.add(layer.options.schemeClass);
       for (let filterReceiver of [container, document.querySelector(".key-ui")]) {
-        if (!filterReceiver?.style?.setProperty) continue;
+        if (!filterReceiver) continue;
         filterReceiver.style.setProperty("--dark-mode-map-filter", layer.options.filter || "none");
       }
     });
