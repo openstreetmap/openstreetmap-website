@@ -271,6 +271,9 @@ OpenStreetMap::Application.routes.draw do
   # user pages
   resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy] do
     resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
+    scope :module => :users do
+      resource :issued_blocks, :path => "blocks_by", :only => :show
+    end
   end
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
@@ -331,7 +334,6 @@ OpenStreetMap::Application.routes.draw do
 
   # banning pages
   get "/user/:display_name/blocks" => "user_blocks#blocks_on", :as => "user_blocks_on"
-  get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
   resources :user_blocks, :path_names => { :new => "new/:display_name" }
   match "/user/:display_name/blocks/revoke_all" => "user_blocks#revoke_all", :via => [:get, :post], :as => "revoke_all_user_blocks"
 

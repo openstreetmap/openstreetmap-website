@@ -42,10 +42,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       { :controller => "user_blocks", :action => "blocks_on", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/user/username/blocks_by", :method => :get },
-      { :controller => "user_blocks", :action => "blocks_by", :display_name => "username" }
-    )
-    assert_routing(
       { :path => "/user/username/blocks/revoke_all", :method => :get },
       { :controller => "user_blocks", :action => "revoke_all", :display_name => "username" }
     )
@@ -891,90 +887,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to :controller => :errors, :action => :bad_request
 
       get user_blocks_on_path(user, :after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-    end
-  end
-
-  ##
-  # test the blocks_by action
-  def test_blocks_by
-    moderator_user = create(:moderator_user)
-    second_moderator_user = create(:moderator_user)
-    normal_user = create(:user)
-    active_block = create(:user_block, :creator => moderator_user)
-    expired_block = create(:user_block, :expired, :creator => second_moderator_user)
-    revoked_block = create(:user_block, :revoked, :creator => second_moderator_user)
-
-    # Asking for a list of blocks with a bogus user name should fail
-    get user_blocks_by_path("non_existent_user")
-    assert_response :not_found
-    assert_template "users/no_such_user"
-    assert_select "h1", "The user non_existent_user does not exist"
-
-    # Check the list of blocks given by one moderator
-    get user_blocks_by_path(moderator_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path moderator_user}']", :text => moderator_user.display_name
-    assert_select "a.active[href='#{user_blocks_by_path moderator_user}']"
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 1
-      assert_select "a[href='#{user_block_path(active_block)}']", 1
-    end
-
-    # Check the list of blocks given by a different moderator
-    get user_blocks_by_path(second_moderator_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path second_moderator_user}']", :text => second_moderator_user.display_name
-    assert_select "a.active[href='#{user_blocks_by_path second_moderator_user}']"
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 2
-      assert_select "a[href='#{user_block_path(expired_block)}']", 1
-      assert_select "a[href='#{user_block_path(revoked_block)}']", 1
-    end
-
-    # Check the list of blocks (not) given by a normal user
-    get user_blocks_by_path(normal_user)
-    assert_response :success
-    assert_select "table#block_list", false
-    assert_select "p", "#{normal_user.display_name} has not made any blocks yet."
-  end
-
-  ##
-  # test the blocks_by action with multiple pages
-  def test_blocks_by_paged
-    user = create(:moderator_user)
-    user_blocks = create_list(:user_block, 50, :creator => user).reverse
-    next_path = user_blocks_by_path(user)
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[0...20]
-    check_no_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[20...40]
-    check_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[40...50]
-    check_page_link "Newer Blocks"
-    check_no_page_link "Older Blocks"
-  end
-
-  ##
-  # test the blocks_by action with invalid pages
-  def test_blocks_by_invalid_paged
-    user = create(:moderator_user)
-
-    %w[-1 0 fred].each do |id|
-      get user_blocks_by_path(user, :before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-
-      get user_blocks_by_path(user, :after => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end

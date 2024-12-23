@@ -9,7 +9,7 @@ class UserBlocksController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => [:new, :create, :revoke_all, :blocks_on, :blocks_by]
+  before_action :lookup_user, :only => [:new, :create, :revoke_all, :blocks_on]
   before_action :lookup_user_block, :only => [:show, :edit, :update]
   before_action :require_valid_params, :only => [:create, :update]
   before_action :check_database_readable
@@ -126,21 +126,6 @@ class UserBlocksController < ApplicationController
 
     @show_user_name = false
     @show_creator_name = true
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
-  end
-
-  ##
-  # shows a list of all the blocks by the given user.
-  def blocks_by
-    @params = params.permit(:display_name)
-
-    user_blocks = UserBlock.where(:creator => @user)
-
-    @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
-
-    @show_user_name = true
-    @show_creator_name = false
 
     render :partial => "page" if turbo_frame_request_id == "pagination"
   end
