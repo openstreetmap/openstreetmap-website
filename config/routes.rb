@@ -179,9 +179,9 @@ OpenStreetMap::Application.routes.draw do
   post "/login" => "sessions#create"
   match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
-  get "/key" => "site#key"
   get "/id" => "site#id"
   namespace :features, :path => "" do
+    resource :key, :only => :show
     resource :query, :only => :show
   end
   get "/user/new" => "users#new"
