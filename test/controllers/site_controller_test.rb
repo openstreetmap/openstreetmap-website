@@ -61,10 +61,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
       { :controller => "site", :action => "offline" }
     )
     assert_routing(
-      { :path => "/key", :method => :get },
-      { :controller => "site", :action => "key" }
-    )
-    assert_routing(
       { :path => "/go/shortcode", :method => :get },
       { :controller => "site", :action => "permalink", :code => "shortcode" }
     )
@@ -141,15 +137,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
 
     get permalink_path(:code => "wBz3--", :changeset => 4)
     assert_redirected_to changeset_path(4, :anchor => "map=3/4.8779296875/3.955078125")
-  end
-
-  # Test the key page
-  def test_key
-    get key_path, :xhr => true
-
-    assert_response :success
-    assert_template "key"
-    assert_template :layout => false
   end
 
   # Test the edit page redirects when you aren't logged in
