@@ -332,8 +332,7 @@ OpenStreetMap::Application.routes.draw do
   # banning pages
   get "/user/:display_name/blocks" => "user_blocks#blocks_on", :as => "user_blocks_on"
   get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
-  get "/blocks/new/:display_name" => "user_blocks#new", :as => "new_user_block"
-  resources :user_blocks, :except => :new
+  resources :user_blocks, :path_names => { :new => "new/:display_name" }
   match "/user/:display_name/blocks/revoke_all" => "user_blocks#revoke_all", :via => [:get, :post], :as => "revoke_all_user_blocks"
 
   # issues and reports

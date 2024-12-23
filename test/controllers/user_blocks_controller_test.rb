@@ -5,7 +5,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/blocks/new/username", :method => :get },
+      { :path => "/user_blocks/new/username", :method => :get },
       { :controller => "user_blocks", :action => "new", :display_name => "username" }
     )
 
