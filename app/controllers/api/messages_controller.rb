@@ -5,7 +5,6 @@ module Api
     before_action :authorize
 
     before_action :check_api_writable, :only => [:create, :update, :destroy]
-    before_action :check_api_readable, :except => [:create, :update, :destroy]
 
     authorize_resource
 
