@@ -28,15 +28,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username", :method => :get },
       { :controller => "users", :action => "show", :display_name => "username" }
     )
-
-    assert_routing(
-      { :path => "/user/username/set_status", :method => :post },
-      { :controller => "users", :action => "set_status", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username", :method => :delete },
-      { :controller => "users", :action => "destroy", :display_name => "username" }
-    )
   end
 
   # The user creation page loads
@@ -330,56 +321,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "dt", :count => 1, :text => /Contributor terms/
       assert_select "dd", /Undecided/
     end
-  end
-
-  def test_set_status
-    user = create(:user)
-
-    # Try without logging in
-    post set_status_user_path(user), :params => { :event => "confirm" }
-    assert_response :forbidden
-
-    # Now try as a normal user
-    session_for(user)
-    post set_status_user_path(user), :params => { :event => "confirm" }
-    assert_redirected_to :controller => :errors, :action => :forbidden
-
-    # Finally try as an administrator
-    session_for(create(:administrator_user))
-    post set_status_user_path(user), :params => { :event => "confirm" }
-    assert_redirected_to :action => :show, :display_name => user.display_name
-    assert_equal "confirmed", User.find(user.id).status
-  end
-
-  def test_destroy
-    user = create(:user, :home_lat => 12.1, :home_lon => 12.1, :description => "test")
-
-    # Try without logging in
-    delete user_path(user)
-    assert_response :forbidden
-
-    # Now try as a normal user
-    session_for(user)
-    delete user_path(user)
-    assert_redirected_to :controller => :errors, :action => :forbidden
-
-    # Finally try as an administrator
-    session_for(create(:administrator_user))
-    delete user_path(user)
-    assert_redirected_to :action => :show, :display_name => user.display_name
-
-    # Check that the user was deleted properly
-    user.reload
-    assert_equal "user_#{user.id}", user.display_name
-    assert_equal "", user.description
-    assert_nil user.home_lat
-    assert_nil user.home_lon
-    assert_not user.avatar.attached?
-    assert_not user.email_valid
-    assert_nil user.new_email
-    assert_nil user.auth_provider
-    assert_nil user.auth_uid
-    assert_equal "deleted", user.status
   end
 
   def test_auth_failure_callback

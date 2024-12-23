@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
   before_action :check_database_writable, :only => [:new, :go_public]
   before_action :require_cookies, :only => [:new]
-  before_action :lookup_user_by_name, :only => [:set_status, :destroy]
 
   allow_thirdparty_images :only => :show
   allow_social_login :only => :new
@@ -98,30 +97,11 @@ class UsersController < ApplicationController
     end
   end
 
-  ##
-  # destroy a user, marking them as deleted and removing personal data
-  def destroy
-    @user.soft_destroy!
-    redirect_to user_path(:display_name => params[:display_name])
-  end
-
   def go_public
     current_user.data_public = true
     current_user.save
     flash[:notice] = t ".flash success"
     redirect_to edit_account_path
-  end
-
-  ##
-  # sets a user's status
-  def set_status
-    @user.activate! if params[:event] == "activate"
-    @user.confirm! if params[:event] == "confirm"
-    @user.unconfirm! if params[:event] == "unconfirm"
-    @user.hide! if params[:event] == "hide"
-    @user.unhide! if params[:event] == "unhide"
-    @user.unsuspend! if params[:event] == "unsuspend"
-    redirect_to user_path(:display_name => params[:display_name])
   end
 
   ##
@@ -235,14 +215,6 @@ class UsersController < ApplicationController
     rescue StandardError
       # Use default
     end
-  end
-
-  ##
-  # ensure that there is a "user" instance variable
-  def lookup_user_by_name
-    @user = User.find_by(:display_name => params[:display_name])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :action => "view", :display_name => params[:display_name] unless @user
   end
 
   ##
