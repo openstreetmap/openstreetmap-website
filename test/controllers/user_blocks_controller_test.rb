@@ -1,6 +1,9 @@
 require "test_helper"
+require_relative "user_blocks/table_test_helper"
 
 class UserBlocksControllerTest < ActionDispatch::IntegrationTest
+  include UserBlocks::TableTestHelper
+
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -1028,24 +1031,5 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_not_predicate block, :active?
     assert_equal "Updated Reason Again", block.reason
     assert_equal original_ends_at, block.ends_at
-  end
-
-  def check_user_blocks_table(user_blocks)
-    assert_dom "table#block_list tbody tr" do |rows|
-      assert_equal user_blocks.count, rows.count, "unexpected number of rows in user blocks table"
-      rows.zip(user_blocks).map do |row, user_block|
-        assert_dom row, "a[href='#{user_block_path user_block}']", 1
-      end
-    end
-  end
-
-  def check_no_page_link(name)
-    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
-  end
-
-  def check_page_link(name)
-    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
-      return buttons.first.attributes["href"].value
-    end
   end
 end
