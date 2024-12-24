@@ -44,12 +44,15 @@ OSM.initializeNotesLayer = function (map) {
     if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
     } else {
-      marker = L.marker(feature.geometry.coordinates.reverse(), {
+      var markerOptions = {
         icon: noteIcons[feature.properties.status],
-        title: feature.properties.comments[0].text,
         opacity: 0.8,
         interactive: true
-      });
+      };
+      if (feature.properties.comments.length > 0) {
+        markerOptions.title = feature.properties.comments[0].text;
+      }
+      marker = L.marker(feature.geometry.coordinates.reverse(), markerOptions);
       marker.id = feature.properties.id;
       marker.addTo(noteLayer);
     }
