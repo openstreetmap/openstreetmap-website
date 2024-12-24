@@ -1073,7 +1073,10 @@ CREATE TABLE public.notes (
     updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
     status public.note_status_enum NOT NULL,
-    closed_at timestamp without time zone
+    closed_at timestamp without time zone,
+    description text DEFAULT ''::text NOT NULL,
+    user_id bigint,
+    user_ip inet
 );
 
 
@@ -3211,6 +3214,14 @@ ALTER TABLE ONLY public.note_comments
 
 
 --
+-- Name: notes notes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT notes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: redactions redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3397,6 +3408,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250106160355'),
+('20250105154621'),
+('20250104140952'),
 ('20241023004427'),
 ('20241022141247'),
 ('20240913171951'),
