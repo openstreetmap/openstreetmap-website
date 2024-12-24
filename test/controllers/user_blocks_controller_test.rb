@@ -834,6 +834,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     get user_blocks_on_path(blocked_user)
     assert_response :success
     assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
+    assert_select "a.active[href='#{user_blocks_on_path blocked_user}']"
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", 2
       assert_select "a[href='#{user_block_path(active_block)}']", 1
@@ -844,6 +845,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     get user_blocks_on_path(unblocked_user)
     assert_response :success
     assert_select "h1 a[href='#{user_path unblocked_user}']", :text => unblocked_user.display_name
+    assert_select "a.active[href='#{user_blocks_on_path unblocked_user}']"
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", 1
       assert_select "a[href='#{user_block_path(expired_block)}']", 1
@@ -910,6 +912,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     get user_blocks_by_path(moderator_user)
     assert_response :success
     assert_select "h1 a[href='#{user_path moderator_user}']", :text => moderator_user.display_name
+    assert_select "a.active[href='#{user_blocks_by_path moderator_user}']"
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", 1
       assert_select "a[href='#{user_block_path(active_block)}']", 1
@@ -919,6 +922,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     get user_blocks_by_path(second_moderator_user)
     assert_response :success
     assert_select "h1 a[href='#{user_path second_moderator_user}']", :text => second_moderator_user.display_name
+    assert_select "a.active[href='#{user_blocks_by_path second_moderator_user}']"
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", 2
       assert_select "a[href='#{user_block_path(expired_block)}']", 1
