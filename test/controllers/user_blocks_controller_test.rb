@@ -38,10 +38,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/user/username/blocks", :method => :get },
-      { :controller => "user_blocks", :action => "blocks_on", :display_name => "username" }
-    )
-    assert_routing(
       { :path => "/user/username/blocks/revoke_all", :method => :get },
       { :controller => "user_blocks", :action => "revoke_all", :display_name => "username" }
     )
@@ -609,7 +605,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     create(:user_block, :user => blocked_user)
 
     # Asking for the revoke all blocks page with a bogus user name should fail
-    get user_blocks_on_path("non_existent_user")
+    get user_received_blocks_path("non_existent_user")
     assert_response :not_found
 
     # Check that the revoke all blocks page requires us to login
@@ -668,7 +664,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that revoking blocks works using POST
     post revoke_all_user_blocks_path(blocked_user, :confirm => true)
-    assert_redirected_to user_blocks_on_path(blocked_user)
+    assert_redirected_to user_received_blocks_path(blocked_user)
 
     blocks.each(&:reload)
     assert_not_predicate active_block1, :active?
@@ -804,90 +800,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       block.reload
       assert_equal Time.now.utc - 24.hours, block.ends_at
       assert_equal Time.now.utc - 24.hours, block.deactivates_at
-    end
-  end
-
-  ##
-  # test the blocks_on action
-  def test_blocks_on
-    blocked_user = create(:user)
-    unblocked_user = create(:user)
-    normal_user = create(:user)
-    active_block = create(:user_block, :user => blocked_user)
-    revoked_block = create(:user_block, :revoked, :user => blocked_user)
-    expired_block = create(:user_block, :expired, :user => unblocked_user)
-
-    # Asking for a list of blocks with a bogus user name should fail
-    get user_blocks_on_path("non_existent_user")
-    assert_response :not_found
-    assert_template "users/no_such_user"
-    assert_select "h1", "The user non_existent_user does not exist"
-
-    # Check the list of blocks for a user that has never been blocked
-    get user_blocks_on_path(normal_user)
-    assert_response :success
-    assert_select "table#block_list", false
-    assert_select "p", "#{normal_user.display_name} has not been blocked yet."
-
-    # Check the list of blocks for a user that is currently blocked
-    get user_blocks_on_path(blocked_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
-    assert_select "a.active[href='#{user_blocks_on_path blocked_user}']"
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 2
-      assert_select "a[href='#{user_block_path(active_block)}']", 1
-      assert_select "a[href='#{user_block_path(revoked_block)}']", 1
-    end
-
-    # Check the list of blocks for a user that has previously been blocked
-    get user_blocks_on_path(unblocked_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path unblocked_user}']", :text => unblocked_user.display_name
-    assert_select "a.active[href='#{user_blocks_on_path unblocked_user}']"
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 1
-      assert_select "a[href='#{user_block_path(expired_block)}']", 1
-    end
-  end
-
-  ##
-  # test the blocks_on action with multiple pages
-  def test_blocks_on_paged
-    user = create(:user)
-    user_blocks = create_list(:user_block, 50, :user => user).reverse
-    next_path = user_blocks_on_path(user)
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[0...20]
-    check_no_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[20...40]
-    check_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[40...50]
-    check_page_link "Newer Blocks"
-    check_no_page_link "Older Blocks"
-  end
-
-  ##
-  # test the blocks_on action with invalid pages
-  def test_blocks_on_invalid_paged
-    user = create(:user)
-
-    %w[-1 0 fred].each do |id|
-      get user_blocks_on_path(user, :before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-
-      get user_blocks_on_path(user, :after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end
 

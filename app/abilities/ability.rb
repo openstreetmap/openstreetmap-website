@@ -24,7 +24,7 @@ class Ability
       can [:create, :destroy], :session
       can [:read, :data, :georss], Trace
       can [:read, :terms, :create, :save, :suspended, :auth_success, :auth_failure], User
-      can [:read, :blocks_on], UserBlock
+      can :read, UserBlock
     end
 
     if user&.active?

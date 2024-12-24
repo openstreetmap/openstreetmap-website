@@ -35,7 +35,7 @@
 
             <% if current_user.blocks.exists? %>
               <li>
-                <%= link_to t(".blocks on me"), user_blocks_on_path(current_user) %>
+                <%= link_to t(".blocks on me"), user_received_blocks_path(current_user) %>
                 <span class='badge count-number'><%= number_with_delimiter(current_user.blocks.active.size) %></span>
               </li>
             <% end %>
@@ -93,7 +93,7 @@
 
             <% if @user.blocks.exists? %>
               <li>
-                <%= link_to t(".block_history"), user_blocks_on_path(@user) %>
+                <%= link_to t(".block_history"), user_received_blocks_path(@user) %>
                 <span class='badge count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
               </li>
             <% end %>

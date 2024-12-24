@@ -9,7 +9,7 @@ class UserBlocksController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => [:new, :create, :revoke_all, :blocks_on]
+  before_action :lookup_user, :only => [:new, :create, :revoke_all]
   before_action :lookup_user_block, :only => [:show, :edit, :update]
   before_action :require_valid_params, :only => [:create, :update]
   before_action :check_database_readable
@@ -111,23 +111,8 @@ class UserBlocksController < ApplicationController
     if request.post? && params[:confirm]
       @user.blocks.active.each { |block| block.revoke!(current_user) }
       flash[:notice] = t ".flash"
-      redirect_to user_blocks_on_path(@user)
+      redirect_to user_received_blocks_path(@user)
     end
-  end
-
-  ##
-  # shows a list of all the blocks on the given user
-  def blocks_on
-    @params = params.permit(:display_name)
-
-    user_blocks = UserBlock.where(:user => @user)
-
-    @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
-
-    @show_user_name = false
-    @show_creator_name = true
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   private

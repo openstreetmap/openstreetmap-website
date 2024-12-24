@@ -7,16 +7,16 @@
   <% if current_user&.blocks&.exists? %>
     <li class="nav-item">
       <%= link_to t(".blocks_on_me"),
-                  user_blocks_on_path(current_user),
-                  :class => ["nav-link", { :active => action_name == "blocks_on" && current_user == @user }] %>
+                  user_received_blocks_path(current_user),
+                  :class => ["nav-link", { :active => controller_name == "received_blocks" && current_user == @user }] %>
     </li>
   <% end %>
   <% on_user = @user || @user_block&.user %>
   <% if on_user != current_user && on_user&.blocks&.exists? %>
     <li class="nav-item">
       <%= link_to t(".blocks_on_user_html", :user => tag.span(on_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
-                  user_blocks_on_path(on_user),
-                  :class => ["nav-link", { :active => action_name == "blocks_on" }] %>
+                  user_received_blocks_path(on_user),
+                  :class => ["nav-link", { :active => controller_name == "received_blocks" }] %>
     </li>
   <% end %>
   <% if current_user&.blocks_created&.exists? %>
