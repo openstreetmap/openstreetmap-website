@@ -12,6 +12,14 @@ module Users
         { :path => "/user/username/blocks", :method => :get },
         { :controller => "users/received_blocks", :action => "show", :user_display_name => "username" }
       )
+      assert_routing(
+        { :path => "/user/username/blocks/edit", :method => :get },
+        { :controller => "users/received_blocks", :action => "edit", :user_display_name => "username" }
+      )
+      assert_routing(
+        { :path => "/user/username/blocks", :method => :delete },
+        { :controller => "users/received_blocks", :action => "destroy", :user_display_name => "username" }
+      )
     end
 
     def test_show
@@ -90,6 +98,82 @@ module Users
         get user_received_blocks_path(user, :after => id)
         assert_redirected_to :controller => "/errors", :action => :bad_request
       end
+    end
+
+    ##
+    # test the revoke all blocks page
+    def test_edit
+      blocked_user = create(:user)
+      create(:user_block, :user => blocked_user)
+
+      # Asking for the revoke all blocks page with a bogus user name should fail
+      get user_received_blocks_path("non_existent_user")
+      assert_response :not_found
+
+      # Check that the revoke all blocks page requires us to login
+      get edit_user_received_blocks_path(blocked_user)
+      assert_redirected_to login_path(:referer => edit_user_received_blocks_path(blocked_user))
+
+      # Login as a normal user
+      session_for(create(:user))
+
+      # Check that normal users can't load the revoke all blocks page
+      get edit_user_received_blocks_path(blocked_user)
+      assert_redirected_to :controller => "/errors", :action => "forbidden"
+
+      # Login as a moderator
+      session_for(create(:moderator_user))
+
+      # Check that the revoke all blocks page loads for moderators
+      get edit_user_received_blocks_path(blocked_user)
+      assert_response :success
+      assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
+    end
+
+    ##
+    # test the revoke all action
+    def test_destroy
+      blocked_user = create(:user)
+      active_block1 = create(:user_block, :user => blocked_user)
+      active_block2 = create(:user_block, :user => blocked_user)
+      expired_block1 = create(:user_block, :expired, :user => blocked_user)
+      blocks = [active_block1, active_block2, expired_block1]
+      moderator_user = create(:moderator_user)
+
+      assert_predicate active_block1, :active?
+      assert_predicate active_block2, :active?
+      assert_not_predicate expired_block1, :active?
+
+      # Check that normal users can't revoke all blocks
+      session_for(create(:user))
+      delete user_received_blocks_path(blocked_user, :confirm => true)
+      assert_redirected_to :controller => "/errors", :action => "forbidden"
+
+      blocks.each(&:reload)
+      assert_predicate active_block1, :active?
+      assert_predicate active_block2, :active?
+      assert_not_predicate expired_block1, :active?
+
+      # Check that confirmation is required
+      session_for(moderator_user)
+      delete user_received_blocks_path(blocked_user)
+
+      blocks.each(&:reload)
+      assert_predicate active_block1, :active?
+      assert_predicate active_block2, :active?
+      assert_not_predicate expired_block1, :active?
+
+      # Check that moderators can revoke all blocks
+      delete user_received_blocks_path(blocked_user, :confirm => true)
+      assert_redirected_to user_received_blocks_path(blocked_user)
+
+      blocks.each(&:reload)
+      assert_not_predicate active_block1, :active?
+      assert_not_predicate active_block2, :active?
+      assert_not_predicate expired_block1, :active?
+      assert_equal moderator_user, active_block1.revoker
+      assert_equal moderator_user, active_block2.revoker
+      assert_not_equal moderator_user, expired_block1.revoker
     end
   end
 end

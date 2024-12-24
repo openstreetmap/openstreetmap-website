@@ -105,9 +105,9 @@
               </li>
             <% end %>
 
-            <% if can?(:revoke_all, UserBlock) and @user.blocks.active.exists? %>
+            <% if can?(:destroy, UserBlock) and @user.blocks.active.exists? %>
               <li>
-                <%= link_to t(".revoke_all_blocks"), revoke_all_user_blocks_path(@user) %>
+                <%= link_to t(".revoke_all_blocks"), edit_user_received_blocks_path(@user) %>
               </li>
             <% end %>
 

@@ -56,7 +56,7 @@ class Ability
           can [:read, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:create, :update, :destroy], Redaction
-          can [:create, :revoke_all], UserBlock
+          can [:create, :destroy], UserBlock
           can :update, UserBlock, :creator => user
           can :update, UserBlock, :revoker => user
           can :update, UserBlock, :active? => true
