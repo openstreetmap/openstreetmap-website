@@ -42,7 +42,7 @@ class Ability
         can [:create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
         can [:create], DiaryComment
-        can [:make_friend, :remove_friend], Friendship
+        can [:edit, :create, :destroy], Follow
         can [:create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
         can [:close, :reopen], Note
         can [:show, :update], :preference

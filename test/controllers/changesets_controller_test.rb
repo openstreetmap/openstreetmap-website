@@ -190,7 +190,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # Checks the display of the friends changesets listing
   def test_index_friends
     private_user = create(:user, :data_public => true)
-    friendship = create(:friendship, :befriender => private_user)
+    friendship = create(:follow, :befriender => private_user)
     changeset = create(:changeset, :user => friendship.befriendee, :num_changes => 1)
     _changeset2 = create(:changeset, :user => create(:user), :num_changes => 1)
 
