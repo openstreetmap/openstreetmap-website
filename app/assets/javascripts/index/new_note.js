@@ -59,23 +59,22 @@ OSM.NewNote = function (map) {
     marker.addTo(noteLayer);
   }
 
-  function newHalo(loc, a) {
-    var hasHalo = halo && map.hasLayer(halo);
+  function addHalo(latlng) {
+    if (halo) map.removeLayer(halo);
 
-    if (a === "dragstart" && hasHalo) {
-      map.removeLayer(halo);
-    } else {
-      if (hasHalo) map.removeLayer(halo);
+    halo = L.circleMarker(latlng, {
+      weight: 2.5,
+      radius: 20,
+      fillOpacity: 0.5,
+      color: "#FF6200"
+    });
 
-      halo = L.circleMarker(loc, {
-        weight: 2.5,
-        radius: 20,
-        fillOpacity: 0.5,
-        color: "#FF6200"
-      });
+    map.addLayer(halo);
+  }
 
-      map.addLayer(halo);
-    }
+  function removeHalo() {
+    if (halo) map.removeLayer(halo);
+    halo = null;
   }
 
   page.pushstate = page.popstate = function (path) {
@@ -112,11 +111,14 @@ OSM.NewNote = function (map) {
     });
 
     newNoteMarker.on("dragstart dragend", function (a) {
-      newHalo(newNoteMarker.getLatLng(), a.type);
+      removeHalo();
+      if (a.type !== "dragstart") {
+        addHalo(newNoteMarker.getLatLng());
+      }
     });
 
     newNoteMarker.addTo(map);
-    newHalo(newNoteMarker.getLatLng());
+    addHalo(newNoteMarker.getLatLng());
 
     newNoteMarker.on("remove", function () {
       addNoteButton.removeClass("active");
@@ -156,7 +158,7 @@ OSM.NewNote = function (map) {
 
   page.unload = function () {
     if (newNoteMarker) map.removeLayer(newNoteMarker);
-    if (halo) map.removeLayer(halo);
+    removeHalo();
     addNoteButton.removeClass("active");
   };
 
