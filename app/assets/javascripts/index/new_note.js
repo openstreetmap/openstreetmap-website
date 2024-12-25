@@ -57,7 +57,6 @@ OSM.NewNote = function (map) {
     });
     marker.id = feature.properties.id;
     marker.addTo(noteLayer);
-    return marker;
   }
 
   page.pushstate = page.popstate = function (path) {
