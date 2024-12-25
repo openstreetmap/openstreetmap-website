@@ -5,7 +5,7 @@ OSM.NewNote = function (map) {
       content = $("#sidebar_content"),
       page = {},
       addNoteButton = $(".control-note .control-button"),
-      newNote,
+      newNoteMarker,
       halo;
 
   var noteIcons = {
@@ -60,7 +60,7 @@ OSM.NewNote = function (map) {
     function noteCreated(feature, marker) {
       content.find("textarea").val("");
       updateMarker(feature);
-      newNote = null;
+      newNoteMarker = null;
       noteLayer.removeLayer(marker);
       addNoteButton.removeClass("active");
       OSM.router.route("/note/" + feature.properties.id);
@@ -124,20 +124,20 @@ OSM.NewNote = function (map) {
       padding: [50, 50]
     });
 
-    newNote = L.marker(markerLatlng, {
+    newNoteMarker = L.marker(markerLatlng, {
       icon: noteIcons.new,
       opacity: 0.9,
       draggable: true
     });
 
-    newNote.on("dragstart dragend", function (a) {
-      newHalo(newNote.getLatLng(), a.type);
+    newNoteMarker.on("dragstart dragend", function (a) {
+      newHalo(newNoteMarker.getLatLng(), a.type);
     });
 
-    newNote.addTo(noteLayer);
-    newHalo(newNote.getLatLng());
+    newNoteMarker.addTo(noteLayer);
+    newHalo(newNoteMarker.getLatLng());
 
-    newNote.on("remove", function () {
+    newNoteMarker.on("remove", function () {
       addNoteButton.removeClass("active");
     }).on("dragend", function () {
       content.find("textarea").focus();
@@ -153,14 +153,14 @@ OSM.NewNote = function (map) {
 
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      createNote(newNote, e.target.form, "/api/0.6/notes.json");
+      createNote(newNoteMarker, e.target.form, "/api/0.6/notes.json");
     });
 
     return map.getState();
   };
 
   page.unload = function () {
-    if (newNote) noteLayer.removeLayer(newNote);
+    if (newNoteMarker) noteLayer.removeLayer(newNoteMarker);
     if (halo) map.removeLayer(halo);
     addNoteButton.removeClass("active");
   };
