@@ -81,19 +81,22 @@ module Api
       # Extract the arguments
       lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
-      comment = params[:text]
+      description = params[:text]
+
+      # Get note's author info (for logged in users - user_id, for logged out users - IP address)
+      note_author_info = author_info
 
       # Include in a transaction to ensure that there is always a note_comment for every note
       Note.transaction do
         # Create the note
-        @note = Note.create(:lat => lat, :lon => lon)
+        @note = Note.create(:lat => lat, :lon => lon, :description => description, :user_id => note_author_info[:user_id], :user_ip => note_author_info[:user_ip])
         raise OSM::APIBadUserInput, "The note is outside this world" unless @note.in_world?
 
         # Save the note
         @note.save!
 
-        # Add a comment to the note
-        add_comment(@note, comment, "opened")
+        # Add opening comment to the note
+        add_comment(@note, description, "opened")
       end
 
       # Return a copy of the new note
@@ -380,10 +383,8 @@ module Api
     end
 
     ##
-    # Add a comment to a note
-    def add_comment(note, text, event, notify: true)
-      attributes = { :visible => true, :event => event, :body => text }
-
+    # Get author's information (for logged in users - user_id, for logged out users - IP address)
+    def author_info
       if doorkeeper_token
         author = current_user if scope_enabled?(:write_notes)
       else
@@ -391,9 +392,23 @@ module Api
       end
 
       if author
-        attributes[:author_id] = author.id
+        { :user_id => author.id }
       else
-        attributes[:author_ip] = request.remote_ip
+        { :user_ip => request.remote_ip }
+      end
+    end
+
+    ##
+    # Add a comment to a note
+    def add_comment(note, text, event, notify: true)
+      attributes = { :visible => true, :event => event, :body => text }
+
+      note_comment_author_info = author_info
+
+      if author_info[:user_id]
+        attributes[:author_id] = note_comment_author_info[:user_id]
+      else
+        attributes[:author_ip] = note_comment_author_info[:user_ip]
       end
 
       comment = note.comments.create!(attributes)
