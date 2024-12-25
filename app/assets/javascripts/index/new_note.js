@@ -77,6 +77,38 @@ OSM.NewNote = function (map) {
     halo = null;
   }
 
+  function addNewNoteMarker(latlng) {
+    if (newNoteMarker) map.removeLayer(newNoteMarker);
+
+    newNoteMarker = L.marker(latlng, {
+      icon: noteIcons.new,
+      opacity: 0.9,
+      draggable: true
+    });
+
+    newNoteMarker.on("dragstart dragend", function (a) {
+      removeHalo();
+      if (a.type === "dragend") {
+        addHalo(newNoteMarker.getLatLng());
+      }
+    });
+
+    newNoteMarker.addTo(map);
+    addHalo(newNoteMarker.getLatLng());
+
+    newNoteMarker.on("remove", function () {
+      addNoteButton.removeClass("active");
+    }).on("dragend", function () {
+      content.find("textarea").focus();
+    });
+  }
+
+  function removeNewNoteMarker() {
+    removeHalo();
+    if (newNoteMarker) map.removeLayer(newNoteMarker);
+    newNoteMarker = null;
+  }
+
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
       page.load(path);
@@ -104,27 +136,7 @@ OSM.NewNote = function (map) {
       padding: [50, 50]
     });
 
-    newNoteMarker = L.marker(markerLatlng, {
-      icon: noteIcons.new,
-      opacity: 0.9,
-      draggable: true
-    });
-
-    newNoteMarker.on("dragstart dragend", function (a) {
-      removeHalo();
-      if (a.type !== "dragstart") {
-        addHalo(newNoteMarker.getLatLng());
-      }
-    });
-
-    newNoteMarker.addTo(map);
-    addHalo(newNoteMarker.getLatLng());
-
-    newNoteMarker.on("remove", function () {
-      addNoteButton.removeClass("active");
-    }).on("dragend", function () {
-      content.find("textarea").focus();
-    });
+    addNewNoteMarker(markerLatlng);
 
     content.find("textarea")
       .on("input", disableWhenBlank)
@@ -146,8 +158,7 @@ OSM.NewNote = function (map) {
       createNote(location, text, (feature) => {
         content.find("textarea").val("");
         addCreatedNoteMarker(feature);
-        map.removeLayer(newNoteMarker);
-        newNoteMarker = null;
+        removeNewNoteMarker();
         addNoteButton.removeClass("active");
         OSM.router.route("/note/" + feature.properties.id);
       });
@@ -157,8 +168,7 @@ OSM.NewNote = function (map) {
   };
 
   page.unload = function () {
-    if (newNoteMarker) map.removeLayer(newNoteMarker);
-    removeHalo();
+    removeNewNoteMarker();
     addNoteButton.removeClass("active");
   };
 
