@@ -32,8 +32,13 @@ json.properties do
     json.action comment.event
 
     if comment.body
-      json.text comment.body.to_text
-      json.html comment.body.to_html
+      if comment.event == "opened"
+        json.text note.description.to_text
+        json.html note.description.to_html
+      else
+        json.text comment.body.to_text
+        json.html comment.body.to_html
+      end
     end
   end
 end

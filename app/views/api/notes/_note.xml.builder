@@ -28,8 +28,13 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
         xml.action comment.event
 
         if comment.body
-          xml.text comment.body.to_text
-          xml.html comment.body.to_html
+          if comment.event == "opened"
+            xml.text note.description.to_text
+            xml.html note.description.to_html
+          else
+            xml.text comment.body.to_text
+            xml.html comment.body.to_html
+          end
         end
       end
     end
