@@ -113,6 +113,7 @@ OSM.NewNote = function (map) {
 
     content.find("#new-note-zoom-warning").prop("hidden", !zoomedOut);
     content.find("input[type=submit]").prop("disabled", zoomedOut || withoutText);
+    if (newNoteMarker) newNoteMarker.setOpacity(zoomedOut ? 0.5 : 0.9);
   }
 
   page.pushstate = page.popstate = function (path) {
