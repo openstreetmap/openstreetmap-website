@@ -329,7 +329,7 @@ module Api
       second_user = create(:user)
       third_user = create(:user)
 
-      note_with_comments_by_users = create(:note) do |note|
+      note_with_comments_by_users = create(:note, :author => first_user) do |note|
         create(:note_comment, :note => note, :author => first_user)
         create(:note_comment, :note => note, :author => second_user)
       end
@@ -664,10 +664,10 @@ module Api
     end
 
     def test_show_hidden_comment
-      note_with_hidden_comment = create(:note) do |note|
-        create(:note_comment, :note => note, :body => "Valid comment for hidden note")
-        create(:note_comment, :note => note, :visible => false)
-        create(:note_comment, :note => note, :body => "Another valid comment for hidden note")
+      note_with_hidden_comment = create(:note, :description => "Test Note description") do |note|
+        create(:note_comment, :note => note, :event => "opened", :body => "")
+        create(:note_comment, :note => note, :event => "commented", :visible => false, :body => "Valid comment for hidden note")
+        create(:note_comment, :note => note, :event => "commented", :body => "Another valid comment for hidden note")
       end
 
       get api_note_path(note_with_hidden_comment, :format => "json")
@@ -677,7 +677,7 @@ module Api
       assert_equal "Feature", js["type"]
       assert_equal note_with_hidden_comment.id, js["properties"]["id"]
       assert_equal 2, js["properties"]["comments"].count
-      assert_equal "Valid comment for hidden note", js["properties"]["comments"][0]["text"]
+      assert_equal "Test Note description", js["properties"]["comments"][0]["text"]
       assert_equal "Another valid comment for hidden note", js["properties"]["comments"][1]["text"]
     end
 

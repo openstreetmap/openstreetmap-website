@@ -56,11 +56,11 @@ class IndexTest < ApplicationSystemTestCase
 
   test "can navigate from hidden note to visible note" do
     sign_in_as(create(:moderator_user))
-    hidden_note = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note, :body => "this-is-a-hidden-note")
+    hidden_note = create(:note, :status => "hidden", :description => "this-is-a-hidden-note")
+    create(:note_comment, :note => hidden_note, :event => "opened", :body => "")
     position = (1.003 * GeoRecord::SCALE).to_i
-    visible_note = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => visible_note, :body => "this-is-a-visible-note")
+    visible_note = create(:note, :latitude => position, :longitude => position, :description => "this-is-a-visible-note")
+    create(:note_comment, :note => visible_note, :event => "opened", :body => "")
 
     visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during note_path(hidden_note)
     visit note_path(hidden_note)

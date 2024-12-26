@@ -48,20 +48,20 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_author
-    comment = create(:note_comment)
-    assert_nil comment.note.author
+    note = create(:note)
+    assert_nil note.author
 
     user = create(:user)
-    comment = create(:note_comment, :author => user)
-    assert_equal user, comment.note.author
+    note = create(:note, :author => user)
+    assert_equal user, note.author
   end
 
   def test_author_ip
-    comment = create(:note_comment)
-    assert_nil comment.note.author_ip
+    note = create(:note)
+    assert_nil note.author_ip
 
-    comment = create(:note_comment, :author_ip => IPAddr.new("192.168.1.1"))
-    assert_equal IPAddr.new("192.168.1.1"), comment.note.author_ip
+    note = create(:note, :user_ip => IPAddr.new("192.168.1.1"))
+    assert_equal IPAddr.new("192.168.1.1"), note.author_ip
   end
 
   # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
