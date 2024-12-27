@@ -67,13 +67,13 @@ OpenStreetMap::Application.routes.draw do
 
     get "trackpoints" => "tracepoints#index"
 
-    get "user/details" => "users#details"
     get "user/gpx_files" => "users#gpx_files"
   end
 
   namespace :api, :path => "api/0.6" do
     resources :users, :only => :index
     resources :users, :path => "user", :id => /\d+/, :only => :show
+    get "user/details" => "users#details"
 
     resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences" do
       collection do

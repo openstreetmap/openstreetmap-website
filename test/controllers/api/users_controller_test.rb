@@ -156,12 +156,12 @@ module Api
       create(:message, :sender => user)
 
       # check that nothing is returned when not logged in
-      get user_details_path
+      get api_user_details_path
       assert_response :unauthorized
 
       # check that we get a response when logged in
       auth_header = bearer_authorization_header user
-      get user_details_path, :headers => auth_header
+      get api_user_details_path, :headers => auth_header
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -170,7 +170,7 @@ module Api
 
       # check that data is returned properly in json
       auth_header = bearer_authorization_header user
-      get user_details_path(:format => "json"), :headers => auth_header
+      get api_user_details_path(:format => "json"), :headers => auth_header
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -191,11 +191,11 @@ module Api
       email_auth = bearer_authorization_header(user, :scopes => %w[read_prefs read_email])
 
       # check that we can't fetch details as XML without read_prefs
-      get user_details_path, :headers => bad_auth
+      get api_user_details_path, :headers => bad_auth
       assert_response :forbidden
 
       # check that we can fetch details as XML without read_email
-      get user_details_path, :headers => good_auth
+      get api_user_details_path, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -203,7 +203,7 @@ module Api
       check_xml_details(user, true, false)
 
       # check that we can fetch details as XML with read_email
-      get user_details_path, :headers => email_auth
+      get api_user_details_path, :headers => email_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -211,11 +211,11 @@ module Api
       check_xml_details(user, true, true)
 
       # check that we can't fetch details as JSON without read_prefs
-      get user_details_path(:format => "json"), :headers => bad_auth
+      get api_user_details_path(:format => "json"), :headers => bad_auth
       assert_response :forbidden
 
       # check that we can fetch details as JSON without read_email
-      get user_details_path(:format => "json"), :headers => good_auth
+      get api_user_details_path(:format => "json"), :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -227,7 +227,7 @@ module Api
       check_json_details(js, user, true, false)
 
       # check that we can fetch details as JSON with read_email
-      get user_details_path(:format => "json"), :headers => email_auth
+      get api_user_details_path(:format => "json"), :headers => email_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
