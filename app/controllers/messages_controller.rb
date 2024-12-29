@@ -49,7 +49,7 @@ class MessagesController < ApplicationController
     elsif @message.save
       flash[:notice] = t ".message_sent"
       UserMailer.message_notification(@message).deliver_later if @message.notify_recipient?
-      redirect_to :action => :inbox
+      redirect_to messages_inbox_path
     else
       @title = t "messages.new.title"
       render :action => "new"
@@ -66,7 +66,7 @@ class MessagesController < ApplicationController
 
       referer = safe_referer(params[:referer]) if params[:referer]
 
-      redirect_to referer || { :action => :inbox }, :status => :see_other
+      redirect_to referer || messages_inbox_path, :status => :see_other
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -108,23 +108,6 @@ class MessagesController < ApplicationController
     render :action => "no_such_message", :status => :not_found
   end
 
-  # Display the list of messages that have been sent to the user.
-  def inbox
-    @title = t ".title"
-  end
-
-  # Display the list of messages that the user has sent to other users.
-  def outbox
-    @title = t ".title"
-  end
-
-  # Display the list of muted messages received by the user.
-  def muted
-    @title = t ".title"
-
-    redirect_to inbox_messages_path if current_user.muted_messages.none?
-  end
-
   # Set the message as being read or unread.
   def mark
     @message = current_user.messages.unscope(:where => :muted).find(params[:message_id])
@@ -139,9 +122,9 @@ class MessagesController < ApplicationController
     if @message.save
       flash[:notice] = notice
       if @message.muted?
-        redirect_to muted_messages_path, :status => :see_other
+        redirect_to messages_muted_inbox_path, :status => :see_other
       else
-        redirect_to inbox_messages_path, :status => :see_other
+        redirect_to messages_inbox_path, :status => :see_other
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -160,9 +143,9 @@ class MessagesController < ApplicationController
     end
 
     if current_user.muted_messages.none?
-      redirect_to inbox_messages_path
+      redirect_to messages_inbox_path
     else
-      redirect_to muted_messages_path
+      redirect_to messages_muted_inbox_path
     end
   end
 

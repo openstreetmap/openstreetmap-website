@@ -5,14 +5,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/messages/inbox", :method => :get },
-      { :controller => "messages", :action => "inbox" }
-    )
-    assert_routing(
-      { :path => "/messages/outbox", :method => :get },
-      { :controller => "messages", :action => "outbox" }
-    )
-    assert_routing(
       { :path => "/message/new/username", :method => :get },
       { :controller => "messages", :action => "new", :display_name => "username" }
     )
@@ -179,7 +171,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_redirected_to inbox_messages_path
+    assert_redirected_to messages_inbox_path
     assert_equal "Message sent", flash[:notice]
     e = ActionMailer::Base.deliveries.first
     assert_equal [recipient_user.email], e.to
@@ -333,57 +325,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
-  # test the inbox action
-  def test_inbox
-    user = create(:user)
-    read_message = create(:message, :read, :recipient => user)
-    # Check that the inbox page requires us to login
-    get inbox_messages_path
-    assert_redirected_to login_path(:referer => inbox_messages_path)
-
-    # Login
-    session_for(user)
-
-    # Check that we can view our inbox when logged in
-    get inbox_messages_path
-    assert_response :success
-    assert_template "inbox"
-    assert_select ".content-inner > table.messages-table > tbody", :count => 1 do
-      assert_select "tr", :count => 1
-      assert_select "tr#inbox-#{read_message.id}", :count => 1 do
-        assert_select "a[href='#{user_path read_message.sender}']", :text => read_message.sender.display_name
-        assert_select "a[href='#{message_path read_message}']", :text => read_message.title
-      end
-    end
-  end
-
-  ##
-  # test the outbox action
-  def test_outbox
-    user = create(:user)
-    message = create(:message, :sender => user)
-
-    # Check that the outbox page requires us to login
-    get outbox_messages_path
-    assert_redirected_to login_path(:referer => outbox_messages_path)
-
-    # Login
-    session_for(user)
-
-    # Check that we can view our outbox when logged in
-    get outbox_messages_path
-    assert_response :success
-    assert_template "outbox"
-    assert_select ".content-inner > table.messages-table > tbody", :count => 1 do
-      assert_select "tr", :count => 1
-      assert_select "tr#outbox-#{message.id}", :count => 1 do
-        assert_select "a[href='#{user_path message.recipient}']", :text => message.recipient.display_name
-        assert_select "a[href='#{message_path message}']", :text => message.title
-      end
-    end
-  end
-
-  ##
   # test the mark action
   def test_mark
     sender_user = create(:user)
@@ -416,22 +357,22 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     # Check that the marking a message read works
     post message_mark_path(message, :mark => "read")
-    assert_redirected_to inbox_messages_path
+    assert_redirected_to messages_inbox_path
     assert Message.find(message.id).message_read
 
     # Check that the marking a message unread works
     post message_mark_path(message, :mark => "unread")
-    assert_redirected_to inbox_messages_path
+    assert_redirected_to messages_inbox_path
     assert_not Message.find(message.id).message_read
 
     # Check that the marking a message read works and redirects to inbox from the message page
     post message_mark_path(message, :mark => "read"), :headers => { :referer => message_path(message) }
-    assert_redirected_to inbox_messages_path
+    assert_redirected_to messages_inbox_path
     assert Message.find(message.id).message_read
 
     # Check that the marking a message unread works and redirects to inbox from the message page
     post message_mark_path(message, :mark => "unread"), :headers => { :referer => message_path(message) }
-    assert_redirected_to inbox_messages_path
+    assert_redirected_to messages_inbox_path
     assert_not Message.find(message.id).message_read
 
     # Asking to mark a message with a bogus ID should fail
@@ -452,12 +393,12 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     # Check that the marking a message read works
     post message_mark_path(message, :mark => "read")
-    assert_redirected_to muted_messages_path
+    assert_redirected_to messages_muted_inbox_path
     assert Message.find(message.id).message_read
 
     # Check that the marking a message unread works
     post message_mark_path(message, :mark => "unread")
-    assert_redirected_to muted_messages_path
+    assert_redirected_to messages_muted_inbox_path
     assert_not Message.find(message.id).message_read
   end
 
@@ -487,15 +428,15 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     # Check that the destroy a received message works
     delete message_path(read_message)
-    assert_redirected_to inbox_messages_path
+    assert_redirected_to messages_inbox_path
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(read_message.id)
     assert m.from_user_visible
     assert_not m.to_user_visible
 
     # Check that the destroying a sent message works
-    delete message_path(sent_message, :referer => outbox_messages_path)
-    assert_redirected_to outbox_messages_path
+    delete message_path(sent_message, :referer => messages_outbox_path)
+    assert_redirected_to messages_outbox_path
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(sent_message.id)
     assert_not m.from_user_visible
