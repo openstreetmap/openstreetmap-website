@@ -41,4 +41,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def within_sidebar(&)
     within("#sidebar_content", &)
   end
+
+  def within_content_body(&)
+    within("#content > .content-body", &)
+  end
 end
