@@ -186,7 +186,7 @@ OpenStreetMap::Application.routes.draw do
   post "/user/new" => "users#create"
   get "/user/terms" => "users#terms"
   post "/user/save" => "users#save"
-  get "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
+  post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
   match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]

@@ -13,7 +13,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       { :controller => "confirmations", :action => "confirm", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/user/username/confirm/resend", :method => :get },
+      { :path => "/user/username/confirm/resend", :method => :post },
       { :controller => "confirmations", :action => "confirm_resend", :display_name => "username" }
     )
 
@@ -193,7 +193,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        get user_confirm_resend_path(user)
+        post user_confirm_resend_path(user)
       end
     end
 
@@ -216,7 +216,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        get user_confirm_resend_path(user)
+        post user_confirm_resend_path(user)
       end
     end
 
@@ -227,7 +227,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_resend_unknown_user
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        get user_confirm_resend_path(:display_name => "No Such User")
+        post user_confirm_resend_path(:display_name => "No Such User")
       end
     end
 
