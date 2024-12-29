@@ -307,16 +307,16 @@ OpenStreetMap::Application.routes.draw do
   get "/export/embed" => "export#embed"
 
   # messages
-  resources :messages, :only => [:create, :show, :destroy] do
+  resources :messages, :id => /\d+/, :only => [:create, :show, :destroy] do
     post :mark
     patch :unmute
 
     match :reply, :via => [:get, :post]
-    collection do
-      get :inbox
-      get :muted
-      get :outbox
-    end
+  end
+  namespace :messages, :path => "/messages" do
+    resource :inbox, :only => :show
+    resource :muted_inbox, :path => "muted", :only => :show
+    resource :outbox, :only => :show
   end
   get "/user/:display_name/inbox", :to => redirect(:path => "/messages/inbox")
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")

@@ -1,0 +1,9 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "messages" %>
+<% end %>
+
+<%= render :partial => "heading", :locals => { :active_link_path => messages_muted_inbox_path } %>
+
+<h4><%= t ".messages", :count => current_user.muted_messages.size %></h4>
+
+<%= render :partial => "messages_table", :locals => { :columns => %w[from subject date], :messages => current_user.muted_messages } %>
