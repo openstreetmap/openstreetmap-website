@@ -2,8 +2,10 @@ $(document).ready(function () {
   var marker, map;
 
   function setLocation(e) {
-    $("#latitude").val(e.latlng.lat);
-    $("#longitude").val(e.latlng.lng);
+    const latlng = e.latlng.wrap();
+
+    $("#latitude").val(latlng.lat);
+    $("#longitude").val(latlng.lng);
 
     if (marker) {
       map.removeLayer(marker);
