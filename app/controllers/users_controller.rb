@@ -77,7 +77,24 @@ class UsersController < ApplicationController
         render :action => "new"
       else
         # Save the user record
-        save_new_user params[:email_hmac], params[:referer]
+        if save_new_user params[:email_hmac]
+          SIGNUP_IP_LIMITER&.update(request.remote_ip)
+          SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
+
+          flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
+
+          referer = welcome_path(welcome_options(params[:referer]))
+
+          if current_user.status == "active"
+            successful_login(current_user, referer)
+          else
+            session[:pending_user] = current_user.id
+            UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
+            redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
+          end
+        else
+          render :action => "new", :referer => params[:referer]
+        end
       end
     end
   end
@@ -238,7 +255,7 @@ class UsersController < ApplicationController
 
   private
 
-  def save_new_user(email_hmac, referer = nil)
+  def save_new_user(email_hmac)
     current_user.data_public = true
     current_user.description = "" if current_user.description.nil?
     current_user.creation_address = request.remote_ip
@@ -254,24 +271,7 @@ class UsersController < ApplicationController
       current_user.activate
     end
 
-    if current_user.save
-      SIGNUP_IP_LIMITER&.update(request.remote_ip)
-      SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
-
-      flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
-
-      referer = welcome_path(welcome_options(referer))
-
-      if current_user.status == "active"
-        successful_login(current_user, referer)
-      else
-        session[:pending_user] = current_user.id
-        UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
-        redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
-      end
-    else
-      render :action => "new", :referer => params[:referer]
-    end
+    current_user.save
   end
 
   def welcome_options(referer = nil)
