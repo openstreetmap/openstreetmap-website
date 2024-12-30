@@ -44,6 +44,14 @@ L.OSM.TransportMap = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.TransportDarkMap = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    maxZoom: 21,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
+  }
+});
+
 L.OSM.OPNVKarte = L.OSM.TileLayer.extend({
   options: {
     url: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
@@ -82,7 +90,8 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
   options: {
     areaTags: ['area', 'building', 'leisure', 'tourism', 'ruins', 'historic', 'landuse', 'military', 'natural', 'sport'],
     uninterestingTags: ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
-    styles: {}
+    styles: {},
+    asynchronous: false,
   },
 
   initialize: function (xml, options) {
@@ -101,7 +110,7 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
 
     for (var i = 0; i < features.length; i++) {
-      var feature = features[i], layer;
+      let feature = features[i], layer;
 
       if (feature.type === "changeset") {
         layer = L.rectangle(feature.latLngBounds, this.options.styles.changeset);
@@ -122,7 +131,12 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
         }
       }
 
-      layer.addTo(this);
+      if (this.options.asynchronous) {
+        setTimeout(() => layer.addTo(this));
+      } else {
+        layer.addTo(this);
+      }
+
       layer.feature = feature;
     }
   },
@@ -188,7 +202,28 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
 
     return false;
-  }
+  },
+
+  onRemove: function(map) {
+    this.eachLayer(map.removeLayer, map, this.options.asynchronous);
+  },
+
+  onAdd: function(map) {
+    this.eachLayer(map.addLayer, map, this.options.asynchronous);
+  },
+
+  eachLayer: function (method, context, asynchronous = false) {
+    for (let i in this._layers) {
+      if (asynchronous) {
+        setTimeout(() => {
+          method.call(context, this._layers[i]);
+        });
+      } else {
+        method.call(context, this._layers[i]);
+      }
+    }
+    return this;
+  },
 });
 
 L.Util.extend(L.OSM, {
