@@ -305,7 +305,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
 
     # Test a user who has been blocked
@@ -321,7 +321,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/account']", 0
       assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/blocks']", 1
       assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{ERB::Util.u(blocked_user.display_name)}']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(blocked_user.display_name)}']", 0
     end
 
     # Test a moderator who has applied blocks
@@ -337,7 +337,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/account']", 0
       assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/blocks_by']", 1
-      assert_select "a[href='/blocks/new/#{ERB::Util.u(moderator_user.display_name)}']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(moderator_user.display_name)}']", 0
     end
 
     # Login as a normal user
@@ -354,7 +354,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/account/edit']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(user.display_name)}']", 0
       assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 0
     end
 
@@ -372,7 +372,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/account/edit']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 1
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(user.display_name)}']", 1
       assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 1
     end
   end

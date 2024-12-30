@@ -24,7 +24,7 @@ class Ability
       can [:create, :destroy], :session
       can [:read, :data, :georss], Trace
       can [:read, :terms, :create, :save, :suspended, :auth_success, :auth_failure], User
-      can [:read, :blocks_on, :blocks_by], UserBlock
+      can :read, UserBlock
     end
 
     if user&.active?
@@ -56,7 +56,7 @@ class Ability
           can [:read, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:create, :update, :destroy], Redaction
-          can [:create, :revoke_all], UserBlock
+          can [:create, :destroy], UserBlock
           can :update, UserBlock, :creator => user
           can :update, UserBlock, :revoker => user
           can :update, UserBlock, :active? => true

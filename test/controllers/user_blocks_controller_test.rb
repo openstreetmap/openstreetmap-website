@@ -1,11 +1,14 @@
 require "test_helper"
+require_relative "user_blocks/table_test_helper"
 
 class UserBlocksControllerTest < ActionDispatch::IntegrationTest
+  include UserBlocks::TableTestHelper
+
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/blocks/new/username", :method => :get },
+      { :path => "/user_blocks/new/username", :method => :get },
       { :controller => "user_blocks", :action => "new", :display_name => "username" }
     )
 
@@ -32,23 +35,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_routing(
       { :path => "/user_blocks/1", :method => :delete },
       { :controller => "user_blocks", :action => "destroy", :id => "1" }
-    )
-
-    assert_routing(
-      { :path => "/user/username/blocks", :method => :get },
-      { :controller => "user_blocks", :action => "blocks_on", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username/blocks_by", :method => :get },
-      { :controller => "user_blocks", :action => "blocks_by", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username/blocks/revoke_all", :method => :get },
-      { :controller => "user_blocks", :action => "revoke_all", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username/blocks/revoke_all", :method => :post },
-      { :controller => "user_blocks", :action => "revoke_all", :display_name => "username" }
     )
   end
 
@@ -604,83 +590,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
-  # test the revoke all page
-  def test_revoke_all_page
-    blocked_user = create(:user)
-    create(:user_block, :user => blocked_user)
-
-    # Asking for the revoke all blocks page with a bogus user name should fail
-    get user_blocks_on_path("non_existent_user")
-    assert_response :not_found
-
-    # Check that the revoke all blocks page requires us to login
-    get revoke_all_user_blocks_path(blocked_user)
-    assert_redirected_to login_path(:referer => revoke_all_user_blocks_path(blocked_user))
-
-    # Login as a normal user
-    session_for(create(:user))
-
-    # Check that normal users can't load the revoke all blocks page
-    get revoke_all_user_blocks_path(blocked_user)
-    assert_redirected_to :controller => "errors", :action => "forbidden"
-
-    # Login as a moderator
-    session_for(create(:moderator_user))
-
-    # Check that the revoke all blocks page loads for moderators
-    get revoke_all_user_blocks_path(blocked_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
-  end
-
-  ##
-  # test the revoke all action
-  def test_revoke_all_action
-    blocked_user = create(:user)
-    active_block1 = create(:user_block, :user => blocked_user)
-    active_block2 = create(:user_block, :user => blocked_user)
-    expired_block1 = create(:user_block, :expired, :user => blocked_user)
-    blocks = [active_block1, active_block2, expired_block1]
-    moderator_user = create(:moderator_user)
-
-    assert_predicate active_block1, :active?
-    assert_predicate active_block2, :active?
-    assert_not_predicate expired_block1, :active?
-
-    # Login as a normal user
-    session_for(create(:user))
-
-    # Check that normal users can't load the block revoke page
-    get revoke_all_user_blocks_path(:blocked_user)
-    assert_redirected_to :controller => "errors", :action => "forbidden"
-
-    # Login as a moderator
-    session_for(moderator_user)
-
-    # Check that revoking blocks using GET should fail
-    get revoke_all_user_blocks_path(blocked_user, :confirm => true)
-    assert_response :success
-    assert_template "revoke_all"
-
-    blocks.each(&:reload)
-    assert_predicate active_block1, :active?
-    assert_predicate active_block2, :active?
-    assert_not_predicate expired_block1, :active?
-
-    # Check that revoking blocks works using POST
-    post revoke_all_user_blocks_path(blocked_user, :confirm => true)
-    assert_redirected_to user_blocks_on_path(blocked_user)
-
-    blocks.each(&:reload)
-    assert_not_predicate active_block1, :active?
-    assert_not_predicate active_block2, :active?
-    assert_not_predicate expired_block1, :active?
-    assert_equal moderator_user, active_block1.revoker
-    assert_equal moderator_user, active_block2.revoker
-    assert_not_equal moderator_user, expired_block1.revoker
-  end
-
-  ##
   # test changes to end/deactivation dates
   def test_dates_when_viewed_before_end
     blocked_user = create(:user)
@@ -808,170 +717,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  ##
-  # test the blocks_on action
-  def test_blocks_on
-    blocked_user = create(:user)
-    unblocked_user = create(:user)
-    normal_user = create(:user)
-    active_block = create(:user_block, :user => blocked_user)
-    revoked_block = create(:user_block, :revoked, :user => blocked_user)
-    expired_block = create(:user_block, :expired, :user => unblocked_user)
-
-    # Asking for a list of blocks with a bogus user name should fail
-    get user_blocks_on_path("non_existent_user")
-    assert_response :not_found
-    assert_template "users/no_such_user"
-    assert_select "h1", "The user non_existent_user does not exist"
-
-    # Check the list of blocks for a user that has never been blocked
-    get user_blocks_on_path(normal_user)
-    assert_response :success
-    assert_select "table#block_list", false
-    assert_select "p", "#{normal_user.display_name} has not been blocked yet."
-
-    # Check the list of blocks for a user that is currently blocked
-    get user_blocks_on_path(blocked_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 2
-      assert_select "a[href='#{user_block_path(active_block)}']", 1
-      assert_select "a[href='#{user_block_path(revoked_block)}']", 1
-    end
-
-    # Check the list of blocks for a user that has previously been blocked
-    get user_blocks_on_path(unblocked_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path unblocked_user}']", :text => unblocked_user.display_name
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 1
-      assert_select "a[href='#{user_block_path(expired_block)}']", 1
-    end
-  end
-
-  ##
-  # test the blocks_on action with multiple pages
-  def test_blocks_on_paged
-    user = create(:user)
-    user_blocks = create_list(:user_block, 50, :user => user).reverse
-    next_path = user_blocks_on_path(user)
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[0...20]
-    check_no_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[20...40]
-    check_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[40...50]
-    check_page_link "Newer Blocks"
-    check_no_page_link "Older Blocks"
-  end
-
-  ##
-  # test the blocks_on action with invalid pages
-  def test_blocks_on_invalid_paged
-    user = create(:user)
-
-    %w[-1 0 fred].each do |id|
-      get user_blocks_on_path(user, :before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-
-      get user_blocks_on_path(user, :after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-    end
-  end
-
-  ##
-  # test the blocks_by action
-  def test_blocks_by
-    moderator_user = create(:moderator_user)
-    second_moderator_user = create(:moderator_user)
-    normal_user = create(:user)
-    active_block = create(:user_block, :creator => moderator_user)
-    expired_block = create(:user_block, :expired, :creator => second_moderator_user)
-    revoked_block = create(:user_block, :revoked, :creator => second_moderator_user)
-
-    # Asking for a list of blocks with a bogus user name should fail
-    get user_blocks_by_path("non_existent_user")
-    assert_response :not_found
-    assert_template "users/no_such_user"
-    assert_select "h1", "The user non_existent_user does not exist"
-
-    # Check the list of blocks given by one moderator
-    get user_blocks_by_path(moderator_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path moderator_user}']", :text => moderator_user.display_name
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 1
-      assert_select "a[href='#{user_block_path(active_block)}']", 1
-    end
-
-    # Check the list of blocks given by a different moderator
-    get user_blocks_by_path(second_moderator_user)
-    assert_response :success
-    assert_select "h1 a[href='#{user_path second_moderator_user}']", :text => second_moderator_user.display_name
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", 2
-      assert_select "a[href='#{user_block_path(expired_block)}']", 1
-      assert_select "a[href='#{user_block_path(revoked_block)}']", 1
-    end
-
-    # Check the list of blocks (not) given by a normal user
-    get user_blocks_by_path(normal_user)
-    assert_response :success
-    assert_select "table#block_list", false
-    assert_select "p", "#{normal_user.display_name} has not made any blocks yet."
-  end
-
-  ##
-  # test the blocks_by action with multiple pages
-  def test_blocks_by_paged
-    user = create(:moderator_user)
-    user_blocks = create_list(:user_block, 50, :creator => user).reverse
-    next_path = user_blocks_by_path(user)
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[0...20]
-    check_no_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[20...40]
-    check_page_link "Newer Blocks"
-    next_path = check_page_link "Older Blocks"
-
-    get next_path
-    assert_response :success
-    check_user_blocks_table user_blocks[40...50]
-    check_page_link "Newer Blocks"
-    check_no_page_link "Older Blocks"
-  end
-
-  ##
-  # test the blocks_by action with invalid pages
-  def test_blocks_by_invalid_paged
-    user = create(:moderator_user)
-
-    %w[-1 0 fred].each do |id|
-      get user_blocks_by_path(user, :before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-
-      get user_blocks_by_path(user, :after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-    end
-  end
-
   private
 
   def check_block_buttons(block, edit: 0)
@@ -1024,24 +769,5 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_not_predicate block, :active?
     assert_equal "Updated Reason Again", block.reason
     assert_equal original_ends_at, block.ends_at
-  end
-
-  def check_user_blocks_table(user_blocks)
-    assert_dom "table#block_list tbody tr" do |rows|
-      assert_equal user_blocks.count, rows.count, "unexpected number of rows in user blocks table"
-      rows.zip(user_blocks).map do |row, user_block|
-        assert_dom row, "a[href='#{user_block_path user_block}']", 1
-      end
-    end
-  end
-
-  def check_no_page_link(name)
-    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
-  end
-
-  def check_page_link(name)
-    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
-      return buttons.first.attributes["href"].value
-    end
   end
 end

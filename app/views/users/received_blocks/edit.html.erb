@@ -6,7 +6,7 @@
 
 <% unless @user.blocks.active.empty? %>
 
-  <%= bootstrap_form_for :revoke_all, :url => { :action => "revoke_all" } do |f| %>
+  <%= bootstrap_form_for :revoke_all, :url => { :action => :destroy }, :method => :delete do |f| %>
     <div class="mb-3">
       <div class="form-check">
         <%= check_box_tag "confirm", "yes", false, { :class => "form-check-input" } %>
