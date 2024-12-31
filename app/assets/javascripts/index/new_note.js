@@ -35,7 +35,7 @@ OSM.NewNote = function (map) {
     OSM.router.route("/note/new");
   });
 
-  function createNote(marker, text) {
+  function createNote(marker, text, callback) {
     var location = marker.getLatLng().wrap();
 
     marker.options.draggable = false;
@@ -50,19 +50,8 @@ OSM.NewNote = function (map) {
         lon: location.lng,
         text
       },
-      success: function (feature) {
-        noteCreated(feature, marker);
-      }
+      success: callback
     });
-
-    function noteCreated(feature, marker) {
-      content.find("textarea").val("");
-      updateMarker(feature);
-      newNoteMarker = null;
-      noteLayer.removeLayer(marker);
-      addNoteButton.removeClass("active");
-      OSM.router.route("/note/" + feature.properties.id);
-    }
   }
 
   function updateMarker(feature) {
@@ -154,7 +143,14 @@ OSM.NewNote = function (map) {
 
       e.preventDefault();
       $(this).prop("disabled", true);
-      createNote(newNoteMarker, text);
+      createNote(newNoteMarker, text, (feature) => {
+        content.find("textarea").val("");
+        updateMarker(feature);
+        noteLayer.removeLayer(newNoteMarker);
+        newNoteMarker = null;
+        addNoteButton.removeClass("active");
+        OSM.router.route("/note/" + feature.properties.id);
+      });
     });
 
     return map.getState();
