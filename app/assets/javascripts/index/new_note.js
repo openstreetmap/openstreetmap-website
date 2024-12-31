@@ -35,12 +35,7 @@ OSM.NewNote = function (map) {
     OSM.router.route("/note/new");
   });
 
-  function createNote(marker, text, callback) {
-    var location = marker.getLatLng().wrap();
-
-    marker.options.draggable = false;
-    marker.dragging.disable();
-
+  function createNote(location, text, callback) {
     $.ajax({
       url: "/api/0.6/notes.json",
       type: "POST",
@@ -139,11 +134,15 @@ OSM.NewNote = function (map) {
     }
 
     content.find("input[type=submit]").on("click", function (e) {
+      const location = newNoteMarker.getLatLng().wrap();
       const text = content.find("textarea").val();
 
       e.preventDefault();
       $(this).prop("disabled", true);
-      createNote(newNoteMarker, text, (feature) => {
+      newNoteMarker.options.draggable = false;
+      newNoteMarker.dragging.disable();
+
+      createNote(location, text, (feature) => {
         content.find("textarea").val("");
         updateMarker(feature);
         noteLayer.removeLayer(newNoteMarker);
