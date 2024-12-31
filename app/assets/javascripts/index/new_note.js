@@ -35,7 +35,7 @@ OSM.NewNote = function (map) {
     OSM.router.route("/note/new");
   });
 
-  function createNote(marker, form, url) {
+  function createNote(marker, text, url) {
     var location = marker.getLatLng().wrap();
 
     marker.options.draggable = false;
@@ -48,7 +48,7 @@ OSM.NewNote = function (map) {
       data: {
         lat: location.lat,
         lon: location.lng,
-        text: $(form.text).val()
+        text
       },
       success: function (feature) {
         noteCreated(feature, marker);
@@ -150,9 +150,11 @@ OSM.NewNote = function (map) {
     }
 
     content.find("input[type=submit]").on("click", function (e) {
+      const text = content.find("textarea").val();
+
       e.preventDefault();
       $(this).prop("disabled", true);
-      createNote(newNoteMarker, e.target.form, "/api/0.6/notes.json");
+      createNote(newNoteMarker, text, "/api/0.6/notes.json");
     });
 
     return map.getState();
