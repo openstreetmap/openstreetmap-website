@@ -41,8 +41,6 @@ OSM.NewNote = function (map) {
     marker.options.draggable = false;
     marker.dragging.disable();
 
-    $(form).find("input[type=submit]").prop("disabled", true);
-
     $.ajax({
       url: url,
       type: "POST",
@@ -153,6 +151,7 @@ OSM.NewNote = function (map) {
 
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
+      $(this).prop("disabled", true);
       createNote(newNoteMarker, e.target.form, "/api/0.6/notes.json");
     });
 
