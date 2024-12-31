@@ -26,6 +26,8 @@ class Note < ApplicationRecord
   has_many :subscriptions, :class_name => "NoteSubscription"
   has_many :subscribers, :through => :subscriptions, :source => :user
 
+  has_many :note_tags
+
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
   validates :latitude, :longitude, :numericality => { :only_integer => true }
@@ -90,6 +92,16 @@ class Note < ApplicationRecord
   # Return the author IP address, derived from the first comment
   def author_ip
     comments.first.author_ip
+  end
+
+  def tags
+    unless @tags
+      @tags = {}
+      note_tags.each do |tag|
+        @tags[tag.k] = tag.v
+      end
+    end
+    @tags
   end
 
   private
