@@ -35,14 +35,14 @@ OSM.NewNote = function (map) {
     OSM.router.route("/note/new");
   });
 
-  function createNote(marker, text, url) {
+  function createNote(marker, text) {
     var location = marker.getLatLng().wrap();
 
     marker.options.draggable = false;
     marker.dragging.disable();
 
     $.ajax({
-      url: url,
+      url: "/api/0.6/notes.json",
       type: "POST",
       oauth: true,
       data: {
@@ -154,7 +154,7 @@ OSM.NewNote = function (map) {
 
       e.preventDefault();
       $(this).prop("disabled", true);
-      createNote(newNoteMarker, text, "/api/0.6/notes.json");
+      createNote(newNoteMarker, text);
     });
 
     return map.getState();
