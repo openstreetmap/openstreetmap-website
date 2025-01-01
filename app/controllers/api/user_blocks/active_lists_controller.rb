@@ -8,7 +8,10 @@ module Api
 
       before_action :set_request_formats
 
-      def show; end
+      def show
+        @user_blocks = current_user.blocks.active.order(:id => :desc)
+        @skip_reason = true
+      end
 
       private
 
