@@ -50,6 +50,10 @@ module Api
 
         get api_user_blocks_active_list_path, :headers => user_auth_header
         assert_response :success
+        assert_dom "user_block", :count => 2 do |dom_blocks|
+          assert_dom dom_blocks[0], "> @id", block1.id.to_s
+          assert_dom dom_blocks[1], "> @id", block0.id.to_s
+        end
       end
 
       def test_show_json
@@ -63,6 +67,11 @@ module Api
 
         get api_user_blocks_active_list_path(:format => "json"), :headers => user_auth_header
         assert_response :success
+        js = ActiveSupport::JSON.decode(@response.body)
+        assert_not_nil js
+        assert_equal 2, js["user_blocks"].count
+        assert_equal block1.id, js["user_blocks"][0]["id"]
+        assert_equal block0.id, js["user_blocks"][1]["id"]
       end
     end
   end
