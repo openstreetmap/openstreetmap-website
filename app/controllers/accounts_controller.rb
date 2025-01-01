@@ -31,7 +31,7 @@ class AccountsController < ApplicationController
        (params[:user][:auth_provider] == current_user.auth_provider &&
         params[:user][:auth_uid] == current_user.auth_uid)
       update_user(current_user, user_params)
-      if current_user.errors.count.zero?
+      if current_user.errors.empty?
         redirect_to edit_account_path
       else
         render :edit, :status => :unprocessable_entity
