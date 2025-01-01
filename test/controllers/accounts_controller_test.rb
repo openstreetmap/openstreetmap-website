@@ -55,7 +55,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Changing name to one that exists should fail
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name)
     patch account_path, :params => { :user => new_attributes }
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_template :edit
     assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_display_name"
@@ -63,7 +63,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name.upcase)
     patch account_path, :params => { :user => new_attributes }
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_template :edit
     assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_display_name"
@@ -88,7 +88,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
         patch account_path, :params => { :user => user.attributes }
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_template :edit
     assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_new_email"
@@ -100,7 +100,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
         patch account_path, :params => { :user => user.attributes }
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_template :edit
     assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_new_email"
