@@ -1,7 +1,7 @@
 module Api
   module UserBlocks
     class ActiveListsController < ApiController
-      before_action :authorize
+      before_action -> { authorize(:skip_blocks => true) }
 
       authorize_resource :class => :active_user_blocks_list
 
