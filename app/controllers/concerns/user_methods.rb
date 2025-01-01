@@ -59,8 +59,9 @@ module UserMethods
             # Ignore errors sending email
           end
         else
-          current_user.errors.add(:new_email, current_user.errors[:email])
-          current_user.errors.add(:email, [])
+          current_user.errors.delete(:email).each do |error|
+            current_user.errors.add(:new_email, error)
+          end
         end
 
         user.restore_email!
