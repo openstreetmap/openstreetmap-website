@@ -34,7 +34,7 @@ class AccountsController < ApplicationController
       if current_user.errors.count.zero?
         redirect_to edit_account_path
       else
-        render :edit
+        render :edit, :status => :unprocessable_entity
       end
     else
       session[:new_user_settings] = user_params.to_h
