@@ -5,7 +5,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/message/new/username", :method => :get },
+      { :path => "/messages/new/username", :method => :get },
       { :controller => "messages", :action => "new", :display_name => "username" }
     )
     assert_routing(
