@@ -204,4 +204,14 @@ class IssuesTest < ApplicationSystemTestCase
       assert_no_content(/extra_#{n}[^\d]/i)
     end
   end
+
+  def test_issue_reporters
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :user => create(:user, :display_name => "Test Name"))
+
+    visit issues_path
+    assert_content issue.reported_user.display_name
+    assert_content issue.reports.first.user.display_name
+  end
 end
