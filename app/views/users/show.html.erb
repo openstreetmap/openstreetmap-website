@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "heatmap" %>
+  <%= javascript_include_tag "heatmap" %>
+<% end %>
 <% content_for :heading do %>
   <div class="row">
     <div class="col-sm-auto">
@@ -234,6 +238,12 @@
 <% end %>
 
 <div class="richtext text-break clearfix"><%= @user.description.to_html %></div>
+
+<% if @heatmap_data.present? %>
+  <div class="overflow-auto" style="max-height: 500px;">
+    <%= tag.div(:id => "cal-heatmap", :data => { :heatmap => @heatmap_data.to_json, :site_color_scheme => preferred_color_scheme(:site) }) %>
+  </div>
+<% end %>
 
 <% if current_user and @user.id == current_user.id %>
   <div class="my-3">
