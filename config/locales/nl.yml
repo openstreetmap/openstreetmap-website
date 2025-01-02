@@ -1878,8 +1878,6 @@ nl:
       success: Uw registratie is bevestigd. Dank u wel voor het registreren!
       already active: Dit account is al bevestigd.
       unknown token: De opgegeven bevestigingscode is verlopen of bestaat niet.
-      resend_html: Als u wilt dat wij de bevestigingsmail opnieuw verzenden, %{reconfirm_link}.
-      click_here: klik hier
     confirm_resend:
       failure: De gebruiker %{name} is niet gevonden.
     confirm_email:
@@ -1897,29 +1895,6 @@ nl:
         zorg er dan voor dat u %{sender} op de witte lijst plaatst, aangezien we niet
         kunnen reageren op bevestigingsverzoeken.
   messages:
-    inbox:
-      title: Postvak IN
-      messages: U hebt %{new_messages} en %{old_messages}
-      new_messages:
-        one: '%{count} nieuw bericht'
-        other: '%{count} nieuwe berichten'
-      old_messages:
-        one: '%{count} oud bericht'
-        other: '%{count} oude berichten'
-      no_messages_yet_html: U hebt nog geen berichten. Waarom legt u geen contact
-        met %{people_mapping_nearby_link}?
-      people_mapping_nearby: nabije kaartmakers
-    messages_table:
-      from: Van
-      to: Aan
-      subject: Onderwerp
-      date: Datum
-      actions: Handelingen
-    message_summary:
-      unread_button: Markeren als ongelezen
-      read_button: Markeren als gelezen
-      destroy_button: Verwijderen
-      unmute_button: Naar Inbox verplaatsen
     new:
       title: Bericht verzenden
       send_message_to_html: Een persoonlijk bericht naar %{name} verzenden
@@ -1932,19 +1907,6 @@ nl:
       title: Dat bericht bestaat niet
       heading: Bericht bestaat niet
       body: Er is geen bericht met dat ID.
-    outbox:
-      title: Postvak UIT
-      messages:
-        one: U hebt één verzonden bericht
-        other: U hebt %{count} verzonden berichten
-      no_sent_messages_html: U hebt nog geen berichten verzonden. Waarom legt u geen
-        contact met %{people_mapping_nearby_link}?
-      people_mapping_nearby: nabije kaartmakers
-    muted:
-      title: Gedempte berichten
-      messages:
-        one: '%{count} verborgen bericht'
-        other: U hebt %{count} genegeerde berichten
     reply:
       wrong_user: U bent aangemeld als "%{user}", maar het bericht waarop u wilt antwoorden
         is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te
@@ -1958,12 +1920,6 @@ nl:
       wrong_user: |-
         U bent aangemeld als "%{user}", maar het bericht dat u wilt lezen is niet door die gebruiker gestuurd of aan die gebruiker gericht.
         Meld u aan als de juiste gebruiker om het te lezen.
-    sent_message_summary:
-      destroy_button: Verwijderen
-    heading:
-      my_inbox: Mijn Postvak IN
-      my_outbox: Mijn Postvak UIT
-      muted_messages: Gedempte berichten
     mark:
       as_read: Gemarkeerd als gelezen
       as_unread: Gemarkeerd als ongelezen
@@ -1972,6 +1928,52 @@ nl:
       error: Het bericht kon niet naar de Inbox worden verplaatst.
     destroy:
       destroyed: Het bericht is verwijderd
+    mailboxes:
+      heading:
+        my_inbox: Mijn Postvak IN
+        my_outbox: Mijn Postvak UIT
+        muted_messages: Gedempte berichten
+      messages_table:
+        from: Van
+        to: Aan
+        subject: Onderwerp
+        date: Datum
+        actions: Handelingen
+      message:
+        unread_button: Markeren als ongelezen
+        read_button: Markeren als gelezen
+        destroy_button: Verwijderen
+        unmute_button: Naar Inbox verplaatsen
+    inboxes:
+      show:
+        title: Postvak IN
+        messages: U hebt %{new_messages} en %{old_messages}
+        new_messages:
+          one: '%{count} nieuw bericht'
+          other: '%{count} nieuwe berichten'
+        old_messages:
+          one: '%{count} oud bericht'
+          other: '%{count} oude berichten'
+        no_messages_yet_html: U hebt nog geen berichten. Waarom legt u geen contact
+          met %{people_mapping_nearby_link}?
+        people_mapping_nearby: nabije kaartmakers
+    muted_inboxes:
+      show:
+        title: Gedempte berichten
+        messages:
+          one: '%{count} verborgen bericht'
+          other: U hebt %{count} genegeerde berichten
+    outboxes:
+      show:
+        title: Postvak UIT
+        messages:
+          one: U hebt één verzonden bericht
+          other: U hebt %{count} verzonden berichten
+        no_sent_messages_html: U hebt nog geen berichten verzonden. Waarom legt u
+          geen contact met %{people_mapping_nearby_link}?
+        people_mapping_nearby: nabije kaartmakers
+      message:
+        destroy_button: Verwijderen
   passwords:
     new:
       title: Wachtwoord vergeten
@@ -2762,6 +2764,28 @@ nl:
       wikipedia:
         title: Aanmelden met Wikipedia
         alt: Wikipedia-logo
+    share:
+      email:
+        title: Delen via e-mail
+        alt: E-mailpictogram
+      bluesky:
+        title: Delen via Bluesky
+        alt: Bluesky-pictogram
+      facebook:
+        title: Delen via Facebook
+        alt: Facebook-pictogram
+      linkedin:
+        title: Delen via LinkedIn
+        alt: LinkedIn-pictogram
+      mastodon:
+        title: Delen op Mastodon
+        alt: Mastodon-pictogram
+      telegram:
+        title: Delen op Telegram
+        alt: Telegram-pictogram
+      x:
+        title: Delen op X
+        alt: X-pictogram
   oauth:
     permissions:
       missing: U heeft niet toegestaan dat de toepassing toegang heeft tot dit kenmerk.
@@ -2974,6 +2998,27 @@ nl:
       report: Rapporteer deze Gebruiker
     go_public:
       flash success: Al uw bewerkingen zijn nu openbaar en u kunt bewerken.
+    issued_blocks:
+      show:
+        title: Blokkades door %{name}
+        heading_html: Lijst met blokkades door %{name}
+        empty: '%{name} heeft nog geen blokkades uitgevoerd.'
+    received_blocks:
+      show:
+        title: Blokkades voor %{name}
+        heading_html: Lijst met blokkades voor %{name}
+        empty: '%{name} is nog niet geblokkeerd geweest.'
+      edit:
+        title: Alle blokkeringen op %{block_on} intrekken
+        heading_html: Alle blokkeringen op %{block_on} intrekken
+        empty: '%{name} heeft geen actieve blokkeringen.'
+        confirm: Weet u zeker dat u %{active_blocks} wilt intrekken?
+        active_blocks:
+          one: '%{count} actieve blokkering'
+          other: '%{count} actieve blokkeringen'
+        revoke: Intrekken
+      destroy:
+        flash: Alle actieve blokkeringen zijn ingetrokken.
     lists:
       show:
         title: Gebruikers
@@ -3060,16 +3105,6 @@ nl:
       title: Gebruikersblokkades
       heading: Lijst met gebruikersblokkades
       empty: Er zijn nog geen blokkades ingesteld.
-    revoke_all:
-      title: Alle blokkeringen op %{block_on} intrekken
-      heading_html: Alle blokkeringen op %{block_on} intrekken
-      empty: '%{name} heeft geen actieve blokkeringen.'
-      confirm: Weet u zeker dat u %{active_blocks} wilt intrekken?
-      active_blocks:
-        one: '%{count} actieve blokkering'
-        other: '%{count} actieve blokkeringen'
-      revoke: Intrekken
-      flash: Alle actieve blokkeringen zijn ingetrokken.
     helper:
       time_future_html: Vervalt over %{time}.
       until_login: Actief totdat de gebruiker zich aanmeldt.
@@ -3101,14 +3136,6 @@ nl:
         read_html: gelezen op %{time}
         time_in_future_title: '%{time_absolute}; in %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Blokkades voor %{name}
-      heading_html: Lijst met blokkades voor %{name}
-      empty: '%{name} is nog niet geblokkeerd geweest.'
-    blocks_by:
-      title: Blokkades door %{name}
-      heading_html: Lijst met blokkades door %{name}
-      empty: '%{name} heeft nog geen blokkades uitgevoerd.'
     show:
       title: '%{block_on} geblokkeerd door %{block_by}'
       heading_html: '%{block_on} geblokkeerd door %{block_by}'
@@ -3255,8 +3282,6 @@ nl:
       center_marker: Kaart centreren op de marker
       paste_html: Kopieer de HTML-code en voeg deze toe aan uw website
       view_larger_map: Grotere kaart weergeven
-      only_standard_layer: Alleen de lagen Standaard, Fietskaart en Transportkaart
-        kunnen worden geëxporteerd als afbeelding
     embed:
       report_problem: Een probleem melden
     key:

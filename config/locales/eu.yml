@@ -1710,8 +1710,6 @@ eu:
       success: Zure kontua berretsi du, erregistratzeagatik milesker!
       already active: Kontu hau dagoeneko berretsi da.
       unknown token: Berrespen-kodea iraungi egin da edo ez da existitzen.
-      resend_html: Berrespen-mezua berriro bidaltzea behar baduzu, %{reconfirm_link}.
-      click_here: sakatu hemen
     confirm_resend:
       failure: '%{name} erabiltzailea ez da aurkitu.'
     confirm_email:
@@ -1729,29 +1727,6 @@ eu:
         erabiltzen baduzu, mesedez, ziurtatu %{sender} zerrenda zurian duzula, ezin
         baitiegu erantzun berrespen-eskaerei.
   messages:
-    inbox:
-      title: Sarrera-ontzia
-      messages: '%{new_messages} eta %{old_messages} dituzu'
-      new_messages:
-        one: '%Mezu berri {count}'
-        other: '%{count} mezu berri'
-      old_messages:
-        one: mezu zahar %{count}
-        other: '%{count} mezu zahar'
-      no_messages_yet_html: Ez duzu mezurik jaso oraindik. Zergatik ez konektatuan
-        jarri %{people_mapping_nearby_link} batzuekin?
-      people_mapping_nearby: kartografiatzen ari diren hurbileko pertsonak
-    messages_table:
-      from: Igorlea
-      to: Hartzailea
-      subject: Gaia
-      date: Data
-      actions: Ekintzak
-    message_summary:
-      unread_button: Markatu irakurri gabekotzat
-      read_button: Markatu irakurritzat
-      destroy_button: Ezabatu
-      unmute_button: Mugitu Sarrera-ontzira
     new:
       title: Bidali mezua
       send_message_to_html: '%{name}ri mezu berri bat bidali'
@@ -1764,19 +1739,6 @@ eu:
       title: Horrelako mezurik ez dago
       heading: Horrelako mezurik ez dago
       body: Barkatu baina id horrekin ez dago mezurik.
-    outbox:
-      title: Irteerako ontzia
-      messages:
-        one: '%{count} Mezua bidali duzu'
-        other: ' %{count} Mezuak bidali dituzu'
-      no_sent_messages_html: Ez duzu mezurik bidali oraindik. Zergatik ez konektatuan
-        jarri %{people_mapping_nearby_link} batzuekin?
-      people_mapping_nearby: kartografiatzen ari diren hurbileko pertsonak
-    muted:
-      title: Isildutako mezuak
-      messages:
-        one: "Isildutako mezu \n%{count}"
-        other: Isildutako %{count} mezu berri
     reply:
       wrong_user: '''%{user}'' bezala saioa hasi duzu baina erantzuteko eskatu duzun
         mezua ez da erabiltzaile horri bidali. Hasi saioa erabiltzaile zuzenarekin
@@ -1790,12 +1752,6 @@ eu:
       wrong_user: '''%{user}'' bezala saioa hasi duzu baina irakurtzeko eskatu duzun
         mezua ez da erabiltzaile horri bidali edo berak ez du bidali. Hasi saioa erabiltzaile
         zuzenarekin irakurtzeko.'
-    sent_message_summary:
-      destroy_button: Ezabatu
-    heading:
-      my_inbox: Nire sarrera-ontzia
-      my_outbox: Nire Irteera-Ontzia
-      muted_messages: Isildutako mezuak
     mark:
       as_read: Mezua irakurrita gisa markatu da
       as_unread: Mezua irakurri gabe gisa markatu da
@@ -1804,6 +1760,52 @@ eu:
       error: Mezua ezin izan da postontzira eraman.
     destroy:
       destroyed: Mezua ezabatuta
+    mailboxes:
+      heading:
+        my_inbox: Nire sarrera-ontzia
+        my_outbox: Nire Irteera-Ontzia
+        muted_messages: Isildutako mezuak
+      messages_table:
+        from: Igorlea
+        to: Hartzailea
+        subject: Gaia
+        date: Data
+        actions: Ekintzak
+      message:
+        unread_button: Markatu irakurri gabekotzat
+        read_button: Markatu irakurritzat
+        destroy_button: Ezabatu
+        unmute_button: Mugitu Sarrera-ontzira
+    inboxes:
+      show:
+        title: Sarrera-ontzia
+        messages: '%{new_messages} eta %{old_messages} dituzu'
+        new_messages:
+          one: '%Mezu berri {count}'
+          other: '%{count} mezu berri'
+        old_messages:
+          one: mezu zahar %{count}
+          other: '%{count} mezu zahar'
+        no_messages_yet_html: Ez duzu mezurik jaso oraindik. Zergatik ez konektatuan
+          jarri %{people_mapping_nearby_link} batzuekin?
+        people_mapping_nearby: kartografiatzen ari diren hurbileko pertsonak
+    muted_inboxes:
+      show:
+        title: Isildutako mezuak
+        messages:
+          one: "Isildutako mezu \n%{count}"
+          other: Isildutako %{count} mezu berri
+    outboxes:
+      show:
+        title: Irteerako ontzia
+        messages:
+          one: '%{count} Mezua bidali duzu'
+          other: ' %{count} Mezuak bidali dituzu'
+        no_sent_messages_html: Ez duzu mezurik bidali oraindik. Zergatik ez konektatuan
+          jarri %{people_mapping_nearby_link} batzuekin?
+        people_mapping_nearby: kartografiatzen ari diren hurbileko pertsonak
+      message:
+        destroy_button: Ezabatu
   passwords:
     new:
       title: Ahaztutako pasahitza
@@ -2611,6 +2613,16 @@ eu:
     go_public:
       flash success: Zure aldaketa guztiak publikoak dira orain, eta orain editatzeko
         baimena daukazu.
+    issued_blocks:
+      show:
+        title: '%{name} erabiltzailearen blokeoak'
+        heading_html: '%{name} erabiltzailearen blokeo zerrendak'
+        empty: '%{name} erabiltzaileak oraindik ez du blokeorik egin.'
+    received_blocks:
+      show:
+        title: '%{name}n dauden blokeoak'
+        heading_html: '%{name}n blokeoen zerrenda'
+        empty: '%{name} erabiltzaileak oraindik ez du blokeorik jaso.'
     lists:
       show:
         title: Erabiltzaileak
@@ -2706,14 +2718,6 @@ eu:
         years:
           one: urte bat
           other: '%{count} urte'
-    blocks_on:
-      title: '%{name}n dauden blokeoak'
-      heading_html: '%{name}n blokeoen zerrenda'
-      empty: '%{name} erabiltzaileak oraindik ez du blokeorik jaso.'
-    blocks_by:
-      title: '%{name} erabiltzailearen blokeoak'
-      heading_html: '%{name} erabiltzailearen blokeo zerrendak'
-      empty: '%{name} erabiltzaileak oraindik ez du blokeorik egin.'
     show:
       title: '%{block_on} %{block_by}k blokeatu du'
       heading_html: '%{block_on} %{block_by}k blokeatu du'
@@ -2793,7 +2797,6 @@ eu:
       center_marker: Markatzailean mapa erdiratu
       paste_html: Itsatsi HTMLa webgunean kapsulatzeko
       view_larger_map: Ikusi mapa handiagoa
-      only_standard_layer: Geruza estandarra soilik irudi gisa esportatu daiteke
     embed:
       report_problem: Arazo baten berri eman
     key:

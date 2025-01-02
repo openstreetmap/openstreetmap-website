@@ -153,6 +153,7 @@ es:
       message: Mensaje
       node: Nodo
       node_tag: Etiqueta del nodo
+      note: Nota
       old_node: Nodo antiguo
       old_node_tag: Etiqueta del nodo antiguo
       old_relation: Relación antigua
@@ -553,7 +554,7 @@ es:
         commented_at_by_html: Actualizado %{when} por %{user}
       show:
         title_all: Discusión del conjunto de cambios de OpenStreetMap
-        title_particular: 'Discusión del conjunto de cambios #%{changeset_id} de OpenStreetMap'
+        title_particular: 'Discusión del conjunto de cambios de OpenStreetMap #%{changeset_id}'
       timeout:
         sorry: Lo sentimos, la lista de comentarios del conjunto de cambios que solicitó
           tardó demasiado en obtenerse.
@@ -1140,6 +1141,14 @@ es:
           wayside_shrine: Santuario al borde de camino
           wreck: Pecio
           "yes": Sitio histórico
+        information:
+          guidepost: Poste indicador
+          board: Tablero de información
+          map: Mapa
+          office: Oficina de turismo
+          terminal: Terminal de información
+          sign: Señal de información
+          stele: Estela de información
         junction:
           "yes": Intersección
         landuse:
@@ -1212,6 +1221,8 @@ es:
           track: Pista de carreras
           water_park: Parque acuático
           "yes": Ocio
+        lock:
+          "yes": Esclusa
         man_made:
           adit: Entrada a mina
           advertising: Publicidad
@@ -1552,6 +1563,17 @@ es:
           building_passage: Pasaje de edificio
           culvert: Desagüe
           "yes": Túnel
+        water:
+          lake: Lago
+          pond: Estanque
+          reservoir: Embalse
+          basin: Cuenca de agua
+          fishpond: Estanque de peces
+          lagoon: Laguna
+          wastewater: Agua residual
+          oxbow: Meandro
+          stream_pool: Piletón
+          lock: Esclusa
         waterway:
           artificial: Vía fluvial artificial
           boatyard: Astillero
@@ -1608,17 +1630,21 @@ es:
       last_updated: Última actualización
       last_updated_time_ago_user_html: '%{time_ago} por %{user}'
       reports_count:
-        one: '%{count} reporte'
-        other: '%{count} reportes'
+        one: '%{count} denuncia'
+        other: '%{count} denuncias'
       reported_item: Elemento denunciado
       states:
         ignored: Ignorado
         open: Abierto
         resolved: Resuelto
     show:
+      title:
+        open: 'Incidencia abierta #%{issue_id}'
+        ignored: 'Incidencia ignorada #%{issue_id}'
+        resolved: 'Incidencia resuelta #%{issue_id}'
       reports:
-        one: '%{count} reporte'
-        other: '%{count} reportes'
+        one: '%{count} denuncia'
+        other: '%{count} denuncias'
       no_reports: Sin denuncias
       report_created_at_html: Denunciado por primera vez el %{datetime}
       last_resolved_at_html: Resuelto por última vez el %{datetime}
@@ -1646,7 +1672,7 @@ es:
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, comentario #%{comment_id}'
-        note: Nota n.º %{note_id}
+        note: 'Nota #%{note_id}'
   issue_comments:
     create:
       comment_created: Tu comentario ha sido creado con éxito
@@ -1889,8 +1915,6 @@ es:
       success: Cuenta confirmada, !gracias por registrarte!
       already active: Esta cuenta ya ha sido confirmada.
       unknown token: Ese código de confirmación ha caducado o no existe.
-      resend_html: Si necesitas que te reenviemos el mensaje de confirmación, %{reconfirm_link}.
-      click_here: has clic aquí
     confirm_resend:
       failure: No se ha encontrado el usuario %{name}
     confirm_email:
@@ -1908,29 +1932,6 @@ es:
         entonces por favor asegúrate de incluir en la lista blanca %{sender}, ya que
         no podemos responder solicitud de confirmación alguna.
   messages:
-    inbox:
-      title: Buzón de entrada
-      messages: Tienes %{new_messages} y %{old_messages}
-      new_messages:
-        one: '%{count} nuevo mensaje'
-        other: '%{count} nuevos mensajes'
-      old_messages:
-        one: '%{count} mensaje antiguo'
-        other: '%{count} mensajes antiguos'
-      no_messages_yet_html: Aún no tienes mensajes. ¿Por qué no ponerte en contacto
-        con algunas de las %{people_mapping_nearby_link}?
-      people_mapping_nearby: gente mapeando cerca
-    messages_table:
-      from: De
-      to: Para
-      subject: Asunto
-      date: Fecha
-      actions: Acciones
-    message_summary:
-      unread_button: Marcar como no leído
-      read_button: Marcar como leí­do
-      destroy_button: Eliminar
-      unmute_button: Trasladar a la bandeja de entrada
     new:
       title: Enviar mensaje
       send_message_to_html: Enviar un mensaje nuevo a %{name}
@@ -1943,21 +1944,8 @@ es:
       title: Este mensaje no existe.
       heading: Este mensaje no existe.
       body: Lo sentimos, no hay mensaje alguno con este identificador.
-    outbox:
-      title: Bandeja de salida
-      messages:
-        one: Tiene %{count} mensaje enviado
-        other: Tiene %{count} mensajes enviados
-      no_sent_messages_html: Aún no tienes mensajes enviados. ¿Por qué no ponerte
-        en contacto con algunas de las %{people_mapping_nearby_link}?
-      people_mapping_nearby: personas mapeando cerca
-    muted:
-      title: Mensajes silenciados
-      messages:
-        one: '%{count} mensaje silenciado'
-        other: Tienes %{count} mensajes silenciados
     reply:
-      wrong_user: Estás conectado como `%{user}' pero el mensaje que quieres responder
+      wrong_user: Estás conectado como '%{user}' pero el mensaje que quieres responder
         no se ha enviado a dicho usuario. Por favor, inicia sesión con el usuario
         correcto para responder.
     show:
@@ -1966,15 +1954,9 @@ es:
       unread_button: Marcar como no leído
       destroy_button: Eliminar
       back: Volver
-      wrong_user: Estás conectado como `%{user}' pero el mensaje que quieres leer
+      wrong_user: Estás conectado como '%{user}' pero el mensaje que quieres leer
         no se ha enviado por o a dicho usuario. Por favor, inicia sesión con el usuario
         correcto para leer el mensaje.
-    sent_message_summary:
-      destroy_button: Eliminar
-    heading:
-      my_inbox: Mi buzón
-      my_outbox: Mi buzón de salida
-      muted_messages: Mensajes silenciados
     mark:
       as_read: Mensaje marcado como leído
       as_unread: Mensaje marcado como no leído
@@ -1983,6 +1965,52 @@ es:
       error: No se pudo trasladar el mensaje a la bandeja de entrada.
     destroy:
       destroyed: Mensaje eliminado
+    mailboxes:
+      heading:
+        my_inbox: Mi buzón
+        my_outbox: Mi buzón de salida
+        muted_messages: Mensajes silenciados
+      messages_table:
+        from: De
+        to: Para
+        subject: Asunto
+        date: Fecha
+        actions: Acciones
+      message:
+        unread_button: Marcar como no leído
+        read_button: Marcar como leí­do
+        destroy_button: Eliminar
+        unmute_button: Trasladar a la bandeja de entrada
+    inboxes:
+      show:
+        title: Buzón de entrada
+        messages: Tienes %{new_messages} y %{old_messages}
+        new_messages:
+          one: '%{count} nuevo mensaje'
+          other: '%{count} nuevos mensajes'
+        old_messages:
+          one: '%{count} mensaje antiguo'
+          other: '%{count} mensajes antiguos'
+        no_messages_yet_html: Aún no tienes mensajes. ¿Por qué no ponerte en contacto
+          con algunas de las %{people_mapping_nearby_link}?
+        people_mapping_nearby: gente mapeando cerca
+    muted_inboxes:
+      show:
+        title: Mensajes silenciados
+        messages:
+          one: '%{count} mensaje silenciado'
+          other: Tienes %{count} mensajes silenciados
+    outboxes:
+      show:
+        title: Bandeja de salida
+        messages:
+          one: Tienes %{count} mensaje enviado
+          other: Tienes %{count} mensajes enviados
+        no_sent_messages_html: Aún no tienes mensajes enviados. ¿Por qué no ponerte
+          en contacto con algunas de las %{people_mapping_nearby_link}?
+        people_mapping_nearby: personas mapeando cerca
+      message:
+        destroy_button: Eliminar
   passwords:
     new:
       title: Contraseña perdida
@@ -2011,6 +2039,16 @@ es:
       title: Mis preferencias
       preferred_editor: Editor preferido
       preferred_languages: Idiomas preferidos
+      preferred_site_color_scheme: Esquema de colores preferido para el sitio web
+      site_color_schemes:
+        auto: Automático
+        light: Claro
+        dark: Oscuro
+      preferred_map_color_scheme: Esquema de colores preferido para el mapa
+      map_color_schemes:
+        auto: Automático
+        light: Claro
+        dark: Oscuro
       edit_preferences: Editar preferencias
     edit:
       title: Editar preferencias
@@ -2711,7 +2749,7 @@ es:
       upload_trace: Subir una traza
       all_traces: Todas las trazas
       my_traces: Mis trazas
-      traces_from_html: Trazas Públicos de %{user}
+      traces_from_html: Trazas públicas de %{user}
       remove_tag_filter: Eliminar Filtro de Etiquetas
     destroy:
       scheduled_for_deletion: Traza programada para eliminación
@@ -2768,6 +2806,28 @@ es:
       wikipedia:
         title: Inicia sesión con Wikipedia
         alt: Logotipo de Wikipedia
+    share:
+      email:
+        title: Compartir vía correo electrónico
+        alt: Ícono de correo electrónico
+      bluesky:
+        title: Compartir vía Bluesky
+        alt: Icono de Bluesky
+      facebook:
+        title: Compartir vía Facebook
+        alt: Ícono de Facebook
+      linkedin:
+        title: Compartir vía LinkedIn
+        alt: Ícono de LinkedIn
+      mastodon:
+        title: Compartir vía Mastodon
+        alt: Ícono de Mastodon
+      telegram:
+        title: Compartir vía Telegram
+        alt: Ícono de Telegram
+      x:
+        title: Compartir vía X
+        alt: Ícono X
   oauth:
     permissions:
       missing: No has permitido que la aplicación acceda a esta instalación.
@@ -2983,6 +3043,27 @@ es:
     go_public:
       flash success: Todas tus ediciones ahora son públicas y ya estás autorizado
         para editar.
+    issued_blocks:
+      show:
+        title: Bloqueos por %{name}
+        heading_html: Listado de bloqueos por %{name}
+        empty: '%{name} todavía no ha creado algún bloqueo.'
+    received_blocks:
+      show:
+        title: Bloqueos sobre %{name}
+        heading_html: Lista de bloqueos sobre %{name}
+        empty: '%{name} no se ha bloqueado todavía.'
+      edit:
+        title: Revocando todos los bloqueos en %{block_on}
+        heading_html: Revocando todos los bloqueos en %{block_on}
+        empty: '%{name} no tiene bloqueos activos.'
+        confirm: ¿Estás seguro de que deseas revocar %{active_blocks}?
+        active_blocks:
+          one: '%{count} bloqueo activo'
+          other: '%{count} bloqueos activos'
+        revoke: ¡Revocar!
+      destroy:
+        flash: Todos los bloqueos activos han sido revocados.
     lists:
       show:
         title: Usuarios
@@ -3023,17 +3104,17 @@ es:
         con tu identificador en tus configuraciones de usuario.
   user_role:
     filter:
-      not_a_role: La cadena `%{role}' no es un rol válido.
+      not_a_role: La cadena '%{role}' no es un rol válido.
       already_has_role: El usuario ya tiene el rol %{role}.
       doesnt_have_role: El usuario no tiene el rol %{role}.
       not_revoke_admin_current_user: No se pudo revocar el rol de administrador del
         usuario actual.
     grant:
-      are_you_sure: ¿Estás seguro de que deseas otorgar el rol `%{role}' al usuario
-        `%{name}'?
+      are_you_sure: ¿Estás seguro de que deseas otorgar el rol '%{role}' al usuario
+        '%{name}'?
     revoke:
-      are_you_sure: ¿Estás seguro de que deseas revocar el rol `%{role}' del usuario
-        `%{name}'?
+      are_you_sure: ¿Estás seguro de que quieres revocar el papel '%{role}' del usuario
+        '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Debes ser un moderador para poder crear o actualizar un
@@ -3071,16 +3152,6 @@ es:
       title: Bloqueos de usuario
       heading: Listado de bloqueos de usuario
       empty: Todavía no se ha hecho algún bloqueo.
-    revoke_all:
-      title: Revocando todos los bloqueos en %{block_on}
-      heading_html: Revocando todos los bloqueos en %{block_on}
-      empty: '%{name} no tiene bloqueos activos.'
-      confirm: ¿Estás seguro de que deseas revocar %{active_blocks}?
-      active_blocks:
-        one: '%{count} bloqueo activo'
-        other: '%{count} bloqueos activos'
-      revoke: ¡Revocar!
-      flash: Todos los bloqueos activos han sido revocados.
     helper:
       time_future_html: Termina en %{time}.
       until_login: Activo hasta que el usuario acceda.
@@ -3103,14 +3174,15 @@ es:
         years:
           one: '%{count} año'
           other: '%{count} años'
-    blocks_on:
-      title: Bloqueos sobre %{name}
-      heading_html: Lista de bloqueos sobre %{name}
-      empty: '%{name} no se ha bloqueado todavía.'
-    blocks_by:
-      title: Bloqueos por %{name}
-      heading_html: Listado de bloqueos por %{name}
-      empty: '%{name} todavía no ha creado algún bloqueo.'
+      short:
+        ended: finalizado
+        revoked_html: revocado por %{name}
+        active: activo
+        active_unread: activo sin leer
+        expired_unread: expirado sin leer
+        read_html: leído a las %{time}
+        time_in_future_title: '%{time_absolute}; en %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading_html: '%{block_on} bloqueado por %{block_by}'
@@ -3127,6 +3199,8 @@ es:
       display_name: Usuario bloqueado
       creator_name: Creador
       reason: Razón del bloqueo
+      start: Inicio
+      end: Fin
       status: Estado
     navigation:
       all_blocks: Todos los bloqueos
@@ -3173,6 +3247,11 @@ es:
       description: Descripción
       created_at: Creado el
       last_changed: Última modificación
+      apply: Aplicar
+      all: Todas
+      open: Abierta
+      closed: Cerrada
+      status: Estado
     show:
       title: 'Nota: %{id}'
       description: Descripción
@@ -3191,6 +3270,9 @@ es:
       report: denunciar esta nota
       anonymous_warning: Esta nota incluye comentarios de usuarios anónimos que deben
         ser verificados de forma independiente.
+      discussion: Discusión
+      subscribe: Suscribirte
+      unsubscribe: Desuscribirte
       hide: Ocultar
       resolve: Resolver
       reactivate: Reactivar
@@ -3216,6 +3298,10 @@ es:
         que no des información personal ni datos provenientes de mapas o catálogos
         protegidos por derechos de autor.
       add: Añadir nota
+    new_readonly:
+      title: Nueva nota
+      warning: No se pueden crear nuevas notas porque la API de OpenStreetMap está
+        actualmente en modo de solo lectura.
     notes_paging_nav:
       showing_page: Página %{page}
       next: Siguiente
@@ -3241,8 +3327,6 @@ es:
       center_marker: Centrar mapa en el marcador
       paste_html: Pegar código HTML para incrustar en el sitio web
       view_larger_map: Ver el mapa más grande
-      only_standard_layer: Sólo las capas Estándar, Mapa Ciclista y Transporte pueden
-        exportarse como una imagen
     embed:
       report_problem: Reportar un problema
     key:

@@ -1767,8 +1767,6 @@ ro:
       success: Confirmat contul dvs., vă mulțumim pentru înscrierea!
       already active: Acest cont a fost deja confirmat.
       unknown token: Codul de confirmare a expirat sau nu există.
-      resend_html: Dacă aveți nevoie să retrimitem e-mailul de confirmare, %{reconfirm_link}.
-      click_here: click aici
     confirm_resend:
       failure: Utilizatorul %{name} nu a fost găsit.
     confirm_email:
@@ -1786,29 +1784,6 @@ ro:
         vă rugăm să vă asigurați că ați plasat pe lista albă %{sender}, deoarece nu
         putem răspunde la nicio solicitare de confirmare.
   messages:
-    inbox:
-      title: Mesaje primite
-      messages: Aveți mesaje %{new_messages} și %{old_messages}
-      new_messages:
-        one: '%{count} mesaj nou'
-        other: '%{count} mesaje noi'
-      old_messages:
-        one: '%{count} mesaj vechi'
-        other: '%{count} mesaje vechi'
-      no_messages_yet_html: Nu aveți încă mesaje. De ce să nu intri în legătură cu
-        unele dintre %{people_mapping_nearby_link}?
-      people_mapping_nearby: oameni care cartografiază în apropiere
-    messages_table:
-      from: De la
-      to: Către
-      subject: Subiect
-      date: Dată
-      actions: Acțiuni
-    message_summary:
-      unread_button: Marchează ca necitit
-      read_button: Marchează ca citit
-      destroy_button: Șterge
-      unmute_button: Mută în Primite
     new:
       title: Trimite mesajul
       send_message_to_html: Trimiteți un mesaj nou către %{name}
@@ -1821,14 +1796,6 @@ ro:
       title: Nici un mesaj de acest tip
       heading: Nici un mesaj de acest tip
       body: Ne pare rău că nu există niciun mesaj cu acel id.
-    outbox:
-      title: Mesaje trimise
-      messages:
-        one: Aveți %{count} mesaj trimis
-        other: Aveți %{count} (de) mesaje trimise
-      no_sent_messages_html: Nu aveți mesaje trimise încă. De ce să nu intri în legătură
-        cu unele dintre %{people_mapping_nearby_link}?
-      people_mapping_nearby: oameni care cartografiază în apropiere
     reply:
       wrong_user: Sunteți conectat(ă) ca `%{user}', dar mesajul la care ați cerut
         să răspundeți nu a fost trimis utilizatorului respectiv. Conectați-vă ca utilizatorul
@@ -1842,12 +1809,6 @@ ro:
       wrong_user: Sunteți conectat ca `%{user}', dar mesajul pe care ați solicitat
         să îl citiți nu a fost trimis de către sau către respectivul utilizator. Conectați-vă
         ca utilizatorul corect pentru a-l citi.
-    sent_message_summary:
-      destroy_button: Șterge
-    heading:
-      my_inbox: Mesaje primite
-      my_outbox: Mesaje trimise
-      muted_messages: Mesaje muted
     mark:
       as_read: Mesaj marcat ca fiind citit
       as_unread: Mesaj marcat ca necitit
@@ -1856,6 +1817,46 @@ ro:
       error: Mesajul nu a putut fi mutat în Primite
     destroy:
       destroyed: Mesaj șters
+    mailboxes:
+      heading:
+        my_inbox: Mesaje primite
+        my_outbox: Mesaje trimise
+        muted_messages: Mesaje muted
+      messages_table:
+        from: De la
+        to: Către
+        subject: Subiect
+        date: Dată
+        actions: Acțiuni
+      message:
+        unread_button: Marchează ca necitit
+        read_button: Marchează ca citit
+        destroy_button: Șterge
+        unmute_button: Mută în Primite
+    inboxes:
+      show:
+        title: Mesaje primite
+        messages: Aveți mesaje %{new_messages} și %{old_messages}
+        new_messages:
+          one: '%{count} mesaj nou'
+          other: '%{count} mesaje noi'
+        old_messages:
+          one: '%{count} mesaj vechi'
+          other: '%{count} mesaje vechi'
+        no_messages_yet_html: Nu aveți încă mesaje. De ce să nu intri în legătură
+          cu unele dintre %{people_mapping_nearby_link}?
+        people_mapping_nearby: oameni care cartografiază în apropiere
+    outboxes:
+      show:
+        title: Mesaje trimise
+        messages:
+          one: Aveți %{count} mesaj trimis
+          other: Aveți %{count} (de) mesaje trimise
+        no_sent_messages_html: Nu aveți mesaje trimise încă. De ce să nu intri în
+          legătură cu unele dintre %{people_mapping_nearby_link}?
+        people_mapping_nearby: oameni care cartografiază în apropiere
+      message:
+        destroy_button: Șterge
   passwords:
     new:
       title: Parola pierdută
@@ -2824,6 +2825,16 @@ ro:
     go_public:
       flash success: Toate editările dvs. sunt acum publice, iar acum vi se permite
         să editați.
+    issued_blocks:
+      show:
+        title: Blocări pe %{name}
+        heading_html: Lista blocărilor pe %{name}
+        empty: '%{name} nu a fost blocat încă.'
+    received_blocks:
+      show:
+        title: Blocări pe %{name}
+        heading_html: Lista blocărilor pe %{name}
+        empty: '%{name} nu a fost blocat încă.'
     lists:
       show:
         title: Utilizatori
@@ -2927,14 +2938,6 @@ ro:
           one: un an
           few: '%{count} ani'
           other: '%{count} de ani'
-    blocks_on:
-      title: Blocări pe %{name}
-      heading_html: Lista blocărilor pe %{name}
-      empty: '%{name} nu a fost blocat încă.'
-    blocks_by:
-      title: Blocări pe %{name}
-      heading_html: Lista blocărilor pe %{name}
-      empty: '%{name} nu a fost blocat încă.'
     show:
       title: '%{block_on} blocat de %{block_by}'
       heading_html: '%{block_on} blocat de %{block_by}'
@@ -3035,7 +3038,6 @@ ro:
       center_marker: Centrați harta pe marker
       paste_html: Inserați HTML pentru a încorpora în site-ul web
       view_larger_map: Vezi hartă mai mare
-      only_standard_layer: Numai stratul standard poate fi exportat ca imagine
     embed:
       report_problem: Semnalare problemă
     key:

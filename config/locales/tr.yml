@@ -1811,8 +1811,6 @@ tr:
       success: Hesabınızı doğruladınız, kaydolduğunuz için teşekkürler!
       already active: Bu hesap zaten doğrulandı.
       unknown token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
-      resend_html: Onay e-postasını yeniden göndermemize gerekiyorsa %{reconfirm_link}.
-      click_here: buraya tıklayın
     confirm_resend:
       failure: '%{name} kullanıcısı bulunamadı.'
     confirm_email:
@@ -1830,29 +1828,6 @@ tr:
         herhangi bir onay isteğine yanıt veremediğimiz için lütfen %{sender} beyaz
         listeye eklediğinden emin ol.
   messages:
-    inbox:
-      title: Gelen kutusu
-      messages: '%{new_messages} ve %{old_messages}'
-      new_messages:
-        one: '%{count} yeni mesaj'
-        other: '%{count} yeni mesaj'
-      old_messages:
-        one: '%{count} eski mesaj'
-        other: '%{count} eski mesaj'
-      no_messages_yet_html: 'Henüz mesajınız yok. Yakındaki insanlarla iletişime geçmeye
-        ne dersiniz? Deneyin: %{people_mapping_nearby_link}'
-      people_mapping_nearby: yakın çevredeki haritacılar
-    messages_table:
-      from: Gönderen
-      to: Alıcı
-      subject: Konu
-      date: Tarih
-      actions: Eylemler
-    message_summary:
-      unread_button: Okunmadı olarak işaretle
-      read_button: Okundu olarak işaretle
-      destroy_button: Sil
-      unmute_button: Gelen Kutusuna Taşı
     new:
       title: Mesaj gönder
       send_message_to_html: '%{name} kullanıcısına yeni bir mesaj gönder'
@@ -1865,19 +1840,6 @@ tr:
       title: Böyle bir mesaj yok
       heading: Böyle bir mesaj yok
       body: Üzgünüz, bu kimlik ile bir mesaj yok.
-    outbox:
-      title: Giden kutusu
-      messages:
-        one: '%{count} mesaj gönderdiniz'
-        other: ' %{count} mesaj gönderdiniz'
-      no_sent_messages_html: 'Henüz kimseye mesaj göndermediniz. Yakındaki insanlarla
-        iletişime geçmeye ne dersiniz? Deneyin: %{people_mapping_nearby_link}'
-      people_mapping_nearby: yakın çevredeki haritacılar
-    muted:
-      title: Sessize Alınan Mesajlar
-      messages:
-        one: '%{count} sessize alınan mesaj'
-        other: '%{count} sessize alınan mesajınız var'
     reply:
       wrong_user: '`%{user}'' olarak oturum açtınız fakat yanıtlamasını istediğiniz
         mesaj kullanıcıya gönderilmedi. Yanıtlamak için lütfen doğru kullanıcı olarak
@@ -1891,12 +1853,6 @@ tr:
       wrong_user: '`%{user}'' olarak oturum açtınız fakat okuman istenilen mesaj,
         o kullanıcı tarafından gönderilmedi. Lütfen okumak için doğru kullanıcı olarak
         giriş yapın.'
-    sent_message_summary:
-      destroy_button: Sil
-    heading:
-      my_inbox: Gelen kutusu
-      my_outbox: Giden Kutum
-      muted_messages: Sessize alınan mesajlar
     mark:
       as_read: Mesaj okundu olarak işaretlendi
       as_unread: Mesaj okunmadı olarak işaretlendi
@@ -1905,6 +1861,52 @@ tr:
       error: Mesaj, gelen kutusuna taşınamadı.
     destroy:
       destroyed: Mesaj silindi
+    mailboxes:
+      heading:
+        my_inbox: Gelen kutusu
+        my_outbox: Giden Kutum
+        muted_messages: Sessize alınan mesajlar
+      messages_table:
+        from: Gönderen
+        to: Alıcı
+        subject: Konu
+        date: Tarih
+        actions: Eylemler
+      message:
+        unread_button: Okunmadı olarak işaretle
+        read_button: Okundu olarak işaretle
+        destroy_button: Sil
+        unmute_button: Gelen Kutusuna Taşı
+    inboxes:
+      show:
+        title: Gelen kutusu
+        messages: '%{new_messages} ve %{old_messages}'
+        new_messages:
+          one: '%{count} yeni mesaj'
+          other: '%{count} yeni mesaj'
+        old_messages:
+          one: '%{count} eski mesaj'
+          other: '%{count} eski mesaj'
+        no_messages_yet_html: 'Henüz mesajınız yok. Yakındaki insanlarla iletişime
+          geçmeye ne dersiniz? Deneyin: %{people_mapping_nearby_link}'
+        people_mapping_nearby: yakın çevredeki haritacılar
+    muted_inboxes:
+      show:
+        title: Sessize Alınan Mesajlar
+        messages:
+          one: '%{count} sessize alınan mesaj'
+          other: '%{count} sessize alınan mesajınız var'
+    outboxes:
+      show:
+        title: Giden kutusu
+        messages:
+          one: '%{count} mesaj gönderdiniz'
+          other: ' %{count} mesaj gönderdiniz'
+        no_sent_messages_html: 'Henüz kimseye mesaj göndermediniz. Yakındaki insanlarla
+          iletişime geçmeye ne dersiniz? Deneyin: %{people_mapping_nearby_link}'
+        people_mapping_nearby: yakın çevredeki haritacılar
+      message:
+        destroy_button: Sil
   passwords:
     new:
       title: Kayıp parola
@@ -2888,6 +2890,27 @@ tr:
     go_public:
       flash success: Tüm düzenlemeleriniz şimdi herkese açık ve siz de düzenleme yetkisine
         sahipsiniz.
+    issued_blocks:
+      show:
+        title: '%{name} tarafından engellenenler'
+        heading_html: '%{name} tarafından engellenenlerin listesi'
+        empty: '%{name} şimdiye kadar hiç bloklamamış.'
+    received_blocks:
+      show:
+        title: '%{name} kişisinin engelleri'
+        heading_html: '%{name} hakkında engelleme kayıtları'
+        empty: '%{name} henüz engellenmiş değil.'
+      edit:
+        title: '%{block_on} tarihindeki tüm engellemeler iptal ediliyor'
+        heading_html: '%{block_on} tarihindeki tüm engellemeler iptal ediliyor'
+        empty: '%{name} kullanıcısının herhangi aktif bir engeli yok.'
+        confirm: '%{active_blocks} iptal etmek istediğinizden emin misiniz?'
+        active_blocks:
+          one: '%{count} aktif engel'
+          other: '%{count} aktif engel'
+        revoke: İptal!
+      destroy:
+        flash: Tüm aktif engellemeler iptal edildi.
     lists:
       show:
         title: Kullanıcılar
@@ -2970,16 +2993,6 @@ tr:
       title: Kullanıcı engelleri
       heading: Kullanıcı engelleri listesi
       empty: Henüz engelleme yapılmamış.
-    revoke_all:
-      title: '%{block_on} tarihindeki tüm engellemeler iptal ediliyor'
-      heading_html: '%{block_on} tarihindeki tüm engellemeler iptal ediliyor'
-      empty: '%{name} kullanıcısının herhangi aktif bir engeli yok.'
-      confirm: '%{active_blocks} iptal etmek istediğinizden emin misiniz?'
-      active_blocks:
-        one: '%{count} aktif engel'
-        other: '%{count} aktif engel'
-      revoke: İptal!
-      flash: Tüm aktif engellemeler iptal edildi.
     helper:
       time_future_html: '%{time} içinde bitecek.'
       until_login: Kullanıcı giriş yapana kadar aktif.
@@ -3002,14 +3015,6 @@ tr:
         years:
           one: '%{count} yıl'
           other: '%{count} yıl'
-    blocks_on:
-      title: '%{name} kişisinin engelleri'
-      heading_html: '%{name} hakkında engelleme kayıtları'
-      empty: '%{name} henüz engellenmiş değil.'
-    blocks_by:
-      title: '%{name} tarafından engellenenler'
-      heading_html: '%{name} tarafından engellenenlerin listesi'
-      empty: '%{name} şimdiye kadar hiç bloklamamış.'
     show:
       title: '%{block_on} kişisi %{block_by} tarafından engellendi'
       heading_html: '%{block_on} kişisi %{block_by} tarafından engellendi'
@@ -3142,8 +3147,6 @@ tr:
       center_marker: İşaretleyicide merkez harita
       paste_html: Web sitesine yerleştirmek için HTML'yi yapıştırın
       view_larger_map: Daha Büyük Haritayı Göster
-      only_standard_layer: Yalnızca Standart, Döngü Haritası ve Taşıma katmanları
-        görüntü olarak dışa aktarılabilir
     embed:
       report_problem: Bir sorunu şikayet et
     key:

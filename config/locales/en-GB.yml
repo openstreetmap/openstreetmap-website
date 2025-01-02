@@ -1195,27 +1195,6 @@ en-GB:
       failure: An e-mail address has already been confirmed with this token.
       unknown_token: That confirmation code has expired or does not exist.
   messages:
-    inbox:
-      title: Inbox
-      messages: You have %{new_messages} and %{old_messages}
-      new_messages:
-        one: '%{count} new message'
-        other: '%{count} new messages'
-      old_messages:
-        one: '%{count} old message'
-        other: '%{count} old messages'
-      no_messages_yet_html: You have no messages yet. Why not get in touch with some
-        of the %{people_mapping_nearby_link}?
-      people_mapping_nearby: people mapping nearby
-    messages_table:
-      from: From
-      to: To
-      subject: Subject
-      date: Date
-    message_summary:
-      unread_button: Mark as unread
-      read_button: Mark as read
-      destroy_button: Delete
     new:
       title: Send message
       send_message_to_html: Send a new message to %{name}
@@ -1228,29 +1207,53 @@ en-GB:
       title: No such message
       heading: No such message
       body: Sorry, there is no message with that id.
-    outbox:
-      title: Outbox
-      messages:
-        one: You have %{count} sent message
-        other: You have %{count} sent messages
-      no_sent_messages_html: You have no sent messages yet. Why not get in touch with
-        some of the %{people_mapping_nearby_link}?
-      people_mapping_nearby: people mapping nearby
     show:
       title: Read message
       reply_button: Reply
       unread_button: Mark as unread
       destroy_button: Delete
       back: Back
-    sent_message_summary:
-      destroy_button: Delete
-    heading:
-      my_inbox: My Inbox
     mark:
       as_read: Message marked as read
       as_unread: Message marked as unread
     destroy:
       destroyed: Message deleted
+    mailboxes:
+      heading:
+        my_inbox: My Inbox
+      messages_table:
+        from: From
+        to: To
+        subject: Subject
+        date: Date
+      message:
+        unread_button: Mark as unread
+        read_button: Mark as read
+        destroy_button: Delete
+    inboxes:
+      show:
+        title: Inbox
+        messages: You have %{new_messages} and %{old_messages}
+        new_messages:
+          one: '%{count} new message'
+          other: '%{count} new messages'
+        old_messages:
+          one: '%{count} old message'
+          other: '%{count} old messages'
+        no_messages_yet_html: You have no messages yet. Why not get in touch with
+          some of the %{people_mapping_nearby_link}?
+        people_mapping_nearby: people mapping nearby
+    outboxes:
+      show:
+        title: Outbox
+        messages:
+          one: You have %{count} sent message
+          other: You have %{count} sent messages
+        no_sent_messages_html: You have no sent messages yet. Why not get in touch
+          with some of the %{people_mapping_nearby_link}?
+        people_mapping_nearby: people mapping nearby
+      message:
+        destroy_button: Delete
   passwords:
     new:
       title: Lost password
@@ -1688,6 +1691,14 @@ en-GB:
       confirm: Confirm
     go_public:
       flash success: All your edits are now public, and you are now allowed to edit.
+    issued_blocks:
+      show:
+        title: Blocks by %{name}
+        empty: '%{name} has not made any blocks yet.'
+    received_blocks:
+      show:
+        title: Blocks on %{name}
+        empty: '%{name} has not been blocked yet.'
     lists:
       show:
         title: Users
@@ -1754,12 +1765,6 @@ en-GB:
         hours:
           one: '%{count} hour'
           other: '%{count} hours'
-    blocks_on:
-      title: Blocks on %{name}
-      empty: '%{name} has not been blocked yet.'
-    blocks_by:
-      title: Blocks by %{name}
-      empty: '%{name} has not made any blocks yet.'
     show:
       title: '%{block_on} blocked by %{block_by}'
       heading_html: '%{block_on} blocked by %{block_by}'

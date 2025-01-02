@@ -35,6 +35,11 @@ az:
       client_application:
         create: Qeydiyyatdan keç
         update: Yenilə
+      oauth2_application:
+        create: Qeydiyyatdan keç
+        update: Yenilə
+      redaction:
+        create: Redaksiya yarat
       trace:
         create: Yüklə
         update: Dəyişiklikləri yadda saxla
@@ -72,8 +77,8 @@ az:
       tracepoint: Trek Nöqtəsi
       tracetag: Trek Teqi
       user: İstifadəçi
-      user_preference: İstifadəçi Qurmaları
-      user_token: İstifadəçi Əlaməti
+      user_preference: İstifadəçi nizamlamaları
+      user_token: İstifadəçi tokeni
       way: Xətt
       way_node: Xəttin Nöqtələri
       way_tag: Xəttin Teqi
@@ -103,7 +108,7 @@ az:
         longitude: Uzunluq dairəsi
         public: İctimai
         description: İzah
-        gpx_file: GPX faylı yüklə
+        gpx_file: GPS İz Faylını seçin
         visibility: Görünüş
         tagstring: Etiketlər
       message:
@@ -167,7 +172,12 @@ az:
       contributor terms:
         link text: bu nədir?
       save changes button: Dəyişiklikləri yadda saxla
+    go_public:
+      make_edits_public_button: Bütün redaktələrimi açıq et
+    destroy:
+      success: Hesab Silindi.
   browse:
+    deleted_ago_by_html: '%{user} tərəfindən %{time_ago} əvvəl silindi'
     version: Versiya
     in_changeset: Dəyişikliklər
     anonymous: anonim
@@ -186,8 +196,9 @@ az:
         way: Xətt
         relation: Əlaqə
     containing_relation:
-      entry_role_html: Əlaqəsi %{relation_name} (%{relation_role} kimi)
+      entry_role_html: '%{relation_name} (%{relation_role} kimi)'
     not_found:
+      title: Tapılmadı
       sorry: Təəsüf ki, %{id} %{type} tapılmadı.
       type:
         node: nöqtə
@@ -197,7 +208,7 @@ az:
         note: qeyd
     timeout:
       sorry: Bağışlayın, %{id} identifikatorlu %{type} üçün məlumatlar çıxarılmaq
-        üçün cox uzundurlar.
+        üçün çox uzundurlar.
       type:
         node: nöqtə
         way: xətt
@@ -221,6 +232,7 @@ az:
         key: '%{key} teqini təsvir edən viki səhifəsi'
         tag: '%{key}=%{value} teqini təsvir edən viki səhifəsi'
       wikipedia_link: Vikipediyada %{page} məqaləsi
+      email_link: E-poçt %{email}
   changesets:
     changeset:
       no_edits: (redaktə yoxdur)
@@ -238,6 +250,7 @@ az:
         belongs_to: Müəllif
     show:
       title: 'Dəyişikliklər dəsti: %{id}'
+      hide_comment: gizlət
       changesetxml: XML dəyişikliklər dəsti
       osmchangexml: osmChange XML
     paging_nav:
@@ -251,6 +264,11 @@ az:
     popup:
       your location: Yerləşdiyin yer
       friend: Dost
+    show:
+      edit_your_profile: Profilinizi redaktə edin
+      my friends: Dostlarım
+      no friends: Hələ heç bir dost əlavə etməmisiniz.
+      nearby users: Yaxınlıqdakı digər istifadəçilər
   diary_entries:
     new:
       title: Yeni Gündəlik Yazısı
@@ -281,21 +299,23 @@ az:
       title: Belə bir gündəlik yazısı mövcud deyil
       heading: 'Bu nömrəyə sahib yazı mövcud deyil: %{id}'
     diary_entry:
-      posted_by_html: '%{link_user} tərəfindən %{created} yazılıb, %{language_link}
-        dilində.'
-      comment_link: Bu yazıyı şərh et
-      reply_link: Bu yazıya cavab ver
+      posted_by_html: '%{link_user} tərəfindən %{created} tarixində %{language_link}
+        dilində paylaşılıb.'
+      comment_link: Bu yazıya şərh yaz
+      reply_link: Müəllifə mesaj göndər
       comment_count:
-        one: '%{count} şərh var'
-        zero: Şərh yoxdur
-        other: '%{count} şərh var'
-      edit_link: Bu yazıyı redaktə et
+        one: '%{count} şərh'
+        other: '%{count} şərh'
+      no_comments: Şərh yoxdur
+      edit_link: Bu yazını redaktə et
       hide_link: Bu yazını gizlət
-      confirm: Təsdiq etmək
+      unhide_link: Bu yazını göstər
+      confirm: Təsdiq et
     diary_comment:
       comment_from_html: Şərh %{link_user} tərəfindən %{comment_created_at}
       hide_link: Bu şərhi gizlət
-      confirm: Təsdiq etmək
+      confirm: Təsdiq et
+      report: Bu şərhi şikayət et
     location:
       location: 'Yerləşdiyi yer:'
     feed:
@@ -314,6 +334,9 @@ az:
       post: Post
       when: Nə vaxt
       comment: Şərh
+  errors:
+    not_found:
+      title: Fayl tapılmadı
   friendships:
     make_friend:
       heading: '%{user}-i(ı) dostluğa əlavə edək?'
@@ -426,6 +449,13 @@ az:
           viaduct: Viaduk
           "yes": Körpü
         building:
+          apartment: Yaşayış binası
+          office: Ofis binası
+          public: İctimai bina
+          residential: Yaşayış binası
+          roof: Dam
+          ruins: Dağılmış Bina
+          school: Məktəb binası
           "yes": Tikili
         craft:
           brewery: Pivə zavodu
@@ -514,8 +544,8 @@ az:
           brownfield: Tərk edilmiş ərazi
           cemetery: Məzarlıq
           commercial: Ticarət sahəsi
-          conservation: Konservasiya ərazisi
-          construction: Tikinti
+          conservation: Mühafizə zonası
+          construction: Tikinti sahəsi
           farmland: Kənd təsərrüfatı
           farmyard: Ferma həyəti
           forest: Meşə təsərrüfatı
@@ -528,6 +558,7 @@ az:
           military: Hərbi ərazi
           mine: Mədən
           orchard: Meyvə bağı
+          plant_nursery: Tinglik
           quarry: Karxana
           railway: Dəmir yolu
           recreation_ground: Istirahət guşəsi
@@ -782,11 +813,11 @@ az:
     history: Tarix
     export: İxrac
     gps_traces: GPS cizgilər
-    user_diaries: İstifadəçi Gündəlikləri
+    user_diaries: İstifadəçi gündəlikləri
     edit_with: '%{editor} köməyi ilə dəyişdir'
     partners_partners: partnyorlar
     help: Kömək
-    copyright: Müəllif hüquqları və Lisenziyalar
+    copyright: Müəllif hüququ
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} adlı istifadəçi sənin gündəliy yazına şərh
@@ -812,27 +843,6 @@ az:
     confirm_email:
       button: Təsdiq et
   messages:
-    inbox:
-      title: Gələnlər
-      messages: 'Sizin varınızdır: %{new_messages} və %{old_messages}.'
-      new_messages:
-        one: '%{count} yeni mesaj'
-        other: '%{count} yeni mesaj'
-      old_messages:
-        one: '%{count} köhnə mesaj'
-        other: '%{count} köhnə mesaj'
-      no_messages_yet_html: Sizin hələdə mesajınız yoxdur. Niyə də ki, %{people_mapping_nearby_link}
-        danışmırsınız?
-      people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
-    messages_table:
-      from: Kimdən
-      to: Kimə
-      subject: Mövzu
-      date: Tarix
-    message_summary:
-      unread_button: Oxunulmamış kimi işarələ
-      read_button: Oxunulmuş kimi işarələ
-      destroy_button: Sil
     new:
       title: Mesaj göndər
       send_message_to_html: '%{name} yeni mesaj göndər'
@@ -845,22 +855,46 @@ az:
       title: Belə bir mesaj yoxdur
       heading: Belə bir mesaj yoxdur
       body: Bağışlayın, amma belə ID ilə mesaj yoxdur.
-    outbox:
-      title: Göndərilənlər
-      people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
     show:
       title: Mesajı oxu
       reply_button: Geri göndər
       unread_button: Oxunulmamış kimi işarələ
-    sent_message_summary:
-      destroy_button: Sil
-    heading:
-      my_inbox: Mənim gələnlər
     mark:
       as_read: Mesaj oxunulmuş kimi işarələndi
       as_unread: Mesaj oxunulmamış kimi işarələndi
     destroy:
       destroyed: Mesaj silindi
+    mailboxes:
+      heading:
+        my_inbox: Mənim gələnlər
+      messages_table:
+        from: Kimdən
+        to: Kimə
+        subject: Mövzu
+        date: Tarix
+      message:
+        unread_button: Oxunulmamış kimi işarələ
+        read_button: Oxunulmuş kimi işarələ
+        destroy_button: Sil
+    inboxes:
+      show:
+        title: Gələnlər
+        messages: 'Sizin varınızdır: %{new_messages} və %{old_messages}.'
+        new_messages:
+          one: '%{count} yeni mesaj'
+          other: '%{count} yeni mesaj'
+        old_messages:
+          one: '%{count} köhnə mesaj'
+          other: '%{count} köhnə mesaj'
+        no_messages_yet_html: Sizin hələdə mesajınız yoxdur. Niyə də ki, %{people_mapping_nearby_link}
+          danışmırsınız?
+        people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
+    outboxes:
+      show:
+        title: Göndərilənlər
+        people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
+      message:
+        destroy_button: Sil
   passwords:
     new:
       title: İtirilmiş parol
@@ -1017,6 +1051,9 @@ az:
       hide_user: Bu istifadəçini gizlət
       delete_user: bu istifadəçini sil
       confirm: Təsdiq et
+    issued_blocks:
+      show:
+        title: '%{name} tərəfindən blok edilib'
     lists:
       show:
         title: İstifadəçilər
@@ -1036,8 +1073,6 @@ az:
       heading: İstifadəçi blokları siyahısı
     helper:
       time_past_html: '%{time} əvvəl sona çatıb.'
-    blocks_by:
-      title: '%{name} tərəfindən blok edilib'
     show:
       title: '%{block_on}, %{block_by} tərəfindən blok edilib'
       status: Status

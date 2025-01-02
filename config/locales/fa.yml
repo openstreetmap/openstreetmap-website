@@ -1643,8 +1643,6 @@ fa:
       success: ' تشکر بابت ثبت نام! حساب کاربری شما تأیید شد.'
       already active: این حساب کاربری قبلاً تأیید شده است.
       unknown token: کد تأیید منقضی شده یا وجود ندارد.
-      resend_html: اگر لازم است ذوباره رایانامهٔ تأیید را بفرستیم، %{reconfirm_link}.
-      click_here: اینجا کلیک کنید
     confirm_resend:
       failure: کاربر %{name} پیدا نشد.
     confirm_email:
@@ -1661,27 +1659,6 @@ fa:
         لطفاً مطمئن شوید که %{sender} را در لیست سفید قرار دهید زیرا نمی‌توانیم به
         هرگونه درخواست تأیید پاسخ دهیم.
   messages:
-    inbox:
-      title: صندوق دریافت
-      messages: '%{new_messages} و %{old_messages} دارید'
-      new_messages:
-        one: '%{count} پیام تازه'
-        other: '%{count} پیام تازه'
-      old_messages:
-        one: '%{count} پیام قدیمی'
-        other: '%{count} پیام قدیمی'
-      no_messages_yet_html: هنوز پیامی ندارید. چطور است با چند نفر از %{people_mapping_nearby_link}
-        تماس بگیرید؟
-      people_mapping_nearby: کسانی که نزدیک شما نقشه می‌کشند
-    messages_table:
-      from: از
-      to: به
-      subject: عنوان
-      date: تاریخ
-    message_summary:
-      unread_button: نشان بزن نخواندم
-      read_button: نشان بزن که خواندم
-      destroy_button: حذف
     new:
       title: فرستادن پیام
       send_message_to_html: فرستادن پیام تازه به %{name}
@@ -1694,14 +1671,6 @@ fa:
       title: چنین پیغامی وجود ندارد
       heading: چنین پیغامی وجود ندارد
       body: متأسفانه هیچ پیامی با این شناسه وجود ندارد.
-    outbox:
-      title: صندوق ارسال
-      messages:
-        one: '%{count} پیام ارسالی دارید'
-        other: '%{count} پیام ارسالی دارید'
-      no_sent_messages_html: هنوز پیامی نفرستاده‌اید. چطور است با چند نفر از %{people_mapping_nearby_link}
-        تماس بگیرید؟
-      people_mapping_nearby: کسانی که نزدیک شما نقشه می‌کشند
     reply:
       wrong_user: شما با نام کاربری %{user} وارد سامانه شده‌اید، اما پیامی که درخواست
         پاسخ به آن را دارید به این کابر ارسال نشده است. برای پاسخ دادن لطفاً با نام
@@ -1715,16 +1684,48 @@ fa:
       wrong_user: شما با نام کاربری %{user} وارد سامانه شده‌اید، اما پیامی که درخواست
         خواندن آن را دارید از/به این کابر ارسال نشده است. لطفاً با نام کاربری صحیح
         وارد سامانه شوید تا بتوانید آن را بخوانید.
-    sent_message_summary:
-      destroy_button: حذف
-    heading:
-      my_inbox: صندوق دریافت
-      my_outbox: صندوق ارسال
     mark:
       as_read: پیام به‌عنوان خوانده علامت‌گذاری شد
       as_unread: پیام به عنوان نخوانده علامت‌گذاری شد
     destroy:
       destroyed: پیام حذف شد
+    mailboxes:
+      heading:
+        my_inbox: صندوق دریافت
+        my_outbox: صندوق ارسال
+      messages_table:
+        from: از
+        to: به
+        subject: عنوان
+        date: تاریخ
+      message:
+        unread_button: نشان بزن نخواندم
+        read_button: نشان بزن که خواندم
+        destroy_button: حذف
+    inboxes:
+      show:
+        title: صندوق دریافت
+        messages: '%{new_messages} و %{old_messages} دارید'
+        new_messages:
+          one: '%{count} پیام تازه'
+          other: '%{count} پیام تازه'
+        old_messages:
+          one: '%{count} پیام قدیمی'
+          other: '%{count} پیام قدیمی'
+        no_messages_yet_html: هنوز پیامی ندارید. چطور است با چند نفر از %{people_mapping_nearby_link}
+          تماس بگیرید؟
+        people_mapping_nearby: کسانی که نزدیک شما نقشه می‌کشند
+    outboxes:
+      show:
+        title: صندوق ارسال
+        messages:
+          one: '%{count} پیام ارسالی دارید'
+          other: '%{count} پیام ارسالی دارید'
+        no_sent_messages_html: هنوز پیامی نفرستاده‌اید. چطور است با چند نفر از %{people_mapping_nearby_link}
+          تماس بگیرید؟
+        people_mapping_nearby: کسانی که نزدیک شما نقشه می‌کشند
+      message:
+        destroy_button: حذف
   passwords:
     new:
       title: فراموشی رمز عبور
@@ -2372,6 +2373,16 @@ fa:
     go_public:
       flash success: تمام ویرایش‌های شما اکنون عمومی‌اند و حالا اجازه دارید ویرایش
         کنید.
+    issued_blocks:
+      show:
+        title: مسدودسازی‌های %{name}
+        heading_html: فهرست مسدودسازی‌های %{name}
+        empty: '%{name} تا کنون مسدود نکرده است.'
+    received_blocks:
+      show:
+        title: مسدودی‌های %{name}
+        heading_html: فهرست مسدودی‌های %{name}
+        empty: '%{name} تا کنون مسدود نشده است.'
     lists:
       show:
         title: کاربران
@@ -2456,14 +2467,6 @@ fa:
         weeks: '%{count} هفته'
         months: '%{count} ماه'
         years: '%{count} سال'
-    blocks_on:
-      title: مسدودی‌های %{name}
-      heading_html: فهرست مسدودی‌های %{name}
-      empty: '%{name} تا کنون مسدود نشده است.'
-    blocks_by:
-      title: مسدودسازی‌های %{name}
-      heading_html: فهرست مسدودسازی‌های %{name}
-      empty: '%{name} تا کنون مسدود نکرده است.'
     show:
       title: '%{block_on} به دست %{block_by} مسدود شده'
       heading_html: '%{block_on} به دست %{block_by} مسدود شده'
@@ -2555,7 +2558,6 @@ fa:
       center_marker: مرکز نقشه در نشانگر
       paste_html: برای استفادهٔ توکار در وبگاه، HTML را جایگذاری کنید
       view_larger_map: دیدن نقشهٔ بزرگتر
-      only_standard_layer: فقط لایهٔ استاندارد را می‌توان در قالب عکس برون‌برد کرد.
     embed:
       report_problem: گزارش مشکل
     key:

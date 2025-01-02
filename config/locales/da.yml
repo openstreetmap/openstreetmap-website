@@ -1829,8 +1829,9 @@ da:
       success: Din konto er bekræftet, tak for din registrering!
       already active: Denne konto er allerede blevet bekræftet.
       unknown token: Den bekræftelseskode er udløbet eller eksisterer ikke.
-      resend_html: Hvis du har brug for at vi gensender bekræftelsesmeddelelsen, %{reconfirm_link}.
-      click_here: klik her
+      if_need_resend: Hvis du har brug for, at vi sender bekræftelses-e-mailen igen,
+        skal du klikke på knappen nedenfor.
+      resend_button: Send bekræftelses-e-mailen igen
     confirm_resend:
       failure: Bruger %{name} ikke fundet.
     confirm_email:
@@ -1848,29 +1849,6 @@ da:
         så vær sikker på at du tilføjer %{sender} til whitelist, da vi ikke kan svare
         på nogen bekræftelsesforespørgsler.
   messages:
-    inbox:
-      title: Indbakke
-      messages: Du har %{new_messages} og %{old_messages}
-      new_messages:
-        one: '%{count} nye besked'
-        other: '%{count} nye beskeder'
-      old_messages:
-        one: '%{count} gammel besked'
-        other: '%{count} gamle beskeder'
-      no_messages_yet_html: Du har ingen beskeder endnu. Hvorfor ikke komme i kontakt
-        med nogle af de %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk som kortlægger i nærheden
-    messages_table:
-      from: Fra
-      to: Til
-      subject: Emne
-      date: Dato
-      actions: Handlinger
-    message_summary:
-      unread_button: Marker som ulæst
-      read_button: Marker som læst
-      destroy_button: Slet
-      unmute_button: Flyt til Indbakke
     new:
       title: Send besked
       send_message_to_html: Send en ny besked til %{name}
@@ -1883,19 +1861,6 @@ da:
       title: Ingen besked fundet
       heading: Ingen besked fundet
       body: Beklager, der er ingen besked med det id.
-    outbox:
-      title: Udbakke
-      messages:
-        one: Du har %{count} sendt besked
-        other: Du har %{count} sendte beskeder
-      no_sent_messages_html: Du har ingen sendte beskeder endnu. Hvorfor ikke komme
-        i kontakt med nogle af de %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk som kortlægger i nærheden
-    muted:
-      title: Stillegjorte beskeder
-      messages:
-        one: '%{count} stillegjort besked'
-        other: Du har  %{count} stillegjorte beskeder
     reply:
       wrong_user: Du er logget på som '%{user}', men den besked du har bedt om at
         svare på, blev ikke sendt til den bruger. Log venligst på som den korrekte
@@ -1909,12 +1874,6 @@ da:
       wrong_user: Du er logget på som '%{user}', men den besked du har bedt om at
         læse, er ikke sendt af eller til den bruger. Log venligst på som den korrekte
         bruger for at læse den.
-    sent_message_summary:
-      destroy_button: Slet
-    heading:
-      my_inbox: Min indbakke
-      my_outbox: Min udbakke
-      muted_messages: Stillegjorte beskeder
     mark:
       as_read: Besked markeret som læst
       as_unread: Besked markeret som ulæst
@@ -1923,6 +1882,52 @@ da:
       error: Beskeden kunne ikke flyttes til Indbakke.
     destroy:
       destroyed: Besked slettet
+    mailboxes:
+      heading:
+        my_inbox: Min indbakke
+        my_outbox: Min udbakke
+        muted_messages: Stillegjorte beskeder
+      messages_table:
+        from: Fra
+        to: Til
+        subject: Emne
+        date: Dato
+        actions: Handlinger
+      message:
+        unread_button: Marker som ulæst
+        read_button: Marker som læst
+        destroy_button: Slet
+        unmute_button: Flyt til Indbakke
+    inboxes:
+      show:
+        title: Indbakke
+        messages: Du har %{new_messages} og %{old_messages}
+        new_messages:
+          one: '%{count} nye besked'
+          other: '%{count} nye beskeder'
+        old_messages:
+          one: '%{count} gammel besked'
+          other: '%{count} gamle beskeder'
+        no_messages_yet_html: Du har ingen beskeder endnu. Hvorfor ikke komme i kontakt
+          med nogle af de %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk som kortlægger i nærheden
+    muted_inboxes:
+      show:
+        title: Stillegjorte beskeder
+        messages:
+          one: '%{count} stillegjort besked'
+          other: Du har  %{count} stillegjorte beskeder
+    outboxes:
+      show:
+        title: Udbakke
+        messages:
+          one: Du har %{count} sendt besked
+          other: Du har %{count} sendte beskeder
+        no_sent_messages_html: Du har ingen sendte beskeder endnu. Hvorfor ikke komme
+          i kontakt med nogle af de %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk som kortlægger i nærheden
+      message:
+        destroy_button: Slet
   passwords:
     new:
       title: Glemt adgangskode
@@ -2921,6 +2926,27 @@ da:
     go_public:
       flash success: Alle dine redigeringer er nu offentlige, og du har lov til at
         redigere.
+    issued_blocks:
+      show:
+        title: Blokeringer af %{name}
+        heading_html: Liste over blokeringer af %{name}
+        empty: '%{name} har ikke foretaget nogen blokeringer endnu.'
+    received_blocks:
+      show:
+        title: Blokeringer af %{name}
+        heading_html: Liste over blokeringer af %{name}
+        empty: '%{name} er endnu ikke blevet blokeret.'
+      edit:
+        title: Træk alle blokeringer på %{block_on} tilbage
+        heading_html: Fjerner alle blokeringer på %{block_on}
+        empty: '%{name} har ingen aktive blokeringer.'
+        confirm: Er du sikker på at du vil trække %{active_blocks}?
+        active_blocks:
+          one: '%{count} aktiv blokering'
+          other: '%{count} aktive blokringer'
+        revoke: Træk tilbage!
+      destroy:
+        flash: Alle aktive blokeringer er blevet tilbagetrukket.
     lists:
       show:
         title: Brugere
@@ -3009,16 +3035,6 @@ da:
       title: Brugerblokeringer
       heading: Liste over brugerblokeringer
       empty: Ingen blokeringer er blevet udført endnu.
-    revoke_all:
-      title: Træk alle blokeringer på %{block_on} tilbage
-      heading_html: Fjerner alle blokeringer på %{block_on}
-      empty: '%{name} har ingen aktive blokeringer.'
-      confirm: Er du sikker på at du vil trække %{active_blocks}?
-      active_blocks:
-        one: '%{count} aktiv blokering'
-        other: '%{count} aktive blokringer'
-      revoke: Træk tilbage!
-      flash: Alle aktive blokeringer er blevet tilbagetrukket.
     helper:
       time_future_html: Slutter om %{time}.
       until_login: Aktiv, indtil brugeren logger på.
@@ -3050,14 +3066,6 @@ da:
         read_html: læst %{time}
         time_in_future_title: '%{time_absolute}; om %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Blokeringer af %{name}
-      heading_html: Liste over blokeringer af %{name}
-      empty: '%{name} er endnu ikke blevet blokeret.'
-    blocks_by:
-      title: Blokeringer af %{name}
-      heading_html: Liste over blokeringer af %{name}
-      empty: '%{name} har ikke foretaget nogen blokeringer endnu.'
     show:
       title: '%{block_on} blokeret af %{block_by}'
       heading_html: '%{block_on} blokeret af %{block_by}'
@@ -3202,8 +3210,7 @@ da:
       center_marker: Centrér kortet på markøren
       paste_html: Indsæt HTML som skal indlejres i websiden
       view_larger_map: Vis større kort
-      only_standard_layer: Kun lagene standard, cykelkort og transport kan eksporteres
-        som et billede
+      only_layers_exported_as_image: 'Kun de følgende lag kan eksporteres som et billede:'
     embed:
       report_problem: Rapporter et problem
     key:

@@ -1708,9 +1708,6 @@ ca:
       success: Heu confirmat el vostre compte, gràcies per registrar-vos!
       already active: Aquest compte ja ha estat confirmat.
       unknown token: Aquest codi de confirmació ha expirat o no existeix.
-      resend_html: Si necessiteu que us tornem a enviar el correu electrònic de confirmació,
-        %{reconfirm_link}.
-      click_here: cliqueu aquí
     confirm_resend:
       failure: L'usuari %{name} no s'ha trobat.
     confirm_email:
@@ -1728,28 +1725,6 @@ ca:
         aleshores assegureu-vos d'afegir %{sender} a la vostra llista blanca, ja que
         no podrem respondre a cap petició de confirmació.
   messages:
-    inbox:
-      title: Safata d'entrada
-      messages: Teniu %{new_messages} i %{old_messages}
-      new_messages:
-        one: '%{count} missatge nou'
-        other: '%{count} missatges nous'
-      old_messages:
-        one: '%{count} missatge antic'
-        other: '%{count} missatges antics'
-      no_messages_yet_html: No teniu cap missatge. Per què no contacteu amb %{people_mapping_nearby_link}?
-      people_mapping_nearby: gent que cartografia a prop
-    messages_table:
-      from: De
-      to: Per a
-      subject: Assumpte
-      date: Data
-      actions: Accions
-    message_summary:
-      unread_button: Marca com a no llegit
-      read_button: Marca com a llegit
-      destroy_button: Suprimeix
-      unmute_button: Mou a la safata d'entrada
     new:
       title: Envia un missatge
       send_message_to_html: Envia un missatge nou a %{name}
@@ -1762,16 +1737,6 @@ ca:
       title: Aquest missatge no existeix
       heading: Aquest missatge no existeix
       body: No hi ha cap missatge amb aquesta id.
-    outbox:
-      title: Safata de sortida
-      messages:
-        one: Teniu %{count} missatge enviat
-        other: Teniu %{count} missatges enviats
-      no_sent_messages_html: Encara no heu enviat cap missatge. Per què no contacteu
-        amb algunes de les %{people_mapping_nearby_link}?
-      people_mapping_nearby: gent que cartografia a prop
-    muted:
-      title: Missatges silenciats
     reply:
       wrong_user: Heu iniciat la sessió com a «%{user}», però el missatge que voleu
         respondre no s'ha enviat a aquest usuari. Per a poder respondre, inicieu la
@@ -1785,12 +1750,6 @@ ca:
       wrong_user: Heu iniciat la sessió com a «%{user}», però aquest usuari no ha
         escrit ni ha rebut el missatge que voleu llegir. Per a poder llegir-lo, inicieu
         la sessió amb l'usuari correcte.
-    sent_message_summary:
-      destroy_button: Suprimeix
-    heading:
-      my_inbox: La meva safata d'entrada
-      my_outbox: La meva safata de sortida
-      muted_messages: Missatges silenciats
     mark:
       as_read: Missatge marcat com a llegit
       as_unread: Missatge marcat com a no llegit
@@ -1799,6 +1758,48 @@ ca:
       error: No s'ha pogut moure el missatge a la safata d'entrada.
     destroy:
       destroyed: Missatge suprimit
+    mailboxes:
+      heading:
+        my_inbox: La meva safata d'entrada
+        my_outbox: La meva safata de sortida
+        muted_messages: Missatges silenciats
+      messages_table:
+        from: De
+        to: Per a
+        subject: Assumpte
+        date: Data
+        actions: Accions
+      message:
+        unread_button: Marca com a no llegit
+        read_button: Marca com a llegit
+        destroy_button: Suprimeix
+        unmute_button: Mou a la safata d'entrada
+    inboxes:
+      show:
+        title: Safata d'entrada
+        messages: Teniu %{new_messages} i %{old_messages}
+        new_messages:
+          one: '%{count} missatge nou'
+          other: '%{count} missatges nous'
+        old_messages:
+          one: '%{count} missatge antic'
+          other: '%{count} missatges antics'
+        no_messages_yet_html: No teniu cap missatge. Per què no contacteu amb %{people_mapping_nearby_link}?
+        people_mapping_nearby: gent que cartografia a prop
+    muted_inboxes:
+      show:
+        title: Missatges silenciats
+    outboxes:
+      show:
+        title: Safata de sortida
+        messages:
+          one: Teniu %{count} missatge enviat
+          other: Teniu %{count} missatges enviats
+        no_sent_messages_html: Encara no heu enviat cap missatge. Per què no contacteu
+          amb algunes de les %{people_mapping_nearby_link}?
+        people_mapping_nearby: gent que cartografia a prop
+      message:
+        destroy_button: Suprimeix
   passwords:
     new:
       title: Contrasenya perduda
@@ -2693,6 +2694,20 @@ ca:
     go_public:
       flash success: Ara totes les vostres edicions són públiques i ja teniu autorització
         per editar
+    issued_blocks:
+      show:
+        title: Blocs %{name}
+        heading_html: Llista de blocs %{name}
+        empty: '%{name} no ha fet cap bloc encara.'
+    received_blocks:
+      show:
+        title: Blocs en %{name}
+        heading_html: Llista de quadres a %{name}
+        empty: '%{name} no ha estat blocat encara.'
+      edit:
+        revoke: Revoca
+      destroy:
+        flash: S'han revocat tots els bloquejos actius.
     lists:
       show:
         title: Usuaris
@@ -2765,9 +2780,6 @@ ca:
       title: Blocs de l'usuari
       heading: Llista de quadres de l'usuari
       empty: Encara no s'ha fet cap bloc.
-    revoke_all:
-      revoke: Revoca
-      flash: S'han revocat tots els bloquejos actius.
     helper:
       time_future_html: Finalitza en %{time}.
       until_login: Activa fins que l'usuari es connecta.
@@ -2790,14 +2802,6 @@ ca:
         years:
           one: '%{count} any'
           other: '%{count} anys'
-    blocks_on:
-      title: Blocs en %{name}
-      heading_html: Llista de quadres a %{name}
-      empty: '%{name} no ha estat blocat encara.'
-    blocks_by:
-      title: Blocs %{name}
-      heading_html: Llista de blocs %{name}
-      empty: '%{name} no ha fet cap bloc encara.'
     show:
       title: '%{block_on} blocat per %{block_by}'
       heading_html: '%{block_on} blocat per %{block_by}'
@@ -2924,8 +2928,6 @@ ca:
       center_marker: Centra el mapa al marcador
       paste_html: Enganxa l'HTML per inserir-ho a un lloc web
       view_larger_map: Mostra un mapa més gran
-      only_standard_layer: Solament es poden exportar com a imatge les capes Standard,
-        Cycle Map i Transport
     embed:
       report_problem: Informeu sobre un problema
     key:

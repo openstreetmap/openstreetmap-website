@@ -93,6 +93,7 @@
 # Author: Robert Wetzlmayr
 # Author: Schmackes
 # Author: Sebastian Wallroth
+# Author: SergeCroise
 # Author: Simon04
 # Author: SimonPoole
 # Author: Snocker15
@@ -1656,6 +1657,10 @@ de:
         open: Offen
         resolved: Erledigt
     show:
+      title:
+        open: 'Offenes Problem #%{issue_id}'
+        ignored: 'Ignoriertes Problem #%{issue_id}'
+        resolved: 'Behobenes Problem #%{issue_id}'
       reports:
         one: Eine Meldung
         other: '%{count} Meldungen'
@@ -1939,8 +1944,9 @@ de:
       success: Dein Benutzerkonto wurde bestätigt, danke fürs Registrieren!
       already active: Dieses Benutzerkonto wurde bereits bestätigt.
       unknown token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
-      resend_html: Wenn du eine neue Bestätigungsemail brauchst, %{reconfirm_link}.
-      click_here: klicke hier
+      if_need_resend: Wenn wir Ihnen die Bestätigungs-E-Mail erneut senden sollen,
+        klicken Sie auf die Schaltfläche unten.
+      resend_button: Bestätigungs-E-Mail erneut senden
     confirm_resend:
       failure: Benutzer %{name} konnte nicht gefunden werden.
     confirm_email:
@@ -1958,29 +1964,6 @@ de:
         sendet, stelle bitte sicher, dass du %{sender} auf eine Erlaubnisliste setzt,
         da wir keine Bestätigungsanfragen beantworten können.
   messages:
-    inbox:
-      title: Posteingang
-      messages: Du hast %{new_messages} und %{old_messages}
-      new_messages:
-        one: '%{count} ungelesene Nachricht'
-        other: '%{count} ungelesene Nachrichten'
-      old_messages:
-        one: '%{count} gelesene Nachricht'
-        other: '%{count} gelesene Nachrichten'
-      no_messages_yet_html: Du hast noch keine Nachrichten. Möchtest du mit %{people_mapping_nearby_link}
-        Kontakt aufnehmen?
-      people_mapping_nearby: Mappern in deiner Nähe
-    messages_table:
-      from: Absender
-      to: An
-      subject: Betreff
-      date: Datum
-      actions: Aktionen
-    message_summary:
-      unread_button: Als ungelesen markieren
-      read_button: Als gelesen markieren
-      destroy_button: Löschen
-      unmute_button: In den Posteingang verschieben
     new:
       title: Nachricht senden
       send_message_to_html: Eine Nachricht an %{name} senden
@@ -1993,19 +1976,6 @@ de:
       title: Nachricht nicht vorhanden
       heading: Nachricht nicht vorhanden
       body: Leider existiert keine Nachricht mit dieser ID.
-    outbox:
-      title: Gesendet
-      messages:
-        one: Du hast %{count} Nachricht gesendet
-        other: Du hast %{count} Nachrichten gesendet
-      no_sent_messages_html: Du hast noch keine Nachrichten versendet. Möchtest du
-        mit  %{people_mapping_nearby_link} Kontakt aufnehmen?
-      people_mapping_nearby: Mappern in deiner Nähe
-    muted:
-      title: Stummgeschaltete Nachrichten
-      messages:
-        one: '%{count} stummgeschatete Nachricht'
-        other: '%{count} stummgeschatete Nachrichten'
     reply:
       wrong_user: Du bist als '%{user}' angemeldet, aber die Nachricht, auf die du
         antworten möchtest, wurde nicht an diesen Benutzer gesendet. Bitte melde dich
@@ -2019,12 +1989,6 @@ de:
       wrong_user: Du bist als '%{user}' angemeldet, aber die Nachricht, die du lesen
         möchtest, wurde nicht von diesem Benutzer oder an diesen gesendet. Bitte melde
         dich mit dem korrekten Benutzer an, um sie zu lesen.
-    sent_message_summary:
-      destroy_button: Löschen
-    heading:
-      my_inbox: Posteingang
-      my_outbox: Mein Postausgang
-      muted_messages: Stummgeschaltete Nachrichten
     mark:
       as_read: Nachricht als gelesen markiert
       as_unread: Nachricht als ungelesen markiert
@@ -2033,6 +1997,52 @@ de:
       error: Die Nachricht konnte nicht in den Posteingang verschoben werden.
     destroy:
       destroyed: Nachricht gelöscht
+    mailboxes:
+      heading:
+        my_inbox: Posteingang
+        my_outbox: Mein Postausgang
+        muted_messages: Stummgeschaltete Nachrichten
+      messages_table:
+        from: Absender
+        to: An
+        subject: Betreff
+        date: Datum
+        actions: Aktionen
+      message:
+        unread_button: Als ungelesen markieren
+        read_button: Als gelesen markieren
+        destroy_button: Löschen
+        unmute_button: In den Posteingang verschieben
+    inboxes:
+      show:
+        title: Posteingang
+        messages: Du hast %{new_messages} und %{old_messages}
+        new_messages:
+          one: '%{count} ungelesene Nachricht'
+          other: '%{count} ungelesene Nachrichten'
+        old_messages:
+          one: '%{count} gelesene Nachricht'
+          other: '%{count} gelesene Nachrichten'
+        no_messages_yet_html: Du hast noch keine Nachrichten. Möchtest du mit %{people_mapping_nearby_link}
+          Kontakt aufnehmen?
+        people_mapping_nearby: Mappern in deiner Nähe
+    muted_inboxes:
+      show:
+        title: Stummgeschaltete Nachrichten
+        messages:
+          one: '%{count} stummgeschatete Nachricht'
+          other: '%{count} stummgeschatete Nachrichten'
+    outboxes:
+      show:
+        title: Gesendet
+        messages:
+          one: Du hast %{count} Nachricht gesendet
+          other: Du hast %{count} Nachrichten gesendet
+        no_sent_messages_html: Du hast noch keine Nachrichten versendet. Möchtest
+          du mit  %{people_mapping_nearby_link} Kontakt aufnehmen?
+        people_mapping_nearby: Mappern in deiner Nähe
+      message:
+        destroy_button: Löschen
   passwords:
     new:
       title: Passwort vergessen
@@ -2835,6 +2845,28 @@ de:
       wikipedia:
         title: Mit Wikipedia anmelden
         alt: Wikipedia Logo
+    share:
+      email:
+        title: Per E-Mail teilen
+        alt: E-Mail-Symbol
+      bluesky:
+        title: Auf Bluesky teilen
+        alt: Bluesky-Symbol
+      facebook:
+        title: Auf Facebook teilen
+        alt: Facebook-Symbol
+      linkedin:
+        title: Auf LinkedIn teilen
+        alt: LinkedIn-Symbol
+      mastodon:
+        title: Auf Mastodon teilen
+        alt: Mastodon-Symbol
+      telegram:
+        title: Auf Telegram teilen
+        alt: Telegramm-Symbol
+      x:
+        title: Auf X teilen
+        alt: X-Symbol
   oauth:
     permissions:
       missing: Du hast den Anwendungszugriff auf diese Einrichtung nicht zugelassen.
@@ -3055,6 +3087,27 @@ de:
     go_public:
       flash success: Alle deine Bearbeitungen sind nun öffentlich und du kannst nun
         die Kartendaten bearbeiten.
+    issued_blocks:
+      show:
+        title: Sperre durch %{name}
+        heading_html: Liste der Sperren durch %{name}
+        empty: '%{name} hat noch keine Sperren eingerichtet.'
+    received_blocks:
+      show:
+        title: Sperren für %{name}
+        heading_html: Liste der Sperren für %{name}
+        empty: '%{name} wurde bisher nicht gesperrt.'
+      edit:
+        title: Alle Sperren auf %{block_on} aufheben
+        heading_html: Alle Sperren auf %{block_on} aufheben
+        empty: '%{name} hat keine aktiven Sperren.'
+        confirm: Bist du sicher, dass du %{active_blocks} aufheben möchtest?
+        active_blocks:
+          one: '%{count} aktive Sperre'
+          other: '%{count} aktive Sperren'
+        revoke: Aufheben!
+      destroy:
+        flash: Alle aktiven Sperren wurden aufgehoben.
     lists:
       show:
         title: Benutzer
@@ -3144,16 +3197,6 @@ de:
       title: Benutzersperren
       heading: Liste der Benutzersperren
       empty: Noch nie gesperrt.
-    revoke_all:
-      title: Alle Sperren auf %{block_on} aufheben
-      heading_html: Alle Sperren auf %{block_on} aufheben
-      empty: '%{name} hat keine aktiven Sperren.'
-      confirm: Bist du sicher, dass du %{active_blocks} aufheben möchtest?
-      active_blocks:
-        one: '%{count} aktive Sperre'
-        other: '%{count} aktive Sperren'
-      revoke: Aufheben!
-      flash: Alle aktiven Sperren wurden aufgehoben.
     helper:
       time_future_html: Endet in %{time}.
       until_login: Aktiv, bis der Benutzer sich anmeldet.
@@ -3177,17 +3220,14 @@ de:
           one: 1 Jahr
           other: '%{count} Jahre'
       short:
+        ended: geendet
+        revoked_html: von %{name} aufgehoben
         active: Aktiv
+        active_unread: ungelesen aktiv
+        expired_unread: ungelesen abgelaufen
         read_html: gelesen am %{time}
+        time_in_future_title: '%{time_absolute}; in %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Sperren für %{name}
-      heading_html: Liste der Sperren für %{name}
-      empty: '%{name} wurde bisher nicht gesperrt.'
-    blocks_by:
-      title: Sperre durch %{name}
-      heading_html: Liste der Sperren durch %{name}
-      empty: '%{name} hat noch keine Sperren eingerichtet.'
     show:
       title: '%{block_on} gesperrt durch  %{block_by}'
       heading_html: '%{block_on} gesperrt durch %{block_by}'
@@ -3335,8 +3375,8 @@ de:
       center_marker: Karte am Marker zentrieren
       paste_html: HTML zur Einbettung in Webseiten kopieren
       view_larger_map: Größere Karte anzeigen
-      only_standard_layer: Nur die Standard-, Fahrrad- und Transportebenen können
-        als Bild exportiert werden
+      only_layers_exported_as_image: 'Nur die folgenden Ebenen können als Bild exportiert
+        werden:'
     embed:
       report_problem: Ein Problem melden
     key:

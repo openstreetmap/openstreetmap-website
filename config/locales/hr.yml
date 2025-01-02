@@ -1098,27 +1098,6 @@ hr:
       success: Promjena email adrese je potvrđena!
       failure: Email adresa je već potvrđena s ovim token-om.
   messages:
-    inbox:
-      title: Dolazna pošta
-      messages: Imate %{new_messages} i %{old_messages}
-      new_messages:
-        one: '%{count} nova poruka'
-        other: '%{count} nove poruke'
-      old_messages:
-        one: '%{count} stara poruka'
-        other: '%{count} stare poruke'
-      no_messages_yet_html: Još nemate poruka. Zašto nebi stupili u kontakt s nekim
-        ljudima iz okolice %{people_mapping_nearby_link}?
-      people_mapping_nearby: obližnji ljudi koji mapiraju
-    messages_table:
-      from: Od
-      to: Za
-      subject: Tema
-      date: Datum
-    message_summary:
-      unread_button: Označi kao nepročitano
-      read_button: Označi kao pročitano
-      destroy_button: Obriši
     new:
       title: Pošalji poruku
       send_message_to_html: Pošalji novu poruku za %{name}
@@ -1131,14 +1110,6 @@ hr:
       title: Nema takve poruke
       heading: Nema takve poruke
       body: Nažalost nema poruka s tim id.
-    outbox:
-      title: Odlazna pošta
-      messages:
-        one: Imate %{count} poslanu poruku
-        other: Imate %{count} poslane poruke
-      no_sent_messages_html: Još niste poslali ni jednu poruku. Zašto ne biste stupili
-        u kontakt s %{people_mapping_nearby_link}?
-      people_mapping_nearby: obližnji ljudi koji mapiraju
     reply:
       wrong_user: 'Prijavljeni ste kao: `%{user}'', ali poruka za koju ste zamoljeni
         da odgovorite nije poslana na tom korisniku. Molimo, prijavite se kao ispravan
@@ -1152,15 +1123,47 @@ hr:
       wrong_user: 'Prijavljeni ste kao: `%{user}'', ali poruka za koju ste zamoljeni
         da pročitate nije poslana od ili prema tom korisniku. Molimo, prijavite se
         kao ispravan korisnik kako bi ste pročitali.'
-    sent_message_summary:
-      destroy_button: Obriši
-    heading:
-      my_inbox: Dolazna pošta
     mark:
       as_read: Poruka označena pročitanom
       as_unread: Poruka označena nepročitanom
     destroy:
       destroyed: Poruka obrisana
+    mailboxes:
+      heading:
+        my_inbox: Dolazna pošta
+      messages_table:
+        from: Od
+        to: Za
+        subject: Tema
+        date: Datum
+      message:
+        unread_button: Označi kao nepročitano
+        read_button: Označi kao pročitano
+        destroy_button: Obriši
+    inboxes:
+      show:
+        title: Dolazna pošta
+        messages: Imate %{new_messages} i %{old_messages}
+        new_messages:
+          one: '%{count} nova poruka'
+          other: '%{count} nove poruke'
+        old_messages:
+          one: '%{count} stara poruka'
+          other: '%{count} stare poruke'
+        no_messages_yet_html: Još nemate poruka. Zašto nebi stupili u kontakt s nekim
+          ljudima iz okolice %{people_mapping_nearby_link}?
+        people_mapping_nearby: obližnji ljudi koji mapiraju
+    outboxes:
+      show:
+        title: Odlazna pošta
+        messages:
+          one: Imate %{count} poslanu poruku
+          other: Imate %{count} poslane poruke
+        no_sent_messages_html: Još niste poslali ni jednu poruku. Zašto ne biste stupili
+          u kontakt s %{people_mapping_nearby_link}?
+        people_mapping_nearby: obližnji ljudi koji mapiraju
+      message:
+        destroy_button: Obriši
   passwords:
     new:
       title: Izgubljena zaporka
@@ -1589,6 +1592,16 @@ hr:
       report: Prijavi ovog korisnika
     go_public:
       flash success: Sve Vaše promjene sada su javne i dopušteno Vam je uređivanje.
+    issued_blocks:
+      show:
+        title: Blokade od %{name}
+        heading_html: Lista blokada od %{name}
+        empty: '%{name} nije napravila još ni jednu blokadu.'
+    received_blocks:
+      show:
+        title: Blokade na %{name}
+        heading_html: Lista blokada na %{name}
+        empty: '%{name} nije još bio blokiran.'
     lists:
       show:
         title: Korisnici
@@ -1664,14 +1677,6 @@ hr:
           one: 1 godina
           few: '%{count} godine'
           other: '%{count} godina'
-    blocks_on:
-      title: Blokade na %{name}
-      heading_html: Lista blokada na %{name}
-      empty: '%{name} nije još bio blokiran.'
-    blocks_by:
-      title: Blokade od %{name}
-      heading_html: Lista blokada od %{name}
-      empty: '%{name} nije napravila još ni jednu blokadu.'
     show:
       title: '%{block_by} blokirao %{block_on}'
       heading_html: '%{block_by} blokirao %{block_on}'

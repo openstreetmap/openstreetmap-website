@@ -829,7 +829,7 @@ it:
           car_wash: Autolavaggio
           casino: Casinò
           charging_station: Stazione di ricarica
-          childcare: Assistenza minori
+          childcare: Assistenza all'infanzia
           cinema: Cinema
           clinic: Clinica
           clock: Orologio
@@ -857,7 +857,7 @@ it:
           hunting_stand: Postazione di caccia
           ice_cream: Gelateria
           internet_cafe: Caffè internet
-          kindergarten: Asilo infantile
+          kindergarten: Scuola dell'infanzia
           language_school: Scuola di lingue
           library: Biblioteca
           loading_dock: Portone scarico merci
@@ -868,7 +868,7 @@ it:
           money_transfer: Agenzia di trasferimento di denaro
           motorcycle_parking: Parcheggio per Moto
           music_school: Scuola di musica
-          nightclub: Night Club
+          nightclub: Discoteca
           nursing_home: Residenza sanitaria assistenziale
           parking: Parcheggio
           parking_entrance: Entrata del parcheggio
@@ -1107,6 +1107,14 @@ it:
           wayside_shrine: Edicola votiva
           wreck: Relitto
           "yes": Sito storico
+        information:
+          guidepost: Cartello d'indicazione
+          board: Bacheca informazioni
+          map: Mappa
+          office: Ufficio turistico
+          terminal: Totem informativo
+          sign: Cartello informativo
+          stele: Stele informativa
         junction:
           "yes": Incrocio
         landuse:
@@ -1179,6 +1187,8 @@ it:
           track: Pista da corsa
           water_park: Parco acquatico
           "yes": Tempo libero
+        lock:
+          "yes": Chiusa
         man_made:
           adit: Galleria mineraria
           advertising: Pubblicità
@@ -1519,6 +1529,15 @@ it:
           building_passage: Passaggio sotto edificio
           culvert: Canale sotterraneo
           "yes": Galleria
+        water:
+          lake: Lago
+          pond: Stagno
+          reservoir: Riserva idrica
+          basin: Bacino d'acqua
+          fishpond: Stagno per pesci
+          lagoon: Laguna
+          wastewater: Acque reflue
+          lock: Chiusa
         waterway:
           artificial: Corso d'acqua artificiale
           boatyard: Cantiere nautico
@@ -1861,9 +1880,9 @@ it:
       success: Il profilo utente è stato confermato, grazie per l'iscrizione!
       already active: Questo profilo è stato già confermato.
       unknown token: Questo codice di conferma è scaduto oppure non esiste.
-      resend_html: Se hai bisogno che ti inviamo nuovamente l'e-mail di conferma,
-        %{reconfirm_link}.
-      click_here: clicca qui
+      if_need_resend: Se desideri che ti venga inviata nuovamente l'e-mail di conferma,
+        clicca sul pulsante qui sotto.
+      resend_button: Invia nuovamente l'email di conferma
     confirm_resend:
       failure: Utente %{name} non trovato.
     confirm_email:
@@ -1881,29 +1900,6 @@ it:
         assicurati di aver inserito %{sender} nella lista dei consentiti poiché non
         siamo in grado di rispondere alle richieste di conferma.
   messages:
-    inbox:
-      title: Posta in arrivo
-      messages: Hai %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} nuovo messaggio'
-        other: '%{count} nuovi messaggi'
-      old_messages:
-        one: '%{count} vecchio messaggio'
-        other: '%{count} messaggi vecchi'
-      no_messages_yet_html: Non ci sono ancora messaggi. Perché non contatti qualcuna
-        di queste %{people_mapping_nearby_link}?
-      people_mapping_nearby: persone che mappano nelle vicinanze
-    messages_table:
-      from: Da
-      to: A
-      subject: Oggetto
-      date: Data
-      actions: Azioni
-    message_summary:
-      unread_button: Segna come non letto
-      read_button: Segna come già letto
-      destroy_button: Cancella
-      unmute_button: Sposta nella Posta in arrivo
     new:
       title: Invia messaggio
       send_message_to_html: Spedisci un nuovo messaggio a %{name}
@@ -1916,23 +1912,10 @@ it:
       title: Nessun messaggio del genere
       heading: Nessun messaggio del genere
       body: Siamo spiacenti, non ci sono messaggi con l'id indicato.
-    outbox:
-      title: Posta in uscita
-      messages:
-        one: Hai %{count} messaggio inviato
-        other: Hai %{count} messaggi inviati
-      no_sent_messages_html: Non ci sono ancora messaggi inviati. Perché non contatti
-        qualcuno di questi %{people_mapping_nearby_link}?
-      people_mapping_nearby: persone che mappano nelle vicinanze
-    muted:
-      title: Messaggi silenziati
-      messages:
-        one: '%{count} messaggio silenziato'
-        other: Hai %{count} messaggi silenziati
     reply:
       wrong_user: Hai effettuato l'accesso come '%{user}', ma il messaggio al quale
         hai chiesto di rispondere non era diretto a quell'utente. Se vuoi rispondere,
-        per favore accedi con l'utenza interessata.
+        accedi con l'utenza interessata.
     show:
       title: Leggi messaggio
       reply_button: Rispondi
@@ -1942,12 +1925,6 @@ it:
       wrong_user: Hai effettuato l'accesso come '%{user}', ma il messaggio che hai
         chiesto di leggere non era diretto a quell'utente. Se vuoi leggerlo, per favore
         accedi con l'utenza interessata.
-    sent_message_summary:
-      destroy_button: Cancella
-    heading:
-      my_inbox: Posta in arrivo
-      my_outbox: Posta in uscita
-      muted_messages: Messaggi silenziati
     mark:
       as_read: Messaggio marcato come già letto
       as_unread: Messaggio marcato come non letto
@@ -1956,6 +1933,52 @@ it:
       error: Non è stato possibile spostare il messaggio nella Posta in arrivo.
     destroy:
       destroyed: Messaggio eliminato
+    mailboxes:
+      heading:
+        my_inbox: Posta in arrivo
+        my_outbox: Posta in uscita
+        muted_messages: Messaggi silenziati
+      messages_table:
+        from: Da
+        to: A
+        subject: Oggetto
+        date: Data
+        actions: Azioni
+      message:
+        unread_button: Segna come non letto
+        read_button: Segna come già letto
+        destroy_button: Cancella
+        unmute_button: Sposta nella Posta in arrivo
+    inboxes:
+      show:
+        title: Posta in arrivo
+        messages: Hai %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} nuovo messaggio'
+          other: '%{count} nuovi messaggi'
+        old_messages:
+          one: '%{count} vecchio messaggio'
+          other: '%{count} messaggi vecchi'
+        no_messages_yet_html: Non ci sono ancora messaggi. Perché non contatti qualcuna
+          di queste %{people_mapping_nearby_link}?
+        people_mapping_nearby: persone che mappano nelle vicinanze
+    muted_inboxes:
+      show:
+        title: Messaggi silenziati
+        messages:
+          one: '%{count} messaggio silenziato'
+          other: Hai %{count} messaggi silenziati
+    outboxes:
+      show:
+        title: Posta in uscita
+        messages:
+          one: Hai %{count} messaggio inviato
+          other: Hai %{count} messaggi inviati
+        no_sent_messages_html: Non ci sono ancora messaggi inviati. Perché non contatti
+          qualcuno di questi %{people_mapping_nearby_link}?
+        people_mapping_nearby: persone che mappano nelle vicinanze
+      message:
+        destroy_button: Cancella
   passwords:
     new:
       title: password persa
@@ -2737,6 +2760,28 @@ it:
       wikipedia:
         title: Accedi con Wikipedia
         alt: Logo di Wikipedia
+    share:
+      email:
+        title: Condividi via email
+        alt: Icona e-mail
+      bluesky:
+        title: Condividi tramite Bluesky
+        alt: Icona di Bluesky
+      facebook:
+        title: Condividi tramite Facebook
+        alt: Icona di Facebook
+      linkedin:
+        title: Condividi tramite LinkedIn
+        alt: Icona di LinkedIn
+      mastodon:
+        title: Condividi su Mastodon
+        alt: Icona di Mastodon
+      telegram:
+        title: Condividi su Telegram
+        alt: Icona di Telegram
+      x:
+        title: Condividi su X
+        alt: Icona di X
   oauth:
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
@@ -2949,6 +2994,27 @@ it:
     go_public:
       flash success: Tutte le tue modifiche sono ora pubbliche, e hai il permesso
         di modificare.
+    issued_blocks:
+      show:
+        title: Blocchi imposti da %{name}
+        heading_html: Lista dei blocchi imposti da %{name}
+        empty: '%{name} non ha ancora imposto alcun blocco.'
+    received_blocks:
+      show:
+        title: Blocchi su %{name}
+        heading_html: Lista dei blocchi su %{name}
+        empty: '%{name} non è stato ancora bloccato.'
+      edit:
+        title: Revoca tutti i blocchi su %{block_on}
+        heading_html: Revoca tutti i blocchi su %{block_on}
+        empty: '%{name} non ha blocchi attivi.'
+        confirm: Sei sicuro di voler revocare %{active_blocks}?
+        active_blocks:
+          one: '%{count} blocco attivo'
+          other: '%{count} blocchi attivi'
+        revoke: Revoca!
+      destroy:
+        flash: Tutti i blocchi attivi sono stati revocati.
     lists:
       show:
         title: Utenti
@@ -3032,16 +3098,6 @@ it:
       title: Blocchi dell'utente
       heading: Lista dei blocchi dell'utente
       empty: Non è stato ancora applicato alcun blocco.
-    revoke_all:
-      title: Revoca tutti i blocchi su %{block_on}
-      heading_html: Revoca tutti i blocchi su %{block_on}
-      empty: '%{name} non ha blocchi attivi.'
-      confirm: Sei sicuro di voler revocare %{active_blocks}?
-      active_blocks:
-        one: '%{count} blocco attivo'
-        other: '%{count} blocchi attivi'
-      revoke: Revoca!
-      flash: Tutti i blocchi attivi sono stati revocati.
     helper:
       time_future_html: Termina fra %{time}.
       until_login: Attivo finché l'utente non si collega.
@@ -3073,14 +3129,6 @@ it:
         read_html: letto alle %{time}
         time_in_future_title: '%{time_absolute}; in %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Blocchi su %{name}
-      heading_html: Lista dei blocchi su %{name}
-      empty: '%{name} non è stato ancora bloccato.'
-    blocks_by:
-      title: Blocchi imposti da %{name}
-      heading_html: Lista dei blocchi imposti da %{name}
-      empty: '%{name} non ha ancora imposto alcun blocco.'
     show:
       title: '%{block_on} bloccato da %{block_by}'
       heading_html: '%{block_on} bloccato da %{block_by}'
@@ -3197,6 +3245,10 @@ it:
         mappa, pertanto non inserire informazioni personali e neppure dati provenienti
         da mappe protette da copyright oppure elenchi.
       add: Aggiungi la nota
+    new_readonly:
+      title: Nuova nota
+      warning: Non è possibile creare nuove note perché l'API di OpenStreetMap è attualmente
+        in modalità di sola lettura.
     notes_paging_nav:
       showing_page: Pagina %{page}
       next: Successivo
@@ -3222,8 +3274,8 @@ it:
       center_marker: Centra la mappa sul marcatore
       paste_html: Incolla l'HTML per incorporarlo nel sito web
       view_larger_map: Visualizza mappa ingrandita
-      only_standard_layer: Solo i livelli standard, Cycle Map e trasporti possono
-        essere esportati come immagine
+      only_layers_exported_as_image: 'Solo i seguenti livelli possono essere esportati
+        come immagine:'
     embed:
       report_problem: Segnala un problema
     key:

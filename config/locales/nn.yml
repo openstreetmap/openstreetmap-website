@@ -1595,8 +1595,6 @@ nn:
       success: Kontoen din er stadfesta - takk for at du registrerte deg.
       already active: Denne kontoen har allereie stadfesta.
       unknown token: Den koda ser ikkje ut til å eksistere.
-      resend_html: Viss du treng at vi sender stadfestings-e-posten på nytt, %{reconfirm_link}
-      click_here: klikka her
     confirm_resend:
       failure: Fann ikkje brukaren %{name}.
     confirm_email:
@@ -1614,27 +1612,6 @@ nn:
         om stadfesting, ver sikker på at %{sender} står på kvitlista, sidan vi ikkje
         kan svara på slike førespurnadar.
   messages:
-    inbox:
-      title: Mottekne
-      messages: Du har %{new_messages} og %{old_messages}
-      new_messages:
-        one: '%{count} ny melding'
-        other: '%{count} nye meldingar'
-      old_messages:
-        one: '%{count} gamal melding'
-        other: '%{count} gamle meldingar'
-      no_messages_yet_html: Du har ingen meldingar endå. Kanskje du kan prøve å kome
-        i kontakt med %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk i nærleiken som lagar kart
-    messages_table:
-      from: Frå
-      to: Til
-      subject: Emne
-      date: Dato
-    message_summary:
-      unread_button: Marker som ulese
-      read_button: Marker som lese
-      destroy_button: Slett
     new:
       title: Send melding
       send_message_to_html: Send ei ny melding til %{name}
@@ -1647,14 +1624,6 @@ nn:
       title: Inga melding funne
       heading: Inga melding funne
       body: Det er inga melding med den ID-en.
-    outbox:
-      title: Sende
-      messages:
-        one: Du har %{count} send melding
-        other: Du har %{count} sende meldingar
-      no_sent_messages_html: Du har ikkje sendt nokre meldingar endå. Kanskje du kan
-        prøve å kome i kontakt med %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk i nærleiken som lagar kart
     reply:
       wrong_user: Du er logga inn som «%{user}», men meldinga du ynskjer å svare på
         vart ikkje send til den brukaren. Logg inn som korrekt brukar for å svare.
@@ -1666,16 +1635,48 @@ nn:
       back: Tilbake
       wrong_user: Du er logga inn som «%{user}», men meldinga du ynskjer å lese vart
         ikkje send til den brukaren. Logg inn som korrekt brukar for å lese.
-    sent_message_summary:
-      destroy_button: Slett
-    heading:
-      my_inbox: Mottekne
-      my_outbox: Sende
     mark:
       as_read: Melding markert som lese
       as_unread: Melding markert som ulese
     destroy:
       destroyed: Melding sletta
+    mailboxes:
+      heading:
+        my_inbox: Mottekne
+        my_outbox: Sende
+      messages_table:
+        from: Frå
+        to: Til
+        subject: Emne
+        date: Dato
+      message:
+        unread_button: Marker som ulese
+        read_button: Marker som lese
+        destroy_button: Slett
+    inboxes:
+      show:
+        title: Mottekne
+        messages: Du har %{new_messages} og %{old_messages}
+        new_messages:
+          one: '%{count} ny melding'
+          other: '%{count} nye meldingar'
+        old_messages:
+          one: '%{count} gamal melding'
+          other: '%{count} gamle meldingar'
+        no_messages_yet_html: Du har ingen meldingar endå. Kanskje du kan prøve å
+          kome i kontakt med %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk i nærleiken som lagar kart
+    outboxes:
+      show:
+        title: Sende
+        messages:
+          one: Du har %{count} send melding
+          other: Du har %{count} sende meldingar
+        no_sent_messages_html: Du har ikkje sendt nokre meldingar endå. Kanskje du
+          kan prøve å kome i kontakt med %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk i nærleiken som lagar kart
+      message:
+        destroy_button: Slett
   passwords:
     new:
       title: Gløymt passord
@@ -2317,6 +2318,16 @@ nn:
     go_public:
       flash success: Alle redigeringane dine er no offentleg, og du har lov til å
         redigere.
+    issued_blocks:
+      show:
+        title: Blokkeringar av %{name}
+        heading_html: Liste over blokkeringar av %{name}
+        empty: '%{name} har ikkje blokkert nokon enno.'
+    received_blocks:
+      show:
+        title: Blokkeringar av %{name}
+        heading_html: Liste over blokkeringar av %{name}
+        empty: '%{name} har ikkje vorte blokkert enno.'
     lists:
       show:
         title: Brukarar
@@ -2382,14 +2393,6 @@ nn:
         hours:
           one: 1 time
           other: '%{count} timar'
-    blocks_on:
-      title: Blokkeringar av %{name}
-      heading_html: Liste over blokkeringar av %{name}
-      empty: '%{name} har ikkje vorte blokkert enno.'
-    blocks_by:
-      title: Blokkeringar av %{name}
-      heading_html: Liste over blokkeringar av %{name}
-      empty: '%{name} har ikkje blokkert nokon enno.'
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading_html: '%{block_on} blokkert av %{block_by}'
@@ -2454,7 +2457,6 @@ nn:
       center_marker: Sentrer kartet på markøren
       paste_html: Lim inn HTML for å publisere på ei nettside
       view_larger_map: Vis større kart
-      only_standard_layer: Berre standardlaget kan eksporterast som bilde
     embed:
       report_problem: Rapporter eit problem
     key:

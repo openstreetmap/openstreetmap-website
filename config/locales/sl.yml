@@ -1782,8 +1782,6 @@ sl:
       success: Vaš uporabniški račun je potrjen. Hvala, da ste se vpisali!
       already active: Ta račun je že bil potrjen.
       unknown token: Ta potrditvena koda je potekla ali ne obstaja.
-      resend_html: Če želite, da vam znova pošljemo potrditveno e-pošto, %{reconfirm_link}.
-      click_here: klikni tukaj
     confirm_resend:
       failure: Uporabnika %{name} ni bilo mogoče najti.
     confirm_email:
@@ -1801,33 +1799,6 @@ sl:
         zahtevke za potrditev, se prepričajte, da ste %{sender} uvrstili na beli seznam,
         saj ne moremo odgovoriti na nobene zahtevke za potrditev.
   messages:
-    inbox:
-      title: Prejeta pošta
-      messages: Imate %{new_messages} in %{old_messages}.
-      new_messages:
-        few: '%{count} nova sporočila'
-        one: '%{count} novo sporočilo'
-        two: '%{count} novi sporočili'
-        other: '%{count} novih sporočil'
-      old_messages:
-        few: '%{count} stara sporočila'
-        one: '%{count} staro sporočilo'
-        two: '%{count} stari sporočili'
-        other: '%{count} starih sporočil'
-      no_messages_yet_html: Prejeli niste še nobenih sporočil. Zakaj ne bi stopili
-        v stik z %{people_mapping_nearby_link}?
-      people_mapping_nearby: ljudmi, ki kartirajo blizu vas
-    messages_table:
-      from: Od
-      to: Za
-      subject: Zadeva
-      date: Datum
-      actions: Dejanja
-    message_summary:
-      unread_button: Označi kot neprebrano
-      read_button: Označi kot prebrano
-      destroy_button: Izbriši
-      unmute_button: Prestavi v mapo »Prejeto«.
     new:
       title: Pošiljanje sporočila
       send_message_to_html: Pošlji novo sporočilo uporabniku %{name}
@@ -1840,23 +1811,6 @@ sl:
       title: Ni tega sporočila
       heading: Ni tega sporočila
       body: Žal ni sporočila s tem id-jem.
-    outbox:
-      title: Poslana pošta
-      messages:
-        few: Imate %{count} poslana sporočila
-        one: Imate %{count} poslano sporočilo
-        two: Imate %{count} poslani sporočili
-        other: Imate %{count} poslanih sporočil
-      no_sent_messages_html: Poslali niste še nobenih sporočil. Zakaj ne bi stopili
-        v stik z %{people_mapping_nearby_link}?
-      people_mapping_nearby: ljudmi, ki kartirajo blizu vas
-    muted:
-      title: Utišana sporočila
-      messages:
-        one: '%{count} novo sporočilo'
-        two: '%{count} novi sporočili'
-        few: '%{count} novih sporočil'
-        other: '%{count} novih sporočil'
     reply:
       wrong_user: Prijavljeni ste kot '%{user}', toda sporočilo, na katerega odgovarjate,
         ni bilo poslano temu uporabniku. Za odgovor se prijavite kot pravi uporabnik.
@@ -1868,12 +1822,6 @@ sl:
       back: Nazaj
       wrong_user: Prijavljeni ste kot '%{user}', ampak sporočilo, ko ga \elite prebrati
         ni bilo poslano vam. Prosimo, prijavite se, kot pravi uporabnik za branje.
-    sent_message_summary:
-      destroy_button: Izbriši
-    heading:
-      my_inbox: Prejeta pošta
-      my_outbox: Poslana pošta
-      muted_messages: Utišana sporočila
     mark:
       as_read: Sporočilo označeno kot prebrano
       as_unread: Sporočilo označeno kot neprebrano
@@ -1882,6 +1830,60 @@ sl:
       error: Sporočila ni bilo mogoče premakniti v mapo »Prejeto«.
     destroy:
       destroyed: Sporočilo izbrisano
+    mailboxes:
+      heading:
+        my_inbox: Prejeta pošta
+        my_outbox: Poslana pošta
+        muted_messages: Utišana sporočila
+      messages_table:
+        from: Od
+        to: Za
+        subject: Zadeva
+        date: Datum
+        actions: Dejanja
+      message:
+        unread_button: Označi kot neprebrano
+        read_button: Označi kot prebrano
+        destroy_button: Izbriši
+        unmute_button: Prestavi v mapo »Prejeto«.
+    inboxes:
+      show:
+        title: Prejeta pošta
+        messages: Imate %{new_messages} in %{old_messages}.
+        new_messages:
+          few: '%{count} nova sporočila'
+          one: '%{count} novo sporočilo'
+          two: '%{count} novi sporočili'
+          other: '%{count} novih sporočil'
+        old_messages:
+          few: '%{count} stara sporočila'
+          one: '%{count} staro sporočilo'
+          two: '%{count} stari sporočili'
+          other: '%{count} starih sporočil'
+        no_messages_yet_html: Prejeli niste še nobenih sporočil. Zakaj ne bi stopili
+          v stik z %{people_mapping_nearby_link}?
+        people_mapping_nearby: ljudmi, ki kartirajo blizu vas
+    muted_inboxes:
+      show:
+        title: Utišana sporočila
+        messages:
+          one: '%{count} novo sporočilo'
+          two: '%{count} novi sporočili'
+          few: '%{count} novih sporočil'
+          other: '%{count} novih sporočil'
+    outboxes:
+      show:
+        title: Poslana pošta
+        messages:
+          few: Imate %{count} poslana sporočila
+          one: Imate %{count} poslano sporočilo
+          two: Imate %{count} poslani sporočili
+          other: Imate %{count} poslanih sporočil
+        no_sent_messages_html: Poslali niste še nobenih sporočil. Zakaj ne bi stopili
+          v stik z %{people_mapping_nearby_link}?
+        people_mapping_nearby: ljudmi, ki kartirajo blizu vas
+      message:
+        destroy_button: Izbriši
   passwords:
     new:
       title: pozabljeno geslo
@@ -2841,6 +2843,29 @@ sl:
       report: Prijavi tega uporabnika
     go_public:
       flash success: Zdaj so vsi vaši prispevki javni in lahko urejate podatke.
+    issued_blocks:
+      show:
+        title: Dana blokiranja uporabnika_ce %{name}
+        heading_html: Seznam izvedenih blokiranj uporabnika %{name}
+        empty: Uporabnik_ca %{name} ni blokiral_a še nikogar.
+    received_blocks:
+      show:
+        title: Blokiranja uporabnika %{name}
+        heading_html: Seznam blokiranj uporabnika %{name}
+        empty: Uporabnik_ca %{name} še ni bil_a blokiran_a.
+      edit:
+        title: Preklic vseh blokiranj v %{block_on}
+        heading_html: Preklic vseh blokiranj v %{block_on}
+        empty: '%{name} nima aktivnih blokiranj.'
+        confirm: Ste prepričani, da želite preklicati %{active_blocks}?
+        active_blocks:
+          one: '%{count} aktivno blokiranje'
+          two: '%{count} aktivni blokiranji'
+          few: '%{count} aktivna blokiranja'
+          other: '%{count} aktivnih blokiranj'
+        revoke: Prekliči!
+      destroy:
+        flash: Vsa aktivna blokiranja so bila preklicana.
     lists:
       show:
         title: Uporabniki
@@ -2909,18 +2934,6 @@ sl:
       title: Blokiranja uporabnika
       heading: Seznam blokiranj uporabnika
       empty: Ni bilo še nobenega blokiranja.
-    revoke_all:
-      title: Preklic vseh blokiranj v %{block_on}
-      heading_html: Preklic vseh blokiranj v %{block_on}
-      empty: '%{name} nima aktivnih blokiranj.'
-      confirm: Ste prepričani, da želite preklicati %{active_blocks}?
-      active_blocks:
-        one: '%{count} aktivno blokiranje'
-        two: '%{count} aktivni blokiranji'
-        few: '%{count} aktivna blokiranja'
-        other: '%{count} aktivnih blokiranj'
-      revoke: Prekliči!
-      flash: Vsa aktivna blokiranja so bila preklicana.
     helper:
       time_future_html: Konča se čez %{time}.
       until_login: Aktivna dokler uporabnik se prijavi.
@@ -2952,14 +2965,6 @@ sl:
           two: '%{count} leti'
           few: '%{count} leta'
           other: '%{count} let'
-    blocks_on:
-      title: Blokiranja uporabnika %{name}
-      heading_html: Seznam blokiranj uporabnika %{name}
-      empty: Uporabnik_ca %{name} še ni bil_a blokiran_a.
-    blocks_by:
-      title: Dana blokiranja uporabnika_ce %{name}
-      heading_html: Seznam izvedenih blokiranj uporabnika %{name}
-      empty: Uporabnik_ca %{name} ni blokiral_a še nikogar.
     show:
       title: '%{block_by} je blokiral uporabnika %{block_on}'
       heading_html: '%{block_by} je blokiral uporabnika %{block_on}'
@@ -3082,7 +3087,6 @@ sl:
       center_marker: Osredini zemljevid na označevalec
       paste_html: Prilepite HTML za vdelavo v spletno mesto
       view_larger_map: Prikaži večji zemljevid
-      only_standard_layer: Kot sliko je mogoče izvoziti samo standardni sloj
     embed:
       report_problem: Prijavi težavo
     key:

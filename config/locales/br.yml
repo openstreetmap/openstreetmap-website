@@ -72,6 +72,7 @@ br:
       message: Kemennadenn
       node: Skoulm
       node_tag: Tikedenn ar skoulm
+      note: Notenn
       old_node: Skoulm kozh
       old_node_tag: Tikedenn ar skoulm kozh
       old_relation: Darempred kozh
@@ -404,7 +405,7 @@ br:
         way: Hent
         relation: Darempred
     containing_relation:
-      entry_role_html: Darempred %{relation_name} (evel %{relation_role})
+      entry_role_html: '%{relation_name} (evel %{relation_role})'
     not_found:
       title: N'eo ket bet kavet
       sorry: 'Ho tigarez, n''heller ket kavout %{type} #%{id}.'
@@ -416,8 +417,8 @@ br:
         note: notenn
     timeout:
       title: Diamzeret eo an teul
-      sorry: Digarezit, ar roadennoù evit ar seurt %{type}  ha gant an id %{id} a
-        zo re hir da adtapout.
+      sorry: Hon digarezit, ar roadennoù evit ar seurt %{type} ha gant an id %{id}
+        a zo re hir da adtapout.
       type:
         node: skoulm
         way: hent
@@ -454,6 +455,10 @@ br:
       introduction: Klikit war ar gartenn evit kavout arc'hweladurioù e-kichen.
       nearby: Arc'hweladurioù e-kichen
       enclosing: Arc'hweladurioù enklozañ
+  nodes:
+    timeout:
+      sorry: Hon digarezit, ar roadennoù evit ar skoulm gant an id %{id} a zo re hir
+        da adtapout.
   old_nodes:
     not_found:
       sorry: 'Hon digarezit, n''eo ket bet kavet ar stumm %{version} eus ar skoulm
@@ -501,8 +506,10 @@ br:
         closed: Serret
         belongs_to: Aozer
     subscribe:
+      heading: Koumanantiñ da gaozeadenn an hollad cheñchamantoù-mañ?
       button: Koumanantiñ ouzh ar gaozeadenn
     unsubscribe:
+      heading: Digoumanantiñ diouzh kaozeadenn an hollad cheñchamantoù-mañ?
       button: Digoumanantiñ diouzh ar gaozeadenn
     heading:
       title: Hollad cheñchamantoù %{id}
@@ -1016,6 +1023,9 @@ br:
           wayside_shrine: Ti-pediñ
           wreck: Peñse
           "yes": Lec'h Istorel
+        information:
+          map: Kartenn
+          office: Ti an douristed
         junction:
           "yes": Kej
         landuse:
@@ -1088,6 +1098,8 @@ br:
           track: Roudenn redek
           water_park: Kreizenn dour
           "yes": Diduamantoù
+        lock:
+          "yes": Skluz
         man_made:
           adit: Toullenn moned d'ar mengleuz
           advertising: Bruderezh
@@ -1428,6 +1440,13 @@ br:
           building_passage: Tremen savadur
           culvert: kan-dour
           "yes": Riboul
+        water:
+          lake: Lenn
+          pond: Stank
+          reservoir: Mirlenn
+          basin: Oglenn
+          oxbow: Brec'h marv
+          lock: Skluz
         waterway:
           artificial: Gwazh-dour artifisiel
           boatyard: Chanter bigi
@@ -1494,6 +1513,8 @@ br:
         open: Digor
         resolved: Diskoulmet
     show:
+      title:
+        resolved: Kudenn diskoulmet %{issue_id}
       reports:
         one: 1 danevell
         two: 2 zanevell
@@ -1747,8 +1768,6 @@ br:
       success: Kadarnaet eo ho kont, trugarez evit bezañ en em enskrivet !
       already active: Kadarnaet eo bet ar gont-mañ c'hoazh.
       unknown token: Diamzeret eo ar c'hod gwiriekaat pe n'eus ket anezhañ.
-      resend_html: M'ho peus ezhomm da adkas ur postel kadarnaat, %{reconfirm_link}.
-      click_here: Klikit amañ
     confirm_resend:
       failure: N'eo ket bet kavet an implijer %{name}.
     confirm_email:
@@ -1760,29 +1779,6 @@ br:
       failure: Kadarnaet ez eus bet ur chomlec'h postel dija gant art jedouer-mañ.
       unknown_token: N'eo ket mat ar c'hod kadarnaat-mañ ken pe n'eus ket anezhañ
   messages:
-    inbox:
-      title: Boest resev
-      messages: '%{new_messages} ha %{old_messages} zo evidoc''h'
-      new_messages:
-        one: '%{count} gemennadenn nevez'
-        other: '%{count} kemennadenn nevez'
-      old_messages:
-        one: '%{count} gemennadenn gozh'
-        other: '%{count} kemennadenn gozh'
-      no_messages_yet_html: N'hoc'h eus kemennadenn ebet c'hoazh. Ha ma'z afec'h e
-        darempred gant darn eus an %{people_mapping_nearby_link}?
-      people_mapping_nearby: tud o kartennañ en ardremez
-    messages_table:
-      from: A-berzh
-      to: Da
-      subject: Danvez
-      date: Deiziad
-      actions: Oberoù
-    message_summary:
-      unread_button: Merkañ evel anlennet
-      read_button: Merkañ evel lennet
-      destroy_button: Dilemel
-      unmute_button: Dilec'hiañ d'ar voest resev
     new:
       title: Kas ur gemennadenn
       send_message_to_html: Kas ur gemennadenn nevez da %{name}
@@ -1795,16 +1791,6 @@ br:
       title: N'eus ket eus ar gemennadenn-se
       heading: N'eus ket eus ar gemennadenn-se
       body: Ho tigarez, n'eus kemennadenn ebet gant an id-se.
-    outbox:
-      title: Boest kas
-      messages:
-        one: Kaset hoc'h eus %{count} gemennadenn
-        other: Kaset hoc'h eus %{count} kemennadenn
-      no_sent_messages_html: N'hoc'h eus kaset kemennadenn ebet c'hoazh. Ha ma'z afec'h
-        a darempred gant darn eus an %{people_mapping_nearby_link}?
-      people_mapping_nearby: tud o kartennañ en ardremez
-    muted:
-      title: Kemennadennoù kuzhet
     reply:
       wrong_user: Kevreet oc'h evel "%{user}", met ar gemennadenn a fell deoc'h respont
         outi n'eo ket bet kaset d'an implijer-se. Mar plij kevreit gant ar gont reizh
@@ -1818,12 +1804,6 @@ br:
       wrong_user: Kevreet oc'h evel "%{user}", met ar gemennadenn a fell deoc'h lenn
         n'eo ket bet kaset na gant na d'an implijer-se. Mar plij kevreit gant ar gont
         reizh evit gellout lenn anezhi.
-    sent_message_summary:
-      destroy_button: Dilemel
-    heading:
-      my_inbox: Ma boest resev
-      my_outbox: Ma boest kas
-      muted_messages: Kemennadennoù kuzhet
     mark:
       as_read: Kemennadenn merket evel lennet
       as_unread: Merkañ evel anlennet
@@ -1832,6 +1812,49 @@ br:
       error: Ne c'haller ket dilec'hiañ ar gemennadenn d'ar voest resev.
     destroy:
       destroyed: Kemennadenn dilamet
+    mailboxes:
+      heading:
+        my_inbox: Ma boest resev
+        my_outbox: Ma boest kas
+        muted_messages: Kemennadennoù kuzhet
+      messages_table:
+        from: A-berzh
+        to: Da
+        subject: Danvez
+        date: Deiziad
+        actions: Oberoù
+      message:
+        unread_button: Merkañ evel anlennet
+        read_button: Merkañ evel lennet
+        destroy_button: Dilemel
+        unmute_button: Dilec'hiañ d'ar voest resev
+    inboxes:
+      show:
+        title: Boest resev
+        messages: '%{new_messages} ha %{old_messages} zo evidoc''h'
+        new_messages:
+          one: '%{count} gemennadenn nevez'
+          other: '%{count} kemennadenn nevez'
+        old_messages:
+          one: '%{count} gemennadenn gozh'
+          other: '%{count} kemennadenn gozh'
+        no_messages_yet_html: N'hoc'h eus kemennadenn ebet c'hoazh. Ha ma'z afec'h
+          e darempred gant darn eus an %{people_mapping_nearby_link}?
+        people_mapping_nearby: tud o kartennañ en ardremez
+    muted_inboxes:
+      show:
+        title: Kemennadennoù kuzhet
+    outboxes:
+      show:
+        title: Boest kas
+        messages:
+          one: Kaset hoc'h eus %{count} gemennadenn
+          other: Kaset hoc'h eus %{count} kemennadenn
+        no_sent_messages_html: N'hoc'h eus kaset kemennadenn ebet c'hoazh. Ha ma'z
+          afec'h a darempred gant darn eus an %{people_mapping_nearby_link}?
+        people_mapping_nearby: tud o kartennañ en ardremez
+      message:
+        destroy_button: Dilemel
   passwords:
     new:
       title: Ger-tremen kollet
@@ -1853,6 +1876,16 @@ br:
       title: Ma fenndibaboù
       preferred_editor: Aozer karetañ
       preferred_languages: 'Yezhoù gwellañ karet :'
+      preferred_site_color_scheme: Liv gwellañ al lec'hienn
+      site_color_schemes:
+        auto: Emgefreek
+        light: Sklaer
+        dark: Teñval
+      preferred_map_color_scheme: Liv gwellañ ar gartenn
+      map_color_schemes:
+        auto: Emgefreek
+        light: Sklaer
+        dark: Teñval
       edit_preferences: Kemmañ ar penndibaboù
     edit:
       title: Kemmañ ar penndibaboù
@@ -1892,6 +1925,7 @@ br:
   sessions:
     new:
       tab_title: Kevreañ
+      login_to_authorize_html: Kennaskit ouzh OpenStreetMap evit kaout %{client_app_name}.
       email or username: Chomlec'h postel pe anv implijer
       password: Ger-tremen
       remember: Derc'hel soñj ac'hanon
@@ -2051,6 +2085,8 @@ br:
         contributors_fr_france: Bro-C'hall
         contributors_hr_croatia: Kroatia
         contributors_hr_open_data_portal: Porched broadel ar roadennoù frank
+        contributors_nl_credit_html: '%{netherlands}: ennañ roadennoù © AND, 2007
+          (%{and_link})'
         contributors_nl_netherlands: Izelvroioù
         contributors_nz_new_zealand: Zeland Nevez
         contributors_nz_linz_data_service: Servij roadennoù LINZ
@@ -2058,6 +2094,9 @@ br:
         contributors_rs_serbia: Serbia
         contributors_rs_rgz: Aotrouniezh Geodezek Serbia
         contributors_rs_open_data_portal: Porched broadel ar roadennoù frank
+        contributors_si_credit_html: |-
+          %{slovenia}: ennañ roadennoù eus %{gu_link} ha %{mkgp_link}
+          (titoutoù publik eus Slovenia).
         contributors_si_slovenia: Slovenia
         contributors_si_mkgp: Ministrerezh al Labour-douar, ar C'hoadegi hag ar Boued
         contributors_es_spain: Spagn
@@ -2244,6 +2283,7 @@ br:
           scrubland: Strouezheg
           lake: Lenn
           reservoir: Mirlenn
+          intermittent_water: Ledennad dour a-bep-eil
           glacier: Skorneg
           reef: Karreg
           wetland: Takad gleborek
@@ -2470,6 +2510,28 @@ br:
       wikipedia:
         title: Kevreañ gant Wikipedia
         alt: Logo Wikipedia
+    share:
+      email:
+        title: Rannañ gant ar chomlec'h postel
+        alt: Ikon ar postel
+      bluesky:
+        title: Rannañ dre v-Bluesky
+        alt: Ikon Bluesky
+      facebook:
+        title: Rannañ dre Facebook
+        alt: Ikon Facebook
+      linkedin:
+        title: Rannañ dre LinkedIn
+        alt: Ikon LinkedIn
+      mastodon:
+        title: Rannañ war Mastodon
+        alt: Ikon Mastodon
+      telegram:
+        title: Rannañ war Telegram
+        alt: Ikon Telegram
+      x:
+        title: Rannañ war X
+        alt: Ikon X
   oauth:
     permissions:
       missing: N'eo ket bet aotreet an arload ganeoc'h d'ober gan an arc'hwel-mañ
@@ -2650,6 +2712,30 @@ br:
     go_public:
       flash success: Foran eo hoc'h holl aozadennoù bremañ, ha n'oc'h ket aotreet
         da aozañ.
+    issued_blocks:
+      show:
+        title: Stankadurioù gant %{name}
+        heading_html: Roll ar stankadurioù gant %{name}
+        empty: '%{name} n''en deus graet stankadur ebet c''hoazh.'
+    received_blocks:
+      show:
+        title: Stankadurioù evit %{name}
+        heading_html: Roll ar stankadurioù evit %{name}
+        empty: '%{name} n''eo ket bet stanket c''hoazh.'
+      edit:
+        title: Disteurel an holl stankadurioù evit %{block_on}
+        heading_html: O tisteurel an holl stankadurioù evit %{block_on}
+        empty: '%{name} n''en/he deus stankadur oberiant ebet.'
+        confirm: Ha sur oc'h hoc'h eus c'hoant da nullañ %{active_blocks}?
+        active_blocks:
+          one: '%{count} stankadur oberiant'
+          two: '%{count} stankadur oberiant'
+          few: '%{count} stankadur oberiant'
+          many: '%{count} stankadur oberiant'
+          other: '%{count} stankadur oberiant'
+        revoke: Disteuler!
+      destroy:
+        flash: Nullet eo bet an holl stankadurioù.
     lists:
       show:
         title: Implijerien
@@ -2730,10 +2816,6 @@ br:
       title: Stankadurioù an implijer
       heading: Roll stankadurioù an implijer
       empty: N'eus bet graet stankadur ebet c'hoazh.
-    revoke_all:
-      title: Disteurel an holl stankadurioù evit %{block_on}
-      heading_html: O tisteurel an holl stankadurioù evit %{block_on}
-      revoke: Disteuler!
     helper:
       time_future_html: Echuiñ a ray a-benn %{time}.
       until_login: Oberiant betek ma kevre an implijer.
@@ -2771,14 +2853,13 @@ br:
           few: '%{count} bloaz'
           many: '%{count} bloaz'
           other: '%{count} bloaz'
-    blocks_on:
-      title: Stankadurioù evit %{name}
-      heading_html: Roll ar stankadurioù evit %{name}
-      empty: '%{name} n''eo ket bet stanket c''hoazh.'
-    blocks_by:
-      title: Stankadurioù gant %{name}
-      heading_html: Roll ar stankadurioù gant %{name}
-      empty: '%{name} n''en deus graet stankadur ebet c''hoazh.'
+      short:
+        ended: echu
+        revoked_html: nullet gant %{name}
+        active: oberiant
+        read_html: bet lennet da %{time}
+        time_in_future_title: '%{time_absolute}; e %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} stanket gant %{block_by}'
       heading_html: '%{block_on} stanket gant %{block_by}'
@@ -2795,6 +2876,8 @@ br:
       display_name: Implijer stanket
       creator_name: Krouer
       reason: Abeg evit stankañ
+      start: Deroù
+      end: Fin
       status: Statud
     navigation:
       all_blocks: An holl stankadurioù
@@ -2842,6 +2925,11 @@ br:
       description: Deskrivadur
       created_at: Krouet e
       last_changed: Kemm diwezhañ
+      apply: Lakaat da dalvezout
+      all: An holl
+      open: Digor
+      closed: Serret
+      status: Statud
     show:
       title: 'Notenn: %{id}'
       description: Deskrivadur
@@ -2861,6 +2949,9 @@ br:
       report: danevelliñ an notenn-mañ
       anonymous_warning: En notenn-mañ ez eus evezhiadennoù gant implijerien dianav
         hag a zlefe bezañ gwiriekaet unan-ha-unan.
+      discussion: Kaozeadenn
+      subscribe: Koumanantiñ
+      unsubscribe: Digoumanantiñ
       hide: Kuzhat
       resolve: Diskoulmañ
       reactivate: Adweredekaat
@@ -2879,6 +2970,8 @@ br:
         gartenn. Setu perak eo arabat ebarzhiñ titouroù personel pe titouroù o tont
         eus kartennoù gwarezet na endalc'hioù rolloù.
       add: Ouzhpennañ un notenn
+    new_readonly:
+      title: Notenn nevez
     notes_paging_nav:
       showing_page: Pajenn %{page}
       next: War-lerc'h
@@ -2897,15 +2990,13 @@ br:
       custom_dimensions: Lakaat mentoù personelaet
       format: 'Furmad :'
       scale: 'Skeuliad :'
-      image_dimensions: Ar skeudenn a vo lakaet e stumm standard %{width} × %{height}
+      image_dimensions: Ar skeudenn a ziskouezo ar gwiskad %{layer} er stumm %{width} × %{height}
       download: Pellgargañ
       short_url: URL berr
       include_marker: Lakaat ur merker
       center_marker: Kreizañ ar gartenn war ar merker
       paste_html: Pegañ HTML evit bezañ enkorfet en ul lec'hienn web
       view_larger_map: Gwelet ur gartenn vrasoc'h
-      only_standard_layer: Ar gwiskad standart hepken a c'hall bezañ ezporzhiet evel
-        ur skeudenn.
     embed:
       report_problem: Menegiñ ur gudenn
     key:

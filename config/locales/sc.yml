@@ -1707,8 +1707,6 @@ sc:
       success: As cunfirmadu su contu tuo, gràtzias pro t'èssere registradu!
       already active: Custu contu est istadu giai cunfirmadu.
       unknown token: Custu còdighe de cunfirma est iscadidu o no esistet.
-      resend_html: Si bisòngias chi ti torremus a imbiare sa lìtera de cunfirma, %{reconfirm_link}.
-      click_here: incarca inoghe
     confirm_resend:
       failure: Utente %{name} no agatadu.
     confirm_email:
@@ -1727,27 +1725,6 @@ sc:
         tando assegura·ti de annànghere %{sender} a sa lista bianca tua, dae chi no
         amus a pòdere rispòndere a peruna rechesta de cunfirma.
   messages:
-    inbox:
-      title: Posta in intrada
-      messages: Tenes %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} messàgiu nou'
-        other: '%{count} messàgios noos'
-      old_messages:
-        one: '%{count} messàgiu betzu'
-        other: '%{count} messàgios betzos'
-      no_messages_yet_html: Non tenes galu messàgios. Proite non chircas a calicuna
-        de sas %{people_mapping_nearby_link}?
-      people_mapping_nearby: persones chi mapant a curtzu a tie
-    messages_table:
-      from: Dae
-      to: Cara a
-      subject: 'Sugetu:'
-      date: Data
-    message_summary:
-      unread_button: Sinna comente no lèghidu
-      read_button: Sinna comente lèghidu
-      destroy_button: Cantzella
     new:
       title: Imbia messàgiu
       send_message_to_html: Imbia unu messàgiu nou a %{name}
@@ -1760,14 +1737,6 @@ sc:
       title: Non b'at perunu messàgiu gasi
       heading: Non b'at perunu messàgiu gasi
       body: Non b'at perunu messàgiu cun custu id.
-    outbox:
-      title: Posta in essida
-      messages:
-        one: Tenes %{count} messàgiu imbiadu
-        other: Tenes %{count} messàgios imbiados
-      no_sent_messages_html: Non tenes galu messàgios imbiados. Proite non chircas
-        a calicuna de sas %{people_mapping_nearby_link}?
-      people_mapping_nearby: persones chi mapant a curtzu a tie
     reply:
       wrong_user: Ti ses autenticadu comente `%{user}', ma su messàgiu a su cale cheres
         rispòndere no est istadu imbiadu a cussu utente. Faghe s'atzessu comente s'utente
@@ -1781,16 +1750,48 @@ sc:
       wrong_user: Ti ses autenticadu comente `%{user}', ma su messàgiu chi as pedidu
         de pòdere lèghere no est istadu imbiadu a cussu utente. Faghe s'atzessu comente
         s'utente curretu pro lu lèghere.
-    sent_message_summary:
-      destroy_button: Cantzella
-    heading:
-      my_inbox: Posta in intrada mea
-      my_outbox: Posta in essida mea
     mark:
       as_read: Messàgiu marcadu comente lèghidu
       as_unread: Messàgiu marcadu comente non lèghidu
     destroy:
       destroyed: Messàgiu iscantzelladu
+    mailboxes:
+      heading:
+        my_inbox: Posta in intrada mea
+        my_outbox: Posta in essida mea
+      messages_table:
+        from: Dae
+        to: Cara a
+        subject: 'Sugetu:'
+        date: Data
+      message:
+        unread_button: Sinna comente no lèghidu
+        read_button: Sinna comente lèghidu
+        destroy_button: Cantzella
+    inboxes:
+      show:
+        title: Posta in intrada
+        messages: Tenes %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} messàgiu nou'
+          other: '%{count} messàgios noos'
+        old_messages:
+          one: '%{count} messàgiu betzu'
+          other: '%{count} messàgios betzos'
+        no_messages_yet_html: Non tenes galu messàgios. Proite non chircas a calicuna
+          de sas %{people_mapping_nearby_link}?
+        people_mapping_nearby: persones chi mapant a curtzu a tie
+    outboxes:
+      show:
+        title: Posta in essida
+        messages:
+          one: Tenes %{count} messàgiu imbiadu
+          other: Tenes %{count} messàgios imbiados
+        no_sent_messages_html: Non tenes galu messàgios imbiados. Proite non chircas
+          a calicuna de sas %{people_mapping_nearby_link}?
+        people_mapping_nearby: persones chi mapant a curtzu a tie
+      message:
+        destroy_button: Cantzella
   passwords:
     new:
       title: Crae de intrada pèrdida
@@ -2736,6 +2737,16 @@ sc:
     go_public:
       flash success: Totu sas modìficas tuas como sunt pùblicas, e tenes su permissu
         de modificare.
+    issued_blocks:
+      show:
+        title: Blocos fatos dae %{name}
+        heading_html: Lista de blocos fatos dae %{name}
+        empty: '%{name} no at fatu galu perunu blocu.'
+    received_blocks:
+      show:
+        title: Blocos pro %{name}
+        heading_html: Lista de blocos pro %{name}
+        empty: '%{name} no est istadu galu blocadu.'
     lists:
       show:
         title: Utentes
@@ -2834,14 +2845,6 @@ sc:
         years:
           one: '%{count} annu'
           other: '%{count} annos'
-    blocks_on:
-      title: Blocos pro %{name}
-      heading_html: Lista de blocos pro %{name}
-      empty: '%{name} no est istadu galu blocadu.'
-    blocks_by:
-      title: Blocos fatos dae %{name}
-      heading_html: Lista de blocos fatos dae %{name}
-      empty: '%{name} no at fatu galu perunu blocu.'
     show:
       title: '%{block_on} blocadu dae %{block_by}'
       heading_html: '%{block_on} blocadu dae %{block_by}'
@@ -2945,8 +2948,6 @@ sc:
       center_marker: Tzentra sa mapa in su marcadore
       paste_html: Incolla s'HTML pro l'integrare in su situ web
       view_larger_map: Pòmpia una mapa prus manna
-      only_standard_layer: Petzi sos istratos istandard, pro su tziclismu e pro sos
-        trasportos si podent esportare comente immàgine
     embed:
       report_problem: Sinnala unu problema
     key:

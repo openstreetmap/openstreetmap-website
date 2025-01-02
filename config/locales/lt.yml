@@ -1773,9 +1773,6 @@ lt:
       success: Jūsų paskyra patvirtinta. Ačiū už registraciją!
       already active: Ši paskyra jau yra patvirtinta.
       unknown token: Šis patvirtinimo kodas nebegalioja arba neegzistuoja.
-      resend_html: Jei norite, kad dar kartą atsiųstume patvirtinimo el. laišką, paspauskite
-        šią nuorodą %{reconfirm_link}.
-      click_here: spauskite čia
     confirm_resend:
       failure: Naudotojas %{name} nerastas.
     confirm_email:
@@ -1794,29 +1791,6 @@ lt:
         prašymus, prašome pridėti %{sender} į leidžiamų sąrašą, nes mes negalime atsakyti
         į patvirtinimo prašymus.
   messages:
-    inbox:
-      title: Gautieji
-      messages: Jūs turite %{new_messages} ir %{old_messages}
-      new_messages:
-        one: '%{count} naujas pranešimas'
-        other: '%{count} nauji pranešimai'
-      old_messages:
-        one: '%{count} senas pranešimas'
-        other: '%{count} seni pranešimai'
-      no_messages_yet_html: Jūs dar negavote nei vienos žinutės. Kodėl gi nesusisiekus
-        su %{people_mapping_nearby_link}?
-      people_mapping_nearby: netoliese žyminčiais naudotojais
-    messages_table:
-      from: Nuo
-      to: Kam
-      subject: Tema
-      date: Data
-      actions: Veiksmai
-    message_summary:
-      unread_button: Žymėti neskaitytu
-      read_button: Žymėti skaitytu
-      destroy_button: Ištrinti
-      unmute_button: Perkelti į gautuosius
     new:
       title: Siųsti žinutę
       send_message_to_html: Siųsti naują žinutę naudotojui %{name}
@@ -1829,16 +1803,6 @@ lt:
       title: Nėra tokio pranešimo
       heading: Nėra tokio pranešimo
       body: Gaila, bet žinutės su tokiu id nėra.
-    outbox:
-      title: Išsiųstieji
-      messages:
-        one: Jūs %{count} nusiųstą pranešimą
-        other: Jūs %{count} nusiųstus(-ų) pranešimus(-ų)
-      no_sent_messages_html: Jūs dar negavote nei vienos žinutės. Kodėl gi nesusisiekus
-        su %{people_mapping_nearby_link}?
-      people_mapping_nearby: netoliese žyminčiais naudotojais
-    muted:
-      title: Nutildyti pranešimai
     reply:
       wrong_user: Jūs prisijungę kaip „%{user}“, bet pranešimas, į kurį rašyta atsakyti,
         nebuvo siųstas tam naudotojui. Prisijunkite prie teisingos naudotojo paskyros,
@@ -1852,12 +1816,6 @@ lt:
       wrong_user: Jūs prisijungę kaip „%{user}“, bet pranešimas, kuri prašėte perskaityti,
         nebuvo siųstas tam naudotojui. Prisijunkite prie teisingos naudotojo paskyros,
         jei norite perskaityti.
-    sent_message_summary:
-      destroy_button: Ištrinti
-    heading:
-      my_inbox: Mano gauti
-      my_outbox: Išsiųsti
-      muted_messages: Nutildyti pranešimai
     mark:
       as_read: Pranešimas pažymėtas kaip skaitytas
       as_unread: Pranešimas pažymėtas kaip neskaitytas
@@ -1866,6 +1824,49 @@ lt:
       error: Žinutės nepavyko perkelti į gautuosius.
     destroy:
       destroyed: Pranešimas ištrintas
+    mailboxes:
+      heading:
+        my_inbox: Mano gauti
+        my_outbox: Išsiųsti
+        muted_messages: Nutildyti pranešimai
+      messages_table:
+        from: Nuo
+        to: Kam
+        subject: Tema
+        date: Data
+        actions: Veiksmai
+      message:
+        unread_button: Žymėti neskaitytu
+        read_button: Žymėti skaitytu
+        destroy_button: Ištrinti
+        unmute_button: Perkelti į gautuosius
+    inboxes:
+      show:
+        title: Gautieji
+        messages: Jūs turite %{new_messages} ir %{old_messages}
+        new_messages:
+          one: '%{count} naujas pranešimas'
+          other: '%{count} nauji pranešimai'
+        old_messages:
+          one: '%{count} senas pranešimas'
+          other: '%{count} seni pranešimai'
+        no_messages_yet_html: Jūs dar negavote nei vienos žinutės. Kodėl gi nesusisiekus
+          su %{people_mapping_nearby_link}?
+        people_mapping_nearby: netoliese žyminčiais naudotojais
+    muted_inboxes:
+      show:
+        title: Nutildyti pranešimai
+    outboxes:
+      show:
+        title: Išsiųstieji
+        messages:
+          one: Jūs %{count} nusiųstą pranešimą
+          other: Jūs %{count} nusiųstus(-ų) pranešimus(-ų)
+        no_sent_messages_html: Jūs dar negavote nei vienos žinutės. Kodėl gi nesusisiekus
+          su %{people_mapping_nearby_link}?
+        people_mapping_nearby: netoliese žyminčiais naudotojais
+      message:
+        destroy_button: Ištrinti
   passwords:
     new:
       title: Pamiršau slaptažodį
@@ -2795,6 +2796,24 @@ lt:
       report: Pranešti apie šį naudotoją
     go_public:
       flash success: Nuo šiol visi jūsų pakeitimai bus vieši ir jums leidžiama keisti.
+    issued_blocks:
+      show:
+        title: Naudotojo %{name} blokavimai
+        heading_html: Naudotojo %{name} blokavimų sąrašas
+        empty: Naudotojas %{name} dar nieko neužblokavo.
+    received_blocks:
+      show:
+        title: Naudotojo %{name} blokavimai
+        heading_html: Naudotojo %{name} apribojimų sąrašas
+        empty: '%{name} dar nebuvo apribotas.'
+      edit:
+        title: Atšaukiami visi %{block_on} blokavimai
+        heading_html: Atšaukiami visi %{block_on} blokavimai
+        empty: '%{name} neturi aktyvių blokavimų.'
+        confirm: Ar tikrai norite atšaukti %{active_blocks}?
+        revoke: Atšaukti!
+      destroy:
+        flash: Visi aktyvūs blokavimai atšaukti.
     lists:
       show:
         title: Naudotojai
@@ -2877,13 +2896,6 @@ lt:
       title: Naudotojų blokavimai
       heading: Naudotojo blokavimų sąrašas
       empty: Niekas dar nebuvo blokuojamas.
-    revoke_all:
-      title: Atšaukiami visi %{block_on} blokavimai
-      heading_html: Atšaukiami visi %{block_on} blokavimai
-      empty: '%{name} neturi aktyvių blokavimų.'
-      confirm: Ar tikrai norite atšaukti %{active_blocks}?
-      revoke: Atšaukti!
-      flash: Visi aktyvūs blokavimai atšaukti.
     helper:
       time_future_html: Baigiasi po %{time}.
       until_login: Aktyvus iki naudotojo prisijungimo.
@@ -2916,14 +2928,6 @@ lt:
           few: '%{count} metai'
           many: '{%count} metai'
           other: '%{count} metų'
-    blocks_on:
-      title: Naudotojo %{name} blokavimai
-      heading_html: Naudotojo %{name} apribojimų sąrašas
-      empty: '%{name} dar nebuvo apribotas.'
-    blocks_by:
-      title: Naudotojo %{name} blokavimai
-      heading_html: Naudotojo %{name} blokavimų sąrašas
-      empty: Naudotojas %{name} dar nieko neužblokavo.
     show:
       title: Naudotoją %{block_on} blokuoja %{block_by}
       heading_html: Naudotoją %{block_on} blokuoja %{block_by}
@@ -3034,8 +3038,6 @@ lt:
       center_marker: Centruoti žemėlapį ties žymekliu
       paste_html: Įkelkite HTML, kad įdėtumėte į svetainę
       view_larger_map: Žiūrėti didesniame žemėlapyje
-      only_standard_layer: Tik standartinis sluoksnis gali būti eksportuojamas kaip
-        paveikslėlis
     embed:
       report_problem: Pranešti apie problemą
     key:

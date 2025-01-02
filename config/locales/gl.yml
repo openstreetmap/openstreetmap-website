@@ -1834,9 +1834,6 @@ gl:
       success: Confirmouse a túa conta. Grazas por se rexistrar!
       already active: Esta conta xa se confirmou.
       unknown token: Ese código de confirmación caducou ou non existe.
-      resend_html: Se precisas que reenviemos o correo electrónico de confirmación,
-        %{reconfirm_link}.
-      click_here: preme aquí
     confirm_resend:
       failure: Non se atopou o usuario "%{name}".
     confirm_email:
@@ -1854,29 +1851,6 @@ gl:
         confirmación, asegúrate de incluír a %{sender} na túa lista branca, xa que
         non podemos responder as devanditas solicitudes.
   messages:
-    inbox:
-      title: Caixa de entrada
-      messages: Ten %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} mensaxe nova'
-        other: '%{count} mensaxes novas'
-      old_messages:
-        one: '%{count} mensaxe vella'
-        other: '%{count} mensaxes vellas'
-      no_messages_yet_html: Aínda non tes ningunha mensaxe. Por que non te pos en
-        contacto con algunhas das %{people_mapping_nearby_link}?
-      people_mapping_nearby: persoas preto de ti
-    messages_table:
-      from: De
-      to: Para
-      subject: Asunto
-      date: Data
-      actions: Accións
-    message_summary:
-      unread_button: Marcar como non lido
-      read_button: Marcar como lido
-      destroy_button: Eliminar
-      unmute_button: Mover á caixa de entrada
     new:
       title: Enviar unha mensaxe
       send_message_to_html: Enviarlle unha nova mensaxe a %{name}
@@ -1889,19 +1863,6 @@ gl:
       title: Non se atopou a mensaxe
       heading: Non se atopou a mensaxe
       body: Non hai ningunha mensaxe con ese identificador.
-    outbox:
-      title: Caixa de saída
-      messages:
-        one: Enviaches %{count} mensaxe
-        other: Enviaches %{count} mensaxes
-      no_sent_messages_html: Aínda non enviaches ningunha mensaxe. Por que non te
-        pos en contacto con algunhas das %{people_mapping_nearby_link}?
-      people_mapping_nearby: persoas preto de ti
-    muted:
-      title: Mensaxes silenciadas
-      messages:
-        one: '%{count} mensaxe silenciada'
-        other: Tes %{count} mensaxes silenciadas
     reply:
       wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
         responder non se enviou a ese usuario. Accede co usuario correcto para redactar
@@ -1915,12 +1876,6 @@ gl:
       wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
         ler non a enviou ese usuario nin foi enviada a ese usuario. Accede co usuario
         correcto para ler a mensaxe.
-    sent_message_summary:
-      destroy_button: Eliminar
-    heading:
-      my_inbox: A miña caixa de entrada
-      my_outbox: Caixa de saída
-      muted_messages: Mensaxes silenciadas
     mark:
       as_read: Mensaxe marcada coma lida
       as_unread: Mensaxe marcada coma non lida
@@ -1929,6 +1884,52 @@ gl:
       error: Non se puido mover a mensaxe á caixa de entrada.
     destroy:
       destroyed: Mensaxe eliminada
+    mailboxes:
+      heading:
+        my_inbox: A miña caixa de entrada
+        my_outbox: Caixa de saída
+        muted_messages: Mensaxes silenciadas
+      messages_table:
+        from: De
+        to: Para
+        subject: Asunto
+        date: Data
+        actions: Accións
+      message:
+        unread_button: Marcar como non lido
+        read_button: Marcar como lido
+        destroy_button: Eliminar
+        unmute_button: Mover á caixa de entrada
+    inboxes:
+      show:
+        title: Caixa de entrada
+        messages: Ten %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} mensaxe nova'
+          other: '%{count} mensaxes novas'
+        old_messages:
+          one: '%{count} mensaxe vella'
+          other: '%{count} mensaxes vellas'
+        no_messages_yet_html: Aínda non tes ningunha mensaxe. Por que non te pos en
+          contacto con algunhas das %{people_mapping_nearby_link}?
+        people_mapping_nearby: persoas preto de ti
+    muted_inboxes:
+      show:
+        title: Mensaxes silenciadas
+        messages:
+          one: '%{count} mensaxe silenciada'
+          other: Tes %{count} mensaxes silenciadas
+    outboxes:
+      show:
+        title: Caixa de saída
+        messages:
+          one: Enviaches %{count} mensaxe
+          other: Enviaches %{count} mensaxes
+        no_sent_messages_html: Aínda non enviaches ningunha mensaxe. Por que non te
+          pos en contacto con algunhas das %{people_mapping_nearby_link}?
+        people_mapping_nearby: persoas preto de ti
+      message:
+        destroy_button: Eliminar
   passwords:
     new:
       title: Contrasinal perdido
@@ -2362,7 +2363,7 @@ gl:
     help:
       title: Obter axuda
       introduction: |-
-        O OpenStreetMap ten varios recursos para aprender sobre o proxecto, para formular e respostar preguntas,
+        O OpenStreetMap dispón de varios recursos para aprender sobre o proxecto, para formular e responder preguntas,
         así como para debater e documentar colaborativamente sobre temas de cartografía.
       welcome:
         url: /welcome
@@ -2957,6 +2958,27 @@ gl:
     go_public:
       flash success: Tódalas túas edicións son públicas e agora está autorizado a
         editar.
+    issued_blocks:
+      show:
+        title: Bloqueos feitos por %{name}
+        heading_html: Listaxe dos bloqueos feitos por %{name}
+        empty: '%{name} aínda non efectuou ningún bloqueo.'
+    received_blocks:
+      show:
+        title: Bloqueos feitos a %{name}
+        heading_html: Listaxe dos bloqueos feitos a %{name}
+        empty: '%{name} aínda non foi bloqueado.'
+      edit:
+        title: Revogando todos os bloqueos en %{block_on}
+        heading_html: Revogando todos os bloqueos en %{block_on}
+        empty: '%{name} non ten bloqueos activos.'
+        confirm: Ten a certeza de querer revogar %{active_blocks}?
+        active_blocks:
+          one: '%{count} bloqueo activo'
+          other: '%{count} bloqueos activos'
+        revoke: Revogar!
+      destroy:
+        flash: Revogáronse todos os bloqueos activos.
     lists:
       show:
         title: Usuarios
@@ -3039,16 +3061,6 @@ gl:
       title: Bloqueos de usuario
       heading: Listaxe dos bloqueos de usuario
       empty: Aínda non se fixo ningún bloqueo.
-    revoke_all:
-      title: Revogando todos os bloqueos en %{block_on}
-      heading_html: Revogando todos os bloqueos en %{block_on}
-      empty: '%{name} non ten bloqueos activos.'
-      confirm: Ten a certeza de querer revogar %{active_blocks}?
-      active_blocks:
-        one: '%{count} bloqueo activo'
-        other: '%{count} bloqueos activos'
-      revoke: Revogar!
-      flash: Revogáronse todos os bloqueos activos.
     helper:
       time_future_html: Remata en %{time}.
       until_login: Activo até que o usuario inicie sesión.
@@ -3080,14 +3092,6 @@ gl:
         read_html: lido ás %{time}
         time_in_future_title: '%{time_absolute}; en %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Bloqueos feitos a %{name}
-      heading_html: Listaxe dos bloqueos feitos a %{name}
-      empty: '%{name} aínda non foi bloqueado.'
-    blocks_by:
-      title: Bloqueos feitos por %{name}
-      heading_html: Listaxe dos bloqueos feitos por %{name}
-      empty: '%{name} aínda non efectuou ningún bloqueo.'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading_html: '%{block_on} bloqueado por %{block_by}'
@@ -3232,8 +3236,8 @@ gl:
       center_marker: Centrar o mapa no marcador
       paste_html: Pegue o código HTML para incluílo na páxina web
       view_larger_map: Ollar un mapa máis grande
-      only_standard_layer: Só as capas estándar, ciclista e transporte poden exportarse
-        coma unha imaxe
+      only_layers_exported_as_image: 'Só se poden exportar como imaxe as seguintes
+        capas:'
     embed:
       report_problem: Denunciar un problema
     key:

@@ -1718,8 +1718,6 @@ zh-TW:
       success: 已確認你的帳號，感謝你的註冊！
       already active: 該帳號已經確認。
       unknown token: 確認碼已經過期或不存在。
-      resend_html: 如果你要我們重新發送確認郵件，%{reconfirm_link}。
-      click_here: 在此點擊
     confirm_resend:
       failure: 找不到使用者 %{name}。
     confirm_email:
@@ -1733,28 +1731,6 @@ zh-TW:
       confirmation_sent: 我們已發送新的確認通知到 %{email}，一旦你確認你的帳號後，就能取得製圖權限。
       whitelist: 如果你用來發送確認請求的信箱有反垃圾郵件系統，請確認有將 %{sender} 將入白名單，因為我們無法回覆任何確認請求。
   messages:
-    inbox:
-      title: 收件匣
-      messages: 您有 %{new_messages} 及 %{old_messages}。
-      new_messages:
-        one: '%{count} 項新訊息'
-        other: '%{count} 項新訊息'
-      old_messages:
-        one: '%{count} 項舊訊息'
-        other: '%{count} 項舊訊息'
-      no_messages_yet_html: 你還沒有訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
-      people_mapping_nearby: 在附近製圖的人
-    messages_table:
-      from: 寄件者
-      to: 收件者
-      subject: 主旨
-      date: 日期
-      actions: 操作
-    message_summary:
-      unread_button: 標記為未讀
-      read_button: 標記為已讀
-      destroy_button: 刪除
-      unmute_button: 移至收件匣
     new:
       title: 寄出訊息
       send_message_to_html: 寄出新訊息給 %{name}
@@ -1766,18 +1742,6 @@ zh-TW:
       title: 沒有這個訊息
       heading: 沒有這個訊息
       body: 抱歉，並沒有這個 id 的訊息。
-    outbox:
-      title: 寄件匣
-      messages:
-        one: 你有 %{count} 項已寄訊息
-        other: 你有 %{count} 項已寄訊息
-      no_sent_messages_html: 你還沒有已寄訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
-      people_mapping_nearby: 附近製作地圖的使用者
-    muted:
-      title: 已忽視訊息
-      messages:
-        one: 1 條忽視訊息
-        other: 你有 %{count} 條忽視訊息
     reply:
       wrong_user: 你已經以「%{user}」的身份登入，但是你想要回覆的訊息並非寄給這個使用者。請以正確的使用者身份登入以回覆這個訊息。
     show:
@@ -1787,12 +1751,6 @@ zh-TW:
       destroy_button: 刪除
       back: 返回
       wrong_user: 你已經以「%{user}」的身份登入，但是你想要閱讀的訊息並非寄給那個使用者。請以正確的使用者身份登入以閱讀它。
-    sent_message_summary:
-      destroy_button: 刪除
-    heading:
-      my_inbox: 我的收件匣
-      my_outbox: 我的寄件匣
-      muted_messages: 已忽視訊息
     mark:
       as_read: 訊息標記為已讀
       as_unread: 訊息標記為未讀
@@ -1801,6 +1759,50 @@ zh-TW:
       error: 無法將訊息移至收件匣。
     destroy:
       destroyed: 訊息已刪除
+    mailboxes:
+      heading:
+        my_inbox: 我的收件匣
+        my_outbox: 我的寄件匣
+        muted_messages: 已忽視訊息
+      messages_table:
+        from: 寄件者
+        to: 收件者
+        subject: 主旨
+        date: 日期
+        actions: 操作
+      message:
+        unread_button: 標記為未讀
+        read_button: 標記為已讀
+        destroy_button: 刪除
+        unmute_button: 移至收件匣
+    inboxes:
+      show:
+        title: 收件匣
+        messages: 您有 %{new_messages} 及 %{old_messages}。
+        new_messages:
+          one: '%{count} 項新訊息'
+          other: '%{count} 項新訊息'
+        old_messages:
+          one: '%{count} 項舊訊息'
+          other: '%{count} 項舊訊息'
+        no_messages_yet_html: 你還沒有訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
+        people_mapping_nearby: 在附近製圖的人
+    muted_inboxes:
+      show:
+        title: 已忽視訊息
+        messages:
+          one: 1 條忽視訊息
+          other: 你有 %{count} 條忽視訊息
+    outboxes:
+      show:
+        title: 寄件匣
+        messages:
+          one: 你有 %{count} 項已寄訊息
+          other: 你有 %{count} 項已寄訊息
+        no_sent_messages_html: 你還沒有已寄訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
+        people_mapping_nearby: 附近製作地圖的使用者
+      message:
+        destroy_button: 刪除
   passwords:
     new:
       title: 遺失密碼
@@ -2637,6 +2639,27 @@ zh-TW:
       report: 回報此使用者
     go_public:
       flash success: 現在你所有的編輯都是公開的，而你已獲准編輯。
+    issued_blocks:
+      show:
+        title: '%{name} 設的封鎖'
+        heading_html: 列出 %{name} 所設定的封鎖
+        empty: '%{name} 尚未設定任何封鎖。'
+    received_blocks:
+      show:
+        title: 對 %{name} 的封鎖
+        heading_html: 對 %{name} 封鎖的清單
+        empty: 未封鎖%{name}。
+      edit:
+        title: 正在撤銷對%{block_on}的封鎖
+        heading_html: 正在撤銷對%{block_on}的所有封鎖
+        empty: '%{name}沒有生效的封鎖。'
+        confirm: 你確定要撤銷%{active_blocks}嗎？
+        active_blocks:
+          one: '%{count} 個生效封鎖'
+          other: '%{count} 個生效封鎖'
+        revoke: 撤銷！
+      destroy:
+        flash: 已撤銷所有生效封鎖。
     lists:
       show:
         title: 使用者
@@ -2708,16 +2731,6 @@ zh-TW:
       title: 使用者封鎖
       heading: 使用者封鎖清單
       empty: 尚未設定任何使用者封鎖。
-    revoke_all:
-      title: 正在撤銷對%{block_on}的封鎖
-      heading_html: 正在撤銷對%{block_on}的所有封鎖
-      empty: '%{name}沒有生效的封鎖。'
-      confirm: 你確定要撤銷%{active_blocks}嗎？
-      active_blocks:
-        one: '%{count} 個生效封鎖'
-        other: '%{count} 個生效封鎖'
-      revoke: 撤銷！
-      flash: 已撤銷所有生效封鎖。
     helper:
       time_future_html: 於 %{time} 結束。
       until_login: 在使用者登入之前一直生效。
@@ -2739,14 +2752,6 @@ zh-TW:
         years:
           one: '%{count} 年'
           other: '%{count} 年'
-    blocks_on:
-      title: 對 %{name} 的封鎖
-      heading_html: 對 %{name} 封鎖的清單
-      empty: 未封鎖%{name}。
-    blocks_by:
-      title: '%{name} 設的封鎖'
-      heading_html: 列出 %{name} 所設定的封鎖
-      empty: '%{name} 尚未設定任何封鎖。'
     show:
       title: '%{block_by}封鎖了%{block_on}'
       heading_html: '%{block_by}封鎖了%{block_on}'
@@ -2867,7 +2872,6 @@ zh-TW:
       center_marker: 將標記設為地圖中心點
       paste_html: 貼上 HTML 以嵌入網站
       view_larger_map: 查看更大的地圖
-      only_standard_layer: 只有標準圖層、自行車地圖、交通運輸圖層能匯出成圖片
     embed:
       report_problem: 回報問題
     key:

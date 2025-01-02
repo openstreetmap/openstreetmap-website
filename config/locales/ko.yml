@@ -103,6 +103,7 @@ ko:
       message: 메시지
       node: 교점
       node_tag: 교점 태그
+      note: 노트
       old_node: 이전 교점
       old_node_tag: 이전 교점 태그
       old_relation: 이전 관계
@@ -374,7 +375,7 @@ ko:
         way: 길
         relation: 관계
     containing_relation:
-      entry_role_html: (%{relation_role}로서) 관계 %{relation_name}
+      entry_role_html: '%{relation_name} (역할: %{relation_role})'
     not_found:
       title: 찾을 수 없음
       sorry: '죄송하지만, %{type} #%{id}을(를) 찾지 못했습니다.'
@@ -1677,8 +1678,8 @@ ko:
       success: 계정을 확인했습니다, 가입해주셔서 감사합니다!
       already active: 이 계정은 이미 확인했습니다.
       unknown token: 확인 코드가 만료되었거나 존재하지 않습니다.
-      resend_html: 확인 이메일을 다시 보내려면 %{reconfirm_link}
-      click_here: 여기를 클릭하세요
+      if_need_resend: 확인 이메일을 다시 보내려면 아래 버튼을 클릭하세요.
+      resend_button: 확인 이메일을 다시 보내기
     confirm_resend:
       failure: '%{name} 사용자를 찾을 수 없습니다.'
     confirm_email:
@@ -1694,28 +1695,6 @@ ko:
       whitelist: 확인 요청 알림을 스팸으로 처리하는 시스템을 사용 중이신 경우에는 확인 요청에 응할 수 없으므로 %{sender}을(를)
         수신 허용 목록에 추가해 주세요.
   messages:
-    inbox:
-      title: 받은 쪽지함
-      messages: '%{new_messages}와 %{old_messages}가 있습니다'
-      new_messages:
-        one: 새 메시지 %{count}개
-        other: 새 메시지 %{count}개
-      old_messages:
-        one: 오래된 메시지 %{count}개
-        other: 오래된 메시지 %{count}개
-      no_messages_yet_html: 아직 메시지가 없습니다. %{people_mapping_nearby_link}에서 마음에 드는 친구를
-        찾아보는 것은 어떨까요?
-      people_mapping_nearby: 근처에 매핑한 사람
-    messages_table:
-      from: 보낸 사람
-      to: 받는이
-      subject: 제목
-      date: 날짜
-      actions: 동작
-    message_summary:
-      unread_button: 읽지 않음으로 표시
-      read_button: 읽음으로 표시
-      destroy_button: 삭제
     new:
       title: 메시지 보내기
       send_message_to_html: '%{name}에게 새 메시지 보내기'
@@ -1727,18 +1706,6 @@ ko:
       title: 메시지가 없습니다.
       heading: 메시지가 없습니다.
       body: 죄송합니다 해당 id로 된 메시지가 없습니다.
-    outbox:
-      title: 보낸 쪽지함
-      messages:
-        one: 메시지 %{count}개를 보냈습니다
-        other: 메시지 %{count}개를 보냈습니다
-      no_sent_messages_html: 아직 보낸 메시지가 없습니다. %{people_mapping_nearby_link}에서 마음에
-        드는 친구를 찾아보는 것은 어떨까요?
-      people_mapping_nearby: 근처에 매핑한 사람
-    muted:
-      title: 알림에서 제외된 메시지
-      messages:
-        other: 알림 미표시 메시지 %{count}개
     reply:
       wrong_user: '''%{user}''님으로 로그인하고 있지만 답장을 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 답장을
         하려면 올바른 사용자로 로그인하세요.'
@@ -1750,17 +1717,55 @@ ko:
       back: 뒤로
       wrong_user: '''%{user}''님으로 로그인하고 있지만 읽기를 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 읽으려면
         올바른 사용자로 로그인하세요.'
-    sent_message_summary:
-      destroy_button: 삭제
-    heading:
-      my_inbox: 받은 쪽지함
-      my_outbox: 보낸 쪽지함
-      muted_messages: 알림에서 제외된 메시지
     mark:
       as_read: 메시지를 읽은 것으로 표시
       as_unread: 메시지를 읽지 않은 것으로 표시
     destroy:
       destroyed: 메시지가 삭제됨
+    mailboxes:
+      heading:
+        my_inbox: 받은 쪽지함
+        my_outbox: 보낸 쪽지함
+        muted_messages: 알림에서 제외된 메시지
+      messages_table:
+        from: 보낸 사람
+        to: 받는이
+        subject: 제목
+        date: 날짜
+        actions: 동작
+      message:
+        unread_button: 읽지 않음으로 표시
+        read_button: 읽음으로 표시
+        destroy_button: 삭제
+    inboxes:
+      show:
+        title: 받은 쪽지함
+        messages: '%{new_messages}와 %{old_messages}가 있습니다'
+        new_messages:
+          one: 새 메시지 %{count}개
+          other: 새 메시지 %{count}개
+        old_messages:
+          one: 오래된 메시지 %{count}개
+          other: 오래된 메시지 %{count}개
+        no_messages_yet_html: 아직 메시지가 없습니다. %{people_mapping_nearby_link}에서 마음에 드는
+          친구를 찾아보는 것은 어떨까요?
+        people_mapping_nearby: 근처에 매핑한 사람
+    muted_inboxes:
+      show:
+        title: 알림에서 제외된 메시지
+        messages:
+          other: 알림 미표시 메시지 %{count}개
+    outboxes:
+      show:
+        title: 보낸 쪽지함
+        messages:
+          one: 메시지 %{count}개를 보냈습니다
+          other: 메시지 %{count}개를 보냈습니다
+        no_sent_messages_html: 아직 보낸 메시지가 없습니다. %{people_mapping_nearby_link}에서 마음에
+          드는 친구를 찾아보는 것은 어떨까요?
+        people_mapping_nearby: 근처에 매핑한 사람
+      message:
+        destroy_button: 삭제
   passwords:
     new:
       title: 잊어버린 비밀번호
@@ -2445,6 +2450,28 @@ ko:
       wikipedia:
         title: Wikipedia로 로그인하기
         alt: 위키백과 로고
+    share:
+      email:
+        title: 이메일로 공유
+        alt: 이메일 아이콘
+      bluesky:
+        title: 블루스카이를 통해 공유
+        alt: 블루스카이 아이콘
+      facebook:
+        title: 페이스북을 통해 공유
+        alt: 페이스북 아이콘
+      linkedin:
+        title: 링크드인을 통해 공유
+        alt: 링크드인 아이콘
+      mastodon:
+        title: 마스토돈에서 공유하기
+        alt: 마스토돈 아이콘
+      telegram:
+        title: 텔레그램에서 공유하기
+        alt: 텔레그램 아이콘
+      x:
+        title: X에서 공유
+        alt: X 아이콘
   oauth:
     permissions:
       missing: 이 애플리케이션이 이 기능을 사용할 수 있도록 승인하지 않았습니다
@@ -2636,6 +2663,21 @@ ko:
       report: 신고
     go_public:
       flash success: 지금 모든 편집을 공개하고, 편집을 허용하지 않습니다.
+    issued_blocks:
+      show:
+        title: '%{name}님에 의해 차단'
+        heading_html: '%{name} 사용자에 의한 차단 목록'
+        empty: '%{name}님은 아직 어떠한 차단도 하지 않았습니다.'
+    received_blocks:
+      show:
+        title: '%{name}님에 대해 차단'
+        heading_html: '%{name} 사용자에 대한 차단 목록'
+        empty: '%{name}님은 아직 차단되지 않았습니다.'
+      edit:
+        empty: '%{name}님은 현재 차단되어 있지 않습니다.'
+        revoke: 해제!
+      destroy:
+        flash: 모든 차단 내역이 비활성화되었습니다.
     lists:
       show:
         title: 사용자
@@ -2705,10 +2747,6 @@ ko:
       title: 사용자 차단
       heading: 사용자 차단 목록
       empty: 아직 차단하지 않았습니다.
-    revoke_all:
-      empty: '%{name}님은 현재 차단되어 있지 않습니다.'
-      revoke: 해제!
-      flash: 모든 차단 내역이 비활성화되었습니다.
     helper:
       time_future_html: '%{time}에 끝납니다.'
       until_login: 사용자가 로그인할 때까지 활성합니다.
@@ -2725,14 +2763,6 @@ ko:
           other: '%{count}개월'
         years:
           other: '%{count}년'
-    blocks_on:
-      title: '%{name}님에 대해 차단'
-      heading_html: '%{name} 사용자에 대한 차단 목록'
-      empty: '%{name}님은 아직 차단되지 않았습니다.'
-    blocks_by:
-      title: '%{name}님에 의해 차단'
-      heading_html: '%{name} 사용자에 의한 차단 목록'
-      empty: '%{name}님은 아직 어떠한 차단도 하지 않았습니다.'
     show:
       title: '%{block_on}님이 %{block_by}님에 의해 차단됨'
       heading_html: '%{block_on} 님이 %{block_by} 님에 의해 차단됨'
@@ -2749,6 +2779,8 @@ ko:
       display_name: 차단된 사용자
       creator_name: 만든이
       reason: 차단 이유
+      start: 시작
+      end: 끝
       status: 상태
     navigation:
       all_blocks: 모든 차단
@@ -2837,6 +2869,9 @@ ko:
       anonymous_warning_sign_up: 가입하기
       advice: 노트는 공개되어 지도 업데이트에 쓰일 수 있으므로 개인정보 또는 저작권이 있는 지도나 디렉터리 리스팅의 정보를 입력하지 마십시오.
       add: 참고 추가
+    new_readonly:
+      title: 새 노트
+      warning: 오픈스트리트맵 API가 현재 읽기 전용 모드이기 때문에 새로운 노트를 생성할 수 없습니다.
     notes_paging_nav:
       showing_page: '%{page}쪽'
       next: 다음
@@ -2862,7 +2897,7 @@ ko:
       center_marker: 표시의 가운데 지도
       paste_html: HTML을 붙여 넣어 웹사이트에 포함시키세요
       view_larger_map: 큰 지도 보기
-      only_standard_layer: 표준, 사이클 지도, 교통 레이어만 그림으로 내보낼 수 있습니다
+      only_layers_exported_as_image: '다음 레이어만 이미지로 내보낼 수 있습니다:'
     embed:
       report_problem: 문제점 보고
     key:

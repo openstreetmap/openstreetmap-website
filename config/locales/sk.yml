@@ -1762,8 +1762,6 @@ sk:
       success: Váš účet je založený, ďakujeme, že ste sa zapísali!
       already active: Toto používateľské konto už bolo potvrdené.
       unknown token: Zadaný potvrdzovací kód vypršal alebo neexistuje.
-      resend_html: Ak potrebujete znovu zaslať potvrdzujúcu správu, %{reconfirm_link}.
-      click_here: kliknite sem
     confirm_resend:
       failure: Používateľ %{name} neexistuje.
     confirm_email:
@@ -1781,30 +1779,6 @@ sk:
         odosielateľa %{sender} do výnimiek, pretože my nemôžeme odpovedať na emailové
         požiadavky na potvrdenie.
   messages:
-    inbox:
-      title: Doručená pošta
-      messages: Máte %{new_messages} a %{old_messages}
-      new_messages:
-        few: '%{count} nové správy'
-        one: '%{count} novú správu'
-        other: '%{count} nových správ'
-      old_messages:
-        few: '%{count} staré správy'
-        one: '%{count} starú správu'
-        other: '%{count} starých správ'
-      no_messages_yet_html: Zatiaľ nemáte žiadne správy. Čo napr. kontaktovať %{people_mapping_nearby_link}?
-      people_mapping_nearby: používateľov v okolí
-    messages_table:
-      from: Od
-      to: Komu
-      subject: Predmet
-      date: Dátum
-      actions: Akcie
-    message_summary:
-      unread_button: Označiť ako neprečítané
-      read_button: Označiť ako prečítané
-      destroy_button: Zmazať
-      unmute_button: Presunúť do doručenej pošty
     new:
       title: Odoslať správu
       send_message_to_html: Poslať novú správu používateľovi %{name}
@@ -1817,17 +1791,6 @@ sk:
       title: Zadaná správa neexistuje
       heading: Zadaná správa neexistuje
       body: Ľutujeme, neexistuje správa s takým ID.
-    outbox:
-      title: Odoslaná pošta
-      messages:
-        few: Máte %{count} odeslané správy
-        one: Máte %{count} odoslanú správu
-        other: Máte %{count} odoslaných správ
-      no_sent_messages_html: Nemáte odoslané správy. Prečo ste sa nespojili s niekým
-        z %{people_mapping_nearby_link}?
-      people_mapping_nearby: blízko mapujúci ľudia
-    muted:
-      title: Stlmené správy
     reply:
       wrong_user: Ste prihlásený ako „%{user}“, ale správa, na ktorú chcete odpovedať,
         nebola odoslaná tomuto používateľovi. Ak na ňu chcete odpovedať, prihláste
@@ -1841,12 +1804,6 @@ sk:
       wrong_user: Ste prihlásený ako „%{user}“, ale správa, ktorú si chcete prečítať,
         nie je ani od, ani pre tohoto používateľa. Ak si ju chcete prečítať, prihláste
         sa pod príslušným kontom.
-    sent_message_summary:
-      destroy_button: Zmazať
-    heading:
-      my_inbox: Doručená pošta
-      my_outbox: Odoslané
-      muted_messages: Stlmené správy
     mark:
       as_read: Správa označená ako prečítaná
       as_unread: Správa označená ako neprečítaná
@@ -1855,6 +1812,51 @@ sk:
       error: Správa nemohla byť presunutá do doručenej pošty.
     destroy:
       destroyed: Správa vymazaná
+    mailboxes:
+      heading:
+        my_inbox: Doručená pošta
+        my_outbox: Odoslané
+        muted_messages: Stlmené správy
+      messages_table:
+        from: Od
+        to: Komu
+        subject: Predmet
+        date: Dátum
+        actions: Akcie
+      message:
+        unread_button: Označiť ako neprečítané
+        read_button: Označiť ako prečítané
+        destroy_button: Zmazať
+        unmute_button: Presunúť do doručenej pošty
+    inboxes:
+      show:
+        title: Doručená pošta
+        messages: Máte %{new_messages} a %{old_messages}
+        new_messages:
+          few: '%{count} nové správy'
+          one: '%{count} novú správu'
+          other: '%{count} nových správ'
+        old_messages:
+          few: '%{count} staré správy'
+          one: '%{count} starú správu'
+          other: '%{count} starých správ'
+        no_messages_yet_html: Zatiaľ nemáte žiadne správy. Čo napr. kontaktovať %{people_mapping_nearby_link}?
+        people_mapping_nearby: používateľov v okolí
+    muted_inboxes:
+      show:
+        title: Stlmené správy
+    outboxes:
+      show:
+        title: Odoslaná pošta
+        messages:
+          few: Máte %{count} odeslané správy
+          one: Máte %{count} odoslanú správu
+          other: Máte %{count} odoslaných správ
+        no_sent_messages_html: Nemáte odoslané správy. Prečo ste sa nespojili s niekým
+          z %{people_mapping_nearby_link}?
+        people_mapping_nearby: blízko mapujúci ľudia
+      message:
+        destroy_button: Zmazať
   passwords:
     new:
       title: Stratené heslo
@@ -2707,6 +2709,20 @@ sk:
     go_public:
       flash success: Všetky vaše úpravy sú teraz verejné, a teraz máte povolenie na
         úpravu.
+    issued_blocks:
+      show:
+        title: Bloky od %{name}
+        heading_html: Zoznam blokov od pre %{name}
+        empty: '%{name} ešte nikoho nezablokoval'
+    received_blocks:
+      show:
+        title: Bloky používateľa %{name}
+        heading_html: Zoznam blokov používateľa %{name}
+        empty: '%{name} doteraz ešte nebol blokovaný.'
+      edit:
+        title: Zrušenie všetkých blokovaní pre %{block_on}
+        heading_html: Zrušenie všetkých blokovaní pre %{block_on}
+        empty: '%{name} nemá žiadne aktívne blokovania.'
     lists:
       show:
         title: Používatelia
@@ -2783,10 +2799,6 @@ sk:
       title: Bloky používateľa
       heading: Zoznam blokov používateľa
       empty: Žiaden blok ešte nebol vytvorený.
-    revoke_all:
-      title: Zrušenie všetkých blokovaní pre %{block_on}
-      heading_html: Zrušenie všetkých blokovaní pre %{block_on}
-      empty: '%{name} nemá žiadne aktívne blokovania.'
     helper:
       time_future_html: Končí o %{time}.
       until_login: Aktívny až do prihlásenia používateľa.
@@ -2818,14 +2830,6 @@ sk:
           few: '%{count} roky'
           many: '%{count} rokov'
           other: '%{count} rokov'
-    blocks_on:
-      title: Bloky používateľa %{name}
-      heading_html: Zoznam blokov používateľa %{name}
-      empty: '%{name} doteraz ešte nebol blokovaný.'
-    blocks_by:
-      title: Bloky od %{name}
-      heading_html: Zoznam blokov od pre %{name}
-      empty: '%{name} ešte nikoho nezablokoval'
     show:
       title: '%{block_on} zablokovaný používateľom %{block_by}'
       heading_html: '%{block_on} zablokovaný používateľom %{block_by}'
@@ -2944,8 +2948,6 @@ sk:
       center_marker: Centrovať mapu na značku
       paste_html: HTML pre vloženie na webovú stránku
       view_larger_map: Zobraziť väčšiu mapu
-      only_standard_layer: Ako obrázok je možné exportovať iba štandardnú vrstvu,
-        cyklomapu a dopravnú vrstvu.
     embed:
       report_problem: Nahlásiť problém
     key:

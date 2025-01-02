@@ -1877,8 +1877,6 @@ uk:
       success: Ваш обліковий запис підтверджено, дякуємо за реєстрацію!
       already active: Цей обліковий запис вже підтверджений.
       unknown token: Термін дії коду підтвердження вже минув або його не існує.
-      resend_html: За потреби отримати ще раз листа з підтвердженням %{reconfirm_link}.
-      click_here: натисніть тут
     confirm_resend:
       failure: Учасника %{name} не знайдено.
     confirm_email:
@@ -1896,33 +1894,6 @@ uk:
         зворотні запити, переконайтесь що ви додали %{sender} до переліку уповноважених
         дописувачів, бо ми не в змозі відповідати на такі запити.
   messages:
-    inbox:
-      title: Вхідні
-      messages: У вас %{new_messages} і %{old_messages}
-      new_messages:
-        one: '%{count} нове повідомлення'
-        few: '%{count} нових повідомлення'
-        many: '%{count} нових повідомлень'
-        other: ""
-      old_messages:
-        one: '%{count} старе повідомлення'
-        few: '%{count} старих повідомлення'
-        many: '%{count} старих повідомлень'
-        other: ""
-      no_messages_yet_html: У вас ще немає повідомлень. Чому б не поспілкуватись з
-        кимось із %{people_mapping_nearby_link}?
-      people_mapping_nearby: мапери поблизу вас
-    messages_table:
-      from: Від
-      to: Кому
-      subject: Тема
-      date: Дата
-      actions: Дії
-    message_summary:
-      unread_button: Позначити як непрочитане
-      read_button: Позначити як прочитане
-      destroy_button: Вилучити
-      unmute_button: Перемістити до "Вхідних".
     new:
       title: Надіслати повідомлення
       send_message_to_html: Надіслати нове повідомлення до %{name}
@@ -1935,23 +1906,6 @@ uk:
       title: Повідомлення відсутнє
       heading: Повідомлення відсутнє
       body: Вибачте, але повідомлення з цим ідентифікатором не існує.
-    outbox:
-      title: Вихідні
-      messages:
-        one: У вас %{count} надіслане повідомлення
-        few: У вас %{count} надісланих повідомлення
-        many: У вас %{count} надісланих повідомлень
-        other: ""
-      no_sent_messages_html: У вас немає надісланих повідомлень. Чому б не поспілкуватись
-        з кимось із %{people_mapping_nearby_link}?
-      people_mapping_nearby: маперів поблизу вас
-    muted:
-      title: Стишені повідомлення
-      messages:
-        one: Ви маєте %{count} стишене повідомлення
-        few: Ви маєте %{count} стишені повідомлення
-        many: Ви маєте %{count} стишених повідомлень
-        other: ""
     reply:
       wrong_user: Ви увійшли як „%{user}“, але повідомлення, на яке вас попросили
         відповісти, було надіслане не вам. Будь ласка, увійдіть до відповідного облікового
@@ -1965,12 +1919,6 @@ uk:
       wrong_user: Ви увійшли як „%{user}“, але повідомлення, яке вас попросили прочитати,
         не було надіслане вами, чи призначено для вас. Будь ласка, увійдіть до відповідного
         облікового запису, щоб прочитати його.
-    sent_message_summary:
-      destroy_button: Вилучити
-    heading:
-      my_inbox: Вхідні
-      my_outbox: Вихідні
-      muted_messages: Стишені повідомлення
     mark:
       as_read: Повідомлення позначене як прочитане
       as_unread: Повідомлення позначене як непрочитане
@@ -1979,6 +1927,60 @@ uk:
       error: Не вдалося перемістити повідомлення до "Вхідних".
     destroy:
       destroyed: Повідомлення вилучено
+    mailboxes:
+      heading:
+        my_inbox: Вхідні
+        my_outbox: Вихідні
+        muted_messages: Стишені повідомлення
+      messages_table:
+        from: Від
+        to: Кому
+        subject: Тема
+        date: Дата
+        actions: Дії
+      message:
+        unread_button: Позначити як непрочитане
+        read_button: Позначити як прочитане
+        destroy_button: Вилучити
+        unmute_button: Перемістити до "Вхідних".
+    inboxes:
+      show:
+        title: Вхідні
+        messages: У вас %{new_messages} і %{old_messages}
+        new_messages:
+          one: '%{count} нове повідомлення'
+          few: '%{count} нових повідомлення'
+          many: '%{count} нових повідомлень'
+          other: ""
+        old_messages:
+          one: '%{count} старе повідомлення'
+          few: '%{count} старих повідомлення'
+          many: '%{count} старих повідомлень'
+          other: ""
+        no_messages_yet_html: У вас ще немає повідомлень. Чому б не поспілкуватись
+          з кимось із %{people_mapping_nearby_link}?
+        people_mapping_nearby: мапери поблизу вас
+    muted_inboxes:
+      show:
+        title: Стишені повідомлення
+        messages:
+          one: Ви маєте %{count} стишене повідомлення
+          few: Ви маєте %{count} стишені повідомлення
+          many: Ви маєте %{count} стишених повідомлень
+          other: ""
+    outboxes:
+      show:
+        title: Вихідні
+        messages:
+          one: У вас %{count} надіслане повідомлення
+          few: У вас %{count} надісланих повідомлення
+          many: У вас %{count} надісланих повідомлень
+          other: ""
+        no_sent_messages_html: У вас немає надісланих повідомлень. Чому б не поспілкуватись
+          з кимось із %{people_mapping_nearby_link}?
+        people_mapping_nearby: маперів поблизу вас
+      message:
+        destroy_button: Вилучити
   passwords:
     new:
       title: Відновлення пароля
@@ -2963,6 +2965,29 @@ uk:
     go_public:
       flash success: Усі Ваші редагування тепер є загальнодоступними, і Ви тепер можете
         редагувати.
+    issued_blocks:
+      show:
+        title: Блокування, що їх наклав %{name}
+        heading_html: Перелік блокувань, які наклав %{name}
+        empty: '%{name} не зробив ще жодного блокування.'
+    received_blocks:
+      show:
+        title: Блокування для %{name}
+        heading_html: Перелік блокувань учасника %{name}
+        empty: '%{name} жодного разу не був заблокованим.'
+      edit:
+        title: Зняти блокування з %{block_on}
+        heading_html: Зняти блокування з %{block_on}
+        empty: '%{name} не має активних блоків.'
+        confirm: Ви впевнені, що бажаєте відкликати %{active_blocks}?
+        active_blocks:
+          one: '%{count} активне блокування'
+          few: '%{count} активні блокування'
+          many: '%{count} активних блокувань'
+          other: ""
+        revoke: Відкликати!
+      destroy:
+        flash: Усі активні блокування скасовано.
     lists:
       show:
         title: Учасники
@@ -3049,18 +3074,6 @@ uk:
       title: Блокування учасника
       heading: Перелік запроваджених блокувань
       empty: Ще не накладено жодного блокування.
-    revoke_all:
-      title: Зняти блокування з %{block_on}
-      heading_html: Зняти блокування з %{block_on}
-      empty: '%{name} не має активних блоків.'
-      confirm: Ви впевнені, що бажаєте відкликати %{active_blocks}?
-      active_blocks:
-        one: '%{count} активне блокування'
-        few: '%{count} активні блокування'
-        many: '%{count} активних блокувань'
-        other: ""
-      revoke: Відкликати!
-      flash: Усі активні блокування скасовано.
     helper:
       time_future_html: До закінчення %{time}.
       until_login: Активне доти, доки учасник не здійснить вхід.
@@ -3093,14 +3106,6 @@ uk:
           few: '%{count} роки'
           many: '%{count} років'
           other: ""
-    blocks_on:
-      title: Блокування для %{name}
-      heading_html: Перелік блокувань учасника %{name}
-      empty: '%{name} жодного разу не був заблокованим.'
-    blocks_by:
-      title: Блокування, що їх наклав %{name}
-      heading_html: Перелік блокувань, які наклав %{name}
-      empty: '%{name} не зробив ще жодного блокування.'
     show:
       title: '%{block_on} був (була) заблокований(а) %{block_by}'
       heading_html: '%{block_on} був (була) заблокований(а) %{block_by}'
@@ -3241,8 +3246,6 @@ uk:
       center_marker: Центрувати мапу на маркері
       paste_html: HTML-код для вбудування у сайт
       view_larger_map: Переглянути більшу мапу
-      only_standard_layer: Тільки Стандартний шар, Веломапа та Мапа транспорту можуть
-        бути експортований у вигляді зображення
     embed:
       report_problem: Повідомити про проблему
     key:

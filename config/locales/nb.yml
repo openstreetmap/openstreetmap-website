@@ -1478,7 +1478,6 @@ nb:
       success: Kontoen din er bekreftet - takk for at du registrerte deg.
       already active: Denne kontoen har allerede blitt bekreftet.
       unknown token: Denne bekreftelseskoden finnes ikke eller har utløpt.
-      click_here: trykk her
     confirm_resend:
       failure: Fant ikke brukeren %{name}.
     confirm_email:
@@ -1489,29 +1488,6 @@ nb:
       failure: En e-postadresse er allerede bekreftet med denne nøkkelen.
       unknown_token: Denne bekreftelseskoden finnes ikke eller har utløpt.
   messages:
-    inbox:
-      title: Innboks
-      messages: Du har %{new_messages} og %{old_messages}
-      new_messages:
-        one: '%{count} ny melding'
-        other: '%{count} nye meldinger'
-      old_messages:
-        one: '%{count} gammel melding'
-        other: '%{count} gamle meldinger'
-      no_messages_yet_html: Du har ingen meldinger ennå. Kanskje du kan prøve å komme
-        i kontakt med %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk som kartlegger i nærheten
-    messages_table:
-      from: Fra
-      to: Til
-      subject: Emne
-      date: Dato
-      actions: Handlinger
-    message_summary:
-      unread_button: Marker som ulest
-      read_button: Marker som lest
-      destroy_button: Slett
-      unmute_button: Flytt til innboksen
     new:
       title: Send melding
       send_message_to_html: Send en ny melding til %{name}
@@ -1524,19 +1500,6 @@ nb:
       title: Ingen melding funnet
       heading: Ingen melding funnet
       body: Det er ingen melding med den ID-en.
-    outbox:
-      title: Utboks
-      messages:
-        one: Du har %{count} sendt melding
-        other: Du har %{count} sendte meldinger
-      no_sent_messages_html: Du har ikke sendt noen meldinger ennå. Hvorfor ikke bli
-        kjent med noen %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk i nærheten som lager kart
-    muted:
-      title: Dempede meldinger
-      messages:
-        one: '%{count} dempet melding'
-        other: Du har %{count} dempede meldinger
     reply:
       wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å svare
         på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
@@ -1548,12 +1511,6 @@ nb:
       back: Tilbake
       wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å lese ble
         ikke sendt fra eller til den brukeren. Logg inn som korrekt bruker for å lese.
-    sent_message_summary:
-      destroy_button: Slett
-    heading:
-      my_inbox: Min innboks
-      my_outbox: Min utboks
-      muted_messages: Dempede meldinger
     mark:
       as_read: Melding markert som lest
       as_unread: Melding markert som ulest
@@ -1562,6 +1519,52 @@ nb:
       error: Meldingen kunne ikke flyttes til innboksen.
     destroy:
       destroyed: Melding slettet
+    mailboxes:
+      heading:
+        my_inbox: Min innboks
+        my_outbox: Min utboks
+        muted_messages: Dempede meldinger
+      messages_table:
+        from: Fra
+        to: Til
+        subject: Emne
+        date: Dato
+        actions: Handlinger
+      message:
+        unread_button: Marker som ulest
+        read_button: Marker som lest
+        destroy_button: Slett
+        unmute_button: Flytt til innboksen
+    inboxes:
+      show:
+        title: Innboks
+        messages: Du har %{new_messages} og %{old_messages}
+        new_messages:
+          one: '%{count} ny melding'
+          other: '%{count} nye meldinger'
+        old_messages:
+          one: '%{count} gammel melding'
+          other: '%{count} gamle meldinger'
+        no_messages_yet_html: Du har ingen meldinger ennå. Kanskje du kan prøve å
+          komme i kontakt med %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk som kartlegger i nærheten
+    muted_inboxes:
+      show:
+        title: Dempede meldinger
+        messages:
+          one: '%{count} dempet melding'
+          other: Du har %{count} dempede meldinger
+    outboxes:
+      show:
+        title: Utboks
+        messages:
+          one: Du har %{count} sendt melding
+          other: Du har %{count} sendte meldinger
+        no_sent_messages_html: Du har ikke sendt noen meldinger ennå. Hvorfor ikke
+          bli kjent med noen %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk i nærheten som lager kart
+      message:
+        destroy_button: Slett
   passwords:
     new:
       title: Glemt passord
@@ -2144,6 +2147,16 @@ nb:
       report: Rapporter denne brukeren
     go_public:
       flash success: Alle dine redigeringer er nå offentlig, og du har lov til å redigere.
+    issued_blocks:
+      show:
+        title: Blokkeringer av %{name}
+        heading_html: Liste over blokkeringer utført av %{name}
+        empty: '%{name} har ikke blokkert noen ennå.'
+    received_blocks:
+      show:
+        title: Blokkeringer av %{name}
+        heading_html: Liste over blokkeringer av %{name}
+        empty: '%{name} har ikke blitt blokkert ennå.'
     lists:
       show:
         title: Brukere
@@ -2232,14 +2245,6 @@ nb:
         years:
           one: ett år
           other: '%{count} år'
-    blocks_on:
-      title: Blokkeringer av %{name}
-      heading_html: Liste over blokkeringer av %{name}
-      empty: '%{name} har ikke blitt blokkert ennå.'
-    blocks_by:
-      title: Blokkeringer av %{name}
-      heading_html: Liste over blokkeringer utført av %{name}
-      empty: '%{name} har ikke blokkert noen ennå.'
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading_html: '%{block_on} blokkert av %{block_by}'
@@ -2311,7 +2316,6 @@ nb:
       center_marker: Sentrer kart på markøren
       paste_html: Lim inn HTML for å inkluderes på webside
       view_larger_map: Vis større kart
-      only_standard_layer: Kun standardlaget kan eksporteres som bilde
     embed:
       report_problem: Rapporter et problem
     key:

@@ -1661,8 +1661,6 @@ fi:
       success: Käyttäjätunnuksesi on nyt vahvistettu.
       already active: Tämä tunnus on jo vahvistettu.
       unknown token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
-      resend_html: Jos haluat, että lähetämme vahvistussähköpostin uudelleen, %{reconfirm_link}.
-      click_here: napsauta tästä
     confirm_resend:
       failure: Käyttäjää %{name} ei löytynyt.
     confirm_email:
@@ -1676,27 +1674,6 @@ fi:
       confirmation_sent: Olemme lähettäneet uuden vahvistusviestin osoitteeseen %{email}.
         Vahvistettuasi käyttäjätunnuksesi voit aloittaa kartoittamisen.
   messages:
-    inbox:
-      title: Saapuneet
-      messages: Kansiossa on %{new_messages} ja %{old_messages}.
-      new_messages:
-        one: '%{count} lukematon viesti'
-        other: '%{count} lukematonta viestiä'
-      old_messages:
-        one: '%{count} luettu viesti'
-        other: '%{count} luettua viestiä'
-      no_messages_yet_html: Ei viestejä. %{people_mapping_nearby_link}
-      people_mapping_nearby: Lähiseudun kartoittajat
-    messages_table:
-      from: Lähettäjä
-      to: Vastaanottaja
-      subject: Otsikko
-      date: Päiväys
-      actions: Toiminnot
-    message_summary:
-      unread_button: Merkitse lukemattomaksi
-      read_button: Merkitse luetuksi
-      destroy_button: Poista
     new:
       title: Lähetä viesti
       send_message_to_html: Lähetä viesti käyttäjälle %{name}
@@ -1709,14 +1686,6 @@ fi:
       title: Ei sellaista viestiä
       heading: Ei sellaista viestiä
       body: Valitettavasti tällä ID-tunnuksella ei ole viestiä.
-    outbox:
-      title: Lähetetyt
-      messages:
-        one: Kansiossa on %{count} lähetetty viesti.
-        other: Kansiossa on %{count} lähetettyä viestiä.
-      no_sent_messages_html: Et ole lähettänyt vielä viestejä. Miksi et ottaisi yhteyttä
-        joihinkin %{people_mapping_nearby_link}?
-      people_mapping_nearby: lähellä kartoittaviin käyttäjiin
     reply:
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, johon
         tahdot vastata, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
@@ -1730,16 +1699,48 @@ fi:
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, jonka
         tahdot lukea, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
         sisään oikealla käyttäjätunnukselle lukeaksesi sen.
-    sent_message_summary:
-      destroy_button: Poista
-    heading:
-      my_inbox: Saapuneet
-      my_outbox: Lähetetyt
     mark:
       as_read: Viesti on merkitty luetuksi.
       as_unread: Viesti on merkitty lukemattomaksi.
     destroy:
       destroyed: Viesti on poistettu.
+    mailboxes:
+      heading:
+        my_inbox: Saapuneet
+        my_outbox: Lähetetyt
+      messages_table:
+        from: Lähettäjä
+        to: Vastaanottaja
+        subject: Otsikko
+        date: Päiväys
+        actions: Toiminnot
+      message:
+        unread_button: Merkitse lukemattomaksi
+        read_button: Merkitse luetuksi
+        destroy_button: Poista
+    inboxes:
+      show:
+        title: Saapuneet
+        messages: Kansiossa on %{new_messages} ja %{old_messages}.
+        new_messages:
+          one: '%{count} lukematon viesti'
+          other: '%{count} lukematonta viestiä'
+        old_messages:
+          one: '%{count} luettu viesti'
+          other: '%{count} luettua viestiä'
+        no_messages_yet_html: Ei viestejä. %{people_mapping_nearby_link}
+        people_mapping_nearby: Lähiseudun kartoittajat
+    outboxes:
+      show:
+        title: Lähetetyt
+        messages:
+          one: Kansiossa on %{count} lähetetty viesti.
+          other: Kansiossa on %{count} lähetettyä viestiä.
+        no_sent_messages_html: Et ole lähettänyt vielä viestejä. Miksi et ottaisi
+          yhteyttä joihinkin %{people_mapping_nearby_link}?
+        people_mapping_nearby: lähellä kartoittaviin käyttäjiin
+      message:
+        destroy_button: Poista
   passwords:
     new:
       title: Unohtunut salasana
@@ -2562,6 +2563,16 @@ fi:
       report: Ilmianna käyttäjä
     go_public:
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
+    issued_blocks:
+      show:
+        title: Käyttäjän %{name} tekemät estot
+        heading_html: Listaa käyttäjän %{name} tekemät estot
+        empty: '%{name} ei ole vielä tehnyt yhtään estoa.'
+    received_blocks:
+      show:
+        title: Käyttäjän %{name} estot
+        heading_html: Käyttäjän %{name} estot
+        empty: Käyttäjää %{name} ei ole estetty.
     lists:
       show:
         title: Käyttäjät
@@ -2652,14 +2663,6 @@ fi:
         years:
           one: '%{count} vuosi'
           other: '%{count} vuotta'
-    blocks_on:
-      title: Käyttäjän %{name} estot
-      heading_html: Käyttäjän %{name} estot
-      empty: Käyttäjää %{name} ei ole estetty.
-    blocks_by:
-      title: Käyttäjän %{name} tekemät estot
-      heading_html: Listaa käyttäjän %{name} tekemät estot
-      empty: '%{name} ei ole vielä tehnyt yhtään estoa.'
     show:
       title: '%{block_on} estetty käyttäjän %{block_by} toimesta'
       heading_html: '%{block_on} estetty käyttäjän %{block_by} toimesta'
@@ -2765,7 +2768,6 @@ fi:
       center_marker: Keskitä kartta karttamerkkiin
       paste_html: Upota karttaikkuna liittämällä tämä koodi verkkosivulle
       view_larger_map: Näytä isommalla kartalla
-      only_standard_layer: Vain standardi kerros voidaan viedä kuvana
     embed:
       report_problem: Ilmoita ongelmasta
     key:

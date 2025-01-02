@@ -122,6 +122,7 @@ pt:
       message: Mensagem
       node: Nó
       node_tag: Etiqueta de nó
+      note: Nota
       old_node: Nó antigo
       old_node_tag: Etiqueta de nó antigo
       old_relation: Relação antiga
@@ -1103,6 +1104,12 @@ pt:
           wayside_shrine: Capelinha de Beira de Estrada
           wreck: Naufrágio
           "yes": Local Histórico
+        information:
+          board: Painel de informação
+          map: Mapa
+          office: Informações Turísticas
+          terminal: Terminal de informações
+          sign: Sinal de informação
         junction:
           "yes": Entroncamento
         landuse:
@@ -1175,6 +1182,8 @@ pt:
           track: Pista de Corrida
           water_park: Parque Aquático
           "yes": Lazer
+        lock:
+          "yes": Eclusa
         man_made:
           adit: Galeria de acesso
           advertising: Publicidade
@@ -1515,6 +1524,14 @@ pt:
           building_passage: Passagem de construção
           culvert: Duto de Drenagem
           "yes": Túnel
+        water:
+          lake: Lago
+          pond: Lagoa
+          reservoir: Lago Artificial
+          fishpond: Tanque de peixes
+          lagoon: Lagoa
+          wastewater: Agua residual
+          lock: Eclusa
         waterway:
           artificial: Via Aquática Artificial
           boatyard: Estaleiro
@@ -1579,6 +1596,10 @@ pt:
         open: Abrir
         resolved: Resolvido
     show:
+      title:
+        open: Problema aberto n.º %{issue_id}
+        ignored: Problema ignorado n.º %{issue_id}
+        resolved: Problema resolvido n.º %{issue_id}
       reports:
         one: '%{count} denúncia'
         other: '%{count} denúncias'
@@ -1848,8 +1869,6 @@ pt:
       success: Conta ativada, obrigado!
       already active: Esse conta já foi confirmada.
       unknown token: Esse código de confirmação expirou ou não existe.
-      resend_html: Se você precisar que reenviemos o e-mail de confirmação, %{reconfirm_link}.
-      click_here: clique aqui
     confirm_resend:
       failure: Usuário %{name} não encontrado.
     confirm_email:
@@ -1867,29 +1886,6 @@ pt:
         de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
         de responder a pedidos de confirmação.
   messages:
-    inbox:
-      title: Caixa de Entrada
-      messages: Você tem %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} nova mensagem'
-        other: '%{count} novas mensagens'
-      old_messages:
-        one: '%{count} mensagem antiga'
-        other: '%{count} mensagens antigas'
-      no_messages_yet_html: Você ainda não tem mensagens. Por que não entrar em contato
-        com %{people_mapping_nearby_link}?
-      people_mapping_nearby: alguém mapeando por perto
-    messages_table:
-      from: De
-      to: Para
-      subject: Assunto
-      date: Data
-      actions: Ações
-    message_summary:
-      unread_button: Marcar como não lida
-      read_button: Marcar como lida
-      destroy_button: Apagar
-      unmute_button: Mover para caixa de entrada
     new:
       title: Enviar mensagem
       send_message_to_html: Enviar uma nova mensagem para %{name}
@@ -1902,19 +1898,6 @@ pt:
       title: Esta mensagem não existe
       heading: Esta mensagem não existe
       body: Não existe uma mensagem com este id.
-    outbox:
-      title: Caixa de Saída
-      messages:
-        one: Você tem %{count} mensagem enviada
-        other: Você tem %{count} mensagens enviadas
-      no_sent_messages_html: Você ainda não enviou nenhuma mensagem. Por que não entrar
-        em contato com %{people_mapping_nearby_link}?
-      people_mapping_nearby: alguém mapeando por perto
-    muted:
-      title: Mensagens silenciadas
-      messages:
-        one: '%{count} mensagem silenciada'
-        other: Você tem %{count} mensagens silenciadas
     reply:
       wrong_user: Você está conectado como '%{user}' mas a mensagem que você quer
         responder não foi enviada para este usuário. Entre com o usuário correto para
@@ -1928,12 +1911,6 @@ pt:
       wrong_user: Você está conectado como '%{user}' mas a mensagem que você quer
         ler não foi enviada para ou por este usuário. Entre com o usuário correto
         para poder ler.
-    sent_message_summary:
-      destroy_button: Apagar
-    heading:
-      my_inbox: Minha caixa de entrada
-      my_outbox: Minha caixa de saída
-      muted_messages: Mensagens silenciadas
     mark:
       as_read: Mensagem marcada como lida
       as_unread: Mensagem marcada como não lida
@@ -1942,6 +1919,52 @@ pt:
       error: A mensagem não pôde ser movida para a caixa de entrada.
     destroy:
       destroyed: Mensagem apagada
+    mailboxes:
+      heading:
+        my_inbox: Minha caixa de entrada
+        my_outbox: Minha caixa de saída
+        muted_messages: Mensagens silenciadas
+      messages_table:
+        from: De
+        to: Para
+        subject: Assunto
+        date: Data
+        actions: Ações
+      message:
+        unread_button: Marcar como não lida
+        read_button: Marcar como lida
+        destroy_button: Apagar
+        unmute_button: Mover para caixa de entrada
+    inboxes:
+      show:
+        title: Caixa de Entrada
+        messages: Você tem %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} nova mensagem'
+          other: '%{count} novas mensagens'
+        old_messages:
+          one: '%{count} mensagem antiga'
+          other: '%{count} mensagens antigas'
+        no_messages_yet_html: Você ainda não tem mensagens. Por que não entrar em
+          contato com %{people_mapping_nearby_link}?
+        people_mapping_nearby: alguém mapeando por perto
+    muted_inboxes:
+      show:
+        title: Mensagens silenciadas
+        messages:
+          one: '%{count} mensagem silenciada'
+          other: Você tem %{count} mensagens silenciadas
+    outboxes:
+      show:
+        title: Caixa de Saída
+        messages:
+          one: Você tem %{count} mensagem enviada
+          other: Você tem %{count} mensagens enviadas
+        no_sent_messages_html: Você ainda não enviou nenhuma mensagem. Por que não
+          entrar em contato com %{people_mapping_nearby_link}?
+        people_mapping_nearby: alguém mapeando por perto
+      message:
+        destroy_button: Apagar
   passwords:
     new:
       title: Senha esquecida
@@ -1967,6 +1990,16 @@ pt:
       title: Minhas preferências
       preferred_editor: Editor preferido
       preferred_languages: Idiomas preferidos
+      preferred_site_color_scheme: Esquema de cores preferido para o website
+      site_color_schemes:
+        auto: Automático
+        light: Claro
+        dark: Escuro
+      preferred_map_color_scheme: Esquema de cores preferido
+      map_color_schemes:
+        auto: Automático
+        light: Claro
+        dark: Escuro
       edit_preferences: Editar preferências
     edit:
       title: Editar preferências
@@ -2709,6 +2742,28 @@ pt:
       wikipedia:
         title: Entrar com Wikipédia
         alt: Logotipo da Wikipédia
+    share:
+      email:
+        title: Compartilhar por e-mail
+        alt: Ícone de e-mail
+      bluesky:
+        title: Compartilhar pelo Bluesky
+        alt: Ícone do Bluesky
+      facebook:
+        title: Compartilhar pelo Facebook
+        alt: Ícone do Facebook
+      linkedin:
+        title: Compartilhar pelo LinkedIn
+        alt: Ícone do LinkedIn
+      mastodon:
+        title: Compartilhar pelo Mastodon
+        alt: Ícone do Mastodon
+      telegram:
+        title: Compartilhar pelo Telegram
+        alt: Ícone do Telegram
+      x:
+        title: Compartilhar pelo X
+        alt: Ícone do X
   oauth:
     permissions:
       missing: Você não permitiu o acesso da aplicação a esta facilidade
@@ -2923,6 +2978,27 @@ pt:
     go_public:
       flash success: Todas as suas edições agora são públicas, e você está com autorizado
         a editar.
+    issued_blocks:
+      show:
+        title: Bloqueios por %{name}
+        heading_html: Lista de bloqueios por %{name}
+        empty: '%{name} ainda não criou qualquer bloqueio.'
+    received_blocks:
+      show:
+        title: Bloqueios em %{name}
+        heading_html: Lista de bloqueios em %{name}
+        empty: '%{name} ainda não foi bloqueado.'
+      edit:
+        title: Revogando todos os bloqueios em %{block_on}
+        heading_html: Revogando todos os bloqueios em %{block_on}
+        empty: '%{name} não tem bloqueios ativos.'
+        confirm: Você tem certeza de que quer revogar %{active_blocks}?
+        active_blocks:
+          one: '%{count} bloqueio ativo'
+          other: '%{count} bloqueios ativos'
+        revoke: Revogar!
+      destroy:
+        flash: Todos os bloqueios ativos foram revogados.
     lists:
       show:
         title: Usuários
@@ -3007,16 +3083,6 @@ pt:
       title: Bloqueios do usuário
       heading: Lista de bloqueios de usuário
       empty: Nenhum bloqueio foi aplicado ainda.
-    revoke_all:
-      title: Revogando todos os bloqueios em %{block_on}
-      heading_html: Revogando todos os bloqueios em %{block_on}
-      empty: '%{name} não tem bloqueios ativos.'
-      confirm: Você tem certeza de que quer revogar %{active_blocks}?
-      active_blocks:
-        one: '%{count} bloqueio ativo'
-        other: '%{count} bloqueios ativos'
-      revoke: Revogar!
-      flash: Todos os bloqueios ativos foram revogados.
     helper:
       time_future_html: Termina em %{time}.
       until_login: Ativo até que o usuário se conecte.
@@ -3038,14 +3104,15 @@ pt:
         years:
           one: '%{count} ano'
           other: '%{count} anos'
-    blocks_on:
-      title: Bloqueios em %{name}
-      heading_html: Lista de bloqueios em %{name}
-      empty: '%{name} ainda não foi bloqueado.'
-    blocks_by:
-      title: Bloqueios por %{name}
-      heading_html: Lista de bloqueios por %{name}
-      empty: '%{name} ainda não criou qualquer bloqueio.'
+      short:
+        ended: finalizado
+        revoked_html: revogado por %{name}
+        active: ativo
+        active_unread: ativo não lido
+        expired_unread: expirado não lido
+        read_html: Lido em %{time}
+        time_in_future_title: '%{time_absolute}; em %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading_html: '%{block_on} bloqueado por %{block_by}'
@@ -3062,6 +3129,8 @@ pt:
       display_name: Usuário bloqueado
       creator_name: Criador
       reason: Razão para o bloqueio
+      start: Iniciar
+      end: Fim
       status: Status
     navigation:
       all_blocks: Todos os bloqueios
@@ -3159,6 +3228,10 @@ pt:
         não insira informações pessoais ou dados de mapas protegidos por direitos
         autorais ou listas de diretórios.
       add: Incluir nota
+    new_readonly:
+      title: Nova nota
+      warning: Novas notas não podem ser criadas porque a API do OpenStreetMap está
+        em modo somente leitura.
     notes_paging_nav:
       showing_page: Página %{page}
       next: Próxima
@@ -3184,8 +3257,6 @@ pt:
       center_marker: Centralizar o mapa no marcador
       paste_html: Cole o HTML para publicar no site
       view_larger_map: Ver mapa ampliado
-      only_standard_layer: Somente as camadas Padrão, Ciclístico, e Transporte Público
-        podem ser exportadas como uma imagem
     embed:
       report_problem: Reportar um problema
     key:

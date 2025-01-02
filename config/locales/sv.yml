@@ -107,6 +107,7 @@ sv:
       message: Meddelande
       node: Nod
       node_tag: Nodtagg
+      note: Anteckning
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
       old_relation: Gammal relation
@@ -412,7 +413,7 @@ sv:
         way: Sträcka
         relation: Relation
     containing_relation:
-      entry_role_html: Relation %{relation_name} (som %{relation_role})
+      entry_role_html: '%{relation_name} (som %{relation_role})'
     not_found:
       title: Hittades inte
       sorry: 'Tyvärr kunde inte %{type} #%{id} hittas.'
@@ -1072,6 +1073,14 @@ sv:
           wayside_shrine: Vägkants-helgedom
           wreck: Vrak
           "yes": Historisk plats
+        information:
+          guidepost: Vägvisare
+          board: Informationstavla
+          map: Karta
+          office: Turistkontor
+          terminal: Informationsterminal
+          sign: Informationsskylt
+          stele: Informationsstele
         junction:
           "yes": Korsning
         landuse:
@@ -1144,6 +1153,8 @@ sv:
           track: Löparbana
           water_park: Vattenpark
           "yes": Fritid
+        lock:
+          "yes": Sluss
         man_made:
           adit: Gruvöppning
           advertising: Reklam
@@ -1484,6 +1495,16 @@ sv:
           building_passage: Byggpassage
           culvert: Kulvert
           "yes": Tunnel
+        water:
+          lake: Sjö
+          pond: Damm
+          reservoir: Reservoar
+          basin: Vattenbassäng
+          fishpond: Fiskedamm
+          lagoon: Lagun
+          wastewater: Avloppsvatten
+          oxbow: Korvsjö
+          lock: Sluss
         waterway:
           artificial: Artificiellt vattendrag
           boatyard: Båtvarv
@@ -1548,6 +1569,10 @@ sv:
         open: Öppen
         resolved: Löst
     show:
+      title:
+        open: Öppet ärende %{issue_id}
+        ignored: 'Ignorerat ärende #%{issue_id}'
+        resolved: Löst ärende %{issue_id}
       reports:
         one: '%{count} rapport'
         other: '%{count} rapporter'
@@ -1819,8 +1844,6 @@ sv:
       success: Ditt konto är bekräftat, tack för att du registrerade dig!
       already active: Detta konto har redan bekräftats.
       unknown token: Denna bekräftelsekod har gått ut eller finns inte.
-      resend_html: Om du vill att vi skickar e-postbekräftelse igen, %{reconfirm_link}.
-      click_here: klicka här
     confirm_resend:
       failure: Användaren %{name} hittades inte.
     confirm_email:
@@ -1837,29 +1860,6 @@ sv:
       whitelist: Om du använder ett antispam-system som skickar bekräftelsemail se
         till att vitlista %{sender} eftersom vi inte kan svara på några bekräfelsemail.
   messages:
-    inbox:
-      title: Inkorg
-      messages: Du har %{new_messages} och %{old_messages}
-      new_messages:
-        one: '%{count} nytt meddelande'
-        other: '%{count} nya meddelanden'
-      old_messages:
-        one: '%{count} gammalt meddelande'
-        other: '%{count} gamla meddelanden'
-      no_messages_yet_html: Du har inga meddelanden ännu. Varför inte ta kontakt med
-        någon %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk som kartlägger i närheten
-    messages_table:
-      from: Från
-      to: Till
-      subject: Ärende
-      date: Datum
-      actions: Åtgärder
-    message_summary:
-      unread_button: Markera som oläst
-      read_button: Markera som läst
-      destroy_button: Radera
-      unmute_button: Flytta till inkorg
     new:
       title: Skicka meddelande
       send_message_to_html: Skicka ett nytt meddelande till %{name}
@@ -1872,19 +1872,6 @@ sv:
       title: Inget sådant meddelande
       heading: Inget sådant meddelande
       body: Det finns inget meddelande med det ID:et.
-    outbox:
-      title: Utkorg
-      messages:
-        one: Du har %{count} skickat ett meddelande
-        other: Du har %{count} skickat meddelanden
-      no_sent_messages_html: Du har inte skickat några meddelanden ännu. Varför inte
-        ta kontakt med någon av de %{people_mapping_nearby_link}?
-      people_mapping_nearby: folk som kartlägger i närheten
-    muted:
-      title: Tystade meddelanden
-      messages:
-        one: '%{count} tystat meddelande'
-        other: '%{count} nya meddelanden'
     reply:
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
         besvara skickades inte till den användaren. Logga in med korrekt användare
@@ -1898,12 +1885,6 @@ sv:
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
         få läsa skickades inte till eller av den användaren. Logga in med korrekt
         användare för att läsa det.
-    sent_message_summary:
-      destroy_button: Radera
-    heading:
-      my_inbox: Min inkorg
-      my_outbox: Min utkorg
-      muted_messages: Tystade meddelanden
     mark:
       as_read: Meddelandet markerat som läst
       as_unread: Meddelandet markerat som oläst
@@ -1912,6 +1893,52 @@ sv:
       error: Meddelandet kunde inte flyttas till inkorgen.
     destroy:
       destroyed: Meddelande raderat
+    mailboxes:
+      heading:
+        my_inbox: Min inkorg
+        my_outbox: Min utkorg
+        muted_messages: Tystade meddelanden
+      messages_table:
+        from: Från
+        to: Till
+        subject: Ärende
+        date: Datum
+        actions: Åtgärder
+      message:
+        unread_button: Markera som oläst
+        read_button: Markera som läst
+        destroy_button: Radera
+        unmute_button: Flytta till inkorg
+    inboxes:
+      show:
+        title: Inkorg
+        messages: Du har %{new_messages} och %{old_messages}
+        new_messages:
+          one: '%{count} nytt meddelande'
+          other: '%{count} nya meddelanden'
+        old_messages:
+          one: '%{count} gammalt meddelande'
+          other: '%{count} gamla meddelanden'
+        no_messages_yet_html: Du har inga meddelanden ännu. Varför inte ta kontakt
+          med någon %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk som kartlägger i närheten
+    muted_inboxes:
+      show:
+        title: Tystade meddelanden
+        messages:
+          one: '%{count} tystat meddelande'
+          other: '%{count} nya meddelanden'
+    outboxes:
+      show:
+        title: Utkorg
+        messages:
+          one: Du har %{count} skickat ett meddelande
+          other: Du har %{count} skickat meddelanden
+        no_sent_messages_html: Du har inte skickat några meddelanden ännu. Varför
+          inte ta kontakt med någon av de %{people_mapping_nearby_link}?
+        people_mapping_nearby: folk som kartlägger i närheten
+      message:
+        destroy_button: Radera
   passwords:
     new:
       title: Förlorat lösenord
@@ -1936,6 +1963,16 @@ sv:
       title: Mina alternativ
       preferred_editor: Föredraget redigeringsprogram
       preferred_languages: Föredragna språk
+      preferred_site_color_scheme: Föredraget färgtema för webbplatsen
+      site_color_schemes:
+        auto: Automatiskt
+        light: Ljust
+        dark: Mörkt
+      preferred_map_color_scheme: Föredragen karta för färgtema
+      map_color_schemes:
+        auto: Automatiskt
+        light: Ljust
+        dark: Mörkt
       edit_preferences: Redigera alternativ
     edit:
       title: Redigera inställningar
@@ -2674,6 +2711,28 @@ sv:
       wikipedia:
         title: Logga in med Wikipedia
         alt: Wikipedia-logotyp
+    share:
+      email:
+        title: Dela via e-post
+        alt: E-post-ikon
+      bluesky:
+        title: Dela via Bluesky
+        alt: Bluesky-ikon
+      facebook:
+        title: Dela via Facebook
+        alt: Facebook-ikon
+      linkedin:
+        title: Dela via LinkedIn
+        alt: LinkedIn-ikon
+      mastodon:
+        title: Dela på Mastodon
+        alt: Mastodon-ikon
+      telegram:
+        title: Dela på Telegram
+        alt: Telegram-ikon
+      x:
+        title: Dela på X
+        alt: X-ikon
   oauth:
     permissions:
       missing: Du har inte gett applikationen åtkomst till den här faciliteten
@@ -2888,6 +2947,27 @@ sv:
       report: Rapportera denna användare
     go_public:
       flash success: Alla dina ändringar är nu publika, och du får lov att redigera.
+    issued_blocks:
+      show:
+        title: Blockeringar av %{name}
+        heading_html: Lista över blockeringar av %{name}
+        empty: '%{name} har inte gjort några blockeringar än.'
+    received_blocks:
+      show:
+        title: Blockeringar på %{name}
+        heading_html: Lista över blockeringar på %{name}
+        empty: '%{name} har inte blockerats än.'
+      edit:
+        title: Upphäv alla blockeringar av %{block_on}
+        heading_html: Upphäver alla blockeringar av %{block_on}
+        empty: '%{name} har inga aktiva blockeringar.'
+        confirm: Är du säker på att du vill upphäva %{active_blocks}?
+        active_blocks:
+          one: '%{count} aktiv blockering'
+          other: '%{count} aktiva blockeringar'
+        revoke: Upphäv!
+      destroy:
+        flash: Alla aktiva blockningar har upphävts.
     lists:
       show:
         title: Användare
@@ -2974,16 +3054,6 @@ sv:
       title: Användarblockeringar
       heading: Lista över användarblockeringar
       empty: Inga blockeringar har gjorts ännu.
-    revoke_all:
-      title: Upphäv alla blockeringar av %{block_on}
-      heading_html: Upphäver alla blockeringar av %{block_on}
-      empty: '%{name} har inga aktiva blockeringar.'
-      confirm: Är du säker på att du vill upphäva %{active_blocks}?
-      active_blocks:
-        one: '%{count} aktiv blockering'
-        other: '%{count} aktiva blockeringar'
-      revoke: Upphäv!
-      flash: Alla aktiva blockningar har upphävts.
     helper:
       time_future_html: Slutar om %{time}.
       until_login: Aktiv till dess användaren loggar in.
@@ -3006,14 +3076,15 @@ sv:
         years:
           one: '%{count} år'
           other: '%{count} år'
-    blocks_on:
-      title: Blockeringar på %{name}
-      heading_html: Lista över blockeringar på %{name}
-      empty: '%{name} har inte blockerats än.'
-    blocks_by:
-      title: Blockeringar av %{name}
-      heading_html: Lista över blockeringar av %{name}
-      empty: '%{name} har inte gjort några blockeringar än.'
+      short:
+        ended: avslutad
+        revoked_html: upphävd av %{name}
+        active: aktiv
+        active_unread: aktiv oläst
+        expired_unread: utgången oläst
+        read_html: läst %{time}
+        time_in_future_title: '%{time_absolute}; i %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} blockerad av %{block_by}'
       heading_html: '%{block_on} blockerad av %{block_by}'
@@ -3030,6 +3101,8 @@ sv:
       display_name: Blockerad användare
       creator_name: Skapare
       reason: Orsak till blockering
+      start: Början
+      end: Slut
       status: Status
     navigation:
       all_blocks: Alla blockeringar
@@ -3076,6 +3149,11 @@ sv:
       description: Beskrivning
       created_at: Skapades den
       last_changed: Senast ändrad
+      apply: Verkställ
+      all: Alla
+      open: Öppen
+      closed: Stängd
+      status: Status
     show:
       title: 'Anteckning: %{id}'
       description: Beskrivning
@@ -3094,6 +3172,9 @@ sv:
       report: rapportera denna anteckning
       anonymous_warning: Denna anteckning innehåller kommentarer från anonyma användare
         vilka bör bekräftas oberoende av varandra.
+      discussion: Diskussion
+      subscribe: Prenumerera
+      unsubscribe: Avprenumerera
       hide: Göm
       resolve: Avklara
       reactivate: Återaktivera
@@ -3119,6 +3200,10 @@ sv:
         så skriv inte personuppgifter eller information från upphovsrättsligt skyddade
         kartor eller kataloger.
       add: Lägg till anteckning
+    new_readonly:
+      title: Ny anteckning
+      warning: Nya anteckningar kan inte skapas eftersom OpenStreetMap API för närvarande
+        befinner sig i skrivskyddat läge.
     notes_paging_nav:
       showing_page: Sida %{page}
       next: Nästa
@@ -3144,8 +3229,6 @@ sv:
       center_marker: Centrera kartan på markören
       paste_html: Klistra in HTML-koden för att publicera på en webbsida
       view_larger_map: Visa större karta
-      only_standard_layer: Endast lagrena Standard, Cykelkarta och Transport kan exporteras
-        som en bild
     embed:
       report_problem: Rapportera ett problem
     key:

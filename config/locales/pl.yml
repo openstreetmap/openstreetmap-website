@@ -38,6 +38,7 @@
 # Author: Maro21
 # Author: Mateon1
 # Author: Meeqoo
+# Author: Mgorny
 # Author: Mikini
 # Author: Mkot
 # Author: Nemo bis
@@ -60,6 +61,7 @@
 # Author: Sp5uhe
 # Author: Stojex
 # Author: Strebski
+# Author: T11
 # Author: Teiron
 # Author: The Polish
 # Author: Tsca
@@ -120,24 +122,24 @@ pl:
       diary_comment: Komentarz do dziennika
       diary_entry: Wpis dziennika
       friend: Znajomy
-      issue: Problem
+      issue: Sprawa
       language: Język
       message: Wiadomość
       node: Węzeł
       node_tag: Znacznik węzła
       note: Uwaga
       old_node: Stary węzeł
-      old_node_tag: Znacznik wcześniejszego węzła
+      old_node_tag: Znacznik starego węzła
       old_relation: Stara relacja
       old_relation_member: Człon starej relacji
-      old_relation_tag: Znacznik wcześniejszej relacji
+      old_relation_tag: Znacznik starej relacji
       old_way: Stara linia
-      old_way_node: Węzeł wcześniejszej linii
+      old_way_node: Węzeł starej linii
       old_way_tag: Znacznik starej linii
       relation: Relacja
       relation_member: Człon relacji
       relation_tag: Znacznik relacji
-      report: Zgłoszenie
+      report: zgłoszenie
       session: Sesja
       trace: Ślad
       tracepoint: Punkt śladu
@@ -1751,7 +1753,7 @@ pl:
       description: 'Wpis dziennika OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} skomentował wpis dziennika'
       hi: Cześć, %{to_user},
-      header: '%{from_user} zostawił(a) komentarz do wpisu w dzienniku OpenStreetMap
+      header: '%{from_user} zostawił komentarz do wpisu w dzienniku OpenStreetMap
         o temacie %{subject}:'
       header_html: '%{from_user} zostawił(a) komentarz do wpisu w dzienniku OpenStreetMap
         o temacie %{subject}:'
@@ -1782,13 +1784,13 @@ pl:
       befriend_them: Możesz również dodać go jako znajomego na %{befriendurl}.
       befriend_them_html: Możesz również dodać go jako znajomego na %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Wygląda jak twój plik GPX %{trace_name} z opisem %{trace_description}
-        i tagami: %{tags}'
-      description_with_tags_html: 'Wygląda jak twój plik %{trace_name} z opisem %{trace_description}
-        i następującymi tagami: %{tags}'
-      description_with_no_tags: Wygląda jak twój plik %{trace_name} z opisem %{trace_description}
-        i bez tagów
-      description_with_no_tags_html: Wygląda jak twój plik %{trace_name} z opisem
+      description_with_tags: 'Wygląda na to, że twój plik GPX %{trace_name} z opisem
+        %{trace_description} i tagami: %{tags}'
+      description_with_tags_html: 'Wygląda na to, że twój plik %{trace_name} z opisem
+        %{trace_description} i następującymi tagami: %{tags}'
+      description_with_no_tags: Wygląda na to, że twój plik %{trace_name} z opisem
+        %{trace_description} i bez tagów
+      description_with_no_tags_html: Wygląda na to, że twój plik %{trace_name} z opisem
         %{trace_description} i bez tagów
     gpx_failure:
       hi: Cześć, %{to_user},
@@ -1910,9 +1912,9 @@ pl:
       success: Twoje konto zostało zatwierdzone, cieszymy się, że do nas dołączyłeś!
       already active: To konto zostało potwierdzone.
       unknown token: Ten kod potwierdzający wygasł lub nie istnieje.
-      resend_html: Jeśli chcesz, abyśmy ponownie wysłali wiadomość e-mail z potwierdzeniem,
-        %{reconfirm_link}.
-      click_here: Kliknij tutaj
+      if_need_resend: Jeśli potrzebujesz, żebyśmy ponownie wysłali e-mail z potwierdzeniem,
+        kliknij poniższy przycisk.
+      resend_button: Wyślij ponownie e-mail z potwierdzeniem
     confirm_resend:
       failure: Nie odnaleziono użytkownika %{name}.
     confirm_email:
@@ -1930,33 +1932,6 @@ pl:
         listy dodałeś adres %{sender}. Dzięki temu będziemy mogli skontaktować się
         z tobą bez problemów.
   messages:
-    inbox:
-      title: Wiadomości odebrane
-      messages: Masz %{new_messages} i %{old_messages}
-      new_messages:
-        few: '%{count} nowe wiadomości'
-        many: '%{count} nowych wiadomości'
-        one: '%{count} nową wiadomość'
-        other: '%{count} nowych wiadomości'
-      old_messages:
-        few: '%{count} stare wiadomości'
-        many: '%{count} starych wiadomości'
-        one: '%{count} starą wiadomość'
-        other: '%{count} starych wiadomości'
-      no_messages_yet_html: Nie masz jeszcze wiadomości. Może skontaktujesz się z
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: użytkownikami z twojej okolicy
-    messages_table:
-      from: Od
-      to: Do
-      subject: Temat
-      date: Data
-      actions: Operacje
-    message_summary:
-      unread_button: Oznacz jako nieprzeczytaną
-      read_button: Oznacz jako przeczytaną
-      destroy_button: Usuń
-      unmute_button: Przenieś do skrzynki odbiorczej
     new:
       title: Wysyłanie wiadomości
       send_message_to_html: Wyślij nową wiadomość do %{name}
@@ -1969,22 +1944,6 @@ pl:
       title: Nie ma takiej wiadomości
       heading: Nie ma takiej wiadomości
       body: Niestety nie ma wiadomości o tym identyfikatorze.
-    outbox:
-      title: Wiadomości wysłane
-      messages:
-        one: '%{count} wysłana wiadomość'
-        few: '%{count} wysłane wiadomości'
-        other: '%{count} wysłanych wiadomości'
-      no_sent_messages_html: Nie masz jeszcze wysłanych wiadomości. Może skontaktujesz
-        się z %{people_mapping_nearby_link}?
-      people_mapping_nearby: użytkownikami z twojej okolicy
-    muted:
-      title: Wyciszone wiadomości
-      messages:
-        one: Masz %{count} wyciszoną wiadomość
-        few: Masz %{count} wyciszone wiadomości
-        many: Masz %{count} wyciszonych wiadomości
-        other: Masz %{count} wyciszonych wiadomości
     reply:
       wrong_user: Jesteś zalogowany jako %{user}, ale wiadomość, na którą chcesz odpowiedzieć,
         nie została wysłana do tego użytkownika. Zaloguj się jako właściwy użytkownik,
@@ -1998,12 +1957,6 @@ pl:
       wrong_user: Jesteś zalogowany jako %{user}, ale wiadomość, którą chcesz przeczytać,
         nie została wysłana przez tego użytkownika ani do niego. Zaloguj się jako
         właściwy użytkownik, aby ją przeczytać.
-    sent_message_summary:
-      destroy_button: Usuń
-    heading:
-      my_inbox: wiadomości odebrane
-      my_outbox: wiadomości wysłane
-      muted_messages: Wyciszone wiadomości
     mark:
       as_read: Wiadomość została oznaczona jako przeczytana
       as_unread: Wiadomość została oznaczona jako nieprzeczytana
@@ -2012,6 +1965,59 @@ pl:
       error: Nie można było przenieść wiadomości do skrzynki odbiorczej.
     destroy:
       destroyed: Wiadomość usunięta
+    mailboxes:
+      heading:
+        my_inbox: wiadomości odebrane
+        my_outbox: wiadomości wysłane
+        muted_messages: Wyciszone wiadomości
+      messages_table:
+        from: Od
+        to: Do
+        subject: Temat
+        date: Data
+        actions: Operacje
+      message:
+        unread_button: Oznacz jako nieprzeczytaną
+        read_button: Oznacz jako przeczytaną
+        destroy_button: Usuń
+        unmute_button: Przenieś do skrzynki odbiorczej
+    inboxes:
+      show:
+        title: Wiadomości odebrane
+        messages: Masz %{new_messages} i %{old_messages}
+        new_messages:
+          few: '%{count} nowe wiadomości'
+          many: '%{count} nowych wiadomości'
+          one: '%{count} nową wiadomość'
+          other: '%{count} nowych wiadomości'
+        old_messages:
+          few: '%{count} stare wiadomości'
+          many: '%{count} starych wiadomości'
+          one: '%{count} starą wiadomość'
+          other: '%{count} starych wiadomości'
+        no_messages_yet_html: Nie masz jeszcze wiadomości. Może skontaktujesz się
+          z %{people_mapping_nearby_link}?
+        people_mapping_nearby: użytkownikami z twojej okolicy
+    muted_inboxes:
+      show:
+        title: Wyciszone wiadomości
+        messages:
+          one: Masz %{count} wyciszoną wiadomość
+          few: Masz %{count} wyciszone wiadomości
+          many: Masz %{count} wyciszonych wiadomości
+          other: Masz %{count} wyciszonych wiadomości
+    outboxes:
+      show:
+        title: Wiadomości wysłane
+        messages:
+          one: '%{count} wysłana wiadomość'
+          few: '%{count} wysłane wiadomości'
+          other: '%{count} wysłanych wiadomości'
+        no_sent_messages_html: Nie masz jeszcze wysłanych wiadomości. Może skontaktujesz
+          się z %{people_mapping_nearby_link}?
+        people_mapping_nearby: użytkownikami z twojej okolicy
+      message:
+        destroy_button: Usuń
   passwords:
     new:
       title: Zgubione hasło
@@ -2296,6 +2302,8 @@ pl:
         contributors_nl_credit_html: '%{netherlands}: Zawiera dane &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Holandia
+        contributors_nl_and: '*'
+        contributors_nl_and_url: '*'
         contributors_nz_credit_html: '%{new_zealand}: Zawiera dane uzyskane z %{linz_data_service_link}
           i licencjonowane do ponownego użycia na podstawie licencji %{cc_by_link}.'
         contributors_nz_new_zealand: Nowa Zelandia
@@ -2511,7 +2519,7 @@ pl:
           orchard: Sad
           vineyard: Winnica
           forest: Las
-          wood: Drewno
+          wood: Lasek
           farmland: Grunty rolne
           grass: Trawnik
           meadow: Łąka
@@ -2577,7 +2585,8 @@ pl:
         real_and_current: rzeczywiste, jak i aktualne
         off_the_map_html: Nie wprowadzamy obiektów nieistniejących, hipotetycznych
           oraz danych ze źródeł objętych prawami autorskimi. Jeśli nie masz pozwolenia,
-          nie kopiuj z innych map (zarówno tych papierowych, jak i online).%{doesnt}
+          nie kopiuj z innych map (zarówno tych papierowych, jak i online)%{doesnt}
+        doesnt: .
       basic_terms:
         title: Podstawowe zasady mapowania
         paragraph_1: OpenStreetMap ma własny slang. Oto kilka słów, które ci się przydadzą.
@@ -2776,6 +2785,28 @@ pl:
       wikipedia:
         title: Zaloguj się przez Wikipedię
         alt: Logo Wikipedii
+    share:
+      email:
+        title: Udostępnij przez e-mail
+        alt: ikona e-maila
+      bluesky:
+        title: Udostępnij na Bluesky
+        alt: ikona Bluesky
+      facebook:
+        title: Udostępnij na Facebooku
+        alt: ikona Facebooka
+      linkedin:
+        title: Udostępnij na LinkedIn
+        alt: ikona LinkedIn
+      mastodon:
+        title: Udostępnij na Mastodon
+        alt: ikona Mastodon
+      telegram:
+        title: Udostępnij na Telegramie
+        alt: ikona Telegrama
+      x:
+        title: Udostępnij na Twitterze (X)
+        alt: ikona X
   oauth:
     permissions:
       missing: Nie zezwoliłeś aplikacji na dostęp do tej funkcji
@@ -2990,6 +3021,29 @@ pl:
     go_public:
       flash success: Wszystkie twoje edycje są od teraz publiczne i jesteś uprawniony
         do edycji.
+    issued_blocks:
+      show:
+        title: Blokady nałożone przez %{name}
+        heading_html: Lista blokad nałożonych przez %{name}
+        empty: '%{name} nie nałożył jeszcze żadnej blokady.'
+    received_blocks:
+      show:
+        title: Blokady na użytkownika %{name}
+        heading_html: Lista blokad na użytkownika %{name}
+        empty: Użytkownik %{name} nie był jeszcze zablokowany.
+      edit:
+        title: Odwoływanie wszystkich blokad nałożonych na użytkownika %{block_on}
+        heading_html: Odwoływanie wszystkich blokad nałożonych na użytkownika %{block_on}
+        empty: Użytkownik %{name} nie ma aktywnych blokad.
+        confirm: Jesteś pewny, że chcesz odwołać %{active_blocks}?
+        active_blocks:
+          one: '%{count} aktywna blokada'
+          few: '%{count} aktywne blokady'
+          many: '%{count} aktywnych blokad'
+          other: ""
+        revoke: Odwołaj!
+      destroy:
+        flash: Wszystkie aktywne blokady zostały odwołane.
     lists:
       show:
         title: Użytkownicy
@@ -3074,18 +3128,6 @@ pl:
       title: Blokady użytkowników
       heading: Lista blokad użytkowników
       empty: Nie nałożono do tej pory żadnych blokad.
-    revoke_all:
-      title: Odwoływanie wszystkich blokad nałożonych na użytkownika %{block_on}
-      heading_html: Odwoływanie wszystkich blokad nałożonych na użytkownika %{block_on}
-      empty: Użytkownik %{name} nie ma aktywnych blokad.
-      confirm: Jesteś pewny, że chcesz odwołać %{active_blocks}?
-      active_blocks:
-        one: '%{count} aktywna blokada'
-        few: '%{count} aktywne blokady'
-        many: '%{count} aktywnych blokad'
-        other: ""
-      revoke: Odwołaj!
-      flash: Wszystkie aktywne blokady zostały odwołane.
     helper:
       time_future_html: Blokada wygasa za %{time}.
       until_login: Aktywna do momentu zalogowania się użytkownika.
@@ -3127,14 +3169,6 @@ pl:
         read_html: przeczytana %{time}
         time_in_future_title: '%{time_absolute}; za %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Blokady na użytkownika %{name}
-      heading_html: Lista blokad na użytkownika %{name}
-      empty: Użytkownik %{name} nie był jeszcze zablokowany.
-    blocks_by:
-      title: Blokady nałożone przez %{name}
-      heading_html: Lista blokad nałożonych przez %{name}
-      empty: '%{name} nie nałożył jeszcze żadnej blokady.'
     show:
       title: '%{block_on} zablokowany przez użytkownika %{block_by}'
       heading_html: '%{block_on} zablokowany przez użytkownika %{block_by}'
@@ -3167,10 +3201,10 @@ pl:
       title: Wyciszeni użytkownicy
       my_muted_users: Wyciszeni użytkownicy
       you_have_muted_n_users:
-        one: Wyciszyłeś %{count} użytkownika.
-        few: Wyciszyłeś %{count} użytkowników.
-        many: Wyciszyłeś %{count} użytkowników.
-        other: Wyciszyłeś %{count} użytkowników.
+        one: Wyciszyłeś %{count} użytkownika
+        few: Wyciszyłeś %{count} użytkowników
+        many: Wyciszyłeś %{count} użytkowników
+        other: Wyciszyłeś %{count} użytkowników
       user_mute_explainer: Wiadomości od wyciszonych użytkowników są przenoszone do
         osobnej skrzynki odbiorczej, a ty nie otrzymasz powiadomień e-mailem.
       user_mute_admins_and_moderators: Możesz wyciszyć administratorów i moderatorów,
@@ -3283,8 +3317,7 @@ pl:
       center_marker: Wyśrodkuj mapę na znaczniku
       paste_html: Wklej podany kod HTML do swojej strony
       view_larger_map: Wyświetl większą mapę
-      only_standard_layer: Tylko warstwa podstawowa, rowerowa lub transportu publicznego
-        może być eksportowana jako obraz
+      only_layers_exported_as_image: 'Tylko poniższe warstwy można pobrać jako obraz:'
     embed:
       report_problem: Zgłoś błąd
     key:

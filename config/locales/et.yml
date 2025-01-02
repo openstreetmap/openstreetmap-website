@@ -1671,8 +1671,6 @@ et:
       success: Sinu kasutajakonto on kinnitatud, täname registreerimast!
       already active: See konto on juba kinnitatud.
       unknown token: See kinnituskood on aegunud või seda pole olemas.
-      resend_html: Kui soovid, et saadaksime sulle uuesti kinnitusmeili, siis %{reconfirm_link}.
-      click_here: klõpsa siia
     confirm_resend:
       failure: Kasutajat %{name} ei leitud.
     confirm_email:
@@ -1689,29 +1687,6 @@ et:
         siis veendu, et oled kandnud aadressi %{sender} valgesse nimekirja, sest meil
         pole võimalik kinnitustaotlustele vastata.
   messages:
-    inbox:
-      title: Saabunud sõnumid
-      messages: Sul on %{new_messages} ja %{old_messages}.
-      new_messages:
-        one: '%{count} uus sõnum'
-        other: '%{count} uut sõnumit'
-      old_messages:
-        one: '%{count} vana sõnum'
-        other: '%{count} vana sõnumit'
-      no_messages_yet_html: Sul ei ole veel sõnumeid. Miks mitte kontakteeruda mõne
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: lähedaloleva kaardistajaga
-    messages_table:
-      from: Saatja
-      to: Kellele
-      subject: Teema
-      date: Kuupäev
-      actions: Toimingud
-    message_summary:
-      unread_button: Märgi mitteloetuks
-      read_button: Märgi loetuks
-      destroy_button: Kustuta
-      unmute_button: Teisalda postkasti
     new:
       title: Saada sõnum
       send_message_to_html: Sõnumi saatmine kasutajale %{name}
@@ -1724,19 +1699,6 @@ et:
       title: Sellist sõnumit ei ole olemas
       heading: Sellist sõnumit ei ole olemas
       body: Vabandust, kuid sellise ID-ga sõnum puudub.
-    outbox:
-      title: Saadetud sõnumid
-      messages:
-        one: Sul on %{count} saadetud sõnum.
-        other: Sul on %{count} saadetud sõnumit.
-      no_sent_messages_html: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda
-        mõne %{people_mapping_nearby_link}?
-      people_mapping_nearby: lähedaloleva kaardistajaga
-    muted:
-      title: Vaigistatud sõnumid
-      messages:
-        one: Üks vaigistatud sõnum.
-        other: Sul on %{count} vaigistatud sõnumit.
     reply:
       wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, millele soovid vastata
         ei olnud sellele kasutajale saadetud. Vastamiseks palun logi sisse õige kasutajana.
@@ -1749,12 +1711,6 @@ et:
       wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, mida soovid lugeda ei
         ole sellele kasutajale saadetud ega selle kasutaja poolt saadetud. Lugemiseks
         palun logi sisse õige kasutajana.
-    sent_message_summary:
-      destroy_button: Kustuta
-    heading:
-      my_inbox: Saabunud sõnumid
-      my_outbox: Saadetud sõnumid
-      muted_messages: Vaigistatud sõnumid
     mark:
       as_read: Sõnum on märgitud loetud sõnumiks.
       as_unread: Sõnum on märgitud lugemata sõnumiks.
@@ -1763,6 +1719,52 @@ et:
       error: Sõnumit ei õnnestunud postkasti teisaldada.
     destroy:
       destroyed: Sõnum kustutatud.
+    mailboxes:
+      heading:
+        my_inbox: Saabunud sõnumid
+        my_outbox: Saadetud sõnumid
+        muted_messages: Vaigistatud sõnumid
+      messages_table:
+        from: Saatja
+        to: Kellele
+        subject: Teema
+        date: Kuupäev
+        actions: Toimingud
+      message:
+        unread_button: Märgi mitteloetuks
+        read_button: Märgi loetuks
+        destroy_button: Kustuta
+        unmute_button: Teisalda postkasti
+    inboxes:
+      show:
+        title: Saabunud sõnumid
+        messages: Sul on %{new_messages} ja %{old_messages}.
+        new_messages:
+          one: '%{count} uus sõnum'
+          other: '%{count} uut sõnumit'
+        old_messages:
+          one: '%{count} vana sõnum'
+          other: '%{count} vana sõnumit'
+        no_messages_yet_html: Sul ei ole veel sõnumeid. Miks mitte kontakteeruda mõne
+          %{people_mapping_nearby_link}?
+        people_mapping_nearby: lähedaloleva kaardistajaga
+    muted_inboxes:
+      show:
+        title: Vaigistatud sõnumid
+        messages:
+          one: Üks vaigistatud sõnum.
+          other: Sul on %{count} vaigistatud sõnumit.
+    outboxes:
+      show:
+        title: Saadetud sõnumid
+        messages:
+          one: Sul on %{count} saadetud sõnum.
+          other: Sul on %{count} saadetud sõnumit.
+        no_sent_messages_html: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda
+          mõne %{people_mapping_nearby_link}?
+        people_mapping_nearby: lähedaloleva kaardistajaga
+      message:
+        destroy_button: Kustuta
   passwords:
     new:
       title: Unustatud parool
@@ -2685,6 +2687,16 @@ et:
     go_public:
       flash success: Kõik sinu muudatused on nüüd avalikud ja sul on lubatud muudatusi
         teha.
+    issued_blocks:
+      show:
+        title: Kasutaja %{name} seatud blokeeringud
+        heading_html: Kasutaja %{name} seatud blokeeringud
+        empty: Kasutaja %{name} pole veel kedagi blokeerinud.
+    received_blocks:
+      show:
+        title: Kasutaja %{name} blokeeringud
+        heading_html: Kasutaja %{name} blokeeringud
+        empty: Kasutajat %{name} ei ole veel kordagi blokeeritud.
     lists:
       show:
         title: Kasutajad
@@ -2777,14 +2789,6 @@ et:
         years:
           one: '%{count} aasta'
           other: '%{count} aastat'
-    blocks_on:
-      title: Kasutaja %{name} blokeeringud
-      heading_html: Kasutaja %{name} blokeeringud
-      empty: Kasutajat %{name} ei ole veel kordagi blokeeritud.
-    blocks_by:
-      title: Kasutaja %{name} seatud blokeeringud
-      heading_html: Kasutaja %{name} seatud blokeeringud
-      empty: Kasutaja %{name} pole veel kedagi blokeerinud.
     show:
       title: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
       heading_html: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
@@ -2912,8 +2916,6 @@ et:
       center_marker: Tsentreeri kaart markerile
       paste_html: Kopeeri HTML-kood oma veebilehele
       view_larger_map: Vaata suuremat kaarti
-      only_standard_layer: Ainult tava-, ratta- ja transpordikaardi kihte saab pildina
-        eksportida
     embed:
       report_problem: Teata probleemist
     key:

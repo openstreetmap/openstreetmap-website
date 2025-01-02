@@ -925,6 +925,10 @@ lb:
           wayside_shrine: Bildstack
           wreck: Wrack
           "yes": Historesch Plaz
+        information:
+          map: Kaart
+          terminal: Informatiounsterminal
+          sign: Informatiounsschëld
         junction:
           "yes": Kräizung
         landuse:
@@ -997,6 +1001,8 @@ lb:
           track: Lafbunn
           water_park: Waasserpark
           "yes": Fräizäit
+        lock:
+          "yes": Schleis
         man_made:
           adit: Stollen
           advertising: Baussereklamm
@@ -1337,6 +1343,14 @@ lb:
           building_passage: Gebaisduerchgang
           culvert: Duerchlooss
           "yes": Tunnel
+        water:
+          lake: Séi
+          pond: Weier
+          reservoir: Reservoir
+          basin: Waasserbaseng
+          fishpond: Fëschweier
+          wastewater: Ofwaasser
+          lock: Schleis
         waterway:
           artificial: Kënschtlech Waasserstrooss
           boatyard: Werft
@@ -1657,7 +1671,9 @@ lb:
       success: Däi Benotzerkont gouf bestätegt, Merci fir d'Registréieren!
       already active: Dëse Kont gouf scho confirméiert.
       unknown token: Dee Confirmatiouns-Code ass ofgelaf oder et gëtt en net.
-      click_here: klickt hei
+      if_need_resend: Wa mir d'Confirmatiouns-E-Mail nach eng Kéier schécke sollen,
+        klickt op de Knäppchen ënnendrënner.
+      resend_button: D'Confirmatiouns-E-Mail nach eng Kéier schécken
     confirm_resend:
       failure: Benotzer %{name} gouf net fonnt.
     confirm_email:
@@ -1675,28 +1691,6 @@ lb:
         stell wannechgelift sécher, dass du %{sender} op eng Erlaabnislëscht setz,
         well mir keng Bestätegungsufroë beäntwere kënnen.
   messages:
-    inbox:
-      title: Postagang
-      messages: Dir hutt %{new_messages} a(n) %{old_messages}
-      new_messages:
-        one: '%{count} neie mMssage'
-        other: '%{count} nei Messagen'
-      old_messages:
-        one: '%{count} ale Message'
-        other: '%{count} al Messagen'
-      no_messages_yet_html: Du hues nach keng Noriichte versent. Wëlls de mat %{people_mapping_nearby_link}
-        Kontakt ophuelen?
-      people_mapping_nearby: Mapperen an der Noperschaft
-    messages_table:
-      from: Vu(n)
-      to: Un
-      subject: Sujet
-      date: Datum
-      actions: Aktiounen
-    message_summary:
-      unread_button: Als net gelies markéieren
-      read_button: Als gelies markéieren
-      destroy_button: Läschen
     new:
       title: Noriicht schécken
       send_message_to_html: Dem %{name} en neie Message schécken
@@ -1709,14 +1703,6 @@ lb:
       title: Kee sou ee Message
       heading: Kee sou ee Message
       body: Leider gëtt et kee Message mat där ID.
-    outbox:
-      title: Outbox
-      messages:
-        one: Du hues %{count} Noriicht gesent
-        other: Du hues %{count} Noriichte gesent
-      no_sent_messages_html: Du hues nach keng Noriichte versent. Wëlls de mat %{people_mapping_nearby_link}
-        Kontakt ophuelen?
-      people_mapping_nearby: Mapperen an der Noperschaft
     reply:
       wrong_user: Dir sidd als '%{user}' ugemellt, awer d'Noriicht, op déi Dir äntwere
         wollt, gouf net un dëse Benotzer geschéckt. Mellt Iech wgl. mat dem richtege
@@ -1730,16 +1716,49 @@ lb:
       wrong_user: Dir sidd als '%{user}' ugemellt, awer d'Noriicht, déi Dir liese
         wollt, gouf net vun an net un dëse Benotzer geschéckt. Mellt Iech wgl. mat
         dem richtege Benotzerkont u fir se ze liesen.
-    sent_message_summary:
-      destroy_button: Läschen
-    heading:
-      my_inbox: Mäi Postagang
-      my_outbox: Mäi Postausgang
     mark:
       as_read: Message als gelies markéiert
       as_unread: Message als net gelies markéiert
     destroy:
       destroyed: Message geläscht
+    mailboxes:
+      heading:
+        my_inbox: Mäi Postagang
+        my_outbox: Mäi Postausgang
+      messages_table:
+        from: Vu(n)
+        to: Un
+        subject: Sujet
+        date: Datum
+        actions: Aktiounen
+      message:
+        unread_button: Als net gelies markéieren
+        read_button: Als gelies markéieren
+        destroy_button: Läschen
+    inboxes:
+      show:
+        title: Postagang
+        messages: Dir hutt %{new_messages} a(n) %{old_messages}
+        new_messages:
+          one: '%{count} neie mMssage'
+          other: '%{count} nei Messagen'
+        old_messages:
+          one: '%{count} ale Message'
+          other: '%{count} al Messagen'
+        no_messages_yet_html: Du hues nach keng Noriichte versent. Wëlls de mat %{people_mapping_nearby_link}
+          Kontakt ophuelen?
+        people_mapping_nearby: Mapperen an der Noperschaft
+    outboxes:
+      show:
+        title: Outbox
+        messages:
+          one: Du hues %{count} Noriicht gesent
+          other: Du hues %{count} Noriichte gesent
+        no_sent_messages_html: Du hues nach keng Noriichte versent. Wëlls de mat %{people_mapping_nearby_link}
+          Kontakt ophuelen?
+        people_mapping_nearby: Mapperen an der Noperschaft
+      message:
+        destroy_button: Läschen
   passwords:
     new:
       title: Passwuert vergiess
@@ -2147,6 +2166,28 @@ lb:
       wikipedia:
         title: Mat Wikipedia aloggen
         alt: Wikipedia-Logo
+    share:
+      email:
+        title: Per E-Mail deelen
+        alt: E-Mail-Symbol
+      bluesky:
+        title: Op Bluesky deelen
+        alt: Bluesky-Symbol
+      facebook:
+        title: Op Facebook deelen
+        alt: Facebook-Symbol
+      linkedin:
+        title: Op LinkedIn deelen
+        alt: LinkedIn-Symbol
+      mastodon:
+        title: Op Mastodon deelen
+        alt: Mastodon-Symbol
+      telegram:
+        title: Op Telegram deelen
+        alt: Telegram-Symbol
+      x:
+        title: Op X deelen
+        alt: X-Symbol
   oauth:
     scopes:
       read_prefs: Benotzerastellunge liesen
@@ -2156,7 +2197,7 @@ lb:
       read_gpx: Privat GPS-Spuere liesen
       write_gpx: GPS-Tracks eroplueden
       write_notes: Notizzen änneren
-      read_email: D'E-mail-Adress vum Benotzer liesen
+      read_email: D'E-Mail-Adress vum Benotzer liesen
   oauth2_applications:
     index:
       title: Meng Clients-Applikatiounen
@@ -2269,6 +2310,14 @@ lb:
       report: Dëse Benotzer mellen
     go_public:
       flash success: All Är Ännerunge sinn elo ëffentlech, an Dir däerft elo änneren.
+    issued_blocks:
+      show:
+        title: Späre vum %{name}
+        heading_html: Lëscht vun de Spären vum %(name)
+    received_blocks:
+      show:
+        title: Späre vum %{name}
+        empty: '%{name} gouf bis elo nach net gespaart.'
     lists:
       show:
         title: Benotzer
@@ -2328,12 +2377,6 @@ lb:
           other: '%{count} Joren'
       short:
         active: aktiv
-    blocks_on:
-      title: Späre vum %{name}
-      empty: '%{name} gouf bis elo nach net gespaart.'
-    blocks_by:
-      title: Späre vum %{name}
-      heading_html: Lëscht vun de Spären vum %(name)
     show:
       title: '%{block_on} gespaart vum %{block_by}'
       heading_html: '%{block_on} gespaart vum %{block_by}'

@@ -1608,6 +1608,10 @@ cs:
         open: Otevřeno
         resolved: Vyřešeno
     show:
+      title:
+        open: Otevřít problém č. %{issue_id}
+        ignored: Ignorovaný problém č. %{issue_id}
+        resolved: Vyřešený problém č. %{issue_id}
       reports:
         one: '%{count} hlášení'
         few: '%{count} hlášení'
@@ -1879,8 +1883,6 @@ cs:
       success: Účet potvrzen, děkujeme za registraci!
       already active: Tento uživatelský účet už byl potvrzen.
       unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
-      resend_html: Pokud potřebujete, abychom znovu poslali potvrzovací e-mail, %{reconfirm_link}.
-      click_here: klikněte zde
     confirm_resend:
       failure: Uživatel %{name} nebyl nalezen.
     confirm_email:
@@ -1898,31 +1900,6 @@ cs:
         nezapomeňte zařídit výjimku pro %{sender}, neboť na žádosti o potvrzení nejsme
         schopni reagovat.
   messages:
-    inbox:
-      title: Doručená pošta
-      messages: Máte %{new_messages} a %{old_messages}
-      new_messages:
-        few: '%{count} nové zprávy'
-        one: '%{count} novou zprávu'
-        other: '%{count} nových zpráv'
-      old_messages:
-        few: '%{count} staré zprávy'
-        one: '%{count} starou zprávu'
-        other: '%{count} starých zpráv'
-      no_messages_yet_html: Zatím nemáte žádné zprávy. Co třeba kontaktovat nějaké
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: uživatele poblíž
-    messages_table:
-      from: Od
-      to: Komu
-      subject: Předmět
-      date: Datum
-      actions: Akce
-    message_summary:
-      unread_button: Označit jako nepřečtené
-      read_button: Označit jako přečtené
-      destroy_button: Smazat
-      unmute_button: Přesunout do doručené pošty
     new:
       title: Odeslat zprávu
       send_message_to_html: Poslat novou zprávu uživateli %{name}
@@ -1935,22 +1912,6 @@ cs:
       title: Zpráva neexistuje
       heading: Zpráva neexistuje
       body: Je mi líto, ale žádná zpráva s tímto ID neexistuje.
-    outbox:
-      title: Odeslaná pošta
-      messages:
-        few: Máte %{count} odeslané zprávy
-        one: Máte %{count} odeslanou zprávu
-        other: Máte %{count} odeslaných zpráv
-      no_sent_messages_html: Nemáte žádné odeslané zprávy. Co třeba kontaktovat nějaké
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: uživatele poblíž
-    muted:
-      title: Ztlumené zprávy
-      messages:
-        one: Máte %{count} ztlumenou zprávu
-        few: Máte %{count} ztlumené zprávy
-        many: Máte %{count} ztlumené zprávy
-        other: Máte %{count} ztlumených zpráv
     reply:
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, na kterou chcete odpovědět,
         nebyla poslána tomuto uživateli. Pokud na ni chcete odpovědět, přihlaste se
@@ -1964,12 +1925,6 @@ cs:
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, kterou si chcete přečíst,
         není ani od, ani pro tohoto uživatele. Pokud si ji chcete přečíst, přihlaste
         se pod správným účtem.
-    sent_message_summary:
-      destroy_button: Smazat
-    heading:
-      my_inbox: Má doručená pošta
-      my_outbox: Moje odchozí
-      muted_messages: Ztlumené zprávy
     mark:
       as_read: Zpráva označena jako přečtená
       as_unread: Zpráva označena jako nepřečtená
@@ -1978,6 +1933,57 @@ cs:
       error: Zprávu se nepodařilo přesunout do doručené pošty.
     destroy:
       destroyed: Zpráva smazána
+    mailboxes:
+      heading:
+        my_inbox: Má doručená pošta
+        my_outbox: Moje odchozí
+        muted_messages: Ztlumené zprávy
+      messages_table:
+        from: Od
+        to: Komu
+        subject: Předmět
+        date: Datum
+        actions: Akce
+      message:
+        unread_button: Označit jako nepřečtené
+        read_button: Označit jako přečtené
+        destroy_button: Smazat
+        unmute_button: Přesunout do doručené pošty
+    inboxes:
+      show:
+        title: Doručená pošta
+        messages: Máte %{new_messages} a %{old_messages}
+        new_messages:
+          few: '%{count} nové zprávy'
+          one: '%{count} novou zprávu'
+          other: '%{count} nových zpráv'
+        old_messages:
+          few: '%{count} staré zprávy'
+          one: '%{count} starou zprávu'
+          other: '%{count} starých zpráv'
+        no_messages_yet_html: Zatím nemáte žádné zprávy. Co třeba kontaktovat nějaké
+          %{people_mapping_nearby_link}?
+        people_mapping_nearby: uživatele poblíž
+    muted_inboxes:
+      show:
+        title: Ztlumené zprávy
+        messages:
+          one: Máte %{count} ztlumenou zprávu
+          few: Máte %{count} ztlumené zprávy
+          many: Máte %{count} ztlumené zprávy
+          other: Máte %{count} ztlumených zpráv
+    outboxes:
+      show:
+        title: Odeslaná pošta
+        messages:
+          few: Máte %{count} odeslané zprávy
+          one: Máte %{count} odeslanou zprávu
+          other: Máte %{count} odeslaných zpráv
+        no_sent_messages_html: Nemáte žádné odeslané zprávy. Co třeba kontaktovat
+          nějaké %{people_mapping_nearby_link}?
+        people_mapping_nearby: uživatele poblíž
+      message:
+        destroy_button: Smazat
   passwords:
     new:
       title: Ztracené heslo
@@ -2746,6 +2752,28 @@ cs:
       wikipedia:
         title: Přihlásit se účtem na Wikipedii
         alt: Logo Wikipedie
+    share:
+      email:
+        title: Sdílejte e-mailem
+        alt: Ikona e-mailu
+      bluesky:
+        title: Sdílejte přes Bluesky
+        alt: Ikona Bluesky
+      facebook:
+        title: Sdílejte přes Facebook
+        alt: Ikona Facebooku
+      linkedin:
+        title: Sdílejte přes LinkedIn
+        alt: Ikona LinkedIn
+      mastodon:
+        title: Sdílejte na Mastodon
+        alt: Ikona Mastodon
+      telegram:
+        title: Sdílejte na Telegramu
+        alt: Ikona Telegramu
+      x:
+        title: Sdílejte na X
+        alt: Ikona X
   oauth:
     permissions:
       missing: Aplikaci jste nedovolili přístup k této funkci
@@ -2960,6 +2988,29 @@ cs:
       report: Nahlásit tohoto uživatele
     go_public:
       flash success: Všechny vaše úpravy jsou nyní veřejné a máte oprávnění k úpravám.
+    issued_blocks:
+      show:
+        title: Bloky od %{name}
+        heading_html: Blokace od %{name}
+        empty: '%{name} ještě nikoho nezablokoval.'
+    received_blocks:
+      show:
+        title: Zablokování uživatele %{name}
+        heading_html: Seznam zablokování uživatele %{name}
+        empty: '%{name} dosud nebyl(a) zablokován(a).'
+      edit:
+        title: Zrušení všech bloků uživatele %{block_on}
+        heading_html: Zrušení všech bloků uživatele %{block_on}
+        empty: Uživatel %{name} nemá žádné aktivní bloky.
+        confirm: Opravdu chcete zrušit %{active_blocks}?
+        active_blocks:
+          one: '%{count} aktivní bloky'
+          few: '%{count} aktivní bloky'
+          many: '%{count} aktivního bloku'
+          other: '%{count} aktivních bloků'
+        revoke: Zrušit!
+      destroy:
+        flash: Všechny aktivní bloky byly zrušeny.
     lists:
       show:
         title: Uživatelé
@@ -3041,18 +3092,6 @@ cs:
       title: Bloky uživatele
       heading: Seznam blokovaných uživatelů
       empty: Ještě nebyl vytvořen žádny blok.
-    revoke_all:
-      title: Zrušení všech bloků uživatele %{block_on}
-      heading_html: Zrušení všech bloků uživatele %{block_on}
-      empty: Uživatel %{name} nemá žádné aktivní bloky.
-      confirm: Opravdu chcete zrušit %{active_blocks}?
-      active_blocks:
-        one: '%{count} aktivní bloky'
-        few: '%{count} aktivní bloky'
-        many: '%{count} aktivního bloku'
-        other: '%{count} aktivních bloků'
-      revoke: Zrušit!
-      flash: Všechny aktivní bloky byly zrušeny.
     helper:
       time_future_html: Končí za %{time}.
       until_login: Aktivní dokud se uživatel nepřihlásí.
@@ -3091,14 +3130,8 @@ cs:
         active_unread: aktivní nepřečtený
         expired_unread: vypršel nepřečtený
         read_html: přečteno %{time}
-    blocks_on:
-      title: Zablokování uživatele %{name}
-      heading_html: Seznam zablokování uživatele %{name}
-      empty: '%{name} dosud nebyl(a) zablokován(a).'
-    blocks_by:
-      title: Bloky od %{name}
-      heading_html: Blokace od %{name}
-      empty: '%{name} ještě nikoho nezablokoval.'
+        time_in_future_title: '%{time_absolute}; v %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} zablokován uživatelem %{block_by}'
       heading_html: '%{block_on} zablokován uživatelem %{block_by}'
@@ -3216,6 +3249,7 @@ cs:
         žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
       add: Přidat poznámku
     new_readonly:
+      title: Nová poznámka
       warning: Nové poznámky nelze vytvářet, protože OpenStreetMap API je momentálně
         v režimu pouze pro čtení.
     notes_paging_nav:
@@ -3243,8 +3277,8 @@ cs:
       center_marker: Vycentrovat mapu na značku
       paste_html: HTML ke vložení na webovou stránku
       view_larger_map: Zobrazit větší mapu
-      only_standard_layer: Jako obrázek lze exportovat jen vrstvy Standardní, Cyklomapa
-        a Dopravní
+      only_layers_exported_as_image: 'Jako obrázek lze exportovat pouze následující
+        vrstvy:'
     embed:
       report_problem: Nahlásit problém
     key:

@@ -490,6 +490,8 @@ sr:
       title: Дневник корисника/це %{user} | %{title}
       user_title: Дневник корисника/це %{user}
       discussion: Дискусија
+      subscribe: Прати
+      unsubscribe: Прекини праћење
       leave_a_comment: Остави коментар
       login_to_leave_a_comment_html: '%{login_link} да бисте оставили коментар'
       login: Пријавите се
@@ -573,6 +575,7 @@ sr:
           chair_lift: Жичара са седиштима
           drag_lift: Вучница
           gondola: Кабинска жичара
+          platter: Скилифт
           pylon: Пилон
           station: Станица жичаре
           "yes": Ваздушни путеви
@@ -682,6 +685,7 @@ sr:
           waste_basket: Корпа за отпатке
           waste_disposal: Контејнер
           waste_dump_site: Депонија
+          watering_place: Појило
           weighbridge: Теретна вага
           "yes": Погодност
         boundary:
@@ -710,6 +714,7 @@ sr:
           college: Факултетска зграда
           commercial: Пословна зграда
           construction: Зграда у изградњи
+          cowshed: Штала
           detached: Издвојена кућа
           dormitory: Студентски дом
           duplex: Дуплекс кућа
@@ -739,6 +744,7 @@ sr:
           shed: Шупа
           stable: Штала
           static_caravan: Караван
+          sty: Свињарац
           temple: Зграда храма
           terrace: Тераса
           train_station: Железничка станица
@@ -760,6 +766,7 @@ sr:
           electronics_repair: Поправка електронике
           gardener: Баштован
           glaziery: Стаклар
+          handicraft: Рукотворине
           painter: Молер
           photographer: Фотограф
           plumber: Водоинсталатер
@@ -822,6 +829,7 @@ sr:
           traffic_signals: Саобраћајна сигнализација
           trunk: Магистрала
           trunk_link: Магистрала
+          turning_circle: Кружни ток
           unclassified: Некласификовани пут
           "yes": Пут
         historic:
@@ -996,6 +1004,7 @@ sr:
           grassland: Пашњак
           heath: Равница
           hill: Брдо
+          hot_spring: Гејзир
           island: Острво
           land: Земља
           marsh: Мочвара
@@ -1173,6 +1182,7 @@ sr:
           massage: Масажа
           mobile_phone: Продавница мобилних телефона
           motorcycle: Продавница мотоцикала
+          motorcycle_repair: Поправка мотоцикала
           music: Музичка продавница
           musical_instrument: Музички инструменти
           newsagent: Новинарница
@@ -1184,6 +1194,7 @@ sr:
           pawnbroker: Залагаоничар
           perfumery: Парфимерија
           pet: Продавница за кућне љубимце
+          pet_grooming: Шишање паса
           photo: Фотографска радња
           seafood: Морски плодови
           second_hand: Продавница половне робе
@@ -1234,6 +1245,7 @@ sr:
           "yes": Тунел
         water:
           lake: Језеро
+          fishpond: Рибњак
           wastewater: Отпадне воде
         waterway:
           artificial: Вештачки водоток
@@ -1287,6 +1299,10 @@ sr:
       status: Статус
       reports: Извештаји
       last_updated: Последње ажурирање
+      states:
+        ignored: Занемарено
+        open: Отворено
+        resolved: Решено
     show:
       no_reports: Нема пријава
       resolve: Разреши
@@ -1460,7 +1476,6 @@ sr:
       success: Ваш налог је потврђен. Хвала вам на упису!
       already active: Овај налог је већ потврђен.
       unknown token: Тај код за потврду је истекао или не постоји.
-      click_here: кликните овде
     confirm_resend:
       failure: Корисник %{name} није пронађен.
     confirm_email:
@@ -1472,29 +1487,6 @@ sr:
       failure: Е-адреса с овим новчићем је већ потврђена.
       unknown_token: Вредност кода за потврду је истекла или тај код не постоји.
   messages:
-    inbox:
-      title: Примљене
-      messages: Имате %{new_messages} и %{old_messages}
-      new_messages:
-        one: '%{count} нова порука'
-        few: '%{count} нове поруке'
-        other: '%{count} нових порука'
-      old_messages:
-        one: '%{count} стара порука'
-        other: '%{count} старих порука'
-      no_messages_yet_html: Још увек немате порука. Зашто не бисте ступили у контакт
-        с %{people_mapping_nearby_link}?
-      people_mapping_nearby: маперима у вашој околини
-    messages_table:
-      from: Од
-      to: За
-      subject: Наслов
-      date: Датум
-      actions: Радње
-    message_summary:
-      unread_button: Означи као непрочитано
-      read_button: Означи као прочитано
-      destroy_button: Обриши
     new:
       title: Пошаљи поруку
       send_message_to_html: Пошаљи нову поруку за %{name}
@@ -1507,16 +1499,6 @@ sr:
       title: Нема такве поруке
       heading: Нема такве поруке
       body: Нажалост, нема поруке с тим ИБ.
-    outbox:
-      title: Послате
-      messages:
-        one: Имате %{count} послату поруку
-        other: Имате %{count} послате поруке
-      no_sent_messages_html: Још увек немате послатих порука. Зашто не бисте ступили
-        у контакт с %{people_mapping_nearby_link}?
-      people_mapping_nearby: маперима у вашој околини
-    muted:
-      title: Пригушене поруке
     reply:
       wrong_user: Пријављени сте као %{user}, али порука на коју сте желели да одговорите
         није послата том кориснику. Пријавите се као исправан корисник да бисте одговорили.
@@ -1529,17 +1511,54 @@ sr:
       wrong_user: Пријављени сте као '%{user}', али порука коју сте желели да прочитате
         нисте послали ви или том кориснику. Пријавите се као исправан корисник да
         бисте је прочитали.
-    sent_message_summary:
-      destroy_button: Обриши
-    heading:
-      my_inbox: Примљене
-      my_outbox: Послате
-      muted_messages: Пригушене поруке
     mark:
       as_read: Порука је означена као прочитана
       as_unread: Порука је означена као непрочитана
     destroy:
       destroyed: Порука је обрисана
+    mailboxes:
+      heading:
+        my_inbox: Примљене
+        my_outbox: Послате
+        muted_messages: Пригушене поруке
+      messages_table:
+        from: Од
+        to: За
+        subject: Наслов
+        date: Датум
+        actions: Радње
+      message:
+        unread_button: Означи као непрочитано
+        read_button: Означи као прочитано
+        destroy_button: Обриши
+    inboxes:
+      show:
+        title: Примљене
+        messages: Имате %{new_messages} и %{old_messages}
+        new_messages:
+          one: '%{count} нова порука'
+          few: '%{count} нове поруке'
+          other: '%{count} нових порука'
+        old_messages:
+          one: '%{count} стара порука'
+          other: '%{count} старих порука'
+        no_messages_yet_html: Још увек немате порука. Зашто не бисте ступили у контакт
+          с %{people_mapping_nearby_link}?
+        people_mapping_nearby: маперима у вашој околини
+    muted_inboxes:
+      show:
+        title: Пригушене поруке
+    outboxes:
+      show:
+        title: Послате
+        messages:
+          one: Имате %{count} послату поруку
+          other: Имате %{count} послате поруке
+        no_sent_messages_html: Још увек немате послатих порука. Зашто не бисте ступили
+          у контакт с %{people_mapping_nearby_link}?
+        people_mapping_nearby: маперима у вашој околини
+      message:
+        destroy_button: Обриши
   passwords:
     new:
       title: Повратак лозинке
@@ -1561,10 +1580,13 @@ sr:
       preferred_editor: Жељени уређивач
       preferred_languages: Жељени језици
       site_color_schemes:
+        auto: Аутоматски
+        light: Светла
         dark: Тамна
       map_color_schemes:
         auto: Аутоматски
         light: Светла
+        dark: Тамна
       edit_preferences: Уреди подешавања
     edit:
       title: Моја подешавања
@@ -1627,6 +1649,7 @@ sr:
     richtext_field:
       edit: Уреди
       preview: Преглед
+      help: Помоћ
     pagination:
       diary_comments:
         older: Старији коментари
@@ -1745,6 +1768,8 @@ sr:
       title: Извоз
       manually_select: Ручно изаберите другу област
       licence: Лиценца
+      licence_details_html: Подаци OpenStreetMap-а су доступни под лиценцом %{odbl_link}
+        (ODbL).
       too_large:
         advice: 'Ако буде проблема при извозу, послужите се неким од доленаведених
           извора:'
@@ -1829,6 +1854,7 @@ sr:
           primary: Магистрални пут
           secondary: Споредни пут
           unclassified: Локални пут
+          pedestrian: Пешачка стаза
           track: Макадам
           bridleway: Коњичка стаза
           cycleway: Бициклистичка стаза
@@ -1840,6 +1866,7 @@ sr:
           train: Воз
           subway: Подземна железница
           ferry: Трајект
+          light_rail: Лака железница
           tram: Трамвај
           trolleybus: Тролејбус
           bus: Аутобус
@@ -1851,11 +1878,14 @@ sr:
           admin: Административна граница
           capital: Престоница
           city: Град
+          orchard: Воћњак
           vineyard: Виноград
           forest: Шума
           wood: Шума
+          farmland: Обрадиво земљиште
           grass: Трава
           meadow: Ливада
+          bare_rock: Голи камен
           sand: Песак
           golf: Голф терен
           park: Парк
@@ -1868,6 +1898,8 @@ sr:
           lake: Језеро
           reservoir: Резервоар
           glacier: Глечер
+          reef: Гребен
+          wetland: Мочварно подручје
           farm: Фарма
           brownfield: Грађевинско земљиште
           cemetery: Гробље
@@ -1882,6 +1914,9 @@ sr:
           hospital: Болница
           building: Значајна зграда
           station: Железничка станица
+          railway_halt: Ранжирна станица
+          subway_station: Станица метроа
+          tram_stop: Трамвајско стајалиште
           summit: Узвишење
           peak: Врх
           tunnel: Испрекидан оквир – тунел
@@ -2044,6 +2079,17 @@ sr:
       wikipedia:
         title: Пријава преко Википедије
         alt: Логотип Википедије
+    share:
+      email:
+        title: Дели преко имејла
+      facebook:
+        title: Дели преко Фејсбука
+      linkedin:
+        title: Дели преко LinkedIn
+      telegram:
+        title: Дели на Телеграму
+      x:
+        title: Дели на X
   oauth:
     permissions:
       missing: Нисте дозволили приступ апликације овом одељењу
@@ -2069,6 +2115,8 @@ sr:
     index:
       application: Апликација
       permissions: Дозволе
+    application:
+      revoke: Опозови приступ
   users:
     new:
       title: Регистрација
@@ -2144,6 +2192,7 @@ sr:
       remove as friend: Избаци из пријатеља
       add as friend: Додај пријатеља
       mapper since: 'Картограф од:'
+      uid: 'ID корисника:'
       ct status: 'Услови за учешће:'
       ct undecided: Неодлучено
       ct declined: Одбијено
@@ -2174,6 +2223,20 @@ sr:
       report: Пријави овог корисника
     go_public:
       flash success: Све ваше измене су сада јавне. Дозвољено вам је уређивање.
+    issued_blocks:
+      show:
+        title: Блокаде од %{name}
+        heading_html: Листа блокада од %{name}
+        empty: '%{name} још увек није блокирао никога.'
+    received_blocks:
+      show:
+        title: Блокаде за %{name}
+        heading_html: Листа блокада за %{name}
+        empty: '%{name} још није био блокиран/а.'
+      edit:
+        heading_html: Опозивање свих блокада на %{block_on}
+      destroy:
+        flash: Све активне блокаде су опозване.
     lists:
       show:
         title: Корисници
@@ -2243,9 +2306,6 @@ sr:
       title: Корисничке блокаде
       heading: Листа корисничких блокада
       empty: Није направљена ниједна блокада.
-    revoke_all:
-      heading_html: Опозивање свих блокада на %{block_on}
-      flash: Све активне блокаде су опозване.
     helper:
       time_future_html: Завршава се у %{time}.
       until_login: Активно све док се корисник не пријави.
@@ -2256,14 +2316,6 @@ sr:
         hours:
           one: '%{count} час'
           other: '%{count} часа'
-    blocks_on:
-      title: Блокаде за %{name}
-      heading_html: Листа блокада за %{name}
-      empty: '%{name} још није био блокиран/а.'
-    blocks_by:
-      title: Блокаде од %{name}
-      heading_html: Листа блокада од %{name}
-      empty: '%{name} још увек није блокирао никога.'
     show:
       title: '%{block_on} је блокиран/а од %{block_by}'
       heading_html: '%{block_on} је блокиран/а од %{block_by}'
@@ -2280,6 +2332,8 @@ sr:
       display_name: Блокирани корисник
       creator_name: Творац
       reason: Разлози за блокирање
+      start: Почетак
+      end: Крај
       status: Стање
   user_mutes:
     index:
@@ -2310,6 +2364,9 @@ sr:
       report: пријави ову белешку
       anonymous_warning: Ова белешка садржи коментаре анонимних корисника које би
         требало посебно проверити.
+      discussion: Дискусија
+      subscribe: Прати
+      unsubscribe: Прекини праћење
       hide: Сакриј
       resolve: Разреши
       reactivate: Поново покрени
@@ -2325,6 +2382,8 @@ sr:
       add: Додај белешку
     notes_paging_nav:
       showing_page: Страница %{page}
+      next: Следеће
+      previous: Претходно
   javascripts:
     close: Затвори
     share:
@@ -2345,7 +2404,6 @@ sr:
       center_marker: Центрирај карту на ознаку
       paste_html: Налепи HTML да га уградиш у веб страницу
       view_larger_map: Погледај већу карту
-      only_standard_layer: Само стандардни лејер може да се извезе као слика
     embed:
       report_problem: Пријави проблем
     key:

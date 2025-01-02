@@ -1795,8 +1795,6 @@ ia:
       success: Tu conto ha essite confirmate, gratias pro inscriber te!
       already active: Iste conto ha ja essite confirmate.
       unknown token: Iste codice de confirmation ha expirate o non existe.
-      resend_html: Si tu vole que nos te reinvia le e-mail de confirmation, %{reconfirm_link}.
-      click_here: clicca hic
     confirm_resend:
       failure: Usator %{name} non trovate.
     confirm_email:
@@ -1814,29 +1812,6 @@ ia:
         alora assecura te de exceptar %{sender} perque nos non pote responder a requestas
         de confirmation.
   messages:
-    inbox:
-      title: Cassa de entrata
-      messages: Tu ha %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} nove message'
-        other: '%{count} nove messages'
-      old_messages:
-        one: '%{count} ancian message'
-        other: '%{count} ancian messages'
-      no_messages_yet_html: Tu non ha ancora messages. Proque non contactar alcun
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: cartographos vicin
-    messages_table:
-      from: De
-      to: A
-      subject: Subjecto
-      date: Data
-      actions: Actiones
-    message_summary:
-      unread_button: Marcar como non legite
-      read_button: Marcar como legite
-      destroy_button: Deler
-      unmute_button: Displaciar al cassa de entrata
     new:
       title: Inviar message
       send_message_to_html: Inviar un nove message a %{name}
@@ -1849,19 +1824,6 @@ ia:
       title: Message non existe
       heading: Message non existe
       body: Non existe un message con iste ID.
-    outbox:
-      title: Cassa de exito
-      messages:
-        one: Tu ha %{count} message inviate
-        other: Tu ha %{count} messages inviate
-      no_sent_messages_html: Tu non ha ancora inviate alcun message. Proque non contactar
-        alcun %{people_mapping_nearby_link}?
-      people_mapping_nearby: cartographos vicin
-    muted:
-      title: Messages silentiate
-      messages:
-        one: '%{count message silentiate'
-        other: Tu ha %{count} messages silentiate
     reply:
       wrong_user: Tu es authenticate como ‘%{user}’, ma le message al qual tu vole
         responder non ha essite inviate a iste usator. Per favor aperi session como
@@ -1875,12 +1837,6 @@ ia:
       wrong_user: Tu es authenticate como ‘%{user}’, ma le message que tu vole leger
         non ha essite inviate per o a iste usator. Per favor aperi session como le
         usator correcte pro poter leger lo.
-    sent_message_summary:
-      destroy_button: Deler
-    heading:
-      my_inbox: Mi cassa de entrata
-      my_outbox: Mi cassa de exito
-      muted_messages: Messages silentiate
     mark:
       as_read: Message marcate como legite
       as_unread: Message marcate como non legite
@@ -1889,6 +1845,52 @@ ia:
       error: Le message non poteva esser displaciate al cassa de entrata.
     destroy:
       destroyed: Message delite
+    mailboxes:
+      heading:
+        my_inbox: Mi cassa de entrata
+        my_outbox: Mi cassa de exito
+        muted_messages: Messages silentiate
+      messages_table:
+        from: De
+        to: A
+        subject: Subjecto
+        date: Data
+        actions: Actiones
+      message:
+        unread_button: Marcar como non legite
+        read_button: Marcar como legite
+        destroy_button: Deler
+        unmute_button: Displaciar al cassa de entrata
+    inboxes:
+      show:
+        title: Cassa de entrata
+        messages: Tu ha %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} nove message'
+          other: '%{count} nove messages'
+        old_messages:
+          one: '%{count} ancian message'
+          other: '%{count} ancian messages'
+        no_messages_yet_html: Tu non ha ancora messages. Proque non contactar alcun
+          %{people_mapping_nearby_link}?
+        people_mapping_nearby: cartographos vicin
+    muted_inboxes:
+      show:
+        title: Messages silentiate
+        messages:
+          one: '%{count message silentiate'
+          other: Tu ha %{count} messages silentiate
+    outboxes:
+      show:
+        title: Cassa de exito
+        messages:
+          one: Tu ha %{count} message inviate
+          other: Tu ha %{count} messages inviate
+        no_sent_messages_html: Tu non ha ancora inviate alcun message. Proque non
+          contactar alcun %{people_mapping_nearby_link}?
+        people_mapping_nearby: cartographos vicin
+      message:
+        destroy_button: Deler
   passwords:
     new:
       title: Contrasigno perdite
@@ -2868,6 +2870,27 @@ ia:
     go_public:
       flash success: Tote tu modificationes es ora public, e tu ha ora le permission
         de modificar.
+    issued_blocks:
+      show:
+        title: Blocadas per %{name}
+        heading_html: Lista de blocadas per %{name}
+        empty: '%{name} non ha ancora facite alcun blocada.'
+    received_blocks:
+      show:
+        title: Blocadas de %{name}
+        heading_html: Lista de blocadas de %{name}
+        empty: '%{name} non ha ancora essite blocate.'
+      edit:
+        title: Revocation de tote le blocadas de %{block_on}
+        heading_html: Revocation de tote le blocadas de %{block_on}
+        empty: '%{name} non ha blocadas active.'
+        confirm: Es tu secur de voler revocar %{active_blocks}?
+        active_blocks:
+          one: '%{count} blocada active'
+          other: '%{count} blocadas active'
+        revoke: Revocar!
+      destroy:
+        flash: Tote le blocadas active ha essite revocate.
     lists:
       show:
         title: Usatores
@@ -2949,16 +2972,6 @@ ia:
       title: Blocadas de usatores
       heading: Lista de blocadas de usatores
       empty: Nulle blocada ha ancora essite effectuate.
-    revoke_all:
-      title: Revocation de tote le blocadas de %{block_on}
-      heading_html: Revocation de tote le blocadas de %{block_on}
-      empty: '%{name} non ha blocadas active.'
-      confirm: Es tu secur de voler revocar %{active_blocks}?
-      active_blocks:
-        one: '%{count} blocada active'
-        other: '%{count} blocadas active'
-      revoke: Revocar!
-      flash: Tote le blocadas active ha essite revocate.
     helper:
       time_future_html: Expira in %{time}.
       until_login: Active usque le usator aperi session.
@@ -2981,14 +2994,6 @@ ia:
         years:
           one: '%{count} anno'
           other: '%{count} annos'
-    blocks_on:
-      title: Blocadas de %{name}
-      heading_html: Lista de blocadas de %{name}
-      empty: '%{name} non ha ancora essite blocate.'
-    blocks_by:
-      title: Blocadas per %{name}
-      heading_html: Lista de blocadas per %{name}
-      empty: '%{name} non ha ancora facite alcun blocada.'
     show:
       title: '%{block_on} blocate per %{block_by}'
       heading_html: '%{block_on} blocate per %{block_by}'
@@ -3121,8 +3126,6 @@ ia:
       center_marker: Centrar le carta sur le marcator
       paste_html: Colla HTML pro incorporar in sito web
       view_larger_map: Vider carta plus grande
-      only_standard_layer: Solmente le stratos Standard, Carta cyclista e Carta de
-        transporto pote esser exportate como imagine
     embed:
       report_problem: Reportar problema
     key:

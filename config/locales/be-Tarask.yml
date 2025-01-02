@@ -63,6 +63,7 @@ be-Tarask:
       message: Паведамленьне
       node: Вузел
       node_tag: Тэг вузла
+      note: Заўвага
       old_node: Стары вузел
       old_node_tag: Стары тэг вузла
       old_relation: Старая сувязь
@@ -124,7 +125,7 @@ be-Tarask:
         longitude: Даўгата
         public: Публічны
         description: Апісаньне
-        gpx_file: Загрузіць GPX-файл
+        gpx_file: Абраць файл GPS-сьледу
         visibility: Бачнасьць
         tagstring: Тэгі
       message:
@@ -237,6 +238,7 @@ be-Tarask:
         reopened_at_by_html: Пераадкрыта %{when} удзельнікам %{user}
       rss:
         title: Нататкі OpenStreetMap
+        description_all: Сьпіс павядомленых, пракамэнтаваных або закрытых нататак
         description_area: Сьпіс заўвагаў, створаных, пракамэнтаваных ці закрытых каля
           вас [(%{min_lat}|%{min_lon}) — (%{max_lat}|%{max_lon})]
         description_item: RSS-стужка для заўвагаў %{id}
@@ -250,6 +252,9 @@ be-Tarask:
   account:
     deletions:
       show:
+        title: Выдаліць мой уліковы запіс
+        warning: Увага! Працэс выдаленьня ўліковага запісу канчатковы і незваротны.
+        delete_account: Выдаліць уліковы запіс
         confirm_delete: Вы ўпэўненыя?
   accounts:
     edit:
@@ -324,7 +329,7 @@ be-Tarask:
         way: Шлях
         relation: Адносіны
     containing_relation:
-      entry_role_html: Адносіны %{relation_name} (як %{relation_role})
+      entry_role_html: '%{relation_name} (як %{relation_role})'
     not_found:
       title: Ня знойдзена
       sorry: Прабачце, %{type} № %{id} ня знойдзены.
@@ -903,7 +908,10 @@ be-Tarask:
       see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
       befriend_them: Вы таксама можаце дадаць іх у якасьці сябраў на %{befriendurl}.
     gpx_failure:
-      failed_to_import: 'немагчыма імпартаваць. Адбылася памылка:'
+      failed_to_import: 'немагчыма імпартаваць як файл GPS-сьледу. Праверце, ці сапраўды
+        гэты файл ёсьць GPX альбо архівам з файлам(і) GPX падтрымліванага фармату
+        (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Магчыма, праблема з фарматам
+        ці сынтаксам вашага файлу? Памылка імпарту такая:'
       subject: '[OpenStreetMap] памылка імпарту GPX'
     gpx_success:
       subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
@@ -941,29 +949,6 @@ be-Tarask:
       success: Зьмена Вашага адрасу электроннай пошты пацьверджаная!
       failure: Адрас электроннай пошты ужо быў пацьверджаны гэтым ключом.
   messages:
-    inbox:
-      title: Уваходзячыя
-      messages: Вы маеце %{new_messages} і %{old_messages}
-      new_messages:
-        one: '%{count} новае паведамленьне'
-        few: '%{count} новыя паведамленьні'
-        other: '%{count} новых паведамленьняў'
-      old_messages:
-        one: '%{count} старое паведамленьне'
-        few: '%{count} старыя паведамленьні'
-        other: '%{count} старых паведамленьняў'
-      no_messages_yet_html: Вы яшчэ ня маеце паведамленьняў. Чаму б не зьвязацца з
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: людзьмі, якія жывуць каля Вас
-    messages_table:
-      from: Ад
-      to: Да
-      subject: Тэма
-      date: Дата
-    message_summary:
-      unread_button: Пазначыць як непрачытанае
-      read_button: Пазначыць як прачытанае
-      destroy_button: Выдаліць
     new:
       title: Даслаць паведамленьне
       send_message_to_html: Даслаць новае паведамленьне да %{name}
@@ -976,35 +961,61 @@ be-Tarask:
       title: Няма такога паведамленьня
       heading: Няма такога паведамленьня
       body: Прабачце, няма паведамленьня з такім ідэнтыфікатарам.
-    outbox:
-      title: Зыходзячыя
-      messages:
-        one: Вы маеце %{count} дасланае паведамленьне
-        few: Вы маеце %{count} дасланыя паведамленьні
-        other: Вы маеце %{count} дасланых паведамленьняў
-      no_sent_messages_html: Вы яшчэ не даслалі паведамленьне. Чаму б не зьвязацца
-        з %{people_mapping_nearby_link}?
-      people_mapping_nearby: людзьмі, якія жывуць каля Вас
     reply:
-      wrong_user: Вы ўвайшлі ў сыстэму як `%{user}', але паведамленьне, на якое Вы
-        жадаеце адказаць, не было дасланае гэтаму карыстальніку. Калі ласка, увайдзіце
-        як карыстальнік, адпаведна запыту, каб адказаць.
+      wrong_user: Вы ўвайшлі ў сыстэму як '%{user}', але паведамленьне, на якое жадаеце
+        адказаць, не было дасланае гэтаму карыстальніку. Калі ласка, увайдзіце як
+        карыстальнік, адпаведна запыту, каб адказаць.
     show:
       title: Чытаць паведамленьне
       reply_button: Адказаць
       unread_button: Пазначыць як непрачытанае
-      wrong_user: Вы ўвайшлі ў сыстэму як `%{user}', але паведамленьне, якое Вы жадаеце
-        прачытаць, было дасланае не гэтым ці гэтаму карыстальніку. Калі ласка, увайдзіце
+      wrong_user: Вы ўвайшлі ў сыстэму як '%{user}', але паведамленьне, якое жадаеце
+        прачытаць, было дасланае ня гэтым ці гэтаму карыстальніку. Калі ласка, увайдзіце
         як карыстальнік, адпаведна запыту, каб прачытаць.
-    sent_message_summary:
-      destroy_button: Выдаліць
-    heading:
-      my_inbox: Мае ўваходзячыя
     mark:
       as_read: Паведамленьне пазначанае як прачытанае
       as_unread: Паведамленьне пазначанае як непрачытанае
     destroy:
       destroyed: Паведамленьне выдаленае
+    mailboxes:
+      heading:
+        my_inbox: Мае ўваходзячыя
+      messages_table:
+        from: Ад
+        to: Да
+        subject: Тэма
+        date: Дата
+      message:
+        unread_button: Пазначыць як непрачытанае
+        read_button: Пазначыць як прачытанае
+        destroy_button: Выдаліць
+    inboxes:
+      show:
+        title: Уваходзячыя
+        messages: Вы маеце %{new_messages} і %{old_messages}
+        new_messages:
+          one: '%{count} новае паведамленьне'
+          few: '%{count} новыя паведамленьні'
+          other: '%{count} новых паведамленьняў'
+        old_messages:
+          one: '%{count} старое паведамленьне'
+          few: '%{count} старыя паведамленьні'
+          other: '%{count} старых паведамленьняў'
+        no_messages_yet_html: Вы яшчэ ня маеце паведамленьняў. Чаму б не зьвязацца
+          з %{people_mapping_nearby_link}?
+        people_mapping_nearby: людзьмі, якія жывуць каля Вас
+    outboxes:
+      show:
+        title: Зыходзячыя
+        messages:
+          one: Вы маеце %{count} дасланае паведамленьне
+          few: Вы маеце %{count} дасланыя паведамленьні
+          other: Вы маеце %{count} дасланых паведамленьняў
+        no_sent_messages_html: Вы яшчэ не даслалі паведамленьне. Чаму б не зьвязацца
+          з %{people_mapping_nearby_link}?
+        people_mapping_nearby: людзьмі, якія жывуць каля Вас
+      message:
+        destroy_button: Выдаліць
   passwords:
     new:
       title: Згублены пароль
@@ -1315,6 +1326,16 @@ be-Tarask:
     go_public:
       flash success: Усе Вашыя рэдагаваньні цяпер публічныя, і цяпер Вам дазволена
         рэдагаваньне.
+    issued_blocks:
+      show:
+        title: Блякаваньні створаныя %{name}
+        heading_html: Сьпіс блякаваньняў, якія стварыў %{name}
+        empty: '%{name} яшчэ не стварыў блякаваньняў.'
+    received_blocks:
+      show:
+        title: Блякаваньні для %{name}
+        heading_html: Сьпіс блякаваньняў %{name}
+        empty: '%{name} ня быў яшчэ заблякаваны.'
     lists:
       show:
         title: Удзельнікі
@@ -1333,13 +1354,13 @@ be-Tarask:
       invalid_credentials: Хібныя аўтэнтыфікацыйныя зьвесткі
   user_role:
     filter:
-      not_a_role: Радок «%{role}» не зьяўляецца слушнай роляй.
+      not_a_role: Радок «%{role}» ня ёсьць слушнай роляй.
       already_has_role: Карыстальнік ужо мае ролю %{role}.
       doesnt_have_role: Карыстальнік ня мае ролі %{role}.
     grant:
-      are_you_sure: Вы ўпэўнены, што жадаеце надаць ролю `%{role}' удзельніку `%{name}'?
+      are_you_sure: Вы ўпэўнены, што жадаеце надаць ролю '%{role}' удзельніку '%{name}'?
     revoke:
-      are_you_sure: Вы ўпэўнены, што жадаеце скасаваць ролю `%{role}' удзельніка `%{name}'?
+      are_you_sure: Вы ўпэўнены, што жадаеце скасаваць ролю '%{role}' удзельніка '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Трэба быць мадэратарам, каб стварыць ці адбавіць блякаваньне.
@@ -1379,14 +1400,6 @@ be-Tarask:
           one: '%{count} гадзіна'
           few: '%{count} гадзіны'
           other: '%{count} гадзінаў'
-    blocks_on:
-      title: Блякаваньні для %{name}
-      heading_html: Сьпіс блякаваньняў %{name}
-      empty: '%{name} ня быў яшчэ заблякаваны.'
-    blocks_by:
-      title: Блякаваньні створаныя %{name}
-      heading_html: Сьпіс блякаваньняў, якія стварыў %{name}
-      empty: '%{name} яшчэ не стварыў блякаваньняў.'
     show:
       title: '%{block_on} заблякаваны %{block_by}'
       heading_html: '%{block_on} заблякаваны %{block_by}'

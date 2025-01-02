@@ -1186,6 +1186,8 @@ ru:
           wayside_shrine: Придорожная святыня
           wreck: Остов судна
           "yes": Памятное место
+        information:
+          map: Карта
         junction:
           "yes": Перекрёсток
         landuse:
@@ -1919,9 +1921,6 @@ ru:
       success: Ваша учётная запись подтверждена, спасибо за регистрацию!
       already active: Эта учётная запись уже подтверждена.
       unknown token: Такой код подтверждения истек или не существует.
-      resend_html: Если вам нужно, чтобы мы повторно отправили электронное письмо
-        с подтверждением, %{reconfirm_link}.
-      click_here: кликните сюда
     confirm_resend:
       failure: Участник %{name} не найден.
     confirm_email:
@@ -1939,32 +1938,6 @@ ru:
         внесите адрес %{sender} в ваш белый список, так как мы не можем отвечать на
         такие запросы.
   messages:
-    inbox:
-      title: Входящие
-      messages: У вас %{new_messages} и %{old_messages}
-      new_messages:
-        few: '%{count} новых сообщения'
-        many: '%{count} новых сообщений'
-        one: '%{count} новое сообщение'
-        other: '%{count} новых сообщений'
-      old_messages:
-        few: '%{count} старых'
-        many: '%{count} старых'
-        one: '%{count} старое'
-        other: '%{count} старых'
-      no_messages_yet_html: У вас пока нет сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
-      people_mapping_nearby: пользователями поблизости
-    messages_table:
-      from: От
-      to: Кому
-      subject: Тема
-      date: Дата
-      actions: Действия
-    message_summary:
-      unread_button: Пометить как непрочитанное
-      read_button: Пометить как прочитанное
-      destroy_button: Удалить
-      unmute_button: Переместить во Входящие
     new:
       title: Отправить сообщение
       send_message_to_html: Отправить новое сообщение для %{name}
@@ -1983,18 +1956,6 @@ ru:
       body: |2-
 
         Извините, но сообщения с таким ID нет.
-    outbox:
-      title: Исходящие
-      messages:
-        few: У вас %{count} отправленных сообщения
-        many: У вас %{count} отправленных сообщений
-        one: У вас %{count} отправленное сообщение
-        other: У вас %{count} отправленных сообщений
-      no_sent_messages_html: Нет отправленных сообщений. Почему бы не пообщаться с
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: пользователями поблизости
-    muted:
-      title: Заглушённые сообщения
     reply:
       wrong_user: Вы вошли в систему под именем '%{user}', но сообщение, на которое
         вы просили ответить, не было отправлено этому пользователю. Пожалуйста, войдите
@@ -2008,12 +1969,6 @@ ru:
       wrong_user: Вы вошли в систему под именем '%{user}', но сообщение, которое вы
         просили прочитать, не было отправлено этим пользователем. Пожалуйста, войдите
         в систему под правильным именем, чтобы прочитать его.
-    sent_message_summary:
-      destroy_button: Удалить
-    heading:
-      my_inbox: Мои входящие
-      my_outbox: Мои исходящие
-      muted_messages: Заглушённые сообщения
     mark:
       as_read: Сообщение отмечено как прочитанное
       as_unread: Сообщение отмечено как непрочитанное
@@ -2021,6 +1976,55 @@ ru:
       notice: Сообщение перемещено во Входящие
     destroy:
       destroyed: Сообщение удалено
+    mailboxes:
+      heading:
+        my_inbox: Мои входящие
+        my_outbox: Мои исходящие
+        muted_messages: Заглушённые сообщения
+      messages_table:
+        from: От
+        to: Кому
+        subject: Тема
+        date: Дата
+        actions: Действия
+      message:
+        unread_button: Пометить как непрочитанное
+        read_button: Пометить как прочитанное
+        destroy_button: Удалить
+        unmute_button: Переместить во Входящие
+    inboxes:
+      show:
+        title: Входящие
+        messages: У вас %{new_messages} и %{old_messages}
+        new_messages:
+          few: '%{count} новых сообщения'
+          many: '%{count} новых сообщений'
+          one: '%{count} новое сообщение'
+          other: '%{count} новых сообщений'
+        old_messages:
+          few: '%{count} старых'
+          many: '%{count} старых'
+          one: '%{count} старое'
+          other: '%{count} старых'
+        no_messages_yet_html: У вас пока нет сообщений. Почему бы не пообщаться с
+          %{people_mapping_nearby_link}?
+        people_mapping_nearby: пользователями поблизости
+    muted_inboxes:
+      show:
+        title: Заглушённые сообщения
+    outboxes:
+      show:
+        title: Исходящие
+        messages:
+          few: У вас %{count} отправленных сообщения
+          many: У вас %{count} отправленных сообщений
+          one: У вас %{count} отправленное сообщение
+          other: У вас %{count} отправленных сообщений
+        no_sent_messages_html: Нет отправленных сообщений. Почему бы не пообщаться
+          с %{people_mapping_nearby_link}?
+        people_mapping_nearby: пользователями поблизости
+      message:
+        destroy_button: Удалить
   passwords:
     new:
       title: Восстановление пароля
@@ -2894,6 +2898,16 @@ ru:
       report: Сообщить об этом пользователе
     go_public:
       flash success: Все ваши правки теперь общедоступны, и вы теперь можете редактировать.
+    issued_blocks:
+      show:
+        title: Блокировки, которые создал %{name}
+        heading_html: Список блокировок, которые создал %{name}
+        empty: '%{name} ещё создавал никаких блокировок.'
+    received_blocks:
+      show:
+        title: Блокировки для %{name}
+        heading_html: Список блокировок пользователя %{name}
+        empty: ' %{name} ни разу не был заблокирован.'
     lists:
       show:
         title: Пользователи
@@ -2983,29 +2997,25 @@ ru:
           many: '%{count} часов'
           other: '%{count} час.'
         days:
-          one: 1 день
+          one: '%{count} день'
           few: '%{count} дня'
+          many: '%{count} дней'
           other: '%{count} дней'
         weeks:
-          one: 1 неделя
+          one: '%{count} неделя'
           few: '%{count} недели'
+          many: '%{count} недель'
           other: '%{count} недель'
         months:
-          one: 1 месяц
+          one: '%{count} месяц'
           few: '%{count} месяца'
+          many: '%{count} месяцев'
           other: '%{count} месяцев'
         years:
-          one: 1 год
+          one: '%{count} год'
           few: '%{count} года'
+          many: '%{count} лет'
           other: '%{count} лет'
-    blocks_on:
-      title: Блокировки для %{name}
-      heading_html: Список блокировок пользователя %{name}
-      empty: ' %{name} ни разу не был заблокирован.'
-    blocks_by:
-      title: Блокировки, которые создал %{name}
-      heading_html: Список блокировок, которые создал %{name}
-      empty: '%{name} ещё создавал никаких блокировок.'
     show:
       title: '%{block_on} заблокирован пользователем %{block_by}'
       heading_html: '%{block_on} заблокирован пользователем %{block_by}'
@@ -3116,16 +3126,13 @@ ru:
       custom_dimensions: Выбрать размер вручную
       format: 'Формат:'
       scale: 'Масштаб:'
-      image_dimensions: На изображении будет показан стандартный слой в %{width} x
-        %{height}
+      image_dimensions: На изображении будет показан %{layer} слой в %{width} x %{height}
       download: Скачать
       short_url: Короткая ссылка
       include_marker: Включить маркер
       center_marker: Центрировать карту на маркер
       paste_html: HTML-код для встраивания на сайт
       view_larger_map: Посмотреть более крупную карту
-      only_standard_layer: Только стандартный слой может быть экспортирован в виде
-        изображения
     embed:
       report_problem: Сообщить о проблеме
     key:

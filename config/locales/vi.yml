@@ -1693,8 +1693,6 @@ vi:
       success: Đã xác nhận tài khoản của bạn. Cám ơn bạn đã mở tài khoản!
       already active: Tài khoản này đã được xác nhận rồi.
       unknown token: Dấu hiệu xác nhận này đã hết hạn hoặc không tồn tại.
-      resend_html: Nếu bạn cần chúng tôi gửi lại thư điện tử xác nhận, %{reconfirm_link}.
-      click_here: nhấn chuột tại đây
     confirm_resend:
       failure: Không tìm thấy người dùng %{name}.
     confirm_email:
@@ -1712,24 +1710,6 @@ vi:
         cầu xác nhận, hãy chắc chắn thêm %{sender} vào danh sách trắng, vì chúng tôi
         không thể trả lời các yêu cầu xác nhận.
   messages:
-    inbox:
-      title: Hộp thư
-      messages: Bạn có %{new_messages} và %{old_messages}
-      new_messages: '%{count} thư mới'
-      old_messages: '%{count} thư cũ'
-      no_messages_yet_html: Bạn chưa nhận thư nào. Hãy thử liên lạc với %{people_mapping_nearby_link}?
-      people_mapping_nearby: những người ở gần
-    messages_table:
-      from: Từ
-      to: Tới
-      subject: Tiêu đề
-      date: Ngày
-      actions: Tác vụ
-    message_summary:
-      unread_button: Đánh dấu là chưa đọc
-      read_button: Đánh dấu là đã đọc
-      destroy_button: Xóa
-      unmute_button: Chuyển vào Hộp thư đến
     new:
       title: Gửi thư
       send_message_to_html: Gửi thư mới cho %{name}
@@ -1742,16 +1722,6 @@ vi:
       title: Thư không tồn tại
       heading: Thư không tồn tại
       body: Rất tiếc, không có thư nào với ID đó.
-    outbox:
-      title: Hộp thư đã gửi
-      messages: Bạn có %{count} thư đã gửi
-      no_sent_messages_html: Bạn chưa gửi thư cho người nào. Hãy thử liên lạc với
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: những người ở gần
-    muted:
-      title: Thư bị Tắt tiếng
-      messages:
-        other: Bạn có %{count} thư bị tắt tiếng
     reply:
       wrong_user: Bạn đã đăng nhập dùng tài khoản “%{user}” nhưng vừa yêu cầu trả
         lời một thư không được gửi đến bạn. Xin hãy đăng nhập với nhận diện chính
@@ -1765,12 +1735,6 @@ vi:
       wrong_user: Bạn đã đăng nhập dùng tài khoản “%{user}” nhưng vừa yêu cầu đọc
         một thư không được gửi từ hay đến bạn. Xin hãy đăng nhập với nhận diện chính
         xác để đọc nó.
-    sent_message_summary:
-      destroy_button: Xóa
-    heading:
-      my_inbox: Hộp thư đến
-      my_outbox: Hộp thư gửi
-      muted_messages: Thư bị Tắt tiếng
     mark:
       as_read: Thư đã đọc
       as_unread: Thư chưa đọc
@@ -1779,6 +1743,44 @@ vi:
       error: Không thể chuyển thư vào Hộp thư đến.
     destroy:
       destroyed: Đã xóa thư
+    mailboxes:
+      heading:
+        my_inbox: Hộp thư đến
+        my_outbox: Hộp thư gửi
+        muted_messages: Thư bị Tắt tiếng
+      messages_table:
+        from: Từ
+        to: Tới
+        subject: Tiêu đề
+        date: Ngày
+        actions: Tác vụ
+      message:
+        unread_button: Đánh dấu là chưa đọc
+        read_button: Đánh dấu là đã đọc
+        destroy_button: Xóa
+        unmute_button: Chuyển vào Hộp thư đến
+    inboxes:
+      show:
+        title: Hộp thư
+        messages: Bạn có %{new_messages} và %{old_messages}
+        new_messages: '%{count} thư mới'
+        old_messages: '%{count} thư cũ'
+        no_messages_yet_html: Bạn chưa nhận thư nào. Hãy thử liên lạc với %{people_mapping_nearby_link}?
+        people_mapping_nearby: những người ở gần
+    muted_inboxes:
+      show:
+        title: Thư bị Tắt tiếng
+        messages:
+          other: Bạn có %{count} thư bị tắt tiếng
+    outboxes:
+      show:
+        title: Hộp thư đã gửi
+        messages: Bạn có %{count} thư đã gửi
+        no_sent_messages_html: Bạn chưa gửi thư cho người nào. Hãy thử liên lạc với
+          %{people_mapping_nearby_link}?
+        people_mapping_nearby: những người ở gần
+      message:
+        destroy_button: Xóa
   passwords:
     new:
       title: Quên mất mật khẩu
@@ -2704,6 +2706,26 @@ vi:
     go_public:
       flash success: Tất cả các sửa đổi của bạn được phát hành công khai, và bạn mới
         được phép sửa đổi.
+    issued_blocks:
+      show:
+        title: Các tác vụ cấm bởi %{name}
+        heading_html: Danh sách tác vụ cấm bởi %{name}
+        empty: '%{name} chưa cấm ai.'
+    received_blocks:
+      show:
+        title: Các tác vụ cấm %{name}
+        heading_html: Danh sách tác vụ cấm %{name}
+        empty: '%{name} chưa bị cấm.'
+      edit:
+        title: Bỏ cấm tất cả vào %{block_on}
+        heading_html: Bỏ cấm tất cả vào %{block_on}
+        empty: '%{name} hiện không được cấm.'
+        confirm: Bạn có chắc chắn muốn bỏ %{active_blocks}?
+        active_blocks:
+          other: '%{count} tác vụ cấm hiện hành'
+        revoke: Bỏ cấm!
+      destroy:
+        flash: Đã bỏ tất cả các tác vụ cấm hiện hành.
     lists:
       show:
         title: Người dùng
@@ -2780,15 +2802,6 @@ vi:
       title: Người dùng bị cấm
       heading: Danh sách người dùng đang bị cấm
       empty: Chưa ai bị cấm.
-    revoke_all:
-      title: Bỏ cấm tất cả vào %{block_on}
-      heading_html: Bỏ cấm tất cả vào %{block_on}
-      empty: '%{name} hiện không được cấm.'
-      confirm: Bạn có chắc chắn muốn bỏ %{active_blocks}?
-      active_blocks:
-        other: '%{count} tác vụ cấm hiện hành'
-      revoke: Bỏ cấm!
-      flash: Đã bỏ tất cả các tác vụ cấm hiện hành.
     helper:
       time_future_html: Hết hạn %{time}.
       until_login: Có hiệu lực cho đến khi người dùng đăng nhập.
@@ -2806,14 +2819,6 @@ vi:
           other: '%{count} tháng'
         years:
           other: '%{count} năm'
-    blocks_on:
-      title: Các tác vụ cấm %{name}
-      heading_html: Danh sách tác vụ cấm %{name}
-      empty: '%{name} chưa bị cấm.'
-    blocks_by:
-      title: Các tác vụ cấm bởi %{name}
-      heading_html: Danh sách tác vụ cấm bởi %{name}
-      empty: '%{name} chưa cấm ai.'
     show:
       title: '%{block_on} bị cấm bởi %{block_by}'
       heading_html: '%{block_on} bị cấm bởi %{block_by}'
@@ -2954,8 +2959,6 @@ vi:
       center_marker: Chuyển ghim vào giữa bản đồ
       paste_html: Dán HTML để nhúng vào trang Web
       view_larger_map: Xem Bản đồ Rộng hơn
-      only_standard_layer: Chỉ có thể xuất các lớp Chuẩn, Bản đồ Xe đạp, và Bản đồ
-        Giao thông ra hình ảnh
     embed:
       report_problem: Báo vấn đề
     key:

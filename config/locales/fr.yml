@@ -1958,9 +1958,6 @@ fr:
       success: Compte confirmé, merci de vous être inscrit !
       already active: Ce compte a déjà été confirmé.
       unknown token: Le code de confirmation a expiré ou n’existe pas.
-      resend_html: Si vous souhaitez que nous renvoyions le courriel de confirmation,
-        %{reconfirm_link}.
-      click_here: cliquez ici
     confirm_resend:
       failure: L’utilisateur %{name} est introuvable.
     confirm_email:
@@ -1978,31 +1975,6 @@ fr:
         de confirmation, alors assurez-vous que %{sender} est en liste blanche, car
         nous ne pouvons pas répondre aux requêtes de confirmation.
   messages:
-    inbox:
-      title: Boîte de réception
-      messages: Vous avez %{new_messages} et %{old_messages}
-      new_messages:
-        zero: zéro nouveau message
-        one: un nouveau message
-        other: '%{count} nouveaux messages'
-      old_messages:
-        zero: aucun ancien message
-        one: un ancien message
-        other: '%{count} anciens messages'
-      no_messages_yet_html: Vous n’avez actuellement aucun message. Pourquoi ne pas
-        entrer en contact avec quelques %{people_mapping_nearby_link} ?
-      people_mapping_nearby: personnes qui cartographient aux alentours
-    messages_table:
-      from: De
-      to: À
-      subject: Objet
-      date: Date
-      actions: Actions
-    message_summary:
-      unread_button: Marquer comme non lu
-      read_button: Marquer comme lu
-      destroy_button: Supprimer
-      unmute_button: Déplacer vers la boîte de réception
     new:
       title: Envoyer un message
       send_message_to_html: Envoyer un nouveau message à %{name}
@@ -2015,19 +1987,6 @@ fr:
       title: Message introuvable
       heading: Message introuvable
       body: Désolé, il n’y a aucun message avec cet identifiant.
-    outbox:
-      title: Boîte d’envoi
-      messages:
-        one: Vous n’avez aucun message envoyé
-        other: Vous avez %{count} messages envoyés
-      no_sent_messages_html: Vous n’avez encore envoyé aucun message. Pourquoi ne
-        pas entrer en contact avec quelques %{people_mapping_nearby_link} ?
-      people_mapping_nearby: personnes proche de vous
-    muted:
-      title: Messages en sourdine
-      messages:
-        one: un ancien message
-        other: '%{count} anciens messages'
     reply:
       wrong_user: Vous êtes identifié(e) sous le nom « %{user} » mais le message auquel
         vous souhaitez répondre n’a pas été envoyé à cet utilisateur. Veuillez vous
@@ -2041,12 +2000,6 @@ fr:
       wrong_user: Vous êtes identifié(e) sous le nom « %{user} » mais le message que
         vous souhaitez lire n’a pas été envoyé par ou à cet utilisateur. Veuillez
         vous connecter avec le bon identifiant pour pouvoir le voir.
-    sent_message_summary:
-      destroy_button: Supprimer
-    heading:
-      my_inbox: Ma boîte de réception
-      my_outbox: Ma boîte d’envoi
-      muted_messages: Messages mis en sourdine
     mark:
       as_read: Message marqué comme lu
       as_unread: Message marqué comme non lu
@@ -2055,6 +2008,54 @@ fr:
       error: Le message n'a pas pu être déplacé vers la boîte de réception.
     destroy:
       destroyed: Message supprimé
+    mailboxes:
+      heading:
+        my_inbox: Ma boîte de réception
+        my_outbox: Ma boîte d’envoi
+        muted_messages: Messages mis en sourdine
+      messages_table:
+        from: De
+        to: À
+        subject: Objet
+        date: Date
+        actions: Actions
+      message:
+        unread_button: Marquer comme non lu
+        read_button: Marquer comme lu
+        destroy_button: Supprimer
+        unmute_button: Déplacer vers la boîte de réception
+    inboxes:
+      show:
+        title: Boîte de réception
+        messages: Vous avez %{new_messages} et %{old_messages}
+        new_messages:
+          zero: zéro nouveau message
+          one: un nouveau message
+          other: '%{count} nouveaux messages'
+        old_messages:
+          zero: aucun ancien message
+          one: un ancien message
+          other: '%{count} anciens messages'
+        no_messages_yet_html: Vous n’avez actuellement aucun message. Pourquoi ne
+          pas entrer en contact avec quelques %{people_mapping_nearby_link} ?
+        people_mapping_nearby: personnes qui cartographient aux alentours
+    muted_inboxes:
+      show:
+        title: Messages en sourdine
+        messages:
+          one: un ancien message
+          other: '%{count} anciens messages'
+    outboxes:
+      show:
+        title: Boîte d’envoi
+        messages:
+          one: Vous n’avez aucun message envoyé
+          other: Vous avez %{count} messages envoyés
+        no_sent_messages_html: Vous n’avez encore envoyé aucun message. Pourquoi ne
+          pas entrer en contact avec quelques %{people_mapping_nearby_link} ?
+        people_mapping_nearby: personnes proche de vous
+      message:
+        destroy_button: Supprimer
   passwords:
     new:
       title: Mot de passe perdu
@@ -3112,6 +3113,27 @@ fr:
     go_public:
       flash success: Toutes vos modifications sont dorénavant publiques et vous êtes
         autorisé à modifier.
+    issued_blocks:
+      show:
+        title: Blocages effectués par « %{name} »
+        heading_html: Liste des blocages effectués par « %{name} »
+        empty: « %{name} » n’a pas encore effectué de blocages.
+    received_blocks:
+      show:
+        title: Blocages de « %{name} »
+        heading_html: Liste des blocages sur « %{name} »
+        empty: « %{name} » n’a pas encore été bloqué.
+      edit:
+        title: Révoquer tous les blocages sur %{block_on}
+        heading_html: Révoquer tous les blocages sur %{block_on}
+        empty: '%{name} n’a pas de blocages actifs.'
+        confirm: Êtes-vous sûr de vouloir révoquer %{active_blocks} ?
+        active_blocks:
+          one: '%{count} blocage actif'
+          other: '%{count} blocages actifs'
+        revoke: Révoquer
+      destroy:
+        flash: Tous les blocages actifs ont été révoqués.
     lists:
       show:
         title: Utilisateurs
@@ -3198,16 +3220,6 @@ fr:
       title: Blocages d’utilisateur
       heading: Liste des blocages
       empty: Aucun blocage n’a encore été effectué.
-    revoke_all:
-      title: Révoquer tous les blocages sur %{block_on}
-      heading_html: Révoquer tous les blocages sur %{block_on}
-      empty: '%{name} n’a pas de blocages actifs.'
-      confirm: Êtes-vous sûr de vouloir révoquer %{active_blocks} ?
-      active_blocks:
-        one: '%{count} blocage actif'
-        other: '%{count} blocages actifs'
-      revoke: Révoquer
-      flash: Tous les blocages actifs ont été révoqués.
     helper:
       time_future_html: Prend fin dans %{time}.
       until_login: Actif jusqu’à ce que l’utilisateur se connecte.
@@ -3239,14 +3251,6 @@ fr:
         read_html: lu à %{time}
         time_in_future_title: '%{time_absolute}; dans %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Blocages de « %{name} »
-      heading_html: Liste des blocages sur « %{name} »
-      empty: « %{name} » n’a pas encore été bloqué.
-    blocks_by:
-      title: Blocages effectués par « %{name} »
-      heading_html: Liste des blocages effectués par « %{name} »
-      empty: « %{name} » n’a pas encore effectué de blocages.
     show:
       title: « %{block_on} » bloqué par « %{block_by} »
       heading_html: « %{block_on} » bloqué par « %{block_by} »
@@ -3393,8 +3397,8 @@ fr:
       center_marker: Centrer la carte sur le marqueur
       paste_html: Coller le HTML à inclure dans le site web
       view_larger_map: Afficher une carte plus grande
-      only_standard_layer: Seule les couche « Standard », « Carte cyclable » et « Carte
-        de transport » peuvent être exportées comme une image
+      only_layers_exported_as_image: 'Seules les couches suivantes peuvent être exportées
+        sous forme d''image :'
     embed:
       report_problem: Signaler un problème
     key:

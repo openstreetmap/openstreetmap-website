@@ -1734,8 +1734,6 @@ id:
       success: Akun Anda telah dikonfirmasi, terima kasih telah mendaftar!
       already active: Akun ini telah dikonfirmasi.
       unknown token: Kode konfirmasi telah kedaluwarsa atau tidak ada.
-      resend_html: Bila Anda perlu surel konfirmasi lagi, %{reconfirm_link}.
-      click_here: klik di sini
     confirm_resend:
       failure: Pengguna %{name} tidak ditemukan.
     confirm_email:
@@ -1752,29 +1750,6 @@ id:
       whitelist: Bila sistem antispam Anda menyarik surel konfirmasi, kecualikan %{sender}
         supaya kami bisa membalas permintaan konfirmasi Anda.
   messages:
-    inbox:
-      title: Kotak Masuk
-      messages: Anda memiliki %{new_messages} dan %{old_messages}
-      new_messages:
-        one: '%{count} pesan baru'
-        other: '%{count} pesan baru'
-      old_messages:
-        one: '%{count} pesan lama'
-        other: '%{count} pesan lama'
-      no_messages_yet_html: Anda belum memiliki pesan. Mengapa tidak  berhubungan
-        dengan beberapa %{people_mapping_nearby_link}?
-      people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
-    messages_table:
-      from: Dari
-      to: Kepada
-      subject: Subyek
-      date: Tanggal
-      actions: Tindakan
-    message_summary:
-      unread_button: Tandai belum dibaca
-      read_button: Tandai sudah dibaca
-      destroy_button: Hapus
-      unmute_button: Pindahkan ke Kotak Masuk
     new:
       title: Kirim Pesan
       send_message_to_html: Kirim pesan baru ke %{name}
@@ -1787,18 +1762,6 @@ id:
       title: Tidak ada pesan
       heading: Tidak ada pesan
       body: Maaf tidak ada pesan dengan id tersebut.
-    outbox:
-      title: Kotak keluar
-      messages:
-        one: Anda memiliki %{count} pesan terkirim
-        other: Anda memiliki %{count} pesan terkirim
-      no_sent_messages_html: Anda belum memiliki pesan. Mengapa tidak  berhubungan
-        dengan beberapa %{people_mapping_nearby_link}?
-      people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
-    muted:
-      title: Pesan yang Dibisukan
-      messages:
-        other: '%{count} pesan yang dibisukan'
     reply:
       wrong_user: Anda masuk log sebagai '%{user}' tapi pesan yang Anda balas tidak
         terkirim ke pengguna. Silahkan masuk log sebagai pengguna yang benar untuk
@@ -1812,12 +1775,6 @@ id:
       wrong_user: Anda masuk log sebagai '%{user}' tetapi pesan yang anda balas tidak
         dikirim oleh atau untuk pengguna tersebut. Silahkan masuk log sebagai pengguna
         yang benar untuk membacanya.
-    sent_message_summary:
-      destroy_button: Hapus
-    heading:
-      my_inbox: Kotak Masuk Saya
-      my_outbox: Kotak Keluar Saya
-      muted_messages: Pesan yang dibisukan
     mark:
       as_read: Pesan ditandai sebagai telah dibaca
       as_unread: Pesan ditandai sebagai belum dibaca
@@ -1826,6 +1783,51 @@ id:
       error: Pesan tidak berhasil dipindahkan ke Kotak Masuk
     destroy:
       destroyed: Pesan dihapus
+    mailboxes:
+      heading:
+        my_inbox: Kotak Masuk Saya
+        my_outbox: Kotak Keluar Saya
+        muted_messages: Pesan yang dibisukan
+      messages_table:
+        from: Dari
+        to: Kepada
+        subject: Subyek
+        date: Tanggal
+        actions: Tindakan
+      message:
+        unread_button: Tandai belum dibaca
+        read_button: Tandai sudah dibaca
+        destroy_button: Hapus
+        unmute_button: Pindahkan ke Kotak Masuk
+    inboxes:
+      show:
+        title: Kotak Masuk
+        messages: Anda memiliki %{new_messages} dan %{old_messages}
+        new_messages:
+          one: '%{count} pesan baru'
+          other: '%{count} pesan baru'
+        old_messages:
+          one: '%{count} pesan lama'
+          other: '%{count} pesan lama'
+        no_messages_yet_html: Anda belum memiliki pesan. Mengapa tidak  berhubungan
+          dengan beberapa %{people_mapping_nearby_link}?
+        people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
+    muted_inboxes:
+      show:
+        title: Pesan yang Dibisukan
+        messages:
+          other: '%{count} pesan yang dibisukan'
+    outboxes:
+      show:
+        title: Kotak keluar
+        messages:
+          one: Anda memiliki %{count} pesan terkirim
+          other: Anda memiliki %{count} pesan terkirim
+        no_sent_messages_html: Anda belum memiliki pesan. Mengapa tidak  berhubungan
+          dengan beberapa %{people_mapping_nearby_link}?
+        people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
+      message:
+        destroy_button: Hapus
   passwords:
     new:
       title: Kehilangan kata sandi
@@ -2748,6 +2750,26 @@ id:
     go_public:
       flash success: Semua hasil edit Anda sekarang sudah publik, dan Anda diperbolehkan
         untuk mengedit.
+    issued_blocks:
+      show:
+        title: Blokir oleh %{name}
+        heading_html: Daftar blokir oleh %{name}
+        empty: '%{name} belum membuat blokir apapun.'
+    received_blocks:
+      show:
+        title: Diblokir pada %{name}
+        heading_html: Daftar blokir pada %{name}
+        empty: '%{name} belum diblokir.'
+      edit:
+        title: Mencabut semua pemblokiran pada %{block_on}
+        heading_html: Mencabut semua pemblokiran pada %{block_on}
+        empty: '%{name} tidak sedang diblokir.'
+        confirm: Apakah Anda yakin untuk membatalkan %{active_blocks}?
+        active_blocks:
+          other: '%{count} blokir yang aktif'
+        revoke: Batalkan!
+      destroy:
+        flash: Semua blokir aktif telah dicabut.
     lists:
       show:
         title: Pengguna
@@ -2821,15 +2843,6 @@ id:
       title: Blokir oleh pegguna
       heading: Daftar blokir oleh pengguna
       empty: Belum ada blokir yang dibuat.
-    revoke_all:
-      title: Mencabut semua pemblokiran pada %{block_on}
-      heading_html: Mencabut semua pemblokiran pada %{block_on}
-      empty: '%{name} tidak sedang diblokir.'
-      confirm: Apakah Anda yakin untuk membatalkan %{active_blocks}?
-      active_blocks:
-        other: '%{count} blokir yang aktif'
-      revoke: Batalkan!
-      flash: Semua blokir aktif telah dicabut.
     helper:
       time_future_html: Berakhir pada %{time}.
       until_login: Aktif sampai pengguna melakukan log in.
@@ -2847,14 +2860,6 @@ id:
           other: '%{count} bulan'
         years:
           other: '%{count} tahun'
-    blocks_on:
-      title: Diblokir pada %{name}
-      heading_html: Daftar blokir pada %{name}
-      empty: '%{name} belum diblokir.'
-    blocks_by:
-      title: Blokir oleh %{name}
-      heading_html: Daftar blokir oleh %{name}
-      empty: '%{name} belum membuat blokir apapun.'
     show:
       title: '%{block_on} diblokir oleh %{block_by}'
       heading_html: '%{block_on} diblokir oleh %{block_by}'
@@ -2971,7 +2976,6 @@ id:
       center_marker: Tengahkan peta pada penanda
       paste_html: Tempel HTML untuk menyimpan di situs web
       view_larger_map: Lihat peta lebih besar
-      only_standard_layer: Hanya lapisan standar yang dapat diekspor sebagai gambar
     embed:
       report_problem: Laporkan masalah
     key:

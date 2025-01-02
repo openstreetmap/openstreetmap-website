@@ -972,31 +972,6 @@ dsb:
       success: Twója e-mailowa adresa jo se wobkšuśiła, źěkujomy se za registrěrowanje!
       failure: E-mailowa adresa jo se južo wobkšuśiła pśez toś ten wótkaz.
   messages:
-    inbox:
-      title: Post
-      messages: Maš %{new_messages} a %{old_messages}
-      new_messages:
-        few: '%{count} nowe powěsći'
-        one: '%{count} nowa powěsć'
-        two: '%{count} nowej powěsći'
-        other: '%{count} nowych powěsćow'
-      old_messages:
-        few: '%{count} stare powěsći'
-        one: '%{count} stara powěsć'
-        two: '%{count} starej powěsći'
-        other: '%{count} starych powěsćow'
-      no_messages_yet_html: Hyšći njamaš powěsći. Cogodla njestajaš se z %{people_mapping_nearby_link}
-        do zwiska?
-      people_mapping_nearby: Luźe, kótarež kartěruju w bliskosći
-    messages_table:
-      from: Wót
-      to: Komu
-      subject: Temowe nadpismo
-      date: Datum
-    message_summary:
-      unread_button: Ako njepśecytany markěrowaś
-      read_button: Ako pśecytany markěrowaś
-      destroy_button: Lašowaś
     new:
       title: Powěsć pósłaś
       send_message_to_html: '%{name} nowu powěsć pósłaś'
@@ -1009,16 +984,6 @@ dsb:
       title: Powěsć njeeksistěrujo
       heading: Powěsć njeeksistěrujo
       body: Bóžko powěźeńka z tym ID njeeksistěrujo.
-    outbox:
-      title: Pósłany
-      messages:
-        few: Sy %{count} powěsći pósłał
-        one: Sy %{count} powěsć pósłał
-        two: Sy %{count} powěsći pósłał
-        other: Sy %{count} powěsćow pósłał
-      no_sent_messages_html: Hyšći njejsy powěsći rozpósłał. Cogodla njestajaš se
-        z jadnym z %{people_mapping_nearby_link}, do zwiska?
-      people_mapping_nearby: luźe, kótarež kartěruju w bliskosći
     reply:
       wrong_user: |-
         Sy ako `%{user}' pśizjawjony, ale powěsć, na kótaruž sy kśěł wótegroniś, njejo se pósłała k tomu wužywarjeju.
@@ -1031,15 +996,53 @@ dsb:
       wrong_user: Sy ako `%{user} pśizjawjony, ale powěsć, kótaruž sy kśěł cytaś,
         njejo se pósłała wót togo wužywarja abo k tomu wužywarjeju. Pšosym pśizjaw
         se ako korektny wužywaŕ, aby ju cytał.
-    sent_message_summary:
-      destroy_button: Lašowaś
-    heading:
-      my_inbox: Mój post
     mark:
       as_read: Powěsć jo se markěrowała ako pśecytana
       as_unread: Powěsć jo se markěrowała ako njepśecytana
     destroy:
       destroyed: Powěsć wulašowana
+    mailboxes:
+      heading:
+        my_inbox: Mój post
+      messages_table:
+        from: Wót
+        to: Komu
+        subject: Temowe nadpismo
+        date: Datum
+      message:
+        unread_button: Ako njepśecytany markěrowaś
+        read_button: Ako pśecytany markěrowaś
+        destroy_button: Lašowaś
+    inboxes:
+      show:
+        title: Post
+        messages: Maš %{new_messages} a %{old_messages}
+        new_messages:
+          few: '%{count} nowe powěsći'
+          one: '%{count} nowa powěsć'
+          two: '%{count} nowej powěsći'
+          other: '%{count} nowych powěsćow'
+        old_messages:
+          few: '%{count} stare powěsći'
+          one: '%{count} stara powěsć'
+          two: '%{count} starej powěsći'
+          other: '%{count} starych powěsćow'
+        no_messages_yet_html: Hyšći njamaš powěsći. Cogodla njestajaš se z %{people_mapping_nearby_link}
+          do zwiska?
+        people_mapping_nearby: Luźe, kótarež kartěruju w bliskosći
+    outboxes:
+      show:
+        title: Pósłany
+        messages:
+          few: Sy %{count} powěsći pósłał
+          one: Sy %{count} powěsć pósłał
+          two: Sy %{count} powěsći pósłał
+          other: Sy %{count} powěsćow pósłał
+        no_sent_messages_html: Hyšći njejsy powěsći rozpósłał. Cogodla njestajaš se
+          z jadnym z %{people_mapping_nearby_link}, do zwiska?
+        people_mapping_nearby: luźe, kótarež kartěruju w bliskosći
+      message:
+        destroy_button: Lašowaś
   passwords:
     new:
       title: Zabyte gronidło
@@ -1472,6 +1475,16 @@ dsb:
       confirm: Wobkšuśiś
     go_public:
       flash success: Wše twóje změny su něnto zjawne, a ty móžoš je něnto wobźěłaś.
+    issued_blocks:
+      show:
+        title: Blokěrowanja wót %{name}
+        heading_html: Lisćina blokěrowanjow wót %{name}
+        empty: '%{name} hyšći njejo žedne blokěrowanja wuźělił.'
+    received_blocks:
+      show:
+        title: Blokěrowanja pśeśiwo %{name}
+        heading_html: Lisćina blokěrowanjow pśeśiwo %{name}
+        empty: '%{name} hyšći njejo se zablokěrował.'
     lists:
       show:
         title: Wužywarje
@@ -1533,14 +1546,6 @@ dsb:
           one: 1 góźina
           two: '%{count} góźinje'
           other: '%{count} góźinow'
-    blocks_on:
-      title: Blokěrowanja pśeśiwo %{name}
-      heading_html: Lisćina blokěrowanjow pśeśiwo %{name}
-      empty: '%{name} hyšći njejo se zablokěrował.'
-    blocks_by:
-      title: Blokěrowanja wót %{name}
-      heading_html: Lisćina blokěrowanjow wót %{name}
-      empty: '%{name} hyšći njejo žedne blokěrowanja wuźělił.'
     show:
       title: '%{block_on} zablokěrowany wót %{block_by}'
       heading_html: '%{block_on} jo se zablokěrował wót %{block_by}'

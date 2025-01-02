@@ -1804,8 +1804,6 @@ hu:
       success: Felhasználói fiókod megerősítve, köszönjük a regisztrációt!
       already active: Ez a fiók már megerősítésre került.
       unknown token: Ez a megerősítési kód lejárt vagy nem létezik.
-      resend_html: Ha újra el kell küldenünk a megerősítő e-mailt, %{reconfirm_link}.
-      click_here: kattints ide
     confirm_resend:
       failure: '%{name} felhasználó nem található.'
     confirm_email:
@@ -1823,29 +1821,6 @@ hu:
         küld, akkor kérjük, ellenőrizd, hogy a(z) %{sender} az engedélyezett listán
         van-e, mivel nem tudunk válaszolni a visszaigazolási kérésekre.
   messages:
-    inbox:
-      title: Beérkezett üzenetek
-      messages: '%{new_messages} és %{old_messages} van'
-      new_messages:
-        one: 1 új üzeneted
-        other: '%{count} új üzeneted'
-      old_messages:
-        one: 1 régi üzeneted
-        other: '%{count} régi üzeneted'
-      no_messages_yet_html: Nincs még üzeneted. Miért nem veszed fel a kapcsolatot
-        néhány %{people_mapping_nearby_link}vel?
-      people_mapping_nearby: közeli térképszerkesztő
-    messages_table:
-      from: Feladó
-      to: Címzett
-      subject: Tárgy
-      date: Érkezett
-      actions: Műveletek
-    message_summary:
-      unread_button: Jelölés olvasatlanként
-      read_button: Jelölés olvasottként
-      destroy_button: Törlés
-      unmute_button: Áthelyezés a Beérkezett üzenetek mappába
     new:
       title: Üzenet küldése
       send_message_to_html: 'Új üzenet küldése neki: %{name}'
@@ -1858,19 +1833,6 @@ hu:
       title: Nincs ilyen üzenet
       heading: Nincs ilyen üzenet
       body: Sajnáljuk, nincs ilyen azonosítójú üzenet.
-    outbox:
-      title: Elküldött üzenetek
-      messages:
-        one: Egy elküldött üzeneted van
-        other: '%{count} elküldött üzeneted van'
-      no_sent_messages_html: Nincs még elküldött üzeneted. Miért nem veszed fel a
-        kapcsolatot néhány %{people_mapping_nearby_link}vel?
-      people_mapping_nearby: közeli térképszerkesztő
-    muted:
-      title: Elnémított üzenetek
-      messages:
-        one: '%{count} némított üzeneted van'
-        other: '%{count} némított üzeneted van'
     reply:
       wrong_user: „%{user}” néven jelentkeztél be, de azt az üzenetet, amelyre válaszolni
         szeretnél, nem ez a felhasználó kapta. A válaszadáshoz jelentkezz be a helyes
@@ -1884,12 +1846,6 @@ hu:
       wrong_user: „%{user}” néven jelentkeztél be, de az üzenetet, amelyet el szeretnél
         olvasni, nem ez a felhasználó küldte vagy kapta. Az elolvasásához jelentkezz
         be a helyes felhasználónévvel.
-    sent_message_summary:
-      destroy_button: Törlés
-    heading:
-      my_inbox: Beérkezett üzenetek
-      my_outbox: Elküldött üzenetek
-      muted_messages: Elnémított üzenetek
     mark:
       as_read: Üzenet megjelölve olvasottként
       as_unread: Üzenet megjelölve olvasatlanként
@@ -1898,6 +1854,52 @@ hu:
       error: Az üzenetet nem sikerült áthelyezni a Beérkezett üzenetek mappába.
     destroy:
       destroyed: Üzenet törölve
+    mailboxes:
+      heading:
+        my_inbox: Beérkezett üzenetek
+        my_outbox: Elküldött üzenetek
+        muted_messages: Elnémított üzenetek
+      messages_table:
+        from: Feladó
+        to: Címzett
+        subject: Tárgy
+        date: Érkezett
+        actions: Műveletek
+      message:
+        unread_button: Jelölés olvasatlanként
+        read_button: Jelölés olvasottként
+        destroy_button: Törlés
+        unmute_button: Áthelyezés a Beérkezett üzenetek mappába
+    inboxes:
+      show:
+        title: Beérkezett üzenetek
+        messages: '%{new_messages} és %{old_messages} van'
+        new_messages:
+          one: 1 új üzeneted
+          other: '%{count} új üzeneted'
+        old_messages:
+          one: 1 régi üzeneted
+          other: '%{count} régi üzeneted'
+        no_messages_yet_html: Nincs még üzeneted. Miért nem veszed fel a kapcsolatot
+          néhány %{people_mapping_nearby_link}vel?
+        people_mapping_nearby: közeli térképszerkesztő
+    muted_inboxes:
+      show:
+        title: Elnémított üzenetek
+        messages:
+          one: '%{count} némított üzeneted van'
+          other: '%{count} némított üzeneted van'
+    outboxes:
+      show:
+        title: Elküldött üzenetek
+        messages:
+          one: Egy elküldött üzeneted van
+          other: '%{count} elküldött üzeneted van'
+        no_sent_messages_html: Nincs még elküldött üzeneted. Miért nem veszed fel
+          a kapcsolatot néhány %{people_mapping_nearby_link}vel?
+        people_mapping_nearby: közeli térképszerkesztő
+      message:
+        destroy_button: Törlés
   passwords:
     new:
       title: Elvesztett jelszó
@@ -2874,6 +2876,27 @@ hu:
     go_public:
       flash success: Mostantól az összes szerkesztésed nyilvános, és engedélyezett
         a szerkesztés.
+    issued_blocks:
+      show:
+        title: '%{name} által kiosztott blokkolások'
+        heading_html: '%{name} által kiosztott blokkolások listája'
+        empty: '%{name} még nem osztott ki blokkolást.'
+    received_blocks:
+      show:
+        title: '%{name} blokkolásai'
+        heading_html: '%{name} blokkolásainak felsorolása'
+        empty: '%{name} még nem volt blokkolva.'
+      edit:
+        title: '%{block_on} valamennyi blokkolásának visszavonása'
+        heading_html: '%{block_on} valamennyi blokkolásának visszavonása'
+        empty: '%{name} nem rendelkezik aktív blokkolással.'
+        confirm: Biztos benne, hogy visszavonod a %{active_blocks} blookkolást?
+        active_blocks:
+          one: '%{count} aktív blokkolás'
+          other: '%{count} aktív blokkolás'
+        revoke: Visszavonás!
+      destroy:
+        flash: Minden aktív blokkolás visszavonva.
     lists:
       show:
         title: Felhasználók
@@ -2955,16 +2978,6 @@ hu:
       title: Felhasználói blokkolások
       heading: Felhasználói blokkolások listája
       empty: Még nem lett kiosztva blokkolás.
-    revoke_all:
-      title: '%{block_on} valamennyi blokkolásának visszavonása'
-      heading_html: '%{block_on} valamennyi blokkolásának visszavonása'
-      empty: '%{name} nem rendelkezik aktív blokkolással.'
-      confirm: Biztos benne, hogy visszavonod a %{active_blocks} blookkolást?
-      active_blocks:
-        one: '%{count} aktív blokkolás'
-        other: '%{count} aktív blokkolás'
-      revoke: Visszavonás!
-      flash: Minden aktív blokkolás visszavonva.
     helper:
       time_future_html: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
@@ -2987,14 +3000,6 @@ hu:
         years:
           one: '%{count} év'
           other: '%{count} év'
-    blocks_on:
-      title: '%{name} blokkolásai'
-      heading_html: '%{name} blokkolásainak felsorolása'
-      empty: '%{name} még nem volt blokkolva.'
-    blocks_by:
-      title: '%{name} által kiosztott blokkolások'
-      heading_html: '%{name} által kiosztott blokkolások listája'
-      empty: '%{name} még nem osztott ki blokkolást.'
     show:
       title: '%{block_on} blokkolva %{block_by} által'
       heading_html: '%{block_by} blokkolta %{block_on} felhasználót'
@@ -3135,8 +3140,6 @@ hu:
       center_marker: Legyen a helyjelölő a térkép középpontja
       paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
       view_larger_map: Nagyobb térkép
-      only_standard_layer: Csak az alap, kerékpáros és tömegközlekedési rétegek exportálható
-        képként
     embed:
       report_problem: Probléma bejelentése
     key:

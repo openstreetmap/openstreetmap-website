@@ -1820,9 +1820,6 @@ be:
       success: Уліковы запіс пацверджаны, дзякуй за рэгістрацыю!
       already active: Гэты ўліковы запіс ужо пацверджаны.
       unknown token: Тэрмін дзеяння кода пацвярджэння ўжо прайшоў ці ён не існуе.
-      resend_html: Калі вам патрэбна атрымаць паўторна электронны ліст пацвярджэння,
-        перайдзіце праз %{reconfirm_link}.
-      click_here: націсніце тут
     confirm_resend:
       failure: Карыстальнік %{name} не знойдзены.
     confirm_email:
@@ -1840,29 +1837,6 @@ be:
         на пацвярджэнне, калі ласка, унясіце %{sender} у белы спіс, паколькі мы не
         можам адказаць на аніякія запыты на пацвярджэнне.
   messages:
-    inbox:
-      title: Уваходныя
-      messages: У вас %{new_messages} і %{old_messages}
-      new_messages:
-        one: '%{count} новае паведамленне'
-        other: '%{count} новых паведамленняў'
-      old_messages:
-        one: '%{count} старое паведамленне'
-        other: '%{count} старых паведамленняў'
-      no_messages_yet_html: У вас пакуль няма паведамленняў. Чаму б не зкаардынавацца
-        з  %{people_mapping_nearby_link}?
-      people_mapping_nearby: людзьмі, што жывуць непадалёку
-    messages_table:
-      from: Ад
-      to: Каму
-      subject: Тэма
-      date: Дата
-      actions: Дзеянні
-    message_summary:
-      unread_button: Адзначыць як нечытанае
-      read_button: Адзначыць як прачытанае
-      destroy_button: Выдаліць
-      unmute_button: Перамясціць у папку "Уваходныя"
     new:
       title: Даслаць паведамленне
       send_message_to_html: Даслаць новае паведамленне %{name}
@@ -1875,21 +1849,6 @@ be:
       title: Няма такога паведамлення
       heading: Няма такога паведамлення
       body: Шкада, паведамлення з гэтым ідэнтыфікатарам няма.
-    outbox:
-      title: Зыходныя
-      messages:
-        one: Вы адаслалі %{count} паведамленне
-        other: Вы адаслалі %{count} паведамленняў
-      no_sent_messages_html: У вас пакуль няма дасланых паведамленняў. Чаму б не зкаардынавацца
-        з %{people_mapping_nearby_link}?
-      people_mapping_nearby: людзьмі, што жывуць непадалёку
-    muted:
-      title: Прыглушаныя паведамленні
-      messages:
-        one: '%{count} прыглушанае паведамленне'
-        few: '%{count} прыглушаных паведамлення'
-        many: '%{count} прыглушаных паведамленняў'
-        other: '%{count} прыглушанных паведамлення(-яў)'
     reply:
       wrong_user: Вы ўвайшлі ў сістэму як "%{user}", але паведамленне, на якое вы
         жадаеце адказаць, не было дасланае гэтаму карыстальніку. Калі ласка, увайдзіце
@@ -1903,12 +1862,6 @@ be:
       wrong_user: Вы ўвайшлі ў сістэму пад імем "%{user}", але паведамленне, якое
         вы жадаеце прачытаць, не было адпраўленае гэтым карыстальнікам. Калі ласка,
         увайдзіце ў сістэму пад правільным імем, каб прачытаць яго.
-    sent_message_summary:
-      destroy_button: Выдаліць
-    heading:
-      my_inbox: Мае уваходныя
-      my_outbox: Мае выходныя
-      muted_messages: Прыглушаныя паведамленні
     mark:
       as_read: Паведамленне адмечана прачытаным
       as_unread: Паведамленне адмечана нечытаным
@@ -1917,6 +1870,54 @@ be:
       error: Паведамленне не можа быць перамешчана ў папку "Уваходныя".
     destroy:
       destroyed: Паведамленне выдалена
+    mailboxes:
+      heading:
+        my_inbox: Мае уваходныя
+        my_outbox: Мае выходныя
+        muted_messages: Прыглушаныя паведамленні
+      messages_table:
+        from: Ад
+        to: Каму
+        subject: Тэма
+        date: Дата
+        actions: Дзеянні
+      message:
+        unread_button: Адзначыць як нечытанае
+        read_button: Адзначыць як прачытанае
+        destroy_button: Выдаліць
+        unmute_button: Перамясціць у папку "Уваходныя"
+    inboxes:
+      show:
+        title: Уваходныя
+        messages: У вас %{new_messages} і %{old_messages}
+        new_messages:
+          one: '%{count} новае паведамленне'
+          other: '%{count} новых паведамленняў'
+        old_messages:
+          one: '%{count} старое паведамленне'
+          other: '%{count} старых паведамленняў'
+        no_messages_yet_html: У вас пакуль няма паведамленняў. Чаму б не зкаардынавацца
+          з  %{people_mapping_nearby_link}?
+        people_mapping_nearby: людзьмі, што жывуць непадалёку
+    muted_inboxes:
+      show:
+        title: Прыглушаныя паведамленні
+        messages:
+          one: '%{count} прыглушанае паведамленне'
+          few: '%{count} прыглушаных паведамлення'
+          many: '%{count} прыглушаных паведамленняў'
+          other: '%{count} прыглушанных паведамлення(-яў)'
+    outboxes:
+      show:
+        title: Зыходныя
+        messages:
+          one: Вы адаслалі %{count} паведамленне
+          other: Вы адаслалі %{count} паведамленняў
+        no_sent_messages_html: У вас пакуль няма дасланых паведамленняў. Чаму б не
+          зкаардынавацца з %{people_mapping_nearby_link}?
+        people_mapping_nearby: людзьмі, што жывуць непадалёку
+      message:
+        destroy_button: Выдаліць
   passwords:
     new:
       title: згублены пароль
@@ -2614,6 +2615,16 @@ be:
       report: Паскардзіцца на гэтага карыстальніка
     go_public:
       flash success: Усе вашыя змены цяпер публічныя, і вам цяпер дазволена рэдагаванне
+    issued_blocks:
+      show:
+        title: Блакіроўкі створаныя %{name}
+        heading_html: Спіс блакіровак, якія стварыў %{name}
+        empty: '%{name} яшчэ не стварыў блакіровак.'
+    received_blocks:
+      show:
+        title: Блакіроўкі для %{name}
+        heading_html: Спіс блакіровак %{name}
+        empty: '%{name} не быў яшчэ заблакіраваны.'
     lists:
       show:
         title: Удзельнікі
@@ -2712,14 +2723,6 @@ be:
           one: 1 год
           few: '%{count} гады'
           other: '%{count} гадоў'
-    blocks_on:
-      title: Блакіроўкі для %{name}
-      heading_html: Спіс блакіровак %{name}
-      empty: '%{name} не быў яшчэ заблакіраваны.'
-    blocks_by:
-      title: Блакіроўкі створаныя %{name}
-      heading_html: Спіс блакіровак, якія стварыў %{name}
-      empty: '%{name} яшчэ не стварыў блакіровак.'
     show:
       title: '%{block_on} заблакіраваны %{block_by}'
       heading_html: '%{block_on} заблакіраваны %{block_by}'
@@ -2803,8 +2806,6 @@ be:
       center_marker: Цэнтраваць карту па маркеры
       paste_html: Уставіць HTML для ўбудовы ў вэб-сайт
       view_larger_map: Праглядзець большую карту
-      only_standard_layer: Толькі стандартны пласт можа быць экспартаваны ў выглядзе
-        выявы
     embed:
       report_problem: Паведаміць аб праблеме
     key:

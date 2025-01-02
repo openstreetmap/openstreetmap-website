@@ -1035,6 +1035,14 @@ mk:
           wayside_shrine: Крајпатен параклис
           wreck: Бродолом
           "yes": Историско место
+        information:
+          guidepost: Патоказ
+          board: Информативна табла
+          map: Карта
+          office: Туристичка канцеларија
+          terminal: Информативен терминал
+          sign: Информативен знак
+          stele: Информативна стела
         junction:
           "yes": Раскрсница
         landuse:
@@ -1107,6 +1115,8 @@ mk:
           track: Спортска патека
           water_park: Аквапарк
           "yes": Разонода
+        lock:
+          "yes": Преводница
         man_made:
           adit: Помошно окно
           advertising: Реклама
@@ -1447,6 +1457,17 @@ mk:
           building_passage: Премин на зграда
           culvert: Пропусен канал
           "yes": Тунел
+        water:
+          lake: Езеро
+          pond: Езерце
+          reservoir: Вештачко езеро
+          basin: Складник за вода
+          fishpond: Рибник
+          lagoon: Лагуна
+          wastewater: Отпадна вода
+          oxbow: Мртвица
+          stream_pool: Вир
+          lock: Преводница
         waterway:
           artificial: Вештачки воден пат
           boatyard: Чамцоградилиште
@@ -1779,9 +1800,9 @@ mk:
       success: Вашата сметка е потврдена. Ви благодариме што се зачленивте!
       already active: Оваа сметка е веќе потврдена.
       unknown token: Потврдниот код е истечен или не постои.
-      resend_html: Ако сакате уште еднаш да ја добиете потврдната порака по е-пошта,
-        %{reconfirm_link}.
-      click_here: стиснете тука
+      if_need_resend: Ако треба да повторно да ја испратите потврдната е-пошта, стиснете
+        на копчето подолу.
+      resend_button: Пак испрати потврдна е-пошта
     confirm_resend:
       failure: Корисникот %{name} не е пронајден.
     confirm_email:
@@ -1799,29 +1820,6 @@ mk:
         се дека %{sender} е ставен на белиот список бидејќи не сме во можност да одговараме
         на барања за потврда.
   messages:
-    inbox:
-      title: Примени
-      messages: Имате %{new_messages} и %{old_messages}
-      new_messages:
-        one: '%{count} нова порака'
-        other: '%{count} нови пораки'
-      old_messages:
-        one: '%{count} стара порака'
-        other: '%{count} стари пораки'
-      no_messages_yet_html: Сè уште немате пораки. Зошто не се поврзете со некој од
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: картографите во вашата близина
-    messages_table:
-      from: Од
-      to: До
-      subject: Наслов
-      date: Датум
-      actions: Дејства
-    message_summary:
-      unread_button: Означи како непрочитано
-      read_button: Означи како прочитано
-      destroy_button: Избриши
-      unmute_button: Премести во Примени
     new:
       title: Испрати ја пораката
       send_message_to_html: Испрати нова порака за %{name}
@@ -1834,19 +1832,6 @@ mk:
       title: Нема таква порака
       heading: Нема таква порака
       body: За жал, нема порака со таа назнака.
-    outbox:
-      title: За праќање
-      messages:
-        one: Имате %{count} испратена порака
-        other: Имате %{count} испратени пораки
-      no_sent_messages_html: Сè уште немате испратено пораки. Зошто да не исконтактирате
-        некои %{people_mapping_nearby_link}?
-      people_mapping_nearby: картографите во вашата близина
-    muted:
-      title: Замолкнати пораки
-      messages:
-        one: '%{count} замолкната порака'
-        other: Имате %{count} замолкнати пораки
     reply:
       wrong_user: Најавени сте како „%{user}“, но пораката на којашто побаравте да
         одговорите не е испратена до тој корисник. Најавете се под правилно корисничко
@@ -1860,12 +1845,6 @@ mk:
       wrong_user: Најавени сте како „%{user}“, но пораката што побаравте да ја прочитате
         не е испратена до или од тој корисник. Најавете се под правилно корисничко
         име за да ја прочитате.
-    sent_message_summary:
-      destroy_button: Избриши
-    heading:
-      my_inbox: Примени
-      my_outbox: Моја излезна пошта
-      muted_messages: Замолкнати пораки
     mark:
       as_read: Пораката е означена како прочитана
       as_unread: Пораката е означена како непрочитана
@@ -1874,6 +1853,52 @@ mk:
       error: Пораката не можеше да се премести во Примени.
     destroy:
       destroyed: Пораката е избришана
+    mailboxes:
+      heading:
+        my_inbox: Примени
+        my_outbox: Моја излезна пошта
+        muted_messages: Замолкнати пораки
+      messages_table:
+        from: Од
+        to: До
+        subject: Наслов
+        date: Датум
+        actions: Дејства
+      message:
+        unread_button: Означи како непрочитано
+        read_button: Означи како прочитано
+        destroy_button: Избриши
+        unmute_button: Премести во Примени
+    inboxes:
+      show:
+        title: Примени
+        messages: Имате %{new_messages} и %{old_messages}
+        new_messages:
+          one: '%{count} нова порака'
+          other: '%{count} нови пораки'
+        old_messages:
+          one: '%{count} стара порака'
+          other: '%{count} стари пораки'
+        no_messages_yet_html: Сè уште немате пораки. Зошто не се поврзете со некој
+          од %{people_mapping_nearby_link}?
+        people_mapping_nearby: картографите во вашата близина
+    muted_inboxes:
+      show:
+        title: Замолкнати пораки
+        messages:
+          one: '%{count} замолкната порака'
+          other: Имате %{count} замолкнати пораки
+    outboxes:
+      show:
+        title: За праќање
+        messages:
+          one: Имате %{count} испратена порака
+          other: Имате %{count} испратени пораки
+        no_sent_messages_html: Сè уште немате испратено пораки. Зошто да не исконтактирате
+          некои %{people_mapping_nearby_link}?
+        people_mapping_nearby: картографите во вашата близина
+      message:
+        destroy_button: Избриши
   passwords:
     new:
       title: Загубена лозинка
@@ -2649,6 +2674,28 @@ mk:
       wikipedia:
         title: Најава со Википедија
         alt: Лого на Википедија
+    share:
+      email:
+        title: Сподели преку е-пошта
+        alt: Икона за е-пошта
+      bluesky:
+        title: Сподели на Bluesky
+        alt: Икона на Bluesky
+      facebook:
+        title: Сподели на Фејсбук
+        alt: Икона на Фејсбук
+      linkedin:
+        title: Сподели на LinkedIn
+        alt: Икона на LinkedIn
+      mastodon:
+        title: Сподели на Mastodon
+        alt: Икона на Mastodon
+      telegram:
+        title: Сподели на Телеграм
+        alt: Икона на Телеграм
+      x:
+        title: Сподели на X
+        alt: Икона на X
   oauth:
     permissions:
       missing: Му немате дозволено пристап на прилогот до оваа можност
@@ -2744,7 +2791,7 @@ mk:
         privacy_policy: правила за личните податоци
         privacy_policy_title: Правилата за лични податоци на OSMF, со одделот за е-поштенски
           адреси
-        contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: услови на учество
       continue: Зачленување
       terms accepted: Ви благодариме што ги прифативте новите услови за учество!
@@ -2859,6 +2906,27 @@ mk:
       report: Пријави го корисников
     go_public:
       flash success: Сега сите уредувања ви се јавни, и ви е дозволено да уредувате.
+    issued_blocks:
+      show:
+        title: Блокови од %{name}
+        heading_html: Список на блокови од %{name}
+        empty: Корисникот %{name} досега не блокирал.
+    received_blocks:
+      show:
+        title: Блокови за %{name}
+        heading_html: Список на блокови за %{name}
+        empty: Корисникот %{name} досега не бил блокиран.
+      edit:
+        title: Отповикување на сите блокови на %{block_on}
+        heading_html: Отповикување на сите блокови на %{block_on}
+        empty: '%{name} нема активни блокови.'
+        confirm: Дали сигурно сакате да отповикате %{active_blocks}?
+        active_blocks:
+          one: '%{count} активен блок'
+          other: '%{count} активни блокови'
+        revoke: Отповикај!
+      destroy:
+        flash: Сите активни блокови се отповикани.
     lists:
       show:
         title: Корисници
@@ -2943,16 +3011,6 @@ mk:
       title: Кориснички блокови
       heading: Список на кориснички блокови
       empty: Досега сè уште нема блокови.
-    revoke_all:
-      title: Отповикување на сите блокови на %{block_on}
-      heading_html: Отповикување на сите блокови на %{block_on}
-      empty: '%{name} нема активни блокови.'
-      confirm: Дали сигурно сакате да отповикате %{active_blocks}?
-      active_blocks:
-        one: '%{count} активен блок'
-        other: '%{count} активни блокови'
-      revoke: Отповикај!
-      flash: Сите активни блокови се отповикани.
     helper:
       time_future_html: Истекува за %{time}.
       until_login: Активно додека не се најави корисникот.
@@ -2984,14 +3042,6 @@ mk:
         read_html: порочитај во %{time}
         time_in_future_title: '%{time_absolute}; за %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Блокови за %{name}
-      heading_html: Список на блокови за %{name}
-      empty: Корисникот %{name} досега не бил блокиран.
-    blocks_by:
-      title: Блокови од %{name}
-      heading_html: Список на блокови од %{name}
-      empty: Корисникот %{name} досега не блокирал.
     show:
       title: '%{block_on} блокиран од %{block_by}'
       heading_html: '%{block_on} блокиран од %{block_by}'
@@ -3107,6 +3157,10 @@ mk:
         Затоа, не внесувајте лични податоци, или пак податоци од карти или именици
         заштитени со авторски права.
       add: Додај белешка
+    new_readonly:
+      title: Нова белешка
+      warning: Не може да се прават нови белешки бидејќи приложникот на OpenStreetMap
+        моментално е во режим на читање.
     notes_paging_nav:
       showing_page: Страница %{page}
       next: Следно
@@ -3132,8 +3186,8 @@ mk:
       center_marker: Сосред. картата на бележникот
       paste_html: Ископирајте го HTML-кодот за да го вметнете во страницата.
       view_larger_map: Преглед на поголема карта
-      only_standard_layer: Како слика можат да се извезуваат само слоевите Стандарден,
-        Велосипедска карта и Превоз
+      only_layers_exported_as_image: 'Само следниве слоеви можат да се извезат како
+        слика:'
     embed:
       report_problem: Пријави проблем
     key:

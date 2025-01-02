@@ -1853,8 +1853,6 @@ pt-PT:
       success: Conta confirmada. Obrigado por te registares!
       already active: Esta conta já foi confirmada.
       unknown token: Esse código de confirmação expirou ou não existe.
-      resend_html: Se precisares que reenviemos o e-mail de confirmação, %{reconfirm_link}.
-      click_here: clica caqui
     confirm_resend:
       failure: O utilizador %{name} não foi encontrado.
     confirm_email:
@@ -1872,29 +1870,6 @@ pt-PT:
         de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
         de responder a pedidos de confirmação.
   messages:
-    inbox:
-      title: Caixa de Entrada
-      messages: Tens %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} mensagem nova'
-        other: '%{count} mensagens novas'
-      old_messages:
-        one: '%{count} mensagem antiga'
-        other: '%{count} mensagens antigas'
-      no_messages_yet_html: Ainda não tens mensagens. Porque não entras em contacto
-        com algumas %{people_mapping_nearby_link}?
-      people_mapping_nearby: pessoas que mapeiam perto de ti
-    messages_table:
-      from: De
-      to: Para
-      subject: Assunto
-      date: Data
-      actions: Ações
-    message_summary:
-      unread_button: Marcar como não lida
-      read_button: Marcar como lida
-      destroy_button: Eliminar
-      unmute_button: Mover para caixa de entrada
     new:
       title: Enviar mensagem
       send_message_to_html: Enviar uma nova mensagem para %{name}
@@ -1907,19 +1882,6 @@ pt-PT:
       title: Esta mensagem não existe
       heading: Esta mensagem não existe
       body: Lamentamos, não existe nenhuma mensagem com esse identificador (id).
-    outbox:
-      title: Caixa de saída
-      messages:
-        one: Tens %{count} mensagem enviada
-        other: Tens %{count} mensagens enviadas
-      no_sent_messages_html: Ainda não tens mensagens enviadas. Porque não entras
-        em contacto com algumas %{people_mapping_nearby_link}?
-      people_mapping_nearby: pessoas que mapeiam perto de ti
-    muted:
-      title: Mensagens Silenciadas
-      messages:
-        one: '%{count} mensagem silenciada'
-        other: Tens %{count} mensagens silenciadas
     reply:
       wrong_user: Iniciaste sessão como `%{user}', mas a mensagem a que pretendes
         responder não foi enviada para esse utilizador. Por favor, entra na conta
@@ -1933,12 +1895,6 @@ pt-PT:
       wrong_user: Iniciaste sessão como `%{user}', mas a mensagem que pediste para
         ler não foi enviada por ou para esse utilizador. Por favor, entra na conta
         correta para poderes ler a mensagem.
-    sent_message_summary:
-      destroy_button: Eliminar
-    heading:
-      my_inbox: Caixa de entrada
-      my_outbox: Caixa de saída
-      muted_messages: Mensagens silenciadas
     mark:
       as_read: Mensagem marcada como lida
       as_unread: Mensagem marcada como não lida
@@ -1947,6 +1903,52 @@ pt-PT:
       error: A mensagem não pôde ser movida para a caixa de entrada.
     destroy:
       destroyed: Mensagem eliminada
+    mailboxes:
+      heading:
+        my_inbox: Caixa de entrada
+        my_outbox: Caixa de saída
+        muted_messages: Mensagens silenciadas
+      messages_table:
+        from: De
+        to: Para
+        subject: Assunto
+        date: Data
+        actions: Ações
+      message:
+        unread_button: Marcar como não lida
+        read_button: Marcar como lida
+        destroy_button: Eliminar
+        unmute_button: Mover para caixa de entrada
+    inboxes:
+      show:
+        title: Caixa de Entrada
+        messages: Tens %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} mensagem nova'
+          other: '%{count} mensagens novas'
+        old_messages:
+          one: '%{count} mensagem antiga'
+          other: '%{count} mensagens antigas'
+        no_messages_yet_html: Ainda não tens mensagens. Porque não entras em contacto
+          com algumas %{people_mapping_nearby_link}?
+        people_mapping_nearby: pessoas que mapeiam perto de ti
+    muted_inboxes:
+      show:
+        title: Mensagens Silenciadas
+        messages:
+          one: '%{count} mensagem silenciada'
+          other: Tens %{count} mensagens silenciadas
+    outboxes:
+      show:
+        title: Caixa de saída
+        messages:
+          one: Tens %{count} mensagem enviada
+          other: Tens %{count} mensagens enviadas
+        no_sent_messages_html: Ainda não tens mensagens enviadas. Porque não entras
+          em contacto com algumas %{people_mapping_nearby_link}?
+        people_mapping_nearby: pessoas que mapeiam perto de ti
+      message:
+        destroy_button: Eliminar
   passwords:
     new:
       title: Palavra-passe esquecida
@@ -2925,6 +2927,27 @@ pt-PT:
     go_public:
       flash success: Todas as tuas edições são agora públicas e já podes começar a
         editar.
+    issued_blocks:
+      show:
+        title: Bloqueios por %{name}
+        heading_html: Lista de bloqueios feitos por %{name}
+        empty: '%{name} ainda não bloqueou ninguém.'
+    received_blocks:
+      show:
+        title: Bloqueios em %{name}
+        heading_html: Lista de bloqueios em %{name}
+        empty: '%{name} nunca foi bloqueado(a).'
+      edit:
+        title: A retirar o bloqueio de %{block_on}
+        heading_html: A retirar o bloqueio de %{block_on}
+        empty: '%{name} não tem bloqueios ativos.'
+        confirm: Tens a certeza de que queres revogar %{active_blocks}?
+        active_blocks:
+          one: '%{count} bloqueio ativo'
+          other: '%{count} bloqueios ativos'
+        revoke: Revogar!
+      destroy:
+        flash: Todos os bloqueios ativos foram revogados.
     lists:
       show:
         title: Utilizadores
@@ -3011,16 +3034,6 @@ pt-PT:
       title: Bloqueios do utilizador
       heading: Lista de bloqueios do utilizador
       empty: Ainda não foram feitos bloqueios.
-    revoke_all:
-      title: A retirar o bloqueio de %{block_on}
-      heading_html: A retirar o bloqueio de %{block_on}
-      empty: '%{name} não tem bloqueios ativos.'
-      confirm: Tens a certeza de que queres revogar %{active_blocks}?
-      active_blocks:
-        one: '%{count} bloqueio ativo'
-        other: '%{count} bloqueios ativos'
-      revoke: Revogar!
-      flash: Todos os bloqueios ativos foram revogados.
     helper:
       time_future_html: Termina em %{time}.
       until_login: Ativo até o utilizador iniciar sessão.
@@ -3052,14 +3065,6 @@ pt-PT:
         read_html: Lido em %{time}
         time_in_future_title: '%{time_absolute}; daqui a %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
-    blocks_on:
-      title: Bloqueios em %{name}
-      heading_html: Lista de bloqueios em %{name}
-      empty: '%{name} nunca foi bloqueado(a).'
-    blocks_by:
-      title: Bloqueios por %{name}
-      heading_html: Lista de bloqueios feitos por %{name}
-      empty: '%{name} ainda não bloqueou ninguém.'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading_html: '%{block_on} bloqueado por %{block_by}'
@@ -3207,8 +3212,6 @@ pt-PT:
       center_marker: Centrar o mapa no marcador
       paste_html: Colar HTML para incorporar na página web
       view_larger_map: Ver mapa maior
-      only_standard_layer: Só as camadas Padrão, de Ciclismo e de Transporte é que
-        podem ser exportadas como imagem
     embed:
       report_problem: Reportar um problema
     key:

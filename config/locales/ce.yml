@@ -1757,9 +1757,6 @@ ce:
       success: Хьайн аккаунт тӀечӀагӀйина, баркалла хьуна дӀаязвелла хиларна!
       already active: И аккаунт хӀинцале а тӀечӀагӀйина йу.
       unknown token: И тӀечӀагӀдаран код чекхъяьлла йа йолуш йац.
-      resend_html: Нагахь санна хьуна оха тӀечӀагӀдаран почта йуха дӀаяхьийта оьшуш
-        делахь, %{reconfirm_link}.
-      click_here: тӀетаӀайе кхузахь
     confirm_resend:
       failure: Декъашхо %{name} ца карийна.
     confirm_email:
@@ -1777,29 +1774,6 @@ ce:
         дохьуьйту, тӀаккха дехар ду ахь %{sender} хьан кӀайн тептаре язде, хӀунда
         аьлча тхан аьтто бац и санна дехаршна жоп дала.
   messages:
-    inbox:
-      title: ЧуйогӀурш
-      messages: Хьан %{new_messages} а, %{old_messages} а ду
-      new_messages:
-        one: '%{count} керла хаам'
-        other: '%{count} керла хаамаш'
-      old_messages:
-        one: '%{count} шира хаам'
-        other: '%{count} шира хаамаш'
-      no_messages_yet_html: Цкъачунна цхьа а хаам бац хьан. ХӀокхарца  %{people_mapping_nearby_link}
-        къамел да мегар дарий?
-      people_mapping_nearby: Карта хӀоттош нах бу уллехь
-    messages_table:
-      from: Хьаьнгара
-      to: Хьаьнга
-      subject: Тема
-      date: Терахь
-      actions: Дар
-    message_summary:
-      unread_button: Билгалйе ца йешна санна
-      read_button: Билгалйе йешна санна
-      destroy_button: ДӀайаккха
-      unmute_button: ДӀаяхийта Инбокс чу
     new:
       title: ДӀабахьийта хаам
       send_message_to_html: Керла хаам кхунга %{name} бахийта
@@ -1812,19 +1786,6 @@ ce:
       title: Иштта хаам бац
       heading: Иштта хаам бац
       body: Бехк ма билла цу ID-ца цхьа а хаам бац.
-    outbox:
-      title: ДӀайохьуьйтурш
-      messages:
-        one: Хьан %{count} дIабахийтина хаам
-        other: Хьан %{count} дIабахийтина хаамаш
-      no_sent_messages_html: Хьан цкъачунна дIакхехийтина хаамаш бац. ХӀокхарца %{people_mapping_nearby_link}
-        къамел да мегар дарий?
-      people_mapping_nearby: Карта хӀоттош нах бу уллехь
-    muted:
-      title: ДӀадаьхна хаамаш
-      messages:
-        one: '%{count} дӀабаькхина хаам'
-        other: You have %{count} дӀадаьхна хаамаш
     reply:
       wrong_user: Хьо чуваьлла `%{user}' санна, амма ахь жоп дала дехна хаам цу декъашхочуьнга
         ца баийтина. Дехар ду, нийса лелош верг санна чу вала, жоп даларна а.
@@ -1837,12 +1798,6 @@ ce:
       wrong_user: Хьо `%{user}' санна чуваьлла ву, амма ахь деша дехна хаам цу декъашхочо
         я цуьнга дӀа ца бахьийтина. Дехар ду, нийса лелош верг санна чу вала, иза
         ешара а.
-    sent_message_summary:
-      destroy_button: ДӀайаккха
-    heading:
-      my_inbox: Сан чудохурша
-      my_outbox: Сан дIадохитнарш
-      muted_messages: ДӀадаьхна хаамаш
     mark:
       as_read: Хаам баьшна аьлла билгалбаьккхина
       as_unread: Хаам ца баьшна аьлла билгалбаьккхина
@@ -1851,6 +1806,52 @@ ce:
       error: Хаам дӀа ца бахийтина "Чудохурша" чу.
     destroy:
       destroyed: Хаам дӀабаьккхина
+    mailboxes:
+      heading:
+        my_inbox: Сан чудохурша
+        my_outbox: Сан дIадохитнарш
+        muted_messages: ДӀадаьхна хаамаш
+      messages_table:
+        from: Хьаьнгара
+        to: Хьаьнга
+        subject: Тема
+        date: Терахь
+        actions: Дар
+      message:
+        unread_button: Билгалйе ца йешна санна
+        read_button: Билгалйе йешна санна
+        destroy_button: ДӀайаккха
+        unmute_button: ДӀаяхийта Инбокс чу
+    inboxes:
+      show:
+        title: ЧуйогӀурш
+        messages: Хьан %{new_messages} а, %{old_messages} а ду
+        new_messages:
+          one: '%{count} керла хаам'
+          other: '%{count} керла хаамаш'
+        old_messages:
+          one: '%{count} шира хаам'
+          other: '%{count} шира хаамаш'
+        no_messages_yet_html: Цкъачунна цхьа а хаам бац хьан. ХӀокхарца  %{people_mapping_nearby_link}
+          къамел да мегар дарий?
+        people_mapping_nearby: Карта хӀоттош нах бу уллехь
+    muted_inboxes:
+      show:
+        title: ДӀадаьхна хаамаш
+        messages:
+          one: '%{count} дӀабаькхина хаам'
+          other: You have %{count} дӀадаьхна хаамаш
+    outboxes:
+      show:
+        title: ДӀайохьуьйтурш
+        messages:
+          one: Хьан %{count} дIабахийтина хаам
+          other: Хьан %{count} дIабахийтина хаамаш
+        no_sent_messages_html: Хьан цкъачунна дIакхехийтина хаамаш бац. ХӀокхарца
+          %{people_mapping_nearby_link} къамел да мегар дарий?
+        people_mapping_nearby: Карта хӀоттош нах бу уллехь
+      message:
+        destroy_button: ДӀайаккха
   passwords:
     new:
       title: Пароль меттахӀоттор
@@ -2807,6 +2808,27 @@ ce:
     go_public:
       flash success: Хьан берриге а хийцамаш хӀинца массо а агӀор хьажа мегаш бу,
         хӀинца хийцамаш бан йиш йу хьан.
+    issued_blocks:
+      show:
+        title: '%{name} кхоьллина блокаш'
+        heading_html: '%{name} кхоьллина блокийн тептар'
+        empty: '%{name} цкъачунна цхьа а блок ца йина.'
+    received_blocks:
+      show:
+        title: Блокаш йу  %{name} тӀехь
+        heading_html: Декъашхочун %{name} блокийн тептар
+        empty: '%{name} цкъа а блок тоьхна вац.'
+      edit:
+        title: '%{block_on} тӀера ерриг блокаш йухаяхар'
+        heading_html: '%{block_on} тӀера ерриг блокаш йухаяхар'
+        empty: '%{name} жигара блокаш йац.'
+        confirm: Хьо тешна вуй хьайна %{active_blocks} йухаяккха лаьий?
+        active_blocks:
+          one: '%{count} жигара блок'
+          other: '%{count} жигара блокаш'
+        revoke: ДӀайаккха блок!
+      destroy:
+        flash: Массо а жигара блокаш йухаяьхна.
     lists:
       show:
         title: Декъашхой
@@ -2889,16 +2911,6 @@ ce:
       title: Декъашхочун блоктохар
       heading: Декъашхойн блокийн тептар
       empty: Цкъачунна а блокаш йина йац.
-    revoke_all:
-      title: '%{block_on} тӀера ерриг блокаш йухаяхар'
-      heading_html: '%{block_on} тӀера ерриг блокаш йухаяхар'
-      empty: '%{name} жигара блокаш йац.'
-      confirm: Хьо тешна вуй хьайна %{active_blocks} йухаяккха лаьий?
-      active_blocks:
-        one: '%{count} жигара блок'
-        other: '%{count} жигара блокаш'
-      revoke: ДӀайаккха блок!
-      flash: Массо а жигара блокаш йухаяьхна.
     helper:
       time_future_html: '%{time} йалча чекхйолу.'
       until_login: Активни йу, декъашхо системан чу валлалц.
@@ -2921,14 +2933,6 @@ ce:
         years:
           one: '%{count} шо'
           other: '%{count} шераш'
-    blocks_on:
-      title: Блокаш йу  %{name} тӀехь
-      heading_html: Декъашхочун %{name} блокийн тептар
-      empty: '%{name} цкъа а блок тоьхна вац.'
-    blocks_by:
-      title: '%{name} кхоьллина блокаш'
-      heading_html: '%{name} кхоьллина блокийн тептар'
-      empty: '%{name} цкъачунна цхьа а блок ца йина.'
     show:
       title: '%{block_on} декъашхо дӀакъевлина %{block_by}'
       heading_html: '%{block_on} декъашхо дӀакъевлина %{block_by}'
@@ -3060,8 +3064,6 @@ ce:
       center_marker: Маркер тӀехь карта йуккъе даккха
       paste_html: HTML-код веб-сайта чу дӀаязъян
       view_larger_map: Доккха картага хьажа
-      only_standard_layer: Стандартни, циклан карта а, транспортан а чкъоьраш бен
-        экспорт йан йиш йац сурт санна
     embed:
       report_problem: Проблемах лаьцна хаийта
     key:

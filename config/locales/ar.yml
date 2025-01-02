@@ -1745,9 +1745,6 @@ ar:
       success: تم تأكيد حسابك، شكرًا للاشتراك!
       already active: هذا الحساب سبق أن تم تأكيده.
       unknown token: رمز التأكيد انتهت صلاحيته أو غير موجود.
-      resend_html: إذا كنت تريد منا إعادة إرسال رسالة التأكيد عبر البريد الإلكتروني
-        ، %{reconfirm_link}.
-      click_here: انقر هنا
     confirm_resend:
       failure: المستخدم %{name} غير موجود.
     confirm_email:
@@ -1765,27 +1762,6 @@ ar:
         ، فيرجى التأكد من إدراج %{sender} في القائمة البيضاء حيث يتعذر علينا الرد
         على أي طلبات تأكيد.
   messages:
-    inbox:
-      title: الوارد
-      messages: لديك %{new_messages} و%{old_messages}
-      new_messages:
-        one: '%{count} رسالة جديدة'
-        other: '%{count} رسائل جديدة'
-      old_messages:
-        one: '%{count} رسالة قديمة'
-        other: '%{count} رسائل قديمة'
-      no_messages_yet_html: ليست لديك رسائل بعد، لماذا لا تقوم بالاتصال ببعض %{people_mapping_nearby_link}؟
-      people_mapping_nearby: مخططون في جواري
-    messages_table:
-      from: من
-      to: إلى
-      subject: الموضوع
-      date: التاريخ
-      actions: الإجراءات
-    message_summary:
-      unread_button: التعليم كغير مقروءة
-      read_button: التعليم كمقروءة
-      destroy_button: حذف
     new:
       title: أرسل رسالة
       send_message_to_html: أرسل رسالة جديدة إلى %{name}
@@ -1798,16 +1774,6 @@ ar:
       title: "\uFEFFلا توجد مثل هذه الرسالة"
       heading: "\uFEFFلا توجد مثل هذه الرسالة"
       body: عذرًا لا توجد رسالة بذلك المعرف.
-    outbox:
-      title: صندوق الصادر
-      messages:
-        one: لديك %{count} رسالة مبعوثة
-        other: لديك %{count} رسائل مبعوثة
-      no_sent_messages_html: ليست لديك رسائل مرسلة بعد، لماذا لا تقوم بالاتصال ببعض
-        %{people_mapping_nearby_link}؟
-      people_mapping_nearby: مخططون في جواري
-    muted:
-      title: الرسائل المخفية
     reply:
       wrong_user: لقد قمت بتسجيل الدخول باسم '%{user}' ولكن الرسالة التي طلبت الرد
         عليها لم يتم إرسالها إلى هذا المستخدم. يرجى تسجيل الدخول باسم المستخدم الصحيح
@@ -1821,11 +1787,6 @@ ar:
       wrong_user: لقد قمت بتسجيل الدخول باسم '%{user}' ولكن الرسالة التي طلبت قراءتها
         لم يتم إرسالها من قبل هذا المستخدم أو إليه. يرجى تسجيل الدخول باسم المستخدم
         الصحيح حتى تتمكن من قراءتها.
-    sent_message_summary:
-      destroy_button: حذف
-    heading:
-      my_inbox: الوارد
-      my_outbox: صندوق الصادر الخاص بي
     mark:
       as_read: عُلِّمت الرسالة كمقروءة
       as_unread: عُلِّمت الرسالة كغير مقروءة
@@ -1833,6 +1794,46 @@ ar:
       error: لم يتم نقل الرسالة إلى صندوق البريد
     destroy:
       destroyed: حُذِفت الرسالة
+    mailboxes:
+      heading:
+        my_inbox: الوارد
+        my_outbox: صندوق الصادر الخاص بي
+      messages_table:
+        from: من
+        to: إلى
+        subject: الموضوع
+        date: التاريخ
+        actions: الإجراءات
+      message:
+        unread_button: التعليم كغير مقروءة
+        read_button: التعليم كمقروءة
+        destroy_button: حذف
+    inboxes:
+      show:
+        title: الوارد
+        messages: لديك %{new_messages} و%{old_messages}
+        new_messages:
+          one: '%{count} رسالة جديدة'
+          other: '%{count} رسائل جديدة'
+        old_messages:
+          one: '%{count} رسالة قديمة'
+          other: '%{count} رسائل قديمة'
+        no_messages_yet_html: ليست لديك رسائل بعد، لماذا لا تقوم بالاتصال ببعض %{people_mapping_nearby_link}؟
+        people_mapping_nearby: مخططون في جواري
+    muted_inboxes:
+      show:
+        title: الرسائل المخفية
+    outboxes:
+      show:
+        title: صندوق الصادر
+        messages:
+          one: لديك %{count} رسالة مبعوثة
+          other: لديك %{count} رسائل مبعوثة
+        no_sent_messages_html: ليست لديك رسائل مرسلة بعد، لماذا لا تقوم بالاتصال ببعض
+          %{people_mapping_nearby_link}؟
+        people_mapping_nearby: مخططون في جواري
+      message:
+        destroy_button: حذف
   passwords:
     new:
       title: نسيان كلمة السر
@@ -2465,6 +2466,16 @@ ar:
       report: أبلغ عن هذا المستخدم
     go_public:
       flash success: جميع تعديلاتك الآن عامة، ومسموح لك بالتعديل الآن.
+    issued_blocks:
+      show:
+        title: العرقلات بواسطة %{name}
+        heading_html: لائحة العرقلات بواسطة %{name}
+        empty: '%{name} لم يقم بعد بأي عرقلة'
+    received_blocks:
+      show:
+        title: العرقلات على %{name}
+        heading_html: لائحة العرقلات على %{name}
+        empty: '%{name} لم يتم عرقلته بعد.'
     lists:
       show:
         title: المستخدمون
@@ -2574,14 +2585,6 @@ ar:
           few: سنين قليلة
           many: سنين كثيرة
           other: '%{count} سنوات'
-    blocks_on:
-      title: العرقلات على %{name}
-      heading_html: لائحة العرقلات على %{name}
-      empty: '%{name} لم يتم عرقلته بعد.'
-    blocks_by:
-      title: العرقلات بواسطة %{name}
-      heading_html: لائحة العرقلات بواسطة %{name}
-      empty: '%{name} لم يقم بعد بأي عرقلة'
     show:
       title: '%{block_on} عُرقل بواسطة %{block_by}'
       heading_html: '%{block_on} عُرقل بواسطة %{block_by}'
@@ -2668,7 +2671,6 @@ ar:
       center_marker: مركز الخريطة على العلامة
       paste_html: ألصق HTML لتضمينه في موقع ويب
       view_larger_map: عرض خريطة بحجم أكبر
-      only_standard_layer: يمكن تصدير الطبقات القياسية وخريطة الدورة والنقل فقط كصورة
     embed:
       report_problem: أبلغ عن مشكلة
     key:

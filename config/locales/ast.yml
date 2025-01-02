@@ -1313,27 +1313,6 @@ ast:
       failure: Yá se confirmó una direición de corréu electrónicu con esti token.
       unknown_token: El códigu de confirmación caducó o nun esiste.
   messages:
-    inbox:
-      title: Buzón
-      messages: Tienes %{new_messages} y %{old_messages}
-      new_messages:
-        one: '%{count} mensaxe nuevu'
-        other: '%{count} mensaxes nuevos'
-      old_messages:
-        one: '%{count} mensaxe vieyu'
-        other: '%{count} mensaxes vieyos'
-      no_messages_yet_html: Inda nun tienes mensaxes. ¿Y si te pones en contautu con
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: xente que ta mapeando cerca
-    messages_table:
-      from: De
-      to: Pa
-      subject: Asuntu
-      date: Data
-    message_summary:
-      unread_button: Marcar como non lleíu
-      read_button: Marcar como lleíu
-      destroy_button: Desaniciar
     new:
       title: Unviar mensaxe
       send_message_to_html: Unviar un mensaxe nuevu a %{name}
@@ -1346,14 +1325,6 @@ ast:
       title: Esi mensaxe nun esiste
       heading: Esi mensaxe nun esiste
       body: Nun hai dengún mensaxe con esa id.
-    outbox:
-      title: Buzón de salida
-      messages:
-        one: Tienes %{count} mensaxe unviáu
-        other: Tienes %{count} mensaxes unviaos
-      no_sent_messages_html: Inda nun unviasti mensaxes. ¿Y si te pones en contautu
-        con %{people_mapping_nearby_link}?
-      people_mapping_nearby: xente que ta mapeando cerca
     reply:
       wrong_user: Tas coneutáu como `%{user}' pero'l mensaxe que quies contestar nun
         s'unvió a esi usuariu. Anicia sesión col usuariu correchu pa contestar.
@@ -1365,15 +1336,47 @@ ast:
       back: Anterior
       wrong_user: Tas coneutáu como `%{user}' pero'l mensaxe que quies lleer nun s'unvió
         por o a esi usuariu. Anicia sesión col usuariu correchu pa contestar.
-    sent_message_summary:
-      destroy_button: Desaniciar
-    heading:
-      my_inbox: El mio buzón
     mark:
       as_read: Mensaxe marcáu como lleíu
       as_unread: Mensaxe marcáu como non lleíu
     destroy:
       destroyed: Mensaxe desaniciáu
+    mailboxes:
+      heading:
+        my_inbox: El mio buzón
+      messages_table:
+        from: De
+        to: Pa
+        subject: Asuntu
+        date: Data
+      message:
+        unread_button: Marcar como non lleíu
+        read_button: Marcar como lleíu
+        destroy_button: Desaniciar
+    inboxes:
+      show:
+        title: Buzón
+        messages: Tienes %{new_messages} y %{old_messages}
+        new_messages:
+          one: '%{count} mensaxe nuevu'
+          other: '%{count} mensaxes nuevos'
+        old_messages:
+          one: '%{count} mensaxe vieyu'
+          other: '%{count} mensaxes vieyos'
+        no_messages_yet_html: Inda nun tienes mensaxes. ¿Y si te pones en contautu
+          con %{people_mapping_nearby_link}?
+        people_mapping_nearby: xente que ta mapeando cerca
+    outboxes:
+      show:
+        title: Buzón de salida
+        messages:
+          one: Tienes %{count} mensaxe unviáu
+          other: Tienes %{count} mensaxes unviaos
+        no_sent_messages_html: Inda nun unviasti mensaxes. ¿Y si te pones en contautu
+          con %{people_mapping_nearby_link}?
+        people_mapping_nearby: xente que ta mapeando cerca
+      message:
+        destroy_button: Desaniciar
   passwords:
     new:
       title: Contraseña perdida
@@ -1885,6 +1888,16 @@ ast:
     go_public:
       flash success: Agora toles ediciones tuyes son públiques, y tienes permisu pa
         editar.
+    issued_blocks:
+      show:
+        title: Bloqueos fechos por %{name}
+        heading_html: Llista de los bloqueos por %{name}
+        empty: '%{name} entá nun fexo dengún bloquéu.'
+    received_blocks:
+      show:
+        title: Bloqueos fechos a %{name}
+        heading_html: Llista de los bloqueos a %{name}
+        empty: '%{name} inda nun foi bloquiáu.'
     lists:
       show:
         title: Usuarios
@@ -1974,14 +1987,6 @@ ast:
         years:
           one: 1 añu
           other: '%{count} años'
-    blocks_on:
-      title: Bloqueos fechos a %{name}
-      heading_html: Llista de los bloqueos a %{name}
-      empty: '%{name} inda nun foi bloquiáu.'
-    blocks_by:
-      title: Bloqueos fechos por %{name}
-      heading_html: Llista de los bloqueos por %{name}
-      empty: '%{name} entá nun fexo dengún bloquéu.'
     show:
       title: '%{block_on} bloquiáu por %{block_by}'
       heading_html: '%{block_on} bloquiáu por %{block_by}'
@@ -2053,7 +2058,6 @@ ast:
       center_marker: Centrar el mapa na marca
       paste_html: Pegar el HTML pa empotrar nun sitiu web
       view_larger_map: Ver mapa mayor
-      only_standard_layer: Sólo la capa estándar puede esportase como imaxen
     embed:
       report_problem: Informar d'un problema
     key:

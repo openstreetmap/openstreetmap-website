@@ -766,27 +766,6 @@ ka:
       heading: ელ. ფოსტის მისამართის ცვლილების დადასტურება
       button: დადასტურება
   messages:
-    inbox:
-      title: მიღებული
-      messages: თქვენ გაქვთ %{new_messages} და %{old_messages}
-      new_messages:
-        one: '%{count} ახალი შეტყობინება'
-        other: '%{count} ახალი შეტყობინება'
-      old_messages:
-        one: '%{count} ძველი შეტყობინება'
-        other: '%{count} ძველი შეტყობინება'
-      no_messages_yet_html: თქვენ ჯერ არ გაქვთ შეტყობინებები. რატომ არ უნდა გავესაუბრო
-        ვინმეს %{people_mapping_nearby_link}?
-      people_mapping_nearby: ახლოს მყოფი ხალხი
-    messages_table:
-      from: გამომგზავნი
-      to: ვის
-      subject: თემა
-      date: თარიღი
-    message_summary:
-      unread_button: მონიშნეთ როგორც წაუკითხავი
-      read_button: მონიშნეთ როგორც წაკითხული
-      destroy_button: წაშლა
     new:
       title: შეტყობინების გაგზავნა
       send_message_to_html: გაუგზავნეთ ახალი შეტყობინება %{name}
@@ -799,14 +778,6 @@ ka:
       title: ასეთი შეტყობინება არ არსებობს
       heading: ასეთი შეტყობინება არ არსებობს
       body: ბოდიშით, მაგრამ შეტყობინება ამ ID-ით არ არსებობს.
-    outbox:
-      title: გაგზავნილი
-      messages:
-        one: თქვენ გაქვთ %{count} გაგზავნილი შეტყობინება
-        other: თქვენ გაქვთ %{count} გაგზავნილი შეტყობინება
-      no_sent_messages_html: თქვენ ჯერ არ გაქვთ გაგზავნილი შეტყობინებები. რატომ არ
-        უნდა გავესაუბრო ვინმეს %{people_mapping_nearby_link}?
-      people_mapping_nearby: ახლოს მყოფი ხალხი
     reply:
       wrong_user: თქვენ შეხვედით როგორც `%{user}' მაგრამ პასუხი თქვენ კითხვაზე არ
         გაიგზავნა ამ მომხმარებელთან. გთხოვთ, შეხვიდეთ, როგორც შესაბამისი მოთხოვნის
@@ -818,15 +789,47 @@ ka:
       wrong_user: თქვენ შეხვედით როგორც `%{user}' მაგრამ შეტყობინება რომლის წაკითხვაც
         გსურთ, არ არის გაგზავნილი ამ მომხმარებელთან, ან მის მიერ. გთხოვთ, შეხვიდეთ,
         როგორც შესაბამისი მომხმარებელი, რათა წაიკითხოთ ის.
-    sent_message_summary:
-      destroy_button: წაშლა
-    heading:
-      my_inbox: ჩემი მიღებული
     mark:
       as_read: შეტყობინება მონიშნულია როგორც წაკითხული
       as_unread: შეტყობინება მონიშნულია როგორც წაუკითხავი
     destroy:
       destroyed: შეტყობინება წაშლილია
+    mailboxes:
+      heading:
+        my_inbox: ჩემი მიღებული
+      messages_table:
+        from: გამომგზავნი
+        to: ვის
+        subject: თემა
+        date: თარიღი
+      message:
+        unread_button: მონიშნეთ როგორც წაუკითხავი
+        read_button: მონიშნეთ როგორც წაკითხული
+        destroy_button: წაშლა
+    inboxes:
+      show:
+        title: მიღებული
+        messages: თქვენ გაქვთ %{new_messages} და %{old_messages}
+        new_messages:
+          one: '%{count} ახალი შეტყობინება'
+          other: '%{count} ახალი შეტყობინება'
+        old_messages:
+          one: '%{count} ძველი შეტყობინება'
+          other: '%{count} ძველი შეტყობინება'
+        no_messages_yet_html: თქვენ ჯერ არ გაქვთ შეტყობინებები. რატომ არ უნდა გავესაუბრო
+          ვინმეს %{people_mapping_nearby_link}?
+        people_mapping_nearby: ახლოს მყოფი ხალხი
+    outboxes:
+      show:
+        title: გაგზავნილი
+        messages:
+          one: თქვენ გაქვთ %{count} გაგზავნილი შეტყობინება
+          other: თქვენ გაქვთ %{count} გაგზავნილი შეტყობინება
+        no_sent_messages_html: თქვენ ჯერ არ გაქვთ გაგზავნილი შეტყობინებები. რატომ
+          არ უნდა გავესაუბრო ვინმეს %{people_mapping_nearby_link}?
+        people_mapping_nearby: ახლოს მყოფი ხალხი
+      message:
+        destroy_button: წაშლა
   passwords:
     new:
       title: პაროლის აღდგენა
@@ -985,6 +988,16 @@ ka:
       unhide_user: ამ მომხმარებლის გამოჩენა
       delete_user: ამ მომხმარებლის წაშლა
       confirm: დადასტურება
+    issued_blocks:
+      show:
+        title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
+        heading_html: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
+        empty: '%{name} ჯერ არანაირი ბლოკირება არ გაუკეთებია.'
+    received_blocks:
+      show:
+        title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
+        heading_html: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
+        empty: '%{name} ჯერ არასდროს არ ყოფილა დაბლოკილი.'
     lists:
       show:
         title: მომხმარებლები
@@ -1009,14 +1022,6 @@ ka:
         hours:
           one: 1 საათი
           other: '%{count} საათი'
-    blocks_on:
-      title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
-      heading_html: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
-      empty: '%{name} ჯერ არასდროს არ ყოფილა დაბლოკილი.'
-    blocks_by:
-      title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
-      heading_html: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
-      empty: '%{name} ჯერ არანაირი ბლოკირება არ გაუკეთებია.'
     show:
       title: '%{block_on}, დაადო ბლოკი: %{block_by}'
       heading_html: '%{block_on}, დაადო ბლოკი: %{block_by}'

@@ -1791,8 +1791,6 @@ is:
         þig.
       already active: Þessi notandaaðgangur hefur þegar verið staðfestur.
       unknown token: Þessi staðfestingarkóði er útrunninn eða er ekki til staðar.
-      resend_html: Ef þú vilt að við sendum þér staðfestingarpóstinn aftur, %{reconfirm_link}.
-      click_here: skaltu smella hér
     confirm_resend:
       failure: Notandinn %{name} fannst ekki.
     confirm_email:
@@ -1809,29 +1807,6 @@ is:
         ganga úr skugga um að um að þú setjjir %{sender} á lista yfir leyfða notendur
         þar sem við getum ekki svarað neinum staðfestingarbeiðnum.
   messages:
-    inbox:
-      title: Innhólf
-      messages: Þú átt %{new_messages} og %{old_messages}
-      new_messages:
-        one: '%{count} ný skilaboð'
-        other: '%{count} ný skilaboð'
-      old_messages:
-        one: '%{count} eldri skilaboð'
-        other: '%{count} eldri skilaboð'
-      no_messages_yet_html: Þú hefur ekki fengið nein skilboð. Hví ekki að hafa samband
-        við einhverja %{people_mapping_nearby_link}?
-      people_mapping_nearby: nálæga notendur
-    messages_table:
-      from: Frá
-      to: Til
-      subject: Viðfangsefni
-      date: Dagsetning
-      actions: Aðgerðir
-    message_summary:
-      unread_button: Merkja sem ólesin
-      read_button: Merkja sem lesin
-      destroy_button: Eyða
-      unmute_button: Færa í innhólf
     new:
       title: Senda skilaboð
       send_message_to_html: Senda skilaboð til %{name}
@@ -1844,19 +1819,6 @@ is:
       title: Engin slík skilaboð til
       heading: Engin slík skilaboð til
       body: Því miður er ekkert skilaboð með þetta auðkenni.
-    outbox:
-      title: Úthólf
-      messages:
-        one: Þú hefur sent %{count} skilaboð
-        other: Þú hefur sent %{count} skilaboð
-      no_sent_messages_html: Þú hefur enn ekki seint nein skilaboð, því ekki að hafa
-        samband við einhverja %{people_mapping_nearby_link}?
-      people_mapping_nearby: nálæga notendur
-    muted:
-      title: Þögguð skilaboð
-      messages:
-        one: '%{count} þögguð skilaboð'
-        other: Þú ert með %{count} þögguð skilaboð
     reply:
       wrong_user: Þú hefur skráð þig inn sem `%{user}' en skilaboðin sem þú baðst
         um að svara voru ekki send til þess notanda. Skráðu þig inn sem réttan notanda
@@ -1870,12 +1832,6 @@ is:
       wrong_user: Þú hefur skráð þig inn sem `%{user}' en skilaboðin sem þú baðst
         um að lesa voru ekki send af eða til þess notanda. Skráðu þig inn sem réttan
         notanda til að geta svarað.
-    sent_message_summary:
-      destroy_button: Eyða
-    heading:
-      my_inbox: Innhólfið mitt
-      my_outbox: Úthólfið mitt
-      muted_messages: Þögguð skilaboð
     mark:
       as_read: Skilaboðin voru merkt sem lesin
       as_unread: Skilaboðin voru merkt sem ólesin
@@ -1884,6 +1840,52 @@ is:
       error: Ekki var hægt að færa skilaboðin í innhólfið.
     destroy:
       destroyed: Skilaboðunum var eytt
+    mailboxes:
+      heading:
+        my_inbox: Innhólfið mitt
+        my_outbox: Úthólfið mitt
+        muted_messages: Þögguð skilaboð
+      messages_table:
+        from: Frá
+        to: Til
+        subject: Viðfangsefni
+        date: Dagsetning
+        actions: Aðgerðir
+      message:
+        unread_button: Merkja sem ólesin
+        read_button: Merkja sem lesin
+        destroy_button: Eyða
+        unmute_button: Færa í innhólf
+    inboxes:
+      show:
+        title: Innhólf
+        messages: Þú átt %{new_messages} og %{old_messages}
+        new_messages:
+          one: '%{count} ný skilaboð'
+          other: '%{count} ný skilaboð'
+        old_messages:
+          one: '%{count} eldri skilaboð'
+          other: '%{count} eldri skilaboð'
+        no_messages_yet_html: Þú hefur ekki fengið nein skilboð. Hví ekki að hafa
+          samband við einhverja %{people_mapping_nearby_link}?
+        people_mapping_nearby: nálæga notendur
+    muted_inboxes:
+      show:
+        title: Þögguð skilaboð
+        messages:
+          one: '%{count} þögguð skilaboð'
+          other: Þú ert með %{count} þögguð skilaboð
+    outboxes:
+      show:
+        title: Úthólf
+        messages:
+          one: Þú hefur sent %{count} skilaboð
+          other: Þú hefur sent %{count} skilaboð
+        no_sent_messages_html: Þú hefur enn ekki seint nein skilaboð, því ekki að
+          hafa samband við einhverja %{people_mapping_nearby_link}?
+        people_mapping_nearby: nálæga notendur
+      message:
+        destroy_button: Eyða
   passwords:
     new:
       title: Glatað lykilorð
@@ -2924,6 +2926,27 @@ is:
       report: Tilkynna þennan notanda
     go_public:
       flash success: Allar breytingar þínar eru nú opinberar, og þú getur breytt gögnum.
+    issued_blocks:
+      show:
+        title: Bönn eftir %{name}
+        heading_html: Bönn eftir %{name}
+        empty: '%{name} hefur ekki ennþá bannað einhvern.'
+    received_blocks:
+      show:
+        title: Bönn gegn %{name}
+        heading_html: Bönn gegn %{name}
+        empty: '%{name} hefur ekki verið bannaður.'
+      edit:
+        title: Eyði öllum bönnum á %{block_on}
+        heading_html: Eyði öllum bönnum á %{block_on}
+        empty: '%{name} er ekki með nein virk bönn.'
+        confirm: Ertu viss um að þú viljir aflétta %{active_blocks}?
+        active_blocks:
+          one: '%{count} virkt bann'
+          other: '%{count} virk bönn'
+        revoke: Afturkalla!
+      destroy:
+        flash: Öllum virkum bönnum hefur verið aflétt.
     lists:
       show:
         title: Notendur
@@ -3002,16 +3025,6 @@ is:
       title: Bönn
       heading: Listi yfir bönn
       empty: Enginn hefur verið bannaður enn.
-    revoke_all:
-      title: Eyði öllum bönnum á %{block_on}
-      heading_html: Eyði öllum bönnum á %{block_on}
-      empty: '%{name} er ekki með nein virk bönn.'
-      confirm: Ertu viss um að þú viljir aflétta %{active_blocks}?
-      active_blocks:
-        one: '%{count} virkt bann'
-        other: '%{count} virk bönn'
-      revoke: Afturkalla!
-      flash: Öllum virkum bönnum hefur verið aflétt.
     helper:
       time_future_html: Endar eftir %{time}
       until_login: Virkt þangað til notandinn skráir sig inn.
@@ -3034,14 +3047,6 @@ is:
         years:
           one: '%{count} ár'
           other: '%{count} ár'
-    blocks_on:
-      title: Bönn gegn %{name}
-      heading_html: Bönn gegn %{name}
-      empty: '%{name} hefur ekki verið bannaður.'
-    blocks_by:
-      title: Bönn eftir %{name}
-      heading_html: Bönn eftir %{name}
-      empty: '%{name} hefur ekki ennþá bannað einhvern.'
     show:
       title: Bann á %{block_on} eftir %{block_by}
       heading_html: Notandinn „%{block_on}“ var bannaður af „%{block_by}“
@@ -3173,8 +3178,6 @@ is:
       center_marker: Miðja kort á kortamerki
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
       view_larger_map: Skoða stærra kort
-      only_standard_layer: Eingöngu er hægt að flytja lögin Staðlað, Hjólakort og
-        Samgöngur út sem mynd
     embed:
       report_problem: Tilkynna vandamál
     key:

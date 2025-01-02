@@ -390,7 +390,7 @@ ja:
         way: ウェイ
         relation: リレーション
     containing_relation:
-      entry_role_html: リレーション %{relation_name} (%{relation_role} として)
+      entry_role_html: '%{relation_name} (%{relation_role} として)'
     not_found:
       title: 見つかりません
       sorry: '%{type} #%{id} は見つかりませんでした。'
@@ -869,7 +869,7 @@ ja:
           cowshed: 牛舎
           detached: 戸建て住宅
           dormitory: 寮
-          duplex: 2世帯住宅
+          duplex: 連棟式建物
           farm: 農舎
           farm_auxiliary: 農家の離れ
           garage: 車庫
@@ -1033,6 +1033,14 @@ ja:
           wayside_shrine: 路傍の神仏
           wreck: 沈没船
           "yes": 史跡
+        information:
+          guidepost: 道標
+          board: 案内板
+          map: 地図
+          office: 観光案内所
+          terminal: 情報端末
+          sign: 案内標識
+          stele: 案内標識柱
         junction:
           "yes": 交差点
         landuse:
@@ -1105,6 +1113,8 @@ ja:
           track: 陸上競技用トラック
           water_park: 親水公園
           "yes": レジャー
+        lock:
+          "yes": 閘門
         man_made:
           adit: 坑道
           advertising: 広告
@@ -1445,6 +1455,15 @@ ja:
           building_passage: ビルの通路
           culvert: 暗渠
           "yes": トンネル
+        water:
+          lake: 湖
+          pond: 池
+          reservoir: 貯水池
+          basin: 水槽
+          lagoon: 礁湖
+          wastewater: 浄化池
+          oxbow: 三日月湖
+          lock: 閘門
         waterway:
           artificial: 人工的な水路
           boatyard: ボートヤード
@@ -1724,8 +1743,6 @@ ja:
       success: アカウントを確認しました。登録ありがとうございます!
       already active: このアカウントは確認済みです。
       unknown token: この確認コードは期限切れ、または存在しません。
-      resend_html: 確認メールの再送信が必要な場合は、%{reconfirm_link}。
-      click_here: ここをクリック
     confirm_resend:
       failure: '%{name}というアカウントは登録されていません。'
     confirm_email:
@@ -1739,26 +1756,6 @@ ja:
       confirmation_sent: 新しい確認書を%{email}に送りましたので、アカウントを確認したらすぐにマッピングができるようになります。
       whitelist: 確認リクエストを送信するアンチスパムシステムを使用している場合は、確認リクエストに返信することができませんので、%{sender}をホワイトリストに登録してください。
   messages:
-    inbox:
-      title: 受信箱
-      messages: '%{new_messages}、%{old_messages}があります'
-      new_messages:
-        other: '%{count} 件の新着メッセージ'
-      old_messages:
-        other: '%{count} 件の古いメッセージ'
-      no_messages_yet_html: まだメッセージがありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
-      people_mapping_nearby: 近所でマッピングしている人々
-    messages_table:
-      from: 差出人
-      to: 宛先
-      subject: 件名
-      date: 日付
-      actions: 操作
-    message_summary:
-      unread_button: 未読にする
-      read_button: 既読にする
-      destroy_button: 削除
-      unmute_button: 受信箱へ移動
     new:
       title: メッセージの送信
       send_message_to_html: '%{name} への新規メッセージ送信'
@@ -1770,16 +1767,6 @@ ja:
       title: 存在しないメッセージです
       heading: 存在しないメッセージです
       body: 申し訳ありませんが、この ID のメッセージはありません。
-    outbox:
-      title: 送信箱
-      messages:
-        other: '%{count} 件の送信済みメッセージがあります'
-      no_sent_messages_html: 送信したメッセージはまだありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
-      people_mapping_nearby: 近所でマッピングしている人々
-    muted:
-      title: ミュートされたメッセージ
-      messages:
-        other: '%{count} 件のミュートされたメッセージがあります'
     reply:
       wrong_user: あなたは「%{user}」としてログインしていますが、返信しようとしたメッセージはこの利用者宛てではありません。返信するには、正しい利用者としてログインしてください。
     show:
@@ -1789,12 +1776,6 @@ ja:
       destroy_button: 削除
       back: 戻る
       wrong_user: あなたは「%{user}」としてログインしていますが、閲覧しようとしたメッセージは、この利用者が送信したものでも、この利用者宛てのものでもありません。メッセージを閲覧するには、正しい利用者としてログインしてください。
-    sent_message_summary:
-      destroy_button: 削除
-    heading:
-      my_inbox: 自分の受信箱
-      my_outbox: 自分の送信箱
-      muted_messages: ミュートされたメッセージ
     mark:
       as_read: 既読メッセージ
       as_unread: 未読メッセージ
@@ -1803,6 +1784,46 @@ ja:
       error: メッセージを受信箱に移動できませんでした。
     destroy:
       destroyed: メッセージを削除しました
+    mailboxes:
+      heading:
+        my_inbox: 自分の受信箱
+        my_outbox: 自分の送信箱
+        muted_messages: ミュートされたメッセージ
+      messages_table:
+        from: 差出人
+        to: 宛先
+        subject: 件名
+        date: 日付
+        actions: 操作
+      message:
+        unread_button: 未読にする
+        read_button: 既読にする
+        destroy_button: 削除
+        unmute_button: 受信箱へ移動
+    inboxes:
+      show:
+        title: 受信箱
+        messages: '%{new_messages}、%{old_messages}があります'
+        new_messages:
+          other: '%{count} 件の新着メッセージ'
+        old_messages:
+          other: '%{count} 件の古いメッセージ'
+        no_messages_yet_html: まだメッセージがありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
+        people_mapping_nearby: 近所でマッピングしている人々
+    muted_inboxes:
+      show:
+        title: ミュートされたメッセージ
+        messages:
+          other: '%{count} 件のミュートされたメッセージがあります'
+    outboxes:
+      show:
+        title: 送信箱
+        messages:
+          other: '%{count} 件の送信済みメッセージがあります'
+        no_sent_messages_html: 送信したメッセージはまだありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
+        people_mapping_nearby: 近所でマッピングしている人々
+      message:
+        destroy_button: 削除
   passwords:
     new:
       title: パスワードを忘れた
@@ -2623,6 +2644,16 @@ ja:
       report: この利用者を通報
     go_public:
       flash success: あなたの編集はすべて公開され、あなたは編集できるようになりました。
+    issued_blocks:
+      show:
+        title: '%{name} が行ったブロック'
+        heading_html: '%{name} によるブロックの一覧'
+        empty: '%{name} は一度もブロックしていません。'
+    received_blocks:
+      show:
+        title: '%{name} がされたブロック'
+        heading_html: '%{name} のブロックのリスト'
+        empty: '%{name} は一度もブロックされていません。'
     lists:
       show:
         title: 利用者
@@ -2704,14 +2735,6 @@ ja:
           other: '%{count}か月'
         years:
           other: '%{count}年'
-    blocks_on:
-      title: '%{name} がされたブロック'
-      heading_html: '%{name} のブロックのリスト'
-      empty: '%{name} は一度もブロックされていません。'
-    blocks_by:
-      title: '%{name} が行ったブロック'
-      heading_html: '%{name} によるブロックの一覧'
-      empty: '%{name} は一度もブロックしていません。'
     show:
       title: '%{block_by} が %{block_on} をブロックしました'
       heading_html: '%{block_by} が %{block_on} をブロックしました'
@@ -2822,7 +2845,6 @@ ja:
       center_marker: マーカーを地図の中心にする
       paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       view_larger_map: 大きな地図を表示
-      only_standard_layer: 標準、サイクリングマップ、交通マップレイヤーのみ画像としてエクスポートできます
     embed:
       report_problem: 問題を報告
     key:
