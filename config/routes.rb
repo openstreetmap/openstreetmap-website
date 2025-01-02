@@ -285,7 +285,8 @@ OpenStreetMap::Application.routes.draw do
     resource :deletion, :only => [:show]
   end
   resource :dashboard, :only => [:show]
-  resource :preferences, :only => [:show, :edit, :update]
+  resource :preferences, :only => [:show, :update]
+  get "/preferences/edit", :to => redirect(:path => "/preferences")
   resource :profile, :only => [:edit, :update]
 
   # friendships

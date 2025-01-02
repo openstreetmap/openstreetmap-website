@@ -11,7 +11,7 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
   def test_translated_links
     sign_in_as(create(:user))
 
-    visit edit_preferences_path
+    visit preferences_path
     fill_in "Preferred Languages", :with => "fr"
     click_on "Update Preferences"
 

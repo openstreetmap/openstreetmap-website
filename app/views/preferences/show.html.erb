@@ -2,36 +2,26 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
-<dl class="row">
-  <dt class="col-sm-4"><%= t ".preferred_editor" %></dt>
+<%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
+  <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{Settings.default_editor}.name")), "default"]] + Editors::AVAILABLE_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
 
-  <% if current_user.preferred_editor? %>
-    <dd class="col-sm-8"><%= t("editor.#{current_user.preferred_editor}.description") %></dd>
-  <% else %>
-    <dd class="col-sm-8"><%= t("editor.default", :name => t("editor.#{Settings.default_editor}.name")) %></dd>
-  <% end %>
+  <%= f.text_field :languages %>
 
-  <dt class="col-sm-4"><%= t ".preferred_languages" %></dt>
+  <div class="mb-3">
+    <%= label_tag "site_color_scheme", t(".preferred_site_color_scheme"), :class => "form-label" %>
+    <%= select_tag "site_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".site_color_schemes.#{scheme}"), scheme] },
+                                      preferred_color_scheme(:site)),
+                   :class => "form-select" %>
+  </div>
 
-  <dd class="col-sm-8">
-    <ul class="list-unstyled">
-      <% current_user.preferred_languages.each do |locale| %>
-        <li><%= locale %></li>
-      <% end %>
-    </ul>
-  </dd>
+  <div class="mb-3">
+    <%= label_tag "map_color_scheme", t(".preferred_map_color_scheme"), :class => "form-label" %>
+    <%= select_tag "map_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".map_color_schemes.#{scheme}"), scheme] },
+                                      preferred_color_scheme(:map)),
+                   :class => "form-select" %>
+  </div>
 
-  <dt class="col-sm-4"><%= t ".preferred_site_color_scheme" %></dt>
-  <dd class="col-sm-8">
-    <%= t ".site_color_schemes.#{preferred_color_scheme(:site)}" %>
-  </dd>
-
-  <dt class="col-sm-4"><%= t ".preferred_map_color_scheme" %></dt>
-  <dd class="col-sm-8">
-    <%= t ".map_color_schemes.#{preferred_color_scheme(:map)}" %>
-  </dd>
-</dl>
-
-<div>
-  <%= link_to t(".edit_preferences"), edit_preferences_path, :class => "btn btn-outline-primary" %>
-</div>
+  <%= f.primary t(".save") %>
+<% end %>
