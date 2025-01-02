@@ -311,7 +311,7 @@ OpenStreetMap::Application.routes.draw do
   get "/export/embed" => "export#embed"
 
   # messages
-  resources :messages, :id => /\d+/, :only => [:create, :show, :destroy] do
+  resources :messages, :path_names => { :new => "new/:display_name" }, :id => /\d+/, :only => [:new, :create, :show, :destroy] do
     post :mark
     patch :unmute
 
@@ -324,7 +324,7 @@ OpenStreetMap::Application.routes.draw do
   end
   get "/user/:display_name/inbox", :to => redirect(:path => "/messages/inbox")
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
-  get "/message/new/:display_name" => "messages#new", :as => "new_message"
+  get "/message/new/:display_name", :to => redirect(:path => "/messages/new/%{display_name}")
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
 
   # muting users
