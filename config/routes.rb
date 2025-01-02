@@ -315,7 +315,7 @@ OpenStreetMap::Application.routes.draw do
     post :mark
     patch :unmute
 
-    match :reply, :via => [:get, :post]
+    resource :reply, :module => :messages, :path_names => { :new => "new" }, :only => :new
   end
   namespace :messages, :path => "/messages" do
     resource :inbox, :only => :show
@@ -326,6 +326,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   get "/message/new/:display_name", :to => redirect(:path => "/messages/new/%{display_name}")
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
+  get "/messages/:message_id/reply", :to => redirect(:path => "/messages/%{message_id}/reply/new")
 
   # muting users
   scope "/user/:display_name" do
