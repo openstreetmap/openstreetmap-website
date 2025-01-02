@@ -2,6 +2,8 @@
 
 module Api
   class ChangesetsController < ApiController
+    include QueryMethods
+
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
     before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
@@ -30,7 +32,7 @@ module Api
       changesets = conditions_bbox(changesets, bbox)
       changesets = conditions_user(changesets, params["user"], params["display_name"])
       changesets = conditions_time(changesets, params["time"])
-      changesets = conditions_from_to(changesets, params["from"], params["to"])
+      changesets = query_conditions_time(changesets)
       changesets = conditions_open(changesets, params["open"])
       changesets = conditions_closed(changesets, params["closed"])
       changesets = conditions_ids(changesets, params["changesets"])
@@ -43,7 +45,7 @@ module Api
                    end
 
       # limit the result
-      changesets = changesets.limit(result_limit)
+      changesets = query_limit(changesets)
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
@@ -338,33 +340,6 @@ module Api
     end
 
     ##
-    # restrict changesets to those opened during a particular time period
-    # works similar to from..to of notes controller, including the requirement of 'from' when specifying 'to'
-    def conditions_from_to(changesets, from, to)
-      if from
-        begin
-          from = Time.parse(from).utc
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{from} is in a wrong format"
-        end
-
-        begin
-          to = if to
-                 Time.parse(to).utc
-               else
-                 Time.now.utc
-               end
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{to} is in a wrong format"
-        end
-
-        changesets.where(:created_at => from..to)
-      else
-        changesets
-      end
-    end
-
-    ##
     # return changesets which are open (haven't been closed yet)
     # we do this by seeing if the 'closed at' time is in the future. Also if we've
     # hit the maximum number of changes then it counts as no longer open.
@@ -401,20 +376,6 @@ module Api
       else
         ids = ids.split(",").collect(&:to_i)
         changesets.where(:id => ids)
-      end
-    end
-
-    ##
-    # Get the maximum number of results to return
-    def result_limit
-      if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_changeset_query_limit
-          params[:limit].to_i
-        else
-          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{Settings.max_changeset_query_limit}"
-        end
-      else
-        Settings.default_changeset_query_limit
       end
     end
   end
