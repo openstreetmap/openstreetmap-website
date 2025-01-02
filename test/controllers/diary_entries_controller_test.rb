@@ -130,8 +130,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try creating a diary entry using get
     session_for(create(:user))
     assert_difference "DiaryEntry.count", 0 do
-      get new_diary_entry_path(:commit => "save",
-                               :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+      get new_diary_entry_path(:diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                                  :longitude => "2.2", :language_code => "en" })
     end
     assert_response :success
@@ -143,8 +142,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     session_for(user)
     assert_no_difference "DiaryEntry.count" do
-      post diary_entries_path(:commit => "save",
-                              :diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
+      post diary_entries_path(:diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
                                                 :longitude => "2.2", :language_code => "en" })
     end
     assert_response :success
@@ -158,8 +156,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     session_for(user)
     assert_difference "DiaryEntry.count", 1 do
-      post diary_entries_path(:commit => "save",
-                              :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+      post diary_entries_path(:diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                                 :longitude => "2.2", :language_code => "en" })
     end
     assert_redirected_to :action => :index, :display_name => user.display_name
@@ -184,8 +181,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Now try creating a diary entry in a different language
     assert_difference "DiaryEntry.count", 1 do
-      post diary_entries_path(:commit => "save",
-                              :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+      post diary_entries_path(:diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                                 :longitude => "2.2", :language_code => "de" })
     end
     assert_redirected_to :action => :index, :display_name => user.display_name
@@ -213,8 +209,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Try creating a spammy diary entry
     assert_difference "DiaryEntry.count", 1 do
-      post diary_entries_path(:commit => "save",
-                              :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" })
+      post diary_entries_path(:diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" })
     end
     assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.last
@@ -284,8 +279,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     new_latitude = "1.1"
     new_longitude = "2.2"
     new_language_code = "en"
-    put diary_entry_path(entry.user, entry, :commit => "save",
-                                            :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
+    put diary_entry_path(entry.user, entry, :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
                                                               :longitude => new_longitude, :language_code => new_language_code })
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
 
