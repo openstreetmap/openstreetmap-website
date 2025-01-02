@@ -182,8 +182,6 @@ OpenStreetMap::Application.routes.draw do
   get "/key" => "site#key"
   get "/id" => "site#id"
   get "/query" => "browse#query"
-  get "/user/new" => "users#new"
-  post "/user/new" => "users#create"
   get "/user/terms" => "users#terms"
   post "/user/save" => "users#save"
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
@@ -269,7 +267,7 @@ OpenStreetMap::Application.routes.draw do
   post "/diary_comments/:comment/unhide" => "diary_comments#unhide", :comment => /\d+/, :as => :unhide_diary_comment
 
   # user pages
-  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy] do
+  resources :users, :path => "user", :param => :display_name, :only => [:new, :create, :show, :destroy] do
     resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
     scope :module => :users do
       resource :issued_blocks, :path => "blocks_by", :only => :show
