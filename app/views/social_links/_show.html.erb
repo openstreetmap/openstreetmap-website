@@ -1,0 +1,8 @@
+<% social_links.each do |social_link| %>
+  <p class="text-body-secondary">
+    <%= image_tag "/assets/social_link_icons/#{social_link.parsed[:platform].nil? ? 'other' : social_link.parsed[:platform]}.svg",
+                  :alt => social_link.parsed[:platform].nil? ? "other" : social_link.parsed[:platform],
+                  :class => "me-2" %>
+    <%= link_to social_link.parsed[:name], social_link.url, :class => "text-body-secondary", :rel => "nofollow me" %>
+  </p>
+<% end %>

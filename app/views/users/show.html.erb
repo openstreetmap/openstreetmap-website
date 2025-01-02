@@ -233,10 +233,15 @@
   </div>
 <% end %>
 
-<div class="richtext text-break clearfix"><%= @user.description.to_html %></div>
-
-<% if current_user and @user.id == current_user.id %>
-  <div class="my-3">
-    <%= link_to t(".edit_profile"), edit_profile_path, :class => "btn btn-outline-primary" %>
+<div class="row">
+  <div class="col-sm-3">
+    <%= render "social_links/show",
+               :social_links => @user.social_links %>
+    <% if current_user and @user.id == current_user.id %>
+      <div class="my-3">
+        <%= link_to t(".edit_profile"), edit_profile_path, :class => "btn btn-outline-primary" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+  <div class="col-sm-9 richtext text-break clearfix"><%= @user.description.to_html %></div>
+</div>

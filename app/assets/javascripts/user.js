@@ -225,4 +225,27 @@ $(document).ready(function () {
   $("#read_tou").on("click", function () {
     $("#continue").prop("disabled", !($(this).prop("checked") && $("#read_ct").prop("checked")));
   });
+
+  $("#add-social-link").click(function (event) {
+    event.preventDefault();
+    const newIndex = -(new Date().getTime());
+    const socialLinkForm = $(`
+      <div class="social-link-added-fields row mb-3">
+        <div class="col-sm-8">
+          <input class="form-control" type="text" name="user[social_links_attributes][${newIndex}][url]" id="user_social_links_attributes_${newIndex}_url">      
+        </div>
+        <button type="button" class="btn btn-outline-primary col-sm-1 align-self-start">${I18n.t("javascripts.profiles.edit.social_links.remove")}</button>
+      </div>
+    `);
+
+    socialLinkForm.find("button").click(function () {
+      $(this).parent().remove();
+    });
+
+    $("#social_links").append(socialLinkForm);
+  });
+
+  $(".social_link_destroy input[type='checkbox']").change(function () {
+    $(this).parent().parent().addClass("d-none");
+  });
 });
