@@ -37,7 +37,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_confirm_get
     user = build(:user, :pending)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -48,7 +48,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_get_already_confirmed
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     # Get the confirmation page
@@ -68,7 +68,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_success_no_token_no_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -81,7 +81,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_success_good_token_no_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -91,7 +91,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_success_bad_token_no_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -105,7 +105,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_success_no_token_with_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -118,7 +118,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_success_good_token_with_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
@@ -128,7 +128,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_success_bad_token_with_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -142,7 +142,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_expired_token
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     travel 2.weeks do
@@ -155,7 +155,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_already_confirmed
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
@@ -172,7 +172,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_deleted
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     User.find_by(:display_name => user.display_name).hide!
@@ -189,7 +189,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_confirm_resend_success
     user = build(:user, :pending)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
 
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
@@ -210,7 +210,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_confirm_resend_deleted
     user = build(:user, :pending)
-    post user_new_path, :params => { :user => user.attributes }
+    post users_path, :params => { :user => user.attributes }
 
     User.find_by(:display_name => user.display_name).hide!
 
