@@ -3,19 +3,11 @@
 # Export driver: phpyaml
 # Author: Dr Lotus Black
 # Author: Ninjastrikers
-# Author: Zyh333222
 # Author: ခွန်ပညာႏ(တောင်ႏကီꩻ)
 # Author: သူထွန်း
 ---
 my:
-  time:
-    formats:
-      friendly: |-
-        %e %B %Y
-         at %H:%M
   helpers:
-    file:
-      prompt: ဖိုင်ရွေးပါ
     submit:
       diary_comment:
         create: သိမ်းရန်
@@ -29,9 +21,6 @@ my:
       client_application:
         create: မှတ်ပုံတင်ရန်
         update: မွမ်းမံ
-      oauth2_application:
-        create: မှတ်ပုံတင်ရန်
-        update: မွမ်းမံ
       trace:
         create: တင်ရန်
         update: ပြောင်းလဲမှုများကို သိမ်းရန်
@@ -41,6 +30,7 @@ my:
       friend: သူငယ်ချင်း
       language: ဘာသာစကား
       message: စာသား
+      notifier: အသိပေးသူ
       trace: သဲလွန်စ
       user: အသုံးပြုသူ
       user_preference: အသုံးပြုသူ အပြင်အဆင်
@@ -50,7 +40,7 @@ my:
         title: အကြောင်းအရာ
         latitude: လတ္တီကျု
         longitude: လောင်ဂျီကျု
-        language_code: ဘာသာစကား
+        language: ဘာသာစကား
       friend:
         user: အသုံးပြုသူ
         friend: သူငယ်ချင်း
@@ -117,37 +107,32 @@ my:
   editor:
     remote:
       name: အဝေး ထိန်းချုပ်
-  auth:
-    providers:
-      none: တစ်ခုမှမဟုတ်
-      google: ဂူဂဲလ်
-      facebook: ဖေ့ဘုတ်
-      wikipedia: ဝီကီပီးဒီးယား
   api:
     notes:
       comment:
         opened_at_html: '%{when} အကြာက ဖန်တီးခဲ့သည်'
-        commented_at_html: '%{when} အသစ်ပြင်ဆင်ထားတဲ့'
+        commented_at_html: '%{when} အကြာက မွမ်းမံခဲ့သည်'
       entry:
         comment: မှတ်ချက်
         full: မှတ်စု အပြည့်အစုံ
-  account:
-    deletions:
-      show:
-        confirm_delete: သေချာပါသလား
-        cancel: မလုပ်တော့ပါ
   accounts:
     edit:
-      title: အကောင့်ကို ပြင်ဆင်ရန်
       current email address: လက်ရှိ အီးမေးလ်လိပ်စာ
       save changes button: ပြောင်းလဲမှုများကို သိမ်းရန်
   browse:
+    created: ဖန်တီးလိုက်သည်
+    closed: ပိတ်လိုက်သည်
     version: ဗားရှင်း
     anonymous: အမည်မသိ
     no_comment: (မှတ်ချက် မရှိ)
     view_history: ရာဇဝင်ကြည့်ရန်
     view_details: အသေးစိပ် ကြည့်ရန်
     location: 'တည်နေရာ:'
+    changeset:
+      belongs_to: စာရေးသူ
+      comment: မှတ်ချက်များ (%{count})
+      join_discussion: ဆွေးနွေးရန် လော့အင်ဝင်ပါ
+      discussion: ဆွေးနွေးချက်
     relation:
       members: အဖွဲ့ဝင်များ
     not_found:
@@ -163,24 +148,29 @@ my:
       tags: အမည်တွဲများ
       wikidata_link: ဝီကီဒေတာပေါ်ရှိ %{page} item
       wikipedia_link: ဝီကီပီးဒီးယားပေါ်ရှိ %{page} ဆောင်းပါး
-  changeset_comments:
-    feeds:
-      comment:
-        commented_at_by_html: '%{user} က %{when} အကြာက မွမ်းမံခဲ့သည်'
+    note:
+      title: 'မှတ်စု: %{id}'
+      new_note: မှတ်စု အသစ်
+      description: ဖော်ပြချက်
+      hidden_title: 'ဝှက်ထားသော မှတ်စု #%{note_name}'
   changesets:
+    changeset_paging_nav:
+      showing_page: စာမျက်နှာ %{page}
+      next: ရှေ့ »
+      previous: « ယခင်က
     changeset:
+      anonymous: အမည်မသိ
       no_edits: (တည်းဖြတ်မှု မရှိ)
+    changesets:
+      id: အိုင်ဒီ
+      user: အသုံးပြုသူ
+      comment: မှတ်ချက်
+      area: ဧရိယာ
     index:
       load_more: ပိုမိုခေါ်ယူရန်
-      feed:
-        created: ဖန်တီးလိုက်သည်
-        closed: ပိတ်လိုက်သည်
-        belongs_to: စာရေးသူ
-    show:
-      discussion: ဆွေးနွေးချက်
-      join_discussion: ဆွေးနွေးရန် လော့အင်ဝင်ပါ
-      hide_comment: ဝှက်
-      unhide_comment: မဝှက်တော့ရန်
+  changeset_comments:
+    comment:
+      commented_at_by_html: '%{user} က %{when} အကြာက မွမ်းမံခဲ့သည်'
   dashboards:
     contact:
       km away: '%{count}ကီလိုမီတာ အကွာ'
@@ -212,9 +202,12 @@ my:
       report: ဤမှတ်ချက်ကို အစီရင်ခံတင်ပြရန်
     location:
       location: 'တည်နေရာ:'
-  diary_comments:
-    page:
+      view: ကြည့်ရန်
+      edit: ပြင်ဆင်ရန်
+    comments:
       comment: မှတ်ချက်
+      newer_comments: ပိုသစ်သော မှတ်ချက်များ
+      older_comments: ပိုဟောင်းသော မှတ်ချက်များ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -258,9 +251,7 @@ my:
           grave_yard: သုဿန်
           hospital: ဆေးရုံ
           ice_cream: ရေခဲမုန့်
-          internet_cafe: အင်တာနက်ကဖေး
           kindergarten: မူလတန်းကျောင်း
-          language_school: ဘာသာစကားကျောင်း
           library: စာကြည့်တိုက်
           marketplace: စျေးတန်း
           monastery: ဘုန်းကြီးကျောင်း
@@ -291,8 +282,6 @@ my:
           viaduct: တောင်ကြားလမ်း
           "yes": တံတား
         building:
-          house: အိမ်
-          roof: ခေါင်မိုး
           "yes": အဆောက်ဦး
         craft:
           brewery: ဘီယာချက်စက်ရုံ
@@ -359,7 +348,6 @@ my:
           embankment: တာရိုး
           lighthouse: မီးပြတိုက်
           pipeline: ပိုက်လိုင်း
-          telescope: အဝေးကြည့်မှန်ပြောင်း
           tower: မျှော်စင်
           watermill: ရေဒလက်စက်
           water_well: ရေတွင်း
@@ -462,23 +450,28 @@ my:
           dam: တမံ
           river: မြစ်
           waterfall: ရေတံခွန်
+      types:
+        cities: မြို့များ
+        towns: မြို့များ
+        places: နေရာများ
     results:
       no_results: မည်သည့်ရလဒ်မျှ မရပါ
       more_results: ရလဒ်များ ပို၍
   issues:
     index:
       search: ရှာဖွေရန်
-      states:
-        ignored: လျစ်လျူရှု
-        open: ဖွင့်ပါ
-    page:
       user_not_found: အသုံးပြုသူ မတည်ရှိပါ
       status: အခြေအနေ
       reports: အစီရင်ခံစာများ
       last_updated: နောက်ဆုံး မွမ်းမံခဲ့သည်
+      last_updated_time_html: <abbr title='%{title}'>%{time} အကြာက</abbr>
+      link_to_reports: အစီရင်ခံစာများကို ကြည့်ရန်
       reports_count:
         one: 1 အစီရင်ခံစာ
         other: '%{count} အစီရင်ခံစာများ'
+      states:
+        ignored: လျစ်လျူရှု
+        open: ဖွင့်ပါ
     show:
       ignore: လျစ်လျူရှု
       read_reports: အစီရင်ခံစာများ ဖတ်ရှုရန်
@@ -504,20 +497,28 @@ my:
     home: အိမ်တည်နေရာသို့ သွားရန်
     logout: ထွက်ရန်
     log_in: အကောင့်ဝင်ရန်
+    log_in_tooltip: ရှိနှင့်ပြီးသား အကောင့်တစ်ခုနှင့်ဝင်ရန်
     sign_up: မှတ်ပုံတင်ရန်
     start_mapping: မြေပုံ စတင်ရေးဆွဲရန်
+    sign_up_tooltip: တည်းဖြတ်ရန် အကောင့်တစ်ခု ဖန်တီးပါ
     edit: ပြင်ဆင်
     history: ရာဇဝင်
     export: တင်ပို့ရန်
+    data: ဒေတာ
     gps_traces: ဂျီပီအက်စ်ခြေရာများ
     user_diaries: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများ
+    user_diaries_tooltip: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများကို ကြည့်ရန်
     edit_with: '%{editor} ဖြင့် ပြင်ဆင်ရန်'
-    intro_header: OpenStreetMap မှ ကြိုဆိုပါ၏
-    partners_fastly: မြန်မြန်ဆန်ဆန်
+    intro_header: OpenHistoricalMap မှ ကြိုဆိုပါ၏
     tou: အသုံးပြုခြင်းဆိုင်ရာ သတ်မှတ်ချက်များ
     help: အ​ကူ​အ​ညီ​
     about: အကြောင်း
     copyright: မူပိုင်ခွင့်
+    community: အသိုက်အဝိုင်း
+    community_blogs: အသိုက်အဝိုင်း ဘလော့များ
+    foundation: ဖောင်ဒေးရှင်း
+    make_a_donation:
+      text: အလှူတစ်ခု ပြုလုပ်ရန်
     learn_more: ပိုမို လေ့လာရန်
     more: ပို၍
   user_mailer:
@@ -536,6 +537,7 @@ my:
       greeting: ဟိုင်း၊
     changeset_comment_notification:
       hi: ဟိုင်း %{to_user}၊
+      greeting: ဟိုင်း၊
   confirmations:
     confirm:
       heading: သင်၏အီးမေးလ်ကို စစ်ဆေးရန်
@@ -547,16 +549,17 @@ my:
   messages:
     inbox:
       title: အဝင်စာ
-    messages_table:
       from: မှ
-      to: သို့
       subject: အကြောင်းအရာ
       date: နေ့စွဲ
     message_summary:
       read_button: ဖတ်ပြီးကြောင်း မှတ်သားရန်
+      reply_button: အကြောင်းပြန်ရန်
       destroy_button: ဖျက်​ပါ​
     new:
       title: မက်ဆေ့ ပို့ရန်
+      subject: အကြောင်းအရာ
+      body: စာကိုယ်
     create:
       message_sent: မက်ဆေ့ ပို့လိုက်ပြီ
     no_such_message:
@@ -564,33 +567,52 @@ my:
       heading: ယင်းကဲ့သို့မက်ဆေ့မရှိပါ
     outbox:
       title: အထွက်စာ
+      to: သို့
+      subject: အကြောင်းအရာ
+      date: နေ့စွဲ
     show:
       title: မက်ဆေ့ ဖတ်ရန်
+      from: မှ
+      subject: အကြောင်းအရာ
+      date: နေ့စွဲ
       reply_button: အကြောင်းပြန်ရန်
       destroy_button: ဖျက်​ပါ​
       back: နောက်သို့
+      to: သို့
     sent_message_summary:
       destroy_button: ဖျက်​ပါ​
   passwords:
-    new:
+    lost_password:
       title: စကားဝှက် ပျောက်ဆုံးသွား
       heading: စကားဝှက် မေ့နေပါသလား
       email address: 'အီးမေး လိပ်စာ :'
       new password button: စကားဝှက်ကို ပြန်ချိန်ရန်
-    edit:
+    reset_password:
       title: စကားဝှက်ကို ပြန်ချိန်ရန်
       heading: '%{user} အတွက် စကားဝှက်ကို ပြန်ချိန်ရန်'
       reset: စကားဝှက်ကို ပြန်ချိန်ရန်
-    update:
       flash changed: သင့်စကားဝှက်ကို ပြောင်းလဲပြီးပါပြီ
   sessions:
     new:
-      tab_title: အကောင့်ထဲဝင်ရန်
+      title: အကောင့်ထဲဝင်ရန်
+      heading: အကောင့်ထဲဝင်ရန်
       email or username: အီးမေးလ်လိပ်စာ သို့မဟုတ် အသုံးပြုသူအမည်
       password: စကားဝှက်
+      openid_html: '%{logo} OpenID:'
       remember: မိမိကို မှတ်မိပါ
       lost password link: စကားဝှက် မေ့နေသလား။
       login_button: အကောင့်ထဲဝင်ရန်
+      register now: အခုပဲ မှတ်ပုံတင်ရန်
+      no account: အကောင့် မရှိဘူးလား။
+      auth_providers:
+        google:
+          title: ဂူဂဲလ်ဖြင့် အကောင့်ထဲဝင်ရန်
+        facebook:
+          title: ဖေ့ဘုတ်ဖြင့် အကောင့်ထဲဝင်ရန်
+          alt: ဖေ့ဘုတ်အကောင့်ဖြင့် အကောင့်ထဲဝင်ရန်
+        wikipedia:
+          title: ဝီကီပီးဒီးယားဖြင့် အကောင့်ထဲဝင်ရန်
+          alt: ဝီကီပီးဒီးယားအကောင့်ဖြင့် အကောင့်ထဲဝင်ရန်
     destroy:
       title: အကောင့်မှပြန်ထွက်
       logout_button: အကောင့်မှပြန်ထွက်
@@ -601,24 +623,24 @@ my:
     richtext_field:
       edit: ပြင်ဆင်ရန်
       preview: ကြိုတင်အစမ်းကြည့်ရှုရန်
-    pagination:
-      diary_comments:
-        older: ပိုဟောင်းသော မှတ်ချက်များ
-        newer: ပိုသစ်သော မှတ်ချက်များ
   site:
     about:
+      next: ရှေ့
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br> ပံ့ပိုးသူများ
       local_knowledge_title: ဒေသန္တရ ဗဟုသုတ
       legal_title: တရားဝင်
       partners_title: လုပ်ဖော်ကိုင်ဖက်များ
     copyright:
-      title: မူပိုင်ခွင့်နှင့် လိုင်စင်
       foreign:
         title: ဤဘာသာပြန်အကြောင်း
       native:
         title: ဤစာမျက်နှာအကြောင်း
         mapping_link: မြေပုံ စတင်ရေးဆွဲရန်
       legal_babble:
+        title_html: မူပိုင်ခွင့်နှင့် လိုင်စင်
         contributors_title_html: မိမိတို့၏ ပံ့ပို့ပေးသူများ
+    index:
+      permalink: ပုံသေလိပ်စာ
     edit:
       user_page_link: အသုံးပြုသူ စာမျက်နှာ
     export:
@@ -627,21 +649,26 @@ my:
       too_large:
         other:
           title: အခြားရင်းမြစ်များ
+      options: ရွေးပိုင်ခွင့်
+      image_size: ရုပ်ပုံ အရွယ်အစား
+      zoom: ချုံ့/ချဲ့ကြည့်ရန်
+      latitude: 'လတ္တီ:'
+      longitude: 'လောင်ဂျီ:'
       export_button: တင်ပို့ရန်
     fixthemap:
       how_to_help:
         title: မည်ကဲ့သို့ ကူညီမည်
     help:
-      welcomemat:
-        title: အဖွဲ့အစည်းများအတွက်
       wiki:
         title: wiki.openstreetmap.org
     any_questions:
       title: မေးစရာ ရှိသေးလား
     sidebar:
       search_results: ရှာဖွေမှု ရလာဒ်များ
+      close: ပိတ်ရန်
     search:
       search: ရှာဖွေရန်
+      get_directions: လမ်းကြောင်းများ ရယူရန်
       from: မှ
       to: သို့
       submit_text: သွားပါ
@@ -652,13 +679,16 @@ my:
           bridleway: မြင်းစီးလမ်း
           cycleway: စက်ဘီးသွားလမ်း
           rail: ရထားလမ်း
-          runway: လေယာဉ်ကွင်းပြေးလမ်း
+          runway:
+          - လေယာဉ်ကွင်းပြေးလမ်း
           forest: သစ်တော
           park: ပန်းခြံ
-          lake: ရေကန်
+          lake:
+          - ရေကန်
           cemetery: သုဿန်
-          school: ကျောင်း
-          university: တက္ကသိုလ်
+          school:
+          - ကျောင်း
+          - တက္ကသိုလ်
           station: ရထားဘူတာ
           construction: ဖောက်နေဆဲ လမ်းများ
           toilets: အိမ်သာများ
@@ -667,12 +697,10 @@ my:
       rules:
         title: စည်းကမ်းချက်များ
       start_mapping: မြေပုံ စတင်ရေးဆွဲရန်
-    communities:
-      other_groups:
-        title: အခြားအုပ်စုများ
   traces:
     new:
       visibility_help: ဒါက ဘာကိုဆိုလိုတာပါလိမ့်
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: အ​ကူ​အ​ညီ​
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     edit:
@@ -682,28 +710,27 @@ my:
       edit: ပြင်ဆင်
       owner: 'ပိုင်ဆိုင်သူ:'
       description: 'ဖော်ပြချက်:'
+    trace_paging_nav:
+      showing_page: စာမျက်နှာ %{page}
     trace:
       more: ပို၍
       view_map: မြေပုံကို ကြည့်ရန်
       edit_map: မြေပုံကို တည်းဖြတ်ရန်
-  application:
-    auth_providers:
-      google:
-        title: ဂူဂဲလ်ဖြင့် အကောင့်ထဲဝင်ရန်
-      facebook:
-        title: ဖေ့ဘုတ်ဖြင့် အကောင့်ထဲဝင်ရန်
-        alt: ဖေ့ဘုတ်အကောင့်ဖြင့် အကောင့်ထဲဝင်ရန်
-      wikipedia:
-        title: ဝီကီပီးဒီးယားဖြင့် အကောင့်ထဲဝင်ရန်
-        alt: ဝီကီပီးဒီးယားအကောင့်ဖြင့် အကောင့်ထဲဝင်ရန်
+  oauth_clients:
+    show:
+      confirm: သေချာပါသလား
   users:
     new:
       title: မှတ်ပုံတင်ရန်
+      email address: 'အီးမေး လိပ်စာ :'
+      confirm email address: 'အီးမေးလ်ကို အတည်ပြုပါ:'
+      display name: ဖော်ပြမည့်အမည်
       continue: မှတ်ပုံတင်ရန်
     terms:
       title: သတ်မှတ်ချက်များ
       heading: သတ်မှတ်ချက်များ
       continue: ဆက်လက်
+      decline: ငြင်းပယ်ရန်
       legale_select: 'နေထိုင်ရာ နိုင်ငံ:'
       legale_names:
         france: ပြင်သစ်
@@ -714,6 +741,8 @@ my:
       notes: မြေပုံ မှတ်စုများ
       email address: 'အီးမေးလ် လိပ်စာ:'
       status: 'အခြေအနေ:'
+      description: ဖော်ပြချက်
+      user location: အသုံးပြုသူ တည်နေရာ
       role:
         administrator: ဤအသုံးပြုသူသည် အက်ဒမိန်တစ်ဦးဖြစ်သည်
       comments: မှတ်ချက်များ
@@ -722,6 +751,11 @@ my:
     index:
       title: အသုံးပြုသူများ
       heading: အသုံးပြုသူများ
+  user_role:
+    grant:
+      confirm: အတည်ပြု
+    revoke:
+      confirm: အတည်ပြု
   user_blocks:
     helper:
       block_duration:
@@ -739,26 +773,22 @@ my:
           other: '%{count} နှစ်'
     show:
       status: အခြေအနေ
+      show: ပြ
       edit: ပြင်ဆင်
+      confirm: သေချာပါသလား
     block:
       show: ပြသရန်
       edit: ပြင်ဆင်ရန်
-    page:
+    blocks:
       creator_name: ဖန်တီးသူ
       status: အခြေအနေ
+      showing_page: စာမျက်နှာ %{page}
+      next: ရှေ့ »
+      previous: « ယခင်က
   notes:
     index:
       creator: ဖန်တီးသူ
       description: ဖော်ပြချက်
-    show:
-      title: 'မှတ်စု: %{id}'
-      description: ဖော်ပြချက်
-      hidden_title: 'ဝှက်ထားသော မှတ်စု #%{note_name}'
-      hide: ဝှက်ရန်
-    new:
-      title: မှတ်စု အသစ်
-    notes_paging_nav:
-      showing_page: စာမျက်နှာ %{page}
   javascripts:
     close: ပိတ်ရန်
     share:
@@ -767,6 +797,13 @@ my:
       image: ရုပ်ပုံ
       long_link: လင့်
       download: ဒေါင်းလုဒ်
+    changesets:
+      show:
+        hide_comment: ဝှက်
+        unhide_comment: မဝှက်တော့ရန်
+    notes:
+      show:
+        hide: ဝှက်ရန်
     directions:
       distance: အကွာအဝေး
       time: အချိန်

@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abijeet Patro
-# Author: Abijeet Patro - Normal
 # Author: Ansumang
 # Author: AnupamM
 # Author: Bhatakati aatma
@@ -10,7 +9,6 @@
 # Author: Contrapunctus
 # Author: Danieldegroot2
 # Author: Innocentbunny
-# Author: McDutchie
 # Author: Nitin1485
 # Author: Prong$31
 # Author: Rajatkatiyar10
@@ -18,7 +16,6 @@
 # Author: Sfic
 # Author: Shubhamkanodia
 # Author: Siddhartha Ghai
-# Author: Suyash.dwivedi
 # Author: ThisIsACreeper0101
 # Author: Vdhatterwal
 # Author: पदाति
@@ -32,7 +29,7 @@ hi:
       prompt: फाइल चुनें
     submit:
       diary_comment:
-        create: टिप्पणी
+        create: सहेजें
       diary_entry:
         create: प्रकाशित करें
         update: सुधारें
@@ -43,7 +40,7 @@ hi:
       client_application:
         create: खाता बनाएं
         update: अपडेट करें
-      oauth2_application:
+      doorkeeper_application:
         create: खाता बनाएं
         update: अद्यतनित करें
       redaction:
@@ -56,6 +53,10 @@ hi:
         create: ब्लॉक बनाएँ
         update: ब्लॉक को अपडेट करें
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: 'यह ई-मेल ऐड्रेस संभवत: अमान्य है'
+        email_address_not_routable: रास्ता बनाने लायक नहीं है
     models:
       acl: अभिगम नियंत्रण सूची
       changeset: बदलाव
@@ -69,6 +70,7 @@ hi:
       message: संदेश
       node: बिंदु
       node_tag: आसंधि का अंकितक
+      notifier: सूचनाकार
       old_node: पुराना बिंदु
       old_node_tag: पुराने आसंधि का अंकितक
       old_relation: पुराना संबंध
@@ -109,14 +111,11 @@ hi:
       diary_entry:
         user: सदस्य
         title: विषय
-        body: मुख्यभाग
         latitude: अक्षांश
         longitude: देशांतर
-        language_code: भाषा
+        language: भाषा
       doorkeeper/application:
         name: नाम
-        redirect_uri: यूआरआई को पुनर्निर्देशित करें
-        confidential: गोपनीय आवेदन?
         scopes: अनुमतियां
       friend:
         user: सदस्य
@@ -145,24 +144,16 @@ hi:
         category: अपने रिपोर्ट का एक कारण दें
         details: कृपया अपनी समस्या के बारे में थोड़ी और जानकारी दें (ज़रूरी)
       user:
-        auth_provider: प्रमाणीकरण प्रदाता
-        auth_uid: प्रमाणीकरण यूआईडी
         email: ई-मेल
-        new_email: नया ई-मेल पता
         active: सक्रिय
         display_name: प्रदर्शन नाम
-        description: प्रोफाइल विवरण
+        description: वर्णन
         home_lat: अक्षांश
-        home_lon: देशांतर
+        home_lon: देशान्तर
         languages: पसंदीदा भाषाएं
-        preferred_editor: पसंदीदा संपादक
         pass_crypt: पासवर्ड
         pass_crypt_confirmation: पासवर्ड कन्फर्म करें
     help:
-      doorkeeper/application:
-        confidential: एप्लिकेशन का उपयोग वहां किया जाएगा जहां क्लाइंट सीक्रेट को गोपनीय
-          रखा जा सकता है (देशी मोबाइल ऐप और सिंगल पेज ऐप गोपनीय नहीं हैं)
-        redirect_uri: प्रति यूआरआई एक पंक्ति का प्रयोग करें
       trace:
         tagstring: कॉमा डीलिमिट किया गया है
       user_block:
@@ -172,47 +163,45 @@ hi:
           सभी सदस्य इस समुदाय को पूरी तरह से नहीं समझ पाते, तो आसान शब्दों का इस्तेमाल
           करने की कोशिश करें।
         needs_view: क्या इस सदस्य को ब्लॉक के क्लियर होने से पहले लॉगइन करना होगा?
-      user:
-        new_email: (सार्वजनिक रूप से कभी प्रदर्शित नहीं किया गया)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: तकरीबन %{count} घंटा पहले
+        one: तकरीबन १ घंटा पहले
         other: तकरीबन %{count} घंटे पहले
       about_x_months:
-        one: तकरीबन %{count} महीना पहले
+        one: तकरीबन १ महीना पहले
         other: तकरीबन %{count} महीने पहले
       about_x_years:
-        one: तकरीबन %{count} साल पहले
+        one: तकरीबन १ साल पहले
         other: तकरीबन %{count} साल पहले
       almost_x_years:
-        one: करीब %{count} साल पहले
+        one: करीब १ साल पहले
         other: करीब %{count} साल पहले
       half_a_minute: करीब एक मिनट पहले
       less_than_x_seconds:
-        one: '%{count} सेकंड से कम समय पहले'
+        one: १ सेकंड से कम समय पहले
         other: '%{count} से कम समय पहले'
       less_than_x_minutes:
-        one: '%{count} मिनट से कम समय पहले'
+        one: १ मिनट से कम समय पहले
         other: '%{count} से कम समय पहले'
       over_x_years:
-        one: '%{count} साल से ज़यादा समय पहले'
+        one: १ साल से ज़यादा समय पहले
         other: less than %{count} सालों से ज़्यादा समय पहले
       x_seconds:
-        one: '%{count} सेकंड पहले'
+        one: १ सेकंड पहले
         other: '%{count} सेकंड पहले'
       x_minutes:
-        one: '%{count} मिनट पहले'
+        one: १ मिनट पहले
         other: '%{count} मिनट पहले'
       x_days:
-        one: '%{count} दिन पहले'
+        one: १ दिन पहले
         other: '%{count} दिन पहले'
       x_months:
-        one: '%{count} महीने पहले'
+        one: एक महीने पहले
         other: '%{count} महीने पहले'
       x_years:
-        one: '%{count} वर्ष पहले'
-        other: '%{count} वर्ष पहले'
+        one: १ साल पहले
+        other: '%{count} साल पहले'
   editor:
     default: डिफ़ॉल्ट (currently %{name})
     id:
@@ -224,9 +213,10 @@ hi:
   auth:
     providers:
       none: कुछ नहीं
+      openid: OpenID
       google: गूगल
       facebook: फेसबुक
-      microsoft: विन्डोज़ लाइव
+      microsoft: माइक्रोसॉफ्ट
       github: गिट्हब
       wikipedia: विकिपीडिया
   api:
@@ -259,23 +249,24 @@ hi:
         warning: चेतावनी! खाता हटाने की प्रक्रिया अंतिम है, और इसे वापस नहीं किया
           जा सकता है।
         delete_account: खाता हटायें
-        delete_introduction: 'आप नीचे दिए गए बटन का उपयोग करके अपना OpenStreetMap
+        delete_introduction: 'आप नीचे दिए गए बटन का उपयोग करके अपना OpenHistoricalMap
           खाता हटा सकते हैं। कृपया निम्नलिखित विवरणों पर ध्यान दें:'
         delete_profile: आपकी प्रोफ़ाइल जानकारी, जिसमें आपका अवतार, विवरण और घर का
           स्थान शामिल है, हटा दी जाएगी।
-        delete_display_name: 'आपका प्रदर्शन नाम हटा दिया जाएगा, और अन्य खातों द्वारा
-          इसका पुन: उपयोग किया जा सकता है।'
         confirm_delete: क्या आप निश्चित है?
         cancel: रद्द करें
   accounts:
     edit:
       public editing:
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: यह क्या है?
         disabled link text: मैं नक्षे में बदलाव क्यों नहीं कर पा रहा हूँ?
       contributor terms:
         link text: यह क्या है?
       save changes button: बदलाव सहेजें
   browse:
+    created: बनाया गया
+    closed: बंद किया गया
     version: संस्करण
     in_changeset: Changeset
     anonymous: अनामक
@@ -291,6 +282,25 @@ hi:
     view_history: इतिहास देखें
     view_details: जानकारी देखें
     location: 'स्थान:'
+    changeset:
+      title: 'Changeset: %{id}'
+      belongs_to: लेखक
+      node: बिंदु (%{count})
+      node_paginated: नोड (%{count} का %{x}-%{y})
+      way: रेखाएं (%{count})
+      way_paginated: रास्तें (%{count} का %{x}-%{y})
+      relation: सम्बन्ध (%{count})
+      relation_paginated: सम्बन्ध (%{count} के %{x}-%{y})
+      comment: जवाब (%{count})
+      changesetxml: Changeset XML
+      osmchangexml: osmChange XML
+      feed:
+        title: 'Changeset: %{id}'
+        title_comment: Changeset %{id} - %{comment}
+      join_discussion: चर्चा में भाग लेने के लिए लॉग इन करें
+      discussion: चर्चा
+      still_open: चेंजसेट अभी भी खुला - चेंजसेट के एक बार बंद होने के पश्चात चर्चा
+        होगी।
     node:
       title_html: 'बिंदु: %{name}'
       history_title_html: 'नोड इतिहास: %{name}'
@@ -362,26 +372,52 @@ hi:
       wikimedia_commons_link: विकिमीडिया कॉमन्स पर %{page} आइटम
       telephone_link: '%{phone_number} मिलाएं'
       colour_preview: रंग %{colour_value} का पूर्वावलोकन
+    note:
+      title: 'नोट: %{id}'
+      new_note: नया टिप
+      description: विवरण
+      open_title: 'अनसुलझा नोट #%{note_name}'
+      closed_title: 'सुलझा नोट #%{note_name}'
+      hidden_title: 'छिपाया नोट #%{note_name}'
+      opened_by_html: '%{user} द्वारा <abbr title=''%{exact_time}''>%{when}</abbr>
+        बनाया गया'
+      opened_by_anonymous_html: गुमनाम द्वारा <abbr title='%{exact_time}'>%{when}</abbr>
+        बनाया गया
+      commented_by_html: '%{user} से <abbr title=''%{exact_time}''>%{when}</abbr>
+        का कमेंट'
+      commented_by_anonymous_html: गुमनाम से <abbr title='%{exact_time}'>%{when}</abbr>
+        का कमेंट
+      closed_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} द्वारा सुलझाया
+        गया
+      closed_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> गुमनाम
+        द्वारा सुलझाया गया
+      reopened_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} द्वारा
+        फिर चालू किया गया
+      reopened_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> गुमनाम
+        द्वारा फिर चालू किया गया
+      hidden_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} द्वारा छिपाया
+        गया
+      report: इस नोट को रिपोर्ट करें
     query:
       title: क्वेरी की सुविधाएँ
       introduction: आस-पास की सुविधाओं के लिए नक़्शे पर क्लिक करें
       nearby: आस-पास की सुविधाएँ
       enclosing: पास की सुविधाएँ
-  changeset_comments:
-    feeds:
-      comment:
-        comment: '%{author} द्वारा #%{changeset_id} पर नया कमेंट'
-        commented_at_by_html: '%{user} द्वारा %{when} को अपडेट किया गया'
-      show:
-        title_all: ओपनस्ट्रीटमैप चेंजसेट चर्चा
-        title_particular: ओपनस्ट्रीटमैप चेंजसेट %{changeset_id} चर्चा
-      timeout:
-        sorry: माफ़ कीजिए, जिन चेंजसेट कमेंटों की आपने अनुरोध की थी उन्हें लाने में
-          कुछ ज़्यादा ही वक्त लग गया।
   changesets:
+    changeset_paging_nav:
+      showing_page: पृष्ठ %{page}
+      next: अगला »
+      previous: « पिछला
     changeset:
+      anonymous: अनाम
       no_edits: (कोई सम्पादन नहीं है)
       view_changeset_details: इस changeset के विवरण देखे
+    changesets:
+      id: आईडी
+      saved_at: समय जब सुरक्षित किया गया
+      user: सदस्य
+      comment: टिप्पणी
+      area: क्षेत्र
     index:
       title: चेंजसेट
       title_user: '%{user} द्वारा चेंजसेट'
@@ -394,31 +430,21 @@ hi:
       no_more_area: इस इलाके में और कोई चेंजसेट नहीं है।
       no_more_user: इस सदस्य द्वारा कोई चेंजसेट नहीं है।
       load_more: और पढ़ें
-      feed:
-        title: 'Changeset: %{id}'
-        title_comment: Changeset %{id} - %{comment}
-        created: बनाया गया
-        closed: बंद किया गया
-        belongs_to: लेखक
-    show:
-      title: 'Changeset: %{id}'
-      discussion: चर्चा
-      join_discussion: चर्चा में भाग लेने के लिए लॉग इन करें
-      still_open: चेंजसेट अभी भी खुला - चेंजसेट के एक बार बंद होने के पश्चात चर्चा
-        होगी।
-      comment: जवाब देना
-      changesetxml: Changeset XML
-      osmchangexml: osmChange XML
-    paging_nav:
-      nodes: बिंदु (%{count})
-      nodes_paginated: नोड (%{count} का %{x}-%{y})
-      ways: रेखाएं (%{count})
-      ways_paginated: रास्तें (%{count} का %{x}-%{y})
-      relations: सम्बन्ध (%{count})
-      relations_paginated: सम्बन्ध (%{count} के %{x}-%{y})
     timeout:
       sorry: माफ़ कीजिए, जिन चेंजसेट की आपने अनुरोध की थी उन्हें लाने में कुछ ज़्यादा
         ही वक्त लग गया।
+  changeset_comments:
+    comment:
+      comment: '%{author} द्वारा #%{changeset_id} पर नया कमेंट'
+      commented_at_by_html: '%{user} द्वारा %{when} को अपडेट किया गया'
+    comments:
+      comment: '%{author} द्वारा चेंजसेट %{changeset_id} पर नया कमेंट'
+    index:
+      title_all: ओपनस्ट्रीटमैप चेंजसेट चर्चा
+      title_particular: ओपनस्ट्रीटमैप चेंजसेट %{changeset_id} चर्चा
+    timeout:
+      sorry: माफ़ कीजिए, जिन चेंजसेट कमेंटों की आपने अनुरोध की थी उन्हें लाने में
+        कुछ ज़्यादा ही वक्त लग गया।
   dashboards:
     popup:
       friend: दोस्त
@@ -440,15 +466,15 @@ hi:
       new_title: अपने डायरी में एक नया एंट्री जोड़ें
       my_diary: मेरी डायरी
       no_entries: कोई डायरी एंट्री नहीं है
-    page:
       recent_entries: 'नई डायरी एंट्रियाँ:'
+      older_entries: पुरानी प्रविष्टियाँ
+      newer_entries: नवीनतम प्रविष्टियाँ
     edit:
       title: डायरी एंट्री को संपादित करें
       marker_text: डायरी एंट्री का स्थान
     show:
       title: '%{user} की डायरी | %{title}'
       user_title: '%{user}''s की डायरी'
-      discussion: चर्चा
       leave_a_comment: अपने विचार व्यक्त करें
       login_to_leave_a_comment_html: सत्रारंभ यहाँ %{login_link}, एक टिप्पणी लिखिने
         के लिए
@@ -477,6 +503,8 @@ hi:
       report: इस कमेंट को रिपोर्ट करें
     location:
       location: 'स्थान:'
+      view: देखें
+      edit: सम्पादित करें
     feed:
       user:
         title: '%{user} के लिए ओपनस्ट्रीटमैप डायरी एंट्री'
@@ -487,14 +515,12 @@ hi:
       all:
         title: ओपनस्ट्रीटमैप डायरी एंट्री
         description: ओपनस्ट्रीटमैप के सदस्यों से नई डायरी एंट्रियाँ
-  diary_comments:
-    page:
+    comments:
       post: पोस्ट
       when: कब
       comment: टिप्पणी
-  errors:
-    contact:
-      contact: संपर्क
+      newer_comments: नई प्रतिक्रियाएं
+      older_comments: पुरनी प्रतिक्रियाएं
   friendships:
     make_friend:
       heading: क्या आप %{user} को दोस्त बनाना चाहेते हैं?
@@ -508,9 +534,6 @@ hi:
       success: '%{name} अब आपके दोस्त नहीं हैं।'
       not_a_friend: '%{name} आपके दोस्त नहीं हैं।'
   geocoder:
-    search:
-      title:
-        latlon: अन्दरूनी
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -678,7 +701,6 @@ hi:
           dormitory: डॉरमिटरी
           duplex: डुप्लेक्स घर
           farm: फार्म घर
-          hangar: हैंगर
           house: घर
           roof: छत
           "yes": इमारत
@@ -720,7 +742,6 @@ hi:
           fort: किला
           house: घर
           manor: बंगला
-          stone: पत्थर
           tower: मिनार
           "yes": ऐतिहासिक स्थल
         landuse:
@@ -841,6 +862,7 @@ hi:
           wine: शराब की दुकान
           "yes": दुकान
         tourism:
+          gallery: गैलरी
           hostel: छात्रावास
           hotel: होटल
           information: जानकारी
@@ -852,6 +874,7 @@ hi:
           canal: नहर
           dam: बांध
           drain: नाली/नाला
+          lock: ताला
           river: नदी
           waterfall: झरना
       admin_levels:
@@ -860,16 +883,15 @@ hi:
         level8: शहर सीमा
         level9: गांव सीमा
         level10: इलाके की सीमा
+      types:
+        cities: नगर
+        towns: शहर
+        places: स्थल
   issues:
     index:
       title: समस्याएँ
       search: ढूंडें
-    page:
-      reported_user: रिपोर्ट किया गया उपयोगकर्ता
-      states:
-        ignored: अनदेखी की गई
-        open: खोलें
-        resolved: समाधान-प्राप्त
+      status: स्थिति
     show:
       resolve: समाधान करें
       ignore: अंदेखा करें
@@ -889,18 +911,22 @@ hi:
     home: गृह
     sign_up: खाता बनाएं
     start_mapping: नक्षा बनाना शुरू करें
+    sign_up_tooltip: संपादन के लिए खाता बनाएं
     edit: बदलें
     history: इतिहास
     export: निर्यात
     issues: समस्याएं
+    data: आँकड़े
     help: सहायता
+    community: समुदाय
+    foundation: संस्थान
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} ने एक दैनिकी पर प्रतिक्रिया दी'
+      subject: '[OpenHistoricalMap] %{user} ने एक दैनिकी पर प्रतिक्रिया दी'
     friendship_notification:
-      subject: '[OpenStreetMap] %{user} ने आपको अपने दोस्तों में शामिल किया है'
-      had_added_you: '%{user} ने आपको OpenStreetMap पर अपने दोस्तों में शामिल किया
-        है।'
+      subject: '[OpenHistoricalMap] %{user} ने आपको अपने दोस्तों में शामिल किया है'
+      had_added_you: '%{user} ने आपको OpenHistoricalMap पर अपने दोस्तों में शामिल
+        किया है।'
     note_comment_notification:
       greeting: नमस्कार,
   messages:
@@ -911,10 +937,10 @@ hi:
     destroy:
       destroyed: संदेश खात्मा
   passwords:
-    new:
+    lost_password:
       title: lost password
       new password button: Send me a new password
-    edit:
+    reset_password:
       title: reset password
   profiles:
     edit:
@@ -923,34 +949,16 @@ hi:
       delete image: इस तस्वीर को हटाएं
       replace image: इस तस्वीर की जगह दूसरी लगाएं
       home location: घर का स्थान
-      show: दिखाएँ
-      delete: हटाएँ
-  sessions:
-    new:
-      password: पासवर्ड
-      or: या
-  shared:
-    pagination:
-      diary_comments:
-        older: पुरनी प्रतिक्रियाएं
-        newer: नई प्रतिक्रियाएं
-      diary_entries:
-        older: पुरानी प्रविष्टियाँ
-        newer: नवीनतम प्रविष्टियाँ
-      issues:
-        older: पुरानी समस्याएं
-        newer: नए मुद्दे
   site:
     about:
-      legal_1_1_terms_of_use: उपयोग की शर्तें
-      legal_1_1_privacy_policy: गोपनीयता नीति
       partners_title: हमारे साथी
     copyright:
       legal_babble:
         contributors_title_html: हमारे योगदानकर्ता
-        contributors_rs_serbia: सर्बिया
     export:
+      area_to_export: क्षेत्र निर्यात करने के लिए
       manually_select: कृपया, आप एक अलग क्षेत्र चुनिए
+      format_to_export: स्वरूप निर्यात करने के लिए
       licence: लाइसेंस
     fixthemap:
       how_to_help:
@@ -958,13 +966,11 @@ hi:
         join_the_community:
           title: समुदाय से जुड़ें
     help:
-      community:
-        title: सामुदायिक फ़ोरम
-        description: OpenStreetMap के बारे में चर्चा के लिए सार्वजनिक स्थान।
       wiki:
         title: ओपनस्ट्रीटमैप विकि
     any_questions:
       title: कोई प्रश्न है?
+      get_help_here: यहां सहायता प्राप्त करें
     key:
       table:
         entry:
@@ -977,26 +983,33 @@ hi:
           footway: पगडंडी
           rail: रेलवे
           subway: उपमार्ग
-          bus: बस
-          cable_car: केबल कार
-          runway: एयरपोर्ट रनवे
+          cable:
+          - केबल कार
+          runway:
+          - एयरपोर्ट रनवे
           forest: वन
           wood: लकड़ी
-          grass: घास
-          sand: रेत
           golf: गोल्फ मैदान
           park: पार्क
           resident: रिहायशी क्षेत्र
           industrial: औद्योगिक क्षेत्र
-          lake: झील
+          lake:
+          - झील
           farm: खेत
           cemetery: कब्रिस्तान
           allotments: आवंटन
-          school: पाठशाला
-          university: विश्वविद्यालय
-          hospital: अस्पताल
+          school:
+          - पाठशाला
+          - विश्वविद्यालय
           building: महत्वपूर्ण भवन
           station: रेलवे स्टेशन
+    ohm_privacy_policy:
+      introduction:
+        title_html: परिचय
+      cookies:
+        title_html: कूकीज
+      contact:
+        title_html: संपर्क
   traces:
     new:
       visibility_help: इसका क्या मतलब है?
@@ -1005,9 +1018,9 @@ hi:
     show:
       tags: Tags
       visibility: दृष्टता
-  application:
-    auth_providers:
-      openid_login_button: जारी रखें
+  oauth_clients:
+    show:
+      key: उपभोक्ता कुंजी
   oauth2_applications:
     index:
       name: नाम
@@ -1019,19 +1032,12 @@ hi:
     new:
       deny: मना
   users:
-    new:
-      tab_title: साइन अप करें
-      support: सहायता
-      or: या
-    terms:
-      cancel: रद्द करें
     index:
       title: सदस्य
       heading: सदस्य
-      empty: ऐसे कोई सदस्य नहीं मिले
-    page:
       confirm: इन सदस्यों को चुनें
       hide: इन सदस्यों को न दिखाएं
+      empty: ऐसे कोई सदस्य नहीं मिले
     suspended:
       title: खाता निलंबित
       heading: खाता निलंबित
@@ -1044,36 +1050,29 @@ hi:
       created_at: 'निर्माण का समय:'
       last_changed: अंतिम परिवर्तन
     show:
-      title: 'नोट: %{id}'
-      description: विवरण
-      open_title: 'अनसुलझा नोट #%{note_name}'
-      closed_title: 'सुलझा नोट #%{note_name}'
-      hidden_title: 'छिपाया नोट #%{note_name}'
-      report: इस नोट को रिपोर्ट कर
-      hide: छुपाएँ
-      resolve: समाधान करें
-      reactivate: 'पुन: सक्रिय करें'
-      comment_and_resolve: टिप्पणी कर समाधान करें
-      comment: जवाब देना
-      report_link_html: अगर इस नोट में संवेदनशील जानकारी है जिसे हटाना उचित है, आप
-        %{link} सकते हैं। नोट से जुड़ी दूसरी समस्याओं के लिए कृपया एक टिप्पणी से उन्हें
-        सुलझाएँ।
-    new:
-      title: नया टिप
-      intro: अगर आपको कोई‌ गलती नज़र आई है, या नक्षे में कोई वस्तु मौजूद नहीं है,
-        तो आप इस बारे में अन्य नक्षाकारों को सूचित कर सकते हैं ताकि वे इसे ठीक कर
-        सकें। चिन्ह को सही जगह पर लाएं और समस्या का विवरण दें।
-      advice: आपका नोट सार्वजनिक है और मानचित्र को अपडेट करने के लिए उपयोग किया जा
-        सकता है, इसलिए निजी जानकारी दर्ज न करें या कॉपीराइट वाले नक्शे या निर्देशिका
-        सूची से जानकारी न दें।
-      add: नोट जोड़ें
-    notes_paging_nav:
-      showing_page: पृष्ठ %{page}
-      next: अगला
-      previous: पिछला
+      hide: छिपाएँ
+      comment: टिप्पणी
   javascripts:
     site:
       createnote_disabled_tooltip: नोट जोड़ने के लिए जूम इन करें
+    changesets:
+      show:
+        comment: जवाब देना
+    notes:
+      new:
+        intro: अगर आपको कोई‌ गलती नज़र आई है, या नक्षे में कोई वस्तु मौजूद नहीं है,
+          तो आप इस बारे में अन्य नक्षाकारों को सूचित कर सकते हैं ताकि वे इसे ठीक कर
+          सकें। चिन्ह को सही जगह पर लाएं और समस्या का विवरण दें।
+        advice: आपका नोट सार्वजनिक है और मानचित्र को अपडेट करने के लिए उपयोग किया
+          जा सकता है, इसलिए निजी जानकारी दर्ज न करें या कॉपीराइट वाले नक्शे या निर्देशिका
+          सूची से जानकारी न दें।
+        add: नोट जोड़ें
+      show:
+        hide: छुपाएँ
+        resolve: समाधान करें
+        reactivate: 'पुन: सक्रिय करें'
+        comment_and_resolve: टिप्पणी कर समाधान करें
+        comment: जवाब देना
     directions:
       directions: रास्ता
       distance: दूरी

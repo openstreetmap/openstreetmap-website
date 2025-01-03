@@ -25,9 +25,6 @@ ps:
       client_application:
         create: ثبتول
         update: تازه کول
-      oauth2_application:
-        create: ثبتول
-        update: تازه کول
       trace:
         create: پورته کول
         update: بدلونونه خوندي کول
@@ -48,7 +45,7 @@ ps:
         title: سکالو
         latitude: لوړوالی
         longitude: اوږدوالی
-        language_code: ژبه
+        language: ژبه
       friend:
         user: کارن
         friend: ملگری
@@ -94,6 +91,8 @@ ps:
         link text: دا څه دی؟
       save changes button: بدلونونه خوندي کول
   browse:
+    created: جوړ شو
+    closed: تړل شوی
     relation:
       members: غړي
     relation_member:
@@ -111,10 +110,13 @@ ps:
     start_rjs:
       loading: رابرسېرېږي...
   changesets:
-    index:
-      feed:
-        created: جوړ شو
-        closed: تړل شوی
+    changeset:
+      anonymous: ورکنومی
+    changesets:
+      id: پېژند
+      user: کارن
+      comment: تبصره
+      area: سيمه
   dashboards:
     popup:
       friend: ملگری
@@ -133,8 +135,9 @@ ps:
       confirm: تاييد
     location:
       location: 'ځای:'
-  diary_comments:
-    page:
+      view: کتل
+      edit: سمول
+    comments:
       when: کله
       comment: تبصره
   friendships:
@@ -271,6 +274,10 @@ ps:
           river: رود
           stream: لښتی
           waterfall: ځوړاوبی
+      types:
+        cities: ښارونه
+        towns: ښارګوټي
+        places: ځايونه
     results:
       no_results: کومې پايلې و  نه موندل شوې
       more_results: نورې پايلې
@@ -282,6 +289,9 @@ ps:
     edit: سمول
     history: پېښليک
     help: لارښود
+    foundation: بنسټ
+    make_a_donation:
+      text: بسپنه ورکول
     learn_more: نور مالومات
   user_mailer:
     diary_comment_notification:
@@ -298,19 +308,24 @@ ps:
     confirm_email:
       button: تاييد
   messages:
-    messages_table:
+    inbox:
       date: نېټه
     message_summary:
+      reply_button: ځوابول
       destroy_button: ړنگول
     new:
       title: پيغام لېږل
+      body: جوسه
+    outbox:
+      date: نېټه
     show:
       title: پيغام لوستل
+      date: نېټه
       reply_button: ځواب
     sent_message_summary:
       destroy_button: ړنگول
   passwords:
-    new:
+    lost_password:
       heading: آيا پټنوم مو هېر شوی؟
       email address: 'برېښليک پته:'
   profiles:
@@ -319,13 +334,20 @@ ps:
       new image: يو انځور ورگډول
   sessions:
     new:
-      tab_title: ننوتل
+      title: ننوتل
+      heading: ننوتل
       password: 'پټنوم:'
       login_button: ننوتل
+      auth_providers:
+        github:
+          title: د گېټ هب له لارې ننوتل
+          alt: د يو گېټ هب گڼون له لارې ننوتل
     destroy:
       title: وتل
       logout_button: وتل
   site:
+    about:
+      heading_html: <span>&copy;</span>د اوفن سټریټ ميپ<br>مرسته کوونکی
     copyright:
       foreign:
         title: د دې ژباړې په اړه
@@ -338,8 +360,11 @@ ps:
       user_page_link: د کارن مخ
     export:
       licence: منښتليک
+      options: خوښنې
+      format: بڼه
     sidebar:
       search_results: د پلټنې پايلې
+      close: تړل
     search:
       search: پلټل
       where_am_i: زه چېرته يم؟
@@ -349,13 +374,15 @@ ps:
         entry:
           forest: ځنگل
           park: پارک
-          lake: ډنډ
-          reservoir: زېرمتون
+          lake:
+          - ډنډ
+          - زېرمتون
           farm: کرونده
           cemetery: هديره
           military: پوځي سيمه
-          school: ښوونځی
-          university: پوهنتون
+          school:
+          - ښوونځی
+          - پوهنتون
   traces:
     new:
       visibility_help: دا څه مانا لري؟
@@ -373,15 +400,18 @@ ps:
     trace:
       view_map: نخشه کتل
       edit_map: نخشه سمول
-  application:
-    auth_providers:
-      github:
-        title: د گېټ هب له لارې ننوتل
-        alt: د يو گېټ هب گڼون له لارې ننوتل
+  oauth_clients:
+    show:
+      confirm: آيا تاسې ډاډه ياست؟
+    index:
+      application: کاريال نوم
   users:
     new:
       title: نومليکنه
+      email address: 'برېښليک پته:'
+      display name: 'د ښکارېدلو نوم:'
     terms:
+      decline: ردول
       legale_names:
         france: فرانسه
         italy: اېټاليا
@@ -398,6 +428,7 @@ ps:
       comments: تبصرې
       create_block: په دې کارن بنديز لگول
       activate_user: دا کارن فعالول
+      deactivate_user: دا کارن نافعالول
       confirm_user: همدا کارن تاييدول
       hide_user: دا کارن پټول
       unhide_user: دا کارن ښکاره کول
@@ -406,15 +437,21 @@ ps:
     index:
       title: کارنان
       heading: کارنان
+  user_role:
+    grant:
+      confirm: تاييد
+    revoke:
+      confirm: تاييد
   user_blocks:
     show:
       created: جوړ شو
       status: دريځ
+      show: ښکاره کول
       edit: سمول
     block:
       show: ښکاره کول
       edit: سمول
-    page:
+    blocks:
       creator_name: جوړونکی
       status: دريځ
   notes:
@@ -422,6 +459,10 @@ ps:
       hide: پټول
       comment: تبصره
   javascripts:
+    notes:
+      show:
+        hide: پټول
+        comment: تبصره
     directions:
       distance: واټن
       instructions:

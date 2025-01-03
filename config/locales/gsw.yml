@@ -94,6 +94,8 @@ gsw:
       name: externer Editor
       description: externer Editor (JOSM odda Merkaartor)
   browse:
+    created: Aagleit
+    closed: Zue
     version: Version
     in_changeset: Änderige
     anonymous: anonym
@@ -103,6 +105,23 @@ gsw:
     view_history: Versionsgschicht
     view_details: Details aagucke
     location: 'Ort:'
+    changeset:
+      title: 'Änderigssatz: %{id}'
+      belongs_to: Autor
+      node: Gnode (%{count})
+      node_paginated: Gnode (%{x}-%{y} of %{count})
+      way: Wäg (%{count})
+      way_paginated: Wäg (%{x}-%{y} von %{count})
+      relation: Relatione (%{count})
+      relation_paginated: Relatione (%{x}-%{y} of %{count})
+      comment: Kommendar (%{count})
+      changesetxml: Changeset-XML
+      osmchangexml: osmChange XML
+      feed:
+        title: Changeset %{id}
+        title_comment: Changeset %{id} - %{comment}
+      join_discussion: Meld dich aa, wennd mitdiskutiere willsch.
+      discussion: Diskussion
     node:
       title_html: 'Gnode: %{name}'
       history_title_html: 'Versionsgschicht vum Gnote: %{name}'
@@ -149,27 +168,6 @@ gsw:
       loading: Am Lade ...
     tag_details:
       tags: 'Tags:'
-  changesets:
-    index:
-      feed:
-        title: Changeset %{id}
-        title_comment: Changeset %{id} - %{comment}
-        created: Aagleit
-        closed: Zue
-        belongs_to: Autor
-    show:
-      title: 'Änderigssatz: %{id}'
-      discussion: Diskussion
-      join_discussion: Meld dich aa, wennd mitdiskutiere willsch.
-      changesetxml: Changeset-XML
-      osmchangexml: osmChange XML
-    paging_nav:
-      nodes: Gnode (%{count})
-      nodes_paginated: Gnode (%{x}-%{y} of %{count})
-      ways: Wäg (%{count})
-      ways_paginated: Wäg (%{x}-%{y} von %{count})
-      relations: Relatione (%{count})
-      relations_paginated: Relatione (%{x}-%{y} of %{count})
   dashboards:
     popup:
       your location: Dyy Standort
@@ -188,13 +186,12 @@ gsw:
       success: Dyy E-Mail-Adräss isch bstetigt wore, dankschen fir s Regischtriere!
       failure: E E-Mail-Adräss isch scho mit däm Link bstetigt wore.
   passwords:
-    edit:
+    reset_password:
       title: Passwort zrucksetze
       heading: Passwort fir %{user} zrucksetze
       reset: Passwort zrucksetze
-      flash token bad: Mir hän des Chirzel leider nit chenne finde. Iberprief d URL.
-    update:
       flash changed: Dyy Passwort isch gänderet wore.
+      flash token bad: Mir hän des Chirzel leider nit chenne finde. Iberprief d URL.
   traces:
     visibility:
       private: Privat (nume as anonymi, nit sortierti Pinkt ohni Zytstämpfel aazeigt)
@@ -218,6 +215,8 @@ gsw:
       title: Am Bearbeite vum Track %{name}
       heading: Track %{name} bearbeite
       visibility_help: Was heißt des?
+    trace_optionals:
+      tags: Markierige
     show:
       title: Am Aaluege vum Track %{name}
       heading: Am Bschaue vum Track %{name}
@@ -246,12 +245,16 @@ gsw:
       edit_map: Charte bearbeite
       public: EFFETLI
       private: PRIVAT
+      by: vu
+      in: in
     index:
       public_traces: Effetligi GPS-Track
       public_traces_from: Effetligi GPS-Track vu %{user}
       tagged_with: Gchännzeichnet mit %{tags}
     destroy:
       scheduled_for_deletion: Track, wu zum Lesche vorgsäh isch
+    make_public:
+      made_public: Track, wu vereffetligt isch
   users:
     go_public:
       flash success: Alli Dyyni Bearbeitige sion jetz effetlig, un Du derfsch jetz
@@ -262,9 +265,20 @@ gsw:
       already_has_role: Dr Nutzer ghert scho zue dr Rolle %{role}.
       doesnt_have_role: Dr Nutzer het kei Roll %{role}.
     grant:
+      title: Rollezueornig bstetige
+      heading: Rollezueornig bstetige
       are_you_sure: Bisch sicher, ass Du dr Benutzer „%{name}“ dr Rolle „%{role}“
         witt zueordne?
+      confirm: Bstetige
+      fail: Dr Benutzer „%{name}“ het dr Rolle „%{role}“ nit chenne zuegordnet wären.
+        Bitte iberprief, eb s sich um e giltige Benutzer un e giltigi Rolle handlet.
     revoke:
+      title: Ufhebig vu dr Rollezueornig bstetige
+      heading: D Ufhebig vu dr Rollezueornig bstetige
       are_you_sure: Bisch sicher, ass Du d Zueornig vum Benutzer „%{name}“ zue dr
         Rolle „%{role}“ witt ufhebe?
+      confirm: Bstetige
+      fail: Het d Zueornig vum Benutzer „%{name}“ zue dr Rolle „%{role}“ nit chenne
+        ufhebe. Bitte iberprief, eb s sich um e giltige Benutzer un e giltigi Rolle
+        handlet.
 ...

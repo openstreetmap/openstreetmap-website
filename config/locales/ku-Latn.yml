@@ -14,12 +14,13 @@ ku-Latn:
   time:
     formats:
       friendly: '%e %B %Y saet %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Dosyeyê bibijêre
     submit:
       diary_comment:
-        create: Şîrove
+        create: Tomar bike
       diary_entry:
         create: Biweşîne
         update: Rojane bike
@@ -30,7 +31,7 @@ ku-Latn:
       client_application:
         create: Hesab çêke
         update: Rojane bike
-      oauth2_application:
+      doorkeeper_application:
         create: Qeyd bibe
         update: Rojane bike
       redaction:
@@ -44,9 +45,9 @@ ku-Latn:
         update: Astengê nû bike
   activerecord:
     errors:
-      models:
-        user_mute:
-          is_already_muted: jixwe bêdengkirî ne
+      messages:
+        invalid_email_address: ne weke navnîşaneke e-peyamê ya derbasdar e
+        email_address_not_routable: nikare were alîkirin
     models:
       acl: Lîsteya kontrola têketinan
       changeset: Qeyda guhartinan
@@ -60,6 +61,7 @@ ku-Latn:
       message: Peyam
       node: Nuqte
       node_tag: Nîşana Nuqteyê
+      notifier: Agahker
       old_node: Nuqteya Kevin
       old_node_tag: Nîşana Nuqteya Kevin
       old_relation: Eleqeya Kevin
@@ -100,15 +102,11 @@ ku-Latn:
       diary_entry:
         user: Bikarhêner
         title: Mijar
-        body: Nivîs
         latitude: Hêlîpan
         longitude: Hêlîlar
-        language_code: Ziman
+        language: Ziman
       doorkeeper/application:
         name: Nav
-        redirect_uri: URIyên Beralîkirinê
-        confidential: Aplîkasyoneke ewle ye?
-        scopes: Destûr
       friend:
         user: Bikarhêner
         friend: Heval
@@ -140,6 +138,7 @@ ku-Latn:
         auth_provider: Pêşkêşkera teyîdkirina nasnameyê
         auth_uid: UIDa teyîdkirina nasnameyê
         email: E-name
+        email_confirmation: Piştrastkirina e-nameyê
         new_email: Navnîşana e-nameyê yê nû
         active: Çalak
         display_name: Nav nîşan bide
@@ -151,11 +150,6 @@ ku-Latn:
         pass_crypt: Şîfre
         pass_crypt_confirmation: Şîfreyê Bipejirîne
     help:
-      doorkeeper/application:
-        confidential: Aplîkasyon wê li cihê ku tiştên veşarî yên mişteriyê lê bê parastin
-          were bikaranîn (sepanên mobîl yên xwecihî û sepanên yek-rûpelî ne ewledar
-          in)
-        redirect_uri: Ji bo her URIyeke yek rêzekê bi kar bîne
       trace:
         tagstring: bi bêhnokê veqetandî
       user_block:
@@ -166,45 +160,49 @@ ku-Latn:
           fam bikin bi kar bîne.
         needs_view: Gelo hewce dike bikarhêner berî ku ev astengî rabe têkeve?
       user:
+        email_confirmation: Adrêsa te ji her kesê re nayê nîşandan, ji bo zêdetir
+          agahiyan binêre <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">siyaseta
+          me ya veşarîtiyê</a>.
         new_email: (ti carî nayê nîşandan)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: teqrîben berî %{count} saetê
+        one: teqrîben berî saetekê
         other: teqrîben berî %{count} saetan
       about_x_months:
-        one: teqrîben berî %{count} mehê
+        one: teqrîben berî mehekê
         other: teqrîben berî %{count} mehan
       about_x_years:
-        one: teqrîben berî %{count} salê
+        one: teqrîben berî salekê
         other: teqrîben berî %{count} salan
       almost_x_years:
-        one: hema bêje berî %{count} salê
-        other: hema bêje berî %{count} salan
+        one: hema bêje berî salekê
+        other: hema bêja berî %{count} salan
       half_a_minute: berî nîv deqeyê
       less_than_x_seconds:
-        one: Berî kêmtirî %{count} saniyeyê
-        other: Berî kêmtirî %{count} saniyeyan
+        one: kêmtirî saniyeyekê
+        other: kêmtirî berî %{count} saniyeyan
       less_than_x_minutes:
-        one: berî kêmtir %{count} deqeyê
+        one: berî kêmtir deqeyekê
         other: berî kêmtir ji %{count} deqeyan
       over_x_years:
-        one: berî zêdetirî %{count} salê
+        one: berî zêdetirî salekê
         other: berî zêdetirî %{count} salan
       x_seconds:
-        one: berî %{count} saniyeyê
+        one: berî saniyeyekê
         other: Berî %{count} saniyeyan
       x_minutes:
-        one: Berî %{count} deqeyê
+        one: Berî deqeyekê
         other: Berî %{count} deqeyan
       x_days:
-        one: berî %{count} rojê
+        one: berî rojekê
         other: berî %{count} rojan
       x_months:
-        one: berî %{count} mehê
-        other: berî %{count} mehan
+        one: berî mehekê
+        other: beî %{count} mehan
       x_years:
-        one: berî %{count} salê
+        one: berî salekê
         other: berî %{count} salan
   editor:
     default: Standard (vêga %{name})
@@ -217,9 +215,9 @@ ku-Latn:
   auth:
     providers:
       none: Ne yek
+      openid: OpenID
       google: Google
       facebook: Facebook
-      microsoft: Microsoft
       github: GitHub
       wikipedia: Wîkîpediya
   api:
@@ -234,8 +232,7 @@ ku-Latn:
         reopened_at_html: '%{when} ji nû ve hate aktîvkirin'
         reopened_at_by_html: '%{when} ji aliyê %{user} ve jinûve hate aktîvkirin'
       rss:
-        title: Notên OpenStreetMapê
-        description_all: Lîsteyeke notên gilîkirî, şîrovekirî an girtî
+        title: Notên OpenHistoricalMapê
         description_area: Lîsteya notên herêma te yên ku hatine raporkirin, şirovekirin
           an jî girtin [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ji bo nota %{id} xwedîkirina rss'ê
@@ -246,49 +243,34 @@ ku-Latn:
       entry:
         comment: Şîrove
         full: Temamiya notê
-  account:
-    deletions:
-      show:
-        title: Hesabê Min Jê bibe
-        warning: Hişyarî! Ev proseya dawîn ya jêbirinê ye, û nayê zivirandin.
-        delete_account: Hesabê Jê bibe
-        delete_introduction: 'Bi bikaranîn bûtona li jêr tu dikarî hesabê xwe yê OpenStreetMapê
-          jê bibî. Ji kerema xwe bala xwe bide detayên jêrî:'
-        delete_profile: Agahiyên hesabê te, avatar, danasîn û cihê xaniyê jî tê de
-          wê jê bên rakirin.
-        delete_display_name: Navê te yê xuyakirinê wê were rakirin, û ev nav ji aliyê
-          hesabên din ve dikare were bikaranîn.
-        retain_caveats: 'Lê belê, ger hesabê xwe jê bibî jî hinek agahiyên di derheqê
-          te de wê hêjî li ser OpenStreetMapê bên parastin:'
-        retain_edits: Guherandinên te yên li ser danegeha nexşeyê, ger hebe, wê were
-          muhafezekirin.
-        retain_traces: Şopên te yên hilbarkirî, ger hebin wê bên muhafezekirin.
-        retain_diary_entries: Nivîsên te yên rojnivîskan, ger hebin, wê bên muhafezekirin
-          lê belê wê neyên xuyan.
-        retain_notes: Notên te yên nexşeyê, ger hebin, wê bên muhafezekirin, lê wê
-          neyên xuyan.
-        retain_changeset_discussions: Gotûbêjên te yên qeyda guhartinan, ger hebin,
-          wê bêne muhafezekirin.
-        retain_email: Adresa te ya epeyamê wê were muhafezekirin.
-        recent_editing_html: Ji ber ku te hesabê xwe vê talîyê guherandîye, vê gavê
-          nayê jêbirin. Jêbirin wê di %{time} de mimkin be.
-        confirm_delete: Tu piştrast î?
-        cancel: Betal bike
   accounts:
     edit:
       title: Hesabê biguherîne
-      my settings: Hevyazên min
+      my settings: Eyarên min
       current email address: Navnîşana e-nameyê yê niha
       external auth: Teyîdkirina xaricî
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Ev çi ye?
       public editing:
         heading: Guherandina ji her kesê re vekirî
         enabled: Çalak e. Ne anonîm e û dikare daneyan biguherîne.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Ev çiye?
         disabled: Neçalak e û nikare daneyan biguherîne, hemû guherandinên berê anonîm
           in.
         disabled link text: Ez çima nikarim biguherînim?
+      public editing note:
+        heading: Guherandina ji her kesê re vekirî
+        html: Guherandinên ku tu vêga dikî anonîm in û lewma bikarhênerên din nikarin
+          ji te re peyaman bişînin an jî cihê ku tu lê yî bibînin. Ji bo ku guherandinên
+          te werin xuyan ku te çêkiriye û însanên din ji ser malperê bikaribin bi
+          te re têkiliyê deynin bitikîne ser bişkoka li jêr. <b>Ji wextê ku me derbasî
+          0.6 API'yê bû heta niha tenê bikarhênerên ji her kesê re vekirî  dikarin
+          daneyên nexşeyê biguherînin</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">hîn
+          bibe ku çima wisa ye</a>). <ul><li>Navnîşana e-nameya te wê ji her kesê
+          re vekirî nê kirin</li><li>Hûn nikarin ji vê kiryarê bizivirin û bikarhênerên
+          nû bi otomatîkî ji her kesê re vekirî têne xuyan.</li></ul>
       contributor terms:
         heading: Şertên beşdariyê
         agreed: Te Şertên Beşdariyê ya nû qebûl kir
@@ -297,37 +279,51 @@ ku-Latn:
           bikî û qebûl bikî xêra xwe vê lînkê taqîb bike.
         agreed_with_pd: Herwiha te beyan kir ku tu dixwazî guherandinên te wek Malê
           Giştî were qebûlkirin.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Ev çi ye?
       save changes button: Guherandinan qeyd bike
-      delete_account: Hesabê Jê bibe...
-    go_public:
-      heading: Guherandina ji her kesê re vekirî
-      currently_not_public: Vê gavê guhertinên te anonîm in û însan nikarin mesaj
-        bişînin te an lokasyona te bibînin. Ji bo nîşandan guhertinên te kirî û îzin
-        bidî însanan ku bi rêya malperê bi te re îrtîbat deynin, li bûtona jêrî bitikîne.
-      make_edits_public_button: Hemû guherandinên min bila ji her kesê re vekirî be
+      make edits public button: Hemû guherandinên min bila ji her kesê re vekirî be
     update:
       success_confirm_needed: Agahiyên bikarhêner bi awayekî serkeftî hate nûkirin.
         Ji bo pejirandina navnîşana e-nameya xwe ya nû e-nameya xwe kontrol bike.
       success: Agahiya bikarhêner bi serkeftinî hate nûkirin.
-    destroy:
-      success: Hesab Hate Jêbirin.
   browse:
+    created: Hate çêkirin
+    closed: Hate girtin
     version: Guherto
     in_changeset: Qeyda Guhartinan
     anonymous: anonîm
     no_comment: (bêşirove)
     part_of: Perçeyek ji
     part_of_relations:
-      one: '%{count} pêwendî'
+      one: 1 pêwendî
       other: '%{count} pêwendî'
     part_of_ways:
-      one: '%{count} rê'
+      one: 1 rê
       other: '%{count} rê'
     download_xml: XMLê daxe
     view_history: Dîrokê Bibîne
     view_details: Detayan Bibîne
     location: 'Cih:'
+    changeset:
+      title: Desteya guhertinanː %{id}
+      belongs_to: Xwedî
+      node: Nuqte (%{count})
+      node_paginated: Nuqte (%{x}-%{y} ji %{count} heban)
+      way: Rê (%{count})
+      way_paginated: Rê (%{x}-%{y} ji %{count})
+      relation: Eleqe (%{count})
+      relation_paginated: Eleqe (%{x}-%{y} bi tevahî %{count})
+      comment: Şîrove (%{count})
+      changesetxml: Desteya guhartinan a XML
+      osmchangexml: osmChange XML
+      feed:
+        title: Desteya guhartinan %{id}
+        title_comment: Desteya guhartinan %{id} - %{comment}
+      join_discussion: Ji bo ku beșdarî guftûgoyan bibî têkeve
+      discussion: Gotûbêj
+      still_open: Qeyda guhartinan hê jî vekirî ye - wê gotûbêj piştî ku qeyda guhartinan
+        hate girtin vebibe.
     node:
       title_html: 'Girêk: %{name}'
       history_title_html: Dîroka Nuqteyêː %{name}
@@ -345,7 +341,7 @@ ku-Latn:
       history_title_html: Dîroka Eleqeyêː %{name}
       members: Endam
       members_count:
-        one: '%{count} endam'
+        one: 1 endam
         other: '%{count} endam'
     relation_member:
       entry_role_html: '%{type} %{name} bi rola %{role}'
@@ -385,7 +381,7 @@ ku-Latn:
         relation: eleqe
     start_rjs:
       feature_warning: '%{num_features} taybetmendî bar dibin, dibe ku ev taybetmendî
-        bikin ku geroka te nikaribe bişixule yan jî hêdîtir bibe. Tu pê bawer î ku
+        bikin ku geroka te nikaribe bişixule yan jî hêditir bibe. Tu pê bawerî ku
         tu dixwazî vê daneyê bibînî?'
       load_data: Daneyan Bar Bike
       loading: Tê barkirin...
@@ -399,33 +395,55 @@ ku-Latn:
       wikimedia_commons_link: Hêmana %{page} li ser Wîkîmediya Commonsê
       telephone_link: Li %{phone_number} bigere
       colour_preview: Pêşdîtina rengê %{colour_value}
-      email_link: Epeyam bişîne %{email}
+    note:
+      title: 'Not: %{id}'
+      new_note: Notê nû
+      description: Danasîn
+      open_title: 'Nota ku nehatiye çarekirin #%{note_name}'
+      closed_title: 'Nota ku hatiye çarekirin #%{note_name}'
+      hidden_title: 'Notê veşartî #%{note_name}'
+      opened_by_html: Ji alî %{user} ve berî</abbr>  <abbr title='%{exact_time}'>%{when}
+        hatiye çêkirin
+      opened_by_anonymous_html: Berî</abbr> <abbr title='%{exact_time}'>%{when} wek
+        anonîm hate çêkirin.
+      commented_by_html: Şiroveya ji %{user} </abbr> <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Şîrove ji alî bikarhênerek anonîm ve </abbr> <abbr
+        title='%{exact_time}'>%{when}
+      closed_by_html: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
+        hate çareserkirin
+      closed_by_anonymous_html: Ji aliyê bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
+        hate çareserkirin
+      reopened_by_html: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
+        ji nû ve hate aktîvkirin
+      reopened_by_anonymous_html: Ji aliyê bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
+        ji nû ve hate aktîvkirin
+      hidden_by_html: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
+        hate veşartin
+      report: Vê nîşeyê gilî bike
     query:
       title: Taybetmendiyan Nîşan Bide
       introduction: Ji bo ku hûn taybetmendiyên din yên nêzîkî bibînin, bitikînin
         ser xerîteyê.
       nearby: Xisûsiyetên nêz
       enclosing: Taybetmendiyên muhtewa
-  changeset_comments:
-    feeds:
-      comment:
-        comment: Şîroveya nû yê li ser qeyda guhartinan a %{changeset_id} yê ji alî
-          %{author} ve
-        commented_at_by_html: '%{when} ji aliyê %{user} ve hate rojanekirin'
-      show:
-        title_all: Gotûbêja qeyda guhartinên OpenStreetMapê
-        title_particular: Gotûbêja qeyda guhartinan a %{changeset_id} yê OpenStreetMapê
-      timeout:
-        sorry: Bibore, bidestxistina lîsteya şîroveyên desteya guhartinan ê ku te
-          xwest demeke dirêj girt.
   changesets:
+    changeset_paging_nav:
+      showing_page: Rûpel %{page}
+      next: Pêşve »
+      previous: « Yê berê
     changeset:
+      anonymous: Anonîm
       no_edits: (nehatiye guhartin)
       view_changeset_details: Dêtayên qeyda guhartinan bibîne
+    changesets:
+      id: ID
+      saved_at: Dema qeydê
+      user: Bikarhêner
+      comment: Şîrove
+      area: Herêm
     index:
       title: Desteya guhartinan
       title_user: Desteyên guhartinan yên ji alî %{user} ve
-      title_user_link_html: Desteyên guhartinan yên ji alî %{user_link} ve
       title_friend: Desteyên guhartinan yên ji aliyê hevalên te ve
       title_nearby: Desteyên guhartinan yên ji alî bikarhênerên nêz ve
       empty: Desteyên guhartinan nehate dîtin.
@@ -435,51 +453,32 @@ ku-Latn:
       no_more_area: Li vê derê desteyên guhartinan zêdetir tine.
       no_more_user: Desteyên guhartinan yên vê bikarhênerê zêdetir tine.
       load_more: Zêdetir bar bike
-      feed:
-        title: Desteya guhartinan %{id}
-        title_comment: Desteya guhartinan %{id} - %{comment}
-        created: Hate çêkirin
-        closed: Hate girtin
-        belongs_to: Xwedî
-    show:
-      title: Desteya guhertinanː %{id}
-      discussion: Gotûbêj
-      join_discussion: Ji bo ku beșdarî guftûgoyan bibî têkeve
-      still_open: Qeyda guhartinan hê jî vekirî ye - wê gotûbêj piştî ku qeyda guhartinan
-        hate girtin vebibe.
-      subscribe: Bibe abone
-      unsubscribe: Ji abonetiyê derkeve
-      comment_by_html: Şîroveya ji %{user} %{time_ago}
-      hidden_comment_by_html: Şîroveya veşartî ji %{user} %{time_ago}
-      hide_comment: veşêre
-      unhide_comment: neveşêre
-      comment: Şîrove
-      changesetxml: Desteya guhartinan a XML
-      osmchangexml: osmChange XML
-    paging_nav:
-      nodes: Nuqte (%{count})
-      nodes_paginated: Nuqte (%{x}-%{y} ji %{count} heban)
-      ways: Rê (%{count})
-      ways_paginated: Rê (%{x}-%{y} ji %{count})
-      relations: Eleqe (%{count})
-      relations_paginated: Eleqe (%{x}-%{y} bi tevahî %{count})
     timeout:
       sorry: Bibore, bidestxistina lîsteya desteyên guhartinan ê ku te xwest demeke
         dirêj girt.
+  changeset_comments:
+    comment:
+      comment: Şîroveya nû yê li ser qeyda guhartinan a %{changeset_id} yê ji alî
+        %{author} ve
+      commented_at_by_html: '%{when} ji aliyê %{user} ve hate rojanekirin'
+    comments:
+      comment: 'Şiroveya nû li ser desteya guhartinan a #%{changeset_id} ji aliyê
+        %{author} ve'
+    index:
+      title_all: Gotûbêja qeyda guhartinên OpenHistoricalMapê
+      title_particular: Gotûbêja qeyda guhartinan a %{changeset_id} yê OpenHistoricalMapê
+    timeout:
+      sorry: Bibore, bidestxistina lîsteya şîroveyên desteya guhartinan ê ku te xwest
+        demeke dirêj girt.
   dashboards:
     contact:
       km away: '%{count} km dûr e'
       m away: '%{count} m dûr e'
-      latest_edit_html: 'Guherandina axirkî (%{ago}):'
     popup:
       your location: Cihê te
       nearby mapper: Nexşesazên nêz
       friend: Heval
     show:
-      title: Panela Kontrolê
-      no_home_location_html: '%{edit_profile_link} û cihê mala xwe saz bike ji bo
-        dîtina bikarhênerên nêzî xwe.'
-      edit_your_profile: Profîla xwe biguherîne
       my friends: Hevalên min
       no friends: Te hêj ji xwe re hevalek çênekiriye.
       nearby users: Bikarhênerên din ên nêz
@@ -505,8 +504,9 @@ ku-Latn:
       new_title: Di rojnivîska min de nivîsekî nû binivîse
       my_diary: Rojnivîska min
       no_entries: Nivîsên rojane tine
-    page:
       recent_entries: Nivîsên rojane yên dawîn
+      older_entries: Nivîsên Kevintir
+      newer_entries: Nivîsên Nûtir
     edit:
       title: Nivîsa rojane sererast bike
       marker_text: Cihê nivîsên rojane
@@ -530,7 +530,6 @@ ku-Latn:
       comment_count:
         one: '%{count} şîrove'
         other: '%{count} şîrove'
-      no_comments: Ti şîrove tine
       edit_link: Vê nivîsê biguherîne
       hide_link: Vê nivîsê veşêre
       unhide_link: Veşartina vê nivîsê rake
@@ -544,50 +543,24 @@ ku-Latn:
       report: Vê şîroveyê ragihîne
     location:
       location: 'Cih:'
+      view: Bibîne
+      edit: Biguherîne
     feed:
       user:
-        title: Nivîsên rojane yên %{user} a OpenStreetMapê
-        description: Nivîsên rojane ên %{user} yên nû a OpenStreetMapê
+        title: Nivîsên rojane yên %{user} a OpenHistoricalMapê
+        description: Nivîsên rojane ên %{user} yên nû a OpenHistoricalMapê
       language:
-        title: Nivîsên rojane yê OpenStreetMapê ên bi %{language_name}
-        description: Nivîsên rojane yên bikarhênerên OpenStreetMapê ên bi %{language_name}
+        title: Nivîsên rojane yê OpenHistoricalMapê ên bi %{language_name}
+        description: Nivîsên rojane yên bikarhênerên OpenHistoricalMapê ên bi %{language_name}
       all:
-        title: Nivîsên rojane yên OpenStreetMapê
-        description: Nivîsên rojane yên bikarhênerên OpenStreetMapê
-  diary_comments:
-    index:
-      title: Şîroveyên Rojnivîskê ji aliyê %{user} ve hatiye kirin
-      heading: Şîroveyên Rojnivîskê yên %{user}
-      subheading_html: Şîroveyên Rojnivîskê ji aliyê %{user} ve hatiye tevlîkirin
-      no_comments: Ti şîroveyeke rojnivîskê nîne
-    page:
+        title: Nivîsên rojane yên OpenHistoricalMapê
+        description: Nivîsên rojane yên bikarhênerên OpenHistoricalMapê
+    comments:
       post: Nivîs
       when: Kengê
       comment: Şîrove
-  doorkeeper:
-    flash:
-      applications:
-        create:
-          notice: Aplîkasyon hate qeydkirin.
-  errors:
-    contact:
-      contact_url_title: Çendîn kanalên îrtîbatê hatiye îzahkirin
-      contact: îrtîbat
-      contact_the_community_html: Ger lînkeke xira / çewtiyekê bibînî bi serbestî
-        wan bi lînka %{contact_link} ragihîne civata OpenStreetMapê. URLya temam ya
-        teleba xwe not bike.
-    forbidden:
-      title: Qedexekirî
-      description: Kiryara ku te li ser OpenStreetMapê daxwaz kiriye, tenê ji bo admînan
-        berdest e (HTTP 403)
-    internal_server_error:
-      title: Çewtiya sepanê
-      description: Servera OpenStreetMapê bi halekî nehêvîkirî re rû bi rû bû ku rê
-        li ber digire daxwaza te were bicîanîn (HTTP 500)
-    not_found:
-      title: Dosye peyda nebû
-      description: Ti kiryara dosye/pelrêç/APIyê peyda nebû bi wê navê li ser servera
-        OpenStreetMapê (HTTP 404)
+      newer_comments: Şîroveyên nûtir
+      older_comments: Şîroveyên kevintir
   friendships:
     make_friend:
       heading: Bila %{user} li hevalên te were zêdekirin?
@@ -595,18 +568,12 @@ ku-Latn:
       success: '%{name} niha hevalê te yeǃ'
       failed: Bibore, %{name} li hevalên te nikarîbû were zêdekirin.
       already_a_friend: Tu bi %{name} re jixwe heval î.
-      limit_exceeded: Te vê dawiyê bi gelek bikarhêneran re bû heval. Ji kerema xwe
-        berî ku hevalbûna bi zêdetir bikarhêneran re biceribînî, hinekî bêhna xwe
-        vede.
     remove_friend:
       heading: Bila %{user} ji hevaltiyê were derxistin?
       button: Ji hevaltiyê derxe
       success: '%{name} ji hevalên te hate derxistin.'
       not_a_friend: '%{name} ne hevalekî/eke te ye.'
   geocoder:
-    search:
-      title:
-        latlon: Daxilî
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -623,8 +590,8 @@ ku-Latn:
         aeroway:
           aerodrome: Balafirrgeh
           airstrip: Pîsta ji bo danînê
-          apron: Aprona balafirgehê
-          gate: Dergeha Balafirgehê
+          apron: Apron
+          gate: Dergeh
           hangar: Garaja Teyareyan
           helipad: Pîsta Helîkopterê
           holding_position: Cihê sekinandinê ji bo balafiran
@@ -633,7 +600,7 @@ ku-Latn:
           runway: Pîsta teyareyê
           taxilane: Xeta taksiyê
           taxiway: Rêya balafirgehê
-          terminal: Termînala Balafirgehê
+          terminal: Termînal
           windsock: Lûleya bayê
         amenity:
           animal_boarding: Sitareya Heywanan
@@ -679,7 +646,7 @@ ku-Latn:
           fire_station: Îtfaiye
           food_court: Cihê xwarinê
           fountain: Avweşînk
-          fuel: Stasyona Benzînê
+          fuel: Petrol
           gambling: Qumarxane
           grave_yard: Qebristan
           grit_bin: Qutiya qûm an jî xwêyê
@@ -855,7 +822,6 @@ ku-Latn:
           bus_stop: Rawestgeha Otobêsê
           construction: Rêya ku tê çêkirin
           corridor: Korîdor
-          crossing: Derbasgeh
           cycleway: Rêya Bisiklêtê
           elevator: Asansor
           emergency_access_point: Nuqteya Gihandinê yê ji bo Rewşên Acîl
@@ -895,7 +861,6 @@ ku-Latn:
           trailhead: Serê parkurê
           trunk: Rêya serekî
           trunk_link: Girêdana bi rêya serekî re
-          turning_circle: Çembera Zivirînê
           turning_loop: Çerxa Zivirrînê
           unclassified: Rêya Nesinifandî
           "yes": Rê
@@ -926,7 +891,6 @@ ku-Latn:
           railway: Rêhesinê Tarîxî
           roman_road: Rêya Romayê
           ruins: Xerabe
-          rune_stone: Kevirên Rune
           stone: Kevir
           tomb: Qebr
           tower: Birc
@@ -944,8 +908,8 @@ ku-Latn:
           brownfield: Erdên Terkkirî
           cemetery: Goristan
           commercial: Cihê Xizmetên Ticarî
-          conservation: Qada Muhafezekirî
-          construction: Qada Înşaetê
+          conservation: Erdên Muhafezekirî
+          construction: Înşaet
           farmland: Zevî
           farmyard: Hewşa Çiftligê
           forest: Daristan
@@ -966,7 +930,7 @@ ku-Latn:
           reservoir: Enbara Avê
           reservoir_watershed: Hewzeya Çemê
           residential: Cihê îkametê
-          retail: Qada Perakendefiroşiyê
+          retail: Esnaf (Perakendefiroş)
           village_green: Meydana Şînahiyan
           vineyard: Rez
           "yes": Emilandina erdê
@@ -987,7 +951,7 @@ ku-Latn:
           fitness_station: Navenda Sporê
           garden: Baxçe
           golf_course: Cihê Golfê
-          horse_riding: Merkeza Ajotina Hespê
+          horse_riding: Ajotina Hespê
           ice_rink: Şemitandina li ser cemedê
           marina: Marîna
           miniature_golf: Golfa Mînyatûr
@@ -1070,7 +1034,6 @@ ku-Latn:
         mountain_pass:
           "yes": Derbasgeha Çiyayan
         natural:
-          atoll: Girikê mircanan
           bare_rock: Kevirê Sade
           bay: Kendav
           beach: Plaj
@@ -1090,7 +1053,6 @@ ku-Latn:
           hill: Gir
           hot_spring: Germav
           island: Girav
-          isthmus: Berzax
           land: Erd
           marsh: Çirav
           moor: Erda Bejî
@@ -1105,13 +1067,10 @@ ku-Latn:
           sand: Xîz
           scree: Berikên hezazê
           scrub: Devîstan
-          shingle: Beravê zixirî
           spring: Kanî
           stone: Kevir
           strait: Tengav
           tree: Dar
-          tree_row: Rêza daran
-          tundra: Tundra
           valley: Newal
           volcano: Çiyayê agirîn
           water: Av
@@ -1147,7 +1106,6 @@ ku-Latn:
           "yes": Ofîs
         place:
           allotments: Bax û bostan
-          archipelago: Arşîpel
           city: Bajar
           city_block: Bloka bajarê
           country: Welat
@@ -1176,7 +1134,6 @@ ku-Latn:
           "yes": Cih
         railway:
           abandoned: Rêya şemendeferê ya metrûk
-          buffer_stop: Stoper
           construction: Rêya şemendeferê ê ku tê çêkirin
           disused: Rêya şemendeferê ê ku nayê emilandin
           funicular: Xeta Fenîkulerê
@@ -1190,7 +1147,6 @@ ku-Latn:
           platform: Perona xeta trênê
           preserved: Rêya trênê yê muhafezekirî
           proposed: Rêya trênê yê pêşniyarkirî
-          rail: Rêhesin
           spur: Rêya trênê yê talî
           station: Stasyona trênê
           stop: Rawestgeha trênê
@@ -1199,7 +1155,6 @@ ku-Latn:
           switch: Meqesa rêhesinê
           tram: Rêya tramwayê
           tram_stop: Rawestgeha tramwayê
-          turntable: Platforma Zivirok
           yard: Hewşa Rêhesinê
         shop:
           agrarian: Dikana Amûrên Çandiniyê
@@ -1240,7 +1195,7 @@ ku-Latn:
           deli: Şarkuterî
           department_store: Firoşgeha mezin
           discount: Dikana tiştûmiştên di erzaniyê de
-          doityourself: Dikana Tu-Bixwe-Çêbike
+          doityourself: Tu Bixwe Çêbike
           dry_cleaning: Paqijiya ziwa
           e-cigarette: Firoşgeha e-cixareyê
           electronics: Dikana elektronîkan
@@ -1326,7 +1281,7 @@ ku-Latn:
           artwork: Berhemên hunerî
           attraction: Cihên balkêş
           bed_and_breakfast: Pansiyona tevî 'taştê û nivîn'
-          cabin: Xanîka Turîstan
+          cabin: Xanîk
           camp_pitch: Qada Kampê
           camp_site: Cihê kampê
           caravan_site: Cihê karavanê
@@ -1377,6 +1332,10 @@ ku-Latn:
         level9: Sînora gundê
         level10: Sînora taxê
         level11: Sînora Taxê
+      types:
+        cities: Bajarên mezin
+        towns: Bajar
+        places: Cih
     results:
       no_results: Ti encam nehatin dîtin
       more_results: Encamên zêdetir
@@ -1390,31 +1349,35 @@ ku-Latn:
       not_updated: Rojanekirin Nebû
       search: Lê bigere
       search_guidance: Pirsgirêkên Lêgerînê
-      states:
-        ignored: Guh nedê
-        open: Veke
-        resolved: Çareserkirî ye
-    page:
       user_not_found: Bikarhêner tune ye
       issues_not_found: Pirsgirêkekî wiha nehat dîtin
       status: Rewş
       reports: Rapor
       last_updated: Rojanekirina dawî
-      last_updated_time_ago_user_html: '%{time_ago} ji aliyê %{user} ve'
+      last_updated_time_html: </abbr> <abbr title='%{title}'>%{time}
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} </abbr> ji %{user}
+      link_to_reports: Raporan Bibîne
       reports_count:
-        one: '%{count} Rapor'
-        other: '%{count} Rapor'
+        one: 1 Rapor
+        other: '%{count} Raporan'
       reported_item: Hêmanê Raporkirî
+      states:
+        ignored: Guh nedê
+        open: Veke
+        resolved: Çareserkirî ye
+    update:
+      new_report: Rapora we bi serkeftî hat tomarkirin
+      successful_update: Rapora te bi serkeftî hat rojanekirin
+      provide_details: Ji kerema xwe zanyariyên pêwist bi dest bixin
     show:
       title: '%{status} Pirsgirêk #%{issue_id}'
       reports:
-        one: '%{count} rapor'
-        other: '%{count} raporan'
-      no_reports: Ti raporekî tine
-      report_created_at_html: Pêşî di %{datetime} de hatiye raporkirin
-      last_resolved_at_html: Herî dawî di %{datetime} de hat çareserkirin
-      last_updated_at_html: Ji aliyê %{displayname} ve herî dawî di %{datetime} de
-        hat rojanekirin
+        one: 1 rapor
+        other: '%{count} rapor'
+      report_created_at: Pêşî di %{datetime} de hatiye raporkirin
+      last_resolved_at: Herî dawî di %{datetime} de hat çareserkirin
+      last_updated_at: Ji aliyê %{displayname} ve herî dawî di %{datetime} de hat
+        rojanekirin
       resolve: Çareser bike
       ignore: Guh nedê
       reopen: Dîsa veke
@@ -1443,7 +1406,6 @@ ku-Latn:
   issue_comments:
     create:
       comment_created: Şîroveya te bi serkeftî hat avakirin
-      issue_reassigned: Şîroveya te hate çêkirin û mijar hate cardin hate tayînkirin
   reports:
     new:
       title_html: Rapor %{link}
@@ -1482,42 +1444,59 @@ ku-Latn:
       provide_details: Ji kerema xwe zanyariyên pêwîst bi dest bixin
   layouts:
     logo:
-      alt_text: Logoya OpenStreetMapê
+      alt_text: Logoya OpenHistoricalMapê
     home: Here Cihê Mala Xwe
     logout: Derkeve
     log_in: Têkeve
+    log_in_tooltip: Bi hesabê xwe yê heyî têkeve
     sign_up: Xwe Qeyd Bike
     start_mapping: Dest bi çêkirina nexşeyan bike
+    sign_up_tooltip: Ji bo ku tu guherandinan bikî hesabek çêbike
     edit: Biguherîne
     history: Dîrok
     export: Derxîne
     issues: Pirsgirêk
+    data: Dane
+    export_data: Daneyan derxîne derve
     gps_traces: Şopên GPSê
+    gps_traces_tooltip: Şopên GPSê îdare bike
     user_diaries: Rojnivîskên bikarhênerê
+    user_diaries_tooltip: Rojnivîskên bikarhênerê bibîne
     edit_with: Bi %{editor} sererast bike
-    intro_header: Tu bi xêr hatî OpenStreetMapêǃ
-    intro_text: OpenStreetMap xerîteyekî dinyayê ye ku ji aliyê kesên wek te ve tê
-      çêkirin û emilandina we belaş e û di bin lîsansa azad de ye.
-    partners_fastly: Fastly
+    tag_line: Xerîteya Dinyayê a Wîkiya Azad
+    intro_header: Tu bi xêr hatî OpenHistoricalMapêǃ
+    intro_text: OpenHistoricalMap xerîteyeke dinyayê ye ku ji aliyê kesên wek te ve
+      tê çêkirin û emilandina wê belaş e û di bin lîsansa azad de ye.
+    intro_2_create_account: Ji xwe re hesabekî çêbike
+    hosting_partners_html: Xizmeta hewandinê tê piştgirîkirin ji aliyê %{ucl}, %{bytemark},
+      û %{partners} din ve.
     partners_partners: şirîkên me
     tou: Mercên Bikaranînê
-    osm_offline: Databasa OpenStreetMapê vê gavê offline e ji ber ku niha xebatên
+    osm_offline: Databasa OpenHistoricalMapê vê gavê offline e ji ber ku niha xebatên
       sererastkirinê tê kirin.
-    osm_read_only: Databasa OpenStreetMapê vê gavê di moda tenê-xwendinê de ye ji
-      ber ku niha xebatên sererastkirinê tê kirin.
+    osm_read_only: Databasa OpenHistoricalMapê vê gavê di moda tenê-xwendinê de ye
+      ji ber ku niha xebatên sererastkirinê tê kirin.
+    donate: Ji bo Fonda Pêşxistina Hişkalavê bi %{link} piştgiriyê bide OpenHistoricalMapê.
     help: Alîkarî
     about: Derbar
     copyright: Mafê daneriyê
-    communities: Civat
+    community: Civak
+    community_blogs: Blogên Civakê
+    community_blogs_title: Blogên endamên civaka OpenHistoricalMapê
+    foundation: Weqif
+    foundation_title: Weqfa OpenHistoricalMapê
+    make_a_donation:
+      title: Bi bexşa pereyê hûn dikarin piştgiriyê bidin OpenHistoricalMapê
+      text: Bexş bike
     learn_more: Zêdetir Hîn Bibe
     more: Zêdetir
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} li ser nivîsek rojane şirove kir'
+      subject: '[OpenHistoricalMap] %{user} li ser nivîsek rojane şirove kir'
       hi: Silav %{to_user},
-      header: '%{from_user} nivîsa rojane yê OpenStreetMapê a bi mijara %{subject}
+      header: '%{from_user} nivîsa rojane yê OpenHistoricalMapê a bi mijara %{subject}
         şirove kir:'
-      header_html: '%{from_user} nivîsa rojane yê OpenStreetMapê a bi mijara %{subject}
+      header_html: '%{from_user} nivîsa rojane yê OpenHistoricalMapê a bi mijara %{subject}
         şirove kir:'
       footer: Herwiha ji ser rûpela %{readurl} jî dikarî şîroveyê bixwînî û ji ser
         %{commenturl} dikarî şîrove bikî an jî ji ser %{replyurl} peyamekî bişîne
@@ -1526,11 +1505,11 @@ ku-Latn:
         ser %{commenturl} dikarî şirove bikî an jî ji ser %{replyurl} peyamekî bişîne
         nivîserê.
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Merheba %{to_user},
-      header: '%{from_user} ji te re bi rêya OpenStreetMapê peyamek bi mijara %{subject}
-        şand:'
-      header_html: '%{from_user} ji te re bi rêya OpenStreetMapê peyamek bi mijara
+      header: '%{from_user} ji te re bi rêya OpenHistoricalMapê peyamek bi mijara
+        %{subject} şand:'
+      header_html: '%{from_user} ji te re bi rêya OpenHistoricalMapê peyamek bi mijara
         %{subject} şand:'
       footer: Tu dikarî peyamê li ser %{readurl} jî bixwînî û li ser %{replyurl} jî
         dikarî bersiv bidî ê go ji te re şand.
@@ -1538,9 +1517,9 @@ ku-Latn:
         jî dikarî cewab bidî ê ku ji te re şand.
     friendship_notification:
       hi: Merheba %{to_user},
-      subject: '[OpenStreetMap] %{user} te wek heval lê zêde kir'
-      had_added_you: Bikarhêner %{user} li ser OpenStreetMapê te wek heval lê zêde
-        kir.
+      subject: '[OpenHistoricalMap] %{user} te wek heval lê zêde kir'
+      had_added_you: Bikarhêner %{user} li ser OpenHistoricalMapê te wek heval lê
+        zêde kir.
       see_their_profile: Ji ser %{userurl} dikarî binêrî profîlê wan.
       see_their_profile_html: Ji ser %{userurl} dikarî binêrî profîlê wan.
       befriend_them: Herwiha ji ser %{befriendurl} wan dikarî wek heval lê zêde bikî.
@@ -1556,12 +1535,18 @@ ku-Latn:
       failed_to_import: 'anîna dosyeyê bi ser neket. Çewtî ev e:'
       more_info_html: Agahiyên zêdetir ên derbarê çewtiyên împortkirinê û rêlibergirtina
         wê ji %{url} dikarî peyda bikî.
-      subject: '[OpenStreetMap] Anîna GPXê bi ser neket'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenHistoricalMap] Anîna GPXê bi ser neket'
     gpx_success:
       hi: Merheba %{to_user},
-      subject: '[OpenStreetMap] Împortkirina GPXê bi ser ket'
+      loaded_successfully:
+        one: ji nuqteyekê %{possible_points} yê muhtemel bi %{trace_points} bi awayekî
+          serkefî hate barkirin.
+        other: Ji nuqteyên %{possible_points} yê muhtemel bi %{trace_points} bi awayekî
+          serkefî hate barkirin.
+      subject: '[OpenHistoricalMap] Împortkirina GPXê bi ser ket'
     signup_confirm:
-      subject: '[OpenStreetMap] Bi xêr hatî OpenStreetMapê'
+      subject: '[OpenHistoricalMap] Bi xêr hatî OpenHistoricalMapê'
       greeting: Merhebaǃ
       created: Yekî (hêvî dikim ku ew tu bî) berî vêga li %{site_url} hesabekî nû
         çêkir.
@@ -1571,14 +1556,14 @@ ku-Latn:
       welcome: Piştî te hesabê xwe teyîd kir, em ê ji te re ji bo ku tu karibî dest
         pê bikî hinek agahiyên din jî bidin.
     email_confirm:
-      subject: '[OpenStreetMap] E-peyama xwe tesdîq bike'
+      subject: '[OpenHistoricalMap] E-peyama xwe tesdîq bike'
       greeting: Silav,
       hopefully_you: Yekî (em hêvî dikin ku ew tu bî) dixwaze adrêsa e-peyama te ya
         li %{server_url}, wek %{new_address} biguherîne.
       click_the_link: Eger, ev ê te be, xêra xwe ji bo tesdîqkirina guhertinê bitikîne
         ser lînka li jêr.
     lost_password:
-      subject: '[OpenStreetMap] Daxwaza nûkirina şîfreyê'
+      subject: '[OpenHistoricalMap] Daxwaza nûkirina şîfreyê'
       greeting: Silav,
       hopefully_you: Yekî (dibe be ku tu bî) xwest ku şîfreya vê adrêsa e-peyamê ya
         hesaba openstreetmap.orgê were nûkirin.
@@ -1588,8 +1573,9 @@ ku-Latn:
       anonymous: Bikarhênerek anonîm
       greeting: Merheba,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} li ser notekî te şiroveyek nivîsand'
-        subject_other: '[OpenStreetMap] %{commenter} li ser notek ku tu pê eleqedar
+        subject_own: '[OpenHistoricalMap] %{commenter} li ser notekî te şiroveyek
+          nivîsand'
+        subject_other: '[OpenHistoricalMap] %{commenter} li ser notek ku tu pê eleqedar
           dibî şiroveyek nivîsand'
         your_note: '%{commenter} li ser notekî te yê nexşeyê a nêzîkî %{place} şiroveyek
           berda.'
@@ -1600,8 +1586,8 @@ ku-Latn:
         commented_note_html: '%{commenter} li ser notekî te yê nexşeyê a ku te şiroveyek
           berdabû şiroveyek nivîsand. Ev not nêzîkî %{place} (y)e.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} yek ji notên te çareser kir'
-        subject_other: '[OpenStreetMap] %{commenter} notek ku tu pê eleqedar dibî
+        subject_own: '[OpenHistoricalMap] %{commenter} yek ji notên te çareser kir'
+        subject_other: '[OpenHistoricalMap] %{commenter} notek ku tu pê eleqedar dibî
           çareser kir'
         your_note: '%{commenter} yek ji notên te yên nexşeyê a nêzîkî %{place} çareser
           kir.'
@@ -1612,9 +1598,9 @@ ku-Latn:
         commented_note_html: '%{commenter} notekî nexşeyê yê ku te şiroveyek berdabû
           çareser kir. Ev not nêzîkî %{place} (y)e.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} yek ji notên te ji nû ve aktîv
+        subject_own: '[OpenHistoricalMap] %{commenter} yek ji notên te ji nû ve aktîv
           kir'
-        subject_other: '[OpenStreetMap] %{commenter} notek ku tu pê eleqedar dibî
+        subject_other: '[OpenHistoricalMap] %{commenter} notek ku tu pê eleqedar dibî
           ji nû ve aktîv kir'
         your_note: '%{commenter} yek ji notên te yên nexşeyê a nêzîkî %{place} ji
           nû ve da aktîvkirin.'
@@ -1624,15 +1610,16 @@ ku-Latn:
           da aktîvkirin. Ev not nêzîkî %{place} (y)e.'
         commented_note_html: '%{commenter} notekî nexşeyê yê ku te şiroveyek berdabû
           jinûve da aktîvkirin. Ev not nêzîkî %{place} (y)e.'
-      details: Cewab bide an di derbarê notê de zêdetir hîn bibe ji %{url}.
-      details_html: Cewab bide an di derbarê notê de zêdetir hîn bibe ji %{url}.
+      details: Dêtayên zêdetir yên derbarê notê de hûn dikarin ji %{url} bibînin.
+      details_html: Dêtayên zêdetir yên derbarê notê de hûn dikarin ji %{url} bibînin.
     changeset_comment_notification:
       hi: Merheba %{to_user},
+      greeting: Merheba,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} yek ji desteyên te yên guherandinê
+        subject_own: '[OpenHistoricalMap] %{commenter} yek ji desteyên te yên guherandinê
           şiroveyek nivîsand'
-        subject_other: '[OpenStreetMap] %{commenter} desteyekî guherandinê ê ku tu
-          pê eleqedar dibî şirove kir'
+        subject_other: '[OpenHistoricalMap] %{commenter} desteyekî guherandinê ê ku
+          tu pê eleqedar dibî şirove kir'
         your_changeset: '%{commenter} li ser desteyekî te yê guherandinê şîroveyekê
           berda di  %{time} de'
         your_changeset_html: '%{commenter} li ser desteyekî te yê guherandinê şîroveyekê
@@ -1646,14 +1633,14 @@ ku-Latn:
         partial_changeset_with_comment: tevî şiroveya '%{changeset_comment}'
         partial_changeset_with_comment_html: tevî şiroveya '%{changeset_comment}'
         partial_changeset_without_comment: bêyî şirove
-      details: Cewab bide an di derbarê desteya guherandinê de zêdetir hîn bibe ji
-        %{url}.
-      details_html: Cewab bide an di derbarê desteya guherandinê de zêdetir hîn bibe
-        ji %{url}.
-      unsubscribe: Tu dikarî ji %{url} ji abonetiya rojanekirinên vê desteya guherandinê
-        derkevî.
-      unsubscribe_html: Tu karî ji %{url} ji abonetiya rojanekirinên vê desteya guherandinê
-        derkevî.
+      details: Dêtayên zêdetir yên derbarê desteya guherandinê de hûn dikarin ji %{url}
+        bibînin.
+      details_html: Dêtayên zêdetir yên derbarê desteya guherandinê de hûn dikarin
+        ji %{url} bibînin.
+      unsubscribe: Ji bo ku ji abonetiya rojanekirinên vê desteya guherandinê derbikevî,
+        here %{url} û bitikîne ser "Abonetiyê betal bike".
+      unsubscribe_html: Ji bo ku ji abonetiya rojanekirinên vê desteya guherandinê
+        derbikevî, here %{url} û bitikîne ser "Abonetiyê betal bike".
   confirmations:
     confirm:
       heading: E-nameya xwe kontrol bikeǃ
@@ -1666,6 +1653,8 @@ ku-Latn:
       success: Hesabê te hate tesdîqkirin, spas ji bo qeyda teǃ
       already active: Ev hesab jixwe pejirandî ye.
       unknown token: Koda pejirandinê ne muteber e an jî tine.
+      reconfirm_html: Heke ji bo ku em koda pejirandinê ji te re dîsa bişînin îhtiyaciya
+        te bi me hebe <a href="%{reconfirm}">bitikîne ser vir</a>.
     confirm_resend:
       failure: Bikarhêner %{name} nehate dîtin.
     confirm_email:
@@ -1676,15 +1665,11 @@ ku-Latn:
       success: Guherandina navnîşana te ya e-nameyê hate pejirandin.
       failure: Bi vê hesabê navnîşanekî e-nameyê yê pejirandî jixwe heye.
       unknown_token: Koda pejirandinê ne muteber e an jî tine.
-    resend_success_flash:
-      confirmation_sent: Me noteke tesdîqkirinê şande %{email} û gava te hesabê xwe
-        tesdîq kir tu yê karibî nexşeyê çêkî.
-      whitelist: Ger tu sîstemeke antîspam ku daxwaza tesdîqkirinê dişîne bi kar bînî,
-        ji kerema xwe jê piştrast be ku te %{sender}-yê wekî lîsteya ewlemendan, ji
-        ber ku em nikarin cewab bidin ti daxwazeke rastandinê.
   messages:
     inbox:
       title: Qutiya hatiyan
+      my_inbox: Qutiya min a hatiyan
+      my_outbox: Çûdanka min
       messages: '%{new_messages} û %{old_messages} hene.'
       new_messages:
         one: '%{count} peyama nû'
@@ -1692,21 +1677,22 @@ ku-Latn:
       old_messages:
         one: '%{count} peyama kevin'
         other: '%{count} peyamên kevin'
+      from: Ji
+      subject: Mijar
+      date: Dîrok
       no_messages_yet_html: Hêj peyama te tine ye. Çima ji ser %{people_mapping_nearby_link}
         bi kesên nêzîkê xwe re nakevî îrtîbatê?
       people_mapping_nearby: lînka nexşesazên li derdorên nêzîk
-    messages_table:
-      from: Ji
-      to: Ji bo
-      subject: Mijar
-      date: Dîrok
     message_summary:
       unread_button: Wek nexwendî nîşan bide
       read_button: Wek xwendî nîşan bide
+      reply_button: Cewab bide
       destroy_button: Jê bibe
     new:
       title: Peyamê bişîne
       send_message_to_html: Ji %{name} re peyamekî nû bişîne
+      subject: Mijar
+      body: Nivîs
       back_to_inbox: Vegere qutiya hatiyan
     create:
       message_sent: Peyam hate şandin
@@ -1718,60 +1704,61 @@ ku-Latn:
       body: Li me bibore, bi vê id-yê ti peyam tine ye.
     outbox:
       title: Qutiya min a çûyiyan
+      my_inbox: Hatdanka min
+      my_outbox: Çûdanka min
       messages:
         one: Te %{count} peyam şand
         other: Te %{count} peyaman şand
+      to: Ji bo
+      subject: Mijar
+      date: Dîrok
       no_sent_messages_html: Te hêj ji kesî re peyam neşandiye. Çima ji ser %{people_mapping_nearby_link}
         bi hinek kesên nêzîkê xwe re nakevî îrtîbatê?
       people_mapping_nearby: lînka nexşesazên li derdorên nêzîk
     reply:
-      wrong_user: Te wek `%{user}' têket, lê peyama ku te dixwest were cewabdayîn
-        ji wî bikarhênerê re nehat şandin. Xêra xwe ji bo cewabdanê wekî bikarhênerê
-        rast têkeve.
+      wrong_user: Te wek `%{user}' têket, lê peyamê ku te dixwest were cewabdayîn
+        ji wî/wê bikarhênerê re nehate şandin. Xêra xwe ji bo cewabdanê wekî bikarhênerê
+        rast têbikeve.
     show:
       title: Peyamê bixwîne
+      from: Ji
+      subject: Mijar
+      date: Dem
       reply_button: Bersiv bide
       unread_button: Wek nexwendî nîşan bide
       destroy_button: Jê bibe
       back: Paşve vegere
-      wrong_user: Te wek `%{user}' têket, lê peyama ku dihate xwestin ku tu wê bixwînî
+      to: Ji bo
+      wrong_user: Te wek `%{user}' têket, lê peyamê ku dihate xwestin ku tu wê bixwînî
         ji aliyê wî/wê bikarhênerê ve an jî ji wî/wê bikarhênerê re nehatiye şandin.
-        Xêra xwe ji bo xwendinê wekî bikarhênerê rast têkeve.
+        Xêra xwe ji bo xwendinê wekî bikarhênerê rast têbikeve.
     sent_message_summary:
       destroy_button: Jê bibe
-    heading:
-      my_inbox: Qutiya min a hatiyan
-      my_outbox: Çûdanka min
     mark:
       as_read: Peyam wek xwendî hate nîşankirin
       as_unread: Peyam wek nexwendî hate nîşankirin
     destroy:
       destroyed: Payam hate jêbirin
   passwords:
-    new:
+    lost_password:
       title: Şîfreya wenda
       heading: Te şîfreya xwe ji bîr kir?
-      email address: Adresa e-peyamê
+      email address: 'Navnîşana E-peyamê:'
       new password button: Şîfreyê nû bike
       help_text: E-peyama ku te pê xwe qeydkiribû binivîse, em ê ji te re lînkek bişînin
         tu yê bi wê lînkê bikaribî şîfreya xwe nû bikî.
-    edit:
+      notice email on way: Bibore, te wê wenda kir :-( lê belê e-peyamekî nû di rê
+        de ye. Lewma tu dikarî di nêz de wê nû bikî.
+      notice email cannot find: Bibore, ev adrêsa e-peyamê nehate dîtin.
+    reset_password:
       title: Şîfreyê nû bike
       heading: Şîfreyê nû bike ji bo %{user}
       reset: Şîfreyê nû bike
+      flash changed: Şîfreya te hate guhartin.
       flash token bad: Eger te vê sembolê nedîtibe, belkî jî divê tu URLyê kontrol
         bikî?
-    update:
-      flash changed: Şîfreya te hate guhartin.
   preferences:
-    show:
-      title: Tercîhên min
-      preferred_editor: Edîtora tercîhkirî
-      preferred_languages: Zimanên tercîhkirî
-      edit_preferences: Tercîhan biguherîne
     edit:
-      title: Tercîhan biguherîne
-      save: Tercîhan rojane bike
       cancel: Betal bike
     update:
       failure: Tercîhan nikare rojane bike.
@@ -1785,6 +1772,7 @@ ku-Latn:
       image: Wêne
       gravatar:
         gravatar: Gravatarê bi kar bîne
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Gravatar çi ye?
         disabled: Gravatar hate neçalakkirin.
         enabled: Gravatarê te niha dikare were xuyan.
@@ -1798,33 +1786,67 @@ ku-Latn:
       no home location: Te cihê malê xwe diyar nekir.
       update home location on click: Gava ku tu bitikînî ser nexşeyê bila cihê malê
         te were rojanekirin?
-      show: Nîşan bide
-      delete: Jê bibe
-      undelete: Jêbirinê vegerîne
     update:
       success: Profîl hate rojanekirin.
       failure: Profîlê nikare rojane bike.
   sessions:
     new:
-      tab_title: Têkeve
-      email or username: Adresa e-peyamê an Navê Bikarhêneriyê
-      password: Şîfre
+      title: Têkeve
+      heading: Têkeve
+      email or username: Adrêsa E-peyamê an jî Navê Bikarhêneriyêː
+      password: 'Şîfre:'
+      openid_html: '%{logo} OpenID:'
       remember: Min bi bîr bîne
       lost password link: Te şîfreya xwe winda kir?
       login_button: Têkeve
-      with external: An bi sepaneke alîyê sêyem têkeve
+      register now: Vê gavê xwe qeyd bike
+      with username: Gelo jixwe hesabekî te heye? Eger hebe, xêra xwe navê xwe yê
+        bikarhêneriyê û şîfreya xwe binivîse û têkeveː
+      with external: Wek alternatîv, ji bo têketinê yek ji van sepanan bi kar bîneː
+      new to osm: Tu di OpenHistoricalMapê de nû yî?
+      to make changes: Ji bo ku tu daneyên OpenHistoricalMapê biguherînî, divê hesabekî
+        te hebe.
+      create account minute: Hesabek çêbike. Wê ev tenê deqeyek bigire.
+      no account: Hesabekî te tine?
+      account not active: Bibore, hesabê te hêj neaktîv e.<br />Xêra xwe ji bo aktîvkirina
+        hesabê bitikîne ser lînka ku di e-peyama pejirandina hesabê de ji te re hatibû,
+        an jî <a href="%{reconfirm}">e-peyamek pejirandinê yê nû bixwaze</a>.
+      account is suspended: Bibore, hesabê te ji ber çalakiyên gumanbar hatiye rawestandin.<br
+        />Eger bixwazibî vê mijare mijûl bibî, xêra xwe bi <a href="%{webmaster}">piştgiriyê</a>
+        re têkiliyê deyne.
       auth failure: Bibore, bi van dêtayan re tu têneketî.
+      openid_logo_alt: Têketina bi OpenID-yê
+      auth_providers:
+        openid:
+          title: Bi OpenID'yê têkeve
+          alt: Têketina bi URL'yek OpenID'yê
+        google:
+          title: Bi Google têkeve
+          alt: Têketina bi OpenID ya Googlê
+        facebook:
+          title: Bi Facebookê têkeve
+          alt: Bi hesabekî Facebookê têkeve
+        github:
+          title: Bi GitHub'ê têkeve
+          alt: Bi hesabekî GitHubê têbikeve
+        wikipedia:
+          title: Bi Wîkîpediyayê têkeve
+          alt: Bi hesabekî Wîkîpediyayê têkeve
+        wordpress:
+          title: Bi Wordpressê têkeve
+          alt: Bi OpenID ya Wordpressê têbikeve
+        aol:
+          title: Bi AOL'ê têkeve
+          alt: Bi OpenID ya AOLê têkeve
     destroy:
       title: Derkeve
-      heading: Ji OpenStreetMapê derkeve
+      heading: Ji OpenHistoricalMapê derkeve
       logout_button: Derkeve
-    suspended_flash:
-      suspended: Bibore, hesaba te ji ber aktîvîteyên şibhedar hatiye rawestandin.
-      contact_support_html: Ji kerema xwe bi %{support_link} re têkiliyê deyne ger
-        bixwazî vê yekê xeber bidî.
-      support: piştgirî
   shared:
     markdown_help:
+      title_html: |-
+        Bi <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+        hate analîzkirin
       headings: Sernivîs
       heading: Sernivîs
       subheading: Sernivîsa binî
@@ -1840,33 +1862,44 @@ ku-Latn:
     richtext_field:
       edit: Biguherîne
       preview: Pêşdîtin
-    pagination:
-      diary_comments:
-        older: Şîroveyên kevintir
-        newer: Şîroveyên nûtir
-      diary_entries:
-        older: Nivîsên Kevintir
-        newer: Nivîsên Nûtir
-      traces:
-        older: Şopên kevintir
-        newer: Şopên nûtir
   site:
     about:
-      used_by_html: '%{name} li ser bi hezaran malper, sepanên mobîl û cîhazên hişkalavan,
-        daneyên nexşeyê pêşkêş dike'
-      lede_text: OpenStreetMap ji alî civata nexşesazên ku ji seransera dinyayê der
-        barê kolanan, kafeyan, stasyonên trênan û zêdetirê wan de daneyan tevlî vir
-        dike û diparêze.
+      next: Pêşve
+      heading_html: <span>&copy;</span>Beşdarên<br> OpenHistoricalMapê
+      used_by_html: OpenHistoricalMap li ser bi hezaran malper, sepanên mobîl û cîhazên
+        hişkalavan, daneyên nexşeyê pêşkêş dike
+      lede_text: OpenHistoricalMap ji alî civata nexşesazên ku ji seransera dinyayê
+        der barê kolanan, kafeyan, stasyonên trênan û zêdetirê wan de daneyan tevlî
+        vir dike û diparêze.
       local_knowledge_title: Zanyariya herêmî
-      local_knowledge_html: OpenStreetMap girîngiyê dide zanyariyên xwecihî. Beşdarên
+      local_knowledge_html: OpenHistoricalMap girîngiyê dide zanyariyên xwecihî. Beşdarên
         me ji bo tesdîq bikin ku OSM rast û rojane ye, wêneyên hewayî, cîhazên GPSê
         û nexşeyên deverê yên bi teknolojiya-nizm bi kar tînin.
       community_driven_title: Bi rêbertiya civatê
+      community_driven_html: Civata OpenHistoricalMapê curbicur û bengîn e û herroj
+        mezintir dibe. Di navbera beşdarên me de nexşesazên dilxwaz, pisporên GISê,
+        endazyerên serverên OSMê dixebitînin, xêrxwazên ji bo herêmên di tesîra karesatê
+        de mane nexşe dikin û zêdetirên wan jî henin. Derbarê civatê de ji bo ku zêdetir
+        tiştan hîn bibî, binêre <a href='https://blog.openstreetmap.org'>Bloga OpenHistoricalMapê</a>,
+        <a href='%{diary_path}'>rojnivîskên bikarhêneran</a>, <a href='https://blogs.openstreetmap.org/'>blogên
+        civatê</a> û malpera <a href='https://www.osmfoundation.org/'>Weqfa OSMê</a>.
       open_data_title: Daneyên vekirî
+      open_data_html: 'OpenHistoricalMap bi <i>daneya vekirî</i> ye: hûn serbest in
+        ku vê bi her armancê bi kar bînin, bi şerta ku hûn OpenHistoricalMap û beşdarên
+        wê referans bidin. Heke hûn daneyan biguherînin an jî li serê zêde bikin hûn
+        vê encamê tenê di bin eynî lîsansê de dikarin belav bikin. Ji bo dêtayan binêrin
+        <a href=''%{copyright_path}''>rûpela lîsans û mafê daneriyê</a>.'
       legal_title: Zagonî
+      legal_1_html: |-
+        Ev malper û gelek xizmetên din yên pêwendîdar bi awayekî fermî ji aliyê <a href='https://osmfoundation.org/'>Weqfa OpenHistoricalMapê</a> (OSMF) ve li ser navê civatê tê birêvebirin. Bikaranîna hemû karûbarên ku ji aliyê OSMF ve tê birêvebirin mijara  <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Mercên Bikaranînê</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politikayên Bikaranînê yê Qebûlbar</a> û <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politikaya me ya Veşarîtiyê</a> ye.
+      legal_2_html: Eger di derbarê lîsanskirin, mafê daneriyê de pirsên we hebin
+        an jî ji bo pirsên we yên din ên qanûnî xêra xwe <a href='https://osmfoundation.org/Contact'>bi
+        OSMF re têkiliyê deynin</a>. <br>OpenHistoricalMap, logoya mercekê û State
+        of the Map <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marqeyên
+        ticarî yên qeydkirî yê OSMFê nin</a>.
       partners_title: Şirîkên me
     copyright:
-      title: Mafê daneriyê û lîsans
       foreign:
         title: Derbarê vê wergerê de
         html: Eger di navbera vê rûpela tercumekirî û %{english_original_link} de
@@ -1881,34 +1914,76 @@ ku-Latn:
         native_link: versiyona bi kurdî
         mapping_link: dest bi çêkirina nexşeyan bike
       legal_babble:
-        credit_title_html: Em çawan wekî çavkaniyekê behsa OpenStreetMapê bikin
-        credit_1_html: 'Li cihê ku daneya OpenStreetMapê bi kar bînî, divê van du
-          tiştan bikî:'
+        title_html: Mafê daneriyê û lîsans
+        intro_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> <i>open data</i> ye, bi lîsansa <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbLê) ku ji aliyê <a
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF) ve hatiye çêkirin ve hatiye lîsanskirin.
+        intro_2_html: Hûn serbest in ku daneyên me kopî bikin, belav bikin, bişînin
+          yekî an jî adapte bikin bi şerta ku hûn behsa me bikin, rûmeta me bigrin.
+          Eger hûn daneyên me biguherînin an jî baştir bikin hûn vê netîceyê tenê
+          di bin eynî lîsansê de dikarin belav bikin. Temamiya <a href="https://opendatacommons.org/licenses/odbl/1.0/">koda
+          qanûnî</a>, maf û berpirsiyariyên we îzah dike.
+        intro_3_1_html: |-
+          Belgekirinên di nexşeya me de, di bin lîsansa <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0) de hatiye lîsanskirin.
+        credit_title_html: Em çawan wekî çavkaniyekê behsa OpenHistoricalMapê bikin
+        credit_1_html: Ji bo referansgirtinê divê tu wisa binivîsîː &ldquo;&copy;
+          beşarên OpenHistoricalMapê &rdquo;.
+        credit_2_1_html: Herwiha divê hûn zelal bikin ku daneyên me di bin lîsansa
+          Open Database License de hatiye lîsanskirin, û eger karoyên nexşeya me were
+          emilandin, diyar bikin ku ev kartografî jî bi CC BY-SA hatiye lîsanskirin.
+          Hûn vê bi lînkdana ji <a href="https://www.openstreetmap.org/copyright">rûpela
+          mafê daneriyê</a> re dikarin bikin. Wekî alternatîv, û wekî hewcehiyek eger
+          tu OSMyê di formekî daneyan de belav bikî tu dikarî rasterast lîsansan bi
+          nav bikî an jî girê bidî lîsansê(n) rasterast. Di medyayên ku lînkkirin
+          ne mimkun bin de (wekî mînak. xebatên çapkirî), em ji we re pêşniyar dikin
+          ku hûn xwînerên xwe tewcîhê openstreetmap.org'ê, opendatacommons.org'ê,
+          û heke minasib be creativecommons.org'ê bikin.
         attribution_example:
           alt: Mînakekê atfkirinê ya OpenSteetMapê yê li ser malperekî înternetê
           title: Mînaka atfkirinê
         more_title_html: Zêdetir hîn bibe
+        more_1_html: |-
+          Ji bo ku derbarê emilandina daneyên me û referansdana me de zêdetir hîn bibî <a
+          href="https://osmfoundation.org/Licence">rûpela Lîsansê a OSMFê</a> bixwîne.
         contributors_title_html: Beşdarên me
         contributors_intro_html: 'Bi hezaran beşdarên me hene. Herwiha em ji ajansên
           nexşekirinê yên netewî û çavkaniyên din jî daneyên bi lîsansa-vekirî îhtîwa
           dikin, hinek ji wan ev in:'
-        contributors_2_contributors_page: Rûpela beşdaran
-        contributors_footer_2_html: Daxilbûna daneyan a di OpenStreetMapê de nayê
-          maneya ku peydakera daneyan yê eslî OpenStreetMapê teswîb dike, garantiyekî
+        contributors_footer_1_html: |-
+          Ji bo dêtayên van û çavkaniyên din yên ku di pêşdebirina OpenStreeteMapê de hatine bikaranîn agahiyên zêdetir werbigrî, xêra xwe ji ser OpenStreetMap Wiki'yê binêre <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">rûpela Beşdaran</a>.
+        contributors_footer_2_html: Daxilbûna daneyan a di OpenHistoricalMapê de nayê
+          maneya ku peydakera daneyan yê eslî OpenHistoricalMapê teswîb dike, garantiyekî
           temîn dike an jî berpirsîyariyekê qebûl dike.
         infringement_title_html: Îxlala mafê daneriyê
         infringement_1_html: Kesên ku tevkariyên OSMê dikin bila ti carî ji bîr nekin
           daneyên ji çavkaniyên ku mafên wan ên daneriyê parastî be (wekî nimûne Google
           Maps an jî nexşeyên çapkirî) bêyî destûra eşkere yê xwediyê wan, ji van
           çavkaniyan ti daneyek wernegrin.
+        infringement_2_html: Eger tu bawer bî materyalekî ku mafê we yê daneriyê parastî
+          ye bi şaşîtî li vê sîteyê an jî li daneya OpenHistoricalMapê hatibe zêdekirin
+          xêra xwe miracaeta <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">prosedûra
+          me ya rakirinê</a> bike an jî rasterast di <a href="https://dmca.openstreetmap.org/">rûpela
+          me ya dosyekirinê a online</a> de qeyd bikin.
+        trademarks_title_html: <span id="trademarks"></span>Markên bazirganî
+        trademarks_1_html: OpenHistoricalMap, logoya mercekê û State of the Map; markên
+          ticarî yên OpenHistoricalMap Foundationê yên qeydkirî nin. Heke derbarê
+          bikaranîna markan de pirsên we hebin xêra xwe binêrin <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Polîtîkaya
+          Markên Ticarî</a>.
     index:
       js_1: Tu an gerokek ku piştgiriyê nade JavaScriptê bi kar tînî an jî JavaScript
         hatiye neçalakkirin.
-      js_2: OpenStreetMap ji bo nîşandana nexşeya xwe ya şemetok JavaScriptê bi kar
-        tîne.
+      js_2: OpenHistoricalMap ji bo nîşandana nexşeya xwe ya şemetok JavaScriptê bi
+        kar tîne.
+      permalink: Lînka daîmî
+      shortlink: Lînka kurt
+      createnote: Notek binivîse
       license:
-        copyright: Mafê daneriyê ya OpenStreetMapê û beşdarên me, di bin lîsansa vekirî
-          de ne
+        copyright: Mafê daneriyê ya OpenHistoricalMapê û beşdarên me, di bin lîsansa
+          vekirî de ne
       remote_failed: Sererastkirin bi ser neket - jê piştrast be ku JOSM an jî Merkaartor
         hatiye sazkirin û vebijêrka jidûrve kontrolê hatiye aktîvkirin
     edit:
@@ -1919,32 +1994,55 @@ ku-Latn:
       user_page_link: rûpela bikarhêner
       anon_edits_link_text: Hîn bibe ku ev rewş çima wisa bûye.
       id_not_configured: iD nehatiye mîhengkirin
+      no_iframe_support: Geroka te piştgiriyê nade iframe'yên HTML ku ji bo nişandana
+        vê taybetmendiyê lazim e.
     export:
       title: Derxîne
+      area_to_export: Cihê ku wê were derxistin
       manually_select: Bi destê xwe cihekî din bibijêre
+      format_to_export: Awayê derxistinê
+      osm_xml_data: Daneyên OpenHistoricalMapê a bi şiklê XML'yê
+      map_image: Risma Xerîteyê (tebeqeya standart nîşan dide)
+      embeddable_html: HTML'a ku dikare were pêvekirin
       licence: Lîsans
+      licence_details_html: Daneyên OpenHistoricalMapê di bin lîsansa <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL) hatiye lîsanskirin.
       too_large:
         advice: Eger hûn ji yê jor nikaribin eksport bikin, xêra xwe yek ji van çavkaniyên
           li xwarê a lîstekirî biemilînin.
-        body: Ev der ji bo ku wekî Daneya XML a OpenStreetMapê were eksportkirin zahf
-          mezin e. Xêra xwe hinek jî nêzîk bike an jî qadekî biçûktir bibijêre an
-          jî ji bo daxistina daneyên mezin yek ji van çavkaniyên lîstekirî yên li
-          jêr biemilîne.
+        body: Ev der ji bo ku wekî Daneya XML a OpenHistoricalMapê were eksportkirin
+          zahf mezin e. Xêra xwe hinek jî nêzîk bike an jî qadekî biçûktir bibijêre
+          an jî ji bo daxistina daneyên mezin yek ji van çavkaniyên lîstekirî yên
+          li jêr biemilîne.
         planet:
           title: Seyareya OSMê
-          description: Kopiyên daneyên OpenStreetMapê yê ku bi awayekî binîzam têne
-            nûkirin
+          description: Kopiyên daneyên OpenHistoricalMapê yê ku bi awayekî binîzam
+            têne nûkirin
         overpass:
           title: Overpass API
-          description: Vê qutiya sînorkar ji eyneyekî daneya OpenStreetMapê daxîne
+          description: Vê qutiya sînorkar ji eyneyekî daneya OpenHistoricalMapê daxîne
         geofabrik:
           title: Daxistinên Geofabrikê
           description: Kurteyên parzemîn, welat û bajarên bijartî yê ku bi awayekî
             sîstematîk têne nûkirin
+        metro:
+          title: Xulasayê Bajara Mezin
+          description: Xulasayên ji bo bajarên mezin yên dinyayê û derdorê wan bajaran
         other:
           title: Çavkaniyên din
-          description: Çavkaniyên îlawe yên ku li ser wîkiya OpenStreetMapê hatine
+          description: Çavkaniyên îlawe yên ku li ser wîkiya OpenHistoricalMapê hatine
             lîstekirin
+      options: Vebijêrk
+      format: Format
+      scale: Pîvan (miqyas)
+      max: maksîmum
+      image_size: Mezinahiya Rismê
+      zoom: Nêzîk bike
+      add_marker: Nîşankereke îlawe bike xerîteyê
+      latitude: Hêlîpanː
+      longitude: Hêlîlarː
+      output: Encam
+      paste_html: Vê koda HTML'yê dikarî bi ser malperra xwe ve kopî bikî
       export_button: Derxîne
     fixthemap:
       title: Pirgirêkek rabigihîne / Nexşeyê sererast bike
@@ -1954,55 +2052,50 @@ ku-Latn:
           title: Tevlî civatê bibe
           explanation_html: Heke te di daneyên nexşeya me de pirsgirêkek ferq kiribe,
             wekî mînak kolanek an jî adrêsa te kêm be, riya herî baş a dewamkirinê
-            beşdarî civata me ya OpenStreetMapê bibe û tu bixwe rast bike an jî îlawe
-            bike.
+            beşdarî civata me ya OpenHistoricalMapê bibe û tu bixwe rast bike an jî
+            îlawe bike.
+        add_a_note:
+          instructions_html: Tenê bitikîne ser îkona <a class='icon note'></a> an
+            jî ji ser ekrana xerîteyê bitikîne ser eynî îkonê. Wê ev, ji nexşeyê re
+            nîşankerek deyne ku tu dikarî bi kaşkirinê cihê vê nîşankerê biguherînî.
+            Peyama xwe binivîse, piştre bitikîne ser qeyd bike'yê, wê nexşesazên din
+            lê bikolin.
       other_concerns:
         title: Meseleyên din
+        explanation_html: |-
+          Eger derbarê emilandina daneyan an jî derbarê naverokan de fikarên te hebin ji bo ku zêdetir agahiyên zagonî werbigrî xêra xwe binêre <a href='/copyright'>rûpela me ya mafê daneriyê</a> an jî bi <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>
+          koma xebatê yê OSMFê</a> a eleqedar re bikeve îrtîbatê.
     help:
       title: Wergirtina alîkariyê
-      introduction: OpenStreetMap ji bo hînbûna projeyê, pirskirin û cewabdana pirsan,
-        û ji bo nîqaşên ku bi hevkarî têne kirin û ji bo belgekirina mijarên nexşeyê
-        xwediyê çend çavkaniyan e.
+      introduction: OpenHistoricalMap ji bo hînbûna projeyê, pirskirin û cewabdana
+        pirsan, û ji bo nîqaşên ku bi hevkarî têne kirin û ji bo belgekirina mijarên
+        nexşeyê xwediyê çend çavkaniyan e.
       welcome:
         url: /welcome
-        title: Bi xêr hatî OpenStreetMapê
-        description: Bi vê rêbernameya kurt ê ku tê de esasên OpenStreetMapê heye
+        title: Bi xêr hatî OpenHistoricalMapê
+        description: Bi vê rêbernameya kurt ê ku tê de esasên OpenHistoricalMapê heye
           dest pê bike.
-      beginners_guide:
-        title: Rêbera ji bo kesên ku nû dest pê kirine
-        description: Civata me, ji bo kesên ku nû dest pê kirine rêbertî dike.
-      community:
-        title: Foruma Alîkarî û Civatê
-        description: Cihê hevpar ji bo gihîna alîkarîyê sohbetên di derbarê OpenStreetMapê
-          de.
-      mailing_lists:
-        title: Lîsteya E-nameyan
-        description: Di lîsteyên e-nameyan yên deverî an jî herêmî yên cur bi cur
-          de hûn dikarin pirsan bipirsin an jî mijarên balkêş nîqaş bikin.
-      irc:
-        title: IRC
-        description: Sohbeta înteraktîv yê bi gelek zimanan û di gelek mijaran de.
-      switch2osm:
+      discord:
         title: switch2osm
-        description: Alikariya ji bo şirket û komeleyên ku derbasî nexşe û xizmetên
-          din yên bi bingeha OpenStreetMapê dibin.
-      welcomemat:
-        title: Ji bo rêxistinan
-        description: Tevî sazî an komeleyekê planên te yên ji bo OpenStreetMapê hene?
-          Tiştê ku ji te re lazim e di Rûpela Xêrhatinê de peyda bike.
+      slack:
+        title: IRC
       wiki:
-        title: Wîkiya OpenStreetMapê
-        description: Ji bo belgeyên OpenStreetMapyê yên bi berfirehî binêrin wîkiyê.
-    potlatch:
-      removed: Edîtora te ya OpenStreetMapê ya standard wek Potlatch hate bijartin.
-        Ji ber ku Adobe Flash Player vekişiya, Potlatch êdî di gerokeke webê de ne
-        berdest e.
+        title: Wîkî
+        description: Talîmatên ji bo emilandina OHMyê yên ji alîyê civatê ve çêkirî
+          û rêbernameyên ji bo beşdarîkirina li projeyê.
     any_questions:
       title: Pirsekî te heye?
+      paragraph_1_html: OpenHistoricalMap ji bo hînbûna projeyê, pirskirin û cewabdana
+        pirsan, û ji bo nîqaşên ku bi hevkarî têne kirin û ji bo belgekirina mijarên
+        nexşeyê xwediyê çend çavkaniyan e. <a href='%{help_url}'>Ji vir alîkariyê
+        werbigire</a>. Bi sazî an komeleyeke dixwazî planan çêkî ji bo OpenHistoricalMapê?
+        <a href='https://welcome.openstreetmap.org/'>Rûpela Xêrhatinê kontrol bike</a>.
     sidebar:
       search_results: Encamên lêgerînê
+      close: Bigire
     search:
       search: Lêbigere
+      get_directions: Tarîfa riyê bistîne
       get_directions_title: Di navbera du nuqteyan de rê nîşanî min bide
       from: Ji
       to: Ji bo
@@ -2028,24 +2121,34 @@ ku-Latn:
           footway: Rêya peyayan
           rail: Rêhesin
           subway: Metro
-          cable_car: Teleferîk
-          chair_lift: Teleferîk
-          runway: Pîsta balafirgehê
-          taxiway: Rêya balafirgehê yê çûnûhatinê
-          apron: Aprona balafirgehê
+          tram:
+          - Rêya trênê yê bi xeta teng
+          - tramway
+          cable:
+          - Teleferîk
+          - teleferîk
+          runway:
+          - Pîsta balafirgehê
+          - rêya balafirgehê yê çûnûhatinê
+          apron:
+          - Aprona balafirgehê
+          - termînal
           admin: Sînorê îdarî
           forest: Daristan
-          wood: Daristan (bêçavdêrî, wek-xwe-hêlayî)
+          wood: Daristan
           golf: Cihê golfê
           park: Park
-          common: Erda mişterek
           resident: Cihê îkametê
+          common:
+          - Erda mişterek
+          - mêrg
           retail: Saheya Perakendeyê (Maxazayan)
           industrial: Cihê endustriyê
           commercial: Herêma bazirganiyê
           heathland: Erdê qeraç
-          lake: Gol
-          reservoir: Gola sûnî
+          lake:
+          - Gol
+          - mexzen
           farm: Cotgeh
           brownfield: Erdê vala
           cemetery: Gorristan
@@ -2054,12 +2157,14 @@ ku-Latn:
           centre: Navenda sporê
           reserve: Herêma muhefezekirî ya tebîetê
           military: Qada eskerî
-          school: Dibistan
-          university: Unîversîte
+          school:
+          - Dibistan
+          - zanîngeh
           building: Avahiya girîng
           station: Stasyona trênê
-          summit: Lûtke
-          peak: Lûtke
+          summit:
+          - Lûtke
+          - lûtke
           tunnel: Xeta qutqutî = tûnel
           bridge: Xeta reş = pir
           private: Têketina taybet
@@ -2070,35 +2175,39 @@ ku-Latn:
           toilets: Tiwalet
     welcome:
       title: Tu bi xêr hatî!
-      introduction: Tu bi xêr hatî OpenStreetMapê, nexşeya dinyayê yê azad û yê ku
-        bi rehetî dikare were sererastkirin. Niha te xwe qeyd kiriye û tu dikarî dest
-        bi nexşekirinê bikî. Va ye li vir rêbernameyek bilez yê tiştên muhîm heye
-        ku divê tu van bizanibî.
+      introduction: Tu bi xêr hatî OpenHistoricalMapê, nexşeya dinyayê yê azad û yê
+        ku bi rehetî dikare were sererastkirin. Niha te xwe qeyd kiriye û tu dikarî
+        dest bi nexşekirinê bikî. Va ye li vir rêbernameyek bilez yê tiştên muhîm
+        heye ku divê tu van bizanibî.
       whats_on_the_map:
         title: Çi hene li ser nexşeyê
+        on_the_map_html: OpenHistoricalMap cihekî ye ji bo nexşekirina tiştên <em>heqîqî
+          û rojane</em> - tê de bi milyonan avahî, rê û dêtayên derbarê deveran de
+          heye. Her taybetmendiyê cîhana rastîn ê ku bala te bikişîne dikarî nexşe
+          bikî.
+        off_the_map_html: Çi tê de <em>nabe</em>? Daneyên serhişkane yên wek nirxandin,
+          xisûsiyetên dîrokî an jî ferazî û daneyên ji çavkaniyên ku mafên wan ên
+          daneriyê parastî be hatibin. Eger destûrekî we yê xisûsî tine be, ji nexşeyên
+          online an jî ji nexşeyên ser kaxizan kopî nekin.
       basic_terms:
         title: Termên esasî yên ji bo nexşekirinê
-        paragraph_1: OpenStreetMap xwediyê argoya xwe (zimanê xwe yê taybet) ye. Vaye
-          li vir çend peyvên ku wê bi kêrên we bên heye.
+        paragraph_1: OpenHistoricalMap xwediyê argoya xwe (zimanê xwe yê taybet) ye.
+          Vaye li vir çend peyvên ku wê bi kêrên we bên heye.
       rules:
         title: Qaîdeyên vêǃ
+        para_1_html: "Her çiqas qaîdeyen fermî yên OpenHistoricalMapê hindik bin jî
+          em ji hemû kesên tevkariya me dikin hêvî dikin ku bi civatê re bi hevkarî
+          bixebitin û di têkiliyê de bin. Eger tu bifikirî ku xebatên xwe ne bi destê
+          xwe bi rê ve bibî, xêra xwe ji jêr rêziknameyê bixwîne û bi ya rêziknameyê
+          bike: <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Barkirin</a>
+          û \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Sererastkirinên
+          otomatîk</a>."
       start_mapping: Dest bi çêkirina nexşeyan bike
       add_a_note:
         title: Ji bo sererastkirinê wextê te tine? Wê gavê notek lê zêde bike!
         para_1: Eger tu bixwazibî tenê tiştek biçûk rast bikî û wextê te ji bo qeydbûnê
           û ji bo ku hînbibî mirov wê çawa sererast bike tine be, tenê notek binivîsî
           bes e.
-    communities:
-      title: Civatên me
-      lede_text: |-
-        Ji temamê dinyayê însan beşdariya OpenStreetMapê dikin an wê bi kar tînin.
-        Hinek kes wek şexsî tevlî dibin, hinek kes jî civatan ava kirine.
-        Ev kom ji mezinehiyên cuda pêk tên û ji qezayên biçûk heya herêmên pir-welatî cografyayên mezin û biçûk temsîl dikin.
-        Herwiha mimkin e ku fermî an nefermî bin.
-      local_chapters:
-        title: Beşên Lokal
-      other_groups:
-        title: Komên din
   traces:
     visibility:
       private: Xisûsî (tenê wekî nuqteyên anonîm û nerêzkirî tê belavkirin)
@@ -2111,6 +2220,7 @@ ku-Latn:
     new:
       upload_trace: Şopa GPSê bar bike
       visibility_help: Ev tê çi wateyê?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Alîkarî
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2134,6 +2244,8 @@ ku-Latn:
       visibility_help: Ev tê çi maneyê?
     update:
       updated: Şop hate nûkirin
+    trace_optionals:
+      tags: Etîketên vê
     show:
       title: Şopa %{name} tê dîtin
       heading: Şopa %{name} tê nîşandan
@@ -2155,11 +2267,15 @@ ku-Latn:
       trace_not_found: Şop nehate dîtin!
       visibility: Kî dikare bibîneː
       confirm_delete: Vê şopê dixwazî jê bibî?
+    trace_paging_nav:
+      showing_page: Rûpel %{page}
+      older: Şopên kevintir
+      newer: Şopên nûtir
     trace:
       pending: LI BENDÊ YE
       count_points:
-        one: Niqteyekê
-        other: '%{count} niqte'
+        one: Nuqteyekê
+        other: '%{count} nuqte'
       more: dêtay
       trace_details: Dêtayên Şopê Bibîne
       view_map: Nexşeyê bibîne
@@ -2168,9 +2284,10 @@ ku-Latn:
       identifiable: DIKARE WERE NASKIRIN
       private: XISÛSÎ
       trackable: DIKARE WERE ŞOPANDIN
+      by: ji
+      in: di
     index:
       public_traces: Şopên GPSê yên giştî (ji her kesê re vekirî)
-      my_gps_traces: Şopên min ên GPSê
       public_traces_from: Şopên GPSê yên giştî yên ji %{user}
       description: Çavê xwe li nûkirinên şopên GPSê yên dawîn bigerîne
       tagged_with: ' bi %{tags} hate etîketkirin'
@@ -2181,13 +2298,15 @@ ku-Latn:
       remove_tag_filter: Parzûna etîketê rake
     destroy:
       scheduled_for_deletion: Şop ji bo jêbirinê hate plankirin
+    make_public:
+      made_public: Şop, ji her kesê re vekirî ye
     offline_warning:
       message: Sîstema şandinê yê dosyeyên GPXê vêga neberdest e
     offline:
       heading: Xizmeta depokirinê ya dosyeyên GPXê offline ye
       message: Sîstema barkirin û depokirina dosyeyên GPXê niha neberdest e
     georss:
-      title: Şopên GPSê yê OpenStreetMapê
+      title: Şopên GPSê yê OpenHistoricalMapê
     description:
       description_with_count:
         one: Dosyeya GPXê yê bi %{count} nuqteyê ya ji %{user}
@@ -2198,58 +2317,89 @@ ku-Latn:
     require_cookies:
       cookies_needed: Tê xuyan ku te kûkiyan girtiye - xêra xwe berî ku tu dewam bikî,
         kûkiyan di geroka xwe de aktîv bike.
+    require_admin:
+      not_an_admin: Ji bo ku tu vê kiryarê bikî divê tu bibî rêvebirek.
     setup_user_auth:
-      blocked_zero_hour: Li ser malpera OpenStreetMapê ji te re peyamek acîl heye.
+      blocked_zero_hour: Li ser malpera OpenHistoricalMapê ji te re peyamek acîl heye.
         Berî ku tu guherandinên xwe qeyd bikî divê tu wê peyamê bixwînî.
       blocked: Gihîna te ya APIyê hatiye astengkirin. Xêra xwe ji bo ku tu zêdetir
         agahiyan werbigrî têkeve înterfeysa webê.
       need_to_see_terms: Gihîna te ya APIyê ji bo demekê kurt hatiye astengkirin.
         Xêra xwe ji bo ku Şertên Beşdaran bibînî têkeve înterfeysa webê. Hewce nake
         ku tu van qebûl bikî, lê divê tu van bibînî.
-    settings_menu:
-      account_settings: Mîhengên Hesabê
-      oauth2_applications: Aplîkasyonên OAuth 2
-      oauth2_authorizations: Destûrdarkirinên OAuth 2
-    auth_providers:
-      openid:
-        title: Bi OpenIDyê têkeve
-        alt: Logoya OpenIDyê
-      google:
-        title: Bi Googlê têkeve
-        alt: Logoya Googlê
-      facebook:
-        title: Bi Facebookê têkeve
-        alt: Logoya Facebookê
-      microsoft:
-        title: Bi Microsoftê têkeve
-        alt: Logoya Microsoftê
-      github:
-        title: Bi GitHubê têkeve
-        alt: Logoya GitHubê
-      wikipedia:
-        title: Logoya Wîkîpediyayê
-        alt: Logoya Wîkîpediyayê
   oauth:
+    authorize:
+      title: Ji bo gihîna hesabê xwe selahiyetê bide
+      request_access_html: Sepana %{app_name} dixwaze bigihîje hesabê te, %{user}.
+        Xêra xwe kontrol bike ku tu dixwazî ev sepan bigihîje van taybetmendiyên li
+        jêr. Çiqas bixwazibî an jî tenê çend heb ji wan dikarî bibijêrî.
+      allow_to: 'Ji bo van tiştên li jêr, destûrê bide sepana telebkar:'
+      allow_read_prefs: xwendina hevyazên te yên bikarheneriyê.
+      allow_write_prefs: guherandina hevyazên te yên bikarheneriyê.
+      allow_write_diary: çêkirina rojnivîskan, şiroveyan û hevaltîyan.
+      allow_write_api: guherandina nexşeyê.
+      allow_read_gpx: xwendina şopên te yên GPSê ên xisûsî.
+      allow_write_gpx: barkirina şopên GPSê.
+      allow_write_notes: guherandina notan.
+      grant_access: Destûra gihîştinê bide
+    authorize_success:
+      title: Ji bo gihînê destûr hate dayîn
+      allowed_html: Tu destûr dayî sepana %{app_name} ji bo ku bigîhîje hesabê te.
+      verification: Koda teyîdkirinê %{code} ye.
+    authorize_failure:
+      title: Daxwaza selahiyetdarkirinê bi ser neket
+      denied: Tu destûr nedayî sepana %{app_name} ji bo ku bigîhîje hesabê te.
+      invalid: Nîşana destûrdariyê ne derbasdar e.
+    revoke:
+      flash: Te destûra ji bo %{application} betal kir
     permissions:
       missing: Te destûrê neda ji bo ku ev sepan bigihije vê îmkanê.
     scopes:
       read_prefs: Tercîhên bikarhênerê bixwîne
       write_prefs: Tercîhên bikarhênerê biguherîne
-      write_diary: Nivîsên rojnivîskê çêke, şîroveyan bike ji xwe re hevalan peyda
-        bike
-      write_api: Nexşeyê biguherîne
-      read_gpx: Şopên GPSê yên xisûsî bixwîne
-      write_gpx: Şopên GPSê hilbar bike
-      write_notes: Notan biguherîne
-      read_email: Adresa epeyamê yê bikarhênerê bixwîne
-      skip_authorization: Aplîkasyona bi otomatîkî pejirandinê
+  oauth_clients:
+    new:
+      title: Sepanekî nû qeyd bike
+    edit:
+      title: Sepanê xwe biguherîne
+    show:
+      title: Dêtayên OAuthê yê ji bo %{app_name}
+      key: 'Mifteya mişteriyê:'
+      secret: Mehremiyeta mişteriyanː
+      url: URLya ji bo xwestina destûrêː
+      access_url: URLya ji bo gihîna mifteyêː
+      authorize_url: URLya ji bo destûrdanêː
+      support_notice: Em piştgiriyê didin îmzeyên HMAC-SHA1 (tê pêşniyarkirin) û RSA-SHA1.
+      edit: Dêtayan biguherîne
+      delete: Telebkarê jê bibe
+      confirm: Tu piştrast î?
+      requests: Destûrên ku ji bikarhênerê têne xwestin ev inː
+    index:
+      title: Dêtayên min ên OAuthê
+      my_tokens: Sepanên min ên destûrdayî
+      list_tokens: 'Ev destûrên li jêr, ji sepana bi navê te re hate dayîn:'
+      application: Navê sepanê
+      issued_at: Wextê weşanê
+      revoke: Betal bike!
+      my_apps: Sepanên min ên telebkar
+      no_apps_html: Gelo sepanek heye tu bixwazibî wê qeyd bikî û pê standarda %{oauth}
+        biemilînî ji bo ku digel me bi kar bînî? Berî ku tu ji OAuthê vê xizmetê bixwazibî
+        divê tu sepanê xwe yê webê bidî qeydkirin.
+      oauth: OAuth
+      registered_apps: Van sepanên telebkar bide qeydkirinː
+      register_new: Sepanê xwe qeyd bike
+    form:
+      requests: Destûrên ku ji bikarhênerê têne xwestin ev inː
+    not_found:
+      sorry: Li me bibore, me ev %{type} nedît.
+    create:
+      flash: Te agahiyan bi serkeftinî da qeydkirin.
+    update:
+      flash: Agahiyên mişteriyê bi serkeftinî hate nûkirin.
+    destroy:
+      flash: Sepana telebkar qeyda xwe ji holê rakir
   oauth2_applications:
     index:
-      title: Sepanên min ên telebkar
-      no_applications_html: Gelo sepanek heye tu bixwazibî wê qeyd bikî û pê standarda
-        %{oauth2} biemilînî ji bo ku digel me bi kar bînî? Berî ku tu ji OAuthê vê
-        xizmetê bixwazî divê tu sepana xwe ya webê bidî qeydkirin.
-      new: Sepanekî nû qeyd bike
       name: Nav
       permissions: Destûr
     application:
@@ -2264,31 +2414,9 @@ ku-Latn:
       edit: Biguherîne
       delete: Jê bibe
       confirm_delete: Bila ev sepan were jêbirin?
-      client_id: IDya Telebkerê
-      client_secret: Veşariya Telebkerê
-      client_secret_warning: Jê piştrast be ku te vê veşariyê qeyd kiribe, ev wê cardin
-        peyda nebe.
-      permissions: Destûr
-      redirect_uris: URIyan Beralî bike
-    not_found:
-      sorry: Bibore, ev aplîkaston peyda nabe.
-  oauth2_authorizations:
-    new:
-      title: Destûrdayîn hewce dike
-      introduction: Dixwazî destûr bidî %{application} ji bo bi van destûran bigihe
-        hesabê te?
-      authorize: Destûrdar bike
-      deny: Red bike
-    error:
-      title: Çewtiyekê rû da
-    show:
-      title: Koda destûrdarkirinê
   oauth2_authorized_applications:
     index:
-      title: Sepanên min ên destûrdayî
       application: Sepan
-      permissions: Destûr
-      no_applications_html: Te hêj ti aplîkasyonekî %{oauth2} destûrdar nekiriye
     application:
       revoke: Gihînê Rake
       confirm_revoke: Bila gihîna ji vê sepanê were rakirin?
@@ -2297,18 +2425,24 @@ ku-Latn:
       title: Xwe Qeyd Bike
       no_auto_account_create: Mixabin, em vêga nikarin bi otomatîkî ji bo we hesabekî
         çêbikin.
-      please_contact_support_html: Xêra xwe bi %{support_link} re têkiliyê deyne ji
-        bo hesabekî were çêkirin - em ê hewl bidin ku daxwaza te di wextekî kurt de
-        çareser bikin.
-      support: piştgirî
+      contact_support_html: Ji bo hesabê ku tu dixwazî çêbikî xêra xwe bi <a href="%{support}">piştgiriyê</a>
+        re têkiliyê deyne - em ê hewl bidin ku daxwaza te di demekî kurt de çareser
+        bikin.
       about:
-        header: Belaş e û dikare were sererastkirin.
+        header: Belaş e û dikare were sererastkirin
+      email address: 'Navnîşana e-peyamê:'
+      confirm email address: Navnîşana e-peyamê nas bike
+      display name: Navê ku tê xuyanː
       display name description: Navê te yê ku ji her kesê re tê xuyan. Tu paşê dikarî
         vê navê ji hevyazên xwe biguherînî.
+      external auth: 'Teyîdkirina bi aliyên sêyem:'
+      use external auth: Wek alternatîv, ji bo têketinê yekî ji van bi kar bîne
+      auth no password: Eger tu bi aliyên sêyem teyîd bikî şîfre hewce nake, lê belê
+        ji bo hinek amûrên din an jî ji bo serverê dibe ku dîsa jî şîfreyek hewce
+        bike.
       continue: Qeyd bibe
       terms accepted: Em spasiya te dikin ji bo ku te şertên beşdariyê yê nû qebûl
         kirǃ
-      use external auth: An bi yek ji aplîkasyonên alîyê sêyem qeyd bibe
     terms:
       title: Şertûmerc
       heading: Şertûmerc
@@ -2326,9 +2460,10 @@ ku-Latn:
       consider_pd: Tevî evên li jorê, tu dikarî bibijêrî ku beşdariyên te wek Malê
         Giştî (malê ku ne aîdî şexsekî ye) were qebûlkirin.
       consider_pd_why: Ev çi ye?
-      readable_summary: kurteya xwendinbar ê li gor însanan
-      informal_translations: tercimeyên nefermî
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       continue: Dewam bike
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+      decline: Red bike
       you need to accept or decline: Ji bo ku dewam bikî, xêra xwe şertên beşdariyê
         bixwîne û piştre qebûl an jî red bike.
       legale_select: Welatê ku tu lê îqamet dikîː
@@ -2337,9 +2472,7 @@ ku-Latn:
         italy: Îtalya
         rest_of_world: Cihên din ên dinyayê
     terms_declined_flash:
-      terms_declined_html: Em xengîn bûn ji ber te qerar da ku Şertûmercên Bikaranînê
-        qebûl nekî. Ji bo agahiyên zêdetir, ji kerema xwe binêre %{terms_declined_link}.
-      terms_declined_link: ev rûpela wîkiyê
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Bikarhênerek wek vê tine
       heading: Bikarhênerek bi navê %{user} tine
@@ -2348,18 +2481,16 @@ ku-Latn:
       deleted: hate jêbirin
     show:
       my diary: Rojnivîska min
+      new diary entry: nivîsa nû yê rojane
       my edits: Guhartinên min
       my traces: Şopên min
       my notes: Notên min
       my messages: Peyamên min
       my profile: Profîla min
-      my settings: Hevyazên min
+      my settings: Eyarên min
       my comments: Şîroveyên min
-      my_preferences: Tercîhên min
-      my_dashboard: Panela Kontrolê
       blocks on me: Astengên ser min
       blocks by me: Astengên ku ez dakirime
-      edit_profile: Profîlê Biguherîne
       send message: Peyam bişîne
       diary: Rojnivîsk
       edits: Guhartin
@@ -2371,10 +2502,13 @@ ku-Latn:
       ct status: Şertên beşdariyêː
       ct undecided: Bêqerar
       ct declined: Redkirî
+      latest edit: 'Guherandina axirkî (%{ago}):'
       email address: 'Navnîşana e-nameyê:'
       created from: Ji van hate çêkirinː
       status: 'Rewş:'
       spam score: Skora spamêː
+      description: Danasîn
+      user location: Cihê bikarhênerê
       role:
         administrator: Ev bikarhêner rêvebirek e
         moderator: Ev bikarhêner moderatorek e
@@ -2389,49 +2523,50 @@ ku-Latn:
       comments: Şîrove
       create_block: Vê bikarhênere asteng bike
       activate_user: Vê bikarhênerê bide aktîvkirin
+      deactivate_user: Vê bikarhênerê neçalak bike
       confirm_user: Vê bikarhênerê tesdîq bike
-      unconfirm_user: Pejirandina vê bikarhênerê rake
-      unsuspend_user: Bêdengiya li ser vê bikarhênerê rake
       hide_user: Vê bikarhênerê veşêre
       unhide_user: Vi bikarhênerî nîşan bide
       delete_user: Vî/ê bikarhênerî/ê jê bibe
       confirm: Pesend bike
       report: Vî/Vê bikarhênerî/ê gilî bike
+    set_home:
+      flash success: Cihê malê bi awayekî serkeftî hate rojanekirin.
     go_public:
       flash success: Hemû guherandinên te niha ji her kesê re vekirî ye, û destûra
         te jî heye ji bo guherandinê.
     index:
       title: Bikarhêner
       heading: Bikarhêner
+      showing:
+        one: Rûpel %{page} (%{first_item} - bi tevahî %{items})
+        other: Rûpel %{page} (%{first_item}-%{last_item} - bi tevahî %{items})
       summary_html: '%{name} ji aliyê %{ip_address} ve di %{date} de hate çêkirin'
       summary_no_ip_html: '%{name} di %{date} de hate çêkirin'
-      empty: Bikarhênerek ku lê were nehate dîtin
-    page:
       confirm: Bikarhênerên bijartî bipejirîne
       hide: Bikarhênerên bijartî veşêre
+      empty: Bikarhênerek ku lê were nehate dîtin
     suspended:
       title: Hesab hatiye rawestandin
       heading: Hesab hatiye rawestandin
       support: piştgirî
-      automatically_suspended: Bibore, hesaba te ji ber aktîvîteyên şibhedar hatiye
-        rawestandin.
-      contact_support_html: Ev qerar wê di wextekî kurt de ji aliyê admînekî ve were
-        kontrolkirin, an tu jî dikarî bi %{support_link} re têkiliyê deynî ger bixwazî
-        vê yekê gotûbêj bikî.
+      body_html: "<p>\n  Li me bibore, hesabê te ji ber aktîvîteyên gumanbar bi otomatîkî
+        \n  hatiye rawestandin.\n</p>\n<p>\n  Wê ev qerar di demeke kurt de ji aliyê
+        rêvebirek malperê ve  \n  kontrolkirin an jî\n  eger bixwazibî vê gotûbêj
+        bikî bi %{webmaster} re dikarî \n  têkiliyê deynî.\n</p>"
     auth_failure:
       connection_failed: Girêdana bi peydakera teyîdkirina nasnameyê re bi ser neket
       invalid_credentials: Ji bo teyîdkirina nasnameyê agahî nerast in
       no_authorization_code: Koda destûrê tine
       unknown_signature_algorithm: Algorîtmaya îmzeyê ya nenas
       invalid_scope: Berfirehiya nemuteber
-      unknown_error: Destûrdayîn têk çû
     auth_association:
-      heading: Nasnameya te hêj bi hesabekî OpenStreetMapê ve ne girêdayî ye.
-      option_1: Eger tu di OpenStreetMapê de nû bî, xêra xwe bi vê formê li jêr, ji
-        xwe re hesabekî nû çêbike.
+      heading: Nasnameya te hêj bi hesabekî OpenHistoricalMapê ve ne girêdayî ye.
+      option_1: Eger tu di OpenHistoricalMapê de nû bî, xêra xwe bi vê formê li jêr,
+        ji xwe re hesabekî nû çêbike.
       option_2: Heke jixwe hesabekî te hebe, tu dikarî navê xwe yê bikarhêneriyê û
-        şîfreya xwe binivîsî û têkevî, û piştre jî ji mîhengên bikarhênerê nasnameya
-        (IDya) xwe bi hesabê xwe ve girê bidî.
+        şîfreyê xwe binivîsî û têkevî, û piştre jî ji mîhengên bikarhênerê nasnameya
+        (ID'ya) xwe bi hesabê xwe ve girê bidî.
   user_role:
     filter:
       not_a_role: '`%{role}'' ne rolek muteber e.'
@@ -2440,10 +2575,20 @@ ku-Latn:
       not_revoke_admin_current_user: Rola rêvebiriyê ji vê bikarhênerê nikare were
         rakirin.
     grant:
+      title: Rola ku hatiye dayîn tesdîq bike
+      heading: Rola ku hatiye dayîn bipejirîne
       are_you_sure: Tu piştrast î ku tu dixwazî rola `%{role}' bidî bikarhêner `%{name}'?
+      confirm: Pesend bike
+      fail: Rola `%{role}' ji bikarhêner `%{name}' re nekarî were dayîn. Xêra xwe
+        kontrol bike ku rol û bikarhêner muteber in an na.
     revoke:
+      title: Rakirina rolê bipejirîne
+      heading: Rakirina rolê tesdîq bike
       are_you_sure: Tu piştrast î ku tu dixwazî rola `%{role}' ji bikarhêner `%{name}'
         rabikî?
+      confirm: Bipejirîne
+      fail: Rola `%{role}' ji bikarhêner `%{name}' nikare were rakirin. Xêra xwe kontrol
+        bike ka bikarhêner û rol muteber in an na.
   user_blocks:
     model:
       non_moderator_update: Ji bo ku astengiyek çêbikî an jî nû bikî, divê tu moderatorek
@@ -2456,14 +2601,25 @@ ku-Latn:
       title: Li ser %{name} astengî çêbike
       heading_html: Li ser %{name} astengî çêbike
       period: Ji niha û pê ve wê heta kengê API ji bikarhêner were astengkirin?
+      tried_contacting: Min bi bikarhênerê re têkiliyê danî û min jê xwest ku bisekine.
+      tried_waiting: Ji bo ku ji van têkiliyan re cewabê bide min jê re wextekî maqûl
+        da.
+      back: Hemû astengiyan bibîne
     edit:
       title: Astenga li ser %{name} biguherîne
       heading_html: Astenga li ser %{name} biguherîne
       period: Ji niha û pê ve wê heta kengê API ji bikarhêner were astengkirin?
+      show: Vê astengiyê bibîne
+      back: Hemû astengiyan bibîne
     filter:
+      block_expired: Wextê astengiyê derbas bûye û nikare were guhartin.
       block_period: Wextê astengiyê, divê yek ji nirxên vê lîsteya ku dikare were
         vekirin be.
     create:
+      try_contacting: Xêra xwe berî ku tu bikarhênerê asteng bikî, hewl bide ku pê
+        re têkiliyê deynî û ji bo ku karibe cewabê bide jê re wextekî maqûl bide.
+      try_waiting: Xêra xwe berî ku tu bikarhênerê asteng bikî ji bo ku karibe cewabê
+        bide jê re wextekî maqûl bide.
       flash: Li ser bikarhêner %{name} astengiyek hate çêkirin.
     update:
       only_creator_can_edit: Tenê moderatorê ku vê astengiyê çêkiriye dikare vê astengiyê
@@ -2473,6 +2629,15 @@ ku-Latn:
       title: Astengiyên bikarhêner
       heading: Lîsteya astengiyên bikarhêneran
       empty: Hêj nehatiye astengkirin.
+    revoke:
+      title: Rakirina astengiyên li ser %{block_on}
+      heading_html: Rakirina astengiya ku ji aliyê %{block_by} ve li ser %{block_on}
+        hatiye çêkirin
+      time_future: Wê astengî di %{time} de xilas bibe.
+      past: Ev astengî %{time} xilas bûye û niha nikare were rakirin.
+      confirm: Tu bawer î ku tu dixwazî vî astengiyê rabikî?
+      revoke: Betal bike!
+      flash: Ev astengî hate betalkirin.
     helper:
       time_future_html: Di %{time} de diqede.
       until_login: Heta ku bikarhêner têkeve aktîv e
@@ -2481,19 +2646,19 @@ ku-Latn:
       time_past_html: '%{time} qediya.'
       block_duration:
         hours:
-          one: '%{count} saet'
+          one: 1 saetê
           other: '%{count} saetan'
         days:
-          one: '%{count} roj'
+          one: 1 roj
           other: '%{count} rojan'
         weeks:
-          one: '%{count} heftî'
+          one: 1 heftî
           other: '%{count} heftiyan'
         months:
-          one: '%{count} meh'
+          one: 1 meh
           other: '%{count} mehan'
         years:
-          one: '%{count} sal'
+          one: 1 sal
           other: '%{count} salan'
     blocks_on:
       title: Astengiyên ser %{name}
@@ -2509,74 +2674,39 @@ ku-Latn:
       created: 'Hate çêkirin:'
       duration: 'Mawe:'
       status: 'Rewş:'
+      show: nîşan bide
       edit: Biguherîne
+      revoke: Betal bike!
+      confirm: Tu piştrast î?
       reason: 'Sedema astengkirinê:'
+      back: Hemû astengiyan bibîne
       revoker: Yê ku rakiriyeː
+      needs_view: Divê bikarhêner berî ku ev astengî rabe têbikeve.
     block:
       not_revoked: (ne betalkirî)
       show: Nîşan bide
       edit: Biguherîne
-    page:
+      revoke: Betal bike!
+    blocks:
       display_name: Bikarhênerê astengkirî
       creator_name: Çêker
       reason: Sedema astengkirinê
       status: Rewş
       revoker_name: Yê ku betal kiriyeː
+      showing_page: Rûpel %{page}
+      next: Pêşve »
+      previous: « Paşve
   notes:
     index:
       title: Notên ku ji aliyê %{user} ve hatine şandin an jî şirovekirin
       heading: Notên %{user}
-      subheading_html: Notên ku ji aliyê %{user} ve %{submitted} an %{commented}
-      subheading_submitted: hatiye şandin
-      subheading_commented: şîrovekirî li ser
+      subheading_html: Notên ku ji aliyê %{user} ve hatine şandin an jî şirovekirin
       no_notes: Not tine
       id: Id
       creator: Çêker
       description: Danasîn
       created_at: Wextê çêkirinê
-      last_changed: Guherandinê dawîn
-    show:
-      title: 'Not: %{id}'
-      description: Danasîn
-      open_title: 'Nota ku nehatiye çarekirin #%{note_name}'
-      closed_title: 'Nota ku hatiye çarekirin #%{note_name}'
-      hidden_title: 'Notê veşartî #%{note_name}'
-      event_opened_by_html: Ji aliyê %{user} ve %{time_ago} hatiye çêkirin
-      event_opened_by_anonymous_html: Ji aliyê anonîmekî ve %{time_ago} hatiye çêkirin
-      event_commented_by_html: Şîrove ji %{user} %{time_ago}
-      event_commented_by_anonymous_html: Şîroveya ji anonîm %{time_ago}
-      event_closed_by_html: Ji aliyê %{user} ve %{time_ago} hate çareserkirin
-      event_closed_by_anonymous_html: Ji aliyê anonîmekî ve %{time_ago} hatiye çareserkirin
-      event_reopened_by_html: Ji aliyê %{user} ve %{time_ago} cardin hatiye aktîvkirin
-      event_reopened_by_anonymous_html: Ji aliyê anonîmekî ve %{time_ago} cardin hatiye
-        aktîvkirin
-      event_hidden_by_html: Hatiye veşartin ji aliyê %{user} ve %{time_ago}
-      report: vê nîşeyê gilî bike
-      anonymous_warning: Ji ber ku di vê notê de ji bikarhênerên anonîm şirove hene,
-        divê bi awayekî serbixwe were teyîdkirin.
-      hide: Veşêre
-      resolve: Çareser bike
-      reactivate: Jinûve bide aktîvkirin
-      comment_and_resolve: Şirove û çareserî
-      comment: Şîrove
-      report_link_html: Ger ev not agahiyên hesas yên ku divê bên rakirin bihewîne,
-        tu dikarî %{link}.
-      other_problems_resolve: Ji bo hemû problemên din yên bi vê notê, ji kerema xwe
-        bi şîroveyekê tu bixwe wê çareser bike.
-      other_problems_resolved: Ji bo hemû pirsgirêkên din, çareserkirin têr dike
-      disappear_date_html: Ev nota çareserkirî wê ser nexşeyê winda bibe di %{disappear_in}
-        de.
-    new:
-      title: Notê nû
-      intro: Gelo te xetayek dît an jî tiştek kêm e? Ji bo ku ev pirsgirêk were çareserkirin
-        nexşesazên jê agahdar bike. Nîşankerê bibe cihê rast û notekî ku pirsgirêkê
-        îzah bike binivîse.
-      advice: Notê te ji her kesê re vekirî ye û dibe ku ji bo nûkirina nexşeyê were
-        bikaranîn, lewma agahiyên xwe yên şexsî an jî agahiyên ji nexşeyên ku bi mafê
-        daneriyê tên parastin an jî agahiyên ji lîsteya naverokê nenivîse.
-      add: Notê lê zêde bike
-    notes_paging_nav:
-      showing_page: Rûpel %{page}
+      last_changed: Guhartina dawîn
   javascripts:
     close: Bigre
     share:
@@ -2591,15 +2721,14 @@ ku-Latn:
       custom_dimensions: Mezinahiyên taybet eyar bike
       format: 'Format:'
       scale: 'Pîvan (miqyas):'
-      image_dimensions: Wêne wê tebeqeya %{layer} li %{width} x %{height} nîşan bide
+      image_dimensions: Wêne wê tebeqeya standard li %{width} x %{height} nîşan bide
       download: Daxîne
       short_url: URLya kurt
       include_marker: Nîşanek deyne
       center_marker: Nîşanê bike merkeza nexşeyê
       paste_html: Ji bo ku di malperê de bi cih bikî HTMLê pê ve bike
       view_larger_map: Nexşeya Mestir Bibîne
-      only_standard_layer: Tenê tebeqeyên Standard, Nexşeya Bisiklêtê û Transportê
-        wek rism kare were derxistin
+      only_standard_layer: Tenê mezinahiya standard wek rismek dikare were derxistin
     embed:
       report_problem: Pirsgirêkek rapor bike
     key:
@@ -2613,16 +2742,18 @@ ku-Latn:
       locate:
         title: Cihê min nîşan bide
         metersPopup:
-          one: Tu di nava %{count} metreya vê nuqteyê de yî
+          one: Tu di nava 1 metreya vê nuqteyê de yî
           other: Tu di nava %{count} metreyên vê nuqteyê de yî
         feetPopup:
-          one: Tu %{count} gav di nava vê nuqteyê de yî
-          other: Tu di nava %{count} gavên vê nuqteyê de yî
+          one: Tu 1 gav di nava vê nuqteyê de yî
+          other: Tu d nava %{count} gavên vê nuqteyê de yî
       base:
+        historical: Tarîxî
         standard: Standard
         cycle_map: Nexşeya bisiklêtê
         transport_map: Nexşeya transportê
         hot: Mirovatî
+        opnvkarte: ÖPNVKarte
       layers:
         header: Tebeqeyên nexşeyê
         notes: Notên nexşeyê
@@ -2630,10 +2761,6 @@ ku-Latn:
         gps: Şopên GPSê yên giştî
         overlays: Ji bo ku pirsgirêkan çareser bikî tebeqeyan bide aktîvkirin
         title: Tebeqeyên nexşeyê
-      openstreetmap_contributors: Beşdarên OpenStreetMapê
-      make_a_donation: Bexş bike
-      website_and_api_terms: Malper û şertên APIyê
-      osm_france: OpenStreetMap Fransa
     site:
       edit_tooltip: Nexşeyê sererast bike
       edit_disabled_tooltip: Ji bo sererastkirina nexşeyê nêzîk bike
@@ -2643,6 +2770,30 @@ ku-Latn:
       map_data_zoom_in_tooltip: Ji bo ku daneyên nexşeyê bibînî nêzîk bike
       queryfeature_tooltip: Taybetmendiyan nîşan bide
       queryfeature_disabled_tooltip: Ji bo ku taybetmendiyan bibînî nêzîk bike
+    changesets:
+      show:
+        comment: Şîrove
+        subscribe: Bibe abone
+        unsubscribe: Ji abonetiyê derkeve
+        hide_comment: veşêre
+        unhide_comment: neveşêre
+    notes:
+      new:
+        intro: Gelo te xetayek dît an jî tiştek kêm e? Ji bo ku ev pirsgirêk were
+          çareserkirin nexşesazên jê agahdar bike. Nîşankerê bibe cihê rast û notekî
+          ku pirsgirêkê îzah bike binivîse.
+        advice: Notê te ji her kesê re vekirî ye û dibe ku ji bo nûkirina nexşeyê
+          were bikaranîn, lewma agahiyên xwe yên şexsî an jî agahiyên ji nexşeyên
+          ku bi mafê daneriyê tên parastin an jî agahiyên ji lîsteya naverokê nenivîse.
+        add: Notê lê zêde bike
+      show:
+        anonymous_warning: Ji ber ku di vê notê de ji bikarhênerên anonîm şirove hene,
+          divê bi awayekî serbixwe were teyîdkirin.
+        hide: Veşêre
+        resolve: Çareser bike
+        reactivate: Jinûve bide aktîvkirin
+        comment_and_resolve: Şirove û çareserî
+        comment: Şîrove
     edit_help: Nexşeyê bide hereketkirin û li cihê ku tu dixwazî biguherînî nêzîk
       bike, piştre jî bitikîne ser vir.
     directions:
@@ -2654,14 +2805,9 @@ ku-Latn:
         graphhopper_bicycle: Bisiklêt (GraphHopper)
         graphhopper_car: Erebe (GraphHopper)
         graphhopper_foot: Peyade (GraphHopper)
-        fossgis_valhalla_bicycle: Bisîklêt (Valhalla)
-        fossgis_valhalla_car: Erebe (Valhalla)
-        fossgis_valhalla_foot: Peyade (Valhalla)
       descend: Nizm bûn
       directions: Îstiqametên rotayê
       distance: Mesafe
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
       errors:
         no_route: Di navbera van du cihan de rotayek nehate dîtin.
         no_place: Bibore - '%{place}' nehate dîtin.

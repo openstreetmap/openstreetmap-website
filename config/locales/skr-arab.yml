@@ -27,7 +27,7 @@ skr-arab:
       client_application:
         create: رجسٹر
         update: اپ ݙیٹ
-      oauth2_application:
+      doorkeeper_application:
         create: رجسٹر
         update: اپ ݙیٹ
       redaction:
@@ -40,6 +40,10 @@ skr-arab:
         create: بلاک بݨاؤ
         update: بلاک اپ ڈیٹ کرو
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: جائز ای میل پتہ کائنی لڳدا پیا
+        email_address_not_routable: روٹیبل کائنی
     models:
       acl: رسائی کنٹرول تندیر
       changeset: تبدیلیاں
@@ -53,6 +57,7 @@ skr-arab:
       message: سنیہہ
       node: نوڈ
       node_tag: نوڈ ٹیگ
+      notifier: نوٹیفائر
       old_node: پراݨا نوڈ
       old_node_tag: پراݨا نوڈ ٹیگ
       old_relation: پراݨا رشتہ
@@ -81,16 +86,14 @@ skr-arab:
         url: مین ایپ یوآرایل (ضروری)
         callback_url: کال بیک یوآرایل
         support_url: سہارا یوآرایل
-        allow_read_prefs: انہاں دیاں ورتݨ ترجیحاں پڑھو
       diary_comment:
         body: باڈی
       diary_entry:
         user: ورتݨ آلا
         title: موضوع
-        body: باڈی
         latitude: عرض البلد
         longitude: طول البلد
-        language_code: زبان
+        language: زبان
       doorkeeper/application:
         name: ناں
         scopes: اجازتاں
@@ -106,7 +109,7 @@ skr-arab:
         longitude: طول البلد
         public: عوام
         description: تفصیل
-        gpx_file: جی پی ایس ٹریس فائل چݨو
+        gpx_file: جی پی ایکس فائل اپ لوڈ کرو
         visibility: نظرݨ دی صلاحیت
         tagstring: ٹیگ
       message:
@@ -119,6 +122,7 @@ skr-arab:
         description: تفصیل
       user:
         email: ای میل
+        email_confirmation: ای میل دی تصدیق
         new_email: نواں ای میل پتہ
         active: متحرک
         display_name: ظاہری ناں
@@ -151,8 +155,6 @@ skr-arab:
       comment:
         opened_at_html: ایہ %{when} بݨیا
         commented_at_html: ایہ %{when} اپ ڈیٹ تھیا
-      rss:
-        commented: نواں تبصرہ (%{place} دے نیڑے)
       entry:
         comment: رائے
         full: پورا نوٹ
@@ -170,20 +172,21 @@ skr-arab:
       current email address: موجودہ ای میل پتہ
       external auth: باہرلی تصدیق
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ایہ کیا ہے؟
       public editing:
-        heading: عوامی تبدیلیاں
         enabled link text: ایہ کیا ہے؟
-        disabled link text: میں تبدیلی کیوں کائنی کر سڳداں؟
       contributor terms:
         link text: ایہ کیا ہے؟
       save changes button: تبدیلیاں محفوظ کرو
       delete_account: کھاتہ مٹاؤ۔۔۔
-    go_public:
-      heading: عوامی تبدیلیاں
     destroy:
       success: کھاتہ مٹ ڳیا۔
   browse:
+    created: بݨ ڳیا
+    closed: بند تھیا
+    created_ago_html: '%{time_ago} خلقیا'
+    closed_ago_html: '%{time_ago} بند تھیا'
     version: ورژن
     in_changeset: تبدیلیاں
     anonymous: گمنام
@@ -193,12 +196,21 @@ skr-arab:
     view_history: تاریخچہ ݙیکھو
     view_details: تفصیل ݙکھاؤ
     location: 'محل وقوع:'
+    changeset:
+      title: تبدیلیاں:%{id}
+      belongs_to: مصنف
+      node: نوݙاں(%{count})
+      way: رستے(%{count})
+      comment: تبصرے (%{count})
+      discussion: بحث مباحثہ
     node:
       title_html: 'نوڈ: %{name}'
       history_title_html: نوݙ تاریخچہ:%{name}
     way:
       title_html: رستہ:%{name}
       nodes: نوڈاں
+      nodes_count:
+        other: '%{count} نوڈاں'
     relation:
       title_html: تعلق:%{name}
       members: ممبراں
@@ -232,35 +244,28 @@ skr-arab:
       loading: لوڈ تھیندا پئے
     tag_details:
       tags: ٹیگ
-      email_link: ای میل %{email}
-    query:
-      enclosing: منسلک خصوصیات
+    note:
+      title: نوٹ:%{id}
+      new_note: نواں نوٹ
+      description: تفصیل
   changesets:
+    changeset_paging_nav:
+      showing_page: ورقہ %{page}
+      next: اڳلا »
+      previous: « پچھلا
     changeset:
+      anonymous: گمنام
       no_edits: (کوئی ترمیم کائنی)
+    changesets:
+      id: آئی ڈی
+      saved_at: تے محفوظ ہے
+      user: ورتݨ آلا
+      comment: رائے
+      area: علاقہ
     index:
       title: تبدیلیاں
       empty: تبدیلیاں کائنی لبھیاں۔
       load_more: ٻئے لوݙ کرو
-      feed:
-        created: بݨ ڳیا
-        closed: بند تھیا
-        belongs_to: مصنف
-    show:
-      title: تبدیلیاں:%{id}
-      created: بݨیا:%{when}
-      closed: 'بند تھیا: %{when}'
-      created_ago_html: '%{time_ago} خلقیا'
-      closed_ago_html: '%{time_ago} بند تھیا'
-      discussion: بحث مباحثہ
-      subscribe: سبسکرائب کرو
-      unsubscribe: اݨ سبسکرائب کرو
-      hide_comment: لُکاؤ
-      unhide_comment: ݙکھاؤ
-      comment: تبصرہ
-    paging_nav:
-      nodes: نوݙاں(%{count})
-      ways: رستے(%{count})
   dashboards:
     contact:
       km away: '%{count} کلومیٹر دور'
@@ -270,7 +275,6 @@ skr-arab:
       friend: دوست
     show:
       title: میݙا ڈیش بورڈ
-      edit_your_profile: آپݨی پروفائل وچ تبدیلی کرو
       my friends: میݙے یار
   diary_entries:
     form:
@@ -278,17 +282,14 @@ skr-arab:
       use_map_link: نقشہ استعمال کرو
     index:
       my_diary: میݙی ڈائری
+      older_entries: پراݨی انٹریاں
+      newer_entries: نویاں انٹریاں
     show:
-      user_title: '%{user} دی ڈائری'
-      discussion: بحث مباحثہ
-      subscribe: سبسکرائب کرو
-      unsubscribe: اݨ سبسکرائب کرو
       leave_a_comment: رائے ݙیوو
       login: لاگ ان تھیوو
     diary_entry:
       comment_link: ایں انٹری تے رائے لکھو
       reply_link: ایں انٹری دا جواب ݙیوو
-      no_comments: کوئی تبصرہ کائنی
       edit_link: ایں انٹری وچ تبدیلی کرو
       hide_link: ایہ انٹری لکاؤ
       confirm: تصدیق
@@ -299,27 +300,26 @@ skr-arab:
       confirm: تصدیق
     location:
       location: 'محل وقوع:'
-  diary_comments:
-    page:
+      view: ݙکھالے
+      edit: لکھو
+    comments:
       post: پوسٹ
       when: کڈݨ
       comment: رائے
-  doorkeeper:
-    scopes:
-      email: آپݨاں ای میل پتہ ݙیکھو
+      newer_comments: نویں رائے
+      older_comments: پراݨی رائے
   errors:
     contact:
       contact: رابطہ
     forbidden:
       title: ممنوع
-    internal_server_error:
-      title: ایپ خرابی
     not_found:
       title: فائل کائنی لبھی
   geocoder:
     search:
       title:
         latlon: اندرونی
+        latlon_url: https://openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -327,30 +327,13 @@ skr-arab:
           chair_lift: چیئر لفٹ
           drag_lift: ݙریڳ لفٹ
           gondola: ڳونڈولا لفٹ
-          magic_carpet: جادوئی قالین لفٹ
-          platter: تھالی لفٹ
-          pylon: پائلن
-          station: ایریل وے ٹیشݨ
-          t-bar: ٹی بار لفٹ
-          "yes": ایریل وے
         aeroway:
-          aerodrome: ایروڈوم
-          airstrip: ہوائی پٹی
-          apron: ہوائی اݙہ ایپرن
           gate: ہوائی اݙے دا گیٹ
           hangar: ہینگر
           helipad: ہیلی پیڈ
-          holding_position: ہولڈنگ پوزیشن
-          navigationaid: ایوی ایشن نیویگیشݨ ایڈ
-          parking_position: پارگنک دی جاء
           runway: رن وے
-          taxilane: ٹیکسیلین
           taxiway: ٹیکسی دا راہ
-          terminal: ہوائی اݙے دا ٹرمینل
-          windsock: ونڈ ساک
         amenity:
-          animal_boarding: مویشی خانہ
-          animal_shelter: زناوراں دی پناہ گاہ
           arts_centre: آرٹس سنٹر
           atm: اے ٹی ایم
           bank: بینک
@@ -358,20 +341,15 @@ skr-arab:
           bbq: بی بی کیو
           bench: بینچ
           bicycle_parking: سائکل پارکنگ
-          bicycle_rental: سائیکل کرائے تے
-          bicycle_repair_station: سائیکل مرمت ورکشاپ
           biergarten: بیئر باغ
           blood_bank: بلڈ بینک
           boat_rental: بھاڑے دی ٻیڑی
           brothel: فحش خانہ
-          bureau_de_change: بیورو ڈی چینج
           bus_station: بساں دا اݙہ
           cafe: کیفے
           car_rental: کار رینٹل
-          car_sharing: کار شیئرنگ
           car_wash: کار واش
           casino: ناچگاہ
-          charging_station: چارجنگ ٹیشݨ
           childcare: ٻال سنبھال
           cinema: سینما
           clinic: کلینک
@@ -386,36 +364,26 @@ skr-arab:
           drinking_water: پیوݨ دا پاݨی
           driving_school: ڈرائیونگ سکول
           embassy: سفارتخانہ
-          events_venue: تقریباں آلی جاہ
           fast_food: فاسٹ فوڈ
-          ferry_terminal: فیری ٹرمینل
           fire_station: فائر ٹیشݨ
           food_court: خوراک کورٹ
           fountain: فوارہ
           fuel: فلنگ ٹیشݨ
           gambling: جوا
           grave_yard: قبرستان
-          grit_bin: گرٹ بن
           hospital: ہسپتال
-          hunting_stand: شکاری اݙہ
           ice_cream: آئس کریم
           internet_cafe: اِنٹرنیٹ کیفے
           kindergarten: کنڈرگاٹن
           language_school: زبان دا سکول
           library: لائبریری
-          love_hotel: محبت ہوٹل
           marketplace: بازار
-          mobile_money_agent: موبائل منی ایجنٹ
-          monastery: خنگاہ
-          money_transfer: رقم دی منتقلی
           motorcycle_parking: موٹر سائیکل پارکنگ
           music_school: میوزک سکول
           nightclub: نائٹ کلب
           nursing_home: نرسنگ ہوم
           parking: پارکنگ
-          parking_entrance: پارگنگ دی اینٹرنسس
           parking_space: پارکنگ دی جاء
-          payment_terminal: ادائیگی ٹرمینل
           pharmacy: فارمیسی
           place_of_worship: عبادتگاہ
           police: پولیس
@@ -424,48 +392,32 @@ skr-arab:
           prison: جیل
           pub: پب
           public_bath: عوامی غسل خانہ
-          public_bookcase: عوامی کتاباں دی الماری
           public_building: عوامی عمارت
           ranger_station: رینجر ٹیشݨ
-          recycling: ریسائیکلنگ پوائنٹ
           restaurant: ریسٹوران
-          sanitary_dump_station: سینیٹری ڈمپ ٹیشݨ
           school: سکول
           shelter: پناہ گاہ
           shower: شاور
           social_centre: سماجی مرکز
           social_facility: وسیبی سَوکھ
           studio: سٹوڈیو
-          swimming_pool: سومنگ پول
           taxi: ٹیکسی
           telephone: عوامی ٹیلیفون
           theatre: تھیئٹر
-          toilets: بیت الخلاء
           townhall: قصبہ ہال
-          training: تربیت دی سہولت
           university: یونی ورسٹی
-          vehicle_inspection: ڳاݙی دا معائنہ
-          vending_machine: وینڈنگ مشین
-          veterinary: زناوراں دی سرجری
           village_hall: دیہاتی ہال
           waste_basket: کُوڑے دی ٹوکری
-          water_point: پاݨی پوائںٹ
-          "yes": سہولت
         boundary:
           administrative: انتظامی حدود
           national_park: قومی پارک
           protected_area: محفوظ شدہ علاقہ
           "yes": چار دیواری
         bridge:
-          boardwalk: بورڈ واک
-          suspension: لٹکدا ہویا پل
-          swing: جھوٹیاں آلا پل
-          viaduct: وائڈکٹ
           "yes": پُل
         building:
           apartment: اپارٹمنٹ
           apartments: اپارٹمنٹ
-          barn: گودام
           bungalow: بنگلا
           cabin: کیبن
           chapel: چیپل
@@ -474,9 +426,6 @@ skr-arab:
           college: کالج عمارت
           commercial: تجارتی عمارت
           construction: زیر تعمیر عمارت
-          detached: وکھرا گھر
-          dormitory: ہوسٹل
-          duplex: ڈوپلیکس گھر
           farm: فارم ہاؤس
           garage: گیراج
           garages: گیراج
@@ -485,83 +434,49 @@ skr-arab:
           hospital: ہسپتال عمارت
           hotel: ہوٹل دی عمارت
           house: گھر
-          houseboat: ہاؤس بوٹ
           industrial: صنعتی عمارت
           kindergarten: کِنڈرگارٹن دی عمارت
           office: دفتری عمارت
           public: عوامی عمارت
           residential: رہائشی عمارت
           roof: چھت
-          ruins: تباہ شدہ عمارت
           school: سکول دی عمارت
           service: خدمتی عمارت
           shed: شیڈ
-          stable: مستحکم
           static_caravan: کاروان
-          temple: مندر دی عمارت
-          terrace: چھڄا عمارت
-          train_station: ٹرین ٹیشݨ عمارت
-          university: یونیورسٹی عمارت
           warehouse: ویئر ہاؤس
           "yes": عمارت
         club:
-          sport: سپورٹس کلب
           "yes": کلب
         craft:
           beekeeper: ماکھی پال
-          blacksmith: لوہار
-          brewery: شراب خانہ
           carpenter: درکھاݨ
-          caterer: کیٹرر
-          confectionery: کنفیکشنری
           dressmaker: درزی
           electrician: اِلَیکٹریشن
-          electronics_repair: الیکٹرانکس مرمت
           gardener: مالی
-          glaziery: گلیزری
-          handicraft: دستکاری
           painter: پینٹڑ
           photographer: فوٹو گرافر
           plumber: پلمبر
-          roofer: چھت آلا
-          sawmill: آرا چکی
           shoemaker: موچی
-          stonemason: پتھر مستری
           tailor: درزی
-          window_construction: طاقڑی تعمیر
-          winery: شراب خانہ
-          "yes": دستکاری ہٹی
         emergency:
-          access_point: رسائی پوائنٹ
-          ambulance_station: ایمبولینس ٹیشݨ
-          assembly_point: اسمبلی پوائنٹ
-          defibrillator: ڈیفیبریلیٹر
-          fire_extinguisher: بھا ٻجھاوݨ آلا
           phone: ہنگامی فون
           siren: ہنگامی سائرن
         highway:
           bus_stop: بساں دا اݙا
           corridor: راہداری
-          crossing: کراسنگ
           cycleway: سائیکل راہ
           elevator: لِفٹ
-          emergency_bay: ہنگامی خلیج
           footway: فٹ پاتھ
           ford: فورڈ
-          give_way: رستہ ݙیوݨ نشان
-          living_street: رہائشی ڳلی
           milestone: سنگ میل
           motorway: موٹروے
           motorway_junction: موٹروے جنکشن
           motorway_link: موٹروے سڑک
-          passing_place: لنگھݨ جاء
           path: راہ
-          pedestrian: پیدل رستہ
           platform: پلیٹ فارم
           primary: اصلی سڑک
           primary_link: اصلی سڑک
-          proposed: مجوزہ سڑک
-          raceway: ریس وے
           residential: رِہائشی سڑک
           rest_area: آرام گاہ
           road: سڑک
@@ -572,205 +487,96 @@ skr-arab:
           speed_camera: رفتار کیمرا
           steps: پَوڑیاں
           stop: رکݨ دا کنایہ
-          tertiary: ٹرشری روڈ
-          tertiary_link: ٹرشری روڈ
           track: ٹرَیک
-          traffic_mirror: ٹریفک شیشے
-          traffic_signals: ٹریفک اشارے
-          trailhead: ٹریل ہیڈ
           trunk: ٹرنک روڈ
           trunk_link: ٹرنک روڈ
-          turning_circle: ٹرننگ سرکل
-          turning_loop: ٹرننگ لوپ
           "yes": سڑک
         historic:
-          aircraft: تاریخی ہوائی جہاز
-          archaeological_site: آثارقدیمہ سائٹ
           battlefield: جنگ دا میدان
           building: تاریخی عمارت
           bunker: بنکر
-          cannon: تاریخی توپ
           castle: قلعہ
           church: گرجاگھر
           city_gate: شہر دا دروازہ
           citywalls: شہر دیاں کندھاں
           fort: قلعہ
-          heritage: ورثہ سائٹ
           house: ہاؤس
-          manor: جاگیر
           memorial: یادگار
-          milestone: تاریخی سنگ میل
-          mine: کھاݨ
-          mine_shaft: کھاݨ دی سرنگ
-          monument: یادگار
           railway: تاریخی ریلوے
-          roman_road: رومن سڑک
-          ruins: بھڑاں
           stone: پتھر
           tomb: مزار
           tower: ٹاور
-          wreck: ملبہ
           "yes": تاریخی موقف
         junction:
           "yes": جنکشن
         landuse:
-          allotments: الاٹمنٹاں
-          aquaculture: آبی زراعت
-          basin: بیسن
           cemetery: قبرستان
           commercial: کمرشل ایریا
-          construction: تعمراتی علاقہ
-          farmyard: رڑھ واہی
           forest: جنگل
           garages: گیراج
           grass: گھا
           meadow: چراگاہ
           military: فوجی علاقہ
-          mine: کھاݨ
           orchard: بغیچا
-          plant_nursery: پودیاں دی نرسری
-          quarry: کھاݨ
           railway: ریلوے
-          recreation_ground: تفریحی میدان
-          religious: مذہبی میدان
-          reservoir: ذخائر
-          residential: رہائشی علاقہ
-          vineyard: انگوری باغ
         leisure:
-          amusement_arcade: تفریحی آرکیڈ
-          bandstand: بینڈ سٹینڈ
-          beach_resort: ساحلی سیرگاہ
-          bird_hide: پکھو لکاؤ
-          bleachers: بلیچرز
-          common: عام علاقہ
           dance: جھمر ہال
           dog_park: کتا پارک
-          firepit: اڳ دا ٹویا
-          fishing: مچھی علاقہ
-          fitness_centre: فٹنس مرکز
-          fitness_station: فٹنس ٹیشݨ
           garden: باغ
           golf_course: گولف مَیدان
-          horse_riding: گھڑ سواری مرکز
+          horse_riding: گھڑ سواری
           ice_rink: برفیلا فرش
-          marina: مرینہ
-          miniature_golf: چھوٹے گالف
-          nature_reserve: قدرتی ذخیرہ
-          outdoor_seating: آؤٹ ڈور سیٹنگ
           park: پارک
-          picnic_table: پکنک ٹیبل
           playground: کھیڈ دا میدان
-          recreation_ground: تفریحی میدان
           resort: سیر گاہ
-          sauna: سونا
-          slipway: سلپ وے
           stadium: سٹیڈیم
-          swimming_pool: سوئمنگ پول
           water_park: واٹر پارک
-          "yes": تفریح
         man_made:
-          advertising: ایڈورٹائزنگ
           antenna: انٹینا
-          avalanche_protection: برفانی تودہ حفاظت
-          beacon: بیکن
-          beam: بیم
           beehive: ماکھی دا چھتہ
           bridge: پُل
-          bunker_silo: بنکر
           chimney: چمنی
-          clearcut: اصلوں واضح
-          communications_tower: کمیونیکیشن ٹاور
           crane: کرین
           cross: کراس
-          dolphin: مورنگ پوسٹ
-          dyke: ٻن
-          embankment: پشتے
-          flagpole: جھنڈے دا تھمبا
-          gasometer: گیسو میٹر
-          groyne: پُشتہ
-          kiln: بٹھہ
           lighthouse: لائٹ ہاؤس
-          manhole: مین ہول
-          mast: مست
-          mine: کھاݨ
           mineshaft: کھاݨ دی سرنگ
-          monitoring_station: نگرانی ٹیشݨ
-          pier: گھاٹ
           pipeline: پائپ لائن
-          silo: سائلو
-          snow_cannon: برف دی توپ
-          snow_fence: برف دا لوڑھا
-          street_cabinet: کابینہ ڳلی
           surveillance: نگرانی
           telescope: دور بین
           tower: ٹاور
-          watermill: پن چکی
           water_tap: پاݨی دی ٹُوٹی
-          water_tower: پاݨی ٹاور
           water_well: کھوہ
           water_works: واٹر ورکس
           windmill: ہوا چکی
           works: فیکٹری
         military:
-          barracks: بیرک
           bunker: بنکر
-          checkpoint: چیک پوائنٹ
-          trench: خندق
           "yes": فوج
         mountain_pass:
           "yes": درا
         natural:
-          atoll: اٹول
           bay: کھاڑی
           beach: ساحل
-          cape: کیپ
-          cave_entrance: غار دہانہ
           cliff: چٹان
-          coastline: ساحلی پٹی
-          crater: ٹویا
-          dune: ٹٻہ
-          fell: ڈھیہ پیا
           forest: جنگل
-          geyser: گیزر
-          glacier: گلیشیئر
           hill: پہاڑی
           hot_spring: گرم پاݨی دا چشمہ
           island: جزیرہ
-          land: بھوئیں
-          marsh: مارش
-          moor: مور
           mud: گارا
-          peak: چوٹی
-          peninsula: جزیرہ نما
           point: نقطہ
-          reef: ریف
-          ridge: رج
-          rock: چٹان
           sand: ریت
-          scrub: ٻوہاری
-          shingle: شنگلی
           spring: چشمہ
           stone: پتھر
           tree: درخت
           tree_row: جھُنڈ
-          tundra: ٹنڈرا
           valley: وادی
-          volcano: آتش فشاں
           water: پاݨی
-          wetland: ویٹ لینڈ
           wood: لکڑ
-          "yes": قدرتی خصوصیت
         office:
           accountant: اکاؤنٹنٹ
-          administrative: انتظامیہ
-          advertising_agency: ایڈورٹائزنگ ایجنسی
-          architect: آرکیٹکٹ
-          association: ایسوسی ایشن
           company: کمپنی
-          diplomatic: سفارتی دفتر
           educational_institution: تعلیمی ادارہ
           employment_agency: روزگار ایجنسی
-          government: سرکاری دفتر
           it: آئی ٹی دفتر
           lawyer: وکیل
           newspaper: اخبار دفتر
@@ -788,13 +594,9 @@ skr-arab:
           city_block: شہر بلاک
           country: ملک
           county: کاؤنٹی
-          farm: کھیت
-          hamlet: ہیملیٹ
           house: ہاؤس
           houses: گھر
           island: جزیرہ
-          islet: آئیلیٹ
-          locality: علاقہ
           municipality: میونسپلٹی
           postcode: پوسٹ کوڈ
           quarter: چوتهائی
@@ -802,18 +604,12 @@ skr-arab:
           sea: سمندر
           square: مربع
           state: ریاست
-          subdivision: سب ڈویژن
-          suburb: مضافات
           town: قصبہ
           village: وستی
           "yes": جاء
         railway:
-          construction: زیر تعمیر ریلوے
           halt: ڳݙی دا ٹیشݨ
           junction: ریلوے جنگشن
-          light_rail: لائٹ ریل
-          miniature: منی ایچر ریل
-          monorail: مونوریل
           platform: ریلوے پلیٹ فارم
           preserved: مخصوص ریلوے
           proposed: مجوزہ ریلوے
@@ -824,14 +620,8 @@ skr-arab:
           subway: سب وے
           tram: ٹرام وے
           tram_stop: ٹرام دا ٹیشݨ
-          turntable: ٹرنٹیبل
           yard: ریلوے یارڈ
         shop:
-          alcohol: آف لائسنس
-          antiques: نوادرات
-          art: آرٹ شاپ
-          baby_goods: ٻالاں دا سامان
-          bag: بیگ شاپ
           bakery: بیکری
           beauty: بیوٹی شاپ
           bicycle: سائیکل دی ہٹی
@@ -840,78 +630,44 @@ skr-arab:
           boutique: بوتیک
           butcher: قصائی
           car: کاراں دی دُکان
-          car_parts: کار پرزے
-          car_repair: کار مرمت
           carpet: قالین شاپ
-          charity: خیراتی دکان
-          cheese: پنیر دکان
           chemist: کیمسٹ
           chocolate: چاکلیٹ
           clothes: کپڑے دی دُکان
           coffee: کافی دی ہٹی
           computer: کمپیوٹراں دی دکان
           confectionery: مٹھائی دی دُکان
-          convenience: سہولت سٹور
-          copyshop: کاپی شاپ
           deli: ڈیلی
           department_store: ڈپارٹمینٹ سٹور
           discount: چھوٹ آلیاں چیزاں دی دُکان
           dry_cleaning: ڈرائی کلینگ
-          electronics: الیکٹرانک شاپ
-          erotic: عاشقاں کیتے ہٹی
-          estate_agent: اسٹیٹ ایجنٹ
-          fabric: فیبرک سٹور
-          fashion: فیشن دکان
-          florist: پھلاں آلا
-          frame: فریم دکان
           furniture: فرنیچر
           gas: گیس سٹور
           general: جنرل سٹور
           gift: گفٹ شاپ
           grocery: کریانہ ہٹی
-          hairdresser: نائی
           hardware: ہارڈویئر سٹور
           ice_cream: آئس کریم دکان
-          interior_decoration: داخلی سجاوٹ
-          laundry: لانڈری
-          lottery: لاٹری
           mall: مال
           massage: سنیہا
-          music: میوزک شاپ
-          musical_instrument: موسیقی آلات
-          newsagent: خبر رساں
           optician: عینک ساز
           organic: کاربنی خوِراک دی دُکان
-          paint: پینٹ شاپ
-          pastry: پیسٹری شاپ
-          perfumery: عطری
           photo: فوٹو شاپ
           sewing: درزی دی ہٹی
           shoes: چتیاں دی ہٹی
-          stationery: سٹیشنری شاپ
-          supermarket: سپر مارکیٹ
           tailor: درزی
-          tattoo: ٹیٹو شاپ
           tea: چاہ آلا
           ticket: ٹِکٹ دی دُکان
           tobacco: تماکو دی دکان
-          travel_agency: ٹریول ایجنسی
           tyres: ٹائر شاپ
-          vacant: خالی دکان
-          variety_store: ورائٹی سٹور
-          video: ویڈیو شاپ
-          video_games: وڈیو گیم سٹور
           "yes": دکان
         tourism:
-          artwork: آرٹ ورک
-          attraction: کشش
           gallery: گیلری
           hostel: ہوسٹل
           hotel: ہوٹل
           information: معلومات
           motel: موٹل
           museum: عڄائب گھر
-          theme_park: تھیم پارک
           zoo: چڑیا گھر
         tunnel:
           "yes": سرنگ
@@ -919,52 +675,33 @@ skr-arab:
           canal: نہر
           dam: ڈیم
           drain: نالی
-          lock: جندرہ
-          mooring: مورنگ
           river: دریا
           stream: ندی
-          wadi: وادی
           waterfall: آبشار
-          "yes": آبی گزرگاہ
-      admin_levels:
-        level2: ملکی سرحد
-        level3: علاقی سرحد
-        level4: ریاستی سرحد
-        level5: علاقی سرحد
-        level6: کاؤنٹی سرحد
-        level7: میونسپلٹی سرحد
-        level8: شہری سرحد
-        level9: وستی سرحد
+      types:
+        towns: قصبے
+        places: جاہیں
     results:
       no_results: کوئی نتیجہ نی لبھا
       more_results: ٻئے نتیجے
   issues:
     index:
       title: مسئلے
-      select_status: حیثیت چݨو
       select_type: قسم چُݨو
-      not_updated: اپ ڈیٹ کائنی تھیا
       search: ڳولو
-      search_guidance: 'ڳولݨ رولے:'
-      states:
-        open: کھولو
-        resolved: حل تھی ڳیا
-    page:
-      reported_user: رپورٹ تھیا ورتݨ آلا
       status: حیثیت
       reports: رپورٹاں
       last_updated: چھیکڑی تبدیلی
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> منجانب %{user}
+      link_to_reports: رپوٹاں ݙیکھو
       states:
-        ignored: نظر انداز تھیا
         open: کھولو
-        resolved: حل تھی ڳیا
     show:
-      no_reports: کوئی رپورٹاں کائنی
       resolve: حل کرو
       ignore: چھوڑو
       reopen: ولدا کھولو
       new_reports: نویاں رپورٹاں
-      other_issues_against_this_user: ایں ورتݨ آلے دے خضاف ٻئے رولے
   reports:
     new:
       categories:
@@ -975,7 +712,6 @@ skr-arab:
         user:
           other_label: ٻیا
         note:
-          spam_label: ایہ نوٹ سپیم ہے
           other_label: ٻیا
   layouts:
     logout: لاگ آؤٹ
@@ -985,22 +721,20 @@ skr-arab:
     history: تاریخچہ
     export: ٻاہر بھیڄو
     issues: مسئلے
-    partners_fastly: تکھیرے
+    data: ڈیٹا
+    export_data: ڈَیٹا برامد کرو
+    partners_title: بھائیوال
     partners_partners: بھائیوال
     tou: ورتݨ شرطاں
     help: مدد
     about: تعارف
     copyright: نقل حقوق
-    communities: برادریاں
+    community: برادری
+    community_blogs: برادری بلاگ
+    foundation: فاؤنڈیشن
     learn_more: ٻیا سِکھو
     more: ٻئے
   user_mailer:
-    diary_comment_notification:
-      hi: سلام %{to_user}،
-    message_notification:
-      hi: سلام %{to_user}،
-    friendship_notification:
-      hi: سلام %{to_user}،
     gpx_failure:
       hi: سلام %{to_user}
     gpx_success:
@@ -1015,39 +749,35 @@ skr-arab:
       greeting: سلام،
     changeset_comment_notification:
       hi: سلام %{to_user}،
-      commented:
-        partial_changeset_without_comment: تبصرے بغیر
+      greeting: سلام،
   confirmations:
     confirm:
-      heading: آپݨی ای میل ݙیکھو!
       button: تصدیق
-      click_here: اِتھ کلک کرو
     confirm_email:
       button: تصدیق
   messages:
     inbox:
       title: ان باکس
-    messages_table:
+      my_inbox: میݙا انباکس
+      my_outbox: میݙا آؤٹ باکس
       from: کنوں
-      to: تائیں
       subject: موضوع
       date: تریخ
-      actions: عمل
     message_summary:
       unread_button: نشان لاؤ جو کائنی پڑھا
       read_button: نشان لاؤ جو پڑھ گھدے
+      reply_button: جواب
       destroy_button: مٹاؤ
-      unmute_button: انباکس تے ون٘ڄو
     new:
       title: سنیہا پٹھو
       send_message_to_html: '%{name} کوں نواں سنیہا پٹھو'
-      back_to_inbox: انباکس تے واپس
-    create:
-      message_sent: سنیہا بھیڄ ݙتے
     outbox:
       title: آؤٹ باکس
-    muted:
-      title: خاموش تھئے سنیہے
+      my_inbox: میݙا انباکس
+      my_outbox: میݙا آؤٹ باکس
+      to: تائیں
+      subject: موضوع
+      date: تریخ
     show:
       title: سنیہا پڑھو
       reply_button: جواب
@@ -1056,57 +786,51 @@ skr-arab:
       back: پچھوں
     sent_message_summary:
       destroy_button: مٹاؤ
-    heading:
-      my_inbox: میݙا انباکس
-      my_outbox: میݙا آؤٹ باکس
-      muted_messages: خاموش تھئے سنیہے
-    destroy:
-      destroyed: سنیہا مٹ ڳیا
   passwords:
-    new:
-      email address: ای میل پتہ
+    lost_password:
+      email address: 'ای میل پتہ:'
       new password button: پاس ورڈ ولدا ٹھیک کرو
-    edit:
+    reset_password:
       title: پاس ورڈ ولدا ٹھیک کرو
       reset: پاس ورڈ ولدا ٹھیک کرو
-    update:
       flash changed: تہاݙا پاس ورڈ تبدیل تھی ڳیا۔
   preferences:
-    show:
-      title: میݙیاں ترجیحاں
-      preferred_editor: ترجیحی ایڈیٹر
-      preferred_languages: ترجیحی زباناں
-      edit_preferences: ترجیحاں وچ تبدیلی کرو
     edit:
-      save: ترجیحاں اپ ڈیٹ کرو
       cancel: منسوخ
   profiles:
     edit:
-      title: پروفائل وچ تبدیلی کرو
-      save: پروفائل اپ ڈیٹ کرو
       cancel: منسوخ
       image: تصویر
-      gravatar:
-        gravatar: گراواتار ورتو
-        what_is_gravatar: گراواتار کیا ہے؟
-      new image: ہک تصویر شامل کرو
-      show: ݙِکھاؤ
-      delete: مٹاؤ
-      undelete: بحال
   sessions:
     new:
-      tab_title: لاگ ان
-      email or username: ای میل پتہ یا ورتݨ ناں
-      password: پاس ورڈ
+      title: لاگ ان
+      heading: لاگ ان
+      password: 'پاس ورڈ:'
+      openid_html: '%{logo} اوپن آئی ڈی:'
       remember: میکوں یاد رکھو
       lost password link: پاسورڈ بھل ڳئے ہو؟
       login_button: لاگ ان
-      or: یا
+      openid_logo_alt: اوپن آئی ڈی نال لاگ ان تھیوو
+      auth_providers:
+        openid:
+          title: اوپن آئی ڈی نال لاگ ان تھیوو
+          alt: اوپن آئی ڈی یوآرایل نال لاگ ان تھیوو
+        google:
+          title: گوگل نال لاگ ان تھیوو
+          alt: گوگل اوپن آئی ڈی نال لاگ ان تھیوو
+        facebook:
+          title: فیس بک نال لاگ ان تھیوو
+        github:
+          title: گٹ ہب نال لاگ ان تھیوو
+          alt: گٹ ہب کھاتے نال لاگ ان تھیوو
+        wikipedia:
+          title: وکی پیڈیا نال لاگ ان تھیوو
+          alt: وکی پیڈیا کھاتے نال لاگ ان تھیوو
+        wordpress:
+          title: ورڈپریس نال لاگ ان تھیوو
     destroy:
       title: لاگ آؤٹ
       logout_button: لاگ آؤٹ
-    suspended_flash:
-      support: سہارا
   shared:
     markdown_help:
       headings: سرخیاں
@@ -1117,67 +841,43 @@ skr-arab:
       text: ٹیکسٹ
       image: تصویر
       url: یوآرایل
-    richtext_field:
-      edit: لکھو
-      preview: پیشگی ݙکھالا
-      help: مدد
-    pagination:
-      diary_comments:
-        older: پراݨی رائے
-        newer: نویں رائے
-      diary_entries:
-        older: پراݨی انٹریاں
-        newer: نویاں انٹریاں
-      issues:
-        older: پراݨے مسئلے
-        newer: نویں مسئلے
   site:
     about:
-      community_driven_community_blogs: برادری بلاگ
-      community_driven_osm_foundation: او ایس ایم فاؤنڈیشن
-      open_data_open_data: کھلا ڈیٹا
+      next: اڳلا
       legal_title: قنونی
-      legal_1_1_terms_of_use: ورتݨ شرطاں
-      legal_1_1_privacy_policy: رازداری پالیسی
       partners_title: بھائیوال
     copyright:
       foreign:
         title: ایں ترجمے بارے
       native:
         title: ایں ورقے بارے
-      legal_babble:
-        introduction_1_open_data: کھلا ڈیٹا
-        introduction_2_legal_code: قنونی کوڈ
-        contributors_at_austria: آسٹریا
-        contributors_at_cc_by: سی سی۔بی وائی
-        contributors_au_australia: آسٹریلیا
-        contributors_ca_canada: کنیڈا
-        contributors_fi_finland: فِن لینڈ
-        contributors_fr_france: فرانس
-        contributors_hr_croatia: کروشین
-        contributors_nl_netherlands: نیدرلینڈز
-        contributors_nz_new_zealand: نیوزی لینڈ
-        contributors_nz_cc_by: سی سی بی وائی ٤.٠
-        contributors_rs_serbia: سربیا
-        contributors_si_slovenia: سلووینیا
-        contributors_es_spain: سپین
-        contributors_es_cc_by: سی سی بی وائی ٤.٠
-        contributors_za_south_africa: جنوبی افریقہ
-        contributors_gb_united_kingdom: برطانیہ
-        trademarks_title: ٹریڈ مارک
-        trademarks_1_1_trademark_policy: ٹریڈمارک پالیسی
+    index:
+      permalink: پکا لنک
+      shortlink: مختصر لنک
+      createnote: نوٹ شامل کرو
     export:
       title: ٻاہر بھیڄو
       licence: لائیسنس
       too_large:
         other:
           title: ٻئے ماخذ
+      options: اختیارات
+      format: فارمیٹ
+      scale: پیمانہ
+      max: ودھ و ودھ
+      image_size: فوٹو دا سائز
+      zoom: وݙا چھوٹا کرݨ
+      latitude: عرض بلد
+      longitude: طول بلد
+      output: آؤٹ پٹ
       export_button: ٻاہر بھیڄو
     help:
-      irc:
+      slack:
         title: آئی آر سی
     any_questions:
-      title: کوئی سوال؟
+      welcome_mat_url: https://welcome.openstreetmap.org/
+    sidebar:
+      close: بند کرو
     search:
       search: ڳولو
       from: کنوں
@@ -1186,63 +886,49 @@ skr-arab:
     key:
       table:
         entry:
-          motorway: موٹروے
           track: ٹرَیک
-          rail: ریلوے
-          train: ڳَݙی
-          subway: سب وے
-          light_rail: لائٹ ریل
-          tram: ٹرام
-          trolleybus: ٹرالی بس
-          bus: بس
-          cable_car: کیبل کار
-          chair_lift: چیئر لفٹ
-          taxiway: ٹیکسی دا راہ
-          capital: دار الحکومت
-          city: شَہر
-          orchard: بغیچا
+          tram:
+            1: ٹرام
+          cable:
+          - کیبل کار
+          - چیئر لفٹ
           forest: جنگل
           wood: لکڑ
-          grass: گھا
-          meadow: چراگاہ
-          sand: ریت
           golf: گولف مَیدان
           park: پارک
-          common: وقف
+          common:
+          - وقف
+          - چراگاہ
           retail: پرچون علاقہ
           industrial: صنعتی علاقہ
           commercial: کمرشل ایریا
-          lake: جھیل
-          reservoir: ذخائر
-          glacier: گلیشیئر
+          lake:
+          - جھیل
           farm: کھیت
-          beach: ساحل
-          school: سکول
-          university: یونی ورسٹی
-          hospital: ہسپتال
+          school:
+          - سکول
+          - یونی ورسٹی
           station: ریلوے ٹیشݨ
-          railway_halt: ریلوے ہالٹ
-          peak: چوٹی
-          bus_stop: بساں دا اݙا
-          toilets: بیت الخلاء
     welcome:
       title: ست بسم اللہ!
       basic_terms:
         editor: ایڈیٹر
         node: نوڈ
-        way: راہ
         tag: ٹیگ
-      rules:
-        title: اصول!
       add_a_note:
         the_map: نقشہ
-    communities:
-      title: برادریاں
+    ohm_privacy_policy:
+      email:
+        title_html: ای میل پتے
+      cookies:
+        title_html: کوکیز
   traces:
     new:
       help: مدد
     edit:
       cancel: منسوخ
+    trace_optionals:
+      tags: ٹیگ
     show:
       filename: 'فائل ناں:'
       download: ڈاؤن لوڈ
@@ -1260,30 +946,11 @@ skr-arab:
       view_map: نقشہ ݙیکھو
       private: نجی
     index:
+      empty_title: اڄݨ اتھاں کائی شئے کائنی
       wiki_page: وکی ورقہ
   application:
     settings_menu:
       account_settings: کھاتہ ترتیباں
-    auth_providers:
-      openid_login_button: جاری رکھو
-      openid:
-        title: اوپن آئی ڈی نال لاگ ان تھیوو
-        alt: اوپن آئی ڈی لوگو
-      google:
-        title: گوگل نال لاگ ان تھیوو
-        alt: گوگل لوگو
-      facebook:
-        title: فیس بک نال لاگ ان تھیوو
-        alt: فیس بک لوگو
-      microsoft:
-        title: مائیکروسافٹ نال لاگ ان تھیوو
-        alt: مائیکروسافٹ لوگو
-      github:
-        title: گٹ ہب نال لاگ ان تھیوو
-        alt: گٹ ہب لوگو
-      wikipedia:
-        title: وکی پیڈیا نال لاگ ان تھیوو
-        alt: وکی پیڈیا لوگو
   oauth2_applications:
     index:
       name: ناں
@@ -1305,47 +972,34 @@ skr-arab:
   users:
     new:
       title: سائن اپ
-      tab_title: سائن اپ
-      support: سہارا
-      by_signing_up:
-        privacy_policy: رازداری پالیسی
       continue: سائن اپ
-      email_help:
-        privacy_policy: رازداری پالیسی
-      or: یا
     terms:
       title: شرطاں
       heading: شرطاں
       continue: جاری رکھو
-      cancel: منسوخ
+      decline: انکار کرو
       legale_names:
         france: فرانس
         italy: اِٹلی
         rest_of_world: باقی دنیا
     show:
+      my messages: میݙے سنیہے
       my profile: میݙی پروفائل
       my settings: میݙیاں ترتیباں
       my comments: میݙے تبصرے
+  user_role:
+    grant:
+      confirm: تصدیق
+    revoke:
+      confirm: تصدیق
   user_blocks:
-    edit:
-      revoke: بلاک منسوخ کرو
     show:
+      show: ݙِکھاؤ
       edit: لکھو
     block:
       show: ݙِکھاؤ
       edit: تبدیلی کرو
-    navigation:
-      new_block: نواں بلاک
-  user_mutes:
-    index:
-      table:
-        thead:
-          actions: عمل
-        tbody:
-          send_message: سنیہا پٹھو
   notes:
-    index:
-      subheading_submitted: جمع تھی ڳیا
     show:
       title: نوٹ:%{id}
       description: تفصیل
@@ -1354,13 +1008,7 @@ skr-arab:
       comment: تبصرہ
     new:
       title: نواں نوٹ
-      anonymous_warning_log_in: لاگ ان
-      anonymous_warning_sign_up: سائن اپ
       add: نوٹ شامل کرو
-    notes_paging_nav:
-      showing_page: ورقہ %{page}
-      next: اڳلا
-      previous: پچھلا
   javascripts:
     close: بند کرو
     share:
@@ -1373,13 +1021,16 @@ skr-arab:
       embed: ایچ ٹی ایم ایل
       format: فارمیٹ
       scale: 'پیمانہ:'
+    map:
+      copyright_text: © %{copyright_link}
+    changesets:
+      show:
+        comment: تبصرہ
+        subscribe: سبسکرائب کرو
+        unsubscribe: اݨ سبسکرائب کرو
+        hide_comment: لُکاؤ
+        unhide_comment: ݙکھاؤ
     directions:
-      engines:
-        fossgis_valhalla_bicycle: سائیکل (ول ہلا)
-        fossgis_valhalla_car: کار (ول ہلا)
-        fossgis_valhalla_foot: پیدل (ول ہلا)
-      distance_m: '%{distance}م'
-      distance_km: '%{distance}ک م'
       instructions:
         exit_counts:
           first: پہلا

@@ -18,7 +18,6 @@
 # Author: Srdjan m
 # Author: Srđan
 # Author: Stalker
-# Author: Zenfiric
 # Author: Zoranzoki21
 # Author: Жељко Тодоровић
 # Author: Милан Јелисавчић
@@ -34,7 +33,7 @@ sr:
       prompt: Изаберите датотеку
     submit:
       diary_comment:
-        create: Коментар
+        create: Сачувај
       diary_entry:
         create: Објави
         update: Ажурирај
@@ -45,7 +44,7 @@ sr:
       client_application:
         create: Отвори налог
         update: Ажурирај
-      oauth2_application:
+      doorkeeper_application:
         create: Регистрација
         update: Ажурирај
       redaction:
@@ -58,6 +57,10 @@ sr:
         create: Направи блокаду
         update: Ажурирај блокаду
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: не изгледа као важећа имејл адреса
+        email_address_not_routable: није повезљив(а)
     models:
       acl: Листа контроле приступа
       changeset: Скуп промена
@@ -69,9 +72,10 @@ sr:
       issue: Проблем
       language: Језик
       message: Порука
-      node: Чвор
+      node: Тачка
       node_tag: Ознака тачке
-      old_node: Стари чвор
+      notifier: Обавештавач
+      old_node: Стара тачка
       old_node_tag: Ознака старе тачке
       old_relation: Стари однос
       old_relation_member: Стари члан односа
@@ -85,7 +89,7 @@ sr:
       report: Пријави
       session: Сесија
       trace: Рута
-      tracepoint: Чвор путање
+      tracepoint: Тачка руте
       tracetag: Ознака руте
       user: Корисник
       user_preference: Подешавања корисника
@@ -111,10 +115,9 @@ sr:
       diary_entry:
         user: Корисник
         title: Наслов
-        body: Текст
         latitude: Географска ширина
         longitude: Географска дужина
-        language_code: Језик
+        language: Језик
       doorkeeper/application:
         name: Назив
         redirect_uri: Адреса за преусмеравање
@@ -132,6 +135,7 @@ sr:
         longitude: Географска дужина
         public: Јавно
         description: Опис
+        gpx_file: Отпреми GPX датотеку
         visibility: Видљивост
         tagstring: Ознаке
       message:
@@ -149,6 +153,7 @@ sr:
         auth_provider: Провајдер провере идентитета
         auth_uid: UID идентитета
         email: Имејл
+        email_confirmation: Имејл потврда
         new_email: Нова имејл адреса
         active: Активан
         display_name: Име за приказ
@@ -170,55 +175,9 @@ sr:
         new_email: (никада се не приказује јавно)
   datetime:
     distance_in_words_ago:
-      about_x_hours:
-        one: пре око %{count} сата
-        few: пре око %{count} сата
-        other: пре око %{count} сати
-      about_x_months:
-        one: пре око %{count} месец
-        few: пре око %{count} месеца
-        other: пре око %{count} месеци
-      about_x_years:
-        one: пре око %{count} године
-        few: пре око %{count} године
-        other: пре око %{count} година
-      almost_x_years:
-        one: пре скоро %{count} године
-        few: пре скоро %{count} године
-        other: пре скоро %{count} година
       half_a_minute: пре пола минута
-      less_than_x_seconds:
-        one: пре мање од %{count} секунде
-        few: пре мање од %{count} секунде
-        other: пре мање од %{count} секунди
-      less_than_x_minutes:
-        one: пре мање од %{count} минута
-        few: пре мање од %{count} минута
-        other: пре мање од %{count} минута
-      over_x_years:
-        one: пре више од %{count} године
-        few: пре више од %{count} године
-        other: пре више од %{count} година
-      x_seconds:
-        one: пре %{count} секунде
-        few: пре %{count} секунде
-        other: пре %{count} секунди
-      x_minutes:
-        one: пре %{count} минут
-        few: пре %{count} минута
-        other: пре %{count} минута
-      x_days:
-        one: пре %{count} дан
-        few: пре %{count} дана
-        other: пре %{count} дана
-      x_months:
-        one: пре %{count} месец
-        few: пре %{count} месеца
-        other: пре %{count} месеци
-      x_years:
-        one: пре %{count} године
-        few: пре %{count} године
-        other: пре %{count} година
+  printable_name:
+    with_version: '%{id}, вер. %{version}'
   editor:
     default: Подразумевано (тренутно %{name})
     id:
@@ -230,9 +189,9 @@ sr:
   auth:
     providers:
       none: Ниједан
-      google: Гугл
+      openid: OpenID
+      google: Google
       facebook: Фејсбук
-      microsoft: Мајкрософт
       github: GitHub
       wikipedia: Википедија
   api:
@@ -261,10 +220,9 @@ sr:
   account:
     deletions:
       show:
-        title: Обришите мој налог
+        title: Обриши налог
         warning: Упозорење! Брисање налога је неповратан процес.
         delete_account: Обриши налог
-        retain_edits: Ваше измене картографске базе (ако их има), биће задржане.
         retain_email: Ваша имејл адреса ће бити задржана.
         confirm_delete: Јесте ли сигурни?
         cancel: Откажи
@@ -275,14 +233,25 @@ sr:
       current email address: Тренутна имејл адреса
       external auth: Спољна аутентификација
       openid:
-        link text: шта је ово?
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: Шта је ово?
       public editing:
         heading: Јавно уређивање
         enabled: Омогућено. Није анонимно и могу се уређивати подаци.
-        enabled link text: шта је ово?
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: Шта је ово?
         disabled: Онемогућено и не могу се уређивати подаци. Све претходне измене
           су анонимне.
         disabled link text: зашто не могу да уређујем?
+      public editing note:
+        heading: Јавно уређивање
+        html: Тренутно су ваше измене анонимне и људи вам не могу слати поруке или
+          видети вашу локацију. Да бисте показали ваше измене и дозволили људима да
+          вас контактирају, кликните на дугме испод. <b>Од промена АПИ-ја 0.6, само
+          јавни корисници могу уређивати мапе</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">сазнајте
+          зашто</a>).<ul><li>Ваша е-адреса неће бити откривена на овај начин.</li><li>Ова
+          радња не може бити опозвана и сви нови корисници су од сада постављени као
+          јавни.</li></ul>
       contributor terms:
         heading: Услови уређивања
         agreed: Прихватили сте нове услове уређивања.
@@ -290,13 +259,11 @@ sr:
         review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
           уређивања.
         agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
-        link text: шта је ово?
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
+        link text: Шта је ово?
       save changes button: Сачувај промене
+      make edits public button: Нека све моје измене буду јавне
       delete_account: Брисање налога...
-    go_public:
-      heading: Јавно уређивање
-      find_out_why: сазнајте зашто
-      make_edits_public_button: Нека све моје измене буду јавне
     update:
       success_confirm_needed: Подаци о кориснику су успешно ажурирани. Проверите имејл
         да бисте потврдили Вашу нову имејл адресу.
@@ -304,9 +271,15 @@ sr:
     destroy:
       success: Налог је обрисан.
   browse:
-    edited_ago_by_html: Уређено %{time_ago} од %{user}
+    created: Направљено
+    closed: Затворено
+    created_ago_html: Направљено пре %{time_ago}
+    closed_ago_html: Затворено пре %{time_ago}
+    created_ago_by_html: Направљено пре %{time_ago} од стране %{user}
+    closed_ago_by_html: Затворено пре %{time_ago} од стране %{user}
+    deleted_ago_by_html: Обрисано пре %{time_ago} од стране %{user}
+    edited_ago_by_html: Измењено пре %{time_ago} од стране %{user}
     version: Верзија
-    redacted_version: Рецензирана верзија
     in_changeset: Скуп промена
     anonymous: анониман
     no_comment: (нема коментара)
@@ -315,13 +288,32 @@ sr:
     view_history: Погледај историју
     view_details: Детаљније
     location: 'Локација:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
+    changeset:
+      title: 'Скуп промена: %{id}'
+      belongs_to: Аутор
+      node: Тачке (%{count})
+      node_paginated: Тачке (%{x}-%{y} од %{count})
+      way: Линије (%{count})
+      way_paginated: Линије (%{x}-%{y} од %{count})
+      relation: Односи (%{count})
+      relation_paginated: Односи (%{x}-%{y} од %{count})
+      comment: Коментари (%{count})
+      changesetxml: XML скуп промена
+      osmchangexml: osmChange XML
+      feed:
+        title: Скуп промена %{id}
+        title_comment: Скуп промена %{id} – %{comment}
+      join_discussion: Пријавите се да бисте се придружили дискусији
+      discussion: Дискусија
     node:
-      title_html: 'Чвор: %{name}'
+      title_html: 'Тачка: %{name}'
       history_title_html: 'Историја тачака: %{name}'
     way:
       title_html: 'Линија: %{name}'
       history_title_html: 'Историја линија: %{name}'
-      nodes: Чворови
+      nodes: Тачке
       also_part_of_html:
         one: део линије %{related_ways}
         other: део линија %{related_ways}
@@ -330,9 +322,10 @@ sr:
       history_title_html: 'Историја односа: %{name}'
       members: Чланови
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} као %{role}'
       type:
-        node: Чвор
+        node: Тачка
         way: Линија
         relation: Однос
     containing_relation:
@@ -342,16 +335,15 @@ sr:
       title: Није нађено
       sorry: 'Нажалост, %{type} #%{id} није пронађен.'
       type:
-        node: чвор
+        node: тачка
         way: линија
         relation: однос
         changeset: скуп промена
         note: белешка
     timeout:
-      title: Истекло време
       sorry: Преузимање података за %{type} са ID-јем %{id} предуго траје.
       type:
-        node: чвор
+        node: тачка
         way: линија
         relation: однос
         changeset: скуп промена
@@ -361,7 +353,7 @@ sr:
       message_html: Верзија %{version} %{type} је редигована и не може бити приказана.
         Детаљније на %{redaction_link}.
       type:
-        node: чвор
+        node: тачка
         way: линија
         relation: однос
     start_rjs:
@@ -377,31 +369,46 @@ sr:
       wikidata_link: Ставка %{page} на Википодацима
       wikipedia_link: Чланак %{page} на Википедији
       telephone_link: Позови %{phone_number}
-      email_link: Имејл %{email}
+    note:
+      title: Белешкаː %{id}
+      new_note: Нова белешка
+      description: Опис
+      open_title: Нерешена белешка бр. %{note_name}
+      closed_title: Решена белешка бр. %{note_name}
+      hidden_title: Скривена белешка бр. %{note_name}
+      opened_by_html: Направио %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Направио анониман корисник пре <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар корисника %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Коментар анонимног корисника пре <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Разрешио %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Разрешио анонимни корисник пре <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Поново активирао %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Поново активирао анонимни корисник пре <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Сакрио %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Пријави ову белешку
     query:
       title: Информације о објектима
       introduction: Кликните на мапу да бисте пронашли објекте у близини.
       nearby: Објекти у близини
       enclosing: Локација
-  changeset_comments:
-    feeds:
-      comment:
-        comment: 'Нови коментар на скуп промена #%{changeset_id} корисника %{author}'
-        commented_at_by_html: Ажурирао %{user} у %{when}
-      show:
-        title_all: Дискусија о скупу промена на OpenStreetMap-у
-        title_particular: 'Дискусија о скупу промена #%{changeset_id} на OpenStreetMap-у'
-      timeout:
-        sorry: Преузимање списка коментара за скупове промена који сте тражили трајало
-          је предуго.
   changesets:
+    changeset_paging_nav:
+      showing_page: Страница %{page}
+      next: Следеће »
+      previous: « Претходно
     changeset:
+      anonymous: Анонимно
       no_edits: (нема измена)
       view_changeset_details: Прикажи детаље скупа промена
+    changesets:
+      id: ID
+      saved_at: Сачувано у
+      user: Корисник
+      comment: Коментар
+      area: Област
     index:
       title: Скупови промена
       title_user: Скупови промена корисника %{user}
-      title_user_link_html: Сетови промена за %{user_link}
       title_friend: Скупови промена мојих пријатеља
       title_nearby: Скупови промена корисника у близини
       empty: Скупови промена нису пронађени.
@@ -411,51 +418,32 @@ sr:
       no_more_area: Нема више скупова промена у овој области.
       no_more_user: Нема више скупова промена овог корисника.
       load_more: Учитај још
-      feed:
-        title: Скуп промена %{id}
-        title_comment: Скуп промена %{id} – %{comment}
-        created: Направљено
-        closed: Затворено
-        belongs_to: Аутор
-    show:
-      title: 'Скуп промена: %{id}'
-      created: 'Направљено: %{when}'
-      closed: 'Затворено: %{when}'
-      created_ago_html: Направљено %{time_ago}
-      closed_ago_html: Затворено %{time_ago}
-      created_ago_by_html: Направљено %{time_ago} од %{user}
-      closed_ago_by_html: Затворио(ла) %{user} %{time_ago}
-      discussion: Дискусија
-      join_discussion: Пријавите се да бисте се придружили дискусији
-      subscribe: Пријави ме
-      unsubscribe: Одјави ме
-      comment_by_html: '%{user} коментарисао(ла) пре %{time_ago}'
-      hidden_comment_by_html: Сакривени коментар корисника %{user} %{time_ago}
-      hide_comment: сакриј
-      unhide_comment: прикажи
-      comment: Коментариши
-      changesetxml: XML скуп промена
-      osmchangexml: osmChange XML
-    paging_nav:
-      nodes: Тачке (%{count})
-      nodes_paginated: Тачке (%{x}-%{y} од %{count})
-      ways: Линије (%{count})
-      ways_paginated: Линије (%{x}-%{y} од %{count})
-      relations: Односи (%{count})
-      relations_paginated: Односи (%{x}-%{y} од %{count})
     timeout:
       sorry: Преузимање захтеваних скупова промена је трајало предуго.
+  changeset_comments:
+    comment:
+      comment: 'Нови коментар на скуп промена #%{changeset_id} корисника %{author}'
+      commented_at_by_html: Ажурирао %{user} у %{when}
+    comments:
+      comment: 'Нови коментар о скупу промена #%{changeset_id} аутора %{author}'
+    index:
+      title_all: Дискусија о скупу промена на OpenHistoricalMap-у
+      title_particular: 'Дискусија о скупу промена #%{changeset_id} на OpenHistoricalMap-у'
+    timeout:
+      sorry: Преузимање списка коментара за скупове промена који сте тражили трајало
+        је предуго.
   dashboards:
     contact:
       km away: удаљено %{count} км
       m away: удаљено %{count} м
-      latest_edit_html: 'Последња измена (%{ago}):'
     popup:
       your location: Ваша локација
       nearby mapper: Оближњи картограф
       friend: Пријатељ
     show:
-      title: Tабла
+      title: Моја управљачка табла
+      no_home_location_html: '%{edit_profile_link} и подесите Вашу локацију да видите
+        кориснике у близини.'
       edit_your_profile: Уредите Ваш профил
       my friends: Моји пријатељи
       no friends: Нисте додали ниједног пријатеља.
@@ -481,15 +469,15 @@ sr:
       new_title: Састави нови унос у мом дневнику
       my_diary: Мој дневник
       no_entries: Нема уноса у дневнику
-    page:
       recent_entries: Недавни уноси у дневнику
+      older_entries: Старији уноси
+      newer_entries: Новији уноси
     edit:
       title: Уреди унос у дневнику
       marker_text: Локација уноса у дневнику
     show:
       title: Дневник корисника/це %{user} | %{title}
       user_title: Дневник корисника/це %{user}
-      discussion: Дискусија
       leave_a_comment: Остави коментар
       login_to_leave_a_comment_html: '%{login_link} да бисте оставили коментар'
       login: Пријавите се
@@ -503,9 +491,9 @@ sr:
       comment_link: Коментариши овај унос
       reply_link: Пошаљи поруку аутору
       comment_count:
+        zero: Нема коментара
         one: '%{count} коментар'
         other: '%{count} коментара'
-      no_comments: Нема коментара
       edit_link: Уреди овај унос
       hide_link: Сакриј овај унос
       unhide_link: Откриј овај унос
@@ -519,38 +507,34 @@ sr:
       report: Пријави овај коментар
     location:
       location: 'Локација:'
+      view: Приказ
+      edit: Уреди
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: Уноси у дневнику OpenStreetMap-а корисника %{user}
-        description: Недавни уноси у дневнику OpenStreetMap-а корисника %{user}
+        title: Уноси у дневнику OpenHistoricalMap-а корисника %{user}
+        description: Недавни уноси у дневнику OpenHistoricalMap-а корисника %{user}
       language:
-        title: Уноси у дневнику OpenStreetMap-а на %{language_name}
-        description: Недавни уноси у дневнику корисника OpenStreetMap-а на %{language_name}
+        title: Уноси у дневнику OpenHistoricalMap-а на %{language_name}
+        description: Недавни уноси у дневнику корисника OpenHistoricalMap-а на %{language_name}
       all:
-        title: Уноси у дневнику OpenStreetMap-а
-        description: Недавни уноси у дневнику корисника OpenStreetMap-а
-    subscribe:
-      button: Прати дискусију
-    unsubscribe:
-      button: Прекини праћење дискусије
-  diary_comments:
-    page:
+        title: Уноси у дневнику OpenHistoricalMap-а
+        description: Недавни уноси у дневнику корисника OpenHistoricalMap-а
+    comments:
       post: Објава
       when: Када
       comment: Коментар
+      newer_comments: Новији коментари
+      older_comments: Старији коментари
   doorkeeper:
     scopes:
-      address: Види своју физичку адресу
       email: Види своју имејл адресу
-      openid: Потврдите ваш налог
       phone: Види своју број телефона
   errors:
     contact:
       contact: контакт
     forbidden:
       title: Забрањено
-    internal_server_error:
-      title: Грешка у апликацији
     not_found:
       title: Датотека није пронађена
   friendships:
@@ -567,6 +551,7 @@ sr:
       not_a_friend: '%{name} није ваш пријатељ.'
   geocoder:
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Жичара
@@ -579,14 +564,15 @@ sr:
         aeroway:
           aerodrome: Аеродром
           airstrip: Писта
-          gate: Аеродромска капија
+          apron: Пристанишна платформа
+          gate: Капија
           hangar: Хангар
           helipad: Хелиодром
           parking_position: Место за паркинг
           runway: Писта
           taxilane: Жута трака
           taxiway: Рулна стаза
-          terminal: Аеродромски терминал
+          terminal: Терминал
         amenity:
           animal_shelter: Азил за животиње
           arts_centre: Уметнички центар
@@ -609,7 +595,7 @@ sr:
           car_sharing: Краткорочно изнајмљивање аутомобила
           car_wash: Ауто-перионица
           casino: Казино
-          charging_station: Станица за пуњење ЕВ
+          charging_station: Акумулаторска станица
           childcare: Агенција за чување деце
           cinema: Биоскоп
           clinic: Клиника
@@ -629,7 +615,7 @@ sr:
           fire_station: Ватрогасна станица
           food_court: Пултови са храном
           fountain: Фонтана
-          fuel: Бензинска станица
+          fuel: Гориво
           gambling: Коцкарница
           grave_yard: Гробље
           hospital: Болница
@@ -675,20 +661,15 @@ sr:
           toilets: Тоалет
           townhall: Градска скупштина
           university: Универзитет
-          vehicle_inspection: Технички преглед
           vending_machine: Аутомат
           veterinary: Ветеринарска клиника
           village_hall: Сеоска месна заједница
           waste_basket: Корпа за отпатке
           waste_disposal: Контејнер
-          waste_dump_site: Депонија
-          weighbridge: Теретна вага
-          "yes": Погодност
         boundary:
           administrative: Административна граница
           census: Пописна граница
           national_park: Национални парк
-          political: Изборна граница
           protected_area: Заштићено подручје
           "yes": Граница
         bridge:
@@ -706,7 +687,6 @@ sr:
           cabin: Кабина
           chapel: Капела
           church: Црква
-          civic: Јавна зграда
           college: Факултетска зграда
           commercial: Пословна зграда
           construction: Зграда у изградњи
@@ -723,7 +703,6 @@ sr:
           hotel: Хотел
           house: Кућа
           houseboat: Кућа на води
-          hut: Колиба
           industrial: Индустријска зграда
           kindergarten: Зграда вртића
           manufacture: Зграда фабрике
@@ -753,20 +732,16 @@ sr:
           blacksmith: Ковач
           brewery: Пивара
           carpenter: Столар
-          caterer: Угоститељ
           confectionery: Кондитор
-          dressmaker: Кројач
           electrician: Електричар
           electronics_repair: Поправка електронике
           gardener: Баштован
-          glaziery: Стаклар
           painter: Молер
           photographer: Фотограф
           plumber: Водоинсталатер
           roofer: Кровник
           sawmill: Пилана
           shoemaker: Обућар
-          stonemason: Каменорезац
           tailor: Кројач
           winery: Винарија
           "yes": Занатска радња
@@ -775,10 +750,8 @@ sr:
           ambulance_station: Хитна помоћ
           assembly_point: Тачка окупљања
           defibrillator: Дефибрилатор
-          fire_extinguisher: ПП апарат
           landing_site: Место за хитно слетање
           phone: Телефон за хитне случајеве
-          siren: Сирена за узбуну
         highway:
           abandoned: Напуштени ауто-пут
           bridleway: Коњички пут
@@ -786,7 +759,6 @@ sr:
           bus_stop: Аутобуска станица
           construction: Пут у изградњи
           corridor: Коридор
-          crossing: Пешачки прелаз
           cycleway: Бициклистичка стаза
           elevator: Лифт
           emergency_access_point: Прва помоћ
@@ -859,7 +831,6 @@ sr:
           "yes": Раскрсница
         landuse:
           allotments: Парцеле
-          aquaculture: Рибњак
           basin: Басен
           brownfield: Запуштена локација
           cemetery: Гробље
@@ -891,9 +862,7 @@ sr:
         leisure:
           beach_resort: Приобално одмаралиште
           bird_hide: Осматрачница за птице
-          bowling_alley: Куглана
           common: Општинско земљиште
-          dance: Плесна сала
           dog_park: Парк за псе
           firepit: Камин
           fishing: Место за риболов
@@ -906,9 +875,7 @@ sr:
           marina: Марина
           miniature_golf: Мини-голф
           nature_reserve: Резерват природе
-          outdoor_seating: Одмориште
           park: Парк
-          picnic_table: Сто за ужину
           pitch: Спортски терен
           playground: Игралиште
           recreation_ground: Рекреативна зона
@@ -922,29 +889,22 @@ sr:
           water_park: Аквапарк
           "yes": Разонода
         man_made:
-          adit: Проход
           advertising: Реклама
           antenna: Антена
-          avalanche_protection: Заштита од лавина
           beacon: Светионик
           beehive: Кошница са пчелама
           bridge: Мост
           bunker_silo: Бункер
-          cairn: Каир
           chimney: Димњак
-          clearcut: Целовита сеча
           communications_tower: Репетитор
           crane: Кран
-          cross: Крст
-          dolphin: Битва
           dyke: Насип
           embankment: Насип
           flagpole: Јарбол за заставу
           gasometer: Гасометар
-          groyne: Таласобран
+          groyne: Брана
           kiln: Печењара
           lighthouse: Светионик
-          manhole: Шахт
           mast: Јарбол
           mine: Рудник
           mineshaft: Рударско окно
@@ -954,13 +914,10 @@ sr:
           pipeline: Цевовод
           pumping_station: Црпна станица
           silo: Силос
-          street_cabinet: Улични орман
-          surveillance: Надзор
+          surveillance: Присмотра
           telescope: Телескоп
           tower: Кула
-          utility_pole: Бандера
           watermill: Водени млин
-          water_tap: Чесма
           water_tower: Водени торањ
           water_well: Бунар
           windmill: Ветрењача
@@ -1009,25 +966,20 @@ sr:
           sand: Пешчара
           scree: Осулина
           scrub: Густиш
-          shingle: Черепица
           spring: Извор
           stone: Камен
           strait: Мореуз
           tree: Дрво
-          tree_row: Дрворед
-          tundra: Тундра
           valley: Долина
           volcano: Вулкан
           water: Вода
           wetland: Мочварно подручје
           wood: Шума
-          "yes": Природно обележје
         office:
           accountant: Рачуновођа
           administrative: Администрација
           advertising_agency: Маркетиншка агенција
           architect: Архитекта
-          association: Удружење
           company: Предузеће
           diplomatic: Дипломатска канцеларија
           educational_institution: Образовна установа
@@ -1040,7 +992,6 @@ sr:
           ngo: Невладина организација
           notary: Нотар
           research: Истраживачка канцеларија
-          tax_advisor: Порески саветник
           telecommunication: Телекомуникациона компанија
           travel_agent: Туристичка агенција
           "yes": Канцеларија
@@ -1061,9 +1012,7 @@ sr:
           locality: Локалитет
           municipality: Општина
           neighbourhood: Кварт
-          plot: Парцела
           postcode: Поштански број
-          quarter: Четврт
           region: Регион
           sea: Море
           square: Трг
@@ -1088,7 +1037,6 @@ sr:
           platform: Железнички перон
           preserved: Очувана железница
           proposed: Пројектована железница
-          rail: Железница
           spur: Огранак железничке пруге
           station: Железничка станица
           stop: Железничко стајалиште
@@ -1104,7 +1052,6 @@ sr:
           antiques: Антикварница
           appliance: Продавница уређаја
           art: Продавница опреме за уметнике
-          baby_goods: Беби опрема
           bag: Продавница кеса
           bakery: Пекара
           beauty: Козметички салон
@@ -1122,15 +1069,15 @@ sr:
           cheese: Продавница сира
           chemist: Продавница кућне хемије
           chocolate: Чоколада
-          clothes: Бутик
+          clothes: Продавница одеће
           coffee: Кафић
           computer: Продавница рачунара
           confectionery: Посластичарница
-          convenience: Мини-маркет
+          convenience: Продавница мешовите робе
           copyshop: Фотокопирница
           cosmetics: Козметичка радња
           curtain: Продавница драперија
-          dairy: Млекара
+          dairy: Продавница млечних производа
           deli: Сендвичара
           department_store: Робна кућа
           discount: Дисконт
@@ -1143,13 +1090,11 @@ sr:
           fabric: Продавница тканине
           farm: Пољопривредна апотека
           fashion: Продавница модне одеће
-          fishing: Рибарница
           florist: Цвећара
           food: Продавница хране
           funeral_directors: Погребно предузеће
           furniture: Продавница намештаја
           garden_centre: Вртни центар
-          gas: Пунионица ТНГ-а
           general: Продавница робе широке потрошње
           gift: Продавница поклона
           greengrocer: Продавница воћа и поврћа
@@ -1157,49 +1102,38 @@ sr:
           hairdresser: Фризерски салон
           hardware: Продавница алата
           health_food: Продавница здраве хране
-          herbalist: Травар
           hifi: Продавница аудио-опреме
-          ice_cream: Сладоледџиница
           interior_decoration: Декорација ентеријера
           jewelry: Јувелирница
           kiosk: Трафика
-          kitchen: Кухињска опрема
           laundry: Перионица веша
-          locksmith: Бравар
           lottery: Лутрија
           mall: Тржни центар
           massage: Масажа
           mobile_phone: Продавница мобилних телефона
           motorcycle: Продавница мотоцикала
           music: Музичка продавница
-          musical_instrument: Музички инструменти
           newsagent: Новинарница
           optician: Оптичар
           organic: Продавница здраве хране
           outdoor: Продавница опреме за спортове на отвореном
           paint: Фарбара
-          pastry: Посластичарница
           pawnbroker: Залагаоничар
-          perfumery: Парфимерија
           pet: Продавница за кућне љубимце
           photo: Фотографска радња
           seafood: Морски плодови
           second_hand: Продавница половне робе
-          sewing: Шиваоница
           shoes: Продавница обуће
           sports: Продавница спортске опреме
           stationery: Продавница канцеларијског прибора
           supermarket: Супермаркет
           tailor: Кројач
           tattoo: Тетоваже
-          tea: Чајџиница
           ticket: Продавница карата
           tobacco: Продавница цигарета
           toys: Продавница играчака
           travel_agency: Туристичка агенција
           tyres: Продавница гума
-          vacant: Упражњен локал
-          variety_store: Мешовита роба
           video: Видеотека
           video_games: Продавница видео-игара
           wholesale: Велепродаја
@@ -1207,11 +1141,11 @@ sr:
           "yes": Продавница
         tourism:
           alpine_hut: Планинарски дом
-          apartment: Викенд-апартман
+          apartment: Апартман за одмор
           artwork: Уметничко дело
           attraction: Атракција
           bed_and_breakfast: Полупансион
-          cabin: Туристичка брвнара
+          cabin: Брвнара
           camp_site: Камп
           caravan_site: Парк за камп приколице
           chalet: Колиба
@@ -1247,18 +1181,20 @@ sr:
           stream: Поток
           wadi: Вади
           waterfall: Водопад
-          weir: Преливник
+          weir: Брана
           "yes": Водоток
       admin_levels:
         level2: Државна граница
-        level3: Граница региона
         level4: Граница савезне државе
         level5: Граница региона
         level6: Граница округа
-        level7: Граница општине/града
         level8: Граница града
         level9: Граница села
         level10: Граница насеља
+      types:
+        cities: Градови
+        towns: Варошице
+        places: Места
     results:
       no_results: Нема резултата
       more_results: Више резултата
@@ -1272,18 +1208,17 @@ sr:
       not_updated: Није ажурно
       search: Претрага
       search_guidance: 'Претражи проблеме:'
-      states:
-        ignored: Занемарено
-        open: Отвори
-        resolved: Решено
-    page:
       user_not_found: Корисник не постоји
       issues_not_found: Нема таквих проблема
       status: Статус
       reports: Извештаји
       last_updated: Последње ажурирање
+      link_to_reports: Прикажи извештаје
+      states:
+        ignored: Занемарено
+        open: Отвори
+        resolved: Решено
     show:
-      no_reports: Нема пријава
       resolve: Разреши
       ignore: Игнориши
       reopen: Поново отвори
@@ -1319,44 +1254,62 @@ sr:
           personal_label: Ова напомена садржи личне податке
           abusive_label: Ова белешка је увредљива
           other_label: Друго
-    create:
-      provide_details: Молимо наведите потребне детаље
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
-      alt_text: Логотип OpenStreetMap-а
+      alt_text: Логотип OpenHistoricalMap-а
     home: Кућа
     logout: Одјава
     log_in: Пријава
+    log_in_tooltip: Пријава са постојећим налогом
     sign_up: Регистрација
     start_mapping: Почни са мапирањем
+    sign_up_tooltip: Отвори налог за уређивање
     edit: Уреди
     history: Историја
     export: Извези
     issues: Проблеми
+    data: Подаци
+    export_data: Извези податке
     gps_traces: ГПС трагови
+    gps_traces_tooltip: Управљај ГПС траговима
     user_diaries: Дневници корисника
+    user_diaries_tooltip: Погледај дневнике корисника
     edit_with: Уреди помоћу %{editor}
-    intro_header: Добро дошли на OpenStreetMap!
-    intro_text: OpenStreetMap је мапа света коју су направили људи попут вас. Слободна
-      је за коришћење под отвореном лиценцом.
+    tag_line: Слободна вики мапа света
+    intro_header: Добро дошли на OpenHistoricalMap!
+    intro_text: OpenHistoricalMap је интерактивна карта света кроз историјију, коју
+      су направили људи попут вас. Слободна је за коришћење и у јавном је власништву.
+    intro_2_create_account: Отворите кориснички налог
+    partners_title: Партнери
     partners_partners: партнери
     tou: Услови коришћења
-    osm_offline: База OpenStreetMap-а је тренутно недоступна док се не заврше неопходни
-      радови на одржавању.
-    osm_read_only: Базу OpenStreetMap-а тренутно није могуће мењати док се не заврше
+    osm_offline: База OpenHistoricalMap-а је тренутно недоступна док се не заврше
       неопходни радови на одржавању.
+    osm_read_only: Базу OpenHistoricalMap-а тренутно није могуће мењати док се не
+      заврше неопходни радови на одржавању.
+    donate: Подржите ОpenStreetMap са %{link} за Фонд за обнову хардвера.
     help: Помоћ
     about: О нама
     copyright: Ауторска права
-    communities: Заједнице
+    community: Заједница
+    community_blogs: Блогови заједнице
+    community_blogs_title: Блогови чланова заједнице OpenHistoricalMap
+    foundation: Фондација
+    foundation_title: Фондација OpenHistoricalMap
+    make_a_donation:
+      title: Подржите ОpenStreetMap новчаним прилогом
+      text: Донирајте
     learn_more: Детаљније
     more: Више
   user_mailer:
     diary_comment_notification:
       subject: '%{user} је прокоментарисао дневнички запис'
       hi: Поздрав, %{to_user},
-      header: '%{from_user} је прокоментарисао OpenStreetMap дневнички запис под насловом
-        %{subject}:'
+      header: '%{from_user} је прокоментарисао OpenHistoricalMap дневнички запис под
+        насловом %{subject}:'
       footer: Можете прочитати коментаре на %{readurl}, прокоментарисати на %{commenturl}
         или одговорити на %{replyurl}
     message_notification:
@@ -1366,19 +1319,22 @@ sr:
         на %{replyurl}
     friendship_notification:
       hi: Поздрав, %{to_user},
-      subject: '[OpenStreetMap] %{user} вас је додао као пријатеља'
+      subject: '[OpenHistoricalMap] %{user} вас је додао као пријатеља'
       had_added_you: '%{user} вас је додао као пријатеља на Опенстритмапу.'
       see_their_profile: Можете видети његов/њен профил на %{userurl}.
       befriend_them: Можете га/је додати и као пријатеља на %{befriendurl}.
     gpx_failure:
       hi: Здраво %{to_user},
+      failed_to_import: 'Увоз није успео. Грешка:'
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
-      subject: '[OpenStreetMap] GPX увоз није успео'
+      subject: '[OpenHistoricalMap] Неуспешан увоз GPX датотека'
     gpx_success:
       hi: Здраво %{to_user},
-      subject: '[OpenStreetMap] GPX увоз је успео'
+      loaded_successfully: успешно учитано са %{trace_points} од могућих %{possible_points}
+        тачака.
+      subject: '[OpenHistoricalMap] Успешан увод GPX датотека'
     signup_confirm:
-      subject: '[OpenStreetMap] Добро дошли на ОпенСтритМап'
+      subject: '[OpenHistoricalMap] Добро дошли на OpenHistoricalMap'
       greeting: Здраво!
       created: Неко (надамо се ти) је управо отворио налог на %{site_url}.
       confirm: 'Пре него што ишта урадимо, морамо да потврдимо да је овај захтев дошао
@@ -1387,65 +1343,69 @@ sr:
       welcome: Након што потврдите свој налог, пружићемо Вам неке додатне информације
         о томе како почети.
     email_confirm:
-      subject: '[OpenStreetMap] Потврдите Вашу имејл адресу'
+      subject: '[OpenHistoricalMap] Потврда имејл-адресе'
       greeting: Поздрав,
       hopefully_you: Неко (вероватно ви) желео би да промени имејл адресу са %{server_url}
         на %{new_address}.
       click_the_link: Ако сте то ви, кликните на везу испод да бисте потврдили измене.
     lost_password:
-      subject: '[OpenStreetMap] Захтев за поништавање лозинке'
+      subject: '[OpenHistoricalMap] Захтев за поништавање лозинке'
       greeting: Поздрав,
       hopefully_you: Неко (вероватно ви) затражио је поништавање лозинке за имејл
-        адресу овог openstreetmap.org налога.
+        адресу овог openhistoricalmap.org налога.
       click_the_link: Ако си то ти, кликни на везу испод да поништиш лозинку.
     note_comment_notification:
       anonymous: Анонимни корисник
       greeting: Поздрав,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} је коментарисао на једној од Ваших
-          белешки'
-        subject_other: '[OpenStreetMap] %{commenter} је коментарисао на белешци за
-          коју сте заинтересовани'
+        subject_own: '[OpenHistoricalMap] %{commenter} је коментарисао на једној од
+          Ваших белешки'
+        subject_other: '[OpenHistoricalMap] %{commenter} је коментарисао на белешци
+          за коју сте заинтересовани'
         your_note: '%{commenter} је оставио коментар на једну од Ваших белешка на
           мапама у близини места %{place}.'
         commented_note: '%{commenter} је оставио коментар на белешки мапе коју сте
           Ви коментарисали. Белешка је у близини места %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} је разрешио једну од Ваших белешки'
-        subject_other: '[OpenStreetMap] %{commenter} је разрешио белешку за коју сте
-          заинтересовани'
+        subject_own: '[OpenHistoricalMap] %{commenter} је разрешио једну од Ваших
+          белешки'
+        subject_other: '[OpenHistoricalMap] %{commenter} је разрешио белешку за коју
+          сте заинтересовани'
         your_note: '%{commenter} је разрешио једну од Ваших белешки на мапи у близини
           места %{place}.'
         commented_note: '%{commenter} је разрешио белешку мапе коју сте коментарисали.
           Белешка је у близини места %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} је реактивирао једну од Ваших белешки'
-        subject_other: '[OpenStreetMap] %{commenter} је реактивирао белешку за коју
-          сте заинтересовани'
+        subject_own: '[OpenHistoricalMap] %{commenter} је реактивирао једну од Ваших
+          белешки'
+        subject_other: '[OpenHistoricalMap] %{commenter} је реактивирао белешку за
+          коју сте заинтересовани'
         your_note: '%{commenter} је реактивирао једну од Ваших белешки мапе у близини
           места %{place}.'
         commented_note: '%{commenter} је реактивирао белешку мапе коју сте коментарисали.
           Белешка је у близини места %{place}.'
-      details: Одговорите или сазнајте више о белешци на %{url}.
+      details: Више информација о белешци може да се пронађе на %{url}.
     changeset_comment_notification:
       hi: Поздрав, %{to_user},
+      greeting: Поздрав,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} је коментарисао о једном од Ваших
-          чејнџсетова'
-        subject_other: '[OpenStreetMap] %{commenter} је коментарисао о чејнџсету за
-          који сте заинтересовани'
+        subject_own: '[OpenHistoricalMap] %{commenter} је коментарисао о једном од
+          Ваших чејнџсетова'
+        subject_other: '[OpenHistoricalMap] %{commenter} је коментарисао о чејнџсету
+          за који сте заинтересовани'
         your_changeset: '%{commenter} је оставио коментар на једном од Ваших чејнџсетова
-          %{time}'
+          у %{time}'
         commented_changeset: '%{commenter} је у %{time} оставио коментар на чејнџсету
           мапе који надгледате и који је направио %{changeset_author}'
         partial_changeset_with_comment: са коментаром „%{changeset_comment}”
         partial_changeset_without_comment: без коментара
-      details: Одговорите или сазнајте више о сетовима промена на %{url}.
-      unsubscribe: Можете одјавити обавештења овог скупа измена на %{url}.
+      details: Више информација о чејнџсетовима може да се пронађе на %{url}.
+      unsubscribe: Да бисте престали пратити апдејте овог чејнџсета, посетите %{url}
+        и кликните на „Престани пратити”.
   confirmations:
     confirm:
       heading: Проверите Ваш имејл!
-      introduction_1: Послали смо ти е-писмо за потврду.
+      introduction_1: Послали смо ти имејл за потврду.
       introduction_2: Потврди свој налог тако што ћеш кликнути на везу у имејлу и
         моћи ћеш да почнеш са цртањем карте.
       press confirm button: Притисните дугме за потврду да бисте активирали налог.
@@ -1453,7 +1413,8 @@ sr:
       success: Ваш налог је потврђен. Хвала вам на упису!
       already active: Овај налог је већ потврђен.
       unknown token: Тај код за потврду је истекао или не постоји.
-      click_here: кликните овде
+      reconfirm_html: Ако треба да поново пошаљемо имејл, <a href="%{reconfirm}">кликни
+        овде</a>.
     confirm_resend:
       failure: Корисник %{name} није пронађен.
     confirm_email:
@@ -1467,30 +1428,31 @@ sr:
   messages:
     inbox:
       title: Примљене
+      my_inbox: Примљене
+      my_outbox: Послате
       messages: Имате %{new_messages} и %{old_messages}
       new_messages:
         one: '%{count} нова порука'
-        few: '%{count} нове поруке'
         other: '%{count} нових порука'
       old_messages:
         one: '%{count} стара порука'
         other: '%{count} старих порука'
+      from: Од
+      subject: Наслов
+      date: Датум
       no_messages_yet_html: Још увек немате порука. Зашто не бисте ступили у контакт
         с %{people_mapping_nearby_link}?
       people_mapping_nearby: маперима у вашој околини
-    messages_table:
-      from: Од
-      to: За
-      subject: Наслов
-      date: Датум
-      actions: Радње
     message_summary:
       unread_button: Означи као непрочитано
       read_button: Означи као прочитано
+      reply_button: Одговори
       destroy_button: Обриши
     new:
       title: Пошаљи поруку
       send_message_to_html: Пошаљи нову поруку за %{name}
+      subject: Наслов
+      body: Текст
       back_to_inbox: Назад на примљене
     create:
       message_sent: Порука је послата.
@@ -1502,73 +1464,77 @@ sr:
       body: Нажалост, нема поруке с тим ИБ.
     outbox:
       title: Послате
+      my_inbox: Примљене
       messages:
         one: Имате %{count} послату поруку
         other: Имате %{count} послате поруке
+      to: За
+      subject: Наслов
+      date: Датум
       no_sent_messages_html: Још увек немате послатих порука. Зашто не бисте ступили
         у контакт с %{people_mapping_nearby_link}?
       people_mapping_nearby: маперима у вашој околини
-    muted:
-      title: Пригушене поруке
     reply:
       wrong_user: Пријављени сте као %{user}, али порука на коју сте желели да одговорите
         није послата том кориснику. Пријавите се као исправан корисник да бисте одговорили.
     show:
       title: Прочитај поруку
+      from: Од
+      subject: Наслов
+      date: Датум
       reply_button: Одговори
       unread_button: Означи као непрочитано
       destroy_button: Обриши
       back: Назад
-      wrong_user: Пријављени сте као '%{user}', али порука коју сте желели да прочитате
-        нисте послали ви или том кориснику. Пријавите се као исправан корисник да
-        бисте је прочитали.
+      to: За
+      wrong_user: Пријављени сте као %{user}, али порука коју сте желели да прочитате
+        није послата том кориснику. Пријавите се као исправан корисник да бисте је
+        прочитали.
     sent_message_summary:
       destroy_button: Обриши
-    heading:
-      my_inbox: Примљене
-      my_outbox: Послате
-      muted_messages: Пригушене поруке
     mark:
       as_read: Порука је означена као прочитана
       as_unread: Порука је означена као непрочитана
     destroy:
       destroyed: Порука је обрисана
   passwords:
-    new:
+    lost_password:
       title: Повратак лозинке
       heading: Заборавили сте лозинку?
-      email address: Имејл адреса
+      email address: 'Имејл адреса:'
       new password button: Поништи лозинку
       help_text: Унесите е-адресу коју сте унели при упису, а ми ћемо вам послати
         везу помоћу које можете да поништите лозинку.
-    edit:
+      notice email on way: Порука за поништавање лозинке је послата.
+      notice email cannot find: Имејл адреса није пронађена, жао нам је.
+    reset_password:
       title: Поништи лозинку
       heading: Поништавање лозинке за %{user}
       reset: Поништи лозинку
-      flash token bad: Такав новчић није пронађен. Проверите адресу.
-    update:
       flash changed: Ваша лозинка је промењена.
+      flash token bad: Такав новчић није пронађен. Проверите адресу.
   preferences:
     show:
       title: Моја подешавања
       preferred_editor: Жељени уређивач
       preferred_languages: Жељени језици
-      edit_preferences: Уреди подешавања
+      edit_preferences: Измени подешавања
     edit:
-      title: Моја подешавања
+      title: Измена подешавања
       save: Сачувај подешавања
       cancel: Откажи
     update_success_flash:
-      message: Подешавања сачувана.
+      message: Подешавања су ажурирана.
   profiles:
     edit:
-      title: Уреди профил
-      save: Ажурирај профил
+      title: Уређивање профила
+      save: Уреди профил
       cancel: Откажи
       image: Слика
       gravatar:
         gravatar: Користи Граватар
         link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=sr
+        what_is_gravatar: Шта је Gravatar?
         disabled: Граватар је онемогућен.
         enabled: Приказ Вашег Граватара је омогућен.
       new image: Додај слику
@@ -1579,28 +1545,61 @@ sr:
       home location: Место становања
       no home location: Нисте унели место становања.
       update home location on click: Ажурирати место становања када кликнем на мапу?
-      show: Прикажи
-      delete: Обриши
-      undelete: Поништи брисање
     update:
-      success: Профил ажуриран.
+      success: Профил је измењен.
   sessions:
     new:
-      tab_title: Пријава
-      email or username: Имејл адреса или корисничко име
-      password: Лозинка
+      title: Пријава
+      heading: Пријава
+      email or username: 'Имејл адреса или корисничко име:'
+      password: 'Лозинка:'
+      openid_html: '%{logo} OpenID:'
       remember: Запамти ме
       lost password link: Заборавили сте лозинку?
       login_button: Пријави ме
-      with external: или се пријавите путем треће стране
-      or: или
+      register now: Отворите налог
+      with username: 'Већ имате налог? Пријавите се с корисничким именом и лозинком:'
+      with external: 'Алтернативно, користите трећу страну да се пријавите:'
+      new to osm: Нови сте на сајту?
+      to make changes: Да бисте правили измене, морате имати налог.
+      create account minute: Отворите налог. Потребно је само неколико тренутака.
+      no account: Немате налог?
+      account not active: Жао нам је, ваш налог још увек није активиран. <br />Пратите
+        везу у поруци за потврду е-поште да бисте га активирали или <a href="%{reconfirm}">затражите
+        нову поруку</a>.
+      account is suspended: Нажалост, ваш налог је укинут због сумњиве активности.<br
+        />Обратите се <a href="%{webmaster}">подршци</a> ако желите да поразговарате
+        о проблему.
       auth failure: Није могуће пријавити се са тим детаљима.
+      openid_logo_alt: Пријавите се с OpenID-јем
+      auth_providers:
+        openid:
+          title: Пријавити се са OpenID
+          alt: Пријава преко OpenID URL-а
+        google:
+          title: Пријава преко Google-а
+          alt: Пријава преко Google OpenID-а
+        facebook:
+          title: Пријавити се са Facebook-ом
+          alt: Пријава преко Facebook налога
+        microsoft:
+          title: Пријава преко Microsoft-а
+        github:
+          title: Пријава коришћењем GitHub-а
+          alt: Пријава коришћењем GitHub налога
+        wikipedia:
+          title: Пријава преко Википедије
+          alt: Пријава коришћењем Википедија налога
+        wordpress:
+          title: Пријава коришћењем Wordpress-а
+          alt: Пријава преко Wordpress OpenID-а
+        aol:
+          title: Пријава преко AOL-а
+          alt: Пријава преко AOL OpenID-а
     destroy:
       title: Одјава
       heading: Одјава
       logout_button: Одјави ме
-    suspended_flash:
-      support: подршка
   shared:
     markdown_help:
       headings: Наслови
@@ -1612,48 +1611,48 @@ sr:
       text: Текст
       image: Слика
       alt: Алтернативни текст
+      url: Адреса
     richtext_field:
       edit: Уреди
       preview: Преглед
-    pagination:
-      diary_comments:
-        older: Старији коментари
-        newer: Новији коментари
-      diary_entries:
-        older: Старији уноси
-        newer: Новији уноси
-      traces:
-        older: Старији трагови
-        newer: Новији трагови
   site:
     about:
-      used_by_html: '%{name} обезбеђује картографске податке хиљадама сајтова, мобилних
-        апликација и уређаја'
-      lede_text: OpenStreetMap је направила заједница картографа који додавају и одржавају
-        податке о путевима, стазама, кафићима, железничким станицама и многим другим
-        објектима широм света.
+      next: Следеће
+      heading_html: <span>&copy;</span>ОпенСтритМап<br>сарадници
+      used_by_html: OpenHistoricalMap обезбеђује картографске податке хиљадама сајтова,
+        мобилних апликација и уређаја
+      lede_text: OpenHistoricalMap је направила заједница картографа који додавају
+        и одржавају податке о путевима, стазама, кафићима, железничким станицама и
+        многим другим објектима широм света.
       local_knowledge_title: Локално знање
-      local_knowledge_html: OpenStreetMap придаје значај локалном знању. Учесници
+      local_knowledge_html: OpenHistoricalMap придаје значај локалном знању. Учесници
         користе снимке из ваздуха, GPS уређаје и обичне теренске мапе у циљу провере
         исправности и ажурности OSM-а.
       community_driven_title: Заједница је покретач
-      community_driven_osm_foundation: OSM фондација
+      community_driven_html: "Заједница OpenHistoricalMap-а је разнолика, страствена
+        и расте сваког дана. \nНаши сарадници су ентузијстични мапери, професионалци
+        за GIS, инжењери\nкоји покрећу OSM сервере, хуманитарци који мапирају подручја
+        погођена катастрофама,\nи још многи други.\nДа бисте сазнали више о заједници,
+        погледајте <a href='%{diary_path}'>корисничке дневнике</a>,\n<a href='http://blogs.openstreetmap.org/'>блогове
+        заједнице</a> и\nвеб-сајт <a href='http://www.osmfoundation.org/'>Фондације
+        OSM</a>."
       open_data_title: Отворени подаци
+      open_data_html: |-
+        OpenHistoricalMap је <i>опен дата</i>: слободно можете да га користите за било коју сврху
+        све док одате заслуге за OpenHistoricalMap и оне који на њему доприносе. Ако измените или
+        правите податке на одређене начине, можете да дистрибуишете резултата само
+        под истом лиценцом. Погледајте <a href='%{copyright_path}'>страницу о ауторским правима
+        и лиценцама</a> за детаље.
       legal_title: Правни аспекти
-      legal_1_1_html: |-
-        Овим сајтом и многим другим сродним сервисима управља
-        %{openstreetmap_foundation_link} (OSMF)
-        а у име заједнице. Коришћење OSMF сервиса предмет је наших %{terms_of_use_link}, %{aup_link} и %{privacy_policy_link}.
-      legal_1_1_openstreetmap_foundation: OpenStreetMap фондација
-      legal_1_1_terms_of_use: услова коришћења
-      legal_1_1_aup: политике прихватљиве употребе
-      legal_1_1_privacy_policy: политике приватности
+      legal_1_html: "Овим сајтом и многим другим повезаним алаткама формално управља
+        веома неформалан колектив OpenHistoricalMap у име заједнице. Употреба свих
+        алатки којима управља OHM је предмет \nнаших услова коришћења, политике прихватљиве
+        употребе и наше <a href=\"/privacy-policy\">политике приватности</a>."
       partners_title: Партнери
     copyright:
-      title: Ауторска права и лиценца
       foreign:
         title: О овом преводу
-        html: У случају неслагања између преведене странице и %{english_original_link},
+        html: У случају недоследности између преведене странице и %{english_original_link},
           енглеска страница има примат
         english_link: енглеског оригинала
       native:
@@ -1664,60 +1663,71 @@ sr:
         native_link: српско издање
         mapping_link: почни с уређивањем карте
       legal_babble:
-        introduction_2_html: Можете да умножавате, делите, преносите и прилагођавате
-          наше податке, све док наводите OpenStreetMap и њене уреднике. Ако желите
-          да мењате и дограђујете наше податке, можете их делити само под истом лиценцом.
-          Овај %{legal_code_link} наводи Ваша права и обавезе.
-        introduction_2_legal_code: правни текст
-        introduction_3_html: Наша документација је доступна под лиценцом %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Ауторство-Делити под истим
-          условима 2.0
-        credit_title_html: Како да наведете OpenStreetMap
-        credit_1_html: 'Када користите податке са OpenStreetMap-а, захтевамо да урадите
-          две ствари:'
-        credit_3_attribution_guidelines: Смернице за приписивање
+        title_html: Ауторска права и лиценца
+        intro_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> садржи <i>слободне податке</i> који су доступни под лиценцом <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) организације <a
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
+        intro_2_html: |2-
+            Можете да умножавате, делите, преносите и прилагођавате
+            наше податке, све док именујете Опенстритмап и њене
+            уреднике. Ако желите да мењате и дограђујете наше податке,
+            можете их делити само под истом лиценцом.
+            Цео <a href="https://opendatacommons.org/licenses/odbl/1.0/">
+            текст уговора</a> објашњава вам ваша права и одговорности.
+        intro_3_1_html: Наша документација је лиценцирана под <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.mk">Кријејтив
+          комонс Ауторство-Делити под истим условима 2.0</a> (CC BY-SA 2.0).
+        credit_title_html: Како да наведете OpenHistoricalMap
+        credit_1_html: |-
+          Захтевамо да као носиоце ауторских права наведете &ldquo;&copy; ОпенСтитМап
+          сарадници&rdquo;.
+        credit_2_1_html: |-
+          Такође неопходно је недвосмислено навести да су подаци доступни под лиценцом отворене базе података "Open
+          Database License", и ако користите наше плочице за карту, да је картографија лиценцирана под CC BY-SA. Ово можете учинити упућивањем на
+          <a href="https://www.openstreetmap.org/copyright">ову страницу за ауторска права</a>.
+          Друга могућност је да ако ширите ОСМ у облику податка, лиценце можете навести и повезати директно. У медијима у којима повезивање није могуће (нпр. штампани материјали), предлажемо да упутите читаоце на openstreetmap.org (можда проширујући
+          'OpenHistoricalMap' на пуну адресу), на opendatacommons.org, и ако је потребно, на creativecommons.org.
         attribution_example:
           alt: Пример како да наведете Опенстритмап на некој страници
           title: Пример за навођење
         more_title_html: Више о
+        more_1_html: |-
+          Више о употреби података и како да нас наводите можете наћи на <a
+          href="http://osmfoundation.org/Licence">страници лиценце OSMF</a> и у <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">честим правним питањима</a>.
         contributors_title_html: Наши сарадници
-        contributors_intro_html: |-
-          У нашем пројекту учествује на хиљаде појединаца. Користимо и
-          податке с отвореном лиценцом од државних картографских установа
-          и других извора, међу којима су:
-        contributors_at_austria: Аустрија
-        contributors_au_australia: Аустралија
-        contributors_au_cc_licence: Creative Commons Ауторство 4.0 међународна (CC
-          BY 4.0)
-        contributors_ca_canada: Канада
-        contributors_cz_czechia: Чешка
-        contributors_cz_cc_licence: Creative Commons Ауторство 4.0 међународна (CC
-          BY 4.0)
-        contributors_fi_finland: Финска
-        contributors_fr_france: Француска
-        contributors_hr_croatia: Хрватска
-        contributors_nl_netherlands: Холандија
-        contributors_nz_new_zealand: Нови Зеланд
-        contributors_rs_serbia: Србија
-        contributors_rs_rgz: Републички геодетски завод
-        contributors_si_slovenia: Словенија
-        contributors_es_spain: Шпанија
-        contributors_za_south_africa: Јужна Африка
-        contributors_gb_united_kingdom: Уједињено Краљевство
-        contributors_2_contributors_page: доприносиоци
-        contributors_footer_2_html: Укључивањем података у OpenStreetMap не значи
-          да изворни власник података подржава OpenStreetMap, обезбеђује било какву
+        contributors_intro_html: У нашем пројекту учествује на хиљаде појединаца и
+          организација. Не бисмо постојали да није њиховог напора.
+        contributors_footer_1_html: |-
+          Више информација о овим и другим изворима коришћеним
+          за побољшавање Опенстритмапа можете наћи на страници <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Доприносиоци</a> на нашем викију.
+        contributors_footer_2_html: |-
+          Укључивање података у OpenHistoricalMap не подразумева да изворни
+          власник података подржава OpenHistoricalMap, обезбеђује било какву
           гаранцију или прихвата одговорност.
         infringement_title_html: Кршење ауторских права
-        infringement_1_html: OSM сарадници се подсећају да никад не додају податке
-          из извора заштићених ауторским правима (нпр. Гугл мапе или штампане карте)
-          без изричите дозволе носиоца ауторских права.
-        trademarks_title: Заштитни знаци
-        trademarks_1_1_trademark_policy: Робне марке
+        infringement_1_html: OHM уредницима се напомиње да никад не додају податке
+          из извора заштићених ауторским правима (нпр. Гугл карте или штампане карте)
+          без изричите дозволе власника ауторских права.
+        infringement_2_html: |-
+          Ако верујете да је материјал заштићен ауторским правима био неприкладно
+          додат у базу података OpenHistoricalMap или овај сајт, молимо да пратите
+          нашу <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">процедуру за
+          скидање</a> или да се директно обратите на
+          нашој <a href="https://dmca.openstreetmap.org/">онлајн страници за пријаве</a>.
+        trademarks_title_html: <span id="trademarks"></span>Робне марке
+        trademarks_1_html: OpenHistoricalMap, лого лупе и State of the Map регистроване
+          су робне марке Фондације OpenHistoricalMap. Ако имате питања о томе како
+          да користите марке, пошаљите своја питања <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Радној
+          групи за лиценце</a>.
     index:
       js_1: Користите прегледач који не подржава јаваскрипт или сте га онемогућили.
-      js_2: OpenStreetMap користи јаваскрипт за приказивање мапа.
+      js_2: OpenHistoricalMap користи јаваскрипт за приказивање мапа.
+      permalink: Трајна веза
+      shortlink: Кратка веза
+      createnote: Додај белешку
       license:
         copyright: Ауторска права Опенстритмап и доприносиоци, под отвореном лиценцом
       remote_failed: Уређивање није успело. Проверите да ли је JOSM или Merkaartor
@@ -1727,12 +1737,23 @@ sr:
       not_public_description_html: Не можете уређивати мапу све док то не урадите.
         Можете подесити да ваше измене буду јавне с %{user_page}.
       user_page_link: корисничке странице
+      anon_edits_html: (%{link})
       anon_edits_link_text: Сазнајте зашто је то случај.
       id_not_configured: iD није конфигурисан
+      no_iframe_support: Ваш прегледач не подржава HTML iframes, а они су потребни
+        за ову могућност.
     export:
       title: Извоз
+      area_to_export: Област за извоз
       manually_select: Ручно изаберите другу област
+      format_to_export: Формат за извоз
+      osm_xml_data: Подаци у XML формату
+      map_image: Слика мапе (приказује стандардни слој)
+      embeddable_html: Уградиви HTML код
       licence: Лиценца
+      licence_details_html: Подаци OpenHistoricalMap-а су доступни под лиценцом <a
+        href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
+        Database License</a> (ODbL).
       too_large:
         advice: 'Ако буде проблема при извозу, послужите се неким од доленаведених
           извора:'
@@ -1741,16 +1762,30 @@ sr:
           података:'
         planet:
           title: Планета OSM
-          description: Редовно ажурирани примерци целе базе OpenStreetMap-а
+          description: Редовно ажурирани примерци целе базе OpenHistoricalMap-а
         overpass:
           title: API Overpass-а
-          description: Преузмите овај оквир са пресликане копије базе OpenStreetMap-а
+          description: Преузмите овај оквир са пресликане копије базе OpenHistoricalMap-а
         geofabrik:
           title: Преузимања која омогућава Geofabrik
           description: Редовно ажурирани исечци континената, земаља и изабраних градова
+        metro:
+          title: Исечци градова
+          description: Исечци великих светских градова и њихових околних подручја
         other:
           title: Други извори
-          description: Додатни извори наведени на викију OpenStreetMap-а
+          description: Додатни извори наведени на викију OpenHistoricalMap-а
+      options: Опције
+      format: Формат
+      scale: Размера
+      max: макс.
+      image_size: Величина слике
+      zoom: Приближи
+      add_marker: Постави маркер на мапу
+      latitude: 'Ширина:'
+      longitude: 'Дужина:'
+      output: Исход
+      paste_html: HTML код за уградњу на сајт
       export_button: Извези
     fixthemap:
       title: Пријави проблем / Поправи карту
@@ -1760,9 +1795,17 @@ sr:
           title: Прикључи се заједници
           explanation_html: Ако приметите проблем са подацима на нашој мапи (нпр.
             одсуство пута или адресе) најбољи начин је да се придружите заједници
-            OpenStreetMap и самостално додате или исправите податке.
+            OpenHistoricalMap и самостално додате или исправите податке.
+        add_a_note:
+          instructions_html: |-
+            Само кликни <a class='icon note'></a> или исту иконицу на приказу карте.
+            Овоће на карту додати ознаку, Коју можеш да помераш повлачењем. Додај своју поруку, сними, и остали картографи ће то истражити.
       other_concerns:
         title: Остале бриге
+        explanation_html: "Ако те брине како се користе наши подаци погледај\n<a href='/copyright'>стреницу
+          о ауторским правима</a> за више правних савета, или контактирај одговарајућу
+          \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>ОСМФ радну
+          групу</a>."
     help:
       title: Тражење помоћи
       introduction: ОпенСтритМап има неколико извора за учење о пројекту, који питају
@@ -1770,38 +1813,31 @@ sr:
         теме.
       welcome:
         url: /welcome
-        title: Добро дошли на OpenStreetMap
+        title: Добро дошли на OpenHistoricalMap
         description: Почни са овим брзим водичем који покрива основе ОпенСтритМапа
-      beginners_guide:
-        url: http://wiki.openstreetmap.org/wiki/Sr:Beginners%27_guide
-        title: Водич за почетничке
-        description: Водич за почетнике
-      community:
-        title: Форум заједнице
-      mailing_lists:
-        title: Дописне листе
-        description: Поставите питање или дискутујте о питањима од значаја која се
-          тичу широког спектра тематских или регионалних мејлинг листа.
-      irc:
-        title: IRC
-        description: Интерактивно ћаскање на много различитих језицима и на многе
-          теме.
-      switch2osm:
+      discord:
         title: switch2osm
-        description: Помоћ за компаније и организације које прелазе на мапе засноване
-          на OpenStreetMap-у и другим алаткама.
-      welcomemat:
-        title: За организације
+      forum:
+        title: Форум
+      mailing_list:
+        title: Мејлинг листа
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Sr:Main_Page
-        title: OpenStreetMap вики
-        description: Претражи вики за детаљнију OpenStreetMap документаацију.
+        title: Вики
+        description: Community-maintained instructions for using OHM and guidelines
+          for contributing to the project.
     any_questions:
       title: Питања?
+      paragraph_1_html: |-
+        OpenHistoricalMap има неколико извора за учење о пројекту, који питају и  одговарају на питања, и заједнички расправљају и документују картографске теме.
+        <a href='%{help_url}'>Овде потражите помоћ</a>. Део сте организације која планира да укључи OpenHistoricalMap? <a href='https://welcome.openstreetmap.org/'>Погледајте Добродошлицу</a>.
     sidebar:
       search_results: Резултати претраге
+      close: Затвори
     search:
       search: Претрага
+      get_directions: Тражите упутства
       get_directions_title: Пронађите навигацију између две тачке
       from: Од
       to: До
@@ -1825,90 +1861,100 @@ sr:
           cycleway_local: Локална бициклистичка стаза
           footway: Пешачка стаза
           rail: Железничка пруга
-          train: Воз
           subway: Подземна железница
-          ferry: Трајект
-          tram: Трамвај
-          trolleybus: Тролејбус
-          bus: Аутобус
-          cable_car: Жичара
-          chair_lift: Жичара са седиштима
-          runway: Аеродромска писта
-          taxiway: Рулна стаза
-          apron: Аеродромски перон
+          tram:
+          - Лака железница
+          - трамвај
+          cable:
+          - Жичара
+          - седишница
+          runway:
+          - Аеродромска писта
+          - рулне стазе
+          apron:
+          - Аеродромски перон
+          - терминал
           admin: Административна граница
-          capital: Престоница
-          city: Град
-          vineyard: Виноград
           forest: Шума
           wood: Шума
-          grass: Трава
-          meadow: Ливада
-          sand: Песак
           golf: Голф терен
           park: Парк
-          common: Пољана
           resident: Стамбено подручје
+          common:
+          - Пољана
+          - ливада
           retail: Малопродајно подручје
           industrial: Индустријско подручје
           commercial: Пословно подручје
           heathland: Пустош
-          lake: Језеро
-          reservoir: Резервоар
-          glacier: Глечер
+          lake:
+          - Језеро
+          - резервоар
           farm: Фарма
           brownfield: Грађевинско земљиште
           cemetery: Гробље
           allotments: Баште
           pitch: Спортско игралиште
           centre: Спортски центар
-          beach: Плажа
           reserve: Резерват природе
           military: Војно подручје
-          school: Школа
-          university: Универзитет
-          hospital: Болница
+          school:
+          - Школа
+          - универзитет
           building: Значајна зграда
           station: Железничка станица
-          summit: Узвишење
-          peak: Врх
+          summit:
+          - Узвишење
+          - врх
           tunnel: Испрекидан оквир – тунел
           bridge: Црни оквир – мост
           private: Приватни посед
           destination: Приступ одредишту
           construction: Путеви у изградњи
-          bus_stop: Аутобуска станица
           bicycle_shop: Продавница бицикала
-          bicycle_rental: Изнајмљивање бицикала
           bicycle_parking: Паркинг за бицикле
-          bicycle_parking_small: Мали паркинг за бицикле
           toilets: Тоалети
     welcome:
       title: Добро дошли!
-      introduction: Добро дошли на OpenStreetMap, бесплатну изменљиву карту света.
+      introduction: Добро дошли на OpenHistoricalMap, бесплатну изменљиву карту света.
         Сада кад сте се пријавили, спремни сте да почнете са картографијом. Ево га
         брзи водич са најбитнијим стварима које је потребно знати.
       whats_on_the_map:
         title: Шта је на карти
+        on_the_map_html: На мапи OpenHistoricalMap-а се налазе објекти који <em>постоје
+          у датом тренутку</em>, попут милиона грађевина, путева и других елемената
+          локалитета. Слободно можете да забележите било које детаље спољног света
+          који су вам занимљиви.
+        off_the_map_html: Оно што се <em>не</em> рачуна су пристрасне оцене, историјски
+          или хипотетички подаци, и подаци заштићени ауторским правима. Ако немаш
+          изричиту дозволу, не умножавај папирне и карте са интернета.
       basic_terms:
         title: Основни картографски термини
         paragraph_1: ОпенСтритМап има свој жаргон. Ево пар кључних речи које могу
           да буду корисне.
-        tag: ознака
+        editor: уређивач
       rules:
         title: Правила!
-        automated_edits: Аутоматизоване измене
+        para_1_html: "OpenHistoricalMap има мало формалних правила, али очекујемо
+          од свих учесника да сарађују\nи комуницирају са заједницом. Ако разматрате
+          било какве\nактивности поред ручног уређивања, прочитајте и пратите смернице
+          о \n<a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>увозу</a>
+          и \n<a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>аутоматизованим
+          изменама</a>."
       start_mapping: Почни са цртањем карте
       add_a_note:
-        title: Немаш времена да уредиш? Додај белешку!
+        title: Немаш времена за уређивање? Додај белешку!
         para_1: Ако хоћеш нешто ситно да поправиш а немаш времена да се пријавиш или
           да научиш да уређујеш, једноставно додај белешку.
-    communities:
-      title: Заједнице
-      local_chapters:
-        title: Локални огранци
-      other_groups:
-        title: Друге групе
+        the_map: мапа
+    ohm_privacy_policy:
+      page_title_html: Политика приватности
+      introduction:
+        title_html: Увод
+      cookies:
+        title_html: Колачићи
+      contact:
+        title_html: Контакт
   traces:
     visibility:
       private: Приватни (приказује се као анонимне, непоређане тачке)
@@ -1940,6 +1986,8 @@ sr:
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
     update:
       updated: Траг је ажуриран
+    trace_optionals:
+      tags: Ознаке
     show:
       title: Преглед трага %{name}
       heading: Преглед трага %{name}
@@ -1961,11 +2009,13 @@ sr:
       trace_not_found: Траг није пронађен.
       visibility: 'Видљивост:'
       confirm_delete: Избрисати овај траг?
+    trace_paging_nav:
+      showing_page: Страница %{page}
+      older: Старији трагови
+      newer: Новији трагови
     trace:
       pending: НА_ЧЕКАЊУ
-      count_points:
-        one: '%{count} чвор'
-        other: '%{count} чвора'
+      count_points: '%{count} тачака'
       more: више
       trace_details: Погледајте детаље о трагу
       view_map: Погледај карту
@@ -1974,24 +2024,26 @@ sr:
       identifiable: МОЖЕ СЕ ПРЕПОЗНАТИ
       private: ПРИВАТНИ
       trackable: МОЖЕ СЕ ПРАТИТИ
+      by: од
+      in: у
     index:
       public_traces: Јавни ГПС трагови
       public_traces_from: Јавни GPS трагови корисника %{user}
       description: Претражите недавне аплоуде GPS путева
       tagged_with: ' означени са %{tags}'
-      empty_title: Нема ништа
-      wiki_page: вики страница
       upload_trace: Отпреми траг
       my_traces: Моји трагови
     destroy:
       scheduled_for_deletion: Траг постављен за брисање
+    make_public:
+      made_public: Јавни траг
     offline_warning:
       message: Систем за отпремање GPX датотека тренутно није доступан
     offline:
       heading: GPX остава је ван мреже
       message: GPX остава и отпремање тренутно нису доступни.
     georss:
-      title: OpenStreetMap GPS трасе
+      title: OpenHistoricalMap GPS трасе
     description:
       description_with_count:
         one: GPX датотека са %{count} тачком од %{user}
@@ -2002,57 +2054,97 @@ sr:
     require_cookies:
       cookies_needed: Изгледа да сте онемогућили колачиће. Омогућите их пре него што
         наставите.
+    require_admin:
+      not_an_admin: Треба да будете администратор да бисте извршили ту радњу.
     setup_user_auth:
-      blocked_zero_hour: Имате хитну поруку на веб-сајту OpenStreetMap. Морате прочитати
-        поруку пре него што можете да чувате своје измене.
+      blocked_zero_hour: Имате хитну поруку на веб-сајту OpenHistoricalMap. Морате
+        прочитати поруку пре него што могнете спремати своје измене.
       blocked: Ваш приступ АПИ-ју је блокиран. Пријавите се да сазнате више.
       need_to_see_terms: Ваш приступ АПИ-ју је привремено укинут. Пријавите се да
         бисте погледали услове уређивања. Не морате да их прихватите, већ само да
         их видите.
     settings_menu:
       account_settings: Подешавња налога
-      muted_users: Пригушени корисници
-    auth_providers:
-      openid_login_button: Настави
-      openid:
-        title: Пријавити се са OpenID
-        alt: Логотип OpenID-а
-      google:
-        title: Пријава преко Google-а
-        alt: Логотип Гугла
-      facebook:
-        title: Пријавити се са Facebook-ом
-        alt: Логотип Фејсбука
-      microsoft:
-        title: Пријава преко Microsoft-а
-        alt: Логотип Microsoft-а
-      github:
-        title: Пријава коришћењем GitHub-а
-        alt: Логотип GitHub-а
-      wikipedia:
-        title: Пријава преко Википедије
-        alt: Логотип Википедије
   oauth:
+    authorize:
+      title: Ауторизујте приступ свом налогу
+      request_access_html: Програм %{app_name} захтева приступ вашем налогу, %{user}.
+        Одлучите се да ли желите да му га омогућите. Можете изабрати било који програм.
+      allow_to: 'Дозволи програму да:'
+      allow_read_prefs: чита ваше корисничке поставке.
+      allow_write_prefs: мења ваше корисничке поставке.
+      allow_write_diary: прави дневничке записе, коментарише и додаје пријатеље.
+      allow_write_api: мења мапу.
+      allow_read_gpx: чита ваше приватне GPS трагове.
+      allow_write_gpx: отпрема GPS трагове.
+      allow_write_notes: измени белешке.
+      grant_access: Додели приступ
+    authorize_success:
+      title: Омогућен захтев за ауторизацију
+      allowed_html: Омогућили сте да апликација %{app_name} приступи Вашем налогу.
+      verification: Верификациони код је %{code}.
+    authorize_failure:
+      title: Неуспешан захтев за ауторизацију
+      denied: Онемогућили сте да апликација %{app_name} приступи Вашем налогу.
+      invalid: Токен за ауторизацију није валидан.
+    revoke:
+      flash: Опозвали сте новчић за %{application}
     permissions:
       missing: Нисте дозволили приступ апликације овом одељењу
+  oauth_clients:
+    new:
+      title: Упиши нови програм
+    edit:
+      title: Уреди програм
+    show:
+      title: OAuth детаљи за %{app_name}
+      key: 'Кључ потрошача:'
+      secret: 'Тајна потрошача:'
+      url: 'Адреса захтевног новчића:'
+      access_url: 'Адреса приступног новчића:'
+      authorize_url: 'Адреса овлашћења:'
+      support_notice: Подржавамо HMAC-SHA1 (препоручује се) и RSA-SHA1 потписе.
+      edit: Детаљи измене
+      delete: Обриши клијент
+      confirm: Јесте ли сигурни?
+      requests: 'Захтевање следећих дозвола од корисника:'
+    index:
+      title: OAuth детаљи
+      my_tokens: Одобрени програми
+      list_tokens: 'Следећи новчићи су издани програмима на ваше име:'
+      application: Назив програма
+      issued_at: Издано
+      revoke: Опозови
+      my_apps: Програми
+      no_apps_html: Имате ли програм који желите да користите са стандардом %{oauth}?
+        Морате уписати ваш програм пре него што он може да тражи OAuth захтеве.
+      registered_apps: 'Следећи програми су уписани:'
+      register_new: Упиши програм
+    form:
+      requests: 'Захтевај следеће дозволе од корисника:'
+    not_found:
+      sorry: Жао нам је, %{type} није пронађен.
+    create:
+      flash: Подаци су успешно уписани
+    update:
+      flash: Подаци о клијенту су успешно ажурирани
+    destroy:
+      flash: Уништена је регистрација клијентског програма
   oauth2_applications:
     index:
-      name: Назив
+      name: Име
       permissions: Дозволе
     application:
       edit: Уреди
       delete: Обриши
-      confirm_delete: Обриши ову апликацију?
     show:
       edit: Уреди
       delete: Обриши
+      client_id: ID клијента
       permissions: Дозволе
   oauth2_authorizations:
     new:
-      authorize: Одобри
-      deny: Одбиј
-    error:
-      title: Дошло је до грешке
+      title: Потребна потврда идентитета
   oauth2_authorized_applications:
     index:
       application: Апликација
@@ -2062,39 +2154,36 @@ sr:
       title: Регистрација
       no_auto_account_create: Нажалост, тренутно нисмо у могућности да отворимо нови
         налог.
-      support: подршка
+      contact_support_html: Контактирајте <a href="%{support}">подршку</a> за отварање
+        новог налога - обрадићемо захтев што је пре могуће.
       about:
-        header: Слободно и изменљиво.
-        paragraph_1: За разлику од других мапа, OpenStreetMap-е употпуности праве
-          људи као Ви. И слободна је за све да је поправљају, ажурирају, преузимају
-          и користе.
-        welcome: Добро дошли на OpenStreetMap
+        header: Слободно и изменљиво
+        paragraph_2: Региструјте се да почнете доприносити. Послаћемо Вам имејл за
+          потврду налога.
+      email address: 'Имејл адреса:'
+      confirm email address: 'Потврдите имејл адресу:'
+      display name: 'Име приказа:'
       display name description: Јавно приказано корисничко име. Касније га можете
         променити у поставкама.
-      by_signing_up:
-        privacy_policy: политика приватности
+      external auth: 'Аутентификација треће стране:'
+      use external auth: Алтернативно, користите трећу страну за пријаву
+      auth no password: Са аутентификацијом треће стране, лозинка није потребна —
+        али неки додатни алати или сервер можда је ипак буду захтевали.
       continue: Отвори налог
       terms accepted: Хвала вам што прихватате нове услове уређивања.
-      email_help:
-        privacy_policy: политика приватности
-      consider_pd: јавно власништво
-      or: или
-      use external auth: или се региструјте путем треће стране
     terms:
       title: Услови
       heading: Услови
       read_ct: Прочитао сам и прихватам горе наведене услове
-      read_tou: Прочитао сам и прихватам Услове коришћења
-      consider_pd: Према горенаведеном, сматрам да моји доприноси припадају јавном
-        власништву
-      consider_pd_why: шта је ово?
-      guidance_info_html: 'Информације за разумевање ових услова: a %{readable_summary_link}
-        и %{informal_translations_link}'
+      read_tou: Прочитао сам и прихватам услове коришћења
+      consider_pd: Према горе наведеном, предајем своје доприносе у јавно власништво
+      consider_pd_why: Шта је ово?
+      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       readable_summary: сумарум
       informal_translations: неформални преводи
       continue: Настави
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
-      cancel: Откажи
+      decline: Одбаци
       you need to accept or decline: Молимо вас да прочитате уговор пре него што га
         прихватите.
       legale_select: 'Изаберите земљу пребивалишта:'
@@ -2103,6 +2192,7 @@ sr:
         italy: Италија
         rest_of_world: Остатак света
     terms_declined_flash:
+      terms_declined_link: ова вики страница
       terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
     no_such_user:
       title: Нема таквог корисника
@@ -2112,6 +2202,7 @@ sr:
       deleted: обрисано
     show:
       my diary: Мој дневник
+      new diary entry: нови дневнички запис
       my edits: Моје измене
       my traces: Моји трагови
       my notes: Моје белешке
@@ -2120,7 +2211,7 @@ sr:
       my settings: Моје поставке
       my comments: Моји коментари
       my_preferences: Моја подешавања
-      my_dashboard: Tабла
+      my_dashboard: Моја управљачка табла
       blocks on me: Мени забрањено
       blocks by me: Моје забране
       edit_profile: Уреди профил
@@ -2135,10 +2226,13 @@ sr:
       ct status: 'Услови за учешће:'
       ct undecided: Неодлучено
       ct declined: Одбијено
+      latest edit: 'Последња измена (%{ago}):'
       email address: 'Имејл адреса:'
       created from: 'Направљено из:'
       status: 'Стање:'
       spam score: 'Оцена спама:'
+      description: Опис
+      user location: Боравиште корисника
       role:
         administrator: Овај корисник је администратор
         moderator: Овај корисник је уредник
@@ -2150,33 +2244,44 @@ sr:
           moderator: Опозови овлашћења уредника
       block_history: Активне блокаде
       moderator_history: Извршене блокаде
-      revoke_all_blocks: Опозови све блокаде
       comments: Коментари
       create_block: Блокирај корисника
       activate_user: Активирај корисника
+      deactivate_user: Деактивирај корисника
       confirm_user: Потврди овог корисника
       hide_user: Сакриј корисника
       unhide_user: Откриј корисника
       delete_user: Избриши корисника
       confirm: Потврди
       report: Пријави овог корисника
+    set_home:
+      flash success: Место становања је успешно сачувано
     go_public:
       flash success: Све ваше измене су сада јавне. Дозвољено вам је уређивање.
     index:
       title: Корисници
       heading: Корисници
+      showing:
+        one: Страница %{page} (%{first_item} од %{items})
+        other: Странице %{page} (%{first_item}-%{last_item} од %{items})
       summary_html: '%{name} направљено од %{ip_address} дана %{date}'
       summary_no_ip_html: '%{name} направљено %{date}'
-      empty: Није пронађен ниједан корисник
-    page:
       confirm: Потврди изабране кориснике
       hide: Сакриј изабране кориснике
+      empty: Није пронађен ниједан корисник
     suspended:
       title: Суспендован налог
       heading: Суспендован налог
       support: подршка
-      automatically_suspended: Жао нам је, Ваш налог је аутоматски суспендован због
-        сумљивих радњи.
+      body_html: |-
+        <p>
+          Жао нам је, ваш налог је привремено укинут
+          због сумњиве активности.
+        </p>
+        <p>
+          Ову одлуку ће убрзо размотрити администратор. Такође,
+          можете контактирати %{webmaster} ако желите да ово прокоментаришете.
+        </p>
     auth_failure:
       connection_failed: Повезивање до аутентификационог провајдера неуспешно
       invalid_credentials: Невалидни аутентификациони акредитиви
@@ -2184,9 +2289,9 @@ sr:
       unknown_signature_algorithm: Непознат потписни алгоритам
       invalid_scope: Невалидан опсег
     auth_association:
-      heading: Ваш ID још увек није повезан са налогом OpenStreetMap.
+      heading: Ваш ID још увек није повезан са налогом OpenHistoricalMap.
       option_1: |-
-        Ако сте нови у OpenStreetMap, молимо да направите нови налог
+        Ако сте нови у OpenHistoricalMap, молимо да направите нови налог
         коришћењем доњег обрасца.
       option_2: |-
         Ако већ имате налог, можете да се пријавите на свој налог
@@ -2198,9 +2303,19 @@ sr:
       already_has_role: Корисник већ има улогу %{role}.
       doesnt_have_role: Корисник нема улогу %{role}.
     grant:
+      title: Потврда доделе улоге
+      heading: Потврда доделе улоге
       are_you_sure: Желите ли да доделите улогу „%{role}“ кориснику %{name}?
+      confirm: Потврди
+      fail: Не могу да доделим улогу „%{role}“ кориснику %{name}. Проверите да ли
+        су корисник и улога исправни.
     revoke:
+      title: Потврда одузимања улоге
+      heading: Потврда одузимања улоге
       are_you_sure: Желите ли да одузмете улогу „%{role}“ од корисника %{name}?
+      confirm: Потврди
+      fail: Не могу да одузмем улогу „%{role}“ од корисника %{name}. Проверите да
+        ли су корисник и улога исправни.
   user_blocks:
     model:
       non_moderator_update: Морате бити уредник да бисте постављали или ажурирали
@@ -2213,13 +2328,22 @@ sr:
       title: Блокирање %{name}
       heading_html: Блокирање %{name}
       period: Колико дуго ће корисник бити блокиран од АПИ-ја, почев од сада.
+      tried_contacting: Контактирао сам корисника и питао га да престане.
+      tried_waiting: Дао сам довољно времена кориснику да одговори.
+      back: Погледај све блокаде
     edit:
       title: Уређивање блокаде за %{name}
       heading_html: Уређивање блокаде за %{name}
       period: Колико дуго ће корисник бити блокиран од АПИ-ја, почев од сада.
+      show: Погледај ову блокаду
+      back: Погледај све блокаде
     filter:
+      block_expired: Блокада је већ истекла и не може се уређивати.
       block_period: Период блокаде мора бити једна од вредности из падајућег списка.
     create:
+      try_contacting: Контактирајте корисника пре блокирања да бисте му дали довољно
+        времена да одговори.
+      try_waiting: Дајте кориснику довољно времена да одговори пре него што га блокирате.
       flash: Блокирај корисника %{name}.
     update:
       only_creator_can_edit: Само уредник који је направио ову блокаду може да је
@@ -2229,9 +2353,14 @@ sr:
       title: Корисничке блокаде
       heading: Листа корисничких блокада
       empty: Није направљена ниједна блокада.
-    revoke_all:
-      heading_html: Опозивање свих блокада на %{block_on}
-      flash: Све активне блокаде су опозване.
+    revoke:
+      title: Опозивање блокаде на %{block_on}
+      heading_html: Опозивање блокаде на %{block_on} од %{block_by}
+      time_future: Ова блокада ће се завршити за %{time}.
+      past: Ова блокада је завршена у %{time} и не може се сада опозвати.
+      confirm: Желите ли да опозовете ову блокаду?
+      revoke: Опозови
+      flash: Ова блокада је опозвана.
     helper:
       time_future_html: Завршава се у %{time}.
       until_login: Активно све док се корисник не пријави.
@@ -2240,8 +2369,8 @@ sr:
       time_past_html: Завршено пре %{time}.
       block_duration:
         hours:
-          one: '%{count} час'
-          other: '%{count} часа'
+          one: 1 сат
+          other: '%{count} сата'
     blocks_on:
       title: Блокаде за %{name}
       heading_html: Листа блокада за %{name}
@@ -2256,32 +2385,33 @@ sr:
       created: 'Направљено:'
       duration: 'Трајање:'
       status: 'Стање:'
+      show: Прикажи
       edit: Уреди
+      revoke: Опозови
+      confirm: Јесте ли сигурни?
       reason: 'Разлог за блокирање:'
+      back: Погледај све блокаде
       revoker: 'Опозивалац:'
+      needs_view: Корисник мора да се пријави да би блокада била уклоњена.
     block:
       not_revoked: (није опозвано)
       show: Прикажи
       edit: Уреди
-    page:
+      revoke: Опозови
+    blocks:
       display_name: Блокирани корисник
       creator_name: Творац
       reason: Разлози за блокирање
       status: Стање
       revoker_name: Опозвао
-  user_mutes:
-    index:
-      title: Пригушени корисници
-      table:
-        thead:
-          actions: Радње
-        tbody:
-          send_message: Пошаљи поруку
+      showing_page: Страница %{page}
+      next: Следеће »
+      previous: « Претходно
   notes:
     index:
       title: Белешке послао или коментарисао %{user}
       heading: Белешке корисника %{user}
-      subheading_html: Белешке %{submitted} или %{commented} %{user}
+      subheading_html: Белешке послао или коментарисао %{user}
       no_notes: Нема белешки
       id: Id
       creator: Творац
@@ -2291,28 +2421,11 @@ sr:
     show:
       title: Белешкаː %{id}
       description: Опис
-      open_title: Нерешена белешка бр. %{note_name}
-      closed_title: Решена белешка бр. %{note_name}
-      hidden_title: Скривена белешка бр. %{note_name}
-      event_opened_by_html: Направио %{user} %{time_ago}
-      report: пријави ову белешку
-      anonymous_warning: Ова белешка садржи коментаре анонимних корисника које би
-        требало посебно проверити.
       hide: Сакриј
-      resolve: Разреши
-      reactivate: Поново покрени
-      comment_and_resolve: Коментариши и разреши
-      comment: Коментариши
+      comment: Коментар
     new:
       title: Нова белешка
-      intro: Наишли сте на грешку или нешто недостаје? Обавестите друге картографе
-        како бисмо решили проблем. Преместите маркер на исправно место и напишите
-        објашњење.
-      advice: Ваша белешка је јавна и може се користити за ажурирање карте, па не
-        уносите личне податке, податке који садрже ауторска права или податке из листинга.
       add: Додај белешку
-    notes_paging_nav:
-      showing_page: Страница %{page}
   javascripts:
     close: Затвори
     share:
@@ -2347,6 +2460,7 @@ sr:
       locate:
         title: Прикажи моју позицију
       base:
+        railway: Железница
         standard: Стандардна
         cycle_map: Бициклистичка мапа
         transport_map: Саобраћајна мапа
@@ -2358,7 +2472,6 @@ sr:
         gps: Јавне GPS трасе
         overlays: Омогући преклапање за тражење грешака на карти
         title: Слојеви
-      openstreetmap_contributors: OpenStreetMap сарадници
       make_a_donation: Донација
       website_and_api_terms: Веб-сајт и API услови
     site:
@@ -2370,6 +2483,30 @@ sr:
       map_data_zoom_in_tooltip: Увећај да видиш податке са карте
       queryfeature_tooltip: Информације о објектима
       queryfeature_disabled_tooltip: Зумирај на информације о објектима
+    changesets:
+      show:
+        comment: Коментариши
+        subscribe: Пријави ме
+        unsubscribe: Одјави ме
+        hide_comment: сакриј
+        unhide_comment: прикажи
+    notes:
+      new:
+        intro: Наишли сте на грешку или нешто недостаје? Обавестите друге картографе
+          како бисмо решили проблем. Преместите маркер на исправно место и напишите
+          објашњење.
+        advice: Ваша белешка је јавна и може се користити за ажурирање карте, па не
+          уносите личне податке, податке који садрже ауторска права или податке из
+          листинга.
+        add: Додај белешку
+      show:
+        anonymous_warning: Ова белешка садржи коментаре анонимних корисника које би
+          требало посебно проверити.
+        hide: Сакриј
+        resolve: Разреши
+        reactivate: Поново покрени
+        comment_and_resolve: Коментариши и разреши
+        comment: Коментариши
     edit_help: Помери карту и увећај на место које хоћеш да уредиш, затим кликни овде.
     directions:
       ascend: Растуће
@@ -2430,7 +2567,7 @@ sr:
           tenth: "10."
       time: Време
     query:
-      node: Чвор
+      node: Тачка
       way: Линија
       relation: Однос
       nothing_found: Нема објеката у близини

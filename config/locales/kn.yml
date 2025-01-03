@@ -3,7 +3,6 @@
 # Export driver: phpyaml
 # Author: AKJ GOWDA
 # Author: Ananth subray
-# Author: Anzx
 # Author: Nayvik
 # Author: Omshivaprakash
 # Author: Shankar
@@ -35,13 +34,12 @@ kn:
       client_application:
         create: ನೊಂದಾಯಿಸಿರಿ
         update: ಪರಿಷ್ಕರಿಸು
-      oauth2_application:
-        create: ನೊಂದಾಯಿಸಿರಿ
-        update: ನವೀಕರಿಸಿ
       trace:
         create: ಅಪ್ಲೋಡ್
-        update: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ಈ ಮಿಂಚಂಚೆಯು ಅಸ್ತಿತ್ವದಲ್ಲಿದ್ದಂತೆ ಕಾಣುವುದಿಲ್ಲ
     models:
       acl: ಪ್ರವೇಶ ನಿಯಂತ್ರಣ ಸೂಚಿ
       changeset: ಬದಲಾವಣೆಗಳು
@@ -53,6 +51,7 @@ kn:
       language: ಭಾಷೆ
       message: ಸಂದೇಶ
       node: ನೋಡ್
+      notifier: ‍ಸೂಚಕ
       old_node: ‍ಹಳೆಯ ನೋಡ್
       old_node_tag: ಹಳೆಯ ನೊಡ್ ನ ಭಾಗ
       old_relation: ಹಿಂದಿನ ಸಂಬಂಧ
@@ -83,7 +82,7 @@ kn:
         title: ವಿಷಯ
         latitude: ಅಕ್ಷಾಂಶ
         longitude: ರೇಖಾಂಶ
-        language_code: ಭಾಷೆ
+        language: ಭಾಷೆ
       doorkeeper/application:
         name: ಹೆಸರು
       friend:
@@ -111,6 +110,7 @@ kn:
         description: ವಿವರಣೆ
       user:
         email: ಇ-ಅಂಚೆ
+        email_confirmation: ಮಿಂಚಂಚೆ ದೃಢೀಕರಣ
         new_email: ಹೊಸ ಇ-ಅಂಚೆ ವಿಳಾಸ
         active: ಸಕ್ರಿಯ
         display_name: ಹೆಸರನ್ನು ಪ್ರದರ್ಶಿಸು
@@ -119,7 +119,6 @@ kn:
         home_lon: ರೇಖಾಂಶ
         languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
         pass_crypt: ಪ್ರವೇಶಪದ
-        pass_crypt_confirmation: ಪ್ರವೇಶಪದವನ್ನು ಧೃಡೀಕರಿಸಿ
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -145,8 +144,8 @@ kn:
         one: ೧ ಸೆಕೆಂಡ್ ಹಿಂದೆ
         other: '%{count} ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ'
       x_minutes:
-        one: '%{count} ನಿಮಿಷದ ಹಿಂದೆ'
-        other: '%{count} ನಿಮಿಷಗಳ ಹಿಂದೆ'
+        one: ೧ ಮಿನಿಟ್ ಹಿಂದೆ
+        other: '%{count} ಮಿನಿಟುಗಳ ಹಿಂದೆ'
       x_days:
         one: ೧ ದಿನದ ಹಿಂದೆ
         other: '%{count} ದಿನಗಳ ಹಿಂದೆ'
@@ -167,10 +166,8 @@ kn:
   auth:
     providers:
       none: ಯಾವುದೂ ಇಲ್ಲ
-      openid: ಓಪನ್ ಐಡಿ
       google: ಗೂಗಲ್
       facebook: ಫೇಸ್‍ಬುಕ್
-      microsoft: ಮೈಕ್ರೋಸಾಫ್ಟ್
       github: ಗಿಟ್‌ಹಬ್
       wikipedia: ವಿಕಿಪೀಡಿಯ
   api:
@@ -204,17 +201,9 @@ kn:
       external auth: ಬಾಹ್ಯ ದೃಢೀಕರಣ
       openid:
         link text: ಇದು ಏನು?
-      public editing:
-        enabled link text: ಇದು ಏನು?
-      contributor terms:
-        link text: ಇದು ಏನು?
-      save changes button: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
-      delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
-    go_public:
-      heading: ಸಾರ್ವಜನಿಕ ಸಂಪಾದನೆ
-    destroy:
-      success: ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗಿದೆ.
   browse:
+    created: ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟ
+    closed: ಮುಚ್ಚಲಾಗಿದೆ
     version: ಆವೃತ್ತಿ
     in_changeset: ಬದಲಾವಣೆಗಳು
     anonymous: ಅನಾಮಧೇಯ
@@ -224,6 +213,21 @@ kn:
     view_history: ಇತಿಹಾಸವನ್ನು ನೋಡಿ
     view_details: ವಿವರಣೆ ನೋಡಿ
     location: 'ಸ್ಥಳ:'
+    changeset:
+      title: 'ಬದಲಾವಣೆಗಳು: %{id}'
+      belongs_to: ಕರ್ತೃ
+      node: ನೋಡ್ಸ್  (%{count})
+      node_paginated: ನೋಡ್ಸ್  (%{x}-%{y} ರ %{count})
+      way: ರೀತಿಯಲ್ಲಿ (%{count})
+      way_paginated: ದಾರಿಗಳು (%{x}-%{y} ರ %{count})
+      relation: ಸಂಬಂಧಗಳು (%{count})
+      relation_paginated: ಸಂಬಂಧಗಳು(%{x}-%{y} of %{count})
+      comment: ಕಾಮೆಂಟ್ಗಳನ್ನು (%{count})
+      feed:
+        title: ಬದಲಾವಣೆಗಳು %{id}
+        title_comment: ಬದಲಾವಣೆಗಳು %{id} - %{comment}
+      join_discussion: ‍ಚರ್ಚೆಗೆ ಸೇರಲು ಲಾಗ್ ಇನ್ ಆಗಿರಿ
+      discussion: ಚರ್ಚೆ
     node:
       title_html: 'ನೋಡ್: %{name}'
       history_title_html: 'ನೊಡ್ ನ ಇತಿಹಾಸ: %{name}'
@@ -267,22 +271,32 @@ kn:
     tag_details:
       tags: ಟ್ಯಾಗ್‌ಗಳು
       telephone_link: '%{phone_number} ಕರೆಮಾಡಿ'
+    note:
+      title: 'ಟಿಪ್ಪಣಿ: %{id}'
+      new_note: ಹೊಸ ಟಿಪ್ಪಣಿ
+      description: ವಿವರ
+      open_title: 'ಬಗೆಹರಿಯದ ಟಿಪ್ಪಣಿ #%{note_name}'
+      closed_title: 'ಬಗೆಹರಿದ ಟಿಪ್ಪಣಿ #%{note_name}'
+      hidden_title: 'ಅಡಗಿಸಿದ ಟಿಪ್ಪಣಿ #%{note_name}'
     query:
       introduction: ಹತ್ತಿರದ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಹುಡುಕಲು ನಕ್ಷೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.
       nearby: ಹತ್ತಿರದ ವೈಶಿಷ್ಟ್ಯಗಳು
       enclosing: ಆವರಿಸಿರುವ ವೈಶಿಷ್ಟ್ಯಗಳು
-  changeset_comments:
-    feeds:
-      comment:
-        comment: '%{author} ಅವರಿಂದ ಬದಲಾವಣಾ ಸಂಖ್ಯೆ %{changeset_id} ರ ಹೊಸ ಅನಿಸಿಕೆ'
-        commented_at_by_html: '%{user}ಅವರಿಂದ %{when} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ'
-      show:
-        title_all: ಓಪನ್ ಸ್ಟ್ತ್ರೀಟ್ ಮ್ಯಾಪ್ ಬದಲಾವಣೆಗಳ ಚರ್ಚೆ
-        title_particular: ಓಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಬದಲಾವಣಾ ಸಂಖ್ಯೆ %{changeset_id} ಯ ಚರ್ಚೆ
   changesets:
+    changeset_paging_nav:
+      showing_page: ಪುಟ %{page}
+      next: ‍ಮುಂದಿನ »
+      previous: ‍‍ « ಹಿಂದಿನ
     changeset:
+      anonymous: ಅನಾಮಧೇಯ
       no_edits: (ಸಂಪಾದನೆಗಳಿಲ್ಲ)
       view_changeset_details: ಬದಲಾವಣೆಯ ವಿವರಗಳನ್ನು ತೋರಿಸಿ
+    changesets:
+      id: ಐಡಿ
+      saved_at: ಇಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ
+      user: ಬಳಕೆದಾರ
+      comment: ಟಿಪ್ಪಣಿ
+      area: ಪ್ರದೇಶ
     index:
       title: ಬದಲಾವಣೆಗಳು
       title_user: '%{user}ಅವರಿಂದಾದ ಬದಲಾವಣೆಗಳು'
@@ -295,31 +309,20 @@ kn:
       no_more_area: ಈ ಪ್ರದೇಶದಲ್ಲಿ ಇನ್ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.
       no_more_user: ಈ ಬಳಕೆದಾರರಿಂದ ಇನ್ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.
       load_more: ಇನ್ನೂ ತೋರಿಸಿ
-      feed:
-        title: ಬದಲಾವಣೆಗಳು %{id}
-        title_comment: ಬದಲಾವಣೆಗಳು %{id} - %{comment}
-        created: ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟ
-        closed: ಮುಚ್ಚಲಾಗಿದೆ
-        belongs_to: ಕರ್ತೃ
-    show:
-      title: 'ಬದಲಾವಣೆಗಳು: %{id}'
-      discussion: ಚರ್ಚೆ
-      join_discussion: ‍ಚರ್ಚೆಗೆ ಸೇರಲು ಲಾಗ್ ಇನ್ ಆಗಿರಿ
-    paging_nav:
-      nodes: ನೋಡ್ಸ್  (%{count})
-      nodes_paginated: ನೋಡ್ಸ್  (%{x}-%{y} ರ %{count})
-      ways: ರೀತಿಯಲ್ಲಿ (%{count})
-      ways_paginated: ದಾರಿಗಳು (%{x}-%{y} ರ %{count})
-      relations: ಸಂಬಂಧಗಳು (%{count})
-      relations_paginated: ಸಂಬಂಧಗಳು(%{x}-%{y} of %{count})
     timeout:
       sorry: ಕ್ಷಮಿಸಿ, ನೀವು ಕೇಳಿದ ಬದಲಾವಣಾ ಪಟ್ಟಿ ಪಡೆಯಲು ದೀರ್ಘ ಸಮಯ ಬೇಕಾಯಿತು.
+  changeset_comments:
+    comment:
+      comment: '%{author} ಅವರಿಂದ ಬದಲಾವಣಾ ಸಂಖ್ಯೆ %{changeset_id} ರ ಹೊಸ ಅನಿಸಿಕೆ'
+      commented_at_by_html: '%{user}ಅವರಿಂದ %{when} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ'
+    index:
+      title_all: ಓಪನ್ ಸ್ಟ್ತ್ರೀಟ್ ಮ್ಯಾಪ್ ಬದಲಾವಣೆಗಳ ಚರ್ಚೆ
+      title_particular: ಓಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಬದಲಾವಣಾ ಸಂಖ್ಯೆ %{changeset_id} ಯ ಚರ್ಚೆ
   dashboards:
     contact:
       km away: '%{count} ಕಿಮೀ ದೂರ'
       m away: '%{count} ಮೀ ದೂರ'
     popup:
-      your location: ನಿಮ್ಮ ಸ್ಥಳ
       friend: ಗೆಳೆಯ
     show:
       my friends: ನನ್ನ ಗೆಳೆಯರು
@@ -338,10 +341,10 @@ kn:
       in_language_title: ದಿನಚರಿ ದಾಖಲಾತಿ %{language}ನಲ್ಲಿ
       new: ಹೊಸದಾದ ದಿನಚರಿ ದಾಖಲು
       new_title: ನನ್ನ ಬಳಕೆದಾರ ದಿನಚರಿಯಲ್ಲಿ ಹೊಸ ದಾಖಲಾತಿ ನಿರ್ಮಿಸಿ
-      my_diary: ನನ್ನ ಡೈರಿ
       no_entries: ದಿನಚರಿ ದಾಖಲಾತಿಗಳಿಲ್ಲ
-    page:
       recent_entries: ಇತ್ತೀಚೆಗಿನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
+      older_entries: ಹಳೆಯ ದಾಖಲಾತಿಗಳು
+      newer_entries: ಹೊಸದಾದ ದಾಖಲಾತಿಗಳು
     edit:
       title: ದಿನಚರಿ ದಾಖಲಾತಿಯನ್ನು ತಿದ್ದಿರಿ
       marker_text: ದಿನಚರಿ ದಾಖಲೆಯ ಸ್ಥಳ
@@ -369,33 +372,29 @@ kn:
       report: ಈ ಟಿಪ್ಪಣಿಯನ್ನು ವರದಿ ಮಾಡಿ
     location:
       location: 'ಸ್ಥಳ:'
+      view: ವೀಕ್ಷಿಸಿ
+      edit: ಸಂಪಾದಿಸಿ
     feed:
       user:
         title: ಓಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ನಲ್ಲಿ %{user} ಅವರ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
         description: ಓಪನ್‍ಸ್ಟ್ರೀಟ್‍ಮ್ಯಾಪ್ ನಲ್ಲಿ %{user} ಅವರ ಇತ್ತೀಚಿನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
       language:
         title: '%{language_name} ಭಾಷೆಯಲ್ಲಿ ಓಪನ್‍ಸ್ಟ್ರೀಟ್‍ಮ್ಯಾಪ್‍ನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು'
-  diary_comments:
-    page:
+    comments:
       post: ಪೋಸ್ಟ್ ಮಾಡಿ
       when: ಯಾವಾಗ
       comment: ಟಿಪ್ಪಣಿ
-  friendships:
-    make_friend:
-      button: ಸ್ನೇಹಿತರಾಗಿ ಸೇರಿಸಿ
+      newer_comments: ಹೊಸ ಟಿಪ್ಪಣಿಗಳು
+      older_comments: ಹಳೆ ಟಿಪ್ಪಣಿಗಳು
   geocoder:
     search_osm_nominatim:
       prefix:
-        aeroway:
-          helipad: ಹೆಲಿಪ್ಯಾಡ್
         amenity:
-          arts_centre: ಕಲಾ ಕೇಂದ್ರ
           atm: ಎಟಿಎಂ
           bank: ಬ್ಯಾಂಕ್
           bar: ಬಾರ್
           bench: ‍ಬೆಂಚ್
           bicycle_parking: ‍‍ಸೈಕಲ್ ನಿಲುಗಡೆ
-          brothel: ವೇಶ್ಯಾಗೃಹ
           bus_station: ಬಸ್ ನಿಲ್ದಾಣ
           cafe: ಕೆಫೆ
           car_rental: ಬಾಡಿಗೆ ಕಾರು
@@ -415,8 +414,7 @@ kn:
           ferry_terminal: ‍‍ಹಾಯಿದೋಣಿ ನಿಲ್ದಾಣ
           fire_station: ‍‍ಅಗ್ನಿಶಾಮಕ ಠಾಣೆ
           fountain: ‍ಕಾರಂಜಿ
-          fuel: ಪೆಟ್ರೊಲ್ ಪಂಪ್
-          gambling: ಜೂಜಾಟ
+          fuel: ‍ಇಂಧನ
           grave_yard: ಸ್ಮಾಶಾನ
           hospital: ಆಸ್ಪತ್ರೆ
           ice_cream: ‍ಐಸ್ ಕ್ರೀಂ
@@ -424,20 +422,17 @@ kn:
           library: ಗ್ರಂಥಾಲಯ
           marketplace: ‍‍ಮಾರುಕಟ್ಟೆ
           monastery: ‍‍ಮಠ
-          parking: ಪಾರ್ಕಿಂಗ್
           pharmacy: ‍‍ಔ‍ಷಧಾಲಯ
           place_of_worship: ‍‍ಆರಾಧನಾ ಮಂದಿರ
           police: ಆರಕ್ಷಕ
           post_box: ಟಪಾಲು
           post_office: ಅಂಚೆ ಕಛೇರಿ
           prison: ಕಾರಾಗೃಹ
-          pub: ಪಬ್
           public_building: ಸಾರ್ವಜನಿಕ ಕಟ್ಟಡ
           restaurant: ‍‍ರೆಸ್ಟೋರೆಂಟ್
           school: ಶಾಲೆ
           social_centre: ಸಾಮಾಜಿಕ ತಾಣ
           swimming_pool: ಈಜು ಕೊಳ
-          taxi: ಟ್ಯಾಕ್ಸಿ
           theatre: ಕಲಾಭವನ
           toilets: ಶೌಚಾಲಯ
           townhall: ‍‍‍‍ಪುರಭವನ
@@ -453,24 +448,12 @@ kn:
         bridge:
           "yes": ಸೇತುವೆ
         building:
-          bungalow: ಬಂಗಲೆ
-          hospital: ಆಸ್ಪತ್ರೆ ಕಟ್ಟಡ
-          hotel: ಹೋಟೆಲ್ ಕಟ್ಟಡ
-          house: ಮನೆ
-          houseboat: ಹೌಸ್ ಬೋಟ್
-          hut: ಗುಡಿಸಲು
-          industrial: ಕೈಗಾರಿಕಾ ಕಟ್ಟಡ
-          kindergarten: ಶಿಶುವಿಹಾರ ಕಟ್ಟಡ
-          manufacture: ಉತ್ಪಾದನಾ ಕಟ್ಟಡ
-          office: ಕಚೇರಿ ಕಟ್ಟಡ
           public: ಸಾರ್ವಜನಿಕ ಕಟ್ಟಡ
-          residential: ವಸತಿ ಕಟ್ಟಡ
           roof: ಛಾವಣಿ
           school: ಶಾಲಾ ಕಟ್ಟಡ
           "yes": ಕಟ್ಟಡ
         craft:
           carpenter: ಬಡಗಿ
-          electrician: ಎಲೆಕ್ಟ್ರಿಷಿಯನ್
           photographer: ಛಾಯಾಗ್ರಾಹಕ
           tailor: ‍‍‍ದರ್ಜಿ
           "yes": ‍‍‍‍ಕರಕುಶಲ ಅಂಗಡಿಯು
@@ -499,17 +482,13 @@ kn:
           railway: ಐತಿಹಾಸಿಕ ರೈಲ್ವೆ
           roman_road: ರೋಮನ್ ರಸ್ತೆ
           stone: ಕಲ್ಲು
-          tomb: ಸಮಾಧಿ
           tower: ಗೋಪುರ
-        junction:
-          "yes": ಜಂಕ್ಷನ್
         landuse:
           cemetery: ಸ್ಮಶಾನ
           forest: ಅರಣ್ಯ
           grass: ‍ಹುಲ್ಲು
           mine: ಗಣಿ
           orchard: ತೋಟ
-          reservoir: ಜಲಾಶಯ
         leisure:
           dog_park: ಶ್ವಾನ ಉದ್ಯಾನ
           garden: ತೋಟ
@@ -552,12 +531,9 @@ kn:
           administrative: ಆಡಳಿತ
           architect: ವಾಸ್ತುಶಿಲ್ಪಿ
           company: ಕಂಪನಿ
-          educational_institution: ಶೈಕ್ಷಣಿಕ ಸಂಸ್ಥೆ
-          employment_agency: ಉದ್ಯೋಗ ಸಂಸ್ಥೆ
           government: ಸರ್ಕಾರಿ ಕಛೇರಿ
           lawyer: ವಕೀಲ
           ngo: ಸರ್ಕಾರೇತರ ಕಛೇರಿ
-          tax_advisor: ತೆರಿಗೆ ಸಲಹೆಗಾರರು
           "yes": ಕಛೇರಿ
         place:
           archipelago: ದ್ವೀಪ ಸಮೂಹ
@@ -577,7 +553,6 @@ kn:
           halt: ರೈಲು ನಿಲ್ದಾಣ
           junction: ರೈಲು ಜಂಕ್ಷನ್
           monorail: ಮೊನೊರೈಲು
-          rail: ರೈಲು
           station: ರೈಲು ನಿಲ್ದಾಣ
           stop: ರೈಲು ನಿಲ್ದಾಣ
         shop:
@@ -591,13 +566,11 @@ kn:
           chocolate: ಚಾಕೊಲೇಟ್
           clothes: ಬಟ್ಟೆಯ ಅಂಗಡಿ
           computer: ಗಣಕಯಂತ್ರದ ಅಂಗಡಿ
-          dairy: ಡೈರಿ ಅಂಗಡಿ
           florist: ಹೂವಿನಂಗಡಿ
           furniture: ‍‍‍‍‍ಪೀಠೋಪಕರಣ
           general: ಕಿರಾಣಿ ಅಂಗಡಿ
           gift: ಉಡುಗೊರೆ ಅಂಗಡಿ
           jewelry: ಆಭರಣಗಳ ಆಂಗಡಿ
-          kitchen: ಅಡುಗೆ ಅಂಗಡಿ
           "yes": ಅಂಗಡಿ
         tourism:
           hostel: ‍ವಸತಿ ನಿಲಯ
@@ -620,22 +593,18 @@ kn:
         level4: ರಾಜ್ಯದ ಗಡಿ
         level8: ನಗರದ ಗಡಿ
         level9: ಹಳ್ಳಿಯ ಗಡಿ
+      types:
+        cities: ನಗರಗಳು
+        towns: ಪಟ್ಟಣಗಳು
+        places: ಸ್ಥಳಗಳು
     results:
       no_results: ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ
   issues:
     index:
       search: ಹುಡುಕು
-      states:
-        open: ತೆರೆ
-        resolved: ಪರಿಹರಿಸಲಾಗಿದೆ
-    page:
       user_not_found: ಬಳಕೆದಾರ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ
-      status: ಸ್ಥಿತಿಗತಿ
       reports: ವರದಿಗಳು
-      last_updated: ಕೊನೆಯ ಬದಲಾವಣೆ
     show:
-      resolve: ಪರಿಹರಿಸಿ
-      ignore: ನಿರ್ಲಕ್ಷಿಸಿ
       new_reports: ಹೊಸ ವರದಿಗಳು
   reports:
     new:
@@ -651,17 +620,27 @@ kn:
   layouts:
     logout: ನಿರ್ಗಮಿಸು
     log_in: ಲಾಗ್ ಇನ್
+    log_in_tooltip: ಇರುವ ಖಾತೆಯಿಂದ ಲಾಗಿನ್ ಆಗಿ
     sign_up: ಸೈನ್ ಅಪ್
     start_mapping: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿ
+    sign_up_tooltip: ಸಂಪಾದಿಸಲು ಖಾತೆಯನ್ನು ಸೃಷ್ಟಿಸಿ
     edit: ಸಂಪಾದಿಸಿ
     history: ಇತಿಹಾಸ
     export: ರಫ್ತು ಮಾಡು
+    data: ದತ್ತಾಂಶ
+    export_data: ದತ್ತಾಂಶ ರಫ್ತುಮಾಡು
     intro_header: ಒಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಗೆ  ಸುಸ್ವಾಗತ!
+    intro_2_create_account: ಹೊಸ ಬಳಕೆದಾರ ಖಾತೆಯನ್ನು ರಚಿಸಿ
     tou: ಬಳಕೆಯ ನಿಬಂಧನೆಗಳು
     help: ಸಹಾಯ
     about: ನಮ್ಮ ಬಗ್ಗೆ
     copyright: ಕಾಯ್ದಿರಿಸಿದ ಹಕ್ಕುಗಳು
-    communities: ಸಮುದಾಯಗಳು
+    community: ಸಮುದಾಯ
+    community_blogs: ಸಮುದಾಯದ ಬ್ಲಾಗ್ ಗಳು
+    foundation: ‍ಫೌಂಡೇಶನ್
+    foundation_title: ‍‍ಓಪನ್‌ಸ್ಟ್ರೀಟ್‌ಮ್ಯಾಪ್ ‍ಫೌಂಡೇಶನ್
+    make_a_donation:
+      text: ದೇಣಿಗೆ ನೀಡಿ
     learn_more: ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ
     more: ಇನ್ನಷ್ಟು
   user_mailer:
@@ -678,33 +657,36 @@ kn:
     note_comment_notification:
       anonymous: ಒಬ್ಬ ಅನಾಮಧೇಯ ಸದಸ್ಯ
       greeting: ನಮಸ್ತೆ,
-  confirmations:
-    confirm:
-      button: ಧೃಡಪಡಿಸಿ
-    confirm_email:
-      button: ಧೃಡಪಡಿಸಿ
+    changeset_comment_notification:
+      greeting: ನಮಸ್ತೆ,
   messages:
-    messages_table:
+    inbox:
       from: ಇಂದ
-      to: ಗೆ
       subject: ವಿಷಯ
       date: ದಿನಾಂಕ
     message_summary:
+      reply_button: ಉತ್ತರಿಸಿ
       destroy_button: ಅಳಿಸು
     new:
       title: ಸಂದೇಶ ಕಳುಹಿಸಿ
       send_message_to_html: ಹೊಸ ಸಂದೇಶವನ್ನು %{name} ಗೆ ಕಳುಹಿಸಿ
-    no_such_message:
-      title: ಅಂತಹ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ
-      heading: ಅಂತಹ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ
+      subject: ವಿಷಯ
+      body: ಶರೀರ
     outbox:
+      to: ಗೆ
+      subject: ವಿಷಯ
+      date: ದಿನಾಂಕ
       people_mapping_nearby: ನಿಮ್ಮ ಹತ್ತಿರವಿರುವ ಬಳಕೆದಾರರು
     show:
       title: ಸಂದೇಶವನ್ನು ಓದಿ
+      from: ಇಂದ
+      subject: ವಿಷಯ
+      date: ದಿನಾಂಕ
       reply_button: ಉತ್ತರಿಸಿ
       unread_button: ಓದಿಲ್ಲವೆಂದು ಗುರುತು ಮಾಡಿ
       destroy_button: ಅಳಿಸು
       back: ಹಿಂದಕ್ಕೆ
+      to: ಗೆ
     sent_message_summary:
       destroy_button: ಅಳಿಸು
     mark:
@@ -713,25 +695,20 @@ kn:
     destroy:
       destroyed: ಸಂದೇಶವನ್ನು ಅಳಿಸಿ ಹಾಕಲಾಗಿದೆ
   passwords:
-    new:
+    lost_password:
       email address: 'ಮಿಂಚಂಚೆ ವಿಳಾಸ:'
-    update:
+    reset_password:
       flash changed: ನಿಮ್ಮ ಪ್ರವೇಶಪದವನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ.
   preferences:
     show:
       title: ನನ್ನ ಪ್ರಾಶಸ್ತ್ಯಗಳು
-      preferred_languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
-      edit_preferences: ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು ಸಂಪಾದಿಸಿ
-    edit:
-      title: ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು ಸಂಪಾದಿಸಿ
   profiles:
     edit:
       image: ಚಿತ್ರ
-      show: ತೋರಿಸಿ
-      delete: ಅಳಿಸಿ
   sessions:
     new:
-      tab_title: ಲಾಗಿನ್
+      title: ಲಾಗ್ ಇನ್
+      heading: ಲಾಗಿನ್
       password: 'ಪ್ರವೇಶಪದ:'
       login_button: ಲಾಗಿನ್
     destroy:
@@ -751,19 +728,11 @@ kn:
     richtext_field:
       edit: ಸಂಪಾದಿಸಿ
       preview: ಮುನ್ನೋಟ
-    pagination:
-      diary_comments:
-        older: ಹಳೆ ಟಿಪ್ಪಣಿಗಳು
-        newer: ಹೊಸ ಟಿಪ್ಪಣಿಗಳು
-      diary_entries:
-        older: ಹಳೆಯ ದಾಖಲಾತಿಗಳು
-        newer: ಹೊಸದಾದ ದಾಖಲಾತಿಗಳು
   site:
     about:
-      local_knowledge_title: ಸ್ಥಳೀಯ ಜ್ಞಾನ
+      next: ಮುಂದಿನ
       open_data_title: ಮುಕ್ತ ದತ್ತಾಂಶ
     copyright:
-      title: ಕೃತಿಸ್ವಾಮ್ಯ ಮತ್ತು ಪರವಾನಗಿ
       foreign:
         title: ಈ ಅನುವಾದದ ಬಗ್ಗೆ
         english_link: ಆಂಗ್ಲದ ಮೂಲ
@@ -771,22 +740,15 @@ kn:
         title: ಈ ಪುಟದ ಬಗ್ಗೆ
         mapping_link: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿಲು ಪ್ರಾರಂಭಿಸಿ
       legal_babble:
-        contributors_at_austria: ಆಸ್ಟ್ರಿಯಾ
-        contributors_au_australia: ಆಸ್ಟ್ರೇಲಿಯಾ
-        contributors_ca_canada: ಕೆನಡಾ
-        contributors_cz_czechia: ಜೆಕಿಯಾ
-        contributors_fi_finland: ಫಿನ್ಲ್ಯಾಂಡ್
-        contributors_fr_france: ಫ಼್ರಾನ್ಸ್
-        contributors_nl_netherlands: ನೆದರ್ಲೆಂಡ್
-        contributors_nz_new_zealand: ನ್ಯೂಜಿಲ್ಯಾಂಡ್
-        contributors_rs_serbia: ಸರ್ಬಿಯಾ
-        contributors_si_slovenia: ಸ್ಲೊವೆನಿಯಾ
-        contributors_es_spain: ಸ್ಪೇನ್
-        contributors_za_south_africa: ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ
-        contributors_gb_united_kingdom: ಯುನೈಟೆಡ್ ಕಿಂಗ್ಡಮ್
+        title_html: ಕೃತಿಸ್ವಾಮ್ಯ ಮತ್ತು ಪರವಾನಗಿ
     export:
       title: ರಫ್ತು ಮಾಡು
       licence: ಪರವಾನಗಿ
+      options: ಆಯ್ಕೆಗಳು
+      scale: ಮಾಪಕ
+      latitude: 'ಅಕ್ಷಾಂಶ:'
+      longitude: 'ರೇಖಾಂಶ:'
+      output: ಔಟ್‌ಪುಟ್
       export_button: ರಫ್ತು ಮಾಡು
     fixthemap:
       title: ಸಮಸ್ಯೆಯನ್ನು ವರದಿ ಮಾಡಿ / ನಕ್ಷೆಯನ್ನು ಸರಿಪಡಿಸಿ
@@ -801,14 +763,17 @@ kn:
       welcome:
         url: /welcome
         title: ಒಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಗೆ  ಸುಸ್ವಾಗತ
-      irc:
+      slack:
         title: ಐ ಆರ್ ಸಿ
       wiki:
         title: ಓಪನ್‌ಸ್ಟ್ರೀಟ್‌ಮ್ಯಾಪ್ ವಿಕಿ
     any_questions:
       title: ಏನಾದರು ಪ್ರಶ್ನೆಗಳಿವೆಯೇ?
+    sidebar:
+      close: ಮುಚ್ಚಿ
     search:
       search: ಹುಡುಕು
+      get_directions: ದಾರಿಯನ್ನು ಹುಡುಕಿ
       from: ಇಂದ
       to: ಗೆ
       where_am_i: ಇದು ಎಲ್ಲಿದೆ?
@@ -820,12 +785,14 @@ kn:
           forest: ಅರಣ್ಯ
           park: ಉದ್ಯಾನ
           resident: ವಾಸ ಮಾಡುವ ಸ್ಥಳ
-          lake: ಕೆರೆ
-          reservoir: ಅಣೆಕಟ್ಟು
+          lake:
+          - ಕೆರೆ
+          - ಅಣೆಕಟ್ಟು
           farm: ಒಕ್ಕಲು ಜಮೀನು
           cemetery: ಸ್ಮಾಶಾಣ
-          school: ಪಾಠಶಾಲೆ
-          university: ವಿಶ್ವವಿದ್ಯಾಲಯ
+          school:
+          - ಪಾಠಶಾಲೆ
+          - ವಿಶ್ವವಿದ್ಯಾಲಯ
           station: ರೈಲು ನಿಲ್ದಾಣ
     welcome:
       title: ಸುಸ್ವಾಗತ!
@@ -837,35 +804,11 @@ kn:
   traces:
     new:
       help: ಸಹಾಯ
-  application:
-    auth_providers:
-      google:
-        title: ಗೂಗಲ್ ಮೂಲಕ ಲಾಗಿನ್ ಆಗಿರಿ
-        alt: ಗೂಗಲ್ ಓಪನ್ ಐಡಿಯೊಂದಿಗೆ ಲಾಗಿನ್ ಮಾಡಿ
-      facebook:
-        title: ಫೇಸ್ಬುಕ್ ಮೂಲಕ ಲಾಗಿನ್ ಆಗಿರಿ
-        alt: ಫೇಸ್ಬುಕ್ ಖಾತೆಯೊಂದಿಗೆ ಲಾಗಿನ್ ಮಾಡಿ
-      microsoft:
-        alt: ಮೈಕ್ರೋಸಾಫ್ಟ್ ಖಾತೆಯೊಂದಿಗೆ ಪ್ರವೇಶಿಸಿ
-      github:
-        alt: ಗಿಟ್ಹಬ್ ಖಾತೆಯೊಂದಿಗೆ ಲಾಗಿನ್ ಮಾಡಿ
-      wikipedia:
-        title: ವಿಕಿಪೀಡಿಯದೊಂದಿಗೆ ಪ್ರವೇಶಿಸಿ
-        alt: ವಿಕಿಪೀಡಿಯ ಖಾತೆಯೊಂದಿಗೆ ಪ್ರವೇಶಿಸಿ
-  oauth2_applications:
-    application:
-      edit: ಸಂಪಾದಿಸಿ
-      delete: ಅಳಿಸಿ
-    show:
-      edit: ಸಂಪಾದಿಸಿ
   users:
     terms:
       legale_names:
         france: ಫ಼್ರಾನ್ಸ್
         italy: ಇಟಲಿ
-    show:
-      my messages: ನನ್ನ ಸಂದೇಶಗಳು
-      edits: ಸಂಪಾದನೆಗಳು
   user_blocks:
     show:
       created: 'ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟಿದೆ:'
@@ -878,8 +821,6 @@ kn:
       hidden_title: 'ಅಡಗಿಸಿದ ಟಿಪ್ಪಣಿ #%{note_name}'
     new:
       title: ಹೊಸ ಟಿಪ್ಪಣಿ
-    notes_paging_nav:
-      showing_page: ಪುಟ %{page}
   javascripts:
     directions:
       instructions:

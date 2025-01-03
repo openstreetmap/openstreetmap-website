@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: AmaryllisGardener
-# Author: C1614
 # Author: ChrisFleming
 # Author: CiphriusKane
 # Author: John Reid
@@ -13,18 +12,9 @@ sco:
     formats:
       friendly: '%e %B %Y at %H:%M'
   helpers:
-    file:
-      prompt: Wale file
     submit:
       diary_comment:
         create: Save
-      diary_entry:
-        create: Set furth
-        update: Update
-      issue_comment:
-        create: Eik Comment
-      message:
-        create: Send
   activerecord:
     models:
       acl: Access Control Leet
@@ -38,6 +28,7 @@ sco:
       message: Message
       node: Node
       node_tag: Node Tag
+      notifier: Nôtifier
       old_node: Auld Node
       old_node_tag: Auld Node Tag
       old_relation: Auld Relation
@@ -67,7 +58,7 @@ sco:
         title: Subject
         latitude: Latitude
         longitude: Longitude
-        language_code: Leid
+        language: Leid
       friend:
         user: Uiser
         friend: Friend
@@ -104,6 +95,8 @@ sco:
     edit:
       title: Eedit accoont
   browse:
+    created: Creatit
+    closed: Closed
     version: Version
     in_changeset: Chyngeset
     anonymous: anonymous
@@ -113,6 +106,23 @@ sco:
     view_history: View History
     view_details: View Details
     location: 'Location:'
+    changeset:
+      title: 'Chyngeset: %{id}'
+      belongs_to: Author
+      node: Nodes (%{count})
+      node_paginated: Nodes (%{x}-%{y} of %{count})
+      way: Ways (%{count})
+      way_paginated: Ways (%{x}-%{y} of %{count})
+      relation: Relations (%{count})
+      relation_paginated: Relations (%{x}-%{y} of %{count})
+      comment: Comments (%{count})
+      changesetxml: Chyngeset XML
+      osmchangexml: osmChange XML
+      feed:
+        title: Chyngeset %{id}
+        title_comment: Chyngeset %{id} - %{comment}
+      join_discussion: Log in tae jyn the discussion
+      discussion: Discussion
     node:
       title_html: 'Node: %{name}'
       history_title_html: 'Node History: %{name}'
@@ -171,14 +181,43 @@ sco:
       wikidata_link: The %{page} item on Wikidata
       wikipedia_link: The %{page} airticle on Wikipaedia
       telephone_link: Caw %{phone_number}
-  changeset_comments:
-    feeds:
-      comment:
-        commented_at_by_html: Updatit %{when} ago bi %{user}
+    note:
+      title: 'Note: %{id}'
+      new_note: New Note
+      description: Descreeption
+      open_title: 'Unresolved note #%{note_name}'
+      closed_title: 'Resolved note #%{note_name}'
+      hidden_title: 'Hidden note #%{note_name}'
+      opened_by_html: Creatit bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      opened_by_anonymous_html: Creatit bi anonymous <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by_html: Comment frae %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by_anonymous_html: Comment frae anonymous <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      closed_by_html: Resolved bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      closed_by_anonymous_html: Resolved bi anonymous <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      reopened_by_html: Reactivatit bi %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      reopened_by_anonymous_html: Reactivatit bi anonymous <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      hidden_by_html: Hidden bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
   changesets:
+    changeset_paging_nav:
+      showing_page: Page %{page}
+      next: Next »
+      previous: « Previous
     changeset:
+      anonymous: Anonymous
       no_edits: (no eedits)
       view_changeset_details: View chyngeset details
+    changesets:
+      id: ID
+      saved_at: Saved at
+      user: Uiser
+      comment: Comment
+      area: Area
     index:
       title: Chyngesets
       title_user: Chyngesets bi %{user}
@@ -191,27 +230,11 @@ sco:
       no_more_area: No mair chyngesets in this aurie.
       no_more_user: No mair chyngesets bi this uiser.
       load_more: Load mair
-      feed:
-        title: Chyngeset %{id}
-        title_comment: Chyngeset %{id} - %{comment}
-        created: Creatit
-        closed: Closed
-        belongs_to: Author
-    show:
-      title: 'Chyngeset: %{id}'
-      discussion: Discussion
-      join_discussion: Log in tae jyn the discussion
-      changesetxml: Chyngeset XML
-      osmchangexml: osmChange XML
-    paging_nav:
-      nodes: Nodes (%{count})
-      nodes_paginated: Nodes (%{x}-%{y} of %{count})
-      ways: Ways (%{count})
-      ways_paginated: Ways (%{x}-%{y} of %{count})
-      relations: Relations (%{count})
-      relations_paginated: Relations (%{x}-%{y} of %{count})
     timeout:
       sorry: Sorry, the leet o chyngesets ye requestit teuk too lang tae retrieve.
+  changeset_comments:
+    comment:
+      commented_at_by_html: Updatit %{when} ago bi %{user}
   diary_entries:
     new:
       title: New Diary Entry
@@ -227,8 +250,9 @@ sco:
       new: New Diary Entry
       new_title: Compone a new entry in yer uiser diary
       no_entries: No diary entries
-    page:
       recent_entries: Recent diary entries
+      older_entries: Aulder Entries
+      newer_entries: Newer Entries
     edit:
       title: Eedit diary entry
       marker_text: Diary entry location
@@ -260,21 +284,24 @@ sco:
       confirm: Confirm
     location:
       location: 'Location:'
+      view: View
+      edit: Eedit
     feed:
       user:
-        title: OpenStreetMap diary entries for %{user}
-        description: Recent OpenStreetMap diary entries frae %{user}
+        title: OpenHistoricalMap diary entries for %{user}
+        description: Recent OpenHistoricalMap diary entries frae %{user}
       language:
-        title: OpenStreetMap diary entries in %{language_name}
-        description: Recent diary entries frae uisers o OpenStreetMap in %{language_name}
+        title: OpenHistoricalMap diary entries in %{language_name}
+        description: Recent diary entries frae uisers o OpenHistoricalMap in %{language_name}
       all:
-        title: OpenStreetMap diary entries
-        description: Recent diary entries frae uisers o OpenStreetMap
-  diary_comments:
-    page:
+        title: OpenHistoricalMap diary entries
+        description: Recent diary entries frae uisers o OpenHistoricalMap
+    comments:
       post: Post
       when: When
       comment: Comment
+      newer_comments: Newer Comments
+      older_comments: Aulder Comments
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -367,7 +394,7 @@ sco:
           administrative: Admeenistrative Boondary
           census: Census Boondary
           national_park: Naitional Pairk
-          protected_area: Pertectit Aurie
+          protected_area: Fendit Area
         bridge:
           aqueduct: Aqueduct
           suspension: Suspension Brig
@@ -403,7 +430,7 @@ sco:
           proposed: Proponed Road
           raceway: Raceway
           residential: Residential
-          rest_area: Rest Aurie
+          rest_area: Rest Area
           road: Road
           secondary: Seicontary Road
           secondary_link: Seicontary Road
@@ -454,10 +481,10 @@ sco:
           garages: Garages
           grass: Grass
           greenfield: Greenfield Laund
-          industrial: Industrial Aurie
+          industrial: Industrial Area
           landfill: Laundfill
           meadow: Meadow
-          military: Militar Aurie
+          military: Militar Area
           mine: Mine
           orchard: Orchard
           quarry: Quarry
@@ -465,7 +492,7 @@ sco:
           recreation_ground: Recreation Grund
           reservoir: Reservoir
           reservoir_watershed: Reservoir Wattershed
-          residential: Residential Aurie
+          residential: Residential Area
           retail: Retail
           village_green: Village Green
           vineyard: Vineyard
@@ -475,7 +502,7 @@ sco:
           bird_hide: Bird Hide
           common: Common Laund
           dog_park: Dug Pairk
-          fishing: Fishin Aurie
+          fishing: Fishin Area
           fitness_station: Fitness Station
           garden: Gairden
           golf_course: Gowf Coorse
@@ -721,34 +748,55 @@ sco:
         level8: Ceety Boondary
         level9: Veelage Boondary
         level10: Suburb Boondary
+      types:
+        cities: Ceeties
+        towns: Touns
+        places: Places
     results:
       no_results: No results foond
       more_results: Mair results
   layouts:
     logo:
-      alt_text: OpenStreetMap logo
+      alt_text: OpenHistoricalMap logo
     home: Go tae Home Location
     logout: Log Oot
     log_in: Log In
+    log_in_tooltip: Log in wi an existin accoont
     sign_up: Sign Up
     start_mapping: Stairt Cairttin
+    sign_up_tooltip: Create an accoont for editin
     edit: Eedit
     history: History
     export: Export
+    data: Data
+    export_data: Export Data
     gps_traces: GPS Traces
+    gps_traces_tooltip: Manage GPS traces
     user_diaries: Uiser Diaries
+    user_diaries_tooltip: View uiser diaries
     edit_with: Eedit wi %{editor}
-    intro_header: Walcome tae OpenStreetMap!
-    intro_text: OpenStreetMap is a cairt o the warld, creatit bi fowk lik ye an free
-      tae uise unner an open license.
+    tag_line: The Free Wiki Warld Cairt
+    intro_header: Walcome tae OpenHistoricalMap!
+    intro_text: OpenHistoricalMap is a cairt o the warld, creatit bi fowk lik ye an
+      free tae uise unner an open license.
+    intro_2_create_account: Create a uiser accoont
     partners_partners: pairtners
-    osm_offline: The OpenStreetMap database is currently offline while essential database
-      maintenance wirk is carried oot.
-    osm_read_only: The OpenStreetMap database is currently in read-anly mode while
+    osm_offline: The OpenHistoricalMap database is currently offline while essential
+      database maintenance wirk is carried oot.
+    osm_read_only: The OpenHistoricalMap database is currently in read-anly mode while
       essential database maintenance wirk is carried oot.
+    donate: Support OpenHistoricalMap bi %{link} tae the Hardware Upgrade Fund.
     help: Help
     about: Aboot
     copyright: Copyricht
+    community: Commonty
+    community_blogs: Commonty Blogs
+    community_blogs_title: Blogs frae members o the OpenHistoricalMap commonty
+    foundation: Foondation
+    foundation_title: The OpenHistoricalMap Foundation
+    make_a_donation:
+      title: Support OpenHistoricalMap wi a monetary donation
+      text: Make a Donation
     learn_more: Learn Mair
     more: Mair
   user_mailer:
@@ -760,29 +808,41 @@ sco:
       anonymous: An anonymous uiser
       greeting: Hi,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} haes commentit on ane o yer notes'
-        subject_other: '[OpenStreetMap] %{commenter} haes commentit on a note ye are
-          interestit in'
+        subject_own: '[OpenHistoricalMap] %{commenter} haes commentit on ane o yer
+          notes'
+        subject_other: '[OpenHistoricalMap] %{commenter} haes commentit on a note
+          ye are interestit in'
   passwords:
-    new:
+    lost_password:
       title: Lost password
       heading: Forgotten Passwird?
   sessions:
+    new:
+      auth_providers:
+        google:
+          title: Login wi Google
+          alt: Login wi a Google OpenID
+        facebook:
+          title: Login wi Facebook
+          alt: Login wi a Facebook Accoont
+        github:
+          title: Login wi GitHub
+          alt: Login wi a GitHub Account
+        wikipedia:
+          title: Login wi Wikipedia
+          alt: Login wi a Wikipedia Accoont
+        wordpress:
+          title: Login wi Wordpress
+          alt: Login wi a Wordpress OpenID
+        aol:
+          title: Login wi AOL
+          alt: Login wi an AOL OpenID
     destroy:
       title: Logoot
-      heading: Logoot frae OpenStreetMap
+      heading: Logoot frae OpenHistoricalMap
       logout_button: Logoot
-  shared:
-    pagination:
-      diary_comments:
-        older: Aulder Comments
-        newer: Newer Comments
-      diary_entries:
-        older: Aulder Entries
-        newer: Newer Entries
   site:
     copyright:
-      title: Copyricht an License
       foreign:
         title: Aboot this translation
         html: In the event of a conflict atween this translatit page an %{english_original_link},
@@ -796,14 +856,47 @@ sco:
         native_link: Scots version
         mapping_link: stairt cairttin
       legal_babble:
-        credit_title_html: Hou tae credit OpenStreetMap
+        title_html: Copyricht an License
+        intro_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> is <i>open data</i>, licensed unner the <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) bi the  <a
+          href="http://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
+        intro_2_html: |-
+          Ye are free tae copy, distribute, transmit an adapt oor data,
+          as lang as ye credit OpenHistoricalMap an its
+          contreibutors. If ye alter or big upon oor data, ye
+          mey distribute the result anly unner the same licence. The
+          full <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal
+          code</a> explains yer richts an responsibilities.
+        intro_3_1_html: |-
+          The cairtografie in oor cairt tiles, an oor documentation, are
+          licensed unner the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> license (CC BY-SA).
+        credit_title_html: Hou tae credit OpenHistoricalMap
         credit_1_html: |-
-          We require that ye uise the credit &ldquo;&copy; OpenStreetMap
+          We require that ye uise the credit &ldquo;&copy; OpenHistoricalMap
           contributors&rdquo;.
+        credit_2_1_html: |-
+          Ye maun mak it clear that the data is available unner the Open
+          Database License an aw, an gin uisin oor cairt tiles, that the cairtographie is
+          licensed as CC BY-SA. Ye mey dae this bi airtin tae
+          <a href="http://www.openstreetmap.org/copyright">this copyricht page</a>.
+          Alternatively, an as a requirement gin ye are distributin OSM in a
+          data form, ye can name an airtin direct tae the license(s). In media
+          whaur airtins arenae possible (e.g. prentit wirks), we suggest ye
+          airt yer readers tae openstreetmap.org (perhaps bi expandin
+          'OpenHistoricalMap' tae this full address), tae opendatacommons.org, an
+          if relevant, to creativecommons.org.
         attribution_example:
-          alt: Example o hou tae attribute OpenStreetMap on a wabpage
+          alt: Example o hou tae attribute OpenHistoricalMap on a wabpage
           title: Attreibution example
         more_title_html: Findin oot mair
+        more_1_html: |-
+          Read mair aboot uisin oor data, an hou tae credit us, at the <a
+          href="http://osmfoundation.org/Licence">OSMF Licence page</a> an the commonty <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
+          FAQ</a>.
         contributors_title_html: Oor contreibutors
         contributors_intro_html: |-
           Oor contreibutors are thoosands o individuals. We forbye include
@@ -812,35 +905,61 @@ sco:
         infringement_title_html: Copyricht infringement
     export:
       title: Export
-      manually_select: Manually select a different aurie
+      area_to_export: Aurie tae Export
+      manually_select: Manually select a different area
+      format_to_export: Format tae Export
+      osm_xml_data: OpenHistoricalMap XML Data
+      map_image: Cairt Image (shaws staundart layer)
+      embeddable_html: Embeddable HTML
       licence: Licence
+      licence_details_html: OpenHistoricalMap data is licensed unner the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'If the abuin export fails, please consider uisin ane o the soorces
           leetit ablo:'
-        body: This aurie is too lairge tae be exportit as OpenStreetMap XML Data.
-          Please zuim in or select a smawer aurie, or uise ane o the soorces leetit
+        body: This area is ower muckle tae be exportit as OpenHistoricalMap XML Data.
+          Please zuim in or select a smawer airt, or uise ane o the soorces leetit
           ablo for bulk data dounloads.
         planet:
           title: Planet OSM
-          description: Regularly-updated copies o the complete OpenStreetMap database
+          description: Regularly-updated copies o the complete OpenHistoricalMap database
         overpass:
           title: Overpass API
-          description: Dounload this boondin box frae a mirror o the OpenStreetMap
+          description: Dounload this boondin box frae a mirror o the OpenHistoricalMap
             database
         geofabrik:
           title: Geofabrik Dounloads
           description: Regularly-updatit extracts o continents, kintras, an selectit
             ceeties
+        metro:
+          title: Metro Extracts
+          description: Extracts for major warld ceeties an thair surroondin auries
         other:
           title: Ither Soorces
-          description: Addeetional soorces leetit on the OpenStreetMap wiki
+          description: Addeetional soorces leetit on the OpenHistoricalMap wiki
+      options: Options
+      format: Format
+      scale: Scale
+      max: max
+      image_size: Image Size
+      zoom: Zuim
+      add_marker: Add a marker tae the cairt
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Ootput
+      paste_html: Paste HTML tae embed in wabsteid
       export_button: Export
     fixthemap:
       how_to_help:
         join_the_community:
           explanation_html: |-
             Gif ye'v seen ae proablem wi oor map data, fer example ae road is missin or yer address, the best waa tae
-            proceed is tae jyn the OpenStreetMap communitie n eik or repair the data yersel.
+            proceed is tae jyn the OpenHistoricalMap communitie n eik or repair the data yersel.
+      other_concerns:
+        explanation_html: "Gin ye hae concerns anent hou oor data is bein uised or
+          anent the contents please see oor\n<a href='/copyright'>copyricht page</a>
+          fur mair legal information, or contact the appropriate \n<a href='https://openhistoricalmap.org'>email
+          address</a>."
     sidebar:
       search_results: Sairch Results
     search:
@@ -855,63 +974,48 @@ sco:
           wood: Wid
           golf: Gowf coorse
           park: Pairk
-          resident: Residential aurie
+          resident: Residential area
           retail: Retail aurie
           industrial: Industrial aurie
           commercial: Commercial aurie
-          lake: Loch
+          lake:
+          - Loch
           farm: Ferm
           military: Militar aurie
-          school: Schuil
-          university: varsity
+          school:
+          - Schuil
+          - varsity
           building: Signeeficant biggin
     welcome:
       title: Walcome!
       introduction: |-
-        Walcome tae OpenStreetMap, the free an eeditable cairt o the warld. Nou that ye're signed
+        Walcome tae OpenHistoricalMap, the free an eeditable cairt o the warld. Nou that ye're signed
         up, ye're aw set tae get stairtit cairttin. Here's a quick guide wi the maist important
         things ye need tae ken.
       whats_on_the_map:
         title: Whit's on the Cairt
+        on_the_map_html: |-
+          OpenHistoricalMap is a place for cairttin things that are baith <em>real an current</em> -
+          it includes millions o biggins, roads, an ither details aboot places. Ye can cairt
+          whitever real-warld featurs are interestin tae ye.
+        off_the_map_html: |-
+          Whit it <em>disna</em> include is opinionatit data lik ratins, historical or
+          hypothetical featurs, an data frae copyrichtit soorces. Unless ye hae special
+          permission, dinna copy frae online or paper cairts.
   traces:
     create:
       upload_trace: Uplaid GPS Trace
-  application:
-    auth_providers:
-      google:
-        title: Login wi Google
-        alt: Login wi a Google OpenID
-      facebook:
-        title: Login wi Facebook
-        alt: Login wi a Facebook Accoont
-      microsoft:
-        title: Login wi Windows Live
-        alt: Login wi a Windows Live Accoont
-      github:
-        title: Login wi GitHub
-        alt: Login wi a GitHub Account
-      wikipedia:
-        title: Login wi Wikipedia
-        alt: Login wi a Wikipedia Accoont
   users:
     show:
       edits: Eedits
       created from: 'Made frae:'
-  notes:
-    show:
-      title: 'Note: %{id}'
-      description: Descreeption
-      open_title: 'Unresolved note #%{note_name}'
-      closed_title: 'Resolved note #%{note_name}'
-      hidden_title: 'Hidden note #%{note_name}'
-    new:
-      title: New Note
-      intro: Spotted ae mistake or sommit missin? Lat ither mappers ken sae that we
-        can fix it. Muiv the maurker til the richt poseetion n type ae few wairds
-        tae explain the proablem. (Please dinna enter personal information here.)
-    notes_paging_nav:
-      showing_page: Page %{page}
+      user location: Uiser location
   javascripts:
+    notes:
+      new:
+        intro: Spotted ae mistake or sommit missin? Lat ither mappers ken sae that
+          we can fix it. Muiv the maurker til the richt poseetion n type ae few wairds
+          tae explain the proablem. (Please dinna enter personal information here.)
     directions:
       errors:
         no_place: Sairy - couldna find that place.

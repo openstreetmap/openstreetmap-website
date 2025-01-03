@@ -3,7 +3,6 @@
 # Export driver: phpyaml
 # Author: EugeneZelenko
 # Author: Jim-by
-# Author: Kapatych
 # Author: Macofe
 # Author: Nieszczarda2
 # Author: Red Winged Duck
@@ -19,7 +18,7 @@ be-Tarask:
       prompt: Абярыце файл
     submit:
       diary_comment:
-        create: Камэнтар
+        create: Захаваць
       diary_entry:
         create: Апублікаваць
         update: Абнавіць
@@ -30,8 +29,8 @@ be-Tarask:
       client_application:
         create: Рэгістрацыя
         update: Абнавіць
-      oauth2_application:
-        create: Рэгістрацыя
+      doorkeeper_application:
+        create: Зарэгістравацца
         update: Абнавіць
       redaction:
         create: Стварыць рэдакцыю
@@ -45,11 +44,8 @@ be-Tarask:
   activerecord:
     errors:
       messages:
-        display_name_is_user_n: ня можа быць user_n, калі n — ня ваш карыстальніцкі
-          id
-      models:
-        user_mute:
-          is_already_muted: ужо сьцішана
+        invalid_email_address: не падобны на карэктны адрас э-пошты
+        email_address_not_routable: не маршрутызаваны
     models:
       acl: Сьпіс абмежаваньня доступу
       changeset: Набор зьменаў
@@ -63,6 +59,7 @@ be-Tarask:
       message: Паведамленьне
       node: Вузел
       node_tag: Тэг вузла
+      notifier: Абвяшчальнік
       old_node: Стары вузел
       old_node_tag: Стары тэг вузла
       old_relation: Старая сувязь
@@ -103,13 +100,12 @@ be-Tarask:
       diary_entry:
         user: Удзельнік
         title: Тэма
-        body: Тэкст
         latitude: Шырата
         longitude: Даўгата
-        language_code: Мова
+        language: Мова
       doorkeeper/application:
         name: Назва
-        redirect_uri: URI перанакіраваньняў
+        redirect_uri: URI перанакіраваньня
         confidential: Канфідэнцыйная праграма?
         scopes: Дазволы
       friend:
@@ -137,11 +133,12 @@ be-Tarask:
         description: Апісаньне
       report:
         category: Абярыце прычыну вашага паведамленьня
-        details: Калі ласка, падайце больш падрабязныя зьвесткі аб праблеме (абавязкова).
+        details: Калі ласка, падайце падрабязьнейшыя зьвесткі пра праблему (абавязкова).
       user:
         auth_provider: Пастаўшчык аўтэнтыфікацыі
         auth_uid: UID аўтэнтыфікацыі
         email: Электронная пошта
+        email_confirmation: Пацьверджаньне э-пошты
         new_email: Новы адрас электроннай пошты
         active: Актыўны
         display_name: Бачнае імя
@@ -169,45 +166,49 @@ be-Tarask:
         needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
           будзе зьнятае?
       user:
+        email_confirmation: Ваш адрас ня будзе паказвацца публічна, глядзіце нашыя
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="правілы
+          OSMF адносна прыватнасьці, у тым ліку разьдзел пра адрасы электроннай пошты">правілы
+          адносна прыватнасьці</a> дзеля дадатковай інфармацыі
         new_email: (ніколі ня будзе паказаны публічна)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: каля %{count} гадзіны таму
+        one: каля 1 гадзіны таму
         other: каля %{count} гадзінаў таму
       about_x_months:
-        one: каля %{count} месяца таму
+        one: каля 1 месяца таму
         other: каля %{count} месяцаў таму
       about_x_years:
-        one: каля %{count} году таму
+        one: каля 1 году таму
         other: каля %{count} гадоў таму
       almost_x_years:
-        one: амаль %{count} год таму
+        one: амаль 1 год таму
         other: амаль %{count} гадоў таму
       half_a_minute: паўхвіліны таму
       less_than_x_seconds:
-        one: менш за %{count} сэкунду таму
+        one: менш за 1 сэкунду таму
         other: менш за %{count} сэкундаў таму
       less_than_x_minutes:
-        one: менш за %{count} хвіліну таму
+        one: менш за 1 хвіліну таму
         other: менш за %{count} хвілінаў таму
       over_x_years:
-        one: больш за %{count} год таму
+        one: больш за 1 год таму
         other: больш за %{count} гадоў таму
       x_seconds:
-        one: '%{count} сэкунда таму'
+        one: 1 сэкунда таму
         other: '%{count} сэкундаў таму'
       x_minutes:
-        one: '%{count} хвіліна таму'
+        one: 1 хвіліна таму
         other: '%{count} хвілінаў таму'
       x_days:
-        one: '%{count} дзень таму'
+        one: 1 дзень таму
         other: '%{count} дзён таму'
       x_months:
-        one: '%{count} месяц таму'
+        one: 1 месяц таму
         other: '%{count} месяцы таму'
       x_years:
-        one: '%{count} год таму'
+        one: 1 год таму
         other: '%{count} гады таму'
   editor:
     default: Па змоўчваньні (цяпер %{name})
@@ -220,8 +221,10 @@ be-Tarask:
   auth:
     providers:
       none: Няма
+      openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Вікіпэдыя
   api:
@@ -236,7 +239,7 @@ be-Tarask:
         reopened_at_html: Пераадкрыта %{when}
         reopened_at_by_html: Пераадкрыта %{when} удзельнікам %{user}
       rss:
-        title: Нататкі OpenStreetMap
+        title: Нататкі OpenHistoricalMap
         description_area: Сьпіс заўвагаў, створаных, пракамэнтаваных ці закрытых каля
           вас [(%{min_lat}|%{min_lon}) — (%{max_lat}|%{max_lon})]
         description_item: RSS-стужка для заўвагаў %{id}
@@ -250,21 +253,35 @@ be-Tarask:
   account:
     deletions:
       show:
-        confirm_delete: Вы ўпэўненыя?
+        title: Выдаліць мой уліковы запіс
+        warning: Увага! Працэс выдаленьня ўліковага запісу канчатковы і незваротны.
+        delete_account: Выдаліць уліковы запіс
   accounts:
     edit:
       title: Рэдагаваньне рахунку
       my settings: Мае налады
       current email address: Цяперашні адрас электроннай пошты
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: што гэта?
       public editing:
         heading: Публічнае рэдагаваньне
         enabled: Уключана. Вы не ананім і можаце рэдагаваць зьвесткі.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: што гэта?
         disabled: Забаронены і ня можа рэдагаваць зьвесткі, усе папярэднія рэдагаваньні
           былі ананімнымі.
         disabled link text: чаму я не магу рэдагаваць?
+      public editing note:
+        heading: Публічнае рэдагаваньне
+        html: У цяперашні момант Вашыя рэдагаваньні зьяўляюцца ананімнымі і людзі
+          ня могуць дасылаць Вам паведамленьні, ці бачыць Вашае месцазнаходжаньне.
+          Каб быў бачны Ваш унёсак і людзі маглі кантактаваць з Вамі праз ўэб-сайт,
+          націсьніце кнопку ніжэй. <b>Пасьля зьменаў API вэрсіі 0.6, толькі даступныя
+          для сувязі карыстальнікі могуць рэдагаваць зьвесткі на мапе</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">даведацца
+          чаму</a>).<ul><li>Ваш адрас электроннай пошты ня будзе паказвацца публічна.</li><li>Гэтае
+          дзеяньне ня можа быць адмененае і ўсе новыя карыстальнікі цяпер даступныя
+          для сувязі па змоўчваньні.</li></ul>
       contributor terms:
         heading: Умовы супрацоўніцтва
         agreed: Вы пагадзіліся з новымі ўмовамі супрацоўніцтва.
@@ -275,27 +292,27 @@ be-Tarask:
           набытак.
         link text: што гэта?
       save changes button: Захаваць зьмены
-    go_public:
-      heading: Публічнае рэдагаваньне
-      make_edits_public_button: Зрабіць усе мае рэдагаваньні публічнымі
+      make edits public button: Зрабіць усе мае рэдагаваньні публічнымі
     update:
       success_confirm_needed: Інфармацыя карыстальніка была абноўленая пасьпяхова.
         Праверце Вашую электронную пошту каб пацьвердзіць Ваш новы адрас электроннай
         пошты.
       success: Зьвесткі пра карыстальніка пасьпяхова абноўленыя.
   browse:
+    created: Створана
+    closed: Закрытае
     version: Вэрсія
     in_changeset: Набор зьменаў
     anonymous: ананім
     no_comment: (без камэнтароў)
     part_of: Частка
     part_of_relations:
-      one: '%{count} сувязь'
+      one: 1 сувязь
       few: '%{count} сувязі'
       many: '%{count} сувязяў'
       other: '%{count} сувязяў'
     part_of_ways:
-      one: '%{count} лінія'
+      one: 1 лінія
       few: '%{count} лініі'
       many: '%{count} лініяў'
       other: '%{count} лініяў'
@@ -303,6 +320,21 @@ be-Tarask:
     view_history: Паглядзець гісторыю
     view_details: Паглядзець зьвесткі
     location: 'Месцазнаходжаньне:'
+    changeset:
+      title: 'Набор зьменаў: %{id}'
+      belongs_to: Аўтар
+      node: Пункты (%{count})
+      node_paginated: Пункты (%{x}-%{y} з %{count})
+      way: Лініі (%{count})
+      way_paginated: Лініі (%{x}-%{y} з %{count})
+      relation: Сувязі (%{count})
+      relation_paginated: Сувязі (%{x}-%{y} з %{count})
+      comment: Камэнтары (%{count})
+      changesetxml: Набор зьменаў у фармаце XML
+      osmchangexml: osmChange XML
+      feed:
+        title: Набор зьменаў %{id}
+        title_comment: Набор зьменаў %{id} - %{comment}
     way:
       nodes: Вузлы
       nodes_count:
@@ -313,7 +345,7 @@ be-Tarask:
     relation:
       members: Удзельнікі
       members_count:
-        one: '%{count} удзельнік'
+        one: 1 удзельнік
         few: '%{count} удзельнікі'
         many: '%{count} удзельнікаў'
         other: '%{count} удзельнікаў'
@@ -335,6 +367,7 @@ be-Tarask:
         relation: адносіны
         changeset: набор зьменаў
     timeout:
+      title: Скончыўся час
       sorry: Прабачце, зьвесткі для %{type} з ідэнтыфікатарам %{id} занадта доўгія
         для атрыманьня.
       type:
@@ -342,7 +375,7 @@ be-Tarask:
         way: дарога
         relation: адносіны
         changeset: набор зьменаў
-        note: заўвага
+        note: нататка
     redacted:
       redaction: Рэдакцыя %{id}
       message_html: Вэрсія %{version} гэтага %{type} ня можа быць паказаная, бо яна
@@ -360,35 +393,29 @@ be-Tarask:
         key: Старонка вікі, якая апісвае тэг %{key}
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
-    query:
-      nearby: Аб’екты паблізу
-      enclosing: Навакольныя аб’екты
+    note:
+      title: 'Нататка: %{id}'
+      commented_by_anonymous_html: Камэнтар ад ананіма <abbr title='%{exact_time}'>%{when}</abbr>
   changesets:
+    changeset_paging_nav:
+      showing_page: Старонка %{page}
+      next: Наступная »
+      previous: « Папярэдняя
     changeset:
+      anonymous: Ананім
       no_edits: (без рэдагаваньняў)
       view_changeset_details: Паказаць падрабязнасьці набору зьменаў
+    changesets:
+      id: Ідэнтыфікатар
+      saved_at: Захаваны як
+      user: Карыстальнік
+      comment: Камэнтар
+      area: Абшар
     index:
       title: Наборы зьменаў
       title_user: Набор зьменаў %{user}
       title_friend: Наборы зьменаў маіх сяброў
       title_nearby: Наборы зьменаў для суседніх удзельнікаў
-      feed:
-        title: Набор зьменаў %{id}
-        title_comment: Набор зьменаў %{id} - %{comment}
-        created: Створана
-        closed: Закрытае
-        belongs_to: Аўтар
-    show:
-      title: 'Набор зьменаў: %{id}'
-      changesetxml: Набор зьменаў у фармаце XML
-      osmchangexml: osmChange XML
-    paging_nav:
-      nodes: Пункты (%{count})
-      nodes_paginated: Пункты (%{x}-%{y} з %{count})
-      ways: Лініі (%{count})
-      ways_paginated: Лініі (%{x}-%{y} з %{count})
-      relations: Сувязі (%{count})
-      relations_paginated: Сувязі (%{x}-%{y} з %{count})
     timeout:
       sorry: Прабачце, сьпіс набораў зьменаў, які Вы запыталі, занадта вялікі для
         атрыманьня.
@@ -396,7 +423,6 @@ be-Tarask:
     contact:
       km away: '%{count}км ад Вас'
       m away: '%{count}м ад Вас'
-      latest_edit_html: 'Апошняе рэдагаваньне (%{ago}):'
     popup:
       your location: Вашае месцазнаходжаньне
       nearby mapper: Бліжэйшы стваральнік мапаў
@@ -425,8 +451,9 @@ be-Tarask:
       new: Новы запіс у дзёньніку
       new_title: Стварыць новы запіс у маім дзёньніку удзельніка
       no_entries: У дзёньніку няма запісаў
-    page:
       recent_entries: Апошнія запісы ў дзёньніку
+      older_entries: Старэйшыя запісы
+      newer_entries: Навейшыя запісы
     edit:
       title: Рэдагаваць запіс у дзёньніку
       marker_text: Месцазнаходжаньне запісу дзёньніка
@@ -449,6 +476,7 @@ be-Tarask:
       comment_count:
         one: '%{count} камэнтар'
         few: '%{count} камэнтары'
+        many: '%{count} камэнтароў'
         other: '%{count} камэнтароў'
       edit_link: Рэдагаваць гэты запіс
       hide_link: Схаваць гэты запіс
@@ -459,18 +487,20 @@ be-Tarask:
       confirm: Пацьвердзіць
     location:
       location: 'Месцазнаходжаньне:'
+      view: Паказаць
+      edit: Рэдагаваць
     feed:
       user:
-        title: Запісы ў дзёньніку OpenStreetMap карыстальніка %{user}
-        description: Апошнія запісы ў дзёньніку OpenStreetMap карыстальніка %{user}
+        title: Запісы ў дзёньніку OpenHistoricalMap карыстальніка %{user}
+        description: Апошнія запісы ў дзёньніку OpenHistoricalMap карыстальніка %{user}
       language:
-        title: Запісы ў дзёньніку OpenStreetMap на %{language_name}
-        description: Апошнія запісы ў дзёньніках карыстальнікаў OpenStreetMap на %{language_name}
+        title: Запісы ў дзёньніку OpenHistoricalMap на %{language_name}
+        description: Апошнія запісы ў дзёньніках карыстальнікаў OpenHistoricalMap
+          на %{language_name}
       all:
-        title: Запісы ў дзёньніку OpenStreetMap
-        description: Апошнія запісы ў дзёньніку карыстальнікаў OpenStreetMap
-  diary_comments:
-    page:
+        title: Запісы ў дзёньніку OpenHistoricalMap
+        description: Апошнія запісы ў дзёньніку карыстальнікаў OpenHistoricalMap
+    comments:
       post: Запіс
   friendships:
     make_friend:
@@ -519,7 +549,7 @@ be-Tarask:
           ferry_terminal: Паромная станцыя
           fire_station: Пажарны пастарунак
           fountain: Фантан
-          fuel: Заправачная станцыя
+          fuel: Запраўка
           grave_yard: Могілкі
           hospital: Шпіталь
           hunting_stand: Паляўнічая вежа
@@ -633,8 +663,8 @@ be-Tarask:
           brownfield: Прамысловая забруджаная глеба
           cemetery: Могілкі
           commercial: Камэрцыйная тэрыторыя
-          conservation: Запаведная зона
-          construction: Будаўнічая зона
+          conservation: Запаведнік
+          construction: Будаўніцтва
           farmland: Фэрма
           farmyard: Гаспадарчае падвор’е
           forest: Лес
@@ -787,7 +817,7 @@ be-Tarask:
           cosmetics: Касмэтычная крама
           department_store: Унівэрсальная крама
           discount: Крама тавараў са зьніжкамі
-          doityourself: Крама „Зрабі сам“
+          doityourself: Зрабі сам
           dry_cleaning: Хімчыстка
           electronics: Крама электронікі
           estate_agent: Агенцтва нерухомасьці
@@ -804,7 +834,7 @@ be-Tarask:
           grocery: Бакалея
           hairdresser: Цырульня
           hardware: Гаспадарчыя тавары
-          hifi: Крама аўдыё/відэатэхнікі
+          hifi: Крама аўдыё/відэё тэхнікі
           jewelry: Ювэлірная крама
           kiosk: Шапік
           laundry: Пральня
@@ -831,7 +861,7 @@ be-Tarask:
           artwork: Твор мастацтва
           attraction: Славутасьць
           bed_and_breakfast: Танная гасьцініца
-          cabin: Турыстычная хатка
+          cabin: Кабіна
           camp_site: Кемпінг
           caravan_site: Пляцоўка для трэйлераў
           chalet: Шале
@@ -865,64 +895,85 @@ be-Tarask:
           wadi: Сухое рэчышча
           waterfall: Вадаспад
           weir: Плаціна
+      types:
+        cities: Гарады
+        towns: Гарады
+        places: Месцы
     results:
       no_results: Нічога ня знойдзена
       more_results: Больш вынікаў
   layouts:
     logo:
-      alt_text: Лягатып OpenStreetMap
+      alt_text: Лягатып OpenHistoricalMap
     home: Перайсьці дамоў
     logout: Выйсьці
     log_in: Увайсьці
+    log_in_tooltip: Увайсьці з існуючым рахункам
     sign_up: Зарэгістравацца
+    sign_up_tooltip: Стварыць уліковы запіс для рэдагаваньня
     edit: Рэдагаваць
     history: Гісторыя
     export: Экспартаваць
     gps_traces: GPS-шляхі
+    gps_traces_tooltip: Кіраваць GPS-шляхамі
     user_diaries: Дзёньнікі карыстальнікаў
+    user_diaries_tooltip: Паказаць дзёньнікі карыстальнікаў
     edit_with: Рэдагаваць праз %{editor}
-    osm_offline: База зьвестак OpenStreetMap у цяперашні момант недаступная, таму
+    tag_line: Вольная Wiki-мапа сьвету
+    intro_2_create_account: Стварыце рахунак
+    osm_offline: База зьвестак OpenHistoricalMap у цяперашні момант недаступная, таму
       што праводзяцца неабходныя тэхнічныя работы.
-    osm_read_only: База зьвестак OpenStreetMap у цяперашні момант даступная толькі
+    osm_read_only: База зьвестак OpenHistoricalMap у цяперашні момант даступная толькі
       для чытаньня, таму што праводзяцца неабходныя тэхнічныя работы.
+    donate: Падтрымайце OpenHistoricalMap %{link} у фонд абнаўленьня абсталяваньня.
     help: Дапамога
     copyright: Аўтарскія правы
+    community_blogs: Блёгі супольнасьці
+    community_blogs_title: Блёгі чальцоў супольнасьці OpenHistoricalMap
+    foundation: Фундацыя
+    foundation_title: Фундацыя OpenHistoricalMap
+    make_a_donation:
+      title: Падтрымаць OpenHistoricalMap грашовым ахвяраваньнем
+      text: Зрабіць ахвяраваньне
   user_mailer:
     diary_comment_notification:
-      subject: Карыстальнік [OpenStreetMap] %{user} пакінуў камэнтар у дзёньніку
+      subject: Карыстальнік [OpenHistoricalMap] %{user} пакінуў камэнтар у дзёньніку
       hi: Вітаем, %{to_user},
-      header: '%{from_user} пракамэнтаваў запіс у дзёньніку на OpenStreetMap з тэмай
-        %{subject}:'
+      header: '%{from_user} пракамэнтаваў запіс у дзёньніку на OpenHistoricalMap з
+        тэмай %{subject}:'
       footer: Вы таксама можаце чытаць камэнтар %{readurl} і Вы можаце камэнтаваць
         на %{commenturl} ці адказаць на %{replyurl}
     message_notification:
       hi: Вітаем, %{to_user},
-      header: '%{from_user} даслаў Вам паведамленьне праз OpenStreetMap з тэмай %{subject}:'
+      header: '%{from_user} даслаў Вам паведамленьне праз OpenHistoricalMap з тэмай
+        %{subject}:'
     friendship_notification:
-      subject: '[OpenStreetMap] %{user} дадаў Вас у сьпіс сваіх сяброў'
-      had_added_you: '%{user} дадаў Вас у сьпіс сяброў на OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} дадаў Вас у сьпіс сваіх сяброў'
+      had_added_you: '%{user} дадаў Вас у сьпіс сяброў на OpenHistoricalMap.'
       see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
       befriend_them: Вы таксама можаце дадаць іх у якасьці сябраў на %{befriendurl}.
     gpx_failure:
       failed_to_import: 'немагчыма імпартаваць. Адбылася памылка:'
-      subject: '[OpenStreetMap] памылка імпарту GPX'
+      subject: '[OpenHistoricalMap] памылка імпарту GPX'
     gpx_success:
-      subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
+      loaded_successfully:
+        one: пасьпяхова загружаны з %{trace_points} з 1 магчымага пункту.
+        few: пасьпяхова загружаныя %{trace_points} пункты з магчымых %{possible_points}.
+        many: пасьпяхова загружаныя %{trace_points} пунктаў з магчымых %{possible_points}.
+        other: пасьпяхова загружаныя %{trace_points} пунктаў з магчымых %{possible_points}.
+      subject: '[OpenHistoricalMap] імпарт GPX адбыўся пасьпяхова'
     signup_confirm:
-      subject: '[OpenStreetMap] Вітаем у OpenStreetMap'
+      subject: '[OpenHistoricalMap] Вітаем у OpenHistoricalMap'
     email_confirm:
-      subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
+      subject: '[OpenHistoricalMap] Пацьвердзіце Ваш адрас электроннай пошты'
       greeting: Вітаем,
       click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
         пацьвердзіць зьмену.
     lost_password:
-      subject: '[OpenStreetMap] Запыт на зьмену паролю'
+      subject: '[OpenHistoricalMap] Запыт на зьмену паролю'
       greeting: Вітаем,
       click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
         скінуць Ваш пароль.
-    changeset_comment_notification:
-      commented:
-        partial_changeset_without_comment: без камэнтароў
   confirmations:
     confirm:
       heading: Праверце электронную пошту!
@@ -944,6 +995,7 @@ be-Tarask:
   messages:
     inbox:
       title: Уваходзячыя
+      my_inbox: Мае ўваходзячыя
       messages: Вы маеце %{new_messages} і %{old_messages}
       new_messages:
         one: '%{count} новае паведамленьне'
@@ -953,21 +1005,22 @@ be-Tarask:
         one: '%{count} старое паведамленьне'
         few: '%{count} старыя паведамленьні'
         other: '%{count} старых паведамленьняў'
+      from: Ад
+      subject: Тэма
+      date: Дата
       no_messages_yet_html: Вы яшчэ ня маеце паведамленьняў. Чаму б не зьвязацца з
         %{people_mapping_nearby_link}?
       people_mapping_nearby: людзьмі, якія жывуць каля Вас
-    messages_table:
-      from: Ад
-      to: Да
-      subject: Тэма
-      date: Дата
     message_summary:
       unread_button: Пазначыць як непрачытанае
       read_button: Пазначыць як прачытанае
+      reply_button: Адказаць
       destroy_button: Выдаліць
     new:
       title: Даслаць паведамленьне
       send_message_to_html: Даслаць новае паведамленьне да %{name}
+      subject: Тэма
+      body: Тэкст
       back_to_inbox: Вярнуцца да ўваходных
     create:
       message_sent: Паведамленьне дасланае
@@ -983,6 +1036,9 @@ be-Tarask:
         one: Вы маеце %{count} дасланае паведамленьне
         few: Вы маеце %{count} дасланыя паведамленьні
         other: Вы маеце %{count} дасланых паведамленьняў
+      to: Да
+      subject: Тэма
+      date: Дата
       no_sent_messages_html: Вы яшчэ не даслалі паведамленьне. Чаму б не зьвязацца
         з %{people_mapping_nearby_link}?
       people_mapping_nearby: людзьмі, якія жывуць каля Вас
@@ -992,35 +1048,40 @@ be-Tarask:
         як карыстальнік, адпаведна запыту, каб адказаць.
     show:
       title: Чытаць паведамленьне
+      from: Ад
+      subject: Тэма
+      date: Дата
       reply_button: Адказаць
       unread_button: Пазначыць як непрачытанае
+      to: Да
       wrong_user: Вы ўвайшлі ў сыстэму як `%{user}', але паведамленьне, якое Вы жадаеце
         прачытаць, было дасланае не гэтым ці гэтаму карыстальніку. Калі ласка, увайдзіце
         як карыстальнік, адпаведна запыту, каб прачытаць.
     sent_message_summary:
       destroy_button: Выдаліць
-    heading:
-      my_inbox: Мае ўваходзячыя
     mark:
       as_read: Паведамленьне пазначанае як прачытанае
       as_unread: Паведамленьне пазначанае як непрачытанае
     destroy:
       destroyed: Паведамленьне выдаленае
   passwords:
-    new:
+    lost_password:
       title: Згублены пароль
       heading: Забылі пароль?
-      email address: Адрас электроннай пошты
+      email address: 'Адрас электроннай пошты:'
       new password button: Ачысьціць пароль
       help_text: Увядзіце адрас электроннай пошты, які Вы выкарыстоўвалі пры рэгістрацыі,
         і мы вышлем Вам спасылку, якую Вы зможаце выкарыстаць для зьмены паролю.
-    edit:
+      notice email on way: Шкада, што Вы яго згубілі, але электронны ліст ужо дасланы,
+        таму Вы хутка зможаце яго зьмяніць.
+      notice email cannot find: Прабачце, не атрымалася знайсьці такога адрасу электроннай
+        пошты.
+    reset_password:
       title: Ачысьціць пароль
       heading: Скінуць пароль для %{user}
       reset: Ачысьціць пароль
-      flash token bad: Немагчыма знайсьці такі ключ, можа праверце URL-адрас?
-    update:
       flash changed: Ваш пароль быў зьменены.
+      flash token bad: Немагчыма знайсьці такі ключ, можа праверце URL-адрас?
   profiles:
     edit:
       image: Выява
@@ -1035,27 +1096,36 @@ be-Tarask:
         на мапу?
   sessions:
     new:
-      tab_title: Уваход
-      email or username: Адрас электроннай пошты ці імя карыстальніка
-      password: Пароль
+      title: Увайсьці
+      heading: Уваход
+      email or username: 'Адрас электроннай пошты ці імя карыстальніка:'
+      password: 'Пароль:'
+      openid_html: '%{logo} OpenID:'
       remember: Запомніць мяне
       lost password link: Забылі пароль?
       login_button: Увайсьці
+      register now: Зарэгістравацца зараз
+      with username: 'Ужо маеце рахунак OpenHistoricalMap? Калі ласка, увайдзіце ў
+        сыстэму з Вашым іменем удзельніка і паролем:'
+      new to osm: Упершыню на OpenHistoricalMap?
+      to make changes: Каб рабіць зьмены ў зьвестках OpenHistoricalMap, Вам неабходна
+        мець рахунак.
+      create account minute: Стварыць уліковы запіс. Гэта зойме ня болей за хвіліну.
+      account not active: Прабачце, Ваш рахунак пакуль што не актывізаваны.<br />Калі
+        ласка, каб яго актывізаваць, карыстайцеся спасылкай у дасланым Ваш электронным
+        лісьце, ці <a href="%{reconfirm}">падайце запыт на новы электронны ліст з
+        пацьверджаньнем</a>.
+      account is suspended: Прабачце, але Ваш рахунак быў заблякаваны з-за падазронай
+        актыўнасьці.<br />Калі Вы жадаеце гэта аспрэчыць, калі ласка, зьвяжыцеся з
+        <a href="%{webmaster}">службай падтрымкі</a>.
       auth failure: Прабачце, немагчыма ўвайсьці з такім адрасам і паролем.
+      openid_logo_alt: Увайсьці ў сыстэму з дапамогай OpenID
     destroy:
       title: Выйсьці
-      heading: Выйсьці з OpenStreetMap
+      heading: Выйсьці з OpenHistoricalMap
       logout_button: Выйсьці
-  shared:
-    pagination:
-      diary_entries:
-        older: Старэйшыя запісы
-        newer: Навейшыя запісы
   site:
-    about:
-      open_data_title: Адкрытыя зьвесткі
     copyright:
-      title: Аўтарскія правы і ліцэнзія
       foreign:
         title: Пра гэты пераклад
         html: У выпадку канфлікту паміж гэтай перакладзенай старонкай і %{english_original_link},
@@ -1069,21 +1139,47 @@ be-Tarask:
         native_link: беларускай вэрсіі
         mapping_link: пачаць стварэньне мапы
       legal_babble:
-        credit_title_html: Як спасылацца на OpenStreetMap
-        credit_1_html: 'Карыстаючыся зьвесткамі OpenStreetMap, вы павінны выканаць
-          дзьве ўмовы:'
+        title_html: Аўтарскія правы і ліцэнзія
+        intro_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> — <i>вольныя зьвесткі</i>, ліцэнзаваныя паводле <a
+          href="https://opendatacommons.org/licenses/odbl/">ліцэнзіі Адкрытых базаў зьвестак Адкрытых агульных зьвестак</a> (ODbL) <a
+          href="https://osmfoundation.org/">Фундацыяй OpenHistoricalMap Foundation</a> (OSMF).
+        intro_2_html: Вы можаце капіяваць, распаўсюджваць, перадаваць і зьмяняць нашыя
+          зьвесткі да той пары, пакуль вы спасылаецеся на OpenHistoricalMap і яе ўдзельнікаў.
+          Калі вы зьмяняеце ці выкарыстоўваеце нашыя зьвесткі, вы можаце распаўсюджваць
+          вынікі толькі на ўмовах такой жа ліцэнзіі. Поўны <a href="https://opendatacommons.org/licenses/odbl/1.0/">тэкст
+          ліцэнзіі</a> растлумачыць вам правы і адказнасьці.
+        credit_title_html: Як спасылацца на OpenHistoricalMap
+        credit_1_html: |-
+          Мы патрабуем, каб
+          Вы пазначалі &ldquo;&copy; удзельнікі OpenHistoricalMap&rdquo;.
+        credit_2_1_html: Мусіце таксама яўна пазначыць, што зьвесткі даступныя паводле
+          ліцэнзіі Open Database, а калі карыстаецеся нашымі кавалкамі мапаў, што
+          картаграфія ліцэнзаваная паводле CC BY-SA. Гэта можна зрабіць, спаслаўшыся
+          на <a href="https://www.openstreetmap.org/copyright">гэтую старонку правоў</a>.
+          Калі вы распаўсюджваеце OSM у фармаце зьвестак, вы мусіце разьмяшчаць наўпроставую
+          спасылку на ліцэнзіі. Калі вы выкарыстоўваеце носьбіты, дзе выкарыстаньне
+          спасылак немагчымае (напрыклад, друкаваныя працы), мы прапануем накіроўваць
+          вашых чытачоў на www.openstreetmap.org (магчымае выкарыстаньне поўнага адрасу
+          &lsquo;OpenHistoricalMap&rsquo;), на opendatacommons.org і, пры неабходнасьці,
+          на www.creativecommons.org.
         more_title_html: Даведацца болей
+        more_1_html: Даведайцеся болей пра выкарыстаньне нашых зьвестак і пра спасыланьне
+          на нас на <a href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/License">старонцы
+          ліцэнзіі OHM</a>.
         contributors_title_html: Нашыя ўдзельнікі
         contributors_intro_html: 'Нашы аўтары — гэта тысячы асобаў. Мы таксама ўключаем
           зьвесткі з вольнай ліцэнзіяй ад нацыянальных картаграфічных службаў і зь
           іншых крыніц, сярод іх:'
         contributors_footer_2_html: |-
-          Уключэньне зьвестак у OpenStreetMap не азначае, што пастаўшчыкі пачатковых зьвестак
-          якім-небудзь чынам падтрымліваюць OpenStreetMap, прадстаўляюць гарантыі, ці
+          Уключэньне зьвестак у OpenHistoricalMap не азначае, што пастаўшчыкі пачатковых зьвестак
+          якім-небудзь чынам падтрымліваюць OpenHistoricalMap, прадстаўляюць гарантыі, ці
           прымаюць на сябе якую-небудзь адказнасьць.
     index:
       js_1: Вы карыстаецеся браўзэрам, які не падтрымлівае ці мае забаронены JavaScript.
-      js_2: OpenStreetMap выкарыстоўвае JavaScript для паказу мапы.
+      js_2: OpenHistoricalMap выкарыстоўвае JavaScript для паказу мапы.
+      permalink: Сталая спасылка
+      shortlink: Кароткая спасылка
       remote_failed: Памылка рэдагаваньня. Упэўніцеся, што JOSM ці Merkaartor загружаныя
         і дазволеная магчымасьць аддаленага кіраваньня
     edit:
@@ -1092,20 +1188,42 @@ be-Tarask:
         Вы можаце зрабіць Вашыя рэдагаваньні публічнымі на Вашай %{user_page}.
       user_page_link: старонцы карыстальніка
       anon_edits_link_text: Даведацца ў чым справа.
+      no_iframe_support: Ваш браўзэр не падтрымлівае рамкі HTML, якія зьяўляюцца неабходнымі
+        для гэтай магчымасьці.
     export:
+      area_to_export: Абшар для экспарту
       manually_select: Выбраць іншы абшар
+      format_to_export: Фармат экспарту
+      osm_xml_data: Зьвесткі OpenHistoricalMap у фармаце XML
+      map_image: Выява мапы (паказвае стандартны слой)
+      embeddable_html: HTML-код для ўстаўкі
       licence: Ліцэнзія
+      licence_details_html: Зьвесткі OpenHistoricalMap даступныя на ўмовах ліцэнзіі
+        <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
+        Open Database License</a> (ODbL).
       too_large:
-        body: 'Гэты абшар занадта вялікі для экспарту ў фармаце XML OpenStreetMap.
+        body: 'Гэты абшар занадта вялікі для экспарту ў фармаце XML OpenHistoricalMap.
           Калі ласка, зьменшыце маштаб, выберыце меншы абшар, ці паспрабуйце адну
           з наступных крыніцаў для пакетнай запампоўкі зьвестак:'
         planet:
           title: Плянэта OSM
+      options: Устаноўкі
+      format: Фармат
+      scale: Маштаб
+      max: максымум
+      image_size: 'Памер выявы:'
+      zoom: Маштаб
+      add_marker: Дадаць маркер на мапу
+      latitude: 'Шырата:'
+      longitude: 'Даўгата:'
+      output: Вывад
+      paste_html: HTML-код для ўстаўкі ў вэб-сайт
       export_button: Экспартаваць
     any_questions:
       title: Маеце пытаньні?
     sidebar:
       search_results: Вынікі пошуку
+      close: Закрыць
     search:
       search: Пошук
       where_am_i: Дзе гэта?
@@ -1126,24 +1244,34 @@ be-Tarask:
           footway: Пешаходная дарога
           rail: Чыгунка
           subway: Мэтро
-          cable_car: Канатная дарога
-          chair_lift: Крэславы пад’ёмнік
-          runway: Узьлётная паласа
-          taxiway: Рулёжная дарога
-          apron: Пэрон аэрапорта
+          tram:
+          - Лінія для лёгкага чыгуначнага транспарту
+          - трамвай
+          cable:
+          - Канатная дарога
+          - крэславы пад’ёмнік
+          runway:
+          - Узьлётная паласа
+          - рулёжная дарога
+          apron:
+          - Пэрон аэрапорта
+          - тэрмінал
           admin: Адміністрацыйная мяжа
           forest: Лес
-          wood: Лес
+          wood: Пушча
           golf: Поле для гольфу
           park: Парк
-          common: Грамадзкая зямля
           resident: Жылы раён
+          common:
+          - Грамадзкая зямля
+          - луг
           retail: Гандлёвы раён
           industrial: Прамысловы раён
           commercial: Камэрцыйны раён
           heathland: Пусташ
-          lake: Возера
-          reservoir: Вадасховішча
+          lake:
+          - Возера
+          - вадасховішча
           farm: Фэрма
           brownfield: Закінутая тэрыторыя
           cemetery: Могілкі
@@ -1152,12 +1280,14 @@ be-Tarask:
           centre: Спартовы цэнтар
           reserve: Запаведнік
           military: Вайсковая тэрыторыя
-          school: Школа
-          university: Унівэрсытэт
+          school:
+          - Школа
+          - унівэрсытэт
           building: Значны будынак
           station: Чыгуначная станцыя
-          summit: Вяршыня
-          peak: Пік
+          summit:
+          - Вяршыня
+          - пік
           tunnel: Пункцір = тунэль
           bridge: Чорная лінія = мост
           private: Прыватны доступ
@@ -1193,6 +1323,8 @@ be-Tarask:
       title: Рэдагаваньне трэку %{name}
       heading: Рэдагаваньне трэку %{name}
       visibility_help: што гэта азначае?
+    trace_optionals:
+      tags: Тэгі
     show:
       title: Прагляд трэку %{name}
       heading: Прагляд трэку %{name}
@@ -1212,10 +1344,12 @@ be-Tarask:
       delete_trace: Выдаліць гэты трэк
       trace_not_found: Трэк ня знойдзены!
       visibility: 'Бачнасьць:'
+    trace_paging_nav:
+      showing_page: Старонка %{page}
     trace:
       pending: ЧАКАЕ
       count_points:
-        one: '%{count} пункт'
+        one: 1 пункт
         other: '%{count} пункты'
       more: болей
       trace_details: Паказаць падрабязнасьці трэку
@@ -1225,6 +1359,8 @@ be-Tarask:
       identifiable: ІДЭНТЫФІКАВАНЫ
       private: ПРЫВАТНЫ
       trackable: МАГЧЫМА САЧЫЦЬ
+      by: аўтар
+      in: у
     index:
       public_traces: Публічныя GPS-трэкі
       public_traces_from: Публічныя GPS-трэкі ўдзельніка %{user}
@@ -1232,6 +1368,8 @@ be-Tarask:
       upload_trace: Загрузіць трэк
     destroy:
       scheduled_for_deletion: Трэк заплянаваны на выдаленьне
+    make_public:
+      made_public: Трэк зроблены публічным
     offline_warning:
       message: Сыстэма загрузкі GPX-файлаў у цяперашні момант недаступная
     offline:
@@ -1247,11 +1385,69 @@ be-Tarask:
       need_to_see_terms: Ваш доступ да API часова прыпынены. Калі ласка, увайдзіце
         ў ўэб-інтэрфэйс, каб каб паглядзець умовы супрацоўніцтва. Вам не абавязкова
         пагаджацца зь імі, але неабходна зь імі азнаёміцца.
+  oauth:
+    authorize:
+      request_access_html: Дастасаваньне %{app_name} патрабуе доступ да Вашага рахунку,
+        %{user}. Калі ласка, праверце, ці Вы жадаеце, каб дастасаваньне мела наступныя
+        магчымасьці. Вы можаце выбраць любую колькасьць.
+      allow_to: 'Дазволіць кліенцкаму дастасаваньню:'
+      allow_read_prefs: чытаць Вашыя налады ўдзельніка.
+      allow_write_prefs: зьмяняць Вашыя налады ўдзельніка.
+      allow_write_diary: ствараць запісы ў дзёньніку, камэнтары і знаёміцца.
+      allow_write_api: зьмяняць мапу.
+      allow_read_gpx: чытаць Вашыя прыватныя GPS-трэкі.
+      allow_write_gpx: загружаць GPS-трэкі.
+    revoke:
+      flash: Вы адклікалі ключ для дастасаваньня %{application}
+  oauth_clients:
+    new:
+      title: Зарэгістраваць новае дастасаваньне
+    edit:
+      title: Рэдагаваць Вашае дастасаваньне
+    show:
+      title: Падрабязнасьці OAuth для %{app_name}
+      key: 'Ключ спажыўца:'
+      secret: 'Сакрэт спажыўца:'
+      url: 'URL-адрас ключа запыту:'
+      access_url: 'URL-адрас ключа доступу:'
+      authorize_url: 'URL-адрас аўтарызацыі:'
+      support_notice: Мы падтрымліваем HMAC-SHA1 (рэкамэндуецца) і подпісы RSA-SHA1.
+      edit: Рэдагаваць падрабязнасьці
+      requests: 'Запыт наступных дазволаў ад удзельніка:'
+    index:
+      title: Мае падрабязнасьці OAuth
+      my_tokens: Мае аўтарызаваныя дастасаваньні
+      list_tokens: 'Наступныя ключы былі створаныя для дастасаваньняў на Вашае імя:'
+      application: Назва дастасаваньня
+      issued_at: Выданы ў
+      revoke: Адклікаць!
+      my_apps: Мае кліенцкія дастасаваньні
+      no_apps_html: Вы маеце дастасаваньне, якое жадаеце зарэгістраваць для ўзаемадзеяньня
+        з намі праз стандарт %{oauth}? Вам неабходна зарэгістраваць Вашае ўэб-дастасаваньне
+        перад тым, як яно зможа зрабіць OAuth-запыты на гэты сэрвэр.
+      registered_apps: 'Вы маеце зарэгістраванымі наступныя кліенцкія дастасаваньні:'
+      register_new: Зарэгістраваць Вашае дастасаваньне
+    form:
+      requests: 'Запытаць наступныя дазволы ад удзельніка:'
+    not_found:
+      sorry: Прабачце, немагчыма знайсьці гэты %{type}.
+    create:
+      flash: Інфармацыя пасьпяхова зарэгістраваная
+    update:
+      flash: Кліенцкая інфармацыя была абноўленая пасьпяхова
+    destroy:
+      flash: Зьнішчаная рэгістрацыя кліенцкага дастасаваньня
   users:
     new:
       title: Зарэгістравацца
       no_auto_account_create: На жаль, мы зараз ня можам стварыць для Вас рахунак
         аўтаматычна.
+      contact_support_html: Калі ласка, зьвяжыцеся з <a href="%{support}">службай
+        падтрымкі</a> з запытам на стварэньне падобнага ўліковага запісу. Мы паспрабуем
+        апрацаваць Ваш зварот як мага хутчэй.
+      email address: 'Адрас электроннай пошты:'
+      confirm email address: 'Пацьвердзіць адрас электроннай пошты:'
+      display name: 'Бачнае імя:'
       display name description: Вашае імя, якое будзе бачнае ўсім. Вы можаце зьмяніць
         яго потым ў Вашых наладах.
       continue: Зарэгістравацца
@@ -1262,6 +1458,7 @@ be-Tarask:
       consider_pd: У дадатак да прыведзенага вышэй, я пацьвярджаю, што мой унёсак
         знаходзіцца ў грамадзкім набытку
       consider_pd_why: што гэта?
+      decline: Адхіліць
       you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся ці
         адхіліце новыя ўмовы супрацоўніцтва для працягу.
       legale_select: 'Калі ласка, выберыце сваю краіну пражываньня:'
@@ -1276,6 +1473,7 @@ be-Tarask:
         напісаньня, ці, магчыма, спасылка па якой Вы перайшлі, няслушная.
     show:
       my diary: Мой дзёньнік
+      new diary entry: новы запіс у дзёньніку
       my edits: Мае рэдагаваньні
       my traces: Мае трэкі
       my settings: Мае налады
@@ -1291,10 +1489,13 @@ be-Tarask:
       ct status: 'Умовы супрацоўніцтва:'
       ct undecided: Нявырашана
       ct declined: Адхіленыя
+      latest edit: 'Апошняе рэдагаваньне (%{ago}):'
       email address: 'Адрас электроннай пошты:'
       created from: 'Створана з:'
       status: 'Статус:'
       spam score: 'Адзнака спаму:'
+      description: Апісаньне
+      user location: Меcцазнаходжаньне ўдзельніка
       role:
         administrator: Гэты карыстальнік зьяўляецца адміністратарам
         moderator: Гэты карыстальнік зьяўляецца мадэратарам
@@ -1308,37 +1509,54 @@ be-Tarask:
       moderator_history: Пададзеныя блякаваньні
       create_block: Заблякаваць гэтага ўдзельніка
       activate_user: Актываваць гэтага ўдзельніка
+      deactivate_user: Дэактываваць гэтага ўдзельніка
       confirm_user: Пацьвердзіць гэтага ўдзельніка
       hide_user: Схаваць гэтага ўдзельніка
       unhide_user: Паказаць гэтага ўдзельніка
       delete_user: Выдаліць гэтага ўдзельніка
       confirm: Пацьвердзіць
+    set_home:
+      flash success: Вашае месцазнаходжаньне пасьпяхова захаванае
     go_public:
       flash success: Усе Вашыя рэдагаваньні цяпер публічныя, і цяпер Вам дазволена
         рэдагаваньне.
     index:
       title: Удзельнікі
       heading: Карыстальнікі
+      showing:
+        one: Старонка %{page} (%{first_item} з %{items})
+        other: Старонкі %{page} (%{first_item}—%{last_item} з %{items})
       summary_html: '%{name} створаны з %{ip_address}, %{date}'
       summary_no_ip_html: '%{name} створаны %{date}'
-      empty: Адпаведныя карыстальнікі ня знойдзеныя
-    page:
       confirm: Пацьвердзіць выбраных карыстальнікаў
       hide: Схаваць выбраных карыстальнікаў
+      empty: Адпаведныя карыстальнікі ня знойдзеныя
     suspended:
       title: Рахунак заблякаваны
       heading: Рахунак заблякаваны
-    auth_failure:
-      invalid_credentials: Хібныя аўтэнтыфікацыйныя зьвесткі
+      body_html: "<p>\n  Прабачце, але Ваш уліковы запіс быў аўтаматычна заблякаваны
+        з-за \n  падазронай актыўнасьці.\n</p>\n<p>\n  Гэтае рашэньне можа быць хутка
+        перагледжанае адміністратарам, ці\n  Вы можаце зьвязацца з %{webmaster}, калі
+        жадаеце гэта абмеркаваць.\n</p>"
   user_role:
     filter:
       not_a_role: Радок «%{role}» не зьяўляецца слушнай роляй.
       already_has_role: Карыстальнік ужо мае ролю %{role}.
       doesnt_have_role: Карыстальнік ня мае ролі %{role}.
     grant:
+      title: Пацьвердзіць наданьне ролі
+      heading: Пацьвердзіць наданьне ролі
       are_you_sure: Вы ўпэўнены, што жадаеце надаць ролю `%{role}' удзельніку `%{name}'?
+      confirm: Пацьвердзіць
+      fail: Немагчыма надаць ролю `%{role}' удзельніку `%{name}'. Калі ласка, праверце
+        каб удзельнік і роля былі слушнымі.
     revoke:
+      title: Пацьвердзіць адмену ролі
+      heading: Пацьвердзіць адмену ролі
       are_you_sure: Вы ўпэўнены, што жадаеце скасаваць ролю `%{role}' удзельніка `%{name}'?
+      confirm: Пацьвердзіць
+      fail: Не магчыма адмяніць ролю `%{role}' удзельніка `%{name}'. Калі ласка, праверце
+        каб удзельнік і роля былі слушнымі.
   user_blocks:
     model:
       non_moderator_update: Трэба быць мадэратарам, каб стварыць ці адбавіць блякаваньне.
@@ -1352,15 +1570,25 @@ be-Tarask:
       heading_html: Стварэньне блякаваньня для %{name}
       period: Як доўга, пачынаючы з гэтага моманту, карыстальнік будзе заблякаваны
         ад API.
+      tried_contacting: Я зьвярнуўся да удзельніка і папрасіў яго спыніцца.
+      tried_waiting: Я даў дастаткова часу ўдзельніку, каб адказаць на тыя паведамленьні.
+      back: Паказаць усе блякаваньні
     edit:
       title: Рэдагаваньне блякаваньня для %{name}
       heading_html: Рэдагаваньне блякаваньня для %{name}
       period: Як доўга, пачынаючы з гэтага моманту, карыстальнік будзе заблякаваны
         ад API.
+      show: Паказаць гэтае блякаваньне
+      back: Паказаць усе блякаваньні
     filter:
+      block_expired: Блякаваньне ўжо скончылася і ня можа рэдагавацца.
       block_period: Час блякаваньня павінен быць выбраны са значэньняў з разгортваемага
         сьпісу.
     create:
+      try_contacting: Калі ласка, перад блякаваньнем удзельніка зьвяжыцеся зь ім і
+        дайце яму дастаткова часу для адказу.
+      try_waiting: Калі ласка, дайце ўдзельніку дастаткова часу для адказу, перад
+        яго блякаваньнем.
       flash: Заблякаваць удзельніка %{name}.
     update:
       only_creator_can_edit: Толькі мадэратар, які стварыў блякаваньне, можа яго рэдагаваць.
@@ -1369,6 +1597,14 @@ be-Tarask:
       title: Блякаваньні ўдзельніка
       heading: Сьпіс блякаваньняў удзельніка
       empty: Блякаваньняў яшчэ не было.
+    revoke:
+      title: Зьняць блякаваньне з %{block_on}
+      heading_html: Зьняць блякаваньне з %{block_on}, створанае %{block_by}
+      time_future: Гэтае блякаваньне скончыцца ў %{time}.
+      past: Гэтае блякаваньне скончылася %{time} і ня можа быць цяпер адкліканае.
+      confirm: Вы ўпэўнены, што жадаеце адклікаць гэтае блякаваньне?
+      revoke: Адклікаць!
+      flash: Гэтае блякаваньне было адкліканае.
     helper:
       time_future_html: Канчаецца ў %{time}.
       until_login: Актыўнае да моманту ўваходу ўдзельніка ў сыстэму.
@@ -1390,31 +1626,31 @@ be-Tarask:
       title: '%{block_on} заблякаваны %{block_by}'
       heading_html: '%{block_on} заблякаваны %{block_by}'
       status: 'Статус:'
+      show: Паказаць
       edit: Рэдагаваць
+      revoke: Адклікаць!
+      confirm: Вы ўпэўненыя?
       reason: 'Прычына блякаваньня:'
+      back: Паказаць усе блякаваньні
       revoker: 'Адклікаўшы:'
+      needs_view: Удзельніку трэба ўвайсьці ў сыстэму, перад тым як гэтае блякаваньне
+        будзе зьнятае.
     block:
       not_revoked: (не адкліканае)
       show: Паказаць
       edit: Рэдагаваць
-    page:
+      revoke: Адклікаць!
+    blocks:
       display_name: Заблякаваны ўдзельнік
       creator_name: Стваральнік
       reason: Прычына блякаваньня
       status: Статус
       revoker_name: Адкліканае
-  notes:
-    show:
-      title: 'Нататка: %{id}'
-    notes_paging_nav:
-      showing_page: Старонка %{page}
   javascripts:
     map:
       base:
         cycle_map: Роварная мапа
         transport_map: Транспартная мапа
-      layers:
-        data: Зьвесткі мапы
     site:
       edit_tooltip: Рэдагаваць мапу
       edit_disabled_tooltip: Павялічыць маштаб мапы для рэдагаваньня

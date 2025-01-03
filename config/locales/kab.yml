@@ -34,7 +34,7 @@ kab:
       client_application:
         create: Sekles
         update: Setrer
-      oauth2_application:
+      doorkeeper_application:
         create: Jerred
         update: Leqqem
       redaction:
@@ -47,6 +47,10 @@ kab:
         create: Rnu iḥder
         update: Beddel iḥder
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: Ur yettbin ara d tansa n imayl taɣbalt
+        email_address_not_routable: Ur izmir ara ad ibeddel abrid
     models:
       acl: Tabdart n usenqed n unekcum
       changeset: Agraw n ibeddilen
@@ -60,6 +64,7 @@ kab:
       message: Izen
       node: Tikerrist
       node_tag: Imyerr n tkerrist
+      notifier: Lɣu
       old_node: Tikerrist taqburt
       old_node_tag: Imyerr n tkerrist taqburt
       old_relation: Assaɣ aqbur
@@ -102,7 +107,7 @@ kab:
         title: Asentel
         latitude: Tarrut
         longitude: Tazegrart
-        language_code: Tutlayt
+        language: Tutlayt
       doorkeeper/application:
         name: Isem
         redirect_uri: Beddel abrid i tansiwin URI
@@ -138,6 +143,7 @@ kab:
         auth_provider: Asaǧǧaw n usesteb
         auth_uid: UID n usesteb
         email: Imayl
+        email_confirmation: Asentem n yimayl
         new_email: Tansa n yimayl tamaynut
         active: Urmid
         display_name: Mefffer isem
@@ -196,7 +202,7 @@ kab:
         reopened_at_html: Yettwarmed %{when}
         reopened_at_by_html: Yettwarmed %{when} sɣur %{user}
       rss:
-        title: Tizmilin n OpenStreetMap
+        title: Tizmilin n OpenHistoricalMap
         description_area: Tabdert n tezmilin yettwamlen, yettwawennten neɣ imedlen
           deg temnaḍt-ik[(%{min_lat}|%{min_lon})--(%{max_lat}|%{max_lon})]
         opened: tazmilt tamaynut (qrib ar %{place})
@@ -212,21 +218,25 @@ kab:
       my settings: Iɣewwaṛen-iw
       current email address: Tansa imayl n tura
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: d acu-t wa?
       public editing:
         heading: Taẓrigt tazayezt
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: d acu-t wa?
         disabled link text: Acu zemreɣ ad beddleɣ?
+      public editing note:
+        heading: Taẓrigt tazayezt
       contributor terms:
         heading: 'Tiwtilin n iwiziw:'
         link text: what is this?
       save changes button: Sekles asnifel
-    go_public:
-      heading: Taẓrigt tazayezt
-      make_edits_public_button: Err akk tiẓrigin-iw s tizuyaz
+      make edits public button: Err akk tiẓrigin-iw s tizuyaz
     update:
       success: Talɣut n useqdac tettwasnifel akken iwata
   browse:
+    created: Yettwarna
+    closed: Yemdel
     version: Lqem
     in_changeset: Agraw n usnifel
     anonymous: udrig
@@ -236,6 +246,25 @@ kab:
     view_history: Sken amazray
     view_details: Wali talqayt
     location: 'Adig:'
+    changeset:
+      title: 'Agraw n usnifel: %{id}'
+      belongs_to: Ameskar
+      node: Tikerras (%{count})
+      node_paginated: Tikerras (%{x}-%{y} si %{count})
+      way: Iberdan (%{count})
+      way_paginated: Iberdan (%{x}-%{y} si %{count})
+      relation: Assaɣen (%{count})
+      relation_paginated: Assaɣen (%{x}-%{y} si %{count})
+      comment: Iwenniten (%{count})
+      changesetxml: XML n ugraw n ibeddilen
+      osmchangexml: XML osmChange
+      feed:
+        title: Agraw n usnifel %{id}
+        title_comment: Agraw n ubeddel %{id} - %{comment}
+      join_discussion: Qqen akken ad tedduḍ ar usqerdec
+      discussion: Asqerdec
+      still_open: Tagrumma isenfilen zgan ldin - asqerdec ad yili mara isenfilen meṛṛa
+        ttwamedlen.
     node:
       title_html: 'Takerrist: %{name}'
       history_title_html: 'Amazray n tkerrist: %{name}'
@@ -299,26 +328,48 @@ kab:
       wikimedia_commons_link: Aferdis %{page} deg Wikimedia Commons
       telephone_link: Siwel ar %{phone_number}
       colour_preview: Taskant n yini %{colour_value}
+    note:
+      title: 'Tazmilt: %{id}'
+      new_note: Tazmilt tamaynut
+      description: Aglam
+      open_title: 'Tazmilt ur yefrin ara  #%{note_name}'
+      closed_title: 'Tazmilt ur yefrin ara #%{note_name}'
+      hidden_title: 'Tazmilt yeffren #%{note_name}'
+      opened_by_html: Yerna-t %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      opened_by_anonymous_html: Yernat useqdac udrig <abbr title='%{exact_time}'>%{when}
+        aya</abbr>
+      commented_by_html: Awennit sɣur %{user} <abbr title='%{exact_time}'>%{when}
+        aya</abbr>
+      commented_by_anonymous_html: Awennit n useqdac udrig <abbr title='%{exact_time}'>%{when}
+        aya</abbr>
+      closed_by_html: Yefra-t %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      closed_by_anonymous_html: YEfra-t useqdac udrig <abbr title='%{exact_time}'>%{when}
+        aya</abbr>
+      reopened_by_html: Irmed-it %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      reopened_by_anonymous_html: Irmed-it useqdac udrig <abbr title='%{exact_time}'>%{when}
+        aya</abbr>
+      hidden_by_html: Yeffer-it %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      report: Sillef tazmilt agi
     query:
       title: Tuttriwin ɣef tɣawsiwin
       introduction: Sit ɣef tkarḍa allen ad tafeḍ tiɣawsiwin iqeṛben.
       nearby: Tiɣawsiqin iqeṛben
       enclosing: Tiɣawsiwin timagbarin
-  changeset_comments:
-    feeds:
-      comment:
-        comment: Awennit amaynut deg ugraw n usnifel uṭṭ %{changeset_id} par %{author}
-        commented_at_by_html: Yettwalqem %{when} aya sɣur %{user}
-      show:
-        title_all: Asqerdec deg ugraw n usnifel OpenStreetMap
-        title_particular: Asqerdec deg ugraw n usnifel OpenStreetMap wis %{changeset_id}
-      timeout:
-        sorry: Suref-aɣ, tabdart n iygrawen n usnifel i d-tessutreḍ tettawi ddeqs
-          n wakud akken ad d-tali.
   changesets:
+    changeset_paging_nav:
+      showing_page: Asebter %{page}
+      next: Ɣer zdat »
+      previous: « Ɣer deffir
     changeset:
+      anonymous: Udrig
       no_edits: (ulac abeddel)
       view_changeset_details: Sken talqayt n ugraw n yibeddilen
+    changesets:
+      id: Asulay
+      saved_at: Yettwasekles deg
+      user: Aseqdac
+      comment: Awennit
+      area: Tamnaḍt
     index:
       title: Agraw n usnifel
       title_user: Igrawen n usnifel sɣur %{user}
@@ -331,40 +382,25 @@ kab:
       no_more_area: Ulac agraw-nniḍen n usnifel yettwafen di temnaḍt-agi.
       no_more_user: Ulac agraw-nniḍen n usnifel n useqdac-agi.
       load_more: Sali ugar
-      feed:
-        title: Agraw n usnifel %{id}
-        title_comment: Agraw n ubeddel %{id} - %{comment}
-        created: Yettwarna
-        closed: Yemdel
-        belongs_to: Ameskar
-    show:
-      title: 'Agraw n usnifel: %{id}'
-      discussion: Asqerdec
-      join_discussion: Qqen akken ad tedduḍ ar usqerdec
-      still_open: Tagrumma isenfilen zgan ldin - asqerdec ad yili mara isenfilen meṛṛa
-        ttwamedlen.
-      subscribe: Jerred
-      unsubscribe: Ffeɣ seg ujerred
-      hide_comment: ffer
-      unhide_comment: sken
-      comment: Awennit
-      changesetxml: XML n ugraw n ibeddilen
-      osmchangexml: XML osmChange
-    paging_nav:
-      nodes: Tikerras (%{count})
-      nodes_paginated: Tikerras (%{x}-%{y} si %{count})
-      ways: Iberdan (%{count})
-      ways_paginated: Iberdan (%{x}-%{y} si %{count})
-      relations: Assaɣen (%{count})
-      relations_paginated: Assaɣen (%{x}-%{y} si %{count})
     timeout:
       sorry: Suref-aɣ, tabdart n igrawen n usnifel i d-sutreḍ tettwai ddeqs n wakud
         akkena d d-ali.
+  changeset_comments:
+    comment:
+      comment: Awennit amaynut deg ugraw n usnifel uṭṭ %{changeset_id} par %{author}
+      commented_at_by_html: Yettwalqem %{when} aya sɣur %{user}
+    comments:
+      comment: Awennit amaynut deg ugraw n usnifel wis %{changeset_id} sɣur %{author}
+    index:
+      title_all: Asqerdec deg ugraw n usnifel OpenHistoricalMap
+      title_particular: Asqerdec deg ugraw n usnifel OpenHistoricalMap wis %{changeset_id}
+    timeout:
+      sorry: Suref-aɣ, tabdart n iygrawen n usnifel i d-tessutreḍ tettawi ddeqs n
+        wakud akken ad d-tali.
   dashboards:
     contact:
       km away: '%{count} km'
       m away: yebɛed s %{count} m
-      latest_edit_html: 'Asnifel aneggaru %{ago} :'
     popup:
       your location: Adig-ik
       friend: Amdakkel
@@ -391,8 +427,9 @@ kab:
       new_title: Aru anekcam amaynut deg uɣmis-ik n useqdac
       my_diary: Aɣmis-iw
       no_entries: Ulac anekcam n uɣmis
-    page:
       recent_entries: Inekcamen ineggura n uɣmis
+      older_entries: Inekcam iqbuṛen
+      newer_entries: Inekcam ineggura
     edit:
       title: Ẓreg anekcam n uɣmis
       marker_text: Adig n unekcam n uɣmis
@@ -428,21 +465,25 @@ kab:
       report: Mel awennit-a
     location:
       location: 'Adig:'
+      view: Sken
+      edit: Ẓreg
     feed:
       user:
-        title: Imagraden n uṣmis OpenStreetMap i %{user}
-        description: Imagraden ineggura n uɣmis OpenStreetMap sɣuṛ %{user}
+        title: Imagraden n uṣmis OpenHistoricalMap i %{user}
+        description: Imagraden ineggura n uɣmis OpenHistoricalMap sɣuṛ %{user}
       language:
-        title: Imagraden n iɣmisen OpenStreetMap s %{language_name}
-        description: Imagraden ineggura n iɣmisen n iseqdacen OpenStreetMap s %{language_name}
+        title: Imagraden n iɣmisen OpenHistoricalMap s %{language_name}
+        description: Imagraden ineggura n iɣmisen n iseqdacen OpenHistoricalMap s
+          %{language_name}
       all:
-        title: Imagraden n iɣmisen OpenStreetMap
-        description: Imagraden inegguran n iɣmisen n iseqdacen OpenStreetMap
-  diary_comments:
-    page:
+        title: Imagraden n iɣmisen OpenHistoricalMap
+        description: Imagraden inegguran n iɣmisen n iseqdacen OpenHistoricalMap
+    comments:
       post: Amagrad
       when: Melmi
       comment: Awennit
+      newer_comments: Iwenniten ineggura
+      older_comments: Iwenniten iqbuṛen
   friendships:
     make_friend:
       heading: Rnu %{user} d amdakkel?
@@ -749,89 +790,113 @@ kab:
         level8: Talast n temdint
         level9: Talast n taddart
         level10: Talast n ugmama
+      types:
+        cities: Timdinin
+        towns: Tuddar
+        places: Idigen
     results:
       no_results: Ulac igmaḍ
       more_results: Ugar n igmaḍ
   layouts:
     logo:
-      alt_text: Alugu n OpenStreetMap
+      alt_text: Alugu n OpenHistoricalMap
     home: Duu ar uxxam-ik
     logout: Ffeɣ
     log_in: Qqen
+    log_in_tooltip: Qqen s umiḍan yellan
     sign_up: Jerred
     start_mapping: Bdu asgertel
+    sign_up_tooltip: Rnu amiḍan n teẓrigt
     edit: Ẓreg
     history: Amazray
     export: Sifeḍ
+    data: Isefka
+    export_data: Sifeḍ isefka
     gps_traces: Lǧerrat GPS
+    gps_traces_tooltip: Sefrek lǧerrat GPS
     user_diaries: Iɣmisen n iseqdacen
+    user_diaries_tooltip: Sken iɣmisen n iseqdacen
     edit_with: Ẓreg s %{editor}
-    intro_header: Anṣuf ar OpenStreetMap!
-    intro_text: OpenStreetMap d takarḍa n umadal, rnna-tt yemdanen am kečč d tilellit
+    tag_line: Takarḍa n uwiki ilelli n umaḍal
+    intro_header: Anṣuf ar OpenHistoricalMap!
+    intro_text: OpenHistoricalMap d takarḍa n umadal, rnna-tt yemdanen am kečč d tilellit
       i useqdec ddaw n turagt tilellit.
+    intro_2_create_account: Rnu amiḍan n useqdac
     partners_partners: imendiden
-    osm_offline: Taffa n isefka n OpenStreetMap ur teqqin ara yakan tura imi aseǧǧem
+    osm_offline: Taffa n isefka n OpenHistoricalMap ur teqqin ara yakan tura imi aseǧǧem
       ilaqen yettwaselkam akken ad teddu akken iwata.
-    osm_read_only: Taffa n isefka n OpenStreetMap tella deg uskar n tɣuri kan akka
-      tura, imi aseǧǧem ilaqen yettwaselkam akken ad teddu akken iwata.
+    osm_read_only: Taffa n isefka n OpenHistoricalMap tella deg uskar n tɣuri kan
+      akka tura, imi aseǧǧem ilaqen yettwaselkam akken ad teddu akken iwata.
+    donate: Mudd afus i OpenHistoricalMap s %{link}i usali n uswir n warrum-is.
     help: Tallelt
     about: Ɣef
     copyright: Izerfan n umeskar
+    community: Tamezdagnut
+    community_blogs: Iblugen n tmezdagnut
+    community_blogs_title: Iblugen n iɛeggalen n tmezdagnut OpenHistoricalMap
+    foundation: Tasbeddit
+    foundation_title: Tasbeddit OpenHistoricalMap
+    make_a_donation:
+      title: Mudd afus i OpenHistoricalMap s tewsa n yidirem
+      text: Mudd tawsa
     learn_more: Issin ugar
     more: Ugar
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} yuzen-d awennit ar umagrad n uɣmis'
+      subject: '[OpenHistoricalMap] %{user} yuzen-d awennit ar umagrad n uɣmis'
       hi: Azzul %{to_user},
-      header: '%{from_user} yuzen-ad awennit ar umagrad n uɣmis OpenStreetMap s usentel
-        %{subject} :'
+      header: '%{from_user} yuzen-ad awennit ar umagrad n uɣmis OpenHistoricalMap
+        s usentel %{subject} :'
     message_notification:
       hi: Azul %{to_user},
-      header: '%{from_user} yuzen-ak-d izen si OpenStreetMap s usentel %{subject} :'
+      header: '%{from_user} yuzen-ak-d izen si OpenHistoricalMap s usentel %{subject} :'
       footer_html: Tzemreḍ daɣen ad teɣreḍ izen di %{readurl} sakin ad tizmireḍ ad
         terreḍ i %{replyurl}
     friendship_notification:
       hi: Azul %{to_user},
-      subject: '[OpenStreetMap] %{user} yerna-k d amdakkel'
-      had_added_you: '%{user} yerna-k d amdakkel di OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} yerna-k d amdakkel'
+      had_added_you: '%{user} yerna-k d amdakkel di OpenHistoricalMap.'
       see_their_profile: 'Tzemred ad twaliḍ amaɣnu-is dagi : %{userurl}.'
       befriend_them: 'Tzemred daɣed ad tt-rnuḍ-t d amdakkel dagi : %{befriendurl}.'
     gpx_failure:
       failed_to_import: 'ur d-yettwakter ara. Hatta tuccḍa:'
-      subject: '[OpenStreetMap] Akter GPX ur yeddi ara'
+      subject: '[OpenHistoricalMap] Akter GPX ur yeddi ara'
     gpx_success:
-      subject: '[OpenStreetMap] Akter GPX yedda'
+      loaded_successfully: yuli-d akken iwata s %{trace_points} n %{possible_points}
+        n tneqqiḍin izemren ad ilint.
+      subject: '[OpenHistoricalMap] Akter GPX yedda'
     signup_confirm:
-      subject: '[OpenStreetMap] Anṣuf ar OpenStreetMap'
+      subject: '[OpenHistoricalMap] Anṣuf ar OpenHistoricalMap'
       greeting: Azul din!
       created: Yella win (nessaram d kečč) yernan amiḍan ɣef %{site_url}.
     email_confirm:
-      subject: '[OpenStreetMap] Sentem tansa-ik imayl'
+      subject: '[OpenHistoricalMap] Sentem tansa-ik imayl'
       greeting: Azul,
     lost_password:
-      subject: '[OpenStreetMap] Asuter n tulsa n uwennez n wawal uffir'
+      subject: '[OpenHistoricalMap] Asuter n tulsa n uwennez n wawal uffir'
       greeting: Azul,
       click_the_link: Ma d kečč, sit ɣef useɣwen akken ad talseḍ awennez n wawal uffir.
     note_comment_notification:
       anonymous: Aseqdac udrig
       greeting: Azul,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} yerna awennit ar yiwet si tezmilin-ik'
-        subject_other: '[OpenStreetMap] %{commenter} yerna awennit ar yiwet n tezmilt
-          anida telliḍ'
+        subject_own: '[OpenHistoricalMap] %{commenter} yerna awennit ar yiwet si tezmilin-ik'
+        subject_other: '[OpenHistoricalMap] %{commenter} yerna awennit ar yiwet n
+          tezmilt anida telliḍ'
         your_note: '%{commenter} yerna awennit ɣef yiwet si tezmilin-ik n tkarḍa rrif
           n %{place}.'
         commented_note: '%{commenter} yerna awennit ɣef yiwet n tezmilt n tkarḍa anida
           terniḍ awennit. Tazmilt teqṛeb ar %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} yefra yiwet si tezmilin-ik'
-        subject_other: '[OpenStreetMap] %{commenter} yefra yiwet n tezmilt anida telliḍ'
+        subject_own: '[OpenHistoricalMap] %{commenter} yefra yiwet si tezmilin-ik'
+        subject_other: '[OpenHistoricalMap] %{commenter} yefra yiwet n tezmilt anida
+          telliḍ'
         your_note: '%{commenter} yefra yiwet si tezmilin-ik n tkarḍa rrif n %{place}.'
         commented_note: '%{commenter} yefra yiwet n tezmilt n tkarḍa anida terniḍ
           awennit. Tazmilt teqṛeb ar %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} yermed yiwet si tezmilin-ik'
-        subject_other: '[OpenStreetMap] %{commenter} yermed yiwet n tezmilt anida
+        subject_own: '[OpenHistoricalMap] %{commenter} yermed yiwet si tezmilin-ik'
+        subject_other: '[OpenHistoricalMap] %{commenter} yermed yiwet n tezmilt anida
           telliḍ'
         your_note: '%{commenter} yermed yiwet si tezmilin-ik n tkarḍa rrif n %{place}.'
         commented_note: '%{commenter} yermed yiwet n tezmilt n tkarḍa anida terniḍ
@@ -839,11 +904,12 @@ kab:
       details: Ugar n telɣut ɣef yezmilt ad tettwaf di %{url}
     changeset_comment_notification:
       hi: Azul %{to_user},
+      greeting: Azul,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} yerna awennit ar yiwet si tezmilin-ik
+        subject_own: '[OpenHistoricalMap] %{commenter} yerna awennit ar yiwet si tezmilin-ik
           n tagrumma n usnifel'
-        subject_other: '[OpenStreetMap] %{commenter} yerna awennit ar yiwet n tagrumma
-          n usnifel anida telliḍ'
+        subject_other: '[OpenHistoricalMap] %{commenter} yerna awennit ar yiwet n
+          tagrumma n usnifel anida telliḍ'
         your_changeset: '%{commenter} yerna awennit ɣef yiet si tegrummiwin-ik n usenifel
           yettwarnan di %{time}'
         partial_changeset_with_comment: s uwennit '%{changeset_comment}'
@@ -867,18 +933,20 @@ kab:
   messages:
     inbox:
       title: Tanaka n urmas
+      my_inbox: Tanaka-iw n urmas
       messages: Ɣur-k %{new_messages} akked %{old_messages}
-    messages_table:
       from: Seg
-      to: I
       subject: Asentel
       date: Azemz
     message_summary:
       unread_button: Creḍ ur yettwaɣra ara
       read_button: Creḍ yettwaɣra
+      reply_button: Err
       destroy_button: Kkes
     new:
       title: Azen izen
+      subject: Asentel
+      body: Tafekka
     create:
       message_sent: Izen yettwazen
     no_such_message:
@@ -887,34 +955,38 @@ kab:
       body: Suref-aɣ, ulac izen s usulay-agi.
     outbox:
       title: Tanaka n tuzna
+      to: I
+      subject: Asentel
+      date: Azemz
     show:
       title: Ɣeṛ izen
+      from: Seg
+      subject: Asentel
+      date: Azemz
       reply_button: Err
       unread_button: Creḍ yettwaɣra
       destroy_button: Kkes
       back: Uɣal
+      to: I
     sent_message_summary:
       destroy_button: Kkes
-    heading:
-      my_inbox: Tanaka-iw n urmas
     mark:
       as_read: Izen yettwacred yettwaɣra
       as_unread: Izen yettwacred ur yettwaɣra ara
     destroy:
       destroyed: Izen yettwakkes
   passwords:
-    new:
+    lost_password:
       title: Awal uffir iṛuḥ
       heading: Tettuḍ awal uffir?
       email address: 'Tansa imayl:'
       new password button: Ales awennez n wawal uffir
-    edit:
+    reset_password:
       title: Ales awennez n wawal uffir
       heading: Ales awennez n wawal uffir i %{user}
       reset: Ales awennez n wawal uffir
-      flash token bad: Ajiṭun-agi ulac-it, ahat tuccḍa di tansa URL?
-    update:
       flash changed: Awal-ik uffir ibeddel.
+      flash token bad: Ajiṭun-agi ulac-it, ahat tuccḍa di tansa URL?
   profiles:
     edit:
       image: 'Tugna:'
@@ -928,33 +1000,52 @@ kab:
       update home location on click: Snifel adig n uxxam-ik ticki siteɣ ɣef tkarḍa?
   sessions:
     new:
-      tab_title: Qqen
+      title: Qqen
+      heading: Qqen
       email or username: 'Tansa imayl neɣ isem n useqdac:'
       password: 'Awal uffir:'
+      openid_html: '%{logo} OpenID:'
       remember: Cfu fell-i
       lost password link: Tweddreḍ awal-ik uffir?
       login_button: Qqen
+      register now: Jerred tura
+      new to osm: D amaynut ar OpenHistoricalMap?
+      no account: Ur tesɛiḍ ara amiḍan?
+      openid_logo_alt: Qqen s OpenID
+      auth_providers:
+        openid:
+          title: Qqen s OpenID
+          alt: Qqen s tensa URL OpenID
+        google:
+          title: Qqen s Google
+          alt: Qqen s Google OpenID
+        facebook:
+          title: Qqen s Facebook
+          alt: Qqen s umidan Facebook
+        github:
+          title: Qqen s GitHub
+          alt: Qqen s umiḍan GitHub
+        wikipedia:
+          title: Qqen s Wikipedia
+          alt: qqes s umiḍan Wikipedia
+        wordpress:
+          title: Qqen s Wordpress
+          alt: Qqen s OpenID
+        aol:
+          title: Qqen s AOL
+          alt: Qqen s AOL OpenID
     destroy:
       title: Tuffɣa
-      heading: Tuffɣa si OpenStreetMap
+      heading: Tuffɣa si OpenHistoricalMap
       logout_button: Tuffɣa
-  shared:
-    pagination:
-      diary_comments:
-        older: Iwenniten iqbuṛen
-        newer: Iwenniten ineggura
-      diary_entries:
-        older: Inekcam iqbuṛen
-        newer: Inekcam ineggura
-      traces:
-        newer: Lɣerrat timaynutin
   site:
     about:
+      next: Ar zdat
+      heading_html: <span>&copy;</span>imttekkiyen<br /> n OpenHistoricalMap
       open_data_title: Isefka ilelliyen
       legal_title: Asaḍuf
       partners_title: Imendiden
     copyright:
-      title: Izerfan n umeskar d turagt
       foreign:
         title: Ɣef tsuqilt-agi
         html: Ma llant tilla gar usebter-agi yettwasiqlen d %{english_original_link},Lqem
@@ -965,37 +1056,66 @@ kab:
         native_link: Tasuqilt s teqbaylit
         mapping_link: Bdu attekki
       legal_babble:
-        credit_title_html: Amek ara ternuḍ asmad i OpenStreetMap
+        title_html: Izerfan n umeskar d turagt
+        intro_1_html: |-
+          OpenHistoricalMap d tagrumma n <i>isefka yeldin</i>, yellan ddaw n turagt <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL).
+        credit_title_html: Amek ara ternuḍ asmad i OpenHistoricalMap
         attribution_example:
-          alt: Amedɣa ɣef wamek ara tettekkiḍ di OpenStreetMap s usebter web
+          alt: Amedɣa ɣef wamek ara tettekkiḍ di OpenHistoricalMap s usebter web
           title: Amedya n uttekki
         more_title_html: Akken ad tafeḍ ugar n telɣut
         contributors_title_html: Iwiziwen-nneɣ
+    index:
+      permalink: Aseɣwen yezgan
+      shortlink: Aseɣwen awezlan
+      createnote: Rnu tazmilt
     edit:
       user_page_link: asebter n useqdac
     export:
       title: Sifeḍ
+      area_to_export: Tamnaḍt n usifeḍ
       manually_select: Fren s ufus tamnadt-nniḍen
+      format_to_export: Amasal n usifeḍ
+      osm_xml_data: Isefka XML OpenHistoricalMap
+      map_image: Tugna n tkarḍa (ad tesken akalku n tegnut)
+      embeddable_html: HTML yettwaslaɣen
       licence: Turagt
+      licence_details_html: Isefka n OpenHistoricalMap ffɣen-d ddaw n <a href="http://opendatacommons.org/licenses/odbl/1.0/">Turaft
+        Open Data Commons Open Database</a> (ODbL).
       too_large:
         advice: 'Ma yella asifed ddaw-a yeɣli, seqdec ma ulac aɣilif tiɣbula yettwabedren
           ddaw-a:'
-        body: Tamnadt-agi hrawet aṭas akken ad tettwasifeḍ ar umasal OpenStreetMap
+        body: Tamnadt-agi hrawet aṭas akken ad tettwasifeḍ ar umasal OpenHistoricalMap
           XML Senɣes ma ulac aɣilif temɣer neɣ fren tamnaḍt meẓẓiyen, neɣ seqdec yiwen
           seg iɣbula-agi i usider n isefka s uqettun.
         planet:
           title: Amtiweg OSM
-          description: Ad yenɣel si sya ar da lqem n taffa n isefka yemmden n OpenStreetMap
+          description: Ad yenɣel si sya ar da lqem n taffa n isefka yemmden n OpenHistoricalMap
         overpass:
           title: API Overpass
-          description: Sider akatar-agi amagbar seg temrayt n taffa n isefka OpenStreetMap
+          description: Sider akatar-agi amagbar seg temrayt n taffa n isefka OpenHistoricalMap
         geofabrik:
           title: Isidar Geofabrik
           description: Ad d-yessuffeɣ si sya ar da ileqman n imeẓawen, timura akked
             timdinin yettwafernen
+        metro:
+          title: Asuffeɣ n umiṭru
+          description: Asuffeɣ n temdinin tigejdanin n umadal akked lquṛub-nsent
         other:
           title: Iɣbula-nniḍen
-          description: Ibula-nniḍen yettwabedren deug uwiki OpenStreetMap
+          description: Ibula-nniḍen yettwabedren deug uwiki OpenHistoricalMap
+      options: Iɣewwaṛen
+      format: Amasal
+      scale: Sellum
+      max: afellay
+      image_size: Teɣzi n tugna
+      zoom: Semɣeṛ
+      add_marker: Rnu taṛekkizt ɣef tkarḍa
+      latitude: 'Tarrut:'
+      longitude: 'Tazegrart:'
+      output: Tuffɣa
+      paste_html: Senteḍ tangalt HTML deg usmel Web
       export_button: Sifeḍ
     fixthemap:
       how_to_help:
@@ -1006,30 +1126,30 @@ kab:
         title: Uguren-nniḍen
     help:
       title: Awi tallelt
-      introduction: OpenStreetMap tsumur ddeqs n tiɣbula ara t-issineḍ ad tesxedmeḍ
+      introduction: OpenHistoricalMap tsumur ddeqs n tiɣbula ara t-issineḍ ad tesxedmeḍ
         deg usenfaṛ, akken ad testeqsiḍ neɣ ad t-muddeḍ tiririt, udiɣ ad tmeslayeḍ
         neɣ ad teɣreḍ tasemlit ɣef isental n tira n tkarḍiwin d iseqdacen nniḍen.
       welcome:
         url: /welcome
         title: Anɣuf ar OSM
-        description: Bdu s uminir-agi arurad yettmeslayen ɣef udasil n OpenStreetMap.
-      beginners_guide:
-        title: Amnir n ulemad
-        description: Aminir i yinelmaden imaynuten i t-xeddem tmezdagnut.
-      mailing_lists:
-        title: Tabraṭṭ n tnezwit
-      irc:
-        title: IRC
-      switch2osm:
+        description: Bdu s uminir-agi arurad yettmeslayen ɣef udasil n OpenHistoricalMap.
+      discord:
         title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: wiki.openstreetmap.org
     any_questions:
       title: Asteqsi?
+      paragraph_1_html: |-
+        OpenHistoricalMap tsumur ddeqs n tiɣbula ara t-issineḍ ad tesxedmeḍ deg usenfaṛ, akken ad testeqsiḍ neɣ ad t-muddeḍ tiririt, udiɣ ad tmeslayeḍ neɣ ad teɣreḍ tasemlit ɣef isental n tira n tkarḍiwin d iseqdacen nniḍen.
+        <a href='%{help_url}'>Wali afus dagi</a>.
     sidebar:
       search_results: Igmad n unadi
+      close: Mdel
     search:
       search: Nadi
+      get_directions: Awi iwellihen
       from: Seg
       to: I
       where_am_i: Anida yella waya?
@@ -1038,9 +1158,11 @@ kab:
       table:
         entry:
           forest: Tiẓgi
-          lake: Amdun
-          school: Aɣerbaz
-          university: Tasdawit
+          lake:
+          - Amdun
+          school:
+          - Aɣerbaz
+          - Tasdawit
     welcome:
       title: Anṣuf!
       whats_on_the_map:
@@ -1052,6 +1174,8 @@ kab:
       help: Tallelt
     edit:
       title: Ẓreg lǧeṛṛa %{name}
+    trace_optionals:
+      tags: Ticraḍ
     show:
       pending: YETTRAǦU
       filename: 'Isem n ufaylu :'
@@ -1067,6 +1191,9 @@ kab:
       edit_trace: Ẓreg lǧerra-agi
       delete_trace: Kkes lǧerra-agi
       trace_not_found: Ulac lǧeṛṛa!
+    trace_paging_nav:
+      showing_page: Asebter %{page}
+      newer: Lɣerrat timaynutin
     trace:
       pending: YETTRAǦU
       count_points: '%{count} n tneqqiḍin'
@@ -1076,6 +1203,8 @@ kab:
       edit_map: Ẓreg takarḍa
       public: AZAYEZ
       private: USLIG
+      by: sɣuṛ
+      in: di
     index:
       public_traces: Lǧerrat GPS tizuyaz
       public_traces_from: Lǧerrat tizuyaz tizuyza n %{user}
@@ -1084,13 +1213,15 @@ kab:
       upload_trace: Azen lǧerra
     destroy:
       scheduled_for_deletion: Tafuɣalt yettwaheggan i tukksa
+    make_public:
+      made_public: Lǧerra GPS yuɣalen d tazayezt
     offline_warning:
       message: Anagraw n tuzna n ifuyla GPX ulac-it tura
     offline:
       heading: Asekles GPX n war tuqqna
       message: Anagraw n usekles d tuzna n ifuyla GPX ulac-it tura.
     georss:
-      title: Lǧerrat GPS n OpenStreetMap
+      title: Lǧerrat GPS n OpenHistoricalMap
     description:
       description_with_count:
         one: Afaylu GPX s %{count} n tneqqiḍt n %{user}
@@ -1101,39 +1232,69 @@ kab:
       cookies_needed: Yettban d akken inagan n tuqqna nsan ɣef iminig-ik. Rmed-iten
         send ad tkemmleḍ.
     setup_user_auth:
-      blocked_zero_hour: Ɣur-k izen utrib ɣef usmel Web OpenStreetMap. Yessef ad t-ɣreḍ-t
-        send ad tizmireḍ ad teskelseḍ asnifel-ik.
+      blocked_zero_hour: Ɣur-k izen utrib ɣef usmel Web OpenHistoricalMap. Yessef
+        ad t-ɣreḍ-t send ad tizmireḍ ad teskelseḍ asnifel-ik.
       blocked: Anekcum-ik API yewḥel. Qqen ar ugrudem Web i ugar n isallen.
-    auth_providers:
-      openid:
-        title: Qqen s OpenID
-        alt: Qqen s tensa URL OpenID
-      google:
-        title: Qqen s Google
-        alt: Qqen s Google OpenID
-      facebook:
-        title: Qqen s Facebook
-        alt: Qqen s umidan Facebook
-      microsoft:
-        title: Qqen s Windows Live
-        alt: Qqen s umiḍan Windows Live
-      github:
-        title: Qqen s GitHub
-        alt: Qqen s umiḍan GitHub
-      wikipedia:
-        title: Qqen s Wikipedia
-        alt: qqes s umiḍan Wikipedia
   oauth:
+    authorize:
+      title: Sireg anekcum ar umiḍan-ik
+      allow_to: 'Sireg asnas amsaɣ i:'
+      allow_read_prefs: ɣeṛ ismenyifen-ik n useqdac.
+      allow_write_prefs: Ẓreg ismenyifen-ik n useqdac.
+      allow_write_diary: rnu inekcam deg uɣmis, iwenniten akked imdukkal.
+      allow_write_api: snifel takarḍa
+      allow_read_gpx: ɣeṛ lǧerrat-ik GPS usligen.
+      allow_write_gpx: azen lǧerrat GPS
+      allow_write_notes: snifel tizmilin.
+      grant_access: Mudd tasiregt
+    authorize_success:
+      title: Asuter n tsiregt tettwaqbel
+      allowed_html: Yessefk ad tmuddeḍ tasiregt ar umiḍan-ik i usnas %{app_name}.
+      verification: Asenqed n tengalt d %{code}.
+    authorize_failure:
+      title: Asuter n tsiregt ur yeddi ara
+      denied: Tugwiḍ tasiregt n unekcu ar umiḍan-ik i usnas %{app_name}.
+      invalid: Ajiṭun n tsiregt mačči d ameɣtu.
+    revoke:
+      flash: Teḥwiḍ ajiṭun i %{application}
     permissions:
       missing: Ur teǧǧiḍ ara asnas akken ad yeqqen ar usebdded-agi
+  oauth_clients:
+    new:
+      title: Sekles asnas amaynut
+    edit:
+      title: Ẓreg asnas-ik
+    show:
+      title: Talqayt OAuth i %{app_name}
+      key: 'Tasarutt n useqdac:'
+      secret: 'Tabadnit n useqdac:'
+      url: 'Tansa n ujiṭun n tuttra:'
+      access_url: 'Tansa n ujiṭun n unelcum:'
+      authorize_url: 'Tansa URL n tsiregt:'
+      support_notice: Nsefrak izmulen HMAC-SHA1 (yelha) akked RSA-SHA1
+      edit: Ẓreg talqayt
+      delete: Kkes amsaɣ
+      confirm: Tebɣiḍ?
+      requests: 'Asuter n tsirag-agi i useqdac:'
+    index:
+      title: Talqayt-iw OAuth
+      my_tokens: Isnasen-iw yettwaskelsen
+      application: Isem n usnas
+      issued_at: Yeffeɣ-d di
+      revoke: Ḥwi!
+      my_apps: Isnasen-iw imsaɣen
+      register_new: Sekles asnas-il
   users:
     new:
       title: Jerred
+      email address: 'Tansa imayl:'
+      confirm email address: 'Sentem tansa n e-mail:'
       continue: Jerred
     terms:
       title: Tiwtilin n iwiziw
       heading: Tiwtilin n iwiziw
       consider_pd_why: d acu-t wa?
+      decline: Agwi
       legale_select: 'Tamurt n tnezduɣt:'
       legale_names:
         france: Fṛansa
@@ -1143,6 +1304,7 @@ kab:
       deleted: yettwakkes
     show:
       my diary: Aɣmis-iw
+      new diary entry: anekcam amaynut n uɣmis
       my edits: Tiẓrigin-iw
       my traces: Lǧerrat-iw
       my notes: Tizmilin-iw
@@ -1161,10 +1323,13 @@ kab:
       add as friend: Rnu amdakkel
       ct status: 'Tiwtilin n iwiziw:'
       ct declined: Yettwagi
+      latest edit: 'Asnifel aneggaru %{ago} :'
       email address: 'Tansa imayl:'
       created from: 'Yettwarna seg:'
       status: 'Addad:'
       spam score: 'Amatar n uspam:'
+      description: Aglam
+      user location: Adig n useqdac
       role:
         administrator: Aseqdac-agi d anedbal
         grant:
@@ -1176,28 +1341,38 @@ kab:
       comments: Iwenniten
       create_block: Sewḥel aseqdac-agi
       activate_user: Rmed aseqdac-agi
+      deactivate_user: Sens aseqdacèagi
       confirm_user: Sentem aseqdac-agi
       hide_user: Ffer aseqdac-agi
       unhide_user: Sken aseqdac-agi
       delete_user: Kkes aseqdac-agi
       confirm: Sentem
+    set_home:
+      flash success: Adig n uxxam yettwasekles akken iwata
     index:
       title: Iseqdacen
       heading: Iseqdacen
+      showing:
+        one: Asebter %{page} (%{first_item} ɣef %{items})
+        other: Asebter %{page} (%{first_item}-%{last_item} ɣef %{items})
       summary_html: '%{name} yettwarna si %{ip_address} di %{date}'
       summary_no_ip_html: '%{name} yettwarna di  %{date}'
-      empty: Ulac aseqdac d-yefɣen deg unadi
-    page:
       confirm: Sentem iseqdacen yettwafernen
       hide: Ffer iseqdacen yettwafernen
+      empty: Ulac aseqdac d-yefɣen deg unadi
     suspended:
       title: Amiḍan yettwaseḥbes
       heading: Amiḍan yettwaseḥbes
     auth_failure:
       no_authorization_code: Ulac tangalt n wurag
     auth_association:
-      option_1: Ma yella d amaynut i d-tusiḍ ɣer OpenStreetMap, ttxil-ek(m) seɣnew
+      option_1: Ma yella d amaynut i d-tusiḍ ɣer OpenHistoricalMap, ttxil-ek(m) seɣnew
         amiḍan amaynut s tallalt n tferkit adda-ya.
+  user_role:
+    grant:
+      confirm: Sentem
+    revoke:
+      confirm: Sentem
   user_blocks:
     helper:
       time_future_html: Ad ifak di %{time}.
@@ -1215,17 +1390,26 @@ kab:
       heading_html: '%{block_on} isewḥel-it %{block_by}'
       created: Yettwarna
       status: Addad
+      show: Sken
       edit: Ẓreg
+      revoke: Ḥwi!
+      confirm: Tebɣiḍ?
       reason: 'Taɣzint n  usewḥel:'
+      back: Sken akk isewḥal
+      needs_view: Aseqdac-agi yesra ad yeqqen send ad yettwakkes u sewḥel.
     block:
       show: Sken
       edit: Ẓreg
-    page:
+      revoke: Ḥwi!
+    blocks:
       display_name: Aseqdac iweḥlen
       creator_name: Amernay
       reason: Taɣzint n  usewḥel
       status: Addad
       revoker_name: Isewḥel-it
+      showing_page: Asebter %{page}
+      next: Ar zdat»
+      previous: « ar deffir
   notes:
     index:
       heading: Tizmilin n %{user}
@@ -1234,23 +1418,6 @@ kab:
       description: Aglam
       created_at: Yettwarna di
       last_changed: Asnifel aneggaru
-    show:
-      title: 'Tazmilt: %{id}'
-      description: Aglam
-      open_title: 'Tazmilt ur yefrin ara  #%{note_name}'
-      closed_title: 'Tazmilt ur yefrin ara #%{note_name}'
-      hidden_title: 'Tazmilt yeffren #%{note_name}'
-      report: Sillef tazmilt agi
-      hide: Ffer
-      resolve: Fru
-      reactivate: Rmed
-      comment_and_resolve: Rnu awennit & Fru
-      comment: Awennit
-    new:
-      title: Tazmilt tamaynut
-      add: Rnu tazmilt
-    notes_paging_nav:
-      showing_page: Asebter %{page}
   javascripts:
     close: Mdel
     share:
@@ -1274,6 +1441,22 @@ kab:
       edit_tooltip: Ẓreg takarḍa
       createnote_tooltip: Rnu tazmilt ar tkarḍa
       queryfeature_tooltip: isitar ɣef tmahilin
+    changesets:
+      show:
+        comment: Awennit
+        subscribe: Jerred
+        unsubscribe: Ffeɣ seg ujerred
+        hide_comment: ffer
+        unhide_comment: sken
+    notes:
+      new:
+        add: Rnu tazmilt
+      show:
+        hide: Ffer
+        resolve: Fru
+        reactivate: Rmed
+        comment_and_resolve: Rnu awennit & Fru
+        comment: Awennit
     directions:
       engines:
         fossgis_osrm_car: S tkeṛṛust (OSRM)
