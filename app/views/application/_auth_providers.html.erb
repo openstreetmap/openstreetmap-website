@@ -1,4 +1,4 @@
-<% prefered_auth_button_available = @preferred_auth_provider != "openid" && Auth.providers.value?(@preferred_auth_provider) %>
+<% prefered_auth_button_available = @preferred_auth_provider != "openid" && Auth.providers.include?(@preferred_auth_provider) %>
 
 <div>
   <%= tag.div :id => "login_auth_buttons",
@@ -11,7 +11,7 @@
     <% end %>
 
     <div class="col justify-content-center d-flex align-items-center flex-wrap gap-2">
-      <% Auth.providers.each_value do |provider| %>
+      <% Auth.providers.each do |provider| %>
         <% if provider == "openid" %>
           <%= button_tag image_tag("auth_providers/openid.svg",
                                    :alt => t(".openid.alt"),
