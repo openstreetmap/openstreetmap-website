@@ -14,6 +14,22 @@ class UserBlocksHelperTest < ActionView::TestCase
     assert_match %r{^Ends in <time title=".* datetime=".*">about 1 hour</time>\.$}, block_status(block)
   end
 
+  def test_block_short_status
+    freeze_time do
+      future_end_block = create(:user_block, :ends_at => Time.now.utc + 48.hours)
+      unread_future_end_block = create(:user_block, :needs_view, :ends_at => Time.now.utc + 48.hours)
+      past_end_block = create(:user_block, :ends_at => Time.now.utc + 1.hour)
+      unread_past_end_block = create(:user_block, :needs_view, :ends_at => Time.now.utc + 1.hour)
+
+      travel 24.hours
+
+      assert_equal "active", block_short_status(future_end_block)
+      assert_equal "active", block_short_status(unread_future_end_block)
+      assert_equal "ended", block_short_status(past_end_block)
+      assert_equal "active until read", block_short_status(unread_past_end_block)
+    end
+  end
+
   def test_block_duration_in_words
     words = block_duration_in_words(364.days)
     assert_equal "11 months", words

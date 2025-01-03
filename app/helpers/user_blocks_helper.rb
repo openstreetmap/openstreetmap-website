@@ -27,14 +27,10 @@ module UserBlocksHelper
 
   def block_short_status(block)
     if block.active?
-      if block.needs_view?
-        if block.ends_at > Time.now.utc
-          t("user_blocks.helper.short.active_unread")
-        else
-          t("user_blocks.helper.short.expired_unread")
-        end
-      else
+      if block.ends_at > Time.now.utc
         t("user_blocks.helper.short.active")
+      else
+        t("user_blocks.helper.short.active_until_read")
       end
     else
       if block.revoker_id.nil?
