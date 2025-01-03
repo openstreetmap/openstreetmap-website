@@ -1,4 +1,4 @@
-module Account
+module Accounts
   class DeletionsController < ApplicationController
     layout "site"
 
