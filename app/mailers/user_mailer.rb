@@ -78,7 +78,7 @@ class UserMailer < ApplicationMailer
       @text = message.body
       @title = message.title
       @readurl = message_url(message)
-      @replyurl = message_reply_url(message)
+      @replyurl = new_message_reply_url(message)
       @author = @from_user
 
       attach_user_avatar(message.sender)

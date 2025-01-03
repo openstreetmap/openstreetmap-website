@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
 
   before_action :lookup_user, :only => [:new, :create]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :create, :reply, :mark, :destroy]
+  before_action :check_database_writable, :only => [:new, :create, :mark, :destroy]
 
   allow_thirdparty_images :only => [:new, :create, :show]
 
@@ -67,41 +67,6 @@ class MessagesController < ApplicationController
       referer = safe_referer(params[:referer]) if params[:referer]
 
       redirect_to referer || messages_inbox_path, :status => :see_other
-    end
-  rescue ActiveRecord::RecordNotFound
-    @title = t "messages.no_such_message.title"
-    render :action => "no_such_message", :status => :not_found
-  end
-
-  # Allow the user to reply to another message.
-  def reply
-    message = Message.find(params[:message_id])
-
-    if message.recipient == current_user
-      message.update(:message_read => true)
-
-      @message = Message.new(
-        :recipient => message.sender,
-        :title => "Re: #{message.title.sub(/^Re:\s*/, '')}",
-        :body => "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
-      )
-
-      @title = @message.title
-
-      render :action => "new"
-    elsif message.sender == current_user
-      @message = Message.new(
-        :recipient => message.recipient,
-        :title => "Re: #{message.title.sub(/^Re:\s*/, '')}",
-        :body => "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
-      )
-
-      @title = @message.title
-
-      render :action => "new"
-    else
-      flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to login_path(:referer => request.fullpath)
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
