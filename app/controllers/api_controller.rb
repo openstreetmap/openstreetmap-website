@@ -100,13 +100,15 @@ class ApiController < ApplicationController
     # have we identified the user?
     if current_user
       # check if the user has been banned
-      user_block = current_user.blocks.active.take
-      unless user_block.nil?
-        set_locale
-        if user_block.zero_hour?
-          report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
-        else
-          report_error t("application.setup_user_auth.blocked"), :forbidden
+      if flash.now[:skip_blocks].nil?
+        user_block = current_user.blocks.active.take
+        unless user_block.nil?
+          set_locale
+          if user_block.zero_hour?
+            report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
+          else
+            report_error t("application.setup_user_auth.blocked"), :forbidden
+          end
         end
       end
 

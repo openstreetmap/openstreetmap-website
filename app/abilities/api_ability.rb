@@ -37,10 +37,12 @@ class ApiAbility
         can [:read, :update, :destroy], Message if scope?(token, :consume_messages)
         can :create, Message if scope?(token, :send_messages)
 
-        if user.terms_agreed?
-          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scope?(token, :write_api)
-          can :create, ChangesetComment if scope?(token, :write_api)
-          can [:create, :update, :delete], [Node, Way, Relation] if scope?(token, :write_api)
+        can :read, :active_user_blocks_list if scope?(token, :read_prefs)
+
+        if user.terms_agreed? && scope?(token, :write_api)
+          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
+          can :create, ChangesetComment
+          can [:create, :update, :delete], [Node, Way, Relation]
         end
 
         if user.moderator?
