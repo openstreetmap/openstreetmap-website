@@ -163,7 +163,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_redirected_to messages_inbox_path
+    assert_redirected_to messages_outbox_path
     assert_equal "Message sent", flash[:notice]
     e = ActionMailer::Base.deliveries.first
     assert_equal [recipient_user.email], e.to
