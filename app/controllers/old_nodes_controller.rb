@@ -2,7 +2,6 @@ class OldNodesController < OldElementsController
   def index
     @type = "node"
     @feature = Node.preload(:node_tags, :old_nodes => [:old_tags, { :changeset => [:changeset_tags, :user] }]).find(params[:id])
-    render "browse/history"
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end

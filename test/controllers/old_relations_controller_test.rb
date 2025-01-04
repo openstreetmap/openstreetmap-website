@@ -14,7 +14,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
 
   def test_history
     relation = create(:relation, :with_history)
-    sidebar_browse_check :relation_history_path, relation.id, "browse/history"
+    sidebar_browse_check :relation_history_path, relation.id, "old_elements/index"
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :text => "1", :count => 1
     end
@@ -29,7 +29,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
 
     get relation_history_path(:id => relation)
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     # there are 4 revisions of the redacted relation, but only 2
     # should be showing details here.
@@ -48,7 +48,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
 
     get relation_history_path(:id => relation, :params => { :show_redactions => true })
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     assert_select ".browse-section", 4
     assert_select ".browse-section.browse-redacted", 0

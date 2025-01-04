@@ -2,7 +2,6 @@ class OldWaysController < OldElementsController
   def index
     @type = "way"
     @feature = Way.preload(:way_tags, :old_ways => [:old_tags, { :changeset => [:changeset_tags, :user], :old_nodes => { :node => [:node_tags, :ways] } }]).find(params[:id])
-    render "browse/history"
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end
