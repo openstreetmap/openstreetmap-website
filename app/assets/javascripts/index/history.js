@@ -164,6 +164,7 @@ OSM.History = function (map) {
   page.unload = function () {
     map.removeLayer(group);
     map.off("moveend", update);
+    map.off("zoomend", updateBounds);
   };
 
   return page;
