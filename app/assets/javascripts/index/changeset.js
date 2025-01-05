@@ -1,29 +1,26 @@
 OSM.Changeset = function (map) {
   var page = {},
-      content = $("#sidebar_content"),
-      currentChangesetId;
+      content = $("#sidebar_content");
 
-  page.pushstate = page.popstate = function (path, id) {
+  page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
-      page.load(path, id);
+      page.load();
     });
   };
 
-  page.load = function (path, id) {
-    if (id) currentChangesetId = id;
-    initialize();
-    addChangeset(currentChangesetId);
-  };
+  page.load = function () {
+    const changesetData = content.find("[data-changeset]").data("changeset");
+    changesetData.type = "changeset";
 
-  function addChangeset(id) {
-    map.addObject({ type: "changeset", id: parseInt(id, 10) }, function (bounds) {
+    initialize();
+    map.addObject(changesetData, function (bounds) {
       if (!window.location.hash && bounds.isValid()) {
         OSM.router.withoutMoveListener(function () {
           map.fitBounds(bounds);
         });
       }
     });
-  }
+  };
 
   function updateChangeset(method, url, include_data) {
     var data;
