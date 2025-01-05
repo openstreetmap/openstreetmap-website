@@ -147,9 +147,25 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
       ways = L.OSM.getWays(xml, nodes),
       relations = L.OSM.getRelations(xml, nodes, ways);
 
+    var wayNodes = {}
+    for (var i = 0; i < ways.length; i++) {
+      var way = ways[i];
+      for (var j = 0; j < way.nodes.length; j++) {
+        wayNodes[way.nodes[j].id] = true
+      }
+    }
+
+    var relationNodes = {}
+    for (var i = 0; i < relations.length; i++){
+      var relation = relations[i];
+      for (var j = 0; j < relation.members.length; j++) {
+        relationNodes[relation.members[j].id] = true
+      }
+    }
+
     for (var node_id in nodes) {
       var node = nodes[node_id];
-      if (this.interestingNode(node, ways, relations)) {
+      if (this.interestingNode(node, wayNodes, relationNodes)) {
         features.push(node);
       }
     }
@@ -176,23 +192,9 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     return false;
   },
 
-  interestingNode: function (node, ways, relations) {
-    var used = false;
-
-    for (var i = 0; i < ways.length; i++) {
-      if (ways[i].nodes.indexOf(node) >= 0) {
-        used = true;
-        break;
-      }
-    }
-
-    if (!used) {
-      return true;
-    }
-
-    for (var i = 0; i < relations.length; i++) {
-      if (relations[i].members.indexOf(node) >= 0)
-        return true;
+  interestingNode: function (node, wayNodes, relationNodes) {
+    if (!wayNodes[node.id] || relationNodes[node.id]) {
+      return true
     }
 
     for (var key in node.tags) {
@@ -309,7 +311,7 @@ L.Util.extend(L.OSM, {
         else // relation-way and relation-relation membership not implemented
           rel_object.members[j] = null;
       }
-
+      rel_object.members = rel_object.members.filter(i => i !== null && i !== undefined)
       result.push(rel_object);
     }
 
