@@ -53,7 +53,10 @@ class ChangesetsController < ApplicationController
                        changesets.where("false")
                      end
       elsif @params[:bbox]
-        changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
+        bbox_array = @params[:bbox].split(",").map(&:to_f)
+        raise OSM::APIBadUserInput, "The parameter bbox must be of the form min_lon,min_lat,max_lon,max_lat" unless bbox_array.count == 4
+
+        changesets = conditions_bbox(changesets, *bbox_array)
       elsif @params[:friends] && current_user
         changesets = changesets.where(:user => current_user.friends.identifiable)
       elsif @params[:nearby] && current_user
@@ -142,19 +145,26 @@ class ChangesetsController < ApplicationController
   #------------------------------------------------------------
 
   ##
-  # if a bounding box was specified do some sanity checks.
   # restrict changesets to those enclosed by a bounding box
-  def conditions_bbox(changesets, bbox)
-    if bbox
-      bbox.check_boundaries
-      bbox = bbox.to_scaled
+  def conditions_bbox(changesets, min_lon, min_lat, max_lon, max_lat)
+    db_min_lat = (min_lat * GeoRecord::SCALE).to_i
+    db_max_lat = (max_lat * GeoRecord::SCALE).to_i
+    db_min_lon = (wrap_lon(min_lon) * GeoRecord::SCALE).to_i
+    db_max_lon = (wrap_lon(max_lon) * GeoRecord::SCALE).to_i
 
-      changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
-                       bbox.max_lon.to_i, bbox.min_lon.to_i,
-                       bbox.max_lat.to_i, bbox.min_lat.to_i)
-    else
+    changesets = changesets.where("min_lat < ? and max_lat > ?", db_max_lat, db_min_lat)
+
+    if max_lon - min_lon >= 360
       changesets
+    elsif db_min_lon > db_max_lon
+      changesets.where("min_lon < ? or max_lon > ?", db_max_lon, db_min_lon)
+    else
+      changesets.where("min_lon < ? and max_lon > ?", db_max_lon, db_min_lon)
     end
+  end
+
+  def wrap_lon(lon)
+    ((lon + 180) % 360) - 180
   end
 
   ##

@@ -59,7 +59,7 @@ OSM.History = function (map) {
     var data = { list: "1" };
 
     if (window.location.pathname === "/history") {
-      data.bbox = map.getBounds().wrap().toBBoxString();
+      data.bbox = map.getBounds().toBBoxString();
       var feedLink = $("link[type=\"application/atom+xml\"]"),
           feedHref = feedLink.attr("href").split("?")[0];
       feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
