@@ -152,6 +152,30 @@ class HistoryTest < ApplicationSystemTestCase
     end
   end
 
+  test "changesets at both sides of antimeridian are listed" do
+    user = create(:user)
+    PAGE_SIZE.times do
+      create(:changeset, :user => user, :num_changes => 1, :bbox => [176, 0, 178, 1]) do |changeset|
+        create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "West-of-antimeridian-changeset")
+      end
+      create(:changeset, :user => user, :num_changes => 1, :bbox => [-178, 0, -176, 1]) do |changeset|
+        create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "East-of-antimeridian-changeset")
+      end
+    end
+
+    visit history_path(:anchor => "map=6/0/179")
+
+    within_sidebar do
+      assert_link "West-of-antimeridian-changeset", :count => PAGE_SIZE / 2
+      assert_link "East-of-antimeridian-changeset", :count => PAGE_SIZE / 2
+
+      click_on "Older Changesets"
+
+      assert_link "West-of-antimeridian-changeset", :count => PAGE_SIZE
+      assert_link "East-of-antimeridian-changeset", :count => PAGE_SIZE
+    end
+  end
+
   private
 
   def create_visible_changeset(user, comment)
