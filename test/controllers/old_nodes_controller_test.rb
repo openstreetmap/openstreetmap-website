@@ -14,7 +14,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
 
   def test_history
     node = create(:node, :with_history)
-    sidebar_browse_check :node_history_path, node.id, "browse/history"
+    sidebar_browse_check :node_history_path, node.id, "old_elements/index"
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 1}']", :text => "1", :count => 1
     end
@@ -27,7 +27,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
 
     get node_history_path(:id => node)
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     # there are 2 revisions of the redacted node, but only one
     # should be showing details here.
@@ -46,7 +46,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
 
     get node_history_path(:id => node, :params => { :show_redactions => true })
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     assert_select ".browse-section", 2
     assert_select ".browse-section.browse-redacted", 0
