@@ -115,6 +115,110 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Test bbox spanning across the dateline with changesets close to the dateline
+  def test_index_bbox_dateline
+    western_changeset = create(:changeset, :num_changes => 1,
+                                           :min_lat => 0 * GeoRecord::SCALE, :min_lon => 176 * GeoRecord::SCALE,
+                                           :max_lat => 1 * GeoRecord::SCALE, :max_lon => 178 * GeoRecord::SCALE)
+    eastern_changeset = create(:changeset, :num_changes => 1,
+                                           :min_lat => 0 * GeoRecord::SCALE, :min_lon => -178 * GeoRecord::SCALE,
+                                           :max_lat => 1 * GeoRecord::SCALE, :max_lon => -176 * GeoRecord::SCALE)
+
+    get history_path(:format => "html", :list => "1")
+    assert_response :success
+    check_index_result([eastern_changeset, western_changeset])
+
+    # negative longitudes
+    get history_path(:format => "html", :list => "1", :bbox => "-190,-10,-170,10")
+    assert_response :success
+    check_index_result([eastern_changeset, western_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-183,-10,-177,10")
+    assert_response :success
+    check_index_result([eastern_changeset, western_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-181,-10,-177,10")
+    assert_response :success
+    check_index_result([eastern_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-183,-10,-179,10")
+    assert_response :success
+    check_index_result([western_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-181,-10,-179,10")
+    assert_response :success
+    check_index_result([])
+
+    # positive longitudes
+    get history_path(:format => "html", :list => "1", :bbox => "170,-10,190,10")
+    assert_response :success
+    check_index_result([eastern_changeset, western_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "177,-10,183,10")
+    assert_response :success
+    check_index_result([eastern_changeset, western_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "177,-10,181,10")
+    assert_response :success
+    check_index_result([western_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "179,-10,183,10")
+    assert_response :success
+    check_index_result([eastern_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "179,-10,181,10")
+    assert_response :success
+    check_index_result([])
+  end
+
+  ##
+  # Test bbox spanning across the dateline with changesets around the globe
+  def test_index_bbox_global
+    changeset1 = create(:changeset, :num_changes => 1,
+                                    :min_lat => 40 * GeoRecord::SCALE, :min_lon => -150 * GeoRecord::SCALE,
+                                    :max_lat => 50 * GeoRecord::SCALE, :max_lon => -140 * GeoRecord::SCALE)
+    changeset2 = create(:changeset, :num_changes => 1,
+                                    :min_lat => -30 * GeoRecord::SCALE, :min_lon => -30 * GeoRecord::SCALE,
+                                    :max_lat => -20 * GeoRecord::SCALE, :max_lon => -20 * GeoRecord::SCALE)
+    changeset3 = create(:changeset, :num_changes => 1,
+                                    :min_lat => 60 * GeoRecord::SCALE, :min_lon => 10 * GeoRecord::SCALE,
+                                    :max_lat => 70 * GeoRecord::SCALE, :max_lon => 20 * GeoRecord::SCALE)
+    changeset4 = create(:changeset, :num_changes => 1,
+                                    :min_lat => -60 * GeoRecord::SCALE, :min_lon => 150 * GeoRecord::SCALE,
+                                    :max_lat => -50 * GeoRecord::SCALE, :max_lon => 160 * GeoRecord::SCALE)
+
+    # no bbox, get all changesets
+    get history_path(:format => "html", :list => "1")
+    assert_response :success
+    check_index_result([changeset4, changeset3, changeset2, changeset1])
+
+    # large enough bbox within normal range
+    get history_path(:format => "html", :list => "1", :bbox => "-170,-80,170,80")
+    assert_response :success
+    check_index_result([changeset4, changeset3, changeset2, changeset1])
+
+    # bbox for [1,2] within normal range
+    get history_path(:format => "html", :list => "1", :bbox => "-160,-80,0,80")
+    assert_response :success
+    check_index_result([changeset2, changeset1])
+
+    # bbox for [1,4] containing dateline with negative lon
+    get history_path(:format => "html", :list => "1", :bbox => "-220,-80,-100,80")
+    assert_response :success
+    check_index_result([changeset4, changeset1])
+
+    # bbox for [1,4] containing dateline with positive lon
+    get history_path(:format => "html", :list => "1", :bbox => "100,-80,220,80")
+    assert_response :success
+    check_index_result([changeset4, changeset1])
+
+    # large enough bbox outside normal range
+    get history_path(:format => "html", :list => "1", :bbox => "-220,-80,220,80")
+    assert_response :success
+    check_index_result([changeset4, changeset3, changeset2, changeset1])
+  end
+
+  ##
   # Checks the display of the user changesets listing
   def test_index_user
     user = create(:user)
