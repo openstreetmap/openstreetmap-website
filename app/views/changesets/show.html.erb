@@ -6,7 +6,9 @@
   <p class="fs-6 overflow-x-auto">
     <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
   </p>
-  <p class="details"><%= changeset_details(@changeset) %></p>
+  <%= tag.p :class => "details", :data => { :changeset => changeset_data(@changeset) } do %>
+    <%= changeset_details(@changeset) %>
+  <% end %>
 
   <%= render :partial => "browse/tag_details", :object => @changeset.tags.except("comment") %>
 

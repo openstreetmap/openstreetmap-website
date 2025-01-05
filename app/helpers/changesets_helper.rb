@@ -41,4 +41,20 @@ module ChangesetsHelper
       t "changesets.index.title"
     end
   end
+
+  def changeset_data(changeset)
+    changeset_data = { :id => changeset.id }
+
+    if changeset.bbox_valid?
+      bbox = changeset.bbox.to_unscaled
+      changeset_data[:bbox] = {
+        :minlon => bbox.min_lon,
+        :minlat => bbox.min_lat,
+        :maxlon => bbox.max_lon,
+        :maxlat => bbox.max_lat
+      }
+    end
+
+    changeset_data
+  end
 end

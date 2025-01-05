@@ -267,7 +267,7 @@ L.OSM.Map = L.Map.extend({
 
     this.removeObject();
 
-    if (object.type === "note") {
+    if (object.type === "note" || object.type === "changeset") {
       this._objectLoader = {
         abort: function () {}
       };
@@ -275,18 +275,27 @@ L.OSM.Map = L.Map.extend({
       this._object = object;
       this._objectLayer = L.featureGroup().addTo(this);
 
-      L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
+      if (object.type === "note") {
+        L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
 
-      if (object.icon) {
-        L.marker(object.latLng, {
-          icon: object.icon,
-          opacity: 1,
-          interactive: true
-        }).addTo(this._objectLayer);
+        if (object.icon) {
+          L.marker(object.latLng, {
+            icon: object.icon,
+            opacity: 1,
+            interactive: true
+          }).addTo(this._objectLayer);
+        }
+      } else if (object.type === "changeset") {
+        if (object.bbox) {
+          L.rectangle([
+            [object.bbox.minlat, object.bbox.minlon],
+            [object.bbox.maxlat, object.bbox.maxlon]
+          ], changesetStyle).addTo(this._objectLayer);
+        }
       }
 
       if (callback) callback(this._objectLayer.getBounds());
-    } else { // element or changeset handled by L.OSM.DataLayer
+    } else { // element handled by L.OSM.DataLayer
       var map = this;
       this._objectLoader = $.ajax({
         url: OSM.apiUrl(object),
