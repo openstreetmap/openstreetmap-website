@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   helper_method :oauth_token
 
   def self.allow_thirdparty_images(**options)
-    content_security_policy(options) do |policy|
+    content_security_policy(**options) do |policy|
       policy.img_src("*", :data)
     end
   end

@@ -57,6 +57,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_new_path, :params => { :cookie_test => "true" }
     assert_response :success
 
+    assert_no_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
+
     assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Sign Up/, :count => 1
@@ -297,6 +299,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_path(user)
     assert_response :success
+    assert_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
     assert_select "div.content-heading" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1

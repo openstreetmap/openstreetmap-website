@@ -13,7 +13,7 @@ class DiaryCommentsController < ApplicationController
   before_action :lookup_user, :only => :index
   before_action :check_database_writable, :only => [:create, :hide, :unhide]
 
-  allow_thirdparty_images :only => :index
+  allow_thirdparty_images :only => [:index, :create]
 
   def index
     @title = t ".title", :user => @user.display_name

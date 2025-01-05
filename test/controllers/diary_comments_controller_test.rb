@@ -104,6 +104,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :new
+    assert_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
 
     # Now try again with the right id
     assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
