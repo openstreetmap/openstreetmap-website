@@ -12,13 +12,12 @@ OSM.Changeset = function (map) {
   page.load = function (path, id) {
     if (id) currentChangesetId = id;
     initialize();
-    addChangeset(currentChangesetId, true);
+    addChangeset(currentChangesetId);
   };
 
-  function addChangeset(id, center) {
+  function addChangeset(id) {
     map.addObject({ type: "changeset", id: parseInt(id, 10) }, function (bounds) {
-      if (!window.location.hash && bounds.isValid() &&
-          (center || !map.getBounds().contains(bounds))) {
+      if (!window.location.hash && bounds.isValid()) {
         OSM.router.withoutMoveListener(function () {
           map.fitBounds(bounds);
         });
