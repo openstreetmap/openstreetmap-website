@@ -177,7 +177,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
   def test_not_found
     get old_way_path(0, 0)
     assert_response :not_found
-    assert_template "old_ways/not_found"
+    assert_template "browse/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /way #0 version 0 could not be found/
   end

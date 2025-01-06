@@ -10,6 +10,6 @@ class OldRelationsController < OldElementsController
     @type = "relation"
     @feature = OldRelation.preload(:old_tags, :changeset => [:changeset_tags, :user], :old_members => :member).find([params[:id], params[:version]])
   rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
+    render "browse/not_found", :status => :not_found
   end
 end
