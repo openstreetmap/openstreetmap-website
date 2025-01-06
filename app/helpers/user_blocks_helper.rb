@@ -34,7 +34,7 @@ module UserBlocksHelper
       end
     else
       if block.revoker_id.nil?
-        if block.updated_at > block.ends_at
+        if block.deactivates_at > block.ends_at
           t("user_blocks.helper.short.read_html", :time => block_short_time_in_past(block.updated_at))
         else
           t("user_blocks.helper.short.ended")
