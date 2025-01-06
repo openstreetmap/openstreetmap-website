@@ -30,6 +30,38 @@ class UserBlocksHelperTest < ActionView::TestCase
     end
   end
 
+  def test_block_short_status_with_immediate_update
+    freeze_time do
+      block = UserBlock.new :user => create(:user),
+                            :creator => create(:moderator_user),
+                            :reason => "because",
+                            :created_at => Time.now.utc,
+                            :ends_at => Time.now.utc,
+                            :deactivates_at => Time.now.utc,
+                            :needs_view => false
+
+      travel 1.second
+
+      block.save
+
+      assert_equal "ended", block_short_status(block)
+    end
+  end
+
+  def test_block_short_status_read
+    freeze_time do
+      block = create(:user_block, :needs_view, :ends_at => Time.now.utc)
+
+      travel 24.hours
+
+      assert_equal "active until read", block_short_status(block)
+
+      block.update(:needs_view => false, :deactivates_at => Time.now.utc)
+
+      assert_match "read at", block_short_status(block)
+    end
+  end
+
   def test_block_duration_in_words
     words = block_duration_in_words(364.days)
     assert_equal "11 months", words
