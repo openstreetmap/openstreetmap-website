@@ -10,6 +10,6 @@ class OldNodesController < OldElementsController
     @type = "node"
     @feature = OldNode.preload(:old_tags, :changeset => [:changeset_tags, :user]).find([params[:id], params[:version]])
   rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
+    render "browse/not_found", :status => :not_found
   end
 end

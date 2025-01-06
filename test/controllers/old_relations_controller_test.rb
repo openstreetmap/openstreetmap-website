@@ -172,7 +172,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
   def test_not_found
     get old_relation_path(0, 0)
     assert_response :not_found
-    assert_template "old_relations/not_found"
+    assert_template "browse/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /relation #0 version 0 could not be found/
   end
