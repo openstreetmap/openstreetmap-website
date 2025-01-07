@@ -316,7 +316,7 @@ L.OSM.Map = L.Map.extend({
             if (object.type === "node") {
               return true;
             } else if (object.type === "relation") {
-              if (relationNodes[node.id]) return true;
+              return Boolean(relationNodes[node.id]);
             } else {
               return false;
             }
