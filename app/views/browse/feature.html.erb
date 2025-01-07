@@ -18,7 +18,7 @@
     &middot;
   <% end %>
     <%= link_to t("browse.view_history"), :controller => "old_#{@type.pluralize}" %>
-  <% if current_user&.moderator? %>
+  <% if can? :show_redactions, @feature %>
     &middot;
     <%= link_to(t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true }) %>
   <% end %>

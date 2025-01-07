@@ -3,7 +3,7 @@
   <% if !@feature.redacted? %>
     &middot;
     <%= link_to t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => :show %>
-  <% elsif current_user&.moderator? %>
+  <% elsif can? :show_redactions, @feature %>
     &middot;
     <% if !params[:show_redactions] %>
       <%= link_to t(".view_redacted_data"), :params => { :show_redactions => true } %>
