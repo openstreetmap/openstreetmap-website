@@ -10,7 +10,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/user/new", :method => :post },
+      { :path => "/user", :method => :post },
       { :controller => "users", :action => "create" }
     )
 
@@ -50,11 +50,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   # The user creation page loads
-  def test_new_view
-    get user_new_path
-    assert_redirected_to user_new_path(:cookie_test => "true")
+  def test_new
+    get new_user_path
+    assert_redirected_to new_user_path(:cookie_test => "true")
 
-    get user_new_path, :params => { :cookie_test => "true" }
+    get new_user_path, :params => { :cookie_test => "true" }
     assert_response :success
 
     assert_no_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
@@ -65,7 +65,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "form[action='/user/new'][method='post']", :count => 1 do
+          assert_select "form[action='/user'][method='post']", :count => 1 do
             assert_select "input[id='user_email']", :count => 1
             assert_select "input[id='user_display_name']", :count => 1
             assert_select "input[id='user_pass_crypt'][type='password']", :count => 1
@@ -77,23 +77,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_new_view_logged_in
+  def test_new_logged_in
     session_for(create(:user))
 
-    get user_new_path
+    get new_user_path
     assert_redirected_to root_path
 
-    get user_new_path, :params => { :referer => "/test" }
+    get new_user_path, :params => { :referer => "/test" }
     assert_redirected_to "/test"
   end
 
-  def test_new_success
+  def test_create_success
     user = build(:user, :pending)
 
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -110,14 +110,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-  def test_new_duplicate_email
+  def test_create_duplicate_email
     user = build(:user, :pending)
     create(:user, :email => user.email)
 
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -127,14 +127,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_email"
   end
 
-  def test_new_duplicate_email_uppercase
+  def test_create_duplicate_email_uppercase
     user = build(:user, :pending)
     create(:user, :email => user.email.upcase)
 
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -144,14 +144,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_email"
   end
 
-  def test_new_duplicate_name
+  def test_create_duplicate_name
     user = build(:user, :pending)
     create(:user, :display_name => user.display_name)
 
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -161,14 +161,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_display_name"
   end
 
-  def test_new_duplicate_name_uppercase
+  def test_create_duplicate_name_uppercase
     user = build(:user, :pending)
     create(:user, :display_name => user.display_name.upcase)
 
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -178,7 +178,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_display_name"
   end
 
-  def test_new_blocked_domain
+  def test_create_blocked_domain
     user = build(:user, :pending, :email => "user@example.net")
 
     # Now block that domain
@@ -188,7 +188,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -197,12 +197,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_template "blocked"
   end
 
-  def test_save_referer_params
+  def test_create_referer_params
     user = build(:user, :pending)
 
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post user_new_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
+        post users_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
         assert_enqueued_with :job => ActionMailer::MailDeliveryJob,
                              :args => proc { |args| args[3][:args][2] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
         perform_enqueued_jobs

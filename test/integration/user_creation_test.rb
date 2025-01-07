@@ -30,7 +30,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
@@ -51,7 +51,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
@@ -74,7 +74,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => email,
                                        :display_name => dup_display_name,
                                        :pass_crypt => "testtest",
@@ -93,7 +93,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
@@ -113,7 +113,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => email,
                                        :display_name => dup_display_name,
                                        :auth_provider => "google",
@@ -134,7 +134,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 1) do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
@@ -188,7 +188,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => password,
@@ -250,7 +250,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => new_email,
                                :auth_provider => "openid", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
@@ -326,7 +326,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => new_email,
                                :auth_provider => "openid", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
@@ -388,7 +388,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "google", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
@@ -474,7 +474,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "google", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
@@ -537,7 +537,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "facebook", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
@@ -623,7 +623,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "facebook", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
@@ -685,7 +685,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "microsoft", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
@@ -770,7 +770,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "microsoft", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
@@ -834,7 +834,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "github", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
@@ -921,7 +921,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "github", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
@@ -984,7 +984,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "wikipedia", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
@@ -1071,7 +1071,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "wikipedia", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
