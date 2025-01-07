@@ -58,7 +58,16 @@ class UserBlocksHelperTest < ActionView::TestCase
 
       block.update(:needs_view => false, :deactivates_at => Time.now.utc)
 
-      assert_match "read at", block_short_status(block)
+      read_date = Time.now.utc.to_date.strftime
+      short_status_dom = Rails::Dom::Testing.html_document.parse(block_short_status(block))
+      assert_dom short_status_dom, ":root", :text => "read at #{read_date}"
+
+      travel 24.hours
+
+      block.update(:reason => "updated reason")
+
+      short_status_dom = Rails::Dom::Testing.html_document.parse(block_short_status(block))
+      assert_dom short_status_dom, ":root", :text => "read at #{read_date}"
     end
   end
 
