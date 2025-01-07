@@ -312,13 +312,11 @@ L.OSM.Map = L.Map.extend({
             }
           });
 
-          map._objectLayer.interestingNode = function (node, ways, relations) {
+          map._objectLayer.interestingNode = function (node, wayNodes, relationNodes) {
             if (object.type === "node") {
               return true;
             } else if (object.type === "relation") {
-              for (var i = 0; i < relations.length; i++) {
-                if (relations[i].members.indexOf(node) !== -1) return true;
-              }
+              if (relationNodes[node.id]) return true;
             } else {
               return false;
             }
