@@ -269,7 +269,7 @@ L.OSM.share = function (options) {
 
     marker.on("dragend", movedMarker);
     map.on("move", movedMap);
-    map.on("moveend layeradd layerremove", update);
+    map.on("moveend baselayerchange overlayadd overlayremove", update);
 
     $ui
       .on("show", shown)

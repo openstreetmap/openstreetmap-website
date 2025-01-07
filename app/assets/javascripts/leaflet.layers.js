@@ -61,18 +61,16 @@ L.OSM.layers = function (options) {
 
       input.on("click", function () {
         layers.forEach(function (other) {
-          if (other === layer) {
-            map.addLayer(other);
-          } else {
+          if (other !== layer) {
             map.removeLayer(other);
           }
         });
-        map.fire("baselayerchange", { layer: layer });
+        map.addLayer(layer);
       });
 
       item.on("dblclick", toggle);
 
-      map.on("layeradd layerremove", function () {
+      map.on("baselayerchange", function () {
         input.prop("checked", map.hasLayer(layer));
       });
     });
@@ -121,10 +119,9 @@ L.OSM.layers = function (options) {
           } else {
             map.removeLayer(layer);
           }
-          map.fire("overlaylayerchange", { layer: layer });
         });
 
-        map.on("layeradd layerremove", function () {
+        map.on("overlayadd overlayremove", function () {
           input.prop("checked", map.hasLayer(layer));
         });
 

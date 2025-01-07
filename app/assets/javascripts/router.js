@@ -190,7 +190,7 @@ OSM.Router = function (map, rts) {
     currentRoute = routes.recognize(currentPath);
   };
 
-  map.on("moveend baselayerchange overlaylayerchange", router.updateHash);
+  map.on("moveend baselayerchange overlayadd overlayremove", router.updateHash);
   $(window).on("hashchange", router.hashUpdated);
 
   return router;

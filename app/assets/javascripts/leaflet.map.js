@@ -40,6 +40,9 @@ L.OSM.Map = L.Map.extend({
       }
 
       const layer = new layerConstructor(layerOptions);
+      layer.on("add", () => {
+        this.fire("baselayerchange", { layer: layer });
+      });
       this.baseLayers.push(layer);
     }
 
@@ -53,8 +56,14 @@ L.OSM.Map = L.Map.extend({
       pane: "overlayPane",
       code: "G"
     });
+    this.gpsLayer.on("add", () => {
+      this.fire("overlayadd", { layer: this.gpsLayer });
+    }).on("remove", () => {
+      this.fire("overlayremove", { layer: this.gpsLayer });
+    });
 
-    this.on("layeradd", function (event) {
+
+    this.on("baselayerchange", function (event) {
       if (this.baseLayers.indexOf(event.layer) >= 0) {
         this.setMaxZoom(event.layer.options.maxZoom);
       }
@@ -109,14 +118,18 @@ L.OSM.Map = L.Map.extend({
     var layers = layerParam || "M",
         layersAdded = "";
 
-    for (var i = this.baseLayers.length - 1; i >= 0; i--) {
+    for (let i = this.baseLayers.length - 1; i >= 0; i--) {
+      if (layers.indexOf(this.baseLayers[i].options.code) === -1) {
+        this.removeLayer(this.baseLayers[i]);
+      }
+    }
+
+    for (let i = this.baseLayers.length - 1; i >= 0; i--) {
       if (layers.indexOf(this.baseLayers[i].options.code) >= 0) {
         this.addLayer(this.baseLayers[i]);
         layersAdded = layersAdded + this.baseLayers[i].options.code;
       } else if (i === 0 && layersAdded === "") {
         this.addLayer(this.baseLayers[i]);
-      } else {
-        this.removeLayer(this.baseLayers[i]);
       }
     }
   },
@@ -297,6 +310,7 @@ L.OSM.Map = L.Map.extend({
       }
 
       if (callback) callback(this._objectLayer.getBounds());
+      this.fire("overlayadd", { layer: this._objectLayer });
     } else { // element handled by L.OSM.DataLayer
       var map = this;
       this._objectLoader = $.ajax({
@@ -328,6 +342,7 @@ L.OSM.Map = L.Map.extend({
           map._objectLayer.addTo(map);
 
           if (callback) callback(map._objectLayer.getBounds());
+          map.fire("overlayadd", { layer: map._objectLayer });
         }
       });
     }
@@ -337,6 +352,7 @@ L.OSM.Map = L.Map.extend({
     this._object = null;
     if (this._objectLoader) this._objectLoader.abort();
     if (this._objectLayer) this.removeLayer(this._objectLayer);
+    this.fire("overlayremove", { layer: this._objectLayer });
   },
 
   getState: function () {

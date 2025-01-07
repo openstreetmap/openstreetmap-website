@@ -23,10 +23,12 @@ OSM.initializeNotesLayer = function (map) {
   noteLayer.on("add", () => {
     loadNotes();
     map.on("moveend", loadNotes);
+    map.fire("overlayadd", { layer: noteLayer });
   }).on("remove", () => {
     map.off("moveend", loadNotes);
     noteLayer.clearLayers();
     notes = {};
+    map.fire("overlayremove", { layer: noteLayer });
   }).on("click", function (e) {
     if (e.layer.id) {
       OSM.router.route("/note/" + e.layer.id);

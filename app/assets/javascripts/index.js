@@ -173,7 +173,7 @@ $(document).ready(function () {
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  map.on("moveend layeradd layerremove", function () {
+  map.on("moveend baselayerchange overlayadd overlayremove", function () {
     updateLinks(
       map.getCenter().wrap(),
       map.getZoom(),
@@ -205,7 +205,7 @@ $(document).ready(function () {
   });
 
   if (OSM.MATOMO) {
-    map.on("layeradd", function (e) {
+    map.on("baselayerchange overlayadd", function (e) {
       if (e.layer.options) {
         var goal = OSM.MATOMO.goals[e.layer.options.layerId];
 
