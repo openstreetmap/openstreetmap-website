@@ -12,7 +12,7 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
 
   def test_show
     node = create(:node)
-    sidebar_browse_check :node_path, node.id, "browse/feature"
+    sidebar_browse_check :node_path, node.id, "elements/show"
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 1}']", :text => "1", :count => 1
     end
@@ -23,7 +23,7 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
 
   def test_show_multiple_versions
     node = create(:node, :with_history, :version => 2)
-    sidebar_browse_check :node_path, node.id, "browse/feature"
+    sidebar_browse_check :node_path, node.id, "elements/show"
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 2}']", :count => 1
@@ -33,13 +33,13 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
     member = create(:node)
     relation = create(:relation)
     create(:relation_member, :relation => relation, :member => member)
-    sidebar_browse_check :node_path, member.id, "browse/feature"
+    sidebar_browse_check :node_path, member.id, "elements/show"
     assert_select "a[href='#{relation_path relation}']", :count => 1
   end
 
   def test_show_deleted
     node = create(:node, :visible => false)
-    sidebar_browse_check :node_path, node.id, "browse/feature"
+    sidebar_browse_check :node_path, node.id, "elements/show"
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 1}']", :text => "1", :count => 1
     end
@@ -53,7 +53,7 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
 
     get node_path(node)
     assert_response :success
-    assert_template "feature"
+    assert_template "elements/show"
 
     # check that we don't show lat/lon for a redacted node.
     assert_select ".browse-section", 1
