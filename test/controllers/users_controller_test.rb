@@ -15,16 +15,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/user/terms", :method => :get },
-      { :controller => "users", :action => "terms" }
-    )
-
-    assert_routing(
-      { :path => "/user/save", :method => :post },
-      { :controller => "users", :action => "save" }
-    )
-
-    assert_routing(
       { :path => "/user/go_public", :method => :post },
       { :controller => "users", :action => "go_public" }
     )
@@ -210,71 +200,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  def test_terms_agreed
-    user = create(:user, :terms_seen => true, :terms_agreed => Date.yesterday)
-
-    session_for(user)
-
-    get user_terms_path
-    assert_redirected_to edit_account_path
-  end
-
-  def test_terms_not_seen_without_referer
-    user = create(:user, :terms_seen => false, :terms_agreed => nil)
-
-    session_for(user)
-
-    get user_terms_path
-    assert_response :success
-    assert_template :terms
-
-    post user_save_path, :params => { :user => { :consider_pd => true }, :read_ct => 1, :read_tou => 1 }
-    assert_redirected_to edit_account_path
-    assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
-
-    user.reload
-
-    assert user.consider_pd
-    assert_not_nil user.terms_agreed
-    assert user.terms_seen
-  end
-
-  def test_terms_not_seen_with_referer
-    user = create(:user, :terms_seen => false, :terms_agreed => nil)
-
-    session_for(user)
-
-    get user_terms_path, :params => { :referer => "/test" }
-    assert_response :success
-    assert_template :terms
-
-    post user_save_path, :params => { :user => { :consider_pd => true }, :referer => "/test", :read_ct => 1, :read_tou => 1 }
-    assert_redirected_to "/test"
-    assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
-
-    user.reload
-
-    assert user.consider_pd
-    assert_not_nil user.terms_agreed
-    assert user.terms_seen
-  end
-
-  # Check that if you haven't seen the terms, and make a request that requires authentication,
-  # that your request is redirected to view the terms
-  def test_terms_not_seen_redirection
-    user = create(:user, :terms_seen => false, :terms_agreed => nil)
-    session_for(user)
-
-    get edit_account_path
-    assert_redirected_to :controller => :users, :action => :terms, :referer => "/account/edit"
-  end
-
-  def test_terms_not_logged_in
-    get user_terms_path
-
-    assert_redirected_to login_path(:referer => "/user/terms")
   end
 
   def test_go_public

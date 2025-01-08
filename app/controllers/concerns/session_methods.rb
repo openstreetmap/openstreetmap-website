@@ -48,7 +48,7 @@ module SessionMethods
     # - If they were referred to the login, send them back there.
     # - Otherwise, send them to the home page.
     if !user.terms_seen
-      redirect_to :controller => :users, :action => :terms, :referer => target
+      redirect_to account_terms_path(:referer => target)
     elsif user.blocked_on_view
       redirect_to user.blocked_on_view, :referer => target
     else

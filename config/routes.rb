@@ -182,8 +182,6 @@ OpenStreetMap::Application.routes.draw do
   get "/key" => "site#key"
   get "/id" => "site#id"
   get "/query" => "browse#query"
-  get "/user/terms" => "users#terms"
-  post "/user/save" => "users#save"
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
   match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
@@ -267,6 +265,7 @@ OpenStreetMap::Application.routes.draw do
   post "/diary_comments/:comment/unhide" => "diary_comments#unhide", :comment => /\d+/, :as => :unhide_diary_comment
 
   # user pages
+  get "/user/terms", :to => redirect(:path => "/account/terms")
   resources :users, :path => "user", :param => :display_name, :only => [:new, :create, :show, :destroy] do
     resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
     scope :module => :users do
@@ -278,7 +277,10 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
   resource :account, :only => [:edit, :update, :destroy] do
-    resource :deletion, :module => :accounts, :only => :show
+    scope :module => :accounts do
+      resource :terms, :only => [:show, :update]
+      resource :deletion, :only => :show
+    end
   end
 
   resource :dashboard, :only => [:show]

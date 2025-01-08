@@ -37,7 +37,8 @@ module ApplicationHelper
     if content_for? :body_class
       content_for :body_class
     else
-      "#{params[:controller]} #{params[:controller]}-#{params[:action]}"
+      controller_part = params[:controller].tr("/", "-")
+      "#{controller_part} #{controller_part}-#{params[:action]}"
     end
   end
 

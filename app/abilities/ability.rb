@@ -23,7 +23,8 @@ class Ability
       can :read, Redaction
       can [:create, :destroy], :session
       can [:read, :data, :georss], Trace
-      can [:read, :terms, :create, :save, :suspended, :auth_success, :auth_failure], User
+      can [:read, :create, :suspended, :auth_success, :auth_failure], User
+      can [:read, :update], :account_terms
       can :read, UserBlock
     end
 

@@ -56,11 +56,11 @@ class ApplicationController < ActionController::Base
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
       elsif !current_user.terms_seen && flash[:skip_terms].nil?
-        flash[:notice] = t "users.terms.you need to accept or decline"
+        flash[:notice] = t "accounts.terms.show.you need to accept or decline"
         if params[:referer]
-          redirect_to :controller => "users", :action => "terms", :referer => params[:referer]
+          redirect_to account_terms_path(:referer => params[:referer])
         else
-          redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
+          redirect_to account_terms_path(:referer => request.fullpath)
         end
       end
     end
