@@ -20,7 +20,7 @@ development to check that your code matches our guidelines:
 ```
 bundle exec rubocop
 bundle exec rails eslint
-bundle exec erblint .
+bundle exec erb_lint .
 ```
 
 You can also install hooks to have git run checks automatically when
