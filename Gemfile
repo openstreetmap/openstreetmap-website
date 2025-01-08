@@ -55,6 +55,7 @@ gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
 gem "config"
 gem "delayed_job_active_record"
+gem "dry-schema", "< 1.14.0" # see https://github.com/openstreetmap/openstreetmap-website/issues/5482
 gem "dry-validation"
 gem "frozen_record"
 gem "http_accept_language", "~> 2.1.1"
