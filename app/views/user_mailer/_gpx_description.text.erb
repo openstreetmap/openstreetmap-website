@@ -1,8 +1,14 @@
-<% trace_name = @trace_name %>
-<% trace_description = @trace_description %>
+<%= t ".details" %>
+
+<%= t ".filename" %>
+	<%= @trace_name %>
+<% if @trace_url %>
+<%= t ".url" %>
+	<%= @trace_url %>
+<% end %>
+<%= t ".description" %>
+	<%= @trace_description %>
 <% if @trace_tags.length > 0 %>
-  <% tags = @trace_tags.map { |trace_tag| trace_tag.tag }.join(", ") %>
-  <%= t ".description_with_tags", :trace_name => trace_name, :trace_description => trace_description, :tags => tags %>
-<% else %>
-  <%= t ".description_with_no_tags", :trace_name => trace_name, :trace_description => trace_description %>
+<%= t ".tags" %>
+	<%= @trace_tags.map(&:tag).join(", ") %>
 <% end %>
