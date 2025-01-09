@@ -15,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
     email = UserMailer.gpx_success(trace, 100)
 
-    assert_match("<em>one</em>, <em>two&amp;three</em>, <em>four&lt;five</em>", email.html_part.body.to_s)
+    assert_match("one, two&amp;three, four&lt;five", email.html_part.body.to_s)
     assert_match("one, two&three, four<five", email.text_part.body.to_s)
   end
 
