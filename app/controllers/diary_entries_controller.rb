@@ -123,7 +123,7 @@ class DiaryEntriesController < ApplicationController
       # Subscribe user to diary comments
       @diary_entry.subscriptions.create(:user => current_user)
 
-      redirect_to :action => "index", :display_name => current_user.display_name
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     else
       render :action => "new"
     end
