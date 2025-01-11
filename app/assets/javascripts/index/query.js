@@ -68,9 +68,11 @@ OSM.Query = function (map) {
     const tags = feature.tags;
     let prefix = "";
 
-    if (tags.boundary === "administrative" && tags.admin_level) {
-      prefix = I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
-        defaultValue: I18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
+    if (tags.boundary === "administrative" && (tags.border_type || tags.admin_level)) {
+      prefix = I18n.t("geocoder.search_osm_nominatim.border_types." + tags.border_type, {
+        defaultValue: I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
+          defaultValue: I18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
+        })
       });
     } else {
       const prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
