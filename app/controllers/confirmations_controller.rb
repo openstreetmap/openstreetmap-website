@@ -30,6 +30,7 @@ class ConfirmationsController < ApplicationController
         user.email_valid = true
         flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!
+        cookies.delete :_osm_anonymous_notes_count
         referer = safe_referer(params[:referer]) if params[:referer]
 
         pending_user = session.delete(:pending_user)

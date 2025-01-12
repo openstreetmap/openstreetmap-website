@@ -45,6 +45,7 @@ class NotesController < ApplicationController
   end
 
   def new
+    @anonymous_notes_count = request.cookies["_osm_anonymous_notes_count"].to_i || 0
     render :action => :new_readonly if api_status != "online"
   end
 end
