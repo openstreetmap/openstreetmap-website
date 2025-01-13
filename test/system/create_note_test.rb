@@ -4,7 +4,14 @@ class CreateNoteTest < ApplicationSystemTestCase
   include ActionMailer::TestHelper
 
   def setup
+    OmniAuth.config.test_mode = true
+
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
+  end
+
+  def teardown
+    OmniAuth.config.mock_auth[:google] = nil
+    OmniAuth.config.test_mode = false
   end
 
   test "can create note" do
@@ -93,10 +100,18 @@ class CreateNoteTest < ApplicationSystemTestCase
     check_no_encouragement_while_logging_out
   end
 
-  test "encouragement to contribute appears after 10 created notes and disappears after signup" do
+  test "encouragement to contribute appears after 10 created notes and disappears after email signup" do
     check_encouragement_while_creating_notes(10)
 
     sign_up_with_email
+
+    check_no_encouragement_while_logging_out
+  end
+
+  test "encouragement to contribute appears after 10 created notes and disappears after google signup" do
+    check_encouragement_while_creating_notes(10)
+
+    sign_up_with_google
 
     check_no_encouragement_while_logging_out
   end
@@ -161,5 +176,19 @@ class CreateNoteTest < ApplicationSystemTestCase
     visit match[0]
 
     assert_content "Welcome!"
+  end
+
+  def sign_up_with_google
+    OmniAuth.config.add_mock(:google,
+                             :uid => "123454321",
+                             :extra => { :id_info => { :openid_id => "http://localhost:1123/new.tester" } },
+                             :info => { :email => "google_user_account@example.com", :name => "google_user_account" })
+
+    click_on "Sign Up"
+
+    within_content_body do
+      click_on "Log in with Google"
+      click_on "Sign Up"
+    end
   end
 end
