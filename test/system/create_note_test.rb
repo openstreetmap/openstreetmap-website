@@ -79,7 +79,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "encouragement to contribute appears after 10 created notes" do
+  test "encouragement to contribute appears after 10 created notes and disappears after login" do
     encouragement_threshold = 10
 
     encouragement_threshold.times do |n|
@@ -99,6 +99,20 @@ class CreateNoteTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_content(/already posted at least #{encouragement_threshold} anonymous note/)
+    end
+
+    sign_in_as(create(:user))
+    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}")
+
+    within_sidebar do
+      assert_no_content(/already posted at least \d+ anonymous note/)
+    end
+
+    sign_out
+    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}")
+
+    within_sidebar do
+      assert_no_content(/already posted at least \d+ anonymous note/)
     end
   end
 end
