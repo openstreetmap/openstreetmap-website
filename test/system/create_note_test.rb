@@ -1,6 +1,12 @@
 require "application_system_test_case"
 
 class CreateNoteTest < ApplicationSystemTestCase
+  include ActionMailer::TestHelper
+
+  def setup
+    stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
+  end
+
   test "can create note" do
     visit new_note_path(:anchor => "map=18/0/0")
 
@@ -80,8 +86,24 @@ class CreateNoteTest < ApplicationSystemTestCase
   end
 
   test "encouragement to contribute appears after 10 created notes and disappears after login" do
-    encouragement_threshold = 10
+    check_encouragement_while_creating_notes(10)
 
+    sign_in_as(create(:user))
+
+    check_no_encouragement_while_logging_out
+  end
+
+  test "encouragement to contribute appears after 10 created notes and disappears after signup" do
+    check_encouragement_while_creating_notes(10)
+
+    sign_up_with_email
+
+    check_no_encouragement_while_logging_out
+  end
+
+  private
+
+  def check_encouragement_while_creating_notes(encouragement_threshold)
     encouragement_threshold.times do |n|
       visit new_note_path(:anchor => "map=16/0/#{0.001 * n}")
 
@@ -100,19 +122,44 @@ class CreateNoteTest < ApplicationSystemTestCase
     within_sidebar do
       assert_content(/already posted at least #{encouragement_threshold} anonymous note/)
     end
+  end
 
-    sign_in_as(create(:user))
-    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}")
+  def check_no_encouragement_while_logging_out
+    visit new_note_path(:anchor => "map=16/0/0")
 
     within_sidebar do
       assert_no_content(/already posted at least \d+ anonymous note/)
     end
 
     sign_out
-    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}")
+    visit new_note_path(:anchor => "map=16/0/0")
 
     within_sidebar do
       assert_no_content(/already posted at least \d+ anonymous note/)
     end
+  end
+
+  def sign_up_with_email
+    click_on "Sign Up"
+
+    within_content_body do
+      fill_in "Email", :with => "new_user_account@example.com"
+      fill_in "Display Name", :with => "new_user_account"
+      fill_in "Password", :with => "new_user_password"
+      fill_in "Confirm Password", :with => "new_user_password"
+
+      assert_emails 1 do
+        click_on "Sign Up"
+      end
+    end
+
+    email = ActionMailer::Base.deliveries.first
+    email_text = email.parts[0].parts[0].decoded
+    match = %r{/user/new_user_account/confirm\?confirm_string=\S+}.match(email_text)
+    assert_not_nil match
+
+    visit match[0]
+
+    assert_content "Welcome!"
   end
 end
