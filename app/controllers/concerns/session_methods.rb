@@ -39,6 +39,8 @@ module SessionMethods
     session[:fingerprint] = user.fingerprint
     session_expires_after 28.days if session[:remember_me]
 
+    cookies.delete :_osm_anonymous_notes_count
+
     target = referer || url_for(:controller => :site, :action => :index)
 
     # The user is logged in, so decide where to send them:

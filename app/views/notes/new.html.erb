@@ -5,9 +5,17 @@
 <div class="note">
   <p class="alert alert-info"><%= t(".intro") %></p>
   <% if !current_user %>
-    <p class="alert alert-warning"><%= t ".anonymous_warning_html",
-                                         :log_in => link_to(t(".anonymous_warning_log_in"), login_path(:referer => new_note_path)),
-                                         :sign_up => link_to(t(".anonymous_warning_sign_up"), new_user_path) %></p>
+    <div class="alert alert-warning pb-0">
+      <p><%= t ".anonymous_warning_html",
+               :log_in => link_to(t(".anonymous_warning_log_in"), login_path(:referer => new_note_path)),
+               :sign_up => link_to(t(".anonymous_warning_sign_up"), new_user_path) %></p>
+    <% if @anonymous_notes_count >= 10 %>
+      <p><%= t ".counter_warning_html",
+               :x_anonymous_notes => t(".x_anonymous_notes", :count => @anonymous_notes_count),
+               :contribute_by_yourself => link_to(t(".counter_warning_guide_link.text"), t(".counter_warning_guide_link.url")),
+               :community_can_help => link_to(t(".counter_warning_forum_link.text"), t(".counter_warning_forum_link.url")) %></p>
+    <% end %>
+    </div>
   <% end %>
   <p class="alert alert-warning" id="new-note-zoom-warning" hidden><%= t "javascripts.site.createnote_disabled_tooltip" %></p>
   <form action="#">
