@@ -78,4 +78,27 @@ class CreateNoteTest < ApplicationSystemTestCase
       end
     end
   end
+
+  test "encouragement to contribute appears after 10 created notes" do
+    encouragement_threshold = 10
+
+    encouragement_threshold.times do |n|
+      visit new_note_path(:anchor => "map=16/0/#{0.001 * n}")
+
+      within_sidebar do
+        assert_no_content(/already posted at least \d+ anonymous note/)
+
+        fill_in "text", :with => "new note ##{n + 1}"
+        click_on "Add Note"
+
+        assert_content "new note ##{n + 1}"
+      end
+    end
+
+    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}")
+
+    within_sidebar do
+      assert_content(/already posted at least #{encouragement_threshold} anonymous note/)
+    end
+  end
 end
