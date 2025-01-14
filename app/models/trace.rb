@@ -86,11 +86,11 @@ class Trace < ApplicationRecord
   end
 
   def public?
-    visibility == "public" || visibility == "identifiable"
+    %w[public identifiable].include?(visibility)
   end
 
   def trackable?
-    visibility == "trackable" || visibility == "identifiable"
+    %w[trackable identifiable].include?(visibility)
   end
 
   def identifiable?

@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
 
   def check_database_writable(need_api: false)
     if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
-       (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
+       (need_api && %w[api_offline api_readonly].include?(Settings.status))
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -339,7 +339,7 @@ class ApplicationController < ActionController::Base
     begin
       referer = URI.parse(referer)
 
-      if referer.scheme == "http" || referer.scheme == "https"
+      if %w[http https].include?(referer.scheme)
         referer.scheme = nil
         referer.host = nil
         referer.port = nil

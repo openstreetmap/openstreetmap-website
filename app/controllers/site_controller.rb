@@ -24,7 +24,7 @@ class SiteController < ApplicationController
   end
 
   def index
-    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
+    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless %w[database_readonly database_offline].include?(Settings.status)
   end
 
   def permalink
