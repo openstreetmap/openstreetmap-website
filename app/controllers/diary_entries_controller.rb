@@ -28,7 +28,7 @@ class DiaryEntriesController < ApplicationController
       end
     elsif params[:friends]
       if current_user
-        @title = t ".title_friends"
+        @title = t ".title_followed"
         entries = DiaryEntry.where(:user => current_user.friends)
       else
         require_user

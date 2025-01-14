@@ -1,12 +1,12 @@
 require "application_system_test_case"
 
 class DashboardSystemTest < ApplicationSystemTestCase
-  test "show no users if have no friends" do
+  test "show no users if have no followings" do
     user = create(:user)
     sign_in_as(user)
 
     visit dashboard_path
-    assert_text "You have not added any friends yet."
+    assert_text "You have not followed any user yet."
   end
 
   test "show users if have friends" do
@@ -17,9 +17,9 @@ class DashboardSystemTest < ApplicationSystemTestCase
     sign_in_as(user)
 
     visit dashboard_path
-    assert_no_text "You have not added any friends yet."
+    assert_no_text "You have not followed any user yet."
 
-    friends_heading = find :element, "h2", :text => "My friends"
+    friends_heading = find :element, "h2", :text => "Followings"
     others_heading = find :element, "h2", :text => "Other nearby users"
 
     assert_link friend_user.display_name, :below => friends_heading, :above => others_heading

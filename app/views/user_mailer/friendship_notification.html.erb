@@ -1,11 +1,11 @@
 <p><%= t ".hi", :to_user => @friendship.befriendee.display_name %></p>
 
-<p><%= t ".had_added_you", :user => @friendship.befriender.display_name %></p>
+<p><%= t ".followed_you", :user => @friendship.befriender.display_name %></p>
 
 <%= message_body do %>
   <p><%= t ".see_their_profile_html", :userurl => link_to(@viewurl, @viewurl) %></p>
 
   <% unless @friendship.befriendee.friends_with?(@friendship.befriender) -%>
-  <p><%= t ".befriend_them_html", :befriendurl => link_to(@friendurl, @friendurl) %></p>
+  <p><%= t ".follow_them_html", :followurl => link_to(@followurl, @followurl) %></p>
   <% end -%>
 <% end %>
