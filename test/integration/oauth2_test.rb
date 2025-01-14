@@ -15,6 +15,9 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     assert_equal "read_prefs", token["scope"]
     test_token(token["access_token"], user, client)
+
+    refresh_token = token["refresh_token"]
+    assert_nil refresh_token
   end
 
   def test_oauth2_oob
@@ -87,6 +90,9 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     access_token = token["access_token"]
     assert_not_nil access_token
+
+    refresh_token = token["refresh_token"]
+    assert_not_nil refresh_token
 
     id_token = token["id_token"]
     assert_not_nil id_token
