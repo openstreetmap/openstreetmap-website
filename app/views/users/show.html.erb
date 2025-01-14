@@ -84,9 +84,9 @@
             <% if current_user %>
               <li>
                 <% if current_user.friends_with?(@user) %>
-                  <%= link_to t(".unfollow"), remove_friend_path(:display_name => @user.display_name), :method => :post %>
+                  <%= link_to t(".unfollow"), follow_path(:display_name => @user.display_name), :method => :delete %>
                 <% else %>
-                  <%= link_to t(".follow"), make_friend_path(:display_name => @user.display_name), :method => :post %>
+                  <%= link_to t(".follow"), follow_path(:display_name => @user.display_name), :method => :post %>
                 <% end %>
               </li>
             <% end %>

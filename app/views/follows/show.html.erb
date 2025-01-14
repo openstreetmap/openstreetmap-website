@@ -1,0 +1,8 @@
+<% content_for :heading do %>
+  <h1><%= t(@already_follows ? ".unfollow.heading" : ".follow.heading", :user => @friend.display_name) %></h1>
+<% end %>
+
+<%= link_to t(@already_follows ? ".unfollow.button" : ".follow.button"),
+            follow_path(:display_name => @friend.display_name, :referer => params[:referer]),
+            :method => (@already_follows ? :delete : :post),
+            :class => "btn btn-sm btn-primary" %>

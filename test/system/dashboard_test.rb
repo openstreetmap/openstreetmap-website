@@ -12,7 +12,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
   test "show users if have friends" do
     user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
     friend_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
-    create(:friendship, :befriender => user, :befriendee => friend_user)
+    create(:follow, :follower => user, :following => friend_user)
     create(:changeset, :user => friend_user)
     sign_in_as(user)
 

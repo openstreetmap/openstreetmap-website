@@ -119,16 +119,16 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def friendship_notification(friendship)
-    with_recipient_locale friendship.befriendee do
-      @friendship = friendship
-      @viewurl = user_url(@friendship.befriender)
-      @followurl = follow_url(@friendship.befriender)
-      @author = @friendship.befriender.display_name
+  def friendship_notification(follow)
+    with_recipient_locale follow.following do
+      @follow = follow
+      @viewurl = user_url(@follow.follower)
+      @followurl = follow_url(@follow.follower)
+      @author = @follow.follower.display_name
 
-      attach_user_avatar(@friendship.befriender)
-      mail :to => friendship.befriendee.email,
-           :subject => t(".subject", :user => friendship.befriender.display_name)
+      attach_user_avatar(@follow.follower)
+      mail :to => follow.following.email,
+           :subject => t(".subject", :user => follow.follower.display_name)
     end
   end
 
