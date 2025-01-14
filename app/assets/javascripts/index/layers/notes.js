@@ -20,20 +20,14 @@ OSM.initializeNotesLayer = function (map) {
     })
   };
 
-  map.on("layeradd", function (e) {
-    if (e.layer === noteLayer) {
-      loadNotes();
-      map.on("moveend", loadNotes);
-    }
-  }).on("layerremove", function (e) {
-    if (e.layer === noteLayer) {
-      map.off("moveend", loadNotes);
-      noteLayer.clearLayers();
-      notes = {};
-    }
-  });
-
-  noteLayer.on("click", function (e) {
+  noteLayer.on("add", () => {
+    loadNotes();
+    map.on("moveend", loadNotes);
+  }).on("remove", () => {
+    map.off("moveend", loadNotes);
+    noteLayer.clearLayers();
+    notes = {};
+  }).on("click", function (e) {
     if (e.layer.id) {
       OSM.router.route("/note/" + e.layer.id);
     }
