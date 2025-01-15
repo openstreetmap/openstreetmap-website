@@ -42,7 +42,7 @@ module Accounts
 
           redirect_to referer || edit_account_path
         elsif params[:decline]
-          redirect_to t("users.terms.declined"), :allow_other_host => true
+          redirect_to t("accounts.terms.show.declined"), :allow_other_host => true
         else
           redirect_to account_terms_path
         end
