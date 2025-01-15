@@ -11,8 +11,6 @@ class PreferencesController < ApplicationController
 
   def show; end
 
-  def edit; end
-
   def update
     current_user.languages = params[:user][:languages].split(",")
 
@@ -40,7 +38,7 @@ class PreferencesController < ApplicationController
       redirect_to preferences_path
     else
       flash.now[:error] = t ".failure"
-      render :edit
+      render :show
     end
   end
 end

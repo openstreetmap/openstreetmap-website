@@ -10,11 +10,6 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/preferences/edit", :method => :get },
-      { :controller => "preferences", :action => "edit" }
-    )
-
-    assert_routing(
       { :path => "/preferences", :method => :put },
       { :controller => "preferences", :action => "update" }
     )
@@ -27,35 +22,35 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     # Changing to a invalid editor should fail
-    user.preferred_editor = "unknown"
-    put preferences_path, :params => { :user => user.attributes }
+    put preferences_path, :params => { :user => { :preferred_editor => "unknown", :languages => [] } }
     assert_response :success
-    assert_template :edit
+    assert_template :show
     assert_select ".alert-success", false
     assert_select ".alert-danger", true
-    assert_select "form > div > select#user_preferred_editor > option[selected]", false
+    user.reload
+    assert_nil user.preferred_editor
     assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
     assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
     # Changing to a valid editor should work
-    user.preferred_editor = "id"
-    put preferences_path, :params => { :user => user.attributes }
+    put preferences_path, :params => { :user => { :preferred_editor => "id", :languages => [] } }
     assert_redirected_to preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
-    assert_select "dd", "iD (in-browser editor)"
+    user.reload
+    assert_equal "id", user.preferred_editor
     assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
     assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
     # Changing to the default editor should work
-    user.preferred_editor = "default"
-    put preferences_path, :params => { :user => user.attributes }
+    put preferences_path, :params => { :user => { :preferred_editor => "default", :languages => [] } }
     assert_redirected_to preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
-    assert_select "dd", "Default (currently iD)"
+    user.reload
+    assert_nil user.preferred_editor
     assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
     assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
   end
