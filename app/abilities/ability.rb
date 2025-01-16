@@ -24,13 +24,12 @@ class Ability
       can [:create, :destroy], :session
       can [:read, :data, :georss], Trace
       can [:read, :create, :suspended, :auth_success, :auth_failure], User
-      can [:read, :update], :account_terms
       can :read, UserBlock
     end
 
     if user&.active?
       can :welcome, :site
-      can :read, :deletion
+      can :read, [:deletion, :account_terms]
 
       if Settings.status != "database_offline"
         can [:subscribe, :unsubscribe], Changeset
@@ -38,6 +37,7 @@ class Ability
         can [:read, :destroy], :oauth2_authorized_application
         can [:read, :create, :destroy], :oauth2_authorization
         can [:update, :destroy], :account
+        can :update, :account_terms
         can :read, :dashboard
         can [:create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
