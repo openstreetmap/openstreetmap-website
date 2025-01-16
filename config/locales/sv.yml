@@ -22,6 +22,7 @@
 # Author: Kakan spelar
 # Author: Larske
 # Author: Liftarn
+# Author: Listz3
 # Author: Lokal Profil
 # Author: Lucke
 # Author: Luen
@@ -72,9 +73,6 @@ sv:
         create: Lägg till kommentar
       message:
         create: Skicka
-      client_application:
-        create: Registrera
-        update: Uppdatera
       oauth2_application:
         create: Registrera
         update: Uppdatera
@@ -291,34 +289,6 @@ sv:
       entry:
         comment: Kommentar
         full: Hela anteckningen
-  account:
-    deletions:
-      show:
-        title: Radera mitt konto
-        warning: Varning! Kontots raderingsprocess är slutgiltig och kan inte återställas.
-        delete_account: Radera konto
-        delete_introduction: 'Du kan radera ditt OpenStreetMap-konto med knappen nedan.
-          Notera följande detaljer:'
-        delete_profile: Din profilinformation, inklusive din avatar, beskrivning och
-          hemposition kommer tas bort.
-        delete_display_name: Ditt visade namn kommer tas bort och kan återanvändas
-          av andra konton.
-        retain_caveats: 'Viss information om dig kommer bevaras på OpenStreetMap,
-          även efter att ditt konto raderats:'
-        retain_edits: Dina redigeringar på kartdatabasen, om du gjort några, kommer
-          bevaras.
-        retain_traces: Dina uppladdade spår, om du gjort några, kommer bevaras.
-        retain_diary_entries: Dina dagboksinlägg och dagbokskommentarer, om du gjort
-          några, kommer bevaras men hållas gömda.
-        retain_notes: Dina kartanteckningar och notkommentarer, om du gjort några,
-          kommer bevaras men hållas gömda.
-        retain_changeset_discussions: Dina diskussioner på ändringsuppsätningar, om
-          du gjort några, kommer bevaras.
-        retain_email: Din e-postadress kommer bevaras.
-        recent_editing_html: Eftersom du nyligen har redigerat kan ditt konto för
-          närvarande inte raderas. Radering kommer att vara tillåtet om %{time}.
-        confirm_delete: Är du säker?
-        cancel: Avbryt
   accounts:
     edit:
       title: Redigera konto
@@ -364,6 +334,69 @@ sv:
       success: Användarinformation uppdaterades.
     destroy:
       success: Kontot har raderats.
+    deletions:
+      show:
+        title: Radera mitt konto
+        warning: Varning! Kontots raderingsprocess är slutgiltig och kan inte återställas.
+        delete_account: Radera konto
+        delete_introduction: 'Du kan radera ditt OpenStreetMap-konto med knappen nedan.
+          Notera följande detaljer:'
+        delete_profile: Din profilinformation, inklusive din avatar, beskrivning och
+          hemposition kommer tas bort.
+        delete_display_name: Ditt visade namn kommer tas bort och kan återanvändas
+          av andra konton.
+        retain_caveats: 'Viss information om dig kommer bevaras på OpenStreetMap,
+          även efter att ditt konto raderats:'
+        retain_edits: Dina redigeringar på kartdatabasen, om du gjort några, kommer
+          bevaras.
+        retain_traces: Dina uppladdade spår, om du gjort några, kommer bevaras.
+        retain_diary_entries: Dina dagboksinlägg och dagbokskommentarer, om du gjort
+          några, kommer bevaras men hållas gömda.
+        retain_notes: Dina kartanteckningar och notkommentarer, om du gjort några,
+          kommer bevaras men hållas gömda.
+        retain_changeset_discussions: Dina diskussioner på ändringsuppsätningar, om
+          du gjort några, kommer bevaras.
+        retain_email: Din e-postadress kommer bevaras.
+        recent_editing_html: Eftersom du nyligen har redigerat kan ditt konto för
+          närvarande inte raderas. Radering kommer att vara tillåtet om %{time}.
+        confirm_delete: Är du säker?
+        cancel: Avbryt
+    terms:
+      show:
+        title: Villkor för deltagare
+        heading: Villkor för deltagare
+        heading_ct: 'Användarvillkor:'
+        read and accept with tou: Läs villkoren för bidragsgivare och användning,
+          markera båda kryssrutor när du är klar och klicka på fortsätt.
+        contributor_terms_explain: Denna avtal beskriver villkoren för dina existerande
+          och framtida bidrag.
+        read_ct: Jag har läst och samtycken med de ovanstående villkor för deltagare
+        tou_explain_html: Dessa %{tou_link} beskriver villkoren för hur denna hemsida
+          och andra infrastrukturer från OSMF får användas. Klicka på länken, läs
+          och godkänn villkoren.
+        read_tou: Jag har läst och samtycker med användarvillkoren.
+        consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
+          egendom.
+        consider_pd_why: vad är det här?
+        guidance_info_html: 'Information som hjälper dig att förstå dessa termer:
+          en %{readable_summary_link} och några %{informal_translations_link}'
+        readable_summary: mänskligt läsbar sammanfattning
+        informal_translations: informella översättningar
+        continue: |2-
+
+          Fortsätt
+        cancel: Avbryt
+        you need to accept or decline: Läs igenom och godkänn eller avböj de nya bidragsvillkoren
+          för att fortsätta.
+        legale_select: 'Hemland:'
+        legale_names:
+          france: Frankrike
+          italy: Italien
+          rest_of_world: Övriga världen
+      terms_declined_flash:
+        terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera
+          de nya användarvillkoren. För mer information, se %{terms_declined_link}.
+        terms_declined_link: denna wikisida
   browse:
     deleted_ago_by_html: Raderades %{time_ago} av %{user}
     edited_ago_by_html: Redigerades %{time_ago} av %{user}
@@ -383,15 +416,11 @@ sv:
     view_history: Visa historik
     view_unredacted_history: Visa oredigerad historik
     view_details: Visa detaljer
-    view_redacted_data: Visa redigerad data
-    view_redaction_message: Visa maskeringsmeddelande
     location: 'Plats:'
     node:
       title_html: 'Nod: %{name}'
-      history_title_html: 'Nodhistorik: %{name}'
     way:
       title_html: 'Sträcka: %{name}'
-      history_title_html: 'Sträckhistorik: %{name}'
       nodes: Noder
       nodes_count:
         one: '%{count} nod'
@@ -401,7 +430,6 @@ sv:
         other: del av sträckorna %{related_ways}
     relation:
       title_html: 'Förbindelse: %{name}'
-      history_title_html: 'Förbindelsehistorik: %{name}'
       members: Medlemmar
       members_count:
         one: '%{count} medlem'
@@ -416,13 +444,6 @@ sv:
       entry_role_html: '%{relation_name} (som %{relation_role})'
     not_found:
       title: Hittades inte
-      sorry: 'Tyvärr kunde inte %{type} #%{id} hittas.'
-      type:
-        node: nod
-        way: sträcka
-        relation: relation
-        changeset: ändringsuppsättning
-        note: not
     timeout:
       title: Timeout-fel
       sorry: Tyvärr tog data för %{type} med id %{id} för lång tid att hämta.
@@ -462,27 +483,44 @@ sv:
       introduction: Klicka på kartan för att hitta funktioner i närheten.
       nearby: Finns i närheten
       enclosing: Omgivande kartobjekt
+  old_elements:
+    index:
+      node:
+        title_html: 'Nodhistorik: %{name}'
+      way:
+        title_html: 'Sträckhistorik: %{name}'
+      relation:
+        title_html: 'Förbindelsehistorik: %{name}'
+    actions:
+      view_redacted_data: Visa redigerad data
+      view_redaction_message: Visa maskeringsmeddelande
   nodes:
+    not_found_message:
+      sorry: 'Tyvärr kunde inte nod #%{id} hittas.'
     timeout:
       sorry: Tyvärr tog data för noden med id %{id} för lång tid att hämta.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Tyvärr, nod #%{id} version %{version} kunde inte hittas.'
     timeout:
       sorry: Tyvärr tog historiken för noden med id %{id} för lång tid att hämta.
   ways:
+    not_found_message:
+      sorry: 'Tyvärr kunde inte väg #%{id} hittas.'
     timeout:
       sorry: Tyvärr tog data för vägen med id %{id} för lång tid att hämta.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
     timeout:
       sorry: Tyvärr tog historiken för vägen med id %{id} för lång tid att hämta.
   relations:
+    not_found_message:
+      sorry: 'Tyvärr kunde inte relation #%{id} hittas.'
     timeout:
       sorry: Tyvärr tog data för relationen med id %{id} för lång tid att hämta.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
     timeout:
       sorry: Tyvärr tog historiken för relationen med id %{id} för lång tid att hämta.
@@ -562,6 +600,8 @@ sv:
       ways_paginated: Sträckor (%{x}-%{y} av %{count})
       relations: Förbindelser (%{count})
       relations_paginated: Förbindelser (%{x}-%{y} av %{count})
+    not_found_message:
+      sorry: 'Tyvärr kunde inte ändringsuppsättning #%{id} hittas.'
     timeout:
       sorry: Kunde tyvärr inte lista begärda ändringsuppsättningar. Begäran tog för
         lång tid att hämta.
@@ -1504,6 +1544,7 @@ sv:
           lagoon: Lagun
           wastewater: Avloppsvatten
           oxbow: Korvsjö
+          stream_pool: Strömbassäng
           lock: Sluss
         waterway:
           artificial: Artificiellt vattendrag
@@ -1714,33 +1755,27 @@ sv:
       see_their_profile_html: Du kan se deras profil på %{userurl}.
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
       befriend_them_html: Du kan också lägga till dem som en vän på %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Det verkar som att din fil %{trace_name} med beskrivningen
-        %{trace_description} och följande taggar: %{tags}'
-      description_with_tags_html: 'Det verkar som att din fil %{trace_name} med beskrivningen
-        %{trace_description} och följande taggar: %{tags}'
-      description_with_no_tags: Det verkar som att din fil %{trace_name} med beskrivningen
-        %{trace_description} och inga taggar
-      description_with_no_tags_html: Det verkar som att din fil %{trace_name} med
-        beskrivningen %{trace_description} och inga taggar
+    gpx_details:
+      details: 'Dina fildetaljer:'
+      filename: Filnamn
+      url: Webbadress
+      description: Beskrivning
+      tags: Taggar
     gpx_failure:
       hi: Hej %{to_user},
-      failed_to_import: 'kunde inte importera som en GPS-spårningsfil. Kontrollera
-        att din fil är en giltig GPX-fil eller ett arkiv som innehåller GPX-filer
-        i ett format som stöds (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
-        Skulle det kunna vara problem med ett format eller syntax med din fil? Här
-        är importeringsfelet:'
+      failed_to_import: Det verkade som att din fil inte kunde importeras som ett
+        GPS-spår.
+      verify: 'Kontrollera att din fil är en giltig GPX-fil eller ett arkiv som innehåller
+        GPX-filer i ett format som stöds (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2). Skulle det kunna vara problem med ett format eller syntax med din
+        fil? Här är importeringsfelet:'
       more_info: Mer information om GPX-importeringsfel och hur man undviker dem finns
-        på %{url}.
+        på %{url}
       more_info_html: Mer information om misslyckade GPX-importer och hur man undviker
         dem återfinns på %{url}.
       subject: '[OpenStreetMap] Misslyckades importera GPX'
     gpx_success:
       hi: Hej %{to_user},
-      loaded:
-        one: inläst med %{trace_points} av %{count} möjlig punkt.
-        other: inläst med %{trace_points} av %{count} möjliga punkter.
-      trace_location: Ditt spår finns på %{trace_url}
       all_your_traces: Alla dina uppladdade GPX-spår finns på %{url}
       all_your_traces_html: Alla dina framgångsrikt uppladdade GPX-spår finns på %{url}.
       subject: '[OpenStreetMap] Lyckades importera GPX'
@@ -1844,6 +1879,9 @@ sv:
       success: Ditt konto är bekräftat, tack för att du registrerade dig!
       already active: Detta konto har redan bekräftats.
       unknown token: Denna bekräftelsekod har gått ut eller finns inte.
+      if_need_resend: Om du behöver att vi skickar bekräftelsemailet igen, klicka
+        på knappen nedan.
+      resend_button: Skicka bekräftelsemailet igen
     confirm_resend:
       failure: Användaren %{name} hittades inte.
     confirm_email:
@@ -1872,10 +1910,6 @@ sv:
       title: Inget sådant meddelande
       heading: Inget sådant meddelande
       body: Det finns inget meddelande med det ID:et.
-    reply:
-      wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
-        besvara skickades inte till den användaren. Logga in med korrekt användare
-        för att svara.
     show:
       title: Läs meddelande
       reply_button: Svara
@@ -1939,6 +1973,11 @@ sv:
         people_mapping_nearby: folk som kartlägger i närheten
       message:
         destroy_button: Radera
+    replies:
+      new:
+        wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
+          besvara skickades inte till den användaren. Logga in med korrekt användare
+          för att svara.
   passwords:
     new:
       title: Förlorat lösenord
@@ -1961,8 +2000,6 @@ sv:
   preferences:
     show:
       title: Mina alternativ
-      preferred_editor: Föredraget redigeringsprogram
-      preferred_languages: Föredragna språk
       preferred_site_color_scheme: Föredraget färgtema för webbplatsen
       site_color_schemes:
         auto: Automatiskt
@@ -1973,11 +2010,7 @@ sv:
         auto: Automatiskt
         light: Ljust
         dark: Mörkt
-      edit_preferences: Redigera alternativ
-    edit:
-      title: Redigera inställningar
       save: Uppdatera alternativ
-      cancel: Avbryt
     update:
       failure: Kunde inte uppdatera alternativ.
     update_success_flash:
@@ -2844,41 +2877,6 @@ sv:
       consider_pd: public domain
       or: eller
       use external auth: eller registrera med en tredje part
-    terms:
-      title: Villkor för deltagare
-      heading: Villkor för deltagare
-      heading_ct: 'Användarvillkor:'
-      read and accept with tou: Läs villkoren för bidragsgivare och användning, markera
-        båda kryssrutor när du är klar och klicka på fortsätt.
-      contributor_terms_explain: Denna avtal beskriver villkoren för dina existerande
-        och framtida bidrag.
-      read_ct: Jag har läst och samtycken med de ovanstående villkor för deltagare
-      tou_explain_html: Dessa %{tou_link} beskriver villkoren för hur denna hemsida
-        och andra infrastrukturer från OSMF får användas. Klicka på länken, läs och
-        godkänn villkoren.
-      read_tou: Jag har läst och samtycker med användarvillkoren.
-      consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
-        egendom.
-      consider_pd_why: vad är det här?
-      guidance_info_html: 'Information som hjälper dig att förstå dessa termer: en
-        %{readable_summary_link} och några %{informal_translations_link}'
-      readable_summary: mänskligt läsbar sammanfattning
-      informal_translations: informella översättningar
-      continue: |2-
-
-        Fortsätt
-      cancel: Avbryt
-      you need to accept or decline: Läs igenom och godkänn eller avböj de nya bidragsvillkoren
-        för att fortsätta.
-      legale_select: 'Hemland:'
-      legale_names:
-        france: Frankrike
-        italy: Italien
-        rest_of_world: Övriga världen
-    terms_declined_flash:
-      terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera de
-        nya användarvillkoren. För mer information, se %{terms_declined_link}.
-      terms_declined_link: denna wikisida
     no_such_user:
       title: Finns ingen sådan användare
       heading: Användaren %{user} finns inte
@@ -3080,8 +3078,7 @@ sv:
         ended: avslutad
         revoked_html: upphävd av %{name}
         active: aktiv
-        active_unread: aktiv oläst
-        expired_unread: utgången oläst
+        active_until_read: aktiv tills läst
         read_html: läst %{time}
         time_in_future_title: '%{time_absolute}; i %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3208,6 +3205,8 @@ sv:
       showing_page: Sida %{page}
       next: Nästa
       previous: Föregående
+    not_found_message:
+      sorry: 'Tyvärr kunde inte nod #%{id} hittas.'
   javascripts:
     close: Stäng
     share:
@@ -3229,6 +3228,8 @@ sv:
       center_marker: Centrera kartan på markören
       paste_html: Klistra in HTML-koden för att publicera på en webbsida
       view_larger_map: Visa större karta
+      only_layers_exported_as_image: 'Endast följande lager kan exporteras som en
+        bild:'
     embed:
       report_problem: Rapportera ett problem
     key:

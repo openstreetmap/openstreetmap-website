@@ -49,9 +49,6 @@ nb:
         create: Legg til kommentar
       message:
         create: Send
-      client_application:
-        create: Registrer
-        update: Oppdater
       oauth2_application:
         create: Registrer deg
         update: Oppdater
@@ -85,6 +82,7 @@ nb:
       message: Melding
       node: Node
       node_tag: Nodemerkelapp
+      note: Notat
       old_node: Gammel node
       old_node_tag: Gammel nodemerkelapp
       old_relation: Gammel relasjon
@@ -146,7 +144,7 @@ nb:
         longitude: Lengdegrad
         public: Offentlig
         description: Beskrivelse
-        gpx_file: Last opp GPX-fil
+        gpx_file: Last opp GPS-sporingsfil
         visibility: Synlighet
         tagstring: Egenskaper
       message:
@@ -265,20 +263,6 @@ nb:
       entry:
         comment: Kommentar
         full: Fullstendig merknad
-  account:
-    deletions:
-      show:
-        title: Slett min konto
-        warning: Advarsel! Kontosletting er endelig, og kan ikke omgjøres.
-        delete_account: Slett konto
-        delete_introduction: 'Du kan slette din OpenStreetMap-konto ved å bruke knappen
-          nedenfor. Bemerk det følgende:'
-        delete_profile: Din profilinformasjon, inkludert ditt profilbilde/avatar,
-          beskrivelse og hjemmested kommer til å bli fjernet.
-        delete_display_name: Ditt viste navn vil bli fjernet, og kan bli gjenbrukt
-          av andre konter.
-        confirm_delete: Er du sikker?
-        cancel: Avbryt
   accounts:
     edit:
       title: Rediger konto
@@ -307,6 +291,10 @@ nb:
       delete_account: Slett konto...
     go_public:
       heading: Offentlig redigering
+      find_out_why: finn ut hvorfor
+      email_not_revealed: E-postadressen din vil ikke bli avslørt ved å bli offentlig.
+      not_reversible: Denne handlingen kan ikke reverseres, og alle nye brukere er
+        nå offentlige som standard.
       make_edits_public_button: Gjør alle mine redigeringer offentlig
     update:
       success_confirm_needed: Brukerinformasjon oppdatert. Sjekk eposten din for å
@@ -314,7 +302,46 @@ nb:
       success: Brukerinformasjon oppdatert.
     destroy:
       success: Kontoen er slettet.
+    deletions:
+      show:
+        title: Slett min konto
+        warning: Advarsel! Kontosletting er endelig, og kan ikke omgjøres.
+        delete_account: Slett konto
+        delete_introduction: 'Du kan slette din OpenStreetMap-konto ved å bruke knappen
+          nedenfor. Bemerk det følgende:'
+        delete_profile: Din profilinformasjon, inkludert ditt profilbilde/avatar,
+          beskrivelse og hjemmested kommer til å bli fjernet.
+        delete_display_name: Ditt viste navn vil bli fjernet, og kan bli gjenbrukt
+          av andre konter.
+        confirm_delete: Er du sikker?
+        cancel: Avbryt
+    terms:
+      show:
+        title: Vilkår
+        heading: Vilkår
+        heading_ct: Bidragsytervilkår
+        read and accept with tou: Les vilkårene for bidragsytere og bruksvilkårene,
+          merk av begge avkrysningsboksene og trykk fortsett.
+        contributor_terms_explain: Denne avtalen beskriver vilkårene for dine eksisterende
+          og framtidige bidrag.
+        read_ct: Jeg har lest og samtykker i vilkårene for bidragsytere
+        tou_explain_html: Disse %{tou_link} beskriver bruken av nettstedet og annen
+          infrastruktur som tilbys av OSMF. Trykk på lenka, les og samtykk til teksten.
+        read_tou: Jeg har lest og samtykker til bruksvilkårene
+        consider_pd: I tillegg til det ovennevnte anser jeg mine bidrag for å være
+          i public domain
+        consider_pd_why: hva er dette?
+        continue: Fortsett
+        you need to accept or decline: Les og deretter enten godta eller avslå de
+          nye bidragsytervilkårene for å fortsette.
+        legale_select: 'Velg ditt bostedsland:'
+        legale_names:
+          france: Frankrike
+          italy: Italia
+          rest_of_world: Resten av verden
   browse:
+    deleted_ago_by_html: Slettet %{time_ago} av %{user}
+    edited_ago_by_html: Redigert %{time_ago} av %{user}
     version: Versjon
     in_changeset: Endringssett
     anonymous: anonym
@@ -332,17 +359,14 @@ nb:
     location: 'Posisjon:'
     node:
       title_html: 'Node: %{name}'
-      history_title_html: 'Node-historikk: %{name}'
     way:
       title_html: 'Strekning: %{name}'
-      history_title_html: 'Strekningshistorikk: %{name}'
       nodes: Noder
       also_part_of_html:
         one: deler med linje %{related_ways}
         other: deler med linjer %{related_ways}
     relation:
       title_html: 'Forbindelse: %{name}'
-      history_title_html: 'Forbindelseshistorikk: %{name}'
       members: Medlemmer
       members_count:
         one: ett medlem
@@ -357,13 +381,6 @@ nb:
       entry_role_html: Relasjon %{relation_name} (som %{relation_role})
     not_found:
       title: Ikke funnet
-      sorry: Beklager, klarte ikke finne %{type}-en med ID %{id}.
-      type:
-        node: node
-        way: linje
-        relation: relasjon
-        changeset: endringssett
-        note: merknad
     timeout:
       title: Feil pga. tidsavbrudd
       sorry: Beklager, det tok for lang tid å hente data for %{type} med ID %{id}.
@@ -402,6 +419,14 @@ nb:
       introduction: Klikk på kartet for å finne nærliggende funksjoner.
       nearby: Nærliggende funksjoner
       enclosing: Regionsfunksjoner
+  old_elements:
+    index:
+      node:
+        title_html: 'Node-historikk: %{name}'
+      way:
+        title_html: 'Strekningshistorikk: %{name}'
+      relation:
+        title_html: 'Forbindelseshistorikk: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1500,9 +1525,6 @@ nb:
       title: Ingen melding funnet
       heading: Ingen melding funnet
       body: Det er ingen melding med den ID-en.
-    reply:
-      wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å svare
-        på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
     show:
       title: Lese melding
       reply_button: Svar
@@ -1565,6 +1587,10 @@ nb:
         people_mapping_nearby: folk i nærheten som lager kart
       message:
         destroy_button: Slett
+    replies:
+      new:
+        wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å svare
+          på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
   passwords:
     new:
       title: Glemt passord
@@ -1583,13 +1609,7 @@ nb:
   preferences:
     show:
       title: Mine innstillinger
-      preferred_editor: Foretrukket redigeringsverktøy
-      preferred_languages: Foretrukne språk
-      edit_preferences: Endre innstillinger
-    edit:
-      title: Endre innstillinger
       save: Oppdater innstillingene
-      cancel: Avbryt
     update:
       failure: Kunne ikke oppdatere innstillingene.
     update_success_flash:
@@ -2070,29 +2090,6 @@ nb:
       continue: Registrer deg
       terms accepted: Takk for at du godtok de nye bidragsytervilkårene!
       use external auth: Alternativt kan du bruke en tredjepart til å logge inn
-    terms:
-      title: Vilkår
-      heading: Vilkår
-      heading_ct: Bidragsytervilkår
-      read and accept with tou: Les vilkårene for bidragsytere og bruksvilkårene,
-        merk av begge avkrysningsboksene og trykk fortsett.
-      contributor_terms_explain: Denne avtalen beskriver vilkårene for dine eksisterende
-        og framtidige bidrag.
-      read_ct: Jeg har lest og samtykker i vilkårene for bidragsytere
-      tou_explain_html: Disse %{tou_link} beskriver bruken av nettstedet og annen
-        infrastruktur som tilbys av OSMF. Trykk på lenka, les og samtykk til teksten.
-      read_tou: Jeg har lest og samtykker til bruksvilkårene
-      consider_pd: I tillegg til det ovennevnte anser jeg mine bidrag for å være i
-        public domain
-      consider_pd_why: hva er dette?
-      continue: Fortsett
-      you need to accept or decline: Les og deretter enten godta eller avslå de nye
-        bidragsytervilkårene for å fortsette.
-      legale_select: 'Velg ditt bostedsland:'
-      legale_names:
-        france: Frankrike
-        italy: Italia
-        rest_of_world: Resten av verden
     no_such_user:
       title: Ingen bruker funnet
       heading: Brukeren %{user} finnes ikke

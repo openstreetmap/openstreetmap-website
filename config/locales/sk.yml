@@ -45,9 +45,6 @@ sk:
         create: Pridať komentár
       message:
         create: Odoslať
-      client_application:
-        create: Registrovať
-        update: Aktualizovať
       oauth2_application:
         create: Registrovať
         update: Aktualizovať
@@ -287,31 +284,6 @@ sk:
       entry:
         comment: Komentár
         full: Celá poznámka
-  account:
-    deletions:
-      show:
-        title: Odstrániť môj účet
-        warning: Pozor! Odstránenie účtu je konečné a nie je možné ho vrátiť späť.
-        delete_account: Odstrániť účet
-        delete_introduction: 'Svoj účet v OpenStreetMap môžete zrušiť pomocou tlačidla
-          nižšie. Prosím uvedomte si nasledovné podrobnosti:'
-        delete_profile: Vaše profilové informácie, váš avatar, popis a domovské miesto
-          budú odstránené.
-        delete_display_name: Vaše zobrazované meno bude odstránené a môže byť znovu
-          použité inými účtami (používateľmi).
-        retain_caveats: 'Niektoré informácie o vás však budú uchované v OpenStreetMap
-          aj po vymazaní účtu:'
-        retain_edits: Vaše zmeny v mapovej databáze budú zachované.
-        retain_traces: Vaše odoslané stopy budú zachované.
-        retain_diary_entries: Vaše záznam v denníku a komentáre k záznamom budú zachované,
-          ale budú skryté.
-        retain_notes: Vaše mapové poznámky a komentáre budú zachované, ale skryté.
-        retain_changeset_discussions: Vaše prípadné diskusie k sadám zmien budú zachované.
-        retain_email: Vaša emailová adresa bude uchovaná.
-        recent_editing_html: Keďže ste nedávno upravovali, váš účet momentálne nie
-          je možné odstrániť. Odstránenie bude možné o %{time}.
-        confirm_delete: Ste si istý/á?
-        cancel: Zrušiť
   accounts:
     edit:
       title: Upraviť účet
@@ -358,6 +330,53 @@ sk:
       success: Používateľské údaje boli úspešne aktualizované.
     destroy:
       success: Účet bol odstránený.
+    deletions:
+      show:
+        title: Odstrániť môj účet
+        warning: Pozor! Odstránenie účtu je konečné a nie je možné ho vrátiť späť.
+        delete_account: Odstrániť účet
+        delete_introduction: 'Svoj účet v OpenStreetMap môžete zrušiť pomocou tlačidla
+          nižšie. Prosím uvedomte si nasledovné podrobnosti:'
+        delete_profile: Vaše profilové informácie, váš avatar, popis a domovské miesto
+          budú odstránené.
+        delete_display_name: Vaše zobrazované meno bude odstránené a môže byť znovu
+          použité inými účtami (používateľmi).
+        retain_caveats: 'Niektoré informácie o vás však budú uchované v OpenStreetMap
+          aj po vymazaní účtu:'
+        retain_edits: Vaše zmeny v mapovej databáze budú zachované.
+        retain_traces: Vaše odoslané stopy budú zachované.
+        retain_diary_entries: Vaše záznam v denníku a komentáre k záznamom budú zachované,
+          ale budú skryté.
+        retain_notes: Vaše mapové poznámky a komentáre budú zachované, ale skryté.
+        retain_changeset_discussions: Vaše prípadné diskusie k sadám zmien budú zachované.
+        retain_email: Vaša emailová adresa bude uchovaná.
+        recent_editing_html: Keďže ste nedávno upravovali, váš účet momentálne nie
+          je možné odstrániť. Odstránenie bude možné o %{time}.
+        confirm_delete: Ste si istý/á?
+        cancel: Zrušiť
+    terms:
+      show:
+        title: Podmienky
+        heading: Podmienky
+        heading_ct: Podmienky prispievania
+        read and accept with tou: Prečítajte si zmluvu s prispievateľom a podmienky
+          používania, po dokončení začiarknite obe políčka a potom stlačte tlačidlo
+          pokračovať.
+        read_tou: Prečítal som si Podmienky používania a súhlasím s nimi
+        consider_pd: Navyše k vyššie uvedenému vyhlasujem, že považujem svoje príspevky
+          za slobodné dielo (Public Domain).
+        consider_pd_why: čo to znamená?
+        continue: Pokračovať
+        cancel: Zrušiť
+        you need to accept or decline: Pre pokračovanie si prosím prečítajte a príjmite,
+          alebo odmietnite nové Podmienky prispievania.
+        legale_select: 'Zvoľte prosím svoju domovskú krajinu:'
+        legale_names:
+          france: Francúzsko
+          italy: Taliansko
+          rest_of_world: Zvyšok sveta
+      terms_declined_flash:
+        terms_declined_link: tejto wiki stránke
   browse:
     deleted_ago_by_html: Odstránené %{time_ago} používateľom %{user}
     edited_ago_by_html: Upravené %{time_ago} používateľom %{user}
@@ -381,15 +400,11 @@ sk:
     view_history: Zobraziť históriu
     view_unredacted_history: Zobraziť neredigovanú históriu
     view_details: Zobraziť detaily
-    view_redacted_data: Zobraziť upravené údaje
-    view_redaction_message: Zobraziť správu o úprave
     location: 'Poloha:'
     node:
       title_html: 'Uzol: %{name}'
-      history_title_html: 'História uzla: %{name}'
     way:
       title_html: 'Cesta: %{name}'
-      history_title_html: 'História cesty: %{name}'
       nodes: Uzly
       nodes_count:
         one: 1 uzol
@@ -401,7 +416,6 @@ sk:
         other: súčasťou ciest %{related_ways}
     relation:
       title_html: 'Relácia: %{name}'
-      history_title_html: 'História relácie: %{name}'
       members: Prvky
       members_count:
         one: '%{count} prvok'
@@ -418,13 +432,6 @@ sk:
       entry_role_html: Relácia %{relation_name} (ako %{relation_role})
     not_found:
       title: Nenájdené
-      sorry: 'Ľutujeme, %{type} #%{id} nebolo možné nájsť.'
-      type:
-        node: uzol
-        way: cesta
-        relation: relácia
-        changeset: počet zmien
-        note: poznámka
     timeout:
       title: Vypršal časový limit
       sorry: Ľutujeme, ale načítanie dát typu %{type} číslo %{id} trvalo príliš dlho.
@@ -463,14 +470,25 @@ sk:
       introduction: Pre nájdenie okolitých prvkov kliknite na mapu.
       nearby: Okolité prvky
       enclosing: Obklopujúce prvky
+  old_elements:
+    index:
+      node:
+        title_html: 'História uzla: %{name}'
+      way:
+        title_html: 'História cesty: %{name}'
+      relation:
+        title_html: 'História relácie: %{name}'
+    actions:
+      view_redacted_data: Zobraziť upravené údaje
+      view_redaction_message: Zobraziť správu o úprave
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Ľutujeme, uzol #%{id} verzie %{version} sa nepodarilo nájsť.'
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Ľutujeme, cestu #%{id} verzie %{version} sa nepodarilo nájsť.'
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Ľutujeme, reláciu #%{id} verzie %{version} sa nepodarilo nájsť.'
   changeset_comments:
     feeds:
@@ -1645,11 +1663,6 @@ sk:
       see_their_profile_html: Jeho/jej profil si môžete pozrieť na %{userurl}.
       befriend_them: Môžete ich tiež pridať ako priateľov na %{befriendurl}.
       befriend_them_html: Môžete ho/ju tiež pridať ako priateľov na %{befriendurl}.
-    gpx_description:
-      description_with_tags_html: 'vyzerá, že váš GPX súbor %{trace_name} s popisom
-        %{trace_description} a nasledujúcimi značkami: %{tags}'
-      description_with_no_tags_html: vyzerá, že váš súbor GPX %{trace_name} s popisom
-        %{trace_description} a bez značiek
     gpx_failure:
       hi: Ahoj %{to_user},
       failed_to_import: 'sa nepodarilo naimportovať. Chybové hlásenie:'
@@ -1658,11 +1671,6 @@ sk:
       subject: '[OpenStreetMap] Neúspešný import GPX'
     gpx_success:
       hi: Ahoj %{to_user},
-      loaded:
-        one: sa úspešne načítal s %{trace_points} z možného %{count} bodu.
-        few: sa úspešne načítal s %{trace_points} z možných %{count} bodov.
-        many: sa úspešne načítal s %{trace_points} z možných %{count} bodov.
-        other: sa úspešne načítal s %{trace_points} z možných %{count} bodov.
       all_your_traces_html: Všetky vami úspešne nahrané GPX stopy nájdete na %{url}.
       subject: '[OpenStreetMap] GPX import úspešný'
     signup_confirm:
@@ -1791,10 +1799,6 @@ sk:
       title: Zadaná správa neexistuje
       heading: Zadaná správa neexistuje
       body: Ľutujeme, neexistuje správa s takým ID.
-    reply:
-      wrong_user: Ste prihlásený ako „%{user}“, ale správa, na ktorú chcete odpovedať,
-        nebola odoslaná tomuto používateľovi. Ak na ňu chcete odpovedať, prihláste
-        sa pod správnym kontom.
     show:
       title: Čítať správu
       reply_button: Odpovedať
@@ -1857,6 +1861,11 @@ sk:
         people_mapping_nearby: blízko mapujúci ľudia
       message:
         destroy_button: Zmazať
+    replies:
+      new:
+        wrong_user: Ste prihlásený ako „%{user}“, ale správa, na ktorú chcete odpovedať,
+          nebola odoslaná tomuto používateľovi. Ak na ňu chcete odpovedať, prihláste
+          sa pod správnym kontom.
   passwords:
     new:
       title: Stratené heslo
@@ -1878,13 +1887,7 @@ sk:
   preferences:
     show:
       title: Moje predvoľby
-      preferred_editor: Preferovaný editor
-      preferred_languages: Preferované jazyky
-      edit_preferences: Upraviť preferencie
-    edit:
-      title: Upraviť preferencie
       save: Aktualizovať preferencie
-      cancel: Zrušiť
     update:
       failure: Nepodarilo sa aktualizovať predvoľby.
     update_success_flash:
@@ -2623,28 +2626,6 @@ sk:
       consider_pd: Verejná doména
       or: alebo
       use external auth: prípadne využite na registráciu služby tretích strán
-    terms:
-      title: Podmienky
-      heading: Podmienky
-      heading_ct: Podmienky prispievania
-      read and accept with tou: Prečítajte si zmluvu s prispievateľom a podmienky
-        používania, po dokončení začiarknite obe políčka a potom stlačte tlačidlo
-        pokračovať.
-      read_tou: Prečítal som si Podmienky používania a súhlasím s nimi
-      consider_pd: Navyše k vyššie uvedenému vyhlasujem, že považujem svoje príspevky
-        za slobodné dielo (Public Domain).
-      consider_pd_why: čo to znamená?
-      continue: Pokračovať
-      cancel: Zrušiť
-      you need to accept or decline: Pre pokračovanie si prosím prečítajte a príjmite,
-        alebo odmietnite nové Podmienky prispievania.
-      legale_select: 'Zvoľte prosím svoju domovskú krajinu:'
-      legale_names:
-        france: Francúzsko
-        italy: Taliansko
-        rest_of_world: Zvyšok sveta
-    terms_declined_flash:
-      terms_declined_link: tejto wiki stránke
     no_such_user:
       title: Taký používateľ neexistuje
       heading: Používateľ %{user} neexistuje

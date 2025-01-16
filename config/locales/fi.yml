@@ -73,9 +73,6 @@ fi:
         create: Lisää kommentti
       message:
         create: Lähetä
-      client_application:
-        create: Rekisteröi
-        update: Päivitä
       oauth2_application:
         create: Rekisteröidy
         update: Päivitä
@@ -290,27 +287,6 @@ fi:
       entry:
         comment: Kommentti
         full: Koko karttailmoitus
-  account:
-    deletions:
-      show:
-        title: Poista käyttäjäni
-        warning: Varoitus! Käyttäjän poistaminen on lopullinen, eikä sitä voi peruuttaa.
-        delete_account: Poista käyttäjä
-        delete_introduction: 'Voit poistaa OpenStreetMap-tilisi alla olevalla painikkeella.
-          Huomioi seuraavat asiat:'
-        delete_profile: Käyttäjätietosi, avatar, kuvaus ja kotisijainti mukaan lukien
-          poistetaan.
-        delete_display_name: Näyttönimesi poistetaan, ja muut tilit voivat käyttää
-          sitä uudelleen.
-        retain_caveats: 'Vaikka tilisi poistetaan, joitain sinuun liittyviä tietoja
-          säilytetään OpenStreetMapissa:'
-        retain_edits: Mahdolliset karttatietokantaan tekemäsi muutokset säilytetään.
-        retain_traces: Lähettämäsi jäljet, jos sellaisia on, säilytetään.
-        retain_diary_entries: Päiväkirjamerkintäsi ja päiväkirjakommenttisi, jos sellaisia
-          on, säilytetään, mutta piilotetaan näkyviltä.
-        retain_email: Sähköpostiosoitteesi säilytetään.
-        confirm_delete: Oletko varma?
-        cancel: Peruuta
   accounts:
     edit:
       title: Asetusten muokkaus
@@ -350,6 +326,60 @@ fi:
       success: Käyttäjätietojen muutokset on tallennettu.
     destroy:
       success: Käyttäjä poistettu.
+    deletions:
+      show:
+        title: Poista käyttäjäni
+        warning: Varoitus! Käyttäjän poistaminen on lopullinen, eikä sitä voi peruuttaa.
+        delete_account: Poista käyttäjä
+        delete_introduction: 'Voit poistaa OpenStreetMap-tilisi alla olevalla painikkeella.
+          Huomioi seuraavat asiat:'
+        delete_profile: Käyttäjätietosi, avatar, kuvaus ja kotisijainti mukaan lukien
+          poistetaan.
+        delete_display_name: Näyttönimesi poistetaan, ja muut tilit voivat käyttää
+          sitä uudelleen.
+        retain_caveats: 'Vaikka tilisi poistetaan, joitain sinuun liittyviä tietoja
+          säilytetään OpenStreetMapissa:'
+        retain_edits: Mahdolliset karttatietokantaan tekemäsi muutokset säilytetään.
+        retain_traces: Lähettämäsi jäljet, jos sellaisia on, säilytetään.
+        retain_diary_entries: Päiväkirjamerkintäsi ja päiväkirjakommenttisi, jos sellaisia
+          on, säilytetään, mutta piilotetaan näkyviltä.
+        retain_email: Sähköpostiosoitteesi säilytetään.
+        confirm_delete: Oletko varma?
+        cancel: Peruuta
+    terms:
+      show:
+        title: Ehdot
+        heading: Ehdot
+        heading_ct: Osallistumisehdot
+        read and accept with tou: Lue osallistumis- ja käyttöehdot, valitse molemmat
+          valintaruudut ja napsauta sitten Jatka.
+        contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
+          tekemiäsi muokkauksia.
+        read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
+        tou_explain_html: Nämä %{tou_link} ohjaavat verkkosivuston ja muun OSMF:n
+          tarjoaman infrastruktuurin käyttöä. Napsauta linkkiä, lue ja suostu tekstin
+          sisältöön.
+        read_tou: Olen lukenut ja hyväksynyt käyttöehdot
+        consider_pd: Edellisen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
+          Public Domain -lisenssillä
+        consider_pd_why: Mikä tämä on?
+        guidance_info_html: 'Vaihtoehtoisia lukutapoja: %{readable_summary_link} ja
+          %{informal_translations_link}'
+        readable_summary: selkokielinen yhteenveto (englanniksi)
+        informal_translations: epäviralliset käännökset
+        continue: Seuraava
+        declined: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
+        cancel: Peruuta
+        you need to accept or decline: Ennen jatkamista lue läpi osallistumisehdot
+          ja hyväksy tai hylkää se.
+        legale_select: 'Valitse asuinmaasi:'
+        legale_names:
+          france: Ranska
+          italy: Italia
+          rest_of_world: Muu maailma
+      terms_declined_flash:
+        terms_declined_link: tämä wikisivu
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: Poistanut %{user}, %{time_ago}
     edited_ago_by_html: Muokannut %{time_ago} %{user}
@@ -370,10 +400,8 @@ fi:
     location: 'Sijainti:'
     node:
       title_html: 'Piste: %{name}'
-      history_title_html: Pisteen %{name} historia
     way:
       title_html: 'Viiva: %{name}'
-      history_title_html: Viivan %{name} historia
       nodes: Pisteet
       nodes_count:
         one: '%{count} piste'
@@ -383,7 +411,6 @@ fi:
         other: osana viivoja %{related_ways}
     relation:
       title_html: 'Relaatio: %{name}'
-      history_title_html: Relaation %{name} historia
       members: Jäsenet
       members_count:
         one: '%{count} jäsen'
@@ -398,13 +425,6 @@ fi:
       entry_role_html: Relaatio %{relation_name} (rooli %{relation_role})
     not_found:
       title: Ei löytynyt
-      sorry: 'Pahoittelemme, %{type} #%{id} ei pystytty löytämään.'
-      type:
-        node: Pistettä
-        way: Polkua
-        relation: Relaatiota
-        changeset: muutoskokoelma
-        note: merkintä
     timeout:
       title: Aikakatkaisu
       sorry: Pahoittelut, tietojen hakeminen (kohde %{type}:%{id}) kesti liian kauan.
@@ -443,6 +463,14 @@ fi:
       introduction: Napsauta karttaa löytääksesi lähistön karttakohteita.
       nearby: Lähistön karttakohteet
       enclosing: Ympäröivät karttakohteet
+  old_elements:
+    index:
+      node:
+        title_html: Pisteen %{name} historia
+      way:
+        title_html: Viivan %{name} historia
+      relation:
+        title_html: Relaation %{name} historia
   changeset_comments:
     feeds:
       comment:
@@ -1686,10 +1714,6 @@ fi:
       title: Ei sellaista viestiä
       heading: Ei sellaista viestiä
       body: Valitettavasti tällä ID-tunnuksella ei ole viestiä.
-    reply:
-      wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, johon
-        tahdot vastata, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
-        sisään oikealla käyttäjätunnuksella vastataksesi.
     show:
       title: Lue viesti
       reply_button: Vastaa
@@ -1741,6 +1765,11 @@ fi:
         people_mapping_nearby: lähellä kartoittaviin käyttäjiin
       message:
         destroy_button: Poista
+    replies:
+      new:
+        wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, johon
+          tahdot vastata, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
+          sisään oikealla käyttäjätunnuksella vastataksesi.
   passwords:
     new:
       title: Unohtunut salasana
@@ -1759,13 +1788,7 @@ fi:
   preferences:
     show:
       title: Asetukset
-      preferred_editor: Ensisijainen muokkain
-      preferred_languages: Ensisijaiset kielet
-      edit_preferences: Muokkaa asetuksia
-    edit:
-      title: Muokkaa asetuksia
       save: Päivitä asetukset
-      cancel: Peruuta
     update:
       failure: Asetuksia ei voida päivittää.
     update_success_flash:
@@ -2472,38 +2495,6 @@ fi:
       consider_pd_html: Pidän tuotoksiani %{consider_pd_link}.
       or: tai
       use external auth: Kirjaudu toisen palvelun tunnuksilla
-    terms:
-      title: Ehdot
-      heading: Ehdot
-      heading_ct: Osallistumisehdot
-      read and accept with tou: Lue osallistumis- ja käyttöehdot, valitse molemmat
-        valintaruudut ja napsauta sitten Jatka.
-      contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
-        tekemiäsi muokkauksia.
-      read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
-      tou_explain_html: Nämä %{tou_link} ohjaavat verkkosivuston ja muun OSMF:n tarjoaman
-        infrastruktuurin käyttöä. Napsauta linkkiä, lue ja suostu tekstin sisältöön.
-      read_tou: Olen lukenut ja hyväksynyt käyttöehdot
-      consider_pd: Edellisen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
-        Public Domain -lisenssillä
-      consider_pd_why: Mikä tämä on?
-      guidance_info_html: 'Vaihtoehtoisia lukutapoja: %{readable_summary_link} ja
-        %{informal_translations_link}'
-      readable_summary: selkokielinen yhteenveto (englanniksi)
-      informal_translations: epäviralliset käännökset
-      continue: Seuraava
-      declined: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
-      cancel: Peruuta
-      you need to accept or decline: Ennen jatkamista lue läpi osallistumisehdot ja
-        hyväksy tai hylkää se.
-      legale_select: 'Valitse asuinmaasi:'
-      legale_names:
-        france: Ranska
-        italy: Italia
-        rest_of_world: Muu maailma
-    terms_declined_flash:
-      terms_declined_link: tämä wikisivu
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
     no_such_user:
       title: Haettua käyttäjää ei ole olemassa
       heading: Käyttäjää %{user} ei ole olemassa

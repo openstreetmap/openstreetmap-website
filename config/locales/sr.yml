@@ -42,9 +42,6 @@ sr:
         create: Додај коментар
       message:
         create: Пошаљи
-      client_application:
-        create: Отвори налог
-        update: Ажурирај
       oauth2_application:
         create: Регистрација
         update: Ажурирај
@@ -259,16 +256,6 @@ sr:
       entry:
         comment: Коментар
         full: Потпуна белешка
-  account:
-    deletions:
-      show:
-        title: Обришите мој налог
-        warning: Упозорење! Брисање налога је неповратан процес.
-        delete_account: Обриши налог
-        retain_edits: Ваше измене картографске базе (ако их има), биће задржане.
-        retain_email: Ваша имејл адреса ће бити задржана.
-        confirm_delete: Јесте ли сигурни?
-        cancel: Откажи
   accounts:
     edit:
       title: Уреди налог
@@ -304,6 +291,40 @@ sr:
       success: Подаци о кориснику су успешно ажурирани.
     destroy:
       success: Налог је обрисан.
+    deletions:
+      show:
+        title: Обришите мој налог
+        warning: Упозорење! Брисање налога је неповратан процес.
+        delete_account: Обриши налог
+        retain_edits: Ваше измене картографске базе (ако их има), биће задржане.
+        retain_email: Ваша имејл адреса ће бити задржана.
+        confirm_delete: Јесте ли сигурни?
+        cancel: Откажи
+    terms:
+      show:
+        title: Услови
+        heading: Услови
+        read_ct: Прочитао сам и прихватам горе наведене услове
+        read_tou: Прочитао сам и прихватам Услове коришћења
+        consider_pd: Према горенаведеном, сматрам да моји доприноси припадају јавном
+          власништву
+        consider_pd_why: шта је ово?
+        guidance_info_html: 'Информације за разумевање ових услова: a %{readable_summary_link}
+          и %{informal_translations_link}'
+        readable_summary: сумарум
+        informal_translations: неформални преводи
+        continue: Настави
+        declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
+        cancel: Откажи
+        you need to accept or decline: Молимо вас да прочитате уговор пре него што
+          га прихватите.
+        legale_select: 'Изаберите земљу пребивалишта:'
+        legale_names:
+          france: Француска
+          italy: Италија
+          rest_of_world: Остатак света
+      terms_declined_flash:
+        terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
   browse:
     edited_ago_by_html: Уређено %{time_ago} од %{user}
     version: Верзија
@@ -318,17 +339,14 @@ sr:
     location: 'Локација:'
     node:
       title_html: 'Чвор: %{name}'
-      history_title_html: 'Историја тачака: %{name}'
     way:
       title_html: 'Линија: %{name}'
-      history_title_html: 'Историја линија: %{name}'
       nodes: Чворови
       also_part_of_html:
         one: део линије %{related_ways}
         other: део линија %{related_ways}
     relation:
       title_html: 'Однос: %{name}'
-      history_title_html: 'Историја односа: %{name}'
       members: Чланови
     relation_member:
       entry_role_html: '%{type} %{name} као %{role}'
@@ -340,13 +358,6 @@ sr:
       entry_role_html: '%{relation_name} (као %{relation_role})'
     not_found:
       title: Није нађено
-      sorry: 'Нажалост, %{type} #%{id} није пронађен.'
-      type:
-        node: чвор
-        way: линија
-        relation: однос
-        changeset: скуп промена
-        note: белешка
     timeout:
       title: Истекло време
       sorry: Преузимање података за %{type} са ID-јем %{id} предуго траје.
@@ -383,6 +394,14 @@ sr:
       introduction: Кликните на мапу да бисте пронашли објекте у близини.
       nearby: Објекти у близини
       enclosing: Локација
+  old_elements:
+    index:
+      node:
+        title_html: 'Историја тачака: %{name}'
+      way:
+        title_html: 'Историја линија: %{name}'
+      relation:
+        title_html: 'Историја односа: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1393,6 +1412,12 @@ sr:
       had_added_you: '%{user} вас је додао као пријатеља на Опенстритмапу.'
       see_their_profile: Можете видети његов/њен профил на %{userurl}.
       befriend_them: Можете га/је додати и као пријатеља на %{befriendurl}.
+    gpx_details:
+      details: 'Детаљи ваше датотеке:'
+      filename: Назив датотеке
+      url: URL
+      description: Опис
+      tags: Ознаке
     gpx_failure:
       hi: Здраво %{to_user},
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
@@ -1476,6 +1501,7 @@ sr:
       success: Ваш налог је потврђен. Хвала вам на упису!
       already active: Овај налог је већ потврђен.
       unknown token: Тај код за потврду је истекао или не постоји.
+      resend_button: Пошаљи поново потврдни имејл
     confirm_resend:
       failure: Корисник %{name} није пронађен.
     confirm_email:
@@ -1499,9 +1525,6 @@ sr:
       title: Нема такве поруке
       heading: Нема такве поруке
       body: Нажалост, нема поруке с тим ИБ.
-    reply:
-      wrong_user: Пријављени сте као %{user}, али порука на коју сте желели да одговорите
-        није послата том кориснику. Пријавите се као исправан корисник да бисте одговорили.
     show:
       title: Прочитај поруку
       reply_button: Одговори
@@ -1559,6 +1582,11 @@ sr:
         people_mapping_nearby: маперима у вашој околини
       message:
         destroy_button: Обриши
+    replies:
+      new:
+        wrong_user: Пријављени сте као %{user}, али порука на коју сте желели да одговорите
+          није послата том кориснику. Пријавите се као исправан корисник да бисте
+          одговорили.
   passwords:
     new:
       title: Повратак лозинке
@@ -1577,8 +1605,6 @@ sr:
   preferences:
     show:
       title: Моја подешавања
-      preferred_editor: Жељени уређивач
-      preferred_languages: Жељени језици
       site_color_schemes:
         auto: Аутоматски
         light: Светла
@@ -1587,11 +1613,7 @@ sr:
         auto: Аутоматски
         light: Светла
         dark: Тамна
-      edit_preferences: Уреди подешавања
-    edit:
-      title: Моја подешавања
       save: Сачувај подешавања
-      cancel: Откажи
     update_success_flash:
       message: Подешавања сачувана.
   profiles:
@@ -2140,30 +2162,6 @@ sr:
       consider_pd: јавно власништво
       or: или
       use external auth: или се региструјте путем треће стране
-    terms:
-      title: Услови
-      heading: Услови
-      read_ct: Прочитао сам и прихватам горе наведене услове
-      read_tou: Прочитао сам и прихватам Услове коришћења
-      consider_pd: Према горенаведеном, сматрам да моји доприноси припадају јавном
-        власништву
-      consider_pd_why: шта је ово?
-      guidance_info_html: 'Информације за разумевање ових услова: a %{readable_summary_link}
-        и %{informal_translations_link}'
-      readable_summary: сумарум
-      informal_translations: неформални преводи
-      continue: Настави
-      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
-      cancel: Откажи
-      you need to accept or decline: Молимо вас да прочитате уговор пре него што га
-        прихватите.
-      legale_select: 'Изаберите земљу пребивалишта:'
-      legale_names:
-        france: Француска
-        italy: Италија
-        rest_of_world: Остатак света
-    terms_declined_flash:
-      terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
     no_such_user:
       title: Нема таквог корисника
       heading: Корисник %{user} не постоји

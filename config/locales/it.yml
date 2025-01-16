@@ -84,9 +84,6 @@ it:
         create: Aggiungi commento
       message:
         create: Invia
-      client_application:
-        create: Registrati
-        update: Aggiorna
       oauth2_application:
         create: Registrati
         update: Aggiorna
@@ -307,36 +304,6 @@ it:
       entry:
         comment: Commento
         full: Nota completa
-  account:
-    deletions:
-      show:
-        title: Elimina il mio account
-        warning: Attenzione! Il processo di cancellazione dell'account è definitivo.
-          Non potrà essere annullato.
-        delete_account: Elimina account
-        delete_introduction: 'Puoi eliminare il tuo account OpenStreetMap usando il
-          pulsante qui sotto. Ricordati dei seguenti dettagli:'
-        delete_profile: Le informazioni del tuo profilo, inclusi il tuo avatar, la
-          descrizione e la posizione di casa saranno rimossi.
-        delete_display_name: Il tuo nome utente sarà cancellato, e potrà essere utilizzato
-          da altri account.
-        retain_caveats: 'Ciò nonostante, alcuni dati saranno conservati su OpenStreetMap,
-          anche dopo la cancellazione del tuo account:'
-        retain_edits: Le modifiche apportate alla mappa, se ne hai fatte, saranno
-          mantenute.
-        retain_traces: Le tracce GPS che hai caricato saranno mantenute.
-        retain_diary_entries: Le tue voci e commenti sul diario, se presenti, saranno
-          mantenuti ma nascosti.
-        retain_notes: Le tue note e commenti sulle note, se presenti, saranno mantenuti
-          ma nascosti.
-        retain_changeset_discussions: Le discussioni su tuoi gruppi di modifiche e
-          i commenti inseriti su altri gruppi di modifiche, se presenti, saranno mantenute.
-        retain_email: Il tuo indirizzo e-mail sarà conservato.
-        recent_editing_html: Dato che hai effettuato delle modifiche di recente, al
-          momento la tua utenza non può essere eliminata. Sarà possibile farlo tra
-          %{time}.
-        confirm_delete: Sei sicuro?
-        cancel: Annulla
   accounts:
     edit:
       title: Modifica profilo
@@ -384,6 +351,71 @@ it:
       success: Informazioni sull'utente aggiornate con successo.
     destroy:
       success: Account eliminato.
+    deletions:
+      show:
+        title: Elimina il mio account
+        warning: Attenzione! Il processo di cancellazione dell'account è definitivo.
+          Non potrà essere annullato.
+        delete_account: Elimina account
+        delete_introduction: 'Puoi eliminare il tuo account OpenStreetMap usando il
+          pulsante qui sotto. Ricordati dei seguenti dettagli:'
+        delete_profile: Le informazioni del tuo profilo, inclusi il tuo avatar, la
+          descrizione e la posizione di casa saranno rimossi.
+        delete_display_name: Il tuo nome utente sarà cancellato, e potrà essere utilizzato
+          da altri account.
+        retain_caveats: 'Ciò nonostante, alcuni dati saranno conservati su OpenStreetMap,
+          anche dopo la cancellazione del tuo account:'
+        retain_edits: Le modifiche apportate alla mappa, se ne hai fatte, saranno
+          mantenute.
+        retain_traces: Le tracce GPS che hai caricato saranno mantenute.
+        retain_diary_entries: Le tue voci e commenti sul diario, se presenti, saranno
+          mantenuti ma nascosti.
+        retain_notes: Le tue note e commenti sulle note, se presenti, saranno mantenuti
+          ma nascosti.
+        retain_changeset_discussions: Le discussioni su tuoi gruppi di modifiche e
+          i commenti inseriti su altri gruppi di modifiche, se presenti, saranno mantenute.
+        retain_email: Il tuo indirizzo e-mail sarà conservato.
+        recent_editing_html: Dato che hai effettuato delle modifiche di recente, al
+          momento la tua utenza non può essere eliminata. Sarà possibile farlo tra
+          %{time}.
+        confirm_delete: Sei sicuro?
+        cancel: Annulla
+    terms:
+      show:
+        title: Termini
+        heading: Termini
+        heading_ct: Regole per contribuire
+        read and accept with tou: Leggi l’accordo di collaborazione e le condizioni
+          d’uso, quando hai finito spunta entrambe le caselle e poi premi il pulsante
+          Continua.
+        contributor_terms_explain: Questo accordo definisce le condizioni delle tue
+          collaborazioni presenti e future.
+        read_ct: Ho letto e accetto le condizioni di collaborazione qui sopra
+        tou_explain_html: Queste %{tou_link} definiscono l’utilizzo del sito web e
+          di altre infrastrutture fornite dalla OSMF. Clicca sul collegamento, leggi
+          il testo e accetta.
+        read_tou: Ho letto e accetto le Condizioni d'uso
+        consider_pd: In aggiunta a quanto sopra, considero i miei contributi come
+          fossero di pubblico dominio
+        consider_pd_why: cos'è questo?
+        guidance_info_html: 'Informazioni per aiutarti a comprendere queste condizioni:
+          un %{readable_summary_link} e alcune %{informal_translations_link}'
+        readable_summary: riassunto leggibile da un essere umano
+        informal_translations: traduzioni informali
+        continue: Continua
+        cancel: Annulla
+        you need to accept or decline: Si prega di leggere e poi accettare o rifiutare
+          i nuovi termini di contribuzione per continuare.
+        legale_select: 'Seleziona il tuo Paese di residenza:'
+        legale_names:
+          france: Francia
+          italy: Italia
+          rest_of_world: Resto del mondo
+      terms_declined_flash:
+        terms_declined_html: Siamo spiacenti che tu abbia deciso di non accettare
+          i nuovi termini di contribuzione. Per ulteriori informazioni consultare
+          %{terms_declined_link}.
+        terms_declined_link: questa pagina wiki
   browse:
     deleted_ago_by_html: Cancellato %{time_ago} da %{user}
     edited_ago_by_html: Modificato %{time_ago} da %{user}
@@ -403,15 +435,11 @@ it:
     view_history: Visualizza cronologia
     view_unredacted_history: Visualizza la cronologia non oscurata
     view_details: Vedi dettagli
-    view_redacted_data: Mostra dati rimossi
-    view_redaction_message: Vedi messaggio di rimozione
     location: 'Posizione:'
     node:
       title_html: 'Nodo: %{name}'
-      history_title_html: 'Cronologia nodo: %{name}'
     way:
       title_html: 'Percorso: %{name}'
-      history_title_html: 'Cronologia percorso: %{name}'
       nodes: Nodi
       nodes_count:
         one: '%{count} nodo'
@@ -421,7 +449,6 @@ it:
         other: parte dei percorsi %{related_ways}
     relation:
       title_html: 'Relazione: %{name}'
-      history_title_html: 'Cronologia relazione: %{name}'
       members: Membri
       members_count:
         one: '%{count} membro'
@@ -436,13 +463,6 @@ it:
       entry_role_html: '%{relation_name} (come %{relation_role})'
     not_found:
       title: Non trovato
-      sorry: 'Impossibile trovare %{type} #%{id}.'
-      type:
-        node: nodo
-        way: percorso
-        relation: relazione
-        changeset: gruppo di modifiche
-        note: nota
     timeout:
       title: Errore di timeout
       sorry: Spiacenti, il recupero dei dati per %{type} con ID %{id} ha richiesto
@@ -483,32 +503,49 @@ it:
       introduction: Clicca sulla cartina per disponibilità nei pressi.
       nearby: Disponibilità nei pressi
       enclosing: Elementi inglobanti
+  old_elements:
+    index:
+      node:
+        title_html: 'Cronologia nodo: %{name}'
+      way:
+        title_html: 'Cronologia percorso: %{name}'
+      relation:
+        title_html: 'Cronologia relazione: %{name}'
+    actions:
+      view_redacted_data: Mostra dati rimossi
+      view_redaction_message: Vedi messaggio di rimozione
   nodes:
+    not_found_message:
+      sorry: 'Spiacenti, il nodo #%{id} non è stato trovato.'
     timeout:
       sorry: Siamo spiacenti, il recupero dei dati per il nodo con ID %{id} ha richiesto
         troppo tempo.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Impossibile trovare il nodo #%{id} alla versione %{version}.'
     timeout:
       sorry: Spiacenti, il recupero della cronologia del nodo con ID %{id} ha richiesto
         troppo tempo.
   ways:
+    not_found_message:
+      sorry: 'Spiacenti, il percorso #%{id} non è stato trovato.'
     timeout:
       sorry: Siamo spiacenti, il recupero dei dati con ID %{id} ha richiesto troppo
         tempo.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Impossibile trovare il percorso #%{id} alla versione %{version}.'
     timeout:
       sorry: Spiacenti, il recupero della cronologia del percorso con l'ID %{id} ha
         richiesto troppo tempo.
   relations:
+    not_found_message:
+      sorry: 'Spiacenti, la relazione #%{id} non è stata trovata.'
     timeout:
       sorry: Spiacenti, il recupero dei dati per la relazione con l'ID %{id} ha richiesto
         troppo tempo.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Impossibile trovare la relazione #%{id} alla versione %{version}.'
     timeout:
       sorry: Spiacenti, il recupero della cronologia della relazione con l'ID %{id}
@@ -588,6 +625,8 @@ it:
       ways_paginated: Percorsi (%{x}-%{y} di %{count})
       relations: Relazioni (%{count})
       relations_paginated: Relazioni (%{x}-%{y} di %{count})
+    not_found_message:
+      sorry: 'Spiacenti, il changeset #%{id} non è stato trovato.'
     timeout:
       sorry: Spiacenti, l'elenco dei gruppi di modifiche che hai richiesto ha impiegato
         troppo tempo per poter essere recuperato.
@@ -1747,35 +1786,30 @@ it:
       see_their_profile_html: Puoi vedere il suo profilo su %{userurl}.
       befriend_them: Puoi anche aggiungerli come amici in %{befriendurl}.
       befriend_them_html: Puoi anche aggiungerli come amici in %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Sembra che il tuo file %{trace_name} con la descrizione
-        %{trace_description} e le seguenti etichette: %{tags}'
-      description_with_tags_html: 'Sembra che il tuo file %{trace_name} con la descrizione
-        %{trace_description} e le seguenti etichette: %{tags}'
-      description_with_no_tags: Sembra che il tuo file %{trace_name} con la descrizione
-        %{trace_description} e senza etichette
-      description_with_no_tags_html: Sembra che il tuo file %{trace_name} con la descrizione
-        %{trace_description} e senza etichette
+    gpx_details:
+      details: 'I dettagli del tuo file:'
+      filename: Nome del file
+      url: URL
+      description: Descrizione
+      tags: Etichette
+      total_points: Numero totale di punti
     gpx_failure:
       hi: Ciao %{to_user},
-      failed_to_import: 'non è riuscito a essere importato come file di traccia GPS.
-        Verifica che il tuo file sia un file GPX valido o un archivio contenente file
-        GPX nel formato supportato (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
-        Potrebbe esserci un problema di formato o sintassi con il tuo file? Ecco l''errore
-        di importazione:'
+      failed_to_import: Sembra che l'importazione del file come traccia GPS non sia
+        riuscita.
+      verify: 'Verifica che il tuo file sia un GPX valido oppure un archivio nel formato
+        compatibile (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2) contenente
+        uno più file GPX. C''è un problema nel formato o nella sintassi del tuo file?
+        Qui è riportato l''errore di importazione:'
       more_info: Per ulteriori informazioni sugli errori di importazione GPX e su
-        come evitarli, consulta %{url}.
-      more_info_html: Troverai maggiori informazioni sul fallimento dell'importazione
-        di GPX e come evitarlo all'indirizzo %{url}.
+        come evitarli, consulta %{url}
+      more_info_html: Per ulteriori informazioni sugli errori di importazione GPX
+        e su come evitarli, consulta %{url}.
       subject: '[OpenStreetMap] Importazione GPX fallita'
     gpx_success:
       hi: Ciao %{to_user},
-      loaded:
-        one: sia stato caricato con successo con %{trace_points} su un totale di %{count}
-          punto.
-        other: sia stato caricato con successo con %{trace_points} su un totale di
-          %{count} punti.
-      trace_location: La tua traccia è disponibile su %{trace_url}
+      imported_successfully: Sembra che il tuo file sia stato importato correttamente
+        come traccia GPS.
       all_your_traces: Tutte le tracce GPX caricate con successo possono essere trovate
         su %{url}
       all_your_traces_html: Puoi vedere tutte le tue tracce GPX caricate con successo
@@ -1912,10 +1946,6 @@ it:
       title: Nessun messaggio del genere
       heading: Nessun messaggio del genere
       body: Siamo spiacenti, non ci sono messaggi con l'id indicato.
-    reply:
-      wrong_user: Hai effettuato l'accesso come '%{user}', ma il messaggio al quale
-        hai chiesto di rispondere non era diretto a quell'utente. Se vuoi rispondere,
-        accedi con l'utenza interessata.
     show:
       title: Leggi messaggio
       reply_button: Rispondi
@@ -1979,6 +2009,11 @@ it:
         people_mapping_nearby: persone che mappano nelle vicinanze
       message:
         destroy_button: Cancella
+    replies:
+      new:
+        wrong_user: Hai effettuato l'accesso come '%{user}', ma il messaggio al quale
+          hai chiesto di rispondere non era diretto a quell'utente. Se vuoi rispondere,
+          accedi con l'utenza interessata.
   passwords:
     new:
       title: password persa
@@ -2003,8 +2038,6 @@ it:
   preferences:
     show:
       title: Preferenze
-      preferred_editor: Editor preferito
-      preferred_languages: Lingue preferite
       preferred_site_color_scheme: Schema di colori preferito per il sito web
       site_color_schemes:
         auto: Automatico
@@ -2015,11 +2048,7 @@ it:
         auto: Automatico
         light: Chiaro
         dark: Scuro
-      edit_preferences: Modifica preferenze
-    edit:
-      title: Modifica preferenze
       save: Aggiorna preferenze
-      cancel: Annulla
     update:
       failure: Impossibile aggiornare le preferenze.
     update_success_flash:
@@ -2875,7 +2904,7 @@ it:
       by_signing_up:
         html: Registrandoti, accetti i nostri %{tou_link}, %{privacy_policy_link}
           e %{contributor_terms_link}.
-        privacy_policy: normativa sulla privacy
+        privacy_policy: informativa sulla privacy
         privacy_policy_title: Informativa sulla privacy di OSM Foundation compresa
           la sezione sugli indirizzi e-mail
         contributor_terms: regole per contribuire
@@ -2891,40 +2920,6 @@ it:
       consider_pd: pubblico dominio
       or: o
       use external auth: o registrati tramite terze parti
-    terms:
-      title: Termini
-      heading: Termini
-      heading_ct: Regole per contribuire
-      read and accept with tou: Leggi l’accordo di collaborazione e le condizioni
-        d’uso, quando hai finito spunta entrambe le caselle e poi premi il pulsante
-        Continua.
-      contributor_terms_explain: Questo accordo definisce le condizioni delle tue
-        collaborazioni presenti e future.
-      read_ct: Ho letto e accetto le condizioni di collaborazione qui sopra
-      tou_explain_html: Queste %{tou_link} definiscono l’utilizzo del sito web e di
-        altre infrastrutture fornite dalla OSMF. Clicca sul collegamento, leggi il
-        testo e accetta.
-      read_tou: Ho letto e accetto le Condizioni d'uso
-      consider_pd: In aggiunta a quanto sopra, considero i miei contributi come fossero
-        di pubblico dominio
-      consider_pd_why: cos'è questo?
-      guidance_info_html: 'Informazioni per aiutarti a comprendere queste condizioni:
-        un %{readable_summary_link} e alcune %{informal_translations_link}'
-      readable_summary: riassunto leggibile da un essere umano
-      informal_translations: traduzioni informali
-      continue: Continua
-      cancel: Annulla
-      you need to accept or decline: Si prega di leggere e poi accettare o rifiutare
-        i nuovi termini di contribuzione per continuare.
-      legale_select: 'Seleziona il tuo Paese di residenza:'
-      legale_names:
-        france: Francia
-        italy: Italia
-        rest_of_world: Resto del mondo
-    terms_declined_flash:
-      terms_declined_html: Siamo spiacenti che tu abbia deciso di non accettare i
-        nuovi termini di contribuzione. Per ulteriori informazioni consultare %{terms_declined_link}.
-      terms_declined_link: questa pagina wiki
     no_such_user:
       title: Nessun utente
       heading: L'utente %{user} non esiste
@@ -3124,8 +3119,7 @@ it:
         ended: terminato
         revoked_html: revocato da %{name}
         active: attivo
-        active_unread: attivo non letto
-        expired_unread: scaduto non letto
+        active_until_read: attivo fino alla lettura
         read_html: letto alle %{time}
         time_in_future_title: '%{time_absolute}; in %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3237,10 +3231,17 @@ it:
       intro: Ti sei accorto di un errore o di qualcosa che manca? Fallo sapere agli
         altri mappatori così possono correggerlo. Sposta il puntatore nella posizione
         esatta e inserisci una nota per spiegare il problema.
-      anonymous_warning_html: Non hai effettuato l'accesso. %{log_in} oppure %{sign_up}
-        se desideri ricevere aggiornamenti sulla tua nota.
+      anonymous_warning_html: Non hai effettuato l'accesso; %{log_in} o %{sign_up}
+        per ricevere aggiornamenti sulla tua nota e aiutare i mappatori a risolverla.
       anonymous_warning_log_in: entra
       anonymous_warning_sign_up: registrati
+      x_anonymous_notes:
+        one: '%{count} nota anonima'
+        other: '%{count} note anonime'
+      counter_warning_guide_link:
+        url: https://wiki.openstreetmap.org/wiki/IT:Beginners%27_guide
+      counter_warning_forum_link:
+        text: la comunità può aiutarti
       advice: La tua nota è pubblica e potrebbe essere utilizzata per aggiornare la
         mappa, pertanto non inserire informazioni personali e neppure dati provenienti
         da mappe protette da copyright oppure elenchi.
@@ -3253,6 +3254,8 @@ it:
       showing_page: Pagina %{page}
       next: Successivo
       previous: Precedente
+    not_found_message:
+      sorry: 'Spiacenti, la nota #%{id} non è stata trovata.'
   javascripts:
     close: Chiudi
     share:

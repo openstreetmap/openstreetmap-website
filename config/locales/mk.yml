@@ -26,9 +26,6 @@ mk:
         create: Додај коментар
       message:
         create: Испрати
-      client_application:
-        create: Пријави
-        update: Поднови
       oauth2_application:
         create: Зачленување
         update: Поднови
@@ -247,30 +244,6 @@ mk:
       entry:
         comment: Коментар
         full: Целата белешка
-  account:
-    deletions:
-      show:
-        title: Избриши ја мојата сметка
-        warning: Предупредување! Бришењето на сметката е неповратно и неотповикливо.
-        delete_account: Избриши сметка
-        delete_introduction: 'Можете да ја избришете вашата сметка на OpenStreetMap
-          служејќи со со копчето подолу. Имајте ги на ум следниве поединости:'
-        delete_profile: Ќе бидат отстарнети вашите профилни информации, вклучувајќи
-          го вашиот аватар, опис и место на живеење.
-        delete_display_name: Ќе биде отстрането вашето име за приказ, и истото може
-          да го земе друга сметка.
-        retain_caveats: 'Сепак, OpenStreetMap ќе задржи некои информации за вас, дури
-          и по бришењето на сметката:'
-        retain_edits: Вашите уредувања на картографската база.
-        retain_traces: Вашите подигнати траги.
-        retain_diary_entries: Вашите дневнички записи и коментари.
-        retain_notes: Вашите белешки и коментари на картата (но нема да бидат видливи).
-        retain_changeset_discussions: Вашите разговори за збировите промени.
-        retain_email: Вашите е-поштенски адреси.
-        recent_editing_html: Бидејќи неодамна уредувавте, вашата сметка засега не
-          може да се избрише. Бришењето ќе може да се изведе за %{time}.
-        confirm_delete: Дали сте сигурни?
-        cancel: Откажи
   accounts:
     edit:
       title: Уреди сметка
@@ -317,6 +290,64 @@ mk:
       success: Корисничките информации се успешно подновени.
     destroy:
       success: Сметката е избришана.
+    deletions:
+      show:
+        title: Избриши ја мојата сметка
+        warning: Предупредување! Бришењето на сметката е неповратно и неотповикливо.
+        delete_account: Избриши сметка
+        delete_introduction: 'Можете да ја избришете вашата сметка на OpenStreetMap
+          служејќи со со копчето подолу. Имајте ги на ум следниве поединости:'
+        delete_profile: Ќе бидат отстарнети вашите профилни информации, вклучувајќи
+          го вашиот аватар, опис и место на живеење.
+        delete_display_name: Ќе биде отстрането вашето име за приказ, и истото може
+          да го земе друга сметка.
+        retain_caveats: 'Сепак, OpenStreetMap ќе задржи некои информации за вас, дури
+          и по бришењето на сметката:'
+        retain_edits: Вашите уредувања на картографската база.
+        retain_traces: Вашите подигнати траги.
+        retain_diary_entries: Вашите дневнички записи и коментари.
+        retain_notes: Вашите белешки и коментари на картата (но нема да бидат видливи).
+        retain_changeset_discussions: Вашите разговори за збировите промени.
+        retain_email: Вашите е-поштенски адреси.
+        recent_editing_html: Бидејќи неодамна уредувавте, вашата сметка засега не
+          може да се избрише. Бришењето ќе може да се изведе за %{time}.
+        confirm_delete: Дали сте сигурни?
+        cancel: Откажи
+    terms:
+      show:
+        title: Услови
+        heading: Услови
+        heading_ct: Услови на учество
+        read and accept with tou: Прочитајте ги согласноста за учесници и условите
+          на употреба, штиклирајте ги двете кутивчиња, па стиснете на „Продолжи“.
+        contributor_terms_explain: Согласноста е таа која ги определува условите на
+          вашите постоечки и идни придонеси.
+        read_ct: Ги прочитав горенаведените услови на учество и се согласувам со нив
+        tou_explain_html: Овие %{tou_link} се тие кои го определуваат начинот на користење
+          на мрежното место и останатата инфраструктура на OSMF. Стиснете на врската,
+          прочитајте го текстот и согласете се со него.
+        read_tou: Ги прочитав Условите на употреба и се согласувам со нив
+        consider_pd: Покрај горенаведеното, моите придонеси ги сметам за јавна сопственост
+        consider_pd_why: Што е ова?
+        guidance_info_html: 'Информации што ќе ви помогнат да ги разберете овие поими:
+          %{readable_summary_link} и некои %{informal_translations_link}'
+        readable_summary: човечки читлив опис
+        informal_translations: неформални преводи
+        continue: Продолжи
+        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
+        cancel: Откажи
+        you need to accept or decline: Прочитајте ги новите Услови за учество, а потоа
+          согласете се или одбијте ги.
+        legale_select: 'Одберете ја вашата земја на живеење:'
+        legale_names:
+          france: Франција
+          italy: Италија
+          rest_of_world: Остатокот од светот
+      terms_declined_flash:
+        terms_declined_html: Жалиме што не се согласувате со новите Услови за учество.
+          Повеќе информации ќе најдете на %{terms_declined_link}.
+        terms_declined_link: оваа викистраница
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
   browse:
     deleted_ago_by_html: Избришано %{time_ago} од %{user}
     edited_ago_by_html: Изменето %{time_ago} од %{user}
@@ -336,15 +367,11 @@ mk:
     view_history: Погл. историја
     view_unredacted_history: Погл. неизменета историја
     view_details: Погл. поединости
-    view_redacted_data: Погл. исправена верзија
-    view_redaction_message: Погл. порака за измената
     location: 'Местоположба:'
     node:
       title_html: 'Јазол: %{name}'
-      history_title_html: 'Историја на јазолот: %{name}'
     way:
       title_html: 'Пат: %{name}'
-      history_title_html: 'Историја на патот: %{name}'
       nodes: Јазли
       nodes_count:
         one: '%{count} јазол'
@@ -354,7 +381,6 @@ mk:
         other: дел од патиштата %{related_ways}
     relation:
       title_html: 'Однос: %{name}'
-      history_title_html: 'Историја на односот: %{name}'
       members: Членови
       members_count:
         one: '%{count} член'
@@ -369,13 +395,6 @@ mk:
       entry_role_html: '%{relation_name} (како %{relation_role})'
     not_found:
       title: Не е најдено
-      sorry: За жал, не да најдам %{type} со бр. %{id}.
-      type:
-        node: јазол
-        way: пат
-        relation: однос
-        changeset: измени
-        note: белешка
     timeout:
       title: Грешка поради истек на времето
       sorry: Жалиме, но добивањето на податоците за %{type} со назнака %{id} трае
@@ -415,30 +434,47 @@ mk:
       introduction: Стиснете на картата за да ги најдете елементите во близина.
       nearby: Елементи во близина
       enclosing: Обиколни елементи
+  old_elements:
+    index:
+      node:
+        title_html: 'Историја на јазолот: %{name}'
+      way:
+        title_html: 'Историја на патот: %{name}'
+      relation:
+        title_html: 'Историја на односот: %{name}'
+    actions:
+      view_redacted_data: Погл. исправена верзија
+      view_redaction_message: Погл. порака за измената
   nodes:
+    not_found_message:
+      sorry: За жал, не можев да го најдам јазолот бр. %{id}.
     timeout:
       sorry: Жалиме, но добивањето на податоците за јазолот со назнака %{id} трае
         предолго.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'За жал, не го најдов јазолот #%{id} верзија %{version}.'
     timeout:
       sorry: Жалиме, но добивањето на историјата на јазолот со назнака %{id} трае
         предолго.
   ways:
+    not_found_message:
+      sorry: За жал, не можев да го најдам патот бр. %{id}.
     timeout:
       sorry: Жалиме, но добивањето на податоците за патот со назнака %{id} трае предолго.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'За жал, не го најдов патот #%{id} верзија %{version}.'
     timeout:
       sorry: Жалиме, но добивањето на историјата на патот со назнака %{id} трае предолго.
   relations:
+    not_found_message:
+      sorry: За жал, не можев да го најдам односот бр. %{id}.
     timeout:
       sorry: Жалиме, но добивањето на податоците за односот со назнака %{id} трае
         предолго.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'За жал, не го најдов односот #%{id} верзија %{version}.'
     timeout:
       sorry: Жалиме, но добивањето на историјата на односот со назнака %{id} трае
@@ -518,6 +554,8 @@ mk:
       ways_paginated: Патишта (%{x}-%{y} од вкупно %{count})
       relations: Односи (%{count})
       relations_paginated: Односи (%{x}-%{y} од вкупно %{count})
+    not_found_message:
+      sorry: За жал, не можев да ги најдам промените со бр. %{id}.
     timeout:
       sorry: За жал, на списокот на промени што го побаравте му требаше предолго за
         да се добие.
@@ -1675,15 +1713,6 @@ mk:
       see_their_profile_html: Можете да го погледате профилот на оваа личност на %{userurl}.
       befriend_them: Можете личноста и да ја додадете како пријател на %{befriendurl}.
       befriend_them_html: Можете личноста и да ја додадете како пријател на %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Вашата податотека %{trace_name} со описот %{trace_description}
-        и следниве ознаки: %{tags}'
-      description_with_tags_html: 'Вашата податотека %{trace_name} со описот %{trace_description}
-        и следниве ознаки: %{tags}'
-      description_with_no_tags: Вашата податотека %{trace_name} со описот %{trace_description}
-        и без ознаки
-      description_with_no_tags_html: Вашата податотека %{trace_name} со описот %{trace_description}
-        и без ознаки
     gpx_failure:
       hi: Здраво %{to_user},
       failed_to_import: 'не можеше да се увезе. Проверете дали е важечка GPX-податотека
@@ -1698,10 +1727,6 @@ mk:
       subject: '[OpenStreetMap] Проблем при увозот на GPX податотека'
     gpx_success:
       hi: Здраво %{to_user},
-      loaded:
-        one: успешно вчитано со %{trace_points} од %{count} можни точки.
-        other: успешно вчитано со %{trace_points} од %{count} можни точки.
-      trace_location: Вашата трага е достапна на %{trace_url}
       all_your_traces: Сите ваши успешно подигнати GPX-траги ќе ги најдете на %{url}
       all_your_traces_html: Сите ваши успешно подигнати GPX-траги ќе ги најдете на
         %{url}.
@@ -1832,10 +1857,6 @@ mk:
       title: Нема таква порака
       heading: Нема таква порака
       body: За жал, нема порака со таа назнака.
-    reply:
-      wrong_user: Најавени сте како „%{user}“, но пораката на којашто побаравте да
-        одговорите не е испратена до тој корисник. Најавете се под правилно корисничко
-        име за да одговорите.
     show:
       title: Прочитај ја пораката
       reply_button: Одговори
@@ -1899,6 +1920,11 @@ mk:
         people_mapping_nearby: картографите во вашата близина
       message:
         destroy_button: Избриши
+    replies:
+      new:
+        wrong_user: Најавени сте како „%{user}“, но пораката на којашто побаравте
+          да одговорите не е испратена до тој корисник. Најавете се под правилно корисничко
+          име за да одговорите.
   passwords:
     new:
       title: Загубена лозинка
@@ -1921,8 +1947,6 @@ mk:
   preferences:
     show:
       title: Мои нагодувања
-      preferred_editor: Претпочитан уредник
-      preferred_languages: Претпочитани јазици
       preferred_site_color_scheme: Претпочитана бојна шема на мрежното место
       site_color_schemes:
         auto: Автоматски
@@ -1933,11 +1957,7 @@ mk:
         auto: Автоматски
         light: Светло
         dark: Темно
-      edit_preferences: Измени нагодувања
-    edit:
-      title: Измени нагодувања
       save: Поднови нагодувања
-      cancel: Откажи
     update:
       failure: Не можев да ги подновам нагодувањата.
     update_success_flash:
@@ -2804,40 +2824,6 @@ mk:
       consider_pd: јавна сопственост
       or: или
       use external auth: или зачленете се преку надворешно место
-    terms:
-      title: Услови
-      heading: Услови
-      heading_ct: Услови на учество
-      read and accept with tou: Прочитајте ги согласноста за учесници и условите на
-        употреба, штиклирајте ги двете кутивчиња, па стиснете на „Продолжи“.
-      contributor_terms_explain: Согласноста е таа која ги определува условите на
-        вашите постоечки и идни придонеси.
-      read_ct: Ги прочитав горенаведените услови на учество и се согласувам со нив
-      tou_explain_html: Овие %{tou_link} се тие кои го определуваат начинот на користење
-        на мрежното место и останатата инфраструктура на OSMF. Стиснете на врската,
-        прочитајте го текстот и согласете се со него.
-      read_tou: Ги прочитав Условите на употреба и се согласувам со нив
-      consider_pd: Покрај горенаведеното, моите придонеси ги сметам за јавна сопственост
-      consider_pd_why: Што е ова?
-      guidance_info_html: 'Информации што ќе ви помогнат да ги разберете овие поими:
-        %{readable_summary_link} и некои %{informal_translations_link}'
-      readable_summary: човечки читлив опис
-      informal_translations: неформални преводи
-      continue: Продолжи
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
-      cancel: Откажи
-      you need to accept or decline: Прочитајте ги новите Услови за учество, а потоа
-        согласете се или одбијте ги.
-      legale_select: 'Одберете ја вашата земја на живеење:'
-      legale_names:
-        france: Франција
-        italy: Италија
-        rest_of_world: Остатокот од светот
-    terms_declined_flash:
-      terms_declined_html: Жалиме што не се согласувате со новите Услови за учество.
-        Повеќе информации ќе најдете на %{terms_declined_link}.
-      terms_declined_link: оваа викистраница
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
     no_such_user:
       title: Нема таков корисник
       heading: Корисникот %{user} не постои.
@@ -3037,8 +3023,7 @@ mk:
         ended: завршен
         revoked_html: отповикано од %{name}
         active: активен
-        active_unread: активен непрочитан
-        expired_unread: истечен непрочитан
+        active_until_read: активно додека не се прочита
         read_html: порочитај во %{time}
         time_in_future_title: '%{time_absolute}; за %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3165,6 +3150,8 @@ mk:
       showing_page: Страница %{page}
       next: Следно
       previous: Претходно
+    not_found_message:
+      sorry: 'За жал, не можев да ја најдам белешката #%{id}.'
   javascripts:
     close: Затвори
     share:

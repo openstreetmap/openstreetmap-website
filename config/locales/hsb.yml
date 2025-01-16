@@ -24,9 +24,6 @@ hsb:
         create: Komentar přidać
       message:
         create: Pósłać
-      client_application:
-        create: Registrować
-        update: Aktualizować
       oauth2_application:
         create: Registrować
         update: Aktualizować
@@ -262,20 +259,6 @@ hsb:
       entry:
         comment: Komentar
         full: Dospołna pokazka
-  account:
-    deletions:
-      show:
-        title: Moje konto zhašeć
-        warning: Kedźbu! Proces zhašenja konta je doskónčny a njeda so cofnyć.
-        delete_account: Konto zhašeć
-        delete_introduction: 'Móžeš swoje konto OpenStreetMap z pomocu tłóčatka deleka
-          zhašeć. Prošu dźiwajće na slědowace podrobnosće:'
-        delete_profile: Waše profilowe informacije, mjez nimi waš awatar, wopisanje
-          a bydlišćo so wotstronja.
-        delete_display_name: Waše pokazowanske mjeno so wotstroni a da so z druhimi
-          kontami znowa wužiwać.
-        confirm_delete: Sy sej wěsty?
-        cancel: Přetorhnyć
   accounts:
     edit:
       title: Konto wobdźěłać
@@ -310,6 +293,42 @@ hsb:
       success: Wužiwarske informacije wuspěšnje zaktualizowane.
     destroy:
       success: Konto je so zhašało.
+    deletions:
+      show:
+        title: Moje konto zhašeć
+        warning: Kedźbu! Proces zhašenja konta je doskónčny a njeda so cofnyć.
+        delete_account: Konto zhašeć
+        delete_introduction: 'Móžeš swoje konto OpenStreetMap z pomocu tłóčatka deleka
+          zhašeć. Prošu dźiwajće na slědowace podrobnosće:'
+        delete_profile: Waše profilowe informacije, mjez nimi waš awatar, wopisanje
+          a bydlišćo so wotstronja.
+        delete_display_name: Waše pokazowanske mjeno so wotstroni a da so z druhimi
+          kontami znowa wužiwać.
+        confirm_delete: Sy sej wěsty?
+        cancel: Přetorhnyć
+    terms:
+      show:
+        title: Wuměnjenja
+        heading: Wuměnjenja
+        heading_ct: Wuměnjenja za sobuskutkowarjow
+        read_tou: Sym wužiwanske wuměnjenja přečitał a sym z nimi přezjedny|přezjedna
+        consider_pd: Přidatnje k horjeka mjenowanym wuměnjenjam, mam swoje přinoški
+          za powšitkownosći wužitne.
+        consider_pd_why: Što to je?
+        continue: Dale
+        declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
+        you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a
+          akceptuj abo wotpokazaj je, prjedy hač dale činiš.
+        legale_select: 'Prošu wubjer kraj swojeho bydlišća:'
+        legale_names:
+          france: Francoska
+          italy: Italska
+          rest_of_world: Zbytk swěta
+      terms_declined_flash:
+        terms_declined_html: Wobžarujemy, zo sy so rozsudźił, nowe wuměnjenja za sobuskutkowarjow
+          njeakceptować. Za dalše informacije hlej prošu %{terms_declined_link}.
+        terms_declined_link: tuta wikistrona
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
   browse:
     version: Wersija
     in_changeset: Sadźba změnow
@@ -332,10 +351,8 @@ hsb:
     location: 'Městno:'
     node:
       title_html: 'Suk: %{name}'
-      history_title_html: 'Sukata historija: %{name}'
     way:
       title_html: 'Puć: %{name}'
-      history_title_html: 'Historija puća: %{name}'
       nodes: Suki
       nodes_count:
         one: '%{count} suk'
@@ -349,7 +366,6 @@ hsb:
         other: dźěl pućow %{related_ways}
     relation:
       title_html: 'Relacija: %{name}'
-      history_title_html: 'Historija relacije: %{name}'
       members: Čłonojo
       members_count:
         one: '%{count} čłon'
@@ -366,13 +382,6 @@ hsb:
       entry_role_html: Relacija %{relation_name} (jako %{relation_role})
     not_found:
       title: Njenamakane
-      sorry: 'Wodaj, %{type} #%{id} njebu namakany.'
-      type:
-        node: suk
-        way: puć
-        relation: relacija
-        changeset: sadźba změnow
-        note: pokiw
     timeout:
       title: Zmylk časoweho překročenja
       sorry: Wodaj, traje předołho, daty za %{type} z ID %{id} wotwołać.
@@ -411,6 +420,14 @@ hsb:
       introduction: Klikń na kartu, zo by susodne objekty namakał(a).
       nearby: Objekty w bliskosći
       enclosing: Wobdawace funkcije
+  old_elements:
+    index:
+      node:
+        title_html: 'Sukata historija: %{name}'
+      way:
+        title_html: 'Historija puća: %{name}'
+      relation:
+        title_html: 'Historija relacije: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1521,11 +1538,6 @@ hsb:
       see_their_profile_html: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
       befriend_them: Móžeš jeho/nju na %{befriendurl} jako přećela přidać.
       befriend_them_html: Móžeš jeho/ju na %{befriendurl} jako přećela přidać.
-    gpx_description:
-      description_with_tags_html: 'Wupada za wašej GPX-dataju %{trace_name} z wopisanjom
-        %{trace_description} a slědowacymi značkami: %{tags}'
-      description_with_no_tags_html: Wupada za wašej GPX-dataju %{trace_name} z wopisanjom
-        %{trace_description} a bjez značkow
     gpx_failure:
       hi: Witaj %{to_user},
       failed_to_import: 'njemóhło so importować. Zmylk je:'
@@ -1659,9 +1671,6 @@ hsb:
       title: Powěsć njeeksistuje
       heading: Powěsć njeeksistuje
       body: Bohužel njeje powěsć z tutej ID.
-    reply:
-      wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chceš wotmołwić,
-        bu na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by wotmołwił(a).
     show:
       title: Powěsć čitać
       reply_button: Wotmołwić
@@ -1728,6 +1737,11 @@ hsb:
         people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
       message:
         destroy_button: Wotstronić
+    replies:
+      new:
+        wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chceš wotmołwić,
+          bu na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by
+          wotmołwił(a).
   passwords:
     new:
       title: Hesło zabyte
@@ -1746,13 +1760,7 @@ hsb:
   preferences:
     show:
       title: Moje preferency
-      preferred_editor: Preferowany editor
-      preferred_languages: Preferowane rěče
-      edit_preferences: Preferency wobdźěłać
-    edit:
-      title: Preferency wobdźěłać
       save: Preferency aktualizować
-      cancel: Přetorhnyć
     update:
       failure: Preferency njedachu so aktualizować.
     update_success_flash:
@@ -2312,28 +2320,6 @@ hsb:
       continue: Registrować
       terms accepted: Dźakujemy so, zo sy nowe wuměnjenja za sobuskutkowarjow akceptował!
       use external auth: Jako alternatiwa wužij třeću stronu za přizjewjenje
-    terms:
-      title: Wuměnjenja
-      heading: Wuměnjenja
-      heading_ct: Wuměnjenja za sobuskutkowarjow
-      read_tou: Sym wužiwanske wuměnjenja přečitał a sym z nimi přezjedny|přezjedna
-      consider_pd: Přidatnje k horjeka mjenowanym wuměnjenjam, mam swoje přinoški
-        za powšitkownosći wužitne.
-      consider_pd_why: Što to je?
-      continue: Dale
-      declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
-      you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a akceptuj
-        abo wotpokazaj je, prjedy hač dale činiš.
-      legale_select: 'Prošu wubjer kraj swojeho bydlišća:'
-      legale_names:
-        france: Francoska
-        italy: Italska
-        rest_of_world: Zbytk swěta
-    terms_declined_flash:
-      terms_declined_html: Wobžarujemy, zo sy so rozsudźił, nowe wuměnjenja za sobuskutkowarjow
-        njeakceptować. Za dalše informacije hlej prošu %{terms_declined_link}.
-      terms_declined_link: tuta wikistrona
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
     no_such_user:
       title: Wužiwar njeeksistuje
       heading: Wužiwar %{user} njeeksistuje

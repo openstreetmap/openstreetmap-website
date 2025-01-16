@@ -39,9 +39,6 @@ gl:
         create: Engadir o comentario
       message:
         create: Enviar
-      client_application:
-        create: Rexistrarse
-        update: Actualizar
       oauth2_application:
         create: Rexistrarse
         update: Actualizar
@@ -262,7 +259,52 @@ gl:
       entry:
         comment: Comentario
         full: Nota completa
-  account:
+  accounts:
+    edit:
+      title: Editar a conta
+      my settings: Os meus axustes
+      current email address: Enderezo de correo electrónico actual
+      external auth: Autenticación externa
+      openid:
+        link text: que é isto?
+      public editing:
+        heading: Edición pública
+        enabled: Activado. Non es anónimo e podes editar os datos.
+        enabled link text: que é isto?
+        disabled: Desactivado e non pode editar os datos. Tódalas anteriores edicións
+          son anónimas.
+        disabled link text: por que non podo editar?
+      contributor terms:
+        heading: Termos do colaborador
+        agreed: Aceptaches os novos termos do colaborador.
+        not yet agreed: Aínda non aceptaches os novos termos do colaborador.
+        review link text: Siga esta ligazón para revisar e aceptar os novos termos
+          do colaborador.
+        agreed_with_pd: Tamén declaraches que consideras que as túas edicións pertencen
+          ó dominio público.
+        link text: que é isto?
+      save changes button: Gardar as modificacións
+      delete_account: Borrar a conta...
+    go_public:
+      heading: Edición pública
+      currently_not_public: Actualmente as túas edicións son anónimas e as persoas
+        non poden enviarche mensaxes nin ver a túa localización. Para mostrar o que
+        editaches e permitir que a xente se poña en contacto contigo a través do sitio
+        web, preme no botón de abaixo.
+      only_public_can_edit: Desde o cambio da API 0.6, só os usuarios públicos poden
+        editar os datos do mapa.
+      find_out_why: descubrir por que
+      email_not_revealed: O teu enderezo de correo electrónico non se revelará ao
+        facerte público.
+      not_reversible: Esta acción non se pode reverter e todos os usuarios novos agora
+        son públicos por defecto.
+      make_edits_public_button: Facer públicas tódalas miñas edicións
+    update:
+      success_confirm_needed: Información de usuario actualizada de xeito correcto.
+        Procura no teu correo electrónico unha mensaxe para confirmar o teu novo enderezo.
+      success: Información de usuario actualizada correctamente.
+    destroy:
+      success: Conta borrada.
     deletions:
       show:
         title: Borrar a miña conta
@@ -291,52 +333,43 @@ gl:
           nestes intres. A eliminación será posible en %{time}.
         confirm_delete: Queres continuar?
         cancel: Cancelar
-  accounts:
-    edit:
-      title: Editar a conta
-      my settings: Os meus axustes
-      current email address: Enderezo de correo electrónico actual
-      external auth: Autenticación externa
-      openid:
-        link text: que é isto?
-      public editing:
-        heading: Edición pública
-        enabled: Activado. Non es anónimo e podes editar os datos.
-        enabled link text: que é isto?
-        disabled: Desactivado e non pode editar os datos. Tódalas anteriores edicións
-          son anónimas.
-        disabled link text: por que non podo editar?
-      contributor terms:
-        heading: Termos do colaborador
-        agreed: Aceptaches os novos termos do colaborador.
-        not yet agreed: Aínda non aceptaches os novos termos do colaborador.
-        review link text: Siga esta ligazón para revisar e aceptar os novos termos
-          do colaborador.
-        agreed_with_pd: Tamén declarou que coida que as súas edicións pertencen ó
-          dominio público.
-        link text: que é isto?
-      save changes button: Gardar as modificacións
-      delete_account: Borrar a conta...
-    go_public:
-      heading: Edición pública
-      currently_not_public: Actualmente as túas edicións son anónimas e as persoas
-        non poden enviarche mensaxes nin ver a túa localización. Para mostrar o que
-        editaches e permitir que a xente se poña en contacto contigo a través do sitio
-        web, preme no botón de abaixo.
-      only_public_can_edit: Desde o cambio da API 0.6, só os usuarios públicos poden
-        editar os datos do mapa.
-      find_out_why: descubrir por que
-      email_not_revealed: O teu enderezo de correo electrónico non se revelará ao
-        facerte público.
-      not_reversible: Esta acción non se pode reverter e todos os usuarios novos agora
-        son públicos por defecto.
-      make_edits_public_button: Facer públicas tódalas miñas edicións
-    update:
-      success_confirm_needed: Información de usuario actualizada de xeito correcto.
-        Procura no teu correo electrónico unha mensaxe para confirmar o teu novo enderezo.
-      success: Información de usuario actualizada correctamente.
-    destroy:
-      success: Conta borrada.
+    terms:
+      show:
+        title: Termos
+        heading: Termos
+        heading_ct: Termos do colaborador
+        read and accept with tou: Le o acordo do colaborador e os termos de uso, marca
+          ambas as dúas celas de verificación cando remates e despois preme no botón
+          "Continuar".
+        contributor_terms_explain: Este acordo regula as condicións para as túas contribucións
+          actuais e futuras.
+        read_ct: Lin e acepto os termos do colaborador anteriores
+        tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
+          infraestruturas fornecidas pola OSMF.  Preme na ligazón, le e acepta o texto.
+        read_tou: Lin e acepto os Termos de uso
+        consider_pd: Ademais do anterior, coido que as miñas contribucións están baixo
+          dominio público
+        consider_pd_why: que é isto?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        guidance_info_html: 'Información para axudar a comprender estes termos: un
+          %{readable_summary_link} e algunhas %{informal_translations_link}'
+        readable_summary: resumo lexible por humanos
+        informal_translations: traducións informais
+        continue: Continuar
+        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+        cancel: Cancelar
+        you need to accept or decline: Le e, deseguido, acepta ou rexeita os novos
+          termos do colaborador para continuar.
+        legale_select: 'País de residencia:'
+        legale_names:
+          france: Francia
+          italy: Italia
+          rest_of_world: Resto do mundo
+      terms_declined_flash:
+        terms_declined_html: Lamentamos que decidises non aceptar as novas condicións
+          dos colaboradores. Para obter máis información, consulta %{terms_declined_link}.
+        terms_declined_link: esta páxina do wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: Borrado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -356,15 +389,11 @@ gl:
     view_history: Ollar o historial
     view_unredacted_history: Ollar o historial non censurado
     view_details: Ollar os detalles
-    view_redacted_data: Ollar os datos censurados
-    view_redaction_message: Ollar a mensaxe censurada
     location: 'Localización:'
     node:
       title_html: 'Nó: %{name}'
-      history_title_html: 'Historial do nó: %{name}'
     way:
       title_html: 'Vía: %{name}'
-      history_title_html: 'Historial da vía: %{name}'
       nodes: Nós
       nodes_count:
         one: '%{count} nó'
@@ -374,7 +403,6 @@ gl:
         other: parte das vías %{related_ways}
     relation:
       title_html: 'Relación: %{name}'
-      history_title_html: 'Historial da relación: %{name}'
       members: Membros
       members_count:
         one: '%{count} membro'
@@ -389,13 +417,6 @@ gl:
       entry_role_html: '%{relation_name} (como %{relation_role})'
     not_found:
       title: Non atopado
-      sorry: Sentímolo, non se puido atopar o/a %{type} co n.º %{id}.
-      type:
-        node: nó
-        way: vía
-        relation: relación
-        changeset: conxunto de modificacións
-        note: nota
     timeout:
       title: Tempo excedido
       sorry: Tardouse demasiado en obter os datos para o tipo "%{type}" co identificador
@@ -436,29 +457,45 @@ gl:
       introduction: Preme no mapa para atopar elementos preto de aquí.
       nearby: Elementos preto de aquí
       enclosing: Elementos arredor
+  old_elements:
+    index:
+      node:
+        title_html: 'Historial do nó: %{name}'
+      way:
+        title_html: 'Historial da vía: %{name}'
+      relation:
+        title_html: 'Historial da relación: %{name}'
+    actions:
+      view_redacted_data: Ollar os datos censurados
+      view_redaction_message: Ollar a mensaxe censurada
   nodes:
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar o nó co n.º %{id}.
     timeout:
-      sorry: Tardouse demasiado en obter os datos para o nodo co identificador %{id}.
+      sorry: Tardouse demasiado en obter os datos para o nó co identificador %{id}.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: Sentímolo, non se puido atopar a versión %{version} do nó n.º %{id}.
     timeout:
-      sorry: Tardouse demasiado en obter o historial para o nodo co identificador
-        %{id}.
+      sorry: Tardouse demasiado en obter o historial para o nó co identificador %{id}.
   ways:
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar a vía co n.º %{id}.
     timeout:
       sorry: Tardouse demasiado en obter os datos para a vía co identificador %{id}.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: Sentímolo, non se puido atopar a versión %{version} da vía n.º %{id}.
     timeout:
       sorry: Tardouse demasiado en obter o historial para a vía co identificador %{id}.
   relations:
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar a relación co n.º %{id}.
     timeout:
       sorry: Tardouse demasiado en obter os datos para a relación co identificador
         %{id}.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: Sentímolo, non se puido atopar a versión %{version} da relación n.º %{id}.
     timeout:
       sorry: Tardouse demasiado en obter o historial para a relación co identificador
@@ -541,16 +578,18 @@ gl:
       ways_paginated: Vías (%{x}-%{y} de %{count})
       relations: Relacións (%{count})
       relations_paginated: Relacións (%{x}-%{y} de %{count})
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar o conxunto de modificacións co n.º %{id}.
     timeout:
-      sorry: Desculpe que levase moito tempo obter a listaxe do conxunto de modificacións
-        que solicitou.
+      sorry: Sentímolo, a lista dos conxuntos de modificacións que solicitaches tardou
+        moito en obterse.
   dashboards:
     contact:
       km away: a %{count}km de distancia
       m away: a %{count}m de distancia
       latest_edit_html: 'Última edición (%{ago}):'
     popup:
-      your location: A súa localización
+      your location: A túa localización
       nearby mapper: Cartógrafo preto de ti
       friend: Amizade
     show:
@@ -1702,35 +1741,31 @@ gl:
       see_their_profile_html: Podes ollar o seu perfil en %{userurl}.
       befriend_them: Tamén pode engadilo coma amizade no %{befriendurl}.
       befriend_them_html: Tamén podes engadilo como amizade no %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Parece que o teu ficheiro %{trace_name} coa descrición
-        %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_tags_html: 'Parece que o teu ficheiro %{trace_name} coa descrición
-        %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_no_tags: Parece que o teu ficheiro %{trace_name} coa descrición
-        %{trace_description} e sen etiquetas
-      description_with_no_tags_html: Parece que o teu ficheiro %{trace_name} coa descrición
-        %{trace_description} e sen etiquetas
+    gpx_details:
+      details: 'Detalles do teu ficheiro:'
+      filename: Nome do ficheiro
+      url: URL
+      description: Descrición
+      tags: Etiquetas
+      total_points: Número total de puntos
+      imported_points: Número de puntos importados
     gpx_failure:
       hi: 'Ola %{to_user}:'
-      failed_to_import: 'non se puido importar como ficheiro de pista GPS. Verifica
-        que o teu ficheiro sexa un ficheiro GPX válido ou un arquivo que conteña ficheiros
-        GPX no formato admitido (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
-        Seica hai algún problema de formato ou de sintaxe co teu ficheiro? Velaquí
-        está o erro de importación:'
+      failed_to_import: Semella que o teu ficheiro non se puido importar como pista
+        GPS.
+      verify: 'Verifica que o teu ficheiro sexa un ficheiro GPX válido ou un arquivo
+        que conteña ficheiros GPX no formato admitido (.tar.gz, .tar.bz2, .tar, .zip,
+        .gpx.gz, .gpx.bz2). Seica hai algún problema de formato ou de sintaxe co teu
+        ficheiro? Velaquí está o erro de importación:'
       more_info: Máis información sobre os erros de importación de GPX e como evitalos
-        en %{url}.
+        en %{url}
       more_info_html: Máis información sobre os erros de importación de GPX e como
         evitalos en %{url}.
       subject: '[OpenStreetMap] Importación GPX errónea'
     gpx_success:
       hi: 'Ola %{to_user}:'
-      loaded:
-        one: cargouse correctamente con %{trace_points} de entre un %{count} punto
-          posible.
-        other: cargouse correctamente con %{trace_points} de entre %{count} puntos
-          posibles.
-      trace_location: A túa pista está dispoñible en %{trace_url}
+      imported_successfully: Semella que o teu ficheiro se importou correctamente
+        como unha pista GPS.
       all_your_traces: Podes atopar todas as pistas GPX que subiches en %{url}
       all_your_traces_html: Podes atopar todas as pistas GPX que subiches en %{url}.
       subject: '[OpenStreetMap] Importación GPX correcta'
@@ -1834,6 +1869,9 @@ gl:
       success: Confirmouse a túa conta. Grazas por se rexistrar!
       already active: Esta conta xa se confirmou.
       unknown token: Ese código de confirmación caducou ou non existe.
+      if_need_resend: Se necesitas que reenviemos o correo electrónico de confirmación,
+        preme no botón de abaixo.
+      resend_button: Reenviar o correo electrónico de confirmación
     confirm_resend:
       failure: Non se atopou o usuario "%{name}".
     confirm_email:
@@ -1863,10 +1901,6 @@ gl:
       title: Non se atopou a mensaxe
       heading: Non se atopou a mensaxe
       body: Non hai ningunha mensaxe con ese identificador.
-    reply:
-      wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
-        responder non se enviou a ese usuario. Accede co usuario correcto para redactar
-        a resposta.
     show:
       title: Ler a mensaxe
       reply_button: Responder
@@ -1930,6 +1964,11 @@ gl:
         people_mapping_nearby: persoas preto de ti
       message:
         destroy_button: Eliminar
+    replies:
+      new:
+        wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
+          responder non se enviou a ese usuario. Accede co usuario correcto para redactar
+          a resposta.
   passwords:
     new:
       title: Contrasinal perdido
@@ -1956,8 +1995,6 @@ gl:
   preferences:
     show:
       title: As miñas preferencias
-      preferred_editor: Editor preferido
-      preferred_languages: Linguas preferidas
       preferred_site_color_scheme: Esquema de cores preferido para o sitio web
       site_color_schemes:
         auto: Automático
@@ -1968,11 +2005,7 @@ gl:
         auto: Automático
         light: Claro
         dark: Escuro
-      edit_preferences: Editar preferencias
-    edit:
-      title: Editar preferencias
       save: Actualizar preferencias
-      cancel: Cancelar
     update:
       failure: Non foi posíbel actualizar as preferencias.
     update_success_flash:
@@ -2856,39 +2889,6 @@ gl:
       consider_pd: dominio publico
       or: ou
       use external auth: ou rexístrate cun servizo de terceiros
-    terms:
-      title: Termos
-      heading: Termos
-      heading_ct: Termos do colaborador
-      read and accept with tou: Le o acordo do colaborador e os termos de uso, marca
-        ambas as dúas celas de verificación cando remates e despois preme no botón
-        "Continuar".
-      contributor_terms_explain: Este acordo regula as condicións para as túas contribucións
-        actuais e futuras.
-      read_ct: Lin e acepto os termos do colaborador anteriores
-      tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
-        infraestruturas fornecidas pola OSMF.  Preme na ligazón, le e acepta o texto.
-      read_tou: Lin e acepto os Termos de uso
-      consider_pd: Ademais do anterior, coido que as miñas contribucións están baixo
-        dominio público
-      consider_pd_why: que é isto?
-      guidance_info_html: 'Información para axudar a comprender estes termos: un %{readable_summary_link}
-        e algunhas %{informal_translations_link}'
-      readable_summary: resumo lexible por humanos
-      informal_translations: traducións informais
-      continue: Continuar
-      cancel: Cancelar
-      you need to accept or decline: Le e, deseguido, acepta ou rexeita os novos termos
-        do colaborador para continuar.
-      legale_select: 'País de residencia:'
-      legale_names:
-        france: Francia
-        italy: Italia
-        rest_of_world: Resto do mundo
-    terms_declined_flash:
-      terms_declined_html: Lamentamos que decidises non aceptar as novas condicións
-        dos colaboradores. Para obter máis información, consulta %{terms_declined_link}.
-      terms_declined_link: esta páxina do wiki
     no_such_user:
       title: Non existe tal usuario
       heading: O usuario "%{user}" non existe
@@ -3087,8 +3087,7 @@ gl:
         ended: finalizado
         revoked_html: revogado por %{name}
         active: activo
-        active_unread: activo sen ler
-        expired_unread: caducado sen ler
+        active_until_read: activo ata ler
         read_html: lido ás %{time}
         time_in_future_title: '%{time_absolute}; en %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3200,9 +3199,21 @@ gl:
         para que poidamos solucionalo. Mova o marcador á posición correcta e escriba
         unha nota expoñendo o problema.
       anonymous_warning_html: Non iniciaches sesión. Por favor, %{log_in} ou %{sign_up}
-        se queres recibir actualizacións da túa nota.
+        para recibir actualizacións da túa nota e axudar a outros cartógrafos a solucionala.
       anonymous_warning_log_in: accede ao sistema
       anonymous_warning_sign_up: rexístrate
+      counter_warning_html: Xa publicaches polo menos %{x_anonymous_notes}, iso é
+        xenial para a comunidade, grazas! Agora animámoste a %{contribute_by_yourself},
+        non é tan complicado, e %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} nota anónima'
+        other: '%{count} notas anónimas'
+      counter_warning_guide_link:
+        text: contribuíres ti
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      counter_warning_forum_link:
+        text: a comunidade pode axudarche
+        url: https://community.openstreetmap.org/
       advice: A túa nota será pública e poderá empregarse para actualizar o mapa;
         por conseguinte, non insiras información persoal, nin datos de mapas protexidos
         por dereitos de autoría ou listaxes de directorios.
@@ -3215,6 +3226,8 @@ gl:
       showing_page: Páxina %{page}
       next: Seguinte
       previous: Anterior
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar a nota co n.º %{id}.
   javascripts:
     close: Pechar
     share:

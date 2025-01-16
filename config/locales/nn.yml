@@ -39,9 +39,6 @@ nn:
         create: Legg til kommentar
       message:
         create: Send
-      client_application:
-        create: Registrer
-        update: Oppdater
       oauth2_application:
         create: Registrer
         update: Oppdater
@@ -219,31 +216,6 @@ nn:
       entry:
         comment: Kommentar
         full: Fullstendig merknad
-  account:
-    deletions:
-      show:
-        title: Slett kontoen min
-        warning: Åtvaring! Sletting av konto er endeleg, og kan ikkje gjerast om.
-        delete_account: Slett konto
-        delete_introduction: 'Du kan sletta kontoen din hjå OpenStreetMap med knappen
-          under. Merk fylgjande:'
-        delete_profile: Profilinformasjonen din, medrekna profilbilde, skildring og
-          heimestad vil fjernast.
-        delete_display_name: Det viste namnet ditt vil fjernast, og kan brukast av
-          andre kontoar.
-        retain_caveats: Somme opplysingar vil verte tatt vare på, til og med etter
-          at kontoen din er sletta.
-        retain_edits: Eventuelle endringar av kartdatabasen vil behaldast.
-        retain_traces: Spor du har lasta opp vil behaldast.
-        retain_diary_entries: Innlegg og kommentarar frå deg i brukardagboken vil
-          verte tekne vare på, men skylte frå ålmenta.
-        retain_notes: Merknadane og kommentarane dine vil verte tekne vare på, men
-          skylt frå ålmenta.
-        retain_changeset_discussions: Tilskota dine til diskusjonar om endringssett
-          vil behaldast.
-        retain_email: E-postadressa di vil behaldast.
-        confirm_delete: Er du sikker?
-        cancel: Bryt av
   accounts:
     edit:
       title: Rediger konto
@@ -289,6 +261,44 @@ nn:
       success: Brukerinformasjon oppdatert.
     destroy:
       success: Kontoen er sletta.
+    deletions:
+      show:
+        title: Slett kontoen min
+        warning: Åtvaring! Sletting av konto er endeleg, og kan ikkje gjerast om.
+        delete_account: Slett konto
+        delete_introduction: 'Du kan sletta kontoen din hjå OpenStreetMap med knappen
+          under. Merk fylgjande:'
+        delete_profile: Profilinformasjonen din, medrekna profilbilde, skildring og
+          heimestad vil fjernast.
+        delete_display_name: Det viste namnet ditt vil fjernast, og kan brukast av
+          andre kontoar.
+        retain_caveats: Somme opplysingar vil verte tatt vare på, til og med etter
+          at kontoen din er sletta.
+        retain_edits: Eventuelle endringar av kartdatabasen vil behaldast.
+        retain_traces: Spor du har lasta opp vil behaldast.
+        retain_diary_entries: Innlegg og kommentarar frå deg i brukardagboken vil
+          verte tekne vare på, men skylte frå ålmenta.
+        retain_notes: Merknadane og kommentarane dine vil verte tekne vare på, men
+          skylt frå ålmenta.
+        retain_changeset_discussions: Tilskota dine til diskusjonar om endringssett
+          vil behaldast.
+        retain_email: E-postadressa di vil behaldast.
+        confirm_delete: Er du sikker?
+        cancel: Bryt av
+    terms:
+      show:
+        title: Bidragsytervilkår
+        heading: Bidragsytervilkåra
+        consider_pd: I tillegg til den ovannemnde avtala ansar eg bidraga mine for
+          å vere i public domain
+        consider_pd_why: kva er dette?
+        you need to accept or decline: Les og deretter anten godta eller avslå dei
+          nye bidragsytervilkåra for å halde fram.
+        legale_select: 'Vel ditt bostedsland:'
+        legale_names:
+          france: Frankrike
+          italy: Italia
+          rest_of_world: Resten av verda
   browse:
     deleted_ago_by_html: Sletta %{time_ago} av %{user}
     edited_ago_by_html: Redigert %{time_ago} av %{user}
@@ -309,10 +319,8 @@ nn:
     location: 'Plassering:'
     node:
       title_html: 'Punkt: %{name}'
-      history_title_html: 'Punkthistorikk: %{name}'
     way:
       title_html: 'Strekning: %{name}'
-      history_title_html: 'Strekningshistorikk: %{name}'
       nodes: Punkt
       nodes_count:
         one: '%{count} punkt'
@@ -322,7 +330,6 @@ nn:
         other: delstrekningar %{related_ways}
     relation:
       title_html: 'Samhøve: %{name}'
-      history_title_html: 'Samhøvehistorikk: %{name}'
       members: Medlemmar
       members_count:
         one: '%{count} medlem'
@@ -337,13 +344,6 @@ nn:
       entry_role_html: Relasjon %{relation_name} (som %{relation_role})
     not_found:
       title: Ikkje funne
-      sorry: Beklagar, klarte ikkje å finne %{type}-en med ID %{id}.
-      type:
-        node: node
-        way: veg
-        relation: relasjon
-        changeset: endringssett
-        note: merknad
     timeout:
       title: Tida gjekk ut
       sorry: Beklagar, data for %{type} med id %{id} tok for lang tid å hente.
@@ -381,6 +381,14 @@ nn:
       introduction: Klikk på kartet for å visa objekt i nærleiken.
       nearby: Nærliggjande objekt
       enclosing: Omgjevande objekt
+  old_elements:
+    index:
+      node:
+        title_html: 'Punkthistorikk: %{name}'
+      way:
+        title_html: 'Strekningshistorikk: %{name}'
+      relation:
+        title_html: 'Samhøvehistorikk: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1624,9 +1632,6 @@ nn:
       title: Inga melding funne
       heading: Inga melding funne
       body: Det er inga melding med den ID-en.
-    reply:
-      wrong_user: Du er logga inn som «%{user}», men meldinga du ynskjer å svare på
-        vart ikkje send til den brukaren. Logg inn som korrekt brukar for å svare.
     show:
       title: Les melding
       reply_button: Svar
@@ -1677,6 +1682,10 @@ nn:
         people_mapping_nearby: folk i nærleiken som lagar kart
       message:
         destroy_button: Slett
+    replies:
+      new:
+        wrong_user: Du er logga inn som «%{user}», men meldinga du ynskjer å svare
+          på vart ikkje send til den brukaren. Logg inn som korrekt brukar for å svare.
   passwords:
     new:
       title: Gløymt passord
@@ -1695,13 +1704,7 @@ nn:
   preferences:
     show:
       title: Innstillingar
-      preferred_editor: Føretrekt redigeringsprogram
-      preferred_languages: Føretrekte språk
-      edit_preferences: Endra innstillingane
-    edit:
-      title: Endra innstillingane
       save: Oppdater innstillingane
-      cancel: Avbryt
     update:
       failure: Kunne ikkje oppdatera innstillingane.
     update_success_flash:
@@ -2250,19 +2253,6 @@ nn:
         dette seinare i innstellingane.
       continue: Registrer deg
       terms accepted: Takk for at du godtok dei nye bidragsytervilkårene!
-    terms:
-      title: Bidragsytervilkår
-      heading: Bidragsytervilkåra
-      consider_pd: I tillegg til den ovannemnde avtala ansar eg bidraga mine for å
-        vere i public domain
-      consider_pd_why: kva er dette?
-      you need to accept or decline: Les og deretter anten godta eller avslå dei nye
-        bidragsytervilkåra for å halde fram.
-      legale_select: 'Vel ditt bostedsland:'
-      legale_names:
-        france: Frankrike
-        italy: Italia
-        rest_of_world: Resten av verda
     no_such_user:
       title: Ingen brukar funnet
       heading: Brukaren %{user} finst ikkje

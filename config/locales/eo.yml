@@ -46,9 +46,6 @@ eo:
         create: Aldoni Komenton
       message:
         create: Sendi
-      client_application:
-        create: Registri
-        update: Ĝisdatigi
       oauth2_application:
         create: Registri
         update: Ĝisdatigi
@@ -265,33 +262,6 @@ eo:
       entry:
         comment: Komento
         full: Tuta rimarko
-  account:
-    deletions:
-      show:
-        title: Forigi mian konton
-        warning: Averto! La procedo de forigo de konto estas definitiva kaj neinversigebla.
-        delete_account: Forigi konton
-        delete_introduction: 'Vi povas forigi vian OpenStreetMap-konton per la butono
-          sube. Estu konscia, ke:'
-        delete_profile: informoj pri via profilo – profilbildo, priskribo kaj hejma
-          pozicio – estos forigitaj;
-        delete_display_name: via montra nomo estos forigita kaj povos esti uzata de
-          aliaj kontoj.
-        retain_caveats: 'Tamen iuj informoj pri vi plue estos konservitaj en OpenStreetMap,
-          eĉ post forigi konton:'
-        retain_edits: viaj (eventualaj) redaktoj al la map-datumbazo estos konservitaj;
-        retain_traces: viaj (eventualaj) alŝutitaj spuroj estos konservitaj;
-        retain_diary_entries: viaj (eventualaj) afiŝoj kaj komentoj en la taglibro
-          estos konservitaj, sed kaŝitaj;
-        retain_notes: viaj (eventualaj) rimarkoj kaj komentoj pri rimarkoj estos konservitaj,
-          sed kaŝitaj;
-        retain_changeset_discussions: viaj (eventualaj) komentoj pri ŝanĝaroj estos
-          konservitaj;
-        retain_email: via retpoŝta adreso estos konservita.
-        recent_editing_html: Ĉar vi lastatempe redaktis, via konto nuntempe ne povas
-          esti forigita. Forigo estos ebla en %{time}.
-        confirm_delete: Ĉu vi certas?
-        cancel: Nuligi
   accounts:
     edit:
       title: Redakti konton
@@ -336,6 +306,67 @@ eo:
       success: Uzantinformoj sukcese freŝigitaj.
     destroy:
       success: Via konto estas forigita.
+    deletions:
+      show:
+        title: Forigi mian konton
+        warning: Averto! La procedo de forigo de konto estas definitiva kaj neinversigebla.
+        delete_account: Forigi konton
+        delete_introduction: 'Vi povas forigi vian OpenStreetMap-konton per la butono
+          sube. Estu konscia, ke:'
+        delete_profile: informoj pri via profilo – profilbildo, priskribo kaj hejma
+          pozicio – estos forigitaj;
+        delete_display_name: via montra nomo estos forigita kaj povos esti uzata de
+          aliaj kontoj.
+        retain_caveats: 'Tamen iuj informoj pri vi plue estos konservitaj en OpenStreetMap,
+          eĉ post forigi konton:'
+        retain_edits: viaj (eventualaj) redaktoj al la map-datumbazo estos konservitaj;
+        retain_traces: viaj (eventualaj) alŝutitaj spuroj estos konservitaj;
+        retain_diary_entries: viaj (eventualaj) afiŝoj kaj komentoj en la taglibro
+          estos konservitaj, sed kaŝitaj;
+        retain_notes: viaj (eventualaj) rimarkoj kaj komentoj pri rimarkoj estos konservitaj,
+          sed kaŝitaj;
+        retain_changeset_discussions: viaj (eventualaj) komentoj pri ŝanĝaroj estos
+          konservitaj;
+        retain_email: via retpoŝta adreso estos konservita.
+        recent_editing_html: Ĉar vi lastatempe redaktis, via konto nuntempe ne povas
+          esti forigita. Forigo estos ebla en %{time}.
+        confirm_delete: Ĉu vi certas?
+        cancel: Nuligi
+    terms:
+      show:
+        title: Kondiĉoj
+        heading: Kondiĉoj
+        heading_ct: Interkonsento pri kontribuado
+        read and accept with tou: Bonvolu legi la interkonsenton pri kontribuado kaj
+          la uzkondiĉoj, marki ambaŭ markbutonojn kiam vi estas leginta, kaj alklaku
+          la butonon Daŭrigi.
+        contributor_terms_explain: Ĉi tiu interkonsento regas la kondicôjn de viaj
+          estantaj kaj estontaj kontribuoj.
+        read_ct: Mi legis kaj konsentas la ĉi-supran Interkonsenton pri kontribuado
+        tou_explain_html: Ĉi tiuj %{tou_link} regas la uzadon de la retejo kaj alia
+          infrastrukturo provizata de la Fondaĵo OSM. Bonvolu alklaki la ligilon,
+          legi, kaj konsenti la tekston.
+        read_tou: Mi legis kaj konsentas la Uzkondiĉojn
+        consider_pd: Krom la ĉi-supro, mi konfirmas, ke miaj kontribuaĵoj apartenas
+          al la publika havaĵo
+        consider_pd_why: Pliaj informoj
+        guidance_info_html: 'Pliaj informoj helpantaj kompreni ilin: %{readable_summary_link}
+          kaj kelkaj %{informal_translations_link}'
+        readable_summary: konciza sumiĝo
+        informal_translations: neoficialaj tradukoj
+        continue: Daŭrigi
+        cancel: Nuligi
+        you need to accept or decline: Bonvolu legi kaj aŭ akcepti aŭ malakcepti la
+          novan interkonsenton pri uzado por pluigi.
+        legale_select: 'Loĝlando:'
+        legale_names:
+          france: Francujo
+          italy: Italujo
+          rest_of_world: Resto de la mondo
+      terms_declined_flash:
+        terms_declined_html: Bedaŭrinde vi ne akceptis la novan interkonsenton pri
+          kontribuado. Por pli da informoj, ekkonu kun %{terms_declined_link}.
+        terms_declined_link: tiu ĉi viki‑paĝo
   browse:
     deleted_ago_by_html: Forigita %{time_ago} de %{user}
     edited_ago_by_html: Redaktita %{time_ago} de %{user}
@@ -355,17 +386,13 @@ eo:
     view_history: Vidi historion
     view_unredacted_history: Vidigi historion de neredaktitaj
     view_details: Montri detalojn
-    view_redacted_data: Vidigi redaktitajn datumojn
-    view_redaction_message: Vidigi mesaĝon pri la redaktado
     location: 'Pozicio:'
     common_details:
       coordinates_html: '%{latitude}; %{longitude}'
     node:
       title_html: 'Nodo: %{name}'
-      history_title_html: 'Historio de nodo: %{name}'
     way:
       title_html: 'Linio: %{name}'
-      history_title_html: 'Historio de linio: %{name}'
       nodes: Nodoj
       nodes_count:
         one: '%{count} nodo'
@@ -375,7 +402,6 @@ eo:
         other: parto de linioj %{related_ways}
     relation:
       title_html: 'Rilato: %{name}'
-      history_title_html: 'Historio de rilato: %{name}'
       members: Anoj
       members_count:
         one: '%{count} ano'
@@ -390,13 +416,6 @@ eo:
       entry_role_html: '%{relation_name} (kiel %{relation_role})'
     not_found:
       title: Ne trovita
-      sorry: Bedaŭrinde la %{type} kun id %{id} ne troveblas.
-      type:
-        node: nodo
-        way: linio
-        relation: rilato
-        changeset: ŝanĝaro
-        note: rimarko
     timeout:
       title: Tempolimo atingita
       sorry: Bedaŭrinde akiri datumojn de la %{type} kun identigilo %{id} okupis tro
@@ -436,32 +455,49 @@ eo:
       introduction: Alklaku la mapon por trovi proksimajn objektojn.
       nearby: Proksimaj objektoj
       enclosing: Ĉirkaŭaj objektoj
+  old_elements:
+    index:
+      node:
+        title_html: 'Historio de nodo: %{name}'
+      way:
+        title_html: 'Historio de linio: %{name}'
+      relation:
+        title_html: 'Historio de rilato: %{name}'
+    actions:
+      view_redacted_data: Vidigi redaktitajn datumojn
+      view_redaction_message: Vidigi mesaĝon pri la redaktado
   nodes:
+    not_found_message:
+      sorry: 'Ne trovis nodon #%{id}.'
     timeout:
       sorry: Bedaŭrinde akiri datumojn de la nodo kun identigilo %{id} okupis tro
         multan tempon.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Bedaŭrinde la nodo #%{id} en versio %{version} ne troveblas.'
     timeout:
       sorry: Bedaŭrinde akiri historion de la nodo kun identigilo %{id} okupis tro
         multan tempon.
   ways:
+    not_found_message:
+      sorry: 'Ne trovis linion #%{id}.'
     timeout:
       sorry: Bedaŭrinde akiri datumojn de la linio kun identigilo %{id} okupis tro
         multan tempon.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Bedaŭrinde la linio #%{id} en versio %{version} ne troveblas.'
     timeout:
       sorry: Bedaŭrinde akiri historion de la linio kun identigilo %{id} okupis tro
         multan tempon.
   relations:
+    not_found_message:
+      sorry: 'Ne trovis rilaton #%{id}.'
     timeout:
       sorry: Bedaŭrinde akiri datumojn de la rilato kun identigilo %{id} okupis tro
         multan tempon.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Bedaŭrinde la rilato #%{id} en versio %{version} ne troveblas.'
     timeout:
       sorry: Bedaŭrinde akiri historion de la rilato kun identigilo %{id} okupis tro
@@ -541,6 +577,8 @@ eo:
       ways_paginated: Linioj (%{x}-%{y} el %{count})
       relations: Rilatoj (%{count})
       relations_paginated: Rilatoj (%{x}-%{y} el %{count})
+    not_found_message:
+      sorry: 'Ne trovis ŝanĝaron #%{id}.'
     timeout:
       sorry: Bedaŭrinde daŭris tro longe kompili la petitan liston de ŝanĝaroj.
   dashboards:
@@ -1691,31 +1729,26 @@ eo:
       see_their_profile_html: Vi povas vidi ties profilon ĉe %{userurl}.
       befriend_them: Vi ankaŭ povas aldoni vin kiel amikon ĉe %{befriendurl}.
       befriend_them_html: Vi ankaŭ povas aldoni ilin kiel amiko ĉe %{befriendurl}
-    gpx_description:
-      description_with_tags: 'Ŝajnas, ke tio ĉi estas via dosiero %{trace_name} kun
-        la priskribo %{trace_description} kaj kun la jenaj etikedoj: %{tags}'
-      description_with_tags_html: 'Ŝajnas, ke tio ĉi estas via dosiero %{trace_name}
-        kun la priskribo %{trace_description} kaj kun la jenaj etikedoj: %{tags}'
-      description_with_no_tags: Ŝajnas, ke tio ĉi estas via dosiero %{trace_name}
-        kun la priskribo %{trace_description} kaj sen etikedoj
-      description_with_no_tags_html: Ŝajnas, ke tio ĉi estas via dosiero %{trace_name}
-        kun la priskribo %{trace_description} kaj sen etikedoj
+    gpx_details:
+      details: 'Detaloj pri via dosiero:'
+      filename: Dosiernomo
+      url: Retadreso
+      description: Priskribo
+      tags: Etikedoj
     gpx_failure:
       hi: Saluton %{to_user},
-      failed_to_import: 'ne estis enportita sukcese kiel GPS-spur-dosiero. Kontrolu,
-        ĉu via dosiero estas ĝusta GPX-dosiero aŭ arĥivo entenanta GPX-dosiero(j)n
-        en la subtenata dosierformo (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
-        Eble okazis eraro pri dosierformo aŭ pri sintakso de spur-dosiero. Eraro:'
-      more_info: Pliaj informoj pri eraroj dum enporti GPX‑dosierojn troviĝas ĉe %{url}.
+      failed_to_import: Malsukcesis enporti vian dosieron kun GPS-spuro.
+      verify: 'Kontrolu, ĉu via dosiero estas ĝusta GPX-dosiero aŭ arĥivo entenanta
+        GPX-dosiero(j)n en la subtenata dosierformo (.tar.gz, .tar.bz2, .tar, .zip,
+        .gpx.gz, .gpx.bz2). Eble okazis eraro pri dosierformo aŭ pri sintakso de spur-dosiero.
+        Jen la eraro:'
+      more_info: Pliaj informoj pri eraroj rilataj al enporti GPX‑dosierojn troviĝas
+        ĉe %{url}
       more_info_html: Pliaj informoj pri eraroj dum enporti GPX‑dosierojn troviĝas
         ĉe %{url}.
       subject: '[OpenStreetMap] Eraro dum enportado de GPX-dosiero'
     gpx_success:
       hi: Saluton %{to_user},
-      loaded:
-        one: estas sukcese enlegita kun %{trace_points} el ebla %{count} punkto.
-        other: estas sukcese enlegita kun %{trace_points} el eblaj %{count} punktoj.
-      trace_location: Via spuro estas disponebla ĉe %{trace_url}
       all_your_traces: Ĉiuj viaj sukcese alŝutitaj GPX-spuroj troveblas ĉe %{url}
       all_your_traces_html: Ĉiuj viaj sukcese alŝutitaj GPX-spuroj troveblas ĉe %{url}.
       subject: '[OpenStreetMap] GPX-dosiero enportita sukcese'
@@ -1837,10 +1870,6 @@ eo:
       title: Neekzistanta mesaĝo
       heading: Tiu ĉi mesaĝo ne ekzistas
       body: Bedaŭrinde ne ekzistas mesaĝo kun tiu ĉi identigilo.
-    reply:
-      wrong_user: Vi estas ensalutinta kiel '%{user}', sed la mesaĝo – kiun vi volas
-        respondi – ne estas sendita al tiu uzanto. Ensalutu kiel propra uzanto por
-        respondi ĝin.
     show:
       title: Legi mesaĝon
       reply_button: Respondi
@@ -1904,6 +1933,11 @@ eo:
         people_mapping_nearby: proksimaj mapigistoj
       message:
         destroy_button: Forigi
+    replies:
+      new:
+        wrong_user: Vi estas ensalutinta kiel '%{user}', sed la mesaĝo – kiun vi volas
+          respondi – ne estas sendita al tiu uzanto. Ensalutu kiel propra uzanto por
+          respondi ĝin.
   passwords:
     new:
       title: Perdita pasvorto
@@ -1926,8 +1960,6 @@ eo:
   preferences:
     show:
       title: Miaj preferoj
-      preferred_editor: Preferata redaktilo
-      preferred_languages: Preferataj lingvoj
       preferred_site_color_scheme: Preferata kolorskemo de retejo
       site_color_schemes:
         auto: aŭtomate
@@ -1938,11 +1970,7 @@ eo:
         auto: aŭtomate
         light: hela
         dark: malhela
-      edit_preferences: Redakti preferojn
-    edit:
-      title: Redakti preferojn
       save: Konservi preferojn
-      cancel: Nuligi
     update:
       failure: Ne povis konservi preferojn.
     update_success_flash:
@@ -2793,40 +2821,6 @@ eo:
       consider_pd: publika havaĵo
       or: aŭ
       use external auth: 'registriĝi per ekstera liveranto:'
-    terms:
-      title: Kondiĉoj
-      heading: Kondiĉoj
-      heading_ct: Interkonsento pri kontribuado
-      read and accept with tou: Bonvolu legi la interkonsenton pri kontribuado kaj
-        la uzkondiĉoj, marki ambaŭ markbutonojn kiam vi estas leginta, kaj alklaku
-        la butonon Daŭrigi.
-      contributor_terms_explain: Ĉi tiu interkonsento regas la kondicôjn de viaj estantaj
-        kaj estontaj kontribuoj.
-      read_ct: Mi legis kaj konsentas la ĉi-supran Interkonsenton pri kontribuado
-      tou_explain_html: Ĉi tiuj %{tou_link} regas la uzadon de la retejo kaj alia
-        infrastrukturo provizata de la Fondaĵo OSM. Bonvolu alklaki la ligilon, legi,
-        kaj konsenti la tekston.
-      read_tou: Mi legis kaj konsentas la Uzkondiĉojn
-      consider_pd: Krom la ĉi-supro, mi konfirmas, ke miaj kontribuaĵoj apartenas
-        al la publika havaĵo
-      consider_pd_why: Pliaj informoj
-      guidance_info_html: 'Pliaj informoj helpantaj kompreni ilin: %{readable_summary_link}
-        kaj kelkaj %{informal_translations_link}'
-      readable_summary: konciza sumiĝo
-      informal_translations: neoficialaj tradukoj
-      continue: Daŭrigi
-      cancel: Nuligi
-      you need to accept or decline: Bonvolu legi kaj aŭ akcepti aŭ malakcepti la
-        novan interkonsenton pri uzado por pluigi.
-      legale_select: 'Loĝlando:'
-      legale_names:
-        france: Francujo
-        italy: Italujo
-        rest_of_world: Resto de la mondo
-    terms_declined_flash:
-      terms_declined_html: Bedaŭrinde vi ne akceptis la novan interkonsenton pri kontribuado.
-        Por pli da informoj, ekkonu kun %{terms_declined_link}.
-      terms_declined_link: tiu ĉi viki‑paĝo
     no_such_user:
       title: Neekzistanta uzanto
       heading: La uzanto %{user} ne ekzistas
@@ -3019,8 +3013,7 @@ eo:
         ended: finita
         revoked_html: nuligita de %{name}
         active: aktiva
-        active_unread: aktiva, nelegita
-        expired_unread: eksvalida, nelegita
+        active_until_read: aktiva ĝis legi
         read_html: legita je %{time}
         time_in_future_title: '%{time_absolute}; post %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3148,6 +3141,8 @@ eo:
       showing_page: Paĝo %{page}
       next: Sekva
       previous: Antaŭa
+    not_found_message:
+      sorry: 'Ne trovis rimarkon #%{id}.'
   javascripts:
     close: Fermi
     share:

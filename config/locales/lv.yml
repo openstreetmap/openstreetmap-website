@@ -40,9 +40,6 @@ lv:
         create: Pievienot komentāru
       message:
         create: Sūtīt
-      client_application:
-        create: Reģistrēties
-        update: Atjaunināt
       oauth2_application:
         create: Reģistrēties
         update: Atjaunināt
@@ -196,14 +193,6 @@ lv:
       entry:
         comment: Komentārs
         full: Pilna piezīme
-  account:
-    deletions:
-      show:
-        title: Dzēst manu kontu
-        warning: Brīdinājums! Konta dzēšanas process ir galīgs, un to nevar atsaukt.
-        delete_account: Dzēst kontu
-        confirm_delete: Vai esat pārliecināts?
-        cancel: Atcelt
   accounts:
     edit:
       title: Rediģēt kontu
@@ -245,6 +234,28 @@ lv:
       success: Lietotāja informācija veiksmīgi atjaunināta.
     destroy:
       success: Konts dzēsts.
+    deletions:
+      show:
+        title: Dzēst manu kontu
+        warning: Brīdinājums! Konta dzēšanas process ir galīgs, un to nevar atsaukt.
+        delete_account: Dzēst kontu
+        confirm_delete: Vai esat pārliecināts?
+        cancel: Atcelt
+    terms:
+      show:
+        title: Dalībnieka noteikumi
+        heading: Dalībnieka noteikumi
+        consider_pd: Papildinājumā augstākminētajai vienošanai, Es pieņemu mana devuma
+          būšanu Publiskajā Domēnā
+        consider_pd_why: kas tas ir?
+        informal_translations: neformāli tulkojumi
+        you need to accept or decline: Lūdzu izlasi un vai nu pieņem vai noraidi jaunos
+          Veidotāju Noteikumus, lai turpinātu.
+        legale_select: 'Lūdzu, atlasiet savu dzīvesvietas valsti:'
+        legale_names:
+          france: Francija
+          italy: Itālija
+          rest_of_world: Pārējā pasaule
   browse:
     version: Versija
     in_changeset: Izmaiņu kopa
@@ -261,17 +272,14 @@ lv:
     location: 'Atrašanās vieta:'
     node:
       title_html: 'Punkts: %{name}'
-      history_title_html: 'Punkta vēsture: %{name}'
     way:
       title_html: 'Līnija: %{name}'
-      history_title_html: 'Ceļa Vēsture: %{name}'
       nodes: Punkts
       also_part_of_html:
         one: daļa no ceļa %{related_ways}
         other: daļa no ceļiem %{related_ways}
     relation:
       title_html: 'Relācija: %{name}'
-      history_title_html: 'Relācijas vēsture: %{name}'
       members: Lietotāji
     relation_member:
       entry_role_html: '%{type} %{name} kā %{role}'
@@ -281,14 +289,6 @@ lv:
         relation: Relācija
     containing_relation:
       entry_role_html: Relācija %{relation_name} (kā %{relation_role})
-    not_found:
-      sorry: 'Atvainojiet, %{type} ar id #%{id} nevarējām atrast.'
-      type:
-        node: punkts
-        way: līnija
-        relation: relācija
-        changeset: izmaiņu kopa
-        note: piezīme
     timeout:
       sorry: Diemžēl dati %{type} ar id %{id}, prasīja pārāk daudz laika, lai ielādētu.
       type:
@@ -323,6 +323,14 @@ lv:
       introduction: Noklikšķiniet uz kartes, lai atrastu tuvumā esošos objektus.
       nearby: Tuvējie objekti
       enclosing: Ietvertās funkcijas
+  old_elements:
+    index:
+      node:
+        title_html: 'Punkta vēsture: %{name}'
+      way:
+        title_html: 'Ceļa Vēsture: %{name}'
+      relation:
+        title_html: 'Relācijas vēsture: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1318,10 +1326,6 @@ lv:
       title: Neesoša ziņa
       heading: Neesoša ziņa
       body: Atvainojiet, ziņa ar norādīto identifikatoru nav atrodama.
-    reply:
-      wrong_user: Tu esi autorizējies kā `%{user}', bet ziņojums, kuram tu vēlies
-        atbildēt, nav sūtīts šim lietotājam. Lūdzu  autorizējies, kā pareizais lietotājs,
-        lai atbildētu.
     show:
       title: Lasīt ziņu
       reply_button: Atbildēt
@@ -1373,6 +1377,11 @@ lv:
         people_mapping_nearby: cilvēki kartē tuvā apkārtnē
       message:
         destroy_button: Dzēst
+    replies:
+      new:
+        wrong_user: Tu esi autorizējies kā `%{user}', bet ziņojums, kuram tu vēlies
+          atbildēt, nav sūtīts šim lietotājam. Lūdzu  autorizējies, kā pareizais lietotājs,
+          lai atbildētu.
   passwords:
     new:
       title: Aizmirsāt paroli
@@ -1391,12 +1400,7 @@ lv:
   preferences:
     show:
       title: Mani uzstādījumi
-      preferred_languages: Vēlamās valodas
-      edit_preferences: Labot uzstādījumus
-    edit:
-      title: Labot uzstādījumus
       save: Atjaunināt uzstādījumus
-      cancel: Atcelt
     update:
       failure: Nevarēja atjaunināt uzstādījumus.
     update_success_flash:
@@ -1832,20 +1836,6 @@ lv:
       continue: Reģistrēties
       terms accepted: Paldies, ka pieņēmāt jaunos devuma noteikumus!
       use external auth: Alternatīvi, varat izmantot trešās puses 'ielogošanās' opciju
-    terms:
-      title: Dalībnieka noteikumi
-      heading: Dalībnieka noteikumi
-      consider_pd: Papildinājumā augstākminētajai vienošanai, Es pieņemu mana devuma
-        būšanu Publiskajā Domēnā
-      consider_pd_why: kas tas ir?
-      informal_translations: neformāli tulkojumi
-      you need to accept or decline: Lūdzu izlasi un vai nu pieņem vai noraidi jaunos
-        Veidotāju Noteikumus, lai turpinātu.
-      legale_select: 'Lūdzu, atlasiet savu dzīvesvietas valsti:'
-      legale_names:
-        france: Francija
-        italy: Itālija
-        rest_of_world: Pārējā pasaule
     no_such_user:
       title: Neesošs lietotājs
       heading: Lietotājs %{user} neeksistē

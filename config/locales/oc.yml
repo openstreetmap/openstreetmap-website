@@ -30,9 +30,6 @@ oc:
         create: Ajustar un comentari
       message:
         create: Mandar
-      client_application:
-        create: Enregistrar
-        update: Actualizar
       oauth2_application:
         create: Enregistrar
         update: Actualizar
@@ -245,34 +242,6 @@ oc:
       entry:
         comment: Comentari
         full: Nòta completa
-  account:
-    deletions:
-      show:
-        title: Suprimir lo còmpte
-        warning: Avís! Lo procès de supression dau còmpte es definitiu e pòt pas anullar.
-        delete_account: Suprimir lo còmpte
-        delete_introduction: 'Podètz suprimir vòstre còmpte OpenStreetMap en emplegant
-          lo boton dessota. Prenetz en compte lei detalhs seguents:'
-        delete_profile: S'eliminarà l'informacion de perfiu, comprés vòstre avatar,
-          la descripcion e la localizacion de vòstra demòra.
-        delete_display_name: S'eliminarà lo nom mostrat e se podrà utilizar per d'autrei
-          còmptes.
-        retain_caveats: 'Quauqueis informacions, pasmens, demoraràn a OpenStreetMap,
-          emai lo còmpte suprimit :'
-        retain_edits: Lei modificacions fachas a la mapa, se n'avètz agut fachas,
-          seràn mantengudas.
-        retain_traces: Lei traças GPS se n'avètz agut telecargadas, seràn mantengudas.
-        retain_diary_entries: Leis intradas e comentaris de jornau, se n'i a, seràn
-          mantengudas mai escondudas.
-        retain_notes: Lei nòtas e comentaris sus lei nòtas, se n'i a, seràn mantengudas
-          mai escondudas.
-        retain_changeset_discussions: Lei discussions sus lei cambiaments, se n'i
-          a, se conservaràn.
-        retain_email: L'adreiça e-mail sarà conservada.
-        recent_editing_html: Coma avètz recentament modificat vòstre compte se pòt
-          pas suprimir per ara. La supression serà possibla en %{time}.
-        confirm_delete: Siatz segur ?
-        cancel: Anullar
   accounts:
     edit:
       title: Modificar lo compte
@@ -309,6 +278,48 @@ oc:
       success: Informacions sus l'utilizaire actualizadas amb succès.
     destroy:
       success: Còmpte suprimit...
+    deletions:
+      show:
+        title: Suprimir lo còmpte
+        warning: Avís! Lo procès de supression dau còmpte es definitiu e pòt pas anullar.
+        delete_account: Suprimir lo còmpte
+        delete_introduction: 'Podètz suprimir vòstre còmpte OpenStreetMap en emplegant
+          lo boton dessota. Prenetz en compte lei detalhs seguents:'
+        delete_profile: S'eliminarà l'informacion de perfiu, comprés vòstre avatar,
+          la descripcion e la localizacion de vòstra demòra.
+        delete_display_name: S'eliminarà lo nom mostrat e se podrà utilizar per d'autrei
+          còmptes.
+        retain_caveats: 'Quauqueis informacions, pasmens, demoraràn a OpenStreetMap,
+          emai lo còmpte suprimit :'
+        retain_edits: Lei modificacions fachas a la mapa, se n'avètz agut fachas,
+          seràn mantengudas.
+        retain_traces: Lei traças GPS se n'avètz agut telecargadas, seràn mantengudas.
+        retain_diary_entries: Leis intradas e comentaris de jornau, se n'i a, seràn
+          mantengudas mai escondudas.
+        retain_notes: Lei nòtas e comentaris sus lei nòtas, se n'i a, seràn mantengudas
+          mai escondudas.
+        retain_changeset_discussions: Lei discussions sus lei cambiaments, se n'i
+          a, se conservaràn.
+        retain_email: L'adreiça e-mail sarà conservada.
+        recent_editing_html: Coma avètz recentament modificat vòstre compte se pòt
+          pas suprimir per ara. La supression serà possibla en %{time}.
+        confirm_delete: Siatz segur ?
+        cancel: Anullar
+    terms:
+      show:
+        title: Tèrmes del contributor
+        heading: Tèrmes del contributor
+        consider_pd: En mai de l’acòrd çaisús, considèri mas contribucions coma essent
+          dins lo domeni public
+        consider_pd_why: qu’es aquò ?
+        continue: Contunhar
+        you need to accept or decline: Legissètz e puèi, siá acceptatz o refusatz
+          las novèlas condicions de contributor per contunhar.
+        legale_select: 'País de residéncia :'
+        legale_names:
+          france: França
+          italy: Itàlia
+          rest_of_world: Rèsta del mond
   browse:
     version: Version
     in_changeset: Grop de modificacions
@@ -327,10 +338,8 @@ oc:
     location: 'Emplaçament :'
     node:
       title_html: 'Nos : %{name}'
-      history_title_html: 'Istoric dau nos : %{name}'
     way:
       title_html: 'Linha : %{name}'
-      history_title_html: 'Istoric de la linha : %{name}'
       nodes: Nos
       nodes_count:
         one: 1 nos
@@ -340,7 +349,6 @@ oc:
         other: partida dei linhas %{related_ways}
     relation:
       title_html: 'Relacion : %{name}'
-      history_title_html: 'Istoric de la relacion : %{name}'
       members: Membres
       members_count:
         one: 1 membre
@@ -355,13 +363,6 @@ oc:
       entry_role_html: Relacion %{relation_name} (per %{relation_role})
     not_found:
       title: S'es pas trobat
-      sorry: 'O planhèm, %{type} #%{id} es pas estat trobat.'
-      type:
-        node: nos
-        way: linha
-        relation: relacion
-        changeset: grop de modificacions
-        note: nòta
     timeout:
       title: 'Error : temps d''espèra despassat'
       sorry: O planhèm, las donadas pel tipe %{type} amb l'id %{id} prenon tròp de
@@ -401,6 +402,14 @@ oc:
       introduction: Clicar sus la mapa per trobar los objèctes a proximitat.
       nearby: Objèctes a proximitat
       enclosing: Objèctes englobants
+  old_elements:
+    index:
+      node:
+        title_html: 'Istoric dau nos : %{name}'
+      way:
+        title_html: 'Istoric de la linha : %{name}'
+      relation:
+        title_html: 'Istoric de la relacion : %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1508,11 +1517,6 @@ oc:
       see_their_profile_html: 'Podètz veire son perfiu aicí : %{userurl}.'
       befriend_them: 'Tanben, lo podètz ajustar per amic aicí : %{befriendurl}.'
       befriend_them_html: 'Tanben, lo podètz ajustar coma amic-ga aicí : %{befriendurl}.'
-    gpx_description:
-      description_with_tags_html: 'Sembla que vòstre fichier GPX %{trace_name} amb
-        la descripcion %{trace_description} e leis etiquetas seguentas: %{tags}'
-      description_with_no_tags_html: Sembla que vòstre fichier GPX %{trace_name} amb
-        la descripcion %{trace_description} e sensa etiquetas
     gpx_failure:
       hi: Bonjorn %{to_user},
       failed_to_import: 'a pas pogut èsser importat. Aquí l''error :'
@@ -1641,10 +1645,6 @@ oc:
       title: Messatge introbable
       heading: Messatge introbable
       body: O planhèm, i a pas cap de messatge amb aqueste identificant.
-    reply:
-      wrong_user: Sètz identificat(-ada) coma « %{user} » mas lo messatge al qual
-        volètz respondre es pas estat enviat a aqueste utilizaire. Connectatz-vos
-        amb l'identificant corrècte per poder respondre.
     show:
       title: Legir lo messatge
       reply_button: Respondre
@@ -1696,6 +1696,11 @@ oc:
         people_mapping_nearby: personas pròcha de vos
       message:
         destroy_button: Suprimir
+    replies:
+      new:
+        wrong_user: Sètz identificat(-ada) coma « %{user} » mas lo messatge al qual
+          volètz respondre es pas estat enviat a aqueste utilizaire. Connectatz-vos
+          amb l'identificant corrècte per poder respondre.
   passwords:
     new:
       title: Senhal perdut
@@ -1712,13 +1717,7 @@ oc:
   preferences:
     show:
       title: Preferéncias
-      preferred_editor: 'Editor preferit :'
-      preferred_languages: Lengas preferidas
-      edit_preferences: Preferéncias de corrier electronic
-    edit:
-      title: Preferéncias de l'aparéncia
       save: Actualizar lei preferéncias
-      cancel: Anullar
     update:
       failure: Se son pas pogudas actualizar lei preferéncias.
     update_success_flash:
@@ -2127,20 +2126,6 @@ oc:
       continue: S’inscriure
       terms accepted: Mercé d’aver acceptat los novèls tèrmes del contributor !
       use external auth: A la plaça, utilizatz un tèrç per vos connectar
-    terms:
-      title: Tèrmes del contributor
-      heading: Tèrmes del contributor
-      consider_pd: En mai de l’acòrd çaisús, considèri mas contribucions coma essent
-        dins lo domeni public
-      consider_pd_why: qu’es aquò ?
-      continue: Contunhar
-      you need to accept or decline: Legissètz e puèi, siá acceptatz o refusatz las
-        novèlas condicions de contributor per contunhar.
-      legale_select: 'País de residéncia :'
-      legale_names:
-        france: França
-        italy: Itàlia
-        rest_of_world: Rèsta del mond
     no_such_user:
       title: Utilizaire inexistent
       heading: L'utilizaire %{user} existís pas

@@ -67,6 +67,7 @@
 # Author: Merrahtar
 # Author: Mike like0708
 # Author: Mike140
+# Author: Mitte27
 # Author: Mixaill
 # Author: Movses
 # Author: MuratTheTurkish
@@ -135,11 +136,8 @@ ru:
         create: Добавить комментарий
       message:
         create: Отправить
-      client_application:
-        create: Зарегистрироваться
-        update: Обновить
       oauth2_application:
-        create: Зарегистрироваться
+        create: Зарегистрировать
         update: Обновить
       redaction:
         create: Создать исправление
@@ -218,7 +216,7 @@ ru:
         longitude: Долгота
         language_code: Язык
       doorkeeper/application:
-        name: имя
+        name: Название
         redirect_uri: Перенаправления
         confidential: Конфиденциальное приложение?
         scopes: Разрешения
@@ -382,34 +380,6 @@ ru:
       entry:
         comment: Комментарий
         full: Полный текст
-  account:
-    deletions:
-      show:
-        title: Удаление моей учётной записи
-        warning: Внимание! Процесс удаления учётной записи является окончательным
-          и не может быть отменён.
-        delete_account: Удалить учётную запись
-        delete_introduction: 'Вы можете удалить свою учётную запись на сайте OpenStreetMap
-          с помощью кнопки, размещённой ниже. Обратите внимание на следующие детали:'
-        delete_profile: Информация вашего профиля, включая аватар, описание и местоположение,
-          будет удалена.
-        delete_display_name: Ваше отображаемое имя пользователя будет удалено и может
-          быть снова использовано другими учётными записями.
-        retain_caveats: 'Однако, на сайте OpenStreetMap некоторая информация о вас
-          сохранится даже после удаления вашей учётной записи:'
-        retain_edits: Ваши правки базы данных карты, если таковые имеются, будут сохранены.
-        retain_traces: Загруженные вами треки, если таковые имеются, будут сохранены.
-        retain_diary_entries: Ваши записи в дневнике и комментарии к записям в дневнике,
-          если таковые имеются, будут сохранены, но скрыты от просмотра.
-        retain_notes: Ваши заметки и комментарии к ним, если таковые имеются, будут
-          сохранены, но скрыты от просмотра.
-        retain_changeset_discussions: Ваши обсуждения пакетов правок, если таковые
-          имеются, будут сохранены.
-        retain_email: Адрес вашей электронной почты будет сохранён.
-        recent_editing_html: Поскольку вы недавно редактировали, ваша учетная запись
-          в настоящее время не может быть удалена. Удаление будет возможно через %{time}.
-        confirm_delete: Вы уверены?
-        cancel: Отмена
   accounts:
     edit:
       title: Изменить учетную запись
@@ -458,6 +428,66 @@ ru:
       success: Информация о пользователе успешно обновлена.
     destroy:
       success: Учётная запись удалена.
+    deletions:
+      show:
+        title: Удаление моей учётной записи
+        warning: Внимание! Процесс удаления учётной записи является окончательным
+          и не может быть отменён.
+        delete_account: Удалить учётную запись
+        delete_introduction: 'Вы можете удалить свою учётную запись на сайте OpenStreetMap
+          с помощью кнопки, размещённой ниже. Обратите внимание на следующие детали:'
+        delete_profile: Информация вашего профиля, включая аватар, описание и местоположение,
+          будет удалена.
+        delete_display_name: Ваше отображаемое имя пользователя будет удалено и может
+          быть снова использовано другими учётными записями.
+        retain_caveats: 'Однако, на сайте OpenStreetMap некоторая информация о вас
+          сохранится даже после удаления вашей учётной записи:'
+        retain_edits: Ваши правки базы данных карты, если таковые имеются, будут сохранены.
+        retain_traces: Загруженные вами треки, если таковые имеются, будут сохранены.
+        retain_diary_entries: Ваши записи в дневнике и комментарии к записям в дневнике,
+          если таковые имеются, будут сохранены, но скрыты от просмотра.
+        retain_notes: Ваши заметки и комментарии к ним, если таковые имеются, будут
+          сохранены, но скрыты от просмотра.
+        retain_changeset_discussions: Ваши обсуждения пакетов правок, если таковые
+          имеются, будут сохранены.
+        retain_email: Адрес вашей электронной почты будет сохранён.
+        recent_editing_html: Поскольку вы недавно редактировали, ваша учетная запись
+          в настоящее время не может быть удалена. Удаление будет возможно через %{time}.
+        confirm_delete: Вы уверены?
+        cancel: Отмена
+    terms:
+      show:
+        title: Условия
+        heading: Условия сотрудничества
+        heading_ct: Условия сотрудничества
+        read and accept with tou: Пожалуйста, ознакомьтесь с соглашением для участников
+          и с условиями использования, после чего поставьте оба флажка и нажмите кнопку
+          «Продолжить».
+        contributor_terms_explain: Это соглашение регулирует условия ваших существующего
+          и будущего вклада.
+        read_ct: Я прочитал и согласен с вышеуказанными условиями
+        tou_explain_html: '%{tou_link} управляет сайтом и иной инфраструктурой, предоставляемой
+          OSMF. Пожалуйста, перейдите по ссылке и ознакомьтесь с текстом.'
+        read_tou: Я соглашаюсь с Условиями использования
+        consider_pd: В дополнение к вышеизложенному, я принимаю во внимание, что мой
+          вклад находится в общественном достоянии
+        consider_pd_why: что это значит?
+        readable_summary: удобочитаемое резюме
+        continue: Продолжить
+        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
+        cancel: Отмена
+        you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь
+          или отклоните новые Условия участия.
+        legale_select: 'Пожалуйста, выберите страну вашего проживания:'
+        legale_names:
+          france: На французском
+          italy: На итальянском
+          rest_of_world: Остальной мир
+      terms_declined_flash:
+        terms_declined_html: Нам жаль, что вы решили не принимать Новые Условия участия.
+          Для получения дополнительной информации смотрите %{terms_declined_link}.
+        terms_declined_link: эта страница вики
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
   browse:
     deleted_ago_by_html: Удален %{time_ago} пользователем %{user}
     edited_ago_by_html: Редактировал %{time_ago} %{user}
@@ -481,15 +511,11 @@ ru:
     view_history: Посмотреть историю
     view_unredacted_history: Просмотр неотредактированной истории
     view_details: Подробнее
-    view_redacted_data: Просмотр отредактированных данных
-    view_redaction_message: Просмотр отредактированного сообщения
     location: 'Географическое положение:'
     node:
       title_html: 'Точка: %{name}'
-      history_title_html: 'История точки: %{name}'
     way:
       title_html: 'Линия: %{name}'
-      history_title_html: 'История линии: %{name}'
       nodes: Точки
       nodes_count:
         one: '%{count} точка'
@@ -501,7 +527,6 @@ ru:
         other: содержится в линиях %{related_ways}
     relation:
       title_html: 'Отношение: %{name}'
-      history_title_html: 'История отношения: %{name}'
       members: Участники
       members_count:
         one: '%{count} член'
@@ -518,13 +543,6 @@ ru:
       entry_role_html: '%{relation_name} (в роли %{relation_role})'
     not_found:
       title: Не найдено
-      sorry: 'К сожалению, %{type} #%{id} не найден.'
-      type:
-        node: точка
-        way: линия
-        relation: отношение
-        changeset: пакет правок
-        note: заметка
     timeout:
       title: Тайм-аут ошибка
       sorry: Извините, данные для %{type} с id %{id} требуют слишком много времени
@@ -564,33 +582,50 @@ ru:
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
       enclosing: Окружающие объекты
+  old_elements:
+    index:
+      node:
+        title_html: 'История точки: %{name}'
+      way:
+        title_html: 'История линии: %{name}'
+      relation:
+        title_html: 'История отношения: %{name}'
+    actions:
+      view_redacted_data: Просмотр отредактированных данных
+      view_redaction_message: Просмотр отредактированного сообщения
   nodes:
+    not_found_message:
+      sorry: 'К сожалению, точка #%{id} не найдена.'
     timeout:
       sorry: Извините, данные для точки с id %{id} потребовали слишком много времени
         для извлечения.
   old_nodes:
-    not_found:
-      sorry: 'К сожалению, узел #%{id} версии %{version} не найден.'
+    not_found_message:
+      sorry: 'К сожалению, версия %{version} точки #%{id} не найдена.'
     timeout:
       sorry: Извините, история точки с id %{id} потребовала слишком много времени
         для извлечения.
   ways:
+    not_found_message:
+      sorry: 'К сожалению, линия #%{id} не найдена.'
     timeout:
       sorry: Извините, данные для линии с id %{id} потребовали слишком много времени
         для извлечения.
   old_ways:
-    not_found:
-      sorry: 'К сожалению, путь #%{id} версии %{version} не найден.'
+    not_found_message:
+      sorry: 'К сожалению, версия %{version} линии #%{id} не найдена.'
     timeout:
       sorry: Извините, история линии с id %{id} потребовала слишком много времени
         для извлечения.
   relations:
+    not_found_message:
+      sorry: 'К сожалению, отношение #%{id} не найдено.'
     timeout:
       sorry: Извините, данные для отношения с id %{id} потребовали слишком много времени
         для извлечения.
   old_relations:
-    not_found:
-      sorry: 'К сожалению, отношение #%{id} версии %{version} не найдено.'
+    not_found_message:
+      sorry: 'К сожалению, версия %{version} отношения #%{id} не найдена.'
     timeout:
       sorry: Извините, история отношения с id %{id} потребовала слишком много времени
         для извлечения.
@@ -669,6 +704,8 @@ ru:
       ways_paginated: Линии (%{x}-%{y} из %{count})
       relations: Отношения (%{count})
       relations_paginated: Отношения (%{x}-%{y} из %{count})
+    not_found_message:
+      sorry: 'К сожалению, пакет правок #%{id} не найден.'
     timeout:
       sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
         много времени для извлечения.
@@ -1661,6 +1698,8 @@ ru:
         many: '%{count} сообщений'
         other: '%{count} сообщений'
       reported_item: Элемент в сообщении
+      states:
+        open: Открыть
     show:
       title:
         open: 'Открытая проблема #%{issue_id}'
@@ -1802,11 +1841,8 @@ ru:
       see_their_profile_html: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
       befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
       befriend_them_html: Вы также можете добавить их в качестве друзей в %{befriendurl}.
-    gpx_description:
-      description_with_tags_html: 'Похоже, ваш файл файл %{trace_name} с описанием
-        %{trace_description} и следующими тегами: %{tags}'
-      description_with_no_tags_html: Похоже, ваш файл %{trace_name} с описанием %{trace_description}
-        и без тегов
+    gpx_details:
+      description: Описание
     gpx_failure:
       hi: Здравствуйте, %{to_user},
       failed_to_import: 'сбой импорта. Произошла ошибка:'
@@ -1816,12 +1852,6 @@ ru:
       subject: '[OpenStreetMap] Сбой импорта GPX'
     gpx_success:
       hi: Здравствуйте, %{to_user},
-      loaded:
-        one: успешно загружена %{trace_points} точка из %{count} возможной.
-        few: успешно загружены %{trace_points} точки из %{count} возможных.
-        many: успешно загружено %{trace_points} точек из %{count} возможных.
-        other: ""
-      trace_location: Ваш трек доступен по %{trace_url}
       subject: '[OpenStreetMap] Импорт GPX прошёл успешно'
     signup_confirm:
       subject: '[OpenStreetMap] Добро пожаловать в OpenStreetMap'
@@ -1956,10 +1986,6 @@ ru:
       body: |2-
 
         Извините, но сообщения с таким ID нет.
-    reply:
-      wrong_user: Вы вошли в систему под именем '%{user}', но сообщение, на которое
-        вы просили ответить, не было отправлено этому пользователю. Пожалуйста, войдите
-        в систему под правильным именем, чтобы ответить.
     show:
       title: Просмотр сообщения
       reply_button: Ответить
@@ -2025,6 +2051,11 @@ ru:
         people_mapping_nearby: пользователями поблизости
       message:
         destroy_button: Удалить
+    replies:
+      new:
+        wrong_user: Вы вошли в систему под именем '%{user}', но сообщение, на которое
+          вы просили ответить, не было отправлено этому пользователю. Пожалуйста,
+          войдите в систему под правильным именем, чтобы ответить.
   passwords:
     new:
       title: Восстановление пароля
@@ -2043,13 +2074,17 @@ ru:
   preferences:
     show:
       title: Мои предпочтения
-      preferred_editor: Предпочитаемый редактор
-      preferred_languages: Предпочитаемые языки
-      edit_preferences: Редактировать предпочтения
-    edit:
-      title: Изменить предпочтения
+      preferred_site_color_scheme: Предпочитаемая цветовая схема сайта
+      site_color_schemes:
+        auto: Автоматическая
+        light: Светлая
+        dark: Тёмная
+      preferred_map_color_scheme: Предпочитаемая цветовая схема карты
+      map_color_schemes:
+        auto: Автоматическая
+        light: Светлая
+        dark: Тёмная
       save: Обновить предпочтения
-      cancel: Отмена
     update:
       failure: Не удалось обновить предпочтения.
     update_success_flash:
@@ -2725,6 +2760,10 @@ ru:
       write_notes: Изменить заметки
       write_redactions: Редактировать данные карты
       read_email: Читать адрес электронной почты пользователя
+      consume_messages: Читать, обновлять статус и удалять сообщения пользователей
+      send_messages: Отправлять личные сообщения другим пользователям
+    for_roles:
+      moderator: Это разрешение для действий, доступных только модераторам
   oauth2_applications:
     index:
       title: Мои клиентские приложения
@@ -2803,38 +2842,6 @@ ru:
           для получения дополнительной информации.
       or: или
       use external auth: либо воспользуйтесь аккаунтом с другого сайта
-    terms:
-      title: Условия
-      heading: Условия сотрудничества
-      heading_ct: Условия сотрудничества
-      read and accept with tou: Пожалуйста, ознакомьтесь с соглашением для участников
-        и с условиями использования, после чего поставьте оба флажка и нажмите кнопку
-        «Продолжить».
-      contributor_terms_explain: Это соглашение регулирует условия ваших существующего
-        и будущего вклада.
-      read_ct: Я прочитал и согласен с вышеуказанными условиями
-      tou_explain_html: '%{tou_link} управляет сайтом и иной инфраструктурой, предоставляемой
-        OSMF. Пожалуйста, перейдите по ссылке и ознакомьтесь с текстом.'
-      read_tou: Я соглашаюсь с Условиями использования
-      consider_pd: В дополнение к вышеизложенному, я принимаю во внимание, что мой
-        вклад находится в общественном достоянии
-      consider_pd_why: что это значит?
-      readable_summary: удобочитаемое резюме
-      continue: Продолжить
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
-      cancel: Отмена
-      you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь или
-        отклоните новые Условия участия.
-      legale_select: 'Пожалуйста, выберите страну вашего проживания:'
-      legale_names:
-        france: На французском
-        italy: На итальянском
-        rest_of_world: Остальной мир
-    terms_declined_flash:
-      terms_declined_html: Нам жаль, что вы решили не принимать Новые Условия участия.
-        Для получения дополнительной информации смотрите %{terms_declined_link}.
-      terms_declined_link: эта страница вики
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
     no_such_user:
       title: Нет такого пользователя
       heading: Пользователя %{user} не существует
@@ -2979,6 +2986,10 @@ ru:
     update:
       only_creator_can_edit: Только модератор, который создал эту блокировку, может
         править её.
+      only_creator_or_revoker_can_edit: Только модераторы, которые создали или отозвали
+        эту блокировку, могут её редактировать.
+      inactive_block_cannot_be_reactivated: Эта блокировка неактивна и не может быть
+        активирована повторно.
       success: Блокировка обновлена.
     index:
       title: Блокировки пользователей
@@ -3016,6 +3027,12 @@ ru:
           few: '%{count} года'
           many: '%{count} лет'
           other: '%{count} лет'
+      short:
+        ended: завершена
+        revoked_html: отозвана %{name}
+        active: активна
+        active_until_read: активна до прочтения
+        read_html: прочитана %{time}
     show:
       title: '%{block_on} заблокирован пользователем %{block_by}'
       heading_html: '%{block_on} заблокирован пользователем %{block_by}'
@@ -3032,11 +3049,22 @@ ru:
       display_name: Заблокированный пользователь
       creator_name: Автор
       reason: Причина блокировки
+      start: Начало
+      end: Конец
       status: Состояние
+    navigation:
+      all_blocks: Все блокировки
+      block: 'Блокировка #%{id}'
+      new_block: Новая блокировка
   user_mutes:
     index:
       title: Заглушённые пользователи
       my_muted_users: Мои заглушённые пользователи
+      you_have_muted_n_users:
+        one: Вы заглушили %{count} пользователя
+        few: Вы заглушили %{count} пользователей
+        many: Вы заглушили %{count} пользователей
+        other: ""
       user_mute_explainer: Сообщения заглушённых пользователей помещаются в отдельную
         папку входящих сообщений и вы не получите уведомлений по электронной почте.
       user_mute_admins_and_moderators: Вы можете заглушить администраторов и модераторов,
@@ -3133,6 +3161,8 @@ ru:
       center_marker: Центрировать карту на маркер
       paste_html: HTML-код для встраивания на сайт
       view_larger_map: Посмотреть более крупную карту
+      only_layers_exported_as_image: 'Только следующие слои можно экспортировать как
+        изображения:'
     embed:
       report_problem: Сообщить о проблеме
     key:

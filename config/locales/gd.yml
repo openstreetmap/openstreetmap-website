@@ -24,9 +24,6 @@ gd:
         create: Cuir beachd ris
       message:
         create: Cuir
-      client_application:
-        create: Clàraich
-        update: Ùraich
       oauth2_application:
         create: Clàraich
         update: Ùraich
@@ -232,11 +229,6 @@ gd:
       entry:
         comment: Beachd
         full: Nòta slàn
-  account:
-    deletions:
-      show:
-        confirm_delete: A bheil thu cinnteach?
-        cancel: Sguir dheth
   accounts:
     edit:
       title: Deasaich an cunntas
@@ -270,6 +262,24 @@ gd:
       success_confirm_needed: Chaidh fiosrachadh a' chleachdaiche ùrachadh gu soirbheachail.
         Thoir sùil air a' phost-d agad gus an seòladh puist-d ùr agad a dhearbhadh.
       success: Chaidh fiosrachadh a' chleachdaiche ùrachadh gu soirbheachail.
+    deletions:
+      show:
+        confirm_delete: A bheil thu cinnteach?
+        cancel: Sguir dheth
+    terms:
+      show:
+        title: Teirmichean a' chom-pàirtiche
+        heading: Teirmichean a' chom-pàirtiche
+        consider_pd: A bharrachd air an aonta gu h-àrd, aontaichidh mi gun dèid na
+          bheir mi dhuibh 'nam cho-thabhartaiche a chur sa Public Domain
+        consider_pd_why: Dè th`ann?
+        you need to accept or decline: Feuch an leugh thu teirmichean ùra a' chom-pàirtiche
+          agus an uairsin aontaich no nach gabh riutha mus lean thu air adhart.
+        legale_select: 'Dùthaich còmhnaidh:'
+        legale_names:
+          france: An Fhraing
+          italy: An Eadailt
+          rest_of_world: An corr dhen t-saoghail
   browse:
     version: Tionndadh
     in_changeset: Seata atharraichean
@@ -292,10 +302,8 @@ gd:
     location: 'Àite:'
     node:
       title_html: 'Nòd: %{name}'
-      history_title_html: 'Eachdraidh an nòd: %{name}'
     way:
       title_html: 'Slighe: %{name}'
-      history_title_html: 'Eachdraidh na slighe: %{name}'
       nodes: Nòdan
       nodes_count:
         one: '%{count} nòd'
@@ -306,7 +314,6 @@ gd:
         other: pàirt dhen t-slighe %{related_ways}
     relation:
       title_html: 'Dàimh: %{name}'
-      history_title_html: 'Eachdraidh na dàimh: %{name}'
       members: Buill
       members_count:
         one: '%{count} bhall'
@@ -321,14 +328,6 @@ gd:
         relation: Dàimh
     containing_relation:
       entry_role_html: Dàimh %{relation_name} ('na %{relation_role})
-    not_found:
-      sorry: Duilich ach cha deach %{type} àireamh %{id} a lorg.
-      type:
-        node: an nòd
-        way: an t-slighe
-        relation: an dàimh
-        changeset: seata atharraichean
-        note: an aire
     timeout:
       sorry: Duilich ach thug e ro fhada an dàta airson %{type} air a bheil an id
         %{id} fhaighinn.
@@ -367,6 +366,14 @@ gd:
       introduction: Briog air a' mhapa gus feartan faisg air a lorg.
       nearby: Feartan am fagas
       enclosing: Feartan timcheall air
+  old_elements:
+    index:
+      node:
+        title_html: 'Eachdraidh an nòd: %{name}'
+      way:
+        title_html: 'Eachdraidh na slighe: %{name}'
+      relation:
+        title_html: 'Eachdraidh na dàimh: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1204,10 +1211,6 @@ gd:
       title: Chan eil an teachdaireachd seo ann
       heading: Chan eil an teachdaireachd seo ann
       body: Duilich ach chan eil teachdaireachd air a bheil an id seo ann.
-    reply:
-      wrong_user: Rinn thu clàradh a-steach mar `%{user}' ach cha deach an teachdaireachd
-        a tha thu a' feuchainn ri freagairt dhi a chur gun neach-chleachdaidh ud.
-        Feuch an clàraich thu a-steach 'na chleachdaiche a bu chòir airson freagairt.
     show:
       title: Teachdaireachd air a leughadh
       reply_button: Freagair
@@ -1254,6 +1257,11 @@ gd:
         people_mapping_nearby: daoine a nì obair-mhapa faisg ort
       message:
         destroy_button: Sguab às
+    replies:
+      new:
+        wrong_user: Rinn thu clàradh a-steach mar `%{user}' ach cha deach an teachdaireachd
+          a tha thu a' feuchainn ri freagairt dhi a chur gun neach-chleachdaidh ud.
+          Feuch an clàraich thu a-steach 'na chleachdaiche a bu chòir airson freagairt.
   passwords:
     new:
       title: Facal-faire air chall
@@ -1681,19 +1689,6 @@ gd:
       terms accepted: Mòran taing gun do dh'aontaich thu ri teirmichean a' chom-pàirtiche!
       or: "no"
       use external auth: No cleachd treas-phàrtaidh airson clàradh a-steach
-    terms:
-      title: Teirmichean a' chom-pàirtiche
-      heading: Teirmichean a' chom-pàirtiche
-      consider_pd: A bharrachd air an aonta gu h-àrd, aontaichidh mi gun dèid na bheir
-        mi dhuibh 'nam cho-thabhartaiche a chur sa Public Domain
-      consider_pd_why: Dè th`ann?
-      you need to accept or decline: Feuch an leugh thu teirmichean ùra a' chom-pàirtiche
-        agus an uairsin aontaich no nach gabh riutha mus lean thu air adhart.
-      legale_select: 'Dùthaich còmhnaidh:'
-      legale_names:
-        france: An Fhraing
-        italy: An Eadailt
-        rest_of_world: An corr dhen t-saoghail
     no_such_user:
       title: Chan eil an cleachdaiche seo ann
       heading: Chan eil an cleachdaiche %{user} ann

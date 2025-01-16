@@ -9,6 +9,7 @@
 # Author: Apzp79
 # Author: Asdfqwer51
 # Author: B891202
+# Author: Backni
 # Author: CYAN
 # Author: Cerulean
 # Author: Codenstory
@@ -68,9 +69,6 @@ ko:
         create: 의견 추가
       message:
         create: 보내기
-      client_application:
-        create: 등록
-        update: 업데이트
       oauth2_application:
         create: 등록
         update: 업데이트
@@ -185,7 +183,7 @@ ko:
         email: 이메일
         new_email: 새 이메일 주소
         active: 활성
-        display_name: 표시되는 이름
+        display_name: 표시 이름
         description: 프로필 설명
         home_lat: 위도
         home_lon: 경도
@@ -274,25 +272,6 @@ ko:
       entry:
         comment: 의견
         full: 전체 참고
-  account:
-    deletions:
-      show:
-        title: 내 계정 삭제
-        warning: 경고! 계속 진행하면 계정이 삭제되며 되돌릴 수 없습니다.
-        delete_account: 계정 삭제
-        delete_introduction: 아래 버튼을 사용하여 오픈스트리트맵 계정을 삭제할 수 있습니다. 다음 세부 사항에 유의하십시오.
-        delete_profile: 아바타, 설명, 집 위치를 포함한 프로필 정보가 제거됩니다.
-        delete_display_name: 표시되는 이름이 삭제되며 다른 계정에서 재사용될 수 있습니다.
-        retain_caveats: 그러나, 귀하의 정보가 삭제된 후 오픈스트리트맵에서 일부 정보가 유지될 수 있습니다.
-        retain_edits: 지도 데이터베이스에 편집 내역이 있을 경우 그대로 유지됩니다.
-        retain_traces: 업로드된 경로가 있는 경우 그대로 유지됩니다.
-        retain_diary_entries: 일기 항목과 일기에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
-        retain_notes: 지도 메모와 메모에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
-        retain_changeset_discussions: 바뀜집합 토론이 있는 경우 유지됩니다.
-        retain_email: 이메일 주소는 그대로 유지됩니다.
-        recent_editing_html: 최근 편집했으므로 현재 계정을 삭제할 수 없습니다. %{time} 후에 삭제가 가능합니다.
-        confirm_delete: 확실합니까?
-        cancel: 취소
   accounts:
     edit:
       title: 계정 편집
@@ -330,6 +309,55 @@ ko:
       success: 사용자 정보를 성공적으로 업데이트했습니다.
     destroy:
       success: 계정이 삭제되었습니다.
+    deletions:
+      show:
+        title: 내 계정 삭제
+        warning: 경고! 계속 진행하면 계정이 삭제되며 되돌릴 수 없습니다.
+        delete_account: 계정 삭제
+        delete_introduction: 아래 버튼을 사용하여 오픈스트리트맵 계정을 삭제할 수 있습니다. 다음 세부 사항에 유의하십시오.
+        delete_profile: 아바타, 설명, 집 위치를 포함한 프로필 정보가 제거됩니다.
+        delete_display_name: 표시되는 이름이 삭제되며 다른 계정에서 재사용될 수 있습니다.
+        retain_caveats: 그러나, 귀하의 정보가 삭제된 후 오픈스트리트맵에서 일부 정보가 유지될 수 있습니다.
+        retain_edits: 지도 데이터베이스에 편집 내역이 있을 경우 그대로 유지됩니다.
+        retain_traces: 업로드된 경로가 있는 경우 그대로 유지됩니다.
+        retain_diary_entries: 일기 항목과 일기에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
+        retain_notes: 지도 메모와 메모에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
+        retain_changeset_discussions: 바뀜집합 토론이 있는 경우 유지됩니다.
+        retain_email: 이메일 주소는 그대로 유지됩니다.
+        recent_editing_html: 최근 편집했으므로 현재 계정을 삭제할 수 없습니다. %{time} 후에 삭제가 가능합니다.
+        confirm_delete: 확실합니까?
+        cancel: 취소
+    terms:
+      show:
+        title: 약관
+        heading: 약관
+        heading_ct: 기여자 약관
+        read and accept with tou: 기여자 동의 및 사용 약관을 읽고 두 개의 체크 상자에 체크한 다음 계속 버튼을 눌러
+          주십시오.
+        contributor_terms_explain: 본 동의는 기존 기여분과 추후 기여분의 이용 약관에 적용됩니다.
+        read_ct: 상기의 기여자 약관을 읽었고 동의합니다
+        tou_explain_html: 이러한 %{tou_link}는 오픈스트리트맵 재단에서 제공하는 웹사이트 및 기타 인프라 사용을 관리합니다.
+          링크를 클릭하여 텍스트를 읽고 동의하십시오.
+        read_tou: 이용약관을 읽었으며 동의합니다
+        consider_pd: 위의 내용 외에도 내 기여가 퍼블릭 도메인에 있다고 간주합니다
+        consider_pd_why: 무엇인가요?
+        guidance_info_html: '이러한 용어를 이해하는 데 도움이 되는 정보: %{readable_summary_link} /
+          일부 %{informal_translations_link}'
+        readable_summary: 해석 요약본
+        informal_translations: 비공식 번역
+        continue: 계속
+        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+        cancel: 취소
+        you need to accept or decline: 계속하려면 새 기여자 약관을 읽고 나서 동의나 거부하세요.
+        legale_select: '거주 국가:'
+        legale_names:
+          france: 프랑스
+          italy: 이탈리아
+          rest_of_world: 나머지 국가
+      terms_declined_flash:
+        terms_declined_html: 새 기여자 약관에 동의하지 않기로 결정하셨습니다. 자세한 내용은 %{terms_declined_link}를
+          참조하세요.
+        terms_declined_link: 이 위키 문서
   browse:
     deleted_ago_by_html: '%{time_ago}에 %{user}님이 삭제함'
     edited_ago_by_html: '%{time_ago}에 %{user}님이 편집함'
@@ -347,15 +375,11 @@ ko:
     view_history: 역사 보기
     view_unredacted_history: 수정되지 않은 기록 보기
     view_details: 자세한 내용 보기
-    view_redacted_data: 수정된 데이터 보기
-    view_redaction_message: 수정 메시지 보기
     location: '위치:'
     node:
       title_html: '교점: %{name}'
-      history_title_html: '교점 역사: %{name}'
     way:
       title_html: '길: %{name}'
-      history_title_html: '길 역사: %{name}'
       nodes: 교점
       nodes_count:
         other: 교점 %{count}개
@@ -364,7 +388,6 @@ ko:
         other: '%{related_ways} 길의 일부'
     relation:
       title_html: '관계: %{name}'
-      history_title_html: '관계 역사: %{name}'
       members: 구성 요소
       members_count:
         other: 구성 요소 %{count}개
@@ -378,13 +401,6 @@ ko:
       entry_role_html: '%{relation_name} (역할: %{relation_role})'
     not_found:
       title: 찾을 수 없음
-      sorry: '죄송하지만, %{type} #%{id}을(를) 찾지 못했습니다.'
-      type:
-        node: 교점
-        way: 길
-        relation: 관계
-        changeset: 바뀜집합
-        note: 참고
     timeout:
       title: 시간 초과 오류
       sorry: 죄송합니다, %{id} id인 %{type}에 대한 데이터를 가져오는데 너무 오래 걸립니다.
@@ -423,11 +439,22 @@ ko:
       introduction: 근처의 지물을 찾으려면 지도에서 클릭하세요.
       nearby: 근처 지물
       enclosing: 근접 지역 내 지물
+  old_elements:
+    index:
+      node:
+        title_html: '교점 역사: %{name}'
+      way:
+        title_html: '길 역사: %{name}'
+      relation:
+        title_html: '관계 역사: %{name}'
+    actions:
+      view_redacted_data: 수정된 데이터 보기
+      view_redaction_message: 수정 메시지 보기
   nodes:
     timeout:
       sorry: 죄송합니다, %{id} id인 노드에 대한 데이터를 가져오는데 너무 오래 걸립니다.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 노드 #%{id}를 찾을 수 없습니다.'
     timeout:
       sorry: 죄송합니다, %{id} id인 노드의 역사를 가져오는데 너무 오래 걸립니다.
@@ -435,7 +462,7 @@ ko:
     timeout:
       sorry: 죄송합니다, %{id} id인 길 데이터를 가져오는데 너무 오래 걸립니다.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 경로 #%{id}를 찾을 수 없습니다.'
     timeout:
       sorry: 죄송합니다, %{id} id인 길 역사를 가져오는데 너무 오래 걸립니다.
@@ -443,7 +470,7 @@ ko:
     timeout:
       sorry: 죄송합니다, %{id} id인 관계 데이터를 가져오는데 너무 오래 걸립니다.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 관계 #%{id}를 찾을 수 없습니다.'
     timeout:
       sorry: 죄송합니다, %{id} id인 관계 역사를 가져오는데 너무 오래 걸립니다.
@@ -775,7 +802,7 @@ ko:
           parking_space: 주차 공간
           payment_terminal: 결제 단말기
           pharmacy: 약국
-          place_of_worship: 예배당
+          place_of_worship: 종교 시설
           police: 경찰서
           post_box: 우체통
           post_office: 우체국
@@ -807,6 +834,7 @@ ko:
           village_hall: 커뮤니티 센터
           waste_basket: 쓰레기통
           waste_disposal: 폐기물 처리장
+          waste_dump_site: 불법 쓰레기 투기장
           watering_place: 급수지
           water_point: 급수장
           weighbridge: 차량계근대
@@ -838,10 +866,12 @@ ko:
           college: 대학 건물
           commercial: 상업용 건물
           construction: 건설 중인 건물
+          cowshed: 외양간
           detached: 단독주택
           dormitory: 기숙사
           duplex: 땅콩집
           farm: 농가
+          farm_auxiliary: 농장 부속 건물
           garage: 차고
           garages: 차고
           greenhouse: 온실
@@ -866,6 +896,7 @@ ko:
           shed: 광
           stable: 마구간
           static_caravan: 캐러밴
+          sty: 돈사
           temple: 사원 건물
           terrace: 테라스 건물
           train_station: 철도역 건물
@@ -1397,6 +1428,9 @@ ko:
           building_passage: 건물 통로
           culvert: 암거
           "yes": 터널
+        water:
+          lake: 호수
+          pond: 연못
         waterway:
           artificial: 인공 수로
           boatyard: 조선소
@@ -1587,15 +1621,18 @@ ko:
       see_their_profile_html: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
       befriend_them: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
       befriend_them_html: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
+    gpx_details:
+      details: '파일 세부 정보:'
+      filename: 파일 이름
+      url: URL
+      description: 설명
+      tags: 태그
     gpx_failure:
       hi: 안녕하세요 %{to_user}님,
       failed_to_import: '가져오기에 실패했습니다. 오류는 다음과 같습니다:'
       subject: '[OpenStreetMap] GPX 가져오기 실패'
     gpx_success:
       hi: 안녕하세요 %{to_user}님,
-      loaded:
-        other: 가능한 점 %{count}개 가운데 점 %{trace_points}개를 성공적으로 불러왔습니다.
-      trace_location: 트레이스는 %{trace_url}에서 볼 수 있습니다
       all_your_traces: 성공적으로 업로드한 모든 GPX 트레이스는 %{url}에서 볼 수 있습니다
       all_your_traces_html: 성공적으로 업로드한 모든 GPX 트레이스는 %{url}에서 볼 수 있습니다.
       subject: '[OpenStreetMap] GPX 가져오기 성공'
@@ -1706,9 +1743,6 @@ ko:
       title: 메시지가 없습니다.
       heading: 메시지가 없습니다.
       body: 죄송합니다 해당 id로 된 메시지가 없습니다.
-    reply:
-      wrong_user: '''%{user}''님으로 로그인하고 있지만 답장을 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 답장을
-        하려면 올바른 사용자로 로그인하세요.'
     show:
       title: 메시지 읽기
       reply_button: 답글
@@ -1766,6 +1800,10 @@ ko:
         people_mapping_nearby: 근처에 매핑한 사람
       message:
         destroy_button: 삭제
+    replies:
+      new:
+        wrong_user: '''%{user}''님으로 로그인하고 있지만 답장을 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 답장을
+          하려면 올바른 사용자로 로그인하세요.'
   passwords:
     new:
       title: 잊어버린 비밀번호
@@ -1787,8 +1825,6 @@ ko:
   preferences:
     show:
       title: 내 환경 설정
-      preferred_editor: 선호하는 편집기
-      preferred_languages: 선호하는 언어
       preferred_site_color_scheme: 선호하는 웹사이트 색상 구성표
       site_color_schemes:
         auto: 자동
@@ -1799,11 +1835,7 @@ ko:
         auto: 자동
         light: 밝음
         dark: 어두움
-      edit_preferences: 환경 설정 편집
-    edit:
-      title: 환경 설정 편집
       save: 환경 설정 갱신
-      cancel: 취소
     update:
       failure: 환경 설정을 갱신할 수 없음.
     update_success_flash:
@@ -2567,35 +2599,6 @@ ko:
       consider_pd: 퍼블릭 도메인
       or: 혹은
       use external auth: 다른 제3자 로그인 방식 사용하기
-    terms:
-      title: 약관
-      heading: 약관
-      heading_ct: 기여자 약관
-      read and accept with tou: 기여자 동의 및 사용 약관을 읽고 두 개의 체크 상자에 체크한 다음 계속 버튼을 눌러 주십시오.
-      contributor_terms_explain: 본 동의는 기존 기여분과 추후 기여분의 이용 약관에 적용됩니다.
-      read_ct: 상기의 기여자 약관을 읽었고 동의합니다
-      tou_explain_html: 이러한 %{tou_link}는 오픈스트리트맵 재단에서 제공하는 웹사이트 및 기타 인프라 사용을 관리합니다.
-        링크를 클릭하여 텍스트를 읽고 동의하십시오.
-      read_tou: 이용약관을 읽었으며 동의합니다
-      consider_pd: 위의 내용 외에도 내 기여가 퍼블릭 도메인에 있다고 간주합니다
-      consider_pd_why: 무엇인가요?
-      guidance_info_html: '이러한 용어를 이해하는 데 도움이 되는 정보: %{readable_summary_link} / 일부
-        %{informal_translations_link}'
-      readable_summary: 해석 요약본
-      informal_translations: 비공식 번역
-      continue: 계속
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      cancel: 취소
-      you need to accept or decline: 계속하려면 새 기여자 약관을 읽고 나서 동의나 거부하세요.
-      legale_select: '거주 국가:'
-      legale_names:
-        france: 프랑스
-        italy: 이탈리아
-        rest_of_world: 나머지 국가
-    terms_declined_flash:
-      terms_declined_html: 새 기여자 약관에 동의하지 않기로 결정하셨습니다. 자세한 내용은 %{terms_declined_link}를
-        참조하세요.
-      terms_declined_link: 이 위키 문서
     no_such_user:
       title: 이러한 사용자는 없습니다
       heading: '%{user} 사용자는 존재하지 않습니다'

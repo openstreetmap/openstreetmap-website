@@ -30,6 +30,7 @@
 # Author: Imperadeiro98
 # Author: Indech
 # Author: Isabelle Belato
+# Author: JPLSilva
 # Author: JasonZe
 # Author: Jgpacker
 # Author: Jgrocha
@@ -86,9 +87,6 @@ pt:
         create: Adicionar comentário
       message:
         create: Enviar
-      client_application:
-        create: Registrar
-        update: Atualizar
       oauth2_application:
         create: Registrar
         update: Atualizar
@@ -307,35 +305,6 @@ pt:
       entry:
         comment: Comentário
         full: Nota completa
-  account:
-    deletions:
-      show:
-        title: Eliminar minha conta
-        warning: Alerta! O processo de eliminação de contas é permanente, e não pode
-          ser revertido.
-        delete_account: Eliminar conta
-        delete_introduction: 'Você pode eliminar sua conta no OpenStreetMap usando
-          o botão abaixo. Por favor observe os detalhes a seguir:'
-        delete_profile: Suas informações de perfil, incluindo seu avatar, descrição,
-          e localização, serão eliminadas.
-        delete_display_name: Seu nome de exibição será removido, e poderá ser reutilizado
-          por outras contas.
-        retain_caveats: 'Entretanto, algumas informações sobre você serão mantidas
-          no OpenStreetMap, mesmo após sua conta ser eliminada:'
-        retain_edits: Suas edições ao banco de dados de mapas, se houverem, serão
-          mantidas.
-        retain_traces: Seus rastros enviados, caso existam, serão retidos.
-        retain_diary_entries: Seus diários e comentários em diários, se existirem,
-          serão retidos mas escondidos.
-        retain_notes: Suas notas de mapa e comentários das notas, se existirem, serão
-          retidas mas escondidas.
-        retain_changeset_discussions: Suas discussões em conjuntos de edições, se
-          existirem, serão retidas.
-        retain_email: Seu endereço de e-mail será retido.
-        recent_editing_html: Como você editou recentemente, sua conta não pode ser
-          excluída no momento. A exclusão será possível em %{time}.
-        confirm_delete: Tem certeza?
-        cancel: Cancelar
   accounts:
     edit:
       title: Editar conta
@@ -382,6 +351,69 @@ pt:
       success: Sucesso ao atualizar informação de usuário.
     destroy:
       success: Conta eliminada.
+    deletions:
+      show:
+        title: Eliminar minha conta
+        warning: Alerta! O processo de eliminação de contas é permanente, e não pode
+          ser revertido.
+        delete_account: Eliminar conta
+        delete_introduction: 'Você pode eliminar sua conta no OpenStreetMap usando
+          o botão abaixo. Por favor observe os detalhes a seguir:'
+        delete_profile: Suas informações de perfil, incluindo seu avatar, descrição,
+          e localização, serão eliminadas.
+        delete_display_name: Seu nome de exibição será removido, e poderá ser reutilizado
+          por outras contas.
+        retain_caveats: 'Entretanto, algumas informações sobre você serão mantidas
+          no OpenStreetMap, mesmo após sua conta ser eliminada:'
+        retain_edits: Suas edições ao banco de dados de mapas, se houverem, serão
+          mantidas.
+        retain_traces: Seus rastros enviados, caso existam, serão retidos.
+        retain_diary_entries: Seus diários e comentários em diários, se existirem,
+          serão retidos mas escondidos.
+        retain_notes: Suas notas de mapa e comentários das notas, se existirem, serão
+          retidas mas escondidas.
+        retain_changeset_discussions: Suas discussões em conjuntos de edições, se
+          existirem, serão retidas.
+        retain_email: Seu endereço de e-mail será retido.
+        recent_editing_html: Como você editou recentemente, sua conta não pode ser
+          excluída no momento. A exclusão será possível em %{time}.
+        confirm_delete: Tem certeza?
+        cancel: Cancelar
+    terms:
+      show:
+        title: Termos
+        heading: Termos
+        heading_ct: Termos do contribuidor
+        read and accept with tou: Por favor, leia o contrato de colaborador e os termos
+          de uso, marque ambas as caixas de seleção quando terminar e pressione o
+          botão continuar.
+        contributor_terms_explain: Este contrato rege os termos de suas contribuições
+          atuais e futuras.
+        read_ct: Li e aceito os termos do contribuidor acima
+        tou_explain_html: Esses %{tou_link} governam o uso do site e de outras infraestruturas
+          fornecidas pelo OSMF. Por favor, clique no link, leia e concorde com o texto.
+        read_tou: Li e aceito os Termos de uso
+        consider_pd: Além do acima, considero minhas contribuições como Public Domain
+        consider_pd_why: o que é isso?
+        guidance_info_html: 'Informações para ajudar a entender estes termos: um %{readable_summary_link}
+          e alguns %{informal_translations_link}'
+        readable_summary: resumo legível para humanos
+        informal_translations: traduções informais
+        continue: Continuar
+        declined: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined?uselang=pt-br
+        cancel: Cancelar
+        you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse
+          os novos termos do contribuidor para continuar.
+        legale_select: 'País em que você mora:'
+        legale_names:
+          france: França
+          italy: Itália
+          rest_of_world: Outros países
+      terms_declined_flash:
+        terms_declined_html: Lamentamos que não tenha aceitado os novos termos de
+          contribuidor. Para mais informações, consulta %{terms_declined_link}.
+        terms_declined_link: esta página wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=pt-br
   browse:
     deleted_ago_by_html: Excluído há %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -401,15 +433,11 @@ pt:
     view_history: Ver histórico
     view_unredacted_history: Ver histórico não editado
     view_details: Ver detalhes
-    view_redacted_data: Ver dados reduzidos
-    view_redaction_message: Ver mensagem de redação
     location: 'Localização:'
     node:
       title_html: 'Ponto: %{name}'
-      history_title_html: 'Histórico do ponto: %{name}'
     way:
       title_html: 'Linha: %{name}'
-      history_title_html: 'Histórico da linha: %{name}'
       nodes: Pontos
       nodes_count:
         one: '%{count} nó'
@@ -419,7 +447,6 @@ pt:
         other: parte das linhas %{related_ways}
     relation:
       title_html: 'Relação: %{name}'
-      history_title_html: 'Histórico da relação: %{name}'
       members: Membros
       members_count:
         one: '%{count} membro'
@@ -431,16 +458,9 @@ pt:
         way: Linha
         relation: Relação
     containing_relation:
-      entry_role_html: Relação %{relation_name} (como %{relation_role})
+      entry_role_html: '%{relation_name} (como %{relation_role})'
     not_found:
       title: Não encontrado
-      sorry: Não foi possível encontrar %{type} com id %{id}.
-      type:
-        node: ponto
-        way: linha
-        relation: relação
-        changeset: conjunto de alterações
-        note: Nota
     timeout:
       title: Erro de tempo limite
       sorry: Desculpe, os dados para %{type} com id %{id} demoraram demais para ser
@@ -480,11 +500,22 @@ pt:
       introduction: Clique no mapa para achar elementos próximos
       nearby: Elementos próximos
       enclosing: Elementos envoltórios
+  old_elements:
+    index:
+      node:
+        title_html: 'Histórico do ponto: %{name}'
+      way:
+        title_html: 'Histórico da linha: %{name}'
+      relation:
+        title_html: 'Histórico da relação: %{name}'
+    actions:
+      view_redacted_data: Ver dados reduzidos
+      view_redaction_message: Ver mensagem de redação
   nodes:
     timeout:
       sorry: Desculpe, os dados para o nó com id %{id} demoraram demais para ser obtidos.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Desculpe, o nó #%{id} versão %{version} não foi encontrado.'
     timeout:
       sorry: Desculpe, o histórico do nó com id %{id} demorou demais para ser obtido.
@@ -493,7 +524,7 @@ pt:
       sorry: Desculpe, os dados do caminho com o id %{id} demoraram muito para serem
         recuperados.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Desculpe, não foi possível encontrar o caminho #%{id} versão %{version}.'
     timeout:
       sorry: Desculpe, o histórico do caminho com o id %{id} levou muito tempo para
@@ -503,7 +534,7 @@ pt:
       sorry: Desculpe, os dados do caminho com o id %{id} demoraram muito para serem
         recuperados.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
     timeout:
       sorry: Desculpe, o histórico do caminho com o id %{id} levou muito tempo para
@@ -1739,15 +1770,6 @@ pt:
       see_their_profile_html: Você pode ver o perfil dele(a) em %{userurl}.
       befriend_them: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
       befriend_them_html: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Parece que o seu arquivo %{trace_name} com a descrição
-        %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_tags_html: 'Parece que seu arquivo %{trace_name} com a descrição
-        %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_no_tags: Parece com o seu arquivo %{trace_name} com a descrição
-        %{trace_description} e sem etiquetas
-      description_with_no_tags_html: Parece que seu arquivo %{trace_name} com a descrição
-        %{trace_description} e sem etiquetas
     gpx_failure:
       hi: Olá %{to_user},
       failed_to_import: 'falha na importação do arquivo de rastreamento de GPS. Por
@@ -1762,10 +1784,6 @@ pt:
       subject: '[OpenStreetMap] Falha ao importar arquivo GPX'
     gpx_success:
       hi: Olá %{to_user},
-      loaded:
-        one: carregado com sucesso com %{trace_points} de %{count} ponto.
-        other: carregado com sucesso com %{trace_points} de %{count} pontos possíveis
-      trace_location: Sua trilha está disponível em %{trace_url}
       all_your_traces: Todas as suas trilhas GPX enviadas com sucesso podem ser encontradas
         em %{url}
       all_your_traces_html: Todas as suas trilhas GPX enviadas com sucesso podem ser
@@ -1869,6 +1887,9 @@ pt:
       success: Conta ativada, obrigado!
       already active: Esse conta já foi confirmada.
       unknown token: Esse código de confirmação expirou ou não existe.
+      if_need_resend: Se você precisar que reenviemos o e-mail de confirmação, clique
+        no botão abaixo.
+      resend_button: Reenviar o e-mail de confirmação
     confirm_resend:
       failure: Usuário %{name} não encontrado.
     confirm_email:
@@ -1898,10 +1919,6 @@ pt:
       title: Esta mensagem não existe
       heading: Esta mensagem não existe
       body: Não existe uma mensagem com este id.
-    reply:
-      wrong_user: Você está conectado como '%{user}' mas a mensagem que você quer
-        responder não foi enviada para este usuário. Entre com o usuário correto para
-        poder responder.
     show:
       title: Ler mensagem
       reply_button: Responder
@@ -1965,6 +1982,11 @@ pt:
         people_mapping_nearby: alguém mapeando por perto
       message:
         destroy_button: Apagar
+    replies:
+      new:
+        wrong_user: Você está conectado como '%{user}' mas a mensagem que você quer
+          responder não foi enviada para este usuário. Entre com o usuário correto
+          para poder responder.
   passwords:
     new:
       title: Senha esquecida
@@ -1988,8 +2010,6 @@ pt:
   preferences:
     show:
       title: Minhas preferências
-      preferred_editor: Editor preferido
-      preferred_languages: Idiomas preferidos
       preferred_site_color_scheme: Esquema de cores preferido para o website
       site_color_schemes:
         auto: Automático
@@ -2000,11 +2020,7 @@ pt:
         auto: Automático
         light: Claro
         dark: Escuro
-      edit_preferences: Editar preferências
-    edit:
-      title: Editar preferências
       save: Atualizar preferências
-      cancel: Cancelar
     update:
       failure: Não foi possível atualizar as preferências.
     update_success_flash:
@@ -2875,40 +2891,6 @@ pt:
       consider_pd: domínio público
       or: ou
       use external auth: ou inscreva-se com um terceiro
-    terms:
-      title: Termos
-      heading: Termos
-      heading_ct: Termos do contribuidor
-      read and accept with tou: Por favor, leia o contrato de colaborador e os termos
-        de uso, marque ambas as caixas de seleção quando terminar e pressione o botão
-        continuar.
-      contributor_terms_explain: Este contrato rege os termos de suas contribuições
-        atuais e futuras.
-      read_ct: Li e aceito os termos do contribuidor acima
-      tou_explain_html: Esses %{tou_link} governam o uso do site e de outras infraestruturas
-        fornecidas pelo OSMF. Por favor, clique no link, leia e concorde com o texto.
-      read_tou: Li e aceito os Termos de uso
-      consider_pd: Além do acima, considero minhas contribuições como Public Domain
-      consider_pd_why: o que é isso?
-      guidance_info_html: 'Informações para ajudar a entender estes termos: um %{readable_summary_link}
-        e alguns %{informal_translations_link}'
-      readable_summary: resumo legível para humanos
-      informal_translations: traduções informais
-      continue: Continuar
-      declined: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined?uselang=pt-br
-      cancel: Cancelar
-      you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse
-        os novos termos do contribuidor para continuar.
-      legale_select: 'País em que você mora:'
-      legale_names:
-        france: França
-        italy: Itália
-        rest_of_world: Outros países
-    terms_declined_flash:
-      terms_declined_html: Lamentamos que não tenha aceitado os novos termos de contribuidor.
-        Para mais informações, consulta %{terms_declined_link}.
-      terms_declined_link: esta página wiki
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=pt-br
     no_such_user:
       title: Usuário não existe
       heading: O usuário %{user} não existe
@@ -3108,8 +3090,6 @@ pt:
         ended: finalizado
         revoked_html: revogado por %{name}
         active: ativo
-        active_unread: ativo não lido
-        expired_unread: expirado não lido
         read_html: Lido em %{time}
         time_in_future_title: '%{time_absolute}; em %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3257,6 +3237,8 @@ pt:
       center_marker: Centralizar o mapa no marcador
       paste_html: Cole o HTML para publicar no site
       view_larger_map: Ver mapa ampliado
+      only_layers_exported_as_image: 'Somente as seguintes camadas podem ser exportadas
+        como uma imagem:'
     embed:
       report_problem: Reportar um problema
     key:

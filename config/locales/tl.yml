@@ -33,9 +33,6 @@ tl:
         create: Magdagdag ng Puna
       message:
         create: Ipadala
-      client_application:
-        create: Magpatala
-        update: Isapanahon
       oauth2_application:
         create: Magpatala
         update: Isapanahon
@@ -223,14 +220,6 @@ tl:
         reopened: tala na nabuhay muli (malapit sa %{place})
       entry:
         full: Buong tala
-  account:
-    deletions:
-      show:
-        title: Burahin ang Aking Akawnt
-        delete_account: Burahin ang Akawnt
-        retain_email: Pananatilihin ang iyong tirahan ng e-liham.
-        confirm_delete: Sigurado ka ba?
-        cancel: Huwag ituloy
   accounts:
     edit:
       title: Baguhin ang akawnt
@@ -265,6 +254,34 @@ tl:
         Suriin ang e-liham mo para sa isang tala upang matiyak ang bago mong tirahan
         ng e-liham.
       success: Matagumpay na naisapanahon ang kabatiran sa tagagamit.
+    deletions:
+      show:
+        title: Burahin ang Aking Akawnt
+        delete_account: Burahin ang Akawnt
+        retain_email: Pananatilihin ang iyong tirahan ng e-liham.
+        confirm_delete: Sigurado ka ba?
+        cancel: Huwag ituloy
+    terms:
+      show:
+        title: 'Mga tuntunin:'
+        heading: Mga tuntunin
+        heading_ct: Mga tuntunin sa taga-ambag
+        consider_pd: Bukod sa nabanggit, itinuturing ko ang mga ambag ko bilang nasa
+          Nasasaklawan ng Madla.
+        consider_pd_why: ano ba ito?
+        continue: Magpatuloy
+        you need to accept or decline: Mangyaring basahin at pagkaraan ay tanggipin
+          o tanggihan ang bagong mga Tuntunin ng Tagapag-ambag upang makapagpatuloy.
+        legale_select: 'Mangyaring piliin ang iyong bansang pinamamalagian:'
+        legale_names:
+          france: Pransiya
+          italy: Italya
+          rest_of_world: Iba pang bahagi ng mundo
+      terms_declined_flash:
+        terms_declined_html: Ikinalulungkot namin na nagpasya kang hindi tanggapin
+          ang bagong Mga Tuntunin sa Tagapag-ambag. Para sa karagdagang impormasyon,
+          mangyaring tingnan %{terms_declined_link}
+        terms_declined_link: ang pahinang wiki na ito
   browse:
     version: Bersyon
     in_changeset: Pangkat ng pagbabago
@@ -283,10 +300,8 @@ tl:
     location: Pook (lokasyon)
     node:
       title_html: 'Buko: %{name}'
-      history_title_html: 'Kasaysayan ng Buko: %{name}'
     way:
       title_html: 'Daan: %{name}'
-      history_title_html: 'Kasaysayan ng Daan: %{name}'
       nodes: Mga buko
       nodes_count:
         one: 1 buko
@@ -296,7 +311,6 @@ tl:
         other: bahagi ng mga daan %{related_ways}
     relation:
       title_html: 'Kaugnayan: %{name}'
-      history_title_html: 'Kasaysayan ng Kaugnayan: %{name}'
       members: Mga kasapi
       members_count:
         one: 1 kasapi
@@ -311,13 +325,6 @@ tl:
       entry_role_html: Kaugnayan %{relation_name} (bilang %{relation_role})
     not_found:
       title: Hindi Matagpuan
-      sorry: 'Paumanhin, %{type} #%{id} ay hindi matagpuan.'
-      type:
-        node: buko
-        way: daan
-        relation: kaugnayan
-        changeset: palitan ang pagtatakda
-        note: tala
     timeout:
       sorry: Paumanhin, ang dato para sa %{type} na may ID na %{id}, ay natagalan
         bago nakuha uli.
@@ -353,6 +360,14 @@ tl:
       introduction: Pumindot sa mapa upang makahanap ng mga kalapit na tampok.
       nearby: Mga kalapit na tampok
       enclosing: Kalakip na mga tampok
+  old_elements:
+    index:
+      node:
+        title_html: 'Kasaysayan ng Buko: %{name}'
+      way:
+        title_html: 'Kasaysayan ng Daan: %{name}'
+      relation:
+        title_html: 'Kasaysayan ng Kaugnayan: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1335,10 +1350,6 @@ tl:
       title: Walang ganyang mensahe
       heading: Walang ganyang mensahe
       body: Paumanhin walang mensahe na may ganyang ID.
-    reply:
-      wrong_user: Lumagda ka bilang si `%{user}' ngunit ang mensaheng hiniling mong
-        tugunin ay hindi naipadala sa tagagamit na iyan. Mangyaring lumagda bilang
-        ang tamang tagagamit upang makatugon.
     show:
       title: Basahin ang mensahe
       reply_button: Tumugon
@@ -1390,6 +1401,11 @@ tl:
         people_mapping_nearby: mga taong kalapit na nagmamapa
       message:
         destroy_button: Burahin
+    replies:
+      new:
+        wrong_user: Lumagda ka bilang si `%{user}' ngunit ang mensaheng hiniling mong
+          tugunin ay hindi naipadala sa tagagamit na iyan. Mangyaring lumagda bilang
+          ang tamang tagagamit upang makatugon.
   passwords:
     new:
       title: Naiwalang password
@@ -1406,11 +1422,6 @@ tl:
       flash token bad: Hindi natagpuan ang ganyang kahalip, suriin kaya ang URL?
     update:
       flash changed: Napalitan na ang hudyat mo.
-  preferences:
-    show:
-      preferred_languages: Nais na mga Wika
-    edit:
-      cancel: Huwag ituloy
   profiles:
     edit:
       cancel: Huwag ituloy
@@ -1813,26 +1824,6 @@ tl:
       terms accepted: Salamat sa pagtanggap ng bagong mga tuntunin ng tagapag-ambag!
       use external auth: Bilang alternatibo, gumamit ng serbisyo ikatlong partido
         para lumagda
-    terms:
-      title: 'Mga tuntunin:'
-      heading: Mga tuntunin
-      heading_ct: Mga tuntunin sa taga-ambag
-      consider_pd: Bukod sa nabanggit, itinuturing ko ang mga ambag ko bilang nasa
-        Nasasaklawan ng Madla.
-      consider_pd_why: ano ba ito?
-      continue: Magpatuloy
-      you need to accept or decline: Mangyaring basahin at pagkaraan ay tanggipin
-        o tanggihan ang bagong mga Tuntunin ng Tagapag-ambag upang makapagpatuloy.
-      legale_select: 'Mangyaring piliin ang iyong bansang pinamamalagian:'
-      legale_names:
-        france: Pransiya
-        italy: Italya
-        rest_of_world: Iba pang bahagi ng mundo
-    terms_declined_flash:
-      terms_declined_html: Ikinalulungkot namin na nagpasya kang hindi tanggapin ang
-        bagong Mga Tuntunin sa Tagapag-ambag. Para sa karagdagang impormasyon, mangyaring
-        tingnan %{terms_declined_link}
-      terms_declined_link: ang pahinang wiki na ito
     no_such_user:
       title: Walang ganyang tagagamit
       heading: Hindi umiiral ang tagagamit na %{user}

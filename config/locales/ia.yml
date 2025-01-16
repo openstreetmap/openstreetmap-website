@@ -26,9 +26,6 @@ ia:
         create: Adder commento
       message:
         create: Inviar
-      client_application:
-        create: Registrar
-        update: Actualisar
       oauth2_application:
         create: Registrar
         update: Actualisar
@@ -61,6 +58,7 @@ ia:
       message: Message
       node: Nodo
       node_tag: Etiquetta de nodo
+      note: Nota
       old_node: Nodo ancian
       old_node_tag: Etiquetta de nodo ancian
       old_relation: Relation ancian
@@ -246,35 +244,6 @@ ia:
       entry:
         comment: Commento
         full: Nota complete
-  account:
-    deletions:
-      show:
-        title: Deler mi conto
-        warning: Attention! Le deletion de un conto es definitive e irreversibile.
-        delete_account: Deler conto
-        delete_introduction: 'Tu pote deler tu conto OpenStreetMap con le button sequente.
-          Nota ben que:'
-        delete_profile: Tu information de profilo, includente tu avatar, description
-          e loco de residentia, essera removite.
-        delete_display_name: Tu nomine a monstrar essera removite e potera esser reusate
-          per altere contos.
-        retain_caveats: 'Nonobstante, alcun informationes sur te essera retenite sur
-          OpenStreetMap, mesmo post le deletion de tu conto:'
-        retain_edits: Tu modificationes del base de datos cartographic, si existe,
-          essera retenite.
-        retain_traces: Tu tracias incargate, si existe, essera retenite.
-        retain_diary_entries: Tu entratas e commentos de diario, si existe, essera
-          retenite ma celate al vista.
-        retain_notes: Tu notas e commentos cartographic, si existe, essera retenite
-          ma celate al vista.
-        retain_changeset_discussions: Tu discussiones sur gruppos de modificationes,
-          si existe, essera retenite.
-        retain_email: Tu adresse de e-mail essera retenite.
-        recent_editing_html: Post que tu ha recentemente apportate modificationes,
-          tu conto non pote esser delite al momento. Le deletion essera possibile
-          in %{time}.
-        confirm_delete: Es tu secur?
-        cancel: Cancellar
   accounts:
     edit:
       title: Modificar conto
@@ -320,6 +289,72 @@ ia:
       success: Informationes del usator actualisate con successo.
     destroy:
       success: Conto delite.
+    deletions:
+      show:
+        title: Deler mi conto
+        warning: Attention! Le deletion de un conto es definitive e irreversibile.
+        delete_account: Deler conto
+        delete_introduction: 'Tu pote deler tu conto OpenStreetMap con le button sequente.
+          Nota ben que:'
+        delete_profile: Tu information de profilo, includente tu avatar, description
+          e loco de residentia, essera removite.
+        delete_display_name: Tu nomine a monstrar essera removite e potera esser reusate
+          per altere contos.
+        retain_caveats: 'Nonobstante, alcun informationes sur te essera retenite sur
+          OpenStreetMap, mesmo post le deletion de tu conto:'
+        retain_edits: Tu modificationes del base de datos cartographic, si existe,
+          essera retenite.
+        retain_traces: Tu tracias incargate, si existe, essera retenite.
+        retain_diary_entries: Tu entratas e commentos de diario, si existe, essera
+          retenite ma celate al vista.
+        retain_notes: Tu notas e commentos cartographic, si existe, essera retenite
+          ma celate al vista.
+        retain_changeset_discussions: Tu discussiones sur gruppos de modificationes,
+          si existe, essera retenite.
+        retain_email: Tu adresse de e-mail essera retenite.
+        recent_editing_html: Post que tu ha recentemente apportate modificationes,
+          tu conto non pote esser delite al momento. Le deletion essera possibile
+          in %{time}.
+        confirm_delete: Es tu secur?
+        cancel: Cancellar
+    terms:
+      show:
+        title: Conditiones
+        heading: Conditiones
+        heading_ct: Conditiones de contributor
+        read and accept with tou: Per favor, lege le accordo de contributor e le conditiones
+          de uso, marca ambe quadratos quando tu es finite e pois preme le button
+          Continuar.
+        contributor_terms_explain: Iste accordo regula le conditiones de tu contributiones
+          existente e futur.
+        read_ct: Io ha legite e io accepta le precedente terminos de contributor
+        tou_explain_html: Iste %{tou_link} governa le uso del sito web e altere infrastructura
+          fornite per OSMF. Per favor, clicca sur le ligamine, lege le texto, e declara
+          te de accordo.
+        read_tou: Io ha legite e io accepta le Conditiones de uso
+        consider_pd: In addition a lo que precede, io considera mi contributiones
+          como essente in le dominio public
+        consider_pd_why: que es isto?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        guidance_info_html: 'Information pro adjutar a comprender iste terminos: un
+          %{readable_summary_link} e qualque %{informal_translations_link}'
+        readable_summary: summario legibile per humanos
+        informal_translations: traductiones informal
+        continue: Continuar
+        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+        cancel: Cancellar
+        you need to accept or decline: Per favor lege e postea accepta o declina le
+          nove Conditiones del Contributor pro continuar.
+        legale_select: 'Per favor selige tu pais de residentia:'
+        legale_names:
+          france: Francia
+          italy: Italia
+          rest_of_world: Resto del mundo
+      terms_declined_flash:
+        terms_declined_html: Nos regretta que tu ha decidite de non acceptar le nove
+          Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
+        terms_declined_link: iste pagina wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: Delite %{time_ago} per %{user}
     edited_ago_by_html: Modificate %{time_ago} per %{user}
@@ -339,15 +374,11 @@ ia:
     view_history: Vider historia
     view_unredacted_history: Vider historia non censurate
     view_details: Vider detalios
-    view_redacted_data: Vider datos censurate
-    view_redaction_message: Vider message de censura
     location: 'Loco:'
     node:
       title_html: 'Nodo: %{name}'
-      history_title_html: 'Historia del nodo: %{name}'
     way:
       title_html: 'Via: %{name}'
-      history_title_html: 'Historia del via: %{name}'
       nodes: Nodos
       nodes_count:
         one: '%{count} nodo'
@@ -357,7 +388,6 @@ ia:
         other: parte del vias %{related_ways}
     relation:
       title_html: 'Relation: %{name}'
-      history_title_html: 'Historia del relation: %{name}'
       members: Membros
       members_count:
         one: '%{count} membro'
@@ -369,16 +399,9 @@ ia:
         way: Via
         relation: Relation
     containing_relation:
-      entry_role_html: Relation %{relation_name} (como %{relation_role})
+      entry_role_html: '%{relation_name} (como %{relation_role})'
     not_found:
       title: Non trovate
-      sorry: Le %{type} №%{id} non ha essite trovate.
-      type:
-        node: nodo
-        way: via
-        relation: relation
-        changeset: gruppo de modificationes
-        note: nota
     timeout:
       title: Tempore limite excedite
       sorry: Pardono, le datos pro le %{type} con le ID %{id} ha prendite troppo de
@@ -418,32 +441,49 @@ ia:
       introduction: Clicca sur le carta pro cercar objectos a proximitate.
       nearby: Objectos proxime
       enclosing: Objectos inglobante
+  old_elements:
+    index:
+      node:
+        title_html: 'Historia del nodo: %{name}'
+      way:
+        title_html: 'Historia del via: %{name}'
+      relation:
+        title_html: 'Historia del relation: %{name}'
+    actions:
+      view_redacted_data: Vider datos censurate
+      view_redaction_message: Vider message de censura
   nodes:
+    not_found_message:
+      sorry: Le nodo №%{id} non poteva esser trovate.
     timeout:
       sorry: Pardono, le datos pro le nodo con le ID %{id} ha prendite troppo de tempore
         pro esser recuperate.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: Guai, le version %{version} del nodo №%{id} non pote esser trovate.
     timeout:
       sorry: Pardono, le historia del nodo con le ID %{id} ha prendite troppo de tempore
         pro esser recuperate.
   ways:
+    not_found_message:
+      sorry: Le via №%{id} non poteva esser trovate.
     timeout:
       sorry: Pardono, le datos pro le via con le ID %{id} ha prendite troppo de tempore
         pro esser recuperate.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: Guai, le version %{version} del via №%{id} non pote esser trovate.
     timeout:
       sorry: Pardono, le historia del via con le ID %{id} ha prendite troppo de tempore
         pro esser recuperate.
   relations:
+    not_found_message:
+      sorry: Le relation №%{id} non poteva esser trovate.
     timeout:
       sorry: Pardono, le datos pro le relation con le ID %{id} ha prendite troppo
         de tempore pro esser recuperate.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: Guai, le version %{version} del relation №%{id} non pote esser trovate.
     timeout:
       sorry: Pardono, le historia del relation con le ID %{id} ha prendite troppo
@@ -525,6 +565,8 @@ ia:
       ways_paginated: Vias (%{x}-%{y} de %{count})
       relations: Relationes (%{count})
       relations_paginated: Relationes (%{x}-%{y} de %{count})
+    not_found_message:
+      sorry: Le gruppo de modificationes №%{id} non poteva esser trovate.
     timeout:
       sorry: Le lista de gruppos de modificationes que tu requestava tardava troppo
         de tempore pro esser recuperate.
@@ -1042,6 +1084,14 @@ ia:
           wayside_shrine: Reliquario juxta le via
           wreck: Naufragio
           "yes": Sito historic
+        information:
+          guidepost: Poste indicator
+          board: Pannello de information
+          map: Carta
+          office: Officio de tourismo
+          terminal: Terminal de information
+          sign: Placa de information
+          stele: Stela de information
         junction:
           "yes": Intersection
         landuse:
@@ -1061,7 +1111,7 @@ ia:
           greenfield: Terreno sin edificios
           industrial: Area industrial
           landfill: Discargatorio
-          meadow: Pastura
+          meadow: Prato
           military: Area militar
           mine: Mina
           orchard: Verdiero
@@ -1114,6 +1164,8 @@ ia:
           track: Pista de athletismo
           water_park: Parco aquatic
           "yes": Tempore libere
+        lock:
+          "yes": Esclusa
         man_made:
           adit: Galeria de mina
           advertising: Publicitate
@@ -1454,6 +1506,11 @@ ia:
           building_passage: Passage sub edificio
           culvert: Tubo de aqua subterranee
           "yes": Tunnel
+        water:
+          lake: Laco
+          pond: Stagno
+          reservoir: Reservoir
+          basin: Bassino de aqua
         waterway:
           artificial: Via aquatic artificial
           boatyard: Cantier naval
@@ -1660,36 +1717,18 @@ ia:
       see_their_profile_html: Tu pote vider su profilo a %{userurl}.
       befriend_them: Tu pote equalmente adder le/la como amico a %{befriendurl}.
       befriend_them_html: Tu pote equalmente adder le/la como amico a %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Pare que tu file %{trace_name} con le description %{trace_description}
-        e le sequente etiquettas: %{tags}'
-      description_with_tags_html: 'Pare que tu file %{trace_name} con le description
-        %{trace_description} e le sequente etiquettas: %{tags}'
-      description_with_no_tags: Pare que tu file %{trace_name} con le description
-        %{trace_description} e sin etiquettas
-      description_with_no_tags_html: Pare que tu file %{trace_name} con le description
-        %{trace_description} e sin etiquettas
     gpx_failure:
       hi: Salute %{to_user},
-      failed_to_import: 'non poteva esser importate como file de tracia GPS. Per favor
-        verifica que le file es un file GPX valide o un archivo que contine file(s)
-        GPX in un formato supportate (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
-        Pote il haber un problema de formato o syntaxe con tu file? Ecce le error
-        de importation:'
+      failed_to_import: Pare que tu file non poteva esser importate como file de tracia
+        GPS.
       more_info: Plus information sur le fallimento de importation GPX e como evitar
-        lo se trova sur %{url}.
+        lo se trova sur %{url}
       more_info_html: Plus information sur le fallimento de importation GPX e como
         evitar lo se trova sur %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=ia
       subject: '[OpenStreetMap] Importation GPX fallite'
     gpx_success:
       hi: Salute %{to_user},
-      loaded:
-        one: ha essite cargate con successo con %{trace_points} ex un maximo de %{count}
-          puncto.
-        other: ha essite cargate con successo con %{trace_points} ex un maximo de
-          %{count} punctos.
-      trace_location: Tu tracia es disponibile sur %{trace_url}
       all_your_traces: Tote tu tracias GPX incargate con successo pote esser trovate
         sur %{url}
       all_your_traces_html: Tote le tracias GPX que tu ha incargate con successo pote
@@ -1824,10 +1863,6 @@ ia:
       title: Message non existe
       heading: Message non existe
       body: Non existe un message con iste ID.
-    reply:
-      wrong_user: Tu es authenticate como ‘%{user}’, ma le message al qual tu vole
-        responder non ha essite inviate a iste usator. Per favor aperi session como
-        le usator correcte pro poter responder.
     show:
       title: Leger message
       reply_button: Responder
@@ -1891,6 +1926,11 @@ ia:
         people_mapping_nearby: cartographos vicin
       message:
         destroy_button: Deler
+    replies:
+      new:
+        wrong_user: Tu es authenticate como ‘%{user}’, ma le message al qual tu vole
+          responder non ha essite inviate a iste usator. Per favor aperi session como
+          le usator correcte pro poter responder.
   passwords:
     new:
       title: Contrasigno perdite
@@ -1914,13 +1954,7 @@ ia:
   preferences:
     show:
       title: Mi preferentias
-      preferred_editor: Editor preferite
-      preferred_languages: Linguas preferite
-      edit_preferences: Modificar preferentias
-    edit:
-      title: Modificar preferentias
       save: Actualisar preferentias
-      cancel: Cancellar
     update:
       failure: Non poteva actualisar le preferentias.
     update_success_flash:
@@ -2768,39 +2802,6 @@ ia:
       consider_pd: dominio public
       or: o
       use external auth: o usa un tertio pro aperir session
-    terms:
-      title: Conditiones
-      heading: Conditiones
-      heading_ct: Conditiones de contributor
-      read and accept with tou: Per favor, lege le accordo de contributor e le conditiones
-        de uso, marca ambe quadratos quando tu es finite e pois preme le button Continuar.
-      contributor_terms_explain: Iste accordo regula le conditiones de tu contributiones
-        existente e futur.
-      read_ct: Io ha legite e io accepta le precedente terminos de contributor
-      tou_explain_html: Iste %{tou_link} governa le uso del sito web e altere infrastructura
-        fornite per OSMF. Per favor, clicca sur le ligamine, lege le texto, e declara
-        te de accordo.
-      read_tou: Io ha legite e io accepta le Conditiones de uso
-      consider_pd: In addition a lo que precede, io considera mi contributiones como
-        essente in le dominio public
-      consider_pd_why: que es isto?
-      guidance_info_html: 'Information pro adjutar a comprender iste terminos: un
-        %{readable_summary_link} e qualque %{informal_translations_link}'
-      readable_summary: summario legibile per humanos
-      informal_translations: traductiones informal
-      continue: Continuar
-      cancel: Cancellar
-      you need to accept or decline: Per favor lege e postea accepta o declina le
-        nove Conditiones del Contributor pro continuar.
-      legale_select: 'Per favor selige tu pais de residentia:'
-      legale_names:
-        france: Francia
-        italy: Italia
-        rest_of_world: Resto del mundo
-    terms_declined_flash:
-      terms_declined_html: Nos regretta que tu ha decidite de non acceptar le nove
-        Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
-      terms_declined_link: iste pagina wiki
     no_such_user:
       title: Iste usator non existe
       heading: Le usator %{user} non existe
@@ -2928,15 +2929,15 @@ ia:
         e contrasigno e postea associar le conto a tu ID in tu parametros de usator.
   user_role:
     filter:
-      not_a_role: Le catena `%{role}' non es un rolo valide.
+      not_a_role: Le catena ‘%{role}’ non es un rolo valide.
       already_has_role: Le usator ha ja le rolo %{role}.
       doesnt_have_role: Le usator non ha le rolo %{role}.
       not_revoke_admin_current_user: Impossibile revocar le rolo de administrator
         del usator actual.
     grant:
-      are_you_sure: Es tu secur de voler conceder le rolo `%{role}' al usator `%{name}'?
+      are_you_sure: Es tu secur de voler conceder le rolo ‘%{role}’ al usator ‘%{name}’?
     revoke:
-      are_you_sure: Es tu secur de voler revocar le rolo `%{role}' del usator `%{name}'?
+      are_you_sure: Es tu secur de voler revocar le rolo ‘%{role}’ del usator ‘%{name}’?
   user_blocks:
     model:
       non_moderator_update: Debe esser moderator pro crear o actualisar un blocada.

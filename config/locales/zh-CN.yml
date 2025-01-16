@@ -106,9 +106,6 @@ zh-CN:
         create: 添加评论
       message:
         create: 发送
-      client_application:
-        create: 注册
-        update: 更新
       oauth2_application:
         create: 注册
         update: 更新
@@ -322,25 +319,6 @@ zh-CN:
       entry:
         comment: 评论
         full: 完整注记
-  account:
-    deletions:
-      show:
-        title: 删除我的账户
-        warning: 警告！这是账户删除流程的最后一步，并且不可被恢复。
-        delete_account: 删除账户
-        delete_introduction: 您可以通过下方的按钮删除您的OpenStreetMap账户。请注意如下细节：
-        delete_profile: 您的个人简介，包括您的头像、介绍和家的位置，都将被移除。
-        delete_display_name: 您的用户名将被移除，并且可以被其他账户重复使用。
-        retain_caveats: 然而，部分关于您的信息仍将被保留在OpenStreetMap里，即使在您的账户被删除后：
-        retain_edits: 您对地图数据库的编辑，如果有，将被保留。
-        retain_traces: 您上传的轨迹，如果有，将被保留。
-        retain_diary_entries: 您的日记与日记下的评论，如果有，将被保留，但不可见。
-        retain_notes: 您的地图注记与注记中的评论，如果有，将被保留，但不可见。
-        retain_changeset_discussions: 您在变更集下的讨论，如果有，将被保留。
-        retain_email: 您的电子邮件地址将被保留。
-        recent_editing_html: 因为您最近有做出编辑，目前无法删除您的账号。%{time} 后才可删除。
-        confirm_delete: 您确定吗？
-        cancel: 取消
   accounts:
     edit:
       title: 编辑账户
@@ -377,6 +355,50 @@ zh-CN:
       success: 成功更新用户信息。
     destroy:
       success: 账户已删除。
+    deletions:
+      show:
+        title: 删除我的账户
+        warning: 警告！这是账户删除流程的最后一步，并且不可被恢复。
+        delete_account: 删除账户
+        delete_introduction: 您可以通过下方的按钮删除您的OpenStreetMap账户。请注意如下细节：
+        delete_profile: 您的个人简介，包括您的头像、介绍和家的位置，都将被移除。
+        delete_display_name: 您的用户名将被移除，并且可以被其他账户重复使用。
+        retain_caveats: 然而，部分关于您的信息仍将被保留在OpenStreetMap里，即使在您的账户被删除后：
+        retain_edits: 您对地图数据库的编辑，如果有，将被保留。
+        retain_traces: 您上传的轨迹，如果有，将被保留。
+        retain_diary_entries: 您的日记与日记下的评论，如果有，将被保留，但不可见。
+        retain_notes: 您的地图注记与注记中的评论，如果有，将被保留，但不可见。
+        retain_changeset_discussions: 您在变更集下的讨论，如果有，将被保留。
+        retain_email: 您的电子邮件地址将被保留。
+        recent_editing_html: 因为您最近有做出编辑，目前无法删除您的账号。%{time} 后才可删除。
+        confirm_delete: 您确定吗？
+        cancel: 取消
+    terms:
+      show:
+        title: 条款
+        heading: 条款
+        heading_ct: 贡献者条款
+        read and accept with tou: 请阅读贡献者协议和使用条款，勾选下列2个复选框，并点击“确定”按钮。
+        contributor_terms_explain: 该协议影响到有关您过去、现在及将来的贡献的条款。
+        read_ct: 我已了解并同意贡献者条款
+        tou_explain_html: 这些%{tou_link}适用于网站方面的使用，与其它由OSMF提供的基础内容。请点击链接，阅读并同意该条款。
+        read_tou: 我已阅读并同意使用条款
+        consider_pd: 除了上述协议，我同意将我的贡献释于公有领域
+        consider_pd_why: 这是什么？
+        guidance_info_html: 有助于理解这些术语的信息：一个 %{readable_summary_link} 和一些 %{informal_translations_link}
+        readable_summary: 人类可读的摘要
+        informal_translations: 非正式翻译
+        continue: 继续
+        cancel: 取消
+        you need to accept or decline: 请先阅读，然后接受或拒绝新的贡献者条款，再继续。
+        legale_select: 请选择您居住的国家：
+        legale_names:
+          france: 法国
+          italy: 意大利
+          rest_of_world: 世界其他地区
+      terms_declined_flash:
+        terms_declined_html: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅%{terms_declined_link}。
+        terms_declined_link: 此wiki页面
   browse:
     deleted_ago_by_html: 由 %{user} 删除于 %{time_ago}
     edited_ago_by_html: 由%{user} 编辑于 %{time_ago}
@@ -396,15 +418,11 @@ zh-CN:
     view_history: 查看历史
     view_unredacted_history: 查看未隐删的历史
     view_details: 查看详情
-    view_redacted_data: 查看已隐删的数据
-    view_redaction_message: 查看隐删消息
     location: 位置：
     node:
       title_html: 节点：%{name}
-      history_title_html: 节点历史：%{name}
     way:
       title_html: 路径：%{name}
-      history_title_html: 路径历史：%{name}
       nodes: 节点
       nodes_count: '%{count}个节点'
       also_part_of_html:
@@ -412,7 +430,6 @@ zh-CN:
         other: 属于路径 %{related_ways}
     relation:
       title_html: 关系：%{name}
-      history_title_html: 关系历史：%{name}
       members: 成员
       members_count:
         one: '%{count} 位成员'
@@ -427,13 +444,6 @@ zh-CN:
       entry_role_html: '%{relation_name} （作为 %{relation_role}）'
     not_found:
       title: 未找到
-      sorry: '抱歉，无法找到 %{type} #%{id}。'
-      type:
-        node: 节点
-        way: 路径
-        relation: 关系
-        changeset: 变更集
-        note: 注记
     timeout:
       title: 超时错误
       sorry: 对不起，检索 id 为 %{id} 的 %{type} 的数据时间过长。
@@ -470,11 +480,22 @@ zh-CN:
       introduction: 点击地图以查找附近要素。
       nearby: 附近要素
       enclosing: 封闭要素
+  old_elements:
+    index:
+      node:
+        title_html: 节点历史：%{name}
+      way:
+        title_html: 路径历史：%{name}
+      relation:
+        title_html: 关系历史：%{name}
+    actions:
+      view_redacted_data: 查看已隐删的数据
+      view_redaction_message: 查看隐删消息
   nodes:
     timeout:
       sorry: 抱歉，检索id为%{id}的节点数据花费时间过长。
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: '抱歉，无法找到节点 #%{id} 的版本 %{version}。'
     timeout:
       sorry: 抱歉，检索id为%{id}的节点历史花费时间过长。
@@ -482,7 +503,7 @@ zh-CN:
     timeout:
       sorry: 抱歉，检索id为%{id}的路径数据花费时间过长。
   old_ways:
-    not_found:
+    not_found_message:
       sorry: '抱歉，无法找到路径 #%{id} 的版本 %{version}。'
     timeout:
       sorry: 抱歉，检索id为%{id}的路径历史花费时间过长。
@@ -490,7 +511,7 @@ zh-CN:
     timeout:
       sorry: 抱歉，检索id为%{id}的关系数据花费时间过长。
   old_relations:
-    not_found:
+    not_found_message:
       sorry: '抱歉，无法找到关系 #%{id} 的版本 %{version}。'
     timeout:
       sorry: 抱歉，检索id为%{id}的关系历史花费时间过长。
@@ -1069,6 +1090,9 @@ zh-CN:
           wayside_shrine: 路旁神龛
           wreck: 残骸
           "yes": 古迹
+        information:
+          guidepost: 指路牌
+          map: 地图
         junction:
           "yes": 交叉点
         landuse:
@@ -1481,6 +1505,10 @@ zh-CN:
           building_passage: 建筑通道
           culvert: 排水管
           "yes": 隧道
+        water:
+          lake: 湖
+          pond: 池塘
+          reservoir: 水库
         waterway:
           artificial: 人工航道
           boatyard: 船坞
@@ -1671,11 +1699,6 @@ zh-CN:
       see_their_profile_html: 您可以在%{userurl}查看他们的个人资料。
       befriend_them: 您也可以在 %{befriendurl} 添加他们为朋友。
       befriend_them_html: 您也可以在%{befriendurl}把他们添加为朋友。
-    gpx_description:
-      description_with_tags: 看起来是您的文件%{trace_name}（描述为%{trace_description}，带如下标签：%{tags}）
-      description_with_tags_html: 看起来是您的文件%{trace_name}，其描述为%{trace_description}并有以下标签：%{tags}
-      description_with_no_tags: 看起来是您的文件%{trace_name}（描述为%{trace_description}，不带标签）
-      description_with_no_tags_html: 看起来是您的文件%{trace_name}，其描述为%{trace_description}，没有标签
     gpx_failure:
       hi: 您好，%{to_user}：
       failed_to_import: 无法导入为GPS轨迹文件。请验证您的文件是否为有效的GPX文件或包含GPX文件的受支持格式（.tar.gz、.tar.bz2、.tar、.zip、.gpx.gz、.gpx.bz2）的存档。您的文件是否存在格式或语法问题？以下是导入错误信息：
@@ -1684,8 +1707,6 @@ zh-CN:
       subject: '[OpenStreetMap] GPX 导入失败'
     gpx_success:
       hi: 您好，%{to_user}：
-      loaded: 已成功加载%{count}个可能轨迹点中的%{trace_points}个。
-      trace_location: 您的轨迹可在%{trace_url}查看
       all_your_traces: 您可以在%{url}找到所有您成功上传的GPX轨迹
       all_your_traces_html: 您可以在 %{url} 找到所有您成功上传的 GPX 轨迹。
       subject: '[OpenStreetMap] GPX 导入成功'
@@ -1759,6 +1780,7 @@ zh-CN:
       success: 已确认您的账户，感谢您的注册！
       already active: 该账户已经确认。
       unknown token: 确认码已经过期或不存在。
+      resend_button: 重新发送确认电子邮件
     confirm_resend:
       failure: 用户 %{name} 未找到。
     confirm_email:
@@ -1783,8 +1805,6 @@ zh-CN:
       title: 无此消息
       heading: 没有此消息
       body: 对不起，没有具有该 id 的消息。
-    reply:
-      wrong_user: 您已经以 '%{user}' 的身份登录，但是您想要回复的消息并非寄给这个用户。请以正确的用户身份登录以回复这个消息。
     show:
       title: 阅读消息
       reply_button: 回复
@@ -1840,6 +1860,9 @@ zh-CN:
         people_mapping_nearby: 在附近绘制地图的人
       message:
         destroy_button: 删除
+    replies:
+      new:
+        wrong_user: 您已经以 '%{user}' 的身份登录，但是您想要回复的消息并非寄给这个用户。请以正确的用户身份登录以回复这个消息。
   passwords:
     new:
       title: 忘记密码
@@ -1860,13 +1883,17 @@ zh-CN:
   preferences:
     show:
       title: 我的偏好
-      preferred_editor: 首选编辑器
-      preferred_languages: 首选语言
-      edit_preferences: 偏好设置
-    edit:
-      title: 偏好设置
+      preferred_site_color_scheme: 首选网站配色方案
+      site_color_schemes:
+        auto: 自动
+        light: 浅色
+        dark: 深色
+      preferred_map_color_scheme: 首选地图配色方案
+      map_color_schemes:
+        auto: 自动
+        light: 浅色
+        dark: 深色
       save: 更新首选项
-      cancel: 取消
     update:
       failure: 无法更新首选项。
     update_success_flash:
@@ -2480,6 +2507,28 @@ zh-CN:
       wikipedia:
         title: 使用维基百科登录
         alt: 维基百科标志
+    share:
+      email:
+        title: 通过电子邮件分享
+        alt: 电子邮件图标
+      bluesky:
+        title: 通过Bluesky分享
+        alt: Bluesky图标
+      facebook:
+        title: 通过Facebook分享
+        alt: Facebook图标
+      linkedin:
+        title: 通过LinkedIn分享
+        alt: LinkedIn图标
+      mastodon:
+        title: 通过Mastodon分享
+        alt: Mastodon图标
+      telegram:
+        title: 通过Telegram分享
+        alt: Telegram图标
+      x:
+        title: 通过X分享
+        alt: X图标
   oauth:
     permissions:
       missing: 您未给予应用访问此装置的权限
@@ -2576,31 +2625,6 @@ zh-CN:
       consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: 或
       use external auth: 或使用第三方服务登录
-    terms:
-      title: 条款
-      heading: 条款
-      heading_ct: 贡献者条款
-      read and accept with tou: 请阅读贡献者协议和使用条款，勾选下列2个复选框，并点击“确定”按钮。
-      contributor_terms_explain: 该协议影响到有关您过去、现在及将来的贡献的条款。
-      read_ct: 我已了解并同意贡献者条款
-      tou_explain_html: 这些%{tou_link}适用于网站方面的使用，与其它由OSMF提供的基础内容。请点击链接，阅读并同意该条款。
-      read_tou: 我已阅读并同意使用条款
-      consider_pd: 除了上述协议，我同意将我的贡献释于公有领域
-      consider_pd_why: 这是什么？
-      guidance_info_html: 有助于理解这些术语的信息：一个 %{readable_summary_link} 和一些 %{informal_translations_link}
-      readable_summary: 人类可读的摘要
-      informal_translations: 非正式翻译
-      continue: 继续
-      cancel: 取消
-      you need to accept or decline: 请先阅读，然后接受或拒绝新的贡献者条款，再继续。
-      legale_select: 请选择您居住的国家：
-      legale_names:
-        france: 法国
-        italy: 意大利
-        rest_of_world: 世界其他地区
-    terms_declined_flash:
-      terms_declined_html: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅%{terms_declined_link}。
-      terms_declined_link: 此wiki页面
     no_such_user:
       title: 无此用户
       heading: 用户 %{user} 不存在
@@ -2781,6 +2805,11 @@ zh-CN:
         years:
           one: '%{count}年'
           other: '%{count}年'
+      short:
+        ended: 已结束
+        revoked_html: 被%{name}撤销
+        active: 有效
+        read_html: 已读于%{time}
     show:
       title: '%{block_on} 被 %{block_by} 封禁'
       heading_html: '%{block_on} 被 %{block_by} 封禁'
@@ -2797,6 +2826,8 @@ zh-CN:
       display_name: 封禁的用户
       creator_name: 创建者
       reason: 封禁的原因
+      start: 开始于
+      end: 结束于
       status: 状态
     navigation:
       all_blocks: 所有封禁
@@ -2884,6 +2915,8 @@ zh-CN:
       anonymous_warning_sign_up: 注册
       advice: 您的注释会公开，并可能用于更新地图，所以不要输入个人信息，或是来自版权保护地图的信息或目录列表。
       add: 添加注记
+    new_readonly:
+      title: 新注记
     notes_paging_nav:
       showing_page: 第 %{page} 页
       next: 下一页

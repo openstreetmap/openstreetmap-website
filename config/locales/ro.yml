@@ -42,9 +42,6 @@ ro:
         create: Adaugă un comentariu
       message:
         create: Trimite
-      client_application:
-        create: Înregistrează
-        update: Actualizează
       oauth2_application:
         create: Înregistrare
         update: Actualizează
@@ -276,35 +273,6 @@ ro:
       entry:
         comment: Comentariu
         full: Notă completă
-  account:
-    deletions:
-      show:
-        title: Șterge Contul Meu
-        warning: Atenție! Procesul de ștergere al contului este final și nu se poate
-          reveni.
-        delete_account: Șterge Cont
-        delete_introduction: 'Vă puteți șterge contul OpenStreetMap folosind butonul
-          de mai jos. Vă rugăm să rețineți următoarele detalii:'
-        delete_profile: Informațiile de profil, inclusiv avatarul, descrierea și locația
-          de acasă vor fi șterse.
-        delete_display_name: Numele dvs. afișat va fi eliminat și poate fi reutilizat
-          de alte conturi.
-        retain_caveats: 'Cu toate acestea, unele informații despre dvs. vor fi păstrate
-          pe OpenStreetMap, chiar și după ștergerea contului:'
-        retain_edits: Editările dvs. la baza de date a hărții, dacă există, vor fi
-          păstrate.
-        retain_traces: Înregistrările încărcate, dacă există, vor fi păstrate.
-        retain_diary_entries: Înregistrările și comentariile din jurnal, dacă există,
-          vor fi păstrate, dar ascunse.
-        retain_notes: Notele dvs. de hartă și comentariile notelor, dacă există, vor
-          fi reținute, dar ascunse pentru vedere.
-        retain_changeset_discussions: Discuțiile dvs. privind setul de modificări,
-          dacă există, vor fi păstrate.
-        retain_email: Adresa dvs. de e-mail va fi păstrată.
-        recent_editing_html: Deoarece ați editat recent, contul dvs. nu poate fi șters
-          în prezent. Ștergerea va fi posibilă în %{time}.
-        confirm_delete: Sunteți sigur(ă)?
-        cancel: Anulează
   accounts:
     edit:
       title: Modificare cont
@@ -350,6 +318,69 @@ ro:
       success: Informațiile despre utilizator s-au actualizat cu succes.
     destroy:
       success: Contul Este Șters.
+    deletions:
+      show:
+        title: Șterge Contul Meu
+        warning: Atenție! Procesul de ștergere al contului este final și nu se poate
+          reveni.
+        delete_account: Șterge Cont
+        delete_introduction: 'Vă puteți șterge contul OpenStreetMap folosind butonul
+          de mai jos. Vă rugăm să rețineți următoarele detalii:'
+        delete_profile: Informațiile de profil, inclusiv avatarul, descrierea și locația
+          de acasă vor fi șterse.
+        delete_display_name: Numele dvs. afișat va fi eliminat și poate fi reutilizat
+          de alte conturi.
+        retain_caveats: 'Cu toate acestea, unele informații despre dvs. vor fi păstrate
+          pe OpenStreetMap, chiar și după ștergerea contului:'
+        retain_edits: Editările dvs. la baza de date a hărții, dacă există, vor fi
+          păstrate.
+        retain_traces: Înregistrările încărcate, dacă există, vor fi păstrate.
+        retain_diary_entries: Înregistrările și comentariile din jurnal, dacă există,
+          vor fi păstrate, dar ascunse.
+        retain_notes: Notele dvs. de hartă și comentariile notelor, dacă există, vor
+          fi reținute, dar ascunse pentru vedere.
+        retain_changeset_discussions: Discuțiile dvs. privind setul de modificări,
+          dacă există, vor fi păstrate.
+        retain_email: Adresa dvs. de e-mail va fi păstrată.
+        recent_editing_html: Deoarece ați editat recent, contul dvs. nu poate fi șters
+          în prezent. Ștergerea va fi posibilă în %{time}.
+        confirm_delete: Sunteți sigur(ă)?
+        cancel: Anulează
+    terms:
+      show:
+        title: Termeni
+        heading: Termeni
+        heading_ct: Termenii contribuitorului
+        read and accept with tou: Citiți acordul contribuitorului și termenii de utilizare,
+          bifați casetele de validare când ați terminat, apoi apăsați butonul Continuă.
+        contributor_terms_explain: |2-
+
+          Acest acord guvernează termenii pentru contribuțiile dvs. existente și viitoare.
+        read_ct: Am citit și sunt de acord cu termenii contribuitorilor de mai sus
+        tou_explain_html: Aceste %{tou_link} guvernează utilizarea site-ului web și
+          a altor infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și
+          agregați textul.
+        read_tou: Am citit și sunt de acord cu Termenii și condițiile
+        consider_pd: Pe lângă acordul de mai sus, consider că contribuțiile mele sunt
+          în Domeniul Public
+        consider_pd_why: Ce este aceasta?
+        guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
+          un %{readable_summary_link} și câteva %{informal_translations_link}'
+        readable_summary: rezumat care poate fi citit de om
+        informal_translations: traduceri informale
+        continue: Continuă
+        cancel: Anulează
+        you need to accept or decline: Citiți și apoi acceptați sau refuzați continuarea
+          noilor Termeni de contribuire.
+        legale_select: 'Țara de reședință:'
+        legale_names:
+          france: Franța
+          italy: Italia
+          rest_of_world: Restul lumii
+      terms_declined_flash:
+        terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni
+          de Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
+        terms_declined_link: această pagină wiki
   browse:
     deleted_ago_by_html: Șters %{time_ago} de %{user}
     edited_ago_by_html: Editat %{time_ago} de %{user}
@@ -372,10 +403,8 @@ ro:
     location: 'Amplasament:'
     node:
       title_html: 'Nod: %{name}'
-      history_title_html: 'Istoricul nodului: %{name}'
     way:
       title_html: 'Cale: %{name}'
-      history_title_html: 'Istoricul căii: %{name}'
       nodes: Noduri
       nodes_count:
         one: un nod
@@ -386,7 +415,6 @@ ro:
         other: parte din liniile de %{related_ways}
     relation:
       title_html: 'Relație: %{name}'
-      history_title_html: 'Istoricul relației: %{name}'
       members: Membri
       members_count:
         one: un membru
@@ -402,13 +430,6 @@ ro:
       entry_role_html: Relația %{relation_name} (ca %{relation_role})
     not_found:
       title: Nu a fost găsit
-      sorry: 'Scuze, dar %{type} #%{id} nu s-a putut găsi.'
-      type:
-        node: nod
-        way: drum
-        relation: relație
-        changeset: set de modificări
-        note: notă
     timeout:
       title: Eroare de expirare
       sorry: Ne pare rău, dar durata recepționării datelor pentru %{type} cu identificatorul
@@ -449,6 +470,14 @@ ro:
       introduction: Dați clic pe hartă pentru a găsi obiectivele din apropiere.
       nearby: Obiectivele din apropiere
       enclosing: Caracteristici de închidere
+  old_elements:
+    index:
+      node:
+        title_html: 'Istoricul nodului: %{name}'
+      way:
+        title_html: 'Istoricul căii: %{name}'
+      relation:
+        title_html: 'Istoricul relației: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -1646,11 +1675,6 @@ ro:
       see_their_profile_html: Puteți vedea profilul respectiv la %{userurl}.
       befriend_them: De asemenea, îi puteți adăuga ca prieten la %{befriendurl}
       befriend_them_html: Le puteți adăuga și ca prieten la %{befriendurl}.
-    gpx_description:
-      description_with_tags_html: 'Se pare că fișierul dvs. GPX %{trace_name} cu descrierea
-        %{trace_description} și următoarele etichete: %{tags}'
-      description_with_no_tags_html: Se pare că fișierul dvs. GPX %{trace_name} cu
-        descrierea %{trace_description} și fără etichete
     gpx_failure:
       hi: Salut %{to_user},
       failed_to_import: 'nu a putut fi importat ca fișier de urmărire GPS. Verificați
@@ -1663,10 +1687,6 @@ ro:
       subject: '[OpenStreetMap] eșec import fișier GPX'
     gpx_success:
       hi: Salut %{to_user},
-      loaded:
-        one: încărcat cu succes cu %{trace_points} dintr-un posibil %{count} punct.
-        few: încărcat cu succes cu %{trace_points} dintr-un posibil %{count} puncte.
-        other: ""
       subject: '[OpenStreetMap] succes import fișier GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Bun-venit la OpenStreetMap'
@@ -1796,10 +1816,6 @@ ro:
       title: Nici un mesaj de acest tip
       heading: Nici un mesaj de acest tip
       body: Ne pare rău că nu există niciun mesaj cu acel id.
-    reply:
-      wrong_user: Sunteți conectat(ă) ca `%{user}', dar mesajul la care ați cerut
-        să răspundeți nu a fost trimis utilizatorului respectiv. Conectați-vă ca utilizatorul
-        corect pentru a răspunde.
     show:
       title: Citire mesaj
       reply_button: Răspunde
@@ -1857,6 +1873,11 @@ ro:
         people_mapping_nearby: oameni care cartografiază în apropiere
       message:
         destroy_button: Șterge
+    replies:
+      new:
+        wrong_user: Sunteți conectat(ă) ca `%{user}', dar mesajul la care ați cerut
+          să răspundeți nu a fost trimis utilizatorului respectiv. Conectați-vă ca
+          utilizatorul corect pentru a răspunde.
   passwords:
     new:
       title: Parola pierdută
@@ -1880,13 +1901,7 @@ ro:
   preferences:
     show:
       title: Preferințe
-      preferred_editor: Editor preferat
-      preferred_languages: Limbi preferate
-      edit_preferences: Editare preferințe
-    edit:
-      title: Editare preferințe
       save: Actualizare Preferințe
-      cancel: Revocare
     update:
       failure: Nu se pot salva preferințele.
     update_success_flash:
@@ -2725,40 +2740,6 @@ ro:
         html: Adresa dvs. nu este afișată public, consultați %{privacy_policy_link}
           pentru mai multe informații.
       use external auth: 'Alternativ, utilizați o terță parte pentru a vă conecta:'
-    terms:
-      title: Termeni
-      heading: Termeni
-      heading_ct: Termenii contribuitorului
-      read and accept with tou: Citiți acordul contribuitorului și termenii de utilizare,
-        bifați casetele de validare când ați terminat, apoi apăsați butonul Continuă.
-      contributor_terms_explain: |2-
-
-        Acest acord guvernează termenii pentru contribuțiile dvs. existente și viitoare.
-      read_ct: Am citit și sunt de acord cu termenii contribuitorilor de mai sus
-      tou_explain_html: Aceste %{tou_link} guvernează utilizarea site-ului web și
-        a altor infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și agregați
-        textul.
-      read_tou: Am citit și sunt de acord cu Termenii și condițiile
-      consider_pd: Pe lângă acordul de mai sus, consider că contribuțiile mele sunt
-        în Domeniul Public
-      consider_pd_why: Ce este aceasta?
-      guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
-        un %{readable_summary_link} și câteva %{informal_translations_link}'
-      readable_summary: rezumat care poate fi citit de om
-      informal_translations: traduceri informale
-      continue: Continuă
-      cancel: Anulează
-      you need to accept or decline: Citiți și apoi acceptați sau refuzați continuarea
-        noilor Termeni de contribuire.
-      legale_select: 'Țara de reședință:'
-      legale_names:
-        france: Franța
-        italy: Italia
-        rest_of_world: Restul lumii
-    terms_declined_flash:
-      terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni de
-        Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
-      terms_declined_link: această pagină wiki
     no_such_user:
       title: Nici un utilizator găsit
       heading: Utilizatorul %{user} nu există
