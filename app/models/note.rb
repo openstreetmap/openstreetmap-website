@@ -2,20 +2,27 @@
 #
 # Table name: notes
 #
-#  id         :bigint(8)        not null, primary key
-#  latitude   :integer          not null
-#  longitude  :integer          not null
-#  tile       :bigint(8)        not null
-#  updated_at :datetime         not null
-#  created_at :datetime         not null
-#  status     :enum             not null
-#  closed_at  :datetime
+#  id          :bigint(8)        not null, primary key
+#  latitude    :integer          not null
+#  longitude   :integer          not null
+#  tile        :bigint(8)        not null
+#  updated_at  :datetime         not null
+#  created_at  :datetime         not null
+#  status      :enum             not null
+#  closed_at   :datetime
+#  description :text             default(""), not null
+#  user_id     :bigint(8)
+#  user_ip     :inet
 #
 # Indexes
 #
 #  notes_created_at_idx   (created_at)
 #  notes_tile_status_idx  (tile,status)
 #  notes_updated_at_idx   (updated_at)
+#
+# Foreign Keys
+#
+#  notes_user_id_fkey  (user_id => users.id)
 #
 
 class Note < ApplicationRecord
