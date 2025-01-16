@@ -21,7 +21,7 @@ L.OSM.Map = L.Map.extend({
       if (layerDefinition.apiKeyId && !OSM[layerDefinition.apiKeyId]) continue;
 
       let layerConstructor = L.OSM.TileLayer;
-      const layerOptions = {};
+      const layerOptions = { className: "" };
 
       for (const [property, value] of Object.entries(layerDefinition)) {
         if (property === "credit") {
@@ -32,6 +32,11 @@ L.OSM.Map = L.Map.extend({
           layerOptions.apikey = OSM[value];
         } else if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
+        } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
+          layerConstructor = L.OSM[value];
+          layerOptions.className += " dark";
+        } else if (property === "filterClass" && OSM.isDarkMap()) {
+          layerOptions.className += " " + value;
         } else {
           layerOptions[property] = value;
         }
@@ -52,10 +57,12 @@ L.OSM.Map = L.Map.extend({
       code: "G"
     });
 
-    this.on("layeradd", function (event) {
-      if (this.baseLayers.indexOf(event.layer) >= 0) {
-        this.setMaxZoom(event.layer.options.maxZoom);
-      }
+    this.on("layeradd", function ({ layer }) {
+      if (this.baseLayers.indexOf(layer) < 0) return;
+      this.setMaxZoom(layer.options.maxZoom);
+      const key = document.querySelector(".key-ui");
+      if (!key) return;
+      key.className = "key-ui " + layer.options.className;
     });
 
     function makeAttribution(credit) {
@@ -385,6 +392,14 @@ L.extend(L.Icon.Default.prototype, {
     return L.Icon.Default.imageUrls[url];
   }
 });
+
+OSM.isDarkMap = function () {
+  var mapTheme = $("body").attr("data-map-theme");
+  if (mapTheme) return mapTheme === "dark";
+  var siteTheme = $("html").attr("data-bs-theme");
+  if (siteTheme) return siteTheme === "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
 
 OSM.getUserIcon = function (url) {
   return L.icon({
