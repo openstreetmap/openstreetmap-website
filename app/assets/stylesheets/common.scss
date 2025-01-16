@@ -9,7 +9,6 @@
 
 body {
   font-size: $typeheight;
-  --dark-mode-map-filter: brightness(.8);
 }
 
 time[title] {
@@ -516,13 +515,13 @@ body.small-nav {
 }
 
 @mixin dark-map-color-scheme {
-  .leaflet-tile-container,
+  .leaflet-layer,
   .mapkey-table-entry td:first-child > * {
-    filter: var(--dark-mode-map-filter);
+    filter: var(--dark-mode-map-filter, none);
   }
 
-  .leaflet-tile-container .leaflet-tile {
-    filter: none;
+  .no-filter, .dark {
+    --dark-mode-map-filter: none;
   }
 }
 
