@@ -82,12 +82,22 @@ class Note < ApplicationRecord
     closed_at + DEFAULT_FRESHLY_CLOSED_LIMIT
   end
 
-  # Return the author object, derived from the first comment
+  # Return the note's description, derived from the first comment
+  def description
+    comments.first.body
+  end
+
+  # Return the note's author object, derived from the first comment
   def author
     comments.first.author
   end
 
-  # Return the author IP address, derived from the first comment
+  # Return the note's author ID, derived from the first comment
+  def author_id
+    comments.first.author_id
+  end
+
+  # Return the note's author IP address, derived from the first comment
   def author_ip
     comments.first.author_ip
   end

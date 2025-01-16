@@ -47,6 +47,15 @@ class NoteTest < ActiveSupport::TestCase
     assert_not_predicate create(:note, :status => "open", :closed_at => nil), :closed?
   end
 
+  def test_description
+    comment = create(:note_comment)
+    assert_equal comment.body, comment.note.description
+
+    user = create(:user)
+    comment = create(:note_comment, :author => user)
+    assert_equal comment.body, comment.note.description
+  end
+
   def test_author
     comment = create(:note_comment)
     assert_nil comment.note.author
@@ -54,6 +63,15 @@ class NoteTest < ActiveSupport::TestCase
     user = create(:user)
     comment = create(:note_comment, :author => user)
     assert_equal user, comment.note.author
+  end
+
+  def test_author_id
+    comment = create(:note_comment)
+    assert_nil comment.note.author_id
+
+    user = create(:user)
+    comment = create(:note_comment, :author => user)
+    assert_equal user.id, comment.note.author_id
   end
 
   def test_author_ip
