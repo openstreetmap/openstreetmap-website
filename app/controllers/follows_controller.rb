@@ -22,7 +22,7 @@ class FollowsController < ApplicationController
     follow.following = @friend
     if current_user.follows?(@friend)
       flash[:warning] = t ".already_followed", :name => @friend.display_name
-    elsif current_user.follows.where(:created_at => Time.now.utc - 1.hour..).count >= current_user.max_friends_per_hour
+    elsif current_user.follows.where(:created_at => Time.now.utc - 1.hour..).count >= current_user.max_follows_per_hour
       flash[:error] = t ".limit_exceeded"
     elsif follow.save
       flash[:notice] = t ".success", :name => @friend.display_name

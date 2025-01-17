@@ -6,7 +6,7 @@ class FollowsTest < ApplicationSystemTestCase
 
     sign_in_as create(:user)
 
-    with_settings(:max_friends_per_hour => 0) do
+    with_settings(:max_follows_per_hour => 0) do
       visit user_path(following)
       assert_link "Follow"
 
