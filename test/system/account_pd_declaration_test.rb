@@ -11,6 +11,7 @@ class AccountPdDeclarationTest < ApplicationSystemTestCase
 
     within_content_body do
       assert_unchecked_field "I consider my contributions to be in the Public Domain"
+      assert_button "Confirm"
     end
   end
 
@@ -21,6 +22,7 @@ class AccountPdDeclarationTest < ApplicationSystemTestCase
 
     within_content_body do
       assert_checked_field "I consider my contributions to be in the Public Domain", :disabled => true
+      assert_button "Confirm", :disabled => true
     end
   end
 end
