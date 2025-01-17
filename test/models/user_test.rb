@@ -136,18 +136,18 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user, :valid?, "user_0 display_name is invalid but it hasn't been changed"
   end
 
-  def test_friends_with
+  def test_follows
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
     create(:follow, :follower => alice, :following => bob)
 
-    assert alice.friends_with?(bob)
-    assert_not alice.friends_with?(charlie)
-    assert_not bob.friends_with?(alice)
-    assert_not bob.friends_with?(charlie)
-    assert_not charlie.friends_with?(bob)
-    assert_not charlie.friends_with?(alice)
+    assert alice.follows?(bob)
+    assert_not alice.follows?(charlie)
+    assert_not bob.follows?(alice)
+    assert_not bob.follows?(charlie)
+    assert_not charlie.follows?(bob)
+    assert_not charlie.follows?(alice)
   end
 
   def test_users_nearby

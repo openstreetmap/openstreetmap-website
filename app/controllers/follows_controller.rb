@@ -13,14 +13,14 @@ class FollowsController < ApplicationController
   before_action :lookup_friend
 
   def show
-    @already_follows = current_user.friends_with?(@friend)
+    @already_follows = current_user.follows?(@friend)
   end
 
   def create
     follow = Follow.new
     follow.follower = current_user
     follow.following = @friend
-    if current_user.friends_with?(@friend)
+    if current_user.follows?(@friend)
       flash[:warning] = t ".already_followed", :name => @friend.display_name
     elsif current_user.follows.where(:created_at => Time.now.utc - 1.hour..).count >= current_user.max_friends_per_hour
       flash[:error] = t ".limit_exceeded"
@@ -37,7 +37,7 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    if current_user.friends_with?(@friend)
+    if current_user.follows?(@friend)
       Follow.where(:follower => current_user, :following => @friend).delete_all
       flash[:notice] = t ".success", :name => @friend.display_name
     else
