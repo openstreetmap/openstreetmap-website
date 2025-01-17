@@ -48,7 +48,6 @@ aln:
       message: Mesazh
       node: Nyjë
       node_tag: Nyja Tag
-      notifier: Notifier
       old_node: Nyja e Vjetër
       old_node_tag: Tag Nyja e Vjetër
       old_relation: Raporti i vjetër
@@ -81,7 +80,7 @@ aln:
         title: Titulli
         latitude: Gjerësi
         longitude: Gjatësi
-        language: Gjuha
+        language_code: Gjuha
       friend:
         user: Përdorues
         friend: Mik
@@ -132,35 +131,19 @@ aln:
       public editing:
         heading: Duke ndryshue publikisht
         enabled: E pranishme. Jo anonime dhe muni me i ndryshue t'dhanat.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: çka osht kjo?
         disabled: E çkyckur dhe smuni me i ndryshu të dhanat, të gjitha ndryshimet
           e ma hershme jan anonime.
         disabled link text: pse spo muj me i ndryshue?
-      public editing note:
-        heading: 'Ndryshime publike:'
-        html: Niher për niher ndryshimet e juaja janë anonime dhe njerëzit nuk mund
-          të ju dërgojnë mesazhe apo shohin vendndodhjen tuaj. Për të treguar atë
-          që e keni edituar dhe lejojnë njerëzit të lidhen me ju nëpërmjet internetit,
-          kliko butonin më poshtë. <b> Që nga ndryshimi 0,6 API, vetëm përdoruesit
-          e publikut mund të redaktoni të dhënat hartë </ b>. (<a Href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">
-          gjeni se pse </ a>). <ul> <li> Adresa juaj e emailit nuk do të zbulohet
-          duke u bërë publik. </ Li > <li> Ky veprim nuk mund të kthehet dhe të gjithë
-          përdoruesit e rinj janë tashmë publik nga default. </ li> </ ul>
       save changes button: Ruaj Ndryshimet
-      make edits public button: Boni gjith ndryshimet e mija publike
+    go_public:
+      heading: 'Ndryshime publike:'
+      make_edits_public_button: Boni gjith ndryshimet e mija publike
     update:
       success_confirm_needed: Informatat e shfyrtezuesit u ndryshan me sukses. Shihni
         emailin per konfirmim.
       success: Informatat e shfrytëzuesit u ndryshuan me sukses.
   browse:
-    changeset:
-      title: Ndryshim
-      changesetxml: Ndryshim en XML
-      osmchangexml: Ndryshim i OSM-s en XML
-      feed:
-        title: Ndryshim %{id}
-        title_comment: Ndryshimi %{id} - %{comment}
     relation_member:
       entry_role_html: '%{type} %{name} asht si %{role}'
       type:
@@ -195,23 +178,19 @@ aln:
         tag: Pērshkrimi i wiki faqes pēr %{key}=%{value} tag
       wikipedia_link: '%{page} artikulli nē Wikipedia'
   changesets:
-    changeset_paging_nav:
-      showing_page: Tu e shfaq faqen %{page}
-      next: Tjetra »
-      previous: «Previous
     changeset:
-      anonymous: Anonim
       no_edits: (Nuk ka redaktimet)
       view_changeset_details: Shikoni detajet changeset
-    changesets:
-      id: ID
-      saved_at: Ruhen në
-      user: Përdorues
-      comment: Koment
-      area: Zonë
     index:
       title: Changesets
       title_user: Changesets nga %{user}
+      feed:
+        title: Ndryshim %{id}
+        title_comment: Ndryshimi %{id} - %{comment}
+    show:
+      title: Ndryshim
+      changesetxml: Ndryshim en XML
+      osmchangexml: Ndryshim i OSM-s en XML
   dashboards:
     contact:
       km away: '%{count}km larg'
@@ -237,9 +216,8 @@ aln:
       new: Hyrja e re Ditari
       new_title: Shkruaj një hyrje e re në ditarin tuaj përdorues
       no_entries: Nuk ka shënime në ditar
+    page:
       recent_entries: 'shënimet e fundit ditar:'
-      older_entries: Shënimet e Vjetra
-      newer_entries: Shënimet Ma Të Reja
     edit:
       title: hyrje Edit ditar
       marker_text: Vendndodhja Ditari hyrje
@@ -270,20 +248,19 @@ aln:
       confirm: Konfirmo
     location:
       location: 'Lokacioni:'
-      view: Kshyre
-      edit: Ndrysho
     feed:
       user:
-        title: hyra OpenHistoricalMap ditar për %{user}
-        description: shënimet e fundit OpenHistoricalMap ditar nga %{user}
+        title: hyra OpenStreetMap ditar për %{user}
+        description: shënimet e fundit OpenStreetMap ditar nga %{user}
       language:
-        title: shënimet në ditar OpenHistoricalMap në %{language_name}
-        description: shënimeve ditar nga përdoruesit e fundit të OpenHistoricalMap
-          në %{language_name}
+        title: shënimet në ditar OpenStreetMap në %{language_name}
+        description: shënimeve ditar nga përdoruesit e fundit të OpenStreetMap në
+          %{language_name}
       all:
-        title: hyra OpenHistoricalMap ditar
-        description: Shënimet mat fundit të ditarit nga anëtarët e OpenHistoricalMap
-    comments:
+        title: hyra OpenStreetMap ditar
+        description: Shënimet mat fundit të ditarit nga anëtarët e OpenStreetMap
+  diary_comments:
+    page:
       comment: Koment
   friendships:
     make_friend:
@@ -651,72 +628,57 @@ aln:
           wadi: luginë
           waterfall: Ujëvarë
           weir: Pendë
-      types:
-        cities: Qytetet
-        towns: Qytetet
-        places: Places
     results:
       no_results: Nuk është gjetur asnjë rezultat
       more_results: Më shumë rezultate
   layouts:
     logo:
-      alt_text: logo e OpenHistoricalMap
+      alt_text: logo e OpenStreetMap
     home: shtëpi
     logout: logout
     log_in: log in
-    log_in_tooltip: Hyni që me një llogari ekzistuese
     sign_up: regjistrohu
-    sign_up_tooltip: Krijo një llogari për përpunim
     edit: Ndrysho
     history: Historia
     export: Eksport
     gps_traces: GPS Gjurmët
-    gps_traces_tooltip: Manage gjurmë GPS
     user_diaries: Përdoruesi Diaries
-    user_diaries_tooltip: përdorues ditaret Shiko
-    tag_line: Free Harta Wiki Botërore
-    osm_offline: Baza e të dhanave të OpenHistoricalMap niher për niher jasht funksioni
+    osm_offline: Baza e të dhanave të OpenStreetMap niher për niher jasht funksioni
       derisa disa punë themelore po kryhen në bazën e të dhanave.
-    osm_read_only: Baza e të dhënave OpenHistoricalMap është aktualisht në mënyrë
-      read-only ndërsa thelbësor bazës së të dhënave mirëmbajtjen puna është kryer.
-    donate: OpenHistoricalMap Mbështetja nga %{link} në Fondin Hardware Upgrade.
+    osm_read_only: Baza e të dhënave OpenStreetMap është aktualisht në mënyrë read-only
+      ndërsa thelbësor bazës së të dhënave mirëmbajtjen puna është kryer.
     copyright: Copyright & License
-    make_a_donation:
-      title: OpenHistoricalMap Mbështetje me një donacion monetar
-      text: Bëni një donacion
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenHistoricalMap] %{user} ka komentu në shënimin tond të ditarit'
+      subject: '[OpenStreetMap] %{user} ka komentu në shënimin tond të ditarit'
       hi: Tung %{to_user},
-      header: '%{from_user} ka komentu në shënimin tond të fundit në ditar tek OpenHistoricalMap
+      header: '%{from_user} ka komentu në shënimin tond të fundit në ditar tek OpenStreetMap
         me titullin %{subject}:'
       footer: Ju muni gjithashtu me lexu komentin te %{readurl} dhe ju muni me komentu
         te %{commenturl} apo me u përgjigj te %{replyurl}
     message_notification:
       hi: Tung %{to_user},
-      header: '%{from_user} ju ka dërgu një mesazh përmes OpenHistoricalMap me titullin
+      header: '%{from_user} ju ka dërgu një mesazh përmes OpenStreetMap me titullin
         %{subject}:'
     friendship_notification:
-      subject: '[OpenHistoricalMap] %{user} ju ka shtu juve si një shok'
-      had_added_you: '%{user} ju ka shtu juve si një shok në OpenHistoricalMap.'
+      subject: '[OpenStreetMap] %{user} ju ka shtu juve si një shok'
+      had_added_you: '%{user} ju ka shtu juve si një shok në OpenStreetMap.'
       see_their_profile: Ju muni me pa profilin e tyre tek %{userurl}.
       befriend_them: Ju muni gjithashtu me i shtu ata si shokë tek %{befriendurl}.
     gpx_failure:
       failed_to_import: 'nuk arriti të importit. Këtu është gabim:'
-      subject: '[OpenHistoricalMap] te re dështimit Import'
+      subject: '[OpenStreetMap] te re dështimit Import'
     gpx_success:
-      loaded_successfully: ngarkuar me sukses me %{trace_points} nga një jetë e mundur
-        %{possible_points} piket.
-      subject: '[OpenHistoricalMap] Import sukses te re'
+      subject: '[OpenStreetMap] Import sukses te re'
     signup_confirm:
-      subject: '[OpenHistoricalMap] Konfirmoje email adresën tonde'
+      subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
     email_confirm:
-      subject: '[OpenHistoricalMap] Konfirmoje email adresën tonde'
+      subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
       greeting: Tung,
       click_the_link: Nëse ky je ti, ju lutem trusni lidhjen e mëposhtme për me konfirmu
         ndryshimin.
     lost_password:
-      subject: '[OpenHistoricalMap] kërkesës Password reset'
+      subject: '[OpenStreetMap] kërkesës Password reset'
       greeting: Tung,
       click_the_link: Nëse kjo është që ju, ju lutemi klikoni lidhjen më poshtë për
         të rivendosni fjalëkalimin tuaj.
@@ -737,23 +699,21 @@ aln:
   messages:
     inbox:
       title: Inbox
-      my_inbox: postë e mia
-      from: Prej
-      subject: Tema
-      date: Data
       no_messages_yet_html: Ju nuk keni asnjë mesazh. Pse nuk po llidheni me disa
         prej %{people_mapping_nearby_link}?
       people_mapping_nearby: njerëzit pranë hartës
+    messages_table:
+      from: Prej
+      to: Te
+      subject: Tema
+      date: Data
     message_summary:
       unread_button: Bone si të palexume
       read_button: Bone si të lexume
-      reply_button: Përgjigju
       destroy_button: Fshije
     new:
       title: Qo mesazh
       send_message_to_html: Qoje një mesazh të ri te %{name}
-      subject: Titulli
-      body: Organ
       back_to_inbox: Kthehu në postë
     create:
       message_sent: Mesazhi u dërgu
@@ -765,9 +725,6 @@ aln:
       body: Me na fal por nuk ka asnjë mesazh me at id.
     outbox:
       title: Dalje
-      to: Te
-      subject: Titulli
-      date: Data
       no_sent_messages_html: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni me
         disa prej %{people_mapping_nearby_link}?
       people_mapping_nearby: njerëzit pranë hartës
@@ -777,39 +734,35 @@ aln:
         atij mesazhi.
     show:
       title: Lexo mesazhin
-      from: Prej
-      subject: Titulli
-      date: Data
       reply_button: Përgjigju
       unread_button: Bone si të palexum
-      to: Te
       wrong_user: Ju keni hy si `%{user}' por mesazhi që po doni me lexu nuk u dërgu
         për ose nga ai anëtar. Ju lutem hyni si anëtari korrekt nëse doni me lexu
         atë mesazh.
     sent_message_summary:
       destroy_button: Fshij
+    heading:
+      my_inbox: postë e mia
     mark:
       as_read: Mesazhi u bo si i lexum
       as_unread: Mesazhi u bo si i palexum
     destroy:
       destroyed: Mesazhi u fshi
   passwords:
-    lost_password:
+    new:
       title: T'ka hup fjalkalimi
       heading: Ke harrue fjalkalimin?
       email address: 'Email Adresa:'
       new password button: Ndrysho fjalkalimin
       help_text: Shkrueje email adresen që je regjistrue me to, do t'ju deromi një
         lidhe rreth ksaj ku ju muni me ndrru fjalkalimin
-      notice email on way: Na vjen keq që e keni hup :-( po ni email ka me ju ardh
-        së shpejti edhe muni me ricaktu.
-      notice email cannot find: Smujtëm me gjet qat email adres, na vjen keq.
-    reset_password:
+    edit:
       title: Ricakto fjalëkalimin
       heading: Ricakto fjalëkalimin për %{user}
       reset: Ricakto Fjalëkalimin
-      flash changed: Fjalëkalimi juaj u ndryshua.
       flash token bad: Sun e gjetëm qat token, kontrolloje URL?
+    update:
+      flash changed: Fjalëkalimi juaj u ndryshua.
   profiles:
     edit:
       image: 'Imazhi:'
@@ -823,22 +776,25 @@ aln:
       update home location on click: Ndryshoma venin kur të klikoj në hart?
   sessions:
     new:
-      title: Kyçu
-      heading: Kycu
+      tab_title: Kycu
       email or username: 'Email Adresa ose Username:'
       password: 'Fjalekalimi:'
       remember: Kujtom mu
       lost password link: Keni harru fjalëkalimin tuaj?
       login_button: Kyçu
-      account not active: Na vjen keq, akonti juej nuk asht hala aktiv<br /> Ju lutemi
-        klikoni në linkun e dërguem në email për me aktivizu akountin tuej.
       auth failure: Na vjen keq, smunem me ju kyc me ato detaje.
     destroy:
       title: Dil
-      heading: Dil nga OpenHistoricalMap
+      heading: Dil nga OpenStreetMap
       logout_button: Dil
+  shared:
+    pagination:
+      diary_entries:
+        older: Shënimet e Vjetra
+        newer: Shënimet Ma Të Reja
   site:
     copyright:
+      title: Copyright
       foreign:
         title: Rreth kti përkthimi
         html: Në ni ngjarje të ni konflikti me faqen e përkthyme dhe %{english_original_link},
@@ -852,61 +808,32 @@ aln:
         native_link: Gegë verzion
         mapping_link: fillo hartografimin
       legal_babble:
-        title_html: Copyright
-        intro_1_html: |-
-          OpenHistoricalMap is <i>open data</i>, licensed under the <a
-          href="http://opendatacommons.org/licenses/odbl/">Open Data
-          Commons Open Database License</a> (ODbL).
-        intro_2_html: |-
-          Ju jeni të lirë ta kopjoni, shpërndani, përcjell dhe përshtatur hartat tona
-            dhe të dhënat, për aq kohë sa ju e kreditit OpenHistoricalMap e saj
-            kontribuesve. Nëse ju ndryshoni ose me ndërtimin e hartave tona ose të dhëna, ju
-            mund të shpërndani rezultat vetëm në bazë të licencës të njëjtën.
-            <Plotë një
-            href = "http://creativecommons.org/licenses/by-sa/2.0/legalcode"> ligjore
-            <Kod / a> shpjegon të drejtat tuaja dhe të përgjegjësive.
-        credit_title_html: Si të kreditit OpenHistoricalMap
+        credit_title_html: Si të kreditit OpenStreetMap
         credit_1_html: |-
-          Nëse jeni duke përdorur harta imazhe OpenHistoricalMap, ne kërkojmë që
-            kreditit tuaj lexon të paktën "© OpenHistoricalMap
+          Nëse jeni duke përdorur harta imazhe OpenStreetMap, ne kërkojmë që
+            kreditit tuaj lexon të paktën "© OpenStreetMap
             kontribuesit, CC BY-SA ". Nëse jeni duke përdorur të dhëna vetëm në hartë,
-            ne kerkojme "Organizimi i të dhënave © kontribuesit OpenHistoricalMap,
+            ne kerkojme "Organizimi i të dhënave © kontribuesit OpenStreetMap,
             CC BY-SA ".
-        credit_2_1_html: |-
-          Ku të jetë e mundur, duhet të jetë OpenHistoricalMap hyperlinked në <a
-            href = "http://www.openstreetmap.org/"> http://www.openstreetmap.org/ </ a>
-            dhe CC BY-SA për <a
-            href = "http://creativecommons.org/licenses/by-sa/2.0/"> http://creativecommons.org/licenses/by-sa/2.0/ </ a>. Nëse
-            ju jeni duke përdorur një të mesme, ku lidhjet nuk janë të mundshme (p.sh. një
-            shtypura punë), ne ju sugjerojmë lexuesit tuaj të drejtpërdrejtë të
-            www.openstreetmap.org (ndoshta duke zgjeruar
-            'OpenHistoricalMap' në këtë adresë të plotë) dhe të
-            www.creativecommons.org.
         more_title_html: Gjetja më shumë
-        more_1_html: |-
-          Lexo më shumë lidhje me përdorimin e të dhënave tona në <a
-            href = "http://wiki.openstreetmap.org/wiki/Legal_FAQ"> Ligjore
-            FAQ </ a>.
         contributors_title_html: kontribuesit tona
         contributors_intro_html: |-
           licencë CC BY-SA jonë kërkon që ju të "japin origjinal
             Author kredi të arsyeshme për të mesëm ose të thotë Ti je
             shfrytëzuar ". Individuale mappers OSM nuk kërkojnë një
-            kreditit mbi dhe më lart që të "OpenHistoricalMap
+            kreditit mbi dhe më lart që të "OpenStreetMap
             kontribuesit ", por kur të dhënat nga një hartës kombëtare
             agjenci ose burim kryesor ka qenë i përfshirë në
-            OpenHistoricalMap, ai mund të jetë e arsyeshme për kredi nga ana e tyre direkt
+            OpenStreetMap, ai mund të jetë e arsyeshme për kredi nga ana e tyre direkt
             riprodhimin e kreditit e tyre apo duke i lidhur me të në këtë faqe.
         contributors_footer_2_html: |2-
-            Përfshirja e të dhënave në OpenHistoricalMap nuk do të thotë që origjinal
-            dhënave miraton ofrues OpenHistoricalMap, ofron çdo garanci ose
+            Përfshirja e të dhënave në OpenStreetMap nuk do të thotë që origjinal
+            dhënave miraton ofrues OpenStreetMap, ofron çdo garanci ose
             pranon ndonjë përgjegjësi.
     index:
       js_1: Ju jeni duke përdorur ndonjë shfletues që nuk e përkrah JavaScript, ose
         i keni çativizuar JavaScript.
-      js_2: OpenHistoricalMap përdor Java skriptet për planet e saj të rrëshqitshëm.
-      permalink: Permalink
-      shortlink: Shortlink
+      js_2: OpenStreetMap përdor Java skriptet për planet e saj të rrëshqitshëm.
     edit:
       not_public: Ju nuk keni vendosur redaktimet e juaj të jetë publike.
       not_public_description_html: Ju nuk mund të redaktoni hartën e nëse ju një gjë
@@ -915,32 +842,14 @@ aln:
       user_page_link: faqe përdorues
       anon_edits_link_text: Find out pse kjo është e rastit.
     export:
-      area_to_export: Zona për Eksport
       manually_select: Manualisht zgedhe ni zon te ndryshme
-      format_to_export: Formati për Eksport
-      osm_xml_data: OpenHistoricalMap XML të dhana
-      embeddable_html: HTML e trupzueshme
       licence: Licensa
-      licence_details_html: T'dhanat e OpenHistoricalMap jan te licensume nën <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-        Commons Attribution-ShareAlike 2.0 license</a>.
       too_large:
-        body: Kjo zonë është shum e madhe që të eksportohet si XML në OpenHistoricalMap.
+        body: Kjo zonë është shum e madhe që të eksportohet si XML në OpenStreetMap.
           Të lutna afroje ma ngat ose mere një zonë ma të vogel.
-      options: Opcionet
-      format: Formati
-      scale: Shkallë
-      max: maks
-      image_size: Madhsia e Imazhit
-      zoom: Zmadho
-      add_marker: Shto ni shenues en harte
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Outputi
-      paste_html: Fute HTML për me ngjit në web sajt
       export_button: Eksporto
     sidebar:
       search_results: Rezultatet e Kërkimit
-      close: Mshele
     search:
       search: Kërko
       where_am_i: Ku jom une?
@@ -960,34 +869,24 @@ aln:
           footway: Këmbësore
           rail: Hekurudhor
           subway: Metro
-          tram:
-          - hekurudhor Lehta
-          - tramvaj
-          cable:
-          - teleferik
-          - heqë karrige
-          runway:
-          - Aeroporti i pistës
-          - taxiway
-          apron:
-          - aeroportit Aeroporti
-          - terminal
+          cable_car: teleferik
+          chair_lift: heqë karrige
+          runway: Aeroporti i pistës
+          taxiway: taxiway
+          apron: aeroportit Aeroporti
           admin: kufitare administrative
           forest: Pyll
           wood: Druri
           golf: fushë e golfit
           park: Park
+          common: I përbashkët
           resident: Zonë Rezidenciale
-          common:
-          - I përbashkët
-          - livadh
           retail: zonë me pakicë
           industrial: Zonë Industriale
           commercial: Zona Tregtare
           heathland: Heathland
-          lake:
-          - Liqe
-          - rezervuar
+          lake: Liqe
+          reservoir: rezervuar
           farm: Ferm
           brownfield: site Brownfield
           cemetery: Varrezë
@@ -996,14 +895,12 @@ aln:
           centre: Qendër Sportive
           reserve: rezervë Natyra
           military: Zonë Ushtarake
-          school:
-          - Shkollë
-          - universitet
+          school: Shkollë
+          university: universitet
           building: ndërtimin e rëndësishme
           station: Stacion hekurudhor
-          summit:
-          - Samiti i
-          - pik
+          summit: Samiti i
+          peak: pik
           tunnel: tunel zorrë thye =
           bridge: Shtresë e jashtme e Zi = urë
           private: qasje privat
@@ -1031,8 +928,6 @@ aln:
       title: Duke ndryshue të dhanen %{name}
       heading: Ndrysho të dhanën %{name}
       visibility_help: Çka do me than kjo?
-    trace_optionals:
-      tags: Etiketat
     show:
       title: Duke par gjurmën %{name}
       heading: Tuj i kqyr t'dhanat %{name}
@@ -1052,8 +947,6 @@ aln:
       delete_trace: Fshij kët gjurm
       trace_not_found: Gjurma nuk u gjet!
       visibility: 'Dukshmënia:'
-    trace_paging_nav:
-      showing_page: Duke shfaqun faqen %{page}
     trace:
       pending: NË PRITJE
       count_points: '%{count} pikët'
@@ -1065,16 +958,12 @@ aln:
       identifiable: E identifikueshme
       private: PRIVATE
       trackable: E GJURMUESHME
-      by: nga
-      in: në
     index:
       public_traces: Të dhanat publike të GPS-it
       public_traces_from: Të dhana publike të GPS-it pej %{user}
       tagged_with: ' e etikume me %{tags}'
     destroy:
       scheduled_for_deletion: Gjurma u parapa për fshirje
-    make_public:
-      made_public: Gjurma u ba publike
     offline_warning:
       message: Sistemi i ngarkimit GPX për momentin asht jasht përdonimit
     offline:
@@ -1088,59 +977,6 @@ aln:
     setup_user_auth:
       blocked: qasja juaj në API është bllokuar. Ju lutemi të log-in për ndërfaqe
         web për të mësuar më shumë.
-  oauth:
-    authorize:
-      request_access_html: Aplikacioni %{app_name} po kërkon qasje në llogarinë tonde.
-        Ju lutem kshyrne nëse doni që aplikacioni me i pas kto mundësi. Ju muni me
-        zgjedh sa ma shumë ose sa ma pak që të doni.
-      allow_to: 'Lejoni klientin të aplikimit:'
-      allow_read_prefs: lexoni preferencat tuaj të përdoruesit.
-      allow_write_prefs: ndryshuar parapëlqimet tuaj të përdoruesit.
-      allow_write_diary: krijojnë të hyra ditar, komentet dhe të bëni miq të rinj.
-      allow_write_api: modifikimin e hartes.
-      allow_read_gpx: lexoni privat tuaj GPS gjurmë.
-      allow_write_gpx: GPS upload gjurmë.
-    revoke:
-      flash: Ju keni revokuar shenjë për %{application}
-  oauth_clients:
-    new:
-      title: Regjistroje një aplikacion të ri
-    edit:
-      title: Redakto kërkesën tuaj
-    show:
-      title: Detajet OAuth për %{app_name}
-      key: 'Konsumatorit kryesore:'
-      secret: 'Konsumatorit Sekret:'
-      url: 'URL Kërkesë Shenjë:'
-      access_url: 'URL Qasja Shenjë:'
-      authorize_url: 'Authorise URL:'
-      support_notice: Ne mbështesim HMAC-SHA1 (rekomandohet) si tekst i thjeshtë në
-        mënyrë SSL.
-      edit: Edit Details
-      requests: 'Kërkuar të drejtat e mëposhtme nga përdoruesit:'
-    index:
-      title: Detajet e mia OAuth
-      my_tokens: Aplikimet e mia i Autorizuar
-      list_tokens: 'Argumentet e mëposhtme janë lëshuar për aplikimet në emrin tuaj:'
-      application: Emri i Aplikacionit
-      issued_at: Lëshuar në
-      revoke: Tërheq!
-      my_apps: Aplikime Klienti im
-      no_apps_html: A keni një aplikim që ju do të doja të regjistruar për të përdorur
-        me ne duke përdorur %{oauth} standarde? Ju duhet të regjistroheni kërkesën
-        tuaj para se ajo mund të bëjë kërkesë OAuth për këtë shërbim.
-      registered_apps: 'Ju keni aplikimet e mëposhtme klientit të regjistruar:'
-      register_new: Regjistroje aplikacionin tond
-    form:
-      requests: 'Kërkesë të drejtat e mëposhtme nga përdoruesit:'
-    not_found:
-      sorry: Na vjen keq, se %{type} nuk mund të gjendet.
-    create:
-      flash: Informatat jon regjistru me sukses.
-    update:
-      flash: Përditësuar më të dhënat e klientit me sukses
-    destroy:
-      flash: Shkatërruar kërkesë e klientit regjistrimit
   oauth2_applications:
     new:
       title: Regjistroje një aplikacion të ri
@@ -1148,12 +984,6 @@ aln:
     new:
       title: Krijo akount
       no_auto_account_create: Për momentin spo mujm me ju kriju akount automatikisht.
-      contact_support_html: Ju lutna kontaktoni <a href="%{support}">webmaster</a>
-        per më caktu ni akount që të ju krijohet - na do të merremi me kërkesën sa
-        ma shpejt që tjet e mundshme.
-      email address: 'Email Adresa:'
-      confirm email address: 'Konfirmo Adresën e Emailit:'
-      display name: 'Emni i pamshem:'
       display name description: Emni jot publik. Ju muni me ndrru ma von në preferencat
         e tua.
       continue: Vazhdo
@@ -1161,7 +991,6 @@ aln:
       heading: rregullat për Pjesëmarrës
       consider_pd: Unë e konsideroj kontributet e mia të jenë në domenin publik
       consider_pd_why: çka o kjo?
-      decline: Mos prano
       legale_select: 'Ju lutem zgjidhni vendin tuaj të banimit:'
       legale_names:
         france: Franca
@@ -1174,7 +1003,6 @@ aln:
         shkrimin, ose nashta linku ku keni kliku asht gabim.
     show:
       my diary: ditari im
-      new diary entry: hyrje e re ne ditar
       my edits: ndryshimet e mia
       my traces: gjurmët e mia
       my settings: preferencat e mia
@@ -1191,8 +1019,6 @@ aln:
       created from: 'U krijue prej:'
       status: 'Statuti:'
       spam score: 'Piket e Badihavgjive:'
-      description: Përshkrimi
-      user location: Veni i shfrytëzuesit
       role:
         administrator: Ky shfrytëzues asht aministrator
         moderator: Ky shfrytëzues asht moderator
@@ -1206,61 +1032,37 @@ aln:
       moderator_history: shihe kan e ke blloku
       create_block: blloko ket shfrytzues
       activate_user: aktivizo kët shfrytezues
-      deactivate_user: ç'aktivizoje kët shfrytezues
       confirm_user: konfirmo ket perdorus
       hide_user: mshife kët shfrytëzues
       unhide_user: shfaqe kët shfrytzues
       delete_user: fshije kët shfrytzues
       confirm: Konfirmo
-    set_home:
-      flash success: Veni i shpis u ruajt me sukses
     go_public:
       flash success: Gjitha ndryshimet tuja janë publike tash, edhe tash t'lejohet
         me ndryshue
     index:
       title: Perdoruesit
       heading: Perdoruesit
-      showing:
-        one: Tu e kallxu faqen %{page} (%{first_item} prej %{items})
-        other: Tu e kallxu faqen %{page} (%{first_item}-%{last_item} prej %{items})
       summary_html: '%{name} u kriju prej %{ip_address} në %{date}'
       summary_no_ip_html: '%{name} u krijue me %{date}'
+      empty: Asni perputhje e perdoruesve nuk asht gjetun
+    page:
       confirm: Konfirmo Anëtarët e Selektum
       hide: Mshefi Perdorust e Zgjedhun
-      empty: Asni perputhje e perdoruesve nuk asht gjetun
     suspended:
       title: Llogaria u Suspendu
       heading: Llogaria u Suspendu
-      body_html: |-
-        <p>
-          Me na fal, por llogaria juaj automatikisht osht suspendu
-          për shkak të aktivitetit të dyshimt.
-        </p>
-        <p>
-          Ky vendim së shpejti ka mu rishiku prej një administratori, ose
-          ju muni me kontaktu me %{webmaster} nëse doni me diskutu ma shumë.
-        </p>
   user_role:
     filter:
       not_a_role: Lidhja `%{role}' nuk asht rol valid.
       already_has_role: Shfrytzuesi tashmë ka ni rol %{role}.
       doesnt_have_role: Ky shfrytzeus nuk ka asni rrol %{role}
     grant:
-      title: Konfirmo dhanjen e rolit
-      heading: Konfirmo dhenjen e rolit
       are_you_sure: A jeni i sigurt që po doni mja dhonë rolin `%{role}' te përdoruesi
         `%{name}'?
-      confirm: Konfirmo
-      fail: Nuk i dha rol tmadh `%{role}' te perdoruesi `%{name}'. Ju lutna kontrollone
-        perdoruesin dhe rolin qe a jane te dzte valid.
     revoke:
-      title: Konfirmoje rolin duke e zgjuar
-      heading: Konfirmoje folin duke e zgjuar
       are_you_sure: A jeni i sigurt qe ju doni me zgjue rolin `%{role}' prej perdoruesit
         `%{name}'?
-      confirm: Konfirmo
-      fail: Nuk munet me zgjue folin `%{role}' prej perdoruesit `%{name}'. Ju lutem
-        kontrolloje perdoruesin edhe rolin a jane te dyte valid.
   user_blocks:
     model:
       non_moderator_update: Duhet të jetë një moderator për të krijuar ose rinovuar
@@ -1273,26 +1075,14 @@ aln:
       title: Krijimi i bllokuar në %{name}
       heading_html: Krijimi i bllokuar në %{name}
       period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
-      tried_contacting: Unë kam kontaktuar me përdorues dhe u kërkoi atyre për të
-        ndaluar.
-      tried_waiting: Unë kam dhënë një sasi të arsyeshme kohore për përdoruesit për
-        t,iu përgjigjur atyre të komunikimit.
-      back: Shiko të gjitha blloqet e
     edit:
       title: Editimi bllokuar në %{name}
       heading_html: Editimi bllokuar në %{name}
       period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
-      show: Shiko këtë bllok
-      back: Shiko të gjitha blloqet e
     filter:
-      block_expired: Blloku ka skaduar dhe nuk mund të redaktohen.
       block_period: Periudha e bllokuar duhet të jetë një nga vlerat selectable në
         drop-down list.
     create:
-      try_contacting: Ju lutemi provoni kontaktuar përdorues para se bllokimi i tyre
-        dhe duke u dhënë atyre një kohë të arsyeshme për t,u përgjigjur.
-      try_waiting: Ju lutemi provoni duke i dhënë përdoruesit një kohë të arsyeshme
-        për t,u përgjigjur para se bllokimi i tyre.
       flash: Krijuar një bllok të përdorues %{name}.
     update:
       only_creator_can_edit: Vetëm moderatori i cili krijoi këtë bllok mund ta redaktojnë.
@@ -1301,14 +1091,6 @@ aln:
       title: blloqe Përdoruesi
       heading: Lista e blloqeve përdorues
       empty: Nuk ka blloqe janë bërë ende.
-    revoke:
-      title: Revokimin e bllokuar në %{block_on}
-      heading_html: Revokimin e bllokuar në %{block_on} nga %{block_by}
-      time_future: Ky bllok do të përfundojë në %{time}.
-      past: Ky bllok u mbyll %{time} më parë dhe nuk mund të kthehet tani.
-      confirm: Jeni i sigurt që dëshironi të revokuar kete kategori?
-      revoke: Tërheq!
-      flash: Ky bllok është revokuar.
     helper:
       time_future_html: Përfundon në %{time}.
       until_login: Aktiv deri kur përdoruesi shkrimet in
@@ -1329,25 +1111,22 @@ aln:
       title: '%{block_on} bllokuar nga %{block_by}'
       heading_html: '%{block_on} bllokuar nga %{block_by}'
       status: Statusi
-      show: Tregoj
       edit: Redaktoj
-      revoke: Tërheq!
-      confirm: A jeni i sigurt?
       reason: 'Arsyeja për bllok:'
-      back: Shiko të gjitha blloqet
       revoker: 'Revoker:'
-      needs_view: Shfrytëzuesi duhet të hyj para se të fshihet ky bllok.
     block:
       not_revoked: (Jo revokuar)
       show: Tregoj
       edit: Redaktoj
-      revoke: Tërheq!
-    blocks:
+    page:
       display_name: Përdoruesi Blocked
       creator_name: Krijuesi
       reason: Arsyeja për bllok
       status: Statusi
       revoker_name: Revokuar nga ana
+  notes:
+    notes_paging_nav:
+      showing_page: Tu e shfaq faqen %{page}
   javascripts:
     map:
       base:

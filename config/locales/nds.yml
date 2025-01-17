@@ -70,7 +70,6 @@ nds:
       name: iD
   auth:
     providers:
-      openid: OpenID
       google: Google
       facebook: Facebook
       github: GitHub
@@ -99,17 +98,8 @@ nds:
     start_rjs:
       loading: An’t Laden...
   changesets:
-    changeset_paging_nav:
-      showing_page: Sied %{page}
     changeset:
-      anonymous: Anonym
       no_edits: (keen Ännern)
-    changesets:
-      id: ID
-      saved_at: Spiekert an’n
-      user: Bruker
-      comment: Kommentar
-      area: Rebeed
   dashboards:
     contact:
       km away: '%{count} km weg'
@@ -133,9 +123,8 @@ nds:
       new: Ne’en Dagbook-Indrag
       new_title: Ne’en Indrag in’t Bruker-Dagbook anleggen
       no_entries: Keen Dagbook-Indrääg
+    page:
       recent_entries: Jüngste Dagbook-Indrääg
-      older_entries: Öller Indrääg
-      newer_entries: Jünger Indrääg
     edit:
       title: Dagbook-Indrag ännern
       marker_text: Oort von’n Indrag
@@ -152,9 +141,6 @@ nds:
         one: 1 Kommentar
         other: '%{count} Kommentare'
       edit_link: Dissen Indrag ännern
-    location:
-      view: Ankieken
-      edit: Ännern
   friendships:
     make_friend:
       success: '%{name} ist nu dien Fründ.'
@@ -395,10 +381,6 @@ nds:
           wadi: Wadi
           waterfall: Waterfall
           weir: Wehr
-      types:
-        cities: Städer
-        towns: lüttje Städer
-        places: Öörd
     results:
       no_results: nix funnen
       more_results: Mehr
@@ -413,10 +395,7 @@ nds:
     history: Geschicht
     export: Export
     user_diaries: Bruker-Dagböker
-    user_diaries_tooltip: Bruker-Dagböker wiesen
     help: Hülp
-    make_a_donation:
-      text: Spenn wat
   user_mailer:
     diary_comment_notification:
       hi: Moin %{to_user},
@@ -429,14 +408,14 @@ nds:
   messages:
     inbox:
       title: Postfack Ingang
-      my_inbox: Mien Postfack Ingang
-      from: Von
-      date: Datum
       people_mapping_nearby: Koortenmakers in de Neegd
+    messages_table:
+      from: Von
+      to: An
+      date: Datum
     message_summary:
       unread_button: as ‚noch nich leest‘ kennteken
       read_button: as ‚leest‘ kennteken
-      reply_button: Antern
       destroy_button: Wegdoon
     new:
       title: Naricht sennen
@@ -445,9 +424,6 @@ nds:
       message_sent: Naricht afsennt
     outbox:
       title: Postfack Utgang
-      to: An
-      subject: Thema
-      date: Datum
     show:
       from: Von
       subject: Thema
@@ -456,18 +432,21 @@ nds:
       to: An
     sent_message_summary:
       destroy_button: Wegdoon
+    heading:
+      my_inbox: Mien Postfack Ingang
     destroy:
       destroyed: Naricht wegdaan
   passwords:
-    lost_password:
+    new:
       title: Passwoord vergeten
       heading: Passwoord vergeten?
       email address: 'E-Mail-Adress:'
       new password button: Passwoord trüchsetten
-    reset_password:
+    edit:
       title: Passwoord trüchsetten
       heading: Passwoord för %{user} trüchsetten
       reset: Passwoord trüchsetten
+    update:
       flash changed: Dien Passwoord is nu ännert.
   profiles:
     edit:
@@ -476,35 +455,25 @@ nds:
       no home location: Du hest dien Standoort nich angeven.
   sessions:
     new:
-      title: Anmellen
-      heading: Anmellen
+      tab_title: Anmellen
       email or username: 'E-Mail-Adress oder Brukernaam:'
       password: 'Passwoord:'
       lost password link: Passwoord vergeten?
       login_button: Anmellen
+  shared:
+    pagination:
+      diary_entries:
+        older: Öller Indrääg
+        newer: Jünger Indrääg
   site:
     copyright:
       native:
         title: Över disse Siet
-    index:
-      permalink: Permalink
-      shortlink: Kortlink
     edit:
       user_page_link: Brukersied
     export:
       licence: Lizenz
-      format: 'Format:'
-      scale: Skaal
-      max: max.
-      image_size: 'Bildgrött:'
-      zoom: Zoom
-      add_marker: Sett en Markteken op de Koort
-      latitude: 'Breed:'
-      longitude: 'Läng:'
-      output: Utgaav
       export_button: Export
-    sidebar:
-      close: Sluten
     search:
       search: Söken
       where_am_i: Woneem bün ik?
@@ -523,34 +492,24 @@ nds:
           footway: Footpadd
           rail: Iesenbahn
           subway: U-Bahn
-          tram:
-          - Stadtbahn
-          - Stratenbahn
-          cable:
-          - Kavelbahn
-          - Skilift
-          runway:
-          - Fleger-Lannbahn
-          - Fleger-Rullweg
-          apron:
-          - Terminal
-          - Terminal
+          cable_car: Kavelbahn
+          chair_lift: Skilift
+          runway: Fleger-Lannbahn
+          taxiway: Fleger-Rullweg
+          apron: Terminal
           admin: Grenz
           forest: Forst
           wood: Woold
           golf: Golfplatz
           park: Park
+          common: Wisch
           resident: Wahnrebeed
-          common:
-          - Wisch
-          - Wisch
           retail: Ladenrebeed
           industrial: Industrierebeed
           commercial: Hannelsrebeed
           heathland: Heid
-          lake:
-          - See
-          - Stausee
+          lake: See
+          reservoir: Stausee
           farm: Buurnhoff
           brownfield: Industrie-Braakland
           cemetery: Karkhoff
@@ -559,14 +518,12 @@ nds:
           centre: Sportzentrum
           reserve: Naturpark
           military: Militärrebeed
-          school:
-          - School
-          - Universität
+          school: School
+          university: Universität
           building: Wichtig Bowark
           station: Bahnhoff
-          summit:
-          - Bargtopp
-          - Bargtopp
+          summit: Bargtopp
+          peak: Bargtopp
           tunnel: Strekel-Rand = Tunnel
           bridge: Fett Rand = Brügg
           private: Privat Togang
@@ -591,11 +548,6 @@ nds:
       edit_map: Koort ännern
       public: APEN
       private: PRIVAAT
-      by: von
-      in: in
-  oauth_clients:
-    show:
-      edit: Details ännern
   users:
     new:
       title: Brukerkonto opstellen
@@ -622,11 +574,13 @@ nds:
   user_blocks:
     show:
       status: Status
-      show: Wiesen
       edit: Ännern
     block:
       show: Wiesen
       edit: Ännern
+  notes:
+    notes_paging_nav:
+      showing_page: Sied %{page}
   javascripts:
     map:
       base:

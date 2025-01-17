@@ -27,7 +27,6 @@ mo:
       message: Mесаж
       node: Нод
       node_tag: Нод таг
-      notifier: Нотификатор
       old_node: Нод векь
       old_node_tag: Таг нод векь
       old_relation: Релацие веке
@@ -48,7 +47,7 @@ mo:
         title: Субьект
         latitude: Латитудине
         longitude: Лонӂитудине
-        language: Лимбэ
+        language_code: Лимбэ
       friend:
         user: Утилизатор
         friend: Приетен
@@ -88,14 +87,12 @@ mo:
         link text: че май есте ши аста?
       public editing:
         enabled link text: че май есте ши аста?
-      public editing note:
-        heading: 'Редактаря публикэ:'
       contributor terms:
         link text: че май есте ши аста?
       save changes button: Апликаря модификэрилор
+    go_public:
+      heading: 'Редактаря публикэ:'
   browse:
-    created: Креат
-    closed: Ынкис
     version: Версиуне
     anonymous: аноним
     no_comment: (фэрэ коментариу)
@@ -104,17 +101,6 @@ mo:
     view_history: Екзаминаря историкулуй
     view_details: Май деталият
     location: 'Ситуаре:'
-    changeset:
-      belongs_to: Аутор
-      node: Пункте (%{count})
-      node_paginated: Пункте (%{x}-%{y} дин %{count})
-      way: Кэй (%{count})
-      way_paginated: Кэй (%{x}-%{y} дин %{count})
-      relation: Релаций (%{count})
-      relation_paginated: Релаций (%{x}-%{y} дин %{count})
-      comment: Коментарий (%{count})
-      join_discussion: Вэ ругэм сэ ынтраць ын конт пентру а вэ алэтура дискуцией
-      discussion: Дискуцие
     node:
       title_html: 'Пункт: %{name}'
     way:
@@ -147,42 +133,24 @@ mo:
       loading: Се ынкаркэ...
     tag_details:
       tags: Маркаже
-    note:
-      title: 'Нотэ: %{id}'
-      new_note: Нотэ ноуэ
-      description: Дескриере
-      open_title: 'Нотэ нерезолватэ #%{note_name}'
-      closed_title: 'Нотэ резолватэ #%{note_name}'
-      hidden_title: 'Нотэ аскунсэ #%{note_name}'
-      opened_by_html: Креатэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын
-        урмэ</abbr>
-      opened_by_anonymous_html: Креатэ аноним <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
-        %{when} ын урмэ</abbr>
-      commented_by_anonymous_html: Коментариу аноним <abbr title='%{exact_time}'>ку
-        %{when} ын урмэ</abbr>
-      closed_by_html: Резолватэ де %{user} <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      closed_by_anonymous_html: Резолватэ аноним <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      reopened_by_html: Редескисэ де %{user} <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      reopened_by_anonymous_html: Редескисэ аноним <abbr title='%{exact_time}'>ку
-        %{when} ын урмэ</abbr>
-      hidden_by_html: Аскунсэ де кэтре %{user} <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
   changesets:
-    changeset_paging_nav:
-      showing_page: Паӂина %{page}
-      next: Урмэтоаря →
-      previous: ← Пречедента
     changeset:
-      anonymous: Аноним
       no_edits: (фэрэ модификэрь)
-    changesets:
-      user: Утилизатор
-      comment: Коментариу
+    index:
+      feed:
+        created: Креат
+        closed: Ынкис
+        belongs_to: Аутор
+    show:
+      discussion: Дискуцие
+      join_discussion: Вэ ругэм сэ ынтраць ын конт пентру а вэ алэтура дискуцией
+    paging_nav:
+      nodes: Пункте (%{count})
+      nodes_paginated: Пункте (%{x}-%{y} дин %{count})
+      ways: Кэй (%{count})
+      ways_paginated: Кэй (%{x}-%{y} дин %{count})
+      relations: Релаций (%{count})
+      relations_paginated: Релаций (%{x}-%{y} дин %{count})
   dashboards:
     show:
       my friends: Приетений мей
@@ -195,9 +163,8 @@ mo:
       confirm: Конфирмаре
     diary_comment:
       confirm: Конфирмаре
-    location:
-      edit: Редактаре
-    comments:
+  diary_comments:
+    page:
       post: Месаж
       when: Кынд
       comment: Коментариу
@@ -526,10 +493,6 @@ mo:
           river: Рыу/Флувиу
           stream: Пырэу
           waterfall: Каскадэ
-      types:
-        cities: Ораше
-        towns: Орэшеле
-        places: Локурь
     results:
       no_results: Ну с'а гэсит нич ун резултат
       more_results: Май мулте резултате
@@ -541,39 +504,29 @@ mo:
       search: Кэутаре
   layouts:
     logo:
-      alt_text: Логотипул OpenHistoricalMap
+      alt_text: Логотипул OpenStreetMap
     logout: Ынкееря сесиуний
     log_in: Ынтраря ын конт
     sign_up: Креаря контулуй
     start_mapping: Ынчепець картографиеря
-    sign_up_tooltip: Креаць ун конт пентру а ынчепе редактаря
     edit: Редактаре
     history: Историк
     export: Експортаре
     issues: Проблеме
-    data: Дате
-    export_data: Експортаря дателор
     gps_traces: Трасаре-GPS
     user_diaries: Журналеле утилизаторилор
     edit_with: Редактаря ку ажуторул %{editor}
-    intro_header: Бине аць венит ла OpenHistoricalMap!
-    intro_text: OpenHistoricalMap есте о хартэ а лумий, креатэ де оамень ка ши думнявоастрэ,
+    intro_header: Бине аць венит ла OpenStreetMap!
+    intro_text: OpenStreetMap есте о хартэ а лумий, креатэ де оамень ка ши думнявоастрэ,
       ши поате фи утилизатэ ын мод либер суб о личенцэ дескисэ.
-    intro_2_create_account: Креаць ун конт де утилизатор
     partners_partners: партенерь
     help: Ажутор
     about: Деспре проект
     copyright: Дрепт де аутор
-    community: Комунитате
-    community_blogs: Блогуриле комунитэций
-    foundation: Фондул
-    foundation_title: Фондул OpenHistoricalMap
-    make_a_donation:
-      text: Фачець о донацие
     learn_more: Афлаць май мулте
     more: Май мулте
   passwords:
-    lost_password:
+    new:
       title: Рестабилиря паролей
       heading: Аць уйтат парола?
       email address: 'Адреса де поштэ електроникэ:'
@@ -587,54 +540,55 @@ mo:
       home location: 'Локул де решединцэ:'
   sessions:
     new:
-      title: Презентаци-вэ
-      heading: Презентаци-вэ
+      tab_title: Презентаци-вэ
       email or username: 'Пошта електроникэ сау нумеле де утилизатор:'
       password: 'Паролэ:'
       remember: Пэстраря сесиуний
       lost password link: Аць уйтат парола?
       login_button: Ынтраря ын конт
-      register now: Ынреӂистраци-вэ акум
-      create account minute: Креаць ун конт де утилизатор. Ачест лукру ну вэ ва луа
-        мулт тимп.
-      no account: Ну авець ун конт де утилизатор?
-      openid_logo_alt: Ынтраря ку ажуторул OpenID
-      auth_providers:
-        openid:
-          title: Ынтраря ку ажуторул OpenID
-          alt: Ынтраря ку ажуторул OpenID URL
-        google:
-          title: Ынтраря ку ажуторул Google
-          alt: Ынтраря ку ажуторул Google OpenID
-        facebook:
-          title: Ынтраря ку ажуторул Facebook
-          alt: Ынтраря ку ажуторул контулуй де Facebook
-        github:
-          title: Ынтраря ку ажуторул GitHub
-          alt: Ынтраря ку ажуторул контулуй де GitHub
-        wikipedia:
-          title: Ынтраря ку ажуторул Википедией
-          alt: Ынтраря ку ажуторул контулуй де Википедия
-        wordpress:
-          title: Ынтраря ку ажуторул Wordpress
-          alt: Ынтраря ку ажуторул Wordpress OpenID
-        aol:
-          title: Ынтраря ку ажуторул AOL
-          alt: Ынтраря ку ажуторул AOL OpenID
     destroy:
       title: Ынкееря сесиуний
-      heading: Ешире дин OpenHistoricalMap
+      heading: Ешире дин OpenStreetMap
       logout_button: Ынкееря сесиуний
   site:
     export:
       title: Експортаре
+  application:
+    auth_providers:
+      openid:
+        title: Ынтраря ку ажуторул OpenID
+        alt: Ынтраря ку ажуторул OpenID URL
+      google:
+        title: Ынтраря ку ажуторул Google
+        alt: Ынтраря ку ажуторул Google OpenID
+      facebook:
+        title: Ынтраря ку ажуторул Facebook
+        alt: Ынтраря ку ажуторул контулуй де Facebook
+      microsoft:
+        title: Ынтраря ку ажуторул Windows Live
+        alt: Ынтраря ку ажуторул контулуй де Windows Live
+      github:
+        title: Ынтраря ку ажуторул GitHub
+        alt: Ынтраря ку ажуторул контулуй де GitHub
+      wikipedia:
+        title: Ынтраря ку ажуторул Википедией
+        alt: Ынтраря ку ажуторул контулуй де Википедия
   users:
-    new:
-      display name: 'Нумеле афишат:'
     show:
       my diary: Журналул меу
       my messages: Месажеле меле
       my profile: Профилул меу
       my settings: Реглажеле меле
       my comments: Коментарииле меле
+  notes:
+    show:
+      title: 'Нотэ: %{id}'
+      description: Дескриере
+      open_title: 'Нотэ нерезолватэ #%{note_name}'
+      closed_title: 'Нотэ резолватэ #%{note_name}'
+      hidden_title: 'Нотэ аскунсэ #%{note_name}'
+    new:
+      title: Нотэ ноуэ
+    notes_paging_nav:
+      showing_page: Паӂина %{page}
 ...
