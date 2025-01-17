@@ -140,7 +140,7 @@ class UserTest < ActiveSupport::TestCase
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
-    create(:friendship, :befriender => alice, :befriendee => bob)
+    create(:follow, :follower => alice, :following => bob)
 
     assert alice.friends_with?(bob)
     assert_not alice.friends_with?(charlie)
@@ -174,13 +174,13 @@ class UserTest < ActiveSupport::TestCase
   def test_friends
     norm = create(:user, :active)
     sec = create(:user, :active)
-    create(:friendship, :befriender => norm, :befriendee => sec)
+    create(:follow, :follower => norm, :following => sec)
 
-    assert_equal [sec], norm.friends
-    assert_equal 1, norm.friends.size
+    assert_equal [sec], norm.followings
+    assert_equal 1, norm.followings.size
 
-    assert_empty sec.friends
-    assert_equal 0, sec.friends.size
+    assert_empty sec.followings
+    assert_equal 0, sec.followings.size
   end
 
   def test_user_preferred_editor

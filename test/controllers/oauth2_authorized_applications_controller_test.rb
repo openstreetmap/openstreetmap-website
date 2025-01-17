@@ -56,7 +56,7 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
       assert_select "li", :count => 3
       assert_select "li", :text => "Read user preferences"
       assert_select "li", :text => "Modify user preferences"
-      assert_select "li", :text => "Create diary entries, comments and make friends"
+      assert_select "li", :text => "Create diary entries and comments"
     end
   end
 
