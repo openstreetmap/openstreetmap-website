@@ -8,5 +8,9 @@ module Accounts
     authorize_resource :class => :account_pd_declaration
 
     def show; end
+
+    def create
+      redirect_to edit_account_path
+    end
   end
 end

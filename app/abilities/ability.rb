@@ -38,6 +38,7 @@ class Ability
         can [:read, :create, :destroy], :oauth2_authorization
         can [:update, :destroy], :account
         can :update, :account_terms
+        can :create, :account_pd_declaration
         can :read, :dashboard
         can [:create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
