@@ -1,3 +1,11 @@
 <% content_for :heading do %>
   <h1><%= t ".title" %></h1>
 <% end %>
+
+<%= bootstrap_form_tag do |f| %>
+  <%= f.check_box :consider_pd,
+                  :label => t(".consider_pd"),
+                  :autocomplete => :off,
+                  :checked => current_user.consider_pd,
+                  :disabled => current_user.consider_pd %>
+<% end %>
