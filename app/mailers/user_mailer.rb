@@ -119,7 +119,7 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def friendship_notification(follow)
+  def follow_notification(follow)
     with_recipient_locale follow.following do
       @follow = follow
       @viewurl = user_url(@follow.follower)

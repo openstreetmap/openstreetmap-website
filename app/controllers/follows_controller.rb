@@ -26,7 +26,7 @@ class FollowsController < ApplicationController
       flash[:error] = t ".limit_exceeded"
     elsif follow.save
       flash[:notice] = t ".success", :name => @friend.display_name
-      UserMailer.friendship_notification(follow).deliver_later
+      UserMailer.follow_notification(follow).deliver_later
     else
       follow.add_error(t(".failed", :name => @friend.display_name))
     end
