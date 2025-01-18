@@ -10,25 +10,25 @@ class FollowsController < ApplicationController
   authorize_resource
 
   before_action :check_database_writable
-  before_action :lookup_friend
+  before_action :lookup_user
 
   def show
-    @already_follows = current_user.follows?(@friend)
+    @already_follows = current_user.follows?(@user)
   end
 
   def create
     follow = Follow.new
     follow.follower = current_user
-    follow.following = @friend
-    if current_user.follows?(@friend)
-      flash[:warning] = t ".already_followed", :name => @friend.display_name
+    follow.following = @user
+    if current_user.follows?(@user)
+      flash[:warning] = t ".already_followed", :name => @user.display_name
     elsif current_user.follows.where(:created_at => Time.now.utc - 1.hour..).count >= current_user.max_follows_per_hour
       flash[:error] = t ".limit_exceeded"
     elsif follow.save
-      flash[:notice] = t ".success", :name => @friend.display_name
+      flash[:notice] = t ".success", :name => @user.display_name
       UserMailer.follow_notification(follow).deliver_later
     else
-      follow.add_error(t(".failed", :name => @friend.display_name))
+      follow.add_error(t(".failed", :name => @user.display_name))
     end
 
     referer = safe_referer(params[:referer]) if params[:referer]
@@ -37,25 +37,15 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    if current_user.follows?(@friend)
-      Follow.where(:follower => current_user, :following => @friend).delete_all
-      flash[:notice] = t ".success", :name => @friend.display_name
+    if current_user.follows?(@user)
+      Follow.where(:follower => current_user, :following => @user).delete_all
+      flash[:notice] = t ".success", :name => @user.display_name
     else
-      flash[:error] = t ".not_followed", :name => @friend.display_name
+      flash[:error] = t ".not_followed", :name => @user.display_name
     end
 
     referer = safe_referer(params[:referer]) if params[:referer]
 
     redirect_to referer || user_path
-  end
-
-  private
-
-  ##
-  # ensure that there is a "friend" instance variable
-  def lookup_friend
-    @friend = User.active.find_by!(:display_name => params[:display_name])
-  rescue ActiveRecord::RecordNotFound
-    render_unknown_user params[:display_name]
   end
 end
