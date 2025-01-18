@@ -32,6 +32,8 @@ L.OSM.Map = L.Map.extend({
           layerOptions.apikey = OSM[value];
         } else if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
+        } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
+          layerConstructor = L.OSM[value];
         } else {
           layerOptions[property] = value;
         }
@@ -385,6 +387,14 @@ L.extend(L.Icon.Default.prototype, {
     return L.Icon.Default.imageUrls[url];
   }
 });
+
+OSM.isDarkMap = function () {
+  var mapTheme = $("body").attr("data-map-theme");
+  if (mapTheme) return mapTheme === "dark";
+  var siteTheme = $("html").attr("data-bs-theme");
+  if (siteTheme) return siteTheme === "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
 
 OSM.getUserIcon = function (url) {
   return L.icon({
