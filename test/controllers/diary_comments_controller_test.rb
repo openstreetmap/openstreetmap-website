@@ -9,7 +9,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
 
   def test_routes
     assert_routing(
-      { :path => "/user/username/diary/comments", :method => :get },
+      { :path => "/user/username/diary_comments", :method => :get },
       { :controller => "diary_comments", :action => "index", :display_name => "username" }
     )
     assert_routing(
@@ -26,7 +26,10 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     )
 
     get "/user/username/diary/comments/1"
-    assert_redirected_to "/user/username/diary/comments"
+    assert_redirected_to "/user/username/diary_comments"
+
+    get "/user/username/diary/comments"
+    assert_redirected_to "/user/username/diary_comments"
   end
 
   def test_index

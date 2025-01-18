@@ -246,8 +246,8 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary/comments/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary/comments")
-  get "/user/:display_name/diary/comments" => "diary_comments#index", :as => :user_diary_comments
+  get "/user/:display_name/diary/comments(/:page)", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary_comments")
+  get "/user/:display_name/diary_comments" => "diary_comments#index", :as => :user_diary_comments
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
