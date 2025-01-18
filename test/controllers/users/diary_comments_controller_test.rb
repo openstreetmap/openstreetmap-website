@@ -33,7 +33,7 @@ module Users
       get user_diary_comments_path(user)
       assert_response :success
       assert_template :index
-      assert_select "h4", :html => "No diary comments"
+      assert_select "h4", :html => "No comments"
 
       # Test a user with a comment
       create(:diary_comment, :user => other_user)
