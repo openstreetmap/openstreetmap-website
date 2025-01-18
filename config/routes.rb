@@ -211,15 +211,15 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  resources :traces, :except => [:show]
+  resources :traces, :id => /\d+/, :except => [:show]
   get "/user/:display_name/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces/tag/%{tag}")
   get "/user/:display_name/traces/tag/:tag" => "traces#index"
   get "/user/:display_name/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces")
   get "/user/:display_name/traces" => "traces#index"
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/:id" => "traces#show", :as => "show_trace"
-  scope "/user/:display_name/traces/:trace_id", :module => :traces do
+  get "/user/:display_name/traces/:id" => "traces#show", :id => /\d+/, :as => "show_trace"
+  scope "/user/:display_name/traces/:trace_id", :trace_id => /\d+/, :module => :traces do
     get "picture" => "pictures#show", :as => "trace_picture"
     get "icon" => "icons#show", :as => "trace_icon"
   end
@@ -234,7 +234,7 @@ OpenStreetMap::Application.routes.draw do
   get "/traces/mine" => "traces#mine"
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
-  get "/trace/:id/edit", :to => redirect(:path => "/traces/%{id}/edit")
+  get "/trace/:id/edit", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/edit")
 
   # diary pages
   resources :diary_entries, :path => "diary", :only => [:new, :create, :index] do
