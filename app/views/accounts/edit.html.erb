@@ -29,13 +29,14 @@
     <small class="form-text text-body-secondary">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
   </fieldset>
 
-  <div class="mb-3">
-    <label class="form-label"><%= t ".contributor terms.heading" %></label>
+  <div class="mb-3 d-flex flex-column flex-sm-row column-gap-1">
+    <label class="form-label text-nowrap mb-0"><%= t ".contributor terms.heading" %></label>
     <span class="form-text text-body-secondary">
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
         (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
         <% if current_user.consider_pd? %>
+          <br>
           <%= t ".contributor terms.agreed_with_pd" %>
         <% end %>
       <% else %>
