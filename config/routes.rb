@@ -216,18 +216,14 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/traces/tag/:tag" => "traces#index"
   get "/user/:display_name/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces")
   get "/user/:display_name/traces" => "traces#index"
-  get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/:id" => "traces#show", :id => /\d+/, :as => "show_trace"
-  scope "/user/:display_name/traces/:trace_id", :trace_id => /\d+/, :module => :traces do
+  scope "/user/:display_name/traces/:trace_id", :module => :traces, :trace_id => /\d+/ do
     get "picture" => "pictures#show", :as => "trace_picture"
     get "icon" => "icons#show", :as => "trace_icon"
   end
   get "/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/tag/%{tag}")
   get "/traces/tag/:tag" => "traces#index"
   get "/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces")
-  get "/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/traces/mine/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine/tag/%{tag}")
   get "/traces/mine/tag/:tag" => "traces#mine"
   get "/traces/mine/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine")
@@ -235,6 +231,10 @@ OpenStreetMap::Application.routes.draw do
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
   get "/trace/:id/edit", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/edit")
+
+  namespace :traces, :path => "" do
+    resource :feed, :path => "(/user/:display_name)/traces(/tag/:tag)/rss", :only => :show, :defaults => { :format => :rss }
+  end
 
   # diary pages
   resources :diary_entries, :path => "diary", :only => [:new, :create, :index] do
