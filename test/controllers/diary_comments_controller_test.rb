@@ -36,7 +36,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     deleted_user = create(:user, :deleted)
 
     # Test a user with no comments
-    get diary_comments_path(:display_name => user.display_name)
+    get diary_comments_path(user)
     assert_response :success
     assert_template :index
     assert_select "h4", :html => "No diary comments"
@@ -44,7 +44,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     # Test a user with a comment
     create(:diary_comment, :user => other_user)
 
-    get diary_comments_path(:display_name => other_user.display_name)
+    get diary_comments_path(other_user)
     assert_response :success
     assert_template :index
     assert_dom "a[href='#{user_path(other_user)}']", :text => other_user.display_name
@@ -53,11 +53,11 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     end
 
     # Test a suspended user
-    get diary_comments_path(:display_name => suspended_user.display_name)
+    get diary_comments_path(suspended_user)
     assert_response :not_found
 
     # Test a deleted user
-    get diary_comments_path(:display_name => deleted_user.display_name)
+    get diary_comments_path(deleted_user)
     assert_response :not_found
   end
 
@@ -65,10 +65,10 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     %w[-1 0 fred].each do |id|
-      get diary_comments_path(:display_name => user.display_name, :before => id)
+      get diary_comments_path(user, :before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
-      get diary_comments_path(:display_name => user.display_name, :after => id)
+      get diary_comments_path(user, :after => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end
