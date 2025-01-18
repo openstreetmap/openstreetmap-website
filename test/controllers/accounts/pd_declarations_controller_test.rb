@@ -36,13 +36,57 @@ module Accounts
       assert_response :forbidden
     end
 
-    def test_create
+    def test_create_unconfirmed
       user = create(:user)
       session_for(user)
 
       post account_pd_declaration_path
 
       assert_redirected_to edit_account_path
+      assert_nil flash[:notice]
+      assert_equal "You didn't confirm that you consider your edits to be in the Public Domain.", flash[:warning]
+
+      user.reload
+      assert_not_predicate user, :consider_pd
+    end
+
+    def test_create_confirmed
+      user = create(:user)
+      session_for(user)
+
+      post account_pd_declaration_path, :params => { :consider_pd => true }
+
+      assert_equal "You have successfully declared that you consider your edits to be in the Public Domain.", flash[:notice]
+      assert_nil flash[:warning]
+
+      user.reload
+      assert_predicate user, :consider_pd
+    end
+
+    def test_create_already_declared_unconfirmed
+      user = create(:user, :consider_pd => true)
+      session_for(user)
+
+      post account_pd_declaration_path
+
+      assert_nil flash[:notice]
+      assert_equal "You have already declared that you consider your edits to be in the Public Domain.", flash[:warning]
+
+      user.reload
+      assert_predicate user, :consider_pd
+    end
+
+    def test_create_already_declared_confirmed
+      user = create(:user, :consider_pd => true)
+      session_for(user)
+
+      post account_pd_declaration_path, :params => { :consider_pd => true }
+
+      assert_nil flash[:notice]
+      assert_equal "You have already declared that you consider your edits to be in the Public Domain.", flash[:warning]
+
+      user.reload
+      assert_predicate user, :consider_pd
     end
   end
 end

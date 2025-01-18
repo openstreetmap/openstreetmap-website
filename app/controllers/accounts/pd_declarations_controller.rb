@@ -10,6 +10,18 @@ module Accounts
     def show; end
 
     def create
+      if current_user.consider_pd
+        flash[:warning] = t(".already_declared")
+      else
+        current_user.consider_pd = params[:consider_pd]
+
+        if current_user.consider_pd
+          flash[:notice] = t(".successfully_declared") if current_user.save
+        else
+          flash[:warning] = t(".did_not_confirm")
+        end
+      end
+
       redirect_to edit_account_path
     end
   end
