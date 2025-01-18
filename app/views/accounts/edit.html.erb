@@ -35,9 +35,12 @@
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
         (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
+        <br>
         <% if current_user.consider_pd? %>
-          <br>
           <%= t ".contributor terms.agreed_with_pd" %>
+        <% else %>
+          <%= t ".contributor terms.not_agreed_with_pd" %>
+          (<%= link_to t(".contributor terms.pd_link_text"), account_pd_declaration_path %>)
         <% end %>
       <% else %>
         <%= t ".contributor terms.not yet agreed" %>
