@@ -3218,7 +3218,7 @@ ALTER TABLE ONLY public.note_comments
 --
 
 ALTER TABLE ONLY public.notes
-    ADD CONSTRAINT notes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) NOT VALID;
+    ADD CONSTRAINT notes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3408,6 +3408,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250105154621'),
 ('20250104140952'),
 ('20241023004427'),
 ('20241022141247'),
