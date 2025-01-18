@@ -282,8 +282,8 @@ class User < ApplicationRecord
     OSM::GreatCircle.new(home_lat, home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
 
-  def friends_with?(new_friend)
-    follows.exists?(:following => new_friend)
+  def follows?(user)
+    follows.exists?(:following => user)
   end
 
   ##
@@ -411,12 +411,12 @@ class User < ApplicationRecord
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
 
-  def max_friends_per_hour
+  def max_follows_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
-    recent_friends = Follow.where(:following => self).where(:created_at => Time.now.utc - 3600..).count
-    max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
-    max_friends.clamp(0, Settings.max_friends_per_hour)
+    recent_follows = Follow.where(:following => self).where(:created_at => Time.now.utc - 3600..).count
+    max_follows = account_age_in_hours.ceil + recent_follows - (active_reports * 10)
+    max_follows.clamp(0, Settings.max_follows_per_hour)
   end
 
   def max_changeset_comments_per_hour

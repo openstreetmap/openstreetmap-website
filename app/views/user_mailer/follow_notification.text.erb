@@ -4,6 +4,6 @@
 
 <%= t '.see_their_profile', :userurl => @viewurl %>
 
-<% unless @follow.following.friends_with?(@follow.follower) -%>
+<% unless @follow.following.follows?(@follow.follower) -%>
 <%= t '.follow_them', :followurl => @followurl %>
 <% end -%>

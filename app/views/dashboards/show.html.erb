@@ -22,14 +22,14 @@
         <%= tag.div "", :id => "map", :class => "content_map border border-secondary-subtle rounded z-0", :data => { :user => user_data } %>
       <% end %>
 
-      <% friends = @user.followings %>
-      <% nearby = @user.nearby - friends %>
+      <% followings = @user.followings %>
+      <% nearby = @user.nearby - followings %>
     </div>
 
     <div class="col-md">
       <h2><%= t ".followings" %></h2>
 
-      <% if friends.empty? %>
+      <% if followings.empty? %>
         <%= t ".no followings" %>
       <% else %>
         <nav class='secondary-actions mb-3'>
@@ -39,7 +39,7 @@
           </ul>
         </nav>
         <div>
-          <%= render :partial => "contact", :collection => friends, :locals => { :type => "following" } %>
+          <%= render :partial => "contact", :collection => followings, :locals => { :type => "following" } %>
         </div>
       <% end %>
 
