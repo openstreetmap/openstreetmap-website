@@ -2,7 +2,7 @@ class TracesController < ApplicationController
   include UserMethods
   include PaginationMethods
 
-  layout "site", :except => :georss
+  layout "site"
 
   before_action :authorize_web
   before_action :set_locale
@@ -190,17 +190,6 @@ class TracesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
-  end
-
-  def georss
-    @traces = Trace.visible_to_all.visible
-
-    @traces = @traces.joins(:user).where(:users => { :display_name => params[:display_name] }) if params[:display_name]
-
-    @traces = @traces.tagged(params[:tag]) if params[:tag]
-    @traces = @traces.order("timestamp DESC")
-    @traces = @traces.limit(20)
-    @traces = @traces.includes(:user)
   end
 
   private
