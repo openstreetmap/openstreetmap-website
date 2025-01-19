@@ -268,6 +268,7 @@ OpenStreetMap::Application.routes.draw do
     resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
     scope :module => :users do
       resources :diary_comments, :only => :index
+      resources :changeset_comments, :only => :index
       resource :issued_blocks, :path => "blocks_by", :only => :show
       resource :received_blocks, :path => "blocks", :only => [:show, :edit, :destroy]
       resource :status, :only => :update
