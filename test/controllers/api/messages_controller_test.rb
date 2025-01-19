@@ -222,6 +222,34 @@ module Api
       assert_equal msg.body, jsm["body"]
     end
 
+    def test_show_message_to_self_read
+      user = create(:user)
+      message = create(:message, :sender => user, :recipient => user)
+      auth_header = bearer_authorization_header user
+
+      get api_message_path(message), :headers => auth_header
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_dom "message", :count => 1 do
+        assert_dom "> @message_read", "false"
+      end
+    end
+
+    def test_show_message_to_self_read_json
+      user = create(:user)
+      message = create(:message, :sender => user, :recipient => user)
+      auth_header = bearer_authorization_header user
+
+      get api_message_path(message, :format => "json"), :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      jsm = js["message"]
+      assert_not_nil jsm
+      assert jsm.key?("message_read")
+      assert_not jsm["message_read"]
+    end
+
     def test_update_status
       recipient = create(:user)
       sender = create(:user)

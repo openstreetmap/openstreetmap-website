@@ -8,10 +8,11 @@ attrs = {
   "body_format" => message.body_format
 }
 
+attrs["message_read"] = message.message_read if current_user.id == message.to_user_id
+
 if current_user.id == message.from_user_id
   attrs["deleted"] = !message.from_user_visible
 elsif current_user.id == message.to_user_id
-  attrs["message_read"] = message.message_read
   attrs["deleted"] = !message.to_user_visible
 end
 
