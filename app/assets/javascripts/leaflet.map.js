@@ -353,15 +353,22 @@ L.OSM.Map = L.Map.extend({
   },
 
   setSidebarOverlaid: function (overlaid) {
-    var sidebarWidth = 350;
+    var mobileDeviceWidth = window.getComputedStyle(document.documentElement).getPropertyValue("--bs-breakpoint-md");
+    var isMobileDevice = window.matchMedia(`(max-width: ${mobileDeviceWidth})`).matches;
+    var sidebarWidth = $("#sidebar").width();
+    var sidebarHeight = $("#sidebar").height();
     if (overlaid && !$("#content").hasClass("overlay-sidebar")) {
       $("#content").addClass("overlay-sidebar");
       this.invalidateSize({ pan: false });
-      if ($("html").attr("dir") !== "rtl") {
+      if (isMobileDevice) {
+        this.panBy([0, -sidebarHeight], { animate: false });
+      } else if ($("html").attr("dir") !== "rtl") {
         this.panBy([-sidebarWidth, 0], { animate: false });
       }
     } else if (!overlaid && $("#content").hasClass("overlay-sidebar")) {
-      if ($("html").attr("dir") !== "rtl") {
+      if (isMobileDevice) {
+        this.panBy([0, $("#map").height() / 2], { animate: false });
+      } else if ($("html").attr("dir") !== "rtl") {
         this.panBy([sidebarWidth, 0], { animate: false });
       }
       $("#content").removeClass("overlay-sidebar");
