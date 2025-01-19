@@ -64,11 +64,11 @@ OpenStreetMap::Application.routes.draw do
     get "relations" => "relations#index"
 
     get "map" => "map#index"
-
-    get "trackpoints" => "tracepoints#index"
   end
 
   namespace :api, :path => "api/0.6" do
+    resources :tracepoints, :path => "trackpoints", :only => :index
+
     resources :users, :only => :index
     resources :users, :path => "user", :id => /\d+/, :only => :show
     resources :user_traces, :path => "user/gpx_files", :module => :users, :controller => :traces, :only => :index
