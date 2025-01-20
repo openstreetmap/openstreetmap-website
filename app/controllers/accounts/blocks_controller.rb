@@ -7,6 +7,9 @@ module Accounts
 
     authorize_resource :class => :account_block
 
-    def index; end
+    def index
+      unseen_block = current_user.blocks.where(:deactivates_at => nil).order(:id).take
+      redirect_to unseen_block if unseen_block
+    end
   end
 end
