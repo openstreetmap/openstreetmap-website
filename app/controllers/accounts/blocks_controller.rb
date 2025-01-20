@@ -9,7 +9,12 @@ module Accounts
 
     def index
       unseen_block = current_user.blocks.where(:deactivates_at => nil).order(:id).take
-      redirect_to unseen_block if unseen_block
+      if unseen_block
+        redirect_to unseen_block
+      else
+        active_block = current_user.blocks.active.order(:id).take
+        redirect_to active_block if active_block
+      end
     end
   end
 end
