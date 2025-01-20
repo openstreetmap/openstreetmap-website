@@ -24,6 +24,7 @@ module Accounts
       assert_response :success
       assert_dom "#content > .content-body" do
         assert_dom "p", :text => /no active blocks/
+        assert_dom "a", :text => "Review past blocks", :count => 0
       end
     end
 
@@ -36,6 +37,9 @@ module Accounts
       assert_response :success
       assert_dom "#content > .content-body" do
         assert_dom "p", :text => /no active blocks/
+        assert_dom "a", :text => "Review past blocks" do
+          assert_dom "> @href", user_received_blocks_path(user)
+        end
       end
     end
 
