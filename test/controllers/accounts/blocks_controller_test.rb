@@ -22,6 +22,9 @@ module Accounts
 
       get account_blocks_path
       assert_response :success
+      assert_dom "#content > .content-body" do
+        assert_dom "p", :text => /no active blocks/
+      end
     end
 
     def test_index_with_inactive_block
@@ -31,6 +34,9 @@ module Accounts
 
       get account_blocks_path
       assert_response :success
+      assert_dom "#content > .content-body" do
+        assert_dom "p", :text => /no active blocks/
+      end
     end
 
     def test_index_with_unseen_block
