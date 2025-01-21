@@ -37,7 +37,7 @@ class UserBlocksController < ApplicationController
   end
 
   def new
-    @user_block = UserBlock.new
+    @user_block = UserBlock.new(:needs_view => true)
   end
 
   def edit
