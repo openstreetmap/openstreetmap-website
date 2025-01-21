@@ -80,7 +80,7 @@ OSM = {
   },
 
   mapParams: function (search) {
-    var params = OSM.params(search), mapParams = {}, loc, match;
+    var params = OSM.params(search), mapParams = {}, match;
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
@@ -101,6 +101,8 @@ OSM = {
 
     var hash = OSM.parseHash(location.hash);
 
+    const loc = Cookies.get('_osm_location')?.split("|");
+
     // Decide on a map starting position. Various ways of doing this.
     if (hash.center) {
       mapParams.lon = hash.center.lng;
@@ -119,8 +121,7 @@ OSM = {
       mapParams.lon = parseFloat(params.mlon);
       mapParams.lat = parseFloat(params.mlat);
       mapParams.zoom = parseInt(params.zoom || 12);
-    } else if (loc = Cookies.get('_osm_location')) {
-      loc = loc.split("|");
+    } else if (loc) {
       mapParams.lon = parseFloat(loc[0]);
       mapParams.lat = parseFloat(loc[1]);
       mapParams.zoom = parseInt(loc[2]);
