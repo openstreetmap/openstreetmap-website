@@ -1,0 +1,19 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t ".heading_html", :user => link_to(@user.display_name, @user) %></h1>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <%= link_to t(".diary_entries"), user_diary_comments_path, :class => ["nav-link", { "active" => controller_name == "diary_comments" }] %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t(".changesets"), user_changeset_comments_path, :class => ["nav-link", { "active" => controller_name == "changeset_comments" }] %>
+    </li>
+  </ul>
+<% end %>
+
+<% if @comments.empty? %>
+  <h4><%= t ".no_comments" %></h4>
+<% else %>
+  <%= render :partial => "page" %>
+<% end -%>

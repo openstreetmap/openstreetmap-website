@@ -246,8 +246,6 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary/comments/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary/comments")
-  get "/user/:display_name/diary/comments" => "diary_comments#index", :as => :diary_comments
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
@@ -269,12 +267,15 @@ OpenStreetMap::Application.routes.draw do
   resources :users, :path => "user", :param => :display_name, :only => [:new, :create, :show] do
     resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
     scope :module => :users do
+      resources :diary_comments, :only => :index
+      resources :changeset_comments, :only => :index
       resource :issued_blocks, :path => "blocks_by", :only => :show
       resource :received_blocks, :path => "blocks", :only => [:show, :edit, :destroy]
       resource :status, :only => :update
     end
   end
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
+  get "/user/:display_name/diary/comments(/:page)", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary_comments")
 
   resource :account, :only => [:edit, :update, :destroy] do
     scope :module => :accounts do

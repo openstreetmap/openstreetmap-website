@@ -1,7 +1,4 @@
 class DiaryCommentsController < ApplicationController
-  include UserMethods
-  include PaginationMethods
-
   layout "site"
 
   before_action :authorize_web
@@ -10,23 +7,9 @@ class DiaryCommentsController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => :index
-  before_action :check_database_writable, :only => [:create, :hide, :unhide]
+  before_action :check_database_writable
 
-  allow_thirdparty_images :only => [:index, :create]
-
-  def index
-    @title = t ".title", :user => @user.display_name
-
-    comments = DiaryComment.where(:user => @user)
-    comments = comments.visible unless can? :unhide, DiaryComment
-
-    @params = params.permit(:display_name, :before, :after)
-
-    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, :includes => [:user])
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
-  end
+  allow_thirdparty_images :only => :create
 
   def create
     @entry = DiaryEntry.find(params[:id])
