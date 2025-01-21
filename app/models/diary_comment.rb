@@ -15,6 +15,7 @@
 #
 #  diary_comment_user_id_created_at_index  (user_id,created_at)
 #  diary_comments_entry_id_idx             (diary_entry_id,id) UNIQUE
+#  index_diary_comments_on_user_id_and_id  (user_id,id)
 #
 # Foreign Keys
 #
