@@ -7,9 +7,8 @@ class ChangesetsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action -> { check_database_readable(:need_api => true) }, :only => [:index, :feed, :show]
+  before_action -> { check_database_readable(:need_api => true) }
   before_action :require_oauth, :only => :show
-  before_action :check_database_writable, :only => [:subscribe, :unsubscribe]
 
   authorize_resource
 
@@ -105,34 +104,6 @@ class ChangesetsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found, :layout => map_layout
-  end
-
-  ##
-  # subscribe to a changeset
-  def subscribe
-    @changeset = Changeset.find(params[:id])
-
-    if request.post?
-      @changeset.subscribe(current_user) unless @changeset.subscribed?(current_user)
-
-      redirect_to changeset_path(@changeset)
-    end
-  rescue ActiveRecord::RecordNotFound
-    render :action => "no_such_entry", :status => :not_found
-  end
-
-  ##
-  # unsubscribe from a changeset
-  def unsubscribe
-    @changeset = Changeset.find(params[:id])
-
-    if request.post?
-      @changeset.unsubscribe(current_user)
-
-      redirect_to changeset_path(@changeset)
-    end
-  rescue ActiveRecord::RecordNotFound
-    render :action => "no_such_entry", :status => :not_found
   end
 
   private

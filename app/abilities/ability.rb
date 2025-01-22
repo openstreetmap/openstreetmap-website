@@ -32,7 +32,7 @@ class Ability
       can :read, [:deletion, :account_terms]
 
       if Settings.status != "database_offline"
-        can [:subscribe, :unsubscribe], Changeset
+        can [:read, :create, :destroy], :changeset_subscription
         can [:read, :create, :update, :destroy], :oauth2_application
         can [:read, :destroy], :oauth2_authorized_application
         can [:read, :create, :destroy], :oauth2_authorization
