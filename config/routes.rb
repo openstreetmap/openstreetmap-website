@@ -124,14 +124,16 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id" => "relations#show", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "old_relations#index", :id => /\d+/, :as => :relation_history
   resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
-  resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
-    match :subscribe, :on => :member, :via => [:get, :post]
-    match :unsubscribe, :on => :member, :via => [:get, :post]
 
+  resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
+    resource :subscription, :controller => :changeset_subscriptions, :only => [:show, :create, :destroy]
     namespace :changeset_comments, :as => :comments, :path => :comments do
       resource :feed, :only => :show, :defaults => { :format => "rss" }
     end
   end
+  get "/changeset/:id/subscribe", :id => /\d+/, :to => redirect(:path => "/changeset/%{id}/subscription")
+  get "/changeset/:id/unsubscribe", :id => /\d+/, :to => redirect(:path => "/changeset/%{id}/subscription")
+
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 
   get "/user/:display_name/history" => "changesets#index"

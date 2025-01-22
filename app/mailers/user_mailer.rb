@@ -177,7 +177,7 @@ class UserMailer < ApplicationMailer
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
-      @unsubscribe_url = unsubscribe_changeset_url(comment.changeset)
+      @changeset_subscription_url = changeset_subscription_url(comment.changeset)
       @author = @commenter
 
       subject = if @owner
@@ -193,8 +193,8 @@ class UserMailer < ApplicationMailer
       set_list_headers(
         "#{comment.changeset.id}.changeset.www.openstreetmap.org",
         t(".description", :id => comment.changeset.id),
-        :subscribe => subscribe_changeset_url(comment.changeset),
-        :unsubscribe => @unsubscribe_url,
+        :subscribe => @changeset_subscription_url,
+        :unsubscribe => @changeset_subscription_url,
         :archive => @changeset_url
       )
 
