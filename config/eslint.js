@@ -1,8 +1,10 @@
 const globals = require("globals");
 const js = require("@eslint/js");
+const erb = require("eslint-plugin-erb");
 
 module.exports = [
   js.configs.recommended,
+  erb.configs.recommended,
   {
     languageOptions: {
       ecmaVersion: 2021,
@@ -19,6 +21,15 @@ module.exports = [
         Turbo: "readonly",
         updateLinks: "readonly"
       }
+    },
+    linterOptions: {
+      // The "unused disable directive" is set to "warn" by default.
+      // For the ERB plugin to work correctly, you must disable
+      // this directive to avoid issues described here
+      // https://github.com/eslint/eslint/discussions/18114
+      // If you're using the CLI, you might also use the following flag:
+      // --report-unused-disable-directives-severity=off
+      reportUnusedDisableDirectives: "off"
     },
     rules: {
       "accessor-pairs": "error",
