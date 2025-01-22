@@ -116,7 +116,7 @@ class TracesController < ApplicationController
         @trace.schedule_import
         redirect_to :action => :index, :display_name => current_user.display_name
       else
-        flash[:error] = t(".upload_failed") if @trace.valid?
+        flash.now[:error] = t(".upload_failed") if @trace.valid?
 
         render :action => "new"
       end
