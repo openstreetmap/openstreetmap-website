@@ -322,11 +322,10 @@ OpenStreetMap::Application.routes.draw do
 
   # messages
   resources :messages, :path_names => { :new => "new/:display_name" }, :id => /\d+/, :only => [:new, :create, :show, :destroy] do
-    patch :unmute
-
     scope :module => :messages do
       resource :reply, :path_names => { :new => "new" }, :only => :new
       resource :read_mark, :only => [:create, :destroy]
+      resource :mute, :only => :destroy
     end
   end
   namespace :messages, :path => "/messages" do

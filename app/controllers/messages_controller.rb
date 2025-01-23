@@ -73,23 +73,6 @@ class MessagesController < ApplicationController
     render :action => "no_such_message", :status => :not_found
   end
 
-  # Moves message into Inbox by unsetting the muted-flag
-  def unmute
-    message = current_user.muted_messages.find(params[:message_id])
-
-    if message.unmute
-      flash[:notice] = t(".notice")
-    else
-      flash[:error] = t(".error")
-    end
-
-    if current_user.muted_messages.none?
-      redirect_to messages_inbox_path
-    else
-      redirect_to messages_muted_inbox_path
-    end
-  end
-
   private
 
   ##

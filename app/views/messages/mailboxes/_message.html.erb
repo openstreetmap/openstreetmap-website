@@ -8,7 +8,7 @@
       <%= button_to t(".read_button"), message_read_mark_path(message), :method => :post, :class => "btn btn-sm btn-primary", :form => { :data => { :turbo => true }, :hidden => message.message_read? } %>
       <%= button_to t(".destroy_button"), message_path(message, :referer => request.fullpath), :method => :delete, :class => "btn btn-sm btn-danger", :form => { :data => { :turbo => true }, :class => "destroy-message" } %>
       <% if message.muted? %>
-        <%= button_to t(".unmute_button"), message_unmute_path(message), :method => :patch, :class => "btn btn-sm btn-secondary", :form => { :data => { :turbo => true } } %>
+        <%= button_to t(".unmute_button"), message_mute_path(message), :method => :delete, :class => "btn btn-sm btn-secondary", :form => { :data => { :turbo => true } } %>
       <% end %>
     </div>
   </td>
