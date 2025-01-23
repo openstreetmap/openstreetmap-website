@@ -17,10 +17,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
       { :controller => "messages", :action => "show", :id => "1" }
     )
     assert_routing(
-      { :path => "/messages/1/mark", :method => :post },
-      { :controller => "messages", :action => "mark", :message_id => "1" }
-    )
-    assert_routing(
       { :path => "/messages/1", :method => :delete },
       { :controller => "messages", :action => "destroy", :id => "1" }
     )
@@ -257,84 +253,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     get message_path(99999)
     assert_response :not_found
     assert_template "no_such_message"
-  end
-
-  ##
-  # test the mark action
-  def test_mark
-    sender_user = create(:user)
-    recipient_user = create(:user)
-    other_user = create(:user)
-    message = create(:message, :unread, :sender => sender_user, :recipient => recipient_user)
-
-    # Check that the marking a message requires us to login
-    post message_mark_path(message)
-    assert_response :forbidden
-
-    # Login as a user with no messages
-    session_for(other_user)
-
-    # Check that marking a message we didn't send or receive fails
-    post message_mark_path(message)
-    assert_response :not_found
-    assert_template "no_such_message"
-
-    # Login as the message sender_user
-    session_for(sender_user)
-
-    # Check that marking a message we sent fails
-    post message_mark_path(message)
-    assert_response :not_found
-    assert_template "no_such_message"
-
-    # Login as the message recipient_user
-    session_for(recipient_user)
-
-    # Check that the marking a message read works
-    post message_mark_path(message, :mark => "read")
-    assert_redirected_to messages_inbox_path
-    assert Message.find(message.id).message_read
-
-    # Check that the marking a message unread works
-    post message_mark_path(message, :mark => "unread")
-    assert_redirected_to messages_inbox_path
-    assert_not Message.find(message.id).message_read
-
-    # Check that the marking a message read works and redirects to inbox from the message page
-    post message_mark_path(message, :mark => "read"), :headers => { :referer => message_path(message) }
-    assert_redirected_to messages_inbox_path
-    assert Message.find(message.id).message_read
-
-    # Check that the marking a message unread works and redirects to inbox from the message page
-    post message_mark_path(message, :mark => "unread"), :headers => { :referer => message_path(message) }
-    assert_redirected_to messages_inbox_path
-    assert_not Message.find(message.id).message_read
-
-    # Asking to mark a message with a bogus ID should fail
-    post message_mark_path(99999)
-    assert_response :not_found
-    assert_template "no_such_message"
-  end
-
-  ##
-  # test the mark action for messages from muted users
-  def test_mark_muted
-    sender_user = create(:user)
-    recipient_user = create(:user)
-    create(:user_mute, :owner => recipient_user, :subject => sender_user)
-    message = create(:message, :unread, :sender => sender_user, :recipient => recipient_user)
-
-    session_for(recipient_user)
-
-    # Check that the marking a message read works
-    post message_mark_path(message, :mark => "read")
-    assert_redirected_to messages_muted_inbox_path
-    assert Message.find(message.id).message_read
-
-    # Check that the marking a message unread works
-    post message_mark_path(message, :mark => "unread")
-    assert_redirected_to messages_muted_inbox_path
-    assert_not Message.find(message.id).message_read
   end
 
   ##
