@@ -297,11 +297,6 @@ cy:
       external auth: Dilysu Allanol
       openid:
         link text: beth yw hwn?
-      public editing:
-        heading: Golygu cyhoeddus
-        enabled: Galluogwyd. Ddim yn anhysbys ac yn gallu golygu data.
-        enabled link text: beth yw hwn?
-        disabled link text: pam na allaf olygu?
       contributor terms:
         heading: Telerau Cyfranwyr
         agreed: Rydych chi wedi cytuno â'r Telerau Cyfranwyr newydd.
@@ -371,13 +366,14 @@ cy:
         readable_summary: crynodeb darllenadwy
         informal_translations: cyfieithiadau anffurfiol
         continue: Parhau
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: Canslo
         legale_select: 'Gwlad breswyl:'
         legale_names:
           france: Ffrainc
           italy: Yr Eidal
           rest_of_world: Gweddill y byd
+      update:
+        terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
       terms_declined_flash:
         terms_declined_link: y dudalen wici hon
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
@@ -540,7 +536,6 @@ cy:
       title: Grwpiau newid
       title_user: Grwpiau newid gan %{user}
       title_user_link_html: Grwpiau newid gan %{user_link}
-      title_friend: Grwpiau newid gan fy ffrindiau
       title_nearby: Grwpiau newid gan ddefnyddwyr gerllaw
       empty: Heb ganfod grwpiau newid.
       empty_area: Heb ganfod grwpiau newid yn yr ardal hon.
@@ -555,19 +550,6 @@ cy:
         created: Crëwyd
         closed: Caëwyd
         belongs_to: Awdur
-    subscribe:
-      heading: Tanysgrifio i'r drafodaeth grŵp newid ganlynol?
-      button: Tanysgrifio i drafodaeth
-    unsubscribe:
-      heading: Dad-danysgrifio i'r drafodaeth grŵp newid ganlynol?
-      button: Dad-danysgrifio o'r drafodaeth
-    heading:
-      title: Grŵp newid %{id}
-      created_by_html: Crëwyd gan %{link_user} ar %{created}.
-    no_such_entry:
-      heading: 'Dim cofnod gyda''r id: %{id}'
-      body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r id %{id}. Gwiriwch eich
-        sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
     show:
       title: 'Grŵp newid: %{id}'
       created: 'Crëwyd: %{when}'
@@ -599,6 +581,21 @@ cy:
     timeout:
       sorry: Sori, cymerodd y rhestr o grwpiau newid y gofynnoch amdanynt rhy hir
         i'w hadalw.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Tanysgrifio i'r drafodaeth grŵp newid ganlynol?
+        button: Tanysgrifio i drafodaeth
+      unsubscribe:
+        heading: Dad-danysgrifio i'r drafodaeth grŵp newid ganlynol?
+        button: Dad-danysgrifio o'r drafodaeth
+    heading:
+      title: Grŵp newid %{id}
+      created_by_html: Crëwyd gan %{link_user} ar %{created}.
+    no_such_entry:
+      heading: 'Dim cofnod gyda''r id: %{id}'
+      body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r id %{id}. Gwiriwch eich
+        sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
   dashboards:
     contact:
       km away: '%{count}km i ffwrdd'
@@ -607,18 +604,13 @@ cy:
     popup:
       your location: Eich lleoliad
       nearby mapper: Mapiwr gerllaw
-      friend: Ffrind
     show:
       title: Fy Nangosfwrdd
       no_home_location_html: '%{edit_profile_link} a gosodwch eich lleoliad i weld
         defnyddwyr cyfagos.'
       edit_your_profile: Golygwch eich proffil
-      my friends: Fy ffrindiau
-      no friends: Nid ydych wedi ychwanegu unrhyw ffrindiau eto.
       nearby users: Defnyddwyr eraill gerllaw
       no nearby users: Nid oes defnyddwyr gerllaw sy'n dweud eu bod yn mapio eto.
-      friends_changesets: grwpiau newid eich ffrindiau
-      friends_diaries: cofnodion dyddiaduron ffrindiau
       nearby_changesets: grwpiau newid defnyddwyr gerllaw
       nearby_diaries: cofnodion dyddiaduron defnyddwyr gerllaw
   diary_entries:
@@ -629,7 +621,6 @@ cy:
       use_map_link: Defnyddio Map
     index:
       title: Dyddiaduron Defnyddwyr
-      title_friends: Dyddiaduron Ffrindiau
       title_nearby: Dyddiaduron Defnyddwyr Gerllaw
       user_title: Dyddiadur %{user}
       in_language_title: Cofnodion Dyddiadur %{language}
@@ -701,15 +692,6 @@ cy:
       heading: Dad-danysgrifio o'r drafodaeth cofnod dyddiadur ganlynol?
       button: Dad-danysgrifio o'r drafodaeth
   diary_comments:
-    index:
-      title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
-      heading: Sylwadau Dyddiadur %{user}
-      subheading_html: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
-      no_comments: Dim sylwadau dyddiadur
-    page:
-      post: Post
-      when: Pryd
-      comment: Sylw
     new:
       heading: Ychwanegu sylw at y drafodaeth cofnod dyddiadur canlynol?
   doorkeeper:
@@ -753,18 +735,6 @@ cy:
       title: Gwall ap
     not_found:
       title: Heb ganfod ffeil
-  friendships:
-    make_friend:
-      heading: Ychwanegu %{user} fel ffrind?
-      button: Ychwanegu fel ffrind
-      success: Mae %{name} nawr yn ffrind i chi!
-      failed: Sori, methwyd ychwanegu %{name} fel ffrind.
-      already_a_friend: Rydych chi eisoes yn ffrindiau gyda %{name}.
-    remove_friend:
-      heading: Dad-ffrindio %{user}?
-      button: Dad-ffrindio
-      success: Tynnwyd %{name} o'ch ffrindiau.
-      not_a_friend: Nid yw %{name} yn un o'ch ffrindiau.
   geocoder:
     search:
       title:
@@ -1725,14 +1695,10 @@ cy:
         yr awdur yn %{replyurl}
       footer_html: Gallwch hefyd ddarllen y neges yn %{readurl} a gallwch anfon neges
         at yr awdur yn %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Helo %{to_user},
-      subject: '[OpenStreetMap] Ychwanegodd %{user} chi fel ffrind'
-      had_added_you: Mae %{user} wedi eich ychwanegu fel ffrind ar OpenStreetMap.
       see_their_profile: 'Gallwch weld eu proffil yma: %{userurl}.'
       see_their_profile_html: 'Gallwch weld eu proffil yma: %{userurl}.'
-      befriend_them: Gallwch hefyd eu hychwanegu fel ffrind ar %{befriendurl}.
-      befriend_them_html: Gallwch hefyd eu hychwanegu fel ffrind ar %{befriendurl}.
     gpx_details:
       details: 'Manylion eich ffeil:'
       filename: Enw ffeil
@@ -2605,17 +2571,18 @@ cy:
     offline:
       heading: Storio GPX All-lein
       message: Nid yw'r system uwchlwytho a storio ffeiliau GPX ar gael ar hyn o bryd.
-    georss:
-      title: Olion GPS OpenStreetMap
-    description:
-      description_with_count:
-        zero: Ffeil GPX â %{count} pwynt gan %{user}
-        one: Ffeil GPX ag %{count} pwynt gan %{user}
-        two: Ffeil GPX â %{count} bwynt gan %{user}
-        few: Ffeil GPX â %{count} phwynt gan %{user}
-        many: Ffeil GPX â %{count} pwynt gan %{user}
-        other: Ffeil GPX â %{count} pwynt gan %{user}
-      description_without_count: Ffeil GPX gan %{user}
+    feeds:
+      show:
+        title: Olion GPS OpenStreetMap
+      description:
+        description_with_count:
+          zero: Ffeil GPX â %{count} pwynt gan %{user}
+          one: Ffeil GPX ag %{count} pwynt gan %{user}
+          two: Ffeil GPX â %{count} bwynt gan %{user}
+          few: Ffeil GPX â %{count} phwynt gan %{user}
+          many: Ffeil GPX â %{count} pwynt gan %{user}
+          other: Ffeil GPX â %{count} pwynt gan %{user}
+        description_without_count: Ffeil GPX gan %{user}
   application:
     permission_denied: Nid oes gennych ganiatâd i gael mynediad at y weithred honno
     require_cookies:
@@ -2750,7 +2717,6 @@ cy:
         privacy_policy: polisi preifatrwydd
         contributor_terms: thelerau cyfranwyr
       continue: Cofrestru
-      terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
       email_help:
         privacy_policy: polisi preifatrwydd
         html: Ni chaiff eich cyfeiriad e-bost ei arddangos yn gyhoeddus, gweler ein
@@ -2784,8 +2750,6 @@ cy:
       edits: Golygiadau
       traces: Olion
       notes: Nodiadau Map
-      remove as friend: Dad-ffrindio
-      add as friend: Ychwanegu ffrind
       mapper since: 'Yn mapio ers:'
       last map edit: 'Golygiad map diwethaf:'
       no activity yet: Dim gweithgaredd eto
@@ -2869,6 +2833,15 @@ cy:
       user:
         summary_html: Crëwyd %{name} o %{ip_address} ar %{date}
         summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
+    changeset_comments:
+      page:
+        when: Pryd
+        comment: Sylw
+    diary_comments:
+      index:
+        title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
+      page:
+        post: Post
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal

@@ -253,13 +253,6 @@ mk:
       openid:
         link: https://wiki.openstreetmap.org/wiki/MK:OpenID?uselang=mk
         link text: што е ова?
-      public editing:
-        heading: Јавно уредување
-        enabled: Овозможено. Сега не е анонимно и може да се уредуваат податоци.
-        enabled link text: што е ова?
-        disabled: Оневозможено и не може да се уредуваат податоци, сите претходни
-          уредувања се анонимни.
-        disabled link text: зошто не можам да уредувам?
       contributor terms:
         heading: Услови за учество
         agreed: Се согласивте на новите Услови за учество.
@@ -334,7 +327,6 @@ mk:
         readable_summary: човечки читлив опис
         informal_translations: неформални преводи
         continue: Продолжи
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
         cancel: Откажи
         you need to accept or decline: Прочитајте ги новите Услови за учество, а потоа
           согласете се или одбијте ги.
@@ -343,6 +335,8 @@ mk:
           france: Франција
           italy: Италија
           rest_of_world: Остатокот од светот
+      update:
+        terms accepted: Ви благодариме што ги прифативте новите услови за учество!
       terms_declined_flash:
         terms_declined_html: Жалиме што не се согласувате со новите Услови за учество.
           Повеќе информации ќе најдете на %{terms_declined_link}.
@@ -498,7 +492,6 @@ mk:
       title: Измени
       title_user: Измени на %{user}
       title_user_link_html: Промени од %{user_link}
-      title_friend: Измени од мои пријатели
       title_nearby: Измени од соседни корисници
       empty: Не пронајдов промени.
       empty_area: Нема промени на ова подрачје.
@@ -513,19 +506,6 @@ mk:
         created: Создадено
         closed: Затворено
         belongs_to: Автор
-    subscribe:
-      heading: Да ве претплатам на слединов разговор за измени?
-      button: Претплати се на разговорот
-    unsubscribe:
-      heading: Да ве отпишам од претплатата на следниов разговор за измени?
-      button: Отпиши се од разговорот
-    heading:
-      title: Измени %{id}
-      created_by_html: Создадено од %{link_user} на %{created}.
-    no_such_entry:
-      heading: 'Нема ставка со назнаката: %{id}'
-      body: Жалиме, но не постојат измени со назнаката %{id}. Проверете да не сте
-        згрешиле во пишувањето, или пак да не сте стиснале на погрешна врска.
     show:
       title: 'Измена: %{id}'
       created: 'Создадено: %{when}'
@@ -559,6 +539,21 @@ mk:
     timeout:
       sorry: За жал, на списокот на промени што го побаравте му требаше предолго за
         да се добие.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Да ве претплатам на слединов разговор за измени?
+        button: Претплати се на разговорот
+      unsubscribe:
+        heading: Да ве отпишам од претплатата на следниов разговор за измени?
+        button: Отпиши се од разговорот
+    heading:
+      title: Измени %{id}
+      created_by_html: Создадено од %{link_user} на %{created}.
+    no_such_entry:
+      heading: 'Нема ставка со назнаката: %{id}'
+      body: Жалиме, но не постојат измени со назнаката %{id}. Проверете да не сте
+        згрешиле во пишувањето, или пак да не сте стиснале на погрешна врска.
   dashboards:
     contact:
       km away: '%{count} км од вас'
@@ -567,19 +562,14 @@ mk:
     popup:
       your location: Ваша местоположба
       nearby mapper: Соседен картограф
-      friend: Пријател
     show:
       title: Моја управувачница
       no_home_location_html: '%{edit_profile_link} и задајте ја вашата матична местоположба
         за да гледате корисници во близина.'
       edit_your_profile: Уредете си го профилот
-      my friends: Мои пријатели
-      no friends: Сè уште немате додадено пријатели.
       nearby users: Други соседни корисници
       no nearby users: Сè уште нема други корисници во вашата околина што признаваат
         дека работат на карти.
-      friends_changesets: измени на пријателите
-      friends_diaries: дневнички ставки на пријателите
       nearby_changesets: измени на соседните корисници
       nearby_diaries: дневнички ставки на сосед. корисн.
   diary_entries:
@@ -590,7 +580,6 @@ mk:
       use_map_link: На карта
     index:
       title: Дневници на корисници
-      title_friends: Дневници на пријателите
       title_nearby: Дневници на соседните корисници
       user_title: Дневникот на %{user}
       in_language_title: Дневнички написи на %{language}
@@ -657,15 +646,6 @@ mk:
       heading: Да ве отпишам од претплатата на разговорот во следната дневничка ставка?
       button: Отпиши се од разговорот
   diary_comments:
-    index:
-      title: Дневнички коментари додадени од %{user}
-      heading: Дневнички коментари на %{user}
-      subheading_html: Дневнички коментари додадени од %{user}
-      no_comments: Нема дневнички коментари
-    page:
-      post: Објава
-      when: Кога
-      comment: Коментар
     new:
       heading: Ставате коментар во следниов разговор за дневничка ставка?
   doorkeeper:
@@ -723,20 +703,6 @@ mk:
       title: Податотеката не е пронајдена
       description: Не можев да најдам постапка со податотека/папка/приложник со тоа
         име на опслужувачот на OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Да го додадам корисникот %{user} како пријател?
-      button: Додај како пријател
-      success: Сега сте пријатели со %{name}!
-      failed: Жалам, не можев да го додадам корисникот %{name} како пријател.
-      already_a_friend: Веќе сте пријатели со %{name}.
-      limit_exceeded: Во последно време се имате спријателено со многу корисници.
-        Почекајте малку, за да можете да се спријателувате со други.
-    remove_friend:
-      heading: Да го отстранам корисникот %{user} од пријатели?
-      button: Отстрани од пријатели
-      success: Корисникот %{name} е отстранет од вашите пријатели.
-      not_a_friend: '%{name} не е меѓу вашите пријатели.'
   geocoder:
     search:
       title:
@@ -1705,14 +1671,10 @@ mk:
         на авторот на %{replyurl}
       footer_html: Можете и да ја прочитате пораката на %{readurl} и да му испратите
         порака на авторот на %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Здраво %{to_user},
-      subject: '[OpenStreetMap] %{user} ве додаде како пријател'
-      had_added_you: '%{user} ве додаде како пријател на OpenStreetMap.'
       see_their_profile: Можете да го погледате профилот на оваа личност на %{userurl}.
       see_their_profile_html: Можете да го погледате профилот на оваа личност на %{userurl}.
-      befriend_them: Можете личноста и да ја додадете како пријател на %{befriendurl}.
-      befriend_them_html: Можете личноста и да ја додадете како пријател на %{befriendurl}.
     gpx_failure:
       hi: Здраво %{to_user},
       failed_to_import: 'не можеше да се увезе. Проверете дали е важечка GPX-податотека
@@ -2648,13 +2610,14 @@ mk:
     offline:
       heading: GPX-складиштето е исклучено
       message: Системот за складирање и подигање на GPX-податотеки моментално е недостапен.
-    georss:
-      title: ГПС-траги од OpenStreetMap
-    description:
-      description_with_count:
-        one: GPX-податотека со %{count} точка од %{user}
-        other: GPX-податотеки со %{count} точки од %{user}
-      description_without_count: GPX-податотека од %{user}
+    feeds:
+      show:
+        title: ГПС-траги од OpenStreetMap
+      description:
+        description_with_count:
+          one: GPX-податотека со %{count} точка од %{user}
+          other: GPX-податотеки со %{count} точки од %{user}
+        description_without_count: GPX-податотека од %{user}
   application:
     permission_denied: Немате дозвола за ова дејство
     require_cookies:
@@ -2814,7 +2777,6 @@ mk:
         contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: услови на учество
       continue: Зачленување
-      terms accepted: Ви благодариме што ги прифативте новите услови за учество!
       email_help:
         privacy_policy: правила за личните податоци
         privacy_policy_title: Правилата за лични податоци на OSMF, со одделот за е-поштенски
@@ -2851,8 +2813,6 @@ mk:
       edits: Уредувања
       traces: Траги
       notes: Белешки на картата
-      remove as friend: Отстрани од пријатели
-      add as friend: Додај во пријатели
       mapper since: 'Картограф од:'
       last map edit: 'Последно уредување на картата:'
       no activity yet: Сè уште нема активности
@@ -2927,6 +2887,15 @@ mk:
       user:
         summary_html: '%{name} создадено од %{ip_address} на %{date}'
         summary_no_ip_html: '%{name} создадено на %{date}'
+    changeset_comments:
+      page:
+        when: Кога
+        comment: Коментар
+    diary_comments:
+      index:
+        title: Дневнички коментари додадени од %{user}
+      page:
+        post: Објава
     suspended:
       title: Сметката е закочена
       heading: Сметката е закочена

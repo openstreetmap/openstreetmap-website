@@ -293,13 +293,6 @@ br:
       external auth: Dilesadur diavaez
       openid:
         link text: petra eo an dra-se ?
-      public editing:
-        heading: Kemm foran
-        enabled: Gweredekaet. N'eo ket dizanv ha gallout a ra aozañ roadennoù.
-        enabled link text: petra eo an dra-se ?
-        disabled: Diweredekaet ha ne c'hall ket aozañ roadennoù ; diznav eo an holl
-          aozadennoù kent.
-        disabled link text: Perak n'on ket evit aozañ ?
       contributor terms:
         heading: Diferadennoù ar c'henlabourer
         agreed: Degemeret hoc'h eus diferadennoù nevez ar c'henlabourer.
@@ -365,6 +358,9 @@ br:
           france: Bro-C'hall
           italy: Italia
           rest_of_world: Peurrest ar bed
+      update:
+        terms accepted: Trugarez deoc'h evit bezañ asantet da ziferadennoù nevez ar
+          c'henlabourer !
       terms_declined_flash:
         terms_declined_link: ar bejenn-mañ eus ar wiki
   browse:
@@ -507,7 +503,6 @@ br:
       title: Hollad cheñchamantoù
       title_user: Hollad cheñchamantoù %{user}
       title_user_link_html: Hollad cheñchamantoù %{user_link}
-      title_friend: Hollad cheñchamantoù degaset gant ma mignoned
       title_nearby: Hollad cheñchamantoù graet gant implijerien a-dost
       empty: N'eus bet kavet hollad cheñchamant ebet.
       empty_area: Hollad cheñchamant ebet en takad-mañ.
@@ -522,17 +517,6 @@ br:
         created: Krouet
         closed: Serret
         belongs_to: Aozer
-    subscribe:
-      heading: Koumanantiñ da gaozeadenn an hollad cheñchamantoù-mañ?
-      button: Koumanantiñ ouzh ar gaozeadenn
-    unsubscribe:
-      heading: Digoumanantiñ diouzh kaozeadenn an hollad cheñchamantoù-mañ?
-      button: Digoumanantiñ diouzh ar gaozeadenn
-    heading:
-      title: Hollad cheñchamantoù %{id}
-      created_by_html: Bet krouet gant %{link_user} d'an %{created}.
-    no_such_entry:
-      heading: 'Enmont ebet gant an id: %{id}'
     show:
       title: 'Hollad cheñchamantoù: %{id}'
       created: 'Krouet: %{when}'
@@ -563,6 +547,19 @@ br:
       relations_paginated: Darempredoù (%{x}-%{y} diwar %{count})
     timeout:
       sorry: Ho tigarez, re hir eo adtapout ar roll cheñchamantoù hoc'h eus goulennet.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Koumanantiñ da gaozeadenn an hollad cheñchamantoù-mañ?
+        button: Koumanantiñ ouzh ar gaozeadenn
+      unsubscribe:
+        heading: Digoumanantiñ diouzh kaozeadenn an hollad cheñchamantoù-mañ?
+        button: Digoumanantiñ diouzh ar gaozeadenn
+    heading:
+      title: Hollad cheñchamantoù %{id}
+      created_by_html: Bet krouet gant %{link_user} d'an %{created}.
+    no_such_entry:
+      heading: 'Enmont ebet gant an id: %{id}'
   dashboards:
     contact:
       km away: war-hed %{count} km
@@ -571,18 +568,13 @@ br:
     popup:
       your location: Ho lec'hiadur
       nearby mapper: Kartennour en ardremez
-      friend: Mignon
     show:
       title: Ma zaolenn-vourzh
       no_home_location_html: '%{edit_profile_link} ha termenit ho chomlec''h evit
         gwelout an implijerien en ardremez.'
       edit_your_profile: Aozañ ho profil
-      my friends: Ma mignoned
-      no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
       nearby users: 'Implijerien all tost deoc''h :'
       no nearby users: N'eus implijer ebet all en ardremez c'hoazh.
-      friends_changesets: Strolladoù kemmoù graet gant mignoned
-      friends_diaries: Enmonedoù deizlevr ar vignoned
       nearby_changesets: Strolladoù kemmoù an implijer tro-war-dro
       nearby_diaries: Enmonedoù deizlevr an implijerien tro-war-dro
   diary_entries:
@@ -593,7 +585,6 @@ br:
       use_map_link: Implijout ar gartenn
     index:
       title: Deizlevrioù an implijerien
-      title_friends: Deizlevrioù ar vignoned
       title_nearby: Deizlevrioù ar vignoned tost
       user_title: Deizlevr %{user}
       in_language_title: Enmontoù en deizlevr e %{language}
@@ -662,16 +653,6 @@ br:
       button: Koumanantiñ ouzh ar gaozeadenn
     unsubscribe:
       button: Digoumanantiñ diouzh ar gaozeadenn
-  diary_comments:
-    index:
-      title: Kemennadennoù skrivet en deizlevr gant %{user}
-      heading: Kemennadennoù-deizlevr %{user}
-      subheading_html: Kemennadennoù skrivet en deizlevr gant %{user}
-      no_comments: Kemennadenn deizlevr ebet
-    page:
-      post: Embann
-      when: Pegoulz
-      comment: Evezhiadenn
   doorkeeper:
     flash:
       applications:
@@ -694,20 +675,6 @@ br:
       title: Fazi an arload
     not_found:
       title: N'eo ket bet kavet ar restr
-  friendships:
-    make_friend:
-      heading: ↓Ouzhpennañ %{user} evel mignon ?
-      button: Ozhpennañ evel mignon
-      success: '%{name} eo ho mignon bremañ !'
-      failed: Ho tigarez, n'eus ket bet gallet ouzhpennañ %{name} evel mignon.
-      already_a_friend: Mignon oc'h gant %{name} dija.
-      limit_exceeded: Graet ho peus kalz a vignoned nevez zo. Gortozit ur pennadig
-        a-raok klask kavout re all.
-    remove_friend:
-      heading: Lemel %{user} eus ar vignoned ?
-      button: Lemel eus ar vignoned
-      success: '%{name} zo bet lamet eus ho mignoned.'
-      not_a_friend: '%{name} n''eo ket unan eus ho mignoned.'
   geocoder:
     search:
       title:
@@ -1662,14 +1629,10 @@ br:
       footer: Gallout a rit ivez lenn ar gemennadenn e %{readurl} ha respont e %{replyurl}
       footer_html: Gallout a rit ivez lenn ar gemennadenn e %{readurl} ha respont
         e %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Demat dit %{to_user},
-      subject: '[OpenStreetMap] %{user} en deus hoc''h ouzhpennet evel mignon'
-      had_added_you: '%{user} en deus hoc''h ouzhpennet evel mignon war OpenStreetMap.'
       see_their_profile: 'Gallout a rit gwelet o frofil amañ : %{userurl}.'
       see_their_profile_html: 'Gallout a rit gwelet o frofil amañ : %{userurl}.'
-      befriend_them: 'Gallout a rit o ouzhpennañ e-touez ho mignoned amañ : %{befriendurl}.'
-      befriend_them_html: 'Gallout a rit o ouzhpennañ e-touez ho mignoned amañ : %{befriendurl}.'
     gpx_failure:
       hi: Demat %{to_user},
       failed_to_import: 'n''en deus ket gallet bezañ enporzhiet. Setu amañ ar fazi
@@ -2476,13 +2439,14 @@ br:
     offline:
       heading: Stokañ GPX ezlinenn
       message: Ne'z a ket ar sistem stokañ hag enporzhiañ GPX en-dro evit poent.
-    georss:
-      title: Roudoù GPS eus OpenStreetMap
-    description:
-      description_with_count:
-        one: restr GPX gant %{count} poent digant %{user}
-        other: restr GPX gant %{count} poent digant {user}
-      description_without_count: Restr GPX digant %{user}
+    feeds:
+      show:
+        title: Roudoù GPS eus OpenStreetMap
+      description:
+        description_with_count:
+          one: restr GPX gant %{count} poent digant %{user}
+          other: restr GPX gant %{count} poent digant {user}
+        description_without_count: Restr GPX digant %{user}
   application:
     permission_denied: N'emañ ket an aotreoù ret ganeoc'h evit seveniñ an ober-se.
     require_cookies:
@@ -2624,8 +2588,6 @@ br:
         privacy_policy: reolennoù prevezded
         contributor_terms: reolennoù ar genlabourerien
       continue: En em enskrivañ
-      terms accepted: Trugarez deoc'h evit bezañ asantet da ziferadennoù nevez ar
-        c'henlabourer !
       email_help:
         privacy_policy: Politikerezh prevezded
         html: Ho chomlec'h ne vo ket hewel d'an holl, sellit ouzh %{privacy_policy_link}
@@ -2660,8 +2622,6 @@ br:
       edits: Kemmoù
       traces: roudoù
       notes: Notennoù kartenn
-      remove as friend: Lemel eus ar vignoned
-      add as friend: Ouzhpennañ d'ar vignoned
       mapper since: 'Kartennour abaoe :'
       last map edit: 'Kemm diwezhañ ar gartenn:'
       no activity yet: Obererezh ebet c'hoazh
@@ -2743,6 +2703,15 @@ br:
       user:
         summary_html: '%{name} krouet eus %{ip_address} d''an %{date}'
         summary_no_ip_html: '%{name} krouet d''an %{date}'
+    changeset_comments:
+      page:
+        when: Pegoulz
+        comment: Evezhiadenn
+    diary_comments:
+      index:
+        title: Kemennadennoù skrivet en deizlevr gant %{user}
+      page:
+        post: Embann
     suspended:
       title: Kont arsavet
       heading: Kont arsavet

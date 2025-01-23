@@ -99,7 +99,7 @@ sr:
         support_url: Адреса подршке
         allow_read_prefs: чита њихове корисничке поставке
         allow_write_prefs: мења њихове корисничке поставке
-        allow_write_diary: прави дневничке записе, коментарише и додаје пријатеље
+        allow_write_diary: прави дневничке записе и коментарише
         allow_write_api: мења мапу
         allow_read_gpx: чита њихове приватне GPS трагове
         allow_write_gpx: отпрема GPS трагове
@@ -264,13 +264,6 @@ sr:
       external auth: Спољна аутентификација
       openid:
         link text: шта је ово?
-      public editing:
-        heading: Јавно уређивање
-        enabled: Омогућено. Није анонимно и могу се уређивати подаци.
-        enabled link text: шта је ово?
-        disabled: Онемогућено и не могу се уређивати подаци. Све претходне измене
-          су анонимне.
-        disabled link text: зашто не могу да уређујем?
       contributor terms:
         heading: Услови уређивања
         agreed: Прихватили сте нове услове уређивања.
@@ -314,7 +307,6 @@ sr:
         readable_summary: сумарум
         informal_translations: неформални преводи
         continue: Настави
-        declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
         cancel: Откажи
         you need to accept or decline: Молимо вас да прочитате уговор пре него што
           га прихватите.
@@ -323,6 +315,8 @@ sr:
           france: Француска
           italy: Италија
           rest_of_world: Остатак света
+      update:
+        terms accepted: Хвала вам што прихватате нове услове уређивања.
       terms_declined_flash:
         terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
   browse:
@@ -421,7 +415,6 @@ sr:
       title: Скупови промена
       title_user: Скупови промена корисника %{user}
       title_user_link_html: Сетови промена за %{user_link}
-      title_friend: Скупови промена мојих пријатеља
       title_nearby: Скупови промена корисника у близини
       empty: Скупови промена нису пронађени.
       empty_area: Нема скупова промена у овој области.
@@ -472,16 +465,11 @@ sr:
     popup:
       your location: Ваша локација
       nearby mapper: Оближњи картограф
-      friend: Пријатељ
     show:
       title: Tабла
       edit_your_profile: Уредите Ваш профил
-      my friends: Моји пријатељи
-      no friends: Нисте додали ниједног пријатеља.
       nearby users: 'Остали оближњи корисници:'
       no nearby users: Још увек нема оближњих корисника који мапирају.
-      friends_changesets: Спискови промена пријатеља
-      friends_diaries: Дневник пријатеља
       nearby_changesets: Спискови промена корисника у околини
       nearby_diaries: Дневници корисника у околини
   diary_entries:
@@ -492,7 +480,6 @@ sr:
       use_map_link: Користи мапу
     index:
       title: Кориснички дневници
-      title_friends: Дневници пријатеља
       title_nearby: Дневници корисника у близини
       user_title: Дневник корисника %{user}
       in_language_title: Уноси у дневнику на %{language}
@@ -554,11 +541,6 @@ sr:
       button: Прати дискусију
     unsubscribe:
       button: Прекини праћење дискусије
-  diary_comments:
-    page:
-      post: Објава
-      when: Када
-      comment: Коментар
   doorkeeper:
     scopes:
       address: Види своју физичку адресу
@@ -574,18 +556,6 @@ sr:
       title: Грешка у апликацији
     not_found:
       title: Датотека није пронађена
-  friendships:
-    make_friend:
-      heading: Додати корисника %{user} као пријатеља?
-      button: Додај као пријатеља
-      success: '%{name} је сада твој пријатељ.'
-      failed: Не могу да додам %{name} као пријатеља.
-      already_a_friend: Већ сте пријатељ са %{name}.
-    remove_friend:
-      heading: Уклонити %{user} из списка пријатеља?
-      button: Уклони из списка пријатеља
-      success: '%{name} је избачен из пријатеља.'
-      not_a_friend: '%{name} није ваш пријатељ.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1406,18 +1376,17 @@ sr:
       header: '%{from_user} вам посла поруку преко Опенстритмапа под насловом %{subject}:'
       footer_html: Такође можете да прочитате поруку на %{readurl} и можете да одговорите
         на %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Поздрав, %{to_user},
-      subject: '[OpenStreetMap] %{user} вас је додао као пријатеља'
-      had_added_you: '%{user} вас је додао као пријатеља на Опенстритмапу.'
       see_their_profile: Можете видети његов/њен профил на %{userurl}.
-      befriend_them: Можете га/је додати и као пријатеља на %{befriendurl}.
     gpx_details:
       details: 'Детаљи ваше датотеке:'
       filename: Назив датотеке
       url: URL
       description: Опис
       tags: Ознаке
+      total_points: Укупан број тачака
+      imported_points: Број увезених тачака
     gpx_failure:
       hi: Здраво %{to_user},
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
@@ -2059,13 +2028,14 @@ sr:
     offline:
       heading: GPX остава је ван мреже
       message: GPX остава и отпремање тренутно нису доступни.
-    georss:
-      title: OpenStreetMap GPS трасе
-    description:
-      description_with_count:
-        one: GPX датотека са %{count} тачком од %{user}
-        other: GPX датотека са %{count} тачака од %{user}
-      description_without_count: GPX датотека од %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS трасе
+      description:
+        description_with_count:
+          one: GPX датотека са %{count} тачком од %{user}
+          other: GPX датотека са %{count} тачака од %{user}
+        description_without_count: GPX датотека од %{user}
   application:
     permission_denied: Немате дозволу да приступите тој радњи
     require_cookies:
@@ -2156,7 +2126,6 @@ sr:
       by_signing_up:
         privacy_policy: политика приватности
       continue: Отвори налог
-      terms accepted: Хвала вам што прихватате нове услове уређивања.
       email_help:
         privacy_policy: политика приватности
       consider_pd: јавно власништво
@@ -2187,8 +2156,6 @@ sr:
       edits: Измене
       traces: Трагови
       notes: Белешке на карти
-      remove as friend: Избаци из пријатеља
-      add as friend: Додај пријатеља
       mapper since: 'Картограф од:'
       uid: 'ID корисника:'
       ct status: 'Услови за учешће:'
@@ -2246,6 +2213,13 @@ sr:
       user:
         summary_html: '%{name} направљено од %{ip_address} дана %{date}'
         summary_no_ip_html: '%{name} направљено %{date}'
+    changeset_comments:
+      page:
+        when: Када
+        comment: Коментар
+    diary_comments:
+      page:
+        post: Објава
     suspended:
       title: Суспендован налог
       heading: Суспендован налог

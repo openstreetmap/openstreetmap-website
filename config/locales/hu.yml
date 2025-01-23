@@ -279,13 +279,6 @@ hu:
       external auth: Külső hitelesítés
       openid:
         link text: mi ez?
-      public editing:
-        heading: Nyilvános szerkesztés
-        enabled: Engedélyezve. Nem vagy névtelen, így szerkesztheted az adatokat.
-        enabled link text: mi ez?
-        disabled: Tiltva, így nem szerkesztheted az adatokat, az összes eddigi szerkesztés
-          névtelen.
-        disabled link text: miért nem tudok szerkeszteni?
       contributor terms:
         heading: Hozzájárulási feltételek
         agreed: Elfogadtad az új közreműködési feltételeket.
@@ -372,6 +365,8 @@ hu:
           france: Franciaország
           italy: Olaszország
           rest_of_world: A világ többi része
+      update:
+        terms accepted: Köszönjük, hogy elfogadtad az új közreműködési feltételeket!
       terms_declined_flash:
         terms_declined_html: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új közreműködési
           feltételeket. További információkért lásd %{terms_declined_link}.
@@ -420,7 +415,7 @@ hu:
         way: 'Vonal:'
         relation: 'Kapcsolat:'
     containing_relation:
-      entry_role_html: '%{relation_name} kapcsolat (mint %{relation_role})'
+      entry_role_html: '%{relation_name} (mint %{relation_role})'
     not_found:
       title: Nem található
     timeout:
@@ -474,6 +469,8 @@ hu:
       view_redacted_data: Módosított előzményeket megtekintése
       view_redaction_message: Adattörlési üzenet megtekintése
   nodes:
+    not_found_message:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú pont nem található.
     timeout:
       sorry: Sajnáljuk, a(z) %{id} azonosítójú pont adatainak lekérése túl sokáig
         tartott.
@@ -484,6 +481,8 @@ hu:
       sorry: Sajnáljuk, a(z) %{id} azonosítójú pont előzményeinek lekérése túl sokáig
         tartott.
   ways:
+    not_found_message:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú vonal nem található.
     timeout:
       sorry: Sajnáljuk, a %{id} azonosítójú úthoz tartozó adatok lekérése túl sokáig
         tartott.
@@ -494,6 +493,8 @@ hu:
       sorry: Sajnáljuk, a(z) %{id} azonosítójú út előzményeinek lekérése túl sokáig
         tartott.
   relations:
+    not_found_message:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú kapcsolat nem található.
     timeout:
       sorry: Sajnáljuk, a %{id} azonosítójú reláció adatainak lekérése túl sokáig
         tartott.
@@ -523,7 +524,6 @@ hu:
       title: Módosításcsomagok
       title_user: '%{user} módosításcsomagjai'
       title_user_link_html: '%{user_link} módosításcsomagjai'
-      title_friend: Ismerősök módosításcsomagjai
       title_nearby: Közeli felhasználók módosításcsomagjai
       empty: Nem található módosításcsomag.
       empty_area: Ezen a területen nincs módosításcsomag.
@@ -538,19 +538,6 @@ hu:
         created: Létrehozva
         closed: Lezárva
         belongs_to: Szerző
-    subscribe:
-      heading: Feliratkozol a következő módosításcsomag-megbeszélésére?
-      button: Feliratkozás a megbeszélésre
-    unsubscribe:
-      heading: Leiratkozol a következő módosításcsomag-megbeszéléséről?
-      button: Leiratkozás a megbeszélésről
-    heading:
-      title: '%{id} számú módosításcsomag'
-      created_by_html: 'Létrehozta: %{link_user} (%{created}).'
-    no_such_entry:
-      heading: Nincs %{id} azonosítójú naplóbejegyzés
-      body: Sajnáljuk, nincs %{id} azonosítójú módosításcsomag. Ellenőrizd, hogy jól
-        írtad-e. Az is lehet, hogy rossz linkre kattintottál.
     show:
       title: 'Módosításcsomag: %{id}'
       created: 'Létrehozva: %{when}'
@@ -579,9 +566,26 @@ hu:
       ways_paginated: 'Vonalak (%{x}-%{y} ennyiből: %{count})'
       relations: Kapcsolatok (%{count})
       relations_paginated: 'Kapcsolatok (%{x}-%{y} ennyiből: %{count})'
+    not_found_message:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú módosításcsomag nem található.
     timeout:
       sorry: Sajnáljuk, az általad kért módosításcsomagok listájának lekérése túl
         sokáig tartott.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Feliratkozol a következő módosításcsomag-megbeszélésére?
+        button: Feliratkozás a megbeszélésre
+      unsubscribe:
+        heading: Leiratkozol a következő módosításcsomag-megbeszéléséről?
+        button: Leiratkozás a megbeszélésről
+    heading:
+      title: '%{id} számú módosításcsomag'
+      created_by_html: 'Létrehozta: %{link_user} (%{created}).'
+    no_such_entry:
+      heading: Nincs %{id} azonosítójú naplóbejegyzés
+      body: Sajnáljuk, nincs %{id} azonosítójú módosításcsomag. Ellenőrizd, hogy jól
+        írtad-e. Az is lehet, hogy rossz linkre kattintottál.
   dashboards:
     contact:
       km away: '%{count} km távolságra'
@@ -590,19 +594,14 @@ hu:
     popup:
       your location: Helyed
       nearby mapper: Közeli térképszerkesztő
-      friend: Ismerős
     show:
       title: Irányítópult
       no_home_location_html: '%{edit_profile_link}, és add meg az otthoni tartózkodási
         helyed, hogy lásd a közeli felhasználókat.'
       edit_your_profile: Szerkeszd a profilodat
-      my friends: Ismerősök
-      no friends: Még nem adtál meg egyetlen ismerőst sem.
       nearby users: További közeli felhasználók
       no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben
         szerkesztenek.
-      friends_changesets: ismerősök módosításcsomagjai
-      friends_diaries: ismerősök naplóbejegyzései
       nearby_changesets: közeli felhasználók módosításcsomagjai
       nearby_diaries: közeli felhasználók naplóbejegyzései
   diary_entries:
@@ -613,7 +612,6 @@ hu:
       use_map_link: térkép használata
     index:
       title: Felhasználók naplói
-      title_friends: Ismerősök naplói
       title_nearby: Közeli felhasználók naplói
       user_title: '%{user} naplója'
       in_language_title: Naplóbejegyzések %{language} nyelven
@@ -680,15 +678,6 @@ hu:
       heading: Leiratkozol a következő naplóbejegyzés-megbeszélésről?
       button: Leiratkozás a megbeszélésről
   diary_comments:
-    index:
-      title: '%{user} naplóhozzászólásai'
-      heading: '%{user} naplóhozzászólásai'
-      subheading_html: '%{user} naplóhozzászólásai'
-      no_comments: Nincs naplóhozzászólás
-    page:
-      post: Bejegyzés
-      when: Mikor
-      comment: Hozzászólás
     new:
       heading: Hozzáfűzől egy megjegyzést a következő naplóhozzászóláshoz?
   doorkeeper:
@@ -746,20 +735,6 @@ hu:
       title: A fájl nem található
       description: Nem található ilyen nevű fájl/könyvtár/API-művelet az OpenStreetMap
         szerveren (HTTP 404)
-  friendships:
-    make_friend:
-      heading: '%{user} hozzáadása ismerősként?'
-      button: Hozzáadás ismerősként
-      success: '%{name} mostantól az ismerősöd.'
-      failed: Sajnáljuk, sikertelen volt %{name} felvétele ismerősnek.
-      already_a_friend: '%{name} már az ismerősöd.'
-      limit_exceeded: Sok felhasználóval barátkoztál az utóbbi időben. Kérjük, várj
-        egy kicsit, mielőtt további ismerősöket próbálnál találni.
-    remove_friend:
-      heading: '%{user} eltávolítása az ismerőseid közül?'
-      button: Ismerős eltávolítása
-      success: '%{name} eltávolítva az ismerőseid közül.'
-      not_a_friend: '%{name} nem tartozik az ismerőseid közé.'
   geocoder:
     search:
       title:
@@ -1094,6 +1069,8 @@ hu:
           wayside_shrine: Út menti kegyhely
           wreck: Hajóroncs
           "yes": Történelmi hely
+        information:
+          map: Térkép
         junction:
           "yes": Csomópont
         landuse:
@@ -1699,14 +1676,15 @@ hu:
         a szerzőnek (%{replyurl}).
       footer_html: 'Az üzenet a %{readurl} címen is elolvashatod, vagy válaszolhatsz
         rá itt: %{replyurl}'
-    friendship_notification:
+    follow_notification:
       hi: Szia %{to_user}!
-      subject: '[OpenStreetMap] %{user} felvett az ismerősei közé'
-      had_added_you: '%{user} felvett az ismerősei közé az OpenStreetMapen.'
       see_their_profile: 'Megnézheted a profilját itt: %{userurl}.'
       see_their_profile_html: 'A felhasználó profilját megtekintheti itt: %{userurl}'
-      befriend_them: 'Te is hozzáadhatod ismerősként itt: %{befriendurl}.'
-      befriend_them_html: 'Te is hozzáadhatod ismerősként itt: %{befriendurl}'
+    gpx_details:
+      filename: Fájlnév
+      url: URL
+      description: Leírás
+      tags: Címkék
     gpx_failure:
       hi: Szia %{to_user}!
       failed_to_import: 'nem sikerült GPS nyomkövetési fájlként importálni. Ellenőrizd,
@@ -2628,11 +2606,12 @@ hu:
     offline:
       heading: A GPX-tároló offline
       message: A GPX-fájltároló és -feltöltő rendszer jelenleg nem érhető el.
-    georss:
-      title: OpenStreetMap GPS-nyomvonalak
-    description:
-      description_with_count: '%{user} GPX fájlja %{count} ponttal'
-      description_without_count: GPX fájl %{user} felhasználótól
+    feeds:
+      show:
+        title: OpenStreetMap GPS-nyomvonalak
+      description:
+        description_with_count: '%{user} GPX fájlja %{count} ponttal'
+        description_without_count: GPX fájl %{user} felhasználótól
   application:
     permission_denied: Nincs megfelelő jogosultságod a művelet végrehajtásához
     require_cookies:
@@ -2672,6 +2651,28 @@ hu:
       wikipedia:
         title: Bejelentkezés Wikipédiával
         alt: Wikipédia logó
+    share:
+      email:
+        title: Megosztás e-mailben
+        alt: E-mail ikon
+      bluesky:
+        title: Megosztás Bluesky-on
+        alt: Bluesky ikon
+      facebook:
+        title: Megosztás Facebookon
+        alt: Facebook ikon
+      linkedin:
+        title: Megosztás LinkedInen
+        alt: LinkedIn ikon
+      mastodon:
+        title: Megosztás Mastodonon
+        alt: Mastodon ikon
+      telegram:
+        title: Megosztás Telegramon
+        alt: Telegram ikon
+      x:
+        title: Megosztás X-en
+        alt: X ikon
   oauth:
     permissions:
       missing: Nem engedted meg az alkalmazás számára, hogy hozzáférjen ehhez a létesítményhez
@@ -2773,7 +2774,6 @@ hu:
           címekről szóló részt
         contributor_terms: közreműködői feltételek
       continue: Regisztráció
-      terms accepted: Köszönjük, hogy elfogadtad az új közreműködési feltételeket!
       email_help:
         privacy_policy: adatvédelmi irányelvek
         privacy_policy_title: Az OSMF adatvédelmi szabályzata, beleértve az e-mail
@@ -2812,8 +2812,6 @@ hu:
       edits: Szerkesztések
       traces: Nyomvonalak
       notes: Térképjegyzetek
-      remove as friend: Ismerős eltávolítása
-      add as friend: Felvétel ismerősnek
       mapper since: 'Térképszerkesztő ezóta:'
       last map edit: 'Legutóbbi térképszerkesztés:'
       no activity yet: Még nincs tevékenység
@@ -2889,6 +2887,15 @@ hu:
       user:
         summary_html: '%{name} létrejött innen: %{ip_address}, ekkor: %{date}'
         summary_no_ip_html: '%{name} letrejött ekkor: %{date}'
+    changeset_comments:
+      page:
+        when: Mikor
+        comment: Hozzászólás
+    diary_comments:
+      index:
+        title: '%{user} naplóhozzászólásai'
+      page:
+        post: Bejegyzés
     suspended:
       title: Felhasználói fiók felfüggesztve
       heading: Felhasználói fiók felfüggesztve

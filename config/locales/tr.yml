@@ -299,14 +299,6 @@ tr:
       openid:
         link: https://wiki.openstreetmap.org/wiki/Tr:OpenID
         link text: bu nedir?
-      public editing:
-        heading: Herkese açık düzenleme modu
-        enabled: Etkin. Anonim değil ve verileri düzenleyebilir.
-        enabled link: https://wiki.openstreetmap.org/wiki/Tr:Anonymous_edits
-        enabled link text: bu nedir?
-        disabled: Devre dışı bırakıldı ve verileri düzenleyemiyor, önceki tüm düzenlemeler
-          anonim.
-        disabled link text: neden düzenleyemiyorum?
       contributor terms:
         heading: Katılımcı Şartları
         agreed: Yeni katılımcı şartlarını kabul ettin.
@@ -386,7 +378,6 @@ tr:
         readable_summary: okunabilir özet
         informal_translations: resmî olmayan çeviriler
         continue: Devam
-        declined: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
         cancel: İptal
         you need to accept or decline: Lütfen katılımcı şartlarını okuyunuz ve şartları
           kabul ya da ret ediniz.
@@ -395,6 +386,8 @@ tr:
           france: Fransa
           italy: İtalya
           rest_of_world: Dünyanın geri kalanı
+      update:
+        terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
       terms_declined_flash:
         terms_declined_html: Yeni Katılımcı Şartlarına kabul etmediğiniz için üzgünüz.
           Daha fazla bilgi için lütfen %{terms_declined_link} sayfasına bakınız.
@@ -547,7 +540,6 @@ tr:
       title: Değişiklik Kayıtları
       title_user: '%{user} kullanıcısının değişiklik kayıtları'
       title_user_link_html: '%{user_link} kullanıcısının değişiklik kayıtları'
-      title_friend: Arkadaşlarımın değişiklik kayıtları
       title_nearby: Yakındaki kullanıcıların değişiklik kayıtları
       empty: Değişiklik kayıtları bulunamadı.
       empty_area: Bu alanda değişiklik kaydı bulunmuyor.
@@ -562,19 +554,6 @@ tr:
         created: Oluşturulma
         closed: Kapandı
         belongs_to: Yazar
-    subscribe:
-      heading: Aşağıdaki değişiklik kaydı tartışmasına abone olmak ister misiniz?
-      button: Tartışmaya abone ol
-    unsubscribe:
-      heading: Aşağıdaki değişiklik kaydı tartışmasının aboneliği iptal edilsin mi?
-      button: Tartışma aboneliğinden çık
-    heading:
-      title: Değişiklik Kaydı %{id}
-      created_by_html: '%{link_user} tarafından %{created} tarihinde oluşturuldu.'
-    no_such_entry:
-      heading: 'Şu kimliğe sahip girdi yok: %{id}'
-      body: Üzgünüz, %{id} kimliğine sahip herhangi bir değişiklik kaydı yok. Lütfen
-        yazımınızı kontrol edin ya da tıkladığınız bağlantı yanlış olabilir.
     show:
       title: 'Değişiklik kaydı: %{id}'
       created: 'Oluşturma: %{when}'
@@ -607,6 +586,22 @@ tr:
       sorry: 'Üzgünüz, #%{id} değişiklik kümesi bulunamadı.'
     timeout:
       sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Aşağıdaki değişiklik kaydı tartışmasına abone olmak ister misiniz?
+        button: Tartışmaya abone ol
+      unsubscribe:
+        heading: Aşağıdaki değişiklik kaydı tartışmasının aboneliği iptal edilsin
+          mi?
+        button: Tartışma aboneliğinden çık
+    heading:
+      title: Değişiklik Kaydı %{id}
+      created_by_html: '%{link_user} tarafından %{created} tarihinde oluşturuldu.'
+    no_such_entry:
+      heading: 'Şu kimliğe sahip girdi yok: %{id}'
+      body: Üzgünüz, %{id} kimliğine sahip herhangi bir değişiklik kaydı yok. Lütfen
+        yazımınızı kontrol edin ya da tıkladığınız bağlantı yanlış olabilir.
   dashboards:
     contact:
       km away: '%{count} km uzak'
@@ -615,18 +610,13 @@ tr:
     popup:
       your location: Konumum
       nearby mapper: Yakındaki haritacı
-      friend: Arkadaş
     show:
       title: Gösterge Panelim
       no_home_location_html: '%{edit_profile_link} ve yakındaki kullanıcıları görmek
         için bulunduğunuz konumu ayarlayın.'
       edit_your_profile: Profilinizi düzenleyin
-      my friends: Arkadaşlarım
-      no friends: Henüz herhangi bir arkadaş eklemediniz.
       nearby users: Yakın çevrede bulunan kullanıcılar
       no nearby users: Yakın çevrede herhangi başka kullanıcı henüz yok.
-      friends_changesets: arkadaşların değişiklik kayıtları
-      friends_diaries: arkadaşların günlük girdileri
       nearby_changesets: yakınlarındaki kullanıcıların bütün değişiklik kayıtları
       nearby_diaries: yakınlarındaki kullanıcıların günlük girdileri
   diary_entries:
@@ -637,7 +627,6 @@ tr:
       use_map_link: Haritayı Kullan
     index:
       title: Kullanıcı Günlükleri
-      title_friends: Arkadaşların günlükleri
       title_nearby: Yakındaki kullanıcıların günlükleri
       user_title: '%{user} Kullanıcısının Günlüğü'
       in_language_title: '%{language} dillindeki günlük girdiler'
@@ -706,15 +695,6 @@ tr:
       heading: Aşağıdaki günlük girdisi tartışmasının aboneliği iptal edilsin mi?
       button: Tartışma aboneliğinden çık
   diary_comments:
-    index:
-      title: '%{user} tarafından yapılan günlük yorumları'
-      heading: '%{user} Kullanıcısının Günlük Yorumları'
-      subheading_html: '%{user} tarafından yapılan günlük yorumları'
-      no_comments: Günlük yorumu yok
-    page:
-      post: Gönderi
-      when: Tarih
-      comment: Yorum
     new:
       heading: Aşağıdaki günlük girdisinin tartışmasına bir yorum ekle?
   doorkeeper:
@@ -772,20 +752,6 @@ tr:
       title: Dosya bulunamadı
       description: OpenStreetMap sunucusunda (HTTP 404) bu ada sahip bir dosya/dizin/API
         işlemi bulunamadı
-  friendships:
-    make_friend:
-      heading: '%{user}, arkadaş olarak eklensin mi?'
-      button: Arkadaş olarak ekle
-      success: '%{name}, arkadaş listesine eklendi!'
-      failed: Üzgünüz, %{name} arkadaş olarak eklenemedi.
-      already_a_friend: '%{name} ile zaten arkadaşsın.'
-      limit_exceeded: Son zamanlarda çok sayıda kullanıcıyla arkadaş oldunuz. Lütfen
-        daha fazla arkadaş olmaya çalışmadan önce bir süre bekleyin.
-    remove_friend:
-      heading: '%{user}, arkadaşlıktan çıkarılsın mı?'
-      button: Arkadaşlıktan Çıkar
-      success: '%{name}, arkadaş listesinden çıkarıldı.'
-      not_a_friend: '%{name}, arkadaşın değil.'
   geocoder:
     search:
       title:
@@ -1757,14 +1723,10 @@ tr:
         adresinden mesaj gönderebilirsiniz.
       footer_html: İletiyi %{readurl} adresinden de okuyabilir ve yazara %{replyurl}
         adresinden ileti gönderebilirsiniz.
-    friendship_notification:
+    follow_notification:
       hi: Merhaba %{to_user},
-      subject: '[OpenStreetMap] kullanıcı %{user} seni arkadaş olarak ekledi'
-      had_added_you: Kullanıcı %{user} seni arkadaş olarak OpenStreetMap'te ekledi.
       see_their_profile: '%{userurl} üzerinden profillerini görebilirsiniz.'
       see_their_profile_html: '%{userurl} üzerinden profilini görebilirsiniz.'
-      befriend_them: '%{befriendurl} üzerinden arkadaş olarak da ekleyebilirsiniz.'
-      befriend_them_html: '%{befriendurl} üzerinden arkadaş olarak da ekleyebilirsiniz.'
     gpx_details:
       details: 'Dosya bilgileriniz:'
       filename: Dosya adı
@@ -2725,13 +2687,14 @@ tr:
     offline:
       heading: GPX Yükleme Servisi Çevrimdışı
       message: GPX dosya depolama ve yükleme sistemi şu anda kullanılamıyor.
-    georss:
-      title: OpenStreetMap GPS İzleri
-    description:
-      description_with_count:
-        one: '%{user} tarafından %{count} noktalı GPX dosyası'
-        other: '%{user} tarafından %{count} noktalı GPX dosyası'
-      description_without_count: '%{user} tarafından GPX dosyası'
+    feeds:
+      show:
+        title: OpenStreetMap GPS İzleri
+      description:
+        description_with_count:
+          one: '%{user} tarafından %{count} noktalı GPX dosyası'
+          other: '%{user} tarafından %{count} noktalı GPX dosyası'
+        description_without_count: '%{user} tarafından GPX dosyası'
   application:
     permission_denied: Bu eyleme erişme izniniz yok
     require_cookies:
@@ -2893,7 +2856,6 @@ tr:
           politikası
         contributor_terms: katılımcı şartları
       continue: Kaydol
-      terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
       email_help:
         privacy_policy: gizlilik politikası
         privacy_policy_title: E-posta adresleriyle ilgili bölümü içeren OSMF gizlilik
@@ -2931,8 +2893,6 @@ tr:
       edits: Düzenlemeler
       traces: İzler
       notes: Harita Notları
-      remove as friend: Arkadaşlıktan Çıkar
-      add as friend: Arkadaş Olarak Ekle
       mapper since: 'Haritacılığa başlama tarihi:'
       last map edit: 'Son harita düzenlemesi:'
       no activity yet: Henüz herhangi bir etkinlik yok
@@ -3008,6 +2968,15 @@ tr:
       user:
         summary_html: '%{name}, %{date} tarihinde %{ip_address} tarafından oluşturuldu.'
         summary_no_ip_html: '%{name} %{date} tarihinde oluşturuldu.'
+    changeset_comments:
+      page:
+        when: Tarih
+        comment: Yorum
+    diary_comments:
+      index:
+        title: '%{user} tarafından yapılan günlük yorumları'
+      page:
+        post: Gönderi
     suspended:
       title: Hesap Askıda
       heading: Hesap Askıda

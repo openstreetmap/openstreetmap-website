@@ -270,13 +270,6 @@ eo:
       external auth: Ekstera aŭtentigo
       openid:
         link text: Pliaj informoj
-      public editing:
-        heading: Publika redaktado
-        enabled: Ebligita. Ne anonima kaj rajtas redakti.
-        enabled link text: Pliaj informoj
-        disabled: Malebligita kaj ne rajtas redakti, ĉiuj antaŭaj redaktoj naŭ estas
-          publikaj.
-        disabled link text: kial mi ne povas redakti?
       contributor terms:
         heading: Interkonsento pri kontribuado
         agreed: Vi konsentis la novan interkonsenton pri kontribuado.
@@ -363,6 +356,8 @@ eo:
           france: Francujo
           italy: Italujo
           rest_of_world: Resto de la mondo
+      update:
+        terms accepted: Dankon por akcepto de nova interkonsento pri kontribuado!
       terms_declined_flash:
         terms_declined_html: Bedaŭrinde vi ne akceptis la novan interkonsenton pri
           kontribuado. Por pli da informoj, ekkonu kun %{terms_declined_link}.
@@ -521,7 +516,6 @@ eo:
       title: Ŝanĝaroj
       title_user: Ŝanĝaroj de %{user}
       title_user_link_html: Ŝanĝaroj de %{user_link}
-      title_friend: Ŝanĝaroj de miaj amikoj
       title_nearby: Ŝanĝaroj de proksimaj uzantoj
       empty: Neniu trovita ŝanĝaro.
       empty_area: Neniu ŝanĝaro en tiu ĉi areo.
@@ -536,19 +530,6 @@ eo:
         created: Kreita
         closed: Fermita
         belongs_to: Aŭtoro
-    subscribe:
-      heading: Ĉu aboni diskuton pri tiu ĉi ŝanĝaro?
-      button: Aboni diskuton
-    unsubscribe:
-      heading: Ĉu malaboni diskuton pri tiu ĉi ŝanĝaro?
-      button: Malaboni diskuton
-    heading:
-      title: Ŝanĝaro %{id}
-      created_by_html: Kreita de %{link_user} je %{created}.
-    no_such_entry:
-      heading: 'Neniu ŝanĝaro kun la identigilo: %{id}'
-      body: Bedaŭrinde ne ekzistas ŝanĝaro kun la identigilo %{id}. Kontrolu pri liter-eraroj
-        aŭ eble vi alklakis eraran ligilon.
     show:
       title: 'Ŝanĝaro: %{id}'
       created: Kreita je %{when}
@@ -581,6 +562,21 @@ eo:
       sorry: 'Ne trovis ŝanĝaron #%{id}.'
     timeout:
       sorry: Bedaŭrinde daŭris tro longe kompili la petitan liston de ŝanĝaroj.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Ĉu aboni diskuton pri tiu ĉi ŝanĝaro?
+        button: Aboni diskuton
+      unsubscribe:
+        heading: Ĉu malaboni diskuton pri tiu ĉi ŝanĝaro?
+        button: Malaboni diskuton
+    heading:
+      title: Ŝanĝaro %{id}
+      created_by_html: Kreita de %{link_user} je %{created}.
+    no_such_entry:
+      heading: 'Neniu ŝanĝaro kun la identigilo: %{id}'
+      body: Bedaŭrinde ne ekzistas ŝanĝaro kun la identigilo %{id}. Kontrolu pri liter-eraroj
+        aŭ eble vi alklakis eraran ligilon.
   dashboards:
     contact:
       km away: '%{count} km for'
@@ -589,18 +585,13 @@ eo:
     popup:
       your location: Via loko
       nearby mapper: Proksima uzanto
-      friend: Amiko
     show:
       title: Mia panelo
       no_home_location_html: '%{edit_profile_link} kaj agordu vian hejmlokon por vidi
         proksimajn uzantojn.'
       edit_your_profile: Redaktu vian profilon
-      my friends: Miaj amikoj
-      no friends: Vi ne aldonis iun amikon ankoraŭ.
       nearby users: Plej proksimaj uzantoj
       no nearby users: Neniu alia uzanto, kiu deklaris mapigadon en tiu ĉi areo.
-      friends_changesets: ŝanĝaroj de amikoj
-      friends_diaries: afiŝoj en taglibroj de amikoj
       nearby_changesets: ŝanĝaroj de proksimuloj
       nearby_diaries: afiŝoj en taglibroj de proksimuloj
   diary_entries:
@@ -611,7 +602,6 @@ eo:
       use_map_link: Montri sur mapo
     index:
       title: Taglibroj de uzantoj
-      title_friends: Taglibroj de amikoj
       title_nearby: Taglibroj de proksimaj uzantoj
       user_title: Taglibro de %{user}
       in_language_title: Taglibraj afiŝoj en %{language}
@@ -677,15 +667,6 @@ eo:
       heading: Ĉu malaboni diskuton pri tiu ĉi taglibra afiŝo?
       button: Malaboni diskuton
   diary_comments:
-    index:
-      title: Komentoj de %{user} sub taglibraj afiŝoj
-      heading: Komentoj de %{user}
-      subheading_html: Komentoj de %{user} sub taglibraj afiŝoj
-      no_comments: Neniu taglibra komento
-    page:
-      post: Afiŝi
-      when: Kiam
-      comment: Komento
     new:
       heading: Ĉu aldoni komenton al la diskuto pri tiu ĉi taglibra afiŝo?
   doorkeeper:
@@ -741,20 +722,6 @@ eo:
       title: Paĝo ne trovita
       description: Ne povis trovi dosieron/dosierujon/API-peton kun tiu ĉi nomo ĉe
         la OpenStreetMap-servilo (HTTP 404).
-  friendships:
-    make_friend:
-      heading: Ĉu aldoni %{user} al amikoj?
-      button: Aldoni kiel amikon
-      success: '%{name} nun estas via amiko.'
-      failed: Bedaŭrinde malsukcesis aldoni %{name} kiel amiko.
-      already_a_friend: Vi jam estas amiko de %{name}.
-      limit_exceeded: Vi antaŭtempe aldonis multajn uzantojn al la listo de amikoj.
-        Atendu iom da tempo antaŭ aldoni pliajn uzantojn al la listo.
-    remove_friend:
-      heading: Ĉu eksamikigi %{user}?
-      button: Eksamikigi
-      success: '%{name} estis forviŝita el viaj amikoj.'
-      not_a_friend: '%{name} ne estas amiko via.'
   geocoder:
     search:
       title:
@@ -1721,20 +1688,18 @@ eo:
         aŭtoro ĉe %{replyurl}
       footer_html: Vi ankaŭ povas legi la mesaĝon ĉe %{readurl} kaj sendi mesaĝon
         al la aŭtoro ĉe %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Saluton %{to_user},
-      subject: '[OpenStreetMap] %{user} aldonis vin kiel amikon'
-      had_added_you: '%{user} aldonis vin kiel amikon je OpenStreetMap.'
       see_their_profile: Vi povas vidi ties profilon ĉe %{userurl}.
       see_their_profile_html: Vi povas vidi ties profilon ĉe %{userurl}.
-      befriend_them: Vi ankaŭ povas aldoni vin kiel amikon ĉe %{befriendurl}.
-      befriend_them_html: Vi ankaŭ povas aldoni ilin kiel amiko ĉe %{befriendurl}
     gpx_details:
       details: 'Detaloj pri via dosiero:'
       filename: Dosiernomo
       url: Retadreso
       description: Priskribo
       tags: Etikedoj
+      total_points: Punktoj tute
+      imported_points: Enportitaj punktoj
     gpx_failure:
       hi: Saluton %{to_user},
       failed_to_import: Malsukcesis enporti vian dosieron kun GPS-spuro.
@@ -1749,6 +1714,7 @@ eo:
       subject: '[OpenStreetMap] Eraro dum enportado de GPX-dosiero'
     gpx_success:
       hi: Saluton %{to_user},
+      imported_successfully: Via dosiero estas sukcese enportita kiel GPS-spuro.
       all_your_traces: Ĉiuj viaj sukcese alŝutitaj GPX-spuroj troveblas ĉe %{url}
       all_your_traces_html: Ĉiuj viaj sukcese alŝutitaj GPX-spuroj troveblas ĉe %{url}.
       subject: '[OpenStreetMap] GPX-dosiero enportita sukcese'
@@ -2602,8 +2568,8 @@ eo:
       description: 'Priskribo:'
       tags: 'Etikedoj:'
       none: Neniu
-      edit_trace: Redakti ĉi tiun spuron
-      delete_trace: Forviŝi ĉi tiun spuron
+      edit_trace: Redakti tiun ĉi spuron
+      delete_trace: Forigi tiun ĉi spuron
       trace_not_found: Spuro ne trovebla!
       visibility: 'Videbleco:'
       confirm_delete: Ĉu forigi tiun ĉi spuron?
@@ -2644,13 +2610,14 @@ eo:
     offline:
       heading: GPX-konservejo malaktiva
       message: La sistemo por alŝutado kaj konservado de GPX-dosieroj estas nune nedisponebla.
-    georss:
-      title: OpenStreetMap GPS-spuroj
-    description:
-      description_with_count:
-        one: GPX-dosiero kun %{count} punkto de %{user}
-        other: GPX-dosiero kun %{count} punktoj de %{user}
-      description_without_count: GPX-dosiero de %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-spuroj
+      description:
+        description_with_count:
+          one: GPX-dosiero kun %{count} punkto de %{user}
+          other: GPX-dosiero kun %{count} punktoj de %{user}
+        description_without_count: GPX-dosiero de %{user}
   application:
     permission_denied: Vi ne rajtas fari tiun ĉi agon
     require_cookies:
@@ -2810,7 +2777,6 @@ eo:
           de retpoŝta adreso
         contributor_terms: Interkonsento pri kontribuado
       continue: Registriĝi
-      terms accepted: Dankon por akcepto de nova interkonsento pri kontribuado!
       email_help:
         privacy_policy: privatecan politikon
         privacy_policy_title: privateca politiko de OSMF enhavanta sekcion pri uzo
@@ -2848,8 +2814,6 @@ eo:
       edits: Redaktoj
       traces: Spuroj
       notes: Map-rimarkoj
-      remove as friend: Eksamikigi
-      add as friend: Aldoni kiel amikon
       mapper since: 'Mapigisto ekde:'
       last map edit: 'Antaŭa map-redakto:'
       no activity yet: ankoraŭ neniu agado
@@ -2922,6 +2886,15 @@ eo:
       user:
         summary_html: '%{name} kreita de %{ip_address} je %{date}'
         summary_no_ip_html: '%{name} kreita je %{date}'
+    changeset_comments:
+      page:
+        when: Kiam
+        comment: Komento
+    diary_comments:
+      index:
+        title: Komentoj de %{user} sub taglibraj afiŝoj
+      page:
+        post: Afiŝi
     suspended:
       title: Konto haltigita
       heading: Konto haltigita
@@ -3126,9 +3099,19 @@ eo:
         povos ripari tion. Movu la markon al la respektivan pozicion kaj enmetu la
         rimarkon priskribantan la problemon.
       anonymous_warning_html: Vi ne estas ensalutinta. %{log_in} aŭ %{sign_up} por
-        ricevi sciigojn pri via rimarko.
+        ricevi sciigojn pri via rimarko kaj por helpi al mapigistoj solvi ĝin.
       anonymous_warning_log_in: Ensalutu
       anonymous_warning_sign_up: registriĝu
+      counter_warning_html: Vi jam publikigis almenaŭ %{x_anonymous_notes}, tio ĉi
+        estas bonega por la komunumo, dankon! Nun ni instigas vin al %{contribute_by_yourself},
+        tio ĉi ne estas tiel malsimpla kaj la %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} anoniman rimarkon'
+        other: '%{count} anonimajn rimarkojn'
+      counter_warning_guide_link:
+        text: kontribui mem
+      counter_warning_forum_link:
+        text: komunumo povas helpi vin
       advice: Via rimarko estas publika kaj povas esti uzita por ĝisdatigi la mapon,
         do ne enmetu privatajn informojn kaj informojn el kopirajtaj mapoj aŭ aliaj
         datumbazoj.

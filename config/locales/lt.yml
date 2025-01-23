@@ -293,13 +293,6 @@ lt:
       external auth: Išorinė autentikacija
       openid:
         link text: kas tai?
-      public editing:
-        heading: Viešas keitimas
-        enabled: Įjungtas. Nėra anoniminis ir gali keisti duomenis.
-        enabled link text: kas tai?
-        disabled: Išjungtas ir negali keisti duomenų, visi ankstesni pakeitimai yra
-          anonimiški.
-        disabled link text: kodėl aš negaliu redaguoti?
       contributor terms:
         heading: Talkininkų sąlygos
         agreed: Jūs sutikote su naujomis talkininkų sąlygomis.
@@ -386,6 +379,8 @@ lt:
           france: Prancūzija
           italy: Italija
           rest_of_world: Likęs pasaulis
+      update:
+        terms accepted: Ačiū, kad patvirtinote naująsias talkininkų sąlygas!
       terms_declined_flash:
         terms_declined_html: Apgailestaujame, kad nusprendėte nesutikti su naujomis
           bendraautoriu sąlygomis. Norėdami gauti daugiau informacijos, žr. %{terms_declined_link}.
@@ -529,7 +524,6 @@ lt:
       title: Pakeitimai
       title_user: Naudotojo %{user} pakeitimai
       title_user_link_html: '%{user_link} pakeitimai'
-      title_friend: Mano draugų pakeitimai
       title_nearby: Netoliese esančių naudotojų pakeitimai
       empty: Nerasta pakeitimų.
       empty_area: Nėra šios vietos pakeitimų.
@@ -544,19 +538,6 @@ lt:
         created: Sukurtas
         closed: Uždarytas
         belongs_to: Autorius
-    subscribe:
-      heading: Prenumeruoti šią pakeitimų rinkinio diskusiją?
-      button: Prenumeruokite diskusiją
-    unsubscribe:
-      heading: Atsisakyti šio pakeitimų rinkinio diskusijos prenumeratos?
-      button: Atsisakyti diskusijos prenumeratos
-    heading:
-      title: Pakeitimų rinkinys %{id}
-      created_by_html: Sukūrė %{link_user} %{created}.
-    no_such_entry:
-      heading: 'Nėra įrašo su id: %{id}'
-      body: Atsiprašome, nėra pakeitimų rinkinio su id %{id}. Patikrinkite rašybą,
-        o gal nuoroda, kurią spustelėjote, yra neteisinga.
     show:
       title: 'Pakeitimas: %{id}'
       created: 'Sukurta: %{when}'
@@ -587,6 +568,21 @@ lt:
       relations_paginated: Ryšiai (%{x}-%{y} iš %{count})
     timeout:
       sorry: Atsiprašome, bet jūsų prašytų pakeitimų ištraukimas užtruko per ilgai.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Prenumeruoti šią pakeitimų rinkinio diskusiją?
+        button: Prenumeruokite diskusiją
+      unsubscribe:
+        heading: Atsisakyti šio pakeitimų rinkinio diskusijos prenumeratos?
+        button: Atsisakyti diskusijos prenumeratos
+    heading:
+      title: Pakeitimų rinkinys %{id}
+      created_by_html: Sukūrė %{link_user} %{created}.
+    no_such_entry:
+      heading: 'Nėra įrašo su id: %{id}'
+      body: Atsiprašome, nėra pakeitimų rinkinio su id %{id}. Patikrinkite rašybą,
+        o gal nuoroda, kurią spustelėjote, yra neteisinga.
   dashboards:
     contact:
       km away: Nutolęs %{count}km
@@ -595,19 +591,14 @@ lt:
     popup:
       your location: Jūsų pozicija
       nearby mapper: Šalia esantis žemėlapių kūrėjas
-      friend: Draugas
     show:
       title: Valdymo skydas
       no_home_location_html: '%{edit_profile_link} ir nurodykite savo namų vietą,
         kad matytumėte netoliese esančius naudotojus.'
       edit_your_profile: Redaguoti profilį
-      my friends: Mano draugai
-      no friends: Jūs dar nepridėjote nei vieno draugo.
       nearby users: Kiti greta esantys naudotojai
       no nearby users: Dar nėra jokių kitų naudotojų, kurie būtų pakviesti į žemėlapio
         pildymus.
-      friends_changesets: draugų keitimai
-      friends_diaries: draugų dienoraščių įrašai
       nearby_changesets: greta esančių naudotojų keitimai
       nearby_diaries: greta esančių naudotojų dienoraščių įrašai
   diary_entries:
@@ -618,7 +609,6 @@ lt:
       use_map_link: Naudoti žemėlapį
     index:
       title: Naudotojo dienoraščiai
-      title_friends: Draugų dienoraščiai
       title_nearby: Netoliese esančių naudotojų dienoraščiai
       user_title: '%{user} dienoraštis'
       in_language_title: 'Dienoraščio įrašai: %{language}'
@@ -685,15 +675,6 @@ lt:
       heading: Atsisakyti šios dienoraščio įrašo diskusijos prenumeratos?
       button: Atsisakyti diskusijos prenumeratos
   diary_comments:
-    index:
-      title: Dienoraščio komentarus pridėjo %{user}
-      heading: Naudotojo %{user} dienoraščio komentarai
-      subheading_html: Dienoraščio komentarus pridėjo %{user}
-      no_comments: Nėra dienoraščio komentarų
-    page:
-      post: Įrašas
-      when: Kada
-      comment: Komentaras
     new:
       heading: Pridėti komentarą prie šios dienoraščio įrašo diskusijos?
   doorkeeper:
@@ -739,20 +720,6 @@ lt:
       title: Failas nerastas
       description: OpenStreetMap serveryje nepavyko rasti failo, katalogo ar API veiksmo
         su nurodytu pavadinimu (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Pridėti „%{user}“ kaip draugą?
-      button: Pridėti kaip draugą
-      success: '%{name} dabar jau yra jūsų draugas.'
-      failed: Atsiprašome, nepavyko pridėti naudotojo %{name} į draugų sąrašą.
-      already_a_friend: Jūs jau draugaujate su %{name}.
-      limit_exceeded: Pastaruoju metu Jūs pridėjote daug naudotojų į draugų sąrašą.
-        Prašome šiek tiek palaukti prieš pridedant daugiau naudotojų.
-    remove_friend:
-      heading: Nebedraugauti su naudotoju „%{user}“?
-      button: Nebedraugauti
-      success: '%{name} pašalintas iš jūsų draugų sąrašo.'
-      not_a_friend: '%{name} nėra jūsų draugas.'
   geocoder:
     search:
       title:
@@ -1671,14 +1638,10 @@ lt:
         autoriui %{replyurl}
       footer_html: Pranešimą galite skaityti čia %{readurl}, o nusiųsti žinutę autoriui
         galite čia %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Labas, %{to_user},
-      subject: '[OpenStreetMap] %{user} prisidėjo jus kaip draugą'
-      had_added_you: '%{user} pridėjo jus į savo OpenStreetMap draugų sąrašą.'
       see_their_profile: Galite peržiūrėti jo profilį adresu %{userurl}.
       see_their_profile_html: Galite peržiūrėti jų profilį %{userurl}
-      befriend_them: 'Galite pridėti juos prie draugų: %{befriendurl}'
-      befriend_them_html: Galite pridėti juos prie draugų %{befriendurl}
     gpx_failure:
       hi: Sveiki, %{to_user},
       failed_to_import: 'nepavyko importuoti kaip GPS sekimo failas. Patvirtinkite,
@@ -2556,13 +2519,14 @@ lt:
     offline:
       heading: GPX laikmena išjungta
       message: GPX pėdsakų saugojimo ir įkėlimo sistema šiuo metu neveikia.
-    georss:
-      title: OpenStreetMap GPS pėdsakai
-    description:
-      description_with_count:
-        one: GPX failas su %{count} tašku, naudotojo %{user}
-        other: GPX failas su %{count} taškais, naudotojo %{user}
-      description_without_count: Naudotojo %{user} GPX failas
+    feeds:
+      show:
+        title: OpenStreetMap GPS pėdsakai
+      description:
+        description_with_count:
+          one: GPX failas su %{count} tašku, naudotojo %{user}
+          other: GPX failas su %{count} taškais, naudotojo %{user}
+        description_without_count: Naudotojo %{user} GPX failas
   application:
     permission_denied: Jūs neturite teisių vykdyti šį veiksmą
     require_cookies:
@@ -2699,7 +2663,6 @@ lt:
         privacy_policy: privatumo politika
         contributor_terms: bendraautorių sąlygos
       continue: Užsiregistruoti
-      terms accepted: Ačiū, kad patvirtinote naująsias talkininkų sąlygas!
       email_help:
         privacy_policy: privatumo politika
         privacy_policy_title: OSMF privatumo politika, įskaitant skyrių apie el. pašto
@@ -2736,8 +2699,6 @@ lt:
       edits: Keitimai
       traces: Pėdsakai
       notes: Žemėlapio pastabos
-      remove as friend: Nebedraugauti
-      add as friend: Pridėti draugą
       mapper since: 'Žymi nuo:'
       last map edit: 'Paskutinis žemėlapio keitimas:'
       no activity yet: Kol kas nėra veiklos
@@ -2806,6 +2767,15 @@ lt:
       user:
         summary_html: '%{name} sukurta %{ip_address} %{date}'
         summary_no_ip_html: '%{name} sukurta %{date}'
+    changeset_comments:
+      page:
+        when: Kada
+        comment: Komentaras
+    diary_comments:
+      index:
+        title: Dienoraščio komentarus pridėjo %{user}
+      page:
+        post: Įrašas
     suspended:
       title: Paskyra sustabdyta
       heading: Paskyra sustabdyta

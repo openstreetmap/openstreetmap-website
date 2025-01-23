@@ -272,13 +272,6 @@ id:
       external auth: Autentikasi Eksternal
       openid:
         link text: Apa ini?
-      public editing:
-        heading: Mengedit secara publik
-        enabled: Diaktifkan. Tidak anonim dan dapat mengedit data.
-        enabled link text: Apa ini?
-        disabled: Dinonaktifkan dan tidak dapat mengedit data, seluruh hasil edit
-          sebelumnya anonim.
-        disabled link text: mengapa saya tidak bisa mengedit?
       contributor terms:
         heading: Syarat-syarat Kontributor
         agreed: Anda telah menyetujui Persyaratan Kontributor yang baru.
@@ -366,6 +359,8 @@ id:
           france: Perancis
           italy: Italia
           rest_of_world: Bagian lain dari dunia
+      update:
+        terms accepted: Terima kasih telah menerima persyaratan kontributor yang baru!
       terms_declined_flash:
         terms_declined_html: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor
           baru. Untuk informasi lebih lanjut, silakan lihat %{terms_declined_link}.
@@ -485,7 +480,6 @@ id:
       title: Set perubahan
       title_user: Set perubahan oleh %{user}
       title_user_link_html: Set perubahan oleh %{user_link}
-      title_friend: Set perubahan oleh teman saya
       title_nearby: Set perubahan oleh pengguna terdekat
       empty: Tidak ada set perubahan yang ditemukan.
       empty_area: Tidak ada set perubahan di daerah ini.
@@ -537,19 +531,14 @@ id:
     popup:
       your location: Lokasi Anda
       nearby mapper: Pembuat peta disekitar Anda
-      friend: Teman
     show:
       title: Dasborku
       no_home_location_html: '%{edit_profile_link} dan atur lokasi rumah Anda untuk
         melihat pengguna yang ada di sekitar.'
       edit_your_profile: Sunting profil Anda
-      my friends: Teman saya
-      no friends: Anda belum menambahkan teman.
       nearby users: Pengguna lain terdekat
       no nearby users: Tidak ada pengguna lain yang mengaku untuk melakukan pemetaan
         terdekat.
-      friends_changesets: Telusuri semua set perubahan yang dibuat oleh teman-teman
-      friends_diaries: Telusuri seluruh entri catatan harian oleh teman-teman
       nearby_changesets: Telusuri seluruh set perubahan oleh pengguna terdekat
       nearby_diaries: Telurusi seluruh entri catatan harian oleh pengguna terdekat
   diary_entries:
@@ -560,7 +549,6 @@ id:
       use_map_link: Gunakan Peta
     index:
       title: Catatan harian pengguna
-      title_friends: Catatan harian teman
       title_nearby: Catatan harian pengguna terdekat
       user_title: Catatan harian %{user}
       in_language_title: Entri catatan harian dalam %{language}
@@ -617,16 +605,6 @@ id:
       all:
         title: Entri catatan harian OpenStreetMap
         description: Entri catatan harian terbaru dari pengguna OpenStreetMap
-  diary_comments:
-    index:
-      title: Komentar Buku Harian ditambahkan oleh %{user}
-      heading: Komentar Buku Harian %{user}
-      subheading_html: Komentar Buku Harian yang ditambahkan oleh %{user}
-      no_comments: Tidak ada komentar buku harian
-    page:
-      post: Artikel
-      when: Kapan
-      comment: Komentar
   doorkeeper:
     errors:
       messages:
@@ -676,20 +654,6 @@ id:
       title: Berkas tidak ditemukan
       description: Gagal menemukan operasi berkas/direktori/API dengan nama itu di
         server OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Tambahkan %{user} sebagai teman?
-      button: Tambahkan sebagai teman
-      success: '%{name} sekarang adalah teman Anda!'
-      failed: Maaf, gagal menambahkan %{name} sebagai teman.
-      already_a_friend: Anda sudah berteman dengan %{name}.
-      limit_exceeded: Anda telah berteman dengan banyak sekali penggunan akhir-akhir
-        ini. Silahkan tunggu sebentar sebelum mencoba berteman lagi.
-    remove_friend:
-      heading: Hapus %{user} sebagai teman?
-      button: Hapus sebagai teman
-      success: '%{name} telah dihapus dari daftar teman Anda.'
-      not_a_friend: '%{name} bukanlah salah satu dari teman Anda.'
   geocoder:
     search:
       title:
@@ -1621,14 +1585,10 @@ id:
         kepada penulis di %{replyurl}
       footer_html: Anda juga dapat membaca pesan di  %{readurl} dan membalasnya di
         %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Halo %{to_user},
-      subject: '[OpenStreetMap] %{user} menambahkan Anda sebagai teman'
-      had_added_you: '%{user} telah menambahkan Anda sebagai teman pada OpenStreetMap.'
       see_their_profile: Anda dapat melihat profilnya pada %{userurl}.
       see_their_profile_html: Anda dapat melihat profil mereka di %{userurl}.
-      befriend_them: Anda juga dapat menambahkannua sebagai teman di %{befriendurl}.
-      befriend_them_html: Anda juga bisa menambahkan mereka sebagai teman di %{befriendurl}.
     gpx_failure:
       hi: Halo %{to_user},
       failed_to_import: 'gagal melakukan impor. Berikut ini adalah kesalahannya:'
@@ -2524,13 +2484,14 @@ id:
     offline:
       heading: Penyimpanan GPX Offline
       message: Sistem upload dan penyimpanan file GPX saat ini tidak tersedia.
-    georss:
-      title: Jejak GPS OpenStreetMap
-    description:
-      description_with_count:
-        one: Berkas GPX dengan %{count} titik dari %{user}
-        other: Berkas GPX dengan %{count} titik dari %{user}
-      description_without_count: Berkas GPX dari %{user}
+    feeds:
+      show:
+        title: Jejak GPS OpenStreetMap
+      description:
+        description_with_count:
+          one: Berkas GPX dengan %{count} titik dari %{user}
+          other: Berkas GPX dengan %{count} titik dari %{user}
+        description_without_count: Berkas GPX dari %{user}
   application:
     permission_denied: Anda tidak memiliki izin untuk melakukan tindakan ini.
     require_cookies:
@@ -2657,7 +2618,6 @@ id:
         privacy_policy_title: Kebijakan privasi OSMF meliputi aturan soal alamat surat
           elektronik
       continue: Mendaftar
-      terms accepted: Terima kasih telah menerima persyaratan kontributor yang baru!
       email_help:
         html: Alamat Anda tidak dapat dilihat publik. Lihat %{privacy_policy_link}
           kami untuk info lebih lanjut.
@@ -2689,8 +2649,6 @@ id:
       edits: Suntingan
       traces: Jejak
       notes: Catatan Peta
-      remove as friend: Hapus pertemanan
-      add as friend: Jadikan Teman
       mapper since: 'Melakukan pemetaan sejak:'
       uid: 'ID pengguna:'
       ct status: 'Syarat-syarat kontributor:'
@@ -2760,6 +2718,15 @@ id:
       user:
         summary_html: '%{name} dibuat dari %{ip_address} pada %{date}'
         summary_no_ip_html: '%{name} dibuat pada %{date}'
+    changeset_comments:
+      page:
+        when: Kapan
+        comment: Komentar
+    diary_comments:
+      index:
+        title: Komentar Buku Harian ditambahkan oleh %{user}
+      page:
+        post: Artikel
     suspended:
       title: Akun Ditangguhkan
       heading: Akun Ditangguhkan

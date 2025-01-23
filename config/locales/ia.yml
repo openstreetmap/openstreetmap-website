@@ -89,7 +89,7 @@ ia:
         support_url: URl de supporto
         allow_read_prefs: leger su preferentias de usator
         allow_write_prefs: modificar su preferentias de usator
-        allow_write_diary: crear entratas de diario, commentos e adder amicos
+        allow_write_diary: crear entratas de diario e commentos
         allow_write_api: modificar le carta
         allow_read_gpx: leger su tracias GPS private
         allow_write_gpx: incargar tracias GPS
@@ -252,13 +252,6 @@ ia:
       external auth: Authentication externe
       openid:
         link text: que es isto?
-      public editing:
-        heading: Modification public
-        enabled: Activate. Non anonyme e pote modificar datos.
-        enabled link text: que es isto?
-        disabled: Disactivate e non pote modificar datos, tote le previe modificationes
-          es anonyme.
-        disabled link text: proque non pote io modificar?
       contributor terms:
         heading: Conditiones de contributor
         agreed: Tu ha acceptate le nove Conditiones de Contributor.
@@ -341,7 +334,6 @@ ia:
         readable_summary: summario legibile per humanos
         informal_translations: traductiones informal
         continue: Continuar
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: Cancellar
         you need to accept or decline: Per favor lege e postea accepta o declina le
           nove Conditiones del Contributor pro continuar.
@@ -350,6 +342,8 @@ ia:
           france: Francia
           italy: Italia
           rest_of_world: Resto del mundo
+      update:
+        terms accepted: Gratias pro acceptar le nove conditiones de contributor!
       terms_declined_flash:
         terms_declined_html: Nos regretta que tu ha decidite de non acceptar le nove
           Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
@@ -509,7 +503,7 @@ ia:
       title: Gruppos de modificationes
       title_user: Gruppos de modificationes facite per %{user}
       title_user_link_html: Gruppos de modificationes facite per %{user_link}
-      title_friend: Gruppos de modificationes facite per mi amicos
+      title_followed: Gruppos de modificationes de personas que tu seque
       title_nearby: Gruppos de modificationes facite per usatores vicin
       empty: Nulle gruppo de modificationes trovate.
       empty_area: Nulle gruppo de modificationes in iste area.
@@ -524,19 +518,6 @@ ia:
         created: Create a
         closed: Claudite a
         belongs_to: Autor
-    subscribe:
-      heading: Abonar te al sequente discussion de gruppo de modificationes?
-      button: Abonar te al discussion
-    unsubscribe:
-      heading: Disabonar te del sequente discussion de gruppo de modificationes?
-      button: Disabonar te del discussion
-    heading:
-      title: Gruppo de modificationes %{id}
-      created_by_html: Create per %{link_user} le %{created}.
-    no_such_entry:
-      heading: 'Nulle entrata con le ID: %{id}'
-      body: Non existe un gruppo de modificationes con le ID %{id}. Per favor verifica
-        le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
     show:
       title: 'Gruppo de modificationes: %{id}'
       created: 'Create: %{when}'
@@ -570,6 +551,21 @@ ia:
     timeout:
       sorry: Le lista de gruppos de modificationes que tu requestava tardava troppo
         de tempore pro esser recuperate.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Abonar te al sequente discussion de gruppo de modificationes?
+        button: Abonar te al discussion
+      unsubscribe:
+        heading: Disabonar te del sequente discussion de gruppo de modificationes?
+        button: Disabonar te del discussion
+    heading:
+      title: Gruppo de modificationes %{id}
+      created_by_html: Create per %{link_user} le %{created}.
+    no_such_entry:
+      heading: 'Nulle entrata con le ID: %{id}'
+      body: Non existe un gruppo de modificationes con le ID %{id}. Per favor verifica
+        le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
   dashboards:
     contact:
       km away: a %{count} km de distantia
@@ -578,18 +574,18 @@ ia:
     popup:
       your location: Tu position
       nearby mapper: Cartographo vicin
-      friend: Amico
+      following: Tu seque
     show:
       title: Mi pannello
       no_home_location_html: '%{edit_profile_link} e defini tu loco de residentia
         pro vider le usatores a proximitate.'
       edit_your_profile: Modifica tu profilo
-      my friends: Mi amicos
-      no friends: Tu non ha ancora addite alcun amico.
+      followings: Personas que tu seque
+      no followings: Tu non ancora seque alcun usator.
       nearby users: Altere usatores vicin
       no nearby users: Il non ha ancora altere cartographos in le vicinitate.
-      friends_changesets: gruppos de modificationes de tu amicos
-      friends_diaries: articulos de diario de tu amicos
+      followed_changesets: gruppos de modificationes
+      followed_diaries: entratas de diario
       nearby_changesets: gruppos de modificationes de usatores a proximitate
       nearby_diaries: articulos de diario per usatores a proximitate
   diary_entries:
@@ -600,7 +596,7 @@ ia:
       use_map_link: Usar le carta
     index:
       title: Diarios de usatores
-      title_friends: Diarios de amicos
+      title_followed: Diarios de personas que tu seque
       title_nearby: Diarios de usatores vicin
       user_title: Diario de %{user}
       in_language_title: Entratas de diario in %{language}
@@ -666,15 +662,6 @@ ia:
       heading: Disabonar te del sequente discussion de entrata de diario?
       button: Disabonar te del discussion
   diary_comments:
-    index:
-      title: Commentos de diario addite per %{user}
-      heading: Commento de diario de %{user}
-      subheading_html: Commentos de diario addite per %{user}
-      no_comments: Nulle commento de diario
-    page:
-      post: Articulo
-      when: Quando
-      comment: Commento
     new:
       heading: Adder un commento al sequente discussion de entrata de diario?
   doorkeeper:
@@ -734,20 +721,23 @@ ia:
       title: File non trovate
       description: Non poteva trovar un file, directorio o operation API con iste
         nomine sur le servitor de OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Adder %{user} como amico?
-      button: Adder como amico
-      success: '%{name} es ora tu amico!'
-      failed: Pardono, non poteva adder %{name} como amico.
-      already_a_friend: Tu es ja amico de %{name}.
-      limit_exceeded: Tu ha addite multe personas al lista de amicos recentemente.
-        Per favor attende un momento ante de tentar adder alteres.
-    remove_friend:
-      heading: Remover %{user} como amico?
-      button: Remover amico
-      success: '%{name} ha essite removite de tu amicos.'
-      not_a_friend: '%{name} non es un de tu amicos.'
+  follows:
+    show:
+      follow:
+        heading: Vole tu sequer %{user}?
+        button: Sequer usator
+      unfollow:
+        heading: Vole tu cessar de sequer %{user}?
+        button: Non plus sequer le usator
+    create:
+      success: Tu ora seque %{name}!
+      failed: Regrettabilemente, le requesta de sequer %{name} ha fallite.
+      already_followed: Tu ja seque %{name}.
+      limit_exceeded: Tu ha comenciate a sequer multe personas recentemente. Per favor
+        attende un momento ante de tentar sequer alteres.
+    destroy:
+      success: Tu ha cessate de sequer %{name}.
+      not_followed: Tu non seque %{name}.
   geocoder:
     search:
       title:
@@ -1511,6 +1501,9 @@ ia:
           pond: Stagno
           reservoir: Reservoir
           basin: Bassino de aqua
+          fishpond: Stagno de pisces
+          lagoon: Laguna
+          wastewater: Aqua residual
         waterway:
           artificial: Via aquatic artificial
           boatyard: Cantier naval
@@ -1709,14 +1702,10 @@ ia:
         al autor sur %{replyurl}
       footer_html: Tu pote etiam leger le message a %{readurl} e tu pote inviar un
         message al autor a %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Salute %{to_user},
-      subject: '[OpenStreetMap] %{user} te ha addite como amico'
-      had_added_you: '%{user} te ha addite como amico in OpenStreetMap.'
       see_their_profile: Tu pote vider su profilo a %{userurl}.
       see_their_profile_html: Tu pote vider su profilo a %{userurl}.
-      befriend_them: Tu pote equalmente adder le/la como amico a %{befriendurl}.
-      befriend_them_html: Tu pote equalmente adder le/la como amico a %{befriendurl}.
     gpx_failure:
       hi: Salute %{to_user},
       failed_to_import: Pare que tu file non poteva esser importate como file de tracia
@@ -2645,13 +2634,14 @@ ia:
     offline:
       heading: Immagazinage GPX foras de linea
       message: Le systema pro immagazinar e incargar files GPX es actualmente indisponibile.
-    georss:
-      title: Tracias GPS de OpenStreetMap
-    description:
-      description_with_count:
-        one: File GPX con %{count} puncto de %{user}
-        other: File GPX con %{count} punctos de %{user}
-      description_without_count: File GPX de %{user}
+    feeds:
+      show:
+        title: Tracias GPS de OpenStreetMap
+      description:
+        description_with_count:
+          one: File GPX con %{count} puncto de %{user}
+          other: File GPX con %{count} punctos de %{user}
+        description_without_count: File GPX de %{user}
   application:
     permission_denied: Tu non ha le permission de acceder a iste action
     require_cookies:
@@ -2698,7 +2688,7 @@ ia:
       openid: Aperir session con OpenStreetMap
       read_prefs: Leger preferentias de usator
       write_prefs: Modificar preferentias de usator
-      write_diary: Crear entratas de diario, commentos e adder amicos
+      write_diary: Crear entratas de diario e commentos
       write_api: Modificar le carta
       read_gpx: Leger tracias GPS private
       write_gpx: Incargar tracias GPS
@@ -2791,7 +2781,6 @@ ia:
           sur adresses de e-mail
         contributor_terms: conditiones de contributor
       continue: Crear conto
-      terms accepted: Gratias pro acceptar le nove conditiones de contributor!
       email_help:
         privacy_policy: politica de confidentialitate
         privacy_policy_title: Politica de confidentialitate del OSMF con un section
@@ -2829,8 +2818,6 @@ ia:
       edits: Modificationes
       traces: Tracias
       notes: Notas de carta
-      remove as friend: Remover amico
-      add as friend: Adder amico
       mapper since: 'Cartographo depost:'
       last map edit: 'Ultime modification del carta:'
       no activity yet: Necun activitate ancora
@@ -2906,6 +2893,15 @@ ia:
       user:
         summary_html: '%{name} create ab %{ip_address} le %{date}'
         summary_no_ip_html: '%{name} create le %{date}'
+    changeset_comments:
+      page:
+        when: Quando
+        comment: Commento
+    diary_comments:
+      index:
+        title: Commentos de diario addite per %{user}
+      page:
+        post: Articulo
     suspended:
       title: Conto suspendite
       heading: Conto suspendite
@@ -3095,7 +3091,8 @@ ia:
         a fin que nos pote corriger lo. Displacia le marcator al position correcte
         e scribe un nota pro explicar le problema.
       anonymous_warning_html: Tu non ha aperite session. Per favor %{log_in} o %{sign_up}
-        si tu vole reciper actualisationes pro tu nota.
+        si tu vole reciper actualisationes pro tu nota e adjutar le cartographos a
+        resolver lo.
       anonymous_warning_log_in: aperi session
       anonymous_warning_sign_up: crea un conto
       advice: Tu nota es public e pote esser usate pro actualisar le carta. Dunque,

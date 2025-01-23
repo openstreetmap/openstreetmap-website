@@ -281,13 +281,6 @@ ro:
       external auth: Autentificare externă
       openid:
         link text: Ce este aceasta?
-      public editing:
-        heading: 'Editarea publică:'
-        enabled: Activat. Nu este anonim și poate edita date.
-        enabled link text: Ce este aceasta?
-        disabled: Dezactivat și nu poate edita date, toate editările anterioare sunt
-          anonime.
-        disabled link text: de ce nu pot edita?
       contributor terms:
         heading: Termenii contribuitorului
         agreed: Ați fost de acord cu noii Termeni ai Contributorului.
@@ -377,6 +370,8 @@ ro:
           france: Franța
           italy: Italia
           rest_of_world: Restul lumii
+      update:
+        terms accepted: Vă mulțumim pentru acceptarea noilor termeni de contribuire!
       terms_declined_flash:
         terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni
           de Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
@@ -497,7 +492,6 @@ ro:
       title: Set de modificări
       title_user: Seturi de modificări făcute de %{user}
       title_user_link_html: Seturi de modificări făcute de %{user_link}
-      title_friend: Seturi de modificări făcute de prietenii mei
       title_nearby: Modificări făcute de utilizatori din apropiere
       empty: Niciun set de modificări găsit.
       empty_area: Niciun set de modificări în această zonă.
@@ -512,10 +506,6 @@ ro:
         created: Creat
         closed: Închis
         belongs_to: Autor
-    subscribe:
-      button: Abonează-te la discuție
-    unsubscribe:
-      button: Dezabonează-te de la discuție
     show:
       title: 'Set de modificări: %{id}'
       created: 'Creat: %{when}'
@@ -547,6 +537,12 @@ ro:
     timeout:
       sorry: Ne pare rău, preluarea listei de modificări pe care ați solicitat-o a
         durat prea mult.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        button: Abonează-te la discuție
+      unsubscribe:
+        button: Dezabonează-te de la discuție
   dashboards:
     contact:
       km away: '%{count} km depărtare'
@@ -555,19 +551,14 @@ ro:
     popup:
       your location: Locația utilizatorului
       nearby mapper: Cartograful din apropiere
-      friend: Prieten
     show:
       title: Dashboardul meu
       no_home_location_html: '%{edit_profile_link} și setați locația de acasă pentru
         a vedea utilizatorii din apropiere.'
       edit_your_profile: Editați-vă profilul
-      my friends: Prietenii mei
-      no friends: Nu ați adăugat încă niciun prieten.
       nearby users: Alți utilizatori din apropriere
       no nearby users: Nu există alți utilizatori care să admită cartografiere în
         apropiere.
-      friends_changesets: changeset prieteni
-      friends_diaries: intrările prietenilor în jurnal
       nearby_changesets: schimbări de setări ale utilizatorilor
       nearby_diaries: intrările în jurnalul utilizatorului din apropiere
   diary_entries:
@@ -578,7 +569,6 @@ ro:
       use_map_link: Utilizează Harta
     index:
       title: Jurnalele utilizatorilor
-      title_friends: Jurnalele prietenilor
       title_nearby: Jurnalele utilizatorilor aflați în apropiere
       user_title: Jurnalul utilizatorului %{user}
       in_language_title: Înregistrări de jurnal în %{language}
@@ -647,15 +637,6 @@ ro:
       heading: Te dezabonezi de la următoarea discuție de intrare a jurnalului?
       button: Dezabonează-te de la discuție
   diary_comments:
-    index:
-      title: Comentarii din jurnal adăugate de %{user}
-      heading: Comentariile la jurnal a lui %{user}
-      subheading_html: Comentarii din jurnal adăugate de %{user}
-      no_comments: Fără comentarii din jurnal
-    page:
-      post: Postează
-      when: Când
-      comment: Comentariu
     new:
       heading: Adaugi un comentariu la următoarea discuție de intrare a jurnalului?
   doorkeeper:
@@ -711,20 +692,6 @@ ro:
       title: Fișierul nu a fost găsit
       description: Nu s-a putut găsi o operație de file/directory/API operation cu
         acest nume pe serverul OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Adăugați %{user} ca prieten?
-      button: Adaugă ca prieten
-      success: '%{name} este acum prietenul tău!'
-      failed: Ne pare rău, nu a reușit să adăugați %{name} ca prieten.
-      already_a_friend: Sunteți deja prieteni cu %{name}
-      limit_exceeded: V-ați împrietenit cu mulți utilizatori recent. Vă rugăm să așteptați
-        puțin înainte de a încerca să vă mai împrieteniți.
-    remove_friend:
-      heading: Scoate de la prieteni pe %{user}?
-      button: Scoate din lista de prieteni
-      success: '%{name} a fost scos de la lista de prieteni.'
-      not_a_friend: '%{name} nu este unul din prietenii tăi.'
   geocoder:
     search:
       title:
@@ -1667,14 +1634,10 @@ ro:
         la %{replyurl}
       footer_html: De asemenea, puteți citi mesajul la %{readurl} și puteți răspunde
         la %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Salut %{to_user},
-      subject: '[OpenStreetMap] %{user} te-a adaugat ca prieten'
-      had_added_you: '%{user} te-a adăugat ca prieten pe OpenStreetMap.'
       see_their_profile: Puteți vedea profilul lor la %{userurl}.
       see_their_profile_html: Puteți vedea profilul respectiv la %{userurl}.
-      befriend_them: De asemenea, îi puteți adăuga ca prieten la %{befriendurl}
-      befriend_them_html: Le puteți adăuga și ca prieten la %{befriendurl}.
     gpx_failure:
       hi: Salut %{to_user},
       failed_to_import: 'nu a putut fi importat ca fișier de urmărire GPS. Verificați
@@ -2598,13 +2561,14 @@ ro:
       heading: Stocare offline GPX
       message: În prezent, sistemul de stocare și încărcare a fișierelor GPX nu este
         disponibil.
-    georss:
-      title: Urmele GPS OpenStreetMap
-    description:
-      description_with_count:
-        one: Fișier GPX cu %{count} puncte de la %{user}
-        other: Fișier GPX cu %{count} puncte de la %{user}
-      description_without_count: Fișier GPX de la %{user}
+    feeds:
+      show:
+        title: Urmele GPS OpenStreetMap
+      description:
+        description_with_count:
+          one: Fișier GPX cu %{count} puncte de la %{user}
+          other: Fișier GPX cu %{count} puncte de la %{user}
+        description_without_count: Fișier GPX de la %{user}
   application:
     permission_denied: Nu aveți permisiuni pentru a efectua această acțiune
     require_cookies:
@@ -2735,7 +2699,6 @@ ro:
         privacy_policy_title: Politica de confidențialitate OSMF, inclusiv secțiunea
           privind adresele de e-mail
       continue: Înregistrare
-      terms accepted: Vă mulțumim pentru acceptarea noilor termeni de contribuire!
       email_help:
         html: Adresa dvs. nu este afișată public, consultați %{privacy_policy_link}
           pentru mai multe informații.
@@ -2765,8 +2728,6 @@ ro:
       edits: Modificare
       traces: Urme
       notes: Notițe hartă
-      remove as friend: Scoate din lista de prieteni
-      add as friend: Adaugă Prieten
       mapper since: 'Cartograf din:'
       last map edit: 'Ultima editare a hărții:'
       no activity yet: Nicio activitate încă
@@ -2827,6 +2788,15 @@ ro:
       user:
         summary_html: '%{name} creat de %{ip_address} pe %{date}'
         summary_no_ip_html: '%{name} creat pe %{date}'
+    changeset_comments:
+      page:
+        when: Când
+        comment: Comentariu
+    diary_comments:
+      index:
+        title: Comentarii din jurnal adăugate de %{user}
+      page:
+        post: Postează
     suspended:
       title: Cont Suspendat
       heading: Cont Suspendat

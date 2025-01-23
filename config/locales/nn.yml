@@ -224,13 +224,6 @@ nn:
       external auth: Ekstern autentisering
       openid:
         link text: kva er dette?
-      public editing:
-        heading: Offentleg redigering
-        enabled: Aktivert. Ikkje anonym og kan redigere data.
-        enabled link text: kva er dette?
-        disabled: Deaktivert og kan ikkje redigere data. Alle tidlegare redigeringar
-          er anonyme.
-        disabled link text: kvifor can eg ikkje redigere?
       contributor terms:
         heading: Vilkår for bidragsytarar
         agreed: Du har godkjent dei nye bidragsytervilkåra
@@ -299,6 +292,8 @@ nn:
           france: Frankrike
           italy: Italia
           rest_of_world: Resten av verda
+      update:
+        terms accepted: Takk for at du godtok dei nye bidragsytervilkårene!
   browse:
     deleted_ago_by_html: Sletta %{time_ago} av %{user}
     edited_ago_by_html: Redigert %{time_ago} av %{user}
@@ -407,7 +402,6 @@ nn:
       title: Endringssett
       title_user: Endringssett av %{user}
       title_user_link_html: Endringssett av %{user_link}
-      title_friend: Endringssett av venene dine
       title_nearby: Endringssett av brukarar i nærleiken
       empty: Fann ingen endringssett.
       empty_area: Ingen endringssett i dette området.
@@ -458,19 +452,14 @@ nn:
     popup:
       your location: Posisjonen din
       nearby mapper: Brukarar i nærleiken
-      friend: Ven
     show:
       title: Kontrollpanelet mitt
       no_home_location_html: '%{edit_profile_link} og set heimestaden din for å sjå
         brukarar i nærleiken.'
       edit_your_profile: Endra profilen din
-      my friends: Mine vener
-      no friends: Du har ikkje lagt til nokon venner enno.
       nearby users: Andre brukarar i nærleiken
       no nearby users: Det er ingen andre brukarar som innrømmer kartlegging i området
         ditt enno.
-      friends_changesets: endringssett av vener
-      friends_diaries: dagbokoppføringar av vener
       nearby_changesets: endringssett av naboar
       nearby_diaries: dagbokoppføringar av naboar
   diary_entries:
@@ -481,7 +470,6 @@ nn:
       use_map_link: Bruk kart
     index:
       title: Brukardagbøker
-      title_friends: Dagbøkene til venane dine
       title_nearby: Dagbøkene til brukarar i nærleiken
       user_title: '%{user} si dagbok'
       in_language_title: Dagbokoppføringar på %{language}
@@ -537,30 +525,6 @@ nn:
       all:
         title: Oppføringar OpenStreetMap-dagboka
         description: Nylege oppføringar i dagbøkene til OpenStreetMap-brukarar
-  diary_comments:
-    index:
-      title: Kommentarar i dagboka frå %{user}
-      heading: '%{user} sine kommentarar til dagboksoppføringar'
-      subheading_html: Kommentarar i dagboka frå %{user}
-      no_comments: Ingen kommentarar i dagboka
-    page:
-      post: Oppføring
-      when: Når
-      comment: Kommentar
-  friendships:
-    make_friend:
-      heading: Legg til %{user} som ein ven?
-      button: Legg til som ven
-      success: '%{name} er no venen din!'
-      failed: Klarte ikkje leggje til %{name} som ven.
-      already_a_friend: Du er allereie venner med %{name}.
-      limit_exceeded: Du har lagt til mange venar i det siste. Ver venleg og vent
-        litt før du legg til fleire.
-    remove_friend:
-      heading: Fjern %{user} som ein ven?
-      button: Fjern som ein ven
-      success: '%{name} vart fjerna frå venene dine'
-      not_a_friend: '%{name} er ikkje ein av venene dine.'
   geocoder:
     search:
       title:
@@ -1486,14 +1450,10 @@ nn:
         forfattaren på %{replyurl}
       footer_html: Du kan òg lesa meldinga på %{readurl}, og du kan senda ei melding
         til forfattaren på %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hei %{to_user},
-      subject: '[OpenStreetMap] %{user} la deg til som ein ven'
-      had_added_you: '%{user} har lagt deg til som ven på OpenStreetMap.'
       see_their_profile: Du kan sjå profilen deira på %{userurl}.
       see_their_profile_html: Du kan sjå profilen hens på %{userurl}.
-      befriend_them: Du kan òg leggje dei til som ven på %{befriendurl}.
-      befriend_them_html: Du kan òg legga hen til som ein ven på %{befriendurl}.
     gpx_failure:
       hi: Hei, %{to_user}
       failed_to_import: 'klarte ikkje importere. Her er feilen:'
@@ -2206,10 +2166,11 @@ nn:
       heading: GPX-lagring er utilgjengelig
       message: Systemet for opplasting og lagring av GPX-filer er ikkje tilgjengeleg
         for augneblunken.
-    georss:
-      title: OpenStreetMap GPS-spor
-    description:
-      description_without_count: GPX-fil frå %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-spor
+      description:
+        description_without_count: GPX-fil frå %{user}
   application:
     require_cookies:
       cookies_needed: Du ser ut til å ha deaktivert informasjonskapsler. Aktivar informasjonskapsler
@@ -2252,7 +2213,6 @@ nn:
       display name description: Ditt offentleg framviste brukernavn. Du kan endre
         dette seinare i innstellingane.
       continue: Registrer deg
-      terms accepted: Takk for at du godtok dei nye bidragsytervilkårene!
     no_such_user:
       title: Ingen brukar funnet
       heading: Brukaren %{user} finst ikkje
@@ -2275,8 +2235,6 @@ nn:
       edits: Endringar
       traces: Spor
       notes: Kartmerknadar
-      remove as friend: Fjern ven
-      add as friend: Legg til ven
       mapper since: 'Brukar sidan:'
       ct status: 'Bidragsytarvilkår:'
       ct undecided: Usikker
@@ -2329,6 +2287,15 @@ nn:
       user:
         summary_html: '%{name} oppretta frå %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} oppretta %{date}'
+    changeset_comments:
+      page:
+        when: Når
+        comment: Kommentar
+    diary_comments:
+      index:
+        title: Kommentarar i dagboka frå %{user}
+      page:
+        post: Oppføring
     suspended:
       title: Konto stengt
       heading: Konto stengt

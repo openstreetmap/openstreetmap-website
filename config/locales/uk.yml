@@ -133,7 +133,7 @@ uk:
         support_url: URL підтримки
         allow_read_prefs: отримувати налаштування
         allow_write_prefs: змінювати налаштування
-        allow_write_diary: створювати записи у щоденнику, коментарі та заводити друзів
+        allow_write_diary: створювати записи у щоденнику та залишати коментарі
         allow_write_api: змінювати мапу
         allow_read_gpx: отримувати приватні GPS-треки.
         allow_write_gpx: надсилати GPS-треки на сервер
@@ -323,13 +323,6 @@ uk:
       openid:
         link: https://wiki.openstreetmap.org/wiki/Uk:OpenID
         link text: що це?
-      public editing:
-        heading: Загальнодоступне редагування
-        enabled: Увімкнено. Можна редагувати. Зміни не анонімні.
-        enabled link: https://wiki.openstreetmap.org/wiki/Uk:Anonymous_edits
-        enabled link text: що це?
-        disabled: Вимкнено й не можна редагувати дані, всі попередні редагування анонімні.
-        disabled link text: чому я не можу вносити зміни?
       contributor terms:
         heading: Умови Співпраці
         agreed: Ви погодилися на нові Умови Співпраці.
@@ -406,12 +399,12 @@ uk:
         consider_pd: На додачу до зазначеного, прошу вважати мій внесок суспільним
           надбанням
         consider_pd_why: що це?
+        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/Uk:Чому_я_хочу,_щоб_мої_внески_були_суспільним_надбанням
         guidance_info_html: 'Інформація, що допоможе зрозуміти ці терміни: %{readable_summary_link}
           та %{informal_translations_link}'
         readable_summary: простою мовою
         informal_translations: неофіційні переклади
         continue: Продовжити
-        declined: https://wiki.openstreetmap.org/wiki/Uk:Contributor_Terms_Declined
         cancel: Скасувати
         you need to accept or decline: Будь ласка, прочитайте, а потім або прийміть
           або відхиліть нові Умови Участі.
@@ -420,6 +413,8 @@ uk:
           france: Франція
           italy: Італія
           rest_of_world: Решта світу
+      update:
+        terms accepted: Дякуємо за прийняття нових умов співпраці!
       terms_declined_flash:
         terms_declined_html: Нам шкода, що ви не погодились з новими Умовами Співпраці.
           Докладніше дивіться %{terms_declined_link}.
@@ -533,6 +528,8 @@ uk:
       view_redacted_data: Переглянути очищені дані
       view_redaction_message: Переглянути повідомлення про очищення
   nodes:
+    not_found_message:
+      sorry: 'Вибачте, не вдалося знайти точку #%{id}.'
     timeout:
       sorry: На жаль, отримання даних для точки з ідентифікатором %{id} тривало занадто
         довго.
@@ -543,6 +540,8 @@ uk:
       sorry: На жаль, отримання історії точки з ідентифікатором %{id} потребує багато
         часу.
   ways:
+    not_found_message:
+      sorry: 'На жаль, лінію #%{id} не знайдено.'
     timeout:
       sorry: На жаль, отримання даних для лінії з ідентифікатором %{id} зайняло занадто
         багато часу.
@@ -553,6 +552,8 @@ uk:
       sorry: На жаль, отримання історії лінії з ідентифікатором %{id} потребує багато
         часу.
   relations:
+    not_found_message:
+      sorry: 'На жаль, зв''язок #%{id} не знайдено.'
     timeout:
       sorry: На жаль, отримання даних для зв’язку з ідентифікатором %{id} зайняло
         занадто багато часу.
@@ -581,7 +582,7 @@ uk:
       title: Набори змін
       title_user: Набори змін від %{user}
       title_user_link_html: Набори змін від %{user_link}
-      title_friend: Набори змін друзів
+      title_followed: Набори змін від тих за ким слідкуєш
       title_nearby: Набори змін маперів поряд з вами
       empty: Жодного набору змін не знайдено.
       empty_area: На цій ділянці набори змін відсутні.
@@ -596,19 +597,6 @@ uk:
         created: Створено
         closed: Закрито
         belongs_to: Автор
-    subscribe:
-      heading: Підписатися на обговорення набору змін?
-      button: Підписатись на обговорення
-    unsubscribe:
-      heading: Відписатись від обговорення набору змін?
-      button: Відписатися від обговорення
-    heading:
-      title: Набір змін %{id}
-      created_by_html: Створений %{link_user} %{created}.
-    no_such_entry:
-      heading: Немає запису з id %{id}
-      body: На жаль, немає набору змін %{id}. Будь ласка, перевірте посилання, або,
-        можливо, посилання, яке ви натиснули, неправильне.
     show:
       title: 'Набір змін: %{id}'
       created: 'Створено: %{when}'
@@ -637,9 +625,26 @@ uk:
       ways_paginated: Лінії (%{x}-%{y} з %{count})
       relations: Зв’язки (%{count})
       relations_paginated: Зв’язки (%{x}-%{y} з %{count})
+    not_found_message:
+      sorry: 'На жаль, набір змін #%{id} не знайдено.'
     timeout:
       sorry: На жаль, перелік наборів змін, який ви запросили, потребує забагато часу
         для завантаження.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Підписатися на обговорення набору змін?
+        button: Підписатись на обговорення
+      unsubscribe:
+        heading: Відписатись від обговорення набору змін?
+        button: Відписатися від обговорення
+    heading:
+      title: Набір змін %{id}
+      created_by_html: Створений %{link_user} %{created}.
+    no_such_entry:
+      heading: Немає запису з id %{id}
+      body: На жаль, немає набору змін %{id}. Будь ласка, перевірте посилання, або,
+        можливо, посилання, яке ви натиснули, неправильне.
   dashboards:
     contact:
       km away: '%{count} км від вас'
@@ -648,18 +653,18 @@ uk:
     popup:
       your location: Ваше місце розташування
       nearby mapper: Мапери поруч з вами
-      friend: Друг
+      following: Відслідковуєш
     show:
       title: Інфо панель
       no_home_location_html: '%{edit_profile_link} і встановіть своє місце розташування,
         щоб бачити маперів поруч.'
       edit_your_profile: Редагувати свій профіль
-      my friends: Друзі
-      no friends: Ви ще не додали жодного друга.
+      followings: Відслідковуєш
+      no followings: Ви поки що не слідкуєте за жодним учасником.
       nearby users: Інші мапери поруч
       no nearby users: Поблизу поки немає маперів, які позначили своє розташування.
-      friends_changesets: набори змін друзів
-      friends_diaries: дописи в щоденниках друзів
+      followed_changesets: набори змін
+      followed_diaries: щоденники
       nearby_changesets: набори змін від маперів, що знаходяться поруч
       nearby_diaries: дописи в щоденниках маперів, що знаходяться поруч з вами
   diary_entries:
@@ -670,7 +675,7 @@ uk:
       use_map_link: Вказати на мапі
     index:
       title: Щоденники учасників
-      title_friends: Щоденники друзів
+      title_followed: Щоденники тих, за ким слідкуєш
       title_nearby: Щоденники учасників поряд з вами
       user_title: Щоденник %{user}
       in_language_title: Записи щоденника мовою %{language}
@@ -738,15 +743,6 @@ uk:
       heading: Відписатись від обговорення цього допису щоденника?
       button: Відписатися від обговорення
   diary_comments:
-    index:
-      title: Коментарі до щоденника додав %{user}
-      heading: Коментарі щоденника %{user}
-      subheading_html: Коментарі до щоденника додав %{user}
-      no_comments: Немає коментарів до допису
-    page:
-      post: Повідомлення
-      when: Коли
-      comment: Коментар
     new:
       heading: Додати коментар до обговорення запису в щоденнику?
   doorkeeper:
@@ -803,20 +799,23 @@ uk:
       title: Файл не знайдено
       description: Не вдалося знайти файл/теку/дію API з такою назвою на сервері OpenStreetMap
         (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Додати %{user} як друга?
-      button: Додати як друга
-      success: Тепер %{name} є вашим другом!
-      failed: На жаль, %{name} не вдалось додати до списку друзів.
-      already_a_friend: Ви вже товаришуєте з %{name}.
-      limit_exceeded: Ви надіслали багато запитів на додавання друзів. Почекайте трохи
-        перед тим, надсилати нові.
-    remove_friend:
-      heading: Вилучити %{user} з друзів?
-      button: Вилучити із списку друзів
-      success: '%{name} вилучений з вашого списку друзів.'
-      not_a_friend: '%{name} не є вашим другом.'
+  follows:
+    show:
+      follow:
+        heading: Хочете слідкувати за %{user}?
+        button: Слідкувати за учасником
+      unfollow:
+        heading: Хочете припинити слідкувати за %{user}?
+        button: Не слідкувати за учасником
+    create:
+      success: Тепер ви слідкуєте за %{name}!
+      failed: Вибачте, ваш запит на слідкування за %{name} зазнав невдачі.
+      already_followed: Ви вже слідкуєте за %{name}.
+      limit_exceeded: Ви надіслали багато запитів на слідкування за учасниками. Почекайте
+        трохи перед тим, як надсилати нові.
+    destroy:
+      success: Ви більше не слідкуєте за %{name}.
+      not_followed: Ви не слідкуєте за %{name}.
   geocoder:
     search:
       title:
@@ -1153,6 +1152,14 @@ uk:
           wayside_shrine: Придорожній храм
           wreck: Місце катастрофи
           "yes": Історичне місце
+        information:
+          guidepost: Вказівник напрямку
+          board: Інформаційна дошка
+          map: Карта
+          office: Туристичний офіс
+          terminal: Інформаційний термінал
+          sign: Інформаційний знак
+          stele: Інформаційна стела
         junction:
           "yes": Перехресття
         landuse:
@@ -1225,6 +1232,8 @@ uk:
           track: Бігова доріжка
           water_park: Аквапарк
           "yes": Дозвілля
+        lock:
+          "yes": Шлюз
         man_made:
           adit: Штольня
           advertising: Реклама
@@ -1565,6 +1574,17 @@ uk:
           building_passage: Проїзд через будівлю
           culvert: Дренажна труба
           "yes": Тунель
+        water:
+          lake: Озеро
+          pond: Ставок
+          reservoir: Водосховище
+          basin: Водонакопичувач
+          fishpond: Ставок для риби
+          lagoon: Лагуна
+          wastewater: Відстійник очисних споруд
+          oxbow: Стариця
+          stream_pool: Плес
+          lock: Шлюз
         waterway:
           artificial: Штучні водний шлях
           boatyard: Верф
@@ -1633,6 +1653,10 @@ uk:
         open: Відкрито
         resolved: Вирішено
     show:
+      title:
+        open: 'Відкрити тікет #%{issue_id}'
+        ignored: 'Проігнорований тікет #%{issue_id}'
+        resolved: 'Розвʼязаний тікет #%{issue_id}'
       reports:
         one: '%{count} скарга'
         few: '%{count} скарги'
@@ -1768,21 +1792,29 @@ uk:
         %{replyurl}
       footer_html: Ви також можете прочитати повідомлення в %{readurl} і ви можете
         відповісти на %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Привіт, %{to_user},
-      subject: '[OpenStreetMap] %{user} додав Вас як друга'
-      had_added_you: '%{user} додав Вас як друга в OpenStreetMap.'
+      subject: '[OpenStreetMap] %{user} слідкує за вами'
+      followed_you: '%{user} тепер слідкує за вашим мапінгом на OpenStreetMap.'
       see_their_profile: Ви можете побачити їх профіль на %{userurl}.
       see_their_profile_html: Ви можете ознайомитись з його/її профілем - %{userurl}.
-      befriend_them: Ви також можете додати їх як друзів %{befriendurl}.
-      befriend_them_html: Ви також можете додати його/її до друзів %{befriendurl}.
+      follow_them: Ви також можете слідувати у відповідь за посиланням %{followurl}.
+      follow_them_html: Ви також можете слідувати у відповідь за посиланням %{followurl}.
+    gpx_details:
+      details: 'Деталі вашого файлу:'
+      filename: Назва файлу
+      url: URL
+      description: Опис
+      tags: Теґи
+      total_points: Загальна кількість точок
+      imported_points: Кількість імпортованих точок
     gpx_failure:
       hi: Привіт, %{to_user},
-      failed_to_import: 'не вдалося імпортувати як файл GPS-треку. Переконайтеся,
-        що ваш файл є відповідним файлом GPX або архівом, який містить файл(и) GPX
-        у підтримуваному форматі (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
-        Чи може виникнути проблема з форматом або синтаксисом вашого файлу? Ось помилка
-        імпорту:'
+      failed_to_import: Схоже, що ваш файл не вдалося імпортувати як GPS-трек.
+      verify: 'Переконайтеся, що ваш файл є вірним файлом GPX або архівом, який містить
+        файл(и) GPX у підтримуваному форматі (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2). Чи може виникнути проблема з форматом або синтаксисом вашого файлу?
+        Ось помилка імпорту:'
       more_info: Більше інформації про помилки імпорту GPX та способи їх уникнення
         можна знайти за посиланням %{url}.
       more_info_html: Докладна інформація про проблеми імпорту GPX та шляхи їх вирішення
@@ -1790,6 +1822,7 @@ uk:
       subject: '[OpenStreetMap] Збій імпорту GPX'
     gpx_success:
       hi: Привіт, %{to_user},
+      imported_successfully: Схоже, ваш файл успішно імпортовано як GPS-трек.
       all_your_traces: Усі ваші успішно завантажені GPX-треки можна знайти за посиланням
         %{url}.
       all_your_traces_html: Усі успішно завантажені треки GPX можна знайти за адресою
@@ -1893,6 +1926,9 @@ uk:
       success: Ваш обліковий запис підтверджено, дякуємо за реєстрацію!
       already active: Цей обліковий запис вже підтверджений.
       unknown token: Термін дії коду підтвердження вже минув або його не існує.
+      if_need_resend: Якщо вам потрібно, щоб ми повторно надіслали електронного листа
+        з підтвердженням, натисніть кнопку нижче.
+      resend_button: Повторно надіслати електронного листа з підтвердженням
     confirm_resend:
       failure: Учасника %{name} не знайдено.
     confirm_email:
@@ -2020,6 +2056,16 @@ uk:
   preferences:
     show:
       title: Вподобання
+      preferred_site_color_scheme: Бажана колірна схема вебсайту
+      site_color_schemes:
+        auto: Авто
+        light: Світла
+        dark: Темна
+      preferred_map_color_scheme: Бажана колірна схема мапи
+      map_color_schemes:
+        auto: Авто
+        light: Світла
+        dark: Темна
       save: Зберегти вподобання
     update:
       failure: Неможливо зберегти вподобання.
@@ -2710,15 +2756,16 @@ uk:
       heading: Сховище GPX відключено
       message: Доступ до сховища GPX-файлів та системи завантаження на поточний момент
         відсутній.
-    georss:
-      title: GPS-Треки OpenStreetMap
-    description:
-      description_with_count:
-        one: Файл GPX з %{count} точкою від %{user}
-        few: Файл GPX з %{count} точками від %{user}
-        many: Файл GPX з %{count} точками від %{user}
-        other: ""
-      description_without_count: GPX файл від %{user}
+    feeds:
+      show:
+        title: GPS-Треки OpenStreetMap
+      description:
+        description_with_count:
+          one: Файл GPX з %{count} точкою від %{user}
+          few: Файл GPX з %{count} точками від %{user}
+          many: Файл GPX з %{count} точками від %{user}
+          other: ""
+        description_without_count: GPX файл від %{user}
   application:
     permission_denied: Вибачте, у вас недостатньо прав для виконання цієї дії.
     require_cookies:
@@ -2758,6 +2805,28 @@ uk:
       wikipedia:
         title: Увійти через Вікіпедію
         alt: Wikipedia лого
+    share:
+      email:
+        title: Поділитися через електронну пошту
+        alt: Піктограма електронної пошти
+      bluesky:
+        title: Поділитися у Bluesky
+        alt: Піктограма Bluesky
+      facebook:
+        title: Поділитися у Facebook
+        alt: Піктограма Facebook
+      linkedin:
+        title: Поділитися у LinkedIn
+        alt: Піктограма LinkedIn
+      mastodon:
+        title: Поділитися на Mastodon
+        alt: Піктограма Mastodon
+      telegram:
+        title: "Поділитися в Telegram \U0001F9CC"
+        alt: Піктограма Telegram
+      x:
+        title: Поділитися в X
+        alt: Піктограма X
   oauth:
     permissions:
       missing: Ви не дозволили програмі отримати доступ до цієї функції
@@ -2765,8 +2834,7 @@ uk:
       openid: Вхід за допомогою OpenStreetMap
       read_prefs: Отримувати налаштування
       write_prefs: Змінювати налаштування
-      write_diary: Створювати записи у щоденнику, коментарі та надсилати запити на
-        додавання друзів
+      write_diary: Створювати записи у щоденнику та залишати коментарі
       write_api: Змінювати мапу
       read_gpx: Отримувати приватні GPS-треки
       write_gpx: Завантажувати GPS-треки
@@ -2861,7 +2929,6 @@ uk:
           адреси електронної пошти
         contributor_terms: умови співпраці
       continue: Зареєструватись
-      terms accepted: Дякуємо за прийняття нових умов співпраці!
       email_help:
         privacy_policy: Політикою конфіденційності
         privacy_policy_title: Політика конфіденційності OSMF, має розділ про адреси
@@ -2900,8 +2967,8 @@ uk:
       edits: Редагування
       traces: Треки
       notes: Нотатки
-      remove as friend: Вилучити зі списку друзів
-      add as friend: Додати до списку друзів
+      unfollow: Не відслідковувати
+      follow: Слідкувати
       mapper since: 'Обліковий запис створено:'
       last map edit: 'Останнє редагування мапи:'
       no activity yet: Ще немає активності
@@ -2981,6 +3048,15 @@ uk:
       user:
         summary_html: '%{name} зареєстровано з %{ip_address}, %{date}'
         summary_no_ip_html: '%{name} зареєстровано %{date}'
+    changeset_comments:
+      page:
+        when: Коли
+        comment: Коментар
+    diary_comments:
+      index:
+        title: Коментарі до щоденника додав %{user}
+      page:
+        post: Повідомлення
     suspended:
       title: Обліковий запис призупинено
       heading: Обліковий запис призупинено
@@ -3083,6 +3159,14 @@ uk:
           few: '%{count} роки'
           many: '%{count} років'
           other: ""
+      short:
+        ended: закінчилось
+        revoked_html: відкликано %{name}
+        active: активне
+        active_until_read: активне до моменту ознайомлення
+        read_html: прочитано о %{time}
+        time_in_future_title: '%{time_absolute}; в %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} був (була) заблокований(а) %{block_by}'
       heading_html: '%{block_on} був (була) заблокований(а) %{block_by}'
@@ -3099,6 +3183,8 @@ uk:
       display_name: Заблокований учасник
       creator_name: Автор
       reason: Причина блокування
+      start: Початок
+      end: Кінець
       status: Стан
     navigation:
       all_blocks: Всі блокування
@@ -3191,17 +3277,38 @@ uk:
         можна було це виправити. Перемістіть позначку в потрібне місце та додайте
         пояснення проблеми.
       anonymous_warning_html: Ви не ввійшли в систему. Будь ласка, %{log_in} або %{sign_up},
-        якщо ви хочете отримувати оновлення щодо своєї нотатки.
+        якщо ви хочете отримувати оновлення щодо своєї нотатки та допомогти маперам
+        розвʼязати її.
       anonymous_warning_log_in: увійдіть
       anonymous_warning_sign_up: зареєструйтесь
+      counter_warning_html: Ви вже опублікували не менше %{x_anonymous_notes}, це
+        чудово для спільноти, дякую! Тепер ми заохочуємо вас %{contribute_by_yourself},
+        це не так складно, а %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} анонімну нотатку'
+        few: '%{count} анонімні нотатки'
+        many: '%{count} анонімних нотаток'
+        other: ""
+      counter_warning_guide_link:
+        text: зробити власний внесок
+        url: http://wiki.openstreetmap.org/wiki/Uk:Beginners%27_guide
+      counter_warning_forum_link:
+        text: спільнота допоможе вам
+        url: https://community.openstreetmap.org/c/communities/ua/66
       advice: Ваша нотатка є публічною та може бути використана для оновлення мапи.
         Будь ласка, не додавайте персональні дані або інформацію, яка міститься на
         захищених авторським правом мапах чи каталогах.
       add: Додати нотатку
+    new_readonly:
+      title: Нова нотатка
+      warning: Неможливо створити нові нотатки, оскільки API OpenStreetMap зараз у
+        режимі лише для читання.
     notes_paging_nav:
       showing_page: Сторінка %{page}
       next: Далі
       previous: Назад
+    not_found_message:
+      sorry: 'Вибачте, не вдалося знайти точку #%{id}.'
   javascripts:
     close: Закрити
     share:
@@ -3223,6 +3330,7 @@ uk:
       center_marker: Центрувати мапу на маркері
       paste_html: HTML-код для вбудування у сайт
       view_larger_map: Переглянути більшу мапу
+      only_layers_exported_as_image: 'Лише наступні шари можна експортувати як зображення:'
     embed:
       report_problem: Повідомити про проблему
     key:

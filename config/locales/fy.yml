@@ -237,13 +237,6 @@ fy:
       external auth: Autentifikaasje om utens
       openid:
         link text: wat is dat?
-      public editing:
-        heading: Iepenbier bewurkjen
-        enabled: Ynskeakele. Net anonym en kin data bewurkje.
-        enabled link text: wat is dat?
-        disabled: Utskeakele en kin gjin data bewurkje, alle eardere bewurkings binne
-          anonym.
-        disabled link text: wêrom kin ik net bewurkje?
       contributor terms:
         heading: Bydragersbetingsten
         agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
@@ -316,6 +309,8 @@ fy:
           france: Frankryk
           italy: Itaalje
           rest_of_world: Rest fan 'e wrâld
+      update:
+        terms accepted: Tankjewol foar it akseptearjen fan 'e nije bydragersbetingsten!
       terms_declined_flash:
         terms_declined_html: It muoit ús dat jo de nije Bydragersbetingsten net akseptearje
           wolle. Sjoch %{terms_declined_link} foar mear ynformaasje.
@@ -426,7 +421,6 @@ fy:
     index:
       title: Wizigingssets
       title_user: Wizigingssets fan %{user}
-      title_friend: Wizigingssets fan myn freonen
       title_nearby: Wizigingssets fan meidoggers yn 'e omkriten
       empty: Gjin wizigingssets fûn.
       empty_area: Gjin wizigingssets yn dizze krite.
@@ -472,18 +466,13 @@ fy:
     popup:
       your location: Jo lokaasje
       nearby mapper: Kaartmakker fuortby
-      friend: Freon
     show:
       title: Myn oersjochpaniel
       no_home_location_html: '%{edit_profile_link} en stel jo fêste lokaasje yn, om
         meidoggers yn ''e omkriten te sjen.'
       edit_your_profile: Bewurkje jo profyl
-      my friends: Myn freonen
-      no friends: Jo hawwe noch gjin freonen tafoege.
       nearby users: Oare meidoggers yn 'e omkriten
       no nearby users: Noch gjin oare kaartmakker hat oanjûn fuort by jo om te sitten.
-      friends_changesets: wizigingssets fan freonen
-      friends_diaries: deiboekstikken fan freonen
       nearby_changesets: wizigingssets fan meidoggers fuortby
       nearby_diaries: deiboekstikken fan meidoggers fuortby
   diary_entries:
@@ -494,7 +483,6 @@ fy:
       use_map_link: Kaart brûke
     index:
       title: Deiboeken fan meidoggers
-      title_friends: Deiboeken fan freonen
       title_nearby: Deiboeken fan meidoggers fuortby
       user_title: Deiboek fan %{user}
       in_language_title: Deiboekstikken yn it %{language}
@@ -549,35 +537,11 @@ fy:
       all:
         title: OpenStreetMap Deiboekstikken
         description: Nije deiboekstikken fan meidoggers oan OpenStreetMap
-  diary_comments:
-    index:
-      title: Troch %{user} taheakke deiboekreäksjes
-      heading: Deiboekreäksjes fan %{user}
-      subheading_html: Troch %{user} taheakke deiboekreäksjes
-      no_comments: Gjin deiboekreäksjes
-    page:
-      post: Stik
-      when: Wannear
-      comment: Reäksje
   doorkeeper:
     flash:
       applications:
         create:
           notice: Applikaasje registrearre.
-  friendships:
-    make_friend:
-      heading: '%{user} as freon tafoegje?'
-      button: As freon tafoegje
-      success: '%{name} is no jo freon(dinne)!'
-      failed: Spitich, %{name} as freon tafoegjen mislearre.
-      already_a_friend: Jo binne al freonen mei %{name}.
-      limit_exceeded: Jo hawwe de lêste tiid in soad meidoggers freon makke. Wachtsje
-        in skoftke mei noch mear te meitsjen.
-    remove_friend:
-      heading: '%{user} as freon ôffiere?'
-      button: Offiere
-      success: '%{name} is ôffierd fan jo freonen.'
-      not_a_friend: '%{name} is net ien fan jo freonen.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1502,14 +1466,10 @@ fy:
         werom jaan op %{replyurl}
       footer_html: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder in
         berjocht werom jaan op %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Goeie %{to_user},
-      subject: '[OpenStreetMap] %{user} hat jo as freon tafoege'
-      had_added_you: '%{user} hat jo as freon tafoege op OpenStreetMap.'
       see_their_profile: Jo kinne syn/har profyl besjen op %{userurl}.
       see_their_profile_html: Jo kinne syn/har profyl besjen op %{userurl}.
-      befriend_them: Jo kinne him/har ek as freon tafoegje op %{befriendurl}.
-      befriend_them_html: Jo kinne him/har ek as freon tafoegje op %{befriendurl}.
     gpx_failure:
       hi: Goeie %{to_user},
       failed_to_import: 'net ymportearre wurde koe. Hjir is de foutmelding:'
@@ -2105,13 +2065,14 @@ fy:
       heading: GPX-opslach ôfline
       message: It systeem foar opslach en opladen fan GPX-bestannen is op it stuit
         net beskikber.
-    georss:
-      title: OpenStreetMap GPS-trajekten
-    description:
-      description_with_count:
-        one: GPX-bestân mei %{count} punt fan %{user}
-        other: GPX-bestân mei %{count} punten fan %{user}
-      description_without_count: GPX-bestân fan %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-trajekten
+      description:
+        description_with_count:
+          one: GPX-bestân mei %{count} punt fan %{user}
+          other: GPX-bestân mei %{count} punten fan %{user}
+        description_without_count: GPX-bestân fan %{user}
   application:
     permission_denied: Jo hawwe net de rjochten foar tagong ta dy hanneling
     require_cookies:
@@ -2220,7 +2181,6 @@ fy:
       display name description: Jo meidochnamme dy't elkenien sjen kin. Jo kinne dy
         letter yn 'e foarkarren feroarje.
       continue: Ynskriuwe
-      terms accepted: Tankjewol foar it akseptearjen fan 'e nije bydragersbetingsten!
       use external auth: Brûk oars in treddepartij om jo oan te melden
     no_such_user:
       title: Meidogger ûnbekend
@@ -2247,8 +2207,6 @@ fy:
       edits: Bewurkings
       traces: Trajekten
       notes: Kaartnotysjes
-      remove as friend: Freon ôffiere
-      add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
       ct status: 'Bydragersbetingsten:'
       ct undecided: neat besletten
@@ -2302,6 +2260,15 @@ fy:
       user:
         summary_html: '%{name} oanmakke fan %{ip_address} op %{date}'
         summary_no_ip_html: '%{name} oanmakke op %{date}'
+    changeset_comments:
+      page:
+        when: Wannear
+        comment: Reäksje
+    diary_comments:
+      index:
+        title: Troch %{user} taheakke deiboekreäksjes
+      page:
+        post: Stik
     suspended:
       title: Akkount skoattele
       heading: Akkount skoattele

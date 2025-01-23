@@ -188,8 +188,6 @@ ga:
       external auth: Fíordheimhniú Seachtrach
       openid:
         link text: céard é seo?
-      public editing:
-        enabled link text: céard é seo?
       contributor terms:
         heading: Téarmaí do Rannchuiditheoirí
         agreed: D'aontaigh tú leis na Téarmaí nua do Rannchuiditheoirí.
@@ -209,6 +207,8 @@ ga:
           france: An Fhrainc
           italy: An Iodáil
           rest_of_world: An chuid eile den Domhan
+      update:
+        terms accepted: Go raibh maith agat as glacadh leis na téarmaí nua do rannchuiditheoirí.
   browse:
     version: Leagan
     in_changeset: Tacar athruithe
@@ -299,7 +299,6 @@ ga:
     index:
       title: Tacair athruithe
       title_user: Tacair athruithe de chuid %{user}
-      title_friend: Tacair athruithe de chuid mo chairde
       title_nearby: Tacair athruithe a rinne úsáideoirí in aice láimhe
       empty: Níor aimsíodh aon tacar athruithe.
       empty_area: Níl aon tacar athruithe sa limistéar seo.
@@ -342,10 +341,8 @@ ga:
       latest_edit_html: 'An t-athrú is déanaí (%{ago}):'
     popup:
       nearby mapper: Léarscálaí in aice láimhe
-      friend: Cara
     show:
       nearby users: Úsáideoirí eile in aice láimhe
-      friends_diaries: iontrálacha dialainne do chairde
   diary_entries:
     new:
       title: Iontráil Nua Dialainne
@@ -354,7 +351,6 @@ ga:
       use_map_link: An Léarscáil a Úsáid
     index:
       title: Dialanna úsáideoirí
-      title_friends: Dialanna cairde
       title_nearby: Dialann de chuid Úsáideoirí In Aice Láimhe
       user_title: Dialann %{user}
       in_language_title: 'Iontrálacha Dialainne i: %{language}'
@@ -414,20 +410,6 @@ ga:
       all:
         title: Iontrálacha dialainne OpenStreetMap
         description: Iontrálacha dialainne le déanaí ó úsáideoirí OpenStreetMap
-  diary_comments:
-    index:
-      no_comments: Níl aon nóta tráchta dialainne ann
-    page:
-      post: Postáil
-      when: Cá huair
-      comment: Nóta tráchta
-  friendships:
-    make_friend:
-      heading: Cuir %{user} leis mar chara?
-      button: Cuir leis mar chara
-      success: Is cara leat %{name} anois!
-      failed: Ár leithscéal, níorbh fhéidir %{name} a chur leis mar chara.
-      already_a_friend: Is cairde tú féin agus %{name} cheana féin
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1086,13 +1068,9 @@ ga:
         ábhar %{subject}:'
       footer_html: Is féidir leat an teachtaireacht a léamh ag %{readurl} freisin
         agus is féidir leat freagra a scríobh ag %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: A %{to_user}, a chara,
-      subject: '[OpenStreetMap] Chuir %{user} ar liosta na gcairde thú'
-      had_added_you: Chuir %{user} ar liosta na gcairde atá acu ar OpenStreetMap thú.
       see_their_profile: Is féidir leat a p(h)róifíl a fheiceáil ag %{userurl}.
-      befriend_them: Is féidir an duine sin a chur ar liosta na gcairde atá agatsa
-        ag %{befriendurl}.
     gpx_failure:
       failed_to_import: ', theip ar an iompórtáil. Seo an earráid:'
       subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
@@ -1586,15 +1564,16 @@ ga:
     offline:
       heading: Stóráil GPX As Líne
       message: Níl córas uaslódála agus stórála na gcomhad GPX ar fáil faoi láthair
-    georss:
-      title: Loirg GPX OpenStreetMap
-    description:
-      description_with_count:
-        one: Comhad GPX a bhfuil %{count} phointe ann ó %{user}
-        few: Comhad GPX a bhfuil %{count} phointe ann ó %{user}}
-        many: Comhad GPX a bhfuil %{count} bpointe ann ó %{user}}
-        other: Comhad GPX a bhfuil %{count} pointe ann ó %{user}
-      description_without_count: Comhad GPX ó %{user}
+    feeds:
+      show:
+        title: Loirg GPX OpenStreetMap
+      description:
+        description_with_count:
+          one: Comhad GPX a bhfuil %{count} phointe ann ó %{user}
+          few: Comhad GPX a bhfuil %{count} phointe ann ó %{user}}
+          many: Comhad GPX a bhfuil %{count} bpointe ann ó %{user}}
+          other: Comhad GPX a bhfuil %{count} pointe ann ó %{user}
+        description_without_count: Comhad GPX ó %{user}
   application:
     require_cookies:
       cookies_needed: Is cosúil go bhfuil fianáin díchumasaithe agat - cumasaigh fianáin
@@ -1643,7 +1622,6 @@ ga:
       display name description: An t-ainm úsáideora atá agat a thaispeántar go poiblí.
         Is féidir leat é seo a athrú níos moille sna sainroghanna.
       continue: Cláraigh
-      terms accepted: Go raibh maith agat as glacadh leis na téarmaí nua do rannchuiditheoirí.
       use external auth: Nó, bain úsáid as tríú páirtí le logáil isteach
     no_such_user:
       title: Níl an t-úsáideoir sin ann
@@ -1664,8 +1642,6 @@ ga:
       edits: Athruithe
       traces: Loirg
       notes: Nótaí Léarscáile
-      remove as friend: Bris cairdeas
-      add as friend: Cuir Cara Leis
       mapper since: 'Ag léarscáiliú ó:'
       ct status: 'Téarmaí do rannchuiditheoirí:'
       ct declined: Diúltaithe
@@ -1688,6 +1664,13 @@ ga:
       show:
         title: Úsáideoirí
         heading: Úsáideoirí
+    changeset_comments:
+      page:
+        when: Cá huair
+        comment: Nóta tráchta
+    diary_comments:
+      page:
+        post: Postáil
   user_blocks:
     helper:
       block_duration:

@@ -280,12 +280,6 @@ ko:
       external auth: 외부 인증
       openid:
         link text: 무엇인가요?
-      public editing:
-        heading: 공개 편집
-        enabled: 활성화했습니다. 익명이 아니며 데이터를 편집할 수 있습니다.
-        enabled link text: 무엇인가요?
-        disabled: 바활성화되어 데이터를 편집할 수 없으며, 모든 이전 편집은 익명입니다.
-        disabled link text: 왜 편집할 수 없나요?
       contributor terms:
         heading: 기여자 약관
         agreed: 새 기여자 약관에 동의했습니다.
@@ -346,7 +340,6 @@ ko:
         readable_summary: 해석 요약본
         informal_translations: 비공식 번역
         continue: 계속
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: 취소
         you need to accept or decline: 계속하려면 새 기여자 약관을 읽고 나서 동의나 거부하세요.
         legale_select: '거주 국가:'
@@ -354,6 +347,8 @@ ko:
           france: 프랑스
           italy: 이탈리아
           rest_of_world: 나머지 국가
+      update:
+        terms accepted: 새 기여자 약관에 동의해 주셔서 감사합니다!
       terms_declined_flash:
         terms_declined_html: 새 기여자 약관에 동의하지 않기로 결정하셨습니다. 자세한 내용은 %{terms_declined_link}를
           참조하세요.
@@ -492,7 +487,6 @@ ko:
       title: 바뀜집합
       title_user: '%{user}님의 바뀜집합'
       title_user_link_html: '%{user_link}님의 바뀜집합'
-      title_friend: 내 친구의 바뀜집합
       title_nearby: 근처 사용자의 바뀜집합
       empty: 찾는 바뀜집합이 없습니다.
       empty_area: 이 지역에 바뀜집합이 없습니다.
@@ -507,17 +501,6 @@ ko:
         created: 만들어짐
         closed: 닫힘
         belongs_to: 저자
-    subscribe:
-      heading: 다음 바뀜집합 토론을 구독하시겠습니까?
-      button: 토론 구독
-    unsubscribe:
-      heading: 다음 바뀜집합 토론의 구독을 취소하시겠습니까?
-      button: 토론 구독 취소
-    heading:
-      title: 바뀜집합 %{id}
-      created_by_html: '%{created}에 의해 %{link_user}이(가) 생성되었습니다.'
-    no_such_entry:
-      heading: 'id에 해당하는 엔트리 없음: %{id}'
     show:
       title: '바뀜집합: %{id}'
       created: '생성 시기: %{when}'
@@ -547,6 +530,19 @@ ko:
       relations_paginated: 관계(%{count}개 중 %{x}-%{y})
     timeout:
       sorry: 죄송합니다, 요청하는 바뀜집합 목록을 가져오는 데 너무 오래 걸렸습니다.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: 다음 바뀜집합 토론을 구독하시겠습니까?
+        button: 토론 구독
+      unsubscribe:
+        heading: 다음 바뀜집합 토론의 구독을 취소하시겠습니까?
+        button: 토론 구독 취소
+    heading:
+      title: 바뀜집합 %{id}
+      created_by_html: '%{created}에 의해 %{link_user}이(가) 생성되었습니다.'
+    no_such_entry:
+      heading: 'id에 해당하는 엔트리 없음: %{id}'
   dashboards:
     contact:
       km away: '%{count}km 거리'
@@ -555,17 +551,12 @@ ko:
     popup:
       your location: 내 위치
       nearby mapper: 근처 매퍼
-      friend: 친구
     show:
       title: 내 대시보드
       no_home_location_html: '%{edit_profile_link}을 하여 집 위치를 설정하면 주변 사용자를 볼 수 있습니다.'
       edit_your_profile: 내 프로파일 편집
-      my friends: 내 친구
-      no friends: 아직 어떠한 친구도 추가하지 않았습니다.
       nearby users: 기타 근처 사용자
       no nearby users: 아직 근처에 매핑을 인정하는 다른 사용자가 없습니다.
-      friends_changesets: 친구의 바뀜집합
-      friends_diaries: 친구의 일기 항목
       nearby_changesets: 근처 사용자의 바뀜집합
       nearby_diaries: 근처 사용자의 일기 항목
   diary_entries:
@@ -576,7 +567,6 @@ ko:
       use_map_link: 지도 사용
     index:
       title: 사용자의 일기
-      title_friends: 친구의 일기
       title_nearby: 근처 사용자의 일기
       user_title: '%{user}의 일기'
       in_language_title: '%{language}의 일기 항목'
@@ -638,16 +628,6 @@ ko:
       button: 토론 구독
     unsubscribe:
       button: 토론 구독 취소
-  diary_comments:
-    index:
-      title: '%{user}님이 추가한 일기 댓글'
-      heading: '%{user}의 일기 댓글'
-      subheading_html: '%{user}님이 추가한 일기 댓글'
-      no_comments: 일기 댓글이 없습니다.
-    page:
-      post: 게시물
-      when: 날짜
-      comment: 의견
   doorkeeper:
     errors:
       messages:
@@ -688,19 +668,6 @@ ko:
     not_found:
       title: 파일을 찾을 수 없습니다
       description: 오픈스트리트맵 서버에서 해당 이름으로 파일/디렉토리/API 작업을 찾을 수 없습니다(HTTP 404).
-  friendships:
-    make_friend:
-      heading: '%{user} 님을 친구로 추가할까요?'
-      button: 친구 추가
-      success: '%{name}님은 이제 친구입니다!'
-      failed: 죄송합니다, %{name}님을 친구로 추가하는 데 실패했습니다.
-      already_a_friend: 이미 %{name}님과 친구입니다.
-      limit_exceeded: 최근에 많은 사용자와 친구가 되었습니다. 친구 추가를 시도하기 전에 잠시 기다리십시오.
-    remove_friend:
-      heading: '%{user}님을 친구 제거할까요?'
-      button: 친구 제거
-      success: '%{name}님을 친구에서 제거했습니다.'
-      not_a_friend: '%{name}님은 친구가 아닙니다.'
   geocoder:
     search:
       title:
@@ -1613,14 +1580,10 @@ ko:
       header_html: '%{from_user}님이 오픈스트리트맵을 통해 %{subject} 제목으로 된 메시지를 보냈습니다:'
       footer: 또한 %{readurl}에서 메시지를 읽을 수 있고 %{replyurl}에서 저자에게 메시지를 보낼 수 있습니다.
       footer_html: 또한 %{readurl}에서 메시지를 읽을 수 있고 %{replyurl}에서 저자에게 메시지를 보낼 수 있습니다.
-    friendship_notification:
+    follow_notification:
       hi: 안녕하세요 %{to_user}님,
-      subject: '[OpenStreetMap] %{user}님이 당신을 친구로 추가했습니다'
-      had_added_you: '%{user}님이 당신을 오픈스트리트맵 친구로 추가했습니다.'
       see_their_profile: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
       see_their_profile_html: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
-      befriend_them: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
-      befriend_them_html: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
     gpx_details:
       details: '파일 세부 정보:'
       filename: 파일 이름
@@ -2439,13 +2402,14 @@ ko:
     offline:
       heading: GPX 저장소 오프라인
       message: GPX 파일 저장소와 올리기 시스템은 현재 사용할 수 없습니다.
-    georss:
-      title: OpenStreetMap GPS 궤적
-    description:
-      description_with_count:
-        one: '%{user}에서의 점 %{count}개로 된 GPX 파일'
-        other: '%{user}에서의 점 %{count}개으로 된 GPX 파일'
-      description_without_count: '%{user}에서의 GPX 파일'
+    feeds:
+      show:
+        title: OpenStreetMap GPS 궤적
+      description:
+        description_with_count:
+          one: '%{user}에서의 점 %{count}개로 된 GPX 파일'
+          other: '%{user}에서의 점 %{count}개으로 된 GPX 파일'
+        description_without_count: '%{user}에서의 GPX 파일'
   application:
     permission_denied: 이 작업에 접근할 권한이 없습니다
     require_cookies:
@@ -2590,7 +2554,6 @@ ko:
         privacy_policy_title: 이메일 주소 섹션을 포함한 OSMF 개인 정보 보호 정책
         contributor_terms: 기여자 약관
       continue: 가입하기
-      terms accepted: 새 기여자 약관에 동의해 주셔서 감사합니다!
       email_help:
         privacy_policy: 개인정보처리방침
         privacy_policy_title: 이메일 주소 섹션을 포함한 OSMF 개인 정보 보호 정책
@@ -2625,8 +2588,6 @@ ko:
       edits: 편집
       traces: 궤적
       notes: 지도 참고
-      remove as friend: 친구 제거
-      add as friend: 친구 추가
       mapper since: '가입일:'
       last map edit: '마지막 지도 편집:'
       no activity yet: 아직 활동이 없습니다
@@ -2694,6 +2655,15 @@ ko:
       user:
         summary_html: '%{name}님이 %{date}에 %{ip_address}에서 만들어짐'
         summary_no_ip_html: '%{name}이(가) %{date}에 만들어짐'
+    changeset_comments:
+      page:
+        when: 날짜
+        comment: 의견
+    diary_comments:
+      index:
+        title: '%{user}님이 추가한 일기 댓글'
+      page:
+        post: 게시물
     suspended:
       title: 계정 정지
       heading: 계정 정지

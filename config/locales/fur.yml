@@ -221,13 +221,6 @@ fur:
       external auth: Autenticazion esterne
       openid:
         link text: ce isal chest?
-      public editing:
-        heading: Modifiche publiche
-        enabled: Ativâts. No anonims e si pues cambiâ i dâts.
-        enabled link text: ce isal chest?
-        disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents
-          a son anonims.
-        disabled link text: parcè no puedio cambiâ?
       contributor terms:
         heading: Tiermins par contribuî
         agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
@@ -269,6 +262,8 @@ fur:
           france: France
           italy: Italie
           rest_of_world: Rest dal mont
+      update:
+        terms accepted: Graziis par vê acetât i gnûfs tiermins par contribuî!
   browse:
     deleted_ago_by_html: Eliminât di %{user} %{time_ago}
     edited_ago_by_html: Modificât di %{user} %{time_ago}
@@ -372,7 +367,6 @@ fur:
       title: Grups di cambiaments
       title_user: Grups di cambiaments di %{user}
       title_user_link_html: Grups di cambiaments di %{user_link}
-      title_friend: Grups di cambiaments dai tiei amîs
       title_nearby: Grups di cambiaments dai utents dongje
       empty: Nissun grup di cambiaments cjatât.
       empty_area: Nissun grup di cambiaments in cheste zone.
@@ -422,19 +416,14 @@ fur:
     popup:
       your location: La tô posizion
       nearby mapper: Mapadôr dongje
-      friend: Amì
     show:
       title: La mê pagjine iniziâl
       no_home_location_html: '%{edit_profile_link} e impueste il to lûc iniziâl par
         viodi utents dongje di te.'
       edit_your_profile: Cambie il to profîl
-      my friends: I miei amîs
-      no friends: No tu âs ancjemò nissun amì.
       nearby users: Altris utents dongje
       no nearby users: Nol è ancjemò nissun utent che al declare di mapâ dongje di
         te.
-      friends_changesets: grups di cambiaments dai amîs
-      friends_diaries: vôs di diari dai amîs
       nearby_changesets: grups di cambiaments dai utents dongje
       nearby_diaries: vôs di diari dai utents dongje
   diary_entries:
@@ -445,7 +434,6 @@ fur:
       use_map_link: Dopre mape
     index:
       title: Diaris dai utents
-      title_friends: Diaris dai amîs
       title_nearby: Diaris dai utents dongje
       user_title: Diari di %{user}
       in_language_title: Vôs dai diaris par %{language}
@@ -499,16 +487,6 @@ fur:
       all:
         title: Vôs dai diaris di OpenStreetMap
         description: Lis ultimis vôs dai diaris dai utents di OpenStreetMap
-  diary_comments:
-    index:
-      title: Coments ai diaris zontâts par %{user}
-      heading: Coments ai diaris di %{user}
-      subheading_html: Coments ai diaris zontâts di %{user}
-      no_comments: Nissun coment ai diaris
-    page:
-      post: Messaç
-      when: Cuant
-      comment: Coment
   doorkeeper:
     flash:
       applications:
@@ -519,17 +497,6 @@ fur:
       title: Proibît
     not_found:
       title: File no cjatât
-  friendships:
-    make_friend:
-      heading: Zontâ %{user} ai amîs?
-      button: Zonte ai amîs
-      success: '%{name} al è cumò to amì!'
-      already_a_friend: Tu sês za amì di %{name}.
-    remove_friend:
-      heading: Vuelistu gjavâ dai amîs %{user}?
-      button: Gjave dai amîs
-      success: '%{name} al è stât gjavât dai tiei amîs.'
-      not_a_friend: '%{name} nol è un dai tiei amîs.'
   geocoder:
     search:
       title:
@@ -972,11 +939,8 @@ fur:
       header: '%{from_user} ti à mandât un messaç su OpenStreetMap cun sogjet %{subject}:'
       footer_html: Tu puedis ancje lei il messaç su %{readurl} e tu puedis rispuindi
         su %{replyurl}
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} ti à zontât come amì su OpenStreetMap.'
-      had_added_you: '%{user} ti à zontât come amì su OpenStreetMap.'
+    follow_notification:
       see_their_profile: Tu puedis viodi il sô profîl su %{userurl}.
-      befriend_them: Tu puedis ancje zontâlu/le come amì su %{befriendurl}.
     gpx_success:
       subject: '[OpenStreetMap] Impuartazion GPX completade cun sucès'
     signup_confirm:
@@ -1367,10 +1331,11 @@ fur:
       all_traces: Ducj i percors
       my_traces: I miei percors
       traces_from_html: Percors publics di %{user}
-    georss:
-      title: Percors GPS di OpenStreetMap
-    description:
-      description_without_count: File GPS di %{user}
+    feeds:
+      show:
+        title: Percors GPS di OpenStreetMap
+      description:
+        description_without_count: File GPS di %{user}
   application:
     settings_menu:
       account_settings: Impostazions dal profîl
@@ -1446,7 +1411,6 @@ fur:
       display name description: Il non utent che al vignarà mostrât a ducj. Tu podarâs
         gambiâlu plui tart tes preferencis.
       continue: Regjistriti
-      terms accepted: Graziis par vê acetât i gnûfs tiermins par contribuî!
       use external auth: In alternative, dopre une tierce part par jentrâ
     no_such_user:
       title: Utent no cjatât
@@ -1473,8 +1437,6 @@ fur:
       edits: Cambiaments
       traces: Percors
       notes: Notis ae mape
-      remove as friend: Gjave dai amîs
-      add as friend: Zonte ai amîs
       mapper since: 'Al mape dai:'
       ct status: 'Tiermins par contribuî:'
       ct undecided: Nol à decidût
@@ -1522,6 +1484,15 @@ fur:
       user:
         summary_html: '%{name} creât di %{ip_address} ai %{date}'
         summary_no_ip_html: '%{name} creât ai %{date}'
+    changeset_comments:
+      page:
+        when: Cuant
+        comment: Coment
+    diary_comments:
+      index:
+        title: Coments ai diaris zontâts par %{user}
+      page:
+        post: Messaç
     suspended:
       support: assistence
     auth_failure:

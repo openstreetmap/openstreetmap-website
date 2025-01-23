@@ -271,13 +271,6 @@ nb:
       external auth: Ekstern autentisering
       openid:
         link text: hva er dette?
-      public editing:
-        heading: Offentlig redigering
-        enabled: Aktivert. Ikke anonym og kan redigere data.
-        enabled link text: hva er dette?
-        disabled: Deaktivert og kan ikke redigere data. Alle tidligere redigeringer
-          er anonyme.
-        disabled link text: hvorfor kan jeg ikke redigere?
       contributor terms:
         heading: Bidragsytervilkår
         agreed: Du har godkjent de nye Bidragsytervilkårene.
@@ -339,6 +332,8 @@ nb:
           france: Frankrike
           italy: Italia
           rest_of_world: Resten av verden
+      update:
+        terms accepted: Takk for at du godtok de nye bidragsytervilkårene!
   browse:
     deleted_ago_by_html: Slettet %{time_ago} av %{user}
     edited_ago_by_html: Redigert %{time_ago} av %{user}
@@ -444,7 +439,6 @@ nb:
     index:
       title: Endringssett
       title_user: Endringssett av %{user}
-      title_friend: Mine venners endringssett
       title_nearby: Endringssett av brukere i nærheten
       empty: Fant ingen endringssett.
       empty_area: Ingen endringssett i dette området.
@@ -459,8 +453,6 @@ nb:
         created: Opprettet
         closed: Lukket
         belongs_to: Forfatter
-    no_such_entry:
-      heading: 'Ingen oppføring med ID-en: %{id}'
     show:
       title: 'Endringssett: %{id}'
       discussion: Diskusjon
@@ -483,6 +475,9 @@ nb:
       relations_paginated: Forbindelser (%{x}-%{y} av %{count})
     timeout:
       sorry: Listen over endringssett du ba om tok for lang tid å hente.
+  changeset_subscriptions:
+    no_such_entry:
+      heading: 'Ingen oppføring med ID-en: %{id}'
   dashboards:
     contact:
       km away: '%{count}km unna'
@@ -491,15 +486,10 @@ nb:
     popup:
       your location: Din posisjon
       nearby mapper: Bruker i nærheten
-      friend: Venn
     show:
-      my friends: Vennene mine
-      no friends: Du har ikke lagt til noen venner ennå.
       nearby users: Andre nærliggende brukere
       no nearby users: Det er ingen andre brukere som innrømmer kartlegging i ditt
         område ennå.
-      friends_changesets: venners endringssett
-      friends_diaries: venners dagbokoppføringer
       nearby_changesets: endringssett av brukere i nærheten
       nearby_diaries: dagbokoppføringer av brukere i nærheten
   diary_entries:
@@ -510,7 +500,6 @@ nb:
       use_map_link: Bruk kart
     index:
       title: Brukeres dagbøker
-      title_friends: Dine venners dagbøker
       title_nearby: Dagbøkene til brukere i nærheten
       user_title: Dagboken til %{user}
       in_language_title: Dagboksoppføringer på %{language}
@@ -567,11 +556,6 @@ nb:
       all:
         title: Innlegg i OpenStreetMap-dagboka
         description: Nye innlegg i dagbøkene til OpenStreetMap-brukere
-  diary_comments:
-    page:
-      post: Artikkel
-      when: Når
-      comment: Kommentar
   errors:
     contact:
       contact: kontakt
@@ -579,18 +563,6 @@ nb:
       title: Forbudt
     not_found:
       title: Fil ikke funnet
-  friendships:
-    make_friend:
-      heading: Legge til %{user} som venn?
-      button: Legg til som venn
-      success: '%{name} er nå din venn!'
-      failed: Klarte ikke legge til %{name} som venn.
-      already_a_friend: Du og %{name} er allerede venner.
-    remove_friend:
-      heading: Fjerne %{user} som venn?
-      button: Fjern venn
-      success: '%{name} ble fjernet fra dine venner'
-      not_a_friend: '%{name} er ikke en av dine venner.'
   geocoder:
     search:
       title:
@@ -1415,14 +1387,10 @@ nb:
         %{subject}:'
       footer_html: Du kan også lese meldingen på %{readurl}, eller sende forfatteren
         en melding på %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hei %{to_user},
-      subject: '[OpenStreetMap] %{user} la deg til som en venn'
-      had_added_you: '%{user} har lagt deg til som venn på OpenStreetMap.'
       see_their_profile: Du kan se profilen deres på %{userurl}.
       see_their_profile_html: Du kan se profilen hens på %{userurl}.
-      befriend_them: Du kan også legge dem til som venn på %{befriendurl}.
-      befriend_them_html: Du kan også legge hen til som venn på %{befriendurl}.
     gpx_failure:
       hi: Hei, %{to_user},
       failed_to_import: 'klarte ikke importere. Her er feilen:'
@@ -2015,13 +1983,14 @@ nb:
       heading: GPX-lagring er utilgjengelig
       message: Systemet for opplasting og lagring av GPX-filer er ikke tilgjengelig
         for øyeblikket.
-    georss:
-      title: OpenStreetMap GPS-spor
-    description:
-      description_with_count:
-        one: GPX-fil med %{count} punkt fra %{user}
-        other: GPX-fil med %{count} punkter fra %{user}
-      description_without_count: GPX-fil fra %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-spor
+      description:
+        description_with_count:
+          one: GPX-fil med %{count} punkt fra %{user}
+          other: GPX-fil med %{count} punkter fra %{user}
+        description_without_count: GPX-fil fra %{user}
   application:
     permission_denied: Du har ikke tilgang til å utføre denne handlingen
     require_cookies:
@@ -2088,7 +2057,6 @@ nb:
       display name description: Ditt offentlig fremviste brukernavn. Du kan endre
         dette senere i alternativ.
       continue: Registrer deg
-      terms accepted: Takk for at du godtok de nye bidragsytervilkårene!
       use external auth: Alternativt kan du bruke en tredjepart til å logge inn
     no_such_user:
       title: Ingen bruker funnet
@@ -2112,8 +2080,6 @@ nb:
       edits: Redigeringer
       traces: Spor
       notes: Kartmerknader
-      remove as friend: Fjern venn
-      add as friend: Legg til venn
       mapper since: 'Bruker siden:'
       ct status: 'Bidragsyters vilkår:'
       ct undecided: Usikker
@@ -2165,6 +2131,13 @@ nb:
       user:
         summary_html: '%{name} opprettet fra %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} opprettet %{date}'
+    changeset_comments:
+      page:
+        when: Når
+        comment: Kommentar
+    diary_comments:
+      page:
+        post: Artikkel
     suspended:
       title: Konto stengt
       heading: Konto stengt

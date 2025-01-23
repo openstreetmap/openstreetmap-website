@@ -250,13 +250,6 @@ oc:
       external auth: 'Autentificacion extèrna:'
       openid:
         link text: qu’es aquò ?
-      public editing:
-        heading: Modificacion publica
-        enabled: Activat. Pas anonim e pòt modificar lei donadas.
-        enabled link text: qu’es aquò ?
-        disabled: Desactivadas e sensa permés per editar; lei modificacions anterioras
-          son anonimas.
-        disabled link text: perqué pòdi pas modificar ?
       contributor terms:
         heading: Tèrmes de collaboracion
         agreed: Avètz acceptat lei tèrmes novèus dau contributor.
@@ -320,6 +313,8 @@ oc:
           france: França
           italy: Itàlia
           rest_of_world: Rèsta del mond
+      update:
+        terms accepted: Mercé d’aver acceptat los novèls tèrmes del contributor !
   browse:
     version: Version
     in_changeset: Grop de modificacions
@@ -430,7 +425,6 @@ oc:
     index:
       title: Gropes de modificacions
       title_user: Gropes de modificacions per %{user}
-      title_friend: Grops de modificacions deis amics
       title_nearby: Gropes de modificacions deis utilizaires a proximitat
       empty: Ges de grop de modificacions trobat.
       empty_area: Ges de grop de modificacions dins aquesta zòna.
@@ -476,19 +470,14 @@ oc:
     popup:
       your location: Vòstre emplaçament
       nearby mapper: Mapaire dins los environs
-      friend: Amic
     show:
       title: Tablèu de bòrd
       no_home_location_html: '%{edit_profile_link} E establissètz la posicion de vòstre
         domicili per veire leis usatgiers vesins.'
       edit_your_profile: Modificar lo perfiu
-      my friends: los mens amics
-      no friends: Avètz pas encara ajustat d'amics
       nearby users: Autreis utilizaires pròches
       no nearby users: Ges d'utilizaire a pas encara senhalat que cartografiava a
         proximitat.
-      friends_changesets: Percórrer totes los gropes de modificacions dels amics
-      friends_diaries: Entradas de jornal dels amics
       nearby_changesets: Percórrer totes los gropes de modificacions dels utilizaires
         a proximitat
       nearby_diaries: Entradas de jornal dels utilizaires a proximitat
@@ -500,7 +489,6 @@ oc:
       use_map_link: Utilizar la mapa
     index:
       title: Jornaus deis utilizaires
-      title_friends: Jornaus deis amics
       title_nearby: Jornaus deis utilizaires pròches
       user_title: Jornau de %{user}
       in_language_title: Entradas de jornau en %{language}
@@ -557,16 +545,6 @@ oc:
       all:
         title: Entradas de jornau d'OpenStreetMap
         description: Entradas recentas de jornau deis utilizaires d'OpenStreetMap
-  diary_comments:
-    index:
-      title: Comentaris ajustats au jornau per %{user}
-      heading: Comentaris dau jornau de %{user}
-      subheading_html: Comentaris dau jornau ajustats per %{user}
-      no_comments: Ges de comentaris au jornau
-    page:
-      post: Mandar
-      when: Quand
-      comment: Comentari
   doorkeeper:
     flash:
       applications:
@@ -575,20 +553,6 @@ oc:
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Contact
-  friendships:
-    make_friend:
-      heading: Ajustar %{user} per amic ?
-      button: Ajustar per amic
-      success: d'ara enlà, %{name} es vòstre amic.
-      failed: O planhèm, fracàs al moment de l'ajust de %{name} per amic
-      already_a_friend: Sètz ja amic amb %{name}.
-      limit_exceeded: Avètz enviat tròp de de messatges recentament, esperatz un moment
-        abans d'assajar tornarmai.
-    remove_friend:
-      heading: Suprimir %{user} per amic ?
-      button: Suprimir per amic
-      success: '%{name} es estat levat de vòstres amics.'
-      not_a_friend: '%{name} es pas de vòstres amics.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1509,14 +1473,10 @@ oc:
         a l'autor a %{replyurl}
       footer_html: Tanben podètz legir lo messatge a %{readurl} e i podètz respondre
         a %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Bonjorn %{to_user},
-      subject: '[OpenStreetMap] %{user} vos a ajustat per amic'
-      had_added_you: '%{user} vos a ajustat per amic dins OpenStreetMap.'
       see_their_profile: 'Podètz veire son perfiu aicí : %{userurl}.'
       see_their_profile_html: 'Podètz veire son perfiu aicí : %{userurl}.'
-      befriend_them: 'Tanben, lo podètz ajustar per amic aicí : %{befriendurl}.'
-      befriend_them_html: 'Tanben, lo podètz ajustar coma amic-ga aicí : %{befriendurl}.'
     gpx_failure:
       hi: Bonjorn %{to_user},
       failed_to_import: 'a pas pogut èsser importat. Aquí l''error :'
@@ -2078,13 +2038,14 @@ oc:
     offline:
       heading: Emmagazinatge GPX fòra linha
       message: Lo sistèma d'emmagazinatge GPX es actualament indisponible.
-    georss:
-      title: Traças GPS d'OpenStreetMap
-    description:
-      description_with_count:
-        one: Fichièr GPX file amb %{count} punt de %{user}
-        other: Fichièr GPX amb %{count} punts de %{user}
-      description_without_count: Fichièr GPX de %{user}
+    feeds:
+      show:
+        title: Traças GPS d'OpenStreetMap
+      description:
+        description_with_count:
+          one: Fichièr GPX file amb %{count} punt de %{user}
+          other: Fichièr GPX amb %{count} punts de %{user}
+        description_without_count: Fichièr GPX de %{user}
   application:
     permission_denied: Vos es pas permés de realizar aquesta accion.
     require_cookies:
@@ -2124,7 +2085,6 @@ oc:
       display name description: Vòstre nom d'utilizaire afichat publicament. Podètz
         cambiar aquò ulteriorament dins las preferéncias.
       continue: S’inscriure
-      terms accepted: Mercé d’aver acceptat los novèls tèrmes del contributor !
       use external auth: A la plaça, utilizatz un tèrç per vos connectar
     no_such_user:
       title: Utilizaire inexistent
@@ -2146,8 +2106,6 @@ oc:
       edits: Modificacions
       traces: Traças
       notes: Nòtas de mapa
-      remove as friend: Suprimir en tant qu'amic
-      add as friend: Apondre en tant qu'amic
       mapper since: 'Mapaire dempuèi :'
       ct status: 'Condicions del contributor :'
       ct undecided: Pas decidit
@@ -2197,6 +2155,15 @@ oc:
       user:
         summary_html: '%{name} creat dempuèi %{ip_address} lo %{date}'
         summary_no_ip_html: '%{name} creat lo %{date}'
+    changeset_comments:
+      page:
+        when: Quand
+        comment: Comentari
+    diary_comments:
+      index:
+        title: Comentaris ajustats au jornau per %{user}
+      page:
+        post: Mandar
     suspended:
       title: Compte suspendut
       heading: Compte suspendut

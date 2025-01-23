@@ -311,13 +311,6 @@ nl:
       external auth: Externe authenticatie
       openid:
         link text: wat is dit?
-      public editing:
-        heading: Openbaar bewerken
-        enabled: Ingeschakeld. U bent niet anoniem en u kunt bewerken.
-        enabled link text: wat is dit?
-        disabled: Uitgeschakeld. U kunt niet bewerken en al uw eerdere bewerkingen
-          zijn anoniem.
-        disabled link text: waarom kan ik niets bewerken?
       contributor terms:
         heading: Bijdragersvoorwaarden
         agreed: U bent akkoord gegaan met de nieuwe Bijdragersovereenkomst.
@@ -409,6 +402,8 @@ nl:
           france: Frankrijk
           italy: Italië
           rest_of_world: Rest van de wereld
+      update:
+        terms accepted: Dank u wel voor het aanvaarden van de nieuwe bijdragersovereenkomst!
       terms_declined_flash:
         terms_declined_html: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
           niet te accepteren. Zie %{terms_declined_link} voor meer informatie.
@@ -557,7 +552,6 @@ nl:
       title: Wijzigingensets
       title_user: Wijzigingensets door %{user}
       title_user_link_html: Wijzigingensets door %{user_link}
-      title_friend: Wijzigingensets van mijn vrienden
       title_nearby: Wijzigingensets van gebruikers in de buurt
       empty: Geen wijzigingensets gevonden.
       empty_area: Geen wijzigingensets in dit gebied.
@@ -572,19 +566,6 @@ nl:
         created: Aangemaakt
         closed: Gesloten
         belongs_to: Auteur
-    subscribe:
-      heading: Abonneren op de volgende discussie over wijzigingenreeks?
-      button: Op discussie abonneren
-    unsubscribe:
-      heading: Afmelden voor de volgende discussie over wijzigingenreeks
-      button: Van discussie afmelden
-    heading:
-      title: Wijzigingenreeks %{id}
-      created_by_html: Gemaakt door %{link_user} op %{created}.
-    no_such_entry:
-      heading: 'Geen gegevens met de id: %{id}'
-      body: Er is geen wijzigingenreeks met de id %{id}. Controleer uw spelling, of
-        wellicht is de lijk die u hebt gevolgd foutief.
     show:
       title: 'Wijzigingenset: %{id}'
       created: 'Aangemaakt: %{when}'
@@ -616,6 +597,21 @@ nl:
     timeout:
       sorry: Het oproepen van de lijst met wijzigingensets die u hebt opgevraagd duurde
         te lang.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Abonneren op de volgende discussie over wijzigingenreeks?
+        button: Op discussie abonneren
+      unsubscribe:
+        heading: Afmelden voor de volgende discussie over wijzigingenreeks
+        button: Van discussie afmelden
+    heading:
+      title: Wijzigingenreeks %{id}
+      created_by_html: Gemaakt door %{link_user} op %{created}.
+    no_such_entry:
+      heading: 'Geen gegevens met de id: %{id}'
+      body: Er is geen wijzigingenreeks met de id %{id}. Controleer uw spelling, of
+        wellicht is de lijk die u hebt gevolgd foutief.
   dashboards:
     contact:
       km away: '%{count} km verwijderd'
@@ -624,19 +620,14 @@ nl:
     popup:
       your location: Uw locatie
       nearby mapper: Nabije kaartmaker
-      friend: Vriend
     show:
       title: Mijn dashboard
       no_home_location_html: '%{edit_profile_link} en stel uw thuislocatie in om gebruikers
         in de buurt te zien.'
       edit_your_profile: Pas uw profiel aan
-      my friends: Mijn vrienden
-      no friends: U hebt nog geen vrienden toegevoegd.
       nearby users: Andere nabije gebruikers
       no nearby users: Er zijn nog geen andere gebruikers die hebben opgegeven in
         de buurt te mappen.
-      friends_changesets: wijzigingensets van vrienden
-      friends_diaries: dagboekberichten van vrienden
       nearby_changesets: wijzigingensets van gebruikers in de buurt
       nearby_diaries: dagboekberichten van gebruikers in de buurt
   diary_entries:
@@ -647,7 +638,6 @@ nl:
       use_map_link: Kaart gebruiken
     index:
       title: Gebruikersdagboeken
-      title_friends: Dagboeken van vrienden
       title_nearby: Dagboeken van gebruikers in de buurt
       user_title: Dagboek van %{user}
       in_language_title: Dagboekberichten in het %{language}
@@ -714,15 +704,6 @@ nl:
       heading: Afmelden voor de volgende dagboekaantekeningendiscussie?
       button: Van discussie afmelden
   diary_comments:
-    index:
-      title: Dagboekreacties toegevoegd door %{user}
-      heading: Dagboekreacties van %{user}
-      subheading_html: Dagboekreacties toegevoegd door %{user}
-      no_comments: Geen dagboekreacties
-    page:
-      post: Dagboekbericht
-      when: Wanneer
-      comment: Reactie
     new:
       heading: Een reactie toevoegen aan de volgende dagboekaantekening?
   doorkeeper:
@@ -780,20 +761,6 @@ nl:
       title: Bestand niet gevonden
       description: Kon een bestand/directory/API-bewerking met die naam niet vinden
         op de OpenStreetMap-server (HTTP 404)
-  friendships:
-    make_friend:
-      heading: '%{user} als vriend toevoegen?'
-      button: Als vriend toevoegen
-      success: '%{name} is nu uw vriend.'
-      failed: Het toevoegen van %{name} als vriend is helaas mislukt.
-      already_a_friend: U bent al bevriend met %{name}.
-      limit_exceeded: U hebt recentelijk veel vriendschapsverzoeken verstuurd. Wacht
-        even voordat u nieuwe verzoeken kunt versturen.
-    remove_friend:
-      heading: '%{user} als vriend verwijderen?'
-      button: Als vriend verwijderen
-      success: '%{name} is verwijderd uit uw vriendenlijst.'
-      not_a_friend: '%{name} staat niet in uw vriendelijst.'
   geocoder:
     search:
       title:
@@ -1766,14 +1733,10 @@ nl:
         naar de auteur via %{replyurl}
       footer_html: U kunt het bericht ook lezen op %{readurl} en u kunt een bericht
         sturen naar de auteur via %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hoi %{to_user},
-      subject: '[OpenStreetMap] %{user} heeft u als vriend toegevoegd'
-      had_added_you: '%{user} heeft u toegevoegd als vriend op OpenStreetMap.'
       see_their_profile: U kunt zijn/haar profiel weergeven op %{userurl}.
       see_their_profile_html: U kunt zijn/haar profiel weergeven op %{userurl}.
-      befriend_them: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
-      befriend_them_html: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
     gpx_failure:
       hi: Hallo %{to_user},
       failed_to_import: Het lijkt erop dat het importeren van uw bestand als GPS-tracering
@@ -2729,13 +2692,14 @@ nl:
       heading: De opslag van GPX-bestanden is niet beschikbaar
       message: Het systeem voor het opslaan en uploaden van GPX-bestanden is momenteel
         niet beschikbaar.
-    georss:
-      title: OpenStreetMap gps-trajecten
-    description:
-      description_with_count:
-        one: GPX-bestand met één punt van %{user}
-        other: GPX-bestand met %{count} punten van %{user}
-      description_without_count: GPX-bestand van %{user}
+    feeds:
+      show:
+        title: OpenStreetMap gps-trajecten
+      description:
+        description_with_count:
+          one: GPX-bestand met één punt van %{user}
+          other: GPX-bestand met %{count} punten van %{user}
+        description_without_count: GPX-bestand van %{user}
   application:
     permission_denied: U hebt geen toestemming om toegang te krijgen tot die handeling
     require_cookies:
@@ -2897,7 +2861,6 @@ nl:
         privacy_policy_title: OSMF-privacybeleid, met een kopje over e-mailadressen
         contributor_terms: bijdragevoorwaarden
       continue: Registreren
-      terms accepted: Dank u wel voor het aanvaarden van de nieuwe bijdragersovereenkomst!
       email_help:
         privacy_policy: privacybeleid
         privacy_policy_title: OSMF-privacybeleid, met een sectie over e-mailadressen
@@ -2934,8 +2897,6 @@ nl:
       edits: Bewerkingen
       traces: Trajecten
       notes: Kaartopmerkingen
-      remove as friend: Vriend verwijderen
-      add as friend: Vriend toevoegen
       mapper since: 'Kaartmaker sinds:'
       last map edit: 'Recentste bewerking:'
       no activity yet: Nog geen activiteit
@@ -3010,6 +2971,15 @@ nl:
       user:
         summary_html: '%{name} aangemaakt vanaf %{ip_address} op %{date}'
         summary_no_ip_html: '%{name} aangemaakt op %{date}'
+    changeset_comments:
+      page:
+        when: Wanneer
+        comment: Reactie
+    diary_comments:
+      index:
+        title: Dagboekreacties toegevoegd door %{user}
+      page:
+        post: Dagboekbericht
     suspended:
       title: Gebruiker opgeschort
       heading: Account opgeschort

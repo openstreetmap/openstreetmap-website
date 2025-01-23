@@ -245,12 +245,6 @@ th:
       external auth: การยืนยันตัวตนด้วยบริการภายนอก
       openid:
         link text: นี่คืออะไร?
-      public editing:
-        heading: การแก้ไขสาธารณะ
-        enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้โดยเปิดเผยนาม'
-        enabled link text: นี่คืออะไร?
-        disabled: ปิดใช้ และไม่สามารถแก้ไขแผนที่ได้อีก โดยการแก้ไขในอดีตทั้งหมดจะยังคงความนิรนามไว้
-        disabled link text: ทำไมถึงแก้ไขไม่ได้?
       contributor terms:
         heading: ข้อกำหนดผู้ร่วมให้ข้อมูล
         agreed: คุณได้ยอมรับข้อกำหนดผู้ร่วมให้ข้อมูลใหม่แล้ว
@@ -310,6 +304,8 @@ th:
           france: ฝรั่งเศส
           italy: อิตาลี
           rest_of_world: พื้นที่อื่น ๆ ในโลก
+      update:
+        terms accepted: ขอบคุณสำหรับการตอบรับเงื่อนไขผู้ร่วมให้ข้อมูล!
   browse:
     deleted_ago_by_html: ลบเมื่อ %{time_ago} โดย %{user}
     edited_ago_by_html: แก้ไขเมื่อ %{time_ago} โดย %{user}
@@ -428,7 +424,6 @@ th:
       title: ชุดการเปลี่ยนแปลง
       title_user: ชุดการเปลี่ยนแปลงที่ทำโดย %{user}
       title_user_link_html: ชุดการเปลี่ยนแปลงที่ทำโดย %{user_link}
-      title_friend: ชุดการเปลี่ยนแปลงที่ทำโดยเพื่อนของฉัน
       title_nearby: ชุดการเปลี่ยนแปลงที่ทำโดยผู้ใช้ที่อยู่ใกล้เคียง
       empty: ไม่พบชุดการเปลี่ยนแปลง
       empty_area: ไม่พบชุดการเปลี่ยนแปลงในพื้นที่นี้
@@ -443,19 +438,6 @@ th:
         created: สร้างเมื่อ
         closed: ปิดเมื่อ
         belongs_to: ผู้สร้าง
-    subscribe:
-      heading: สมัครสมาชิกการอภิปรายเซ็ตการแก้ไขต่อไปนี้หรือไม่
-      button: สมัครสมาชิกการอภิปราย
-    unsubscribe:
-      heading: ยกเลิกการสมัครสมาชิกการอภิปรายต่อไปนี้หรือไม่
-      button: ยกเลิกการสมัครสมาชิกการอภิปราย
-    heading:
-      title: ชุดการเปลี่ยนแปลง %{id}
-      created_by_html: สร้างโดย %{link_user} บน %{created}
-    no_such_entry:
-      heading: 'ไม่มีรายการที่มีรหัส: %{id}'
-      body: ขออภัย ไม่มีชุดการเปลี่ยนแปลงที่มีรหัส %{id} โปรดตรวจสอขความถูกต้องของการสะกด
-        หรือลิงก์ที่กดมานั้นมีข้อผิดพลาด
     show:
       title: 'ชุดการเปลี่ยนแปลง: %{id}'
       created: 'สร้างเมื่อ: %{when}'
@@ -485,6 +467,21 @@ th:
       relations_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
     timeout:
       sorry: ขออภัย รายการชุดการเปลี่ยนแปลงที่ร้องขอใช้เวลานานเกินสมควรในการสืบค้น
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: สมัครสมาชิกการอภิปรายเซ็ตการแก้ไขต่อไปนี้หรือไม่
+        button: สมัครสมาชิกการอภิปราย
+      unsubscribe:
+        heading: ยกเลิกการสมัครสมาชิกการอภิปรายต่อไปนี้หรือไม่
+        button: ยกเลิกการสมัครสมาชิกการอภิปราย
+    heading:
+      title: ชุดการเปลี่ยนแปลง %{id}
+      created_by_html: สร้างโดย %{link_user} บน %{created}
+    no_such_entry:
+      heading: 'ไม่มีรายการที่มีรหัส: %{id}'
+      body: ขออภัย ไม่มีชุดการเปลี่ยนแปลงที่มีรหัส %{id} โปรดตรวจสอขความถูกต้องของการสะกด
+        หรือลิงก์ที่กดมานั้นมีข้อผิดพลาด
   dashboards:
     contact:
       km away: ห่างออกไป %{count} กม.
@@ -493,17 +490,12 @@ th:
     popup:
       your location: ตำแหน่งของคุณ
       nearby mapper: คนทำแผนที่ ที่อยู่ใกล้เคียง
-      friend: เพื่อน
     show:
       title: แผงควบคุมของฉัน
       no_home_location_html: '%{edit_profile_link} และตั้งตำแหน่งบ้านของให้ผู้ใช้ไกล้เคียงเห็น'
       edit_your_profile: แก้ไขโปรไฟล์ของคุณ
-      my friends: รายการเพื่อน
-      no friends: ท่านยังไม่ได้เพิ่มเพื่อนใด ๆ
       nearby users: ผู้ใช้อื่นที่ใกล้เคียง
       no nearby users: ไม่ได้มีผู้ใดแสดงตัวว่าทำแผนที่อยู่ใกล้เคียง
-      friends_changesets: ชุดการเปลี่ยนแปลงของเพื่อน
-      friends_diaries: บันทึกของเพื่อน
       nearby_changesets: ชุดการเปลี่ยนแปลงของผู้ใช้ใกล้เคียง
       nearby_diaries: บันทึกของผู้ใช้ใกล้เคียง
   diary_entries:
@@ -514,7 +506,6 @@ th:
       use_map_link: ใช้แผนที่
     index:
       title: บันทึกของผู้ใช้
-      title_friends: บันทึกของเพื่อน
       title_nearby: บันทึกของผู้ใช้ที่อยู่ใกล้เคียง
       user_title: บันทึกของ %{user}
       in_language_title: รายการบันทึกทั้งหมดในภาษา %{language}
@@ -578,16 +569,6 @@ th:
     unsubscribe:
       heading: เลิกติดตามการอภิปรายต่อไปนี้หรือไม่
       button: เลิกติดตามการอภิปราย
-  diary_comments:
-    index:
-      title: ความคิดเห็นในรายการบันทึกที่เพิ่มโดย %{user}
-      heading: ความคิดเห็นในรายการบันทึกของ %{user}
-      subheading_html: ความคิดเห็นในรายการบันทึกที่เพิ่มโดย %{user}
-      no_comments: ไม่มีความคิดเห็นในรายการบึกทึก
-    page:
-      post: เผยแพร่
-      when: เมื่อ
-      comment: แสดงความเห็น
   doorkeeper:
     errors:
       messages:
@@ -640,19 +621,6 @@ th:
       title: ไม่พบไฟล์
       description: ไม่พบการดำเนินการของไฟล์/ไดเรกทอรี/API ตามชื่อนั้นบนเซิร์ฟเวอร์
         OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: เพิ่มผู้ใช้ %{user} ในรายการเพื่อนหรือไม่?
-      button: เพิ่มในรายการเพื่อน
-      success: ผู้ใช้ %{name} อยู่ในรายการเพื่อนเรียบร้อย!
-      failed: ขออภัย ไม่สามารถเพิ่มผู้ใช้ %{name} ในรายการเพื่อน
-      already_a_friend: มีผู้ใช้ %{name}ในรายการเพื่อนอยู่แล้ว
-      limit_exceeded: คุณได้เป็นเพื่อนกับผู้ใช้จำนวนมากเมื่อไม่นานมานี้ โปรดรอสักครู่ก่อนที่จะพยายามเป็นเพื่อนต่อไป
-    remove_friend:
-      heading: ต้องการลบผู้ใช้ %{user} ออกจากรายการเพื่อนหรือไม่?
-      button: ลบจากรายการเพื่อน
-      success: ท่านได้ลบผู้ใช้ %{name} ออกจากรายการเพื่อน
-      not_a_friend: ผู้ใช้ %{name} ไม่ได้อยู่ในรายการเพื่อน
   geocoder:
     search:
       title:
@@ -1579,14 +1547,10 @@ th:
         %{replyurl} หากต้องการ
       footer_html: คุณสามารถอ่านข้อความที่ลิงก์ %{readurl} และถ้าต้องการสามารถตอบกลับที่ลิงก์
         %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: เรียนคุณ %{to_user},
-      subject: '[OpenStreetMap] %{user} เพิ่มคุณในรายการเพื่อน'
-      had_added_you: ผู้ใช้ %{user} เพิ่มคุณในรายการเพื่อนบน OpenStreetMap
       see_their_profile: สามารถดูหน้าโปรไฟล์ของผู้ใช้นี้ได้ที่ %{userurl}
       see_their_profile_html: สามารถดูหน้าโปรไฟล์ของผู้ใช้นี้ได้ที่ %{userurl}
-      befriend_them: นอกจากนี้ คุณสามารถเพิ่มผู้ใช้นี้ในรายการเพื่อนได้ที่ %{befriendurl}.
-      befriend_them_html: คุณยังสามารถเพิ่มผู้ใช้นี้ไปในรายการเพื่อนได้ที่ %{befriendurl}
     gpx_failure:
       hi: เรียนคุณ %{to_user},
       failed_to_import: 'การนำเข้าล้มเหลว เนื่องจาก:'
@@ -2056,9 +2020,10 @@ th:
       message: ระบบอัปโหลดแฟ้มข้อมูล GPX ไม่พร้อมใช้งานในขณะนี้
     offline:
       message: หน่วยจัดเก็บแฟ้มข้อมูล GPX และระบบอัปโหลดไม่พร้อมใช้งานในขณะนี้
-    description:
-      description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
-      description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
+    feeds:
+      description:
+        description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
+        description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
   application:
     require_cookies:
       cookies_needed: ดูเหมือนว่าคุณปิดใช้งานคุกกี้อยู่, กรุณาเปิดใช้งานคุกกี้ในบราวเซอร์ของคุณก่อนจะดำเนินการต่อ
@@ -2101,7 +2066,6 @@ th:
         header: เสรีและแก้ไขได้
       display name description: ชื่อที่แสดงต่อสาธารณะ ท่านสามารถเปลี่ยนในภายหลังได้ในหน้าการตั้งค่า
       continue: สมัครบัญชี
-      terms accepted: ขอบคุณสำหรับการตอบรับเงื่อนไขผู้ร่วมให้ข้อมูล!
       use external auth: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
     no_such_user:
       title: ไม่มีผู้ใช้ที่ระบุ
@@ -2124,8 +2088,6 @@ th:
       edits: การแก้ไข
       traces: รอยทาง
       notes: หมายเหตุแผนที่
-      remove as friend: ลบจากรายการเพื่อน
-      add as friend: เพิ่มเข้ารายการเพื่อน
       mapper since: 'ทำแผนที่นี้ตั้งแต่:'
       ct status: 'เงื่อนไขผู้ร่วมให้ข้อมูล:'
       ct undecided: ยังไม่ตัดสินใจ
@@ -2170,6 +2132,15 @@ th:
         hide: ซ่อนผู้ใช้ที่เลือก
       user:
         summary_html: '%{name} สร้างจากไอพี %{ip_address} เมื่อ %{date}'
+    changeset_comments:
+      page:
+        when: เมื่อ
+        comment: แสดงความเห็น
+    diary_comments:
+      index:
+        title: ความคิดเห็นในรายการบันทึกที่เพิ่มโดย %{user}
+      page:
+        post: เผยแพร่
     suspended:
       title: บัญชีถูกระงับ
       heading: บัญชีถูกระงับ

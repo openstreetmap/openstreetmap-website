@@ -117,7 +117,7 @@ da:
         support_url: Support URL
         allow_read_prefs: læse deres brugerpræferencer
         allow_write_prefs: ændre deres brugeralternativer
-        allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber
+        allow_write_diary: oprette blogindlæg og kommentarer
         allow_write_api: ændre kortet
         allow_read_gpx: læse deres private GPS-spor
         allow_write_gpx: overføre GPS-spor
@@ -280,13 +280,6 @@ da:
       external auth: Ekstern godkendelse
       openid:
         link text: hvad er dette?
-      public editing:
-        heading: Offentlig redigering
-        enabled: Aktiveret. Ikke anonym og kan ændre data.
-        enabled link text: hvad er dette?
-        disabled: Deaktiveret og kan ikke ændre data, alle tidligere ændringer er
-          anonyme.
-        disabled link text: hvorfor kan jeg ikke redigere?
       contributor terms:
         heading: 'Vilkår for bidragsydere:'
         agreed: Du har accepteret de nye vilkår for bidragsydere.
@@ -374,6 +367,8 @@ da:
           france: Frankrig
           italy: Italien
           rest_of_world: Resten af verden
+      update:
+        terms accepted: Tak for at du accepterede de nye vilkår for bidragsydere!
       terms_declined_flash:
         terms_declined_html: Vi er kede af at du har besluttet at du ikke kan acceptere
           de nye vilkår for bidragsydere. For yderligere oplysninger, se venligst
@@ -526,7 +521,7 @@ da:
       title: Ændringssæt
       title_user: Ændringssæt af %{user}
       title_user_link_html: Ændringssæt af %{user_link}
-      title_friend: Ændringssæt af mine venner
+      title_followed: Ændringssæt af dem, du følger
       title_nearby: Ændringssæt af brugere i nærheden
       empty: Ingen ændringssæt fundet.
       empty_area: Ingen ændringssæt i dette område.
@@ -541,19 +536,6 @@ da:
         created: Oprettet
         closed: Lukket
         belongs_to: Forfatter
-    subscribe:
-      heading: Abonner på den følgende ændringssæt-diskussion?
-      button: Abonner på diskussion
-    unsubscribe:
-      heading: Vil du afmelde følgende diskussion om ændringssæt?
-      button: Afmeld diskussion
-    heading:
-      title: Ændringssæt %{id}
-      created_by_html: Oprettet af %{link_user} %{created}.
-    no_such_entry:
-      heading: 'Intet indlæg med id: %{id}'
-      body: Der findes desværre intet ændringssæt med id %{id}. Tjek stavningen, eller
-        måske er linket du trykkede på forkert.
     show:
       title: 'Ændringssæt: %{id}'
       created: 'Oprettet: %{when}'
@@ -587,6 +569,21 @@ da:
     timeout:
       sorry: Desværre tog det for lang tid at indlæse den liste af ændringssæt du
         har bedt om.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Abonner på følgende ændringssæt-diskussion?
+        button: Abonner på diskussion
+      unsubscribe:
+        heading: Afmeld abonnement på følgende ændringssæt-diskussion?
+        button: Afmeld diskussion
+    heading:
+      title: Ændringssæt %{id}
+      created_by_html: Oprettet af %{link_user} %{created}.
+    no_such_entry:
+      heading: 'Intet indlæg med id: %{id}'
+      body: Der findes desværre intet ændringssæt med id %{id}. Tjek stavningen, eller
+        måske er linket du trykkede på forkert.
   dashboards:
     contact:
       km away: '%{count}km væk'
@@ -595,19 +592,19 @@ da:
     popup:
       your location: Din position
       nearby mapper: Bruger i nærheden
-      friend: Ven
+      following: Følger
     show:
       title: Mit kontrolpanel
       no_home_location_html: '%{edit_profile_link} og angiv din hjemmeposition for
         at se brugere i nærheden.'
       edit_your_profile: Rediger din profil
-      my friends: Mine venner
-      no friends: Du har ikke tilføjet nogle venner endnu.
+      followings: Følger
+      no followings: Du har ikke fulgt nogen bruger endnu.
       nearby users: 'Andre brugere i nærheden:'
       no nearby users: Der er ingen andre brugere der har angivet at de kortlægger
         i nærheden.
-      friends_changesets: venners ændringssæt
-      friends_diaries: venners blogindlæg
+      followed_changesets: ændringssæt
+      followed_diaries: blogindlæg
       nearby_changesets: ændringssæt af brugere i nærheden
       nearby_diaries: blogindlæg af brugere i nærheden
   diary_entries:
@@ -618,7 +615,7 @@ da:
       use_map_link: Brug kort
     index:
       title: Brugerblogs
-      title_friends: Venners blogs
+      title_followed: Blogindlæg fra dem, du følger
       title_nearby: Blogs fra brugere i nærheden
       user_title: Blog for %{user}
       in_language_title: Blogindlæg på %{language}
@@ -684,15 +681,6 @@ da:
       heading: Vil du afmelde følgende blogindlægsdiskussion?
       button: Afmeld diskussion
   diary_comments:
-    index:
-      title: Kommentarer til blogindlæg tilføjet af %{user}
-      heading: '%{user}s kommentarer til blogindlæg'
-      subheading_html: Kommentarer til blogindlæg tilføjet af %{user}
-      no_comments: Ingen blogkommentarer
-    page:
-      post: Indsend
-      when: Hvornår
-      comment: Kommentar
     new:
       heading: Vil du tilføje en kommentar til følgende blogindlægsdiskussion?
   doorkeeper:
@@ -748,20 +736,23 @@ da:
       title: Fil ikke fundet
       description: En fil/mappe/API-handling ved dette navn findes ikke på OpenStreetMap-serveren
         (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Tilføj %{user} som en ven?
-      button: Tilføj som en ven
-      success: '%{name} er nu din ven!'
-      failed: Desværre, kunne ikke tilføje %{name} som din ven.
-      already_a_friend: Du er allerede ven med %{name}.
-      limit_exceeded: Du er blevet venner med en del brugere for nylig. Vent venligst
-        lidt før du forsøger at blive ven med flere.
-    remove_friend:
-      heading: Fjern %{user} som ven?
-      button: Fjern som ven
-      success: '%{name} blev fjernet fra din liste af venner.'
-      not_a_friend: '%{name} er ikke en af dine venner.'
+  follows:
+    show:
+      follow:
+        heading: Vil du følge %{user}?
+        button: Følg bruger
+      unfollow:
+        heading: Vil du ikke længere følge %{user}?
+        button: Følg ikke længere bruger
+    create:
+      success: Du følger nu %{name}!
+      failed: Beklager, din anmodning om at følge %{name} mislykkedes.
+      already_followed: Du følger allerede %{name}.
+      limit_exceeded: Du har fulgt mange brugere på det seneste. Vent venligst lidt,
+        før du prøver at følge flere.
+    destroy:
+      success: Du følger ikke længere %{name}.
+      not_followed: Du følger ikke %{name}.
   geocoder:
     search:
       title:
@@ -1731,14 +1722,14 @@ da:
         forfatteren på %{replyurl}
       footer_html: Du kan også læse beskeden på %{readurl} og du kan sende en besked
         til forfatteren på %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hej %{to_user},
-      subject: '[OpenStreetMap] %{user} tilføjede dig som ven'
-      had_added_you: '%{user} har tilføjet dig som ven på OpenStreetMap.'
+      subject: '[OpenStreetMap] %{user} fulgte dig'
+      followed_you: '%{user} følger dig nu på OpenStreetMap.'
       see_their_profile: Du kan se deres profil på %{userurl}.
       see_their_profile_html: Du kan se deres profil på %{userurl}.
-      befriend_them: Du kan også tilføje dem som ven på %{befriendurl}.
-      befriend_them_html: Du kan også tilføje dem som ven på %{befriendurl}.
+      follow_them: Du kan også følge dem på %{followurl}.
+      follow_them_html: Du kan også følge dem på %{followurl}.
     gpx_details:
       details: 'Dine filoplysninger:'
       filename: Filnavn
@@ -2071,6 +2062,9 @@ da:
       preview: Forhåndsvisning
       help: Hjælp
     pagination:
+      changeset_comments:
+        older: Ældre kommentarer
+        newer: Nyere kommentarer
       diary_comments:
         older: Ældre kommentarer
         newer: Nyere kommentarer
@@ -2679,13 +2673,14 @@ da:
       heading: GPX-lagring ikke tilgængelig
       message: Systemet der håndterer overførsel og lagring af GPX-filer er på nuværende
         tidspunkt ikke tilgængeligt
-    georss:
-      title: OpenStreetMap GPS-spor
-    description:
-      description_with_count:
-        one: GPX fil med %{count} punkt fra %{user}
-        other: GPX fil med %{count} punkter fra %{user}
-      description_without_count: GPX fil fra %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-spor
+      description:
+        description_with_count:
+          one: GPX fil med %{count} punkt fra %{user}
+          other: GPX fil med %{count} punkter fra %{user}
+        description_without_count: GPX fil fra %{user}
   application:
     permission_denied: Du har ikke rettigheder til at udføre den handling
     require_cookies:
@@ -2754,7 +2749,7 @@ da:
       openid: Log ind med OpenStreetMap
       read_prefs: Læse brugerpræferencer
       write_prefs: Ændre brugerpræferencer
-      write_diary: Udgiv brugerblogs, kommenter og få venner
+      write_diary: Udgiv blogindlæg og kommentarer
       write_api: Ændre kortet
       read_gpx: Læse private GPS-spor
       write_gpx: Overføre GPS-spor
@@ -2844,7 +2839,6 @@ da:
         privacy_policy_title: OSMF privatlivs-politik inklusiv afsnit om e-mailadresser
         contributor_terms: vilkår for bidragsydere
       continue: Opret konto
-      terms accepted: Tak for at du accepterede de nye vilkår for bidragsydere!
       email_help:
         privacy_policy: privatlivspolitik
         privacy_policy_title: OSMF privatlivspolitik inklusiv afsnit om e-mailadresser
@@ -2881,8 +2875,8 @@ da:
       edits: Redigeringer
       traces: GPS-spor
       notes: Kortbemærkninger
-      remove as friend: Fjern som ven
-      add as friend: Tilføj som ven
+      unfollow: Følg ikke længere
+      follow: Følg
       mapper since: 'Kortlægger siden:'
       last map edit: 'Sidste kortredigering:'
       no activity yet: Ingen aktivitet endnu
@@ -2958,6 +2952,26 @@ da:
       user:
         summary_html: '%{name} oprettet fra %{ip_address} på %{date}'
         summary_no_ip_html: '%{name} oprettet på %{date}'
+    comments:
+      index:
+        heading_html: '%{user}s kommentarer'
+        changesets: Ændringssæt
+        diary_entries: Blogindlæg
+        no_comments: Ingen kommentarer
+    changeset_comments:
+      index:
+        title: Kommentarer til ændringssæt tilføjet af %{user}
+      page:
+        changeset: Ændringssæt
+        when: Hvornår
+        comment: Kommentar
+    diary_comments:
+      index:
+        title: Kommentarer til blogindlæg tilføjet af %{user}
+      page:
+        post: Indsend
+        when: Hvornår
+        comment: Kommentar
     suspended:
       title: Konto suspenderet
       heading: Konto suspenderet

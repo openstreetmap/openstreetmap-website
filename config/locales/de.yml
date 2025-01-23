@@ -199,7 +199,7 @@ de:
         support_url: Support-URL
         allow_read_prefs: Ihre Benutzereinstellungen auslesen.
         allow_write_prefs: Ihre Benutzereinstellungen verändern
-        allow_write_diary: Blogeinträge und Kommentare schreiben und Freunde finden
+        allow_write_diary: Blogeinträge und Kommentare erstellen
         allow_write_api: Karte bearbeiten
         allow_read_gpx: Zugriff auf ihre privaten GPS-Tracks
         allow_write_gpx: GPS-Track hochladen
@@ -364,13 +364,6 @@ de:
       openid:
         link: https://wiki.openstreetmap.org/wiki/DE:OpenID
         link text: Was bedeutet dies?
-      public editing:
-        heading: Öffentliches Bearbeiten
-        enabled: Aktiviert. Normales Bearbeiten der Kartendaten ist möglich.
-        enabled link text: Was bedeutet dies?
-        disabled: Deaktiviert. Das Bearbeiten von Kartendaten ist NICHT möglich, alle
-          bisherigen Bearbeitungen sind anonym.
-        disabled link text: Warum kann ich nichts bearbeiten?
       contributor terms:
         heading: Bedingungen für Mitwirkende
         agreed: Du hast den neuen Bedingungen für Mitwirkende zugestimmt.
@@ -457,7 +450,6 @@ de:
         readable_summary: menschenlesbare Zusammenfassung
         informal_translations: informelle Übersetzung
         continue: Weiter
-        declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
         cancel: Abbrechen
         you need to accept or decline: Bitte lies die neuen Bedingungen für Mitwirkende
           und nimm sie an oder lehne sie ab, bevor du weitermachst.
@@ -466,6 +458,9 @@ de:
           france: Frankreich
           italy: Italien
           rest_of_world: Rest der Welt
+      update:
+        terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende
+          zugestimmt hast!
       terms_declined_flash:
         terms_declined_html: Wir bedauern es, dass du dich dazu entschieden hast,
           den neuen Bedingungen für Mitwirkende nicht zuzustimmen. Weitere Informationen
@@ -629,7 +624,7 @@ de:
       title: Änderungssätze
       title_user: Änderungssätze von %{user}
       title_user_link_html: Änderungssätze von %{user_link}
-      title_friend: Änderungssätze von meinen Freunden
+      title_followed: Änderungssätze der abonnierten Benutzer
       title_nearby: Änderungssätze von Benutzern in der Nähe
       empty: Keine Änderungssätze gefunden.
       empty_area: Keine Änderungssätze in diesem Bereich.
@@ -644,20 +639,6 @@ de:
         created: Erstellt
         closed: Geschlossen
         belongs_to: Autor
-    subscribe:
-      heading: Die folgende Änderungssatz-Diskussion abonnieren?
-      button: Diskussion abonnieren
-    unsubscribe:
-      heading: Von der folgenden Änderungssatz-Diskussion abmelden?
-      button: Von der Diskussion abmelden
-    heading:
-      title: Änderungssatz %{id}
-      created_by_html: Erstellt von %{link_user} am %{created}.
-    no_such_entry:
-      heading: 'Kein Eintrag mit der ID: %{id}'
-      body: Es existiert leider kein Änderungssatz mit der ID %{id}. Bitte überprüfe
-        deine Rechtschreibung, oder vielleicht ist der Link, auf den du geklickt hast,
-        falsch.
     show:
       title: 'Änderungssatz: %{id}'
       created: 'Erstellt: %{when}'
@@ -690,6 +671,22 @@ de:
       sorry: 'Leider konnte das Changeset #%{id} nicht gefunden werden.'
     timeout:
       sorry: Es hat leider zu lange gedauert, die angeforderten Änderungssätze abzurufen.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Die folgende Änderungssatz-Diskussion abonnieren?
+        button: Diskussion abonnieren
+      unsubscribe:
+        heading: Von der folgenden Änderungssatz-Diskussion abmelden?
+        button: Von der Diskussion abmelden
+    heading:
+      title: Änderungssatz %{id}
+      created_by_html: Erstellt von %{link_user} am %{created}.
+    no_such_entry:
+      heading: 'Kein Eintrag mit der ID: %{id}'
+      body: Es existiert leider kein Änderungssatz mit der ID %{id}. Bitte überprüfe
+        deine Rechtschreibung, oder vielleicht ist der Link, auf den du geklickt hast,
+        falsch.
   dashboards:
     contact:
       km away: '%{count} km entfernt'
@@ -698,19 +695,19 @@ de:
     popup:
       your location: Standort
       nearby mapper: Mapper in der Nähe
-      friend: Freund
+      following: Abonniert
     show:
       title: Meine Übersichtsseite
       no_home_location_html: '%{edit_profile_link} und lege deinen Wohnort fest, um
         Benutzer in der Nähe zu sehen.'
       edit_your_profile: Bearbeite dein Profil
-      my friends: Meine Freunde
-      no friends: Du hast noch keine Freunde hinzugefügt.
+      followings: Abonnierte Benutzer
+      no followings: Du bist noch keinem Benutzer gefolgt.
       nearby users: Mapper in der Nähe
       no nearby users: Es existieren bisher keine Benutzer, die einen Standort in
         deiner Nähe angegeben haben.
-      friends_changesets: Änderungssätze deiner Freunde
-      friends_diaries: Blogs deiner Freunde
+      followed_changesets: Änderungssätze
+      followed_diaries: Blogeinträge
       nearby_changesets: Änderungssätze von Benutzern in der Nähe
       nearby_diaries: Blogs von Benutzern in der Nähe
   diary_entries:
@@ -721,7 +718,7 @@ de:
       use_map_link: Karte benutzen
     index:
       title: Benutzer-Blogs
-      title_friends: Blogs deiner Freunde
+      title_followed: Benutzereinträge der abonnierten Benutzer
       title_nearby: Blogs von Nutzern in der Nähe
       user_title: Blog von %{user}
       in_language_title: Blog-Einträge in %{language}
@@ -788,15 +785,6 @@ de:
       heading: Von der folgenden Tagebucheintragsdiskussion abmelden?
       button: Von der Diskussion abmelden
   diary_comments:
-    index:
-      title: Tagebuch-Kommentare hinzugefügt von %{user}
-      heading: '%{user}s Tagebuch-Kommentare'
-      subheading_html: Tagebuch-Kommentare hinzugefügt von %{user}
-      no_comments: Keine Blog-Kommentare
-    page:
-      post: Blogeintrag
-      when: Zeitpunkt
-      comment: Kommentar
     new:
       heading: Einen Kommentar zur folgenden Tagebucheintragsdiskussion hinzufügen?
   doorkeeper:
@@ -855,20 +843,23 @@ de:
       title: Datei nicht gefunden
       description: Konnte keine Datei-/Verzeichnis-/API-Operation mit diesem Namen
         auf dem OpenStreetMap-Server finden (HTTP 404)
-  friendships:
-    make_friend:
-      heading: '%{user} als Freund hinzufügen?'
-      button: Als Freund hinzufügen
-      success: '%{name} ist nun dein Freund!'
-      failed: Sorry, %{name} konnte nicht als dein Freund hinzugefügt werden.
-      already_a_friend: Du bist bereits mit %{name} befreundet.
-      limit_exceeded: Du hast dich in letzter Zeit mit vielen Benutzern angefreundet.
-        Bitte warte eine Weile, bevor du versuchst, weitere Freunde zu finden.
-    remove_friend:
-      heading: Freund %{user} entfernen?
-      button: Freund entfernen
-      success: '%{name} wurde als Freund entfernt.'
-      not_a_friend: '%{name} ist nicht dein Freund.'
+  follows:
+    show:
+      follow:
+        heading: Möchtest du %{user} folgen?
+        button: Benutzer folgen
+      unfollow:
+        heading: Möchtest du %{user} nicht mehr folgen?
+        button: Benutzer entfolgen
+    create:
+      success: Du folgst jetzt %{name}!
+      failed: Deine Anfrage, %{name} zu folgen, ist leider fehlgeschlagen.
+      already_followed: Du folgst bereits %{name}.
+      limit_exceeded: Du bist in letzter Zeit vielen Nutzern gefolgt. Bitte warte
+        eine Weile, bevor du versuchst, noch mehr zu folgen.
+    destroy:
+      success: Du hast %{name} erfolgreich entfolgt.
+      not_followed: Du folgst %{name} nicht.
   geocoder:
     search:
       title:
@@ -1840,14 +1831,14 @@ de:
         %{replyurl} antworten
       footer_html: Du kannst auch die Nachricht unter %{readurl} lesen und dem Autor
         unter %{replyurl} antworten
-    friendship_notification:
+    follow_notification:
       hi: Hallo %{to_user},
-      subject: '[OpenStreetMap] %{user} hat dich als Freund hinzugefügt'
-      had_added_you: '%{user} hat dich als Freund hinzugefügt.'
+      subject: '[OpenStreetMap] %{user} ist dir gefolgt'
+      followed_you: '%{user} folgt dir jetzt auf OpenStreetMap.'
       see_their_profile: Du kannst sein/ihr Profil unter %{userurl} ansehen.
       see_their_profile_html: Du kannst sein/ihr Profil unter %{userurl} ansehen.
-      befriend_them: Du kannst sie/ihn unter %{befriendurl} ebenfalls als Freund hinzufügen.
-      befriend_them_html: Du kannst sie/ihn unter %{befriendurl} auch als Freund hinzufügen.
+      follow_them: Du kannst ihnen auch unter %{followurl} folgen.
+      follow_them_html: Du kannst ihnen auch unter %{followurl} folgen.
     gpx_details:
       details: 'Deine Dateidetails:'
       filename: Dateiname
@@ -2835,13 +2826,14 @@ de:
       heading: Speicher für GPX-Dateien ist Offline
       message: Das Upload-System und der Speicher für GPX-Dateien ist derzeit nicht
         verfügbar
-    georss:
-      title: OpenStreetMap-GPS-Tracks
-    description:
-      description_with_count:
-        one: GPX-Datei mit einem Punkt von %{user}
-        other: GPX-Datei mit %{count} Punkten von %{user}
-      description_without_count: GPX-Datei von %{user}
+    feeds:
+      show:
+        title: OpenStreetMap-GPS-Tracks
+      description:
+        description_with_count:
+          one: GPX-Datei mit einem Punkt von %{user}
+          other: GPX-Datei mit %{count} Punkten von %{user}
+        description_without_count: GPX-Datei von %{user}
   application:
     permission_denied: Du hast keine Berechtigung, um auf diese Aktion zuzugreifen.
     require_cookies:
@@ -2910,7 +2902,7 @@ de:
       openid: Melde Dich mit OpenStreetMap an
       read_prefs: Benutzereinstellungen lesen
       write_prefs: Benutzereinstellungen verändern
-      write_diary: Tagebucheinträge und Kommentare erstellen und Freunde finden
+      write_diary: Benutzereinträge und Kommentare erstellen
       write_api: Karte bearbeiten
       read_gpx: Private GPS-Tracks lesen
       write_gpx: GPS-Tracks hochladen
@@ -3005,8 +2997,6 @@ de:
           zu E-Mail-Adressen
         contributor_terms: Bedingungen für Mitwirkende
       continue: Registrieren
-      terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende zugestimmt
-        hast!
       email_help:
         privacy_policy: Datenschutzrichtlinie
         privacy_policy_title: OSMF-Datenschutzrichtlinie mit Abschnitt über E-Mail-Adressen
@@ -3043,8 +3033,8 @@ de:
       edits: Bearbeitungen
       traces: Tracks
       notes: Fehler-Hinweise
-      remove as friend: Freund entfernen
-      add as friend: Freund hinzufügen
+      unfollow: Entfolgen
+      follow: Folgen
       mapper since: 'Mapper seit:'
       last map edit: 'Letzte Kartenbearbeitung:'
       no activity yet: Noch keine Aktivität
@@ -3120,6 +3110,15 @@ de:
       user:
         summary_html: '%{name} erstellt von %{ip_address} am %{date}'
         summary_no_ip_html: '%{name} erstellt am %{date}'
+    changeset_comments:
+      page:
+        when: Zeitpunkt
+        comment: Kommentar
+    diary_comments:
+      index:
+        title: Tagebuch-Kommentare hinzugefügt von %{user}
+      page:
+        post: Blogeintrag
     suspended:
       title: Benutzerkonto gesperrt
       heading: Benutzerkonto gesperrt

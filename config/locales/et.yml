@@ -248,12 +248,6 @@ et:
       external auth: Väline autentimine
       openid:
         link text: mis see on?
-      public editing:
-        heading: Avalik toimetamine
-        enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
-        enabled link text: mis see on?
-        disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
-        disabled link text: Miks ma ei saa kaarti töödelda?
       contributor terms:
         heading: Kaastöötingimused
         agreed: Oled nõustunud uute kaastöötingimustega.
@@ -339,6 +333,8 @@ et:
           france: Prantsusmaa
           italy: Itaalia
           rest_of_world: Muu maailm
+      update:
+        terms accepted: Täname, et nõustusid uute kaastöötingimustega!
       terms_declined_flash:
         terms_declined_html: Meil on kahju, et otsustasid kaastöötingimustega mitte
           nõustutada. Lisateavet leiad %{terms_declined_link}.
@@ -468,7 +464,6 @@ et:
       title: Muudatuskogumid
       title_user: Kasutaja %{user} muudatuskogumid
       title_user_link_html: Kasutaja %{user_link} muudatuskogumid
-      title_friend: Sõprade muudatuskogumid
       title_nearby: Läheduses asuvate kasutajate muudatuskogumid
       empty: Muudatuskogumeid ei leitud.
       empty_area: Selles alas ei ole muudatuskogumeid.
@@ -483,20 +478,6 @@ et:
         created: Loodud
         closed: Suletud
         belongs_to: Autor
-    subscribe:
-      heading: Kas soovid selle muudatuskogumi arutelu tellida?
-      button: Telli arutelu
-    unsubscribe:
-      heading: Kas soovid selle muudatuskogumi arutelu tellimusest loobuda?
-      button: Loobu arutelu jälgimisest
-    heading:
-      title: Muudatuskogum %{id}
-      created_by_html: Loonud %{link_user} kuupäeval %{created}
-    no_such_entry:
-      heading: Ei leidu kirjet identifikaatoriga %{id}
-      body: Vabandust, muudatuskogumit identifikaatoriga %{id} ei ole olemas. Palun
-        kontrolli, kas kirjutasid selle õigesti või kas link millel klõpsasid, on
-        vale.
     show:
       title: 'Muudatuskogum: %{id}'
       created: 'Loodud: %{when}'
@@ -527,6 +508,22 @@ et:
       relations_paginated: Relatsioonid (%{x}–%{y} %{count}-st)
     timeout:
       sorry: Kahjuks võttis taotletud muudatuskogumite laadimine liiga kaua aega.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Kas soovid selle muudatuskogumi arutelu tellida?
+        button: Telli arutelu
+      unsubscribe:
+        heading: Kas soovid selle muudatuskogumi arutelu tellimusest loobuda?
+        button: Loobu arutelu jälgimisest
+    heading:
+      title: Muudatuskogum %{id}
+      created_by_html: Loonud %{link_user} kuupäeval %{created}
+    no_such_entry:
+      heading: Ei leidu kirjet identifikaatoriga %{id}
+      body: Vabandust, muudatuskogumit identifikaatoriga %{id} ei ole olemas. Palun
+        kontrolli, kas kirjutasid selle õigesti või kas link millel klõpsasid, on
+        vale.
   dashboards:
     contact:
       km away: '%{count} kilomeetri kaugusel'
@@ -535,19 +532,14 @@ et:
     popup:
       your location: Sinu asukoht
       nearby mapper: Lähedaloevad kaardistajad
-      friend: Sõber
     show:
       title: Minu andmelaud
       no_home_location_html: '%{edit_profile_link} ja määra enda asukoht, et näha
         ümberkaudseid kasutajaid.'
       edit_your_profile: Muuda profiili
-      my friends: Minu sõbrad
-      no friends: Sa ei ole lisanud veel ühtegi sõpra.
       nearby users: Teised lähedal asuvad kasutajad
       no nearby users: Puuduvad teised kasutajad, kes tunnistavad, et kaardistavad
         läheduses.
-      friends_changesets: sõprade muudatuskogumid
-      friends_diaries: sõprade päevikusissekanded
       nearby_changesets: lähedalasuvate kasutajate muudatuskogumid
       nearby_diaries: lähedalasuvate kasutajate päevikusissekanded
   diary_entries:
@@ -558,7 +550,6 @@ et:
       use_map_link: Kasuta kaarti
     index:
       title: Kasutajate päevikud
-      title_friends: Sõprade päevikud
       title_nearby: Lähedalasuvate kasutajate päevikud
       user_title: Kasutaja %{user} päevik
       in_language_title: Päevikusissekanded (%{language})
@@ -624,16 +615,6 @@ et:
     unsubscribe:
       heading: Kas soovid selle päevikusissekande arutelu tellimusest loobuda?
       button: Loobu arutelu jälgimisest
-  diary_comments:
-    index:
-      title: Kasutaja %{user} lisatud päevikukommentaarid
-      heading: Kasutaja %{user} päevikukommentaarid
-      subheading_html: Päevikukommentaarid, mille on lisanud kasutaja %{user}
-      no_comments: Päevikukommentaarid puuduvad.
-    page:
-      post: Postitus
-      when: Millal
-      comment: Kommentaar
   doorkeeper:
     flash:
       applications:
@@ -663,20 +644,6 @@ et:
       title: Faili ei leidu
       description: Sellise nimega faili/kataloogi/API meetodit ei leidu OpenStreetMapi
         serveris (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Lisada %{user} sõbraks?
-      button: Lisa sõbraks
-      success: '%{name} on nüüd sinu sõber.'
-      failed: Vabandust, kasutaja %{name} sõbraks lisamine ebaõnnestus.
-      already_a_friend: Sa oled kasutajaga %{name} juba sõber.
-      limit_exceeded: Sa oled endale hiljuti lisanud palju sõpru. Palun oota mõnda
-        aega, enne kui proovid veel sõpru lisada.
-    remove_friend:
-      heading: Eemaldada %{user} sõprade hulgast?
-      button: Eemalda sõprade hulgast
-      success: '%{name} eemaldati sinu sõprade hulgast.'
-      not_a_friend: '%{name} ei ole üks sinu sõpradest.'
   geocoder:
     search:
       title:
@@ -1573,14 +1540,10 @@ et:
         aadressil %{replyurl}.
       footer_html: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
         aadressil %{replyurl}.
-    friendship_notification:
+    follow_notification:
       hi: Tere, %{to_user}
-      subject: '[OpenStreetMap] %{user} lisas sind oma sõbraks'
-      had_added_you: '%{user} lisas sind OpenStreetMapis sõbraks.'
       see_their_profile: Tema profiiliga võid tutvuda aadressil %{userurl}.
       see_their_profile_html: Tema profiiliga saad tutvuda aadressil %{userurl}.
-      befriend_them: Sa võid ta lisada oma sõbraks aadressil %{befriendurl}.
-      befriend_them_html: Saad ta ka enda sõbraks lisada aadressil %{befriendurl}.
     gpx_failure:
       hi: Tere, %{to_user}
       failed_to_import: 'importimine GPS-rajafailiks ebaõnnestus. Palun veendu, et
@@ -2476,13 +2439,14 @@ et:
     offline:
       heading: GPX-failide salvestamine hetkel ei tööta
       message: GPX-failide salvestamise ja üleslaadimise süsteem pole hetkel kasutatav.
-    georss:
-      title: OpenStreetMapi GPS-rajad
-    description:
-      description_with_count:
-        one: Kasutaja %{user} %{count}-punktline GPX-fail
-        other: Kasutaja %{user} %{count}-punktline GPX-fail
-      description_without_count: Kasutaja %{user} GPX-fail
+    feeds:
+      show:
+        title: OpenStreetMapi GPS-rajad
+      description:
+        description_with_count:
+          one: Kasutaja %{user} %{count}-punktline GPX-fail
+          other: Kasutaja %{user} %{count}-punktline GPX-fail
+        description_without_count: Kasutaja %{user} GPX-fail
   application:
     require_cookies:
       cookies_needed: Paistab, et sul on küpsised keelatud. Enne jätkamist luba palun
@@ -2599,7 +2563,6 @@ et:
           aadresside kohta
         contributor_terms: kaastöötingimustega
       continue: Registreeru
-      terms accepted: Täname, et nõustusid uute kaastöötingimustega!
       email_help:
         privacy_policy: andmekaitsereeglitega
         privacy_policy_title: OSMF-i andmekaitsereeglid, sealhulgas peatükk e-posti
@@ -2635,8 +2598,6 @@ et:
       edits: Muudatused
       traces: Rajaloend
       notes: Märkused
-      remove as friend: Eemalda sõprade hulgast
-      add as friend: Lisa sõbraks
       mapper since: 'Kaardistaja alates:'
       last map edit: 'Viimane muudatus kaardil:'
       uid: 'Kasutaja ID:'
@@ -2695,6 +2656,15 @@ et:
       user:
         summary_html: '%{name} loodud IP-aadressilt %{ip_address} (%{date})'
         summary_no_ip_html: '%{name} loodud (%{date})'
+    changeset_comments:
+      page:
+        when: Millal
+        comment: Kommentaar
+    diary_comments:
+      index:
+        title: Kasutaja %{user} lisatud päevikukommentaarid
+      page:
+        post: Postitus
     suspended:
       title: Konto peatatud
       heading: Konto peatatud

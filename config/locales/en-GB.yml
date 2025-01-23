@@ -241,12 +241,6 @@ en-GB:
       external auth: External Authentication
       openid:
         link text: what is this?
-      public editing:
-        heading: Public editing
-        enabled: Enabled. Not anonymous and can edit data.
-        enabled link text: what is this?
-        disabled: Disabled and cannot edit data, all previous edits are anonymous.
-        disabled link text: why can't I edit?
       contributor terms:
         heading: Contributor Terms
         agreed: You have agreed to the new Contributor Terms.
@@ -276,6 +270,8 @@ en-GB:
           france: France
           italy: Italy
           rest_of_world: Rest of the world
+      update:
+        terms accepted: Thanks for accepting the new contributor terms!
       terms_declined_flash:
         terms_declined_html: We are sorry that you have decided to not accept the
           new Contributor Terms. For more information, please see %{terms_declined_link}.
@@ -370,7 +366,6 @@ en-GB:
     index:
       title: Changesets
       title_user: Changesets by %{user}
-      title_friend: Changesets by my friends
       title_nearby: Changesets by nearby users
       empty: No changesets found.
       empty_area: No changesets in this area.
@@ -415,13 +410,9 @@ en-GB:
     popup:
       your location: Your location
       nearby mapper: Nearby mapper
-      friend: Friend
     show:
-      no friends: You have not added any friends yet.
       nearby users: Other nearby users
       no nearby users: There are no other users who admit to mapping nearby yet.
-      friends_changesets: friends' changesets
-      friends_diaries: friends' diary entries
       nearby_changesets: nearby user changesets
       nearby_diaries: nearby user diary entries
   diary_entries:
@@ -478,11 +469,6 @@ en-GB:
       all:
         title: OpenStreetMap diary entries
         description: Recent diary entries from users of OpenStreetMap
-  diary_comments:
-    page:
-      post: Post
-      when: When
-      comment: Comment
   doorkeeper:
     errors:
       messages:
@@ -491,18 +477,6 @@ en-GB:
         consent_required: The authorisation server requires end-user consent
         interaction_required: The authorisation server requires end-user interaction
         login_required: The authorisation server requires end-user authentication
-  friendships:
-    make_friend:
-      heading: Add %{user} as a friend?
-      button: Add as friend
-      success: '%{name} is now your friend!'
-      failed: Sorry, failed to add %{name} as a friend.
-      already_a_friend: You are already friends with %{name}.
-    remove_friend:
-      heading: Unfriend %{user}?
-      button: Unfriend
-      success: '%{name} was removed from your friends.'
-      not_a_friend: '%{name} is not one of your friends.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1128,12 +1102,9 @@ en-GB:
         subject %{subject}:'
       footer_html: You can also read the message at %{readurl} and you can send a
         message to the author at %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hi %{to_user},
-      subject: '[OpenStreetMap] %{user} added you as a friend'
-      had_added_you: '%{user} has added you as a friend on OpenStreetMap.'
       see_their_profile: You can see their profile at %{userurl}.
-      befriend_them: You can also add them as a friend at %{befriendurl}.
     gpx_failure:
       subject: '[OpenStreetMap] GPX Import failure'
     gpx_success:
@@ -1603,13 +1574,14 @@ en-GB:
     offline:
       heading: GPX Storage Offline
       message: The GPX file storage and upload system is currently unavailable.
-    georss:
-      title: OpenStreetMap GPS Traces
-    description:
-      description_with_count:
-        one: GPX file with %{count} point from %{user}
-        other: GPX file with %{count} points from %{user}
-      description_without_count: GPX file from %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS Traces
+      description:
+        description_with_count:
+          one: GPX file with %{count} point from %{user}
+          other: GPX file with %{count} points from %{user}
+        description_without_count: GPX file from %{user}
   application:
     require_cookies:
       cookies_needed: You appear to have cookies disabled - please enable cookies
@@ -1634,7 +1606,6 @@ en-GB:
       display name description: Your publicly displayed username. You can change this
         later in the preferences.
       continue: Sign Up
-      terms accepted: Thanks for accepting the new contributor terms!
     no_such_user:
       title: No such user
       heading: The user %{user} does not exist
@@ -1657,8 +1628,6 @@ en-GB:
       edits: Edits
       traces: Traces
       notes: Map Notes
-      remove as friend: Unfriend
-      add as friend: Add Friend
       mapper since: 'Mapper since:'
       ct status: 'Contributor terms:'
       ct undecided: Undecided
@@ -1706,6 +1675,13 @@ en-GB:
       user:
         summary_html: '%{name} created from %{ip_address} on %{date}'
         summary_no_ip_html: '%{name} created on %{date}'
+    changeset_comments:
+      page:
+        when: When
+        comment: Comment
+    diary_comments:
+      page:
+        post: Post
     suspended:
       title: Account Suspended
       heading: Account Suspended

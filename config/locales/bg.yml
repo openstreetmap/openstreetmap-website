@@ -237,10 +237,6 @@ bg:
       external auth: Удостоверяване от външен източник
       openid:
         link text: какво е това?
-      public editing:
-        enabled: Разрешено. Не е анонимно и можете да променяте данните.
-        enabled link text: какво е това?
-        disabled link text: защо не мога да редактирам?
       contributor terms:
         heading: Условия за сътрудничество
         agreed: Приели сте новите условия за сътрудничество.
@@ -297,6 +293,8 @@ bg:
           france: Франция
           italy: Италия
           rest_of_world: В останалата част на света
+      update:
+        terms accepted: Благодарим Ви, че приемате новите условия за сътрудничество!
   browse:
     edited_ago_by_html: Редактирано %{time_ago} от %{user}
     version: Версия
@@ -384,7 +382,6 @@ bg:
     index:
       title: Списък с промени
       title_user: Списък с промените на %{user}
-      title_friend: Списъци с промени на мои приятели
       title_nearby: Списъци с промени от потребители в близост
       empty: Няма списъци с промени.
       empty_area: Няма списъци с промени в този район.
@@ -432,17 +429,12 @@ bg:
     popup:
       your location: Моето местоположение
       nearby mapper: Картографи в близост
-      friend: Приятел
     show:
       no_home_location_html: '%{edit_profile_link} и задайте домашното си местоположение,
         за да видите потребителите наблизо.'
       edit_your_profile: Редактиране на профила
-      my friends: Моите приятели
-      no friends: Все още нямате добавени приятели.
       nearby users: Други потребители в близост
       no nearby users: Все още няма други потребители, които картографират в близост.
-      friends_changesets: набори с промени на приятели
-      friends_diaries: записи в дневника на приятели
   diary_entries:
     new:
       title: Нова публикация в дневника
@@ -451,7 +443,6 @@ bg:
       use_map_link: Използвай карта
     index:
       title: Дневници на потребителите
-      title_friends: Дневници на приятели
       title_nearby: Дневници на потребители в близост
       user_title: Дневник на %{user}
       in_language_title: Записи на %{language} в дневника
@@ -506,31 +497,12 @@ bg:
           %{language_name}
       all:
         title: Записи в дневника на OpenStreetMap
-  diary_comments:
-    index:
-      no_comments: Няма коментари в дневника
-    page:
-      post: Публикация
-      when: Кога
-      comment: Коментар
   doorkeeper:
     scopes:
       address: Вижте вашия физически адрес
   errors:
     contact:
       contact: контакт
-  friendships:
-    make_friend:
-      heading: Добави %{user} като приятел?
-      button: Добави като приятел
-      success: Сега сте приятели с %{name}!
-      failed: Съжаляваме, неуспешно добавяне на %{name} като приятел.
-      already_a_friend: Вие вече сте приятел с %{name}.
-    remove_friend:
-      heading: Премахни %{user} от приятели?
-      button: Премахване от приятели
-      success: '%{name} беше премахнат от списъка с приятелите.'
-      not_a_friend: '%{name} не е между вашите приятели.'
   geocoder:
     search:
       title:
@@ -1253,12 +1225,9 @@ bg:
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Здравейте %{to_user},
-    friendship_notification:
+    follow_notification:
       hi: Здравейте %{to_user},
-      subject: '[OpenStreetMap] %{user} ви добави като приятел'
-      had_added_you: '%{user} ви добави като приятел на OpenStreetMap.'
       see_their_profile: Можете да видите профила му на %{userurl}.
-      befriend_them: Можете да ги добавите като приятел на %{befriendurl}.
     gpx_failure:
       hi: Здравейте %{to_user},
       failed_to_import: 'не е внесен. Това е грешката:'
@@ -1837,13 +1806,14 @@ bg:
       upload_trace: Качване на следи от GPS
       all_traces: Всички следи
       my_traces: Моите следи
-    georss:
-      title: OpenStreetMap GPS трасета
-    description:
-      description_with_count:
-        one: файл от GPX с %{count} точка от %{user}
-        other: файл от GPX с %{count} точки от %{user}
-      description_without_count: Файл на GPX от %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS трасета
+      description:
+        description_with_count:
+          one: файл от GPX с %{count} точка от %{user}
+          other: файл от GPX с %{count} точки от %{user}
+        description_without_count: Файл на GPX от %{user}
   application:
     permission_denied: Нямате разрешение за достъп до това действие
     auth_providers:
@@ -1880,7 +1850,6 @@ bg:
           хора като Вас и е безплатна за всеки, който иска да я поправи, актуализира,
           изтегли и използва.
       continue: Регистриране
-      terms accepted: Благодарим Ви, че приемате новите условия за сътрудничество!
       use external auth: Или използвайте удостоверяване от външен източник
     no_such_user:
       title: Няма такъв потребител
@@ -1905,8 +1874,6 @@ bg:
       edits: Промени
       traces: Следи
       notes: Бележки
-      remove as friend: Премахване от приятели
-      add as friend: Добавяне в приятели
       mapper since: 'Картограф от:'
       ct status: 'Условия за сътрудничество:'
       ct undecided: Неопределени
@@ -1941,6 +1908,13 @@ bg:
         hide: Скрий избраните потребители
       user:
         summary_no_ip_html: '%{name} създадено на %{date}'
+    changeset_comments:
+      page:
+        when: Кога
+        comment: Коментар
+    diary_comments:
+      page:
+        post: Публикация
     suspended:
       support: поддръжка
   user_blocks:

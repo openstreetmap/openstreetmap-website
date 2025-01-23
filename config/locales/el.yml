@@ -128,8 +128,7 @@ el:
         support_url: URL Υποστήριξης
         allow_read_prefs: ανάγνωση των προτιμήσεων χρήστη
         allow_write_prefs: τροποποίηση των προτιμήσεων χρήστη
-        allow_write_diary: δημιουργία καταχωρήσεων ημερολογίου, σχόλια και δημιουργία
-          φίλων
+        allow_write_diary: δημιουργία καταχωρήσεων ημερολογίου και σχολίων
         allow_write_api: τροποποίηση του χάρτη
         allow_read_gpx: ανάγνωση των προσωπικών ιχνών GPS
         allow_write_gpx: μεταφόρτωση ιχνών GPS
@@ -293,14 +292,6 @@ el:
       external auth: Εξωτερική επαλήθευση ταυτότητας
       openid:
         link text: τι είναι αυτό;
-      public editing:
-        heading: Δημόσια επεξεργασία
-        enabled: Ενεργοποιήθηκε. Δεν είστε πια ανώνυμοι και μπορείτε να επεξεργαστείτε
-          δεδομένα.
-        enabled link text: τι είναι αυτό;
-        disabled: Απενεργοποιήθηκε και δεν μπορείτε να επεξεργαστείτε δεδομένα, όλες
-          οι προηγούμενες επεξεργασίες είναι ανώνυμες.
-        disabled link text: γιατί δεν μπορώ να επεξεργαστώ τον χάρτη;
       contributor terms:
         heading: Όροι Συνεισφοράς
         agreed: Έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
@@ -393,6 +384,8 @@ el:
           france: Γαλλία
           italy: Ιταλία
           rest_of_world: Υπόλοιπος κόσμος
+      update:
+        terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       terms_declined_flash:
         terms_declined_html: Λυπούμαστε που αποφασίσατε να μην αποδεχτείτε τους νέους
           Όρους Συνεισφοράς. Για περισσότερες πληροφορίες, ανατρέξτε στο %{terms_declined_link}.
@@ -551,7 +544,7 @@ el:
       title: Σύνολα αλλαγών
       title_user: Σύνολα αλλαγών από %{user}
       title_user_link_html: Σύνολα αλλαγών από %{user_link}
-      title_friend: Σύνολα αλλαγών από τους φίλους μου
+      title_followed: Σύνολα αλλαγών από χρήστες που ακολουθείτε
       title_nearby: Σύνολα αλλαγών από κοντινούς χρήστες
       empty: Δε βρέθηκαν σύνολα αλλαγών.
       empty_area: Χωρίς σύνολα αλλαγών σε αυτήν την περιοχή.
@@ -566,19 +559,6 @@ el:
         created: Δημιουργήθηκε
         closed: Έκλεισε
         belongs_to: Συντάκτης
-    subscribe:
-      heading: Εγγραφή στην ακόλουθη συζήτηση συνόλου αλλαγών;
-      button: Εγγραφή στη συζήτηση
-    unsubscribe:
-      heading: Απεγγραφή από την ακόλουθη συζήτηση συνόλο αλλαγών;
-      button: Απεγγραφή από τη συζήτηση
-    heading:
-      title: Σύνολο αλλαγών %{id}
-      created_by_html: Δημιουργήθηκε από %{link_user} στις %{created}.
-    no_such_entry:
-      heading: 'Δεν υπάρχει καταχώρηση με id: %{id}'
-      body: Λυπούμαστε, δεν υπάρχει σύνολο αλλαγών με το id %{id}. Παρακαλούμε ελέγξτε
-        για τυχόν ορθογραφικά λάθη ή ίσως ο σύνδεσμος που πατήσατε να είναι λάθος.
     show:
       title: 'Σύνολο αλλαγών: %{id}'
       created: 'Δημιουργήθηκε: %{when}'
@@ -612,6 +592,21 @@ el:
     timeout:
       sorry: Λυπόμαστε, ο κατάλογος των αλλαγών που ζητήσατε χρειάστηκε πολύ χρόνο
         για να ανακτηθεί.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Εγγραφή στην ακόλουθη συζήτηση συνόλου αλλαγών;
+        button: Εγγραφή στη συζήτηση
+      unsubscribe:
+        heading: Απεγγραφή από την ακόλουθη συζήτηση συνόλο αλλαγών;
+        button: Απεγγραφή από τη συζήτηση
+    heading:
+      title: Σύνολο αλλαγών %{id}
+      created_by_html: Δημιουργήθηκε από %{link_user} στις %{created}.
+    no_such_entry:
+      heading: 'Δεν υπάρχει καταχώρηση με id: %{id}'
+      body: Λυπούμαστε, δεν υπάρχει σύνολο αλλαγών με το id %{id}. Παρακαλούμε ελέγξτε
+        για τυχόν ορθογραφικά λάθη ή ίσως ο σύνδεσμος που πατήσατε να είναι λάθος.
   dashboards:
     contact:
       km away: '%{count} χλμ. μακριά'
@@ -620,19 +615,19 @@ el:
     popup:
       your location: Η τοποθεσία σας
       nearby mapper: Κοντινός χαρτογράφος
-      friend: Φίλος
+      following: Ακολουθείτε
     show:
       title: Το ταμπλό μου
       no_home_location_html: '%{edit_profile_link} και βάλτε την τοποθεσία σας για
         να δείτε κοντινούς χρήστες.'
       edit_your_profile: Επεξεργαστείτε το προφίλ σας
-      my friends: Οι φίλοι μου
-      no friends: Δεν έχετε προσθέσει φίλους ακόμα.
+      followings: Χρήστες που ακολουθείτε
+      no followings: Δεν έχετε ακολουθήσει ακόμη κανέναν χρήστη.
       nearby users: Άλλοι κοντινοί χρήστες
       no nearby users: Δεν υπάρχουν άλλοι χρήστες που δήλωσαν ότι χαρτογραφούν κοντά
         σας προς το παρόν.
-      friends_changesets: σύνολα αλλαγών φίλων
-      friends_diaries: καταχωρήσεις ημερολογίου φίλων
+      followed_changesets: σύνολα αλλαγών
+      followed_diaries: καταχωρήσεις ημερολογίου
       nearby_changesets: σύνολα αλλαγών από κοντινούς χρήστες
       nearby_diaries: καταχωρήσεις ημερολογίου από κοντινούς χρήστες
   diary_entries:
@@ -643,7 +638,7 @@ el:
       use_map_link: Χρησιμοποιήστε τον χάρτη
     index:
       title: Ημερολόγια χρηστών
-      title_friends: Ημερολόγια φίλων
+      title_followed: Ημερολόγια χρηστών που ακολουθείτε
       title_nearby: Ημερολόγια κοντινών χρηστών
       user_title: Ημερολόγιο του χρήστη %{user}
       in_language_title: Καταχωρήσεις ημερολογίων στα %{language}
@@ -711,15 +706,6 @@ el:
       heading: Απεγγραφή από την ακόλουθη συζήτηση καταχώρισης ημερολογίου;
       button: Απεγγραφή από τη συζήτηση
   diary_comments:
-    index:
-      title: Σχόλια ημερολογίου που προστέθηκαν από τον/την %{user}
-      heading: Σχόλια Ημερολογίου %{user}
-      subheading_html: Σχόλια ημερολογίου που προστέθηκαν από τον/την %{user}
-      no_comments: Χωρίς σχόλια ημερολογίου
-    page:
-      post: Καταχώρηση
-      when: Πότε
-      comment: Σχόλιο
     new:
       heading: Προσθήκη σχολίου στην ακόλουθη συζήτηση καταχώρισης ημερολογίου;
   doorkeeper:
@@ -783,20 +769,23 @@ el:
       title: Το αρχείο δε βρέθηκε
       description: Δεν ήταν δυνατή η εύρεση αρχείου/καταλόγου/λειτουργίας API με αυτό
         το όνομα στο διακομιστή OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Προσθήκη του %{user} ως φίλου;
-      button: Προσθήκη ως φίλο
-      success: Ο %{name} είναι τώρα φίλος σου!
-      failed: Λυπούμαστε, απέτυχε η προσθήκη του/της %{name} ως φίλου.
-      already_a_friend: Είστε ήδη φίλοι με τον/την %{name}.
-      limit_exceeded: Έκανες πολλούς φίλους τελευταία. Παρακαλώ περίμενε λίγο πριν
-        προσπαθήσεις να κάνεις περισσότερους φίλους.
-    remove_friend:
-      heading: Αφαίρεση φίλου %{user};
-      button: Αφαίρεση φίλου
-      success: Ο/Η %{name} αφαιρέθηκε από τους φίλους.
-      not_a_friend: Ο/Η %{name} δεν είναι ένας από τους φίλους σας.
+  follows:
+    show:
+      follow:
+        heading: Θέλετε να ακολουθήσετε τον/την %{user};
+        button: Ακολουθήστε τον χρήστη
+      unfollow:
+        heading: Θέλετε να καταργήσετε την ακολούθηση του/της %{user};
+        button: Κατάργηση ακολούθησης χρήστη
+    create:
+      success: Τώρα ακολουθείτε τον/την %{name}!
+      failed: Λυπούμαστε, το αίτημα σας να ακολουθήσετε τον/την %{name} απέτυχε.
+      already_followed: Ακολουθείτε ήδη τον/την %{name}.
+      limit_exceeded: Έχετε ακολουθήσει πολλούς χρήστες πρόσφατα. Παρακαλούμε περιμένετε
+        λίγο πριν προσπαθήσετε να ακολουθήσετε περισσότερους.
+    destroy:
+      success: Καταργήσατε επιτυχώς την ακολούθηση του/της %{name}.
+      not_followed: Δεν ακολουθείτε τον/την %{name}.
   geocoder:
     search:
       title:
@@ -1766,20 +1755,22 @@ el:
         μήνυμα στον συγγραφέα στο %{replyurl}
       footer_html: Μπορείτε επίσης να διαβάσετε το μήνυμα στο %{readurl} και να στείλετε
         μήνυμα στον συγγραφέα στο %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Γεια σας %{to_user},
-      subject: '[OpenStreetMap] Ο/Η %{user} σας πρόσθεσε ως φίλο'
-      had_added_you: Ο/Η %{user} σας πρόσθεσε ως φίλο στο OpenStreetMap.
+      subject: '[OpenStreetMap] %{user} σας ακολούθησε'
+      followed_you: '%{user} σας ακολουθεί τώρα στο OpenStreetMap.'
       see_their_profile: Μπορείτε να δείτε το προφίλ του/της στο %{userurl}.
       see_their_profile_html: Μπορείτε να δείτε το προφίλ του/της στο %{userurl}.
-      befriend_them: Μπορείτε επίσης να τον/την προσθέσετε ως φίλο στο %{befriendurl}.
-      befriend_them_html: Μπορείτε επίσης να τον/την προσθέσετε ως φίλο στο %{befriendurl}.
+      follow_them: Μπορείτε επίσης να τους ακολουθήσετε στο %{followurl}.
+      follow_them_html: Μπορείτε επίσης να τους ακολουθήσετε στο %{followurl}.
     gpx_details:
       details: 'Οι λεπτομέρειες του αρχείου σας:'
       filename: Όνομα αρχείου
       url: URL
       description: Περιγραφή
       tags: Ετικέτες
+      total_points: Συνολικός αριθμός σημείων
+      imported_points: Αριθμός εισαγόμενων σημείων
     gpx_failure:
       hi: Γεια σας %{to_user},
       failed_to_import: Φαίνεται ότι το αρχείο σας απέτυχε να εισαχθεί ως ίχνος GPS.
@@ -1794,6 +1785,8 @@ el:
       subject: '[OpenStreetMap] Αποτυχία εισαγωγής GPX'
     gpx_success:
       hi: Γεια σας %{to_user},
+      imported_successfully: Φαίνεται ότι το αρχείο σας εισήχθη με επιτυχία ως ίχνος
+        GPS.
       all_your_traces: Όλα τα επιτυχώς ανεβασμένα ίχνη GPX σας μπορούν να βρεθούν
         στο %{url}
       all_your_traces_html: Όλα τα επιτυχώς ανεβασμένα ίχνη GPX σας μπορούν να βρεθούν
@@ -2747,13 +2740,14 @@ el:
       heading: Αποθήκευση GPX εκτός σύνδεσης
       message: Το σύστημα αποθήκευσης και μεταφόρτωσης αρχείων GPX δεν είναι διαθέσιμο
         αυτή την στιγμή
-    georss:
-      title: Ίχνη GPS OpenStreetMap
-    description:
-      description_with_count:
-        one: αρχείο GPX με %{count} σημείο από %{user}
-        other: αρχείο GPX με %{count} σημεία από %{user}
-      description_without_count: Αρχείο GPX από τον/την %{user}
+    feeds:
+      show:
+        title: Ίχνη GPS OpenStreetMap
+      description:
+        description_with_count:
+          one: αρχείο GPX με %{count} σημείο από %{user}
+          other: αρχείο GPX με %{count} σημεία από %{user}
+        description_without_count: Αρχείο GPX από τον/την %{user}
   application:
     permission_denied: Δεν έχετε τα απαραίτητα δικαιώματα για πρόσβαση σε αυτήν την
       ενέργεια
@@ -2824,7 +2818,7 @@ el:
       openid: Συνδεθείτε χρησιμοποιώντας το OpenStreetMap
       read_prefs: Διαβάζει τις προτιμήσεις χρήστη
       write_prefs: Τροποποιεί τις προτιμήσεις χρήστη
-      write_diary: Δημιουργήστε καταχωρήσεις ημερολογίου, σχόλια και κάντε φίλους
+      write_diary: Δημιουργεί καταχωρήσεις ημερολογίου και σχόλια
       write_api: Τροποποίηση του χάρτη
       read_gpx: Ανάγνωση προσωπικών ιχνών GPS
       write_gpx: Μεταφόρτωση ιχνών GPS
@@ -2919,7 +2913,6 @@ el:
           για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
         contributor_terms: όρους συνεισφοράς
       continue: Εγγραφή
-      terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       email_help:
         privacy_policy: πολιτική απορρήτου
         privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
@@ -2958,8 +2951,8 @@ el:
       edits: Επεξεργασίες
       traces: Ίχνη
       notes: Σημειώσεις χάρτη
-      remove as friend: Αφαίρεση φίλου
-      add as friend: Προσθήκη φίλου
+      unfollow: Κατάργηση ακολούθησης
+      follow: Ακολούθηση
       mapper since: 'Χαρτογράφος από:'
       last map edit: 'Τελευταία επεξεργασία χάρτη:'
       no activity yet: Καμία δραστηριότητα ακόμη
@@ -3036,6 +3029,15 @@ el:
         summary_html: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις
           %{date}'
         summary_no_ip_html: '%{name} δημιουργήθηκε στις %{date}'
+    changeset_comments:
+      page:
+        when: Πότε
+        comment: Σχόλιο
+    diary_comments:
+      index:
+        title: Σχόλια ημερολογίου που προστέθηκαν από τον/την %{user}
+      page:
+        post: Καταχώρηση
     suspended:
       title: Ο λογαριασμός έχει ανασταλεί
       heading: Ο λογαριασμός έχει ανασταλεί
@@ -3247,9 +3249,21 @@ el:
         ώστε να λυθεί το πρόβλημα. Μετακινείστε το δείκτη στη σωστή θέση και γράψτε
         μια περιγραφή του προβλήματος ως εξήγηση.
       anonymous_warning_html: Δεν έχετε συνδεθεί. Παρακαλούμε κάντε %{log_in} ή %{sign_up}
-        αν θέλετε να λαμβάνετε ενημερώσεις για την σημείωσή σας.
+        για να λαμβάνετε ενημερώσεις για την σημείωσή σας και να βοηθάτε τους χαρτογράφους
+        για την επίλυση της.
       anonymous_warning_log_in: σύνδεση
       anonymous_warning_sign_up: εγγραφή
+      counter_warning_html: Έχετε ήδη δημοσιεύσει τουλάχιστον %{x_anonymous_notes},
+        αυτό είναι ωραίο για την κοινότητα, ευχαριστούμε! Τώρα σας ενθαρρύνουμε να
+        %{contribute_by_yourself}, δεν είναι τόσο πολύπλοκο, και %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} ανώνυμη σημείωση'
+        other: '%{count} ανώνυμες σημειώσεις'
+      counter_warning_guide_link:
+        text: συνεισφέρετε μόνοι σας
+        url: https://wiki.openstreetmap.org/wiki/El:Οδηγός_για_αρχάριους
+      counter_warning_forum_link:
+        text: η κοινότητα μπορεί να σας βοηθήσει
       advice: Η σημείωση σας είναι δημόσια και μπορεί να χρησιμοποιηθεί για την ενημέρωση
         του χάρτη, γι'αυτό μην προστέθετε προσωπικές πληροφορίες, ή πληροφορίες από
         χάρτες που καλύπτονται από πνευματικά δικαιώματα ή καταχωρήσεις καταλόγου.

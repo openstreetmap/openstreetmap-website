@@ -294,13 +294,6 @@ ja:
       openid:
         link: https://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
         link text: これは何ですか?
-      public editing:
-        heading: 公開編集
-        enabled: 有効。匿名ではなく、データを編集できます。
-        enabled link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
-        enabled link text: これは何ですか?
-        disabled: 無効。データを編集できず、これまでの編集はすべて匿名です。
-        disabled link text: なぜ編集できないのですか?
       contributor terms:
         heading: 協力者規約
         agreed: あなたは、新しい協力者規約を承諾しています。
@@ -358,13 +351,14 @@ ja:
         readable_summary: 人間が読める要約
         informal_translations: 非公式の翻訳
         continue: 続行
-        declined: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
         you need to accept or decline: 続行するには新しい協力者規約を読んで承諾または拒否してください。
         legale_select: 'お住まいの国:'
         legale_names:
           france: フランス
           italy: イタリア
           rest_of_world: それ以外の国
+      update:
+        terms accepted: 新しい協力者規約を承諾していただき、ありがとうございます!
       terms_declined_flash:
         terms_declined_html: 新しい投稿者規約に同意しないことを決定されたことを残念に思います。詳細については、%{terms_declined_link}
           を参照してください。
@@ -502,7 +496,6 @@ ja:
       title: 変更セット
       title_user: '%{user} による変更セット'
       title_user_link_html: '%{user_link} による変更セット'
-      title_friend: 友達による変更セット
       title_nearby: 周辺の利用者による変更セット
       empty: 変更セットが見つかりませんでした。
       empty_area: この領域には変更セットはありません。
@@ -517,18 +510,6 @@ ja:
         created: 作成
         closed: クローズ
         belongs_to: 著者
-    subscribe:
-      heading: この変更セットのディスカッションの通知を受け取りますか？
-      button: 議論に参加する
-    unsubscribe:
-      heading: この変更セットの議論の通知を解除しますか？
-      button: 議論の通知を解除
-    heading:
-      title: 変更セット %{id}
-      created_by_html: ユーザ %{link_user} によって %{created} に作成されました。
-    no_such_entry:
-      heading: 'ID番号: %{id} のエントリはありません'
-      body: 申し訳ありませんが、ID %{id} という変更セットはありません。入力した文字列が誤っているか、クリックしたリンクが間違っている可能性があります。
     show:
       title: '変更セット: %{id}'
       created: '作成日: %{when}'
@@ -558,6 +539,20 @@ ja:
       relations_paginated: リレーション (%{x}-%{y} / %{count})
     timeout:
       sorry: 申し訳ありませんが、要求した変更セットの一覧は時間がかかりすぎたため取得できませんでした。
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: この変更セットのディスカッションの通知を受け取りますか？
+        button: 議論に参加する
+      unsubscribe:
+        heading: この変更セットの議論の通知を解除しますか？
+        button: 議論の通知を解除
+    heading:
+      title: 変更セット %{id}
+      created_by_html: ユーザ %{link_user} によって %{created} に作成されました。
+    no_such_entry:
+      heading: 'ID番号: %{id} のエントリはありません'
+      body: 申し訳ありませんが、ID %{id} という変更セットはありません。入力した文字列が誤っているか、クリックしたリンクが間違っている可能性があります。
   dashboards:
     contact:
       km away: 距離 %{count} km
@@ -566,17 +561,12 @@ ja:
     popup:
       your location: 自分の位置
       nearby mapper: 周辺のマッパー
-      friend: 友達
     show:
       title: 私のダッシュボード
       no_home_location_html: '%{edit_profile_link}そして、近くの利用者が表示されるように自宅の場所を設定します。'
       edit_your_profile: プロフィールの編集
-      my friends: 友達
-      no friends: あなたはまだ誰も友達として登録していません。
       nearby users: 周辺にいるその他の利用者
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
-      friends_changesets: 友達による変更セット
-      friends_diaries: 友達の日記エントリ
       nearby_changesets: 周辺の利用者の変更セット
       nearby_diaries: 周辺の利用者の日記エントリ
   diary_entries:
@@ -587,7 +577,6 @@ ja:
       use_map_link: 地図を使用
     index:
       title: 利用者の日記
-      title_friends: 友達の日記
       title_nearby: 周辺の利用者の日記
       user_title: '%{user}さんの日記'
       in_language_title: '%{language}の日記エントリ'
@@ -651,15 +640,6 @@ ja:
       heading: この日記エントリの議論の通知を解除しますか？
       button: 議論の通知を解除
   diary_comments:
-    index:
-      title: '%{user}が追加した日記コメント'
-      heading: '%{user}の日記コメント'
-      subheading_html: '%{user}が追加した日記コメント'
-      no_comments: 日記のコメントはありません
-    page:
-      post: 投稿
-      when: 日時
-      comment: コメント
     new:
       heading: この日記エントリの議論にコメントを追加しますか？
   doorkeeper:
@@ -709,19 +689,6 @@ ja:
     not_found:
       title: ファイルが見つかりません
       description: OpenStreetMapサーバ上に、その名称のファイル/ディレクトリ/API操作はありません (HTTP 404)
-  friendships:
-    make_friend:
-      heading: '%{user} を友達に追加しますか?'
-      button: 友達に追加
-      success: '%{name} と友達になりました!'
-      failed: '%{name} を友達として登録できませんでした。'
-      already_a_friend: あなたは %{name} と既に友達です。
-      limit_exceeded: 短い間隔で大量の友達申請を送っていますね。しばらくしてから友達申請してください。
-    remove_friend:
-      heading: '%{user} を友達から削除しますか?'
-      button: 友達を解除
-      success: '%{name} を友達から解除しました。'
-      not_a_friend: '%{name} は友達ではありません。'
   geocoder:
     search:
       title:
@@ -1668,14 +1635,10 @@ ja:
       header_html: '%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:'
       footer: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
       footer_html: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: '%{to_user},'
-      subject: '[OpenStreetMap] %{user} さんがあなたを友達に追加しました。'
-      had_added_you: OpenStreetMap で %{user} さんがあなたを友達に追加しました。
       see_their_profile: '%{userurl} でプロフィールを閲覧できます。'
       see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
-      befriend_them: '%{befriendurl} で友達になることができます。'
-      befriend_them_html: '%{befriendurl} で友達になることができます。'
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
       failed_to_import: 'GPS トレース ファイルとしてインポートできませんでした。ファイルが有効な GPXファイル、または、GPX ファイルを含む圧縮ファイル（対応形式は.tar.gz,
@@ -2428,12 +2391,13 @@ ja:
     offline:
       heading: GPX のストレージが利用できません
       message: GPX ファイルのストレージとアップロード システムは現在利用できません。
-    georss:
-      title: OpenStreetMap GPSトレース
-    description:
-      description_with_count: '{{%{user}|GPX ファイルによる地 %{count}件と%{user}による地点%{count}件を含む{PLURAL|one=GPX
-        ファイル}}'
-      description_without_count: '%{user} による GPX ファイル'
+    feeds:
+      show:
+        title: OpenStreetMap GPSトレース
+      description:
+        description_with_count: '{{%{user}|GPX ファイルによる地 %{count}件と%{user}による地点%{count}件を含む{PLURAL|one=GPX
+          ファイル}}'
+        description_without_count: '%{user} による GPX ファイル'
   application:
     permission_denied: その処理をする権限がありません
     require_cookies:
@@ -2553,7 +2517,6 @@ ja:
         privacy_policy_title: OSMFのプライバシーポリシー（電子メールアドレスに関するセクションを含む）
         contributor_terms: 協力者規約
       continue: 利用者登録
-      terms accepted: 新しい協力者規約を承諾していただき、ありがとうございます!
       email_help:
         privacy_policy: プライバシー・ポリシー
         privacy_policy_title: OSMFのプライバシーポリシー（メールアドレスに関するセクションを含む）
@@ -2588,8 +2551,6 @@ ja:
       edits: 編集
       traces: トレース
       notes: 地図メモ
-      remove as friend: 友達を解除
-      add as friend: 友達として追加
       mapper since: 'マッパー歴:'
       last map edit: '地図の最後の編集:'
       no activity yet: 活動がありません
@@ -2648,6 +2609,15 @@ ja:
       user:
         summary_html: '%{name} は %{ip_address}から%{date}に作成されました。'
         summary_no_ip_html: '%{name} は%{date}に作成されました。'
+    changeset_comments:
+      page:
+        when: 日時
+        comment: コメント
+    diary_comments:
+      index:
+        title: '%{user}が追加した日記コメント'
+      page:
+        post: 投稿
     suspended:
       title: アカウント停止
       heading: アカウント停止

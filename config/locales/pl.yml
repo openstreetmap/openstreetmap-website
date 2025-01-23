@@ -159,8 +159,7 @@ pl:
         support_url: Adres URL pomocy technicznej
         allow_read_prefs: Odczytywanie ich ustawień
         allow_write_prefs: Modyfikowanie ich ustawień
-        allow_write_diary: Tworzenie wpisów w dzienniku, dodawanie komentarzy i nawiązywanie
-          kontaktów
+        allow_write_diary: Tworzenie wpisów w dzienniku i dodawanie komentarzy
         allow_write_api: Modyfikowanie mapy
         allow_read_gpx: Odczytywanie ich prywatnych śladów GPS
         allow_write_gpx: Przesyłanie śladów GPS
@@ -352,14 +351,6 @@ pl:
       openid:
         link: https://wiki.openstreetmap.org/wiki/Pl:OpenID
         link text: co to jest?
-      public editing:
-        heading: Edycje publiczne
-        enabled: Włączone. Nieanonimowy i uprawniony do edycji danych.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: co to jest?
-        disabled: Wyłączone i nieuprawniony do edycji danych, wszystkie wcześniejsze
-          edycje są anonimowe.
-        disabled link text: dlaczego nie mogę mapować?
       contributor terms:
         heading: Warunki uczestnictwa
         agreed: Wyrażono zgodę na nowe Warunki Uczestnictwa.
@@ -440,7 +431,6 @@ pl:
         readable_summary: czytelne podsumowanie
         informal_translations: tłumaczenia nieformalne
         continue: Dalej
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: Anuluj
         you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub
           odrzucić nowe Warunki uczestnictwa, aby kontynuować.
@@ -449,6 +439,8 @@ pl:
           france: Francja
           italy: Włochy
           rest_of_world: Reszta świata
+      update:
+        terms accepted: Dziękujemy za przyjęcie nowych Warunków uczestnictwa!
       terms_declined_flash:
         terms_declined_html: Jest nam przykro, że zdecydowałeś się nie przyjmować
           nowych Warunków uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
@@ -615,7 +607,7 @@ pl:
       title: Zestawy zmian
       title_user: Zestawy zmian użytkownika %{user}
       title_user_link_html: Zestawy zmian użytkownika %{user_link}
-      title_friend: Zestawy zmian moich znajomych
+      title_followed: Zestawy zmian moich znajomych
       title_nearby: Zestawy zmian pobliskich użytkowników
       empty: Nie odnaleziono zestawów zmian.
       empty_area: Brak zestawów zmian na tym obszarze.
@@ -630,19 +622,6 @@ pl:
         created: Utworzone
         closed: Zamknięte
         belongs_to: Autor
-    subscribe:
-      heading: Zasubskrybować następującą dyskusję dotyczącą zmian ?
-      button: Zasubskrybuj dyskusję
-    unsubscribe:
-      heading: Wypisać się z poniższej dyskusji na temat zestawu zmian?
-      button: Wypisz się z dyskusji
-    heading:
-      title: Zestaw zmian %{id}
-      created_by_html: Utworzony przez %{link_user} w %{created}.
-    no_such_entry:
-      heading: Brak wpisu o identyfikatorze %{id}
-      body: Niestety nie odnaleziono zestawu zmian o identyfikatorze %{id}. Sprawdź
-        pisownię. Być może skorzystano z nieprawidłowego odnośnika.
     show:
       title: 'Zestaw zmian: %{id}'
       created: 'Utworzony: %{when}'
@@ -675,6 +654,21 @@ pl:
       sorry: Nie odnaleziono zestawu zmian %{id}.
     timeout:
       sorry: Niestety, pobieranie listy żądanych zestawów zmian trwało zbyt długo.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Zasubskrybować następującą dyskusję dotyczącą zmian ?
+        button: Zasubskrybuj dyskusję
+      unsubscribe:
+        heading: Wypisać się z poniższej dyskusji na temat zestawu zmian?
+        button: Wypisz się z dyskusji
+    heading:
+      title: Zestaw zmian %{id}
+      created_by_html: Utworzony przez %{link_user} w %{created}.
+    no_such_entry:
+      heading: Brak wpisu o identyfikatorze %{id}
+      body: Niestety nie odnaleziono zestawu zmian o identyfikatorze %{id}. Sprawdź
+        pisownię. Być może skorzystano z nieprawidłowego odnośnika.
   dashboards:
     contact:
       km away: '%{count} km stąd'
@@ -683,19 +677,19 @@ pl:
     popup:
       your location: Twoje położenie
       nearby mapper: Mapujący z okolicy
-      friend: Znajomy
+      following: Znajomy
     show:
       title: Mój panel
       no_home_location_html: '%{edit_profile_link} i podaj swoją lokalizację, aby
         zobaczyć użytkowników w pobliżu.'
       edit_your_profile: Edytuj swój profil
-      my friends: Moi znajomi
-      no friends: Nie dodano jeszcze żadnych znajomych.
+      followings: Moi znajomi
+      no followings: Nie dodano jeszcze żadnych znajomych.
       nearby users: Najbliżsi użytkownicy
       no nearby users: Nie ma innych użytkowników, którzy przyznają się do mapowania
         w tej okolicy.
-      friends_changesets: zestawy zmian znajomych
-      friends_diaries: wpisy w dziennikach znajomych
+      followed_changesets: zestawy zmian znajomych
+      followed_diaries: wpisy w dziennikach znajomych
       nearby_changesets: pobliskie zestawy zmian
       nearby_diaries: pobliskie wpisy w dziennikach
   diary_entries:
@@ -706,7 +700,7 @@ pl:
       use_map_link: wskaż na mapie
     index:
       title: Dzienniki użytkowników
-      title_friends: Dzienniki znajomych
+      title_followed: Dzienniki znajomych
       title_nearby: Dzienniki pobliskich użytkowników
       user_title: Dziennik użytkownika %{user}
       in_language_title: Wpisy w języku %{language}
@@ -776,15 +770,6 @@ pl:
       heading: Wypisać się z poniższej dyskusji na temat wpisu dziennika?
       button: Wypisz się z dyskusji
   diary_comments:
-    index:
-      title: Komentarze do dzienników dodane przez %{user}
-      heading: Komentarze do dzienników użytkownika %{user}
-      subheading_html: Komentarze do dzienników dodane przez %{user}
-      no_comments: Brak komentarzy
-    page:
-      post: Wpis
-      when: Kiedy
-      comment: Komentarz
     new:
       heading: Czy dodać komentarz do tej dyskusji o wpisie dziennika?
   doorkeeper:
@@ -842,20 +827,23 @@ pl:
       title: Nie znaleziono strony
       description: Nie udało się znaleźć pliku / katalogu / operacji API o tej nazwie
         na serwerze OpenStreetMap (HTTP 404).
-  friendships:
-    make_friend:
-      heading: Dodać %{user} do grona znajomych?
-      button: Dodaj do listy znajomych
+  follows:
+    show:
+      follow:
+        heading: Dodać %{user} do grona znajomych?
+        button: Dodaj do listy znajomych
+      unfollow:
+        heading: Usunąć %{user} z grona znajomych?
+        button: Usuń ze znajomych
+    create:
       success: '%{name} należy teraz do grona znajomych!'
       failed: Nie udało się dodać %{name} do grona znajomych.
-      already_a_friend: '%{name} już jest znajomym.'
+      already_followed: '%{name} już jest znajomym.'
       limit_exceeded: Wysłałeś ostatnio wiele zaproszeń do znajomych. Poczekaj chwilę
         przed wysłaniem następnych.
-    remove_friend:
-      heading: Usunąć %{user} z grona znajomych?
-      button: Usuń ze znajomych
+    destroy:
       success: Usunięto %{name} z grona znajomych.
-      not_a_friend: '%{name} nie należy do grona znajomych.'
+      not_followed: '%{name} nie należy do grona znajomych.'
   geocoder:
     search:
       title:
@@ -1835,14 +1823,14 @@ pl:
         do autora na %{replyurl}
       footer_html: Możesz również przeczytać wiadomość na %{readurl} i wysłać wiadomość
         do autora na %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Cześć, %{to_user},
       subject: '[OpenStreetMap] %{user} dodał cię jako znajomego'
-      had_added_you: '%{user} dodał(a) cię jako swojego znajomego na OpenStreetMap.'
+      followed_you: '%{user} dodał(a) cię jako swojego znajomego na OpenStreetMap.'
       see_their_profile: Możesz zobaczyć jego profil na stronie %{userurl}.
       see_their_profile_html: Możesz zobaczyć jego profil na stronie %{userurl}.
-      befriend_them: Możesz również dodać go jako znajomego na %{befriendurl}.
-      befriend_them_html: Możesz również dodać go jako znajomego na %{befriendurl}.
+      follow_them: Możesz również dodać go jako znajomego na %{followurl}.
+      follow_them_html: Możesz również dodać go jako znajomego na %{followurl}.
     gpx_details:
       details: 'Szczegóły twojego pliku:'
       filename: Nazwa pliku
@@ -2835,13 +2823,14 @@ pl:
     offline:
       heading: Przechowywanie danych GPX jest wyłączone
       message: System przechowywania i przesyłania plików GPX jest obecnie niedostępny
-    georss:
-      title: Ślady GPS OpenStreetMap
-    description:
-      description_with_count:
-        one: Plik GPX z %{count} punktem od %{user}
-        other: Plik GPX z %{count} punktami od %{user}
-      description_without_count: Plik GPX od %{user}
+    feeds:
+      show:
+        title: Ślady GPS OpenStreetMap
+      description:
+        description_with_count:
+          one: Plik GPX z %{count} punktem od %{user}
+          other: Plik GPX z %{count} punktami od %{user}
+        description_without_count: Plik GPX od %{user}
   application:
     permission_denied: Nie masz uprawnień do wykonywania tej akcji
     require_cookies:
@@ -2910,8 +2899,7 @@ pl:
       openid: Zaloguj się za pomocą OpenStreetMap
       read_prefs: Odczytywanie preferencji użytkownika
       write_prefs: Modyfikowanie preferencji użytkownika
-      write_diary: Tworzenie wpisów w dzienniku, dodawanie komentarzy i nawiązywanie
-        kontaktów
+      write_diary: Tworzenie wpisów w dzienniku i dodawanie komentarzy
       write_api: Modyfikowanie mapy
       read_gpx: Odczytywanie ich prywatnych śladów GPS
       write_gpx: Przesyłanie śladów GPS
@@ -3007,7 +2995,6 @@ pl:
         contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: warunki uczestnictwa
       continue: Zarejestruj się
-      terms accepted: Dziękujemy za przyjęcie nowych Warunków uczestnictwa!
       email_help:
         privacy_policy: politykę prywatności
         privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
@@ -3048,8 +3035,8 @@ pl:
       edits: edycje
       traces: ślady
       notes: uwagi
-      remove as friend: usuń ze znajomych
-      add as friend: dodaj do znajomych
+      unfollow: usuń ze znajomych
+      follow: dodaj do znajomych
       mapper since: 'Mapuje od:'
       last map edit: 'Ostatnia edycja mapy:'
       no activity yet: —
@@ -3129,6 +3116,15 @@ pl:
       user:
         summary_html: '%{name} utworzony z adresu %{ip_address} dnia %{date}'
         summary_no_ip_html: '%{name} utworzony %{date}'
+    changeset_comments:
+      page:
+        when: Kiedy
+        comment: Komentarz
+    diary_comments:
+      index:
+        title: Komentarze do dzienników dodane przez %{user}
+      page:
+        post: Wpis
     suspended:
       title: Konto zawieszone
       heading: Konto zawieszone
