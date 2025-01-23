@@ -17,10 +17,10 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
   def test_index
     user = create(:user)
     application1 = create(:oauth_application)
-    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1)
+    create(:oauth_access_grant, :user => user, :application => application1)
     create(:oauth_access_token, :user => user, :application => application1)
     application2 = create(:oauth_application)
-    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application2)
+    create(:oauth_access_grant, :user => user, :application => application2)
     create(:oauth_access_token, :user => user, :application => application2)
     create(:oauth_application)
 
@@ -38,9 +38,9 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
   def test_index_scopes
     user = create(:user)
     application1 = create(:oauth_application, :scopes => %w[read_prefs write_prefs write_diary read_gpx write_gpx])
-    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_prefs])
+    create(:oauth_access_grant, :user => user, :application => application1, :scopes => %w[read_prefs write_prefs])
     create(:oauth_access_token, :user => user, :application => application1, :scopes => %w[read_prefs write_prefs])
-    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_diary])
+    create(:oauth_access_grant, :user => user, :application => application1, :scopes => %w[read_prefs write_diary])
     create(:oauth_access_token, :user => user, :application => application1, :scopes => %w[read_prefs write_diary])
 
     get oauth_authorized_applications_path
@@ -63,10 +63,10 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
   def test_destroy
     user = create(:user)
     application1 = create(:oauth_application)
-    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1)
+    create(:oauth_access_grant, :user => user, :application => application1)
     create(:oauth_access_token, :user => user, :application => application1)
     application2 = create(:oauth_application)
-    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application2)
+    create(:oauth_access_grant, :user => user, :application => application2)
     create(:oauth_access_token, :user => user, :application => application2)
     create(:oauth_application)
 
