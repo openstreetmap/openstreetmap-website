@@ -44,14 +44,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       { :controller => "traces", :action => "create" }
     )
     assert_routing(
-      { :path => "/trace/1/data", :method => :get },
-      { :controller => "traces", :action => "data", :id => "1" }
-    )
-    assert_routing(
-      { :path => "/trace/1/data.xml", :method => :get },
-      { :controller => "traces", :action => "data", :id => "1", :format => "xml" }
-    )
-    assert_routing(
       { :path => "/traces/1/edit", :method => :get },
       { :controller => "traces", :action => "edit", :id => "1" }
     )
@@ -368,85 +360,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :index
   end
 
-  # Test downloading a trace
-  def test_data
-    public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
-
-    # First with no auth, which should work since the trace is public
-    get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-
-    # Now with some other user, which should work since the trace is public
-    session_for(create(:user))
-    get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(public_trace_file.user)
-    get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-  end
-
-  # Test downloading a compressed trace
-  def test_data_compressed
-    identifiable_trace_file = create(:trace, :visibility => "identifiable", :fixture => "d")
-
-    # First get the data as is
-    get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/gzip", "gpx.gz"
-
-    # Now ask explicitly for XML format
-    get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "xml")
-    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
-
-    # Now ask explicitly for GPX format
-    get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "gpx")
-    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
-  end
-
-  # Check an anonymous trace can't be downloaded by another user
-  def test_data_anon
-    anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
-
-    # First with no auth
-    get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :not_found
-
-    # Now with some other user, which shouldn't work since the trace is anon
-    session_for(create(:user))
-    get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :not_found
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(anon_trace_file.user)
-    get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
-  end
-
-  # Test downloading a trace that doesn't exist
-  def test_data_not_found
-    deleted_trace_file = create(:trace, :deleted)
-
-    # First with a trace that has never existed
-    get trace_data_path(:display_name => create(:user).display_name, :id => 0)
-    assert_response :not_found
-
-    # Now with a trace that has been deleted
-    session_for(deleted_trace_file.user)
-    get trace_data_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
-    assert_response :not_found
-  end
-
   # Test fetching the new trace page
   def test_new_get
     # First with no auth
@@ -679,11 +592,5 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       assert_select "td a[href='#{user_path trace.user}']", :text => trace.user.display_name
       assert_select "td", trace.description
     end
-  end
-
-  def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
-    assert_equal digest, Digest::MD5.hexdigest(response.body)
-    assert_equal content_type, response.media_type
-    assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
   end
 end

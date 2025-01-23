@@ -213,7 +213,9 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  resources :traces, :id => /\d+/, :except => [:show]
+  resources :traces, :id => /\d+/, :except => [:show] do
+    resource :data, :module => :traces, :only => :show
+  end
   get "/user/:display_name/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces/tag/%{tag}")
   get "/user/:display_name/traces/tag/:tag" => "traces#index"
   get "/user/:display_name/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces")
@@ -231,7 +233,8 @@ OpenStreetMap::Application.routes.draw do
   get "/traces/mine/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine")
   get "/traces/mine" => "traces#mine"
   get "/trace/create", :to => redirect(:path => "/traces/new")
-  get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
+  get "/trace/:id/data", :format => false, :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data")
+  get "/trace/:id/data.:format", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data.%{format}")
   get "/trace/:id/edit", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/edit")
 
   namespace :traces, :path => "" do
