@@ -36,7 +36,7 @@ end
 
 class ModeratorApiAbilityTest < ApiAbilityTest
   test "Note permissions" do
-    token = create(:oauth_access_token, :scopes => %w[write_notes], :resource_owner_id => create(:moderator_user).id)
+    token = create(:oauth_access_token, :scopes => %w[write_notes], :user => create(:moderator_user))
     ability = ApiAbility.new token
 
     [:index, :create, :comment, :feed, :show, :search, :close, :reopen, :destroy].each do |action|

@@ -26,7 +26,7 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
   end
 
   test "as a moderator with permissionless token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id)
+    token = create(:oauth_access_token, :user => create(:moderator_user))
     ability = ApiAbility.new token
 
     [:create, :destroy, :restore].each do |action|
@@ -35,7 +35,7 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
   end
 
   test "as a moderator with write_api token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id, :scopes => %w[write_api])
+    token = create(:oauth_access_token, :user => create(:moderator_user), :scopes => %w[write_api])
     ability = ApiAbility.new token
 
     [:create, :destroy, :restore].each do |action|
@@ -68,7 +68,7 @@ class NoteApiCapabilityTest < ActiveSupport::TestCase
   end
 
   test "as a moderator with permissionless token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id)
+    token = create(:oauth_access_token, :user => create(:moderator_user))
     ability = ApiAbility.new token
 
     [:destroy].each do |action|
@@ -77,7 +77,7 @@ class NoteApiCapabilityTest < ActiveSupport::TestCase
   end
 
   test "as a moderator with write_notes token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id, :scopes => %w[write_notes])
+    token = create(:oauth_access_token, :user => create(:moderator_user), :scopes => %w[write_notes])
     ability = ApiAbility.new token
 
     [:destroy].each do |action|

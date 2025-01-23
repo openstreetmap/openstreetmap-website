@@ -18,10 +18,10 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     user = create(:user)
     application1 = create(:oauth_application)
     create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1)
-    create(:oauth_access_token, :resource_owner_id => user.id, :application => application1)
+    create(:oauth_access_token, :user => user, :application => application1)
     application2 = create(:oauth_application)
     create(:oauth_access_grant, :resource_owner_id => user.id, :application => application2)
-    create(:oauth_access_token, :resource_owner_id => user.id, :application => application2)
+    create(:oauth_access_token, :user => user, :application => application2)
     create(:oauth_application)
 
     get oauth_authorized_applications_path
@@ -39,9 +39,9 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     user = create(:user)
     application1 = create(:oauth_application, :scopes => %w[read_prefs write_prefs write_diary read_gpx write_gpx])
     create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_prefs])
-    create(:oauth_access_token, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_prefs])
+    create(:oauth_access_token, :user => user, :application => application1, :scopes => %w[read_prefs write_prefs])
     create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_diary])
-    create(:oauth_access_token, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_diary])
+    create(:oauth_access_token, :user => user, :application => application1, :scopes => %w[read_prefs write_diary])
 
     get oauth_authorized_applications_path
     assert_redirected_to login_path(:referer => oauth_authorized_applications_path)
@@ -64,10 +64,10 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     user = create(:user)
     application1 = create(:oauth_application)
     create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1)
-    create(:oauth_access_token, :resource_owner_id => user.id, :application => application1)
+    create(:oauth_access_token, :user => user, :application => application1)
     application2 = create(:oauth_application)
     create(:oauth_access_grant, :resource_owner_id => user.id, :application => application2)
-    create(:oauth_access_token, :resource_owner_id => user.id, :application => application2)
+    create(:oauth_access_token, :user => user, :application => application2)
     create(:oauth_application)
 
     delete oauth_authorized_application_path(:id => application1.id)
