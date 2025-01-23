@@ -1,6 +1,14 @@
 module NoteHelper
   include ActionView::Helpers::TranslationHelper
 
+  def note_description(author, description)
+    if !author.nil? && author.status == "deleted"
+      RichText.new("text", t("notes.show.description_when_author_is_deleted"))
+    else
+      description
+    end
+  end
+
   def note_event(event, at, by)
     if by.nil?
       t("notes.show.event_#{event}_by_anonymous_html",
