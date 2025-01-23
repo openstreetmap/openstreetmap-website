@@ -138,7 +138,7 @@ module ActiveSupport
     def bearer_authorization_header(token_or_user = nil, scopes: Oauth::SCOPES)
       token = case token_or_user
               when nil then create(:oauth_access_token, :scopes => scopes).token
-              when User then create(:oauth_access_token, :resource_owner_id => token_or_user.id, :scopes => scopes).token
+              when User then create(:oauth_access_token, :user => token_or_user, :scopes => scopes).token
               when Doorkeeper::AccessToken then token_or_user.token
               when String then token_or_user
               end
