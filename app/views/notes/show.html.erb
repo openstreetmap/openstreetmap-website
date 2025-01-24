@@ -52,10 +52,10 @@
     <% end %>
   </div>
 
-  <% if @note_comments.length > 1 %>
+  <% if @note_comments.length > (@note.author_deleted? ? 0 : 1) %>
     <div class='note-comments'>
       <ul class="list-unstyled">
-        <% @note_comments.drop(1).each do |comment| %>
+        <% @note_comments.drop(@note.author_deleted? ? 0 : 1).each do |comment| %>
           <li id="c<%= comment.id %>">
             <small class='text-body-secondary'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <div class="mx-2">
