@@ -230,6 +230,17 @@ module Api
       assert_equal note, subscription.note
     end
 
+    def test_create_no_scope_fail
+      user = create(:user)
+      auth_header = bearer_authorization_header user, :scopes => %w[read_prefs]
+
+      assert_no_difference "Note.count" do
+        post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a description", :format => "json"), :headers => auth_header
+
+        assert_response :forbidden
+      end
+    end
+
     def test_comment_success
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)

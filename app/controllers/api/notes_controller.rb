@@ -384,11 +384,7 @@ module Api
     def add_comment(note, text, event, notify: true)
       attributes = { :visible => true, :event => event, :body => text }
 
-      if doorkeeper_token
-        author = current_user if scope_enabled?(:write_notes)
-      else
-        author = current_user
-      end
+      author = current_user if scope_enabled?(:write_notes)
 
       if author
         attributes[:author_id] = author.id
