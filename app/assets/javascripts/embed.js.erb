@@ -15,14 +15,7 @@ I18n.default_locale = <%= I18n.default_locale.to_json %>;
 I18n.fallbacks = true;
 
 window.onload = function () {
-  var query = (window.location.search || "?").slice(1),
-      args = {};
-
-  var pairs = query.split("&");
-  for (var i = 0; i < pairs.length; i++) {
-    var parts = pairs[i].split("=");
-    args[parts[0]] = decodeURIComponent(parts[1] || "");
-  }
+  var args = Object.fromEntries(new URLSearchParams(window.location.search).entries());
 
   var mapnikOptions = {
 <% if Settings.key?(:tile_cdn_url) %>
@@ -40,17 +33,16 @@ window.onload = function () {
   map.attributionControl.setPrefix("");
   map.removeControl(map.attributionControl);
 
-  if (args.layer === "cyclosm") {
-    new L.OSM.CyclOSM().addTo(map);
-  } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
-    new L.OSM.CycleMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "transportmap") {
-    new L.OSM.TransportMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "hot") {
-    new L.OSM.HOT().addTo(map);
-  } else {
-    new L.OSM.Mapnik(mapnikOptions).addTo(map);
-  }
+  var baseLayers = {
+    cyclosm: ["CyclOSM"],
+    cyclemap: ["CycleMap", thunderforestOptions],
+    transportmap: ["TransportMap", thunderforestOptions],
+    hot: ["HOT"],
+    mapnik: ["Mapnik", mapnikOptions]
+  };
+  baseLayers["cycle map"] = baseLayers.cyclemap;
+  var [layer, options] = baseLayers[args.layer] || baseLayers.mapnik;
+  new L.OSM[layer](options || {}).addTo(map);
 
   if (args.marker) {
     L.marker(args.marker.split(","), { icon: L.icon({
@@ -62,15 +54,8 @@ window.onload = function () {
     }) }).addTo(map);
   }
 
-  if (args.bbox) {
-    var bbox = args.bbox.split(",");
-    map.fitBounds([
-      L.latLng(bbox[1], bbox[0]),
-      L.latLng(bbox[3], bbox[2])
-    ]);
-  } else {
-    map.fitWorld();
-  }
+  var bbox = (args.bbox || "-180,-90,180,90").split(",");
+  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]]);
 
   map.addControl(new L.Control.OSMReportAProblem());
 };
@@ -78,7 +63,7 @@ window.onload = function () {
 L.Control.OSMReportAProblem = L.Control.Attribution.extend({
   options: {
     position: "bottomright",
-    prefix: "<a href=\"https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}\" target=\"_blank\">" + I18n.t("javascripts.embed.report_problem") + "</a>"
+    prefix: `<a href="https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">${I18n.t("javascripts.embed.report_problem")}</a>`
   },
 
   onAdd: function (map) {
