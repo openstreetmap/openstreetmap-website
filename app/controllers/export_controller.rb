@@ -19,7 +19,7 @@ class ExportController < ApplicationController
     case style
     when "osm"
       # redirect to API map get
-      redirect_to :controller => "api/map", :action => "index", :bbox => bbox
+      redirect_to api_map_path(:bbox => bbox)
 
     when "mapnik"
       # redirect to a special 'export' cgi script
