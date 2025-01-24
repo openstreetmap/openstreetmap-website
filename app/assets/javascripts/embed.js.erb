@@ -15,13 +15,13 @@ I18n.default_locale = <%= I18n.default_locale.to_json %>;
 I18n.fallbacks = true;
 
 window.onload = function () {
-  var query = (window.location.search || '?').slice(1),
-      args  = {};
+  var query = (window.location.search || "?").slice(1),
+      args = {};
 
-  var pairs = query.split('&');
+  var pairs = query.split("&");
   for (var i = 0; i < pairs.length; i++) {
-    var parts = pairs[i].split('=');
-    args[parts[0]] = decodeURIComponent(parts[1] || '');
+    var parts = pairs[i].split("=");
+    args[parts[0]] = decodeURIComponent(parts[1] || "");
   }
 
   var mapnikOptions = {
@@ -37,7 +37,7 @@ window.onload = function () {
   };
 
   var map = L.map("map");
-  map.attributionControl.setPrefix('');
+  map.attributionControl.setPrefix("");
   map.removeControl(map.attributionControl);
 
   if (args.layer === "cyclosm") {
@@ -53,19 +53,21 @@ window.onload = function () {
   }
 
   if (args.marker) {
-    L.marker(args.marker.split(','), {icon: L.icon({
+    L.marker(args.marker.split(","), { icon: L.icon({
       iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
       iconSize: new L.Point(25, 41),
       iconAnchor: new L.Point(12, 41),
       shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
       shadowSize: new L.Point(41, 41)
-    })}).addTo(map);
+    }) }).addTo(map);
   }
 
   if (args.bbox) {
-    var bbox = args.bbox.split(',');
-    map.fitBounds([L.latLng(bbox[1], bbox[0]),
-                   L.latLng(bbox[3], bbox[2])]);
+    var bbox = args.bbox.split(",");
+    map.fitBounds([
+      L.latLng(bbox[1], bbox[0]),
+      L.latLng(bbox[3], bbox[2])
+    ]);
   } else {
     map.fitWorld();
   }
@@ -75,14 +77,14 @@ window.onload = function () {
 
 L.Control.OSMReportAProblem = L.Control.Attribution.extend({
   options: {
-    position: 'bottomright',
-    prefix: '<a href="https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">'+I18n.t('javascripts.embed.report_problem')+'</a>'
+    position: "bottomright",
+    prefix: "<a href=\"https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}\" target=\"_blank\">" + I18n.t("javascripts.embed.report_problem") + "</a>"
   },
 
   onAdd: function (map) {
     var container = L.Control.Attribution.prototype.onAdd.call(this, map);
 
-    map.on('moveend', this._update, this);
+    map.on("moveend", this._update, this);
 
     return container;
   },
@@ -92,8 +94,8 @@ L.Control.OSMReportAProblem = L.Control.Attribution.extend({
 
     this._container.innerHTML =
       this._container.innerHTML
-        .replace('{x}', this._map.getCenter().lat)
-        .replace('{y}', this._map.getCenter().lng)
-        .replace('{z}', this._map.getZoom());
+        .replace("{x}", this._map.getCenter().lat)
+        .replace("{y}", this._map.getCenter().lng)
+        .replace("{z}", this._map.getZoom());
   }
 });

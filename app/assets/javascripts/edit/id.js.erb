@@ -10,15 +10,15 @@ $(document).ready(function () {
     var params = {};
 
     if (mapParams.object) {
-      params.id = mapParams.object.type + '/' + mapParams.object.id;
+      params.id = mapParams.object.type + "/" + mapParams.object.id;
       mapParams = OSM.parseHash(location.hash);
       if (mapParams.center) {
-        params.map = mapParams.zoom + '/' + mapParams.center.lat + '/' + mapParams.center.lng;
+        params.map = mapParams.zoom + "/" + mapParams.center.lat + "/" + mapParams.center.lng;
       }
     } else if (id.data("lat") && id.data("lon")) {
       params.map = "16/" + id.data("lat") + "/" + id.data("lon");
     } else {
-      params.map = (mapParams.zoom || 17) + '/' + mapParams.lat + '/' + mapParams.lon;
+      params.map = (mapParams.zoom || 17) + "/" + mapParams.lat + "/" + mapParams.lon;
     }
 
     if (hashParams.background) params.background = hashParams.background;
