@@ -170,4 +170,10 @@ class ApiController < ApplicationController
 
     raise OSM::APIRateLimitExceeded if new_changes > max_changes
   end
+
+  def scope_enabled?(scope)
+    doorkeeper_token&.includes_scope?(scope)
+  end
+
+  helper_method :scope_enabled?
 end
