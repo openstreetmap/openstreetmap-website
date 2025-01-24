@@ -7,6 +7,7 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rake
+  - ./.rubocop/specific_action_names.rb
 
 AllCops:
   TargetRubyVersion: 3.1
@@ -110,3 +111,42 @@ Style/StringLiterals:
 
 Style/SymbolArray:
   EnforcedStyle: brackets
+
+Rails/SpecificActionNames:
+  Description: Use only specific action names.
+  Enabled: true
+  ActionNames:
+    - index
+    - show
+    - new
+    - edit
+    - create
+    - update
+    - destroy
+  Include:
+    - app/controllers/**/*.rb
+  Exclude:
+    # This is a todo list, but is currently too long for `rubocop --auto-gen-config`
+    - 'app/controllers/api/changeset_comments_controller.rb'
+    - 'app/controllers/api/changesets_controller.rb'
+    - 'app/controllers/api/nodes_controller.rb'
+    - 'app/controllers/api/notes_controller.rb'
+    - 'app/controllers/api/old_elements_controller.rb'
+    - 'app/controllers/api/relations_controller.rb'
+    - 'app/controllers/api/user_preferences_controller.rb'
+    - 'app/controllers/api/users_controller.rb'
+    - 'app/controllers/api/ways_controller.rb'
+    - 'app/controllers/browse_controller.rb'
+    - 'app/controllers/changesets_controller.rb'
+    - 'app/controllers/confirmations_controller.rb'
+    - 'app/controllers/diary_comments_controller.rb'
+    - 'app/controllers/diary_entries_controller.rb'
+    - 'app/controllers/directions_controller.rb'
+    - 'app/controllers/errors_controller.rb'
+    - 'app/controllers/export_controller.rb'
+    - 'app/controllers/geocoder_controller.rb'
+    - 'app/controllers/issues_controller.rb'
+    - 'app/controllers/messages_controller.rb'
+    - 'app/controllers/site_controller.rb'
+    - 'app/controllers/traces_controller.rb'
+    - 'app/controllers/users_controller.rb'

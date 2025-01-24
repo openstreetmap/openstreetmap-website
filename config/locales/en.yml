@@ -484,18 +484,6 @@ en:
         created: "Created"
         closed: "Closed"
         belongs_to: "Author"
-    subscribe:
-      heading: Subscribe to the following changeset discussion?
-      button: Subscribe to discussion
-    unsubscribe:
-      heading: Unsubscribe from the following changeset discussion?
-      button: Unsubscribe from discussion
-    heading:
-      title: "Changeset %{id}"
-      created_by_html: "Created by %{link_user} on %{created}."
-    no_such_entry:
-      heading: "No entry with the id: %{id}"
-      body: "Sorry, there is no changeset with the id %{id}. Please check your spelling, or maybe the link you clicked is wrong."
     show:
       title: "Changeset: %{id}"
       created: "Created: %{when}"
@@ -527,6 +515,20 @@ en:
       sorry: "Sorry, changeset #%{id} could not be found."
     timeout:
       sorry: "Sorry, the list of changesets you requested took too long to retrieve."
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Subscribe to the following changeset discussion?
+        button: Subscribe to discussion
+      unsubscribe:
+        heading: Unsubscribe from the following changeset discussion?
+        button: Unsubscribe from discussion
+    heading:
+      title: "Changeset %{id}"
+      created_by_html: "Created by %{link_user} on %{created}."
+    no_such_entry:
+      heading: "No entry with the id: %{id}"
+      body: "Sorry, there is no changeset with the id %{id}. Please check your spelling, or maybe the link you clicked is wrong."
   dashboards:
     contact:
       km away: "%{count}km away"
@@ -622,15 +624,6 @@ en:
       heading: Unsubscribe from the following diary entry discussion?
       button: Unsubscribe from discussion
   diary_comments:
-    index:
-      title: "Diary Comments added by %{user}"
-      heading: "%{user}'s Diary Comments"
-      subheading_html: "Diary Comments added by %{user}"
-      no_comments: "No diary comments"
-    page:
-      post: Post
-      when: When
-      comment: Comment
     new:
       heading: Add a comment to the following diary entry discussion?
   doorkeeper:
@@ -1948,6 +1941,9 @@ en:
       preview: Preview
       help: Help
     pagination:
+      changeset_comments:
+        older: Older Comments
+        newer: Newer Comments
       diary_comments:
         older: Older Comments
         newer: Newer Comments
@@ -2616,13 +2612,14 @@ en:
     offline:
       heading: "GPX Storage Offline"
       message: "The GPX file storage and upload system is currently unavailable."
-    georss:
-      title: "OpenStreetMap GPS Traces"
-    description:
-      description_with_count:
-        one: "GPX file with %{count} point from %{user}"
-        other: "GPX file with %{count} points from %{user}"
-      description_without_count: "GPX file from %{user}"
+    feeds:
+      show:
+        title: "OpenStreetMap GPS Traces"
+      description:
+        description_with_count:
+          one: "GPX file with %{count} point from %{user}"
+          other: "GPX file with %{count} points from %{user}"
+        description_without_count: "GPX file from %{user}"
   application:
     permission_denied: You do not have permission to access that action
     require_cookies:
@@ -2881,6 +2878,26 @@ en:
       user:
         summary_html: "%{name} created from %{ip_address} on %{date}"
         summary_no_ip_html: "%{name} created on %{date}"
+    comments:
+      index:
+        heading_html: "%{user}'s Comments"
+        changesets: "Changesets"
+        diary_entries: "Diary entries"
+        no_comments: "No comments"
+    changeset_comments:
+      index:
+        title: "Changeset Comments added by %{user}"
+      page:
+        changeset: Changeset
+        when: When
+        comment: Comment
+    diary_comments:
+      index:
+        title: "Diary Comments added by %{user}"
+      page:
+        post: Post
+        when: When
+        comment: Comment
     suspended:
       title: Account Suspended
       heading: Account Suspended

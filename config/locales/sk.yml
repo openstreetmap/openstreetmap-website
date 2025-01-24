@@ -293,13 +293,6 @@ sk:
       openid:
         link: http://wiki.openstreetmap.org/wiki/CS:OpenID
         link text: čo to znamená?
-      public editing:
-        heading: Verejné editácie
-        enabled: Zapnuté. Nie je anonym a môže upravovať údaje.
-        enabled link text: čo to znamená?
-        disabled: Vypnutý a nemôže upravovať údaje, všetky predchádzajúce úpravy sú
-          anonymné.
-        disabled link text: prečo nemôžem upravovať?
       contributor terms:
         heading: Podmienky prispievania
         agreed: Súhlasili ste s novými Podmienkami prispievania.
@@ -375,6 +368,8 @@ sk:
           france: Francúzsko
           italy: Taliansko
           rest_of_world: Zvyšok sveta
+      update:
+        terms accepted: Ďakujeme za odsúhlasenie nových podmienok prispievania!
       terms_declined_flash:
         terms_declined_link: tejto wiki stránke
   browse:
@@ -509,7 +504,6 @@ sk:
       title: Sady zmien
       title_user: Sady zmien používateľa %{user}
       title_user_link_html: Sady zmien od %{user_link}
-      title_friend: Sady zmien vašich priateľov
       title_nearby: Sady zmien používateľov v okolí
       empty: Neboli nájdené žiadne sady zmien.
       empty_area: V tejto oblasti neexistujú žiadne sady zmien.
@@ -524,19 +518,6 @@ sk:
         created: Vytvorené
         closed: Uzavreté
         belongs_to: Autor
-    subscribe:
-      heading: Prihlásiť sa na odber nasledujúcej diskusie o zmenách?
-      button: Odoberať diskusiu
-    unsubscribe:
-      heading: Odhlásiť sa z odberu nasledujúcej diskusie o zmenách?
-      button: Zrušiť odber diskusie
-    heading:
-      title: Sada zmien %{id}
-      created_by_html: Vytvoril %{link_user} dňa %{created}.
-    no_such_entry:
-      heading: 'Žiadna položka s ID: %{id}'
-      body: Ľutujeme, neexistuje žiadna sada zmien s ID %{id}. Skontrolujte si pravopis,
-        alebo možno je odkaz, na ktorý ste klikli, nesprávny.
     show:
       title: 'Sada zmien: %{id}'
       created: 'Vytvorená: %{when}'
@@ -567,6 +548,21 @@ sk:
       relations_paginated: Relácie (%{x}–%{y} z %{count})
     timeout:
       sorry: Ľutujeme, ale vami požadovaný zoznam sád zmien sa načítaval príliš dlho.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Prihlásiť sa na odber nasledujúcej diskusie o zmenách?
+        button: Odoberať diskusiu
+      unsubscribe:
+        heading: Odhlásiť sa z odberu nasledujúcej diskusie o zmenách?
+        button: Zrušiť odber diskusie
+    heading:
+      title: Sada zmien %{id}
+      created_by_html: Vytvoril %{link_user} dňa %{created}.
+    no_such_entry:
+      heading: 'Žiadna položka s ID: %{id}'
+      body: Ľutujeme, neexistuje žiadna sada zmien s ID %{id}. Skontrolujte si pravopis,
+        alebo možno je odkaz, na ktorý ste klikli, nesprávny.
   dashboards:
     contact:
       km away: vzdialený %{count}km
@@ -575,18 +571,13 @@ sk:
     popup:
       your location: Vaša poloha
       nearby mapper: Používateľ v okolí
-      friend: Priateľ
     show:
       title: Moja nástenka
       no_home_location_html: '%{edit_profile_link} a nastavte svoju domovskú polohu,
         aby ste mohli vidieť používateľov vo vašom okolí.'
       edit_your_profile: Upraviť váš profil
-      my friends: Moji priatelia
-      no friends: Ešte nemáte pridaných žiadnych priateľov.
       nearby users: Ďalší používatelia v okolí
       no nearby users: Nie je tu iný používateľ, ktorý priznáva mapovanie v okolí.
-      friends_changesets: Prechádzať všetky sady zmien priateľov
-      friends_diaries: Prechádzať všetky denníkové záznamy priateľov
       nearby_changesets: Prechádzať všetky sady zmien používateľov v okolí
       nearby_diaries: Prechádzať všetky denníkové záznamy používateľov v okolí
   diary_entries:
@@ -597,7 +588,6 @@ sk:
       use_map_link: Použiť mapu
     index:
       title: Denníky používateľov
-      title_friends: Denníky priateľov
       title_nearby: Denníky používateľov v okolí
       user_title: Denník používateľa %{user}
       in_language_title: Záznamy denníka v jazyku %{language}
@@ -664,16 +654,6 @@ sk:
       button: Odoberať diskusiu
     unsubscribe:
       button: Zrušiť odber diskusie
-  diary_comments:
-    index:
-      title: Komentáre k denníkom pridané používateľom %{user}
-      heading: Komentáre v denníku používateľa %{user}
-      subheading_html: Komentáre v denníku pridané používateľom %{user}
-      no_comments: Žiadne komentáre k denníku
-    page:
-      post: Príspevok
-      when: Kedy
-      comment: Komentár
   doorkeeper:
     flash:
       applications:
@@ -705,20 +685,6 @@ sk:
       title: Súbor nenájdený
       description: Nepodarilo sa nájsť súbor/adresár/operáciu API s týmto názvom na
         serveri OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Pridať používateľa %{user} ako priateľa?
-      button: Pridať ako priateľa
-      success: '%{name} je teraz váš priateľ!'
-      failed: Ľutujeme, nepodarilo sa pridať %{name} ako priateľa.
-      already_a_friend: Ste už priatelia s %{name}.
-      limit_exceeded: V poslednej dobe ste pridali veľa priateľov. Pred nastavením
-        ďalších priateľov prosím chvíľu počkajte.
-    remove_friend:
-      heading: Odobrať používateľa %{user} zo zoznamu priateľov?
-      button: Odobrať z priateľov
-      success: '%{name} bol z vašich priateľov vymazaný.'
-      not_a_friend: '%{name} nie je nikto z vašich priateľov.'
   geocoder:
     search:
       title:
@@ -1655,14 +1621,10 @@ sk:
         na %{replyurl}
       footer_html: Správu si môžete prečítať aj na %{readurl} a môžete odpovedať autorovi
         na %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Ahoj %{to_user},
-      subject: '[OpenStreetMap] %{user} vás pridal ako priateľa'
-      had_added_you: '%{user} vás pridal ako priateľa na OpenStreetMap.'
       see_their_profile: Jeho/jej profil si môžete pozrieť na %{userurl}.
       see_their_profile_html: Jeho/jej profil si môžete pozrieť na %{userurl}.
-      befriend_them: Môžete ich tiež pridať ako priateľov na %{befriendurl}.
-      befriend_them_html: Môžete ho/ju tiež pridať ako priateľov na %{befriendurl}.
     gpx_failure:
       hi: Ahoj %{to_user},
       failed_to_import: 'sa nepodarilo naimportovať. Chybové hlásenie:'
@@ -2485,10 +2447,11 @@ sk:
     offline:
       heading: GPX úložisko je offline
       message: GPX úložisko a nahrávanie GPX súborov je momentálne nedostupné.
-    georss:
-      title: OpenStreetMap GPS Stopy
-    description:
-      description_without_count: GPX súbor od používateľa %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS Stopy
+      description:
+        description_without_count: GPX súbor od používateľa %{user}
   application:
     permission_denied: Nemáte oprávnenie na prístup k tejto akcii
     require_cookies:
@@ -2618,7 +2581,6 @@ sk:
           o e-mailových adresách
         contributor_terms: Podmienky prispievania
       continue: Zaregistrujte sa
-      terms accepted: Ďakujeme za odsúhlasenie nových podmienok prispievania!
       email_help:
         html: Vaša adresa sa nezobrazuje verejne, pre ďalšie informácie venujte pozornosť
           našim %{privacy_policy_link}.
@@ -2653,8 +2615,6 @@ sk:
       edits: Úpravy
       traces: Stopy
       notes: Poznámky k mape
-      remove as friend: Odstrániť z priateľov
-      add as friend: Pridať priateľa
       mapper since: 'Mapuje od:'
       last map edit: 'Posledná úprava mapy:'
       no activity yet: Zatiaľ žiadna aktivita
@@ -2715,6 +2675,15 @@ sk:
       user:
         summary_html: '%{name} založené %{date} z %{ip_address}'
         summary_no_ip_html: '%{name} založený %{date}'
+    changeset_comments:
+      page:
+        when: Kedy
+        comment: Komentár
+    diary_comments:
+      index:
+        title: Komentáre k denníkom pridané používateľom %{user}
+      page:
+        post: Príspevok
     suspended:
       title: Konto bolo pozastavené
       heading: Konto bolo pozastavené

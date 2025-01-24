@@ -297,13 +297,6 @@ sv:
       external auth: Extern autentisering
       openid:
         link text: vad är detta?
-      public editing:
-        heading: Offentlig redigering
-        enabled: Aktiverat, du är inte anonym och kan redigera data.
-        enabled link text: vad är detta?
-        disabled: Avstängt och kan inte redigera data, alla redigeringar som gjorts
-          är anonyma.
-        disabled link text: varför kan jag inte redigera?
       contributor terms:
         heading: Bidragsgivarvillkor
         agreed: Du har godkänt de nya bidragsgivarvillkoren.
@@ -393,6 +386,9 @@ sv:
           france: Frankrike
           italy: Italien
           rest_of_world: Övriga världen
+      update:
+        terms accepted: Tack för att du accepterat de nya villkoren för bidrag till
+          kartan!
       terms_declined_flash:
         terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera
           de nya användarvillkoren. För mer information, se %{terms_declined_link}.
@@ -544,7 +540,6 @@ sv:
       title: Ändringsuppsättningar
       title_user: Ändringsuppsättningar av %{user}
       title_user_link_html: Ändringsuppsättningar av %{user_link}
-      title_friend: Ändringsuppsättningar av mina vänner
       title_nearby: Ändringsuppsättningar av närbelägna användare
       empty: Inga ändringsuppsättningar hittades.
       empty_area: Inga ändringsuppsättningar i det här området.
@@ -559,19 +554,6 @@ sv:
         created: Skapad
         closed: Stängd
         belongs_to: Författare
-    subscribe:
-      heading: Prenumerera på följande diskussion om ändringsuppsättning?
-      button: Prenumerera på diskussion
-    unsubscribe:
-      heading: Avsluta prenumeration på följande diskussion om ändringsuppsättning?
-      button: Sluta prenumerera på diskussion
-    heading:
-      title: Ändringsuppsättning %{id}
-      created_by_html: Skapades av %{link_user} %{created}.
-    no_such_entry:
-      heading: 'Inget inlägg med ID: %{id}'
-      body: Det finns tyvärr ingen ändringsuppsättning med ID:t %{id}. Kontrollera
-        stavningen eller så kanske du tryckt på fel länk.
     show:
       title: 'Ändringsuppsättning: %{id}'
       created: 'Skapades: %{when}'
@@ -605,6 +587,21 @@ sv:
     timeout:
       sorry: Kunde tyvärr inte lista begärda ändringsuppsättningar. Begäran tog för
         lång tid att hämta.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Prenumerera på följande diskussion om ändringsuppsättning?
+        button: Prenumerera på diskussion
+      unsubscribe:
+        heading: Avsluta prenumeration på följande diskussion om ändringsuppsättning?
+        button: Sluta prenumerera på diskussion
+    heading:
+      title: Ändringsuppsättning %{id}
+      created_by_html: Skapades av %{link_user} %{created}.
+    no_such_entry:
+      heading: 'Inget inlägg med ID: %{id}'
+      body: Det finns tyvärr ingen ändringsuppsättning med ID:t %{id}. Kontrollera
+        stavningen eller så kanske du tryckt på fel länk.
   dashboards:
     contact:
       km away: '%{count}km bort'
@@ -613,19 +610,14 @@ sv:
     popup:
       your location: Din position
       nearby mapper: Användare i närheten
-      friend: Vän
     show:
       title: Min kontrollpanel
       no_home_location_html: '%{edit_profile_link} och sätt din hemposition för att
         se närliggande användare.'
       edit_your_profile: Redigera din profil
-      my friends: Mina vänner
-      no friends: Du har inte lagt till några vänner ännu.
       nearby users: Andra användare nära dig
       no nearby users: Det är ännu inga andra användare som uppgett att de kartlägger
         nära dig.
-      friends_changesets: vänners ändringsuppsättningar
-      friends_diaries: vänners dagboksinlägg
       nearby_changesets: närbelägna användares ändringsuppsättningar
       nearby_diaries: närbelägna användares dagboksinlägg
   diary_entries:
@@ -636,7 +628,6 @@ sv:
       use_map_link: Använd karta
     index:
       title: Användardagböcker
-      title_friends: Vänners dagböcker
       title_nearby: Närbelägna användares dagböcker
       user_title: '%{user}s dagbok'
       in_language_title: Dagboksinlägg på %{language}
@@ -702,15 +693,6 @@ sv:
       heading: Avsluta prenumeration på följande diskussion om dagboksinlägg?
       button: Avsluta prenumeration på diskussion
   diary_comments:
-    index:
-      title: Dagbokskommentarer tillagda av %{user}
-      heading: '%{user}s dagbokskommentarer'
-      subheading_html: Dagbokskommentarer tillagda av %{user}
-      no_comments: Inga dagbokskommentarer
-    page:
-      post: Inlägg
-      when: När
-      comment: Kommentar
     new:
       heading: Lägg en kommentar på följande diskussion om dagboksinlägg?
   doorkeeper:
@@ -765,20 +747,6 @@ sv:
       title: Filen hittades inte
       description: Det gick inte att hitta en fil/katalog/API-operation med det namnet
         på OpenStreetMap-servern (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Lägg till %{user} som en vän?
-      button: Lägg till som vän
-      success: '%{name} är nu din vän!'
-      failed: Misslyckades med att lägga till %{name} som en vän.
-      already_a_friend: Du är redan vän med %{name}.
-      limit_exceeded: Du har lagt till många vänner nyligen. Var snäll och vänta ett
-        tag innan du lägger till fler vänner.
-    remove_friend:
-      heading: Ta bort %{user} som vän?
-      button: Ta bort som vän
-      success: '%{name} togs bort från dina vänner.'
-      not_a_friend: '%{name} är inte en av dina vänner.'
   geocoder:
     search:
       title:
@@ -1747,14 +1715,10 @@ sv:
         till författaren på %{replyurl}
       footer_html: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett
         meddelande till författaren på %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hej %{to_user},
-      subject: '[OpenStreetMap] %{user} lade till dig som en vän'
-      had_added_you: '%{user} har lagt till dig som vän på OpenStreetMap.'
       see_their_profile: Du kan se deras profil på %{userurl}.
       see_their_profile_html: Du kan se deras profil på %{userurl}.
-      befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
-      befriend_them_html: Du kan också lägga till dem som en vän på %{befriendurl}.
     gpx_details:
       details: 'Dina fildetaljer:'
       filename: Filnamn
@@ -2698,13 +2662,14 @@ sv:
     offline:
       heading: GPX-lagring offline
       message: GPX-uppladdningssystemet är för närvarande inte tillgängligt.
-    georss:
-      title: OpenStreetMap GPS-spår
-    description:
-      description_with_count:
-        one: GPX-fil med %{count} punkt från %{user}
-        other: GPX-fil med %{count} punkter från %{user}
-      description_without_count: GPX-fil från %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-spår
+      description:
+        description_with_count:
+          one: GPX-fil med %{count} punkt från %{user}
+          other: GPX-fil med %{count} punkter från %{user}
+        description_without_count: GPX-fil från %{user}
   application:
     permission_denied: Du har inte behörighet för denna åtgärd
     require_cookies:
@@ -2866,8 +2831,6 @@ sv:
         privacy_policy_title: OSMFs integritetspolicy inklusive avsnitt om e-postadresser
         contributor_terms: bidragsvillkor
       continue: Registrera
-      terms accepted: Tack för att du accepterat de nya villkoren för bidrag till
-        kartan!
       email_help:
         privacy_policy: integritetspolicy
         privacy_policy_title: OSMF:s integritetspolicy inkluderingsavsnitt om e-postadresser
@@ -2904,8 +2867,6 @@ sv:
       edits: Redigeringar
       traces: Spår
       notes: Kartanteckningar
-      remove as friend: Ta bort vän
-      add as friend: Lägg till vän
       mapper since: 'Karterar sedan:'
       last map edit: 'Senaste kartredigering:'
       no activity yet: Ännu ingen aktivitet
@@ -2980,6 +2941,15 @@ sv:
       user:
         summary_html: '%{name} skapades från %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} skapad den %{date}'
+    changeset_comments:
+      page:
+        when: När
+        comment: Kommentar
+    diary_comments:
+      index:
+        title: Dagbokskommentarer tillagda av %{user}
+      page:
+        post: Inlägg
     suspended:
       title: Kontot avstängt
       heading: Kontot avstängt

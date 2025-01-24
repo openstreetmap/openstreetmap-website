@@ -41,6 +41,7 @@
 # Author: Paxt
 # Author: Reaperman
 # Author: Robins7
+# Author: Segoulas
 # Author: ShaggyCZ - Main
 # Author: Spotter
 # Author: StenSoft
@@ -324,13 +325,6 @@ cs:
       openid:
         link: https://wiki.openstreetmap.org/wiki/Cs:OpenID
         link text: co to znamená?
-      public editing:
-        heading: Veřejné editace
-        enabled: Aktivní. Není anonym, smí editovat data.
-        enabled link text: co to znamená?
-        disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou
-          anonymní.
-        disabled link text: proč nemůžu editovat?
       contributor terms:
         heading: Podmínky pro přispěvatele
         agreed: Odsouhlasili jste nové Podmínky pro přispěvatele.
@@ -408,7 +402,6 @@ cs:
         readable_summary: lidsky čitelné shrnutí
         informal_translations: neoficiální překlady
         continue: Pokračovat
-        declined: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
         cancel: Zrušit
         you need to accept or decline: Pro pokračování si prosím přečtěte a přijměte
           nebo odmítněte nové Podmínky pro přispěvatele.
@@ -417,6 +410,8 @@ cs:
           france: Francie
           italy: Itálie
           rest_of_world: Zbytek světa
+      update:
+        terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       terms_declined_flash:
         terms_declined_html: Je nám líto, že jste se rozhodli nepřijmout nové Podmínky
           pro přispěvatele. Podrobnější informace najdete na %{terms_declined_link}.
@@ -575,7 +570,6 @@ cs:
       title: Sady změn
       title_user: Sady změn uživatele %{user}
       title_user_link_html: Sady změn uživatele %{user_link}
-      title_friend: Sady změn mých přátel
       title_nearby: Sady změn uživatelů poblíž
       empty: Nebyly nalezeny žádné sady změn.
       empty_area: Pro tuto oblast neexistují žádné sady změn.
@@ -590,19 +584,6 @@ cs:
         created: Vytvořeno
         closed: Uzavřeno
         belongs_to: Autor
-    subscribe:
-      heading: Přihlásit se k odběru následující diskuse o sadě změn?
-      button: Odebírat diskusi
-    unsubscribe:
-      heading: Zrušit odběr následující diskuse o sadě změn?
-      button: Zrušit odběr diskuse
-    heading:
-      title: Sada změn %{id}
-      created_by_html: Vytvořil uživatel %{link_user} %{created}.
-    no_such_entry:
-      heading: Záznam s ID %{id} neexistuje
-      body: Je nám líto, ale sada změn s ID %{id} neexistuje. Zkontrolujte překlepy
-        nebo jste možná klikli na chybný odkaz.
     show:
       title: 'Sada změn: %{id}'
       created: 'Vytvořeno: %{when}'
@@ -635,6 +616,21 @@ cs:
       sorry: 'Je nám líto, ale sada změn #%{id} neexistuje.'
     timeout:
       sorry: Omlouváme se, ale vámi požadovaný seznam sad změn se načítal příliš dlouho.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Přihlásit se k odběru následující diskuse o sadě změn?
+        button: Odebírat diskusi
+      unsubscribe:
+        heading: Zrušit odběr následující diskuse o sadě změn?
+        button: Zrušit odběr diskuse
+    heading:
+      title: Sada změn %{id}
+      created_by_html: Vytvořil uživatel %{link_user} %{created}.
+    no_such_entry:
+      heading: Záznam s ID %{id} neexistuje
+      body: Je nám líto, ale sada změn s ID %{id} neexistuje. Zkontrolujte překlepy
+        nebo jste možná klikli na chybný odkaz.
   dashboards:
     contact:
       km away: '%{count} km'
@@ -643,19 +639,14 @@ cs:
     popup:
       your location: Vaše poloha
       nearby mapper: Nedaleký uživatel
-      friend: Přítel
     show:
       title: Moje nástěnka
       no_home_location_html: '%{edit_profile_link} a nastavte si domovskou lokaci,
         abyste viděli uživatele ve vašem okolí.'
       edit_your_profile: Upravte si profil
-      my friends: Moji přátelé
-      no friends: Zatím jste nepřidali žádné přátele.
       nearby users: Další uživatelé poblíž
       no nearby users: Nejsou známi žádní uživatelé, kteří by uvedli domov blízko
         vás.
-      friends_changesets: sady změn přátel
-      friends_diaries: záznamy v denících přátel
       nearby_changesets: sady změn uživatelů poblíž
       nearby_diaries: záznamy v denících uživatelů poblíž
   diary_entries:
@@ -666,7 +657,6 @@ cs:
       use_map_link: Použít mapu
     index:
       title: Deníky uživatelů
-      title_friends: Deníky přátel
       title_nearby: Deníky uživatelů poblíž
       user_title: Deník uživatele %{user}
       in_language_title: Deníkové záznamy v jazyce %{language}
@@ -734,15 +724,6 @@ cs:
       heading: Odhlásit odběr následující diskuse k deníkovému záznamu?
       button: Zrušit odběr diskuse
   diary_comments:
-    index:
-      title: Komentáře k deníkům přidané uživatelem %{user}
-      heading: Deníkové komentáře uživatele %{user}
-      subheading_html: Komentáře k deníkům přidané uživatelem %{user}
-      no_comments: Žádné komentáře k deníkům
-    page:
-      post: Záznam
-      when: Kdy
-      comment: Komentář
     new:
       heading: Přidat komentář do následující diskuse k deníkovému záznamu?
   doorkeeper:
@@ -799,20 +780,6 @@ cs:
       title: Soubor nenalezen
       description: Na serveru OpenStreetMap se nepodařilo najít soubor/adresář/operaci
         API s tímto názvem (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Přidat uživatele %{user} jako přítele?
-      button: Přidat jako přítele
-      success: '%{name} je nyní váš přítel!'
-      failed: Je mi líto, nepodařilo se přidat %{name} jako přítele.
-      already_a_friend: Již jste přátelé s %{name}.
-      limit_exceeded: V poslední době jste přidali spoustu přátel. Před dalším přidáváním
-        přátel chvíli počkejte.
-    remove_friend:
-      heading: Odebrat uživatele %{user} z přátel?
-      button: Odebrat z přátel
-      success: '%{name} byl odstraněn z vašich přátel.'
-      not_a_friend: '%{name} není mezi vašimi přáteli.'
   geocoder:
     search:
       title:
@@ -1785,14 +1752,10 @@ cs:
         na %{replyurl}
       footer_html: Můžete si také přečíst zprávu na %{readurl} a můžete poslat zprávu
         autorovi na %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Dobrý den, uživateli %{to_user},
-      subject: '[OpenStreetMap] %{user} si vás přidal jako přítele'
-      had_added_you: '%{user} si vás na OpenStreetMap přidal(a) jako přítele.'
       see_their_profile: Jeho/její profil si můžete prohlédnout na %{userurl}.
       see_their_profile_html: Jeho/její profil si můžete prohlédnout na %{userurl}.
-      befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
-      befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
     gpx_details:
       details: 'Podrobnosti o vašem souboru:'
       filename: Název souboru
@@ -1817,6 +1780,8 @@ cs:
       subject: '[OpenStreetMap] Neúspěšný import GPX'
     gpx_success:
       hi: Ahoj %{to_user},
+      imported_successfully: Vypadá to, že se váš soubor úspěšně naimportoval jako
+        GPS stopa.
       all_your_traces: Všechny úspěšně načtené GPX stopy můžete najít na %{url}
       all_your_traces_html: Všechny úspěšně načtené GPX stopy můžete najít na %{url}.
       subject: '[OpenStreetMap] Úspěšný import GPX'
@@ -2739,13 +2704,14 @@ cs:
     offline:
       heading: GPX úložiště offline
       message: Úložiště GPX souborů a systém pro nahrávání jsou momentálně mimo provoz.
-    georss:
-      title: GPS stopy z OpenStreetMap
-    description:
-      description_with_count:
-        one: GPX soubor s %{count} bodem od uživatele %{user}
-        other: GPX soubor s %{count} body od uživatele %{user}
-      description_without_count: GPX soubor od uživatele %{user}
+    feeds:
+      show:
+        title: GPS stopy z OpenStreetMap
+      description:
+        description_with_count:
+          one: GPX soubor s %{count} bodem od uživatele %{user}
+          other: GPX soubor s %{count} body od uživatele %{user}
+        description_without_count: GPX soubor od uživatele %{user}
   application:
     permission_denied: Pro přístup k této akci nemáte oprávnění
     require_cookies:
@@ -2907,7 +2873,6 @@ cs:
           e-mailových adresách
         contributor_terms: podmínkami pro přispěvatele
       continue: Zaregistrovat se
-      terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       email_help:
         privacy_policy: pravidly ochrany osobních údajů
         privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o
@@ -2945,8 +2910,6 @@ cs:
       edits: Úpravy
       traces: Stopy
       notes: Poznámky k mapě
-      remove as friend: Odebrat z přátel
-      add as friend: Přidat do přátel
       mapper since: 'Účastník projektu od:'
       last map edit: 'Poslední úprava mapy:'
       no activity yet: Zatím žádná činnost
@@ -3025,6 +2988,15 @@ cs:
       user:
         summary_html: '%{name} vytvořeno %{date} z %{ip_address}'
         summary_no_ip_html: '%{name} vytvořen %{date}'
+    changeset_comments:
+      page:
+        when: Kdy
+        comment: Komentář
+    diary_comments:
+      index:
+        title: Komentáře k deníkům přidané uživatelem %{user}
+      page:
+        post: Záznam
     suspended:
       title: Účet pozastaven
       heading: Účet pozastaven
@@ -3242,6 +3214,19 @@ cs:
         k vaší poznámce, %{log_in} nebo %{sign_up}.
       anonymous_warning_log_in: přihlaste se
       anonymous_warning_sign_up: se zaregistrujte
+      counter_warning_html: Už jste odeslali nejméně %{x_anonymous_notes}, to je pro
+        komunitu skvělé, děkujeme! Co kdybyste zkusili %{contribute_by_yourself},
+        není to tak složité a %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} anonymní poznámku'
+        few: '%{count} anonymní poznámky'
+        many: '%{count} anonymní poznámky'
+        other: '%{count} anonymních poznámek'
+      counter_warning_guide_link:
+        text: přispívat sami
+        url: https://wiki.openstreetmap.org/wiki/Cs:Pr%C5%AFvodce_za%C4%8D%C3%A1te%C4%8Dn%C3%ADka
+      counter_warning_forum_link:
+        text: komunita vám může pomoci
       advice: Vaše poznámka je veřejná a může sloužit k úpravám mapy, proto nevkládejte
         žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
       add: Přidat poznámku

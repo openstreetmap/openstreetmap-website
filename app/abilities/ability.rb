@@ -22,7 +22,7 @@ class Ability
       can [:create, :update], :password
       can :read, Redaction
       can [:create, :destroy], :session
-      can [:read, :data, :georss], Trace
+      can [:read, :data], Trace
       can [:read, :create, :suspended, :auth_success, :auth_failure], User
       can :read, UserBlock
     end
@@ -32,7 +32,7 @@ class Ability
       can :read, [:deletion, :account_terms]
 
       if Settings.status != "database_offline"
-        can [:subscribe, :unsubscribe], Changeset
+        can [:read, :create, :destroy], :changeset_subscription
         can [:read, :create, :update, :destroy], :oauth2_application
         can [:read, :destroy], :oauth2_authorized_application
         can [:read, :create, :destroy], :oauth2_authorization

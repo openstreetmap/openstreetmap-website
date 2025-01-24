@@ -306,7 +306,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_soft_destroy_revokes_oauth2_tokens
     user = create(:user)
-    oauth_access_token = create(:oauth_access_token, :resource_owner_id => user.id)
+    oauth_access_token = create(:oauth_access_token, :user => user)
     assert_equal 1, user.access_tokens.not_expired.count
 
     user.soft_destroy

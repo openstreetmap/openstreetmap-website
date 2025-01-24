@@ -267,14 +267,6 @@ is:
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: hvað er openID?
-      public editing:
-        heading: Nafngreindar breytingar
-        enabled: Virkt. Ekki nafnlaus og getur breytt gögnum.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: Hvað er þetta?
-        disabled: Óvirkur og getur ekki breytt gögnum, allar fyrri breytingar eru
-          ónafngreindar.
-        disabled link text: af hverju get ég ekki breytt neinu?
       contributor terms:
         heading: Skilmálar vegna framlags
         agreed: Þú hefur samþykkt nýju skilmálana vegna framlags þíns.
@@ -358,7 +350,6 @@ is:
         readable_summary: læsilegt yfirlit
         informal_translations: óformlegar þýðingar
         continue: Halda áfram
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         you need to accept or decline: Endilega lestu og samþykktu eða hafnaðu nýju
           skilmálunum vegna framlags þíns, áður en þú heldur áfram.
         legale_select: 'Búseta (land):'
@@ -366,6 +357,9 @@ is:
           france: Frakkland
           italy: Ítalía
           rest_of_world: Restin af heiminum
+      update:
+        terms accepted: Bestu þakkir fyrir að samþykkja nýju skilmálana vegna framlags
+          þíns!
       terms_declined_flash:
         terms_declined_html: Okkur þykir miður að þú hafir ákveðið að samþykkja ekki
           nýja skilmála vegna framlags (contributor terms). Til að sjá ítarlegri upplýsingar,
@@ -501,7 +495,6 @@ is:
       title: Breytingasett
       title_user: Breytingar eftir %{user}
       title_user_link_html: Breytingasett eftir %{user_link}
-      title_friend: Breytingar eftir vini mína
       title_nearby: Breytingar eftir nálæga notendur
       empty: Engin breytingasett fundust.
       empty_area: Engin breytingasett á þessu svæði.
@@ -516,19 +509,6 @@ is:
         created: Búið til
         closed: Lokað
         belongs_to: Höfundur
-    subscribe:
-      heading: Gerast áskrifandi að umræðu með breytingasetti?
-      button: Gerast áskrifandi að umræðu
-    unsubscribe:
-      heading: Hætta áskrift að umræðu með breytingasetti?
-      button: Hætta áskrift að umræðu
-    heading:
-      title: Breytingasett %{id}
-      created_by_html: Útbúið af %{link_user} þann %{created}.
-    no_such_entry:
-      heading: 'Engin færsla er til með auðkennið: %{id}'
-      body: Breytingasett númerið %{id} er ekki til. Kannski settirðu inn rangt stafsetta
-        slóð eða fylgdir ógildum tengli.
     show:
       title: 'Breytingasett: %{id}'
       created: 'Búið til: %{when}'
@@ -560,6 +540,21 @@ is:
     timeout:
       sorry: Því miður, það tók of langan tíma að ná í listann yfir þau breytingasett
         sem þú baðst um.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Gerast áskrifandi að umræðu með breytingasetti?
+        button: Gerast áskrifandi að umræðu
+      unsubscribe:
+        heading: Hætta áskrift að umræðu með breytingasetti?
+        button: Hætta áskrift að umræðu
+    heading:
+      title: Breytingasett %{id}
+      created_by_html: Útbúið af %{link_user} þann %{created}.
+    no_such_entry:
+      heading: 'Engin færsla er til með auðkennið: %{id}'
+      body: Breytingasett númerið %{id} er ekki til. Kannski settirðu inn rangt stafsetta
+        slóð eða fylgdir ógildum tengli.
   dashboards:
     contact:
       km away: í %{count} km fjarlægð
@@ -568,19 +563,14 @@ is:
     popup:
       your location: Staðsetning þín
       nearby mapper: Nálægur notandi
-      friend: Vinur
     show:
       title: Stjórnborðið mitt
       no_home_location_html: '%{edit_profile_link} og stilltu heimastaðsetninguna
         þína til að sjá nálæga notendur.'
       edit_your_profile: Breyttu notandaaðgangnum þínum
-      my friends: Vinir mínir
-      no friends: Þú hefur ekki bætt við neinum vinum ennþá.
       nearby users: Aðrir nálægir notendur
       no nearby users: Engir notendur hafa stillt staðsetningu sína á korti nálægt
         þér.
-      friends_changesets: breytingasett vina
-      friends_diaries: bloggfærslur vina
       nearby_changesets: breytingasett vina í næsta nágrenni
       nearby_diaries: bloggfærslur vina í næsta nágrenni
   diary_entries:
@@ -591,7 +581,6 @@ is:
       use_map_link: Nota kort
     index:
       title: Blogg notenda
-      title_friends: Blogg vina
       title_nearby: Blogg notenda í nágrenninu
       user_title: Blogg frá %{user}
       in_language_title: Bloggfærslur á %{language}
@@ -658,15 +647,6 @@ is:
       heading: Hætta áskrift að umræðu með bloggfærslu?
       button: Hætta áskrift að umræðu
   diary_comments:
-    index:
-      title: Dagbók Athugasemdir bætt við af %{user}
-      heading: Athugasemdir dagbókar %{user}
-      subheading_html: Dagbóka Athugasemdir bætt við af %{user}
-      no_comments: Engar athugasemdir við dagbók
-    page:
-      post: Senda
-      when: Þegar
-      comment: Athugasemd
     new:
       heading: Bæta athugasemd við umræðu með bloggfærslu?
   doorkeeper:
@@ -725,20 +705,6 @@ is:
       title: Skrá fannst ekki
       description: Gat ekki fundið skrá/skrá/API-aðgerð með því nafni á OpenStreetMap-þjóninum
         (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Bæta %{user} við sem vini?
-      button: Bæta við sem vini
-      success: '%{name} er núna vinur þinn!'
-      failed: Gat ekki bætt %{name} á vinalistann þinn.
-      already_a_friend: '%{name} er þegar vinur þinn.'
-      limit_exceeded: Þú hefur vingast við marga notendur nýlega. Bíddu aðeins áður
-        en þú reynir að vingast fleiri.
-    remove_friend:
-      heading: Hætta að vera vinur %{user}?
-      button: Fjarlægja úr vinum
-      success: '%{name} er ekki lengur vinur þinn.'
-      not_a_friend: '%{name} er ekki einn af vinum þínum.'
   geocoder:
     search:
       title:
@@ -1681,15 +1647,11 @@ is:
         á %{replyurl}
       footer_html: Þú getur einnig lesið skilaboðin á %{readurl} og sent skilaboð
         til höfundarins á %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hæ %{to_user},
-      subject: '[OpenStreetMap] %{user} bætti þér við sem vin'
-      had_added_you: Notandinn %{user} hefur bætt þér við sem vini á OpenStreetMap.
       see_their_profile: Þú getur séð notandasíðu notandans á %{userurl} og jafnvel
         bætt honum við sem vini líka.
       see_their_profile_html: Þú getur séð notandasíðu notandans á %{userurl}.
-      befriend_them: Þú getur líka bætt þeim við sem vinum á %{befriendurl}.
-      befriend_them_html: Þú getur líka bætt þeim við sem vinum á %{befriendurl}.
     gpx_failure:
       hi: Hæ %{to_user},
       failed_to_import: 'tókst ekki að flytja inn. Hér er villan:'
@@ -2673,13 +2635,14 @@ is:
     offline:
       heading: Ekki hægt að hlaða upp GPX
       message: Ekki er hægt að hlaða upp GPX í augnablikinu vegna viðhalds.
-    georss:
-      title: OpenStreetMap GPS-ferlar
-    description:
-      description_with_count:
-        one: GPX-skrá með %{count} punkti frá %{user}
-        other: GPX-skrá með %{count} punktum frá %{user}
-      description_without_count: GPX-skrá frá %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-ferlar
+      description:
+        description_with_count:
+          one: GPX-skrá með %{count} punkti frá %{user}
+          other: GPX-skrá með %{count} punktum frá %{user}
+        description_without_count: GPX-skrá frá %{user}
   application:
     permission_denied: Þú hefur ekki réttindi til að nota þessa aðgerð
     require_cookies:
@@ -2823,8 +2786,6 @@ is:
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: skilmálar vegna framlags
       continue: Nýskrá
-      terms accepted: Bestu þakkir fyrir að samþykkja nýju skilmálana vegna framlags
-        þíns!
       email_help:
         privacy_policy: stefna vegna meðferðar persónuupplýsinga
         privacy_policy_url: https://wiki.osmfoundation.org/wiki/Privacy_Policy
@@ -2864,8 +2825,6 @@ is:
       edits: Breytingar
       traces: Ferlar
       notes: Minnispunktar á korti
-      remove as friend: Fjarlægja úr vinum
-      add as friend: Bæta við sem vini
       mapper since: 'Í kortlagningu síðan:'
       last map edit: 'Síðasta breyting á korti:'
       no activity yet: Engin virkni ennþá
@@ -2940,6 +2899,15 @@ is:
       user:
         summary_html: '%{name} var útbúinn frá %{ip_address} þann %{date}'
         summary_no_ip_html: '%{name} útbúinn þann %{date}'
+    changeset_comments:
+      page:
+        when: Þegar
+        comment: Athugasemd
+    diary_comments:
+      index:
+        title: Dagbók Athugasemdir bætt við af %{user}
+      page:
+        post: Senda
     suspended:
       title: Aðgangur frystur
       heading: Aðgangur frystur

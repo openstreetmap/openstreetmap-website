@@ -103,7 +103,7 @@ gl:
         support_url: URL de apoio
         allow_read_prefs: ler as súas preferencias de usuario
         allow_write_prefs: modificar as súas preferencias de usuario
-        allow_write_diary: crear entradas de diario, comentarios e facer amizades
+        allow_write_diary: crear entradas de diario e comentarios
         allow_write_api: modificar o mapa
         allow_read_gpx: ler as súas pistas GPS privadas
         allow_write_gpx: subir pistas GPS
@@ -267,13 +267,6 @@ gl:
       external auth: Autenticación externa
       openid:
         link text: que é isto?
-      public editing:
-        heading: Edición pública
-        enabled: Activado. Non es anónimo e podes editar os datos.
-        enabled link text: que é isto?
-        disabled: Desactivado e non pode editar os datos. Tódalas anteriores edicións
-          son anónimas.
-        disabled link text: por que non podo editar?
       contributor terms:
         heading: Termos do colaborador
         agreed: Aceptaches os novos termos do colaborador.
@@ -356,7 +349,6 @@ gl:
         readable_summary: resumo lexible por humanos
         informal_translations: traducións informais
         continue: Continuar
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: Cancelar
         you need to accept or decline: Le e, deseguido, acepta ou rexeita os novos
           termos do colaborador para continuar.
@@ -365,6 +357,8 @@ gl:
           france: Francia
           italy: Italia
           rest_of_world: Resto do mundo
+      update:
+        terms accepted: Grazas por aceptar os novos termos do colaborador!
       terms_declined_flash:
         terms_declined_html: Lamentamos que decidises non aceptar as novas condicións
           dos colaboradores. Para obter máis información, consulta %{terms_declined_link}.
@@ -521,7 +515,6 @@ gl:
       title: Conxuntos de modificacións
       title_user: Conxuntos de modificacións por %{user}
       title_user_link_html: Conxuntos de modificacións por %{user_link}
-      title_friend: Conxuntos de modificacións das amizades
       title_nearby: Conxuntos de modificacións dos usuarios de lugares preto de ti
       empty: Non se atoparon conxuntos de modificacións.
       empty_area: Non hai conxuntos de modificacións nesta zona.
@@ -536,20 +529,6 @@ gl:
         created: Creado
         closed: Pechado
         belongs_to: Autor
-    subscribe:
-      heading: Queres subscribirte á seguinte conversa sobre o conxunto de modificacións?
-      button: Subscribirse á conversa
-    unsubscribe:
-      heading: Queres cancelar a subscrición á seguinte conversa sobre o conxunto
-        de modificacións?
-      button: Cancelar a subscrición á conversa
-    heading:
-      title: Conxunto de modificacións %{id}
-      created_by_html: Creado por %{link_user} o %{created}.
-    no_such_entry:
-      heading: 'Non hai ningunha entrada co ID: %{id}'
-      body: Non existe ningún conxunto de modificacións co identificador %{id}. Comproba
-        a ortografía ou que a ligazón que seguiches estea ben.
     show:
       title: 'Conxunto de modificacións: %{id}'
       created: 'Creado: %{when}'
@@ -583,6 +562,22 @@ gl:
     timeout:
       sorry: Sentímolo, a lista dos conxuntos de modificacións que solicitaches tardou
         moito en obterse.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Queres subscribirte á seguinte conversa sobre o conxunto de modificacións?
+        button: Subscribirse á conversa
+      unsubscribe:
+        heading: Queres cancelar a subscrición á seguinte conversa sobre o conxunto
+          de modificacións?
+        button: Cancelar a subscrición á conversa
+    heading:
+      title: Conxunto de modificacións %{id}
+      created_by_html: Creado por %{link_user} o %{created}.
+    no_such_entry:
+      heading: 'Non hai ningunha entrada co ID: %{id}'
+      body: Non existe ningún conxunto de modificacións co identificador %{id}. Comproba
+        a ortografía ou que a ligazón que seguiches estea ben.
   dashboards:
     contact:
       km away: a %{count}km de distancia
@@ -591,18 +586,13 @@ gl:
     popup:
       your location: A túa localización
       nearby mapper: Cartógrafo preto de ti
-      friend: Amizade
     show:
       title: O meu panel de control
       no_home_location_html: '%{edit_profile_link} e define a localización da túa
         casa para ver usuarios preto de ti.'
       edit_your_profile: Editar o teu perfil
-      my friends: As miñas amizades
-      no friends: Aínda non engadiu ningunha amizade.
       nearby users: Outros usuarios preto de ti
       no nearby users: Aínda non hai usuarios que estean situados preto de ti.
-      friends_changesets: conxuntos de modificacións das amizades
-      friends_diaries: entradas de diario das amizades
       nearby_changesets: conxuntos de modificacións dos usuarios de lugares preto
         de ti
       nearby_diaries: entradas de diario dos usuarios de lugares preto de ti
@@ -614,7 +604,6 @@ gl:
       use_map_link: Empregar mapa
     index:
       title: Diarios dos usuarios
-      title_friends: Diarios das amizades
       title_nearby: Diarios dos usuarios de lugares preto de ti
       user_title: Diario de %{user}
       in_language_title: Entradas do diario en %{language}
@@ -682,15 +671,6 @@ gl:
         diario?
       button: Cancelar a subscrición á conversa
   diary_comments:
-    index:
-      title: Comentarios do diario engadidos por %{user}
-      heading: Comentarios do diario de %{user}
-      subheading_html: Comentarios do diario engadidos por %{user}
-      no_comments: Sen comentarios no diario
-    page:
-      post: Artigo
-      when: Cando
-      comment: Comentario
     new:
       heading: Queres engadir un comentario á seguinte conversa sobre a entrada no
         diario?
@@ -751,20 +731,6 @@ gl:
       title: Non se atopou o ficheiro
       description: Non se puido atopar unha operación de ficheiro/directorio/API con
         ese nome no servidor do OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Queres engadir a %{user} coma amizade?
-      button: Engadir coma amizade
-      success: '%{name} xa é a túa amizade!'
-      failed: Houbo un erro ó engadir a %{name} coma amizade.
-      already_a_friend: Xa é amizade de %{name}.
-      limit_exceeded: Estivo enviando unha morea de peticións de amizade recentemente.
-        Agarde uns intres denantes de tentar enviar máis.
-    remove_friend:
-      heading: Queres eliminar a %{user} das amizades?
-      button: Eliminar coma amizade
-      success: '%{name} foi eliminado das túas amizades.'
-      not_a_friend: '%{name} non é unha das túas amizades.'
   geocoder:
     search:
       title:
@@ -1733,14 +1699,10 @@ gl:
         en %{replyurl}
       footer_html: Tamén podes ler a mensaxe en %{readurl} e enviar unha mensaxe ó
         autor en %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: 'Ola %{to_user}:'
-      subject: '[OpenStreetMap] %{user} engadiuno coma amizade'
-      had_added_you: '%{user} engadiuno coma amizade no OpenStreetMap.'
       see_their_profile: Podes ollar o seu perfil en %{userurl}.
       see_their_profile_html: Podes ollar o seu perfil en %{userurl}.
-      befriend_them: Tamén pode engadilo coma amizade no %{befriendurl}.
-      befriend_them_html: Tamén podes engadilo como amizade no %{befriendurl}.
     gpx_details:
       details: 'Detalles do teu ficheiro:'
       filename: Nome do ficheiro
@@ -2710,13 +2672,14 @@ gl:
     offline:
       heading: Almacenamento GPX fóra de liña
       message: O sistema de subida e almacenaxe de ficheiros GPX non está dispoñíbel.
-    georss:
-      title: Pistas GPS do OpenStreetMap
-    description:
-      description_with_count:
-        one: Ficheiro GPX cun punto de %{user}
-        other: Ficheiro GPX con %{count} puntos de %{user}
-      description_without_count: Ficheiro GPX de %{user}
+    feeds:
+      show:
+        title: Pistas GPS do OpenStreetMap
+      description:
+        description_with_count:
+          one: Ficheiro GPX cun punto de %{user}
+          other: Ficheiro GPX con %{count} puntos de %{user}
+        description_without_count: Ficheiro GPX de %{user}
   application:
     permission_denied: Non ten permisos para acceder a esa acción
     require_cookies:
@@ -2785,7 +2748,7 @@ gl:
       openid: Iniciar sesión usando OpenStreetMap
       read_prefs: Ler preferencias de usuario
       write_prefs: Modificar preferencias de usuario
-      write_diary: Crear entradas de diario, comentarios e amizades
+      write_diary: Crear entradas de diario e comentarios
       write_api: Modificar o mapa
       read_gpx: Ler pistas GPS privadas
       write_gpx: Subir pistas GPS
@@ -2878,7 +2841,6 @@ gl:
           unha sección sobre os enderezos de correo electrónico
         contributor_terms: termos do colaborador
       continue: Rexistrarse
-      terms accepted: Grazas por aceptar os novos termos do colaborador!
       email_help:
         privacy_policy: política de protección de datos
         privacy_policy_title: Política de protección de datos da OSMF, que contén
@@ -2916,8 +2878,6 @@ gl:
       edits: Edicións
       traces: Pistas
       notes: Notas do mapa
-      remove as friend: Eliminar coma amizade
-      add as friend: Engadir coma amizade
       mapper since: 'Cartógrafo dende:'
       last map edit: 'Última edición do mapa:'
       no activity yet: Aínda non hai actividade
@@ -2993,6 +2953,15 @@ gl:
       user:
         summary_html: '%{name} creado dende %{ip_address} o %{date}'
         summary_no_ip_html: '%{name} creado o %{date}'
+    changeset_comments:
+      page:
+        when: Cando
+        comment: Comentario
+    diary_comments:
+      index:
+        title: Comentarios do diario engadidos por %{user}
+      page:
+        post: Artigo
     suspended:
       title: Conta suspendida
       heading: Conta suspendida

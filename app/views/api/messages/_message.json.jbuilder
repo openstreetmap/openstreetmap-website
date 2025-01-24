@@ -6,10 +6,11 @@ json.to_display_name message.recipient.display_name
 json.title message.title
 json.sent_on message.sent_on.xmlschema
 
+json.message_read message.message_read if current_user.id == message.to_user_id
+
 if current_user.id == message.from_user_id
   json.deleted !message.from_user_visible
 elsif current_user.id == message.to_user_id
-  json.message_read message.message_read
   json.deleted !message.to_user_visible
 end
 

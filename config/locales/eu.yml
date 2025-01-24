@@ -265,13 +265,6 @@ eu:
       external auth: Kanpoko Autentifikazioa
       openid:
         link text: zer da hau?
-      public editing:
-        heading: Aldaketa publikoa
-        enabled: Gaituta. Ez da anonimoa eta datuak editatu ditzake.
-        enabled link text: zer da hau?
-        disabled: Ezgaituta dago eta ezin ditu datuak editatu, aurreko aldaketa guztiak
-          anonimoak dira.
-        disabled link text: Zergatik ezin dut aldatu?
       contributor terms:
         heading: Kolaboratzaile Terminoak
         agreed: Kolaboratzaile-termino berriak onartu dituzu.
@@ -357,6 +350,8 @@ eu:
           france: Frantzia
           italy: Italy
           rest_of_world: Gainerako mundua
+      update:
+        terms accepted: Eskerrik asko laguntzaileen termino berriak onartzeagatik!
       terms_declined_flash:
         terms_declined_html: Sentitzen dugu Laguntzaile Baldintza berriak ez onartzea
           erabaki izana. Informazio gehiago lortzeko, ikusi %{terms_declined_link}.
@@ -482,7 +477,6 @@ eu:
       title: Aldaketak
       title_user: '%{user}k egindako aldaketak'
       title_user_link_html: '%{user_link}-(e)k eginiko aldaketak'
-      title_friend: Nire lagunek egindako aldaketak
       title_nearby: Hurbil dauden erabiltzaileek egindako aldaketak
       empty: Ez da aldaketarik aurkitu.
       empty_area: Inguru honetan ez dago aldaketarik.
@@ -497,10 +491,6 @@ eu:
         created: Sortua
         closed: Itxita
         belongs_to: Egilea
-    subscribe:
-      heading: Aldaketa multzoko eztabaida honetara harpidetu nahi duzu?
-    unsubscribe:
-      button: Eztabaidatik harpidetza kendu
     show:
       title: 'Aldaketa: %{id}'
       created_ago_html: Sortua orain dela %{time_ago}
@@ -530,6 +520,12 @@ eu:
     timeout:
       sorry: Barkatu, zuk eskatutako aldaketen zerrenda berreskuratzeko denbora gehiegi
         behar izan da.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Aldaketa multzoko eztabaida honetara harpidetu nahi duzu?
+      unsubscribe:
+        button: Eztabaidatik harpidetza kendu
   dashboards:
     contact:
       km away: '%{count} km-tara'
@@ -538,18 +534,13 @@ eu:
     popup:
       your location: Zure kokapena
       nearby mapper: Hurbileko mapeatzaileak
-      friend: Laguna
     show:
       title: Nire Arbela
       no_home_location_html: '%{edit_profile_link} eta ezarri zure etxeko kokapena
         inguruko erabiltzaileak ikusteko.'
       edit_your_profile: Zure perfila aldatu
-      my friends: Nire lagunak
-      no friends: Oraindik ez duzu lagunik gehitu.
       nearby users: Gertuko beste erabiltzaile batzuk
       no nearby users: Ez dago oraindik hurbileko mapa editatzea onartzen duen erabiltzailerik.
-      friends_changesets: Lagunen aldaketak
-      friends_diaries: Lagunen eguneroko sarrerak
       nearby_changesets: inguruko erabiltzaileen aldaketak
       nearby_diaries: inguruko erabiltzaileen eguneroko sarrerak
   diary_entries:
@@ -560,7 +551,6 @@ eu:
       use_map_link: Erabili mapa
     index:
       title: Erabiltzaileen egunerokoak
-      title_friends: Lagunen egunerokoak
       title_nearby: Hurbileko erabiltzaileen egunerokoak
       user_title: '%{user}(r)en egunerokoa'
       in_language_title: Eguneroko Sarrerak %{language} hizkuntzan
@@ -619,16 +609,6 @@ eu:
       all:
         title: OpenStreetMap eguneroko sarrerak
         description: OpenStreetMap erabiltzaileek azkenaldian egindako eguneroko sarrerak
-  diary_comments:
-    index:
-      title: '%{user} erabiltzaileak gehitutako egunkariko iruzkinak'
-      heading: '%{user} erabiltzailearen egunkariko iruzkinak'
-      subheading_html: '%{user} erabiltzaileak gehitutako egunkariko iruzkinak'
-      no_comments: Ez dago egunkariko iruzkinik
-    page:
-      post: Argitaratu
-      when: Noiz
-      comment: Iruzkina
   doorkeeper:
     errors:
       messages:
@@ -668,20 +648,6 @@ eu:
       title: Fitxategia ez da aurkitu
       description: Ezin izan da izen hori duen fitxategi/karpeta/API eragiketarik
         OpenStreetMap zerbitzarian aurkitu (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Gehitu %{user} adiskidetzat?
-      button: Gehitu lagun gisa
-      success: '%{name} zure laguna de orain!'
-      failed: Barkatu, ezin izan da %{name} adiskidetzat gehitu.
-      already_a_friend: '%{name} eta zuk lagunak zarete jada.'
-      limit_exceeded: Erabiltzaile askoren lagun egin zara azkenaldian. Mesedez, itxaron
-        pixka bat lagun gehiago egiten saiatu aurretik.
-    remove_friend:
-      heading: '%{user} lagun moduan kendu?'
-      button: Kendu adiskidetzat
-      success: '%{name} kendu duzu zure adiskide zerrendatik.'
-      not_a_friend: '%{name} ez da zure laguna.'
   geocoder:
     search:
       title:
@@ -1610,15 +1576,10 @@ eu:
       footer: Mezua %{readurl} helbidean ere irakur dezakezu eta egileari mezu bat
         bidal diezaiokezu %{replyurl} helbidean
       footer_html: Mezua irakurri dezakezu %{readurl}-n ere eta erantzun %{replyurl}-n
-    friendship_notification:
+    follow_notification:
       hi: Kaixo %{to_user},
-      subject: '[OpenStreetMap] %{user} erabiltzaileak adiskidetzat gehitu zaitu'
-      had_added_you: '%{user} lagun bezala gehitu zaitu OpenStreetMap-en.'
       see_their_profile: Haien profila %{userurl}n ikusi dezakezu.
       see_their_profile_html: Haien profila %{userurl} helbidean ikusi dezakezu.
-      befriend_them: Hura adiskidetzat gehitzeko aukera ere baduzu, %{befriendurl}
-        orrian.
-      befriend_them_html: Lagun gisa ere gehi ditzakezu %{befriendurl} helbidean.
     gpx_failure:
       hi: Kaixo %{to_user},
       failed_to_import: 'inportzean kale egin du. Hemen dago akatsa:'
@@ -2405,13 +2366,14 @@ eu:
     offline:
       heading: Offline GPX Biltegia
       message: GPX fitxategien biltegiratze eta kargatze sistema ez dago erabilgarri.
-    georss:
-      title: OpenStreetMap GPS Aztarnak
-    description:
-      description_with_count:
-        one: '%{user} %{count} puntua duen GPX fitxategia'
-        other: '%{user} %{count} puntuak dituen GPX fitxategia'
-      description_without_count: '%{user}ren GPX fitxategia'
+    feeds:
+      show:
+        title: OpenStreetMap GPS Aztarnak
+      description:
+        description_with_count:
+          one: '%{user} %{count} puntua duen GPX fitxategia'
+          other: '%{user} %{count} puntuak dituen GPX fitxategia'
+        description_without_count: '%{user}ren GPX fitxategia'
   application:
     permission_denied: Ez duzu baimenik ekintza hori burutzeko
     require_cookies:
@@ -2529,7 +2491,6 @@ eu:
         privacy_policy_title: OSMF pribatutasun-politika helbide elektronikoei buruzko
           atala barne
       continue: Eman izena
-      terms accepted: Eskerrik asko laguntzaileen termino berriak onartzeagatik!
       email_help:
         html: Zure helbidea ez da publikoki bistaratzen, ikusi gure %{privacy_policy_link}
           informazio gehiago lortzeko.
@@ -2559,8 +2520,6 @@ eu:
       edits: Aldaketak
       traces: Aztarnak
       notes: Mapa Oharrak
-      remove as friend: Kendu adiskidetzat
-      add as friend: Gehitu adiskidetzat
       mapper since: 'Noiztik mapatzaile:'
       uid: 'Erabiltzaile ID:'
       ct status: 'Kolaboratzaile terminoak:'
@@ -2616,6 +2575,15 @@ eu:
       user:
         summary_html: '%{date}n %{ip_address}tik %{name} sortu da'
         summary_no_ip_html: '%{name} %{date} datan sortua'
+    changeset_comments:
+      page:
+        when: Noiz
+        comment: Iruzkina
+    diary_comments:
+      index:
+        title: '%{user} erabiltzaileak gehitutako egunkariko iruzkinak'
+      page:
+        post: Argitaratu
     suspended:
       title: Kontua bertan behera geratu da
       heading: Kontua bertan behera geratu da

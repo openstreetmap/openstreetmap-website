@@ -2401,6 +2401,13 @@ CREATE INDEX index_changeset_comments_on_author_id_and_created_at ON public.chan
 
 
 --
+-- Name: index_changeset_comments_on_author_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_changeset_comments_on_author_id_and_id ON public.changeset_comments USING btree (author_id, id);
+
+
+--
 -- Name: index_changeset_comments_on_changeset_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2433,6 +2440,13 @@ CREATE INDEX index_changesets_subscribers_on_changeset_id ON public.changesets_s
 --
 
 CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_id ON public.changesets_subscribers USING btree (subscriber_id, changeset_id);
+
+
+--
+-- Name: index_diary_comments_on_user_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diary_comments_on_user_id_and_id ON public.diary_comments USING btree (user_id, id);
 
 
 --
@@ -3408,6 +3422,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250121191749'),
 ('20250105154621'),
 ('20250104140952'),
 ('20241023004427'),

@@ -237,13 +237,6 @@ gd:
       external auth: Dearbhadh taobh a-muigh
       openid:
         link text: dè th`ann?
-      public editing:
-        heading: Deasachadh poblach
-        enabled: An comas. Nochdaidh d' ainm agus faodaidh tu dàta a dheasachadh.
-        enabled link text: dè th`ann?
-        disabled: À comas agus chan fhaod thu dàta a dheasachadh, bith gach deasachadh
-          a rinn thu roimhe gun urra.
-        disabled link text: Carson nach urrainn dhomh deasachadh?
       contributor terms:
         heading: 'Teirmichean a'' chom-pàirtiche:'
         agreed: Dh'aontaich thu ri teirmichean ùra a' chom-pàirtiche.
@@ -280,6 +273,8 @@ gd:
           france: An Fhraing
           italy: An Eadailt
           rest_of_world: An corr dhen t-saoghail
+      update:
+        terms accepted: Mòran taing gun do dh'aontaich thu ri teirmichean a' chom-pàirtiche!
   browse:
     version: Tionndadh
     in_changeset: Seata atharraichean
@@ -391,7 +386,6 @@ gd:
       title: Seataichean atharraichean
       title_user: Seataichean atharraichean le %{user}
       title_user_link_html: Seataichean atharraichean le %{user_link}
-      title_friend: Seataichean atharraichean le mo charaidean
       title_nearby: Seataichean atharraichean le cleachdaichean am fagas
       empty: Cha deach seata atharraichean a lorg.
       empty_area: Chan eil seata atharraichean san raon seo.
@@ -407,8 +401,6 @@ gd:
         created: Air a chruthachadh
         closed: Dùinte
         belongs_to: Ùghdar
-    heading:
-      title: Seata atharraichean %{id}
     show:
       title: 'Seata atharraichean: %{id}'
       created: 'Air a chruthachadh: %{when}'
@@ -433,6 +425,9 @@ gd:
     timeout:
       sorry: Duilich ach thug e ro fhada gus an seata atharraichean a dh'iarr thu
         fhaighinn.
+  changeset_subscriptions:
+    heading:
+      title: Seata atharraichean %{id}
   dashboards:
     contact:
       km away: '%{count}km air falbh'
@@ -441,14 +436,10 @@ gd:
     popup:
       your location: Far a bheil thu
       nearby mapper: Neach-mapachaidh am fagas
-      friend: Caraid
     show:
-      no friends: Cha do chuir thu caraid ris fhathast.
       nearby users: Cleachdaichean am fagas eile
       no nearby users: Chan eil cleachdaiche sam bith eile ann a dh'innis gu bheil
         iad ris an obair-mhapa am fagas.
-      friends_changesets: seata atharraichean nan caraidean
-      friends_diaries: clàran leabhair-latha nan caraidean
       nearby_changesets: seata atharraichean nan cleachdaichean am fagas
       nearby_diaries: clàran leabhair-latha am fagas
   diary_entries:
@@ -459,7 +450,6 @@ gd:
       use_map_link: Cleachd mapa
     index:
       title: Leabhraichean-latha
-      title_friends: Leabhraichean-latha do charaidean
       title_nearby: Leabhraichean-latha am fagas
       user_title: An leabhar-latha aig %{user}
       in_language_title: Is %{language} cànan nan clàran san leabhar-latha
@@ -513,26 +503,9 @@ gd:
         title: Clàran san leabhar-latha OpenStreetMap
         description: Clàran leabhair-latha le cleachdaichean OpenStreetMap o chionn
           goirid
-  diary_comments:
-    page:
-      post: Post
-      when: Àm
-      comment: Beachd
   errors:
     forbidden:
       title: Toirmisgte
-  friendships:
-    make_friend:
-      heading: An cuir thu %{user} ris na caraidean agad?
-      button: Cuir caraid ris
-      success: Chaidh %{name} a chur ris na caraidean agad!
-      failed: Duilich ach cha deach leinn %{name} a chur ris na caraidean agad.
-      already_a_friend: Tha càirdeas eadar thu fhèin agus %{name} mar-thà.
-    remove_friend:
-      heading: An toir thu %{user} air falbh o na caraidean agad?
-      button: Thoir an càirdeas air falbh
-      success: Chaidh %{name} a thoirt air falbh o na caraidean agad.
-      not_a_friend: Chan eil càirdeas eadar thu fhèin agus %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1092,14 +1065,10 @@ gd:
         bheil an cuspair "%{subject}":'
       footer_html: '''S urrainn dhut an teachdaireachd a leughadh air %{readurl} cuideachd
         agus freagairt a sgrìobhadh air %{replyurl}'
-    friendship_notification:
+    follow_notification:
       hi: Shin thu, %{to_user},
-      subject: '[OpenStreetMap] Chuir %{user} ''na charaid ris thu'
-      had_added_you: '[OpenStreetMap] Chuir %{user} ''na charaid ris thu air OpenStreetMap.'
       see_their_profile: '''S urrainn dhut a'' phròifil aig an neach ud a shealltainn
         air %{userurl}.'
-      befriend_them: '''S urrainn dhut an neach ud a a chur ''nad caraid ris air %{befriendurl}
-        cuideachd.'
     gpx_failure:
       hi: Shin thu, %{to_user},
       failed_to_import: 'ion-phortachadh. Seo a'' mhearachd:'
@@ -1637,15 +1606,16 @@ gd:
       heading: Tha stòras GPX far loidhne
       message: Chan eil stòras no siostam luchdaidh suas nam faidhlichean GPX ri fhaighinn
         an-dràsta
-    georss:
-      title: Lorgaidhean GPS aig OpenStreetMap
-    description:
-      description_with_count:
-        one: faidhle GPX le %{count} phuing o %{user}
-        two: faidhle GPX le %{count} phuing o %{user}
-        few: faidhle GPX le %{count} puingean o %{user}
-        other: faidhle GPX le %{count} puing o %{user}
-      description_without_count: Faidhle GPX o %{user}
+    feeds:
+      show:
+        title: Lorgaidhean GPS aig OpenStreetMap
+      description:
+        description_with_count:
+          one: faidhle GPX le %{count} phuing o %{user}
+          two: faidhle GPX le %{count} phuing o %{user}
+          few: faidhle GPX le %{count} puingean o %{user}
+          other: faidhle GPX le %{count} puing o %{user}
+        description_without_count: Faidhle GPX o %{user}
   application:
     require_cookies:
       cookies_needed: Tha coltas gun do chuir thu briosgaidean à comas - feuch an
@@ -1686,7 +1656,6 @@ gd:
       display name description: An t-ainm-cleachdaiche agad a thèid a shealltainn
         gu poblach. 'S urrainn dhut seo atharrachadh uair sam bith sna roghainnean.
       continue: Clàraich
-      terms accepted: Mòran taing gun do dh'aontaich thu ri teirmichean a' chom-pàirtiche!
       or: "no"
       use external auth: No cleachd treas-phàrtaidh airson clàradh a-steach
     no_such_user:
@@ -1712,8 +1681,6 @@ gd:
       edits: Deasachaidhean
       traces: Lorgaidhean
       notes: Nòtaichean a' mhapa
-      remove as friend: Thoir an càirdeas air falbh
-      add as friend: Cuir caraid ris
       mapper since: 'Ris an obair-mhapa o:'
       ct status: 'Teirmichean a'' chom-pàirtiche:'
       ct undecided: Gun taghadh
@@ -1765,6 +1732,13 @@ gd:
       user:
         summary_html: Chaidh %{name} a chruthachadh o %{ip_address} %{date}
         summary_no_ip_html: Chaidh %{name} a chruthachadh %{date}
+    changeset_comments:
+      page:
+        when: Àm
+        comment: Beachd
+    diary_comments:
+      page:
+        post: Post
     suspended:
       title: Chaidh an cunntas a chur à rèim
       heading: Chaidh an cunntas a chur à rèim

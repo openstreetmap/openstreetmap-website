@@ -235,13 +235,6 @@ hr:
       current email address: Trenutna adresa e-pošte
       openid:
         link text: što je ovo?
-      public editing:
-        heading: Javno uređivanje
-        enabled: Omogućeno. Nije anonimno i mogu se uređivati podaci.
-        enabled link text: što je ovo?
-        disabled: Onemogućno i ne mogu se uređivati podaci, sve prethodne promjene
-          su anonimne.
-        disabled link text: zašto ne mogu uređivati?
       contributor terms:
         heading: Uvjeti doprinositelja
         agreed: Prihvatio/la si nove Uvjete doprinositelja.
@@ -273,6 +266,8 @@ hr:
           france: Francuska
           italy: Italija
           rest_of_world: Ostatak svijeta
+      update:
+        terms accepted: Hvala za prihvaćanje novih pridonositeljskih uvjeta!
   browse:
     version: Inačica
     in_changeset: Set promjena
@@ -376,7 +371,6 @@ hr:
     index:
       title: Setovi promjena
       title_user: Setovi promjena od %{user}
-      title_friend: Setovi promjena mojih prijatelja
       title_nearby: Setovi promjena obližnjih korisnika
       empty: Nisu pronađeni setovi promjena.
       empty_area: Nema setova promjena na ovom području.
@@ -419,14 +413,10 @@ hr:
     popup:
       your location: Vaša lokacija
       nearby mapper: Obližnji maper
-      friend: Prijatelj
     show:
-      my friends: Moji prijatelji
-      no friends: Nisi dodao niti jednog prijatelja.
       nearby users: Drugi korisnici u blizini
       no nearby users: Još uvijek nema drugih korisnika koji kartiraju-mapiraju u
         blizini.
-      friends_changesets: changesetovi prijatelja
   diary_entries:
     new:
       title: Novi zapis u dnevnik
@@ -435,7 +425,6 @@ hr:
       use_map_link: Koristi kartu
     index:
       title: Dnevnici korisnika
-      title_friends: Dnevnici prijatelja
       title_nearby: Dnevnici obližnjih članova
       user_title: '%{user}ov dnevnik'
       in_language_title: 'Zapisi u dnevniku na jeziku: %{language}'
@@ -488,21 +477,6 @@ hr:
       all:
         title: Zapisi u OpenStreetMap dnevniku
         description: Nedavni zapisi u dnevnik korisnika OpenStreetMapa
-  diary_comments:
-    page:
-      post: Pošalji
-      when: Kada
-      comment: Komentar
-  friendships:
-    make_friend:
-      heading: Dodaj %{user} kao prijatelja?
-      button: Dodaj u prijatelje
-      success: '%{name} je sada tvoj prijatelj!'
-      failed: Žao mi je, nije uspjelo dodavanje %{name} kao prijatelja.
-      already_a_friend: Već jesi prijatelj s %{name}.
-    remove_friend:
-      success: '%{name} je izbačen iz prijatelja.'
-      not_a_friend: '%{name} nije tvoj prijatelj.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1047,11 +1021,8 @@ hr:
     message_notification:
       hi: Bok %{to_user},
       header: '%{from_user} ti je poslao poruku preko OpenStreetMap sa predmetom %{subject}:'
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} te je dodao kao prijatelja'
-      had_added_you: '%{user} te je dodao kao prijatelja na OpenStreetMap-u.'
+    follow_notification:
       see_their_profile: Možeš vidjeti njihov profil na %{userurl}.
-      befriend_them: Također, možete ih dodati kao prijatelja na %{befriendurl}.
     gpx_failure:
       failed_to_import: 'Import nije uspio. Ovdje je greška:'
       subject: '[OpenStreetMap] GPX Import nije uspio'
@@ -1492,10 +1463,11 @@ hr:
     offline:
       heading: GPX spremište Offline
       message: Sustav za GPX spremanje i upload trenutno nisu u funkciji.
-    georss:
-      title: OpenStreetMap GNSS tragovi
-    description:
-      description_without_count: GPX datoteka od %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GNSS tragovi
+      description:
+        description_without_count: GPX datoteka od %{user}
   application:
     require_cookies:
       cookies_needed: Čini se da su vam cookie-i onemogućeni, molim omogućite cookie
@@ -1532,7 +1504,6 @@ hr:
       display name description: Javno prikazano korisničko ime. Možete ga promjeniti
         i kasnije u postavkama.
       continue: Otvori račun
-      terms accepted: Hvala za prihvaćanje novih pridonositeljskih uvjeta!
       use external auth: Alternativno, koristite drugi servis za prijavljivanje
     no_such_user:
       title: Nema takvog korisnika
@@ -1556,8 +1527,6 @@ hr:
       edits: Promjene
       traces: Tragovi
       notes: Bilješke karte
-      remove as friend: Prekini prijateljstvo
-      add as friend: Dodaj prijatelja
       mapper since: 'Maper od:'
       ct status: 'Uvjeti doprinositelja:'
       ct undecided: Neopredjeljen
@@ -1609,6 +1578,13 @@ hr:
       user:
         summary_html: '%{name} napravljeno sa %{ip_address} dana %{date}'
         summary_no_ip_html: '%{name} napravljeno %{date}'
+    changeset_comments:
+      page:
+        when: Kada
+        comment: Komentar
+    diary_comments:
+      page:
+        post: Pošalji
     suspended:
       title: Račun suspendiran
       heading: Račun suspendiran

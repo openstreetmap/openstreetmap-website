@@ -267,13 +267,6 @@ hsb:
       external auth: Eksterna awtentifikacija
       openid:
         link text: Što to je?
-      public editing:
-        heading: Zjawne wobdźěłowanje
-        enabled: Zmóžnjene. Nic anonymne a daty hodźa so wobdźěłać.
-        enabled link text: Što to je?
-        disabled: Znjemóžnjeny a daty njehodźa so wobdźěłać, wšě prjedawše změny su
-          anonymne.
-        disabled link text: čehodla njemóžu wobdźěłać?
       contributor terms:
         heading: Wuměnjenja za sobuskutkowarjow
         agreed: Sy do nowych wuměnjenjow za sobuskutkowarjow zwolił.
@@ -316,7 +309,6 @@ hsb:
           za powšitkownosći wužitne.
         consider_pd_why: Što to je?
         continue: Dale
-        declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
         you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a
           akceptuj abo wotpokazaj je, prjedy hač dale činiš.
         legale_select: 'Prošu wubjer kraj swojeho bydlišća:'
@@ -324,6 +316,8 @@ hsb:
           france: Francoska
           italy: Italska
           rest_of_world: Zbytk swěta
+      update:
+        terms accepted: Dźakujemy so, zo sy nowe wuměnjenja za sobuskutkowarjow akceptował!
       terms_declined_flash:
         terms_declined_html: Wobžarujemy, zo sy so rozsudźił, nowe wuměnjenja za sobuskutkowarjow
           njeakceptować. Za dalše informacije hlej prošu %{terms_declined_link}.
@@ -445,7 +439,6 @@ hsb:
     index:
       title: Sadźby změnow
       title_user: Sadźby změnow wot %{user}
-      title_friend: Změny mojich přećelow
       title_nearby: Sadźby změnow wužiwarjow w bliskosći
       empty: Žane sadźby změnow namakane.
       empty_area: Žane sadźby změnow w tutej kónčinje.
@@ -460,10 +453,6 @@ hsb:
         created: Wutworjeny
         closed: 'Začinjeny:'
         belongs_to: Awtor
-    subscribe:
-      button: Diskusiju abonować
-    unsubscribe:
-      button: Diskusiju wotskazać
     show:
       title: 'Sadźba změnow: %{id}'
       created: 'Wutworjeny: %{when}'
@@ -494,6 +483,12 @@ hsb:
       relations_paginated: Relacije (%{x}-%{y} z %{count})
     timeout:
       sorry: Bohužel je předołho trało, požadanu lisćinu změnow wotwołać.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        button: Diskusiju abonować
+      unsubscribe:
+        button: Diskusiju wotskazać
   dashboards:
     contact:
       km away: '%{count} km zdaleny'
@@ -502,18 +497,13 @@ hsb:
     popup:
       your location: Twoje městno
       nearby mapper: Kartěrowar w bliskosći
-      friend: Přećel
     show:
       title: Moja přehladna strona
       no_home_location_html: '%{edit_profile_link} a nastaj swoje ródne město, zo
         by wužiwarjow w bliskosći widźał.'
       edit_your_profile: Wobdźěłaj swój profil
-      my friends: Moji přećeljo
-      no friends: Hišće njejsy přećelow přidał.
       nearby users: Druzy wužiwarjo w bliskosći
       no nearby users: Njejsu druzy wužiwarjo, kotřiž w bliskosći kartěruja.
-      friends_changesets: Sadźby změnow twojich přećelow
-      friends_diaries: Dźenikowe zapiski přećelow
       nearby_changesets: sadźby změnow wužiwarjow w bliskosći
       nearby_diaries: dźenikowe zapiski wužiwarjow w bliskosći
   diary_entries:
@@ -524,7 +514,6 @@ hsb:
       use_map_link: Kartu wužiwać
     index:
       title: Wužiwarske dźeniki
-      title_friends: Dźeniki přećelow
       title_nearby: Dźeniki wužiwarjow w bliskosći
       user_title: dźenik wužiwarja %{user}
       in_language_title: Dźenikowe zapiski w rěči %{language}
@@ -588,16 +577,6 @@ hsb:
       button: Diskusiju abonować
     unsubscribe:
       button: Diskusiju wotskazać
-  diary_comments:
-    index:
-      title: Dźenikowe komentary přidate wot wužiwarja %{user}
-      heading: Dźenikowe komentary wot wužiwarja %{user}
-      subheading_html: Dźenikowe komentary přidate wot wužiwarja %{user}
-      no_comments: Žane dźenikowe komentary
-    page:
-      post: Zapisk
-      when: Hdy
-      comment: Komentar
   doorkeeper:
     flash:
       applications:
@@ -617,20 +596,6 @@ hsb:
       title: Nałoženski zmylk
     not_found:
       title: Dataja njeje so namakała
-  friendships:
-    make_friend:
-      heading: '%{user} jako přećela přidać?'
-      button: Jako přećela přidać
-      success: '%{name} je nětko twój přećel!'
-      failed: Wodaj, %{name} njeda so jako přećel přidać.
-      already_a_friend: Sy hižo přećel wužiwarja %{name}.
-      limit_exceeded: Sy so njedawno z wjele přećelemi spřećeliłm prošu dočakaj chwilku,
-        prjedy hač pospytuješ dalšich přećelow namakać.
-    remove_friend:
-      heading: '%{user} jako přećela wotstronić?'
-      button: Přećela wotstronić
-      success: '%{name} je so jako přećel wotstronił.'
-      not_a_friend: '%{name} twój přećel njeje.'
   geocoder:
     search:
       title:
@@ -1530,14 +1495,10 @@ hsb:
       footer: Móžeš tež powěsć na %{readurl} čitać a móžeš awtorej powěsć na %{replyurl}
         pósłać
       footer_html: Móžeš powěsć tež pod %{readurl} čitać a pod %{replyurl} wotmołwić
-    friendship_notification:
+    follow_notification:
       hi: Witaj %{to_user},
-      subject: '[OpenStreetMap] %{user} je će jako přećela přidał'
-      had_added_you: '%{user} je će na OpenStreetMap jako přećela přidał.'
       see_their_profile: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
       see_their_profile_html: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
-      befriend_them: Móžeš jeho/nju na %{befriendurl} jako přećela přidać.
-      befriend_them_html: Móžeš jeho/ju na %{befriendurl} jako přećela přidać.
     gpx_failure:
       hi: Witaj %{to_user},
       failed_to_import: 'njemóhło so importować. Zmylk je:'
@@ -2210,15 +2171,16 @@ hsb:
       heading: Składowanje offline GPX
       message: Składowanje a nahrawanski system GPX-datajow tuchwilu k dispoziciji
         steji.
-    georss:
-      title: OpenStreetMap GPS-slědy
-    description:
-      description_with_count:
-        few: GPX-dataja z %{count} dypkami wot %{user}
-        one: GPX-dataja z %{count} dypkom wot %{user}
-        two: GPX-dataja z %{count} dypkomaj wot %{user}
-        other: GPX-dataja z %{count} dypkami wot %{user}
-      description_without_count: GPX-dataja wot %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-slědy
+      description:
+        description_with_count:
+          few: GPX-dataja z %{count} dypkami wot %{user}
+          one: GPX-dataja z %{count} dypkom wot %{user}
+          two: GPX-dataja z %{count} dypkomaj wot %{user}
+          other: GPX-dataja z %{count} dypkami wot %{user}
+        description_without_count: GPX-dataja wot %{user}
   application:
     require_cookies:
       cookies_needed: Zda so, zo maš placki znjemóžnjene - prošu zmóžń placki w swojim
@@ -2318,7 +2280,6 @@ hsb:
       by_signing_up:
         privacy_policy: prawidła priwatnosće
       continue: Registrować
-      terms accepted: Dźakujemy so, zo sy nowe wuměnjenja za sobuskutkowarjow akceptował!
       use external auth: Jako alternatiwa wužij třeću stronu za přizjewjenje
     no_such_user:
       title: Wužiwar njeeksistuje
@@ -2347,8 +2308,6 @@ hsb:
       edits: Změny
       traces: Ćěrje
       notes: Pokazki
-      remove as friend: Přećela wotstronić
-      add as friend: Přećela přidać
       mapper since: 'Kartěrowar wot:'
       uid: 'Wužiwarski ID:'
       ct status: 'Wuměnjenja za sobuskutkowarjow:'
@@ -2412,6 +2371,15 @@ hsb:
       user:
         summary_html: '%{name} wot %{ip_address} dnja %{date} wutworjeny'
         summary_no_ip_html: '%{name} dnja %{date} wutworjeny'
+    changeset_comments:
+      page:
+        when: Hdy
+        comment: Komentar
+    diary_comments:
+      index:
+        title: Dźenikowe komentary přidate wot wužiwarja %{user}
+      page:
+        post: Zapisk
     suspended:
       title: Konto wupowědźene
       heading: Konto wupowědźene

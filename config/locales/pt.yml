@@ -313,14 +313,6 @@ pt:
       external auth: Autenticação externa
       openid:
         link text: o que é isto?
-      public editing:
-        heading: Edição pública
-        enabled: Ativado. Não é anônimo e pode editar dados.
-        enabled link: https://wiki.openstreetmap.org/wiki/Pt:Anonymous_edits
-        enabled link text: o que é isso?
-        disabled: Desativado e não pode editar dados, todas as edições anteriores
-          são anônimas.
-        disabled link text: porque não posso editar?
       contributor terms:
         heading: Termos do contribuidor
         agreed: Você aceitou os novos termos do contribuidor.
@@ -400,7 +392,6 @@ pt:
         readable_summary: resumo legível para humanos
         informal_translations: traduções informais
         continue: Continuar
-        declined: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined?uselang=pt-br
         cancel: Cancelar
         you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse
           os novos termos do contribuidor para continuar.
@@ -409,6 +400,8 @@ pt:
           france: França
           italy: Itália
           rest_of_world: Outros países
+      update:
+        terms accepted: Obrigado por aceitar os novos termos de contribuição!
       terms_declined_flash:
         terms_declined_html: Lamentamos que não tenha aceitado os novos termos de
           contribuidor. Para mais informações, consulta %{terms_declined_link}.
@@ -559,7 +552,6 @@ pt:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
       title_user_link_html: Conjuntos de alterações de %{user_link}
-      title_friend: Conjuntos de alterações feitos pelos meus amigos
       title_nearby: Conjuntos de alterações de usuários próximos
       empty: Nenhum conjunto de alterações encontrado.
       empty_area: Nenhum conjunto de alterações nesta área.
@@ -574,19 +566,6 @@ pt:
         created: Criado
         closed: Fechado
         belongs_to: Autor
-    subscribe:
-      heading: Deseja se inscrever à seguinte discussão do conjunto de alterações?
-      button: Inscreva-se na discussão
-    unsubscribe:
-      heading: Deseja cancelar a inscrição na seguinte discussão do conjunto de alterações?
-      button: Cancelar inscrição da discussão
-    heading:
-      title: Conjunto de alterações %{id}
-      created_by_html: Criado por %{link_user} em %{created}.
-    no_such_entry:
-      heading: 'Não há postagens no diário com o id: %{id}'
-      body: Desculpe, não há conjunto de alterações com o id %{id}. Verifique a ortografia,
-        ou talvez o link que que você clicou esteja errado.
     show:
       title: 'Conjunto de alterações: %{id}'
       created: 'Criado: %{when}'
@@ -618,6 +597,22 @@ pt:
     timeout:
       sorry: A lista de conjuntos de alterações solicitada está demorando demais para
         chegar.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Deseja se inscrever à seguinte discussão do conjunto de alterações?
+        button: Inscreva-se na discussão
+      unsubscribe:
+        heading: Deseja cancelar a inscrição na seguinte discussão do conjunto de
+          alterações?
+        button: Cancelar inscrição da discussão
+    heading:
+      title: Conjunto de alterações %{id}
+      created_by_html: Criado por %{link_user} em %{created}.
+    no_such_entry:
+      heading: 'Não há postagens no diário com o id: %{id}'
+      body: Desculpe, não há conjunto de alterações com o id %{id}. Verifique a ortografia,
+        ou talvez o link que que você clicou esteja errado.
   dashboards:
     contact:
       km away: '%{count}km de distância'
@@ -626,18 +621,13 @@ pt:
     popup:
       your location: Sua localização
       nearby mapper: Mapeador próximo
-      friend: Amigo
     show:
       title: Meu painel
       no_home_location_html: '%{edit_profile_link} e defina seu local de origem para
         ver usuários próximos.'
       edit_your_profile: Editar seu perfil
-      my friends: Meus amigos
-      no friends: Você ainda não adicionou amigos.
       nearby users: Outros usuários próximos
       no nearby users: Ainda não há outros usuários mapeando por perto.
-      friends_changesets: conjuntos de alterações dos amigos
-      friends_diaries: publicações no diário dos amigos
       nearby_changesets: conjuntos de alterações de usuários próximos
       nearby_diaries: publicações no diário dos usuários próximos
   diary_entries:
@@ -648,7 +638,6 @@ pt:
       use_map_link: Usar mapa
     index:
       title: Diários dos usuários
-      title_friends: Diários dos amigos
       title_nearby: Diários dos usuários próximos
       user_title: Diário de %{user}
       in_language_title: Publicações de Diário em %{language}
@@ -715,15 +704,6 @@ pt:
       heading: Cancelar a in=inscrição da seguinte discussão de entrada de diário?
       button: Cancelar a inscrição na discussão
   diary_comments:
-    index:
-      title: Comentários no diário feitos por %{user}
-      heading: Comentários no diário de %{user}
-      subheading_html: Comentários no diário feitos por %{user}
-      no_comments: Sem comentários no diário.
-    page:
-      post: Entrada
-      when: Quando
-      comment: Comentário
     new:
       heading: Deseja adicionar um comentário na seguinte discussão sobre a entrada
         de diário?
@@ -785,20 +765,6 @@ pt:
       title: Arquivo não encontrado
       description: Não foi possível encontrar uma operação de arquivo/diretório/API
         com esse nome no servidor OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Adicionar %{user} como amigo?
-      button: Adicionar como amigo
-      success: '%{name} agora é seu amigo!'
-      failed: Falha ao adicionar %{name} como seu amigo.
-      already_a_friend: Você já é amigo de %{name}.
-      limit_exceeded: Você tornou amigo de muitos usuários recentemente. Por favor,
-        espere um pouco antes de tentar mais amigo.
-    remove_friend:
-      heading: Desfazer amizade com %{user}?
-      button: Desfazer amizade
-      success: '%{name} foi removido dos seus amigos.'
-      not_a_friend: '%{name} não é um dos seus amigos.'
   geocoder:
     search:
       title:
@@ -1762,14 +1728,10 @@ pt:
         mensagem ao autor em %{replyurl}
       footer_html: Você pode também ler a mensagem em %{readurl} e você pode enviar
         uma mensagem ao autor em %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Olá %{to_user},
-      subject: '[OpenStreetMap] %{user} adicionou você como amigo(a)'
-      had_added_you: '%{user} adicionou você como amigo(a) no OpenStreetMap.'
       see_their_profile: Você pode ver o perfil dele(a) em %{userurl}.
       see_their_profile_html: Você pode ver o perfil dele(a) em %{userurl}.
-      befriend_them: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
-      befriend_them_html: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
     gpx_failure:
       hi: Olá %{to_user},
       failed_to_import: 'falha na importação do arquivo de rastreamento de GPS. Por
@@ -2713,13 +2675,14 @@ pt:
       heading: Armazenamento de GPX Desligado
       message: O sistema de armazenamento e envio de arquivos GPX está atualmente
         indisponível.
-    georss:
-      title: Trilhas de GPS do OpenStreetMap
-    description:
-      description_with_count:
-        one: Arquivo GPX com %{count} ponto de %{user}
-        other: Arquivo GPX com %{count} pontos de %{user}
-      description_without_count: Arquivo GPX de %{user}
+    feeds:
+      show:
+        title: Trilhas de GPS do OpenStreetMap
+      description:
+        description_with_count:
+          one: Arquivo GPX com %{count} ponto de %{user}
+          other: Arquivo GPX com %{count} pontos de %{user}
+        description_without_count: Arquivo GPX de %{user}
   application:
     permission_denied: Você não tem permissão para acessar essa ação
     require_cookies:
@@ -2880,7 +2843,6 @@ pt:
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: termos do contribuidor
       continue: Registrar-se
-      terms accepted: Obrigado por aceitar os novos termos de contribuição!
       email_help:
         privacy_policy: política de privacidade
         privacy_policy_title: Política de privacidade da OSMF incluindo seção sobre
@@ -2918,8 +2880,6 @@ pt:
       edits: Edições
       traces: Trilhas
       notes: Notas de Mapa
-      remove as friend: Desfazer amizade
-      add as friend: Adicionar como amigo
       mapper since: 'Mapeador desde:'
       last map edit: 'Última edição do mapa:'
       no activity yet: Ainda sem atividade
@@ -2995,6 +2955,15 @@ pt:
       user:
         summary_html: '%{name} criado no computador %{ip_address} em %{date}'
         summary_no_ip_html: '%{name} criado em %{date}'
+    changeset_comments:
+      page:
+        when: Quando
+        comment: Comentário
+    diary_comments:
+      index:
+        title: Comentários no diário feitos por %{user}
+      page:
+        post: Entrada
     suspended:
       title: Conta suspensa
       heading: Conta suspensa

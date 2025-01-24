@@ -296,12 +296,6 @@ fi:
       openid:
         link: https://wiki.openstreetmap.org/wiki/Fi:OpenID
         link text: Mitä tämä tarkoittaa?
-      public editing:
-        heading: Julkinen muokkaus
-        enabled: Kyllä. Karttatietojen muokkaus sallittu.
-        enabled link text: Mitä tämä tarkoittaa?
-        disabled: Ei. Karttatietojen muokkaus estetty. Aiemmat karttamuutokset anonyymejä.
-        disabled link text: Miksen voi enää muokata karttaa?
       contributor terms:
         heading: Osallistumisehdot
         agreed: Olet hyväksynyt osallistumisehdot.
@@ -368,7 +362,6 @@ fi:
         readable_summary: selkokielinen yhteenveto (englanniksi)
         informal_translations: epäviralliset käännökset
         continue: Seuraava
-        declined: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
         cancel: Peruuta
         you need to accept or decline: Ennen jatkamista lue läpi osallistumisehdot
           ja hyväksy tai hylkää se.
@@ -377,6 +370,8 @@ fi:
           france: Ranska
           italy: Italia
           rest_of_world: Muu maailma
+      update:
+        terms accepted: Kiitos uusien osallistujaehtojen hyväksymisestä!
       terms_declined_flash:
         terms_declined_link: tämä wikisivu
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
@@ -490,7 +485,6 @@ fi:
       title: Muutoskokoelmat
       title_user: Käyttäjän %{user} muutoskokoelmat
       title_user_link_html: Käyttäjän %{user_link} muutoskokoelmat
-      title_friend: Kaverien muutoskokoelmat
       title_nearby: Lähellä olevien käyttäjien muutoskokoelmat
       empty: Muutosryhmiä ei löytynyt.
       empty_area: Ei muutosryhmiä tällä alueella.
@@ -544,18 +538,13 @@ fi:
     popup:
       your location: Oma sijaintisi
       nearby mapper: Lähellä oleva kartoittaja
-      friend: Kaveri
     show:
       title: Tapahtumat
       no_home_location_html: '%{edit_profile_link} ja aseta kotisijaintisi, jotta
         näet lähellä olevat käyttäjät.'
       edit_your_profile: Muokkaa profiiliasi
-      my friends: Kaverit
-      no friends: Sinulla ei ole vielä kavereita.
       nearby users: Muut lähialueen käyttäjät
       no nearby users: Valitun sijainnin lähellä ei ole tiedossa muita käyttäjiä.
-      friends_changesets: kaverien muutoskokoelmat
-      friends_diaries: kaverien päiväkirjamerkinnät
       nearby_changesets: lähialueen käyttäjien muutoskokoelmat
       nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
   diary_entries:
@@ -566,7 +555,6 @@ fi:
       use_map_link: Käytä karttaa
     index:
       title: Käyttäjien päiväkirjamerkinnät
-      title_friends: Kaverien päiväkirjat
       title_nearby: Lähellä olevien käyttäjien päiväkirjat
       user_title: Käyttäjän %{user} päiväkirja
       in_language_title: Päiväkirjamerkinnät kielellä %{language}
@@ -624,16 +612,6 @@ fi:
       all:
         title: OpenStreetMap-päiväkirjamerkinnät
         description: Tuoreimmat OpenStreetMapin käyttäjien päiväkirjamerkinnät
-  diary_comments:
-    index:
-      title: Käyttäjän %{user} lisäämät päiväkirjamerkinnät
-      heading: Päiväkirjamerkinnät käyttäjältä %{user}
-      subheading_html: Käyttäjän %{user} lisäämät päiväkirjamerkinnät
-      no_comments: Ei päiväkirjamerkintöjä
-    page:
-      post: Kommentti
-      when: Päiväys
-      comment: Kommentti
   doorkeeper:
     flash:
       applications:
@@ -654,18 +632,6 @@ fi:
         sitä täyttämästä pyyntöä (HTTP 500)
     not_found:
       title: Tiedostoa ei löydy
-  friendships:
-    make_friend:
-      heading: Lisätäänkö %{user} kaveriksi?
-      button: Lisää kaveriksi
-      success: '%{name} on nyt kaverisi.'
-      failed: Käyttäjää %{name} ei voitu lisätä kaverilistaasi.
-      already_a_friend: '%{name} on jo kaverisi.'
-    remove_friend:
-      heading: Poistetaanko kaveri %{user}?
-      button: Poista kaveri
-      success: '%{name} poistettiin kaverilistastasi.'
-      not_a_friend: '%{name} ei ole enää kaverisi.'
   geocoder:
     search:
       title:
@@ -1580,14 +1546,10 @@ fi:
         %{subject}:'
       footer_html: Lue viesti osoitteessa %{readurl} ja lähetä viesti tekijälle osoitteessa
         %{replyurl}.
-    friendship_notification:
+    follow_notification:
       hi: Hei %{to_user}!
-      subject: '[OpenStreetMap] %{user} lisäsi sinut kaverikseen'
-      had_added_you: Käyttäjä %{user} lisäsi sinut kaverikseen OpenStreetMapissa.
       see_their_profile: Voit tutustua hänen käyttäjäsivuunsa osoitteessa %{userurl}.
       see_their_profile_html: Tutustu hänen käyttäjäsivuunsa osoitteessa %{userurl}.
-      befriend_them: Voit myös lisätä lähettäjän kaveriksi osoitteessa %{befriendurl}.
-      befriend_them_html: Voit myös lisätä lähettäjän kaveriksi osoitteessa %{befriendurl}.
     gpx_failure:
       hi: Hei %{to_user}!
       failed_to_import: 'epäonnistui tuoda. Tässä virhe:'
@@ -2362,13 +2324,14 @@ fi:
     offline:
       heading: GPX-jälkien tallennus ei ole käytettävissä
       message: GPX-jälkien tallennusjärjestelmä ei ole tällä hetkellä käytettävissä
-    georss:
-      title: OpenStreetMapin GPS-jäljet
-    description:
-      description_with_count:
-        one: GPX-tiedosto, jossa on %{count} piste käyttäjältä %{user}
-        other: GPX-tiedosto, jossa on %{count} pistettä käyttäjältä %{user}
-      description_without_count: GPX-tiedosto käyttäjältä %{user}
+    feeds:
+      show:
+        title: OpenStreetMapin GPS-jäljet
+      description:
+        description_with_count:
+          one: GPX-tiedosto, jossa on %{count} piste käyttäjältä %{user}
+          other: GPX-tiedosto, jossa on %{count} pistettä käyttäjältä %{user}
+        description_without_count: GPX-tiedosto käyttäjältä %{user}
   application:
     permission_denied: Sinulla ei ole oikeutta käyttää tätä toimintoa
     require_cookies:
@@ -2488,7 +2451,6 @@ fi:
         privacy_policy: tietosuojakäytäntö
         contributor_terms: osallistumisehdot
       continue: Rekisteröidy
-      terms accepted: Kiitos uusien osallistujaehtojen hyväksymisestä!
       email_help:
         privacy_policy: tietosuojakäytäntö
         html: Osoitetta ei näytetä julkisesti, lisätietoja on sivulla %{privacy_policy_link}.
@@ -2519,8 +2481,6 @@ fi:
       edits: Muokkaukset
       traces: Jäljet
       notes: Karttailmoitukset
-      remove as friend: Poista kavereista
-      add as friend: Lisää kaveriksi
       mapper since: 'Rekisteröitynyt:'
       last map edit: 'Viimeisin karttamuokkaus:'
       ct status: 'Osallistumisehdot:'
@@ -2575,6 +2535,15 @@ fi:
       user:
         summary_html: '%{name} luotu %{date} osoitteesta %{ip_address}'
         summary_no_ip_html: '%{name} luotu %{date}'
+    changeset_comments:
+      page:
+        when: Päiväys
+        comment: Kommentti
+    diary_comments:
+      index:
+        title: Käyttäjän %{user} lisäämät päiväkirjamerkinnät
+      page:
+        post: Kommentti
     suspended:
       title: Käyttäjätili jäädytetty
       heading: Käyttäjätili jäädytetty

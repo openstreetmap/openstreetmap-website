@@ -289,13 +289,6 @@ ca:
       external auth: Autenticació externa
       openid:
         link text: què és això?
-      public editing:
-        heading: Modificació pública
-        enabled: Activades. No anònim i amb permís per editar dades.
-        enabled link text: què és això?
-        disabled: Desactivades i sense permís per a editar; les modificacions anteriors
-          són anònimes.
-        disabled link text: per què no puc editar?
       contributor terms:
         heading: Termes de col·laboració
         agreed: Heu acceptat els nous termes de col·laboració.
@@ -383,6 +376,8 @@ ca:
           france: França
           italy: Itàlia
           rest_of_world: Resta del món
+      update:
+        terms accepted: Gràcies per acceptar els nous termes de col·laboració.
       terms_declined_flash:
         terms_declined_html: Ens sap greu que hàgiu decidit no acceptar els nous termes
           de les contribucions. Per més informació, vegeu %{terms_declined_link}.
@@ -499,7 +494,6 @@ ca:
       title: Conjunts de canvis
       title_user: Conjunts de canvis de %{user}
       title_user_link_html: Conjunts de canvis de %{user_link}
-      title_friend: Conjunts de canvis dels meus amics
       title_nearby: Conjunts de canvis d'usuaris propers
       empty: No s'ha trobat cap conjunt de canvis.
       empty_area: No hi ha cap conjunt de canvis en aquesta àrea.
@@ -553,18 +547,13 @@ ca:
     popup:
       your location: La vostra ubicació
       nearby mapper: Cartògraf proper
-      friend: Amic
     show:
       title: El meu tauler
       no_home_location_html: '%{edit_profile_link} i establiu la ubicació de casa
         vostra per veure usuaris propers.'
       edit_your_profile: Editeu el vostre perfil
-      my friends: Les meves amistats
-      no friends: Encara no has afegit cap amic.
       nearby users: Altres usuaris propers
       no nearby users: Cap usuari manifesta cartografiar a prop.
-      friends_changesets: conjunts de canvis dels vostres amics
-      friends_diaries: entrades de diari dels vostres amics
       nearby_changesets: conjunts de canvis d'usuaris propers
       nearby_diaries: entrades de diari d'usuaris propers
   diary_entries:
@@ -575,7 +564,6 @@ ca:
       use_map_link: Useu el mapa
     index:
       title: Diaris dels usuaris
-      title_friends: Diaris d'amics
       title_nearby: Diaris d'usuaris propers
       user_title: Diari de %{user}
       in_language_title: Entrades de diari en %{language}
@@ -632,16 +620,6 @@ ca:
       all:
         title: Entrades de diari d'OpenStreetMap
         description: Entrades de diari recents dels usuaris d'OpenStreetMap
-  diary_comments:
-    index:
-      title: Comentaris del diari afegits per %{user}
-      heading: Comentaris del diari de %{user}
-      subheading_html: Comentaris del diari afegits per %{user}
-      no_comments: Sense comentaris al diari
-    page:
-      post: Publicar
-      when: Quan
-      comment: Comentari
   doorkeeper:
     flash:
       applications:
@@ -666,20 +644,6 @@ ca:
       title: No s'ha trobat el fitxer
       description: No s'ha pogut trobar cap operació de fitxer/directori/API amb aquest
         nom al servidor d'OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Voleu afegir %{user} com un amic?
-      button: Afegeix als amics
-      success: '%{name} és ara el vostre amic!'
-      failed: Ho sentim, no afegir %{name} com un amic.
-      already_a_friend: Que ja sou amics amb %{name}.
-      limit_exceeded: Us heu amistat amb molts usuaris recentment. Espereu una mica
-        abans de fer-ho amb algú més.
-    remove_friend:
-      heading: Voleu suprimir %{user} dels amics?
-      button: Suprimeix dels amics
-      success: '%{name} s''ha suprimit dels teus amics.'
-      not_a_friend: '%{name} no és un dels seus amics.'
   geocoder:
     search:
       title:
@@ -1610,14 +1574,10 @@ ca:
         a l'autor a %{replyurl}
       footer_html: També podeu llegir el missatge a %{readurl} i podeu enviar un missatge
         a l'autor a %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hola %{to_user},
-      subject: '[OpenStreetMap] %{user} us ha afegit a la llista d''amics'
-      had_added_you: '%{user} us ha afegit com a amic a l''OpenStreetMap.'
       see_their_profile: Podeu veure el seu perfil a %{userurl}.
       see_their_profile_html: Podeu veure el seu perfil a %{userurl}.
-      befriend_them: També el podeu afegir com a amic a %{befriendurl}.
-      befriend_them_html: També el podeu afegir com a amic a %{befriendurl}.
     gpx_failure:
       hi: Hola %{to_user},
       failed_to_import: 'no es pot importar. L''error ha estat:'
@@ -2474,13 +2434,14 @@ ca:
       heading: Emmagatzematge GPX fora de línia
       message: El sistema d'emmagatzematge i pujada de fitxers GPX no està disponible
         actualment.
-    georss:
-      title: Traces GPS d'OpenStreetMap
-    description:
-      description_with_count:
-        one: Fitxer GPX amb %{count} punt de %{user}
-        other: Fitxer GPX amb %{count} punts de %{user}
-      description_without_count: Fitxer GPX de %{user}
+    feeds:
+      show:
+        title: Traces GPS d'OpenStreetMap
+      description:
+        description_with_count:
+          one: Fitxer GPX amb %{count} punt de %{user}
+          other: Fitxer GPX amb %{count} punts de %{user}
+        description_without_count: Fitxer GPX de %{user}
   application:
     permission_denied: No tens permís per a accedir aquesta acció
     require_cookies:
@@ -2606,7 +2567,6 @@ ca:
           adreces de correu electrònic
         contributor_terms: condicions de col·laboració
       continue: Registreu-vos-hi
-      terms accepted: Gràcies per acceptar els nous termes de col·laboració.
       email_help:
         html: La vostra adreça no es mostrarà públicament, consulteu la nostra %{privacy_policy_link}
           per obtenir més informació.
@@ -2639,8 +2599,6 @@ ca:
       edits: Edicions
       traces: Traces
       notes: Notes de mapa
-      remove as friend: Deixa l'amistat
-      add as friend: Afegeix com a amic
       mapper since: 'Cartografiant des de:'
       uid: 'ID d''usuari:'
       ct status: 'Termes de col·laboració:'
@@ -2700,6 +2658,15 @@ ca:
       user:
         summary_html: '%{name} creat a partir de %{ip_address} el %{date}'
         summary_no_ip_html: '%{name} creat el %{date}'
+    changeset_comments:
+      page:
+        when: Quan
+        comment: Comentari
+    diary_comments:
+      index:
+        title: Comentaris del diari afegits per %{user}
+      page:
+        post: Publicar
     suspended:
       title: Compte suspès
       heading: Compte suspès

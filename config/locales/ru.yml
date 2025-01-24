@@ -53,6 +53,7 @@
 # Author: Kareyac
 # Author: Katunchik
 # Author: Kirill-224
+# Author: Knxb
 # Author: Komzpa
 # Author: Link2xt
 # Author: Lockal
@@ -389,13 +390,6 @@ ru:
       openid:
         link: https://wiki.openstreetmap.org/wiki/RU:OpenID
         link text: что это?
-      public editing:
-        heading: Общедоступная правка
-        enabled: Включено. Можно редактировать. Правки не анонимны.
-        enabled link: https://wiki.openstreetmap.org/wiki/RU:%D0%90%D0%BD%D0%BE%D0%BD%D0%B8%D0%BC%D0%BD%D1%8B%D0%B5_%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8
-        enabled link text: что это?
-        disabled: Отключён и не может вносить правки, все предыдущие изменения анонимны.
-        disabled link text: почему я не могу вносить изменения?
       contributor terms:
         heading: Условия участия
         agreed: Вы согласились с новыми Условиями участия.
@@ -472,9 +466,12 @@ ru:
         consider_pd: В дополнение к вышеизложенному, я принимаю во внимание, что мой
           вклад находится в общественном достоянии
         consider_pd_why: что это значит?
-        readable_summary: удобочитаемое резюме
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        guidance_info_html: 'Информация, помогающая понять эти условия: %{readable_summary_link}
+          и некоторые %{informal_translations_link}'
+        readable_summary: краткое содержание
+        informal_translations: неформальные переводы
         continue: Продолжить
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
         cancel: Отмена
         you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь
           или отклоните новые Условия участия.
@@ -483,6 +480,8 @@ ru:
           france: На французском
           italy: На итальянском
           rest_of_world: Остальной мир
+      update:
+        terms accepted: Спасибо за принятие новых условий участия!
       terms_declined_flash:
         terms_declined_html: Нам жаль, что вы решили не принимать Новые Условия участия.
           Для получения дополнительной информации смотрите %{terms_declined_link}.
@@ -648,7 +647,6 @@ ru:
       title: Пакеты правок
       title_user: Пакеты правок пользователя %{user}
       title_user_link_html: Пакеты правок пользователя %{user_link}
-      title_friend: Пакеты правок друзей
       title_nearby: Пакеты правок соседних участников
       empty: Пакеты правок не найдены.
       empty_area: Нет пакетов правок в этой области.
@@ -663,19 +661,6 @@ ru:
         created: Создано
         closed: Закрыто
         belongs_to: Автор
-    subscribe:
-      heading: Подписаться на следующее обсуждение пакета правок?
-      button: Подписаться на обсуждение
-    unsubscribe:
-      heading: Отписаться от следующего обсуждения пакета правок?
-      button: Отписаться от обсуждения
-    heading:
-      title: Пакет правок %{id}
-      created_by_html: Создал %{link_user} %{created}.
-    no_such_entry:
-      heading: 'Нет записи с номером: %{id}'
-      body: К сожалению, пакета правок с идентификатором %{id} нет. Пожалуйста, проверьте
-        правильность написания, возможно, ссылка, по которой вы перешли, неверна.
     show:
       title: 'Пакет правок: %{id}'
       created: 'Создан: %{when}'
@@ -709,6 +694,21 @@ ru:
     timeout:
       sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
         много времени для извлечения.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Подписаться на следующее обсуждение пакета правок?
+        button: Подписаться на обсуждение
+      unsubscribe:
+        heading: Отписаться от следующего обсуждения пакета правок?
+        button: Отписаться от обсуждения
+    heading:
+      title: Пакет правок %{id}
+      created_by_html: Создал %{link_user} %{created}.
+    no_such_entry:
+      heading: 'Нет записи с номером: %{id}'
+      body: К сожалению, пакета правок с идентификатором %{id} нет. Пожалуйста, проверьте
+        правильность написания, возможно, ссылка, по которой вы перешли, неверна.
   dashboards:
     contact:
       km away: '%{count} км от вас'
@@ -717,19 +717,14 @@ ru:
     popup:
       your location: Ваше местоположение
       nearby mapper: Ближайший картограф
-      friend: Друг
     show:
       title: Мой пульт
       no_home_location_html: '%{edit_profile_link} и установите ваше местоположение,
         чтобы видеть близлежащих  пользователей.'
       edit_your_profile: Отредактируйте свой профиль
-      my friends: Мои друзья
-      no friends: Вы не добавили ещё ни одного друга.
       nearby users: Другие ближайшие пользователи
       no nearby users: Пока нет других пользователей, которые признают, что занимаются
         составлением карты поблизости.
-      friends_changesets: пакеты правок друзей
-      friends_diaries: дневники друзей
       nearby_changesets: пакеты правок соседей
       nearby_diaries: дневники соседей
   diary_entries:
@@ -740,7 +735,6 @@ ru:
       use_map_link: Использовать карту
     index:
       title: Дневники
-      title_friends: Дневники друзей
       title_nearby: Дневники соседних участников
       user_title: Дневник пользователя %{user}
       in_language_title: Дневниковые записи на языке %{language}
@@ -809,16 +803,6 @@ ru:
       heading: Отписаться от обсуждения следующей записи в дневнике?
       button: Отписаться от обсуждения
   diary_comments:
-    index:
-      title: Комментарии к записям в дневнике, добавленные пользователем %{user}
-      heading: Комментарии к записям в дневнике пользователя %{user}
-      subheading_html: Комментарии к записям в дневнике, добавленные пользователем
-        %{user}
-      no_comments: Никаких комментариев в дневнике
-    page:
-      post: Сообщение
-      when: Когда
-      comment: Комментарий
     new:
       heading: Добавить комментарий к следующему обсуждению записи в дневнике?
   doorkeeper:
@@ -875,20 +859,6 @@ ru:
       title: Файл не найден
       description: Не удалось найти файл/каталог/операцию API с таким именем на сервере
         OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Добавить %{user} в друзья?
-      button: Добавить в друзья
-      success: '%{name} теперь ваш друг!'
-      failed: Не удалось добавить %{name} в друзья.
-      already_a_friend: Вы уже друзья с %{name}.
-      limit_exceeded: В последнее время вы подружились со многими пользователями.
-        Пожалуйста, подождите некоторое время, прежде чем пытаться снова дружить.
-    remove_friend:
-      heading: Удалить %{user} из друзей?
-      button: Удалить из друзей
-      success: '%{name} удалён из друзей.'
-      not_a_friend: '%{name} не является вашим другом.'
   geocoder:
     search:
       title:
@@ -1224,6 +1194,8 @@ ru:
           wreck: Остов судна
           "yes": Памятное место
         information:
+          guidepost: Указательный столб
+          board: Информационная доска
           map: Карта
         junction:
           "yes": Перекрёсток
@@ -1297,6 +1269,8 @@ ru:
           track: Спортивная дорожка
           water_park: Аквапарк
           "yes": Досуг
+        lock:
+          "yes": Шлюз
         man_made:
           adit: Штольня
           advertising: Реклама
@@ -1637,6 +1611,15 @@ ru:
           building_passage: Проезд через здание
           culvert: Водопропускная труба, кульверт
           "yes": Тоннель
+        water:
+          lake: Озеро
+          pond: Пруд
+          reservoir: Водохранилище
+          lagoon: Лагуна
+          wastewater: Сточные воды
+          oxbow: Старица
+          stream_pool: Ручьевой плёс
+          lock: Шлюз
         waterway:
           artificial: Искусственный водоток
           boatyard: Верфь
@@ -1804,6 +1787,7 @@ ru:
       необходимое техническое обслуживание.
     osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения,
       так как проводится необходимое техническое обслуживание.
+    nothing_to_preview: Нечего предпросматривать.
     help: Помощь
     about: О проекте
     copyright: Авторские права
@@ -1812,6 +1796,7 @@ ru:
     more: Ещё
   user_mailer:
     diary_comment_notification:
+      description: 'Запись в дневнике OpenStreetMap #%{id}'
       subject: Пользователь [OpenStreetMap] %{user} оставил комментарий в дневнике
       hi: Здравствуйте, %{to_user},
       header: '%{from_user} прокомментировал на OpenStreetMap с темой %{subject}:'
@@ -1833,16 +1818,16 @@ ru:
         на него на %{replyurl}
       footer_html: Вы можете также прочитать сообщение на странице %{readurl} и ответить
         на него на %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Здравствуйте, %{to_user},
-      subject: Пользователь [OpenStreetMap] %{user} добавил вас в список своих друзей
-      had_added_you: '%{user} добавил вас в друзья на OpenStreetMap.'
       see_their_profile: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
       see_their_profile_html: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
-      befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
-      befriend_them_html: Вы также можете добавить их в качестве друзей в %{befriendurl}.
     gpx_details:
+      details: 'Подробности вашего файла:'
+      filename: Имя файла
+      url: URL
       description: Описание
+      tags: Теги
     gpx_failure:
       hi: Здравствуйте, %{to_user},
       failed_to_import: 'сбой импорта. Произошла ошибка:'
@@ -2140,6 +2125,7 @@ ru:
       support: поддержка
   shared:
     markdown_help:
+      heading_html: Синтаксис %{kramdown_link}
       headings: Заголовки
       heading: Заголовок
       subheading: Подзаголовок
@@ -2152,6 +2138,7 @@ ru:
       image: Изображение
       alt: Альтернативный текст
       url: URL
+      codeblock: Блок кода
     richtext_field:
       edit: Править
       preview: Предпросмотр
@@ -2163,6 +2150,9 @@ ru:
       diary_entries:
         older: Более старые записи
         newer: Более новые записи
+      issues:
+        older: Более старые проблемы
+        newer: Более новые проблемы
       traces:
         older: Более старые треки
         newer: Более новые треки
@@ -2174,6 +2164,7 @@ ru:
         newer: Новые участники
   site:
     about:
+      heading_html: '%{copyright}Авторы%{br}OpenStreetMap'
       used_by_html: '%{name} предоставляет данные для тысяч сайтов, мобильных приложений
         и устройств'
       lede_text: OpenStreetMap создан сообществом картографов, которые добавляют и
@@ -2702,13 +2693,14 @@ ru:
     offline:
       heading: GPX хранилище отключено
       message: Хранилище GPX файлов и система их загрузки в настоящий момент недоступна.
-    georss:
-      title: OpenStreetMap GPS-треки
-    description:
-      description_with_count:
-        one: GPX-файл с %{count} точкой от %{user}}
-        other: GPX-файл с %{count} точками от %{user}
-      description_without_count: GPX-файл от %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-треки
+      description:
+        description_with_count:
+          one: GPX-файл с %{count} точкой от %{user}}
+          other: GPX-файл с %{count} точками от %{user}
+        description_without_count: GPX-файл от %{user}
   application:
     permission_denied: У вас нет прав для выполнения этого действия
     require_cookies:
@@ -2836,7 +2828,6 @@ ru:
         privacy_policy_title: Политика конфиденциальности OSMF, включая раздел об
           адресах электронной почты
       continue: Зарегистрироваться
-      terms accepted: Спасибо за принятие новых условий участия!
       email_help:
         html: Ваш адрес не отображается публично, см. нашу %{privacy_policy_link}
           для получения дополнительной информации.
@@ -2869,9 +2860,9 @@ ru:
       edits: Правки
       traces: Треки
       notes: Заметки
-      remove as friend: Удалить из друзей
-      add as friend: Добавить в друзья
       mapper since: 'Зарегистрирован:'
+      last map edit: Последняя правка карты
+      no activity yet: Пока нет активности
       uid: 'ID пользователя:'
       ct status: 'Условия участия:'
       ct undecided: Неопределено
@@ -2926,6 +2917,15 @@ ru:
       user:
         summary_html: '%{name} создан %{date}, с адреса %{ip_address}'
         summary_no_ip_html: '%{name} создан %{date}'
+    changeset_comments:
+      page:
+        when: Когда
+        comment: Комментарий
+    diary_comments:
+      index:
+        title: Комментарии к записям в дневнике, добавленные пользователем %{user}
+      page:
+        post: Сообщение
     suspended:
       title: Учётная запись приостановлена
       heading: Учётная запись приостановлена
@@ -3074,6 +3074,7 @@ ru:
           muted_user: Заглушённый пользователь
           actions: Действия
         tbody:
+          unmute: Отменить заглушение
           send_message: Отправить сообщение
     create:
       notice: Вы заглушили пользователя %{name}.
@@ -3095,6 +3096,7 @@ ru:
       all: Все
       open: Незакрытые
       closed: Закрытые
+      status: Статус
     show:
       title: 'Заметка: %{id}'
       description: Описание
@@ -3107,6 +3109,8 @@ ru:
       event_commented_by_anonymous_html: Анонимный комментарий %{time_ago}
       event_closed_by_html: Решено %{user} %{time_ago}
       event_closed_by_anonymous_html: Решено анонимно %{time_ago}
+      event_reopened_by_html: Вновь активировано %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Вновь активировано анонимом %{time_ago}
       event_hidden_by_html: Скрыто %{user} %{time_ago}
       report: пожаловаться на эту заметку
       anonymous_warning: Заметка содержит комментарии анонимных участников. Требуется
@@ -3119,6 +3123,7 @@ ru:
       reactivate: Открыть снова
       comment_and_resolve: Закрыть с комментарием
       comment: Комментировать
+      log_in_to_comment: Войдите чтобы прокомментировать эту заметку
       report_link_html: Если эта заметка содержит чувствительную информацию, которую
         нужно удалить, вы можете %{link}.
       other_problems_resolve: При всех других проблемах с заметкой, закройте её, пожалуйста,
@@ -3132,14 +3137,22 @@ ru:
         и напечатайте сообщение, объясняющее проблему.
       anonymous_warning_log_in: войти
       anonymous_warning_sign_up: зарегистрироваться
+      counter_warning_guide_link:
+        url: https://wiki.openstreetmap.org/wiki/RU:%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BA%D0%B0
       advice: Ваша заметка является общедоступной и может использоваться для обновления
         карты, поэтому не вводите личную информацию, информацию из защищённых авторскими
         правами карт или справочников.
       add: Добавить заметку
+    new_readonly:
+      title: Новая заметка
+      warning: Новые заметки не могут быть созданы, поскольку API OpenStreetMap в
+        настоящий момент находится в режиме только для чтения.
     notes_paging_nav:
       showing_page: Страница %{page}
       next: Следующая
       previous: Предыдущая
+    not_found_message:
+      sorry: 'К сожалению, заметка #%{id} не найдена.'
   javascripts:
     close: Закрыть
     share:
@@ -3176,12 +3189,12 @@ ru:
       locate:
         title: Показать мое местоположение
         metersPopup:
-          one: Вы находитесь в одном метре от этой точки
+          one: Вы находитесь в %{count} метре от этой точки
           few: 'Вы находитесь в %{count} метрах от этой точки '
           many: Вы находитесь в %{count} метрах от этой точки
           other: Вы находитесь в %{count} метрах от этой точки
         feetPopup:
-          one: Вы находитесь в одном футе от этой точки
+          one: Вы находитесь в %{count} футе от этой точки
           few: Вы находитесь в %{count} футах от этой точки
           many: Вы находитесь в %{count} футах от этой точки
           other: Вы находитесь в %{count} футах от этой точки
@@ -3189,6 +3202,7 @@ ru:
         standard: Стандартный
         cycle_map: Велосипедная карта
         transport_map: Карта транспорта
+        tracestracktop_topo: Топографическая
         hot: Гуманитарная
       layers:
         header: Слои карты
@@ -3199,10 +3213,12 @@ ru:
         title: Слои
       openstreetmap_contributors: Авторы OpenStreetMap
       make_a_donation: Сделать пожертвование
+      website_and_api_terms: Условия сайта и API
       cyclosm_credit: Стиль тайлов от %{cyclosm_link} размещен на %{osm_france_link}
       osm_france: OpenStreetMap Франция
       thunderforest_credit: Тайлы предоставлены %{thunderforest_link}
       andy_allan: Энди Аллан
+      tracestrack_credit: Тайлы предоставлены %{tracestrack_link}
       hotosm_credit: Стиль тайлов от %{hotosm_link} размещен на %{osm_france_link}
     site:
       edit_tooltip: Править карту

@@ -11,15 +11,11 @@ if (navigator.languages) {
   I18n.locale = navigator.language;
 }
 
+I18n.default_locale = <%= I18n.default_locale.to_json %>;
+I18n.fallbacks = true;
+
 window.onload = function () {
-  var query = (window.location.search || "?").slice(1),
-      args = {};
-
-
-  for (var pair of query.split("&")) {
-    var parts = pair.split("=");
-    args[parts[0]] = decodeURIComponent(parts[1] || "");
-  }
+  var args = Object.fromEntries(new URLSearchParams(window.location.search).entries());
 
   var mapnikOptions = {
 <% if Settings.key?(:tile_cdn_url) %>
@@ -58,7 +54,7 @@ window.onload = function () {
       shadowSize: new L.Point(41, 41)
     }) }).addTo(map);
   }
-
+  
   var bbox = (args.bbox || "-180,-90,180,90").split(",");
   map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]]);
 

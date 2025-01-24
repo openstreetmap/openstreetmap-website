@@ -218,13 +218,6 @@ ast:
       external auth: Autenticación esterna
       openid:
         link text: ¿qué ye esto?
-      public editing:
-        heading: Edición pública
-        enabled: Activaes. Nun yes anónimu y puedes editar los datos.
-        enabled link text: ¿qué ye esto?
-        disabled: Desactivaes y nun puedes editar los datos; toles ediciones anteriores
-          son anónimes.
-        disabled link text: ¿por qué nun puedo editar?
       contributor terms:
         heading: Términos de collaboración
         agreed: Aceutasti los nuevos términos de collaboración.
@@ -273,6 +266,8 @@ ast:
           france: Francia
           italy: Italia
           rest_of_world: Restu del mundu
+      update:
+        terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
   browse:
     version: Versión
     in_changeset: Conxuntu de cambios
@@ -366,7 +361,6 @@ ast:
     index:
       title: Conxuntos de cambeos
       title_user: Conxuntos de cambeos de %{user}
-      title_friend: Conxuntos de cambeos de los mios collacios
       title_nearby: Conxuntos de cambeos d'usuarios cercanos
       empty: Nun s'alcontró nengún conxuntu de cambeos.
       empty_area: Nun hai conxuntos de cambeos nesta área.
@@ -411,14 +405,9 @@ ast:
     popup:
       your location: El to allugamientu
       nearby mapper: Mapeador próximu
-      friend: Amigu
     show:
-      my friends: Los mios amigos
-      no friends: Entá nun amestasti dengún amigu.
       nearby users: Otros usuarios próximos
       no nearby users: Entá nun hai otros usuarios que tean mapeando cerca de ti.
-      friends_changesets: conxuntos de cambios de los amigos
-      friends_diaries: entraes de diariu de los amigos
       nearby_changesets: conxuntos de cambios d'usuarios cercanos
       nearby_diaries: entraes de diariu d'usuarios cercanos
   diary_entries:
@@ -429,7 +418,6 @@ ast:
       use_map_link: usar mapa
     index:
       title: Diarios d'usuarios
-      title_friends: Diarios de collacios
       title_nearby: Diarios d'usuarios cercanos
       user_title: Diariu de %{user}
       in_language_title: Entraes del diariu en %{language}
@@ -484,28 +472,11 @@ ast:
       all:
         title: Entraes nel diariu d'OpenStreetMap
         description: Entraes recién nel diariu d'usuarios d'OpenStreetMap
-  diary_comments:
-    page:
-      post: Publicar
-      when: Cuándo
-      comment: Comentariu
   errors:
     internal_server_error:
       title: Error na aplicación
     not_found:
       title: Nun s’alcontró’l ficheru
-  friendships:
-    make_friend:
-      heading: ¿Amestar a %{user} a los amigos?
-      button: Amestar como amigu
-      success: ¡%{name} agora ye'l to amigu!
-      failed: Lo sentimos, hebo un fallu al amestar a %{name} como collaciu.
-      already_a_friend: Yá yes collaciu de %{name}.
-    remove_friend:
-      heading: ¿Desaniciar como amigu a %{user}?
-      button: Desaniciar como amigu
-      success: '%{name} desanicióse de los tos amigos.'
-      not_a_friend: '%{name} nun ye unu de los tos amigos.'
   geocoder:
     search:
       title:
@@ -1235,12 +1206,9 @@ ast:
       hi: Bones %{to_user},
       header: '%{from_user} unvióte un mensax per OpenStreetMap col asuntu %{subject}:'
       footer_html: Tamién pue lleer el mensaxe en %{readurl} y pue responder en %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Bones %{to_user},
-      subject: '[OpenStreetMap] %{user} amestóte como amigu'
-      had_added_you: '%{user} amestóte como amigu n''OpenStreetMap.'
       see_their_profile: Pues ver el so perfil en %{userurl}.
-      befriend_them: Tamién pues amestalos como amigos en %{befriendurl}.
     gpx_failure:
       failed_to_import: 'falló la importación. Esti ye''l fallu:'
       subject: '[OpenStreetMap] fallu d''importación GPX'
@@ -1768,13 +1736,14 @@ ast:
       heading: Almacenamientu GPX desconectáu
       message: El sistema d'almacenamientu y xuba de ficheros GPX nun ta disponible
         anguaño.
-    georss:
-      title: Traces GPS d'OpenStreetMap
-    description:
-      description_with_count:
-        one: Ficheru GPX con un puntu de %{user}
-        other: Ficheru GPX con %{count} puntos de %{user}
-      description_without_count: Ficheru GPX de %{user}
+    feeds:
+      show:
+        title: Traces GPS d'OpenStreetMap
+      description:
+        description_with_count:
+          one: Ficheru GPX con un puntu de %{user}
+          other: Ficheru GPX con %{count} puntos de %{user}
+        description_without_count: Ficheru GPX de %{user}
   application:
     permission_denied: Nun tienes permisu d'accesu pa esta aición.
     require_cookies:
@@ -1823,7 +1792,6 @@ ast:
       display name description: El nome d'usuariu que s'amuesa en público. Pue camudalo
         más sero nes preferencies.
       continue: Date d'alta
-      terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       use external auth: Alternativamente, usa un terceru p'aniciar sesión
     no_such_user:
       title: Nun esiste l'usuariu
@@ -1847,8 +1815,6 @@ ast:
       edits: Ediciones
       traces: Traces
       notes: Notes de mapa
-      remove as friend: Desaniciar como amigu
-      add as friend: Amestar como amigu
       mapper since: 'Mapeador dende:'
       ct status: 'Términos de collaboración:'
       ct undecided: Indecisu
@@ -1901,6 +1867,13 @@ ast:
       user:
         summary_html: '%{name} creáu dende %{ip_address} el %{date}'
         summary_no_ip_html: '%{name} creáu el %{date}'
+    changeset_comments:
+      page:
+        when: Cuándo
+        comment: Comentariu
+    diary_comments:
+      page:
+        post: Publicar
     suspended:
       title: Cuenta suspendida
       heading: Cuenta suspendida

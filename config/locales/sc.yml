@@ -247,14 +247,6 @@ sc:
       external auth: Autenticatzione esterna
       openid:
         link text: ite est custu?
-      public editing:
-        heading: Modificatzione pùblica
-        enabled: Abilitada. No anònimu e podet modificare datos.
-        enabled link: https://wiki.openstreetmap.org/wiki/Sc:Anonymous_edits
-        enabled link text: ite est custu?
-        disabled: Inabilitadu e chene permissu de mudare sos datos; totu sas modìficas
-          antepostas sunt anònimas.
-        disabled link text: pro ite non potzo fàghere modìficas?
       contributor terms:
         heading: Règulas po contribuire
         agreed: As atzetadu sos tèrmines noos de collaboratzione.
@@ -347,6 +339,9 @@ sc:
           france: Frantza
           italy: Itàlia
           rest_of_world: Restu de su mundu
+      update:
+        terms accepted: Ti torramus gràtzias pro àere atzetadu sas cunditziones noas
+          de collaboratzione.
       terms_declined_flash:
         terms_declined_html: Nos dipraghet chi apas isseberadu de no atzetare sos
           tèrmines de contributzione noos. Pro àteras informatziones pòmpia·ti %{terms_declined_link}.
@@ -464,7 +459,6 @@ sc:
       title: Annantos de modìficas
       title_user: Annantos de modìficas de %{user}
       title_user_link_html: Annantos de modìficas de %{user_link}
-      title_friend: Annantos de modìficas de sos amigos meos
       title_nearby: Annantos de modìficas de utentes a curtzu
       empty: Perunu annantu de modìficas agatadu.
       empty_area: Perunu grupu de modìficas in custa àrea.
@@ -516,19 +510,14 @@ sc:
     popup:
       your location: Sa positzione tua
       nearby mapper: Mapadore a curtzu
-      friend: Amigu
     show:
       title: Su pannellu de controllu meu
       no_home_location_html: '%{edit_profile_link} e imposta sa positzione de domo
         tua pro bìdere sos utentes a curtzu.'
       edit_your_profile: Modìfica su profilu tuo
-      my friends: Amigos meos
-      no friends: No as galu annantu perunu amigu.
       nearby users: Àteros utentes a curtzu
       no nearby users: Non b'at perunu àteru utente chi ammitat de mapare a curtzu
         a inoghe.
-      friends_changesets: annantos de modìficas de sos amigos
-      friends_diaries: intradas de diàriu de sos amigos
       nearby_changesets: annantos de modìficas de utentes a curtzu
       nearby_diaries: intradas de diàriu de utentes a curtzu
   diary_entries:
@@ -539,7 +528,6 @@ sc:
       use_map_link: Imprea sa mapa
     index:
       title: Diàrios de sos utentes
-      title_friends: Diàrios de sos amigos
       title_nearby: Diàrios de sos utentes a curtzu
       user_title: Diàriu de %{user}
       in_language_title: Intradas de diàriu in %{language}
@@ -596,16 +584,6 @@ sc:
       all:
         title: Intradas de diàriu de OpenStreetMap
         description: Intradas de diàriu reghentes de sos utentes de OpenStreetMap
-  diary_comments:
-    index:
-      title: Cummentos de su diàriu annantos dae %{user}
-      heading: Cummentos de su diàriu de %{user}
-      subheading_html: Cummentos de su diàriu annantos dae %{user}
-      no_comments: Perunu cummentu a su diàriu
-    page:
-      post: Publicatzione
-      when: Cando
-      comment: Cummentu
   doorkeeper:
     errors:
       messages:
@@ -659,20 +637,6 @@ sc:
       title: Documentu no agatadu
       description: No at fatu a agatare unu documentu/cartella/operatzione API cun
         custu nùmene in de su serbidore de OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Annànghere %{user} a sos amigos?
-      button: Annanghe a sos amigos
-      success: '%{name} como est amigu tuo!'
-      failed: Annanta de %{name} a sos amigos fallida.
-      already_a_friend: Ses giai amigu de %{name}.
-      limit_exceeded: In custu ùrtimu perìodu as annantu utentes medas a sos amigos
-        tuos. Iseta unu pagu in antis de proare a nde annànghere àteros.
-    remove_friend:
-      heading: Bogare %{user} dae sos amigos?
-      button: Boga dae sos amigos
-      success: '%{name} est istadu bogadu dae sos amigos tuos.'
-      not_a_friend: '%{name} no est unu de sos amigos tuos.'
   geocoder:
     search:
       title:
@@ -1608,14 +1572,10 @@ sc:
         messàgiu a s'autore in %{replyurl}
       footer_html: Podes lèghere su messàgiu fintzas in %{readurl} e podes imbiare
         unu messàgiu a s'autore in %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Salude %{to_user},
-      subject: '[OpenStreetMap] %{user} t''at annantu a sa lista de amigos'
-      had_added_you: '%{user} t''at annantu comente a amigu in OpenStreetMap.'
       see_their_profile: Podes bìdere su profilu suo in %{userurl}.
       see_their_profile_html: Podes bìdere su profilu suo in %{userurl}.
-      befriend_them: Lu podes fintzas annànghere comente amigu in %{befriendurl}.
-      befriend_them_html: Lu podes fintzas annànghere comente amigu in %{befriendurl}.
     gpx_failure:
       hi: Salude %{to_user},
       failed_to_import: 'non si podet importare. Sa faddina est istada:'
@@ -2511,13 +2471,14 @@ sc:
       heading: Archiviatzione GPX non in lìnia
       message: Su sistema de archiviatzione e carrigamentu de archìvios GPX no est
         a disponimentu in custu momentu.
-    georss:
-      title: Rastas GPS de OpenStreetMap
-    description:
-      description_with_count:
-        one: archìviu GPX cun %{count} puntu de %{user}
-        other: archìviu GPX cun %{count} puntos de %{user}
-      description_without_count: Archìviu GPX de %{user}
+    feeds:
+      show:
+        title: Rastas GPS de OpenStreetMap
+      description:
+        description_with_count:
+          one: archìviu GPX cun %{count} puntu de %{user}
+          other: archìviu GPX cun %{count} puntos de %{user}
+        description_without_count: Archìviu GPX de %{user}
   application:
     permission_denied: Non tenes su permissu pro atzèdere a custa atzione
     require_cookies:
@@ -2648,8 +2609,6 @@ sc:
         privacy_policy_title: Informativa subra de sa riservadesa de sa Fundatzione
           OSM chi incluet sa setzione subra de sos indiritzos de posta eletrònica
       continue: Iscrie·ti
-      terms accepted: Ti torramus gràtzias pro àere atzetadu sas cunditziones noas
-        de collaboratzione.
       email_help:
         html: S'indiritzu tuo no est ammustradu in manera pùblica, consulta sa %{privacy_policy_link}
           pro àteras informatziones.
@@ -2679,8 +2638,6 @@ sc:
       edits: Modìficas
       traces: Rastas
       notes: Notas de sa mapa
-      remove as friend: Boga dae sos amigos
-      add as friend: Annanghe comente amigu
       mapper since: 'Mapadore dae su:'
       uid: 'ID utente:'
       ct status: 'Tèrmines de collaboratzione:'
@@ -2739,6 +2696,15 @@ sc:
       user:
         summary_html: '%{name} creadu dae %{ip_address} su %{date}'
         summary_no_ip_html: '%{name} creadu su %{date}'
+    changeset_comments:
+      page:
+        when: Cando
+        comment: Cummentu
+    diary_comments:
+      index:
+        title: Cummentos de su diàriu annantos dae %{user}
+      page:
+        post: Publicatzione
     suspended:
       title: Contu suspesu
       heading: Contu suspesu

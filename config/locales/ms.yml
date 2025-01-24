@@ -225,13 +225,6 @@ ms:
       external auth: Pengesahan Luaran
       openid:
         link text: apakah ini?
-      public editing:
-        heading: Penyuntingan umum
-        enabled: Dihidupkan. Tidak tanpa nama, data boleh disunting.
-        enabled link text: apakah ini?
-        disabled: Dimatikan, data tidak boleh disunting, semua suntingan yang sebelumnya
-          adalah tanpa nama.
-        disabled link text: mengapa tak boleh sunting?
       contributor terms:
         heading: Syarat Penyumbang
         agreed: Anda telah bersetuju dengan Terma-Terma Penyumbang yang baru.
@@ -277,6 +270,8 @@ ms:
           france: Perancis
           italy: Itali
           rest_of_world: Negara lain
+      update:
+        terms accepted: Terima kasih kerana menerima terma-terma penyumbang yang baru!
       terms_declined_flash:
         terms_declined_link: laman wiki ini
   browse:
@@ -366,7 +361,6 @@ ms:
     index:
       title: Set perubahan
       title_user: Set perubahan oleh %{user}
-      title_friend: Set perubahan oleh kawan anda
       title_nearby: Set perubahan pengguna berdekatan
       empty: Tiada set perubahan ditemui.
       empty_area: Tiada set perubahan di kawasan ini.
@@ -410,15 +404,10 @@ ms:
     popup:
       your location: Lokasi anda
       nearby mapper: Pemeta berdekatan
-      friend: Kawan
     show:
       edit_your_profile: Sunting profil anda
-      my friends: Kawan saya
-      no friends: Anda belum mencari kawan lagi.
       nearby users: Pengguna lain yang berdekatan
       no nearby users: Belum ada pengguna lain yang mengaku memetakan kawasan berdekatan.
-      friends_changesets: set ubah kawan-kawan
-      friends_diaries: catatan diari kawan-kawan
       nearby_changesets: set ubah pengguna berdekatan
       nearby_diaries: catatan diari pengguna berdekatan
   diary_entries:
@@ -429,7 +418,6 @@ ms:
       use_map_link: Guna Peta
     index:
       title: Diari pengguna
-      title_friends: Diari kawan
       title_nearby: Diari pengguna berdekatan
       user_title: Diari %{user}
       in_language_title: Catatan Diari dalam %{language}
@@ -482,13 +470,6 @@ ms:
       all:
         title: Catatan diari OpenStreetMap
         description: Catatan-catatan diari terbaru oleh pengguna OpenStreetMap
-  diary_comments:
-    index:
-      no_comments: Tiada ulasan diari
-    page:
-      post: Muat Naik
-      when: Bila
-      comment: Komen
   doorkeeper:
     flash:
       applications:
@@ -501,18 +482,6 @@ ms:
       title: Ralat aplikasi
     not_found:
       title: Fail tidak dijumpai
-  friendships:
-    make_friend:
-      heading: Jadikan %{user} sebagai kawan?
-      button: Jadikan kawan
-      success: '%{name} kini kawan anda!'
-      failed: Maaf, %{name} tidak dapat ditambahkan sebagai kawan.
-      already_a_friend: Anda sudah berkawan dengan %{name}.
-    remove_friend:
-      heading: Gugurkan %{user} sebagai kawan?
-      button: Gugurkan kawan
-      success: '%{name} telah dibuang daripada senarai kawan anda.'
-      not_a_friend: '%{name} bukan kawan anda.'
   geocoder:
     search:
       title:
@@ -1215,13 +1184,10 @@ ms:
         dengan subjek %{subject}:'
       footer_html: Anda juga boleh membaca pesanan ini di %{readurl} dan anda boleh
         membalasnya di %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Apa khabar %{to_user},
-      subject: '[OpenStreetMap] %{user} menjadikan anda sebagai rakannya'
-      had_added_you: '%{user} telah menjadikan anda sebagai kawan di OpenStreetMap.'
       see_their_profile: Anda boleh membaca profilnya di %{userurl}.
       see_their_profile_html: Anda boleh melihat profilnya di %{userurl}.
-      befriend_them: Anda juga boleh menjadikannya sebagai kawan di %{befriendurl}.
     gpx_failure:
       hi: Hai %{to_user},
       failed_to_import: 'tidak dapat diimport. Berikut ialah ralatnya:'
@@ -1788,12 +1754,13 @@ ms:
     offline:
       heading: Storan GPX di Luar Talian
       message: Sistem storan dan muat naik fail GPX kini tidak boleh digunakan.
-    georss:
-      title: Jejak OpenStreetMap GPS
-    description:
-      description_with_count:
-        other: GPX fail dengan %{count} mata dari %{user}
-      description_without_count: Fail GPX daripada %{user}
+    feeds:
+      show:
+        title: Jejak OpenStreetMap GPS
+      description:
+        description_with_count:
+          other: GPX fail dengan %{count} mata dari %{user}
+        description_without_count: Fail GPX daripada %{user}
   application:
     permission_denied: Anda tidak mempunyai keizinan untuk melakukan tindakan ini.
     require_cookies:
@@ -1859,7 +1826,6 @@ ms:
       display name description: Nama pengguna anda yang dipaparkan kepada awam. Anda
         boleh menukarnya dalam keutamaan anda pada bila-bila masa.
       continue: Daftar
-      terms accepted: Terima kasih kerana menerima terma-terma penyumbang yang baru!
       use external auth: Secara alternatif, gunakan khidmat pihak ketiga untuk log
         masuk
     no_such_user:
@@ -1887,8 +1853,6 @@ ms:
       edits: Suntingan
       traces: Jejak
       notes: Nota Peta
-      remove as friend: Gugurkan Kawan
-      add as friend: Jadikan Kawan
       mapper since: 'Pemeta sejak:'
       ct status: 'Terma-terma penyumbang:'
       ct undecided: Belum diputuskan
@@ -1941,6 +1905,13 @@ ms:
       user:
         summary_html: '%{name} diwujudkan dari %{ip_address} pada %{date}'
         summary_no_ip_html: '%{name} diwujudkan pada %{date}'
+    changeset_comments:
+      page:
+        when: Bila
+        comment: Komen
+    diary_comments:
+      page:
+        post: Muat Naik
     suspended:
       title: Akaun Digantung
       heading: Akaun Digantung

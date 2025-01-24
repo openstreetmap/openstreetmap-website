@@ -370,14 +370,6 @@ fr:
       openid:
         link: https://wiki.openstreetmap.org/wiki/FR:OpenID
         link text: qu’est-ce ?
-      public editing:
-        heading: Modification publique
-        enabled: Activée. Non anonyme et peut modifier les données.
-        enabled link: https://wiki.openstreetmap.org/wiki/FR:Modifications_anonymes
-        enabled link text: qu’est-ce ?
-        disabled: Désactivée et ne peut pas modifier les données ; toutes les précédentes
-          modifications sont anonymes.
-        disabled link text: pourquoi ne puis-je pas modifier ?
       contributor terms:
         heading: Conditions de contribution
         agreed: Vous avez accepté les nouvelles Conditions de contribution.
@@ -466,7 +458,6 @@ fr:
         readable_summary: résumé lisible par un humain
         informal_translations: traductions informelles
         continue: Continuer
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: Annuler
         you need to accept or decline: Veuillez lire et ensuite soit accepter ou refuser
           les nouvelles Conditions du contributeur pour continuer.
@@ -475,6 +466,8 @@ fr:
           france: France
           italy: Italie
           rest_of_world: Reste du monde
+      update:
+        terms accepted: Merci d’avoir accepté les nouveaux termes du contributeur !
       terms_declined_flash:
         terms_declined_html: Nous sommes désolés que vous ayez décidé de ne pas accepter
           les nouvelles Conditions de contribution. Pour plus d’informations, veuillez
@@ -631,7 +624,6 @@ fr:
       title: Groupes de modifications
       title_user: Groupes de modifications par %{user}
       title_user_link_html: Groupes de modifications par %{user_link}
-      title_friend: Groupes de modifications par mes amis
       title_nearby: Groupes de modifications par des utilisateurs à proximité
       empty: Aucun groupe de modifications trouvé.
       empty_area: Aucun groupe de modifications dans cette zone.
@@ -646,19 +638,6 @@ fr:
         created: Créé
         closed: Fermé
         belongs_to: Auteur
-    subscribe:
-      heading: S’abonner à la discussion sur l’ensemble de modifications suivant ?
-      button: S’abonner à la discussion
-    unsubscribe:
-      heading: Se désabonner de la discussion du groupe de modifications suivant ?
-      button: Se désinscrire de la discussion
-    heading:
-      title: Groupe de modifications %{id}
-      created_by_html: Créé par %{link_user} le %{created}.
-    no_such_entry:
-      heading: 'Aucune entrée avec l’identifiant : %{id}'
-      body: Désolé, il n’y a aucun groupe de modifications avec l’identifiant %{id}.
-        Peut-être avez-vous fait une erreur en le recopiant ou suivi un lien erroné ?
     show:
       title: 'Groupe de modifications : %{id}'
       created: 'Créé : %{when}'
@@ -690,6 +669,21 @@ fr:
     timeout:
       sorry: Désolé, récupérer la liste des groupes de modifications que vous avez
         demandée a pris trop de temps.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: S’abonner à la discussion sur l’ensemble de modifications suivant ?
+        button: S’abonner à la discussion
+      unsubscribe:
+        heading: Se désabonner de la discussion du groupe de modifications suivant ?
+        button: Se désinscrire de la discussion
+    heading:
+      title: Groupe de modifications %{id}
+      created_by_html: Créé par %{link_user} le %{created}.
+    no_such_entry:
+      heading: 'Aucune entrée avec l’identifiant : %{id}'
+      body: Désolé, il n’y a aucun groupe de modifications avec l’identifiant %{id}.
+        Peut-être avez-vous fait une erreur en le recopiant ou suivi un lien erroné ?
   dashboards:
     contact:
       km away: à %{count} km
@@ -698,19 +692,14 @@ fr:
     popup:
       your location: Votre emplacement
       nearby mapper: Cartographe à proximité
-      friend: Ami(e)
     show:
       title: Mon tableau de bord
       no_home_location_html: '%{edit_profile_link} et définissez l’emplacement de
         votre domicile pour voir les utilisateurs à proximité.'
       edit_your_profile: Modifiez votre profil
-      my friends: Mes amis
-      no friends: Vous n’avez encore ajouté aucun ami.
       nearby users: Autres utilisateurs à proximité
       no nearby users: Aucun utilisateur n’a encore signalé qu’il cartographiait à
         proximité.
-      friends_changesets: groupes de modifications des amis
-      friends_diaries: entrées de journal des amis
       nearby_changesets: groupes de modifications des utilisateurs à proximité
       nearby_diaries: entrées de journal des utilisateurs à proximité
   diary_entries:
@@ -721,7 +710,6 @@ fr:
       use_map_link: Utiliser la carte
     index:
       title: Journaux des utilisateurs
-      title_friends: Journaux des amis
       title_nearby: Journaux des utilisateurs à proximité
       user_title: Journal de %{user}
       in_language_title: Entrées du journal en %{language}
@@ -790,15 +778,6 @@ fr:
       heading: Se désinscrire de la discussion suivante sur les entrées du journal ?
       button: Se désinscrire de la discussion
   diary_comments:
-    index:
-      title: Commentaires de journal ajoutés par %{user}
-      heading: Commentaires de journal de %{user}
-      subheading_html: Commentaires de journal ajoutés par %{user}
-      no_comments: Aucun commentaire de journal
-    page:
-      post: Billet
-      when: Quand
-      comment: Commentaire
     new:
       heading: Ajouter un commentaire à cette discussion ?
   doorkeeper:
@@ -859,20 +838,6 @@ fr:
       title: Fichier introuvable
       description: Impossible de trouver un fichier, un répertoire ou une opération
         de l’API portant ce nom sur le serveur OpenStreetMap (HTTP 404).
-  friendships:
-    make_friend:
-      heading: Ajouter %{user} en tant qu’ami(e) ?
-      button: Ajouter en tant qu’ami(e)
-      success: '%{name} est désormais votre ami(e) !'
-      failed: Désolé, échec lors de l’ajout de %{name} en tant qu’ami(e).
-      already_a_friend: Vous et %{name} êtes déjà ami(e)s.
-      limit_exceeded: Vous avez récemment déclaré beaucoup d’utilisateurs comme ami(e)s.
-        Veuillez attendre un peu avant d’essayer d’en déclarer d’autres.
-    remove_friend:
-      heading: Supprimer %{user} en tant qu’ami(e) ?
-      button: Supprimer en tant qu’ami(e)
-      success: '%{name} a été retiré de vos ami(e)s.'
-      not_a_friend: '%{name} n’est pas parmi vos ami(e)s.'
   geocoder:
     search:
       title:
@@ -1849,14 +1814,10 @@ fr:
         à l’auteur sur %{replyurl}
       footer_html: Vous pouvez aussi lire le message sur %{readurl} ou envoyer un
         message à l'auteur sur %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Bonjour %{to_user},
-      subject: '[OpenStreetMap] %{user} vous a ajouté comme ami'
-      had_added_you: '%{user} vous a ajouté comme ami dans OpenStreetMap.'
       see_their_profile: 'Vous pouvez voir son profil ici : %{userurl}.'
       see_their_profile_html: Vous pouvez voir son profil sur %{userurl}.
-      befriend_them: 'Vous pouvez également l’ajouter comme ami(e) ici : %{befriendurl}.'
-      befriend_them_html: Vous pouvez aussi l’ajouter comme ami à l’adresse %{befriendurl}.
     gpx_failure:
       hi: Bonjour %{to_user},
       failed_to_import: 'échec de l''importation en tant que fichier de trace GPS.
@@ -2833,13 +2794,14 @@ fr:
       heading: Stockage GPX hors ligne
       message: Le système de stockage et de téléversement des fichiers GPX est actuellement
         indisponible.
-    georss:
-      title: Traces GPS d’OpenStreetMap
-    description:
-      description_with_count:
-        one: Fichier GPX avec %{count} point de %{user}
-        other: Fichier GPX avec %{count} points de %{user}
-      description_without_count: Fichier GPX de %{user}
+    feeds:
+      show:
+        title: Traces GPS d’OpenStreetMap
+      description:
+        description_with_count:
+          one: Fichier GPX avec %{count} point de %{user}
+          other: Fichier GPX avec %{count} points de %{user}
+        description_without_count: Fichier GPX de %{user}
   application:
     permission_denied: Vous n’avez pas le droit d’accéder à cette action
     require_cookies:
@@ -3004,7 +2966,6 @@ fr:
         contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms/FR
         contributor_terms: Conditions de contribution
       continue: S’inscrire
-      terms accepted: Merci d’avoir accepté les nouveaux termes du contributeur !
       email_help:
         privacy_policy: politique de confidentialité
         privacy_policy_title: Politique de confidentialité d'OSMF, y compris une section
@@ -3042,8 +3003,6 @@ fr:
       edits: Modifications
       traces: Traces
       notes: Notes de carte
-      remove as friend: Supprimer en tant qu’ami
-      add as friend: Ajouter en tant qu’ami
       mapper since: 'Cartographe depuis :'
       last map edit: 'Dernière modification de la carte :'
       no activity yet: Pas encore d'activité
@@ -3119,6 +3078,15 @@ fr:
       user:
         summary_html: '%{name} créé depuis %{ip_address} le %{date}'
         summary_no_ip_html: '%{name} créé le %{date}'
+    changeset_comments:
+      page:
+        when: Quand
+        comment: Commentaire
+    diary_comments:
+      index:
+        title: Commentaires de journal ajoutés par %{user}
+      page:
+        post: Billet
     suspended:
       title: Compte suspendu
       heading: Compte suspendu

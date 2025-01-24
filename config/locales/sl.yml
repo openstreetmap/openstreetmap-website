@@ -287,13 +287,6 @@ sl:
       external auth: Zunanja avtentikacija
       openid:
         link text: kaj je to?
-      public editing:
-        heading: Javno urejanje
-        enabled: Omogočeno. Niste anonimni in lahko urejate podatke.
-        enabled link text: Kaj je to?
-        disabled: Onemogočeno in ne morete urejati podatkov. Vsi vaši prejšnji prispevki
-          so anonimni.
-        disabled link text: Zakaj ne morem urejati?
       contributor terms:
         heading: Pogoji sodelovanja
         agreed: Sprejeli ste nove pogoje sodelovanja.
@@ -372,7 +365,6 @@ sl:
         readable_summary: človeško berljiv povzetek
         informal_translations: neuradnih prevodov
         continue: Nadaljuj
-        declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
         cancel: Prekliči
         you need to accept or decline: Prosimo, preberite in nato sprejmite ali odklonite
           nove Pogoje za sodelovanje.
@@ -381,6 +373,8 @@ sl:
           france: Francija
           italy: Italija
           rest_of_world: Ostali svet
+      update:
+        terms accepted: Hvala za sprejem novih pogojev prispevanja!
       terms_declined_flash:
         terms_declined_html: Žal nam je, da ste se odločili, da ne sprejmete novih
           pogojev za sodelavce. Za več informacij glejte %{terms_declined_link}.
@@ -517,7 +511,6 @@ sl:
       title: Sklopi sprememb
       title_user: Sklopi sprememb od %{user}
       title_user_link_html: Sklopi sprememb uporabnika_ce %{user_link}
-      title_friend: Množice sprememb mojih prijateljev
       title_nearby: Sklopi sprememb bližnjih uporabnikov
       empty: Ni najdenih množic sprememb.
       empty_area: Na tem območju ni naborov sprememb.
@@ -532,19 +525,6 @@ sl:
         created: Ustvarjeno
         closed: Zaprto
         belongs_to: Avtor
-    subscribe:
-      heading: Se želite prijaviti na naslednjo razprave o naboru sprememb?
-      button: Prijava na razpravo
-    unsubscribe:
-      heading: Se želite odjaviti od naslednje razprave o naboru sprememb?
-      button: Odjava od razprave
-    heading:
-      title: Nabor sprememb %{id}
-      created_by_html: Ustvaril %{link_user} dne %{created}.
-    no_such_entry:
-      heading: Zapisa z id-jem %{id} ni
-      body: Oprostite, nabora sprememb z oznako %{id} ni. Prosimo, preverite črkovanje
-        in povezavo, ki ste jo kliknili.
     show:
       title: 'Nabor sprememb: %{id}'
       created: 'Ustvarjeno: %{when}'
@@ -575,6 +555,21 @@ sl:
       relations_paginated: Zveze (%{x}-%{y} od %{count})
     timeout:
       sorry: Žal je trajalo pridobivanje zahtevanega nabora sprememb predolgo.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Se želite prijaviti na naslednjo razprave o naboru sprememb?
+        button: Prijava na razpravo
+      unsubscribe:
+        heading: Se želite odjaviti od naslednje razprave o naboru sprememb?
+        button: Odjava od razprave
+    heading:
+      title: Nabor sprememb %{id}
+      created_by_html: Ustvaril %{link_user} dne %{created}.
+    no_such_entry:
+      heading: Zapisa z id-jem %{id} ni
+      body: Oprostite, nabora sprememb z oznako %{id} ni. Prosimo, preverite črkovanje
+        in povezavo, ki ste jo kliknili.
   dashboards:
     contact:
       km away: oddaljen %{count} km
@@ -583,19 +578,14 @@ sl:
     popup:
       your location: Vaša lokacija
       nearby mapper: Bližnji kartograf
-      friend: Prijatelj
     show:
       title: Moja nadzorna plošča
       no_home_location_html: '%{edit_profile_link} in nastavite svojo domačo lokacijo
         za prikaz bližnjih uporabnikov.'
       edit_your_profile: Uredite svoj profil
-      my friends: Moji prijatelji
-      no friends: Niste še dodali nobenih prijateljev.
       nearby users: Drugi bližnji uporabniki
       no nearby users: Ni drugih uporabnikov, ki bi sporočili, da kartirajo v vaši
         bližini.
-      friends_changesets: sklopi sprememb prijateljev
-      friends_diaries: dnevniki prijateljev
       nearby_changesets: sklopi sprememb bližnjih uporabnikov
       nearby_diaries: dnevniški vnosi bližnjih uporabnikov
   diary_entries:
@@ -606,7 +596,6 @@ sl:
       use_map_link: Uporabi zemljevid
     index:
       title: Dnevniki uporabnikov
-      title_friends: Dnevniki vaših prijateljev
       title_nearby: Dnevniki bližnjih uporabnikov
       user_title: Dnevnik uporabnika %{user}
       in_language_title: Dnevniški zapisi v jeziku %{language}
@@ -665,16 +654,6 @@ sl:
       all:
         title: Dnevniški zapisi OpenStreetMap
         description: Nedavni dnevniški zapisi uporabnikov OpenStreetmap
-  diary_comments:
-    index:
-      title: Dnevniški komentarji, ki jih je dodal_a %{user}
-      heading: Dnevniški komentarji %{user}
-      subheading_html: Dnevniški komentarji, ki jih je dodal_a %{user}
-      no_comments: Brez dnevniških komentarjev
-    page:
-      post: Objavi
-      when: Kdaj
-      comment: Komentar
   doorkeeper:
     errors:
       messages:
@@ -725,20 +704,6 @@ sl:
       title: Datoteka ni bila najdena
       description: Datoteke/imenika/API-operacije s tem imenom v strežniku OpenStreetMap
         ni bilo mogoče najti (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Dodaj %{user} med prijatelje?
-      button: Dodaj prijatelja
-      success: '%{name} je sedaj vaš prijatelj!'
-      failed: Oprostite, uporabnika %{name} ni bilo mogoče dodati med prijatelje.
-      already_a_friend: Z uporabnikom %{name} sta že prijatelja.
-      limit_exceeded: V kratkem času ste se spoprijateljili s številnimi uporabniki.
-        Prosimo, nekoliko počakajte, preden dodate nove prijatelje.
-    remove_friend:
-      heading: Odstrani %{user} iz prijateljev?
-      button: Odstrani prijatelja
-      success: Uporabnika %{name} ste odstranili izmed svojih prijateljev.
-      not_a_friend: Uporabnika %{name} ni med vašimi prijatelji.
   geocoder:
     search:
       title:
@@ -1673,14 +1638,10 @@ sl:
         %{replyurl}
       footer_html: Lahko tudi preberete sporočilo na %{readurl} in lahko odgovorite
         na %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Pozdravljeni, %{to_user},
-      subject: '[OpenStreetMap] %{user} vas je dodal med prijatelje'
-      had_added_you: '%{user} vas je dodal med prijatelje na OpenStreetMap.'
       see_their_profile: Njegov profil si lahko ogledate na %{userurl}.
       see_their_profile_html: Njegov profil si lahko ogledate na %{userurl}.
-      befriend_them: Lahko ga tudi dodate kot prijatelja na %{befriendurl}.
-      befriend_them_html: Lahko ga tudi dodate kot prijatelja na %{befriendurl}.
     gpx_failure:
       hi: Pozdravljeni, %{to_user},
       failed_to_import: ' vsebovala neko napako, zaradi katere je ni bilo mogoče uvoziti.
@@ -2595,14 +2556,15 @@ sl:
     offline:
       heading: GPX-sistem trenutno ni dostopen.
       message: Sistem za nalaganje GPX-datotek in GPX-sistem trenutno nista na voljo.
-    georss:
-      title: OpenStreetMap-sledi GPS
-    description:
-      description_with_count:
-        one: Datoteka GPX z %{count} točko uporabnika %{user}
-        two: Datoteka GPX z %{count} točkama uporabnika %{user}
-        other: Datoteka GPX z %{count} točkami uporabnika %{user}
-      description_without_count: Datoteka GPX uporabnika %{user}
+    feeds:
+      show:
+        title: OpenStreetMap-sledi GPS
+      description:
+        description_with_count:
+          one: Datoteka GPX z %{count} točko uporabnika %{user}
+          two: Datoteka GPX z %{count} točkama uporabnika %{user}
+          other: Datoteka GPX z %{count} točkami uporabnika %{user}
+        description_without_count: Datoteka GPX uporabnika %{user}
   application:
     permission_denied: Za dostop do tega dejanja nimate dovoljenja.
     require_cookies:
@@ -2740,7 +2702,6 @@ sl:
           e-poštnih naslovih
         contributor_terms: pogoji sodelovanja
       continue: Registracija
-      terms accepted: Hvala za sprejem novih pogojev prispevanja!
       email_help:
         privacy_policy: pravilnik o zasebnosti
         privacy_policy_title: Pravilnik o zasebnosti OSMF, vključno z razdelkom o
@@ -2777,8 +2738,6 @@ sl:
       edits: Prispevki
       traces: Sledi
       notes: Opombe na zemljevidu
-      remove as friend: Odstrani prijatelja
-      add as friend: Dodaj med prijatelje
       mapper since: 'Kartograf od:'
       uid: 'ID uporabnika:'
       ct status: 'Pogoji sodelovanja:'
@@ -2850,6 +2809,15 @@ sl:
       user:
         summary_html: '%{name} ustvarjen iz %{ip_address} dne %{date}'
         summary_no_ip_html: '%{name} ustvarjen dne %{date}'
+    changeset_comments:
+      page:
+        when: Kdaj
+        comment: Komentar
+    diary_comments:
+      index:
+        title: Dnevniški komentarji, ki jih je dodal_a %{user}
+      page:
+        post: Objavi
     suspended:
       title: Račun zaklenjen
       heading: Račun zaklenjen

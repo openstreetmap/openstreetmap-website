@@ -103,6 +103,7 @@ zh-TW:
       message: 訊息
       node: 節點
       node_tag: 節點標籤
+      note: 註解
       old_node: 舊的節點
       old_node_tag: 舊的節點標籤
       old_relation: 舊的關聯
@@ -279,12 +280,6 @@ zh-TW:
       external auth: 外部認證
       openid:
         link text: 這是什麼？
-      public editing:
-        heading: 公開編輯
-        enabled: 已開啟。非匿名且可以編輯資料。
-        enabled link text: 這是什麼？
-        disabled: 已停用且不能編輯資料，所有你先前的編輯都會成為匿名的。
-        disabled link text: 為什麼我不能編輯？
       contributor terms:
         heading: 貢獻者條款
         agreed: 你已同意新的貢獻者條款。
@@ -338,6 +333,7 @@ zh-TW:
         read_tou: 我已經閱讀過並同意使用條款
         consider_pd: 除上述內容之外，我同意將我的貢獻放到公共領域
         consider_pd_why: 這是什麼？
+        consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 有助於理解這些術語的資訊：一個%{readable_summary_link}和一些%{informal_translations_link}
         readable_summary: 人類可讀的摘要
         informal_translations: 非正式翻譯
@@ -349,9 +345,12 @@ zh-TW:
           france: 法國
           italy: 義大利
           rest_of_world: 世界其他地區
+      update:
+        terms accepted: 感謝你接受新的貢獻條款！
       terms_declined_flash:
         terms_declined_html: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱 %{terms_declined_link}。
         terms_declined_link: 此 wiki 頁面
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: 由%{user}%{time_ago}刪除
     edited_ago_by_html: 由%{user}%{time_ago}編輯
@@ -396,7 +395,7 @@ zh-TW:
         way: 路徑
         relation: 關聯
     containing_relation:
-      entry_role_html: 關聯 %{relation_name} (作為 %{relation_role})
+      entry_role_html: '%{relation_name} (作為 %{relation_role})'
     not_found:
       title: 找不到
     timeout:
@@ -447,6 +446,8 @@ zh-TW:
       view_redacted_data: 查看編修資料
       view_redaction_message: 查看密文訊息
   nodes:
+    not_found_message:
+      sorry: '抱歉，找不到此節點 #%{id}。'
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的節點資料花費時間過長。
   old_nodes:
@@ -455,6 +456,8 @@ zh-TW:
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的節點歷史花費時間過長。
   ways:
+    not_found_message:
+      sorry: '抱歉，找不到此路徑 #%{id}。'
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的路徑資料花費時間過長。
   old_ways:
@@ -463,6 +466,8 @@ zh-TW:
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的路徑歷史花費時間過長。
   relations:
+    not_found_message:
+      sorry: '抱歉，找不到此關聯 #%{id}。'
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的關聯資料花費時間過長。
   old_relations:
@@ -488,7 +493,6 @@ zh-TW:
       title: 變更集
       title_user: '%{user} 的變更集'
       title_user_link_html: '%{user_link} 的變更集'
-      title_friend: 好友的變更集
       title_nearby: 附近使用者的變更集
       empty: 查無變更集。
       empty_area: 此區域沒有變更集。
@@ -503,18 +507,6 @@ zh-TW:
         created: 建立於
         closed: 關閉於
         belongs_to: 作者
-    subscribe:
-      heading: 訂閱以下變更集討論？
-      button: 訂閱討論
-    unsubscribe:
-      heading: 取消訂閱以下變更集討論？
-      button: 取消訂閱討論
-    heading:
-      title: 變更集 %{id}
-      created_by_html: 由 %{link_user} 在 %{created} 建立。
-    no_such_entry:
-      heading: 沒有 id 為 %{id} 的項目
-      body: 抱歉，沒有 id 為 %{id} 的變更集。請檢查你的拼字，或者可能是你按到錯誤的連結。
     show:
       title: 變更集：%{id}
       created: 建立於：%{when}
@@ -542,8 +534,24 @@ zh-TW:
       ways_paginated: 路線 (%{count} 的 %{x}-%{y})
       relations: 關聯 (%{count})
       relations_paginated: 關聯 (%{count} 的 %{x}-%{y})
+    not_found_message:
+      sorry: '抱歉，找不到此變更集 #%{id}。'
     timeout:
       sorry: 很抱歉，你請求的變更集清單過長無法讀取。
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: 訂閱以下變更集討論？
+        button: 訂閱討論
+      unsubscribe:
+        heading: 取消訂閱以下變更集討論？
+        button: 取消訂閱討論
+    heading:
+      title: 變更集 %{id}
+      created_by_html: 由 %{link_user} 在 %{created} 建立。
+    no_such_entry:
+      heading: 沒有 id 為 %{id} 的項目
+      body: 抱歉，沒有 id 為 %{id} 的變更集。請檢查你的拼字，或者可能是你按到錯誤的連結。
   dashboards:
     contact:
       km away: '%{count} 公里遠'
@@ -552,17 +560,12 @@ zh-TW:
     popup:
       your location: 你的位置
       nearby mapper: 附近的製圖者
-      friend: 好友
     show:
       title: 我的功能面板
       no_home_location_html: '%{edit_profile_link}並編輯你的家位置，來查看附近的使用者。'
       edit_your_profile: 編輯你的個人檔案
-      my friends: 我的好友
-      no friends: 你尚未加入任何好友。
       nearby users: 其他附近的使用者
       no nearby users: 附近沒有已加入製圖的使用者。
-      friends_changesets: 好友的變更集
-      friends_diaries: 好友的日記項目
       nearby_changesets: 附近使用者的變更集
       nearby_diaries: 附近使用者的日記項目
   diary_entries:
@@ -573,7 +576,6 @@ zh-TW:
       use_map_link: 使用地圖
     index:
       title: 使用者日記
-      title_friends: 好友日記
       title_nearby: 附近的使用者的日記
       user_title: '%{user} 的日記'
       in_language_title: 語言為%{language}的日記項目
@@ -638,15 +640,6 @@ zh-TW:
       heading: 取消訂閱以下日記項目討論？
       button: 取消訂閱討論
   diary_comments:
-    index:
-      title: 日記評論由%{user}添加
-      heading: '%{user}的日記評論'
-      subheading_html: 日記評論由%{user}添加
-      no_comments: 沒有日記評論
-    page:
-      post: 貼文
-      when: 於
-      comment: 評論
     new:
       heading: 在以下日記項目討論添加評論？
   doorkeeper:
@@ -696,19 +689,6 @@ zh-TW:
     not_found:
       title: 檔案未找到
       description: 在 OpenStreetMap 伺服器上找不到該名稱的檔案/目錄/API 操作 (HTTP 404)
-  friendships:
-    make_friend:
-      heading: 將 %{user} 加入為好友？
-      button: 加入為好友
-      success: '%{name} 現在已成為你的好友！'
-      failed: 抱歉，無法將 %{name} 加入為好友。
-      already_a_friend: 你已經是 %{name} 的好友了。
-      limit_exceeded: 你最近與許多使用者成為朋友，要再與其他人成為朋友前請稍候。
-    remove_friend:
-      heading: 移除好友 %{user}？
-      button: 移除好友
-      success: '%{name} 已從你的好友中移除。'
-      not_a_friend: '%{name} 並不是你的好友。'
   geocoder:
     search:
       title:
@@ -1045,6 +1025,14 @@ zh-TW:
           wayside_shrine: 小祠堂
           wreck: 沈船
           "yes": 古蹟
+        information:
+          guidepost: 指標
+          board: 資訊板
+          map: 地圖
+          office: 旅遊服務中心
+          terminal: 資訊終端
+          sign: 資訊標誌
+          stele: 資訊碑
         junction:
           "yes": 路口
         landuse:
@@ -1117,6 +1105,8 @@ zh-TW:
           track: 跑道
           water_park: 水上樂園
           "yes": 休閒娛樂
+        lock:
+          "yes": 水閘
         man_made:
           adit: 坑口
           advertising: 廣告
@@ -1457,6 +1447,17 @@ zh-TW:
           building_passage: 建築物穿堂
           culvert: 涵管
           "yes": 隧道
+        water:
+          lake: 湖泊
+          pond: 池塘
+          reservoir: 水庫
+          basin: 蓄水池
+          fishpond: 魚池
+          lagoon: 潟湖
+          wastewater: 廢水池
+          oxbow: 牛弓
+          stream_pool: 流水池
+          lock: 水閘
         waterway:
           artificial: 人工水道
           boatyard: 船廠
@@ -1521,6 +1522,8 @@ zh-TW:
         open: 開放
         resolved: 已解決
     show:
+      title:
+        open: '未決問題 #%{issue_id}'
       reports:
         one: '%{count} 份回報'
         other: '%{count} 份回報'
@@ -1642,14 +1645,10 @@ zh-TW:
       header_html: '%{from_user} 透過 OpenStreetMap 寄給你主旨為 %{subject} 的訊息：'
       footer: 你也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
       footer_html: 你也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
-    friendship_notification:
+    follow_notification:
       hi: 嗨 %{to_user}，
-      subject: '[OpenStreetMap] %{user} 將你加為好友'
-      had_added_you: '%{user} 已在 OpenStreetMap 將你加為好友。'
       see_their_profile: 你可以在 %{userurl} 查看他的基本資料。
       see_their_profile_html: 你可以在 %{userurl} 查看他的基本資料。
-      befriend_them: 你可以在 %{befriendurl} 把他加入為好友。
-      befriend_them_html: 你可以在 %{befriendurl} 把他加入為好友。
     gpx_failure:
       hi: '%{to_user} 你好，'
       failed_to_import: 匯入成 GPS 軌跡檔案失敗。請驗證您的檔案是否為有效的 GPX 檔案，或是否為含有 GPX 檔案的支援格式存檔（.tar.gz、.tar.bz2、.tar、.zip、.gpx.gz、.gpx.bz2）。您的檔案是否有格式或語法問題？此為匯入的錯誤內容：
@@ -1839,6 +1838,10 @@ zh-TW:
   preferences:
     show:
       title: 我的偏好設定
+      map_color_schemes:
+        auto: 自動
+        light: 明亮
+        dark: 深色
       save: 更新偏好
     update:
       failure: 無法更新偏好設定。
@@ -2418,13 +2421,14 @@ zh-TW:
     offline:
       heading: GPX 離線儲存
       message: GPX 檔案儲存，上傳系統目前無法使用。
-    georss:
-      title: OpenStreetMap GPS 軌跡
-    description:
-      description_with_count:
-        one: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
-        other: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
-      description_without_count: 由 %{user} 上傳的 GPX 檔案
+    feeds:
+      show:
+        title: OpenStreetMap GPS 軌跡
+      description:
+        description_with_count:
+          one: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
+          other: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
+        description_without_count: 由 %{user} 上傳的 GPX 檔案
   application:
     permission_denied: 你沒有權限來存取該操作。
     require_cookies:
@@ -2459,6 +2463,28 @@ zh-TW:
       wikipedia:
         title: 使用維基百科登入
         alt: 維基百科標誌
+    share:
+      email:
+        title: 透過電子郵件分享
+        alt: 電子郵件圖示
+      bluesky:
+        title: 分享到藍天
+        alt: 藍天圖示
+      facebook:
+        title: 分享到 Facebook
+        alt: Facebook 圖示
+      linkedin:
+        title: 分享到 LinkedIn
+        alt: LinkedIn 圖示
+      mastodon:
+        title: 分享到乳齒象
+        alt: 乳齒象圖示
+      telegram:
+        title: 分享到 Telegram
+        alt: Telegram 圖示
+      x:
+        title: 分享到 X
+        alt: X 圖示
   oauth:
     permissions:
       missing: 你尚未允許應用程式來訪問此設施
@@ -2547,7 +2573,6 @@ zh-TW:
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: 貢獻者條款
       continue: 註冊
-      terms accepted: 感謝你接受新的貢獻條款！
       email_help:
         privacy_policy: 隱私權政策
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
@@ -2583,8 +2608,6 @@ zh-TW:
       edits: 編輯
       traces: 軌跡
       notes: 地圖註記
-      remove as friend: 移除好友
-      add as friend: 加入為好友
       mapper since: 註冊為製圖者日期：
       last map edit: 最後地圖編輯於：
       no activity yet: 尚無活動
@@ -2659,6 +2682,15 @@ zh-TW:
       user:
         summary_html: '%{name} 由 %{ip_address} 於 %{date} 建立'
         summary_no_ip_html: '%{name} 建立於：%{date}'
+    changeset_comments:
+      page:
+        when: 於
+        comment: 評論
+    diary_comments:
+      index:
+        title: 日記評論由%{user}添加
+      page:
+        post: 貼文
     suspended:
       title: 帳號已暫停
       heading: 帳號已暫停
@@ -2678,14 +2710,14 @@ zh-TW:
       option_2: 如果你已擁有一個帳號，可以用你的使用者名稱與密碼登入你的帳號，並在使用者設定中關連你的 ID。
   user_role:
     filter:
-      not_a_role: 字串 "%{role}" 不是有效的身份。
+      not_a_role: 字串 '%{role}' 不是有效的身份。
       already_has_role: 這個使用者已經有 %{role} 身份。
       doesnt_have_role: 這個使用者沒有 %{role} 身份。
       not_revoke_admin_current_user: 無法撤銷目前使用者的管理員身份。
     grant:
-      are_you_sure: 你確定要授予使用者 "%{name}"  "%{role}" 的身份？
+      are_you_sure: 你確定要授予使用者 '%{name}' '%{role}' 的身份？
     revoke:
-      are_you_sure: 你確定要撤銷使用者 "%{name}"  "%{role}" 的身份？
+      are_you_sure: 你確定要撤銷使用者 '%{name}' '%{role}' 的身份？
   user_blocks:
     model:
       non_moderator_update: 只有仲裁員才可作出或更新封鎖。
@@ -2737,6 +2769,11 @@ zh-TW:
         years:
           one: '%{count} 年'
           other: '%{count} 年'
+      short:
+        ended: 已結束
+        revoked_html: 已被 %{name} 撤銷
+        active: 活躍的
+        active_until_read: 直到讀取後才活躍
     show:
       title: '%{block_by}封鎖了%{block_on}'
       heading_html: '%{block_by}封鎖了%{block_on}'

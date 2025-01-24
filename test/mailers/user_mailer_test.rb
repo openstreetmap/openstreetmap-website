@@ -83,7 +83,7 @@ class UserMailerTest < ActionMailer::TestCase
     body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
 
     url = Rails.application.routes.url_helpers.changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
-    unsubscribe_url = Rails.application.routes.url_helpers.unsubscribe_changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    unsubscribe_url = Rails.application.routes.url_helpers.changeset_subscription_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
     assert_select body, "a[href^='#{url}']"
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
   end

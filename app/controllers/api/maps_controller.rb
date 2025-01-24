@@ -1,5 +1,5 @@
 module Api
-  class MapController < ApiController
+  class MapsController < ApiController
     authorize_resource :class => false
 
     before_action :set_request_formats
@@ -13,7 +13,7 @@ module Api
     # Then all the relations that reference the already found nodes and ways are
     # fetched. All the nodes and ways that are referenced by those ways are then
     # fetched. Finally all the xml is returned.
-    def index
+    def show
       # Figure out the bbox
       # check boundary is sane and area within defined
       # see /config/application.yml

@@ -148,7 +148,7 @@ it:
         support_url: Indirizzo URL di supporto
         allow_read_prefs: leggi le sue preferenze utente
         allow_write_prefs: modifica le sue preferenze utente
-        allow_write_diary: creare pagine di diario, commenti e stringere amicizie
+        allow_write_diary: creare pagine di diario e commenti
         allow_write_api: modificare la mappa
         allow_read_gpx: visualizza le sue tracce GPS private
         allow_write_gpx: carica tracce GPS
@@ -313,13 +313,6 @@ it:
       openid:
         link: https://wiki.openstreetmap.org/wiki/IT:OpenID
         link text: che cos'è questo?
-      public editing:
-        heading: Modifica pubblica
-        enabled: Abilitate. Non anonimo con il permesso di modificare i dati.
-        enabled link text: che cos'è questo?
-        disabled: Disabilitate senza il permesso di modificare i dati, tutte le modifiche
-          precedenti sono anonime.
-        disabled link text: perché non posso modificare?
       contributor terms:
         heading: Regole per contribuire
         agreed: Hai accettato le nuove regole per contribuire.
@@ -411,6 +404,8 @@ it:
           france: Francia
           italy: Italia
           rest_of_world: Resto del mondo
+      update:
+        terms accepted: Grazie di aver accettato le nuove regole per contribuire!
       terms_declined_flash:
         terms_declined_html: Siamo spiacenti che tu abbia deciso di non accettare
           i nuovi termini di contribuzione. Per ulteriori informazioni consultare
@@ -569,7 +564,6 @@ it:
       title: Gruppi di modifiche
       title_user: Gruppi di modifiche di %{user}
       title_user_link_html: Gruppi di modifiche di %{user_link}
-      title_friend: Gruppi di modifiche dei miei amici
       title_nearby: Gruppi di modifiche da parte di utenti nelle vicinanze
       empty: Nessun gruppo di modifiche trovato.
       empty_area: Nessun gruppo di modifiche in quest'area.
@@ -584,19 +578,6 @@ it:
         created: Creato
         closed: Chiuso
         belongs_to: Autore
-    subscribe:
-      heading: Vuoi iscriverti alla seguente discussione del gruppo di modifiche?
-      button: Iscriviti alla discussione
-    unsubscribe:
-      heading: Annullare l'iscrizione alla seguente discussione del gruppo di modifiche?
-      button: Annulla l'iscrizione alla discussione
-    heading:
-      title: Gruppo di modifiche %{id}
-      created_by_html: Creato da %{link_user} il %{created}.
-    no_such_entry:
-      heading: 'Nessuna voce con l''ID: %{id}'
-      body: Non esiste alcun gruppo di modifiche con l’ID %{id}. Controlla la digitazione
-        o che il collegamento sul quale hai cliccato non sia errato.
     show:
       title: 'Gruppo di modifiche: %{id}'
       created: 'Creato: %{when}'
@@ -630,6 +611,21 @@ it:
     timeout:
       sorry: Spiacenti, l'elenco dei gruppi di modifiche che hai richiesto ha impiegato
         troppo tempo per poter essere recuperato.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Vuoi iscriverti alla seguente discussione del gruppo di modifiche?
+        button: Iscriviti alla discussione
+      unsubscribe:
+        heading: Annullare l'iscrizione alla seguente discussione del gruppo di modifiche?
+        button: Annulla l'iscrizione alla discussione
+    heading:
+      title: Gruppo di modifiche %{id}
+      created_by_html: Creato da %{link_user} il %{created}.
+    no_such_entry:
+      heading: 'Nessuna voce con l''ID: %{id}'
+      body: Non esiste alcun gruppo di modifiche con l’ID %{id}. Controlla la digitazione
+        o che il collegamento sul quale hai cliccato non sia errato.
   dashboards:
     contact:
       km away: distante %{count} km
@@ -638,19 +634,14 @@ it:
     popup:
       your location: Propria posizione
       nearby mapper: Mappatore vicino
-      friend: Amico
     show:
       title: La mia dashboard
       no_home_location_html: '%{edit_profile_link} e imposta la posizione di casa
         per vedere gli utenti vicini.'
       edit_your_profile: Modifica il tuo profilo
-      my friends: I miei amici
-      no friends: Non ci sono ancora amici.
       nearby users: Altri utenti nelle vicinanze
       no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
         vicinanze.
-      friends_changesets: gruppi di modifiche degli amici
-      friends_diaries: note dei diari degli amici
       nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
       nearby_diaries: note dei diari degli utenti nelle vicinanze
   diary_entries:
@@ -661,7 +652,6 @@ it:
       use_map_link: Utilizza mappa
     index:
       title: Diari degli utenti
-      title_friends: Diari degli amici
       title_nearby: Diari degli utenti nelle vicinanze
       user_title: Diario di %{user}
       in_language_title: Voci del diario in %{language}
@@ -728,15 +718,6 @@ it:
       heading: Annullare l'iscrizione alla seguente discussione sul diario?
       button: Annulla l'iscrizione alla discussione
   diary_comments:
-    index:
-      title: Commenti del diario aggiunti da %{user}
-      heading: I commenti del diario di %{user}
-      subheading_html: Commenti del diario aggiunti da %{user}
-      no_comments: Nessun commento al diario
-    page:
-      post: Messaggio
-      when: Quando
-      comment: Commento
     new:
       heading: Aggiungere un commento alla discussione sulla seguente voce del diario?
   doorkeeper:
@@ -796,20 +777,6 @@ it:
       title: File non trovato
       description: Impossibile trovare un file/cartella/operazione API con questo
         nome sul server OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Aggiungere %{user} agli amici?
-      button: Aggiungi come amico
-      success: '%{name} è ora tuo amico!'
-      failed: Spiacenti, non è stato possibile aggiungere %{name} come un amico.
-      already_a_friend: Sei già amico di %{name}.
-      limit_exceeded: Recentemente hai aggiunto un sacco di utenti come amici. Aspetta
-        un po’ di tempo prima di aggiungerne altri.
-    remove_friend:
-      heading: Rimuovere ${user} dagli amici?
-      button: Rimuovi dagli amici
-      success: '%{name} è stato rimosso dai tuoi amici.'
-      not_a_friend: '%{name} non è uno dei tuoi amici.'
   geocoder:
     search:
       title:
@@ -1778,14 +1745,10 @@ it:
         all'autore al %{replyurl}
       footer_html: Puoi anche leggere il messaggio al %{readurl} e puoi inviare un
         messaggio all'autore al %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Ciao %{to_user},
-      subject: '[OpenStreetMap] %{user} ti ha aggiunto come amico'
-      had_added_you: '%{user} ti ha aggiunto come suo amico su OpenStreetMap.'
       see_their_profile: Puoi vedere il suo profilo su %{userurl}.
       see_their_profile_html: Puoi vedere il suo profilo su %{userurl}.
-      befriend_them: Puoi anche aggiungerli come amici in %{befriendurl}.
-      befriend_them_html: Puoi anche aggiungerli come amici in %{befriendurl}.
     gpx_details:
       details: 'I dettagli del tuo file:'
       filename: Nome del file
@@ -2743,13 +2706,14 @@ it:
       heading: Archiviazione GPX non in linea
       message: L'archiviazione dei file GPX ed il sistema di upload al momento non
         sono disponibili.
-    georss:
-      title: Tracce GPS di OpenStreetMap
-    description:
-      description_with_count:
-        one: File GPX con %{count} punto da %{user}
-        other: File GPX con %{count} punti da %{user}
-      description_without_count: File GPX da %{user}
+    feeds:
+      show:
+        title: Tracce GPS di OpenStreetMap
+      description:
+        description_with_count:
+          one: File GPX con %{count} punto da %{user}
+          other: File GPX con %{count} punti da %{user}
+        description_without_count: File GPX da %{user}
   application:
     permission_denied: Non si dispone dei permessi necessari per eseguire questa azione
     require_cookies:
@@ -2818,7 +2782,7 @@ it:
       openid: Accedi utilizzando OpenStreetMap
       read_prefs: Leggere le preferenze dell'utente
       write_prefs: Modificare le preferenze dell'utente
-      write_diary: Creare voci del diario, commenti e stringere amicizie
+      write_diary: Creare voci del diario e commenti
       write_api: Modificare la mappa
       read_gpx: Leggere tracciati GPS privati
       write_gpx: Caricare tracciati GPS
@@ -2909,7 +2873,6 @@ it:
           la sezione sugli indirizzi e-mail
         contributor_terms: regole per contribuire
       continue: Registrati
-      terms accepted: Grazie di aver accettato le nuove regole per contribuire!
       email_help:
         privacy_policy: informativa sulla privacy
         privacy_policy_title: Normativa sulla privacy dell'OSMF, inclusa la sezione
@@ -2947,8 +2910,6 @@ it:
       edits: Modifiche
       traces: Tracciati
       notes: Note sulla mappa
-      remove as friend: Rimuovi amico
-      add as friend: Aggiungi amico
       mapper since: 'Mappatore dal:'
       last map edit: 'Ultima modifica della mappa:'
       no activity yet: Non ci sono ancora attività
@@ -3024,6 +2985,15 @@ it:
       user:
         summary_html: '%{name} creato da %{ip_address} il %{date}'
         summary_no_ip_html: '%{name} creato il %{date}'
+    changeset_comments:
+      page:
+        when: Quando
+        comment: Commento
+    diary_comments:
+      index:
+        title: Commenti del diario aggiunti da %{user}
+      page:
+        post: Messaggio
     suspended:
       title: Account sospeso
       heading: Account sospeso

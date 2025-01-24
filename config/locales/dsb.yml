@@ -161,13 +161,6 @@ dsb:
       current email address: 'Aktualna e-mailowa adresa:'
       openid:
         link text: Co to jo?
-      public editing:
-        heading: Zjawne wobźěłowanje
-        enabled: Zmóžnjony. Nic anonymny, daty daju se wobźěłaś.
-        enabled link text: Co to jo?
-        disabled: Znjemóžnjony, daty njedaju se wobźěłas, wše pjerwjejšne změny su
-          anonymne.
-        disabled link text: Cogodla njamógu wobźěłas?
       contributor terms:
         heading: 'Wuměnjenja za sobustatkujucych:'
         agreed: Sy nowe wuměnjenja za sobuskutkujucych akceptěrował.
@@ -201,6 +194,8 @@ dsb:
           france: Francojska
           italy: Italska
           rest_of_world: Zbytk swěta
+      update:
+        terms accepted: Źěkujomy se, až sy nowe wuměnjenja za sobuskutkajucuch akceptěrował!
   browse:
     version: Wersija
     in_changeset: Sajźba změnow
@@ -276,7 +271,6 @@ dsb:
     index:
       title: Sajźby změnow
       title_user: Sajźby změnow wót %{user}
-      title_friend: Změny twójich pśijaśelow
       title_nearby: Sajźby změnow wužywarjow w bliskosći
       empty: Žedne sajźby změnow namakane.
       empty_area: Žedne sajźby změnow w toś tom wobcerku.
@@ -313,14 +307,10 @@ dsb:
     popup:
       your location: Twójo městno
       nearby mapper: Kartěrowaŕ w bliskosći
-      friend: Pśijaśel
     show:
       title: Mój pśeglědowy bok
-      no friends: Hyšći njejsy žednych pśijaśelow pśidał.
       nearby users: Druge wužywarje w bliskosći
       no nearby users: Hyšći njejsu žedne wužywarje, kótarež kartěruju w bliskosći.
-      friends_changesets: Sajźby změnow twójich pśijaśelow
-      friends_diaries: dnjownikowe zapiski pśijaśelow
       nearby_changesets: sajźby změnow wužywarjow w bliskosći
       nearby_diaries: dnjownikowe zapiski wužywarjow w bliskosći
   diary_entries:
@@ -331,7 +321,6 @@ dsb:
       use_map_link: kórtu wužywaś
     index:
       title: Dnjowniki wužywarjow
-      title_friends: Dnjowniki pśijaśelow
       title_nearby: Dnjowniki wužywarjow w bliskosći
       user_title: dnjownik wužywarja %{user}
       in_language_title: Zapiski dnjownika w %{language}
@@ -383,23 +372,6 @@ dsb:
       all:
         title: Zapiski dnjownika OpenStreetMap
         description: Nejnowše zapiski dnjownika wót wužywarjow OpenStreetMap
-  diary_comments:
-    page:
-      post: Powěsć
-      when: Cas
-      comment: Komentar
-  friendships:
-    make_friend:
-      heading: '%{user} ako pśijaśela pśidaś?'
-      button: Ako pśijaśela pśidaś
-      success: '%{name} jo něnto twój pśijaśel!'
-      failed: Bóžko njejo se raźiło, %{name} ako twójogo pśijaśela pśidaś.
-      already_a_friend: Sy južo z %{name} spśijaśelony.
-    remove_friend:
-      heading: '%{user} ako pśijaśela wótpóraś?'
-      button: Pśijaśela wótpóraś
-      success: '%{name} jo se z twójich pśijaśelow wótpórał.'
-      not_a_friend: '%{name} njejo twój pśijaśel.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -897,11 +869,8 @@ dsb:
       header: '%{from_user} jo śi pósłał powěsć pśez OpenStreetMap z temowym nadpismom
         %{subject}:'
       footer_html: Móžoš powěsć pód %{readurl} cytaś a móžoš pód %{replyurl} wótegroniś
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} jo śi ako pśijaśela pśidał.'
-      had_added_you: '%{user} jo śi na OpenStreetMap ako pśijaśela pśidał.'
+    follow_notification:
       see_their_profile: Móžoš profil na %{userurl} wiźeś.
-      befriend_them: Móžoš někogo na %{befriendurl} ako pśijaśela pśidaś.
     gpx_failure:
       failed_to_import: 'njejo se dał importěrowaś. How jo zmólka:'
       subject: '[OpenStreetMap] GPX-import jo se njeraźił'
@@ -1382,15 +1351,16 @@ dsb:
     offline:
       heading: Składowanje GPX offline
       message: Składowanje a nagrawański system GPX-datajow njestoj tuchylu k dispoziciji.
-    georss:
-      title: OpenStreetMap GPS-slědy
-    description:
-      description_with_count:
-        few: GPX-dataja z %{count} dypkami wót %{user}
-        one: GPX-dataja z %{count} dypkom wót %{user}
-        two: GPX-dataja z %{count} dypkoma wót %{user}
-        other: GPX-dataja z %{count} dypkami wót %{user}
-      description_without_count: GPX-dataja wót %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-slědy
+      description:
+        description_with_count:
+          few: GPX-dataja z %{count} dypkami wót %{user}
+          one: GPX-dataja z %{count} dypkom wót %{user}
+          two: GPX-dataja z %{count} dypkoma wót %{user}
+          other: GPX-dataja z %{count} dypkami wót %{user}
+        description_without_count: GPX-dataja wót %{user}
   application:
     require_cookies:
       cookies_needed: Zda se, až cookieje su znjemóžnjone - pšosym zmóžni cookieje
@@ -1410,7 +1380,6 @@ dsb:
       display name description: Sy wužywarske mě zjawnje pokazał. Móžoš to pózdźej
         w nastajenjach změniś.
       continue: Registrěrowaś
-      terms accepted: Źěkujomy se, až sy nowe wuměnjenja za sobuskutkajucuch akceptěrował!
     no_such_user:
       title: Toś ten wužywaŕ njejo
       heading: Wužywaŕ %{user} njeeksistěrujo
@@ -1434,8 +1403,6 @@ dsb:
       edits: Změny
       traces: Slědy
       notes: Pokazki kórty
-      remove as friend: Ako pśijaśela wótpóraś
-      add as friend: Pśijaśela pśidaś
       mapper since: 'Kartěrowaŕ wót:'
       ct status: 'Wuměnjenja za sobustatkujucych:'
       ct undecided: Njerozsuźony
@@ -1486,6 +1453,13 @@ dsb:
       user:
         summary_html: '%{name} wót %{ip_address} dnja %{date} napórany'
         summary_no_ip_html: '%{name} dnja %{date} napórany'
+    changeset_comments:
+      page:
+        when: Cas
+        comment: Komentar
+    diary_comments:
+      page:
+        post: Powěsć
     suspended:
       title: Konto wupowěźone
       heading: Konto wupowěźone

@@ -201,12 +201,6 @@ lv:
       external auth: Ārējā autentifikācija
       openid:
         link text: Kas tas ir?
-      public editing:
-        heading: Publiska rediģēšana
-        enabled: Ieslēgts. Nav anonīms, un var rediģēt datus.
-        enabled link text: Kas tas ir?
-        disabled: Atspējots un nevar labot datus, visi iepriekšējie labojumi ir anonīmi.
-        disabled link text: Kāpēc nevar rediģēt?
       contributor terms:
         heading: Devuma noteikumi
         agreed: Tu esi pieņēmis jaunos Veidotāju Noteikumus.
@@ -256,6 +250,8 @@ lv:
           france: Francija
           italy: Itālija
           rest_of_world: Pārējā pasaule
+      update:
+        terms accepted: Paldies, ka pieņēmāt jaunos devuma noteikumus!
   browse:
     version: Versija
     in_changeset: Izmaiņu kopa
@@ -346,7 +342,6 @@ lv:
     index:
       title: Izmaiņu kopas
       title_user: Lietotāja %{user} izmaiņu kopas
-      title_friend: Tavu draugu izmaiņu kopas
       title_nearby: Tuvējo lietotāju izmaiņu kopas
       empty: Nav atrasta neviena izmaiņu kopa.
       empty_area: Šajā apgabalā nav izmaiņu kopu.
@@ -392,17 +387,12 @@ lv:
     popup:
       your location: Jūsu atrašanās vieta
       nearby mapper: Kartētājs tuvējā apkārtnē
-      friend: Draugs
     show:
       title: Mans vadības panelis
       no_home_location_html: '%{edit_profile_link} un iestatiet savu atrašanās vietu,
         lai redzētu tuvumā esošos lietotājus.'
-      my friends: Mani draugi
-      no friends: Tu  vēl neesi pievienojis draugus.
       nearby users: Citi tuvumā esoši lietotāji
       no nearby users: Nav citu lietotāju kas tuvumā kartētu.
-      friends_changesets: Skatīt visas draugu izmaiņu kopas
-      friends_diaries: Skatīt visus draugu dienasgrāmatu ierakstus
       nearby_changesets: Skatīt visas tuvējo lietotāju izmaiņu kopas
       nearby_diaries: Skatīt visus tuvējo lietotāju dienasgrāmatu ierakstus
   diary_entries:
@@ -413,7 +403,6 @@ lv:
       use_map_link: Izmantot karti
     index:
       title: Lietotāju dienasgrāmatas
-      title_friends: Draugu dienasgrāmatas
       title_nearby: Tuvumā esošu lietotāju dienasgrāmatas
       user_title: '%{user} dienasgrāmata'
       in_language_title: Dienasgrāmatas ieraksti valodā %{language}
@@ -469,23 +458,6 @@ lv:
       all:
         title: OpenStreetMap dienasgrāmatu ieraksti
         description: Pēdējie dienasgrāmatu ieraksti no OpenStreetMap lietotājiem
-  diary_comments:
-    page:
-      post: Publicēt
-      when: Kad
-      comment: Komentārs
-  friendships:
-    make_friend:
-      heading: Pievienot %{user} kā draugu?
-      button: Pievienot kā draugu
-      success: '%{name} tagad ir jūsu draugs.'
-      failed: Atvainojiet, neizdevās pievienot %{name} kā draugu.
-      already_a_friend: Jūs jau esat draugos ar %{name}.
-    remove_friend:
-      heading: Noņemt %{user} kā draugu?
-      button: Atcelt draudzību
-      success: '%{name} tika izņemts no jūsu draugiem.'
-      not_a_friend: '%{name} nav no jūsu draugs.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1213,12 +1185,9 @@ lv:
       header: 'OpenStreetMap lietotājs %{from_user} ir jums nosūtījis ziņu ar tematu
         %{subject}:'
       footer_html: Tu arī vari izlasīt ziņojumu iekš %{readurl} un atbildēt iekš %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Sveiks, %{to_user}
-      subject: '[OpenStreetMap] %{user} pievienoja Jūs kā draugu'
-      had_added_you: '%{user} pievienoja jūs kā draugu OpenStreetMap.'
       see_their_profile: Jūs variet redzēt viņu profilu %{userurl}.
-      befriend_them: Jūs variet viņus arī pievienot par draugiem %{befriendurl}.
     gpx_failure:
       failed_to_import: 'imports neizdevās. Kļūda:'
       subject: '[OpenStreetMap] GPX importēšanas kļūme'
@@ -1784,13 +1753,14 @@ lv:
     offline:
       heading: GPX bezsaistes glabātuve
       message: GPX datņu glabātuve un augšupielādes sistēma pašlaik nav pieejama.
-    georss:
-      title: OpenStreetMap GPS Trases
-    description:
-      description_with_count:
-        one: GPX fails ar %{count} punktu no %{user}
-        other: GPX fails ar %{count} punktiem no %{user}
-      description_without_count: GPX fails no %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS Trases
+      description:
+        description_with_count:
+          one: GPX fails ar %{count} punktu no %{user}
+          other: GPX fails ar %{count} punktiem no %{user}
+        description_without_count: GPX fails no %{user}
   application:
     require_cookies:
       cookies_needed: Izskatā, ka jums cookies ir atslēgti, pirms turpināt, lūdzu,
@@ -1834,7 +1804,6 @@ lv:
       display name description: Vārds, kas tiks rādīts publiski. Jūs to vēlāk varēsiet
         izmainīt iestatījumos.
       continue: Reģistrēties
-      terms accepted: Paldies, ka pieņēmāt jaunos devuma noteikumus!
       use external auth: Alternatīvi, varat izmantot trešās puses 'ielogošanās' opciju
     no_such_user:
       title: Neesošs lietotājs
@@ -1860,8 +1829,6 @@ lv:
       edits: Labojumi
       traces: Trases
       notes: Kartes piezīmes
-      remove as friend: Atcelt draudzību
-      add as friend: Pievienot kā draugu
       mapper since: 'Kartētājs kopš:'
       ct status: 'Dalībnieka noteikumi:'
       ct undecided: Nav izlēmis
@@ -1913,6 +1880,13 @@ lv:
       user:
         summary_html: '%{name} izveidoja no %{ip_address} @ %{date}'
         summary_no_ip_html: '%{name} izveidoja @ %{date}'
+    changeset_comments:
+      page:
+        when: Kad
+        comment: Komentārs
+    diary_comments:
+      page:
+        post: Publicēt
     suspended:
       title: Konta darbība apturēta
       heading: Konta darbība apturēta

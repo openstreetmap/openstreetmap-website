@@ -155,13 +155,6 @@ bs:
       current email address: Trenutna adresa e-pošte
       openid:
         link text: Šta je ovo?
-      public editing:
-        heading: 'Javno uređivanje:'
-        enabled: Omogućeno. Nije anonimno i mogu se uređivati podaci.
-        enabled link text: Šta je ovo?
-        disabled: Onemogućno i ne mogu se uređivati podaci, sva prethodna uređivanja
-          su anonimna.
-        disabled link text: Zašto ja ne mogu uređivati?
       contributor terms:
         heading: Uslovi za doprinosioce
         agreed: Prihvatili ste nove uslove za doprinosioce.
@@ -192,6 +185,8 @@ bs:
           france: Francuska
           italy: Italija
           rest_of_world: Ostatak svijeta
+      update:
+        terms accepted: Hvala za prihvatanje novih uslova za doprinosioce!
   browse:
     version: Verzija
     in_changeset: Skup izmjena
@@ -252,7 +247,6 @@ bs:
     index:
       title: Setovi promjena
       title_user: Setovi promjena od %{user}
-      title_friend: Setovi promjena vaših prijatelja
       title_nearby: Setovi promjena obližnjih korisnika
       load_more: Učitaj više
       feed:
@@ -284,14 +278,10 @@ bs:
     popup:
       your location: Vaša lokacija
       nearby mapper: Obližnji maper
-      friend: Prijatelj
     show:
-      no friends: Niste dodali nijednog prijatelja.
       nearby users: Drugi obližnji korisnici
       no nearby users: Još uvijek nema drugih korisnika koji ucrtavaju na kartu u
         blizini.
-      friends_changesets: promjena spiska prijatelja
-      friends_diaries: unosi u dnevnik prijatelja
       nearby_changesets: promjene spiska obližnjih korisnika
       nearby_diaries: unosi u dnevnik obližnjih korisnika
   diary_entries:
@@ -302,7 +292,6 @@ bs:
       use_map_link: korisititi kartu
     index:
       title: Dnevnici korisnika
-      title_friends: Dnevnici prijatelja
       title_nearby: Dnevnici obližnjih korisnika
       user_title: Dnevnik od %{user}
       in_language_title: 'Unosi u dnevnik na jeziku: %{language}'
@@ -352,23 +341,6 @@ bs:
       all:
         title: Unosi u OpenStreetMap dnevniku
         description: Nedavni unosi u dnevnik OpenStreetMap korisnika
-  diary_comments:
-    page:
-      post: Post
-      when: Kada
-      comment: Komentar
-  friendships:
-    make_friend:
-      heading: Dodati %{user} kao prijatelja?
-      button: Dodati kao prijatelja
-      success: '%{name} je sada Vaš prijatelj!'
-      failed: Žao mi je, nije uspjelo dodavanje %{name} kao prijatelja.
-      already_a_friend: Već ste prijatelj sa %{name}.
-    remove_friend:
-      heading: Ukloniti %{user} iz prijatelja?
-      button: Ukloniti prijatelja
-      success: '%{name} je uklonjen iz prijatelja.'
-      not_a_friend: '%{name} nije jedan od Vaših prijatelja.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -866,11 +838,8 @@ bs:
       hi: Zdravo %{to_user},
       header: '%{from_user} Vam je poslao poruku preko OpenStreetMap sa predmetom
         %{subject}:'
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} Vas je dodao kao prijatelja'
-      had_added_you: '%{user} Vas je dodao kao prijatelja na OpenStreetMap-u.'
+    follow_notification:
       see_their_profile: Možete vidjeti njihov profil na %{userurl}.
-      befriend_them: Takođe, možete ih dodati kao prijatelja na %{befriendurl}.
     gpx_failure:
       failed_to_import: 'Import nije uspio. Evo greške:'
       subject: '[OpenStreetMap] GPX Import nije uspio'
@@ -1268,7 +1237,6 @@ bs:
       display name description: Vaše javno prikazano korisničko ime. Možete ga promjeniti
         kasnije u postavkama.
       continue: Otvorite račun
-      terms accepted: Hvala za prihvatanje novih uslova za doprinosioce!
     no_such_user:
       title: Taj korisnik ne postoji.
       heading: Korisnik %{user} ne postoji
@@ -1287,8 +1255,6 @@ bs:
       diary: dnevnik
       edits: uređivanja
       traces: trase
-      remove as friend: ukloniti kao prijatelja
-      add as friend: dodati prijatelja
       mapper since: 'Maper od:'
       ct status: 'Uslovi za doprinosioce:'
       ct undecided: Neodlučen
@@ -1339,6 +1305,13 @@ bs:
       user:
         summary_html: '%{name} napravljeno sa %{ip_address} dana %{date}'
         summary_no_ip_html: '%{name} napravljeno %{date}'
+    changeset_comments:
+      page:
+        when: Kada
+        comment: Komentar
+    diary_comments:
+      page:
+        post: Post
     suspended:
       title: Račun suspendiran
       heading: Račun suspendiran

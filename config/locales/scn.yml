@@ -220,13 +220,6 @@ scn:
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: zoccu è chissu?
-      public editing:
-        heading: Canciu pùbblicu
-        enabled: Abbilitati. Senza anònimu e cû pirmisu pi canciari i dati.
-        enabled link text: zoccu è chissu?
-        disabled: Disabbilitati e senza u pirmisu pi canciari i dati, tutti i canci
-          d’avanti sunnu anònimi.
-        disabled link text: picchì nun pozzu fari canci?
       contributor terms:
         heading: Règuli pî cuntribbuti
         agreed: Accittasti i règuli pî cuntribbuti novi.
@@ -267,6 +260,9 @@ scn:
           france: Francia
           italy: Italia
           rest_of_world: Restu dû munnu
+      update:
+        terms accepted: T'arringrazziamu d'aviri accittatu li cunnizzioni di cuntribbuzzioni
+          novi!
       terms_declined_flash:
         terms_declined_link: sta pàggina wiki
   browse:
@@ -367,7 +363,6 @@ scn:
     index:
       title: Gruppi di canciamenti
       title_user: Gruppi di canciamenti di %{user}
-      title_friend: Gruppi di canciamenti dî tò amici
       title_nearby: Gruppi di canciamenti di l'utenti vicini
       empty: Nuḍḍu gruppu di canciamenti attruvatu.
       empty_area: Nuḍḍu gruppu di canciamenti nta st’ària.
@@ -411,16 +406,11 @@ scn:
     popup:
       your location: La tò pusizzioni
       nearby mapper: Mappaturi vicinu
-      friend: Amicu
     show:
       edit_your_profile: Cancia lu tò prufilu
-      my friends: Li mè amici
-      no friends: Ancora nun agghiuncisti nuḍḍu amicu.
       nearby users: Àutri utenti vicinu
       no nearby users: Ancora nun ci sunnu àutri utenti chi si dichiàranu mappatura
         ccà vicinu.
-      friends_changesets: gruppa di canciamenti di l'amici
-      friends_diaries: vuci dî diarî di l'amici
       nearby_changesets: gruppa di canciamenti di l'utenti vicini
       nearby_diaries: vuci dî diarî di l'utenti vicini
   diary_entries:
@@ -431,7 +421,6 @@ scn:
       use_map_link: Usa la cartina
     index:
       title: Diarî di l'utenti
-      title_friends: Diarî di l'amici
       title_nearby: Diarî di l'utenti vicini
       user_title: Diariu di %{user}
       in_language_title: Vuci dô diariu n %{language}
@@ -483,23 +472,6 @@ scn:
       all:
         title: Vuci dû diariu d'OpenStreetMap
         description: Vuci ricenti dû diariu di l'utenti d'OpenStreetMap
-  diary_comments:
-    page:
-      post: Missaggiu
-      when: Quannu
-      comment: Cummentu
-  friendships:
-    make_friend:
-      heading: Agghiùnciri a %{user} comu amicu?
-      button: Agghiunci comu amicu
-      success: Ora %{name} è amicu tò!
-      failed: Purtroppu la junta di %{name} comu amicu nun arriniscìu.
-      already_a_friend: Già siti amici cu %{name}.
-    remove_friend:
-      heading: Livari %{user} di l'amici?
-      button: Leva di l'amici
-      success: '%{name} fu livatu dî tò amici.'
-      not_a_friend: '%{name} nun è amicu tò.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1074,14 +1046,10 @@ scn:
         cu l''oggettu %{subject}:'
       footer_html: Poi lèggiri lu missaggiu macari nta %{readurl} e ci poi arrispùnniri
         di %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Salutamu %{to_user},
-      subject: '[OpenStreetMap] %{user} t''agghiuncìu comu amicu'
-      had_added_you: '%{user} t''agghiuncìu comu amicu nta OpenStreetMap.'
       see_their_profile: Poi taliari lu sò prufilu nta %{userurl}.
       see_their_profile_html: Poi taliari lu sò prufilu nta %{userurl}.
-      befriend_them: Lu poi macari agghiùnciri comu amicu nta %{befriendurl}.
-      befriend_them_html: Lu poi macari agghiùnciri comu amicu nta %{befriendurl}.
     gpx_failure:
       hi: Salutamu %{to_user},
       failed_to_import: 'nun arriniscìu a èssiri mpurtatu. Ccà c''è l''erruri:'
@@ -1616,13 +1584,14 @@ scn:
       heading: Mimurizzazzioni dî GPX fora sirvizziu
       message: Lu sistema di mimurizzazzioni e carricamentu dî file GPX pi com'ora
         è fora sirvizziu.
-    georss:
-      title: Tracciati GPS d'OpenStreetMap
-    description:
-      description_with_count:
-        one: File GPX cu %{count} punti di %{user}
-        other: File GPX cu %{count} punti di %{user}
-      description_without_count: File GPX di %{user}
+    feeds:
+      show:
+        title: Tracciati GPS d'OpenStreetMap
+      description:
+        description_with_count:
+          one: File GPX cu %{count} punti di %{user}
+          other: File GPX cu %{count} punti di %{user}
+        description_without_count: File GPX di %{user}
   application:
     require_cookies:
       cookies_needed: Pari chi hai li cookie disattivati; pi favuri attìvali ntô tò
@@ -1680,8 +1649,6 @@ scn:
       display name description: Lu tò nomu d'utenti comu veni ammustratu pubblicamenti.
         Appoi lu poi canciari ntê prifirenzi.
       continue: Scrìviti
-      terms accepted: T'arringrazziamu d'aviri accittatu li cunnizzioni di cuntribbuzzioni
-        novi!
       use external auth: O puru, trasi pi menzu di na terza parti
     no_such_user:
       title: St'utenti nun c'è
@@ -1707,8 +1674,6 @@ scn:
       edits: Canciamenti
       traces: Tracciati
       notes: Noti dâ cartina
-      remove as friend: Leva di l'amici
-      add as friend: Agghiunci a l'amici
       mapper since: 'Mappaturi di:'
       ct status: 'Cunnizzioni di cuntribbuzzioni:'
       ct undecided: Nun dicisi
@@ -1760,6 +1725,13 @@ scn:
       user:
         summary_html: '%{name} criatu di %{ip_address} lu %{date}'
         summary_no_ip_html: '%{name} criatu lu %{date}'
+    changeset_comments:
+      page:
+        when: Quannu
+        comment: Cummentu
+    diary_comments:
+      page:
+        post: Missaggiu
     suspended:
       title: Cuntu suspinnutu
       heading: Cuntu suspinnutu

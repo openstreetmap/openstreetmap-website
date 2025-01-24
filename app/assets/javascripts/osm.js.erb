@@ -58,16 +58,16 @@ OSM = {
     return url;
   },
 
-  params: function(search) {
+  params: function (search) {
     var params = {};
 
-    search = (search || window.location.search).replace('?', '').split(/&|;/);
+    search = (search || window.location.search).replace("?", "").split(/&|;/);
 
     for (var i = 0; i < search.length; ++i) {
       var pair = search[i],
-        j = pair.indexOf('='),
-        key = pair.slice(0, j),
-        val = pair.slice(++j);
+          j = pair.indexOf("="),
+          key = pair.slice(0, j),
+          val = pair.slice(++j);
 
       try {
         params[key] = decodeURIComponent(val);
@@ -80,7 +80,7 @@ OSM = {
   },
 
   mapParams: function (search) {
-    var params = OSM.params(search), mapParams = {}, loc, match;
+    var params = OSM.params(search), mapParams = {}, match;
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
@@ -90,16 +90,18 @@ OSM = {
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
     if (params.node) {
-      mapParams.object = {type: 'node', id: parseInt(params.node)};
+      mapParams.object = { type: "node", id: parseInt(params.node, 10) };
     } else if (params.way) {
-      mapParams.object = {type: 'way', id: parseInt(params.way)};
+      mapParams.object = { type: "way", id: parseInt(params.way, 10) };
     } else if (params.relation) {
-      mapParams.object = {type: 'relation', id: parseInt(params.relation)};
+      mapParams.object = { type: "relation", id: parseInt(params.relation, 10) };
     } else if (params.note) {
-      mapParams.object = {type: 'note', id: parseInt(params.note)};
+      mapParams.object = { type: "note", id: parseInt(params.note, 10) };
     }
 
     var hash = OSM.parseHash(location.hash);
+
+    const loc = Cookies.get("_osm_location")?.split("|");
 
     // Decide on a map starting position. Various ways of doing this.
     if (hash.center) {
@@ -107,7 +109,7 @@ OSM = {
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
     } else if (params.bbox) {
-      var bbox = params.bbox.split(',');
+      var bbox = params.bbox.split(",");
       mapParams.bounds = L.latLngBounds(
         [parseFloat(bbox[1]), parseFloat(bbox[0])],
         [parseFloat(bbox[3]), parseFloat(bbox[2])]);
@@ -118,29 +120,27 @@ OSM = {
     } else if (params.mlon && params.mlat) {
       mapParams.lon = parseFloat(params.mlon);
       mapParams.lat = parseFloat(params.mlat);
-      mapParams.zoom = parseInt(params.zoom || 12);
-    } else if (loc = Cookies.get('_osm_location')) {
-      loc = loc.split("|");
+      mapParams.zoom = parseInt(params.zoom || 12, 10);
+    } else if (loc) {
       mapParams.lon = parseFloat(loc[0]);
       mapParams.lat = parseFloat(loc[1]);
-      mapParams.zoom = parseInt(loc[2]);
+      mapParams.zoom = parseInt(loc[2], 10);
     } else if (OSM.home) {
       mapParams.lon = OSM.home.lon;
       mapParams.lat = OSM.home.lat;
       mapParams.zoom = 10;
     } else if (OSM.location) {
       mapParams.bounds = L.latLngBounds(
-        [OSM.location.minlat,
-         OSM.location.minlon],
-        [OSM.location.maxlat,
-         OSM.location.maxlon]);
+        [OSM.location.minlat, OSM.location.minlon],
+        [OSM.location.maxlat, OSM.location.maxlon]
+      );
     } else {
       mapParams.lon = -0.1;
       mapParams.lat = 51.5;
-      mapParams.zoom = parseInt(params.zoom || 5);
+      mapParams.zoom = parseInt(params.zoom || 5, 10);
     }
 
-    mapParams.layers = hash.layers || (loc && loc[3]) || '';
+    mapParams.layers = hash.layers || (loc && loc[3]) || "";
 
     var scale = parseFloat(params.scale);
     if (scale > 0) {
@@ -150,20 +150,20 @@ OSM = {
     return mapParams;
   },
 
-  parseHash: function(hash) {
+  parseHash: function (hash) {
     var args = {};
 
-    var i = hash.indexOf('#');
+    var i = hash.indexOf("#");
     if (i < 0) {
       return args;
     }
 
     hash = Qs.parse(hash.slice(i + 1));
 
-    var map = (hash.map || '').split('/'),
-      zoom = parseInt(map[0], 10),
-      lat = parseFloat(map[1]),
-      lon = parseFloat(map[2]);
+    var map = (hash.map || "").split("/"),
+        zoom = parseInt(map[0], 10),
+        lat = parseFloat(map[1]),
+        lon = parseFloat(map[2]);
 
     if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
       args.center = new L.LatLng(lat, lon);
@@ -177,7 +177,7 @@ OSM = {
     return args;
   },
 
-  formatHash: function(args) {
+  formatHash: function (args) {
     var center, zoom, layers;
 
     if (args instanceof L.Map) {
@@ -187,44 +187,44 @@ OSM = {
     } else {
       center = args.center || L.latLng(args.lat, args.lon);
       zoom = args.zoom;
-      layers = args.layers || '';
+      layers = args.layers || "";
     }
 
     center = center.wrap();
-    layers = layers.replace('M', '');
+    layers = layers.replace("M", "");
 
     var precision = OSM.zoomPrecision(zoom),
-      hash = '#map=' + zoom +
-        '/' + center.lat.toFixed(precision) +
-        '/' + center.lng.toFixed(precision);
+        hash = "#map=" + zoom +
+          "/" + center.lat.toFixed(precision) +
+          "/" + center.lng.toFixed(precision);
 
     if (layers) {
-      hash += '&layers=' + layers;
+      hash += "&layers=" + layers;
     }
 
     return hash;
   },
 
-  zoomPrecision: function(zoom) {
+  zoomPrecision: function (zoom) {
     var pixels = Math.pow(2, 8 + zoom);
     var degrees = 180;
     return Math.ceil(Math.log10(pixels / degrees));
   },
 
-  locationCookie: function(map) {
+  locationCookie: function (map) {
     var center = map.getCenter().wrap(),
-      zoom = map.getZoom(),
-      precision = OSM.zoomPrecision(zoom);
-    return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, map.getLayersCode()].join('|');
+        zoom = map.getZoom(),
+        precision = OSM.zoomPrecision(zoom);
+    return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, map.getLayersCode()].join("|");
   },
 
-  distance: function(latlng1, latlng2) {
+  distance: function (latlng1, latlng2) {
     var lat1 = latlng1.lat * Math.PI / 180,
-      lng1 = latlng1.lng * Math.PI / 180,
-      lat2 = latlng2.lat * Math.PI / 180,
-      lng2 = latlng2.lng * Math.PI / 180,
-      latdiff = lat2 - lat1,
-      lngdiff = lng2 - lng1;
+        lng1 = latlng1.lng * Math.PI / 180,
+        lat2 = latlng2.lat * Math.PI / 180,
+        lng2 = latlng2.lng * Math.PI / 180,
+        latdiff = lat2 - lat1,
+        lngdiff = lng2 - lng1;
 
     return 6372795 * 2 * Math.asin(
       Math.sqrt(

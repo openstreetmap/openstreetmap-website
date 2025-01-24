@@ -304,10 +304,7 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access(_exception)
-    if doorkeeper_token
-      set_locale
-      report_error t("oauth.permissions.missing"), :forbidden
-    elsif current_user
+    if current_user
       set_locale
       respond_to do |format|
         format.html { redirect_to :controller => "/errors", :action => "forbidden" }
@@ -354,10 +351,4 @@ class ApplicationController < ActionController::Base
 
     referer&.to_s
   end
-
-  def scope_enabled?(scope)
-    doorkeeper_token&.includes_scope?(scope)
-  end
-
-  helper_method :scope_enabled?
 end
