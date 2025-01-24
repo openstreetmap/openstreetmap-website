@@ -62,11 +62,11 @@ OpenStreetMap::Application.routes.draw do
     put "relation/:id" => "relations#update", :id => /\d+/
     delete "relation/:id" => "relations#delete", :id => /\d+/
     get "relations" => "relations#index"
-
-    get "map" => "map#index"
   end
 
   namespace :api, :path => "api/0.6" do
+    resource :map, :only => :show
+
     resources :tracepoints, :path => "trackpoints", :only => :index
 
     resources :users, :only => :index
