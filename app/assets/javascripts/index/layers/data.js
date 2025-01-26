@@ -63,6 +63,17 @@ OSM.initializeDataLayer = function (map) {
           .click(add)));
   }
 
+  function displayLoadError(message) {
+    $("#browse_status").html(
+      $("<div class='p-3'>").append(
+        $("<h2 class='flex-grow-1 text-break'>")
+          .text(I18n.t("browse.start_rjs.load_data")),
+        $("<div>").append(
+          $("<div class='d-flex'>").append(
+            $("<p class='alert alert-warning'>")
+              .text(I18n.t("browse.start_rjs.feature_error", { message: message }))))));
+  }
+
   var dataLoader;
 
   function getData() {
@@ -114,6 +125,18 @@ OSM.initializeDataLayer = function (map) {
         }
 
         dataLoader = null;
+      },
+      error: function (XMLHttpRequest, textStatus) {
+        dataLoader = null;
+        if (textStatus === "abort") { return; }
+
+        if (XMLHttpRequest.status === 400 && XMLHttpRequest.responseText) {
+          displayLoadError(XMLHttpRequest.responseText);
+        } else if (XMLHttpRequest.statusText) {
+          displayLoadError(XMLHttpRequest.statusText);
+        } else {
+          displayLoadError(String(XMLHttpRequest.status));
+        }
       }
     });
   }
