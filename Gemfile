@@ -130,9 +130,6 @@ gem "ffi-libarchive"
 gem "gd2-ffij", ">= 0.4.0"
 gem "marcel"
 
-# Used for browser detection
-gem "browser", "< 6" # for ruby 3.1 support
-
 # Used for S3 object storage
 gem "aws-sdk-s3"
 
