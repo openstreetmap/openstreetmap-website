@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var application_data = $("head").data();
+  const application_data = $("head").data();
 
   if (application_data.oauthToken) {
     $.ajaxPrefilter(function (options) {

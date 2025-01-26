@@ -40,7 +40,7 @@ OSM.initializeDataLayer = function (map) {
   });
 
   function updateData() {
-    var bounds = map.getBounds();
+    const bounds = map.getBounds();
     if (!loadedBounds || !loadedBounds.contains(bounds)) {
       getData();
     }
@@ -78,8 +78,8 @@ OSM.initializeDataLayer = function (map) {
   }
 
   function getData() {
-    var bounds = map.getBounds();
-    var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
+    const bounds = map.getBounds();
+    const url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
 
     /*
      * Modern browsers are quite happy showing far more than 100 features in
@@ -95,7 +95,7 @@ OSM.initializeDataLayer = function (map) {
       success: function (data) {
         dataLayer.clearLayers();
 
-        var features = dataLayer.buildFeatures(data);
+        const features = dataLayer.buildFeatures(data);
 
         function addFeatures() {
           $("#browse_status").empty();

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var marker, map;
+  let marker, map;
 
   function setLocation(e) {
     const latlng = e.latlng.wrap();
@@ -21,9 +21,9 @@ $(document).ready(function () {
     $("#map").show();
     $("#usemap").hide();
 
-    var params = $("#map").data();
-    var centre = [params.lat, params.lon];
-    var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
+    const params = $("#map").data();
+    const centre = [params.lat, params.lon];
+    const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
     map = L.map("map", {
       attributionControl: false,

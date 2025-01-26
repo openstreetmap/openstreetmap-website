@@ -1,8 +1,8 @@
 OSM.Note = function (map) {
-  var content = $("#sidebar_content"),
-      page = {};
+  const content = $("#sidebar_content"),
+        page = {};
 
-  var noteIcons = {
+  const noteIcons = {
     "new": L.icon({
       iconUrl: OSM.NEW_NOTE_MARKER,
       iconSize: [25, 40],
@@ -24,9 +24,9 @@ OSM.Note = function (map) {
     OSM.loadSidebarContent(path, function () {
       initialize(path, id);
 
-      var data = $(".details").data();
+      const data = $(".details").data();
       if (!data) return;
-      var latLng = L.latLng(data.coordinates.split(","));
+      const latLng = L.latLng(data.coordinates.split(","));
       if (!map.getBounds().contains(latLng)) moveToNote();
     });
   };
@@ -39,9 +39,9 @@ OSM.Note = function (map) {
   function initialize(path, id) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
-      var data = $(e.target).data();
-      var name = $(e.target).attr("name");
-      var ajaxSettings = {
+      const data = $(e.target).data();
+      const name = $(e.target).attr("name");
+      const ajaxSettings = {
         url: data.url,
         type: data.method,
         oauth: true,
@@ -74,7 +74,7 @@ OSM.Note = function (map) {
 
     content.find("textarea").val("").trigger("input");
 
-    var data = $(".details").data();
+    const data = $(".details").data();
 
     if (data) {
       map.addObject({
@@ -87,8 +87,8 @@ OSM.Note = function (map) {
   }
 
   function updateButtons() {
-    var resolveButton = content.find("button[name='close']");
-    var commentButton = content.find("button[name='comment']");
+    const resolveButton = content.find("button[name='close']");
+    const commentButton = content.find("button[name='comment']");
 
     content.find("button[name]").prop("disabled", false);
     if (content.find("textarea").val() === "") {
@@ -100,9 +100,9 @@ OSM.Note = function (map) {
   }
 
   function moveToNote() {
-    var data = $(".details").data();
+    const data = $(".details").data();
     if (!data) return;
-    var latLng = L.latLng(data.coordinates.split(","));
+    const latLng = L.latLng(data.coordinates.split(","));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.withoutMoveListener(function () {
