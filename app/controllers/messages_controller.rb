@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
 
   before_action :lookup_user, :only => [:new, :create]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :create, :mark, :destroy]
+  before_action :check_database_writable, :only => [:new, :create, :destroy]
 
   allow_thirdparty_images :only => [:new, :create, :show]
 
@@ -71,47 +71,6 @@ class MessagesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
-  end
-
-  # Set the message as being read or unread.
-  def mark
-    @message = current_user.messages.unscope(:where => :muted).find(params[:message_id])
-    if params[:mark] == "unread"
-      message_read = false
-      notice = t ".as_unread"
-    else
-      message_read = true
-      notice = t ".as_read"
-    end
-    @message.message_read = message_read
-    if @message.save
-      flash[:notice] = notice
-      if @message.muted?
-        redirect_to messages_muted_inbox_path, :status => :see_other
-      else
-        redirect_to messages_inbox_path, :status => :see_other
-      end
-    end
-  rescue ActiveRecord::RecordNotFound
-    @title = t "messages.no_such_message.title"
-    render :action => "no_such_message", :status => :not_found
-  end
-
-  # Moves message into Inbox by unsetting the muted-flag
-  def unmute
-    message = current_user.muted_messages.find(params[:message_id])
-
-    if message.unmute
-      flash[:notice] = t(".notice")
-    else
-      flash[:error] = t(".error")
-    end
-
-    if current_user.muted_messages.none?
-      redirect_to messages_inbox_path
-    else
-      redirect_to messages_muted_inbox_path
-    end
   end
 
   private
