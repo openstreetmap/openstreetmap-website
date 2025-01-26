@@ -1,5 +1,5 @@
 OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, changeCallback) {
-  var endpoint = {};
+  const endpoint = {};
 
   endpoint.marker = L.marker([0, 0], {
     icon: L.icon({
@@ -52,7 +52,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
   function inputChangeListener(e) {
     // make text the same in both text boxes
-    var value = e.target.value;
+    const value = e.target.value;
     endpoint.setValue(value);
   }
 
@@ -61,8 +61,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     delete endpoint.geocodeRequest;
     input.removeClass("is-invalid");
 
-    var coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
-    var latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
+    const coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
+    const latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
 
     if (latlng && endpoint.cachedReverseGeocode && endpoint.cachedReverseGeocode.latlng.equals(latlng)) {
       setLatLng(latlng);
@@ -92,8 +92,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   };
 
   endpoint.swapCachedReverseGeocodes = function (otherEndpoint) {
-    var g0 = endpoint.cachedReverseGeocode;
-    var g1 = otherEndpoint.cachedReverseGeocode;
+    const g0 = endpoint.cachedReverseGeocode;
+    const g1 = otherEndpoint.cachedReverseGeocode;
     delete endpoint.cachedReverseGeocode;
     delete otherEndpoint.cachedReverseGeocode;
     if (g0) otherEndpoint.cachedReverseGeocode = g0;

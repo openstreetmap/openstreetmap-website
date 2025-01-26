@@ -1,11 +1,11 @@
 OSM.Query = function (map) {
-  var url = OSM.OVERPASS_URL,
-      credentials = OSM.OVERPASS_CREDENTIALS,
-      queryButton = $(".control-query .control-button"),
-      uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
-      marker;
+  const url = OSM.OVERPASS_URL,
+        credentials = OSM.OVERPASS_CREDENTIALS,
+        queryButton = $(".control-query .control-button"),
+        uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
+  let marker;
 
-  var featureStyle = {
+  const featureStyle = {
     color: "#FF6200",
     weight: 4,
     opacity: 1,
@@ -37,13 +37,13 @@ OSM.Query = function (map) {
   });
 
   function showResultGeometry() {
-    var geometry = $(this).data("geometry");
+    const geometry = $(this).data("geometry");
     if (geometry) map.addLayer(geometry);
     $(this).addClass("selected");
   }
 
   function hideResultGeometry() {
-    var geometry = $(this).data("geometry");
+    const geometry = $(this).data("geometry");
     if (geometry) map.removeLayer(geometry);
     $(this).removeClass("selected");
   }
@@ -54,7 +54,7 @@ OSM.Query = function (map) {
 
   function interestingFeature(feature) {
     if (feature.tags) {
-      for (var key in feature.tags) {
+      for (const key in feature.tags) {
         if (uninterestingTags.indexOf(key) < 0) {
           return true;
         }
@@ -65,19 +65,18 @@ OSM.Query = function (map) {
   }
 
   function featurePrefix(feature) {
-    var tags = feature.tags;
-    var prefix = "";
+    const tags = feature.tags;
+    let prefix = "";
 
     if (tags.boundary === "administrative" && tags.admin_level) {
       prefix = I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
         defaultValue: I18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
       });
     } else {
-      var prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
-      var key, value;
+      const prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
 
-      for (key in tags) {
-        value = tags[key];
+      for (const key in tags) {
+        const value = tags[key];
 
         if (prefixes[key]) {
           if (prefixes[key][value]) {
@@ -86,12 +85,12 @@ OSM.Query = function (map) {
         }
       }
 
-      for (key in tags) {
-        value = tags[key];
+      for (const key in tags) {
+        const value = tags[key];
 
         if (prefixes[key]) {
-          var first = value.slice(0, 1).toUpperCase(),
-              rest = value.slice(1).replace(/_/g, " ");
+          const first = value.slice(0, 1).toUpperCase(),
+                rest = value.slice(1).replace(/_/g, " ");
 
           return first + rest;
         }
@@ -106,8 +105,8 @@ OSM.Query = function (map) {
   }
 
   function featureName(feature) {
-    var tags = feature.tags,
-        locales = OSM.preferred_languages;
+    const tags = feature.tags,
+          locales = OSM.preferred_languages;
 
     for (const locale of locales) {
       if (tags["name:" + locale]) {
@@ -128,7 +127,7 @@ OSM.Query = function (map) {
   }
 
   function featureGeometry(feature) {
-    var geometry;
+    let geometry;
 
     if (feature.type === "node" && feature.lat && feature.lon) {
       geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
@@ -148,7 +147,7 @@ OSM.Query = function (map) {
   }
 
   function runQuery(latlng, radius, query, $section, merge, compare) {
-    var $ul = $section.find("ul");
+    const $ul = $section.find("ul");
 
     $ul.empty();
     $section.show();
@@ -168,13 +167,13 @@ OSM.Query = function (map) {
     })
       .then(response => response.json())
       .then(function (results) {
-        var elements;
+        let elements;
 
         $section.find(".loader").hide();
 
         if (merge) {
           elements = results.elements.reduce(function (hash, element) {
-            var key = element.type + element.id;
+            const key = element.type + element.id;
             if ("geometry" in element) {
               delete element.bounds;
             }
@@ -196,7 +195,7 @@ OSM.Query = function (map) {
         for (const element of elements) {
           if (!interestingFeature(element)) continue;
 
-          var $li = $("<li>")
+          const $li = $("<li>")
             .addClass("list-group-item list-group-item-action")
             .text(featurePrefix(element) + " ")
             .appendTo($ul);
@@ -236,12 +235,12 @@ OSM.Query = function (map) {
   }
 
   function compareSize(feature1, feature2) {
-    var width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
-        height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
-        area1 = width1 * height1,
-        width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-        height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-        area2 = width2 * height2;
+    const width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
+          height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
+          area1 = width1 * height1,
+          width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+          height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+          area2 = width2 * height2;
 
     return area1 - area2;
   }
@@ -267,20 +266,20 @@ OSM.Query = function (map) {
    * for each object.
    */
   function queryOverpass(lat, lng) {
-    var latlng = L.latLng(lat, lng).wrap(),
-        bounds = map.getBounds().wrap(),
-        zoom = map.getZoom(),
-        bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
-          .map(c => OSM.cropLocation(c, zoom))
-          .join(),
-        geombbox = "geom(" + bbox + ");",
-        radius = 10 * Math.pow(1.5, 19 - zoom),
-        around = "(around:" + radius + "," + lat + "," + lng + ")",
-        nodes = "node" + around,
-        ways = "way" + around,
-        relations = "relation" + around,
-        nearby = "(" + nodes + ";" + ways + ";);out tags " + geombbox + relations + ";out " + geombbox,
-        isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids " + geombbox + "relation(pivot.a);out tags bb;";
+    const latlng = L.latLng(lat, lng).wrap(),
+          bounds = map.getBounds().wrap(),
+          zoom = map.getZoom(),
+          bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
+            .map(c => OSM.cropLocation(c, zoom))
+            .join(),
+          geombbox = "geom(" + bbox + ");",
+          radius = 10 * Math.pow(1.5, 19 - zoom),
+          around = "(around:" + radius + "," + lat + "," + lng + ")",
+          nodes = "node" + around,
+          ways = "way" + around,
+          relations = "relation" + around,
+          nearby = "(" + nodes + ";" + ways + ";);out tags " + geombbox + relations + ";out " + geombbox,
+          isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids " + geombbox + "relation(pivot.a);out tags bb;";
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -315,7 +314,7 @@ OSM.Query = function (map) {
     queryButton.removeClass("active");
   }
 
-  var page = {};
+  const page = {};
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {

@@ -4,8 +4,8 @@ L.OSM.Zoom = L.Control.extend({
   },
 
   onAdd: function (map) {
-    var zoomName = "zoom",
-        container = L.DomUtil.create("div", zoomName);
+    const zoomName = "zoom",
+          container = L.DomUtil.create("div", zoomName);
 
     this._map = map;
 
@@ -32,14 +32,14 @@ L.OSM.Zoom = L.Control.extend({
   },
 
   _createButton: function (html, title, className, container, fn, context) {
-    var link = L.DomUtil.create("a", "control-button " + className, container);
+    const link = L.DomUtil.create("a", "control-button " + className, container);
     link.innerHTML = html;
     link.href = "#";
     link.title = title;
 
     L.DomUtil.create("span", "icon " + className, link);
 
-    var stop = L.DomEvent.stopPropagation;
+    const stop = L.DomEvent.stopPropagation;
 
     L.DomEvent
       .on(link, "click", stop)
@@ -52,8 +52,8 @@ L.OSM.Zoom = L.Control.extend({
   },
 
   _updateDisabled: function () {
-    var map = this._map,
-        className = "disabled";
+    const map = this._map,
+          className = "disabled";
 
     L.DomUtil.removeClass(this._zoomInButton, className);
     L.DomUtil.removeClass(this._zoomOutButton, className);

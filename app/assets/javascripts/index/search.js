@@ -9,7 +9,7 @@ OSM.Search = function (map) {
 
   $(".search_form a.btn.switch_link").on("click", function (e) {
     e.preventDefault();
-    var query = $(this).closest("form").find("input[name=query]").val();
+    const query = $(this).closest("form").find("input[name=query]").val();
     let search = "";
     if (query) search = "?" + new URLSearchParams({ from: query });
     OSM.router.route("/directions" + search + OSM.formatHash(map));
@@ -18,7 +18,7 @@ OSM.Search = function (map) {
   $(".search_form").on("submit", function (e) {
     e.preventDefault();
     $("header").addClass("closed");
-    var query = $(this).find("input[name=query]").val();
+    const query = $(this).find("input[name=query]").val();
     let search = "/";
     if (query) search = "/search?" + new URLSearchParams({ query });
     OSM.router.route(search + OSM.formatHash(map));
@@ -38,16 +38,16 @@ OSM.Search = function (map) {
     .on("mouseover", "li.search_results_entry:has(a.set_position)", showSearchResult)
     .on("mouseout", "li.search_results_entry:has(a.set_position)", hideSearchResult);
 
-  var markers = L.layerGroup().addTo(map);
+  const markers = L.layerGroup().addTo(map);
 
   function clickSearchMore(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    var div = $(this).parents(".search_more"),
-        csrf_param = $("meta[name=csrf-param]").attr("content"),
-        csrf_token = $("meta[name=csrf-token]").attr("content"),
-        params = new URLSearchParams();
+    const div = $(this).parents(".search_more"),
+          csrf_param = $("meta[name=csrf-param]").attr("content"),
+          csrf_token = $("meta[name=csrf-token]").attr("content"),
+          params = new URLSearchParams();
 
     $(this).hide();
     div.find(".loader").show();
@@ -63,10 +63,10 @@ OSM.Search = function (map) {
   }
 
   function showSearchResult() {
-    var marker = $(this).data("marker");
+    let marker = $(this).data("marker");
 
     if (!marker) {
-      var data = $(this).find("a.set_position").data();
+      const data = $(this).find("a.set_position").data();
 
       marker = L.marker([data.lat, data.lon], { icon: OSM.getUserIcon() });
 
@@ -77,7 +77,7 @@ OSM.Search = function (map) {
   }
 
   function hideSearchResult() {
-    var marker = $(this).data("marker");
+    const marker = $(this).data("marker");
 
     if (marker) {
       markers.removeLayer(marker);
@@ -93,7 +93,7 @@ OSM.Search = function (map) {
   }
 
   function clickSearchResult(e) {
-    var data = $(this).data();
+    const data = $(this).data();
 
     panToSearchResult(data);
 
@@ -104,7 +104,7 @@ OSM.Search = function (map) {
     e.stopPropagation();
   }
 
-  var page = {};
+  const page = {};
 
   page.pushstate = page.popstate = function (path) {
     const params = new URLSearchParams(path.substring(path.indexOf("?")));
@@ -120,16 +120,16 @@ OSM.Search = function (map) {
 
   page.load = function () {
     $(".search_results_entry").each(function (index) {
-      var entry = $(this),
-          csrf_param = $("meta[name=csrf-param]").attr("content"),
-          csrf_token = $("meta[name=csrf-token]").attr("content"),
-          params = new URLSearchParams({
-            zoom: map.getZoom(),
-            minlon: map.getBounds().getWest(),
-            minlat: map.getBounds().getSouth(),
-            maxlon: map.getBounds().getEast(),
-            maxlat: map.getBounds().getNorth()
-          });
+      const entry = $(this),
+            csrf_param = $("meta[name=csrf-param]").attr("content"),
+            csrf_token = $("meta[name=csrf-token]").attr("content"),
+            params = new URLSearchParams({
+              zoom: map.getZoom(),
+              minlon: map.getBounds().getWest(),
+              minlat: map.getBounds().getSouth(),
+              maxlon: map.getBounds().getEast(),
+              maxlat: map.getBounds().getNorth()
+            });
       params.set(csrf_param, csrf_token);
       fetch(entry.data("href"), {
         method: "POST",
@@ -140,7 +140,7 @@ OSM.Search = function (map) {
           entry.html(html);
           // go to first result of first geocoder
           if (index === 0) {
-            var firstResult = entry.find("*[data-lat][data-lon]:first").first();
+            const firstResult = entry.find("*[data-lat][data-lon]:first").first();
             if (firstResult.length) {
               panToSearchResult(firstResult.data());
             }

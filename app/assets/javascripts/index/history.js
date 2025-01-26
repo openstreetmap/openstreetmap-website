@@ -1,7 +1,7 @@
 //= require jquery-simulate/jquery.simulate
 
 OSM.History = function (map) {
-  var page = {};
+  const page = {};
 
   $("#sidebar_content")
     .on("click", ".changeset_more a", loadMore)
@@ -12,7 +12,7 @@ OSM.History = function (map) {
       unHighlightChangeset($(this).data("changeset").id);
     });
 
-  var group = L.featureGroup()
+  const group = L.featureGroup()
     .on("mouseover", function (e) {
       highlightChangeset(e.layer.id);
     })
@@ -28,13 +28,13 @@ OSM.History = function (map) {
   };
 
   function highlightChangeset(id) {
-    var layer = group.getLayer(id);
+    const layer = group.getLayer(id);
     if (layer) layer.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
-    var layer = group.getLayer(id);
+    const layer = group.getLayer(id);
     if (layer) layer.setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
     $("#changeset_" + id).removeClass("selected");
   }
@@ -49,8 +49,8 @@ OSM.History = function (map) {
 
   function displayMoreChangesets(html) {
     $("#sidebar_content .changeset_more").replaceWith(html);
-    var oldList = $("#sidebar_content .changesets ol").first();
-    var newList = oldList.next("ol");
+    const oldList = $("#sidebar_content .changesets ol").first();
+    const newList = oldList.next("ol");
     newList.children().appendTo(oldList);
     newList.remove();
   }
@@ -60,8 +60,8 @@ OSM.History = function (map) {
 
     if (window.location.pathname === "/history") {
       data.set("bbox", map.getBounds().wrap().toBBoxString());
-      var feedLink = $("link[type=\"application/atom+xml\"]"),
-          feedHref = feedLink.attr("href").split("?")[0];
+      const feedLink = $("link[type=\"application/atom+xml\"]"),
+            feedHref = feedLink.attr("href").split("?")[0];
       feedLink.attr("href", feedHref + "?" + data);
     }
 
@@ -79,7 +79,7 @@ OSM.History = function (map) {
     e.preventDefault();
     e.stopPropagation();
 
-    var div = $(this).parents(".changeset_more");
+    const div = $(this).parents(".changeset_more");
 
     $(this).hide();
     div.find(".loader").show();
@@ -90,17 +90,17 @@ OSM.History = function (map) {
     });
   }
 
-  var changesets = [];
+  let changesets = [];
 
   function updateBounds() {
     group.clearLayers();
 
     for (const changeset of changesets) {
-      var bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
-          topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
-          width = topRight.x - bottomLeft.x,
-          height = bottomLeft.y - topRight.y,
-          minSize = 20; // Min width/height of changeset in pixels
+      const bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
+            topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
+            width = topRight.x - bottomLeft.x,
+            height = bottomLeft.y - topRight.y,
+            minSize = 20; // Min width/height of changeset in pixels
 
       if (width < minSize) {
         bottomLeft.x -= ((minSize - width) / 2);
@@ -138,7 +138,7 @@ OSM.History = function (map) {
     updateBounds();
 
     if (window.location.pathname !== "/history") {
-      var bounds = group.getBounds();
+      const bounds = group.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
   }

@@ -128,7 +128,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   getLayersCode: function () {
-    var layerConfig = "";
+    let layerConfig = "";
     this.eachLayer(function (layer) {
       if (layer.options && layer.options.code) {
         layerConfig += layer.options.code;
@@ -155,9 +155,9 @@ L.OSM.Map = L.Map.extend({
       [params.mlat, params.mlon] = OSM.cropLocation(marker.getLatLng(), this.getZoom());
     }
 
-    var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
-        query = new URLSearchParams(params),
-        hash = OSM.formatHash(this);
+    let url = window.location.protocol + "//" + OSM.SERVER_URL + "/";
+    const query = new URLSearchParams(params),
+          hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
     if (hash) url += hash;
@@ -166,33 +166,31 @@ L.OSM.Map = L.Map.extend({
   },
 
   getShortUrl: function (marker) {
-    var zoom = this.getZoom(),
-        latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
-        str = window.location.protocol + "//" + window.location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/",
-        char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
-        x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
-        y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
-        // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
-        // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
-        // and drops the last 4 bits of the full 64 bit Morton code.
-        c1 = interlace(x >>> 17, y >>> 17),
-        c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff),
-        digit,
-        i;
+    const zoom = this.getZoom(),
+          latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
+          char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
+          x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
+          y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
+          // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
+          // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
+          // and drops the last 4 bits of the full 64 bit Morton code.
+          c1 = interlace(x >>> 17, y >>> 17),
+          c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
+    let str = window.location.protocol + "//" + window.location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/";
 
-    for (i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
-      digit = (c1 >> (24 - (6 * i))) & 0x3f;
+    for (let i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
+      const digit = (c1 >> (24 - (6 * i))) & 0x3f;
       str += char_array.charAt(digit);
     }
-    for (i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
-      digit = (c2 >> (24 - (6 * (i - 5)))) & 0x3f;
+    for (let i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
+      const digit = (c2 >> (24 - (6 * (i - 5)))) & 0x3f;
       str += char_array.charAt(digit);
     }
-    for (i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
+    for (let i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
 
     // Called to interlace the bits in x and y, making a Morton code.
     function interlace(x, y) {
-      var interlaced_x = x,
+      let interlaced_x = x,
           interlaced_y = y;
       interlaced_x = (interlaced_x | (interlaced_x << 8)) & 0x00ff00ff;
       interlaced_x = (interlaced_x | (interlaced_x << 4)) & 0x0f0f0f0f;
@@ -206,7 +204,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     const params = new URLSearchParams();
-    var layers = this.getLayersCode().replace("M", "");
+    const layers = this.getLayersCode().replace("M", "");
 
     if (layers) {
       params.set("layers", layers);
@@ -240,14 +238,14 @@ L.OSM.Map = L.Map.extend({
   },
 
   addObject: function (object, callback) {
-    var objectStyle = {
+    const objectStyle = {
       color: "#FF6200",
       weight: 4,
       opacity: 1,
       fillOpacity: 0.5
     };
 
-    var changesetStyle = {
+    const changesetStyle = {
       weight: 4,
       color: "#FF9500",
       opacity: 1,
@@ -255,7 +253,7 @@ L.OSM.Map = L.Map.extend({
       interactive: false
     };
 
-    var haloStyle = {
+    const haloStyle = {
       weight: 2.5,
       radius: 20,
       fillOpacity: 0.5,
@@ -292,7 +290,7 @@ L.OSM.Map = L.Map.extend({
       if (callback) callback(this._objectLayer.getBounds());
       this.fire("overlayadd", { layer: this._objectLayer });
     } else { // element handled by L.OSM.DataLayer
-      var map = this;
+      const map = this;
       this._objectLoader = new AbortController();
       fetch(OSM.apiUrl(object), {
         headers: { accept: "application/json" },
@@ -347,10 +345,10 @@ L.OSM.Map = L.Map.extend({
   },
 
   setSidebarOverlaid: function (overlaid) {
-    var mediumDeviceWidth = window.getComputedStyle(document.documentElement).getPropertyValue("--bs-breakpoint-md");
-    var isMediumDevice = window.matchMedia(`(max-width: ${mediumDeviceWidth})`).matches;
-    var sidebarWidth = $("#sidebar").width();
-    var sidebarHeight = $("#sidebar").height();
+    const mediumDeviceWidth = window.getComputedStyle(document.documentElement).getPropertyValue("--bs-breakpoint-md");
+    const isMediumDevice = window.matchMedia(`(max-width: ${mediumDeviceWidth})`).matches;
+    const sidebarWidth = $("#sidebar").width();
+    const sidebarHeight = $("#sidebar").height();
     if (overlaid && !$("#content").hasClass("overlay-sidebar")) {
       $("#content").addClass("overlay-sidebar");
       this.invalidateSize({ pan: false });
@@ -384,15 +382,15 @@ L.extend(L.Icon.Default.prototype, {
   _oldGetIconUrl: L.Icon.Default.prototype._getIconUrl,
 
   _getIconUrl: function (name) {
-    var url = this._oldGetIconUrl(name);
+    const url = this._oldGetIconUrl(name);
     return L.Icon.Default.imageUrls[url];
   }
 });
 
 OSM.isDarkMap = function () {
-  var mapTheme = $("body").attr("data-map-theme");
+  const mapTheme = $("body").attr("data-map-theme");
   if (mapTheme) return mapTheme === "dark";
-  var siteTheme = $("html").attr("data-bs-theme");
+  const siteTheme = $("html").attr("data-bs-theme");
   if (siteTheme) return siteTheme === "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
