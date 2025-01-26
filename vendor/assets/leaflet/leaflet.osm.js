@@ -141,11 +141,14 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
   },
 
-  buildFeatures: function (xml) {
-    var features = L.OSM.getChangesets(xml),
-      nodes = L.OSM.getNodes(xml),
-      ways = L.OSM.getWays(xml, nodes),
-      relations = L.OSM.getRelations(xml, nodes, ways);
+  buildFeatures: function (data) {
+
+    const parser = data instanceof Document ? L.OSM.XMLParser : L.OSM.JSONParser;
+
+    var features = parser.getChangesets(data),
+        nodes = parser.getNodes(data),
+        ways = parser.getWays(data, nodes),
+        relations = parser.getRelations(data, nodes, ways);
 
     var wayNodes = {}
     for (var i = 0; i < ways.length; i++) {
@@ -228,7 +231,7 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
   },
 });
 
-L.Util.extend(L.OSM, {
+L.OSM.XMLParser = {
   getChangesets: function (xml) {
     var result = [];
 
@@ -328,4 +331,64 @@ L.Util.extend(L.OSM, {
 
     return result;
   }
-});
+}
+
+L.OSM.JSONParser = {
+  getChangesets(json) {
+    const changesets = json.changeset ? [json.changeset] : [];
+
+    return changesets.map(cs => ({
+      id: String(cs.id),
+      type: "changeset",
+      latLngBounds: L.latLngBounds(
+        [cs.min_lat, cs.min_lon],
+        [cs.max_lat, cs.max_lon]
+      ),
+      tags: this.getTags(cs)
+    }));
+  },
+
+  getNodes(json) {
+    const nodes = json.elements?.filter(el => el.type === "node") ?? [];
+    let result = {};
+
+    for (const node of nodes) {
+      result[node.id] = {
+        id: String(node.id),
+        type: "node",
+        latLng: L.latLng(node.lat, node.lon, true),
+        tags: this.getTags(node)
+      };
+    }
+
+    return result;
+  },
+
+  getWays(json, nodes) {
+    const ways = json.elements?.filter(el => el.type === "way") ?? [];
+
+    return ways.map(way => ({
+      id: String(way.id),
+      type: "way",
+      nodes: way.nodes.map(nodeId => nodes[nodeId]),
+      tags: this.getTags(way)
+    }));
+  },
+
+  getRelations(json, nodes, ways) {
+    const relations = json.elements?.filter(el => el.type === "relation") ?? [];
+
+    return relations.map(rel => ({
+      id: String(rel.id),
+      type: "relation",
+      members: (rel.members ?? [])   // relation-way and relation-relation membership not implemented
+        .map(member => member.type === "node" ? nodes[member.ref] : null)
+        .filter(Boolean),     // filter out null and undefined
+      tags: this.getTags(rel)
+    }));
+  },
+
+  getTags(json) {
+    return json.tags ?? {};
+  }
+};
