@@ -4,45 +4,44 @@
 //= depend_on key.yml
 
 OSM = {
-<% if defined?(Settings.matomo) %>
-  MATOMO:                  <%= Settings.matomo.to_json %>,
-<% end %>
+  ...<%=
+    %i[
+      matomo
+      max_request_area
+      server_protocol
+      server_url
+      api_version
+      status
+      max_note_request_area
+      overpass_url
+      overpass_credentials
+      nominatim_url
+      graphhopper_url
+      fossgis_osrm_url
+      fossgis_valhalla_url
+      thunderforest_key
+      tracestrack_key
+    ]
+      .each_with_object({}) do |key, hash|
+        hash[key.to_s.upcase] = Settings.send(key) if Settings.respond_to?(key)
+      end.to_json
+  %>,
 
-  MAX_REQUEST_AREA:        <%= Settings.max_request_area.to_json %>,
-  SERVER_PROTOCOL:         <%= Settings.server_protocol.to_json %>,
-  SERVER_URL:              <%= Settings.server_url.to_json %>,
-  API_VERSION:             <%= Settings.api_version.to_json %>,
-  STATUS:                  <%= Settings.status.to_json %>,
-  MAX_NOTE_REQUEST_AREA:   <%= Settings.max_note_request_area.to_json %>,
-  OVERPASS_URL:            <%= Settings.overpass_url.to_json %>,
-  OVERPASS_CREDENTIALS:    <%= Settings.overpass_credentials.to_json %>,
-  NOMINATIM_URL:           <%= Settings.nominatim_url.to_json %>,
-  GRAPHHOPPER_URL:         <%= Settings.graphhopper_url.to_json %>,
-  FOSSGIS_OSRM_URL:        <%= Settings.fossgis_osrm_url.to_json %>,
-  FOSSGIS_VALHALLA_URL:    <%= Settings.fossgis_valhalla_url.to_json %>,
-  DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
+  DEFAULT_LOCALE: <%= I18n.default_locale.to_json %>,
 
-<% if Settings.key?(:thunderforest_key) %>
-  THUNDERFOREST_KEY:       <%= Settings.thunderforest_key.to_json %>,
-<% end %>
+  LAYER_DEFINITIONS: <%= YAML.load_file(Rails.root.join("config/layers.yml")).to_json %>,
+  LAYERS_WITH_MAP_KEY: <%= YAML.load_file(Rails.root.join("config/key.yml")).keys.to_json %>,
 
-<% if Settings.key?(:tracestrack_key) %>
-  TRACESTRACK_KEY:         <%= Settings.tracestrack_key.to_json %>,
-<% end %>
+  MARKER_GREEN: <%= image_path("marker-green.png").to_json %>,
+  MARKER_RED: <%= image_path("marker-red.png").to_json %>,
 
-  LAYER_DEFINITIONS:       <%= YAML.load_file(Rails.root.join("config/layers.yml")).to_json %>,
-  LAYERS_WITH_MAP_KEY:     <%= YAML.load_file(Rails.root.join("config/key.yml")).keys.to_json %>,
+  MARKER_ICON: <%= image_path("leaflet/dist/images/marker-icon.png").to_json %>,
+  MARKER_ICON_2X: <%= image_path("leaflet/dist/images/marker-icon-2x.png").to_json %>,
+  MARKER_SHADOW: <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
 
-  MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
-  MARKER_RED:              <%= image_path("marker-red.png").to_json %>,
-
-  MARKER_ICON:             <%= image_path("leaflet/dist/images/marker-icon.png").to_json %>,
-  MARKER_ICON_2X:          <%= image_path("leaflet/dist/images/marker-icon-2x.png").to_json %>,
-  MARKER_SHADOW:           <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
-
-  NEW_NOTE_MARKER:         <%= image_path("new_note_marker.svg").to_json %>,
-  OPEN_NOTE_MARKER:        <%= image_path("open_note_marker.svg").to_json %>,
-  CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.svg").to_json %>,
+  NEW_NOTE_MARKER: <%= image_path("new_note_marker.svg").to_json %>,
+  OPEN_NOTE_MARKER: <%= image_path("open_note_marker.svg").to_json %>,
+  CLOSED_NOTE_MARKER: <%= image_path("closed_note_marker.svg").to_json %>,
 
   apiUrl: function (object) {
     var apiType = object.type === "note" ? "notes" : object.type;
@@ -58,28 +57,12 @@ OSM = {
   },
 
   params: function (search) {
-    var params = {};
-
-    search = (search || window.location.search).replace("?", "").split(/&|;/);
-
-    for (var i = 0; i < search.length; ++i) {
-      var pair = search[i],
-          j = pair.indexOf("="),
-          key = pair.slice(0, j),
-          val = pair.slice(++j);
-
-      try {
-        params[key] = decodeURIComponent(val);
-      } catch (e) {
-        // Ignore parse exceptions
-      }
-    }
-
-    return params;
+    var query = search || window.location.search;
+    return Object.fromEntries(new URLSearchParams(query));
   },
 
   mapParams: function (search) {
-    var params = OSM.params(search), mapParams = {}, match;
+    var params = OSM.params(search), mapParams = {};
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
@@ -229,7 +212,7 @@ OSM = {
     return 6372795 * 2 * Math.asin(
       Math.sqrt(
         Math.pow(Math.sin(latdiff / 2), 2) +
-        Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
+        (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2))
       ));
   }
 };
