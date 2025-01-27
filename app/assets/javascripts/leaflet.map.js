@@ -115,8 +115,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function (layerParam) {
-    var layers = layerParam || "M",
-        layersAdded = "";
+    var layers = layerParam || "M";
 
     for (let i = this.baseLayers.length - 1; i >= 0; i--) {
       if (layers.indexOf(this.baseLayers[i].options.code) === -1) {
@@ -125,11 +124,9 @@ L.OSM.Map = L.Map.extend({
     }
 
     for (let i = this.baseLayers.length - 1; i >= 0; i--) {
-      if (layers.indexOf(this.baseLayers[i].options.code) >= 0) {
+      if (layers.indexOf(this.baseLayers[i].options.code) >= 0 || i === 0) {
         this.addLayer(this.baseLayers[i]);
-        layersAdded = layersAdded + this.baseLayers[i].options.code;
-      } else if (i === 0 && layersAdded === "") {
-        this.addLayer(this.baseLayers[i]);
+        return;
       }
     }
   },
