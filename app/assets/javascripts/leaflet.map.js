@@ -315,8 +315,8 @@ L.OSM.Map = L.Map.extend({
       var map = this;
       this._objectLoader = $.ajax({
         url: OSM.apiUrl(object),
-        dataType: "xml",
-        success: function (xml) {
+        dataType: "json",
+        success: function (data) {
           map._object = object;
 
           map._objectLayer = new L.OSM.DataLayer(null, {
@@ -338,7 +338,7 @@ L.OSM.Map = L.Map.extend({
             }
           };
 
-          map._objectLayer.addData(xml);
+          map._objectLayer.addData(data);
           map._objectLayer.addTo(map);
 
           if (callback) callback(map._objectLayer.getBounds());
