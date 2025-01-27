@@ -61,11 +61,16 @@ OSM.initializeDataLayer = function (map) {
           .click(add)));
   }
 
-  function displayLoadError(message) {
+  function displayLoadError(message, close) {
     $("#browse_status").html(
       $("<div class='p-3'>").append(
-        $("<h2 class='flex-grow-1 text-break'>")
-          .text(I18n.t("browse.start_rjs.load_data")),
+        $("<div class='d-flex'>").append(
+          $("<h2 class='flex-grow-1 text-break'>")
+            .text(I18n.t("browse.start_rjs.load_data")),
+          $("<div>").append(
+            $("<button type='button' class='btn-close'>")
+              .attr("aria-label", I18n.t("javascripts.close"))
+              .click(close))),
         $("<div>").append(
           $("<div class='d-flex'>").append(
             $("<p class='alert alert-warning'>")
@@ -128,12 +133,16 @@ OSM.initializeDataLayer = function (map) {
         dataLoader = null;
         if (textStatus === "abort") { return; }
 
+        function closeError() {
+          $("#browse_status").empty();
+        }
+
         if (XMLHttpRequest.status === 400 && XMLHttpRequest.responseText) {
-          displayLoadError(XMLHttpRequest.responseText);
+          displayLoadError(XMLHttpRequest.responseText, closeError);
         } else if (XMLHttpRequest.statusText) {
-          displayLoadError(XMLHttpRequest.statusText);
+          displayLoadError(XMLHttpRequest.statusText, closeError);
         } else {
-          displayLoadError(String(XMLHttpRequest.status));
+          displayLoadError(String(XMLHttpRequest.status), closeError);
         }
       }
     });
