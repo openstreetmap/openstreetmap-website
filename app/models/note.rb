@@ -99,16 +99,6 @@ class Note < ApplicationRecord
     comments.first.author
   end
 
-  # Return the note's author ID, derived from the first comment
-  def author_id
-    comments.first.author_id
-  end
-
-  # Return the note's author IP address, derived from the first comment
-  def author_ip
-    comments.first.author_ip
-  end
-
   private
 
   # Fill in default values for new notes
