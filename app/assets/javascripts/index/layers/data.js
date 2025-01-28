@@ -93,10 +93,11 @@ OSM.initializeDataLayer = function (map) {
 
     dataLoader = $.ajax({
       url: url,
-      success: function (xml) {
+      dataType: "json",
+      success: function (data) {
         dataLayer.clearLayers();
 
-        var features = dataLayer.buildFeatures(xml);
+        var features = dataLayer.buildFeatures(data);
 
         function addFeatures() {
           $("#browse_status").empty();
