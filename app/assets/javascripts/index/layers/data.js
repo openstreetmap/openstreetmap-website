@@ -44,7 +44,7 @@ OSM.initializeDataLayer = function (map) {
     }
   }
 
-  function displayFeatureWarning(count, limit, add, cancel) {
+  function displayFeatureWarning(num_features, add, cancel) {
     $("#browse_status").html(
       $("<div class='p-3'>").append(
         $("<div class='d-flex'>").append(
@@ -55,7 +55,7 @@ OSM.initializeDataLayer = function (map) {
               .attr("aria-label", I18n.t("javascripts.close"))
               .click(cancel))),
         $("<p class='alert alert-warning'>")
-          .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })),
+          .text(I18n.t("browse.start_rjs.feature_warning", { num_features })),
         $("<input type='submit' class='btn btn-primary d-block mx-auto'>")
           .val(I18n.t("browse.start_rjs.load_data"))
           .click(add)));
@@ -111,7 +111,7 @@ OSM.initializeDataLayer = function (map) {
         if (features.length < maxFeatures) {
           addFeatures();
         } else {
-          displayFeatureWarning(features.length, maxFeatures, addFeatures, cancelAddFeatures);
+          displayFeatureWarning(features.length, addFeatures, cancelAddFeatures);
         }
 
         if (map._objectLayer) {
