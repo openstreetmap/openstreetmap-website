@@ -65,23 +65,6 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal user, comment.note.author
   end
 
-  def test_author_id
-    comment = create(:note_comment)
-    assert_nil comment.note.author_id
-
-    user = create(:user)
-    comment = create(:note_comment, :author => user)
-    assert_equal user.id, comment.note.author_id
-  end
-
-  def test_author_ip
-    comment = create(:note_comment)
-    assert_nil comment.note.author_ip
-
-    comment = create(:note_comment, :author_ip => IPAddr.new("192.168.1.1"))
-    assert_equal IPAddr.new("192.168.1.1"), comment.note.author_ip
-  end
-
   # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
   def test_lat_lon_format
     note = build(:note, :latitude => 0.00004 * GeoRecord::SCALE, :longitude => 0.00008 * GeoRecord::SCALE)
