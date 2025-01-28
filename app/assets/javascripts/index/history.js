@@ -1,5 +1,3 @@
-//= require jquery-simulate/jquery.simulate
-
 OSM.History = function (map) {
   var page = {};
 
@@ -40,7 +38,7 @@ OSM.History = function (map) {
   }
 
   function clickChangeset(id, e) {
-    $("#changeset_" + id).find("a.changeset_id").simulate("click", e);
+    $(`#changeset_${id} a.changeset_id`).trigger($.Event("click", e));
   }
 
   function displayFirstChangesets(html) {
