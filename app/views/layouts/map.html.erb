@@ -44,7 +44,11 @@
       <div class="welcome p-3" hidden>
         <%= render "sidebar_header", :title => t("layouts.intro_header") %>
         <p class="fs-6 fw-light"><%= t "layouts.intro_text" %></p>
-        <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html" %>
+        <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html",
+                                       :devseed => link_to(t("layouts.partners_devseed"), "https://developmentseed.org/"),
+                                       :greeninfo => link_to(t("layouts.partners_greeninfo"), "https://greeninfo.org/"),
+                                       :osmf => link_to(t("layouts.partners_osmf"), "https://osmfoundation.org/"),
+                                       :osmus => link_to(t("layouts.partners_osmus"), "https://openstreetmap.us/") %>
         </p>
         <div class="d-flex gap-2">
           <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
