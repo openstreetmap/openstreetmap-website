@@ -116,6 +116,9 @@ L.OSM.Map = L.Map.extend({
 
   updateLayers: function (layerParam) {
     var layers = layerParam || "M";
+    if (this.getMapBaseLayer() && this.getMapBaseLayer().options.code === "M" && !layers.includes("M")) {
+      layers += "M";
+    }
 
     for (let i = this.baseLayers.length - 1; i >= 0; i--) {
       if (layers.indexOf(this.baseLayers[i].options.code) === -1) {
