@@ -40,9 +40,16 @@ OSM.initializeNotesLayer = function (map) {
     if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
     } else {
+      let title;
+      const description = feature.properties.comments[0];
+
+      if (description?.action === "opened") {
+        title = description.text;
+      }
+
       marker = L.marker(feature.geometry.coordinates.reverse(), {
         icon: noteIcons[feature.properties.status],
-        title: feature.properties.comments[0].text,
+        title,
         opacity: 0.8,
         interactive: true
       });
