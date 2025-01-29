@@ -1,5 +1,6 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= depend_on layers.yml
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require i18n
@@ -36,22 +37,23 @@ window.onload = function () {
   map.removeControl(map.attributionControl);
 
   const layers = <%=
-(YAML.load_file(Rails.root.join("config/layers.yml"))
-  .select { |entry| entry["canEmbed"] }
-  .each_with_object({}) do |entry, obj|
-    obj[entry["layerId"]] = {
-      layer: entry["leafletOsmId"],
-      apiKeyId: entry["apiKeyId"]
-    }.compact
-  end).to_json
-%>;
-  const layerId = (args.layer || "").replaceAll(" ", "");
+    YAML.load_file(Rails.root.join("config/layers.yml"))
+      .select { |entry| entry["canEmbed"] }
+      .each_with_object({}) do |entry, obj|
+        obj[entry["layerId"]] = {
+          layer: entry["leafletOsmId"],
+          apiKeyId: entry["apiKeyId"]
+        }.compact
+      end.to_json
+    %>;
+  const layerId = (args.layer || "").replaceAll(/\s/g, "");
   const layerConfig = layers[layerId] || layers.mapnik;
-  const { layer, ...layerOptions } = {
+  const { layer, ...options } = {
     layer: layerConfig.layer,
-    apikey: apiKeys[layerConfig.apiKeyId]
+    apikey: apiKeys[layerConfig.apiKeyId],
+    ...tileOptions[layerId]
   };
-  new L.OSM[layer]({ ...layerOptions, ...tileOptions[layerId] }).addTo(map);
+  new L.OSM[layer](options).addTo(map);
 
   if (args.marker) {
     L.marker(args.marker.split(","), { icon: L.icon({
