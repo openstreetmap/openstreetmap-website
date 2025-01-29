@@ -13,6 +13,7 @@
           <th><%= t ".reports" %></th>
           <th><%= t ".reported_item" %></th>
           <th><%= t ".reported_user" %></th>
+          <th class="reporter_users"><%= t ".reporter_users" %></th>
           <th><%= t ".last_updated" %></th>
         </tr>
       </thead>
@@ -23,6 +24,14 @@
             <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
             <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
             <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
+            <td class="reporter_users text-truncate">
+              <% @unique_reporters[issue.id][:users].each do |reporter| %>
+                <%= link_to reporter.display_name, reporter, :class => "d-block text-truncate", :title => reporter.display_name %>
+              <% end %>
+              <% if @unique_reporters[issue.id][:count] > 3 %>
+                <p class="m-0"><%= t ".more_reporters", :count => @unique_reporters[issue.id][:count] - 3 %></p>
+              <% end %>
+            </td>
             <td>
               <% if issue.user_updated %>
                 <%= t ".last_updated_time_ago_user_html", :user => link_to(issue.user_updated.display_name, issue.user_updated),
