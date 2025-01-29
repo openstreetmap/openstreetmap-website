@@ -115,19 +115,18 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function (layerParam) {
-    var layers = layerParam || "M";
+    const oldBaseLayer = this.getMapBaseLayer();
+    let newBaseLayer;
 
-    for (let i = this.baseLayers.length - 1; i >= 0; i--) {
-      if (layers.indexOf(this.baseLayers[i].options.code) === -1) {
-        this.removeLayer(this.baseLayers[i]);
+    for (const layer of this.baseLayers) {
+      if (!newBaseLayer || layerParam.includes(layer.options.code)) {
+        newBaseLayer = layer;
       }
     }
 
-    for (let i = this.baseLayers.length - 1; i >= 0; i--) {
-      if (layers.indexOf(this.baseLayers[i].options.code) >= 0 || i === 0) {
-        this.addLayer(this.baseLayers[i]);
-        return;
-      }
+    if (newBaseLayer !== oldBaseLayer) {
+      if (oldBaseLayer) this.removeLayer(oldBaseLayer);
+      if (newBaseLayer) this.addLayer(newBaseLayer);
     }
   },
 
