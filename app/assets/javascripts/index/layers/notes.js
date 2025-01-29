@@ -1,6 +1,7 @@
 OSM.initializeNotesLayer = function (map) {
-  var noteLayer = map.noteLayer,
-      notes = {};
+  let noteLoader;
+  const noteLayer = map.noteLayer;
+  let notes = {};
 
   var noteIcons = {
     "new": L.icon({
@@ -25,6 +26,8 @@ OSM.initializeNotesLayer = function (map) {
     map.on("moveend", loadNotes);
     map.fire("overlayadd", { layer: noteLayer });
   }).on("remove", () => {
+    if (noteLoader) noteLoader.abort();
+    noteLoader = null;
     map.off("moveend", loadNotes);
     noteLayer.clearLayers();
     notes = {};
@@ -55,8 +58,6 @@ OSM.initializeNotesLayer = function (map) {
   noteLayer.getLayerId = function (marker) {
     return marker.id;
   };
-
-  var noteLoader;
 
   function loadNotes() {
     var bounds = map.getBounds();
