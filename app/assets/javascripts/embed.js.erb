@@ -47,11 +47,12 @@ window.onload = function () {
 %>;
   const layerId = (args.layer || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
-  const { layer, ...layerOptions } = {
+  const { layer, ...options } = {
     layer: layerConfig.layer,
-    apikey: apiKeys[layerConfig.apiKeyId]
+    apikey: apiKeys[layerConfig.apiKeyId],
+    ...tileOptions[layerId]
   };
-  new L.OSM[layer]({ ...layerOptions, ...tileOptions[layerId] }).addTo(map);
+  new L.OSM[layer](options).addTo(map);
 
   if (args.marker) {
     L.marker(args.marker.split(","), { icon: L.icon({
