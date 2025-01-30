@@ -46,7 +46,7 @@ window.onload = function () {
         }.compact
       end.to_json
     %>;
-  const layerId = (args.layer || "").replaceAll(" ", "");
+  const layerId = (args.layer || "").replaceAll(/\s/g, "");
   const layerConfig = layers[layerId] || layers.mapnik;
   const { layer, ...options } = {
     layer: layerConfig.layer,
