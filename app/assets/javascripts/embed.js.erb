@@ -37,15 +37,15 @@ window.onload = function () {
   map.removeControl(map.attributionControl);
 
   const layers = <%=
-(YAML.load_file(Rails.root.join("config/layers.yml"))
-  .select { |entry| entry["canEmbed"] }
-  .each_with_object({}) do |entry, obj|
-    obj[entry["layerId"]] = {
-      layer: entry["leafletOsmId"],
-      apiKeyId: entry["apiKeyId"]
-    }.compact
-  end).to_json
-%>;
+    YAML.load_file(Rails.root.join("config/layers.yml"))
+      .select { |entry| entry["canEmbed"] }
+      .each_with_object({}) do |entry, obj|
+        obj[entry["layerId"]] = {
+          layer: entry["leafletOsmId"],
+          apiKeyId: entry["apiKeyId"]
+        }.compact
+      end.to_json
+    %>;
   const layerId = (args.layer || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
   const { layer, ...options } = {
