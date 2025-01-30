@@ -4,13 +4,10 @@ OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {
-      var precision = OSM.zoomPrecision(map.getZoom()),
-          latlng = e.latlng.wrap(),
-          lat = latlng.lat.toFixed(precision),
-          lng = latlng.lng.toFixed(precision);
+      const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
       OSM.router.route("/directions?" + Qs.stringify({
-        from: lat + "," + lng,
+        from: latlng.join(","),
         to: getDirectionsEndpointCoordinatesFromInput($("#route_to"))
       }));
     }
@@ -19,14 +16,11 @@ OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.directions_to"),
     callback: function directionsToHere(e) {
-      var precision = OSM.zoomPrecision(map.getZoom()),
-          latlng = e.latlng.wrap(),
-          lat = latlng.lat.toFixed(precision),
-          lng = latlng.lng.toFixed(precision);
+      const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
       OSM.router.route("/directions?" + Qs.stringify({
         from: getDirectionsEndpointCoordinatesFromInput($("#route_from")),
-        to: lat + "," + lng
+        to: latlng.join(",")
       }));
     }
   });
@@ -34,36 +28,27 @@ OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.add_note"),
     callback: function addNoteHere(e) {
-      var precision = OSM.zoomPrecision(map.getZoom()),
-          latlng = e.latlng.wrap(),
-          lat = latlng.lat.toFixed(precision),
-          lng = latlng.lng.toFixed(precision);
+      const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
-      OSM.router.route("/note/new?lat=" + lat + "&lon=" + lng);
+      OSM.router.route("/note/new?" + Qs.stringify({ lat, lon }));
     }
   });
 
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.show_address"),
     callback: function describeLocation(e) {
-      var precision = OSM.zoomPrecision(map.getZoom()),
-          latlng = e.latlng.wrap(),
-          lat = latlng.lat.toFixed(precision),
-          lng = latlng.lng.toFixed(precision);
+      const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom()).map(encodeURIComponent);
 
-      OSM.router.route("/search?lat=" + encodeURIComponent(lat) + "&lon=" + encodeURIComponent(lng));
+      OSM.router.route("/search?" + Qs.stringify({ lat, lon }));
     }
   });
 
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.query_features"),
     callback: function queryFeatures(e) {
-      var precision = OSM.zoomPrecision(map.getZoom()),
-          latlng = e.latlng.wrap(),
-          lat = latlng.lat.toFixed(precision),
-          lng = latlng.lng.toFixed(precision);
+      const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
-      OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
+      OSM.router.route("/query?" + Qs.stringify({ lat, lon }));
     }
   });
 

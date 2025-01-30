@@ -116,18 +116,14 @@ OSM.Directions = function (map) {
     // Cancel any route that is already in progress
     if (routeRequest) routeRequest.abort();
 
-    var o = endpoints[0].latlng,
-        d = endpoints[1].latlng;
+    const points = endpoints.map(p => p.latlng);
 
-    if (!o || !d) return;
+    if (!points[0] || !points[1]) return;
     $("header").addClass("closed");
-
-    var precision = OSM.zoomPrecision(map.getZoom());
 
     OSM.router.replace("/directions?" + Qs.stringify({
       engine: chosenEngine.id,
-      route: o.lat.toFixed(precision) + "," + o.lng.toFixed(precision) + ";" +
-             d.lat.toFixed(precision) + "," + d.lng.toFixed(precision)
+      route: points.map(p => OSM.cropLocation(p, map.getZoom()).join()).join(";")
     }));
 
     // copy loading item to sidebar and display it. we copy it, rather than
@@ -136,7 +132,7 @@ OSM.Directions = function (map) {
     $("#sidebar_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
 
-    routeRequest = chosenEngine.getRoute([o, d], function (err, route) {
+    routeRequest = chosenEngine.getRoute(points, function (err, route) {
       routeRequest = null;
 
       if (err) {
@@ -285,10 +281,8 @@ OSM.Directions = function (map) {
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
-      var precision = OSM.zoomPrecision(map.getZoom());
-      var value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
-      var llWithPrecision = L.latLng(ll.lat.toFixed(precision), ll.lng.toFixed(precision));
-      endpoints[type === "from" ? 0 : 1].setValue(value, llWithPrecision);
+      const llWithPrecision = OSM.cropLocation(ll, map.getZoom());
+      endpoints[type === "from" ? 0 : 1].setValue(llWithPrecision.join(", "), llWithPrecision);
     });
 
     endpoints[0].enable();
