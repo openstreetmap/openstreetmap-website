@@ -148,10 +148,10 @@ nl:
         support_url: Ondersteunings-URL
         allow_read_prefs: gebruikersvoorkeuren lezen
         allow_write_prefs: gebruikersvoorkeuren wijzigen
-        allow_write_diary: dagboekberichten schrijven, reacties en vrienden toevoegen
+        allow_write_diary: dagboekberichten schrijven en reacties toevoegen
         allow_write_api: de kaart wijzigen
-        allow_read_gpx: privé-GPS-trajecten lezen
-        allow_write_gpx: GPS-trajecten uploaden
+        allow_read_gpx: privé-gps-trajecten lezen
+        allow_write_gpx: gps-trajecten uploaden
         allow_write_notes: opmerkingen wijzigen
       diary_comment:
         body: Tekst
@@ -179,7 +179,7 @@ nl:
         longitude: Lengtegraad
         public: Openbaar
         description: Beschrijving
-        gpx_file: Kies GPS-trajectbestand
+        gpx_file: Kies gps-trajectbestand
         visibility: Zichtbaarheid
         tagstring: Labels
       message:
@@ -408,6 +408,7 @@ nl:
         terms_declined_html: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
           niet te accepteren. Zie %{terms_declined_link} voor meer informatie.
         terms_declined_link: deze wiki-pagina
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/NL:Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: '%{time_ago} verwijderd door %{user}'
     edited_ago_by_html: '%{time_ago} bewerkt door %{user}'
@@ -507,29 +508,35 @@ nl:
       view_redacted_data: Geredigeerde gegevens bekijken
       view_redaction_message: Redactiebericht bekijken
   nodes:
+    not_found_message:
+      sorry: 'Knooppunt #%{id} kon helaas niet gevonden worden.'
     timeout:
       sorry: Het ophalen van de gegevens voor het ID %{id} duurde te lang.
   old_nodes:
     not_found_message:
-      sorry: 'Sorry, knooppunt #%{id} versie %{version} kon niet worden gevonden.'
+      sorry: 'Sorry, knooppunt #%{id} versie %{version} kon niet gevonden worden.'
     timeout:
       sorry: Het ophalen van de gegevens voor knooppunt met het ID %{id} duurde te
         lang.
   ways:
+    not_found_message:
+      sorry: 'Weg #%{id} kon helaas niet gevonden worden.'
     timeout:
       sorry: Het ophalen van de gegevens voor de weg met het ID %{id} duurde te lang.
   old_ways:
     not_found_message:
-      sorry: 'Sorry, weg #%{id} versie %{version} niet kon worden gevonden.'
+      sorry: 'Sorry, weg #%{id} versie %{version} niet kon gevonden worden.'
     timeout:
       sorry: Het ophalen van de geschiedenis voor de weg met het ID %{id} duurde te
         lang.
   relations:
+    not_found_message:
+      sorry: 'Relatie #%{id} kon helaas niet gevonden worden.'
     timeout:
       sorry: Het ophalen van de relatie met het ID %{id} duurde te lang.
   old_relations:
     not_found_message:
-      sorry: 'Sorry, relatie #%{id} versie %{version} kon niet worden gevonden.'
+      sorry: 'Sorry, relatie #%{id} versie %{version} kon niet gevonden worden.'
     timeout:
       sorry: Het ophalen van de geschiedenis voor de relatie met het ID %{id} duurde
         te lang.
@@ -552,6 +559,7 @@ nl:
       title: Wijzigingensets
       title_user: Wijzigingensets door %{user}
       title_user_link_html: Wijzigingensets door %{user_link}
+      title_followed: Wijzigingensets door gevolgde kaartmakers
       title_nearby: Wijzigingensets van gebruikers in de buurt
       empty: Geen wijzigingensets gevonden.
       empty_area: Geen wijzigingensets in dit gebied.
@@ -594,23 +602,25 @@ nl:
       ways_paginated: Wegen (%{x}-%{y} van %{count})
       relations: Relaties (%{count})
       relations_paginated: Relaties (%{x}-%{y} van %{count})
+    not_found_message:
+      sorry: 'Wijzigingenset #%{id} kon helaas niet gevonden worden.'
     timeout:
       sorry: Het oproepen van de lijst met wijzigingensets die u hebt opgevraagd duurde
         te lang.
   changeset_subscriptions:
     show:
       subscribe:
-        heading: Abonneren op de volgende discussie over wijzigingenreeks?
+        heading: Abonneren op de volgende discussie over wijzigingenset?
         button: Op discussie abonneren
       unsubscribe:
-        heading: Afmelden voor de volgende discussie over wijzigingenreeks
+        heading: Afmelden voor de volgende discussie over wijzigingenset
         button: Van discussie afmelden
     heading:
-      title: Wijzigingenreeks %{id}
+      title: Wijzigingenset %{id}
       created_by_html: Gemaakt door %{link_user} op %{created}.
     no_such_entry:
       heading: 'Geen gegevens met de id: %{id}'
-      body: Er is geen wijzigingenreeks met de id %{id}. Controleer uw spelling, of
+      body: Er is geen wijzigingenset met de id %{id}. Controleer uw spelling, of
         wellicht is de lijk die u hebt gevolgd foutief.
   dashboards:
     contact:
@@ -620,14 +630,19 @@ nl:
     popup:
       your location: Uw locatie
       nearby mapper: Nabije kaartmaker
+      following: Gevolgde kaartmaker
     show:
       title: Mijn dashboard
       no_home_location_html: '%{edit_profile_link} en stel uw thuislocatie in om gebruikers
         in de buurt te zien.'
       edit_your_profile: Pas uw profiel aan
+      followings: Gevolgde kaartmakers
+      no followings: Je volgt nog geen andere kaartmakers.
       nearby users: Andere nabije gebruikers
       no nearby users: Er zijn nog geen andere gebruikers die hebben opgegeven in
         de buurt te mappen.
+      followed_changesets: wijzigingensets
+      followed_diaries: dagboekberichten
       nearby_changesets: wijzigingensets van gebruikers in de buurt
       nearby_diaries: dagboekberichten van gebruikers in de buurt
   diary_entries:
@@ -638,6 +653,7 @@ nl:
       use_map_link: Kaart gebruiken
     index:
       title: Gebruikersdagboeken
+      title_followed: Dagboeken van gevolgde kaartmakers
       title_nearby: Dagboeken van gebruikers in de buurt
       user_title: Dagboek van %{user}
       in_language_title: Dagboekberichten in het %{language}
@@ -761,6 +777,23 @@ nl:
       title: Bestand niet gevonden
       description: Kon een bestand/directory/API-bewerking met die naam niet vinden
         op de OpenStreetMap-server (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Wil je %{user} volgen?
+        button: Gebruiker volgen
+      unfollow:
+        heading: Wil je %{user} niet langer volgen?
+        button: Gebruiker niet langer volgen
+    create:
+      success: Je volgt vanaf nu %{name}!
+      failed: Het beginnen volgen van %{name} is helaas mislukt.
+      already_followed: Je volgt %{name} al.
+      limit_exceeded: Je bent recentelijk veel gebruikers beginnen volgen. Gelieve
+        even te wachten alvorens nog meer gebruikers te proberen volgen.
+    destroy:
+      success: Je volgt nu niet langer %{name}.
+      not_followed: Je volgt %{name} niet.
   geocoder:
     search:
       title:
@@ -1735,12 +1768,28 @@ nl:
         sturen naar de auteur via %{replyurl}
     follow_notification:
       hi: Hoi %{to_user},
+      subject: '[OpenStreetMap] %{user} volgt je'
+      followed_you: '%{user} volgt je nu op OpenStreetMap.'
       see_their_profile: U kunt zijn/haar profiel weergeven op %{userurl}.
       see_their_profile_html: U kunt zijn/haar profiel weergeven op %{userurl}.
+      follow_them: Je kunt hen terugvolgen op %{followurl}.
+      follow_them_html: Je kunt hen terugvolgen op %{followurl}.
+    gpx_details:
+      details: 'Details van je bestand:'
+      filename: Bestandsnaam
+      url: URL
+      description: Beschrijving
+      tags: Labels
+      total_points: Totaal aantal punten
+      imported_points: Aantal geïmporteerde punten
     gpx_failure:
       hi: Hallo %{to_user},
-      failed_to_import: Het lijkt erop dat het importeren van uw bestand als GPS-tracering
+      failed_to_import: Het lijkt erop dat het importeren van uw bestand als gps-traject
         mislukt is.
+      verify: 'Controleer of je bestand een geldig GPX-bestand of een archief met
+        GPX-bestand(en) in een ondersteund formaat is (.tar.gz, .tar.bz2, .tar, .zip,
+        .gpx.gz, .gpx.bz2). Is er misschien een formatterings- of syntaxisprobleem
+        met het bestand? Dit is de importfoutmelding:'
       more_info: Meer informatie over mislukte GPX-imports en hoe u ze kunt vermijden,
         kunt u vinden op %{url}
       more_info_html: Meer informatie over mislukte GPX-imports en hoe u ze kunt vermijden,
@@ -1748,6 +1797,7 @@ nl:
       subject: '[OpenStreetMap] GPX-import mislukt'
     gpx_success:
       hi: Hallo %{to_user},
+      imported_successfully: Je bestand is toegevoegd als gps-traject.
       all_your_traces: Al uw succesvol geüploade GPX-traces zijn te vinden op %{url}.
       all_your_traces_html: Alle succesvol geüploade GPX-traces zijn te vinden op
         %{url}.
@@ -1821,7 +1871,7 @@ nl:
       details: Reageer of lees meer over de opmerking op %{url}.
       details_html: Reageer of lees meer over de opmerking op %{url}.
     changeset_comment_notification:
-      description: 'OpenStreetMap-wijzigingenreeks #%{id}'
+      description: 'OpenStreetMap-wijzigingenset #%{id}'
       hi: Hoi %{to_user},
       commented:
         subject_own: '[OpenStreetMap] %{commenter} heeft gereageerd op één van uw
@@ -1856,6 +1906,8 @@ nl:
       success: Uw registratie is bevestigd. Dank u wel voor het registreren!
       already active: Dit account is al bevestigd.
       unknown token: De opgegeven bevestigingscode is verlopen of bestaat niet.
+      if_need_resend: Als we de bevestigingsmail opnieuw moeten zenden, gebruik dan
+        de onderstaande knop.
       resend_button: Stuur de bevestigingsmail opnieuw
     confirm_resend:
       failure: De gebruiker %{name} is niet gevonden.
@@ -1895,14 +1947,17 @@ nl:
       wrong_user: |-
         U bent aangemeld als "%{user}", maar het bericht dat u wilt lezen is niet door die gebruiker gestuurd of aan die gebruiker gericht.
         Meld u aan als de juiste gebruiker om het te lezen.
-    mark:
-      as_read: Gemarkeerd als gelezen
-      as_unread: Gemarkeerd als ongelezen
-    unmute:
-      notice: Bericht is verplaatst naar Inbox
-      error: Het bericht kon niet naar de Inbox worden verplaatst.
     destroy:
       destroyed: Het bericht is verwijderd
+    read_marks:
+      create:
+        notice: Gemarkeerd als gelezen
+      destroy:
+        notice: Gemarkeerd als ongelezen
+    mutes:
+      destroy:
+        notice: Bericht is verplaatst naar Inbox
+        error: Het bericht kon niet naar de Inbox worden verplaatst.
     mailboxes:
       heading:
         my_inbox: Mijn Postvak IN
@@ -2671,13 +2726,13 @@ nl:
       details_without_tags_html: '%{time_ago} door %{user}'
     index:
       public_traces: Openbare gps-trajecten
-      my_gps_traces: Mijn GPS-traces
+      my_gps_traces: Mijn gps-trajecten
       public_traces_from: Openbare gps-trajecten van %{user}
       description: Door recente gps-traject-uploads bladeren
       tagged_with: ' gelabeld met %{tags}'
       empty_title: Hier nog niets
-      empty_upload_html: '%{upload_link} of lees meer over GPS-tracering op de %{wiki_link}.'
-      upload_new: Upload een nieuwe tracering
+      empty_upload_html: '%{upload_link} of lees meer over gps-trajecten op de %{wiki_link}.'
+      upload_new: Upload een nieuw traject
       wiki_page: wikipagina
       upload_trace: Traject uploaden
       all_traces: Alle trajecten
@@ -2768,7 +2823,7 @@ nl:
       openid: Aanmelden met OpenStreetMap
       read_prefs: Gebruikersvoorkeuren lezen
       write_prefs: Gebruikersvoorkeuren wijzigen
-      write_diary: Dagboekberichten schrijven, reacties geven en vrienden maken
+      write_diary: Dagboekberichten schrijven en reacties bij dagboekberichten plaatsen
       write_api: De kaart wijzigen
       read_gpx: Persoonlijke gps-trajecten lezen
       write_gpx: Gps-trajecten uploaden
@@ -2809,7 +2864,7 @@ nl:
       permissions: Rechten
       redirect_uris: Omleidings-URI's
     not_found:
-      sorry: Die toepassing kon helaas niet worden gevonden.
+      sorry: Die toepassing kon helaas niet gevonden worden.
   oauth2_authorizations:
     new:
       title: Autorisatie vereist
@@ -2897,6 +2952,8 @@ nl:
       edits: Bewerkingen
       traces: Trajecten
       notes: Kaartopmerkingen
+      unfollow: Niet langer volgen
+      follow: Volgen
       mapper since: 'Kaartmaker sinds:'
       last map edit: 'Recentste bewerking:'
       no activity yet: Nog geen activiteit
@@ -2971,8 +3028,13 @@ nl:
       user:
         summary_html: '%{name} aangemaakt vanaf %{ip_address} op %{date}'
         summary_no_ip_html: '%{name} aangemaakt op %{date}'
+    comments:
+      index:
+        changesets: Wijzigingensets
+        diary_entries: Dagboekberichten
     changeset_comments:
       page:
+        changeset: Wijzigingenset
         when: Wanneer
         comment: Reactie
     diary_comments:
@@ -2980,6 +3042,7 @@ nl:
         title: Dagboekreacties toegevoegd door %{user}
       page:
         post: Dagboekbericht
+        when: Wanneer
     suspended:
       title: Gebruiker opgeschort
       heading: Account opgeschort
@@ -3021,7 +3084,7 @@ nl:
         of bijwerken.
       non_moderator_revoke: U moet moderator zijn om een blokkade te kunnen verwijderen.
     not_found:
-      sorry: De gebruikersblokkade met het ID %{id} kon helaas niet worden gevonden.
+      sorry: De gebruikersblokkade met het ID %{id} kon helaas niet gevonden worden.
       back: Terug naar de index
     new:
       title: Blokkade aanmaken voor %{name}
@@ -3078,6 +3141,7 @@ nl:
         ended: beëindigd
         revoked_html: ingetrokken door %{name}
         active: actief
+        active_until_read: actief tot gelezen
         read_html: gelezen op %{time}
         time_in_future_title: '%{time_absolute}; in %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3136,9 +3200,9 @@ nl:
     index:
       title: Opmerkingen gemaakt door %{user}
       heading: Opmerkingen van %{user}
-      subheading_html: Opmerkingen %{submitted} of %{commented} door %{user}
-      subheading_submitted: verzonden
-      subheading_commented: gereageerd op
+      subheading_html: Opmerkingen %{submitted} door %{user} of waar %{user} op %{commented}
+      subheading_submitted: geplaatst
+      subheading_commented: reageerde
       no_notes: Geen opmerkingen
       id: Id
       creator: Auteur
@@ -3190,10 +3254,23 @@ nl:
       intro: Een fout gezien? Ontbreekt er iets? Laat het andere kaartmakers weten
         zodat wij het kunnen verbeteren. Verplaats de markering naar de juiste positie
         en beschrijf het probleem.
-      anonymous_warning_html: U bent niet aangemeld. Als u updates van uw aantekening
-        wilt ontvangen, kunt u %{log_in} of %{sign_up}.
-      anonymous_warning_log_in: aanmelden
-      anonymous_warning_sign_up: registreren
+      anonymous_warning_html: Je bent niet aangemeld. Het is aanbevolen %{log_in}
+        of %{sign_up} zodat u reacties van andere kaartmakers kunt ontvangen en uw
+        opmerking beter opgevolgd kan worden.
+      anonymous_warning_log_in: je aan te melden
+      anonymous_warning_sign_up: je te registreren
+      counter_warning_html: Je hebt meer dan %{x_anonymous_notes} geplaatst, dat is
+        geweldig voor de community, bedankt! We willen je graag uitnodigen om %{contribute_by_yourself},
+        het is niet zo heel ingewikkeld en %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} anonieme opmerking'
+        other: '%{count} anonieme opmerkingen'
+      counter_warning_guide_link:
+        text: zelf de kaart te bewerken
+        url: https://wiki.openstreetmap.org/wiki/NL:Beginnershandleiding
+      counter_warning_forum_link:
+        text: de community helpt je graag
+        url: https://community.openstreetmap.org/
       advice: Deze opmerking is openbaar en kan gebruikt worden om de kaart bij te
         werken. Vul hier dus geen persoonlijke informatie in, en ook geen informatie
         uit kaarten of telefoonboeken waar auteursrechtelijke bescherming op rust.
@@ -3206,6 +3283,8 @@ nl:
       showing_page: Pagina %{page}
       next: Volgende
       previous: Vorige
+    not_found_message:
+      sorry: 'Opmerking #%{id} kon helaas niet gevonden worden.'
   javascripts:
     close: Sluiten
     share:

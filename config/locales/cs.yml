@@ -136,7 +136,7 @@ cs:
         support_url: URL s podporou
         allow_read_prefs: číst jejich uživatelské nastavení
         allow_write_prefs: měnit jejich uživatelské nastavení
-        allow_write_diary: vytvářet deníkové záznamy, komentovat a navazovat přátelství
+        allow_write_diary: vytvářet deníkové záznamy a komentáře
         allow_write_api: upravovat mapu
         allow_read_gpx: číst jejich soukromé GPS stopy
         allow_write_gpx: nahrávat GPS stopy
@@ -570,6 +570,7 @@ cs:
       title: Sady změn
       title_user: Sady změn uživatele %{user}
       title_user_link_html: Sady změn uživatele %{user_link}
+      title_followed: Sady změn sledovaných
       title_nearby: Sady změn uživatelů poblíž
       empty: Nebyly nalezeny žádné sady změn.
       empty_area: Pro tuto oblast neexistují žádné sady změn.
@@ -639,14 +640,19 @@ cs:
     popup:
       your location: Vaše poloha
       nearby mapper: Nedaleký uživatel
+      following: Sledovaný
     show:
       title: Moje nástěnka
       no_home_location_html: '%{edit_profile_link} a nastavte si domovskou lokaci,
         abyste viděli uživatele ve vašem okolí.'
       edit_your_profile: Upravte si profil
+      followings: Sledovaní
+      no followings: Zatím nesledujete žádného uživatele.
       nearby users: Další uživatelé poblíž
       no nearby users: Nejsou známi žádní uživatelé, kteří by uvedli domov blízko
         vás.
+      followed_changesets: sady změn
+      followed_diaries: deníkové záznamy
       nearby_changesets: sady změn uživatelů poblíž
       nearby_diaries: záznamy v denících uživatelů poblíž
   diary_entries:
@@ -657,6 +663,7 @@ cs:
       use_map_link: Použít mapu
     index:
       title: Deníky uživatelů
+      title_followed: Deníky sledovaných
       title_nearby: Deníky uživatelů poblíž
       user_title: Deník uživatele %{user}
       in_language_title: Deníkové záznamy v jazyce %{language}
@@ -780,6 +787,23 @@ cs:
       title: Soubor nenalezen
       description: Na serveru OpenStreetMap se nepodařilo najít soubor/adresář/operaci
         API s tímto názvem (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Chcete sledovat uživatele %{user}?
+        button: Sledovat uživatele
+      unfollow:
+        heading: Chcete přestat sledovat uživatele %{user}?
+        button: Přestat sledovat uživatele
+    create:
+      success: Nyní sledujete uživatele %{name}!
+      failed: Je nám líto, ale váš požadavek sledovat uživatele %{name} selhal.
+      already_followed: Uživatele %{name} už sledujete.
+      limit_exceeded: V poslední době jste začali sledovat spoustu uživatelů. Před
+        sledováním dalších prosím chvíli počkejte.
+    destroy:
+      success: Úspěšně jste přestali sledovat uživatele %{name}.
+      not_followed: Uživatele %{name} nesledujete.
   geocoder:
     search:
       title:
@@ -1754,8 +1778,12 @@ cs:
         autorovi na %{replyurl}
     follow_notification:
       hi: Dobrý den, uživateli %{to_user},
+      subject: '[OpenStreetMap] Uživatel %{user} vás začal sledovat'
+      followed_you: Uživatel %{user} vás nyní na OpenStreetMap sleduje.
       see_their_profile: Jeho/její profil si můžete prohlédnout na %{userurl}.
       see_their_profile_html: Jeho/její profil si můžete prohlédnout na %{userurl}.
+      follow_them: Můžete ho také začít sledovat na %{followurl}.
+      follow_them_html: Můžete ho také začít sledovat na %{followurl}.
     gpx_details:
       details: 'Podrobnosti o vašem souboru:'
       filename: Název souboru
@@ -1924,14 +1952,17 @@ cs:
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, kterou si chcete přečíst,
         není ani od, ani pro tohoto uživatele. Pokud si ji chcete přečíst, přihlaste
         se pod správným účtem.
-    mark:
-      as_read: Zpráva označena jako přečtená
-      as_unread: Zpráva označena jako nepřečtená
-    unmute:
-      notice: Zpráva byla přesunuta do doručené pošty
-      error: Zprávu se nepodařilo přesunout do doručené pošty.
     destroy:
       destroyed: Zpráva smazána
+    read_marks:
+      create:
+        notice: Zpráva označena jako přečtená
+      destroy:
+        notice: Zpráva označena jako nepřečtená
+    mutes:
+      destroy:
+        notice: Zpráva byla přesunuta do doručené pošty
+        error: Zprávu se nepodařilo přesunout do doručené pošty.
     mailboxes:
       heading:
         my_inbox: Má doručená pošta
@@ -2093,6 +2124,9 @@ cs:
       preview: Náhled
       help: Nápověda
     pagination:
+      changeset_comments:
+        older: Starší komentáře
+        newer: Novější komentáře
       diary_comments:
         older: Starší komentáře
         newer: Novější komentáře
@@ -2780,7 +2814,7 @@ cs:
       openid: Přihlaste se pomocí OpenStreetMap
       read_prefs: Číst preference uživatele
       write_prefs: Měnit preference uživatele
-      write_diary: Vytvářet deníkové záznamy, komentovat a navazovat přátelství
+      write_diary: Vytvářet deníkové záznamy a komentáře
       write_api: Upravovat mapu
       read_gpx: Číst soukromé GPS stopy
       write_gpx: Nahrávat GPS stopy
@@ -2910,6 +2944,8 @@ cs:
       edits: Úpravy
       traces: Stopy
       notes: Poznámky k mapě
+      unfollow: Přestat sledovat
+      follow: Sledovat
       mapper since: 'Účastník projektu od:'
       last map edit: 'Poslední úprava mapy:'
       no activity yet: Zatím žádná činnost
@@ -2988,8 +3024,17 @@ cs:
       user:
         summary_html: '%{name} vytvořeno %{date} z %{ip_address}'
         summary_no_ip_html: '%{name} vytvořen %{date}'
+    comments:
+      index:
+        heading_html: Komentáře uživatele %{user}
+        changesets: Sady změn
+        diary_entries: Deníkové záznamy
+        no_comments: Žádné komentáře
     changeset_comments:
+      index:
+        title: Komentáře k sadám změn přidané uživatelem %{user}
       page:
+        changeset: Sada změn
         when: Kdy
         comment: Komentář
     diary_comments:
@@ -2997,6 +3042,8 @@ cs:
         title: Komentáře k deníkům přidané uživatelem %{user}
       page:
         post: Záznam
+        when: Kdy
+        comment: Komentář
     suspended:
       title: Účet pozastaven
       heading: Účet pozastaven

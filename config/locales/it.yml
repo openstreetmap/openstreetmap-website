@@ -564,6 +564,7 @@ it:
       title: Gruppi di modifiche
       title_user: Gruppi di modifiche di %{user}
       title_user_link_html: Gruppi di modifiche di %{user_link}
+      title_followed: Gruppi di modifiche delle persone che segui
       title_nearby: Gruppi di modifiche da parte di utenti nelle vicinanze
       empty: Nessun gruppo di modifiche trovato.
       empty_area: Nessun gruppo di modifiche in quest'area.
@@ -634,14 +635,19 @@ it:
     popup:
       your location: Propria posizione
       nearby mapper: Mappatore vicino
+      following: Utenti che ti seguono
     show:
       title: La mia dashboard
       no_home_location_html: '%{edit_profile_link} e imposta la posizione di casa
         per vedere gli utenti vicini.'
       edit_your_profile: Modifica il tuo profilo
+      followings: Utenti che segui
+      no followings: Non stai ancora seguendo alcun utente.
       nearby users: Altri utenti nelle vicinanze
       no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
         vicinanze.
+      followed_changesets: gruppi di modifiche
+      followed_diaries: voci del diario
       nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
       nearby_diaries: note dei diari degli utenti nelle vicinanze
   diary_entries:
@@ -652,6 +658,7 @@ it:
       use_map_link: Utilizza mappa
     index:
       title: Diari degli utenti
+      title_followed: Diari delle persone che segui
       title_nearby: Diari degli utenti nelle vicinanze
       user_title: Diario di %{user}
       in_language_title: Voci del diario in %{language}
@@ -777,6 +784,23 @@ it:
       title: File non trovato
       description: Impossibile trovare un file/cartella/operazione API con questo
         nome sul server OpenStreetMap (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Vuoi seguire %{user}?
+        button: Segui utente
+      unfollow:
+        heading: Vuoi smettere di seguire %{user}?
+        button: Smetti di seguire utente
+    create:
+      success: Adesso stai seguendo %{name}!
+      failed: La tua richiesta di seguire %{name} è fallita.
+      already_followed: Stai già seguendo %{name}.
+      limit_exceeded: Hai iniziato a seguire molti utenti di recente. Attendi un po’
+        prima di tentare di seguirne altri.
+    destroy:
+      success: Hai smesso di seguire con successo %{name}.
+      not_followed: Non stai seguendo %{name}.
   geocoder:
     search:
       title:
@@ -1747,8 +1771,12 @@ it:
         messaggio all'autore al %{replyurl}
     follow_notification:
       hi: Ciao %{to_user},
+      subject: '[OpenStreetMap] %{user} ha iniziato a seguirti'
+      followed_you: '%{user} ora ti segue su OpenStreetMap.'
       see_their_profile: Puoi vedere il suo profilo su %{userurl}.
       see_their_profile_html: Puoi vedere il suo profilo su %{userurl}.
+      follow_them: Puoi seguirli anche su %{followurl}.
+      follow_them_html: Puoi seguirli anche su %{followurl}.
     gpx_details:
       details: 'I dettagli del tuo file:'
       filename: Nome del file
@@ -1756,6 +1784,7 @@ it:
       description: Descrizione
       tags: Etichette
       total_points: Numero totale di punti
+      imported_points: Numero di punti importati
     gpx_failure:
       hi: Ciao %{to_user},
       failed_to_import: Sembra che l'importazione del file come traccia GPS non sia
@@ -1918,14 +1947,17 @@ it:
       wrong_user: Hai effettuato l'accesso come '%{user}', ma il messaggio che hai
         chiesto di leggere non era diretto a quell'utente. Se vuoi leggerlo, per favore
         accedi con l'utenza interessata.
-    mark:
-      as_read: Messaggio marcato come già letto
-      as_unread: Messaggio marcato come non letto
-    unmute:
-      notice: Il messaggio è stato spostato nella Posta in arrivo
-      error: Non è stato possibile spostare il messaggio nella Posta in arrivo.
     destroy:
       destroyed: Messaggio eliminato
+    read_marks:
+      create:
+        notice: Messaggio marcato come già letto
+      destroy:
+        notice: Messaggio marcato come non letto
+    mutes:
+      destroy:
+        notice: Il messaggio è stato spostato nella Posta in arrivo
+        error: Non è stato possibile spostare il messaggio nella Posta in arrivo.
     mailboxes:
       heading:
         my_inbox: Posta in arrivo
@@ -2083,6 +2115,9 @@ it:
       preview: Anteprima
       help: Aiuto
     pagination:
+      changeset_comments:
+        older: Commenti meno recenti
+        newer: Commenti più recenti
       diary_comments:
         older: Commenti più vecchi
         newer: Commenti più recenti
@@ -2910,6 +2945,8 @@ it:
       edits: Modifiche
       traces: Tracciati
       notes: Note sulla mappa
+      unfollow: Smetti di seguire
+      follow: Segui
       mapper since: 'Mappatore dal:'
       last map edit: 'Ultima modifica della mappa:'
       no activity yet: Non ci sono ancora attività
@@ -2985,8 +3022,17 @@ it:
       user:
         summary_html: '%{name} creato da %{ip_address} il %{date}'
         summary_no_ip_html: '%{name} creato il %{date}'
+    comments:
+      index:
+        heading_html: Commenti di %{user}
+        changesets: Gruppi di modifiche
+        diary_entries: Voci del diario
+        no_comments: Nessun commento
     changeset_comments:
+      index:
+        title: Commenti del diario aggiunti da %{user}
       page:
+        changeset: Gruppo di modifiche
         when: Quando
         comment: Commento
     diary_comments:
@@ -2994,6 +3040,8 @@ it:
         title: Commenti del diario aggiunti da %{user}
       page:
         post: Messaggio
+        when: Quando
+        comment: Commento
     suspended:
       title: Account sospeso
       heading: Account sospeso
@@ -3205,10 +3253,14 @@ it:
         per ricevere aggiornamenti sulla tua nota e aiutare i mappatori a risolverla.
       anonymous_warning_log_in: entra
       anonymous_warning_sign_up: registrati
+      counter_warning_html: Hai già pubblicato almeno %{x_anonymous_notes}, è fantastico
+        per la comunità, grazie! Adesso ti incoraggiamo a %{contribute_by_yourself},
+        non è così complicato e %{community_can_help}.
       x_anonymous_notes:
         one: '%{count} nota anonima'
         other: '%{count} note anonime'
       counter_warning_guide_link:
+        text: contribuire personalmente
         url: https://wiki.openstreetmap.org/wiki/IT:Beginners%27_guide
       counter_warning_forum_link:
         text: la comunità può aiutarti

@@ -88,7 +88,7 @@ cy:
         support_url: URL Cefnogaeth
         allow_read_prefs: darllen eu dewisiadau defnyddiwr
         allow_write_prefs: addasu eu dewisiadau defnyddiwr
-        allow_write_diary: creu cofnodion dyddiadur, sylwadau a gwneud ffrindiau
+        allow_write_diary: creu cofnodion dyddiadur a sylwadau
         allow_write_api: golygu'r map
         allow_read_gpx: darllen eu harllwybrau GPS
         allow_write_gpx: uwchlwytho olion GPS
@@ -604,13 +604,18 @@ cy:
     popup:
       your location: Eich lleoliad
       nearby mapper: Mapiwr gerllaw
+      following: Yn dilyn
     show:
       title: Fy Nangosfwrdd
       no_home_location_html: '%{edit_profile_link} a gosodwch eich lleoliad i weld
         defnyddwyr cyfagos.'
       edit_your_profile: Golygwch eich proffil
+      followings: Yn dilyn
+      no followings: Nid ydych wedi dilyn unrhyw ddefnyddwyr eto.
       nearby users: Defnyddwyr eraill gerllaw
       no nearby users: Nid oes defnyddwyr gerllaw sy'n dweud eu bod yn mapio eto.
+      followed_changesets: grwpiau newid
+      followed_diaries: cofnodion dyddiadur
       nearby_changesets: grwpiau newid defnyddwyr gerllaw
       nearby_diaries: cofnodion dyddiaduron defnyddwyr gerllaw
   diary_entries:
@@ -621,6 +626,7 @@ cy:
       use_map_link: Defnyddio Map
     index:
       title: Dyddiaduron Defnyddwyr
+      title_followed: Dyddiaduron eich Yn Dilyn
       title_nearby: Dyddiaduron Defnyddwyr Gerllaw
       user_title: Dyddiadur %{user}
       in_language_title: Cofnodion Dyddiadur %{language}
@@ -735,6 +741,16 @@ cy:
       title: Gwall ap
     not_found:
       title: Heb ganfod ffeil
+  follows:
+    show:
+      follow:
+        heading: Ydych chi am ddilyn %{user}?
+        button: Dilyn Defnyddiwr
+      unfollow:
+        button: Dad-ddilyn Defnyddiwr
+    create:
+      success: Rydych nawr yn dilyn %{name}!
+      already_followed: Rydych chi eisoes yn dilyn %{name}.
   geocoder:
     search:
       title:
@@ -1064,9 +1080,9 @@ cy:
           stone: Carreg
           tomb: Beddrod
           tower: Tŵr
-          wayside_chapel: Capel Min y Ffordd
-          wayside_cross: Croes Min y Ffordd
-          wayside_shrine: Cysegrfa Min y Ffordd
+          wayside_chapel: Capel Min Ffordd
+          wayside_cross: Croes Min Ffordd
+          wayside_shrine: Cysegr Min Ffordd
           wreck: Llongddrylliad
           "yes": Safle Hanesyddol
         information:
@@ -1697,12 +1713,14 @@ cy:
         at yr awdur yn %{replyurl}
     follow_notification:
       hi: Helo %{to_user},
+      subject: '[OpenStreetMap] Mae %{user} wedi eich dilyn'
       see_their_profile: 'Gallwch weld eu proffil yma: %{userurl}.'
       see_their_profile_html: 'Gallwch weld eu proffil yma: %{userurl}.'
     gpx_details:
       details: 'Manylion eich ffeil:'
       filename: Enw ffeil
       url: URL
+      description: Disgrifiad
       tags: Tagiau
     gpx_failure:
       hi: Helo %{to_user},
@@ -1828,14 +1846,17 @@ cy:
       unread_button: Marcio fel heb ei ddarllen
       destroy_button: Dileu
       back: Yn ôl
-    mark:
-      as_read: Nodwyd fod y neges wedi ei ddarllen
-      as_unread: Nodwyd nad yw'r neges wedi ei ddarllen
-    unmute:
-      notice: Symudwyd y neges i'r Mewnflwch
-      error: Nid oedd modd symud y neges i'r Mewnflwch.
     destroy:
       destroyed: Neges wedi'i dileu
+    read_marks:
+      create:
+        notice: Nodwyd fod y neges wedi ei ddarllen
+      destroy:
+        notice: Nodwyd nad yw'r neges wedi ei ddarllen
+    mutes:
+      destroy:
+        notice: Symudwyd y neges i'r Mewnflwch
+        error: Nid oedd modd symud y neges i'r Mewnflwch.
     mailboxes:
       heading:
         my_inbox: Fy Mewnflwch
@@ -1994,6 +2015,9 @@ cy:
       preview: Rhagolwg
       help: Cymorth
     pagination:
+      changeset_comments:
+        older: Sylwadau Hŷn
+        newer: Sylwadau Diweddarach
       diary_comments:
         older: Sylwadau Hŷn
         newer: Sylwadau Diweddarach
@@ -2649,7 +2673,7 @@ cy:
       openid: Mewngofnodi ag OpenStreetMap
       read_prefs: Darllen dewisiadau defnyddwyr
       write_prefs: Addasu dewisiadau defnyddwyr
-      write_diary: Creu cofnodion dyddiadur, sylwadau a gwneud ffrindiau
+      write_diary: Creu cofnodion dyddiadur a sylwadau
       write_api: Golygu'r map
       read_gpx: Darllen olion GPS preifat
       write_gpx: Uwchlwytho olion GPS
@@ -2750,6 +2774,8 @@ cy:
       edits: Golygiadau
       traces: Olion
       notes: Nodiadau Map
+      unfollow: Dad-ddilyn
+      follow: Dilyn
       mapper since: 'Yn mapio ers:'
       last map edit: 'Golygiad map diwethaf:'
       no activity yet: Dim gweithgaredd eto
@@ -2833,8 +2859,16 @@ cy:
       user:
         summary_html: Crëwyd %{name} o %{ip_address} ar %{date}
         summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
+    comments:
+      index:
+        changesets: Grwpiau newid
+        diary_entries: Cofnodion dyddiadur
+        no_comments: Dim sylwadau
     changeset_comments:
+      index:
+        title: Sylwadau Grŵp Newid wedi'u hychwanegu gan %{user}
       page:
+        changeset: Grŵp newid
         when: Pryd
         comment: Sylw
     diary_comments:
@@ -2842,6 +2876,8 @@ cy:
         title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
       page:
         post: Post
+        when: Pryd
+        comment: Sylw
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
@@ -3043,6 +3079,10 @@ cy:
         os ydych chi eisiau derbyn diweddariadau am eich nodyn.
       anonymous_warning_log_in: Mewngofnodwch
       anonymous_warning_sign_up: gofrestrwch
+      counter_warning_guide_link:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      counter_warning_forum_link:
+        url: https://community.openstreetmap.org/
       advice: Mae eich nodyn yn gyhoeddus a gellid ei ddefnyddio i ddiweddaru'r map,
         felly peidiwch ag ysgrifennu gwybodaeth bersonol, na gwybodaeth o fapiau hawlfreintiedig
         neu gyfeiriaduron.

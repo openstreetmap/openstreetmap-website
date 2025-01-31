@@ -536,6 +536,7 @@ de:
       feature_warning: Lade %{num_features} Funktionen, was deinen Browser verlangsamen
         oder nicht mehr reagieren lassen könnte. Bist du sicher, dass du diese Daten
         anzeigen möchtest?
+      feature_error: 'Funktionen konnten nicht geladen werden: %{message}'
       load_data: Daten laden
       loading: Lade …
     tag_details:
@@ -1682,9 +1683,11 @@ de:
       reports: Meldungen
       last_updated: Zuletzt aktualisiert
       last_updated_time_ago_user_html: '%{time_ago} von %{user}'
+      reporter_users: Reporter-Benutzer
       reports_count:
         one: Eine Meldung
         other: '%{count} Meldungen'
+      more_reporters: und %{count} mehr
       reported_item: Gemeldetes Objekt
       states:
         ignored: Ignoriert
@@ -2017,14 +2020,17 @@ de:
       wrong_user: Du bist als '%{user}' angemeldet, aber die Nachricht, die du lesen
         möchtest, wurde nicht von diesem Benutzer oder an diesen gesendet. Bitte melde
         dich mit dem korrekten Benutzer an, um sie zu lesen.
-    mark:
-      as_read: Nachricht als gelesen markiert
-      as_unread: Nachricht als ungelesen markiert
-    unmute:
-      notice: Die Nachricht wurde in den Posteingang verschoben
-      error: Die Nachricht konnte nicht in den Posteingang verschoben werden.
     destroy:
       destroyed: Nachricht gelöscht
+    read_marks:
+      create:
+        notice: Nachricht als gelesen markiert
+      destroy:
+        notice: Nachricht als ungelesen markiert
+    mutes:
+      destroy:
+        notice: Die Nachricht wurde in den Posteingang verschoben
+        error: Die Nachricht konnte nicht in den Posteingang verschoben werden.
     mailboxes:
       heading:
         my_inbox: Posteingang
@@ -2186,6 +2192,9 @@ de:
       preview: Vorschau
       help: Hilfe
     pagination:
+      changeset_comments:
+        older: Ältere Kommentare
+        newer: Neuere Kommentare
       diary_comments:
         older: Ältere Kommentare
         newer: Neuere Kommentare
@@ -3110,8 +3119,17 @@ de:
       user:
         summary_html: '%{name} erstellt von %{ip_address} am %{date}'
         summary_no_ip_html: '%{name} erstellt am %{date}'
+    comments:
+      index:
+        heading_html: '%{user}s Blogeintrag-Kommentare'
+        changesets: Änderungssätze
+        diary_entries: Blogeinträge
+        no_comments: Keine Kommentare
     changeset_comments:
+      index:
+        title: Blogeintrag-Kommentare hinzugefügt von %{user}
       page:
+        changeset: Änderungssatz
         when: Zeitpunkt
         comment: Kommentar
     diary_comments:
@@ -3119,6 +3137,8 @@ de:
         title: Tagebuch-Kommentare hinzugefügt von %{user}
       page:
         post: Blogeintrag
+        when: Wann
+        comment: Kommentar
     suspended:
       title: Benutzerkonto gesperrt
       heading: Benutzerkonto gesperrt

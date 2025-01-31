@@ -109,7 +109,7 @@ eo:
         support_url: Subtena retadreso
         allow_read_prefs: legi preferojn de uzantoj
         allow_write_prefs: modifi preferojn de uzantoj
-        allow_write_diary: afiŝi en taglibro, komenti kaj amikiĝi
+        allow_write_diary: afiŝi en taglibro kaj komenti
         allow_write_api: redakti la mapon
         allow_read_gpx: legi privatajn GPS-spurojn
         allow_write_gpx: alŝuti GPS-spurojn
@@ -516,6 +516,7 @@ eo:
       title: Ŝanĝaroj
       title_user: Ŝanĝaroj de %{user}
       title_user_link_html: Ŝanĝaroj de %{user_link}
+      title_followed: Ŝanĝaroj de uloj, kiujn mi sekvas
       title_nearby: Ŝanĝaroj de proksimaj uzantoj
       empty: Neniu trovita ŝanĝaro.
       empty_area: Neniu ŝanĝaro en tiu ĉi areo.
@@ -585,15 +586,20 @@ eo:
     popup:
       your location: Via loko
       nearby mapper: Proksima uzanto
+      following: Sekvata de mi
     show:
       title: Mia panelo
       no_home_location_html: '%{edit_profile_link} kaj agordu vian hejmlokon por vidi
         proksimajn uzantojn.'
       edit_your_profile: Redaktu vian profilon
+      followings: Uzantoj sekvataj de mi
+      no followings: Vi ankoraŭ sekvas neniun uzanton.
       nearby users: Plej proksimaj uzantoj
       no nearby users: Neniu alia uzanto, kiu deklaris mapigadon en tiu ĉi areo.
-      nearby_changesets: ŝanĝaroj de proksimuloj
-      nearby_diaries: afiŝoj en taglibroj de proksimuloj
+      followed_changesets: ŝanĝaroj
+      followed_diaries: afiŝoj en taglibroj
+      nearby_changesets: ŝanĝaroj
+      nearby_diaries: afiŝoj en taglibroj
   diary_entries:
     new:
       title: Nova taglibra afiŝo
@@ -602,6 +608,7 @@ eo:
       use_map_link: Montri sur mapo
     index:
       title: Taglibroj de uzantoj
+      title_followed: Taglibroj de sekvataj uzantoj
       title_nearby: Taglibroj de proksimaj uzantoj
       user_title: Taglibro de %{user}
       in_language_title: Taglibraj afiŝoj en %{language}
@@ -722,6 +729,23 @@ eo:
       title: Paĝo ne trovita
       description: Ne povis trovi dosieron/dosierujon/API-peton kun tiu ĉi nomo ĉe
         la OpenStreetMap-servilo (HTTP 404).
+  follows:
+    show:
+      follow:
+        heading: Ĉu vi volas aldoni la uzanton %{user} al sekvataj?
+        button: Aldoni al sekvataj uzantoj
+      unfollow:
+        heading: Ĉu vi volas forigi la uzanton %{user} el sekvataj?
+        button: Forigi el sekvataj uzantoj
+    create:
+      success: Vi nun sekvas la uzanton %{name}!
+      failed: Bedaŭrinde malsukcesis aldoni la uzanton %{name} al viaj sekvataj uzantoj.
+      already_followed: Vi jam sekvas la uzanton %{name}.
+      limit_exceeded: Vi antaŭtempe aldonis multajn uzantojn al via listo de sekvataj
+        uzantoj. Atendu iom da tempo antaŭ aldoni pliajn.
+    destroy:
+      success: Vi nun ne sekvas la uzanton %{name}.
+      not_followed: Vi ne sekvas la uzanton %{name}.
   geocoder:
     search:
       title:
@@ -1690,8 +1714,13 @@ eo:
         al la aŭtoro ĉe %{replyurl}
     follow_notification:
       hi: Saluton %{to_user},
+      subject: '[OpenStreetMap] %{user} sekvas vin'
+      followed_you: La uzanto %{user} nun aldonis vin al sia listo de sekvataj uzantoj
+        sur OpenStreetMap.
       see_their_profile: Vi povas vidi ties profilon ĉe %{userurl}.
       see_their_profile_html: Vi povas vidi ties profilon ĉe %{userurl}.
+      follow_them: Vi ankaŭ povas sekvi lin ĉe %{followurl}.
+      follow_them_html: Vi ankaŭ povas sekvi lin ĉe %{followurl}.
     gpx_details:
       details: 'Detaloj pri via dosiero:'
       filename: Dosiernomo
@@ -1845,14 +1874,17 @@ eo:
       wrong_user: Vi estas ensalutinta kiel '%{user}', sed la mesaĝo – kiun vi volas
         legi – ne estas sendita al aŭ el tiu uzanto. Ensalutu kiel propra uzanto por
         legi ĝin.
-    mark:
-      as_read: Mesaĝo markita kiel legitan
-      as_unread: Mesaĝo markita kiel nelegitan
-    unmute:
-      notice: Movis mesaĝon al ricevujo
-      error: La mesaĝo ne povis esti movita al la ricevujo.
     destroy:
       destroyed: Mesaĝo forigita
+    read_marks:
+      create:
+        notice: Mesaĝo markita kiel legitan
+      destroy:
+        notice: Mesaĝo markita kiel nelegitan
+    mutes:
+      destroy:
+        notice: Movis mesaĝon al ricevujo
+        error: La mesaĝo ne povis esti movita al la ricevujo.
     mailboxes:
       heading:
         my_inbox: Ricevujo
@@ -2009,6 +2041,9 @@ eo:
       preview: Antaŭvidi
       help: Helpo
     pagination:
+      changeset_comments:
+        older: Pli malnovaj komentoj
+        newer: Pli novaj komentoj
       diary_comments:
         older: Pli malnovaj komentoj
         newer: Pli novaj komentoj
@@ -2686,7 +2721,7 @@ eo:
       openid: ensaluti uzante OpenStreetMap
       read_prefs: legi preferojn de uzanto
       write_prefs: modifi preferojn de uzanto
-      write_diary: afiŝi en taglibro, komenti kaj aldoni amikojn
+      write_diary: afiŝi en taglibro kaj komenti
       write_api: redakti la mapon
       read_gpx: legi privatajn GPS-spurojn
       write_gpx: alŝuti GPS-spurojn
@@ -2814,6 +2849,8 @@ eo:
       edits: Redaktoj
       traces: Spuroj
       notes: Map-rimarkoj
+      unfollow: Ne sekvi
+      follow: Sekvi
       mapper since: 'Mapigisto ekde:'
       last map edit: 'Antaŭa map-redakto:'
       no activity yet: ankoraŭ neniu agado
@@ -2886,8 +2923,17 @@ eo:
       user:
         summary_html: '%{name} kreita de %{ip_address} je %{date}'
         summary_no_ip_html: '%{name} kreita je %{date}'
+    comments:
+      index:
+        heading_html: Komentoj de %{user}
+        changesets: pri ŝanĝaroj
+        diary_entries: pri taglibraj afiŝoj
+        no_comments: Neniu komento
     changeset_comments:
+      index:
+        title: Komentoj pri ŝanĝaroj skribitaj de %{user}
       page:
+        changeset: Ŝanĝaro
         when: Kiam
         comment: Komento
     diary_comments:
@@ -2895,6 +2941,8 @@ eo:
         title: Komentoj de %{user} sub taglibraj afiŝoj
       page:
         post: Afiŝi
+        when: Kiam
+        comment: Komento
     suspended:
       title: Konto haltigita
       heading: Konto haltigita

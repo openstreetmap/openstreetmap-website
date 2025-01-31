@@ -513,8 +513,9 @@ gl:
       view_changeset_details: Ollar os detalles do conxunto de modificacións
     index:
       title: Conxuntos de modificacións
-      title_user: Conxuntos de modificacións por %{user}
-      title_user_link_html: Conxuntos de modificacións por %{user_link}
+      title_user: Conxuntos de modificacións de %{user}
+      title_user_link_html: Conxuntos de modificacións de %{user_link}
+      title_followed: Conxuntos de modificacións das persoas que segues
       title_nearby: Conxuntos de modificacións dos usuarios de lugares preto de ti
       empty: Non se atoparon conxuntos de modificacións.
       empty_area: Non hai conxuntos de modificacións nesta zona.
@@ -586,13 +587,18 @@ gl:
     popup:
       your location: A túa localización
       nearby mapper: Cartógrafo preto de ti
+      following: Seguindo
     show:
       title: O meu panel de control
       no_home_location_html: '%{edit_profile_link} e define a localización da túa
         casa para ver usuarios preto de ti.'
       edit_your_profile: Editar o teu perfil
+      followings: Persoas que segues
+      no followings: Aínda non segues a ningunha persoa.
       nearby users: Outros usuarios preto de ti
       no nearby users: Aínda non hai usuarios que estean situados preto de ti.
+      followed_changesets: conxuntos de modificacións
+      followed_diaries: entradas no diario
       nearby_changesets: conxuntos de modificacións dos usuarios de lugares preto
         de ti
       nearby_diaries: entradas de diario dos usuarios de lugares preto de ti
@@ -604,6 +610,7 @@ gl:
       use_map_link: Empregar mapa
     index:
       title: Diarios dos usuarios
+      title_followed: Diarios das persoas que segues
       title_nearby: Diarios dos usuarios de lugares preto de ti
       user_title: Diario de %{user}
       in_language_title: Entradas do diario en %{language}
@@ -731,6 +738,23 @@ gl:
       title: Non se atopou o ficheiro
       description: Non se puido atopar unha operación de ficheiro/directorio/API con
         ese nome no servidor do OpenStreetMap (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Queres seguir a %{user}?
+        button: Seguir a persoa
+      unfollow:
+        heading: Queres deixar de seguir a %{user}?
+        button: Deixar de seguir a persoa
+    create:
+      success: Agora segues a %{name}!
+      failed: Sentímolo, fallou a túa solicitude para seguir a %{name}.
+      already_followed: Xa segues a %{name}.
+      limit_exceeded: Estiveches seguindo a moitas persoas recentemente. Agarda uns
+        intres antes de intentar seguir a máis.
+    destroy:
+      success: Deixaches de seguir a %{name}.
+      not_followed: Non segues a %{name}.
   geocoder:
     search:
       title:
@@ -1701,8 +1725,12 @@ gl:
         autor en %{replyurl}
     follow_notification:
       hi: 'Ola %{to_user}:'
+      subject: '[OpenStreetMap] %{user} seguiute'
+      followed_you: '%{user} está a seguirte no OpenStreetMap.'
       see_their_profile: Podes ollar o seu perfil en %{userurl}.
       see_their_profile_html: Podes ollar o seu perfil en %{userurl}.
+      follow_them: Tamén podes seguir a esta persoa en %{followurl}.
+      follow_them_html: Tamén podes seguir a esta persoa en %{followurl}.
     gpx_details:
       details: 'Detalles do teu ficheiro:'
       filename: Nome do ficheiro
@@ -1872,14 +1900,17 @@ gl:
       wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
         ler non a enviou ese usuario nin foi enviada a ese usuario. Accede co usuario
         correcto para ler a mensaxe.
-    mark:
-      as_read: Mensaxe marcada coma lida
-      as_unread: Mensaxe marcada coma non lida
-    unmute:
-      notice: A mensaxe moveuse á caixa de entrada
-      error: Non se puido mover a mensaxe á caixa de entrada.
     destroy:
       destroyed: Mensaxe eliminada
+    read_marks:
+      create:
+        notice: Mensaxe marcada coma lida
+      destroy:
+        notice: Mensaxe marcada coma non lida
+    mutes:
+      destroy:
+        notice: A mensaxe moveuse á caixa de entrada
+        error: Non se puido mover a mensaxe á caixa de entrada.
     mailboxes:
       heading:
         my_inbox: A miña caixa de entrada
@@ -2040,6 +2071,9 @@ gl:
       preview: Vista previa
       help: Axuda
     pagination:
+      changeset_comments:
+        older: Comentarios máis vellos
+        newer: Comentarios máis recentes
       diary_comments:
         older: Comentarios máis vellos
         newer: Comentarios máis recentes
@@ -2878,6 +2912,8 @@ gl:
       edits: Edicións
       traces: Pistas
       notes: Notas do mapa
+      unfollow: Deixar de seguir
+      follow: Seguir
       mapper since: 'Cartógrafo dende:'
       last map edit: 'Última edición do mapa:'
       no activity yet: Aínda non hai actividade
@@ -2953,8 +2989,17 @@ gl:
       user:
         summary_html: '%{name} creado dende %{ip_address} o %{date}'
         summary_no_ip_html: '%{name} creado o %{date}'
+    comments:
+      index:
+        heading_html: Comentarios de %{user}
+        changesets: Conxuntos de modificacións
+        diary_entries: Entradas no diario
+        no_comments: Sen comentarios
     changeset_comments:
+      index:
+        title: Conxuntos de modificacións engadidos por %{user}
       page:
+        changeset: Conxunto de modificacións
         when: Cando
         comment: Comentario
     diary_comments:
@@ -2962,6 +3007,8 @@ gl:
         title: Comentarios do diario engadidos por %{user}
       page:
         post: Artigo
+        when: Cando
+        comment: Comentario
     suspended:
       title: Conta suspendida
       heading: Conta suspendida

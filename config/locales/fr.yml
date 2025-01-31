@@ -6,6 +6,7 @@
 # Author: Adriendelucca
 # Author: Ajeje Brazorf
 # Author: Alno
+# Author: AnatoleeSV
 # Author: Antimuonium
 # Author: BlueCamille
 # Author: Boniface
@@ -201,8 +202,7 @@ fr:
         support_url: URL de l’assistance
         allow_read_prefs: lire les préférences de l’utilisateur
         allow_write_prefs: modifier les préférences de l’utilisateur
-        allow_write_diary: créer des entrées du journal, des commentaires et des liens
-          d’amitié
+        allow_write_diary: créer des entrées du journal et des commentaires
         allow_write_api: modifier la carte
         allow_read_gpx: lire ses traces GPS privées
         allow_write_gpx: téléverser des traces GPS
@@ -453,6 +453,7 @@ fr:
         consider_pd: En plus de l’accord ci-dessus, je considère mes contributions
           comme étant dans le domaine public.
         consider_pd_why: qu’est-ce que ceci ?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Informations pour aider à comprendre ces termes : un
           %{readable_summary_link} et quelques %{informal_translations_link}'
         readable_summary: résumé lisible par un humain
@@ -473,6 +474,7 @@ fr:
           les nouvelles Conditions de contribution. Pour plus d’informations, veuillez
           consulter %{terms_declined_link}.
         terms_declined_link: cette page du wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: Supprimé %{time_ago} par %{user}
     edited_ago_by_html: Modifié %{time_ago} par %{user}
@@ -575,6 +577,8 @@ fr:
       view_redacted_data: Afficher les données masquées
       view_redaction_message: Afficher le message de masquage
   nodes:
+    not_found_message:
+      sorry: 'Désolé, node #%{id} n''a pas pu être trouvé'
     timeout:
       sorry: Désolé, l'extraction des données du nœud avec l'identifiant %{id} a pris
         trop de temps.
@@ -584,6 +588,8 @@ fr:
     timeout:
       sorry: Désolé, l'historique du nœud avec l'ID %{id} a pris trop de temps à récupérer.
   ways:
+    not_found_message:
+      sorry: 'Désolé, le chemin #%{id} n''a pas pu être trouvé.'
     timeout:
       sorry: Désolé, les données du chemin avec l'ID %{id} ont pris trop de temps
         à récupérer.
@@ -594,6 +600,8 @@ fr:
       sorry: Désolé, l'historique du chemin avec l'identifiant %{id} a pris trop de
         temps pour être récupéré.
   relations:
+    not_found_message:
+      sorry: 'Désolé, la relation #%{id} n''a pas pu être trouvé.'
     timeout:
       sorry: Désolé, l'extraction des données de la relation avec l'identifiant %{id}
         a pris trop de temps.
@@ -624,6 +632,7 @@ fr:
       title: Groupes de modifications
       title_user: Groupes de modifications par %{user}
       title_user_link_html: Groupes de modifications par %{user_link}
+      title_followed: Modifications par suivi
       title_nearby: Groupes de modifications par des utilisateurs à proximité
       empty: Aucun groupe de modifications trouvé.
       empty_area: Aucun groupe de modifications dans cette zone.
@@ -666,6 +675,8 @@ fr:
       ways_paginated: Chemins (%{x} à %{y} sur %{count})
       relations: Relations (%{count})
       relations_paginated: Relations (%{x} à %{y} sur %{count})
+    not_found_message:
+      sorry: 'Désolé, la modification #%{id} n''a pas pu être trouvé.'
     timeout:
       sorry: Désolé, récupérer la liste des groupes de modifications que vous avez
         demandée a pris trop de temps.
@@ -692,14 +703,19 @@ fr:
     popup:
       your location: Votre emplacement
       nearby mapper: Cartographe à proximité
+      following: Suivant
     show:
       title: Mon tableau de bord
       no_home_location_html: '%{edit_profile_link} et définissez l’emplacement de
         votre domicile pour voir les utilisateurs à proximité.'
       edit_your_profile: Modifiez votre profil
+      followings: Suivis
+      no followings: Vous n'avez encore suivi aucun utilisateur.
       nearby users: Autres utilisateurs à proximité
       no nearby users: Aucun utilisateur n’a encore signalé qu’il cartographiait à
         proximité.
+      followed_changesets: groupe de modifications
+      followed_diaries: entrées de journal
       nearby_changesets: groupes de modifications des utilisateurs à proximité
       nearby_diaries: entrées de journal des utilisateurs à proximité
   diary_entries:
@@ -710,6 +726,7 @@ fr:
       use_map_link: Utiliser la carte
     index:
       title: Journaux des utilisateurs
+      title_followed: Journaux suivants
       title_nearby: Journaux des utilisateurs à proximité
       user_title: Journal de %{user}
       in_language_title: Entrées du journal en %{language}
@@ -838,6 +855,23 @@ fr:
       title: Fichier introuvable
       description: Impossible de trouver un fichier, un répertoire ou une opération
         de l’API portant ce nom sur le serveur OpenStreetMap (HTTP 404).
+  follows:
+    show:
+      follow:
+        heading: Voulez-vous suivre %{user} ?
+        button: Suivre l'utilisateur
+      unfollow:
+        heading: Voulez-vous vous désabonner de %{user} ?
+        button: Ne plus suivre l'utilisateur
+    create:
+      success: Vous suivez désormais %{name} !
+      failed: Désolé, votre demande de suivi à %{name} a échoué.
+      already_followed: Vous suivez déjà %{name}.
+      limit_exceeded: Vous avez suivit beaucoup d'utilisateurs récemment. Veuillez
+        patienter avant de réessayer.
+    destroy:
+      success: Vous vous êtes désabonné de %{name}.
+      not_followed: Vous suivez désormais %{name} !
   geocoder:
     search:
       title:
@@ -1816,15 +1850,14 @@ fr:
         message à l'auteur sur %{replyurl}
     follow_notification:
       hi: Bonjour %{to_user},
+      subject: '[OpenStreetMap] %{user} vous a suivi'
+      followed_you: '%{user} vous suit désormais sur OpenStreetMap.'
       see_their_profile: 'Vous pouvez voir son profil ici : %{userurl}.'
       see_their_profile_html: Vous pouvez voir son profil sur %{userurl}.
     gpx_failure:
       hi: Bonjour %{to_user},
-      failed_to_import: 'échec de l''importation en tant que fichier de trace GPS.
-        Veuillez vérifier que votre fichier est un fichier GPX valide ou une archive
-        contenant des fichiers GPX au format pris en charge (.tar.gz, .tar.bz2, .tar,
-        .zip, .gpx.gz, .gpx.bz2). Votre fichier pourrait-il présenter un problème
-        de format ou de syntaxe ? Voici l''erreur d''importation :'
+      failed_to_import: Il semble que votre fichier n'ait pas pu être importé en tant
+        que trace GPS.
       more_info: Vous trouverez plus d’informations sur les échecs d’import GPX et
         comment les éviter à l’adresse %{url}.
       more_info_html: Vous trouverez plus d’informations sur les échecs d’import GPX
@@ -1978,14 +2011,17 @@ fr:
       wrong_user: Vous êtes identifié(e) sous le nom « %{user} » mais le message que
         vous souhaitez lire n’a pas été envoyé par ou à cet utilisateur. Veuillez
         vous connecter avec le bon identifiant pour pouvoir le voir.
-    mark:
-      as_read: Message marqué comme lu
-      as_unread: Message marqué comme non lu
-    unmute:
-      notice: Le message a été déplacé dans la boîte de réception
-      error: Le message n'a pas pu être déplacé vers la boîte de réception.
     destroy:
       destroyed: Message supprimé
+    read_marks:
+      create:
+        notice: Message marqué comme lu
+      destroy:
+        notice: Message marqué comme non lu
+    mutes:
+      destroy:
+        notice: Le message a été déplacé dans la boîte de réception
+        error: Le message n'a pas pu être déplacé vers la boîte de réception.
     mailboxes:
       heading:
         my_inbox: Ma boîte de réception
@@ -2870,8 +2906,7 @@ fr:
       openid: Se connecter avec OpenStreetMap
       read_prefs: Lire les préférences de l’utilisateur
       write_prefs: Modifier les préférences de l’utilisateur
-      write_diary: Créer des entrées de journal, des commentaires et se faire des
-        amis
+      write_diary: créer des entrées du journal et des commentaires
       write_api: Modifier la carte
       read_gpx: Lire les traces GPC privées
       write_gpx: Mettre à jour les traces GPC
@@ -3298,7 +3333,8 @@ fr:
         cartographes afin qu’ils puissent y remédier. Déplacez le marqueur à la position
         exacte et écrivez une note pour expliquer le problème.
       anonymous_warning_html: Vous n'êtes pas connecté. Veuillez %{log_in} ou %{sign_up}
-        si vous souhaitez recevoir des mises à jour pour votre note.
+        pour recevoir des mises à jour de votre note et aider les cartographes à la
+        résoudre.
       anonymous_warning_log_in: se connecter
       anonymous_warning_sign_up: créer un compte
       advice: Votre note est publique et peut être utilisée pour mettre à jour la

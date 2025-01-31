@@ -1998,14 +1998,17 @@ pl:
       wrong_user: Jesteś zalogowany jako %{user}, ale wiadomość, którą chcesz przeczytać,
         nie została wysłana przez tego użytkownika ani do niego. Zaloguj się jako
         właściwy użytkownik, aby ją przeczytać.
-    mark:
-      as_read: Wiadomość została oznaczona jako przeczytana
-      as_unread: Wiadomość została oznaczona jako nieprzeczytana
-    unmute:
-      notice: Wiadomość przeniesiono do wiadomości odebranych
-      error: Nie można było przenieść wiadomości do skrzynki odbiorczej.
     destroy:
       destroyed: Wiadomość usunięta
+    read_marks:
+      create:
+        notice: Wiadomość została oznaczona jako przeczytana
+      destroy:
+        notice: Wiadomość została oznaczona jako nieprzeczytana
+    mutes:
+      destroy:
+        notice: Wiadomość przeniesiono do wiadomości odebranych
+        error: Nie można było przenieść wiadomości do skrzynki odbiorczej.
     mailboxes:
       heading:
         my_inbox: wiadomości odebrane
@@ -2173,6 +2176,9 @@ pl:
       preview: Podgląd
       help: Pomoc
     pagination:
+      changeset_comments:
+        older: Starsze komentarze
+        newer: Nowsze komentarze
       diary_comments:
         older: Starsze komentarze
         newer: Nowsze komentarze
@@ -3116,8 +3122,17 @@ pl:
       user:
         summary_html: '%{name} utworzony z adresu %{ip_address} dnia %{date}'
         summary_no_ip_html: '%{name} utworzony %{date}'
+    comments:
+      index:
+        heading_html: Komentarze użytkownika %{user}
+        changesets: Zestawy zmian
+        diary_entries: Dzienniki
+        no_comments: Brak komentarzy
     changeset_comments:
+      index:
+        title: Komentarze do zestawów zmian dodane przez %{user}
       page:
+        changeset: Zestaw zmian
         when: Kiedy
         comment: Komentarz
     diary_comments:
@@ -3125,6 +3140,8 @@ pl:
         title: Komentarze do dzienników dodane przez %{user}
       page:
         post: Wpis
+        when: Kiedy
+        comment: Komentarz
     suspended:
       title: Konto zawieszone
       heading: Konto zawieszone
