@@ -14,7 +14,7 @@ module Api
         { :controller => "api/ways", :action => "index", :format => "json" }
       )
       assert_routing(
-        { :path => "/api/0.6/way/create", :method => :put },
+        { :path => "/api/0.6/ways", :method => :post },
         { :controller => "api/ways", :action => "create" }
       )
       assert_routing(
@@ -40,6 +40,11 @@ module Api
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :delete },
         { :controller => "api/ways", :action => "delete", :id => "1" }
+      )
+
+      assert_recognizes(
+        { :controller => "api/ways", :action => "create" },
+        { :path => "/api/0.6/way/create", :method => :put }
       )
     end
 
@@ -155,7 +160,7 @@ module Api
       xml = "<osm><way changeset='#{changeset_id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # hope for failure
       assert_response :forbidden,
                       "way upload did not return forbidden status"
@@ -170,7 +175,7 @@ module Api
       xml = "<osm><way changeset='#{changeset_id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "way upload did not return success status"
@@ -213,7 +218,7 @@ module Api
       # create a way with non-existing node
       xml = "<osm><way changeset='#{private_open_changeset.id}'>" \
             "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :forbidden,
                       "way upload with invalid node using a private user did not return 'forbidden'"
@@ -221,7 +226,7 @@ module Api
       # create a way with no nodes
       xml = "<osm><way changeset='#{private_open_changeset.id}'>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :forbidden,
                       "way upload with no node using a private userdid not return 'forbidden'"
@@ -229,7 +234,7 @@ module Api
       # create a way inside a closed changeset
       xml = "<osm><way changeset='#{private_closed_changeset.id}'>" \
             "<nd ref='#{node.id}'/></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :forbidden,
                       "way upload to closed changeset with a private user did not return 'forbidden'"
@@ -241,7 +246,7 @@ module Api
       # create a way with non-existing node
       xml = "<osm><way changeset='#{open_changeset.id}'>" \
             "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
                       "way upload with invalid node did not return 'precondition failed'"
@@ -250,7 +255,7 @@ module Api
       # create a way with no nodes
       xml = "<osm><way changeset='#{open_changeset.id}'>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
                       "way upload with no node did not return 'precondition failed'"
@@ -259,7 +264,7 @@ module Api
       # create a way inside a closed changeset
       xml = "<osm><way changeset='#{closed_changeset.id}'>" \
             "<nd ref='#{node.id}'/></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :conflict,
                       "way upload to closed changeset did not return 'conflict'"
@@ -269,7 +274,7 @@ module Api
             "<nd ref='#{node.id}'/>" \
             "<tag k='foo' v='#{'x' * 256}'/>" \
             "</way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :bad_request,
                       "way upload to with too long tag did not return 'bad_request'"
@@ -696,7 +701,7 @@ module Api
       way_str << "</way></osm>"
 
       # try and upload it
-      put way_create_path, :params => way_str, :headers => auth_header
+      post api_ways_path, :params => way_str, :headers => auth_header
       assert_response :forbidden,
                       "adding new duplicate tags to a way with a non-public user should fail with 'forbidden'"
 
@@ -711,7 +716,7 @@ module Api
       way_str << "</way></osm>"
 
       # try and upload it
-      put way_create_path, :params => way_str, :headers => auth_header
+      post api_ways_path, :params => way_str, :headers => auth_header
       assert_response :bad_request,
                       "adding new duplicate tags to a way should fail with 'bad request'"
       assert_equal "Element way/ has duplicate tags with key addr:housenumber", @response.body
@@ -775,7 +780,7 @@ module Api
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       assert_response :success, "way create did not return success status"
 
       # get the id of the way we created
@@ -797,7 +802,7 @@ module Api
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "way create did not hit rate limit"
     end
 
@@ -832,7 +837,7 @@ module Api
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       assert_response :success, "way create did not return success status"
 
       # get the id of the way we created
@@ -854,7 +859,7 @@ module Api
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
-      put way_create_path, :params => xml, :headers => auth_header
+      post api_ways_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "way create did not hit rate limit"
     end
 
