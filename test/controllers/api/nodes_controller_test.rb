@@ -31,7 +31,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/node/1", :method => :delete },
-        { :controller => "api/nodes", :action => "delete", :id => "1" }
+        { :controller => "api/nodes", :action => "destroy", :id => "1" }
       )
 
       assert_recognizes(
@@ -218,7 +218,7 @@ module Api
 
     # this tests deletion restrictions - basic deletion is tested in the unit
     # tests for node!
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_user_changeset = create(:changeset, :user => private_user)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)

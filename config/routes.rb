@@ -35,9 +35,6 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
     post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
-    get "node/:id" => "nodes#show", :as => :api_node, :id => /\d+/
-    put "node/:id" => "nodes#update", :id => /\d+/
-    delete "node/:id" => "nodes#delete", :id => /\d+/
 
     get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
     get "way/:id/full" => "ways#full", :as => :way_full, :id => /\d+/
@@ -60,6 +57,7 @@ OpenStreetMap::Application.routes.draw do
 
   namespace :api, :path => "api/0.6" do
     resources :nodes, :only => [:index, :create]
+    resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy]
     put "node/create" => "nodes#create", :as => nil
 
     resources :ways, :only => [:index, :create]
