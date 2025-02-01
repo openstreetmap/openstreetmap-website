@@ -204,8 +204,13 @@ module Api
     end
 
     def test_show
-      get api_node_path(create(:node))
+      node = create(:node, :timestamp => "2021-02-03T00:00:00Z")
+
+      get api_node_path(node)
+
       assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
     end
 
     # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05

@@ -133,13 +133,15 @@ module Api
     end
 
     def test_show
-      relation = create(:relation)
-      node = create(:node)
+      relation = create(:relation, :timestamp => "2021-02-03T00:00:00Z")
+      node = create(:node, :timestamp => "2021-04-05T00:00:00Z")
       create(:relation_member, :relation => relation, :member => node)
 
       get api_relation_path(relation)
 
       assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
       assert_dom "node", :count => 0
       assert_dom "relation", :count => 1 do
         assert_dom "> @id", :text => relation.id.to_s

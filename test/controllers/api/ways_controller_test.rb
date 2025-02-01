@@ -107,8 +107,15 @@ module Api
     end
 
     def test_show
-      get api_way_path(create(:way))
+      way = create(:way, :timestamp => "2021-02-03T00:00:00Z")
+      node = create(:node, :timestamp => "2021-04-05T00:00:00Z")
+      create(:way_node, :way => way, :node => node)
+
+      get api_way_path(way)
+
       assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
     end
 
     def test_show_json
