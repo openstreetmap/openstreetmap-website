@@ -14,7 +14,7 @@ module Api
         { :controller => "api/relations", :action => "index", :format => "json" }
       )
       assert_routing(
-        { :path => "/api/0.6/relation/create", :method => :put },
+        { :path => "/api/0.6/relations", :method => :post },
         { :controller => "api/relations", :action => "create" }
       )
       assert_routing(
@@ -65,6 +65,11 @@ module Api
       assert_routing(
         { :path => "/api/0.6/relation/1/relations.json", :method => :get },
         { :controller => "api/relations", :action => "relations_for_relation", :id => "1", :format => "json" }
+      )
+
+      assert_recognizes(
+        { :controller => "api/relations", :action => "create" },
+        { :path => "/api/0.6/relation/create", :method => :put }
       )
     end
 
@@ -225,7 +230,7 @@ module Api
 
       # create an relation without members
       xml = "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden, due to user
       assert_response :forbidden,
                       "relation upload should have failed with forbidden"
@@ -236,7 +241,7 @@ module Api
       xml = "<osm><relation changeset='#{private_changeset.id}'>" \
             "<member  ref='#{node.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
                       "relation upload did not return forbidden status"
@@ -246,7 +251,7 @@ module Api
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{private_changeset.id}'>" \
             "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
                       "relation upload did not return forbidden status"
@@ -257,7 +262,7 @@ module Api
             "<member type='node' ref='#{node.id}' role='some'/>" \
             "<member type='way' ref='#{way.id}' role='other'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden, due to user
       assert_response :forbidden,
                       "relation upload did not return success status"
@@ -267,7 +272,7 @@ module Api
 
       # create an relation without members
       xml = "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -295,7 +300,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -323,7 +328,7 @@ module Api
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -352,7 +357,7 @@ module Api
             "<member type='node' ref='#{node.id}' role='some'/>" \
             "<member type='way' ref='#{way.id}' role='other'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -472,7 +477,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member type='node' ref='0'/><tag k='test' v='yes' />" \
             "</relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
                       "relation upload with invalid node did not return 'precondition failed'"
@@ -493,7 +498,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member type='type' ref='#{node.id}' role=''/>" \
             "<tag k='tester' v='yep'/></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :bad_request
       assert_match(/Cannot parse valid relation from xml string/, @response.body)
@@ -757,7 +762,7 @@ module Api
       OSM
       doc = XML::Parser.string(doc_str).parse
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
@@ -818,13 +823,13 @@ module Api
       ## First try with the private user
       auth_header = bearer_authorization_header private_user
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with the public user
       auth_header = bearer_authorization_header user
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
@@ -857,7 +862,7 @@ module Api
       doc = XML::Parser.string(doc_str).parse
       auth_header = bearer_authorization_header user
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
@@ -929,7 +934,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
       # get the id of the relation we created
@@ -953,7 +958,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
 
@@ -989,7 +994,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
       # get the id of the relation we created
@@ -1013,7 +1018,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
 

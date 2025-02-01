@@ -48,7 +48,6 @@ OpenStreetMap::Application.routes.draw do
     put "way/:id" => "ways#update", :id => /\d+/
     delete "way/:id" => "ways#delete", :id => /\d+/
 
-    put "relation/create" => "relations#create"
     get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
     get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
     get "relation/:id/full" => "relations#full", :as => :relation_full, :id => /\d+/
@@ -66,7 +65,8 @@ OpenStreetMap::Application.routes.draw do
     resources :ways, :only => [:index, :create]
     put "way/create" => "ways#create", :as => nil
 
-    resources :relations, :only => :index
+    resources :relations, :only => [:index, :create]
+    put "relation/create" => "relations#create", :as => nil
 
     resource :map, :only => :show
 
