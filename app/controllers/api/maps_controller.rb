@@ -46,10 +46,7 @@ module Api
         way_ids = way_nodes.collect { |way_node| way_node.id[0] }
         ways = Way.preload(:way_nodes, :way_tags).find(way_ids)
 
-        list_of_way_nodes = ways.collect do |way|
-          way.way_nodes.collect(&:node_id)
-        end
-        list_of_way_nodes.flatten!
+        list_of_way_nodes = ways.flat_map { |way| way.way_nodes.map(&:node_id) }
       end
 
       # - [0] in case some thing links to node 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
