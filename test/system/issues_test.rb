@@ -204,4 +204,48 @@ class IssuesTest < ApplicationSystemTestCase
       assert_no_content(/extra_#{n}[^\d]/i)
     end
   end
+
+  def test_single_issue_reporters
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :user => create(:user, :display_name => "Test Name"))
+
+    visit issues_path
+    assert_content issue.reported_user.display_name
+    assert_content issue.reports.first.user.display_name
+  end
+
+  def test_multiple_issue_reporters
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+
+    create_list(:report, 5, :issue => issue)
+
+    visit issues_path
+    0.upto(1).each do |n|
+      assert_no_content issue.reports[n].user.display_name
+    end
+    2.upto(4).each do |n|
+      assert_content issue.reports[n].user.display_name
+    end
+  end
+
+  def test_ordering_issue_reporters
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+
+    create_list(:report, 5, :issue => issue)
+
+    4.downto(0).each do |n|
+      issue.reports << create(:report, :user => issue.reports[n].user)
+    end
+
+    visit issues_path
+    0.upto(2).each do |n|
+      assert_content issue.reports[n].user.display_name
+    end
+    3.upto(4).each do |n|
+      assert_no_content issue.reports[n].user.display_name
+    end
+  end
 end

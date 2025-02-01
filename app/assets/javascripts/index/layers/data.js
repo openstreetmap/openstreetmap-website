@@ -1,6 +1,6 @@
 OSM.initializeDataLayer = function (map) {
-  var loadedBounds;
-  var dataLayer = map.dataLayer;
+  let dataLoader, loadedBounds;
+  const dataLayer = map.dataLayer;
 
   dataLayer.setStyle({
     way: {
@@ -32,6 +32,8 @@ OSM.initializeDataLayer = function (map) {
   });
 
   dataLayer.on("remove", function () {
+    if (dataLoader) dataLoader.abort();
+    dataLoader = null;
     map.off("moveend", updateData);
     $("#browse_status").empty();
     map.fire("overlayremove", { layer: this });
@@ -71,13 +73,9 @@ OSM.initializeDataLayer = function (map) {
             $("<button type='button' class='btn-close'>")
               .attr("aria-label", I18n.t("javascripts.close"))
               .click(close))),
-        $("<div>").append(
-          $("<div class='d-flex'>").append(
-            $("<p class='alert alert-warning'>")
-              .text(I18n.t("browse.start_rjs.feature_error", { message: message }))))));
+        $("<p class='alert alert-warning'>")
+          .text(I18n.t("browse.start_rjs.feature_error", { message: message }))));
   }
-
-  var dataLoader;
 
   function getData() {
     var bounds = map.getBounds();
