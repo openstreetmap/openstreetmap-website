@@ -133,8 +133,17 @@ module Api
     end
 
     def test_show
-      get api_relation_path(create(:relation))
+      relation = create(:relation)
+      node = create(:node)
+      create(:relation_member, :relation => relation, :member => node)
+
+      get api_relation_path(relation)
+
       assert_response :success
+      assert_dom "node", :count => 0
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
     end
 
     def test_full_not_found
@@ -148,9 +157,49 @@ module Api
     end
 
     def test_full_empty
-      get relation_full_path(create(:relation))
+      relation = create(:relation)
+
+      get relation_full_path(relation)
+
       assert_response :success
-      # FIXME: check whether this contains the stuff we want!
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_node_member
+      relation = create(:relation)
+      node = create(:node)
+      create(:relation_member, :relation => relation, :member => node)
+
+      get relation_full_path(relation)
+
+      assert_response :success
+      assert_dom "node", :count => 1 do
+        assert_dom "> @id", :text => node.id.to_s
+      end
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_way_member
+      relation = create(:relation)
+      way = create(:way_with_nodes)
+      create(:relation_member, :relation => relation, :member => way)
+
+      get relation_full_path(relation)
+
+      assert_response :success
+      assert_dom "node", :count => 1 do
+        assert_dom "> @id", :text => way.nodes[0].id.to_s
+      end
+      assert_dom "way", :count => 1 do
+        assert_dom "> @id", :text => way.id.to_s
+      end
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
     end
 
     ##
