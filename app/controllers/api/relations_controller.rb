@@ -26,9 +26,64 @@ module Api
     end
 
     def show
-      @relation = Relation.find(params[:id])
-      response.last_modified = @relation.timestamp
-      if @relation.visible
+      relation = Relation.find(params[:id])
+
+      response.last_modified = relation.timestamp unless params[:full]
+
+      @nodes = []
+      @ways = []
+      @relations = []
+
+      if relation.visible
+        if params[:full]
+          # with parameter :full
+          # returns representation of one relation object plus all its
+          # members, plus all nodes part of member ways
+
+          # first find the ids of nodes, ways and relations referenced by this
+          # relation - note that we exclude this relation just in case.
+
+          node_ids = relation.members.select { |m| m[0] == "Node" }.pluck(1)
+          way_ids = relation.members.select { |m| m[0] == "Way" }.pluck(1)
+          relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.pluck(1)
+
+          # next load the relations and the ways.
+
+          relations = Relation.where(:id => relation_ids).includes(:relation_tags)
+          ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
+
+          # now additionally collect nodes referenced by ways. Note how we
+          # recursively evaluate ways but NOT relations.
+
+          way_node_ids = ways.collect do |way|
+            way.way_nodes.collect(&:node_id)
+          end
+          node_ids += way_node_ids.flatten
+          nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
+
+          @nodes = []
+          nodes.each do |node|
+            next unless node.visible? # should be unnecessary if data is consistent.
+
+            @nodes << node
+          end
+
+          ways.each do |way|
+            next unless way.visible? # should be unnecessary if data is consistent.
+
+            @ways << way
+          end
+
+          relations.each do |rel|
+            next unless rel.visible? # should be unnecessary if data is consistent.
+
+            @relations << rel
+          end
+        end
+
+        # finally add self
+        @relations << relation
+
         # Render the result
         respond_to do |format|
           format.xml
@@ -65,74 +120,6 @@ module Api
         render :plain => relation.version.to_s
       else
         head :bad_request
-      end
-    end
-
-    # -----------------------------------------------------------------
-    # full
-    #
-    # input parameters: id
-    #
-    # returns XML representation of one relation object plus all its
-    # members, plus all nodes part of member ways
-    # -----------------------------------------------------------------
-    def full
-      relation = Relation.find(params[:id])
-
-      if relation.visible
-
-        # first find the ids of nodes, ways and relations referenced by this
-        # relation - note that we exclude this relation just in case.
-
-        node_ids = relation.members.select { |m| m[0] == "Node" }.pluck(1)
-        way_ids = relation.members.select { |m| m[0] == "Way" }.pluck(1)
-        relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.pluck(1)
-
-        # next load the relations and the ways.
-
-        relations = Relation.where(:id => relation_ids).includes(:relation_tags)
-        ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
-
-        # now additionally collect nodes referenced by ways. Note how we
-        # recursively evaluate ways but NOT relations.
-
-        way_node_ids = ways.collect do |way|
-          way.way_nodes.collect(&:node_id)
-        end
-        node_ids += way_node_ids.flatten
-        nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
-
-        @nodes = []
-        nodes.each do |node|
-          next unless node.visible? # should be unnecessary if data is consistent.
-
-          @nodes << node
-        end
-
-        @ways = []
-        ways.each do |way|
-          next unless way.visible? # should be unnecessary if data is consistent.
-
-          @ways << way
-        end
-
-        @relations = []
-        relations.each do |rel|
-          next unless rel.visible? # should be unnecessary if data is consistent.
-
-          @relations << rel
-        end
-
-        # finally add self
-        @relations << relation
-
-        # Render the result
-        respond_to do |format|
-          format.xml
-          format.json
-        end
-      else
-        head :gone
       end
     end
 

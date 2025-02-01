@@ -27,11 +27,11 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/full", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1" }
+        { :controller => "api/relations", :action => "show", :full => true, :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/full.json", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
+        { :controller => "api/relations", :action => "show", :full => true, :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :put },
@@ -149,19 +149,19 @@ module Api
     end
 
     def test_full_not_found
-      get relation_full_path(999999)
+      get api_relation_path(999999, :full => true)
       assert_response :not_found
     end
 
     def test_full_deleted
-      get relation_full_path(create(:relation, :deleted))
+      get api_relation_path(create(:relation, :deleted), :full => true)
       assert_response :gone
     end
 
     def test_full_empty
       relation = create(:relation)
 
-      get relation_full_path(relation)
+      get api_relation_path(relation, :full => true)
 
       assert_response :success
       assert_dom "relation", :count => 1 do
@@ -174,7 +174,7 @@ module Api
       node = create(:node)
       create(:relation_member, :relation => relation, :member => node)
 
-      get relation_full_path(relation)
+      get api_relation_path(relation, :full => true)
 
       assert_response :success
       assert_dom "node", :count => 1 do
@@ -190,7 +190,7 @@ module Api
       way = create(:way_with_nodes)
       create(:relation_member, :relation => relation, :member => way)
 
-      get relation_full_path(relation)
+      get api_relation_path(relation, :full => true)
 
       assert_response :success
       assert_dom "node", :count => 1 do
@@ -202,6 +202,30 @@ module Api
       assert_dom "relation", :count => 1 do
         assert_dom "> @id", :text => relation.id.to_s
       end
+    end
+
+    def test_full_with_node_member_json
+      relation = create(:relation)
+      node = create(:node)
+      create(:relation_member, :relation => relation, :member => node)
+
+      get api_relation_path(relation, :full => true, :format => "json")
+
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 2, js["elements"].count
+
+      js_relations = js["elements"].filter { |e| e["type"] == "relation" }
+      assert_equal 1, js_relations.count
+      assert_equal relation.id, js_relations[0]["id"]
+      assert_equal 1, js_relations[0]["members"].count
+      assert_equal "node", js_relations[0]["members"][0]["type"]
+      assert_equal node.id, js_relations[0]["members"][0]["ref"]
+
+      js_nodes = js["elements"].filter { |e| e["type"] == "node" }
+      assert_equal 1, js_nodes.count
+      assert_equal node.id, js_nodes[0]["id"]
     end
 
     ##
