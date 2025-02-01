@@ -35,8 +35,8 @@ module SocialShareButtonHelper
 
   def generate_share_url(site, title, url)
     site = site.to_sym
-    title = URI.encode_www_form_component(title)
-    url = URI.encode_www_form_component(url)
+    title = URI.encode_uri_component(title)
+    url = URI.encode_uri_component(url)
 
     case site
     when :email
