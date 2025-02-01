@@ -16,7 +16,7 @@ class ApiAbility
       can :read, Tracepoint
       can :read, User
       can :read, Node
-      can [:read, :full, :ways_for_node], Way
+      can [:read, :ways_for_node], Way
       can [:read, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
       can [:history, :read], [OldNode, OldWay, OldRelation]
       can :read, UserBlock

@@ -27,11 +27,11 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/way/1/full", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1" }
+        { :controller => "api/ways", :action => "show", :full => true, :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1/full.json", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1", :format => "json" }
+        { :controller => "api/ways", :action => "show", :full => true, :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :put },
@@ -136,10 +136,10 @@ module Api
 
     ##
     # check the "full" mode
-    def test_full
+    def test_show_full
       way = create(:way_with_nodes, :nodes_count => 3)
 
-      get way_full_path(way)
+      get api_way_path(way, :full => true)
 
       assert_response :success
 
@@ -154,10 +154,42 @@ module Api
       end
     end
 
-    def test_full_deleted
+    def test_show_full_json
+      way = create(:way_with_nodes, :nodes_count => 3)
+
+      get api_way_path(way, :full => true, :format => "json")
+
+      assert_response :success
+
+      # Check the way is correctly returned
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 4, js["elements"].count
+      js_ways = js["elements"].filter { |e| e["type"] == "way" }
+      assert_equal 1, js_ways.count
+      assert_equal way.id, js_ways[0]["id"]
+      assert_equal 1, js_ways[0]["version"]
+
+      # check that each node in the way appears once in the output as a
+      # reference and as the node element.
+      js_nodes = js["elements"].filter { |e| e["type"] == "node" }
+      assert_equal 3, js_nodes.count
+
+      way.nodes.each_with_index do |n, i|
+        assert_equal n.id, js_ways[0]["nodes"][i]
+        js_nodes_with_id = js_nodes.filter { |e| e["id"] == n.id }
+        assert_equal 1, js_nodes_with_id.count
+        assert_equal n.id, js_nodes_with_id[0]["id"]
+        assert_equal 1, js_nodes_with_id[0]["version"]
+        assert_equal n.lat, js_nodes_with_id[0]["lat"]
+        assert_equal n.lon, js_nodes_with_id[0]["lon"]
+      end
+    end
+
+    def test_show_full_deleted
       way = create(:way, :deleted)
 
-      get way_full_path(way)
+      get api_way_path(way, :full => true)
 
       assert_response :gone
     end
