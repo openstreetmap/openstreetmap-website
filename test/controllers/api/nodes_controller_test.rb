@@ -193,18 +193,19 @@ module Api
       assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
     end
 
-    def test_show
-      # check that a visible node is returned properly
-      get api_node_path(create(:node))
-      assert_response :success
-
-      # check that an deleted node is not returned
-      get api_node_path(create(:node, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent node is not returned
+    def test_show_not_found
       get api_node_path(0)
       assert_response :not_found
+    end
+
+    def test_show_deleted
+      get api_node_path(create(:node, :deleted))
+      assert_response :gone
+    end
+
+    def test_show
+      get api_node_path(create(:node))
+      assert_response :success
     end
 
     # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
