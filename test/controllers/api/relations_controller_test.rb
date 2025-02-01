@@ -39,7 +39,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :delete },
-        { :controller => "api/relations", :action => "delete", :id => "1" }
+        { :controller => "api/relations", :action => "destroy", :id => "1" }
       )
 
       assert_routing(
@@ -509,7 +509,7 @@ module Api
     # Test deleting relations.
     # -------------------------------------
 
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
       user = create(:user)
