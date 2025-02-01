@@ -15,6 +15,7 @@
 //= require matomo
 //= require richtext
 //= require qs/dist/qs
+//= require language_selector
 
 {
   const application_data = $("head").data();
