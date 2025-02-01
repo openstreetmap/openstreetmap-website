@@ -57,15 +57,9 @@ module Api
 
       nodes += Node.includes(:node_tags).find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
-      @nodes = []
-      nodes.each do |node|
-        @nodes << node if node.visible?
-      end
+      @nodes = nodes.filter(&:visible?)
 
-      @ways = []
-      ways.each do |way|
-        @ways << way if way.visible?
-      end
+      @ways = ways.filter(&:visible?)
 
       @relations = Relation.nodes(@nodes).visible +
                    Relation.ways(@ways).visible
