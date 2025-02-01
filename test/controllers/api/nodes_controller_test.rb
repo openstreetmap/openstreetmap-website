@@ -14,7 +14,7 @@ module Api
         { :controller => "api/nodes", :action => "index", :format => "json" }
       )
       assert_routing(
-        { :path => "/api/0.6/node/create", :method => :put },
+        { :path => "/api/0.6/nodes", :method => :post },
         { :controller => "api/nodes", :action => "create" }
       )
       assert_routing(
@@ -32,6 +32,11 @@ module Api
       assert_routing(
         { :path => "/api/0.6/node/1", :method => :delete },
         { :controller => "api/nodes", :action => "delete", :id => "1" }
+      )
+
+      assert_recognizes(
+        { :controller => "api/nodes", :action => "create" },
+        { :path => "/api/0.6/node/create", :method => :put }
       )
     end
 
@@ -96,7 +101,7 @@ module Api
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
       assert_difference("OldNode.count", 0) do
-        put node_create_path, :params => xml
+        post api_nodes_path, :params => xml
       end
       # hope for unauthorized
       assert_response :unauthorized, "node upload did not return unauthorized status"
@@ -107,7 +112,7 @@ module Api
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>"
       assert_difference("Node.count", 0) do
-        put node_create_path, :params => xml, :headers => auth_header
+        post api_nodes_path, :params => xml, :headers => auth_header
       end
       # hope for success
       assert_require_public_data "node create did not return forbidden status"
@@ -117,7 +122,7 @@ module Api
 
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success, "node upload did not return success status"
 
@@ -145,14 +150,14 @@ module Api
 
       # test that the upload is rejected when xml is valid, but osm doc isn't
       xml = "<create/>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "node upload did not return bad_request status"
       assert_equal "Cannot parse valid node from xml string <create/>. XML doesn't contain an osm/node element.", @response.body
 
       # test that the upload is rejected when no lat is supplied
       # create a minimal xml file
       xml = "<osm><node lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :bad_request, "node upload did not return bad_request status"
       assert_equal "Cannot parse valid node from xml string <node lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat missing", @response.body
@@ -160,7 +165,7 @@ module Api
       # test that the upload is rejected when no lon is supplied
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :bad_request, "node upload did not return bad_request status"
       assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
@@ -168,7 +173,7 @@ module Api
       # test that the upload is rejected when lat is non-numeric
       # create a minimal xml file
       xml = "<osm><node lat='abc' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :bad_request, "node upload did not return bad_request status"
       assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"#{lon}\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
@@ -176,14 +181,14 @@ module Api
       # test that the upload is rejected when lon is non-numeric
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' lon='abc' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :bad_request, "node upload did not return bad_request status"
       assert_equal "Cannot parse valid node from xml string <node lat=\"#{lat}\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
 
       # test that the upload is rejected when we have a tag which is too long
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "node upload did not return bad_request status"
       assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
     end
@@ -510,7 +515,7 @@ module Api
       xml = "<osm><node lat='0' lon='0' changeset='#{private_changeset.id}'>" \
             "<tag k='\#{@user.inspect}' v='0'/>" \
             "</node></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_require_public_data "Shouldn't be able to create with non-public user"
 
       ## Then try with the public data user
@@ -521,7 +526,7 @@ module Api
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'>" \
             "<tag k='\#{@user.inspect}' v='0'/>" \
             "</node></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :success
       nodeid = @response.body
 
@@ -556,7 +561,7 @@ module Api
 
       # try creating a node
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :success, "node create did not return success status"
 
       # get the id of the node we created
@@ -574,7 +579,7 @@ module Api
 
       # try creating a node, which should be rate limited
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "node create did not hit rate limit"
     end
 
@@ -603,7 +608,7 @@ module Api
 
       # try creating a node
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :success, "node create did not return success status"
 
       # get the id of the node we created
@@ -621,7 +626,7 @@ module Api
 
       # try creating a node, which should be rate limited
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
-      put node_create_path, :params => xml, :headers => auth_header
+      post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "node create did not hit rate limit"
     end
 

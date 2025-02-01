@@ -2115,7 +2115,7 @@ module Api
       # add a single node to it
       with_controller(NodesController.new) do
         xml = "<osm><node lon='0.1' lat='0.2' changeset='#{changeset_id}'/></osm>"
-        put node_create_path, :params => xml, :headers => auth_header
+        post api_nodes_path, :params => xml, :headers => auth_header
         assert_response :success, "Couldn't create node."
       end
 
@@ -2130,7 +2130,7 @@ module Api
       # add another node to it
       with_controller(NodesController.new) do
         xml = "<osm><node lon='0.2' lat='0.1' changeset='#{changeset_id}'/></osm>"
-        put node_create_path, :params => xml, :headers => auth_header
+        post api_nodes_path, :params => xml, :headers => auth_header
         assert_response :success, "Couldn't create second node."
       end
 
@@ -2500,7 +2500,7 @@ module Api
       with_controller(NodesController.new) do
         # create a new node
         xml = "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
-        put node_create_path, :params => xml, :headers => auth_header
+        post api_nodes_path, :params => xml, :headers => auth_header
         assert_response :success, "can't create a new node"
         node_id = @response.body.to_i
 
