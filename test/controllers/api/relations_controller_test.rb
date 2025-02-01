@@ -122,29 +122,33 @@ module Api
     # Test showing relations.
     # -------------------------------------
 
-    def test_show
-      # check that a visible relation is returned properly
-      get api_relation_path(create(:relation))
-      assert_response :success
-
-      # check that an invisible relation is not returned
-      get api_relation_path(create(:relation, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent relation is not returned
+    def test_show_not_found
       get api_relation_path(0)
       assert_response :not_found
     end
 
-    def test_full
-      # check the "full" mode
-      get relation_full_path(:id => 999999)
-      assert_response :not_found
-
-      get relation_full_path(:id => create(:relation, :deleted).id)
+    def test_show_deleted
+      get api_relation_path(create(:relation, :deleted))
       assert_response :gone
+    end
 
-      get relation_full_path(:id => create(:relation).id)
+    def test_show
+      get api_relation_path(create(:relation))
+      assert_response :success
+    end
+
+    def test_full_not_found
+      get relation_full_path(999999)
+      assert_response :not_found
+    end
+
+    def test_full_deleted
+      get relation_full_path(create(:relation, :deleted))
+      assert_response :gone
+    end
+
+    def test_full_empty
+      get relation_full_path(create(:relation))
       assert_response :success
       # FIXME: check whether this contains the stuff we want!
     end
