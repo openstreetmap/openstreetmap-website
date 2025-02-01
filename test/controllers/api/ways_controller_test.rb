@@ -18,20 +18,20 @@ module Api
         { :controller => "api/ways", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/way/1/full", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/full.json", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1", :format => "json" }
-      )
-      assert_routing(
         { :path => "/api/0.6/way/1", :method => :get },
         { :controller => "api/ways", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1.json", :method => :get },
         { :controller => "api/ways", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1/full", :method => :get },
+        { :controller => "api/ways", :action => "full", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1/full.json", :method => :get },
+        { :controller => "api/ways", :action => "full", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :put },

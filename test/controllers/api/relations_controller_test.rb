@@ -18,20 +18,20 @@ module Api
         { :controller => "api/relations", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/relation/1/full", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/full.json", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
-      )
-      assert_routing(
         { :path => "/api/0.6/relation/1", :method => :get },
         { :controller => "api/relations", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1.json", :method => :get },
         { :controller => "api/relations", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relation/1/full", :method => :get },
+        { :controller => "api/relations", :action => "full", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relation/1/full.json", :method => :get },
+        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :put },
@@ -136,6 +136,19 @@ module Api
       assert_response :not_found
     end
 
+    def test_full
+      # check the "full" mode
+      get relation_full_path(:id => 999999)
+      assert_response :not_found
+
+      get relation_full_path(:id => create(:relation, :deleted).id)
+      assert_response :gone
+
+      get relation_full_path(:id => create(:relation).id)
+      assert_response :success
+      # FIXME: check whether this contains the stuff we want!
+    end
+
     ##
     # check that all relations containing a particular node, and no extra
     # relations, are returned from the relations_for_node call.
@@ -199,19 +212,6 @@ module Api
       check_relations_for_element(relation_relations_path(relation), "relation",
                                   relation.id,
                                   [relation_with_relation, second_relation])
-    end
-
-    def test_full
-      # check the "full" mode
-      get relation_full_path(:id => 999999)
-      assert_response :not_found
-
-      get relation_full_path(:id => create(:relation, :deleted).id)
-      assert_response :gone
-
-      get relation_full_path(:id => create(:relation).id)
-      assert_response :success
-      # FIXME: check whether this contains the stuff we want!
     end
 
     # -------------------------------------
