@@ -102,14 +102,11 @@ module Api
         node_ids += way_node_ids.flatten
         nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
 
-        visible_nodes = {}
-
         @nodes = []
         nodes.each do |node|
           next unless node.visible? # should be unnecessary if data is consistent.
 
           @nodes << node
-          visible_nodes[node.id] = node
         end
 
         @ways = []

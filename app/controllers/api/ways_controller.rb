@@ -76,15 +76,10 @@ module Api
       @way = Way.includes(:nodes => :node_tags).find(params[:id])
 
       if @way.visible
-        visible_nodes = {}
-
         @nodes = []
 
         @way.nodes.uniq.each do |node|
-          if node.visible
-            @nodes << node
-            visible_nodes[node.id] = node
-          end
+          @nodes << node if node.visible
         end
 
         # Render the result
