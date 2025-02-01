@@ -39,7 +39,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :delete },
-        { :controller => "api/ways", :action => "delete", :id => "1" }
+        { :controller => "api/ways", :action => "destroy", :id => "1" }
       )
 
       assert_recognizes(
@@ -284,7 +284,7 @@ module Api
     # Test deleting ways.
     # -------------------------------------
 
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_open_changeset = create(:changeset, :user => private_user)
       private_closed_changeset = create(:changeset, :closed, :user => private_user)

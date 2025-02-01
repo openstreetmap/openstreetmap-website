@@ -38,8 +38,8 @@ class ApiAbility
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scope?(token, :write_api)
           can :create, ChangesetComment if scope?(token, :write_api)
-          can [:create, :update, :destroy], [Node] if scope?(token, :write_api)
-          can [:create, :update, :delete], [Way, Relation] if scope?(token, :write_api)
+          can [:create, :update, :destroy], [Node, Way] if scope?(token, :write_api)
+          can [:create, :update, :delete], [Relation] if scope?(token, :write_api)
         end
 
         if user.moderator?

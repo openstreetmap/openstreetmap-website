@@ -1,13 +1,13 @@
 module Api
   class WaysController < ApiController
-    before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :authorize, :only => [:create, :update, :delete]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :delete]
-    before_action :set_request_formats, :except => [:create, :update, :delete]
-    before_action :check_rate_limit, :only => [:create, :update, :delete]
+    before_action :require_public_data, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :except => [:create, :update, :destroy]
+    before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
       raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
@@ -60,7 +60,7 @@ module Api
     end
 
     # This is the API call to delete a way
-    def delete
+    def destroy
       way = Way.find(params[:id])
       new_way = Way.from_xml(request.raw_post)
 
