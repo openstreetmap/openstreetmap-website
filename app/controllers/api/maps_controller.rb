@@ -57,26 +57,18 @@ module Api
 
       nodes += Node.includes(:node_tags).find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
-      visible_nodes = {}
       @nodes = []
       nodes.each do |node|
-        if node.visible?
-          visible_nodes[node.id] = node
-          @nodes << node
-        end
+        @nodes << node if node.visible?
       end
 
       @ways = []
-      way_ids = []
       ways.each do |way|
-        if way.visible?
-          way_ids << way.id
-          @ways << way
-        end
+        @ways << way if way.visible?
       end
 
-      @relations = Relation.nodes(visible_nodes.keys).visible +
-                   Relation.ways(way_ids).visible
+      @relations = Relation.nodes(@nodes).visible +
+                   Relation.ways(@ways).visible
 
       # we do not normally return the "other" partners referenced by an relation,
       # e.g. if we return a way A that is referenced by relation X, and there's
