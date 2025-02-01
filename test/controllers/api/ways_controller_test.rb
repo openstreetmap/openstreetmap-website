@@ -96,18 +96,35 @@ module Api
     # Test showing ways.
     # -------------------------------------
 
-    def test_show
-      # check that a visible way is returned properly
-      get api_way_path(create(:way))
-      assert_response :success
-
-      # check that an invisible way is not returned
-      get api_way_path(create(:way, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent way is not returned
+    def test_show_not_found
       get api_way_path(0)
       assert_response :not_found
+    end
+
+    def test_show_deleted
+      get api_way_path(create(:way, :deleted))
+      assert_response :gone
+    end
+
+    def test_show
+      get api_way_path(create(:way))
+      assert_response :success
+    end
+
+    def test_show_json
+      way = create(:way_with_nodes, :nodes_count => 3)
+
+      get api_way_path(way, :format => "json")
+
+      assert_response :success
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["elements"].count
+      js_ways = js["elements"].filter { |e| e["type"] == "way" }
+      assert_equal 1, js_ways.count
+      assert_equal way.id, js_ways[0]["id"]
+      assert_equal 1, js_ways[0]["version"]
     end
 
     ##
