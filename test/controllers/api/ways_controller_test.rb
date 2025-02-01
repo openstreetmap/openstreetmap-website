@@ -98,15 +98,15 @@ module Api
       way4 = create(:way)
 
       # check error when no parameter provided
-      get ways_path
+      get api_ways_path
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get ways_path(:ways => "")
+      get api_ways_path(:ways => "")
       assert_response :bad_request
 
       # test a working call
-      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
+      get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "way", :count => 4
@@ -117,7 +117,7 @@ module Api
       end
 
       # test a working call with json format
-      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json")
+      get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -129,7 +129,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
 
       # check error when a non-existent way is included
-      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")
+      get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")
       assert_response :not_found
     end
 

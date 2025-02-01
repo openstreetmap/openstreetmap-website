@@ -39,7 +39,6 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id" => "nodes#show", :as => :api_node, :id => /\d+/
     put "node/:id" => "nodes#update", :id => /\d+/
     delete "node/:id" => "nodes#delete", :id => /\d+/
-    get "nodes" => "nodes#index"
 
     put "way/create" => "ways#create"
     get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
@@ -50,7 +49,6 @@ OpenStreetMap::Application.routes.draw do
     get "way/:id" => "ways#show", :as => :api_way, :id => /\d+/
     put "way/:id" => "ways#update", :id => /\d+/
     delete "way/:id" => "ways#delete", :id => /\d+/
-    get "ways" => "ways#index"
 
     put "relation/create" => "relations#create"
     get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
@@ -61,10 +59,13 @@ OpenStreetMap::Application.routes.draw do
     get "relation/:id" => "relations#show", :as => :api_relation, :id => /\d+/
     put "relation/:id" => "relations#update", :id => /\d+/
     delete "relation/:id" => "relations#delete", :id => /\d+/
-    get "relations" => "relations#index"
   end
 
   namespace :api, :path => "api/0.6" do
+    resources :nodes, :only => :index
+    resources :ways, :only => :index
+    resources :relations, :only => :index
+
     resource :map, :only => :show
 
     resources :tracepoints, :path => "trackpoints", :only => :index
