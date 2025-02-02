@@ -28,9 +28,9 @@ module Api
         return
       end
 
-      nodes = Node.bbox(@bounds).where(:visible => true).includes(:node_tags, :changeset).limit(Settings.max_number_of_nodes + 1)
+      @nodes = Node.bbox(@bounds).visible.includes(:node_tags, :changeset).limit(Settings.max_number_of_nodes + 1)
 
-      node_ids = nodes.collect(&:id)
+      node_ids = @nodes.collect(&:id)
       if node_ids.length > Settings.max_number_of_nodes
         report_error("You requested too many nodes (limit is #{Settings.max_number_of_nodes}). Either request a smaller area, or use planet.osm")
         return
@@ -38,25 +38,21 @@ module Api
 
       # get ways
       # find which ways are needed
-      ways = []
+      @ways = []
       if node_ids.empty?
         list_of_way_nodes = []
       else
         way_nodes = WayNode.where(:node_id => node_ids)
         way_ids = way_nodes.collect { |way_node| way_node.id[0] }
-        ways = Way.preload(:way_nodes, :way_tags, :changeset).find(way_ids)
+        @ways = Way.preload(:way_nodes, :way_tags, :changeset).visible.find(way_ids)
 
-        list_of_way_nodes = ways.flat_map { |way| way.way_nodes.map(&:node_id) }
+        list_of_way_nodes = @ways.flat_map { |way| way.way_nodes.map(&:node_id) }
       end
 
       # - [0] in case some thing links to node 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
       nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
-      nodes += Node.includes(:node_tags, :changeset).find(nodes_to_fetch) unless nodes_to_fetch.empty?
-
-      @nodes = nodes.filter(&:visible?)
-
-      @ways = ways.filter(&:visible?)
+      @nodes += Node.includes(:node_tags, :changeset).visible.find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
       @relations = Relation.nodes(@nodes)
                            .visible
