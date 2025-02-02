@@ -122,23 +122,5 @@ module Api
         head :bad_request
       end
     end
-
-    private
-
-    def relations_for_object(objtype)
-      relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect(&:relation_id).uniq
-
-      @relations = []
-
-      Relation.find(relationids).each do |relation|
-        @relations << relation if relation.visible
-      end
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
   end
 end

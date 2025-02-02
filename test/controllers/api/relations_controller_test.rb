@@ -1013,25 +1013,6 @@ module Api
 
     private
 
-    def check_relations_for_element(path, type, id, expected_relations)
-      # check the "relations for relation" mode
-      get path
-      assert_response :success
-
-      # count one osm element
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-
-      # we should have only the expected number of relations
-      assert_select "osm>relation", expected_relations.size
-
-      # and each of them should contain the element we originally searched for
-      expected_relations.each do |relation|
-        # The relation should appear once, but the element could appear multiple times
-        assert_select "osm>relation[id='#{relation.id}']", 1
-        assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
-      end
-    end
-
     ##
     # checks that the XML document and the string arguments have
     # members in the same order.
