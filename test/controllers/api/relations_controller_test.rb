@@ -42,15 +42,6 @@ module Api
         { :controller => "api/relations", :action => "destroy", :id => "1" }
       )
 
-      assert_routing(
-        { :path => "/api/0.6/relation/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1", :format => "json" }
-      )
-
       assert_recognizes(
         { :controller => "api/relations", :action => "create" },
         { :path => "/api/0.6/relation/create", :method => :put }
@@ -210,25 +201,6 @@ module Api
       js_nodes = js["elements"].filter { |e| e["type"] == "node" }
       assert_equal 1, js_nodes.count
       assert_equal node.id, js_nodes[0]["id"]
-    end
-
-    def test_relations_for_relation
-      relation = create(:relation)
-      # should include relations with that relation as a member
-      relation_with_relation = create(:relation_member, :member => relation).relation
-      # should ignore any relation without that relation as a member
-      _relation_without_relation = create(:relation_member).relation
-      # should ignore relations with the relation involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => relation).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => relation, :relation => relation_with_relation)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => relation, :relation => deleted_relation)
-      check_relations_for_element(relation_relations_path(relation), "relation",
-                                  relation.id,
-                                  [relation_with_relation, second_relation])
     end
 
     # -------------------------------------
