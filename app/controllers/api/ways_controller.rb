@@ -80,21 +80,5 @@ module Api
         head :bad_request
       end
     end
-
-    ##
-    # returns all the ways which are currently using the node given in the
-    # :id parameter. note that this used to return deleted ways as well, but
-    # this seemed not to be the expected behaviour, so it was removed.
-    def ways_for_node
-      wayids = WayNode.where(:node_id => params[:id]).collect { |ws| ws.id[0] }.uniq
-
-      @ways = Way.where(:id => wayids, :visible => true)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
   end
 end
