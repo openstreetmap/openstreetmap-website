@@ -127,10 +127,6 @@ module Api
       relations_for_object("Way")
     end
 
-    def relations_for_node
-      relations_for_object("Node")
-    end
-
     def relations_for_relation
       relations_for_object("Relation")
     end
