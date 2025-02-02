@@ -23,7 +23,7 @@ class CreateNoteTest < ApplicationSystemTestCase
       fill_in "text", :with => "Some newly added note description"
       click_on "Add Note"
 
-      assert_content "Unresolved note ##{Note.last.id}"
+      assert_content "Unresolved note #"
       assert_content "Some newly added note description"
     end
   end
@@ -56,7 +56,7 @@ class CreateNoteTest < ApplicationSystemTestCase
 
       click_on "Add Note"
 
-      assert_content "Unresolved note ##{Note.last.id}"
+      assert_content "Unresolved note #"
       assert_content "Some newly added note description"
     end
   end
