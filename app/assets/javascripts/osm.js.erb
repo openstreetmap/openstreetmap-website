@@ -2,7 +2,6 @@
 //= depend_on settings.local.yml
 //= depend_on layers.yml
 //= depend_on key.yml
-//= require qs/dist/qs
 
 OSM = {
 <% if defined?(Settings.matomo) %>
@@ -158,9 +157,9 @@ OSM = {
       return args;
     }
 
-    hash = Qs.parse(hash.slice(i + 1));
+    const hashParams = new URLSearchParams(hash.slice(i + 1));
 
-    var map = (hash.map || "").split("/"),
+    var map = (hashParams.get("map") || "").split("/"),
         zoom = parseInt(map[0], 10),
         lat = parseFloat(map[1]),
         lon = parseFloat(map[2]);
@@ -170,8 +169,8 @@ OSM = {
       args.zoom = zoom;
     }
 
-    if (hash.layers) {
-      args.layers = hash.layers;
+    if (hashParams.has("layers")) {
+      args.layers = hashParams.get("layers");
     }
 
     return args;

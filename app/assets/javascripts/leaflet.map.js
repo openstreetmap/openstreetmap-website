@@ -1,5 +1,3 @@
-//= require qs/dist/qs
-
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
@@ -159,7 +157,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
-        query = Qs.stringify(params),
+        query = new URLSearchParams(params),
         hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
@@ -209,22 +207,22 @@ L.OSM.Map = L.Map.extend({
       return (interlaced_x << 1) | interlaced_y;
     }
 
-    var params = {};
+    const params = new URLSearchParams();
     var layers = this.getLayersCode().replace("M", "");
 
     if (layers) {
-      params.layers = layers;
+      params.set("layers", layers);
     }
 
     if (marker && this.hasLayer(marker)) {
-      params.m = "";
+      params.set("m", "");
     }
 
     if (this._object) {
-      params[this._object.type] = this._object.id;
+      params.set(this._object.type, this._object.id);
     }
 
-    var query = Qs.stringify(params);
+    const query = params.toString();
     if (query) {
       str += "?" + query;
     }

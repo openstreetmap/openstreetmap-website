@@ -1,5 +1,3 @@
-//= require qs/dist/qs
-
 OSM.Query = function (map) {
   var url = OSM.OVERPASS_URL,
       credentials = OSM.OVERPASS_CREDENTIALS,
@@ -301,7 +299,7 @@ OSM.Query = function (map) {
   function clickHandler(e) {
     const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
-    OSM.router.route("/query?" + Qs.stringify({ lat, lon }));
+    OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
   }
 
   function enableQueryMode() {
@@ -326,8 +324,8 @@ OSM.Query = function (map) {
   };
 
   page.load = function (path, noCentre) {
-    var params = Qs.parse(path.substring(path.indexOf("?") + 1)),
-        latlng = L.latLng(params.lat, params.lon);
+    const params = new URLSearchParams(path.substring(path.indexOf("?"))),
+          latlng = L.latLng(params.get("lat"), params.get("lon"));
 
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {
@@ -335,7 +333,7 @@ OSM.Query = function (map) {
       });
     }
 
-    queryOverpass(params.lat, params.lon);
+    queryOverpass(params.get("lat"), params.get("lon"));
   };
 
   page.unload = function (sameController) {

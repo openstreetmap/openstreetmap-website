@@ -5,7 +5,6 @@
 //= require leaflet.osm
 //= require leaflet.map
 //= require i18n/translations
-//= require qs/dist/qs
 
 describe("OSM", function () {
   describe(".apiUrl", function () {
