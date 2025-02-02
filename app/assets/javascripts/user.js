@@ -64,12 +64,10 @@ $(document).ready(function () {
       map.on("click", function (e) {
         if (!$("#updatehome").is(":checked")) return;
 
-        var zoom = map.getZoom(),
-            precision = OSM.zoomPrecision(zoom),
-            location = e.latlng.wrap();
+        const [lat, lon] = OSM.cropLocation(e.latlng);
 
-        $("#home_lat").val(location.lat.toFixed(precision));
-        $("#home_lon").val(location.lng.toFixed(precision));
+        $("#home_lat").val(lat);
+        $("#home_lon").val(lon);
 
         deleted_lat = null;
         deleted_lon = null;

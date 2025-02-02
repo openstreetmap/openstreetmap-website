@@ -33,12 +33,9 @@ OSM.Search = function (map) {
   $(".describe_location").on("click", function (e) {
     e.preventDefault();
     $("header").addClass("closed");
-    var center = map.getCenter().wrap(),
-        precision = OSM.zoomPrecision(map.getZoom()),
-        lat = center.lat.toFixed(precision),
-        lng = center.lng.toFixed(precision);
+    const [lat, lon] = OSM.cropLocation(map.getCenter(), map.getZoom()).map(encodeURIComponent);
 
-    OSM.router.route("/search?lat=" + encodeURIComponent(lat) + "&lon=" + encodeURIComponent(lng));
+    OSM.router.route("/search?" + Qs.stringify({ lat, lon }));
   });
 
   $("#sidebar_content")
