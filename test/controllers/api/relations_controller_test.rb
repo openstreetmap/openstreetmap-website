@@ -43,16 +43,8 @@ module Api
       )
 
       assert_routing(
-        { :path => "/api/0.6/way/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1" }
-      )
-      assert_routing(
         { :path => "/api/0.6/relation/1/relations", :method => :get },
         { :controller => "api/relations", :action => "relations_for_relation", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/relations.json", :method => :get },
@@ -218,26 +210,6 @@ module Api
       js_nodes = js["elements"].filter { |e| e["type"] == "node" }
       assert_equal 1, js_nodes.count
       assert_equal node.id, js_nodes[0]["id"]
-    end
-
-    def test_relations_for_way
-      way = create(:way)
-      # should include relations with that way as a member
-      relation_with_way = create(:relation_member, :member => way).relation
-      # should ignore relations without that way as a member
-      _relation_without_way = create(:relation_member).relation
-      # should ignore relations with the way involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => way).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => way, :relation => relation_with_way)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => way, :relation => deleted_relation)
-
-      check_relations_for_element(way_relations_path(way), "way",
-                                  way.id,
-                                  [relation_with_way, second_relation])
     end
 
     def test_relations_for_relation
