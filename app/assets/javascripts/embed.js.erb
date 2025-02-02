@@ -36,12 +36,14 @@ window.onload = function () {
   map.attributionControl.setPrefix("");
   map.removeControl(map.attributionControl);
 
+  const isDarkTheme = args.theme === "dark" || (args.theme !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const layers = <%=
     YAML.load_file(Rails.root.join("config/layers.yml"))
       .select { |entry| entry["canEmbed"] }
       .each_with_object({}) do |entry, obj|
         obj[entry["layerId"]] = {
           layer: entry["leafletOsmId"],
+          darkLayer: entry["leafletOsmDarkId"],
           apiKeyId: entry["apiKeyId"]
         }.compact
       end.to_json
@@ -49,7 +51,7 @@ window.onload = function () {
   const layerId = (args.layer || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
   const { layer, ...options } = {
-    layer: layerConfig.layer,
+    layer: layerConfig.darkLayer && isDarkTheme ? layerConfig.darkLayer : layerConfig.layer,
     apikey: apiKeys[layerConfig.apiKeyId],
     ...tileOptions[layerId]
   };
