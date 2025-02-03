@@ -14,23 +14,16 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     autoPan: true
   });
 
-  endpoint.enable = function () {
+  endpoint.enableListeners = function () {
     endpoint.marker.on("drag dragend", markerDragListener);
     input.on("keydown", inputKeydownListener);
     input.on("change", inputChangeListener);
   };
 
-  endpoint.disable = function () {
+  endpoint.disableListeners = function () {
     endpoint.marker.off("drag dragend", markerDragListener);
     input.off("keydown", inputKeydownListener);
     input.off("change", inputChangeListener);
-
-    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
-    delete endpoint.geocodeRequest;
-    removeLatLng();
-    delete endpoint.value;
-    input.val("");
-    map.removeLayer(endpoint.marker);
   };
 
   function markerDragListener(e) {
@@ -89,6 +82,15 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     } else if (endpoint.value) {
       getGeocode();
     }
+  };
+
+  endpoint.clearValue = function () {
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
+    removeLatLng();
+    delete endpoint.value;
+    input.val("");
+    map.removeLayer(endpoint.marker);
   };
 
   endpoint.swapCachedReverseGeocodes = function (otherEndpoint) {

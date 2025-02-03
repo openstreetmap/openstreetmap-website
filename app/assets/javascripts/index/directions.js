@@ -308,8 +308,8 @@ OSM.Directions = function (map) {
 
     map.on("locationfound", sendstartinglocation);
 
-    endpoints[0].enable();
-    endpoints[1].enable();
+    endpoints[0].enableListeners();
+    endpoints[1].enableListeners();
 
     const params = new URLSearchParams(location.search),
           route = (params.get("route") || "").split(";");
@@ -332,8 +332,11 @@ OSM.Directions = function (map) {
     $("#map").off("dragend dragover drop");
     map.off("locationfound", sendstartinglocation);
 
-    endpoints[0].disable();
-    endpoints[1].disable();
+    endpoints[0].disableListeners();
+    endpoints[1].disableListeners();
+
+    endpoints[0].clearValue();
+    endpoints[1].clearValue();
 
     map
       .removeLayer(popup)
