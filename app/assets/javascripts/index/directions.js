@@ -294,14 +294,7 @@ OSM.Directions = function (map) {
     endpoints[1].setValue(params.get("to") || route[1] || "");
   }
 
-  const page = {};
-
-  page.pushstate = page.popstate = function () {
-    initializeFromParams();
-
-    $(".search_form").hide();
-    $(".directions_form").show();
-
+  function enableListeners() {
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
     });
@@ -322,6 +315,17 @@ OSM.Directions = function (map) {
 
     endpoints[0].enableListeners();
     endpoints[1].enableListeners();
+  }
+
+  const page = {};
+
+  page.pushstate = page.popstate = function () {
+    initializeFromParams();
+
+    $(".search_form").hide();
+    $(".directions_form").show();
+
+    enableListeners();
 
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
