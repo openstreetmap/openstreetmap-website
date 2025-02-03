@@ -1,53 +1,36 @@
 $(document).ready(function () {
-  var id = $("#id-embed");
+  const id = $("#id-embed");
 
-  if (id.data("configured") === true) {
-    var hash = location.hash.substring(1);
-    var hashParams = hash ? OSM.params(hash) : {};
-    var mapParams = OSM.mapParams();
-    var params = new URLSearchParams();
-
-    if (mapParams.object) {
-      params.set("id", mapParams.object.type + "/" + mapParams.object.id);
-      mapParams = OSM.parseHash(location.hash);
-      if (mapParams.center) {
-        params.set("map", mapParams.zoom + "/" + mapParams.center.lat + "/" + mapParams.center.lng);
-      }
-    } else if (id.data("lat") && id.data("lon")) {
-      params.set("map", "16/" + id.data("lat") + "/" + id.data("lon"));
-    } else {
-      params.set("map", (mapParams.zoom || 17) + "/" + mapParams.lat + "/" + mapParams.lon);
-    }
-
-    if (hashParams.background) params.set("background", hashParams.background);
-    if (hashParams.comment) params.set("comment", hashParams.comment);
-    if (hashParams.disable_features) params.set("disable_features", hashParams.disable_features);
-    if (hashParams.hashtags) params.set("hashtags", hashParams.hashtags);
-    if (hashParams.locale) params.set("locale", hashParams.locale);
-    if (hashParams.maprules) params.set("maprules", hashParams.maprules);
-    if (hashParams.notes) params.set("notes", hashParams.notes);
-    if (hashParams.offset) params.set("offset", hashParams.offset);
-    if (hashParams.photo) params.set("photo", hashParams.photo);
-    if (hashParams.photo_dates) params.set("photo_dates", hashParams.photo_dates);
-    if (hashParams.photo_overlay) params.set("photo_overlay", hashParams.photo_overlay);
-    if (hashParams.photo_username) params.set("photo_username", hashParams.photo_username);
-    if (hashParams.presets) params.set("presets", hashParams.presets);
-    if (hashParams.source) params.set("source", hashParams.source);
-    if (hashParams.validationDisable) params.set("validationDisable", hashParams.validationDisable);
-    if (hashParams.validationWarning) params.set("validationWarning", hashParams.validationWarning);
-    if (hashParams.validationError) params.set("validationError", hashParams.validationError);
-    if (hashParams.walkthrough) params.set("walkthrough", hashParams.walkthrough);
-
-    if (Cookies.get("_osm_location")?.split("|")[3].includes("N")) params.set("notes", "true");
-
-    if (id.data("gpx")) {
-      params.set("gpx", id.data("gpx"));
-    } else if (hashParams.gpx) {
-      params.set("gpx", hashParams.gpx);
-    }
-
-    id.attr("src", id.data("url") + "#" + params);
-  } else {
+  if (id.data("configured") === false) {
     alert(I18n.t("site.edit.id_not_configured"));
+    return;
   }
+
+  const hash = location.hash.substring(1);
+  const hashParams = hash ? OSM.params(hash) : {};
+  const hashArgs = OSM.parseHash(location.hash);
+  const mapParams = OSM.mapParams();
+  const params = new URLSearchParams();
+
+  if (mapParams.object) {
+    params.set("id", mapParams.object.type + "/" + mapParams.object.id);
+    if (hashArgs.center) {
+      params.set("map", hashArgs.zoom + "/" + hashArgs.center.lat + "/" + hashArgs.center.lng);
+    }
+  } else if (id.data("lat") && id.data("lon")) {
+    params.set("map", "16/" + id.data("lat") + "/" + id.data("lon"));
+  } else {
+    params.set("map", (mapParams.zoom || 17) + "/" + mapParams.lat + "/" + mapParams.lon);
+  }
+
+  const passThroughKeys = ["background", "comment", "disable_features", "gpx", "hashtags", "locale", "maprules", "notes", "offset", "photo", "photo_dates", "photo_overlay", "photo_username", "presets", "source", "validationDisable", "validationWarning", "validationError", "walkthrough"];
+  for (const key of passThroughKeys) {
+    if (hashParams[key]) params.set(key, hashParams[key]);
+  }
+
+  if (mapParams.layers.includes("N")) params.set("notes", "true");
+
+  if (id.data("gpx")) params.set("gpx", id.data("gpx"));
+
+  id.attr("src", id.data("url") + "#" + params);
 });
