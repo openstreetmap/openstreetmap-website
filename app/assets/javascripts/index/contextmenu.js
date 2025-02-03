@@ -1,12 +1,10 @@
-//= require qs/dist/qs
-
 OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {
       const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
-      OSM.router.route("/directions?" + Qs.stringify({
+      OSM.router.route("/directions?" + new URLSearchParams({
         from: latlng.join(","),
         to: getDirectionsEndpointCoordinatesFromInput($("#route_to"))
       }));
@@ -18,7 +16,7 @@ OSM.initializeContextMenu = function (map) {
     callback: function directionsToHere(e) {
       const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
-      OSM.router.route("/directions?" + Qs.stringify({
+      OSM.router.route("/directions?" + new URLSearchParams({
         from: getDirectionsEndpointCoordinatesFromInput($("#route_from")),
         to: latlng.join(",")
       }));
@@ -30,7 +28,7 @@ OSM.initializeContextMenu = function (map) {
     callback: function addNoteHere(e) {
       const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
-      OSM.router.route("/note/new?" + Qs.stringify({ lat, lon }));
+      OSM.router.route("/note/new?" + new URLSearchParams({ lat, lon }));
     }
   });
 
@@ -39,7 +37,7 @@ OSM.initializeContextMenu = function (map) {
     callback: function describeLocation(e) {
       const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom()).map(encodeURIComponent);
 
-      OSM.router.route("/search?" + Qs.stringify({ lat, lon }));
+      OSM.router.route("/search?" + new URLSearchParams({ lat, lon }));
     }
   });
 
@@ -48,7 +46,7 @@ OSM.initializeContextMenu = function (map) {
     callback: function queryFeatures(e) {
       const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
-      OSM.router.route("/query?" + Qs.stringify({ lat, lon }));
+      OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
     }
   });
 

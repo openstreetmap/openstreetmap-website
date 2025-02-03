@@ -22,7 +22,6 @@
 //= require index/changeset
 //= require index/query
 //= require router
-//= require qs/dist/qs
 
 $(document).ready(function () {
   var map = new L.OSM.Map("map", {
@@ -239,18 +238,18 @@ $(document).ready(function () {
   function remoteEditHandler(bbox, object) {
     var remoteEditHost = "http://127.0.0.1:8111",
         osmHost = location.protocol + "//" + location.host,
-        query = {
+        query = new URLSearchParams({
           left: bbox.getWest() - 0.0001,
           top: bbox.getNorth() + 0.0001,
           right: bbox.getEast() + 0.0001,
           bottom: bbox.getSouth() - 0.0001
-        };
+        });
 
-    if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
-    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query), function () {
+    if (object && object.type !== "note") query.set("select", object.type + object.id); // can't select notes
+    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query, function () {
       if (object && object.type === "note") {
-        var noteQuery = { url: osmHost + OSM.apiUrl(object) };
-        sendRemoteEditCommand(remoteEditHost + "/import?" + Qs.stringify(noteQuery));
+        const noteQuery = new URLSearchParams({ url: osmHost + OSM.apiUrl(object) });
+        sendRemoteEditCommand(remoteEditHost + "/import?" + noteQuery);
       }
     });
 
@@ -294,9 +293,9 @@ $(document).ready(function () {
     };
 
     page.load = function () {
-      var params = Qs.parse(location.search.substring(1));
-      if (params.query) {
-        $("#sidebar .search_form input[name=query]").value(params.query);
+      const params = new URLSearchParams(location.search);
+      if (params.has("query")) {
+        $("#sidebar .search_form input[name=query]").value(params.get("query"));
       }
       if (!("autofocus" in document.createElement("input"))) {
         $("#sidebar .search_form input[name=query]").focus();

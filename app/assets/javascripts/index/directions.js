@@ -1,7 +1,6 @@
 //= require ./directions-endpoint
 //= require_self
 //= require_tree ./directions
-//= require qs/dist/qs
 
 OSM.Directions = function (map) {
   var routeRequest = null; // jqXHR object of an ongoing route request or null
@@ -67,7 +66,7 @@ OSM.Directions = function (map) {
     }
     endpoints[0].swapCachedReverseGeocodes(endpoints[1]);
 
-    OSM.router.route("/directions?" + Qs.stringify({
+    OSM.router.route("/directions?" + new URLSearchParams({
       route: routeTo + ";" + routeFrom
     }));
   });
@@ -120,7 +119,7 @@ OSM.Directions = function (map) {
     if (!points[0] || !points[1]) return;
     $("header").addClass("closed");
 
-    OSM.router.replace("/directions?" + Qs.stringify({
+    OSM.router.replace("/directions?" + new URLSearchParams({
       engine: chosenEngine.id,
       route: points.map(p => OSM.cropLocation(p, map.getZoom()).join()).join(";")
     }));
@@ -287,19 +286,19 @@ OSM.Directions = function (map) {
     endpoints[0].enable();
     endpoints[1].enable();
 
-    var params = Qs.parse(location.search.substring(1)),
-        route = (params.route || "").split(";");
+    const params = new URLSearchParams(location.search),
+          route = (params.get("route") || "").split(";");
 
-    if (params.engine) {
-      var engineIndex = findEngine(params.engine);
+    if (params.has("engine")) {
+      var engineIndex = findEngine(params.get("engine"));
 
       if (engineIndex >= 0) {
         setEngine(engineIndex);
       }
     }
 
-    endpoints[0].setValue(params.from || route[0] || "");
-    endpoints[1].setValue(params.to || route[1] || "");
+    endpoints[0].setValue(params.get("from") || route[0] || "");
+    endpoints[1].setValue(params.get("to") || route[1] || "");
 
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };

@@ -14,7 +14,6 @@
 //= require oauth
 //= require matomo
 //= require richtext
-//= require qs/dist/qs
 
 {
   const application_data = $("head").data();
@@ -45,34 +44,34 @@
  */
 window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function (index, link) {
-    var href = link.href.split(/[?#]/)[0],
-        args = Qs.parse(link.search.substring(1)),
-        editlink = $(link).hasClass("editlink");
+    let href = link.href.split(/[?#]/)[0];
+    const queryArgs = new URLSearchParams(link.search),
+          editlink = $(link).hasClass("editlink");
 
-    delete args.node;
-    delete args.way;
-    delete args.relation;
-    delete args.changeset;
-    delete args.note;
+    queryArgs.delete("node");
+    queryArgs.delete("way");
+    queryArgs.delete("relation");
+    queryArgs.delete("changeset");
+    queryArgs.delete("note");
 
     if (object && editlink) {
-      args[object.type] = object.id;
+      queryArgs.set(object.type, object.id);
     }
 
-    var query = Qs.stringify(args);
+    const query = queryArgs.toString();
     if (query) href += "?" + query;
 
-    args = {
+    const hashArgs = {
       lat: loc.lat,
       lon: "lon" in loc ? loc.lon : loc.lng,
       zoom: zoom
     };
 
     if (layers && !editlink) {
-      args.layers = layers;
+      hashArgs.layers = layers;
     }
 
-    href += OSM.formatHash(args);
+    href += OSM.formatHash(hashArgs);
 
     link.href = href;
   });

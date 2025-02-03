@@ -1,5 +1,3 @@
-//= require qs/dist/qs
-
 OSM.Search = function (map) {
   $(".search_form input[name=query]").on("input", function (e) {
     if ($(e.target).val() === "") {
@@ -35,7 +33,7 @@ OSM.Search = function (map) {
     $("header").addClass("closed");
     const [lat, lon] = OSM.cropLocation(map.getCenter(), map.getZoom()).map(encodeURIComponent);
 
-    OSM.router.route("/search?" + Qs.stringify({ lat, lon }));
+    OSM.router.route("/search?" + new URLSearchParams({ lat, lon }));
   });
 
   $("#sidebar_content")
@@ -115,12 +113,12 @@ OSM.Search = function (map) {
   var page = {};
 
   page.pushstate = page.popstate = function (path) {
-    var params = Qs.parse(path.substring(path.indexOf("?") + 1));
-    if (params.query) {
-      $(".search_form input[name=query]").val(params.query);
+    const params = new URLSearchParams(path.substring(path.indexOf("?")));
+    if (params.has("query")) {
+      $(".search_form input[name=query]").val(params.get("query"));
       $(".describe_location").hide();
-    } else if (params.lat && params.lon) {
-      $(".search_form input[name=query]").val(params.lat + ", " + params.lon);
+    } else if (params.has("lat") && params.has("lon")) {
+      $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
       $(".describe_location").hide();
     }
     OSM.loadSidebarContent(path, page.load);

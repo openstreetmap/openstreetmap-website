@@ -1,5 +1,3 @@
-//= require qs/dist/qs
-
 OSM.NewNote = function (map) {
   var noteLayer = map.noteLayer,
       content = $("#sidebar_content"),
@@ -133,11 +131,11 @@ OSM.NewNote = function (map) {
 
     map.addLayer(noteLayer);
 
-    var params = Qs.parse(path.substring(path.indexOf("?") + 1));
+    const params = new URLSearchParams(path.substring(path.indexOf("?")));
     var markerLatlng;
 
-    if (params.lat && params.lon) {
-      markerLatlng = L.latLng(params.lat, params.lon);
+    if (params.has("lat") && params.has("lon")) {
+      markerLatlng = L.latLng(params.get("lat"), params.get("lon"));
     } else {
       markerLatlng = map.getCenter();
     }
