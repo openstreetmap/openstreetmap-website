@@ -88,19 +88,19 @@ OSM = {
     }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
-    if (params.node) {
-      mapParams.object = { type: "node", id: parseInt(params.node, 10) };
-    } else if (params.way) {
-      mapParams.object = { type: "way", id: parseInt(params.way, 10) };
-    } else if (params.relation) {
-      mapParams.object = { type: "relation", id: parseInt(params.relation, 10) };
-    } else if (params.note) {
-      mapParams.object = { type: "note", id: parseInt(params.note, 10) };
+    for (const type of ["node", "way", "relation", "note"]) {
+      if (params[type]) {
+        mapParams.object = { type, id: parseInt(params[type], 10) };
+      }
     }
 
     var hash = OSM.parseHash(location.hash);
 
     const loc = Cookies.get("_osm_location")?.split("|");
+
+    function bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat }) {
+      return L.latLngBounds([minlat, minlon], [maxlat, maxlon]);
+    }
 
     // Decide on a map starting position. Various ways of doing this.
     if (hash.center) {
@@ -108,36 +108,31 @@ OSM = {
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
     } else if (params.bbox) {
-      var bbox = params.bbox.split(",");
-      mapParams.bounds = L.latLngBounds(
-        [parseFloat(bbox[1]), parseFloat(bbox[0])],
-        [parseFloat(bbox[3]), parseFloat(bbox[2])]);
+      const [minlon, minlat, maxlon, maxlat] = params.bbox.split(",");
+      mapParams.bounds = bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat });
     } else if (params.minlon && params.minlat && params.maxlon && params.maxlat) {
-      mapParams.bounds = L.latLngBounds(
-        [parseFloat(params.minlat), parseFloat(params.minlon)],
-        [parseFloat(params.maxlat), parseFloat(params.maxlon)]);
+      mapParams.bounds = bboxToLatLngBounds(params);
     } else if (params.mlon && params.mlat) {
-      mapParams.lon = parseFloat(params.mlon);
-      mapParams.lat = parseFloat(params.mlat);
-      mapParams.zoom = parseInt(params.zoom || 12, 10);
+      mapParams.lon = params.mlon;
+      mapParams.lat = params.mlat;
+      mapParams.zoom = params.zoom || 12;
     } else if (loc) {
-      mapParams.lon = parseFloat(loc[0]);
-      mapParams.lat = parseFloat(loc[1]);
-      mapParams.zoom = parseInt(loc[2], 10);
+      [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
       mapParams.lon = OSM.home.lon;
       mapParams.lat = OSM.home.lat;
       mapParams.zoom = 10;
     } else if (OSM.location) {
-      mapParams.bounds = L.latLngBounds(
-        [OSM.location.minlat, OSM.location.minlon],
-        [OSM.location.maxlat, OSM.location.maxlon]
-      );
+      mapParams.bounds = bboxToLatLngBounds(OSM.location);
     } else {
       mapParams.lon = -0.1;
       mapParams.lat = 51.5;
-      mapParams.zoom = parseInt(params.zoom || 5, 10);
+      mapParams.zoom = params.zoom || 5;
     }
+
+    if (typeof mapParams.lat === "string") mapParams.lat = parseFloat(mapParams.lat);
+    if (typeof mapParams.lon === "string") mapParams.lon = parseFloat(mapParams.lon);
+    if (typeof mapParams.zoom === "string") mapParams.zoom = parseInt(mapParams.zoom, 10);
 
     mapParams.layers = hash.layers || (loc && loc[3]) || "";
 
