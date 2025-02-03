@@ -1,7 +1,8 @@
 $(document).ready(function () {
-  const id = $("#id-embed");
+  const id = $("#id-embed"),
+        idData = id.data();
 
-  if (id.data("configured") === false) {
+  if (!idData.configured) {
     // eslint-disable-next-line no-alert
     alert(I18n.t("site.edit.id_not_configured"));
     return;
@@ -12,17 +13,15 @@ $(document).ready(function () {
   const hashArgs = OSM.parseHash(location.hash);
   const mapParams = OSM.mapParams();
   const params = new URLSearchParams();
+  let { zoom, lat, lon } = mapParams;
 
   if (mapParams.object) {
     params.set("id", mapParams.object.type + "/" + mapParams.object.id);
-    if (hashArgs.center) {
-      params.set("map", hashArgs.zoom + "/" + hashArgs.center.lat + "/" + hashArgs.center.lng);
-    }
-  } else if (id.data("lat") && id.data("lon")) {
-    params.set("map", "16/" + id.data("lat") + "/" + id.data("lon"));
-  } else {
-    params.set("map", (mapParams.zoom || 17) + "/" + mapParams.lat + "/" + mapParams.lon);
+    if (hashArgs.center) ({ zoom, center: { lat, lng: lon } } = hashArgs);
+  } else if (idData.lat && idData.lon) {
+    ({ zoom, lat, lon } = { zoom: 16, ...idData });
   }
+  params.set("map", [zoom || 17, lat, lon].join("/"));
 
   const passThroughKeys = ["background", "comment", "disable_features", "gpx", "hashtags", "locale", "maprules", "notes", "offset", "photo", "photo_dates", "photo_overlay", "photo_username", "presets", "source", "validationDisable", "validationWarning", "validationError", "walkthrough"];
   for (const key of passThroughKeys) {
@@ -31,7 +30,7 @@ $(document).ready(function () {
 
   if (mapParams.layers.includes("N")) params.set("notes", "true");
 
-  if (id.data("gpx")) params.set("gpx", id.data("gpx"));
+  if (idData.gpx) params.set("gpx", idData.gpx);
 
-  id.attr("src", id.data("url") + "#" + params);
+  id.attr("src", idData.url + "#" + params);
 });
