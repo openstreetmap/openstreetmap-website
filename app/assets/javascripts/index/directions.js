@@ -284,9 +284,21 @@ OSM.Directions = function (map) {
     map.once("startinglocation", startingLocationListener);
   });
 
+  function initializeFromParams() {
+    const params = new URLSearchParams(location.search),
+          route = (params.get("route") || "").split(";");
+
+    if (params.has("engine")) setEngine(params.get("engine"));
+
+    endpoints[0].setValue(params.get("from") || route[0] || lastLocation.join(", "));
+    endpoints[1].setValue(params.get("to") || route[1] || "");
+  }
+
   const page = {};
 
   page.pushstate = page.popstate = function () {
+    initializeFromParams();
+
     $(".search_form").hide();
     $(".directions_form").show();
 
@@ -310,14 +322,6 @@ OSM.Directions = function (map) {
 
     endpoints[0].enableListeners();
     endpoints[1].enableListeners();
-
-    const params = new URLSearchParams(location.search),
-          route = (params.get("route") || "").split(";");
-
-    if (params.has("engine")) setEngine(params.get("engine"));
-
-    endpoints[0].setValue(params.get("from") || route[0] || lastLocation.join(", "));
-    endpoints[1].setValue(params.get("to") || route[1] || "");
 
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
