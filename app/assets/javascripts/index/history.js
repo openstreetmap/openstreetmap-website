@@ -96,7 +96,7 @@ OSM.History = function (map) {
   function updateBounds() {
     group.clearLayers();
 
-    changesets.forEach(function (changeset) {
+    for (const changeset of changesets) {
       var bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
           topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
           width = topRight.x - bottomLeft.x,
@@ -115,16 +115,15 @@ OSM.History = function (map) {
 
       changeset.bounds = L.latLngBounds(map.unproject(bottomLeft),
                                         map.unproject(topRight));
-    });
+    }
 
     changesets.sort(function (a, b) {
       return b.bounds.getSize() - a.bounds.getSize();
     });
 
-    for (var i = 0; i < changesets.length; ++i) {
-      var changeset = changesets[i],
-          rect = L.rectangle(changeset.bounds,
-                             { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
+    for (const changeset of changesets) {
+      const rect = L.rectangle(changeset.bounds,
+                               { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
       rect.id = changeset.id;
       rect.addTo(group);
     }

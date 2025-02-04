@@ -109,9 +109,9 @@ OSM.Query = function (map) {
     var tags = feature.tags,
         locales = OSM.preferred_languages;
 
-    for (var i = 0; i < locales.length; i++) {
-      if (tags["name:" + locales[i]]) {
-        return tags["name:" + locales[i]];
+    for (const locale of locales) {
+      if (tags["name:" + locale]) {
+        return tags["name:" + locale];
       }
     }
 
@@ -193,22 +193,20 @@ OSM.Query = function (map) {
           elements = elements.sort(compare);
         }
 
-        for (var i = 0; i < elements.length; i++) {
-          var element = elements[i];
+        for (const element of elements) {
+          if (!interestingFeature(element)) continue;
 
-          if (interestingFeature(element)) {
-            var $li = $("<li>")
-              .addClass("list-group-item list-group-item-action")
-              .text(featurePrefix(element) + " ")
-              .appendTo($ul);
+          var $li = $("<li>")
+            .addClass("list-group-item list-group-item-action")
+            .text(featurePrefix(element) + " ")
+            .appendTo($ul);
 
-            $("<a>")
-              .addClass("stretched-link")
-              .attr("href", "/" + element.type + "/" + element.id)
-              .data("geometry", featureGeometry(element))
-              .text(featureName(element))
-              .appendTo($li);
-          }
+          $("<a>")
+            .addClass("stretched-link")
+            .attr("href", "/" + element.type + "/" + element.id)
+            .data("geometry", featureGeometry(element))
+            .text(featureName(element))
+            .appendTo($li);
         }
 
         if (results.remark) {
