@@ -159,6 +159,7 @@ L.OSM.share = function (options) {
           .attr("class", "form-select w-auto")
           .append($("<option>").val("png").text("PNG").prop("selected", true))
           .append($("<option>").val("jpeg").text("JPEG"))
+          .append($("<option>").val("webp").text("WEBP"))
           .append($("<option>").val("svg").text("SVG"))
           .append($("<option>").val("pdf").text("PDF"))));
 
@@ -200,6 +201,25 @@ L.OSM.share = function (options) {
             .attr("type", "checkbox")
             .attr("class", "form-check-input")
             .bind("change", toggleFilter))));
+
+    $("<div>")
+      .attr("class", "row mb-3")
+      .appendTo($form)
+      .append($("<div>")
+        .attr("class", "col-auto")
+        .append($("<div>")
+          .attr("class", "form-check")
+          .append($("<label>")
+            .attr("for", "attribution")
+            .attr("class", "form-check-label")
+            .text(I18n.t("javascripts.share.attribution")))
+          .append($("<input>")
+            .attr("name", "attribution")
+            .attr("id", "attribution")
+            .attr("type", "checkbox")
+            .attr("checked", "checked")
+            .attr("value", "X")
+            .attr("class", "form-check-input"))));
 
     const mapnikNames = ["minlon", "minlat", "maxlon", "maxlat", "lat", "lon"];
 
