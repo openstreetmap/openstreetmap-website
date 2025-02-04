@@ -1,6 +1,6 @@
 (function () {
   function FOSSGISValhallaEngine(id, costing) {
-    var INSTR_MAP = [
+    const INSTR_MAP = [
       0, // kNone = 0;
       8, // kStart = 1;
       8, // kStartRight = 2;
@@ -42,6 +42,45 @@
       20 // kMergeLeft = 38;
     ];
 
+    function _processDirections(tripLegs) {
+      let line = [];
+      let steps = [];
+      let distance = 0;
+      let time = 0;
+
+      for (const leg of tripLegs) {
+        const legLine = L.PolylineUtil.decode(leg.shape, {
+          precision: 6
+        });
+
+        const legSteps = leg.maneuvers.map(function (manoeuvre, idx) {
+          const num = `<b>${idx + 1}.</b> `;
+          const lineseg = legLine
+            .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1)
+            .map(([lat, lng]) => ({ lat, lng }));
+          return [
+            lineseg[0],
+            INSTR_MAP[manoeuvre.type],
+            num + manoeuvre.instruction,
+            manoeuvre.length * 1000,
+            lineseg
+          ];
+        });
+
+        line = line.concat(legLine);
+        steps = steps.concat(legSteps);
+        distance += leg.summary.length;
+        time += leg.summary.time;
+      }
+
+      return {
+        line: line,
+        steps: steps,
+        distance: distance * 1000,
+        time: time
+      };
+    }
+
     return {
       id: id,
       creditline:
@@ -49,59 +88,25 @@
       draggable: false,
 
       getRoute: function (points, callback) {
+        const data = {
+          json: JSON.stringify({
+            locations: points.map(function (p) {
+              return { lat: p.lat, lon: p.lng, radius: 5 };
+            }),
+            costing: costing,
+            directions_options: {
+              units: "km",
+              language: I18n.currentLocale()
+            }
+          })
+        };
         return $.ajax({
           url: OSM.FOSSGIS_VALHALLA_URL,
-          data: {
-            json: JSON.stringify({
-              locations: points.map(function (p) {
-                return { lat: p.lat, lon: p.lng, radius: 5 };
-              }),
-              costing: costing,
-              directions_options: {
-                units: "km",
-                language: I18n.currentLocale()
-              }
-            })
-          },
+          data,
           dataType: "json",
-          success: function (data) {
-            var trip = data.trip;
-
+          success: function ({ trip }) {
             if (trip.status === 0) {
-              var line = [];
-              var steps = [];
-              var distance = 0;
-              var time = 0;
-
-              trip.legs.forEach(function (leg) {
-                var legLine = L.PolylineUtil.decode(leg.shape, {
-                  precision: 6
-                });
-
-                line = line.concat(legLine);
-
-                leg.maneuvers.forEach(function (manoeuvre, idx) {
-                  var point = legLine[manoeuvre.begin_shape_index];
-
-                  steps.push([
-                    { lat: point[0], lng: point[1] },
-                    INSTR_MAP[manoeuvre.type],
-                    "<b>" + (idx + 1) + ".</b> " + manoeuvre.instruction,
-                    manoeuvre.length * 1000,
-                    []
-                  ]);
-                });
-
-                distance = distance + leg.summary.length;
-                time = time + leg.summary.time;
-              });
-
-              callback(false, {
-                line: line,
-                steps: steps,
-                distance: distance * 1000,
-                time: time
-              });
+              callback(false, _processDirections(trip.legs));
             } else {
               callback(true);
             }
