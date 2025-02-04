@@ -28,6 +28,8 @@
 class Note < ApplicationRecord
   include GeoRecord
 
+  belongs_to :author, :class_name => "User", :foreign_key => "user_id", :optional => true
+
   has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
   has_many :all_comments, -> { left_joins(:author).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id, :inverse_of => :note
   has_many :subscriptions, :class_name => "NoteSubscription"
@@ -91,12 +93,20 @@ class Note < ApplicationRecord
 
   # Return the note's description, derived from the first comment
   def description
-    comments.first.body
+    if user_ip.nil? && user_id.nil?
+      comments.first.body
+    else
+      RichText.new("text", super)
+    end
   end
 
   # Return the note's author object, derived from the first comment
   def author
-    comments.first.author
+    if user_ip.nil? && user_id.nil?
+      comments.first.author
+    else
+      super
+    end
   end
 
   private

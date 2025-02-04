@@ -13,7 +13,7 @@ xml.item do
   xml.guid api_note_url(note)
   xml.description render(:partial => "description", :object => note, :formats => [:html])
 
-  xml.dc :creator, note.author.display_name if note.author
+  xml.dc :creator, note.author.display_name unless note.author.nil? || note.author.status == "deleted"
 
   xml.pubDate note.created_at.to_fs(:rfc822)
   xml.geo :lat, note.lat
