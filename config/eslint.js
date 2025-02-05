@@ -97,7 +97,7 @@ module.exports = [
       "no-extra-bind": "error",
       "no-extra-label": "error",
       "no-implicit-coercion": "warn",
-      "no-implicit-globals": "warn",
+      "no-implicit-globals": "error",
       "no-implied-eval": "error",
       "no-invalid-this": "error",
       "no-iterator": "error",
