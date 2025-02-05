@@ -16,8 +16,6 @@ L.OSM.Map = L.Map.extend({
     this.baseLayers = [];
 
     for (const layerDefinition of OSM.LAYER_DEFINITIONS) {
-      if (layerDefinition.apiKeyId && !OSM[layerDefinition.apiKeyId]) continue;
-
       let layerConstructor = L.OSM.TileLayer;
       const layerOptions = {};
 
@@ -26,8 +24,6 @@ L.OSM.Map = L.Map.extend({
           layerOptions.attribution = makeAttribution(value);
         } else if (property === "nameId") {
           layerOptions.name = I18n.t(`javascripts.map.base.${value}`);
-        } else if (property === "apiKeyId") {
-          layerOptions.apikey = OSM[value];
         } else if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
         } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
