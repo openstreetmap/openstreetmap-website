@@ -227,6 +227,7 @@ OSM.Directions = function (map) {
       directionsCloseButton.on("click", function () {
         map.removeLayer(polyline);
         $("#sidebar_content").html("");
+        popup.close();
         map.setSidebarOverlaid(true);
         // TODO: collapse width of sidebar back to previous
       });
