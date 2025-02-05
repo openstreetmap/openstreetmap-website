@@ -86,7 +86,7 @@ module.exports = [
       "curly": ["error", "multi-line", "consistent"],
       "dot-notation": "error",
       "eqeqeq": ["error", "smart"],
-      "no-alert": "warn",
+      "no-alert": "error",
       "no-array-constructor": "error",
       "no-caller": "error",
       "no-console": "warn",
