@@ -18,14 +18,6 @@ module Api
         { :controller => "api/relations", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/relation/1/full", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/full.json", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
-      )
-      assert_routing(
         { :path => "/api/0.6/relation/1", :method => :get },
         { :controller => "api/relations", :action => "show", :id => "1" }
       )
@@ -34,12 +26,20 @@ module Api
         { :controller => "api/relations", :action => "show", :id => "1", :format => "json" }
       )
       assert_routing(
+        { :path => "/api/0.6/relation/1/full", :method => :get },
+        { :controller => "api/relations", :action => "full", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relation/1/full.json", :method => :get },
+        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/relation/1", :method => :put },
         { :controller => "api/relations", :action => "update", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :delete },
-        { :controller => "api/relations", :action => "delete", :id => "1" }
+        { :controller => "api/relations", :action => "destroy", :id => "1" }
       )
 
       assert_routing(
@@ -122,18 +122,86 @@ module Api
     # Test showing relations.
     # -------------------------------------
 
-    def test_show
-      # check that a visible relation is returned properly
-      get api_relation_path(create(:relation))
-      assert_response :success
-
-      # check that an invisible relation is not returned
-      get api_relation_path(create(:relation, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent relation is not returned
+    def test_show_not_found
       get api_relation_path(0)
       assert_response :not_found
+    end
+
+    def test_show_deleted
+      get api_relation_path(create(:relation, :deleted))
+      assert_response :gone
+    end
+
+    def test_show
+      relation = create(:relation, :timestamp => "2021-02-03T00:00:00Z")
+      node = create(:node, :timestamp => "2021-04-05T00:00:00Z")
+      create(:relation_member, :relation => relation, :member => node)
+
+      get api_relation_path(relation)
+
+      assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
+      assert_dom "node", :count => 0
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_not_found
+      get relation_full_path(999999)
+      assert_response :not_found
+    end
+
+    def test_full_deleted
+      get relation_full_path(create(:relation, :deleted))
+      assert_response :gone
+    end
+
+    def test_full_empty
+      relation = create(:relation)
+
+      get relation_full_path(relation)
+
+      assert_response :success
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_node_member
+      relation = create(:relation)
+      node = create(:node)
+      create(:relation_member, :relation => relation, :member => node)
+
+      get relation_full_path(relation)
+
+      assert_response :success
+      assert_dom "node", :count => 1 do
+        assert_dom "> @id", :text => node.id.to_s
+      end
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_way_member
+      relation = create(:relation)
+      way = create(:way_with_nodes)
+      create(:relation_member, :relation => relation, :member => way)
+
+      get relation_full_path(relation)
+
+      assert_response :success
+      assert_dom "node", :count => 1 do
+        assert_dom "> @id", :text => way.nodes[0].id.to_s
+      end
+      assert_dom "way", :count => 1 do
+        assert_dom "> @id", :text => way.id.to_s
+      end
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
     end
 
     ##
@@ -199,19 +267,6 @@ module Api
       check_relations_for_element(relation_relations_path(relation), "relation",
                                   relation.id,
                                   [relation_with_relation, second_relation])
-    end
-
-    def test_full
-      # check the "full" mode
-      get relation_full_path(:id => 999999)
-      assert_response :not_found
-
-      get relation_full_path(:id => create(:relation, :deleted).id)
-      assert_response :gone
-
-      get relation_full_path(:id => create(:relation).id)
-      assert_response :success
-      # FIXME: check whether this contains the stuff we want!
     end
 
     # -------------------------------------
@@ -509,7 +564,7 @@ module Api
     # Test deleting relations.
     # -------------------------------------
 
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
       user = create(:user)

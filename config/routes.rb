@@ -35,37 +35,31 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
     post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
-    get "node/:id" => "nodes#show", :as => :api_node, :id => /\d+/
-    put "node/:id" => "nodes#update", :id => /\d+/
-    delete "node/:id" => "nodes#delete", :id => /\d+/
 
     get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
     get "way/:id/full" => "ways#full", :as => :way_full, :id => /\d+/
     get "way/:id/relations" => "relations#relations_for_way", :as => :way_relations, :id => /\d+/
     post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
     get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
-    get "way/:id" => "ways#show", :as => :api_way, :id => /\d+/
-    put "way/:id" => "ways#update", :id => /\d+/
-    delete "way/:id" => "ways#delete", :id => /\d+/
 
     get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
     get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
     get "relation/:id/full" => "relations#full", :as => :relation_full, :id => /\d+/
     post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
     get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "relations#show", :as => :api_relation, :id => /\d+/
-    put "relation/:id" => "relations#update", :id => /\d+/
-    delete "relation/:id" => "relations#delete", :id => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
     resources :nodes, :only => [:index, :create]
+    resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy]
     put "node/create" => "nodes#create", :as => nil
 
     resources :ways, :only => [:index, :create]
+    resources :ways, :path => "way", :id => /\d+/, :only => [:show, :update, :destroy]
     put "way/create" => "ways#create", :as => nil
 
     resources :relations, :only => [:index, :create]
+    resources :relations, :path => "relation", :id => /\d+/, :only => [:show, :update, :destroy]
     put "relation/create" => "relations#create", :as => nil
 
     resource :map, :only => :show

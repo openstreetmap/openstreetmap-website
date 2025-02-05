@@ -31,7 +31,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/node/1", :method => :delete },
-        { :controller => "api/nodes", :action => "delete", :id => "1" }
+        { :controller => "api/nodes", :action => "destroy", :id => "1" }
       )
 
       assert_recognizes(
@@ -193,18 +193,24 @@ module Api
       assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
     end
 
-    def test_show
-      # check that a visible node is returned properly
-      get api_node_path(create(:node))
-      assert_response :success
-
-      # check that an deleted node is not returned
-      get api_node_path(create(:node, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent node is not returned
+    def test_show_not_found
       get api_node_path(0)
       assert_response :not_found
+    end
+
+    def test_show_deleted
+      get api_node_path(create(:node, :deleted))
+      assert_response :gone
+    end
+
+    def test_show
+      node = create(:node, :timestamp => "2021-02-03T00:00:00Z")
+
+      get api_node_path(node)
+
+      assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
     end
 
     # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
@@ -218,7 +224,7 @@ module Api
 
     # this tests deletion restrictions - basic deletion is tested in the unit
     # tests for node!
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_user_changeset = create(:changeset, :user => private_user)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)

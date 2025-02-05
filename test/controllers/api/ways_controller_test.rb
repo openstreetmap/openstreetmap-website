@@ -18,14 +18,6 @@ module Api
         { :controller => "api/ways", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/way/1/full", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/full.json", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1", :format => "json" }
-      )
-      assert_routing(
         { :path => "/api/0.6/way/1", :method => :get },
         { :controller => "api/ways", :action => "show", :id => "1" }
       )
@@ -34,12 +26,20 @@ module Api
         { :controller => "api/ways", :action => "show", :id => "1", :format => "json" }
       )
       assert_routing(
+        { :path => "/api/0.6/way/1/full", :method => :get },
+        { :controller => "api/ways", :action => "full", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1/full.json", :method => :get },
+        { :controller => "api/ways", :action => "full", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/way/1", :method => :put },
         { :controller => "api/ways", :action => "update", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :delete },
-        { :controller => "api/ways", :action => "delete", :id => "1" }
+        { :controller => "api/ways", :action => "destroy", :id => "1" }
       )
 
       assert_recognizes(
@@ -96,18 +96,42 @@ module Api
     # Test showing ways.
     # -------------------------------------
 
-    def test_show
-      # check that a visible way is returned properly
-      get api_way_path(create(:way))
-      assert_response :success
-
-      # check that an invisible way is not returned
-      get api_way_path(create(:way, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent way is not returned
+    def test_show_not_found
       get api_way_path(0)
       assert_response :not_found
+    end
+
+    def test_show_deleted
+      get api_way_path(create(:way, :deleted))
+      assert_response :gone
+    end
+
+    def test_show
+      way = create(:way, :timestamp => "2021-02-03T00:00:00Z")
+      node = create(:node, :timestamp => "2021-04-05T00:00:00Z")
+      create(:way_node, :way => way, :node => node)
+
+      get api_way_path(way)
+
+      assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
+    end
+
+    def test_show_json
+      way = create(:way_with_nodes, :nodes_count => 3)
+
+      get api_way_path(way, :format => "json")
+
+      assert_response :success
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["elements"].count
+      js_ways = js["elements"].filter { |e| e["type"] == "way" }
+      assert_equal 1, js_ways.count
+      assert_equal way.id, js_ways[0]["id"]
+      assert_equal 1, js_ways[0]["version"]
     end
 
     ##
@@ -284,7 +308,7 @@ module Api
     # Test deleting ways.
     # -------------------------------------
 
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_open_changeset = create(:changeset, :user => private_user)
       private_closed_changeset = create(:changeset, :closed, :user => private_user)

@@ -1,13 +1,13 @@
 module Api
   class RelationsController < ApiController
-    before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :authorize, :only => [:create, :update, :delete]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :delete]
-    before_action :set_request_formats, :except => [:create, :update, :delete]
-    before_action :check_rate_limit, :only => [:create, :update, :delete]
+    before_action :require_public_data, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :except => [:create, :update, :destroy]
+    before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
       raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
@@ -57,7 +57,7 @@ module Api
       render :plain => relation.version.to_s
     end
 
-    def delete
+    def destroy
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
       if new_relation && new_relation.id == relation.id
