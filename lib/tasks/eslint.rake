@@ -10,7 +10,7 @@ end
 
 def js_files
   Rails.application.assets.each_file.select do |file|
-    file.ends_with?(".js") && !file.match?(%r{/(gems|vendor|i18n|node_modules)/})
+    (file.ends_with?(".js") || file.ends_with?(".js.erb")) && !file.match?(%r{/(gems|vendor|i18n|node_modules)/})
   end
 end
 
