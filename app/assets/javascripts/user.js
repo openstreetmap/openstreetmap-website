@@ -64,7 +64,7 @@ $(document).ready(function () {
       map.on("click", function (e) {
         if (!$("#updatehome").is(":checked")) return;
 
-        const [lat, lon] = OSM.cropLocation(e.latlng);
+        const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
         $("#home_lat").val(lat);
         $("#home_lon").val(lon);
