@@ -25,6 +25,7 @@ $(document).ready(function () {
     if (hashParams.hashtags) params.set("hashtags", hashParams.hashtags);
     if (hashParams.locale) params.set("locale", hashParams.locale);
     if (hashParams.maprules) params.set("maprules", hashParams.maprules);
+    if (hashParams.notes) params.set("notes", hashParams.notes);
     if (hashParams.offset) params.set("offset", hashParams.offset);
     if (hashParams.photo) params.set("photo", hashParams.photo);
     if (hashParams.photo_dates) params.set("photo_dates", hashParams.photo_dates);
@@ -36,6 +37,8 @@ $(document).ready(function () {
     if (hashParams.validationWarning) params.set("validationWarning", hashParams.validationWarning);
     if (hashParams.validationError) params.set("validationError", hashParams.validationError);
     if (hashParams.walkthrough) params.set("walkthrough", hashParams.walkthrough);
+
+    if (Cookies.get("_osm_location")?.split("|")[3].includes("N")) params.set("notes", "true");
 
     if (id.data("gpx")) {
       params.set("gpx", id.data("gpx"));
