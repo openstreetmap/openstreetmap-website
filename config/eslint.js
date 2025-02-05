@@ -19,7 +19,6 @@ module.exports = [
         L: "readonly",
         OSM: "writable",
         Matomo: "readonly",
-        Qs: "readonly",
         Turbo: "readonly",
         updateLinks: "readonly"
       }
