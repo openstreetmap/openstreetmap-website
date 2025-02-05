@@ -114,15 +114,15 @@ class IssuesTest < ApplicationSystemTestCase
     assert_equal("test comment", issue.comments.first.body)
   end
 
-  def test_reassign_issue
-    issue = create(:issue)
-    assert_equal "administrator", issue.assigned_role
+  def test_reassign_issue_to_moderators
+    issue = create(:issue, :assigned_role => "administrator")
     sign_in_as(create(:administrator_user))
 
     visit issue_path(issue)
 
+    assert_unchecked_field "Reassign Issue to Moderators"
     fill_in :issue_comment_body, :with => "reassigning to moderators"
-    check :reassign
+    check "Reassign Issue to Moderators"
     click_on "Add Comment"
 
     assert_content "and the issue was reassigned"
@@ -132,6 +132,24 @@ class IssuesTest < ApplicationSystemTestCase
     assert_equal "moderator", issue.assigned_role
   end
 
+  def test_reassign_issue_to_administrators
+    issue = create(:issue, :assigned_role => "moderator")
+    sign_in_as(create(:moderator_user))
+
+    visit issue_path(issue)
+
+    assert_unchecked_field "Reassign Issue to Administrators"
+    fill_in :issue_comment_body, :with => "reassigning to administrators"
+    check "Reassign Issue to Administrators"
+    click_on "Add Comment"
+
+    assert_content "and the issue was reassigned"
+    assert_current_path issues_path(:status => "open")
+
+    issue.reload
+    assert_equal "administrator", issue.assigned_role
+  end
+
   def test_reassign_issue_as_super_user
     issue = create(:issue)
     sign_in_as(create(:super_user))
@@ -139,7 +157,7 @@ class IssuesTest < ApplicationSystemTestCase
     visit issue_path(issue)
 
     fill_in :issue_comment_body, :with => "reassigning to moderators"
-    check :reassign
+    check "Reassign Issue to Moderators"
     click_on "Add Comment"
 
     assert_content "and the issue was reassigned"
