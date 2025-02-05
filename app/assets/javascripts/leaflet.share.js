@@ -201,41 +201,31 @@ L.OSM.share = function (options) {
             .attr("class", "form-check-input")
             .bind("change", toggleFilter))));
 
-    ["minlon", "minlat", "maxlon", "maxlat", "lat", "lon"].forEach(function (name) {
+    const mapnikNames = ["minlon", "minlat", "maxlon", "maxlat", "lat", "lon"];
+
+    for (const name of mapnikNames) {
       $("<input>")
         .attr("id", "mapnik_" + name)
         .attr("name", name)
         .attr("type", "hidden")
         .appendTo($form);
-    });
+    }
 
-    $("<input>")
-      .attr("id", "map_format")
-      .attr("name", "format")
-      .attr("value", "mapnik")
-      .attr("type", "hidden")
-      .appendTo($form);
+    const hiddenExportDefaults = {
+      format: "mapnik",
+      zoom: map.getZoom(),
+      width: 0,
+      height: 0
+    };
 
-    $("<input>")
-      .attr("id", "map_zoom")
-      .attr("name", "zoom")
-      .attr("value", map.getZoom())
-      .attr("type", "hidden")
-      .appendTo($form);
-
-    $("<input>")
-      .attr("id", "map_width")
-      .attr("name", "width")
-      .attr("value", 0)
-      .attr("type", "hidden")
-      .appendTo($form);
-
-    $("<input>")
-      .attr("id", "map_height")
-      .attr("name", "height")
-      .attr("value", 0)
-      .attr("type", "hidden")
-      .appendTo($form);
+    for (const name in hiddenExportDefaults) {
+      $("<input>")
+        .attr("id", "map_" + name)
+        .attr("name", name)
+        .attr("value", hiddenExportDefaults[name])
+        .attr("type", "hidden")
+        .appendTo($form);
+    }
 
     var csrf_param = $("meta[name=csrf-param]").attr("content"),
         csrf_token = $("meta[name=csrf-token]").attr("content");

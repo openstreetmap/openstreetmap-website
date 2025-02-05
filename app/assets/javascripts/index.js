@@ -97,9 +97,7 @@ $(document).ready(function () {
   var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
   function addControlGroup(controls) {
-    controls.forEach(function (control) {
-      control.addTo(map);
-    });
+    for (const control of controls) control.addTo(map);
 
     var firstContainer = controls[0].getContainer();
     $(firstContainer).find(".control-button").first()

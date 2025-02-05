@@ -84,9 +84,7 @@ OSM.initializeNotesLayer = function (map) {
     function success(json) {
       var oldNotes = notes;
       notes = {};
-      json.features.forEach(updateMarkers);
-
-      function updateMarkers(feature) {
+      for (const feature of json.features) {
         var marker = oldNotes[feature.properties.id];
         delete oldNotes[feature.properties.id];
         notes[feature.properties.id] = updateMarker(marker, feature);

@@ -84,14 +84,12 @@ OSM.Router = function (map, rts) {
     return route;
   }
 
-  var routes = [];
-  for (var r in rts) {
-    routes.push(new Route(r, rts[r]));
-  }
+  const routes = Object.entries(rts)
+    .map(([r, t]) => new Route(r, t));
 
   routes.recognize = function (path) {
-    for (var i = 0; i < this.length; i++) {
-      if (this[i].match(path)) return this[i];
+    for (const route of this) {
+      if (route.match(path)) return route;
     }
   };
 
