@@ -26,12 +26,21 @@ module Api
     end
 
     def show
-      @way = Way.find(params[:id])
+      @way = Way
+      @way = @way.includes(:nodes => :node_tags) if params[:full]
+      @way = @way.find(params[:id])
 
-      response.last_modified = @way.timestamp
+      response.last_modified = @way.timestamp unless params[:full]
 
       if @way.visible
-        # Render the result
+        if params[:full]
+          @nodes = []
+
+          @way.nodes.uniq.each do |node|
+            @nodes << node if node.visible
+          end
+        end
+
         respond_to do |format|
           format.xml
           format.json
@@ -69,26 +78,6 @@ module Api
         render :plain => way.version.to_s
       else
         head :bad_request
-      end
-    end
-
-    def full
-      @way = Way.includes(:nodes => :node_tags).find(params[:id])
-
-      if @way.visible
-        @nodes = []
-
-        @way.nodes.uniq.each do |node|
-          @nodes << node if node.visible
-        end
-
-        # Render the result
-        respond_to do |format|
-          format.xml
-          format.json
-        end
-      else
-        head :gone
       end
     end
 
