@@ -30,15 +30,12 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
     post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
 
-    get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
     post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
     get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
 
-    get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
     post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
     get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
   end
@@ -50,6 +47,7 @@ OpenStreetMap::Application.routes.draw do
         resources :ways, :only => :index
         resources :relations, :only => :index
       end
+      resources :versions, :path => "history", :controller => :old_nodes, :only => :index
     end
     put "node/create" => "nodes#create", :as => nil
 
@@ -61,6 +59,7 @@ OpenStreetMap::Application.routes.draw do
       scope :module => :ways do
         resources :relations, :only => :index
       end
+      resources :versions, :path => "history", :controller => :old_ways, :only => :index
     end
     put "way/create" => "ways#create", :as => nil
 
@@ -72,6 +71,7 @@ OpenStreetMap::Application.routes.draw do
       scope :module => :relations do
         resources :relations, :only => :index
       end
+      resources :versions, :path => "history", :controller => :old_relations, :only => :index
     end
     put "relation/create" => "relations#create", :as => nil
 

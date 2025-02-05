@@ -4,17 +4,17 @@
 module Api
   class OldElementsController < ApiController
     before_action :check_api_writable, :only => [:redact]
-    before_action :setup_user_auth, :only => [:history, :show]
+    before_action :setup_user_auth, :only => [:index, :show]
     before_action :authorize, :only => [:redact]
 
     authorize_resource
 
-    before_action :lookup_old_element, :except => [:history]
-    before_action :lookup_old_element_versions, :only => [:history]
+    before_action :lookup_old_element, :except => [:index]
+    before_action :lookup_old_element_versions, :only => [:index]
 
     before_action :set_request_formats, :except => [:redact]
 
-    def history
+    def index
       # the .where() method used in the lookup_old_element_versions
       # call won't throw an error if no records are found, so we have
       # to do that ourselves.
