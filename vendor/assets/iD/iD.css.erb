@@ -1337,25 +1337,21 @@
 }
 
 /* service roads */
-.ideditor path.line.stroke.tag-highway-service,
-.ideditor path.line.stroke.tag-service {
+.ideditor path.line.stroke.tag-highway-service {
     stroke: #fff;
 }
-.ideditor path.line.casing.tag-highway-service,
-.ideditor path.line.casing.tag-service {
+.ideditor path.line.casing.tag-highway-service {
     stroke: #666;
 }
 
 /* special service roads and bus guideways */
 /* with `service=* tag`  (e.g. parking_aisle, alley, drive-through) */
 .ideditor path.line.stroke.tag-highway-bus_guideway,
-.ideditor path.line.stroke.tag-highway-service.tag-service,
-.ideditor path.line.stroke.tag-service.tag-service {
+.ideditor path.line.stroke.tag-highway-service.tag-service {
     stroke: #dca;
 }
 .ideditor path.line.casing.tag-highway-bus_guideway,
-.ideditor path.line.casing.tag-highway-service.tag-service,
-.ideditor path.line.casing.tag-service.tag-service {
+.ideditor path.line.casing.tag-highway-service.tag-service {
     stroke: #666;
 }
 
@@ -1444,7 +1440,7 @@
     fill: #fff;
 }
 .ideditor path.line.stroke.tag-highway-footway,
-.ideditor path.line.stroke.tag-highway_bus_stop,
+.ideditor path.line.stroke.tag-highway-bus_stop,
 .ideditor .preset-icon-container path.casing.tag-highway-footway {
     stroke: #988;
 }
@@ -1744,7 +1740,14 @@
 .ideditor path.line.stroke.tag-railway-subway {
     stroke: #bbb;
 }
-/* waterways */
+
+/* railways with `service=* tag` (e.g. sidings, crossovers, etc.) */
+.ideditor path.line.stroke.tag-railway.tag-service {
+    stroke: #dca;
+}
+.ideditor path.line.casing.tag-railway.tag-service {
+    stroke: #666;
+}/* waterways */
 
 /* defaults */
 .ideditor .preset-icon .icon.tag-waterway.other-line {
@@ -3438,6 +3441,9 @@
 }
 .ideditor .fill-partial path.area.fill.tag-indoor {
     stroke-width: 20px;
+}
+.ideditor .fill-partial path.area.fill.tag-amenity-parking_space {
+    stroke-width: 30px;
 }
 .ideditor.mode-browse .fill-partial path.area.fill,
 .ideditor.mode-select .fill-partial path.area.fill,
@@ -6588,6 +6594,7 @@
 .ideditor .comment-date {
     color: #aaa;
 }
+.ideditor .inspector-hover .comment-text,
 .ideditor .comment-text {
     color: #333;
     margin-top: 10px;
@@ -7699,11 +7706,13 @@
 .ideditor .help-pane .nav {
     position: relative;
     padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .ideditor .help-pane .nav a {
-    float: left;
-    width: 50%;
+    flex: 0 0 50%;
     text-align: center;
 }
 
@@ -7717,7 +7726,7 @@
 }
 
 .ideditor .help-pane .nav a:only-child {
-    width: 100%;
+    flex: 0 0 100%;
     border-radius: 4px;
 }
 
@@ -7753,10 +7762,10 @@
     border: 1px solid #ccc;
 }
 
-/* scrollbars only when necessary*/
+/* no scrollbars */
 .ideditor .inspector-hover div {
     overflow-x: visible;
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
 /* hide and remove from layout */
@@ -7886,17 +7895,34 @@
 
     -webkit-user-drag: none;
 
-    opacity: 0;
+    opacity: 1;
+    transition: opacity 250ms linear;
 
-    transition: opacity 200ms linear;
+    /* prevent brief flickering of "broken image" on tile loading errors, see https://zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.ideditor img.tile-loaded {
-    opacity: 1;
+/* Workaround to remove visible grid around tile borders on Chrome
+   Only works with browser zoom multiple of 25 (75%, 100%, 125%...)
+   Should be removed when https://issues.chromium.org/issues/40084005 is resolved.
+   See https://github.com/openstreetmap/iD/pull/10594 */
+@media (-webkit-device-pixel-ratio = 1) or (-webkit-device-pixel-ratio = 1.25) or (-webkit-device-pixel-ratio = 1.5) or (-webkit-device-pixel-ratio = 1.75)
+    or (-webkit-device-pixel-ratio = 2) or (-webkit-device-pixel-ratio = 2.25) or (-webkit-device-pixel-ratio = 2.5) or (-webkit-device-pixel-ratio = 2.75)
+    or (-webkit-device-pixel-ratio = 3) or (-webkit-device-pixel-ratio = 3.25) or (-webkit-device-pixel-ratio = 3.5) or (-webkit-device-pixel-ratio = 3.75)
+    or (-webkit-device-pixel-ratio = 4) or (-webkit-device-pixel-ratio = 4.25) or (-webkit-device-pixel-ratio = 4.5) or (-webkit-device-pixel-ratio = 4.75)
+    or (-webkit-device-pixel-ratio = 5) or (-webkit-device-pixel-ratio = 0.25) or (-webkit-device-pixel-ratio = 0.5) or (-webkit-device-pixel-ratio = 0.75) {
+    .ideditor .layer-background img.tile,
+    .ideditor .map-in-map-background img.tile {
+        mix-blend-mode: plus-lighter;
+    }
 }
 
 .ideditor img.tile-removing {
     opacity: 0;
+    z-index: 1;
+    mix-blend-mode: normal;
 }
 
 .ideditor .tile-label-debug {
@@ -9304,6 +9330,7 @@
     border: solid transparent;
     border-width: 3px 3px 3px 4px;
     border-radius: 6px;
+    cursor: auto;
 }
 .ideditor ::-webkit-scrollbar-track:active {
     background-color: rgba(0,0,0,.05);
@@ -9313,8 +9340,11 @@
         background-color: rgba(0,0,0,.05);
     }
 }
-body {
-    scrollbar-width: 10px;
+/* Firefox */
+@-moz-document url-prefix() {
+	.ideditor * {
+	    scrollbar-width: thin;
+	}
 }
 
 
