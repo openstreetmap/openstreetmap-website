@@ -2541,6 +2541,13 @@ CREATE INDEX index_note_subscriptions_on_note_id ON public.note_subscriptions US
 
 
 --
+-- Name: index_notes_on_description; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_description ON public.notes USING gin (to_tsvector('english'::regconfig, description));
+
+
+--
 -- Name: index_oauth_access_grants_on_application_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3422,6 +3429,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250206202905'),
 ('20250121191749'),
 ('20250105154621'),
 ('20250104140952'),
