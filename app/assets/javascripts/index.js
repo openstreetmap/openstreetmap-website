@@ -21,6 +21,7 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require map-styles/dist/ohm.styles
 //= require index/timeslider
 //= require router
 //= require qs/dist/qs

@@ -81,7 +81,7 @@ L.OSM.Map = L.Map.extend({
         code: "O",
         keyid: "historical",
         name: I18n.t("javascripts.map.base.historical"),
-        style: ohmVectorStyles.Original,
+        style: ohmVectorStyles.Historical,
       })
     ));
 
