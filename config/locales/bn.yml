@@ -85,6 +85,7 @@ bn:
       message: বার্তা
       node: সংযোগস্থল
       node_tag: সংযোগস্থলের ট্যাগ
+      notifier: অনুস্মারক
       old_node: পুরাতন সংযোগস্থল
       old_node_tag: পুরাতন সংযোগস্থলের ট্যাগ
       old_relation: পুরনো সম্পর্ক
@@ -304,6 +305,7 @@ bn:
       current email address: বর্তমান ই-মেইল ঠিকানা
       external auth: বাহ্যিক প্রমাণীকরণ
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: এটি কী?
       public editing:
         heading: পাবলিক সম্পাদনা
@@ -335,7 +337,6 @@ bn:
       email_not_revealed: আপনার ইমেল ঠিকানা সর্বজনীনভাবে প্রকাশ করা হবে না।
       not_reversible: এই ক্রিয়াটি পাল্টানো যাবে না এবং সমস্ত নতুন ব্যবহারকারী এখন
         ডিফল্টরূপে সর্বজনীন।
-      make_edits_public_button: সমস্ত সম্পাদনাগুলি উন্মুক্ত করুন
     update:
       success_confirm_needed: ব্যবহারকারীর তথ্য সফলভাবে হালনাগাদ করা হয়েছে। আপনার
         নতুন ইমেল ঠিকানা নিশ্চিত করতে আপনার ইমেল পরীক্ষা করুন।
@@ -362,6 +363,8 @@ bn:
     view_unredacted_history: অসংশোধিত ইতিহাস দেখুন
     view_details: বিস্তারিত দেখুন
     location: 'অবস্থান:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'সংযোগস্থল: %{name}'
       history_title_html: 'সংযোগস্থলের ইতিহাস: %{name}'
@@ -471,9 +474,6 @@ bn:
       show:
         title_all: ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্যের আলোচনা
         title_particular: 'ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্য #%{changeset_id} আলোচনা'
-      timeout:
-        sorry: দুঃখিত, আপনার অনুরোধ করা চেঞ্জসেট মন্তব্যের তালিকা পুনরুদ্ধার করতে
-          খুব বেশি সময় লেগেছে।
   changesets:
     changeset:
       no_edits: (কোনো সম্পাদনা নেই)
@@ -508,15 +508,10 @@ bn:
       created: 'তৈরি করা হয়েছে: %{when}'
       closed: 'বন্ধ করা হয়েছে: %{when}'
       created_ago_html: '%{time_ago} তৈরি'
-      closed_ago_html: '%{time_ago} বন্ধকৃত'
-      created_ago_by_html: '%{user} কর্তৃক %{time_ago} তৈরিকৃত'
-      closed_ago_by_html: '%{user} কর্তৃক %{time_ago} বন্ধকৃত'
       discussion: আলোচনা
       join_discussion: আলোচনায় যোগ দিতে প্রবেশ করুন
-      still_open: চেঞ্জসেট এখনও খোলা - চেঞ্জসেট বন্ধ হয়ে গেলে আলোচনা খোলা হবে।
-      hidden_comment_by_html: '%{user} %{time_ago} মন্তব্যটি লুকিয়েছেন'
-      hide_comment: লুকান
-      unhide_comment: দৃশ্যমান করুন
+      comment_by_html: '%{time_ago} %{user} এর মন্তব্য'
+      hidden_comment_by_html: '%{time_ago} %{user} এর মন্তব্যটি লুকানো হয়েছে'
       comment: মন্তব্য
       changesetxml: পরিবর্তনধার্য এক্সএমএল
       osmchangexml: osmChange এক্সএমএল
@@ -611,6 +606,7 @@ bn:
       report: এই মন্তব্যের বিরুদ্ধে অভিযোগ করুন
     location:
       location: 'অবস্থান:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: ওপেনস্ট্রিটম্যাপে %{user}-এর দিনলিপির ভুক্তি
@@ -626,10 +622,7 @@ bn:
       button: আলোচনায় সাবস্ক্রাইব করুন
   diary_comments:
     index:
-      title: '%{user}-এর কৃত দিনলিপি ভুক্তি'
-      heading: '%{user}-এর দিনলিপি মন্তব্য'
       subheading_html: '%{user}-এর করা দিনলিপি মন্তব্য'
-      no_comments: কোনও দিনলিপি মন্তব্য নেই
     page:
       post: পোস্ট
       when: কখন
@@ -912,7 +905,6 @@ bn:
           bus_guideway: নির্দেশিত বাস পথ
           bus_stop: বাস স্টপ
           construction: নির্মীয়মাণ মহাসড়ক
-          crossing: পারাপার
           cycleway: সাইকেল রাস্তা
           elevator: লিফট
           emergency_access_point: জরুরি প্রবেশ স্থল
@@ -1406,10 +1398,12 @@ bn:
     gps_traces: জিপিএস ট্রেস
     user_diaries: ব্যবহারকারীর দিনলিপি
     edit_with: '%{editor} দিয়ে সম্পাদনা করুন'
+    tag_line: মুক্ত উইকি বিশ্ব মানচিত্র
     intro_header: ওপেনস্ট্রিটম্যাপে স্বাগতম!
     intro_text: ওপেনস্ট্রিটম্যাপ বিশ্বের একটি মানচিত্র; যা আপনার মতো মানুষের দ্বারা
       নির্মিত এবং এটি মুক্ত লাইসেন্সের অধীনে বিনামূল্যে ব্যবহারযোগ্য।
-    partners_partners: সহযোগীগণ
+    intro_2_create_account: একটি ব্যবহারকারী অ্যাকাউন্ট তৈরি করুন
+    partners_title: সহযোগীগণ
     tou: ব্যবহারের শর্তাবলী
     help: সাহায্য
     about: পরিচিতি
@@ -1542,7 +1536,6 @@ bn:
       destroy_button: অপসারণ
     heading:
       my_inbox: আমার ইনবক্স
-      my_outbox: আমার আউটবক্স
     mark:
       as_read: বার্তা পঠিত হিসেবে চিহ্নিত করুন
       as_unread: বার্তা অপঠিত হিসেবে চিহ্নিত করুন
@@ -1558,7 +1551,6 @@ bn:
         আমরা একটি লিঙ্ক পাঠাবো যার মাধ্যমে আপনি পাসওয়ার্ড পরিবর্তন করতে পারবেন।
     edit:
       title: পাসওয়ার্ড পুনঃনির্ধারণ
-      heading: '%{user} এর পাসওয়ার্ড পুনর্বদল করুন'
       reset: পাসওয়ার্ড পুনঃনির্ধারণ
     update:
       flash changed: আপনার পাসওয়ার্ড পরিবর্তন করা হয়েছে।
@@ -1580,6 +1572,7 @@ bn:
       image: চিত্র
       gravatar:
         gravatar: গ্র‍্যাভাটার ব্যবহার করুন
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: গ্র‍্যাভাটার কী?
       new image: চিত্র যোগ করুন
       delete image: বর্তমান ছবিটি অপসারণ করুন
@@ -1633,6 +1626,8 @@ bn:
       diary_entries:
         older: পুরাতন ভুক্তি
         newer: নতুনতর ভুক্তি
+      users:
+        newer: নবাগত ব্যবহারকারী
   site:
     about:
       heading_html: '%{copyright}ওপেনস্ট্রিটম্যাপ %{br} অবদানকারীগণ'
@@ -1665,12 +1660,20 @@ bn:
         native_link: THIS_LANGUAGE_NAME_HERE সংস্করণ
         mapping_link: মানচিত্রকরণ শুরু করুন
       legal_babble:
+        introduction_1_html: |-
+          ওপেনস্ট্রিটম্যাপ<sup><a href="#trademarks">&reg;</a></sup> একটি <i>মুক্ত উপাত্ত</i> যা <a
+          href="https://osmfoundation.org/">ওপেনস্ট্রিটম্যাপ ফাউন্ডেশন কর্তৃক</a> (OSMF) <a
+          href="https://opendatacommons.org/licenses/odbl/">মুক্ত উপাত্ত কমন্স মুক্ত তথ্যভিত লাইসেন্সের</a> (ODbL) আওতায় লাইসেন্সকৃত।
         introduction_2_legal_code: আইনি কোড
+        introduction_3_html: আমাদের নথিপত্র <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.bn">ক্রিয়েটিভ
+          কমন্স অ্যাট্রিবিউশন-শেয়ারএলাইক ২.০</a> (সিসি বাই-এসএ ২.০) লাইসেন্সের অধীনে
+          লাইসেন্সকৃত।
         credit_title_html: ওপেনস্ট্রিটম্যাপকে কীভাবে কৃতিত্ব দিবেন
         attribution_example:
           title: আরোপণ উদাহরণ
         more_title_html: আরও খুঁজা হচ্ছে
         contributors_title_html: আমাদের অবদানকারীগণ
+        contributors_at_austria: অস্ট্রিয়া
         contributors_at_cc_by: সিসি বাই
         contributors_ca_canada: কানাডা
         contributors_cz_credit_html: '%{czechia}: ভূমি জরিপ এবং ক্যাডাস্ট্রে রাজ্য
@@ -1683,6 +1686,8 @@ bn:
         contributors_hr_croatia: ক্রোয়েশিয়া
         contributors_rs_serbia: সার্বিয়া
         contributors_si_slovenia: স্লোভেনিয়া
+        contributors_es_spain: স্পেন
+        contributors_gb_united_kingdom: যুক্তরাজ্য
         infringement_title_html: কপিরাইট লঙ্ঘন
     index:
       js_1: আপনি এমন একটি ব্রাউজার ব্যবহার করছেন যা জাভাস্ক্রিপ্ট সমর্থন করে না অথবা
@@ -1693,6 +1698,8 @@ bn:
       title: রপ্তানি
       manually_select: ম্যানুয়ালি একটি ভিন্ন জায়গা নির্বাচন করুন
       licence: লাইসেন্স
+      licence_details_html: ওপেনস্ট্রিটম্যাপের সমস্ত উপাত্ত <a href="https://opendatacommons.org/licenses/odbl/1.0/">ওপেন
+        ডাটা কমন্স ওপেন ডাটাবেস লাইসেন্সের</a> (ODbL) আওতায় প্রকাশিত।
       too_large:
         advice: 'যদি উপরের রপ্তানি ব্যর্থ হয়, দয়া করে নিচে তালিকাভুক্ত উৎসের কোনো
           একটি ব্যবহারের জন্য বিবেচনা করুন:'
@@ -1721,6 +1728,7 @@ bn:
         url: /স্বাগতম
         title: ওপেনস্ট্রিটম্যাপে স্বাগতম
       beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: আরম্ভকারী সহায়িকা
         description: নতুনদের জন্য সম্প্রদায় পরিচালিত নির্দেশিকা।
       mailing_lists:
@@ -1729,12 +1737,19 @@ bn:
         title: আইআরসি
       welcomemat:
         title: সংস্থার জন্য
+      forum:
+        title: ফোরাম
+      mailing_list:
+        title: মেইলিং তালিকা
+      slack:
+        title: আইআরসি
       wiki:
         title: ওপেনস্ট্রিটম্যাপ উইকি
     potlatch:
       change_preferences: এখানে আপনার পছন্দ পরিবর্তন করুন
     any_questions:
       title: কোনও প্রশ্ন?
+      get_help_here: এখানে সাহায্য পান
     sidebar:
       search_results: অনুসন্ধানের ফলাফল
     search:
@@ -1772,7 +1787,6 @@ bn:
           forest: অরণ্য
           wood: কাঠ
           farmland: কৃষিজমি
-          meadow: তৃণভূমি
           sand: বালু
           golf: গল্ফ মাঠ
           park: উদ্যান
@@ -1806,6 +1820,9 @@ bn:
         title: মানচিত্রে কী আছে
       basic_terms:
         title: মানচিত্রকরণের জন্য মৌলিক শর্তাবলী
+        editor: সম্পাদক
+        node: নোড
+        tag: ট্যাগ
       rules:
         title: নিয়মাবলী!
       start_mapping: মানচিত্রকরণ শুরু করুন
@@ -1878,6 +1895,7 @@ bn:
       account_settings: অ্যাকাউন্ট সেটিংস
     auth_providers:
       openid:
+        title: ওপেনআইডি দিয়ে প্রবেশ করুন
         alt: ওপেনআইডি লোগো
       google:
         title: গুগল দিয়ে প্রবেশ
@@ -2011,7 +2029,6 @@ bn:
       summary_no_ip_html: '%{date}-এ %{name} তৈরি হয়েছে'
       empty: কোনো সাদৃশ্যপূর্ণ ব্যবহারকারী পাওয়া যায়নি
     page:
-      confirm: নির্বাচিত ব্যবহারকারীদের নিশ্চিত করুন
       hide: নির্বাচিত ব্যবহারকারীদের লুকান
     suspended:
       title: অ্যাকাউন্ট স্থগিত করা হয়েছে
@@ -2049,8 +2066,6 @@ bn:
     not_found:
       sorry: দুঃখিত, ID %{id} সহ ব্যবহারকারী ব্লক খুঁজে পাওয়া যায়নি।
       back: সূচকে ফিরে যান
-    revoke_all:
-      revoke: প্রত্যাহার!
     helper:
       block_duration:
         hours:
@@ -2071,6 +2086,8 @@ bn:
         tbody:
           send_message: বার্তা পাঠান
   notes:
+    index:
+      apply: আবেদন করুন
     show:
       title: 'টীকা: %{id}'
       description: 'বর্ণনা:'
@@ -2089,6 +2106,7 @@ bn:
       add: টীকাযুক্ত করুন
     notes_paging_nav:
       showing_page: '%{page}টি পাতা'
+      next: পরবর্তী
   javascripts:
     close: বন্ধ
     share:
@@ -2099,6 +2117,8 @@ bn:
       download: ডাউনলোড
       short_url: সংক্ষিপ্ত ইউআরএল
     map:
+      base:
+        railway: রেলপথ
       layers:
         data: মানচিত্র উপাত্ত
       make_a_donation: দান করুন

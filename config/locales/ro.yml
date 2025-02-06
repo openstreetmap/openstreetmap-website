@@ -29,6 +29,7 @@ ro:
   time:
     formats:
       friendly: '%e %B %Y la %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Selectează fișier
@@ -78,6 +79,7 @@ ro:
       message: Mesaj
       node: Nod
       node_tag: Etichetă nod
+      notifier: Notificator
       old_node: Nod vechi
       old_node_tag: Etichetă nod vechi
       old_relation: Relație veche
@@ -184,13 +186,15 @@ ro:
         needs_view: Utilizatorul trebuie să se conecteze înainte ca această blocare
           să fie ștearsă?
       user:
+        email_confirmation: Adresa dumneavoastră nu este afișată public, vezi <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">politica
+          de confidențialitate</a> pentru mai multe informații.
         new_email: (nu a fost afișată în mod public)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: aproximativ 1 oră în urmă}}
-        few: aproximativ %{count} ore în urmă}}
-        other: …}}
+        one: aproximativ 1 oră în urmă|few=aproximativ %{count} ore în urmă}}|…}}}}
+        other: aproximativ 1 oră în urmă|few=aproximativ %{count} ore în urmă}}|…}}}}
       about_x_months:
         one: aproximativ o lună în urmă
         few: aproximativ %{count} luni în urmă
@@ -236,6 +240,8 @@ ro:
         one: acum un an
         few: cu %{count} ani în urmă
         other: cu %{count} de ani în urmă
+  printable_name:
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Implicit (în prezent %{name})
     id:
@@ -247,6 +253,7 @@ ro:
   auth:
     providers:
       none: Fără
+      openid: OpenID
       google: OpenID
       facebook: OpenID
       microsoft: Microsoft
@@ -312,10 +319,12 @@ ro:
       current email address: Adresa de e-mail actuală
       external auth: Autentificare externă
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Ce este aceasta?
       public editing:
         heading: 'Editarea publică:'
         enabled: Activat. Nu este anonim și poate edita date.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Ce este aceasta?
         disabled: Dezactivat și nu poate edita date, toate editările anterioare sunt
           anonime.
@@ -328,6 +337,7 @@ ro:
           a revizui și accepta noii Termeni de Contributor.
         agreed_with_pd: De asemenea, ați declarat că considerați că editările dvs.
           sunt în Domeniul Public.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Ce este aceasta?
       save changes button: Salvează modificările
       delete_account: Șterge Cont...
@@ -363,13 +373,14 @@ ro:
       few: '%{count} relații'
       other: ""
     part_of_ways:
-      one: '%{count} cale}}'
-      few: '%{count} căi}}'
-      other: '}}'
+      one: '%{count} cale|few=%{count} căi}}|}}}}'
+      other: '%{count} cale|few=%{count} căi}}|}}}}'
     download_xml: Descarcă XML
     view_history: Vezi istoric
     view_details: Vezi detalii
     location: 'Amplasament:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Nod: %{name}'
       history_title_html: 'Istoricul nodului: %{name}'
@@ -393,6 +404,7 @@ ro:
         few: '%{count} membri'
         other: '%{count} de membri'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} ca %{role}'
       type:
         node: Nod
@@ -456,8 +468,8 @@ ro:
         comment: 'Comentariu nou privind modificările #%{changeset_id} de către %{author}'
         commented_at_by_html: Actualizat %{when} de %{user}
       show:
-        title_all: Discuție set de schimbări OpenStreetMap
-        title_particular: 'Set de schimbări OpenStreetMap discuție #%{changeset_id}'
+        title_all: Discuție set de schimbări OpenHistoricalMap
+        title_particular: 'Set de schimbări OpenHistoricalMap discuție #%{changeset_id}'
       timeout:
         sorry: Ne pare rău, lista de comenzi modificate pe care le-ați solicitat a
           durat prea mult timp pentru a fi preluate.
@@ -492,18 +504,12 @@ ro:
       title: 'Set de modificări: %{id}'
       created: 'Creat: %{when}'
       closed: 'Închis: %{when}'
-      created_ago_html: Creat %{time_ago}
-      closed_ago_html: Închis %{time_ago}
-      created_ago_by_html: Creat %{time_ago} de %{user}
-      closed_ago_by_html: Închis %{time_ago} de către %{user}
       discussion: Discuție
       join_discussion: Conectați-vă pentru a vă alătura discuției
       still_open: Setul de schimbări este deschis - discuția se va deschide atunci
         când setul de schimbări este închis.
       subscribe: Abonare
       unsubscribe: Dezabonare
-      comment_by_html: Comentariu de la %{user} %{time_ago}
-      hidden_comment_by_html: Comentariu ascuns de la %{user} %{time_ago}
       hide_comment: ascunde
       unhide_comment: arată
       comment: Comentariu
@@ -601,6 +607,7 @@ ro:
       report: Reclamă acest comentariu
     location:
       location: 'Localizare:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Înregistrări în jurnalul OpenStreetMap pentru %{user}
@@ -620,8 +627,6 @@ ro:
       button: Dezabonează-te de la discuție
   diary_comments:
     index:
-      title: Comentarii din jurnal adăugate de %{user}
-      heading: Comentariile la jurnal a lui %{user}
       subheading_html: Comentarii din jurnal adăugate de %{user}
       no_comments: Fără comentarii din jurnal
     page:
@@ -663,6 +668,7 @@ ro:
       profile: Vizualizați informațiile de profil
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact_url_title: Diferite metode de contact explicate
       contact: contact
       contact_the_community_html: Simțiți-vă liber să %{contact_link} comunitatea
@@ -702,6 +708,7 @@ ro:
       title:
         latlon: Intern
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Tramvai tras de cablu
@@ -1596,12 +1603,14 @@ ro:
     gps_traces: Track-uri GPS
     user_diaries: Jurnalele utilizatorilor
     edit_with: Modificare cu %{editor}
+    tag_line: Harta liberă Wiki World Map
     intro_header: Bine ați venit la OpenStreetMap!
     intro_text: OpenStreetMap este o hartă a lumii, creată de oameni ca tine și liberă
       pentru utilizare sub o licență deschisă.
-    partners_fastly: Fastly
-    partners_corpmembers: Membrii corporați ai OSMF
-    partners_partners: parteneri
+    intro_2_create_account: Creează un cont de utilizator
+    partners_title: parteneri
+    hosting_partners_2024_html: Gazduirea este susținută de %{ucl}, %{fastly}, %{bytemark}
+      și alți %{partners}.
     tou: Termeni de Utilizare
     osm_offline: Baza de date OpenStreetMap este în prezent offline, în timp ce se
       efectuează lucrări esențiale de întreținere a bazelor de date.
@@ -1898,6 +1907,7 @@ ro:
       image: Imagine
       gravatar:
         gravatar: Utilizați Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Ce este Gravatar?
         disabled: Gravatar a fost dezactivat.
         enabled: Afișarea Gravatarului dvs. a fost activată.
@@ -2008,18 +2018,18 @@ ro:
       open_data_copyright_license: Pagina Drepturi de autor și licență
       legal_title: Legal
       legal_1_1_html: |-
-        Acest site și multe alte servicii conexe sunt operate oficial de către
-        %{openstreetmap_foundation_link} (OSMF)
-        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă
-        la %{terms_of_use_link}, %{aup_link} și %{privacy_policy_link}.
-        ​Căutați detalii
+        Acest site și multe alte servicii conexe sunt operate în mod formal de <a href='https://osmfoundation.org/'>Fundația OpenHistoricalMap</a> (OSMF)
+        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termeni de utilizare</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politici de utilizare acceptabile</a> și a <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politica de confidențialitate</a>.
       legal_1_1_openstreetmap_foundation: Fundația OpenStreetMap
       legal_1_1_terms_of_use: Termeni de Utilizare
       legal_1_1_aup: Politica de Utilizare Acceptabilă
       legal_1_1_privacy_policy: Politica de Confidențialitate
       legal_2_1_html: |-
-        Vă rugăm %{contact_the_osmf_link}
-        dacă aveți întrebări legate de licență, drepturi de autor sau alte întrebări legale.
+        Vă rugăm să <a href='https://osmfoundation.org/Contact'>contactați OSMF</a>
+        dacă aveți licență, drepturi de autor sau alte întrebări legale.
+        <br>
+        OpenHistoricalMap, logo-ul lupa și starea hărții sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">mărci înregistrate ale OSMF</a>.
       legal_2_1_contact_the_osmf: contactați OSMF
       legal_2_2_html: OpenStreetMap, logo-ul lupei și starea hărții sunt %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: mărci înregistrate ale OSMF
@@ -2040,26 +2050,31 @@ ro:
         mapping_link: Începeți să cartografiați
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} este %{open_data}, licențiat în conformitate cu
-          %{odc_odbl_link} (ODbL) de către %{osm_foundation_link} (OSMF).
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> este <i>open data</i>, licențiat sub licență <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) by the  <a
+          href="https://osmfoundation.org/">Fundația OpenHistoricalMap</a> (OSMF).
         introduction_1_open_data: date deschise
         introduction_1_odc_odbl: Open Data Commons Licență pentru baze de date deschise
         introduction_1_osm_foundation: Fundația OpenStreetMap
-        introduction_2_html: |-
-          Sunteți liber să copiați, să distribuiți, să transmiteți și să adaptați datele noastre,
-          atâta timp cât creditați OpenStreetMap și a acestuia
-          contribuabili. Dacă modificați sau construiți pe baza datelor noastre, dvs
-          poate distribui rezultatul numai sub aceeași licență. The
-          %{legal_code_link} complet explică drepturile și responsabilitățile dvs.
+        introduction_2_html: Sunteți liber să copiați, să distribuiți, să transmiteți
+          și să vă adaptați datele, atâta timp cât creditați OpenHistoricalMap și
+          contribuitorii ei. Dacă modificați sau folosiți datele noastre, puteți distribui
+          rezultatul doar sub aceeași licență. Aici  <a href="https://opendatacommons.org/licenses/odbl/1.0/">codul
+          legal</a> sunt explicate drepturile și responsabilitățile.
         introduction_2_legal_code: cod juridic
-        introduction_3_html: Documentația noastră este licențiată sub licența %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: |-
+          Documentația noastră este licențiată sub <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).
         introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: Cum se creditează OpenStreetMap
         credit_1_html: 'Acolo unde utilizați datele OpenStreetMap, vi se cere să faceți
           următoarele două lucruri:'
-        credit_2_1: Oferiți credit OpenStreetMap afișând notificarea noastră privind
-          drepturile de autor.
+        credit_2_1: |-
+          De asemenea, trebuie să clarificați faptul că datele sunt disponibile în cadrul licenței libere a bazei de date și, dacă folosim bucăți de hartă, atunci cartografierea este licențiată de CC BY-SA. Puteți face acest lucru prin conectarea la
+          <a href="https://www.openstreetmap.org/copyright"> această pagină de copyright</a>.
+          Alternativ, și ca o cerință dacă distribuim OSM într-un
+          formularul de date, puteți numi și să vă conectați direct la licența (licențele). Acolo unde legăturile nu sunt posibile (de exemplu lucrări tipărite), vă sugerăm să direcționați cititorii dvs. la openstreetmap.org (probabil prin extinderea "OpenHistoricalMap" la această adresă completă), la opendatacommons.org, și dacă este cazul, la creativecommons.org.
         credit_2_2: Asigurați-vă că datele sunt disponibile în baza licenței pentru
           baze de date deschise.
         credit_3_html: |-
@@ -2098,6 +2113,10 @@ ro:
           Contribuitorii noștri sunt mii de indivizi. De asemenea, includem
           date cu licență de la agențiile naționale de cartografiere
           și alte surse, printre care:
+        contributors_footer_1_html: |-
+          Pentru detalii suplimentare despre acestea și despre alte surse care au fost utilizate
+          pentru a vă ajuta să îmbunătățiți OpenHistoricalMap, consultați <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Pagina contribuitorilor</a> pe Wiki-ul OpenHistoricalMap.
         contributors_at_credit_html: |-
           %{austria}: conține date de la %{stadt_wien_link} (sub %{cc_by_link}), %{land_vorarlberg_link}
           și Land Tirol (sub %{cc_by_at_with_amendments_link}).
@@ -2189,17 +2208,16 @@ ro:
           Hărți Google sau hărți tipărite) fără permisiunea explicită din partea deținătorilor
           drepturilor de autor.
         infringement_2_1_html: |-
-          Dacă credeți că materialul protejat prin drepturi de autor a fost inadecvat
-          adăugat la baza de date OpenStreetMap sau la acest site, vă rugăm să consultați
-          la %{takedown_procedure_link} sau un fișier direct la nostru
-          %{online_filing_page_link}.
+          Dacă credeți că materialul protejat prin drepturi de autor a fost necorespunzător adăugați la baza de date OpenHistoricalMap sau la acest site, vă rugăm să consultați la <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">takedown
+          procedure</a> procedura noastră de retragere</a> sau fișier direct la adresa noastră
+          <a href="https://dmca.openstreetmap.org/">on-line filing page</a>.
         infringement_2_1_takedown_procedure: procedura de eliminare
         infringement_2_1_online_filing_page: pagina de depunere online
         trademarks_title: Mărci înregistrate
-        trademarks_1_1_html: |-
-          OpenStreetMap, logo-ul lupei și State of the Map sunt mărci comerciale înregistrate ale
-          Fundația OpenStreetMap. Dacă aveți întrebări despre utilizarea mărcilor, vă rugăm să consultați
-          %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, sigla cu lupă și starea hărții sunt
+          mărci comerciale înregistrate ale Fundației OpenHistoricalMap. Dacă aveți
+          întrebări cu privire la utilizarea mărcilor, consultați <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Trademark
+          Policy</a>.
         trademarks_1_1_trademark_policy: Politica Mărcilor Înregistrate
     index:
       js_1: Utilizați fie un browser care nu acceptă JavaScript, fie aveți JavaScript
@@ -2256,14 +2274,15 @@ ro:
             și să adăugați sau să reparați singuri datele.
         add_a_note:
           instructions_1_html: |-
-            Doar faceți clic pe %{note_icon} sau pe aceeași pictogramă de pe afișajul hărții.
-            Aceasta va adăuga un marcator pe hartă, pe care îl puteți muta
+            Doar faceți clic pe <a class='icon note'></a> sau pe aceeași pictogramă pe hartă.
+            Acest lucru va adăuga un marcator pe hartă, pe care îl puteți muta
             prin tragere. Adăugați mesajul dvs., apoi faceți clic pe Salvați, iar alți cartografi vor investiga.
       other_concerns:
         title: Alte preocupări
         concerns_html: |-
-          Dacă aveți nelămuriri cu privire la modul în care sunt utilizate datele noastre sau cu privire la conținut, vă rugăm să consultați
-          %{copyright_link} pentru mai multe informații legale sau contactați %{working_group_link} corespunzător.
+          Dacă aveți nelămuriri cu privire la modul în care datele noastre sunt utilizate sau despre conținut, vă rugăm să consultați site-ul nostru
+          <a href='/copyright'>pagina de copyright</a> pentru mai multe informații juridice sau contactați persoana potrivită
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>Grupul de lucru OSMF</a>.
         copyright: Pagina de drepturi de autor
         working_group: Grup de lucru al OSMF
     help:
@@ -2298,6 +2317,10 @@ ro:
         title: Pentru organizații
         description: Cu o organizație care face planuri pentru OpenStreetMap? Găsiți
           ce trebuie să știți în Matricea de întâmpinare.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: OpenStreetMap Wiki
         description: Caută pe wiki pentru o documentație OpenStreetMap detaliată.
@@ -2352,13 +2375,13 @@ ro:
           subway: Stație de metrou
           ferry: Feribot
           light_rail: Metrou
-          tram: Tramvai
+          tram: tramvai
           trolleybus: Troleibuz
           bus: Autobuz
           cable_car: Telecabină
           chair_lift: Telescaun
           runway: Pistă de Aeroport
-          taxiway: Pistă de taxi avioane
+          taxiway: taxiway
           apron: Aeronavă
           admin: Graniță administrativă
           capital: Capitală
@@ -2369,7 +2392,7 @@ ro:
           wood: Lemn
           farmland: Teren agricol
           grass: Iarbă
-          meadow: Luncă
+          meadow: luncă
           bare_rock: Stâncă goală
           sand: Nisip
           golf: Teren de golf
@@ -2395,7 +2418,7 @@ ro:
           beach: Plajă
           reserve: Rezervație naturală
           military: Zonă militară
-          school: School; university
+          school: Școală
           university: Universitate
           hospital: Spital
           building: Clădire importantă
@@ -2500,6 +2523,7 @@ ro:
     new:
       upload_trace: Încărcați Urma GPS
       visibility_help: ce înseamnă asta?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Ajutor
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2741,11 +2765,13 @@ ro:
       consider_pd: Pe lângă acordul de mai sus, consider că contribuțiile mele sunt
         în Domeniul Public
       consider_pd_why: Ce este aceasta?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
         un %{readable_summary_link} și câteva %{informal_translations_link}'
       readable_summary: rezumat care poate fi citit de om
       informal_translations: traduceri informale
       continue: Continuă
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Anulează
       you need to accept or decline: Citiți și apoi acceptați sau refuzați continuarea
         noilor Termeni de contribuire.
@@ -2758,6 +2784,7 @@ ro:
       terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni de
         Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
       terms_declined_link: această pagină wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nici un utilizator găsit
       heading: Utilizatorul %{user} nu există
@@ -2898,6 +2925,8 @@ ro:
       title: Blocările utilizatorului
       heading: Lista blocărilor de utilizator
       empty: Nu au fost efectuate blocări încă.
+    revoke_all:
+      revoke: Revocă!
     helper:
       time_future_html: Se termină în %{time}.
       until_login: Activ până când utilizatorul se conectează.
@@ -3012,7 +3041,7 @@ ro:
       add: Adaugă notație
     notes_paging_nav:
       showing_page: Pagina %{page}
-      next: Următorul
+      next: Înainte
       previous: Anterior
   javascripts:
     close: Închide
@@ -3057,6 +3086,7 @@ ro:
           few: Sunteți la %{count} picioare de acest punct
           other: Sunteți la %{count} de picioare de acest punct
       base:
+        railway: Cale ferată
         standard: Standard
         cycle_map: Hartă de ciclism
         transport_map: Hartă de transport
@@ -3073,6 +3103,7 @@ ro:
       make_a_donation: Faceți o Donație
       website_and_api_terms: Termenii site-ului web și API
       cyclosm_credit: Stil de plăci de %{cyclosm_link} găzduit de %{osm_france_link}
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap Franța
       thunderforest_credit: Plăci prin amabilitatea lui %{thunderforest_link}
       andy_allan: Andy Allan

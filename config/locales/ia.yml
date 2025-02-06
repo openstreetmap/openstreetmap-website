@@ -61,6 +61,7 @@ ia:
       message: Message
       node: Nodo
       node_tag: Etiquetta de nodo
+      notifier: Notificator
       old_node: Nodo ancian
       old_node_tag: Etiquetta de nodo ancian
       old_relation: Relation ancian
@@ -101,7 +102,7 @@ ia:
       diary_entry:
         user: Usator
         title: Subjecto
-        body: Corpore
+        body: Texto
         latitude: Latitude
         longitude: Longitude
         language_code: Lingua
@@ -166,6 +167,10 @@ ia:
           usar terminos simple.
         needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
       user:
+        email_confirmation: Tu adresse non es monstrate publicamente. Vide nostre
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Politica
+          de confidentialitate de OSMF includente un section sur adresses de e-mail">politica
+          de confidentialitate</a> pro plus information.
         new_email: (nunquam monstrate publicamente)
   datetime:
     distance_in_words_ago:
@@ -217,6 +222,7 @@ ia:
   auth:
     providers:
       none: Necun
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -282,10 +288,12 @@ ia:
       current email address: Adresse de e-mail actual
       external auth: Authentication externe
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: que es isto?
       public editing:
         heading: Modification public
         enabled: Activate. Non anonyme e pote modificar datos.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: que es isto?
         disabled: Disactivate e non pote modificar datos, tote le previe modificationes
           es anonyme.
@@ -298,6 +306,7 @@ ia:
           e acceptar le nove Conditiones de Contributor.
         agreed_with_pd: Tu ha anque declarate que tu considera tu modificationes como
           liberate al Dominio Public.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: que es isto?
       save changes button: Salveguardar modificationes
       delete_account: Deler conto…
@@ -456,8 +465,8 @@ ia:
           %{author}
         commented_at_by_html: Actualisate %{when} per %{user}
       show:
-        title_all: Discussion sur un gruppo de modificationes in OpenStreetMap
-        title_particular: Discussion sur le gruppo de modificationes OpenStreetMap
+        title_all: Discussion sur un gruppo de modificationes in OpenHistoricalMap
+        title_particular: Discussion sur le gruppo de modificationes OpenHistoricalMap
           № %{changeset_id}
       timeout:
         sorry: Le lista de commentos sur gruppos de modificationes que tu requestava
@@ -618,6 +627,8 @@ ia:
       all:
         title: Entratas de diario de OpenStreetMap
         description: Entratas recente de diario de usatores de OpenStreetMap
+    comments:
+      title: Entratas de diario de OpenHistoricalMap
     subscribe:
       heading: Abonar te al sequente discussion de entrata de diario?
       button: Abonar te al discussion
@@ -672,6 +683,7 @@ ia:
       profile: Vider tu information de profilo
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact_url_title: Varie canales de contacto explicate
       contact: contactar
       contact_the_community_html: Sia libere de %{contact_link} le communitate de
@@ -711,8 +723,11 @@ ia:
     search:
       title:
         latlon: Interne
+        latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenStreetMap Nominatim
-        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenHistoricalMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1062,7 +1077,7 @@ ia:
           greenfield: Terreno sin edificios
           industrial: Area industrial
           landfill: Discargatorio
-          meadow: Pastura
+          meadow: Prato
           military: Area militar
           mine: Mina
           orchard: Verdiero
@@ -1608,12 +1623,16 @@ ia:
     gps_traces: Tracias GPS
     user_diaries: Diarios de usatores
     edit_with: Modificar con %{editor}
+    tag_line: Le wiki-carta libere del mundo
     intro_header: Benvenite a OpenStreetMap!
     intro_text: OpenStreetMap es un carta del mundo, create per gente como tu e libere
       de usar sub un licentia aperte.
-    partners_fastly: Fastly
-    partners_corpmembers: Membros corporative de OSMF
-    partners_partners: partners
+    intro_2_create_account: Crea un conto de usator
+    partners_title: Partners
+    hosting_partners_2024_html: OpenHistoricalMap es un projecto fundamental de %{osmus},
+      un organisation sin scopo lucrative in virtute del articulo de lege statounitese
+      501(c)(3), affiliate con le %{osmf}. Le disveloppamento technic es supportate
+      per %{greeninfo} e %{devseed}.
     tou: Conditiones de uso
     osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento debite
       a operationes de mantenentia essential.
@@ -1931,6 +1950,7 @@ ia:
       image: Imagine
       gravatar:
         gravatar: Usar Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Que es Gravatar?
         disabled: Gravatar ha essite disactivate.
         enabled: Tu Gravatar ha essite activate e essera monstrate desde ora.
@@ -2031,27 +2051,26 @@ ia:
       community_driven_community_blogs: blogs del communitate
       community_driven_osm_foundation: Fundation OSM
       open_data_title: Datos aperte
-      open_data_1_html: 'OpenStreetMap es constituite per %{open_data}: tu es libere
-        de usar lo pro qualcunque scopo a condition que tu da recognoscenita a OpenStreetMap
-        e su contributores. Si tu altera o extende le datos in certe manieras, tu
-        pote distribuer le resultato solmente sub le mesme licentia. Vide le pagina
-        %{copyright_license_link} pro detalios.'
+      open_data_1_html: |-
+        <p>OpenHistoricalMap es <i>datos aperte</i>: tu es libere de usar lo pro qualcunque scopo sub le terminos del datos que tu usa. OpenHistoricalMap identifica requisitos de licentia e citation al nivello del objecto (si existe). Un credito o citation de OpenHistoricalMap pro consolidar iste datos es appreciate, ma non obligatori. Si tu altera o disveloppa le datos in certe manieras, tu pote distribuer le resultato solmente sub le mesme licentia. Vide le %{copyright_license_link} pro detalios.</p>
+        <p>Tu pote acceder a datos OHM a transverso varie servicios, non solmente iste sito web. Vide un lista de sitos web e API disponibile in production e test sur <a href='https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Development#Environments'>nostre pagina Wiki</a>.</p>
       open_data_open_data: datos aperte
       open_data_copyright_license: pagina Derectos de autor e Licentia
       legal_title: Juridic
-      legal_1_1_html: Iste sito e multe altere servicios associate es formalmente
-        gerite per le %{openstreetmap_foundation_link} (OSMF) in nomine del communitate.
-        Le uso de tote le servicios gerite per OSMF es subjecte a nostre %{terms_of_use_link},
-        a nostre %{aup_link} e a nostre %{privacy_policy_link}.
+      legal_1_1_html: "Iste sito e multe altere servicios associate es formalmente
+        gerite per le collectivo OpenHistoricalMap multo informal, \nin nomine del
+        communitate. Le uso de tote le servicios gerite per OHM es subjecte a nostre
+        conditiones de uso e a nostre <a href=\"/privacy-policy\">politica de confidentialitate</a>."
       legal_1_1_openstreetmap_foundation: Fundation OpenStreetMap
       legal_1_1_terms_of_use: Conditiones de uso
       legal_1_1_aup: Politica de uso acceptabile
       legal_1_1_privacy_policy: Politica de confidentialitate
-      legal_2_1_html: Per favor %{contact_the_osmf_link} si tu ha questiones sur le
-        licentia o le derecto de autor o altere questiones juridic.
+      legal_2_1_html: |-
+        Per favor contacta le equipa de OHM a <a href='mailto:ohm-admins@googlegroups.com'>ohm-admins@googlegroups.com</a>
+        si tu ha questiones sur licentias, derectos de autor o altere questiones juridic.
+        <br>
       legal_2_1_contact_the_osmf: contacta le OSMF
-      legal_2_2_html: OpenStreetMap, le logotypo con le lupa e "State of the Map"
-        es %{registered_trademarks_link}.
+      legal_2_2_html: OpenStreetMap e le logotypo con le lupa es %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marcas commercial registrate del OSMF
       partners_title: Partners
     copyright:
@@ -2070,27 +2089,32 @@ ia:
         mapping_link: comenciar le cartographia
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} es %{open_data}, licentiate sub
-          %{odc_odbl_link} (ODbL) per le %{osm_foundation_link} (OSMF).
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> es <i>datos aperte</i>, licentiate sub le <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) per le <a
+          href="https://osmfoundation.org/">Fundation OpenHistoricalMap</a> (OSMF).
         introduction_1_open_data: datos aperte
         introduction_1_odc_odbl: Licentia de base de datos aperte de Open Data Commons
         introduction_1_osm_foundation: Fundation OpenStreetMap
         introduction_2_html: Vos es libere de copiar, distribuer, transmitter e adaptar
-          nostre datos, a condition que vos da recognoscentia a OpenStreetMap e su
-          contributores. Si vos altera o extende nostre datos, vos pote distribuer
-          le resultato solmente sub le mesme licentia. Le %{legal_code_link} complete
-          explica vostre derectos e responsabilitates.
+          nostre datos, a condition que vos da recognoscentia a OpenHistoricalMap
+          e su contributores. Si vos altera o extende nostre datos, vos pote distribuer
+          le resultato solmente sub le mesme licentia. Le <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
+          juridic</a> complete explica vostre derectos e responsabilitates.
         introduction_2_legal_code: codice juridic
-        introduction_3_html: Nostre documentation es sub licentia %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: Le cartographia in nostre tegulas de carta es licentiate
+          sub le terminos del objectos que le tegulas contine. Nostre stilos de carta
+          e documentation es licentiate sub le licentia Creative Commons Attribution
+          "Nulle derectos reservate" Dominio Public (CC0).
         introduction_3_creative_commons: Creative Commons Attribution-CompartiSimile
           2.0
         introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/
         credit_title_html: Como dar recognoscentia a OpenStreetMap
         credit_1_html: 'Ubi tu usa le datos de OpenStreetMap, tu es obligate a facer
           le sequente duo cosas:'
-        credit_2_1: Forni credito a OpenStreetMap monstrante nostre aviso de derecto
-          de autor.
+        credit_2_1: |-
+          Vos debe etiam indicar clarmente que le datos es disponibile sub Open Database License. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
+          Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote mentionar le licentia(s) e ligar directemente a illo(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenHistoricalMap&rsquo;) e a opendatacommons.org.
         credit_2_2: Rende clar que le datos es disponibile sub le Licentia Open Database.
         credit_3_html: Quanto al aviso de derecto de autor, nos ha differente exigentias
           sur como illo debe esser monstrate, dependente de como tu usa nostre datos.
@@ -2112,8 +2136,9 @@ ia:
           alt: Exemplo de como recognoscer OpenStreetMap in un pagina web
           title: Exemplo de recognoscentia
         more_title_html: Pro saper plus
-        more_1_1_html: Lege plus sur le uso de nostre datos, e como dar nos recognoscentia,
-          sur le %{osmf_licence_page_link}.
+        more_1_1_html: |-
+          Lege plus sur le uso de nostre datos, e como dar nos recognoscentia, sur le <a
+          href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/License">pagina de licentia OHM</a>.
         more_1_1_osmf_licence_page: pagina Licentia del Fundation OSM
         more_2_1_html: Benque OpenStreetMap es datos aperte, nos non pote fornir un
           API cartographic gratuite a tertios. Vide nostre %{api_usage_policy_link},
@@ -2125,6 +2150,19 @@ ia:
         contributors_intro_html: 'Nostre contributores es milles de personas. Nos
           include anque le datos sub licentia aperte de agentias cartographic national
           e de altere fontes, inter le quales:'
+        contributors_cambridge-anr_html: Contine datos create per le projecto <a href="https://anrcommunes.hypotheses.org/">ANR
+          Communes</a> del <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/"><em>Gruppo
+          Cambridge pro le historia de population e de structuras social</a>.
+        contributors_ned_html: Contine datos de diverse collectiones de <a href="https://www.naturalearthdata.com/">Natural
+          Earth Data</a>.
+        contributors_newberry_html: Contine datos del <a href-"https://digital.newberry.org/ahcb/">Atlas
+          de frontieras historic de contatos</a> de <a href="https://www.newberry.org/">Newberry
+          Library</a>.
+        contributors_footer_1_html: |-
+          Pro ulterior detalios de iste e altere fontes que ha essite usate
+          pro adjutar a meliorar OpenHistoricalMap, vide le <a
+          href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/OHM_Contributors">pagina
+          de contributores</a> sur le wiki de OpenStreetMap.
         contributors_at_credit_html: |-
           %{austria}: Contine datos del %{stadt_wien_link} (sub %{cc_by_link}), %{land_vorarlberg_link}
           e le Region de Tirol (sub %{cc_by_at_with_amendments_link}).
@@ -2215,15 +2253,15 @@ ia:
             fonte sub derecto de autor (p.ex. Google Maps o cartas imprimite)
             sin explicite permission del titulares del derecto de autor.
         infringement_2_1_html: Si tu crede que material protegite per derectos de
-          autor ha essite addite de maniera inappropriate al base de datos de OpenStreetMap
-          o a iste sito, per favor refere a nostre %{takedown_procedure_link} o submitte
-          un reclamation directemente a nostre %{online_filing_page_link}.
+          autor ha essite inserite inappropriatemente in le base de datos de OpenHistoricalMap
+          o in iste sito, per favor invia un e-mail a ohm-admins@googlegroups.com
+          con “TAKEDOWN REQUEST” in le linea de subjecto.
         infringement_2_1_takedown_procedure: procedura de retiro
         infringement_2_1_online_filing_page: pagina de submission in linea
         trademarks_title: Marcas de commercio
-        trademarks_1_1_html: OpenStreetMap, le logo in forma de lupa e State of the
-          Map es marcas deponite del Fundation OpenStreetMap. Si vos ha questiones
-          sur vostre uso de iste marcas, per favor vide nostre %{trademark_policy_link}.
+        trademarks_1_1_html: Si tu ha questiones sur le uso del nomine OpenHistoricalMap,
+          vide nostre <a href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Copyright">politica
+          sur le marcas registrate</a>.
         trademarks_1_1_trademark_policy: Politica de marcas de commercio
     index:
       js_1: O tu usa un navigator que non supporta JavaScript, o tu ha disactivate
@@ -2244,8 +2282,14 @@ ia:
       title: Exportar
       manually_select: Seliger manualmente un altere area
       licence: Licentia
-      licence_details_html: Le datos de OpenStreetMap data es sub licentia %{odbl_link}
-        (ODbL).
+      licence_details_html: OpenHistoricalMap (OHM) offere un cartographia historic
+        e datos associate, fornite per le contributores sub licentias al nivello de
+        objectos. Le contributores es fortemente incoragiate a contribuer datos usante
+        le licentia CC0, ma in le interesse de proteger le derectos del creatores
+        de datos historic, como academicos, nos equalmente supporta altere licentias
+        aperte, como qualcunque combination de CC, BY, SA e NC. Tu assume le responsabilitate
+        de comprender le terminos del licentias includite in le datos que tu copia,
+        ditribue, transmitte e adapta.
       odbl: Licentia de base de datos aperte de Open Data Commons
       too_large:
         advice: 'Si iste exportation falle, considera usar un del fontes listate hic
@@ -2279,15 +2323,16 @@ ia:
             per exemplo si il manca un cammino o tu adresse, lo melior es inscriber
             te a OpenStreetMap e adder o reparar le datos tu mesme.
         add_a_note:
-          instructions_1_html: Clicca sur %{note_icon} o sur le mesme icone in le
-            quadro del carta. Un marcator essera addite al carta, que tu pote displaciar
-            trahente lo con le mouse. Adde tu message, pois clicca sur Salveguardar,
-            e altere cartographos lo investigara.
+          instructions_1_html: Clicca simplemente sur <a class='icon note'></a> o
+            sur le mesme icone in le quadro del carta. Un marcator essera addite al
+            carta, que tu pote displaciar trahente lo con le mouse. Adde tu message,
+            pois clicca sur Salveguardar, e altere cartographos lo investigara.
       other_concerns:
         title: Altere preoccupationes
-        concerns_html: Si tu ha preoccupationes concernente le maniera in que nostre
-          datos es usate o sur le contento, per favor consulta nostre %{copyright_link}
-          pro plus information juridic o contacta le %{working_group_link} appropriate.
+        concerns_html: Si tu ha preoccupationes sur le maniera in que nostre datos
+          es usate o sur le contento, per favor consulta nostre pagina sur le <a href='/copyright'>derectos
+          de autor</a> pro obtener information juridic, o contacta le <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>gruppo
+          de labor OSMF</a> appropriate.
         copyright: pagina de derecto de autor
         working_group: Gruppo de labor del Fundation OSM
     help:
@@ -2322,6 +2367,26 @@ ia:
         title: Pro organisationes
         description: Es tu con un organisation que face planos pro OpenStreetMap?
           Trova lo que tu debe saper sur le Matta de Benvenita.
+      discord:
+        title: switch2osm
+        description: 'Adhere al servitor Discord de OpenStreetMap e obtene adjuta
+          in le canal #openhistoricalmap.'
+      forum:
+        title: Foro
+        description: Participa a discussiones plus longe e conversationes informal
+          usante tu conto de OHM.
+      github:
+        url: https://github.com/OpenHistoricalMap/
+        title: Defectos e requestas de functionalitate
+        description: Depone un incidente sur nostre repositorios GitHub pro signalar
+          un problema o requestar un nove function.
+      mailing_list:
+        title: Lista de diffusion
+        description: Abona te a nostre lista de diffusion a basse volumine.
+      slack:
+        title: IRC
+        description: 'Invita te al spatio de travalio Slack de OpenStreetMap U.S.
+          e entra in le canal #openhistoricalmap.'
       wiki:
         title: Wiki OpenStreetMap
         description: Percurre le wiki pro le documentation in detalio de OpenStreetMap.
@@ -2338,10 +2403,10 @@ ia:
       title: Questiones?
       paragraph_1_html: OpenStreetMap ha plure ressources pro apprender sur le projecto,
         poner e responder a questiones, e discuter e documentar collaborativemente
-        le topicos carthographic. %{help_link}. Es tu con un organisation que face
-        planos pro OpenStreetMap? %{welcome_mat_link}.
+        le topicos carthographic. %{help_link}.
       get_help_here: Obtene adjuta hic
       welcome_mat: Discoperi le Tapete de benvenita
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Resultatos del recerca
     search:
@@ -2475,10 +2540,9 @@ ia:
         tag: etiquetta
       rules:
         title: Regulas!
-        para_1_html: OpenStreetMap ha poc regulas formal, ma nos expecta que tote
-          le participantes collabora e communica con le communitate. Si tu considera
-          activitates altere que modificar per mano, per favor lege e seque le directivas
-          sur %{imports_link} e %{automated_edits_link}.
+        para_1_html: OpenHistoricalMap ha poc regulas formal, ma nos expecta que tote
+          le participantes collabora e communica con le communitate con cortesia e
+          respecto.
         imports: Importationes
         automated_edits: Modificationes automatisate
       start_mapping: comenciar le cartographia
@@ -2515,6 +2579,285 @@ ia:
           Non es necessari stabilir formalmente un gruppo in le mesme mesura que le capitulos local.
           In effecto, multe gruppos existe con grande successo como reunion informal de personas o como un gruppo communitari. Omnes pote crear o adherer a tales. Lege plus sur le %{communities_wiki_link}.
         communities_wiki: pagina wiki sur communitates
+    ohm_privacy_policy:
+      page_title_html: Politica de confidentialitate
+      introduction:
+        title_html: Introduction
+        1_html: Iste documento declara le '''politica de confidentialitate''' de OpenHistoricalMap
+          (OHM) pro le servicios formalmente operate e fornite per le dominios <a
+          href='http://openhistoricalmap.org' target='_blank' rel='noopener'>openhistoricalmap.org</a>
+          e su subdominios. In particular, se tracta de
+        2_1_html: Le sito web de OHM, (<a href='/' target='_blank' rel='noopener'>openhistoricalmap.org</a>),
+          e le servicios e APIs associate
+        3_html: Illo describe que information personal nos pote colliger de te, qui
+          pote vider iste information, e le optiones disponibile pro controlar isto.
+          Nos valorisa tu vita private e nos aspira a attinger un equilibrio inter
+          le interesses legitime del projecto OpenHistoricalMap e tu interesses e
+          derectos.</p><p>Iste documento es principalmente intendite pro le contributores
+          de OpenHistoricalMap.
+      why:
+        title_html: Proque immagazina e processa nos le datos personal?
+        1_html: Le scopo del projecto OpenHistoricalMap es fornir datos geographic
+          historic aperte, como cartas de stratas o delineationes de constructiones
+          historic, ferrovias, sentieros, etc., a omnes.
+        2_html: 'Pro realisar le objectivo de distribuer datos vermente aperte, non
+          limitate per derectos de tertie partes, e de alte qualitate, nos refusa
+          contributiones anonyme e conserva information additional, non geographic,
+          sur un base de interesse legitime (vide <a href="https://gdpr-info.eu/art-6-gdpr/"
+          target="_blank" rel="noopener">articulo 6.1f del RGPD</a>), pro permitter:'
+        2_1_html: Le identification de tote le contributiones facite per un conto
+        2_2_html: Contacto con le contributor in caso de questiones concernente le
+          natura e origine del contributiones
+        2_3_html: Le detection, remotion e correction de contos de spam, vandalismo
+          e violationes del derectos de tertie partes
+        2_4_html: Le facilitation del communication inter le contributores de OpenHistoricalMap
+        2_5_html: Recerca e analyse sur contributiones aggregate pro meliorar o priorisar
+          le servicios de OHM, p.ex. evalutar le efficacia del cartographia, le completessa
+          del carta, o determinar si certe locos o cartographos es representate de
+          maniera disproportional.
+      what:
+        title_html: Qual datos immagazina e processa nos?
+        1_html: Datos de contributiones a OpenHistoricalMap.
+        2_html: 'In addition al datos geographic contribuite (punctos, lineas e areas
+          con attributos associate e datos de tracias GPS), e le datos de communication
+          associate (entratas de diario e commentarios, le pagina de usator, commentarios
+          de gruppos de modificationes, messages), nos immagazina:'
+        2_1_html: Metadatos del session de modification. Per exemplo, commentos addite
+          per le usator, information sur version e simile addite per le application
+          de modification, o qual application de modification e qual stratos de imagines
+          aeree esseva usate.
+        2_2_html: Le identificator e nomine de usator del autor de cata cambiamento
+          de un objecto e le data e hora indicante quando cata cambiamento ha essite
+          apportate.
+        2_3_html: Le adresse de e-mail associate a tu conto
+        2_4_html: Omne blocadas que le usator ha recipite e le messages associate
+        2_5_html: Datos de accesso al rete (p.ex. adresses IP) pro le systemas e servicios
+          operate per OHM.
+      who:
+        title_html: Qui ha accesso al datos
+        1_html: Nos non divulga a alcun tertie parte le adresses de e-mail associate
+          al contos. Messages inter usatores es visibile al remittente e al recipiente;
+          altere accesso es limitate a nostre personal de operationes e permittite
+          solmente si es necessari pro rationes operative, pro applicar nostre politicas
+          de uso acceptabile, pro complir omne obligationes juridic e, notabilemente,
+          pro impedir le spam.
+        2_html: Similemente, le datos de accesso al rete es usate solmente pro scopos
+          interne e le accesso es limitate al personal operative pro fines operative
+          e pro le protection contra vandalismo e spam.
+        3_html: Le altere datos es rendite disponibile, dependente del caso de uso,
+          via le sito web, via le API de modification e a partir de nostre discargas
+          de datos, a usatores con contos e al publico general. Alcunes del datos
+          non geographic pote esser disponibile solmente per certe methodos, ma isto
+          pote cambiar in futuro.
+      where:
+        title_html: Ubi se immagazina le datos</h3>
+        1_html: Le sito web, servitores API, bases de datos e le servitores pro le
+          servicios auxiliar es actualmente hospitate sur Amazon Web Services in le
+          region costal oriental del Statos Unite.
+        2_html: 'Le tegulas cartographic es fornite per un rete global de servitores
+          de cache. Le servitor de tegulas al qual tu navigator web o application
+          accede es determinate dynamicamente per le geolocalisation del adresse IP
+          e le selection del servitor de cache le plus “proxime” a te. Ben que in
+          general isto significa que tu usara le cache de tegulas physicamente le
+          plus proxime a te, isto pote esser influentiate per:'
+        2_1_html: Incertitude in localisation del cliente a partir de su adresse IP
+        2_2_html: Problemas operative (panna del servitor, etc.)
+        2_3_html: Topologia e carga del rete
+      how:
+        title_html: Como tu pote controlar le processamento de tu datos e reducer
+          le preoccupationes de vita private</h3>
+        1_html: 'Benque non es exigite per le lege, nos te forni le sequente mechanismo
+          pro reducer le exposition de informationes potentialmente private:'
+        1_1_html: Tu pote eliger un nomine de usator que non te identifica e cambiar
+          lo a omne momento desirate
+        1_2_html: Tu non es obligate a includer datos personal in le entratas del
+          diario, commentos, listas de diffusion e-mail, le wiki, o altere methodos
+          de communication de OHM, e tu pote eliminar entratas del diario a omne momento
+          a partir de tu conto
+        1_3_html: |-
+          Tu pote requestar le deletion de tu conto (vide le restrictiones hic infra). Typicamente, il non es necesse clauder/deler un conto sur openstreetmap.org. Non es un problema simplemente lassar lo inactive. Tu vole remover informationes identificabile? Es facile cambiar tu nomine monstrate e modificar tu description de profilo. Si tu vermente vole deler completemente tu conto pro alcun ration:
+          aperi session, va a Mi Parametros e usa le button ‘Deler Conto…’. Per favor nota ben le advertimento: le processo de deletion del conto es definitive e irreversibile! Tu etiam videra le detalios de exactemente lo que es delite.
+        2_html: Tu non deberea activar Gravatar ni usar un adresse de e-mail associate
+          a un Gravatar si tu ha preoccupationes relative al vita private.
+        3_html: Tu pote ulteriormente reducer le exposition evitante de adder informationes
+          personal al datos cartographic (nomines personal e simile). Tal information
+          generalmente non es considerate como un addition utile a nostre datos e
+          tu deberea abstiner te de adder lo.
+      right_to_object:
+        title_html: Derecto de opposition
+        1_html: Tu ha le <a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank"
+          rel="noopener">derecto de opponer te</a> al tractamento a base de interesses
+          legitime del responsabile pro le tractamento de datos.
+      details:
+        title_html: Information detaliate
+      trace_data:
+        title_html: Datos de tracia GPS
+        1_html: Le incargamento de datos GPS es totalmente facultative e non es un
+          prerequisito pro contribuer a OpenHistoricalMap. Si tu submitte datos GPS,
+          illos se incarga in forma de files GPX individual. Istes se conserva como
+          files crude e tamben se importa in le base de datos. Le files GPS pote esser
+          marcate como <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
+          target="_blank" rel="noopener">public</a> per le incargator; isto es completemente
+          sin relation al option de render su ''modificationes'' “public”.
+        2_html: Quando le datos GPS pro un area se discarga per le API, necun indication
+          es fornite de qual usator ha incargate un puncto, ni del data e hora associate
+          al puncto. Le punctos se restitue nonobstante in ordine de data e hora.
+          Le datos GPS discargate de iste maniera include punctos de tracias non marcate
+          como public.
+        3_html: Si un tracia GPS es marcate como public quando illo es incargate,
+          alora le tracia brute pote esser discargate ab le sito web o per medio de
+          un appello API. In iste caso, le pseudonymo del usator es monstrate (independentemente
+          de si le usator ha rendite su ''modificationes'' public) e le datas e horas
+          in le file GPX essera includite. In plus, omne information additional placiate
+          in le file GPX essera ancora presente, p.ex. punctos de referentia con lor
+          nomines e/o notas inserite, symbolos associate, datos de elevation, etc.
+          Tu deberea remover omne tal information del datos e taliar bastate information
+          del initio e fin del tracia pro obscurar le puncto de initio e destination
+          ante de incargar lo si tu ha preoccupationes de confidentialitate.
+      map_data:
+        title_html: Datos de carta
+        1_html: Tote le modificationes apportate al carta es registrate in le base
+          de datos con le ID del usator que ha facite le cambiamento, e le data e
+          hora de incargamento del cambiamento. Generalmente, tote iste information
+          es tamben disponibile a omnes via le sito web, accompaniate de ligamines
+          que permitte a omnes discoperir facilemente qual usator ha facite qual modification.
+        2_html: Programmas editor (como JOSM e iD) pote immagazinar ulterior datos
+          in le base de datos que pote pertiner a tu confidentialitate. Per favor
+          refere te al autores e distributores del programmas pro plus information.
+          Per exemplo, iD e JOSM pote adder le configuration de lingua de tu apparato
+          al metadatos de cata gruppo de cambiamentos, e le marca e systema operative
+          del apparato pote esser visibile in le informationes de version transmittite.
+      home_location:
+        title_html: Loco de residentia del usator
+        1_html: Si un usator defini un loco de residentia, alora ille apparera sur
+          le lista de “cartographos a proximitate” pro le altere personas con un loco
+          de residentia proxime al sue. Iste option se trova sur le pagina de parametros
+          de tu conto.
+      email:
+        title_html: Adresses de e-mail
+        1_html: Le adresse de e-mail registrate pro un conto de usator OHM nunquam
+          essera publicate intentionalmente sur internet, condividite con organisationes
+          tertie, o revelate directemente a altere usatores. Le adresses de e-mail
+          essera usate per le servitor pro notificar le usator si un altere usator
+          ha inviate un message per le sito web, e pro altere notificationes generate
+          per le systema.
+        2_html: Solmente le administratores del systema habera accesso directe al
+          datos de adresses de e-mail associate con le conto OHM. Illo potera esser
+          usate per iste personas pro contactar directemente le usatores in materia
+          de lor modificationes o altere questiones associate a OpenHistoricalMap.
+        3_html: Le adresses de e-mail associate con le contos del wiki, del foro e
+          del sito de adjuta es immagazinate separatemente del datos del conto de
+          usator OHM in le respective systemas. Iste adresses es usate pro notificationes
+          e communication inter usatores (si isto es activate). Iste adresses non
+          es visibile publicamente o condividite con tertie partes, ma pote esser
+          visibile al administratores del systemas.
+      gravatar:
+        title_html: Gravatar
+        1_html: Le sito web <a href="http://openhistoricalmap.org" target="_blank"
+          rel="noopener">openhistoricalmap.org</a> supporta le presentation de <a
+          href="http://gravatar.com/" target="_blank" rel="noopener">Gravatars</a>.
+          Istes es recuperate de <a href="http://gravatar.com" target="_blank" rel="noopener">gravatar.com</a>
+          usante un clave unic global generate a partir de tu adresse de e-mail. Le
+          software de nostre sito web verificara durante le inscription initial e
+          a cata cambio de adresse de e-mail si tu ha un Gravatar pro le nove adresse
+          e comenciara a exhibir lo si un existe. Tu pote arrestar iste comportamento
+          disactivante explicitemente le supporto pro Gravatar in tu parametros de
+          conto. Tu debe saper que, si un Gravatar es monstrate, le clave pote esser
+          usate pro traciar tu conto super omne sito web que ha supporto pro Gravatar.
+      voluntarily:
+        title_html: Datos que tu pote adder voluntarimente a tu profilo o articulos
+          de diario
+        1_html: Tu non es obligate a completar tu profilo o facer articulos de diario.
+          Si tu insere voluntarimente datos personal in tu profilo de usator o articulos
+          de diario, tu accepta que iste information essera disponibile publicamente
+          e immagazinate per OHM durante que tu mantene un conto OHM. Tu pote modificar
+          tu profilo public o tu articulos de diario a omne momento pro remover tal
+          information si tu cambia de idea.
+      automatically:
+        title_html: Datos que nos recipe automaticamente
+        1_html: OHM opera un numero de servicios pro le communitate de OHM, exemplos
+          include le <a href="/" target="_blank" rel="noopener">sito web openhistoricalmap.org</a>,
+          le carta in linea de OHM con le tegulas vector standard, le API de OHM e
+          le facilitate de recerca Nominatim.
+        2_html: Quando tu visita un sito web de OHM, accede a un del servicios via
+          un navigator web o via applicationes que utilisa le APIs fornite, alora
+          se produce registros de iste uso, nos collige information sur tu navigator
+          o application e tu interaction con nostre sito web, includente (a) le adresse
+          IP, (b) le typo de navigator e apparato, (c) le systema de operation, (d)
+          le pagina web referente, (e) le data e hora del visitas de paginas, e (f)
+          le paginas consultate sur nostre sitos web.
+        3_html: In plus, nos pote operar software de traciamento de interaction de
+          usatores que generara registros additional de activitate de usator, per
+          exemplo Piwik.
+        4_html: Servicios que usa Geo-DNS o mechanismos simile pro distribuer le carga
+          a servitores geographicamente distribuite potentialmente generara un registro
+          de tu position a scala grande.
+        5_html: Iste registros es usate o pote esser usate in le sequente manieras:</p>
+        5_1_html: In supporto del operation del servicios de un puncto de vista technic,
+          de securitate e de planification
+        5_2_html: Como datos anonymisate e summarisate pro recerca e altere scopos.
+          Tal datos pote esser offerite publicamente via <a href="https://planet.openhistoricalmap.org"
+          target="_blank" rel="noopener">https://planet.openhistoricalmap.org</a>
+          o altere canales e usate per tertie partes
+        5_3_html: Pro meliorar le insimul de datos de OpenHistoricalMap, per exemplo,
+          analysante le consultas de Nominatim pro adresses e codices postal mancante
+          e fornir tal datos al communitate de OHM
+        6_html: Le datos colligite in le systemas essera accessibile al administrator(es)
+          del systema. Nulle information personal o information que es ligate a un
+          individuo essera liberate a tertie partes, excepte in caso de obligation
+          juridic.
+        7_html: Le addresses IP immagazinate per Piwik es abbreviate a duo bytes e
+          le information detaliate sur le uso es conservate pro 180 dies.
+        8_html: Considerante le natura temporanee de iste immagazinage, generalmente
+          non es facibile pro nos fornir accesso a adresses IP o le registros associate
+          con illos.
+        9_html: Le datos supra mentionate se processa sur un base de interesse legitime
+          (vide le <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">articulo
+          6.1f del RGPD</a>).
+      account_removal:
+        title_html: Remotion del conto
+        1_html: Tu pote facer un petition pro le remotion de tu conto e nos honorara
+          tal requestas tanto como possibile.
+        2_html: Si tu non ha contribuite activemente al projecto, nos non retenera
+          alcun registros. Paginas de usator, entratas de diario e similar essera
+          removite.
+        3_html: Si tu ha contribuite, tu conto essera renominate a user_''NOMINEDEUSATOR''
+          (ubi ''NOMINEDEUSATOR'' es tu ancian nomine de usator de OHM) e le contributiones
+          e commentarios de cambios essera retenite con iste nomine. Le entratas de
+          tu diario e tu pagina de usator essera removite. Post que nos non permitte
+          le modificationes anonyme, nos retenera non-publicamente tu adresse de e-mail
+          in caso que es necessari contactar te in materia de tu contributiones.
+        4_html: Le contos de wiki e del foro essera renominate con un nomine pseudo-anonyme,
+          ma alteremente remanera como es. Tu pote disabonar te de omne listas de
+          distribution de messages, ma tu debe comprender que le copias personal retenite
+          per le destinatarios de omne messages que tu ha inviate a iste listas e
+          le archivos sur <a href="https://lists.openstreetmap.org" target="_blank"
+          rel="noopener">lists.openstreetmap.org</a> non pote esser removite.
+        5_html: In tu demanda de remotion del conto, tu debe identificar tote le contos
+          pertinente, perque nos non ha information sur qual contos pertine a qual
+          usatores de OpenHistoricalMap.
+      cookies:
+        title_html: Cookies
+        1_html: Multe servicios operate per OHM usa cookies pro immagazinar information
+          sur tu session e stato de navigation del sito. Nos tamben usa cookies e
+          technologias simile pro recognoscer e meliorar tu uso de nostre paginas
+          web. Tu pote eliminar cookies de tu computator, e le majoritate de navigatores
+          forni le option de blocar los. Si tu bloca cookies placiate per nos (cookies
+          de prime parte), tu non potera acceder al partes del paginas web e servicios
+          de OHM que necessita aperir session. Nonobstante, tu accesso a nostre paginas
+          web non essera affectate si tu disactiva le cookies placiate per tertie
+          partes.
+      contact:
+        title_html: Contacto
+        1_html: Si tu ha questiones o preoccupations con respecto a iste politica,
+          per favor contacta le administrator(es) de OHM a <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.
+        2_html: Si tu crede que nos retene information que nos permitterea corriger,
+          emendar, o eliminar information inaccurate sur te o si tu crede que information
+          sur te ha essite processate in violation de iste politica de confidentialitate,
+          per favor invia nos un e-mail a <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.<br>Nota
+          que tu pote cambiar tu nomine de usator, le adresse de e-mail associate
+          a tu conto, e tu loco de residentia per medio de tu conto sin contactar
+          OHM.
   traces:
     visibility:
       private: Private (solmente condividite como anonymo, punctos non ordinate)
@@ -2527,6 +2870,7 @@ ia:
     new:
       upload_trace: Incargar tracia GPS
       visibility_help: que significa isto?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Adjuta
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2597,6 +2941,7 @@ ia:
         le %{wiki_link}.'
       upload_new: Incargar un nove tracia
       wiki_page: pagina wiki
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Incargar un tracia
       all_traces: Tote le tracias
       my_traces: Mi tracias
@@ -2680,6 +3025,7 @@ ia:
       no_applications_html: Ha tu un application que tu vole registrar pro uso con
         nos per medio del standard %{oauth2}? Tu debe registrar tu application ante
         que illo pote facer requestas OAuth a iste servicio.
+      oauth_2: OAuth 2
       new: Registrar nove application
       name: Nomine
       permissions: Permissiones
@@ -2782,11 +3128,13 @@ ia:
       consider_pd: In addition a lo que precede, io considera mi contributiones como
         essente in le dominio public
       consider_pd_why: que es isto?
+      consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Information pro adjutar a comprender iste terminos: un
         %{readable_summary_link} e qualque %{informal_translations_link}'
       readable_summary: summario legibile per humanos
       informal_translations: traductiones informal
       continue: Continuar
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Cancellar
       you need to accept or decline: Per favor lege e postea accepta o declina le
         nove Conditiones del Contributor pro continuar.
@@ -2799,6 +3147,7 @@ ia:
       terms_declined_html: Nos regretta que tu ha decidite de non acceptar le nove
         Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
       terms_declined_link: iste pagina wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Iste usator non existe
       heading: Le usator %{user} non existe
@@ -2903,15 +3252,15 @@ ia:
         e contrasigno e postea associar le conto a tu ID in tu parametros de usator.
   user_role:
     filter:
-      not_a_role: Le catena `%{role}' non es un rolo valide.
+      not_a_role: Le catena ‘%{role}’ non es un rolo valide.
       already_has_role: Le usator ha ja le rolo %{role}.
       doesnt_have_role: Le usator non ha le rolo %{role}.
       not_revoke_admin_current_user: Impossibile revocar le rolo de administrator
         del usator actual.
     grant:
-      are_you_sure: Es tu secur de voler conceder le rolo `%{role}' al usator `%{name}'?
+      are_you_sure: Es tu secur de voler conceder le rolo ‘%{role}’ al usator ‘%{name}’?
     revoke:
-      are_you_sure: Es tu secur de voler revocar le rolo `%{role}' del usator `%{name}'?
+      are_you_sure: Es tu secur de voler revocar le rolo ‘%{role}’ del usator ‘%{name}’?
   user_blocks:
     model:
       non_moderator_update: Debe esser moderator pro crear o actualisar un blocada.
@@ -3142,6 +3491,10 @@ ia:
           one: Tu es minus de %{count} pede distante de iste puncto
           other: Tu es minus de %{count} pedes distante de iste puncto
       base:
+        historical: Historic
+        woodblock: Bloco de ligno
+        japanesescroll: Rolo de pergamena japonese
+        railway: Ferrovia
         standard: Standard
         cycle_map: Carta cyclista
         transport_map: Carta de transporto
@@ -3154,10 +3507,12 @@ ia:
         gps: Tracias GPS public
         overlays: Activar superpositiones pro resolver problemas in le carta
         title: Stratos
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: Contributores de OpenStreetMap
       make_a_donation: Facer un donation
       website_and_api_terms: Conditiones del API e sito web
       cyclosm_credit: Stilo de tegulas per %{cyclosm_link} albergate per %{osm_france_link}
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap Francia
       thunderforest_credit: Tegulas fornite per %{thunderforest_link}
       andy_allan: Andy Allan
@@ -3249,15 +3604,15 @@ ia:
         via_point_without_exit: (puncto intermedie)
         follow_without_exit: Sequer %{name}
         roundabout_without_exit: Al rotunda, prender le exito verso %{name}
-        leave_roundabout_without_exit: Quitar rotunda - %{name}
-        stay_roundabout_without_exit: Remaner sur rotunda - %{name}
+        leave_roundabout_without_exit: Quitar le rotunda - %{name}
+        stay_roundabout_without_exit: Remaner sur le rotunda - %{name}
         start_without_exit: Comenciar a %{name}
         destination_without_exit: Attinger destination
         against_oneway_without_exit: Ir contra direction obligatori sur %{name}
         end_oneway_without_exit: Fin del direction obligatori sur %{name}
-        roundabout_with_exit: Al rotunda prende le exito %{exit} sur %{name}
-        roundabout_with_exit_ordinal: Al rotunda prende le exito %{exit} verso %{name}
-        exit_roundabout: Exi del rotunda verso %{name}
+        roundabout_with_exit: Al rotunda, prender le exito %{exit} sur %{name}
+        roundabout_with_exit_ordinal: Al rotunda, prender le exito %{exit} sur %{name}
+        exit_roundabout: Exir del rotunda sur %{name}
         unnamed: cammino sin nomine
         courtesy: Itinerario fornite per %{link}
         exit_counts:

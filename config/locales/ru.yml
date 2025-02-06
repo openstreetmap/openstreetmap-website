@@ -98,6 +98,7 @@
 # Author: Thothsum
 # Author: Tourorist
 # Author: TrickyFoxy
+# Author: UniCollab
 # Author: Valencia212
 # Author: Vlad5250
 # Author: Vovenarg
@@ -169,6 +170,7 @@ ru:
       message: Сообщение
       node: Точка
       node_tag: Тег точки
+      notifier: Уведомитель
       old_node: Старая точка
       old_node_tag: Старый тег точки
       old_relation: Старое отношение
@@ -210,7 +212,7 @@ ru:
       diary_entry:
         user: Пользователь
         title: Тема
-        body: Текст
+        body: 'Текст:'
         latitude: Широта
         longitude: Долгота
         language_code: Язык
@@ -276,6 +278,10 @@ ru:
         needs_view: Позволить ли пользователю входить в систему, прежде, чем блокировка
           будет снята?
       user:
+        email_confirmation: Ваш адрес не будет отображаться публично, смотрите нашу
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
+          privacy policy including section on email addresses">политику конфиденциальности</a>
+          для получения дополнительной информации.
         new_email: (не будет показан)
   datetime:
     distance_in_words_ago:
@@ -351,8 +357,10 @@ ru:
   auth:
     providers:
       none: Отсутствует
+      openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Википедия
   api:
@@ -577,8 +585,8 @@ ru:
         comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
         commented_at_by_html: Обновлена %{when} пользователем %{user}
       show:
-        title_all: Обсуждение пакета правок OpenStreetMap
-        title_particular: 'Обсуждение пакета правок OpenStreetMap #%{changeset_id}'
+        title_all: Обсуждение пакета правок OpenHistoricalMap
+        title_particular: 'Обсуждение пакета правок OpenHistoricalMap #%{changeset_id}'
       timeout:
         sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
           много времени для извлечения.
@@ -622,21 +630,15 @@ ru:
       title: 'Пакет правок: %{id}'
       created: 'Создан: %{when}'
       closed: 'Закрыт: %{when}'
-      created_ago_html: Создано %{time_ago}
-      closed_ago_html: Закрыто %{time_ago}
-      created_ago_by_html: Создал %{time_ago} %{user}
-      closed_ago_by_html: Закрыт %{time_ago} %{user}
       discussion: Обсуждение
       join_discussion: Войдите в систему, чтобы присоединиться к обсуждению
       still_open: Пакет правок ещё открыт. Обсуждение будет доступно, как только пакет
         правок будет закрыт.
       subscribe: Подписаться
       unsubscribe: Отписаться
-      comment_by_html: Комментарий от %{user} %{time_ago}
-      hidden_comment_by_html: Скрытый комментарий от %{user} %{time_ago}
       hide_comment: скрыть
       unhide_comment: показать
-      comment: Комментировать
+      comment: Комментарий
       changesetxml: XML пакета правок
       osmchangexml: osmChange XML
     paging_nav:
@@ -742,6 +744,8 @@ ru:
       all:
         title: Записи в дневнике OpenStreetMap
         description: Последние записи в дневнике от пользователей OpenStreetMap
+    comments:
+      title: Комментарии к записям в дневнике, добавленные пользователем %{user}
     subscribe:
       heading: Подписаться на обсуждение следующей записи в дневнике?
       button: Подписаться на обсуждение
@@ -833,6 +837,7 @@ ru:
     search:
       title:
         latlon: Внутренний
+        latlon_url: https://openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1635,7 +1640,7 @@ ru:
         few: '%{count} сообщения'
         many: '%{count} сообщений'
         other: '%{count} сообщений'
-      reported_item: Элемент в сообщении
+      reported_item: Тема сообщения
     show:
       title: '%{status} Проблема #%{issue_id}'
       reports:
@@ -1725,11 +1730,19 @@ ru:
     gps_traces: GPS-треки
     user_diaries: Дневники участников
     edit_with: Редактировать с помощью %{editor}
+    tag_line: Свободная вики-карта мира
     intro_header: Добро пожаловать на OpenStreetMap!
     intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как
       и вы, и может свободно использоваться под открытой лицензией.
-    partners_fastly: Fastly
-    partners_partners: партнёрами
+    intro_2_create_account: Создайте учётную запись
+    partners_title: Партнёры
+    hosting_partners_2024_html: |-
+      <p>
+      <a href='https://greeninfo.org '>GreenInfo Network</a> - некоммерческая организация, занимающаяся картографированием и коммуникациями, которая помогает некоммерческим организациям и правительственным учреждениям достигать социальных, экологических и других целей, используя ряд инструментов, включая ориентированные на человека методы проектирования, совместную разработку, а также веб-приложения и геопространственные инструменты с открытым исходным кодом.
+      </p>
+      <p>
+      <a href='https://developmentseed.org /'>Development Seed</a> — инжиниринговая и производственная компания, которая ускоряет применение данных о планете для решения наших крупнейших глобальных задач. Начальный этап разработки использует массивы данных о планете, облачные вычисления, геопространственный искусственный интеллект и продуманную разработку продукта.
+      </p>
     tou: Условия использования
     osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится
       необходимое техническое обслуживание.
@@ -2044,7 +2057,7 @@ ru:
       no home location: Вы не обозначили свое домашнее местоположение.
       update home location on click: Обновлять моё местоположение, когда я нажимаю
         на карту?
-      show: Показать
+      show: Показывать
       delete: Удалить
       undelete: Отменить удаление
     update:
@@ -2104,6 +2117,7 @@ ru:
         newer: Новые участники
   site:
     about:
+      heading_html: <span>&copy;</span>Участники<br />OpenHistoricalMap
       used_by_html: '%{name} предоставляет данные для тысяч сайтов, мобильных приложений
         и устройств'
       lede_text: OpenStreetMap создан сообществом картографов, которые добавляют и
@@ -2131,18 +2145,21 @@ ru:
       open_data_open_data: открытые данные
       open_data_copyright_license: странице Авторские права и лицензии.
       legal_title: Юридические вопросы
-      legal_1_1_html: |-
-        Этот сайт и многие другие связанные службы официально управляются
-        %{openstreetmap_foundation_link} (OSMF)
-        от имени сообщества. Использование всех сервисов OSMF регулируется
-        нашими %{terms_of_use_link}, %{aup_link} и %{privacy_policy_link}.
+      legal_1_1_html: Этот веб-сайт и многие связанные с ними услуги находятся в ведении
+        <a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a> (OSMF),
+        действующего от имени сообщества OSM. Использование предоставляемых OSMF услуг
+        является предметом наших <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Условий
+        использования</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Политики
+        приемлемого использования</a> и нашей <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Политики
+        конфиденциальности</a>.
       legal_1_1_openstreetmap_foundation: Фонд OpenStreetMap
       legal_1_1_terms_of_use: Условиями использования
       legal_1_1_aup: Политики приемлемого использования
       legal_1_1_privacy_policy: Политикой конфиденциальности
       legal_2_1_html: |-
-        Пожалуйста, %{contact_the_osmf_link}
-        если у вас есть вопросы по лицензированию, авторскому праву или другие юридические вопросы.
+        Пожалуйста, <a href='https://osmfoundation.org/Contact'>свяжитесь с OSMF</a>, если у вас есть вопросы относительно лицензирования, авторских прав либо других правовых вопросов.
+        <br>
+        OpenHistoricalMap, логотип OpenHistoricalMap в виде увеличительного стекла и State of the Map — <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">зарегистрированные товарные знаки организации OSMF</a>.
       legal_2_1_contact_the_osmf: свяжитесь с OSMF
       legal_2_2_html: OpenStreetMap, логотип в виде увеличительного стекла и State
         of the Map являются %{registered_trademarks_link}.
@@ -2163,25 +2180,36 @@ ru:
         native_link: русской версии
         mapping_link: начать картографирование
       legal_babble:
-        introduction_1_html: "OpenStreetMap%{registered_trademark_link} — это %{open_data},
-          лицензированные по \n%{odc_odbl_link} (ODbL), разработанной %{osm_foundation_link}
-          (OSMF)."
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> содержит <i>свободные данные</i>, распространяемые по лицензии <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) организацией  <a
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         introduction_1_open_data: открытые данные
         introduction_1_odc_odbl: Лицензия Open Data Commons Open Database
         introduction_1_osm_foundation: Фонд OpenStreetMap
         introduction_2_html: Вы можете свободно копировать, распространять, передавать
-          и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap
-          и его участников. Если вы изменяете или берёте наши данные за основу, то
-          вы должны распространять результат только по такой же лицензии. Полный %{legal_code_link}
-          юридический текст лицензии разъясняет ваши права и обязанности.
-        introduction_3_html: Наша документация распространяется по лицензии %{creative_commons_link}
-          (CC BY-SA 2.0).
+          и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenHistoricalMap
+          и его сообщество. Если вы изменяете или берёте наши данные за основу, то
+          вы должны распространять результат только по такой же лицензии. Полный <a
+          href="https://opendatacommons.org/licenses/odbl/1.0/">юридический текст
+          лицензии</a> разъясняет ваши права и обязанности.
+        introduction_3_html: Наша документация распространяются по лицензии <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: Как сослаться на OpenStreetMap
         credit_1_html: 'Если вы используете данные OpenStreetMap, вы должны выполнить
           следующие два условия:'
-        credit_2_1: Отдайте должное OpenStreetMap, поместив наше уведомление об авторских
-          правах.
+        credit_2_1: Вы должны также ясно обозначить, что по лицензии Open Database
+          License распространяется база геоданных, в то время как готовые изображения
+          карты лицензированы под CC BY-SA. Вы можете сделать это, разместив ссылку
+          на <a href="https://www.openstreetmap.org/copyright">эту страницу</a>. Если
+          же вы распространяете OSM только в виде базы данных, мы можете размещать
+          гиперссылку напрямую на текст соответствующей лицензии. Если формат медиа
+          делает использование гиперссылок невозможным (как например бумажные карты),
+          мы рассчитываем, что вы направите читателей на openstreetmap.org (обозначив
+          именно адрес сайта вместо только лишь названия проекта, 'OpenHistoricalMap'),
+          на opendatacommons.org, и, при необходимости, на creativecommons.org.
         credit_2_2: Дайте понять, что данные доступны по лицензии открытой базы данных.
         credit_3_html: 'У нас есть различные требования к тому, как должно отображаться
           наше уведомление об авторских правах: всё зависит от того, как вы используете
@@ -2205,6 +2233,9 @@ ru:
         contributors_intro_html: 'Участниками проекта являются тысячи отдельных людей.
           Проект также включает данные под свободными лицензиями от национальных картографических
           агентств и от других источников, среди которых:'
+        contributors_footer_1_html: Более подробную информацию об этих и других источниках,
+          использованных для наполнения OpenHistoricalMap, смотрите на <a href="https://wiki.openstreetmap.org/wiki/Contributors">странице
+          Contributors</a> вики-сервера OpenHistoricalMap.
         contributors_at_austria: Австрия
         contributors_at_stadt_wien: город Вена
         contributors_at_land_vorarlberg: Земля Форарльберг
@@ -2241,11 +2272,18 @@ ru:
           данных из любых защищённых авторским правом источников (например, с Google
           Maps или печатных карт) не должно проводиться без явного предварительного
           согласия правообладателей.
+        infringement_2_1_html: |-
+          Если вы считаете, что защищённый авторским правом материал был неправомерно
+           добавлен к базе OpenHistoricalMap или к этому сайту, пожалуйста, обратитесь
+           к нашей <a href="https://wiki.osmfoundation.org/wiki/License/Takedown_procedure">процедуре
+           изымания</a> или непосредственно на нашу
+          <a href="https://dmca.openstreetmap.org/">вебстраницу регистрации</a>.
         trademarks_title: Товарные знаки
-        trademarks_1_1_html: |-
-          OpenStreetMap, логотип в виде увеличительного стекла и State of the Map являются зарегистрированными товарными знаками фонда
-          OpenStreetMap. Если у вас есть вопросы об использовании вами товарных знаков, ознакомьтесь с нашей
-          %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, логотип с увеличительным стеклом и
+          State of the Map являются зарегистрированными товарными знаками Фонда OpenHistoricalMap.
+          Если у вас есть вопросы об использовании этих знаков, пожалуйста, ознакомьтесь
+          с <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Политикой
+          в области товарных знаков</a>.
         trademarks_1_1_trademark_policy: Политику в отношении товарных знаков
     index:
       js_1: Вы используете браузер, в котором не поддерживается или отключён JavaScript.
@@ -2267,6 +2305,8 @@ ru:
       title: Экспортировать
       manually_select: Выделить другую область
       licence: Лицензия
+      licence_details_html: Данные OpenHistoricalMap распространяются по <a href="https://opendatacommons.org/licenses/odbl/1.0/">лицензии
+        Open Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Если этот экспорт пройдёт неудачно, пожалуйста, попробуйте один из
           перечисленных ниже источников:'
@@ -2300,11 +2340,14 @@ ru:
             самостоятельно.
         add_a_note:
           instructions_1_html: |-
-            Просто нажмите %{note_icon} или тот же значок на экране карты.
-            Это добавит на карту маркер, который вы сможете перемещать
-            перетаскиванием. Добавьте свое сообщение, затем нажмите «Сохранить», и другие картографы проведут расследование.
+            Просто нажмите <a class='icon note'></a> или на тот же значок на карте.
+            Это добавит на карту маркер, который можно передвигать перетаскиванием. Добавьте сообщение, а затем нажмите кнопку сохранения, и другие картографы увидят его.
       other_concerns:
         title: Другие проблемы
+        concerns_html: |-
+          Если у вас есть вопросы о том, как используются наши данные, или о содержимом сайта, обратитесь к нашей
+          <a href='/copyright'>странице авторских прав</a> для получения дополнительной правовой информации или свяжитесь с  соответствующий
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>рабочей группой OSMF</a>.
         copyright: страница авторского права
     help:
       title: Получение справки
@@ -2336,8 +2379,17 @@ ru:
         title: Для организаций
         description: Вы из организации, которая хочет работать с OpenStreetMap ? Пожалуйста,
           ознакомьтесь с информацией в разделе Welcome Mat.
+      discord:
+        title: switch2osm
+      forum:
+        title: Форум
+      github:
+        url: https://github.com/OpenHistoricalMap/
+      mailing_list:
+        title: Список рассылки
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/RU:Заглавная_страница
         title: OpenStreetMap Вики
         description: Посмотреть вики с подробной документацией по OpenStreetMap.
     potlatch:
@@ -2393,13 +2445,13 @@ ru:
           subway: Линия метро
           ferry: Паром
           light_rail: Легкорельсовый транспорт
-          tram: Трамвай
+          tram: трамвай
           trolleybus: Троллейбус
           bus: Автобус
           cable_car: Канатная дорога
           chair_lift: кресельный подъёмник
           runway: Взлётно-посадочная полоса аэропорта
-          taxiway: Рулёжная дорожка
+          taxiway: рулёжная дорожка
           apron: Перрон аэродрома
           admin: Административная граница
           capital: Столица
@@ -2410,7 +2462,7 @@ ru:
           wood: Роща
           farmland: Сельхозугодья
           grass: Трава
-          meadow: Луг
+          meadow: луг
           bare_rock: Голая скала
           sand: Песок
           golf: Площадка для гольфа
@@ -2438,8 +2490,8 @@ ru:
           beach: Пляж
           reserve: Заповедник
           military: Военная территория
-          school: Школа, университет
-          university: Университет
+          school: Школа
+          university: университет
           hospital: Больница
           building: Значительное здание
           station: Железнодорожная станция
@@ -2447,7 +2499,7 @@ ru:
           subway_station: Станция метро
           tram_stop: Трамвайная остановка
           summit: Вершина
-          peak: Вершина горы
+          peak: пик
           tunnel: Туннель (пунктир)
           bridge: Мост (жирная линия)
           private: Частный доступ
@@ -2535,6 +2587,12 @@ ru:
           Действительно, многие группы существуют очень успешно как неформальные собрания людей или как
           общинные группы. Любой может настроить или присоединиться к ним. Подробнее читайте на %{communities_wiki_link}.
         communities_wiki: Вики-странице сообщества
+    ohm_privacy_policy:
+      page_title_html: Политика конфиденциальности
+      introduction:
+        title_html: Введение
+      account_removal:
+        title_html: Удаление учётной записи
   traces:
     visibility:
       private: Частный (доступно только анонимно, неупорядоченные точки)
@@ -2784,6 +2842,7 @@ ru:
       consider_pd: В дополнение к вышеизложенному, я принимаю во внимание, что мой
         вклад находится в общественном достоянии
       consider_pd_why: что это значит?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=ru
       readable_summary: удобочитаемое резюме
       continue: Продолжить
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
@@ -2937,6 +2996,8 @@ ru:
       title: Блокировки пользователей
       heading: Список блокировок пользователей
       empty: Блокировки ещё не были созданы.
+    revoke_all:
+      revoke: Отозвать!
     helper:
       time_future_html: Заканчивается через %{time}.
       until_login: Активно до тех пор, пока пользователь не войдёт в систему.
@@ -3022,6 +3083,7 @@ ru:
       description: Описание
       created_at: Создана
       last_changed: Изменена
+      closed: Закрыто
     show:
       title: 'Заметка: %{id}'
       description: Описание
@@ -3062,6 +3124,7 @@ ru:
       add: Добавить заметку
     notes_paging_nav:
       showing_page: Страница %{page}
+      next: Далее
   javascripts:
     close: Закрыть
     share:
@@ -3109,6 +3172,7 @@ ru:
           many: Вы находитесь в %{count} футах от этой точки
           other: Вы находитесь в %{count} футах от этой точки
       base:
+        railway: Железная дорога
         standard: Стандартный
         cycle_map: Велосипедная карта
         transport_map: Карта транспорта
@@ -3120,9 +3184,11 @@ ru:
         gps: Общедоступные GPS-треки
         overlays: Включить наложения для устранения неисправностей карты
         title: Слои
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: Авторы OpenStreetMap
       make_a_donation: Сделать пожертвование
       cyclosm_credit: Стиль тайлов от %{cyclosm_link} размещен на %{osm_france_link}
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap Франция
       thunderforest_credit: Тайлы предоставлены %{thunderforest_link}
       andy_allan: Энди Аллан

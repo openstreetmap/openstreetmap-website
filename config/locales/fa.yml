@@ -72,8 +72,8 @@ fa:
         create: نام‌نویسی
         update: به‌روز رسانی
       oauth2_application:
-        create: نام‌نویسی
-        update: به‌روز رسانی
+        create: ثبت‌نام
+        update: روزآمدسازی
       redaction:
         create: ایجاد پاک‌سازی
         update: ذخیرهٔ پاک‌سازی
@@ -97,6 +97,7 @@ fa:
       message: پیام
       node: گره
       node_tag: برچسب گره
+      notifier: اطلاع‌رسان
       old_node: گره قدیمی
       old_node_tag: برچسب گره قدیمی
       old_relation: رابطهٔ قدیمی
@@ -200,6 +201,10 @@ fa:
           در نظر داشته باشید که همهٔ کاربران اصطلاحات تخصصی جامعه را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی باشند.
         needs_view: آیا قبل از پاک‌شدن این مسدودی، کاربر باید وارد حساب کاربری شود؟
       user:
+        email_confirmation: آدرس شما به صورت عمومی نمایش داده نمی‌شود، برای اطلاعات
+          بیشتر به <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy "title="
+          سیاست حفظ حریم خصوصی OSMF از جمله در قسمت آدرس‌های ایمیل"> سیاست حفظ حریم
+          خصوصی </a> ما مراجعه کنید  .
         new_email: (هرگز به‌صورت عمومی نشان داده نمی‌شود)
   datetime:
     distance_in_words_ago:
@@ -251,6 +256,7 @@ fa:
   auth:
     providers:
       none: هیچ‌کدام
+      openid: OpenID
       google: گوگل
       facebook: فیس‌بوک
       microsoft: مایکروسافت
@@ -311,10 +317,12 @@ fa:
       current email address: رایانامهٔ کنونی
       external auth: احراز هویت خارجی
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: این چیست؟
       public editing:
         heading: ویرایش عمومی
         enabled: فعال. گمنام نیستید و می‌توانید داده را ویرایش کنید.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: این چیست؟
         disabled: غیرفعال شده و نمی‌توان داده را ویرایش کرد، همهٔ ویرایش‌های قبلی
           گمنام هستند.
@@ -327,6 +335,7 @@ fa:
           شرایط جدید مشارکت‌کننده، موافقت خود را با آن اعلام کنید.
         agreed_with_pd: شما همچنین اعلام کرده‌اید که ویرایش‌هایتان در مالکیت عمومی
           باشد.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: این چیست؟
       save changes button: ذخیره‌کردن تغییرات
       delete_account: حذف حساب...
@@ -387,6 +396,7 @@ fa:
         one: '%{count} عضو'
         other: '%{count} عضو'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} با نقش %{role}'
       type:
         node: گره
@@ -447,10 +457,10 @@ fa:
     feeds:
       comment:
         comment: نظر جدید روی بستهٔ تغییر %{changeset_id} از %{author}
-        commented_at_by_html: '%{when} %{user} روزآمدش کرد'
+        commented_at_by_html: '%{when} %{user} آن را روزآمد کرد'
       show:
-        title_all: بحث بستهٔ تغییر OpenStreetMap
-        title_particular: 'بحث بستهٔ تغییر #%{changeset_id} در OpenStreetMap'
+        title_all: بحث بستهٔ تغییر OpenHistoricalMap
+        title_particular: 'بحث بستهٔ تغییر #%{changeset_id} در OpenHistoricalMap'
       timeout:
         sorry: شوربختانه بازیابی نظرات بستهٔ تغییر که درخواست نموده‌اید، خیلی طولانی
           شد.
@@ -479,17 +489,11 @@ fa:
         belongs_to: پدیدآور
     show:
       title: 'بستهٔ تغییر: %{id}'
-      created_ago_html: ایجاد شد %{time_ago}
-      closed_ago_html: بسته شد %{time_ago}
-      created_ago_by_html: '%{time_ago} %{user} ایجادش کرد'
-      closed_ago_by_html: '%{time_ago} %{user} بستش'
       discussion: بحث
       join_discussion: وارد شوید تا به بحث بپیوندید
       still_open: بستهٔ تغییر هنوز باز است - امکان بحث پس از بستن آن باز می‌شود.
       subscribe: اشتراک
       unsubscribe: لغو اشتراک
-      comment_by_html: نظر از %{user}‏ %{time_ago}
-      hidden_comment_by_html: نظر پنهان؛ نوشتهٔ %{user}‏ %{time_ago}
       hide_comment: نهفتن
       unhide_comment: نمایش
       comment: نظر
@@ -590,6 +594,8 @@ fa:
       all:
         title: ‫روزنوشت‌های OpenStreetMap‬
         description: ‫روزنوشت‌های اخیر از کاربران OpenStreetMap‬
+    comments:
+      title: نظراتی که %{user} به روزنوشت‌ها داده است
     subscribe:
       button: اشتراک در بحث
     unsubscribe:
@@ -609,6 +615,11 @@ fa:
       applications:
         create:
           notice: برنامه ثبت شد.
+    scopes:
+      address: نمایش نشانی فیزیکی شما
+      email: نمایش نشانی ایمیل شما
+      phone: نمایش شمارهٔ تلفن شما
+      profile: نمایش اطلاعات نمایهٔ شما
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/fa:Contact
@@ -1450,6 +1461,7 @@ fa:
       provide_details: لطفاً جزئیات لازم را ارائه دهید
   layouts:
     project_name:
+      title: OpenHistoricalMap
       h1: اوپن‌استریت‌مپ
     logo:
       alt_text: لوگوی OpenStreetMap
@@ -1465,10 +1477,14 @@ fa:
     gps_traces: ردهای GPS
     user_diaries: روزنوشت‌های کاربر
     edit_with: ویرایش با %{editor}
+    tag_line: نقشهٔ ویکی‌گونه و آزاد جهان
     intro_header: به OpenStreetMap خوش آمدید!
     intro_text: OpenStreetMap نقشه‌ای از جهان است که افرادی مانند شما آن را ساخته‌اند
       و آزادید آن را تحت پروانه‌ای آزاد استفاده کنید.
-    partners_partners: شرکای تجاری
+    intro_2_create_account: ساخت حساب کاربری
+    partners_title: شرکای تجاری
+    hosting_partners_2024_html: میزبانی وب را %{ucl}،‏ %{fastly}،‏ %{bytemark} و سایر
+      %{partners} پشتیبانی می‌کنند.
     tou: شرایط استفاده
     osm_offline: پایگاه دادهٔ OpenStreetMap هم‌اکنون برون‌خط است تا کارهای ضروری برای
       نگهداری آن انجام گیرد.
@@ -1733,8 +1749,8 @@ fa:
       heading: رمز عبور خودتان را فراموش کرده‌اید؟
       email address: نشانی رایانامه
       new password button: بازنشانی رمز عبور
-      help_text: رایانامه‌ای که با آن نام‌نویسی کرده‌اید را وارد کنید. ما پیوندی به
-        آن می‌فرستیم تا بتوانید به وسیلهٔ آن گذرواژه‌تان را بازنشانی کنید.
+      help_text: ایمیلی که با آن ثبت‌نام کرده‌اید را وارد کنید. ما پیوندی به آن می‌فرستیم
+        تا بتوانید به‌وسیلهٔ آن رمز عبورتان را بازنشانی کنید.
     edit:
       title: بازنشانی رمز عبور
       heading: بازنشانی رمز عبور برای %{user}
@@ -1764,6 +1780,7 @@ fa:
       image: تصویر
       gravatar:
         gravatar: استفاده از Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Gravatar چیست؟
         disabled: گراواتار غیرفعال شد.
         enabled: نمایش گراواتار شما فعال شد.
@@ -1776,6 +1793,7 @@ fa:
       no home location: شما محل خانهٔ خودتان را وارد نکرده‌اید.
       update home location on click: وقتی روی نقشه کلیک می‌کنم موقعیت خانه روزآمد
         شود.
+      show: نمایش
       delete: حذف
     update:
       success: نمایه ذخیره شد.
@@ -1851,11 +1869,22 @@ fa:
       community_driven_osm_foundation: بنیاد OSM
       open_data_title: دادهٔ آزاد
       legal_title: قانونی
+      legal_1_1_html: |-
+        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه تحت رهبری <a href='https://osmfoundation.org/'>بنیاد OpenHistoricalMap</a> ‏(OSMF) دایر است. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به پذیرش <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        سیاست استفادهٔ قابل‌قبول</a>، <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">شرایط استفاده</a> و <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">سیاست حریم خصوصی</a> ماست.
+        <br>
+        اگر در رابطه با پروانه، حق‌نشر یا سایر موارد قانونی سؤالی دارید لطفاً <a href='https://osmfoundation.org/Contact'>با OSMF تماس بگیرید</a>.
+        <br>
+        OpenHistoricalMap،‏ نشان‌وارهٔ ذره‌بین‌دار و State of the Map <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">نشان‌های تجاری ثبت‌شده و متعلق به بنیاد OpenHistoricalMap</a> هستند.
       legal_1_1_terms_of_use: شرایط استفاده
       legal_1_1_privacy_policy: سیاست محرمانگی
+      legal_2_1_html: |-
+        اگر دربارهٔ پروانه، حق‌نشر یا سایر مسائل حقوقی پرسشی دارید لطفاً <a href='https://osmfoundation.org/Contact'>با OSMF تماس بگیرید</a>.
+        <br>
+        OpenHistoricalMap، نشان‌وارهٔ ذره‌بین‌دار و State of the Map <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">نشان‌های تجاری متعلق به OSMF</a> هستند.
       partners_title: شرکای تجاری
     copyright:
-      title: حق نشر و پروانه
+      title: حق‌نشر و پروانه
       foreign:
         title: دربارهٔ این ترجمه
         html: اگر بین برگردان فارسی و %{english_original_link} ناسازگاری باشد، صفحهٔ
@@ -1869,9 +1898,32 @@ fa:
         native_link: نسخهٔ فارسی
         mapping_link: شروع به نقشه‌کشی
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup>  <i><abbr title="Open Data"></abbr>دادهٔ باز</i> است و از سوی  <a
+          href="https://osmfoundation.org/">بنیاد OpenHistoricalMap</a> ‏(OSMF) تحت پروانهٔ <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> ‏(ODbL) قرار دارد.
+        introduction_2_html: تا زمانی که از OpenHistoricalMap و مشارکت‌کنندگان آن
+          یاد کنید، برای کپی‌برداری، توزیع، انتقال و اقتباس (از) داده‌های ما آزاد
+          هستید. اگر داده‌های ما را تغییر دهید یا بر پایهٔ آن‌ها تولید کنید، باید
+          نتایج را فقط تحت همان مجوز توزیع کنید. نسخهٔ کامل <a href="http://opendatacommons.org/licenses/odbl/1.0/">بایدونبایدهای
+          قانونی</a> حقوق و وظایف شما را توضیح می‌دهد.
+        introduction_3_html: |-
+          مستندات ما تحت پروانهٔ <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0) است.
         credit_title_html: چگونه از OpenStreetMap یاد کنیم
         credit_1_html: 'جایی که دارید از داده‌های اوپن‌استریت‌مپ استفاده می‌کنید،
           لازم است دو کار زیر را انجام دهید:'
+        credit_2_1: همچنین باید روشن کنید که داده‌ها تحت پروانهٔ پایگاه‌دادهٔ باز
+          (Open Database License) قرار دارند و اگر کاشی‌های نقشهٔ ما را استفاده کردید
+          باید به‌روشنی بیان کنید که نقشه‌نگاری‌ها تحت پروانهٔ CC BY-SA است. این کار
+          را با پیونددادن به <a href="https://www.openstreetmap.org/copyright"> این
+          صفحهٔ حق‌نشر</a> انجام دهید. به‌عنوان جایگزین، می‌توانید با نام و پیوند
+          مستقیماً به پروانه(ها) ارجاع بدهید (اگر OSM را در قالب داده توزیع می‌کنید
+          انجام این کار ضروری است). در رسانه‌هایی که درج پیوند ممکن نیست ( مثلاً کارهای
+          چاپی)، توصیه می‌کنیم که خوانندگان خود را به  openstreetmap.org (شاید با
+          گسترش OpenHistoricalMap به این نشانی کامل)، به opendatacommons.org و در
+          صورت تناسب به creativecommons.org هدایت کنید.
         attribution_example:
           alt: مثالی از شیوهٔ انتساب به OpenStreetMap در صفحهٔ وبی.
           title: مثال انتساب
@@ -1880,6 +1932,9 @@ fa:
         contributors_intro_html: 'مشارکت‌کنندگانی که با ما همکاری می‌کنند هزاران شخص
           هستند. داده‌هایی با پروانهٔ آزاد از سازمان‌های نقشه‌برداری ملی و دیگر منابع
           را نیز در کنار آن‌ها داریم، از جمله:'
+        contributors_footer_1_html: |-
+          برای اطلاعات بیشتر درباره این‌ها و سایر منابعی که برای پیشرفت اوپن‌استریت‌مپ استفاده شده، لطفاً <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">صفحهٔ مشارکت‌کنندگان</a> را در ویکی ببینید.
         contributors_at_austria: اتریش
         contributors_au_australia: استرالیا
         contributors_ca_canada: کانادا
@@ -1902,6 +1957,15 @@ fa:
         infringement_1_html: به مشارکت‌کنندگان OSM یادآوری شده است که هرگز از منابع
           دارای حق نشر داده اضافه نکنند (مثلاً نقشه‌های گوگل یا نقشه‌های چاپی)، مگر
           با اجازهٔ صریح و آشکار از صاحبان حق نشر.
+        infringement_2_1_html: اگر بر این باورید که دادهٔ مشمول حق‌نشر به‌طور نامناسبی
+          به پایگاه‌دادهٔ OpenHistoricalMap  یا به این وبسایت افزوده شده، لطفاً به
+          <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">روندنامهٔ
+          حذف</a> مراجعه کنید یا دادخواست خود را مستقیماً در <a href="https://dmca.openstreetmap.org/">صفحهٔ
+          دادخواهی برخط</a> تسلیم کنید.
+        trademarks_1_1_html: OpenHistoricalMap،‏ نشان‌وارهٔ ذره‌بین‌دار و State of
+          the Map نشان‌های تجاری ثبت‌شده و متعلق به بنیاد OpenHistoricalMap هستند.
+          برای یافتن پاسخ پرسش‌های خود دربارهٔ استفاده از این نشان‌ها، لطفاً <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">سیاست‌نامهٔ
+          نشان تجاری</a> را ببینید.
     index:
       js_1: شما در حال استفاده از مرورگری هستید که جاوااسکریپت را پشتیبانی نمی‌کند،
         یا جاوااسکریپت را غیرفعال کرده‌اید.
@@ -1916,12 +1980,15 @@ fa:
         کار را انجام دهید. در %{user_page} خود می‌توانید ویرایش‌هایتان را به‌عنوان
         عمومی تنظیم کنید.
       user_page_link: صفحهٔ کاربری
+      anon_edits_html: (%{link})
       anon_edits_link_text: بفهمید چرا این‌طور است.
       id_not_configured: iD پیکربندی نشده است
     export:
       title: برون‌ریزی
       manually_select: به‌صورت دستی منطقهٔ دیگری انتخاب کنید
       licence: پروانه
+      licence_details_html: دادهٔ OpenHistoricalMap تحت <a href="https://opendatacommons.org/licenses/odbl/1.0/">پروانهٔ
+        دادهٔ همگانی باز، پایگاه‌دادهٔ باز</a> (ODbL) قرار دارد.
       too_large:
         advice: 'اگر برون‌ریزی بالا انجام نشد، لطفاً یکی از منابع زیر را استفاده کنید:'
         body: این محدوده برای برون‌ریزی در قالب OpenStreetMap XML خیلی بزرگ است. لطفاً
@@ -1951,8 +2018,16 @@ fa:
           explanation_html: اگر در دادهٔ نقشه مشکلی یافتید، مثلاً جاده‌ای یا نشانی
             شما در نقشه نیامده، بهترین راه برای حل مشکل این است که به جامعهٔ اُپن‌استریت‌مپ
             بپیوندید و خودتان داده را اضافه یا اصلاح کنید.
+        add_a_note:
+          instructions_1_html: |-
+            کافی است روی <a class='icon note'></a> یا آیکون مشابه در صفحهٔ نقشه کلیک کنید.
+            با این کار یک نشانگر به نقشه اضافه خواهد شد که می‌توانید با کشیدن جابه‌جایش کنید. پیام خود را بنویسید و سپس روی ذخیره کلیک کنید. سایر نقشه‌کش‌ها آن را بررسی خواهند‌ کرد.
       other_concerns:
         title: نگرانی‌های دیگر
+        concerns_html: اگر دربارهٔ چگونگی استفاده از دادهٔ ما یا دربارهٔ محتوا نگرانی‌هایی
+          دارید، به <a href='/copyright'>صفحهٔ حق‌نشر</a> مراجعه کنید تا اطلاعات قانونی
+          بیشتری کسب کنید. همچنین می‌توانید با یکی از <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>گروه‌های
+          کاری بنیاد OSM</a> تماس بگیرید.
     help:
       title: کمک بگیرید
       introduction: در پروژهٔ OpenStreetMap برای آموختن، پرسیدن و پاسخ‌دادنِ سوالات،
@@ -1981,11 +2056,22 @@ fa:
         title: برای سازمان‌ها
         description: در سازمان خود طرحی دربارهٔ OpenStreetMap دارید؟ صفحهٔ خوش‌آمدگویی
           را ببینید.
+      discord:
+        title: کوچ به OSM
+      forum:
+        title: انجمن
+      slack:
+        title: IRC
       wiki:
         title: ویکی OpenStreetMap
         description: مستندات پرجزئیات را در ویکی OpenStreetMap مرور کنید.
     any_questions:
       title: سؤالی دارید؟
+      paragraph_1_html: در پروژهٔ OpenHistoricalMap برای آموختن، پرسیدن و پاسخ‌دادنِ
+        سوالات، بحث و همفکری دربارهٔ موضوعات نقشه‌کشی و ثبت آن‌ها منابع زیادی وجود
+        دارد. <a href='%{help_url}'>از اینجا کمک بگیرید</a>. در سازمان خود طرحی دربارهٔ
+        OpenHistoricalMap دارید؟ <a href='https://welcome.openstreetmap.org/'>صفحهٔ
+        خوش‌آمدگویی را ببینید</a>.
     sidebar:
       search_results: نتایج جستجو
     search:
@@ -2015,6 +2101,8 @@ fa:
           footway: راه پیاده
           rail: راه‌آهن
           subway: مترو
+          light_rail: راه‌آهن سبک
+          tram: قطار برقی
           cable_car: تله‌فریک
           chair_lift: صندلی بالابر
           runway: باند فرودگاه
@@ -2023,6 +2111,7 @@ fa:
           admin: مرز اداری
           forest: جنگل
           wood: چوب
+          meadow: علفزار
           golf: زمین گلف
           park: پارک
           common: مشاع
@@ -2062,12 +2151,26 @@ fa:
         سریع دربارهٔ مهم‌ترین چیزهایی است که به دانستنشان نیاز دارید.
       whats_on_the_map:
         title: چیزهایی که روی نقشه می‌آید
+        on_the_map_html: در OpenHistoricalMap چیزهایی را نقشه‌کشی می‌کنیم که <em>هم
+          واقعی و هم موجود</em> باشند که شامل میلیون‌ها ساختمان، جاده و سایر جزئیات
+          دربارهٔ مکان‌هاست. شما می‌توانید هر عارضه‌ای از دنیای واقعی که برایتان جالب
+          است را نقشه‌کشی کنید.
+        off_the_map_html: چیزهایی که در نقشه <em>نمی‌آید</em> عبارت‌اند از دادهٔ سلیقه‌ای
+          مانند رتبه‌بندی‌ها، عارضه‌های تاریخی یا فرضی و داده‌ای که از منابع دارای
+          حق‌نشر به‌دست می‌آوریم. از نقشه‌های آنلاین یا کاغذی کپی نکنید، مگر اینکه
+          اجازهٔ ویژه برای این کار داشته باشید.
       basic_terms:
         title: اصطلاحات پایهٔ نقشه‌کشی
         paragraph_1: OpenStreetMap اصطلاحات ویژهٔ خودش را دارد. در اینجا چند کلیدواژهٔ
           مفید ذکر شده است.
       rules:
         title: قوانین!
+        para_1_html: قوانین رسمی OpenHistoricalMap تنها چند مورد است، اما از همهٔ
+          مشارکت‌کنندگان انتظار داریم با جامعه همکاری کنند و ارتباط داشته باشند. اگر
+          می‌خواهید هرگونه فعالیتی به غیر از ویرایش دستی انجام دهید، لطفاً رهنمودهای
+          مربوط به <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>درون‌برد
+          (Import)</a> و <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>ویرایش‌های
+          خودکار</a> را بخوانید و از آن‌ها پیروی کنید.
       start_mapping: نقشه‌کشی را آغاز کنید
       add_a_note:
         title: زمانی برای ویرایش ندارید؟ یادداشت اضافه کنید!
@@ -2221,6 +2324,7 @@ fa:
       no_applications_html: آیا برنامه‌ای دارید که می‌خواهید به‌وسیلهٔ استاندارد %{oauth2}
         ثبتش کنید تا با ما از آن استفاده کنید؟ قبل از اینکه برنامه‌تان بتواند درخواست‌های
         OAuth را انجام دهد باید آن را ثبت کنید.
+      oauth_2: OAuth 2
       new: ثبت برنامهٔ جدید
       name: نام
       permissions: اجازه‌ها
@@ -2292,7 +2396,9 @@ fa:
       read_tou: شرایط استفاده را خوانده‌ام و آن را می‌پذیرم
       consider_pd: علاوه بر موارد بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی باشد.
       consider_pd_why: این چیست؟
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       continue: ادامه
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: برای ادامه لطفاً بخوانید و سپس شرایط جدید مشارکت‌کننده
         را بپذیرید یا رد کنید.
       legale_select: 'كشور محل سكونت:'
@@ -2304,6 +2410,7 @@ fa:
       terms_declined_html: از اینکه تصمیم گرفته‌اید شرایط جدید مشارکت‌کننده را نپذیرید،
         متأسف هستیم. برای اطلاعات بیشتر، لطفاً %{terms_declined_link} را ببینید.
       terms_declined_link: این صفحهٔ ویکی
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: چنین کاربری وجود ندارد
       heading: کاربر %{user} وجود ندارد
@@ -2432,6 +2539,8 @@ fa:
       title: مسدودی‌های کاربر
       heading: لیست مسدودی‌های کاربری
       empty: هنوز مسدودیتی ساخته نشده.
+    revoke_all:
+      revoke: باطل شود!
     helper:
       time_future_html: '%{time} دیگر پایان می‌یابد.'
       until_login: تا وقتی کاربر وارد شود فعال می‌ماند.
@@ -2525,6 +2634,7 @@ fa:
       add: افزودن یادداشت
     notes_paging_nav:
       showing_page: صفحهٔ %{page}
+      next: بعدی
   javascripts:
     close: بستن
     share:

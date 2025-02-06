@@ -8,6 +8,7 @@
 # Author: Arifin.wijaya
 # Author: ArlandGa
 # Author: Atriwidada
+# Author: Bloomingfungi
 # Author: C5st4wr6ch
 # Author: DARMAS BUDI SANTOSO
 # Author: Danieldegroot2
@@ -96,6 +97,7 @@ id:
       message: Pesan
       node: Titik noda
       node_tag: Tag titik noda
+      notifier: Pemberitahuan
       old_node: Titik noda Lama
       old_node_tag: Tag Titik noda Lama
       old_relation: Relasi Lama
@@ -136,7 +138,7 @@ id:
       diary_entry:
         user: Pengguna
         title: Subjek
-        body: Isi
+        body: Isi Pesan
         latitude: Garis Lintang
         longitude: Garis Bujur
         language_code: Bahasa
@@ -157,7 +159,7 @@ id:
         longitude: Garis Bujur
         public: Publik
         description: Deskripsi
-        gpx_file: 'Unggah File GPX:'
+        gpx_file: Pilih Berkas Jejak GPS
         visibility: Visibilitas
         tagstring: Label
       message:
@@ -199,6 +201,10 @@ id:
           mungkin.
         needs_view: Apakah pengguna harus masuk log sebelum blokirnya dihapus?
       user:
+        email_confirmation: Alamat Anda tidak ditampilkan secara publik, lihat <a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Kebijakan
+          privasi OSMF termasuk bagian tentang alamat surel">kebijakan privasi</a>
+          kami untuk informasi lebih lanjut.
         new_email: (jangan pernah ditampilkan ke publik)
   datetime:
     distance_in_words_ago:
@@ -238,6 +244,7 @@ id:
   auth:
     providers:
       none: Tidak ada
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -301,10 +308,12 @@ id:
       current email address: Alamat surel saat ini
       external auth: Autentikasi Eksternal
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Apa ini?
       public editing:
         heading: Mengedit secara publik
         enabled: Diaktifkan. Tidak anonim dan dapat mengedit data.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Apa ini?
         disabled: Dinonaktifkan dan tidak dapat mengedit data, seluruh hasil edit
           sebelumnya anonim.
@@ -317,6 +326,7 @@ id:
           dan menyetujui Persyaratan Kontributor yang baru.
         agreed_with_pd: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan
           Anda berada dalam Domain publik.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Apa ini?
       save changes button: Simpan Perubahan
       delete_account: Hapus Akun...
@@ -344,6 +354,7 @@ id:
     deleted_ago_by_html: Dihapus %{time_ago} oleh %{user}
     edited_ago_by_html: Disunting %{time_ago} oleh %{user}
     version: Versi
+    redacted_version: Versi yang direduksi
     in_changeset: Set Perubahan
     anonymous: Anonimitas
     no_comment: (tidak ada komentar)
@@ -354,7 +365,9 @@ id:
       other: '%{count} arah'
     download_xml: Unduh XML
     view_history: Versi terdahulu
+    view_unredacted_history: Lihat Riwayat yang Tidak Direduksi
     view_details: Lihat Rincian
+    view_redacted_data: Lihat Data yang Direduksi
     location: 'Lokasi:'
     node:
       title_html: 'Simpul: %{name}'
@@ -394,7 +407,8 @@ id:
         note: catatan
     timeout:
       title: Galat Waktu Habis
-      sorry: Maaf, data untuk %{type} dengan id %{id}, terlalu lama untuk dibuka.
+      sorry: Maaf, data untuk %{type} dengan id %{id}, membutuhkan waktu terlalu lama
+        untuk dibuka.
       type:
         node: node/titik
         way: way/garis
@@ -410,7 +424,7 @@ id:
         way: way/garis
         relation: relasi
     start_rjs:
-      feature_warning: Memuat %{num_features} fitur, yang dapat membuat peramban Anda
+      feature_warning: Memuat fitur %{num_features}, yang dapat membuat peramban Anda
         lambat atau tidak responsif. Apakah Anda yakin ingin menampilkan data ini?
       load_data: Memuat Data
       loading: Memuat...
@@ -430,23 +444,42 @@ id:
       introduction: Klik di peta untuk mencari fitur terdekat.
       nearby: Fitur terdekat
       enclosing: Fitur sekitar
+  nodes:
+    timeout:
+      sorry: Maaf, data untuk node dengan id %{id} membutuhkan waktu terlalu lama
+        untuk dibuka.
   old_nodes:
     not_found:
       sorry: 'Maaf, titik #%{id} versi %{version} tidak dapat ditemukan.'
+    timeout:
+      sorry: Maaf, riwayat untuk node dengan id %{id} membutuhkan waktu terlalu lama
+        untuk dibuka.
+  ways:
+    timeout:
+      sorry: Maaf, data untuk jalur dengan id %{id} membutuhkan waktu lama untuk dibuka.
   old_ways:
     not_found:
       sorry: 'Maaf, rute #%{id} versi %{version} tidak dapat ditemukan.'
+    timeout:
+      sorry: Maaf, riwayat jalur dengan id %{id} butuh waktu lama untuk dibuka.
+  relations:
+    timeout:
+      sorry: Maaf, data untuk relasi dengan id %{id} membutuhkan waktu terlalu lama
+        untuk dibuka.
   old_relations:
     not_found:
       sorry: 'Maaf, relasi #%{id} versi %{version} tidak dapat ditemukan.'
+    timeout:
+      sorry: Maaf, riwayat relasi dengan id %{id} membutuhkan waktu terlalu lama untuk
+        dibuka.
   changeset_comments:
     feeds:
       comment:
         comment: 'Komentar baru di set perubahan #%{changeset_id} oleh %{author}'
         commented_at_by_html: Diperbarui %{when} oleh %{user}
       show:
-        title_all: Diskusi set perubahan OpenStreetMap
-        title_particular: 'Diskusi set perubahan OpenStreetMap #%{changeset_id}'
+        title_all: Diskusi set perubahan OpenHistoricalMap
+        title_particular: 'Diskusi set perubahan OpenHistoricalMap #%{changeset_id}'
       timeout:
         sorry: Maaf, daftar komentar set perubahan yang Anda minta butuh waktu lama
           untuk ditampilkan.
@@ -473,6 +506,11 @@ id:
         created: Dibuat
         closed: Ditutup
         belongs_to: Pembuat
+    subscribe:
+      heading: Berlangganan diskusi perubahan berikut?
+      button: Berlangganan diskusi
+    unsubscribe:
+      heading: Berhenti berlangganan dari diskusi perubahan berikut?
     show:
       title: 'Set Perubahan: %{id}'
       created_ago_html: Dibuat %{time_ago}
@@ -590,9 +628,11 @@ id:
       all:
         title: Entri catatan harian OpenStreetMap
         description: Entri catatan harian terbaru dari pengguna OpenStreetMap
+    comments:
+      title: Komentar Buku Harian ditambahkan oleh %{user}
   diary_comments:
     index:
-      title: Komentar Buku Harian ditambahkan oleh %{user}
+      title: Komentar Buku Harian yang ditambahkan oleh %{user}
       heading: Komentar Buku Harian %{user}
       subheading_html: Komentar Buku Harian yang ditambahkan oleh %{user}
       no_comments: Tidak ada komentar buku harian
@@ -917,7 +957,6 @@ id:
           bus_stop: Halte Bus
           construction: Jalan raya sedang dalam perbaikan
           corridor: Koridor
-          crossing: Penyeberangan
           cycleway: Jalur Sepeda
           elevator: Elevator
           emergency_access_point: Titik Akses Darurat
@@ -1554,11 +1593,14 @@ id:
     gps_traces: Jejak GPS
     user_diaries: Catatan Harian Pengguna
     edit_with: Edit menggunakan %{editor}
+    tag_line: Peta Dunia Wiki Gratis
     intro_header: Selamat datang di OpenStreetMap!
     intro_text: OpenStreetMap adalah peta dunia, diciptakan oleh orang-orang seperti
       Anda dan bebas untuk digunakan di bawah lisensi terbuka.
-    partners_fastly: Fastly
-    partners_partners: mitra
+    intro_2_create_account: Buat Akun
+    partners_title: mitra
+    hosting_partners_2024_html: Hosting didukung oleh %{ucl}, %{fastly}, %{bytemark},
+      dan %{partners} lainnya.
     tou: Ketentuan Penggunaan
     osm_offline: Database OpenStreetMap saat ini sedang dimatikan karena sedang dilakukan
       pekerjaan pemeliharaan database penting.
@@ -1619,6 +1661,7 @@ id:
         bisa ditemukan di %{url}.
       more_info_html: Informasi lebih lanjut tentang kegagalan impor GPX dan cara
         menghindarinya bisa ditemukan di %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] gagal impor GPX'
     gpx_success:
       hi: Halo %{to_user},
@@ -1872,6 +1915,7 @@ id:
       image: Gambar
       gravatar:
         gravatar: Gunakan Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Apa itu Gravatar?
         disabled: Gravatar telah dinonaktifkan.
         enabled: Tampilan dari Gravatar Anda telah diaktifkan.
@@ -1968,16 +2012,17 @@ id:
       open_data_open_data: data terbuka
       open_data_copyright_license: Halaman Hak Cipta dan Lisensi
       legal_title: Legal
-      legal_1_1_html: Situs ini beserta layanan terkait secara resmi dioperasikan
-        oleh %{openstreetmap_foundation_link} (OSMF) atas nama komunitas kontributor.
-        Pemanfaatan semua layanan OSMF wajib mematuhi %{terms_of_use_link}, %{aup_link},
-        dan %{privacy_policy_link} kami.
+      legal_1_1_html: |-
+        Situs ini dan layanan terkait lainnya dioperasikan secara resmi oleh <a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a> (OSMF) atas nama komunitas. Menggunakan semua layanan yang dioperasikan oleh OSMF tunduk kepada <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Syarat Penggunaan</a>, <a href="https:://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Kebijakan Penggunaan Diterima</a> dan <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Kebijakan Privasi</a> kami.
       legal_1_1_openstreetmap_foundation: Yayasan OpenStreetMap
       legal_1_1_terms_of_use: Ketentuan Penggunaan
       legal_1_1_aup: Aturan Penggunaan yang Diizinkan
       legal_1_1_privacy_policy: Kebijakan Privasi
-      legal_2_1_html: Hubungi %{contact_the_osmf_link} bila Anda ingin tahu soal lisensi,
-        hak cipta, atau persoalan hukum lainnya.
+      legal_2_1_html: |-
+        Silakan <a href='https://osmfoundation.org/Contact'>menghubungi OSMF</a> jika Anda punya pertanyaan seputar lisensi, hak cipta, atau isu dan pertanyaan hukum lainnya.
+        <br>
+        OpenHistoricalMap, logo kaca pembesar dan Peta adalah <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">merek dagang terdaftar OSMF</a>.
       legal_2_1_contact_the_osmf: hubungi OSMF
       legal_2_2_html: OpenStreetMap, logo suryakanta, dan State of the Map merupakan
         %{registered_trademarks_link}.
@@ -1999,25 +2044,35 @@ id:
         mapping_link: memulai pemetaan
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} tergolong %{open_data}, berlisensi
-          %{odc_odbl_link} (ODbL) yang diterbitkan oleh %{osm_foundation_link} (OSMF).
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> adalah <i>data terbuka</i>, berlisensi di bawah <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) oleh  <a
+          href="http://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         introduction_1_open_data: data terbuka
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: Yayasan OpenStreetMap
-        introduction_2_html: Anda boleh menyalin, menyebarluaskan, mengirimkan, dan
-          menyesuaikan data kami asalkan mencantumkan sumber OpenStreetMap dan kontributornya.
-          Bila Anda mengubah atau memanfaatkan data kami, Anda boleh menyebarluaskan
-          produk akhirnya dengan lisensi yang sama. Hak dan tanggung jawab Anda tercantum
-          selengkapnya dalam %{legal_code_link}.
+        introduction_2_html: |-
+          Anda dibebaskan untuk menyalin, menyalurkan, mentransfer dan mengadaptasi data kami,
+          selama Anda menyertakan OpenHistoricalMap dan kontributornya. Jika Anda mengubah atau membangun
+          data kami, Anda harus menyalurkan hasilnya dalam lisensi yang sama.
+          <a href="http://opendatacommons.org/licenses/odbl/1.0/">Kode legal</a> berisi penjelasan hak dan kewajiban Anda.
         introduction_2_legal_code: aturan hukum
-        introduction_3_html: Dokumentasi kami berlisensi %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: |-
+          Dokumentasi kami dilisensikan di bawah <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> lisensi (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Atribusi-BerbagiSerupa 2.0
         credit_title_html: Cara memberikan kredit pada OpenStreetMap
         credit_1_html: 'Ketika Anda menggunakan data OpenStreetMap, Anda diwajibkan
           untuk melakukan dua hal berikut:'
-        credit_2_1: Cantumkan sumber OpenStreetMap dengan menampilkan pemberitahuan
-          hak cipta kami.
+        credit_2_1: Anda juga harus memperjelas bahwa data tersedia di bawah Lisensi
+          Database Terbuka, dan jika menggunakan tiles peta kami, kartografi berlisensi
+          sebagai CC-BY-SA. Anda dapat melakukannya dengan menghubungkan ke <a href="http://www.openstreetmap.org/copyright">halaman
+          hak cipta</a>. Alternatifnya, dan sebagai sebuah persyaratan jika Anda mendistribusikan
+          OSM dalam bentuk data, Anda dapat menamakan dan menghubungkannya langsung
+          pada lisensinya. Pada media yang tidak memungkinkan tautan (misalnya hasil
+          cetak), kami menyarankan Anda untuk mengarahkan pembaca Anda pada openstreetmap.org
+          (mungkin dengan memperluas halaman 'OpenHistoricalMap' secara penuh), untuk
+          opendatacommons.org, dan jika relevan, untuk creativecommons.org.
         credit_2_2: Tambahkan bahwa data peta ini berlisensi Open Database License.
         credit_3_html: Soal pemberitahuan hak cipta, kami punya aturan yang berbeda
           tergantung cara Anda menggunakan data kami. Misalnya, peta digital, peta
@@ -2049,6 +2104,9 @@ id:
         contributors_intro_html: 'Kontributor kami terdiri dari ribuan orang. Kami
           juga memasukkan data dengan lisensi terbuka yang didapat dari badan-badan
           pemetaan nasional dan sumber lainnya, diantaranya:'
+        contributors_footer_1_html: |-
+          Untuk rincian lebih lanjut, dan sumber-sumber lainnya yang telah digunakan untuk meningkatkan OpenHistoricalMap, silakan lihat <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">halaman Kontributor</a> pada Wiki OpenHistoricalMap.
         contributors_at_credit_html: '%{austria}: Mengandung data dari %{stadt_wien_link}
           (lisensi %{cc_by_link}), %{land_vorarlberg_link}, dan Land Tirol (lisensi
           %{cc_by_at_with_amendments_link}).'
@@ -2127,16 +2185,18 @@ id:
         infringement_1_html: Kontributor OSM diingatkan untuk tidak menambahkan data
           dari sumber yang memiliki hak cipta sendiri (misalnya, Google Maps atau
           peta cetak) tanpa izin eksplisit dari pemegang hak cipta.
-        infringement_2_1_html: Bila Anda curiga ada materi berhak cipta di dalam data
-          OpenStreetMap atau situs ini, simak %{takedown_procedure_link} kami atau
-          isi %{online_filing_page_link}.
+        infringement_2_1_html: |-
+          Jika Anda percaya bahwa materi berhak cipta telah tidak tepat
+           ditambahkan ke OpenHistoricalMap database atau situs ini, silakan lihat <a href="https://wiki.osmfoundation.org/wiki/License/Takedown_procedure">prosedur takedown</a> kami atau kirimkan file langsung pada
+          <a href="https://dmca.openstreetmap.org/">pengajuan halaman on-line</a>.
         infringement_2_1_takedown_procedure: prosedur penghapusan
         infringement_2_1_online_filing_page: formulir digital
         trademarks_title: Merek dagang
-        trademarks_1_1_html: OpenStreetMap, logo kaca pembesar, dan State of the Map
-          adalah merek dagang terdaftar Yayasan OpenStreetMap. Bila Anda ingin tahu
-          lebih lanjut soal penggunaan merek-merek ini, silakan baca %{trademark_policy_link}
-          kami.
+        trademarks_1_1_html: OpenHistoricalMap, logo lup, dan State of the Map adalah
+          merek dagang terdaftar dari OpenHistoricalMap Foundation. Jika Anda memiliki
+          pertanyaan tentang penggunaan merek tersebut, silakan kirim pertanyaan Anda
+          ke <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Licence
+          Working Group</a>.
         trademarks_1_1_trademark_policy: Aturan Merek Dagang
     index:
       js_1: Anda menggunakan browser yang tidak mendukung JavaScript, atau Anda telah
@@ -2192,14 +2252,16 @@ id:
             adalah untuk bergabung dengan komunitas OpenStreetMap dan menambah atau
             memperbaiki data diri."
         add_a_note:
-          instructions_1_html: |-
-            Klik %{note_icon} atau ikon serupa di peta.
-            Markah/penanda akan muncul di peta. Anda bisa memindahkannya dengan cara klik-seret. Tulis pesan Anda, lalu klik simpan. Kontributor lain akan menanggapinya.
+          instructions_1_html: "Hanya klik <a class='icon note'></a> atau ikon yang
+            sama pada layar peta. \nIni akan menambahkan penanda ke peta, yang dapat
+            Anda bergerak \ndengan menyeret. Tambahkan pesan Anda, lalu klik simpan,
+            dan pembuat peta lainnya akan menyelidiki."
       other_concerns:
         title: Kekhawatiran lain
-        concerns_html: "Bila Anda ingin tahu soal pemanfaatan data kami atau konten
-          peta, baca \n%{copyright_link} untuk info hukum lebih lanjut atau hubungi
-          %{working_group_link} yang terkait."
+        concerns_html: "Jika Anda memiliki kekhawatiran tentang bagaimana data kami
+          sedang digunakan atau tentang isi silakan baca\n<a href='/copyright'>halaman
+          hak cipta</a> untuk informasi hukum lainnya, atau hubungi \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>kelompok
+          kerja OSMF</a> yang sesuai."
         copyright: halaman hak cipta
         working_group: satgas OSMF
     help:
@@ -2234,6 +2296,10 @@ id:
         title: Untuk Lembaga-lembaga
         description: Bersama sebuah organisasi sedang membuat rencana untuk OpenStreetMap?
           Temukan apa yang Anda perlu tahu di Keset Selamat Datang.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: Wiki OpenStreetMap
         description: Telusuri wiki untuk dokumentasi mendalam OpenStreetMap.
@@ -2286,14 +2352,14 @@ id:
           train: Kereta
           subway: Kereta bawah tanah
           ferry: Feri
-          light_rail: Kereta api ringan
-          tram: Trem
+          light_rail: Kereta listrik
+          tram: trem
           trolleybus: Kereta dorong
           bus: Bus
           cable_car: Kereta Kabel
-          chair_lift: Kereta gantung
+          chair_lift: Kereta Gantung
           runway: Landasan bandara
-          taxiway: Landas hubung
+          taxiway: landas hubung
           apron: Tempat Parkir Pesawat
           admin: Batas administrasi
           capital: Ibu kota
@@ -2333,12 +2399,12 @@ id:
           reserve: Cagar Alam
           military: Kawasan militer
           school: Sekolah
-          university: Universitas
+          university: universitas
           hospital: Rumah sakit
           building: Bangunan Penting
           station: Stasiun Kereta Api
           summit: Puncak
-          peak: Puncak
+          peak: puncak
           tunnel: Dashed Casing = terowongan
           bridge: Black casing = jembatan
           private: Akses pribadi
@@ -2434,6 +2500,7 @@ id:
     new:
       upload_trace: Unggah Jejak GPS
       visibility_help: apa artinya ini?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Bantuan
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2667,11 +2734,13 @@ id:
       consider_pd: Sebagai tambahan perjanjian di atas, saya menganggap kontribusi
         saya berada di dalam Domain Publik
       consider_pd_why: apa ini?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Informasi untuk membantu Anda memahami ketentuan ini: %{readable_summary_link}
         dan %{informal_translations_link}'
       readable_summary: ringkasan dasar
       informal_translations: terjemahan tidak resmi
       continue: Lanjutkan
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: Silahkan baca dan setujui atau tolak Persyaratan
         Kontributor yang baru untuk melanjutkan.
       legale_select: 'Silahkan pilih negara tempat tinggal Anda:'
@@ -2683,6 +2752,7 @@ id:
       terms_declined_html: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor
         baru. Untuk informasi lebih lanjut, silakan lihat %{terms_declined_link}.
       terms_declined_link: halaman wiki ini
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Pengguna tersebut tidak ditemukan
       heading: Pengguna %{user} tidak dapat ditemukan
@@ -2951,6 +3021,7 @@ id:
       add: Tambah Catatan
     notes_paging_nav:
       showing_page: Halaman %{page}
+      next: Berikutnya
   javascripts:
     close: Tutup
     share:
@@ -2991,6 +3062,10 @@ id:
         feetPopup:
           other: Anda berjarak %{count} kaki dari titik ini
       base:
+        historical: Historis
+        woodblock: Balok Kayu
+        japanesescroll: Gulungan Jepang
+        railway: Jalur Kereta Api
         standard: Standar
         cycle_map: Peta Sepeda
         transport_map: Peta Transportasi

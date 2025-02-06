@@ -125,6 +125,7 @@ pl:
       message: Wiadomość
       node: Węzeł
       node_tag: Znacznik węzła
+      notifier: Zgłaszający
       old_node: Stary węzeł
       old_node_tag: Znacznik wcześniejszego węzła
       old_relation: Stara relacja
@@ -231,6 +232,10 @@ pl:
           staraj się używać ogólnie rozumianych pojęć.
         needs_view: Czy użytkownik musi się zalogować, zanim blokada zostanie zdjęta?
       user:
+        email_confirmation: Twój adres nie będzie wyświetlany publicznie, zobacz naszą
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="polityka
+          prywatności OSMF zawierająca sekcję o adresach el-pocztowych">politykę prywatności</a>,
+          aby uzyskać więcej informacji.
         new_email: (nie jest wyświetlany publicznie)
   datetime:
     distance_in_words_ago:
@@ -295,6 +300,8 @@ pl:
         few: '%{count} lata temu'
         many: '%{count} lat temu'
         other: '%{count} roku temu'
+  printable_name:
+    with_name_html: '%{name}(%{id})'
   editor:
     default: edytorze domyślnym (obecnie %{name})
     id:
@@ -306,6 +313,7 @@ pl:
   auth:
     providers:
       none: Brak
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -374,6 +382,7 @@ pl:
       public editing:
         heading: Edycje publiczne
         enabled: Włączone. Nieanonimowy i uprawniony do edycji danych.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: co to jest?
         disabled: Wyłączone i nieuprawniony do edycji danych, wszystkie wcześniejsze
           edycje są anonimowe.
@@ -385,11 +394,12 @@ pl:
         review link text: Skorzystaj z tego odnośnika w dogodnym momencie, aby zapoznać
           się z nowymi Warunkami Uczestnictwa i je zaakceptować.
         agreed_with_pd: Zadeklarowałeś, że swoje edycje publikujesz w domenie publicznej.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: co to jest?
       save changes button: Zapisz zmiany
       delete_account: Usuń konto...
     go_public:
-      heading: Edycje publiczne
+      heading: 'Edycje publiczne:'
       currently_not_public: Twoje edycje są obecnie anonimowe i inni nie mogą ci wysyłać
         wiadomości ani zobaczyć twojej lokalizacji. Aby pokazać swoje edycje i umożliwić
         innym kontakt z tobą przez stronę, kliknij przycisk poniżej.
@@ -399,7 +409,7 @@ pl:
       email_not_revealed: Twój adres e-mail nie będzie wyświetlany publicznie.
       not_reversible: Tej akcji nie można cofnąć, a wszyscy nowi użytkownicy są teraz
         domyślnie publiczni.
-      make_edits_public_button: Niech wszystkie moje edycje będą publiczne.
+      make_edits_public_button: Niech wszystkie edycje będą publiczne.
     update:
       success_confirm_needed: Zaktualizowano profil użytkownika. Sprawdź, czy przyszedł
         już e-mail potwierdzający nowy adres mailowy.
@@ -432,6 +442,8 @@ pl:
     view_redacted_data: Pokaż poprawione dane
     view_redaction_message: Pokaż wiadomość poprawki
     location: 'Położenie:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Węzeł: %{name}'
       history_title_html: 'Historia węzła: %{name}'
@@ -457,6 +469,7 @@ pl:
         many: '%{count} członów'
         other: '%{count} członu'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} jako %{role}'
       type:
         node: Węzeł
@@ -550,8 +563,7 @@ pl:
         title_all: Dyskusja na temat zestawu zmian
         title_particular: 'Dyskusja na temat zestawu zmian #%{changeset_id}'
       timeout:
-        sorry: Niestety, pobieranie listy żądanych komentarzy do zestawów zmian trwało
-          zbyt długo.
+        sorry: Niestety, pobieranie listy żądanych zestawów zmian trwało zbyt długo.
   changesets:
     changeset:
       no_edits: (brak edycji)
@@ -592,18 +604,18 @@ pl:
       title: 'Zestaw zmian: %{id}'
       created: 'Utworzony: %{when}'
       closed: 'Zamknięty: %{when}'
-      created_ago_html: Utworzone %{time_ago}
-      closed_ago_html: Zamknięte %{time_ago}
-      created_ago_by_html: Utworzone %{time_ago} przez %{user}
-      closed_ago_by_html: Zamknięte %{time_ago} przez %{user}
+      created_ago_html: Stworzone %{time_ago} temu
+      closed_ago_html: Zamknięte %{time_ago} temu
+      created_ago_by_html: Stworzone %{time_ago} temu przez %{user}
+      closed_ago_by_html: Zamknięte %{time_ago} temu przez %{user}
       discussion: Dyskusja
       join_discussion: Zaloguj się, aby dołączyć do dyskusji
       still_open: Zestaw zmian jest wciąż otwarty – dyskusja będzie możliwa, gdy zostanie
         on zamknięty.
       subscribe: Obserwuj
       unsubscribe: Nie obserwuj
-      comment_by_html: Komentarz od %{user} %{time_ago}
-      hidden_comment_by_html: Ukryty komentarz od użytkownika %{user} %{time_ago}
+      comment_by_html: Komentarz %{user} %{time_ago}
+      hidden_comment_by_html: Ukryty komentarz %{user} %{time_ago}
       hide_comment: ukryj
       unhide_comment: pokaż
       comment: Komentarz
@@ -701,6 +713,7 @@ pl:
       report: Zgłoś ten komentarz
     location:
       location: 'Położenie:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Wpisy użytkownika %{user}
@@ -711,6 +724,8 @@ pl:
       all:
         title: Wpisy dzienników OpenStreetMap
         description: Ostatnie wpisy dzienników od użytkowników OpenStreetMap
+    comments:
+      title: Komentarze do dzienników dodane przez %{user}
     subscribe:
       heading: Zasubskrybować następującą dyskusję dotyczącą wpisu do pamiętnika?
       button: Subskrybuj dyskusję
@@ -802,9 +817,13 @@ pl:
     search:
       title:
         latlon: Internal
+        latlon_url: https://openhistoricalmap.org/
         osm_nominatim: Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
         osm_nominatim_reverse: Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Kolej linowa
@@ -1688,6 +1707,9 @@ pl:
       successful_report: Twoje zgłoszenie zostało pomyślnie zarejestrowane
       provide_details: Podaj, proszę, wymagane sczegóły
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: Logo OpenStreetMap
     home: Przejdź do położenia domu
@@ -1702,12 +1724,14 @@ pl:
     gps_traces: Ślady GPS
     user_diaries: Dzienniki
     edit_with: Edytuj w %{editor}
+    tag_line: Wolna wikimapa świata
     intro_header: Witamy w OpenStreetMap!
     intro_text: OpenStreetMap to mapa świata stworzona przez ludzi takich jak ty i
       z możliwością użycia pod otwartą licencją.
-    partners_fastly: Fastly
-    partners_corpmembers: członków korporacyjnych OSMF
-    partners_partners: partnerów
+    intro_2_create_account: Utwórz konto
+    partners_title: Partnerzy
+    hosting_partners_2024_html: Hosting obsługuje %{ucl}, %{fastly}, %{bytemark},
+      a także %{partners}.
     tou: Warunki użytkowania
     osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań
       administracyjnych, które są w tym momencie wykonywane.
@@ -1774,6 +1798,7 @@ pl:
         na %{url}.
       more_info_html: Więcej informacji na temat błędów importu plików GPX można znaleźć
         na %{url}.
+      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Nieudane importowanie pliku GPX'
     gpx_success:
       hi: Cześć, %{to_user},
@@ -1988,7 +2013,7 @@ pl:
       destroyed: Wiadomość usunięta
   passwords:
     new:
-      title: Zgubione hasło
+      title: zgubione hasło
       heading: Zapomniałeś hasła?
       email address: Adres e-mail
       new password button: Wyczyść hasło
@@ -2028,6 +2053,7 @@ pl:
       image: 'Obraz:'
       gravatar:
         gravatar: Użyj Gravatara
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Co to jest Gravatar?
         disabled: Wyłączono Gravatara.
         enabled: Włączono wyświetlanie Gravatara.
@@ -2040,7 +2066,7 @@ pl:
       home location: 'Położenie domu:'
       no home location: Nie wpisałeś swojej lokalizacji domowej.
       update home location on click: Uaktualnianie położenia kliknięciem na mapie
-      show: Pokaż
+      show: Wyświetl
       delete: Usuń
       undelete: Cofnij usunięcie
     update:
@@ -2138,22 +2164,23 @@ pl:
       open_data_open_data: otwarte dane
       open_data_copyright_license: Prawa autorskie i licencja
       legal_title: Pytania prawne
-      legal_1_1_html: Ta strona i wiele innych powiązanych usług są formalnie obsługiwane
-        przez %{openstreetmap_foundation_link} (OSMF) w imieniu społeczności. Korzystanie
-        ze wszystkich usług obsługiwanych przez OSMF podlega naszym %{terms_of_use_link},
-        %{aup_link} i naszej %{privacy_policy_link}.
+      legal_1_1_html: |-
+        Ta strona internetowa i inne powiązane usługi prowadzone są oficjalnie przez <a href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF) w imieniu społeczności. Korzystanie ze wszystkich usług OSMF jest regulowane przez <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Warunki użytkowania</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politykę użytkowania</a> i naszą <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politykę prywatności</a>.
       legal_1_1_openstreetmap_foundation: Fundację OpenStreetMap
       legal_1_1_terms_of_use: Warunkom użytkowania
       legal_1_1_aup: Zasadom dopuszczalnego użytkowania
       legal_1_1_privacy_policy: Polityce prywatności
-      legal_2_1_html: W przypadku pytań dotyczących licencji, praw autorskich lub
-        innych kwestii prawnych prosimy o %{contact_the_osmf_link}.
+      legal_2_1_html: |-
+        Jeśli masz pytania dotyczące licencji, praw autorskich lub innych kwestii prawnych, <a href='https://osmfoundation.org/Contact'>skontaktuj się z OSMF</a>.
+        <br>
+        OpenHistoricalMap, logo z lupą oraz State of the Map są <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">zarejestrowanymi znakami towarowymi OSMF</a>.
       legal_2_1_contact_the_osmf: kontakt z OSMF
       legal_2_2_html: OpenStreetMap, logo z lupą i State of the Map są %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: zastrzeżonymi znakami towarowymi OSMF
       partners_title: Partnerzy
     copyright:
-      title: Prawa autorskie i licencja
+      title: Prawa autorskie i&nbsp;licencja
       foreign:
         title: Informacje o tłumaczeniu
         html: W przypadku rozbieżności pomiędzy tym tłumaczeniem a %{english_original_link}
@@ -2167,26 +2194,32 @@ pl:
         native_link: wersji po polsku
         mapping_link: rozpocząć tworzenie mapy
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} to projekt
-          %{open_data}, rozpowszechniany na licencji %{odc_odbl_link} (ODbL) przez
-          %{osm_foundation_link} (OSMF).
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">®</a></sup> to projekt <i>open data</i>, rozpowszechniany na licencji <a href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) przez <a
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         introduction_1_open_data: open data
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: OpenStreetMap Foundation
         introduction_2_html: Możesz swobodnie kopiować, rozpowszechniać, przekazywać
-          innym i dostosowywać nasze dane, pod warunkiem podania OpenStreetMap i jego
-          autorów jako źródła. Jeśli zmienisz, przekształcisz lub wykorzystasz nasze
-          dane, wynik swojej pracy możesz rozpowszechniać tylko na podstawie tej samej
-          licencji. %{legal_code_link} dokładnie opisuje twoje prawa i obowiązki.
+          innym i dostosowywać nasze dane, pod warunkiem podania OpenHistoricalMap
+          i jego autorów jako źródła. Jeśli zmienisz, przekształcisz lub wykorzystasz
+          nasze dane, wynik swojej pracy możesz rozpowszechniać tylko na podstawie
+          tej samej licencji. <a href="https://opendatacommons.org/licenses/odbl/1.0/">Pełny
+          tekst licencji</a> dokładnie opisuje twoje prawa i obowiązki.
         introduction_2_legal_code: Pełny tekst licencji
         introduction_3_html: Nasza dokumentacja rozpowszechniana jest na warunkach
-          licencji %{creative_commons_link} (CC BY-SA 2.0).
+          licencji <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.pl">Uznanie
+          autorstwa na tych samych warunkach 2.0</a> (CC BY-SA 2.0).
         introduction_3_creative_commons: Uznanie autorstwa na tych samych warunkach
           2.0
         credit_title_html: Jak określić pochodzenie danych
         credit_1_html: 'W przypadku korzystania z danych OpenStreetMap należy:'
-        credit_2_1: Podać źródło poprzez wyświetlenie informacji o prawach autorskich
-          (np. w postaci „&copy; autorzy OpenStreetMap”.).
+        credit_2_1: Musisz także jasno zaznaczyć, że dane dostępne są na licencji
+          Open Database License. Możesz to zrobić przez podlinkowanie <a href="https://www.openstreetmap.org/copyright">tej
+          strony licencyjnej</a>. W przypadku rozpowszechniania OSM w formie danych
+          możesz podać nazwy licencji i umieścić do nich bezpośredni link. Jeśli niemożliwe
+          jest umieszczenie linków (np. mapy papierowe), sugerujemy pokierowanie czytelników
+          na stronę openstreetmap.org (lub OpenHistoricalMap.org) i opendatacommons.org.
         credit_2_2: Wyraźnie zaznaczyć, że dane dostępne są na licencji Open Database
           License.
         credit_3_html: W przypadku informacji o prawach autorskich mamy różne wymagania
@@ -2217,6 +2250,10 @@ pl:
         contributors_intro_html: 'Autorami są tysiące osób. Uwzględniamy również licencjonowane
           dane na otwartej zasadzie z krajowych agencji kartograficznych i innych
           źródeł, wśród nich:'
+        contributors_footer_1_html: |-
+          Szczegóły tych i innych źródeł, które zostały wykorzystane,
+          aby udoskonalić OpenHistoricalMap, są dostępne na stronie
+          <a href="https://wiki.openstreetmap.org/wiki/Contributors">Contributors (en)</a>.
         contributors_at_credit_html: |-
           %{austria}: Zawiera dane %{stadt_wien_link} (na licencji %{cc_by_link}), %{land_vorarlberg_link}
           oraz Land Tirol (na licencji %{cc_by_at_with_amendments_link}).
@@ -2301,14 +2338,17 @@ pl:
           Google Maps i&nbsp;większość map drukowanych) bez wyraźnego pozwolenia właściciela
           praw autorskich.
         infringement_2_1_html: Jeśli uważasz, że materiał chroniony prawem autorskim
-          został niewłaściwie dodany do bazy OpenStreetMap, zajrzyj pod adres naszej
-          %{takedown_procedure_link} lub %{online_filing_page_link}.
+          został niewłaściwie dodany do bazy OpenHistoricalMap, zajrzyj pod adres
+          naszej <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedury
+          usuwania danych</a> lub <a href="https://dmca.openstreetmap.org/">wypełnij
+          formularz on-line</a>.
         infringement_2_1_takedown_procedure: procedury usuwania danych
         infringement_2_1_online_filing_page: wypełnij formularz on-line
         trademarks_title: Znaki towarowe
-        trademarks_1_1_html: OpenStreetMap, logo z lupą oraz nazwa State of the Map
-          są zarejestrowanymi znakami towarowymi Fundacji OpenStreetMap. Jeśli masz
-          pytania dotyczące ich używania, zobacz naszą %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, logo z lupą oraz nazwa State of the
+          Map są zarejestrowanymi znakami towarowymi Fundacji OpenHistoricalMap. Jeśli
+          masz pytania dotyczące ich używania, prześlij swoje pytania do <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">grupy
+          roboczej ds. licencji</a>.
         trademarks_1_1_trademark_policy: politykę znaków towarowych
     index:
       js_1: Twoja przeglądarka internetowa nie obsługuje JavaScriptu bądź też masz
@@ -2324,6 +2364,7 @@ pl:
       not_public_description_html: W tym trybie nie można już zmieniać mapy. Można
         zmienić je na publiczne na %{user_page}.
       user_page_link: stronie użytkownika
+      anon_edits_html: (%{link})
       anon_edits_link_text: Tu dowiesz się dlaczego.
       id_not_configured: iD nie został skonfigurowany
     export:
@@ -2364,15 +2405,17 @@ pl:
             jest dołączenie do społeczności OpenStreetMap i dokonanie edycji lub naprawy
             własnoręcznie.
         add_a_note:
-          instructions_1_html: |-
-            Wystarczy kliknąć %{note_icon} lub tę samą ikonę na mapie.
-            To doda znacznik do mapy, który możesz przesuwać
-            przeciągając. Dodaj swoją wiadomość, a następnie kliknij zapisz, a inni mapperzy to zbadają.
+          instructions_1_html: 'Wystarczy, że klikniesz tutaj: <a class=''icon note''></a>
+            lub na taką samą ikonkę przeglądając mapę na głównej stronie. Pojawi się
+            wtedy pinezka, którą możesz przesunąć, przeciągając. Wpisz wiadomość,
+            kliknij Zapisz, a inni mapujący zajmą się opisanym problemem.'
       other_concerns:
         title: Inne kwestie
-        concerns_html: |-
-          Jeśli masz wątpliwości dotyczące sposobu wykorzystania naszych danych lub treści, zapoznaj się z naszą stroną
-          %{copyright_link}, aby uzyskać więcej informacji prawnych, lub skontaktuj się z odpowiednią  %{working_group_link}.
+        concerns_html: "Jeśli masz obawy dotyczące sposobu wykorzystania naszych danych
+          lub zawartości, proszę zapoznaj się ze\n<a href='/copyright'>stroną o prawach
+          autorskich</a> po więcej informacji prawnych lub skontaktować się z \n<a
+          href='https://wiki.osmfoundation.org/wiki/Working_Groups'>grupą roboczą
+          OSMF</a>."
         copyright: strona z prawami autorskimi
         working_group: Grupa robocza OSMF
     help:
@@ -2408,8 +2451,11 @@ pl:
         title: Dla organizacji
         description: Jesteś z organizacji mającej plany wobec OpenStreetMap? Niezbędne
           informacje znajdziesz na stronie powitalnej.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Pl:Main_Page
         title: Wiki OpenStreetMap
         description: Zapoznaj się z Wiki, aby uzyskać szczegółową dokumentację OpenStreetMap.
     potlatch:
@@ -2461,13 +2507,13 @@ pl:
           subway: Metro
           ferry: Prom
           light_rail: Kolej miejska
-          tram: Tramwaj
+          tram: tramwaj
           trolleybus: Trolejbus
           bus: Autobus
           cable_car: Kolej linowa
-          chair_lift: Wyciąg krzesełkowy
+          chair_lift: wyciąg krzesełkowy
           runway: Pas startowy
-          taxiway: Droga kołowania
+          taxiway: kołowania
           apron: Płyta lotniska
           admin: Granica
           capital: Stolica
@@ -2478,7 +2524,7 @@ pl:
           wood: Drewno
           farmland: Grunty rolne
           grass: Trawnik
-          meadow: Łąka
+          meadow: łąka
           bare_rock: Odkryte skały
           sand: Piaski
           golf: Pole golfowe
@@ -2492,7 +2538,7 @@ pl:
           heathland: Wrzosowisko
           scrubland: Zarośla
           lake: Jezioro
-          reservoir: Zbiornik
+          reservoir: zbiornik
           intermittent_water: Okresowy ciek
           glacier: Lodowiec
           reef: Rafa
@@ -2507,7 +2553,7 @@ pl:
           reserve: Rezerwat przyrody
           military: Teren wojskowy
           school: Szkoła
-          university: Uniwersytet
+          university: uniwersytet
           hospital: Szpital
           building: Ważny budynek
           station: Stacja kolejowa
@@ -2515,7 +2561,7 @@ pl:
           subway_station: Stacja metra
           tram_stop: Przystanek tramwajowy
           summit: Góra
-          peak: Szczyt
+          peak: szczyt
           tunnel: Kreskowany obrys – tunel
           bridge: Czarny obrys – most
           private: Dostęp za zezwoleniem
@@ -2867,11 +2913,13 @@ pl:
       consider_pd: Oprócz powyższych warunków, stwierdzam również, że mój wkład jest
         w domenie publicznej
       consider_pd_why: co to oznacza?
+      consider_pd_why_url: https://wiki.osmfoundation.org/w/index.php?title=Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain&redirect=no
       guidance_info_html: 'Informacje pomocne w zrozumieniu tych terminów: %{readable_summary_link}
         i %{informal_translations_link}'
       readable_summary: czytelne podsumowanie
       informal_translations: tłumaczenia nieformalne
       continue: Dalej
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Anuluj
       you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub odrzucić
         nowe Warunki uczestnictwa, aby kontynuować.
@@ -2884,6 +2932,7 @@ pl:
       terms_declined_html: Jest nam przykro, że zdecydowałeś się nie przyjmować nowych
         Warunków uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
       terms_declined_link: na tej stronie
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nie znaleziono użytkownika
       heading: Użytkownik %{user} nie istnieje
@@ -3200,7 +3249,7 @@ pl:
       add: Dodaj uwagę
     notes_paging_nav:
       showing_page: Strona %{page}
-      next: Następny
+      next: Dalej
       previous: Poprzedni
   javascripts:
     close: Zamknij

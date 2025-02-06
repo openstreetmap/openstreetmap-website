@@ -21,6 +21,7 @@ br:
   time:
     formats:
       friendly: '%e %B %Y da %H:%M'
+      blog: '%e %B %Y'
   count:
     at_least_pattern: Ouzhpenn %{count}
   helpers:
@@ -72,6 +73,7 @@ br:
       message: Kemennadenn
       node: Skoulm
       node_tag: Tikedenn ar skoulm
+      notifier: Kemenner
       old_node: Skoulm kozh
       old_node_tag: Tikedenn ar skoulm kozh
       old_relation: Darempred kozh
@@ -112,7 +114,7 @@ br:
       diary_entry:
         user: Implijer
         title: Danvez
-        body: Testenn
+        body: Korf
         latitude: Ledred
         longitude: Hedred
         language_code: Yezh
@@ -170,6 +172,10 @@ br:
         needs_view: Ha ret eo d'an implijer kevreañ a-raok ma vefe diverket ar stankadur
           ?
       user:
+        email_confirmation: Ho chomlec'h ne vo ket hewel d'an holl, sellit ouzh <a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
+          policy including section on email addresses">privacy policy</a> evit gouzout
+          hiroc'h.
         new_email: (n'eo ket diskwelet d'an holl morse)
   datetime:
     distance_in_words_ago:
@@ -246,6 +252,8 @@ br:
         few: '%{count} bloaz zo'
         many: '%{count} bloaz zo'
         other: '%{count} bloaz zo'
+  printable_name:
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Dre ziouer (%{name} er mare-mañ)
     id:
@@ -257,6 +265,7 @@ br:
   auth:
     providers:
       none: Hini ebet
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -318,10 +327,12 @@ br:
       current email address: Chomlec'h postel a-vremañ
       external auth: Dilesadur diavaez
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: petra eo an dra-se ?
       public editing:
         heading: Kemm foran
         enabled: Gweredekaet. N'eo ket dizanv ha gallout a ra aozañ roadennoù.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: petra eo an dra-se ?
         disabled: Diweredekaet ha ne c'hall ket aozañ roadennoù ; diznav eo an holl
           aozadennoù kent.
@@ -333,6 +344,7 @@ br:
         review link text: Heuilhit al liamm-mañ evel ma karot evit sellet ouzh diferadennoù
           nevez ar c'henlabourer hag asantiñ dezho.
         agreed_with_pd: Disklêriet hoc'h eus ivez emañ ho tegasadennoù en domani foran.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: petra eo an dra-se ?
       save changes button: Enrollañ ar c'hemmoù
       delete_account: Dilemel ar gont...
@@ -398,6 +410,7 @@ br:
         many: '%{count} ezel'
         other: '%{count} ezel'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} evel %{role}'
       type:
         node: Skoulm
@@ -475,7 +488,7 @@ br:
         commented_at_by_html: Hizivaet %{when} gant %{user}
       show:
         title_all: Kaozeadenn hollad cheñchamantoù OpenStreetMap
-        title_particular: 'Kaozeadenn hollad cheñchamantoù #%{changeset_id} OpenStreetMap'
+        title_particular: 'Kaozeadenn hollad cheñchamantoù #%{changeset_id} OpenHistoricalMap'
       timeout:
         sorry: Ho tigarez, re hir eo adtapout ar roll evezhiadennoù ho peus goulennet.
   changesets:
@@ -524,7 +537,6 @@ br:
         an hollad cheñchamantoù.
       subscribe: Koumanantiñ
       unsubscribe: Digoumanantiñ
-      comment_by_html: Kemennadenn skrivet gant %{user} %{time_ago}
       hidden_comment_by_html: Kemennadenn kuzhet gant %{user} %{time_ago}
       hide_comment: kuzhat
       unhide_comment: diskouez
@@ -635,6 +647,8 @@ br:
       all:
         title: Enmontoù en deizlevr OpenStreetMap
         description: Enmontoù nevez en deizlevr gant implijerien OpenStreetMap
+    comments:
+      title: Kemennadennoù skrivet en deizlevr gant %{user}
     subscribe:
       button: Koumanantiñ ouzh ar gaozeadenn
     unsubscribe:
@@ -662,6 +676,7 @@ br:
       profile: Gwelet ho titouroù ho profil
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact: darempred
     bad_request:
       title: Reked fall
@@ -689,9 +704,13 @@ br:
     search:
       title:
         latlon: Diabarzh
+        latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
         osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Karr-fun
@@ -1570,6 +1589,9 @@ br:
       successful_report: Enrollet mat eo bet ho tanevell
       provide_details: Roit ar munudoù goulennet mar plij
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: Logo OpenStreetMap
     home: Mont da lec'h ar gêr
@@ -1584,11 +1606,14 @@ br:
     gps_traces: Roudoù GPS
     user_diaries: Deizlevrioù an implijer
     edit_with: Kemmañ gant %{editor}
+    tag_line: Kartenn digoust eus ar bed Wiki
     intro_header: Donemat en OpenStreetMap !
     intro_text: Ur gartenn eus ar bed eo OprenStreetMap, krouet gant tud eveldoc'h
       ha frank hec'h implij dindan un aotre-implij digor.
-    partners_fastly: Fastly
-    partners_partners: Kevelourien
+    intro_2_create_account: Krouiñ ur gont implijer
+    partners_title: Kevelerien
+    hosting_partners_2024_html: Kemeret eo an herberc'hiañ e karg gant %{ucl}, %{fastly},
+      %{bytemark}, ha %{partners} all.
     tou: Termenoù implijout
     osm_offline: Ezlinenn eo diaz roadennoù OpenStreetMap evit bremañ e-pad ma pleder
       gant ul labour kempenn bras.
@@ -1638,6 +1663,7 @@ br:
       hi: Demat %{to_user},
       failed_to_import: 'n''en deus ket gallet bezañ enporzhiet. Setu amañ ar fazi
         :'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] fazi e-pad an enporzhiadur GPX'
     gpx_success:
       hi: Demat %{to_user},
@@ -1872,6 +1898,7 @@ br:
       image: Skeudenn
       gravatar:
         gravatar: Implijout Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Petra eo Gravatar?
         disabled: Diweredekaet eo bet Gravatar.
         enabled: Gweredekaet eo bet diskwel ho Kravatar.
@@ -1980,8 +2007,10 @@ br:
       open_data_copyright_license: Gwirioù oberour hag Aotre-implijout
       legal_title: Titouroù gwirel
       legal_1_1_html: |-
-        Al lec'hienn-mañ ha kalz servijoù liammet ouzhpenn a vez oberataet gant %{openstreetmap_foundation_link} (OSMF)
-        en anv ar gumuniezh. Implijout hor servijoù oberataet gant OSMF a zo suj d'hon %{terms_of_use_link}, hon %{aup_link} hag hor %{privacy_policy_link}.
+        Al lec'hienn-mañ ha kalz servijoù liammet ouzhpenn a vez operataet gant <a href='https://osmfoundation.org/'>Diazezadur OpenHistoricalMap</a> (OSMF)
+        en anv ar gumuniezh. Implijout hor servijoù operataet gant OSMF a zo suj d'hon
+        <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termoù Implij</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politikerezh an implijoù degemeret</a> hag hon <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Folitikerezh prevezded</a>.
       legal_1_1_openstreetmap_foundation: Diazezadur OpenStreetMap
       legal_1_1_terms_of_use: Termenoù implij
       legal_1_1_privacy_policy: Politikerezh prevezded
@@ -1991,7 +2020,7 @@ br:
       legal_2_2_registered_trademarks: merkoù marilhet an OSMF
       partners_title: Kevelerien
     copyright:
-      title: Gwirioù oberour hag aotre-implijout
+      title: Copyright hag aotre-implijout
       foreign:
         title: Diwar-benn an droidigezh-mañ
         html: Ma vez digendalc'h etre ar bajenn troet-mañ hag %{english_original_link}
@@ -2004,16 +2033,35 @@ br:
         native_link: Stumm brezhonek
         mapping_link: kregiñ da gemer perzh
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} a zo %{open_data},
-          dindan an aotre-implijout %{odc_odbl_link} (ODbL) gant %{osm_foundation_link}
-          (OSMF).
+        introduction_1_html: |-
+          OpenHistoricalMap <sup><a href="#trademarks">&reg;</a></sup>  zo <i>dindan un aotre-implijout digor</i>, href "htpps : //Open Data
+          Commons Open Database License</a> (ODbL)gant <sup><a href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         introduction_1_open_data: roadennoù digor
         introduction_1_osm_foundation: Diazezadur OpenStreetMap
+        introduction_2_html: "Dieub oc'h da eilañ, da skignañ, da gas ha da azasaat
+          hor c'hartennoù hag hor roadennoù, gant ma root kred da OpenHistoricalMap
+          ha d'e genlabourerien. Ma kemmit pe ma implijit hor c'hartennoù pe hor roadennoù
+          e labourioù all,ne c'hallit ket skignañ ar re-se dindan un aotre-implijout
+          all. En \n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">legal\ncode</a>
+          e kavot munudoù ho kwirioù hag ho teverioù."
         introduction_2_legal_code: testenn lezennel
+        introduction_3_html: "Emañ tammoù hor c'hartennoù hag hon teulioù dindan an
+          aotre-implijout <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative
+          \nCommons Attribution-ShareAlike 2.0</a> license (CC-BY-SA)."
         introduction_3_creative_commons: Aotre-implijout Creative Commons Attribution-ShareAlike
           2.0
         credit_title_html: Penaos reiñ kred da OpenStreetMap
         credit_1_html: 'Pa implijit titouroù OpenStreetMap e rankit ober an daou dra-mañ:'
+        credit_2_1: |-
+          Pa vez posupl e tle OpenHistoricalMap bezañ ur gourliamm war-du <a
+            href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
+            ha CC BY-SA war-du <a
+            href="https://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>.
+            Ma'z implijit ur skor ma ne c'haller ket krouiñ liammoù (da skouer :
+            un destenn moullet), ez aliomp ac'hanoc'h da gas ho lennerien da
+            www.openstreetmap.org (marteze en ur astenn
+            &lsquo;OpenHistoricalMap&rsquo; ar chomlec'h klok) ha da
+            www.creativecommons.org.
         credit_3_attribution_guidelines: Sturiadoù dereiñ
         credit_4_1_this_copyright_page: ar bajenn gwirioù oberour-mañ
         attribution_example:
@@ -2027,6 +2075,9 @@ br:
         contributors_intro_html: 'Miliadoù a hiniennoù a labour ganimp. Ebarzhiñ a
           reomp ivez roadennoù digor eus ajañsoù kartennañ hag eus mamennoù all, hag
           en o zouez :'
+        contributors_footer_1_html: |-
+          ↓Evit muioc'h a vunudoù diwar-benn ar re-se, hag ar mammennoù all a zo bet implijet da sikour da wellaat OpenHistoricalMap, sellit ouzh ar <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Bajenn Skoazellerien</a> e Wiki OpenHistoricalMap.
         contributors_at_austria: Aostralia
         contributors_at_stadt_wien: Kêr Vienna
         contributors_at_cc_by: CC-BY
@@ -2076,8 +2127,17 @@ br:
           Degas a reomp da soñj da genlabourerien OSM ne zleont morse lakaat roadennoù a zeu
           eus mammennoù dindan wirioù (da sk. : Google Maps pe kartennoù moullet) hep aotre
           ezpleg ar re zo ar gwirioù-aozer ganto.
+        infringement_2_1_html: ma kredit ez eus bet ouzhpennet danvez dindan aotre-implijout
+          e gaou da diaz roadennoù OpenStreetMat pe d'al lec'hienn-mañ, roit an dra-se
+          da c'houzout d'hon <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">argerzh
+          dizober</a>, mar plij, pe skrivit war-eeun war hor <a href="https://dmca.openstreetmap.org/">furmskrid
+          enlinenn</a>.
         infringement_2_1_online_filing_page: pajenn danevelliñ enlinenn
         trademarks_title: Merkoù marilhet
+        trademarks_1_1_html: Openstreet, al logo brasaer ha State of the Map zo merkoù
+          marilhet gant OpenHistoricalMap Foundation. M'ho pez goulennoù da sevel
+          diwar-benn implij ar merkoù-se, sellit ouzh <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Trademark
+          Policy</a>, mar plij.
         trademarks_1_1_trademark_policy: Politikerezh e-keñver ar merkoù
     index:
       js_1: Pe emaoc'h oc'h implijout ur merdeer ha ne skor ket JavaScript, pe hoc'h
@@ -2094,6 +2154,7 @@ br:
         hoc'h aozadennoù da vezañ foran. Gallout a rit lakaat hoc'h aozadennoù da
         vezañ foran diwar ho %{user_page}.
       user_page_link: pajenn implijer
+      anon_edits_html: (%{link})
       anon_edits_link_text: Kavit perak.
       id_not_configured: N'eo ket bet kefluniet an ID
     export:
@@ -2132,8 +2193,16 @@ br:
           explanation_html: M'ho peus merzet ez eus ur gudenn gant roadennoù hor c'hartennoù,
             da skouer un hent diank pe ho chomlec'h, an doare d'ober gwellañ eo mont
             d'ar gumuniezh OpenStreetMap hag ouzhpennañ pe dresañ ar roadennoù hoc'h-unan.
+        add_a_note:
+          instructions_1_html: |-
+            Klikit war <a class='icon note'></a> pe war ar memes arlun war ar gartenn.
+            Evel-se e vo ouzhpennet ur merker d'ar gartenn, ha gallout a reoc'h riklañ anezhañ. Ouzhpennit ho kemennadenn, neuze klikit war enrollañ, ha studiet e vo gant ar gartennaouerien all.
       other_concerns:
         title: Prederioù all
+        concerns_html: Ma'z oc'h chalet gant an doare ma vez implijet hor roadennoù
+          pe gant an endalc'hadoù, sellit ouzh hor <a href='/copyright'>pajenn gwir-eilañ</a>
+          evit muioc'h a ditouroù lezennel, pe kit e darempred gant ar <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>strollad-labour
+          OSMF</a> a zere.
         copyright: Pajenn ar gwirioù oberour
         working_group: Strollad labour diazezadur OSM
     help:
@@ -2168,6 +2237,12 @@ br:
         title: Evit an aozadurioù
         description: Gant un aozadur a ra tresoù evit OpenStreetMap? Kavit ar pezh
           ho peus ezhomm da c'houzout en tapis degemer.
+      discord:
+        title: switch2osm
+      forum:
+        title: Forom
+      slack:
+        title: IRC
       wiki:
         title: Wiki OpenStreetMap
         description: Furchal er wiki evit gouzout traoù resis diwar-benn OpenStreetMap.
@@ -2177,8 +2252,14 @@ br:
       change_preferences: Cheñchit ho penndibaboù amañ
     any_questions:
       title: Traoù da c'houlenn ?
+      paragraph_1_html: OpenStreetMab en deus meur a bourvez evit deskiñ diwar-benn
+        ar raktres, evit sevel goulennoù ha respont dezho, hag evit divizout ha teuliaouiñ
+        ar sujedoù kartennaouiñ e kenlabour gant implijerien all.<a href='%{help_url}'>
+        Kavit skoazell amañ</a>. En un aozadur a ra kartennoù tresoù evit OpenHistoricalMap
+        ?<a href='https://welcome.openstreetmap.org/'>Gwiriit ho tapis degemer</a>.
       get_help_here: Kaout skoazell amañ
       welcome_mat: Kit da welet ar Welcome Mat
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Disoc'hoù enklask
     search:
@@ -2213,12 +2294,12 @@ br:
           train: Tren
           subway: Linenn vetro
           ferry: Karrlistri
-          light_rail: Metro skañv
-          tram: Tramgarr
+          light_rail: tramgarr
+          tram: tramgarr
           trolleybus: Trollebus
           bus: Karr-boutin
           cable_car: Teleferik
-          chair_lift: Fungador
+          chair_lift: fungador
           runway: Roudenn evit an taksioù
           taxiway: Hent evit an taksioù
           apron: Roudenn aerborzh
@@ -2231,7 +2312,7 @@ br:
           wood: Koad
           farmland: Tachenn labour-douar
           grass: Geot
-          meadow: Prad
+          meadow: prad
           bare_rock: Roc'h noazh
           sand: Traezh
           golf: Tachenn golf
@@ -2259,7 +2340,7 @@ br:
           reserve: Gwarezva natur
           military: Takad milourel
           school: Skol
-          university: Skol-veur
+          university: skol-veur
           hospital: Ospital
           building: Savadur pouezus
           station: Porzh-houarn
@@ -2267,7 +2348,7 @@ br:
           subway_station: Arsav metro
           tram_stop: Arsav tramgarr
           summit: Lein
-          peak: Pikern
+          peak: pikern
           tunnel: Bord poentoùigoù = riboul
           bridge: Bord du = pont
           private: Moned prevez
@@ -2313,6 +2394,12 @@ br:
         tag: tikedenn
       rules:
         title: Reolennoù !
+        para_1_html: OpenHistoricalMap en deus un nebeud reolennoù furmel, met gortoz
+          a reomp ma vo kemeret perzh gant an holl berzhidi ha ma vo darempredoù gant
+          ar gumuniezh. Ma vezit e-sell d'ober traoù all estreget ober cheñchamantoù
+          gant an dorn, lennit ha heuilhit ar sturiadoù, mar plij, e <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'></a>An
+          ezporzhiadurioù</> ha<a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'></a>
+          Ar c'hemmoù emgefre>/a>.
         imports: Enporzhiadurioù
         automated_edits: Kemmoù emgefre
       start_mapping: Kregiñ da gartennaouiñ
@@ -2333,6 +2420,22 @@ br:
       other_groups:
         title: Strolladoù all
         communities_wiki: pajenn wiki ar c'humuniezhioù
+    ohm_privacy_policy:
+      page_title_html: Reolennoù prevezded
+      introduction:
+        title_html: Digoradur
+      details:
+        title_html: Titouroù rekis
+      map_data:
+        title_html: Roadennoù ar gartenn
+      email:
+        title_html: Chomlec'hioù postel
+      gravatar:
+        title_html: Gravatar
+      account_removal:
+        title_html: Lemel ar gont
+      contact:
+        title_html: Darempred
   traces:
     visibility:
       private: Prevez (rannet ent dizanv hepken, poentoù hep urzh)
@@ -2414,6 +2517,7 @@ br:
         war %{wiki_link}.'
       upload_new: Kas ur roud nevez
       wiki_page: pajenn wiki
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Kas ur roud
       all_traces: An holl roudoù
       my_traces: Ma roudoù
@@ -2487,6 +2591,7 @@ br:
       read_email: Lenn chomlec'h postel an implijer
   oauth2_applications:
     index:
+      oauth_2: OAuth 2
       new: Marilhañ un arload nevez
       name: Anv
       permissions: Aotreoù
@@ -2570,9 +2675,11 @@ br:
       consider_pd: Ouzhpenn an asant amañ a-us, ez anavezan emañ ma zegasadennoù en
         domani foran
       consider_pd_why: petra eo se ?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       readable_summary: diverrañ a c'hall bezañ lennet gant tud
       informal_translations: troidigezhioù diofisiel
       continue: Kenderc'hel
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Nullañ
       you need to accept or decline: Lennit da gentañ Termenoù ar berzhidi nevez ha
         goude-se nac'hit pe asantit evit gallout kenderc'hel.
@@ -2583,6 +2690,7 @@ br:
         rest_of_world: Peurrest ar bed
     terms_declined_flash:
       terms_declined_link: ar bejenn-mañ eus ar wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: N'eus implijer ebet evel hemañ
       heading: N'eus ket eus an implijer %{user}
@@ -2733,7 +2841,7 @@ br:
     revoke_all:
       title: Disteurel an holl stankadurioù evit %{block_on}
       heading_html: O tisteurel an holl stankadurioù evit %{block_on}
-      revoke: Disteuler!
+      revoke: Disteuler !
     helper:
       time_future_html: Echuiñ a ray a-benn %{time}.
       until_login: Oberiant betek ma kevre an implijer.
@@ -2861,6 +2969,7 @@ br:
       event_reopened_by_anonymous_html: Adweredekaet gant un implijer/ez dianav %{time_ago}
       event_hidden_by_html: Bet kuzhet gant %{user} %{time_ago}
       report: danevelliñ an notenn-mañ
+      coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: En notenn-mañ ez eus evezhiadennoù gant implijerien dianav
         hag a zlefe bezañ gwiriekaet unan-ha-unan.
       hide: Kuzhat
@@ -2934,6 +3043,8 @@ br:
           many: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
           other: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
       base:
+        historical: Istorel
+        railway: Hent-houarn
         standard: Standard
         cycle_map: Kelc'hiad kartenn
         transport_map: Kartenn treuzdougen
@@ -2946,9 +3057,11 @@ br:
         gps: Roudoù GPS foran
         overlays: Gweredekaat an adwiskadoù evit dresañ ar gartenn
         title: Gwiskadoù
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: Kenlabourerien OpenStreetMap
       make_a_donation: Ober un donezon
       website_and_api_terms: Termenoù-implij al lec'hien hag an API
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap Frañs
       thunderforest_credit: Teol pourchaset gant %{thunderforest_link}
       andy_allan: Andy Allan

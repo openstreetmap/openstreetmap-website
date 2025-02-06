@@ -36,9 +36,6 @@ et:
       client_application:
         create: Registreeri
         update: Uuenda
-      oauth2_application:
-        create: Registreeri
-        update: Uuenda
       redaction:
         create: Loo kinnikatmine
         update: Salvesta kinnikatmine
@@ -106,7 +103,7 @@ et:
       diary_entry:
         user: Kasutaja
         title: Teema
-        body: Kehatekst
+        body: Sisu
         latitude: Laius
         longitude: Pikkus
         language_code: Keel
@@ -164,6 +161,9 @@ et:
       user_block:
         needs_view: Kas kasutaja peab sisse logima enne kui see blokeering eemaldatakse?
       user:
+        email_confirmation: Sinu aadressi ei kuvata avalikult, loe täpsemalt meie
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF-i
+          andmekaitsereeglid, milles on alaosa e-posti aadresside kohta">andmekaitsereeglitest</a>.
         new_email: (ei näidata mitte kunagi avalikult)
   datetime:
     distance_in_words_ago:
@@ -277,10 +277,12 @@ et:
       current email address: Praegune e-posti aadress
       external auth: Väline autentimine
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: mis see on?
       public editing:
         heading: Avalik toimetamine
         enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: mis see on?
         disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
         disabled link text: Miks ma ei saa kaarti töödelda?
@@ -428,11 +430,8 @@ et:
           %{author}'
         commented_at_by_html: Uuendanud %{user} %{when}
       show:
-        title_all: OpenStreetMapi muudatuskogumi arutelu
-        title_particular: 'OpenStreetMapi muudatuskogumi #%{changeset_id} arutelu'
-      timeout:
-        sorry: Vabandust, sinu päritud muudatuskogumi kommetaaride loendi laadimiseks
-          kulus liiga kaua aega.
+        title_all: OpenHistoricalMapi muudatuskogumi arutelu
+        title_particular: 'OpenHistoricalMapi muudatuskogumi #%{changeset_id} arutelu'
   changesets:
     changeset:
       no_edits: (muudatused puuduvad)
@@ -474,21 +473,15 @@ et:
       title: 'Muudatuskogum: %{id}'
       created: 'Loodud: %{when}'
       closed: 'Suletud: %{when}'
-      created_ago_html: Loodud %{time_ago}
-      closed_ago_html: Suletud %{time_ago}
-      created_ago_by_html: Loonud %{user} %{time_ago}
-      closed_ago_by_html: Sulgenud %{user} %{time_ago}
       discussion: Arutelu
       join_discussion: Logi sisse, kui soovid arutelus osaleda
       still_open: Muudatuskogum on veel avatud. Arutelu avaneb siis, kui muudatuskogum
         on suletud.
       subscribe: Telli
       unsubscribe: Lõpeta tellimus
-      comment_by_html: Kommentaar kasutajalt %{user} %{time_ago}
-      hidden_comment_by_html: Peidetud kommentaar kasutajalt %{user} %{time_ago}
       hide_comment: peida
       unhide_comment: nähtavale
-      comment: Kommenteeri
+      comment: Kommentaar
       changesetxml: Muudatuskogumi XML
       osmchangexml: osmChange XML
     paging_nav:
@@ -540,7 +533,7 @@ et:
       my_diary: Minu päevik
       no_entries: Päevikus pole sissekandeid.
     page:
-      recent_entries: Hiljutised päevikusissekanded
+      recent_entries: Hiljutised päeviku sissekanded
     edit:
       title: Muuda päevikusissekannet
       marker_text: Päevikusissekande tegemise asukoht
@@ -599,10 +592,8 @@ et:
       button: Loobu arutelu jälgimisest
   diary_comments:
     index:
-      title: Kasutaja %{user} lisatud päevikukommentaarid
-      heading: Kasutaja %{user} päevikukommentaarid
       subheading_html: Päevikukommentaarid, mille on lisanud kasutaja %{user}
-      no_comments: Päevikukommentaarid puuduvad.
+      no_comments: Päeviku kommentaarid puuduvad.
     page:
       post: Postitus
       when: Millal
@@ -904,7 +895,6 @@ et:
           bus_stop: Bussipeatus
           construction: Ehitusjärgus tee
           corridor: Koridor
-          crossing: Ülekäik
           cycleway: Jalgrattatee
           elevator: Elevaator
           emergency_access_point: Hädaabi punkt
@@ -1435,17 +1425,11 @@ et:
       search: Otsi
     page:
       user_not_found: Kasutajat pole olemas.
-      status: Olek
-      reports: Kaebused
-      last_updated: Viimati uuendatud
       last_updated_time_ago_user_html: '%{user} %{time_ago} eest'
       reports_count:
         one: '%{count} kaebus'
         other: '%{count} kaebust'
     show:
-      report_created_at_html: Esmalt teatatud kuupäeval %{datetime}
-      last_resolved_at_html: Viimati lahendatud kuupäeval %{datetime}
-      last_updated_at_html: Viimati uuendanud %{displayname} kuupäeval %{datetime}
       resolve: Lahenda
       ignore: Eira
       reopen: Ava uuesti
@@ -1502,12 +1486,14 @@ et:
     gps_traces: GPS-rajad
     user_diaries: Kasutajate päevikud
     edit_with: Redigeeri rakendusega %{editor}
+    tag_line: Vaba viki-maailmakaart
     intro_header: Tere tulemast OpenStreetMapi!
     intro_text: OpenStreetMap on maailma kaart, mille on loonud inimesed nagu sina
       ja seda võib vabalt kasutada avatud litsentsi tingimustel.
-    partners_fastly: Fastly
-    partners_corpmembers: OSMF-i äriühingutest liikmed
-    partners_partners: partnerid
+    intro_2_create_account: loo oma konto
+    partners_title: partnerid
+    hosting_partners_2024_html: Majutust toetavad %{ucl}, %{fastly}, %{bytemark} ja
+      teised %{partners}.
     tou: kasutustingimused
     osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse
       vajalikke hooldustöid.
@@ -1908,18 +1894,20 @@ et:
       open_data_open_data: avaandmed
       open_data_copyright_license: autoriõiguste ja litsentsi lehelt
       legal_title: Juriidiline teave
-      legal_1_1_html: |-
-        Seda saiti ja paljusid teisi seotud teenuseid haldab ametlikult
-        %{openstreetmap_foundation_link} (OSMF)
-        kogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad
-        meie %{terms_of_use_link}, %{aup_link} ja %{privacy_policy_link}.
+      legal_1_1_html: "Seda saiti ja paljusid teisi seotud teenuseid haldab ametlikult
+        \n<a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a> (OSMF)
+        \nkogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad meie <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">kasutustingimused</a>,
+        <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">võrgueeskiri</a>
+        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">andmekaitsereeglid</a>."
       legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
       legal_1_1_terms_of_use: kasutustingimused
       legal_1_1_aup: kasutamisreeglid
       legal_1_1_privacy_policy: andmekaitsereeglid
       legal_2_1_html: |-
-        Palun %{contact_the_osmf_link},
+        Palun <a href='https://osmfoundation.org/Contact'>võta ühendust OSMF-iga</a>,
         kui sul on küsimusi litsentsimise, autoriõiguse või muude õiguslike teemade kohta.
+        <br>
+        OpenHistoricalMap, suurendusklaasi logo ja State of the Map on <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF-i registreeritud kaubamärgid</a>.
       legal_2_1_contact_the_osmf: võta ühendust OSMF-iga
       legal_2_2_html: OpenStreetMap, suurendusklaasi logo ja State of the Map on %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: OSMF-i registreeritud kaubamärgid
@@ -1940,26 +1928,37 @@ et:
         mapping_link: alustada kaardistamist
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMapi%{registered_trademark_link} andmed on %{open_data}, mille
-          %{osm_foundation_link} (OSMF) on avaldanud Open Data Commonsi litsentsi %{odc_odbl_link} (ODbL) all.
+          OpenHistoricalMapi<sup><a href="#trademarks">&reg;</a></sup> andmed on <i>avaandmed</i>, mille
+          <a href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF) on avaldanud Open Data Commonsi litsentsi <a href="https://opendatacommons.org/licenses/odbl/">Open Database License</a> (ODbL) all.
         introduction_1_open_data: avaandmed
         introduction_1_odc_odbl: Open Database License
         introduction_1_osm_foundation: OpenStreetMap Foundation
         introduction_2_html: |-
           Tohid andmeid vabalt kopeerida, levitada, edastada ja kohandada,
-          kui viitad OpenStreetMapile ja selle kaastöölistele.
+          kui viitad OpenHistoricalMapile ja selle kaastöölistele.
           Kui muudad andmeid või teed neist tuletise, siis tohid
           tulemust levitada ainult sama litsentsi tingimustel.
-          Sinu õigusi ja kohustusi selgitab litsentsi %{legal_code_link}.
+          Sinu õigusi ja kohustusi selgitab litsentsi <a href="https://opendatacommons.org/licenses/odbl/1.0/">täistekst</a>.
         introduction_2_legal_code: täistekst
-        introduction_3_html: Meie dokumentatsioon kuulub Creative Commonsi litsentsi
-          "%{creative_commons_link}" (CC BY-SA 2.0) alla.
+        introduction_3_html: |-
+          Meie dokumentatsioon kuulub Creative Commonsi
+          litsentsi "<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.et">Autorile viitamine + jagamine samadel tingimustel 2.0</a>" (CC BY-SA 2.0) alla.
         introduction_3_creative_commons: Autorile viitamine + jagamine samadel tingimustel
           2.0
         credit_title_html: OpenStreetMapile viitamine
         credit_1_html: 'Seal, kus kasutad OpenStreetMapi andmeid, tuleb sul teha kaht
           järgmist asja:'
-        credit_2_1: Viidata OpenStreetMapile, kuvades meie autoriõiguse teatist.
+        credit_2_1: |-
+          Samuti pead selgelt välja tooma, et andmed kuuluvad litsentsi Open
+          Database License alla ja kui kasutatakse kaardipaane, siis et kujutised
+          kuuluvad litsentsi CC BY-SA alla. Üks võimalus selleks on linkida
+          <a href="https://www.openstreetmap.org/copyright">siia autoriõiguse leheküljele</a>.
+          Teine võimalus ja samas ka nõue, kui levitad OSM-i
+          andmete kujul, on nimetada litsentsid ja linkida otse neile. Esitusvormis,
+          kus lingid pole võimalikud (nt trükises), soovitame suunata lugejad
+          aadressidele openstreetmap.org (võimalik, et laiendades teksti
+          "OpenHistoricalMap" täisaadressiks), opendatacommons.org ja
+          kui vaja, siis ka aadressile creativecommons.org.
         credit_2_2: Näidata selgelt, et andmed on saadaval litsentsi Open Database
           License all.
         credit_3_html: |-
@@ -1997,6 +1996,10 @@ et:
           Meie kaastöölised on tuhanded üksikisikud. Samuti oleme kaasanud
           vabalt litsentseeritud andmeid riiklikest kaardistusteenistustest
           ja muudest allikatest, sealhulgas:
+        contributors_footer_1_html: |-
+          Täpsemat teavet nendest ja teistest allikatest, mida on kasutatud
+          OpenHistoricalMapi täiendamiseks, leiad
+          <a href="https://wiki.openstreetmap.org/wiki/Contributors">kaastööliste leheküljelt</a> OpenHistoricalMapi vikis.
         contributors_at_credit_html: '%{austria}: Sisaldab %{stadt_wien_link} (%{cc_by_link}
           tingimustel), %{land_vorarlberg_link} ja Tirooli liidumaa andmeid (%{cc_by_at_with_amendments_link}).'
         contributors_at_austria: Austria
@@ -2081,17 +2084,16 @@ et:
           mis pärinevad autoriõigusega kaitstud allikatest (nt Google Maps või trükikaardid),
           kui neil puudub autoriõiguse valdaja selgesõnaline luba.
         infringement_2_1_html: |-
-          Kui usud, et OpenStreetMapi andmebaasi või sellele saidile on lisatud sobimatult
+          Kui usud, et OpenHistoricalMapi andmebaasi või sellele saidile on lisatud sobimatult
           autoriõigusega kaitstud materjali, siis palun juhindu
-          %{takedown_procedure_link} või täida %{online_filing_page_link},
-          et kaebus esitada.
+          <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">eemaldamise protseduurist</a>
+          või täida <a href="https://dmca.openstreetmap.org/">vastaval leheküljel</a> vorm, et kaebus esitada.
         infringement_2_1_takedown_procedure: eemaldamise protseduurist
         infringement_2_1_online_filing_page: veebivorm
         trademarks_title: Kaubamärgid
-        trademarks_1_1_html: |-
-          OpenStreetMap, suurendusklaasi logo ja State of the Map on OpenStreetMap Foundationi
-          registreeritud kaubamärgid. Kui sul on nende märkide kasutamise kohta küsimusi,
-          siis vaata meie %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, suurendusklaasi logo ja State of the
+          Map on OpenHistoricalMap Foundationi registreeritud kaubamärgid. Kui sul
+          on nende märkide kasutamise kohta küsimusi, siis vaata meie <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">kaubamärgireegleid</a>.
         trademarks_1_1_trademark_policy: kaubamärgireegleid
     index:
       js_1: Kasutad kas brauserit, mis ei toeta JavaScripti, või oled JavaScripti
@@ -2146,14 +2148,13 @@ et:
             liituda OpenStreetMapi kogukonnaga ja muuta või parandada andmed ise.
         add_a_note:
           instructions_1_html: |-
-            Klõpsa ikoonil %{note_icon} või samal ikoonil kaardivaates.
-            See lisab kaardile markeri, mida saad liigutada lohistamise teel.
-            Lisa sõnum, klõpsa salvestamisnuppu ja teised kaardistajad uurivad seejärel asja.
+            Kliki <a class='icon note'></a> või samale ikoonile kaardivaates.
+            See lisab kaardile markeri, mida sa saad liigutada seda hiirega lohistades. Lisa oma sõnum, seejärel kliki "Salvesta" ja teised kaardistajad näevad seda.
       other_concerns:
         title: Muud asjad
         concerns_html: |-
           Kui sul on küsimusi meie andmete kasutamise või sisu kohta, siis palun pöördu juriidilise info
-          saamiseks meie %{copyright_link} või võta ühendust sobiva %{working_group_link}.
+          saamiseks meie <a href='/copyright'>autoriõiguste lehele</a> või võta ühendust sobiva <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-i töörühmaga</a>.
         copyright: autoriõiguste lehele
         working_group: OSMF-i töörühmaga
     help:
@@ -2187,8 +2188,11 @@ et:
         title: Organisatsioonidele
         description: Kas sinu organisatsioonil on kavas teha midagi OpenStreetMapiga?
           Vajamineva teabe leiad tervituslehelt.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Et:Main_Page
         title: OpenStreetMapi viki
         description: Sirvi vikis OpenStreetMapi põhjalikumat dokumentatsiooni.
     potlatch:
@@ -2241,14 +2245,14 @@ et:
           train: Rong
           subway: Metroo
           ferry: Praam
-          light_rail: Kergraudtee
-          tram: Tramm
+          light_rail: Trammitee
+          tram: tramm
           trolleybus: Trollibuss
           bus: Buss
           cable_car: Köisraudtee
-          chair_lift: Toolilift
+          chair_lift: toolilift
           runway: Lennurada
-          taxiway: Ruleerimistee
+          taxiway: ruleerimistee
           apron: Lennujaama perroon
           admin: Halduspiir
           capital: Pealinn
@@ -2259,7 +2263,7 @@ et:
           wood: Mets
           farmland: Põllumaa
           grass: Muru
-          meadow: Niit
+          meadow: luht
           bare_rock: Paljand
           sand: Liiv
           golf: Golfiväljak
@@ -2273,7 +2277,7 @@ et:
           heathland: Nõmm
           scrubland: Võsamaa
           lake: Järv
-          reservoir: Veehoidla
+          reservoir: veehoidla
           intermittent_water: Perioodiline veekogu
           glacier: Liustik
           reef: Riff
@@ -2288,12 +2292,12 @@ et:
           reserve: Looduskaitseala
           military: Militaarala
           school: Kool
-          university: Ülikool
+          university: ülikool
           hospital: Haigla
           building: Märkimisväärne hoone
           station: Raudteejaam
-          summit: Mäetipp
-          peak: Mäetipp
+          summit: Mägi
+          peak: tipp
           tunnel: Katkendlik ümbris = tunnel
           bridge: Must ümbris = sild
           private: Üksnes omanikule
@@ -2753,6 +2757,8 @@ et:
       title: Kasutajate blokeeringud
       heading: Kasutajate blokeeringute loetelu
       empty: Ühtegi blokeeringut pole veel antud.
+    revoke_all:
+      revoke: Tühista!
     helper:
       time_future_html: Lõpuni %{time}.
       until_login: Aktiivne kuni kasutaja logib sisse.
@@ -2890,6 +2896,7 @@ et:
       add: Lisa märkus
     notes_paging_nav:
       showing_page: Leht %{page}
+      next: Edasi
   javascripts:
     close: Sulge
     share:
