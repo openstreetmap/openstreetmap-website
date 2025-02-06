@@ -94,7 +94,7 @@ class Note < ApplicationRecord
   # Return the note's description, derived from the first comment
   def description
     if user_ip.nil? && user_id.nil?
-      comments.first.body
+      all_comments.first.body
     else
       RichText.new("text", super)
     end
@@ -103,7 +103,7 @@ class Note < ApplicationRecord
   # Return the note's author object, derived from the first comment
   def author
     if user_ip.nil? && user_id.nil?
-      comments.first.author
+      all_comments.first.author
     else
       super
     end
