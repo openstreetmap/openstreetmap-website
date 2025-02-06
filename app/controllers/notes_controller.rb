@@ -43,7 +43,7 @@ class NotesController < ApplicationController
 
     @note_includes_anonymous = @note.author.nil? || @note_comments.find { |comment| comment.author.nil? }
 
-    @note_comments = @note_comments.drop(1) unless !@note.author.nil? && @note.author.status == "deleted"
+    @note_comments = @note_comments.drop(1) if @note.author.nil? || @note.author.active?
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end
