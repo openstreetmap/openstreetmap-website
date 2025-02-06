@@ -59,6 +59,7 @@ oc:
       message: Messatge
       node: Nos
       node_tag: Etiqueta de nos
+      notifier: Notificador
       old_node: Node Ancian
       old_node_tag: Etiqueta de node anciana
       old_relation: Relacion anciana
@@ -100,7 +101,7 @@ oc:
       diary_entry:
         user: Utilizaire
         title: Subjècte
-        body: Còrs
+        body: Còs
         latitude: Latitud
         longitude: Longitud
         language_code: Lenga
@@ -165,6 +166,8 @@ oc:
           de tèrmes simples e precís.
         needs_view: L’utilizaire se deu connectar avans qu'aqueste blòt expire ?
       user:
+        email_confirmation: Vòstra adreiça se mostrarà pas publicament (vejatz la
+          nòstra politica de privadança&#60;/a&#62; per mai d'informacion)
         new_email: (jamai afichat publicament)
   datetime:
     distance_in_words_ago:
@@ -216,6 +219,7 @@ oc:
   auth:
     providers:
       none: Ges
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -280,10 +284,12 @@ oc:
       current email address: 'Adreiça de corrier electronic actuala:'
       external auth: 'Autentificacion extèrna:'
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: qu’es aquò ?
       public editing:
         heading: Modificacion publica
         enabled: Activat. Pas anonim e pòt modificar lei donadas.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: qu’es aquò ?
         disabled: Desactivadas e sensa permés per editar; lei modificacions anterioras
           son anonimas.
@@ -296,12 +302,13 @@ oc:
           novèus de collaboracion.
         agreed_with_pd: Declaratz tanben que consideratz que vòstrei modificacions
           son de domeni public.
+        link: https://Www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: qu’es aquò ?
       save changes button: Enregistrar lei modificacions
       delete_account: Suprimir lo còmpte
     go_public:
       heading: 'Modificacion publica :'
-      make_edits_public_button: Rendre totei lei modificacions publicas
+      make_edits_public_button: Rendre totas mas modificacions publicas
     update:
       success_confirm_needed: Informacions sus l'utilizaire mesas a jorn amb succès.
         Verificatz vòstra bóstia mail per validar la verificacion de la novèla adreiça
@@ -409,9 +416,9 @@ oc:
           %{author}
         commented_at_by_html: Actualizat fa %{when} per %{user}
       show:
-        title_all: Discussion sus lo grop de modificacions OpenStreetMap
-        title_particular: Discussion sus lo grop de modificacions OpenStreetMap nº
-          %{changeset_id}
+        title_all: Discussion sus lo grop de modificacions OpenHistoricalMap
+        title_particular: Discussion sus lo grop de modificacions OpenHistoricalMap
+          nº %{changeset_id}
       timeout:
         sorry: O planhèm, la lista deis grops de modificacions qu'avètz demandada
           met tròp de temps per èsser recuperada.
@@ -442,7 +449,7 @@ oc:
       discussion: Discussion
       join_discussion: Se connectar per rejónher la discussion
       still_open: Ensemble de modificacions totjorn dobèrt — la discussion se dobrirà
-        un còp que l’ensemble de modificacions serà plegat.
+        un còp que l’ensemble de modificacions serà tampat.
       subscribe: S'inscriure
       unsubscribe: Se desabonar
       hide_comment: amagar
@@ -453,8 +460,8 @@ oc:
     paging_nav:
       nodes: Nos (%{count})
       nodes_paginated: Nos (%{x} a %{y} sus %{count})
-      ways: Linha (%{count})
-      ways_paginated: Linhas (%{x} a %{y} sus %{count})
+      ways: Camins (%{count})
+      ways_paginated: Camins (%{x} a %{y} sus %{count})
       relations: Relacions (%{count})
       relations_paginated: Relacions (%{x} a %{y} sus %{count})
     timeout:
@@ -501,7 +508,7 @@ oc:
       my_diary: Mon jornau
       no_entries: Ges d'entrada dins vòstre jornau
     page:
-      recent_entries: 'Intradas recentas de jornau :'
+      recent_entries: 'Entradas recentas de jornau :'
     edit:
       title: Modificar l'entrada de jornau
       marker_text: Emplaçament de l'entrada de jornau
@@ -549,9 +556,11 @@ oc:
       all:
         title: Entradas de jornau d'OpenStreetMap
         description: Entradas recentas de jornau deis utilizaires d'OpenStreetMap
+    comments:
+      title: Comentaris ajustats au jornau per %{user}
   diary_comments:
     index:
-      title: Comentaris ajustats au jornau per %{user}
+      title: Comentaris dau jornau ajustats per %{user}
       heading: Comentaris dau jornau de %{user}
       subheading_html: Comentaris dau jornau ajustats per %{user}
       no_comments: Ges de comentaris au jornau
@@ -1466,11 +1475,14 @@ oc:
     gps_traces: Traças GPS
     user_diaries: Jornals
     edit_with: Modificar amb %{editor}
+    tag_line: La mapa cooperativa liura
     intro_header: Benvenguda dins OpenStreetMap !
     intro_text: OpenStreetMap es una mapa dau monde, creada per de personas coma vos
       e liura d’utilizacion sota licéncia liura.
-    partners_fastly: Fastly
-    partners_partners: partenaris
+    intro_2_create_account: Creatz un compte d'utilizaire
+    partners_title: partenaris
+    hosting_partners_2024_html: L'aubergament es pres en carga per %{ucl}, %{fastly},
+      %{bytemark}, e d'autres %{partners}.
     tou: Condicions d'utilizacion
     osm_offline: La basa de donadas de OpenStreetMap es actualament fòra linha; una
       mantenença essenciala a son bon foncionament es en cors.
@@ -1520,6 +1532,7 @@ oc:
       failed_to_import: 'a pas pogut èsser importat. Aquí l''error :'
       more_info_html: Podètz trobar mai informacion sus lei mancadas d'importacion
         de GPX e coma leis evitar a %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Impòrt_Failures
       subject: '[OpenStreetMap] Error al moment de l''impòrt GPX'
     gpx_success:
       hi: Adieu %{to_user},
@@ -1689,7 +1702,6 @@ oc:
       destroy_button: Suprimir
     heading:
       my_inbox: Ma bóstia de recepcion
-      my_outbox: Mon mandador
     mark:
       as_read: Messatge marcat coma legit
       as_unread: Messatge marcat coma pas legit
@@ -1743,6 +1755,7 @@ oc:
       no home location: Avètz pas indicat l'emplaçament de vòstre domicili.
       update home location on click: Metre a jorn l'emplaçament de vòstre domicili
         quand clicatz sus la mapa ?
+      show: Afichar
       delete: Suprimir
     update:
       success: S'es actualizat lo perfiu.
@@ -1790,6 +1803,7 @@ oc:
         newer: Traças novèlas
   site:
     about:
+      heading_html: <span>&copy;</span>Contributors<br /> d’OpenHistoricalMap
       used_by_html: '%{name} fornís de donadas cartograficas sus de milierats de sites
         web, aplicacions mobilas e aparelhs'
       lede_text: OpenStreetMap es bastit per una comunautat de cartografes benevòls
@@ -1802,6 +1816,10 @@ oc:
       community_driven_title: Menat per la comunautat
       open_data_title: Donadas liuras
       legal_title: Juridic
+      legal_2_1_html: |-
+        <a href="https://osmfoundation.org/Contact">Contacta</a> amb lo OSMF s'avètz de dobtes a prepaus de la  licéncia,  dei drechs de còpia o autras questions legalas.
+
+        OpenHistoricalMap, Lo logo e Estat de la Mapa son de <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marcas enregistradas de la OSMF</a>.<br><br><br><br>
       partners_title: Partenaris
     copyright:
       title: Copyright e Licéncia
@@ -1818,9 +1836,32 @@ oc:
         native_link: version occitana
         mapping_link: començar a contribuir
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> es un ensemble de <i>donadas dobèrtas</i>, disponiblas jos licéncia liura <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) alprèp de la <a
+          href="https://osmfoundation.org/">Fondacion OpenHistoricalMap</a> (OSMF).
+        introduction_2_html: |2-
+           Sètz liure de copiar, distribuir, transmetre e adaptar nòstras donadas,
+            a condicion que creditetz OpenHistoricalMap e sos
+            contributors. Se modificatz o utilizatz nòstras donadas dins d’autras òbras derivadas,
+            las podètz distribuir sonque jos la meteissa licéncia. Lo
+            <a href="https://opendatacommons.org/licenses/odbl/1.0/">tèxte
+            legal</a> complet detalha vòstres dreits e responsabilitats.
+        introduction_3_html: Nòstres carrèus de rendut cartografics, e tanben de nòstra
+          documentacion, son disponibles jos la licéncia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons paternitat – partiment a l’identic 2.0</a> (CC-BY-SA).
         credit_title_html: Cossí creditar OpenStreetMap
         credit_1_html: Demandam que vòstre crèdit compòrte la mencion « © lei contribueires
           d’OpenStreetMap ».
+        credit_2_1: Vos fau tanben botar en evidéncia que lei donadas son disponiblas
+          sota licéncia de basa de donadas dubèrtas e, s'utilizatz nòstrei mapas,
+          que la cartografia a licéncia CC-BY-SA. Podètz o far en ligant <a href="http://www.openstreetmap.org/copyright">aquela
+          pagina de copyright</a>. De maniera alternativa, mai coma requisit obligatòri
+          se distribuissètz OSM en forma de donadas en brut, podètz citar e ligar
+          directament a la licéncia. Dins lo cas d'utilizar de supòrts que lei ligams
+          de hipertext i son pas possibles (per exemple, òbras estampadas), vos suggerissèm
+          d'adreiçar lei lectors a openstreetmap.org (En indicant benlèu l'adreiça
+          completa de OpenHistoricalMap), a opendatacommons.org E, se s'escau, a creativecommons.org.
         attribution_example:
           alt: Exemple d'atribucion OpenStreetMap sus una pagina internet
           title: Exemple d'atribucion
@@ -1847,6 +1888,9 @@ oc:
       title: Exportar
       manually_select: Seleccionar manualament una zòna diferenta
       licence: Licéncia
+      licence_details_html: Las donadas d’OpenHistoricalMap son publicadas jos la
+        <a href="https://opendatacommons.org/licenses/odbl/1.0/">licéncia Open Data
+        Commons ­– Basa de donadas Dobèrta</a> (ODbL).
       too_large:
         advice: 'Se l’expòrt çaisús fracassa, envisatjatz l’utilizacion d’una de las
           fonts listadas çaijòs :'
@@ -1877,6 +1921,10 @@ oc:
           title: Rejónher la comunautat
       other_concerns:
         title: Autras preocupacions
+        concerns_html: "Se sètz preocupat pel biais que nòstras donadas son utilizadas
+          o sus lor contengut, consultatz nòstra\n<a href='/copyright'>pagina de dreit
+          d’autor</a> per d'informacions mai legalas, o contactar lo \n<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>grop
+          de trabalh OSMF</a> apropriat."
     help:
       title: Obténer d’ajuda
       introduction: OpenStreetMap a mantuna ressorsas per aprene lo projècte, per
@@ -1907,11 +1955,18 @@ oc:
       welcomemat:
         url: https://wiki.openstreetmap.org/wiki/OC:Pagina_principala
         title: Per d'organizacions
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: Wiki OpenStreetMap
         description: Percorrètz lo wiki per la documentacion aprigondida d’OSM
     any_questions:
       title: De questions ?
+      paragraph_1_html: |-
+        OpenHistoricalMap a mantunei ressorsas per aprene lo projècte, per pausar e respòndre a de questions, e per discutir en collaboracion amb d’autres e documentar lei subjèctes de cartografia.
+        <a href='%{help_url}'>Trobatz d’ajuda aicí</a>.
     sidebar:
       search_results: Resultats de la recèrca
     search:
@@ -1941,6 +1996,8 @@ oc:
           footway: Via pietonièra
           rail: Via ferrada
           subway: Linha de mètro
+          light_rail: Pichona via ferrada
+          tram: tram
           cable_car: Teleferic
           chair_lift: telesèti
           runway: Pista d'aeropòrt
@@ -1949,6 +2006,7 @@ oc:
           admin: Limit administratiu
           forest: Sèuva
           wood: Bòsc
+          meadow: prada
           golf: Percors de gòlf
           park: Pargue
           common: Espaci comun
@@ -1988,6 +2046,9 @@ oc:
         la mapa. I a aicí una guida rapida amb lei causas pus importantas de saber
       whats_on_the_map:
         title: Çò qu'i a sus la mapa
+        on_the_map_html: |-
+          OpenHistoricalMap servís a cartografiar de causas a l'encòp <em>vertadièras e actualas</em>
+          - inclutz de milions de bastiments, de rotas, e d'autres detalhs de luòcs. Podètz cartografiar quin element vertadièr del mond que que vos interèsse.
       basic_terms:
         title: Vocabulari de basa de cartografia
         paragraph_1: OpenStreetMap a son pròpri girgon. Aquí qualques mots claus que
@@ -2242,6 +2303,8 @@ oc:
       title: Blocatges utilizaire
       heading: Lista dels blocatges
       empty: Cap de blocatge es pas encara estat efectuat.
+    revoke_all:
+      revoke: Revocar !
     helper:
       time_future_html: Acaba a %{time}.
       until_login: Actiu fins al moment que l'utilizaire se connectarà.
@@ -2324,6 +2387,7 @@ oc:
       add: Ajustar una nòta
     notes_paging_nav:
       showing_page: Pagina %{page}
+      next: Seguent
   javascripts:
     close: Plegar
     share:

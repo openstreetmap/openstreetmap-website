@@ -61,6 +61,7 @@ ms:
       message: Pesanan
       node: Nod
       node_tag: Tag Nod
+      notifier: Pemberitahu
       old_node: Nod Lama
       old_node_tag: Tag Nod Lama
       old_relation: Hubungan Lama
@@ -192,6 +193,7 @@ ms:
   auth:
     providers:
       none: Tiada
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -234,10 +236,12 @@ ms:
       current email address: 'Alamat E-Mel Sekarang:'
       external auth: Pengesahan Luaran
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: apakah ini?
       public editing:
         heading: Penyuntingan umum
         enabled: Dihidupkan. Tidak tanpa nama, data boleh disunting.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: apakah ini?
         disabled: Dimatikan, data tidak boleh disunting, semua suntingan yang sebelumnya
           adalah tanpa nama.
@@ -254,7 +258,7 @@ ms:
       save changes button: Simpan Perubahan
       delete_account: Hapus Akaun...
     go_public:
-      heading: Penyuntingan awam
+      heading: 'Penyuntingan umum:'
       find_out_why: ketahui sebabnya
       make_edits_public_button: Umumkan semua suntingan saya
     update:
@@ -365,8 +369,8 @@ ms:
       feed:
         title: Set Ubah %{id}
         title_comment: Set Ubah %{id} - %{comment}
-        created: Tercipta
-        closed: Tertutup
+        created: Dicipta
+        closed: Ditutup
         belongs_to: Pengarang
     show:
       title: 'Set Ubah: %{id}'
@@ -470,8 +474,6 @@ ms:
         title: Catatan diari OpenStreetMap
         description: Catatan-catatan diari terbaru oleh pengguna OpenStreetMap
   diary_comments:
-    index:
-      no_comments: Tiada ulasan diari
     page:
       post: Muat Naik
       when: Bila
@@ -695,7 +697,6 @@ ms:
           bus_stop: Perhentian Bas
           construction: Lebuhraya dalam Pembinaan
           corridor: Koridor
-          crossing: Lintasan
           cycleway: Lorong Basikal
           elevator: Elevator
           emergency_access_point: Titik Capaian Kecemasan
@@ -1173,10 +1174,12 @@ ms:
     gps_traces: Jejak GPS
     user_diaries: Diari Pengguna
     edit_with: Sunting dengan %{editor}
+    tag_line: Peta Dunia Wiki Bebas
     intro_header: Selamat datang ke OpenStreetMap!
     intro_text: OpenStreetMap ialah peta dunia yang diwujudkan oleh insan seperti
       anda, dan bebas digunakan dengan berlandaskan lesen terbuka.
-    partners_partners: rakan-rakan kongsi
+    intro_2_create_account: Buka akaun pengguna
+    partners_title: rakan-rakan kongsi
     tou: Syarat-Syarat Penggunaan
     osm_offline: Pangkalan data OpenStreetMap kini diputuskan sambungannya sementara
       kerja penyelenggaran mustahak dilangsungkan.
@@ -1389,6 +1392,7 @@ ms:
       image: Imej
       gravatar:
         gravatar: Gunakan Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Apa itu Gravatar?
       new image: Tambahkan imej
       keep image: Simpan imej semasa
@@ -1400,6 +1404,7 @@ ms:
       no home location: Anda belum memasukkan lokasi rumah anda.
       update home location on click: Adakah anda ingin mengemaskinikan lokasi rumah
         dengan mengklik pada peta?
+      show: Tunjukkan
     update:
       success: Profil dikemas kini.
       failure: Tidak dapat mengemas kini profil.
@@ -1448,6 +1453,7 @@ ms:
         newer: Jejak Baru
   site:
     about:
+      heading_html: <span>&copy;</span>para penyumbang<br />OpenHistoricalMap
       used_by_html: '%{name} menjana data peta pada ratusan laman web, aplikasi mudah
         alih dan peranti perkakasan'
       lede_text: OpenStreetMap dibina oleh sekumpulan pemeta yang menyumbangkan dan
@@ -1478,10 +1484,26 @@ ms:
         native_link: versi Bahasa Melayu
         mapping_link: mula membuat peta
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap ialah <i>data terbuka</i> yang dilesenkan di bawah <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL).
         introduction_1_open_data: data terbuka
+        introduction_2_html: Anda bebas menyalin, mengedarkan, menyebarkan dan mengubah
+          suai data kami, asalkan anda memperakui OpenHistoricalMap dan para penyumbangnya.
+          Jika anda mengubah suai atau menokok tambah data kami, anda boleh mengedarkannya
+          di bawah lesen yang sama sahaja. <a href="http://opendatacommons.org/licenses/odbl/1.0/">Kanun
+          undang-undang</a> yang lengkap ini menerangkan hak-hak dan tanggungjawab
+          anda.
+        introduction_3_html: Kartografi jubin peta kami serta pendokumenan kami dilesenkan
+          di bawah lesen <a href="http://creativecommons.org/licenses/by-sa/2.0/">Pengiktirafan-PerkongsianSerupa
+          2.0</a> (CC-BY-SA).
         credit_title_html: Cara memberikan penghargaan kepada OpenStreetMap
         credit_1_html: Kami memerlukan anda menggunakan dikenali sebagai &ldquo;&copy;
           penyumbang OpenStreetMap&rdquo; dalam penghargaan.
+        credit_2_1: |-
+          Anda juga mesti memperjelas bahawa data ini tersedia di bawah Open Database License, dan juga kartografinya berada di bawah lesen CC-BY-SA jika jubin peta kami turut digunakan. Anda boleh berbuat demikian dengan membuat pautan ke <a href="http://www.openstreetmap.org/copyright">halaman hak cipta ini</a>.
+          Selain itu, dan sebagai kemestian untuk mengedarkan OSM dalam bentuk data, anda boleh menyatakan nama dan membuat pautan secara terus kepada lesen. Untuk media yang tidak membolehkan pautan (cth. bahan cetakan), kami mencadangkan supaya anda menghalakan pembaca-pembaca ke openstreetmap.org (misalnya, dengan meluaskan 'OpenHistoricalMap' ke alamat penuh ini), ke opendatacommons.org, dan juga creativecommons.org jika berkenaan.
         attribution_example:
           alt: Contoh mengatribusikan OpenStreetMap pada halaman sesawang
           title: Contoh atribusi
@@ -1491,6 +1513,10 @@ ms:
         contributors_intro_html: 'Penyumbang kami merupakan ribuan individu. Kami
           turut menyertakan data yang dilesenkan secara terbuka daripada lembaga-lembaga
           pemetaan kebangsaan dan sumber-sumber yang lain, antaranya:'
+        contributors_footer_1_html: '  Untuk keterangan lanjut tentang semua ini,
+          serta sumber-sumber lain yang telah digunakan untuk membantu menambah baik
+          OpenHistoricalMap, sila rujuk <a href="http://wiki.openstreetmap.org/wiki/Contributors">Halaman
+          penyumbang</a> di Wiki OpenHistoricalMap.'
         contributors_at_austria: Austria
         contributors_at_cc_by: CC BY
         contributors_au_australia: Australia
@@ -1516,6 +1542,11 @@ ms:
         infringement_1_html: Penyumbang OSM diingatkan supaya tidak sesekali menambah
           data daripada mana-mana sumber berhak cipta (cth. Peta Google atau peta
           cetakan) tanpa izin bersurat daripada pemegang hak cipta.
+        infringement_2_1_html: "Sekiranya anda percaya bahawa bahan berhak cipta telah
+          dtambahkan secara tidak berpatutan ke dalam pangkalan OpenHistoricalMap
+          atau tapak ini, sila rujuk <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">prosedur
+          penarikan</a> atau laporkan secara terus ke dalam \n<a href=\"https://dmca.openstreetmap.org/\">halaman
+          laporan on-line</a>."
     index:
       js_1: Anda sedang menggunakan pelayar web yang tidak menyokong JavaScript, ataupun
         anda tidak menghidupkan JavaScript.
@@ -1537,6 +1568,8 @@ ms:
       title: Eksport
       manually_select: Pilih kawasan yang lain secara insani
       licence: Lesen
+      licence_details_html: Data OpenHistoricalMap dilesenkan di bawah lesen <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Jika pengeksportan di atas gagal, sila pertimbangkan untuk menggunakan
           antara sumber-sumber yang berikut:'
@@ -1568,12 +1601,16 @@ ms:
             misalnya jalan raya atau alamat anda tertinggal, cara penyelesaian yang
             terbaik ialah menyertai komuniti OpenStreetMap dan menambah atau membetulkan
             data sendiri.
+        add_a_note:
+          instructions_1_html: |-
+            Hanya klik <a class='icon note'></a> atau ikon yang sama pada paparan peta.
+            Ini akan menambah penanda pada peta yang boleh anda alihkan secara menyeret. Berikan pesanan anda, kemudian klik "simpan", barulah pemeta-pemeta lain akan menyiasat.
       other_concerns:
         title: Persoalan lain
-        concerns_html: Jika anda ada sebarang kemusykilan mengenai bagaimana data
-          kami digunakan atau sebarang berkaitan dengan kandungan sila hubungi %{copyright_link}
-          untuk maklumat perundangan yang lebih lanjut, atau hubungi %{working_group_link}
-          yang sepatutnya
+        concerns_html: |-
+          Jika anda mempunyai persoalan mengenai cara penggunaan data kami ataupun isi kandungannya, sila rujuk
+          <a href='/copyright'>halaman hak cipta</a> untuk maklumat undang-undang selanjutnya atau hubungi
+          <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>kumpulan kerja OSMF</a> yang sewajarnya.
         copyright: laman berhak cipta
         working_group: Kumpulan bekerja OSMF
     help:
@@ -1599,6 +1636,10 @@ ms:
         title: switch2osm
       welcomemat:
         title: Untuk Pertubuhan
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: wiki.openstreetmap.org
         description: Layari wiki untuk maklumat lanjut tentang OSM.
@@ -1610,6 +1651,9 @@ ms:
       change_preferences: Tukar pilihan anda di sini
     any_questions:
       title: Ada soalan?
+      paragraph_1_html: |-
+        OpenHistoricalMap menyediakan kemudahan-kemudahan untuk mempelajari tentang projek ini, bersoal jawab, serta bekerjasama membincangkan dan mendokumenkan topik-topik pemetaan.
+        <a href='%{help_url}'>Minta bantuan di sini</a>.
       get_help_here: Dapatkan bantuan di sini
     sidebar:
       search_results: Hasil Carian
@@ -1636,6 +1680,8 @@ ms:
           footway: Laluan pejalan kaki
           rail: Landasan keretapi
           subway: Landasan bawah tanah
+          light_rail: Rel ringan
+          tram: tram
           cable_car: Kereta kabel
           chair_lift: lif kerusi
           runway: Landasan kapal terbang
@@ -1644,6 +1690,7 @@ ms:
           admin: Sempadan pentadbiran
           forest: Hutan
           wood: Hutan kecil
+          meadow: padang rumput
           golf: Padang golf
           park: Taman
           common: Tanah awam
@@ -1684,6 +1731,14 @@ ms:
         bagi anda.
       whats_on_the_map:
         title: Kandungan Peta
+        on_the_map_html: OpenHistoricalMap merupakan tempat untuk memetakan benda-benda
+          yang <em>nyata dan terkini</em> - termasuklah berjuta-juta bangunan, jalan
+          raya dan lain-lain butiran tempat. Anda boleh memetakan sebarang ciri-ciri
+          nyata yang menarik minat anda.
+        off_the_map_html: Ia <em>tidak</em> mencakupi data pandangan peribadi seperti
+          penilaian, ciri-ciri yang wujud zaman dahulu atau sekadar andaian, serta
+          data dari sumber berhak cipta. Melainkan dengan izin khas, jangan salin
+          dari peta Internet mahupun kertas.
       basic_terms:
         title: Peristilahan Asas Pemetaan
         paragraph_1: OpenStreetMap mempunyai peristilahan tersendiri. Yang berikut
@@ -1980,6 +2035,8 @@ ms:
       title: Sekatan terhadap pengguna
       heading: Senarai sekatan pengguna
       empty: Belum ada sekatan yang dilakukan.
+    revoke_all:
+      revoke: Tarik Balik!
     helper:
       time_future_html: Berakhir dalam masa %{time}.
       until_login: Aktif sehingga pengguna itu log masuk.
@@ -2052,6 +2109,7 @@ ms:
       add: Tambah Nota
     notes_paging_nav:
       showing_page: Halaman %{page}
+      next: Berikutnya
   javascripts:
     close: Tutup
     share:

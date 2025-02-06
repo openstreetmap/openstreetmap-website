@@ -43,9 +43,6 @@ lv:
       client_application:
         create: Reģistrēties
         update: Atjaunināt
-      oauth2_application:
-        create: Reģistrēties
-        update: Atjaunināt
       redaction:
         create: Izveidot redakciju
         update: Saglabāt redakciju
@@ -68,6 +65,7 @@ lv:
       message: Ziņa
       node: Punkts
       node_tag: Punkta apzīmējums
+      notifier: Paziņotājs
       old_node: Vecais punkts
       old_node_tag: Vecā punkta birka
       old_relation: Vecā relācija
@@ -102,6 +100,7 @@ lv:
       diary_entry:
         user: Lietotājs
         title: Temats
+        body: Teksts
         latitude: Platums
         longitude: Garums
         language_code: Valoda
@@ -169,6 +168,7 @@ lv:
   auth:
     providers:
       none: Nav
+      openid: OpenID
       google: Google
       facebook: Facebook
       github: GitHub
@@ -211,10 +211,12 @@ lv:
       current email address: Pašreizējā e-pasta adrese
       external auth: Ārējā autentifikācija
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Kas tas ir?
       public editing:
         heading: Publiska rediģēšana
         enabled: Ieslēgts. Nav anonīms, un var rediģēt datus.
+        enabled link: https://wiki.OpenHistoricalMap.org/wiki/Anonymous_edits
         enabled link text: Kas tas ir?
         disabled: Atspējots un nevar labot datus, visi iepriekšējie labojumi ir anonīmi.
         disabled link text: Kāpēc nevar rediģēt?
@@ -230,7 +232,7 @@ lv:
       save changes button: Saglabāt izmaiņas
       delete_account: Dzēst kontu...
     go_public:
-      heading: Publiska rediģēšana
+      heading: 'Publiska rediģēšana:'
       currently_not_public: Pašlaik jūsu labojumi ir anonīmi, un cilvēki nevar jums
         nosūtīt ziņojumus vai redzēt jūsu atrašanās vietu. Lai parādītu, ko rediģējāt,
         un ļautu citiem ar jums sazināties, izmantojot vietni, noklikšķiniet uz zemāk
@@ -330,8 +332,8 @@ lv:
         comment: 'Jauni komentāri par autora: %{author} pārmaiņām %{changeset_id}'
         commented_at_by_html: '%{user} atjaunoja %{when} atpakaļ'
       show:
-        title_all: Diskusija par izmaiņām OpenStreetMap
-        title_particular: 'Diskusija par OpenStreetMap izmaiņām #%{changeset_id}'
+        title_all: Diskusija par izmaiņām OpenHistoricalMap
+        title_particular: 'Diskusija par OpenHistoricalMap izmaiņām #%{changeset_id}'
   changesets:
     changeset:
       no_edits: (nav labojumu)
@@ -356,15 +358,13 @@ lv:
         belongs_to: Autors
     show:
       title: 'Izmaiņu kopa: %{id}'
-      created_ago_html: Izveidots %{time_ago}
-      closed_ago_html: Slēgts %{time_ago}
       discussion: Diskusija
       join_discussion: Ieejiet sistēmā lai pievienotos diskusijai
       subscribe: Abonēt
       unsubscribe: Atteikties no abonējuma
       hide_comment: paslēpt
       unhide_comment: parādīt
-      comment: Komentēt
+      comment: Komentārs
       changesetxml: Izmaiņu kopas XML
       osmchangexml: osmChange XML
     paging_nav:
@@ -1153,11 +1153,8 @@ lv:
         ignored: Ignorēts
         open: Atvērt
     page:
-      user_not_found: Šis lietotājs neeksistē
-      issues_not_found: Šādas problēmas netika atrastas
       status: Statuss
       reports: Ziņojumi
-      last_updated: Pēdējais labojums
     show:
       resolve: Atrisināt
       ignore: Ignorēt
@@ -1178,10 +1175,12 @@ lv:
     gps_traces: GPS trases
     user_diaries: Lietotāju dienasgrāmatas
     edit_with: Rediģēt ar %{editor}
+    tag_line: Atvērtā Wiki pasaules karte
     intro_header: Laipni lūdzam OpenStreetMap!
     intro_text: OpenStreetMap ir pasaules karte, kuru veido cilvēki kā tu, un tā ir
       bezmaksas lietošanai zem atvērtas licences.
-    partners_partners: partneri
+    intro_2_create_account: Izveidot lietotāja kontu
+    partners_title: partneri
     tou: Lietošanas noteikumi
     osm_offline: OpenStreetMap datubāze šobrīd nav pieejama, tiek veikti svarīgi datubāzes
       apkalpošanas darbi.
@@ -1366,7 +1365,6 @@ lv:
       destroy_button: Dzēst
     heading:
       my_inbox: Mana iesūtne
-      my_outbox: Mana izsūtne
     mark:
       as_read: Ziņa atzīmēta kā lasīta
       as_unread: Ziņa atzīmēta kā nelasīta
@@ -1418,6 +1416,7 @@ lv:
       no home location: Jūs neesat norādījis mājas atrašanās vietu.
       update home location on click: Atjaunināt māju atrašanās vietu, noklikšķinot
         uz kartes?
+      show: Rādīt
     update:
       success: Profils atjaunināts.
       failure: Nevarēja atjaunināt profilu.
@@ -1466,6 +1465,11 @@ lv:
       community_driven_title: Kopienas virzīts
       open_data_title: Atvērti dati
       legal_title: Juridiskie jautājumi
+      legal_1_1_html: "Šo vietni un daudzus citus ar to saistītos pakalpojumus oficiāli
+        pārvalda <a href='http://osmfoundation.org/'>OpenHistoricalMap fonds</a> (OSMF)
+        kopienas vārdā.\n<br> \nLūdzu <a href='http://osmfoundation.org/Contact'>sazinieties
+        OSMF</a>, ja jums ir jautājumi par autortiesībām vai citiem juridiskajiem
+        jautājumiem."
       partners_title: Partneri
     copyright:
       title: Autortiesības un Licence
@@ -1481,10 +1485,29 @@ lv:
         native_link: latviskā versija
         mapping_link: sākt kartēt
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap ir <i>atvērto datu</i>, kad licencēti zem <a
+          href="http://opendatacommons.org/licenses/odbl/">Atvērtās Datu Kopas Atvērtās Datubāzes licences</a> (ODbL).
+        introduction_2_html: |-
+          Tu vari kopēt, izplatīt, nosūtīt un adaptēt mūsu kartes
+            un datus, kamēr tu atsaucies uz OpenHistoricalMap un tās
+            veidotājiem. Ja tu maini vai veido uz mūsu kartēm, tu
+            vari izplatīt rezultātu tikai zem tās pašas licences. Pilns
+            <a href="http://opendatacommons.org/licenses/odbl/1.0/">juridiskais kods</a> izskaidro tavas tiesības un pienākumus.
+        introduction_3_html: |-
+          Kartogrāfija mūsu karšu flīzēs un mūsu dokumentācija ir licencēti zem <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> licences (CC-BY-SA).
         credit_title_html: Kā atsaukties uz OpenStreetMap
         credit_1_html: |-
           Mēs pieprasām, ka tu izmanto atsauci &ldquo;&copy; OpenStreetMap
           veidotāji&rdquo;.
+        credit_2_1: "Kur iespējams, OpenHistoricalMap vajadzētu būt iesaitētam uz
+          <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n
+          \ un CC BY-SA uz <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.
+          Ja\n  tu lieto mediju, kur saites nav iespējamas (piem. \n  printēts darbs),
+          mēs iesakām pārsūtīt savus lasītājus uz\n  www.openstreetmap.org (piemēram
+          paplašinot\n  &lsquo;OpenHistoricalMap.org&rsquo; uz pilno adresi) un uz\n
+          \ www.creativecommons.org."
         attribution_example:
           alt: Piemērs, kā OpenStreetMap apzīmēt web lapā
           title: Atsauces piemērs
@@ -1494,6 +1517,11 @@ lv:
           Mūsu veidotāji ir tūkstošiem cilvēku. Mēs arī ievietojam
           atvērti-licencētus datus no nacionālajām kartēšanas aģentūrām
           un citiem avotiem, to skaitā:
+        contributors_footer_1_html: |-
+          Sīkāku informāciju par šiem, un citiem avotiem, kas izmantoti,
+          lai uzlabotu OpenHistoricalMap, lūdzu apskati <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">Veidotāju
+          lapu</a> iekš OpenStreetMap Wiki.
         contributors_at_austria: Austrija
         contributors_at_stadt_wien: Vīnes pilsēta
         contributors_at_cc_by: CC BY
@@ -1519,6 +1547,16 @@ lv:
           no jebkuriem \nar autortiesībām aizsargātiem avotiem (piem. Google Maps
           vai drukātām kartēm), bez \nprecīzi formulētas atļaujas no autortiesību
           īpašniekiem."
+        infringement_2_1_html: |-
+          Ja tu tici, ka ar autortiesībām aizsargāts materiāls ir ticis neatbilstoši
+          pievienots OpenHistoricalMap datubāzei vai vietnei, lūdzu atsaucies uz
+          mūsu <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">noņemšanas
+          procedūru</a> vai paziņo pa tiešo mums, izmantojot
+          <a href="https://dmca.openstreetmap.org/">on-line ziņošanas veidni</a>.
+        trademarks_1_1_html: OpenHistoricalMap, lupa un štata karte ir reģistrētas
+          OpenHistoricalMap fonda preču zīmes. Ja jums ir jautājumi par mūsu logotipu
+          lietošanu, lūdzu sūtiet jūsu jautājumus uz <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Licence
+          Working Group</a>.
     index:
       js_1: Vai nu jūs lietojat pārlūkprogrammu, kas neatbalsta JavaScript, vai arī
         jūsu pārlūkprogrammā JavaScript ir atslēgts.
@@ -1538,6 +1576,8 @@ lv:
       title: Eksportēt
       manually_select: Manuāli izvēlēties citu teritoriju
       licence: Licence
+      licence_details_html: OpenHistoricalMap dati ir licencēti saskaņā ar <a href="http://opendatacommons.org/licenses/odbl/1.0/">Atvērtās
+        Datu Kopas Atvērtās Datubāzes licenci</a> (ODbL).
       too_large:
         advice: 'Ja augstāk esošais eksports neizdodas, lūdzu apsver iespēj lietot
           kādu no zemāk minētajiem avotiem:'
@@ -1566,8 +1606,17 @@ lv:
           explanation_html: Konstatējot problēmas ar mūsu kartes datiem, piemēram
             trūkstošu ceļu vai adresi, labākais variants, kā rīkoties ir pievienoties
             OpenStreetMap kopienai un pievienot vai atjaunot datus jums pašam.
+        add_a_note:
+          instructions_1_html: Noklikšķiniet uz <a class='icon note'></a> vai arī
+            uz tās pašas ikonas kartes displejā. Tādā veidā jūs pievienosiet marķieri
+            šai kartei, kuru jūs varēsiet izkustināt, 'velkot'. Pievienojiet savu  ziņu
+            un tad uzspiediet 'Saglabāt' un pārējie lietotāji to izpētīs.
       other_concerns:
         title: Citas bažas
+        concerns_html: "Ja jums ir bažas par to, kā mūsu dati tiek izmantoti, vai
+          par saturu, lūdzu, skatiet mūsu\n<a href=\"/copyright\">autortiesību lapu,</a>
+          lai iegūtu juridisko informāciju, vai sazinieties ar atbilstošo \n<a href=\"http://wiki.osmfoundation.org/wiki/Working_Groups\">OSMF
+          darba grupu</a>."
     help:
       title: Palīdzības saņemšana
       introduction: OpenStreetMap ir vairāki resursi, lai uzzinātu par projektu, uzdotu
@@ -1595,6 +1644,10 @@ lv:
           balstītajām kartēm un citiem pakalpojumiem.
       welcomemat:
         title: Organizācijām
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: OpenStreetMap Wiki
         description: Pārlūkojiet wiki, lai iegūtu padziļinātu OpenStreetMap dokumentāciju.
@@ -1602,6 +1655,9 @@ lv:
       change_preferences: Mainiet savus uzstādījumus šeit
     any_questions:
       title: Kādi jautājumi?
+      paragraph_1_html: Nepieciešama palīdzība kartējot, vai nav skaidrs kā lietot
+        OpenHistoricalMap? Atrodi atbildes uz saviem jautājumiem <a href='%{help_url}'>palīdzības
+        lapā</a>.
       get_help_here: Saņemiet palīdzību šeit
     sidebar:
       search_results: Meklēšanas rezultāti
@@ -1632,6 +1688,8 @@ lv:
           footway: Gājēju ceļš
           rail: Dzelzceļš
           subway: Metro
+          light_rail: Tramvaja sliedes
+          tram: Tramvajs
           cable_car: Trošu ceļš
           chair_lift: krēslu pacēlājs
           runway: Lidostas skrejceļš
@@ -1640,6 +1698,7 @@ lv:
           admin: Administratīvā robeža
           forest: Mežs
           wood: Pirmatnējs mežs
+          meadow: Pļava
           golf: Golfa laukums
           park: Parks
           common: Koplietošanas zeme
@@ -1679,6 +1738,13 @@ lv:
         ar svarīgākajām lietām, kuras tev jāzina.
       whats_on_the_map:
         title: Kas ir uz kartes
+        on_the_map_html: OpenHistoricalMap ir karte, kurā iezīmē lietas, kuras ir
+          <em>reālas un esošas</em> - tā iekļauj miljonus ar namiem, ceļiem un citām
+          detaļām par vietām. Tu vari kartēt jebko no reālās pasaules, kas tev liekas
+          interesants.
+        off_the_map_html: Ko tā <em>neiekļauj</em> ir viedokļa dati kā reitings, vēsture
+          vai hipotētiskas īpašības, un datus no ar autortiesībām aizsargātiem avotiem.
+          Ja vien tev nav speciāla atļauja, nekopē no tiešsaistes vai papīra kartēm.
       basic_terms:
         title: Pamatnoteikumi kartēšanai
         paragraph_1: OpenStreetMap ir pašai savs profesionālais žargons. Šeit ir daži
@@ -1687,6 +1753,12 @@ lv:
         way: ceļš
       rules:
         title: Noteikumi!
+        para_1_html: OpenHistoricalMap ir tikai daži formālie noteikumi, bet mēs ceram,
+          ka visi dalībnieki sadarbosies un komunicēs ar mūsu kopienu un tās biedriem.
+          Ja jūs apsverat citas iespējas, kas nav manuālā rediģēšana ar roku tad lūdzu
+          izlasiet un sekojiet pamācībām <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>Importi</a>
+          un <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automātiskā
+          rediģēšana</a>.
         automated_edits: Automatizēti labojumi
       start_mapping: Sākt Kartēt
       add_a_note:
@@ -1963,6 +2035,8 @@ lv:
       title: Lietotāja liegumi
       heading: Lietotāja liegumu saraksts
       empty: Pašlaik nav izveidotu liegumu.
+    revoke_all:
+      revoke: Atsaukt!
     helper:
       time_future_html: Beidzas %{time}.
       until_login: Aktīvs līdz lietotājs autorizēsies.
@@ -2040,6 +2114,7 @@ lv:
       add: Pievienot piezīmi
     notes_paging_nav:
       showing_page: '%{page}. lapa'
+      next: Tālāk
   javascripts:
     close: Aizvērt
     share:

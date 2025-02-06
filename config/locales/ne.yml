@@ -23,6 +23,7 @@ ne:
   time:
     formats:
       friendly: '%e %B %Y मा %H:%M'
+      blog: '%B %e, %Y'
   helpers:
     file:
       prompt: फाइल छान्नुहोस्
@@ -69,6 +70,7 @@ ne:
       message: सन्देश
       node: नोड
       node_tag: नोड चिनो
+      notifier: सुचक
       old_node: पूरानो नोड
       old_node_tag: पूरानो नोड ट्याग
       old_relation: पूरानो रिलेशन
@@ -109,7 +111,7 @@ ne:
       diary_entry:
         user: प्रयोगकर्ता
         title: विषय
-        body: बडी
+        body: मुख्य भाग
         latitude: अक्षांश
         longitude: देशान्तर
         language_code: भाषा
@@ -204,6 +206,8 @@ ne:
       x_years:
         one: लगभग %{count} वर्ष पहिले
         other: लगभग %{count} वर्ष पहिले
+  printable_name:
+    with_name_html: '%{name} (%{id})'
   editor:
     default: पूर्वस्थापित(अहिलेको %{name})
     id:
@@ -256,7 +260,7 @@ ne:
         link text: यो के हो ?
       save changes button: परिवर्तनहरू संग्रह गर्नुहोस्
     go_public:
-      heading: सार्वजनिक सम्पादन
+      heading: 'सार्वजनिक सम्पादन:'
     update:
       success_confirm_needed: प्रयोगकर्ताको जानकारीहरू सफलतापूर्वक अध्यावधिक गरियो।
         Check your email for a note to confirm your new email address.
@@ -344,11 +348,11 @@ ne:
   changeset_comments:
     feeds:
       comment:
-        comment: '%{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
-        commented_at_by_html: '%{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
+        comment: ' %{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
+        commented_at_by_html: ' %{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
       show:
-        title_all: OpenStreetMap परिवर्वतन सूची छलफल
-        title_particular: 'OpenStreetMap परिवर्तन सूची #%{changeset_id} छलफल'
+        title_all: OpenHistoricalMap परिवर्वतन सूची छलफल
+        title_particular: 'OpenHistoricalMap परिवर्तन सूची #%{changeset_id} छलफल'
   changesets:
     changeset:
       no_edits: (कुनै सम्पादनहरू छैनन्)
@@ -819,6 +823,7 @@ ne:
           utility_pole: उपयोगिता पोल
           water_tap: पानीको धारा
           water_tower: पानीको टावर
+          windmill: पवन मिल
           works: कारखाना
           "yes": मानव निर्मित
         military:
@@ -1010,6 +1015,7 @@ ne:
       search: खोज्नुहोस्
       states:
         open: खोल्नुहोस्
+        resolved: समाधान गरियो
     page:
       status: स्थिति
     show:
@@ -1042,8 +1048,10 @@ ne:
     gps_traces: GPS ट्रेसहरू
     user_diaries: प्रयोगकर्ताका डायरीहरू
     edit_with: '%{editor} प्रयोग गरेर सम्पादन गर्नुहोस्'
+    tag_line: स्वतन्त्र र खुला विकी विश्व म्याप
     intro_header: ओपन स्ट्रिट म्यापमा स्वागत छ!
-    partners_partners: समर्थकहरू
+    partners_title: समर्थकहरू
+    tou: प्रयोगका सर्तहरू
     help: सहायता
     about: बारेमा
     copyright: प्रतिलिपि अधिकार
@@ -1121,13 +1129,13 @@ ne:
       title: पासवर्ड बिर्सियो
       heading: पासवर्ड बिर्सिनुभयो ?
       email address: 'इमेल ठेगाना:'
-      new password button: पासवर्ड परिवर्तन गर्नुहोस्
+      new password button: प्रवेस शब्द परिवर्तन गर्ने
     edit:
-      title: पासवर्ड परिवर्तन गर्नुहोस्
-      heading: '%{user}को लागि पासवर्ड परिवर्तन गर्नुहोस्'
-      reset: पासवर्ड रिसेट गर्नुहोस्
+      title: प्रवेस शब्द परिवर्तन गर्ने
+      heading: '%{user}को लागि प्रवेस शब्द परिवर्तन गर्ने'
+      reset: नयाँ प्रवेशशव्द
     update:
-      flash changed: तपाईँको पासवर्ड परिवर्तन गरिएको छ।
+      flash changed: तपाईंको प्रवेश शब्द परिवर्तन गरिएको छ।
   preferences:
     edit:
       cancel: रद्द गर्नुहोस्
@@ -1183,7 +1191,6 @@ ne:
       legal_1_1_privacy_policy: गोपनीयता नीति
       partners_title: समर्थकहरू
     copyright:
-      title: प्रतिलिपी अधिकार र इजाजतपत्र
       foreign:
         title: यस अनुवादको बारेमा
         english_link: अङ्ग्रेजी मूल
@@ -1223,6 +1230,8 @@ ne:
       title: निर्यात गर्नुहोस्
       manually_select: आफै अर्को क्षेत्र छान्नुहोस
       licence: इजाजतपत्र
+      licence_details_html: ओपनस्ट्रीटम्यापका जानकारीहरू <a href="http://opendatacommons.org/licenses/odbl/1.0/">अोपन
+        डेटा कमन्स ओपन डेटाबेस लाइसेन्स</a> अनुज्ञप्तिसँग अाबद्ध छन् ।
       too_large:
         advice: निर्यात गर्ने प्रक्रिया असफल भएमा तल दिइएका स्रोतहरू प्रयोग गर्नुहोस्-
         body: यो क्षेत्र ओपनस्ट्रीटम्याप एक्स् एम् एल जानकारीको रूपमा निर्यात गर्नको
@@ -1256,6 +1265,7 @@ ne:
         url: /welcome
         title: ओपन स्ट्रिट म्यापमा स्वागत छ!
       beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: सुरुवातकर्ताहरूको लागि मार्गदर्शन
         description: सुरुवातकर्ताहरूको लागि समुदायद्वारा निर्मित निर्देशिका
       mailing_lists:
@@ -1264,12 +1274,17 @@ ne:
         title: आईआरसि
       switch2osm:
         title: स्विचटु‍ओएसएम
+      discord:
+        title: स्विचटु‍ओएसएम
+      slack:
+        title: आईआरसि
       wiki:
         title: ओपनस्ट्रिटम्याप विकि
     search:
       search: खोज्नुहोस्
       from: बाट
       to: लाई
+      where_am_i: यो कहाँ छ?
       submit_text: जानुहोस्
     key:
       table:
@@ -1286,20 +1301,18 @@ ne:
           subway: सबवे
           cable_car: केबल कार
           chair_lift: कुर्सी लिफ्ट
-          taxiway: ट्याक्सीको बाटो
           city: शहर
           vineyard: अङ्गुर-बगैँचा
           forest: वन
           wood: कुञ्ज
           farmland: खेतीयोग्य जमिन
           grass: घाँस
-          meadow: घाँसेमैदान
           sand: बालुवा
           golf: गल्फ कोर्स
           park: उद्यान
           resident: आवासीय क्षेत्र
           lake: ताल
-          reservoir: जलाशय
+          reservoir: मुहान
           glacier: हिमनदी
           wetland: सिमसार
           farm: खेती
@@ -1331,6 +1344,14 @@ ne:
       start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
     communities:
       title: समुदायहरू
+    ohm_privacy_policy:
+      page_title_html: गोपनीयता नीति
+      introduction:
+        title_html: परिचय
+      email:
+        title_html: इमेल ठेगाना
+      contact:
+        title_html: सम्पर्क
   traces:
     new:
       upload_trace: GPS Trace अपलोड गर्ने
@@ -1510,6 +1531,7 @@ ne:
       title: नयाँ टिप्पणी
     notes_paging_nav:
       showing_page: पृष्ठ %{page}
+      next: अर्को
   javascripts:
     close: बन्द गर्नुहोस्
     share:

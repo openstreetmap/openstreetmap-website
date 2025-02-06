@@ -70,6 +70,7 @@ is:
       message: Skilaboð
       node: Liður
       node_tag: Merki hnúts
+      notifier: Tilkynnandi
       old_node: Gamall liður
       old_node_tag: Merki gamals hnúts
       old_relation: Gömul vensl
@@ -111,7 +112,7 @@ is:
       diary_entry:
         user: Notandi
         title: Fyrirsögn
-        body: Meginmál
+        body: Texti
         latitude: Breiddargráða
         longitude: Lengdargráða
         language_code: Tungumál
@@ -176,6 +177,9 @@ is:
           að betra að nota orðalag sem allir skilja.
         needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
       user:
+        email_confirmation: Netfangið þitt er ekki birt opinberlega, sjá kaflann <a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title=Meðferð
+          OSMF á persónuupplýsingum, þar með töldum netföngum">um meðferð persónuupplýsinga</a>
         new_email: (aldrei birt opinberlega)
   datetime:
     distance_in_words_ago:
@@ -230,6 +234,7 @@ is:
   auth:
     providers:
       none: Ekkert
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -458,8 +463,8 @@ is:
         comment: 'Ný athugasemd við breytingasettið #%{changeset_id} eftir %{author}'
         commented_at_by_html: Uppfært %{when} af %{user}
       show:
-        title_all: Umræða um OpenStreetMap breytingasett
-        title_particular: 'Umræða um OpenStreetMap breytingasett #%{changeset_id}'
+        title_all: Umræða um OpenHistoricalMap breytingasett
+        title_particular: 'Umræða um OpenHistoricalMap breytingasett #%{changeset_id}'
       timeout:
         sorry: Því miður, það tók of langan tíma að ná í listann yfir þær athugasemdir
           við breytingasett sem þú baðst um.
@@ -518,11 +523,11 @@ is:
       hide_comment: fela
       unhide_comment: hætta að fela
       comment: Athugasemd
-      changesetxml: XML breytingasetts
-      osmchangexml: XML osmChange
+      changesetxml: Breytingasetts XML sniði
+      osmchangexml: osmChange XML sniði
     paging_nav:
-      nodes: Liðir (%{count})
-      nodes_paginated: Liðir (%{x}-%{y} af %{count})
+      nodes: Hnútar (%{count})
+      nodes_paginated: Hnútar (%{x}-%{y} af %{count})
       ways: Leiðir (%{count})
       ways_paginated: Leiðir (%{x}-%{y} af %{count})
       relations: Vensl (%{count})
@@ -621,6 +626,8 @@ is:
       all:
         title: OpenStreetMap bloggfærslur
         description: Nýjustu bloggfærslur frá notendum OpenStreetMap
+    comments:
+      title: Dagbók Athugasemdir bætt við af %{user}
     subscribe:
       heading: Gerast áskrifandi að umræðu með bloggfærslu?
       button: Gerast áskrifandi að umræðu
@@ -629,7 +636,7 @@ is:
       button: Hætta áskrift að umræðu
   diary_comments:
     index:
-      title: Dagbók Athugasemdir bætt við af %{user}
+      title: Dagbóka Athugasemdir bætt við af %{user}
       heading: Athugasemdir dagbókar %{user}
       subheading_html: Dagbóka Athugasemdir bætt við af %{user}
       no_comments: Engar athugasemdir við dagbók
@@ -713,8 +720,11 @@ is:
     search:
       title:
         latlon: Innri
+        latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
         osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}:'
       prefix:
@@ -1608,12 +1618,21 @@ is:
     gps_traces: GPS ferlar
     user_diaries: Blogg notenda
     edit_with: Breyta með %{editor}
+    tag_line: Frjálsa wiki heimskortið
     intro_header: Velkomin(n) í OpenStreetMap!
     intro_text: OpenStreetMap er heimskort gert af fólki eins og þér. Það er gefið
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
-    partners_fastly: Fastly
-    partners_corpmembers: Fyrirtækjameðlimir OSMF
-    partners_partners: samstarfsaðilum
+    intro_2_create_account: Búa til notandaaðgang
+    partners_title: Samstarfsaðilar
+    hosting_partners_2024_html: "<p>\n <a href='https://greeninfo.org'>GreenInfo Network</a>
+      er óhagnaðardrifin samfélagsleg korta- og samskiptasamtök sem hjálpa félagasamtökum
+      og ríkisstofnunum að ná m.a. félagslegum og umhverfislegum markmiðum með því
+      að nota margvísleg verkfæri, þar á meðal félagsmiðaðar hönnunaraðferðir, samvinnuþróun
+      og opin vef- og landfræðileg verkfæri. \n</p> \n<p> \n <a href='https://developmentseed.org/'>Development
+      Seed</a> er verkfræði- og hugbúnaðarfyrirtæki sem liðkar fyrir beitingu hnattfræðigagna
+      í baráttunni við stærstu hnattrænu áskoranir okkar. Development Seed nýtir sér
+      gríðarmikið magn hnattfræðigagna, tölvuský, hnattfræðigervigreind (geospatial
+      AI) og ígrundaða vöruþróun.\n</p>"
     tou: Notkunarskilmálar
     osm_offline: OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds.
     osm_read_only: Ekki er hægt að skrifa í OpenStreetMap gagnagrunninn í augnablikinu
@@ -1824,7 +1843,7 @@ is:
     messages_table:
       from: Frá
       to: Til
-      subject: Viðfangsefni
+      subject: Titill
       date: Dagsetning
       actions: Aðgerðir
     message_summary:
@@ -1889,7 +1908,7 @@ is:
       title: Glatað lykilorð
       heading: Gleymt lykilorð?
       email address: Tölvupóstfang
-      new password button: Endurstilla lykilorð
+      new password button: Senda nýtt lykilorð á netfangið þitt
       help_text: Sláðu inn netfangið sem þú skráðir þig með, við munum senda tengil
         á það sem þú getur notað til að breyta lykilorðinu þínu.
     create:
@@ -1897,10 +1916,10 @@ is:
         okkar, munt þú innan nokkurra mínútna fá tölvupóst með tengli til að endurheimta
         lykilorðið þitt.
     edit:
-      title: Endurstilla lykilorð
-      heading: Endurstilla lykilorð fyrir %{user}
+      title: Lykilorð endurstillt
+      heading: Endurstillti lykilorð fyrir notandann %{user}
       reset: Endurstilla lykilorð
-      flash token bad: Þetta aðgangsteikn fannst ekki, kannski er slóðin röng?
+      flash token bad: Þessi leynistrengur fannst ekki, kannski er slóðin röng?
     update:
       flash changed: Lykilorðinu þínu hefur verið breytt
       flash token bad: Þetta aðgangsteikn fannst ekki, kannski er slóðin röng?
@@ -1938,7 +1957,7 @@ is:
       home location: Upphafsstaðsetning
       no home location: Þú hefur ekki stillt staðsetningu þína.
       update home location on click: Uppfæra staðsetninguna þegar ég smelli á kortið
-      show: Birta
+      show: Sýna
       delete: Eyða
       undelete: Afturkalla eyðingu
     update:
@@ -2038,18 +2057,22 @@ is:
       open_data_open_data: opin gögn
       open_data_copyright_license: höfundarrétt og notkunarleyfi
       legal_title: Lagalegur fyrirvari
-      legal_1_1_html: |-
-        Þetta vefsvæði og margar aðrar tengdar þjónustur eru formlega reknar af
-        %{openstreetmap_foundation_link} (OSMF)
-        fyrir hönd þátttakendanna í verkerfninu. Öll notkun á þjónustum sem OSMF rekur falla undir
-        %{terms_of_use_link}, %{aup_link} and our %{privacy_policy_link} okkar.
+      legal_1_1_html: "Þetta vefsvæði ásamt mörgum tengdum þjónustum er formlega rekið
+        af\n<a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a>
+        (OSMF) \nfyrir hönd samfélagsins. Notkun allrar þjónustu á vegum OSMF fellur
+        undir \n<a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">notkunarskilmála
+        okkar</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">ásættanlega
+        notkunarskilmála</a> og einnig <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">persónuverndarstefnu
+        okkar</a>."
       legal_1_1_openstreetmap_foundation: OpenStreetMap-sjálfseignarstofnuninni
       legal_1_1_terms_of_use: Notkunarskilmála
       legal_1_1_aup: Stefnu varðandi ásættanlega notkun
       legal_1_1_privacy_policy: Persónuverndarstefnu
-      legal_2_1_html: |-
-        Endilega %{contact_the_osmf_link}
-        ef þú ert með spurningar eða beiðnir varðandi notkunarleyfi, höfundarrétt eða önnur lögfræðileg málefni.
+      legal_2_1_html: "Endilega <a href='https://osmfoundation.org/Contact'>hafðu
+        samband við OSMF</a> \nef þú ert með spurningar eða beiðnir varðandi notkunarleyfi,
+        höfundarrétt eða önnur lögfræðileg málefni.\n<br>\nOpenHistoricalMap, táknmerkið
+        með stækkunarglerinu og ástand kortsins eru <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">skrásett
+        vörumerki OSMF</a>."
       legal_2_1_contact_the_osmf: hafðu samband við OSMF
       legal_2_2_html: OpenStreetMap, merkið með stækkunarglerinu og ástand kortsins
         eru %{registered_trademarks_link}.
@@ -2072,8 +2095,10 @@ is:
         mapping_link: farið að kortleggja
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} eru %{open_data}, gefin út með
-          %{odc_odbl_link} (ODbL) af %{osm_foundation_link} (OSMF).
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> er <i>opinn og frjáls kortagrunnur</i>, gefinn út með <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) notkunarleyfi frá  <a
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF) sjálfseignarstofnuninni.
         introduction_1_registered_trademark_html: '&reg;'
         introduction_1_open_data: opin gögn
         introduction_1_odc_odbl: Open Data Commons Open Database License (ODbL) notkunarleyfi
@@ -2082,20 +2107,30 @@ is:
         introduction_1_osm_foundation_url: https://osmfoundation.org/
         introduction_2_html: |-
           Þér er frjálst að afrita, dreifa, senda og aðlaga kortagrunninn
-          og gögn hans, gegn því að þú vísir í og viðurkennir rétt OpenStreetMap
+           og gögn hans, gegn því að þú vísar í og viðurkennir rétt OpenHistoricalMap
           og sjálfboðaliða þess. Ef þú breytir eða byggir á kortagrunninum
-          eða gögnum hans, þá verður þú að gefa niðurstöðuna út með sama notkunarleyfi.
-          %{legal_code_link} útskýrir réttindi þín og skyldur.
+          eða gögnum hans, þá verður þú að gefa niðurstöðuna út með
+          sama leyfi.
+          <a href="https://opendatacommons.org/licenses/odbl/1.0/">Leyfistextinn</a>
+          útskýrir réttindi þín og skyldur.
         introduction_2_legal_code: Leyfistextinn
         introduction_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1.0/
-        introduction_3_html: Hjálparskjölin okkar eru gefin út með %{creative_commons_link}
-          notkunarleyfi (CC BY-SA 2.0).
+        introduction_3_html: "Hjálparskjölin okkar eru gefin út með \n<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
+          Attribution-ShareAlike 2.0</a> notkunarleyfi (CC BY-SA 2.0)."
         introduction_3_creative_commons: Creative Commons HöfundarGetið-DeilistEinsÁfram
           2.0
         introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/
         credit_title_html: Hvernig á að vísa til OpenStreetMap
         credit_1_html: 'Þegar þú notar gögn úr OpenStreetMap, þarft þú að gera tvennt:'
-        credit_2_1: Birta tilvísun í OpenStreetMap með höfundarréttartilkynningu okkar.
+        credit_2_1: "Þú þarft líka að taka skýrt fram að gögnin séu tiltæk með Open\nDatabase
+          notkunarleyfi, og ef verið sé að nota kortaflísar frá okkur, að kortagögnin
+          \nséu með CC BY-SA notkunarleyfi. Þú getur gert það með því að tengja\ná
+          <a href=\"https://www.openstreetmap.org/copyright\">þessa höfundarréttarsíðu</a>.\nAnnars,
+          og þess er krafist ef þú ert að dreifa OSM á einhverju\ngagnaformi, geturðu
+          talið upp og tengt beint á leyfishafana. Í miðlum\nþar sem tenglar eru varla
+          mögulegir (t.d. prentuðum verkum), stingum við upp á að\nþú beinir lesendum
+          á openstreetmap.org (mögulega að tengja\n'OpenHistoricalMap' við fullt vistfang
+          þessarar síðu), á opendatacommons.org, og\nef slíkt á við, á creativecommons.org."
         credit_2_2: Gera ljóst að gögnin séu tiltæk með Open Database License notkunarleyfinu.
         credit_3_html: "Varðandi höfundarréttartilkynninguna erum við með aðrar kröfur
           um hvernig hún ætti að birtast, háð því hvernig þú sért að nota gögnin okkar.
@@ -2133,6 +2168,18 @@ is:
           Framlög hafa komið frá mörgum þúsundum einstaklinga. Við erum líka
           með gögn með opnum notkunarleyfum frá þjóðlegum landupplýsingastofnunum
           auk annarra opinberra aðila, meðal annars:
+        contributors_cambridge-anr_html: Inniheldur gögn búin til af <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">The
+          Cambridge Group fyrir verkefnið History of Population and Social Structures</a>
+          og <a href="https://anrcommunes.hypotheses.org/">ANR Communes</a> verkefninu.
+        contributors_ned_html: Inniheldur gögn úr ýmsum <a href="https://www.naturalearthdata.com/">Natural
+          Earth Data</a> gagnasöfnum.
+        contributors_newberry_html: Inniheldur gögn úr <a href-"https://digital.newberry.org/ahcb/">Atlas
+          of Historical County Boundaries</a> frá <a href="https://www.newberry.org/">Newberry
+          Library</a> .
+        contributors_footer_1_html: |-
+          Til að skoða nánari upplýsingar um þetta, auk annarra gagna sem notuð hafa verið
+          til að bæta OpenHistoricalMap, skoðaðu þá síðuna <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Þátttakendur</a> á wiki/kvikusvæði OpenHistoricalMap.
         contributors_at_credit_html: |-
           %{austria}: Inniheldur gögn frá %{stadt_wien_link} (með %{cc_by_link}), %{land_vorarlberg_link}
           og Land Tirol (með %{cc_by_at_with_amendments_link}).
@@ -2252,19 +2299,20 @@ is:
           höfundarréttarvörðum upptökum (t.d. Google Maps eða prentuðum kortum) án
           sérstakrar heimildar frá handhöfum höfundarréttarins.
         infringement_2_1_html: |-
-          Ef þú heldur að höfundarréttarvörðu efni hafi ranglega verið bætt í
-          OpenStreetMap-gagnagrunninn eða á þetta vefsvæði, skaltu skoða
-           %{takedown_procedure_link} eða skrá fyrirspurn beint á
-          %{online_filing_page_link}.
+          Ef þú heldur að höfundarréttarvarið efni hafi ranglega verið bætt í
+          OpenHistoricalMap gagnagrunninn eða á þetta vefsvæði, skaltu skoða
+          <a href="https://wiki.osmfoundation.org/wiki/License/Takedown_procedure">fjarlægingarferlið</a> okkar eða skrá fyrirspurn beint á
+           veflægu <a href="https://dmca.openstreetmap.org/">kröfugerðarsíðuna</a> okkar.
         infringement_2_1_takedown_procedure: fjarlægingarferlið okkar
         infringement_2_1_takedown_procedure_url: https://wiki.osmfoundation.org/wiki/Takedown_procedure
         infringement_2_1_online_filing_page: veflægu kröfugerðarsíðuna okkar
         infringement_2_1_online_filing_page_url: https://dmca.openstreetmap.org/
         trademarks_title: Vörumerki
-        trademarks_1_1_html: |-
-          OpenStreetMap, merkið með stækkunarglerinu og ástand landakortsins eru skrásett
-           vörumerki OpenStreetMap Foundation sjálfseignarstofnuninnar. Ef þú ert með spurningar varðandi notkun þína á þessum vörumerkjum, skaltu skoða
-          %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, merkið með stækkunarglerinu staða
+          kortsins eru skrásett vörumerki OpenHistoricalMap Foundation sjálfseignarstofnuninnar.
+          Ef þú ert með spurningar varðandi notkun þína á þessum vörumerkjum, sendu
+          þá fyrirspurnir á <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">vinnuhóp
+          notkunarleyfa</a>.
         trademarks_1_1_trademark_policy: reglur fyrir vörumerkið
         trademarks_1_1_trademark_policy_url: https://wiki.osmfoundation.org/wiki/Trademark_Policy
     index:
@@ -2320,14 +2368,16 @@ is:
             að ganga til liðs við OpenStreetMap og bæta við eða laga gögnin sjálfur. \
         add_a_note:
           instructions_1_html: |-
-            Smelltu á %{note_icon} eða sama táknið í kortaglugganum.
+            Smelltu á <a class='icon note'></a> eða sama táknið í kortaglugganum.
             Þetta mun bæta merki á kortið, sem þú getur fært til
             með því að draga það. Bættu við skilaboðunum þínum, smelltu síðan á að vista, og annað kortagerðarfólk mun væntanlega rannsaka málið.
       other_concerns:
         title: Önnur íhugunarefni
-        concerns_html: |-
-          Ef þú ert að velta fyrir þér hvernig gögnin okkar eru notuð eða einhverju varðandi efni þeirra, geturðu skoðað
-          %{copyright_link} varðandi nánari lagaskýringar, eða haft samband við viðeigandi %{working_group_link}.
+        concerns_html: "Ef þú ert að velta fyrir þér hvernig gögnin okkar eru notuð
+          eða einhverju varðandi efni þeirra, geturðu skoðað\n<a href='/copyright'>síðuna
+          varðandi höfundarrétt</a> varðandi nánari lagaskýringar, eða haft samband
+          við viðeigandi \n<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
+          vinnuhóp</a>.  \\"
         copyright: höfundarréttarsíðuna
         working_group: OSMF-vinnuhóp
         working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
@@ -2365,8 +2415,17 @@ is:
         title: Fyrir félög, stofnanir og fyrirtæki
         description: Ertu á vegum stofnunar/fyrirtækis sem hefur hug á að nota OpenStreetMap?
           Finndu það sem þú þarft að vita á kynningarsíðunni.
+      discord:
+        title: switch2osm
+      forum:
+        title: Vefspjall
+      github:
+        url: https://github.com/OpenHistoricalMap/
+      mailing_list:
+        title: Póstlisti
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: Wiki-vefur OpenStreetMap
         description: Vafraðu um wiki/kvikuna til að sjá greinargóðar leiðbeiningar
           varðandi OpenStreetMap.
@@ -2423,13 +2482,13 @@ is:
           subway: Neðanjarðarlest
           ferry: Ferja
           light_rail: Léttlest
-          tram: Sporvagn
+          tram: sporvagn
           trolleybus: Rafknúinn strætisvagn
           bus: Strætó
           cable_car: Kláflyfta
-          chair_lift: Stólalyfta
+          chair_lift: stólalyfta
           runway: Flugbraut
-          taxiway: Akbraut flugvéla
+          taxiway: akstursbraut
           apron: Flughlað
           admin: Stjórnsýslumörk
           capital: Höfuðborg
@@ -2440,7 +2499,7 @@ is:
           wood: Skógur
           farmland: Ræktarland
           grass: Gras
-          meadow: Rjóður
+          meadow: lundur
           bare_rock: Berar klappir
           sand: Sandur
           golf: Golfvöllur
@@ -2454,7 +2513,7 @@ is:
           heathland: Heiðalönd
           scrubland: Kjarrlendi
           lake: Vatn
-          reservoir: Uppistöðulón
+          reservoir: uppistöðulón
           intermittent_water: Ósamfellt vatnasvæði
           glacier: Jökull
           reef: Sker
@@ -2474,7 +2533,7 @@ is:
           building: Merkisbygging
           station: Lestarstöð
           summit: Fjallstindur
-          peak: Tindur
+          peak: tindur
           tunnel: Umkringt punktalínum = göng
           bridge: Umkringt svartri línu = brú
           private: Einkaaðgangur
@@ -2566,6 +2625,28 @@ is:
           samfélagshópar. Allir geta sett upp eða tekið þátt í slíku. Lestu meira um þetta á %{communities_wiki_link}.
         communities_wiki: Wiki-síðunni um samfélögin
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
+    ohm_privacy_policy:
+      page_title_html: Meðferð persónuupplýsinga
+      introduction:
+        title_html: Kynning
+      who:
+        title_html: Hver hefur aðgang að gögnunum
+      details:
+        title_html: Ítarlegri upplýsingar
+      trace_data:
+        title_html: Gögn GPS-ferils
+      map_data:
+        title_html: Gögn korts
+      email:
+        title_html: Tölvupóstföng
+      gravatar:
+        title_html: Gravatar-auðkennismynd
+      account_removal:
+        title_html: Fjarlæging notandaaðgangs
+      cookies:
+        title_html: Vefkökur
+      contact:
+        title_html: Hafa samband
   traces:
     visibility:
       private: Prívat  (aðeins deilt sem óauðkennanlegum, óröðuðum punktum)
@@ -2837,6 +2918,7 @@ is:
       consider_pd: Til viðbótar við ofangreint samkomulag, lít ég svo á að framlög
         mín verði í almenningseigu (Public Domain)
       consider_pd_why: hvað þýðir þetta?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Upplýsingar sem hjálpa til við að skilja þessi hugtök:
         %{readable_summary_link} á mannamáli og nokkrar %{informal_translations_link}'
       readable_summary: læsilegt yfirlit
@@ -3008,7 +3090,7 @@ is:
       active_blocks:
         one: '%{count} virkt bann'
         other: '%{count} virk bönn'
-      revoke: Afturkalla!
+      revoke: Eyða banninu
       flash: Öllum virkum bönnum hefur verið aflétt.
     helper:
       time_future_html: Endar eftir %{time}
@@ -3152,6 +3234,7 @@ is:
       add: Bæta við minnispunkti
     notes_paging_nav:
       showing_page: Síða %{page}
+      next: Næsta
   javascripts:
     close: Loka
     share:
@@ -3194,6 +3277,10 @@ is:
           one: Þú ert minna en %{count} fet frá þessum punkti
           other: Þú ert minna en %{count} fet frá þessum punkti
       base:
+        historical: Sögulegt
+        woodblock: Trjárista
+        japanesescroll: Japönsk rúlla
+        railway: Járnbrautir
         standard: Staðlað
         cyclosm: CyclOSM
         cycle_map: Hjólakort

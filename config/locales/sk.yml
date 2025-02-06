@@ -49,7 +49,7 @@ sk:
         create: Registrovať
         update: Aktualizovať
       oauth2_application:
-        create: Registrovať
+        create: Registrácia
         update: Aktualizovať
       redaction:
         create: Vytvoriť revíziu
@@ -80,6 +80,7 @@ sk:
       message: Správa
       node: Uzol
       node_tag: Značka uzlu
+      notifier: Oznamovanie
       old_node: Starý uzol
       old_node_tag: Stará značka uzlu
       old_relation: Stará relácia
@@ -120,7 +121,7 @@ sk:
       diary_entry:
         user: Používateľ
         title: Predmet
-        body: Obsah
+        body: Text
         latitude: Zem. šírka
         longitude: Zem. dĺžka
         language_code: Jazyk
@@ -184,6 +185,10 @@ sk:
         needs_view: Potrebuje sa používateľ prihlásiť pred tým, než bude tento blok
           vymazaný?
       user:
+        email_confirmation: Vaša adresa nebude verejne zobrazená, pozrite naše <a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Pravidlá
+          ochrany osobných údajov na wiki, vrátane časti o e-mailových adresách">pravidlá
+          ochrany osobných údajov</a> pre viac informácií.
         new_email: (nikde se verejne nezobrazuje)
   datetime:
     distance_in_words_ago:
@@ -259,8 +264,10 @@ sk:
   auth:
     providers:
       none: Žiadna
+      openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipédia
   api:
@@ -324,6 +331,7 @@ sk:
       public editing:
         heading: Verejné editácie
         enabled: Zapnuté. Nie je anonym a môže upravovať údaje.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: čo to znamená?
         disabled: Vypnutý a nemôže upravovať údaje, všetky predchádzajúce úpravy sú
           anonymné.
@@ -336,6 +344,7 @@ sk:
           a odsúhlaste nové Podmienky prispievania.
         agreed_with_pd: Deklarovali ste tiež, že svoje úpravy považujete za slobodné
           dielo.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: čo to znamená?
       save changes button: Uložiť zmeny
       delete_account: Odstrániť účet...
@@ -479,8 +488,8 @@ sk:
         comment: 'Nový komentár k sade zmien #%{changeset_id} od %{author}'
         commented_at_by_html: Upravené %{when} používateľom %{user}
       show:
-        title_all: Diskusia k sade zmien OpenStreetMap
-        title_particular: 'Diskusia k sade zmien OpenStreetMap #%{changeset_id}'
+        title_all: Diskusia k sade zmien OpenHistoricalMap
+        title_particular: 'Diskusia k sade zmien OpenHistoricalMap #%{changeset_id}'
       timeout:
         sorry: Ľutujeme, ale vami požadovaný zoznam komentárov k sade zmien sa načítaval
           príliš dlho.
@@ -524,21 +533,15 @@ sk:
       title: 'Sada zmien: %{id}'
       created: 'Vytvorená: %{when}'
       closed: 'Zatvorená: %{when}'
-      created_ago_html: Vytvorené %{time_ago}
-      closed_ago_html: Zatvorené %{time_ago}
-      created_ago_by_html: Vytvorené %{time_ago} používateľom %{user}
-      closed_ago_by_html: Zatvorené %{time_ago} používateľom %{user}
       discussion: Diskusia
       join_discussion: Zapojte sa do diskusie
       still_open: Sada zmien stále otvorená - diskusia bude otvorená, keď bude sada
         zmien uzatvorená.
       subscribe: Odoberať
       unsubscribe: Zrušiť odoberanie
-      comment_by_html: Komentár od používateľa %{user} %{time_ago}
-      hidden_comment_by_html: Skrytý komentár od používateľa %{user} %{time_ago}
       hide_comment: skryť
       unhide_comment: zobraziť
-      comment: Okomentovať
+      comment: Komentár
       changesetxml: XML sady zmien
       osmchangexml: osmChange XML
     paging_nav:
@@ -642,6 +645,8 @@ sk:
       all:
         title: Záznamy denníka OpenStreetMap
         description: Nedávne položky denníkov používateľov OpenStreetMap
+    comments:
+      title: Komentáre k denníkom pridané používateľom %{user}
     subscribe:
       heading: Prihlásiť sa na odber nasledujúcej diskusie o zmenách?
       button: Odoberať diskusiu
@@ -649,7 +654,7 @@ sk:
       button: Zrušiť odber diskusie
   diary_comments:
     index:
-      title: Komentáre k denníkom pridané používateľom %{user}
+      title: Komentáre v denníku pridané používateľom %{user}
       heading: Komentáre v denníku používateľa %{user}
       subheading_html: Komentáre v denníku pridané používateľom %{user}
       no_comments: Žiadne komentáre k denníku
@@ -1499,7 +1504,6 @@ sk:
         resolved: Vyriešené
     page:
       user_not_found: Používateľ neexistuje
-      issues_not_found: Nenašli sa žiadne také hlásenia
       reported_user: Nahlásený používateľ
       status: Stav
       reports: Hlásenia
@@ -1523,9 +1527,6 @@ sk:
         many: '%{count} hlásení'
         other: '%{count} hlásení'
       no_reports: Žiadne hlásenia
-      report_created_at_html: Prvýkrát nahlásené %{datetime}
-      last_resolved_at_html: Naposledy vyriešené %{datetime}
-      last_updated_at_html: Naposledy aktualizované %{datetime} používateľom %{displayname}
       resolve: Vyriešiť
       ignore: Ignorovať
       reopen: Znovu otvoriť
@@ -1596,12 +1597,14 @@ sk:
     gps_traces: GPS stopy
     user_diaries: Denníky používateľov
     edit_with: Upraviť pomocou %{editor}
+    tag_line: Slobodná wiki-mapa sveta
     intro_header: Vitajte v OpenStreetMap!
     intro_text: OpenStreetMap je mapa sveta, vytvorené ľuďmi ako vy, voľne využiteľná
       pod slobodnou licenciou.
-    partners_fastly: Fastly
-    partners_corpmembers: firemní členovia OSMF
-    partners_partners: partneri
+    intro_2_create_account: Založte si konto
+    partners_title: partneri
+    hosting_partners_2024_html: Hosting podporuje %{ucl}, %{fastly}, %{bytemark} a
+      ďalší %{partners}.
     tou: Podmienky používania
     osm_offline: OpenStreetMap databáza je teraz offline, zatiaľ čo potrebná údržba
       databázy naďalej prebieha.
@@ -1655,6 +1658,7 @@ sk:
       failed_to_import: 'sa nepodarilo naimportovať. Chybové hlásenie:'
       more_info_html: Viac informácií o zlyhaniach importu GPX a o tom, ako sa im
         vyhnúť, nájdete na %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Neúspešný import GPX'
     gpx_success:
       hi: Ahoj %{to_user},
@@ -1895,6 +1899,7 @@ sk:
       image: Obrázok
       gravatar:
         gravatar: Používať Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Čo je Gravatar?
         disabled: Gravatar bol vypnutý.
         enabled: Zobrazenie vášho Gravatara bolo zapnuté.
@@ -1993,16 +1998,19 @@ sk:
       open_data_copyright_license: Autorské práva a licencie
       legal_title: Právne informácie
       legal_1_1_html: Tento web a mnoho ďalších súvisiacich služieb za komunitu oficiálne
-        prevádzkuje %{openstreetmap_foundation_link} (OSMF). Použitie všetkých služieb
-        prevádzkovaných OSMF podlieha našim %{terms_of_use_link}, %{aup_link} a našim
-        %{privacy_policy_link}.
+        prevádzkuje <a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a>
+        (OSMF). Použitie všetkých služieb prevádzkovaných OSMF podlieha našim <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Podmienkam
+        použitia</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlám
+        prijateľného použitia</a> a našim <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlám
+        ochrany osobných údajov</a>.
       legal_1_1_openstreetmap_foundation: Nadácia OpenStreetMap
       legal_1_1_terms_of_use: Podmienkam použitia
       legal_1_1_aup: Pravidlám prijateľného používania
       legal_1_1_privacy_policy: Pravidlám ochrany osobných údajov
       legal_2_1_html: |-
-        Prosím, %{contact_the_osmf_link}
-        ak máte otázky týkajúce sa licencií, autorských práv alebo iné právne otázky.
+        Ak máte otázky týkajúce sa licencovania, autorských práv alebo iných právnych záležitostí, <a href='https://osmfoundation.org/Contact'>kontaktujte, prosím, OSMF</a>.
+        <br>
+        OpenHistoricalMap, logo s lupou a State of the Map sú <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registrované ochranné známky OSMF</a>.
       legal_2_1_contact_the_osmf: kontaktujte OSMF
       legal_2_2_html: OpenStreetMap, logo s lupou a "State of the Map" sú %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: registrované ochranné známky OSMF
@@ -2022,26 +2030,29 @@ sk:
         native_link: slovenskú verziu
         mapping_link: začať mapovať
       legal_babble:
-        introduction_1_html: "OpenStreetMap%{registered_trademark_link} sú %{open_data},
-          ktoré licencované za podmienok \n%{odc_odbl_link} (ODbL) poskytuje %{osm_foundation_link}
-          (OSMF)."
+        introduction_1_html: OpenHistoricalMap sú <em>slobodné dáta</em>, ponúkané
+          za podmienok licencie <a href="http://opendatacommons.org/licenses/odbl/">Open
+          Data Commons Open Database License</a> (ODbL).
         introduction_1_open_data: otvorené dáta
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: Nadácia OpenStreetMap
-        introduction_2_html: "Môžete voľne kopírovať, distribuovať, prenášať a upravovať
-          naše údaje pokiaľ uvediete ako zdroj OpenStreetMap a jej prispievateľov.
-          Ak pozmeníte naše údaje alebo na nich budete stavať, môžete výsledok distribuovať
-          iba na základe rovnakej licencie. Stránka \n%{legal_code_link} vysvetľuje
-          vaše práva a povinnosti."
+        introduction_2_html: '  Môžete kopírovať, distribuovať, oznamovať verejnosti
+          a upravovať naše dáta, pokiaľ ako zdroj uvediete „<em>OpenHistoricalMap
+          a jeho prispievatelia</em>“. Ak naše mapy alebo dáta budete upravovať alebo
+          ich použijete vo svojom diele, musíte výsledné dielo šíriť pod rovnakou
+          licenciou. Vaše práva a povinnosti sú vysvetlené v <a href="http://opendatacommons.org/licenses/odbl/">plnom
+          znení licenčnej zmluvy</a>.'
         introduction_2_legal_code: právne náležitosti
-        introduction_3_html: Naša dokumentácia je licencovaná na základe licencie
-          %{creative_commons_link} (CC BY-SA 2.0).
+        introduction_3_html: Naša dokumentácia je zverejnená pod licenciou <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Uveďte autora – Zachovajte licenciu 2.0</a> (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: Ako uvádzať OpenStreetMap
         credit_1_html: 'Kde používate údaje OpenStreetMap, musíte urobiť nasledujúce
           dve veci:'
-        credit_2_1: Vyjadrite uznanie autorstva OpenStreetMap zobrazením nášho oznámenia
-          o autorských právach.
+        credit_2_1: |-
+          Musíte tiež zdôrazniť, že údaje sú dostupné pod licenciou Open Database Licence, a pokiaľ používate naše mapové dlaždice, že ich kartografický obsah je licencovaný pod CC-BY-SA. Uvedené môžete splniť hypertextovým odkazom na <a href="http://www.openstreetmap.org/copyright">tuto stránku</a>.
+
+          Alternatívne môžete (a ak šírite OSM v dátovej forme, tak musíte) vymenovať licencie a uviesť hypertextové odkazy priamo na ne. Pri médiách, kde hypertextové odkazy nie sú možné (napr. tlačené diela), odporúčame, aby ste nasmerovali čitateľov na openstreetmap.org (napríklad rozšírením slova 'OpenHistoricalMap' na túto plnú adresu), na opendatacommons.org a na creativecommons.org (ak je to relevenantné).
         credit_2_2: Jasne uveďte, že údaje sú dostupné pod licenciou Open Database
           License.
         credit_3_html: Pre upozornenie o autorských právach máme rôzne požiadavky
@@ -2076,6 +2087,9 @@ sk:
         contributors_intro_html: 'Naši prispievatelia sú tisícky jednotlivcov. Máme
           aj dáta so slobodnou licenciou od národných geografických inštitúcií či
           iných zdrojov, medzi nimi:'
+        contributors_footer_1_html: |-
+          Podrobnosti o týchto a ďalších zdrojoch, ktoré boli použité pre vylepšenie OpenHistoricalMap, nájdete na <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">stránke Contributors</a> na OpenHistoricalMap wiki.
         contributors_at_austria: Rakúsko
         contributors_at_stadt_wien: Mesto Viedeň
         contributors_at_cc_by: CC BY
@@ -2107,15 +2121,18 @@ sk:
         infringement_1_html: Prispievateľom OSM pripomíname, že by nikdy nemali pridávať
           dáta zo zdrojov chránených autorským právom (napr. Google Maps či tlačené
           mapy) bez výslovného súhlasu držiteľov práv.
-        infringement_2_1_html: Ak si myslíte, že materiál chránený autorskými právami
-          bol nevhodne pridaný do databázy OpenStreetMap alebo na túto stránku, pozrite
-          si náš %{takedown_procedure_link} alebo nahláste priamo na našej %{online_filing_page_link}.
+        infringement_2_1_html: Ak sa domnievate, že materiál podliehajúci autorským
+          právam bol neoprávnene pridaný do databázy OpenHistoricalMap alebo na tieto
+          stránky, prosíme vás, aby ste si pozreli náš <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">postup
+          odstraňovania</a> alebo podajte žiadosť priamo na <a href="https://dmca.openstreetmap.org/">stránke
+          pre podávanie sťažností</a>.
         infringement_2_1_takedown_procedure: postup na odstránenie
         infringement_2_1_online_filing_page: on-line nahlasovacej stránke
         trademarks_title: Ochranné známky
-        trademarks_1_1_html: OpenStreetMap, logo s lupou a "State of the Map" sú registrované
-          ochranné známky nadácie OpenStreetMap. Ak máte otázky týkajúce sa používania
-          známok, prosím pozrite naše %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, logo s lupou a State of the Map sú
+          registrované ochranné známky OpenHistoricalMap Foundation. Ak máte otázky
+          týkajúce sa používania týchto známok, zašlite ich <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">pracovnej
+          skupine pre licencovanie</a>.
         trademarks_1_1_trademark_policy: Zásady používania ochranných známok
     index:
       js_1: Používate prehliadač bez podpory JavaScriptu, alebo máte JavaScript vypnutý.
@@ -2166,16 +2183,11 @@ sk:
           explanation_html: Ak ste si všimli problém s našimi mapovými údajmi, napríklad
             chýba cesta alebo vaša adresa, najlepší spôsob, ako postupovať, je pripojiť
             sa ku komunite OpenStreetMap a pridať alebo opraviť údaje sami.
-        add_a_note:
-          instructions_1_html: |-
-            Stačí kliknúť na %{note_icon} alebo na rovnakú ikonu v zobrazení mapy.
-            Týmto sa pridá značka na mapu, ktorú môžete presúvať
-            ťahaním. Pridajte svoju správu, kliknite na tlačidlo Uložiť a ostatní tvorcovia máp to preskúmajú.
       other_concerns:
         title: Ostatné obavy
-        concerns_html: "Ak máte obavy týkajúce sa spôsobu používania našich údajov
-          alebo obsahu, mnohé vysvetľuje \n%{copyright_link}, kde nájdete ďalšie právne
-          informácie, alebo vám pomôže príslušná %{working_group_link}, ak ju kontaktujete."
+        concerns_html: |-
+          Ak máte pochybnosti o používaní našich údajov alebo obsahu, pozrite našu <a href='/copyright'>stránku o autorských právach</a> pre viac právnych informácií, alebo kontaktujte
+          príslušnú <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>pracovnú skupinu OSMF</a>.
         copyright: stránka o autorských právach
         working_group: pracovná skupina OSMF
     help:
@@ -2209,6 +2221,10 @@ sk:
         title: Pre organizácie
         description: Ste v organizácii, ktorá má planý s OpenStreetMap? Nájdite čo
           potrebujete v uvítacom sprievodcovi.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: OpenStreetMap Wiki
         description: Podrobnú dokumentáciu OpenStreetMap nájdete na wiki.
@@ -2261,14 +2277,14 @@ sk:
           train: Vlak
           subway: Metro
           ferry: Trajekt
-          light_rail: Ľahké metro
-          tram: Električka
+          light_rail: Rýchloelektrička
+          tram: električka
           trolleybus: Trolejbus
           bus: Autobus
           cable_car: Lanovka
-          chair_lift: Sedačková lanovka
+          chair_lift: sedačková lanovka
           runway: Letisková dráha
-          taxiway: Pojazdová dráha
+          taxiway: pojazdová dráha
           apron: Letisková odbavovacia plocha
           admin: Administratívne hranice
           capital: Hlavné mesto
@@ -2279,7 +2295,7 @@ sk:
           wood: Les
           farmland: Poľnohospodárska pôda
           grass: Tráva
-          meadow: Lúka
+          meadow: lúka
           bare_rock: Holá skala
           sand: Piesok
           golf: Golfové ihrisko
@@ -2293,7 +2309,7 @@ sk:
           heathland: Vresovisko
           scrubland: Kroviny
           lake: Jazero
-          reservoir: Nádrž
+          reservoir: nádrž
           intermittent_water: Občasná vodná plocha
           glacier: Ľadovec
           reef: Útes
@@ -2308,7 +2324,7 @@ sk:
           reserve: Prírodná rezervácia
           military: Vojenský priestor
           school: Škola
-          university: Univerzita
+          university: univerzita
           hospital: Nemocnica
           building: Významná budova
           station: Železničná stanica
@@ -2316,7 +2332,7 @@ sk:
           subway_station: Stanica metra
           tram_stop: Zastávka električky
           summit: Vrchol
-          peak: Vrchol
+          peak: vrchol
           tunnel: Čiarkovaný obrys = tunel
           bridge: Čierny obrys = most
           private: Súkromný prístup
@@ -2407,6 +2423,7 @@ sk:
     new:
       upload_trace: Nahrať GPS stopu
       visibility_help: čo toto znamená?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Pomocník
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2632,7 +2649,9 @@ sk:
       consider_pd: Navyše k vyššie uvedenému vyhlasujem, že považujem svoje príspevky
         za slobodné dielo (Public Domain).
       consider_pd_why: čo to znamená?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       continue: Pokračovať
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Zrušiť
       you need to accept or decline: Pre pokračovanie si prosím prečítajte a príjmite,
         alebo odmietnite nové Podmienky prispievania.
@@ -2643,6 +2662,7 @@ sk:
         rest_of_world: Zvyšok sveta
     terms_declined_flash:
       terms_declined_link: tejto wiki stránke
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Taký používateľ neexistuje
       heading: Používateľ %{user} neexistuje
@@ -2785,6 +2805,7 @@ sk:
       title: Zrušenie všetkých blokovaní pre %{block_on}
       heading_html: Zrušenie všetkých blokovaní pre %{block_on}
       empty: '%{name} nemá žiadne aktívne blokovania.'
+      revoke: Odvolať!
     helper:
       time_future_html: Končí o %{time}.
       until_login: Aktívny až do prihlásenia používateľa.
@@ -2905,7 +2926,7 @@ sk:
       add: Pridať poznámku
     notes_paging_nav:
       showing_page: Stránka %{page}
-      next: Nasledujúci
+      next: Ďalej
       previous: Predchádzajúci
   javascripts:
     close: Zavrieť

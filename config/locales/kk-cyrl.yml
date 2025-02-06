@@ -90,7 +90,6 @@ kk-cyrl:
       diary_entry:
         user: Қолданушы
         title: Тақырып
-        body: Мәтін
         latitude: Ендік
         longitude: Бойлық
         language_code: Тіл
@@ -185,6 +184,7 @@ kk-cyrl:
   auth:
     providers:
       none: Жоқ
+      openid: OpenID
       google: Google
       facebook: Facebook
       github: GitHub
@@ -223,14 +223,12 @@ kk-cyrl:
       save changes button: Өзгерістерді сақтау
       delete_account: Тіркелгіні жою...
     go_public:
-      heading: Жария өңдеу
       only_public_can_edit: API 0.6 нұсқасына жаңарғаннан бері, жария қолданушылар
         ғана карта дерегін өзгерте алады.
       find_out_why: неге екенін білу
       email_not_revealed: Тіркелгіңіз жария боп кеткеннен кейін, басқалар бұрынғыша
         эл. поштаңызды көре алмайды.
       not_reversible: Бұл қайтымсыз әрекет. Барлық жаңа қолданушы жария болып тіркеледі.
-      make_edits_public_button: Барлық өңдемелерімді жария ету
     destroy:
       success: Тіркелгі жойылды.
   browse:
@@ -307,10 +305,6 @@ kk-cyrl:
     query:
       title: Маңайдағы нысандар
       nearby: Маңайдағы нысандар
-  changeset_comments:
-    feeds:
-      comment:
-        commented_at_by_html: '%{when} %{user} жаңартқан'
   changesets:
     changeset:
       no_edits: (өңдемелер жоқ)
@@ -321,24 +315,13 @@ kk-cyrl:
       title_user_link_html: '%{user_link} жасаған өңдеме дестелері'
       title_friend: Достарымның өңдемелер дестелері
       load_more: Көбірек жүктеу
-      feed:
-        title: Өңдеме дестесі %{id}
-        closed: Жабық
-        belongs_to: Автор
     heading:
       title: Өңдеме дестесі %{id}
     show:
-      title: 'Өңдеме дестесі: %{id}'
       discussion: Талқылау
       subscribe: Жазылу
       hide_comment: жасыру
-      unhide_comment: көрсету
-      changesetxml: Өңдеме дестесінің XML-і
       osmchangexml: osmChange XML
-    paging_nav:
-      nodes: Нүктелер (%{count})
-      ways: Сызықтар (%{count})
-      relations: Қатынастар (%{count})
   dashboards:
     contact:
       km away: Бұдан %{count} км жерде
@@ -900,7 +883,6 @@ kk-cyrl:
     user_diaries: Қолданушылардың күнделіктері
     edit_with: '%{editor} көмегімен өңдеу'
     intro_header: OpenStreetMap-ке қош келдіңіз!
-    partners_fastly: Fastly
     tou: Қолдану шарты
     help: Анықтама
     about: Жоба туралы
@@ -936,8 +918,6 @@ kk-cyrl:
       hi: Сәлеметсіз бе, %{to_user},
   messages:
     messages_table:
-      from: Кімнен
-      to: Кімге
       subject: Тақырып
       actions: Әрекеттер
     message_summary:
@@ -963,8 +943,6 @@ kk-cyrl:
   passwords:
     new:
       email address: Эл. пошта мекенжайы
-    edit:
-      title: Құпиясөзді арылту
     update:
       flash changed: Құпия сөзіңіз өзгертілді.
   preferences:
@@ -988,7 +966,6 @@ kk-cyrl:
       keep image: Ағымдағы суретті сақтап қалу
       delete image: Ағымдағы суретті жою
       replace image: Ағымдағы суретті алмастыру
-      show: Көрсету
       delete: Жою
     update:
       success: Бейін жаңартылды.
@@ -1066,6 +1043,10 @@ kk-cyrl:
         title: switch2osm
       welcomemat:
         title: Ұйымдар үшін
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: OpenStreetMap Уики
     sidebar:
@@ -1086,8 +1067,8 @@ kk-cyrl:
           rail: Темір жол
           train: Пойыз
           subway: Метро
+          light_rail: Жеңіл рельсті көлік
           bus: Автобус
-          apron: Әуежай перроны
           admin: Әкімшілік шекара
           forest: Орман
           golf: Гольф алаңы
@@ -1103,10 +1084,10 @@ kk-cyrl:
           centre: Спорт орталығы
           military: Әскери аймақ
           school: Мектеп
-          university: Университет
+          university: университет
           building: Елеулі ғимарат
           station: Темір жол бекеті
-          peak: Шың
+          peak: шың
           bus_stop: Автобус аялдамасы
           bicycle_shop: Велосипед дүкені
           bicycle_parking: Велосипед тұрағы
@@ -1222,8 +1203,6 @@ kk-cyrl:
       reason: 'Бұғаттау себебі:'
     block:
       edit: Өңдеу
-    page:
-      reason: 'Бұғаттау себебі:'
   notes:
     index:
       description: Сипаттама

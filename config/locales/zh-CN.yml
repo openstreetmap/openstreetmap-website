@@ -36,6 +36,7 @@
 # Author: John Smith Ri
 # Author: Josephine W.
 # Author: Ken418
+# Author: Key0121
 # Author: Koalberry
 # Author: Lakejason0
 # Author: Lantianjialiang
@@ -58,6 +59,7 @@
 # Author: SkyEye FAST
 # Author: StarrySky
 # Author: StephDC
+# Author: TFX202X
 # Author: TianyinLee
 # Author: Tntchn
 # Author: TsuyaMarisa
@@ -140,6 +142,7 @@ zh-CN:
       message: 消息
       node: 节点
       node_tag: 节点标签
+      notifier: 通知
       old_node: 旧节点
       old_node_tag: 旧节点标签
       old_relation: 旧关系
@@ -239,6 +242,8 @@ zh-CN:
         reason: 用户被封禁的原因。请尽可能以冷静、合理的态度，尽量详细的说明有关情况，并请记住，该信息将被公开。请牢记，并非所有用户都了解社区的术语，所以请尝试使用较通俗的说法。
         needs_view: 在清除这个封禁之前，是否需要用户先登录？
       user:
+        email_confirmation: 你的电子邮件地址不会被公开展示，更多信息请查看请我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="包含有关电子邮件地址的部分的OSMF隐私政策">隐私政策</a>以获取更多信息。
         new_email: (从不公开显示)
   datetime:
     distance_in_words_ago:
@@ -279,6 +284,8 @@ zh-CN:
       x_years:
         one: '%{count}年前'
         other: '%{count}年前'
+  printable_name:
+    with_name_html: '%{name} (%{id})'
   editor:
     default: 默认（目前为 %{name}）
     id:
@@ -346,10 +353,12 @@ zh-CN:
       current email address: 当前电子邮件地址
       external auth: 外部身份验证
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: 这是什么？
       public editing:
         heading: 公开编辑
         enabled: 启用。非匿名用户，可以编辑数据。
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: 这是什么？
         disabled: 禁用且无法编辑数据，所有过去的编辑均为匿名。
         disabled link text: 我为什么不能编辑？
@@ -359,6 +368,7 @@ zh-CN:
         not yet agreed: 您还没有同意新的贡献者条款。
         review link text: 请跟随此链接，方便您查看并接受新的贡献者条款。
         agreed_with_pd: 您也将您的编辑释于公有领域。
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: 这是什么？
       save changes button: 保存更改
       delete_account: 删除账户
@@ -397,6 +407,8 @@ zh-CN:
     view_redacted_data: 查看已隐删的数据
     view_redaction_message: 查看隐删消息
     location: 位置：
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 节点：%{name}
       history_title_html: 节点历史：%{name}
@@ -416,6 +428,7 @@ zh-CN:
         one: '%{count} 位成员'
         other: '%{count} 位成员'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} 作为%{role}'
       type:
         node: 节点
@@ -499,10 +512,10 @@ zh-CN:
         comment: '%{author}对变更集%{changeset_id}的新评论'
         commented_at_by_html: 由%{user}更新于%{when}
       show:
-        title_all: OpenStreetMap 变更集讨论
-        title_particular: 'OpenStreetMap 变更集 #%{changeset_id} 讨论'
+        title_all: OpenHistoricalMap 变更集讨论
+        title_particular: 'OpenHistoricalMap 变更集 #%{changeset_id} 讨论'
       timeout:
-        sorry: 抱歉，您请求的变更集评论列表检索时间过长。
+        sorry: 抱歉，您所请求的变更集评论时间区间过长。
   changesets:
     changeset:
       no_edits: (无编辑)
@@ -542,22 +555,22 @@ zh-CN:
       title: 变更集：%{id}
       created: 创建于：%{when}
       closed: 关闭于：%{when}
-      created_ago_html: 创建于 %{time_ago}
-      closed_ago_html: 关闭于 %{time_ago}
-      created_ago_by_html: 由 %{user} 创建于 %{time_ago}
-      closed_ago_by_html: 由 %{user} 关闭于 %{time_ago}
+      created_ago_html: 创建于%{time_ago}
+      closed_ago_html: 关闭于%{time_ago}
+      created_ago_by_html: 由%{user}创建于%{time_ago}
+      closed_ago_by_html: 由%{user}关闭于%{time_ago}
       discussion: 讨论
       join_discussion: 登录以加入讨论
-      still_open: 变更集依然开放——一旦变更集关闭讨论将开放。
+      still_open: 变更集依然有效——一旦变更集关闭将打开讨论。
       subscribe: 订阅
       unsubscribe: 取消订阅
-      comment_by_html: '%{user} 于 %{time_ago} 的评论'
-      hidden_comment_by_html: '%{user} 于 %{time_ago} 的隐藏评论'
+      comment_by_html: 来自%{user}%{time_ago}的评论
+      hidden_comment_by_html: 来自%{user}%{time_ago}的隐藏评论
       hide_comment: 隐藏
       unhide_comment: 取消隐藏
       comment: 评论
       changesetxml: 变更集 XML
-      osmchangexml: osmChange XML
+      osmchangexml: osm 修改 XML
     paging_nav:
       nodes: 节点 (%{count})
       nodes_paginated: 节点 (%{x}-%{y}，共 %{count})
@@ -644,6 +657,7 @@ zh-CN:
       report: 举报此评论
     location:
       location: 位置：
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: '%{user} 的 OpenStreetMap 日记文章'
@@ -654,6 +668,8 @@ zh-CN:
       all:
         title: OpenStreetMap 日记文章
         description: 最近的 OpenStreetMap 用户日记文章
+    comments:
+      title: OpenStreetMap 日记文章
     subscribe:
       heading: 订阅以下日记讨论吗？
       button: 订阅讨论
@@ -665,7 +681,7 @@ zh-CN:
       title: '%{user} 已添加日记评论'
       heading: '%{user} 的日记评论'
       subheading_html: '%{user} 已添加日记评论'
-      no_comments: 没有日记评论
+      no_comments: 没有日记留言
     page:
       post: 发布
       when: 时间
@@ -738,7 +754,10 @@ zh-CN:
     search:
       title:
         latlon: 内部
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_reverse: OpenHistoricalMap Nominatim
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: 缆车
@@ -1615,6 +1634,9 @@ zh-CN:
       successful_report: 您的举报已成功提交
       provide_details: 请提供所需详情
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: OpenStreetMap 标志
     home: 返回家位置
@@ -1629,11 +1651,14 @@ zh-CN:
     gps_traces: GPS 轨迹
     user_diaries: 用户日记
     edit_with: 使用 %{editor} 编辑
+    tag_line: 自由的 Wiki 世界地图
     intro_header: 欢迎访问 OpenStreetMap！
     intro_text: OpenStreetMap 是一个世界地图，由像您一样的人们所构筑，可依据开放许可协议自由使用。
-    partners_fastly: Fastly
-    partners_corpmembers: OSMF 企业会员
-    partners_partners: 合作伙伴
+    intro_2_create_account: 创建用户账户
+    partners_title: 合作伙伴
+    hosting_partners_2024_html: "<p>\n<a href='https://greeninfo.org'> GreenInfo Network</a>是一个非营利性社会公益测绘和通信组织，它帮助非营利性和政府机构使用一系列工具实现社会、环境和其他目标。这些工具包括以人为本的设计实践、协作开发以及开源网络和地理空间工具。
+      \n</p>\n<p>\n<a href='https://developmentseed.org/'> Development Seed</a>是一家工程和产品公司，致力于加速地球数据的应用以应对我们面临的最大全球挑战。
+      Development Seed 利用海量地球数据、云计算、地理空间人工智能和深思熟虑的产品开发。\n</p>"
     tou: 使用条款
     osm_offline: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于脱机状态。
     osm_read_only: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于只读模式。
@@ -1680,6 +1705,7 @@ zh-CN:
       failed_to_import: 无法导入为GPS轨迹文件。请验证您的文件是否为有效的GPX文件或包含GPX文件的受支持格式（.tar.gz、.tar.bz2、.tar、.zip、.gpx.gz、.gpx.bz2）的存档。您的文件是否存在格式或语法问题？以下是导入错误信息：
       more_info: 更多有关GPX导入失败的信息及如何避免这些问题，可以在%{url}找到。
       more_info_html: 更多关于 GPX 导入失败的信息，以及如何避免失败可在%{url}找到。
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX 导入失败'
     gpx_success:
       hi: 您好，%{to_user}：
@@ -1783,7 +1809,7 @@ zh-CN:
     messages_table:
       from: 发件人
       to: 收件人
-      subject: 标题
+      subject: 主题
       date: 日期
       actions: 操作
     message_summary:
@@ -1876,6 +1902,7 @@ zh-CN:
       image: 图像
       gravatar:
         gravatar: 使用 Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: 什么是Gravatar？
         disabled: Gravatar已禁用。
         enabled: 您的Gravatar显示已启用。
@@ -1973,16 +2000,16 @@ zh-CN:
       open_data_open_data: 开放数据
       open_data_copyright_license: 著作权与许可
       legal_title: 法律
-      legal_1_1_html: 此网站和很多其他相关服务已由%{openstreetmap_foundation_link}（OSMF）正式代表社群运营。使用所有由OSMF运营的服务均需符合我们的%{terms_of_use_link}、%{aup_link}和我们的%{privacy_policy_link}。
+      legal_1_1_html: 本网站以及很多其他相关服务由代表社区的非正式OpenHistoricalMap集体所运作。所有使用的OHM运作服务均符合我们的使用条款、可接受使用方针，以及<a
+        href="/privacy-policy">隐私政策</a>。
       legal_1_1_openstreetmap_foundation: OpenStreetMap 基金会
       legal_1_1_terms_of_use: 使用条款
       legal_1_1_aup: 可接受的使用政策
       legal_1_1_privacy_policy: 隐私政策
-      legal_2_1_html: |-
-        若您有许可证、著作权或其他法律上的问题，请%{contact_the_osmf_link}
-        。
+      legal_2_1_html: "如果您有许可、版权或其他法律问题，请联系OHM团队 ( <a href='mailto:ohm-admins@googlegroups.com'>ohm-admins@googlegroups.com</a>
+        \n)。\n<br>"
       legal_2_1_contact_the_osmf: 联系 OSM 基金会
-      legal_2_2_html: OpenStreetMap、放大镜标志和SotM是%{registered_trademarks_link}。
+      legal_2_2_html: OpenStreetMap和放大镜标志是%{registered_trademarks_link}。
       legal_2_2_registered_trademarks: OSMF 的注册商标
       partners_title: 合作伙伴
     copyright:
@@ -1998,18 +2025,23 @@ zh-CN:
         mapping_link: 开始绘制地图
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} 是%{open_data}，由 %{osm_foundation_link} (OSMF) 在
-          %{odc_odbl_link} (ODbL) 下获得许可。
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup>是<i>开放数据</i>，由<a
+          href="https://osmfoundation.org/">OpenHistoricalMap基金会</a>（OSMF）采用<a
+          href="https://opendatacommons.org/licenses/odbl/">开放数据共享开放数据库许可协议</a>（ODbL）授权。
         introduction_1_open_data: 开放数据
         introduction_1_odc_odbl: 开放数据共享开放数据库许可协议
         introduction_1_osm_foundation: OpenStreetMap 基金会
-        introduction_2_html: 只要你表明来源为OpenStreetMap及其贡献者，你就可以自由地复制、分发、传送和改编我们的数据。如果你想转换或者以我们的数据为基础进行创作，你只能采用相同的许可协议发表你的作品。完整的%{legal_code_link}阐明了你的权利和义务。
+        introduction_2_html: 只要你表明来源为OpenHistoricalMap及其贡献者，你就可以自由地复制、分发、传送和改编我们的数据。如果你想转换或者以我们的数据为基础进行创作，你只能采用相同的许可协议发表你的作品。完整的<a
+          href="https://opendatacommons.org/licenses/odbl/1.0/">法律文本</a>阐明了你的权利和义务。
         introduction_2_legal_code: 法律条款
-        introduction_3_html: 我们的文档根据 %{creative_commons_link} 许可协议（CC BY-SA 2.0）获得许可。
+        introduction_3_html: 我们的文档采用<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.zh">知识共享
+          署名-相同方式共享 2.0 （CC BY-SA 2.0）</a>许可协议授权。
         introduction_3_creative_commons: 知识共享署名-相同方式共享 2.0
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
-        credit_2_1: 通过显示我们的版权声明为 OpenStreetMap 提供署名。
+        credit_2_1: 您必须明确注明，我们的数据使用开放式数据库协议，若使用我们的地图图块，其协议须为 CC-BY-SA。您可以链接<a href="https://www.openstreetmap.org/copyright">此版权页</a>以注明。另外，若您要以数据形式发布
+          OSM，您可以属名并直接链接协议。若某些媒介无法进行链接(如印刷品)，我们建议您引导您的读者至 openstreetmap.org (或 OpenHistoricalMap
+          的完整网址)、opendatacommons.org，及可能相关的 creativecommons.org。
         credit_2_2: 明确数据在开放数据库许可证下可用。
         credit_3_html: 对于版权声明的显示，我们会依据您如何使用我们的数据，而有不同的要求。例如，不同的规则要如何显示版权声明，具体取决于您是否建立了可浏览的地图、列印的地图或是静态图像。完整的详细信息要求可以在%{attribution_guidelines_link}上查看。
         credit_3_attribution_guidelines: 署名指南
@@ -2031,6 +2063,9 @@ zh-CN:
         more_2_1_nominatim_usage_policy: Nominatim使用政策
         contributors_title_html: 我们的贡献者
         contributors_intro_html: 我们的数据来源于成千上万人的贡献。但我们也从国家测绘机构等处获取公共版权的数据，其中包括：
+        contributors_footer_1_html: |-
+          关于其进一步的细节，及其他被用来帮助提升 OpenHistoricalMap 的来源，详见 OpenStreetMap Wiki 的<a
+          href="https://wiki.openstreetmap.org/wiki/Zh-hans:Contributors">贡献者页面</a>。
         contributors_at_credit_html: |-
           %{austria}：包含来自 %{stadt_wien_link}（以 %{cc_by_link} 许可）、%{land_vorarlberg_link}
            和 Land Tirol（以 %{cc_by_at_with_amendments_link} 许可）的数据。
@@ -2103,13 +2138,14 @@ zh-CN:
         contributors_footer_2_html: OpenStreetMap 纳入数据并不意味着原始数据提供者认可 OpenStreetMap、提供任何担保或担负任何法律责任。
         infringement_title_html: 著作权侵犯
         infringement_1_html: OSM 的贡献者会被提醒，绝不要在没有著作权人的明确许可时添加来自任何有著作权的来源的数据(如谷歌地图或印刷地图)。
-        infringement_2_1_html: 如果您认为受版权保护的材料已被不适当地添加到 OpenStreetMap 数据库或本网站，请参考、我们的
-          %{takedown_procedure_link} 或直接在我们的 %{online_filing_page_link} 递交。
+        infringement_2_1_html: 如果您认为版权的材料已被不恰当地添加的 OpenHistoricalMap 数据库或该网站，请参见我们的<a
+          href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">撤除程序</a>，或直接在我们的<a
+          href="https://dmca.openstreetmap.org/">在线申报页面</a>上提出。
         infringement_2_1_takedown_procedure: 下架程序
         infringement_2_1_online_filing_page: 在线申请页面
         trademarks_title: 商标
-        trademarks_1_1_html: "OpenStreetMap、放大镜标志和 State of the Map 是 \nOpenStreetMap
-          Foundation 的注册商标。如果您对商标的使用有任何疑问，请参阅我们的\n%{trademark_policy_link}。"
+        trademarks_1_1_html: OpenHistoricalMap、放大镜标志和地图状态是OpenHistoricalMap基金会的注册商标。如果您对使用这些标志有任何问题，请参见我们的<a
+          href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">商标方针</a>。
         trademarks_1_1_trademark_policy: 商标政策
     index:
       js_1: 您或许正在使用不支持 JavaScript 的浏览器，或您禁用了 JavaScript。
@@ -2121,6 +2157,7 @@ zh-CN:
       not_public: 您尚未公开您的编辑。
       not_public_description_html: 您将无法再编辑此地图，直到您做到如上所述。您可以通过您的%{user_page}公开您的编辑。
       user_page_link: 用户页面
+      anon_edits_html: (%{link})
       anon_edits_link_text: 了解为什么这很重要。
       id_not_configured: iD 尚未配置
     export:
@@ -2154,12 +2191,11 @@ zh-CN:
           explanation_html: 如果您发现我们的地图数据有问题，例如缺少某条道路或者您的地址，最好的处理方法就是加入 OpenStreetMap
             社区，然后您自己添加或者改进数据。
         add_a_note:
-          instructions_1_html: |-
-            只需点击%{note_icon}或地图显示上的相同图标。
-            这会在地图上添加一个标记，您可以通过拖动它。添加您的注记，然后点击保存，其他绘图者将作出查证。
+          instructions_1_html: 只需点击<a class='icon note'></a>或地图上显示的相同图标。这会在地图上添加标记，您可以拖动它来改变位置。添加您所知信息后点击保存，其他绘图者将进行核查。
       other_concerns:
         title: 其他问题
-        concerns_html: 如果您对我们的数据使用方式或内容有疑虑，请参阅我们的%{copyright_link}来了解更多法律信息，或者联系相应的%{working_group_link}。
+        concerns_html: 如果您有关于如何使用我们的数据或内容的关心请查阅我们在<a href='/copyright'>版权页面</a>的更多法律信息，或联系
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF 工作组</a>。
         copyright: 版权页面
         working_group: OSMF 工作小组
     help:
@@ -2188,8 +2224,12 @@ zh-CN:
       welcomemat:
         title: 对于组织
         description: 想跟一个组织为OpenStreetMap制订计划？在欢迎席上找到你需要知道的东西。
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
-        title: OpenStreetMap Wiki
+        title: Wiki
         description: 浏览 wiki 深入了解 OpenStreetMap 文档。
     potlatch:
       removed: 您的默认OpenStreetMap编辑器设置为Potlatch。由于Adobe Flash Player已停止支持，因此Potlatch不再可在Web浏览器中使用。
@@ -2237,7 +2277,7 @@ zh-CN:
           subway: 地铁
           ferry: 渡船
           light_rail: 轻轨
-          tram: 有轨电车
+          tram: 电车
           trolleybus: 无轨电车
           bus: 公共汽车
           cable_car: 缆车
@@ -2291,7 +2331,7 @@ zh-CN:
           subway_station: 地铁站
           tram_stop: 有轨电车站
           summit: 山峰
-          peak: 山峰
+          peak: 高峰
           tunnel: 双虚线=隧道
           bridge: 双实线=桥
           private: 私人通行
@@ -2364,6 +2404,7 @@ zh-CN:
     new:
       upload_trace: 上传GPS轨迹
       visibility_help: 这是什么意思？
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: 帮助
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2376,6 +2417,7 @@ zh-CN:
       title: 编辑轨迹%{name}
       heading: 编辑轨迹%{name}
       visibility_help: 这是什么意思？
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: 地点已更新！
     show:
@@ -2500,6 +2542,7 @@ zh-CN:
     index:
       title: 我的客户应用程序
       no_applications_html: 您是否有想要使用%{oauth2}标准注册的应用程序？您必须先注册您的应用程序才能对此服务发出OAuth请求。
+      oauth_2: OAuth 2
       new: 注册新应用程序
       name: 名称
       permissions: 权限
@@ -2584,10 +2627,12 @@ zh-CN:
       read_tou: 我已阅读并同意使用条款
       consider_pd: 除了上述协议，我同意将我的贡献释于公有领域
       consider_pd_why: 这是什么？
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 有助于理解这些术语的信息：一个 %{readable_summary_link} 和一些 %{informal_translations_link}
       readable_summary: 人类可读的摘要
       informal_translations: 非正式翻译
       continue: 继续
+      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: 取消
       you need to accept or decline: 请先阅读，然后接受或拒绝新的贡献者条款，再继续。
       legale_select: 请选择您居住的国家：
@@ -2598,6 +2643,7 @@ zh-CN:
     terms_declined_flash:
       terms_declined_html: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅%{terms_declined_link}。
       terms_declined_link: 此wiki页面
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 无此用户
       heading: 用户 %{user} 不存在
@@ -2915,6 +2961,8 @@ zh-CN:
           one: 你就在这个位置的%{count}英尺范围内
           other: 你就在这个位置的%{count}英尺范围内
       base:
+        japanesescroll: 日本挂轴
+        railway: 铁路
         standard: 标准
         cyclosm: 自行车地图
         cycle_map: 骑行运动地图

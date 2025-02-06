@@ -28,7 +28,6 @@ sc:
         create: Registra·ti
         update: Agiorna
       oauth2_application:
-        create: Registra·ti
         update: Agiorna
       redaction:
         create: Crea una revisione
@@ -213,6 +212,7 @@ sc:
   auth:
     providers:
       none: Niunu
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -301,7 +301,6 @@ sc:
       save changes button: Sarva sas modìficas
       delete_account: Iscantzella su contu...
     go_public:
-      heading: Modificatzione pùblica
       currently_not_public: In custu momentu sas modìficas tuas sunt anònimas e sas
         persones non ti podent imbiare messàgios o bìdere sa positzione tua. Incarca
         su butone inoghe in suta pro ammustrare sas modìficas tuas e permìtere a sas
@@ -313,7 +312,6 @@ sc:
         si as a devènnere unu contu pùblicu.
       not_reversible: Custa atzione non si podet annullare e pro impostadura predefinida
         como totu sos utentes noos sunt pùblicos.
-      make_edits_public_button: Faghe totu sas modìficas meas pùblicas
     update:
       success_confirm_needed: Informatziones de s'utente atualizadas. Controlla s'indiritzu
         de posta eletrònica tuo pro cunfirmare s'indiritzu de posta nou tuo.
@@ -417,17 +415,6 @@ sc:
       introduction: Incarca in sa mapa pro agatare elementos a curtzu.
       nearby: Elementos a curtzu
       enclosing: Elementos chi inserrant custu puntu
-  changeset_comments:
-    feeds:
-      comment:
-        comment: 'Cummentu nou a s''annantu de modìficas #%{changeset_id} de %{author}'
-        commented_at_by_html: Atualizadu %{when} dae %{user}
-      show:
-        title_all: Arresonu subra su grupu de modìficas de OpenStreetMap
-        title_particular: 'Arresonu de s''annantu de modìficas de OpenStreetMap #%{changeset_id}'
-      timeout:
-        sorry: S'elencu de grupos de modìficas chi as pedidu at bisongiadu de tropu
-          tempus pro lu recuperare.
   changesets:
     changeset:
       no_edits: (peruna modìfica)
@@ -446,37 +433,17 @@ sc:
       no_more_user: Perunu àteru grupu de modìficas de custu utente.
       load_more: Càrriga·nde de prus
       feed:
-        title: Annantu de modìficas %{id}
-        title_comment: Grupu de modìficas %{id} - %{comment}
         created: Creadu
         closed: Serradu
         belongs_to: Autore
     show:
-      title: 'Annantu de modìficas: %{id}'
-      created_ago_html: Creadu %{time_ago}
-      closed_ago_html: Tancadu %{time_ago}
-      created_ago_by_html: Creadu %{time_ago} dae %{user}
-      closed_ago_by_html: Tancadu %{time_ago} dae %{user}
       discussion: Arresonu
       join_discussion: Intra pro t'aunire a s'arresonu
-      still_open: Annantu de modìficas galu abertu - s'arresonu s'at a abèrrere cando
-        s'annantu de modìficas s'at a serrare.
       subscribe: Sutaiscrie·ti
-      unsubscribe: Annulla s'iscritzione
-      comment_by_html: Cummentu de %{user} %{time_ago}
-      hidden_comment_by_html: Cummentu cuadu de %{user} %{time_ago}
+      unsubscribe: Annulla sa sutiscritzione
       hide_comment: cua
       unhide_comment: ammustra
       comment: Cummentu
-      changesetxml: XML de s'annantu de modìficas
-      osmchangexml: XML in formadu osmChange
-    paging_nav:
-      nodes: Nodos (%{count})
-      nodes_paginated: Nodos (%{x}-%{y} de %{count})
-      ways: Lìnias (%{count})
-      ways_paginated: Lìnias (%{x}-%{y} de %{count})
-      relations: Relatziones (%{count})
-      relations_paginated: Relatziones (%{x}-%{y} de %{count})
     timeout:
       sorry: S'elencu de annantos de modìficas chi as pedidu at bisongiadu de tropu
         tempus pro lu recuperare.
@@ -484,7 +451,6 @@ sc:
     contact:
       km away: ' a %{count} km de distàntzia'
       m away: ' a %{count} m de distàntzia'
-      latest_edit_html: 'Ùrtima modìfica (%{ago}):'
     popup:
       your location: Sa positzione tua
       nearby mapper: Mapadore a curtzu
@@ -519,8 +485,6 @@ sc:
       new_title: Cumpone un'intrada noa in su diàriu de utente meu
       my_diary: Diàriu meu
       no_entries: Peruna intrada in su diàriu
-    page:
-      recent_entries: Intradas reghentes in su diàriu
     edit:
       title: Modìfica s'intrada de su diàriu
       marker_text: Positzione de s'intrada de su diàriu
@@ -570,12 +534,8 @@ sc:
         description: Intradas de diàriu reghentes de sos utentes de OpenStreetMap
   diary_comments:
     index:
-      title: Cummentos de su diàriu annantos dae %{user}
-      heading: Cummentos de su diàriu de %{user}
       subheading_html: Cummentos de su diàriu annantos dae %{user}
-      no_comments: Perunu cummentu a su diàriu
     page:
-      post: Publicatzione
       when: Cando
       comment: Cummentu
   doorkeeper:
@@ -899,7 +859,6 @@ sc:
           bus_stop: Firmada de su postale
           construction: Caminu in costrutzione
           corridor: Passadissu
-          crossing: Coladòrgiu
           cycleway: Pista tziclàbile
           elevator: Ascensore
           emergency_access_point: Logu de intrada de emergèntzia
@@ -1442,25 +1401,19 @@ sc:
         open: Abertu
         resolved: Risoltu
     page:
-      user_not_found: S'utente no esistit
-      issues_not_found: Perunu problema de custa casta agatadu
       status: Istadu
-      reports: Informes
+      reports: Raportos
       last_updated: Ùrtimu agiornamentu
       last_updated_time_ago_user_html: '%{time_ago} dae %{user}'
       reports_count:
         one: '%{count} sinnalatzione'
         other: '%{count} sinnalatziones'
-      reported_item: Elementu sinnaladu
     show:
       title: '%{status} Problema #%{issue_id}'
       reports:
         one: '%{count} sinnalatzione'
         other: '%{count} sinnalatziones'
       no_reports: Perunu informe
-      report_created_at_html: Sinnaladu pro sa prima borta su %{datetime}
-      last_resolved_at_html: Risoltu pro s'ùrtima borta su %{datetime}
-      last_updated_at_html: Ùrtima atualizatzione de %{displayname} su %{datetime}
       resolve: Risolve
       ignore: Ignora
       reopen: Torra a abèrrere
@@ -1545,8 +1498,7 @@ sc:
     intro_header: Bene bènnidu in OpenStreetMap!
     intro_text: OpenStreetMap est una mapa de su mundu, creada dae persones che a
       tie e de impreu lìberu suta de una litzèntzia aberta.
-    partners_fastly: Fastly
-    partners_partners: sòtzios
+    partners_title: sòtzios
     tou: Conditziones de impreu
     osm_offline: In custu momentu sa base de datos de OpenStreetMap est foras de lìnia,
       ca sunt faghende traballos essentziales de mantenimentu.
@@ -1785,9 +1737,6 @@ sc:
         s'utente curretu pro lu lèghere.
     sent_message_summary:
       destroy_button: Cantzella
-    heading:
-      my_inbox: Posta in intrada mea
-      my_outbox: Posta in essida mea
     mark:
       as_read: Messàgiu marcadu comente lèghidu
       as_unread: Messàgiu marcadu comente non lèghidu
@@ -1795,20 +1744,7 @@ sc:
       destroyed: Messàgiu iscantzelladu
   passwords:
     new:
-      title: Crae de intrada pèrdida
-      heading: Ais ismentigadu sa crae de intrada?
       email address: Indiritzu de posta eletrònica
-      new password button: Riprìstina sa crae de intrada
-      help_text: Inserta s'indiritzu de posta chi as impreadu pro ti registrare, l'amus
-        a imbiare unu ligàmene chi as a pòdere impreare pro ripristinare sa crae de
-        intrada tua.
-    edit:
-      title: Riprìstina sa crae de intrada
-      heading: Riprìstina sa crae de intrada pro %{user}
-      reset: Riprìstina sa crae de intrada
-      flash token bad: No amus agatadu custu getone, proa a verificare s'URL.
-    update:
-      flash changed: Sa crae de intrada tua est istada mudada.
   preferences:
     show:
       title: Preferèntzias meas
@@ -1844,7 +1780,6 @@ sc:
       no home location: No as insertadu sa positzione de incumintzu tua.
       update home location on click: Atualizare sa positzione de incumintzu incarchende
         in sa mapa?
-      show: Ammustra
       delete: Iscantzella
       undelete: Annulla s'iscantzellamentu
     update:
@@ -1890,14 +1825,8 @@ sc:
       preview: Antiprima
     pagination:
       diary_comments:
-        older: Cummentos prus betzos
+        older: Cummentos prus antigos
         newer: Cummentos prus noos
-      diary_entries:
-        older: Intradas prus antigas
-        newer: Intradas prus noas
-      traces:
-        older: Rastas prus betzas
-        newer: Rastas prus noas
   site:
     about:
       heading_html: '%{copyright}Contribuidores%{br} de OpenStreetMap'
@@ -1934,24 +1863,16 @@ sc:
       open_data_open_data: datos abertos
       open_data_copyright_license: pàgina de su deretu de autore e de sa litzèntzia
       legal_title: Notas legales
-      legal_1_1_html: |-
-        Custu situ web e medas àteros servìtzios relatzionados sunt operados, in manera formale, dae sa
-        %{openstreetmap_foundation_link} (OSMF)
-        on behalf of the community. in nùmene de sa comunidade. S'impreu de totu sos servìtzios operados dae s'OSMF est sugetu
-        a sas %{terms_of_use_link}, a sas %{aup_link} e a sa %{privacy_policy_link} nostras.
       legal_1_1_openstreetmap_foundation: Fundatzione OpenStreetMap
       legal_1_1_terms_of_use: Cunditziones de impreu
       legal_1_1_aup: Polìticas de impreu atzetàbile
       legal_1_1_privacy_policy: Polìtica de riservadesa
-      legal_2_1_html: Pro praghere %{contact_the_osmf_link} si tenes dimandas in contu
-        de sa litzèntzia, de su deretu de autore o de àteras chistiones legales.
       legal_2_1_contact_the_osmf: cuntata s'OSMF
       legal_2_2_html: OpenStreetMap su logotipu cun sa lente de ismanniamentu e State
         of the Map sunt %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marcas registradas de s'OSMF
       partners_title: Sòtzios
     copyright:
-      title: Deretu de autore e litzèntzia
       foreign:
         title: Informatziones subra de custa tradutzione
         html: In casu de cunflitu intre custa pàgina bortada e %{english_original_link},
@@ -1965,27 +1886,16 @@ sc:
         native_link: versione in sardu
         mapping_link: incumintzare a mapare
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} est basadu subra de %{open_data}, suta de sa litzèntzia
-          %{odc_odbl_link} (ODbL) dae sa %{osm_foundation_link} (OSMF).
         introduction_1_open_data: datos abertos
         introduction_1_odc_odbl: Litzèntzia de sa base de datos abertos Open Data
           Commons (ODbL)
         introduction_1_osm_foundation: Fundatzione OpenStreetMap
-        introduction_2_html: |-
-          Ses lìberu de copiare, distribuire, trasmìtere e adatare sos datos nostros,
-          semper chi ispetzìfiches chi sunt òpera de OpenStreetMap e de sos
-          contribuidores suos. Si modìficas o creas cosas basende·ti subra de sos datos nostros, as a pòdere distribuire sos resurtados cun sa matessi litzèntzia. Su %{legal_code_link} intreu acrarit sos deretos tuos e sas responsabilidades tuas.
         introduction_2_legal_code: testu giurìdicu
-        introduction_3_html: Sa documentatzione nostra est intregada cun litzèntzia
-          %{creative_commons_link} (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Atributzione - Cumpartzi
           in sa matessi manera 2.0
         credit_title_html: Comente dare s'atributzione de sos contributos a OpenStreetMap
         credit_1_html: 'Cando impreas sos datos de OpenStreetMap, depes fàghere custas
           duas cosas:'
-        credit_2_1: Dae s'atributzione de sos contributos a OpenStreetMap mustrende
-          s'avisu nostru de su deretu de autore.
         credit_2_2: Pone in craru su fatu chi sos datos sunt a disponimentu cun sa
           Litzèntzia de Base de Datos Aberta.
         credit_3_html: Pro s'avisu de deretu de autore amus recuisitos diferentes
@@ -2106,16 +2016,9 @@ sc:
         infringement_1_html: |-
           Ammentamus a sos collaboradores de OSM chi non depent annànghere mai datos dae cale si siat fonte cun deretos de autore registrados (a es. Google Maps o mapas imprentadas) chene
           tènnere un'autorizatzione esplìtzita de sos titulares de sos deretos de autore.
-        infringement_2_1_html: |-
-          Si pensas chi materiale amparadu dae deretu de autore siat istadu annantu in manera no apropiada a sa base de datos de OpenStreetMap o a custu situ, faghe riferimentu
-          a sa %{takedown_procedure_link} nostra o imbia unu reclamu in manera direta a sa nostra %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: protzedura de rimotzione
         infringement_2_1_online_filing_page: pàgina de sinnalatzione in lìnia
         trademarks_title: Marcas registradas
-        trademarks_1_1_html: OpenStreetMap, su logotipu de sa lente de ismanniamentu
-          e State of the Map sunt marcas registradas de sa Fundatzione OpenStreetMap.
-          Si tenes dudas subra de s'impreu de sas marcas, leghe·ti sa %{trademark_policy_link}
-          nostra.
         trademarks_1_1_trademark_policy: Normativa subra de sas marcas registradas
     index:
       js_1: Ses impreende unu navigadore chi non tenet su suportu pro JavaScript o
@@ -2172,16 +2075,8 @@ sc:
             a esempru unu caminu chi mancat o s'indiritzu tuo, sa manera mègius de
             l'acontzare est aunende·ti a sa comunidade de OpenStreetMap e annanghende
             o curregende sos datos tue matessi.
-        add_a_note:
-          instructions_1_html: |-
-            Bastat a incarcare in %{note_icon} o subra de sa matessi icona in s'ischermada de sa mapa.
-            Custu at a annànghere unu marcadore a sa mapa, chi as a pòdere mòvere
-            traghende·lu. Annanghe su messàgiu tuo e a pustis incarca sarva, e àteros mapadores ant a investigare.
       other_concerns:
         title: Àteros oriolos
-        concerns_html: Si ses apensamentadu subra de comente sos datos nostros benint
-          impreados o subra de sos cuntenutos consulta sa %{copyright_link} pro prus
-          informatziones legales o intra in cuntatu cun su %{working_group_link} apropiadu.
         copyright: pàgina de su deretu de autore
         working_group: grupu de traballu de s'OSMF
     help:
@@ -2273,10 +2168,8 @@ sc:
           tram: Tram
           bus: Postale
           cable_car: Funivia
-          chair_lift: Ascensore carrutzina
-          runway: Pista de aeroportu
+          chair_lift: ascensore carrotzina
           taxiway: carrera de furriada
-          apron: Àrea de parchègiu de sos aèreos
           admin: Làcana amministrativa
           capital: Capitale
           city: Tzitade
@@ -2285,7 +2178,7 @@ sc:
           wood: Buscu
           farmland: Terras de coltivu
           grass: Erba
-          meadow: Pradu
+          meadow: pradu
           bare_rock: Roca nuda
           sand: Arena
           golf: Campu de golf
@@ -2298,7 +2191,7 @@ sc:
           commercial: Àrea cummertziale
           heathland: Istruvina
           lake: Lagu
-          reservoir: Riserva de abba
+          reservoir: batzinu
           farm: Fatoria
           brownfield: Terrinu industriale abbandonadu
           cemetery: Campusantu
@@ -2309,13 +2202,11 @@ sc:
           reserve: Reserva naturale
           military: Zona militare
           school: Iscola
-          university: Universidade
+          university: universidade
           hospital: Ispidale
           building: Edifìtziu significativu
           station: Istatzione ferroviària
           tram_stop: Firmada de su tram
-          summit: Cùcuru de monte
-          peak: Cùcuru
           tunnel: Lìnia trategiada = galleria
           bridge: Oros nieddos = ponte
           private: Atzessu privadu
@@ -2744,9 +2635,6 @@ sc:
       summary_html: '%{name} creadu dae %{ip_address} su %{date}'
       summary_no_ip_html: '%{name} creadu su %{date}'
       empty: Non b'at perunu utente chi currispondat
-    page:
-      confirm: Cunfirma sos utentes seletzionados
-      hide: Cua sos utentes seletzionados
     suspended:
       title: Contu suspesu
       heading: Contu suspesu
@@ -2856,11 +2744,8 @@ sc:
       show: Ammustra
       edit: Modìfica
     page:
-      display_name: Utente blocadu
       creator_name: Creadore
-      reason: Resone de su blocu
       status: Istadu
-      revoker_name: Revocadu dae
     navigation:
       all_blocks: Totu sos blocos
       blocks_on_me: Blocos subra a mene
@@ -2923,7 +2808,6 @@ sc:
       add: Annanghe una nota
     notes_paging_nav:
       showing_page: Pàgina %{page}
-      next: Imbeniente
       previous: Antepostu
   javascripts:
     close: Serra

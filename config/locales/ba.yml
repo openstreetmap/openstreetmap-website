@@ -68,6 +68,7 @@ ba:
       message: Хәбәр
       node: Төп технологик элемент
       node_tag: Төп технологик элемент тамғаһы
+      notifier: Белдереүсе
       old_node: Иҫке нөктә
       old_node_tag: Нөктәнең иҫке тегы
       old_relation: Иҫке сағыштырма
@@ -109,7 +110,6 @@ ba:
       diary_entry:
         user: Ҡулланыусы
         title: Тема
-        body: Текст
         latitude: Киңлек
         longitude: Оҙонлоҡ
         language_code: Тел
@@ -174,6 +174,10 @@ ba:
           ҡулланып ҡарағыҙ.
         needs_view: Ҡулланыусыға блоктан сыҡҡансы системаға инергә рөхсәт итергәме?
       user:
+        email_confirmation: Һеҙҙең адресығыҙ асыҡ күренмәйәсәк, тулыраҡ мәғлүмәт алыу
+          өсөн беҙҙең <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses"> конфиденциаллек
+          сәйәсәтен</a> ҡарағыҙ.
         new_email: (күрһәтелмәй)
   datetime:
     distance_in_words_ago:
@@ -225,6 +229,7 @@ ba:
   auth:
     providers:
       none: Юҡ
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Майкрософт
@@ -319,7 +324,6 @@ ba:
       email_not_revealed: Электрон почта адресығыҙ асыҡ булһа ла, ул күрһәтелмәйәсәк.
       not_reversible: Был ғәмәлде кире ҡайтарып булмай, һәм хәҙер бөтә яңы ҡулланыусылар
         автоматик рәүештә асыҡ була.
-      make_edits_public_button: Бөтә үҙгәрештәремде асыҡ итеп ҡуйырға
     update:
       success_confirm_needed: Ҡулланыусы тураһында мәғлүмәт уңышлы яңыртылды. Яңы
         адресығыҙҙы раҫлау өсөн электрон почтағыҙҙы тикшерегеҙ.
@@ -439,7 +443,7 @@ ba:
         comment: '%{author} тарафынан төҙәтмәләр пакетына %{changeset_id} яңы комментарий'
         commented_at_by_html: Яңыртылған %{when} ҡулланыусы %{user} тарафынан
       show:
-        title_all: OpenStreetMap төҙәтмәләр пакеты буйынса фекерләшеү
+        title_all: OpenHistoricalMap төҙәтмәләр пакеты буйынса фекерләшеү
         title_particular: ' OpenStreetMap #%{changeset_id} төҙәтмәләр пакеты буйынса
           фекерләшеү'
       timeout:
@@ -486,19 +490,11 @@ ba:
       created: 'Булдырылған: %{when}'
       closed: 'Ябылған: %{when}'
       created_ago_html: 'Булдырылған: %{time_ago} элек'
-      closed_ago_html: 'Ябылған: %{time_ago} элек'
-      created_ago_by_html: '%{time_ago} элек %{user} тарафынан булдырылған'
-      closed_ago_by_html: '%{time_ago} элек %{user} тарафынан ябылған'
       discussion: Фекер алышыу
       join_discussion: Фекер алышыуға ҡушылыу өсөн системаға инегеҙ
       still_open: Төҙәтмәләр пакеты әле асыҡ. Фекер алышыу, төҙәтмәләр пакеты ябылғандан
         һуң ғына буласаҡ.
       subscribe: Яҙылыу
-      unsubscribe: Баш тартыу
-      comment_by_html: '%{time_ago} элек %{user} тарафынан комментарий'
-      hidden_comment_by_html: '%{time_ago} элек %{user} тарафынан йәшерелгән комментарий'
-      hide_comment: йәшереү
-      unhide_comment: күрһәтеү
       comment: Комментарий
       changesetxml: Төҙәтеүҙәр пакетының XML-ы
       osmchangexml: osmChange XML
@@ -611,7 +607,6 @@ ba:
   diary_comments:
     index:
       title: '%{user} тарафынан өҫтәлгән көндәлек комментарийҙары'
-      heading: '%{user} көндәлек комментарийҙары'
       subheading_html: '%{user} тарафынан өҫтәлгән көндәлеккә комментарийҙар'
       no_comments: Көндәлектә комментарийҙар юҡ
     page:
@@ -1482,12 +1477,9 @@ ba:
         open: Асыҡ
         resolved: Хәл ителде
     page:
-      user_not_found: Ҡулланыусы юҡ
       issues_not_found: Бындай мәсьәләләр табылманы
       reported_user: Хәбәр ителгән ҡулланыусы
-      status: Статус
       reports: Отчеттар
-      last_updated: Һуңғы яңыртыу
       last_updated_time_ago_user_html: '%{user} тарафынан %{time_ago} элек'
       reports_count:
         one: '%{count} хәбәр'
@@ -1503,9 +1495,6 @@ ba:
         one: '%{count} хәбәр'
         other: '%{count} хәбәрҙәр'
       no_reports: Отчеттар юҡ
-      report_created_at_html: 'Тәүге тапҡыр хәбәр ителгән: %{datetime}'
-      last_resolved_at_html: 'Һуңғы тапҡыр хәл ителде: %{datetime}'
-      last_updated_at_html: 'Һуңғы тапҡыр яңыртылды: %{datetime}, автор: %{displayname}'
       resolve: Хәл итергә
       ignore: Иғтибарһыҙ ҡалдырырға
       reopen: Яңынан асыу
@@ -1588,9 +1577,7 @@ ba:
     intro_header: OpenStreetMap-ҡа рәхим итегеҙ!
     intro_text: OpenStreetMap — был донъя картаһы, ул һеҙҙең кеүек кешеләр тарафынан
       төҙөлә һәм асыҡ лицензия аҫтында ирекле ҡулланыу өсөн тәғәйенләнгән.
-    partners_fastly: Fastly
-    partners_corpmembers: OSMF корпоратив ағзалары
-    partners_partners: партнерҙары
+    partners_title: партнерҙары
     tou: Ҡулланыу шарттары
     osm_offline: OpenStreetMap базаһы әлеге ваҡытта ҡулланыу өсөн ябыҡ, сөнки мөһим
       техник эштәр башҡарыла.

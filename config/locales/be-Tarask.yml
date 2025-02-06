@@ -31,7 +31,7 @@ be-Tarask:
         create: Рэгістрацыя
         update: Абнавіць
       oauth2_application:
-        create: Рэгістрацыя
+        create: Зарэгістравацца
         update: Абнавіць
       redaction:
         create: Стварыць рэдакцыю
@@ -63,6 +63,7 @@ be-Tarask:
       message: Паведамленьне
       node: Вузел
       node_tag: Тэг вузла
+      notifier: Абвяшчальнік
       old_node: Стары вузел
       old_node_tag: Стары тэг вузла
       old_relation: Старая сувязь
@@ -124,7 +125,7 @@ be-Tarask:
         longitude: Даўгата
         public: Публічны
         description: Апісаньне
-        gpx_file: Загрузіць GPX-файл
+        gpx_file: Загрузіць файл сьледу GPS
         visibility: Бачнасьць
         tagstring: Тэгі
       message:
@@ -169,6 +170,10 @@ be-Tarask:
         needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
           будзе зьнятае?
       user:
+        email_confirmation: Ваш адрас ня будзе паказвацца публічна, глядзіце нашыя
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="правілы
+          OSMF адносна прыватнасьці, у тым ліку разьдзел пра адрасы электроннай пошты">правілы
+          адносна прыватнасьці</a> дзеля дадатковай інфармацыі
         new_email: (ніколі ня будзе паказаны публічна)
   datetime:
     distance_in_words_ago:
@@ -183,14 +188,14 @@ be-Tarask:
         other: каля %{count} гадоў таму
       almost_x_years:
         one: амаль %{count} год таму
-        other: амаль %{count} гадоў таму
+        other: амаль %{count} гады таму
       half_a_minute: паўхвіліны таму
       less_than_x_seconds:
         one: менш за %{count} сэкунду таму
-        other: менш за %{count} сэкундаў таму
+        other: менш за %{count} сэкунды таму
       less_than_x_minutes:
         one: менш за %{count} хвіліну таму
-        other: менш за %{count} хвілінаў таму
+        other: менш за %{count} хвіліны таму
       over_x_years:
         one: больш за %{count} год таму
         other: больш за %{count} гадоў таму
@@ -202,7 +207,7 @@ be-Tarask:
         other: '%{count} хвілінаў таму'
       x_days:
         one: '%{count} дзень таму'
-        other: '%{count} дзён таму'
+        other: '%{count} дні таму'
       x_months:
         one: '%{count} месяц таму'
         other: '%{count} месяцы таму'
@@ -220,8 +225,10 @@ be-Tarask:
   auth:
     providers:
       none: Няма
+      openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Вікіпэдыя
   api:
@@ -250,6 +257,9 @@ be-Tarask:
   account:
     deletions:
       show:
+        title: Выдаліць мой уліковы запіс
+        warning: Увага! Працэс выдаленьня ўліковага запісу канчатковы і незваротны.
+        delete_account: Выдаліць уліковы запіс
         confirm_delete: Вы ўпэўненыя?
   accounts:
     edit:
@@ -257,10 +267,12 @@ be-Tarask:
       my settings: Мае налады
       current email address: Цяперашні адрас электроннай пошты
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: што гэта?
       public editing:
         heading: Публічнае рэдагаваньне
         enabled: Уключана. Вы не ананім і можаце рэдагаваць зьвесткі.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: што гэта?
         disabled: Забаронены і ня можа рэдагаваць зьвесткі, усе папярэднія рэдагаваньні
           былі ананімнымі.
@@ -335,8 +347,9 @@ be-Tarask:
         relation: адносіны
         changeset: набор зьменаў
     timeout:
-      sorry: Прабачце, зьвесткі для %{type} з ідэнтыфікатарам %{id} занадта доўгія
-        для атрыманьня.
+      title: Скончыўся час
+      sorry: Прабачце, зьвесткі для %{type} з ідэнтыфікатарам %{id} занадта доўга
+        атрымліваць.
       type:
         node: вузел
         way: дарога
@@ -380,6 +393,7 @@ be-Tarask:
         belongs_to: Аўтар
     show:
       title: 'Набор зьменаў: %{id}'
+      comment: Камэнтар
       changesetxml: Набор зьменаў у фармаце XML
       osmchangexml: osmChange XML
     paging_nav:
@@ -435,7 +449,7 @@ be-Tarask:
       user_title: Дзёньнік %{user}
       leave_a_comment: Пакінуць камэнтар
       login_to_leave_a_comment_html: '%{login_link} каб пакінуць камэнтар'
-      login: Увайдзіце
+      login: Увайсьці
     no_such_entry:
       title: Няма такога запісу ў дзёньніку
       heading: Няма запісу з ідэнтыфікатарам %{id}
@@ -881,6 +895,8 @@ be-Tarask:
     gps_traces: GPS-шляхі
     user_diaries: Дзёньнікі карыстальнікаў
     edit_with: Рэдагаваць праз %{editor}
+    tag_line: Вольная Wiki-мапа сьвету
+    intro_2_create_account: Стварыце рахунак
     osm_offline: База зьвестак OpenStreetMap у цяперашні момант недаступная, таму
       што праводзяцца неабходныя тэхнічныя работы.
     osm_read_only: База зьвестак OpenStreetMap у цяперашні момант даступная толькі
@@ -904,7 +920,10 @@ be-Tarask:
       see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
       befriend_them: Вы таксама можаце дадаць іх у якасьці сябраў на %{befriendurl}.
     gpx_failure:
-      failed_to_import: 'немагчыма імпартаваць. Адбылася памылка:'
+      failed_to_import: 'немагчыма імпартаваць як файл сьледу GPS. Праверце, калі
+        ласка, што ваш файл сапраўды GPX ці архіў з файлам(і) GPX у падтрымваным фармаце
+        (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Магчыма, праблема ў фармаце
+        ці сынтаксе вашага файлу? Памылка імпарту вось такая:'
       subject: '[OpenStreetMap] памылка імпарту GPX'
     gpx_success:
       subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
@@ -987,16 +1006,16 @@ be-Tarask:
         з %{people_mapping_nearby_link}?
       people_mapping_nearby: людзьмі, якія жывуць каля Вас
     reply:
-      wrong_user: Вы ўвайшлі ў сыстэму як `%{user}', але паведамленьне, на якое Вы
-        жадаеце адказаць, не было дасланае гэтаму карыстальніку. Калі ласка, увайдзіце
-        як карыстальнік, адпаведна запыту, каб адказаць.
+      wrong_user: Вы ўвайшлі ў сыстэму як '%{user}', але паведамленьне, на якое Вы
+        жадаеце адказаць, гэтаму карыстальніку не адсылалася. Калі ласка, дзеля адказу
+        ўвайдзіце ў сыстэму патрэбным карыстальнікам.
     show:
       title: Чытаць паведамленьне
       reply_button: Адказаць
       unread_button: Пазначыць як непрачытанае
-      wrong_user: Вы ўвайшлі ў сыстэму як `%{user}', але паведамленьне, якое Вы жадаеце
-        прачытаць, было дасланае не гэтым ці гэтаму карыстальніку. Калі ласка, увайдзіце
-        як карыстальнік, адпаведна запыту, каб прачытаць.
+      wrong_user: Вы ўвайшлі ў сыстэму як '%{user}', але паведамленьне, якое Вы жадаеце
+        прачытаць, было дасланае ня гэтым ці ня гэтаму карыстальніку. Калі ласка,
+        дзеля прачытаньня ўвайдзіце ў сыстэму патрэбным карыстальнікам.
     sent_message_summary:
       destroy_button: Выдаліць
     heading:
@@ -1033,6 +1052,7 @@ be-Tarask:
       no home location: Вы не падалі Вашае месцазнаходжаньне.
       update home location on click: Абнаўляць маё месцазнаходжаньне, калі як націскаю
         на мапу?
+      show: Паказаць
   sessions:
     new:
       tab_title: Уваход
@@ -1069,9 +1089,29 @@ be-Tarask:
         native_link: беларускай вэрсіі
         mapping_link: пачаць стварэньне мапы
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> — <i>вольныя зьвесткі</i>, ліцэнзаваныя паводле <a
+          href="https://opendatacommons.org/licenses/odbl/">ліцэнзіі Адкрытых базаў зьвестак Адкрытых агульных зьвестак</a> (ODbL) <a
+          href="https://osmfoundation.org/">Фундацыяй OpenHistoricalMap Foundation</a> (OSMF).
+        introduction_2_html: Вы можаце капіяваць, распаўсюджваць, перадаваць і зьмяняць
+          нашыя зьвесткі да той пары, пакуль вы спасылаецеся на OpenHistoricalMap
+          і яе ўдзельнікаў. Калі вы зьмяняеце ці выкарыстоўваеце нашыя зьвесткі, вы
+          можаце распаўсюджваць вынікі толькі на ўмовах такой жа ліцэнзіі. Поўны <a
+          href="https://opendatacommons.org/licenses/odbl/1.0/">тэкст ліцэнзіі</a>
+          растлумачыць вам правы і адказнасьці.
         credit_title_html: Як спасылацца на OpenStreetMap
         credit_1_html: 'Карыстаючыся зьвесткамі OpenStreetMap, вы павінны выканаць
           дзьве ўмовы:'
+        credit_2_1: Мусіце таксама яўна пазначыць, што зьвесткі даступныя паводле
+          ліцэнзіі Open Database, а калі карыстаецеся нашымі кавалкамі мапаў, што
+          картаграфія ліцэнзаваная паводле CC BY-SA. Гэта можна зрабіць, спаслаўшыся
+          на <a href="https://www.openstreetmap.org/copyright">гэтую старонку правоў</a>.
+          Калі вы распаўсюджваеце OSM у фармаце зьвестак, вы мусіце разьмяшчаць наўпроставую
+          спасылку на ліцэнзіі. Калі вы выкарыстоўваеце носьбіты, дзе выкарыстаньне
+          спасылак немагчымае (напрыклад, друкаваныя працы), мы прапануем накіроўваць
+          вашых чытачоў на www.openstreetmap.org (магчымае выкарыстаньне поўнага адрасу
+          &lsquo;OpenHistoricalMap&rsquo;), на opendatacommons.org і, пры неабходнасьці,
+          на www.creativecommons.org.
         more_title_html: Даведацца болей
         contributors_title_html: Нашыя ўдзельнікі
         contributors_intro_html: 'Нашы аўтары — гэта тысячы асобаў. Мы таксама ўключаем
@@ -1095,6 +1135,9 @@ be-Tarask:
     export:
       manually_select: Выбраць іншы абшар
       licence: Ліцэнзія
+      licence_details_html: Зьвесткі OpenHistoricalMap даступныя на ўмовах ліцэнзіі
+        <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
+        Open Database License</a> (ODbL).
       too_large:
         body: 'Гэты абшар занадта вялікі для экспарту ў фармаце XML OpenStreetMap.
           Калі ласка, зьменшыце маштаб, выберыце меншы абшар, ці паспрабуйце адну
@@ -1126,6 +1169,8 @@ be-Tarask:
           footway: Пешаходная дарога
           rail: Чыгунка
           subway: Мэтро
+          light_rail: Лінія для лёгкага чыгуначнага транспарту
+          tram: Трамвай
           cable_car: Канатная дарога
           chair_lift: Крэславы пад’ёмнік
           runway: Узьлётная паласа
@@ -1134,6 +1179,7 @@ be-Tarask:
           admin: Адміністрацыйная мяжа
           forest: Лес
           wood: Лес
+          meadow: Луг
           golf: Поле для гольфу
           park: Парк
           common: Грамадзкая зямля
@@ -1369,6 +1415,8 @@ be-Tarask:
       title: Блякаваньні ўдзельніка
       heading: Сьпіс блякаваньняў удзельніка
       empty: Блякаваньняў яшчэ не было.
+    revoke_all:
+      revoke: Адклікаць!
     helper:
       time_future_html: Канчаецца ў %{time}.
       until_login: Актыўнае да моманту ўваходу ўдзельніка ў сыстэму.

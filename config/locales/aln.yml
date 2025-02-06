@@ -48,6 +48,7 @@ aln:
       message: Mesazh
       node: Nyjë
       node_tag: Nyja Tag
+      notifier: Notifier
       old_node: Nyja e Vjetër
       old_node_tag: Tag Nyja e Vjetër
       old_relation: Raporti i vjetër
@@ -78,6 +79,7 @@ aln:
       diary_entry:
         user: Përdorues
         title: Titulli
+        body: Organ
         latitude: Gjerësi
         longitude: Gjatësi
         language_code: Gjuha
@@ -131,6 +133,7 @@ aln:
       public editing:
         heading: Duke ndryshue publikisht
         enabled: E pranishme. Jo anonime dhe muni me i ndryshue t'dhanat.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: çka osht kjo?
         disabled: E çkyckur dhe smuni me i ndryshu të dhanat, të gjitha ndryshimet
           e ma hershme jan anonime.
@@ -189,6 +192,7 @@ aln:
         title_comment: Ndryshimi %{id} - %{comment}
     show:
       title: Ndryshim
+      comment: Koment
       changesetxml: Ndryshim en XML
       osmchangexml: Ndryshim i OSM-s en XML
   dashboards:
@@ -643,6 +647,7 @@ aln:
     export: Eksport
     gps_traces: GPS Gjurmët
     user_diaries: Përdoruesi Diaries
+    tag_line: Free Harta Wiki Botërore
     osm_offline: Baza e të dhanave të OpenStreetMap niher për niher jasht funksioni
       derisa disa punë themelore po kryhen në bazën e të dhanave.
     osm_read_only: Baza e të dhënave OpenStreetMap është aktualisht në mënyrë read-only
@@ -774,6 +779,7 @@ aln:
       home location: 'Veni juej:'
       no home location: Ju se keni caktu venin e juj.
       update home location on click: Ndryshoma venin kur të klikoj në hart?
+      show: Tregoj
   sessions:
     new:
       tab_title: Kycu
@@ -808,6 +814,18 @@ aln:
         native_link: Gegë verzion
         mapping_link: fillo hartografimin
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap is <i>open data</i>, licensed under the <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL).
+        introduction_2_html: |-
+          Ju jeni të lirë ta kopjoni, shpërndani, përcjell dhe përshtatur hartat tona
+            dhe të dhënat, për aq kohë sa ju e kreditit OpenHistoricalMap e saj
+            kontribuesve. Nëse ju ndryshoni ose me ndërtimin e hartave tona ose të dhëna, ju
+            mund të shpërndani rezultat vetëm në bazë të licencës të njëjtën.
+            <Plotë një
+            href = "http://creativecommons.org/licenses/by-sa/2.0/legalcode"> ligjore
+            <Kod / a> shpjegon të drejtat tuaja dhe të përgjegjësive.
         credit_title_html: Si të kreditit OpenStreetMap
         credit_1_html: |-
           Nëse jeni duke përdorur harta imazhe OpenStreetMap, ne kërkojmë që
@@ -815,6 +833,16 @@ aln:
             kontribuesit, CC BY-SA ". Nëse jeni duke përdorur të dhëna vetëm në hartë,
             ne kerkojme "Organizimi i të dhënave © kontribuesit OpenStreetMap,
             CC BY-SA ".
+        credit_2_1: |-
+          Ku të jetë e mundur, duhet të jetë OpenHistoricalMap hyperlinked në <a
+            href = "http://www.openstreetmap.org/"> http://www.openstreetmap.org/ </ a>
+            dhe CC BY-SA për <a
+            href = "http://creativecommons.org/licenses/by-sa/2.0/"> http://creativecommons.org/licenses/by-sa/2.0/ </ a>. Nëse
+            ju jeni duke përdorur një të mesme, ku lidhjet nuk janë të mundshme (p.sh. një
+            shtypura punë), ne ju sugjerojmë lexuesit tuaj të drejtpërdrejtë të
+            www.openstreetmap.org (ndoshta duke zgjeruar
+            'OpenHistoricalMap' në këtë adresë të plotë) dhe të
+            www.creativecommons.org.
         more_title_html: Gjetja më shumë
         contributors_title_html: kontribuesit tona
         contributors_intro_html: |-
@@ -844,6 +872,8 @@ aln:
     export:
       manually_select: Manualisht zgedhe ni zon te ndryshme
       licence: Licensa
+      licence_details_html: T'dhanat e OpenHistoricalMap jan te licensume nën <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+        Commons Attribution-ShareAlike 2.0 license</a>.
       too_large:
         body: Kjo zonë është shum e madhe që të eksportohet si XML në OpenStreetMap.
           Të lutna afroje ma ngat ose mere një zonë ma të vogel.
@@ -869,6 +899,8 @@ aln:
           footway: Këmbësore
           rail: Hekurudhor
           subway: Metro
+          light_rail: hekurudhor Lehta
+          tram: tramvaj
           cable_car: teleferik
           chair_lift: heqë karrige
           runway: Aeroporti i pistës
@@ -877,6 +909,7 @@ aln:
           admin: kufitare administrative
           forest: Pyll
           wood: Druri
+          meadow: livadh
           golf: fushë e golfit
           park: Park
           common: I përbashkët
@@ -1091,6 +1124,8 @@ aln:
       title: blloqe Përdoruesi
       heading: Lista e blloqeve përdorues
       empty: Nuk ka blloqe janë bërë ende.
+    revoke_all:
+      revoke: Tërheq!
     helper:
       time_future_html: Përfundon në %{time}.
       until_login: Aktiv deri kur përdoruesi shkrimet in

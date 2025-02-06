@@ -80,6 +80,7 @@ be:
       message: Паведамленне
       node: Пункт
       node_tag: Тэг пункта
+      notifier: Абвяшчэнне
       old_node: Стары пункт
       old_node_tag: Стары тэг пункта
       old_relation: Старое дачыненне
@@ -120,7 +121,7 @@ be:
       diary_entry:
         user: Карыстальнік
         title: Загаловак
-        body: Змест
+        body: Тэкст
         latitude: Шырата
         longitude: Даўгата
         language_code: Мова
@@ -263,6 +264,7 @@ be:
   auth:
     providers:
       none: Няма
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -350,7 +352,7 @@ be:
       save changes button: Запісаць змены
       delete_account: Выдаліць уліковы запіс...
     go_public:
-      heading: Публічнае рэдагаванне
+      heading: 'Публічнае рэдагаванне:'
       currently_not_public: " \nУ гэты момант вашыя праўкі ананімныя, і людзі не могуць
         адпраўляць вам паведамленні або бачыць вашае месцазнаходжанне. Каб паказаць
         тое, што вы рэдагавалі, і дазволіць людзям звязацца з вамі праз вэб-сайт,
@@ -498,8 +500,8 @@ be:
         comment: Новы каментар на пакет правак %{changeset_id} ад %{author}
         commented_at_by_html: Абноўлена %{when} удзельнікам %{user}
       show:
-        title_all: Абмеркаванне пакета правак OpenStreetMap
-        title_particular: 'Абмеркаванне пакета правак OpenStreetMap #%{changeset_id}'
+        title_all: Абмеркаванне пакета правак OpenHistoricalMap
+        title_particular: 'Абмеркаванне пакета правак OpenHistoricalMap #%{changeset_id}'
       timeout:
         sorry: Выбачайце, спіс набораў правак, што Вы запыталі, занадта вялікі для
           атрымання.
@@ -544,20 +546,17 @@ be:
       created: 'Створана: %{when}'
       closed: 'Закрыта: %{when}'
       created_ago_html: Створана %{time_ago}
-      closed_ago_html: Закрыта %{time_ago}
       created_ago_by_html: Створана %{time_ago} удзельнікам %{user}
-      closed_ago_by_html: Закрыта %{time_ago} карыстальнікам %{user}
       discussion: Абмеркаванне
       join_discussion: Увайдзіце ў сістэму, каб далучыцца да абмеркавання
       still_open: Пакет правак яшчэ адкрыты. Абмеркаванне стане даступным, як толькі
         пакет правак закрыецца.
       subscribe: Падпісацца
       unsubscribe: Адпісацца
-      comment_by_html: Пракаментавана карыстальнікам %{user} %{time_ago} таму
       hidden_comment_by_html: Схаваны каментар ад %{user} %{time_ago} таму
       hide_comment: схаваць
       unhide_comment: паказаць
-      comment: Каментаваць
+      comment: Каментар
       changesetxml: XML пакета правак
       osmchangexml: osmChange XML
     paging_nav:
@@ -671,10 +670,7 @@ be:
       button: Адпісацца ад абмеркавання
   diary_comments:
     index:
-      title: Каментары да запісаў у дзённіку, дадазеныя карыстальнікам %{user}
-      heading: Каментары да запісаў у дзённіку карыстальніка %{user}
       subheading_html: Каментары да запісаў у дзённіку, дадазеныя карыстальнікам %{user}
-      no_comments: Няма каментароў у дзённіку
     page:
       post: Апублікаваць
       when: Калі
@@ -1650,12 +1646,14 @@ be:
     gps_traces: GPS-сляды
     user_diaries: Дзённікі карыстальнікаў
     edit_with: Правіць з дапамогаю %{editor}
+    tag_line: Свабодная Wiki-карта свету
     intro_header: Вітаем у OpenStreetMap!
     intro_text: OpenStreetMap - гэта карта свету, створаная людзьмі, як вы, і бясплатная
       для выкарыстання на ўмовах адкрытай ліцэнзіі.
-    partners_fastly: Fastly
-    partners_corpmembers: Карпаратыўныя члены OSMF
-    partners_partners: партнёры
+    intro_2_create_account: Стварыць уліковы запіс удзельніка
+    partners_title: Партнёры
+    hosting_partners_2024_html: Хостынг падтрымліваецца %{ucl}, %{bytemark}, і іншымі
+      %{partners}.
     tou: Умовы карыстання
     osm_offline: База даных OpenStreetMap зараз па-за сецівам, таму што праходзіць
       неабходная тэхнічная праца.
@@ -1907,7 +1905,6 @@ be:
       destroy_button: Выдаліць
     heading:
       my_inbox: Мае уваходныя
-      my_outbox: Мае выходныя
       muted_messages: Прыглушаныя паведамленні
     mark:
       as_read: Паведамленне адмечана прачытаным
@@ -1959,6 +1956,7 @@ be:
       image: Выява
       gravatar:
         gravatar: Выкарыстоўваць Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Што такое Gravatar?
         disabled: Граватар быў адключаны.
         enabled: Паказ вашага Граватара быў уключаны.
@@ -2059,11 +2057,17 @@ be:
       open_data_open_data: адкрытыя даныя
       open_data_copyright_license: Аўтарскія правы і ліцэнзія
       legal_title: Прававыя пытанні
+      legal_1_1_html: |-
+        Гэты сайт і многія іншыя звязаныя сэрвісы фармальна кіруюцца <a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a> (OSMF) ад імя супольнасці.
+        Выкарыстанне сэрвісаў OSMF рэгулюецца <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Умовамі карыстання</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Палітыкай дазволенага карыстання</a>, <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Палітыкай прыватнасці</a>.
       legal_1_1_openstreetmap_foundation: Фонд OpenStreetMap
       legal_1_1_terms_of_use: Умовы карыстання
       legal_1_1_privacy_policy: Палітыка прыватнасці
-      legal_2_1_html: Калі ласка, %{contact_the_osmf_link}, калі ў вас ёсць пытанні
-        адносна ліцэнзавання, аўтарскіх правоў або іншых юрыдычных пытаннях.
+      legal_2_1_html: |-
+        Калі ласка, <a href='https://osmfoundation.org/Contact'>звярніцеся да OSMF</a>, калі ў вас есць ліцэнзійныя, аўтарскія ці іншыя прававыя пытанні.
+        <br>
+        OpenHistoricalMap, лагатып павелічальнага шкла і State of the Map з'яўляюцца <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">зарэгістраванымі гандлёвымі маркамі OSMF</a>.
       legal_2_1_contact_the_osmf: звяжыцеся з Фондам OSM
       legal_2_2_html: OpenStreetMap, лагатып у відзе павелічальнага шкла і State of
         the Map з'яўляюцца %{registered_trademarks_link}.
@@ -2085,15 +2089,16 @@ be:
         mapping_link: пачаць маляваць карту
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} гэта %{open_data}, якія прадастаўляюцца па ліцэнзіі
-          %{odc_odbl_link} (ODbL) праз %{osm_foundation_link} (OSMF).
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> - гэта <i>адкрытыя дадзеныя</i>, што распаўсюджваюцца  па ліцэнзіі <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) сіламі <a
+          href="http://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         introduction_1_open_data: адкрытыя даныя
         introduction_1_osm_foundation: Фонд OpenStreetMap
-        introduction_2_html: Вы можаце капіраваць, распаўсюджваць, перадаваць і змяняць
-          нашыя даныя да той пары пакуль вы спасылаецеся на OpenStreetMap і яе ўдзельнікаў.
-          Калі вы змяняеце ці выкарыстоўваеце нашыя даныя, то можаце распаўсюджваць
-          вынікі толькі на ўмовах такой жа ліцэнзіі. Поўны %{legal_code_link} растлумачыць
-          вашыя правы і абавязкі.
+        introduction_2_html: "Вы можаце капіраваць, распаўсюджваць, перадаваць і змяняць
+          нашыя  дадзеныя да той пары пакуль Вы спасылаецеся на OpenHistoricalMap
+          і яе ўдзельнікаў. Калі Вы змяняеце ці выкарыстоўваеце нашыя дадзеныя, Вы
+          можаце распаўсюджваць вынікі толькі на ўмовах такой жа ліцэнзіі. Поўны \n<a
+          href=\"http://opendatacommons.org/licenses/odbl/1.0/\">тэкст ліцэнзіі</a>
+          растлумачыць Вам правы і абавязкі."
         introduction_2_legal_code: тэкст ліцэнзіі
         introduction_3_html: Наша дакументацыя прадастаўляецца на ўмовах ліцэнзіі
           %{creative_commons_link} (CC BY-SA 2.0).
@@ -2125,6 +2130,10 @@ be:
         contributors_intro_html: 'Нашымі ўдзельнікамі з''яўляюцца тысячы людзей. Мы
           таксама ўключаем даныя ад нацыянальных картаграфічных агенцтваў, якія распаўсюджваюцца
           на ўмовах адкрытых ліцэнзій, сярод іх:'
+        contributors_footer_1_html: Дадатковую інфармацыю аб гэтых і іншых крыніцах,
+          якія былі выкарыстаныя для паляпшэння карты OpenHistoricalMap, можна атрымаць
+          на старонцы <a href="http://wiki.openstreetmap.org/wiki/Contributors">Удзельнікі
+          </a> на Вікі OpenHistoricalMap.
         contributors_at_austria: Аўстрыя
         contributors_au_australia: Аўстралія
         contributors_ca_canada: Канада
@@ -2146,6 +2155,15 @@ be:
         infringement_1_html: Удзельнікі супольнасці OSM павінны заўсёды памятаць пра
           тое, што забараняецца дадаваць даныя з любых абароненых аўтарскім правам
           крыніц (напрыклад, з Google Maps або з друкаваных карт) без дазволу праваўладальнікаў.
+        infringement_2_1_html: Калі вы лічыце, што абаронены аўтарскім правам матэрыял
+          быў недарэчна дададзены ў базу дадзеных OpenHistoricalMap або да гэтага
+          сайту, азнаёмціся з нашым <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">парадкам
+          выдалення такіх дадзеных</a> або скарыстайцеся непасрэдна нашай <a href="https://dmca.openstreetmap.org/">старонкай
+          для онлайн зваротаў</a>.
+        trademarks_1_1_html: OpenHistoricalMap і лагатып з лупаю з'яўляюцца зарэгістраванымі
+          таварнымі знакамі фонду OpenHistoricalMap. Калі ў вас есць пытанні аб выкарыстанні
+          знакаў, калі ласка, адпраўце Вашыя пытанні <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">рабочай
+          групе па ліцэнзіі</a>.
     index:
       js_1: Вы карыстаецеся вандроўнікам без падтрымкі JavaScript.
       js_2: OpenStreetMap выкарыстоўвае JavaScript для адлюстравання карты на сайце.
@@ -2165,6 +2183,9 @@ be:
       title: Экспарт
       manually_select: Выбраць іншую мясцовасць
       licence: Ліцэнзія
+      licence_details_html: Дадзеныя праекту OpenHistoricalMap распаўсюджваюцца па
+        ліцэнзіі <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data
+        Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Калі экспарт вышэй не атрымаўся, то разгледзьце магчымасць выкарыстання
           адной з наступных крыніц:'
@@ -2196,8 +2217,18 @@ be:
             даных, напрыклад, калі не пазначана дарога ці ваш адрас, лепшы спосаб
             гэта выправіць - далучыцца да супольнасці OpenStreetMap і дадаць або выправіць
             даныя самастойна.
+        add_a_note:
+          instructions_1_html: "Проста націсніце <a class='icon note'></a> або падобны
+            значок на карце. \nУ выніку на карце з'явіцца маркер, які вы зможаце перамяшчаць
+            шляхам перацягвання. Дадайце ваша паведамленне, націсніце кнопку Захаваць
+            і іншыя ўдзельнікі змогуць гэта убачыць."
       other_concerns:
         title: Іншыя перасцярогі
+        concerns_html: "Калі вы занепакоеныя тым, як нашы дадзеныя выкарыстоўваюцца
+          або іх зместам, звярніцеся да нашай \n<a href='/copyright'>старонкі аўтарскіх
+          правоў</a> для атрымання прававой інфармацыі, або звяжыцеся з адпаведнай
+          \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>рабочай групай
+          OSMF</a>."
     help:
       title: Атрыманне дапамогі
       introduction: OpenStreetMap мае розныя рэсурсы для атрымання інфармацыі аб праекце,
@@ -2209,6 +2240,7 @@ be:
         description: Пачніце з гэтага кароткага кіраўніцтва, што ахоплівае асновы
           OpenStreetMap.
       beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: Дапаможнік для пачаткоўцаў
         description: Супольнасць падтрымлівае дапаможнік для пачаткоўцаў.
       community:
@@ -2229,11 +2261,20 @@ be:
         title: Для арганізацый
         description: Вы з арганізацыі, якая хоча працаваць з OpenStreetMap? Азнаёмцеся
           з інфармацыяй у раздзеле Welcome Mat.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: Вікі OpenStreetMap
         description: Паглядзець вікі з падрабязнай дакументацыяй па OpenStreetMap
     any_questions:
       title: Ёсць пытанні?
+      paragraph_1_html: "OpenHistoricalMap мае розныя рэсурсы для атрымання інфармацыі
+        аб праекце, для задавання пытанняў і атрымання адказаў, для сумеснага абмеркавання
+        і стварэння дакументацыі па картаграфаванні. \n<a href='%{help_url}'>Атрымаеце
+        дапамогу тут</a>. А калі вы з арганізацыі, якая хоча працаваць з OpenHistoricalMap,
+        то вам <a href='https://welcome.openstreetmap.org/'>сюды</a>."
     sidebar:
       search_results: Вынікі пошуку
     search:
@@ -2265,7 +2306,8 @@ be:
           train: Цягнік
           subway: Метро
           ferry: Паром
-          tram: Трамвай
+          light_rail: Хуткасны трамвай
+          tram: трамвай
           trolleybus: Тралейбус
           bus: Аўтобус
           cable_car: Канатная дарога
@@ -2278,6 +2320,7 @@ be:
           city: Горад
           forest: Лес
           wood: пушча
+          meadow: луг
           sand: Пясок
           golf: Поле для гольфа
           park: Парк
@@ -2321,12 +2364,26 @@ be:
         кароткае кіраўніцтва па найважнейшым рэчам, якія вы павінны ведаць.
       whats_on_the_map:
         title: Што змяшчае карта
+        on_the_map_html: Карта OpenHistoricalMap змяшчае аб'екты, якія <em>існуюць
+          у цяперашні момант</em>, уключаючы мільёны дамоў, дарог і іншых элементаў
+          мясцовасці. Вы можаце наносіць на карту любыя аб'екты навакольнага свету,
+          якія цікавяць вас.
+        off_the_map_html: Карта <em>НЕ</em> ўключае суб'ектыўныя дадзеныя накшталт
+          ацэнак, гістарычных або гіпатэтычных характарыстык і дадзеныя з крыніц,
+          якія абаронены аўтарскім правам. Калі вы не маеце спецыяльнага дазволу,
+          не капіюйце з папяровых карт або карт у Інтэрнэце.
       basic_terms:
         title: Невялікі слоўнік картографа
         paragraph_1: OpenStreetMap мае свой ​​уласны жаргон. Вось некалькі ключавых
           слоў, якія могуць быць карыснымі.
       rules:
         title: Правілы!
+        para_1_html: У OpenHistoricalMap есьць некалькі фармальных правілаў, але мы
+          чакаем, што ўсе ўдзельнікі будуць супрацоўнічаць і мець зносіны з супольнасцю.
+          Калі вы плануеце нейкія дзеянні, па-за рэдагаваннем ўручную, калі ласка,
+          прачытайце і выконвайце рэкамендацыі па <a href="http://wiki.openstreetmap.org/wiki/Import/Guidelines">Імпарту</a>
+          і <a href="http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct">Аўтаматызаваных
+          Праўках</a>.
       start_mapping: Пачаць маляваць карту
       add_a_note:
         title: Няма часу на рэдагаванне? Дадайце заўвагу!
@@ -2364,6 +2421,7 @@ be:
     new:
       upload_trace: Адаслаць GPS-след
       visibility_help: што гэта значыць?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Даведка
       help_url: http://wiki.openstreetmap.org/wiki/RU:Upload
     create:
@@ -2540,7 +2598,9 @@ be:
       consider_pd: У праграму да прыведзенага пагаднення, я пацвярджаю, што мой уклад
         знаходзіцца ў грамадскім набытку
       consider_pd_why: што гэта?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       continue: Працягнуць
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся ці
         адхіліце новыя ўмовы супрацоўніцтва для працягу.
       legale_select: 'Краіна пражывання:'
@@ -2548,6 +2608,8 @@ be:
         france: Францыя
         italy: Італія
         rest_of_world: Астатні свет
+    terms_declined_flash:
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Няма такога карыстальніка
       heading: Карыстальнік %{user} не існуе
@@ -2684,6 +2746,8 @@ be:
       title: Блакіроўкі карыстальніка
       heading: Спіс блакіровак карыстальніка
       empty: Блакіровак яшчэ не было.
+    revoke_all:
+      revoke: Адазваны!
     helper:
       time_future_html: Заканчваецца праз %{time}.
       until_login: Актыўная да моманту ўваходу ўдзельніка ў сістэму.
@@ -2783,6 +2847,7 @@ be:
       add: Дадаць заўвагу
     notes_paging_nav:
       showing_page: Старонка %{page}
+      next: Далей
   javascripts:
     close: Закрыць
     share:

@@ -15,7 +15,7 @@ arz:
       message:
         create: أرسل
       client_application:
-        create: سجِّل
+        create: سجِّل
         update: عدّل
       trace:
         create: ارفع
@@ -36,6 +36,7 @@ arz:
       message: الرسالة
       node: عقدة
       node_tag: سمه عقدة
+      notifier: المخطر
       old_node: عقده قديمة
       old_node_tag: سمه عقده قديمة
       old_relation: علاقه قديمة
@@ -66,6 +67,7 @@ arz:
       diary_entry:
         user: المستخدم
         title: العنوان
+        body: نص الرسالة
         latitude: خط العرض
         longitude: خط الطول
         language_code: اللغة
@@ -112,6 +114,7 @@ arz:
       public editing:
         heading: تعديل عام
         enabled: مفعّل. غير مجهول ويمكنك تعديل البيانات.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ما هذا؟
         disabled: مُعطل ولا يمكن تعديل البيانات، جميع التعديلات السابقه مجهوله الهويه.
         disabled link text: لماذا لا أستطيع التعديل؟
@@ -157,6 +160,7 @@ arz:
         title_comment: حزمه التغييرات %{id} - %{comment}
     show:
       title: 'حزمه التغييرات: %{id}'
+      comment: التعليق
       changesetxml: حزمه التغييرات إكس إم إل
       osmchangexml: osmChange XML
   dashboards:
@@ -191,7 +195,7 @@ arz:
     show:
       title: يوميات اليوزر %{user} | %{title}
       user_title: يوميه %{user}
-      leave_a_comment: اترك تعليقًا
+      leave_a_comment: اترك تعليقا
       login_to_leave_a_comment_html: '%{login_link} لترك تعليق'
       login: دخول
     no_such_entry:
@@ -576,9 +580,10 @@ arz:
     sign_up: اعمل حساب
     edit: عدّل هذه الخريطة
     history: تاريخ
-    export: صدِّر
+    export: صدِّر
     gps_traces: آثار جى بى أس
     user_diaries: يوميات المستخدمين
+    tag_line: ويكى خريطه العالم الحرة
     osm_offline: حاليًا قاعده بيانات خريطه الشارع المفتوحه مغلقه بينما يتم الانتهاء
       من أعمال الصيانه الأساسيه لقاعده البيانات.
     osm_read_only: حاليًا قاعده بيانات خريطه الشارع المفتوحه فى وضع القراءه بينما
@@ -601,10 +606,10 @@ arz:
       see_their_profile: يمكنك أن تشاهد ملفه الشخصى على %{userurl} وإضافته كصديق أيضًا
         إن كنت ترغب فى ذلك.
     gpx_failure:
-      failed_to_import: 'فشلت في الاستيراد كملف تعقب GPS. من فضلك تحقق من إن الملف
-        الخاص بك هو ملف GPX صالح أو أرشيف يحتوي على ملف (ملفات) GPX في الصيغة المُدعمة
-        (.tar.gz، .tar.bz2, .tar، .zip، .gpx.gz ، .gpx .bz2). ممكن يكون هناك مشكلة
-        في التنسيق أو النص مع ملفك؟ هيك خطأ التأمين:'
+      failed_to_import: 'فشل استيراد الملف كملف تتبع GPS. يرجى التأكد من أن الملف
+        عبارة عن ملف GPX صالح أو أرشيف يحتوي على ملفات GPX بتنسيق مدعوم (.tar.gz،
+        .tar.bz2، .tar، .zip، .gpx.gz، .gpx.bz2). هل يمكن أن تكون هناك مشكلة في التنسيق
+        أو بناء الجملة في الملف؟ إليك خطأ الاستيراد:'
       subject: '[خريطه الشارع المفتوحة] فشل استيراد جى بى إكس'
     gpx_success:
       subject: '[خريطه الشارع المفتوحة] نجاح استيراد جى بى إكس'
@@ -693,6 +698,7 @@ arz:
       home location: 'موقع المنزل:'
       no home location: لم تدخل موقع منزلك.
       update home location on click: حدّث موقع المنزل عندما أنقر على الخريطة؟
+      show: اعرض
   sessions:
     new:
       tab_title: دخول
@@ -719,6 +725,12 @@ arz:
     export:
       manually_select: اختر يدويًا منطقه أخرى
       licence: الرخصة
+      licence_details_html: بتوفير OpenHistoricalMap (OHM) خرائط تاريخية وبيانات مرتبطة
+        بها، اللي بتتيح الترخيص من قبل المساهمين على مستوى الكائن. بتشجع المساهمين
+        بشدة على المساهمة في بيانات باستخدام ترخيص CC0, بس في مصلحة حماية حقوق المبدعين
+        في البيانات التاريخية، زي الأكاديميين، بتدعم الترخيصات المفتوحة الأخرى، زي
+        أي مزيج من CC، BY، SA، وNC، كذلك. انت مسؤول عن فهم شروط الترخيصات اللي بتضمنها
+        في البيانات اللي بتنسخها وتوزيعها وتقديمها وتعديلها.
       export_button: صدِّر
     sidebar:
       search_results: نتائج البحث
@@ -741,12 +753,15 @@ arz:
           footway: طريق مشاة
           rail: سكه حديدية
           subway: قطار الأنفاق
+          light_rail: ترام
+          tram: ترام
           runway: مدرج مطار للإقلاع/الهبوط
-          taxiway: طريق تاكسي
+          taxiway: ممر الطائرات
           apron: ساحه مطار
           admin: حدود إدارية
           forest: غابة
           wood: الخشب
+          meadow: مرج
           golf: ملعب غولف
           park: منتزه
           common: شائع
@@ -755,7 +770,7 @@ arz:
           industrial: منطقه صناعية
           commercial: منطقه تجارية
           lake: بحيرة
-          reservoir: مخزن
+          reservoir: خزان
           farm: أرض زراعية
           cemetery: مقبرة
           allotments: حصص سكنية
@@ -811,7 +826,13 @@ arz:
       visibility: 'الرؤية:'
     trace:
       pending: فى الانتظار
-      count_points: '%{count} نقطة'
+      count_points:
+        zero: لا نقاط
+        one: نقطة واحدة
+        two: نقطتان
+        few: نقاط قليلة
+        many: نقاط كثيرة
+        other: '%{count} نقطة'
       more: المزيد
       trace_details: اعرض تفاصيل الأثر
       view_map: اعرض الخريطة
@@ -885,11 +906,11 @@ arz:
       flash success: جميع تعديلاتك الآن عامه، ومسموح لك بالتعديل الآن.
   user_role:
     filter:
-      not_a_role: السطر '%{role}' مش دور صالح.
+      not_a_role: السلسلة '%{role}' ليست دورًا صالحًا.
       already_has_role: لدى المستخدم الدور  %{role} سابقًا
       doesnt_have_role: ليس للمستخدم الدور %{role}.
     grant:
-      are_you_sure: هل أنت متأكد من أنك تريد منح الدور `%{role}' إلى المستخدم `%{name}'؟
+      are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
     revoke:
       are_you_sure: أكنت متأكد انك بتريد إلغاء الدور '%{role}' من المستخدم '%{name}'?
   user_blocks:
@@ -919,15 +940,19 @@ arz:
       title: عرقلات المستخدم
       heading: لائحه بعرقلات المستخدم
       empty: لم يتم إنشاء عرقلات حتى الآن.
+    revoke_all:
+      revoke: ابطل!
     helper:
       time_future_html: ينتهى فى %{time}.
       until_login: نشط حتى يقوم المستخدم بتسجيل الدخول.
       time_past_html: انتهى منذ %{time}.
       block_duration:
         hours:
-          few: '%{count} ساعات'
-          one: ساعه واحد
-          two: ساعتين
+          zero: لا ساعة
+          one: '%{count} ساعة'
+          two: ساعتان
+          few: ساعات قليلة
+          many: ساعات كثيرة
           other: '%{count} ساعة'
     blocks_on:
       title: العرقلات على %{name}

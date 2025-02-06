@@ -21,6 +21,7 @@
 # Author: Jlrb+
 # Author: Jmaspons
 # Author: Jmontane
+# Author: Lluis Cat
 # Author: Macofe
 # Author: Martorell
 # Author: McDutchie
@@ -99,6 +100,7 @@ ca:
       message: Missatge
       node: Node
       node_tag: Etiqueta del Node
+      notifier: Notificador
       old_node: Node Antic
       old_node_tag: Etiqueta de node antiga
       old_relation: Relació antiga
@@ -204,6 +206,10 @@ ca:
           que intenteu utilitzar termes comuns.
         needs_view: L'usuari necessita connectar-se abans que aquest blocatge se suprimeixi?
       user:
+        email_confirmation: La vostra adreça no es mostrarà públicament (vegeu la
+          nostra <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
+          privacy policy including section on email addresses"></a>política de privadesa</a>
+          per a més informació)
         new_email: (no es mostrarà mai públicament)
   datetime:
     distance_in_words_ago:
@@ -255,6 +261,7 @@ ca:
   auth:
     providers:
       none: Cap
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -318,10 +325,12 @@ ca:
       current email address: Adreça electrònica actual
       external auth: Autenticació externa
       openid:
+        link: https://wiki.OpenHistoricalMap.org/wiki/OpenID
         link text: què és això?
       public editing:
         heading: Modificació pública
         enabled: Activades. No anònim i amb permís per editar dades.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: què és això?
         disabled: Desactivades i sense permís per a editar; les modificacions anteriors
           són anònimes.
@@ -334,6 +343,7 @@ ca:
           de col·laboració.
         agreed_with_pd: També declareu que considereu que les vostres modificacions
           són de domini públic.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: què és això?
       save changes button: Desa els canvis
       delete_account: Suprimeix el compte...
@@ -461,7 +471,7 @@ ca:
         commented_at_by_html: Actualitzat a %{when} per %{user}
       show:
         title_all: Debat sobre els conjunts de canvis d'OpenStreetMap
-        title_particular: 'Debat sobre el conjunt de canvis #%{changeset_id} d''OpenStreetMap'
+        title_particular: 'Debat sobre el conjunt de canvis #%{changeset_id} d''OpenHistoricalMap'
       timeout:
         sorry: La llista de comentaris de conjunts de canvis que heu sol·licitat ha
           trigat massa a recuperar-se.
@@ -492,21 +502,16 @@ ca:
       title: 'Conjunt de canvis: %{id}'
       created: 'Creat: %{when}'
       closed: 'Tancat: %{when}'
-      created_ago_html: Creat %{time_ago}
-      closed_ago_html: Tancat %{time_ago}
-      created_ago_by_html: Creat %{time_ago} per %{user}
-      closed_ago_by_html: Tancat %{time_ago} per %{user}
       discussion: Debat
       join_discussion: Inicieu una sessió per a unir-vos al debat
       still_open: Conjunt de canvis encara obert - el debat començarà quan es tanqui
         el conjunt de canvis.
       subscribe: Subscriure's
       unsubscribe: Dona de baixa
-      comment_by_html: Comentari de %{user} %{time_ago}
       hidden_comment_by_html: Comentari ocult de %{user} %{time_ago}
       hide_comment: ocultar
       unhide_comment: mostrar
-      comment: Comenta
+      comment: Comentari
       changesetxml: XML del conjunt de canvis
       osmchangexml: XML en format osmChange
     paging_nav:
@@ -606,6 +611,8 @@ ca:
       all:
         title: Entrades de diari d'OpenStreetMap
         description: Entrades de diari recents dels usuaris d'OpenStreetMap
+    comments:
+      title: Comentaris del diari afegits per %{user}
   diary_comments:
     index:
       title: Comentaris del diari afegits per %{user}
@@ -1532,6 +1539,9 @@ ca:
       successful_report: S’ha registrat la vostra denúncia correctament
       provide_details: Proporcioneu els detalls demanats
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: Logotip de l'OpenStreetMap
     home: Ves a la ubicació d'inici
@@ -1546,11 +1556,14 @@ ca:
     gps_traces: Traces de GPS
     user_diaries: Diaris d'usuari
     edit_with: Edita amb %{editor}
+    tag_line: El mapa col·laboratiu lliure
     intro_header: OpenStreetMap us dona la benvinguda
     intro_text: L'OpenStreetMap és un mapa del món creat per persones com tu i d'ús
       lliure sota una llicència oberta.
-    partners_fastly: Fastly
-    partners_partners: socis
+    intro_2_create_account: Crea un compte d’usuari
+    partners_title: socis
+    hosting_partners_2024_html: L'allotjament és a càrrec de %{ucl}, %{fastly}, %{bytemark}
+      i d'altres %{partners}.
     tou: Condicions d’ús
     osm_offline: La base de dades OpenStreetMap és fora de línia mentre es fan les
       actuacions de manteniment necessàries.
@@ -1603,6 +1616,7 @@ ca:
       failed_to_import: 'no es pot importar. L''error ha estat:'
       more_info_html: Podeu trobar més informació sobre les fallades d'importació
         de GPX i com evitar-les a %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Error d''importació de GPX'
     gpx_success:
       hi: Hola %{to_user},
@@ -1838,6 +1852,7 @@ ca:
       image: Imatge
       gravatar:
         gravatar: Usa Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Què és Gravatar?
         disabled: S'ha inhabilitat Gravatar.
         enabled: S'ha habilitat que es mostri el vostre Gravatar.
@@ -1941,15 +1956,20 @@ ca:
       open_data_copyright_license: pàgina de copyright i llicència
       legal_title: Avisos legals
       legal_1_1_html: "Aquest lloc web i molts altres serveis relacionats són operats
-        formalment per la \n%{openstreetmap_foundation_link} (OSMF) en nom de la comunitat.
-        L'ús de tots els serveis operats per l'OSMF es troba subjecte a les nostres
-        %{terms_of_use_link}, %{aup_link} i a les nostres %{privacy_policy_link}."
+        formalment per la \n<a href=\"http://osmfoundation.org/\">Fundació OpenHistoricalMap</a>
+        (OSMF) en nom de la comunitat. L'ús de tots els serveis operats per l'OSMF
+        es troba subjecte a les nostres <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">,
+        </a> <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolítiques
+        d'ús acceptable</a> i a les nostres <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">polítiques
+        de privadesa</a>"
       legal_1_1_openstreetmap_foundation: Fundació OpenStreetMap
       legal_1_1_terms_of_use: condicions d’ús
       legal_1_1_aup: polítiques d'ús acceptable
       legal_1_1_privacy_policy: polítiques de privadesa
-      legal_2_1_html: '%{contact_the_osmf_link} si teniu qüestions sobre la llicència,
-        copyright o altres temes legals.'
+      legal_2_1_html: |-
+        <a href="https://osmfoundation.org/Contact">Contacta</a> amb l'OSMF si tens dubtes de llicència, drets de còpia o altres qüestions legals.
+
+        OpenHistoricalMap, el logo i Estat del Mapa són <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marques registrades de l'OSMF</a>.<br><br>
       legal_2_1_contact_the_osmf: Contacteu amb l'OSMF
       legal_2_2_html: OpenStreetMap, el logotip de la lupa i Estat del Mapa són %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marca registrada de l'OSMF
@@ -1970,25 +1990,37 @@ ca:
         mapping_link: Comença a cartografiar
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} són %{open_data}, sota la llicència
-          %{odc_odbl_link} (ODbL) per la %{osm_foundation_link} (OSMF).
+          L'OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> són <i>dades obertes</i>, publicades sota la <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) per la <a
+          href="http://osmfoundation.org/">Fundació OpenHistoricalMap</a> (OSMF).
         introduction_1_open_data: dades obertes
         introduction_1_odc_odbl: Llicència de base de dades oberta d'Open Data Commons
         introduction_1_osm_foundation: Fundació OpenStreetMap
-        introduction_2_html: "Sou lliure de copiar, distribuir, transmetre i adaptar
-          les nostres dades, sempre que especifiqueu que són obra d'OpenStreetMap
-          i els seus col·laboradors. Si modifiqueu o amplieu les\nnostres dades, només
-          podreu distribuir l'obra \nresultant amb la mateixa llicència. El %{legal_code_link}
-          complet explica detalladament els vostres drets i responsabilitats."
+        introduction_2_html: "Sou lliure de copiar, distribuir, comunicar públicament
+          i fer obres derivades de les nostres dades, sempre que especifiqueu que
+          són obra d'OpenHistoricalMap i els seus col·laboradors. Si modifiqueu o
+          amplieu les\nnostres dades, només podreu distribuir l'obra \nresultant amb
+          la mateixa llicència. El\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">codi
+          legal</a> complet explica detalladament els vostres drets i responsabilitats."
         introduction_2_legal_code: codi legal
-        introduction_3_html: La documentació està sota llicència %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: La nostra documentació és disponible sota llicència <a
+          href="http://creativecommons.org/licenses/by-sa/2.0/">Text de la llicència
+          de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA).
         introduction_3_creative_commons: Creative Commons Reconeixement-CompartirIgual
           2.0
         credit_title_html: Com atribuir autoria a OpenStreetMap
         credit_1_html: 'Allà on utilitzeu les dades de l''OpenStreetMap, cal que feu
           les dues coses següents:'
-        credit_2_1: Doneu reconeixement a OpenstreetMap mostrant l'avís de copyright.
+        credit_2_1: També heu de deixar clar que les dades són disponibles sota llicència
+          de base de dades oberta i, si utilitzeu els nostres mapes, que la cartografia
+          té llicència CC-BY-SA. Podeu fer-ho enllaçant a <a href="http://www.openstreetmap.org/copyright">aquesta
+          pàgina de copyright</a>. De manera alternativa, però com a requisit obligatori
+          si distribuïu OSM en forma de dades en brut, podeu citar i enllaçar directament
+          a la llicència. En el cas d'utilitzar suports on els enllaços d'hipertext
+          no són possibles (per exemple, obres impreses), us suggerim d'adreçar els
+          lectors a openstreetmap.org (potser indicant l'adreça completa d'OpenHistoricalMap),
+          a opendatacommons.org i, si s'escau, a creativecommons.org.
         credit_2_2: Deixeu clar que les dades estan disponibles sota la llicència
           de base de dades oberta (ODbL).
         credit_3_html: Per a l'avís de copyright, tenim diferents requisits sobre
@@ -2019,6 +2051,9 @@ ca:
         contributors_intro_html: 'Els nostres col·laboradors són milers de persones.
           També incloem dades amb llicència oberta de les agències públiques de cartografia
           i d''altres fonts, entre elles:'
+        contributors_footer_1_html: |-
+          Per a més detalls sobre aquesta i d'altres fonts que han estat utilitzades per millorar els mapes de l'OpenHistoricalMap, visiteu la pàgina dedicada als <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Col·laboradors</a> del wiki d'OSM.
         contributors_at_austria: Àustria
         contributors_at_stadt_wien: Ciutat de Viena
         contributors_at_cc_by: CC BY
@@ -2069,15 +2104,18 @@ ca:
           d'afegir dades de cap font amb drets d'autor registrats (com Google Maps
           o mapes impresos per exemple) sense tenir una autorització explícita dels
           titulars dels drets d'autor.
-        infringement_2_1_html: Si creieu que s'ha afegit material amb drets d'autor
-          de forma inapropiada a la base de dades d'OpenstreetMap o en aquest lloc,
-          dirigiu-vos al %{takedown_procedure_link} o ompliu directament a la %{online_filing_page_link}.
+        infringement_2_1_html: Si penseu que hi ha material protegit per drets d'autor
+          que ha estat afegit a la base de dades d'OpenHistoricalMap o a aquest web,
+          si us plau aneu a la pàgina web dedicada al <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">Procediment
+          per eliminar dades protegides pels drets d'autor</a> o empleneu aquest <a
+          href="https://dmca.openstreetmap.org/">formulari en línia</a>.
         infringement_2_1_takedown_procedure: procediment de retirada
         infringement_2_1_online_filing_page: pàgina del formulari en línia
         trademarks_title: Marques registrades
-        trademarks_1_1_html: OpenStreetMap, el logotip de la lupa i Estat del Mapa
-          són marques registrades de la Fundació OpenStreetMap. Si teniu dubtes sobre
-          l'ús de les marques, vegeu %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, el logotip de la lupa i «State of
+          the Map» són marques registrades de la Fundació OpenHistoricalMap. Si teniu
+          preguntes sobre l’ús de les marques, consulteu la <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">política
+          de marques registrades</a>.
         trademarks_1_1_trademark_policy: Polítiques de marca registrada
     index:
       js_1: O bé esteu utilitzant un navegador no compatible amb JavaScript o bé teniu
@@ -2136,14 +2174,16 @@ ca:
             és unint-vos a la comunitat d'OpenStreetMap i afegir o bé corregir les
             dades vós mateix.
         add_a_note:
-          instructions_1_html: |-
-            Feu clic a %{note_icon} o a la mateixa icona sobre el mapa.
-            Això afegirà un marcador al mapa, que podeu desplaçar arrossegant-lo. Afegiu el vostre missatge, deseu-lo i altres usuaris ho investigaran.
+          instructions_1_html: Feu clic a <a class='icon note'></a> o a la mateixa
+            icona sobre el mapa. Això afegirà un marcador al mapa, que podeu desplaçar
+            arrossegant-lo. Afegiu el vostre missatge, deseu-lo i els altres usuaris
+            ho investigaran.
       other_concerns:
         title: Altres qüestions
-        concerns_html: Si us preocupa com s'usen les dades o dubteu dels continguts,
-          consulteu %{copyright_link} per a més informació legal, o contacteu amb
-          el %{working_group_link} adient.
+        concerns_html: Si us preocupa el contingut de les nostres dades o l'ús que
+          se'n fa, consulteu la <a href='/copyright'>pàgina de drets d'autor</a> per
+          a més informació, o bé contacteu amb el <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>grup
+          de treball d'OSMF</a> corresponent.
         copyright: pàgina de copyright
         working_group: Grup de treball de l'OSMF
     help:
@@ -2179,6 +2219,10 @@ ca:
         title: Per a organitzacions
         description: Ets amb una organització que vol usar OpenStreetMap? Troba el
           que et cal saber al nostre espai de benvinguda.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: Wiki d'OpenStreetMap
         description: Navegueu per la wiki per a trobar documentació detallada d'OpenStreetMap.
@@ -2233,14 +2277,14 @@ ca:
           train: Tren
           subway: Metro
           ferry: Ferri
-          light_rail: Ferrocarril lleuger
-          tram: Tramvia
+          light_rail: Tren lleuger
+          tram: tramvia
           trolleybus: Troleibús
           bus: Autobús
           cable_car: Telefèric
-          chair_lift: Telecadira
+          chair_lift: telecadira
           runway: Pista d'aeroport
-          taxiway: Carrer de rodatge
+          taxiway: carrer de rodatge
           apron: Estacionament d'avions
           admin: Límit administratiu
           capital: Capital
@@ -2251,7 +2295,7 @@ ca:
           wood: Arbreda
           farmland: Terra de conreu
           grass: Gespa
-          meadow: Prada
+          meadow: prat
           bare_rock: Roca pelada
           sand: Sorra
           golf: Camp de golf
@@ -2265,7 +2309,7 @@ ca:
           heathland: Bruguerar
           scrubland: Matolls
           lake: Llac
-          reservoir: Embassament
+          reservoir: bassa
           intermittent_water: Cos d'aigua intermitent
           glacier: Glacera
           reef: Escull
@@ -2285,7 +2329,7 @@ ca:
           building: Edifici significatiu
           station: Estació de tren
           summit: Cim
-          peak: Cim
+          peak: pic
           tunnel: Línia discontínua = túnel
           bridge: Línia negra = pont
           private: Accés privat
@@ -2617,11 +2661,13 @@ ca:
       consider_pd: A més de tot l'anterior, accepto que les meves contribucions siguin
         de domini públic
       consider_pd_why: què és això?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Informació per ajudar a entendre aquests termes: un %{readable_summary_link}
         i algunes %{informal_translations_link}'
       readable_summary: resum llegible per humans
       informal_translations: traduccions informals
       continue: Continua
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: Per a poder continuar, llegiu i després accepteu
         o rebutgeu els nous termes de col·laboració .
       legale_select: 'País de residència:'
@@ -2633,6 +2679,7 @@ ca:
       terms_declined_html: Ens sap greu que hàgiu decidit no acceptar els nous termes
         de les contribucions. Per més informació, vegeu %{terms_declined_link}.
       terms_declined_link: aquesta pàgina wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Aquest usuari no existeix
       heading: L'usuari %{user} no existeix
@@ -2766,7 +2813,7 @@ ca:
       heading: Llista de quadres de l'usuari
       empty: Encara no s'ha fet cap bloc.
     revoke_all:
-      revoke: Revoca
+      revoke: Revoca!
       flash: S'han revocat tots els bloquejos actius.
     helper:
       time_future_html: Finalitza en %{time}.

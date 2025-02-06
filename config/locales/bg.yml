@@ -41,7 +41,6 @@ bg:
         update: Обновяване
       oauth2_application:
         create: Регистриране
-        update: Обновяване
       redaction:
         create: Създаване на поправка
         update: Запазване на поправка
@@ -65,6 +64,7 @@ bg:
       message: Съобщение
       node: Възел
       node_tag: Етикет на възел
+      notifier: Известител
       old_node: Стар възел
       old_node_tag: Етикет на стар възел
       old_relation: Стара релация
@@ -204,6 +204,7 @@ bg:
   auth:
     providers:
       none: Нищо
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Майкрософт
@@ -266,15 +267,18 @@ bg:
       current email address: Текуща електронна поща
       external auth: Удостоверяване от външен източник
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: какво е това?
       public editing:
         enabled: Разрешено. Не е анонимно и можете да променяте данните.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: какво е това?
         disabled link text: защо не мога да редактирам?
       contributor terms:
         heading: Условия за сътрудничество
         agreed: Приели сте новите условия за сътрудничество.
         not yet agreed: Все още не сте приели новите Условия за участие.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Какво е това?
       save changes button: Запазване на промените
       delete_account: Изтриване на профила...
@@ -298,6 +302,8 @@ bg:
     view_history: Показване на историята
     view_details: Показване на детайли
     location: 'Местоположение:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Възел: %{name}'
       history_title_html: 'История на възела: %{name}'
@@ -367,7 +373,7 @@ bg:
         commented_at_by_html: Обновен преди %{when} от %{user}
       show:
         title_all: Дискусия за промяна на OpenStreetMap
-        title_particular: 'Разговор за промяната #%{changeset_id} на OpenStreetMap'
+        title_particular: 'Разговор за промяната #%{changeset_id} на OpenHistoricalMap'
       timeout:
         sorry: Съжаляваме, но списъка с коментарит по промените който заявихте се
           зарежда твърде дълго.
@@ -395,9 +401,6 @@ bg:
         belongs_to: Автор
     show:
       title: 'Списък с промени: %{id}'
-      closed_ago_html: Затворен %{time_ago}
-      created_ago_by_html: Създаден %{time_ago} от %{user}
-      closed_ago_by_html: Затворен %{time_ago} от %{user}
       discussion: Обсъждане
       join_discussion: Впишете се, за да се присъедините към обсъждането
       still_open: Списъкът с промени не е завършен - обсъждането ще започне след неговото
@@ -406,7 +409,7 @@ bg:
       unsubscribe: Отписване
       hide_comment: скриване
       unhide_comment: показване
-      comment: Коментиране
+      comment: Коментар
       changesetxml: XML на списъка с промени
       osmchangexml: osmChange XML
     paging_nav:
@@ -490,6 +493,7 @@ bg:
       report: Докладване на коментара
     location:
       location: 'Местоположение:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: OpenStreetMap дневник записи за %{user}
@@ -727,7 +731,6 @@ bg:
           bus_stop: Автобусна спирка
           construction: Магистрала в строеж
           corridor: Коридор
-          crossing: Пресичане
           cycleway: Велосипедна пътека
           elevator: Асансьор
           emergency_access_point: Пункт за спешна помощ
@@ -1153,7 +1156,7 @@ bg:
         one: '%{count} доклад'
         other: '%{count} доклада'
       report_created_at_html: Първоначално докладван на %{datetime}
-      last_resolved_at_html: Последно затворена на %{datetime}
+      last_resolved_at_html: Последно решена на %{datetime}
       last_updated_at_html: Последно актуализиран на %{datetime} от %{displayname}
       resolve: Затваряне
       ignore: Пропусни
@@ -1227,10 +1230,19 @@ bg:
     gps_traces: Следи от GPS
     user_diaries: Потребителски дневници
     edit_with: Променяне с %{editor}
+    tag_line: Свободна Wiki-карта на света
     intro_header: Добре дошли в OpenStreetMap!
     intro_text: OpenStreetMap е карта на света създадена от хора като вас, за свободно
       ползване и под отворен лиценз.
-    partners_partners: партньори
+    intro_2_create_account: Създаване на сметка
+    partners_title: партньори
+    hosting_partners_2024_html: |-
+      <p>
+      <a href='https://greeninfo.org'>GreenInfo Network</a> е организация с нестопанска цел за картографиране и комуникации, която помага на организации с нестопанска цел и правителствени агенции да постигнат социални, екологични и други цели, използвайки набор от инструменти, включително практики за проектиране, ориентирани към човека, съвместна разработка и уеб инструменти с отворен код и геопространствени инструменти.
+      </p>
+      <p>
+      <a href='https://developmentseed.org/'>Development Seed</a> е инженерингова и продуктова компания, която ускорява прилагането на земни данни към нашите най-големи глобални предизвикателства. Development Seed използва масивни земни данни, облачни изчисления, геопространствен изкуствен интелект и грижливо разработване на продукти.
+      </p>
     tou: Условия за ползване
     osm_offline: Базата на данни на  OpenStreetMap в момента е изключена докато се
       извършва необходима поддръжка.
@@ -1384,7 +1396,6 @@ bg:
       destroy_button: Изтриване
     heading:
       my_inbox: Входяща кутия
-      my_outbox: Изходяща кутия
       muted_messages: Заглушени съобщения
     mark:
       as_read: Съобщението е отбелязано като прочетено
@@ -1424,6 +1435,7 @@ bg:
       image: Изображение
       gravatar:
         gravatar: Използване на Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Какво е Gravatar?
       new image: Добавяне на изображение
       keep image: Запазване на текущото изображение
@@ -1515,8 +1527,6 @@ bg:
         от името на общността. Използването на всички услуги, управлявани от OSMF, е предмет на
         на нашите %{terms_of_use_link}, %{aup_link} и нашата %{privacy_policy_link}.
       legal_1_1_privacy_policy: Политика за поверителност
-      legal_2_1_html: Моля, %{contact_the_osmf_link} ако имате въпроси, свързани с
-        лицензирането, авторските права или други правни въпроси.
       legal_2_1_contact_the_osmf: свържете се с OSMF
       legal_2_2_html: OpenStreetMap, логото с лупа и State of the Map са %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: регистрирани търговски марки на OSMF
@@ -1539,8 +1549,6 @@ bg:
         credit_title_html: Как да кредитирате OpenStreetMap
         credit_1_html: 'Когато използвате данни от OpenStreetMap, от вас се изисква
           да направите следните две неща:'
-        credit_2_1: Отдайте необходимото на OpenStreetMap, показвайки уведомлението
-          ни за авторски права.
         credit_2_2: Ясно да посочите, че данните са достъпни съгласно Лиценза за отворени
           бази данни (Open Database License).
         credit_3_html: По отношение на известието за авторските права имаме различни
@@ -1559,17 +1567,13 @@ bg:
         infringement_1_html: Напомняме на сътрудниците на OSM никога да не добавят
           данни от източници, защитени с авторски права (например Google Maps или
           печатни карти), без изрично разрешение от притежателите на авторските права.
-        infringement_2_1_html: Ако смятате, че материал, защитен с авторско право,
-          е добавен по неправомерен начин в базата данни на OpenStreetMap или в този
-          сайт, моля, обърнете се към нашата %{takedown_procedure_link} или подайте
-          сигнал директно чрез нашата %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: процедура за сваляне
         infringement_2_1_online_filing_page: онлайн страница за подаване на документи
         trademarks_title: Търговски марки
-        trademarks_1_1_html: |-
-          OpenStreetMap, логото с лупата и State of the Map са регистрирани търговски марки на
-          OpenStreetMap Foundation. Ако имате въпроси относно използването на марките, моля вижте нашата
-          %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap и логото с лупата са регистрирани търговски
+          марки на фондация OpenHistoricalMap. Ако имате въпроси относно използването
+          на тези знаци, моля изпратете Вашите въпроси на <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">работната
+          група по лиценза</a>.
         trademarks_1_1_trademark_policy: политика за търговски марки
     index:
       js_2: OpenStreetMap използва JavaScript за своята статична карта.
@@ -1636,6 +1640,10 @@ bg:
         title: За организации
         description: Вие сте от организация, която иска да работи с OpenStreetMap?
           Ще получите необходимата информация на началната страница.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: Уики на OpenStreetMap
         description: Разгледайте уикито за подробна документация за OpenStreetMap.
@@ -1671,14 +1679,17 @@ bg:
           footway: Пътека
           rail: Железен път
           subway: Метро
+          light_rail: Бърз трамвай
+          tram: трамвай
           cable_car: Кабинков лифт
-          chair_lift: Седалков лифт
+          chair_lift: седалков лифт
           runway: Летищна писта
           taxiway: Път за рулиране
           apron: Летищен перон
           admin: Административна граница
           forest: Гора
           wood: Гора
+          meadow: ливада
           golf: Игрище за голф
           park: Парк
           common: Обща
@@ -1688,7 +1699,7 @@ bg:
           commercial: Търговска зона
           heathland: Пустош
           lake: Езеро
-          reservoir: Язовир
+          reservoir: язовир
           farm: Ферма
           brownfield: Място за строеж
           cemetery: Гробище
@@ -1778,6 +1789,7 @@ bg:
     new:
       upload_trace: Качване на следи от GPS
       visibility_help: какво означава това?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Помощ
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1884,7 +1896,9 @@ bg:
       heading: Условия
       heading_ct: Условия за сътрудничество
       consider_pd_why: какво е това?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       continue: Продължаване
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: За да продължите, моля, прочетете, а след това
         се съгласете или откажете новите условия за сътрудничество.
       legale_select: 'Държава на пребиваване:'
@@ -1892,6 +1906,8 @@ bg:
         france: Франция
         italy: Италия
         rest_of_world: В останалата част на света
+    terms_declined_flash:
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Няма такъв потребител
       heading: Потребителят %{user} не съществува
@@ -1957,6 +1973,8 @@ bg:
     edit:
       title: Промяна на блокирането на %{name}
       heading_html: Промяна на блокирането на %{name}
+    revoke_all:
+      revoke: Анулиране!
     helper:
       time_future_html: Изтича след %{time}.
       block_duration:
@@ -2036,6 +2054,7 @@ bg:
       add: Добавяне на бележка
     notes_paging_nav:
       showing_page: Страница %{page}
+      next: Напред
   javascripts:
     close: Затваряне
     share:
