@@ -81,6 +81,7 @@ eo:
       message: Mesaĝo
       node: Nodo
       node_tag: Etikedo de nodo
+      notifier: Atentigilo
       old_node: Malnova nodo
       old_node_tag: Etikedo de malnova nodo
       old_relation: Malnova rilato
@@ -184,6 +185,10 @@ eo:
           komprenas la komunuman ĵargonon, do bonvolu uzi simplajn vortojn.
         needs_view: Ĉu la uzanto devas ensaluti antaŭ ĉi tiu blokado nuligos?
       user:
+        email_confirmation: Via retpoŝta adreso ne estos montrata publike, legu nian
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="privateca
+          politiko de OSMF enhavanta sekcion pri retpoŝta adreso">privatecan politikon</a>
+          por pli da informoj.
         new_email: (neniam publike montrita)
   datetime:
     distance_in_words_ago:
@@ -235,6 +240,7 @@ eo:
   auth:
     providers:
       none: Neniu
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -298,10 +304,12 @@ eo:
       current email address: Aktuala retpoŝta adreso
       external auth: Ekstera aŭtentigo
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Pliaj informoj
       public editing:
         heading: Publika redaktado
         enabled: Ebligita. Ne anonima kaj rajtas redakti.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Pliaj informoj
         disabled: Malebligita kaj ne rajtas redakti, ĉiuj antaŭaj redaktoj naŭ estas
           publikaj.
@@ -314,6 +322,7 @@ eo:
           interkonsenton pri uzado.
         agreed_with_pd: Vi ankaŭ deklaris, ke viaj kontribuaĵoj estas en la publika
           havaĵo.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Pliaj informoj
       save changes button: Konservi ŝanĝojn
       delete_account: Forigi konton…
@@ -472,7 +481,7 @@ eo:
         comment: 'Nova komento de %{author} al ŝanĝaro #%{changeset_id}'
         commented_at_by_html: Ĝisdatigita %{when} de %{user}
       show:
-        title_all: Diskuto pri OpenStreetMap-ŝanĝaro
+        title_all: Diskuto pri OpenHistoricalMap-ŝanĝaro
         title_particular: 'Diskuto pri ŝanĝaro #%{changeset_id}'
       timeout:
         sorry: Bedaŭrinde daŭris tro longe por akiri la petitan liston de komentoj
@@ -517,21 +526,15 @@ eo:
       title: 'Ŝanĝaro: %{id}'
       created: Kreita je %{when}
       closed: Fermita je %{when}
-      created_ago_html: Kreita %{time_ago}
-      closed_ago_html: Fermita %{time_ago}
-      created_ago_by_html: Kreita %{time_ago} de %{user}
-      closed_ago_by_html: Fermita %{time_ago} de %{user}
       discussion: Diskuto
       join_discussion: Ensalutu por aliĝi al la diskuto
       still_open: Ŝanĝaro plue malfermita - diskuto estos malfermita ekde kiam la
         ŝanĝaro estos fermita.
       subscribe: Observi
       unsubscribe: Malobservi
-      comment_by_html: Komento de %{time_ago} de %{user}
-      hidden_comment_by_html: Kaŝita komento de %{time_ago} de %{user}
       hide_comment: kaŝi
       unhide_comment: malkaŝi
-      comment: Komenti
+      comment: Komento
       changesetxml: Ŝanĝaro XML
       osmchangexml: osmŜanĝo XML
     paging_nav:
@@ -622,6 +625,7 @@ eo:
       report: Raporti ĉi tiun komenton
     location:
       location: 'Pozicio:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: OpenStreetMap taglibraj afiŝoj de %{user}
@@ -632,6 +636,8 @@ eo:
       all:
         title: OpenStreetMap taglibraj afiŝoj
         description: Lastaj taglibraj afiŝoj de OpenStreetMap-uzantoj
+    comments:
+      title: Komentoj de %{user} sub taglibraj afiŝoj
     subscribe:
       heading: Ĉu aboni diskuton pri tiu ĉi taglibra afiŝo?
       button: Aboni diskuton
@@ -1614,12 +1620,14 @@ eo:
     gps_traces: GPS-spuroj
     user_diaries: Taglibroj de uzantoj
     edit_with: Redakti per %{editor}
+    tag_line: La libera viki-mondmapo
     intro_header: Bonvenon al OpenStreetMap!
     intro_text: OpenStreetMap estas mapo de la mondo, kreata de homoj kiel vi, kaj
       libere uzebla laŭ malferma permesilo.
-    partners_fastly: Fastly
-    partners_corpmembers: firmaaj anoj de OSMF
-    partners_partners: kunlaborantoj
+    intro_2_create_account: Krei konton
+    partners_title: kunlaborantoj
+    hosting_partners_2024_html: Retgastigo estas subtenata de %{ucl}, %{fastly}, %{bytemark}
+      kaj aliaj %{partners}.
     tou: Uzkondiĉoj
     osm_offline: La OpenStreetMap-datumbazo estas nuntempe nealireabla pro necesaj
       laboroj de prizorgado.
@@ -1683,6 +1691,7 @@ eo:
       more_info: Pliaj informoj pri eraroj dum enporti GPX‑dosierojn troviĝas ĉe %{url}.
       more_info_html: Pliaj informoj pri eraroj dum enporti GPX‑dosierojn troviĝas
         ĉe %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Eraro dum enportado de GPX-dosiero'
     gpx_success:
       hi: Saluton %{to_user},
@@ -1876,7 +1885,7 @@ eo:
   passwords:
     new:
       title: Perdita pasvorto
-      heading: Ĉu vi forgesis pasvorton?
+      heading: Forgesis vian pasvorton ?
       email address: Retpoŝta adreso
       new password button: Nuligi pasvorton
       help_text: Entajpu la retpoŝtan adreson kiun vi uzis por ensaluto, ni sendos
@@ -1886,9 +1895,9 @@ eo:
         vi ricevos ligilon por restarigi pasvorton en via retpoŝtujo post kelkaj minutoj.
     edit:
       title: Nuligi pasvorton
-      heading: Nuligi pasvorton por %{user}
+      heading: Nuligi Pasvorton por %{user}
       reset: Nuligi pasvorton
-      flash token bad: Netrovebla ĵetono, eble kontrolu la ligilon?
+      flash token bad: Netrovebla ĵetono, bonvolu kontroli la URLon.
     update:
       flash changed: Via pasvorto estis ŝanĝita.
       flash token bad: Ne povas trovi ĵetonon. Provu kontroli la retadreson.
@@ -1914,6 +1923,7 @@ eo:
       image: Profilbildo
       gravatar:
         gravatar: Uzi “Gravataron”
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Kio estas Gravatar?
         disabled: “Gravataro” estas malaktiva.
         enabled: Montrado de via “Gravataro” estas aktiva.
@@ -1984,8 +1994,8 @@ eo:
         older: Pli malnovaj problemoj
         newer: Pli novaj problemoj
       traces:
-        older: Pli malnovaj spuroj
-        newer: Pli novaj spuroj
+        older: Antaŭaj spuroj
+        newer: Postaj spuroj
       user_blocks:
         older: Pli malnovaj blokadoj
         newer: Pli novaj blokadoj
@@ -2022,15 +2032,19 @@ eo:
       open_data_copyright_license: paĝon pri aŭtorrajtoj kaj permesilo
       legal_title: Leĝaj demandoj
       legal_1_1_html: Tiu ĉi retejo kaj aliaj servoj estas formale administrataj de
-        la %{openstreetmap_foundation_link} (OSMF) komisie de la komunumo. Uzado de
-        ĉiuj OSMF‑servoj estas regulata per niaj %{terms_of_use_link}, %{aup_link}
-        kaj %{privacy_policy_link}.
+        la <a href="https://osmfoundation.org/">Fondaĵo OpenHistoricalMap</a> (OSMF)
+        komisie de la komunumo. Uzado de ĉiuj OSMF‑servoj estas regulata per niaj
+        <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">kondiĉoj de uzado</a>,
+        <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">politiko
+        de akceptata uzo</a>, kaj nia <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">politiko
+        de privateco</a>.
       legal_1_1_openstreetmap_foundation: Fondaĵo OpenStreetMap
       legal_1_1_terms_of_use: kondiĉoj de uzado
       legal_1_1_aup: politiko de akceptata uzado
       legal_1_1_privacy_policy: privateca politiko
-      legal_2_1_html: Se vi havas demandojn pri permesiloj, aŭtorrajtoj aŭ aliaj leĝaj
-        problemoj; %{contact_the_osmf_link}.
+      legal_2_1_html: |-
+        <a href="https://osmfoundation.org/Contact">Kontaktu kun OSMF</a>, se vi havas iun demandon pri permesilo, aŭtorrajto aŭ leĝo.<br>
+        OpenHistoricalMap, la bildsimbolo de lupeo kaj “State of the Map” estas <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registritaj varmarkoj de OSMF</a>.
       legal_2_1_contact_the_osmf: kontaktu kun OSMF
       legal_2_2_html: OpenStreetMap, la emblemo de lupeo kaj State of the Map estas
         %{registered_trademarks_link}.
@@ -2050,26 +2064,35 @@ eo:
         native_link: Esperanta versio
         mapping_link: ekigi mapigadon
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} estas %{open_data}
-          eldonataj laŭ la permesilo %{odc_odbl_link} (ODbL) fare de la %{osm_foundation_link}
-          (OSMF).
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> estas projekto de <i>malfermaj datumoj</i> eldonita laŭ la permesilo <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) de la  <a
+          href="http://osmfoundation.org/">Fondaĵo OpenHistoricalMap</a> (OSMF).
         introduction_1_open_data: malfermaj datumoj
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: Fondaĵo OpenStreetMap
         introduction_2_html: Vi rajtas kopii, disdoni, transdoni kaj modifi niajn
-          datumojn, nur se vi atribuos aŭtorecon al OpenStreetMap kaj ĝiaj kontribuintoj.
-          Se vi modifos aŭ uzos niajn datumojn, vi povos distribui la rezulton nur
-          laŭ la sama permesilo. La plena %{legal_code_link} klarigas viajn rajtojn
-          kaj devojn.
+          datumojn, nur se vi atribuos aŭtorecon al OpenHistoricalMap kaj ĝiaj kontribuintoj.
+          Se vi modifos aŭ uzos niajn datumojn, vi povos distribui la verkon laŭ la
+          sama permesilo. La plena <a href="https://opendatacommons.org/licenses/odbl/1.0/">interkonsento
+          de uzado</a> klarigas viajn rajtojn kaj devojn.
         introduction_2_legal_code: jura teksto
-        introduction_3_html: Nia dokumentaro estas eldonata laŭ la permesilo %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: Nia dokumentaro estas eldonita laŭ la permesilo <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.eo">Krea
+          Komunaĵo Atribuite-Samkondiĉe 2.0</a> (CC BY-SA 2.0).
         introduction_3_creative_commons: Krea Komunaĵo Atribuite-Samkondiĉe 2.0
         introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.eo
         credit_title_html: Kiel atribui aŭtorecon
         credit_1_html: 'Kiam vi uzas OpenStreetMap-datumojn, vi devas fari la jenajn
           du agojn:'
-        credit_2_1: afiŝi aŭtorecon al OpenStreetMap per montri nian noton pri aŭtorrajtoj;
+        credit_2_1: Vi ankaŭ devas klarigi, ke datumoj estas disponeblaj laŭ la permesilo
+          Open Database License, kaj kartografio de map-kaheloj laŭ la permesilo CC
+          BY-SA. Vi povas indiki tion per fari ligilon al <a href="https://www.openstreetmap.org/copyright">tiu
+          ĉi paĝo pri permesilo</a>. Alimaniere, se vi distribuas OSM en datuma formo,
+          vi povas mencii nomo(j)n kaj ligilo(j)n al la permesilo(j). Se ne estas
+          eble meti ligilojn (ekz. en paperaj mapoj), ni sugestas direkti viajn legantojn
+          al openstreetmap.org (eble meti plenan retadreson), al opendatacommons.org
+          kaj (se necesas) al creativecommons.org.
         credit_2_2: klarigi, ke la datumoj estas eldonitaj laŭ la permesilo Open Database
           License.
         credit_3_html: Por la noto pri aŭtorrajtoj, niaj postuloj pri kiel montri
@@ -2104,6 +2127,10 @@ eo:
         contributors_intro_html: 'Niaj kunlaborantoj estas miloj da homoj. Ni ankaŭ
           inkludas datumoj laŭ malferma permesilo el landaj kartografiaj organizaĵoj
           kaj el aliaj fontoj, inter ili:'
+        contributors_footer_1_html: Pliaj informoj pri la menciitaj kaj pri aliaj
+          fontoj uzitaj por plibonigi OpenHistoricalMap estas disponeblaj sur la <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">paĝo pri kontribuintoj</a>
+          en la OpenHistoricalMap-vikio.
         contributors_at_credit_html: '%{austria}: enhavas datumojn el %{stadt_wien_link}
           (laŭ %{cc_by_link}), %{land_vorarlberg_link} kaj Federacia Lando Tirolo
           (laŭ %{cc_by_at_with_amendments_link}).'
@@ -2190,15 +2217,18 @@ eo:
         infringement_1_html: OSM-kunlaborantoj memoru, por ke neniam aldonu datumojn
           el iuj ajn fontoj protektataj de aŭtorrajtoj (ekz. Google Maps aŭ paperaj
           mapoj) sen klara permeso de posedanto de aŭtorrajtoj.
-        infringement_2_1_html: Se viaopinie iu materialo protektata per aŭtorrajtoj
-          estas kontraŭleĝe aldonita al la OpenStreetMap-datumbazo aŭ al tiu ĉi retejo,
-          legu pri la %{takedown_procedure_link} aŭ senpere plenigu nian %{online_filing_page_link}.
+        infringement_2_1_html: Se ve pensas, ke datumoj protektataj per aŭtorrajtoj
+          estas misaldonitaj al OpenHistoricalMap-datumbazo aŭ al tiu ĉi retejo, legu
+          la <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">proceduron
+          de forigo de datumoj</a> (en la angla) aŭ plenigu la <a href="https://dmca.openstreetmap.org/">enretan
+          formularon</a>.
         infringement_2_1_takedown_procedure: foriga proceduro
         infringement_2_1_online_filing_page: enretan formularon
         trademarks_title: Varmarkoj
-        trademarks_1_1_html: OpenStreetMap, la emblemo de lupeo kaj State of the Map
-          estas registritaj varmarkoj de la Fondaĵo OpenStreetMap. Se vi havas demandojn
-          pri via uzo de la varmarkoj, legu nian %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, la bildsimbolo de lupeo kaj la nomo
+          “State of the Map” estas registritaj markoj de la Fondaĵo OpenHistoricalMap.
+          Se vi havas iujn demandojn pri uzado de niaj markoj, legu nian <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">politikon
+          pri varmarkoj</a>.
         trademarks_1_1_trademark_policy: politikon pri varmarkoj
     index:
       js_1: Vi aŭ uzas foliumilon, kiu ne subtenas Ĝavoskripton, aŭ vi havas ĝin malaktivan.
@@ -2250,15 +2280,14 @@ eo:
             strato aŭ adreso mankas, la plej bona rimedo estas aniĝi OpenStreetMap-komunumo
             kaj redakti kaj ripari datumojn mem.
         add_a_note:
-          instructions_1_html: Simple alklaku %{note_icon} aŭ la saman bildsimbolon
-            sur la mapo. Tiel markilo estos aldonita la la mapo, kiun vi povos movi
-            per ŝovi ĝin. Skribu vian mesaĝon, alklaku “Konservi” kaj aliaj mapigistoj
-            okupiĝos pri ĝi.
+          instructions_1_html: Simple alklaku <a class='icon note'></a> aŭ la saman
+            piktogramon sur la mapo. Ĉi tio aldonos moveblan markon, aldonu vian mesaĝon,
+            konservu ĝin, kaj aliaj mapigistoj okupiĝos pri via rimarko.
       other_concerns:
         title: Aliaj aferoj
-        concerns_html: Se vi havas demandojn pri kiel niaj datumoj estas uzataj aŭ
-          pri la enhavo, malfermu nian %{copyright_link} por akiri pliajn leĝajn informojn
-          aŭ kontaktu kun la %{working_group_link}.
+        concerns_html: Se vi havas demandojn pri kial niaj datumoj aŭ enhavo estas
+          uzataj, legu la <a href='/copyright'>paĝon pri aŭtorrajto</a> por ricevi
+          pliajn leĝajn informojn, aŭ kontaktu kun la <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-laborgrupo</a>.
         copyright: paĝon pri aŭtorrajtoj
         working_group: OSMF-laborgrupo
     help:
@@ -2270,6 +2299,7 @@ eo:
         title: Bonvenon al OpenStreetMap
         description: Komencu ekde ĉi tiu manlibreto ampleksanta fundamentojn de OpenStreetMap.
       beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: Manlibro por komencantoj
         description: Manlibro por komencantoj kreata de la komunumo (en la angla).
       community:
@@ -2290,8 +2320,11 @@ eo:
         title: Por organizaĵoj
         description: Ĉu via organizaĵo planas kunlabori kun OpenStreetMap? Trovu ĉiujn
           necesajn informojn ĉe nia Welcome Mat.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Eo:Main_Page
         title: OpenStreetMap-vikio
         description: Esploru la vikion por akiri detalan dokumentaron pri OpenStreetMap.
     potlatch:
@@ -2344,14 +2377,14 @@ eo:
           train: Vagonaro
           subway: Metroo
           ferry: Pramo
-          light_rail: Malpeza vagonaro
-          tram: Tramo
+          light_rail: Fervojo malpeza
+          tram: tramo
           trolleybus: Trolebuso
           bus: Aŭtobuso
           cable_car: Kablovojo
-          chair_lift: Telfero seĝa
+          chair_lift: seĝtelfero
           runway: Avia dromo
-          taxiway: Aŭtokur-strato
+          taxiway: aŭtokur-strato
           apron: Aviadil-parkumejo
           admin: Administra limo
           capital: Ĉefurbo
@@ -2362,7 +2395,7 @@ eo:
           wood: Arbaro
           farmland: Agrokultura tereno
           grass: Herbotapiŝo
-          meadow: Herbejo
+          meadow: herbejo
           bare_rock: Roka areo
           sand: Sabla tereno
           golf: Golfejo
@@ -2376,7 +2409,7 @@ eo:
           heathland: Erikejo
           scrubland: Arbustaro
           lake: Lago
-          reservoir: Lago artefarita
+          reservoir: akvorezervujo
           intermittent_water: Sezona akvujo
           glacier: Glacirivero
           reef: Rifo
@@ -2391,7 +2424,7 @@ eo:
           reserve: Naturrezervejo
           military: Armea tereno
           school: Lernejo
-          university: Universitato
+          university: universitato
           hospital: Malsanulejo
           building: Grava konstruaĵo
           station: Stacidomo
@@ -2399,7 +2432,7 @@ eo:
           subway_station: Stacio metroa
           tram_stop: Haltejo trama
           summit: Montosupro
-          peak: Montpinto
+          peak: montpinto
           tunnel: Strekumita konturo - tunelo
           bridge: Nigra konturo - ponto
           private: Privata aliro
@@ -2496,6 +2529,7 @@ eo:
     new:
       upload_trace: Alŝuti GPS-spuron
       visibility_help: Pliaj informoj
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Helpo
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2646,6 +2680,7 @@ eo:
       no_applications_html: Ĉu vi havas iun aplikaĵon, kiun vi volas registri uzante
         la normon %{oauth2}? Vi devas registri vian aplikaĵon, antaŭ ĝi eblos fari
         OAuth-petojn al tiu ĉi servo.
+      oauth_2: OAuth 2
       new: Registri novan aplikaĵon
       name: Nomo
       permissions: Permesoj
@@ -2747,11 +2782,13 @@ eo:
       consider_pd: Krom la ĉi-supro, mi konfirmas, ke miaj kontribuaĵoj apartenas
         al la publika havaĵo
       consider_pd_why: Pliaj informoj
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Pliaj informoj helpantaj kompreni ilin: %{readable_summary_link}
         kaj kelkaj %{informal_translations_link}'
       readable_summary: konciza sumiĝo
       informal_translations: neoficialaj tradukoj
       continue: Daŭrigi
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Nuligi
       you need to accept or decline: Bonvolu legi kaj aŭ akcepti aŭ malakcepti la
         novan interkonsenton pri uzado por pluigi.
@@ -2764,6 +2801,7 @@ eo:
       terms_declined_html: Bedaŭrinde vi ne akceptis la novan interkonsenton pri kontribuado.
         Por pli da informoj, ekkonu kun %{terms_declined_link}.
       terms_declined_link: tiu ĉi viki‑paĝo
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Neekzistanta uzanto
       heading: La uzanto %{user} ne ekzistas
@@ -2916,7 +2954,7 @@ eo:
       empty: '%{name} ne havas aktivajn blokadojn.'
       confirm: Ĉu vi volas nuligi %{active_blocks}?
       active_blocks: '{{PLURAL|one=%{count} aktivan blokadon|%{count} aktivajn blokadojn}'
-      revoke: Malbloki!
+      revoke: Malvalidigi!
       flash: Ĉiuj aktivaj blokoj estas nuligitaj.
     helper:
       time_future_html: Finiĝos post %{time}.

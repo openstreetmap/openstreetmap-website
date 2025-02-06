@@ -50,6 +50,7 @@ fur:
       message: Messaç
       node: Grop
       node_tag: Etichete dal grop
+      notifier: Promemorie
       old_node: Vecjo grop
       old_node_tag: Vecje etichete dal grop
       old_relation: Viere relazion
@@ -188,6 +189,7 @@ fur:
   auth:
     providers:
       none: Nissune
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -230,10 +232,12 @@ fur:
       current email address: Direzion di pueste eletroniche atuâl
       external auth: Autenticazion esterne
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ce isal chest?
       public editing:
         heading: Modifiche publiche
         enabled: Ativâts. No anonims e si pues cambiâ i dâts.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ce isal chest?
         disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents
           a son anonims.
@@ -350,12 +354,9 @@ fur:
         comment: 'Gnûf coment sul grup di cambiaments #%{changeset_id} di %{author}'
         commented_at_by_html: Inzornât %{when} di %{user}
       show:
-        title_all: Discussion sul grup di cambiaments di OpenStreetMap
+        title_all: Discussion sul grup di cambiaments di OpenHistoricalMap
         title_particular: 'Discussion sul grup di cambiaments #%{changeset_id} di
-          OpenStreetMap'
-      timeout:
-        sorry: Nus displâs, la liste dai coments ai grups di cambiaments che tu âs
-          domandât e je stade masse timp a cjamâsi.
+          OpenHistoricalMap'
   changesets:
     changeset:
       no_edits: (nissun cambiament)
@@ -381,16 +382,10 @@ fur:
         belongs_to: Autôr
     show:
       title: 'Grup di cambiaments: %{id}'
-      created_ago_html: Creât %{time_ago}
-      closed_ago_html: Sierât %{time_ago}
-      created_ago_by_html: Creât di %{user} %{time_ago}
-      closed_ago_by_html: Sierât di %{user} %{time_ago}
       discussion: Discussion
       join_discussion: Jentre par partecipâ ae discussion
       subscribe: Notiti
       unsubscribe: Disnotiti
-      comment_by_html: Comentât di %{user} %{time_ago}
-      hidden_comment_by_html: Coment platât di %{user} %{time_ago}
       hide_comment: plate
       unhide_comment: mostre
       comment: Coment
@@ -491,9 +486,11 @@ fur:
       all:
         title: Vôs dai diaris di OpenStreetMap
         description: Lis ultimis vôs dai diaris dai utents di OpenStreetMap
+    comments:
+      title: Coments ai diaris zontâts par %{user}
   diary_comments:
     index:
-      title: Coments ai diaris zontâts par %{user}
+      title: Coments ai diaris zontâts di %{user}
       heading: Coments ai diaris di %{user}
       subheading_html: Coments ai diaris zontâts di %{user}
       no_comments: Nissun coment ai diaris
@@ -934,11 +931,14 @@ fur:
     gps_traces: Percors GPS
     user_diaries: Diaris dai utents
     edit_with: Cambie cun %{editor}
+    tag_line: Il WikiMapeMont libar
     intro_header: Benvignût in OpenStreetMap!
     intro_text: OpenStreetMap e je une mape dal mont, creade di int come te e di ûs
       libar sot di une licence vierte.
-    partners_fastly: Fastly
-    partners_partners: associâts
+    intro_2_create_account: Cree il to profîl utent
+    partners_title: associâts
+    hosting_partners_2024_html: L'hosting al è sostignût di %{ucl}, %{fastly}, %{bytemark}
+      e altris %{partners}.
     tou: Cundizions pal ûs
     osm_offline: La base di dâts di OpenStreetMap e je par cumò fûr linie parcè che
       o sin daûr a fâ lavôrs essenziâi di manutenzion de base di dâts.
@@ -1093,6 +1093,7 @@ fur:
       image: Figure
       gravatar:
         gravatar: Dopre Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Ce isal Gravatar?
       new image: Zonte une figure
       keep image: Ten la figure di cumò
@@ -1144,6 +1145,7 @@ fur:
         newer: Percors plui gnûfs
   site:
     about:
+      heading_html: <span>&copy;</span>Colaboradôrs<br> di OpenHistoricalMap
       local_knowledge_title: Cognossince locâl
       community_driven_osm_blog: Blog di OpenStreetMap
       community_driven_user_diaries: diaris dai utents
@@ -1193,6 +1195,9 @@ fur:
       title: Espuarte
       manually_select: Sielç a man une aree divierse
       licence: Licence
+      licence_details_html: I dâts di OpenHistoricalMap a son dâts fûr sot de licence
+        <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
+        Open Database License</a> (ODbL).
       too_large:
         body: Cheste aree e je masse grande par espuartâle come dâts XML di OpenStreetMap.
           Par plasê incrès il zoom, sielç une aree plui piçule o dopre une des sorzints
@@ -1222,6 +1227,8 @@ fur:
         title: IRC
       welcomemat:
         title: Pe organizazions
+      slack:
+        title: IRC
       wiki:
         title: OpenStreetMap Wiki
     potlatch:
@@ -1253,12 +1260,13 @@ fur:
           rail: Ferade
           subway: Metropolitane
           ferry: Traghet
-          tram: Tram
+          light_rail: Metropolitana leggera
+          tram: tram
           runway: Piste dal aeropuart
           admin: Confin aministratîf
           forest: Bosc
           grass: Prât
-          meadow: Prâts
+          meadow: prâts
           sand: Savalon
           golf: Troi di golf
           park: Parc
@@ -1274,7 +1282,7 @@ fur:
           reserve: Riserve naturâl
           military: Zone militâr
           school: Scuele
-          university: Universitât
+          university: universitât
           hospital: Ospedâl
           station: stazion de ferade
           tunnel: Rie a trats = galarie
@@ -1535,6 +1543,8 @@ fur:
       title: Blocs dal utent
       heading: Liste dai blocs dal utent
       empty: No son stâts metûts blocs fin cumò.
+    revoke_all:
+      revoke: Revoche!
     helper:
       time_future_html: Finìs ca di %{time}.
       time_past_html: Finît %{time} indaûr.
@@ -1623,6 +1633,7 @@ fur:
       add: Zonte une note
     notes_paging_nav:
       showing_page: Pagjine %{page}
+      next: Prossim
   javascripts:
     close: Siere
     share:

@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Ajeje Brazorf
+# Author: GianAntonucci
 # Author: Gmelfi
 # Author: LametinoWiki
 # Author: Macofe
@@ -30,7 +31,6 @@ scn:
         create: Riggistra
         update: Agghiorna
       oauth2_application:
-        create: Riggistrati
         update: Aggiorna
       redaction:
         create: Crea l'occultamentu
@@ -54,6 +54,7 @@ scn:
       message: Missaggiu
       node: Gruppu
       node_tag: Etichetta dû gruppu
+      notifier: Nutìfica
       old_node: Gruppu vecchiu
       old_node_tag: Etichetta vecchia dû gruppu
       old_relation: Rilazzioni vecchia
@@ -163,6 +164,7 @@ scn:
   auth:
     providers:
       none: Nuḍḍu
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -210,6 +212,7 @@ scn:
       public editing:
         heading: Canciamenti pùbblici
         enabled: Attivati. Nun sî anònimu e poi canciari li dati.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: chi voli diri?
         disabled: Disattivati, e nun poi canciari li dati, tutti li canciamenti pricidenti
           sunnu anònimi.
@@ -222,6 +225,7 @@ scn:
           cunnizzioni di cuntribbuzzioni novi.
         agreed_with_pd: Dichiarasti macari chi cunzìddiri li tò canciamenti ntô Duminiu
           Pùbblicu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: chi voli diri?
       save changes button: Sarva li canciamenti
       delete_account: Cancella cuntu...
@@ -326,8 +330,8 @@ scn:
           %{author}'
         commented_at_by_html: Aggiurnatu %{when} fa di %{user}
       show:
-        title_all: Discussioni supra ô gruppu di canciamenti d'OpenStreetMap
-        title_particular: 'Discussioni supra ô gruppu di canciamenti d''OpenStreetMap
+        title_all: Discussioni supra ô gruppu di canciamenti d'OpenHistoricalMap
+        title_particular: 'Discussioni supra ô gruppu di canciamenti d''OpenHistoricalMap
           #%{changeset_id}'
   changesets:
     changeset:
@@ -359,7 +363,7 @@ scn:
       unsubscribe: Annulla l’abbunamentu
       hide_comment: ammuccia
       unhide_comment: Ammustra
-      comment: Cummenta
+      comment: Cummentu
       changesetxml: XML dû gruppu di canciamenti
       osmchangexml: XML osmChange
     paging_nav:
@@ -1010,10 +1014,12 @@ scn:
     gps_traces: Tracciati GPS
     user_diaries: Diarî di l'utenti
     edit_with: Cancia cu %{editor}
+    tag_line: La cartina-wiki dû munnu lìbbira
     intro_header: Bimminuti nta OpenStreetMap!
     intro_text: OpenStreetMap è na cartina dû munnu, criata di genti comu a tìa e
       lìbbira a adupirari secunnu na licenza graputa.
-    partners_partners: cullabburatura
+    intro_2_create_account: Crea un cuntu d'utenti
+    partners_title: cullabburatura
     osm_offline: La basi di dati d'OpenStreetMap comu a ora nun è n lìnia pirchì si
       stannu facennu travagghî di manutinzioni funnamintali.
     osm_read_only: La basi di dati d'OpenStreetMap comu a ora è ntâ mudalità di sula
@@ -1240,6 +1246,7 @@ scn:
       image: Mmàggini
       gravatar:
         gravatar: Adòpira Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
       new image: Agghiunci na mmàggini
       keep image: Manteni la mmàggini attuali
       delete image: Leva la mmàggini attuali
@@ -1249,6 +1256,7 @@ scn:
       no home location: Ancora nun mpustasti la tò pusizzioni basi.
       update home location on click: Aggiorna la pusizzioni basi quannu cliccu supra
         â carta?
+      show: Ammustra
   sessions:
     new:
       tab_title: Trasi
@@ -1287,6 +1295,7 @@ scn:
         newer: Tracciati cchiù novi
   site:
     about:
+      heading_html: <span>&copy;</span>Li cuntribbutura<br>d'OpenHistoricalMap
       used_by_html: '%{name} furnisci li dati giogràfici a migghiara di siti web,
         applicazzioni mòbbili e apparecchi hardware'
       lede_text: |-
@@ -1300,6 +1309,11 @@ scn:
       community_driven_title: Guidatu dâ cumunità
       open_data_title: Dati graputi
       legal_title: Noti ligali
+      legal_1_1_html: "Stu situ e tanti àutri sirvizzî assuciati sunnu gistuti dâ
+        \ \n<a href='http://osmfoundation.org/'>Funnazzioni OpenHistoricalMap</a>
+        (OSMF) \npi cuntu dâ cumunità.\n<br> \nVi prigamu di <a href='http://osmfoundation.org/Contact'>cuntattari
+        l'OSMF</a> \nsi aviti addumannati o àutri prubblemi a prupòsitu di licenza,
+        drittu d'auturi o àutri quistioni ligali."
       partners_title: Cullabburatura
     copyright:
       title: Dritti d'auturi e Licenza
@@ -1313,12 +1327,34 @@ scn:
         html: Stai taliannu la virsioni n lingua ngrisa dâ pàggina dû drittu d'auturi.
           Poi turnari â %{native_link} di sta pàggina o puru poi finiri di nfurmàriti
           supra ô drittu d'auturi e %{mapping_link}.
-        native_link: virsioni n sicilianu
+        native_link: virsioni 'n sicilianu
         mapping_link: accuminzari a mappari
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> è fattu di <i>dati graputi</i>, cunciduti sutta â licenza <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) dâ <a
+          href="http://osmfoundation.org/">Funnazzioni OpenHistoricalMap</a> (OSMF).
+        introduction_2_html: |-
+          Sî lìbbiru di cupiari, diffùnniri, trasmèttiri e adattari li nostri dati, fintantu chi l'attribbuisci a OpenHistoricalMap e ê sò cuntribbutura. Si canci li dati o l'adòpiri comu puntu di partenza, poi distribbuiri lu travagghiu risurtanti sulamenti sutta â stissa licenza. Lu <a href="http://opendatacommons.org/licenses/odbl/1.0/">còdici ligali
+          code</a> cumpletu spiega quali sunnu li tò dritti e li tò rispunzabbilità.
+        introduction_3_html: |-
+          La cartugrafìa ntê mattunelli dâ nostra cartina, e la nostra ducumintazzioni, sunnu sutta â licenza <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).
         credit_title_html: Comu s'attribbuisci a OpenStreetMap
         credit_1_html: Addumannamu chi s'usa l'attribbuzzioni &laquo;&copy; li cuntribbutura
           d'OpenStreetMap&raquo;.
+        credit_2_1: "S'havi a rènniri chiaru ca li dati sunnu misi a dispusizzioni
+          sutta dâ Open\nDatabase License, e si s’adòpiranu li mattunelli dâ nostra
+          cartina, chi la cartugrafìa è sutta dâ licenza CC BY-SA. Sta cosa si pò
+          fari mittennu nu culligamentu a \n<a href=\"http://www.openstreetmap.org/copyright\">sta
+          pàggina dû drittu d'auturi</a>.\nComu altirnativa, e obbligatoriamenti quannu
+          si diffunni OSM sutta forma di dati, si ponnu mintuari li licenzi pi nomu
+          e cûn culligamentu direttu chi porta unni iddi. Nta ddi menzi unni li culligamenti
+          nun sunnu pussìbbili (p'esempiu ntâ carta stampata), suggiremu di mannari
+          li littura direttamenti unni openstreetmap.org (macari espannennu \n‘OpenHistoricalMap’
+          a stu nnirizzu cumpletu), unni opendatacommons.org, e, quann'è oppurtunu,
+          unni\n creativecommons.org."
         attribution_example:
           alt: Esempiu di comu s'attribbuisci a OpenStreetMap nta na pàggina web
           title: Esempiu d'attribbuzzioni
@@ -1327,6 +1363,9 @@ scn:
         contributors_intro_html: 'Li nostri cuntribbutura sunnu migghiara di genti.
           Pigghiamu macari dati cu licenza graputa furnuti di l''agginzìi cartugràfichi
           nazziunali e d''àutri fonti, tra dî quali:'
+        contributors_footer_1_html: |-
+          Pi canùsciri àutri dittagghî supra a chisti e àutri fonti chi foru adupirati pi migghiurari OpenHistoricalMap, poi taliari <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">la pàggina dî cuntribbutura</a> supra â wiki di OpenHistoricalMap.
         contributors_footer_2_html: La nclusioni dî dati nta OpenStreetMap nun ìmplica
           ca lu sò furnituri origginali susteni OpenStreetMap, furnisci na quarchi
           garanzìa, o accetta na quarchi rispunzabbilità.
@@ -1335,6 +1374,17 @@ scn:
           mai dati chi vèninu di fonti prutetti dû drittu d'auturi (ad esempiu Google
           Maps o puru li carti stampati) senza aviri n'auturizzazzioni splìcita dû
           titulari dû drittu d'auturi.
+        infringement_2_1_html: "Si penzi chi fu junciutu di manera nun dèbbita matiriali
+          prutettu dû drittu d'auturi o ntâ basi di dati di OpenHistoricalMap o puru
+          nta stu situ, pi favuri fai rifirimentu â nostra\n <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">prucidura
+          di cancillazzioni</a> o puru signalinilu direttamenti pi menzu dû nostru
+          \n<a href=\"https://dmca.openstreetmap.org/\">mòdulu di signalazzioni n
+          lìnia</a>."
+        trademarks_1_1_html: OpenHistoricalMap e lu logu dâ lenti di ngrannimentu
+          sunnu marchi riggistrati dâ Funnazzioni OpenHistoricalMap. Si hai quarchi
+          addumannata supra a l'utilizzu chi poi fari di sti marchi, la poi mannari
+          ô <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Gruppu
+          di travagghiu dî licenzi</a>.
     index:
       js_1: O stai adupirannu nu browser chi nun supporta lu JavaScript, o puru hai
         lu JavaScript disattivatu.
@@ -1355,6 +1405,9 @@ scn:
       title: Espurtazzioni
       manually_select: Scegghî manualmenti n'ària diffirenti
       licence: Licenza
+      licence_details_html: Li dati d'OpenHistoricalMap sunnu sutta la licenza <a
+        href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
+        Database License</a> (ODbL).
       too_large:
         advice: 'Si la spurtazzioni ccassupra nun arrinesci, poi pruvari cu una dî
           fonti ccassutta:'
@@ -1386,8 +1439,18 @@ scn:
             cartina, p'esempiu c'ammanca na strata o puru ca lu tò nnirizzu è sbagghiatu,
             la megghiu cosa di fari è di scrivìriti ntâ cumunità d'OpenStreetMap e
             d'agghiùnciri o cunzari li dati tu stissu.
+        add_a_note:
+          instructions_1_html: |-
+            Abbasta chi clicchi <a class='icon note'></a> o puru la stissa cona ntâ carta.
+            Facennu accussì si piazza un signali supra â carta, chi si pò spustari strascinànnulu.
+            S'agghiunci nu propiu missaggiu, appoi si clicca «sarva», e l'àutri mappatura talìanu la situazzioni.
       other_concerns:
         title: Àutri dubbî
+        concerns_html: "Si hai dubbî a prupòsitu di comu vèninu adupirati li nostri
+          dati, o a prupòsitu dî cuntinuti, pi favuri cunzurta la nostra \n<a href='/copyright'>pàggina
+          dû drittu d'auturi</a> p'aviri àutri nfurmazzioni ligali, o puru cuntatta
+          lu \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>gruppu
+          di travagghiu OSMF</a> apprupiatu."
     help:
       title: Attruvari aiutu
       introduction: |-
@@ -1412,12 +1475,20 @@ scn:
         title: switch2osm
         description: Aiutu pi mprisi e assuciazzioni chi vannu a passari ê cartini
           e a l'àutri sirvizzi basati supra a OpenStreetMap.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: wiki.openstreetmap.org
         description: Sfogghia lu wiki p'attruvari la ducumintazzioni apprufunnuta
           d'OSM.
     any_questions:
       title: Hai dumanni?
+      paragraph_1_html: |-
+        OpenHistoricalMap havi tanti risorsi pi nzignàrisi comu funziona lu pruggettu, pi fari addumannati e dari arrispunnuti,
+        e pi discùtiri d'argumenti c'arriguàrdanu la mappatura e ducumintàrili n cullabburazzioni.
+        <a href='%{help_url}'>Poi attruvari aiutu ccà</a>.
     sidebar:
       search_results: Risurtati di l'arricerca
     search:
@@ -1442,6 +1513,8 @@ scn:
           footway: Caminu pidunali
           rail: Ferruvìa
           subway: Mitrupulitana
+          light_rail: Mitrupulitana leggia
+          tram: tram
           cable_car: Funivìa
           chair_lift: seggiuvìa
           runway: Pista d’attirraggiu
@@ -1450,6 +1523,7 @@ scn:
           admin: Cunfini amministrativu
           forest: Furesta
           wood: Voscu
+          meadow: Pratu
           golf: Campu di golf
           park: Villa
           common: Cumuni
@@ -1486,12 +1560,27 @@ scn:
         chi spiega li cosi cchiù mpurtanti c'aviti a sapiri.
       whats_on_the_map:
         title: Zocchi c'è supra â cartina
+        on_the_map_html: |-
+          OpenHistoricalMap è nu postu pi mappari cosi chi sù <em>veri e attuali</em> -
+          cunteni miliuna d'edificî, strati e àutri dittagghî dî posti. Poi mappari zocchegghiè dû munnu riali chi ti ntiressa.
+        off_the_map_html: Chiddu chi mmeci <em>nun c'è</em> sunnu li dati d'opinioni
+          comu p'esempiu li giudizzî, l'elimenti chi nun esìstinu cchiù o chi sunnu
+          iputètici, e li dati chi vèninu di fonti prutetti dû drittu d'auturi. A
+          menu chi nun hai n'auturizzazzioni spiciali, nun cupiari mai di mappi n
+          lìnia o di carta.
       basic_terms:
         title: Tèrmini funnamintali dâ mappatura
         paragraph_1: OpenStreetMap havi nu sò linguaggiu particulari. Ccà ci sù na
           para di palori chi ti ponnu aggiuvari.
       rules:
         title: Règuli!
+        para_1_html: "OpenHistoricalMap havi picca règuli furmali, pirò n'aspittamu
+          chi tutti li participanti cullàbburanu e cumùnicanu câ cumunità. Si stai
+          pigghiannu a cunziddirazzioni di canciari la carta di quarchi manera àutra
+          rispettu a fàrilu a manu, pi favuri leggi e rispetta li lìnii guida ca poi
+          attruvari nta\n<a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>Mpurtazzioni</a>
+          e \n<a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Canciamenti
+          autumatizzati</a>."
       start_mapping: Accumenza a mappari
       add_a_note:
         title: Nun hai tempu pi fari canciamenti? Allura agghiunci na nota!
@@ -1655,6 +1744,7 @@ scn:
         rest_of_world: Restu dû munnu
     terms_declined_flash:
       terms_declined_link: sta pàggina wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: St'utenti nun c'è
       heading: L’utenti %{user} nun esisti
@@ -1766,6 +1856,8 @@ scn:
       title: Blocchi di l'utenti
       heading: Elencu dî blocchi di l'utenti
       empty: Ancora nun fu fattu nuḍḍu bloccu.
+    revoke_all:
+      revoke: Rèvuca!
     helper:
       time_future_html: Finisci tra %{time}
       until_login: Attivatu nfina a quannu l'utenti trasi.
@@ -1846,6 +1938,7 @@ scn:
       add: Agghiunci la nota
     notes_paging_nav:
       showing_page: Pàggina %{page}
+      next: Appressu
   javascripts:
     close: Chiudi
     share:

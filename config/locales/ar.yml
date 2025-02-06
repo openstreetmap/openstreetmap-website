@@ -11,6 +11,7 @@
 # Author: Bassem JARKAS
 # Author: ButterflyOfFire
 # Author: Danieldegroot2
+# Author: Dr-Taher
 # Author: Dr. Mohammed
 # Author: Fahad
 # Author: Faris knight
@@ -39,6 +40,7 @@
 # Author: OsamaK
 # Author: Ruila
 # Author: TTMTT
+# Author: XIDME
 # Author: Yahya Sakhnini
 # Author: Zaher kadour
 # Author: Zpizza
@@ -59,6 +61,7 @@ ar:
   time:
     formats:
       friendly: '%e %B %Y في %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: اختر الملف
@@ -73,7 +76,7 @@ ar:
       message:
         create: أرسل
       client_application:
-        create: سجِّل
+        create: سجِّل
         update: تحديث
       oauth2_application:
         create: سجِّل
@@ -105,6 +108,7 @@ ar:
       message: الرسالة
       node: عقدة
       node_tag: وسم عقدة
+      notifier: المخطر
       old_node: عقدة قديمة
       old_node_tag: وسم عقدة قديمة
       old_relation: علاقة قديمة
@@ -145,7 +149,7 @@ ar:
       diary_entry:
         user: المستخدم
         title: الموضوع
-        body: الجسم
+        body: نص الرسالة
         latitude: خط العرض
         longitude: خط الطول
         language_code: اللغة
@@ -208,6 +212,9 @@ ar:
           لذا يرجى محاولة استخدام مصطلحات الشخص العادي.
         needs_view: هل يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة؟
       user:
+        email_confirmation: لم يجري عرض عنوانك علنًا، راجع <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">سياسة الخصوصية</a>
+          الخاصة بنا للحصول على مزيد من المعلومات.
         new_email: (لا يظهر علنًا)
   datetime:
     distance_in_words_ago:
@@ -296,6 +303,8 @@ ar:
         few: '%{count} سنة'
         many: '%{count} سنوات'
         other: '%{count} سنة'
+  printable_name:
+    with_name_html: '%{name} (%{id})'
   editor:
     default: الافتراضي (حالياً %{name})
     id:
@@ -373,10 +382,12 @@ ar:
       current email address: عنوان البريد الإلكرتروني الحالي
       external auth: مصادقة خارجية
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ما هذا؟
       public editing:
         heading: تعديل عام
         enabled: مفعَّل، غير مجهول ويمكنك تعديل البيانات.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ما هذا؟
         disabled: مُعطل ولا يمكن تعديل البيانات، جميع التعديلات السابقة مجهولة الهوية.
         disabled link text: لماذا لا أستطيع التعديل؟
@@ -387,6 +398,7 @@ ar:
         review link text: يُرجَى اتباع هذا الرابط في الوقت الذي يناسبك لمراجعة وقبول
           شروط المساهمة الجديدة.
         agreed_with_pd: وقد أعلنت أيضًا أنك تعتبر تعديلاتك ملكية عامة.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: ما هذا؟
       save changes button: حفظ التغييرات
       delete_account: حذف الحساب...
@@ -437,13 +449,18 @@ ar:
       history_title_html: 'تاريخ الطريق: %{name}'
       nodes: العقد
       also_part_of_html:
-        one: جزء من طريق %{related_ways}
-        other: جزء من طرق %{related_ways}
+        zero: لا طريق
+        one: طريق واحد مرتبط
+        two: طريقان مرتبطان
+        few: '%{related_ways} طريق مرتبط'
+        many: '%{related_ways} طرق مرتبطة'
+        other: '%{related_ways} طريق مرتبط'
     relation:
       title_html: 'صلة: %{name}'
       history_title_html: 'تاريخ الصلة: %{name}'
       members: الأعضاء
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} كــ%{role}'
       type:
         node: عقدة
@@ -533,7 +550,7 @@ ar:
         title_comment: حزمة التغييرات %{id} - %{comment}
         created: تم الإنشاء
         closed: تم الإغلاق
-        belongs_to: الصانع
+        belongs_to: المؤلف
     subscribe:
       heading: الاشتراك في مناقشة التغييرات التالية؟
       button: الاشتراك في المناقشة
@@ -561,7 +578,6 @@ ar:
         مجموعة التغييرات.
       subscribe: اشترك
       unsubscribe: إلغاء الاشتراك
-      comment_by_html: تعليق من %{user}%{time_ago}
       hidden_comment_by_html: تعليق مخفي من%{time_ago} %{user}
       hide_comment: إخفاء
       unhide_comment: أظهر
@@ -676,10 +692,8 @@ ar:
       button: إلغاء الاشتراك من المناقشة
   diary_comments:
     index:
-      title: تمت إضافة تعليقات اليوميات بواسطة %{user}
       heading: تعليقات يوميات %{user}
       subheading_html: تمت إضافة تعليقات اليوميات بواسطة %{user}
-      no_comments: لا توجد تعليقات اليوميات
     page:
       post: إرسال
       when: متى
@@ -694,8 +708,11 @@ ar:
           notice: تم تسجيل التطبيق.
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact_url_title: أوضحت قنوات الاتصال المختلفة
       contact: اتصال
+      contact_the_community_html: لا تتردد في ٪{contact_link} مجتمع OpenHistoricalMap
+        إذا وجدت ارتباطًا / خطأً معطلاً. قم بتدوين عنوان URL الدقيق لطلبك.%{contact_link}
     forbidden:
       title: ممنوع
       description: العملية التي طلبتها على خادم OpenStreetMap متاحة فقط للمسؤولين
@@ -726,9 +743,13 @@ ar:
     search:
       title:
         latlon: داخلي
+        latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
         osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: عربة قطار هوائي
@@ -1581,16 +1602,20 @@ ar:
     start_mapping: ابدأ التخطيط
     edit: تعديل
     history: تاريخ
-    export: صدِّر
+    export: صدِّر
     issues: المشاكل
     gps_traces: آثار جي بي أس
     user_diaries: يوميات المستخدمين
     edit_with: حرر باستعمال %{editor}
+    tag_line: ويكي خريطة العالم الحرة
     intro_header: مرحبا بكم في خريطة الشارع المفتوحة!
-    intro_text: خريطة الشارع المفتوحة هي خريطة العالم، أُنشِئت بواسطة أشخاص مثلك وحرة
-      الاستخدام برخصة مفتوحة.
-    partners_fastly: بسرعة
-    partners_partners: الشركاء
+    intro_text: OpenHistoricalMap هي خريطة تفاعلية للعالم عبر التاريخ، تم إنشاؤها
+      بواسطة أشخاص مثلك ومخصصة للمجال العام.
+    intro_2_create_account: أنشئ حساب مستخدم
+    partners_title: الشركاء
+    hosting_partners_2024_html: OpenHistoricalMap هو مشروع مستأجر من %{osmus}، وهي
+      منظمة غير ربحية 501(c)(3) تابعة لـ %{osmf}. يتم دعم التطوير الفني من قبل %{greeninfo}
+      و%{devseed}.
     tou: شروط الاستخدام
     osm_offline: حاليًا قاعدة بيانات خريطة الشارع المفتوحة مغلقة بينما يتم الانتهاء
       من أعمال الصيانة الأساسية لقاعدة البيانات.
@@ -1648,6 +1673,7 @@ ar:
         وجد في%{url}.
       more_info_html: يمكن العثور على مزيد من المعلومات حول إخفاقات استيراد GPX وكيفية
         تجنبها على %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[خريطة الشارع المفتوحة] فشل استيراد جي بي إكس'
     gpx_success:
       hi: مرحبًا %{to_user}،
@@ -1672,8 +1698,8 @@ ar:
     lost_password:
       subject: '[خريطة الشارع المفتوحة] طلب إعادة تعيين كلمة السر'
       greeting: مرحبًا،
-      hopefully_you: طالب شخص ما (ربما أنت) بإعادة تعيين كلمة السر على حساب openstreetmap.org
-        لعنوان البريد الإلكتروني هذا.
+      hopefully_you: لقد طلب شخص ما (ربما أنت) إعادة تعيين كلمة المرور على حساب openhistoricalmap.org
+        الخاص بهذا العنوان الإلكتروني.
       click_the_link: إذا كان هذا أنت، يُرجَى الضغط على الرابط أدناه لإعادة تعيين
         كلمة المرور.
     note_comment_notification:
@@ -1769,11 +1795,19 @@ ar:
       title: الوارد
       messages: لديك %{new_messages} و%{old_messages}
       new_messages:
-        one: '%{count} رسالة جديدة'
-        other: '%{count} رسائل جديدة'
+        zero: صفر رسالة جديدة
+        one: رسالة جديدة
+        two: رسالتان جديدتان
+        few: '%{count} رسالة جديدة'
+        many: '%{count} رسائل جديدة'
+        other: '%{count} رسالة جديدة'
       old_messages:
-        one: '%{count} رسالة قديمة'
-        other: '%{count} رسائل قديمة'
+        zero: صفر رسالة قديمة
+        one: رسالة قديمة
+        two: رسالتان جديدتان
+        few: '%{count} رسالة جديدة'
+        many: '%{count} رسائل جديدة'
+        other: '%{count} رسالة جديدة'
       no_messages_yet_html: ليست لديك رسائل بعد، لماذا لا تقوم بالاتصال ببعض %{people_mapping_nearby_link}؟
       people_mapping_nearby: مخططون في جواري
     messages_table:
@@ -1801,8 +1835,12 @@ ar:
     outbox:
       title: صندوق الصادر
       messages:
-        one: لديك %{count} رسالة مبعوثة
-        other: لديك %{count} رسائل مبعوثة
+        zero: صفر رسالة مرسلة
+        one: رسالة مرسلة
+        two: رسالتان
+        few: '%{count} رسالة مرسلة'
+        many: '%{count} رسائل مرسلة'
+        other: '%{count} رسالة مرسلة'
       no_sent_messages_html: ليست لديك رسائل مرسلة بعد، لماذا لا تقوم بالاتصال ببعض
         %{people_mapping_nearby_link}؟
       people_mapping_nearby: مخططون في جواري
@@ -1870,6 +1908,7 @@ ar:
       image: "\uFEFFالصورة"
       gravatar:
         gravatar: استخدام Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         disabled: تم تعطيل Gravatar .
         enabled: تم تمكين عرض Gravatar الخاص بك.
       new image: أضف صورة
@@ -1880,6 +1919,7 @@ ar:
       home location: موقع المنزل
       no home location: لم تدخل موقع منزلك.
       update home location on click: تحديث موقع المنزل عندما أنقر على الخريطة؟
+      show: اعرض
     update:
       success: تم تحديث الملف الشخصي.
       failure: تعذر تحديث الملف الشخصي.
@@ -1950,21 +1990,29 @@ ar:
       community_driven_osm_foundation: مؤسسة OSM
       open_data_title: البيانات المفتوحة
       open_data_1_html: |-
-        OpenStreetMap هو %{open_data}: يمكنك استخدامه لأي غرض
-         طالما أنك تنسب الفضل إلى OpenStreetMap ومساهميه. إذا قمت بتعديل أو
-        البناء على البيانات بطرق معينة، فيجوز لك توزيع النتيجة فقط
-        بموجب نفس الترخيص. راجع %{copyright_license_link} للحصول على التفاصيل.
+        <p>OpenHistoricalMap هي <i>بيانات مفتوحة</i> : أنت حر في استخدامها لأي غرض
+        بموجب شروط البيانات التي تستخدمها. تحدد OpenHistoricalMap متطلبات الترخيص
+         والاقتباس على مستوى الكائن (إن وجد). نقدر الفضل أو الاقتباس لـ
+        OpenHistoricalMap لتوحيد هذه البيانات، ولكن ليس مطلوبًا.
+        إذا قمت بتعديل أو بناء على البيانات بطرق معينة، فيجوز لك توزيع النتيجة فقط
+        بموجب نفس الترخيص. راجع %{copyright_license_link} للحصول على التفاصيل.</p> !ن!<p> يمكنك الوصول إلى بيانات OHM من خلال خدمات مختلفة، وليس فقط من خلال هذا الموقع.
+        راجع قائمة مواقع الإنتاج والتجهيز وواجهات برمجة التطبيقات المتاحة على <a href='https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Development#Environments'>صفحة Wiki الخاصة بنا</a> .</p>
       open_data_open_data: البيانات المفتوحة
       open_data_copyright_license: صفحة حقوق النشر والترخيص
       legal_title: قانوني
+      legal_1_1_html: يتم تشغيل هذا الموقع والعديد من الخدمات الأخرى ذات الصلة رسميًا
+        بواسطة مجموعة OpenHistoricalMap غير الرسمية للغاية نيابة عن المجتمع. يخضع
+        استخدام جميع الخدمات التي تديرها OHM لشروط الاستخدام وسياسات الاستخدام المقبول
+        <a href="/privacy-policy">وسياسة الخصوصية</a> الخاصة بنا.
       legal_1_1_openstreetmap_foundation: مؤسسة خريطة الشارع المفتوحة
       legal_1_1_terms_of_use: شروط الاستخدام
       legal_1_1_aup: سياسات الاستخدام المقبولة
       legal_1_1_privacy_policy: سياسة الخصوصية
-      legal_2_1_html: من فضلك %{contact_the_osmf_link} إذا كان لديك ترخيص أو حقوق
-        طبع ونشر أو أسئلة قانونية أخرى.
+      legal_2_1_html: |-
+        يرجى الاتصال بفريق OHM على <a href='mailto:ohm-admins@googlegroups.com'>ohm-admins@googlegroups.com!N</a> ! إذا كانت لديك أسئلة تتعلق بالترخيص أو حقوق النشر أو أي أسئلة قانونية أخرى.
+        <br>
       legal_2_1_contact_the_osmf: اتصل بـ OSMF
-      legal_2_2_html: OpenStreetMap وشعار العدسة المكبرة وحالة الخريطة هي %{registered_trademarks_link}.
+      legal_2_2_html: OpenStreetMap وشعار العدسة المكبرة هما %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: العلامات التجارية المسجلة لـ OSMF
       partners_title: الشركاء
     copyright:
@@ -1982,18 +2030,31 @@ ar:
         native_link: النسخة العربية
         mapping_link: ابدأ التخطيط
       legal_babble:
+        introduction_1_html: يوفر <b>OpenHistoricalMap (OHM)</b> رسم خرائط تاريخية
+          وبيانات ذات صلة، مرخصة من قبل المساهمين على مستوى الكائن. يتم تشجيع المساهمين
+          بشدة على المساهمة بالبيانات باستخدام ترخيص <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>
+          ، ولكن من أجل حماية حقوق منشئي البيانات التاريخية، مثل الأكاديميين، يتم
+          دعم التراخيص المفتوحة الأخرى، مثل أي مجموعة من تراخيص CC وBY وSA وNC. أنت
+          مسؤول عن فهم شروط التراخيص المضمنة في البيانات التي تنسخها وتوزعها وتنقلها
+          وتكيفها.
         introduction_1_open_data: البيانات المفتوحة
         introduction_1_osm_foundation: مؤسسة خريطة الشارع المفتوحة
-        introduction_2_html: "أنت حر في نسخ، وتوزيع، ونقل وتطويع بياناتنا، \nطالما
-          أنك تقيد خريطة الشارع المفتوحة\nوالمساهمين فيها، إذا عدلت أو بنيت على بياناتنا،
-          \nفلا يحق لك توزيع النتيجة إلا تحت نفس الترخيص، و\nالكود القانوني الكامل
-          يشرح حقوقك ومسؤولياتك.%{legal_code_link}"
+        introduction_2_html: لديك الحرية في نسخ بياناتنا وتوزيعها ونقلها وتكييفها،
+          طالما أنك تلتزم بشروط البيانات التي تقوم بنسخها أو توزيعها أو تكييفها. إذا
+          قمت بتعديل أو البناء على البيانات الموجودة على هذا الموقع، فيجوز لك توزيع
+          النتيجة! فقط بموجب شروط تراخيص كائنات البيانات الأساسية.
         introduction_2_legal_code: شفرة قانونية
-        introduction_3_html: وثائقنا مرخصة بموجب ترخيص٪ {creative_commons_link} (CC
-          BY-SA 2.0).%{creative_commons_link}
-        credit_title_html: كيفية النسبة لخريطة الشارع المفتوحة
+        introduction_3_html: إن الخرائط الموجودة في بلاطات خرائطنا مرخصة بموجب شروط
+          الكائنات التي تحتوي عليها البلاطات. كما أن أنماط خرائطنا ووثائقها مرخصة
+          بموجب ترخيص المجال العام Creative Commons Attribution “No Rights Reserved”
+          (CC0).
+        credit_title_html: كيفية إضافة الفضل إلى OpenHistoricalMap
         credit_1_html: 'عندما تستخدم بيانات OpenStreetMap، فأنت مطالب بالقيام بالأمرين
           التاليين:'
+        credit_2_1: |-
+          للحصول على خريطة إلكترونية قابلة للتصفح، تفضل شركة OHM ظهور الاعتمادات الاختيارية
+          في الزاوية اليمنى السفلية من الخريطة.
+          على سبيل المثال:
         attribution_example:
           alt: مثال على كيفية إسناد خريطة الشارع المفتوحة على صفحة ويب
           title: مثال الإسناد
@@ -2001,6 +2062,10 @@ ar:
         contributors_title_html: المساهمين
         contributors_intro_html: "مساهمونا هم آلاف الأفراد، نوفر أيضا \nبيانات مرخصة
           بشكلٍ مفتوح من وكالات الخرائط الوطنية \nوغيرها من المصادر، من بينها:"
+        contributors_footer_1_html: |-
+          لمزيد من التفاصيل حول هذه المصادر وغيرها من المصادر التي تم استخدامها! للمساعدة في تحسين OpenHistoricalMap، يرجى الاطلاع على<a
+          href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/OHM_Contributors"> المساهمون
+          page على ويكي خريطة الشارع المفتوحة.
         contributors_at_austria: أستراليا
         contributors_au_australia: أستراليا
         contributors_au_geoscape_australia: جيوسكيب أستراليا
@@ -2055,16 +2120,14 @@ ar:
           يتم تذكير المساهمين OSM لا لإضافة البيانات من أي
           المصادر المحمية بحقوق الطبع والنشر (مثل خرائط Google أو الخرائط المطبوعة) بدون
           إذن صريح من أصحاب حقوق النشر.
-        infringement_2_1_html: |-
-          إذا كنت تعتقد أن المواد المحمية بحقوق الطبع والنشر قد تم بشكل غير لائق
-           المضافة إلى قاعدة بيانات OpenStreetMap أو هذا الموقع ، يرجى الرجوع
-           إلى %{takedown_procedure_link} أو ملف مباشرة على موقعنا
-            %{online_filing_page_link}.
+        infringement_2_1_html: إذا كنت تعتقد أن المواد المحمية بحقوق الطبع والنشر
+          قد تمت إضافتها بشكل غير مناسب إلى قاعدة بيانات OpenHistoricalMap أو هذا
+          الموقع، فيرجى إرسال بريد إلكتروني إلى ohm-admins@googlegroups.com مع "TAKEDOWN
+          REQUEST" في سطر الموضوع.
         trademarks_title: العلامات التجارية
-        trademarks_1_1_html: |-
-          OpenStreetMap وشعار العدسة المكبرة وحالة الخريطة هي علامات تجارية مسجلة لـ
-           مؤسسة OpenStreetMap.  إذا كانت لديك أسئلة حول استخدامك للعلامات ، فيرجى الاطلاع على
-            %{trademark_policy_link}.
+        trademarks_1_1_html: إذا كانت لديك أسئلة حول استخدامك لاسم OpenHistoricalMap،
+          فيرجى الاطلاع على <a href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Copyright">سياسة
+          العلامة التجارية</a> الخاصة بنا.
     index:
       js_1: إما أنك تستخدم متصفحا لا يدعم جافا سكريبت، أو أنك عطلت استعمال جافا سكريبت.
       js_2: خريطة الشارع المفتوحة تستخدم جافا سكريبت لخريطتها المنزلقة.
@@ -2077,12 +2140,19 @@ ar:
       not_public_description_html: أنت لم تعد قادر على تعديل الخريطة إلا إذا قمت بذلك،
         يمكنك تعيين تعديلاتك لتكون علنية من %{user_page} الخاصة بك.
       user_page_link: صفحة مستخدم
+      anon_edits_html: (%{link})
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
       id_not_configured: لم يتم تكوين آي دي
     export:
       title: صدِّر
       manually_select: اختر يدويًا منطقة أخرى
       licence: الرخصة
+      licence_details_html: يوفر OpenHistoricalMap (OHM) رسم خرائط تاريخية وبيانات
+        ذات صلة، مرخصة من المساهمين على مستوى الكائن. يتم تشجيع المساهمين بشدة على
+        المساهمة بالبيانات باستخدام ترخيص CC0، ولكن من أجل حماية حقوق منشئي البيانات
+        التاريخية، مثل الأكاديميين، يتم دعم التراخيص المفتوحة الأخرى، مثل أي مجموعة
+        من CC وBY وSA وNC. أنت مسؤول عن فهم شروط التراخيص المضمنة في البيانات التي
+        تنسخها وتوزعها وتنقلها وتكييفها.
       too_large:
         advice: 'إذا فشل التصدير أعلاه، فكِّر من فضلك باستخدام أحد المصادر الموضَّحة
           أدناه:'
@@ -2111,8 +2181,17 @@ ar:
           explanation_html: إذا كنت قد لاحظت وجود مشكلة في بيانات الخرائط لدينا، على
             سبيل المثال طريق مفقود أو عنوانك، فإن أفضل طريقة للمضي قدما هو الانضمام
             إلى مجتمع خريطة الشارع المفتوحة وإضافة أو إصلاح البيانات بنفسك.
+        add_a_note:
+          instructions_1_html: |-
+            انقر فقط على <a class='icon note'> </a> أو على الرمز نفسه على عرض الخريطة،
+            سيضيف هذا علامة إلى الخريطة، والتي يمكنك نقلها
+            عن طريق السحب، أضف رسالتك، ثم انقر على "حفظ"، وسيتحرى مصممو الخرائط الآخرين.
       other_concerns:
         title: اهتمامات أخرى
+        concerns_html: "إذا كانت لديك مخاوف بشأن كيفية استخدام بياناتنا أو حول محتوياتها،
+          فالرجاء الرجوع إلى \n<a href='/copyright'>صفحة حقوق الطبع والنشر لدينا</a>
+          لمزيد من المعلومات القانونية، أو الاتصال\n<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>بمجموعة
+          عمل مؤسسة خريطة الشارع المفتوحة</a>."
     help:
       title: الحصول على مساعدة
       introduction: "يحتوي خريطة الشارع المفتوحة على العديد من الموارد للتعلم حول
@@ -2120,8 +2199,8 @@ ar:
         تعاوني."
       welcome:
         url: أهلا بك.
-        title: مرحبًا بك في خريطة الشارع المفتوحة
-        description: ابدأ مع هذا الدليل السريع تغطية أساسيات خريطة الشارع المفتوحة.
+        title: مرحباً بكم في OpenHistoricalMap
+        description: ابدأ بهذا الدليل السريع الذي يغطي أساسيات OpenStreetMap.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Ar:Beginners%27_guide
         title: دليل المبتدئين
@@ -2138,14 +2217,22 @@ ar:
         description: مساعدة للشركات والمؤسسات في التحول إلى خرائط خريطة الشارع المفتوحة
           الموجودة وغيرها من الخدمات.
       welcomemat:
-        title: للمنظمات
+        title: مرحباً بكم في OHM
         description: مع منظمة تضع خططا لخريطة الشارع المفتوحة؟ اعثر على ما تريد معرفته
           في سجادة الترحيب.
+      discord:
+        title: ديسكورد
+      slack:
+        title: سلاك
       wiki:
-        title: ويكي خريطة الشارع المفتوحة
-        description: تصفح ويكي خريطة الشارع المفتوحة لمعلوماتٍ أكثر تعمقًا.
+        title: ويكي
+        description: تعليمات يتم صيانتها من قبل المجتمع لاستخدام OHM وإرشادات للمساهمة
+          في المشروع.
     any_questions:
       title: هل هناك أسئلة؟
+      paragraph_1_html: |-
+        يحتوي OpenHistoricalMap على العديد من الموارد للتعرف على المشروع، وطرح الأسئلة والإجابة عليها
+        ، ومناقشة مواضيع رسم الخرائط وتوثيقها بشكل تعاوني. %{help_link}.
     sidebar:
       search_results: نتائج البحث
     search:
@@ -2178,6 +2265,8 @@ ar:
           train: قطار
           subway: قطار الأنفاق
           ferry: عبارة
+          light_rail: قطار خفيف
+          tram: ترام
           bus: حافلة
           cable_car: عربة أسلاك
           chair_lift: مصعد كرسي
@@ -2188,6 +2277,7 @@ ar:
           city: مدينة
           forest: غابة
           wood: خشب
+          meadow: مرج
           golf: ملعب غولف
           park: منتزه
           common: شائع
@@ -2229,12 +2319,23 @@ ar:
         الأكثر أهمية تحتاج إلى معرفتها.
       whats_on_the_map:
         title: ما على الخريطة
+        on_the_map_html: |-
+          OpenHistoricalMap هو مكان لرسم الخرائط للأشياء التي هي <em>%{real_and_current}</em> -
+           وهي تشمل المباني والطرق وتفاصيل أخرى عن الأماكن. يمكنك رسم الخرائط لأي معالم تاريخية تهمك. يرجى رسم الخرائط من أي خرائط قديمة
+           أو خرائط خارج حقوق الطبع والنشر يمكنك العثور عليها. نحن أيضًا نرحب بالاستيراد.
+        off_the_map_html: |-
+          ما <em>%{doesnt}</em> يتضمنه هو البيانات ذات الآراء مثل التقييمات، والبيانات
+           من المصادر المحمية بحقوق الطبع والنشر.
       basic_terms:
         title: شروط أساسية لرسم الخرائط
-        paragraph_1: خريطة الشارع المفتوحة لديها بعض اللغات الخاصة بها، وفيما يلي
-          بعض الكلمات الرئيسية التي سوف تأتي في متناول اليدين.
+        paragraph_1: |-
+          يستخدم OpenHistoricalMap نفس لغة OpenStreetMap (OSM). بشكل عام، إذا كان لديك أي أسئلة
+          ، يمكنك الإجابة عليها بنفس الحلول المستخدمة في OSM.
+          إليك بعض الكلمات الرئيسية التي قد تكون مفيدة.
       rules:
         title: قواعد!
+        para_1_html: يحتوي OpenHistoricalMap على عدد قليل من القواعد الرسمية ولكننا
+          نتوقع من جميع المشاركين التعاون والتواصل مع المجتمع بكل لطف واحترام.
       start_mapping: ابدأ التخطيط
       add_a_note:
         title: لا وقت للتعديل؟ أضف ملاحظة!
@@ -2249,6 +2350,7 @@ ar:
     new:
       upload_trace: رفع أثر GPS
       visibility_help: ماذا يعني هذا؟
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: مساعدة
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2256,13 +2358,31 @@ ar:
       trace_uploaded: لقد تم تحميل ملفك الجي بي إكس ويتنظر الإدراج في قاعدة البيانات.
         وهذا يحدث عادًة خلال نصف ساعة، وسيتم إرسال رسالة إلكترونية لك عند الانتهاء.
       upload_failed: عذرا، فشل تحميل GPX، تم تنبيه إداري إلى الخطأ، حاول مرة اخرى
-      traces_waiting: لديك %{count} أثر في انتظار التحميل. يرجى مراعاة الانتظار قبل
-        تحميل أكثر من ذلك، بحيث تتجنب إعاقة طابور التحميل لباقي المستخدمين.
+      traces_waiting:
+        zero: لديك %{count} من التتبعات تنتظر التحميل. يُرجى التفكير في الانتظار حتى
+          تنتهي هذه التتبعات قبل تحميل المزيد، حتى لا تحجب قائمة الانتظار للمستخدمين
+          الآخرين.
+        one: لديك %{count} من التتبعات تنتظر التحميل. يُرجى التفكير في الانتظار حتى
+          تنتهي هذه التتبعات قبل تحميل المزيد، حتى لا تحجب قائمة الانتظار للمستخدمين
+          الآخرين.
+        two: لديك %{count} من التتبعات تنتظر التحميل. يُرجى التفكير في الانتظار حتى
+          تنتهي هذه التتبعات قبل تحميل المزيد، حتى لا تحجب قائمة الانتظار للمستخدمين
+          الآخرين.
+        few: لديك %{count} من التتبعات تنتظر التحميل. يُرجى التفكير في الانتظار حتى
+          تنتهي هذه التتبعات قبل تحميل المزيد، حتى لا تحجب قائمة الانتظار للمستخدمين
+          الآخرين.
+        many: لديك %{count} من التتبعات تنتظر التحميل. يُرجى التفكير في الانتظار حتى
+          تنتهي هذه التتبعات قبل تحميل المزيد، حتى لا تحجب قائمة الانتظار للمستخدمين
+          الآخرين.
+        other: لديك %{count} من التتبعات تنتظر التحميل. يُرجى التفكير في الانتظار
+          حتى تنتهي هذه التتبعات قبل تحميل المزيد، حتى لا تحجب قائمة الانتظار للمستخدمين
+          الآخرين.
     edit:
       cancel: إلغاء
       title: تعديل الأثر %{name}
       heading: تعديل الأثر %{name}
       visibility_help: ماذا يعني هذا؟
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: تم تحديث التتبع
     show:
@@ -2289,7 +2409,7 @@ ar:
       pending: في الانتظار
       count_points:
         zero: لا نقاط
-        one: '%{count} نقطة'
+        one: نقطة واحدة
         two: نقطتان
         few: نقاط قليلة
         many: نقاط كثيرة
@@ -2304,10 +2424,16 @@ ar:
       trackable: تعقبي
     index:
       public_traces: آثار جي بي إس عمومية
+      my_gps_traces: آثار GPS الخاصة بي
       public_traces_from: آثار جي بي إس عمومية من %{user}
       description: تصفح أحدث مسارات GPS المرفوعة
       tagged_with: بالوسم %{tags}
+      empty_title: لا شيء هنا حتى الآن
+      empty_upload_html: '%{upload_link} أو تعرف على المزيد حول تتبع نظام تحديد المواقع
+        العالمي (GPS) على %{wiki_link}.'
+      upload_new: رفع ملف جديد
       wiki_page: صفحة ويكي
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: حمل أثر
       my_traces: أثري في GPS
     destroy:
@@ -2320,7 +2446,13 @@ ar:
     georss:
       title: GPS آثار من خريطة الشارع المفتوحة
     description:
-      description_with_count: ملف GPX ب%{count} نقطة من %{user}
+      description_with_count:
+        zero: ملف GPX مع %{count} نقطة من %{user}
+        one: ملف GPX مع %{count} نقطة من %{user}
+        two: ملف GPX مع %{count} نقطة من %{user}
+        few: ملف GPX مع %{count} نقطة من %{user}
+        many: ملف GPX مع %{count} نقطة من %{user}
+        other: ملف GPX مع %{count} نقطة من %{user}
       description_without_count: ملف GPX من %{user}
   application:
     permission_denied: أنت ليس لديك السماح للوصول لذلك الفعل
@@ -2382,6 +2514,10 @@ ar:
         لك تلقائيًا.
       about:
         header: مجاني وقابل للتعديل.
+        paragraph_1: |-
+          على عكس الخرائط الأخرى ، تم إنشاء OpenHistoricalMap بالكامل بواسطة أشخاص مثلك ،
+          وهو مجاني لأي شخص لإصلاحه وتحديثه وتنزيله واستخدامه.
+        paragraph_2: سجل لتبدأ المساهمة. سنرسل بريدًا إلكترونيًا لتأكيد حسابك.
       display name description: اسم المستخدم الخاص بك الظاهر علنًا، يمكنك تغيير هذا
         في التفضيلات في وقت لاحق.
       continue: أنشئ حسابًا
@@ -2402,7 +2538,9 @@ ar:
       consider_pd: بالإضافة إلى ما طُرح أعلاه، أريد أن أنوه أنني أعتبر مساهماتي ملكية
         عامة.
       consider_pd_why: ما هذا؟
+      consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/When_would_I_want_my_contributions_to_be_public_domain
       continue: استمر
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: الرجاء القراءة ومن ثم قبول أو رفض شروط المساهمة
         الجديدة للمتابعة.
       legale_select: 'بلد الإقامة:'
@@ -2410,6 +2548,8 @@ ar:
         france: فرنسا
         italy: إيطاليا
         rest_of_world: بقية العالم
+    terms_declined_flash:
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: لا يوجد مستخدم كهذا
       heading: المستخدم %{user} غير موجود
@@ -2531,6 +2671,8 @@ ar:
       title: عرقلات المستخدم
       heading: لائحة بعرقلات المستخدمين
       empty: لم يتم إنشاء عرقلات حتى الآن.
+    revoke_all:
+      revoke: ابطل!
     helper:
       time_future_html: ينتهي في %{time}.
       until_login: نشط حتى يقوم المستخدم بتسجيل الدخول.
@@ -2553,18 +2695,18 @@ ar:
           other: '%{count} أيام'
         weeks:
           zero: لا أسبوع
-          one: '%{count} أسبوع'
+          one: أسبوع واحد
           two: أسبوعان
           few: أسابيع قليلة
           many: أسابيع كثيرة
           other: '%{count} أسبوع'
         months:
-          zero: لا شهر
+          zero: صفر شهر
           one: شهر واحد
           two: شهران
-          few: شهور قليلة
-          many: شهور كثيرة
-          other: '%{count} أشهر'
+          few: '%{count} شهر'
+          many: '%{count} شهور'
+          other: '%{count} شهر'
         years:
           zero: لا سنة
           one: سنة واحدة
@@ -2631,7 +2773,17 @@ ar:
       open_title: 'ملاحظة لم يتم حلها: %{note_name}'
       closed_title: 'ملاحظات محلولة: %{note_name}'
       hidden_title: 'ملاحظة مخفيّة #%{note_name}'
+      event_opened_by_html: تم إنشاؤه بواسطة %{user}, %{time_ago}
+      event_opened_by_anonymous_html: تم إنشاؤه بواسطة مجهول %{time_ago}
+      event_commented_by_html: تعليق من %{user}%{time_ago}
+      event_commented_by_anonymous_html: تعليق مجهول من %{time_ago}
+      event_closed_by_html: تم الحل بواسطة %{user} %{time_ago}
+      event_closed_by_anonymous_html: تم الحل بواسطة مجهول %{time_ago}
+      event_reopened_by_html: تم الحل بواسطة %{user} %{time_ago}
+      event_reopened_by_anonymous_html: أعاد التنشيط بواسطة مجهول %{time_ago}
+      event_hidden_by_html: مخفي بواسطة %{user} %{time_ago}
       report: أبلغ عن هذه الملاحظة
+      coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: تتضمن هذه المذكرة تعليقات المستخدمين المجهولين التي ينبغي
         التحقق منها بشكل مستقل.
       hide: إخفاء
@@ -2639,6 +2791,12 @@ ar:
       reactivate: نشط
       comment_and_resolve: علِّق و حلّ
       comment: تعليق
+      report_link_html: إذا كانت هذه الملاحظة تحتوي على معلومات حساسة يجب إزالتها
+        ، فيمكنك %{link}
+      other_problems_resolve: بالنسبة لجميع المشكلات الأخرى المتعلقة بالملاحظة ، يرجى
+        حلها بنفسك من خلال التعليق.
+      other_problems_resolved: لجميع المشاكل الأخرى ، الحل كاف.
+      disappear_date_html: ستختفي هذه الملاحظة التي تم حلها من الخريطة في %{disappear_in}.
     new:
       title: ملاحظة جديدة
       intro: رصد خطأ أو شيء مفقود؟ دع مصممي الخرائط الآخرين يعرفون ذلك حتى نتمكن من
@@ -2648,11 +2806,12 @@ ar:
       add: أضف ملاحظة
     notes_paging_nav:
       showing_page: الصفحة %{page}
+      next: التالي
   javascripts:
     close: أغلق
     share:
       title: شارك
-      cancel: ألغ
+      cancel: إلغاء
       image: صورة
       link: وصلة أو HTML
       long_link: وصلة
@@ -2781,16 +2940,16 @@ ar:
         slight_left_without_exit: اتجه إلى اليمين قليلا %{name}
         via_point_without_exit: (نقطة وسيطة)
         follow_without_exit: اتبع %{name}
-        roundabout_without_exit: عند الدوران، اسلك المخرج إلى %{name}
-        leave_roundabout_without_exit: ترك الطريق الملتوية - %{name}
-        stay_roundabout_without_exit: البقاء في طريق ملتوية - %{name}
+        roundabout_without_exit: عند الدوار خذ المخرج إلى %{name}
+        leave_roundabout_without_exit: اترك الدوار - %{name}
+        stay_roundabout_without_exit: ابقى على الدوار - %{name}
         start_without_exit: البدء من %{name}
         destination_without_exit: الوصول إلى الوجهة
         against_oneway_without_exit: الذهاب عكس في طريق اتجاه واحد %{name}
         end_oneway_without_exit: نهاية طريق اتجاه واحد %{name}
-        roundabout_with_exit: في الدوار، اسلك المخرج %{exit} إلى %{name}
-        roundabout_with_exit_ordinal: في الدوار، خذ %{exit} إلى %{name}
-        exit_roundabout: الخروج من الدوار نحو %{name}
+        roundabout_with_exit: عند الدوار، خذ المخرج %{exit} إلى %{name}
+        roundabout_with_exit_ordinal: عند الدوار، خذ مخرج %{exit} إلى %{name}
+        exit_roundabout: الخروج من الدوار إلى %{name}
         unnamed: طريق غير مسمى
         courtesy: الاتجاهات مجاملة من %{link}
         exit_counts:

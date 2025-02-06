@@ -41,9 +41,6 @@ hr:
       client_application:
         create: Registriraj
         update: Ažuriraj
-      oauth2_application:
-        create: Registracija
-        update: Ažuriraj
       trace:
         create: Pošalji
         update: 'Snimi promjene:'
@@ -63,6 +60,7 @@ hr:
       message: Poruka
       node: Točka
       node_tag: Oznaka točke
+      notifier: Izvjestitelj
       old_node: Stara točka
       old_node_tag: Oznaka stare točke
       old_relation: Stara relacija
@@ -97,6 +95,7 @@ hr:
       diary_entry:
         user: Korisnik
         title: Naslov
+        body: Tijelo
         latitude: Geografska širina (Latitude)
         longitude: Geografska dužina (Longitude)
         language_code: Jezik
@@ -204,6 +203,7 @@ hr:
   auth:
     providers:
       none: Nijedan
+      openid: OpenID
       google: Google
       facebook: Facebook
       github: GitHub
@@ -237,10 +237,12 @@ hr:
       my settings: Moje postavke
       current email address: Trenutna adresa e-pošte
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: što je ovo?
       public editing:
         heading: Javno uređivanje
         enabled: Omogućeno. Nije anonimno i mogu se uređivati podaci.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: što je ovo?
         disabled: Onemogućno i ne mogu se uređivati podaci, sve prethodne promjene
           su anonimne.
@@ -255,7 +257,7 @@ hr:
         link text: što je ovo?
       save changes button: Snimi promjene
     go_public:
-      heading: Javno uređivanje
+      heading: 'Javno uređivanje:'
       make_edits_public_button: Napravi sve moje promjene javnim
     update:
       success_confirm_needed: Korisničke informacije su uspješno ažurirane. Provjeri
@@ -359,8 +361,8 @@ hr:
         comment: 'Novi komentar na setu promjena #%{changeset_id} od %{author}'
         commented_at_by_html: Osvježio korisnik %{user} %{when}
       show:
-        title_all: Rasprava o OpenStreetMap setu promjena
-        title_particular: 'Rasprava o OpenStreetMap setu promjena #%{changeset_id}'
+        title_all: Rasprava o OpenHistoricalMap setu promjena
+        title_particular: 'Rasprava o OpenHistoricalMap setu promjena #%{changeset_id}'
   changesets:
     changeset:
       no_edits: (nema promjena)
@@ -391,7 +393,7 @@ hr:
       unsubscribe: Otkaži pretplatu
       hide_comment: sakrij
       unhide_comment: vrati sakriveno
-      comment: Komentiraj
+      comment: Komentar
       changesetxml: XLM Set promjena
       osmchangexml: osmChange XML
     paging_nav:
@@ -1016,9 +1018,11 @@ hr:
     gps_traces: GNSS tragovi
     user_diaries: Dnevnik
     edit_with: Uredi s %{editor}
+    tag_line: Slobodna wiki karta Svijeta
     intro_header: Dobrodošao/la na OpenStreetMap!
     intro_text: OpenStreetMap je karta svijeta, stvorena od strane ljudi (volontera/doprinositelja)
       i može se slobodno koristiti pod licencijom otvorenog koda (ODbL).
+    intro_2_create_account: Stvori korisnički račun
     osm_offline: OpenStreetMap baza podataka je trenutno nedostupna dok se ne završe
       važni radovi na održavanju.
     osm_read_only: Zbog radova na održavanju baze podataka OpenStreetMapa, istu trenutačno
@@ -1190,6 +1194,7 @@ hr:
       home location: 'Dom:'
       no home location: Niste unjeli lokaciju vašeg doma.
       update home location on click: Ažuriraj lokaciju doma kada kliknem na kartu?
+      show: Prikaži
   sessions:
     new:
       tab_title: Prijava
@@ -1217,6 +1222,7 @@ hr:
         newer: Noviji tragovi
   site:
     about:
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>doprinositelji
       used_by_html: '%{name} snabdijeva geografskim podacima tisuće internetskih stranica,
         mobilnih aplikacija i uređaja'
       lede_text: OpenStreetMap je izgradila zajednica kartografa koji donose i održavaju
@@ -1246,18 +1252,24 @@ hr:
         native_link: hrvatsko izdanje
         mapping_link: počnite kartirati
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} su %{open_data},
-          koje je licencirao %{osm_foundation_link} (OSMF) pod %{odc_odbl_link} (ODbL).
+        introduction_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> sadrži <i>otvorene podatke</i>, licencirane pod <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) licencom od strane <a
+          href="http://osmfoundation.org/">OpenHistoricalMap zaklade</a> (OSMF).
         introduction_2_html: Slobodni ste kopirati, distribuirati, prenositi i adaptirati
-          naše podatke, dokle god navodite OpenStreetMap i njegove doprinositelje
+          naše podatke, sve dok navodite OpenHistoricalMap i njegove doprinositelje
           kao izvor. Ako izmijenite ili nadogradite naše podatke, možete distribuirati
-          rezultate samo pod istom licencijom. Puni %{legal_code_link} objašnjava
-          vaša prava i obveze.
-        introduction_3_html: Naša dokumentacija je licencirana pod licencijom %{creative_commons_link}
-          (CC BY-SA 2.0).
+          rezultate samo pod istom licencom. Puni <a href="http://opendatacommons.org/licenses/odbl/1.0/">pravni
+          tekst</a> objašnjava vaša prava i odgovornosti.
+        introduction_3_html: Naša dokumentacija licencirana je pod <a href="http://creativecommons.org/licenses/by-sa/2.0/">Imenovanje-Dijeli
+          pod istim uvjetima 2.0</a> licencijom (CC BY-SA 2.0).
         credit_title_html: Kako iskazati zasluge OpenStreetMap-a
         credit_1_html: 'Tamo gdje koristite OpenStreetMap podatke, morate učiniti
           sljedeće dvije stvari:'
+        credit_2_1: |-
+          Također morate jasno naznačiti da su podaci dostupni po licenci Open Database Licence i, ako koristite naše sličice karte, naznačiti da je kartografija licencirana pod CC BY-SA. Možete to učiniti postavljanjem poveznice na <a href="http://www.openstreetmap.org/copyright">ovu stranicu sa autorskim pravima</a>.
+          Alternativno, a kao nužna potreba ako distribuirate OSM samo u obliku podataka, možete postaviti poveznicu izravno na tekst licence/a. Ako oblik medija ne omogućuje korištenje poveznica (npr. printani radovi), predlažemo da uputite Vaše čitatelje na openstreetmap.org (označava točno adresu web stranice umjesto samo ime projekta - 'OpenHistoricalMap'), na opendatacommons.org i ako je potrebno na creativecommons.org.
         credit_2_2: Objasnite da su podaci dostupni pod licencijom "Open Database
           License".
         credit_4_1_html: |-
@@ -1300,6 +1312,8 @@ hr:
       title: Izvoz
       manually_select: Ručno izaberi drukčije područje
       licence: Dozvola
+      licence_details_html: OpenHistoricalMap podaci su licencirani pod <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Ako gornji izvoz podataka ne uspije, molim pokušaj sa nekim od izvora
           navedenih ispod:'
@@ -1358,6 +1372,8 @@ hr:
           footway: Pješačka staza
           rail: Željeznica
           subway: Podzemna željeznica
+          light_rail: Laka željeznica
+          tram: tramvaj
           cable_car: Kabinska žičara
           chair_lift: sedežnica
           runway: Aerodromska pista
@@ -1366,6 +1382,7 @@ hr:
           admin: Administrativna granica
           forest: Šuma (održavane, od šumarije)
           wood: Šume (prirodne, neodržavane)
+          meadow: livade
           golf: Golf teren
           park: Park
           common: Travnjaci
@@ -1639,6 +1656,8 @@ hr:
       title: Korisnikove blokade
       heading: Lista korisničkih blokada
       empty: Još nije napravljena nijedna blokada.
+    revoke_all:
+      revoke: Opozovi!
     helper:
       time_future_html: Završava u %{time}.
       until_login: Aktivno dok se korisnik ne prijavi.
@@ -1725,6 +1744,7 @@ hr:
       add: Dodaj bilješku
     notes_paging_nav:
       showing_page: Stranica %{page}
+      next: Dalje
   javascripts:
     close: Zatvori
     share:

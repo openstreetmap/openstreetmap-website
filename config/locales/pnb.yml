@@ -53,6 +53,7 @@ pnb:
       message: سنیہا
       node: نوڈ
       node_tag: نوڈ دا ٹیگ
+      notifier: نوٹیفائر
       old_node: پُراݨا نوڈ
       old_node_tag: پُراݨے نوڈ‌ دا ٹیگ
       old_relation: پُراݨا سمبندھ
@@ -94,6 +95,7 @@ pnb:
       diary_entry:
         user: ورتنوالا
         title: سرلیکھ
+        body: مکھ بھاگ
         latitude: اکشانش
         longitude: لبکار
         language_code: بولی
@@ -148,6 +150,9 @@ pnb:
       trace:
         tagstring: ہر لکھت بعد کاما اے
       user:
+        email_confirmation: ٹہاڈے ای‌میل پتہ عوام ویکھاݨ‌گے سی۔ ہور جانکاری لئی ساڈے
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
+          privacy policy including section on email addresses">پالیسی</a> پڑھا سکیو۔
         new_email: (عاوم نہیں ویکھادا)
   datetime:
     distance_in_words_ago:
@@ -397,7 +402,7 @@ pnb:
       join_discussion: ایہہ گل بات جوڑن لئی تسیں لوگ‌این کر سکدیو
       hide_comment: لُکاؤ
       unhide_comment: نہیں لُکاؤ
-      comment: ٹپݨی کرو
+      comment: ٹپݨی
       changesetxml: تبدیلیاں لئی سروت دی فائل
       osmchangexml: تبدیلیاں لئی سروت دی فائل فارماٹ
     paging_nav:
@@ -497,6 +502,8 @@ pnb:
       all:
         title: نقشے بارے وچ روزنامچے دے لیکھ
         description: حالیہ نقشے بارے وچ روزنامچے دے لیکھ
+    comments:
+      title: ایہہ روزنامچے وچ «%{user}» دیاں ٹپݨیاں پائیاں
   diary_comments:
     index:
       title: ایہہ روزنامچے وچ «%{user}» دیاں ٹپݨیاں پائیاں
@@ -699,7 +706,6 @@ pnb:
           bridleway: گھوڑ راہ
           bus_stop: بس اڈا
           construction: اُساری ہیٹھ سڑک
-          crossing: کراسنگ
           cycleway: سائیکل‌وے
           elevator: لِفٹ
           footway: فُت‌وے
@@ -1115,8 +1121,8 @@ pnb:
     show:
       title: '[%{status}] مسئلہ: %{issue_id}'
       reports:
-        other: zeroرپورٹ نہیں
         one: اِکّ رپورٹ
+        other: zeroرپورٹ نہیں
       report_created_at_html: '%{datetime} رپورٹ بھیجی سی۔'
       last_resolved_at_html: '%{datetime} مسئلہ بند کیتا سی۔'
       last_updated_at_html: '%{datetime} مسئلے تے «%{displayname}» نویں کاݨکاری پائی
@@ -1186,9 +1192,10 @@ pnb:
     gps_traces: کھرے کھوجاں
     user_diaries: روزنامچے
     edit_with: '%{editor} نال سودھو'
+    tag_line: آزاد نقشہ جو جہڑے جہڑے سودھ سکدے اے
     intro_header: اوپن سٹریٹ میپ تے سواگت اے!
-    partners_fastly: فَیستلی
-    partners_partners: جوڑیدار
+    intro_2_create_account: ورتنوالے دا کھاتہ بݨاؤݨ
+    partners_title: جوڑیدار
     tou: ورتن شرطاں
     help: مدد
     about: بارے
@@ -1387,6 +1394,7 @@ pnb:
       image: تصویر
       gravatar:
         gravatar: گراوتر ورتے
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: کی گراوتر اے؟
         disabled: گریواتار بند کیتا
         enabled: گروٹر ویکھݨ چالو اے۔
@@ -1396,6 +1404,7 @@ pnb:
       replace image: موجودہ تصویر وٹاؤ
       home location: کیہ رہندے
       no home location: تسیں اپݨے گھر دی ستھتی نہیں دسّی اے۔
+      show: وکھاؤ
     update:
       success: صفحہ نواں کیتا
       failure: تہاڈے صفحہ نہیں کر سکدے اے۔
@@ -1441,6 +1450,7 @@ pnb:
         newer: نویں کھر کھوجاں
   site:
     about:
+      heading_html: <span>&copy;</span>اوپن سٹریٹ مَیپ<br/>یوگدانی
       used_by_html: ویب سائیٹ، اَیپ تے ہارڈویر لئی %{name} توں نقشے دے ڈیٹا دیندے
         اے۔
       lede_text: اِتھے سڑک، پِنڈ، شہر، نگر تے ہور نشان لئی نقشے والے نقش پاؤندے گیئے
@@ -1467,6 +1477,11 @@ pnb:
       legal_babble:
         credit_title_html: ایہہ نقشے لئی حوالے
         credit_1_html: 'ڈیٹا ورتݨ دے قواعد:'
+        credit_2_1: |-
+          <ul>
+          <li>لائیسنس نوٹ نال حوالے وچ ”اوپن سٹریٹ‌ میپ“ پایو۔</li>
+          <li>اگلے، جو ڈیٹے دا لائیسنس ”اوپن ڈیٹابیس لائیسنس“ پایو۔</li>
+          </ul>
         attribution_example:
           alt: ویب سائیٹ تے حوالے لئی مثال
           title: حوالے لئی مثال
@@ -1475,6 +1490,11 @@ pnb:
         infringement_title_html: حوالے قواعد بارے وچ منع کرن
         infringement_1_html: نقشے والے نا آزاد سروت، مثلاً گوگل، ورت نہیں سکدے اے۔
           ایہہ لئی پہلے لیکھک کہݨ‌گیئے چاہیدے سی۔
+        trademarks_1_1_html: 'اوپن سٹریٹ میپ فاؤنڈیشن دوارا، ”اوپن سٹریٹ میپ“ دے ناں
+          تے لوگو، تے ”سٹیٹ اف میپ“ کنفرینس دا ناں، ٹریڈمارک ہندے سی۔ (نوٹ: ایہی انگریزی
+          وچ ناں ٹریڈمارک ہندے سی، پنجابی وچ ایہہ ٹریڈمارک نہیں سکدے اے۔) جے تہاڈے
+          کجھ سوال بھیجݨے چاہیدے گیئے، <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">ٹریڈمارک
+          دی پالیسی</a> ویکھیو۔'
     index:
       js_1: تہاڈے براؤزر جاواسکرپٹ نہیں ورتیئے، یا تسیں جاواسکرپٹ بند کیتے سی۔
       js_2: ایس ویب‌سائیٹ دا نقشہ جاواسکرپٹ ورتدا۔
@@ -1492,6 +1512,8 @@ pnb:
       title: برامد کرو
       manually_select: آپݨے آپ اِکّ وکھرا کھیتر چݨو
       licence: لائیسنس
+      licence_details_html: اوپن سٹریٹ میپ دے ڈیٹا لئی <a href="https://opendatacommons.org/licenses/odbl/1.0/">اوپن
+        ڈیٹا کامنز اوپن ڈیٹابیس لائیسنس (او ڈی بی ایل)</a> ورتدے اے۔
       too_large:
         advice: 'جے برامد نہیں سکدا، خبرے تسیں ایہہ ہور سروت ورت سکدے:'
         body: برامد نہیں بݨایا، کھیتر بہت وڈا ہندا سی۔ نقشے تے وڈا کریو یا ڈاؤن‌لوڈ
@@ -1538,8 +1560,11 @@ pnb:
         description: کئی بولیاں تے کئی چیزاں بارے وچ گل بات۔
       switch2osm:
         title: اوایس‌ایم نوں موڑو («switch2osm»)
+      discord:
+        title: اوایس‌ایم نوں موڑو («switch2osm»)
+      slack:
+        title: آئی آر سی
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Pnb:مُکھّ_صفحہ
         title: اوپن سٹریٹ میپ وِکی
     any_questions:
       title: کوئی سوال؟
@@ -1570,6 +1595,8 @@ pnb:
           footway: فُت‌وے
           rail: ریلوے
           subway: سبوے
+          light_rail: ہلکی ریلوے
+          tram: ٹرام‌وے
           cable_car: کیبل کار
           chair_lift: کُرسی لِفٹ
           runway: ہوائی اڈے اُڈاݨ پٹی
@@ -1578,6 +1605,7 @@ pnb:
           admin: پرشاسکی سرحد
           forest: رکھّ
           wood: جنگل
+          meadow: چرگاہ
           golf: گولف مَیدان
           park: پارک
           common: شاملاٹ
@@ -1860,6 +1888,8 @@ pnb:
       title: ورتنوالے دے روکاں
       heading: ورتنوالیاں لئی روکاں دی لسٹ
       empty: حالاں کوئی روکاں نہیں بݨائیاں گیاں۔
+    revoke_all:
+      revoke: پرتاؤ!
     helper:
       block_duration:
         hours:
@@ -1918,6 +1948,7 @@ pnb:
       add: نوٹ پایو
     notes_paging_nav:
       showing_page: ورقہ %{page}
+      next: اگلا
   javascripts:
     close: بند کرو
     share:

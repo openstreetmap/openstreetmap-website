@@ -76,7 +76,7 @@ pt-BR:
       client_application:
         create: Registrar
         update: Atualizar
-      doorkeeper_application:
+      oauth2_application:
         create: Registrar
         update: Atualizar
       redaction:
@@ -89,10 +89,6 @@ pt-BR:
         create: Criar bloqueio
         update: Atualizar bloqueio
   activerecord:
-    errors:
-      messages:
-        invalid_email_address: não parece ser um endereço de e-mail válido
-        email_address_not_routable: não é roteável
     models:
       acl: Lista de controle de acesso
       changeset: Conjunto de alterações
@@ -147,9 +143,10 @@ pt-BR:
       diary_entry:
         user: Usuário
         title: Assunto
+        body: Mensagem
         latitude: Latitude
         longitude: Longitude
-        language: Idioma
+        language_code: Idioma
       doorkeeper/application:
         name: Nome
         redirect_uri: URIs de redirecionamento
@@ -185,7 +182,6 @@ pt-BR:
         auth_provider: Provedor de autenticação
         auth_uid: UID de autenticação
         email: E-mail
-        email_confirmation: Confirmação do e-mail
         new_email: Novo endereço de e-mail
         active: Ativo
         display_name: Nome de exibição
@@ -256,7 +252,6 @@ pt-BR:
         one: 1 ano atrás
         other: '%{count} anos atrás'
   printable_name:
-    with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
   editor:
     default: Padrão (atualmente %{name})
@@ -341,16 +336,6 @@ pt-BR:
         disabled: Desativado e não pode editar dados, todas as edições anteriores
           são anônimas.
         disabled link text: porque não posso editar?
-      public editing note:
-        heading: Edição pública
-        html: Neste momento as suas edições são anónimas e as outras pessoas não lhe
-          podem enviar mensagens nem ver onde se encontra. Para mostrar as suas edições
-          e permitir que o contactem através do OpenHistoricalMap, clique na ligação
-          seguinte. <b>Desde a migração 0.6 da API, apenas os usuários com edições
-          públicas podem editar dados do mapa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">mais
-          informações</a>).<ul><li>Ao tornar as suas edições públicas o seu endereço
-          de e-mail não será revelado.</li><li>Esta ação não pode ser revertida e
-          todos os novos utilizadores têm as edições disponibilizadas publicamente.</li></ul>
       contributor terms:
         heading: Termos do contribuidor
         agreed: Você aceitou os novos termos do contribuidor.
@@ -362,8 +347,10 @@ pt-BR:
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: o que é isso?
       save changes button: Salvar alterações
-      make edits public button: Tornar públicas todas as minhas edições
       delete_account: Eliminar Conta...
+    go_public:
+      heading: Edição pública
+      make_edits_public_button: Tornar públicas todas as minhas edições
     update:
       success_confirm_needed: Informação de usuário atualizada com sucesso. Confira
         o seu e-mail para confirmar seu novo endereço.
@@ -371,8 +358,6 @@ pt-BR:
     destroy:
       success: Conta Eliminada.
   browse:
-    created: Criado
-    closed: Fechado
     version: Versão
     in_changeset: Conjunto de alterações
     anonymous: anônimo
@@ -390,25 +375,6 @@ pt-BR:
     location: 'Localização:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
-    changeset:
-      title: 'Conjunto de alterações: %{id}'
-      belongs_to: Autor
-      node: Pontos (%{count})
-      node_paginated: Pontos (%{x}-%{y} de %{count})
-      way: Linhas (%{count})
-      way_paginated: Linhas (%{x}-%{y} de %{count})
-      relation: Relações (%{count})
-      relation_paginated: Relações (%{x}-%{y} de %{count})
-      comment: Comentários (%{count})
-      changesetxml: XML do conjunto de alterações
-      osmchangexml: XML osmChange
-      feed:
-        title: Conjunto de alterações %{id}
-        title_comment: Conjunto de alterações %{id} - %{comment}
-      join_discussion: Entrar para participar da discussão
-      discussion: Discussão
-      still_open: O conjunto de alterações continua em aberto - A discussão será iniciada
-        assim que for fechado o conjunto de alterações.
     node:
       title_html: 'Ponto: %{name}'
       history_title_html: 'Histórico do ponto: %{name}'
@@ -480,44 +446,27 @@ pt-BR:
       wikimedia_commons_link: A %{page} de item mo Wikimedia Commons
       telephone_link: Ligar para %{phone_number}
       colour_preview: Pré-visualização da cor %{colour_value}
-    note:
-      title: 'Nota: %{id}'
-      new_note: Nova nota
-      description: Descrição
-      open_title: 'Nota não resolvida #%{note_name}'
-      closed_title: 'Nota resolvida #%{note_name}'
-      hidden_title: 'Nota oculta #%{note_name}'
-      opened_by_html: Criado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Criado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Comentado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Resolvido por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Resolvido por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Reaberto por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Denunciar esta nota
-      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Consultar elementos
       introduction: Clique no mapa para achar elementos próximos
       nearby: Elementos próximos
       enclosing: Elementos envoltórios
+  changeset_comments:
+    feeds:
+      comment:
+        comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
+        commented_at_by_html: Atualizado %{when} por %{user}
+      show:
+        title_all: Discussão de conjunto de alterações do OpenHistoricalMap
+        title_particular: 'Discussão do conjunto de alteração #%{changeset_id} do
+          OpenHistoricalMap'
+      timeout:
+        sorry: Desculpe, a lista de comentários do conjunto de alterações que você
+          solicitou demorou muito para ser recuperada.
   changesets:
-    changeset_paging_nav:
-      showing_page: Página %{page}
-      next: Seguinte »
-      previous: « Anterior
     changeset:
-      anonymous: Anônimo
       no_edits: (sem alterações)
       view_changeset_details: Ver detalhes do conjunto de alterações
-    changesets:
-      id: ID
-      saved_at: Salvo em
-      user: Usuário
-      comment: Comentário
-      area: Área
     index:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
@@ -530,25 +479,40 @@ pt-BR:
       no_more_area: Não há mais conjuntos de alterações nesta área.
       no_more_user: Não há mais conjuntos de alterações para este usuário.
       load_more: Carregar mais
+      feed:
+        title: Conjunto de alterações %{id}
+        title_comment: Conjunto de alterações %{id} - %{comment}
+        created: Criado
+        closed: Fechado
+        belongs_to: Autor
+    show:
+      title: 'Conjunto de alterações: %{id}'
+      discussion: Discussão
+      join_discussion: Entrar para participar da discussão
+      still_open: O conjunto de alterações continua em aberto - A discussão será iniciada
+        assim que for fechado o conjunto de alterações.
+      subscribe: Inscrever
+      unsubscribe: Cancelar inscrição
+      hide_comment: esconder
+      unhide_comment: exibir
+      comment: Comentário
+      changesetxml: XML do conjunto de alterações
+      osmchangexml: XML osmChange
+    paging_nav:
+      nodes: Pontos (%{count})
+      nodes_paginated: Pontos (%{x}-%{y} de %{count})
+      ways: Linhas (%{count})
+      ways_paginated: Linhas (%{x}-%{y} de %{count})
+      relations: Relações (%{count})
+      relations_paginated: Relações (%{x}-%{y} de %{count})
     timeout:
       sorry: A lista de conjuntos de alterações solicitada está demorando demais para
         chegar.
-  changeset_comments:
-    comment:
-      comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
-      commented_at_by_html: Atualizado %{when} por %{user}
-    comments:
-      comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
-    index:
-      title_all: Discussão de conjunto de alterações do OpenHistoricalMap
-      title_particular: 'Discussão do conjunto de alteração #%{changeset_id} do OpenHistoricalMap'
-    timeout:
-      sorry: Desculpe, a lista de comentários do conjunto de alterações que você solicitou
-        demorou muito para ser recuperada.
   dashboards:
     contact:
       km away: '%{count}km de distância'
       m away: '%{count}m de distância'
+      latest_edit_html: 'Última edição (%{ago}):'
     popup:
       your location: Sua localização
       nearby mapper: Mapeador próximo
@@ -582,9 +546,8 @@ pt-BR:
       new_title: Escrever uma nova entrada no meu diário de usuário
       my_diary: Meu diário
       no_entries: Sem publicações no diário
+    page:
       recent_entries: Publicações recentes no diário
-      older_entries: Publicações mais antigas
-      newer_entries: Publicações mais novas
     edit:
       title: Editar publicação no diário
       marker_text: Localização da publicação no diário
@@ -621,8 +584,6 @@ pt-BR:
       report: Denunciar este comentário
     location:
       location: 'Local:'
-      view: Exibir
-      edit: Editar
       coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
@@ -637,14 +598,15 @@ pt-BR:
         description: Publicações no diário recentes de usuários do OpenHistoricalMap
     comments:
       title: Comentários no diário feitos por %{user}
+  diary_comments:
+    index:
+      title: Comentários no diário feitos por %{user}
       heading: Comentários no diário de %{user}
-      subheading_html: Comentários no diário feitos por %{user}
       no_comments: Sem comentários no diário.
+    page:
       post: Entrada
       when: Quando
       comment: Comentário
-      newer_comments: Comentários mais recentes
-      older_comments: Comentários mais antigos
   doorkeeper:
     flash:
       applications:
@@ -894,7 +856,6 @@ pt-BR:
           window_construction: Construção de janela
           winery: Adega
           "yes": Loja de Artesanato
-        crossing: Cruzando
         emergency:
           access_point: Ponto de acesso
           ambulance_station: Posto de Ambulâncias
@@ -915,6 +876,7 @@ pt-BR:
           bus_stop: Ponto de ônibus
           construction: Via em Construção
           corridor: Corredor
+          crossing: Cruzando
           cycleway: Ciclovia
           elevator: Elevador
           emergency_access_point: Ponto de Resgate Emergencial
@@ -1436,10 +1398,6 @@ pt-BR:
         level9: Limite de Distrito Municipal
         level10: Limite de Bairro
         level11: Limite da vizinhança
-      types:
-        cities: Cidades maiores
-        towns: Cidades menores
-        places: Lugares
     results:
       no_results: Nenhum resultado encontrado
       more_results: Mais resultados
@@ -1453,35 +1411,26 @@ pt-BR:
       not_updated: Não atualizado
       search: Pesquisar
       search_guidance: 'Pesquisar problemas:'
+      states:
+        ignored: Ignorado
+        open: Aberto
+        resolved: Resolvido
+    page:
       user_not_found: Usuário não existe
       issues_not_found: Nenhum problema foi encontrado
       status: Status
       reports: Relatórios
       last_updated: Última Atualização
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
-      link_to_reports: Ver Denúncias
-      reports_count:
-        one: 1 Relatório
-        other: '%{count} Relatórios'
       reported_item: Item Reportado
-      states:
-        ignored: Ignorado
-        open: Aberto
-        resolved: Resolvido
-    update:
-      new_report: Seu relatório foi registrado com sucesso
-      successful_update: Seu relatório foi atualizado com sucesso
-      provide_details: Por favor, forneça os detalhes necessários
     show:
       title: '%{status} Problema #%{issue_id}'
       reports:
         zero: Sem denúncias
         one: 1 denúncia
         other: '%{count} denúncias'
-      report_created_at: Primeiro relatado em %{datetime}
-      last_resolved_at: Resolvido pela última vez em %{datetime}
-      last_updated_at: Última atualização em %{datetime} por %{displayname}
+      report_created_at_html: Primeiro relatado em %{datetime}
+      last_resolved_at_html: Resolvido pela última vez em %{datetime}
+      last_updated_at_html: Última atualização em %{datetime} por %{displayname}
       resolve: Resolvido
       ignore: Ignorar
       reopen: Reabrir
@@ -1554,20 +1503,14 @@ pt-BR:
     home: Ir para o seu local principal
     logout: Sair
     log_in: Entrar
-    log_in_tooltip: Entrar com uma conta existente
     sign_up: Criar conta
     start_mapping: Começar a Mapear
-    sign_up_tooltip: Criar uma conta para editar
     edit: Editar
     history: Histórico
     export: Exportar
     issues: Problemas
-    data: Dados
-    export_data: Exportar dados
     gps_traces: Trilhas GPS
-    gps_traces_tooltip: Gerenciar trilhas de GPS
     user_diaries: Diários de usuário
-    user_diaries_tooltip: Ver os diários dos usuários
     edit_with: Edite com %{editor}
     tag_line: A Wiki de mapas livres
     intro_header: Bem-vindo(a) ao OpenHistoricalMap!
@@ -1575,31 +1518,20 @@ pt-BR:
       e de uso livre sob uma licença aberta.
     intro_2_create_account: Criar uma conta de usuário
     partners_title: Parceiros
-    hosting_partners_html: |-
+    hosting_partners_2024_html: |-
       <p>
       A <a href='https://greeninfo.org'>GreenInfo Network</a> é uma organização sem fins lucrativos de mapeamento e comunicação de bens sociais que ajuda organizações sem fins lucrativos e agências governamentais a atingir metas sociais, ambientais e outras usando uma variedade de ferramentas, incluindo práticas de design centradas no ser humano, desenvolvimento colaborativo e ferramentas web e geoespaciais de código aberto.
       </p>
       <p>
       A <a href='https://developmentseed.org/'>Development Seed</a> é uma empresa de engenharia e produtos que está acelerando a aplicação de dados da Terra para nossos maiores desafios globais. A Development Seed utiliza dados maciços da Terra, computação em nuvem, IA geoespacial e desenvolvimento de produtos bem pensados.
       </p>
-    partners_partners: parceiros
     tou: Termo de uso
     osm_offline: A base de dados do OpenHistoricalMap está fora do ar para manutenção.
     osm_read_only: A base de dados do OpenHistoricalMap está em modo somente leitura
       devido a operações de manutenção.
-    donate: 'Ajude o OpenHistoricalMap fazendo doações para o Fundo de Melhoria de
-      Hardware: %{link}.'
     help: Ajuda
     about: Sobre
     copyright: Direitos autorais
-    community: Comunidade
-    community_blogs: Blogs da comunidade
-    community_blogs_title: Blogs de membros da comunidade OpenHistoricalMap
-    foundation: Fundação
-    foundation_title: A OpenHistoricalMap Foundation
-    make_a_donation:
-      title: Ajude o OpenHistoricalMap com uma doação monetária
-      text: Faça uma doação
     learn_more: Saiba Mais
     more: Mais
   user_mailer:
@@ -1647,10 +1579,6 @@ pt-BR:
       subject: '[OpenHistoricalMap] Falha ao importar arquivo GPX'
     gpx_success:
       hi: Olá %{to_user},
-      loaded_successfully:
-        one: carregado com sucesso com %{trace_points} de um 1 ponto possível.
-        other: carregado com sucesso com %{trace_points} de %{possible_points} pontos
-          possíveis.
       subject: '[OpenHistoricalMap] GPX importado com sucesso'
     signup_confirm:
       subject: '[OpenHistoricalMap] Bem-vindo(a) ao OpenHistoricalMap'
@@ -1714,7 +1642,6 @@ pt-BR:
       details_html: Mais detalhes sobre a nota podem ser encontrados em %{url}.
     changeset_comment_notification:
       hi: Olá %{to_user},
-      greeting: Olá,
       commented:
         subject_own: '[OpenHistoricalMap] %{commenter} comentou um conjunto de alterações
           seu'
@@ -1751,8 +1678,6 @@ pt-BR:
       success: Conta ativada, obrigado!
       already active: Esse conta já foi confirmada.
       unknown token: Esse código de confirmação expirou ou não existe.
-      reconfirm_html: Caso precise que enviemos de novo o e-mail de confirmação, <a
-        href="%{reconfirm}">clique aqui</a>.
     confirm_resend:
       failure: Usuário %{name} não encontrado.
     confirm_email:
@@ -1772,8 +1697,6 @@ pt-BR:
   messages:
     inbox:
       title: Caixa de Entrada
-      my_inbox: Minha Caixa de Entrada
-      my_outbox: Minha caixa de saída
       messages: Você tem %{new_messages} e %{old_messages}
       new_messages:
         one: '%{count} nova mensagem'
@@ -1781,22 +1704,21 @@ pt-BR:
       old_messages:
         one: '%{count} mensagem antiga'
         other: '%{count} mensagens antigas'
-      from: De
-      subject: Assunto
-      date: Data
       no_messages_yet_html: Você ainda não tem mensagens. Por que não entrar em contato
         com %{people_mapping_nearby_link}?
       people_mapping_nearby: alguém mapeando por perto
+    messages_table:
+      from: De
+      to: Para
+      subject: Assunto
+      date: Data
     message_summary:
       unread_button: Marcar como não lida
       read_button: Marcar como lida
-      reply_button: Responder
       destroy_button: Apagar
     new:
       title: Enviar mensagem
       send_message_to_html: Enviar uma nova mensagem para %{name}
-      subject: Assunto
-      body: Mensagem
       back_to_inbox: Voltar para a caixa de entrada
     create:
       message_sent: Mensagem enviada
@@ -1808,14 +1730,9 @@ pt-BR:
       body: Não existe uma mensagem com este id.
     outbox:
       title: Caixa de Saída
-      my_inbox: Minha caixa de entrada
-      my_outbox: Minha caixa de saída
       messages:
         one: Você tem %{count} mensagem enviada
         other: Você tem %{count} mensagens enviadas
-      to: Para
-      subject: Assunto
-      date: Data
       no_sent_messages_html: Você ainda não enviou nenhuma mensagem. Por que não entrar
         em contato com %{people_mapping_nearby_link}?
       people_mapping_nearby: alguém mapeando por perto
@@ -1825,41 +1742,37 @@ pt-BR:
         para poder responder.
     show:
       title: Ler mensagem
-      from: De
-      subject: Assunto
-      date: Data
       reply_button: Responder
       unread_button: Marcar como não lida
       destroy_button: Apagar
       back: Voltar
-      to: Para
       wrong_user: Você está conectado como `%{user}' mas a mensagem que você quer
         ler não foi enviada para este usuário. Faça o login com o usuário correto
         para poder responder.
     sent_message_summary:
       destroy_button: Apagar
+    heading:
+      my_inbox: Minha Caixa de Entrada
+      my_outbox: Minha caixa de saída
     mark:
       as_read: Mensagem marcada como lida
       as_unread: Mensagem marcada como não lida
     destroy:
       destroyed: Mensagem apagada
   passwords:
-    lost_password:
+    new:
       title: Senha esquecida
       heading: Esqueceu sua senha?
-      email address: 'Endereço de E-mail:'
       new password button: Redefinir senha
       help_text: Digite o endereço de e-mail que você usou para se conectar e enviaremos
         um link que você poderá usar para redefinir a sua senha.
-      notice email on way: Um e-mail foi enviado para que você possa escolher outra
-        senha.
-      notice email cannot find: Não foi possível encontrar esse endereço de e-mail.
-    reset_password:
+    edit:
       title: Redefinir senha
       heading: Redefinir Senha de %{user}
       reset: Redefinir Senha
-      flash changed: Sua senha foi alterada.
       flash token bad: O código não confere, verifique a URL.
+    update:
+      flash changed: Sua senha foi alterada.
   preferences:
     show:
       title: Minhas preferências
@@ -1894,65 +1807,25 @@ pt-BR:
       home location: Local principal
       no home location: Você ainda não definiu o seu local principal.
       update home location on click: Atualizar local principal ao clicar no mapa?
+      show: Exibir
     update:
       success: Perfil atualizado.
       failure: Não foi possível atualizar o perfil.
   sessions:
     new:
-      title: Entrar
-      heading: Entrar
       email or username: 'E-mail ou nome de usuário:'
       password: 'Senha:'
-      openid_html: '%{logo} OpenID:'
       remember: Lembrar neste computador
       lost password link: Esqueceu sua senha?
       login_button: Entrar
-      register now: Registre agora
-      with username: 'Já tem uma conta no OpenHistoricalMap? Então entre com seu nome
-        de usuário e senha:'
       with external: 'Ou identifique-se através de terceiros:'
-      new to osm: Novo no OpenHistoricalMap?
-      to make changes: Para fazer alterações nos dados do OpenHistoricalMap, você
-        precisa criar uma conta.
-      create account minute: Crie uma conta. Leva só um minuto.
-      no account: Não possui uma conta?
-      account not active: Sua conta não está ativa ainda.<br />Use o link do e-mail
-        de confirmação para ativar sua conta ou <a href="%{reconfirm}">solicite uma
-        nova confirmação por e-mail</a>.
-      account is suspended: Desculpe, mas sua conta foi suspensa por causa de atividades
-        suspeitas.<br />Por favor contate o <a href="%{webmaster}">suporte</a> se
-        você deseja discutir isto.
       auth failure: Impossível entrar com estas informações.
-      openid_logo_alt: Entrar com um OpenID
-      auth_providers:
-        openid:
-          title: Entrar com o OpenID
-          alt: Entrar com uma URL do OpenID
-        google:
-          title: Entrar com o Google
-          alt: Entrar com um OpenID da Google
-        facebook:
-          title: Entrar com o Facebook
-          alt: Entrar com uma conta do Facebook
-        github:
-          title: Entrar com o GitHub
-          alt: Entrar com conta do GitHub
-        wikipedia:
-          title: Entrar com Wikipédia
-          alt: Entrar com uma conta da Wikipédia
-        wordpress:
-          title: Entrar com o Wordpress
-          alt: Entrar com um OpenID da Wordpress
-        aol:
-          title: Entrar com a AOL
-          alt: Entrar com um OpenID da AOL
     destroy:
       title: Sair
       heading: Sair do OpenHistoricalMap
       logout_button: Sair
   shared:
     markdown_help:
-      title_html: 'Linguagem de formatação: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>'
       headings: Títulos
       heading: Cabeçalho
       subheading: Subtítulo
@@ -1968,9 +1841,18 @@ pt-BR:
     richtext_field:
       edit: Editar
       preview: Pré-visualizar
+    pagination:
+      diary_comments:
+        older: Comentários mais antigos
+        newer: Comentários mais recentes
+      diary_entries:
+        older: Publicações mais antigas
+        newer: Publicações mais novas
+      traces:
+        older: Trilhas mais antigas
+        newer: Trilhas mais recentes
   site:
     about:
-      next: Próximo
       heading_html: <span>&copy;</span>contribuidores<br>do OpenHistoricalMap
       used_by_html: O OpenHistoricalMap armazena e exibe dados de mapas de forma colaborativa
         ao longo da história do mundo.
@@ -1982,40 +1864,23 @@ pt-BR:
         contribuidores utilizam fotografias aéreas, dispositivos GPS, e mapas do terreno
         para verificar que a informação no OpenHistoricalMap é rigorosa e atualizada.
       community_driven_title: Impulsionado pela comunidade
-      community_driven_html: |-
-        A comunidade do OpenHistoricalMap é diversa, apaixonada, e aumenta diariamente.
-        Entre os nossos colaboradores encontra-se mapeadores entusiastas, profissionais das áreas de sistemas geográficos, engenheiros que utilizam os servidores do OSM, voluntários a mapear áreas afetadas por grandes desastres, e muitos mais.
-        Para saber mais sobre a nossa comunidade, veja:
-        <a href='https://blog.openstreetmap.org'>Blogue do OpenHistoricalMap</a>,
-        <a href='%{diary_path}'>diários dos utilizadores</a>,
-        <a href='https://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o sítio da <a href='https://www.osmfoundation.org/'>Fundação OSM</a>.
       open_data_title: Dados abertos
-      open_data_html: |-
-        <p>OpenHistoricalMap tem seus <i>dados abertos</i>: você é livre para usá-los para qualquer finalidade
-        nos termos dos dados que você está usando. OpenHistoricalMap identifica a licença
-        e requisitos de citação no nível do objeto (se houver). Crédito ou citação para
-        O OpenHistoricalMap para consolidar esses dados é apreciado, mas não obrigatório.
-        Se você alterar ou desenvolver os dados de determinadas maneiras, poderá distribuir o resultado apenas
-        sob a mesma licença. Veja <a href='%{copyright_path}'>Copyright e
-        Página de licença</a> para detalhes.</p>
-        <p>Você pode acessar dados OHM através de vários serviços, além deste site.
-        Veja uma lista de sites de produção e preparação disponíveis e APIs em
-        <a href='https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Development#Environments'>nossa página Wiki</a>.</p>
       legal_title: Jurídico
-      legal_1_html: "Este ''site'' e muitos outros serviços relacionados são formalmente
+      legal_1_1_html: "Este ''site'' e muitos outros serviços relacionados são formalmente
         geridos pela \n<a href='https://osmfoundation.org/'>Fundação OpenHistoricalMap</a>
         (OSMF) \nem nome da comunidade. A utilização de todos os serviços operados
         pela OSMF estão sujeitos\naos nossos <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Termos
         de Utilização</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Políticas
         de Utilização Aceitáveis</a> e a nossa <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Política
         de Privacidade</a>"
-      legal_2_html: |-
+      legal_2_1_html: |-
         Por favor, <a href='https://osmfoundation.org/Contact'>contacte OSMF</a>
         se tiver perguntas sobre o licenciamento, direitos de autor ou outras perguntas legais.
         <br>
         OpenHistoricalMap, o logótipo da lupa e o 'Estado do Mapa' são <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marcas registadas da OSMF</a>.
       partners_title: Parceiros
     copyright:
+      title: Direitos autorais e licença
       foreign:
         title: Sobre esta tradução
         html: Caso haja um conflito entre esta tradução e %{english_original_link},
@@ -2029,23 +1894,22 @@ pt-BR:
         native_link: Versão em Português do Brasil
         mapping_link: começar a mapear
       legal_babble:
-        title_html: Direitos autorais e licença
-        intro_1_html: |-
+        introduction_1_html: |-
           O OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> é disponibilizado em <i>dados abertos</i>, sob a licença <a
           href="https://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database License</a> (ODbL) pela  <a
           href="https://osmfoundation.org/">Fundação OpenHistoricalMap</a> (OSMF).
-        intro_2_html: Tem o direito de copiar, distribuir, transmitir e adaptar os
-          nossos dados, desde que atribua a autoria do OpenHistoricalMap e os seus
+        introduction_2_html: Tem o direito de copiar, distribuir, transmitir e adaptar
+          os nossos dados, desde que atribua a autoria do OpenHistoricalMap e os seus
           contribuidores. Se alterar ou adicionar conteúdo dos nossos dados, pode
           distribuir o resultado apenas com a mesma licença. O <a href="https://opendatacommons.org/licenses/odbl/1.0/">texto
           legal completo</a> explica os seus direitos e responsabilidades.
-        intro_3_1_html: "Nossa documentação é licenciada sob a \nlicença <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
+        introduction_3_html: "Nossa documentação é licenciada sob a \nlicença <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
           Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0)."
         credit_title_html: Como fazer atribuição ao OpenHistoricalMap
         credit_1_html: Requeremos que você faça atribuição citando “© contribuidores
           do OpenHistoricalMap”.
-        credit_2_1_html: Também tem de indicar claramente que os dados estão disponíveis
+        credit_2_1: Também tem de indicar claramente que os dados estão disponíveis
           sob a Open Database License (ODbL), e caso utilize as telas de mapas (imagens
           dos mapas), que a cartografia é disponibilizada sob a licença CC-BY-SA.
           Pode fazer isto colocando uma hiperligação para <a href="https://www.openstreetmap.org/copyright">esta
@@ -2060,9 +1924,6 @@ pt-BR:
           alt: Exemplo de como atribuir o OpenHistoricalMap numa página web
           title: Exemplo de atribuição
         more_title_html: Descobrir mais
-        more_1_html: |-
-          Leia mais informações sobre a utilização dos nossos dados e como atribuir a autoria na <a
-          href="https://osmfoundation.org/Licence">página da licença da OSMF</a> (em inglês).
         contributors_title_html: Nossos contribuidores
         contributors_intro_html: |-
           Nossos contribuidores são milhares de indivíduos. Também incluímos
@@ -2087,13 +1948,12 @@ pt-BR:
             Os contribuidores do OSM são lembrados de nunca adicionar dados de quaisquer
             fontes com direitos autorais protegidos (ex.: Google Maps ou mapas impressos) sem
             permissão expressa dos seus detentores.
-        infringement_2_html: Se acredita que material protegido por direitos autorais
+        infringement_2_1_html: Se acredita que material protegido por direitos autorais
           foi adicionado indevidamente à base de dados do OpenHistoricalMap, por favor
           consulte o <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedimento
           para retirar dados protegidos</a> (em inglês) ou preencha os dados diretamente
           no <a href="https://dmca.openstreetmap.org/">formulário</a> (em inglês).
-        trademarks_title_html: <span id="trademarks"></span>Marcas registradas
-        trademarks_1_html: OpenHistoricalMap, o respetivo logótipo e State of the
+        trademarks_1_1_html: OpenHistoricalMap, o respetivo logótipo e State of the
           Map são marcas registadas da Fundação OpenHistoricalMap. Se tiver alguma
           questão sobre a utilização das marcas, por favor consulte as nossas <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Normas
           sobre Marcas Comerciais</a>.
@@ -2101,9 +1961,6 @@ pt-BR:
       js_1: Você está usando um navegador sem suporte a JavaScript, ou está com o
         JavaScript desativado.
       js_2: O OpenHistoricalMap usa JavaScript para a navegação dos mapas.
-      permalink: Link permanente
-      shortlink: Link Curto
-      createnote: Incluir uma nota
       license:
         copyright: Direitos autorais do OpenHistoricalMap e contribuidores sob uma
           licença aberta
@@ -2117,16 +1974,9 @@ pt-BR:
       anon_edits_html: (%{link})
       anon_edits_link_text: Descubra se é esse o seu caso.
       id_not_configured: iD não foi configurado
-      no_iframe_support: Seu navegador não suporta iframes HTML, que são necessários
-        para esse recurso.
     export:
       title: Exportar
-      area_to_export: Área a Exportar
       manually_select: Selecionar outra área manualmente
-      format_to_export: Formato a Exportar
-      osm_xml_data: Dados XML do OpenHistoricalMap
-      map_image: Imagem do Mapa (exibe a camada padrão)
-      embeddable_html: HTML para embutir
       licence: Licença
       licence_details_html: Os dados do OpenHistoricalMap encontram-se sob a <a href="https://opendatacommons.org/licenses/odbl/1.0/">licença
         Open Data Commons Open Database</a> (ODbL).
@@ -2148,23 +1998,9 @@ pt-BR:
           title: Baixar do Geofabrik
           description: Extratos regularmente atualizados de continentes, países, e
             cidades selecionadas
-        metro:
-          title: Extratos do Portal Metro
-          description: Extratos das principais cidades do mundo e suas proximidades
         other:
           title: Outras Fontes
           description: Fontes adicionais listadas no wiki do OpenHistoricalMap
-      options: Opções
-      format: Formato
-      scale: Escala
-      max: máx
-      image_size: Tamanho da Imagem
-      zoom: Ampliação
-      add_marker: Incluir um marcador no mapa
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Saída
-      paste_html: Cole o HTML para publicar no site
       export_button: Exportar
     fixthemap:
       title: Relatar um problema / Corrigir o mapa
@@ -2177,12 +2013,12 @@ pt-BR:
             juntar-se à comunidade do OpenHistoricalMap e incluir ou reparar os dados
             você mesmo.
         add_a_note:
-          instructions_html: |-
+          instructions_1_html: |-
             Apenas clique em <a class='icon note'></a> ou no mesmo ícone na interface do mapa.
             Isto incluirá um marcador ao mapa, que você pode mover arrastando. Adicione a sua mensagem, clique em salvar, e outros utilizadores como você vão investigar.
       other_concerns:
         title: Outras preocupações
-        explanation_html: Se tem preocupações sobre o modo como os nossos dados estão
+        concerns_html: Se tem preocupações sobre o modo como os nossos dados estão
           a ser usados ou sobre os conteúdos, por favor consulte a nossa <a href='/copyright'>página
           de direitos de autor</a> para mais informações legais, ou contacte o <a
           href='https://wiki.osmfoundation.org/wiki/Working_Groups'>grupo de trabalho
@@ -2196,6 +2032,23 @@ pt-BR:
         url: /welcome
         title: Bem-vindo(a) ao OpenHistoricalMap
         description: Comece por este guia rápido sobre os princípios básicos do OpenHistoricalMap.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Pt:Beginners%27_guide
+        title: Introdução
+        description: Guia para iniciantes mantido pela comunidade.
+      mailing_lists:
+        title: Listas de E-mail
+        description: Tire uma dúvida ou discuta assuntos interessantes em várias listas
+          regionais ou por assunto.
+      irc:
+        description: Bate-papo interativo em vários idiomas e sobre vários assuntos.
+      switch2osm:
+        description: Ajuda para empresas e organizações migrando para mapas baseados
+          no OpenHistoricalMap e outros serviços.
+      welcomemat:
+        title: Para organizações
+        description: Com uma organização fazendo planos para o OpenHistoricalMap?
+          Encontre o que você precisa saber no Welcome Mat.
       discord:
         title: switch2osm
       slack:
@@ -2211,10 +2064,8 @@ pt-BR:
         <a href='%{help_url}'>Obtenha ajuda aqui</a>. Com uma organização fazendo planos para o OpenHistoricalMap? <a href='https://welcome.openstreetmap.org/'>Confira o Welcome Mat</a>.
     sidebar:
       search_results: Resultados da busca
-      close: Fechar
     search:
       search: Buscar
-      get_directions: Obter itinerário
       get_directions_title: Ache um caminho entre dois pontos
       from: De
       to: Para
@@ -2240,34 +2091,27 @@ pt-BR:
           footway: Caminho de pedestre
           rail: Ferrovia
           subway: Metrô
-          tram:
-          - Ferrovia metropolitana
-          - bonde
-          cable:
-          - Bonde aéreo
-          - telecadeira
-          runway:
-          - Pista de Pouso
-          - pista de taxiamento
-          apron:
-          - Pátio de aeródromo
-          - terminal
+          light_rail: Ferrovia metropolitana
+          tram: bonde
+          cable_car: Bonde aéreo
+          chair_lift: telecadeira
+          runway: Pista de Pouso
+          taxiway: pista de taxiamento
+          apron: Pátio de aeródromo
           admin: Limite administrativo
           forest: Floresta manejada
           wood: Bosque nativo
+          meadow: prado
           golf: Campo de golfe
           park: Parque
+          common: Baldio comunitário
           resident: Área residencial
-          common:
-          - Baldio comunitário
-          - prado
           retail: Área de varejo
           industrial: Área industrial
           commercial: Área de negócios
           heathland: Urzal
-          lake:
-          - Lago
-          - lago artificial
+          lake: Lago
+          reservoir: lago artificial
           farm: Lavoura
           brownfield: Terreno abandonado
           cemetery: Cemitério secular
@@ -2276,14 +2120,12 @@ pt-BR:
           centre: Centro/clube esportivo
           reserve: Reserva ambiental
           military: Área militar
-          school:
-          - Escola
-          - universidade
+          school: Escola
+          university: universidade
           building: Edifício importante
           station: Estação ferroviária
-          summit:
-          - Cume
-          - cume
+          summit: Cume
+          peak: cume
           tunnel: Túnel (contorno tracejado)
           bridge: Ponte/viaduto (contorno contínuo)
           private: Acesso restrito
@@ -2359,8 +2201,6 @@ pt-BR:
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=pt-br
     update:
       updated: Rastreamento atualizado
-    trace_optionals:
-      tags: Etiquetas
     show:
       title: Visualizando trilha %{name}
       heading: Visualizando trilha %{name}
@@ -2382,10 +2222,6 @@ pt-BR:
       trace_not_found: Trilha não encontrada!
       visibility: 'Visibilidade:'
       confirm_delete: Eliminar esta trilha?
-    trace_paging_nav:
-      showing_page: Página %{page}
-      older: Trilhas mais antigas
-      newer: Trilhas mais recentes
     trace:
       pending: PENDENTE
       count_points:
@@ -2399,8 +2235,6 @@ pt-BR:
       identifiable: IDENTIFICÁVEL
       private: PRIVADO
       trackable: RASTREÁVEL
-      by: por
-      in: em
     index:
       public_traces: Trilhas públicas de GPS
       public_traces_from: Trilhas de GPS públicas de %{user}
@@ -2413,8 +2247,6 @@ pt-BR:
       remove_tag_filter: Remova o filtro de marcações
     destroy:
       scheduled_for_deletion: Trilha marcada para ser apagada
-    make_public:
-      made_public: Trilha publicada
     offline_warning:
       message: O sistema de envio de arquivos GPX não está disponível no momento
     offline:
@@ -2433,8 +2265,6 @@ pt-BR:
     require_cookies:
       cookies_needed: Parece que você está com os <i>cookies</i> desabilitados - habilite-os
         no seu navegador antes de continuar.
-    require_admin:
-      not_an_admin: Você precisa ser um administrador para realizar essa ação.
     setup_user_auth:
       blocked_zero_hour: Há uma mensagem urgente para você no site do OpenHistoricalMap.
         Você deve lê-la para poder voltar a salvar suas edições.
@@ -2444,34 +2274,9 @@ pt-BR:
         concordar, mas você deve vê-los.
     settings_menu:
       account_settings: Configurações da conta
-      oauth1_settings: Configurações do OAuth 1
       oauth2_applications: Aplicações OAuth 2
       oauth2_authorizations: Autorizações do OAuth 2
   oauth:
-    authorize:
-      title: Autorizar acesso à sua conta
-      request_access_html: A aplicação %{app_name} está pedindo acesso à sua conta,
-        %{user}. Confira se deseja mesmo que a aplicação tenha as capacidades a seguir.
-        Você pode escolher as que quiser.
-      allow_to: 'Permitir a aplicação cliente:'
-      allow_read_prefs: ler suas preferências.
-      allow_write_prefs: modificar suas preferências de usuário.
-      allow_write_diary: criar entradas de diário, comentários e adicionar amigos.
-      allow_write_api: modificar o mapa.
-      allow_read_gpx: ler suas trilhas de GPS privadas.
-      allow_write_gpx: enviar trilhas de GPS.
-      allow_write_notes: alterar notas.
-      grant_access: Dar acesso
-    authorize_success:
-      title: Pedido de autorização permitido
-      allowed_html: Dar acesso à sua conta ao programa %{app_name}.
-      verification: O código de verificação é %{code}.
-    authorize_failure:
-      title: Falha na autorização
-      denied: Negou acesso à sua conta ao programa %{app_name}.
-      invalid: O token de autorização não é válido.
-    revoke:
-      flash: Você cancelou o token para %{application}
     permissions:
       missing: Você não permitiu o acesso da aplicação a esta facilidade
     scopes:
@@ -2484,48 +2289,6 @@ pt-BR:
       write_notes: Modificar notas
       read_email: Ler o endereço de e-mail do usuário
       skip_authorization: Aplicação de aprovação automática
-  oauth_clients:
-    new:
-      title: Registrar uma nova aplicação
-    edit:
-      title: Editar sua aplicação
-    show:
-      title: Detalhes do OAuth de %{app_name}
-      key: Chave de consumidor
-      secret: Segredo do consumidor
-      url: URL do token de requisição
-      access_url: 'URL do token de acesso:'
-      authorize_url: 'URL de autorização:'
-      support_notice: Adotamos assinaturas HMAC-SHA1 (recomendado) e RSA-SHA1.
-      edit: Editar detalhes
-      delete: Excluir cliente
-      confirm: Tem certeza?
-      requests: 'Pedindo as seguintes permissões ao usuário:'
-    index:
-      title: Meus detalhes do OAuth
-      my_tokens: Meus aplicativos autorizados
-      list_tokens: 'Os seguintes tokens foram distribuidos para aplicações em seu
-        nome:'
-      application: Nome do aplicativo
-      issued_at: Emitido em
-      revoke: Cancelar!
-      my_apps: Meus clientes de aplicativos
-      no_apps_html: Você tem um aplicativo que gostaria de registrar para usar conosco
-        com o padrão %{oauth}? Você deve registrar sua aplicação web antes que ela
-        possa fazer requisições OAuth para esse serviço.
-      oauth: OAuth
-      registered_apps: 'Você tem as seguintes aplicações cliente registradas:'
-      register_new: Registre seu aplicativo
-    form:
-      requests: 'Solicitar as seguintes permissões ao usuário:'
-    not_found:
-      sorry: Esse %{type} não pôde ser encontrado.
-    create:
-      flash: Sucesso ao registrar a informação
-    update:
-      flash: Sucesso ao atualizar as informações do cliente
-    destroy:
-      flash: O registro da aplicação cliente foi apagado
   oauth2_applications:
     index:
       title: Minhas aplicações de cliente
@@ -2581,22 +2344,13 @@ pt-BR:
       title: Registrar-se
       no_auto_account_create: Infelizmente no momento não podemos criar uma conta
         para você automaticamente.
-      contact_support_html: Por favor contate o <a href="%{support}">suporte</a> para
-        que uma conta seja criada - nós iremos tentar e lidar com o pedido o mais
-        rápido possível.
       about:
         header: Livre e editável
-      email address: 'Endereço de E-mail:'
-      confirm email address: 'Confirme o Endereço de E-mail:'
-      display name: 'Nome de exibição:'
       display name description: Seu nome de usuário disponível publicamente. Você
         pode mudá-lo depois nas preferências.
-      external auth: 'Autenticação de Terceiros:'
-      use external auth: Ou identifique-se através de terceiros
-      auth no password: Com autenticação por terceiros não é necessária uma senha,
-        mas certas ferramentas ou o servidor talvez ainda precisem.
       continue: Registrar-se
       terms accepted: Obrigado por aceitar os novos termos de contribuição!
+      use external auth: Ou identifique-se através de terceiros
     terms:
       title: Termos
       heading: Termos
@@ -2615,7 +2369,6 @@ pt-BR:
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined?uselang=pt-br
-      decline: Discordo
       you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse
         os novos termos do contribuidor para continuar.
       legale_select: 'País em que você mora:'
@@ -2636,7 +2389,6 @@ pt-BR:
       deleted: excluído
     show:
       my diary: Meu diário
-      new diary entry: nova publicação no diário
       my edits: Minhas edições
       my traces: Minhas trilhas
       my notes: Minhas notas de mapa
@@ -2660,13 +2412,10 @@ pt-BR:
       ct status: 'Termos do contribuidor:'
       ct undecided: Não decidido
       ct declined: Discordo
-      latest edit: 'Última edição (%{ago}):'
       email address: 'Endereço de e-mail:'
       created from: 'Criado de:'
       status: 'Estado:'
       spam score: 'Contagem de Spam:'
-      description: Descrição
-      user location: Local do usuário
       role:
         administrator: Este usuário é um administrador
         moderator: Este usuário é um moderador
@@ -2681,7 +2430,6 @@ pt-BR:
       comments: Comentários
       create_block: Bloquear este usuário
       activate_user: Ativar este usuário
-      deactivate_user: Desativar este usuário
       confirm_user: Confirmar este usuário
       unconfirm_user: Desconfirmar este usuário
       unsuspend_user: Anular a suspensão deste Usuário
@@ -2690,33 +2438,22 @@ pt-BR:
       delete_user: Excluir este usuário
       confirm: Confirmar
       report: Denunciar este usuário
-    set_home:
-      flash success: Local principal salvo com sucesso
     go_public:
       flash success: Todas as suas edições agora são públicas, e você está com autorizado
         a editar.
     index:
       title: Usuários
       heading: Usuários
-      showing:
-        one: Página %{page} (%{first_item} de %{items})
-        other: Página %{page} (%{first_item}-%{last_item} de %{items})
       summary_html: '%{name} criado no computador %{ip_address} em %{date}'
       summary_no_ip_html: '%{name} criado em %{date}'
+      empty: Não há usuários correspondentes
+    page:
       confirm: Confirmar Usuários Selecionados
       hide: Ocultar Usuários Selecionados
-      empty: Não há usuários correspondentes
     suspended:
       title: Conta suspensa
       heading: Conta suspensa
       support: suporte
-      body_html: |-
-        <p>
-          Desculpe, mas sua conta foi automaticamente suspensa devido a atividade suspeita.
-        </p>
-        <p>
-          Um administrador logo revisará esta decisão. Você pode entrar em contato com %{webmaster} se desejar discutir esta decisão.
-        </p>
     auth_failure:
       connection_failed: Falha ao conectar ao provedor de autenticação
       invalid_credentials: Credenciais de autenticação inválidas
@@ -2741,19 +2478,9 @@ pt-BR:
       not_revoke_admin_current_user: Não foi possível retirar os direitos de administrador
         do atual usuário.
     grant:
-      title: Confirmar adição de papel
-      heading: Confirmar adição de papel
       are_you_sure: Deseja mesmo dar o papel "%{role}" ao usuário "%{name}"?
-      confirm: Confirmar
-      fail: Não foi possível dar o papel "%{role}" ao usuário "%{name}". Confira se
-        o usuário e o papel são ambos válidos.
     revoke:
-      title: Confirmar remoção de papel
-      heading: Confirmar remoção de papel
       are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
-      confirm: Confirmar
-      fail: Não foi possível retirar o papel "%{role}" do usuário "%{name}". Confira
-        se o usuário e o papel são ambos válidos.
   user_blocks:
     model:
       non_moderator_update: É necessário ser um moderador para criar ou atualizar
@@ -2766,24 +2493,14 @@ pt-BR:
       title: Criando bloqueio em %{name}
       heading_html: Criando bloqueio em %{name}
       period: Começando agora, por quanto tempo impedir o usuário de usar a API.
-      tried_contacting: Eu contatei o usuário e pedi para parar.
-      tried_waiting: Eu dei um tempo razoável para o usuário responder a esses comunicados.
-      back: Ver todos bloqueios
     edit:
       title: Editando bloqueio em %{name}
       heading_html: Editando bloqueio em %{name}
       period: Começando agora, por quanto tempo impedir o usuário de usar a API.
-      show: Ver esse bloqueio
-      back: Ver todos bloqueios
     filter:
-      block_expired: O bloqueio já expirou e não pode mais ser editado.
       block_period: O período de bloqueio deve ser um dos valores selecionáveis na
         lista.
     create:
-      try_contacting: Por favor, tente contatar o usuário e dê a ele um tempo razoável
-        antes de bloqueá-lo.
-      try_waiting: Por favor, tente dar ao usuário um tempo razoável para responder
-        antes de bloqueá-lo.
       flash: Bloquear o usuário %{name}.
     update:
       only_creator_can_edit: Somente o moderador que criou esse bloqueio pode editá-lo.
@@ -2792,14 +2509,8 @@ pt-BR:
       title: Bloqueios do usuário
       heading: Lista de bloqueios do usuário.
       empty: Nenhum bloqueio foi aplicado ainda.
-    revoke:
-      title: Retirando bloqueio de %{block_on}
-      heading_html: Retirando bloqueio em %{block_on} por %{block_by}
-      time_future: Esse bloqueio terminará em %{time}.
-      past: Esse bloqueio terminou há %{time} e não pode ser retirado agora.
-      confirm: Deseja realmente retirar esse bloqueio?
+    revoke_all:
       revoke: Cancelar!
-      flash: Esse bloqueio foi retirado.
     helper:
       time_future_html: Termina em %{time}.
       until_login: Ativo até que o usuário se conecte.
@@ -2835,28 +2546,19 @@ pt-BR:
       created: 'Criação:'
       duration: 'Duração:'
       status: 'Status:'
-      show: Exibir
       edit: Editar
-      revoke: Cancelar!
-      confirm: Tem certeza?
       reason: 'Razão do bloqueio:'
-      back: Ver todos os bloqueios
       revoker: 'Quem retirou:'
-      needs_view: O usuário precisa se logar para esse bloqueio ser retirado.
     block:
       not_revoked: (não retirado)
       show: Exibir
       edit: Editar
-      revoke: Cancelar!
-    blocks:
+    page:
       display_name: Usuário bloqueado
       creator_name: Criador
       reason: Razão para o bloqueio
       status: Status
       revoker_name: Retirado por
-      showing_page: Página %{page}
-      next: Próximo »
-      previous: « Anterior
   notes:
     index:
       title: Notas postadas ou comentadas por %{user}
@@ -2868,6 +2570,9 @@ pt-BR:
       description: Descrição
       created_at: Criado em
       last_changed: Última alteração
+    notes_paging_nav:
+      showing_page: Página %{page}
+      next: Próximo
   javascripts:
     close: Fechar
     share:
@@ -2916,7 +2621,6 @@ pt-BR:
         cycle_map: Ciclístico
         transport_map: Transporte Público
         hot: Humanitário
-        opnvkarte: ÖPNVKarte
       layers:
         header: Camadas do mapa
         notes: Notas de mapa
@@ -2933,30 +2637,6 @@ pt-BR:
       map_data_zoom_in_tooltip: Aproxime para ver dados do mapa
       queryfeature_tooltip: Consultar elementos
       queryfeature_disabled_tooltip: Aproxime para consultar elementos
-    changesets:
-      show:
-        comment: Comentar
-        subscribe: Inscrever
-        unsubscribe: Cancelar inscrição
-        hide_comment: esconder
-        unhide_comment: exibir
-    notes:
-      new:
-        intro: Encontrou um erro ou algo faltando? Informe outros mapeadores para
-          que isso possa ser corrigido. Mova o marcador para a posição correta e digite
-          uma nota para explicar o problema.
-        advice: A sua nota será pública e pode ser usada para atualizar o mapa, portanto,
-          não insira informações pessoais ou dados de mapas protegidos por direitos
-          autorais ou listas de diretórios.
-        add: Incluir nota
-      show:
-        anonymous_warning: Esta nota contém comentários de usuários anônimos que devem
-          ser conferidos separadamente.
-        hide: Esconder
-        resolve: Resolver
-        reactivate: Reativar
-        comment_and_resolve: Comentar e resolver
-        comment: Comentar
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique
       aqui.
     directions:

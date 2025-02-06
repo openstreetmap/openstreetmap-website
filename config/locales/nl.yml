@@ -48,6 +48,7 @@
 # Author: Optilete
 # Author: P24
 # Author: Peb-kac
+# Author: PiefPafPier
 # Author: Pje335
 # Author: Robin van der Linde
 # Author: Robin van der Vliet
@@ -71,6 +72,8 @@ nl:
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Bestand kiezen
@@ -105,6 +108,9 @@ nl:
         display_name_is_user_n: kan niet user_n zijn, tenzij n uw gebruikers-ID is
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: is al gedempt
     models:
       acl: Toegangscontrolelijst
@@ -119,6 +125,7 @@ nl:
       message: Bericht
       node: Knooppunt
       node_tag: Knooppuntlabel
+      notifier: Notifier
       old_node: Oud knooppunt
       old_node_tag: Oud knooppuntlabel
       old_relation: Oude relatie
@@ -151,8 +158,8 @@ nl:
         allow_write_prefs: gebruikersvoorkeuren wijzigen
         allow_write_diary: dagboekberichten schrijven, reacties en vrienden toevoegen
         allow_write_api: de kaart wijzigen
-        allow_read_gpx: privé-GPS-trajecten lezen
-        allow_write_gpx: GPS-trajecten uploaden
+        allow_read_gpx: privé-gps-trajecten lezen
+        allow_write_gpx: gps-trajecten uploaden
         allow_write_notes: opmerkingen wijzigen
       diary_comment:
         body: Tekst
@@ -180,7 +187,7 @@ nl:
         longitude: Lengtegraad
         public: Openbaar
         description: Beschrijving
-        gpx_file: Kies GPS-trajectbestand
+        gpx_file: Kies gps-trajectbestand
         visibility: Zichtbaarheid
         tagstring: Labels
       message:
@@ -223,6 +230,9 @@ nl:
           dus formuleer begrijpelijk.
         needs_view: Moet de gebruiker zich aanmelden voordat deze blokkade wordt verwijderd?
       user:
+        email_confirmation: Uw adres wordt niet openbaar weergegeven, zie ons <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF-privacybeleid inclusief adressen">privacybeleid</a> voor meer
+          informatie.
         new_email: (nooit openbaar gemaakt)
   datetime:
     distance_in_words_ago:
@@ -263,6 +273,9 @@ nl:
       x_years:
         one: '%{count} jaar geleden'
         other: '%{count} jaar geleden'
+  printable_name:
+    version: v%{version}
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Standaard (op dit moment %{name})
     id:
@@ -274,6 +287,7 @@ nl:
   auth:
     providers:
       none: Geen
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -341,10 +355,12 @@ nl:
       current email address: Huidig e-mailadres
       external auth: Externe authenticatie
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: wat is dit?
       public editing:
         heading: Openbaar bewerken
         enabled: Ingeschakeld. U bent niet anoniem en u kunt bewerken.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: wat is dit?
         disabled: Uitgeschakeld. U kunt niet bewerken en al uw eerdere bewerkingen
           zijn anoniem.
@@ -357,6 +373,7 @@ nl:
           te lezen en te accepteren.
         agreed_with_pd: U hebt ook verklaard dat uw bijdragen onderdeel zijn van het
           Publieke domein.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: wat is dit?
       save changes button: Wijzigingen opslaan
       delete_account: Account verwijderen...
@@ -368,7 +385,9 @@ nl:
         contact met u op te nemen.
       only_public_can_edit: Sinds de omschakeling naar de API versie 0.6 kunnen alleen
         openbare gebruikers kaartgegevens bewerken.
+      find_out_why_html: (%{link}).
       find_out_why: lees waarom
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Door uw account openbaar te maken wordt uw e-mailadres niet
         onthuld.
       not_reversible: Deze handeling kan niet ongedaan worden gemaakt en alle nieuwe
@@ -480,23 +499,41 @@ nl:
       introduction: Klik op de kaart om nabije objecten te vinden.
       nearby: Objecten in de buurt
       enclosing: Omsluitende objecten
+  nodes:
+    timeout:
+      sorry: Het ophalen van de gegevens voor het knooppunt met ID %{id} duurde te
+        lang.
   old_nodes:
     not_found:
       sorry: 'Sorry, knooppunt #%{id} versie %{version} kon niet worden gevonden.'
+    timeout:
+      sorry: Het ophalen van de geschiedenis voor het knooppunt met ID %{id} duurde
+        te lang.
+  ways:
+    timeout:
+      sorry: Het ophalen van de gegevens voor de weg met ID %{id} duurde te lang.
   old_ways:
     not_found:
       sorry: 'Sorry, weg #%{id} versie %{version} niet kon worden gevonden.'
+    timeout:
+      sorry: Het ophalen van de geschiedenis voor de weg met ID %{id} duurde te lang.
+  relations:
+    timeout:
+      sorry: Het ophalen van de gegevens voor de relatie met ID %{id} duurde te lang.
   old_relations:
     not_found:
       sorry: 'Sorry, relatie #%{id} versie %{version} kon niet worden gevonden.'
+    timeout:
+      sorry: Het ophalen van de geschiedenis voor de relatie met ID %{id} duurde te
+        lang.
   changeset_comments:
     feeds:
       comment:
         comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
         commented_at_by_html: '%{when} bijgewerkt door %{user}'
       show:
-        title_all: Overleg over een wijzigingenset van OpenStreetMap
-        title_particular: 'Overleg over wijzigingenset #%{changeset_id} van OpenStreetMap'
+        title_all: Overleg over een wijzigingenset van OpenHistoricalMap
+        title_particular: 'Overleg over wijzigingenset #%{changeset_id} van OpenHistoricalMap'
       timeout:
         sorry: Sorry, het oproepen van de lijst met wijzigingenset-opmerkingen die
           u hebt opgevraagd duurde te lang.
@@ -540,8 +577,8 @@ nl:
       title: 'Wijzigingenset: %{id}'
       created: 'Aangemaakt: %{when}'
       closed: 'Gesloten: %{when}'
-      created_ago_html: Gemaakt %{time_ago}
-      closed_ago_html: Gesloten %{time_ago}
+      created_ago_html: '%{time_ago} gemaakt'
+      closed_ago_html: '%{time_ago} gesloten'
       created_ago_by_html: '%{time_ago} gemaakt door %{user}'
       closed_ago_by_html: '%{time_ago} gesloten door %{user}'
       discussion: Overleg
@@ -554,7 +591,7 @@ nl:
       hidden_comment_by_html: Verborgen reactie van %{user}, %{time_ago}
       hide_comment: verbergen
       unhide_comment: zichtbaar maken
-      comment: Reageren
+      comment: Opmerking
       changesetxml: Wijzigingenset-XML
       osmchangexml: osmChange-XML
     paging_nav:
@@ -574,7 +611,7 @@ nl:
       latest_edit_html: 'Laatste bewerking (%{ago}):'
     popup:
       your location: Uw locatie
-      nearby mapper: Dichtbijzijnde mapper
+      nearby mapper: Nabije kaartmaker
       friend: Vriend
     show:
       title: Mijn dashboard
@@ -583,7 +620,7 @@ nl:
       edit_your_profile: Pas uw profiel aan
       my friends: Mijn vrienden
       no friends: U hebt nog geen vrienden toegevoegd.
-      nearby users: Andere dichtbijzijnde gebruikers
+      nearby users: Andere nabije gebruikers
       no nearby users: Er zijn nog geen andere gebruikers die hebben opgegeven in
         de buurt te mappen.
       friends_changesets: wijzigingensets van vrienden
@@ -658,6 +695,9 @@ nl:
       all:
         title: OpenStreetMap-dagboekberichten
         description: Recente dagboekberichten van OpenStreetMap-gebruikers
+    comments:
+      title: OpenHistoricalMap-dagboekberichten
+      description: Recente dagboekberichten van OpenStreetMap-gebruikers
     subscribe:
       heading: Abonneren op de volgende dagboekaantekeningendiscussie?
       button: Op discussie abonneren
@@ -749,8 +789,11 @@ nl:
     search:
       title:
         latlon: Intern
+        latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenStreetMap Nominatim
-        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenHistoricalMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1647,12 +1690,19 @@ nl:
     gps_traces: Gps-trajecten
     user_diaries: Gebruikersdagboeken
     edit_with: Bewerken met %{editor}
+    tag_line: De vrije wikiwereldkaart
     intro_header: Welkom bij OpenStreetMap!
     intro_text: OpenStreetMap is een kaart van de wereld, gemaakt door mensen zoals
       u en vrij te gebruiken onder een open licentie.
-    partners_fastly: Fastly
-    partners_corpmembers: OSMF-bedrijfsleden
-    partners_partners: partners
+    intro_2_create_account: Maak een account aan
+    partners_title: Partners
+    hosting_partners_2024_html: OpenHistoricalMap is een charterproject van %{osmus},
+      een bij de %{osmf} aangesloten Amerikaanse non-profitorganisatie krachtens 501(c)(3).
+      De technische ontwikkeling wordt ondersteund door %{greeninfo} en %{devseed}.
+    partners_devseed: Development Seed
+    partners_greeninfo: GreenInfo Network
+    partners_osmf: OpenStreetMap Foundation
+    partners_osmus: OpenStreetMap VS
     tou: Gebruiksvoorwaarden
     osm_offline: De OpenStreetMap-database is momenteel niet beschikbaar wegens het
       uitvoeren van onderhoudswerkzaamheden.
@@ -1719,6 +1769,7 @@ nl:
         kunt u vinden op %{url}.
       more_info_html: Meer informatie over mislukte GPX-imports en hoe u ze kunt vermijden,
         kunt u vinden op %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX-import mislukt'
     gpx_success:
       hi: Hallo %{to_user},
@@ -1864,7 +1915,7 @@ nl:
         other: '%{count} oude berichten'
       no_messages_yet_html: U hebt nog geen berichten. Waarom legt u geen contact
         met %{people_mapping_nearby_link}?
-      people_mapping_nearby: dichtbijzijnde mappers
+      people_mapping_nearby: nabije kaartenmakers
     messages_table:
       from: Van
       to: Aan
@@ -1895,14 +1946,14 @@ nl:
         other: U hebt %{count} verzonden berichten
       no_sent_messages_html: U hebt nog geen berichten verzonden. Waarom legt u geen
         contact met %{people_mapping_nearby_link}?
-      people_mapping_nearby: dichtbijzijnde mappers
+      people_mapping_nearby: nabije kaartenmakers
     muted:
       title: Gedempte berichten
       messages:
         one: '%{count} verborgen bericht'
         other: U hebt %{count} genegeerde berichten
     reply:
-      wrong_user: U bent aangemeld als "%{user}", maar het bericht waarop u wilt antwoorden
+      wrong_user: U bent aangemeld als ‘%{user}’, maar het bericht waarop u wilt antwoorden
         is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te
         antwoorden.
     show:
@@ -1994,8 +2045,8 @@ nl:
       tab_title: Aanmelden
       login_to_authorize_html: Meld u aan bij OpenStreetMap om toegang te krijgen
         tot %{client_app_name}.
-      email or username: 'E-mailadres of gebruikersnaam:'
-      password: 'Wachtwoord:'
+      email or username: E-mailadres of gebruikersnaam
+      password: Wachtwoord
       remember: Aanmeldgegevens onthouden
       lost password link: Wachtwoord vergeten?
       login_button: Aanmelden
@@ -2013,6 +2064,8 @@ nl:
   shared:
     markdown_help:
       heading_html: Verwerkt met %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Kopjes
       heading: Kopje
       subheading: Onderkop
@@ -2052,6 +2105,7 @@ nl:
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap- %{br} bijdragers'
+      copyright_symbol_html: '&copy;'
       used_by_html: '%{name} levert kaartgegevens aan duizenden websites, mobiele
         apps en hardware-apparaten'
       lede_text: OpenStreetMap wordt gemaakt door een gemeenschap van mappers die
@@ -2070,32 +2124,49 @@ nl:
         en de \nwebsite van de %{osm_foundation_link} voor meer informatie over de
         gemeenschap."
       community_driven_osm_blog: OpenStreetMap-blog
+      community_driven_osm_blog_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/News
       community_driven_user_diaries: gebruikersdagboeken
       community_driven_community_blogs: gemeenschapsblogs
+      community_driven_community_blogs_url: https://forum.openhistoricalmap.org/
       community_driven_osm_foundation: OSM Foundation
+      community_driven_osm_foundation_url: https://slack.openstreetmap.us/
       open_data_title: Open data
-      open_data_1_html: 'OpenStreetMap is %{open_data}: u mag de gegevens gebruiken
-        voor ieder doel, als u de naam van OpenStreetMap en haar bijdragers maar vermeldt.
-        Als u de gegevens wijzigt of uitbouwt, dan mag u het resultaat alleen onder
-        dezelfde licentie verder verspreiden. Zie voor details de %{copyright_license_link}.'
+      open_data_1_html: "<p>OpenHistoricalMap is <i>open data</i>: het staat u vrij
+        het te gebruiken voor welk doel dan ook onder de voorwaarden van de gegevens
+        die u gebruikt. OpenHistoricalMap vermeldt licentie- en bronvermeldingsvereisten
+        op objectniveau (voor zover van toepassing). Het vermelden of aanhalen van
+        OpenHistoricalMap voor het bijeenbrengen van deze gegevens wordt op prijs
+        gesteld, maar is niet verplicht. Als u de gegevens op bepaalde manieren wijzigt
+        of erop voortbouwt, mag u het resultaat alleen onder dezelfde licentie verspreiden.
+        Raadpleeg de %{copyright_license_link} voor meer informatie.</p>\n<p>Naast
+        deze website zijn er nog andere diensten waarmee u toegang kunt krijgen tot
+        OHM-gegevens. \nBekijk een lijst met beschikbare productie- en testwebsites
+        en API’s op <a href='https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Development#Environments'>onze
+        wiki-pagina</a>.</p>"
       open_data_open_data: open data
       open_data_copyright_license: auteursrechten- en licentiepagina
       legal_title: Juridisch
-      legal_1_1_html: "Deze site en gerelateerde diensten worden namens de OpenStreetMap
-        community beheerd door de \n%{openstreetmap_foundation_link} (OSMF). Het gebruik
-        van deze website en diensten is onderworpen\naan ons %{terms_of_use_link},
-        %{aup_link} en ons %{privacy_policy_link}."
+      legal_1_1_html: Deze site en vele andere verwante diensten worden namens de
+        gemeenschap formeel beheerd door het zeer informele OpenHistoricalMap-collectief.
+        Op het gebruik van alle door OHM beheerde diensten zijn onze Gebruiksvoorwaarden,
+        Beleid voor Aanvaardbaar Gebruik en ons <a href="/privacy-policy">Privacybeleid</a>
+        van toepassing.
       legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
       legal_1_1_terms_of_use: gebruiksvoorwaarden
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: beleid voor acceptabel gebruik
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: privacybeleid
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_2_1_html: |-
-        %{contact_the_osmf_link}
-        als u licentie-, copyright- of andere juridische vragen heeft.
+        Neem contact op met het OHM-team via <a href='mailto:ohm-admins@googlegroups.com'>ohm-admins@googlegroups.com</a> als u vragen heeft over licenties, auteursrecht of andere juridische kwesties.
+        <br>
       legal_2_1_contact_the_osmf: Neem contact op met de OSMF
-      legal_2_2_html: OpenStreetMap, het vergrootglaslogo en State of the Map zijn
-        %{registered_trademarks_link}.
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
+      legal_2_2_html: OpenStreetMap en het vergrootglaslogo zijn %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: geregistreerde handelsmerken van de OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Partners
     copyright:
       title: Auteursrechten en licentie
@@ -2112,27 +2183,41 @@ nl:
         native_link: Nederlandstalige versie
         mapping_link: begin met mappen
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} is %{open_data}, in licentie gegeven onder de
-          %{odc_odbl_link} (ODbL) door de %{osm_foundation_link} (OSMF).
+        introduction_1_html: <b>OpenHistoricalMap (OHM)</b> biedt historische kaarten
+          en aanverwante gegevens die door bijdragers per object in licentie zijn
+          gegeven. Wij raden bijdragers sterk aan om gegevens bij te dragen onder
+          de licentie <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>,
+          maar in het belang van de bescherming van de rechten van de makers van historische
+          gegevens, zoals academici, worden andere open licenties, zoals een combinatie
+          van CC, BY, SA, en NC, ook toegestaan. Het is uw verantwoordelijkheid om
+          de voorwaarden van de licenties te begrijpen die zijn opgenomen in de gegevens
+          die u kopieert, verspreidt, verzendt en aanpast.
+        introduction_1_registered_trademark_html: '&reg;'
         introduction_1_open_data: open data
         introduction_1_odc_odbl: Open Data Commons Open Database-licentie
+        introduction_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         introduction_1_osm_foundation: OpenStreetMap Foundation
-        introduction_2_html: |-
-          Het staat u vrij onze gegevens te kopiëren, te distribueren,
-          weer te geven en aan te passen, zo lang u OpenStreetMap en haar
-          bijdragers vermeldt. Als u onze kaarten of gegevens wijzigt of erop verder bouwt,
-          mag u het resultaat enkel onder dezelfde licentie distribueren. In de
-          volledige %{legal_code_link} worden uw rechten en verantwoordelijkheden uitgelegd.
+        introduction_1_osm_foundation_url: https://osmfoundation.org/
+        introduction_2_html: Het staat u vrij onze gegevens te kopiëren, te verspreiden,
+          door te geven en aan te passen, zolang u zich houdt aan de voorwaarden die
+          gelden voor de gegevens die u kopieert, verspreidt of aanpast. Als u de
+          gegevens op deze site wijzigt of erop voortbouwt, mag u het resultaat alleen
+          verspreiden onder de voorwaarden van de licenties van de onderliggende gegevensobjecten.
         introduction_2_legal_code: juridische tekst
-        introduction_3_html: Onze documentatie is te gebruiken onder de %{creative_commons_link}-licentie
-          (CC BY-SA 2.0).
+        introduction_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1.0/
+        introduction_3_html: De cartografie in onze kaarttegels valt onder de licenties
+          die gelden voor de objecten die in de tegels vervat zijn. Onze kaartstijlen
+          en documentatie worden onder de licentie Creative Commons Naamsvermelding
+          "Geen Rechten Voorbehouden" Publiek Domein (CC0) beschikbaar gesteld.
         introduction_3_creative_commons: Creative Commons Naamsvermelding-GelijkDelen
           2.0
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.nl
         credit_title_html: Hoe OpenStreetMap te vermelden
         credit_1_html: 'Wanneer u OpenStreetMap-gegevens gebruikt, bent u verplicht
           de volgende twee dingen te doen:'
-        credit_2_1: Vermeld OpenStreetMap door onze copyrightmelding weer te geven.
+        credit_2_1: 'Voor een doorbladerbare elektronische kaart geeft OHM er de voorkeur
+          aan dat deze facultatieve vermelding in de rechterbenedenhoek van de kaart
+          verschijnt. Bijvoorbeeld:'
         credit_2_2: Maak duidelijk dat de data beschikbaar is onder de Open Database-licentie.
         credit_3_html: Voor de auteursrechtelijke vermelding hanteren wij verschillende
           voorschriften ten aanzien van de manier waarop deze moet worden weergegeven,
@@ -2142,6 +2227,7 @@ nl:
           afbeelding hebt gemaakt. Alle details over de vereisten zijn te vinden in
           de %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: richtlijnen voor naamsvermelding
+        credit_3_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_4_1_html: Om duidelijk te maken dat de gegevens beschikbaar zijn onder
           de Open Database-licentie, kunt u een koppeling maken naar %{this_copyright_page_link}.
           Een andere mogelijkheid, en een vereiste als u OSM in de vorm van gegevens
@@ -2157,36 +2243,59 @@ nl:
             op een webpagina
           title: Voorbeeld naamsvermelding
         more_title_html: Meer informatie
-        more_1_1_html: Lees meer over het gebruik van onze gegevens en hoe u ons kunt
-          vermelden op %{osmf_licence_page_link}.
+        more_1_1_html: |-
+          Lees meer over het gebruik van onze gegevens en hoe u ons kunt vermelden op de <a
+          href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/License">OHM-licentiepagina</a>.
         more_1_1_osmf_licence_page: OSMF-licentiepagina
+        more_1_1_osmf_licence_page_url: https://osmfoundation.org/Licence
         more_2_1_html: |-
           Hoewel OpenStreetMap open data is, kunnen we geen
           gratis kaart-API voor derden aanbieden.
           Zie onze %{api_usage_policy_link}, %{tile_usage_policy_link} en %{nominatim_usage_policy_link}.
         more_2_1_api_usage_policy: API-gebruiksbeleid
+        more_2_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         more_2_1_tile_usage_policy: gebruiksbeleid voor kaarttegels
+        more_2_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         more_2_1_nominatim_usage_policy: gebruiksbeleid voor Nominatim
+        more_2_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Onze bijdragers
         contributors_intro_html: |-
           Onze bijdragers zijn duizenden individuen. OSM bevat ook
           open gelicenseerde gegevens van nationale kaartenbureaus
           en andere bronnen, waaronder:
+        contributors_cambridge-anr_html: Bevat gegevens die zijn gemaakt door het
+          project <a href="https://anrcommunes.hypotheses.org/">ANR Communes</a> van
+          <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">De
+          Cambridge-groep voor de geschiedenis van bevolking en maatschappelijke structuren</a>.
+        contributors_ned_html: Bevat gegevens uit verschillende datasets van <a href="https://www.naturalearthdata.com/">Natural
+          Earth Data</a>.
+        contributors_newberry_html: Bevat gegevens uit de <a href-"https://digital.newberry.org/ahcb/">Atlas
+          van historische graafschapsgrenzen</a> van de <a href="https://www.newberry.org/">Newberry
+          Library</a> .
+        contributors_footer_1_html: |-
+          Voor meer informatie over deze en andere bronnen die zijn gebruikt om OpenHistoricalMap te helpen verbeteren, kijkt u op de <a
+          href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/OHM_Contributors">pagina Bijdragers</a> op de wiki van OpenStreetMap.
         contributors_at_credit_html: |-
           %{austria}: Bevat gegevens van %{stadt_wien_link} (onder %{cc_by_link}), %{land_vorarlberg_link}
           en Land Tirol (onder %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Oostenrijk
         contributors_at_stadt_wien: Stad Wenen
+        contributors_at_stadt_wien_url: https://data.wien.gv.at/
         contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.nl
         contributors_at_land_vorarlberg: Deelstaat Vorarlberg
+        contributors_at_land_vorarlberg_url: https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm
         contributors_at_cc_by_at_with_amendments: CC BY AT met aanpassingen
+        contributors_at_cc_by_at_with_amendments_url: https://www.tirol.gv.at/data/nutzungsbedingungen/
         contributors_au_credit_html: |-
           %{australia}: Bevat of bouwt voort op Administratieve Grenzen &copy; %{geoscape_australia_link}
           verstrekt door het Gemenebest van Australië onder %{cc_licence_link}.
         contributors_au_australia: Australië
         contributors_au_geoscape_australia: Geoscape Australië
+        contributors_au_geoscape_australia_url: https://geoscape.com.au/legal/data-copyright-and-disclaimer/
         contributors_au_cc_licence: Creative Commons Naamsvermelding 4.0 Internationaal
           (CC BY 4.0)
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.nl
         contributors_ca_credit_html: |-
           %{canada}: Bevat gegevens van
           GeoBase&reg;, GeoGratis (&copy; Afdeling voor natuurlijke
@@ -2206,6 +2315,7 @@ nl:
           en andere datasets, onder de %{nlsfi_license_link}.
         contributors_fi_finland: Finland
         contributors_fi_nlsfi_license: NLSFI-licentie
+        contributors_fi_nlsfi_license_url: https://www.maanmittauslaitos.fi/en/opendata-licence-version1
         contributors_fr_credit_html: |-
           %{france}: Bevat gegevens van de
           Direction Générale des Impôts.
@@ -2214,28 +2324,38 @@ nl:
           en %{open_data_portal} (openbare informatie van Kroatië).'
         contributors_hr_croatia: Kroatië
         contributors_hr_dgu: Staatsgeodesisch bestuur van Kroatië
+        contributors_hr_dgu_url: https://dgu.gov.hr/
         contributors_hr_open_data_portal: Nationaal Open Data Portaal
+        contributors_hr_open_data_portal_url: https://data.gov.hr/
         contributors_nl_credit_html: '%{netherlands}: Bevat gegevens &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Nederland
+        contributors_nl_and: www.and.com
+        contributors_nl_and_url: https://www.and.com
         contributors_nz_credit_html: |-
           %{new_zealand}: Bevat gegevens uit de %{linz_data_service_link}
           beschikbaar voor hergebruik onder %{cc_by_link}.
         contributors_nz_new_zealand: Nieuw-Zeeland
         contributors_nz_linz_data_service: LINZ-datadienst
+        contributors_nz_linz_data_service_url: https://data.linz.govt.nz/
         contributors_nz_cc_by: CC BY 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.nl
         contributors_rs_credit_html: |-
           %{serbia}: Bevat gegevens van de %{rgz_link} en %{open_data_portal}
           (openbare informatie van Servië), 2018.
         contributors_rs_serbia: Servië
         contributors_rs_rgz: Servische Geodetische Autoriteit
+        contributors_rs_rgz_url: https://geosrbija.rs/
         contributors_rs_open_data_portal: Nationaal Open Data Portaal
+        contributors_rs_open_data_portal_url: https://data.gov.rs/sr/
         contributors_si_credit_html: |-
           %{slovenia}: Bevat gegevens van de %{gu_link} en %{mkgp_link}
           (publieke informatie van Slovenië).
         contributors_si_slovenia: Slovenië
         contributors_si_gu: Landmeetkundige en karteringsautoriteit
+        contributors_si_gu_url: https://www.gov.si/en/state-authorities/bodies-within-ministries/surveying-and-mapping-authority/
         contributors_si_mkgp: Ministerie van Landbouw, Bosbouw en Voedselvoorziening
+        contributors_si_mkgp_url: https://www.gov.si/en/state-authorities/ministries/ministry-of-agriculture-forestry-and-food/
         contributors_es_credit_html: |-
           %{spain}: Bevat gegevens van het
           Spaans Nationaal Geografisch Instituut (%{ign_link}) en
@@ -2243,6 +2363,9 @@ nl:
           beschikbaar voor hergebruik onder %{cc_by_link}.
         contributors_es_spain: Spanje
         contributors_es_ign: IGN
+        contributors_es_ign_url: https://www.ign.es/
+        contributors_es_scne: SCNE
+        contributors_es_scne_url: https://www.scne.es/
         contributors_es_cc_by: CC BY 4.0
         contributors_za_credit_html: '%{south_africa}: Bevat gegevens van %{ngi_link},
           staatsauteursrecht voorbehouden.'
@@ -2265,18 +2388,16 @@ nl:
           OSM-bijdragers horen nooit gegevens toe te voegen
           uit bronnen waarvan de licentie niet vrij is (bijvoorbeeld Google Maps of gedrukte kaarten)
           zonder expliciete toestemming van de auteursrechtenhouders.
-        infringement_2_1_html: |-
-          Als u van mening bent dat auteursrechtelijk beschermd materiaal ongepast
-           is toegevoegd aan de OpenStreetMap-database of deze site, raadpleeg
-           dan onze %{takedown_procedure_link} of maak rechtstreeks een melding op onze
-          %{online_filing_page_link}.
+        infringement_2_1_html: Als u van mening bent dat auteursrechtelijk beschermd
+          materiaal ongepast is toegevoegd aan de database van OpenHistoricalMap of
+          aan deze site, stuur dan een e-mail naar ohm-admins@googlegroups.com met
+          "TAKEDOWN REQUEST" in de onderwerpregel.
         infringement_2_1_takedown_procedure: verwijderingsprocedure
         infringement_2_1_online_filing_page: online meldingspagina
         trademarks_title: Handelsmerken
-        trademarks_1_1_html: |-
-          OpenStreetMap, het vergrootglaslogo en State of the Map zijn geregistreerde handelsmerken van de
-          OpenStreetMap Foundation. Als u vragen heeft over uw gebruik van de merken, zie dan ons
-          %{trademark_policy_link}.
+        trademarks_1_1_html: Als u vragen heeft over uw gebruik van de naam OpenHistoricalMap,
+          raadpleeg dan ons <a href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Copyright">Handelsmerkbeleid</a>
+          .
         trademarks_1_1_trademark_policy: handelsmerkbeleid
     index:
       js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript
@@ -2297,8 +2418,14 @@ nl:
       title: Exporteren
       manually_select: Handmatig een ander gebied selecteren
       licence: Licentie
-      licence_details_html: OpenStreetMap-gegevens zijn gelicentieerd onder de %{odbl_link}
-        (ODbL).
+      licence_details_html: OpenHistoricalMap (OHM) biedt historische kaarten en aanverwante
+        gegevens die door bijdragers per object in licentie zijn gegeven. Wij raden
+        bijdragers sterk aan om gegevens bij te dragen onder de licentie CC0, maar
+        in het belang van de bescherming van de rechten van de makers van historische
+        gegevens, zoals academici, worden andere open licenties, zoals een combinatie
+        van CC, BY, SA, en NC, ook toegestaan. Het is uw verantwoordelijkheid om de
+        voorwaarden van de licenties te begrijpen die zijn opgenomen in de gegevens
+        die u kopieert, verspreidt, verzendt en aanpast.
       odbl: Open Data Commons Open Database-licentie
       too_large:
         advice: 'Als de bovenstaande export mislukt, overweeg dan één van de onderstaande
@@ -2332,14 +2459,15 @@ nl:
             of corrigeren.
         add_a_note:
           instructions_1_html: |-
-            Klik op %{note_icon} of hetzelfde pictogram op de kaartweergave.
+            Klik op <a class='icon note'></a> of hetzelfde pictogram op de kaartweergave.
             Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen
-            door haar te verslepen. Voeg uw bericht toe, klik op "opslaan" en andere mappers zullen uw melding nagaan.
+            door deze te verslepen. Voeg uw bericht toe en klik op “Opslaan”, dan zullen andere kaartmakers uw melding nagaan.
       other_concerns:
         title: Andere aangelegenheden
-        concerns_html: |-
-          Als u vragen hebt over hoe onze gegevens worden gebruikt of over de inhoud, raadpleeg dan onze
-          %{copyright_link} voor meer juridische informatie, of neem contact op met de juiste %{working_group_link}.
+        concerns_html: Als u vragen hebt over het gebruik van onze gegevens of over
+          de inhoud, raadpleeg dan onze <a href='/copyright'>copyright-pagina</a>
+          voor meer juridische informatie, of neem contact op met het juiste <a href='https://openhistoricalmap.org'>e-mailadres</a>
+          .
         copyright: pagina auteursrechten
         working_group: OSMF-werkgroep
     help:
@@ -2376,6 +2504,26 @@ nl:
         title: Voor bedrijven
         description: Hoort u bij een organisatie die plannen maakt voor OpenStreetMap?
           Vind wat u moet weten in de welkomstmat.
+      discord:
+        title: Discord
+        description: 'Sluit u aan bij de OpenStreetMap World Discord-server en krijg
+          hulp in het kanaal #openhistoricalmap.'
+      forum:
+        title: Forum
+        description: Neem deel aan langere discussies en informele chatrooms met uw
+          OHM-account.
+      github:
+        url: https://github.com/OpenHistoricalMap/
+        title: Functieverzoeken en bugs
+        description: Dien een probleem in onze GitHub-opslagplaatsen in om een bug
+          te melden of een nieuwe functie aan te vragen.
+      mailing_list:
+        title: Mailinglijsten
+        description: Abonneer u op onze mailinglijst met een laag volume.
+      slack:
+        title: Slack
+        description: 'Nodig uzelf uit voor de OpenStreetMap US Slack-werkruimte en
+          sluit u aan bij het kanaal #openhistoricalmap.'
       wiki:
         title: OpenStreetMap Wiki
         description: In de wiki kijken voor diepgaande documentatie over OpenStreetMap.
@@ -2390,12 +2538,12 @@ nl:
       change_preferences: Wijzig hier uw voorkeuren
     any_questions:
       title: Nog vragen?
-      paragraph_1_html: OpenStreetMap heeft verschillende bronnen voor het leren over
-        het project, het stellen en beantwoorden van vragen, en het gezamenlijk bespreken
-        en documenteren van kaartonderwerpen. %{help_link}. Bent u van een organisatie
-        die plannen maakt voor OpenStreetMap? %{welcome_mat_link}.
+      paragraph_1_html: OpenHistoricalMap biedt verschillende bronnen voor het leren
+        over het project, het stellen en beantwoorden van vragen, en het gezamenlijk
+        bespreken en documenteren van cartografische onderwerpen. %{help_link}.
       get_help_here: Zoek hier hulp
       welcome_mat: Bekijk de welkomstmat
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Zoekresultaten
     search:
@@ -2475,7 +2623,7 @@ nl:
           beach: Strand
           reserve: Natuurreservaat
           military: Militair gebied
-          school: School; universiteit
+          school: School
           university: Universiteit
           hospital: Ziekenhuis
           building: Belangrijk gebouw
@@ -2528,10 +2676,9 @@ nl:
         tag: label
       rules:
         title: Regels!
-        para_1_html: OpenStreetMap heeft weinig formele regels. Wel verwachten we
-          van alle deelnemers dat ze samenwerken en communiceren met de gemeenschap.
-          Als u andere activiteiten overweegt dan handmatig bewerken, lees en volg
-          dan de richtlijnen op %{imports_link} en %{automated_edits_link}.
+        para_1_html: OpenHistoricalMap heeft weinig formele regels. Wel verwachten
+          we van alle deelnemers dat ze beleefd en respectvol samenwerken en communiceren
+          met de gemeenschap.
         imports: Importeringen
         automated_edits: Geautomatiseerde bewerkingen
       start_mapping: Beginnen met kaarten maken
@@ -2543,7 +2690,7 @@ nl:
           toevoegen.
         para_2_html: |-
           Ga naar %{map_link} en klik op het opmerkingssymbool:
-          %{note_icon}. Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen door te slepen. Voeg uw bericht toe en klik dan op Opslaan, zodat andere mappers het kunnen onderzoeken.
+          %{note_icon}. Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen door te slepen. Voeg uw bericht toe en klik op “Opslaan”, dan zullen andere kaartmakers uw melding nagaan.
         the_map: de kaart
     communities:
       title: Gemeenschappen
@@ -2565,6 +2712,285 @@ nl:
           als informele bijeenkomst van mensen of als gemeenschapsgroep. Iedereen
           kan deze opzetten of er lid van worden. Lees meer op de %{communities_wiki_link}.
         communities_wiki: Wiki-pagina community's
+    ohm_privacy_policy:
+      page_title_html: Privacybeleid
+      introduction:
+        title_html: Inleiding
+        1_html: In dit document wordt het '''privacybeleid''' van OpenHistoricalMap
+          (OHM) uiteengezet voor de diensten die formeel worden beheerd en geleverd
+          via het domein <a href='http://openhistoricalmap.org' target='_blank' rel='noopener'>openhistoricalmap.org</a>
+          en de subdomeinen ervan. In het bijzonder zijn dit
+        2_1_html: De OHM-website (<a href='/' target='_blank' rel='noopener'>openhistoricalmap.org</a>)
+          en de bijbehorende services en API’s
+        3_html: Er wordt in beschreven welke persoonlijke gegevens wij van u kunnen
+          verzamelen, wie deze gegevens kan inzien en welke opties u hebt om hier
+          controle over uit te oefenen. Wij waarderen uw privacy en streven naar een
+          evenwicht tussen de legitieme belangen van het OpenHistoricalMap-project
+          en uw belangen en rechten.</p><p>Dit document is voornamelijk bedoeld voor
+          bijdragers aan OpenHistoricalMap.
+      why:
+        title_html: Waarom bewaren en verwerken wij persoonsgegevens?
+        1_html: Het doel van het OpenHistoricalMap-project is om iedereen open historische
+          geografische gegevens te bieden, zoals stratenkaarten of historische gebouwcontouren,
+          spoorwegen, paden, enz.
+        2_html: 'Om het doel te bereiken van het verspreiden van gegevens die echt
+          open zijn, ongebonden door rechten van derden en van hoge kwaliteit, ondersteunen
+          we geen anonieme bijdragen en bewaren we aanvullende, niet-geografische
+          gegevens op basis van legitiem belang (zie <a href="https://avgb.nl/art-6-avg/"
+          target="_blank" rel="noopener">artikel 6.1f van de AVG</a>). Dit maakt het
+          volgende mogelijk:'
+        2_1_html: Identificatie van alle bijdragen van een account
+        2_2_html: Contact opnemen met de inzender bij vragen over de aard en herkomst
+          van de bijdragen
+        2_3_html: Opsporen, verwijderen en corrigeren van spamaccounts, vandalisme
+          en schendingen van de rechten van derden
+        2_4_html: Het faciliteren van de communicatie tussen OpenHistoricalMap-bijdragers
+        2_5_html: Onderzoek en analyse van geaggregeerde bijdragen om OHM-diensten
+          te verbeteren of te prioriteren, zoals het evalueren van de doeltreffendheid
+          van het in kaart brengen en de volledigheid van de kaarten, en het bepalen
+          of locaties of kaartmakers onevenredig vertegenwoordigd zijn
+      what:
+        title_html: Welke gegevens bewaren en verwerken wij?
+        1_html: Gegevens uit bijdragen aan OpenHistoricalMap.
+        2_html: 'Naast de bijgedragen geografische gegevens (punten, lijnen en gebieden
+          met bijbehorende kenmerken en GPS-traceringsgegevens) en communicatiegerelateerde
+          gegevens (dagboekberichten en -reacties, de gebruikerspagina, wijzigingenreeks-opmerkingen,
+          berichten) slaan we het volgende op:'
+        2_1_html: Metagegevens van de bewerkingssessie. Bijvoorbeeld door de gebruiker
+          toegevoegde opmerkingen, elke door de bewerkingsapplicatie toegevoegde versie
+          en vergelijkbare informatie, welke bewerkingsapplicatie en welke luchtfotolagen
+          zijn gebruikt.
+        2_2_html: Gebruikers-ID en inlognaam van de auteur van elke wijziging aan
+          een object en het tijdstip waarop die wijziging heeft plaatsgevonden.
+        2_3_html: Het aan uw account gekoppelde e-mailadres
+        2_4_html: Alle blokkades die aan de gebruiker zijn opgelegd en bijbehorende
+          berichten
+        2_5_html: Netwerktoegangsgegevens (bijvoorbeeld IP-adressen) voor de systemen
+          en diensten die door OHM worden beheerd.
+      who:
+        title_html: Wie heeft toegang tot de gegevens?
+        1_html: We delen geen aan accounts gekoppelde e-mailadressen met derden. Berichten
+          van gebruiker tot gebruiker zijn zichtbaar voor de verzender en ontvanger,
+          andere toegang is beperkt tot onze operationele medewerkers en alleen indien
+          vereist voor operationele redenen, om ons beleid voor acceptabel gebruik
+          af te dwingen, om te voldoen aan wettelijke verplichtingen en met name om
+          spam te voorkomen.
+        2_html: Ook worden netwerktoegangsgegevens alleen voor interne doeleinden
+          gebruikt en is de toegang beperkt tot operationeel personeel voor operationele
+          doeleinden en ter bescherming tegen vandalisme en spam.
+        3_html: De overige gegevens worden, afhankelijk van het gebruiksgeval, beschikbaar
+          gesteld via de website, via de bewerkings-API en via onze gegevensdumps,
+          aan gebruikers met accounts en aan het grote publiek. Sommige niet-geografische
+          gegevens zijn mogelijk alleen beschikbaar via bepaalde methoden, maar dit
+          is aan verandering onderhevig.
+      where:
+        title_html: Waar slaan we de gegevens op?</h3>
+        1_html: De website, API-servers, databases en de servers voor hulpdiensten
+          zijn momenteel ondergebracht bij Amazon Web Services in de oostkust-regio
+          van de Verenigde Staten.
+        2_html: 'Kaarttegels worden geleverd door een wereldwijd netwerk van cache-servers.
+          De tegelserver waartoe uw browser of app toegang heeft, wordt dynamisch
+          bepaald door geolocatie van het IP-adres en de selectie van de cacheserver
+          die het “dichtst” bij u is. Hoewel dit over het algemeen betekent dat u
+          de tegelcache gebruikt die fysiek het dichtst bij u is, kan dit worden beïnvloed
+          door:'
+        2_1_html: Onzekerheden bij het bepalen van de locatie van de cliënt op basis
+          van diens IP-adres
+        2_2_html: Operationele problemen (serveruitval, enz.)
+        2_3_html: Netwerktopologie en -belasting
+      how:
+        title_html: Hoe kunt u de verwerking van uw gegevens controleren en privacygerelateerde
+          problemen verminderen?</h3>
+        1_html: 'Hoewel dit niet wettelijk verplicht is, bieden wij u het volgende
+          mechanisme om de blootstelling van mogelijk privacygerelateerde informatie
+          te beperken:'
+        1_1_html: U kunt een niet-identificerende loginnaam kiezen en deze op elk
+          gewenst moment wijzigen
+        1_2_html: U bent niet verplicht om persoonlijke gegevens op te nemen in dagboekberichten,
+          opmerkingen, e-maillijstberichten, de wiki of andere OHM-communicatiemethoden,
+          en u kunt dagboekberichten op elk gewenst moment verwijderen via uw account.
+        1_3_html: |-
+          U kunt uw account laten verwijderen (zie de beperkingen hieronder). Normaal gesproken hoeft u een account op openstreetmap.org niet te sluiten/verwijderen. Het is geen probleem om het gewoon inactief te laten. Wilt u identificerende informatie verwijderen? Het is eenvoudig om uw weergavenaam te wijzigen en uw profielbeschrijving te bewerken. Als u om een of andere reden uw account volledig wilt verwijderen:
+          Meld u aan, ga dan naar Mijn instellingen en gebruik de knop ‘Account verwijderen…’. Let op de waarschuwing: het verwijderen van het account is definitief en kan niet ongedaan worden gemaakt! U ziet ook details over wat er precies wordt verwijderd.
+        2_html: Als u uw privacy belangrijk vindt, moet u de ondersteuning voor Gravatar
+          niet inschakelen en geen e-mailadres gebruiken dat u aan een Gravatar hebt
+          gekoppeld.
+        3_html: U kunt de blootstelling verder beperken door geen persoonlijke informatie
+          toe te voegen aan de kaartgegevens (persoonsnamen en dergelijke). Dergelijke
+          informatie wordt over het algemeen niet beschouwd als een nuttige aanvulling
+          op onze gegevens en u dient deze niet toe te voegen.
+      right_to_object:
+        title_html: Recht op bezwaar
+        1_html: U hebt het <a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank"
+          rel="noopener">recht om bezwaar te maken</a> tegen verwerking op basis van
+          de gerechtvaardigde belangen van de verwerkingsverantwoordelijke.
+      details:
+        title_html: Gedetailleerde informatie
+      trace_data:
+        title_html: Gps-trajectgegevens
+        1_html: Het uploaden van GPS-gegevens is geheel optioneel en geen vereiste
+          voor bijdragen aan OpenHistoricalMap. Als u GPS-gegevens indient, worden
+          deze geüpload in de vorm van afzonderlijke GPX-bestanden. Deze worden bewaard
+          als ruwe bestanden en geïmporteerd in de database. GPX-bestanden kunnen
+          door de uploader <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
+          target="_blank" rel="noopener">als openbaar</a> worden gemarkeerd; dit heeft
+          niets te maken met de optie om iemands ''bewerkingen'' “openbaar” te maken.
+        2_html: Wanneer GPS-gegevens voor een gebied via de API worden gedownload,
+          wordt er geen indicatie gegeven van welke gebruiker een punt heeft geüpload,
+          of van het tijdstip dat aan het punt was gekoppeld. Punten worden echter
+          in tijdstipvolgorde geretourneerd. GPS-gegevens die op deze manier worden
+          gedownload, bevatten punten van sporen die niet als openbaar zijn gemarkeerd.
+        3_html: Als een GPS-tracering bij het uploaden als openbaar wordt gemarkeerd,
+          kan de ruwe tracering worden gedownload van de website of met behulp van
+          een API-oproep. In dit geval wordt de weergavenaam van de gebruiker weergegeven
+          (ongeacht of de gebruiker diens ''bewerkingen'' openbaar heeft gemaakt)
+          en worden de tijdstempels in het GPX-bestand opgenomen. Ook alle aanvullende
+          informatie die in het GPX-bestand is geplaatst, blijft aanwezig, bijvoorbeeld
+          wegpunten met hun namen en/of ingevoerde notities, bijbehorende symbolen,
+          hoogtegegevens, enz. Als u zich zorgen maakt over uw privacy, wordt u aangeraden
+          vóór het uploaden dergelijke informatie uit de gegevens verwijderen en voldoende
+          informatie van het begin en einde van de tracering af te snijden om zo het
+          begin en de bestemming te verbergen.
+      map_data:
+        title_html: Kaartgegevens
+        1_html: Alle wijzigingen die aan de kaart zijn aangebracht worden opgenomen
+          in de database met de ID van de gebruiker die de wijziging heeft aangebracht
+          en het tijdstip waarop de wijziging is ingediend. Al deze gegevens worden
+          doorgaans ook via de website aan iedereen ter beschikking gesteld, met koppelingen
+          zodat iedereen eenvoudig kan zien welke gebruiker welke bewerking heeft
+          aangebracht.
+        2_html: Bewerkingsprogramma’s (zoals JOSM en iD) kunnen verdere gegevens in
+          de database opslaan die relevant kunnen zijn voor uw privacy. Zie de respectieve
+          auteurs en distributeurs van de programma’s voor meer informatie. iD en
+          JOSM kunnen bijvoorbeeld de taalinstellingen van uw apparaat toevoegen aan
+          de metagegevens van elk wijzigingengroep, en het merk en het besturingssysteem
+          van het apparaat kunnen zichtbaar zijn in de verzonden versie-tekenreeksen.
+      home_location:
+        title_html: Thuislocatie gebruiker
+        1_html: Na het instellen van een thuislocatie verschijnt de gebruiker op de
+          lijst “nabije kaartmakers” voor andere mensen met een nabije thuislocatie.
+          Dit is een optie in uw accountinstellingen.
+      email:
+        title_html: E-mailadressen
+        1_html: Het geregistreerde e-mailadres voor een OHM-gebruikersaccount wordt
+          nooit opzettelijk op internet gepubliceerd, gedeeld met organisaties van
+          derden of rechtstreeks aan andere gebruikers onthuld. E-mailadressen worden
+          door de server gebruikt om de gebruiker te informeren als een andere gebruiker
+          een bericht via de website heeft verzonden en voor andere door het systeem
+          gegenereerde meldingen.
+        2_html: Alleen systeembeheerders hebben rechtstreeks toegang tot de e-mailadresgegevens
+          die zijn verbonden met het OHM-account. Zo kunnen zij rechtstreeks contact
+          opnemen met gebruikers over hun bewerkingen of andere met OpenHistoricalMap
+          in verband staande problemen.
+        3_html: E-mailadressen die gekoppeld zijn aan wiki-, forum- en helpsite-accounts
+          worden apart van de OHM-gebruikersaccountgegevens opgeslagen in de betreffende
+          systemen. Deze adressen worden gebruikt voor meldingen en communicatie tussen
+          gebruikers (indien ingeschakeld). Deze adressen zijn niet openbaar zichtbaar
+          en worden niet gedeeld met derden, maar kunnen wel zichtbaar zijn voor de
+          beheerders van de systemen.
+      gravatar:
+        title_html: Gravatar
+        1_html: De website <a href="http://openhistoricalmap.org" target="_blank"
+          rel="noopener">openhistoricalmap.org</a> ondersteunt de weergave van <a
+          href="http://gravatar.com/" target="_blank" rel="noopener">Gravatars</a>.
+          Deze worden opgehaald van <a href="http://gravatar.com" target="_blank"
+          rel="noopener">gravatar.com</a> door op basis van uw e-mailadres een wereldwijd
+          unieke sleutel te genereren. Onze websitesoftware controleert bij de eerste
+          aanmelding en bij elke wijziging van het e-mailadres of u een Gravatar hebt
+          voor het nieuwe adres en begint deze weer te geven als er een bestaat. U
+          kunt dit stoppen door de Gravatar-ondersteuning uit te schakelen in uw accountinstellingen.
+          U moet zich ervan bewust zijn dat, als er een Gravatar wordt weergegeven,
+          de sleutel kan worden gebruikt om uw account te volgen op elke website die
+          Gravatar-ondersteuning heeft.
+      voluntarily:
+        title_html: Gegevens die u vrijwillig aan uw profiel of dagboekberichten toevoegt
+        1_html: Het is niet verplicht uw profiel in te vullen of dagboekberichten
+          te plaatsen. Door vrijwillig persoonlijke gegevens in te voeren in uw gebruikersprofiel
+          of dagboekberichten, stemt u ermee in dat die gegevens openbaar beschikbaar
+          zijn en door OHM worden opgeslagen, zolang u een OHM-account aanhoudt. U
+          kunt uw openbare profiel of uw dagboekberichten op elk gewenst moment bewerken
+          om dergelijke informatie te verwijderen als u van gedachten verandert.
+      automatically:
+        title_html: Gegevens die wij automatisch ontvangen
+        1_html: OHM exploiteert een aantal diensten voor de OHM-gemeenschap. Voorbeelden
+          hiervan zijn de website <a href="/" target="_blank" rel="noopener">openhistoricalmap.org</a>,
+          de online kaart met standaard OHM-vectortegels, de OHM-API en de Nominatim-zoekfunctie.
+        2_html: Wanneer u een OHM-website bezoekt, of via een browser of via applicaties
+          die gebruikmaken van de aangeboden API’s een van de diensten benadert, wordt
+          dat gebruik bijgehouden. Wij verzamelen gegevens over uw browser of applicatie
+          en uw interactie met onze website, waaronder (a) IP-adres, (b) browser-
+          en apparaattype en besturingssysteem, (d) de verwijzende webpagina, (e)
+          de datum en tijd van paginabezoeken en (f) de pagina’s die op onze websites
+          zijn bezocht.
+        3_html: Daarnaast kunnen wij software gebruiken voor het bijhouden van gebruikersinteracties,
+          die aanvullende gegevens over de gebruikersactiviteit genereert, bijvoorbeeld
+          Piwik.
+        4_html: Diensten die gebruikmaken van Geo-DNS of vergelijkbare mechanismen
+          om de systeembelasting te verdelen over geografisch verspreide servers,
+          genereren mogelijk op grote schaal gegevens over uw locatie.
+        5_html: Deze gegevens kunnen op de volgende manieren worden gebruikt:</p>
+        5_1_html: Ter ondersteuning van de werking van de diensten vanuit technisch,
+          veiligheids- en planningsoogpunt
+        5_2_html: Als geanonimiseerde, samengevatte gegevens voor onderzoek en andere
+          doeleinden. Dergelijke gegevens kunnen openbaar worden aangeboden via <a
+          href="https://planet.openhistoricalmap.org" target="_blank" rel="noopener">https://planet.openhistoricalmap.org</a>
+          of andere kanalen en worden gebruikt door derden
+        5_3_html: Om de OpenHistoricalMap-dataset te verbeteren. Bijvoorbeeld door
+          Nominatim-query’s te analyseren op ontbrekende adressen en postcodes en
+          dergelijke gegevens te verstrekken aan de OHM-gemeenschap
+        6_html: De gegevens die op de systemen worden verzameld zijn toegankelijk
+          voor de systeembeheerders. Er worden geen persoons- of persoonsgebonden
+          gegevens vrijgegeven aan derden, tenzij de wet ons daartoe verplicht.
+        7_html: De door Piwik opgeslagen IP-adressen worden ingekort tot twee bytes.
+          Gedetailleerde gebruiksinformatie wordt 180 dagen bewaard.
+        8_html: Gezien het tijdelijke karakter van deze opslag is het voor ons doorgaans
+          niet haalbaar om toegang te verlenen tot IP-adressen of de daaraan gekoppelde
+          logboeken.
+        9_html: De hierboven genoemde gegevens worden verwerkt op basis van een gerechtvaardigd
+          belang (zie de <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank"
+          rel="noopener">AVG, artikel 6.1f</a>).
+      account_removal:
+        title_html: Accountverwijdering
+        1_html: U kunt verzoeken om uw account te laten verwijderen. Wij zullen dergelijke
+          verzoeken zoveel mogelijk honoreren.
+        2_html: Als u niet actief aan het project hebt bijgedragen, bewaren wij geen
+          gegevens. Gebruikerspagina’s, dagboekberichten en dergelijke worden verwijderd.
+        3_html: Als u een bijdrage hebt geleverd, wordt uw account hernoemd naar user_''USERID''
+          (waarbij USERID uw oude OHM-gebruikersnaam is) en worden bijdragen en commentaren
+          bij wijzigingengroepen onder deze naam bewaard. Uw dagboek en uw gebruikerspagina
+          worden verwijderd. Omdat we geen anonieme bewerkingen toestaan, bewaren
+          we privé uw e-mailadres voor het geval het noodzakelijk is contact met u
+          op te nemen over uw bijdragen.
+        4_html: Wiki- en forumaccounts worden hernoemd naar een pseudo-anonieme naam,
+          maar blijven verder zoals ze zijn. U kunt uzelf afmelden van alle mailinglijsten,
+          maar u moet zich realiseren dat persoonlijke kopieën die in het bezit zijn
+          van de ontvangers van alle mails die u naar de lijsten hebt gestuurd niet
+          kunnen worden verwijderd. Dat geldt ook voor de archieven op <a href="https://lists.openstreetmap.org"
+          target="_blank" rel="noopener">lists.openstreetmap.org</a>.
+        5_html: In uw verzoek tot accountverwijdering moet u alle relevante accounts
+          aangeven. Wij hebben namelijk geen informatie over welke accounts bij welke
+          OpenHistoricalMap-gebruikers horen.
+      cookies:
+        title_html: Cookies
+        1_html: Talrijke OHM-diensten gebruiken cookies om informatie over uw login
+          en sitenavigatiestatus op te slaan. We gebruiken ook cookies en vergelijkbare
+          technologieën om uw gebruik van onze websites te herkennen en te verbeteren.
+          U kunt cookies van uw computer verwijderen. Ook bieden de meeste browsers
+          de optie om ze te blokkeren. Als u cookies die door ons zijn geplaatst (first
+          party cookies) blokkeert, hebt u geen toegang tot delen van de OHM-websites
+          en -diensten waarvoor aanmelden vereist is. Uw toegang tot onze websites
+          wordt echter niet beïnvloed als u door derden geplaatste cookies blokkeert.
+      contact:
+        title_html: Contact
+        1_html: Als u vragen of opmerkingen hebt over dit beleid, neem dan contact
+          op met de beheerders van OHM via <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.
+        2_html: Als u van mening bent dat wij over informatie beschikken waarmee wij
+          onjuiste informatie over u kunnen corrigeren, wijzigen of verwijderen, of
+          als u van mening bent dat informatie over u in strijd met dit privacybeleid
+          is verwerkt, stuur ons dan een e-mail op <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.<br>
+          Merk op dat u uw gebruikersnaam, het e-mailadres dat aan uw account is gekoppeld
+          en uw thuislocatie via uw account kunt wijzigen zonder dat u contact hoeft
+          op te nemen met OHM.
   traces:
     visibility:
       private: Persoonlijk (alleen gedeeld als anoniem; ongeordende punten)
@@ -2638,14 +3064,15 @@ nl:
       details_without_tags_html: '%{time_ago} door %{user}'
     index:
       public_traces: Openbare gps-trajecten
-      my_gps_traces: Mijn GPS-traces
+      my_gps_traces: Mijn gps-trajecten
       public_traces_from: Openbare gps-trajecten van %{user}
       description: Door recente gps-traject-uploads bladeren
       tagged_with: ' gelabeld met %{tags}'
       empty_title: Hier nog niets
-      empty_upload_html: '%{upload_link} of lees meer over GPS-tracering op de %{wiki_link}.'
-      upload_new: Upload een nieuwe tracering
+      empty_upload_html: '%{upload_link} of lees meer over gps-trajecten op de %{wiki_link}.'
+      upload_new: Upload een nieuw traject
       wiki_page: wikipagina
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Traject uploaden
       all_traces: Alle trajecten
       my_traces: Mijn trajecten
@@ -2832,11 +3259,13 @@ nl:
       consider_pd: Met inachtneming van bovenstaande, bevinden mijn bijdragen zich
         in het publieke domein
       consider_pd_why: wat is dit?
+      consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Informatie om deze termen te helpen begrijpen: een %{readable_summary_link}
         en enkele %{informal_translations_link}'
       readable_summary: voor mensen leesbare samenvatting
       informal_translations: informele vertalingen
       continue: Doorgaan
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: Lees de nieuwe Bijdragersvoorwaarden en besluit
         daarna deze te accepteren of te verwerpen voordat u door kunt gaan.
       legale_select: 'Selecteer het land waarin u woont:'
@@ -2848,6 +3277,7 @@ nl:
       terms_declined_html: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
         niet te accepteren. Zie %{terms_declined_link} voor meer informatie.
       terms_declined_link: deze wiki-pagina
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Deze gebruiker bestaat niet
       heading: De gebruiker %{user} bestaat niet
@@ -2877,7 +3307,7 @@ nl:
       notes: Kaartopmerkingen
       remove as friend: Vriend verwijderen
       add as friend: Vriend toevoegen
-      mapper since: 'Mapper sinds:'
+      mapper since: 'Kaartmaker sinds:'
       last map edit: 'Recentste bewerking:'
       no activity yet: Nog geen activiteit
       uid: 'Gebruikers-ID:'
@@ -2948,20 +3378,21 @@ nl:
       heading: Uw ID is nog niet gekoppeld aan een OpenStreetMap-account.
       option_1: Indien u nieuw bent bij OpenStreetMap, kunt u met het onderstaande
         formulier een account aanmaken.
-      option_2: Als u al een account hebt, kunt u hieronder met uw gebruikersnaam
-        en wachtwoord aanmelden en daarna uw ID aan uw account koppelen in uw instellingen.
+      option_2: Als u al een account hebt, kunt u zich hieronder met uw gebruikersnaam
+        en wachtwoord aanmelden en daarna in uw instellingen uw ID aan uw account
+        koppelen.
   user_role:
     filter:
-      not_a_role: '"%{role}" is geen geldige rol.'
+      not_a_role: De tekenreeks ‘%{role}’ is geen geldige rol.
       already_has_role: De gebruiker heeft de rol %{role} al.
       doesnt_have_role: De gebruiker heeft de rol %{role} niet.
       not_revoke_admin_current_user: Kan administratorrol van de huidige gebruiker
         niet laten vallen.
     grant:
-      are_you_sure: Weet u zeker dat u de rol "%{role}" aan gebruiker "%{name}" wilt
+      are_you_sure: Weet u zeker dat u de rol ‘%{role}’ aan gebruiker ‘%{name}’ wilt
         toekennen?
     revoke:
-      are_you_sure: Weet u zeker dat u de rol "%{role}" van gebruiker "%{name}" wilt
+      are_you_sure: Weet u zeker dat u de rol ‘%{role}’ van gebruiker ‘%{name}’ wilt
         intrekken?
   user_blocks:
     model:
@@ -3008,7 +3439,7 @@ nl:
       active_blocks:
         one: '%{count} actieve blokkering'
         other: '%{count} actieve blokkeringen'
-      revoke: Intrekken
+      revoke: Intrekken!
       flash: Alle actieve blokkeringen zijn ingetrokken.
     helper:
       time_future_html: Vervalt over %{time}.
@@ -3138,9 +3569,9 @@ nl:
         %{disappear_in}.
     new:
       title: Nieuwe opmerking
-      intro: Een fout gezien of ontbreekt er iets? Laat het andere mappers weten zodat
-        wij het kunnen oplossen. Verplaats de markering naar de correcte positie en
-        beschrijf het probleem.
+      intro: Een fout gezien? Ontbreekt er iets? Laat het andere kaartmakers weten
+        zodat wij het kunnen verbeteren. Verplaats de markering naar de juiste positie
+        en beschrijf het probleem.
       anonymous_warning_html: U bent niet aangemeld. Als u updates van uw aantekening
         wilt ontvangen, kunt u %{log_in} of %{sign_up}.
       anonymous_warning_log_in: aanmelden
@@ -3151,6 +3582,7 @@ nl:
       add: Opmerking toevoegen
     notes_paging_nav:
       showing_page: Pagina %{page}
+      next: Volgende
   javascripts:
     close: Sluiten
     share:
@@ -3193,6 +3625,10 @@ nl:
           one: U bevindt zich binnen %{count} voet van dit punt
           other: U bevindt zich binnen %{count} voet van dit punt
       base:
+        historical: Historisch
+        woodblock: Blokdruk
+        japanesescroll: Japanse hangende rol
+        railway: Spoorweg
         standard: Standaard
         cycle_map: Fietskaart
         transport_map: Transportkaart
@@ -3205,10 +3641,12 @@ nl:
         gps: Openbare gps-trajecten
         overlays: Overlays inschakelen om fouten in de kaart te helpen identificeren
         title: Lagen
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: OpenStreetMap-bijdragers
       make_a_donation: Doe een gift
       website_and_api_terms: Website- en API-voorwaarden
       cyclosm_credit: Kaartstijl door %{cyclosm_link} gehost door %{osm_france_link}
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap Frankrijk
       thunderforest_credit: Tegels met dank aan %{thunderforest_link}
       andy_allan: Andy Allan
@@ -3298,16 +3736,16 @@ nl:
         slight_left_without_exit: Flauwe bocht naar links naar %{name}
         via_point_without_exit: (via punt)
         follow_without_exit: Volg %{name}
-        roundabout_without_exit: Op de rotonde neem afslag naar %{name}
+        roundabout_without_exit: Neem op de rotonde de afslag naar %{name}
         leave_roundabout_without_exit: Verlaat de rotonde - %{name}
         stay_roundabout_without_exit: Blijf op de rotonde - %{name}
         start_without_exit: Start bij %{name}
         destination_without_exit: Bestemming bereiken
         against_oneway_without_exit: Ga tegen het verkeer in op %{name}
         end_oneway_without_exit: Einde van eenrichtingsverkeer op %{name}
-        roundabout_with_exit: Neem op de rotonde afslag %{exit} naar %{name}
-        roundabout_with_exit_ordinal: Neem op de rotonde afslag %{exit} naar %{name}
-        exit_roundabout: Verlaat de rotonde naar %{name}
+        roundabout_with_exit: Neem op de rotonde de afslag %{exit} naar %{name}
+        roundabout_with_exit_ordinal: Neem op de rotonde de afslag %{exit} naar %{name}
+        exit_roundabout: Verlaat de rotonde richting %{name}
         unnamed: naamloos
         courtesy: Routebeschrijving met dank aan %{link}
         exit_counts:

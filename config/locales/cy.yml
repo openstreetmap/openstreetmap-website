@@ -60,6 +60,7 @@ cy:
       message: Neges
       node: Nod
       node_tag: Tag Nod
+      notifier: Hysbysydd
       old_node: Hen Nod
       old_node_tag: Tag Hen Nod
       old_relation: Hen Berthynas
@@ -262,6 +263,7 @@ cy:
   auth:
     providers:
       none: Dim
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -321,10 +323,12 @@ cy:
       current email address: Cyfeiriad e-bost cyfredol
       external auth: Dilysu Allanol
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: beth yw hwn?
       public editing:
         heading: Golygu cyhoeddus
         enabled: Galluogwyd. Ddim yn anhysbys ac yn gallu golygu data.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: beth yw hwn?
         disabled link text: pam na allaf olygu?
       contributor terms:
@@ -335,11 +339,12 @@ cy:
           newydd.
         agreed_with_pd: Rydych hefyd wedi datgan eich bod yn ystyried bod eich golygiadau
           yn y Parth Cyhoeddus.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: beth yw hwn?
       save changes button: Cadw newidiadau
       delete_account: Dileu cyfrif...
     go_public:
-      heading: Golygu cyhoeddus
+      heading: 'Golygu cyhoeddus:'
       currently_not_public: Ar hyn o bryd mae eich golygiadau yn ddienw ac ni all
         pobl anfon negeseuon atoch na gweld eich lleoliad. Er mwyn dangos beth wnaethoch
         chi ei olygu a chaniatáu i bobl gysylltu â chi drwy'r wefan, cliciwch y botwm
@@ -501,14 +506,11 @@ cy:
   changeset_comments:
     feeds:
       comment:
-        comment: Sylw newydd ar grŵp newid %{changeset_id} gan %{author}
+        comment: 'Sylw newydd ar grŵp newid #%{changeset_id} gan %{author}'
         commented_at_by_html: Diweddarwyd %{when} gan %{user}
       show:
-        title_all: Trafodaeth grŵp newid OpenStreetMap
-        title_particular: Trafodaeth grŵp newid OpenStreetMap %{changeset_id}
-      timeout:
-        sorry: Sori, cymerodd yn rhy hir i adalw rhestr o sylwadau grŵp newid y gofynnoch
-          amdanynt.
+        title_all: Trafodaeth grŵp newid OpenHistoricalMap
+        title_particular: Trafodaeth grŵp newid OpenHistoricalMap %{changeset_id}
   changesets:
     changeset:
       no_edits: (dim golygiadau)
@@ -530,7 +532,7 @@ cy:
         title: Grŵp newid %{id}
         title_comment: Grŵp newid %{id} - %{comment}
         created: Crëwyd
-        closed: Caëwyd
+        closed: Wedi cau
         belongs_to: Awdur
     subscribe:
       heading: Tanysgrifio i'r drafodaeth grŵp newid ganlynol?
@@ -546,13 +548,13 @@ cy:
       body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r id %{id}. Gwiriwch eich
         sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
     show:
-      title: 'Grŵp newid: %{id}'
+      title: '%{id}'
       created: 'Crëwyd: %{when}'
       closed: 'Caëwyd: %{when}'
-      created_ago_html: Crëwyd %{time_ago}
-      closed_ago_html: Caëwyd %{time_ago}
-      created_ago_by_html: Crëwyd %{time_ago} gan %{user}
-      closed_ago_by_html: Caëwyd %{time_ago} gan %{user}
+      created_ago_html: Wedi creu %{time_ago}
+      closed_ago_html: Wedi cau %{time_ago}
+      created_ago_by_html: Wedi creu %{time_ago} gan %{user}
+      closed_ago_by_html: Wedi cau %{time_ago} gan %{user}
       discussion: Sgwrs
       join_discussion: Mewngofnodwch i ymuno â'r sgwrs
       still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn agor pan fydd
@@ -569,7 +571,7 @@ cy:
     paging_nav:
       nodes: Nodau (%{count})
       nodes_paginated: Nodau (%{x}-%{y} o %{count})
-      ways: Llwybrau (%{count})
+      ways: Llwybrau %{count}
       ways_paginated: Llwybrau (%{x}-%{y} o %{count})
       relations: Perthnasoedd (%{count})
       relations_paginated: Perthnasoedd (%{x}-%{y} o %{count})
@@ -671,6 +673,8 @@ cy:
       all:
         title: Cofnodion dyddiadur OpenStreetMap
         description: Cofnodion dyddiadur diweddar gan ddefnyddwyr OpenStreetMap
+    comments:
+      title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
     subscribe:
       heading: Tanysgrifio i'r drafodaeth cofnod dyddiadur ganlynol?
       button: Tanysgrifio i drafodaeth
@@ -715,6 +719,7 @@ cy:
       profile: Gweld manylion eich proffil
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact_url_title: Esboniad o sianeli cyswllt amrywiol
       contact: Cysylltwch
       contact_the_community_html: '%{contact_link} â''r gymuned OpenStreetMap os ydych
@@ -744,6 +749,11 @@ cy:
     search:
       title:
         latlon: Mewnol
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -994,7 +1004,6 @@ cy:
           bus_stop: Safle Bws
           construction: Priffordd yn cael ei Adeiladu
           corridor: Coridor
-          crossing: Croesfan
           cycleway: Llwybr Beicio
           elevator: Lifft
           emergency_access_point: Pwynt Mynediad Argyfwng
@@ -1535,11 +1544,11 @@ cy:
         resolved: Datryswyd
     page:
       user_not_found: Nid yw'r defnyddiwr yn bodoli
-      issues_not_found: Ni chanfuwyd unrhyw faterion o'r fath
+      issues_not_found: Nid oes y fath broblemau
       reported_user: Defnyddiwr a roddwyd gwybod
       status: Statws
       reports: Adroddiadau
-      last_updated: Diweddarwyd ddiwethaf
+      last_updated: Diweddariad Diwethaf
       last_updated_time_ago_user_html: '%{time_ago} gan %{user}'
       reports_count:
         zero: '%{count} Adroddiad'
@@ -1548,7 +1557,7 @@ cy:
         few: '%{count} Adroddiad'
         many: '%{count} Adroddiad'
         other: '%{count} Adroddiad'
-      reported_item: Eitem a roddwyd gwybod
+      reported_item: Eitem dan sylw
       states:
         ignored: Anwybyddwyd
         open: Agored
@@ -1563,7 +1572,7 @@ cy:
         many: '%{count} adroddiad'
         other: '%{count} adroddiad'
       no_reports: Dim adroddiadau
-      report_created_at_html: Rhoddwyd gwybod gyntaf am %{datetime}
+      report_created_at_html: Adroddwyd gyntaf am %{datetime}
       last_resolved_at_html: Datryswyd ddiwethaf am %{datetime}
       last_updated_at_html: Diweddarwyd ddiwethaf am %{datetime} gan %{displayname}
       resolve: Datrys
@@ -1645,12 +1654,12 @@ cy:
     gps_traces: Olion GPS
     user_diaries: Dyddiaduron
     edit_with: Golygu gyda %{editor}
+    tag_line: Y Map Wici Rhydd o'r Byd
     intro_header: Croeso i OpenStreetMap!
     intro_text: Mae OpenStreetMap yn fap o'r byd, wedi'i greu gan bobl fel chi ac
       sydd ar gael i'w ddefnyddio am ddim a dan drwydded rydd.
-    partners_fastly: Fastly
-    partners_corpmembers: Aelodau corfforaethol OSMF
-    partners_partners: phartneriaid
+    intro_2_create_account: Creu cyfrif defnyddiwr
+    partners_title: Partneriaid
     tou: Telerau Gwasanaeth
     osm_offline: Mae cronfa ddata OpenStreetMap all-lein ar hyn o bryd er mwyn gwaith
       cynnal a chadw hanfodol.
@@ -1704,6 +1713,7 @@ cy:
         eich ffeil yn ffeil GPX dilys neu''n archif sy''n cynnwys ffeil(iau) GPX mewn
         fformat a gefnogir (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). A allai
         fod problem gyda''r fformat neu''r gystrawen? Dyma''r gwall mewnforio:'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Methiant Mewnforio GPX'
     gpx_success:
       hi: Helo %{to_user},
@@ -1831,7 +1841,7 @@ cy:
         â'r %{people_mapping_nearby_link}?
       people_mapping_nearby: pobl yn mapio gerllaw
     messages_table:
-      from: O
+      from: Gan
       to: I
       subject: Pwnc
       date: Dyddiad
@@ -1897,11 +1907,10 @@ cy:
       new password button: Ailosod cyfrinair
     edit:
       title: Ailosod cyfrinair
-      heading: Ailosod cyfrinair ar gyfer %{user}
-      reset: Ailosod cyfrinair
-      flash token bad: Methu dod o hyd i'r tocyn hwnnw, gwiriwch yr URL?
+      heading: Ailosod Cyfinair ar gyfer %{user}
+      reset: Ailosod Cyfrinair
     update:
-      flash changed: Mae eich cyfrinair wedi'i newid.
+      flash changed: Mae'ch cyfrinair wedi'i newid.
       flash token bad: Methu dod o hyd i'r tocyn hwnnw, gwiriwch yr URL?
   preferences:
     show:
@@ -1925,6 +1934,7 @@ cy:
       image: Delwedd
       gravatar:
         gravatar: Defnyddio Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Beth yw Gravatar?
         disabled: Mae Gravatar wedi'i analluogi.
         enabled: Mae arddangos eich Gravatar wedi'i alluogi.
@@ -1990,13 +2000,10 @@ cy:
         newer: Sylwadau Diweddarach
       diary_entries:
         older: Cofnodion Hŷn
-        newer: Confodion Diweddarach
+        newer: Confodion Mwy Diweddar
       issues:
         older: Materion Hŷn
         newer: Materion Newydd
-      traces:
-        older: Olion Hŷn
-        newer: Olion Diweddarach
       user_blocks:
         older: Blociau Hŷn
         newer: Blociau Diweddarach
@@ -2039,8 +2046,6 @@ cy:
       legal_1_1_terms_of_use: Telerau Gwasanaeth
       legal_1_1_aup: Polisïau Defnydd Derbyniol
       legal_1_1_privacy_policy: Polisi Preifatrwydd
-      legal_2_1_html: '%{contact_the_osmf_link} os oes gennych gwestiynau am drwydded,
-        hawlfraint neu gwestiynau cyfreithiol eraill.'
       legal_2_1_contact_the_osmf: Cysylltwch â'r OSMF
       legal_2_2_html: Mae OpenStreetMap, y logo chwyddwydr a "State of the Map" yn
         %{registered_trademarks_link}.
@@ -2061,26 +2066,22 @@ cy:
         native_link: fersiwn Cymraeg
         mapping_link: dechrau mapio
       legal_babble:
-        introduction_1_html: Mae OpenStreetMap%{registered_trademark_link} yn %{open_data},
-          wedi'i drwyddedu o dan y %{odc_odbl_link} (ODbL) gan %{osm_foundation_link}
-          (OSMF).
+        introduction_1_html: |-
+          Mae OpenHistoricalMap yn <i>data agored</i>, dan drwydded <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL).
         introduction_1_open_data: ddata agored
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: Sefydliad OpenStreetMap
-        introduction_2_html: Rydych yn rhydd i gopïo, dosbarthu, trosglwyddo ac addasu
-          ein data, cyn belled â'ch bod yn cydnabod OpenStreetMap a'i gyfranwyr. Os
-          ydych yn newid neu'n adeiladu ar ein data, dim ond o dan yr un drwydded
-          y cewch ddosbarthu eich canlyniad. Mae'r %{legal_code_link} llawn yn esbonio
-          eich hawliau a'ch cyfrifoldebau.
         introduction_2_legal_code: cod cyfreithiol
-        introduction_3_html: Mae ein dogfennaeth wedi'i thrwyddedu o dan drwydded
-          %{creative_commons_link} (CC BY-SA 2.0).
+        introduction_3_html: |-
+          Trwyddedir ein dofenaeth ar drwydded
+          <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: Sut i gydnabod OpenStreetMap
         credit_1_html: 'Pan fyddwch yn defnyddio data OpenStreetMap, mae rhaid i chi
           wneud y ddau beth canlynol:'
-        credit_2_1: Rhoi cydnabyddiaeth i OpenStreetMap drwy arddangos ein hysbysiad
-          hawlfraint.
         credit_2_2: Gwnewch yn glir bod y data ar gael o dan y Drwydded Cronfa Ddata
           Agored.
         credit_3_html: |-
@@ -2193,16 +2194,9 @@ cy:
         infringement_1_html: Hoffem atgofio cyfranwyr OSM i beidio ag ychwanegu data
           o unrhyw ffynonellau hawlfreintiedig (e.e. Google Maps neu fapiau print)
           heb ganiatâd penodol gan ddeiliaid yr hawlfraint.
-        infringement_2_1_html: |-
-          Os ydych yn credu bod deunydd hawlfreintiedig wedi'i ychwanegu'n amhriodol
-          at gronfa ddata OpenStreetMap neu'r wefan hon, dilynwch ein %{takedown_procedure_link} neu ffeiliwch yn uniongyrchol ar ein
-          %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: gweithdrefn tynnu i lawr
         infringement_2_1_online_filing_page: tudalen ffeilio ar-lein
         trademarks_title: Nodau Masnach
-        trademarks_1_1_html: |-
-          Mae OpenStreetMap, y logo chwyddwydr a State of the Map yn nodau masnach cofrestredig y Sefydliad OpenStreetMap. Os oes gennych gwestiynau am eich defnydd o'r marciau, gweler ein
-          %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Polisi Nod Masnach
     index:
       js_2: Mae OpenStreetMap yn defnyddio JavaScript ar gyfer ei fap llithrig.
@@ -2242,9 +2236,6 @@ cy:
             OpenStreetMap ac ychwanegu neu atgyweirio'r data eich hun.
       other_concerns:
         title: Gofidion eraill
-        concerns_html: |-
-          Os oes gennych bryderon am sut caiff ein data ei ddefnyddio neu am y cynnwys, cysylltwch â'n
-          %{copyright_link} am ragor o wybodaeth gyfreithiol, neu cysylltwch â'r %{working_group_link} priodol.
         copyright: tudalen hawlfraint
         working_group: Gweithgor OSMF
         working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
@@ -2267,6 +2258,14 @@ cy:
         title: switch2osm
       welcomemat:
         title: Ar gyfer Sefydliadau
+      discord:
+        title: Discord
+      forum:
+        title: Fforwm
+      mailing_list:
+        title: Rhestr Bost
+      slack:
+        title: Slack
       wiki:
         title: Wici OpenStreetMap
         description: Archwiliwch y wici am ddogfennau manwl OpenStreetMap.
@@ -2287,6 +2286,7 @@ cy:
         %{help_link}. Ydych chi'n gweithio gyda sefydliad sy'n gwneud cynlluniau ar gyfer OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Cewch gymorth yma
       welcome_mat: Dyma'r Mat Croeso
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Canlyniadau Chwilio
     search:
@@ -2322,13 +2322,13 @@ cy:
           subway: Trenau tanddaear
           ferry: Fferi
           light_rail: Rheilffordd ysgafn
-          tram: Tram
+          tram: tram
           trolleybus: Bws Drydan
           bus: Bws
           cable_car: Car cebl
-          chair_lift: Cadair godi
+          chair_lift: lifft cadair
           runway: Llwybr glanio
-          taxiway: Tacsiffordd
+          taxiway: thacsiffordd maes awyr
           apron: Llain
           admin: Ffin gweinyddol
           capital: Prifddinas
@@ -2339,7 +2339,7 @@ cy:
           wood: Coedlan
           farmland: Tir Ffermio
           grass: Gwair
-          meadow: Gwaun
+          meadow: gwaun
           bare_rock: Carreg Plaen
           sand: Tywod
           golf: Maes golff
@@ -2353,7 +2353,7 @@ cy:
           heathland: Rhos
           scrubland: Prysgoed
           lake: Llyn
-          reservoir: Cronfa Ddŵr
+          reservoir: chronfa ddŵr
           intermittent_water: Dŵr ysbeidiol
           glacier: Rhewlif
           reef: Riff
@@ -2368,15 +2368,15 @@ cy:
           reserve: Gwarchodfa natur
           military: Ardal filwrol
           school: Ysgol
-          university: Prifysgol
+          university: phrifysgol
           hospital: Ysbyty
           building: Adeilad arwyddocâol
           station: Gorsaf drên
           railway_halt: Arhosfa drenau
           subway_station: Gorsaf Isffordd
           tram_stop: Safle Tramiau
-          summit: Pen Mynydd
-          peak: Copa
+          summit: Copa
+          peak: chrib
           tunnel: Border toredig = twnnel
           bridge: Border du = pont
           private: Mynediad preifat
@@ -2550,6 +2550,7 @@ cy:
       empty_upload_html: '%{upload_link} neu ddysgwch fry am olion GPS ar y %{wiki_link}.'
       upload_new: Uwchlwytho ôl newydd
       wiki_page: dudalen wici
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Uwchlwytho ôl
       all_traces: Pob Ôl
       my_traces: Fy Olion
@@ -2706,6 +2707,7 @@ cy:
       readable_summary: crynodeb darllenadwy
       informal_translations: cyfieithiadau anffurfiol
       continue: Parhau
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Canslo
       legale_select: 'Gwlad breswyl:'
       legale_names:
@@ -2714,6 +2716,7 @@ cy:
         rest_of_world: Gweddill y byd
     terms_declined_flash:
       terms_declined_link: y dudalen wici hon
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Dim defnyddiwr o'r fath
       heading: Nid yw'r defnyddiwr %{user} yn bodoli.
@@ -2795,8 +2798,6 @@ cy:
         few: Canfuwyd %{count} defnyddiwr
         many: Canfuwyd %{count} defnyddiwr
         other: Canfuwyd %{count} defnyddiwr
-      confirm: Cadarnhau Defnyddwyr Dewisiedig
-      hide: Cuddio Defnyddwyr Dewisiedig
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
@@ -2847,7 +2848,6 @@ cy:
         few: '%{count} bloc cyfredol.'
         many: '%{count} bloc cyfredol.'
         other: '%{count} bloc cyfredol.'
-      revoke: Dad-flocio!
       flash: Diddymwyd pob bloc gweithredol.
     helper:
       time_future_html: Yn dod i ben mewn %{time}.
@@ -2913,11 +2913,7 @@ cy:
       show: Dangos
       edit: Golygu
     page:
-      display_name: Defnyddiwr wedi'i blocio
-      creator_name: Crëwr
-      reason: Rheswm dros flocio
       status: Statws
-      revoker_name: Dirymwyd gan
     navigation:
       all_blocks: Pob Bloc
       blocks_on_me: Blociau arnaf i
@@ -2979,6 +2975,7 @@ cy:
       event_reopened_by_anonymous_html: Ailagorwyd gan berson ddienw %{time_ago}
       event_hidden_by_html: Cuddiwyd gan %{user} %{time_ago}
       report: roi gwybod am y nodyn hwn
+      coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: Mae'r nodyn hwn yn cynnwys sylwadau gan ddefnyddwyr dienw
         y dylid eu gwirio'n annibynnol.
       hide: Cuddio
@@ -3044,6 +3041,10 @@ cy:
       locate:
         title: Dangos Fy Lleoliad
       base:
+        historical: Hanesyddol
+        woodblock: Bloc Pren
+        japanesescroll: Sgrol Japaneaidd
+        railway: Rheilffordd
         standard: Safonol
         cycle_map: Map Beicio
         transport_map: Map Trafnidiaeth
@@ -3056,10 +3057,12 @@ cy:
         gps: Olion GPS Cyhoeddus
         overlays: Galluogi troshaenau i ddatrys problemau map
         title: Haenau
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: Cyfranwyr OpenStreetMap
       make_a_donation: Rhoi arian
       website_and_api_terms: Telerau'r gwefan ac API
       cyclosm_credit: Arddull teils gan %{cyclosm_link} a gynhelir gan %{osm_france_link}
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap Ffrainc
       thunderforest_credit: Teils trwy garedigrwydd %{thunderforest_link}
       andy_allan: Andy Allan

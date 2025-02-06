@@ -42,9 +42,6 @@ nn:
       client_application:
         create: Registrer
         update: Oppdater
-      oauth2_application:
-        create: Registrer
-        update: Oppdater
       redaction:
         create: Lag maskering
         update: Lagre markering
@@ -68,6 +65,7 @@ nn:
       message: Melding
       node: Node
       node_tag: Nodemerkelapp
+      notifier: Varsling
       old_node: Gammal node
       old_node_tag: Gammal nodemerkelapp
       old_relation: Gammal relasjon
@@ -100,6 +98,7 @@ nn:
       diary_entry:
         user: Brukar
         title: 'Emne:'
+        body: Kropp
         latitude: Breiddegrad
         longitude: Lengdegrad
         language_code: Språk
@@ -197,6 +196,7 @@ nn:
   auth:
     providers:
       none: Ingen
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -251,10 +251,12 @@ nn:
       current email address: Noverande e-postadresse
       external auth: Ekstern autentisering
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: kva er dette?
       public editing:
         heading: Offentleg redigering
         enabled: Aktivert. Ikkje anonym og kan redigere data.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: kva er dette?
         disabled: Deaktivert og kan ikkje redigere data. Alle tidlegare redigeringar
           er anonyme.
@@ -267,11 +269,12 @@ nn:
           igjennom og godkjenne dei nye bidragsytervilkåra.
         agreed_with_pd: Du har òg opplyst at du ansar redigeringane dine for å vere
           offentleg eigedom (Public Domain).
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: kva er dette?
       save changes button: Lagre endringar
       delete_account: Slett konto...
     go_public:
-      heading: Offentleg redigering
+      heading: 'Offentleg redigering:'
       currently_not_public: Nett no er redigeringane dine anonyme, og folk kan ikkje
         senda deg meldingar eller sjå kor du er. For å visa kva du har redigert og
         la folk kontakta deg gjennom nettstaden, klikk på knappen nedanfor.
@@ -328,6 +331,7 @@ nn:
         one: '%{count} medlem'
         other: '%{count} medlemar'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Punkt
@@ -385,13 +389,7 @@ nn:
   changeset_comments:
     feeds:
       comment:
-        comment: 'Ny kommentar til endringssett #%{changeset_id} av %{author}'
-        commented_at_by_html: Oppdatert %{when} av %{user}
-      show:
-        title_all: Endringssettdiskusjon hjå OpenStreetMap
-        title_particular: Diskusjon om endringssett %{changeset_id} hjå OpenStreetMap
-      timeout:
-        sorry: Lista over kommentarar til endringssett tok for lang tid å henta.
+        commented_at_by_html: Oppdatert for %{when} sidan av %{user}
   changesets:
     changeset:
       no_edits: (ingen redigeringar)
@@ -417,21 +415,13 @@ nn:
         belongs_to: Skapar
     show:
       title: Endringssett %{id}
-      created_ago_html: Oppretta %{time_ago}
-      closed_ago_html: Lukka %{time_ago}
-      created_ago_by_html: Oppretta %{time_ago} av %{user}
-      closed_ago_by_html: Lukka %{time_ago} av %{user}
       discussion: Ordskifte
       join_discussion: Logg inn for å vere med i diskusjonen
-      still_open: Endringssettet er framleis ope – det vert opna for diskusjon når
-        endringssettet vert lukka.
       subscribe: Abonnér
       unsubscribe: Avslutt abonnement
-      comment_by_html: Kommentar frå %{user} %{time_ago}
-      hidden_comment_by_html: Skylt kommentar frå %{user} %{time_ago}
       hide_comment: gøym
       unhide_comment: vis
-      comment: Kommenter
+      comment: Kommentar
       changesetxml: XML for endringssett
       osmchangexml: osmChange XML
     paging_nav:
@@ -439,8 +429,6 @@ nn:
       nodes_paginated: Punkt (%{x}-%{y} av %{count})
       ways: Strekningar (%{count})
       ways_paginated: Strekningar (%{x}-%{y} av %{count})
-      relations: Samhøve (%{count})
-      relations_paginated: Samhøve (%{x}–%{y} av %{count})
     timeout:
       sorry: Lista over endringssett du ba om tok for lang tid å hente.
   dashboards:
@@ -532,12 +520,9 @@ nn:
         description: Nylege oppføringar i dagbøkene til OpenStreetMap-brukarar
   diary_comments:
     index:
-      title: Kommentarar i dagboka frå %{user}
-      heading: '%{user} sine kommentarar til dagboksoppføringar'
       subheading_html: Kommentarar i dagboka frå %{user}
-      no_comments: Ingen kommentarar i dagboka
     page:
-      post: Oppføring
+      post: Post
       when: Når
       comment: Kommentar
   friendships:
@@ -559,6 +544,7 @@ nn:
       title:
         latlon: Intern
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Kabelbane
@@ -806,7 +792,6 @@ nn:
           bus_stop: Busstopp
           construction: Motorveg under konstruksjon
           corridor: Korridor
-          crossing: Fotgjengarfelt
           cycleway: Sykkelsti
           elevator: Heis
           emergency_access_point: Nødtilgangspunkt
@@ -1345,25 +1330,16 @@ nn:
         open: Open
         resolved: Løyst
     page:
-      user_not_found: Brukaren finst ikkje
-      issues_not_found: Ingen slike saker funne
-      status: Stode
-      reports: Meldingar
-      last_updated: Sist oppdatert
       last_updated_time_ago_user_html: '%{time_ago} av %{user}'
       reports_count:
         one: '%{count} melding'
         other: '%{count} meldingar'
-      reported_item: Meld objekt
     show:
       title: '%{status} Sak #%{issue_id}'
       reports:
         one: '%{count} melding'
         other: '%{count} meldingar'
       no_reports: Ingen meldingar
-      report_created_at_html: Fyrst meld %{datetime}
-      last_resolved_at_html: Sist løyst %{datetime}
-      last_updated_at_html: Sis oppdatert %{datetime} av %{displayname}
       resolve: Løys
       ignore: Sjå bort frå
       reopen: Opna att
@@ -1427,6 +1403,9 @@ nn:
       successful_report: Meldinga di har vorte registrert
       provide_details: Du må oppgje dei påkravde opplysingane
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: OpenStreetMap-logo
     home: Gå til heimstaden din
@@ -1441,11 +1420,13 @@ nn:
     gps_traces: GPS-spor
     user_diaries: Brukardagbok
     edit_with: Rediger med %{editor}
+    tag_line: Fritt Wiki-verdenskart
     intro_header: Velkomen til OpenStreetMap!
     intro_text: OpenStreetMap er eit verdskart, laga av folk som deg. Kartet er gratis
       å bruke under ein open lisens.
-    partners_fastly: Fastly
-    partners_partners: partnarar
+    intro_2_create_account: Opprett ein brukarkonto
+    partners_title: partnarar
+    hosting_partners_2024_html: Drifta er støtta av %{ucl}, %{bytemark} og andre %{partners}.
     tou: Bruksvilkår
     osm_offline: OpenStreetMap databasen er for augneblunken utilgjengelig medan essensielt
       vedlikeholdsarbeid vert utført.
@@ -1493,6 +1474,7 @@ nn:
       failed_to_import: 'klarte ikkje importere. Her er feilen:'
       more_info_html: Du kan finna meir informasjon om feil ved GPX-importering, og
         korleis du kan unngå dei, på %{url}.
+      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_import_failures
       subject: '[OpenStreetMap] Feil under import av GPX'
     gpx_success:
       hi: Hei, %{to_user}
@@ -1671,8 +1653,7 @@ nn:
     sent_message_summary:
       destroy_button: Slett
     heading:
-      my_inbox: Mottekne
-      my_outbox: Sende
+      my_inbox: Min innboks
     mark:
       as_read: Melding markert som lese
       as_unread: Melding markert som ulese
@@ -1715,6 +1696,7 @@ nn:
       image: Bilete
       gravatar:
         gravatar: Bruk Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Kva er Gravatar?
         disabled: Gravatar er avslegen.
         enabled: Vising av Gravataren din er slege på.
@@ -1807,16 +1789,10 @@ nn:
       open_data_open_data: ope data
       open_data_copyright_license: sida om opphavsrett og lisensar
       legal_title: Juridisk
-      legal_1_1_html: Denne nettstaden og fleira andre tilknytte tenester er formelt
-        drivne av %{openstreetmap_foundation_link} (OSMF) på vegner av fellesskapet.
-        Bruk av alle tenester som OSMF driv er underlagd %{terms_of_use_link}, %{aup_link}
-        og %{privacy_policy_link}.
       legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
       legal_1_1_terms_of_use: bruksvilkåra
       legal_1_1_aup: vilkåra for akseptabel bruk
       legal_1_1_privacy_policy: personvernspolitikken
-      legal_2_1_html: Kontakt %{contact_the_osmf_link} om du har spørsmål knytte til
-        lisens, opphavsrett eller andre juridiske emne.
       legal_2_1_contact_the_osmf: tak kontakt med OSMF
       legal_2_2_html: OpenStreetMap, aukeglas-logoen og State of the Map er %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: regristrerte varemerke til OSMF
@@ -1836,24 +1812,33 @@ nn:
         native_link: Nynorsk versjon
         mapping_link: start kartlegging
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} er %{open_data},
-          med lisens %{odc_odbl_link} (ODbL) av %{osm_foundation_link} (OSMF).
+        introduction_1_html: Data frå OpenHistoricalMap er <i>åpne data</i>, lisensiert
+          under <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons
+          Open Database License</a> (ODbL).
         introduction_1_open_data: ope data
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: OpenStreetMap Foundation
-        introduction_2_html: Du har rett til å kopiera, spreia, overføra og tilpassa
-          dataen vår, so lengje du siterer OpenStreetMap og bidragsytarane. Dersom
-          du endrar eller byggjer på dataen, kan du berre publisera resultatet under
-          den same lisensen. Den fulle %{legal_code_link} forklårar rettane og skyldnadene
-          dine.
+        introduction_2_html: "Du er fri til å kopiere, distribuere, overføre og tilpasse
+          dataa våre, så lenge du godskriv OpenHistoricalMap og bidragsytarane\n  deira.
+          Dersom du endrar eller byggjer på dataa våre, kan du berre distribuere resultatet
+          under same lisens. \n  Den fullstendige <a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">juridiske\n
+          \ teksten</a> forklarer rettane og ansvaret."
         introduction_2_legal_code: juridiske teksten
-        introduction_3_html: Dokumentasjonen vår er publisert under lisensen %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: |-
+          Kartografien i våre kartfliser, og dokumentasjonen vår, er lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+             Commons Navngivelse-DelPåSammeVilkår 2.0</a> (CC BY-SA).
         introduction_3_creative_commons: Creative Commons Navngiving-DelPåSameVilkår
           2.0
         credit_title_html: Korleis kreditere OpenStreetMap
         credit_1_html: 'Når du bruker data frå OpenStreetMap, krevst to ting av deg:'
-        credit_2_1: Godskriv OpenStreetMap ved å visa opphavsrettsfråsegna vår.
+        credit_2_1: Du må óg gjere det klart at dataa er tilgjengeleg under Open Database
+          License, og dersom du brukar kartflisene, at kartografien er lisensiert
+          under CC BY-SA. Du kan gjere dette ved å lenkje til <a href="http://www.openstreetmap.org/copyright">denne
+          sida</a>. Alternativt, og eit krav om du distribuerer OSM i dataform, kan
+          du nemne og lenkje til lisensen eller lisensane. I former der lenkjer er
+          umogleg (t.d. trykte verk), føreslår me at du viser lesarane dine til openstreetmap.org
+          (kanskje ved å utvide «OpenHistoricalMap» til denne fulle adressa), til
+          opendatacommons.org, og dersom relevant, til creativecommons.org.
         credit_2_2: Gjer det tydeleg at dataen er tilgjengeleg under vilkåra av Open
           Database License.
         credit_3_html: Me har ulike krav til korleis opphavsrettsfråsegna skal visast,
@@ -1887,6 +1872,10 @@ nn:
         contributors_intro_html: 'Me har tusenvis av individuelle bidragsytarar. Me
           inkluderer óg åpne datasett frå nasjonale karttjenester og andre kjelder,
           bland anna frå:'
+        contributors_footer_1_html: |2-
+            For detaljar om desse og andre kjelder som har blitt brukt for å forbetra
+            OpenHistoricalMap, sjå <a href="http://wiki.openstreetmap.org/wiki/Contributors">Bidragsytarar
+            sida</a> på OpenStreetMap Wikien.
         contributors_at_credit_html: '%{austria}: Inneheld data frå %{stadt_wien_link}
           (under %{cc_by_link}), %{land_vorarlberg_link} og Land Tirol (under %{cc_by_at_with_amendments_link}).'
         contributors_at_austria: Austerrike
@@ -1957,16 +1946,14 @@ nn:
         infringement_1_html: |-
           OSM-bidragsytarar vert minna på å aldri leggje til data frå opphavsrettsbeskytta kjelder (t.d. Google Maps eller utskrivne kart) utan
             uttrykkeleg løyve frå rettighetshavere.
-        infringement_2_1_html: Dersom du trur at innhald som er verna av opphavsrett
-          har vorte føydd til urettkomment i OpenStreetMap sin database eller nettstad,
-          ver venleg og fylg %{takedown_procedure_link}, eller klaga direkte gjennom
-          %{online_filing_page_link}.
+        infringement_2_1_html: "Dersom du trur at kopibeskytta materiale har blitt
+          lagt inn i OpenHistoricalMap databasen eller denne sida, venligst henvend
+          deg til vår <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">takedown
+          \nprosedyre</a> eller direkte til vårt <a href=\"https://dmca.openstreetmap.org/\">online
+          skjema</a>."
         infringement_2_1_takedown_procedure: prosedyren for fjerning av materiale
         infringement_2_1_online_filing_page: klageformularet
         trademarks_title: Varemerke
-        trademarks_1_1_html: OpenStreetMap, lupe-logoen og «State of the Map» er registrerte
-          varemerke av OpenStreetMap Foundation. Viss du har spørsmål om bruken av
-          varemerka, sjå %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Varemerkeretningslinene
     index:
       js_1: Du har ein nettleser som ikkje støttar JavaScript eller så har du slått
@@ -1981,6 +1968,7 @@ nn:
       not_public_description_html: Du kan ikkje lenger redigere kartet om du ikkje
         gjer det. Du kan gjere redigeringane dine offentlege frå din %{user_page}.
       user_page_link: brukarside
+      anon_edits_html: (%{link})
       anon_edits_link_text: Finn ut kvifor dette er tilfellet.
       id_not_configured: iD er ikkje konfigurert
     export:
@@ -2017,15 +2005,8 @@ nn:
           explanation_html: Viss du har merka eit problem med dataen vår, til dømes
             at det manglar ein veg eller adresse, er det beste å bli med i OpenStreetMap-fellesskapet
             og føya til eller vøla opplysinga sjølv.
-        add_a_note:
-          instructions_1_html: |-
-            Berre klikk på %{note_icon}, eller det tilsvarande ikonet på kartvisinga.
-            Dette vil legga til ein markør på kartet, som du kan flytta ved å dra i han. Legg til meldinga di og klikk «Lagra», og andre brukarar vil undersøka saka.
       other_concerns:
         title: Andre problemstillingar
-        concerns_html: Dersom du har bekymringar om korleis dataen vår vert brukt
-          eller om innhaldet, sjå %{copyright_link} for meir juridisk informasjon,
-          eller tak kontakt med den relevante %{working_group_link}.
         copyright: sida om opphavsrett
         working_group: OSMF-arbeidsgruppa
     help:
@@ -2053,6 +2034,10 @@ nn:
         title: IRC
       switch2osm:
         title: switch2osm
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: wiki.openstreetmap.org
     any_questions:
@@ -2085,6 +2070,8 @@ nn:
           footway: Gangveg
           rail: Jernbane
           subway: Undergrunnsbane
+          light_rail: Bybane
+          tram: trikk
           cable_car: Kabelvogn
           chair_lift: stolheis
           runway: Flystripe
@@ -2093,6 +2080,7 @@ nn:
           admin: Administrativ grense
           forest: Skog
           wood: Ved
+          meadow: snever
           golf: Golfbane
           park: Park
           common: Vanleg
@@ -2145,6 +2133,7 @@ nn:
         punkt med tidsstempel)
     new:
       visibility_help: kva tyder dette?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjelp
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2160,6 +2149,7 @@ nn:
       title: Redigerer spor %{name}
       heading: Redigerer spor %{name}
       visibility_help: kva tyder dette?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     show:
       title: Viser spor %{name}
       heading: Viser spor %{name}
@@ -2257,6 +2247,8 @@ nn:
       consider_pd: I tillegg til den ovannemnde avtala ansar eg bidraga mine for å
         vere i public domain
       consider_pd_why: kva er dette?
+      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_i_want_my_contributions_to_be_public_domain
+      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       you need to accept or decline: Les og deretter anten godta eller avslå dei nye
         bidragsytervilkåra for å halde fram.
       legale_select: 'Vel ditt bostedsland:'
@@ -2264,6 +2256,8 @@ nn:
         france: Frankrike
         italy: Italia
         rest_of_world: Resten av verda
+    terms_declined_flash:
+      terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_terms_declined
     no_such_user:
       title: Ingen brukar funnet
       heading: Brukaren %{user} finst ikkje
@@ -2372,6 +2366,8 @@ nn:
       title: Brukerblokkeringer
       heading: Liste over brukarblokkeringar
       empty: Ingen blokkeringar har vorte utførde enno.
+    revoke_all:
+      revoke: Tilbakekall!
     helper:
       time_future_html: Sluttar om %{time}.
       until_login: Aktiv inntil brukaren loggar inn.
@@ -2436,6 +2432,7 @@ nn:
       add: Legg til merknad
     notes_paging_nav:
       showing_page: Side %{page}
+      next: Neste
   javascripts:
     close: Lat att
     share:

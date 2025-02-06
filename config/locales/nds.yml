@@ -37,7 +37,7 @@ nds:
         title: Titel
         latitude: Bredengraad
         longitude: Längengraad
-        language: Spraak
+        language_code: Spraak
       friend:
         user: Bruker
         friend: Fründ
@@ -70,6 +70,7 @@ nds:
       name: iD
   auth:
     providers:
+      openid: OpenID
       google: Google
       facebook: Facebook
       github: GitHub
@@ -81,7 +82,8 @@ nds:
         enabled link text: Wat is dat?
         disabled link text: Worüm kann ik nix ännern?
       save changes button: Ännern spiekern
-      make edits public button: All mien Ännern apen wiesen
+    go_public:
+      make_edits_public_button: All mien Ännern apen wiesen
   browse:
     relation_member:
       entry_role_html: '%{type} %{name} as %{role}'
@@ -100,6 +102,8 @@ nds:
   changesets:
     changeset:
       no_edits: (keen Ännern)
+    show:
+      comment: Kommentar
   dashboards:
     contact:
       km away: '%{count} km weg'
@@ -389,7 +393,6 @@ nds:
       alt_text: OpenHistoricalMap-Logo
     logout: afmellen
     log_in: anmellen
-    log_in_tooltip: Mit dien Brukerkonto anmellen
     sign_up: Nee Brukerkonto opstellen
     edit: Ännern
     history: Geschicht
@@ -425,11 +428,7 @@ nds:
     outbox:
       title: Postfack Utgang
     show:
-      from: Von
-      subject: Thema
-      date: Datum
       reply_button: Antern
-      to: An
     sent_message_summary:
       destroy_button: Wegdoon
     heading:
@@ -453,6 +452,7 @@ nds:
       image: 'Bild:'
       new image: Bild tofögen
       no home location: Du hest dien Standoort nich angeven.
+      show: Wiesen
   sessions:
     new:
       tab_title: Anmellen
@@ -492,6 +492,8 @@ nds:
           footway: Footpadd
           rail: Iesenbahn
           subway: U-Bahn
+          light_rail: Stadtbahn
+          tram: Stratenbahn
           cable_car: Kavelbahn
           chair_lift: Skilift
           runway: Fleger-Lannbahn
@@ -500,6 +502,7 @@ nds:
           admin: Grenz
           forest: Forst
           wood: Woold
+          meadow: Wisch
           golf: Golfplatz
           park: Park
           common: Wisch
@@ -551,15 +554,12 @@ nds:
   users:
     new:
       title: Brukerkonto opstellen
-      email address: 'E-Mail-Adress:'
-      display name: 'wiest Brukernaam:'
       continue: Wieder
     no_such_user:
       title: Bruker nich funnen
       heading: Den Bruker %{user} gifft dat nich
     show:
       my diary: mien Dagbook
-      new diary entry: Nee Dagbook-Indrag
       my edits: mien Ännern
       send message: Naricht sennen
       diary: Dagbook
@@ -568,9 +568,6 @@ nds:
       add as friend: as Fründ tofögen
       mapper since: 'Koortenmaker sied:'
       email address: 'E-Mail-Adress:'
-      description: Beschrieven
-    set_home:
-      flash success: Standoort is spiekert.
   user_blocks:
     show:
       status: Status

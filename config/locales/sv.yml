@@ -18,6 +18,7 @@
 # Author: Haxpett
 # Author: Jas
 # Author: Jenniesarina
+# Author: JohanahoJ
 # Author: Jopparn
 # Author: Kakan spelar
 # Author: Larske
@@ -59,6 +60,7 @@ sv:
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Välj fil
@@ -107,6 +109,7 @@ sv:
       message: Meddelande
       node: Nod
       node_tag: Nodtagg
+      notifier: Meddelande
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
       old_relation: Gammal relation
@@ -147,7 +150,7 @@ sv:
       diary_entry:
         user: Användare
         title: Ämne
-        body: Innehåll
+        body: Brödtext
         latitude: Latitud
         longitude: Longitud
         language_code: Språk
@@ -210,6 +213,9 @@ sv:
           inte alla användare förstår gemenskapsjargongen, så försök att använda lekmannatermer.
         needs_view: Behöver användaren logga in innan blockeringen upphör?
       user:
+        email_confirmation: Din adress visas inte offentligt, se vår <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF-integritetspolicy som inkluderar avsnitt om e-postadresser">integritetspolicy</a>
+          för mer information.
         new_email: (visas aldrig offentligt)
   datetime:
     distance_in_words_ago:
@@ -250,6 +256,8 @@ sv:
       x_years:
         one: '%{count} år sedan'
         other: '%{count} år sedan'
+  printable_name:
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Standard (för närvarande %{name})
     id:
@@ -261,6 +269,7 @@ sv:
   auth:
     providers:
       none: Ingen
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -325,10 +334,12 @@ sv:
       current email address: Nuvarande e-postadress
       external auth: Extern autentisering
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: vad är detta?
       public editing:
         heading: Offentlig redigering
         enabled: Aktiverat, du är inte anonym och kan redigera data.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: vad är detta?
         disabled: Avstängt och kan inte redigera data, alla redigeringar som gjorts
           är anonyma.
@@ -341,6 +352,7 @@ sv:
           de nya bidragsvillkoren.
         agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
           är inom Public Domain.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: vad är detta?
       save changes button: Spara ändringar
       delete_account: Radera konto...
@@ -385,6 +397,8 @@ sv:
     view_redacted_data: Visa redigerad data
     view_redaction_message: Visa maskeringsmeddelande
     location: 'Plats:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Nod: %{name}'
       history_title_html: 'Nodhistorik: %{name}'
@@ -406,6 +420,7 @@ sv:
         one: '%{count} medlem'
         other: '%{count} medlemmar'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Nod
@@ -492,8 +507,8 @@ sv:
         comment: Ny kommentar på ändringsuppsättning nummer %{changeset_id} av %{author}
         commented_at_by_html: Uppdaterades för %{when} av %{user}
       show:
-        title_all: Diskussion om OpenStreetMaps ändringsset
-        title_particular: Diskussioner om OpenStreetMaps ändringsuppsättning nummer
+        title_all: Diskussion om OpenHistoricalMaps ändringsset
+        title_particular: Diskussioner om OpenHistoricalMaps ändringsuppsättning nummer
           %{changeset_id}
       timeout:
         sorry: Tyvärr, listan med ändringsuppsättningskommentarer du begärde kunde
@@ -538,21 +553,17 @@ sv:
       title: 'Ändringsuppsättning: %{id}'
       created: 'Skapades: %{when}'
       closed: 'Stängdes: %{when}'
-      created_ago_html: Skapades %{time_ago}
-      closed_ago_html: Stängdes %{time_ago}
-      created_ago_by_html: Skapades %{time_ago} av %{user}
-      closed_ago_by_html: Stängdes %{time_ago} av %{user}
       discussion: Diskussion
       join_discussion: Logga in för att delta i diskussionen
       still_open: Ändringsuppsättningen är fortfarande öppen - diskussionen kommer
         att öppnas när ändringsuppsättning har stängts.
       subscribe: Prenumerera
       unsubscribe: Avsluta prenumeration
-      comment_by_html: Kommenterades från %{user} %{time_ago}
-      hidden_comment_by_html: Dold kommentar från %{user} %{time_ago}
+      comment_by_html: Kommentar av %{user} %{time_ago}
+      hidden_comment_by_html: Dold kommentar från %{user}%{time_ago}
       hide_comment: dölj
       unhide_comment: Sluta dölja
-      comment: Kommentera
+      comment: Kommentar
       changesetxml: XML för ändringsuppsättning
       osmchangexml: osmChange XML
     paging_nav:
@@ -645,6 +656,7 @@ sv:
       report: Rapportera den här kommentaren
     location:
       location: 'Plats:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: OpenStreetMap-dagboksinlägg för %{user}
@@ -655,6 +667,8 @@ sv:
       all:
         title: OpenStreetMap-dagboksinlägg
         description: Senaste dagboksinlägg från användare av OpenStreetMap
+    comments:
+      title: Dagbokskommentarer tillagda av %{user}
     subscribe:
       heading: Prenumerera på följande diskussion om dagboksinlägg?
       button: Prenumerera på diskussion
@@ -744,6 +758,7 @@ sv:
       title:
         latlon: Intern
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Linbana
@@ -1622,6 +1637,8 @@ sv:
       successful_report: Din rapport har registrerats
       provide_details: Ange de nödvändiga detaljerna
   layouts:
+    project_name:
+      title: OpenHistoricalMap
     logo:
       alt_text: OpenStreetMaps logotyp
     home: Gå till hemposition
@@ -1636,12 +1653,14 @@ sv:
     gps_traces: GPS-spår
     user_diaries: Användardagböcker
     edit_with: Redigera med %{editor}
+    tag_line: Den fria wiki-världskartan
     intro_header: Välkommen till OpenStreetMap!
     intro_text: OpenStreetMap är en karta över världen, skapad av människor som du
       och fri att använda under en öppen licens.
-    partners_fastly: Fastly
-    partners_corpmembers: OSMF-företagsmedlemmar
-    partners_partners: partners
+    intro_2_create_account: Skapa ett användarkonto
+    partners_title: partners
+    hosting_partners_2024_html: Drivs via %{ucl}, %{fastly}, %{bytemark} och andra
+      %{partners}.
     tou: Användarvillkor
     osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
       databasunderhåll pågår.
@@ -1709,6 +1728,7 @@ sv:
         på %{url}.
       more_info_html: Mer information om misslyckade GPX-importer och hur man undviker
         dem återfinns på %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Misslyckades importera GPX'
     gpx_success:
       hi: Hej %{to_user},
@@ -1953,6 +1973,7 @@ sv:
       image: Bild
       gravatar:
         gravatar: Använd Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Vad är Gravatar?
         disabled: Gravatar har inaktiverats.
         enabled: Din Gravatar har aktiverats.
@@ -2063,18 +2084,20 @@ sv:
       open_data_open_data: öppen data
       open_data_copyright_license: Upphovsrätt och licenssida
       legal_title: Juridik
-      legal_1_1_html: |-
-        Den här webbplatsen och många andra relaterade tjänster drivs formellt av
-        %{openstreetmap_foundation_link} (OSMF)
-         på uppdrag av gemenskapen. Användning av alla OSMF-drivna tjänster omfattas
-        av våra %{terms_of_use_link}, %{aup_link} och vår %{privacy_policy_link}.
+      legal_1_1_html: "Denna sida och många andra liknande tjänster drivs formellt
+        av \n<a href=\"https://osmfoundation.org/\">OpenHistoricalMap Foundation</a>
+        (OSMF) \npå gemenskapens vägnar. Användning av alla OSMF-drivna tjänster är
+        föremål\nför våra <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
+        för acceptabel användning</a> och vår <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">integritetspolicy</a>."
       legal_1_1_openstreetmap_foundation: OpenStreetMap-stiftelsen
       legal_1_1_terms_of_use: Användarvillkor
       legal_1_1_aup: Riktlinjer för tillåten användning
       legal_1_1_privacy_policy: Integritetspolicy
-      legal_2_1_html: |-
-        Vänligen %{contact_the_osmf_link}
-        om du har frågor om licensiering, upphovsrätt eller andra juridiska frågor.
+      legal_2_1_html: "Vänligen <a href='https://osmfoundation.org/Contact'>kontakta
+        OSMF</a> \nom du har frågor eller funderingar om licenser, upphovsrätt eller
+        andra rättsliga frågor.\n<br>\nOpenHistoricalMap, förstoringsglaslogotypen
+        och State of the Map är <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registrerade
+        varumärken av OSMF</a>."
       legal_2_1_contact_the_osmf: kontakta OSMF
       legal_2_2_html: OpenStreetMap, förstoringsglas-logotypen och State of the Map
         är %{registered_trademarks_link}.
@@ -2096,25 +2119,35 @@ sv:
         mapping_link: börja kartlägga
       legal_babble:
         introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} är %{open_data}, licensierad under
-          %{odc_odbl_link} (ODbL) av %{osm_foundation_link} (OSMF).
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> är <i>öppna data</i>, gjord tillgänglig under licensen <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) av <a
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         introduction_1_open_data: öppna data
         introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: OpenStreetMap-stiftelsen
         introduction_2_html: |-
           Du är fri att kopiera, distribuera, överföra och anpassa vår data,
-          så länge du anger OpenStreetMap och dess bidragsgivare som källa.
+          så länge du anger OpenHistoricalMap och dess bidragsgivare som källa.
           Om du ändrar eller bygger vidare på vår data kan du
           endast distribuera resultatet under samma licens. Den
-          fullständiga %{legal_code_link} förklarar dina rättigheter och skyldigheter.
+          fullständiga <a href="https://opendatacommons.org/licenses/odbl/1.0/">juridiska
+          texten</a> förklarar dina rättigheter och skyldigheter.
         introduction_2_legal_code: juridiska texten
-        introduction_3_html: Vår dokumentation är licensierad under licensen %{creative_commons_link}
-          (CC BY-SA 2.0).
+        introduction_3_html: "Vår dokumentation är tillgänglig under licensen \n<a
+          href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
+          Erkännande-DelaLika 2.0</a> (CC BY-SA 2.0)."
         introduction_3_creative_commons: Creative Commons Erkännande-DelaLika 2.0
         credit_title_html: Hur du anger OpenStreetMap som källa
         credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
           saker:'
-        credit_2_1: Tillskriva datan till OpenStreetMap genom att visa vårt upphovsrättsmeddelande.
+        credit_2_1: |-
+          Du måste också göra klart att datan är tillgänglig under licensen Open Database License, och om du använder våra kartrutor, att kartografin är
+          tillgänglig under licensen CC BY-SA. Du kan göra detta genom att länka till
+          <a href="https://www.openstreetmap.org/copyright">denna sida om upphovsrätt</a>.
+          Alternativt, och som krav om du distribuerar OSM i dataform, kan du namnge
+          och länka direkt till licenserna. I media där länkar ej är möjliga
+          (t.ex. tryckt material), föreslår vi att du hänvisar dina läsare till openstreetmap.org
+          (förslagsvis genom att expandera 'OpenHistoricalMap' till hela denna adress), till opendatacommons.org, och om relevant till creativecommons.org.
         credit_2_2: Gör klart att uppgifterna är tillgängliga under Öppen Database
           Licensen.
         credit_3_html: |-
@@ -2151,6 +2184,11 @@ sv:
           Våra bidragsgivare är tusentals individer. Vi inkluderar också
           öppna data från nationella karttjänster,
           bland annat från:
+        contributors_footer_1_html: |-
+          För ytterligare detaljer om dessa och andra källor som använts
+          för att förbättra OpenHistoricalMap, se <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">sidan om bidragsgivare</a>
+          på OpenHistoricalMaps wiki.
         contributors_at_credit_html: |-
           %{austria}: Innehåller data från %{stadt_wien_link} (under %{cc_by_link}), %{land_vorarlberg_link}
           och Tyrolen (under %{cc_by_at_with_amendments_link}).
@@ -2238,16 +2276,17 @@ sv:
           upphovsrättsskyddade källor (t.ex. Google Maps och tryckta kartor) utan
           uttryckligt tillstånd från upphovsrättsinnehavarna.
         infringement_2_1_html: |-
-          Om du anser att upphovsrättsskyddat material har lagts till på ett olämpligt sätt
-           i OpenStreetMap-databasen eller den här webbplatsen, vänligen se vår %{takedown_procedure_link} eller registrera direkt på vår
-          %{online_filing_page_link}.
+          Om du tror att upphovsrättsskyddat material felaktigt har
+          lagts in i OpenHistoricalMaps databas eller till den här webbplatsen, se
+          vårt <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">borttagningsförfarande</a>
+          eller fyll i vårt <a href="https://dmca.openstreetmap.org/">online-formulär</a> direkt.
         infringement_2_1_takedown_procedure: borttagningsförfarande
         infringement_2_1_online_filing_page: on-line registreringssida
         trademarks_title: Varumärken
-        trademarks_1_1_html: |-
-          OpenStreetMap, förstoringsglasets logotyp och State of the Map är registrerade varumärken som tillhör
-          OpenStreetMap Foundation. Om du har frågor om din användning av märkena, se vår
-          %{trademark_policy_link}.
+        trademarks_1_1_html: OpenHistoricalMap, förstoringsglas-logotypen och State
+          of the Map är registrerade varumärken hos OpenHistoricalMap Foundation.
+          Om du har frågor gällande din användning av varumärkena, vänligen se vår
+          <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">varumärkespolicy</a>.
         trademarks_1_1_trademark_policy: Varumärkespolicy
     index:
       js_1: Du använder antingen en webbläsare som inte stöder JavaScript, eller så
@@ -2263,6 +2302,7 @@ sv:
       not_public_description_html: Du kan inte längre redigera kartan om du inte gör
         det. Du kan göra dina redigeringar offentliga från din %{user_page}.
       user_page_link: användarsida
+      anon_edits_html: (%{link})
       anon_edits_link_text: Ta reda på varför det är så.
       id_not_configured: iD har inte konfigurerats
     export:
@@ -2302,14 +2342,15 @@ sv:
             i OpenStreetMap-gemenskapen och själv lägga till eller reparera datan.
         add_a_note:
           instructions_1_html: |-
-            Klicka bara på %{note_icon} eller samma ikon på kartvisningen.
+            Klicka bara på <a class='icon note'></a> eller samma ikon i kartrutan.
             Detta lägger till en markör på kartan som du kan flytta
-            genom att dra. Lägg till ditt meddelande och klicka sedan på spara, så kommer andra kartläggare att undersöka det.
+            genom att dra. Skriv ditt meddelande och klicka sedan på spara, så kommer andra kartritare att undersöka.
       other_concerns:
         title: Andra farhågor
         concerns_html: |-
-          Om du är betänkligheter kring hur vår data används eller om innehållet, kontakta vår
-          %{copyright_link} för mer juridisk information, eller kontakta lämplig %{working_group_link}.
+          Om du har frågor om hur vår data används eller om innehållet, se
+          <a href='/copyright'>sidan om upphovsrätt</a> för mer juridisk information eller kontakta lämplig
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-arbetsgrupp</a>.
         copyright: upphovsrättssida
         working_group: OSMF arbetsgrupp
     help:
@@ -2344,6 +2385,10 @@ sv:
         title: För organisationer
         description: Är du i en organisation som har planer med OpenStreetMap? Ta
           reda på vad du behöver veta i välkomstmattan.
+      discord:
+        title: switch2osm
+      slack:
+        title: IRC
       wiki:
         title: OpenStreetMaps wiki
         description: Sök i wikin för ingående dokumentation av OpenStreetMap.
@@ -2398,13 +2443,13 @@ sv:
           subway: Tunnelbana
           ferry: Färja
           light_rail: Snabbspårväg
-          tram: Spårvagn
+          tram: spårväg
           trolleybus: Trådbuss
           bus: Buss
           cable_car: Linbana
-          chair_lift: Stollift
+          chair_lift: stollift
           runway: Landningsbana
-          taxiway: Taxibana
+          taxiway: taxibana
           apron: Flygplatsplatta
           admin: Administrativ gräns
           capital: Huvudstad
@@ -2415,7 +2460,7 @@ sv:
           wood: Naturskog
           farmland: Jordbruksmark
           grass: Gräs
-          meadow: Äng
+          meadow: äng
           bare_rock: Klippa
           sand: Sand
           golf: Golfbana
@@ -2429,7 +2474,7 @@ sv:
           heathland: Hed
           scrubland: Buskskog
           lake: Sjö
-          reservoir: Vattenmagasin
+          reservoir: vattenmagasin
           intermittent_water: Intermittent vattenkropp
           glacier: Glaciär
           reef: Rev
@@ -2444,7 +2489,7 @@ sv:
           reserve: Naturreservat
           military: Militärområde
           school: Skola
-          university: Universitet
+          university: universitet
           hospital: Sjukhus
           building: Viktig byggnad
           station: Järnvägsstation
@@ -2452,7 +2497,7 @@ sv:
           subway_station: Tunnelbanestation
           tram_stop: Spårvagnshållplats
           summit: Höjd
-          peak: Topp
+          peak: topp
           tunnel: Streckade kanter = tunnel
           bridge: Svarta kanter = bro
           private: Privat tillgång
@@ -2568,6 +2613,7 @@ sv:
       title: Redigerar GPS-spår %{name}
       heading: Redigerar GPS-spår %{name}
       visibility_help: vad betyder detta?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: GPS-spår uppdaterades
     show:
@@ -2801,6 +2847,7 @@ sv:
       consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
         egendom.
       consider_pd_why: vad är det här?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Information som hjälper dig att förstå dessa termer: en
         %{readable_summary_link} och några %{informal_translations_link}'
       readable_summary: mänskligt läsbar sammanfattning
@@ -2808,6 +2855,7 @@ sv:
       continue: |2-
 
         Fortsätt
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       cancel: Avbryt
       you need to accept or decline: Läs igenom och godkänn eller avböj de nya bidragsvillkoren
         för att fortsätta.
@@ -2820,6 +2868,7 @@ sv:
       terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera de
         nya användarvillkoren. För mer information, se %{terms_declined_link}.
       terms_declined_link: denna wikisida
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Finns ingen sådan användare
       heading: Användaren %{user} finns inte
@@ -2980,7 +3029,7 @@ sv:
       active_blocks:
         one: '%{count} aktiv blockering'
         other: '%{count} aktiva blockeringar'
-      revoke: Upphäv!
+      revoke: Återkalla!
       flash: Alla aktiva blockningar har upphävts.
     helper:
       time_future_html: Slutar om %{time}.
@@ -3165,6 +3214,7 @@ sv:
           one: Du är inom %{count} fot av denna punkt
           other: Du är inom %{count} fot av denna punkt
       base:
+        historical: Historisk
         standard: Standard
         cycle_map: Cykelkarta
         transport_map: Transportkarta

@@ -43,6 +43,7 @@ sr-Latn:
       message: Poruka
       node: Čvor
       node_tag: Oznaka čvora
+      notifier: Izvestilac
       old_node: Stari čvor
       old_node_tag: Oznaka starog čvora
       old_relation: Stari odnos
@@ -73,6 +74,7 @@ sr-Latn:
       diary_entry:
         user: Korisnik
         title: Naslov
+        body: Tekst
         latitude: Geografska širina
         longitude: Geografska dužina
         language_code: Jezik
@@ -88,6 +90,7 @@ sr-Latn:
         longitude: Geografska dužina
         public: Javno
         description: Opis
+        gpx_file: 'Otpremi GPX datoteku:'
         visibility: 'Vidljivost:'
         tagstring: 'Oznake:'
       message:
@@ -125,10 +128,12 @@ sr-Latn:
       my settings: Postavke
       current email address: 'Trenutna e-adresa:'
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: šta je ovo?
       public editing:
         heading: Javno uređivanje
         enabled: Omogućeno. Nije anonimno i mogu se uređivati podaci.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: šta je ovo?
         disabled: Onemogućeno i ne mogu se uređivati podaci. Sve prethodne izmene
           su anonimne.
@@ -140,6 +145,7 @@ sr-Latn:
         review link text: Pratite ovu vezu da biste pregledali i prihvatili nove uslove
           uređivanja.
         agreed_with_pd: Takođe se slažete da vaše izmene budu u javnom vlasništvu.
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
         link text: šta je ovo?
       save changes button: Sačuvaj izmene
     go_public:
@@ -151,6 +157,7 @@ sr-Latn:
       success: Podaci o korisniku su uspešno ažurirani.
   browse:
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} kao %{role}'
       type:
         node: Čvor
@@ -204,6 +211,7 @@ sr-Latn:
         title_comment: Skup izmena %{id} – %{comment}
     show:
       title: Skup izmena
+      comment: Komentar
       changesetxml: XML skup izmena
       osmchangexml: osmChange XML
     timeout:
@@ -301,9 +309,12 @@ sr-Latn:
       not_a_friend: '%{name} nije vaš prijatelj.'
   geocoder:
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aeroway:
           aerodrome: Aerodrom
+          apron: Rampa
+          gate: Kapija
           helipad: Heliodrom
           runway: Pista
           taxiway: Rulna staza
@@ -735,7 +746,9 @@ sr-Latn:
     gps_traces: GPS tragovi
     user_diaries: Dnevnici
     edit_with: Uredi uređivačem %{editor}
-    partners_partners: partneri
+    tag_line: Slobodna viki mapa sveta
+    intro_2_create_account: Otvorite nalog
+    partners_title: partneri
     osm_offline: Baza podataka Openstritmapa je trenutno nedostupna dok se ne završe
       važni radovi na održavanju.
     osm_read_only: Zbog radova na održavanju baze podataka Openstritmapa, istu trenutno
@@ -759,6 +772,10 @@ sr-Latn:
       see_their_profile: Možete videti njegov/njen profil na %{userurl}.
       befriend_them: Možete ga/je dodati i kao prijatelja na %{befriendurl}.
     gpx_failure:
+      failed_to_import: 'failed to be imported as a GPS trace file. Please verify
+        that your file is a valid GPX file or an archive containing GPX file(s) in
+        the supported format (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Could
+        there be a format or syntax issue with your file? Here is the importing error:'
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
       subject: '[OpenStreetMap] GPX uvoz nije uspeo'
     gpx_success:
@@ -877,6 +894,7 @@ sr-Latn:
       home location: 'Mesto stanovanja:'
       no home location: Niste uneli mesto stanovanja.
       update home location on click: Ažurirati mesto stanovanja kada kliknem na mapu?
+      show: Prikaži
   sessions:
     new:
       tab_title: Prijava
@@ -917,6 +935,17 @@ sr-Latn:
         native_link: srpsko izdanje
         mapping_link: počnite s mapiranjem
       legal_babble:
+        introduction_1_html: |-
+          OpenHistoricalMap is <i>open data</i>, licensed under the <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL).
+        introduction_2_html: |2-
+            Možete da umnožavate, delite, prenosite i prilagođavate
+            naše mape i podatke, sve dok imenujete Openstritmap i njene
+            urednike. Ako želite da menjate i dograđujete naše podatke,
+            možete ih deliti samo pod istom licencom.
+            Ceo <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">
+            tekst ugovora</a> objašnjava vam vaša prava i odgovornosti.
         credit_title_html: Kako da imenujete Openstritmap
         credit_1_html: |2-
             Ako koristite naše slike mapa, tražimo da zasluge sadrže
@@ -924,6 +953,16 @@ sr-Latn:
             Openstritmapa, CC BY-SA&rdquo;. Ako koristite samo podatke mapa,
             navedite &ldquo;Kartografski podaci &copy; Doprinosioci Openstritmapa,
             CC BY-SA&rdquo;.
+        credit_2_1: |2-
+            Gde je moguće, Openstritmap bi trebalo da vodi do adrese <a
+            href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
+            i CC BY-SA do <a
+            href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>.
+            Ako koristite medijum u kom se veze ne mogu postaviti
+            (npr. štampani rad), predlažemo da usmerite vaše
+            čitaoce na www.openstreetmap.org (po mogućstvu
+            proširavanjem &lsquo;Openstritmapa&rsquo; na celu adresu)
+            i na www.creativecommons.org.
         more_title_html: Saznajte više
         contributors_title_html: Naši saradnici
         contributors_intro_html: |2-
@@ -934,6 +973,10 @@ sr-Latn:
             pripadaju nacionalnoj geografskoj agenciji ili drugom
             većem izvoru koji je uključen u Openstritmap, razumno je
             navesti izvor ili ostaviti hipervezu do njega.
+        contributors_footer_1_html: |-
+          Više informacija o ovim i drugim izvorima korišćenim
+          za poboljšavanje Openstritmapa možete naći na stranici <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">Doprinosioci</a> na našem vikiju.
         contributors_footer_2_html: |2-
             Uključivanje podataka u Openstritmap ne podrazumeva da izvorni
             vlasnik podataka prihvata Openstritmap, obezbeđuje bilo kakvu
@@ -948,10 +991,13 @@ sr-Latn:
       not_public_description_html: Ne možete uređivati mapu sve dok to ne uradite.
         Možete podesiti da vaše izmene budu javne s %{user_page}.
       user_page_link: korisničke stranice
+      anon_edits_html: (%{link})
       anon_edits_link_text: Saznajte zašto je to slučaj.
     export:
       manually_select: Ručno izaberite drugo područje
       licence: Licenca
+      licence_details_html: Podaci Openstritmapa su dostupni pod licencom <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sr">Krijejtiv
+        komons Autorstvo-Deliti pod istim uslovima 2.0</a>.
       too_large:
         body: Ovo područje je preveliko da bi bilo izvezeno u formatu XML. Uvećajte
           prikaz ili izaberite manju površinu.
@@ -977,6 +1023,8 @@ sr-Latn:
           footway: Pešačka staza
           rail: Železnička pruga
           subway: Podzemna železnica
+          light_rail: Laka železnica
+          tram: tramvaj
           cable_car: Žičara
           chair_lift: sedišnica
           runway: Aerodromska pista
@@ -985,6 +1033,7 @@ sr-Latn:
           admin: Administrativna granica
           forest: Šuma
           wood: Šuma
+          meadow: livada
           golf: Golf teren
           park: Park
           common: Poljana
@@ -1104,6 +1153,7 @@ sr-Latn:
       consider_pd: Prema gorenavedenom ugovoru, smatram da moji doprinosi pripadaju
         javnom vlasništvu
       consider_pd_why: šta je ovo?
+      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       you need to accept or decline: Molimo vas da pročitate ugovor pre nego što ga
         prihvatite.
@@ -1211,6 +1261,8 @@ sr-Latn:
       title: Korisničke blokade
       heading: Spisak korisničkih blokada
       empty: Nije napravljena nijedna blokada.
+    revoke_all:
+      revoke: Opozovi
     helper:
       time_future_html: Završava se u %{time}.
       until_login: Aktivno sve dok se korisnik ne prijavi.
