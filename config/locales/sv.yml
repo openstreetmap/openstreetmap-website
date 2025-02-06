@@ -136,7 +136,7 @@ sv:
         support_url: Supportadress
         allow_read_prefs: läs deras användaralternativ
         allow_write_prefs: ändra deras användaralternativ
-        allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
+        allow_write_diary: skapa dagboksinlägg och kommentarer
         allow_write_api: ändra kartan
         allow_read_gpx: läs deras privata GPS-spår
         allow_write_gpx: ladda upp GPS-spår
@@ -461,6 +461,7 @@ sv:
       feature_warning: Laddar %{num_features} kartkomponenter, vilket kan göra din
         webbläsare långsam eller få den att sluta svara. Är du säker på att du vill
         visa denna data?
+      feature_error: 'Funktionerna kunde inte laddas in: %{message}'
       load_data: Ladda data
       loading: Läser in …
     tag_details:
@@ -540,6 +541,7 @@ sv:
       title: Ändringsuppsättningar
       title_user: Ändringsuppsättningar av %{user}
       title_user_link_html: Ändringsuppsättningar av %{user_link}
+      title_followed: Ändringsuppsättning efter följande
       title_nearby: Ändringsuppsättningar av närbelägna användare
       empty: Inga ändringsuppsättningar hittades.
       empty_area: Inga ändringsuppsättningar i det här området.
@@ -610,14 +612,19 @@ sv:
     popup:
       your location: Din position
       nearby mapper: Användare i närheten
+      following: Följare
     show:
       title: Min kontrollpanel
       no_home_location_html: '%{edit_profile_link} och sätt din hemposition för att
         se närliggande användare.'
       edit_your_profile: Redigera din profil
+      followings: Följare
+      no followings: Du följare ännu inga andra användare.
       nearby users: Andra användare nära dig
       no nearby users: Det är ännu inga andra användare som uppgett att de kartlägger
         nära dig.
+      followed_changesets: ändringsuppsättningar
+      followed_diaries: dagboksanteckning
       nearby_changesets: närbelägna användares ändringsuppsättningar
       nearby_diaries: närbelägna användares dagboksinlägg
   diary_entries:
@@ -628,6 +635,7 @@ sv:
       use_map_link: Använd karta
     index:
       title: Användardagböcker
+      title_followed: Följares dagböcker
       title_nearby: Närbelägna användares dagböcker
       user_title: '%{user}s dagbok'
       in_language_title: Dagboksinlägg på %{language}
@@ -747,6 +755,23 @@ sv:
       title: Filen hittades inte
       description: Det gick inte att hitta en fil/katalog/API-operation med det namnet
         på OpenStreetMap-servern (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Vill du följa %{user}?
+        button: Följ användare
+      unfollow:
+        heading: Vill du sluta följa %{user}?
+        button: Sluta följa användare
+    create:
+      success: Du följer nu %{name}!
+      failed: Tyvärr misslyckades din begäran att följa %{name}.
+      already_followed: Du följer redan %{name}.
+      limit_exceeded: Du har följt många användare den senaste tiden. Vänta ett tag
+        innan du försöker följa någon mer.
+    destroy:
+      success: Du slutade följa %{name}.
+      not_followed: Du följer inte %{name}.
   geocoder:
     search:
       title:
@@ -1572,6 +1597,7 @@ sv:
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapporter'
+      more_reporters: och %{count} till
       reported_item: Rapporterat objekt
       states:
         ignored: Ignorerad
@@ -1606,7 +1632,6 @@ sv:
       reopened: Ärendestatus har ändrats till "Öppen"
     comments:
       comment_from_html: Kommentar från %{user_link} på %{comment_created_at}
-      reassign_param: Återtilldela ärende?
     reports:
       reported_by_html: Rapporterades som %{category} av %{user} den %{updated_at}
     helper:
@@ -1717,14 +1742,20 @@ sv:
         meddelande till författaren på %{replyurl}
     follow_notification:
       hi: Hej %{to_user},
+      subject: '[OpenStreetMap] %{user} följde dig'
+      followed_you: '%{user} följer dig nu på OpenStreetMap.'
       see_their_profile: Du kan se deras profil på %{userurl}.
       see_their_profile_html: Du kan se deras profil på %{userurl}.
+      follow_them: Du kan också följa dem på %{followurl}.
+      follow_them_html: Du kan också följa dem på %{followurl}.
     gpx_details:
       details: 'Dina fildetaljer:'
       filename: Filnamn
       url: Webbadress
       description: Beskrivning
       tags: Taggar
+      total_points: Totalt antal poäng
+      imported_points: Antalet importerade poäng
     gpx_failure:
       hi: Hej %{to_user},
       failed_to_import: Det verkade som att din fil inte kunde importeras som ett
@@ -1740,6 +1771,7 @@ sv:
       subject: '[OpenStreetMap] Misslyckades importera GPX'
     gpx_success:
       hi: Hej %{to_user},
+      imported_successfully: Det ser ut som att din fel har importerats som ett GPS-spår.
       all_your_traces: Alla dina uppladdade GPX-spår finns på %{url}
       all_your_traces_html: Alla dina framgångsrikt uppladdade GPX-spår finns på %{url}.
       subject: '[OpenStreetMap] Lyckades importera GPX'
@@ -2048,6 +2080,9 @@ sv:
       preview: Förhandsgranska
       help: Hjälp
     pagination:
+      changeset_comments:
+        older: Äldre kommentarer
+        newer: Nyare kommentarer
       diary_comments:
         older: Äldre kommentarer
         newer: Nyare kommentarer
@@ -2741,7 +2776,7 @@ sv:
       openid: Logga in med OpenStreetMap
       read_prefs: Läs användaralternativ
       write_prefs: Ändra användaralternativ
-      write_diary: Skapa dagboksinlägg, kommentarer och hitta vänner.
+      write_diary: Skapa dagboksanteckning och kommentarer
       write_api: Ändra kartan
       read_gpx: Läs privata GPS-spår
       write_gpx: Ladda upp GPS-spår
@@ -2870,6 +2905,8 @@ sv:
       edits: Redigeringar
       traces: Spår
       notes: Kartanteckningar
+      unfollow: Sluta följa
+      follow: Följ
       mapper since: 'Karterar sedan:'
       last map edit: 'Senaste kartredigering:'
       no activity yet: Ännu ingen aktivitet
@@ -2944,8 +2981,17 @@ sv:
       user:
         summary_html: '%{name} skapades från %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} skapad den %{date}'
+    comments:
+      index:
+        heading_html: '%{user}s kommentarer'
+        changesets: Ändringsuppsättningar
+        diary_entries: Dagboksanteckningar
+        no_comments: Inga kommentarer
     changeset_comments:
+      index:
+        title: Kommentarer till ändringsuppsättning tillagda av %{user}
       page:
+        changeset: Ändringsuppsättning
         when: När
         comment: Kommentar
     diary_comments:
@@ -2953,6 +2999,8 @@ sv:
         title: Dagbokskommentarer tillagda av %{user}
       page:
         post: Inlägg
+        when: När
+        comment: Kommentar
     suspended:
       title: Kontot avstängt
       heading: Kontot avstängt
@@ -3162,10 +3210,20 @@ sv:
       intro: Upptäckt ett misstag eller något som saknas? Låt andra karterare veta
         så att vi kan fixa det. Flytta markören till rätt position och skriv in en
         kommentar som förklarar problemet.
-      anonymous_warning_html: Du är inte inloggad. %{log_in} eller %{sign_up} om du
-        vill få uppdateringar för din anteckning.
+      anonymous_warning_html: Du är inte inloggad. %{log_in} eller %{sign_up} för
+        att få uppdateringar för din anteckning och hjälpa kartläggare lösa det.
       anonymous_warning_log_in: logga in
       anonymous_warning_sign_up: registrera dig
+      counter_warning_html: Du har redan postat minst %{x_anonymous_notes}, det är
+        bra för gemenskapen, tack! Nu uppmuntrar vi dig att %{contribute_by_yourself},
+        det är inte så komplicerat, och %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} anonym anteckning'
+        other: '%{count} anonyma anteckningar'
+      counter_warning_guide_link:
+        text: bidra själv
+      counter_warning_forum_link:
+        text: gemenskapen kan hjälpa dig
       advice: Din anteckning är offentlig och kan användas för att uppdatera kartan,
         så skriv inte personuppgifter eller information från upphovsrättsligt skyddade
         kartor eller kataloger.
