@@ -32,7 +32,8 @@ $(document).ready(function () {
     contextmenu: true,
     minZoom: 2,  /* match to "L.MaplibreGL" options in leaflet.map.js */
     maxZoom: 20,  /* match to "L.MaplibreGL" options in leaflet.map.js */
-    maxBounds: [[-90, -180], [90, 180]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */    worldCopyJump: true
+    maxBounds: [[-90, -360], [90, 360]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */
+    worldCopyJump: true
   });
 
   OSM.loadSidebarContent = function (path, callback) {
