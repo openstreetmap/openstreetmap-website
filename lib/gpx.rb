@@ -31,6 +31,8 @@ module GPX
             point.altitude ||= 0
             yield point
             @actual_points += 1
+            @lats << point.latitude
+            @lons << point.longitude
           elsif reader.name == "trkseg"
             @tracksegs += 1
           end
@@ -44,6 +46,8 @@ module GPX
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0
+      @lats = []
+      @lons = []
 
       begin
         Archive::Reader.open_filename(@file).each_entry_with_data do |entry, data|
@@ -94,9 +98,9 @@ module GPX
 
           first = true
 
-          points.each_with_index do |p, pt|
-            px = proj.x(p.longitude)
-            py = proj.y(p.latitude)
+          @actual_points.times do |pt|
+            px = proj.x @lons[pt]
+            py = proj.y @lats[pt]
 
             if (pt >= (points_per_frame * n)) && (pt <= (points_per_frame * (n + 1)))
               pen.thickness = 3
@@ -151,9 +155,9 @@ module GPX
 
         first = true
 
-        points do |p|
-          px = proj.x(p.longitude)
-          py = proj.y(p.latitude)
+        @actual_points.times do |pt|
+          px = proj.x @lons[pt]
+          py = proj.y @lats[pt]
 
           pen.line(px, py, oldpx, oldpy) unless first
 
