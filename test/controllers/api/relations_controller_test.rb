@@ -782,7 +782,7 @@ module Api
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(relation_id, 2)
+        get api_relation_version_path(relation_id, 2)
         assert_response :success, "can't read back version 2 of the relation #{relation_id}"
         check_ordering(doc, @response.body)
       end
@@ -862,7 +862,7 @@ module Api
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(relation_id, 1)
+        get api_relation_version_path(relation_id, 1)
         assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
         check_ordering(doc, @response.body)
       end
@@ -1084,7 +1084,7 @@ module Api
         get api_relation_path(id)
       else
         with_controller(OldRelationsController.new) do
-          get api_old_relation_path(id, ver)
+          get api_relation_version_path(id, ver)
         end
       end
       assert_response :success

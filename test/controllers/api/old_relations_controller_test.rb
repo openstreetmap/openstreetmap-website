@@ -15,15 +15,15 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/2", :method => :get },
-        { :controller => "api/old_relations", :action => "show", :id => "1", :version => "2" }
+        { :controller => "api/old_relations", :action => "show", :relation_id => "1", :version => "2" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/2.json", :method => :get },
-        { :controller => "api/old_relations", :action => "show", :id => "1", :version => "2", :format => "json" }
+        { :controller => "api/old_relations", :action => "show", :relation_id => "1", :version => "2", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/2/redact", :method => :post },
-        { :controller => "api/old_relations", :action => "redact", :id => "1", :version => "2" }
+        { :controller => "api/old_relations", :action => "redact", :relation_id => "1", :version => "2" }
       )
     end
 
@@ -71,6 +71,57 @@ module Api
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0,
                     "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history, even when logged in."
+    end
+
+    def test_show
+      relation = create(:relation, :with_history, :version => 2)
+      create(:old_relation_tag, :old_relation => relation.old_relations[0], :k => "k1", :v => "v1")
+      create(:old_relation_tag, :old_relation => relation.old_relations[1], :k => "k2", :v => "v2")
+
+      get api_relation_version_path(relation, 1)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> relation", 1 do
+          assert_dom "> @id", relation.id.to_s
+          assert_dom "> @version", "1"
+          assert_dom "> tag", 1 do
+            assert_dom "> @k", "k1"
+            assert_dom "> @v", "v1"
+          end
+        end
+      end
+
+      get api_relation_version_path(relation, 2)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> relation", 1 do
+          assert_dom "> @id", relation.id.to_s
+          assert_dom "> @version", "2"
+          assert_dom "> tag", 1 do
+            assert_dom "> @k", "k2"
+            assert_dom "> @v", "v2"
+          end
+        end
+      end
+    end
+
+    ##
+    # test that redacted relations aren't visible, regardless of
+    # authorisation except as moderator...
+    def test_show_redacted
+      relation = create(:relation, :with_history, :version => 2)
+      relation_v1 = relation.old_relations.find_by(:version => 1)
+      relation_v1.redact!(create(:redaction))
+
+      get api_relation_version_path(relation_v1.relation_id, relation_v1.version)
+      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
+
+      # not even to a logged-in user
+      auth_header = bearer_authorization_header
+      get api_relation_version_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
+      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
     end
 
     ##
@@ -135,23 +186,6 @@ module Api
     end
 
     ##
-    # test that redacted relations aren't visible, regardless of
-    # authorisation except as moderator...
-    def test_version_redacted
-      relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
-      relation_v1.redact!(create(:redaction))
-
-      get api_old_relation_path(relation_v1.relation_id, relation_v1.version)
-      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
-
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_old_relation_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
-      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
-    end
-
-    ##
     # test the redaction of an old version of a relation, while being
     # authorised as a moderator.
     def test_redact_relation_moderator
@@ -165,9 +199,9 @@ module Api
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
-      get api_old_relation_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
+      get api_relation_version_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
       assert_response :forbidden, "After redaction, relation should be gone for moderator, when flag not passed."
-      get api_old_relation_path(relation_v3.relation_id, relation_v3.version, :show_redactions => "true"), :headers => auth_header
+      get api_relation_version_path(relation_v3.relation_id, relation_v3.version, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "After redaction, relation should not be gone for moderator, when flag passed."
 
       # and when accessed via history
@@ -196,7 +230,7 @@ module Api
       auth_header = bearer_authorization_header
 
       # check can't see the redacted data
-      get api_old_relation_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
+      get api_relation_version_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
       # and when accessed via history
@@ -247,7 +281,7 @@ module Api
 
       # check moderator can still see the redacted data, without passing
       # the appropriate flag
-      get api_old_relation_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
+      get api_relation_version_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, relation should not be gone for moderator."
 
       # and when accessed via history
@@ -259,7 +293,7 @@ module Api
       auth_header = bearer_authorization_header
 
       # check normal user can now see the redacted data
-      get api_old_relation_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
+      get api_relation_version_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for normal user."
 
       # and when accessed via history
@@ -321,7 +355,7 @@ module Api
     end
 
     def do_redact_relation(relation, redaction, headers = {})
-      get api_old_relation_path(relation.relation_id, relation.version)
+      get api_relation_version_path(relation.relation_id, relation.version)
       assert_response :success, "should be able to get version #{relation.version} of relation #{relation.relation_id}."
 
       # now redact it
