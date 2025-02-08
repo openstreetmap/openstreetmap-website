@@ -106,9 +106,8 @@ L.OSM.Map = L.Map.extend({
           link.attr("target", "_blank");
         }
         return link.prop("outerHTML");
-      } else {
-        return text;
       }
+      return text;
     }
   },
 
@@ -169,16 +168,15 @@ L.OSM.Map = L.Map.extend({
   getShortUrl: function (marker) {
     var zoom = this.getZoom(),
         latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
-        str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-          window.location.protocol + "//osm.org/go/" :
-          window.location.protocol + "//" + window.location.hostname + "/go/",
+        str = window.location.protocol + "//" + window.location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/",
         char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
         x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
         y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
         // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
         // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
         // and drops the last 4 bits of the full 64 bit Morton code.
-        c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff),
+        c1 = interlace(x >>> 17, y >>> 17),
+        c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff),
         digit,
         i;
 
@@ -313,13 +311,8 @@ L.OSM.Map = L.Map.extend({
           });
 
           map._objectLayer.interestingNode = function (node, wayNodes, relationNodes) {
-            if (object.type === "node") {
-              return true;
-            } else if (object.type === "relation") {
-              return Boolean(relationNodes[node.id]);
-            } else {
-              return false;
-            }
+            return object.type === "node" ||
+                   (object.type === "relation" && Boolean(relationNodes[node.id]));
           };
 
           map._objectLayer.addData(data);

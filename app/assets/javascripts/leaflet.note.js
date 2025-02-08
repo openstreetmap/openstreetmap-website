@@ -21,12 +21,8 @@ L.OSM.note = function (options) {
         .attr("data-bs-original-title", I18n.t(isDisabled ?
           "javascripts.site.createnote_disabled_tooltip" :
           "javascripts.site.createnote_tooltip"));
-
-      if (isDisabled && !wasDisabled) {
-        link.trigger("disabled");
-      } else if (wasDisabled && !isDisabled) {
-        link.trigger("enabled");
-      }
+      if (isDisabled === wasDisabled) return;
+      link.trigger(isDisabled ? "disabled" : "enabled");
     }
 
     update();
