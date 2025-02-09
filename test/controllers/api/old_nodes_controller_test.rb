@@ -70,7 +70,35 @@ module Api
                     "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history, even when logged in."
     end
 
-    # TODO: test_show
+    def test_show
+      node = create(:node, :version => 2)
+      create(:old_node, :node_id => node.id, :version => 1, :latitude => 60 * OldNode::SCALE, :longitude => 30 * OldNode::SCALE)
+      create(:old_node, :node_id => node.id, :version => 2, :latitude => 61 * OldNode::SCALE, :longitude => 31 * OldNode::SCALE)
+
+      get api_node_version_path(node, 1)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> node", 1 do
+          assert_dom "> @id", node.id.to_s
+          assert_dom "> @version", "1"
+          assert_dom "> @lat", "60.0000000"
+          assert_dom "> @lon", "30.0000000"
+        end
+      end
+
+      get api_node_version_path(node, 2)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> node", 1 do
+          assert_dom "> @id", node.id.to_s
+          assert_dom "> @version", "2"
+          assert_dom "> @lat", "61.0000000"
+          assert_dom "> @lon", "31.0000000"
+        end
+      end
+    end
 
     def test_show_not_found
       check_not_found_id_version(70000, 312344)
