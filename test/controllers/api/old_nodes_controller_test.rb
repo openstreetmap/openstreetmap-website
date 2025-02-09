@@ -151,6 +151,10 @@ module Api
       get api_node_version_path(node, 1)
 
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
+
+      get api_node_version_path(node, 1, :show_redactions => "true")
+
+      assert_response :forbidden, "Redacted node shouldn't be visible via the version API when passing flag."
     end
 
     def test_show_redacted_normal_user
@@ -160,6 +164,10 @@ module Api
       get api_node_version_path(node, 1), :headers => bearer_authorization_header
 
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
+
+      get api_node_version_path(node, 1, :show_redactions => "true"), :headers => bearer_authorization_header
+
+      assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in and passing flag."
     end
 
     # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05

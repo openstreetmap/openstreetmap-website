@@ -151,6 +151,10 @@ module Api
       get api_relation_version_path(relation, 1)
 
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
+
+      get api_relation_version_path(relation, 1, :show_redactions => "true")
+
+      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API when passing flag."
     end
 
     def test_show_redacted_normal_user
@@ -160,6 +164,10 @@ module Api
       get api_relation_version_path(relation, 1), :headers => bearer_authorization_header
 
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
+
+      get api_relation_version_path(relation, 1, :show_redactions => "true"), :headers => bearer_authorization_header
+
+      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in and passing flag."
     end
 
     ##
