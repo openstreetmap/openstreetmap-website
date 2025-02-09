@@ -79,13 +79,10 @@ OSM.Directions = function (map) {
   });
 
   function formatDistance(m) {
-    if (m < 1000) {
-      return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
-    } else if (m < 10000) {
-      return I18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
-    } else {
-      return I18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
-    }
+    const unitTemplate = "javascripts.directions.distance_";
+    if (m < 1000) return I18n.t(unitTemplate + "m", { distance: Math.round(m) });
+    if (m < 10000) return I18n.t(unitTemplate + "km", { distance: (m / 1000.0).toFixed(1) });
+    return I18n.t(unitTemplate + "km", { distance: Math.round(m / 1000) });
   }
 
   function formatHeight(m) {
@@ -179,28 +176,12 @@ OSM.Directions = function (map) {
 
       // Add each row
       route.steps.forEach(function (step) {
-        var ll = step[0],
-            direction = step[1],
-            instruction = step[2],
-            dist = step[3],
-            lineseg = step[4];
-
-        if (dist < 5) {
-          dist = "";
-        } else if (dist < 200) {
-          dist = String(Math.round(dist / 10) * 10) + "m";
-        } else if (dist < 1500) {
-          dist = String(Math.round(dist / 100) * 100) + "m";
-        } else if (dist < 5000) {
-          dist = String(Math.round(dist / 100) / 10) + "km";
-        } else {
-          dist = String(Math.round(dist / 1000)) + "km";
-        }
+        const [ll, direction, instruction, dist, lineseg] = step;
 
         var row = $("<tr class='turn'/>");
         row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
         row.append("<td>" + instruction);
-        row.append("<td class='distance text-body-secondary text-end'>" + dist);
+        row.append("<td class='distance text-body-secondary text-end'>" + getDistText(dist));
 
         row.on("click", function () {
           popup
@@ -232,6 +213,14 @@ OSM.Directions = function (map) {
         // TODO: collapse width of sidebar back to previous
       });
     });
+
+    function getDistText(dist) {
+      if (dist < 5) return "";
+      if (dist < 200) return String(Math.round(dist / 10) * 10) + "m";
+      if (dist < 1500) return String(Math.round(dist / 100) * 100) + "m";
+      if (dist < 5000) return String(Math.round(dist / 100) / 10) + "km";
+      return String(Math.round(dist / 1000)) + "km";
+    }
   }
 
   var chosenEngineIndex = findEngine("fossgis_osrm_car");

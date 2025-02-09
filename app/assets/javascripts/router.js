@@ -142,11 +142,8 @@ OSM.Router = function (map, rts) {
   };
 
   router.stateChange = function (state) {
-    if (state.center) {
-      window.history.replaceState(state, document.title, OSM.formatHash(state));
-    } else {
-      window.history.replaceState(state, document.title, window.location);
-    }
+    const url = state.center ? OSM.formatHash(state) : window.location;
+    window.history.replaceState(state, document.title, url);
   };
 
   router.updateHash = function () {

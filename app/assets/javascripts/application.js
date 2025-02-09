@@ -48,11 +48,9 @@ window.updateLinks = function (loc, zoom, layers, object) {
     const queryArgs = new URLSearchParams(link.search),
           editlink = $(link).hasClass("editlink");
 
-    queryArgs.delete("node");
-    queryArgs.delete("way");
-    queryArgs.delete("relation");
-    queryArgs.delete("changeset");
-    queryArgs.delete("note");
+    for (const arg of ["node", "way", "relation", "changeset", "note"]) {
+      queryArgs.delete(arg);
+    }
 
     if (object && editlink) {
       queryArgs.set(object.type, object.id);

@@ -61,13 +61,9 @@ OSM.Changeset = function (map) {
     });
 
     content.find("textarea").on("input", function (e) {
-      var form = e.target.form;
-
-      if ($(e.target).val() === "") {
-        $(form.comment).prop("disabled", true);
-      } else {
-        $(form.comment).prop("disabled", false);
-      }
+      const form = e.target.form,
+            disabled = $(e.target).val() === "";
+      form.comment.disabled = disabled;
     });
 
     content.find("textarea").val("").trigger("input");

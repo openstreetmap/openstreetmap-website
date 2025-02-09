@@ -13,8 +13,6 @@ L.OSM.query = function (options) {
 
     map.on("zoomend", update);
 
-    update();
-
     function update() {
       var wasDisabled = link.hasClass("disabled"),
           isDisabled = map.getZoom() < 14;
@@ -23,13 +21,11 @@ L.OSM.query = function (options) {
         .attr("data-bs-original-title", I18n.t(isDisabled ?
           "javascripts.site.queryfeature_disabled_tooltip" :
           "javascripts.site.queryfeature_tooltip"));
-
-      if (isDisabled && !wasDisabled) {
-        link.trigger("disabled");
-      } else if (wasDisabled && !isDisabled) {
-        link.trigger("enabled");
-      }
+      if (isDisabled === wasDisabled) return;
+      link.trigger(isDisabled ? "disabled" : "enabled");
     }
+
+    update();
 
     return $container[0];
   };
