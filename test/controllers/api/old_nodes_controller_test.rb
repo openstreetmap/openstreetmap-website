@@ -228,7 +228,9 @@ module Api
       auth_header = bearer_authorization_header create(:moderator_user)
 
       do_redact_node(node_v3, create(:redaction), auth_header)
+
       assert_response :success, "should be OK to redact old version as moderator."
+      assert_predicate node_v3.reload, :redacted?
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
