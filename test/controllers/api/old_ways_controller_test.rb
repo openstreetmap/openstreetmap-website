@@ -96,6 +96,24 @@ module Api
                  "redacted node #{way.id} version 1 shouldn't be present in the history, even when logged in and passing flag."
     end
 
+    def test_index_redacted_moderator
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_way_versions_path(way), :headers => auth_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm way[id='#{way.id}'][version='1']", 0,
+                 "way #{way.id} version 1 should not be present in the history for moderators when not passing flag."
+
+      get api_way_versions_path(way, :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm way[id='#{way.id}'][version='1']", 1,
+                 "way #{way.id} version 1 should still be present in the history for moderators when passing flag."
+    end
+
     def test_show
       way = create(:way, :with_history, :version => 2)
 
@@ -233,16 +251,6 @@ module Api
       assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
       get api_way_version_path(way_v3.way_id, way_v3.version, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
-
-      # and when accessed via history
-      get api_way_versions_path(way), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
-                    "way #{way_v3.way_id} version #{way_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_way_versions_path(way, :show_redactions => "true"), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 1,
-                    "way #{way_v3.way_id} version #{way_v3.version} should still be present in the history for moderators when passing flag."
     end
 
     # testing that if the moderator drops auth, he can't see the
@@ -261,12 +269,6 @@ module Api
       # check can't see the redacted data
       get api_way_version_path(way_v3.way_id, way_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
-
-      # and when accessed via history
-      get api_way_versions_path(way), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
-                    "redacted way #{way_v3.way_id} version #{way_v3.version} shouldn't be present in the history."
     end
 
     ##

@@ -89,6 +89,24 @@ module Api
                  "redacted relation #{relation.id} version 1 shouldn't be present in the history, even when logged in and passing flag."
     end
 
+    def test_index_redacted_moderator
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_relation_versions_path(relation), :headers => auth_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm relation[id='#{relation.id}'][version='1']", 0,
+                 "relation #{relation.id} version 1 should not be present in the history for moderators when not passing flag."
+
+      get api_relation_versions_path(relation, :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm relation[id='#{relation.id}'][version='1']", 1,
+                 "relation #{relation.id} version 1 should still be present in the history for moderators when passing flag."
+    end
+
     def test_show
       relation = create(:relation, :with_history, :version => 2)
       create(:old_relation_tag, :old_relation => relation.old_relations[0], :k => "k1", :v => "v1")
@@ -225,16 +243,6 @@ module Api
       assert_response :forbidden, "After redaction, relation should be gone for moderator, when flag not passed."
       get api_relation_version_path(relation_v3.relation_id, relation_v3.version, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "After redaction, relation should not be gone for moderator, when flag passed."
-
-      # and when accessed via history
-      get api_relation_versions_path(relation), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0,
-                    "relation #{relation_v3.relation_id} version #{relation_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_relation_versions_path(relation, :show_redactions => "true"), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 1,
-                    "relation #{relation_v3.relation_id} version #{relation_v3.version} should still be present in the history for moderators when passing flag."
     end
 
     # testing that if the moderator drops auth, he can't see the
@@ -254,12 +262,6 @@ module Api
       # check can't see the redacted data
       get api_relation_version_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
-
-      # and when accessed via history
-      get api_relation_versions_path(relation), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0,
-                    "redacted relation #{relation_v3.relation_id} version #{relation_v3.version} shouldn't be present in the history."
     end
 
     ##
