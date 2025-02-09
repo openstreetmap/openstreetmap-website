@@ -80,7 +80,29 @@ module Api
                     "redacted node #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history, even when logged in."
     end
 
-    # TODO: test_show
+    def test_show
+      way = create(:way, :with_history, :version => 2)
+
+      get api_way_version_path(way, 1)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> way", 1 do
+          assert_dom "> @id", way.id.to_s
+          assert_dom "> @version", "1"
+        end
+      end
+
+      get api_way_version_path(way, 2)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> way", 1 do
+          assert_dom "> @id", way.id.to_s
+          assert_dom "> @version", "2"
+        end
+      end
+    end
 
     ##
     # test that redacted ways aren't visible, regardless of
