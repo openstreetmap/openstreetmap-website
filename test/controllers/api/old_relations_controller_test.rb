@@ -305,49 +305,6 @@ module Api
 
     private
 
-    ##
-    # check that the current version of a relation is equivalent to the
-    # version which we're getting from the versions call.
-    def check_current_version(relation_id)
-      # get the current version
-      current_relation = with_controller(RelationsController.new) do
-        get :show, :params => { :id => relation_id }
-        assert_response :success, "can't get current relation #{relation_id}"
-        Relation.from_xml(@response.body)
-      end
-      assert_not_nil current_relation, "getting relation #{relation_id} returned nil"
-
-      # get the "old" version of the relation from the version method
-      get :version, :params => { :id => relation_id, :version => current_relation.version }
-      assert_response :success, "can't get old relation #{relation_id}, v#{current_relation.version}"
-      old_relation = Relation.from_xml(@response.body)
-
-      # check that the relations are identical
-      assert_relations_are_equal current_relation, old_relation
-    end
-
-    ##
-    # look at all the versions of the relation in the history and get each version from
-    # the versions call. check that they're the same.
-    def check_history_equals_versions(relation_id)
-      get :history, :params => { :id => relation_id }
-      assert_response :success, "can't get relation #{relation_id} from API"
-      history_doc = XML::Parser.string(@response.body).parse
-      assert_not_nil history_doc, "parsing relation #{relation_id} history failed"
-
-      history_doc.find("//osm/relation").each do |relation_doc|
-        history_relation = Relation.from_xml_node(relation_doc)
-        assert_not_nil history_relation, "parsing relation #{relation_id} version failed"
-
-        get :version, :params => { :id => relation_id, :version => history_relation.version }
-        assert_response :success, "couldn't get relation #{relation_id}, v#{history_relation.version}"
-        version_relation = Relation.from_xml(@response.body)
-        assert_not_nil version_relation, "failed to parse #{relation_id}, v#{history_relation.version}"
-
-        assert_relations_are_equal history_relation, version_relation
-      end
-    end
-
     def do_redact_redactable_relation(headers = {})
       relation = create(:relation, :with_history, :version => 4)
       relation_v3 = relation.old_relations.find_by(:version => 3)
