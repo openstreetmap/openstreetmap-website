@@ -7,6 +7,14 @@ module.exports = [
   js.configs.recommended,
   erb.configs.recommended,
   {
+    ignores: [
+      "app/assets/javascripts/i18n/",
+      "coverage/assets/",
+      "public/assets/",
+      "vendor/"
+    ]
+  },
+  {
     plugins: {
       "@stylistic": stylisticJs
     },
