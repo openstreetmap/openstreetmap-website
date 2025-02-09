@@ -87,8 +87,8 @@
       "<a href='https://gis-ops.com/global-open-valhalla-server-online/' target='_blank'>Valhalla (FOSSGIS)</a>",
       draggable: false,
 
-      getRoute: function (points, callback) {
-        const data = {
+      getRoute: function (points, signal) {
+        const query = new URLSearchParams({
           json: JSON.stringify({
             locations: points.map(function (p) {
               return { lat: p.lat, lon: p.lng, radius: 5 };
@@ -99,22 +99,13 @@
               language: I18n.currentLocale()
             }
           })
-        };
-        return $.ajax({
-          url: OSM.FOSSGIS_VALHALLA_URL,
-          data,
-          dataType: "json",
-          success: function ({ trip }) {
-            if (trip.status === 0) {
-              callback(false, _processDirections(trip.legs));
-            } else {
-              callback(true);
-            }
-          },
-          error: function () {
-            callback(true);
-          }
         });
+        return fetch(OSM.FOSSGIS_VALHALLA_URL + "?" + query, { signal })
+          .then(response => response.json())
+          .then(({ trip }) => {
+            if (trip.status !== 0) throw new Error();
+            return _processDirections(trip.legs);
+          });
       }
     };
   }
