@@ -30,18 +30,14 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    get "node/:id/ways" => "ways#ways_for_node", :as => :node_ways, :id => /\d+/
-    get "node/:id/relations" => "relations#relations_for_node", :as => :node_relations, :id => /\d+/
     get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
     post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
 
     get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
-    get "way/:id/relations" => "relations#relations_for_way", :as => :way_relations, :id => /\d+/
     post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
     get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
 
-    get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
     get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
     post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
     get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
@@ -49,13 +45,21 @@ OpenStreetMap::Application.routes.draw do
 
   namespace :api, :path => "api/0.6" do
     resources :nodes, :only => [:index, :create]
-    resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy]
+    resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy] do
+      scope :module => :nodes do
+        resources :ways, :only => :index
+        resources :relations, :only => :index
+      end
+    end
     put "node/create" => "nodes#create", :as => nil
 
     resources :ways, :only => [:index, :create]
     resources :ways, :path => "way", :id => /\d+/, :only => [:show, :update, :destroy] do
       member do
         get :full, :action => :show, :full => true, :as => nil
+      end
+      scope :module => :ways do
+        resources :relations, :only => :index
       end
     end
     put "way/create" => "ways#create", :as => nil
@@ -64,6 +68,9 @@ OpenStreetMap::Application.routes.draw do
     resources :relations, :path => "relation", :id => /\d+/, :only => [:show, :update, :destroy] do
       member do
         get :full, :action => :show, :full => true, :as => nil
+      end
+      scope :module => :relations do
+        resources :relations, :only => :index
       end
     end
     put "relation/create" => "relations#create", :as => nil
