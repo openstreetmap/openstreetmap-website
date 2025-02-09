@@ -35,6 +35,7 @@ module.exports = [
       reportUnusedDisableDirectives: "off"
     },
     rules: {
+      /* eslint sort-keys: ["warn"] */
       "@stylistic/array-bracket-newline": ["error", "consistent"],
       "@stylistic/array-bracket-spacing": "error",
       "@stylistic/block-spacing": "error",
@@ -47,18 +48,18 @@ module.exports = [
       "@stylistic/eol-last": "error",
       "@stylistic/func-call-spacing": "error",
       "@stylistic/indent": ["error", 2, {
-        SwitchCase: 1,
-        VariableDeclarator: "first",
+        CallExpression: { arguments: "first" },
         FunctionDeclaration: { parameters: "first" },
         FunctionExpression: { parameters: "first" },
-        CallExpression: { arguments: "first" }
+        SwitchCase: 1,
+        VariableDeclarator: "first"
       }],
       "@stylistic/key-spacing": "error",
       "@stylistic/keyword-spacing": "error",
       "@stylistic/no-floating-decimal": "error",
       "@stylistic/no-mixed-operators": "error",
-      "@stylistic/no-multiple-empty-lines": "error",
       "@stylistic/no-multi-spaces": "error",
+      "@stylistic/no-multiple-empty-lines": "error",
       "@stylistic/no-trailing-spaces": "error",
       "@stylistic/no-whitespace-before-property": "error",
       "@stylistic/object-curly-newline": ["error", { consistent: true }],
@@ -101,8 +102,8 @@ module.exports = [
       "no-implied-eval": "error",
       "no-invalid-this": "error",
       "no-iterator": "error",
-      "no-labels": "error",
       "no-label-var": "error",
+      "no-labels": "error",
       "no-lone-blocks": "error",
       "no-lonely-if": "error",
       "no-loop-func": "error",
@@ -126,10 +127,10 @@ module.exports = [
       "no-unneeded-ternary": "error",
       "no-unused-expressions": "off",
       "no-unused-vars": ["error", { caughtErrors: "none" }],
+      "no-use-before-define": ["error", { functions: false }],
       "no-useless-call": "error",
       "no-useless-concat": "error",
       "no-useless-return": "error",
-      "no-use-before-define": ["error", { functions: false }],
       "no-void": "error",
       "no-warning-comments": "warn",
       "radix": ["error", "always"],
