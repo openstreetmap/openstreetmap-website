@@ -167,6 +167,20 @@ module Api
       assert_response :forbidden, "Redacted way shouldn't be visible via the version API, even when logged in and passing flag."
     end
 
+    def test_show_redacted_moderator
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_way_version_path(way, 1), :headers => auth_header
+
+      assert_response :forbidden, "Redacted node should be gone for moderator, when flag not passed."
+
+      get api_way_version_path(way, 1, :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success, "Redacted node should not be gone for moderator, when flag passed."
+    end
+
     ##
     # check that returned history is the same as getting all
     # versions of a way from the api.
@@ -252,31 +266,6 @@ module Api
 
       assert_response :success, "should be OK to redact old version as moderator."
       assert_predicate way_v3.reload, :redacted?
-
-      # check moderator can still see the redacted data, when passing
-      # the appropriate flag
-      get api_way_version_path(way_v3.way_id, way_v3.version), :headers => auth_header
-      assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-      get api_way_version_path(way_v3.way_id, way_v3.version, :show_redactions => "true"), :headers => auth_header
-      assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
-    end
-
-    # testing that if the moderator drops auth, he can't see the
-    # redacted stuff any more.
-    def test_redact_way_is_redacted
-      way = create(:way, :with_history, :version => 4)
-      way_v3 = way.old_ways.find_by(:version => 3)
-      auth_header = bearer_authorization_header create(:moderator_user)
-
-      do_redact_way(way_v3, create(:redaction), auth_header)
-      assert_response :success, "should be OK to redact old version as moderator."
-
-      # re-auth as non-moderator
-      auth_header = bearer_authorization_header
-
-      # check can't see the redacted data
-      get api_way_version_path(way_v3.way_id, way_v3.version), :headers => auth_header
-      assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
     end
 
     ##

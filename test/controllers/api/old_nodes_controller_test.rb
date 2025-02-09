@@ -170,6 +170,20 @@ module Api
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in and passing flag."
     end
 
+    def test_show_redacted_moderator
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_node_version_path(node, 1), :headers => auth_header
+
+      assert_response :forbidden, "Redacted node should be gone for moderator, when flag not passed."
+
+      get api_node_version_path(node, 1, :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success, "Redacted node should not be gone for moderator, when flag passed."
+    end
+
     # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
     def test_lat_lon_xml_format
       old_node = create(:old_node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
@@ -257,31 +271,6 @@ module Api
 
       assert_response :success, "should be OK to redact old version as moderator."
       assert_predicate node_v3.reload, :redacted?
-
-      # check moderator can still see the redacted data, when passing
-      # the appropriate flag
-      get api_node_version_path(node_v3.node_id, node_v3.version), :headers => auth_header
-      assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-      get api_node_version_path(node_v3.node_id, node_v3.version, :show_redactions => "true"), :headers => auth_header
-      assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
-    end
-
-    # testing that if the moderator drops auth, he can't see the
-    # redacted stuff any more.
-    def test_redact_node_is_redacted
-      node = create(:node, :with_history, :version => 4)
-      node_v3 = node.old_nodes.find_by(:version => 3)
-      auth_header = bearer_authorization_header create(:moderator_user)
-
-      do_redact_node(node_v3, create(:redaction), auth_header)
-      assert_response :success, "should be OK to redact old version as moderator."
-
-      # re-auth as non-moderator
-      auth_header = bearer_authorization_header
-
-      # check can't see the redacted data
-      get api_node_version_path(node_v3.node_id, node_v3.version), :headers => auth_header
-      assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
     end
 
     ##

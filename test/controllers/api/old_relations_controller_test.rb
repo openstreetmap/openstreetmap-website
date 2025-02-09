@@ -170,6 +170,20 @@ module Api
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in and passing flag."
     end
 
+    def test_show_redacted_moderator
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_relation_version_path(relation, 1), :headers => auth_header
+
+      assert_response :forbidden, "Redacted relation should be gone for moderator, when flag not passed."
+
+      get api_relation_version_path(relation, 1, :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success, "Redacted relation should not be gone for moderator, when flag passed."
+    end
+
     ##
     # test the redaction of an old version of a relation, while not being
     # authorised.
@@ -237,39 +251,12 @@ module Api
     def test_redact_relation_moderator
       relation = create(:relation, :with_history, :version => 4)
       relation_v3 = relation.old_relations.find_by(:version => 3)
-
       auth_header = bearer_authorization_header create(:moderator_user)
 
       do_redact_relation(relation_v3, create(:redaction), auth_header)
 
       assert_response :success, "should be OK to redact old version as moderator."
       assert_predicate relation_v3.reload, :redacted?
-
-      # check moderator can still see the redacted data, when passing
-      # the appropriate flag
-      get api_relation_version_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
-      assert_response :forbidden, "After redaction, relation should be gone for moderator, when flag not passed."
-      get api_relation_version_path(relation_v3.relation_id, relation_v3.version, :show_redactions => "true"), :headers => auth_header
-      assert_response :success, "After redaction, relation should not be gone for moderator, when flag passed."
-    end
-
-    # testing that if the moderator drops auth, he can't see the
-    # redacted stuff any more.
-    def test_redact_relation_is_redacted
-      relation = create(:relation, :with_history, :version => 4)
-      relation_v3 = relation.old_relations.find_by(:version => 3)
-
-      auth_header = bearer_authorization_header create(:moderator_user)
-
-      do_redact_relation(relation_v3, create(:redaction), auth_header)
-      assert_response :success, "should be OK to redact old version as moderator."
-
-      # re-auth as non-moderator
-      auth_header = bearer_authorization_header
-
-      # check can't see the redacted data
-      get api_relation_version_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
-      assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
     end
 
     ##
