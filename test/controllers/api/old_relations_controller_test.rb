@@ -55,22 +55,26 @@ module Api
 
     ##
     # test that redacted relations aren't visible in the history
-    def test_index_redacted
+    def test_index_redacted_unauthorised
       relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
-      relation_v1.redact!(create(:redaction))
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
       get api_relation_versions_path(relation)
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0,
-                    "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history."
 
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_relation_versions_path(relation), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0,
-                    "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history, even when logged in."
+      assert_dom "osm relation[id='#{relation.id}'][version='1']", 0,
+                 "redacted relation #{relation.id} version 1 shouldn't be present in the history."
+    end
+
+    def test_index_redacted_normal_user
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_relation_versions_path(relation), :headers => bearer_authorization_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm relation[id='#{relation.id}'][version='1']", 0,
+                 "redacted relation #{relation.id} version 1 shouldn't be present in the history, even when logged in."
     end
 
     def test_show

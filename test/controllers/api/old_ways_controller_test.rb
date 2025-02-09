@@ -62,22 +62,26 @@ module Api
 
     ##
     # test that redacted ways aren't visible in the history
-    def test_index_redacted
+    def test_index_redacted_unauthorised
       way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
-      way_v1.redact!(create(:redaction))
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
 
       get api_way_versions_path(way)
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
-                    "redacted way #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history."
 
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_way_versions_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
-                    "redacted node #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history, even when logged in."
+      assert_dom "osm way[id='#{way.id}'][version='1']", 0,
+                 "redacted way #{way.id} version 1 shouldn't be present in the history."
+    end
+
+    def test_index_redacted_normal_user
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_way_versions_path(way), :headers => bearer_authorization_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm way[id='#{way.id}'][version='1']", 0,
+                 "redacted node #{way.id} version 1 shouldn't be present in the history, even when logged in."
     end
 
     def test_show

@@ -52,22 +52,26 @@ module Api
 
     ##
     # test that redacted nodes aren't visible in the history
-    def test_index_redacted
+    def test_index_redacted_unauthorised
       node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
 
       get api_node_versions_path(node)
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
-                    "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history."
 
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_node_versions_path(node), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
-                    "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history, even when logged in."
+      assert_dom "osm node[id='#{node.id}'][version='1']", 0,
+                 "redacted node #{node.id} version 1 shouldn't be present in the history."
+    end
+
+    def test_index_redacted_normal_user
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_node_versions_path(node), :headers => bearer_authorization_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm node[id='#{node.id}'][version='1']", 0,
+                 "redacted node #{node.id} version 1 shouldn't be present in the history, even when logged in."
     end
 
     def test_show
