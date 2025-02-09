@@ -6,13 +6,12 @@ module Api
       before_action :set_request_formats
 
       def index
-        relation_ids = RelationMember.where(:member_type => "Node", :member_id => params[:node_id]).collect(&:relation_id).uniq
-
-        @relations = []
-
-        Relation.find(relation_ids).each do |relation|
-          @relations << relation if relation.visible
-        end
+        @relations = Relation
+                     .visible
+                     .where(:id => RelationMember.where(
+                       :member_type => "Node",
+                       :member_id => params[:node_id]
+                     ).select(:relation_id))
 
         # Render the result
         respond_to do |format|
