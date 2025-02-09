@@ -7,7 +7,7 @@ module Api
     end
 
     def lookup_old_element_versions
-      @elements = OldWay.where(:way_id => params[:id]).order(:version)
+      @elements = OldWay.where(:way_id => params[:way_id]).order(:version)
     end
   end
 end

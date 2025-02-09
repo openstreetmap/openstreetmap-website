@@ -7,15 +7,15 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/way/1/history", :method => :get },
-        { :controller => "api/old_ways", :action => "history", :id => "1" }
+        { :controller => "api/old_ways", :action => "index", :way_id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1/history.json", :method => :get },
+        { :controller => "api/old_ways", :action => "index", :way_id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1/2", :method => :get },
         { :controller => "api/old_ways", :action => "show", :id => "1", :version => "2" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/history.json", :method => :get },
-        { :controller => "api/old_ways", :action => "history", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1/2.json", :method => :get },
@@ -27,26 +27,57 @@ module Api
       )
     end
 
-    # -------------------------------------
-    # Test reading old ways.
-    # -------------------------------------
+    ##
+    # check that a visible way is returned properly
+    def test_index
+      way = create(:way, :with_history, :version => 2)
 
-    def test_history_visible
-      # check that a visible way is returned properly
-      get api_way_history_path(create(:way, :with_history))
+      get api_way_versions_path(way)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> way", 2 do |dom_ways|
+          assert_dom dom_ways[0], "> @id", way.id.to_s
+          assert_dom dom_ways[0], "> @version", "1"
+
+          assert_dom dom_ways[1], "> @id", way.id.to_s
+          assert_dom dom_ways[1], "> @version", "2"
+        end
+      end
+    end
+
+    ##
+    # check that an invisible way's history is returned properly
+    def test_index_invisible
+      get api_way_versions_path(create(:way, :with_history, :deleted))
       assert_response :success
     end
 
-    def test_history_invisible
-      # check that an invisible way's history is returned properly
-      get api_way_history_path(create(:way, :with_history, :deleted))
-      assert_response :success
-    end
-
-    def test_history_invalid
-      # check chat a non-existent way is not returned
-      get api_way_history_path(0)
+    ##
+    # check chat a non-existent way is not returned
+    def test_index_invalid
+      get api_way_versions_path(0)
       assert_response :not_found
+    end
+
+    ##
+    # test that redacted ways aren't visible in the history
+    def test_index_redacted
+      way = create(:way, :with_history, :version => 2)
+      way_v1 = way.old_ways.find_by(:version => 1)
+      way_v1.redact!(create(:redaction))
+
+      get api_way_versions_path(way)
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
+                    "redacted way #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history."
+
+      # not even to a logged-in user
+      auth_header = bearer_authorization_header
+      get api_way_versions_path(way), :headers => auth_header
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
+                    "redacted node #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history, even when logged in."
     end
 
     ##
@@ -160,26 +191,6 @@ module Api
     end
 
     ##
-    # test that redacted ways aren't visible in the history
-    def test_history_redacted
-      way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
-      way_v1.redact!(create(:redaction))
-
-      get api_way_history_path(way)
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
-                    "redacted way #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history."
-
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_way_history_path(way), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
-                    "redacted node #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history, even when logged in."
-    end
-
-    ##
     # test the redaction of an old version of a way, while being
     # authorised as a moderator.
     def test_redact_way_moderator
@@ -198,11 +209,11 @@ module Api
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_way_history_path(way), :headers => auth_header
+      get api_way_versions_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
                     "way #{way_v3.way_id} version #{way_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_way_history_path(way, :show_redactions => "true"), :headers => auth_header
+      get api_way_versions_path(way, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 1,
                     "way #{way_v3.way_id} version #{way_v3.version} should still be present in the history for moderators when passing flag."
@@ -226,7 +237,7 @@ module Api
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
-      get api_way_history_path(way), :headers => auth_header
+      get api_way_versions_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
                     "redacted way #{way_v3.way_id} version #{way_v3.version} shouldn't be present in the history."
@@ -278,7 +289,7 @@ module Api
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
-      get api_way_history_path(way), :headers => auth_header
+      get api_way_versions_path(way), :headers => auth_header
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
                     "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for moderators."
@@ -290,7 +301,7 @@ module Api
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_way_history_path(way), :headers => auth_header
+      get api_way_versions_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
                     "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for normal users."
@@ -323,7 +334,7 @@ module Api
     # look at all the versions of the way in the history and get each version from
     # the versions call. check that they're the same.
     def check_history_equals_versions(way_id)
-      get api_way_history_path(way_id)
+      get api_way_versions_path(way_id)
       assert_response :success, "can't get way #{way_id} from API"
       history_doc = XML::Parser.string(@response.body).parse
       assert_not_nil history_doc, "parsing way #{way_id} history failed"

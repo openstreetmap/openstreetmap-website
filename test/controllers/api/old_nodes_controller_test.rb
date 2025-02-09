@@ -2,24 +2,20 @@ require "test_helper"
 
 module Api
   class OldNodesControllerTest < ActionDispatch::IntegrationTest
-    #
-    # TODO: test history
-    #
-
     ##
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
         { :path => "/api/0.6/node/1/history", :method => :get },
-        { :controller => "api/old_nodes", :action => "history", :id => "1" }
+        { :controller => "api/old_nodes", :action => "index", :node_id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/node/1/history.json", :method => :get },
+        { :controller => "api/old_nodes", :action => "index", :node_id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/node/1/2", :method => :get },
         { :controller => "api/old_nodes", :action => "show", :id => "1", :version => "2" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/node/1/history.json", :method => :get },
-        { :controller => "api/old_nodes", :action => "history", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/node/1/2.json", :method => :get },
@@ -29,6 +25,49 @@ module Api
         { :path => "/api/0.6/node/1/2/redact", :method => :post },
         { :controller => "api/old_nodes", :action => "redact", :id => "1", :version => "2" }
       )
+    end
+
+    def test_index
+      node = create(:node, :version => 2)
+      create(:old_node, :node_id => node.id, :version => 1, :latitude => 60 * OldNode::SCALE, :longitude => 30 * OldNode::SCALE)
+      create(:old_node, :node_id => node.id, :version => 2, :latitude => 61 * OldNode::SCALE, :longitude => 31 * OldNode::SCALE)
+
+      get api_node_versions_path(node)
+
+      assert_response :success
+      assert_dom "osm:root", 1 do
+        assert_dom "> node", 2 do |dom_nodes|
+          assert_dom dom_nodes[0], "> @id", node.id.to_s
+          assert_dom dom_nodes[0], "> @version", "1"
+          assert_dom dom_nodes[0], "> @lat", "60.0000000"
+          assert_dom dom_nodes[0], "> @lon", "30.0000000"
+
+          assert_dom dom_nodes[1], "> @id", node.id.to_s
+          assert_dom dom_nodes[1], "> @version", "2"
+          assert_dom dom_nodes[1], "> @lat", "61.0000000"
+          assert_dom dom_nodes[1], "> @lon", "31.0000000"
+        end
+      end
+    end
+
+    ##
+    # test that redacted nodes aren't visible in the history
+    def test_index_redacted
+      node = create(:node, :with_history, :version => 2)
+      node_v1 = node.old_nodes.find_by(:version => 1)
+      node_v1.redact!(create(:redaction))
+
+      get api_node_versions_path(node)
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
+                    "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history."
+
+      # not even to a logged-in user
+      auth_header = bearer_authorization_header
+      get api_node_versions_path(node), :headers => auth_header
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
+                    "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history, even when logged in."
     end
 
     ##
@@ -191,7 +230,7 @@ module Api
     def test_lat_lon_xml_format
       old_node = create(:old_node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
 
-      get api_node_history_path(old_node.node_id)
+      get api_node_versions_path(old_node.node_id)
       assert_match(/lat="0.0000400"/, response.body)
       assert_match(/lon="0.0000800"/, response.body)
     end
@@ -280,26 +319,6 @@ module Api
     end
 
     ##
-    # test that redacted nodes aren't visible in the history
-    def test_history_redacted
-      node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
-
-      get api_node_history_path(node)
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
-                    "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history."
-
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_node_history_path(node), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
-                    "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history, even when logged in."
-    end
-
-    ##
     # test the redaction of an old version of a node, while being
     # authorised as a moderator.
     def test_redact_node_moderator
@@ -318,11 +337,11 @@ module Api
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_node_history_path(node)
+      get api_node_versions_path(node)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 0,
                     "node #{node_v3.node_id} version #{node_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_node_history_path(node, :show_redactions => "true"), :headers => auth_header
+      get api_node_versions_path(node, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 1,
                     "node #{node_v3.node_id} version #{node_v3.version} should still be present in the history for moderators when passing flag."
@@ -346,7 +365,7 @@ module Api
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
-      get api_node_history_path(node), :headers => auth_header
+      get api_node_versions_path(node), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 0,
                     "redacted node #{node_v3.node_id} version #{node_v3.version} shouldn't be present in the history."
@@ -399,7 +418,7 @@ module Api
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
-      get api_node_history_path(node)
+      get api_node_versions_path(node)
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1,
                     "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for moderators without passing flag."
@@ -411,7 +430,7 @@ module Api
       assert_response :success, "After unredaction, node should be visible to normal users."
 
       # and when accessed via history
-      get api_node_history_path(node)
+      get api_node_versions_path(node)
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1,
                     "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for normal users without passing flag."

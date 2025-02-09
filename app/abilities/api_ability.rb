@@ -15,8 +15,7 @@ class ApiAbility
       can [:read, :download], Changeset
       can :read, Tracepoint
       can :read, User
-      can :read, [Node, Way, Relation]
-      can [:history, :read], [OldNode, OldWay, OldRelation]
+      can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
       can :read, UserBlock
 
       if user&.active?
