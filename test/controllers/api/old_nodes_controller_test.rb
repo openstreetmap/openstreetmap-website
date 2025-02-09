@@ -114,17 +114,21 @@ module Api
     ##
     # test that redacted nodes aren't visible, regardless of
     # authorisation except as moderator...
-    def test_show_redacted
+    def test_show_redacted_unauthorised
       node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
 
-      get api_node_version_path(node_v1.node_id, node_v1.version)
+      get api_node_version_path(node, 1)
+
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
+    end
 
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_node_version_path(node_v1.node_id, node_v1.version), :headers => auth_header
+    def test_show_redacted_normal_user
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_node_version_path(node, 1), :headers => bearer_authorization_header
+
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
     end
 

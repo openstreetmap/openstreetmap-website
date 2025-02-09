@@ -111,17 +111,21 @@ module Api
     ##
     # test that redacted ways aren't visible, regardless of
     # authorisation except as moderator...
-    def test_show_redacted
+    def test_show_redacted_unauthorised
       way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
-      way_v1.redact!(create(:redaction))
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
 
-      get api_way_version_path(way_v1.way_id, way_v1.version)
+      get api_way_version_path(way, 1)
+
       assert_response :forbidden, "Redacted way shouldn't be visible via the version API."
+    end
 
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_way_version_path(way_v1.way_id, way_v1.version), :headers => auth_header
+    def test_show_redacted_normal_user
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_way_version_path(way, 1), :headers => bearer_authorization_header
+
       assert_response :forbidden, "Redacted way shouldn't be visible via the version API, even when logged in."
     end
 

@@ -114,17 +114,21 @@ module Api
     ##
     # test that redacted relations aren't visible, regardless of
     # authorisation except as moderator...
-    def test_show_redacted
+    def test_show_redacted_unauthorised
       relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
-      relation_v1.redact!(create(:redaction))
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
-      get api_relation_version_path(relation_v1.relation_id, relation_v1.version)
+      get api_relation_version_path(relation, 1)
+
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
+    end
 
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_relation_version_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
+    def test_show_redacted_normal_user
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_relation_version_path(relation, 1), :headers => bearer_authorization_header
+
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
     end
 
