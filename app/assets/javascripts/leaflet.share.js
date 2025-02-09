@@ -349,14 +349,14 @@ L.OSM.share = function (options) {
       $("#short_link").attr("href", map.getShortUrl(marker));
       $("#long_link").attr("href", map.getUrl(marker));
 
-      var params = {
+      const params = new URLSearchParams({
         bbox: bounds.toBBoxString(),
         layer: map.getMapBaseLayerId()
-      };
+      });
 
       if (map.hasLayer(marker)) {
         var latLng = marker.getLatLng().wrap();
-        params.marker = latLng.lat + "," + latLng.lng;
+        params.set("marker", latLng.lat + "," + latLng.lng);
       }
 
       $("#embed_link")
@@ -369,7 +369,7 @@ L.OSM.share = function (options) {
 
       $("#embed_html").val(
         "<iframe width=\"425\" height=\"350\" src=\"" +
-          escapeHTML(OSM.SERVER_PROTOCOL + "://" + OSM.SERVER_URL + "/export/embed.html?" + $.param(params)) +
+          escapeHTML(OSM.SERVER_PROTOCOL + "://" + OSM.SERVER_URL + "/export/embed.html?" + params) +
           "\" style=\"border: 1px solid black\"></iframe><br/>" +
           "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
           escapeHTML(I18n.t("javascripts.share.view_larger_map")) + "</a></small>");

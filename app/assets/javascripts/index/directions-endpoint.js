@@ -101,8 +101,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   };
 
   function getGeocode() {
-    var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
-    var geocodeUrl = OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox;
+    const viewbox = map.getBounds().toBBoxString(), // <sw lon>,<sw lat>,<ne lon>,<ne lat>
+          geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox });
 
     endpoint.geocodeRequest = $.getJSON(geocodeUrl, function (json) {
       delete endpoint.geocodeRequest;
@@ -123,8 +123,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   }
 
   function getReverseGeocode() {
-    var latlng = endpoint.latlng.clone();
-    var reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?lat=" + latlng.lat + "&lon=" + latlng.lng + "&format=json";
+    const latlng = endpoint.latlng.clone(),
+          { lat, lng } = latlng,
+          reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?" + new URLSearchParams({ lat, lon: lng, format: "json" });
 
     endpoint.geocodeRequest = $.getJSON(reverseGeocodeUrl, function (json) {
       delete endpoint.geocodeRequest;
