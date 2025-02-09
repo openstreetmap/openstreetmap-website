@@ -61,6 +61,12 @@ module Api
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_dom "osm node[id='#{node.id}'][version='1']", 0,
                  "redacted node #{node.id} version 1 shouldn't be present in the history."
+
+      get api_node_versions_path(node, :show_redactions => "true")
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm node[id='#{node.id}'][version='1']", 0,
+                 "redacted node #{node.id} version 1 shouldn't be present in the history when passing flag."
     end
 
     def test_index_redacted_normal_user
@@ -72,6 +78,12 @@ module Api
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_dom "osm node[id='#{node.id}'][version='1']", 0,
                  "redacted node #{node.id} version 1 shouldn't be present in the history, even when logged in."
+
+      get api_node_versions_path(node, :show_redactions => "true"), :headers => bearer_authorization_header
+
+      assert_response :success, "Redaction shouldn't have stopped history working."
+      assert_dom "osm node[id='#{node.id}'][version='1']", 0,
+                 "redacted node #{node.id} version 1 shouldn't be present in the history, even when logged in and passing flag."
     end
 
     def test_show
