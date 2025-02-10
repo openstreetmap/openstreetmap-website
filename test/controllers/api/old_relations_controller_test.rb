@@ -188,16 +188,14 @@ module Api
     # test the redaction of an old version of a relation, while not being
     # authorised.
     def test_redact_relation_unauthorised
-      do_redact_redactable_relation
-      assert_response :unauthorized, "should need to be authenticated to redact."
-    end
+      relation = create(:relation, :with_history, :version => 2)
+      old_relation = relation.old_relations.find_by(:version => 1)
+      redaction = create(:redaction)
 
-    ##
-    # test the redaction of an old version of a relation, while being
-    # authorised as a normal user.
-    def test_redact_relation_normal_user
-      do_redact_redactable_relation bearer_authorization_header
-      assert_response :forbidden, "should need to be moderator to redact."
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }
+
+      assert_response :unauthorized, "should need to be authenticated to redact."
+      assert_nil old_relation.reload.redaction
     end
 
     ##
@@ -205,53 +203,62 @@ module Api
     # can't be redacted.
     def test_redact_relation_current_version
       relation = create(:relation, :with_history, :version => 2)
-      redaction = create(:redaction)
-      auth_header = bearer_authorization_header create(:moderator_user)
-
-      post relation_version_redact_path(relation, 2), :params => { :redaction => redaction.id }, :headers => auth_header
-
-      assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
-    end
-
-    def test_redact_relation_by_regular_without_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:user), :scopes => %w[read_prefs write_api])
-      do_redact_redactable_relation(auth_header)
-      assert_response :forbidden, "should need to be moderator to redact."
-    end
-
-    def test_redact_relation_by_regular_with_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:user), :scopes => %w[write_redactions])
-      do_redact_redactable_relation(auth_header)
-      assert_response :forbidden, "should need to be moderator to redact."
-    end
-
-    def test_redact_relation_by_moderator_without_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[read_prefs write_api])
-      do_redact_redactable_relation(auth_header)
-      assert_response :forbidden, "should need to have write_redactions scope to redact."
-    end
-
-    def test_redact_relation_by_moderator_with_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[write_redactions])
-      do_redact_redactable_relation(auth_header)
-      assert_response :success, "should be OK to redact old version as moderator with write_redactions scope."
-    end
-
-    ##
-    # test the redaction of an old version of a relation, while being
-    # authorised as a moderator.
-    def test_redact_relation_moderator
-      relation = create(:relation, :with_history, :version => 2)
-      old_relation = relation.old_relations.find_by(:version => 1)
+      old_relation = relation.old_relations.find_by(:version => 2)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
       post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
-      assert_response :success, "should be OK to redact old version as moderator."
-      old_relation.reload
-      assert_predicate old_relation, :redacted?
-      assert_equal redaction, old_relation.redaction
+      assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
+      assert_nil old_relation.reload.redaction
+    end
+
+    def test_redact_relation_by_regular_without_write_redactions_scope
+      relation = create(:relation, :with_history, :version => 2)
+      old_relation = relation.old_relations.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:user), :scopes => %w[read_prefs write_api])
+
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :forbidden, "should need to be moderator to redact."
+      assert_nil old_relation.reload.redaction
+    end
+
+    def test_redact_relation_by_regular_with_write_redactions_scope
+      relation = create(:relation, :with_history, :version => 2)
+      old_relation = relation.old_relations.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:user), :scopes => %w[write_redactions])
+
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :forbidden, "should need to be moderator to redact."
+      assert_nil old_relation.reload.redaction
+    end
+
+    def test_redact_relation_by_moderator_without_write_redactions_scope
+      relation = create(:relation, :with_history, :version => 2)
+      old_relation = relation.old_relations.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[read_prefs write_api])
+
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :forbidden, "should need to have write_redactions scope to redact."
+      assert_nil old_relation.reload.redaction
+    end
+
+    def test_redact_relation_by_moderator_with_write_redactions_scope
+      relation = create(:relation, :with_history, :version => 2)
+      old_relation = relation.old_relations.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[write_redactions])
+
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :success, "should be OK to redact old version as moderator with write_redactions scope."
+      assert_equal redaction, old_relation.reload.redaction
     end
 
     ##
@@ -298,15 +305,6 @@ module Api
 
       assert_response :success, "should be OK to unredact old version as moderator."
       assert_nil old_relation.reload.redaction
-    end
-
-    private
-
-    def do_redact_redactable_relation(headers = {})
-      relation = create(:relation, :with_history, :version => 2)
-      redaction = create(:redaction)
-
-      post relation_version_redact_path(relation, 1), :params => { :redaction => redaction.id }, :headers => headers
     end
   end
 end

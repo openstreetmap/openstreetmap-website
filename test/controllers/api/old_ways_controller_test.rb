@@ -199,16 +199,14 @@ module Api
     # test the redaction of an old version of a way, while not being
     # authorised.
     def test_redact_way_unauthorised
-      do_redact_redactable_way
-      assert_response :unauthorized, "should need to be authenticated to redact."
-    end
+      way = create(:way, :with_history, :version => 2)
+      old_way = way.old_ways.find_by(:version => 1)
+      redaction = create(:redaction)
 
-    ##
-    # test the redaction of an old version of a way, while being
-    # authorised as a normal user.
-    def test_redact_way_normal_user
-      do_redact_redactable_way bearer_authorization_header
-      assert_response :forbidden, "should need to be moderator to redact."
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }
+
+      assert_response :unauthorized, "should need to be authenticated to redact."
+      assert_nil old_way.reload.redaction
     end
 
     ##
@@ -216,53 +214,62 @@ module Api
     # can't be redacted.
     def test_redact_way_current_version
       way = create(:way, :with_history, :version => 2)
-      redaction = create(:redaction)
-      auth_header = bearer_authorization_header create(:moderator_user)
-
-      post way_version_redact_path(way, 2), :params => { :redaction => redaction.id }, :headers => auth_header
-
-      assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
-    end
-
-    def test_redact_way_by_regular_without_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:user), :scopes => %w[read_prefs write_api])
-      do_redact_redactable_way(auth_header)
-      assert_response :forbidden, "should need to be moderator to redact."
-    end
-
-    def test_redact_way_by_regular_with_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:user), :scopes => %w[write_redactions])
-      do_redact_redactable_way(auth_header)
-      assert_response :forbidden, "should need to be moderator to redact."
-    end
-
-    def test_redact_way_by_moderator_without_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[read_prefs write_api])
-      do_redact_redactable_way(auth_header)
-      assert_response :forbidden, "should need to have write_redactions scope to redact."
-    end
-
-    def test_redact_way_by_moderator_with_write_redactions_scope
-      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[write_redactions])
-      do_redact_redactable_way(auth_header)
-      assert_response :success, "should be OK to redact old version as moderator with write_redactions scope."
-    end
-
-    ##
-    # test the redaction of an old version of a way, while being
-    # authorised as a moderator.
-    def test_redact_way_moderator
-      way = create(:way, :with_history, :version => 2)
-      old_way = way.old_ways.find_by(:version => 1)
+      old_way = way.old_ways.find_by(:version => 2)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
       post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
-      assert_response :success, "should be OK to redact old version as moderator."
-      old_way.reload
-      assert_predicate old_way, :redacted?
-      assert_equal redaction, old_way.redaction
+      assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
+      assert_nil old_way.reload.redaction
+    end
+
+    def test_redact_way_by_regular_without_write_redactions_scope
+      way = create(:way, :with_history, :version => 2)
+      old_way = way.old_ways.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:user), :scopes => %w[read_prefs write_api])
+
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :forbidden, "should need to be moderator to redact."
+      assert_nil old_way.reload.redaction
+    end
+
+    def test_redact_way_by_regular_with_write_redactions_scope
+      way = create(:way, :with_history, :version => 2)
+      old_way = way.old_ways.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:user), :scopes => %w[write_redactions])
+
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :forbidden, "should need to be moderator to redact."
+      assert_nil old_way.reload.redaction
+    end
+
+    def test_redact_way_by_moderator_without_write_redactions_scope
+      way = create(:way, :with_history, :version => 2)
+      old_way = way.old_ways.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[read_prefs write_api])
+
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :forbidden, "should need to have write_redactions scope to redact."
+      assert_nil old_way.reload.redaction
+    end
+
+    def test_redact_way_by_moderator_with_write_redactions_scope
+      way = create(:way, :with_history, :version => 2)
+      old_way = way.old_ways.find_by(:version => 1)
+      redaction = create(:redaction)
+      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[write_redactions])
+
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
+
+      assert_response :success, "should be OK to redact old version as moderator with write_redactions scope."
+      assert_equal redaction, old_way.reload.redaction
     end
 
     ##
@@ -334,13 +341,6 @@ module Api
 
         assert_ways_are_equal history_way, version_way
       end
-    end
-
-    def do_redact_redactable_way(headers = {})
-      way = create(:way, :with_history, :version => 2)
-      redaction = create(:redaction)
-
-      post way_version_redact_path(way.id, 1), :params => { :redaction => redaction.id }, :headers => headers
     end
   end
 end
