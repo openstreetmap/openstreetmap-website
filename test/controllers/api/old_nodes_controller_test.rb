@@ -251,16 +251,16 @@ module Api
     # authorised as a moderator.
     def test_redact_node_moderator
       node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
+      old_node = node.old_nodes.find_by(:version => 1)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post node_version_redact_path(*node_v1.id), :params => { :redaction => redaction.id }, :headers => auth_header
+      post node_version_redact_path(*old_node.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      node_v1.reload
-      assert_predicate node_v1, :redacted?
-      assert_equal redaction, node_v1.redaction
+      old_node.reload
+      assert_predicate old_node, :redacted?
+      assert_equal redaction, old_node.redaction
     end
 
     ##
@@ -268,14 +268,14 @@ module Api
     # authorised.
     def test_unredact_node_unauthorised
       node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
+      old_node = node.old_nodes.find_by(:version => 1)
       redaction = create(:redaction)
-      node_v1.redact!(redaction)
+      old_node.redact!(redaction)
 
-      post node_version_redact_path(node_v1.node_id, node_v1.version)
+      post node_version_redact_path(*old_node.id)
 
       assert_response :unauthorized, "should need to be authenticated to unredact."
-      assert_equal redaction, node_v1.reload.redaction
+      assert_equal redaction, old_node.reload.redaction
     end
 
     ##
@@ -284,15 +284,15 @@ module Api
     def test_unredact_node_normal_user
       user = create(:user)
       node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
+      old_node = node.old_nodes.find_by(:version => 1)
       redaction = create(:redaction)
-      node_v1.redact!(redaction)
+      old_node.redact!(redaction)
       auth_header = bearer_authorization_header user
 
-      post node_version_redact_path(node_v1.node_id, node_v1.version), :headers => auth_header
+      post node_version_redact_path(*old_node.id), :headers => auth_header
 
       assert_response :forbidden, "should need to be moderator to unredact."
-      assert_equal redaction, node_v1.reload.redaction
+      assert_equal redaction, old_node.reload.redaction
     end
 
     ##
@@ -301,14 +301,14 @@ module Api
     def test_unredact_node_moderator
       moderator_user = create(:moderator_user)
       node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
+      old_node = node.old_nodes.find_by(:version => 1)
+      old_node.redact!(create(:redaction))
       auth_header = bearer_authorization_header moderator_user
 
-      post node_version_redact_path(node_v1.node_id, node_v1.version), :headers => auth_header
+      post node_version_redact_path(*old_node.id), :headers => auth_header
 
       assert_response :success, "should be OK to unredact old version as moderator."
-      assert_nil node_v1.reload.redaction
+      assert_nil old_node.reload.redaction
     end
 
     private

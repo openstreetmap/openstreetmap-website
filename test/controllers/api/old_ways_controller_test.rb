@@ -253,16 +253,16 @@ module Api
     # authorised as a moderator.
     def test_redact_way_moderator
       way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
+      old_way = way.old_ways.find_by(:version => 1)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post way_version_redact_path(*way_v1.id), :params => { :redaction => redaction.id }, :headers => auth_header
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      way_v1.reload
-      assert_predicate way_v1, :redacted?
-      assert_equal redaction, way_v1.redaction
+      old_way.reload
+      assert_predicate old_way, :redacted?
+      assert_equal redaction, old_way.redaction
     end
 
     ##
@@ -270,14 +270,14 @@ module Api
     # authorised.
     def test_unredact_way_unauthorised
       way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
+      old_way = way.old_ways.find_by(:version => 1)
       redaction = create(:redaction)
-      way_v1.redact!(redaction)
+      old_way.redact!(redaction)
 
-      post way_version_redact_path(way_v1.way_id, way_v1.version)
+      post way_version_redact_path(*old_way.id)
 
       assert_response :unauthorized, "should need to be authenticated to unredact."
-      assert_equal redaction, way_v1.reload.redaction
+      assert_equal redaction, old_way.reload.redaction
     end
 
     ##
@@ -285,15 +285,15 @@ module Api
     # authorised as a normal user.
     def test_unredact_way_normal_user
       way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
+      old_way = way.old_ways.find_by(:version => 1)
       redaction = create(:redaction)
-      way_v1.redact!(redaction)
+      old_way.redact!(redaction)
       auth_header = bearer_authorization_header
 
-      post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
+      post way_version_redact_path(*old_way.id), :headers => auth_header
 
       assert_response :forbidden, "should need to be moderator to unredact."
-      assert_equal redaction, way_v1.reload.redaction
+      assert_equal redaction, old_way.reload.redaction
     end
 
     ##
@@ -302,14 +302,14 @@ module Api
     def test_unredact_way_moderator
       moderator_user = create(:moderator_user)
       way = create(:way, :with_history, :version => 2)
-      way_v1 = way.old_ways.find_by(:version => 1)
-      way_v1.redact!(create(:redaction))
+      old_way = way.old_ways.find_by(:version => 1)
+      old_way.redact!(create(:redaction))
       auth_header = bearer_authorization_header moderator_user
 
-      post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
+      post way_version_redact_path(*old_way.id), :headers => auth_header
 
       assert_response :success, "should be OK to unredact old version as moderator."
-      assert_nil way_v1.reload.redaction
+      assert_nil old_way.reload.redaction
     end
 
     private

@@ -242,16 +242,16 @@ module Api
     # authorised as a moderator.
     def test_redact_relation_moderator
       relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
+      old_relation = relation.old_relations.find_by(:version => 1)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post relation_version_redact_path(*relation_v1.id), :params => { :redaction => redaction.id }, :headers => auth_header
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      relation_v1.reload
-      assert_predicate relation_v1, :redacted?
-      assert_equal redaction, relation_v1.redaction
+      old_relation.reload
+      assert_predicate old_relation, :redacted?
+      assert_equal redaction, old_relation.redaction
     end
 
     ##
@@ -259,14 +259,14 @@ module Api
     # authorised.
     def test_unredact_relation_unauthorised
       relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
+      old_relation = relation.old_relations.find_by(:version => 1)
       redaction = create(:redaction)
-      relation_v1.redact!(redaction)
+      old_relation.redact!(redaction)
 
-      post relation_version_redact_path(relation_v1.relation_id, relation_v1.version)
+      post relation_version_redact_path(*old_relation.id)
 
       assert_response :unauthorized, "should need to be authenticated to unredact."
-      assert_equal redaction, relation_v1.reload.redaction
+      assert_equal redaction, old_relation.reload.redaction
     end
 
     ##
@@ -274,15 +274,15 @@ module Api
     # authorised as a normal user.
     def test_unredact_relation_normal_user
       relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
+      old_relation = relation.old_relations.find_by(:version => 1)
       redaction = create(:redaction)
-      relation_v1.redact!(redaction)
+      old_relation.redact!(redaction)
       auth_header = bearer_authorization_header
 
-      post relation_version_redact_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
+      post relation_version_redact_path(*old_relation.id), :headers => auth_header
 
       assert_response :forbidden, "should need to be moderator to unredact."
-      assert_equal redaction, relation_v1.reload.redaction
+      assert_equal redaction, old_relation.reload.redaction
     end
 
     ##
@@ -290,14 +290,14 @@ module Api
     # authorised as a moderator.
     def test_unredact_relation_moderator
       relation = create(:relation, :with_history, :version => 2)
-      relation_v1 = relation.old_relations.find_by(:version => 1)
-      relation_v1.redact!(create(:redaction))
+      old_relation = relation.old_relations.find_by(:version => 1)
+      old_relation.redact!(create(:redaction))
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post relation_version_redact_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
+      post relation_version_redact_path(*old_relation.id), :headers => auth_header
 
       assert_response :success, "should be OK to unredact old version as moderator."
-      assert_nil relation_v1.reload.redaction
+      assert_nil old_relation.reload.redaction
     end
 
     private
