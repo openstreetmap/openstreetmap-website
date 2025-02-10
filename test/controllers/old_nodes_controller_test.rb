@@ -114,7 +114,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_node_path node, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_node_version_path node, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
@@ -129,7 +129,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_node_path node, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_node_version_path node, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 2}']", :count => 1
@@ -141,7 +141,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 2}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_node_path node, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_node_version_path node, 2}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 1
@@ -157,7 +157,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_node_path node, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_node_version_path node, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to regular users" do
@@ -171,7 +171,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_node_path node, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_node_version_path node, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to moderators" do
@@ -185,7 +185,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_node_path node, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_node_version_path node, 1}']", :count => 0
   end
 
   test "don't reveal redacted versions to anonymous users" do

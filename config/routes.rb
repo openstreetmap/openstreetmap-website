@@ -30,14 +30,11 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
+    post "node/:node_id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :node_id => /\d+/
 
-    post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
+    post "way/:way_id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
 
-    post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
+    post "relation/:relation_id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
@@ -48,6 +45,7 @@ OpenStreetMap::Application.routes.draw do
         resources :relations, :only => :index
       end
       resources :versions, :path => "history", :controller => :old_nodes, :only => :index
+      resources :versions, :path => "", :version => /\d+/, :param => :version, :controller => :old_nodes, :only => :show
     end
     put "node/create" => "nodes#create", :as => nil
 
@@ -60,6 +58,7 @@ OpenStreetMap::Application.routes.draw do
         resources :relations, :only => :index
       end
       resources :versions, :path => "history", :controller => :old_ways, :only => :index
+      resources :versions, :path => "", :version => /\d+/, :param => :version, :controller => :old_ways, :only => :show
     end
     put "way/create" => "ways#create", :as => nil
 
@@ -72,6 +71,7 @@ OpenStreetMap::Application.routes.draw do
         resources :relations, :only => :index
       end
       resources :versions, :path => "history", :controller => :old_relations, :only => :index
+      resources :versions, :path => "", :version => /\d+/, :param => :version, :controller => :old_relations, :only => :show
     end
     put "relation/create" => "relations#create", :as => nil
 

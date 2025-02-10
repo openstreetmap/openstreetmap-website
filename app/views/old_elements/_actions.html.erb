@@ -2,7 +2,7 @@
   <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
   <% if !@feature.redacted? %>
     &middot;
-    <%= link_to t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => :show %>
+    <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
   <% elsif current_user&.moderator? %>
     &middot;
     <% if !params[:show_redactions] %>

@@ -15,15 +15,15 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/node/1/2", :method => :get },
-        { :controller => "api/old_nodes", :action => "show", :id => "1", :version => "2" }
+        { :controller => "api/old_nodes", :action => "show", :node_id => "1", :version => "2" }
       )
       assert_routing(
         { :path => "/api/0.6/node/1/2.json", :method => :get },
-        { :controller => "api/old_nodes", :action => "show", :id => "1", :version => "2", :format => "json" }
+        { :controller => "api/old_nodes", :action => "show", :node_id => "1", :version => "2", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/node/1/2/redact", :method => :post },
-        { :controller => "api/old_nodes", :action => "redact", :id => "1", :version => "2" }
+        { :controller => "api/old_nodes", :action => "redact", :node_id => "1", :version => "2" }
       )
     end
 
@@ -77,7 +77,7 @@ module Api
     #
     ##
     # FIXME: Move this test to being an integration test since it spans multiple controllers
-    def test_version
+    def test_show
       private_user = create(:user, :data_public => false)
       private_node = create(:node, :with_history, :version => 4, :lat => 0, :lon => 0, :changeset => create(:changeset, :user => private_user))
       user = create(:user)
@@ -181,7 +181,7 @@ module Api
 
       # check all the versions
       versions.each_key do |key|
-        get api_old_node_path(nodeid, key.to_i)
+        get api_node_version_path(nodeid, key.to_i)
 
         assert_response :success,
                         "couldn't get version #{key.to_i} of node #{nodeid}"
@@ -193,11 +193,28 @@ module Api
       end
     end
 
-    def test_not_found_version
+    def test_show_not_found
       check_not_found_id_version(70000, 312344)
       check_not_found_id_version(-1, -13)
       check_not_found_id_version(create(:node).id, 24354)
       check_not_found_id_version(24356, create(:node).version)
+    end
+
+    ##
+    # test that redacted nodes aren't visible, regardless of
+    # authorisation except as moderator...
+    def test_show_redacted
+      node = create(:node, :with_history, :version => 2)
+      node_v1 = node.old_nodes.find_by(:version => 1)
+      node_v1.redact!(create(:redaction))
+
+      get api_node_version_path(node_v1.node_id, node_v1.version)
+      assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
+
+      # not even to a logged-in user
+      auth_header = bearer_authorization_header
+      get api_node_version_path(node_v1.node_id, node_v1.version), :headers => auth_header
+      assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
     end
 
     ##
@@ -302,23 +319,6 @@ module Api
     end
 
     ##
-    # test that redacted nodes aren't visible, regardless of
-    # authorisation except as moderator...
-    def test_version_redacted
-      node = create(:node, :with_history, :version => 2)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
-
-      get api_old_node_path(node_v1.node_id, node_v1.version)
-      assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
-
-      # not even to a logged-in user
-      auth_header = bearer_authorization_header
-      get api_old_node_path(node_v1.node_id, node_v1.version), :headers => auth_header
-      assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
-    end
-
-    ##
     # test the redaction of an old version of a node, while being
     # authorised as a moderator.
     def test_redact_node_moderator
@@ -331,9 +331,9 @@ module Api
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
-      get api_old_node_path(node_v3.node_id, node_v3.version), :headers => auth_header
+      get api_node_version_path(node_v3.node_id, node_v3.version), :headers => auth_header
       assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-      get api_old_node_path(node_v3.node_id, node_v3.version, :show_redactions => "true"), :headers => auth_header
+      get api_node_version_path(node_v3.node_id, node_v3.version, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
@@ -361,7 +361,7 @@ module Api
       auth_header = bearer_authorization_header
 
       # check can't see the redacted data
-      get api_old_node_path(node_v3.node_id, node_v3.version), :headers => auth_header
+      get api_node_version_path(node_v3.node_id, node_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
@@ -414,7 +414,7 @@ module Api
 
       # check moderator can now see the redacted data, when not
       # passing the aspecial flag
-      get api_old_node_path(node_v1.node_id, node_v1.version), :headers => auth_header
+      get api_node_version_path(node_v1.node_id, node_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
@@ -426,7 +426,7 @@ module Api
       auth_header = bearer_authorization_header
 
       # check normal user can now see the redacted data
-      get api_old_node_path(node_v1.node_id, node_v1.version), :headers => auth_header
+      get api_node_version_path(node_v1.node_id, node_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, node should be visible to normal users."
 
       # and when accessed via history
@@ -445,7 +445,7 @@ module Api
     end
 
     def do_redact_node(node, redaction, headers = {})
-      get api_old_node_path(node.node_id, node.version), :headers => headers
+      get api_node_version_path(node.node_id, node.version), :headers => headers
       assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
 
       # now redact it
@@ -462,7 +462,7 @@ module Api
       assert_not_nil current_node, "getting node #{node_id} returned nil"
 
       # get the "old" version of the node from the old_node interface
-      get api_old_node_path(node_id, current_node.version)
+      get api_node_version_path(node_id, current_node.version)
       assert_response :success, "cant get old node #{node_id}, v#{current_node.version}"
       old_node = Node.from_xml(@response.body)
 
@@ -471,7 +471,7 @@ module Api
     end
 
     def check_not_found_id_version(id, version)
-      get api_old_node_path(id, version)
+      get api_node_version_path(id, version)
       assert_response :not_found
     rescue ActionController::UrlGenerationError => e
       assert_match(/No route matches/, e.to_s)
