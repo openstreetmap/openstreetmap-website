@@ -143,7 +143,7 @@ with making the reviews as straightforward as possible:
   large to review in one sitting, or if changes are requested, then the
   maintainer needs to repeatedly re-read code that has already been considered.
 * The commit history is important. This is a large codebase, developed over many
-  years by many developers. We frequently need to read the commit history (e.g.,
+  years by many developers. We frequently need to read the commit history (for example
   using `git blame`) to figure out what is going on. So small, understandable,
   and relevant commits are important for other developers looking back at your
   work in future.
