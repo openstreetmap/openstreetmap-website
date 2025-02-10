@@ -115,17 +115,16 @@ OSM.Query = function (map) {
       }
     }
 
-    if (tags.name) {
-      return tags.name;
-    } else if (tags.ref) {
-      return tags.ref;
-    } else if (tags["addr:housename"]) {
-      return tags["addr:housename"];
-    } else if (tags["addr:housenumber"] && tags["addr:street"]) {
-      return tags["addr:housenumber"] + " " + tags["addr:street"];
-    } else {
-      return "#" + feature.id;
+    for (const key of ["name", "ref", "addr:housename"]) {
+      if (tags[key]) {
+        return tags[key];
+      }
     }
+
+    if (tags["addr:housenumber"] && tags["addr:street"]) {
+      return tags["addr:housenumber"] + " " + tags["addr:street"];
+    }
+    return "#" + feature.id;
   }
 
   function featureGeometry(feature) {
@@ -285,10 +284,11 @@ OSM.Query = function (map) {
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, Object.assign({
+    marker = L.circle(latlng, {
       radius: radius,
-      className: "query-marker"
-    }, featureStyle)).addTo(map);
+      className: "query-marker",
+      ...featureStyle
+    }).addTo(map);
 
     runQuery(latlng, radius, nearby, $("#query-nearby"), false);
     runQuery(latlng, radius, isin, $("#query-isin"), true, compareSize);

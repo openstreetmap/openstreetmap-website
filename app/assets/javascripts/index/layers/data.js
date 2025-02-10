@@ -121,7 +121,7 @@ OSM.initializeDataLayer = function (map) {
       },
       error: function (XMLHttpRequest, textStatus) {
         dataLoader = null;
-        if (textStatus === "abort") { return; }
+        if (textStatus === "abort") return;
 
         function closeError() {
           $("#browse_status").empty();

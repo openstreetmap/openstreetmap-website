@@ -113,13 +113,13 @@ $(document).ready(function () {
    */
   setTimeout(function () {
     $("header").children(":visible").each(function (i, e) {
-      headerWidth = headerWidth + $(e).outerWidth();
+      headerWidth += $(e).outerWidth();
     });
 
     $("body").addClass("compact-nav");
 
     $("header").children(":visible").each(function (i, e) {
-      compactWidth = compactWidth + $(e).outerWidth();
+      compactWidth += $(e).outerWidth();
     });
 
     $("body").removeClass("compact-nav");

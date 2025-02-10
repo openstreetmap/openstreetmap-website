@@ -56,6 +56,7 @@ module.exports = [
       }],
       "@stylistic/key-spacing": "error",
       "@stylistic/keyword-spacing": "error",
+      "@stylistic/max-statements-per-line": "error",
       "@stylistic/no-floating-decimal": "error",
       "@stylistic/no-mixed-operators": "error",
       "@stylistic/no-multi-spaces": "error",
@@ -65,6 +66,7 @@ module.exports = [
       "@stylistic/object-curly-newline": ["error", { consistent: true }],
       "@stylistic/object-curly-spacing": ["error", "always"],
       "@stylistic/object-property-newline": ["error", { allowAllPropertiesOnSameLine: true }],
+      "@stylistic/one-var-declaration-per-line": "error",
       "@stylistic/operator-linebreak": ["error", "after"],
       "@stylistic/padded-blocks": ["error", "never"],
       "@stylistic/quote-props": ["error", "consistent-as-needed", { keywords: true, numbers: true }],
@@ -92,6 +94,7 @@ module.exports = [
       "no-caller": "error",
       "no-console": "warn",
       "no-div-regex": "error",
+      "no-else-return": ["error", { allowElseIf: false }],
       "no-eq-null": "error",
       "no-eval": "error",
       "no-extend-native": "error",
@@ -133,6 +136,8 @@ module.exports = [
       "no-useless-return": "error",
       "no-void": "error",
       "no-warning-comments": "warn",
+      "operator-assignment": "error",
+      "prefer-object-spread": "error",
       "radix": ["error", "always"],
       "yoda": "error"
     }
