@@ -188,10 +188,7 @@ module Api
     # test the redaction of an old version of a relation, while not being
     # authorised.
     def test_redact_relation_unauthorised
-      relation = create(:relation, :with_history, :version => 4)
-      relation_v3 = relation.old_relations.find_by(:version => 3)
-
-      do_redact_relation(relation_v3, create(:redaction))
+      do_redact_redactable_relation
       assert_response :unauthorized, "should need to be authenticated to redact."
     end
 
@@ -199,12 +196,7 @@ module Api
     # test the redaction of an old version of a relation, while being
     # authorised as a normal user.
     def test_redact_relation_normal_user
-      relation = create(:relation, :with_history, :version => 4)
-      relation_v3 = relation.old_relations.find_by(:version => 3)
-
-      auth_header = bearer_authorization_header
-
-      do_redact_relation(relation_v3, create(:redaction), auth_header)
+      do_redact_redactable_relation bearer_authorization_header
       assert_response :forbidden, "should need to be moderator to redact."
     end
 
@@ -213,11 +205,11 @@ module Api
     # can't be redacted.
     def test_redact_relation_current_version
       relation = create(:relation, :with_history, :version => 4)
-      relation_latest = relation.old_relations.last
-
+      redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      do_redact_relation(relation_latest, create(:redaction), auth_header)
+      post relation_version_redact_path(relation, 4), :params => { :redaction => redaction.id }, :headers => auth_header
+
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
 
@@ -251,12 +243,15 @@ module Api
     def test_redact_relation_moderator
       relation = create(:relation, :with_history, :version => 4)
       relation_v3 = relation.old_relations.find_by(:version => 3)
+      redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      do_redact_relation(relation_v3, create(:redaction), auth_header)
+      post relation_version_redact_path(*relation_v3.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      assert_predicate relation_v3.reload, :redacted?
+      relation_v3.reload
+      assert_predicate relation_v3, :redacted?
+      assert_equal redaction, relation_v3.redaction
     end
 
     ##
@@ -326,16 +321,9 @@ module Api
 
     def do_redact_redactable_relation(headers = {})
       relation = create(:relation, :with_history, :version => 4)
-      relation_v3 = relation.old_relations.find_by(:version => 3)
-      do_redact_relation(relation_v3, create(:redaction), headers)
-    end
+      redaction = create(:redaction)
 
-    def do_redact_relation(relation, redaction, headers = {})
-      get api_relation_version_path(relation.relation_id, relation.version)
-      assert_response :success, "should be able to get version #{relation.version} of relation #{relation.relation_id}."
-
-      # now redact it
-      post relation_version_redact_path(relation.relation_id, relation.version), :params => { :redaction => redaction.id }, :headers => headers
+      post relation_version_redact_path(relation, 3), :params => { :redaction => redaction.id }, :headers => headers
     end
   end
 end

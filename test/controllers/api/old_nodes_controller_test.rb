@@ -197,11 +197,7 @@ module Api
     # test the redaction of an old version of a node, while not being
     # authorised.
     def test_redact_node_unauthorised
-      node = create(:node, :with_history, :version => 4)
-      node_v3 = node.old_nodes.find_by(:version => 3)
-
-      do_redact_node(node_v3,
-                     create(:redaction))
+      do_redact_redactable_node
       assert_response :unauthorized, "should need to be authenticated to redact."
     end
 
@@ -209,14 +205,7 @@ module Api
     # test the redaction of an old version of a node, while being
     # authorised as a normal user.
     def test_redact_node_normal_user
-      auth_header = bearer_authorization_header
-
-      node = create(:node, :with_history, :version => 4)
-      node_v3 = node.old_nodes.find_by(:version => 3)
-
-      do_redact_node(node_v3,
-                     create(:redaction),
-                     auth_header)
+      do_redact_redactable_node bearer_authorization_header
       assert_response :forbidden, "should need to be moderator to redact."
     end
 
@@ -224,14 +213,12 @@ module Api
     # test that, even as moderator, the current version of a node
     # can't be redacted.
     def test_redact_node_current_version
+      node = create(:node, :with_history, :version => 4)
+      redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      node = create(:node, :with_history, :version => 4)
-      node_v4 = node.old_nodes.find_by(:version => 4)
+      post node_version_redact_path(node, 4), :params => { :redaction => redaction.id }, :headers => auth_header
 
-      do_redact_node(node_v4,
-                     create(:redaction),
-                     auth_header)
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
 
@@ -265,12 +252,15 @@ module Api
     def test_redact_node_moderator
       node = create(:node, :with_history, :version => 4)
       node_v3 = node.old_nodes.find_by(:version => 3)
+      redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      do_redact_node(node_v3, create(:redaction), auth_header)
+      post node_version_redact_path(*node_v3.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      assert_predicate node_v3.reload, :redacted?
+      node_v3.reload
+      assert_predicate node_v3, :redacted?
+      assert_equal redaction, node_v3.redaction
     end
 
     ##
@@ -342,16 +332,9 @@ module Api
 
     def do_redact_redactable_node(headers = {})
       node = create(:node, :with_history, :version => 4)
-      node_v3 = node.old_nodes.find_by(:version => 3)
-      do_redact_node(node_v3, create(:redaction), headers)
-    end
+      redaction = create(:redaction)
 
-    def do_redact_node(node, redaction, headers = {})
-      get api_node_version_path(node.node_id, node.version), :headers => headers
-      assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
-
-      # now redact it
-      post node_version_redact_path(node.node_id, node.version), :params => { :redaction => redaction.id }, :headers => headers
+      post node_version_redact_path(node, 3), :params => { :redaction => redaction.id }, :headers => headers
     end
 
     def check_not_found_id_version(id, version)
