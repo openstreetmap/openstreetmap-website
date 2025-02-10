@@ -17,23 +17,20 @@ module.exports = [
     ]
   },
   {
-    plugins: {
-      "@stylistic": stylisticJs
-    },
     languageOptions: {
       ecmaVersion: 2021,
-      sourceType: "script",
       globals: {
         ...globals.browser,
         ...globals.jquery,
         Cookies: "readonly",
         I18n: "readonly",
         L: "readonly",
-        OSM: "writable",
         Matomo: "readonly",
+        OSM: "writable",
         Turbo: "readonly",
         updateLinks: "readonly"
-      }
+      },
+      sourceType: "script"
     },
     linterOptions: {
       // The "unused disable directive" is set to "warn" by default.
@@ -44,8 +41,10 @@ module.exports = [
       // --report-unused-disable-directives-severity=off
       reportUnusedDisableDirectives: "off"
     },
+    plugins: {
+      "@stylistic": stylisticJs
+    },
     rules: {
-      /* eslint sort-keys: ["warn"] */
       "@stylistic/array-bracket-newline": ["error", "consistent"],
       "@stylistic/array-bracket-spacing": "error",
       "@stylistic/block-spacing": "error",
@@ -158,8 +157,8 @@ module.exports = [
     languageOptions: {
       globals: {
         ...globals.mocha,
-        expect: "readonly",
         assert: "readonly",
+        expect: "readonly",
         should: "readonly"
       }
     }
@@ -168,10 +167,10 @@ module.exports = [
     files: ["config/eslint.js"],
     languageOptions: {
       ecmaVersion: 2019,
-      sourceType: "commonjs",
       globals: {
         ...globals.commonjs
-      }
+      },
+      sourceType: "commonjs"
     }
   }
 ];
