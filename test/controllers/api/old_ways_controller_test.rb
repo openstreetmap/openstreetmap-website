@@ -271,10 +271,13 @@ module Api
     def test_unredact_way_unauthorised
       way = create(:way, :with_history, :version => 2)
       way_v1 = way.old_ways.find_by(:version => 1)
-      way_v1.redact!(create(:redaction))
+      redaction = create(:redaction)
+      way_v1.redact!(redaction)
 
       post way_version_redact_path(way_v1.way_id, way_v1.version)
+
       assert_response :unauthorized, "should need to be authenticated to unredact."
+      assert_equal redaction, way_v1.reload.redaction
     end
 
     ##
@@ -283,12 +286,14 @@ module Api
     def test_unredact_way_normal_user
       way = create(:way, :with_history, :version => 2)
       way_v1 = way.old_ways.find_by(:version => 1)
-      way_v1.redact!(create(:redaction))
-
+      redaction = create(:redaction)
+      way_v1.redact!(redaction)
       auth_header = bearer_authorization_header
 
       post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
+
       assert_response :forbidden, "should need to be moderator to unredact."
+      assert_equal redaction, way_v1.reload.redaction
     end
 
     ##
@@ -299,34 +304,12 @@ module Api
       way = create(:way, :with_history, :version => 2)
       way_v1 = way.old_ways.find_by(:version => 1)
       way_v1.redact!(create(:redaction))
-
       auth_header = bearer_authorization_header moderator_user
 
       post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
+
       assert_response :success, "should be OK to unredact old version as moderator."
-
-      # check moderator can still see the unredacted data, without passing
-      # the appropriate flag
-      get api_way_version_path(way_v1.way_id, way_v1.version), :headers => auth_header
-      assert_response :success, "After unredaction, node should not be gone for moderator."
-
-      # and when accessed via history
-      get api_way_versions_path(way), :headers => auth_header
-      assert_response :success, "Unredaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
-                    "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for moderators."
-
-      auth_header = bearer_authorization_header
-
-      # check normal user can now see the unredacted data
-      get api_way_version_path(way_v1.way_id, way_v1.version), :headers => auth_header
-      assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
-
-      # and when accessed via history
-      get api_way_versions_path(way), :headers => auth_header
-      assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
-                    "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for normal users."
+      assert_nil way_v1.reload.redaction
     end
 
     private

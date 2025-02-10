@@ -269,10 +269,13 @@ module Api
     def test_unredact_node_unauthorised
       node = create(:node, :with_history, :version => 2)
       node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
+      redaction = create(:redaction)
+      node_v1.redact!(redaction)
 
       post node_version_redact_path(node_v1.node_id, node_v1.version)
+
       assert_response :unauthorized, "should need to be authenticated to unredact."
+      assert_equal redaction, node_v1.reload.redaction
     end
 
     ##
@@ -282,12 +285,14 @@ module Api
       user = create(:user)
       node = create(:node, :with_history, :version => 2)
       node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
-
+      redaction = create(:redaction)
+      node_v1.redact!(redaction)
       auth_header = bearer_authorization_header user
 
       post node_version_redact_path(node_v1.node_id, node_v1.version), :headers => auth_header
+
       assert_response :forbidden, "should need to be moderator to unredact."
+      assert_equal redaction, node_v1.reload.redaction
     end
 
     ##
@@ -298,34 +303,12 @@ module Api
       node = create(:node, :with_history, :version => 2)
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
-
       auth_header = bearer_authorization_header moderator_user
 
       post node_version_redact_path(node_v1.node_id, node_v1.version), :headers => auth_header
+
       assert_response :success, "should be OK to unredact old version as moderator."
-
-      # check moderator can now see the redacted data, when not
-      # passing the aspecial flag
-      get api_node_version_path(node_v1.node_id, node_v1.version), :headers => auth_header
-      assert_response :success, "After unredaction, node should not be gone for moderator."
-
-      # and when accessed via history
-      get api_node_versions_path(node)
-      assert_response :success, "Unredaction shouldn't have stopped history working."
-      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1,
-                    "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for moderators without passing flag."
-
-      auth_header = bearer_authorization_header
-
-      # check normal user can now see the redacted data
-      get api_node_version_path(node_v1.node_id, node_v1.version), :headers => auth_header
-      assert_response :success, "After unredaction, node should be visible to normal users."
-
-      # and when accessed via history
-      get api_node_versions_path(node)
-      assert_response :success, "Unredaction shouldn't have stopped history working."
-      assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1,
-                    "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for normal users without passing flag."
+      assert_nil node_v1.reload.redaction
     end
 
     private
