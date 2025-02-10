@@ -22,7 +22,8 @@ module.exports = [
         OSM: "writable",
         Matomo: "readonly",
         Turbo: "readonly",
-        updateLinks: "readonly"
+        updateLinks: "readonly",
+        maplibregl: "readonly"
       }
     },
     linterOptions: {
