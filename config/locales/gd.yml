@@ -49,6 +49,7 @@ gd:
       message: Teachdaireachd
       node: Nòd
       node_tag: Taga nòid
+      note: Nòta
       old_node: Seann nòd
       old_node_tag: Taga seann nòid
       old_relation: Seann dàimh
@@ -76,6 +77,8 @@ gd:
         name: Ainm (Riatanach)
         callback_url: URL ais-ghairm
         support_url: URL taice
+        allow_read_prefs: na roghainnean a' chleachdaiche aca a leughadh
+        allow_write_prefs: na roghainnean a' chleachdaiche aca atharrachadh
         allow_write_api: am mapa atharrachadh
         allow_read_gpx: na lorgaidhean GPS prìobhaideach aca a leughadh
         allow_write_gpx: lorgaidhean GPS a luchdadh suas
@@ -91,6 +94,7 @@ gd:
         language_code: Cànan
       doorkeeper/application:
         name: Ainm
+        scopes: Ceadan
       friend:
         user: Cleachdaiche
         friend: Caraid
@@ -103,7 +107,7 @@ gd:
         longitude: Domhan-fhad
         public: Poblach
         description: Tuairisgeul
-        gpx_file: Luchdaich suas faidhle GPX
+        gpx_file: Tagh faidhle lorgadh GPS
         visibility: Faicsinneachd
         tagstring: Tagaichean
       message:
@@ -114,12 +118,14 @@ gd:
       redaction:
         title: Tiotal
         description: Tuairisgeul
+      report:
+        category: Tagh adhbhar dhan aithris agad
       user:
         email: Post-d
         new_email: An seòladh puist-d ùr
         active: Gnìomhach
         display_name: Ainm seallaidh
-        description: Tuairisgeul
+        description: Tuairisgeul Pròifile
         home_lat: Domhan-leud
         home_lon: Domhan-fhad
         languages: Cànain
@@ -206,6 +212,9 @@ gd:
   auth:
     providers:
       google: Google
+      facebook: Facebook
+      github: GitHub
+      wikipedia: Uicipeid
   api:
     notes:
       comment:
@@ -238,7 +247,7 @@ gd:
       openid:
         link text: dè th`ann?
       contributor terms:
-        heading: 'Teirmichean a'' chom-pàirtiche:'
+        heading: Teirmichean a' chom-pàirtiche
         agreed: Dh'aontaich thu ri teirmichean ùra a' chom-pàirtiche.
         not yet agreed: Cha do dh'aontaich thu ri teirmichean ùra a' chom-pàirtiche
           fhathast.
@@ -261,11 +270,13 @@ gd:
         cancel: Sguir dheth
     terms:
       show:
-        title: Teirmichean a' chom-pàirtiche
-        heading: Teirmichean a' chom-pàirtiche
+        title: Teirmichean
+        heading: Teirmichean
+        heading_ct: Teirmichean a' chom-pàirtiche
         consider_pd: A bharrachd air an aonta gu h-àrd, aontaichidh mi gun dèid na
           bheir mi dhuibh 'nam cho-thabhartaiche a chur sa Public Domain
         consider_pd_why: Dè th`ann?
+        cancel: Sguir dheth
         you need to accept or decline: Feuch an leugh thu teirmichean ùra a' chom-pàirtiche
           agus an uairsin aontaich no nach gabh riutha mus lean thu air adhart.
         legale_select: 'Dùthaich còmhnaidh:'
@@ -404,8 +415,11 @@ gd:
     show:
       title: 'Seata atharraichean: %{id}'
       created: 'Air a chruthachadh: %{when}'
+      closed: 'Air a dhùnadh: %{when}'
       created_ago_html: Air a chruthachadh %{time_ago}
+      closed_ago_html: Air a dhùnadh %{time_ago}
       created_ago_by_html: Air a chruthachadh %{time_ago} le %{user}
+      closed_ago_by_html: Air a dhùnadh %{time_ago} le %{user}
       discussion: Deasbaireachd
       join_discussion: Clàraich a-steach gus pàirt a ghabhail san deasbaireachd
       subscribe: Fo-sgrìobh
@@ -440,6 +454,7 @@ gd:
       nearby users: Cleachdaichean am fagas eile
       no nearby users: Chan eil cleachdaiche sam bith eile ann a dh'innis gu bheil
         iad ris an obair-mhapa am fagas.
+      followed_changesets: seataichean atharraichean
       nearby_changesets: seata atharraichean nan cleachdaichean am fagas
       nearby_diaries: clàran leabhair-latha am fagas
   diary_entries:
@@ -517,12 +532,13 @@ gd:
           station: Stèisean trama-adhair
         aeroway:
           aerodrome: Raon-adhair
-          apron: Aparan
-          gate: Geata
+          apron: Aparan puirt-adhair
+          gate: Geata puirt-adhair
+          hangar: Hangar
           helipad: Port-heileacoptair
           runway: Raon-laighe
           taxiway: Raon-cuairteachaidh
-          terminal: Tèirmineal
+          terminal: Tèirmineal puirt-adhair
         amenity:
           animal_shelter: Fasgadh bheathaichean
           arts_centre: Ionad ealain
@@ -562,13 +578,15 @@ gd:
           fire_station: Stèisean-smàlaidh
           food_court: Talla bìdh
           fountain: Fuaran
-          fuel: Connadh
+          fuel: Stèisean-peatrail
           gambling: Cearrachas
           grave_yard: Cladh
           hospital: Ospadal
           hunting_stand: Stannd seilge
           ice_cream: Reòiteagan
+          internet_cafe: Cafaidh eadar-lìn
           kindergarten: Sgoil-àraich
+          language_school: Sgoil cànain
           library: Leabhar-lann
           marketplace: Ionad-margaidh
           monastery: Manachainn
@@ -607,6 +625,7 @@ gd:
           waste_basket: Bogsa-sgudail
           waste_disposal: Ionad-sgudail
         boundary:
+          aboriginal_lands: Tìrean Tùsanaich
           administrative: Crìoch rianachd
           census: Crìoch cunntas-sluaigh
           national_park: Pàirc nàiseanta
@@ -618,9 +637,12 @@ gd:
           viaduct: Drochaid-rathaid
           "yes": Drochaid
         building:
+          chapel: Seipeal
           garage: Garaids
           garages: Garaidsean
+          hangar: Hangar
           house: Taigh
+          roof: Mullach
           shed: Seada
           static_caravan: Carabhan
           "yes": Togalach
@@ -633,6 +655,7 @@ gd:
           photographer: Neach-dhealbh
           plumber: Plumair
           shoemaker: Greusaiche
+          stonemason: Clachair
           tailor: Tàillear
           "yes": Bùth cheàrd
         emergency:
@@ -646,6 +669,7 @@ gd:
           bus_guideway: Lonaig bus-stiùirichte
           bus_stop: Stad-bus
           construction: Mòr-rathad 'ga thogail
+          corridor: Trannsa
           cycleway: Slighe baidhseagail
           elevator: Àrdaichear
           emergency_access_point: Puing-inntrigidh èiginn
@@ -706,6 +730,8 @@ gd:
           wayside_cross: Cros ri taobh an rathaid
           wayside_shrine: Naomh-chiste ri taobh an rathaid
           wreck: Long bhriste
+        information:
+          map: Mapa
         junction:
           "yes": Gobhal
         landuse:
@@ -766,7 +792,10 @@ gd:
           track: Cuairt-ruith
           water_park: Pàirc-uisge
           "yes": Cur-seachad
+        lock:
+          "yes": Tuil-dhoras
         man_made:
+          bridge: Drochaid
           cairn: Càrn
           lighthouse: Taigh-solais
           pier: Cidhe
@@ -814,6 +843,7 @@ gd:
           sand: Gainmheach
           scree: Sgàirneach
           scrub: Fiodhach
+          shingle: Mol
           spring: Fuaran
           stone: Clach
           strait: Caolas
@@ -902,7 +932,9 @@ gd:
           carpet: Bùth bhratan
           charity: Bùth carthannais
           chemist: Bùth-chungaidhean
+          chocolate: Seòclaid
           clothes: Bùth aodach
+          coffee: Bùth cofaidh
           computer: Bùth choimpiutairean
           confectionery: Bùth mìlseanachd
           convenience: Bùth goireasach
@@ -928,9 +960,10 @@ gd:
           grocery: Gròsair
           hairdresser: Gruagaire
           hardware: Bùth leasachadh dachaigh
-          hifi: HiFi
+          hifi: Bùth HiFi
           jewelry: Bùth usgaran
           kiosk: Cìtheasg
+          kitchen: Bùth cidsin
           laundry: Taigh-nigheachain
           mall: Ionad-seopadaireachd
           mobile_phone: Bùth fhònaichean-làmhe
@@ -942,6 +975,7 @@ gd:
           outdoor: Bùth acainnean blàir
           pet: Bùth pheatachan
           photo: Bùth dhealbhan
+          seafood: Biadh na mara
           second_hand: Bùth rudan ath-làimhe
           shoes: Bùth bhrògan
           sports: Bùth spòrs
@@ -977,6 +1011,11 @@ gd:
         tunnel:
           culvert: Cùlbhart
           "yes": Tunail
+        water:
+          lake: Loch
+          pond: Lod
+          reservoir: Stòr-amar
+          lock: Tuil-dhoras
         waterway:
           artificial: Slighe-uisge fhuadain
           boatyard: Bàta-lann
@@ -1012,6 +1051,9 @@ gd:
       search: Lorg
       states:
         open: Fosgailte
+    page:
+      states:
+        open: Fosgailte
     show:
       reports:
         one: '%{count} aithris'
@@ -1023,6 +1065,15 @@ gd:
     helper:
       reportable_title:
         note: 'Nòta #%{note_id}'
+  reports:
+    new:
+      categories:
+        diary_comment:
+          other_label: Eile
+        user:
+          other_label: Eile
+        note:
+          other_label: Eile
   layouts:
     logo:
       alt_text: Suaicheantas OpenStreetMap
@@ -1040,6 +1091,7 @@ gd:
     intro_header: Fàilte gu OpenStreetMap!
     intro_text: '''S e mapa an t-saoghail a tha san OpenStreetMap a chaidh a chruthachadh
       le daoine mar thu fhèin ''s a tha saor fo cheadachas fhosgailte.'
+    partners_fastly: Fastly
     partners_partners: com-pàirtichean eile
     osm_offline: Tha an stòr-dàta aig OpenStreetMap far loidhńe an-dràsta on a tha
       sinn a' dèanamh obair-charaidh riatanach air.
@@ -1069,6 +1121,9 @@ gd:
       hi: Shin thu, %{to_user},
       see_their_profile: '''S urrainn dhut a'' phròifil aig an neach ud a shealltainn
         air %{userurl}.'
+    gpx_details:
+      description: Tuairisgeul
+      tags: Tagaichean
     gpx_failure:
       hi: Shin thu, %{to_user},
       failed_to_import: 'ion-phortachadh. Seo a'' mhearachd:'
@@ -1250,8 +1305,17 @@ gd:
         an URL?
     update:
       flash changed: Chaidh am facal-faire agad atharrachadh.
+  preferences:
+    show:
+      site_color_schemes:
+        light: Soilleir
+        dark: Dorcha
+      map_color_schemes:
+        light: Soilleir
+        dark: Dorcha
   profiles:
     edit:
+      cancel: Sguir dheth
       image: Dealbh
       gravatar:
         gravatar: Cleachd Gravatar
@@ -1286,6 +1350,9 @@ gd:
     richtext_field:
       edit: Deasaich
     pagination:
+      changeset_comments:
+        older: Beachdan nas sine
+        newer: Beachdan nas ùire
       diary_comments:
         older: Beachdan nas sine
         newer: Beachdan nas ùire
@@ -1823,6 +1890,7 @@ gd:
       description: Tuairisgeul
       created_at: Air a chruthachadh
       last_changed: An t-atharrachadh mu dheireadh
+      closed: Dùinte
     show:
       title: 'Nòta: %{id}'
       description: Tuairisgeul
