@@ -1,3 +1,5 @@
+/* eslint sort-keys: ["error"] */
+
 const globals = require("globals");
 const js = require("@eslint/js");
 const erb = require("eslint-plugin-erb");
