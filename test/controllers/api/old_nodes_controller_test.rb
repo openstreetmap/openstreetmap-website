@@ -213,11 +213,11 @@ module Api
     # test that, even as moderator, the current version of a node
     # can't be redacted.
     def test_redact_node_current_version
-      node = create(:node, :with_history, :version => 4)
+      node = create(:node, :with_history, :version => 2)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post node_version_redact_path(node, 4), :params => { :redaction => redaction.id }, :headers => auth_header
+      post node_version_redact_path(node, 2), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
@@ -250,17 +250,17 @@ module Api
     # test the redaction of an old version of a node, while being
     # authorised as a moderator.
     def test_redact_node_moderator
-      node = create(:node, :with_history, :version => 4)
-      node_v3 = node.old_nodes.find_by(:version => 3)
+      node = create(:node, :with_history, :version => 2)
+      node_v1 = node.old_nodes.find_by(:version => 1)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post node_version_redact_path(*node_v3.id), :params => { :redaction => redaction.id }, :headers => auth_header
+      post node_version_redact_path(*node_v1.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      node_v3.reload
-      assert_predicate node_v3, :redacted?
-      assert_equal redaction, node_v3.redaction
+      node_v1.reload
+      assert_predicate node_v1, :redacted?
+      assert_equal redaction, node_v1.redaction
     end
 
     ##
@@ -331,10 +331,10 @@ module Api
     private
 
     def do_redact_redactable_node(headers = {})
-      node = create(:node, :with_history, :version => 4)
+      node = create(:node, :with_history, :version => 2)
       redaction = create(:redaction)
 
-      post node_version_redact_path(node, 3), :params => { :redaction => redaction.id }, :headers => headers
+      post node_version_redact_path(node, 1), :params => { :redaction => redaction.id }, :headers => headers
     end
 
     def check_not_found_id_version(id, version)

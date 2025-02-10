@@ -204,11 +204,11 @@ module Api
     # test that, even as moderator, the current version of a relation
     # can't be redacted.
     def test_redact_relation_current_version
-      relation = create(:relation, :with_history, :version => 4)
+      relation = create(:relation, :with_history, :version => 2)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post relation_version_redact_path(relation, 4), :params => { :redaction => redaction.id }, :headers => auth_header
+      post relation_version_redact_path(relation, 2), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
@@ -241,17 +241,17 @@ module Api
     # test the redaction of an old version of a relation, while being
     # authorised as a moderator.
     def test_redact_relation_moderator
-      relation = create(:relation, :with_history, :version => 4)
-      relation_v3 = relation.old_relations.find_by(:version => 3)
+      relation = create(:relation, :with_history, :version => 2)
+      relation_v1 = relation.old_relations.find_by(:version => 1)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post relation_version_redact_path(*relation_v3.id), :params => { :redaction => redaction.id }, :headers => auth_header
+      post relation_version_redact_path(*relation_v1.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      relation_v3.reload
-      assert_predicate relation_v3, :redacted?
-      assert_equal redaction, relation_v3.redaction
+      relation_v1.reload
+      assert_predicate relation_v1, :redacted?
+      assert_equal redaction, relation_v1.redaction
     end
 
     ##
@@ -320,10 +320,10 @@ module Api
     private
 
     def do_redact_redactable_relation(headers = {})
-      relation = create(:relation, :with_history, :version => 4)
+      relation = create(:relation, :with_history, :version => 2)
       redaction = create(:redaction)
 
-      post relation_version_redact_path(relation, 3), :params => { :redaction => redaction.id }, :headers => headers
+      post relation_version_redact_path(relation, 1), :params => { :redaction => redaction.id }, :headers => headers
     end
   end
 end

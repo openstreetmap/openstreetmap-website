@@ -215,11 +215,11 @@ module Api
     # test that, even as moderator, the current version of a way
     # can't be redacted.
     def test_redact_way_current_version
-      way = create(:way, :with_history, :version => 4)
+      way = create(:way, :with_history, :version => 2)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post way_version_redact_path(way, 4), :params => { :redaction => redaction.id }, :headers => auth_header
+      post way_version_redact_path(way, 2), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
@@ -252,17 +252,17 @@ module Api
     # test the redaction of an old version of a way, while being
     # authorised as a moderator.
     def test_redact_way_moderator
-      way = create(:way, :with_history, :version => 4)
-      way_v3 = way.old_ways.find_by(:version => 3)
+      way = create(:way, :with_history, :version => 2)
+      way_v1 = way.old_ways.find_by(:version => 1)
       redaction = create(:redaction)
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      post way_version_redact_path(*way_v3.id), :params => { :redaction => redaction.id }, :headers => auth_header
+      post way_version_redact_path(*way_v1.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :success, "should be OK to redact old version as moderator."
-      way_v3.reload
-      assert_predicate way_v3, :redacted?
-      assert_equal redaction, way_v3.redaction
+      way_v1.reload
+      assert_predicate way_v1, :redacted?
+      assert_equal redaction, way_v1.redaction
     end
 
     ##
@@ -354,10 +354,10 @@ module Api
     end
 
     def do_redact_redactable_way(headers = {})
-      way = create(:way, :with_history, :version => 4)
+      way = create(:way, :with_history, :version => 2)
       redaction = create(:redaction)
 
-      post way_version_redact_path(way.id, 2), :params => { :redaction => redaction.id }, :headers => headers
+      post way_version_redact_path(way.id, 1), :params => { :redaction => redaction.id }, :headers => headers
     end
   end
 end
