@@ -65,9 +65,8 @@ OSM.initializeContextMenu = function (map) {
   function getDirectionsEndpointCoordinatesFromInput(input) {
     if (input.attr("data-lat") && input.attr("data-lon")) {
       return input.attr("data-lat") + "," + input.attr("data-lon");
-    } else {
-      return $(input).val();
     }
+    return $(input).val();
   }
 
   var updateMenu = function updateMenu() {
