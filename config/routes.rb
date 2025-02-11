@@ -30,8 +30,6 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    post "way/:way_id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
-
     post "relation/:relation_id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
   end
 
@@ -61,9 +59,12 @@ OpenStreetMap::Application.routes.draw do
         resources :relations, :only => :index
       end
       resources :versions, :path => "history", :controller => :old_ways, :only => :index
-      resources :versions, :path => "", :version => /\d+/, :param => :version, :controller => :old_ways, :only => :show
+      resource :version, :path => ":version", :version => /\d+/, :controller => :old_ways, :only => :show do
+        resource :redaction, :module => :old_ways, :only => [:create, :destroy]
+      end
     end
     put "way/create" => "ways#create", :as => nil
+    post "way/:way_id/:version/redact" => "old_ways/redactions#create", :way_id => /\d+/, :version => /\d+/, :allow_delete => true, :as => nil
 
     resources :relations, :only => [:index, :create]
     resources :relations, :path => "relation", :id => /\d+/, :only => [:show, :update, :destroy] do

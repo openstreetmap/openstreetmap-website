@@ -44,7 +44,7 @@ class ApiAbility
 
           can :destroy, Note if scopes.include?("write_notes")
 
-          can :redact, [OldWay, OldRelation] if user.terms_agreed? && scopes.include?("write_redactions")
+          can :redact, [OldRelation] if user.terms_agreed? && scopes.include?("write_redactions")
           can [:create, :destroy], :element_version_redaction if user.terms_agreed? && scopes.include?("write_redactions")
 
           can :create, UserBlock if scopes.include?("write_blocks")
