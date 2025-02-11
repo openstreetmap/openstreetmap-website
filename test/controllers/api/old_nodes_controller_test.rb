@@ -289,12 +289,11 @@ module Api
     # test the unredaction of an old version of a node, while being
     # authorised as a normal user.
     def test_unredact_node_normal_user
-      user = create(:user)
       node = create(:node, :with_history, :version => 2)
       old_node = node.old_nodes.find_by(:version => 1)
       redaction = create(:redaction)
       old_node.redact!(redaction)
-      auth_header = bearer_authorization_header user
+      auth_header = bearer_authorization_header
 
       post node_version_redact_path(*old_node.id), :headers => auth_header
 
@@ -306,11 +305,10 @@ module Api
     # test the unredaction of an old version of a node, while being
     # authorised as a moderator.
     def test_unredact_node_moderator
-      moderator_user = create(:moderator_user)
       node = create(:node, :with_history, :version => 2)
       old_node = node.old_nodes.find_by(:version => 1)
       old_node.redact!(create(:redaction))
-      auth_header = bearer_authorization_header moderator_user
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       post node_version_redact_path(*old_node.id), :headers => auth_header
 

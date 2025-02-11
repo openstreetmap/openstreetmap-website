@@ -307,11 +307,10 @@ module Api
     # test the unredaction of an old version of a way, while being
     # authorised as a moderator.
     def test_unredact_way_moderator
-      moderator_user = create(:moderator_user)
       way = create(:way, :with_history, :version => 2)
       old_way = way.old_ways.find_by(:version => 1)
       old_way.redact!(create(:redaction))
-      auth_header = bearer_authorization_header moderator_user
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       post way_version_redact_path(*old_way.id), :headers => auth_header
 
