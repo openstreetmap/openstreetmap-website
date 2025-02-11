@@ -194,20 +194,6 @@ module Api
     end
 
     ##
-    # test the redaction of an old version of a node, while not being
-    # authorised.
-    def test_redact_node_unauthorised
-      node = create(:node, :with_history, :version => 2)
-      old_node = node.old_nodes.find_by(:version => 1)
-      redaction = create(:redaction)
-
-      post node_version_redact_path(*old_node.id), :params => { :redaction => redaction.id }
-
-      assert_response :unauthorized, "should need to be authenticated to redact."
-      assert_nil old_node.reload.redaction
-    end
-
-    ##
     # test that, even as moderator, the current version of a node
     # can't be redacted.
     def test_redact_node_current_version
@@ -219,6 +205,20 @@ module Api
       post node_version_redact_path(*old_node.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
+      assert_nil old_node.reload.redaction
+    end
+
+    ##
+    # test the redaction of an old version of a node, while not being
+    # authorised.
+    def test_redact_node_unauthorised
+      node = create(:node, :with_history, :version => 2)
+      old_node = node.old_nodes.find_by(:version => 1)
+      redaction = create(:redaction)
+
+      post node_version_redact_path(*old_node.id), :params => { :redaction => redaction.id }
+
+      assert_response :unauthorized, "should need to be authenticated to redact."
       assert_nil old_node.reload.redaction
     end
 

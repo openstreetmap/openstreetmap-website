@@ -185,20 +185,6 @@ module Api
     end
 
     ##
-    # test the redaction of an old version of a relation, while not being
-    # authorised.
-    def test_redact_relation_unauthorised
-      relation = create(:relation, :with_history, :version => 2)
-      old_relation = relation.old_relations.find_by(:version => 1)
-      redaction = create(:redaction)
-
-      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }
-
-      assert_response :unauthorized, "should need to be authenticated to redact."
-      assert_nil old_relation.reload.redaction
-    end
-
-    ##
     # test that, even as moderator, the current version of a relation
     # can't be redacted.
     def test_redact_relation_current_version
@@ -210,6 +196,20 @@ module Api
       post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
+      assert_nil old_relation.reload.redaction
+    end
+
+    ##
+    # test the redaction of an old version of a relation, while not being
+    # authorised.
+    def test_redact_relation_unauthorised
+      relation = create(:relation, :with_history, :version => 2)
+      old_relation = relation.old_relations.find_by(:version => 1)
+      redaction = create(:redaction)
+
+      post relation_version_redact_path(*old_relation.id), :params => { :redaction => redaction.id }
+
+      assert_response :unauthorized, "should need to be authenticated to redact."
       assert_nil old_relation.reload.redaction
     end
 

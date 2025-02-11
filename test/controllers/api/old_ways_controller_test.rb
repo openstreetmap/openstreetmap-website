@@ -196,20 +196,6 @@ module Api
     end
 
     ##
-    # test the redaction of an old version of a way, while not being
-    # authorised.
-    def test_redact_way_unauthorised
-      way = create(:way, :with_history, :version => 2)
-      old_way = way.old_ways.find_by(:version => 1)
-      redaction = create(:redaction)
-
-      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }
-
-      assert_response :unauthorized, "should need to be authenticated to redact."
-      assert_nil old_way.reload.redaction
-    end
-
-    ##
     # test that, even as moderator, the current version of a way
     # can't be redacted.
     def test_redact_way_current_version
@@ -221,6 +207,20 @@ module Api
       post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }, :headers => auth_header
 
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
+      assert_nil old_way.reload.redaction
+    end
+
+    ##
+    # test the redaction of an old version of a way, while not being
+    # authorised.
+    def test_redact_way_unauthorised
+      way = create(:way, :with_history, :version => 2)
+      old_way = way.old_ways.find_by(:version => 1)
+      redaction = create(:redaction)
+
+      post way_version_redact_path(*old_way.id), :params => { :redaction => redaction.id }
+
+      assert_response :unauthorized, "should need to be authenticated to redact."
       assert_nil old_way.reload.redaction
     end
 
