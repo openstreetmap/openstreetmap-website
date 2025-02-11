@@ -1,3 +1,5 @@
+/* eslint sort-keys: ["error", "asc", {minKeys: 5}] */
+
 const globals = require("globals");
 const js = require("@eslint/js");
 const erb = require("eslint-plugin-erb");
@@ -27,8 +29,8 @@ module.exports = [
         Cookies: "readonly",
         I18n: "readonly",
         L: "readonly",
-        OSM: "writable",
         Matomo: "readonly",
+        OSM: "writable",
         Turbo: "readonly",
         updateLinks: "readonly"
       }
@@ -43,7 +45,6 @@ module.exports = [
       reportUnusedDisableDirectives: "off"
     },
     rules: {
-      /* eslint sort-keys: ["warn"] */
       "@stylistic/array-bracket-newline": ["error", "consistent"],
       "@stylistic/array-bracket-spacing": "error",
       "@stylistic/block-spacing": "error",
