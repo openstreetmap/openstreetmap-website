@@ -6,7 +6,7 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
-        { :path => "/api/0.6/changeset/create", :method => :put },
+        { :path => "/api/0.6/changesets", :method => :post },
         { :controller => "api/changesets", :action => "create" }
       )
       assert_routing(
@@ -57,6 +57,11 @@ module Api
         { :path => "/api/0.6/changesets.json", :method => :get },
         { :controller => "api/changesets", :action => "index", :format => "json" }
       )
+
+      assert_recognizes(
+        { :controller => "api/changesets", :action => "create" },
+        { :path => "/api/0.6/changeset/create", :method => :put }
+      )
     end
 
     # -----------------------
@@ -69,7 +74,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
       auth_header = bearer_authorization_header
@@ -77,7 +82,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
 
       assert_response :success, "Creation of changeset did not return success status"
       newid = @response.body.to_i
@@ -101,47 +106,55 @@ module Api
     def test_create_invalid
       auth_header = bearer_authorization_header create(:user, :data_public => false)
       xml = "<osm><changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
       ## Try the public user
       auth_header = bearer_authorization_header
       xml = "<osm><changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "creating a invalid changeset should fail"
     end
 
     def test_create_invalid_no_content
       ## First check with no auth
-      put changeset_create_path
+      post api_changesets_path
       assert_response :unauthorized, "shouldn't be able to create a changeset with no auth"
 
       ## Now try to with a non-public user
       auth_header = bearer_authorization_header create(:user, :data_public => false)
-      put changeset_create_path, :headers => auth_header
+      post api_changesets_path, :headers => auth_header
       assert_require_public_data
 
       ## Try an inactive user
       auth_header = bearer_authorization_header create(:user, :pending)
-      put changeset_create_path, :headers => auth_header
+      post api_changesets_path, :headers => auth_header
       assert_inactive_user
 
       ## Now try to use a normal user
       auth_header = bearer_authorization_header
-      put changeset_create_path, :headers => auth_header
+      post api_changesets_path, :headers => auth_header
       assert_response :bad_request, "creating a changeset with no content should fail"
     end
 
     def test_create_wrong_method
       auth_header = bearer_authorization_header
 
-      get changeset_create_path, :headers => auth_header
+      put api_changesets_path, :headers => auth_header
       assert_response :not_found
       assert_template "rescues/routing_error"
+    end
 
-      post changeset_create_path, :headers => auth_header
-      assert_response :not_found
-      assert_template "rescues/routing_error"
+    def test_create_legacy_path
+      auth_header = bearer_authorization_header
+      xml = "<osm><changeset></changeset></osm>"
+
+      assert_difference "Changeset.count", 1 do
+        put "/api/0.6/changeset/create", :params => xml, :headers => auth_header
+      end
+
+      assert_response :success, "Creation of changeset did not return success status"
+      assert_equal Changeset.last.id, @response.body.to_i
     end
 
     ##
@@ -759,7 +772,7 @@ module Api
               "<tag k='created_by' v='osm test suite checking changesets'/>" \
               "</changeset></osm>"
         assert_difference "Changeset.count", 1 do
-          put changeset_create_path, :params => xml, :headers => auth_header
+          post api_changesets_path, :params => xml, :headers => auth_header
         end
         assert_response :success
       end
@@ -773,7 +786,7 @@ module Api
       create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
 
       # create a changeset
-      put changeset_create_path, :params => "<osm><changeset/></osm>", :headers => auth_header
+      post api_changesets_path, :params => "<osm><changeset/></osm>", :headers => auth_header
       assert_response :success, "Should be able to create a changeset: #{@response.body}"
       changeset_id = @response.body.to_i
 
@@ -1455,7 +1468,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1492,7 +1505,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1895,7 +1908,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with a normal user
@@ -1905,7 +1918,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1950,7 +1963,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -2011,7 +2024,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -2124,7 +2137,7 @@ module Api
 
       # create a new changeset
       xml = "<osm><changeset/></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success, "Creating of changeset failed."
       changeset_id = @response.body.to_i
 
@@ -2501,7 +2514,7 @@ module Api
 
       # open a new changeset
       xml = "<osm><changeset/></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success, "can't create a new changeset"
       cs_id = @response.body.to_i
 
