@@ -17,9 +17,13 @@
 
 {
   const application_data = $("head").data();
+  const locale = application_data.locale;
 
   I18n.default_locale = OSM.DEFAULT_LOCALE;
-  I18n.locale = application_data.locale;
+  I18n.locale = locale;
+  if (plurals[locale]) {
+    I18n.pluralization[locale] = (count) => [plurals[locale](count), "other"];
+  }
   I18n.fallbacks = true;
 
   OSM.preferred_editor = application_data.preferredEditor;
