@@ -3,16 +3,14 @@
 # nodes, ways and relations are basically identical.
 module Api
   class OldElementsController < ApiController
-    before_action :check_api_writable, :only => [:redact]
-    before_action :setup_user_auth, :only => [:index, :show]
-    before_action :authorize, :only => [:redact]
+    before_action :setup_user_auth
 
     authorize_resource
 
     before_action :lookup_old_element, :except => [:index]
     before_action :lookup_old_element_versions, :only => [:index]
 
-    before_action :set_request_formats, :except => [:redact]
+    before_action :set_request_formats
 
     def index
       # the .where() method used in the lookup_old_element_versions
@@ -47,23 +45,6 @@ module Api
           format.json
         end
       end
-    end
-
-    def redact
-      redaction_id = params["redaction"]
-      if redaction_id.nil?
-        # if no redaction ID was provided, then this is an unredact
-        # operation.
-        @old_element.redact!(nil)
-      else
-        # if a redaction ID was specified, then set this element to
-        # be redacted in that redaction.
-        redaction = Redaction.find(redaction_id.to_i)
-        @old_element.redact!(redaction)
-      end
-
-      # just return an empty 200 OK for success
-      head :ok
     end
 
     private
