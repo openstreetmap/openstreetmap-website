@@ -1,5 +1,3 @@
-/* eslint sort-keys: ["error", "asc", {minKeys: 5}] */
-
 const globals = require("globals");
 const js = require("@eslint/js");
 const erb = require("eslint-plugin-erb");
@@ -171,6 +169,9 @@ module.exports = [
       globals: {
         ...globals.commonjs
       }
+    },
+    rules: {
+      "sort-keys": ["error", "asc", { minKeys: 5 }]
     }
   }
 ];
