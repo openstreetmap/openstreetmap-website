@@ -34,8 +34,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest",
-                                       :consider_pd => "1" } }
+                                       :pass_crypt_confirmation => "testtest" } }
         end
       end
     end
@@ -57,8 +56,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest",
                                        :auth_provider => "google",
-                                       :auth_uid => "123454321",
-                                       :consider_pd => "1" } }
+                                       :auth_uid => "123454321" } }
         end
       end
     end
@@ -97,8 +95,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "blahblah",
-                                       :consider_pd => "1" } }
+                                       :pass_crypt_confirmation => "blahblah" } }
         end
       end
     end
@@ -117,8 +114,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => email,
                                        :display_name => dup_display_name,
                                        :auth_provider => "google",
-                                       :auth_uid => "123454321",
-                                       :consider_pd => "1" } }
+                                       :auth_uid => "123454321" } }
         end
       end
     end
@@ -138,8 +134,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest",
-                                       :consider_pd => "1" } }
+                                       :pass_crypt_confirmation => "testtest" } }
           assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
@@ -192,8 +187,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => password,
-                                       :pass_crypt_confirmation => password,
-                                       :consider_pd => "1" },
+                                       :pass_crypt_confirmation => password },
                             :referer => referer }
           assert_response(:redirect)
           assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
@@ -254,8 +248,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
         end
       end
     end
@@ -330,8 +323,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           follow_redirect!
         end
       end
@@ -392,8 +384,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" },
+                                       :auth_uid => auth_uid },
                             :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
@@ -479,8 +470,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "google",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -541,8 +531,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" },
+                                       :auth_uid => auth_uid },
                             :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
@@ -628,8 +617,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -689,8 +677,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" },
+                                       :auth_uid => auth_uid },
                             :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
@@ -775,8 +762,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -926,8 +912,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "github",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -1076,8 +1061,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
