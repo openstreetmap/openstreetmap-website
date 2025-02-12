@@ -266,7 +266,9 @@ module Api
       end
 
       # Add any text filter
-      @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]
+      if params[:q]
+        @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?) OR to_tsvector('english', notes.description) @@ plainto_tsquery('english', ?)", params[:q], params[:q])
+      end
 
       # Add any date filter
       if params[:from]
