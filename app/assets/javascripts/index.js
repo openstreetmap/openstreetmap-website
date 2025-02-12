@@ -391,7 +391,7 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on("click", "#sidebar_content .btn-close", function () {
+  $(document).on("click", "#sidebar_close button", function () {
     OSM.router.route("/" + OSM.formatHash(map));
   });
 });
