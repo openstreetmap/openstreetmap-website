@@ -37,7 +37,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     stub_routing <<~CALLBACK
       const distance = points[0].distanceTo(points[1]);
       const time = distance * 30;
-      callback(false, {
+      return Promise.resolve({
         line: points,
         steps: [
           [points[0],  8, "<b>1.</b> #{start_instruction}", distance, points],
@@ -53,10 +53,8 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     execute_script <<~SCRIPT
       $(() => {
         for (const engine of OSM.Directions.engines) {
-          engine.getRoute = (points, callback) => {
-            setTimeout(() => {
+          engine.getRoute = (points, signal) => {
               #{callback_code}
-            });
           };
         }
       });

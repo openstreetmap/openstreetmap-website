@@ -3,7 +3,7 @@
 //= require_tree ./directions
 
 OSM.Directions = function (map) {
-  var routeRequest = null; // jqXHR object of an ongoing route request or null
+  let controller = null; // the AbortController for the current route request if a route request is in progress
   var chosenEngine;
 
   var popup = L.popup({ autoPanPadding: [100, 100] });
@@ -23,7 +23,7 @@ OSM.Directions = function (map) {
   var endpointDragCallback = function (dragging) {
     if (!map.hasLayer(polyline)) return;
     if (dragging && !chosenEngine.draggable) return;
-    if (dragging && routeRequest) return;
+    if (dragging && controller) return;
 
     getRoute(false, !dragging);
   };
@@ -109,7 +109,7 @@ OSM.Directions = function (map) {
 
   function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
-    if (routeRequest) routeRequest.abort();
+    if (controller) controller.abort();
 
     const points = endpoints.map(p => p.latlng);
 
@@ -126,20 +126,8 @@ OSM.Directions = function (map) {
     // again.
     $("#sidebar_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
-
-    routeRequest = chosenEngine.getRoute(points, function (err, route) {
-      routeRequest = null;
-
-      if (err) {
-        map.removeLayer(polyline);
-
-        if (reportErrors) {
-          $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
-        }
-
-        return;
-      }
-
+    controller = new AbortController();
+    chosenEngine.getRoute(points, controller.signal).then(function (route) {
       polyline
         .setLatLngs(route.line)
         .addTo(map);
@@ -212,6 +200,13 @@ OSM.Directions = function (map) {
         map.setSidebarOverlaid(true);
         // TODO: collapse width of sidebar back to previous
       });
+    }).catch(function () {
+      map.removeLayer(polyline);
+      if (reportErrors) {
+        $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
+      }
+    }).finally(function () {
+      controller = null;
     });
 
     function getDistText(dist) {

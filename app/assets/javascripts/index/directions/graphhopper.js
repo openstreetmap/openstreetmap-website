@@ -51,33 +51,24 @@
       creditline: "<a href=\"https://www.graphhopper.com/\" target=\"_blank\">GraphHopper</a>",
       draggable: false,
 
-      getRoute: function (points, callback) {
+      getRoute: function (points, signal) {
         // GraphHopper Directions API documentation
         // https://graphhopper.com/api/1/docs/routing/
-        const data = {
+        const query = new URLSearchParams({
           vehicle: vehicleType,
           locale: I18n.currentLocale(),
           key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
           elevation: false,
           instructions: true,
-          turn_costs: vehicleType === "car",
-          point: points.map(p => p.lat + "," + p.lng)
-        };
-        return $.ajax({
-          url: OSM.GRAPHHOPPER_URL,
-          data,
-          traditional: true,
-          dataType: "json",
-          success: function ({ paths }) {
-            if (!paths || paths.length === 0) {
-              return callback(true);
-            }
-            callback(false, _processDirections(paths[0]));
-          },
-          error: function () {
-            callback(true);
-          }
+          turn_costs: vehicleType === "car"
         });
+        points.forEach(p => query.append("point", p.lat + "," + p.lng));
+        return fetch(OSM.GRAPHHOPPER_URL + "?" + query, { signal })
+          .then(response => response.json())
+          .then(({ paths }) => {
+            if (!paths || paths.length === 0) throw new Error();
+            return _processDirections(paths[0]);
+          });
       }
     };
   }

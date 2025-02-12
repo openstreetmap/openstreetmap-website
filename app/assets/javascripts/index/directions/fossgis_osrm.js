@@ -154,15 +154,15 @@
       creditline: "<a href=\"https://routing.openstreetmap.de/about.html\" target=\"_blank\">OSRM (FOSSGIS)</a>",
       draggable: true,
 
-      getRoute: function (points, callback) {
-        const data = [
-          { name: "overview", value: "false" },
-          { name: "geometries", value: "polyline" },
-          { name: "steps", value: true }
-        ];
+      getRoute: function (points, signal) {
+        const query = new URLSearchParams({
+          overview: "false",
+          geometries: "polyline",
+          steps: true
+        });
 
         if (cachedHints.length === points.length) {
-          data.push({ name: "hints", value: cachedHints.join(";") });
+          query.set("hints", cachedHints.join(";"));
         } else {
           // invalidate cache
           cachedHints = [];
@@ -170,22 +170,13 @@
 
         const req_path = "routed-" + vehicleType + "/route/v1/driving/" + points.map(p => p.lng + "," + p.lat).join(";");
 
-        return $.ajax({
-          url: OSM.FOSSGIS_OSRM_URL + req_path,
-          data,
-          dataType: "json",
-          success: function (response) {
-            if (response.code !== "Ok") {
-              return callback(true);
-            }
-
+        return fetch(OSM.FOSSGIS_OSRM_URL + req_path + "?" + query, { signal })
+          .then(response => response.json())
+          .then(response => {
+            if (response.code !== "Ok") throw new Error();
             cachedHints = response.waypoints.map(wp => wp.hint);
-            callback(false, _processDirections(response.routes[0]));
-          },
-          error: function () {
-            callback(true);
-          }
-        });
+            return _processDirections(response.routes[0]);
+          });
       }
     };
   }
