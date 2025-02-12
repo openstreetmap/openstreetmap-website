@@ -13,9 +13,9 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
     end
   end
 
-  test "as a normal user with write_api scope" do
+  test "as a normal user with write_changeset_comments scope" do
     user = create(:user)
-    scopes = Set.new %w[write_api]
+    scopes = Set.new %w[write_changeset_comments]
     ability = ApiAbility.new user, scopes
 
     [:destroy, :restore].each do |action|
@@ -37,9 +37,9 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
     end
   end
 
-  test "as a moderator with write_api scope" do
+  test "as a moderator with write_changeset_comments scope" do
     user = create(:moderator_user)
-    scopes = Set.new %w[write_api]
+    scopes = Set.new %w[write_changeset_comments]
     ability = ApiAbility.new user, scopes
 
     [:create, :destroy, :restore].each do |action|

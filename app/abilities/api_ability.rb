@@ -31,13 +31,13 @@ class ApiAbility
         can :create, Message if scopes.include?("send_messages")
 
         if user.terms_agreed?
-          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scopes.include?("write_api")
-          can :create, ChangesetComment if scopes.include?("write_api")
-          can [:create, :update, :destroy], [Node, Way, Relation] if scopes.include?("write_api")
+          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scopes.include?("write_map")
+          can :create, ChangesetComment if scopes.include?("write_changeset_comments")
+          can [:create, :update, :destroy], [Node, Way, Relation] if scopes.include?("write_map")
         end
 
         if user.moderator?
-          can [:destroy, :restore], ChangesetComment if scopes.include?("write_api")
+          can [:destroy, :restore], ChangesetComment if scopes.include?("write_changeset_comments")
 
           can :destroy, Note if scopes.include?("write_notes")
 
