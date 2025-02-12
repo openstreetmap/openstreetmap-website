@@ -49,9 +49,9 @@ class ApiController < ApplicationController
     end
   end
 
-  def authorize(errormessage = "Couldn't authenticate you")
+  def authorize(errormessage: "Couldn't authenticate you", skip_terms: false)
     # make the current_user object from any auth sources we have
-    setup_user_auth
+    setup_user_auth(:skip_terms => skip_terms)
 
     # handle authenticate pass/fail
     unless current_user
@@ -92,7 +92,7 @@ class ApiController < ApplicationController
   # sets up the current_user for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
-  def setup_user_auth
+  def setup_user_auth(skip_terms: false)
     logger.info " setup_user_auth"
     # try and setup using OAuth
     self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
@@ -113,7 +113,7 @@ class ApiController < ApplicationController
       # if the user hasn't seen the contributor terms then don't
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
-      if !current_user.terms_seen && flash[:skip_terms].nil?
+      if !current_user.terms_seen && !skip_terms
         set_locale
         report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
       end
