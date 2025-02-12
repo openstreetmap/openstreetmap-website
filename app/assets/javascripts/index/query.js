@@ -153,20 +153,24 @@ OSM.Query = function (map) {
     $ul.empty();
     $section.show();
 
-    if ($section.data("ajax")) {
-      $section.data("ajax").abort();
+    if ($section.data("controller")) {
+      $section.data("controller").abort();
     }
 
-    $section.data("ajax", $.ajax({
-      url: url,
+    $section.data("controller", new AbortController());
+
+    const request = new Request(url, {
       method: "POST",
-      data: {
+      body: new URLSearchParams({
         data: "[timeout:10][out:json];" + query
-      },
-      xhrFields: {
-        withCredentials: credentials
-      },
-      success: function (results) {
+      }),
+      credentials: credentials ? "include" : "omit",
+      signal: $section.data("controller").signal
+    });
+
+    fetch(request)
+      .then(response => response.json())
+      .then(results => {
         var elements;
 
         $section.find(".loader").hide();
@@ -221,16 +225,18 @@ OSM.Query = function (map) {
             .text(I18n.t("javascripts.query.nothing_found"))
             .appendTo($ul);
         }
-      },
-      error: function (xhr, status, error) {
+      })
+      .catch(error => {
         $section.find(".loader").hide();
 
         $("<li>")
           .addClass("list-group-item")
-          .text(I18n.t("javascripts.query." + status, { server: url, error: error }))
+          .text(I18n.t("javascripts.query.error", { server: url, error: error.message }))
           .appendTo($ul);
-      }
-    }));
+      })
+      .finally(() => {
+        $section.data("controller", null);
+      });
   }
 
   function compareSize(feature1, feature2) {
