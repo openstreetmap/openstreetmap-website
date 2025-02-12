@@ -76,40 +76,40 @@ module Api
       changeset2 = create(:changeset, :min_lat => (5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round, :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (15 * GeoRecord::SCALE).round)
       changeset3 = create(:changeset, :min_lat => (4.5 * GeoRecord::SCALE).round, :min_lon => (4.5 * GeoRecord::SCALE).round, :max_lat => (5 * GeoRecord::SCALE).round, :max_lon => (5 * GeoRecord::SCALE).round)
 
-      get changesets_path(:bbox => "-10,-10, 10, 10")
+      get api_changesets_path(:bbox => "-10,-10, 10, 10")
       assert_response :success, "can't get changesets in bbox"
       assert_changesets_in_order [changeset3, changeset2]
 
-      get changesets_path(:bbox => "4.5,4.5,4.6,4.6")
+      get api_changesets_path(:bbox => "4.5,4.5,4.6,4.6")
       assert_response :success, "can't get changesets in bbox"
       assert_changesets_in_order [changeset3]
 
       # not found when looking for changesets of non-existing users
-      get changesets_path(:user => User.maximum(:id) + 1)
+      get api_changesets_path(:user => User.maximum(:id) + 1)
       assert_response :not_found
       assert_equal "text/plain", @response.media_type
-      get changesets_path(:display_name => " ")
+      get api_changesets_path(:display_name => " ")
       assert_response :not_found
       assert_equal "text/plain", @response.media_type
 
       # can't get changesets of user 1 without authenticating
-      get changesets_path(:user => private_user.id)
+      get api_changesets_path(:user => private_user.id)
       assert_response :not_found, "shouldn't be able to get changesets by non-public user (ID)"
-      get changesets_path(:display_name => private_user.display_name)
+      get api_changesets_path(:display_name => private_user.display_name)
       assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
 
       # but this should work
       auth_header = bearer_authorization_header private_user
-      get changesets_path(:user => private_user.id), :headers => auth_header
+      get api_changesets_path(:user => private_user.id), :headers => auth_header
       assert_response :success, "can't get changesets by user ID"
       assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
 
-      get changesets_path(:display_name => private_user.display_name), :headers => auth_header
+      get api_changesets_path(:display_name => private_user.display_name), :headers => auth_header
       assert_response :success, "can't get changesets by user name"
       assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
 
       # test json endpoint
-      get changesets_path(:display_name => private_user.display_name), :headers => auth_header, :params => { :format => "json" }
+      get api_changesets_path(:display_name => private_user.display_name), :headers => auth_header, :params => { :format => "json" }
       assert_response :success, "can't get changesets by user name"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -120,47 +120,47 @@ module Api
       assert_equal 2, js["changesets"].count
 
       # check that the correct error is given when we provide both UID and name
-      get changesets_path(:user => private_user.id,
-                          :display_name => private_user.display_name), :headers => auth_header
+      get api_changesets_path(:user => private_user.id,
+                              :display_name => private_user.display_name), :headers => auth_header
       assert_response :bad_request, "should be a bad request to have both ID and name specified"
 
-      get changesets_path(:user => private_user.id, :open => true), :headers => auth_header
+      get api_changesets_path(:user => private_user.id, :open => true), :headers => auth_header
       assert_response :success, "can't get changesets by user and open"
       assert_changesets_in_order [private_user_changeset]
 
-      get changesets_path(:time => "2007-12-31"), :headers => auth_header
+      get api_changesets_path(:time => "2007-12-31"), :headers => auth_header
       assert_response :success, "can't get changesets by time-since"
       assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset, private_user_closed_changeset, closed_changeset]
 
-      get changesets_path(:time => "2008-01-01T12:34Z"), :headers => auth_header
+      get api_changesets_path(:time => "2008-01-01T12:34Z"), :headers => auth_header
       assert_response :success, "can't get changesets by time-since with hour"
       assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset, private_user_closed_changeset, closed_changeset]
 
-      get changesets_path(:time => "2007-12-31T23:59Z,2008-01-02T00:01Z"), :headers => auth_header
+      get api_changesets_path(:time => "2007-12-31T23:59Z,2008-01-02T00:01Z"), :headers => auth_header
       assert_response :success, "can't get changesets by time-range"
       assert_changesets_in_order [closed_changeset]
 
-      get changesets_path(:open => "true"), :headers => auth_header
+      get api_changesets_path(:open => "true"), :headers => auth_header
       assert_response :success, "can't get changesets by open-ness"
       assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset]
 
-      get changesets_path(:closed => "true"), :headers => auth_header
+      get api_changesets_path(:closed => "true"), :headers => auth_header
       assert_response :success, "can't get changesets by closed-ness"
       assert_changesets_in_order [private_user_closed_changeset, closed_changeset]
 
-      get changesets_path(:closed => "true", :user => private_user.id), :headers => auth_header
+      get api_changesets_path(:closed => "true", :user => private_user.id), :headers => auth_header
       assert_response :success, "can't get changesets by closed-ness and user"
       assert_changesets_in_order [private_user_closed_changeset]
 
-      get changesets_path(:closed => "true", :user => user.id), :headers => auth_header
+      get api_changesets_path(:closed => "true", :user => user.id), :headers => auth_header
       assert_response :success, "can't get changesets by closed-ness and user"
       assert_changesets_in_order [closed_changeset]
 
-      get changesets_path(:changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"), :headers => auth_header
+      get api_changesets_path(:changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"), :headers => auth_header
       assert_response :success, "can't get changesets by id (as comma-separated string)"
       assert_changesets_in_order [changeset, private_user_changeset, closed_changeset]
 
-      get changesets_path(:changesets => ""), :headers => auth_header
+      get api_changesets_path(:changesets => ""), :headers => auth_header
       assert_response :bad_request, "should be a bad request since changesets is empty"
     end
 
@@ -174,22 +174,22 @@ module Api
       changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
       changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
 
-      get changesets_path
+      get api_changesets_path
       assert_response :success
       assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
 
-      get changesets_path(:limit => "3")
+      get api_changesets_path(:limit => "3")
       assert_response :success
       assert_changesets_in_order [changeset5, changeset4, changeset3]
 
-      get changesets_path(:limit => "0")
+      get api_changesets_path(:limit => "0")
       assert_response :bad_request
 
-      get changesets_path(:limit => Settings.max_changeset_query_limit)
+      get api_changesets_path(:limit => Settings.max_changeset_query_limit)
       assert_response :success
       assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
 
-      get changesets_path(:limit => Settings.max_changeset_query_limit + 1)
+      get api_changesets_path(:limit => Settings.max_changeset_query_limit + 1)
       assert_response :bad_request
     end
 
@@ -204,11 +204,11 @@ module Api
       changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
       changeset6 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 6, 1, 0, 0, 0), :closed_at => Time.utc(2008, 6, 2, 0, 0, 0))
 
-      get changesets_path
+      get api_changesets_path
       assert_response :success
       assert_changesets_in_order [changeset6, changeset5, changeset4, changeset3, changeset2, changeset1]
 
-      get changesets_path(:order => "oldest")
+      get api_changesets_path(:order => "oldest")
       assert_response :success
       assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5, changeset6]
 
@@ -226,15 +226,15 @@ module Api
         # empty range
         ["2009-02-02T00:00:01Z", "2018-05-15T00:00:00Z", [], []]
       ].each do |from, to, interval_changesets, point_changesets|
-        get changesets_path(:time => "#{from},#{to}")
+        get api_changesets_path(:time => "#{from},#{to}")
         assert_response :success
         assert_changesets_in_order interval_changesets
 
-        get changesets_path(:from => from, :to => to)
+        get api_changesets_path(:from => from, :to => to)
         assert_response :success
         assert_changesets_in_order point_changesets
 
-        get changesets_path(:from => from, :to => to, :order => "oldest")
+        get api_changesets_path(:from => from, :to => to, :order => "oldest")
         assert_response :success
         assert_changesets_in_order point_changesets.reverse
       end
@@ -250,27 +250,27 @@ module Api
       changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 3, 23, 0, 0), :closed_at => Time.utc(2015, 6, 4, 23, 0, 0))
       create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 2, 23, 0, 0), :closed_at => Time.utc(2015, 6, 3, 23, 0, 0))
 
-      get changesets_path(:time => "2015-06-04T00:00:00Z")
+      get api_changesets_path(:time => "2015-06-04T00:00:00Z")
       assert_response :success
       assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
 
-      get changesets_path(:from => "2015-06-04T00:00:00Z")
+      get api_changesets_path(:from => "2015-06-04T00:00:00Z")
       assert_response :success
       assert_changesets_in_order [changeset1, changeset2, changeset3]
 
-      get changesets_path(:from => "2015-06-04T00:00:00Z", :order => "oldest")
+      get api_changesets_path(:from => "2015-06-04T00:00:00Z", :order => "oldest")
       assert_response :success
       assert_changesets_in_order [changeset3, changeset2, changeset1]
 
-      get changesets_path(:time => "2015-06-04T16:00:00Z,2015-06-04T17:30:00Z")
+      get api_changesets_path(:time => "2015-06-04T16:00:00Z,2015-06-04T17:30:00Z")
       assert_response :success
       assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
 
-      get changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z")
+      get api_changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z")
       assert_response :success
       assert_changesets_in_order [changeset1, changeset2]
 
-      get changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z", :order => "oldest")
+      get api_changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z", :order => "oldest")
       assert_response :success
       assert_changesets_in_order [changeset2, changeset1]
     end
@@ -282,7 +282,7 @@ module Api
       ["abracadabra!",
        "1,2,3,F",
        ";drop table users;"].each do |bbox|
-        get changesets_path(:bbox => bbox)
+        get api_changesets_path(:bbox => bbox)
         assert_response :bad_request, "'#{bbox}' isn't a bbox"
       end
 
@@ -291,7 +291,7 @@ module Api
        ";drop table users;",
        ",",
        "-,-"].each do |time|
-        get changesets_path(:time => time)
+        get api_changesets_path(:time => time)
         assert_response :bad_request, "'#{time}' isn't a valid time range"
       end
 
@@ -299,11 +299,11 @@ module Api
        "foobar",
        "-1",
        "0"].each do |uid|
-        get changesets_path(:user => uid)
+        get api_changesets_path(:user => uid)
         assert_response :bad_request, "'#{uid}' isn't a valid user ID"
       end
 
-      get changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
+      get api_changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
       assert_response :bad_request, "cannot use order=oldest with time"
     end
 

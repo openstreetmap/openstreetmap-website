@@ -24,14 +24,13 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
     put "changeset/:id" => "changesets#update", :id => /\d+/
     put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
-    get "changesets" => "changesets#index"
     post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
-    resources :changesets, :only => :create
+    resources :changesets, :only => [:index, :create]
     put "changeset/create" => "changesets#create", :as => nil
 
     resources :changeset_comments, :only => :index
