@@ -7,7 +7,8 @@ end
 
 class GuestApiAbilityTest < ApiAbilityTest
   test "note permissions for a guest" do
-    ability = ApiAbility.new nil, nil
+    scopes = Set.new
+    ability = ApiAbility.new nil, scopes
 
     [:index, :create, :feed, :show, :search].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
@@ -22,8 +23,8 @@ end
 class UserApiAbilityTest < ApiAbilityTest
   test "Note permissions" do
     user = create(:user)
-    token = create(:oauth_access_token, :user => user, :scopes => %w[write_notes])
-    ability = ApiAbility.new user, token
+    scopes = Set.new %w[write_notes]
+    ability = ApiAbility.new user, scopes
 
     [:index, :create, :comment, :feed, :show, :search, :close, :reopen].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
@@ -38,8 +39,8 @@ end
 class ModeratorApiAbilityTest < ApiAbilityTest
   test "Note permissions" do
     user = create(:moderator_user)
-    token = create(:oauth_access_token, :user => user, :scopes => %w[write_notes])
-    ability = ApiAbility.new user, token
+    scopes = Set.new %w[write_notes]
+    ability = ApiAbility.new user, scopes
 
     [:index, :create, :comment, :feed, :show, :search, :close, :reopen, :destroy].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
