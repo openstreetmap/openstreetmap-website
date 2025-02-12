@@ -33,7 +33,7 @@ module Api
 
     ##
     # create comment success
-    def test_create_comment_success
+    def test_create
       user = create(:user)
       user2 = create(:user)
       private_user = create(:user, :data_public => false)
@@ -100,7 +100,7 @@ module Api
 
     ##
     # create comment fail
-    def test_create_comment_fail
+    def test_create_fail
       # unauthorized
       post changeset_comment_path(create(:changeset, :closed), :text => "This is a comment")
       assert_response :unauthorized
@@ -134,7 +134,7 @@ module Api
 
     ##
     # create comment rate limit for new users
-    def test_create_comment_new_user_rate_limit
+    def test_create_by_new_user_with_rate_limit
       changeset = create(:changeset, :closed)
       user = create(:user)
 
@@ -155,7 +155,7 @@ module Api
 
     ##
     # create comment rate limit for experienced users
-    def test_create_comment_experienced_user_rate_limit
+    def test_create_by_experienced_user_with_rate_limit
       changeset = create(:changeset, :closed)
       user = create(:user)
       create_list(:changeset_comment, Settings.comments_to_max_changeset_comments, :author_id => user.id, :created_at => Time.now.utc - 1.day)
@@ -177,7 +177,7 @@ module Api
 
     ##
     # create comment rate limit for reported users
-    def test_create_comment_reported_user_rate_limit
+    def test_create_by_reported_user_with_rate_limit
       changeset = create(:changeset, :closed)
       user = create(:user)
       create(:issue_with_reports, :reportable => user, :reported_user => user)
@@ -199,7 +199,7 @@ module Api
 
     ##
     # create comment rate limit for moderator users
-    def test_create_comment_moderator_user_rate_limit
+    def test_create_by_moderator_user_with_rate_limit
       changeset = create(:changeset, :closed)
       user = create(:moderator_user)
 
@@ -220,7 +220,7 @@ module Api
 
     ##
     # test hide comment fail
-    def test_destroy_comment_fail
+    def test_hide_fail
       # unauthorized
       comment = create(:changeset_comment)
       assert comment.visible
@@ -246,7 +246,7 @@ module Api
 
     ##
     # test hide comment succes
-    def test_hide_comment_success
+    def test_hide
       comment = create(:changeset_comment)
       assert comment.visible
 
@@ -259,7 +259,7 @@ module Api
 
     ##
     # test unhide comment fail
-    def test_restore_comment_fail
+    def test_unhide_fail
       # unauthorized
       comment = create(:changeset_comment, :visible => false)
       assert_not comment.visible
@@ -285,7 +285,7 @@ module Api
 
     ##
     # test unhide comment succes
-    def test_unhide_comment_success
+    def test_unhide
       comment = create(:changeset_comment, :visible => false)
       assert_not comment.visible
 
