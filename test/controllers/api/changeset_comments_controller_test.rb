@@ -281,30 +281,31 @@ module Api
       end
     end
 
-    ##
-    # test hide comment fail
-    def test_hide_fail
-      # unauthorized
+    def test_hide_by_unauthorized
       comment = create(:changeset_comment)
-      assert comment.visible
 
       post changeset_comment_hide_path(comment)
+
       assert_response :unauthorized
       assert comment.reload.visible
+    end
 
+    def test_hide_by_normal_user
+      comment = create(:changeset_comment)
       auth_header = bearer_authorization_header
 
-      # not a moderator
       post changeset_comment_hide_path(comment), :headers => auth_header
+
       assert_response :forbidden
       assert comment.reload.visible
+    end
 
+    def test_hide_missing_comment
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      # bad comment id
       post changeset_comment_hide_path(999111), :headers => auth_header
+
       assert_response :not_found
-      assert comment.reload.visible
     end
 
     ##
