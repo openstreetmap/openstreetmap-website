@@ -133,6 +133,28 @@ module Api
       end
     end
 
+    def test_create_when_not_agreed_to_terms
+      user = create(:user, :terms_agreed => nil)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset, :closed)
+
+      assert_difference "ChangesetComment.count", 0 do
+        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        assert_response :forbidden
+      end
+    end
+
+    def test_create_with_write_api_scope
+      user = create(:user)
+      auth_header = bearer_authorization_header user, :scopes => %w[write_api]
+      changeset = create(:changeset, :closed)
+
+      assert_difference "ChangesetComment.count", 1 do
+        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        assert_response :success
+      end
+    end
+
     ##
     # create comment rate limit for new users
     def test_create_by_new_user_with_rate_limit
@@ -295,31 +317,6 @@ module Api
       post changeset_comment_unhide_path(comment), :headers => auth_header
       assert_response :success
       assert comment.reload.visible
-    end
-
-    # This test ensures that token capabilities behave correctly for a method that
-    # requires the terms to have been agreed.
-    # (This would be better as an integration or system testcase, since the changeset_comment
-    # create method is simply a stand-in for any method that requires terms agreement.
-    # But writing oauth tests is hard, and so it's easier to put in a controller test.)
-    def test_api_write_and_terms_agreed_via_token
-      user = create(:user, :terms_agreed => nil)
-      auth_header = bearer_authorization_header(user, :scopes => %w[write_api])
-      changeset = create(:changeset, :closed)
-
-      assert_difference "ChangesetComment.count", 0 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
-      end
-      assert_response :forbidden
-
-      # Try again, after agreement with the terms
-      user.terms_agreed = Time.now.utc
-      user.save!
-
-      assert_difference "ChangesetComment.count", 1 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
-      end
-      assert_response :success
     end
   end
 end
