@@ -4,8 +4,7 @@ module Accounts
 
     layout "site"
 
-    before_action :disable_terms_redirect
-    before_action :authorize_web
+    before_action -> { authorize_web(:skip_terms => true) }
     before_action :set_locale
     before_action :check_database_readable
 

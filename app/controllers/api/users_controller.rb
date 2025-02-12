@@ -1,8 +1,7 @@
 module Api
   class UsersController < ApiController
-    before_action :disable_terms_redirect, :only => [:details]
     before_action :setup_user_auth, :only => [:show, :index]
-    before_action :authorize, :only => [:details]
+    before_action -> { authorize(:skip_terms => true) }, :only => [:details]
 
     authorize_resource
 
@@ -45,15 +44,6 @@ module Api
         format.xml { render :show }
         format.json { render :show }
       end
-    end
-
-    private
-
-    def disable_terms_redirect
-      # this is necessary otherwise going to the user terms page, when
-      # having not agreed already would cause an infinite redirect loop.
-      # it's .now so that this doesn't propagate to other pages.
-      flash.now[:skip_terms] = true
     end
   end
 end

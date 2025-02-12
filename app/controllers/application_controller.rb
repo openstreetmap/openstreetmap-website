@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def authorize_web
+  def authorize_web(skip_terms: false)
     if session[:user]
       self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
 
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
 
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
-      elsif !current_user.terms_seen && flash[:skip_terms].nil?
+      elsif !current_user.terms_seen && !skip_terms
         flash[:notice] = t "accounts.terms.show.you need to accept or decline"
         if params[:referer]
           redirect_to account_terms_path(:referer => params[:referer])
