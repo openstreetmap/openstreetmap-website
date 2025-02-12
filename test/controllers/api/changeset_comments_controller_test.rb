@@ -98,38 +98,39 @@ module Api
       ActionMailer::Base.deliveries.clear
     end
 
-    ##
-    # create comment fail
-    def test_create_fail
-      # unauthorized
-      post changeset_comment_path(create(:changeset, :closed), :text => "This is a comment")
-      assert_response :unauthorized
-
-      auth_header = bearer_authorization_header
-
-      # bad changeset id
+    def test_create_by_unauthorized
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(999111, :text => "This is a comment"), :headers => auth_header
+        post changeset_comment_path(create(:changeset, :closed), :text => "This is a comment")
+        assert_response :unauthorized
       end
-      assert_response :not_found
+    end
 
-      # not closed changeset
+    def test_create_on_missing_changeset
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset), :text => "This is a comment"), :headers => auth_header
+        post changeset_comment_path(999111, :text => "This is a comment"), :headers => bearer_authorization_header
+        assert_response :not_found
       end
-      assert_response :conflict
+    end
 
-      # no text
+    def test_create_on_open_changeset
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset, :closed)), :headers => auth_header
+        post changeset_comment_path(create(:changeset), :text => "This is a comment"), :headers => bearer_authorization_header
+        assert_response :conflict
       end
-      assert_response :bad_request
+    end
 
-      # empty text
+    def test_create_without_text
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset, :closed), :text => ""), :headers => auth_header
+        post changeset_comment_path(create(:changeset, :closed)), :headers => bearer_authorization_header
+        assert_response :bad_request
       end
-      assert_response :bad_request
+    end
+
+    def test_create_with_empty_text
+      assert_no_difference "ChangesetComment.count" do
+        post changeset_comment_path(create(:changeset, :closed), :text => ""), :headers => bearer_authorization_header
+        assert_response :bad_request
+      end
     end
 
     ##
