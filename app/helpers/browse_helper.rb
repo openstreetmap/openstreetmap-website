@@ -79,33 +79,56 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
-  def type_and_paginated_count(type, pages, selected_page = pages.current_page)
-    if pages.page_count == 1
+  def type_and_paginated_count(type, paginator, page = paginator.current_page)
+    if paginator.pages_count <= 1
       t ".#{type.pluralize}",
-        :count => pages.item_count
+        :count => paginator.elements_count
     else
       t ".#{type.pluralize}_paginated",
-        :x => selected_page.first_item,
-        :y => selected_page.last_item,
-        :count => pages.item_count
+        :x => paginator.lower_element_number(page),
+        :y => paginator.upper_element_number(page),
+        :count => paginator.elements_count
     end
   end
 
-  def sidebar_classic_pagination(pages, page_param)
+  def sidebar_classic_pagination(paginator, page_param)
+    window_size = 2
     max_width_for_default_padding = 35
 
+    pages = paginator.pages
+    window = paginator.pages_window(window_size)
+    page_items = []
+
+    if window.first != pages.first
+      page_items.push [pages.first.to_s, pages.first]
+      page_items.push ["...", "disabled"] if window.first - pages.first > 1
+    end
+
+    window.each do |page|
+      if paginator.current_page == page
+        page_items.push [page.to_s, "active"]
+      else
+        page_items.push [page.to_s, page]
+      end
+    end
+
+    if window.last != pages.last
+      page_items.push ["...", "disabled"] if pages.last - window.last > 1
+      page_items.push [pages.last.to_s, pages.last]
+    end
+
     width = 0
-    pagination_items(pages, {}).each do |(body)|
+    page_items.each do |(body)|
       width += 2 # padding width
       width += body.length
     end
     link_classes = ["page-link", { "px-1" => width > max_width_for_default_padding }]
 
     tag.ul :class => "pagination pagination-sm mb-2" do
-      pagination_items(pages, {}).each do |body, page_or_class|
+      page_items.each do |body, page_or_class|
         linked = !(page_or_class.is_a? String)
         link = if linked
-                 link_to body, url_for(page_param => page_or_class.number), :class => link_classes, **yield(page_or_class)
+                 link_to body, url_for(page_param => page_or_class), :class => link_classes, **yield(page_or_class)
                else
                  tag.span body, :class => link_classes
                end
