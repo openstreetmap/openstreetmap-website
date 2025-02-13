@@ -83,16 +83,24 @@ OSM.initializeDataLayer = function (map) {
 
     /*
      * Modern browsers are quite happy showing far more than 100 features in
-     * the data browser, so increase the limit to 4000 by default.
+     * the data browser, so increase the limit to 4000.
      */
     const maxFeatures = 4000;
 
     if (dataLoader) dataLoader.abort();
 
-    dataLoader = $.ajax({
-      url: url,
-      dataType: "json",
-      success: function (data) {
+    dataLoader = new AbortController();
+    fetch(url, { headers: { accept: "application/json" }, signal: dataLoader.signal })
+      .then(response => {
+        if (response.ok) return response.json();
+        if (response.status === 400) {
+          return response.text().then(responseText => {
+            throw new Error(responseText || response.statusText || response.status);
+          });
+        }
+        throw new Error(response.statusText || response.status);
+      })
+      .then(function (data) {
         dataLayer.clearLayers();
 
         var features = dataLayer.buildFeatures(data);
@@ -116,26 +124,14 @@ OSM.initializeDataLayer = function (map) {
         if (map._objectLayer) {
           map._objectLayer.bringToFront();
         }
+      })
+      .catch(function (error) {
+        if (error.name === "AbortError") return;
 
-        dataLoader = null;
-      },
-      error: function (XMLHttpRequest, textStatus) {
-        dataLoader = null;
-        if (textStatus === "abort") return;
-
-        function closeError() {
+        displayLoadError(error?.message, () => {
           $("#browse_status").empty();
-        }
-
-        if (XMLHttpRequest.status === 400 && XMLHttpRequest.responseText) {
-          displayLoadError(XMLHttpRequest.responseText, closeError);
-        } else if (XMLHttpRequest.statusText) {
-          displayLoadError(XMLHttpRequest.statusText, closeError);
-        } else {
-          displayLoadError(String(XMLHttpRequest.status), closeError);
-        }
-      }
-    });
+        });
+      }).finally(() => dataLoader = null);
   }
 
   function onSelect(layer) {

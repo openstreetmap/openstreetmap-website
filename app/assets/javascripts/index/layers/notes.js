@@ -71,30 +71,28 @@ OSM.initializeNotesLayer = function (map) {
     var size = bounds.getSize();
 
     if (size <= OSM.MAX_NOTE_REQUEST_AREA) {
-      var url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBoxString();
+      var url = "/api/" + OSM.API_VERSION + "/notes?bbox=" + bounds.toBBoxString();
 
       if (noteLoader) noteLoader.abort();
 
-      noteLoader = $.ajax({
-        url: url,
-        success: success
-      });
-    }
+      noteLoader = new AbortController();
+      fetch(url, { headers: { accept: "application/json" }, signal: noteLoader.signal })
+        .then(response => response.json())
+        .then(({ features }) => {
+          var oldNotes = notes;
+          notes = {};
+          for (const feature of features) {
+            var marker = oldNotes[feature.properties.id];
+            delete oldNotes[feature.properties.id];
+            notes[feature.properties.id] = updateMarker(marker, feature);
+          }
 
-    function success(json) {
-      var oldNotes = notes;
-      notes = {};
-      for (const feature of json.features) {
-        var marker = oldNotes[feature.properties.id];
-        delete oldNotes[feature.properties.id];
-        notes[feature.properties.id] = updateMarker(marker, feature);
-      }
-
-      for (var id in oldNotes) {
-        noteLayer.removeLayer(oldNotes[id]);
-      }
-
-      noteLoader = null;
+          for (var id in oldNotes) {
+            noteLayer.removeLayer(oldNotes[id]);
+          }
+        })
+        .catch(() => {})
+        .finally(() => noteLoader = null);
     }
   }
 };
