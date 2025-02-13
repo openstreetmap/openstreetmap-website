@@ -153,6 +153,12 @@ module Api
         post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
         assert_response :success
       end
+
+      comment = ChangesetComment.last
+      assert_equal changeset.id, comment.changeset_id
+      assert_equal user.id, comment.author_id
+      assert_equal "This is a comment", comment.body
+      assert comment.visible
     end
 
     ##
