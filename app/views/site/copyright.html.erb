@@ -49,24 +49,14 @@
     </p>
     <h3><%= t ".legal_babble.licensing_title" %></h3>
     <p>
-      <%= t ".legal_babble.introduction_1_html",
-            :registered_trademark_link => tag.sup(link_to(t(".legal_babble.introduction_1_registered_trademark_html"),
-                                                          :anchor => "trademarks")),
-            :open_data => tag.i(t(".legal_babble.introduction_1_open_data")),
-            :odc_odbl_link => link_to(t(".legal_babble.introduction_1_odc_odbl"),
-                                      t(".legal_babble.introduction_1_odc_odbl_url")),
-            :osm_foundation_link => link_to(t(".legal_babble.introduction_1_osm_foundation"),
-                                            t(".legal_babble.introduction_1_osm_foundation_url")) %>
+      <%= legal_babble_paragraph "licensing_1", :links => %w[odc_odbl osm_foundation],
+                                                :open => tag.em(t(".legal_babble.licensing_1_open")) %>
     </p>
     <p>
-      <%= t ".legal_babble.introduction_2_html",
-            :legal_code_link => link_to(t(".legal_babble.introduction_2_legal_code"),
-                                        t(".legal_babble.introduction_2_legal_code_url")) %>
+      <%= legal_babble_paragraph "licensing_2", :links => %w[legal_code] %>
     </p>
     <p>
-      <%= t ".legal_babble.introduction_3_html",
-            :creative_commons_link => link_to(t(".legal_babble.introduction_3_creative_commons"),
-                                              t(".legal_babble.introduction_3_creative_commons_url")) %>
+      <%= legal_babble_paragraph "licensing_3", :links => %w[creative_commons_license] %>
     </p>
 
     <h3><%= t ".legal_babble.credit_title_html" %></h3>
