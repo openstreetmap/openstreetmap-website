@@ -47,21 +47,19 @@ OSM.Search = function (map) {
     var div = $(this).parents(".search_more"),
         csrf_param = $("meta[name=csrf-param]").attr("content"),
         csrf_token = $("meta[name=csrf-token]").attr("content"),
-        params = {};
+        params = new URLSearchParams();
 
     $(this).hide();
     div.find(".loader").show();
 
-    params[csrf_param] = csrf_token;
+    params.set(csrf_param, csrf_token);
 
-    $.ajax({
-      url: $(this).attr("href"),
+    fetch($(this).attr("href"), {
       method: "POST",
-      data: params,
-      success: function (data) {
-        div.replaceWith(data);
-      }
-    });
+      body: params
+    })
+      .then(response => response.text())
+      .then(data => div.replaceWith(data));
   }
 
   function showSearchResult() {
@@ -125,19 +123,20 @@ OSM.Search = function (map) {
       var entry = $(this),
           csrf_param = $("meta[name=csrf-param]").attr("content"),
           csrf_token = $("meta[name=csrf-token]").attr("content"),
-          params = {
+          params = new URLSearchParams({
             zoom: map.getZoom(),
             minlon: map.getBounds().getWest(),
             minlat: map.getBounds().getSouth(),
             maxlon: map.getBounds().getEast(),
             maxlat: map.getBounds().getNorth()
-          };
-      params[csrf_param] = csrf_token;
-      $.ajax({
-        url: entry.data("href"),
+          });
+      params.set(csrf_param, csrf_token);
+      fetch(entry.data("href"), {
         method: "POST",
-        data: params,
-        success: function (html) {
+        body: params
+      })
+        .then(response => response.text())
+        .then(function (html) {
           entry.html(html);
           // go to first result of first geocoder
           if (index === 0) {
@@ -146,8 +145,7 @@ OSM.Search = function (map) {
               panToSearchResult(firstResult.data());
             }
           }
-        }
-      });
+        });
     });
 
     return map.getState();

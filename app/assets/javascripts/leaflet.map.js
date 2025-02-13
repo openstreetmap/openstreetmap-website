@@ -265,9 +265,7 @@ L.OSM.Map = L.Map.extend({
     this.removeObject();
 
     if (object.type === "note" || object.type === "changeset") {
-      this._objectLoader = {
-        abort: function () {}
-      };
+      this._objectLoader = { abort: () => {} };
 
       this._object = object;
       this._objectLayer = L.featureGroup().addTo(this);
@@ -295,10 +293,13 @@ L.OSM.Map = L.Map.extend({
       this.fire("overlayadd", { layer: this._objectLayer });
     } else { // element handled by L.OSM.DataLayer
       var map = this;
-      this._objectLoader = $.ajax({
-        url: OSM.apiUrl(object),
-        dataType: "json",
-        success: function (data) {
+      this._objectLoader = new AbortController();
+      fetch(OSM.apiUrl(object), {
+        headers: { accept: "application/json" },
+        signal: this._objectLoader.signal
+      })
+        .then(response => response.json())
+        .then(function (data) {
           map._object = object;
 
           map._objectLayer = new L.OSM.DataLayer(null, {
@@ -320,8 +321,8 @@ L.OSM.Map = L.Map.extend({
 
           if (callback) callback(map._objectLayer.getBounds());
           map.fire("overlayadd", { layer: map._objectLayer });
-        }
-      });
+        })
+        .catch(() => {});
     }
   },
 
