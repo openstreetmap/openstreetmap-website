@@ -321,30 +321,31 @@ module Api
       assert_not comment.reload.visible
     end
 
-    ##
-    # test unhide comment fail
-    def test_unhide_fail
-      # unauthorized
+    def test_unhide_by_unauthorized
       comment = create(:changeset_comment, :visible => false)
-      assert_not comment.visible
 
       post changeset_comment_unhide_path(comment)
+
       assert_response :unauthorized
       assert_not comment.reload.visible
+    end
 
+    def test_unhide_by_normal_user
+      comment = create(:changeset_comment, :visible => false)
       auth_header = bearer_authorization_header
 
-      # not a moderator
       post changeset_comment_unhide_path(comment), :headers => auth_header
+
       assert_response :forbidden
       assert_not comment.reload.visible
+    end
 
+    def test_unhide_missing_comment
       auth_header = bearer_authorization_header create(:moderator_user)
 
-      # bad comment id
       post changeset_comment_unhide_path(999111), :headers => auth_header
+
       assert_response :not_found
-      assert_not comment.reload.visible
     end
 
     ##
