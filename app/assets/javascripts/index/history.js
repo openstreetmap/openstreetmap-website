@@ -56,24 +56,23 @@ OSM.History = function (map) {
   }
 
   function update() {
-    var data = { list: "1" };
+    const data = new URLSearchParams();
 
     if (window.location.pathname === "/history") {
-      data.bbox = map.getBounds().wrap().toBBoxString();
+      data.set("bbox", map.getBounds().wrap().toBBoxString());
       var feedLink = $("link[type=\"application/atom+xml\"]"),
           feedHref = feedLink.attr("href").split("?")[0];
-      feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
+      feedLink.attr("href", feedHref + "?" + data);
     }
 
-    $.ajax({
-      url: window.location.pathname,
-      method: "GET",
-      data: data,
-      success: function (html) {
+    data.set("list", "1");
+
+    fetch(window.location.pathname + "?" + data)
+      .then(response => response.text())
+      .then(function (html) {
         displayFirstChangesets(html);
         updateMap();
-      }
-    });
+      });
   }
 
   function loadMore(e) {
