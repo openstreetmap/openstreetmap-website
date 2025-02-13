@@ -65,9 +65,16 @@ class ApiController < ApplicationController
   def current_ability
     # Use capabilities from the oauth token if it exists and is a valid access token
     if doorkeeper_token&.accessible?
-      ApiAbility.new(doorkeeper_token)
+      user = User.find(doorkeeper_token.resource_owner_id)
+      scopes = Set.new doorkeeper_token.scopes
+      if scopes.include?("write_api")
+        scopes.add("write_map")
+        scopes.add("write_changeset_comments")
+        scopes.delete("write_api")
+      end
+      ApiAbility.new(user, scopes)
     else
-      ApiAbility.new(nil)
+      ApiAbility.new(nil, Set.new)
     end
   end
 
