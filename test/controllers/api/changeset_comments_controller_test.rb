@@ -77,6 +77,34 @@ module Api
       end
     end
 
+    def test_create_without_required_scope
+      user = create(:user)
+      auth_header = bearer_authorization_header user, :scopes => %w[read_prefs]
+      changeset = create(:changeset, :closed)
+
+      assert_difference "ChangesetComment.count", 0 do
+        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        assert_response :forbidden
+      end
+    end
+
+    def test_create_with_write_changeset_comments_scope
+      user = create(:user)
+      auth_header = bearer_authorization_header user, :scopes => %w[write_changeset_comments]
+      changeset = create(:changeset, :closed)
+
+      assert_difference "ChangesetComment.count", 1 do
+        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        assert_response :success
+      end
+
+      comment = ChangesetComment.last
+      assert_equal changeset.id, comment.changeset_id
+      assert_equal user.id, comment.author_id
+      assert_equal "This is a comment", comment.body
+      assert comment.visible
+    end
+
     def test_create_with_write_api_scope
       user = create(:user)
       auth_header = bearer_authorization_header user, :scopes => %w[write_api]
@@ -308,15 +336,32 @@ module Api
       assert_response :not_found
     end
 
-    ##
-    # test hide comment succes
-    def test_hide
+    def test_hide_without_required_scope
       comment = create(:changeset_comment)
-      assert comment.visible
-
-      auth_header = bearer_authorization_header create(:moderator_user)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[read_prefs]
 
       post changeset_comment_hide_path(comment), :headers => auth_header
+
+      assert_response :forbidden
+      assert comment.reload.visible
+    end
+
+    def test_hide_with_write_changeset_comments_scope
+      comment = create(:changeset_comment)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_changeset_comments]
+
+      post changeset_comment_hide_path(comment), :headers => auth_header
+
+      assert_response :success
+      assert_not comment.reload.visible
+    end
+
+    def test_hide_with_write_api_scope
+      comment = create(:changeset_comment)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+      post changeset_comment_hide_path(comment), :headers => auth_header
+
       assert_response :success
       assert_not comment.reload.visible
     end
@@ -348,15 +393,32 @@ module Api
       assert_response :not_found
     end
 
-    ##
-    # test unhide comment succes
-    def test_unhide
+    def test_unhide_without_required_scope
       comment = create(:changeset_comment, :visible => false)
-      assert_not comment.visible
-
-      auth_header = bearer_authorization_header create(:moderator_user)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[read_prefs]
 
       post changeset_comment_unhide_path(comment), :headers => auth_header
+
+      assert_response :forbidden
+      assert_not comment.reload.visible
+    end
+
+    def test_unhide_with_write_changeset_comments_scope
+      comment = create(:changeset_comment, :visible => false)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_changeset_comments]
+
+      post changeset_comment_unhide_path(comment), :headers => auth_header
+
+      assert_response :success
+      assert comment.reload.visible
+    end
+
+    def test_unhide_with_write_api_scope
+      comment = create(:changeset_comment, :visible => false)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+      post changeset_comment_unhide_path(comment), :headers => auth_header
+
       assert_response :success
       assert comment.reload.visible
     end
