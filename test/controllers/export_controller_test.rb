@@ -24,8 +24,8 @@ class ExportControllerTest < ActionDispatch::IntegrationTest
   ###
   # test the finish action for mapnik images
   def test_finish_mapnik
-    post export_finish_path(:minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => 51, :format => "mapnik", :mapnik_format => "test", :mapnik_scale => "12")
-    assert_redirected_to "https://render.openstreetmap.org/cgi-bin/export?bbox=0.0,50.0,1.0,51.0&scale=12&format=test"
+    post export_finish_path(:minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => 51, :format => "mapnik", :mapnik_format => "test", :mapnik_scale => "12", :attribution => "X")
+    assert_redirected_to "https://render.openstreetmap.org/cgi-bin/export?bbox=0.0,50.0,1.0,51.0&scale=12&format=test&attribution=X"
   end
 
   ###
