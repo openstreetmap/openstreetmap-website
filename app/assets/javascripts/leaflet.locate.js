@@ -1,5 +1,5 @@
 L.OSM.locate = function (options) {
-  var control = L.control.locate({
+  const control = L.control.locate({
     icon: "icon geolocate",
     iconLoading: "icon geolocate",
     strings: {
@@ -12,7 +12,7 @@ L.OSM.locate = function (options) {
   });
 
   control.onAdd = function (map) {
-    var container = Object.getPrototypeOf(this).onAdd.apply(this, [map]);
+    const container = Object.getPrototypeOf(this).onAdd.apply(this, [map]);
     $(container)
       .removeClass("leaflet-control-locate leaflet-bar")
       .addClass("control-locate")

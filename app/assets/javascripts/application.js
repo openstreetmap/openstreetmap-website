@@ -76,7 +76,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
 
   // Disable the button group and also the buttons to avoid
   // inconsistent behaviour when zooming
-  var editDisabled = zoom < 13;
+  const editDisabled = zoom < 13;
   $("#edit_tab")
     .tooltip({ placement: "bottom" })
     .tooltip(editDisabled ? "enable" : "disable")
@@ -90,11 +90,11 @@ $(document).ready(function () {
   // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
   Turbo.session.drive = false;
 
-  var headerWidth = 0,
+  let headerWidth = 0,
       compactWidth = 0;
 
   function updateHeader() {
-    var windowWidth = $(window).width();
+    const windowWidth = $(window).width();
 
     if (windowWidth < compactWidth) {
       $("body").removeClass("compact-nav").addClass("small-nav");

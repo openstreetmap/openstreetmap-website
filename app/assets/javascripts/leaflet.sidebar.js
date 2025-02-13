@@ -1,7 +1,7 @@
 L.OSM.sidebar = function (selector) {
-  var control = {},
-      sidebar = $(selector),
-      current = $(),
+  const control = {},
+        sidebar = $(selector);
+  let current = $(),
       currentButton = $(),
       map;
 
@@ -17,7 +17,7 @@ L.OSM.sidebar = function (selector) {
   };
 
   control.togglePane = function (pane, button) {
-    var paneWidth = 250;
+    const paneWidth = 250;
 
     current
       .hide()

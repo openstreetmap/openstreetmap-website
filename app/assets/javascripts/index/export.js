@@ -1,7 +1,7 @@
 OSM.Export = function (map) {
-  var page = {};
+  const page = {};
 
-  var locationFilter = new L.LocationFilter({
+  const locationFilter = new L.LocationFilter({
     enableButton: false,
     adjustButton: false
   }).on("change", update);
@@ -13,7 +13,7 @@ OSM.Export = function (map) {
   }
 
   function boundsChanged() {
-    var bounds = getBounds();
+    const bounds = getBounds();
     map.fitBounds(bounds);
     locationFilter.setBounds(bounds);
     locationFilter.enable();

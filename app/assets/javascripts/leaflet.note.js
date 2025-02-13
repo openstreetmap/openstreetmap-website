@@ -1,11 +1,11 @@
 L.OSM.note = function (options) {
-  var control = L.control(options);
+  const control = L.control(options);
 
   control.onAdd = function (map) {
-    var $container = $("<div>")
+    const $container = $("<div>")
       .attr("class", "control-note");
 
-    var link = $("<a>")
+    const link = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
       .html("<span class=\"icon note\"></span>")
@@ -14,8 +14,8 @@ L.OSM.note = function (options) {
     map.on("zoomend", update);
 
     function update() {
-      var wasDisabled = link.hasClass("disabled"),
-          isDisabled = OSM.STATUS === "database_offline" || map.getZoom() < 12;
+      const wasDisabled = link.hasClass("disabled"),
+            isDisabled = OSM.STATUS === "database_offline" || map.getZoom() < 12;
       link
         .toggleClass("disabled", isDisabled)
         .attr("data-bs-original-title", I18n.t(isDisabled ?

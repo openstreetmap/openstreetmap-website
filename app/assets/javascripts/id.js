@@ -3,7 +3,7 @@
 /* globals iD */
 
 document.addEventListener("DOMContentLoaded", function () {
-  var container = document.getElementById("id-container");
+  const container = document.getElementById("id-container");
 
   if (typeof iD === "undefined" || !iD.utilDetect().support) {
     container.innerHTML = "This editor is supported " +
@@ -11,16 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
       "Please upgrade your browser or use JOSM to edit the map.";
     container.className = "unsupported";
   } else {
-    var idContext = iD.coreContext();
+    const idContext = iD.coreContext();
     idContext.connection().apiConnections([]);
-    var url = location.protocol + "//" + location.host;
+    const url = location.protocol + "//" + location.host;
     idContext.preauth({
       url: url,
       apiUrl: url === "https://www.openstreetmap.org" ? "https://api.openstreetmap.org" : url,
       access_token: container.dataset.token
     });
 
-    var id = idContext
+    const id = idContext
       .embed(true)
       .assetPath("iD/")
       .assetMap(JSON.parse(container.dataset.assetMap))
@@ -33,18 +33,18 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    var hashChangedAutomatically = false;
+    let hashChangedAutomatically = false;
     id.map().on("move.embed", parent.$.throttle(250, function () {
       if (id.inIntro()) return;
-      var zoom = ~~id.map().zoom(),
-          center = id.map().center(),
-          llz = { lon: center[0], lat: center[1], zoom: zoom };
+      const zoom = ~~id.map().zoom(),
+            center = id.map().center(),
+            llz = { lon: center[0], lat: center[1], zoom: zoom };
 
       parent.updateLinks(llz, zoom);
 
       // Manually resolve URL to avoid iframe JS context weirdness.
       // https://gist.github.com/jfirebaugh/5439412
-      var hash = parent.OSM.formatHash(llz);
+      const hash = parent.OSM.formatHash(llz);
       if (hash !== parent.location.hash) {
         hashChangedAutomatically = true;
         parent.location.replace(parent.location.href.replace(/(#.*|$)/, hash));
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     parent.$("body").on("click", "a.set_position", function (e) {
       e.preventDefault();
-      var data = parent.$(this).data();
+      const data = parent.$(this).data();
       goToLocation(data);
     });
 
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       e.preventDefault();
-      var data = parent.OSM.mapParams();
+      const data = parent.OSM.mapParams();
       goToLocation(data);
     });
   }
