@@ -42,15 +42,13 @@ OSM.Directions = function (map) {
   var engines = OSM.Directions.engines;
 
   engines.sort(function (a, b) {
-    var localised_a = I18n.t("javascripts.directions.engines." + a.id),
-        localised_b = I18n.t("javascripts.directions.engines." + b.id);
-    return localised_a.localeCompare(localised_b);
+    return a.localeId().localeCompare(b.localeId());
   });
 
   var select = $("select.routing_engines");
 
   engines.forEach(function (engine, i) {
-    select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
+    select.append("<option value='" + i + "'>" + engine.localeId() + "</option>");
   });
 
   $(".directions_form .reverse_directions").on("click", function () {
@@ -312,6 +310,15 @@ OSM.Directions.engines = [];
 
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
   if (document.location.protocol === "http:" || supportsHTTPS) {
+    engine.localeId = function () {
+      let [, provider, mode] = engine.id.match(/^(\w{10,})_(\w{2,8})$/);
+      if (mode === "bike") mode = "bicycle";
+
+      return I18n.t("javascripts.directions.routing_template", {
+        mode: I18n.t("javascripts.directions.modes." + mode),
+        engine: I18n.t("javascripts.directions.engines." + provider)
+      });
+    };
     OSM.Directions.engines.push(engine);
   }
 };
