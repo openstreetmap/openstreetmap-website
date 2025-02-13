@@ -1,6 +1,7 @@
 # Messages for Hebrew (עברית)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: A100Star
 # Author: Amire80
 # Author: Aude
 # Author: Avma
@@ -123,7 +124,7 @@ he:
         support_url: כתובת לתמיכה
         allow_read_prefs: לקרוא את העדפות המשתמש שלהם
         allow_write_prefs: לשנות את העדפות המשתמש שלהם
-        allow_write_diary: ליצור רשומות ביומן, הערות וליצור חברויות
+        allow_write_diary: יצירת רשומות והערות ביומן
         allow_write_api: לשנות את המפה
         allow_read_gpx: לקרוא את הקלטות ה־GPS הפרטיות שלהם
         allow_write_gpx: להעלות הקלטות GPS
@@ -373,6 +374,7 @@ he:
         read_tou: קראתי את תנאי השימוש ואני מסכימ/ה לתנאים אלו
         consider_pd: בנוסף לכתוב לעיל, מבחינתי כל עריכותיי שייכות לנחלת הכלל
         consider_pd_why: מה זה?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'מידע שיעזור להבין את המונחים האלה: %{readable_summary_link}
           וכמה %{informal_translations_link}'
         readable_summary: תקציר קריא לבני־אדם
@@ -1678,10 +1680,6 @@ he:
     partners_corpmembers: חברים תאגידיים אחרים ב־OSMF
     partners_partners: שותפים
     tou: תנאי השימוש
-    osm_offline: מסד הנתונים של אתר OpenStreetMap אינו מקוון כעת בשל עבודות תחזוקה
-      המבוצעות בו.
-    osm_read_only: מסד הנתונים של אתר OpenStreetMap נתון כעת במצב קריאה בלבד בשל עבודות
-      תחזוקה המבוצעות בו.
     nothing_to_preview: אין מה להראות בתצוגה מקדימה.
     help: עזרה
     about: אודות
@@ -1714,6 +1712,13 @@ he:
       hi: שלום %{to_user},
       see_their_profile: באפשרותך לצפות בפרופיל שלו בכתובת %{userurl}.
       see_their_profile_html: באפשרותך לצפות בפרופיל שלו בכתובת %{userurl}.
+    gpx_details:
+      details: 'פרטי הקובץ שלך:'
+      filename: שם הקובץ
+      url: כתובת URL
+      description: תיאור
+      tags: תגים
+      total_points: סך הנקודות
     gpx_failure:
       hi: שלום %{to_user},
       failed_to_import: 'הייבוא כקובץ מסלול GPS נכשל. נא לוודא שהקובץ שלך הוא קובץ
@@ -2271,12 +2276,13 @@ he:
         copyright: 'זכויות היוצרים: מיזם OpenStreetMap ותורמיו, בכפוף לרישיון פתוח'
       remote_failed: העריכה נכשלה – נא לוודא כי JOSM או Merkaartor נטענו ושאפשרות
         השליטה מרחוק מופעלת
-    edit:
+    not_public_flash:
       not_public: לא הגדרת את העריכות שלך כציבוריות.
       not_public_description_html: לא תהיה לך אפשרות להמשיך לערוך את המפה לפני שזה
         ייעשה. באפשרותך להגדיר את העריכות שלך כציבוריות דרך %{user_page} שלך.
       user_page_link: דף המשתמש
       anon_edits_link_text: ר' הסבר מדוע זה כך.
+    edit:
       id_not_configured: לא התבצעו הגדרות של iD
     export:
       title: יצוא
@@ -2908,6 +2914,7 @@ he:
         title: הערות יומן שנוספו על־ידי %{user}
       page:
         post: רשומה
+        comment: הערה
     suspended:
       title: החשבון הושעה
       heading: החשבון הושעה
@@ -3006,6 +3013,7 @@ he:
         ended: הסתיימה
         revoked_html: בוטלה על־ידי %{name}
         active: פעילה
+        active_until_read: פעיל עד לקריאה
         read_html: נקראה ב־%{time}
         time_in_future_title: '%{time_absolute}; ב־%{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3086,6 +3094,7 @@ he:
       open_title: הערה שלא נפתרה מס׳ %{note_name}
       closed_title: הערה פתורה מס׳ %{note_name}
       hidden_title: הערה מוסתרת מס׳ %{note_name}
+      description_when_author_is_deleted: נמחק
       event_opened_by_html: נוצר על־ידי %{user} %{time_ago}
       event_opened_by_anonymous_html: נוצר על־ידי אלמוני %{time_ago}
       event_commented_by_html: הערה מאת %{user} %{time_ago}
@@ -3116,10 +3125,13 @@ he:
       title: הערה חדשה
       intro: יש פה טעות או שחסר משהו? אנו מבקשים ממך לספר את זה לממפים אחרים. לשם
         כך צריך להזיז את הסמן למקום הנכון ולכתוב הערה שמסבירה את הבעיה.
-      anonymous_warning_html: לא נכנסת לחשבון. נא %{log_in} או %{sign_up} אם ברצונך
-        לקבל עדכונים על ההערה שלך.
+      anonymous_warning_html: לא נכנסת לחשבון. נא %{log_in} או %{sign_up} לקבלת עדכונים
+        על ההערה שלך ולעזור למתכנתי המפות לפתור את זה.
       anonymous_warning_log_in: להיכנס לחשבון
       anonymous_warning_sign_up: להירשם
+      counter_warning_forum_link:
+        text: הקהילה יכולה לעזור לך
+        url: https://community.openstreetmap.org/
       advice: /start
       add: הוספת הערה
     new_readonly:

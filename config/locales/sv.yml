@@ -1024,6 +1024,7 @@ sv:
           bridleway: Ridstig
           bus_guideway: Spårbussväg
           bus_stop: Busshållplats
+          busway: Bussgata
           construction: Väg under byggnad
           corridor: Korridor
           crossing: Övergångsställe
@@ -1594,6 +1595,7 @@ sv:
       reports: Rapporter
       last_updated: Senast uppdaterad
       last_updated_time_ago_user_html: '%{time_ago} av %{user}'
+      reporting_users: Anmälda användare
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapporter'
@@ -1632,6 +1634,8 @@ sv:
       reopened: Ärendestatus har ändrats till "Öppen"
     comments:
       comment_from_html: Kommentar från %{user_link} på %{comment_created_at}
+      reassign_to_moderators: Omtilldela ärenden till moderatorer
+      reassign_to_administrators: Omtilldelar ärenden till administratörer
     reports:
       reported_by_html: Rapporterades som %{category} av %{user} den %{updated_at}
     helper:
@@ -1702,10 +1706,6 @@ sv:
     partners_corpmembers: OSMF-företagsmedlemmar
     partners_partners: partners
     tou: Användarvillkor
-    osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
-      databasunderhåll pågår.
-    osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
-      databasunderhåll pågår.
     nothing_to_preview: Ingenting att förhandsvisa.
     help: Hjälp
     about: Om
@@ -1713,6 +1713,13 @@ sv:
     communities: Gemenskaper
     learn_more: Läs mer
     more: Mer
+    offline_flash:
+      osm_offline: OpenStreetMap-databasen är offline just nu, då nödvändigt databasunderhåll
+        pågår.
+      osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
+        databasunderhåll pågår.
+      expected_restore_html: Tjänsterna förväntas återställas om %{time}.
+      announcement: Du kan läsa tillkännagivandet här.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap dagboksinlägg #%{id}'
@@ -2330,12 +2337,13 @@ sv:
           öppen licens
       remote_failed: Redigering misslyckades - kontrollera att JOSM eller Merkaartor
         är startad och fjärrkontrollsalternativet är aktiverat
-    edit:
+    not_public_flash:
       not_public: Du har inte satt statusen på dina redigeringar som offentliga.
       not_public_description_html: Du kan inte längre redigera kartan om du inte gör
         det. Du kan göra dina redigeringar offentliga från din %{user_page}.
       user_page_link: användarsida
       anon_edits_link_text: Ta reda på varför det är så.
+    edit:
       id_not_configured: iD har inte konfigurerats
     export:
       title: Exportera
@@ -3178,6 +3186,7 @@ sv:
       open_title: 'Ej avklarad anteckning #%{note_name}'
       closed_title: 'Avklarad anteckning #%{note_name}'
       hidden_title: 'Dold anteckning #%{note_name}'
+      description_when_author_is_deleted: raderad
       event_opened_by_html: Skapades av %{user} %{time_ago}
       event_opened_by_anonymous_html: Skapades av anonym %{time_ago}
       event_commented_by_html: Kommenterades från %{user} %{time_ago}
