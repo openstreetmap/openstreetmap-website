@@ -31,73 +31,6 @@ module Api
       )
     end
 
-    ##
-    # create comment success
-    def test_create
-      user = create(:user)
-      user2 = create(:user)
-      private_user = create(:user, :data_public => false)
-      suspended_user = create(:user, :suspended)
-      deleted_user = create(:user, :deleted)
-      private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
-
-      auth_header = bearer_authorization_header user
-
-      assert_difference "ChangesetComment.count", 1 do
-        assert_no_difference "ActionMailer::Base.deliveries.size" do
-          perform_enqueued_jobs do
-            post changeset_comment_path(private_user_closed_changeset, :text => "This is a comment"), :headers => auth_header
-          end
-        end
-      end
-      assert_response :success
-
-      changeset = create(:changeset, :closed, :user => private_user)
-      changeset.subscribers.push(private_user)
-      changeset.subscribers.push(user)
-      changeset.subscribers.push(suspended_user)
-      changeset.subscribers.push(deleted_user)
-
-      assert_difference "ChangesetComment.count", 1 do
-        assert_difference "ActionMailer::Base.deliveries.size", 1 do
-          perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
-          end
-        end
-      end
-      assert_response :success
-
-      email = ActionMailer::Base.deliveries.first
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{user.display_name} has commented on one of your changesets", email.subject
-      assert_equal private_user.email, email.to.first
-
-      ActionMailer::Base.deliveries.clear
-
-      auth_header = bearer_authorization_header user2
-
-      assert_difference "ChangesetComment.count", 1 do
-        assert_difference "ActionMailer::Base.deliveries.size", 2 do
-          perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
-          end
-        end
-      end
-      assert_response :success
-
-      email = ActionMailer::Base.deliveries.find { |e| e.to.first == private_user.email }
-      assert_not_nil email
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{user2.display_name} has commented on one of your changesets", email.subject
-
-      email = ActionMailer::Base.deliveries.find { |e| e.to.first == user.email }
-      assert_not_nil email
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{user2.display_name} has commented on a changeset you are interested in", email.subject
-
-      ActionMailer::Base.deliveries.clear
-    end
-
     def test_create_by_unauthorized
       assert_no_difference "ChangesetComment.count" do
         post changeset_comment_path(create(:changeset, :closed), :text => "This is a comment")
@@ -159,6 +92,107 @@ module Api
       assert_equal user.id, comment.author_id
       assert_equal "This is a comment", comment.body
       assert comment.visible
+    end
+
+    def test_create_on_changeset_with_no_subscribers
+      changeset = create(:changeset, :closed)
+      auth_header = bearer_authorization_header
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_no_difference "ActionMailer::Base.deliveries.size" do
+          perform_enqueued_jobs do
+            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+    end
+
+    def test_create_on_changeset_with_commenter_subscriber
+      user = create(:user)
+      changeset = create(:changeset, :closed, :user => user)
+      changeset.subscribers << user
+      auth_header = bearer_authorization_header user
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_no_difference "ActionMailer::Base.deliveries.size" do
+          perform_enqueued_jobs do
+            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+    end
+
+    def test_create_on_changeset_with_invisible_subscribers
+      changeset = create(:changeset, :closed)
+      changeset.subscribers << create(:user, :suspended)
+      changeset.subscribers << create(:user, :deleted)
+      auth_header = bearer_authorization_header
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_no_difference "ActionMailer::Base.deliveries.size" do
+          perform_enqueued_jobs do
+            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+    end
+
+    def test_create_on_changeset_with_changeset_creator_subscriber
+      creator_user = create(:user)
+      changeset = create(:changeset, :closed, :user => creator_user)
+      changeset.subscribers << creator_user
+      commenter_user = create(:user)
+      auth_header = bearer_authorization_header commenter_user
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 1 do
+          perform_enqueued_jobs do
+            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+
+      email = ActionMailer::Base.deliveries.first
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets", email.subject
+      assert_equal creator_user.email, email.to.first
+
+      ActionMailer::Base.deliveries.clear
+    end
+
+    def test_create_on_changeset_with_changeset_creator_and_other_user_subscribers
+      creator_user = create(:user)
+      changeset = create(:changeset, :closed, :user => creator_user)
+      changeset.subscribers << creator_user
+      other_user = create(:user)
+      changeset.subscribers << other_user
+      commenter_user = create(:user)
+      auth_header = bearer_authorization_header commenter_user
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 2 do
+          perform_enqueued_jobs do
+            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == creator_user.email }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets", email.subject
+
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == other_user.email }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on a changeset you are interested in", email.subject
+
+      ActionMailer::Base.deliveries.clear
     end
 
     ##
