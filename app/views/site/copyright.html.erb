@@ -63,20 +63,22 @@
     </p>
 
     <h3><%= t ".legal_babble.credit_title_html" %></h3>
-    <p><%= t ".legal_babble.credit_1_html" %></p>
+    <p>
+      <%= legal_babble_paragraph "credit_1" %>
+    </p>
     <ul>
-      <li><%= t ".legal_babble.credit_2_1" %></li>
-      <li><%= t ".legal_babble.credit_2_2" %></li>
+      <li><%= t ".legal_babble.credit_2_attribution" %></li>
+      <li><%= t ".legal_babble.credit_2_license" %></li>
     </ul>
     <p>
-      <%= t ".legal_babble.credit_3_html",
-            :attribution_guidelines_link => link_to(t(".legal_babble.credit_3_attribution_guidelines"),
-                                                    t(".legal_babble.credit_3_attribution_guidelines_url")) %>
+      <%= legal_babble_paragraph "credit_3_v2025", :links => %w[requirements_on_how_displayed attribution_guidelines licensing_requirements] %>
     </p>
     <p>
-      <%= t ".legal_babble.credit_4_1_html",
-            :this_copyright_page_link => link_to(t(".legal_babble.credit_4_1_this_copyright_page"),
-                                                 copyright_path) %>
+      <%= legal_babble_paragraph "credit_4_v2025", :local_links => { :this_copyright_page => copyright_path },
+                                                   :copyright_page_url => copyright_url %>
+    </p>
+    <p>
+      <%= legal_babble_paragraph "credit_5_v2025" %>
     </p>
     <p><%= image_tag("attribution_example.png",
                      :alt => t(".legal_babble.attribution_example.alt"),
