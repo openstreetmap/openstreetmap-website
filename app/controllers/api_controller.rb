@@ -82,8 +82,6 @@ class ApiController < ApplicationController
     if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
-    elsif current_user
-      head :forbidden
     else
       head :unauthorized
     end
