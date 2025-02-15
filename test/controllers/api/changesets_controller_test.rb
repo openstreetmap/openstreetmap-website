@@ -358,19 +358,8 @@ module Api
 
     def test_show_tag_and_discussion_json
       changeset = create(:changeset, :closed)
-
-      tag1 = ChangesetTag.new
-      tag1.changeset_id = changeset.id
-      tag1.k = "created_by"
-      tag1.v = "JOSM/1.5 (18364)"
-
-      tag2 = ChangesetTag.new
-      tag2.changeset_id = changeset.id
-      tag2.k = "comment"
-      tag2.v = "changeset comment"
-
-      changeset.changeset_tags = [tag1, tag2]
-
+      create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
+      create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
       create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
       get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
