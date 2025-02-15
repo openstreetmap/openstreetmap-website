@@ -24,33 +24,36 @@ OSM.Changeset = function (map) {
   };
 
   function updateChangeset(method, url, include_data) {
-    var data;
+    const data = new URLSearchParams();
 
     content.find("#comment-error").prop("hidden", true);
     content.find("button[data-method][data-url]").prop("disabled", true);
 
     if (include_data) {
-      data = { text: content.find("textarea").val() };
-    } else {
-      data = {};
+      data.set("text", content.find("textarea").val());
     }
 
-    $.ajax({
-      url: url,
-      type: method,
-      oauth: true,
-      data: data,
-      success: function () {
+    fetch(url, {
+      method: method,
+      headers: { ...OSM.oauth },
+      body: data
+    })
+      .then(response => {
+        if (response.ok) return response;
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      })
+      .then(() => {
         OSM.loadSidebarContent(window.location.pathname, page.load);
-      },
-      error: function (xhr) {
+      })
+      .catch(error => {
         content.find("button[data-method][data-url]").prop("disabled", false);
         content.find("#comment-error")
-          .text(xhr.responseText)
+          .text(error.message)
           .prop("hidden", false)
           .get(0).scrollIntoView({ block: "nearest" });
-      }
-    });
+      });
   }
 
   function initialize() {

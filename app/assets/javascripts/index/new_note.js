@@ -34,17 +34,17 @@ OSM.NewNote = function (map) {
   });
 
   function createNote(location, text, callback) {
-    $.ajax({
-      url: "/api/0.6/notes.json",
-      type: "POST",
-      oauth: true,
-      data: {
+    fetch("/api/0.6/notes.json?", {
+      method: "POST",
+      headers: { ...OSM.oauth },
+      body: new URLSearchParams({
         lat: location.lat,
         lon: location.lng,
         text
-      },
-      success: callback
-    });
+      })
+    })
+      .then(response => response.json())
+      .then(callback);
   }
 
   function addCreatedNoteMarker(feature) {

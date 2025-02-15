@@ -42,32 +42,38 @@ OSM.Note = function (map) {
   function initialize(path, id) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
-      var data = $(e.target).data();
-      var name = $(e.target).attr("name");
-      var ajaxSettings = {
-        url: data.url,
-        type: data.method,
-        oauth: true,
-        success: () => {
+      const { url, method } = $(e.target).data(),
+            name = $(e.target).attr("name"),
+            data = new URLSearchParams();
+      content.find("button[name]").prop("disabled", true);
+
+      if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
+        data.set("text", content.find("textarea").val());
+      }
+
+      fetch(url, {
+        method: method,
+        headers: { ...OSM.oauth },
+        body: data
+      })
+        .then(response => {
+          if (response.ok) return response;
+          return response.text().then(text => {
+            throw new Error(text);
+          });
+        })
+        .then(() => {
           OSM.loadSidebarContent(path, () => {
             initialize(path, id);
           });
-        },
-        error: (xhr) => {
+        })
+        .catch(error => {
           content.find("#comment-error")
-            .text(xhr.responseText)
+            .text(error.message)
             .prop("hidden", false)
             .get(0).scrollIntoView({ block: "nearest" });
           updateButtons();
-        }
-      };
-
-      if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
-        ajaxSettings.data = { text: content.find("textarea").val() };
-      }
-
-      content.find("button[name]").prop("disabled", true);
-      $.ajax(ajaxSettings);
+        });
     });
 
     content.find("textarea").on("input", function (e) {
