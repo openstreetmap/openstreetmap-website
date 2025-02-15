@@ -75,10 +75,12 @@ OSM.initializeNotesLayer = function (map) {
 
       if (noteLoader) noteLoader.abort();
 
-      noteLoader = $.ajax({
-        url: url,
-        success: success
-      });
+      noteLoader = new AbortController();
+      fetch(url, { signal: noteLoader.signal })
+        .then(response => response.json())
+        .then(success)
+        .catch(() => {})
+        .finally(() => noteLoader = null);
     }
 
     function success(json) {
@@ -93,8 +95,6 @@ OSM.initializeNotesLayer = function (map) {
       for (var id in oldNotes) {
         noteLayer.removeLayer(oldNotes[id]);
       }
-
-      noteLoader = null;
     }
   }
 };

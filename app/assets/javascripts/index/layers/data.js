@@ -79,20 +79,27 @@ OSM.initializeDataLayer = function (map) {
 
   function getData() {
     var bounds = map.getBounds();
-    var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
+    var url = "/api/" + OSM.API_VERSION + "/map.json?bbox=" + bounds.toBBoxString();
 
     /*
      * Modern browsers are quite happy showing far more than 100 features in
-     * the data browser, so increase the limit to 4000 by default.
+     * the data browser, so increase the limit to 4000.
      */
     const maxFeatures = 4000;
 
     if (dataLoader) dataLoader.abort();
 
-    dataLoader = $.ajax({
-      url: url,
-      dataType: "json",
-      success: function (data) {
+    dataLoader = new AbortController();
+    fetch(url, { signal: dataLoader.signal })
+      .then(response => {
+        if (response.ok) return response.json();
+        const status = response.statusText || response.status;
+        if (response.status !== 400) throw new Error(status);
+        return response.text().then(text => {
+          throw new Error(text || status);
+        });
+      })
+      .then(function (data) {
         dataLayer.clearLayers();
 
         var features = dataLayer.buildFeatures(data);
@@ -116,26 +123,15 @@ OSM.initializeDataLayer = function (map) {
         if (map._objectLayer) {
           map._objectLayer.bringToFront();
         }
+      })
+      .catch(function (error) {
+        if (error.name === "AbortError") return;
 
-        dataLoader = null;
-      },
-      error: function (XMLHttpRequest, textStatus) {
-        dataLoader = null;
-        if (textStatus === "abort") return;
-
-        function closeError() {
+        displayLoadError(error?.message, () => {
           $("#browse_status").empty();
-        }
-
-        if (XMLHttpRequest.status === 400 && XMLHttpRequest.responseText) {
-          displayLoadError(XMLHttpRequest.responseText, closeError);
-        } else if (XMLHttpRequest.statusText) {
-          displayLoadError(XMLHttpRequest.statusText, closeError);
-        } else {
-          displayLoadError(String(XMLHttpRequest.status), closeError);
-        }
-      }
-    });
+        });
+      })
+      .finally(() => dataLoader = null);
   }
 
   function onSelect(layer) {

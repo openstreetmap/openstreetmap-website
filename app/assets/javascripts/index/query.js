@@ -157,16 +157,17 @@ OSM.Query = function (map) {
       $section.data("ajax").abort();
     }
 
-    $section.data("ajax", $.ajax({
-      url: url,
+    $section.data("ajax", new AbortController());
+    fetch(url, {
       method: "POST",
-      data: {
+      body: new URLSearchParams({
         data: "[timeout:10][out:json];" + query
-      },
-      xhrFields: {
-        withCredentials: credentials
-      },
-      success: function (results) {
+      }),
+      credentials: credentials ? "include" : "same-origin",
+      signal: $section.data("ajax").signal
+    })
+      .then(response => response.json())
+      .then(function (results) {
         var elements;
 
         $section.find(".loader").hide();
@@ -221,16 +222,17 @@ OSM.Query = function (map) {
             .text(I18n.t("javascripts.query.nothing_found"))
             .appendTo($ul);
         }
-      },
-      error: function (xhr, status, error) {
+      })
+      .catch(function (error) {
+        if (error.name === "AbortError") return;
+
         $section.find(".loader").hide();
 
         $("<li>")
           .addClass("list-group-item")
-          .text(I18n.t("javascripts.query." + status, { server: url, error: error }))
+          .text(I18n.t("javascripts.query.error", { server: url, error: error.message }))
           .appendTo($ul);
-      }
-    }));
+      });
   }
 
   function compareSize(feature1, feature2) {

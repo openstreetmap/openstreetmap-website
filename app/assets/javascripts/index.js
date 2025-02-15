@@ -41,19 +41,18 @@ $(document).ready(function () {
     $("#sidebar_content")
       .empty();
 
-    $.ajax({
-      url: content_path,
-      dataType: "html",
-      complete: function (xhr) {
+    fetch(content_path, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+      .then(response => {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").hide();
 
-        var content = $(xhr.responseText);
+        const title = response.headers.get("X-Page-Title");
+        if (title) document.title = decodeURIComponent(title);
 
-        if (xhr.getResponseHeader("X-Page-Title")) {
-          var title = xhr.getResponseHeader("X-Page-Title");
-          document.title = decodeURIComponent(title);
-        }
+        return response.text();
+      })
+      .then(html => {
+        const content = $(html);
 
         $("head")
           .find("link[type=\"application/atom+xml\"]")
@@ -67,8 +66,7 @@ $(document).ready(function () {
         if (callback) {
           callback();
         }
-      }
-    });
+      });
   };
 
   var params = OSM.mapParams();
