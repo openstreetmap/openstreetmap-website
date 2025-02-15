@@ -16,8 +16,8 @@ module Users
       @params = params.permit(:status, :ip, :before, :after)
 
       users = User.all
-      users = users.where(:status => @params[:status]) if @params[:status]
-      users = users.where(:creation_address => @params[:ip]) if @params[:ip]
+      users = users.where(:status => @params[:status]) if @params[:status].present?
+      users = users.where(:creation_address => @params[:ip]) if @params[:ip].present?
 
       @users_count = users.limit(501).count
       @users_count = I18n.t("count.at_least_pattern", :count => 500) if @users_count > 500
