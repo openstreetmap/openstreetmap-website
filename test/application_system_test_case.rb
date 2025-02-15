@@ -9,6 +9,7 @@ end
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, :using => :headless_firefox do |options|
     options.add_preference("intl.accept_languages", "en")
+    options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
   end
 
   def before_setup
