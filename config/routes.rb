@@ -194,9 +194,11 @@ OpenStreetMap::Application.routes.draw do
   post "/login" => "sessions#create"
   match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
-  get "/key" => "site#key"
   get "/id" => "site#id"
-  get "/query" => "browse#query"
+  namespace :features, :path => "" do
+    resource :key, :only => :show
+    resource :query, :only => :show
+  end
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
   match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
