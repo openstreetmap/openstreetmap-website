@@ -7,7 +7,7 @@
       <% if user.creation_address %>
         <%= t ".summary_html",
               :name => link_to(user.display_name, user),
-              :ip_address => link_to(user.creation_address, :ip => user.creation_address),
+              :ip_address => link_to(user.creation_address, :status => params[:status], :ip => user.creation_address),
               :date => l(user.created_at, :format => :friendly) %>
       <% else %>
         <%= t ".summary_no_ip_html",
