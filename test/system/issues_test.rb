@@ -5,7 +5,10 @@ class IssuesTest < ApplicationSystemTestCase
 
   def test_view_issues_not_logged_in
     visit issues_path
-    assert_content "Log in"
+
+    within_content_heading do
+      assert_content "Log In"
+    end
   end
 
   def test_view_issues_normal_user
