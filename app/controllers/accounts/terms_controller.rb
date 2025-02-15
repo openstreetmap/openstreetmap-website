@@ -33,7 +33,6 @@ module Accounts
         flash[:notice] = { :partial => "accounts/terms/terms_declined_flash" } if current_user.save
       else
         unless current_user.terms_agreed?
-          current_user.consider_pd = params[:user][:consider_pd]
           current_user.tou_agreed = Time.now.utc
           current_user.terms_agreed = Time.now.utc
           current_user.terms_seen = true

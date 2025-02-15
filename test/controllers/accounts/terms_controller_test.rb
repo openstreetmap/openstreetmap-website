@@ -52,13 +52,12 @@ module Accounts
       user = create(:user, :terms_seen => false, :terms_agreed => nil)
       session_for(user)
 
-      put account_terms_path, :params => { :user => { :consider_pd => true }, :read_ct => 1, :read_tou => 1 }
+      put account_terms_path, :params => { :read_ct => 1, :read_tou => 1 }
       assert_redirected_to edit_account_path
       assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
 
       user.reload
 
-      assert user.consider_pd
       assert_not_nil user.terms_agreed
       assert user.terms_seen
     end
@@ -67,13 +66,12 @@ module Accounts
       user = create(:user, :terms_seen => false, :terms_agreed => nil)
       session_for(user)
 
-      put account_terms_path, :params => { :user => { :consider_pd => true }, :referer => "/test", :read_ct => 1, :read_tou => 1 }
+      put account_terms_path, :params => { :referer => "/test", :read_ct => 1, :read_tou => 1 }
       assert_redirected_to "/test"
       assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
 
       user.reload
 
-      assert user.consider_pd
       assert_not_nil user.terms_agreed
       assert user.terms_seen
     end
