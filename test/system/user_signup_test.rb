@@ -79,7 +79,9 @@ class UserSignupTest < ApplicationSystemTestCase
   test "Sign up from login page" do
     visit login_path
 
-    click_on "Sign up"
+    within_content_heading do
+      click_on "Sign Up"
+    end
 
     within_content_body do
       assert_content "Confirm Password"

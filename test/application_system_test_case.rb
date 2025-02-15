@@ -46,4 +46,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def within_content_body(&)
     within("#content > .content-body", &)
   end
+
+  def within_content_heading(&)
+    within("#content > .content-heading", &)
+  end
 end
