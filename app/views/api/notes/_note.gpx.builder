@@ -20,6 +20,7 @@ xml.wpt("lon" => note.lon, "lat" => note.lat) do
     end
 
     xml.date_created note.created_at
+    xml.date_updated note.updated_at
     xml.status note.status
 
     xml.date_closed note.closed_at if note.closed?
