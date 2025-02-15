@@ -49,9 +49,9 @@ class ApiController < ApplicationController
     end
   end
 
-  def authorize(errormessage: "Couldn't authenticate you", skip_terms: false)
+  def authorize(errormessage: "Couldn't authenticate you", skip_blocks: false, skip_terms: false)
     # make the current_user object from any auth sources we have
-    setup_user_auth(:skip_terms => skip_terms)
+    setup_user_auth(:skip_blocks => skip_blocks, :skip_terms => skip_terms)
 
     # handle authenticate pass/fail
     unless current_user
@@ -97,7 +97,7 @@ class ApiController < ApplicationController
   # sets up the current_user for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
-  def setup_user_auth(skip_terms: false)
+  def setup_user_auth(skip_blocks: false, skip_terms: false)
     logger.info " setup_user_auth"
     # try and setup using OAuth
     self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
@@ -105,13 +105,15 @@ class ApiController < ApplicationController
     # have we identified the user?
     if current_user
       # check if the user has been banned
-      user_block = current_user.blocks.active.take
-      unless user_block.nil?
-        set_locale
-        if user_block.zero_hour?
-          report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
-        else
-          report_error t("application.setup_user_auth.blocked"), :forbidden
+      unless skip_blocks
+        user_block = current_user.blocks.active.take
+        unless user_block.nil?
+          set_locale
+          if user_block.zero_hour?
+            report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
+          else
+            report_error t("application.setup_user_auth.blocked"), :forbidden
+          end
         end
       end
 

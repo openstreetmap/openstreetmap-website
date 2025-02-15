@@ -122,6 +122,9 @@ OpenStreetMap::Application.routes.draw do
     end
 
     resources :user_blocks, :only => :show, :id => /\d+/, :controller => "user_blocks"
+    namespace :user_blocks, :path => "user/blocks" do
+      resource :active_list, :path => "active", :only => :show
+    end
   end
 
   # Data browsing

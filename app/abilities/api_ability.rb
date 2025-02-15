@@ -30,6 +30,8 @@ class ApiAbility
         can [:read, :update, :destroy], Message if scopes.include?("consume_messages")
         can :create, Message if scopes.include?("send_messages")
 
+        can :read, :active_user_blocks_list if scopes.include?("read_prefs")
+
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scopes.include?("write_map")
           can :create, ChangesetComment if scopes.include?("write_changeset_comments")
