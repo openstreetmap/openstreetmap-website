@@ -90,19 +90,74 @@ $(document).ready(function () {
   // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
   Turbo.session.drive = false;
 
-  var headerWidth = 0,
-      compactWidth = 0;
+  const $expandedSecondaryMenu = $("header nav.secondary > ul"),
+        $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
+        secondaryMenuItems = [],
+        breakpointWidth = 768;
+  let moreItemWidth = 0;
 
   function updateHeader() {
     var windowWidth = $(window).width();
 
-    if (windowWidth < compactWidth) {
-      $("body").removeClass("compact-nav").addClass("small-nav");
-    } else if (windowWidth < headerWidth) {
-      $("body").addClass("compact-nav").removeClass("small-nav");
+    if (windowWidth < breakpointWidth) {
+      $("body").addClass("small-nav");
+      expandAllSecondaryMenuItems();
     } else {
-      $("body").removeClass("compact-nav").removeClass("small-nav");
+      $("body").removeClass("small-nav");
+      const availableWidth = $expandedSecondaryMenu.width();
+      secondaryMenuItems.forEach(function (item) {
+        $(item[0]).remove();
+      });
+      let runningWidth = 0,
+          i = 0,
+          requiredWidth;
+      for (; i < secondaryMenuItems.length; i++) {
+        runningWidth += secondaryMenuItems[i][1];
+        if (i < secondaryMenuItems.length - 1) {
+          requiredWidth = runningWidth + moreItemWidth;
+        } else {
+          requiredWidth = runningWidth;
+        }
+        if (requiredWidth > availableWidth) {
+          break;
+        }
+        expandSecondaryMenuItem($(secondaryMenuItems[i][0]));
+      }
+      for (; i < secondaryMenuItems.length; i++) {
+        collapseSecondaryMenuItem($(secondaryMenuItems[i][0]));
+      }
     }
+  }
+
+  function expandAllSecondaryMenuItems() {
+    secondaryMenuItems.forEach(function (item) {
+      expandSecondaryMenuItem($(item[0]));
+    });
+  }
+
+  function expandSecondaryMenuItem($item) {
+    $item.children("a")
+      .removeClass("dropdown-item")
+      .addClass("nav-link")
+      .addClass(function () {
+        return $(this).hasClass("active") ? "text-secondary-emphasis" : "text-secondary";
+      });
+    $item.addClass("nav-item").insertBefore("#compact-secondary-nav");
+    toggleCompactSecondaryNav();
+  }
+
+  function collapseSecondaryMenuItem($item) {
+    $item.children("a")
+      .addClass("dropdown-item")
+      .removeClass("nav-link text-secondary text-secondary-emphasis");
+    $item.removeClass("nav-item").appendTo($collapsedSecondaryMenu);
+    toggleCompactSecondaryNav();
+  }
+
+  function toggleCompactSecondaryNav() {
+    $("#compact-secondary-nav").toggle(
+      $collapsedSecondaryMenu.find("li").length > 0
+    );
   }
 
   /*
@@ -112,20 +167,10 @@ $(document).ready(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $("header").children(":visible").each(function (i, e) {
-      headerWidth += $(e).outerWidth();
+    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
+      secondaryMenuItems.push([this, $(this).width()]);
     });
-
-    $("body").addClass("compact-nav");
-
-    $("header").children(":visible").each(function (i, e) {
-      compactWidth += $(e).outerWidth();
-    });
-
-    $("body").removeClass("compact-nav");
-
-    $("header").removeClass("text-nowrap");
-    $("header nav.secondary > ul").removeClass("flex-nowrap");
+    moreItemWidth = $("#compact-secondary-nav").width();
 
     updateHeader();
 
