@@ -38,6 +38,14 @@ $(document).ready(function () {
 
     $("#sidebar_loader").show().addClass("delayed-fade-in");
 
+    // Prevent caching the XHR response as a full-page URL
+    // https://github.com/openstreetmap/openstreetmap-website/issues/5663
+    if (content_path.indexOf("?") >= 0) {
+      content_path += "&xhr=1";
+    } else {
+      content_path += "?xhr=1";
+    }
+
     $("#sidebar_content")
       .empty();
 
