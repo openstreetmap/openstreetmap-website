@@ -16,7 +16,7 @@ class IndexTest < ApplicationSystemTestCase
     visit node_path(node)
     find(".icon.share").click
     assert_no_selector "#content.overlay-right-sidebar"
-    find(".share-ui .btn-close").click
+    find("#map-ui .btn-close").click
     assert_selector "#content.overlay-right-sidebar"
   end
 
