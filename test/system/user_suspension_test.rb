@@ -5,7 +5,7 @@ class UserSuspensionTest < ApplicationSystemTestCase
     user = create(:user)
     sign_in_as(user)
     visit edit_account_path
-    assert_content "My Settings"
+    assert_content "My Account"
 
     user.suspend!
 
