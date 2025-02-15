@@ -27,13 +27,16 @@ OSM.Note = function (map) {
       var data = $(".details").data();
       if (!data) return;
       var latLng = L.latLng(data.coordinates.split(","));
-      if (!map.getBounds().contains(latLng)) moveToNote();
+      if (!map.getBounds().contains(latLng)) {
+        OSM.router.withoutMoveListener(function () {
+          map.setView(latLng, 15, { reset: true });
+        });
+      }
     });
   };
 
   page.load = function (path, id) {
     initialize(path, id);
-    moveToNote();
   };
 
   function initialize(path, id) {
@@ -48,7 +51,6 @@ OSM.Note = function (map) {
         success: () => {
           OSM.loadSidebarContent(path, () => {
             initialize(path, id);
-            moveToNote();
           });
         },
         error: (xhr) => {
@@ -77,11 +79,19 @@ OSM.Note = function (map) {
     var data = $(".details").data();
 
     if (data) {
+      var hashParams = OSM.parseHash(window.location.hash);
       map.addObject({
         type: "note",
         id: parseInt(id, 10),
         latLng: L.latLng(data.coordinates.split(",")),
         icon: noteIcons[data.status]
+      }, function () {
+        if (!hashParams.center) {
+          var latLng = L.latLng(data.coordinates.split(","));
+          OSM.router.withoutMoveListener(function () {
+            map.setView(latLng, 15, { reset: true });
+          });
+        }
       });
     }
   }
@@ -96,18 +106,6 @@ OSM.Note = function (map) {
       commentButton.prop("disabled", true);
     } else {
       resolveButton.text(resolveButton.data("commentActionText"));
-    }
-  }
-
-  function moveToNote() {
-    var data = $(".details").data();
-    if (!data) return;
-    var latLng = L.latLng(data.coordinates.split(","));
-
-    if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
-      OSM.router.withoutMoveListener(function () {
-        map.setView(latLng, 15, { reset: true });
-      });
     }
   }
 

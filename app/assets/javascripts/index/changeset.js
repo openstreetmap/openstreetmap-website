@@ -12,9 +12,10 @@ OSM.Changeset = function (map) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
+    var hashParams = OSM.parseHash(window.location.hash);
     initialize();
     map.addObject(changesetData, function (bounds) {
-      if (!window.location.hash && bounds.isValid()) {
+      if (!hashParams.center && bounds.isValid()) {
         OSM.router.withoutMoveListener(function () {
           map.fitBounds(bounds);
         });
