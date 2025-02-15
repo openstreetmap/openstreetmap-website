@@ -29,7 +29,7 @@ class Ability
 
     if user&.active?
       can :welcome, :site
-      can :read, [:deletion, :account_terms, :account_pd_declaration]
+      can :read, [:deletion, :account_terms, :account_pd_declaration, :account_home]
 
       if Settings.status != "database_offline"
         can [:read, :create, :destroy], :changeset_subscription

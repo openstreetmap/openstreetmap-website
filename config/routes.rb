@@ -300,6 +300,7 @@ OpenStreetMap::Application.routes.draw do
       resource :terms, :only => [:show, :update]
       resource :pd_declaration, :only => [:show, :create]
       resource :deletion, :only => :show
+      resource :home, :only => :show
     end
   end
 
