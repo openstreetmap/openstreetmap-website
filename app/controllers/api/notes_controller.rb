@@ -387,7 +387,7 @@ module Api
     ##
     # Get author's information (for logged in users - user_id, for logged out users - IP address)
     def author_info
-      if scope_enabled?(:write_notes)
+      if current_user
         { :user_id => current_user.id }
       else
         { :user_ip => request.remote_ip }
