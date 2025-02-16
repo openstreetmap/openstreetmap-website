@@ -248,7 +248,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = user.generate_token_for(:new_email)
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_redirected_to edit_account_path
+    assert_redirected_to account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
   end
 
@@ -257,13 +257,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = user.generate_token_for(:new_email)
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_redirected_to edit_account_path
+    assert_redirected_to account_path
     assert_match(/already been confirmed/, flash[:error])
   end
 
   def test_confirm_email_bad_token
     post user_confirm_email_path, :params => { :confirm_string => "XXXXX" }
-    assert_redirected_to edit_account_path
+    assert_redirected_to account_path
     assert_match(/confirmation code has expired or does not exist/, flash[:error])
   end
 
@@ -279,7 +279,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # precondition gravatar should be turned off
     assert_not user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_redirected_to edit_account_path
+    assert_redirected_to account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be enabled
     assert User.find(user.id).image_use_gravatar
@@ -293,7 +293,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # precondition gravatar should be turned on
     assert user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_redirected_to edit_account_path
+    assert_redirected_to account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be disabled
     assert_not User.find(user.id).image_use_gravatar

@@ -12,10 +12,10 @@ class AccountsController < ApplicationController
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:update]
 
-  allow_thirdparty_images :only => [:edit, :update]
-  allow_social_login :only => [:edit, :update]
+  allow_thirdparty_images :only => [:show, :update]
+  allow_social_login :only => [:show, :update]
 
-  def edit
+  def show
     if errors = session.delete(:user_errors)
       errors.each do |attribute, error|
         current_user.errors.add(attribute, error)
@@ -32,9 +32,9 @@ class AccountsController < ApplicationController
         params[:user][:auth_uid] == current_user.auth_uid)
       update_user(current_user, user_params)
       if current_user.errors.empty?
-        redirect_to edit_account_path
+        redirect_to account_path
       else
-        render :edit
+        render :show
       end
     else
       session[:new_user_settings] = user_params.to_h

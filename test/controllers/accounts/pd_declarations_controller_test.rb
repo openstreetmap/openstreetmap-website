@@ -42,7 +42,7 @@ module Accounts
 
       post account_pd_declaration_path
 
-      assert_redirected_to edit_account_path
+      assert_redirected_to account_path
       assert_nil flash[:notice]
       assert_equal "You didn't confirm that you consider your edits to be in the Public Domain.", flash[:warning]
 

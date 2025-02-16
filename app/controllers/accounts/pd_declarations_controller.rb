@@ -22,7 +22,7 @@ module Accounts
         end
       end
 
-      redirect_to edit_account_path
+      redirect_to account_path
     end
   end
 end
