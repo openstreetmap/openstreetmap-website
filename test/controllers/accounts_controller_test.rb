@@ -12,6 +12,10 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/account", :method => :put },
       { :controller => "accounts", :action => "update" }
     )
+    assert_routing(
+      { :path => "/account", :method => :delete },
+      { :controller => "accounts", :action => "destroy" }
+    )
   end
 
   def test_account
