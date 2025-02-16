@@ -100,7 +100,8 @@ Teaspoon.configure do |config|
   # Capybara Webkit: https://github.com/jejacks0n/teaspoon/wiki/Using-Capybara-Webkit
   require "selenium-webdriver"
   config.driver = :selenium
-  firefox_options = Selenium::WebDriver::Firefox::Options.new(:args => ["-headless"])
+  firefox_options = Selenium::WebDriver::Firefox::Options.new
+  firefox_options.args = ["-headless"] if Settings.system_test_headless
   firefox_options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
   config.driver_options = {
     :client_driver => :firefox,

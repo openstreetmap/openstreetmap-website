@@ -7,7 +7,7 @@ ActiveSupport.on_load(:action_dispatch_system_test_case) do
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, :using => :headless_firefox do |options|
+  driven_by :selenium, :using => Settings.system_test_headless ? :headless_firefox : :firefox do |options|
     options.add_preference("intl.accept_languages", "en")
     options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
   end
