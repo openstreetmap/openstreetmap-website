@@ -1,8 +1,8 @@
 OSM.Note = function (map) {
-  var content = $("#sidebar_content"),
-      page = {};
+  const content = $("#sidebar_content"),
+        page = {};
 
-  var noteIcons = {
+  const noteIcons = {
     "new": L.icon({
       iconUrl: OSM.NEW_NOTE_MARKER,
       iconSize: [25, 40],
@@ -22,9 +22,9 @@ OSM.Note = function (map) {
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      var data = $(".details").data();
+      const data = $(".details").data();
       if (!data) return;
-      var latLng = L.latLng(data.coordinates.split(","));
+      const latLng = L.latLng(data.coordinates.split(","));
       initialize(path, id, map.getBounds().contains(latLng));
     });
   };
@@ -36,9 +36,9 @@ OSM.Note = function (map) {
   function initialize(path, id, skipMoveToNote) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
-      var data = $(e.target).data();
-      var name = $(e.target).attr("name");
-      var ajaxSettings = {
+      const data = $(e.target).data();
+      const name = $(e.target).attr("name");
+      const ajaxSettings = {
         url: data.url,
         type: data.method,
         oauth: true,
@@ -70,10 +70,10 @@ OSM.Note = function (map) {
 
     content.find("textarea").val("").trigger("input");
 
-    var data = $(".details").data();
+    const data = $(".details").data();
 
     if (data) {
-      var hashParams = OSM.parseHash(window.location.hash);
+      const hashParams = OSM.parseHash(window.location.hash);
       map.addObject({
         type: "note",
         id: parseInt(id, 10),
@@ -81,7 +81,7 @@ OSM.Note = function (map) {
         icon: noteIcons[data.status]
       }, function () {
         if (!hashParams.center && !skipMoveToNote) {
-          var latLng = L.latLng(data.coordinates.split(","));
+          const latLng = L.latLng(data.coordinates.split(","));
           OSM.router.withoutMoveListener(function () {
             map.setView(latLng, 15, { reset: true });
           });
@@ -91,8 +91,8 @@ OSM.Note = function (map) {
   }
 
   function updateButtons() {
-    var resolveButton = content.find("button[name='close']");
-    var commentButton = content.find("button[name='comment']");
+    const resolveButton = content.find("button[name='close']");
+    const commentButton = content.find("button[name='comment']");
 
     content.find("button[name]").prop("disabled", false);
     if (content.find("textarea").val() === "") {

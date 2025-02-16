@@ -25,7 +25,7 @@
 //= require router
 
 $(document).ready(function () {
-  var map = new L.OSM.Map("map", {
+  const map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
     contextmenu: true,
@@ -33,7 +33,7 @@ $(document).ready(function () {
   });
 
   OSM.loadSidebarContent = function (path, callback) {
-    var content_path = path;
+    let content_path = path;
 
     map.setSidebarOverlaid(false);
 
@@ -78,7 +78,7 @@ $(document).ready(function () {
       });
   };
 
-  var params = OSM.mapParams();
+  const params = OSM.mapParams();
 
   map.attributionControl.setPrefix("");
 
@@ -90,19 +90,19 @@ $(document).ready(function () {
     }
   });
 
-  var sidebar = L.OSM.sidebar("#map-ui")
+  const sidebar = L.OSM.sidebar("#map-ui")
     .addTo(map);
 
-  var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
+  const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
   function addControlGroup(controls) {
     for (const control of controls) control.addTo(map);
 
-    var firstContainer = controls[0].getContainer();
+    const firstContainer = controls[0].getContainer();
     $(firstContainer).find(".control-button").first()
       .addClass("control-button-first");
 
-    var lastContainer = controls[controls.length - 1].getContainer();
+    const lastContainer = controls[controls.length - 1].getContainer();
     $(lastContainer).find(".control-button").last()
       .addClass("control-button-last");
   }
@@ -166,7 +166,7 @@ $(document).ready(function () {
 
   $(".leaflet-control .control-button").tooltip({ placement: "left", container: "body" });
 
-  var expiry = new Date();
+  const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
   map.on("moveend baselayerchange overlayadd overlayremove", function () {
@@ -188,11 +188,11 @@ $(document).ready(function () {
     Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/", samesite: "lax" });
   });
 
-  var bannerExpiry = new Date();
+  const bannerExpiry = new Date();
   bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
   $("#banner .btn-close").on("click", function (e) {
-    var cookieId = e.target.id;
+    const cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
     if (cookieId) {
@@ -203,7 +203,7 @@ $(document).ready(function () {
   if (OSM.MATOMO) {
     map.on("baselayerchange overlayadd", function (e) {
       if (e.layer.options) {
-        var goal = OSM.MATOMO.goals[e.layer.options.layerId];
+        const goal = OSM.MATOMO.goals[e.layer.options.layerId];
 
         if (goal) {
           $("body").trigger("matomogoal", goal);
@@ -223,14 +223,14 @@ $(document).ready(function () {
   }
 
   function remoteEditHandler(bbox, object) {
-    var remoteEditHost = "http://127.0.0.1:8111",
-        osmHost = location.protocol + "//" + location.host,
-        query = new URLSearchParams({
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-        });
+    const remoteEditHost = "http://127.0.0.1:8111",
+          osmHost = location.protocol + "//" + location.host,
+          query = new URLSearchParams({
+            left: bbox.getWest() - 0.0001,
+            top: bbox.getNorth() + 0.0001,
+            right: bbox.getEast() + 0.0001,
+            bottom: bbox.getSouth() - 0.0001
+          });
 
     if (object && object.type !== "note") query.set("select", object.type + object.id); // can't select notes
     sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query, function () {
@@ -253,7 +253,7 @@ $(document).ready(function () {
   }
 
   $("a[data-editor=remote]").click(function (e) {
-    var params = OSM.mapParams(this.search);
+    const params = OSM.mapParams(this.search);
     remoteEditHandler(map.getBounds(), params.object);
     e.preventDefault();
   });
@@ -273,7 +273,7 @@ $(document).ready(function () {
   }
 
   OSM.Index = function (map) {
-    var page = {};
+    const page = {};
 
     page.pushstate = page.popstate = function () {
       map.setSidebarOverlaid(true);
@@ -295,7 +295,7 @@ $(document).ready(function () {
   };
 
   OSM.Browse = function (map, type) {
-    var page = {};
+    const page = {};
 
     page.pushstate = page.popstate = function (path, id) {
       OSM.loadSidebarContent(path, function () {
@@ -308,7 +308,7 @@ $(document).ready(function () {
     };
 
     function addObject(type, id, center) {
-      var hashParams = OSM.parseHash(window.location.hash);
+      const hashParams = OSM.parseHash(window.location.hash);
       map.addObject({ type: type, id: parseInt(id, 10) }, function (bounds) {
         if (!hashParams.center && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
@@ -327,7 +327,7 @@ $(document).ready(function () {
   };
 
   OSM.OldBrowse = function () {
-    var page = {};
+    const page = {};
 
     page.pushstate = page.popstate = function (path) {
       OSM.loadSidebarContent(path);
@@ -336,7 +336,7 @@ $(document).ready(function () {
     return page;
   };
 
-  var history = OSM.History(map);
+  const history = OSM.History(map);
 
   OSM.router = OSM.Router(map, {
     "/": OSM.Index(map),

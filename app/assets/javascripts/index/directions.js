@@ -4,59 +4,59 @@
 
 OSM.Directions = function (map) {
   let controller = null; // the AbortController for the current route request if a route request is in progress
-  var chosenEngine;
+  let chosenEngine;
 
-  var popup = L.popup({ autoPanPadding: [100, 100] });
+  const popup = L.popup({ autoPanPadding: [100, 100] });
 
-  var polyline = L.polyline([], {
+  const polyline = L.polyline([], {
     color: "#03f",
     opacity: 0.3,
     weight: 10
   });
 
-  var highlight = L.polyline([], {
+  const highlight = L.polyline([], {
     color: "#ff0",
     opacity: 0.5,
     weight: 12
   });
 
-  var endpointDragCallback = function (dragging) {
+  const endpointDragCallback = function (dragging) {
     if (!map.hasLayer(polyline)) return;
     if (dragging && !chosenEngine.draggable) return;
     if (dragging && controller) return;
 
     getRoute(false, !dragging);
   };
-  var endpointChangeCallback = function () {
+  const endpointChangeCallback = function () {
     getRoute(true, true);
   };
 
-  var endpoints = [
+  const endpoints = [
     OSM.DirectionsEndpoint(map, $("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointChangeCallback),
     OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointChangeCallback)
   ];
 
-  var expiry = new Date();
+  const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  var engines = OSM.Directions.engines;
+  const engines = OSM.Directions.engines;
 
   engines.sort(function (a, b) {
-    var localised_a = I18n.t("javascripts.directions.engines." + a.id),
-        localised_b = I18n.t("javascripts.directions.engines." + b.id);
+    const localised_a = I18n.t("javascripts.directions.engines." + a.id),
+          localised_b = I18n.t("javascripts.directions.engines." + b.id);
     return localised_a.localeCompare(localised_b);
   });
 
-  var select = $("select.routing_engines");
+  const select = $("select.routing_engines");
 
   engines.forEach(function (engine, i) {
     select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
   });
 
   $(".directions_form .reverse_directions").on("click", function () {
-    var coordFrom = endpoints[0].latlng,
-        coordTo = endpoints[1].latlng,
-        routeFrom = "",
+    const coordFrom = endpoints[0].latlng,
+          coordTo = endpoints[1].latlng;
+    let routeFrom = "",
         routeTo = "";
     if (coordFrom) {
       routeFrom = coordFrom.lat + "," + coordFrom.lng;
@@ -90,8 +90,8 @@ OSM.Directions = function (map) {
   }
 
   function formatTime(s) {
-    var m = Math.round(s / 60);
-    var h = Math.floor(m / 60);
+    let m = Math.round(s / 60);
+    const h = Math.floor(m / 60);
     m -= h * 60;
     return h + ":" + (m < 10 ? "0" : "") + m;
   }
@@ -136,7 +136,7 @@ OSM.Directions = function (map) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
-      var distanceText = $("<p>").append(
+      const distanceText = $("<p>").append(
         I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
         I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
@@ -146,9 +146,9 @@ OSM.Directions = function (map) {
           I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
-      var turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
+      const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
         .append($("<tbody>"));
-      var directionsCloseButton = $("<button type='button' class='btn-close'>")
+      const directionsCloseButton = $("<button type='button' class='btn-close'>")
         .attr("aria-label", I18n.t("javascripts.close"));
 
       $("#sidebar_content")
@@ -166,7 +166,7 @@ OSM.Directions = function (map) {
       route.steps.forEach(function (step) {
         const [ll, direction, instruction, dist, lineseg] = step;
 
-        var row = $("<tr class='turn'/>");
+        const row = $("<tr class='turn'/>");
         row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
         row.append("<td>" + instruction);
         row.append("<td class='distance text-body-secondary text-end'>" + getDistText(dist));
@@ -218,7 +218,7 @@ OSM.Directions = function (map) {
     }
   }
 
-  var chosenEngineIndex = findEngine("fossgis_osrm_car");
+  let chosenEngineIndex = findEngine("fossgis_osrm_car");
   if (Cookies.get("_osm_directions_engine")) {
     chosenEngineIndex = findEngine(Cookies.get("_osm_directions_engine"));
   }
@@ -236,17 +236,17 @@ OSM.Directions = function (map) {
   });
 
   $(".routing_marker_column img").on("dragstart", function (e) {
-    var dt = e.originalEvent.dataTransfer;
+    const dt = e.originalEvent.dataTransfer;
     dt.effectAllowed = "move";
-    var dragData = { type: $(this).data("type") };
+    const dragData = { type: $(this).data("type") };
     dt.setData("text", JSON.stringify(dragData));
     if (dt.setDragImage) {
-      var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
+      const img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
       dt.setDragImage(img.get(0), 12, 21);
     }
   });
 
-  var page = {};
+  const page = {};
 
   page.pushstate = page.popstate = function () {
     $(".search_form").hide();
@@ -258,12 +258,12 @@ OSM.Directions = function (map) {
 
     $("#map").on("drop", function (e) {
       e.preventDefault();
-      var oe = e.originalEvent;
-      var dragData = JSON.parse(oe.dataTransfer.getData("text"));
-      var type = dragData.type;
-      var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
+      const oe = e.originalEvent;
+      const dragData = JSON.parse(oe.dataTransfer.getData("text"));
+      const type = dragData.type;
+      const pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
-      var ll = map.containerPointToLatLng(pt);
+      const ll = map.containerPointToLatLng(pt);
       const llWithPrecision = OSM.cropLocation(ll, map.getZoom());
       endpoints[type === "from" ? 0 : 1].setValue(llWithPrecision.join(", "));
     });
@@ -275,7 +275,7 @@ OSM.Directions = function (map) {
           route = (params.get("route") || "").split(";");
 
     if (params.has("engine")) {
-      var engineIndex = findEngine(params.get("engine"));
+      const engineIndex = findEngine(params.get("engine"));
 
       if (engineIndex >= 0) {
         setEngine(engineIndex);

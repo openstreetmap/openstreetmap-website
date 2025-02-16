@@ -1,6 +1,6 @@
 OSM.Changeset = function (map) {
-  var page = {},
-      content = $("#sidebar_content");
+  const page = {},
+        content = $("#sidebar_content");
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
@@ -12,7 +12,7 @@ OSM.Changeset = function (map) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
-    var hashParams = OSM.parseHash(window.location.hash);
+    const hashParams = OSM.parseHash(window.location.hash);
     initialize();
     map.addObject(changesetData, function (bounds) {
       if (!hashParams.center && bounds.isValid()) {
@@ -24,7 +24,7 @@ OSM.Changeset = function (map) {
   };
 
   function updateChangeset(method, url, include_data) {
-    var data;
+    let data;
 
     content.find("#comment-error").prop("hidden", true);
     content.find("button[data-method][data-url]").prop("disabled", true);
@@ -56,8 +56,8 @@ OSM.Changeset = function (map) {
   function initialize() {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
-      var data = $(e.target).data();
-      var include_data = e.target.name === "comment";
+      const data = $(e.target).data();
+      const include_data = e.target.name === "comment";
       updateChangeset(data.method, data.url, include_data);
     });
 

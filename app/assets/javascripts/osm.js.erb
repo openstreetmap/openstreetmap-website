@@ -44,8 +44,8 @@ OSM = {
   CLOSED_NOTE_MARKER: <%= image_path("closed_note_marker.svg").to_json %>,
 
   apiUrl: function (object) {
-    var apiType = object.type === "note" ? "notes" : object.type;
-    var url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
+    const apiType = object.type === "note" ? "notes" : object.type;
+    let url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
 
     if (object.type === "way" || object.type === "relation") {
       url += "/full";
@@ -57,13 +57,13 @@ OSM = {
   },
 
   params: function (search) {
-    var query = search || window.location.search;
+    const query = search || window.location.search;
     return Object.fromEntries(new URLSearchParams(query));
   },
 
   mapParams: function (search) {
-    var params = OSM.params(search),
-        mapParams = {};
+    const params = OSM.params(search),
+          mapParams = {};
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
@@ -78,7 +78,7 @@ OSM = {
       }
     }
 
-    var hash = OSM.parseHash(location.hash);
+    const hash = OSM.parseHash(location.hash);
 
     const loc = Cookies.get("_osm_location")?.split("|");
 
@@ -120,7 +120,7 @@ OSM = {
 
     mapParams.layers = hash.layers || (loc && loc[3]) || "";
 
-    var scale = parseFloat(params.scale);
+    const scale = parseFloat(params.scale);
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
     }
@@ -129,19 +129,19 @@ OSM = {
   },
 
   parseHash: function (hash) {
-    var args = {};
+    const args = {};
 
-    var i = hash.indexOf("#");
+    const i = hash.indexOf("#");
     if (i < 0) {
       return args;
     }
 
     const hashParams = new URLSearchParams(hash.slice(i + 1));
 
-    var map = (hashParams.get("map") || "").split("/"),
-        zoom = parseInt(map[0], 10),
-        lat = parseFloat(map[1]),
-        lon = parseFloat(map[2]);
+    const map = (hashParams.get("map") || "").split("/"),
+          zoom = parseInt(map[0], 10),
+          lat = parseFloat(map[1]),
+          lon = parseFloat(map[2]);
 
     if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
       args.center = new L.LatLng(lat, lon);
@@ -156,7 +156,7 @@ OSM = {
   },
 
   formatHash: function (args) {
-    var center, zoom, layers;
+    let center, zoom, layers;
 
     if (args instanceof L.Map) {
       center = args.getCenter();
@@ -180,8 +180,8 @@ OSM = {
   },
 
   zoomPrecision: function (zoom) {
-    var pixels = Math.pow(2, 8 + zoom);
-    var degrees = 180;
+    const pixels = Math.pow(2, 8 + zoom);
+    const degrees = 180;
     return Math.ceil(Math.log10(pixels / degrees));
   },
 
@@ -198,12 +198,12 @@ OSM = {
   },
 
   distance: function (latlng1, latlng2) {
-    var lat1 = latlng1.lat * Math.PI / 180,
-        lng1 = latlng1.lng * Math.PI / 180,
-        lat2 = latlng2.lat * Math.PI / 180,
-        lng2 = latlng2.lng * Math.PI / 180,
-        latdiff = lat2 - lat1,
-        lngdiff = lng2 - lng1;
+    const lat1 = latlng1.lat * Math.PI / 180,
+          lng1 = latlng1.lng * Math.PI / 180,
+          lat2 = latlng2.lat * Math.PI / 180,
+          lng2 = latlng2.lng * Math.PI / 180,
+          latdiff = lat2 - lat1,
+          lngdiff = lng2 - lng1;
 
     return 6372795 * 2 * Math.asin(
       Math.sqrt(

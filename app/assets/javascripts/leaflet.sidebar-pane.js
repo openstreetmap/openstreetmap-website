@@ -1,11 +1,11 @@
 L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
-  var control = L.control(options);
+  const control = L.control(options);
 
   control.onAdd = function (map) {
-    var $container = $("<div>")
+    const $container = $("<div>")
       .attr("class", "control-" + uiClass);
 
-    var button = $("<a>")
+    const button = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
       .html("<span class=\"icon " + uiClass + "\"></span>")
@@ -17,7 +17,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
 
     button.appendTo($container);
 
-    var $ui = $("<div>")
+    const $ui = $("<div>")
       .attr("class", uiClass + "-ui");
 
     $("<div class='d-flex p-3 pb-0'>")

@@ -76,7 +76,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
 
   // Disable the button group and also the buttons to avoid
   // inconsistent behaviour when zooming
-  var editDisabled = zoom < 13;
+  const editDisabled = zoom < 13;
   $("#edit_tab")
     .tooltip({ placement: "bottom" })
     .tooltip(editDisabled ? "enable" : "disable")
@@ -97,7 +97,7 @@ $(document).ready(function () {
   let moreItemWidth = 0;
 
   function updateHeader() {
-    var windowWidth = $(window).width();
+    const windowWidth = $(window).width();
 
     if (windowWidth < breakpointWidth) {
       $("body").addClass("small-nav");

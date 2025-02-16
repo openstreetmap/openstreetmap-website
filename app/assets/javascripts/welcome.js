@@ -1,8 +1,8 @@
 $(document).ready(function () {
-  var params = OSM.params();
+  const params = OSM.params();
 
   if (params.lat && params.lon) {
-    var url = "/edit";
+    let url = "/edit";
 
     if (params.editor) url += "?editor=" + params.editor;
     if (!params.zoom) params.zoom = 17;

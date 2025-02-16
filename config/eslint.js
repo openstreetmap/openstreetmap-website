@@ -141,9 +141,11 @@ module.exports = [
       "no-useless-call": "error",
       "no-useless-concat": "error",
       "no-useless-return": "error",
+      "no-var": "error",
       "no-void": "error",
       "no-warning-comments": "warn",
       "operator-assignment": "error",
+      "prefer-const": "error",
       "prefer-object-spread": "error",
       "radix": ["error", "always"],
       "yoda": "error"
