@@ -6,12 +6,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 env:
-  os: ubuntu-22.04
   ruby: '3.1'
 jobs:
   rubocop:
     name: RuboCop
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
     - name: Check out code
       uses: actions/checkout@v4
