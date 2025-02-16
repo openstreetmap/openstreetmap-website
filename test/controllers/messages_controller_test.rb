@@ -167,7 +167,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_match(/Test message body/, e.text_part.decoded)
     assert_match(/Test message body/, e.html_part.decoded)
     assert_match %r{#{Settings.server_url}/messages/[0-9]+}, e.text_part.decoded
-    ActionMailer::Base.deliveries.clear
+
     m = Message.last
     assert_equal user.id, m.from_user_id
     assert_equal recipient_user.id, m.to_user_id

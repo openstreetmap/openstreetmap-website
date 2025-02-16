@@ -29,7 +29,5 @@ class UserEmailChangeTest < ApplicationSystemTestCase
     end
 
     assert_equal "new_tester@example.com", user.reload.email
-
-    ActionMailer::Base.deliveries.clear
   end
 end

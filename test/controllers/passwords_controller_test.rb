@@ -118,7 +118,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal third_user.email, email.to.first
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_reset_password
