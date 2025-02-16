@@ -36,6 +36,9 @@ OSM.Directions = function (map) {
     OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointChangeCallback)
   ];
 
+  const exportGroup = L.layerGroup([...endpoints.map(m => m.marker), polyline]);
+  let downloadURL = null;
+
   const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
@@ -188,6 +191,20 @@ OSM.Directions = function (map) {
 
         turnByTurnTable.append(row);
       });
+
+      const download = exportGroup.toGeoJSON();
+      for (const i in endpoints) {
+        download.features[i].properties["marker-color"] = endpoints[i].marker.getElement().src.match(/marker-(\w+)/)[1];
+      }
+      const blob = new Blob([JSON.stringify(download)], { type: "application/json" });
+      URL.revokeObjectURL(downloadURL);
+      downloadURL = URL.createObjectURL(blob);
+
+      $("#sidebar_content").append(`<p class="text-center"><a href="${downloadURL}" download="${
+        I18n.t("javascripts.directions.filename")
+      }">${
+        I18n.t("javascripts.directions.download")
+      }</a></p>`);
 
       $("#sidebar_content").append("<p class=\"text-center\">" +
         I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
