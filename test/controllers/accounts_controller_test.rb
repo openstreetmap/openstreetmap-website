@@ -71,8 +71,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
     patch account_path, :params => { :user => new_attributes }
-    assert_redirected_to edit_account_url
-    get edit_account_path
+    assert_redirected_to edit_account_path
+    follow_redirect!
     assert_response :success
     assert_template :edit
     assert_select ".alert-success", /^User information updated successfully/
@@ -112,8 +112,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
         patch account_path, :params => { :user => user.attributes }
       end
     end
-    assert_redirected_to edit_account_url
-    get edit_account_path
+    assert_redirected_to edit_account_path
+    follow_redirect!
     assert_response :success
     assert_template :edit
     assert_select ".alert-success", /^User information updated successfully/
