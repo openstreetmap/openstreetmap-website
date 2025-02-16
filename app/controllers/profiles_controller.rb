@@ -12,6 +12,9 @@ class ProfilesController < ApplicationController
   def edit; end
 
   def update
+    social_links_params = params.require(:user).permit(:social_links_attributes => [:id, :url, :_destroy])
+    current_user.assign_attributes(social_links_params)
+
     if params[:user][:description] != current_user.description
       current_user.description = params[:user][:description]
       current_user.description_format = "markdown"

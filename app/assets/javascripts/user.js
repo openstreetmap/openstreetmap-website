@@ -10,6 +10,35 @@ $(document).ready(function () {
   const defaultHomeZoom = 12;
   let map, marker, deleted_lat, deleted_lon;
 
+  if ($("#social_links").length) {
+    $("#add-social-link").click(function (event) {
+      event.preventDefault();
+      const newIndex = -Date.now();
+      const socialLinkForm = $(`
+        <div class="social-link-added-fields row mb-3">
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="user[social_links_attributes][${newIndex}][url]" id="user_social_links_attributes_${newIndex}_url">      
+          </div>
+          <button type="button" class="btn btn-outline-primary col-sm-2 align-self-start">${I18n.t("javascripts.profiles.edit.social_links.remove")}</button>
+        </div>
+      `);
+
+      socialLinkForm.find("button").click(function () {
+        $(this).parent().remove();
+      });
+
+      $("#social_links").append(socialLinkForm);
+    });
+
+    $(".social_link_destroy input[type='checkbox']").change(function () {
+      $(this).parent().parent().addClass("d-none");
+    });
+
+    $(".social_link_destroy input[type='checkbox']:checked").each(function () {
+      $(this).parent().parent().addClass("d-none");
+    });
+  }
+
   if ($("#map").length) {
     map = L.map("map", {
       attributionControl: false,
