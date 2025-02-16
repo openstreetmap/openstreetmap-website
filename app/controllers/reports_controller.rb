@@ -29,6 +29,8 @@ class ReportsController < ApplicationController
       @report.issue.reopen unless @report.issue.open?
       @report.issue.save!
 
+      @report.issue.reported_user&.spam_check
+
       redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t(".successful_report")
     else
       flash.now[:notice] = t(".provide_details")
