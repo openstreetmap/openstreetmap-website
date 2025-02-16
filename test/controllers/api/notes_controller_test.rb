@@ -330,8 +330,6 @@ module Api
       assert_equal "commented", js["properties"]["comments"].last["action"]
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
-
-      ActionMailer::Base.deliveries.clear
     end
 
     def test_comment_with_notifications_success
@@ -395,8 +393,6 @@ module Api
       assert_equal "commented", js["properties"]["comments"].last["action"]
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
-
-      ActionMailer::Base.deliveries.clear
     end
 
     def test_comment_twice_success

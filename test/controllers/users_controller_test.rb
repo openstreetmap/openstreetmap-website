@@ -87,8 +87,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => user.display_name
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_create_duplicate_email
@@ -189,8 +187,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_go_public

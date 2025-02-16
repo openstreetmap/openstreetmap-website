@@ -121,7 +121,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal user.new_email, email.to.first
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_private_account

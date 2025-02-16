@@ -204,8 +204,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     email = ActionMailer::Base.deliveries.last
 
     assert_equal user.email, email.to.first
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_confirm_resend_deleted

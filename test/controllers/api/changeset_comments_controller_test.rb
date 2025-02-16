@@ -236,8 +236,6 @@ module Api
       assert_equal 1, email.to.length
       assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets", email.subject
       assert_equal creator_user.email, email.to.first
-
-      ActionMailer::Base.deliveries.clear
     end
 
     def test_create_on_changeset_with_changeset_creator_and_other_user_subscribers
@@ -267,8 +265,6 @@ module Api
       assert_not_nil email
       assert_equal 1, email.to.length
       assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on a changeset you are interested in", email.subject
-
-      ActionMailer::Base.deliveries.clear
     end
 
     ##

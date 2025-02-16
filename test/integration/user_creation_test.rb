@@ -153,7 +153,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     found_confirmation_url = register_email.parts.first.parts.first.to_s =~ %r{\shttp://test.host(/\S+)\s}
     assert found_confirmation_url
     confirmation_url = Regexp.last_match(1)
-    ActionMailer::Base.deliveries.clear
 
     post confirmation_url
 
@@ -211,8 +210,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "confirmations/confirm"
 
-    ActionMailer::Base.deliveries.clear
-
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
     assert_response :success
@@ -255,8 +252,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_openid_duplicate_email
@@ -278,8 +273,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_openid_failure
@@ -296,8 +289,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_openid_redirect
@@ -343,8 +334,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -395,8 +384,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_google_duplicate_email
@@ -420,8 +407,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_google_failure
@@ -439,8 +424,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_google_redirect
@@ -492,8 +475,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "confirmations/confirm"
 
-    ActionMailer::Base.deliveries.clear
-
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
     assert_response :success
@@ -542,8 +523,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_facebook_duplicate_email
@@ -566,8 +545,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_facebook_failure
@@ -585,8 +562,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_facebook_redirect
@@ -639,8 +614,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "confirmations/confirm"
 
-    ActionMailer::Base.deliveries.clear
-
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
     assert_response :success
@@ -688,8 +661,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_microsoft_duplicate_email
@@ -712,8 +683,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_microsoft_failure
@@ -731,8 +700,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_microsoft_redirect
@@ -783,8 +750,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -839,8 +804,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_github_duplicate_email
@@ -864,8 +827,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_github_failure
@@ -882,8 +843,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_github_redirect
@@ -933,8 +892,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -1010,8 +967,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_wikipedia_failure
@@ -1029,8 +984,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_wikipedia_redirect
@@ -1082,8 +1035,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
