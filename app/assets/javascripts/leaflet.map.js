@@ -1,3 +1,7 @@
+//= require maplibre-gl
+//= require @maplibre/maplibre-gl-leaflet
+//= require @maptiler/maplibre-gl-omt-language
+
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
@@ -8,6 +12,35 @@ L.extend(L.LatLngBounds.prototype, {
     return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
   }
 });
+
+if (OSM.MAPTILER_KEY) {
+  maplibregl.setRTLTextPlugin("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js", true);
+
+  L.OpenMapTiles = L.MaplibreGL.extend({
+    options: {
+      maxZoom: 23,
+      style: "https://api.maptiler.com/maps/openstreetmap/style.json?key=" + OSM.MAPTILER_KEY
+    },
+    onAdd: function (map) {
+      L.MaplibreGL.prototype.onAdd.call(this, map);
+      var map = this.getMaplibreMap();
+      var supportedLanguages = maplibregl.Map.prototype.supportedLanguages;
+      for (var i = 0; i < OSM.preferred_languages.length; i++) {
+        var preferredLanguage = OSM.preferred_languages[i].toLowerCase();
+        var matchedLanguage = supportedLanguages.find(function (supportedLanguage) {
+          return supportedLanguage.toLowerCase().replace('_', '-') === preferredLanguage;
+        });
+        if (matchedLanguage) {
+          map.setLanguage(matchedLanguage);
+          break;
+        }
+      }
+    },
+    onRemove: function (map) {
+      L.MaplibreGL.prototype.onRemove.call(this, map);
+    }
+  });
+}
 
 L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
@@ -42,6 +75,32 @@ L.OSM.Map = L.Map.extend({
         this.fire("baselayerchange", { layer: layer });
       });
       this.baseLayers.push(layer);
+    }
+
+    if (L.OpenMapTiles) {
+      var copyright_link = $("<a>", {
+        href: "/copyright",
+        text: I18n.t("javascripts.map.openstreetmap_contributors")
+      }).prop("outerHTML");
+
+      var copyright = I18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
+
+      var openmaptiles_link = I18n.t("javascripts.map.openmaptiles", {
+        openmaptiles_url: "https://openmaptiles.org/",
+        maptiler_url: "https://www.maptiler.com/"
+      });
+
+      var terms = $("<a>", {
+        href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+        text: I18n.t("javascripts.map.website_and_api_terms")
+      }).prop("outerHTML");
+
+      this.baseLayers.push(new L.OpenMapTiles({
+        attribution: copyright + ". " + openmaptiles_link + ". " + terms,
+        code: "V",
+        keyid: "openmaptiles_osm",
+        name: I18n.t("javascripts.map.base.openmaptiles_osm")
+      }));
     }
 
     this.noteLayer = new L.FeatureGroup();
