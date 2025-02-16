@@ -11,7 +11,7 @@ OSM.Search = function (map) {
     e.preventDefault();
     const query = $(this).closest("form").find("input[name=query]").val();
     let search = "";
-    if (query) search = "?" + new URLSearchParams({ from: query });
+    if (query) search = "?" + new URLSearchParams({ to: query });
     OSM.router.route("/directions" + search + OSM.formatHash(map));
   });
 
