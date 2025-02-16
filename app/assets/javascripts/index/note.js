@@ -44,7 +44,7 @@ OSM.Note = function (map) {
         oauth: true,
         success: () => {
           OSM.loadSidebarContent(path, () => {
-            initialize(path, id);
+            initialize(path, id, false);
           });
         },
         error: (xhr) => {
