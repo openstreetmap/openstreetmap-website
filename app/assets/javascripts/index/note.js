@@ -22,16 +22,10 @@ OSM.Note = function (map) {
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      initialize(path, id);
-
       var data = $(".details").data();
       if (!data) return;
       var latLng = L.latLng(data.coordinates.split(","));
-      if (!map.getBounds().contains(latLng)) {
-        OSM.router.withoutMoveListener(function () {
-          map.setView(latLng, 15, { reset: true });
-        });
-      }
+      initialize(path, id, map.getBounds().contains(latLng));
     });
   };
 
@@ -39,7 +33,7 @@ OSM.Note = function (map) {
     initialize(path, id);
   };
 
-  function initialize(path, id) {
+  function initialize(path, id, skipMoveToNote) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
@@ -86,7 +80,7 @@ OSM.Note = function (map) {
         latLng: L.latLng(data.coordinates.split(",")),
         icon: noteIcons[data.status]
       }, function () {
-        if (!hashParams.center) {
+        if (!hashParams.center && !skipMoveToNote) {
           var latLng = L.latLng(data.coordinates.split(","));
           OSM.router.withoutMoveListener(function () {
             map.setView(latLng, 15, { reset: true });
