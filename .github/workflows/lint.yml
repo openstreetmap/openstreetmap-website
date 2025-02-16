@@ -50,12 +50,9 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/cache@v4
+      uses: actions/setup-node@v4
       with:
-        path: node_modules
-        key: yarn-${{ env.os }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: |
-          yarn-${{ env.os }}-
+        cache: yarn
     - name: Install node modules
       run: bundle exec bin/yarn install
     - name: Create dummy database configuration

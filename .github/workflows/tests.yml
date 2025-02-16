@@ -26,12 +26,9 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/cache@v4
+      uses: actions/setup-node@v4
       with:
-        path: node_modules
-        key: yarn-ubuntu-${{ matrix.ubuntu }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: |
-          yarn-ubuntu-${{ matrix.ubuntu }}-
+        cache: yarn
     - name: Install packages
       run: |
         sudo apt-get -yqq update
