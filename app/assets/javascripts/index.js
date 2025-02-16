@@ -78,6 +78,9 @@ $(document).ready(function () {
       });
   };
 
+  const token = $("head").data("oauthToken");
+  if (token) OSM.oauth = { authorization: "Bearer " + token };
+
   const params = OSM.mapParams();
 
   map.attributionControl.setPrefix("");

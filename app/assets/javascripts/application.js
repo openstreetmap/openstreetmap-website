@@ -11,7 +11,6 @@
 //= require leaflet.zoom
 //= require leaflet.locationfilter
 //= require i18n
-//= require oauth
 //= require matomo
 //= require richtext
 
