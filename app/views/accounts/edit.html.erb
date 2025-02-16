@@ -8,7 +8,7 @@
 
 <%= render :partial => "settings_menu" %>
 
-<%= bootstrap_form_for current_user, :url => { :action => :update }, :html => { :multipart => true, :id => "accountForm", :autocomplete => :off } do |f| %>
+<%= bootstrap_form_for current_user, :url => { :action => :update }, :data => { :turbo => true }, :html => { :multipart => true, :id => "accountForm", :autocomplete => :off } do |f| %>
 
   <%= f.text_field :display_name %>
   <%= f.email_field :email, :disabled => true, :label => t(".current email address") %>
