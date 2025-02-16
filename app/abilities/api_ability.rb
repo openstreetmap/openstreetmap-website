@@ -11,6 +11,7 @@ class ApiAbility
       can :create, Note unless user
 
       can [:read, :download], Changeset
+      can :read, ChangesetComment
       can :read, Tracepoint
       can :read, User
       can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
