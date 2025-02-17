@@ -193,6 +193,7 @@ module Api
 
       # one hidden comment not included because not asked for
       comment2.update(:visible => false)
+      changeset.reload
 
       get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
@@ -304,6 +305,7 @@ module Api
 
       # one hidden comment not included because not asked for
       comment1.update(:visible => false)
+      changeset.reload
 
       get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
@@ -373,8 +375,6 @@ module Api
       assert_single_changeset_json changeset, js
       assert_equal 2, js["changeset"]["tags"].count
       assert_equal 3, js["changeset"]["comments"].count
-      assert_equal 3, js["changeset"]["comments_count"]
-      assert_equal 0, js["changeset"]["changes_count"]
       assert_not_nil js["changeset"]["comments"][0]["uid"]
       assert_not_nil js["changeset"]["comments"][0]["user"]
       assert_not_nil js["changeset"]["comments"][0]["text"]
@@ -2672,6 +2672,8 @@ module Api
           assert_dom "> @open", "false"
           assert_dom "> @closed_at", changeset.closed_at.xmlschema
         end
+        assert_dom "> @comments_count", changeset.comments.length.to_s
+        assert_dom "> @changes_count", changeset.num_changes.to_s
         yield if block_given?
       end
     end
@@ -2686,6 +2688,8 @@ module Api
         assert_not js["changeset"]["open"]
         assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
       end
+      assert_equal changeset.comments.length, js["changeset"]["comments_count"]
+      assert_equal changeset.num_changes, js["changeset"]["changes_count"]
     end
 
     ##
