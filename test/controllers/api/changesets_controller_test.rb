@@ -358,26 +358,22 @@ module Api
       assert js["changeset"]["comments"][2]["visible"]
     end
 
-    def test_show_tag_and_discussion_json
+    def test_show_tags_json
       changeset = create(:changeset, :closed)
       create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
-      create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
-      assert_response :success, "cannot get closed changeset with comments"
+      get changeset_show_path(changeset, :format => "json")
 
+      assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
-
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
       assert_single_changeset_json changeset, js
       assert_equal 2, js["changeset"]["tags"].count
-      assert_equal 3, js["changeset"]["comments"].count
-      assert_not_nil js["changeset"]["comments"][0]["uid"]
-      assert_not_nil js["changeset"]["comments"][0]["user"]
-      assert_not_nil js["changeset"]["comments"][0]["text"]
+      assert_equal "JOSM/1.5 (18364)", js["changeset"]["tags"]["created_by"]
+      assert_equal "changeset comment", js["changeset"]["tags"]["comment"]
     end
 
     def test_show_bbox_json
