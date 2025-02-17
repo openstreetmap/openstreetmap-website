@@ -14,14 +14,22 @@ $(document).ready(function () {
   const mapParams = OSM.mapParams();
   const params = new URLSearchParams();
   let { zoom, lat, lon } = mapParams;
+  let setMapView = true;
 
   if (mapParams.object) {
     params.set("id", mapParams.object.type + "/" + mapParams.object.id);
-    if (hashArgs.center) ({ zoom, center: { lat, lng: lon } } = hashArgs);
+    if (hashArgs.center) {
+      ({ zoom, center: { lat, lng: lon } } = hashArgs);
+    } else {
+      setMapView = false;
+    };
   } else if (idData.lat && idData.lon) {
     ({ zoom, lat, lon } = { zoom: 16, ...idData });
   }
-  params.set("map", [zoom || 17, lat, lon].join("/"));
+
+  if (setMapView) {
+    params.set("map", [zoom || 17, lat, lon].join("/"));
+  }
 
   const passThroughKeys = ["background", "comment", "disable_features", "gpx", "hashtags", "locale", "maprules", "notes", "offset", "photo", "photo_dates", "photo_overlay", "photo_username", "presets", "source", "validationDisable", "validationWarning", "validationError", "walkthrough"];
   for (const key of passThroughKeys) {
