@@ -36,7 +36,7 @@ class Ability
         can [:read, :create, :update, :destroy], :oauth2_application
         can [:read, :destroy], :oauth2_authorized_application
         can [:read, :create, :destroy], :oauth2_authorization
-        can [:update, :destroy], :account
+        can [:read, :update, :destroy], :account
         can :update, :account_terms
         can :create, :account_pd_declaration
         can :read, :dashboard

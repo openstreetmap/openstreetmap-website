@@ -297,10 +297,10 @@ OpenStreetMap::Application.routes.draw do
       resource :status, :only => :update
     end
   end
-  get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
+  get "/user/:display_name/account", :to => redirect(:path => "/account")
   get "/user/:display_name/diary/comments(/:page)", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary_comments")
 
-  resource :account, :only => [:edit, :update, :destroy] do
+  resource :account, :only => [:show, :update, :destroy] do
     scope :module => :accounts do
       resource :terms, :only => [:show, :update]
       resource :pd_declaration, :only => [:show, :create]
@@ -308,6 +308,7 @@ OpenStreetMap::Application.routes.draw do
       resource :home, :only => :show
     end
   end
+  get "/account/edit", :to => redirect(:path => "/account"), :as => nil
 
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :update]

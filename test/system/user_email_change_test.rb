@@ -12,7 +12,7 @@ class UserEmailChangeTest < ApplicationSystemTestCase
     sign_in_as(user)
 
     assert_emails 1 do
-      visit edit_account_path
+      visit account_path
       fill_in "New Email Address", :with => "new_tester@example.com"
       click_on "Save Changes"
       assert_equal "new_tester@example.com", user.reload.new_email
@@ -25,7 +25,7 @@ class UserEmailChangeTest < ApplicationSystemTestCase
 
     if email.parts[0].parts[0].decoded =~ %r{(/user/confirm-email\?confirm_string=[A-Za-z0-9\-_%]+)\s}
       visit Regexp.last_match(1)
-      assert page.has_css?("body.accounts-edit")
+      assert page.has_css?("body.accounts-show")
     end
 
     assert_equal "new_tester@example.com", user.reload.email
