@@ -1,5 +1,5 @@
 (function () {
-  function FOSSGISValhallaEngine(id, costing) {
+  function FOSSGISValhallaEngine(modeId, costing) {
     const INSTR_MAP = [
       0, // kNone = 0;
       8, // kStart = 1;
@@ -82,7 +82,8 @@
     }
 
     return {
-      id: id,
+      mode: modeId,
+      provider: "fossgis_valhalla",
       creditline:
       "<a href='https://gis-ops.com/global-open-valhalla-server-online/' target='_blank'>Valhalla (FOSSGIS)</a>",
       draggable: false,
@@ -110,7 +111,7 @@
     };
   }
 
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_car", "auto"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_bicycle", "bicycle"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_foot", "pedestrian"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("car", "auto"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("bicycle", "bicycle"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("foot", "pedestrian"), true);
 }());
