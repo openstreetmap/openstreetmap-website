@@ -201,6 +201,7 @@ de:
         allow_write_prefs: Ihre Benutzereinstellungen verändern
         allow_write_diary: Blogeinträge und Kommentare erstellen
         allow_write_api: Karte bearbeiten
+        allow_write_changeset_comments: Kommentieren von Änderungssätzen
         allow_read_gpx: Zugriff auf ihre privaten GPS-Tracks
         allow_write_gpx: GPS-Track hochladen
         allow_write_notes: Notizen bearbeiten
@@ -358,7 +359,6 @@ de:
   accounts:
     edit:
       title: Benutzerkonto bearbeiten
-      my settings: Einstellungen
       current email address: Aktuelle E-Mail-Adresse
       external auth: Externe Authentifikation
       openid:
@@ -441,10 +441,6 @@ de:
           Infrastruktur, die von der OSMF zur Verfügung gestellt wird. Klicke bitte
           auf den Link, lies den Text und stimme dann zu.
         read_tou: Ich habe die Nutzungsbedingungen gelesen und stimme ihnen zu
-        consider_pd: Zusätzlich zu den oben genannten Bedingungen betrachte ich meine
-          Beiträge als gemeinfrei (Public Domain)
-        consider_pd_why: Was bedeutet dies?
-        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/DE:Editing_Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Informationen zum Verständnis dieser Begriffe: ein %{readable_summary_link}
           und einige %{informal_translations_link}'
         readable_summary: menschenlesbare Zusammenfassung
@@ -467,6 +463,9 @@ de:
           findest du auf %{terms_declined_link}.
         terms_declined_link: diese Wiki-Seite
         terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/DE:Editing_Why_would_I_want_my_contributions_to_be_public_domain
   browse:
     deleted_ago_by_html: Gelöscht %{time_ago} von %{user}
     edited_ago_by_html: Bearbeitet %{time_ago} von %{user}
@@ -2920,6 +2919,7 @@ de:
       write_prefs: Benutzereinstellungen verändern
       write_diary: Benutzereinträge und Kommentare erstellen
       write_api: Karte bearbeiten
+      write_changeset_comments: Kommentar zu Änderungen
       read_gpx: Private GPS-Tracks lesen
       write_gpx: GPS-Tracks hochladen
       write_notes: Notizen bearbeiten
@@ -3018,8 +3018,6 @@ de:
         privacy_policy_title: OSMF-Datenschutzrichtlinie mit Abschnitt über E-Mail-Adressen
         html: Deine Adresse wird nicht öffentlich angezeigt. Weitere Informationen
           findest du in unserer %{privacy_policy_link}.
-      consider_pd_html: Ich betrachte meine Beiträge als %{consider_pd_link}.
-      consider_pd: gemeinfrei
       or: oder
       use external auth: oder melde dich über einen Drittanbieter an
     no_such_user:
@@ -3035,7 +3033,6 @@ de:
       my notes: Meine Hinweise
       my messages: Nachrichten
       my profile: Profil
-      my settings: Einstellungen
       my comments: Meine Kommentare
       my_preferences: Benutzereinstellungen
       my_dashboard: Meine Übersichtsseite
@@ -3116,13 +3113,13 @@ de:
       show:
         title: Benutzer
         heading: Benutzer
-        empty: Keine übereinstimmenden Benutzer gefunden
       page:
         found_users:
           one: '%{count} Benutzer gefunden'
           other: '%{count} Benutzer gefunden'
         confirm: Bestätige ausgewählte Benutzer
         hide: Ausgewählte Benutzer ausblenden
+        empty: Keine übereinstimmenden Benutzer gefunden
       user:
         summary_html: '%{name} erstellt von %{ip_address} am %{date}'
         summary_no_ip_html: '%{name} erstellt am %{date}'

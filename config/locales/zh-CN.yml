@@ -173,6 +173,7 @@ zh-CN:
         allow_write_prefs: 修改其用户偏好
         allow_write_diary: 创建日记和评论
         allow_write_api: 修改地图
+        allow_write_changeset_comments: 评论变更集
         allow_read_gpx: 读取他们的私人GPS轨迹
         allow_write_gpx: 上传GPS轨迹
         allow_write_notes: 修改注记
@@ -324,7 +325,7 @@ zh-CN:
   accounts:
     edit:
       title: 编辑账户
-      my settings: 我的设置
+      my_account: 我的账户
       current email address: 当前电子邮件地址
       external auth: 外部身份验证
       openid:
@@ -379,9 +380,6 @@ zh-CN:
         read_ct: 我已了解并同意贡献者条款
         tou_explain_html: 这些%{tou_link}适用于网站方面的使用，与其它由OSMF提供的基础内容。请点击链接，阅读并同意该条款。
         read_tou: 我已阅读并同意使用条款
-        consider_pd: 除了上述协议，我同意将我的贡献释于公有领域
-        consider_pd_why: 这是什么？
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 有助于理解这些术语的信息：一个 %{readable_summary_link} 和一些 %{informal_translations_link}
         readable_summary: 人类可读的摘要
         informal_translations: 非正式翻译
@@ -399,6 +397,12 @@ zh-CN:
         terms_declined_html: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅%{terms_declined_link}。
         terms_declined_link: 此wiki页面
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: 确认
+      create:
+        successfully_declared: 您已成功声明您的编辑属于公共领域。
   browse:
     deleted_ago_by_html: 由 %{user} 删除于 %{time_ago}
     edited_ago_by_html: 由%{user} 编辑于 %{time_ago}
@@ -606,13 +610,17 @@ zh-CN:
     popup:
       your location: 您的位置
       nearby mapper: 附近绘图者
+      following: 关注中的用户
     show:
       title: 我的综合面板
       no_home_location_html: '%{edit_profile_link}并设定你的家庭地址来查看附近的用户。'
       edit_your_profile: 编辑你的档案
+      followings: 关注中的用户
+      no followings: 您还没有关注任何用户。
       nearby users: 其他附近的用户
       no nearby users: 附近没有在进行制图的用户。
       followed_changesets: 变更集
+      followed_diaries: 日记条目
       nearby_changesets: 附近用户的变更集
       nearby_diaries: 附近用户的日记文章
   diary_entries:
@@ -623,6 +631,7 @@ zh-CN:
       use_map_link: 使用地图
     index:
       title: 用户日记
+      title_followed: 关注中的用户的日记
       title_nearby: 附近用户的日记
       user_title: '%{user}的日记'
       in_language_title: '%{language}日记文章'
@@ -738,6 +747,14 @@ zh-CN:
     not_found:
       title: 文件未找到
       description: 在 OpenStreetMap 服务器上找不到该名称的文件、目录或API 操作（HTTP 404）
+  follows:
+    show:
+      follow:
+        heading: 您想要关注%{user}吗？
+        button: 关注用户
+      unfollow:
+        heading: 您想要取消关注%{user}吗？
+        button: 取消关注用户
   geocoder:
     search:
       title:
@@ -990,6 +1007,7 @@ zh-CN:
           bridleway: 马道
           bus_guideway: 导轨公交车道
           bus_stop: 公共汽车站
+          busway: 公交专用道
           construction: 在建公路
           corridor: 走廊
           crossing: 十字路口
@@ -1560,9 +1578,11 @@ zh-CN:
       reports: 举报
       last_updated: 最后更新
       last_updated_time_ago_user_html: 由 %{user} 于 %{time_ago}
+      reporting_users: 举报用户
       reports_count:
         one: '%{count}个举报'
         other: '%{count}个举报'
+      more_reporters: 以及%{count}个
       reported_item: 举报项
       states:
         ignored: 已忽略
@@ -1670,6 +1690,8 @@ zh-CN:
     communities: 社区
     learn_more: 了解更多
     more: 更多
+    offline_flash:
+      announcement: 您可以在此阅读公告。
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap 日记 #%{id}'
@@ -1971,6 +1993,9 @@ zh-CN:
       preview: 预览
       help: 帮助
     pagination:
+      changeset_comments:
+        older: 较旧评论
+        newer: 较新评论
       diary_comments:
         older: 较旧评论
         newer: 较新评论
@@ -2158,7 +2183,7 @@ zh-CN:
       not_public: 您尚未公开您的编辑。
       not_public_description_html: 您将无法再编辑此地图，直到您做到如上所述。您可以通过您的%{user_page}公开您的编辑。
       user_page_link: 用户页面
-      anon_edits_link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: 了解为什么这很重要。
     edit:
       id_not_configured: iD 尚未配置
@@ -2548,10 +2573,12 @@ zh-CN:
       write_prefs: 修改用户首选项
       write_diary: 创建日记和评论
       write_api: 修改地图
+      write_changeset_comments: 评论变更集
       read_gpx: 读取私人GPS轨迹
       write_gpx: 上传GPS轨迹
       write_notes: 修改备注
       write_redactions: 隐删地图数据
+      write_blocks: 创建与撤销用户封禁
       read_email: 查看用户邮箱地址
       consume_messages: 读取、更新状态和删除用户留言
       send_messages: 向其他用户发送私信
@@ -2629,9 +2656,6 @@ zh-CN:
         privacy_policy: 隐私政策
         privacy_policy_title: OSM基金会隐私政策包括电子邮件地址部分
         html: 您的地址不会公开显示，请参阅我们的%{privacy_policy_link}了解更多信息。
-      consider_pd_html: 我认为我的贡献应在 %{consider_pd_link} 中。
-      consider_pd: 公有领域
-      consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: 或
       use external auth: 或使用第三方服务登录
     no_such_user:
@@ -2646,7 +2670,7 @@ zh-CN:
       my notes: 我的注记
       my messages: 我的消息
       my profile: 我的资料
-      my settings: 我的设置
+      my_account: 我的账户
       my comments: 我的评论
       my_preferences: 我的偏好
       my_dashboard: 我的综合面板
@@ -2660,6 +2684,8 @@ zh-CN:
       edits: 编辑
       traces: 轨迹
       notes: 地图注记
+      unfollow: 取消关注
+      follow: 关注
       mapper since: 绘图者注册于：
       last map edit: 最后地图编辑于：
       no activity yet: 尚无活动
@@ -2724,21 +2750,28 @@ zh-CN:
       show:
         title: 用户
         heading: 用户
-        empty: 未找到匹配用户
+        select_status: 选择状态
+        ip_address: IP地址
+        search: 搜索
       page:
         found_users:
           one: 找到%{count}位用户
           other: 找到%{count}位用户
         confirm: 确认所选用户
         hide: 隐藏所选用户
+        empty: 未找到匹配用户
       user:
         summary_html: '%{name}在%{date}从%{ip_address}创建'
         summary_no_ip_html: '%{name} 创建于 %{date}'
     comments:
       index:
+        heading_html: '%{user} 的评论'
         changesets: 变更集
+        diary_entries: 日记条目
         no_comments: 没有评论
     changeset_comments:
+      index:
+        title: '%{user} 添加的变更集评论'
       page:
         changeset: 变更集
         when: 时间
@@ -2748,6 +2781,8 @@ zh-CN:
         title: '%{user} 已添加日记评论'
       page:
         post: 发布
+        when: 时间
+        comment: 评论
     suspended:
       title: 帐户已暂停
       heading: 帐户已暂停
@@ -2907,6 +2942,7 @@ zh-CN:
       open_title: '未解决注记 #%{note_name}'
       closed_title: '已解决注记 #%{note_name}'
       hidden_title: '隐藏注记 #%{note_name}'
+      description_when_author_is_deleted: 已删除
       event_opened_by_html: 由%{user}%{time_ago}创建
       event_opened_by_anonymous_html: 由匿名用户%{time_ago}创建
       event_commented_by_html: 来自%{user}%{time_ago}的评论
@@ -3136,6 +3172,8 @@ zh-CN:
       show_address: 显示地址
       query_features: 查询要素
       centre_map: 将此处置于地图中间
+    home:
+      marker_title: 我家位置
   redactions:
     edit:
       heading: 编辑隐删

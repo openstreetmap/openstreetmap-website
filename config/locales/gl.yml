@@ -105,6 +105,7 @@ gl:
         allow_write_prefs: modificar as súas preferencias de usuario
         allow_write_diary: crear entradas de diario e comentarios
         allow_write_api: modificar o mapa
+        allow_write_changeset_comments: comentar os conxuntos de cambios
         allow_read_gpx: ler as súas pistas GPS privadas
         allow_write_gpx: subir pistas GPS
         allow_write_notes: modificar notas
@@ -262,7 +263,6 @@ gl:
   accounts:
     edit:
       title: Editar a conta
-      my settings: Os meus axustes
       current email address: Enderezo de correo electrónico actual
       external auth: Autenticación externa
       openid:
@@ -340,10 +340,6 @@ gl:
         tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
           infraestruturas fornecidas pola OSMF.  Preme na ligazón, le e acepta o texto.
         read_tou: Lin e acepto os Termos de uso
-        consider_pd: Ademais do anterior, coido que as miñas contribucións están baixo
-          dominio público
-        consider_pd_why: que é isto?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Información para axudar a comprender estes termos: un
           %{readable_summary_link} e algunhas %{informal_translations_link}'
         readable_summary: resumo lexible por humanos
@@ -364,6 +360,9 @@ gl:
           dos colaboradores. Para obter máis información, consulta %{terms_declined_link}.
         terms_declined_link: esta páxina do wiki
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
   browse:
     deleted_ago_by_html: Borrado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -2795,6 +2794,7 @@ gl:
       write_prefs: Modificar preferencias de usuario
       write_diary: Crear entradas de diario e comentarios
       write_api: Modificar o mapa
+      write_changeset_comments: Comentar os conxuntos de cambios
       read_gpx: Ler pistas GPS privadas
       write_gpx: Subir pistas GPS
       write_notes: Modificar notas
@@ -2892,8 +2892,6 @@ gl:
           unha sección sobre os enderezos de correo electrónico
         html: O teu enderezo non se mostra publicamente; consulta a nosa %{privacy_policy_link}
           para obter máis información.
-      consider_pd_html: Acepto que as miñas contribucións estean no %{consider_pd_link}.
-      consider_pd: dominio publico
       or: ou
       use external auth: ou rexístrate cun servizo de terceiros
     no_such_user:
@@ -2909,7 +2907,6 @@ gl:
       my notes: As miñas notas do mapa
       my messages: As miñas mensaxes
       my profile: O meu perfil
-      my settings: Os meus axustes
       my comments: Os meus comentarios
       my_preferences: As miñas preferencias
       my_dashboard: O meu panel de control
@@ -2990,13 +2987,13 @@ gl:
       show:
         title: Usuarios
         heading: Usuarios
-        empty: Non se atoparon usuarios que coincidisen
       page:
         found_users:
           one: Atopouse %{count} usuario
           other: Atopáronse %{count} usuarios
         confirm: Confirmar os usuarios seleccionados
         hide: Agochar os usuarios seleccionados
+        empty: Non se atoparon usuarios que coincidisen
       user:
         summary_html: '%{name} creado dende %{ip_address} o %{date}'
         summary_no_ip_html: '%{name} creado o %{date}'

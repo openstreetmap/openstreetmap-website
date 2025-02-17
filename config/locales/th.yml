@@ -68,6 +68,7 @@ th:
       message: ข้อความ
       node: โหนด
       node_tag: ป้ายกำกับโหนด
+      note: หมายเหตุ
       old_node: โหนดเก่า
       old_node_tag: แท็กกำกับโหนดเก่า
       old_relation: ความสัมพันธ์เดิม
@@ -98,8 +99,9 @@ th:
         support_url: ที่อยู่ URL สนับสนุน
         allow_read_prefs: อ่านการตั้งค่าของผู้ใช้
         allow_write_prefs: แก้ไขการตั้งค่าของผู้ใช้
-        allow_write_diary: สร้างรายการบันทึก ข้อคิดเห็น และพบเพื่อนใหม่
+        allow_write_diary: สร้างรายการบันทึก ข้อคิดเห็น และแสดงความคิดเห็น
         allow_write_api: แก้ไขแผนที่
+        allow_write_changeset_comments: เพิ่มความคิดเห็นเกี่ยวกับชุดการเปลี่ยนแปลง
         allow_read_gpx: อ่านรอยทาง GPS ส่วนบุคคล
         allow_write_gpx: อัปโหลดรอยทาง GPS
         allow_write_notes: แก้ไขโน้ต
@@ -240,7 +242,6 @@ th:
   accounts:
     edit:
       title: แก้ไขบัญชี
-      my settings: การตั้งค่าของฉัน
       current email address: ที่อยู่อีเมลปัจจุบัน
       external auth: การยืนยันตัวตนด้วยบริการภายนอก
       openid:
@@ -294,10 +295,13 @@ th:
         title: ข้อกำหนด
         heading: ข้อกำหนด
         heading_ct: ข้อกำหนดผู้ร่วมให้ข้อมูล
+        read and accept with tou: โปรดอ่านข้อตกลงผู้มีส่วนร่วมให้ข้อมูลและเงื่อนไขการใช้งาน
+          ทำเครื่องหมายทั้งสองช่องเมื่อเสร็จสิ้น จากนั้นกดปุ่มดำเนินการต่อ
+        contributor_terms_explain: ข้อตกลงนี้ใช้บังคับกับข้อกำหนดสำหรับการมีส่วนร่วมในปัจจุบันและในอนาคตของคุณ
+        read_ct: ฉันได้อ่านและยอมรับเงื่อนไขของผู้มีส่วนร่วมให้ข้อมูลข้างต้นแล้ว
         read_tou: ข้าพเจ้าได้อ่านและเห็นด้วยในข้อกำหนดการใช้งาน
-        consider_pd: นอกเหนือจากข้อความข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
-        consider_pd_why: นี้คืออะไร?
         continue: ถัดไป
+        cancel: ยกเลิก
         you need to accept or decline: กรุณาตรวจทานและเลือกยอมรับหรือไม่ยอมรับข้อกำหนดของผู้ร่วมให้ข้อมูลเพื่อไปต่อ
         legale_select: 'ประเทศที่พำนัก:'
         legale_names:
@@ -345,7 +349,7 @@ th:
         way: เส้นทาง
         relation: ความสัมพันธ์
     containing_relation:
-      entry_role_html: ความสัมพันธ์%{relation_name} (ในฐานะ%{relation_role})
+      entry_role_html: ความสัมพันธ์%{relation_name} (ในบทบาท%{relation_role})
     not_found:
       title: ไม่พบข้อมูล
     timeout:
@@ -436,7 +440,7 @@ th:
         title: ชุดการเปลี่ยนแปลง %{id}
         title_comment: ชุดการเปลี่ยนแปลง %{id} - %{comment}
         created: สร้างเมื่อ
-        closed: ปิดเมื่อ
+        closed: ปิด
         belongs_to: ผู้สร้าง
     show:
       title: 'ชุดการเปลี่ยนแปลง: %{id}'
@@ -490,12 +494,17 @@ th:
     popup:
       your location: ตำแหน่งของคุณ
       nearby mapper: คนทำแผนที่ ที่อยู่ใกล้เคียง
+      following: ติดตาม
     show:
       title: แผงควบคุมของฉัน
       no_home_location_html: '%{edit_profile_link} และตั้งตำแหน่งบ้านของให้ผู้ใช้ไกล้เคียงเห็น'
       edit_your_profile: แก้ไขโปรไฟล์ของคุณ
+      followings: การติดตาม
+      no followings: คุณยังไม่ได้ติดตามผู้ใช้คนใดเลย
       nearby users: ผู้ใช้อื่นที่ใกล้เคียง
       no nearby users: ไม่ได้มีผู้ใดแสดงตัวว่าทำแผนที่อยู่ใกล้เคียง
+      followed_changesets: ชุดการเปลี่ยนแปลง
+      followed_diaries: รายการบันทึก
       nearby_changesets: ชุดการเปลี่ยนแปลงของผู้ใช้ใกล้เคียง
       nearby_diaries: บันทึกของผู้ใช้ใกล้เคียง
   diary_entries:
@@ -1709,6 +1718,11 @@ th:
       reset: ตั้งรหัสผ่านใหม่
     update:
       flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
+  preferences:
+    show:
+      title: การตั้งค่าของฉัน
+      preferred_site_color_scheme: โทนสีของเว็บไซต์ที่ต้องการ
+      preferred_map_color_scheme: โทนสีของแผนที่ที่ต้องการ
   profiles:
     edit:
       image: 'รูปภาพ:'
@@ -2079,8 +2093,9 @@ th:
       my notes: หมายเหตุของฉัน
       my messages: ข้อความของฉัน
       my profile: ประวัติของฉัน
-      my settings: การตั้งค่าของฉัน
       my comments: ความคิดเห็นของฉัน
+      my_preferences: การตั้งค่าของฉัน
+      my_dashboard: แผงควบคุมของฉัน
       blocks on me: การถูกระงับของฉัน
       blocks by me: ผู้ใช้ที่ข้าพเจ้ากีดกัน
       send message: ส่งข้อความ
@@ -2126,10 +2141,10 @@ th:
       show:
         title: ผู้ใช้
         heading: ผู้ใช้
-        empty: ไม่พบผู้ใช้ตรงตามที่กำหนด
       page:
         confirm: ยืนยันผู้ใช้ที่เลือก
         hide: ซ่อนผู้ใช้ที่เลือก
+        empty: ไม่พบผู้ใช้ตรงตามที่กำหนด
       user:
         summary_html: '%{name} สร้างจากไอพี %{ip_address} เมื่อ %{date}'
     changeset_comments:
