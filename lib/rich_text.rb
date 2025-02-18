@@ -144,7 +144,7 @@ module RichText
     end
 
     def truncated_text_content(element)
-      text = ""
+      text = String.new
 
       append_text = lambda do |child|
         if child.type == :text
