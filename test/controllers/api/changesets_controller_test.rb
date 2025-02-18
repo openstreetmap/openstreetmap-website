@@ -249,6 +249,22 @@ module Api
       end
     end
 
+    def test_show_tags
+      changeset = create(:changeset, :closed)
+      create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
+      create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
+
+      get changeset_show_path(changeset)
+
+      assert_response :success
+      assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
+      assert_single_changeset changeset do
+        assert_dom "> tag", 2
+        assert_dom "> tag[k='created_by'][v='JOSM/1.5 (18364)']", 1
+        assert_dom "> tag[k='comment'][v='changeset comment']", 1
+      end
+    end
+
     def test_show_json
       changeset = create(:changeset)
 
