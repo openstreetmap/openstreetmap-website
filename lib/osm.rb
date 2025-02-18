@@ -51,14 +51,14 @@ module OSM
 
   # Raised when to delete an already-deleted object.
   class APIAlreadyDeletedError < APIError
-    def initialize(object = "object", object_id = "")
-      @object = object
-      @object_id = object_id
+    def initialize(type = "object", id = "")
+      @type = type
+      @id = id
 
-      super("The #{object} with the id #{object_id} has already been deleted")
+      super("The #{type} with the id #{id} has already been deleted")
     end
 
-    attr_reader :object, :object_id
+    attr_reader :type, :id
 
     def status
       :gone
