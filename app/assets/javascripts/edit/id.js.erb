@@ -13,15 +13,18 @@ $(document).ready(function () {
   const hashArgs = OSM.parseHash(location.hash);
   const mapParams = OSM.mapParams();
   const params = new URLSearchParams();
-  let { zoom, lat, lon } = mapParams;
+  let zoom, lat, lon;
 
+  if (idData.lat && idData.lon) {
+    ({ zoom, lat, lon } = { zoom: 16, ...idData });
+  } else if (!mapParams.object) {
+    ({ zoom, lat, lon } = mapParams);
+  }
   if (mapParams.object) {
     params.set("id", mapParams.object.type + "/" + mapParams.object.id);
     if (hashArgs.center) ({ zoom, center: { lat, lng: lon } } = hashArgs);
-  } else if (idData.lat && idData.lon) {
-    ({ zoom, lat, lon } = { zoom: 16, ...idData });
   }
-  params.set("map", [zoom || 17, lat, lon].join("/"));
+  if (lat && lon) params.set("map", [zoom || 17, lat, lon].join("/"));
 
   const passThroughKeys = ["background", "comment", "disable_features", "gpx", "hashtags", "locale", "maprules", "notes", "offset", "photo", "photo_dates", "photo_overlay", "photo_username", "presets", "source", "validationDisable", "validationWarning", "validationError", "walkthrough"];
   for (const key of passThroughKeys) {
