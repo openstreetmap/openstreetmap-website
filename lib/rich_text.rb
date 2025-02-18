@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RichText
   SPAMMY_PHRASES = [
     "Business Description:", "Additional Keywords:"
@@ -144,7 +146,7 @@ module RichText
     end
 
     def truncated_text_content(element)
-      text = String.new
+      text = +""
 
       append_text = lambda do |child|
         if child.type == :text
