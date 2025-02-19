@@ -18,20 +18,24 @@ module Api
         { :controller => "api/changesets", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/changeset/1/upload", :method => :post },
-        { :controller => "api/changesets", :action => "upload", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/download", :method => :get },
-        { :controller => "api/changesets", :action => "download", :id => "1" }
-      )
-      assert_routing(
         { :path => "/api/0.6/changeset/1", :method => :get },
         { :controller => "api/changesets", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1.json", :method => :get },
         { :controller => "api/changesets", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/1", :method => :put },
+        { :controller => "api/changesets", :action => "update", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/1/upload", :method => :post },
+        { :controller => "api/changesets", :action => "upload", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/1/download", :method => :get },
+        { :controller => "api/changesets", :action => "download", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
@@ -48,10 +52,6 @@ module Api
       assert_routing(
         { :path => "/api/0.6/changeset/1/unsubscribe.json", :method => :post },
         { :controller => "api/changesets", :action => "unsubscribe", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1", :method => :put },
-        { :controller => "api/changesets", :action => "update", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/close", :method => :put },
@@ -406,7 +406,7 @@ module Api
     def test_show
       changeset = create(:changeset)
 
-      get changeset_show_path(changeset)
+      get api_changeset_path(changeset)
       assert_response :success, "cannot get first changeset"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -414,7 +414,7 @@ module Api
         assert_dom "> discussion", 0
       end
 
-      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      get api_changeset_path(changeset, :include_discussion => true)
       assert_response :success, "cannot get first changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -429,7 +429,7 @@ module Api
       changeset = create(:changeset, :closed)
       comment1, comment2, comment3 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      get api_changeset_path(changeset, :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
@@ -451,7 +451,7 @@ module Api
       comment2.update(:visible => false)
       changeset.reload
 
-      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      get api_changeset_path(changeset, :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -467,7 +467,7 @@ module Api
       end
 
       # one hidden comment not included because no permissions
-      get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true }
+      get api_changeset_path(changeset, :include_discussion => true, :show_hidden_comments => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -486,8 +486,7 @@ module Api
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
       auth_header = bearer_authorization_header moderator_user
-      get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true },
-                                          :headers => auth_header
+      get api_changeset_path(changeset, :include_discussion => true, :show_hidden_comments => true), :headers => auth_header
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -510,7 +509,7 @@ module Api
       create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
 
-      get changeset_show_path(changeset)
+      get api_changeset_path(changeset)
 
       assert_response :success
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -524,7 +523,7 @@ module Api
     def test_show_json
       changeset = create(:changeset)
 
-      get changeset_show_path(changeset), :params => { :format => "json" }
+      get api_changeset_path(changeset, :format => "json")
       assert_response :success, "cannot get first changeset"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -538,7 +537,7 @@ module Api
       assert_equal changeset.user.id, js["changeset"]["uid"]
       assert_equal changeset.user.display_name, js["changeset"]["user"]
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true)
       assert_response :success, "cannot get first changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -559,7 +558,7 @@ module Api
       changeset = create(:changeset, :closed)
       comment0, comment1, comment2 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -579,7 +578,7 @@ module Api
       comment1.update(:visible => false)
       changeset.reload
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -594,7 +593,7 @@ module Api
       assert js["changeset"]["comments"][1]["visible"]
 
       # one hidden comment not included because no permissions
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true, :show_hidden_comments => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -612,8 +611,7 @@ module Api
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
       auth_header = bearer_authorization_header moderator_user
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true },
-                                          :headers => auth_header
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true, :show_hidden_comments => true), :headers => auth_header
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -635,7 +633,7 @@ module Api
       create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
 
-      get changeset_show_path(changeset, :format => "json")
+      get api_changeset_path(changeset, :format => "json")
 
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
@@ -653,7 +651,7 @@ module Api
       changeset = create(:changeset, :min_lat => (-5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round,
                                      :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (12 * GeoRecord::SCALE).round)
 
-      get changeset_show_path(changeset), :params => { :format => "json" }
+      get api_changeset_path(changeset, :format => "json")
       assert_response :success, "cannot get first changeset"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -668,7 +666,7 @@ module Api
     # check that a changeset that doesn't exist returns an appropriate message
     def test_show_not_found
       [0, -32, 233455644, "afg", "213"].each do |id|
-        get changeset_show_path(id)
+        get api_changeset_path(id)
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -2392,7 +2390,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(changeset_id)
+      get api_changeset_path(changeset_id)
       assert_response :success, "Couldn't read back changeset."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.1000000']", 1
@@ -2407,7 +2405,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(changeset_id)
+      get api_changeset_path(changeset_id)
       assert_response :success, "Couldn't read back changeset for the second time."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.2000000']", 1
@@ -2422,7 +2420,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(changeset_id)
+      get api_changeset_path(changeset_id)
       assert_response :success, "Couldn't read back changeset for the third time."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.3000000']", 1
@@ -2446,17 +2444,17 @@ module Api
       new_changeset.find("//osm/changeset").first << new_tag
 
       # try without any authorization
-      put changeset_show_path(private_changeset), :params => new_changeset.to_s
+      put api_changeset_path(private_changeset), :params => new_changeset.to_s
       assert_response :unauthorized
 
       # try with the wrong authorization
       auth_header = bearer_authorization_header
-      put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should get an unauthorized
       auth_header = bearer_authorization_header private_user
-      put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
       ## Now try with the public user
@@ -2467,17 +2465,17 @@ module Api
       new_changeset.find("//osm/changeset").first << new_tag
 
       # try without any authorization
-      put changeset_show_path(changeset), :params => new_changeset.to_s
+      put api_changeset_path(changeset), :params => new_changeset.to_s
       assert_response :unauthorized
 
       # try with the wrong authorization
       auth_header = bearer_authorization_header
-      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should work...
       auth_header = bearer_authorization_header user
-      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :success
 
       assert_select "osm>changeset[id='#{changeset.id}']", 1
@@ -2498,7 +2496,7 @@ module Api
       new_tag["v"] = "testing"
       new_changeset.find("//osm/changeset").first << new_tag
 
-      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
     end
 
