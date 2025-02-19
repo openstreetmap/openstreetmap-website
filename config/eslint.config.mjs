@@ -1,9 +1,9 @@
-const globals = require("globals");
-const js = require("@eslint/js");
-const erb = require("eslint-plugin-erb");
-const stylisticJs = require("@stylistic/eslint-plugin-js");
+import globals from "globals";
+import js from "@eslint/js";
+import erb from "eslint-plugin-erb";
+import stylisticJs from "@stylistic/eslint-plugin-js";
 
-module.exports = [
+export default [
   js.configs.recommended,
   erb.configs.recommended,
   {
@@ -164,13 +164,9 @@ module.exports = [
     }
   },
   {
-    files: ["config/eslint.js"],
+    files: ["config/eslint.config.mjs"],
     languageOptions: {
-      ecmaVersion: 2019,
-      sourceType: "commonjs",
-      globals: {
-        ...globals.commonjs
-      }
+      sourceType: "module"
     },
     rules: {
       "sort-keys": ["error", "asc", { minKeys: 5 }]
