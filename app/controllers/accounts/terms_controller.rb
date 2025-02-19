@@ -18,11 +18,6 @@ module Accounts
         render :partial => "terms"
       else
         @title = t ".title"
-
-        if current_user.terms_agreed?
-          # Already agreed to terms, so just show settings
-          redirect_to account_path
-        end
       end
     end
 

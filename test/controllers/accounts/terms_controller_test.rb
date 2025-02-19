@@ -29,7 +29,7 @@ module Accounts
       session_for(user)
 
       get account_terms_path
-      assert_redirected_to account_path
+      assert_response :success
     end
 
     def test_show_not_seen_without_referer
