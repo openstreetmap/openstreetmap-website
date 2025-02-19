@@ -19,10 +19,8 @@ OpenStreetMap::Application.routes.draw do
 
     post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
     get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
-    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
     post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changesets#update", :id => /\d+/
     put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
     post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
@@ -31,6 +29,7 @@ OpenStreetMap::Application.routes.draw do
 
   namespace :api, :path => "api/0.6" do
     resources :changesets, :only => [:index, :create]
+    resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update]
     put "changeset/create" => "changesets#create", :as => nil
 
     resources :changeset_comments, :only => :index
