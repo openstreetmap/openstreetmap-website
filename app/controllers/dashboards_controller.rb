@@ -10,5 +10,7 @@ class DashboardsController < ApplicationController
 
   def show
     @user = current_user
+    @followings = current_user.followings
+    @nearby_users = current_user.nearby - @followings
   end
 end
