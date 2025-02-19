@@ -5,7 +5,7 @@ def yarn_path
 end
 
 def config_file
-  Rails.root.join("config/eslint.js").to_s
+  Rails.root.join("config/eslint.config.mjs").to_s
 end
 
 namespace "eslint" do
