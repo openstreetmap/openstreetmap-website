@@ -310,7 +310,11 @@ OSM.Directions.engines = [];
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
   if (document.location.protocol === "http:" || supportsHTTPS) {
     engine.id = engine.provider + "_" + engine.mode;
-    engine.localeId = I18n.t("javascripts.directions.engines." + engine.id);
+    engine.localeId = `${
+      I18n.t("site.search.modes." + engine.mode)
+    } (${
+      I18n.t("site.search.providers." + engine.provider)
+    })`;
     OSM.Directions.engines.push(engine);
   }
 };
