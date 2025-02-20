@@ -150,6 +150,7 @@ it:
         allow_write_prefs: modifica le sue preferenze utente
         allow_write_diary: creare pagine di diario e commenti
         allow_write_api: modificare la mappa
+        allow_write_changeset_comments: commentare i gruppi di modifiche
         allow_read_gpx: visualizza le sue tracce GPS private
         allow_write_gpx: carica tracce GPS
         allow_write_notes: modificare le note
@@ -305,8 +306,9 @@ it:
         comment: Commento
         full: Nota completa
   accounts:
-    edit:
+    show:
       title: Modifica profilo
+      my_account: Il mio profilo
       current email address: Indirizzo email attuale
       external auth: Autenticazione esterna
       openid:
@@ -322,6 +324,9 @@ it:
           fossero di pubblico dominio.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms/IT
         link text: che cos'è questo?
+        not_agreed_with_pd: Non hai dichiarato se considerare le tue modifiche come
+          fossero di pubblico dominio.
+        pd_link_text: dichiara
       save changes button: Salva modifiche
       delete_account: Elimina Utenza...
     go_public:
@@ -407,6 +412,20 @@ it:
           i nuovi termini di contribuzione. Per ulteriori informazioni consultare
           %{terms_declined_link}.
         terms_declined_link: questa pagina wiki
+    pd_declarations:
+      show:
+        title: Considera i miei contributi di pubblico dominio
+        consider_pd: Io considero i miei contributi di pubblico dominio
+        consider_pd_why: Perché dovrei volere che i miei contributi fossero di pubblico
+          dominio?
+        confirm: Conferma
+      create:
+        successfully_declared: Hai dichiarato di considerare le tue modifiche come
+          fossero di pubblico dominio.
+        already_declared: Hai già dichiarato di considerare le tue modifiche come
+          fossero di pubblico dominio.
+        did_not_confirm: Non hai confermato di considerare le tue modifiche come fossero
+          di pubblico dominio.
   browse:
     deleted_ago_by_html: Cancellato %{time_ago} da %{user}
     edited_ago_by_html: Modificato %{time_ago} da %{user}
@@ -476,6 +495,7 @@ it:
       feature_warning: Caricamento di %{num_features} caratteristiche, che possono
         rendere il tuo browser lento o che non risponde. Sei sicuro di voler visualizzare
         questi dati?
+      feature_error: 'Impossibile caricare gli elementi: %{message}'
       load_data: Carica dati
       loading: Caricamento in corso...
     tag_details:
@@ -1619,9 +1639,11 @@ it:
       reports: Segnalazioni
       last_updated: Ultima modifica
       last_updated_time_ago_user_html: '%{time_ago} da %{user}'
+      reporting_users: Utenti segnalatori
       reports_count:
         one: '%{count} segnalazione'
         other: '%{count} segnalazioni'
+      more_reporters: e altri %{count}
       reported_item: Elemento segnalato
       states:
         ignored: Ignorato
@@ -1656,6 +1678,8 @@ it:
       reopened: Lo stato del problema è stato impostato su ‘Aperto’
     comments:
       comment_from_html: Commento di %{user_link} il %{comment_created_at}
+      reassign_to_moderators: Riassegna il problema ai moderatori
+      reassign_to_administrators: Riassegna il problema agli amministratori
     reports:
       reported_by_html: Segnalato come %{category} da %{user} il %{updated_at}
     helper:
@@ -1734,6 +1758,13 @@ it:
     communities: Comunità
     learn_more: Ulteriori informazioni
     more: Altro
+    offline_flash:
+      osm_offline: Per permettere lo svolgimento di essenziali lavori di manutenzione,
+        il database di OpenStreetMap è attualmente offline.
+      osm_read_only: Per permettere lo svolgimento di essenziali lavori di manutenzione,
+        il database di OpenStreetMap è attualmente in modalità sola-lettura.
+      expected_restore_html: Si prevede che i servizi verranno ripristinati in %{time}.
+      announcement: Potete leggere l'annuncio qui.
   user_mailer:
     diary_comment_notification:
       description: 'Voce del diario OpenStreetMap #%{id}'
@@ -2811,10 +2842,12 @@ it:
       write_prefs: Modificare le preferenze dell'utente
       write_diary: Creare voci del diario e commenti
       write_api: Modificare la mappa
+      write_changeset_comments: Commentare i gruppi di modifiche
       read_gpx: Leggere tracciati GPS privati
       write_gpx: Caricare tracciati GPS
       write_notes: Modificare le note
       write_redactions: Rimuovere dati cartografici
+      write_blocks: Creare e revocare blocchi di utenze
       read_email: Leggere indirizzo di posta elettronica dell'utente
       consume_messages: Leggere, aggiornare lo stato e cancellare i messaggi dell'utente
       send_messages: Inviare messaggi privati ad altri utenti
@@ -2921,6 +2954,7 @@ it:
       my notes: Le mie note
       my messages: I miei messaggi
       my profile: Il mio profilo
+      my_account: Il mio profilo
       my comments: I miei commenti
       my_preferences: Preferenze
       my_dashboard: La mia dashboard
@@ -3003,8 +3037,13 @@ it:
         heading: Utenti
         select_status: Seleziona stato
         states:
+          pending: In attesa
+          active: Attivo
+          confirmed: Confermato
+          suspended: Sospeso
           deleted: Cancellato
         ip_address: Indirizzo IP
+        search: Cerca
       page:
         found_users:
           one: '%{count} utente trovato'
@@ -3458,6 +3497,9 @@ it:
       show_address: Mostra indirizzo
       query_features: Ricerca di elementi
       centre_map: Centra la mappa qui
+    home:
+      marker_title: La mia posizione di casa
+      not_set: La posizione di casa non è impostata per la tua utenza
   redactions:
     edit:
       heading: Modifica revisione

@@ -286,11 +286,13 @@ el:
         comment: Σχόλιο
         full: Πλήρης σημείωση
   accounts:
-    edit:
+    show:
       title: Επεξεργασία λογαριασμού
+      my_account: Ο λογαριασμός μου
       current email address: Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου
       external auth: Εξωτερική επαλήθευση ταυτότητας
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: τι είναι αυτό;
       contributor terms:
         heading: Όροι Συνεισφοράς
@@ -300,7 +302,11 @@ el:
           σας και την αποδοχή των νέων Όρων Συνεισφοράς.
         agreed_with_pd: Δηλώσατε επίσης ότι αποδέχεστε ότι οι τροποποιήσεις σας αποτελούν
           κοινό κτήμα.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: τι είναι αυτό;
+        not_agreed_with_pd: Δεν έχετε δηλώσει ότι θεωρείτε ότι οι τροποποιήσεις σας
+          ανήκουν στον Δημόσιο Τομέα.
+        pd_link_text: δηλώστε
       save changes button: Αποθήκευση αλλαγών
       delete_account: Διαγραφή λογαριασμού...
     go_public:
@@ -387,6 +393,21 @@ el:
         terms_declined_html: Λυπούμαστε που αποφασίσατε να μην αποδεχτείτε τους νέους
           Όρους Συνεισφοράς. Για περισσότερες πληροφορίες, ανατρέξτε στο %{terms_declined_link}.
         terms_declined_link: αυτή η σελίδα wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Θεωρήστε τις συνεισφορές μου να είναι στον Δημόσιο Τομέα
+        consider_pd: Θεωρώ ότι οι συνεισφορές μου είναι στον Δημόσιο Τομέα
+        consider_pd_why: Γιατί θα ήθελα οι συνεισφορές μου να είναι στον Δημόσιο Τομέα;
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Επιβεβαίωση
+      create:
+        successfully_declared: Δηλώσατε επιτυχώς ότι θεωρείτε ότι οι τροποποιήσεις
+          σας ανήκουν στον Δημόσιο Τομέα.
+        already_declared: Έχετε ήδη δηλώσει ότι θεωρείτε ότι οι τροποποιήσεις σας
+          ανήκουν στον Δημόσιο Τομέα.
+        did_not_confirm: Δεν έχετε επιβεβαιώσει ότι θεωρείτε ότι οι τροποποιήσεις
+          σας ανήκουν στον Δημόσιο Τομέα.
   browse:
     deleted_ago_by_html: Διαγράφηκε %{time_ago} από %{user}
     edited_ago_by_html: Επεξεργάστηκε %{time_ago} από %{user}
@@ -2372,6 +2393,8 @@ el:
       not_public_description_html: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν
         δεν το κάνετε. Μπορείτε να κάνετε τις επεξεργασίες σας δημόσιες από την %{user_page}.
       user_page_link: σελίδα χρήστη
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
     edit:
       id_not_configured: Ο iD δεν έχει ρυθμιστεί
@@ -2837,6 +2860,7 @@ el:
       write_gpx: Μεταφόρτωση ιχνών GPS
       write_notes: Τροποποίηση σημειώσεων
       write_redactions: Αφαίρεση και απόκρυψη δεδομένων χάρτη
+      write_blocks: Δημιουργία και ανάκληση φραγών χρηστών
       read_email: Διαβάζει τη διεύθυνση email χρήστη
       consume_messages: Ανάγνωση, ενημέρωση της κατάστασης και διαγραφή των μηνυμάτων
         χρήστη
@@ -2948,6 +2972,7 @@ el:
       my notes: Οι σημειώσεις μου
       my messages: Τα μηνύματά μου
       my profile: Το προφίλ μου
+      my_account: Ο λογαριασμός μου
       my comments: Τα σχόλιά μου
       my_preferences: Οι προτιμήσεις μου
       my_dashboard: Το ταμπλό μου
@@ -3028,6 +3053,15 @@ el:
       show:
         title: Χρήστες
         heading: Χρήστες
+        select_status: Επιλογή κατάστασης
+        states:
+          pending: Σε εκκρεμότητα
+          active: Ενεργός
+          confirmed: Επιβεβαιωμένος
+          suspended: Σε αναστολή
+          deleted: Διαγραμμένος
+        ip_address: Διεύθυνση IP
+        search: Αναζήτηση
       page:
         found_users:
           one: '%{count} χρήστης βρέθηκε'
@@ -3491,6 +3525,9 @@ el:
       show_address: Εμφάνιση διεύθυνσης
       query_features: Πληροφορίες χαρακτηριστικών
       centre_map: Κεντράρισμα χάρτη εδώ
+    home:
+      marker_title: Τοποθεσία του σπιτιού μου
+      not_set: Η τοποθεσία του σπιτιού δεν έχει οριστεί για τον λογαριασμό σας
   redactions:
     edit:
       heading: Επεξεργασία παράληψης
