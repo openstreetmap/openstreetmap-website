@@ -10,7 +10,7 @@ class ApiAbility
       can [:read, :feed, :search], Note
       can :create, Note unless user
 
-      can [:read, :download], Changeset
+      can :read, Changeset
       can :read, ChangesetComment
       can :read, Tracepoint
       can :read, User
