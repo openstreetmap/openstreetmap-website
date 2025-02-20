@@ -34,10 +34,6 @@ module Api
         { :controller => "api/changesets", :action => "upload", :id => "1" }
       )
       assert_routing(
-        { :path => "/api/0.6/changeset/1/download", :method => :get },
-        { :controller => "api/changesets", :action => "download", :id => "1" }
-      )
-      assert_routing(
         { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
         { :controller => "api/changesets", :action => "subscribe", :id => "1" }
       )
@@ -2184,7 +2180,7 @@ module Api
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get changeset_download_path(changeset_id)
+      get api_changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2242,7 +2238,7 @@ module Api
       assert_response :success,
                       "can't upload a diff from JOSM: #{@response.body}"
 
-      get changeset_download_path(changeset_id)
+      get api_changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2297,7 +2293,7 @@ module Api
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get changeset_download_path(changeset_id)
+      get api_changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2308,63 +2304,6 @@ module Api
       assert_select "osmChange>delete>node", 1
       assert_select "osmChange>modify>node", 1
       assert_select "osmChange>modify>way", 1
-    end
-
-    def test_changeset_download
-      changeset = create(:changeset)
-      node = create(:node, :with_history, :version => 1, :changeset => changeset)
-      tag = create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1))
-      node2 = create(:node, :with_history, :version => 1, :changeset => changeset)
-      _node3 = create(:node, :with_history, :deleted, :version => 1, :changeset => changeset)
-      _relation = create(:relation, :with_history, :version => 1, :changeset => changeset)
-      _relation2 = create(:relation, :with_history, :deleted, :version => 1, :changeset => changeset)
-
-      get changeset_download_path(changeset)
-
-      assert_response :success
-
-      # FIXME: needs more assert_select tests
-      assert_select "osmChange[version='#{Settings.api_version}'][generator='#{Settings.generator}']" do
-        assert_select "create", :count => 5
-        assert_select "create>node[id='#{node.id}'][visible='#{node.visible?}'][version='#{node.version}']" do
-          assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
-        end
-        assert_select "create>node[id='#{node2.id}']"
-      end
-    end
-
-    test "sorts downloaded elements by timestamp" do
-      changeset = create(:changeset)
-      node1 = create(:old_node, :version => 2, :timestamp => "2020-02-01", :changeset => changeset)
-      node0 = create(:old_node, :version => 2, :timestamp => "2020-01-01", :changeset => changeset)
-
-      get changeset_download_path(changeset)
-      assert_response :success
-      assert_dom "modify", :count => 2 do |modify|
-        assert_dom modify[0], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node0.node_id.to_s
-        end
-        assert_dom modify[1], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node1.node_id.to_s
-        end
-      end
-    end
-
-    test "sorts downloaded elements by version" do
-      changeset = create(:changeset)
-      node1 = create(:old_node, :version => 3, :timestamp => "2020-01-01", :changeset => changeset)
-      node0 = create(:old_node, :version => 2, :timestamp => "2020-01-01", :changeset => changeset)
-
-      get changeset_download_path(changeset)
-      assert_response :success
-      assert_dom "modify", :count => 2 do |modify|
-        assert_dom modify[0], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node0.node_id.to_s
-        end
-        assert_dom modify[1], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node1.node_id.to_s
-        end
-      end
     end
 
     ##
@@ -2562,25 +2501,6 @@ module Api
       assert_not(changeset.open?,
                  "changeset should have been auto-closed by exceeding " \
                  "element limit.")
-    end
-
-    ##
-    # check that the changeset download for a changeset with a redacted
-    # element in it doesn't contain that element.
-    def test_diff_download_redacted
-      changeset = create(:changeset)
-      node = create(:node, :with_history, :version => 2, :changeset => changeset)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
-
-      get changeset_download_path(changeset)
-      assert_response :success
-
-      assert_select "osmChange", 1
-      # this changeset contains the node in versions 1 & 2, but 1 should
-      # be hidden.
-      assert_select "osmChange node[id='#{node.id}']", 1
-      assert_select "osmChange node[id='#{node.id}'][version='1']", 0
     end
 
     ##

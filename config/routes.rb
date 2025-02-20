@@ -18,7 +18,6 @@ OpenStreetMap::Application.routes.draw do
     get "permissions" => "permissions#show"
 
     post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
-    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
     post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
     put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
@@ -29,7 +28,9 @@ OpenStreetMap::Application.routes.draw do
 
   namespace :api, :path => "api/0.6" do
     resources :changesets, :only => [:index, :create]
-    resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update]
+    resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
+      resource :download, :module => :changesets, :only => :show
+    end
     put "changeset/create" => "changesets#create", :as => nil
 
     resources :changeset_comments, :only => :index
