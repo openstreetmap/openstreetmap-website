@@ -248,7 +248,7 @@ OSM.Directions = function (map) {
   });
 
   select.on("change", function (e) {
-    setEngine(e.target.selectedOptions[0].value + "_" + chosenEngine.mode);
+    setEngine(e.target.value + "_" + chosenEngine.mode);
     Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
     getRoute(true, true);
   });
