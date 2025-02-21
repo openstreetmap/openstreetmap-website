@@ -48,7 +48,7 @@
       </td>
       <td><%= link_to note.id, note %></td>
       <td><%= note_author(note.author) %></td>
-      <td><%= note_description(note.author, note.description).to_html %></td>
+      <td><%= note_description(note.author, note.description, current_user&.moderator? ? note.comments.unscope(:where => :visible).first : note.comments.first).to_html %></td>
       <td><%= friendly_date_ago(note.created_at) %></td>
       <td><%= friendly_date_ago(note.updated_at) %></td>
     </tr>
