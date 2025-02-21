@@ -176,7 +176,7 @@ group :test do
 end
 
 group :development, :test do
-  gem "annotate"
+  gem "annotaterb"
   gem "teaspoon"
   gem "teaspoon-mocha", "~> 2.3.3"
 
