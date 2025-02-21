@@ -41,17 +41,8 @@ OSM.Directions = function (map) {
   const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  const engines = OSM.Directions.engines;
-
-  engines.sort(function (a, b) {
-    return a.localeId.localeCompare(b.localeId);
-  });
-
+  const modeGroup = $(".routing_modes");
   const select = $("select.routing_engines");
-
-  engines.forEach(function (engine, i) {
-    select.append("<option value='" + i + "'>" + engine.localeId + "</option>");
-  });
 
   $(".directions_form .reverse_directions").on("click", function () {
     const coordFrom = endpoints[0].latlng,
@@ -97,10 +88,32 @@ OSM.Directions = function (map) {
   }
 
   function setEngine(id) {
-    const index = engines.findIndex(engine => engine.id === id);
-    if (index < 0) return;
-    chosenEngine = engines[index];
-    select.val(index);
+    const engines = OSM.Directions.engines;
+    const desired = engines.find(engine => engine.id === id);
+    if (!desired || (chosenEngine && chosenEngine.id === id)) return;
+    chosenEngine = desired;
+
+    const modes = engines
+      .filter(engine => engine.provider === chosenEngine.provider)
+      .map(engine => engine.mode);
+    modeGroup
+      .find("input[id]")
+      .prop("disabled", function () {
+        return !modes.includes(this.id);
+      })
+      .prop("checked", function () {
+        return this.id === chosenEngine.mode;
+      });
+
+    const providers = engines
+      .filter(engine => engine.mode === chosenEngine.mode)
+      .map(engine => engine.provider);
+    select
+      .find("option[value]")
+      .prop("disabled", function () {
+        return !providers.includes(this.value);
+      });
+    select.val(chosenEngine.provider);
   }
 
   function getRoute(fitRoute, reportErrors) {
@@ -227,8 +240,14 @@ OSM.Directions = function (map) {
   setEngine("fossgis_osrm_car");
   setEngine(Cookies.get("_osm_directions_engine"));
 
+  modeGroup.on("change", "input[name='modes']", function (e) {
+    setEngine(chosenEngine.provider + "_" + e.target.id);
+    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
+    getRoute(true, true);
+  });
+
   select.on("change", function (e) {
-    chosenEngine = engines[e.target.selectedIndex];
+    setEngine(e.target.value + "_" + chosenEngine.mode);
     Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
     getRoute(true, true);
   });
@@ -310,11 +329,6 @@ OSM.Directions.engines = [];
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
   if (document.location.protocol === "http:" || supportsHTTPS) {
     engine.id = engine.provider + "_" + engine.mode;
-    engine.localeId = `${
-      I18n.t("site.search.modes." + engine.mode)
-    } (${
-      I18n.t("site.search.providers." + engine.provider)
-    })`;
     OSM.Directions.engines.push(engine);
   }
 };
