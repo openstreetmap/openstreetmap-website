@@ -5,7 +5,7 @@
 <div>
   <h4><%= t(".description") %></h4>
   <div class="overflow-hidden ms-2">
-    <%= note_description(@note.author, @note.description).to_html %>
+    <%= note_description(@note.author, @note.description, current_user&.moderator? ? @note.comments.unscope(:where => :visible).first : @note.comments.first).to_html %>
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">

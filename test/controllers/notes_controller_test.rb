@@ -164,7 +164,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   def test_read_note_suspended_opener_and_comment
     note = create(:note)
     create(:note_comment, :note => note, :author => create(:user, :suspended))
-    create(:note_comment, :note => note)
+    create(:note_comment, :note => note, :event => "commented")
 
     sidebar_browse_check :note_path, note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 1
