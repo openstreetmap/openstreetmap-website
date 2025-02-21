@@ -15,7 +15,7 @@
 #
 # Foreign Keys
 #
-#  relation_members_id_fkey  (["relation_id", "version"] => relations.["relation_id", "version"])
+#  relation_members_id_fkey  ([relation_id, version] => relations[relation_id, version])
 #
 
 class OldRelationMember < ApplicationRecord

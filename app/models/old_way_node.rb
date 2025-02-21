@@ -13,7 +13,7 @@
 #
 # Foreign Keys
 #
-#  way_nodes_id_fkey  (["way_id", "version"] => ways.["way_id", "version"])
+#  way_nodes_id_fkey  ([way_id, version] => ways[way_id, version])
 #
 
 class OldWayNode < ApplicationRecord

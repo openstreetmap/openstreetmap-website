@@ -9,7 +9,7 @@
 #
 # Foreign Keys
 #
-#  node_tags_id_fkey  (["node_id", "version"] => nodes.["node_id", "version"])
+#  node_tags_id_fkey  ([node_id, version] => nodes[node_id, version])
 #
 
 class OldNodeTag < ApplicationRecord
