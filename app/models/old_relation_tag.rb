@@ -9,7 +9,7 @@
 #
 # Foreign Keys
 #
-#  relation_tags_id_fkey  (["relation_id", "version"] => relations.["relation_id", "version"])
+#  relation_tags_id_fkey  ([relation_id, version] => relations[relation_id, version])
 #
 
 class OldRelationTag < ApplicationRecord

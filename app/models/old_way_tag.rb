@@ -9,7 +9,7 @@
 #
 # Foreign Keys
 #
-#  way_tags_id_fkey  (["way_id", "version"] => ways.["way_id", "version"])
+#  way_tags_id_fkey  ([way_id, version] => ways[way_id, version])
 #
 
 class OldWayTag < ApplicationRecord
