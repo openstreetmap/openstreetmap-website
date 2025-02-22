@@ -15,11 +15,11 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/comment", :method => :post },
-        { :controller => "api/changeset_comments", :action => "create", :id => "1" }
+        { :controller => "api/changeset_comments", :action => "create", :changeset_id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/comment.json", :method => :post },
-        { :controller => "api/changeset_comments", :action => "create", :id => "1", :format => "json" }
+        { :controller => "api/changeset_comments", :action => "create", :changeset_id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
@@ -81,35 +81,35 @@ module Api
 
     def test_create_by_unauthorized
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset, :closed), :text => "This is a comment")
+        post api_changeset_changeset_comments_path(create(:changeset, :closed), :text => "This is a comment")
         assert_response :unauthorized
       end
     end
 
     def test_create_on_missing_changeset
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(999111, :text => "This is a comment"), :headers => bearer_authorization_header
+        post api_changeset_changeset_comments_path(999111, :text => "This is a comment"), :headers => bearer_authorization_header
         assert_response :not_found
       end
     end
 
     def test_create_on_open_changeset
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset), :text => "This is a comment"), :headers => bearer_authorization_header
+        post api_changeset_changeset_comments_path(create(:changeset), :text => "This is a comment"), :headers => bearer_authorization_header
         assert_response :conflict
       end
     end
 
     def test_create_without_text
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset, :closed)), :headers => bearer_authorization_header
+        post api_changeset_changeset_comments_path(create(:changeset, :closed)), :headers => bearer_authorization_header
         assert_response :bad_request
       end
     end
 
     def test_create_with_empty_text
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(create(:changeset, :closed), :text => ""), :headers => bearer_authorization_header
+        post api_changeset_changeset_comments_path(create(:changeset, :closed), :text => ""), :headers => bearer_authorization_header
         assert_response :bad_request
       end
     end
@@ -120,7 +120,7 @@ module Api
       changeset = create(:changeset, :closed)
 
       assert_difference "ChangesetComment.count", 0 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
         assert_response :forbidden
       end
     end
@@ -131,7 +131,7 @@ module Api
       changeset = create(:changeset, :closed)
 
       assert_difference "ChangesetComment.count", 0 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
         assert_response :forbidden
       end
     end
@@ -142,7 +142,7 @@ module Api
       changeset = create(:changeset, :closed)
 
       assert_difference "ChangesetComment.count", 1 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
         assert_response :success
       end
 
@@ -159,7 +159,7 @@ module Api
       changeset = create(:changeset, :closed)
 
       assert_difference "ChangesetComment.count", 1 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
         assert_response :success
       end
 
@@ -177,7 +177,7 @@ module Api
       assert_difference "ChangesetComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            post api_changeset_changeset_comments_path(changeset, :text => "This is a comment"), :headers => auth_header
             assert_response :success
           end
         end
@@ -193,7 +193,7 @@ module Api
       assert_difference "ChangesetComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            post api_changeset_changeset_comments_path(changeset, :text => "This is a comment"), :headers => auth_header
             assert_response :success
           end
         end
@@ -209,7 +209,7 @@ module Api
       assert_difference "ChangesetComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            post api_changeset_changeset_comments_path(changeset, :text => "This is a comment"), :headers => auth_header
             assert_response :success
           end
         end
@@ -226,7 +226,7 @@ module Api
       assert_difference "ChangesetComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 1 do
           perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            post api_changeset_changeset_comments_path(changeset, :text => "This is a comment"), :headers => auth_header
             assert_response :success
           end
         end
@@ -250,7 +250,7 @@ module Api
       assert_difference "ChangesetComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
           perform_enqueued_jobs do
-            post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
+            post api_changeset_changeset_comments_path(changeset, :text => "This is a comment"), :headers => auth_header
             assert_response :success
           end
         end
@@ -277,13 +277,13 @@ module Api
 
       assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour do
         1.upto(Settings.initial_changeset_comments_per_hour) do |count|
-          post changeset_comment_path(changeset, :text => "Comment #{count}"), :headers => auth_header
+          post api_changeset_changeset_comments_path(changeset, :text => "Comment #{count}"), :headers => auth_header
           assert_response :success
         end
       end
 
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(changeset, :text => "One comment too many"), :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset, :text => "One comment too many"), :headers => auth_header
         assert_response :too_many_requests
       end
     end
@@ -299,13 +299,13 @@ module Api
 
       assert_difference "ChangesetComment.count", Settings.max_changeset_comments_per_hour do
         1.upto(Settings.max_changeset_comments_per_hour) do |count|
-          post changeset_comment_path(changeset, :text => "Comment #{count}"), :headers => auth_header
+          post api_changeset_changeset_comments_path(changeset, :text => "Comment #{count}"), :headers => auth_header
           assert_response :success
         end
       end
 
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(changeset, :text => "One comment too many"), :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset, :text => "One comment too many"), :headers => auth_header
         assert_response :too_many_requests
       end
     end
@@ -321,13 +321,13 @@ module Api
 
       assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour / 2 do
         1.upto(Settings.initial_changeset_comments_per_hour / 2) do |count|
-          post changeset_comment_path(changeset, :text => "Comment #{count}"), :headers => auth_header
+          post api_changeset_changeset_comments_path(changeset, :text => "Comment #{count}"), :headers => auth_header
           assert_response :success
         end
       end
 
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(changeset, :text => "One comment too many"), :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset, :text => "One comment too many"), :headers => auth_header
         assert_response :too_many_requests
       end
     end
@@ -342,13 +342,13 @@ module Api
 
       assert_difference "ChangesetComment.count", Settings.moderator_changeset_comments_per_hour do
         1.upto(Settings.moderator_changeset_comments_per_hour) do |count|
-          post changeset_comment_path(changeset, :text => "Comment #{count}"), :headers => auth_header
+          post api_changeset_changeset_comments_path(changeset, :text => "Comment #{count}"), :headers => auth_header
           assert_response :success
         end
       end
 
       assert_no_difference "ChangesetComment.count" do
-        post changeset_comment_path(changeset, :text => "One comment too many"), :headers => auth_header
+        post api_changeset_changeset_comments_path(changeset, :text => "One comment too many"), :headers => auth_header
         assert_response :too_many_requests
       end
     end
