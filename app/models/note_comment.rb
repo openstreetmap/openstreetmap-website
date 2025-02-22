@@ -2,12 +2,12 @@
 #
 # Table name: note_comments
 #
-#  id         :bigint(8)        not null, primary key
-#  note_id    :bigint(8)        not null
+#  id         :bigint           not null, primary key
+#  note_id    :bigint           not null
 #  visible    :boolean          not null
 #  created_at :datetime         not null
 #  author_ip  :inet
-#  author_id  :bigint(8)
+#  author_id  :bigint
 #  body       :text
 #  event      :enum
 #

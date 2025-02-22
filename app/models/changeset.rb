@@ -2,8 +2,8 @@
 #
 # Table name: changesets
 #
-#  id          :bigint(8)        not null, primary key
-#  user_id     :bigint(8)        not null
+#  id          :bigint           not null, primary key
+#  user_id     :bigint           not null
 #  created_at  :datetime         not null
 #  min_lat     :integer
 #  max_lat     :integer

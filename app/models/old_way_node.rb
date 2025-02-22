@@ -2,10 +2,10 @@
 #
 # Table name: way_nodes
 #
-#  way_id      :bigint(8)        not null, primary key
-#  node_id     :bigint(8)        not null
-#  version     :bigint(8)        not null, primary key
-#  sequence_id :bigint(8)        not null, primary key
+#  way_id      :bigint           not null, primary key
+#  node_id     :bigint           not null
+#  version     :bigint           not null, primary key
+#  sequence_id :bigint           not null, primary key
 #
 # Indexes
 #

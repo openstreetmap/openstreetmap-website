@@ -2,9 +2,9 @@
 #
 # Table name: oauth_applications
 #
-#  id           :bigint(8)        not null, primary key
+#  id           :bigint           not null, primary key
 #  owner_type   :string           not null
-#  owner_id     :bigint(8)        not null
+#  owner_id     :bigint           not null
 #  name         :string           not null
 #  uid          :string           not null
 #  secret       :string           not null

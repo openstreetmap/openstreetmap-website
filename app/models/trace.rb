@@ -2,11 +2,11 @@
 #
 # Table name: gpx_files
 #
-#  id          :bigint(8)        not null, primary key
-#  user_id     :bigint(8)        not null
+#  id          :bigint           not null, primary key
+#  user_id     :bigint           not null
 #  visible     :boolean          default(TRUE), not null
 #  name        :string           default(""), not null
-#  size        :bigint(8)
+#  size        :bigint
 #  latitude    :float
 #  longitude   :float
 #  timestamp   :datetime         not null
