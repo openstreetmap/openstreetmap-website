@@ -138,6 +138,13 @@ OSM.Directions = function (map) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
+      const directionsCloseButton = $("<button type='button' class='btn-close'>")
+        .attr("aria-label", I18n.t("javascripts.close"));
+      const heading = $("<div class='d-flex'>").append(
+        $("<h2 class='flex-grow-1 text-break'>")
+          .text(I18n.t("javascripts.directions.directions")),
+        $("<div>").append(directionsCloseButton));
+
       const distanceText = $("<p>").append(
         I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
         I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
@@ -150,19 +157,6 @@ OSM.Directions = function (map) {
 
       const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
         .append($("<tbody>"));
-      const directionsCloseButton = $("<button type='button' class='btn-close'>")
-        .attr("aria-label", I18n.t("javascripts.close"));
-
-      $("#sidebar_content")
-        .empty()
-        .append(
-          $("<div class='d-flex'>").append(
-            $("<h2 class='flex-grow-1 text-break'>")
-              .text(I18n.t("javascripts.directions.directions")),
-            $("<div>").append(directionsCloseButton)),
-          distanceText,
-          turnByTurnTable
-        );
 
       // Add each row
       route.steps.forEach(function (step) {
@@ -194,16 +188,25 @@ OSM.Directions = function (map) {
       const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
       URL.revokeObjectURL(downloadURL);
       downloadURL = URL.createObjectURL(blob);
-
-      $("#sidebar_content").append(`<p class="text-center"><a href="${downloadURL}" download="${
+      const downloadline = $(`<p class="text-center"><a href="${downloadURL}" download="${
         I18n.t("javascripts.directions.filename")
       }">${
         I18n.t("javascripts.directions.download")
       }</a></p>`);
 
-      $("#sidebar_content").append("<p class=\"text-center\">" +
-        I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
-        "</p>");
+      const creditline = $(`<p class="text-center">${
+        I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline })
+      }</p>`);
+
+      $("#sidebar_content")
+        .empty()
+        .append(
+          heading,
+          distanceText,
+          turnByTurnTable,
+          downloadline,
+          creditline
+        );
 
       directionsCloseButton.on("click", function () {
         map.removeLayer(polyline);
@@ -215,7 +218,7 @@ OSM.Directions = function (map) {
     }).catch(function () {
       map.removeLayer(polyline);
       if (reportErrors) {
-        $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
+        $("#sidebar_content").html(`<div class="alert alert-danger">${I18n.t("javascripts.directions.errors.no_route")}</div>`);
       }
     }).finally(function () {
       controller = null;
