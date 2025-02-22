@@ -21,7 +21,21 @@
     function _processDirections(path) {
       const line = L.PolylineUtil.decode(path.points);
 
-      const steps = path.instructions.map(function (instr, i) {
+      const legs = path.instructions
+        .reduce((parts, instr) => {
+          parts.at(-1).push(instr);
+          if (!instr.distance && !instr.time && instr.interval[1] !== line.length - 1) {
+            parts.push([]);
+          }
+          return parts;
+        }, [[]])
+        .map(function (steps) {
+          const out = steps.map(mapInstructions);
+          out.at(-1)[1] = 14;
+          return out;
+        });
+
+      function mapInstructions(instr, i) {
         const num = `<b>${i + 1}.</b> `;
         const lineseg = line
           .slice(instr.interval[0], instr.interval[1] + 1)
@@ -32,13 +46,12 @@
           num + instr.text,
           instr.distance,
           lineseg
-        ]; // TODO does graphhopper map instructions onto line indices?
-      });
-      steps.at(-1)[1] = 14;
+        ];
+      }
 
       return {
-        line: line,
-        steps: steps,
+        line,
+        legs,
         distance: path.distance,
         time: path.time / 1000,
         ascend: path.ascend,

@@ -155,22 +155,25 @@ OSM.Directions = function (map) {
           I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
-      const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
-        .append($("<tbody>"));
+      const turnByTurnTables = route.legs.map(steps =>
+        $("<table class='table table-hover table-sm mb-3'>")
+          .append($("<tbody>").append(steps.map(stepToRow)))
+      );
 
-      // Add each row
-      route.steps.forEach(function (step) {
+      function stepToRow(step) {
         const [ll, direction, instruction, dist, lineseg] = step;
 
         const row = $("<tr class='turn'/>");
-        row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
-        row.append("<td>" + instruction);
-        row.append("<td class='distance text-body-secondary text-end'>" + getDistText(dist));
+        row.append(
+          `<td class='border-0'><div class='direction i${direction}'/></td>`,
+          `<td>${instruction}</td>`,
+          `<td class='distance text-body-secondary text-end'>${getDistText(dist)}</td>`
+        );
 
         row.on("click", function () {
           popup
             .setLatLng(ll)
-            .setContent("<p>" + instruction + "</p>")
+            .setContent(`<p>${instruction}</p>`)
             .openOn(map);
         });
 
@@ -182,8 +185,8 @@ OSM.Directions = function (map) {
           map.removeLayer(highlight);
         });
 
-        turnByTurnTable.append(row);
-      });
+        return row;
+      }
 
       const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
       URL.revokeObjectURL(downloadURL);
@@ -203,7 +206,7 @@ OSM.Directions = function (map) {
         .append(
           heading,
           distanceText,
-          turnByTurnTable,
+          turnByTurnTables,
           downloadline,
           creditline
         );

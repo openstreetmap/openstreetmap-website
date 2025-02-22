@@ -88,7 +88,7 @@
         }
       }
 
-      const steps = route.legs.flatMap(
+      const legs = route.legs.map(
         leg => leg.steps.map(function (step, idx) {
           const maneuver_id = getManeuverId(step.maneuver);
 
@@ -137,13 +137,19 @@
           } else {
             instText += I18n.t(template + "_without_exit", { name: name });
           }
-          return [[step.maneuver.location[1], step.maneuver.location[0]], ICON_MAP[maneuver_id], instText, step.distance, step_geometry];
+          return [
+            [step.maneuver.location[1], step.maneuver.location[0]],
+            ICON_MAP[maneuver_id],
+            instText,
+            step.distance,
+            step_geometry
+          ];
         })
       );
 
       return {
-        line: steps.flatMap(step => step[4]),
-        steps,
+        line: legs.flat().flatMap(step => step[4]),
+        legs,
         distance: route.distance,
         time: route.duration
       };
