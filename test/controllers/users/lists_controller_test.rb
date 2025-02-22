@@ -27,12 +27,14 @@ module Users
       user = create(:user)
       moderator_user = create(:moderator_user)
       administrator_user = create(:administrator_user)
-      _suspended_user = create(:user, :suspended)
-      _ip_user = create(:user, :creation_address => "1.2.3.4")
+      suspended_user = create(:user, :suspended)
+      name_user = create(:user, :display_name => "Test User")
+      email_user = create(:user, :email => "test@example.com")
+      ip_user = create(:user, :creation_address => "1.2.3.4")
 
-      # There are now 7 users - the five above, plus two extra "granters" for the
+      # There are now 9 users - the 7 above, plus two extra "granters" for the
       # moderator_user and administrator_user
-      assert_equal 7, User.count
+      assert_equal 9, User.count
 
       # Shouldn't work when not logged in
       get users_list_path
@@ -57,19 +59,55 @@ module Users
       get users_list_path
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 7
+      assert_select "table#user_list tbody tr", :count => 9
 
       # Should be able to limit by status
       get users_list_path, :params => { :status => "suspended" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(suspended_user)}']", :count => 1
+      end
+
+      # Should be able to limit by name
+      get users_list_path, :params => { :username => "Test User" }
+      assert_response :success
+      assert_template :show
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(name_user)}']", :count => 1
+      end
+
+      # Should be able to limit by name ignoring case
+      get users_list_path, :params => { :username => "test user" }
+      assert_response :success
+      assert_template :show
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(name_user)}']", :count => 1
+      end
+
+      # Should be able to limit by email
+      get users_list_path, :params => { :username => "test@example.com" }
+      assert_response :success
+      assert_template :show
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(email_user)}']", :count => 1
+      end
+
+      # Should be able to limit by email ignoring case
+      get users_list_path, :params => { :username => "TEST@example.com" }
+      assert_response :success
+      assert_template :show
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(email_user)}']", :count => 1
+      end
 
       # Should be able to limit by IP address
       get users_list_path, :params => { :ip => "1.2.3.4" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(ip_user)}']", :count => 1
+      end
     end
 
     def test_show_paginated
