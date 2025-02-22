@@ -27,8 +27,8 @@ module Users
       user = create(:user)
       moderator_user = create(:moderator_user)
       administrator_user = create(:administrator_user)
-      _suspended_user = create(:user, :suspended)
-      _ip_user = create(:user, :creation_address => "1.2.3.4")
+      suspended_user = create(:user, :suspended)
+      ip_user = create(:user, :creation_address => "1.2.3.4")
 
       # There are now 7 users - the five above, plus two extra "granters" for the
       # moderator_user and administrator_user
@@ -63,13 +63,17 @@ module Users
       get users_list_path, :params => { :status => "suspended" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(suspended_user)}']", :count => 1
+      end
 
       # Should be able to limit by IP address
       get users_list_path, :params => { :ip => "1.2.3.4" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(ip_user)}']", :count => 1
+      end
     end
 
     def test_show_paginated
