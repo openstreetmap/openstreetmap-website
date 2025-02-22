@@ -2,10 +2,10 @@
 #
 # Table name: relation_tags
 #
-#  relation_id :bigint(8)        not null, primary key
+#  relation_id :bigint           not null, primary key
 #  k           :string           default(""), not null, primary key
 #  v           :string           default(""), not null
-#  version     :bigint(8)        not null, primary key
+#  version     :bigint           not null, primary key
 #
 # Foreign Keys
 #
