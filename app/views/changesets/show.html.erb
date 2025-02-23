@@ -23,14 +23,14 @@
           <%= tag.button t(".unsubscribe"),
                          :class => "btn btn-sm btn-primary",
                          :name => "unsubscribe",
-                         :data => { :method => "POST",
-                                    :url => api_changeset_unsubscribe_url(@changeset) } %>
+                         :data => { :method => "DELETE",
+                                    :url => api_changeset_subscription_path(@changeset) } %>
         <% else %>
           <%= tag.button t(".subscribe"),
                          :class => "btn btn-sm btn-primary",
                          :name => "subscribe",
                          :data => { :method => "POST",
-                                    :url => api_changeset_subscribe_url(@changeset) } %>
+                                    :url => api_changeset_subscription_path(@changeset) } %>
         <% end %>
       </div>
     <% end %>
@@ -49,8 +49,8 @@
               —
               <%= tag.button t(".#{comment.visible ? 'hide' : 'unhide'}_comment"),
                              :class => "btn btn-sm small btn-link link-secondary p-0 align-baseline",
-                             :data => { :method => "POST",
-                                        :url => comment.visible ? changeset_comment_hide_url(comment) : changeset_comment_unhide_url(comment) } %>
+                             :data => { :method => comment.visible ? "DELETE" : "POST",
+                                        :url => api_changeset_comment_visibility_path(comment) } %>
             <% end %>
           </small>
           <div class="mx-2">
