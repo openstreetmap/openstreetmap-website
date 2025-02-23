@@ -13,6 +13,7 @@
 //= require i18n
 //= require matomo
 //= require richtext
+//= require uls
 
 {
   const application_data = $("head").data();
