@@ -4,13 +4,13 @@ module Api
   class ChangesetsController < ApiController
     include QueryMethods
 
-    before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
+    before_action :check_api_writable, :only => [:create, :update, :upload]
     before_action :setup_user_auth, :only => [:show]
-    before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
+    before_action :authorize, :only => [:create, :update, :upload, :close]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
+    before_action :require_public_data, :only => [:create, :update, :upload, :close]
     before_action :set_request_formats, :except => [:create, :close, :upload]
 
     skip_around_action :api_call_timeout, :only => [:upload]
@@ -144,58 +144,6 @@ module Api
 
       check_changeset_consistency(@changeset, current_user)
       @changeset.update_from(new_changeset, current_user)
-      render "show"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
-    ##
-    # Adds a subscriber to the changeset
-    def subscribe
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset and check it is valid
-      changeset = Changeset.find(id)
-      raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribers.include?(current_user)
-
-      # Add the subscriber
-      changeset.subscribers << current_user
-
-      # Return a copy of the updated changeset
-      @changeset = changeset
-      render "show"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
-    ##
-    # Removes a subscriber from the changeset
-    def unsubscribe
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset and check it is valid
-      changeset = Changeset.find(id)
-      raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribers.include?(current_user)
-
-      # Remove the subscriber
-      changeset.subscribers.delete(current_user)
-
-      # Return a copy of the updated changeset
-      @changeset = changeset
       render "show"
 
       respond_to do |format|
