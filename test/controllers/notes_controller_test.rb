@@ -67,6 +67,69 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_index_interaction_created
+    user = create(:user)
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_dom "table.note_list tbody tr.table-danger:not(.table-warning):not(.table-success)", :count => 1
+  end
+
+  def test_index_interaction_created_and_resolved
+    user = create(:user)
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => user)
+      create(:note_comment, :note => note, :author => user, :event => "closed")
+    end
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_dom "table.note_list tbody tr:not(.table-danger).table-warning:not(.table-success)", :count => 1
+  end
+
+  def test_index_interaction_resolved
+    user = create(:user)
+    other_user = create(:user)
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => other_user)
+      create(:note_comment, :note => note, :author => user, :event => "closed")
+    end
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_dom "table.note_list tbody tr:not(.table-danger):not(.table-warning).table-success", :count => 1
+  end
+
+  def test_index_interaction_resolved_and_reopened_by_other_user
+    user = create(:user)
+    other_user = create(:user)
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => other_user)
+      create(:note_comment, :note => note, :author => user, :event => "closed")
+      create(:note_comment, :note => note, :author => other_user, :event => "reopened")
+    end
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_dom "table.note_list tbody tr:not(.table-danger):not(.table-warning):not(.table-success)", :count => 1
+  end
+
+  def test_index_interaction_commented
+    user = create(:user)
+    other_user = create(:user)
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => other_user)
+      create(:note_comment, :note => note, :author => user, :event => "commented")
+    end
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_dom "table.note_list tbody tr:not(.table-danger):not(.table-warning):not(.table-success)", :count => 1
+  end
+
   def test_index_paged
     user = create(:user)
 
