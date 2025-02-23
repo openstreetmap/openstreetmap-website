@@ -397,6 +397,30 @@ module Api
       post changeset_comment_hide_path(comment), :headers => auth_header
 
       assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_dom "osm", 1 do
+        assert_dom "> changeset", 1 do
+          assert_dom "> @id", comment.changeset_id.to_s
+          assert_dom "> @comments_count", "0"
+        end
+      end
+
+      assert_not comment.reload.visible
+    end
+
+    def test_hide_with_write_changeset_comments_scope_json
+      comment = create(:changeset_comment)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_changeset_comments]
+
+      post changeset_comment_hide_path(comment, :format => "json"), :headers => auth_header
+
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js["changeset"]
+      assert_equal comment.changeset_id, js["changeset"]["id"]
+      assert_equal 0, js["changeset"]["comments_count"]
+
       assert_not comment.reload.visible
     end
 
@@ -407,6 +431,30 @@ module Api
       post changeset_comment_hide_path(comment), :headers => auth_header
 
       assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_dom "osm", 1 do
+        assert_dom "> changeset", 1 do
+          assert_dom "> @id", comment.changeset_id.to_s
+          assert_dom "> @comments_count", "0"
+        end
+      end
+
+      assert_not comment.reload.visible
+    end
+
+    def test_hide_with_write_api_scope_json
+      comment = create(:changeset_comment)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+      post changeset_comment_hide_path(comment, :format => "json"), :headers => auth_header
+
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js["changeset"]
+      assert_equal comment.changeset_id, js["changeset"]["id"]
+      assert_equal 0, js["changeset"]["comments_count"]
+
       assert_not comment.reload.visible
     end
 
@@ -454,6 +502,30 @@ module Api
       post changeset_comment_unhide_path(comment), :headers => auth_header
 
       assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_dom "osm", 1 do
+        assert_dom "> changeset", 1 do
+          assert_dom "> @id", comment.changeset_id.to_s
+          assert_dom "> @comments_count", "1"
+        end
+      end
+
+      assert comment.reload.visible
+    end
+
+    def test_unhide_with_write_changeset_comments_scope_json
+      comment = create(:changeset_comment, :visible => false)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_changeset_comments]
+
+      post changeset_comment_unhide_path(comment, :format => "json"), :headers => auth_header
+
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js["changeset"]
+      assert_equal comment.changeset_id, js["changeset"]["id"]
+      assert_equal 1, js["changeset"]["comments_count"]
+
       assert comment.reload.visible
     end
 
@@ -464,6 +536,30 @@ module Api
       post changeset_comment_unhide_path(comment), :headers => auth_header
 
       assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_dom "osm", 1 do
+        assert_dom "> changeset", 1 do
+          assert_dom "> @id", comment.changeset_id.to_s
+          assert_dom "> @comments_count", "1"
+        end
+      end
+
+      assert comment.reload.visible
+    end
+
+    def test_unhide_with_write_api_scope_json
+      comment = create(:changeset_comment, :visible => false)
+      auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+      post changeset_comment_unhide_path(comment, :format => "json"), :headers => auth_header
+
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_equal "application/json", response.media_type
+      assert_not_nil js["changeset"]
+      assert_equal comment.changeset_id, js["changeset"]["id"]
+      assert_equal 1, js["changeset"]["comments_count"]
+
       assert comment.reload.visible
     end
 
