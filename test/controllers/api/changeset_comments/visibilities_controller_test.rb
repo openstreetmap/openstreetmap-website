@@ -84,16 +84,7 @@ module Api
 
         post api_changeset_comment_visibility_path(comment), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/xml", response.media_type
-        assert_dom "osm", 1 do
-          assert_dom "> changeset", 1 do
-            assert_dom "> @id", comment.changeset_id.to_s
-            assert_dom "> @comments_count", "1"
-          end
-        end
-
-        assert comment.reload.visible
+        check_successful_response_xml(comment, :comment_visible => true)
       end
 
       def test_create_with_write_changeset_comments_scope_json
@@ -118,16 +109,7 @@ module Api
 
         post api_changeset_comment_visibility_path(comment), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/xml", response.media_type
-        assert_dom "osm", 1 do
-          assert_dom "> changeset", 1 do
-            assert_dom "> @id", comment.changeset_id.to_s
-            assert_dom "> @comments_count", "1"
-          end
-        end
-
-        assert comment.reload.visible
+        check_successful_response_xml(comment, :comment_visible => true)
       end
 
       def test_create_with_write_api_scope_json
@@ -189,16 +171,7 @@ module Api
 
         delete api_changeset_comment_visibility_path(comment), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/xml", response.media_type
-        assert_dom "osm", 1 do
-          assert_dom "> changeset", 1 do
-            assert_dom "> @id", comment.changeset_id.to_s
-            assert_dom "> @comments_count", "0"
-          end
-        end
-
-        assert_not comment.reload.visible
+        check_successful_response_xml(comment, :comment_visible => false)
       end
 
       def test_destroy_with_write_changeset_comments_scope_json
@@ -223,16 +196,7 @@ module Api
 
         delete api_changeset_comment_visibility_path(comment), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/xml", response.media_type
-        assert_dom "osm", 1 do
-          assert_dom "> changeset", 1 do
-            assert_dom "> @id", comment.changeset_id.to_s
-            assert_dom "> @comments_count", "0"
-          end
-        end
-
-        assert_not comment.reload.visible
+        check_successful_response_xml(comment, :comment_visible => false)
       end
 
       def test_destroy_with_write_api_scope_json
@@ -249,6 +213,21 @@ module Api
         assert_equal 0, js["changeset"]["comments_count"]
 
         assert_not comment.reload.visible
+      end
+
+      private
+
+      def check_successful_response_xml(comment, comment_visible:)
+        assert_response :success
+        assert_equal "application/xml", response.media_type
+        assert_dom "osm", 1 do
+          assert_dom "> changeset", 1 do
+            assert_dom "> @id", comment.changeset_id.to_s
+            assert_dom "> @comments_count", comment_visible ? "1" : "0"
+          end
+        end
+
+        assert_equal comment_visible, comment.reload.visible
       end
     end
   end
