@@ -24,16 +24,16 @@ module Api
     # Add a comment to a changeset
     def create
       # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+      raise OSM::APIBadUserInput, "No id was given" unless params[:changeset_id]
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
       raise OSM::APIRateLimitExceeded if rate_limit_exceeded?
 
       # Extract the arguments
-      id = params[:id].to_i
+      changeset_id = params[:changeset_id].to_i
       body = params[:text]
 
       # Find the changeset and check it is valid
-      changeset = Changeset.find(id)
+      changeset = Changeset.find(changeset_id)
       raise OSM::APIChangesetNotYetClosedError, changeset if changeset.open?
 
       # Add a comment to the changeset
