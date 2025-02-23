@@ -2,10 +2,10 @@
 #
 # Table name: relations
 #
-#  relation_id  :bigint(8)        not null, primary key
-#  changeset_id :bigint(8)        not null
+#  relation_id  :bigint           not null, primary key
+#  changeset_id :bigint           not null
 #  timestamp    :datetime         not null
-#  version      :bigint(8)        not null, primary key
+#  version      :bigint           not null, primary key
 #  visible      :boolean          default(TRUE), not null
 #  redaction_id :integer
 #

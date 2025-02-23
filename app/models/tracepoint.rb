@@ -6,9 +6,9 @@
 #  trackid   :integer          not null
 #  latitude  :integer          not null
 #  longitude :integer          not null
-#  gpx_id    :bigint(8)        not null
+#  gpx_id    :bigint           not null
 #  timestamp :datetime
-#  tile      :bigint(8)
+#  tile      :bigint
 #
 # Indexes
 #

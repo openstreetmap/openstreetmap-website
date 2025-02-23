@@ -2,14 +2,14 @@
 #
 # Table name: node_tags
 #
-#  node_id :bigint(8)        not null, primary key
-#  version :bigint(8)        not null, primary key
+#  node_id :bigint           not null, primary key
+#  version :bigint           not null, primary key
 #  k       :string           default(""), not null, primary key
 #  v       :string           default(""), not null
 #
 # Foreign Keys
 #
-#  node_tags_id_fkey  (["node_id", "version"] => nodes.["node_id", "version"])
+#  node_tags_id_fkey  ([node_id, version] => nodes[node_id, version])
 #
 
 class OldNodeTag < ApplicationRecord
