@@ -242,19 +242,67 @@ module Api
       # check that the changeset download for a changeset with a redacted
       # element in it doesn't contain that element.
       def test_show_redacted
+        check_redacted do |changeset|
+          get api_changeset_download_path(changeset)
+        end
+      end
+
+      def test_show_redacted_unauthorized
+        check_redacted do |changeset|
+          get api_changeset_download_path(changeset, :show_redactions => "true")
+        end
+      end
+
+      def test_show_redacted_normal_user
+        auth_header = bearer_authorization_header
+
+        check_redacted do |changeset|
+          get api_changeset_download_path(changeset, :show_redactions => "true"), :headers => auth_header
+        end
+      end
+
+      def test_show_redacted_moderator_without_show_redactions
+        auth_header = bearer_authorization_header create(:moderator_user)
+
+        check_redacted do |changeset|
+          get api_changeset_download_path(changeset), :headers => auth_header
+        end
+      end
+
+      def test_show_redacted_moderator
+        auth_header = bearer_authorization_header create(:moderator_user)
+
+        check_redacted(:redacted_included => true) do |changeset|
+          get api_changeset_download_path(changeset, :show_redactions => "true"), :headers => auth_header
+        end
+      end
+
+      private
+
+      def check_redacted(redacted_included: false)
+        redaction = create(:redaction)
         changeset = create(:changeset)
         node = create(:node, :with_history, :version => 2, :changeset => changeset)
         node_v1 = node.old_nodes.find_by(:version => 1)
-        node_v1.redact!(create(:redaction))
+        node_v1.redact!(redaction)
+        way = create(:way, :with_history, :version => 2, :changeset => changeset)
+        way_v1 = way.old_ways.find_by(:version => 1)
+        way_v1.redact!(redaction)
+        relation = create(:relation, :with_history, :version => 2, :changeset => changeset)
+        relation_v1 = relation.old_relations.find_by(:version => 1)
+        relation_v1.redact!(redaction)
 
-        get api_changeset_download_path(changeset)
+        yield changeset
+
         assert_response :success
-
-        assert_select "osmChange", 1
-        # this changeset contains the node in versions 1 & 2, but 1 should
-        # be hidden.
-        assert_select "osmChange node[id='#{node.id}']", 1
-        assert_select "osmChange node[id='#{node.id}'][version='1']", 0
+        assert_dom "osmChange", 1 do
+          assert_dom "node[id='#{node.id}'][version='1']", redacted_included ? 1 : 0
+          assert_dom "node[id='#{node.id}'][version='2']", 1
+          assert_dom "way[id='#{way.id}'][version='1']", redacted_included ? 1 : 0
+          assert_dom "way[id='#{way.id}'][version='2']", 1
+          assert_dom "relation[id='#{relation.id}'][version='1']", redacted_included ? 1 : 0
+          assert_dom "relation[id='#{relation.id}'][version='2']", 1
+        end
       end
     end
   end

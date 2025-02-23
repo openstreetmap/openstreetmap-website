@@ -1,6 +1,8 @@
 module Api
   module Changesets
     class DownloadsController < ApiController
+      before_action :setup_user_auth
+
       authorize_resource :changeset
 
       before_action :set_request_formats
@@ -22,9 +24,15 @@ module Api
 
         # get all the elements in the changeset which haven't been redacted
         # and stick them in a big array.
-        elements = [changeset.old_nodes.unredacted,
-                    changeset.old_ways.unredacted,
-                    changeset.old_relations.unredacted].flatten
+        elements = if show_redactions?
+                     [changeset.old_nodes,
+                      changeset.old_ways,
+                      changeset.old_relations].flatten
+                   else
+                     [changeset.old_nodes.unredacted,
+                      changeset.old_ways.unredacted,
+                      changeset.old_relations.unredacted].flatten
+                   end
 
         # sort the elements by timestamp and version number, as this is the
         # almost sensible ordering available. this would be much nicer if
@@ -55,6 +63,12 @@ module Api
         respond_to do |format|
           format.xml
         end
+      end
+
+      private
+
+      def show_redactions?
+        current_user&.moderator? && params[:show_redactions] == "true"
       end
     end
   end
