@@ -114,6 +114,24 @@ module Api
         check_successful_response_json(comment, :comment_visible => true)
       end
 
+      def test_create_at_legacy_route
+        comment = create(:changeset_comment, :visible => false)
+        auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+        post "/api/0.6/changeset/comment/#{comment.id}/unhide", :headers => auth_header
+
+        check_successful_response_xml(comment, :comment_visible => true)
+      end
+
+      def test_create_at_legacy_route_json
+        comment = create(:changeset_comment, :visible => false)
+        auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+        post "/api/0.6/changeset/comment/#{comment.id}/unhide.json", :headers => auth_header
+
+        check_successful_response_json(comment, :comment_visible => true)
+      end
+
       def test_destroy_by_unauthorized
         comment = create(:changeset_comment)
 
@@ -183,6 +201,24 @@ module Api
         auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
 
         delete api_changeset_comment_visibility_path(comment, :format => "json"), :headers => auth_header
+
+        check_successful_response_json(comment, :comment_visible => false)
+      end
+
+      def test_destroy_at_legacy_route
+        comment = create(:changeset_comment)
+        auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+        post "/api/0.6/changeset/comment/#{comment.id}/hide", :headers => auth_header
+
+        check_successful_response_xml(comment, :comment_visible => false)
+      end
+
+      def test_destroy_at_legacy_route_json
+        comment = create(:changeset_comment)
+        auth_header = bearer_authorization_header create(:moderator_user), :scopes => %w[write_api]
+
+        post "/api/0.6/changeset/comment/#{comment.id}/hide.json", :headers => auth_header
 
         check_successful_response_json(comment, :comment_visible => false)
       end
