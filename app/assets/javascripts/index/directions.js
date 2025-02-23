@@ -73,6 +73,31 @@ OSM.Directions = function (map) {
     }));
   });
 
+  $(".directions_form .locate").on("click", function () {
+    if ($(".directions_form .locate").hasClass("disabled")) return;
+    if (!navigator.geolocation) {
+      $(".directions_form .locate").addClass("disabled");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(geoSuccess);
+
+    function geoSuccess(position) {
+      const location = L.latLng(position.coords.latitude, position.coords.longitude),
+            [coordFrom, coordTo] = endpoints.map(ll => ll.latlng);
+      let routeTo;
+      if (coordTo) {
+        routeTo = coordTo.lat + "," + coordTo.lng;
+      } else if (coordFrom) {
+        routeTo = coordFrom.lat + "," + coordFrom.lng;
+        endpoints[0].swapCachedReverseGeocodes(endpoints[1]);
+      }
+      const routeFrom = location.lat + "," + location.lng;
+      OSM.router.route("/directions?" + new URLSearchParams({
+        route: routeFrom + ";" + routeTo
+      }));
+    }
+  });
+
   $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
     $(".describe_location").toggle(!endpoints[1].value);
