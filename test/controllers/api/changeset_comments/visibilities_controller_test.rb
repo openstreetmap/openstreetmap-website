@@ -93,14 +93,7 @@ module Api
 
         post api_changeset_comment_visibility_path(comment, :format => "json"), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/json", response.media_type
-        js = ActiveSupport::JSON.decode(@response.body)
-        assert_not_nil js["changeset"]
-        assert_equal comment.changeset_id, js["changeset"]["id"]
-        assert_equal 1, js["changeset"]["comments_count"]
-
-        assert comment.reload.visible
+        check_successful_response_json(comment, :comment_visible => true)
       end
 
       def test_create_with_write_api_scope
@@ -118,14 +111,7 @@ module Api
 
         post api_changeset_comment_visibility_path(comment, :format => "json"), :headers => auth_header
 
-        assert_response :success
-        js = ActiveSupport::JSON.decode(@response.body)
-        assert_equal "application/json", response.media_type
-        assert_not_nil js["changeset"]
-        assert_equal comment.changeset_id, js["changeset"]["id"]
-        assert_equal 1, js["changeset"]["comments_count"]
-
-        assert comment.reload.visible
+        check_successful_response_json(comment, :comment_visible => true)
       end
 
       def test_destroy_by_unauthorized
@@ -180,14 +166,7 @@ module Api
 
         delete api_changeset_comment_visibility_path(comment, :format => "json"), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/json", response.media_type
-        js = ActiveSupport::JSON.decode(@response.body)
-        assert_not_nil js["changeset"]
-        assert_equal comment.changeset_id, js["changeset"]["id"]
-        assert_equal 0, js["changeset"]["comments_count"]
-
-        assert_not comment.reload.visible
+        check_successful_response_json(comment, :comment_visible => false)
       end
 
       def test_destroy_with_write_api_scope
@@ -205,14 +184,7 @@ module Api
 
         delete api_changeset_comment_visibility_path(comment, :format => "json"), :headers => auth_header
 
-        assert_response :success
-        assert_equal "application/json", response.media_type
-        js = ActiveSupport::JSON.decode(@response.body)
-        assert_not_nil js["changeset"]
-        assert_equal comment.changeset_id, js["changeset"]["id"]
-        assert_equal 0, js["changeset"]["comments_count"]
-
-        assert_not comment.reload.visible
+        check_successful_response_json(comment, :comment_visible => false)
       end
 
       private
@@ -226,6 +198,17 @@ module Api
             assert_dom "> @comments_count", comment_visible ? "1" : "0"
           end
         end
+
+        assert_equal comment_visible, comment.reload.visible
+      end
+
+      def check_successful_response_json(comment, comment_visible:)
+        assert_response :success
+        assert_equal "application/json", response.media_type
+        js = ActiveSupport::JSON.decode(@response.body)
+        assert_not_nil js["changeset"]
+        assert_equal comment.changeset_id, js["changeset"]["id"]
+        assert_equal comment_visible ? 1 : 0, js["changeset"]["comments_count"]
 
         assert_equal comment_visible, comment.reload.visible
       end
