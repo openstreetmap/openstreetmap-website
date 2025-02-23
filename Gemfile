@@ -55,7 +55,6 @@ gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
 gem "config"
 gem "delayed_job_active_record"
-gem "dry-schema", "< 1.14.0" # see https://github.com/openstreetmap/openstreetmap-website/issues/5482
 gem "dry-validation"
 gem "frozen_record"
 gem "http_accept_language", "~> 2.1.1"
@@ -138,9 +137,6 @@ gem "image_processing"
 
 # Used to validate widths
 gem "unicode-display_width"
-
-# Lock some modules to old versions for ruby 3.1 support
-gem "zeitwerk", "< 2.7"
 
 # Gems useful for development
 group :development do
