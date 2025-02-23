@@ -21,8 +21,6 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
     put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
@@ -33,7 +31,11 @@ OpenStreetMap::Application.routes.draw do
     end
     put "changeset/create" => "changesets#create", :as => nil
 
-    resources :changeset_comments, :only => :index
+    resources :changeset_comments, :id => /\d+/, :only => :index do
+      resource :visibility, :module => :changeset_comments, :only => [:create, :destroy]
+    end
+    post "changeset/comment/:changeset_comment_id/unhide" => "changeset_comments/visibilities#create", :changeset_comment_id => /\d+/, :as => nil
+    post "changeset/comment/:changeset_comment_id/hide" => "changeset_comments/visibilities#destroy", :changeset_comment_id => /\d+/, :as => nil
 
     resources :nodes, :only => [:index, :create]
     resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy] do

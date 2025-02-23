@@ -8,9 +8,9 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
     scopes = Set.new
     ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert ability.cannot? action, ChangesetComment
-    end
+    assert ability.cannot? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
   test "as a normal user with write_changeset_comments scope" do
@@ -18,13 +18,9 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
     scopes = Set.new %w[write_changeset_comments]
     ability = ApiAbility.new user, scopes
 
-    [:destroy, :restore].each do |action|
-      assert ability.cannot? action, ChangesetComment
-    end
-
-    [:create].each do |action|
-      assert ability.can? action, ChangesetComment
-    end
+    assert ability.can? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
   test "as a moderator without scopes" do
@@ -32,9 +28,9 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
     scopes = Set.new
     ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert ability.cannot? action, ChangesetComment
-    end
+    assert ability.cannot? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
   test "as a moderator with write_changeset_comments scope" do
@@ -42,9 +38,9 @@ class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
     scopes = Set.new %w[write_changeset_comments]
     ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert ability.can? action, ChangesetComment
-    end
+    assert ability.can? :create, ChangesetComment
+    assert ability.can? :create, :changeset_comment_visibility
+    assert ability.can? :destroy, :changeset_comment_visibility
   end
 end
 

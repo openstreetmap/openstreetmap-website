@@ -63,7 +63,7 @@ module Api
       @changeset = Changeset.find(params[:id])
       if params[:include_discussion].presence
         @comments = @changeset.comments
-        @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:restore, ChangesetComment)
+        @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:create, :changeset_comment_visibility)
         @comments = @comments.includes(:author)
       end
 

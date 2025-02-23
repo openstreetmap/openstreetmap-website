@@ -40,7 +40,7 @@ class ApiAbility
         end
 
         if user.moderator?
-          can [:destroy, :restore], ChangesetComment if scopes.include?("write_changeset_comments")
+          can [:create, :destroy], :changeset_comment_visibility if scopes.include?("write_changeset_comments")
 
           can :destroy, Note if scopes.include?("write_notes")
 
