@@ -539,6 +539,7 @@ pl:
     start_rjs:
       feature_warning: Wczytywanie %{num_features} obiektów, może spowolnić lub zawiesić
         przeglądarkę. Wyświetlić te dane?
+      feature_error: 'Błąd przy ładowaniu obiektów: %{message}'
       load_data: Wczytaj dane
       loading: Wczytywanie...
     tag_details:
@@ -1684,11 +1685,13 @@ pl:
       reports: Zgłoszenia
       last_updated: Ostatnia aktualizacja
       last_updated_time_ago_user_html: '%{time_ago} przez %{user}'
+      reporting_users: Raportowanie użytkowników
       reports_count:
         one: 1 zgłoszenie
         few: '%{count} zgłoszenia'
         many: '%{count} zgłoszeń'
         other: '%{count} zgłoszenia'
+      more_reporters: i jeszcze %{count}
       reported_item: Zgłoszony element
       states:
         ignored: Zignorowano
@@ -1726,6 +1729,8 @@ pl:
       reopened: Status sprawy został ustawiony na „Otwarta”
     comments:
       comment_from_html: Komentarz od %{user_link} z %{comment_created_at}
+      reassign_to_moderators: Przydziel sprawę moderatorom
+      reassign_to_administrators: Przydziel sprawę administratorom
     reports:
       reported_by_html: Zgłoszone %{updated_at} jako %{category} przez %{user}
     helper:
@@ -1806,6 +1811,13 @@ pl:
     communities: Społeczności
     learn_more: Dowiedz się więcej
     more: Więcej
+    offline_flash:
+      osm_offline: Baza danych OpenStreetMap jest w trybie offline na czas ważnych
+        zadań administracyjnych, które są w tym momencie wykonywane.
+      osm_read_only: Baza danych OpenStreetMap jest w trybie tylko do odczytu na czas
+        ważnych zadań administracyjnych, które są w tym momencie wykonywane.
+      expected_restore_html: Przywrócenie usług spodziewane jest w ciągu %{time}.
+      announcement: Ogłoszenie można przeczytać tutaj.
   user_mailer:
     diary_comment_notification:
       description: 'Wpis dziennika OpenStreetMap #%{id}'
@@ -3121,6 +3133,10 @@ pl:
       show:
         title: Użytkownicy
         heading: Użytkownicy
+        select_status: Wybierz status
+        name_or_email: Nazwa lub e-mail
+        ip_address: Adres IP
+        search: Szukaj
       page:
         found_users:
           one: Znaleziono %{count} użytkownika
@@ -3588,6 +3604,8 @@ pl:
           ninth: "9."
           tenth: "10."
       time: Czas
+      download: Pobierz trasę jako GeoJSON
+      filename: trasa
     query:
       node: Węzeł
       way: Linia
@@ -3602,6 +3620,9 @@ pl:
       show_address: Pokaż adres
       query_features: Wyświetl dane obiektów
       centre_map: Wycentruj mapę tutaj
+    home:
+      marker_title: Położenie domu
+      not_set: Położenie domu nie jest ustawione w twoim profilu
   redactions:
     edit:
       heading: Edytuj poprawkę

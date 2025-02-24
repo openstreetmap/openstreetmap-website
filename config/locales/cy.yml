@@ -90,6 +90,7 @@ cy:
         allow_write_prefs: addasu eu dewisiadau defnyddiwr
         allow_write_diary: creu cofnodion dyddiadur a sylwadau
         allow_write_api: golygu'r map
+        allow_write_changeset_comments: rhoi sylwadau ar grwpiau newid
         allow_read_gpx: darllen eu harllwybrau GPS
         allow_write_gpx: uwchlwytho olion GPS
         allow_write_notes: addasu nodiadau
@@ -292,9 +293,11 @@ cy:
   accounts:
     show:
       title: Golygu cyfrif
+      my_account: Fy nghyfrif
       current email address: Cyfeiriad E-bost Cyfredol
       external auth: Dilysu Allanol
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: beth yw hwn?
       contributor terms:
         heading: Telerau Cyfranwyr
@@ -304,7 +307,11 @@ cy:
           newydd.
         agreed_with_pd: Rydych hefyd wedi datgan eich bod yn ystyried bod eich golygiadau
           yn y Parth Cyhoeddus.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: beth yw hwn?
+        not_agreed_with_pd: Nid ydych wedi datgan eich bod yn ystyried bod eich golygiadau
+          yn y Parth Cyhoeddus.
+        pd_link_text: datgan
       save changes button: Cadw Newidiadau
       delete_account: Dileu Cyfrif...
     go_public:
@@ -338,6 +345,8 @@ cy:
           a lleoliad cartref yn cael eu dileu.
         delete_display_name: Bydd eich enw defnyddiwr yn cael ei ddileu, a gellir
           ei ailddefnyddio gan gyfrifon eraill.
+        retain_caveats: 'Fodd bynnag, bydd rhywfaint o wybodaeth amdanoch yn cael
+          ei chadw ar OpenStreetMap, hyd yn oed ar ôl i''ch cyfrif gael ei ddileu:'
         retain_edits: Bydd eich golygiadau i'r gronfa ddata mapiau, os ydynt yn bodoli,
           yn cael eu cadw.
         retain_traces: Cedwir unrhyw olion rydych chi wedi uwchlwytho os ydynt yn
@@ -374,7 +383,10 @@ cy:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
+        consider_pd: Ystyriaf fod fy nghyfraniadau yn y Parth Cyhoeddus
+        consider_pd_why: Pam fyddwn am gael fy nghyfraniadau yn y Parth Cyhoeddus?
         consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Cadarnhau
   browse:
     deleted_ago_by_html: Dilëwyd %{time_ago} gan %{user}
     edited_ago_by_html: Golygwyd %{time_ago} gan %{user}
@@ -1564,6 +1576,7 @@ cy:
       reports: Adroddiadau
       last_updated: Diweddarwyd ddiwethaf
       last_updated_time_ago_user_html: '%{time_ago} gan %{user}'
+      reporting_users: Defnyddiwyr sydd wedi rhoi gwybod
       reports_count:
         zero: '%{count} Adroddiad'
         one: '%{count} Adroddiad'
@@ -1571,6 +1584,7 @@ cy:
         few: '%{count} Adroddiad'
         many: '%{count} Adroddiad'
         other: '%{count} Adroddiad'
+      more_reporters: a %{count} arall
       reported_item: Eitem a roddwyd gwybod
       states:
         ignored: Anwybyddwyd
@@ -1686,6 +1700,13 @@ cy:
     communities: Cymunedau
     learn_more: Dysgu Rhagor
     more: Rhagor
+    offline_flash:
+      osm_offline: Mae cronfa ddata OpenStreetMap all-lein ar hyn o bryd er mwyn gwneud
+        gwaith cynnal a chadw hanfodol.
+      osm_read_only: Nid yw'n bosib golygu cronfa ddata OpenStreetMap ar hyn o bryd
+        tra bod gwaith cynnal a chadw hanfodol yn digwydd.
+      expected_restore_html: Disgwylir i wasanaethau gael eu hadfer ymhen %{time}.
+      announcement: Gallwch ddarllen y cyhoeddiad yma.
   user_mailer:
     diary_comment_notification:
       description: 'Cofnod Dyddiadur OpenStreetMap #%{id}'
@@ -1707,8 +1728,11 @@ cy:
     follow_notification:
       hi: Helo %{to_user},
       subject: '[OpenStreetMap] Mae %{user} wedi eich dilyn'
+      followed_you: Mae %{user} bellach yn eich dilyn ar OpenStreetMap.
       see_their_profile: 'Gallwch weld eu proffil yma: %{userurl}.'
       see_their_profile_html: 'Gallwch weld eu proffil yma: %{userurl}.'
+      follow_them: Gallwch hefyd ddilyn y defnyddiwr hwn yn %{followurl}.
+      follow_them_html: Gallwch hefyd ddilyn y defnyddiwr hwn yn %{followurl}.
     gpx_details:
       details: 'Manylion eich ffeil:'
       filename: Enw ffeil
@@ -2237,6 +2261,8 @@ cy:
     not_public_flash:
       not_public: Nid ydych wedi gosod eich golygiadau i fod yn gyhoeddus.
       user_page_link: tudalen defnyddiwr
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: Gweld pam.
     edit:
       id_not_configured: iD heb ei ffurfweddu
@@ -2669,10 +2695,12 @@ cy:
       write_prefs: Addasu dewisiadau defnyddwyr
       write_diary: Creu cofnodion dyddiadur a sylwadau
       write_api: Golygu'r map
+      write_changeset_comments: Rhoi sylwadau ar grwpiau newid
       read_gpx: Darllen olion GPS preifat
       write_gpx: Uwchlwytho olion GPS
       write_notes: Addasu nodiadau
       write_redactions: Gorchuddio data map
+      write_blocks: Creu a dirymu blociau defnyddwyr
       read_email: Darllen cyfeiriad e-bost defnyddwyr
       consume_messages: Darllen, diweddaru statws a dileu negeseuon defnyddiwr
       send_messages: Anfon negeseuon preifat at ddefnyddwyr eraill
@@ -2752,6 +2780,7 @@ cy:
       my notes: Nodiadau
       my messages: Negeseuon
       my profile: Proffil
+      my_account: Fy nghyfrif
       my comments: Sylwadau
       my_preferences: Dewisiadau
       my_dashboard: Dangosfwrdd
@@ -2836,6 +2865,15 @@ cy:
       show:
         title: Defnyddwyr
         heading: Defnyddwyr
+        select_status: Dewiswch Statws
+        states:
+          pending: Arfaethedig
+          active: Gweithredol
+          confirmed: Cadarnhawyd
+          suspended: Wedi'u hatal
+          deleted: Wedi'u dileu
+        ip_address: Cyfeiriad IP
+        search: Chwilio
       page:
         found_users:
           zero: Canfuwyd %{count} defnyddiwr
@@ -2852,8 +2890,9 @@ cy:
         summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
     comments:
       index:
+        heading_html: Sylwadau %{user}
         changesets: Grwpiau newid
-        diary_entries: Cofnodion dyddiadur
+        diary_entries: Cofnodion Dyddiadur
         no_comments: Dim sylwadau
     changeset_comments:
       index:
@@ -2872,9 +2911,11 @@ cy:
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
-      support: cymorth
+      support: chymorth
       automatically_suspended: Mae'n ddrwg gennym, mae eich cyfrif wedi'i atal yn
         awtomatig oherwydd gweithgarwch amheus.
+      contact_support_html: Bydd y penderfyniad hwn yn cael ei adolygu gan weinyddwr
+        yn fuan, neu gallwch gysylltu â %{support_link} os hoffech drafod hyn.
     auth_failure:
       no_authorization_code: Dim cod awdurdodi
       invalid_scope: Sgop annilys
@@ -3034,6 +3075,7 @@ cy:
       open_title: 'Nodyn heb ei ddatrys #%{note_name}'
       closed_title: 'Nodyn wedi''i ddatrys #%{note_name}'
       hidden_title: 'Nodyn cudd #%{note_name}'
+      description_when_author_is_deleted: wedi'i ddileu
       event_opened_by_html: Crëwyd gan %{user} %{time_ago}
       event_opened_by_anonymous_html: Crëwyd gan berson ddienw %{time_ago}
       event_commented_by_html: Sylw gan %{user} %{time_ago}
@@ -3067,11 +3109,22 @@ cy:
         wybod i fapwyr eraill fel y gallwn ei ddatrys. Symudwch y marciwr i'r safle
         cywir ac ysgrifennwch nodyn i esbonio'r broblem.
       anonymous_warning_html: Nid ydych chi wedi mewngofnodi. %{log_in} neu %{sign_up}
-        os ydych chi eisiau derbyn diweddariadau am eich nodyn.
+        os ydych am gael diweddariadau ar gyfer eich nodyn a helpu mapwyr eraill i'w
+        ddatrys.
       anonymous_warning_log_in: Mewngofnodwch
       anonymous_warning_sign_up: gofrestrwch
+      x_anonymous_notes:
+        zero: '%{count} nodyn dienw'
+        one: '%{count} nodyn dienw'
+        two: '%{count} nodyn dienw'
+        few: '%{count} nodyn dienw'
+        many: '%{count} nodyn dienw'
+        other: '%{count} nodyn dienw'
       counter_warning_guide_link:
+        text: cyfrannu eich hun
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      counter_warning_forum_link:
+        text: gall y gymuned eich helpu
       advice: Mae eich nodyn yn gyhoeddus a gellid ei ddefnyddio i ddiweddaru'r map,
         felly peidiwch ag ysgrifennu gwybodaeth bersonol, na gwybodaeth o fapiau hawlfreintiedig
         neu gyfeiriaduron.
@@ -3084,6 +3137,8 @@ cy:
       showing_page: Tudalen %{page}
       next: Nesaf
       previous: Cynt
+    not_found_message:
+      sorry: 'Sori, ni ellir dod o hyd i nodyn #%{id}.'
   javascripts:
     close: Cau
     share:
@@ -3277,6 +3332,8 @@ cy:
       show_address: Dangos cyfeiriad
       query_features: Ymholiad nodweddion
       centre_map: Canoli'r map yma
+    home:
+      marker_title: Fy lleoliad cartref
   redactions:
     edit:
       heading: Golygu Gorchuddiad

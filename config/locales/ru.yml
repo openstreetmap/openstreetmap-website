@@ -113,6 +113,7 @@
 # Author: XnL
 # Author: Yuri Nazarov
 # Author: Yurik
+# Author: Yurina Tatiana
 # Author: Yuryleb
 # Author: Zverik
 # Author: Александр Сигачёв
@@ -204,6 +205,7 @@ ru:
         allow_write_prefs: изменять пользовательские настройки
         allow_write_diary: создавать записи в дневнике и комментарии
         allow_write_api: редактировать карту
+        allow_write_changeset_comments: комментировать пакеты правок
         allow_read_gpx: читать частные GPS-треки
         allow_write_gpx: загружать GPS-треки
         allow_write_notes: исправлять заметки
@@ -384,6 +386,7 @@ ru:
   accounts:
     show:
       title: Изменить учетную запись
+      my_account: Мой аккаунт
       current email address: Текущий адрес электронной почты
       external auth: 'Внешняя аутентификация:'
       openid:
@@ -734,6 +737,8 @@ ru:
       nearby users: Другие ближайшие пользователи
       no nearby users: Пока нет других пользователей, которые признают, что занимаются
         составлением карты поблизости.
+      followed_changesets: пакеты правок
+      followed_diaries: дневники
       nearby_changesets: пакеты правок соседей
       nearby_diaries: дневники соседей
   diary_entries:
@@ -2754,7 +2759,7 @@ ru:
     scopes:
       read_prefs: Прочитать настройки пользователя
       write_prefs: Изменить настройки пользователя
-      write_diary: Создавать записи в дневнике, комментировать и заводить друзей
+      write_diary: Создавать записи в дневнике и комментарии
       write_api: Изменить карту
       read_gpx: Читать частные GPS-треки
       write_gpx: Загрузить GPS-треки
@@ -2856,6 +2861,7 @@ ru:
       my notes: Мои заметки
       my messages: Мои сообщения
       my profile: Мой профиль
+      my_account: Мой аккаунт
       my comments: Мои комментарии
       my_preferences: Мои предпочтения
       my_dashboard: Мой пульт
@@ -2921,9 +2927,11 @@ ru:
         heading: Пользователи
         states:
           pending: В ожидании
+          active: Активен
           confirmed: Подтверждено
           suspended: Приостановлено
           deleted: Удалено
+        name_or_email: Имя или адрес эл. почты
         ip_address: IP-адрес
         search: Поиск
       page:
@@ -2935,9 +2943,13 @@ ru:
         summary_no_ip_html: '%{name} создан %{date}'
     comments:
       index:
+        heading_html: Комментарии пользователя %{user}
+        changesets: Пакеты правок
         diary_entries: Записи в дневнике
+        no_comments: Нету комментариев
     changeset_comments:
       page:
+        changeset: Пакет правок
         when: Когда
         comment: Комментарий
     diary_comments:
@@ -2945,6 +2957,8 @@ ru:
         title: Комментарии к записям в дневнике, добавленные пользователем %{user}
       page:
         post: Сообщение
+        when: Когда
+        comment: Комментарий
     suspended:
       title: Учётная запись приостановлена
       heading: Учётная запись приостановлена
@@ -3363,6 +3377,7 @@ ru:
       query_features: Что здесь?
       centre_map: Центрировать карту
     home:
+      marker_title: Мой домашний адрес
       not_set: Установка места нахождения не установлена для вашей учётной записи
   redactions:
     edit:

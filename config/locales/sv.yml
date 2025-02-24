@@ -138,6 +138,7 @@ sv:
         allow_write_prefs: ändra deras användaralternativ
         allow_write_diary: skapa dagboksinlägg och kommentarer
         allow_write_api: ändra kartan
+        allow_write_changeset_comments: kommentar på ändringsuppsättning
         allow_read_gpx: läs deras privata GPS-spår
         allow_write_gpx: ladda upp GPS-spår
         allow_write_notes: ändra anteckningar
@@ -292,6 +293,7 @@ sv:
   accounts:
     show:
       title: Redigera konto
+      my_account: Mitt konto
       current email address: Nuvarande e-postadress
       external auth: Extern autentisering
       openid:
@@ -305,6 +307,9 @@ sv:
         agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
           är inom Public Domain.
         link text: vad är detta?
+        not_agreed_with_pd: Du har inte förklarat att du anser att dina redigeringar
+          är inom Public Domain.
+        pd_link_text: förklara
       save changes button: Spara ändringar
       delete_account: Radera konto...
     go_public:
@@ -389,6 +394,15 @@ sv:
         terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera
           de nya användarvillkoren. För mer information, se %{terms_declined_link}.
         terms_declined_link: denna wikisida
+    pd_declarations:
+      show:
+        title: Anse att mina bidrag är i public domain
+        consider_pd: Jag anser mina bidrag vara i public domain
+        consider_pd_why: Varför skulle jag vilja ha mina bidrag i public domain?
+        confirm: Bekräfta
+      create:
+        successfully_declared: Du har förklarat att du anser att dina redigeringar
+          är inom public domain.
   browse:
     deleted_ago_by_html: Raderades %{time_ago} av %{user}
     edited_ago_by_html: Redigerades %{time_ago} av %{user}
@@ -2893,6 +2907,7 @@ sv:
       my notes: Mina kartanteckningar
       my messages: Mina meddelanden
       my profile: Min profil
+      my_account: Mitt konto
       my comments: Mina kommentarer
       my_preferences: Mina alternativ
       my_dashboard: Min kontrollpanel
@@ -2972,6 +2987,15 @@ sv:
       show:
         title: Användare
         heading: Användare
+        select_status: Välj status
+        states:
+          pending: Pågående
+          active: Aktiv
+          confirmed: Bekräftad
+          suspended: Uppskjutet
+          deleted: Raderad
+        ip_address: IP-adress
+        search: Sök
       page:
         found_users:
           one: '%{count} användare hittade'
@@ -3180,6 +3204,7 @@ sv:
       closed_title: 'Avklarad anteckning #%{note_name}'
       hidden_title: 'Dold anteckning #%{note_name}'
       description_when_author_is_deleted: raderad
+      description_when_there_is_no_opening_comment: okänd
       event_opened_by_html: Skapades av %{user} %{time_ago}
       event_opened_by_anonymous_html: Skapades av anonym %{time_ago}
       event_commented_by_html: Kommenterades från %{user} %{time_ago}
@@ -3408,6 +3433,8 @@ sv:
           ninth: 9:e
           tenth: 10:e
       time: Tid
+      download: Ladda ner rutt som GeoJSON
+      filename: rutt
     query:
       node: Nod
       way: Sträcka
@@ -3422,6 +3449,9 @@ sv:
       show_address: Visa adress
       query_features: Undersök kartobjekt
       centre_map: Centrera kartan här
+    home:
+      marker_title: Min hemort
+      not_set: Hemort har inte angetts för ditt konto
   redactions:
     edit:
       heading: Redigera maskering

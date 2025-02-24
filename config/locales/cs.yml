@@ -138,6 +138,7 @@ cs:
         allow_write_prefs: měnit jejich uživatelské nastavení
         allow_write_diary: vytvářet deníkové záznamy a komentáře
         allow_write_api: upravovat mapu
+        allow_write_changeset_comments: komentovat sady změn
         allow_read_gpx: číst jejich soukromé GPS stopy
         allow_write_gpx: nahrávat GPS stopy
         allow_write_notes: měnit poznámky
@@ -319,6 +320,7 @@ cs:
   accounts:
     show:
       title: Upravit účet
+      my_account: Můj účet
       current email address: Stávající e-mailová adresa
       external auth: Externí autentizace
       openid:
@@ -333,6 +335,9 @@ cs:
         agreed_with_pd: Také jste prohlásili, že své editace považujete za volné dílo.
         link: https://wiki.openstreetmap.org/wiki/Cs:Open_Database_License/Contributor_Terms?uselang=cs
         link text: co to znamená?
+        not_agreed_with_pd: Neprohlásili jste, že své editace považujete za volné
+          dílo.
+        pd_link_text: prohlásit
       save changes button: Uložit změny
       delete_account: Smazat účet…
     go_public:
@@ -414,6 +419,18 @@ cs:
           pro přispěvatele. Podrobnější informace najdete na %{terms_declined_link}.
         terms_declined_link: této wikistránce
         terms_declined_url: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
+    pd_declarations:
+      show:
+        title: Považujte mé příspěvky za volné dílo
+        consider_pd: Považuji své příspěvky za volné dílo
+        consider_pd_why: Proč bych mohl chtít, aby moje příspěvky byly volným dílem?
+        confirm: Potvrdit
+      create:
+        successfully_declared: Úspěšně jste prohlásili, že své příspěvky považujete
+          za volné dílo.
+        already_declared: Již dříve jste prohlásili, že své příspěvky považujete za
+          volné dílo.
+        did_not_confirm: Nepotvrdili jste, že považujete své příspěvky za volné dílo.
   browse:
     deleted_ago_by_html: Smazáno %{time_ago} uživatelem %{user}
     edited_ago_by_html: Upraveno %{time_ago} uživatelem %{user}
@@ -489,6 +506,7 @@ cs:
     start_rjs:
       feature_warning: Načítá se %{num_features} prvků, což může váš prohlížeč zpomalit
         či zablokovat. Určitě chcete tato data zobrazit?
+      feature_error: 'Nepodařilo se načíst prvky: %{message}'
       load_data: Nahrát data
       loading: Načítá se…
     tag_details:
@@ -1055,6 +1073,7 @@ cs:
           bridleway: Koňská stezka
           bus_guideway: Autobusová dráha
           bus_stop: Autobusová zastávka
+          busway: Trasa metrobusu
           construction: Silnice ve výstavbě
           corridor: Koridor
           crossing: Přechod
@@ -1745,6 +1764,9 @@ cs:
     offline_flash:
       osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
         údržbě mimo provoz.
+      osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
+        údržbě pouze pro čtení.
+      expected_restore_html: Očekáváme se, že služby budou obnoveny v %{time}.
       announcement: Oznámení si můžete přečíst zde.
   user_mailer:
     diary_comment_notification:
@@ -2813,10 +2835,12 @@ cs:
       write_prefs: Měnit preference uživatele
       write_diary: Vytvářet deníkové záznamy a komentáře
       write_api: Upravovat mapu
+      write_changeset_comments: Komentovat sady změn
       read_gpx: Číst soukromé GPS stopy
       write_gpx: Nahrávat GPS stopy
       write_notes: Měnit poznámky
       write_redactions: Skrývat mapová data
+      write_blocks: Vytvářet a rušit blokování uživatelů
       read_email: Přečíst e-mailovou adresu uživatele
       consume_messages: Číst, aktualizovat stav a mazat zprávy uživatelů
       send_messages: Posílat soukromé zprávy jiným uživatelům
@@ -2925,6 +2949,7 @@ cs:
       my notes: Moje poznámky k mapě
       my messages: Moje zprávy
       my profile: Můj profil
+      my_account: Můj účet
       my comments: Moje komentáře
       my_preferences: Moje preference
       my_dashboard: Moje nástěnka
@@ -3006,6 +3031,16 @@ cs:
       show:
         title: Uživatelé
         heading: Uživatelé
+        select_status: Vyberte stav
+        states:
+          pending: Čekající
+          active: Aktivní
+          confirmed: Potvrzený
+          suspended: Pozastavený
+          deleted: Smazaný
+        name_or_email: Jméno nebo e-mail
+        ip_address: IP adresa
+        search: Hledat
       page:
         found_users:
           one: Nalezen %{count} uživatel
@@ -3220,6 +3255,7 @@ cs:
       closed_title: 'Vyřešená poznámka #%{note_name}'
       hidden_title: 'Skrytá poznámka #%{note_name}'
       description_when_author_is_deleted: smazáno
+      description_when_there_is_no_opening_comment: neznámé
       event_opened_by_html: Vytvořeno uživatelem %{user} %{time_ago}
       event_opened_by_anonymous_html: Vytvořeno anonymním uživatelem %{time_ago}
       event_commented_by_html: Komentář od uživatele %{user} %{time_ago}
@@ -3458,6 +3494,8 @@ cs:
           ninth: "9."
           tenth: "10."
       time: Čas
+      download: Stáhnout trasu jako GeoJSON
+      filename: trasa
     query:
       node: Uzel
       way: Cesta
@@ -3472,6 +3510,9 @@ cs:
       show_address: Zobrazit adresu
       query_features: Průzkum prvků
       centre_map: Zde vystředit mapu
+    home:
+      marker_title: Poloha mého domova
+      not_set: Ve vašem účtu není nastavena poloha domova
   redactions:
     edit:
       heading: Upravit redakci

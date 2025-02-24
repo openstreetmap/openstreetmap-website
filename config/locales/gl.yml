@@ -263,9 +263,11 @@ gl:
   accounts:
     show:
       title: Editar a conta
+      my_account: A miña conta
       current email address: Enderezo de correo electrónico actual
       external auth: Autenticación externa
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: que é isto?
       contributor terms:
         heading: Termos do colaborador
@@ -275,7 +277,11 @@ gl:
           do colaborador.
         agreed_with_pd: Tamén declaraches que consideras que as túas edicións pertencen
           ó dominio público.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: que é isto?
+        not_agreed_with_pd: Non declaraches que consideras que as túas edicións pertencen
+          ó dominio público.
+        pd_link_text: declárao
       save changes button: Gardar as modificacións
       delete_account: Borrar a conta...
     go_public:
@@ -362,7 +368,19 @@ gl:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
+        title: Considerar as miñas contribucións de dominio público
+        consider_pd: Considero que as miñas contribucións son de dominio público
+        consider_pd_why: Por que querería que as miñas contribucións sexan de dominio
+          público?
         consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Confirmar
+      create:
+        successfully_declared: Declaraches que consideras que as túas edicións pertencen
+          ao dominio público.
+        already_declared: Xa declaraches que consideras que as túas edicións pertencen
+          ao dominio público.
+        did_not_confirm: Non confirmaches que consideras que as túas edicións pertencen
+          ao dominio público.
   browse:
     deleted_ago_by_html: Borrado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -2038,7 +2056,7 @@ gl:
       failure: Non foi posíbel actualizar o perfil.
   sessions:
     new:
-      tab_title: Acceder ao sistema
+      tab_title: Iniciar a sesión
       login_to_authorize_html: Inicia sesión no OpenStreetMap para acceder a %{client_app_name}.
       email or username: Enderezo de correo electrónico ou nome de usuario
       password: Contrasinal
@@ -2799,6 +2817,7 @@ gl:
       write_gpx: Subir pistas GPS
       write_notes: Modificar notas
       write_redactions: Censurar datos do mapa
+      write_blocks: Crear e revogar bloqueos de usuarios
       read_email: Ver os enderezos de correo electrónico dos usuarios
       consume_messages: Ver, actualizar o estado e borrar mensaxes dos usuarios
       send_messages: Enviar mensaxes privadas aos usuarios
@@ -2907,6 +2926,7 @@ gl:
       my notes: As miñas notas do mapa
       my messages: As miñas mensaxes
       my profile: O meu perfil
+      my_account: A miña conta
       my comments: Os meus comentarios
       my_preferences: As miñas preferencias
       my_dashboard: O meu panel de control
@@ -2987,6 +3007,16 @@ gl:
       show:
         title: Usuarios
         heading: Usuarios
+        select_status: Seleccionar estado
+        states:
+          pending: Pendente
+          active: Activo
+          confirmed: Confirmado
+          suspended: Suspendido
+          deleted: Borrado
+        name_or_email: Nome ou correo electrónico
+        ip_address: Enderezo IP
+        search: Procurar
       page:
         found_users:
           one: Atopouse %{count} usuario
@@ -3191,6 +3221,7 @@ gl:
       closed_title: Nota resolta n.º %{note_name}
       hidden_title: Nota agochada n.º %{note_name}
       description_when_author_is_deleted: eliminado
+      description_when_there_is_no_opening_comment: descoñecido
       event_opened_by_html: Creado por %{user} %{time_ago}
       event_opened_by_anonymous_html: Creado por un usuario anónimo %{time_ago}
       event_commented_by_html: Comentario de %{user} %{time_ago}
@@ -3426,6 +3457,8 @@ gl:
           ninth: 9.ª
           tenth: 10.ª
       time: Tempo
+      download: Descargar a ruta como GeoJSON
+      filename: ruta
     query:
       node: Nó
       way: Vía
@@ -3440,6 +3473,9 @@ gl:
       show_address: Amosar enderezo
       query_features: Consultar elementos
       centre_map: Centrar o mapa aquí
+    home:
+      marker_title: Localización da miña casa
+      not_set: A localización da casa non está configurada para a túa conta
   redactions:
     edit:
       heading: Editar a censura
