@@ -49,8 +49,8 @@
               —
               <%= tag.button t(".#{comment.visible ? 'hide' : 'unhide'}_comment"),
                              :class => "btn btn-sm small btn-link link-secondary p-0 align-baseline",
-                             :data => { :method => "POST",
-                                        :url => comment.visible ? changeset_comment_hide_url(comment) : changeset_comment_unhide_url(comment) } %>
+                             :data => { :method => comment.visible ? "DELETE" : "POST",
+                                        :url => api_changeset_comment_visibility_path(comment) } %>
             <% end %>
           </small>
           <div class="mx-2">

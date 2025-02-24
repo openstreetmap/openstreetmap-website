@@ -59,56 +59,6 @@ module Api
       end
     end
 
-    ##
-    # Sets visible flag on comment to false
-    def destroy
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset
-      comment = ChangesetComment.find(id)
-
-      # Hide the comment
-      comment.update(:visible => false)
-
-      # Return a copy of the updated changeset
-      @changeset = comment.changeset
-      render "api/changesets/show"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
-    ##
-    # Sets visible flag on comment to true
-    def restore
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset
-      comment = ChangesetComment.find(id)
-
-      # Unhide the comment
-      comment.update(:visible => true)
-
-      # Return a copy of the updated changeset
-      @changeset = comment.changeset
-      render "api/changesets/show"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
     private
 
     ##
