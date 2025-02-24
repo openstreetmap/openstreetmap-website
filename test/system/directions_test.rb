@@ -39,10 +39,10 @@ class DirectionsSystemTest < ApplicationSystemTestCase
       const time = distance * 30;
       return Promise.resolve({
         line: points,
-        steps: [
+        legs: [[
           [points[0],  8, "<b>1.</b> #{start_instruction}", distance, points],
           [points[1], 14, "<b>2.</b> #{finish_instruction}", 0, [points[1]]]
-        ],
+        ]],
         distance,
         time
       });

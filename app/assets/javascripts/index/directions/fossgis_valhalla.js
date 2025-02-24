@@ -44,7 +44,7 @@
 
     function _processDirections(tripLegs) {
       let line = [];
-      let steps = [];
+      const legs = [];
       let distance = 0;
       let time = 0;
 
@@ -68,14 +68,14 @@
         });
 
         line = line.concat(legLine);
-        steps = steps.concat(legSteps);
+        legs.push(legSteps);
         distance += leg.summary.length;
         time += leg.summary.time;
       }
 
       return {
-        line: line,
-        steps: steps,
+        line,
+        legs,
         distance: distance * 1000,
         time: time
       };
