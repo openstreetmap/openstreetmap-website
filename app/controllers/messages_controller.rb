@@ -78,7 +78,7 @@ class MessagesController < ApplicationController
   ##
   # return permitted message parameters
   def message_params
-    params.require(:message).permit(:title, :body)
+    params.expect(:message => [:title, :body])
   rescue ActionController::ParameterMissing
     ActionController::Parameters.new.permit(:title, :body)
   end

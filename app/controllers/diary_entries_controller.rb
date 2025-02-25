@@ -219,7 +219,7 @@ class DiaryEntriesController < ApplicationController
   ##
   # return permitted diary entry parameters
   def entry_params
-    params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
+    params.expect(:diary_entry => [:title, :body, :language_code, :latitude, :longitude])
   rescue ActionController::ParameterMissing
     ActionController::Parameters.new.permit(:title, :body, :language_code, :latitude, :longitude)
   end
