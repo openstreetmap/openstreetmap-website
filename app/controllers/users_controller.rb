@@ -239,9 +239,9 @@ class UsersController < ApplicationController
   ##
   # return permitted user parameters
   def user_params
-    params.require(:user).permit(:email, :display_name,
-                                 :auth_provider, :auth_uid,
-                                 :pass_crypt, :pass_crypt_confirmation)
+    params.expect(:user => [:email, :display_name,
+                            :auth_provider, :auth_uid,
+                            :pass_crypt, :pass_crypt_confirmation])
   end
 
   ##
