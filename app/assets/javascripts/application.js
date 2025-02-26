@@ -13,6 +13,7 @@
 //= require i18n
 //= require matomo
 //= require richtext
+//= require language_selector
 
 {
   const application_data = $("head").data();
@@ -93,7 +94,8 @@ $(document).ready(function () {
         $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
         secondaryMenuItems = [],
         breakpointWidth = 768;
-  let moreItemWidth = 0;
+  let moreItemWidth = 0,
+      notCollapsibleItemsWidth = 0;
 
   function updateHeader() {
     const windowWidth = $(window).width();
@@ -107,7 +109,7 @@ $(document).ready(function () {
       secondaryMenuItems.forEach(function (item) {
         $(item[0]).remove();
       });
-      let runningWidth = 0,
+      let runningWidth = notCollapsibleItemsWidth,
           i = 0,
           requiredWidth;
       for (; i < secondaryMenuItems.length; i++) {
@@ -166,10 +168,14 @@ $(document).ready(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
+    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav):not(.not-collapsible)").each(function () {
       secondaryMenuItems.push([this, $(this).width()]);
     });
     moreItemWidth = $("#compact-secondary-nav").width();
+    notCollapsibleItemsWidth = $expandedSecondaryMenu
+      .find("li.not-collapsible")
+      .toArray()
+      .reduce((accWidth, item) => accWidth + $(item).outerWidth(), 0);
 
     updateHeader();
 
