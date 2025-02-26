@@ -4,6 +4,7 @@
 
 OSM.Directions = function (map) {
   let controller = null; // the AbortController for the current route request if a route request is in progress
+  let lastLocation = [];
   let chosenEngine;
 
   const popup = L.popup({ autoPanPadding: [100, 100] });
@@ -258,6 +259,19 @@ OSM.Directions = function (map) {
     }
   });
 
+  function sendstartinglocation({ latlng: { lat, lng } }) {
+    map.fire("startinglocation", { latlng: [lat, lng] });
+  }
+
+  map.on("locationfound", ({ latlng: { lat, lng } }) =>
+    lastLocation = [lat, lng]
+  ).on("locateactivate", () => {
+    map.once("startinglocation", ({ latlng }) => {
+      if (endpoints[0].value) return;
+      endpoints[0].setValue(latlng.join(", "));
+    });
+  });
+
   const page = {};
 
   page.pushstate = page.popstate = function () {
@@ -280,6 +294,8 @@ OSM.Directions = function (map) {
       endpoints[type === "from" ? 0 : 1].setValue(llWithPrecision.join(", "));
     });
 
+    map.on("locationfound", sendstartinglocation);
+
     endpoints[0].enable();
     endpoints[1].enable();
 
@@ -294,7 +310,7 @@ OSM.Directions = function (map) {
       }
     }
 
-    endpoints[0].setValue(params.get("from") || route[0] || "");
+    endpoints[0].setValue(params.get("from") || route[0] || lastLocation.join(", "));
     endpoints[1].setValue(params.get("to") || route[1] || "");
 
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
@@ -308,6 +324,7 @@ OSM.Directions = function (map) {
     $(".search_form").show();
     $(".directions_form").hide();
     $("#map").off("dragend dragover drop");
+    map.off("locationfound", sendstartinglocation);
 
     endpoints[0].disable();
     endpoints[1].disable();
