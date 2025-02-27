@@ -36,9 +36,15 @@
     if (preview.children(".richtext").contents().length === 0) {
       preview.children(".richtext_placeholder").removeAttr("hidden").addClass("delayed-fade-in");
 
-      preview.children(".richtext").load(editor.data("previewUrl"), { text: editor.val() }, function () {
-        preview.children(".richtext_placeholder").attr("hidden", true).removeClass("delayed-fade-in");
-      });
+      fetch(editor.data("previewUrl"), {
+        method: "POST",
+        body: new URLSearchParams({ text: editor.val(), ...OSM.csrf })
+      })
+        .then(r => r.text())
+        .then(html => {
+          preview.children(".richtext").html(html);
+          preview.children(".richtext_placeholder").attr("hidden", true).removeClass("delayed-fade-in");
+        });
     }
   });
 
