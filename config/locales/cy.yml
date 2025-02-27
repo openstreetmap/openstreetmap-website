@@ -293,7 +293,7 @@ cy:
   accounts:
     show:
       title: Golygu cyfrif
-      my_account: Fy nghyfrif
+      my_account: Fy Nghyfrif
       current email address: Cyfeiriad E-bost Cyfredol
       external auth: Dilysu Allanol
       openid:
@@ -383,10 +383,14 @@ cy:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
+        title: Ystyried bod fy nghyfraniadau yn y Parth Cyhoeddus
         consider_pd: Ystyriaf fod fy nghyfraniadau yn y Parth Cyhoeddus
         consider_pd_why: Pam fyddwn am gael fy nghyfraniadau yn y Parth Cyhoeddus?
         consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         confirm: Cadarnhau
+      create:
+        successfully_declared: Rydych wedi datgan yn llwyddiannus eich bod yn ystyried
+          bod eich golygiadau yn y Parth Cyhoeddus.
   browse:
     deleted_ago_by_html: Dilëwyd %{time_ago} gan %{user}
     edited_ago_by_html: Golygwyd %{time_ago} gan %{user}
@@ -456,7 +460,7 @@ cy:
       title: Heb ei Ganfod
     timeout:
       title: Gwall Goramser
-      sorry: Sori, cymerodd yn rhy hir i adalw data math %{type} gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl data %{type} #%{id}.'
       type:
         node: nod
         way: llwybr
@@ -474,6 +478,7 @@ cy:
     start_rjs:
       feature_warning: Wrthi'n llwytho %{num_features} nodwedd, a all arafu neu chwalu
         eich porwr. Ydych chi wir eisiau gweld y data?
+      feature_error: 'Ni ellid llwytho nodweddion: %{message}'
       load_data: Llwytho Data
       loading: Wrthi'n llwytho...
     tag_details:
@@ -504,29 +509,37 @@ cy:
       view_redacted_data: Gweld Data Wedi'i Gorchuddio
       view_redaction_message: Gweld Neges Orchuddio
   nodes:
+    not_found_message:
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i nod #%{id}.'
     timeout:
-      sorry: Sori, cymerodd yn rhy hir i adalw data'r nod gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl data nod #%{id}.'
   old_nodes:
     not_found_message:
-      sorry: 'Sori, ni ellir canfod fersiwn %{version} o''r nod #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i fersiwn %{version} o nod #%{id}.'
     timeout:
-      sorry: Sori, cymerodd yn rhy hir i adalw hanes y nod gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl hanes nod #%{id}.'
   ways:
+    not_found_message:
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i lwybr #%{id}.'
     timeout:
-      sorry: Sori, cymerodd yn rhy hir i adalw data'r llwybr gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl data llwybr #%{id}.'
   old_ways:
     not_found_message:
-      sorry: 'Sori, ni ellir canfod fersiwn %{version} o lwybr #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i fersiwn %{version} o lwybr
+        #%{id}.'
     timeout:
-      sorry: Sori, cymerodd yn rhy hir i adalw hanes y llwybr gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl hanes llwybr #%{id}.'
   relations:
+    not_found_message:
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i berthynas #%{id}.'
     timeout:
-      sorry: Sori, cymerodd yn rhy hir i adalw data'r perthynas gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl data perthynas #%{id}.'
   old_relations:
     not_found_message:
-      sorry: 'Sori, ni ellir canfod fersiwn %{version} o''r perthynas #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i fersiwn %{version} o berthynas
+        #%{id}.'
     timeout:
-      sorry: Sori, cymerodd yn rhy hir i adalw hanes y perthynas gyda'r id %{id}.
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl hanes perthynas #%{id}.'
   changeset_comments:
     feeds:
       comment:
@@ -536,8 +549,8 @@ cy:
         title_all: Trafodaeth grŵp newid OpenStreetMap
         title_particular: Trafodaeth grŵp newid OpenStreetMap %{changeset_id}
       timeout:
-        sorry: Sori, cymerodd yn rhy hir i adalw rhestr o sylwadau grŵp newid y gofynnoch
-          amdanynt.
+        sorry: Mae'n ddrwg gennym, cymerodd rhy hir i nôl rhestr o sylwadau grŵp newid
+          y gofynnoch amdanynt.
   changesets:
     changeset:
       no_edits: (dim golygiadau)
@@ -546,6 +559,7 @@ cy:
       title: Grwpiau newid
       title_user: Grwpiau newid gan %{user}
       title_user_link_html: Grwpiau newid gan %{user_link}
+      title_followed: Grwpiau newid gan bobl rydych yn eu dilyn
       title_nearby: Grwpiau newid gan ddefnyddwyr gerllaw
       empty: Heb ganfod grwpiau newid.
       empty_area: Heb ganfod grwpiau newid yn yr ardal hon.
@@ -588,9 +602,11 @@ cy:
       ways_paginated: Llwybrau (%{x}-%{y} o %{count})
       relations: Perthnasau (%{count})
       relations_paginated: Perthnasau (%{x}-%{y} o %{count})
+    not_found_message:
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i grŵp newid #%{id}.'
     timeout:
-      sorry: Sori, cymerodd y rhestr o grwpiau newid y gofynnoch amdanynt rhy hir
-        i'w hadalw.
+      sorry: Mae'n ddrwg gennym, cymerodd rhy hir i nôl rhestr o grŵp newid y gofynnoch
+        amdanynt.
   changeset_subscriptions:
     show:
       subscribe:
@@ -604,8 +620,8 @@ cy:
       created_by_html: Crëwyd gan %{link_user} ar %{created}.
     no_such_entry:
       heading: 'Dim cofnod gyda''r id: %{id}'
-      body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r id %{id}. Gwiriwch eich
-        sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
+      body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r cyfeirnod %{id}. Gwiriwch
+        eich sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
   dashboards:
     contact:
       km away: '%{count}km i ffwrdd'
@@ -661,9 +677,9 @@ cy:
     no_such_entry:
       title: Dim cofnod dyddiadur
       heading: 'Dim cofnod gyda''r id: %{id}'
-      body: Mae'n ddrwg gennym, nid oes cofnod dyddiadur neu sylw gyda'r id %{id}.
-        Gwiriwch eich sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio
-        arni'n anghywir.
+      body: Mae'n ddrwg gennym, nid oes cofnod dyddiadur neu sylw gyda'r cyfeirnod
+        %{id}. Gwiriwch eich sillafu, neu efallai bod y ddolen rydych chi wedi ei
+        chlicio arni'n anghywir.
     diary_entry:
       posted_by_html: Postiwyd gan %{link_user} ar %{created} yn %{language_link}
       updated_at_html: Diweddarwyd ddiwethaf ar %{updated}.
@@ -757,10 +773,15 @@ cy:
         heading: Ydych chi am ddilyn %{user}?
         button: Dilyn Defnyddiwr
       unfollow:
+        heading: Ydych chi am ddad-ddilyn %{user}?
         button: Dad-ddilyn Defnyddiwr
     create:
       success: Rydych nawr yn dilyn %{name}!
+      failed: Mae'n ddrwg gennym, mae eich cais i ddilyn %{name} wedi methu.
       already_followed: Rydych chi eisoes yn dilyn %{name}.
+    destroy:
+      success: Rydych chi wedi dad-ddilyn %{name}.
+      not_followed: Nid ydych yn dilyn %{name}.
   geocoder:
     search:
       title:
@@ -1013,6 +1034,7 @@ cy:
           bridleway: Llwybr Ceffyl
           bus_guideway: Lon Bysiau
           bus_stop: Safle Bws
+          busway: Ffordd Fws
           construction: Priffordd yn cael ei Adeiladu
           corridor: Coridor
           crossing: Croesfan
@@ -1175,6 +1197,8 @@ cy:
           track: Trac Rhedeg
           water_park: Parc Dŵr
           "yes": Hamdden
+        lock:
+          "yes": Loc
         man_made:
           adit: Adit
           advertising: Hysbysebu
@@ -1521,6 +1545,9 @@ cy:
           reservoir: Cronfa Ddŵr
           basin: Basn Dwr
           fishpond: Pwll Pysgod
+          lagoon: Lagŵn
+          wastewater: Dŵr Gwastraff
+          lock: Loc
         waterway:
           artificial: Dyfrffyrdd Artiffisial
           boatyard: Iard Gychod
@@ -1623,6 +1650,8 @@ cy:
       reopened: Mae statws y mater wedi'i osod i 'Agored'
     comments:
       comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
+      reassign_to_moderators: Ailbennu Mater i Gymedrolwyr
+      reassign_to_administrators: Ailbennu Mater i Weinyddwyr
     reports:
       reported_by_html: Adroddwyd fel %{category} gan %{user} ar %{updated_at}
     helper:
@@ -1856,7 +1885,7 @@ cy:
     no_such_message:
       title: Dim neges o'r fath
       heading: Dim neges o'r fath
-      body: Sori, nid oes neges gyda'r id yno.
+      body: Mae'n ddrwg gennym, nid oes neges gyda'r cyfeirnod yno.
     show:
       title: Darllen neges
       reply_button: Ateb
@@ -2001,7 +2030,7 @@ cy:
       login_button: Mewngofnodi
       with external: neu fewngofnodi gyda thrydydd parti
       or: neu
-      auth failure: Mae'n ddrwg gennym, ni ellir mewngofnodi gyda'r manylion hynny.
+      auth failure: Mae'n ddrwg gennym, ni ellid mewngofnodi gyda'r manylion hynny.
     destroy:
       title: Allgofnodi
       heading: Allgofnodi o OpenStreetMap
@@ -2530,8 +2559,8 @@ cy:
       trace_uploaded: Mae eich ffeil GPX wedi'i huwchlwytho ac yn aros i gael ei chynnwys
         yn y gronfa ddata. Bydd hyn fel arfer yn digwydd o fewn hanner awr, a bydd
         e-bost yn cael ei anfon atoch ar ôl cwblhau.
-      upload_failed: Mae'n ddrwg gennym, methodd eich uwchlwythiad GPX. Mae gweinyddwr
-        wedi cael gwybod am y gwall. Ceisiwch eto.
+      upload_failed: Mae'n ddrwg gennym, mae eich uwchlwythiad GPX wedi methu. Mae
+        gweinyddwr wedi cael gwybod am y gwall. Ceisiwch eto.
       traces_waiting:
         zero: Mae gennych %{count} ôl yn aros i'w uwchlwytho. Arhoswch i'r rhain orffen
           cyn uwchlwytho rhagor, er mwyn osgoi rhwystro'r ciw i ddefnyddwyr eraill.
@@ -2725,6 +2754,8 @@ cy:
       confirm_delete: Dileu'r ap hwn?
       client_id: ID Cleient
       client_secret: Cyfrinach Cleient
+      client_secret_warning: Gwnewch yn siŵr eich bod yn cadw'r gyfrinach hon - ni
+        fydd ar gael i chi eto
       permissions: Caniatadau
       redirect_uris: Ailgyfeirio URIs
   oauth2_authorizations:
@@ -2780,7 +2811,7 @@ cy:
       my notes: Nodiadau
       my messages: Negeseuon
       my profile: Proffil
-      my_account: Fy nghyfrif
+      my_account: Fy Nghyfrif
       my comments: Sylwadau
       my_preferences: Dewisiadau
       my_dashboard: Dangosfwrdd
@@ -2872,6 +2903,7 @@ cy:
           confirmed: Cadarnhawyd
           suspended: Wedi'u hatal
           deleted: Wedi'u dileu
+        name_or_email: Enw neu Gyfeiriad E-bost
         ip_address: Cyfeiriad IP
         search: Chwilio
       page:
@@ -3076,6 +3108,7 @@ cy:
       closed_title: 'Nodyn wedi''i ddatrys #%{note_name}'
       hidden_title: 'Nodyn cudd #%{note_name}'
       description_when_author_is_deleted: wedi'i ddileu
+      description_when_there_is_no_opening_comment: anhysbys
       event_opened_by_html: Crëwyd gan %{user} %{time_ago}
       event_opened_by_anonymous_html: Crëwyd gan berson ddienw %{time_ago}
       event_commented_by_html: Sylw gan %{user} %{time_ago}
@@ -3113,6 +3146,9 @@ cy:
         ddatrys.
       anonymous_warning_log_in: Mewngofnodwch
       anonymous_warning_sign_up: gofrestrwch
+      counter_warning_html: Rydych chi eisoes wedi creu o leiaf %{x_anonymous_notes},
+        sy'n wych i'r gymuned, diolch! Nawr rydym yn eich annog i %{contribute_by_yourself},
+        nid yw mor gymhleth â hynny, a %{community_can_help}.
       x_anonymous_notes:
         zero: '%{count} nodyn dienw'
         one: '%{count} nodyn dienw'
@@ -3121,7 +3157,7 @@ cy:
         many: '%{count} nodyn dienw'
         other: '%{count} nodyn dienw'
       counter_warning_guide_link:
-        text: cyfrannu eich hun
+        text: gyfrannu eich hun
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       counter_warning_forum_link:
         text: gall y gymuned eich helpu
@@ -3138,7 +3174,7 @@ cy:
       next: Nesaf
       previous: Cynt
     not_found_message:
-      sorry: 'Sori, ni ellir dod o hyd i nodyn #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i nodyn #%{id}.'
   javascripts:
     close: Cau
     share:
@@ -3242,7 +3278,7 @@ cy:
       distance_km: '%{distance}km'
       errors:
         no_route: Ni ellir dod o hyd i'r llwybr rhwng y ddau le.
-        no_place: Ymddiheuriadau - ni ellir canfod '%{place}'.
+        no_place: Mae'n ddrwg gennym - ni ellid dod o hyd i '%{place}'.
       instructions:
         continue_without_exit: Parhau ar %{name}
         slight_right_without_exit: Ychydig i'r dde i %{name}
@@ -3318,6 +3354,8 @@ cy:
           ninth: 9fed
           tenth: 10fed
       time: Amser
+      download: Lawrlwytho'r llwybr fel GeoJSON
+      filename: ffordd
     query:
       node: Nod
       way: Llwybr
@@ -3334,6 +3372,7 @@ cy:
       centre_map: Canoli'r map yma
     home:
       marker_title: Fy lleoliad cartref
+      not_set: Nid yw lleoliad cartref wedi'i osod ar gyfer eich cyfrif
   redactions:
     edit:
       heading: Golygu Gorchuddiad
