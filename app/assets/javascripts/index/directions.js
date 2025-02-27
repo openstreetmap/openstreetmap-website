@@ -41,19 +41,8 @@ OSM.Directions = function (map) {
   const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  const engines = OSM.Directions.engines;
-
-  engines.sort(function (a, b) {
-    const localised_a = I18n.t("javascripts.directions.engines." + a.id),
-          localised_b = I18n.t("javascripts.directions.engines." + b.id);
-    return localised_a.localeCompare(localised_b);
-  });
-
+  const modeGroup = $(".routing_modes");
   const select = $("select.routing_engines");
-
-  engines.forEach(function (engine, i) {
-    select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
-  });
 
   $(".directions_form .reverse_directions").on("click", function () {
     const coordFrom = endpoints[0].latlng,
@@ -98,15 +87,33 @@ OSM.Directions = function (map) {
     return h + ":" + (m < 10 ? "0" : "") + m;
   }
 
-  function findEngine(id) {
-    return engines.findIndex(function (engine) {
-      return engine.id === id;
-    });
-  }
+  function setEngine(id) {
+    const engines = OSM.Directions.engines;
+    const desired = engines.find(engine => engine.id === id);
+    if (!desired || (chosenEngine && chosenEngine.id === id)) return;
+    chosenEngine = desired;
 
-  function setEngine(index) {
-    chosenEngine = engines[index];
-    select.val(index);
+    const modes = engines
+      .filter(engine => engine.provider === chosenEngine.provider)
+      .map(engine => engine.mode);
+    modeGroup
+      .find("input[id]")
+      .prop("disabled", function () {
+        return !modes.includes(this.id);
+      })
+      .prop("checked", function () {
+        return this.id === chosenEngine.mode;
+      });
+
+    const providers = engines
+      .filter(engine => engine.mode === chosenEngine.mode)
+      .map(engine => engine.provider);
+    select
+      .find("option[value]")
+      .prop("disabled", function () {
+        return !providers.includes(this.value);
+      });
+    select.val(chosenEngine.provider);
   }
 
   function getRoute(fitRoute, reportErrors) {
@@ -230,14 +237,17 @@ OSM.Directions = function (map) {
     }
   }
 
-  let chosenEngineIndex = findEngine("fossgis_osrm_car");
-  if (Cookies.get("_osm_directions_engine")) {
-    chosenEngineIndex = findEngine(Cookies.get("_osm_directions_engine"));
-  }
-  setEngine(chosenEngineIndex);
+  setEngine("fossgis_osrm_car");
+  setEngine(Cookies.get("_osm_directions_engine"));
+
+  modeGroup.on("change", "input[name='modes']", function (e) {
+    setEngine(chosenEngine.provider + "_" + e.target.id);
+    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
+    getRoute(true, true);
+  });
 
   select.on("change", function (e) {
-    chosenEngine = engines[e.target.selectedIndex];
+    setEngine(e.target.selectedOptions[0].value + "_" + chosenEngine.mode);
     Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
     getRoute(true, true);
   });
@@ -286,13 +296,7 @@ OSM.Directions = function (map) {
     const params = new URLSearchParams(location.search),
           route = (params.get("route") || "").split(";");
 
-    if (params.has("engine")) {
-      const engineIndex = findEngine(params.get("engine"));
-
-      if (engineIndex >= 0) {
-        setEngine(engineIndex);
-      }
-    }
+    if (params.has("engine")) setEngine(params.get("engine"));
 
     endpoints[0].setValue(params.get("from") || route[0] || "");
     endpoints[1].setValue(params.get("to") || route[1] || "");
@@ -324,6 +328,7 @@ OSM.Directions.engines = [];
 
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
   if (document.location.protocol === "http:" || supportsHTTPS) {
+    engine.id = engine.provider + "_" + engine.mode;
     OSM.Directions.engines.push(engine);
   }
 };

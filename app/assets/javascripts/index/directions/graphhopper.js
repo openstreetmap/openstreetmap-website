@@ -1,5 +1,5 @@
 (function () {
-  function GraphHopperEngine(id, vehicleType) {
+  function GraphHopperEngine(modeId, vehicleType) {
     const GH_INSTR_MAP = {
       "-3": 7, // sharp left
       "-2": 6, // left
@@ -47,7 +47,8 @@
     }
 
     return {
-      id: id,
+      mode: modeId,
+      provider: "graphhopper",
       creditline: "<a href=\"https://www.graphhopper.com/\" target=\"_blank\">GraphHopper</a>",
       draggable: false,
 
@@ -73,7 +74,7 @@
     };
   }
 
-  OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_car", "car"), true);
-  OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "bike"), true);
-  OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "foot"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("car", "car"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("bicycle", "bike"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("foot", "foot"), true);
 }());

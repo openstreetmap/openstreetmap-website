@@ -2,7 +2,7 @@
 // Doesn't yet support hints
 
 (function () {
-  function FOSSGISOSRMEngine(id, vehicleType) {
+  function FOSSGISOSRMEngine(modeId, vehicleType) {
     let cachedHints = [];
 
     function _processDirections(route) {
@@ -150,7 +150,8 @@
     }
 
     return {
-      id: id,
+      mode: modeId,
+      provider: "fossgis_osrm",
       creditline: "<a href=\"https://routing.openstreetmap.de/about.html\" target=\"_blank\">OSRM (FOSSGIS)</a>",
       draggable: true,
 
@@ -181,7 +182,7 @@
     };
   }
 
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("fossgis_osrm_car", "car"), true);
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("fossgis_osrm_bike", "bike"), true);
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("fossgis_osrm_foot", "foot"), true);
+  OSM.Directions.addEngine(new FOSSGISOSRMEngine("car", "car"), true);
+  OSM.Directions.addEngine(new FOSSGISOSRMEngine("bicycle", "bike"), true);
+  OSM.Directions.addEngine(new FOSSGISOSRMEngine("foot", "foot"), true);
 }());
