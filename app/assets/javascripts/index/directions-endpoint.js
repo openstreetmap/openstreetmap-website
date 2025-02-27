@@ -104,7 +104,13 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     const viewbox = map.getBounds().toBBoxString(), // <sw lon>,<sw lat>,<ne lon>,<ne lat>
           geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox });
 
-    endpoint.geocodeRequest = $.getJSON(geocodeUrl, function (json) {
+    endpoint.geocodeRequest = new AbortController();
+    fetch(geocodeUrl, { signal: endpoint.geocodeRequest.signal })
+      .then(r => r.json())
+      .then(success)
+      .catch(() => {});
+
+    function success(json) {
       delete endpoint.geocodeRequest;
       if (json.length === 0) {
         input.addClass("is-invalid");
@@ -119,7 +125,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       input.val(json[0].display_name);
 
       changeCallback();
-    });
+    }
   }
 
   function getReverseGeocode() {
@@ -127,7 +133,13 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
           { lat, lng } = latlng,
           reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?" + new URLSearchParams({ lat, lon: lng, format: "json" });
 
-    endpoint.geocodeRequest = $.getJSON(reverseGeocodeUrl, function (json) {
+    endpoint.geocodeRequest = new AbortController();
+    fetch(reverseGeocodeUrl, { signal: endpoint.geocodeRequest.signal })
+      .then(r => r.json())
+      .then(success)
+      .catch(() => {});
+
+    function success(json) {
       delete endpoint.geocodeRequest;
       if (!json || !json.display_name) {
         endpoint.cachedReverseGeocode = { latlng: latlng, notFound: true };
@@ -137,7 +149,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       endpoint.value = json.display_name;
       input.val(json.display_name);
       endpoint.cachedReverseGeocode = { latlng: latlng, value: endpoint.value };
-    });
+    }
   }
 
   function setLatLng(ll) {
