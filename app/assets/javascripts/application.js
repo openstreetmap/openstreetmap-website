@@ -95,6 +95,9 @@ $(document).ready(function () {
         breakpointWidth = 768;
   let moreItemWidth = 0;
 
+  OSM.csrf = {};
+  OSM.csrf[($("meta[name=csrf-param]").attr("content"))] = $("meta[name=csrf-token]").attr("content");
+
   function updateHeader() {
     const windowWidth = $(window).width();
 

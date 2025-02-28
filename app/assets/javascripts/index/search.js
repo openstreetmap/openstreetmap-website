@@ -44,19 +44,14 @@ OSM.Search = function (map) {
     e.preventDefault();
     e.stopPropagation();
 
-    const div = $(this).parents(".search_more"),
-          csrf_param = $("meta[name=csrf-param]").attr("content"),
-          csrf_token = $("meta[name=csrf-token]").attr("content"),
-          params = new URLSearchParams();
+    const div = $(this).parents(".search_more");
 
     $(this).hide();
     div.find(".loader").show();
 
-    params.set(csrf_param, csrf_token);
-
     fetch($(this).attr("href"), {
       method: "POST",
-      body: params
+      body: new URLSearchParams(OSM.csrf)
     })
       .then(response => response.text())
       .then(data => div.replaceWith(data));
@@ -120,20 +115,17 @@ OSM.Search = function (map) {
 
   page.load = function () {
     $(".search_results_entry").each(function (index) {
-      const entry = $(this),
-            csrf_param = $("meta[name=csrf-param]").attr("content"),
-            csrf_token = $("meta[name=csrf-token]").attr("content"),
-            params = new URLSearchParams({
-              zoom: map.getZoom(),
-              minlon: map.getBounds().getWest(),
-              minlat: map.getBounds().getSouth(),
-              maxlon: map.getBounds().getEast(),
-              maxlat: map.getBounds().getNorth()
-            });
-      params.set(csrf_param, csrf_token);
+      const entry = $(this);
       fetch(entry.data("href"), {
         method: "POST",
-        body: params
+        body: new URLSearchParams({
+          zoom: map.getZoom(),
+          minlon: map.getBounds().getWest(),
+          minlat: map.getBounds().getSouth(),
+          maxlon: map.getBounds().getEast(),
+          maxlat: map.getBounds().getNorth(),
+          ...OSM.csrf
+        })
       })
         .then(response => response.text())
         .then(function (html) {
