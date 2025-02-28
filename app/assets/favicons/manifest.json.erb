@@ -2,11 +2,15 @@
 	"name": "OpenStreetMap",
 	"short_name": "OSM",
 	"icons": <%= [36, 48, 72, 96, 144, 192].map { |res| {
-			src: image_path("android-chrome-#{res}x#{res}.png").gsub("/", "\\/"),
+			src: image_path("android-chrome-#{res}x#{res}.png"),
 			sizes: "#{res}x#{res}",
 			type: "image/png",
 			density: res.to_f / 48
-		} }.to_json %>,
+		} }.push({
+			src: image_path("../images/osm_logo.svg"),
+			sizes: "any",
+			type: "image/svg+xml"
+		}).to_json %>,
 	"start_url": "/",
 	"theme_color": "#7ebc6f",
 	"background_color": "#fff",
