@@ -58,7 +58,7 @@ OSM.History = function (map) {
   function update() {
     const data = new URLSearchParams();
 
-    if (window.location.pathname === "/history") {
+    if (location.pathname === "/history") {
       data.set("bbox", map.getBounds().wrap().toBBoxString());
       const feedLink = $("link[type=\"application/atom+xml\"]"),
             feedHref = feedLink.attr("href").split("?")[0];
@@ -67,7 +67,7 @@ OSM.History = function (map) {
 
     data.set("list", "1");
 
-    fetch(window.location.pathname + "?" + data)
+    fetch(location.pathname + "?" + data)
       .then(response => response.text())
       .then(function (html) {
         displayFirstChangesets(html);
@@ -137,7 +137,7 @@ OSM.History = function (map) {
 
     updateBounds();
 
-    if (window.location.pathname !== "/history") {
+    if (location.pathname !== "/history") {
       const bounds = group.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
@@ -150,7 +150,7 @@ OSM.History = function (map) {
   page.load = function () {
     map.addLayer(group);
 
-    if (window.location.pathname === "/history") {
+    if (location.pathname === "/history") {
       map.on("moveend", update);
     }
 

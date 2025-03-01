@@ -311,7 +311,7 @@ $(document).ready(function () {
     };
 
     function addObject(type, id, version, center) {
-      const hashParams = OSM.parseHash(window.location.hash);
+      const hashParams = OSM.parseHash(location.hash);
       map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
         if (!hashParams.center && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
@@ -363,7 +363,7 @@ $(document).ready(function () {
     "/account/home": OSM.Home(map)
   });
 
-  if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
+  if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {
     remoteEditHandler(map.getBounds(), params.object);
     OSM.router.setCurrentPath("/");
   }

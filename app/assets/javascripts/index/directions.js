@@ -346,7 +346,7 @@ OSM.Directions = function (map) {
 OSM.Directions.engines = [];
 
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
-  if (document.location.protocol === "http:" || supportsHTTPS) {
+  if (location.protocol === "http:" || supportsHTTPS) {
     engine.id = engine.provider + "_" + engine.mode;
     OSM.Directions.engines.push(engine);
   }

@@ -27,7 +27,7 @@ $(document).ready(function () {
   }
 
   function geoSuccess(position) {
-    window.location = "/edit" + OSM.formatHash({
+    location = "/edit" + OSM.formatHash({
       zoom: 17,
       lat: position.coords.latitude,
       lon: position.coords.longitude
@@ -35,6 +35,6 @@ $(document).ready(function () {
   }
 
   function manualEdit() {
-    window.location = "/?edit_help=1";
+    location = "/?edit_help=1";
   }
 });

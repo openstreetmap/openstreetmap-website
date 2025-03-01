@@ -326,7 +326,7 @@ OSM.Query = function (map) {
     const params = new URLSearchParams(path.substring(path.indexOf("?"))),
           latlng = L.latLng(params.get("lat"), params.get("lon"));
 
-    if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
+    if (!location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {
         map.setView(latlng, 15);
       });
