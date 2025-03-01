@@ -1,6 +1,6 @@
 if (OSM.MATOMO) {
   $(document).ready(function () {
-    const base = document.location.protocol + "//" + OSM.MATOMO.location + "/";
+    const base = location.protocol + "//" + OSM.MATOMO.location + "/";
     let matomoTracker;
 
     const matomoLoader = $.ajax({

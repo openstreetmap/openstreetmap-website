@@ -33,7 +33,7 @@ describe("OSM", function () {
     beforeEach(function () {
       delete OSM.home;
       delete OSM.location;
-      document.location.hash = "";
+      location.hash = "";
       document.cookie = "_osm_location=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
       // Test with another cookie set.
@@ -83,7 +83,7 @@ describe("OSM", function () {
     });
 
     it("parses lat/lon/zoom from the hash", function () {
-      document.location.hash = "#map=16/57.6247/-3.6845";
+      location.hash = "#map=16/57.6247/-3.6845";
       const params = OSM.mapParams("?");
       expect(params).to.have.property("lat", 57.6247);
       expect(params).to.have.property("lon", -3.6845);
@@ -133,7 +133,7 @@ describe("OSM", function () {
       params = OSM.mapParams("?");
       expect(params).to.have.property("layers", "C");
 
-      document.location.hash = "#map=5/57.6247/-3.6845&layers=M";
+      location.hash = "#map=5/57.6247/-3.6845&layers=M";
       params = OSM.mapParams("?");
       expect(params).to.have.property("layers", "M");
     });

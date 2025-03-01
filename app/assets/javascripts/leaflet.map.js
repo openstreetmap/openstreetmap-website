@@ -155,7 +155,7 @@ L.OSM.Map = L.Map.extend({
       [params.mlat, params.mlon] = OSM.cropLocation(marker.getLatLng(), this.getZoom());
     }
 
-    let url = window.location.protocol + "//" + OSM.SERVER_URL + "/";
+    let url = location.protocol + "//" + OSM.SERVER_URL + "/";
     const query = new URLSearchParams(params),
           hash = OSM.formatHash(this);
 
@@ -176,7 +176,7 @@ L.OSM.Map = L.Map.extend({
           // and drops the last 4 bits of the full 64 bit Morton code.
           c1 = interlace(x >>> 17, y >>> 17),
           c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
-    let str = window.location.protocol + "//" + window.location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/";
+    let str = location.protocol + "//" + location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/";
 
     for (let i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
       const digit = (c1 >> (24 - (6 * i))) & 0x3f;

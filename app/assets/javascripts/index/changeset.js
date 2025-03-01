@@ -12,7 +12,7 @@ OSM.Changeset = function (map) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
-    const hashParams = OSM.parseHash(window.location.hash);
+    const hashParams = OSM.parseHash(location.hash);
     initialize();
     map.addObject(changesetData, function (bounds) {
       if (!hashParams.center && bounds.isValid()) {
@@ -45,7 +45,7 @@ OSM.Changeset = function (map) {
         });
       })
       .then(() => {
-        OSM.loadSidebarContent(window.location.pathname, page.load);
+        OSM.loadSidebarContent(location.pathname, page.load);
       })
       .catch(error => {
         content.find("button[data-method][data-url]").prop("disabled", false);
