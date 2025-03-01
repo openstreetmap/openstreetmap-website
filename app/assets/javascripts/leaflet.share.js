@@ -228,13 +228,11 @@ L.OSM.share = function (options) {
         .appendTo($form);
     }
 
-    const csrf_param = $("meta[name=csrf-param]").attr("content"),
-          csrf_token = $("meta[name=csrf-token]").attr("content");
+    const csrfAttrs = { type: "hidden" };
+    [[csrfAttrs.name, csrfAttrs.value]] = Object.entries(OSM.csrf);
 
     $("<input>")
-      .attr("name", csrf_param)
-      .attr("value", csrf_token)
-      .attr("type", "hidden")
+      .attr(csrfAttrs)
       .appendTo($form);
 
     const args = {

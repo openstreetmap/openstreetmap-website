@@ -210,10 +210,10 @@ $(document).ready(function () {
   });
 
   $("input[name=legale]").change(function () {
-    const url = $(this).data("url");
-
     $("#contributorTerms").html("<div class='spinner-border' role='status'><span class='visually-hidden'>" + I18n.t("browse.start_rjs.loading") + "</span></div>");
-    $("#contributorTerms").load(url);
+    fetch($(this).data("url"))
+      .then(r => r.text())
+      .then(html => { $("#contributorTerms").html(html); });
   });
 
   $("#read_ct").on("click", function () {
