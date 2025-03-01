@@ -1,5 +1,5 @@
 if (OSM.MATOMO) {
-  $(document).ready(function () {
+  $(function () {
     const base = location.protocol + "//" + OSM.MATOMO.location + "/";
     let matomoTracker;
 

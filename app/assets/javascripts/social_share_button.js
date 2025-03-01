@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   function openShareUrl(url, initialWidth = 640, initialHeight = 480) {
     const width = Math.max(100, Math.min(screen.width, initialWidth));
     const height = Math.max(100, Math.min(screen.height, initialHeight));

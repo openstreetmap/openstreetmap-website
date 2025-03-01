@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   let marker, map;
 
   function setLocation(e) {

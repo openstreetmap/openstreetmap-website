@@ -84,7 +84,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
     .toggleClass("disabled", editDisabled);
 };
 
-$(document).ready(function () {
+$(function () {
   // NB: Turns Turbo Drive off by default. Turbo Drive must be opt-in on a per-link and per-form basis
   // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
   Turbo.session.drive = false;

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   $(".messages-table .destroy-message").on("turbo:submit-end", function (event) {
     if (event.detail.success) {
       event.target.dataset.isDestroyed = true;
