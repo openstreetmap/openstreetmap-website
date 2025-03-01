@@ -273,13 +273,15 @@ OSM.Directions = function (map) {
     map.fire("startinglocation", { latlng: [lat, lng] });
   }
 
+  function startingLocationListener({ latlng }) {
+    if (endpoints[0].value) return;
+    endpoints[0].setValue(latlng.join(", "));
+  }
+
   map.on("locationfound", ({ latlng: { lat, lng } }) =>
     lastLocation = [lat, lng]
   ).on("locateactivate", () => {
-    map.once("startinglocation", ({ latlng }) => {
-      if (endpoints[0].value) return;
-      endpoints[0].setValue(latlng.join(", "));
-    });
+    map.once("startinglocation", startingLocationListener);
   });
 
   const page = {};
