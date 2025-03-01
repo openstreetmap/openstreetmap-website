@@ -86,14 +86,17 @@ jobs:
         ruby-version: ${{ env.ruby }}
         rubygems: 3.4.10
         bundler-cache: true
+    - name: Configure rails
+      run: |
+        cp config/github.database.yml config/database.yml
+        cp config/example.storage.yml config/storage.yml
     - name: Setup database
       run: |
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
-        cp config/github.database.yml config/database.yml
         bundle exec rails db:schema:load
     - name: Run Annotate Models
-      run: bundle exec rails annotate_models
+      run: bundle exec annotaterb models
     - name: Fail if model annotations are out of date
       run: git diff --exit-code

@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  email                :string           not null
-#  id                   :bigint(8)        not null, primary key
+#  id                   :bigint           not null, primary key
 #  pass_crypt           :string           not null
 #  creation_time        :datetime         not null
 #  display_name         :string           default(""), not null
@@ -28,7 +28,7 @@
 #  diary_entries_count  :integer          default(0), not null
 #  image_use_gravatar   :boolean          default(FALSE), not null
 #  auth_provider        :string
-#  home_tile            :bigint(8)
+#  home_tile            :bigint
 #  tou_agreed           :datetime
 #  diary_comments_count :integer          default(0)
 #  note_comments_count  :integer          default(0)
