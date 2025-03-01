@@ -6,7 +6,7 @@
   });
 }());
 
-$(document).ready(function () {
+$(function () {
   const defaultHomeZoom = 12;
   let map, marker, deleted_lat, deleted_lon;
 

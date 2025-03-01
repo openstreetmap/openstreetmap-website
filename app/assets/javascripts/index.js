@@ -24,7 +24,7 @@
 //= require index/home
 //= require router
 
-$(document).ready(function () {
+$(function () {
   const map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
