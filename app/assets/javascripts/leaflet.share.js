@@ -159,6 +159,7 @@ L.OSM.share = function (options) {
           .attr("class", "form-select w-auto")
           .append($("<option>").val("png").text("PNG").prop("selected", true))
           .append($("<option>").val("jpeg").text("JPEG"))
+          .append($("<option>").val("webp").text("WEBP"))
           .append($("<option>").val("svg").text("SVG"))
           .append($("<option>").val("pdf").text("PDF"))));
 
