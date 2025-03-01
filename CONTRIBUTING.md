@@ -55,7 +55,7 @@ bundle exec rails test:all
 You can run javascript tests with:
 
 ```
-bundle exec teaspoon
+RAILS_ENV=test bundle exec teaspoon
 ```
 
 You can view test coverage statistics by browsing the `coverage` directory.
