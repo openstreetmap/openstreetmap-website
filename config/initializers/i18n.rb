@@ -29,8 +29,6 @@ I18n::Backend::Simple.prepend(OpenStreetMap::I18n::NormaliseLocales)
 I18n::Backend::Simple.include(I18n::Backend::PluralizationFallback)
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
-I18n.fallbacks.map("no" => "nb")
-
 I18n.enforce_available_locales = false
 
 if Rails.env.test?
