@@ -11,6 +11,7 @@
 # Author: Iriep
 # Author: Lompezh
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Shirayuki
@@ -288,6 +289,7 @@ br:
   accounts:
     show:
       title: Aozañ ar gont
+      my_account: Ma c'hont
       current email address: Chomlec'h postel a-vremañ
       external auth: Dilesadur diavaez
       openid:
@@ -359,6 +361,9 @@ br:
           c'henlabourer !
       terms_declined_flash:
         terms_declined_link: ar bejenn-mañ eus ar wiki
+    pd_declarations:
+      show:
+        confirm: Kadarnaat
   browse:
     deleted_ago_by_html: Bet dilamet %{time_ago} gant %{user}
     edited_ago_by_html: Bet aozet %{time_ago} gant %{user}
@@ -942,6 +947,7 @@ br:
           bridleway: Hent evit ar varc'hegerien
           bus_guideway: Roudenn vus heñchet
           bus_stop: Arsav bus
+          busway: Hent bus
           construction: Chanter gourhent
           corridor: Trepas
           crossing: Kroashent
@@ -1025,6 +1031,7 @@ br:
           wreck: Peñse
           "yes": Lec'h Istorel
         information:
+          board: Panell titouroù
           map: Kartenn
           office: Ti an douristed
         junction:
@@ -1446,6 +1453,8 @@ br:
           pond: Stank
           reservoir: Mirlenn
           basin: Oglenn
+          fishpond: Poull-pesked
+          wastewater: Dour lous
           oxbow: Brec'h marv
           lock: Skluz
         waterway:
@@ -1508,6 +1517,7 @@ br:
         few: '%{count} danevell'
         many: '%{count} danevell'
         other: '%{count} danevell'
+      more_reporters: hag %{count} all
       reported_item: Elfenn disklêriet
       states:
         ignored: Lezet a-gostez
@@ -1609,6 +1619,7 @@ br:
     partners_fastly: Fastly
     partners_partners: Kevelourien
     tou: Termenoù implijout
+    nothing_to_preview: N'eus rakwel ebet.
     help: Skoazell
     about: Diwar-benn
     copyright: Gwirioù oberour & Aotre-implijout
@@ -1643,8 +1654,12 @@ br:
         e %{replyurl}
     follow_notification:
       hi: Demat dit %{to_user},
+      subject: '[OpenStreetMap] %{user} zo o heuliañ ac''hanoc''h'
+      followed_you: Emañ %{user} o heuliañ ac'hanoc'h bremañ war OpenStreetMap.
       see_their_profile: 'Gallout a rit gwelet o frofil amañ : %{userurl}.'
       see_their_profile_html: 'Gallout a rit gwelet o frofil amañ : %{userurl}.'
+      follow_them: Moaien zo deoc'h heuliañ anezhañ/i war %{followurl}.
+      follow_them_html: Moaien zo deoc'h heuliañ anezhañ/i war %{followurl}.
     gpx_details:
       filename: Anv ar restr
       url: URL
@@ -1922,7 +1937,7 @@ br:
       failure: N'haller ket hizivaat ar profil.
   sessions:
     new:
-      tab_title: Kevreañ
+      tab_title: Kennaskañ
       login_to_authorize_html: Kennaskit ouzh OpenStreetMap evit kaout %{client_app_name}.
       email or username: Chomlec'h postel pe anv implijer
       password: Ger-tremen
@@ -2230,6 +2245,10 @@ br:
         enklask
       submit_text: Kas
       reverse_directions_text: Eilpennañ an durc'hadurioù
+      modes:
+        bicycle: War varc'h-houarn
+        car: Karr
+        foot: War droad
     key:
       table:
         entry:
@@ -2634,6 +2653,7 @@ br:
       my notes: Ma notennoù
       my messages: Ma c'hemennadennoù
       my profile: Ma frofil
+      my_account: Ma c'hont
       my comments: Ma evezhiadennoù
       my_preferences: Ma fenndibaboù
       my_dashboard: Ma zaolenn-vourzh
@@ -2717,6 +2737,11 @@ br:
       show:
         title: Implijerien
         heading: Implijerien
+        states:
+          deleted: Dilamet
+        name_or_email: Anv pe postel
+        ip_address: Chomlec'h IP
+        search: Klask
       page:
         found_users:
           one: '%{count} implijer kavet'
@@ -2932,6 +2957,8 @@ br:
       open_title: 'Neket bet diskoulmet an notenn #%{note_name}'
       closed_title: 'Notenn diskoulmet #%{note_name}'
       hidden_title: 'Notenn kuzhet #%{note_name}'
+      description_when_author_is_deleted: dilamet
+      description_when_there_is_no_opening_comment: dianav
       event_opened_by_html: Bet krouet gant %{user} %{time_ago}
       event_opened_by_anonymous_html: Bet krouet gant un implijer dizanv %{time_ago}
       event_commented_by_html: Kemennadenn skrivet gant %{user} %{time_ago}
@@ -2962,6 +2989,8 @@ br:
         ha skrivit un notenn da zisplegañ ar gudenn.
       anonymous_warning_log_in: kevreañ
       anonymous_warning_sign_up: en em enskrivañ
+      counter_warning_forum_link:
+        text: ar gumuniezh a c'hall sikour ac'hanoc'h
       advice: Foran eo ho notenn ha ne c'hall ket bezañ implijet evit hizivaat ar
         gartenn. Setu perak eo arabat ebarzhiñ titouroù personel pe titouroù o tont
         eus kartennoù gwarezet na endalc'hioù rolloù.
@@ -3053,16 +3082,6 @@ br:
       neuze klikit amañ.
     directions:
       ascend: Pignat
-      engines:
-        fossgis_osrm_bike: War varc'h-houarn (OSRM)
-        fossgis_osrm_car: Karr (OSRM)
-        fossgis_osrm_foot: War droad (OSRM)
-        graphhopper_bicycle: Marc'h-houarn (GraphHopper)
-        graphhopper_car: Karr GraphHopper)
-        graphhopper_foot: Troad (GraphHopper)
-        fossgis_valhalla_bicycle: War varc'h-houarn (Valhalla)
-        fossgis_valhalla_car: Karr (Valhalla)
-        fossgis_valhalla_foot: War droad (Valhalla)
       descend: Diskenn
       directions: Durc'hadurioù
       distance: Hed
@@ -3147,6 +3166,7 @@ br:
           ninth: 9vet
           tenth: 10vet
       time: Eur
+      filename: hentad
     query:
       node: Skoulm
       way: Hent
@@ -3161,6 +3181,8 @@ br:
       show_address: Diskouez ar chomlec'h
       query_features: Perzhioù enklask
       centre_map: Kreizañ ar gartenn amañ
+    home:
+      marker_title: Lec'hiadur ma zi
   redactions:
     edit:
       heading: Aozañ ar skridaozadenn
