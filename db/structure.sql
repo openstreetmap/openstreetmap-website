@@ -2464,6 +2464,13 @@ CREATE INDEX index_friends_on_user_id_and_created_at ON public.friends USING btr
 
 
 --
+-- Name: index_gpx_files_on_user_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_gpx_files_on_user_id_and_id ON public.gpx_files USING btree (user_id, id);
+
+
+--
 -- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3429,6 +3436,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250304172758'),
 ('20250212160355'),
 ('20250206202905'),
 ('20250121191749'),
