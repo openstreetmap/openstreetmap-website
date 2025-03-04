@@ -338,7 +338,7 @@ module Api
       second_user = create(:user)
       third_user = create(:user)
 
-      note_with_comments_by_users = create(:note) do |note|
+      note_with_comments_by_users = create(:note, :author => first_user) do |note|
         create(:note_comment, :note => note, :author => first_user)
         create(:note_comment, :note => note, :author => second_user)
       end
