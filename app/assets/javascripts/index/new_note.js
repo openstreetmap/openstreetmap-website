@@ -2,7 +2,8 @@ OSM.NewNote = function (map) {
   const noteLayer = map.noteLayer,
         content = $("#sidebar_content"),
         page = {},
-        addNoteButton = $(".control-note .control-button");
+        control = $(".control-note"),
+        addNoteButton = control.find(".control-button");
   let newNoteMarker,
       halo;
 
@@ -109,7 +110,7 @@ OSM.NewNote = function (map) {
   };
 
   page.load = function (path) {
-    addNoteButton.addClass("active");
+    control.addClass("active");
 
     map.addLayer(noteLayer);
 
@@ -165,7 +166,7 @@ OSM.NewNote = function (map) {
     map.off("click", moveNewNoteMarkerToClick);
     addNoteButton.off("disabled enabled", updateControls);
     removeNewNoteMarker();
-    addNoteButton.removeClass("active");
+    control.removeClass("active");
   };
 
   return page;
