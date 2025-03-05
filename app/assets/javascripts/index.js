@@ -380,6 +380,11 @@ $(function () {
       return;
     }
 
+    // Open local anchor links as normal.
+    if ($(this).attr("href")?.startsWith("#")) {
+      return;
+    }
+
     // Ignore cross-protocol and cross-origin links.
     if (location.protocol !== this.protocol || location.host !== this.host) {
       return;
