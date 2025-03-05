@@ -31,7 +31,8 @@ class ReportNoteTest < ApplicationSystemTestCase
   end
 
   def test_can_report_notes_with_author
-    note = create(:note_comment, :author => create(:user)).note
+    user = create(:user)
+    note = create(:note_comment, :author => user, :note => build(:note, :author => user)).note
     sign_in_as(create(:user))
     visit note_path(note)
 

@@ -92,22 +92,9 @@ class Note < ApplicationRecord
     closed_at + DEFAULT_FRESHLY_CLOSED_LIMIT
   end
 
-  # Return the note's description, derived from the first comment
+  # Return the note's description
   def description
-    if user_ip.nil? && user_id.nil?
-      all_comments.first.body if all_comments.first&.event == "opened"
-    else
-      RichText.new("text", super)
-    end
-  end
-
-  # Return the note's author object, derived from the first comment
-  def author
-    if user_ip.nil? && user_id.nil?
-      all_comments.first.author if all_comments.first&.event == "opened"
-    else
-      super
-    end
+    RichText.new("text", super)
   end
 
   private
