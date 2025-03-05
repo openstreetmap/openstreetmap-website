@@ -5,16 +5,16 @@ class IndexTest < ApplicationSystemTestCase
     node = create(:node)
     visit node_path(node)
     assert_selector "#content.overlay-right-sidebar"
-    find(".icon.share").click
+    find(".control-share a").click
     assert_no_selector "#content.overlay-right-sidebar"
-    find(".icon.share").click
+    find(".control-share a").click
     assert_selector "#content.overlay-right-sidebar"
   end
 
   test "should add an overlay on close" do
     node = create(:node)
     visit node_path(node)
-    find(".icon.share").click
+    find(".control-share a").click
     assert_no_selector "#content.overlay-right-sidebar"
     find("#map-ui .btn-close").click
     assert_selector "#content.overlay-right-sidebar"
@@ -23,16 +23,16 @@ class IndexTest < ApplicationSystemTestCase
   test "should not add overlay when not closing right menu popup" do
     node = create(:node)
     visit node_path(node)
-    find(".icon.share").click
+    find(".control-share a").click
 
-    find(".icon.key").click
+    find(".control-key a").click
     assert_no_selector "#content.overlay-right-sidebar"
-    find(".icon.layers").click
+    find(".control-layers a").click
     assert_no_selector "#content.overlay-right-sidebar"
-    find(".icon.key").click
+    find(".control-key a").click
     assert_no_selector "#content.overlay-right-sidebar"
 
-    find(".icon.key").click
+    find(".control-key a").click
     assert_selector "#content.overlay-right-sidebar"
   end
 
