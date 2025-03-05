@@ -20,9 +20,9 @@
     <p><%= t "site.welcome.add_a_note.para_1" %></p>
     <p><%= map_hash = params[:lat].to_f && params[:lon].to_f ? "#map=#{params[:zoom].to_i || 17}/#{params[:lat].to_f}/#{params[:lon].to_f}" : ""
            t ".how_to_help.add_a_note.instructions_1_html",
-             :note_icon => tag.a(:class => "icon note bg-dark rounded-1",
-                                 :href => "#{new_note_path}#{map_hash}",
-                                 :title => t("javascripts.site.createnote_tooltip")) %></p>
+             :note_icon => link_to(render(:partial => "layouts/note_icon"),
+                                   "#{new_note_path}#{map_hash}",
+                                   :title => t("javascripts.site.createnote_tooltip")) %></p>
   </div>
 </div>
 
