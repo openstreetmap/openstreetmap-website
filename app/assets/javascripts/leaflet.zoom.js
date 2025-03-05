@@ -37,7 +37,10 @@ L.OSM.Zoom = L.Control.extend({
     link.href = "#";
     link.title = title;
 
-    L.DomUtil.create("span", "icon " + className, link);
+    $(L.SVG.create("svg"))
+      .append($(L.SVG.create("use")).attr("href", "#icon-" + className))
+      .attr("class", "h-100 w-100")
+      .appendTo(link);
 
     const stop = L.DomEvent.stopPropagation;
 
