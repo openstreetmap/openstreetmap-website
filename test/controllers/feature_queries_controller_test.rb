@@ -6,13 +6,13 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/query", :method => :get },
-      { :controller => "browse", :action => "query" }
+      { :controller => "feature_queries", :action => "show" }
     )
   end
 
-  def test_query
-    get query_path
+  def test_show
+    get feature_query_path
     assert_response :success
-    assert_template "browse/query"
+    assert_template "feature_queries/show"
   end
 end
