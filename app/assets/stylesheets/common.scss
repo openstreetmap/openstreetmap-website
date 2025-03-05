@@ -16,35 +16,6 @@ time[title] {
   text-decoration: underline dotted;
 }
 
-/* Rules for icons */
-
-.icon {
-  display: inline-block;
-  vertical-align: top;
-  width: 20px;
-  height: 20px;
-  background: transparent image-url("sprite.svg") no-repeat 0 0;
-  text-indent: -9999px;
-  overflow: hidden;
-}
-
-.icon.search      { /*rtl:ignore*/ background-position: 0 0; }
-.icon.donate      { /*rtl:ignore*/ background-position: -20px 0; }
-.icon.zoomin      { /*rtl:ignore*/ background-position: -40px 0; }
-.icon.zoomout     { /*rtl:ignore*/ background-position: -60px 0; }
-.icon.geolocate   { /*rtl:ignore*/ background-position: -80px 0; }
-.icon.layers      { /*rtl:ignore*/ background-position: -100px 0; }
-.icon.key         { /*rtl:ignore*/ background-position: -120px 0; }
-.icon.share       { /*rtl:ignore*/ background-position: -140px 0; }
-.icon.clipboard   { /*rtl:ignore*/ background-position: -160px 0; }
-.icon.link        { /*rtl:ignore*/ background-position: -180px 0; }
-.icon.close       { /*rtl:ignore*/ background-position: -200px 0; }
-.icon.close:hover { /*rtl:ignore*/ background-position: -200px -20px; }
-.icon.check       { /*rtl:ignore*/ background-position: -220px 0; }
-.icon.note        { /*rtl:ignore*/ background-position: -240px 0; }
-.icon.note.grey   { /*rtl:ignore*/ background-position: -240px -20px; }
-.icon.query       { /*rtl:ignore*/ background-position: -260px 0; }
-
 /* Utility for de-emphasizing content */
 
 .text-body-secondary a {
@@ -280,6 +251,8 @@ body.small-nav {
   display: block;
   height: 40px;
   width: 40px;
+  color: white;
+  padding: 10px;
   background-color: #333;
   background-color: rgba(0,0,0,.6);
   outline: none;
@@ -304,14 +277,15 @@ body.small-nav {
     border-end-start-radius: 4px;
     margin-bottom: 10px;
   }
-
-  .icon {
-    margin: 10px;
-  }
 }
 
 .leaflet-control.active .control-button {
   background-color: $vibrant-green;
+}
+
+.geolocate {
+  background: currentColor;
+  clip-path: polygon(20% 50%, 20% 40%, 70% 20%, 80% 20%, 80% 30%, 60% 80%, 50% 80%, 50% 50%);
 }
 
 /* Rules for the sidebar and main map area */
