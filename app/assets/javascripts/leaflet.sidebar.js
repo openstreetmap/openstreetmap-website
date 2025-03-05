@@ -26,6 +26,7 @@ L.OSM.sidebar = function (selector) {
       .trigger("hide");
 
     currentButton
+      .parent()
       .removeClass("active");
 
     if (current === pane) {
@@ -56,6 +57,7 @@ L.OSM.sidebar = function (selector) {
       .trigger("show");
 
     currentButton
+      .parent()
       .addClass("active");
   };
 
