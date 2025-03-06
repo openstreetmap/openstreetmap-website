@@ -37,7 +37,7 @@ $(function () {
 
     map.setSidebarOverlaid(false);
 
-    $("#sidebar_loader").show().addClass("delayed-fade-in");
+    $("#sidebar_loader").prop("hidden", false).addClass("delayed-fade-in");
 
     // Prevent caching the XHR response as a full-page URL
     // https://github.com/openstreetmap/openstreetmap-website/issues/5663
@@ -53,7 +53,7 @@ $(function () {
     fetch(content_path, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
       .then(response => {
         $("#flash").empty();
-        $("#sidebar_loader").removeClass("delayed-fade-in").hide();
+        $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
 
         const title = response.headers.get("X-Page-Title");
         if (title) document.title = decodeURIComponent(title);
