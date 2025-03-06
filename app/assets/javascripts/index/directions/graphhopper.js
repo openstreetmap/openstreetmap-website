@@ -1,21 +1,21 @@
 (function () {
   function GraphHopperEngine(modeId, vehicleType) {
     const GH_INSTR_MAP = {
-      "-3": 7, // sharp left
-      "-2": 6, // left
-      "-1": 5, // slight left
-      "0": 0, // straight
-      "1": 1, // slight right
-      "2": 2, // right
-      "3": 3, // sharp right
-      "4": 14, // finish reached
-      "5": 14, // via reached
-      "6": 10, // roundabout
-      "-7": 19, // keep left
-      "7": 18, // keep right
-      "-98": 4, // unknown direction u-turn
-      "-8": 4, // left u-turn
-      "8": 4 // right u-turn
+      "-3": "sharp-left",
+      "-2": "left",
+      "-1": "slight-left",
+      "0": "straight",
+      "1": "slight-right",
+      "2": "right",
+      "3": "sharp-right",
+      "4": "destination", // finish reached
+      "5": "destination", // via reached
+      "6": "roundabout",
+      "-7": "fork-left",
+      "7": "fork-right",
+      "-98": "u-turn", // unknown direction u-turn
+      "-8": "u-turn", // left u-turn
+      "8": "u-turn" // right u-turn
     };
 
     function _processDirections(path) {
@@ -34,7 +34,7 @@
           lineseg
         ]; // TODO does graphhopper map instructions onto line indices?
       });
-      steps.at(-1)[1] = 14;
+      steps.at(-1)[1] = "destination";
 
       return {
         line: line,
