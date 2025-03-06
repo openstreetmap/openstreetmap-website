@@ -39,6 +39,9 @@ th:
       client_application:
         create: ลงทะเบียน
         update: ปรับปรุง
+      oauth2_application:
+        create: ลงทะเบียน
+        update: ปรับปรุง
       redaction:
         create: สร้างการตรวจทาน
         update: บันทึกการตรวจทาน
@@ -394,15 +397,30 @@ th:
       introduction: คลิกบนแผนที่เพื่อค้นหาคุณลักษณะต่าง ๆ ที่อยู่ใกล้เคียง
       nearby: คุณลักษณะที่อยู่ใกล้เคียง
       enclosing: คุณลักษณะปิดล้อม
+  nodes:
+    timeout:
+      sorry: ขออภัย ข้อมูลสำหรับจุดหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   old_nodes:
     not_found:
       sorry: 'ขออภัย ไม่พบโหนดที่ #%{id} รุ่น %{version}'
+    timeout:
+      sorry: ขออภัย ประวัติสำหรับจุดหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
+  ways:
+    timeout:
+      sorry: ขออภัย ข้อมูลสำหรับเส้นทางหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   old_ways:
     not_found:
       sorry: 'ขออภัย ไม่พบเส้นที่ #%{id} เวอร์ชัน %{version}'
+    timeout:
+      sorry: ขออภัย ประวัติสำหรับเส้นทางหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
+  relations:
+    timeout:
+      sorry: ขออภัย ข้อมูลสำหรับความสัมพันธ์หมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   old_relations:
     not_found:
       sorry: 'ขออภัย ไม่พบความสัมพันธ์ที่ #%{id} รุ่น %{version}'
+    timeout:
+      sorry: ขออภัย ประวัติสำหรับความสัมพันธ์หมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   changeset_comments:
     feeds:
       comment:
@@ -453,6 +471,7 @@ th:
       title: 'ชุดการเปลี่ยนแปลง: %{id}'
       created: 'สร้างเมื่อ: %{when}'
       closed: 'ปิดเมื่อ: %{when}'
+      created_ago_html: สร้างเมื่อ %{time_ago}
       discussion: การอภิปราย
       join_discussion: เข้าสู่ระบบเพื่อเข้าร่วมการอภิปราย
       still_open: ชุดการเปลี่ยนแปลงกำลังเปิดอยู่ การอภิปรายจะเริ่มได้หลังจากปิดชุดการเปลี่ยนแปลงแล้ว
@@ -1851,6 +1870,21 @@ th:
           ที่ใช้เพื่อช่วยปรับปรุง OpenHistoricalMap โปรดดูที่<a
           href="https://wiki.openstreetmap.org/wiki/Contributors">หน้า
           ผู้มีส่วนร่วม</a>บน OpenStreetMap Wiki
+        contributors_at_austria: ออสเตรีย
+        contributors_au_australia: ออสเตรเลีย
+        contributors_ca_canada: แคนาดา
+        contributors_cz_czechia: เช็กเกีย
+        contributors_fi_finland: ฟินแลนด์
+        contributors_fr_france: ฝรั่งเศส
+        contributors_hr_croatia: โครเอเชีย
+        contributors_nl_netherlands: เนเธอร์แลนด์
+        contributors_nz_new_zealand: นิวซีแลนด์
+        contributors_rs_serbia: เซอร์เบีย
+        contributors_rs_rgz: หน่วยงานภูมิสารสนเทศของเซอร์เบีย
+        contributors_si_slovenia: สโลวีเนีย
+        contributors_es_spain: สเปน
+        contributors_za_south_africa: แอฟริกาใต้
+        contributors_gb_united_kingdom: สหราชอาณาจักร
         contributors_footer_2_html: |-
           การรวมข้อมูลใน OpenStreetMap ไม่ได้หมายความว่าผู้ให้บริการข้อมูลดั้งเดิม
           จะรับรอง OpenStreetMap รับประกัน หรือรับผิดชอบใด ๆ
@@ -1918,6 +1952,8 @@ th:
           โปรดดู<a href='/copyright'>หน้าลิขสิทธิ์</a> เพื่อดูรายละเอียดทางกฎหมาย
           หรือติดต่อคณะทำงาน <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
           </a>
+        copyright: หน้าข้อมูลลิขสิทธิ์
+        working_group: กลุ่มภารกิจ OSMF
     help:
       title: ขอรับความช่วยเหลือ
       welcome:
@@ -1996,6 +2032,8 @@ th:
           university: มหาวิทยาลัย
           building: อาคารสำคัญ
           station: สถานีรถไฟ
+          railway_halt: ที่หยุดรถไฟ
+          subway_station: สถานีรถไฟใต้ดิน
           summit: ยอดเขา
           peak: ยอดเขา
           tunnel: เส้นประ = อุโมงค์
@@ -2031,6 +2069,11 @@ th:
         title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
         para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
           คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
+    ohm_privacy_policy:
+      right_to_object:
+        title_html: สิทธิในการโต้แย้ง
+      details:
+        title_html: รายละเอียด
   traces:
     visibility:
       private: ส่วนตัว (เผยแพร่ในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดไม่เรียงลำดับ)
@@ -2170,6 +2213,9 @@ th:
       my comments: ความคิดเห็นของฉัน
       blocks on me: การถูกระงับของฉัน
       blocks by me: ผู้ใช้ที่ข้าพเจ้ากีดกัน
+      create_mute: ปิดการรับฟังผู้ใช้นี้
+      destroy_mute: เลิกปิดการรับฟังผู้ใช้นี้
+      edit_profile: แก้ไขประวัติส่วนตัว
       send message: ส่งข้อความ
       diary: บันทึก
       edits: การแก้ไข
@@ -2178,6 +2224,7 @@ th:
       remove as friend: ลบจากรายการเพื่อน
       add as friend: เพิ่มเข้ารายการเพื่อน
       mapper since: 'ทำแผนที่นี้ตั้งแต่:'
+      no activity yet: ยังไม่มีกิจกรรมใด ๆ
       ct status: 'เงื่อนไขผู้ร่วมสร้างสรรค์:'
       ct undecided: ยังไม่ตัดสินใจ
       ct declined: ไม่ยอมรับ
@@ -2195,9 +2242,17 @@ th:
           administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
           moderator: เพิกถอนสิทธิ์ผู้ควบคุม
       block_history: การถูกระงับใช้งานในปัจจุบัน
+      moderator_history: ทำการกีดกันแล้ว
+      revoke_all_blocks: เพิกถอนการกีดกันทั้งหมด
       comments: ความเห็นที่เขียน
       create_block: ระงับผู้ใช้นี้
       activate_user: เปิดใช้งานผู้ใช้นี้
+      confirm_user: ยืนยันผู้ใช้นี้
+      unconfirm_user: เลิกยืนยันผู้ใช้นี้
+      unsuspend_user: เลิกการระงับผู้ใช้นี้
+      hide_user: ซ่อนผู้ใช้นี้
+      unhide_user: เลิกซ่อนผู้ใช้นี้
+      delete_user: ลบผู้ใช้นี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
     go_public:
@@ -2250,8 +2305,11 @@ th:
       title: แก้ไขการระงับผู้ใช้ %{name}
       heading_html: แก้ไขการกีดกันบน %{name}
       period: ระงับผู้ใช้คนนี้จากการเข้าถึง API, นานเท่าใด โดยเริ่มนับจากปัจจุบัน
+      revoke: เพิกถอนการกีดกัน
     filter:
       block_period: ดูระยะเวลาที่ระงับ ให้เป็นหนึ่งในค่าที่เลือกไว้จากรายการนี้
+    create:
+      flash: สร้างการกีดกันแก่ผู้ใช้ %{name}
     update:
       only_creator_can_edit: การระงับนี้สามารถแก้ไขได้ โดยผู้ดูแลที่เป็นผู้สั่งระงับเองเท่านั้น
       success: ปรับปรุงการกีดกันแล้ว
@@ -2294,12 +2352,15 @@ th:
     index:
       heading: หมายเหตุของ %{user}
       creator: ผู้สร้าง
+      last_changed: การเปลี่ยนแปลงล่าสุด
     show:
       title: 'หมายเหตุ: %{id}'
       description: คำอธิบาย
       open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
       closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
       hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
+      event_opened_by_html: สร้างโดย %{user} เมื่อ %{time_ago}
+      event_opened_by_anonymous_html: สร้างโดยผู้ไม่ระบุตัวตนเมื่อ %{time_ago}
       report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
       anonymous_warning: หมายเหตุนี้มีข้อความจากผู้ที่ไม่ประสงค์จะออกนาม ซึ่งควรทำการตรวจสอบตามข้อมูลที่แจ้งมานี้ด้วยตัวคุณเองอีกครั้ง
         ก่อนจะดำเนินการใดๆ ต่อ
@@ -2314,6 +2375,7 @@ th:
     notes_paging_nav:
       showing_page: หน้า %{page}
       next: ถัดไป
+      previous: ก่อนหน้า
   javascripts:
     close: ปิด
     share:
@@ -2342,6 +2404,7 @@ th:
       locate:
         title: แสดงตำแหน่งของฉัน
       base:
+        railway: ทางรถไฟ
         standard: ปกติ
         cycle_map: แผนที่จักรยาน
         transport_map: แผนที่การขนส่ง
@@ -2354,6 +2417,8 @@ th:
         overlays: 'ซ้อนชั้นข้อมูลพิเศษเพื่อช่วยในการแก้ปัญหาแผนที่:'
         title: ชั้นแผนที่
       openstreetmap_contributors: ผู้มีส่วนร่วม OpenStreetMap
+      make_a_donation: บริจาค
+      website_and_api_terms: ข้อกำหนดเว็บไซต์และ API
     site:
       edit_tooltip: แก้ไขแผนที่
       edit_disabled_tooltip: ขยายเพื่อแก้ไขแผนที่
@@ -2378,6 +2443,8 @@ th:
         slight_right_without_exit: เบนขวาไปที่ %{name}
         offramp_right_with_name: ใช้ทางลาดด้านขวาไปที่ถนน %{name}
         onramp_right_without_exit: เลี่ยวขวาที่ทางลาดไปที่ถนน %{name}
+        onramp_right_without_directions: เลี้ยวขวาขึ้นทางลาด
+        onramp_right: เลี้ยวขวาขึ้นทางลาด
         endofroad_right_without_exit: เมื่อถึงสุดถนนแล้ว ให้เลี้ยวขวาเข้า %{name}
         merge_right_without_exit: เลี้ยวขวาเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
         fork_right_without_exit: ที่ทางแยกเลี้ยวขวาไปที่ถนน %{name}
@@ -2438,6 +2505,7 @@ th:
       empty: ไม่มีการตรวจทานให้แสดง
       heading: รายการการตรวจทาน
       title: รายการการตรวจทาน
+      new: การขีดฆ่าเนื้อหาใหม่
     new:
       heading: กรอกรายละเอียดการตรวจทานใหม่
       title: สร้างการตรวจทานใหม่
@@ -2457,4 +2525,8 @@ th:
       not_empty: การตรวจทานยังไม่ว่าง โปรดถอดการตรวจทานรุ่นเก่า ๆ ที่เกี่ยวเนื่องกับการตรวจทานนี้ก่อนลบทิ้ง
       flash: การตรวจทานถูกลบแล้ว
       error: มีความผิดพลาดขณะลบการตรวจทานนี้
+  validations:
+    leading_whitespace: มีช่องว่างนำหน้า
+    trailing_whitespace: มีช่องว่างต่อท้าย
+    invalid_characters: มีอักขระที่ไม่ถูกต้อง
 ...
