@@ -10,6 +10,14 @@ module Issues
 
     def index
       @issue = Issue.visible_to(current_user).find(params[:issue_id])
+
+      user_ids = @issue.reports.order(:created_at => :desc).pluck(:user_id).uniq
+      @unique_reporters = {
+        @issue.id => {
+          :count => user_ids.size,
+          :users => User.in_order_of(:id, user_ids)
+        }
+      }
     rescue ActiveRecord::RecordNotFound
       redirect_to :controller => "/errors", :action => "not_found"
     end
