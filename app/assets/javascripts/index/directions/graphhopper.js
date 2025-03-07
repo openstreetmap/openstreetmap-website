@@ -13,9 +13,9 @@
       "6": "roundabout",
       "-7": "fork-left",
       "7": "fork-right",
-      "-98": "u-turn", // unknown direction u-turn
-      "-8": "u-turn", // left u-turn
-      "8": "u-turn" // right u-turn
+      "-98": "u-turn-left", // unknown direction u-turn
+      "-8": "u-turn-left", // left u-turn
+      "8": "u-turn-right" // right u-turn
     };
 
     function _processDirections(path) {

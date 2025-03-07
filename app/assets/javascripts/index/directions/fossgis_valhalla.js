@@ -13,8 +13,8 @@
       "slight-right", // kSlightRight = 9;
       "right", // kRight = 10;
       "sharp-right", // kSharpRight = 11;
-      "u-turn", // kUturnRight = 12;
-      "u-turn", // kUturnLeft = 13;
+      "u-turn-right", // kUturnRight = 12;
+      "u-turn-left", // kUturnLeft = 13;
       "sharp-left", // kSharpLeft = 14;
       "left", // kLeft = 15;
       "slight-left", // kSlightLeft = 16;
