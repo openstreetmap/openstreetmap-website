@@ -9,6 +9,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
@@ -2555,6 +2556,13 @@ CREATE INDEX index_notes_on_description ON public.notes USING gin (to_tsvector('
 
 
 --
+-- Name: index_notes_on_user_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_user_id_and_created_at ON public.notes USING btree (user_id, created_at) WHERE (user_id IS NOT NULL);
+
+
+--
 -- Name: index_oauth_access_grants_on_application_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3436,6 +3444,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250304172798'),
 ('20250304172758'),
 ('20250212160355'),
 ('20250206202905'),
