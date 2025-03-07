@@ -375,6 +375,7 @@ OpenStreetMap::Application.routes.draw do
   # issues and reports
   resources :issues do
     resources :comments, :controller => :issue_comments
+    resources :reporters, :module => :issues, :only => :index
     member do
       post "resolve"
       post "assign"

@@ -45,11 +45,12 @@ class IssuesController < ApplicationController
 
     @issues, @newer_issues_id, @older_issues_id = get_page_items(@issues, :limit => @params[:limit])
 
+    @unique_reporters_limit = 3
     @unique_reporters = @issues.each_with_object({}) do |issue, reporters|
       user_ids = issue.reports.order(:created_at => :desc).pluck(:user_id).uniq
       reporters[issue.id] = {
         :count => user_ids.size,
-        :users => User.in_order_of(:id, user_ids.first(3))
+        :users => User.in_order_of(:id, user_ids.first(@unique_reporters_limit))
       }
     end
 

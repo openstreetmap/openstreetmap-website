@@ -25,12 +25,7 @@
             <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
             <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
             <td class="reporting_users text-truncate">
-              <% @unique_reporters[issue.id][:users].each do |reporter| %>
-                <%= link_to reporter.display_name, reporter, :class => "d-block text-truncate", :title => reporter.display_name %>
-              <% end %>
-              <% if @unique_reporters[issue.id][:count] > 3 %>
-                <p class="m-0"><%= t ".more_reporters", :count => @unique_reporters[issue.id][:count] - 3 %></p>
-              <% end %>
+              <%= render :partial => "issues/reporters/reporters", :locals => { :issue => issue } %>
             </td>
             <td>
               <% if issue.user_updated %>
