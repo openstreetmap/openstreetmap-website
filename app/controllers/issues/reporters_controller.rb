@@ -18,6 +18,8 @@ module Issues
           :users => User.in_order_of(:id, user_ids)
         }
       }
+
+      render :partial => "reporters", :locals => { :issue => @issue } if turbo_frame_request?
     rescue ActiveRecord::RecordNotFound
       redirect_to :controller => "/errors", :action => "not_found"
     end
