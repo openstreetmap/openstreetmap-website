@@ -1,0 +1,6 @@
+  <% @unique_reporters[issue.id][:users].each do |reporter| %>
+    <%= link_to reporter.display_name, reporter, :class => "d-block text-truncate", :title => reporter.display_name %>
+  <% end %>
+  <% if @unique_reporters[issue.id][:count] > 3 %>
+    <p class="m-0"><%= t ".more_reporters", :count => @unique_reporters[issue.id][:count] - 3 %></p>
+  <% end %>
