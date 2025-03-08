@@ -269,4 +269,33 @@ class IssuesTest < ApplicationSystemTestCase
       assert_no_content issue.reports[n].user.display_name
     end
   end
+
+  def test_view_managed_issue
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report)
+    moderator_user = create(:moderator_user)
+
+    sign_in_as(moderator_user)
+    visit issues_path
+
+    within_content_body do
+      assert_no_link moderator_user.display_name
+
+      click_on "1 Report"
+    end
+
+    within_content_heading do
+      assert_content "Open Issue ##{issue.id}"
+
+      click_on "Resolve"
+
+      assert_content "Resolved Issue ##{issue.id}"
+    end
+
+    visit issues_path
+
+    within_content_body do
+      assert_link moderator_user.display_name
+    end
+  end
 end
