@@ -16,10 +16,11 @@
 #
 # Indexes
 #
-#  index_notes_on_description  (to_tsvector('english'::regconfig, description)) USING gin
-#  notes_created_at_idx        (created_at)
-#  notes_tile_status_idx       (tile,status)
-#  notes_updated_at_idx        (updated_at)
+#  index_notes_on_description             (to_tsvector('english'::regconfig, description)) USING gin
+#  index_notes_on_user_id_and_created_at  (user_id,created_at) WHERE (user_id IS NOT NULL)
+#  notes_created_at_idx                   (created_at)
+#  notes_tile_status_idx                  (tile,status)
+#  notes_updated_at_idx                   (updated_at)
 #
 # Foreign Keys
 #
