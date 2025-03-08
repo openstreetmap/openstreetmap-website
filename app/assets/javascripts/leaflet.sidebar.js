@@ -59,5 +59,9 @@ L.OSM.sidebar = function (selector) {
       .addClass("active");
   };
 
+  sidebar.find(".sidebar-close-controls button").on("click", () => {
+    control.togglePane(current, currentButton);
+  });
+
   return control;
 };

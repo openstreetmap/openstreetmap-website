@@ -398,7 +398,7 @@ $(function () {
     }
   });
 
-  $(document).on("click", "#sidebar_content .btn-close", function () {
+  $(document).on("click", "#sidebar .sidebar-close-controls button", function () {
     OSM.router.route("/" + OSM.formatHash(map));
   });
 });
