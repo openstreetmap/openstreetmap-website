@@ -22,9 +22,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
       assert_content "Start popup text"
     end
 
-    within_sidebar do
-      find("button[aria-label='Close']").click
-    end
+    find("#sidebar .sidebar-close-controls button[aria-label='Close']").click
 
     within "#map" do
       assert_no_content "Start popup text"

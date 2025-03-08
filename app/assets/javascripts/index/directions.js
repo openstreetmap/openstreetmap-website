@@ -294,7 +294,7 @@ OSM.Directions = function (map) {
   }
 
   function enableListeners() {
-    $("#sidebar_content").on("click", ".btn-close", hideRoute);
+    $("#sidebar .sidebar-close-controls button").on("click", hideRoute);
 
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
@@ -350,7 +350,7 @@ OSM.Directions = function (map) {
     $(".search_form").show();
     $(".directions_form").hide();
 
-    $("#sidebar_content").off("click", ".btn-close", hideRoute);
+    $("#sidebar .sidebar-close-controls button").off("click", hideRoute);
     $("#map").off("dragend dragover drop");
     map.off("locationfound", sendstartinglocation);
 
