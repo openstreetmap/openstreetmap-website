@@ -7,7 +7,10 @@ module Api
 
       def index
         @traces = current_user.traces.reload
-        render :content_type => "application/xml"
+        respond_to do |format|
+          format.xml { render :content_type => "application/xml" }
+          format.json { render :content_type => "application/json" }
+        end
       end
     end
   end
