@@ -3,8 +3,8 @@ class SessionsController < ApplicationController
 
   layout "site"
 
-  before_action :disable_terms_redirect, :only => [:destroy]
-  before_action :authorize_web
+  before_action :authorize_web, :except => [:destroy]
+  before_action -> { authorize_web(:skip_terms => true) }, :only => [:destroy]
   before_action :set_locale
   before_action :check_database_readable
   before_action :require_cookies, :only => [:new]

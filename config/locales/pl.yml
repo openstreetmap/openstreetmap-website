@@ -161,6 +161,7 @@ pl:
         allow_write_prefs: Modyfikowanie ich ustawień
         allow_write_diary: Tworzenie wpisów w dzienniku i dodawanie komentarzy
         allow_write_api: Modyfikowanie mapy
+        allow_write_changeset_comments: Komentowanie zestawów zmian
         allow_read_gpx: Odczytywanie ich prywatnych śladów GPS
         allow_write_gpx: Przesyłanie śladów GPS
         allow_write_notes: Modyfikowanie uwag
@@ -177,7 +178,7 @@ pl:
         name: Nazwa
         redirect_uri: URI przekierowań
         confidential: Poufna aplikacja?
-        scopes: 'Żądanie następujących uprawnień od użytkowników:'
+        scopes: Uprawnienia
       friend:
         user: Użytkownik
         friend: Znajomy
@@ -343,9 +344,9 @@ pl:
         comment: Komentarz
         full: Pełna treść uwagi
   accounts:
-    edit:
+    show:
       title: Zmiana ustawień konta
-      my settings: Ustawienia
+      my_account: Moje konto
       current email address: Aktualny adres e-mail
       external auth: Zewnętrzne uwierzytelnienie
       openid:
@@ -360,6 +361,9 @@ pl:
         agreed_with_pd: Zadeklarowałeś, że swoje edycje publikujesz w domenie publicznej.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: co to jest?
+        not_agreed_with_pd: Nie zadeklarowałeś, że uznajesz swoje zmiany za należące
+          do domeny publicznej.
+        pd_link_text: zadeklaruj
       save changes button: Zapisz zmiany
       delete_account: Usuń konto...
     go_public:
@@ -422,10 +426,6 @@ pl:
           i innej infrastruktury zapewnianej przez OSMF. Kliknij link, przeczytaj
           i zaakceptuj tekst.
         read_tou: Przeczytałem i akceptuję Warunki użytkowania
-        consider_pd: Oprócz powyższych warunków, stwierdzam również, że mój wkład
-          jest w domenie publicznej
-        consider_pd_why: co to oznacza?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Informacje pomocne w zrozumieniu tych terminów: %{readable_summary_link}
           i %{informal_translations_link}'
         readable_summary: czytelne podsumowanie
@@ -446,6 +446,20 @@ pl:
           nowych Warunków uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
         terms_declined_link: na tej stronie
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Uznaj mój wkład za należący do domeny publicznej
+        consider_pd: Uznaję swój wkład za należący do domeny publicznej
+        consider_pd_why: Dlaczego miałbym chcieć, aby mój wkład był w domenie publicznej?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Potwierdzam
+      create:
+        successfully_declared: Pomyślnie zadeklarowałeś, że uznajesz swoje zmiany
+          za należące do domeny publicznej.
+        already_declared: Oświadczyłeś już, że uważasz swoje zmiany za należące do
+          domeny publicznej.
+        did_not_confirm: Nie potwierdziłeś, że uważasz swoje zmiany za należące do
+          domeny publicznej.
   browse:
     deleted_ago_by_html: Usunięte %{time_ago} przez %{user}
     edited_ago_by_html: Edytowane %{time_ago} przez %{user}
@@ -525,6 +539,7 @@ pl:
     start_rjs:
       feature_warning: Wczytywanie %{num_features} obiektów, może spowolnić lub zawiesić
         przeglądarkę. Wyświetlić te dane?
+      feature_error: 'Błąd przy ładowaniu obiektów: %{message}'
       load_data: Wczytaj dane
       loading: Wczytywanie...
     tag_details:
@@ -538,7 +553,8 @@ pl:
       telephone_link: Zadzwoń pod %{phone_number}
       colour_preview: Podgląd koloru %{colour_value}
       email_link: E-mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Dane obiektów
       introduction: Kliknij na mapie, by wyszukać pobliskie obiekty.
       nearby: Obiekty w pobliżu
@@ -1099,6 +1115,7 @@ pl:
           bridleway: Droga dla koni
           bus_guideway: Droga dla autobusów
           bus_stop: Przystanek autobusowy
+          busway: Droga dla autobusów
           construction: Droga w trakcie budowy
           corridor: Korytarz
           crossing: Przejście
@@ -1669,11 +1686,13 @@ pl:
       reports: Zgłoszenia
       last_updated: Ostatnia aktualizacja
       last_updated_time_ago_user_html: '%{time_ago} przez %{user}'
+      reporting_users: Raportowanie użytkowników
       reports_count:
         one: 1 zgłoszenie
         few: '%{count} zgłoszenia'
         many: '%{count} zgłoszeń'
         other: '%{count} zgłoszenia'
+      more_reporters: i jeszcze %{count}
       reported_item: Zgłoszony element
       states:
         ignored: Zignorowano
@@ -1711,7 +1730,8 @@ pl:
       reopened: Status sprawy został ustawiony na „Otwarta”
     comments:
       comment_from_html: Komentarz od %{user_link} z %{comment_created_at}
-      reassign_param: Przydzielić sprawę?
+      reassign_to_moderators: Przydziel sprawę moderatorom
+      reassign_to_administrators: Przydziel sprawę administratorom
     reports:
       reported_by_html: Zgłoszone %{updated_at} jako %{category} przez %{user}
     helper:
@@ -1785,10 +1805,6 @@ pl:
     partners_corpmembers: członków korporacyjnych OSMF
     partners_partners: partnerów
     tou: Warunki użytkowania
-    osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań
-      administracyjnych, które są w tym momencie wykonywane.
-    osm_read_only: Baza danych OpenStreetMap jest w trybie tylko do odczytu na czas
-      ważnych zadań administracyjnych, które są w tym momencie wykonywane.
     nothing_to_preview: Nie ma nic do podglądu.
     help: Pomoc
     about: Informacje
@@ -1796,6 +1812,13 @@ pl:
     communities: Społeczności
     learn_more: Dowiedz się więcej
     more: Więcej
+    offline_flash:
+      osm_offline: Baza danych OpenStreetMap jest w trybie offline na czas ważnych
+        zadań administracyjnych, które są w tym momencie wykonywane.
+      osm_read_only: Baza danych OpenStreetMap jest w trybie tylko do odczytu na czas
+        ważnych zadań administracyjnych, które są w tym momencie wykonywane.
+      expected_restore_html: Przywrócenie usług spodziewane jest w ciągu %{time}.
+      announcement: Ogłoszenie można przeczytać tutaj.
   user_mailer:
     diary_comment_notification:
       description: 'Wpis dziennika OpenStreetMap #%{id}'
@@ -2445,13 +2468,15 @@ pl:
           otwartej licencji
       remote_failed: Nieudane edytowanie – proszę sprawdzić, czy program JOSM lub
         Merkaartor jest uruchomiony i funkcja Remote Control jest włączona
-    edit:
+    not_public_flash:
       not_public: Nie ustawiłeś, aby twoje edycje były publiczne.
       not_public_description_html: W tym trybie nie można już zmieniać mapy. Można
         zmienić je na publiczne na %{user_page}.
       user_page_link: stronie użytkownika
       anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Tu dowiesz się dlaczego.
+    edit:
       id_not_configured: iD nie został skonfigurowany
     export:
       title: Eksportuj
@@ -2571,6 +2596,14 @@ pl:
       where_am_i_title: Określ obecną lokalizację przy użyciu wyszukiwarki
       submit_text: →
       reverse_directions_text: Odwróć kierunki
+      modes:
+        bicycle: Rower
+        car: Samochód
+        foot: Pieszo
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2902,18 +2935,20 @@ pl:
     permissions:
       missing: Nie zezwoliłeś aplikacji na dostęp do tej funkcji
     scopes:
-      openid: Zaloguj się za pomocą OpenStreetMap
+      openid: Logowanie się za pomocą OpenStreetMap
       read_prefs: Odczytywanie preferencji użytkownika
       write_prefs: Modyfikowanie preferencji użytkownika
       write_diary: Tworzenie wpisów w dzienniku i dodawanie komentarzy
       write_api: Modyfikowanie mapy
-      read_gpx: Odczytywanie ich prywatnych śladów GPS
+      write_changeset_comments: Komentowanie zestawów zmian
+      read_gpx: Odczytywanie prywatnych śladów GPS
       write_gpx: Przesyłanie śladów GPS
       write_notes: Modyfikowanie uwag
       write_redactions: Redagowanie danych mapy
+      write_blocks: Tworzenie i odwoływanie blokad użytkowników
       read_email: Odczytywanie adresu e-mail użytkownika
-      consume_messages: Czytaj, aktualizuj status i usuwaj wiadomości użytkownika
-      send_messages: Wysyłaj prywatne wiadomości do innych użytkowników
+      consume_messages: Czytanie, zmiana statusu i usuwanie wiadomości użytkownika
+      send_messages: Wysyłanie prywatnych wiadomości do innych użytkowników
       skip_authorization: Automatycznie akceptuj aplikację
     for_roles:
       moderator: To uprawnienie dotyczy działań dostępnych wyłącznie dla moderatorów
@@ -3008,9 +3043,6 @@ pl:
           e-mail
         html: Twój adres nie jest wyświetlany publicznie, zobacz naszą %{privacy_policy_link},
           aby uzyskać więcej informacji.
-      consider_pd_html: Uznaję mój wkład za należący do %{consider_pd_link}
-      consider_pd: domeny publicznej
-      consider_pd_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: lub
       use external auth: 'Alternatywnie, zarejestruj się przez:'
     no_such_user:
@@ -3027,7 +3059,7 @@ pl:
       my notes: Uwagi
       my messages: Wiadomości
       my profile: Profil
-      my settings: Ustawienia
+      my_account: Ustawienia konta
       my comments: Komentarze
       my_preferences: Preferencje
       my_dashboard: Mój panel
@@ -3110,7 +3142,10 @@ pl:
       show:
         title: Użytkownicy
         heading: Użytkownicy
-        empty: Nie znaleziono pasujących użytkowników
+        select_status: Wybierz status
+        name_or_email: Nazwa lub e-mail
+        ip_address: Adres IP
+        search: Szukaj
       page:
         found_users:
           one: Znaleziono %{count} użytkownika
@@ -3119,6 +3154,7 @@ pl:
           other: Znaleziono %{count} użytkowników
         confirm: Zatwierdź zaznaczonych użytkowników
         hide: Ukryj zaznaczonych użytkowników
+        empty: Nie znaleziono pasujących użytkowników
       user:
         summary_html: '%{name} utworzony z adresu %{ip_address} dnia %{date}'
         summary_no_ip_html: '%{name} utworzony %{date}'
@@ -3382,7 +3418,7 @@ pl:
         url: https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych
       counter_warning_forum_link:
         text: społeczność może ci pomóc
-        url: https://community.openstreetmap.org/
+        url: https://community.openstreetmap.org
       advice: Twoja uwaga jest publiczna i może zostać użyta do zaktualizowania mapy,
         nie podawaj tu więc informacji osobistych oraz informacji z map i źródeł chronionych
         prawami autorskimi.
@@ -3483,16 +3519,6 @@ pl:
       kliknąć tutaj.
     directions:
       ascend: W górę
-      engines:
-        fossgis_osrm_bike: Rower (OSRM)
-        fossgis_osrm_car: Samochód (OSRM)
-        fossgis_osrm_foot: Pieszo (OSRM)
-        graphhopper_bicycle: Rower (GraphHopper)
-        graphhopper_car: Samochód (GraphHopper)
-        graphhopper_foot: Pieszo (GraphHopper)
-        fossgis_valhalla_bicycle: Rower (Valhalla)
-        fossgis_valhalla_car: Samochód (Valhalla)
-        fossgis_valhalla_foot: Pieszo (Valhalla)
       descend: W dół
       directions: Opis trasy
       distance: Odległość
@@ -3577,6 +3603,8 @@ pl:
           ninth: "9."
           tenth: "10."
       time: Czas
+      download: Pobierz trasę jako GeoJSON
+      filename: trasa
     query:
       node: Węzeł
       way: Linia
@@ -3591,6 +3619,9 @@ pl:
       show_address: Pokaż adres
       query_features: Wyświetl dane obiektów
       centre_map: Wycentruj mapę tutaj
+    home:
+      marker_title: Położenie domu
+      not_set: Położenie domu nie jest ustawione w twoim profilu
   redactions:
     edit:
       heading: Edytuj poprawkę

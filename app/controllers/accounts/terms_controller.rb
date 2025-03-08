@@ -4,8 +4,7 @@ module Accounts
 
     layout "site"
 
-    before_action :disable_terms_redirect
-    before_action :authorize_web
+    before_action -> { authorize_web(:skip_terms => true) }
     before_action :set_locale
     before_action :check_database_readable
 
@@ -22,7 +21,7 @@ module Accounts
 
         if current_user.terms_agreed?
           # Already agreed to terms, so just show settings
-          redirect_to edit_account_path
+          redirect_to account_path
         end
       end
     end
@@ -34,7 +33,6 @@ module Accounts
         flash[:notice] = { :partial => "accounts/terms/terms_declined_flash" } if current_user.save
       else
         unless current_user.terms_agreed?
-          current_user.consider_pd = params[:user][:consider_pd]
           current_user.tou_agreed = Time.now.utc
           current_user.terms_agreed = Time.now.utc
           current_user.terms_seen = true
@@ -45,7 +43,7 @@ module Accounts
 
       referer = safe_referer(params[:referer]) if params[:referer]
 
-      redirect_to referer || edit_account_path
+      redirect_to referer || account_path
     end
   end
 end

@@ -43,7 +43,7 @@ module ApplicationHelper
   end
 
   def header_nav_link_class(path)
-    ["nav-link", current_page?(path) ? "text-secondary-emphasis" : "text-secondary"]
+    ["nav-link", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"]
   end
 
   def application_data

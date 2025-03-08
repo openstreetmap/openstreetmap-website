@@ -167,7 +167,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "edit"
-    assert_select "a[href='https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits']"
+    assert_select "a[href='https://wiki.openstreetmap.org/wiki/Anonymous_edits']"
   end
 
   # Test the right editor gets used when the user hasn't set a preference

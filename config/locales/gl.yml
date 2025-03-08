@@ -105,6 +105,7 @@ gl:
         allow_write_prefs: modificar as súas preferencias de usuario
         allow_write_diary: crear entradas de diario e comentarios
         allow_write_api: modificar o mapa
+        allow_write_changeset_comments: comentar os conxuntos de cambios
         allow_read_gpx: ler as súas pistas GPS privadas
         allow_write_gpx: subir pistas GPS
         allow_write_notes: modificar notas
@@ -260,12 +261,13 @@ gl:
         comment: Comentario
         full: Nota completa
   accounts:
-    edit:
+    show:
       title: Editar a conta
-      my settings: Os meus axustes
+      my_account: A miña conta
       current email address: Enderezo de correo electrónico actual
       external auth: Autenticación externa
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: que é isto?
       contributor terms:
         heading: Termos do colaborador
@@ -275,7 +277,11 @@ gl:
           do colaborador.
         agreed_with_pd: Tamén declaraches que consideras que as túas edicións pertencen
           ó dominio público.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: que é isto?
+        not_agreed_with_pd: Non declaraches que consideras que as túas edicións pertencen
+          ó dominio público.
+        pd_link_text: declárao
       save changes button: Gardar as modificacións
       delete_account: Borrar a conta...
     go_public:
@@ -340,10 +346,6 @@ gl:
         tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
           infraestruturas fornecidas pola OSMF.  Preme na ligazón, le e acepta o texto.
         read_tou: Lin e acepto os Termos de uso
-        consider_pd: Ademais do anterior, coido que as miñas contribucións están baixo
-          dominio público
-        consider_pd_why: que é isto?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Información para axudar a comprender estes termos: un
           %{readable_summary_link} e algunhas %{informal_translations_link}'
         readable_summary: resumo lexible por humanos
@@ -364,6 +366,21 @@ gl:
           dos colaboradores. Para obter máis información, consulta %{terms_declined_link}.
         terms_declined_link: esta páxina do wiki
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Considerar as miñas contribucións de dominio público
+        consider_pd: Considero que as miñas contribucións son de dominio público
+        consider_pd_why: Por que querería que as miñas contribucións sexan de dominio
+          público?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Confirmar
+      create:
+        successfully_declared: Declaraches que consideras que as túas edicións pertencen
+          ao dominio público.
+        already_declared: Xa declaraches que consideras que as túas edicións pertencen
+          ao dominio público.
+        did_not_confirm: Non confirmaches que consideras que as túas edicións pertencen
+          ao dominio público.
   browse:
     deleted_ago_by_html: Borrado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -433,6 +450,7 @@ gl:
     start_rjs:
       feature_warning: Cargando %{num_features} funcións, que poden facer que o teu
         navegador sexa lento ou non responda. Queres mostrar estes datos?
+      feature_error: 'Non se puideron cargar as funcións: %{message}'
       load_data: Cargar os datos
       loading: Cargando...
     tag_details:
@@ -446,7 +464,8 @@ gl:
       telephone_link: Chamar a %{phone_number}
       colour_preview: Previsualización da cor %{colour_value}
       email_link: Correo electrónico %{email}
-    query:
+  feature_queries:
+    show:
       title: Consultar os elementos
       introduction: Preme no mapa para atopar elementos preto de aquí.
       nearby: Elementos preto de aquí
@@ -1009,6 +1028,7 @@ gl:
           bridleway: Senda de cabalos
           bus_guideway: Liña de autobuses guiados
           bus_stop: Parada de bus
+          busway: Carril bus
           construction: Autoestrada baixo construción
           corridor: Corredor
           crossing: Paso
@@ -1115,7 +1135,7 @@ gl:
           forest: Bosque
           garages: Garaxes
           grass: Herba
-          greenfield: Soar urbanizábel
+          greenfield: Terreo edificable
           industrial: Zona industrial
           landfill: Recheo
           meadow: Pradaría
@@ -1579,9 +1599,11 @@ gl:
       reports: Denuncias
       last_updated: Última actualización
       last_updated_time_ago_user_html: '%{time_ago} por %{user}'
+      reporting_users: Usuarios denunciantes
       reports_count:
         one: '%{count} denuncia'
         other: '%{count} denuncias'
+      more_reporters: e %{count} máis
       reported_item: Elemento denunciado
       states:
         ignored: Ignorado
@@ -1616,7 +1638,8 @@ gl:
       reopened: O estado da incidencia mudou a "Aberta"
     comments:
       comment_from_html: Comentario de %{user_link} no %{comment_created_at}
-      reassign_param: Reasignar o erro?
+      reassign_to_moderators: Reasignar a incidencia aos moderadores
+      reassign_to_administrators: Reasignar a incidencia aos administradores
     reports:
       reported_by_html: Denunciado coma %{category} por %{user} o %{updated_at}
     helper:
@@ -1686,10 +1709,6 @@ gl:
     partners_corpmembers: membros corporativos da OSMF
     partners_partners: socios
     tou: Termos de uso
-    osm_offline: A base de datos do OpenStreetMap atópase desconectada mentres realizamos
-      traballos de mantemento nela.
-    osm_read_only: A base de datos do OpenStreetMap atópase en modo de só lectura
-      mentres realizamos traballos de mantemento nela.
     nothing_to_preview: Non hai nada que previsualizar.
     help: Axuda
     about: Acerca de
@@ -1697,6 +1716,13 @@ gl:
     communities: Comunidades
     learn_more: Máis información
     more: Máis
+    offline_flash:
+      osm_offline: A base de datos do OpenStreetMap atópase desconectada mentres realizamos
+        traballos de mantemento nela.
+      osm_read_only: A base de datos do OpenStreetMap atópase en modo de só lectura
+        mentres realizamos traballos de mantemento nela.
+      expected_restore_html: Agardamos que os servizos estean operativos en %{time}.
+      announcement: Podes ler o anuncio aquí.
   user_mailer:
     diary_comment_notification:
       description: Entrada do diario do OpenStreetMap n.º %{id}
@@ -1850,7 +1876,7 @@ gl:
   confirmations:
     confirm:
       heading: Comproba o teu correo!
-      introduction_1: Enviámoslle un correo electrónico de confirmación.
+      introduction_1: Enviámosche un correo electrónico de confirmación.
       introduction_2: Confirma a túa conta premendo na ligazón do correo electrónico
         e poderás comezar a traballar nos mapas.
       press confirm button: Preme sobre o botón de confirmación que aparece deseguido
@@ -2031,7 +2057,7 @@ gl:
       failure: Non foi posíbel actualizar o perfil.
   sessions:
     new:
-      tab_title: Acceder ao sistema
+      tab_title: Iniciar a sesión
       login_to_authorize_html: Inicia sesión no OpenStreetMap para acceder a %{client_app_name}.
       email or username: Enderezo de correo electrónico ou nome de usuario
       password: Contrasinal
@@ -2333,12 +2359,15 @@ gl:
           unha licenza aberta
       remote_failed: Falla na edición; comprobe que ou ben o JOSM ou ben o Merkaartor
         estea cargado e que a opción do control remoto estea activada
-    edit:
+    not_public_flash:
       not_public: Non fixo que as túas edicións fosen públicas.
       not_public_description_html: Non podes editar o mapa a menos que o queiras facer.
         Podes estabelecer as túas edicións coma públicas dende a túa %{user_page}.
       user_page_link: páxina de usuario
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: Descobra velaquí o motivo.
+    edit:
       id_not_configured: O iD non está configurado
     export:
       title: Exportar
@@ -2452,6 +2481,14 @@ gl:
       where_am_i_title: Describa a localización actual empregando o motor de procuras
       submit_text: Ir
       reverse_directions_text: Inverter as direccións
+      modes:
+        bicycle: Bicicleta
+        car: Coche
+        foot: A pé
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2784,10 +2821,12 @@ gl:
       write_prefs: Modificar preferencias de usuario
       write_diary: Crear entradas de diario e comentarios
       write_api: Modificar o mapa
+      write_changeset_comments: Comentar os conxuntos de cambios
       read_gpx: Ler pistas GPS privadas
       write_gpx: Subir pistas GPS
       write_notes: Modificar notas
       write_redactions: Censurar datos do mapa
+      write_blocks: Crear e revogar bloqueos de usuarios
       read_email: Ver os enderezos de correo electrónico dos usuarios
       consume_messages: Ver, actualizar o estado e borrar mensaxes dos usuarios
       send_messages: Enviar mensaxes privadas aos usuarios
@@ -2881,8 +2920,6 @@ gl:
           unha sección sobre os enderezos de correo electrónico
         html: O teu enderezo non se mostra publicamente; consulta a nosa %{privacy_policy_link}
           para obter máis información.
-      consider_pd_html: Acepto que as miñas contribucións estean no %{consider_pd_link}.
-      consider_pd: dominio publico
       or: ou
       use external auth: ou rexístrate cun servizo de terceiros
     no_such_user:
@@ -2898,7 +2935,7 @@ gl:
       my notes: As miñas notas do mapa
       my messages: As miñas mensaxes
       my profile: O meu perfil
-      my settings: Os meus axustes
+      my_account: A miña conta
       my comments: Os meus comentarios
       my_preferences: As miñas preferencias
       my_dashboard: O meu panel de control
@@ -2979,13 +3016,23 @@ gl:
       show:
         title: Usuarios
         heading: Usuarios
-        empty: Non se atoparon usuarios que coincidisen
+        select_status: Seleccionar estado
+        states:
+          pending: Pendente
+          active: Activo
+          confirmed: Confirmado
+          suspended: Suspendido
+          deleted: Borrado
+        name_or_email: Nome ou correo electrónico
+        ip_address: Enderezo IP
+        search: Procurar
       page:
         found_users:
           one: Atopouse %{count} usuario
           other: Atopáronse %{count} usuarios
         confirm: Confirmar os usuarios seleccionados
         hide: Agochar os usuarios seleccionados
+        empty: Non se atoparon usuarios que coincidisen
       user:
         summary_html: '%{name} creado dende %{ip_address} o %{date}'
         summary_no_ip_html: '%{name} creado o %{date}'
@@ -3182,6 +3229,8 @@ gl:
       open_title: Nota sen resolver n.º %{note_name}
       closed_title: Nota resolta n.º %{note_name}
       hidden_title: Nota agochada n.º %{note_name}
+      description_when_author_is_deleted: eliminado
+      description_when_there_is_no_opening_comment: descoñecido
       event_opened_by_html: Creado por %{user} %{time_ago}
       event_opened_by_anonymous_html: Creado por un usuario anónimo %{time_ago}
       event_commented_by_html: Comentario de %{user} %{time_ago}
@@ -3229,7 +3278,6 @@ gl:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       counter_warning_forum_link:
         text: a comunidade pode axudarche
-        url: https://community.openstreetmap.org/
       advice: A túa nota será pública e poderá empregarse para actualizar o mapa;
         por conseguinte, non insiras información persoal, nin datos de mapas protexidos
         por dereitos de autoría ou listaxes de directorios.
@@ -3324,16 +3372,6 @@ gl:
       preme aquí.
     directions:
       ascend: Ascendente
-      engines:
-        fossgis_osrm_bike: Bicicleta (OSRM)
-        fossgis_osrm_car: Coche (OSRM)
-        fossgis_osrm_foot: A pé (OSRM)
-        graphhopper_bicycle: Bicicleta (GraphHopper)
-        graphhopper_car: En coche (GraphHopper)
-        graphhopper_foot: A pé (GraphHopper)
-        fossgis_valhalla_bicycle: Bicicleta (Valhalla)
-        fossgis_valhalla_car: En coche (Valhalla)
-        fossgis_valhalla_foot: A pé (Valhalla)
       descend: Descendente
       directions: Indicacións
       distance: Distancia
@@ -3418,6 +3456,8 @@ gl:
           ninth: 9.ª
           tenth: 10.ª
       time: Tempo
+      download: Descargar a ruta como GeoJSON
+      filename: ruta
     query:
       node: Nó
       way: Vía
@@ -3432,6 +3472,9 @@ gl:
       show_address: Amosar enderezo
       query_features: Consultar elementos
       centre_map: Centrar o mapa aquí
+    home:
+      marker_title: Localización da miña casa
+      not_set: A localización da casa non está configurada para a túa conta
   redactions:
     edit:
       heading: Editar a censura

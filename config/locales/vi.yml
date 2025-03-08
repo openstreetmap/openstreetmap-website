@@ -13,6 +13,7 @@
 # Author: KhangND
 # Author: Leducthn
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: Minh Nguyen
 # Author: Nemo bis
 # Author: Nghiemtrongdai VN
@@ -251,9 +252,8 @@ vi:
         comment: Bình luận
         full: Ghi chú đầy đủ
   accounts:
-    edit:
+    show:
       title: Chỉnh sửa tài khoản
-      my settings: Tùy chọn
       current email address: Địa chỉ Thư điện tử Hiện tại
       external auth: Xác minh Bên ngoài
       openid:
@@ -331,9 +331,6 @@ vi:
           sở hạ tầng khác do OSMF cung cấp. Xin vui lòng mở liên kết và đọc và chấp
           nhận thỏa thuận.
         read_tou: Tôi đã đọc và chấp nhận Điều khoản sử dụng
-        consider_pd: Bên ngoài các điều bên trên, tôi coi rằng các đóng góp của tôi
-          thuộc về phạm vi công cộng
-        consider_pd_why: đây là gì?
         guidance_info_html: 'Thông tin giúp hiểu các thuật ngữ này: a %{readable_summary_link}
           và một số %{informal_translations_link}'
         readable_summary: bản tóm tắt dễ đọc
@@ -431,7 +428,8 @@ vi:
       telephone_link: Gọi %{phone_number}
       colour_preview: Xem trước màu %{colour_value}
       email_link: Gửi thư cho %{email}
-    query:
+  feature_queries:
+    show:
       title: Thăm dò Yếu tố
       introduction: Nhấn chuột vào bản đồ để tìm những yếu tố lân cận.
       nearby: Yếu tố lân cận
@@ -1446,7 +1444,6 @@ vi:
       reopened: Trạng thái vấn đề được đánh dấu là “Mở”
     comments:
       comment_from_html: Bình luận của %{user_link} vào %{comment_created_at}
-      reassign_param: Chỉ định lại Vấn đề?
     reports:
       reported_by_html: Báo cáo là %{category} bởi %{user} vào %{updated_at}
     helper:
@@ -1517,10 +1514,6 @@ vi:
     partners_corpmembers: các thành viên công ty Quỹ OSM
     partners_partners: các công ty bảo trợ
     tou: Điều khoản sử dụng
-    osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực
-      hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
-    osm_read_only: Cơ sở dữ liệu OpenStreetMap đang bị khóa không được sửa đổi trong
-      lúc đang thực hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
     nothing_to_preview: Không có gì để xem trước.
     help: Trợ giúp
     about: Giới thiệu
@@ -2072,12 +2065,13 @@ vi:
           hành theo giấy phép mở
       remote_failed: Thất bại mở trình vẽ – hãy chắc chắn rằng JOSM hoặc Markaartor
         đã khởi động và tùy chọn phần điều khiển từ xa được kích hoạt
-    edit:
+    not_public_flash:
       not_public: Bạn chưa đưa ra công khai các sửa đổi của bạn.
       not_public_description_html: Nếu không đưa ra công khai, bạn không còn được
         phép sửa đổi bản đồ. Bạn có thể đưa ra công khai tại %{user_page}.
       user_page_link: trang cá nhân
       anon_edits_link_text: Tại sao vậy?
+    edit:
       id_not_configured: iD chưa được cấu hình
     export:
       title: Xuất
@@ -2184,6 +2178,10 @@ vi:
       where_am_i_title: Miêu tả vị trí đang ở dùng máy tìm kiếm
       submit_text: Đi
       reverse_directions_text: Đảo ngược
+      modes:
+        bicycle: Xe đạp
+        car: Xe hơi
+        foot: Đi bộ
     key:
       table:
         entry:
@@ -2575,8 +2573,6 @@ vi:
           địa chỉ thư điện tử
         html: Địa chỉ thư điện tử không được hiển thị công khai, xem thêm thông tin
           trong %{privacy_policy_link} của chúng tôi.
-      consider_pd_html: Tôi coi những đóng góp của mình thuộc về %{consider_pd_link}.
-      consider_pd: phạm vi công cộng
       or: hoặc
       use external auth: hoặc mở tài khoản qua dịch vụ bên thứ ba
     no_such_user:
@@ -2592,7 +2588,6 @@ vi:
       my notes: Ghi chú của Tôi
       my messages: Hộp Tin nhắn
       my profile: Trang của Tôi
-      my settings: Tùy chọn
       my comments: Bình luận của Tôi
       my_preferences: Tùy chỉnh
       my_dashboard: Bảng điều khiển
@@ -2670,12 +2665,12 @@ vi:
       show:
         title: Người dùng
         heading: Người dùng
-        empty: Không tìm thấy người dùng.
       page:
         found_users:
           other: Đã tìm thấy %{count} người dùng
         confirm: Xác nhận những Người dùng Được chọn
         hide: Ẩn những Người dùng Được chọn
+        empty: Không tìm thấy người dùng.
       user:
         summary_html: '%{name} do %{ip_address} mở ngày %{date}'
         summary_no_ip_html: '%{name} mở ngày %{date}'
@@ -2963,16 +2958,6 @@ vi:
       chuột vào đây.
     directions:
       ascend: Lên
-      engines:
-        fossgis_osrm_bike: Xe đạp (OSRM)
-        fossgis_osrm_car: Xe hơi (OSRM)
-        fossgis_osrm_foot: Đi bộ (OSRM)
-        graphhopper_bicycle: Xe đạp (GraphHopper)
-        graphhopper_car: Xe hơi (GraphHopper)
-        graphhopper_foot: Đi bộ (GraphHopper)
-        fossgis_valhalla_bicycle: Xe đạp (Valhalla)
-        fossgis_valhalla_car: Xe hơi (Valhalla)
-        fossgis_valhalla_foot: Đi bộ (Valhalla)
       descend: Xuống
       directions: Chỉ đường
       distance: Tầm xa

@@ -19,14 +19,14 @@ xmf:
         create: კომენტარი
       diary_entry:
         create: გუმობჟინაფა
-        update: გოახალაფა
+        update: მოახალება
       issue_comment:
         create: კომენტარიშ გეძინა
       message:
         create: ჯღონუა
       oauth2_application:
         create: რეგისტრაცია
-        update: გოახალაფა
+        update: მოახალება
       redaction:
         create: მიშათინუაშ გოჭყაფა
         update: მიშათინუაშ ჩუალა
@@ -37,6 +37,10 @@ xmf:
         create: ბლოკირაფაშ გოჭყაფა
         update: ბლოკირაფაშ გოახალაფა
   activerecord:
+    errors:
+      models:
+        user_mute:
+          is_already_muted: უკვე აკორანგვილი რე
     models:
       acl: ხემეჭირნაფაშ კონტროლიშ ერკებული
       changeset: თირაფეფიშ პაკეტი
@@ -50,6 +54,7 @@ xmf:
       message: გინაფა
       node: ჭურჭული
       node_tag: ჭურჭულიშ ხინტკი
+      note: ხვილაფა
       old_node: ჯვეში ჭურჭული
       old_node_tag: ჭურჭულიშ ჯვეში ხინტკი
       old_relation: ჯვეში ურთიართობა
@@ -83,6 +88,7 @@ xmf:
         allow_write_diary: დღარეფიშ დინნაჭარეფიშ გოჭყაფა, კომენტირაფა დო მაჸალეეფიშ
           გეძინა
         allow_write_api: რუკაშ თირუა
+        allow_write_changeset_comments: თირუეფიშ პაკეტეფიშ კომენტირება
         allow_read_gpx: კერზო GPS-ტრეკეფიშ კითხირი
         allow_write_gpx: GPS-ტრეკეფიშ ეხარგუა
         allow_write_notes: მოღანკუეფიშ მიშათინუა
@@ -224,9 +230,8 @@ xmf:
         comment: კომენტარი
         full: ედომუშამი ტექსტი
   accounts:
-    edit:
+    show:
       title: ანგარიშიშ რედაქტირაფა
-      my settings: ჩქიმი პარამეტრეფი
       current email address: ელ-ფოსტაშ ასეიანი მიოწურაფუ
       external auth: გალენი აუთენტიფიკაცია
       openid:
@@ -260,8 +265,27 @@ xmf:
         retain_email: თქვან ელ-ფოშტა დიჩუალუაფუ.
         confirm_delete: დასურო გონებჷნანო?
         cancel: გოუქვაფა
+    terms:
+      show:
+        title: აპიჯალეფი
+        heading: წოროხანდაშ აპიჯალეფი
+        heading_ct: წოროხანდაშ აპიჯალეფი
+        continue: გაგჷნძორაფა
+        cancel: გოუქვაფა
+        legale_names:
+          france: საფრანგეთი
+          italy: იტალია
+          rest_of_world: დოსკილადირი მოსოფელი
+      terms_declined_flash:
+        terms_declined_link: თენა რე ვიკი ხასჷლა
+    pd_declarations:
+      show:
+        confirm: დოდასურება
   browse:
+    deleted_ago_by_html: დილასჷ %{time_ago} მახვარებუქ %{user}
+    edited_ago_by_html: დარედაქტირჷ %{time_ago} მახვარებუქ %{user}
     version: ვერსია
+    redacted_version: ვერსიაშ რედაქტირაფა
     in_changeset: თირაფეფიშ პაკეტი
     anonymous: ანონიმი
     no_comment: (უკომენტარე)
@@ -335,7 +359,9 @@ xmf:
       wikimedia_commons_link: ელემენტი %{page} ვიკიოწკარუეს
       telephone_link: რეკუა %{phone_number}
       colour_preview: ფერი %{colour_value} გიწოთოლორაფა
-    query:
+      email_link: ელექტრონული ფოშტა %{email}
+  feature_queries:
+    show:
       title: მუ რე თაქ?
       introduction: უახოლაში ობიექტეფიშ ოგორალო ქეგუნჭირით რუკა.
       nearby: უახოლაში ობიექტეფი
@@ -348,6 +374,8 @@ xmf:
         title_html: 'ღოზიშ ისტორია: %{name}'
       relation:
         title_html: 'ურთიართობაშ ისტორია: %{name}'
+    actions:
+      view_redacted_data: რედაქტირებული მუნაჩემეფშა გინოჯინა
   changeset_comments:
     feeds:
       comment:
@@ -385,6 +413,11 @@ xmf:
       join_discussion: გემშართით სისტემაშა, თიშენ ნამჷ-და, სხუნუას ქაკათათინ
       still_open: თირუეფიშ პაკეტი დიო ღილე რე. სხუნუა ხემიოჭირინაფუ იჸი, მუჭო თირუეფიშ
         პაკეტი დიკილუნ.
+      subscribe: გიშაჭარუა
+      unsubscribe: გიშაჭარუაშ გოუქვაფა
+      hide_comment: ტყობინაფა
+      unhide_comment: ძირაფა
+      comment: კომენტირება
       changesetxml: თირუეფიშ პაკეტიშ XML
       osmchangexml: osmChange XML
     paging_nav:
@@ -428,6 +461,8 @@ xmf:
     show:
       title: '%{user}შ დღარი | %{title}'
       user_title: '%{user}შ დღარი'
+      subscribe: გიშაჭარუა
+      unsubscribe: გიშაჭარუაშ გოუქვაფა
       leave_a_comment: კომენტარიშ დოტება
       login_to_leave_a_comment_html: '%{login_link}, კომენტარიშ დატებელო'
       login: მიშულა
@@ -459,14 +494,28 @@ xmf:
         title: OpenStreetMap დღარიშ დინნაჭარეფი გეჸვენჯი ნინაშა %{language_name}
       all:
         title: OpenStreetMap დღარიშ დინნაჭარეფი
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: აპლიკაცია რეგისტრირებული რე.
+    scopes:
+      profile: თქვანი ანგარიშიშ ინფორმაციაშ ძირაფა
   errors:
     contact:
       contact: კონტაქტი
+    bad_request:
+      title: ჩილათერი მოთხირი
+    forbidden:
+      title: ჭირინაფა გოხურგელი
     internal_server_error:
       title: აპლიკაციაშ ჩილათა
     not_found:
       title: ფაილქ ვეგორჷ
   geocoder:
+    search:
+      title:
+        latlon: დინოხოლენი
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -485,6 +534,7 @@ xmf:
           terminal: აეროპორტიშ ტერმინალი
           windsock: ბორიამაძირაფალი
         amenity:
+          animal_shelter: ჩხოლარეფიშ ხვაშია
           arts_centre: ხელუანაფაშ ცენტრი
           atm: ბანკომატი
           bank: ბანკი
@@ -493,6 +543,7 @@ xmf:
           bench: დახუნალი
           bicycle_parking: ველოსიპედეფიშ დგჷმილი
           bicycle_rental: ველოსპიედეფიშ გაქირაფა
+          bicycle_repair_station: ველოსიპეტეფიშ აკანწყუალი დგჷმილი
           biergarten: ლუდიშ ბაღი
           blood_bank: ზისხირიშ ბანკი
           boat_rental: ნიშეფიშ გაქირება
@@ -532,7 +583,10 @@ xmf:
           kindergarten: საბაღანო ბაღი
           language_school: ნინაშ სკოლა
           library: ბიბლიოთეკა
+          loading_dock: ოხარგუე დოკი
+          love_hotel: ჸოროფაშ სასუმარო
           marketplace: ბაზარი
+          mobile_money_agent: მობილური ფარაშ აგენტი
           monastery: მონასტერი
           money_transfer: ფარაშ ჯღონუა
           motorcycle_parking: მოტოციკლეტიშ პარკირაფა
@@ -625,7 +679,9 @@ xmf:
           ruins: აკოცჷმილი დგჷმილი
           school: სკოლა
           service: ონინალე დგჷმილი
+          stable: ცხენსაბეკი
           static_caravan: ქერვანი
+          sty: ორეჯე
           temple: ოხიდა
           terrace: აკიბი
           train_station: მახინწალიშ დგჷმილი
@@ -633,6 +689,7 @@ xmf:
           warehouse: ოწკარუე
           "yes": ნოდგჷმი
         club:
+          scout: სკაუტეფიშ ბაზა
           sport: სპორტული კლუბი
           "yes": კლუბი
         craft:

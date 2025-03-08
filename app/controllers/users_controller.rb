@@ -101,7 +101,7 @@ class UsersController < ApplicationController
     current_user.data_public = true
     current_user.save
     flash[:notice] = t ".flash success"
-    redirect_to edit_account_path
+    redirect_to account_path
   end
 
   ##
@@ -135,7 +135,7 @@ class UsersController < ApplicationController
 
       session[:user_errors] = current_user.errors.as_json
 
-      redirect_to edit_account_path
+      redirect_to account_path
     else
       user = User.find_by(:auth_provider => provider, :auth_uid => uid)
 
@@ -222,8 +222,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :display_name,
                                  :auth_provider, :auth_uid,
-                                 :pass_crypt, :pass_crypt_confirmation,
-                                 :consider_pd)
+                                 :pass_crypt, :pass_crypt_confirmation)
   end
 
   ##

@@ -4,6 +4,7 @@
 # Author: Bjankuloski06
 # Author: Danieldegroot2
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: Nemo bis
 # Author: Violetova
 # Author: Vlad5250
@@ -245,9 +246,8 @@ mk:
         comment: Коментар
         full: Целата белешка
   accounts:
-    edit:
+    show:
       title: Уреди сметка
-      my settings: Мои нагодувања
       current email address: Тековна е-пошта
       external auth: Надворешна заверка
       openid:
@@ -320,8 +320,6 @@ mk:
           на мрежното место и останатата инфраструктура на OSMF. Стиснете на врската,
           прочитајте го текстот и согласете се со него.
         read_tou: Ги прочитав Условите на употреба и се согласувам со нив
-        consider_pd: Покрај горенаведеното, моите придонеси ги сметам за јавна сопственост
-        consider_pd_why: Што е ова?
         guidance_info_html: 'Информации што ќе ви помогнат да ги разберете овие поими:
           %{readable_summary_link} и некои %{informal_translations_link}'
         readable_summary: човечки читлив опис
@@ -423,7 +421,8 @@ mk:
       telephone_link: Јави се на %{phone_number}
       colour_preview: Преглед на бојата %{colour_value}
       email_link: Е-пошта %{email}
-    query:
+  feature_queries:
+    show:
       title: Пребарување на елементи
       introduction: Стиснете на картата за да ги најдете елементите во близина.
       nearby: Елементи во близина
@@ -1564,7 +1563,6 @@ mk:
       reopened: Состојбата на проблемот е поставена како „Отворено“
     comments:
       comment_from_html: Коментар од %{user_link} на %{comment_created_at}
-      reassign_param: Да го предоделам проблемот?
     reports:
       reported_by_html: Пријавено како %{category} од %{user} на %{updated_at}
     helper:
@@ -1634,10 +1632,6 @@ mk:
     partners_corpmembers: Корпоративни членови на OSMF
     partners_partners: партнери
     tou: Услови на употреба
-    osm_offline: Базата на податоци на  OpenStreetMap моментално е исклучена додека
-      работиме на неопходни одржувања.
-    osm_read_only: Базата на податоци на OpenStreetMap моментално може само да се
-      чита, додека ги извршиме неопходните одржувања.
     nothing_to_preview: Нема што да се прегледа.
     help: Помош
     about: За нас
@@ -2242,13 +2236,14 @@ mk:
         copyright: Авторски права OpenStreetMap и учесниците, под отворена лиценца
       remote_failed: Уредувањето не успеа - проверете дали е вчитан JOSM или Merkaartor
         и дали е овозможено далечинското управување
-    edit:
+    not_public_flash:
       not_public: Не сте наместиле уредувањата да ви бидат јавни.
       not_public_description_html: Повеќе не можете да ја уредувате картата  ако не
         го направите тоа. Можете да наместите уредувањата да ви бидат јавни на вашата
         %{user_page}.
       user_page_link: корисничка страница
       anon_edits_link_text: Дознајте зошто ова е така.
+    edit:
       id_not_configured: Не му се зададени поставки на уредувачкиот програм „iD“
     export:
       title: Извези
@@ -2359,6 +2354,10 @@ mk:
       where_am_i_title: Опишете ја тековната местоположба со помош на пребарувачот
       submit_text: Дај
       reverse_directions_text: Смени насока
+      modes:
+        bicycle: Велосипед
+        car: Автомобил
+        foot: Пешки
     key:
       table:
         entry:
@@ -2785,8 +2784,6 @@ mk:
         privacy_policy_title: Правилата за лични податоци на OSMF, со одделот за е-поштенски
           адреси
         html: Вашата адреса не се прикажува јавно. Повеќе ќе дознаете на %{privacy_policy_link}.
-      consider_pd_html: Моите придонеси ги сметам за %{consider_pd_link}.
-      consider_pd: јавна сопственост
       or: или
       use external auth: или зачленете се преку надворешно место
     no_such_user:
@@ -2802,7 +2799,6 @@ mk:
       my notes: Мои белешки
       my messages: Мои пораки
       my profile: Мојот профил
-      my settings: Мои поставки
       my comments: Мои коментари
       my_preferences: Мои нагодувања
       my_dashboard: Моја управувачница
@@ -2880,13 +2876,13 @@ mk:
       show:
         title: Корисници
         heading: Корисници
-        empty: Нема најдено такви корисници
       page:
         found_users:
           one: Најдов %{count} корисник
           other: Најдов %{count} корисници
         confirm: Потврди ги одбраните корисници
         hide: Скриј одбрани корисници
+        empty: Нема најдено такви корисници
       user:
         summary_html: '%{name} создадено од %{ip_address} на %{date}'
         summary_no_ip_html: '%{name} создадено на %{date}'
@@ -3202,16 +3198,6 @@ mk:
       па стиснете тука.
     directions:
       ascend: Нагорно
-      engines:
-        fossgis_osrm_bike: Велосипед (OSRM)
-        fossgis_osrm_car: Автомобил (OSRM)
-        fossgis_osrm_foot: Пешки (OSRM)
-        graphhopper_bicycle: Велосипед (GraphHopper)
-        graphhopper_car: Автомобил (GraphHopper)
-        graphhopper_foot: Пешки (GraphHopper)
-        fossgis_valhalla_bicycle: Велосипед (Valhalla)
-        fossgis_valhalla_car: Автомобил (Valhalla)
-        fossgis_valhalla_foot: Пешки (Valhalla)
       descend: Надолно
       directions: Насоки
       distance: Растојание

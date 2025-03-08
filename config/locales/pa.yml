@@ -7,6 +7,7 @@
 # Author: Cabal
 # Author: Jimidar
 # Author: Kuldeepburjbhalaike
+# Author: Marwin H.H.
 # Author: Satnam S Virdi
 # Author: Tow
 ---
@@ -91,7 +92,7 @@ pa:
         support_url: ਮਦਦ URL
         allow_read_prefs: ਉਹਨਾਂ ਦੀਆਂ ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਨੂੰ ਪੜ੍ਹੋ
         allow_write_prefs: ਉਹਨਾਂ ਦੀਆਂ ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਨੂੰ ਸੋਧੋ
-        allow_write_diary: ਰੋਜ਼ਨਾਮਚਾ ਦਰਜ਼ ਕਰੋ, ਟਿੱਪਣੀਆਂ ਕਰੋ ਅਤੇ ਦੋਸਤ ਬਣਾਓ
+        allow_write_diary: ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ ਅਤੇ ਟਿੱਪਣੀਆਂ ਦਰਜ਼ ਕਰੋ
         allow_write_api: ਨਕਸ਼ੇ ਨੂੰ ਬਦਲੋ
         allow_read_gpx: ਉਹਨਾਂ ਦੇ ਨਿੱਜੀ GPS ਖੁਰਾ-ਖੋਜ ਪੜ੍ਹੋ
         allow_write_gpx: GPS ਖੁਰਾ-ਖੋਜ ਜੋੜੋ
@@ -240,9 +241,8 @@ pa:
         comment: ਟਿੱਪਣੀ
         full: ਪੂਰੀ ਟਿੱਪਣੀ
   accounts:
-    edit:
+    show:
       title: ਖਾਤਾ ਸੋਧੋ
-      my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
       current email address: 'ਮੌਜੂਦਾ ਈਮੇਲ ਪਤਾ:'
       external auth: ਬਾਹਰੀ ਪ੍ਰਮਾਣਿਕਤਾ
       openid:
@@ -319,8 +319,6 @@ pa:
         read_ct: ਮੈਂ ਉਪਰੋਕਤ ਯੋਗਦਾਨ ਪਾਉਣ ਵਾਲੀਆਂ ਸ਼ਰਤਾਂ ਨੂੰ ਪਡ਼੍ਹਿਆ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਸਹਿਮਤ
           ਹਾਂ।
         read_tou: ਮੈਂ ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ ਨੂੰ ਪੜ੍ਹ ਲਿਆ ਹੈ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਸਹਿਮਤ ਹਾਂ
-        consider_pd: ਉਪਰੋਕਤ ਤੋਂ ਇਲਾਵਾ, ਮੈਂ ਆਪਣੇ ਯੋਗਦਾਨ ਨੂੰ ਜਨਤਕ ਖੇਤਰ ਵਿੱਚ ਮੰਨਦਾ ਹਾਂ
-        consider_pd_why: ਇਹ ਕੀ ਹੈ?
         guidance_info_html: 'ਇਹਨਾਂ ਸ਼ਰਤਾਂ ਨੂੰ ਸਮਝਣ ਲਈ ਜਾਣਕਾਰੀ: ਇੱਕ %{readable_summary_link}
           ਅਤੇ ਕੁਝ %{informal_translations_link}'
         readable_summary: ਮਨੁੱਖੀ ਪਡ਼੍ਹਨਯੋਗ ਸੰਖੇਪ
@@ -341,6 +339,10 @@ pa:
           ਨੂੰ ਸਵੀਕਾਰ ਨਾ ਕਰਨ ਦਾ ਫੈਸਲਾ ਕੀਤਾ ਹੈ। ਵਧੇਰੇ ਜਾਣਕਾਰੀ ਲਈ, ਕਿਰਪਾ ਕਰਕੇ %{terms_declined_link}
           ਵੇਖੋ।
         terms_declined_link: ਇਹ ਵਿਕੀ ਸਫ਼ਾ
+    pd_declarations:
+      show:
+        consider_pd: ਮੈਂ ਆਪਣੇ ਯੋਗਦਾਨਾਂ ਨੂੰ ਜਨਤਕ ਖੇਤਰ ਵਿੱਚ ਮੰਨਦਾ ਹਾਂ।
+        confirm: ਤਸਦੀਕ ਕਰੋ
   browse:
     deleted_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਵੱਲੋਂ ਮਿਟਾਇਆ ਗਿਆ'
     edited_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਵੱਲੋਂ ਸੋਧਿਆ ਗਿਆ'
@@ -412,7 +414,8 @@ pa:
       telephone_link: '%{phone_number} ਨੂੰ ਫੋਨ ਕਰੋ'
       colour_preview: ਰੰਗ %{colour_value} ਝਲਕ
       email_link: ਈਮੇਲ %{email}
-    query:
+  feature_queries:
+    show:
       title: ਪੁੱਛਗਿੱਛ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
       introduction: ਨੇੜਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਲੱਭਣ ਲਈ ਨਕਸ਼ੇ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।
       nearby: ਨੇੜਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
@@ -1251,7 +1254,7 @@ pa:
           camp_site: ਛਾਉਣੀ
           caravan_site: ਕਾਫ਼ਲਾ ਟਿਕਾਣਾ
           chalet: ਲੱਕੜ ਦਾ ਘਰ
-          gallery: ਗੈਲਰੀ
+          gallery: ਚਿੱਤਰਸ਼ਾਲਾ
           guest_house: ਸਰਾਂ
           hostel: ਹੋਸਟਲ
           hotel: ਹੋਟਲ
@@ -1325,6 +1328,7 @@ pa:
       reports_count:
         one: '%{count} ਇਤਲਾਹ'
         other: '%{count} ਇਤਲਾਹ'
+      more_reporters: ਅਤੇ %{count} ਹੋਰ
       states:
         ignored: ਨਜ਼ਰਅੰਦਾਜ਼ ਕੀਤਾ
         open: ਖੋਲ੍ਹੋ
@@ -1642,7 +1646,7 @@ pa:
         contributors_es_spain: ਸਪੇਨ
         contributors_za_south_africa: ਦੱਖਣੀ ਅਫ਼ਰੀਕਾ
         contributors_2_contributors_page: ਯੋਗਦਾਨ ਪਾਉਣ ਵਾਲੇਆਂ ਦਾ ਵਰਕਾ
-    edit:
+    not_public_flash:
       user_page_link: ਵਰਤੋਂਕਾਰ ਵਰਕਾ
       anon_edits_link_text: ਪਤਾ ਕਰੋ ਕਿ ਅਜਿਹਾ ਕਿਉਂ ਹੈ।
     export:
@@ -1689,6 +1693,10 @@ pa:
       to: ਵੱਲ
       where_am_i: ਇਹ ਕਿੱਥੇ ਹੈ?
       submit_text: ਜਾਓ
+      modes:
+        bicycle: ਸੈਕਲ
+        car: ਕਾਰ
+        foot: ਪੈਦਲ
     key:
       table:
         entry:
@@ -1885,7 +1893,7 @@ pa:
       openid: OpenStreetMap ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਦਾਖਲ ਹੋਵੋ
       read_prefs: ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਪੜ੍ਹੋ
       write_prefs: ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਸੋਧੋ
-      write_diary: ਰੋਜ਼ਨਾਮਚਾ ਦਰਜ਼ ਕਰੋ, ਟਿੱਪਣੀਆਂ ਕਰੋ ਅਤੇ ਦੋਸਤ ਬਣਾਓ
+      write_diary: ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ ਅਤੇ ਟਿੱਪਣੀਆਂ ਦਰਜ਼ ਕਰੋ
       write_api: ਨਕਸ਼ੇ ਨੂੰ ਬਦਲੋ
       read_gpx: ਨਿੱਜੀ GPS ਖੁਰਾ-ਖੋਜ ਪੜ੍ਹੋ
       write_gpx: GPS ਖੁਰਾ-ਖੋਜ ਜੋੜੋ
@@ -1946,8 +1954,6 @@ pa:
           ਹਨ
         html: ਤੁਹਾਡਾ ਪਤਾ ਜਨਤਕ ਤੌਰ 'ਤੇ ਪ੍ਰਦਰਸ਼ਿਤ ਨਹੀਂ ਕੀਤਾ ਗਿਆ ਹੈ, ਵਧੇਰੇ ਜਾਣਕਾਰੀ ਲਈ
           ਸਾਡਾ %{privacy_policy_link} ਵੇਖੋ।
-      consider_pd_html: ਮੈਂ ਆਪਣੇ ਯੋਗਦਾਨਾਂ ਨੂੰ %{consider_pd_link} ਵਿੱਚ ਮੰਨਦਾ ਹਾਂ।
-      consider_pd: ਜਨਤਕ ਖੇਤਰ
       or: ਜਾਂ
       use external auth: ਜਾਂ ਕਿਸੇ ਤੀਜੀ ਧਿਰ ਨਾਲ ਦਾਖਲ ਹੋਵੋ
     no_such_user:
@@ -1963,7 +1969,7 @@ pa:
       my notes: ਮੇਰੇ ਨੋਟ
       my messages: ਮੇਰੇ ਸੁਨੇਹੇ
       my profile: ਮੇਰੀ ਪ੍ਰੋਫ਼ਾਈਲ
-      my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
+      my_account: ਮੇਰਾ ਖਾਤਾ
       my comments: ਮੇਰੀਆਂ ਟਿੱਪਣੀਆਂ
       my_preferences: ਮੇਰੀਆਂ ਤਰਜੀਹਾਂ
       blocks on me: ਮੇਰੇ ਉੱਤੇ ਰੋਕਾਂ
@@ -2036,16 +2042,27 @@ pa:
       show:
         title: ਵਰਤੋਂਕਾਰ
         heading: ਵਰਤੋਂਕਾਰ
-        empty: ਕੋਈ ਮੇਲ ਖਾਂਦੇ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਲੱਭੇ
+        states:
+          pending: ਬਕਾਇਆ
+          active: ਸਰਗਰਮ
+          confirmed: ਤਸਦੀਕ ਕੀਤੀ ਗਈ
+          suspended: ਬਰਖਾਸਤ ਕੀਤਾ ਗਿਆ
+          deleted: ਮਿਟਾਇਆ ਗਿਆ
+        ip_address: IP ਪਤਾ
+        search: ਖੋਜੋ
       page:
         found_users:
           one: '%{count} ਵਰਤੋਂਕਾਰ ਲੱਭੇ'
           other: '%{count} ਵਰਤੋਂਕਾਰ ਲੱਭੇ'
         confirm: ਚੁਣੇ ਹੋਏ ਵਰਤੋਂਕਾਰਾਂ ਦੀ ਤਸਦੀਕ ਕਰੋ
         hide: ਚੁਣੇ ਹੋਏ ਵਰਤੋਂਕਾਰ ਲੁਕਾਉ
+        empty: ਕੋਈ ਮੇਲ ਖਾਂਦੇ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਲੱਭੇ
       user:
         summary_html: '%{date} ਨੂੰ %{ip_address} ਤੋਂ %{name} ਬਣਾਇਆ ਗਿਆ'
         summary_no_ip_html: '%{name} ਨੂੰ %{date} ਨੂੰ ਬਣਾਇਆ ਗਿਆ'
+    comments:
+      index:
+        diary_entries: ਰੋਜ਼ਨਾਮਚਾ ਇੰਦਰਾਜ
     changeset_comments:
       page:
         when: ਕਦੋਂ
@@ -2266,16 +2283,6 @@ pa:
       createnote_disabled_tooltip: ਨਕਸ਼ੇ 'ਤੇ ਕੋਈ ਨੋਟ ਜੋੜਨ ਵਾਸਤੇ ਅੰਦਰ ਨੂੰ ਜਾਉ
     directions:
       ascend: ਚਡ਼੍ਹਾਈ
-      engines:
-        fossgis_osrm_bike: ਸੈਕਲ (OSRM)
-        fossgis_osrm_car: ਕਾਰ (OSRM)
-        fossgis_osrm_foot: ਪੈਦਲ (OSRM)
-        graphhopper_bicycle: ਸੈਕਲ (GraphHopper)
-        graphhopper_car: ਕਾਰ (GraphHopper)
-        graphhopper_foot: ਪੈਦਲ (GraphHopper)
-        fossgis_valhalla_bicycle: ਸੈਕਲ (Valhalla)
-        fossgis_valhalla_car: ਕਾਰ (Valhalla)
-        fossgis_valhalla_foot: ਪੈਦਲ (Valhalla)
       descend: ਉਤਰਾਈ
       distance: ਵਾਟ
       distance_m: '%{distance}ਮੀਟਰ'
@@ -2333,6 +2340,9 @@ pa:
       show_address: ਪਤਾ ਦਿਖਾਓ
       query_features: ਪੁੱਛਗਿੱਛ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
       centre_map: ਨਕਸ਼ੇ ਦਾ ਕੇਂਦਰ ਇੱਥੇ
+    home:
+      marker_title: ਮੇਰੇ ਘਰ ਦਾ ਟਿਕਾਣਾ
+      not_set: ਤੁਹਾਡੇ ਖਾਤੇ ਲਈ ਘਰ ਦਾ ਟਿਕਾਣਾ ਕਾਇਮ ਨਹੀਂ ਹੈ।
   redactions:
     edit:
       heading: ਸੁਧਾਈ ਸੋਧੋ

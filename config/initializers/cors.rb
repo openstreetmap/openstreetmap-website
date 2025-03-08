@@ -30,5 +30,6 @@ Rails.application.config.middleware.insert_before 0, OpenStreetMap::Cors do
     resource "/diary/*/rss", :headers => :any, :methods => [:get]
     resource "/trace/*/data", :headers => :any, :methods => [:get]
     resource "/user/*/diary/rss", :headers => :any, :methods => [:get]
+    resource "/rails/active_storage/*", :headers => :any, :methods => [:get]
   end
 end

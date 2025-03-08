@@ -17,56 +17,71 @@ OpenStreetMap::Application.routes.draw do
     get "capabilities" => "capabilities#show"
     get "permissions" => "permissions#show"
 
-    put "changeset/create" => "changesets#create"
     post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
-    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
-    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
     post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changesets#update", :id => /\d+/
     put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
-    get "changesets" => "changesets#index"
-    post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
-
-    get "node/:id/ways" => "ways#ways_for_node", :as => :node_ways, :id => /\d+/
-    get "node/:id/relations" => "relations#relations_for_node", :as => :node_relations, :id => /\d+/
-    get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
-    post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
-
-    get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
-    get "way/:id/relations" => "relations#relations_for_way", :as => :way_relations, :id => /\d+/
-    post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
-
-    get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
-    get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
-    post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
+    resources :changesets, :only => [:index, :create]
+    resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
+      resource :download, :module => :changesets, :only => :show
+      resources :changeset_comments, :path => "comment", :only => :create
+    end
+    put "changeset/create" => "changesets#create", :as => nil
+
+    resources :changeset_comments, :id => /\d+/, :only => :index do
+      resource :visibility, :module => :changeset_comments, :only => [:create, :destroy]
+    end
+    post "changeset/comment/:changeset_comment_id/unhide" => "changeset_comments/visibilities#create", :changeset_comment_id => /\d+/, :as => nil
+    post "changeset/comment/:changeset_comment_id/hide" => "changeset_comments/visibilities#destroy", :changeset_comment_id => /\d+/, :as => nil
+
     resources :nodes, :only => [:index, :create]
-    resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy]
+    resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy] do
+      scope :module => :nodes do
+        resources :ways, :only => :index
+        resources :relations, :only => :index
+      end
+      resources :versions, :path => "history", :controller => :old_nodes, :only => :index
+      resource :version, :path => ":version", :version => /\d+/, :controller => :old_nodes, :only => :show do
+        resource :redaction, :module => :old_nodes, :only => [:create, :destroy]
+      end
+    end
     put "node/create" => "nodes#create", :as => nil
+    post "node/:node_id/:version/redact" => "old_nodes/redactions#create", :node_id => /\d+/, :version => /\d+/, :allow_delete => true, :as => nil
 
     resources :ways, :only => [:index, :create]
     resources :ways, :path => "way", :id => /\d+/, :only => [:show, :update, :destroy] do
       member do
         get :full, :action => :show, :full => true, :as => nil
       end
+      scope :module => :ways do
+        resources :relations, :only => :index
+      end
+      resources :versions, :path => "history", :controller => :old_ways, :only => :index
+      resource :version, :path => ":version", :version => /\d+/, :controller => :old_ways, :only => :show do
+        resource :redaction, :module => :old_ways, :only => [:create, :destroy]
+      end
     end
     put "way/create" => "ways#create", :as => nil
+    post "way/:way_id/:version/redact" => "old_ways/redactions#create", :way_id => /\d+/, :version => /\d+/, :allow_delete => true, :as => nil
 
     resources :relations, :only => [:index, :create]
     resources :relations, :path => "relation", :id => /\d+/, :only => [:show, :update, :destroy] do
       member do
         get :full, :action => :show, :full => true, :as => nil
       end
+      scope :module => :relations do
+        resources :relations, :only => :index
+      end
+      resources :versions, :path => "history", :controller => :old_relations, :only => :index
+      resource :version, :path => ":version", :version => /\d+/, :controller => :old_relations, :only => :show do
+        resource :redaction, :module => :old_relations, :only => [:create, :destroy]
+      end
     end
     put "relation/create" => "relations#create", :as => nil
+    post "relation/:relation_id/:version/redact" => "old_relations/redactions#create", :relation_id => /\d+/, :version => /\d+/, :allow_delete => true, :as => nil
 
     resource :map, :only => :show
 
@@ -114,7 +129,10 @@ OpenStreetMap::Application.routes.draw do
       resource :subscription, :only => [:create, :destroy], :controller => "note_subscriptions"
     end
 
-    resources :user_blocks, :only => :show, :id => /\d+/, :controller => "user_blocks"
+    resources :user_blocks, :only => [:show, :create], :id => /\d+/, :controller => "user_blocks"
+    namespace :user_blocks, :path => "user/blocks" do
+      resource :active_list, :path => "active", :only => :show
+    end
   end
 
   # Data browsing
@@ -186,7 +204,7 @@ OpenStreetMap::Application.routes.draw do
   get "/offline" => "site#offline"
   get "/key" => "site#key"
   get "/id" => "site#id"
-  get "/query" => "browse#query"
+  resource :feature_query, :path => "query", :only => :show
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
   match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
@@ -282,15 +300,18 @@ OpenStreetMap::Application.routes.draw do
       resource :status, :only => :update
     end
   end
-  get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
+  get "/user/:display_name/account", :to => redirect(:path => "/account")
   get "/user/:display_name/diary/comments(/:page)", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary_comments")
 
-  resource :account, :only => [:edit, :update, :destroy] do
+  resource :account, :only => [:show, :update, :destroy] do
     scope :module => :accounts do
       resource :terms, :only => [:show, :update]
+      resource :pd_declaration, :only => [:show, :create]
       resource :deletion, :only => :show
+      resource :home, :only => :show
     end
   end
+  get "/account/edit", :to => redirect(:path => "/account"), :as => nil
 
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :update]
@@ -354,6 +375,7 @@ OpenStreetMap::Application.routes.draw do
   # issues and reports
   resources :issues do
     resources :comments, :controller => :issue_comments
+    resources :reporters, :module => :issues, :only => :index
     member do
       post "resolve"
       post "assign"

@@ -38,6 +38,8 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
 
     # revoke the ban
     get "/login"
+    assert_response :redirect
+    follow_redirect!
     assert_response :success
     post "/login", :params => { "username" => moderator.email, "password" => "test", :referer => "/user_blocks/#{block.id}/edit" }
     assert_response :redirect

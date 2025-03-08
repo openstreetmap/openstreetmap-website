@@ -2,7 +2,7 @@
 #
 # Table name: acls
 #
-#  id      :bigint(8)        not null, primary key
+#  id      :bigint           not null, primary key
 #  address :inet
 #  k       :string           not null
 #  v       :string

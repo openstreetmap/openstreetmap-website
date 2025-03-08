@@ -3,60 +3,62 @@
 require "test_helper"
 
 class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
-  test "as a normal user with permissionless token" do
-    token = create(:oauth_access_token)
-    ability = ApiAbility.new token
+  test "as a normal user without scopes" do
+    user = create(:user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert ability.cannot? action, ChangesetComment
-    end
+    assert ability.cannot? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
-  test "as a normal user with write_api token" do
-    token = create(:oauth_access_token, :scopes => %w[write_api])
-    ability = ApiAbility.new token
+  test "as a normal user with write_changeset_comments scope" do
+    user = create(:user)
+    scopes = Set.new %w[write_changeset_comments]
+    ability = ApiAbility.new user, scopes
 
-    [:destroy, :restore].each do |action|
-      assert ability.cannot? action, ChangesetComment
-    end
-
-    [:create].each do |action|
-      assert ability.can? action, ChangesetComment
-    end
+    assert ability.can? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
-  test "as a moderator with permissionless token" do
-    token = create(:oauth_access_token, :user => create(:moderator_user))
-    ability = ApiAbility.new token
+  test "as a moderator without scopes" do
+    user = create(:moderator_user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert ability.cannot? action, ChangesetComment
-    end
+    assert ability.cannot? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
-  test "as a moderator with write_api token" do
-    token = create(:oauth_access_token, :user => create(:moderator_user), :scopes => %w[write_api])
-    ability = ApiAbility.new token
+  test "as a moderator with write_changeset_comments scope" do
+    user = create(:moderator_user)
+    scopes = Set.new %w[write_changeset_comments]
+    ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert ability.can? action, ChangesetComment
-    end
+    assert ability.can? :create, ChangesetComment
+    assert ability.can? :create, :changeset_comment_visibility
+    assert ability.can? :destroy, :changeset_comment_visibility
   end
 end
 
 class NoteApiCapabilityTest < ActiveSupport::TestCase
-  test "as a normal user with permissionless token" do
-    token = create(:oauth_access_token)
-    ability = ApiAbility.new token
+  test "as a normal user without scopes" do
+    user = create(:user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
     [:create, :comment, :close, :reopen, :destroy].each do |action|
       assert ability.cannot? action, Note
     end
   end
 
-  test "as a normal user with write_notes token" do
-    token = create(:oauth_access_token, :scopes => %w[write_notes])
-    ability = ApiAbility.new token
+  test "as a normal user with write_notes scope" do
+    user = create(:user)
+    scopes = Set.new %w[write_notes]
+    ability = ApiAbility.new user, scopes
 
     [:destroy].each do |action|
       assert ability.cannot? action, Note
@@ -67,18 +69,20 @@ class NoteApiCapabilityTest < ActiveSupport::TestCase
     end
   end
 
-  test "as a moderator with permissionless token" do
-    token = create(:oauth_access_token, :user => create(:moderator_user))
-    ability = ApiAbility.new token
+  test "as a moderator without scopes" do
+    user = create(:moderator_user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
     [:destroy].each do |action|
       assert ability.cannot? action, Note
     end
   end
 
-  test "as a moderator with write_notes token" do
-    token = create(:oauth_access_token, :user => create(:moderator_user), :scopes => %w[write_notes])
-    ability = ApiAbility.new token
+  test "as a moderator with write_notes scope" do
+    user = create(:moderator_user)
+    scopes = Set.new %w[write_notes]
+    ability = ApiAbility.new user, scopes
 
     [:destroy].each do |action|
       assert ability.can? action, Note
@@ -88,16 +92,16 @@ end
 
 class UserApiCapabilityTest < ActiveSupport::TestCase
   test "user preferences" do
-    # A user with empty tokens
-    token = create(:oauth_access_token)
-    ability = ApiAbility.new token
+    user = create(:user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
     [:index, :show, :update_all, :update, :destroy].each do |act|
       assert ability.cannot? act, UserPreference
     end
 
-    token = create(:oauth_access_token, :scopes => %w[read_prefs])
-    ability = ApiAbility.new token
+    scopes = Set.new %w[read_prefs]
+    ability = ApiAbility.new user, scopes
 
     [:update_all, :update, :destroy].each do |act|
       assert ability.cannot? act, UserPreference
@@ -107,8 +111,8 @@ class UserApiCapabilityTest < ActiveSupport::TestCase
       assert ability.can? act, UserPreference
     end
 
-    token = create(:oauth_access_token, :scopes => %w[write_prefs])
-    ability = ApiAbility.new token
+    scopes = Set.new %w[write_prefs]
+    ability = ApiAbility.new user, scopes
 
     [:index, :show].each do |act|
       assert ability.cannot? act, UserPreference

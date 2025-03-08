@@ -150,6 +150,7 @@ it:
         allow_write_prefs: modifica le sue preferenze utente
         allow_write_diary: creare pagine di diario e commenti
         allow_write_api: modificare la mappa
+        allow_write_changeset_comments: commentare i gruppi di modifiche
         allow_read_gpx: visualizza le sue tracce GPS private
         allow_write_gpx: carica tracce GPS
         allow_write_notes: modificare le note
@@ -305,9 +306,9 @@ it:
         comment: Commento
         full: Nota completa
   accounts:
-    edit:
+    show:
       title: Modifica profilo
-      my settings: Impostazioni
+      my_account: La mia utenza
       current email address: Indirizzo email attuale
       external auth: Autenticazione esterna
       openid:
@@ -323,6 +324,9 @@ it:
           fossero di pubblico dominio.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms/IT
         link text: che cos'è questo?
+        not_agreed_with_pd: Non hai dichiarato se considerare le tue modifiche come
+          fossero di pubblico dominio.
+        pd_link_text: dichiara
       save changes button: Salva modifiche
       delete_account: Elimina Utenza...
     go_public:
@@ -388,9 +392,6 @@ it:
           di altre infrastrutture fornite dalla OSMF. Clicca sul collegamento, leggi
           il testo e accetta.
         read_tou: Ho letto e accetto le Condizioni d'uso
-        consider_pd: In aggiunta a quanto sopra, considero i miei contributi come
-          fossero di pubblico dominio
-        consider_pd_why: cos'è questo?
         guidance_info_html: 'Informazioni per aiutarti a comprendere queste condizioni:
           un %{readable_summary_link} e alcune %{informal_translations_link}'
         readable_summary: riassunto leggibile da un essere umano
@@ -411,6 +412,20 @@ it:
           i nuovi termini di contribuzione. Per ulteriori informazioni consultare
           %{terms_declined_link}.
         terms_declined_link: questa pagina wiki
+    pd_declarations:
+      show:
+        title: Considera i miei contributi di pubblico dominio
+        consider_pd: Io considero i miei contributi di pubblico dominio
+        consider_pd_why: Perché dovrei volere che i miei contributi fossero di pubblico
+          dominio?
+        confirm: Conferma
+      create:
+        successfully_declared: Hai dichiarato di considerare le tue modifiche come
+          fossero di pubblico dominio.
+        already_declared: Hai già dichiarato di considerare le tue modifiche come
+          fossero di pubblico dominio.
+        did_not_confirm: Non hai confermato di considerare le tue modifiche come fossero
+          di pubblico dominio.
   browse:
     deleted_ago_by_html: Cancellato %{time_ago} da %{user}
     edited_ago_by_html: Modificato %{time_ago} da %{user}
@@ -480,6 +495,7 @@ it:
       feature_warning: Caricamento di %{num_features} caratteristiche, che possono
         rendere il tuo browser lento o che non risponde. Sei sicuro di voler visualizzare
         questi dati?
+      feature_error: 'Impossibile caricare gli elementi: %{message}'
       load_data: Carica dati
       loading: Caricamento in corso...
     tag_details:
@@ -493,7 +509,8 @@ it:
       telephone_link: Chiama %{phone_number}
       colour_preview: Anteprima colore %{colour_value}
       email_link: Email %{email}
-    query:
+  feature_queries:
+    show:
       title: Ricerca di elementi
       introduction: Clicca sulla cartina per disponibilità nei pressi.
       nearby: Disponibilità nei pressi
@@ -560,6 +577,12 @@ it:
     changeset:
       no_edits: (nessuna modifica)
       view_changeset_details: Visualizza i dettagli del gruppo di modifiche
+      comments:
+        one: '%{count} commento'
+        other: '%{count} commenti'
+      changes:
+        one: '%{count} modifica'
+        other: '%{count} modifiche'
     index:
       title: Gruppi di modifiche
       title_user: Gruppi di modifiche di %{user}
@@ -1055,6 +1078,7 @@ it:
           bridleway: Percorso per equitazione
           bus_guideway: Corsia autobus a guida vincolata
           bus_stop: Fermata dell'autobus
+          busway: Strada dedicata ai bus
           construction: Strada in costruzione
           corridor: Corridoio
           crossing: Attraversamento
@@ -1567,6 +1591,8 @@ it:
           fishpond: Stagno per pesci
           lagoon: Laguna
           wastewater: Acque reflue
+          oxbow: Lanca
+          stream_pool: Pozza d'acqua
           lock: Chiusa
         waterway:
           artificial: Corso d'acqua artificiale
@@ -1623,9 +1649,11 @@ it:
       reports: Segnalazioni
       last_updated: Ultima modifica
       last_updated_time_ago_user_html: '%{time_ago} da %{user}'
+      reporting_users: Utenti segnalatori
       reports_count:
         one: '%{count} segnalazione'
         other: '%{count} segnalazioni'
+      more_reporters: e altri %{count}
       reported_item: Elemento segnalato
       states:
         ignored: Ignorato
@@ -1660,7 +1688,8 @@ it:
       reopened: Lo stato del problema è stato impostato su ‘Aperto’
     comments:
       comment_from_html: Commento di %{user_link} il %{comment_created_at}
-      reassign_param: Riassegnare il problema?
+      reassign_to_moderators: Riassegna il problema ai moderatori
+      reassign_to_administrators: Riassegna il problema agli amministratori
     reports:
       reported_by_html: Segnalato come %{category} da %{user} il %{updated_at}
     helper:
@@ -1732,10 +1761,6 @@ it:
     partners_corpmembers: Membri aziendali dell'OSMF
     partners_partners: partner
     tou: Condizioni d'uso
-    osm_offline: Il database di OpenStreetMap è al momento non in linea per permettere
-      lo svolgimento di alcuni lavori essenziali su di esso.
-    osm_read_only: Il database di OpenStreetMap è al momento in modalità sola-lettura
-      per permettere lo svolgimento di alcuni lavori essenziali su di esso.
     nothing_to_preview: Niente da visualizzare in anteprima.
     help: Aiuto
     about: Informazioni
@@ -1743,6 +1768,13 @@ it:
     communities: Comunità
     learn_more: Ulteriori informazioni
     more: Altro
+    offline_flash:
+      osm_offline: Per permettere lo svolgimento di essenziali lavori di manutenzione,
+        il database di OpenStreetMap è attualmente offline.
+      osm_read_only: Per permettere lo svolgimento di essenziali lavori di manutenzione,
+        il database di OpenStreetMap è attualmente in modalità sola-lettura.
+      expected_restore_html: Si prevede che i servizi verranno ripristinati in %{time}.
+      announcement: Potete leggere l'annuncio qui.
   user_mailer:
     diary_comment_notification:
       description: 'Voce del diario OpenStreetMap #%{id}'
@@ -2356,13 +2388,14 @@ it:
         copyright: Copyright OpenStreetMap e collaboratori, sotto una licenza aperta
       remote_failed: Modifica non riuscita - assicurarsi che JOSM o Merkaartor sia
         avviato e che l'opzione di controllo remoto sia abilitata
-    edit:
+    not_public_flash:
       not_public: Non si sono impostate come pubbliche le proprie modifiche.
       not_public_description_html: Non è possibile modificare la mappa finché non
         lo si fa. Si possono impostare come pubbliche le proprie modifiche dalla propria
         %{user_page}.
       user_page_link: pagina utente
       anon_edits_link_text: Leggi il perché.
+    edit:
       id_not_configured: iD non è stato configurato
     export:
       title: Esporta
@@ -2476,6 +2509,14 @@ it:
       where_am_i_title: Descrivi la posizione attuale usando il motore di ricerca
       submit_text: Vai
       reverse_directions_text: Inverti la marcia
+      modes:
+        bicycle: Bicicletta
+        car: Auto
+        foot: A piedi
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2819,10 +2860,12 @@ it:
       write_prefs: Modificare le preferenze dell'utente
       write_diary: Creare voci del diario e commenti
       write_api: Modificare la mappa
+      write_changeset_comments: Commentare i gruppi di modifiche
       read_gpx: Leggere tracciati GPS privati
       write_gpx: Caricare tracciati GPS
       write_notes: Modificare le note
       write_redactions: Rimuovere dati cartografici
+      write_blocks: Creare e revocare blocchi di utenze
       read_email: Leggere indirizzo di posta elettronica dell'utente
       consume_messages: Leggere, aggiornare lo stato e cancellare i messaggi dell'utente
       send_messages: Inviare messaggi privati ad altri utenti
@@ -2914,8 +2957,6 @@ it:
           sugli indirizzi e-mail
         html: Il tuo indirizzo non viene visualizzato pubblicamente, consulta la nostra
           %{privacy_policy_link} per ulteriori informazioni.
-      consider_pd_html: Considero i miei contributi in %{consider_pd_link}.
-      consider_pd: pubblico dominio
       or: o
       use external auth: o registrati tramite terze parti
     no_such_user:
@@ -2931,7 +2972,7 @@ it:
       my notes: Le mie note
       my messages: I miei messaggi
       my profile: Il mio profilo
-      my settings: Impostazioni
+      my_account: La mia utenza
       my comments: I miei commenti
       my_preferences: Preferenze
       my_dashboard: La mia dashboard
@@ -3012,13 +3053,23 @@ it:
       show:
         title: Utenti
         heading: Utenti
-        empty: Nessun utente corrispondente trovato
+        select_status: Seleziona stato
+        states:
+          pending: In attesa
+          active: Attivo
+          confirmed: Confermato
+          suspended: Sospeso
+          deleted: Cancellato
+        name_or_email: Nome o e-mail
+        ip_address: Indirizzo IP
+        search: Cerca
       page:
         found_users:
           one: '%{count} utente trovato'
           other: '%{count} utenti trovati'
         confirm: Conferma Utenti Selezionati
         hide: Nascondi Utenti Selezionati
+        empty: Nessun utente corrispondente trovato
       user:
         summary_html: '%{name} creato da %{ip_address} il %{date}'
         summary_no_ip_html: '%{name} creato il %{date}'
@@ -3217,6 +3268,8 @@ it:
       open_title: 'Nota irrisolta #%{note_name}'
       closed_title: 'Nota risolta #%{note_name}'
       hidden_title: 'Nota nascosta #%{note_name}'
+      description_when_author_is_deleted: cancellato
+      description_when_there_is_no_opening_comment: sconosciuto
       event_opened_by_html: Creata da %{user} %{time_ago}
       event_opened_by_anonymous_html: Creata da anonimo %{time_ago}
       event_commented_by_html: Commento da %{user} %{time_ago}
@@ -3357,16 +3410,6 @@ it:
       quindi clicca qui.
     directions:
       ascend: Salita
-      engines:
-        fossgis_osrm_bike: Bicicletta (OSRM)
-        fossgis_osrm_car: Auto (OSRM)
-        fossgis_osrm_foot: A piedi (OSRM)
-        graphhopper_bicycle: Bicicletta (GraphHopper)
-        graphhopper_car: Auto (GraphHopper)
-        graphhopper_foot: A piedi (GraphHopper)
-        fossgis_valhalla_bicycle: Bicicletta (Valhalla)
-        fossgis_valhalla_car: Auto (Valhalla)
-        fossgis_valhalla_foot: A piedi (Valhalla)
       descend: Discesa
       directions: Indicazioni
       distance: Distanza
@@ -3450,6 +3493,8 @@ it:
           ninth: 9ª
           tenth: 10ª
       time: Tempo
+      download: Scarica l'itinerario come GeoJson
+      filename: itinerario
     query:
       node: Nodo
       way: Percorso
@@ -3464,6 +3509,9 @@ it:
       show_address: Mostra indirizzo
       query_features: Ricerca di elementi
       centre_map: Centra la mappa qui
+    home:
+      marker_title: La mia posizione di casa
+      not_set: La posizione di casa non è impostata per la tua utenza
   redactions:
     edit:
       heading: Modifica revisione

@@ -8,6 +8,7 @@
 # Author: Alefar
 # Author: Als-Holder
 # Author: Amilopowers
+# Author: AnnaTheProgrammer777
 # Author: AnupamM
 # Author: Apmon
 # Author: Atomkraftzwerg
@@ -71,6 +72,7 @@
 # Author: Manfredbrandl
 # Author: Markobr
 # Author: MarkusHD
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Mcandri13
 # Author: Mcliquid
@@ -201,6 +203,7 @@ de:
         allow_write_prefs: Ihre Benutzereinstellungen verändern
         allow_write_diary: Blogeinträge und Kommentare erstellen
         allow_write_api: Karte bearbeiten
+        allow_write_changeset_comments: Kommentieren von Änderungssätzen
         allow_read_gpx: Zugriff auf ihre privaten GPS-Tracks
         allow_write_gpx: GPS-Track hochladen
         allow_write_notes: Notizen bearbeiten
@@ -356,9 +359,9 @@ de:
         comment: Kommentar
         full: Vollständiger Hinweis
   accounts:
-    edit:
+    show:
       title: Benutzerkonto bearbeiten
-      my settings: Einstellungen
+      my_account: Mein Benutzerkonto
       current email address: Aktuelle E-Mail-Adresse
       external auth: Externe Authentifikation
       openid:
@@ -373,8 +376,11 @@ de:
           durchzulesen sowie zu akzeptieren.
         agreed_with_pd: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei veröffentlichst
           (unter Public Domain stellst).
-        link: https://wiki.osmfoundation.org/w/index.php?title=Licence/Contributor_Terms&uselang=de
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms?uselang=de
         link text: Was bedeutet dies?
+        not_agreed_with_pd: Du hast nicht erklärt, dass du deine Bearbeitungen als
+          gemeinfrei betrachtest.
+        pd_link_text: erklären
       save changes button: Änderungen speichern
       delete_account: Konto löschen …
     go_public:
@@ -441,10 +447,6 @@ de:
           Infrastruktur, die von der OSMF zur Verfügung gestellt wird. Klicke bitte
           auf den Link, lies den Text und stimme dann zu.
         read_tou: Ich habe die Nutzungsbedingungen gelesen und stimme ihnen zu
-        consider_pd: Zusätzlich zu den oben genannten Bedingungen betrachte ich meine
-          Beiträge als gemeinfrei (Public Domain)
-        consider_pd_why: Was bedeutet dies?
-        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/DE:Editing_Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Informationen zum Verständnis dieser Begriffe: ein %{readable_summary_link}
           und einige %{informal_translations_link}'
         readable_summary: menschenlesbare Zusammenfassung
@@ -467,6 +469,20 @@ de:
           findest du auf %{terms_declined_link}.
         terms_declined_link: diese Wiki-Seite
         terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Betrachte meine Beiträge als gemeinfrei
+        consider_pd: Ich betrachte meine Beiträge als gemeinfrei
+        consider_pd_why: Warum sollte ich wollen, dass meine Beiträge gemeinfrei sind?
+        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/DE:Editing_Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Bestätigen
+      create:
+        successfully_declared: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei
+          veröffentlichst (unter Public Domain stellst).
+        already_declared: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei
+          veröffentlichst (unter Public Domain stellst).
+        did_not_confirm: Du hast nicht bestätigt, dass du deine Bearbeitungen als
+          gemeinfrei betrachtest.
   browse:
     deleted_ago_by_html: Gelöscht %{time_ago} von %{user}
     edited_ago_by_html: Bearbeitet %{time_ago} von %{user}
@@ -550,7 +566,8 @@ de:
       telephone_link: '%{phone_number} anrufen'
       colour_preview: Farbe %{colour_value} Vorschau
       email_link: E-Mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Objektabfrage
       introduction: Klicke auf die Karte, um benachbarte Objekte zu finden.
       nearby: Benachbarte Objekte
@@ -1113,6 +1130,7 @@ de:
           bridleway: Reitweg
           bus_guideway: Busspur
           bus_stop: Bushaltestelle
+          busway: Busfahrstreifen
           construction: Straße im Bau
           corridor: Flur
           crossing: Überquerung
@@ -1683,7 +1701,7 @@ de:
       reports: Meldungen
       last_updated: Zuletzt aktualisiert
       last_updated_time_ago_user_html: '%{time_ago} von %{user}'
-      reporter_users: Reporter-Benutzer
+      reporting_users: Benutzer melden
       reports_count:
         one: Eine Meldung
         other: '%{count} Meldungen'
@@ -1722,7 +1740,8 @@ de:
       reopened: Der Problemstatus wurde auf „Offen“ geändert
     comments:
       comment_from_html: Kommentar von %{user_link} erstellt am %{comment_created_at}
-      reassign_param: Problem erneut zuweisen?
+      reassign_to_moderators: Weise das Problem den Moderatoren zu
+      reassign_to_administrators: Weise das Problem den Administratoren zu
     reports:
       reported_by_html: Gemeldet als %{category} von %{user} bei %{updated_at}
     helper:
@@ -1795,10 +1814,6 @@ de:
     partners_corpmembers: OSMF-Unternehmensmitglieder
     partners_partners: Partnern
     tou: Nutzungsbedingungen
-    osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
-      nicht verfügbar.
-    osm_read_only: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
-      im „Nur-Lesen-Modus“.
     nothing_to_preview: Es existiert keine Vorschau.
     help: Hilfe
     about: Über
@@ -1806,6 +1821,13 @@ de:
     communities: Gemeinschaften
     learn_more: Mehr erfahren
     more: Mehr
+    offline_flash:
+      osm_offline: Die OpenStreetMap-Datenbank ist derzeit offline, da wichtige Wartungsarbeiten
+        durchgeführt werden.
+      osm_read_only: Die OpenStreetMap-Datenbank befindet sich derzeit im schreibgeschützten
+        Modus, während wichtige Wartungsarbeiten durchgeführt werden.
+      expected_restore_html: Die Dienste werden voraussichtlich in %{time} wiederhergestellt.
+      announcement: Hier kannst du die Ankündigung lesen.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap-Tagebucheintrag #%{id}'
@@ -2452,13 +2474,15 @@ de:
       remote_failed: Der Aufruf des Editors ist fehlgeschlagen. Stelle sicher, dass
         JOSM oder Merkaartor gestartet ist und die Remote-Control-Option aktiviert
         ist.
-    edit:
+    not_public_flash:
       not_public: Deine Einstellungen sind auf anonymes Bearbeiten gestellt.
       not_public_description_html: Du musst, um die Karte bearbeiten zu können, deine
         Einstellungen auf öffentliches Bearbeiten umstellen. Dies kannst du auf deiner
         %{user_page} tun.
       user_page_link: Einstellungsseite
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/DE:Anonymes_editieren
       anon_edits_link_text: Hier findest du mehr Infos dazu.
+    edit:
       id_not_configured: iD wurde nicht konfiguriert
     export:
       title: Exportieren
@@ -2576,6 +2600,10 @@ de:
       where_am_i_title: Die momentane Position mit der Suchmaschine anzeigen
       submit_text: Los
       reverse_directions_text: Richtungen umkehren
+      modes:
+        bicycle: Fahrrad
+        car: Auto
+        foot: Fuß
     key:
       table:
         entry:
@@ -2913,10 +2941,12 @@ de:
       write_prefs: Benutzereinstellungen verändern
       write_diary: Benutzereinträge und Kommentare erstellen
       write_api: Karte bearbeiten
+      write_changeset_comments: Kommentar zu Änderungen
       read_gpx: Private GPS-Tracks lesen
       write_gpx: GPS-Tracks hochladen
       write_notes: Notizen bearbeiten
       write_redactions: Kartendaten redigieren
+      write_blocks: Benutzersperren erstellen und aufheben
       read_email: Lesen der Benutzer-E-Mail-Adresse
       consume_messages: Lesen, Aktualisieren des Status und Löschen von Benutzernachrichten
       send_messages: Private Nachrichten an andere Benutzer senden
@@ -3011,8 +3041,6 @@ de:
         privacy_policy_title: OSMF-Datenschutzrichtlinie mit Abschnitt über E-Mail-Adressen
         html: Deine Adresse wird nicht öffentlich angezeigt. Weitere Informationen
           findest du in unserer %{privacy_policy_link}.
-      consider_pd_html: Ich betrachte meine Beiträge als %{consider_pd_link}.
-      consider_pd: gemeinfrei
       or: oder
       use external auth: oder melde dich über einen Drittanbieter an
     no_such_user:
@@ -3028,7 +3056,7 @@ de:
       my notes: Meine Hinweise
       my messages: Nachrichten
       my profile: Profil
-      my settings: Einstellungen
+      my_account: Mein Benutzerkonto
       my comments: Meine Kommentare
       my_preferences: Benutzereinstellungen
       my_dashboard: Meine Übersichtsseite
@@ -3109,13 +3137,23 @@ de:
       show:
         title: Benutzer
         heading: Benutzer
-        empty: Keine übereinstimmenden Benutzer gefunden
+        select_status: Status auswählen
+        states:
+          pending: Ausstehend
+          active: Aktiv
+          confirmed: Bestätigt
+          suspended: Ausgesetzt
+          deleted: Gelöscht
+        name_or_email: Name oder E-Mail
+        ip_address: IP-Adresse
+        search: Suchen
       page:
         found_users:
           one: '%{count} Benutzer gefunden'
           other: '%{count} Benutzer gefunden'
         confirm: Bestätige ausgewählte Benutzer
         hide: Ausgewählte Benutzer ausblenden
+        empty: Keine übereinstimmenden Benutzer gefunden
       user:
         summary_html: '%{name} erstellt von %{ip_address} am %{date}'
         summary_no_ip_html: '%{name} erstellt am %{date}'
@@ -3320,6 +3358,8 @@ de:
       open_title: Ungelöster Hinweis Nr. %{note_name}
       closed_title: Erledigter Hinweis Nr. %{note_name}
       hidden_title: Versteckter Hinweis Nr. %{note_name}
+      description_when_author_is_deleted: gelöscht
+      description_when_there_is_no_opening_comment: unbekannt
       event_opened_by_html: Erstellt von %{user} %{time_ago}
       event_opened_by_anonymous_html: Erstellt von anonym %{time_ago}
       event_commented_by_html: Kommentar von %{user} %{time_ago}
@@ -3369,7 +3409,6 @@ de:
         url: https://wiki.openstreetmap.org/wiki/DE:Beginners%27_guide
       counter_warning_forum_link:
         text: die Gemeinschaft kann dir helfen
-        url: https://community.openstreetmap.org/
       advice: Deine Meldung ist öffentlich und kann zur Aktualisierung der Karte verwendet
         werden. Gib deshalb keine persönlichen oder urheberrechtlich geschützten Informationen
         von anderen Karten oder Verzeichnislisten an.
@@ -3463,16 +3502,6 @@ de:
       den du bearbeiten möchtest, und klicke hier.
     directions:
       ascend: Aufsteigend
-      engines:
-        fossgis_osrm_bike: Fahrrad (OSRM)
-        fossgis_osrm_car: Auto (OSRM)
-        fossgis_osrm_foot: Fuß (OSRM)
-        graphhopper_bicycle: Fahrrad (GraphHopper)
-        graphhopper_car: Auto (GraphHopper)
-        graphhopper_foot: Fuß (GraphHopper)
-        fossgis_valhalla_bicycle: Fahrrad (Valhalla)
-        fossgis_valhalla_car: Auto (Valhalla)
-        fossgis_valhalla_foot: Fuß (Valhalla)
       descend: Absteigend
       directions: 'Routenanweisungen:'
       distance: Distanz
@@ -3560,6 +3589,8 @@ de:
           ninth: neunte
           tenth: zehnte
       time: Zeit
+      download: Route als GeoJSON herunterladen
+      filename: route
     query:
       node: Knoten
       way: Linie
@@ -3574,6 +3605,9 @@ de:
       show_address: Adresse anzeigen
       query_features: Objektabfrage
       centre_map: Karte hier zentrieren
+    home:
+      marker_title: Mein Heimatort
+      not_set: Der Heimatort ist für dein Konto nicht festgelegt
   redactions:
     edit:
       heading: Redaction bearbeiten

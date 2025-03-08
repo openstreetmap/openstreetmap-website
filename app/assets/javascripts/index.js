@@ -21,10 +21,11 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/home
 //= require router
 
-$(document).ready(function () {
-  var map = new L.OSM.Map("map", {
+$(function () {
+  const map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
     contextmenu: true,
@@ -32,14 +33,14 @@ $(document).ready(function () {
   });
 
   OSM.loadSidebarContent = function (path, callback) {
-    var content_path = path;
+    let content_path = path;
 
     map.setSidebarOverlaid(false);
 
-    $("#sidebar_loader").show().addClass("delayed-fade-in");
+    $("#sidebar_loader").prop("hidden", false).addClass("delayed-fade-in");
 
-    // IE<10 doesn't respect Vary: X-Requested-With header, so
-    // prevent caching the XHR response as a full-page URL.
+    // Prevent caching the XHR response as a full-page URL
+    // https://github.com/openstreetmap/openstreetmap-website/issues/5663
     if (content_path.indexOf("?") >= 0) {
       content_path += "&xhr=1";
     } else {
@@ -49,19 +50,18 @@ $(document).ready(function () {
     $("#sidebar_content")
       .empty();
 
-    $.ajax({
-      url: content_path,
-      dataType: "html",
-      complete: function (xhr) {
+    fetch(content_path, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+      .then(response => {
         $("#flash").empty();
-        $("#sidebar_loader").removeClass("delayed-fade-in").hide();
+        $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
 
-        var content = $(xhr.responseText);
+        const title = response.headers.get("X-Page-Title");
+        if (title) document.title = decodeURIComponent(title);
 
-        if (xhr.getResponseHeader("X-Page-Title")) {
-          var title = xhr.getResponseHeader("X-Page-Title");
-          document.title = decodeURIComponent(title);
-        }
+        return response.text();
+      })
+      .then(html => {
+        const content = $(html);
 
         $("head")
           .find("link[type=\"application/atom+xml\"]")
@@ -75,11 +75,13 @@ $(document).ready(function () {
         if (callback) {
           callback();
         }
-      }
-    });
+      });
   };
 
-  var params = OSM.mapParams();
+  const token = $("head").data("oauthToken");
+  if (token) OSM.oauth = { authorization: "Bearer " + token };
+
+  const params = OSM.mapParams();
 
   map.attributionControl.setPrefix("");
 
@@ -91,19 +93,19 @@ $(document).ready(function () {
     }
   });
 
-  var sidebar = L.OSM.sidebar("#map-ui")
+  const sidebar = L.OSM.sidebar("#map-ui")
     .addTo(map);
 
-  var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
+  const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
   function addControlGroup(controls) {
     for (const control of controls) control.addTo(map);
 
-    var firstContainer = controls[0].getContainer();
+    const firstContainer = controls[0].getContainer();
     $(firstContainer).find(".control-button").first()
       .addClass("control-button-first");
 
-    var lastContainer = controls[controls.length - 1].getContainer();
+    const lastContainer = controls[controls.length - 1].getContainer();
     $(lastContainer).find(".control-button").last()
       .addClass("control-button-last");
   }
@@ -167,7 +169,7 @@ $(document).ready(function () {
 
   $(".leaflet-control .control-button").tooltip({ placement: "left", container: "body" });
 
-  var expiry = new Date();
+  const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
   map.on("moveend baselayerchange overlayadd overlayremove", function () {
@@ -189,11 +191,11 @@ $(document).ready(function () {
     Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/", samesite: "lax" });
   });
 
-  var bannerExpiry = new Date();
+  const bannerExpiry = new Date();
   bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
   $("#banner .btn-close").on("click", function (e) {
-    var cookieId = e.target.id;
+    const cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
     if (cookieId) {
@@ -204,7 +206,7 @@ $(document).ready(function () {
   if (OSM.MATOMO) {
     map.on("baselayerchange overlayadd", function (e) {
       if (e.layer.options) {
-        var goal = OSM.MATOMO.goals[e.layer.options.layerId];
+        const goal = OSM.MATOMO.goals[e.layer.options.layerId];
 
         if (goal) {
           $("body").trigger("matomogoal", goal);
@@ -223,47 +225,38 @@ $(document).ready(function () {
     L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
-  $("#homeanchor").on("click", function (e) {
-    e.preventDefault();
-
-    var data = $(this).data(),
-        center = L.latLng(data.lat, data.lon);
-
-    map.setView(center, data.zoom);
-    L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
-  });
-
   function remoteEditHandler(bbox, object) {
-    var remoteEditHost = "http://127.0.0.1:8111",
-        osmHost = location.protocol + "//" + location.host,
-        query = new URLSearchParams({
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-        });
+    const remoteEditHost = "http://127.0.0.1:8111",
+          osmHost = location.protocol + "//" + location.host,
+          query = new URLSearchParams({
+            left: bbox.getWest() - 0.0001,
+            top: bbox.getNorth() + 0.0001,
+            right: bbox.getEast() + 0.0001,
+            bottom: bbox.getSouth() - 0.0001
+          });
 
     if (object && object.type !== "note") query.set("select", object.type + object.id); // can't select notes
-    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query, function () {
-      if (object && object.type === "note") {
-        const noteQuery = new URLSearchParams({ url: osmHost + OSM.apiUrl(object) });
-        sendRemoteEditCommand(remoteEditHost + "/import?" + noteQuery);
-      }
-    });
+    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query)
+      .then(() => {
+        if (object && object.type === "note") {
+          const noteQuery = new URLSearchParams({ url: osmHost + OSM.apiUrl(object) });
+          sendRemoteEditCommand(remoteEditHost + "/import?" + noteQuery);
+        }
+      })
+      .catch(() => {
+        // eslint-disable-next-line no-alert
+        alert(I18n.t("site.index.remote_failed"));
+      });
 
-    function sendRemoteEditCommand(url, callback) {
-      fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) })
-        .then(callback)
-        .catch(function () {
-          alert(I18n.t("site.index.remote_failed"));
-        });
+    function sendRemoteEditCommand(url) {
+      return fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) });
     }
 
     return false;
   }
 
   $("a[data-editor=remote]").click(function (e) {
-    var params = OSM.mapParams(this.search);
+    const params = OSM.mapParams(this.search);
     remoteEditHandler(map.getBounds(), params.object);
     e.preventDefault();
   });
@@ -283,7 +276,7 @@ $(document).ready(function () {
   }
 
   OSM.Index = function (map) {
-    var page = {};
+    const page = {};
 
     page.pushstate = page.popstate = function () {
       map.setSidebarOverlaid(true);
@@ -305,21 +298,22 @@ $(document).ready(function () {
   };
 
   OSM.Browse = function (map, type) {
-    var page = {};
+    const page = {};
 
-    page.pushstate = page.popstate = function (path, id) {
+    page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
-        addObject(type, id);
+        addObject(type, id, version);
       });
     };
 
-    page.load = function (path, id) {
-      addObject(type, id, true);
+    page.load = function (path, id, version) {
+      addObject(type, id, version, true);
     };
 
-    function addObject(type, id, center) {
-      map.addObject({ type: type, id: parseInt(id, 10) }, function (bounds) {
-        if (!window.location.hash && bounds.isValid() &&
+    function addObject(type, id, version, center) {
+      const hashParams = OSM.parseHash(location.hash);
+      map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
+        if (!hashParams.center && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {
             map.fitBounds(bounds);
@@ -336,7 +330,7 @@ $(document).ready(function () {
   };
 
   OSM.OldBrowse = function () {
-    var page = {};
+    const page = {};
 
     page.pushstate = page.popstate = function (path) {
       OSM.loadSidebarContent(path);
@@ -345,7 +339,7 @@ $(document).ready(function () {
     return page;
   };
 
-  var history = OSM.History(map);
+  const history = OSM.History(map);
 
   OSM.router = OSM.Router(map, {
     "/": OSM.Index(map),
@@ -359,16 +353,17 @@ $(document).ready(function () {
     "/user/:display_name/history": history,
     "/note/:id": OSM.Note(map),
     "/node/:id(/history)": OSM.Browse(map, "node"),
-    "/node/:id/history/:version": OSM.OldBrowse(),
+    "/node/:id/history/:version": OSM.Browse(map, "node"),
     "/way/:id(/history)": OSM.Browse(map, "way"),
     "/way/:id/history/:version": OSM.OldBrowse(),
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
     "/relation/:id/history/:version": OSM.OldBrowse(),
     "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map)
+    "/query": OSM.Query(map),
+    "/account/home": OSM.Home(map)
   });
 
-  if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
+  if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {
     remoteEditHandler(map.getBounds(), params.object);
     OSM.router.setCurrentPath("/");
   }
@@ -382,6 +377,11 @@ $(document).ready(function () {
 
     // Open links in a new tab as normal.
     if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
+
+    // Open local anchor links as normal.
+    if ($(this).attr("href")?.startsWith("#")) {
       return;
     }
 

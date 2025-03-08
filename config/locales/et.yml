@@ -8,6 +8,7 @@
 # Author: Kareyac
 # Author: Luckas
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: MidnightRaver
 # Author: Pikne
 # Author: RM87
@@ -241,9 +242,9 @@ et:
         comment: Kommentaar
         full: Täielik tekst
   accounts:
-    edit:
+    show:
       title: Konto muutmine
-      my settings: Minu sätted
+      my_account: Minu konto
       current email address: Praegune e-posti aadress
       external auth: Väline autentimine
       openid:
@@ -257,6 +258,9 @@ et:
         agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks
           (Public Domain).
         link text: mis see on?
+        not_agreed_with_pd: Sa ei ole andnud teada, et pead enda muudatusi avalikku
+          omandisse kuuluvaks.
+        pd_link_text: anna teada
       save changes button: Salvesta muudatused
       delete_account: Kustuta konto...
     go_public:
@@ -318,9 +322,6 @@ et:
           pakutava infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi
           ja nõustu sellega.
         read_tou: Ma olen lugenud kasutustingimusi ja nõustun nendega
-        consider_pd: Eelnevale lisaks leian, et minu kaastöö kuulub avalikku omandisse
-          (Public Domain)
-        consider_pd_why: mis see on?
         guidance_info_html: 'Teave, mis aitab mõista neid tingimusi: %{readable_summary_link}
           ja mõned %{informal_translations_link}'
         readable_summary: inimloetav kokkuvõte
@@ -339,6 +340,19 @@ et:
         terms_declined_html: Meil on kahju, et otsustasid kaastöötingimustega mitte
           nõustutada. Lisateavet leiad %{terms_declined_link}.
         terms_declined_link: sellelt vikileheküljelt
+    pd_declarations:
+      show:
+        title: Enda kaastöö pidamine avalikku omandisse kuuluvaks
+        consider_pd: Pean enda kaastööd avalikku omandisse kuuluvaks
+        consider_pd_why: Miks peaksin tahtma, et minu kaastöö on avalikus omandis?
+        confirm: Kinnitan
+      create:
+        successfully_declared: Oled andnud edukalt teada, et pead enda kaastööd avalikku
+          omandisse kuuluvaks.
+        already_declared: Oled juba teada andnud, et pead enda kaastööd avalikku omandisse
+          kuuluvaks.
+        did_not_confirm: Sa ei kinnitanud, et pead enda kaastööd avalikku omandisse
+          kuuluvaks.
   browse:
     deleted_ago_by_html: Kustutanud %{user} %{time_ago}
     edited_ago_by_html: Muutnud %{user} %{time_ago}
@@ -419,7 +433,8 @@ et:
       telephone_link: Helista %{phone_number}
       colour_preview: 'Värvuse eelvaade: %{colour_value}'
       email_link: Kirjuta e-kiri aadressil %{email}
-    query:
+  feature_queries:
+    show:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
       nearby: Läheduses asuvad objektid
@@ -464,6 +479,7 @@ et:
       title: Muudatuskogumid
       title_user: Kasutaja %{user} muudatuskogumid
       title_user_link_html: Kasutaja %{user_link} muudatuskogumid
+      title_followed: Jälgitavate muudatuskogumid
       title_nearby: Läheduses asuvate kasutajate muudatuskogumid
       empty: Muudatuskogumeid ei leitud.
       empty_area: Selles alas ei ole muudatuskogumeid.
@@ -537,9 +553,13 @@ et:
       no_home_location_html: '%{edit_profile_link} ja määra enda asukoht, et näha
         ümberkaudseid kasutajaid.'
       edit_your_profile: Muuda profiili
+      followings: Jälgitavad
+      no followings: Sa ei jälgi veel ühtegi kasutajat.
       nearby users: Teised lähedal asuvad kasutajad
       no nearby users: Puuduvad teised kasutajad, kes tunnistavad, et kaardistavad
         läheduses.
+      followed_changesets: muudatuskogumid
+      followed_diaries: päevikusissekanded
       nearby_changesets: lähedalasuvate kasutajate muudatuskogumid
       nearby_diaries: lähedalasuvate kasutajate päevikusissekanded
   diary_entries:
@@ -550,6 +570,7 @@ et:
       use_map_link: Kasuta kaarti
     index:
       title: Kasutajate päevikud
+      title_followed: Jälgitavate päevikud
       title_nearby: Lähedalasuvate kasutajate päevikud
       user_title: Kasutaja %{user} päevik
       in_language_title: Päevikusissekanded (%{language})
@@ -644,6 +665,11 @@ et:
       title: Faili ei leidu
       description: Sellise nimega faili/kataloogi/API meetodit ei leidu OpenStreetMapi
         serveris (HTTP 404)
+  follows:
+    create:
+      success: Jälgid nüüd kasutajat %{name}!
+    destroy:
+      success: Oled kasutaja %{name} jälgimise edukalt lõpetanud.
   geocoder:
     search:
       title:
@@ -1505,10 +1531,6 @@ et:
     partners_corpmembers: OSMF-i äriühingutest liikmed
     partners_partners: partnerid
     tou: kasutustingimused
-    osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse
-      vajalikke hooldustöid.
-    osm_read_only: OpenStreetMapi andmebaas on hetkel oluliste hooldustööde tõttu
-      ligipääsetav ainult lugemiseks.
     nothing_to_preview: Eelvaates pole midagi näidata.
     help: Juhend
     about: Teave
@@ -1788,6 +1810,16 @@ et:
   preferences:
     show:
       title: Minu eelistused
+      preferred_site_color_scheme: Eelistatav veebisaidi värviskeem
+      site_color_schemes:
+        auto: Automaatne
+        light: Hele
+        dark: Tume
+      preferred_map_color_scheme: Eelistatav kaardi värviskeem
+      map_color_schemes:
+        auto: Automaatne
+        light: Hele
+        dark: Tume
       save: Uuenda eelistusi
     update:
       failure: Eelistusi ei õnnestunud uuendada.
@@ -1821,6 +1853,8 @@ et:
   sessions:
     new:
       tab_title: Logi sisse
+      login_to_authorize_html: Logi OpenStreetMapi sisse, et pääseda rakenduse %{client_app_name}
+        juurde.
       email or username: E-posti aadress või kasutajanimi
       password: Parool
       remember: Jäta mind meelde
@@ -1858,6 +1892,9 @@ et:
       edit: Muuda
       preview: Eelvaade
     pagination:
+      changeset_comments:
+        older: Vanemad kommentaarid
+        newer: Uuemad kommentaarid
       diary_comments:
         older: Vanemad kommentaarid
         newer: Uuemad kommentaarid
@@ -2100,12 +2137,13 @@ et:
         copyright: Autoriõigused OpenStreetMap ja kaasautorid avatud litsentsi alusel
       remote_failed: Redigeerimise ebaõnnestus - veendu, et  JOSM või Merkaartor töötab
         ning kaugjuhtimine on lubatud
-    edit:
+    not_public_flash:
       not_public: Sa ei ole seadnud oma muudatused avalikuks.
       not_public_description_html: Sa ei saa enam anonüümselt kaarti muuta. Sa saad
         muuta oma muudatused avalikuks lehel %{user_page}.
       user_page_link: kasutajaleht
       anon_edits_link_text: Uuri välja, miks see on nii.
+    edit:
       id_not_configured: iD ei ole seadistatud
     export:
       title: Eksportimine
@@ -2218,6 +2256,10 @@ et:
       where_am_i_title: Määra praegune asukoht otsimootori abil
       submit_text: Otsi
       reverse_directions_text: Pööra suund
+      modes:
+        bicycle: Rattaga
+        car: Autoga
+        foot: Jalgsi
     key:
       table:
         entry:
@@ -2291,6 +2333,9 @@ et:
           hospital: Haigla
           building: Märkimisväärne hoone
           station: Raudteejaam
+          railway_halt: Raudteepeatus
+          subway_station: Metroojaam
+          tram_stop: Trammipeatus
           summit: Mäetipp
           peak: Mäetipp
           tunnel: Katkendlik ümbris = tunnel
@@ -2506,10 +2551,12 @@ et:
       write_prefs: Muuta kasutajaeelistusi
       write_diary: Luua päevikusissekandeid ja -kommentaare
       write_api: Muuta kaarti
+      write_changeset_comments: Kommenteerida muudatuskogemeid
       read_gpx: Lugeda isiklikke GPS-radu
       write_gpx: Laadida üles GPS-radu
       write_notes: Muuta märkusi
       write_redactions: Katta kaardiandmed kinni
+      write_blocks: Seada ja tühistada kasutajablokeeringuid
       read_email: Lugeda kasutaja e-posti aadressi
       consume_messages: Lugeda ja kustutada kasutaja sõnumeid ning uuendada nende
         olekut
@@ -2585,8 +2632,6 @@ et:
         privacy_policy_title: OSMF-i andmekaitsereeglid, sealhulgas peatükk e-posti
           aadresside kohta
         html: Sinu aadressi ei kuvata avalikult, tutvu meie %{privacy_policy_link}.
-      consider_pd_html: Pean enda kaastööd %{consider_pd_link} kuuluvaks.
-      consider_pd: avalikku omandisse
       use external auth: või registreeru kolmanda osapoole kaudu
     no_such_user:
       title: Sellist kasutajat ei ole
@@ -2601,7 +2646,6 @@ et:
       my notes: Minu märkused
       my messages: Minu sõnumid
       my profile: Minu profiil
-      my settings: Minu sätted
       my comments: Minu kommentaarid
       my_preferences: Minu eelistused
       my_dashboard: Minu andmelaud
@@ -2615,8 +2659,11 @@ et:
       edits: Muudatused
       traces: Rajaloend
       notes: Märkused
+      unfollow: Lõpeta jälgimine
+      follow: Jälgi
       mapper since: 'Kaardistaja alates:'
       last map edit: 'Viimane muudatus kaardil:'
+      no activity yet: Tegevust pole veel
       uid: 'Kasutaja ID:'
       ct status: 'Kaastöötingimused:'
       ct undecided: Otsustamata
@@ -2663,18 +2710,27 @@ et:
       show:
         title: Kasutajad
         heading: Kasutajad
-        empty: Sobivaid kasutajaid ei leitud!
       page:
         found_users:
           one: '%{count} kasutaja leitud'
           other: '%{count} kasutajat leitud'
         confirm: Kinnita valitud kasutajad
         hide: Peida valitud Kasutajad
+        empty: Sobivaid kasutajaid ei leitud!
       user:
         summary_html: '%{name} loodud IP-aadressilt %{ip_address} (%{date})'
         summary_no_ip_html: '%{name} loodud (%{date})'
+    comments:
+      index:
+        heading_html: Kasutaja %{user} kommentaarid
+        changesets: Muudatuskogumid
+        diary_entries: Päevikusissekanded
+        no_comments: Kommentaarid puuduvad
     changeset_comments:
+      index:
+        title: Kasutaja %{user} lisatud kommentaarid muudatuskogumite kohta
       page:
+        changeset: Muudatuskogum
         when: Millal
         comment: Kommentaar
     diary_comments:
@@ -2682,6 +2738,8 @@ et:
         title: Kasutaja %{user} lisatud päevikukommentaarid
       page:
         post: Postitus
+        when: Millal
+        comment: Kommentaar
     suspended:
       title: Konto peatatud
       heading: Konto peatatud
@@ -2760,6 +2818,13 @@ et:
         years:
           one: '%{count} aasta'
           other: '%{count} aastat'
+      short:
+        ended: lõppenud
+        revoked_html: tühistanud %{name}
+        active: aktiivne
+        active_until_read: aktiivne lugemiseni
+        read_html: lugenud (%{time})
+        time_in_future_title: '%{time_absolute}; %{time_relative} pärast'
     show:
       title: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
       heading_html: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
@@ -2776,6 +2841,8 @@ et:
       display_name: Blokeeritud kasutaja
       creator_name: Blokeerija
       reason: Blokeerimise põhjus
+      start: Algus
+      end: Lõpp
       status: Olek
     navigation:
       all_blocks: Kõik blokeeringud
@@ -2821,6 +2888,11 @@ et:
       description: Kirjeldus
       created_at: Loodud
       last_changed: Viimati muudetud
+      apply: Rakenda
+      all: Kõik
+      open: Avatud
+      closed: Suletud
+      status: Olek
     show:
       title: 'Märkus: %{id}'
       description: Kirjeldus
@@ -2839,6 +2911,9 @@ et:
       report: sellest märkusest teada anda
       anonymous_warning: See märkus sisaldab anonüümsete kasutajate kommentaare, mis
         tuleks eraldi üle kontrollida.
+      discussion: Arutelu
+      subscribe: Telli
+      unsubscribe: Tühista tellimus
       hide: Peida
       resolve: Lahenda
       reactivate: Aktiveeri uuesti
@@ -2849,7 +2924,7 @@ et:
         saad %{link}.
       other_problems_resolve: Kõigi märkusega seotud muude probleemide korral lahenda
         see ise kommentaariga.
-      other_problems_resolved: Iga muu probleemi puhul on selle lahendamine piisav.
+      other_problems_resolved: Iga muu probleemi puhul on piisav see ise lahendada.
       disappear_date_html: See lahendatud märkus kaob kaardilt %{disappear_in} pärast.
     new:
       title: Uus märkus
@@ -2866,6 +2941,8 @@ et:
       add: Lisa märkus
     notes_paging_nav:
       showing_page: Leht %{page}
+      next: Järgmine
+      previous: Eelmine
   javascripts:
     close: Sulge
     share:
@@ -2936,16 +3013,6 @@ et:
       kliki siia.
     directions:
       ascend: Tee tõuseb ülespoole
-      engines:
-        fossgis_osrm_bike: Rattaga (OSRM)
-        fossgis_osrm_car: Autoga (OSRM)
-        fossgis_osrm_foot: Jalgsi (OSRM)
-        graphhopper_bicycle: Rattaga (GraphHopper)
-        graphhopper_car: Autoga (GraphHopper)
-        graphhopper_foot: Jalgsi (GraphHopper)
-        fossgis_valhalla_bicycle: Rattaga (Valhalla)
-        fossgis_valhalla_car: Autoga (Valhalla)
-        fossgis_valhalla_foot: Jalgsi (Valhalla)
       descend: Tee laskub allapoole
       directions: Juhised
       distance: Vahemaa

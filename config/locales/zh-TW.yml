@@ -22,6 +22,7 @@
 # Author: Lepus
 # Author: Liuxinyu970226
 # Author: LowensteinYang
+# Author: Marwin H.H.
 # Author: Mikepanhu
 # Author: Mmyangfl
 # Author: Mstar
@@ -137,6 +138,7 @@ zh-TW:
         allow_write_prefs: 修改使用者偏好設定
         allow_write_diary: 建立日記、評論
         allow_write_api: 修改地圖
+        allow_write_changeset_comments: 在變更集上留言
         allow_read_gpx: 讀取個人 GPS 軌跡
         allow_write_gpx: 上傳 GPS 軌跡
         allow_write_notes: 修改註記
@@ -262,7 +264,7 @@ zh-TW:
         reopened_at_html: 於%{when}重新開啟
         reopened_at_by_html: 於%{when}由%{user}重新開啟
       rss:
-        title: OpenStreetMap 註記
+        title: 開放街圖註記
         description_all: 報告、評論、或關閉的註記清單
         description_area: 在你的區域[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]所報告、評論或關閉的註記的清單
         description_item: 註記 %{id} 的 RSS feed
@@ -274,9 +276,9 @@ zh-TW:
         comment: 評論
         full: 註記原文
   accounts:
-    edit:
+    show:
       title: 編輯帳號
-      my settings: 我的設定值
+      my_account: 我的帳號
       current email address: 目前的電子郵件地址
       external auth: 外部認證
       openid:
@@ -309,10 +311,10 @@ zh-TW:
         title: 刪除我的帳號
         warning: 警告！帳號刪除程序不可逆轉，無法復原。
         delete_account: 刪除帳號
-        delete_introduction: 你可以使用下方按鈕來刪除你的 OpenStreetMap 帳號。並請留意以下細節：
+        delete_introduction: 你可以使用下方按鈕來刪除你的開放街圖帳號。並請留意以下細節：
         delete_profile: 你的個人檔案資訊，包含：例如你的頭像圖片、描述，以及住家位置將會移除。
         delete_display_name: 你的顯示名稱將會移除，並且會被其他帳號拿來重覆使用。
-        retain_caveats: 然而，即使你的帳號被刪除後，一些關於你的資訊仍會繼續保留在 OpenStreetMap 裡：
+        retain_caveats: 然而，即使你的帳號被刪除後，一些關於你的資訊仍會繼續保留在開放街圖裡：
         retain_edits: 你對於地圖資料庫的編輯次數，假如存在，這將會繼續保留。
         retain_traces: 若有你上傳過的軌跡資料內容，這將會繼續保留。
         retain_diary_entries: 若有你的日誌項目與日誌評論內容，這將會繼續保留。
@@ -332,9 +334,6 @@ zh-TW:
         read_ct: 我已閱讀過並同意以上的貢獻者條款
         tou_explain_html: 這些%{tou_link}適用於網站方面的使用，與其它由 OSMF 提供的基礎內容。請在連結上點擊，閱讀並同意該文字。
         read_tou: 我已經閱讀過並同意使用條款
-        consider_pd: 除上述內容之外，我同意將我的貢獻放到公共領域
-        consider_pd_why: 這是什麼？
-        consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 有助於理解這些術語的資訊：一個%{readable_summary_link}和一些%{informal_translations_link}
         readable_summary: 人類可讀的摘要
         informal_translations: 非正式翻譯
@@ -352,6 +351,10 @@ zh-TW:
         terms_declined_html: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱 %{terms_declined_link}。
         terms_declined_link: 此 wiki 頁面
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: 確認
   browse:
     deleted_ago_by_html: 由%{user}%{time_ago}刪除
     edited_ago_by_html: 由%{user}%{time_ago}編輯
@@ -417,6 +420,7 @@ zh-TW:
         relation: 關聯
     start_rjs:
       feature_warning: 載入 %{num_features} 項物件的資料，可能會使你的瀏覽器延遲或無法回應。你確定要顯示這些資料嗎？
+      feature_error: 無法載入圖徵：%{message}
       load_data: 載入資料
       loading: 正在載入…
     tag_details:
@@ -430,7 +434,8 @@ zh-TW:
       telephone_link: 致電 %{phone_number}
       colour_preview: 色彩%{colour_value}預覽
       email_link: 電子郵件 %{email}
-    query:
+  feature_queries:
+    show:
       title: 查詢圖徵
       introduction: 點選地圖以尋找附近的圖徵
       nearby: 附近圖徵
@@ -482,8 +487,8 @@ zh-TW:
         comment: '由 %{author} 對變更集 #%{changeset_id} 發表的新評論'
         commented_at_by_html: 於%{when}由%{user}更新
       show:
-        title_all: OpenStreetMap 變更集討論
-        title_particular: OpenStreetMap 變更集 %{changeset_id} 討論
+        title_all: 開放貼圖變更集討論
+        title_particular: 開放街圖變更集 %{changeset_id} 討論
       timeout:
         sorry: 很抱歉，你請求的變更集評論過長無法讀取
   changesets:
@@ -494,6 +499,7 @@ zh-TW:
       title: 變更集
       title_user: '%{user} 的變更集'
       title_user_link_html: '%{user_link} 的變更集'
+      title_followed: 追蹤者的變更集
       title_nearby: 附近使用者的變更集
       empty: 查無變更集。
       empty_area: 此區域沒有變更集。
@@ -561,12 +567,17 @@ zh-TW:
     popup:
       your location: 你的位置
       nearby mapper: 附近的製圖者
+      following: 追蹤者
     show:
       title: 我的功能面板
       no_home_location_html: '%{edit_profile_link}並編輯你的家位置，來查看附近的使用者。'
       edit_your_profile: 編輯你的個人檔案
+      followings: 追蹤者
+      no followings: 您尚未追蹤任何使用者。
       nearby users: 其他附近的使用者
       no nearby users: 附近沒有已加入製圖的使用者。
+      followed_changesets: 變更集
+      followed_diaries: 日記條目
       nearby_changesets: 附近使用者的變更集
       nearby_diaries: 附近使用者的日記項目
   diary_entries:
@@ -577,6 +588,7 @@ zh-TW:
       use_map_link: 使用地圖
     index:
       title: 使用者日記
+      title_followed: 追蹤者的日記
       title_nearby: 附近的使用者的日記
       user_title: '%{user} 的日記'
       in_language_title: 語言為%{language}的日記項目
@@ -626,14 +638,14 @@ zh-TW:
       location: 位置：
     feed:
       user:
-        title: '%{user} 的 OpenStreetMap 日記項目'
-        description: '%{user} 最近的 OpenStreetMap 日記項目'
+        title: '%{user} 的開放街圖日記項目'
+        description: '%{user} 最近的開放街圖日記項目'
       language:
-        title: 語言為%{language_name}的OpenStreetMap 日記項目
-        description: 語言為%{language_name}的 OpenStreetMap 使用者最近日記項目
+        title: 語言為%{language_name}的開放街圖日記項目
+        description: 語言為%{language_name}的開放街圖使用者最近日記項目
       all:
-        title: OpenStreetMap 日記項目
-        description: OpenStreetMap 使用者最近的日記項目
+        title: 開放街圖日記項目
+        description: 開放街圖使用者最近的日記項目
     subscribe:
       heading: 訂閱以下日記項目討論？
       button: 訂閱討論
@@ -642,7 +654,7 @@ zh-TW:
       button: 取消訂閱討論
   diary_comments:
     new:
-      heading: 在以下日記項目討論添加評論？
+      heading: 在以下日記項目討論新增留言？
   doorkeeper:
     errors:
       messages:
@@ -676,20 +688,36 @@ zh-TW:
     contact:
       contact_url_title: 各種聯絡管道說明
       contact: 聯絡
-      contact_the_community_html: 如果你發現有損壞的連結/錯誤，請隨時%{contact_link}OpenStreetMap 社群。並請記下你的請求的確切
-        URL 網址。
+      contact_the_community_html: 如果你發現有損壞的連結/錯誤，請隨時%{contact_link}開放街圖社群。並請記下你的請求的確切
+        URL。
     bad_request:
       title: 錯誤請求
-      description: 你在 OpenStreetMap 伺服器上請求的操作無效 (HTTP 400)
+      description: 你在開放街圖伺服器上請求的操作無效 (HTTP 400)
     forbidden:
       title: Forbidden
-      description: 你在 OpenStreetMap 伺服器上請求的運作僅限管理員使用 (HTTP 403}
+      description: 你在開放街圖伺服器上請求的運作僅限管理員使用 (HTTP 403}
     internal_server_error:
       title: 應用程式錯誤
-      description: OpenStreetMap 伺服器遇到意外情況，而無法滿足請求 (HTTP 500)
+      description: 開放街圖伺服器遇到意外情況，而無法滿足請求 (HTTP 500)
     not_found:
       title: 檔案未找到
-      description: 在 OpenStreetMap 伺服器上找不到該名稱的檔案/目錄/API 操作 (HTTP 404)
+      description: 在開放街圖伺服器上找不到該名稱的檔案/目錄/API 操作 (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: 您想要追蹤 %{user} 嗎？
+        button: 追蹤使用者
+      unfollow:
+        heading: 您想要取消追蹤 %{user} 嗎？
+        button: 取消追蹤使用者
+    create:
+      success: 您正在追蹤 %{name}！
+      failed: 抱歉，您追蹤 %{name} 的請求失敗。
+      already_followed: 您已追蹤 %{name}。
+      limit_exceeded: 您最近追蹤了大量的使用者。請在嘗試追蹤更多人之前稍等。
+    destroy:
+      success: 您成功取消追蹤了 %{name}。
+      not_followed: 您並未追蹤 %{name}。
   geocoder:
     search:
       title:
@@ -944,6 +972,7 @@ zh-TW:
           bridleway: 騎馬道
           bus_guideway: 導軌巴士車道
           bus_stop: 公車站牌
+          busway: 公車專用道
           construction: 興建中道路
           corridor: 走廊
           crossing: 行人穿越道
@@ -1514,9 +1543,11 @@ zh-TW:
       reports: 回報
       last_updated: 上一次更新
       last_updated_time_ago_user_html: 由%{user}%{time_ago}
+      reporting_users: 回報使用者
       reports_count:
         one: '%{count} 份回報'
         other: '%{count} 份回報'
+      more_reporters: 以及 %{count} 個
       reported_item: 已回報項目
       states:
         ignored: 已忽略
@@ -1525,6 +1556,8 @@ zh-TW:
     show:
       title:
         open: '未決問題 #%{issue_id}'
+        ignored: '已忽略的問題 #%{issue_id}'
+        resolved: '已解決的問題 #%{issue_id}'
       reports:
         one: '%{count} 份回報'
         other: '%{count} 份回報'
@@ -1549,12 +1582,13 @@ zh-TW:
       reopened: 問題狀態已設定成「開啟」
     comments:
       comment_from_html: 由 %{user_link} 於 %{comment_created_at} 發表的評論
-      reassign_param: 重新指派問題？
+      reassign_to_moderators: 重新指派問題給仲裁者
+      reassign_to_administrators: 重新指派問題給管理員
     reports:
       reported_by_html: 由 %{user} 於 %{updated_at} 回報為 %{category}
     helper:
       reportable_title:
-        diary_comment: '%{entry_title}，評論 #%{comment_id}'
+        diary_comment: '%{entry_title}，留言 #%{comment_id}'
         note: '註記 #%{note_id}'
   issue_comments:
     create:
@@ -1599,7 +1633,7 @@ zh-TW:
       title: OpenStreetMap 開放街圖
       h1: OpenStreetMap 開放街圖
     logo:
-      alt_text: OpenStreetMap 標誌
+      alt_text: 開放街圖標誌
     home: 移至家的位置
     logout: 登出
     log_in: 登入
@@ -1612,15 +1646,13 @@ zh-TW:
     gps_traces: GPS 軌跡
     user_diaries: 日記
     edit_with: 以 %{editor} 編輯
-    intro_header: 歡迎來到 OpenStreetMap！
-    intro_text: OpenStreetMap 是一份全世界的地圖，由像你這樣的人們所建立，在開放授權下可以自由使用。
+    intro_header: 歡迎來到開放街圖！
+    intro_text: 開放街圖是一份全世界的地圖，由像你這樣的人們所建立，在開放授權下可以自由使用。
     hosting_partners_2024_html: 由%{fastly}、%{corpmembers}，和其他%{partners}支援代管。
     partners_fastly: Fastly
     partners_corpmembers: OSMF 團體成員
     partners_partners: 合作夥伴
     tou: 使用條款
-    osm_offline: OpenStreetMap 資料庫目前正在離線，直到必要的資料庫維護工作完成為止。
-    osm_read_only: OpenStreetMap 資料庫目前處於唯讀模式，直到必要的資料庫維護工作完成為止。
     nothing_to_preview: 無可預覽內容。
     help: 說明
     about: 關於
@@ -1628,76 +1660,96 @@ zh-TW:
     communities: 社群
     learn_more: 瞭解更多
     more: 更多
+    offline_flash:
+      osm_offline: 開放街圖資料庫目前已離線，正在進行必要的維護工作。
+      osm_read_only: 開放街圖資料庫目前處於唯讀模式，正在進行必要的維護工作。
+      expected_restore_html: 服務預計於 %{time} 內恢復。
+      announcement: 您可以在此閱讀公告。
   user_mailer:
     diary_comment_notification:
-      description: 'OpenStreetMap 日記項目 #%{id}'
-      subject: '[OpenStreetMap] %{user} 已評論日記項目'
+      description: '開放街圖日記項目 #%{id}'
+      subject: '[開放街圖] %{user} 已評論日記項目'
       hi: '%{to_user} 你好，'
-      header: '%{from_user} 評論主旨為 %{subject} 的 OpenStreetMap 日記項目：'
-      header_html: '%{from_user} 評論主旨為 %{subject} 的 OpenStreetMap 日記項目：'
+      header: '%{from_user} 評論主旨為 %{subject} 的開放街圖日記項目：'
+      header_html: '%{from_user} 評論主旨為 %{subject} 的開放街圖日記項目：'
       footer: 你也可以在 %{readurl} 閱讀評論，並且在 %{commenturl} 留下評論，或在 %{replyurl} 發送訊息給作者
       footer_html: 你也可以在 %{readurl} 閱讀評論，並且在 %{commenturl} 留下評論，或在 %{replyurl} 發送訊息給作者
       footer_unsubscribe: 你可以在%{unsubscribeurl}取消訂閱討論
       footer_unsubscribe_html: 你可以在%{unsubscribeurl}取消訂閱討論
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[開放街圖] %{message_title}'
       hi: '%{to_user} 您好，'
-      header: '%{from_user} 透過 OpenStreetMap 寄給你主旨為 %{subject} 的訊息：'
-      header_html: '%{from_user} 透過 OpenStreetMap 寄給你主旨為 %{subject} 的訊息：'
+      header: '%{from_user} 透過開放街圖寄給你主旨為 %{subject} 的訊息：'
+      header_html: '%{from_user} 透過開放街圖寄給你主旨為 %{subject} 的訊息：'
       footer: 你也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
       footer_html: 你也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
     follow_notification:
       hi: 嗨 %{to_user}，
+      subject: '[開放街圖] %{user} 已追蹤您'
+      followed_you: '%{user} 現在正在開放街圖上追蹤您。'
       see_their_profile: 你可以在 %{userurl} 查看他的基本資料。
       see_their_profile_html: 你可以在 %{userurl} 查看他的基本資料。
+      follow_them: 您也可以透過 %{followurl} 追蹤他們。
+      follow_them_html: 您也可以透過 %{followurl} 追蹤他們。
+    gpx_details:
+      details: 您的檔案詳細資訊：
+      filename: 檔案名稱
+      url: URL
+      description: 描述
+      tags: 標籤
+      total_points: 點總數
+      imported_points: 匯入點的數量
     gpx_failure:
       hi: '%{to_user} 你好，'
       failed_to_import: 您的文件似乎無法以GPS軌跡匯入。
+      verify: 請驗證您的檔案是否為有效的 GPX 檔案，或者是否為含有 GPX 檔案的支援格式封存檔 (.tar.gz, .tar.bz2, .tar,
+        .zip, .gpx.gz, .gpx.bz2)。您的檔案是否有格式或語法問題？此為匯入的錯誤內容：
       more_info: 有更多關於GPX匯入失敗的資訊與如何避免，可在 %{url} 查詢
       more_info_html: 更多關於 GPX 匯入失敗的資訊與如何避免，可在 %{url} 查詢。
-      subject: '[OpenStreetMap] GPX 匯入失敗'
+      subject: '[開放街圖] GPX 匯入失敗'
     gpx_success:
       hi: '%{to_user} 您好，'
+      imported_successfully: 看來您的檔案已成功匯入為 GPS 軌跡。
       all_your_traces: 你可以在 %{url} 找到所有上傳成功的 GPX 軌跡
       all_your_traces_html: 你可以在 %{url} 找到所有上傳成功的 GPX 軌跡。
-      subject: '[OpenStreetMap] GPX 匯入成功'
+      subject: '[開放街圖] GPX 匯入成功'
     signup_confirm:
-      subject: '[OpenStreetMap] 歡迎加入 OpenStreetMap'
+      subject: '[開放街圖] 歡迎加入開放街圖'
       greeting: 你好！
       created: 有人 (希望是你) 剛在 %{site_url} 建立了帳號。
       confirm: 在我們作出任何動作之前，我們需要確認這是你提出的要求。如果確實是這樣，請按以下連結，以確認你的帳號：
-      welcome: 在確認你的帳號後，我們將提供一些額外的訊息，幫助你開始使用 OpenStreetMap。
+      welcome: 在確認您的帳號後，我們將提供一些額外的資訊，協助您開始使用開放街圖。
     email_confirm:
-      subject: '[OpenStreetMap] 確認你的電子郵件信箱'
+      subject: '[開放街圖] 確認你的電子郵件信箱'
       greeting: 您好，
       hopefully_you: 有人 (希望是你) 想在 %{server_url} 更改電子郵件信箱為 %{new_address} 。
       click_the_link: 如果這是你，請按下列連結確認此變更。
     lost_password:
-      subject: '[OpenStreetMap] 密碼重設要求'
+      subject: '[開放街圖] 密碼重設要求'
       greeting: 你好，
       hopefully_you: 有人 (或許是你) 要求將這個電子郵件信箱註冊的 openstreetmap.org 帳號重設密碼。
       click_the_link: 如果這是你，請按下列連結重設密碼。
     note_comment_notification:
-      description: 'OpenStreetMap 註記 #%{id}'
+      description: '開放街圖註記 #%{id}'
       anonymous: 匿名使用者
       greeting: 你好，
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} 對你的註記做了評論'
-        subject_other: '[OpenStreetMap] %{commenter} 對你感興趣的註記做了評論'
+        subject_own: '[開放街圖] %{commenter} 對你的註記做了評論'
+        subject_other: '[開放街圖] %{commenter} 對你感興趣的註記做了評論'
         your_note: '%{commenter} 對 %{place} 附近的地圖註記做了評論。'
         your_note_html: '%{commenter} 對 %{place} 附近的地圖註記做了評論。'
         commented_note: '%{commenter} 對你感興趣的地圖註記做了評論。該註記在 %{place} 附近。'
         commented_note_html: '%{commenter} 對你感興趣的地圖註記做了評論。該註記在 %{place} 附近。'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} 解決你其中一筆註記 %{commenter}'
-        subject_other: '[OpenStreetMap]%{commenter} 已解決一項你感興趣的註記'
+        subject_own: '[開放街圖] %{commenter} 解決你其中一筆註記 %{commenter}'
+        subject_other: '[開放街圖] %{commenter} 已解決一項你感興趣的註記'
         your_note: '%{commenter} 已解決你在 %{place} 附近的註記之一。'
         your_note_html: '%{commenter} 已解決你在 %{place} 附近的註記之一。'
         commented_note: '%{commenter} 已解決你留言過的地圖註記。該註記在 %{place} 附近。'
         commented_note_html: '%{commenter} 已解決你留言過的地圖註記。該註記在 %{place} 附近。'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} 再次開啟你其中一筆註記。'
-        subject_other: '[OpenStreetMap] %{commenter} 再次開啟你感興趣的註記。'
+        subject_own: '[開放街圖] %{commenter} 再次開啟你其中一筆註記。'
+        subject_other: '[開放街圖] %{commenter} 再次開啟你感興趣的註記。'
         your_note: '%{commenter} 已經再次開啟你其中一筆接近 %{place} 的地圖註記。'
         your_note_html: '%{commenter} 已經再次開啟你其中一筆接近 %{place} 的地圖註記。'
         commented_note: '%{commenter} 重新開啟了一個你曾評論的地圖註記。該註記位於 %{place} 附近。'
@@ -1705,11 +1757,11 @@ zh-TW:
       details: 關於註記的更多詳細資料可在 %{url} 找到。
       details_html: 在%{url}回覆或是瞭解更多有關註記的訊息。
     changeset_comment_notification:
-      description: 'OpenStreetMap 變更集 #%{id}'
+      description: '開放街圖變更集 #%{id}'
       hi: 嗨 %{to_user}，
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} 對你的變更集做了評論'
-        subject_other: '[OpenStreetMap] %{commenter} 對你感興趣的變更集做了評論'
+        subject_own: '[開放街圖] %{commenter} 對你的變更集做了評論'
+        subject_other: '[開放街圖] %{commenter} 對你感興趣的變更集做了評論'
         your_changeset: '%{commenter}於 %{time} 在你的變更集做了評論'
         your_changeset_html: '%{commenter}於 %{time} 在你的變更集做了評論'
         commented_changeset: '%{commenter}於 %{time} 在你監視、由%{changeset_author}建立的變更集做了評論'
@@ -1842,6 +1894,12 @@ zh-TW:
   preferences:
     show:
       title: 我的偏好設定
+      preferred_site_color_scheme: 偏好的網站配色
+      site_color_schemes:
+        auto: 自動
+        light: 淺色
+        dark: 深色
+      preferred_map_color_scheme: 偏好的地圖配色
       map_color_schemes:
         auto: 自動
         light: 明亮
@@ -1879,7 +1937,7 @@ zh-TW:
   sessions:
     new:
       tab_title: 登入
-      login_to_authorize_html: 登入 OpenStreetMap 以存取 %{client_app_name}。
+      login_to_authorize_html: 登入開放街圖以存取 %{client_app_name}。
       email or username: 電子郵件地址或使用者名稱
       password: 密碼
       remember: 記住我
@@ -1890,7 +1948,7 @@ zh-TW:
       auth failure: 很抱歉，無法以這些資料登入。
     destroy:
       title: 登出
-      heading: 從 OpenStreetMap 登出
+      heading: 從開放街圖登出
       logout_button: 登出
     suspended_flash:
       suspended: 抱歉，由於可疑活動，你的帳戶已被暫停。
@@ -1917,6 +1975,9 @@ zh-TW:
       preview: 預覽
       help: 說明
     pagination:
+      changeset_comments:
+        older: 較舊的留言
+        newer: 較新的留言
       diary_comments:
         older: 較舊的評論
         newer: 較新的評論
@@ -1937,38 +1998,38 @@ zh-TW:
         newer: 新使用者
   site:
     about:
-      heading_html: '%{copyright}OpenStreetMap %{br} 貢獻者'
+      heading_html: '%{copyright}開放街圖 %{br} 貢獻者'
       used_by_html: '%{name} 為數以千計的網站、行動應用程式和硬體提供地圖資料'
-      lede_text: OpenStreetMap 是由製圖者社群所建立，他們提供及不斷更新包括有關世界各地的道路、路徑、咖啡館、火車站等等的資料。
+      lede_text: 開放街圖是由圖客社群所建立，他們提供及不斷更新包括有關世界各地的道路、路徑、咖啡館、火車站等等的資料。
       local_knowledge_title: 地方知識
       local_knowledge_html: |-
-        OpenStreetMap 強調地方知識。貢獻者們使用
+        開放街圖強調地方知識。貢獻者們使用
         航照圖、GPS 裝置與低技術的實地考察製圖，來檢驗 OSM
         是準確而且最新的。
       community_driven_title: 社群推動
       community_driven_1_html: |-
-        OpenStreetMap 的社群多元化、懷有熱情，而且日益壯大。我們的貢獻者包括地圖製作愛好者，地理訊息系統的專業人員，提供 OSM 伺服器的工程師，為受災害影響區域製圖的人道主義志願人士，以及其他各界人士。
+        開放街圖的社群多元化、懷有熱情，而且日益壯大。我們的貢獻者包括地圖製作愛好者，地理訊息系統的專業人員，提供 OSM 伺服器的工程師，為受災害影響區域製圖的人道主義志願人士，以及其他各界人士。
         想進一步了解這個社群，請參閱%{osm_blog_link}、%{user_diaries_link}、
         %{community_blogs_link}，以及%{osm_foundation_link}網站。
-      community_driven_osm_blog: OpenStreetMap 部落格
+      community_driven_osm_blog: 開放街圖部落格
       community_driven_user_diaries: 使用者日記
       community_driven_community_blogs: 社群部落格
       community_driven_osm_foundation: OSM 基金會
       open_data_title: 開放資料
-      open_data_1_html: OpenStreetMap 是%{open_data}的：你可以自由地使用作任何用途，前提是必須標明作者為 OpenStreetMap
+      open_data_1_html: 開放街圖是%{open_data}的：你可以自由地使用作任何用途，前提是必須標明作者為 OpenStreetMap
         及其貢獻者。若你在我們的資料上作修改或以之透過某些方式衍生其他資料，則只可依相同授權條款散佈有關成果。詳情請參閱%{copyright_license_link}。
       open_data_open_data: 開放資料
       open_data_copyright_license: 版權與授權條款頁面
       legal_title: 法律資訊
       legal_1_1_html: 本站以及許多相關的服務正式由%{openstreetmap_foundation_link} (OSMF) 代表社群所營運。所有使用的
         OSMF 運行服務皆符合我們的%{terms_of_use_link}、%{aup_link}、和%{privacy_policy_link}。
-      legal_1_1_openstreetmap_foundation: OpenStreetMap 基金會
+      legal_1_1_openstreetmap_foundation: 開放街圖基金會
       legal_1_1_terms_of_use: 使用條款
       legal_1_1_aup: 可接受使用方針
       legal_1_1_privacy_policy: 隱私權政策
       legal_2_1_html: 若你有授權、版權、或其他法律上的問題，請%{contact_the_osmf_link}。
       legal_2_1_contact_the_osmf: 聯絡 OSMF
-      legal_2_2_html: OpenStreetMap，查看地圖狀態的放大鏡模樣標誌是%{registered_trademarks_link}。
+      legal_2_2_html: 開放街圖、放大鏡標誌與 State of the Map 是%{registered_trademarks_link}。
       legal_2_2_registered_trademarks: OSMF 的註冊商標
       partners_title: 合作夥伴
     copyright:
@@ -1983,19 +2044,19 @@ zh-TW:
         native_link: 繁體中文版
         mapping_link: 開始製圖
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link}是%{open_data}，透過%{osm_foundation_link}
-          (OSMF) 在%{odc_odbl_link}（ODbL）下授權。
+        introduction_1_html: 開放街圖%{registered_trademark_link}是%{open_data}，透過%{osm_foundation_link}
+          (OSMF) 以%{odc_odbl_link}（ODbL）授權。
         introduction_1_open_data: 開放資料
         introduction_1_odc_odbl: 開放資料共享開放資料庫授權
-        introduction_1_osm_foundation: OpenStreetMap 基金會
-        introduction_2_html: 你可以自由複製、散布、傳輸及修改我們的資料，前提是必須標明作者為 OpenStreetMap 及其貢獻者。若在我們的資料上作變動或以此來建立其他資料，你只能依照相同授權條款來散佈成果。%{legal_code_link}有詳述你的權責。
+        introduction_1_osm_foundation: 開放街圖基金會
+        introduction_2_html: 你可以自由複製、散布、傳輸及修改我們的資料，前提是必須標明作者為開放街圖及其貢獻者。若在我們的資料上作變動或以此來建立其他資料，你只能依照相同授權條款來散佈成果。%{legal_code_link}有詳述你的權責。
         introduction_2_legal_code: 法律條款
         introduction_3_html: 我們的文件是依據 %{creative_commons_link} 授權條款（CC BY-SA 2.0）獲得許可。
         introduction_3_creative_commons: 創用 CC 姓名標示-相同方式分享
         introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW
-        credit_title_html: 如何標明作者是 OpenStreetMap
-        credit_1_html: 當你使用 OpenStreetMap 的資料，你會被要求遵循兩件事：
-        credit_2_1: 透過顯示我們的版權聲明為 OpenStreetMap 提供屬名。
+        credit_title_html: 如何標明作者是開放街圖
+        credit_1_html: 當你使用開放街圖的資料，你會被要求遵循兩件事：
+        credit_2_1: 透過顯示我們的版權聲明為開放街圖提供署名。
         credit_2_2: 明確資料在開放資料共享開放資料庫授權下可用。
         credit_3_html: 對於版權聲明的顯示，我們會依據你如何使用我們的資料，而有不同的要求。例如：不同的規則要如何顯示版權聲明，具體取決於你是否有建立可瀏覽的地圖、列印的地圖、或靜態圖片。完整的詳細資訊要求可以在%{attribution_guidelines_link}上查看。
         credit_3_attribution_guidelines: 姓名標示指南
@@ -2005,14 +2066,14 @@ zh-TW:
           在此範例中，版權相關聲明會出現在地圖的角落處。
         credit_4_1_this_copyright_page: 此版權頁面
         attribution_example:
-          alt: 如何在網頁上署名 OpenStreetMap 的例子
+          alt: 如何在網頁上署名開放街圖的例子
           title: 姓名標示例子
         more_title_html: 尋找更多
         more_1_1_html: 在%{osmf_licence_page_link}閱讀更多關於使用我們的資料，以及如何屬名我們的方式。
         more_1_1_osmf_licence_page: OSMF 授權條款頁面
         more_2_1_html: |-
-          儘管 OpenStreetMap 是開放資料，我們不對第三方提供免費的地圖 API。
-          請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}、和%{nominatim_usage_policy_link}。
+          儘管開放街圖是開放資料，但我們不對第三方提供免費的地圖 API。
+          請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}以及%{nominatim_usage_policy_link}。
         more_2_1_api_usage_policy: API 使用方針
         more_2_1_tile_usage_policy: 圖磚使用方針
         more_2_1_nominatim_usage_policy: 提名使用方針
@@ -2076,31 +2137,32 @@ zh-TW:
         contributors_za_ngi: 總局：國家地理空間資訊局
         contributors_gb_credit_html: '%{united_kingdom}：包含軍械調查資料&copy;皇家版權與資料庫版權 2010-2023。'
         contributors_gb_united_kingdom: 英國
-        contributors_2_html: 關於這些的進一步詳細資訊，與其他已使用來改善 OpenStreetMap 的來源，請參閱 OpenStreetMap
-          Wiki 上的%{contributors_page_link}。
+        contributors_2_html: 關於這些的進一步詳細資訊，與其他已使用來改善開放街圖的來源，請參閱開放街圖 Wiki 上的%{contributors_page_link}。
         contributors_2_contributors_page: 貢獻者頁面
-        contributors_footer_2_html: OpenStreetMap 收錄一項資料，並不意味原本的資料提供者認可 OpenStreetMap、提供任何保證或承擔任何法律責任。
+        contributors_footer_2_html: 開放街圖收錄一項資料，並不意味原本的資料提供者認可開放街圖、提供任何保證或承擔任何法律責任。
         infringement_title_html: 侵犯版權
         infringement_1_html: OSM 的貢獻者會被提醒，絕不要在沒有版權所有人的明確淮許下，加入來自任何有版權的來源的資料 (如 Google
           地圖或印刷地圖)。
-        infringement_2_1_html: 如果你認為有受版權保護的素材被不恰當地加到 OpenStreetMap 資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反應。
+        infringement_2_1_html: 如果你認為有受版權保護的素材被不恰當地加到開放街圖資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反應。
         infringement_2_1_takedown_procedure: 侵權處理程序
         infringement_2_1_online_filing_page: 線上申請頁面
         trademarks_title: 商標
-        trademarks_1_1_html: OpenStreetMap、網站上的放大鏡標誌，和 State of the Map 是 OpenStreetMap
-          基金會的註冊商標。如果你對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
+        trademarks_1_1_html: 開放街圖、網站上的放大鏡標誌以及 State of the Map 是開放街圖基金會的註冊商標。如果你對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
         trademarks_1_1_trademark_policy: 商標方針
     index:
       js_1: 你使用不支援 JavaScript 的瀏覽器，或者停用了 JavaScript。
-      js_2: OpenStreetMap 使用 JavaScript 讓地圖更平順。
+      js_2: 開放街圖使用 JavaScript 讓地圖更平順。
       license:
-        copyright: 版權所有，由 OpenStreetMap 及貢獻者根據開放的授權協議提供
+        copyright: 版權所有，由開放街圖及貢獻者根據開放的授權協議提供
       remote_failed: 編輯失敗 - 請確定已載入 JOSM 或 Merkaartor 並開啟遠端控制選項
-    edit:
+    not_public_flash:
       not_public: 你尚未將你的編輯設為公開。
       not_public_description_html: 在你這麼做之前將無法再編輯地圖，可以在你的 %{user_page} 將自己的編輯設定為公開。
       user_page_link: 使用者頁面
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: 瞭解為什麼這很重要。
+    edit:
       id_not_configured: iD 尚未設定
     export:
       title: 匯出
@@ -2111,19 +2173,19 @@ zh-TW:
       odbl: 開放資料共享開放資料庫授權
       too_large:
         advice: 若以上匯出失敗，請考慮使用下列來源：
-        body: 這個區域太大，無法匯出 OpenStreetMap XML 資料。請放大或選擇一個較小的區域，或使用下列大量資料下載源：
+        body: 這個區域太大，無法匯出開放街圖 XML 資料。請放大或選擇一個較小的區域，或使用下列大量資料下載源：
         planet:
           title: 地球 OSM
-          description: 定期更新的完整 OpenStreetMap 資料庫副本
+          description: 定期更新的完整開放街圖資料庫副本
         overpass:
           title: Overpass API
-          description: 從 OpenStreetMap 資料庫的鏡像，下載此區域
+          description: 從開放街圖資料庫的鏡像，下載此區域
         geofabrik:
           title: Geofabrik 下載
           description: 定期更新的洲、國家及特定城市之摘錄資料
         other:
           title: 其他來源
-          description: OpenStreetMap wiki 上列出的其他來源
+          description: 開放街圖 wiki 上列出的其他來源
       export_button: 匯出
     fixthemap:
       title: 回報問題／改進地圖
@@ -2131,8 +2193,7 @@ zh-TW:
         title: 如何協助
         join_the_community:
           title: 加入社群
-          explanation_html: 如果你發現我們的地圖資料有問題，例如缺少某條道路或者你的地址，最好的方法就是加入 OpenStreetMap
-            社群，然後自己加入或者改進資料。
+          explanation_html: 如果你發現我們的地圖資料有問題，例如缺少某條道路或者你的地址，最好的方法就是加入開放街圖社群，然後自己加入或者改進資料。
         add_a_note:
           instructions_1_html: |-
             只需點選%{note_icon}或地圖上顯示的同一圖示，
@@ -2144,7 +2205,7 @@ zh-TW:
         working_group: OSMF 工作小組
     help:
       title: 取得協助
-      introduction: OpenStreetMap 有一些資源，可用於學習本專案、提出和回答問題，以及討論和紀錄與製作地圖相關的話題。
+      introduction: 開放街圖有一些資源，可用於學習本專案、提出和回答問題，以及討論和紀錄與製作地圖相關的話題。
       welcome:
         url: /welcome
         title: 歡迎來到開放街圖
@@ -2155,7 +2216,7 @@ zh-TW:
         description: 社群維護的新手指南
       community:
         title: 幫助與社群論壇
-        description: 尋求幫助與討論有關 OpenStreetMap 的分享場所。
+        description: 尋求幫助與討論有關開放街圖的分享場所。
       mailing_lists:
         title: 郵件論壇
         description: 在不同主題或是地區的郵件論壇問問題或是討論有趣的事物。
@@ -2164,10 +2225,10 @@ zh-TW:
         description: 使用各種不同語言在各種主題聊天互動。
       switch2osm:
         title: switch2osm
-        description: 協助公司與組織改用 OpenStreetMap 為基礎的地圖與相關服務。
+        description: 協助公司與組織改用開放街圖為基礎的地圖與相關服務。
       welcomemat:
         title: 對於組織
-        description: 想要以組織來對 OpenStreetMap 製作計劃嗎？請在 Welcome Mat 查找你所需要的事項。
+        description: 想要以組織來對開放街圖製作計劃嗎？請在 Welcome Mat 查找你所需要的事項。
       wiki:
         title: 開放街圖 Wiki
         description: 瀏覽 wiki，取得詳盡的開放街圖文件。
@@ -2195,6 +2256,10 @@ zh-TW:
       where_am_i_title: 使用搜尋引擎描述目前的位置
       submit_text: 出發
       reverse_directions_text: 反向
+      modes:
+        bicycle: 自行車
+        car: 開車
+        foot: 步行
     key:
       table:
         entry:
@@ -2299,7 +2364,7 @@ zh-TW:
         doesnt: 不會
       basic_terms:
         title: 繪製地圖的基本術語
-        paragraph_1: OpenStreetMap 有自己的術語。以下是一些常用的關鍵詞。
+        paragraph_1: 開放街圖有自己的術語。以下是一些常用的關鍵詞。
         an_editor_html: '%{editor}是你可以用於編輯地圖的程式或網站。'
         a_node_html: '%{node}是地圖上的一個點，例如一間餐廳或是一棵樹。'
         a_way_html: '%{way}是一條線或是區域，例如一條道路、一條溪、一個湖泊或是一棟建築物。'
@@ -2311,7 +2376,7 @@ zh-TW:
       rules:
         title: 規則！
         para_1_html: |-
-          OpenStreetMap 幾乎沒有正式規則，但我們希望所有參與者都能與社群合作與溝通！。如果你正在考慮
+          開放街圖幾乎沒有正式規則，但我們希望所有參與者都能與社群合作與溝通！。如果你正在考慮
           除手動編輯之外的任何活動，請閱讀並遵循
           %{imports_link} 和 %{automated_edits_link}指南。
         imports: 匯入
@@ -2329,14 +2394,14 @@ zh-TW:
     communities:
       title: 社群
       lede_text: |-
-        來自世界各地的人們都在貢獻或使用 OpenStreetMap。
+        來自世界各地的人們都在貢獻或使用開放街圖。
         雖然許多人以個人身份參與，但其他人則組成了社群。
         這些團體的規模各不相同，代表了小到城鎮大到大型多國地區的地域。
         它們也可以是正式的或非正式的。
       local_chapters:
         title: 地方分會
-        about_text: 地方分會是已採取正式步驟建立非營利法人實體的國家級或地區級團體。在與地方政府、企業和媒體打交道時，他們代表該地區的地圖和製圖者。他們還與
-          OpenStreetMap 基金會 (OSMF) 締結聯繫，使他們能夠與法律和版權管理機構建立聯繫。
+        about_text: 地方分會是已採取正式步驟建立非營利法人實體的國家級或地區級團體。在與地方政府、企業和媒體打交道時，他們代表該地區的地圖和製圖者。他們還與開放街圖基金會
+          (OSMF) 締結聯繫，使他們能夠與法律和版權管理機構建立聯繫。
         list_text: 以下社群已經正式成立地方分會：
       other_groups:
         title: 其他團體
@@ -2427,7 +2492,7 @@ zh-TW:
       message: GPX 檔案儲存，上傳系統目前無法使用。
     feeds:
       show:
-        title: OpenStreetMap GPS 軌跡
+        title: 開放街圖 GPS 軌跡
       description:
         description_with_count:
           one: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
@@ -2438,7 +2503,7 @@ zh-TW:
     require_cookies:
       cookies_needed: 你似乎已停用 cookies - 請在瀏覽器中開啟 cookies 後再繼續。
     setup_user_auth:
-      blocked_zero_hour: 你在 OpenStreetMap 網站有一個緊急訊息。在儲存你的編輯內容前請先閱讀該訊息。
+      blocked_zero_hour: 你在開放街圖網站有一個緊急訊息。在儲存你的編輯內容前請先閱讀該訊息。
       blocked: 你已經被封鎖使用 API。請登入網頁介面以瞭解更多資訊。
       need_to_see_terms: 我們已暫時中止你使用 API 的權限，請登入網頁介面查閱貢獻者條款，你不需要同意有關條款，但必須查閱它們。
     settings_menu:
@@ -2493,15 +2558,17 @@ zh-TW:
     permissions:
       missing: 你尚未允許應用程式來訪問此設施
     scopes:
-      openid: 使用 OpenStreetMap 登入
+      openid: 使用開放街圖登入
       read_prefs: 讀取使用者偏好設定
       write_prefs: 修改使用者偏好設定
       write_diary: 建立日記並評論
       write_api: 修改地圖
+      write_changeset_comments: 在變更集上留言
       read_gpx: 讀取私人 GPS 軌跡
       write_gpx: 上傳 GPS 軌跡
       write_notes: 修改註記
       write_redactions: 編寫地圖資料
+      write_blocks: 建立與撤銷使用者封鎖
       read_email: 讀取使用者電子郵件位址
       consume_messages: 讀取、更新狀態、與刪除使用者訊息
       send_messages: 傳送私人訊息給其他使用者
@@ -2559,16 +2626,16 @@ zh-TW:
     new:
       title: 註冊
       tab_title: 註冊
-      signup_to_authorize_html: 註冊 OpenStreetMap 以存取 %{client_app_name}。
+      signup_to_authorize_html: 註冊開放街圖以存取 %{client_app_name}。
       no_auto_account_create: 很不幸的，我們現在無法自動為你建立帳號。
       please_contact_support_html: 請聯繫 %{support_link} 來安排建立帳號 - 我們會盡快處理這份請求。
       support: 支援
       about:
         header: 自由且可編輯。
-        paragraph_1: 不像其他地圖，開放街圖是完全由像你我這類創建，而且任何都能修正、更新、下載與使用。
+        paragraph_1: 不像其他地圖，開放街圖是完全由像你我這樣的人建立，而且任何人都能修正、更新、下載與使用。
         paragraph_2: 註冊並開始貢獻。
-        welcome: 歡迎來到 OpenStreetMap
-      duplicate_social_email: 若你已有 OpenStreetMap 帳號，並希望使用第三方身份提供者，請使用你的密碼登入並修改帳號的設定。
+        welcome: 歡迎來到開放街圖
+      duplicate_social_email: 若你已有開放街圖帳號，並希望使用第三方身份提供者，請使用你的密碼登入並修改帳號的設定。
       display name description: 你公開顯示的使用者名稱，之後可以在偏好設定中改變它。
       by_signing_up:
         html: 註冊即表示你同意我們的 %{tou_link}、%{privacy_policy_link} 與 %{contributor_terms_link}。
@@ -2581,9 +2648,6 @@ zh-TW:
         privacy_policy: 隱私權政策
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
         html: 你的地址不會公開顯示，請參閱我們的%{privacy_policy_link}來了解更多資訊。
-      consider_pd_html: 我認為我的貢獻屬於 %{consider_pd_link}。
-      consider_pd: 公有領域
-      consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: 或
       use external auth: 或者使用第三方服務註冊
     no_such_user:
@@ -2598,7 +2662,7 @@ zh-TW:
       my notes: 我的註記
       my messages: 我的訊息
       my profile: 我的基本資料
-      my settings: 我的設定值
+      my_account: 我的帳號
       my comments: 我的評論
       my_preferences: 我的偏好設定
       my_dashboard: 我的功能面板
@@ -2612,6 +2676,8 @@ zh-TW:
       edits: 編輯
       traces: 軌跡
       notes: 地圖註記
+      unfollow: 取消追蹤
+      follow: 追蹤
       mapper since: 註冊為製圖者日期：
       last map edit: 最後地圖編輯於：
       no activity yet: 尚無活動
@@ -2676,25 +2742,38 @@ zh-TW:
       show:
         title: 使用者
         heading: 使用者
-        empty: 找不到符合的使用者
+        ip_address: IP 位址
+        search: 搜尋
       page:
         found_users:
           one: 找到 %{count} 位使用者
           other: 找到 %{count} 位使用者
         confirm: 確認選取的使用者
         hide: 隱藏選取的使用者
+        empty: 找不到符合的使用者
       user:
         summary_html: '%{name} 由 %{ip_address} 於 %{date} 建立'
         summary_no_ip_html: '%{name} 建立於：%{date}'
+    comments:
+      index:
+        heading_html: '%{user} 的留言'
+        changesets: 變更集
+        diary_entries: 日記項目
+        no_comments: 沒有留言
     changeset_comments:
+      index:
+        title: '%{user} 新增的變更集留言'
       page:
+        changeset: 變更集
         when: 於
         comment: 評論
     diary_comments:
       index:
-        title: 日記評論由%{user}添加
+        title: 日記評論由%{user}新增
       page:
         post: 貼文
+        when: 於
+        comment: 留言
     suspended:
       title: 帳號已暫停
       heading: 帳號已暫停
@@ -2709,8 +2788,8 @@ zh-TW:
       invalid_scope: 無效範圍
       unknown_error: 驗證失敗
     auth_association:
-      heading: 你的 ID 尚未與 OpenStreetMap 帳號關聯。
-      option_1: 如果你是新來到 OpenStreetMap，請使用下方表單建立一個帳號。
+      heading: 你的 ID 尚未與開放街圖帳號關聯。
+      option_1: 如果你是新來到開放街圖，請使用下方表單建立一個帳號。
       option_2: 如果你已擁有一個帳號，可以用你的使用者名稱與密碼登入你的帳號，並在使用者設定中關連你的 ID。
   user_role:
     filter:
@@ -2778,6 +2857,9 @@ zh-TW:
         revoked_html: 已被 %{name} 撤銷
         active: 活躍的
         active_until_read: 直到讀取後才活躍
+        read_html: 已讀於 %{time}
+        time_in_future_title: '%{time_absolute}；於 %{time_relative}'
+        time_in_past_title: '%{time_absolute}；%{time_relative}'
     show:
       title: '%{block_by}封鎖了%{block_on}'
       heading_html: '%{block_by}封鎖了%{block_on}'
@@ -2794,6 +2876,8 @@ zh-TW:
       display_name: 被封鎖的使用者
       creator_name: 建立者
       reason: 封鎖的理由
+      start: 開始
+      end: 結束
       status: 狀態
     navigation:
       all_blocks: 所有封鎖
@@ -2838,12 +2922,18 @@ zh-TW:
       description: 說明
       created_at: 建立於：
       last_changed: 最新變更
+      apply: 套用
+      all: 全部
+      open: 開放
+      closed: 已關閉
+      status: 狀態
     show:
       title: 註記：%{id}
       description: 說明
       open_title: 未解決的註記：#%{note_name}
       closed_title: 已解決的註記：#%{note_name}
       hidden_title: 已隱藏的註記：#%{note_name}
+      description_when_author_is_deleted: 已刪除
       event_opened_by_html: 由%{user}%{time_ago}建立
       event_opened_by_anonymous_html: 由匿名使用者%{time_ago}建立
       event_commented_by_html: 來自%{user}%{time_ago}的評論
@@ -2855,6 +2945,9 @@ zh-TW:
       event_hidden_by_html: 由%{user} %{time_ago}隱藏
       report: 回報此註記
       anonymous_warning: 此項註記包含來自匿名使用者的評論，應作獨立核實。
+      discussion: 討論
+      subscribe: 訂閱
+      unsubscribe: 取消訂閱
       hide: 隱藏
       resolve: 解決
       reactivate: 重新開啟
@@ -2871,12 +2964,26 @@ zh-TW:
       anonymous_warning_html: 你尚未登入。請%{log_in}或%{sign_up}以便收到你的註記的更新內容並協助其他的地圖編輯者解決問題。
       anonymous_warning_log_in: 登入
       anonymous_warning_sign_up: 註冊
+      counter_warning_html: 您已張貼了至少 %{x_anonymous_notes}，這對社群來說很棒，謝謝！現在，我們鼓勵您%{contribute_by_yourself}，這並不複雜，而且%{community_can_help}。
+      x_anonymous_notes:
+        one: '%{count} 則匿名註記'
+        other: '%{count} 則匿名註記'
+      counter_warning_guide_link:
+        text: 自己做出貢獻
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      counter_warning_forum_link:
+        text: 社群可以協助您
       advice: 你的註記已公開並可用於更新地圖，因此請不要輸入個人訊息，或是來自於具版權保護地圖的訊息以及目錄清單。
       add: 送出註記
+    new_readonly:
+      title: 新增註記
+      warning: 無法建立新註記，因為開放街圖 API 目前處於唯讀模式。
     notes_paging_nav:
       showing_page: 第 %{page} 頁
       next: 下一頁
       previous: 上一頁
+    not_found_message:
+      sorry: '抱歉，找不到註記 #%{id}。'
   javascripts:
     close: 關閉
     share:
@@ -2898,6 +3005,7 @@ zh-TW:
       center_marker: 將標記設為地圖中心點
       paste_html: 貼上 HTML 以嵌入網站
       view_larger_map: 查看更大的地圖
+      only_layers_exported_as_image: 僅以下圖層可匯出為影像：
     embed:
       report_problem: 回報問題
     key:
@@ -2929,17 +3037,17 @@ zh-TW:
         gps: 公開GPS軌跡
         overlays: 開啟覆蓋層，以為地圖解決問題
         title: 圖層
-      openstreetmap_contributors: OpenStreetMap 貢獻者
+      openstreetmap_contributors: 開放街圖貢獻者
       make_a_donation: 捐款
       website_and_api_terms: 網站和 API 條款
       cyclosm_credit: 由 %{osm_france_link} 代管的 %{cyclosm_link} 所提供圖磚樣式
-      osm_france: OpenStreetMap 法國
+      osm_france: 開放街圖法國
       thunderforest_credit: '%{thunderforest_link} 提供的圖磚'
       andy_allan: Andy Allan
       tracestrack_credit: '%{tracestrack_link} 提供的圖磚'
       tracestrack: 蹤跡地圖
       hotosm_credit: 由 %{osm_france_link} 代管的 %{hotosm_link} 所提供圖磚樣式
-      hotosm_name: OpenStreetMap 人道主義團隊
+      hotosm_name: 開放街圖人道主義團隊
     site:
       edit_tooltip: 編輯地圖
       edit_disabled_tooltip: 放大以編輯地圖
@@ -2953,16 +3061,6 @@ zh-TW:
     edit_help: 將地圖移至你想編輯的位置並放大，然後按這裡。
     directions:
       ascend: 上升
-      engines:
-        fossgis_osrm_bike: 自行車（OSRM）
-        fossgis_osrm_car: 開車 (OSRM)
-        fossgis_osrm_foot: 步行（OSRM）
-        graphhopper_bicycle: 自行車 (GraphHopper)
-        graphhopper_car: 開車 (GraphHopper)
-        graphhopper_foot: 步行 (GraphHopper)
-        fossgis_valhalla_bicycle: 自行車 (Valhalla)
-        fossgis_valhalla_car: 開車 (Valhalla)
-        fossgis_valhalla_foot: 步行 (Valhalla)
       descend: 下降
       directions: 路線
       distance: 距離
@@ -3052,6 +3150,8 @@ zh-TW:
       show_address: 顯示地址
       query_features: 查詢圖徵
       centre_map: 置此於地圖中央
+    home:
+      marker_title: 我家位置
   redactions:
     edit:
       heading: 編輯修訂

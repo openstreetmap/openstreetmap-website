@@ -5,6 +5,7 @@
 # Author: Gylfiolafsson
 # Author: LoveIceLang
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Snævar
@@ -259,9 +260,8 @@ is:
         comment: Athugasemd
         full: Allur minnispunkturinn
   accounts:
-    edit:
+    show:
       title: Stillingar
-      my settings: Mínar stillingar
       current email address: Núverandi póstfang
       external auth: Ytri auðkenning
       openid:
@@ -342,9 +342,6 @@ is:
         tou_explain_html: Þessi %{tou_link} stýra notkuninni á vefsvæðinu ásamt öðrum
           stoðkerfum OSMF. Smelltu á tengilinn, lestu síðan og samþykktu textann.
         read_tou: Ég hef lesið og samþykki notkunarskilmálana
-        consider_pd: Til viðbótar við ofangreint samkomulag, lít ég svo á að framlög
-          mín verði í almenningseigu (Public Domain)
-        consider_pd_why: hvað þýðir þetta?
         guidance_info_html: 'Upplýsingar sem hjálpa til við að skilja þessi hugtök:
           %{readable_summary_link} á mannamáli og nokkrar %{informal_translations_link}'
         readable_summary: læsilegt yfirlit
@@ -451,7 +448,8 @@ is:
       telephone_link: Hringja í %{phone_number}
       colour_preview: Forskoðun á litnum %{colour_value}
       email_link: Tölvupóstfang %{email}
-    query:
+  feature_queries:
+    show:
       title: Rannsaka fitjur
       introduction: Smelltu á kortið til að finna fitjur í nágrenninu.
       nearby: Nálægar fitjur
@@ -1537,7 +1535,6 @@ is:
       reopened: Staða vandamáls hefur verið sett á 'Opið'
     comments:
       comment_from_html: Athugasemd frá %{user_link} gerð %{comment_created_at}
-      reassign_param: Endurúthluta vandamáli?
     reports:
       reported_by_html: Tilkynnt sem %{category} af %{user} þann %{updated_at}
     helper:
@@ -1612,9 +1609,6 @@ is:
     partners_corpmembers: Fyrirtækjameðlimir OSMF
     partners_partners: samstarfsaðilum
     tou: Notkunarskilmálar
-    osm_offline: OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds.
-    osm_read_only: Ekki er hægt að skrifa í OpenStreetMap gagnagrunninn í augnablikinu
-      vegna viðhalds.
     nothing_to_preview: Ekkert til að forskoða.
     help: Hjálp
     about: Um hugbúnaðinn
@@ -2255,13 +2249,14 @@ is:
         copyright: Höfundarréttur OpenStreetMap og þátttakendur, með opnu notkunarleyfi
       remote_failed: Breytingar mistókust - gakktu úr skugga um að JOSM eða Merkaartor
         sé hlaðið inn og að fjarstjórnunarvalkosturinn sé virkur
-    edit:
+    not_public_flash:
       not_public: Þú hefur ekki merkt breytingar þínar sem opinberar.
       not_public_description_html: Þú getur ekki lengur gert breytingar nema þær séu
         merktar opinberar, þú getur breytt þeim stillingum á %{user_page}.
       user_page_link: notandasíðunni þinni
       anon_edits_html: (%{link})
       anon_edits_link_text: Finndu út afhverju.
+    edit:
       id_not_configured: Það er ekki búið að setja upp auðkenni
     export:
       title: Flytja út
@@ -2380,6 +2375,10 @@ is:
       where_am_i_title: Notar leitarvélina til að lýsa núverandi staðsetningu á kortinu
       submit_text: Fara
       reverse_directions_text: Snúa stefnu við
+      modes:
+        bicycle: Hjólandi
+        car: Akandi
+        foot: Fótgangandi
     key:
       table:
         entry:
@@ -2796,9 +2795,6 @@ is:
           tölvupóstföng
         html: Netfangið þitt er ekki birt opinberlega, skoðaðu síðuna um %{privacy_policy_link}
           til að sjá nánari upplýsingar.
-      consider_pd_html: Ég lít svo á að framlög mín verði í %{consider_pd_link}.
-      consider_pd: almenningseign
-      consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: eða
       use external auth: eða nýskráð þig með utanaðkomandi þjónustu
     no_such_user:
@@ -2814,7 +2810,6 @@ is:
       my notes: Minnispunktarnir mínir
       my messages: Skilaboðin mín
       my profile: Notandasniðið mitt
-      my settings: Stillingarnar mínar
       my comments: Athugasemdir mínar
       my_preferences: Valmöguleikar
       my_dashboard: Stjórnborðið mitt
@@ -2892,13 +2887,13 @@ is:
       show:
         title: Notendur
         heading: Notendur
-        empty: Engir samsvarandi notendur fundust
       page:
         found_users:
           one: '%{count} notandi fannst'
           other: '%{count} notendur fundust'
         confirm: Staðfesta valda notendur
         hide: Fela valda notendur
+        empty: Engir samsvarandi notendur fundust
       user:
         summary_html: '%{name} var útbúinn frá %{ip_address} þann %{date}'
         summary_no_ip_html: '%{name} útbúinn þann %{date}'
@@ -3187,16 +3182,6 @@ is:
       síðan hér.
     directions:
       ascend: Fara upp
-      engines:
-        fossgis_osrm_bike: Hjólreiðar (OSRM)
-        fossgis_osrm_car: Akandi (OSRM)
-        fossgis_osrm_foot: Fótgangandi (OSRM)
-        graphhopper_bicycle: Hjólandi (GraphHopper)
-        graphhopper_car: Akandi (GraphHopper)
-        graphhopper_foot: Fótgangandi (GraphHopper)
-        fossgis_valhalla_bicycle: Hjólandi (Valhalla)
-        fossgis_valhalla_car: Akandi (Valhalla)
-        fossgis_valhalla_foot: Fótgangandi (Valhalla)
       descend: Fara niður
       directions: Leiðir
       distance: Vegalengd

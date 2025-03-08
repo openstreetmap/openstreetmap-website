@@ -1153,21 +1153,36 @@
 .ideditor path.line.shadow.tag-highway-bus_guideway,
 .ideditor path.line.shadow.tag-highway-service,
 .ideditor path.line.shadow.tag-highway-track,
-.ideditor path.line.shadow.tag-highway-road {
+.ideditor path.line.shadow.tag-highway-road,
+.ideditor path.line.shadow.tag-highway-motorway_link,
+.ideditor path.line.shadow.tag-highway-trunk_link,
+.ideditor path.line.shadow.tag-highway-primary_link,
+.ideditor path.line.shadow.tag-highway-secondary_link,
+.ideditor path.line.shadow.tag-highway-tertiary_link {
     stroke-width: 16;
 }
 .ideditor path.line.casing.tag-highway-living_street,
 .ideditor path.line.casing.tag-highway-bus_guideway,
 .ideditor path.line.casing.tag-highway-service,
 .ideditor path.line.casing.tag-highway-track,
-.ideditor path.line.casing.tag-highway-road {
+.ideditor path.line.casing.tag-highway-road,
+.ideditor path.line.casing.tag-highway-motorway_link,
+.ideditor path.line.casing.tag-highway-trunk_link,
+.ideditor path.line.casing.tag-highway-primary_link,
+.ideditor path.line.casing.tag-highway-secondary_link,
+.ideditor path.line.casing.tag-highway-tertiary_link {
     stroke-width: 7;
 }
 .ideditor path.line.stroke.tag-highway-living_street,
 .ideditor path.line.stroke.tag-highway-bus_guideway,
 .ideditor path.line.stroke.tag-highway-service,
 .ideditor path.line.stroke.tag-highway-track,
-.ideditor path.line.stroke.tag-highway-road {
+.ideditor path.line.stroke.tag-highway-road,
+.ideditor path.line.stroke.tag-highway-motorway_link,
+.ideditor path.line.stroke.tag-highway-trunk_link,
+.ideditor path.line.stroke.tag-highway-primary_link,
+.ideditor path.line.stroke.tag-highway-secondary_link,
+.ideditor path.line.stroke.tag-highway-tertiary_link {
     stroke-width: 5;
 }
 .ideditor path.line.casing.tag-highway-service.tag-service-driveway {
@@ -1209,21 +1224,36 @@
 .ideditor .low-zoom path.line.shadow.tag-highway-bus_guideway,
 .ideditor .low-zoom path.line.shadow.tag-highway-service,
 .ideditor .low-zoom path.line.shadow.tag-highway-track,
-.ideditor .low-zoom path.line.shadow.tag-highway-road {
+.ideditor .low-zoom path.line.shadow.tag-highway-road,
+.ideditor .low-zoom path.line.shadow.tag-highway-motorway_link,
+.ideditor .low-zoom path.line.shadow.tag-highway-trunk_link,
+.ideditor .low-zoom path.line.shadow.tag-highway-primary_link,
+.ideditor .low-zoom path.line.shadow.tag-highway-secondary_link,
+.ideditor .low-zoom path.line.shadow.tag-highway-tertiary_link {
     stroke-width: 12;
 }
 .ideditor .low-zoom path.line.casing.tag-highway-living_street,
 .ideditor .low-zoom path.line.casing.tag-highway-bus_guideway,
 .ideditor .low-zoom path.line.casing.tag-highway-service,
 .ideditor .low-zoom path.line.casing.tag-highway-track,
-.ideditor .low-zoom path.line.casing.tag-highway-road {
+.ideditor .low-zoom path.line.casing.tag-highway-road,
+.ideditor .low-zoom path.line.casing.tag-highway-motorway_link,
+.ideditor .low-zoom path.line.casing.tag-highway-trunk_link,
+.ideditor .low-zoom path.line.casing.tag-highway-primary_link,
+.ideditor .low-zoom path.line.casing.tag-highway-secondary_link,
+.ideditor .low-zoom path.line.casing.tag-highway-tertiary_link {
     stroke-width: 5;
 }
 .ideditor .low-zoom path.line.stroke.tag-highway-living_street,
 .ideditor .low-zoom path.line.stroke.tag-highway-bus_guideway,
 .ideditor .low-zoom path.line.stroke.tag-highway-service,
 .ideditor .low-zoom path.line.stroke.tag-highway-track,
-.ideditor .low-zoom path.line.stroke.tag-highway-road {
+.ideditor .low-zoom path.line.stroke.tag-highway-road,
+.ideditor .low-zoom path.line.stroke.tag-highway-motorway_link,
+.ideditor .low-zoom path.line.stroke.tag-highway-trunk_link,
+.ideditor .low-zoom path.line.stroke.tag-highway-primary_link,
+.ideditor .low-zoom path.line.stroke.tag-highway-secondary_link,
+.ideditor .low-zoom path.line.stroke.tag-highway-tertiary_link {
     stroke-width: 3;
 }
 .ideditor .low-zoom  path.line.casing.tag-highway-service.tag-service-driveway {
@@ -2659,17 +2689,15 @@
     cursor: pointer;
 }
 
-.ideditor .viewfield-group.currentView * {
-    fill: #ffee00 !important;
-}
-.ideditor .viewfield-group.hovered * {
-    fill: #eebb00 !important;
-}
-
 .ideditor .viewfield-group circle {
     stroke: #555;
     stroke-width: 1;
     stroke-opacity: 0.4;
+    fill-opacity: 0.4;
+}
+.ideditor .viewfield-group .viewfield {
+    stroke-width: 0;
+    stroke: #222;
     fill-opacity: 0.4;
 }
 .ideditor .viewfield-group.highlighted circle {
@@ -2677,36 +2705,38 @@
     stroke-opacity: 0.9;
     fill-opacity: 0.9;
 }
-.ideditor .viewfield-group.highlighted.hovered circle {
+.ideditor .viewfield-group.highlighted .viewfield {
+    stroke-width: 1;
+    fill-opacity: 0.8;
+}
+.ideditor .viewfield-group.hovered circle {
+    fill: #eebb00;
     stroke: #222;
     stroke-width: 2;
     stroke-opacity: 0.9;
     fill-opacity: 0.9;
 }
-.ideditor .viewfield-group.highlighted.currentView circle {
+.ideditor .viewfield-group.hovered .viewfield {
+    fill: #eebb00;
+    stroke: #222;
+    stroke-width: 1;
+    fill-opacity: 0.8;
+}
+.ideditor .viewfield-group.currentView circle {
+    fill: #ffee00;
     stroke: #222;
     stroke-width: 2;
     stroke-opacity: 1;
     fill-opacity: 1;
 }
-
-.ideditor .viewfield-group .viewfield {
-    stroke-width: 0;
+.ideditor .viewfield-group.currentView .viewfield {
+    fill: #ffee00;
     stroke: #222;
-    fill-opacity: 0.4;
-}
-.ideditor .viewfield-group.highlighted .viewfield {
     stroke-width: 1;
-    fill-opacity: 0.8;
-}
-.ideditor .viewfield-group.highlighted.hovered .viewfield {
-    stroke-width: 1;
-    fill-opacity: 0.8;
-}
-.ideditor .viewfield-group.highlighted.currentView .viewfield {
-    stroke-width: 1;
+    stroke-opacity: 1;
     fill-opacity: 0.9;
 }
+
 
 .ideditor .viewfield-group.currentView .viewfield-scale {
     transform: scale(2,2);
@@ -2829,6 +2859,8 @@
 }
 .ideditor .layer-mapilio .viewfield-group * {
     fill: #0056f1;
+}
+.ideditor .layer-mapilio .viewfield-group:not(.currentView):not(.hovered) * {
     stroke: #ffffff;
     stroke-opacity: .6;
     fill-opacity: .6;
@@ -2910,7 +2942,7 @@
 }
 
 .ideditor .slider-wrap {
-    display: inline-block;  
+    display: inline-block;
 }
 
 .ideditor .year-datalist {
@@ -2921,7 +2953,6 @@
 .ideditor .list-option-date-slider{
     direction: rtl
 }
-
 
 /* Streetside Viewer (pannellum) */
 .ideditor .ms-wrapper .photo-attribution {
@@ -5866,15 +5897,15 @@
 
 /* Field - Changeset Comment
 ------------------------------------------------------- */
-.ideditor .form-field-comment:not(.present) #preset-input-comment {
-    border-color: rgb(230, 100, 100);
+.ideditor .form-field-comment:not(.present) textarea {
+    border-color: rgb(160, 160, 160);
 }
 .ideditor .form-field-comment:not(.present) .field-label {
-    border-color: rgb(230, 100, 100);
-    background: rgba(230, 100, 100, 0.2);
+    border-color: rgb(160, 160, 160);
+    background-color: rgba(160, 160, 160, 0.2);
 }
 .ideditor .form-field-comment:not(.present) button {
-    border-color: rgb(230, 100, 100);
+    border-color: rgb(160, 160, 160);
 }
 
 
@@ -7904,25 +7935,23 @@
     overflow: hidden;
 }
 
-/* Workaround to remove visible grid around tile borders on Chrome
-   Only works with browser zoom multiple of 25 (75%, 100%, 125%...)
-   Should be removed when https://issues.chromium.org/issues/40084005 is resolved.
-   See https://github.com/openstreetmap/iD/pull/10594 */
-@media (-webkit-device-pixel-ratio = 1) or (-webkit-device-pixel-ratio = 1.25) or (-webkit-device-pixel-ratio = 1.5) or (-webkit-device-pixel-ratio = 1.75)
-    or (-webkit-device-pixel-ratio = 2) or (-webkit-device-pixel-ratio = 2.25) or (-webkit-device-pixel-ratio = 2.5) or (-webkit-device-pixel-ratio = 2.75)
-    or (-webkit-device-pixel-ratio = 3) or (-webkit-device-pixel-ratio = 3.25) or (-webkit-device-pixel-ratio = 3.5) or (-webkit-device-pixel-ratio = 3.75)
-    or (-webkit-device-pixel-ratio = 4) or (-webkit-device-pixel-ratio = 4.25) or (-webkit-device-pixel-ratio = 4.5) or (-webkit-device-pixel-ratio = 4.75)
-    or (-webkit-device-pixel-ratio = 5) or (-webkit-device-pixel-ratio = 0.25) or (-webkit-device-pixel-ratio = 0.5) or (-webkit-device-pixel-ratio = 0.75) {
-    .ideditor .layer-background img.tile,
-    .ideditor .map-in-map-background img.tile {
-        mix-blend-mode: plus-lighter;
-    }
+.ideditor .layer-overlay .img.tile,
+.ideditor .map-in-map-overlay .img.tile {
+    /* dummy transition such that the `ontransitionend` event can be triggered, see https://github.com/openstreetmap/iD/pull/10785 */
+    transition: opacity 1ms linear;
 }
 
-.ideditor img.tile-removing {
+.ideditor .layer-background img.tile,
+.ideditor .map-in-map-background img.tile {
+    filter: url(#alpha-slope5);
+}
+
+.ideditor .layer-background img.tile-removing,
+.ideditor .layer-overlay img.tile-removing,
+.ideditor .map-in-map-background img.tile-removing,
+.ideditor .map-in-map-overlay img.tile-removing {
     opacity: 0;
     z-index: 1;
-    mix-blend-mode: normal;
 }
 
 .ideditor .tile-label-debug {
@@ -7985,6 +8014,15 @@
     bottom: 0;
 }
 
+.ideditor .layer-background {
+    z-index: 1;
+}
+.ideditor .layer-overlay {
+    z-index: 2;
+}
+.ideditor .layer-data {
+    z-index: 3;
+}
 
 /* Map-In-Map
 ------------------------------------------------------- */

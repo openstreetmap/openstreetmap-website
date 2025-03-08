@@ -38,6 +38,7 @@
 # Author: Macofe
 # Author: Mainframe98
 # Author: Marcelhospers
+# Author: Marwin H.H.
 # Author: MatthiasS
 # Author: McDutchie
 # Author: MedShot
@@ -304,9 +305,8 @@ nl:
         comment: Opmerking
         full: Volledige opmerking
   accounts:
-    edit:
+    show:
       title: Account bewerken
-      my settings: Mijn instellingen
       current email address: Huidig e-mailadres
       external auth: Externe authenticatie
       openid:
@@ -386,9 +386,6 @@ nl:
           infrastructuur die door de OSMF wordt aangeboden. Klik op de link, lees
           en ga akkoord met de tekst.
         read_tou: Ik heb de gebruiksvoorwaarden gelezen en ga hiermee akkoord
-        consider_pd: Met inachtneming van bovenstaande, bevinden mijn bijdragen zich
-          in het publieke domein
-        consider_pd_why: wat is dit?
         guidance_info_html: 'Informatie om deze termen te helpen begrijpen: een %{readable_summary_link}
           en enkele %{informal_translations_link}'
         readable_summary: voor mensen leesbare samenvatting
@@ -491,7 +488,8 @@ nl:
       telephone_link: Bel %{phone_number}
       colour_preview: Kleur %{colour_value} voorbeeld
       email_link: E-mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Objecten opvragen
       introduction: Klik op de kaart om nabije objecten te vinden.
       nearby: Objecten in de buurt
@@ -511,13 +509,14 @@ nl:
     not_found_message:
       sorry: 'Knooppunt #%{id} kon helaas niet gevonden worden.'
     timeout:
-      sorry: Het ophalen van de gegevens voor het ID %{id} duurde te lang.
+      sorry: Het ophalen van de gegevens voor het knooppunt met ID %{id} duurde te
+        lang.
   old_nodes:
     not_found_message:
       sorry: 'Sorry, knooppunt #%{id} versie %{version} kon niet gevonden worden.'
     timeout:
-      sorry: Het ophalen van de gegevens voor knooppunt met het ID %{id} duurde te
-        lang.
+      sorry: Het ophalen van de geschiedenis voor het knooppunt met ID %{id} duurde
+        te lang.
   ways:
     not_found_message:
       sorry: 'Weg #%{id} kon helaas niet gevonden worden.'
@@ -533,7 +532,7 @@ nl:
     not_found_message:
       sorry: 'Relatie #%{id} kon helaas niet gevonden worden.'
     timeout:
-      sorry: Het ophalen van de relatie met het ID %{id} duurde te lang.
+      sorry: Het ophalen van de gegevens voor de relatie met ID %{id} duurde te lang.
   old_relations:
     not_found_message:
       sorry: 'Sorry, relatie #%{id} versie %{version} kon niet gevonden worden.'
@@ -1655,7 +1654,6 @@ nl:
       reopened: De status van het probleem is ingesteld op 'Open'
     comments:
       comment_from_html: Reactie van %{user_link} op %{comment_created_at}
-      reassign_param: Probleem opnieuw toewijzen?
     reports:
       reported_by_html: Als %{category} gerapporteerd door %{user} op %{updated_at}
     helper:
@@ -1729,10 +1727,6 @@ nl:
     partners_corpmembers: OSMF-bedrijfsleden
     partners_partners: partners
     tou: Gebruiksvoorwaarden
-    osm_offline: De OpenStreetMap-database is momenteel niet beschikbaar wegens het
-      uitvoeren van onderhoudswerkzaamheden.
-    osm_read_only: De OpenStreetMap-database kan op het moment niet gewijzigd worden
-      wegens het uitvoeren van onderhoudswerkzaamheden.
     nothing_to_preview: Er is geen voorvertoning.
     help: Hulp
     about: Over
@@ -2284,7 +2278,7 @@ nl:
         contributors_cz_czechia: Tsjechië
         contributors_cz_cc_licence: Licentie Creative Commons Naamsvermelding 4.0
           Internationaal (CC BY 4.0)
-        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.nl
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_fi_credit_html: |-
           %{finland}: Bevat gegevens uit de Nationale Landopmeting
           van Finlands Topografische Database
@@ -2371,12 +2365,13 @@ nl:
         copyright: Copyright OpenStreetMap en bijdragers, onder een open licentie
       remote_failed: Bewerken is mislukt. Zorg dat JOSM of Merkaartor is geladen en
         dat de instelling voor afstandsbediening is ingeschakeld
-    edit:
+    not_public_flash:
       not_public: U hebt ingesteld dat uw bewerkingen niet openbaar zijn.
       not_public_description_html: U kunt de kaart niet meer bewerken, behalve als
         u uw bewerkingen openbaar maakt. U kunt deze instelling maken op uw %{user_page}.
       user_page_link: gebruikerspagina
       anon_edits_link_text: Lees waarom dit het geval is.
+    edit:
       id_not_configured: iD is niet ingesteld
     export:
       title: Exporteren
@@ -2492,6 +2487,10 @@ nl:
       where_am_i_title: De huidige locatie via de zoekmachine beschrijven
       submit_text: OK
       reverse_directions_text: Omgekeerde richtingen
+      modes:
+        bicycle: Fiets
+        car: Auto
+        foot: Te voet
     key:
       table:
         entry:
@@ -2770,8 +2769,8 @@ nl:
         niet te onderschijven, maar moet ze wel gezien hebben.
     settings_menu:
       account_settings: Accountinstellingen
-      oauth2_applications: OAuth 2 toepassingen
-      oauth2_authorizations: OAuth 2 autorisaties
+      oauth2_applications: OAuth 2-toepassingen
+      oauth2_authorizations: OAuth 2-autorisaties
       muted_users: Gedempte gebruikers
     auth_providers:
       openid_url: OpenID-URL
@@ -2921,8 +2920,6 @@ nl:
         privacy_policy_title: OSMF-privacybeleid, met een sectie over e-mailadressen
         html: Uw adres wordt niet openbaar gemaakt, zie ons %{privacy_policy_link}
           voor meer informatie.
-      consider_pd_html: Ik beschouw mijn bijdragen als onderdeel van het %{consider_pd_link}.
-      consider_pd: publiek domein
       or: of
       use external auth: of schrijf u in via een derde partij
     no_such_user:
@@ -2938,7 +2935,6 @@ nl:
       my notes: Mijn opmerkingen
       my messages: Mijn berichten
       my profile: Mijn profiel
-      my settings: Mijn instellingen
       my comments: Mijn reacties
       my_preferences: Mijn voorkeuren
       my_dashboard: Mijn dashboard
@@ -3018,13 +3014,13 @@ nl:
       show:
         title: Gebruikers
         heading: Gebruikers
-        empty: Geen gebruikers gevonden
       page:
         found_users:
           one: '%{count} gebruiker gevonden'
           other: '%{count} gebruikers gevonden'
         confirm: Geselecteerde gebruikers bevestigen
         hide: Gelelecteerde gebruikers verbergen
+        empty: Geen gebruikers gevonden
       user:
         summary_html: '%{name} aangemaakt vanaf %{ip_address} op %{date}'
         summary_no_ip_html: '%{name} aangemaakt op %{date}'
@@ -3270,7 +3266,6 @@ nl:
         url: https://wiki.openstreetmap.org/wiki/NL:Beginnershandleiding
       counter_warning_forum_link:
         text: de community helpt je graag
-        url: https://community.openstreetmap.org/
       advice: Deze opmerking is openbaar en kan gebruikt worden om de kaart bij te
         werken. Vul hier dus geen persoonlijke informatie in, en ook geen informatie
         uit kaarten of telefoonboeken waar auteursrechtelijke bescherming op rust.
@@ -3364,16 +3359,6 @@ nl:
       daarna hier.
     directions:
       ascend: Bergop
-      engines:
-        fossgis_osrm_bike: Fiets (OSRM)
-        fossgis_osrm_car: Auto (OSRM)
-        fossgis_osrm_foot: Te voet (OSRM)
-        graphhopper_bicycle: Fiets (GraphHopper)
-        graphhopper_car: Auto (GraphHopper)
-        graphhopper_foot: Te voet (GraphHopper)
-        fossgis_valhalla_bicycle: Fiets (Valhalla)
-        fossgis_valhalla_car: Auto (Valhalla)
-        fossgis_valhalla_foot: Te voet (Valhalla)
       descend: Bergaf
       directions: Routebeschrijving
       distance: Afstand

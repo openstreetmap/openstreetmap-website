@@ -26,6 +26,7 @@
 # Author: LukasJandera
 # Author: Marek Pavlica
 # Author: Martin Urbanec
+# Author: Marwin H.H.
 # Author: Masox
 # Author: MasterStudioCZ
 # Author: Matěj Grabovský
@@ -138,6 +139,7 @@ cs:
         allow_write_prefs: měnit jejich uživatelské nastavení
         allow_write_diary: vytvářet deníkové záznamy a komentáře
         allow_write_api: upravovat mapu
+        allow_write_changeset_comments: komentovat sady změn
         allow_read_gpx: číst jejich soukromé GPS stopy
         allow_write_gpx: nahrávat GPS stopy
         allow_write_notes: měnit poznámky
@@ -317,9 +319,9 @@ cs:
         comment: Komentář
         full: Celá poznámka
   accounts:
-    edit:
+    show:
       title: Upravit účet
-      my settings: Moje nastavení
+      my_account: Můj účet
       current email address: Stávající e-mailová adresa
       external auth: Externí autentizace
       openid:
@@ -334,6 +336,9 @@ cs:
         agreed_with_pd: Také jste prohlásili, že své editace považujete za volné dílo.
         link: https://wiki.openstreetmap.org/wiki/Cs:Open_Database_License/Contributor_Terms?uselang=cs
         link text: co to znamená?
+        not_agreed_with_pd: Neprohlásili jste, že své editace považujete za volné
+          dílo.
+        pd_link_text: prohlásit
       save changes button: Uložit změny
       delete_account: Smazat účet…
     go_public:
@@ -395,8 +400,6 @@ cs:
           poskytované OSMF. Klikněte prosím na odkaz, přečtěte si text a odsouhlaste
           ho.
         read_tou: Přečetl jsem si Podmínky užití a souhlasím s nimi
-        consider_pd: Navíc k výše uvedenému považuji své příspěvky za volné dílo.
-        consider_pd_why: co to znamená?
         guidance_info_html: 'Informace, které pomohou tyto podmínky pochopit: %{readable_summary_link}
           a nějaké %{informal_translations_link}'
         readable_summary: lidsky čitelné shrnutí
@@ -417,6 +420,18 @@ cs:
           pro přispěvatele. Podrobnější informace najdete na %{terms_declined_link}.
         terms_declined_link: této wikistránce
         terms_declined_url: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
+    pd_declarations:
+      show:
+        title: Považujte mé příspěvky za volné dílo
+        consider_pd: Považuji své příspěvky za volné dílo
+        consider_pd_why: Proč bych mohl chtít, aby moje příspěvky byly volným dílem?
+        confirm: Potvrdit
+      create:
+        successfully_declared: Úspěšně jste prohlásili, že své příspěvky považujete
+          za volné dílo.
+        already_declared: Již dříve jste prohlásili, že své příspěvky považujete za
+          volné dílo.
+        did_not_confirm: Nepotvrdili jste, že považujete své příspěvky za volné dílo.
   browse:
     deleted_ago_by_html: Smazáno %{time_ago} uživatelem %{user}
     edited_ago_by_html: Upraveno %{time_ago} uživatelem %{user}
@@ -492,6 +507,7 @@ cs:
     start_rjs:
       feature_warning: Načítá se %{num_features} prvků, což může váš prohlížeč zpomalit
         či zablokovat. Určitě chcete tato data zobrazit?
+      feature_error: 'Nepodařilo se načíst prvky: %{message}'
       load_data: Nahrát data
       loading: Načítá se…
     tag_details:
@@ -505,7 +521,8 @@ cs:
       telephone_link: Volat %{phone_number}
       colour_preview: Náhled barvy %{colour_value}
       email_link: Poslat e-mail na %{email}
-    query:
+  feature_queries:
+    show:
       title: Průzkum prvků
       introduction: Pro nalezení okolních prvků klikněte na mapu.
       nearby: Okolní prvky
@@ -1058,6 +1075,7 @@ cs:
           bridleway: Koňská stezka
           bus_guideway: Autobusová dráha
           bus_stop: Autobusová zastávka
+          busway: Trasa metrobusu
           construction: Silnice ve výstavbě
           corridor: Koridor
           crossing: Přechod
@@ -1633,6 +1651,7 @@ cs:
         few: '%{count} Hlášení'
         many: '%{count} Hlášení'
         other: '%{count} Hlášení'
+      more_reporters: a %{count} dalších
       reported_item: Hlášená položka
       states:
         ignored: Ignorováno
@@ -1669,7 +1688,6 @@ cs:
       reopened: Stav problému změněn na „Otevřeno”
     comments:
       comment_from_html: Komentář od %{user_link} z %{comment_created_at}
-      reassign_param: Znovu pověřit řešením problému?
     reports:
       reported_by_html: Nahlášeno jako %{category} uživatelem %{user} v %{updated_at}
     helper:
@@ -1739,10 +1757,6 @@ cs:
     partners_corpmembers: firemní členové OSMF
     partners_partners: partneři
     tou: Podmínky užití
-    osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
-      údržbě mimo provoz.
-    osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
-      údržbě pouze pro čtení.
     nothing_to_preview: Není k čemu zobrazovat náhled.
     help: Nápověda
     about: O projektu
@@ -1750,6 +1764,13 @@ cs:
     communities: Komunity
     learn_more: Více informací
     more: Další
+    offline_flash:
+      osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
+        údržbě mimo provoz.
+      osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
+        údržbě pouze pro čtení.
+      expected_restore_html: Očekáváme se, že služby budou obnoveny v %{time}.
+      announcement: Oznámení si můžete přečíst zde.
   user_mailer:
     diary_comment_notification:
       description: 'Záznam #%{id} deníku uživatele OpenStreetMap'
@@ -2363,12 +2384,13 @@ cs:
         copyright: Copyright OpenStreetMap a přispěvatelé, pod svobodnou licencí
       remote_failed: Editace se nezdařila – ujistěte se, že JOSM nebo Merkaartor běží
         a je zapnuto dálkové ovládání
-    edit:
+    not_public_flash:
       not_public: Nenastavili jste své editace jako veřejné.
       not_public_description_html: Dokud tak neučiníte, nemůžete editovat mapu. Své
         editace můžete zveřejnit na %{user_page}.
       user_page_link: uživatelské stránce
       anon_edits_link_text: Proč to tak je?
+    edit:
       id_not_configured: iD nebyl nakonfigurován
     export:
       title: Export
@@ -2478,6 +2500,10 @@ cs:
       where_am_i_title: Popsat právě zobrazované místo pomocí vyhledávače
       submit_text: Hledat
       reverse_directions_text: Obrátit směr
+      modes:
+        bicycle: Na kole
+        car: Autem
+        foot: Pěšky
     key:
       table:
         entry:
@@ -2816,10 +2842,12 @@ cs:
       write_prefs: Měnit preference uživatele
       write_diary: Vytvářet deníkové záznamy a komentáře
       write_api: Upravovat mapu
+      write_changeset_comments: Komentovat sady změn
       read_gpx: Číst soukromé GPS stopy
       write_gpx: Nahrávat GPS stopy
       write_notes: Měnit poznámky
       write_redactions: Skrývat mapová data
+      write_blocks: Vytvářet a rušit blokování uživatelů
       read_email: Přečíst e-mailovou adresu uživatele
       consume_messages: Číst, aktualizovat stav a mazat zprávy uživatelů
       send_messages: Posílat soukromé zprávy jiným uživatelům
@@ -2913,8 +2941,6 @@ cs:
           e-mailových adresách
         html: Vaše adresa se nezobrazuje veřejně, více informací získáte na stránce
           s našimi %{privacy_policy_link}.
-      consider_pd_html: Své příspěvky považuji za %{consider_pd_link}.
-      consider_pd: volné dílo
       or: nebo
       use external auth: nebo se přihlaste prostřednictvím třetí strany
     no_such_user:
@@ -2930,7 +2956,7 @@ cs:
       my notes: Moje poznámky k mapě
       my messages: Moje zprávy
       my profile: Můj profil
-      my settings: Moje nastavení
+      my_account: Můj účet
       my comments: Moje komentáře
       my_preferences: Moje preference
       my_dashboard: Moje nástěnka
@@ -3012,7 +3038,16 @@ cs:
       show:
         title: Uživatelé
         heading: Uživatelé
-        empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
+        select_status: Vyberte stav
+        states:
+          pending: Čekající
+          active: Aktivní
+          confirmed: Potvrzený
+          suspended: Pozastavený
+          deleted: Smazaný
+        name_or_email: Jméno nebo e-mail
+        ip_address: IP adresa
+        search: Hledat
       page:
         found_users:
           one: Nalezen %{count} uživatel
@@ -3021,6 +3056,7 @@ cs:
           other: Nalezeno %{count} uživatelů
         confirm: Potvrdit vybrané uživatele
         hide: Skrýt vybrané uživatele
+        empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
       user:
         summary_html: '%{name} vytvořeno %{date} z %{ip_address}'
         summary_no_ip_html: '%{name} vytvořen %{date}'
@@ -3225,6 +3261,8 @@ cs:
       open_title: 'Nevyřešená poznámka #%{note_name}'
       closed_title: 'Vyřešená poznámka #%{note_name}'
       hidden_title: 'Skrytá poznámka #%{note_name}'
+      description_when_author_is_deleted: smazáno
+      description_when_there_is_no_opening_comment: neznámé
       event_opened_by_html: Vytvořeno uživatelem %{user} %{time_ago}
       event_opened_by_anonymous_html: Vytvořeno anonymním uživatelem %{time_ago}
       event_commented_by_html: Komentář od uživatele %{user} %{time_ago}
@@ -3369,16 +3407,6 @@ cs:
       zde.
     directions:
       ascend: Výstup
-      engines:
-        fossgis_osrm_bike: Na kole (OSRM)
-        fossgis_osrm_car: Autem (OSRM)
-        fossgis_osrm_foot: Pěšky (OSRM)
-        graphhopper_bicycle: Na kole (GraphHopper)
-        graphhopper_car: Autem (GraphHopper)
-        graphhopper_foot: Pěšky (GraphHopper)
-        fossgis_valhalla_bicycle: Na kole (Valhalla)
-        fossgis_valhalla_car: Autem (Valhalla)
-        fossgis_valhalla_foot: Pěšky (Valhalla)
       descend: Klesání
       directions: Pokyny
       distance: Vzdálenost
@@ -3463,6 +3491,8 @@ cs:
           ninth: "9."
           tenth: "10."
       time: Čas
+      download: Stáhnout trasu jako GeoJSON
+      filename: trasa
     query:
       node: Uzel
       way: Cesta
@@ -3477,6 +3507,9 @@ cs:
       show_address: Zobrazit adresu
       query_features: Průzkum prvků
       centre_map: Zde vystředit mapu
+    home:
+      marker_title: Poloha mého domova
+      not_set: Ve vašem účtu není nastavena poloha domova
   redactions:
     edit:
       heading: Upravit redakci

@@ -1,16 +1,18 @@
 inherit_from: .rubocop_todo.yml
 
-require:
-  - rubocop-capybara
-  - rubocop-factory_bot
+plugins:
   - rubocop-minitest
   - rubocop-performance
   - rubocop-rails
   - rubocop-rake
+
+require:
+  - rubocop-capybara
+  - rubocop-factory_bot
   - ./.rubocop/specific_action_names.rb
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
     - 'vendor/**/*'
@@ -106,6 +108,10 @@ Style/MixinUsage:
     - 'bin/setup'
     - 'bin/update'
 
+Style/RaiseArgs:
+  Exclude:
+    - 'lib/osm.rb'
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
@@ -127,15 +133,10 @@ Rails/SpecificActionNames:
     - app/controllers/**/*.rb
   Exclude:
     # This is a todo list, but is currently too long for `rubocop --auto-gen-config`
-    - 'app/controllers/api/changeset_comments_controller.rb'
     - 'app/controllers/api/changesets_controller.rb'
-    - 'app/controllers/api/nodes_controller.rb'
     - 'app/controllers/api/notes_controller.rb'
-    - 'app/controllers/api/old_elements_controller.rb'
-    - 'app/controllers/api/relations_controller.rb'
     - 'app/controllers/api/user_preferences_controller.rb'
     - 'app/controllers/api/users_controller.rb'
-    - 'app/controllers/api/ways_controller.rb'
     - 'app/controllers/browse_controller.rb'
     - 'app/controllers/changesets_controller.rb'
     - 'app/controllers/confirmations_controller.rb'

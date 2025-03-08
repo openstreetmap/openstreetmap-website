@@ -15,6 +15,7 @@
           <th><%= t ".reported_user" %></th>
           <th class="reporting_users"><%= t ".reporting_users" %></th>
           <th><%= t ".last_updated" %></th>
+          <th><%= t ".last_managed" %></th>
         </tr>
       </thead>
       <tbody>
@@ -25,20 +26,13 @@
             <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
             <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
             <td class="reporting_users text-truncate">
-              <% @unique_reporters[issue.id][:users].each do |reporter| %>
-                <%= link_to reporter.display_name, reporter, :class => "d-block text-truncate", :title => reporter.display_name %>
-              <% end %>
-              <% if @unique_reporters[issue.id][:count] > 3 %>
-                <p class="m-0"><%= t ".more_reporters", :count => @unique_reporters[issue.id][:count] - 3 %></p>
-              <% end %>
+              <%= render :partial => "issues/reporters/reporters", :locals => { :issue => issue } %>
             </td>
             <td>
-              <% if issue.user_updated %>
-                <%= t ".last_updated_time_ago_user_html", :user => link_to(issue.user_updated.display_name, issue.user_updated),
-                                                          :time_ago => friendly_date_ago(issue.updated_at) %>
-              <% else %>
-                <%= friendly_date_ago(issue.updated_at) %>
-              <% end %>
+              <%= friendly_date_ago(issue.updated_at) %>
+            </td>
+            <td>
+              <%= link_to(issue.user_updated.display_name, issue.user_updated) if issue.user_updated %>
             </td>
           </tr>
         <% end %>

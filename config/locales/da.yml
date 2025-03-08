@@ -25,6 +25,7 @@
 # Author: Kaare
 # Author: Luckas
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: Mehanika
 # Author: Mikini
 # Author: Mjjzf
@@ -119,6 +120,7 @@ da:
         allow_write_prefs: ændre deres brugeralternativer
         allow_write_diary: oprette blogindlæg og kommentarer
         allow_write_api: ændre kortet
+        allow_write_changeset_comments: kommenter på ændringssæt
         allow_read_gpx: læse deres private GPS-spor
         allow_write_gpx: overføre GPS-spor
         allow_write_notes: ændre bemærkninger
@@ -273,9 +275,9 @@ da:
         comment: Kommentar
         full: Fuld bemærkning
   accounts:
-    edit:
+    show:
       title: Rediger konto
-      my settings: Mine indstillinger
+      my_account: Min konto
       current email address: Nuværende e-mailadresse
       external auth: Ekstern godkendelse
       openid:
@@ -289,6 +291,9 @@ da:
         agreed_with_pd: Du har også erklæret at du anser dine ændringer for at være
           fælleseje/uden ophavsret.
         link text: hvad er dette?
+        not_agreed_with_pd: Du har ikke erklæret, at du anser dine ændringer for at
+          være i det offentlige domæne (Public Domain), dvs. fælleseje/uden ophavsret.
+        pd_link_text: erklær
       save changes button: Gem ændringer
       delete_account: Slet konto
     go_public:
@@ -351,9 +356,6 @@ da:
           hjemmeside og anden infrastruktur stillet til rådighed af OSMF. Klik venligst
           på linket, læs og samtyk med vilkårene.
         read_tou: Jeg har læst og samtykker med brugsvilkårene
-        consider_pd: I tillæg til ovennævnte anser jeg mit bidrag for at være fælleseje/frit
-          for ophavsret (public domain)
-        consider_pd_why: hvad er dette?
         guidance_info_html: 'Oplysninger til at hjælpe med at forstå disse udtryk:
           et %{readable_summary_link} og nogle %{informal_translations_link}'
         readable_summary: menneskeligt læsbart sammendrag
@@ -375,6 +377,20 @@ da:
           %{terms_declined_link}.
         terms_declined_link: denne wiki-side
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Da:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Betragt mine bidrag for at være i det offentlige domæne
+        consider_pd: Jeg anser mine bidrag for at være i det offentlige domæne
+        consider_pd_why: Hvorfor skulle jeg have et ønske om, at mine bidrag er i
+          det offentlige domæne?
+        confirm: Bekræft
+      create:
+        successfully_declared: Du har erklæret, at du anser dine redigeringer for
+          at være i det offentlige domæne.
+        already_declared: Du har allerede erklæret, at du anser dine redigeringer
+          for at være i det offentlige domæne.
+        did_not_confirm: Du har ikke bekræftet, at du anser dine redigeringer for
+          at være i det offentlige domæne.
   browse:
     deleted_ago_by_html: Slettet %{time_ago} af %{user}
     edited_ago_by_html: Redigeret %{time_ago} af %{user}
@@ -457,7 +473,8 @@ da:
       telephone_link: Ring til %{phone_number}
       colour_preview: Forhåndsvisning af farve %{colour_value}
       email_link: E-mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Find kortobjekter
       introduction: Klik på kortet for at finde kortobjekter i nærheden.
       nearby: Kortobjekter i nærheden
@@ -519,6 +536,12 @@ da:
     changeset:
       no_edits: (ingen ændringer)
       view_changeset_details: Vis detaljer for ændringssæt
+      comments:
+        one: '%{count} kommentar'
+        other: '%{count} kommentarer'
+      changes:
+        one: '%{count} ændring'
+        other: '%{count} ændringer'
     index:
       title: Ændringssæt
       title_user: Ændringssæt af %{user}
@@ -1009,6 +1032,7 @@ da:
           bridleway: Ridesti
           bus_guideway: Styret busspor
           bus_stop: Busstoppested
+          busway: Busgade
           construction: Vej under konstruktion
           corridor: Korridor
           crossing: Fodgængerfelt
@@ -1579,7 +1603,7 @@ da:
       reports: Rapporter
       last_updated: Sidst opdateret
       last_updated_time_ago_user_html: '%{time_ago} af %{user}'
-      reporter_users: Rapporterende brugere
+      reporting_users: Anmeldende brugere
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapporter'
@@ -1618,7 +1642,8 @@ da:
       reopened: Sagens status er blevet sat til 'Åben'
     comments:
       comment_from_html: Kommentar fra %{user_link} skrevet %{comment_created_at}
-      reassign_param: Tildel sagen igen?
+      reassign_to_moderators: Overgiv problem til moderatorer
+      reassign_to_administrators: Overgiv problem til administratorer
     reports:
       reported_by_html: Rapporteret som %{category} af %{user} den %{updated_at}
     helper:
@@ -1689,10 +1714,6 @@ da:
     partners_corpmembers: OSMF virksomhedsmedlemmer
     partners_partners: partnere
     tou: Vilkår for anvendelse
-    osm_offline: OpenStreetMap-databasen er for øjeblikket offline på grund af nødvendig
-      databasevedligeholdelse.
-    osm_read_only: OpenStreetMap databasen er for øjeblikket ikke redigerbar på grund
-      af database vedligeholdelse.
     nothing_to_preview: Intet at forhåndsvise
     help: Hjælp
     about: Om
@@ -1700,6 +1721,13 @@ da:
     communities: Fællesskaber
     learn_more: Lær mere
     more: Mere
+    offline_flash:
+      osm_offline: OpenStreetMap-databasen er i øjeblikket offline, mens nødvendigt
+        vedligeholdelsesarbejde udføres.
+      osm_read_only: OpenStreetMap-databasen er i øjeblikket i skrivebeskyttet tilstand,
+        mens nødvendigt vedligeholdelsesarbejde udføres.
+      expected_restore_html: Tjenester forventes at blive genoprettet om %{time}.
+      announcement: Du kan læse opslaget her.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap blogindlæg #%{id}'
@@ -2307,12 +2335,14 @@ da:
           licens
       remote_failed: Redigering mislykkede - tjek at JOSM eller Merkaartor er startet
         og at ekstern betjening er aktiveret
-    edit:
+    not_public_flash:
       not_public: Du har ikke angivet af dine ændringer skal være offentlige.
       not_public_description_html: Du kan ikke længere redigere kortet medmindre du
         gør dette. Du kan gøre dine ændringer offentlige fra din %{user_page}.
       user_page_link: brugerside
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Da:Anonymous_edits
       anon_edits_link_text: Find ud af hvorfor.
+    edit:
       id_not_configured: iD er ikke blevet konfigureret
     export:
       title: Eksportér
@@ -2425,6 +2455,14 @@ da:
       where_am_i_title: Beskriv den nuværende position ved hjælp af søgemaskinen
       submit_text: Søg
       reverse_directions_text: Vend retningen om
+      modes:
+        bicycle: Cykel
+        car: Bil
+        foot: Til fods
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2758,10 +2796,12 @@ da:
       write_prefs: Ændre brugerpræferencer
       write_diary: Udgiv blogindlæg og kommentarer
       write_api: Ændre kortet
+      write_changeset_comments: Kommenter på ændringssæt
       read_gpx: Læse private GPS-spor
       write_gpx: Overføre GPS-spor
       write_notes: Ændre bemærkninger
       write_redactions: Rediger kortdata
+      write_blocks: Opret og ophæv brugerblokeringer
       read_email: Læse brugerens e-mailadresse
       consume_messages: Læs, opdater status og slet brugerbeskeder
       send_messages: Send private beskeder til andre brugere
@@ -2821,7 +2861,7 @@ da:
   users:
     new:
       title: Opret konto
-      tab_title: Opret en konto
+      tab_title: Opret konto
       signup_to_authorize_html: Tilmeld dig OpenStreetMap for at få adgang til %{client_app_name}.
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for
         dig pt.
@@ -2851,8 +2891,6 @@ da:
         privacy_policy_title: OSMF privatlivspolitik inklusiv afsnit om e-mailadresser
         html: Din adresse vises ikke offentligt. Se vores %{privacy_policy_link} for
           flere oplysninger.
-      consider_pd_html: Jeg anser mine bidrag for at være i %{consider_pd_link}.
-      consider_pd: offentligt domæne
       or: eller
       use external auth: eller tilmeld dig med en tredjepart
     no_such_user:
@@ -2868,7 +2906,7 @@ da:
       my notes: Mine bemærkninger
       my messages: Mine meddelelser
       my profile: Min profil
-      my settings: Mine indstillinger
+      my_account: Min konto
       my comments: Mine kommentarer
       my_preferences: Mine præferencer
       my_dashboard: Mit kontrolpanel
@@ -2949,13 +2987,23 @@ da:
       show:
         title: Brugere
         heading: Brugere
-        empty: Ingen brugere fundet
+        select_status: Vælg status
+        states:
+          pending: Afventer
+          active: Aktiv
+          confirmed: Bekræftet
+          suspended: Suspenderet
+          deleted: Slettet
+        name_or_email: Navn eller e-mail
+        ip_address: IP-adresse
+        search: Søg
       page:
         found_users:
           one: '%{count} bruger fundet'
           other: '%{count} brugere fundet'
         confirm: Bekræft valgte brugere
         hide: Skjul valgte brugere
+        empty: Ingen brugere fundet
       user:
         summary_html: '%{name} oprettet fra %{ip_address} på %{date}'
         summary_no_ip_html: '%{name} oprettet på %{date}'
@@ -3157,6 +3205,8 @@ da:
       open_title: 'Uløst bemærkning #%{note_name}'
       closed_title: 'Løst bemærkning #%{note_name}'
       hidden_title: 'Skjult bemærkning #%{note_name}'
+      description_when_author_is_deleted: slettet
+      description_when_there_is_no_opening_comment: ukendt
       event_opened_by_html: Oprettet af %{user} %{time_ago}
       event_opened_by_anonymous_html: Oprettet af anonym %{time_ago}
       event_commented_by_html: Kommentar fra %{user} %{time_ago}
@@ -3297,16 +3347,6 @@ da:
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
     directions:
       ascend: Stigning
-      engines:
-        fossgis_osrm_bike: Cykel (OSRM)
-        fossgis_osrm_car: Bil (OSRM)
-        fossgis_osrm_foot: Til fods (OSRM)
-        graphhopper_bicycle: Cykel (GraphHopper)
-        graphhopper_car: Bil (GraphHopper)
-        graphhopper_foot: Til fods (GrapHopper)
-        fossgis_valhalla_bicycle: Cykel (Valhalla)
-        fossgis_valhalla_car: Bil (Valhalla)
-        fossgis_valhalla_foot: Til fods (Valhalla)
       descend: Fald
       directions: Rutevejledning
       distance: Afstand
@@ -3391,6 +3431,8 @@ da:
           ninth: "9."
           tenth: "10."
       time: Tid
+      download: Download rute som GeoJSON
+      filename: rute
     query:
       node: Punkt
       way: Vej
@@ -3405,6 +3447,9 @@ da:
       show_address: Vis adresse
       query_features: Find kortobjekter
       centre_map: Centrer kort her
+    home:
+      marker_title: Mit hjemsted
+      not_set: Hjemsted er ikke angivet for din konto
   redactions:
     edit:
       heading: Rediger omarbejdelse

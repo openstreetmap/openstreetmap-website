@@ -10,6 +10,7 @@
 # Author: HairyFotr
 # Author: Lesko987
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: Mateju
 # Author: Mtej
 # Author: Peter Klofutar
@@ -280,9 +281,8 @@ sl:
         comment: Komentar
         full: Celotna opomba
   accounts:
-    edit:
+    show:
       title: Urejanje uporabniškega računa
-      my settings: Moje nastavitve
       current email address: Trenutni e-poštni naslov
       external auth: Zunanja avtentikacija
       openid:
@@ -358,8 +358,6 @@ sl:
           infrastrukturo, ki jo zagotavlja OSMF. Kliknite povezavo, preberite jih
           in potrdite strinjanje z besedilom.
         read_tou: Prebral sem pogoje uporabe in soglašam z njimi
-        consider_pd: Poleg zgoraj navedenega menim, da so moji prispevki v javni domeni
-        consider_pd_why: kaj je to?
         guidance_info_html: 'Informacije za lažje razumevanje teh izrazov: %{readable_summary_link}
           in nekaj %{informal_translations_link}'
         readable_summary: človeško berljiv povzetek
@@ -467,7 +465,8 @@ sl:
       telephone_link: Pokliči %{phone_number}
       colour_preview: Predogled barve %{colour_value}
       email_link: E-pošta %{email}
-    query:
+  feature_queries:
+    show:
       title: Preveri značilnosti
       introduction: Kliknite na zemljevid za iskanje bližnjih značilnosti.
       nearby: Značilnosti v neposredni bližini
@@ -1537,7 +1536,6 @@ sl:
       reopened: Stanje težave je nastavljeno na »Odprto«
     comments:
       comment_from_html: Komentar uporabnika %{user_link} dne %{comment_created_at}
-      reassign_param: Želite predodeliti težavo?
     reports:
       reported_by_html: Sporočil_a %{user} kot %{category} dne %{updated_at}
     helper:
@@ -1605,10 +1603,6 @@ sl:
     partners_fastly: Fastly
     partners_partners: partnerji
     tou: Pogoji uporabe
-    osm_offline: Baza OpenStreetMap zaradi izvajanja nujnih vzdrževalnih del trenutno
-      ni dostopna.
-    osm_read_only: Baza OpenStreetMap je zaradi izvajanja nujnih vzdrževalnih del
-      trenutno dostopna le za branje.
     help: Pomoč
     about: O projektu
     copyright: Avtorske pravice
@@ -1716,7 +1710,7 @@ sl:
           ste jo dodali. Opomba je v bližini %{place}.'
         commented_note_html: '%{commenter} je spet aktiviral_a opombo na zemljevidu,
           ki ste jo dodali. Opomba je v bližini %{place}.'
-      details: Več podatkov o opombi lahko najdete na %{url}.
+      details: Več podatkov o opombi je na voljo na %{url}.
       details_html: Na opombo lahko odgovorite ali izveste več o njej na %{url}.
     changeset_comment_notification:
       description: Nabor sprememb OpenStreetMap št. %{id}
@@ -2194,12 +2188,13 @@ sl:
         copyright: Avtorske pravice OpenStreetMap in sodelavci, pod odprto licenco
       remote_failed: Urejanje ni uspelo - poskrbite da je JOSM ali Merkaartor naložen
         in je možnost daljinskega upravljanja omogočena
-    edit:
+    not_public_flash:
       not_public: Svojih prispevkov še niste označili za javne.
       not_public_description_html: Urejanje zemljevida ni mogoče dokler vaši prispevki
         niso javni. Označite jih lahko kot javne na %{user_page}.
       user_page_link: strani vašega uporabniškega računa
       anon_edits_link_text: Pojasnilo zakaj je temu tako.
+    edit:
       id_not_configured: iD še ni konfiguriran
     export:
       title: Izvozi
@@ -2310,6 +2305,10 @@ sl:
       where_am_i_title: Opišite trenutno lokacijo z uporabo iskalnika
       submit_text: Išči
       reverse_directions_text: Obrni smer
+      modes:
+        bicycle: Kolo
+        car: Avto
+        foot: Hoja
     key:
       table:
         entry:
@@ -2710,8 +2709,6 @@ sl:
         privacy_policy_title: Pravilnik o zasebnosti OSMF, vključno z razdelkom o
           e-poštnih naslovih
         html: Vaš naslov ni javno prikazan, za več informacij glejte naš %{privacy_policy_link}.
-      consider_pd_html: Svoje prispevke štejem za %{consider_pd_link}.
-      consider_pd: javna domena
       or: ali
       use external auth: ali se prijavite prek tretje osebe
     no_such_user:
@@ -2727,7 +2724,6 @@ sl:
       my notes: Moje opombe
       my messages: Sporočila
       my profile: Moj profil
-      my settings: Moje nastavitve
       my comments: Moji komentarji
       my_preferences: Moje prilagoditve
       my_dashboard: Moja nadzorna plošča
@@ -2805,10 +2801,10 @@ sl:
       show:
         title: Uporabniki
         heading: Uporabniki
-        empty: Nobenega uporabnika ni bilo mogoče najti
       page:
         confirm: Potrdi izbrane uporabnike
         hide: Skrij izbrane uporabnike
+        empty: Nobenega uporabnika ni bilo mogoče najti
       user:
         summary_html: '%{name} ustvarjen iz %{ip_address} dne %{date}'
         summary_no_ip_html: '%{name} ustvarjen dne %{date}'
@@ -2928,6 +2924,7 @@ sl:
       status: Stanje
     navigation:
       block: 'Blokiraj #%{id}'
+      new_block: Novo blokiranje
   user_mutes:
     index:
       title: Utišani uporabniki
@@ -3090,16 +3087,6 @@ sl:
       nato pa kliknite tukaj.
     directions:
       ascend: Vzpon
-      engines:
-        fossgis_osrm_bike: Kolo (OSRM)
-        fossgis_osrm_car: Avto (OSRM)
-        fossgis_osrm_foot: Hoja (OSRM)
-        graphhopper_bicycle: Kolo (GraphHopper)
-        graphhopper_car: Avto (GraphHopper)
-        graphhopper_foot: Hoja (GraphHopper)
-        fossgis_valhalla_bicycle: S kolesom (Valhala)
-        fossgis_valhalla_car: Z avtom (Valhala)
-        fossgis_valhalla_foot: Peš (Valhala)
       descend: Spust
       directions: Navodila
       distance: Razdalja

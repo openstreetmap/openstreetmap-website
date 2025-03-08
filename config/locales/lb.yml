@@ -7,6 +7,7 @@
 # Author: GilPe
 # Author: Helicoducair
 # Author: Les Meloures
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Robby
 # Author: Soued031
@@ -91,7 +92,7 @@ lb:
         support_url: Support-URL
         allow_read_prefs: Hir Benotzerastellunge liesen
         allow_write_prefs: Hir Benotzerastellungen änneren
-        allow_write_diary: Bloganträg a Commentairë schreiwen a Frënn fannen
+        allow_write_diary: Bloganträg a Commentairë schreiwen
         allow_write_api: d'Kaart änneren
         allow_read_gpx: Zougrëff op hir privat GPS-Spueren
         allow_write_gpx: GPS-Spueren eroplueden
@@ -244,9 +245,8 @@ lb:
         comment: Bemierkung
         full: Vollstännegen Hiweis
   accounts:
-    edit:
+    show:
       title: Benotzerkont änneren
-      my settings: Meng Astellungen
       current email address: Aktuell E-Mail-Adress
       external auth: Extern Authentifikatioun
       openid:
@@ -256,8 +256,8 @@ lb:
         agreed: Dir hutt den neien Bedéngungen fir Matwierkender zougestëmmt.
         not yet agreed: Dir hutt den neien Bedéngungen fir Matwierkender nach net
           zougestëmmt.
-        review link text: Follegt w.e.g. dëssem Link fir déi nei Bedéngungen fir Matwierkender
-          ze gesinn an ze akzeptéieren.
+        review link text: Gitt wgl. dësem Link no fir déi nei Bedéngunge fir Matwierkender
+          ze gesinn an z'akzeptéieren.
         agreed_with_pd: Dir hudd och deklaréiert dass Dir Är Ännerungen der Öffentlechkeet
           zur Verfügung stellt (Public Domain).
         link text: wat ass dëst?
@@ -302,9 +302,6 @@ lb:
     terms:
       show:
         heading: Bedingungen
-        consider_pd: Zousätzlech zu den uewe genannte Konditioune betruechten ech
-          meng Bäiträg als gemengfräi (domaine public).
-        consider_pd_why: wat ass dat?
         informal_translations: informell Iwwersetzungen
         continue: Weider
         cancel: Ofbriechen
@@ -315,6 +312,9 @@ lb:
           rest_of_world: Rescht vun der Welt
       terms_declined_flash:
         terms_declined_link: dës Wiki-Säit
+    pd_declarations:
+      show:
+        confirm: Confirméieren
   browse:
     deleted_ago_by_html: '%{time_ago} vum %{user} geläscht'
     edited_ago_by_html: '%{time_ago} vum %{user} geännert'
@@ -395,7 +395,8 @@ lb:
       telephone_link: '%{phone_number} uruffen'
       colour_preview: Faarw %{colour_value} Ausbléck
       email_link: E-Mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Objetsoffro
       introduction: Klick op d'Kaart, fir Objeten an der Noperschaft ze fannen.
       nearby: Objeten an der Noperschaft
@@ -888,6 +889,7 @@ lb:
           bridleway: Wee fir Päerd
           bus_guideway: Busspur
           bus_stop: Busarrêt
+          busway: Busspuer
           construction: Autobunn (am Bau)
           corridor: Couloir
           crossing: Kräizung
@@ -1453,9 +1455,11 @@ lb:
       reports: Rapporten
       last_updated: Lescht Aktualiséierung
       last_updated_time_ago_user_html: '%{time_ago} vum %{user}'
+      reporting_users: Benotzer mellen
       reports_count:
         one: '%{count} Bericht'
         other: '%{count} Berichter'
+      more_reporters: a(n) %{count} méi
       reported_item: Gemellten Objet
       states:
         ignored: Ignoréiert
@@ -1486,7 +1490,6 @@ lb:
       reopened: De Problemstatus gouf op „Oppe“ geännert
     comments:
       comment_from_html: Commentaire vun %{user_link} erstallt den %{comment_created_at}
-      reassign_param: Problem op en Neits zouweisen?
     reports:
       reported_by_html: Gemellt als %{category} vun %{user} den %{updated_at}
     helper:
@@ -1556,10 +1559,6 @@ lb:
     partners_fastly: Fastly
     partners_partners: Partneren
     tou: Benotzungs-Bedéngungen
-    osm_offline: D'OpenStreetMap Datebank ass elo net disponibel well dru geschafft
-      muss ginn.
-    osm_read_only: D'OpenStreetMap Datebank kann den Ament nëmmen ausgelies an net
-      beaarbecht ginn, well se gewaart gëtt.
     help: Hëllef
     about: Iwwer
     copyright: Copyright
@@ -1704,7 +1703,7 @@ lb:
         partial_changeset_with_comment: mat der Bemierkung „%{changeset_comment}“
         partial_changeset_with_comment_html: mat der Bemierkung „%{changeset_comment}“
         partial_changeset_without_comment: ouni Kommentar
-      details: Méi Detailer iwwer den Ännerungssaz kënnen ënner %{url} fonnt ginn.
+      details: Äntweren oder méi gewuer ginnn iwwer den Ännerungssaz ënner %{url}.
       details_html: Méi Detailer iwwer den Ännerungssaz kënnen ënner %{url} fonnt
         ginn.
       unsubscribe: Dir kënnt d'Aktualiséierungen un dësem Ännerungssaz ënner %{url}
@@ -1749,8 +1748,8 @@ lb:
       back_to_inbox: Zréck an de Postagang
     create:
       message_sent: Message geschéckt
-      limit_exceeded: Dir hutt a leschter Zäit vill Messagen geschéckt. Waart w.e.g.
-        eng Zäit ier Dir probéiert méi ze schécken.
+      limit_exceeded: Dir hutt a leschter Zäit vill Messagë geschéckt. Waart wgl.
+        eng Zäit, ier Dir probéiert nach méi ze schécken.
     no_such_message:
       title: Kee sou ee Message
       heading: Kee sou ee Message
@@ -1901,9 +1900,9 @@ lb:
       logout_button: Ofmellen
     suspended_flash:
       suspended: Äre Kont gouf leider wéinst verdächtegen Aktivitéite suspendéiert.
-      contact_support_html: Kontaktéiert w.e.g. %{support_link} wann Dir dëst diskutéiere
-        wëllt.
-      support: support
+      contact_support_html: Kontaktéiert wgl. de %{support_link}, wann Dir doriwwer
+        diskutéiere wëllt.
+      support: Support
   shared:
     markdown_help:
       headings: Iwwerschrëften
@@ -2008,10 +2007,11 @@ lb:
       js_2: OpenStreetMap benotzt JavaScript fir d'Kaartenduerstellung
       license:
         copyright: Copyright OpenStreetMap a Matwierkend, ënner enger oppener Lizenz
-    edit:
+    not_public_flash:
       not_public: Dir hutt net agestallt datt Är Ännerungen ëffentlech sinn.
       user_page_link: Benotzersäit
       anon_edits_link_text: Fannt eraus firwat dat de Fall ass.
+    edit:
       id_not_configured: iD gouf net konfiguréiert
     export:
       title: Exportéieren
@@ -2070,6 +2070,10 @@ lb:
       from: Vum
       where_am_i: Wou ass dat?
       submit_text: Lass
+      modes:
+        bicycle: Mam Vëlo
+        car: Auto
+        foot: Zu Fouss
     key:
       table:
         entry:
@@ -2229,8 +2233,8 @@ lb:
   application:
     settings_menu:
       account_settings: Astellunge vum Benotzerkont
-      oauth2_applications: OAuth 2 Applikatiounen
-      oauth2_authorizations: OAuth 2 Autorisatiounen
+      oauth2_applications: OAuth-2-Applikatiounen
+      oauth2_authorizations: OAuth-2-Autorisatiounen
     auth_providers:
       openid_url: OpenID-URL
       openid_login_button: Virufueren
@@ -2344,7 +2348,7 @@ lb:
       my notes: Meng Notizen
       my messages: Meng Messagen
       my profile: Mäi Profil
-      my settings: Meng Astellungen
+      my_account: Mäi Benotzerkont
       my comments: Meng Bemierkungen
       my_preferences: Meng Benotzerastellungen
       my_dashboard: Meng Iwwersiichtssäit
@@ -2356,6 +2360,7 @@ lb:
       traces: Spueren
       notes: Notizen op der Kaart
       no activity yet: Nach keng Aktivitéit
+      uid: 'Benotzer-ID:'
       email address: 'E-Mail-Adress:'
       status: 'Status:'
       role:
@@ -2393,13 +2398,21 @@ lb:
       show:
         title: Benotzer
         heading: Benotzer
-        empty: Et goufe keng sou Benotzer fonnt
+        select_status: Status auswielen
+        states:
+          active: Aktiv
+          confirmed: Confirméiert
+          deleted: Geläscht
+        name_or_email: Numm oder E-Mail
+        ip_address: IP-Adress
+        search: Sichen
       page:
         found_users:
           one: '%{count} Benotzer fonnt'
           other: '%{count} Benotzer fonnt'
         confirm: Erausgesicht Benotzer confirméieren
         hide: Erausgesicht Benotzer vrstoppen
+        empty: Et goufe keng sou Benotzer fonnt
     changeset_comments:
       page:
         when: Wéini
@@ -2491,6 +2504,8 @@ lb:
       open_title: 'Ongeléisten Hiweis #%{note_name}'
       closed_title: 'Geléisten Hiweis #%{note_name}'
       hidden_title: Verstoppt Notiz N° %{note_name}
+      description_when_author_is_deleted: geläscht
+      description_when_there_is_no_opening_comment: onbekannt
       report: Dësen Hiweis mellen
       discussion: Diskussioun
       subscribe: Abonéieren
@@ -2566,11 +2581,6 @@ lb:
       klickt dann hei.
     directions:
       ascend: Vu kleng op grouss
-      engines:
-        fossgis_osrm_bike: Mam Vëlo (OSRM)
-        fossgis_osrm_car: Auto (OSRM)
-        fossgis_osrm_foot: Zu Fouss (OSRM)
-        graphhopper_car: Auto (GraphHopper)
       descend: Vu grouss op kleng
       directions: Richtungen
       distance: Distanz
@@ -2615,6 +2625,8 @@ lb:
           ninth: néngt
           tenth: zéngt
       time: Zäit
+      download: Streck als GeoJSON eroflueden
+      filename: Streck
     query:
       way: Wee
       relation: Relatioun

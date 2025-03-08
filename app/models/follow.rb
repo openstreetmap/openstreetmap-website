@@ -2,9 +2,9 @@
 #
 # Table name: friends
 #
-#  id             :bigint(8)        not null, primary key
-#  user_id        :bigint(8)        not null
-#  friend_user_id :bigint(8)        not null
+#  id             :bigint           not null, primary key
+#  user_id        :bigint           not null
+#  friend_user_id :bigint           not null
 #  created_at     :datetime
 #
 # Indexes

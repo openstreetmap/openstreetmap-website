@@ -1,0 +1,64 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= t ".my_account" %></h1>
+<% end %>
+
+<%= render :partial => "settings_menu" %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update }, :html => { :multipart => true, :id => "accountForm", :autocomplete => :off } do |f| %>
+
+  <%= f.text_field :display_name %>
+  <%= f.email_field :email, :disabled => true, :label => t(".current email address") %>
+  <%= f.email_field :new_email, :autocomplete => "email" %>
+  <%= f.password_field :pass_crypt, :value => "", :autocomplete => "new-password" %>
+  <%= f.password_field :pass_crypt_confirmation, :value => "", :autocomplete => "new-password" %>
+
+  <fieldset class="mb-3">
+    <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
+    <div class="row">
+      <%= f.select :auth_provider,
+                   Auth.providers.map { |provider| [I18n.t("auth.providers.#{provider}"), provider] },
+                   :include_blank => t("auth.providers.none"),
+                   :hide_label => true,
+                   :wrapper => { :class => "col-auto mb-0" } %>
+      <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }) %>
+    </div>
+    <small class="form-text text-body-secondary">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
+  </fieldset>
+
+  <div class="mb-3 d-flex flex-column flex-sm-row column-gap-1">
+    <label class="form-label text-nowrap mb-0"><%= t ".contributor terms.heading" %></label>
+    <span class="form-text text-body-secondary">
+      <% if current_user.terms_agreed? %>
+        <%= t ".contributor terms.agreed" %>
+        (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
+        <br>
+        <% if current_user.consider_pd? %>
+          <%= t ".contributor terms.agreed_with_pd" %>
+        <% else %>
+          <%= t ".contributor terms.not_agreed_with_pd" %>
+          (<%= link_to t(".contributor terms.pd_link_text"), account_pd_declaration_path %>)
+        <% end %>
+      <% else %>
+        <%= t ".contributor terms.not yet agreed" %>
+        <%= link_to t(".contributor terms.review link text"), account_terms_path %>
+      <% end %>
+    </span>
+  </div>
+
+  <div class="row justify-content-between g-1">
+    <div class="col-auto">
+      <%= f.primary t(".save changes button") %>
+    </div>
+    <div class="col-auto">
+      <%= link_to t(".delete_account"), account_deletion_path, :class => "btn btn-outline-danger" %>
+    </div>
+  </div>
+<% end %>
+
+<% unless current_user.data_public? %>
+  <%= render :partial => "go_public" %>
+<% end %>

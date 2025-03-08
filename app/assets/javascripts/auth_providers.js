@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   // Attach referer to authentication buttons
   $(".auth_button").each(function () {
     const params = new URLSearchParams(this.search);

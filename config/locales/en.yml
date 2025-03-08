@@ -87,12 +87,13 @@ en:
         url: Main Application URL (Required)
         callback_url: Callback URL
         support_url: Support URL
-        allow_read_prefs:  read their user preferences
+        allow_read_prefs: read their user preferences
         allow_write_prefs: modify their user preferences
         allow_write_diary: create diary entries and comments
-        allow_write_api:   modify the map
-        allow_read_gpx:    read their private GPS traces
-        allow_write_gpx:   upload GPS traces
+        allow_write_api: modify the map
+        allow_write_changeset_comments: comment on changesets
+        allow_read_gpx: read their private GPS traces
+        allow_write_gpx: upload GPS traces
         allow_write_notes: modify notes
       diary_comment:
         body: "Body"
@@ -243,9 +244,9 @@ en:
         comment: Comment
         full: Full note
   accounts:
-    edit:
+    show:
       title: "Edit account"
-      my settings: My Settings
+      my_account: My Account
       current email address: "Current Email Address"
       external auth: "External Authentication"
       openid:
@@ -259,6 +260,8 @@ en:
         agreed_with_pd: "You have also declared that you consider your edits to be in the Public Domain."
         link: "https://osmfoundation.org/wiki/Licence/Contributor_Terms"
         link text: "what is this?"
+        not_agreed_with_pd: "You haven't declared that you consider your edits to be in the Public Domain."
+        pd_link_text: "declare"
       save changes button: Save Changes
       delete_account: Delete Account...
     go_public:
@@ -304,9 +307,6 @@ en:
         read_ct: "I have read and agree to the above contributor terms"
         tou_explain_html: "These %{tou_link} govern the use of the website and other infrastructure provided by the OSMF. Please click on the link, read and agree to the text."
         read_tou: "I have read and agree to the Terms of Use"
-        consider_pd: "In addition to the above, I consider my contributions to be in the Public Domain"
-        consider_pd_why: "what's this?"
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: "Information to help understand these terms: a %{readable_summary_link} and some %{informal_translations_link}"
         readable_summary: human readable summary
         informal_translations: informal translations
@@ -324,6 +324,17 @@ en:
         terms_declined_html: We are sorry that you have decided to not accept the new Contributor Terms. For more information, please see %{terms_declined_link}.
         terms_declined_link: this wiki page
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Consider my contributions to be in the Public Domain
+        consider_pd: "I consider my contributions to be in the Public Domain"
+        consider_pd_why: "Why would I want my contributions to be Public Domain?"
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Confirm
+      create:
+        successfully_declared: "You have successfully declared that you consider your edits to be in the Public Domain."
+        already_declared: "You have already declared that you consider your edits to be in the Public Domain."
+        did_not_confirm: "You didn't confirm that you consider your edits to be in the Public Domain."
   browse:
     deleted_ago_by_html: "Deleted %{time_ago} by %{user}"
     edited_ago_by_html: "Edited %{time_ago} by %{user}"
@@ -406,7 +417,8 @@ en:
       telephone_link: "Call %{phone_number}"
       colour_preview: "Colour %{colour_value} preview"
       email_link: "Email %{email}"
-    query:
+  feature_queries:
+    show:
       title: "Query Features"
       introduction: "Click on the map to find nearby features."
       nearby: "Nearby features"
@@ -464,8 +476,12 @@ en:
         sorry: "Sorry, the list of changeset comments you requested took too long to retrieve."
   changesets:
     changeset:
-      no_edits: "(no edits)"
-      view_changeset_details: "View changeset details"
+      comments:
+        one: "%{count} comment"
+        other: "%{count} comments"
+      changes:
+        one: "%{count} change"
+        other: "%{count} changes"
     index:
       title: "Changesets"
       title_user: "Changesets by %{user}"
@@ -535,6 +551,8 @@ en:
       km away: "%{count}km away"
       m away: "%{count}m away"
       latest_edit_html: "Latest edit (%{ago}):"
+      no_edits: "(no edits)"
+      view_changeset_details: "View changeset details"
     popup:
       your location: "Your location"
       nearby mapper: "Nearby mapper"
@@ -836,7 +854,7 @@ en:
           census: "Census Boundary"
           national_park: "National Park"
           political: "Electoral Boundary"
-          protected_area : "Protected Area"
+          protected_area: "Protected Area"
           "yes": "Boundary"
         bridge:
           aqueduct: "Aqueduct"
@@ -942,6 +960,7 @@ en:
           bridleway: "Bridleway"
           bus_guideway: "Guided Bus Lane"
           bus_stop: "Bus Stop"
+          busway: "Busway"
           construction: "Highway under Construction"
           corridor: "Corridor"
           crossing: "Crossing"
@@ -987,7 +1006,7 @@ en:
           turning_circle: "Turning Circle"
           turning_loop: "Turning Loop"
           unclassified: "Unclassified Road"
-          "yes" : "Road"
+          "yes": "Road"
         historic:
           aircraft: "Historic Aircraft"
           archaeological_site: "Archaeological Site"
@@ -1167,7 +1186,7 @@ en:
           trench: "Trench"
           "yes": "Military"
         mountain_pass:
-          "yes" : "Mountain Pass"
+          "yes": "Mountain Pass"
         natural:
           atoll: "Atoll"
           bare_rock: "Bare Rock"
@@ -1477,27 +1496,57 @@ en:
           weir: "Weir"
           "yes": "Waterway"
       admin_levels:
-        level2: "Country Boundary"
-        level3: "Region Boundary"
-        level4: "State Boundary"
-        level5: "Region Boundary"
-        level6: "County Boundary"
-        level7: "Municipality Boundary"
-        level8: "City Boundary"
-        level9: "Village Boundary"
-        level10: "Suburb Boundary"
-        level11: "Neighbourhood Boundary"
+        level2: "International Boundary"
+        level3: "Administrative Boundary (Level 3)"
+        level4: "Administrative Boundary (Level 4)"
+        level5: "Administrative Boundary (Level 5)"
+        level6: "Administrative Boundary (Level 6)"
+        level7: "Administrative Boundary (Level 7)"
+        level8: "Administrative Boundary (Level 8)"
+        level9: "Administrative Boundary (Level 9)"
+        level10: "Administrative Boundary (Level 10)"
+        level11: "Administrative Boundary (Level 11)"
+      border_types:
+        arrondissement: "Arrondissement Boundary"
+        borough: "Borough Boundary"
+        cercle: "Cercle Boundary"
+        city: "City Boundary"
+        comarca: "Comarca Boundary"
+        county: "County Boundary"
+        departement: "Departmental Boundary"
+        department: "Departmental Boundary"
+        district: "District Boundary"
+        distrito: "District Boundary"
+        freguesia: "Freguesia Boundary"
+        local_authority: "Local Authority Boundary"
+        municipality: "Municipal Boundary"
+        municipi: "Municipal Boundary"
+        município: "Municipal Boundary"
+        nation: "International Boundary"
+        national: "International Boundary"
+        neighbourhood: "Neighborhood Boundary"
+        parish: "Parish Boundary"
+        province: "Provincial Boundary"
+        região: "Regional Boundary"
+        region: "Regional Boundary"
+        state: "State Boundary"
+        town: "Town Boundary"
+        township: "Township Boundary"
+        village: "Village Boundary"
     results:
       no_results: "No results found"
       more_results: "More results"
+  directions:
+    search:
+      title: Directions
   issues:
     index:
       title: Issues
       select_status: Select Status
       select_type: Select Type
-      select_last_updated_by: Select Last Updated By
+      select_last_managed_by: Select Last Managed By
       reported_user: Reported User
-      not_updated: Not Updated
+      not_managed: Not Managed
       search: Search
       search_guidance: "Search Issues:"
       states:
@@ -1511,12 +1560,11 @@ en:
       status: Status
       reports: Reports
       last_updated: Last Updated
-      last_updated_time_ago_user_html: "%{time_ago} by %{user}"
+      last_managed: Last Managed
       reporting_users: Reporting Users
       reports_count:
         one: "%{count} Report"
         other: "%{count} Reports"
-      more_reporters: "and %{count} more"
       reported_item: Reported Item
       states:
         ignored: Ignored
@@ -1559,6 +1607,11 @@ en:
       reportable_title:
         diary_comment: "%{entry_title}, comment #%{comment_id}"
         note: "Note #%{note_id}"
+    reporters:
+      index:
+        title: "Issue #%{issue_id} Reporters"
+      reporters:
+        more_reporters: "and %{count} more"
   issue_comments:
     create:
       comment_created: Your comment was successfully created
@@ -1624,8 +1677,6 @@ en:
     partners_corpmembers: "OSMF corporate members"
     partners_partners: "partners"
     tou: "Terms of Use"
-    osm_offline: "The OpenStreetMap database is currently offline while essential database maintenance work is carried out."
-    osm_read_only: "The OpenStreetMap database is currently in read-only mode while essential database maintenance work is carried out."
     nothing_to_preview: "Nothing to preview."
     help: Help
     about: About
@@ -1633,6 +1684,11 @@ en:
     communities: Communities
     learn_more: "Learn More"
     more: More
+    offline_flash:
+      osm_offline: "The OpenStreetMap database is currently offline while essential maintenance work is carried out."
+      osm_read_only: "The OpenStreetMap database is currently in read-only mode while essential maintenance work is carried out."
+      expected_restore_html: "Services are expected to be restored in %{time}."
+      announcement: "You can read the announcement here."
   user_mailer:
     diary_comment_notification:
       description: "OpenStreetMap Diary Entry #%{id}"
@@ -1907,7 +1963,7 @@ en:
       failure: Couldn't update profile.
   sessions:
     new:
-      tab_title: "Log in"
+      tab_title: "Log In"
       login_to_authorize_html: "Log in to OpenStreetMap to access %{client_app_name}."
       email or username: "Email Address or Username"
       password: "Password"
@@ -2249,13 +2305,14 @@ en:
         license_url: "https://openstreetmap.org/copyright"
         project_url: "https://openstreetmap.org"
       remote_failed: "Editing failed - make sure JOSM or Merkaartor is loaded and the remote control option is enabled"
-    edit:
+    not_public_flash:
       not_public: "You have not set your edits to be public."
       not_public_description_html: "You can no longer edit the map unless you do so. You can set your edits as public from your %{user_page}."
       user_page_link: user page
       anon_edits_html: "(%{link})"
-      anon_edits_link: "https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
+      anon_edits_link: "https://wiki.openstreetmap.org/wiki/Anonymous_edits"
       anon_edits_link_text: "Find out why this is the case."
+    edit:
       id_not_configured: "iD has not been configured"
     export:
       title: "Export"
@@ -2366,6 +2423,14 @@ en:
       where_am_i_title: Describe the current location using the search engine
       submit_text: "Go"
       reverse_directions_text: "Reverse Directions"
+      modes:
+        bicycle: "Bicycle"
+        car: "Car"
+        foot: "Foot"
+      providers:
+        fossgis_osrm: "OSRM"
+        graphhopper: "GraphHopper"
+        fossgis_valhalla: "Valhalla"
     key:
       table:
         entry:
@@ -2637,8 +2702,8 @@ en:
       need_to_see_terms: "Your access to the API is temporarily suspended. Please log-in to the web interface to view the Contributor Terms. You do not need to agree, but you must view them."
     settings_menu:
       account_settings: Account Settings
-      oauth2_applications: OAuth 2 applications
-      oauth2_authorizations: OAuth 2 authorizations
+      oauth2_applications: OAuth 2 Applications
+      oauth2_authorizations: OAuth 2 Authorizations
       muted_users: Muted Users
     auth_providers:
       openid_url: "OpenID URL"
@@ -2692,10 +2757,12 @@ en:
       write_prefs: Modify user preferences
       write_diary: Create diary entries and comments
       write_api: Modify the map
+      write_changeset_comments: Comment on changesets
       read_gpx: Read private GPS traces
       write_gpx: Upload GPS traces
       write_notes: Modify notes
       write_redactions: Redact map data
+      write_blocks: Create and revoke user blocks
       read_email: Read user email address
       consume_messages: Read, update status and delete user messages
       send_messages: Send private messages to other users
@@ -2753,7 +2820,7 @@ en:
   users:
     new:
       title: "Sign Up"
-      tab_title: "Sign up"
+      tab_title: "Sign Up"
       signup_to_authorize_html: "Sign up with OpenStreetMap to access %{client_app_name}."
       no_auto_account_create: "Unfortunately we are not currently able to create an account for you automatically."
       please_contact_support_html: 'Please contact %{support_link} to arrange for an account to be created - we will try and deal with the request as quickly as possible.'
@@ -2778,9 +2845,6 @@ en:
         privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: OSMF privacy policy including section on email addresses
         html: 'Your address is not displayed publicly, see our %{privacy_policy_link} for more information.'
-      consider_pd_html: "I consider my contributions to be in the %{consider_pd_link}."
-      consider_pd: "public domain"
-      consider_pd_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: "or"
       use external auth: "or sign up with a third party"
     no_such_user:
@@ -2795,7 +2859,7 @@ en:
       my notes: My Notes
       my messages: My Messages
       my profile: My Profile
-      my settings: My Settings
+      my_account: My Account
       my comments: My Comments
       my_preferences: My Preferences
       my_dashboard: My Dashboard
@@ -2875,13 +2939,23 @@ en:
       show:
         title: Users
         heading: Users
-        empty: No matching users found
+        select_status: Select Status
+        states:
+          pending: Pending
+          active: Active
+          confirmed: Confirmed
+          suspended: Suspended
+          deleted: Deleted
+        name_or_email: Name or Email
+        ip_address: IP Address
+        search: Search
       page:
         found_users:
           one: "%{count} user found"
           other: "%{count} users found"
         confirm: Confirm Selected Users
         hide: Hide Selected Users
+        empty: No matching users found
       user:
         summary_html: "%{name} created from %{ip_address} on %{date}"
         summary_no_ip_html: "%{name} created on %{date}"
@@ -2889,7 +2963,7 @@ en:
       index:
         heading_html: "%{user}'s Comments"
         changesets: "Changesets"
-        diary_entries: "Diary entries"
+        diary_entries: "Diary Entries"
         no_comments: "No comments"
     changeset_comments:
       index:
@@ -3071,6 +3145,7 @@ en:
       closed_title: "Resolved note #%{note_name}"
       hidden_title: "Hidden note #%{note_name}"
       description_when_author_is_deleted: "deleted"
+      description_when_there_is_no_opening_comment: "unknown"
       event_opened_by_html: "Created by %{user} %{time_ago}"
       event_opened_by_anonymous_html: "Created by anonymous %{time_ago}"
       event_commented_by_html: "Comment from %{user} %{time_ago}"
@@ -3203,18 +3278,7 @@ en:
     edit_help: Move the map and zoom in on a location you want to edit, then click here.
     directions:
       ascend: "Ascend"
-      engines:
-        fossgis_osrm_bike: "Bicycle (OSRM)"
-        fossgis_osrm_car: "Car (OSRM)"
-        fossgis_osrm_foot: "Foot (OSRM)"
-        graphhopper_bicycle: "Bicycle (GraphHopper)"
-        graphhopper_car: "Car (GraphHopper)"
-        graphhopper_foot: "Foot (GraphHopper)"
-        fossgis_valhalla_bicycle: "Bicycle (Valhalla)"
-        fossgis_valhalla_car: "Car (Valhalla)"
-        fossgis_valhalla_foot: "Foot (Valhalla)"
       descend: "Descend"
-      directions: "Directions"
       distance: "Distance"
       distance_m: "%{distance}m"
       distance_km: "%{distance}km"
@@ -3288,6 +3352,8 @@ en:
           ninth: "9th"
           tenth: "10th"
       time: "Time"
+      download: "Download route as GeoJSON"
+      filename: "route"
     query:
       node: Node
       way: Way
@@ -3302,6 +3368,9 @@ en:
       show_address: Show address
       query_features: Query features
       centre_map: Centre map here
+    home:
+      marker_title: My home location
+      not_set: Home location is not set for your account
   redactions:
     edit:
       heading: "Edit Redaction"

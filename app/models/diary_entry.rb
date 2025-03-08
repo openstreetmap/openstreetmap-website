@@ -2,8 +2,8 @@
 #
 # Table name: diary_entries
 #
-#  id            :bigint(8)        not null, primary key
-#  user_id       :bigint(8)        not null
+#  id            :bigint           not null, primary key
+#  user_id       :bigint           not null
 #  title         :string           not null
 #  body          :text             not null
 #  created_at    :datetime         not null

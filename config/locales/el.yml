@@ -24,6 +24,7 @@
 # Author: Kongr43gpen
 # Author: Logictheo
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Michail Angelos Georgoulas
 # Author: Mixasgr
@@ -130,6 +131,7 @@ el:
         allow_write_prefs: τροποποίηση των προτιμήσεων χρήστη
         allow_write_diary: δημιουργία καταχωρήσεων ημερολογίου και σχολίων
         allow_write_api: τροποποίηση του χάρτη
+        allow_write_changeset_comments: σχολιάζει στα σύνολα αλλαγών
         allow_read_gpx: ανάγνωση των προσωπικών ιχνών GPS
         allow_write_gpx: μεταφόρτωση ιχνών GPS
         allow_write_notes: τροποποίηση σημειώσεων
@@ -285,12 +287,13 @@ el:
         comment: Σχόλιο
         full: Πλήρης σημείωση
   accounts:
-    edit:
+    show:
       title: Επεξεργασία λογαριασμού
-      my settings: Οι ρυθμίσεις μου
+      my_account: Ο λογαριασμός μου
       current email address: Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου
       external auth: Εξωτερική επαλήθευση ταυτότητας
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: τι είναι αυτό;
       contributor terms:
         heading: Όροι Συνεισφοράς
@@ -300,7 +303,11 @@ el:
           σας και την αποδοχή των νέων Όρων Συνεισφοράς.
         agreed_with_pd: Δηλώσατε επίσης ότι αποδέχεστε ότι οι τροποποιήσεις σας αποτελούν
           κοινό κτήμα.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: τι είναι αυτό;
+        not_agreed_with_pd: Δεν έχετε δηλώσει ότι θεωρείτε ότι οι τροποποιήσεις σας
+          ανήκουν στον Δημόσιο Τομέα.
+        pd_link_text: δηλώστε
       save changes button: Αποθήκευση αλλαγών
       delete_account: Διαγραφή λογαριασμού...
     go_public:
@@ -368,9 +375,6 @@ el:
           άλλης υποδομής που προσφέρει η OSMF. Παρακαλούμε ακολουθήστε τον σύνδεσμο,
           διαβάστε και αποδεχτείτε το κείμενο.
         read_tou: Έχω διαβάσει και αποδέχομαι τους όρους χρήσης
-        consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, καταστώ τις συνεισφορές
-          μου στο κοινό κτήμα (για ελεύθερη χρήση)
-        consider_pd_why: τι είναι αυτό;
         guidance_info_html: 'Πληροφορίες για να βοηθήσουν να κατανοήσετε αυτούς τους
           όρους: μια %{readable_summary_link} και μερικές %{informal_translations_link}'
         readable_summary: περίληψη αναγνώσιμη από τον άνθρωπο
@@ -390,6 +394,21 @@ el:
         terms_declined_html: Λυπούμαστε που αποφασίσατε να μην αποδεχτείτε τους νέους
           Όρους Συνεισφοράς. Για περισσότερες πληροφορίες, ανατρέξτε στο %{terms_declined_link}.
         terms_declined_link: αυτή η σελίδα wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Θεωρήστε τις συνεισφορές μου να είναι στον Δημόσιο Τομέα
+        consider_pd: Θεωρώ ότι οι συνεισφορές μου είναι στον Δημόσιο Τομέα
+        consider_pd_why: Γιατί θα ήθελα οι συνεισφορές μου να είναι στον Δημόσιο Τομέα;
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Επιβεβαίωση
+      create:
+        successfully_declared: Δηλώσατε επιτυχώς ότι θεωρείτε ότι οι τροποποιήσεις
+          σας ανήκουν στον Δημόσιο Τομέα.
+        already_declared: Έχετε ήδη δηλώσει ότι θεωρείτε ότι οι τροποποιήσεις σας
+          ανήκουν στον Δημόσιο Τομέα.
+        did_not_confirm: Δεν έχετε επιβεβαιώσει ότι θεωρείτε ότι οι τροποποιήσεις
+          σας ανήκουν στον Δημόσιο Τομέα.
   browse:
     deleted_ago_by_html: Διαγράφηκε %{time_ago} από %{user}
     edited_ago_by_html: Επεξεργάστηκε %{time_ago} από %{user}
@@ -459,6 +478,7 @@ el:
       feature_warning: Η φόρτωση %{num_features} χαρακτηριστικών ενδέχεται να καταστήσει
         τον περιηγητή σας αργό ή να μην αντιδρά. Σίγουρα θέλετε να εμφανίσετε αυτά
         τα δεδομένα;
+      feature_error: 'Δεν ήταν δυνατή η φόρτωση των χαρακτηριστικών: %{message}'
       load_data: Φόρτωση δεδομένων
       loading: Φόρτωση...
     tag_details:
@@ -472,7 +492,8 @@ el:
       telephone_link: Καλέστε στο %{phone_number}
       colour_preview: Προεπισκόπηση χρώματος %{colour_value}
       email_link: Αποστολή μέιλ στο %{email}
-    query:
+  feature_queries:
+    show:
       title: Πληροφορίες χαρακτηριστικών
       introduction: Κάντε κλικ στον χάρτη για να βρείτε κοντινά χαρακτηριστικά.
       nearby: Κοντινά χαρακτηριστικά
@@ -1040,6 +1061,7 @@ el:
           bridleway: Μονοπάτι για άλογα
           bus_guideway: Λωρίδα καθοδηγούμενου λεωφορείου
           bus_stop: Στάση λεωφορείου
+          busway: Λεωφορειόδρομος
           construction: Δρόμος υπό κατασκευή
           corridor: Διάδρομος
           crossing: Διάβαση
@@ -1608,9 +1630,11 @@ el:
       reports: Αναφορές
       last_updated: Τελευταία ενημέρωση
       last_updated_time_ago_user_html: '%{time_ago} από %{user}'
+      reporting_users: Αναφερόμενοι Χρήστες
       reports_count:
         one: '%{count} Αναφορά'
         other: '%{count} Αναφορές'
+      more_reporters: και %{count} ακόμη
       reported_item: Αναφερόμενο στοιχείο
       states:
         ignored: Παραβλέφθηκε
@@ -1646,7 +1670,8 @@ el:
       reopened: Η κατάσταση του ζητήματος έχει οριστεί σε 'Ανοιχτό'
     comments:
       comment_from_html: Σχόλιο από %{user_link} γραμμένο στις %{comment_created_at}
-      reassign_param: Επανανάθεση ζητήματος;
+      reassign_to_moderators: Ανάθεση ζητήματος σε Συντονιστές
+      reassign_to_administrators: Ανάθεση ζητήματος σε Διαχειριστές
     reports:
       reported_by_html: Αναφέρθηκε ως %{category} από %{user} στις %{updated_at}
     helper:
@@ -1718,10 +1743,6 @@ el:
     partners_corpmembers: εταιρικά μέλη του OSMF
     partners_partners: συνεργάτες
     tou: Όροι χρήσης
-    osm_offline: Η βάση δεδομένων του OpenStreetMap είναι προσωρινά εκτός λειτουργίας
-      λόγω εργασιών συντήρησης.
-    osm_read_only: Η βάση δεδομένων του OpenStreetMap έχει τεθεί προσωρινά σε λειτουργία
-      «μόνο για ανάγνωση» λόγω εργασιών συντήρησης.
     nothing_to_preview: Τίποτα για προεπισκόπηση.
     help: Βοήθεια
     about: Σχετικά
@@ -1729,6 +1750,13 @@ el:
     communities: Κοινότητες
     learn_more: Μάθετε περισσότερα
     more: Περισσότερα
+    offline_flash:
+      osm_offline: Η βάση δεδομένων του OpenStreetMap είναι προσωρινά εκτός λειτουργίας
+        λόγω απαραίτητων εργασιών συντήρησης.
+      osm_read_only: Η βάση δεδομένων του OpenStreetMap έχει τεθεί προσωρινά σε λειτουργία
+        «μόνο για ανάγνωση» λόγω απαραίτητων εργασιών συντήρησης.
+      expected_restore_html: Οι υπηρεσίες αναμένεται να αποκατασταθούν σε %{time}.
+      announcement: Μπορείτε να διαβάσετε την ανακοίνωση εδώ.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap Καταχώριση Ημερολογίου #%{id}'
@@ -2362,12 +2390,15 @@ el:
           του, υπό ελεύθερη άδεια
       remote_failed: Η επεξεργασία απέτυχε - βεβαιωθείτε ότι ο JOSM ή ο Merkaartor
         έχουν φορτωθεί και η επιλογή τηλεχειρισμού είναι ενεργή
-    edit:
+    not_public_flash:
       not_public: Δεν έχετε ορίσει τις επεξεργασίες σας να είναι δημόσιες.
       not_public_description_html: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν
         δεν το κάνετε. Μπορείτε να κάνετε τις επεξεργασίες σας δημόσιες από την %{user_page}.
       user_page_link: σελίδα χρήστη
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
+    edit:
       id_not_configured: Ο iD δεν έχει ρυθμιστεί
     export:
       title: Εξαγωγή
@@ -2486,6 +2517,10 @@ el:
       where_am_i_title: Περιέγραψε την τωρινή τοποθεσία με χρήση της μηχανής αναζήτησης
       submit_text: Μετάβαση
       reverse_directions_text: Αντίστροφες κατευθύνσεις
+      modes:
+        bicycle: Ποδήλατο
+        car: Αυτοκίνητο
+        foot: Πόδια
     key:
       table:
         entry:
@@ -2826,10 +2861,12 @@ el:
       write_prefs: Τροποποιεί τις προτιμήσεις χρήστη
       write_diary: Δημιουργεί καταχωρήσεις ημερολογίου και σχόλια
       write_api: Τροποποίηση του χάρτη
+      write_changeset_comments: Σχολιάζει στα σύνολα αλλαγών
       read_gpx: Ανάγνωση προσωπικών ιχνών GPS
       write_gpx: Μεταφόρτωση ιχνών GPS
       write_notes: Τροποποίηση σημειώσεων
       write_redactions: Αφαίρεση και απόκρυψη δεδομένων χάρτη
+      write_blocks: Δημιουργία και ανάκληση φραγών χρηστών
       read_email: Διαβάζει τη διεύθυνση email χρήστη
       consume_messages: Ανάγνωση, ενημέρωση της κατάστασης και διαγραφή των μηνυμάτων
         χρήστη
@@ -2925,8 +2962,6 @@ el:
           για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
         html: Η διεύθυνσή σας δεν εμφανίζεται δημόσια, ανατρέξτε στην %{privacy_policy_link}
           για περισσότερες πληροφορίες.
-      consider_pd_html: Θεωρώ τις συνεισφορές μου να είναι στο %{consider_pd_link}.
-      consider_pd: κοινό κτήμα
       or: ή
       use external auth: ή συνδεθείτε μέσω τρίτης υπηρεσίας
     no_such_user:
@@ -2943,7 +2978,7 @@ el:
       my notes: Οι σημειώσεις μου
       my messages: Τα μηνύματά μου
       my profile: Το προφίλ μου
-      my settings: Οι ρυθμίσεις μου
+      my_account: Ο λογαριασμός μου
       my comments: Τα σχόλιά μου
       my_preferences: Οι προτιμήσεις μου
       my_dashboard: Το ταμπλό μου
@@ -3024,13 +3059,22 @@ el:
       show:
         title: Χρήστες
         heading: Χρήστες
-        empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
+        select_status: Επιλογή κατάστασης
+        states:
+          pending: Σε εκκρεμότητα
+          active: Ενεργός
+          confirmed: Επιβεβαιωμένος
+          suspended: Σε αναστολή
+          deleted: Διαγραμμένος
+        ip_address: Διεύθυνση IP
+        search: Αναζήτηση
       page:
         found_users:
           one: '%{count} χρήστης βρέθηκε'
           other: '%{count} χρήστες βρέθηκαν'
         confirm: Επιβεβαίωση επιλεγμένων χρηστών
         hide: Απόκρυψη επιλεγμένων χρηστών
+        empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
       user:
         summary_html: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις
           %{date}'
@@ -3232,6 +3276,7 @@ el:
       open_title: 'Ανοικτή σημείωση #%{note_name}'
       closed_title: 'Επιλυμένη σημείωση #%{note_name}'
       hidden_title: 'Κρυφή σημείωση #%{note_name}'
+      description_when_author_is_deleted: διαγράφηκε
       event_opened_by_html: Δημιουργήθηκε από %{user} %{time_ago}
       event_opened_by_anonymous_html: Δημιουργήθηκε από ανώνυμο %{time_ago}
       event_commented_by_html: Σχολιάστηκε από %{user} %{time_ago}
@@ -3377,16 +3422,6 @@ el:
       να επεξεργαστείτε, στη συνέχεια, κάντε κλικ εδώ.
     directions:
       ascend: Ανάβαση
-      engines:
-        fossgis_osrm_bike: Ποδήλατο (OSRM)
-        fossgis_osrm_car: Αυτοκίνητο (OSRM)
-        fossgis_osrm_foot: Πόδια (OSRM)
-        graphhopper_bicycle: Ποδήλατο (GraphHopper)
-        graphhopper_car: Αυτοκίνητο (GraphHopper)
-        graphhopper_foot: Πόδια (GraphHopper)
-        fossgis_valhalla_bicycle: Ποδήλατο (Valhalla)
-        fossgis_valhalla_car: Αυτοκίνητο (Valhalla)
-        fossgis_valhalla_foot: Πόδια (Valhalla)
       descend: Κατάβαση
       directions: Οδηγίες
       distance: Απόσταση
@@ -3486,6 +3521,9 @@ el:
       show_address: Εμφάνιση διεύθυνσης
       query_features: Πληροφορίες χαρακτηριστικών
       centre_map: Κεντράρισμα χάρτη εδώ
+    home:
+      marker_title: Τοποθεσία του σπιτιού μου
+      not_set: Η τοποθεσία του σπιτιού δεν έχει οριστεί για τον λογαριασμό σας
   redactions:
     edit:
       heading: Επεξεργασία παράληψης

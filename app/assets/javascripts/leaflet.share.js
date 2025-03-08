@@ -1,16 +1,16 @@
 L.OSM.share = function (options) {
-  var control = L.OSM.sidebarPane(options, "share", "javascripts.share.title", "javascripts.share.title"),
-      marker = L.marker([0, 0], { draggable: true }),
-      locationFilter = new L.LocationFilter({
-        enableButton: false,
-        adjustButton: false
-      });
+  const control = L.OSM.sidebarPane(options, "share", "javascripts.share.title", "javascripts.share.title"),
+        marker = L.marker([0, 0], { draggable: true }),
+        locationFilter = new L.LocationFilter({
+          enableButton: false,
+          adjustButton: false
+        });
 
   control.onAddPane = function (map, button, $ui) {
     // Link / Embed
     $("#content").addClass("overlay-right-sidebar");
 
-    var $linkSection = $("<div>")
+    const $linkSection = $("<div>")
       .attr("class", "share-link p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
@@ -18,7 +18,7 @@ L.OSM.share = function (options) {
       .text(I18n.t("javascripts.share.link"))
       .appendTo($linkSection);
 
-    var $form = $("<form>")
+    let $form = $("<form>")
       .appendTo($linkSection);
 
     $("<div>")
@@ -54,7 +54,7 @@ L.OSM.share = function (options) {
       .on("click", "a", function (e) {
         e.preventDefault();
         if (!$(this).hasClass("btn-primary")) return;
-        var id = "#" + $(this).attr("for");
+        const id = "#" + $(this).attr("for");
         $(this).siblings("a")
           .removeClass("active");
         $(this).addClass("active");
@@ -104,7 +104,7 @@ L.OSM.share = function (options) {
 
     // Geo URI
 
-    var $geoUriSection = $("<div>")
+    const $geoUriSection = $("<div>")
       .attr("class", "share-geo-uri p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
@@ -119,7 +119,7 @@ L.OSM.share = function (options) {
 
     // Image
 
-    var $imageSection = $("<div>")
+    const $imageSection = $("<div>")
       .attr("class", "share-image p-3")
       .appendTo($ui);
 
@@ -159,6 +159,7 @@ L.OSM.share = function (options) {
           .attr("class", "form-select w-auto")
           .append($("<option>").val("png").text("PNG").prop("selected", true))
           .append($("<option>").val("jpeg").text("JPEG"))
+          .append($("<option>").val("webp").text("WEBP"))
           .append($("<option>").val("svg").text("SVG"))
           .append($("<option>").val("pdf").text("PDF"))));
 
@@ -227,16 +228,14 @@ L.OSM.share = function (options) {
         .appendTo($form);
     }
 
-    var csrf_param = $("meta[name=csrf-param]").attr("content"),
-        csrf_token = $("meta[name=csrf-token]").attr("content");
+    const csrfAttrs = { type: "hidden" };
+    [[csrfAttrs.name, csrfAttrs.value]] = Object.entries(OSM.csrf);
 
     $("<input>")
-      .attr("name", csrf_param)
-      .attr("value", csrf_token)
-      .attr("type", "hidden")
+      .attr(csrfAttrs)
       .appendTo($form);
 
-    var args = {
+    const args = {
       layer: "<span id=\"mapnik_image_layer\"></span>",
       width: "<span id=\"mapnik_image_width\"></span>",
       height: "<span id=\"mapnik_image_height\"></span>"
@@ -319,7 +318,7 @@ L.OSM.share = function (options) {
     }
 
     function escapeHTML(string) {
-      var htmlEscapes = {
+      const htmlEscapes = {
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
@@ -333,8 +332,8 @@ L.OSM.share = function (options) {
 
     function update() {
       const layer = map.getMapBaseLayer();
-      var canEmbed = Boolean(layer && layer.options.canEmbed);
-      var bounds = map.getBounds();
+      const canEmbed = Boolean(layer && layer.options.canEmbed);
+      let bounds = map.getBounds();
 
       $("#link_marker")
         .prop("checked", map.hasLayer(marker));
@@ -349,14 +348,14 @@ L.OSM.share = function (options) {
       $("#short_link").attr("href", map.getShortUrl(marker));
       $("#long_link").attr("href", map.getUrl(marker));
 
-      var params = {
+      const params = new URLSearchParams({
         bbox: bounds.toBBoxString(),
         layer: map.getMapBaseLayerId()
-      };
+      });
 
       if (map.hasLayer(marker)) {
-        var latLng = marker.getLatLng().wrap();
-        params.marker = latLng.lat + "," + latLng.lng;
+        const latLng = marker.getLatLng().wrap();
+        params.set("marker", latLng.lat + "," + latLng.lng);
       }
 
       $("#embed_link")
@@ -369,7 +368,7 @@ L.OSM.share = function (options) {
 
       $("#embed_html").val(
         "<iframe width=\"425\" height=\"350\" src=\"" +
-          escapeHTML(OSM.SERVER_PROTOCOL + "://" + OSM.SERVER_URL + "/export/embed.html?" + $.param(params)) +
+          escapeHTML(OSM.SERVER_PROTOCOL + "://" + OSM.SERVER_URL + "/export/embed.html?" + params) +
           "\" style=\"border: 1px solid black\"></iframe><br/>" +
           "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
           escapeHTML(I18n.t("javascripts.share.view_larger_map")) + "</a></small>");
@@ -386,10 +385,10 @@ L.OSM.share = function (options) {
         bounds = locationFilter.getBounds();
       }
 
-      var scale = $("#mapnik_scale").val(),
-          size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
-                          L.CRS.EPSG3857.project(bounds.getNorthEast())).getSize(),
-          maxScale = Math.floor(Math.sqrt(size.x * size.y / 0.3136));
+      let scale = $("#mapnik_scale").val();
+      const size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
+                            L.CRS.EPSG3857.project(bounds.getNorthEast())).getSize(),
+            maxScale = Math.floor(Math.sqrt(size.x * size.y / 0.3136));
 
       $("#mapnik_minlon").val(bounds.getWest());
       $("#mapnik_minlat").val(bounds.getSouth());
@@ -427,17 +426,17 @@ L.OSM.share = function (options) {
     }
 
     function getScale() {
-      var bounds = map.getBounds(),
-          centerLat = bounds.getCenter().lat,
-          halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
-          meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
-          pixelsPerMeter = map.getSize().x / meters,
-          metersPerPixel = 1 / (92 * 39.3701);
+      const bounds = map.getBounds(),
+            centerLat = bounds.getCenter().lat,
+            halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
+            meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
+            pixelsPerMeter = map.getSize().x / meters,
+            metersPerPixel = 1 / (92 * 39.3701);
       return Math.round(1 / (pixelsPerMeter * metersPerPixel));
     }
 
     function roundScale(scale) {
-      var precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
+      const precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
       return precision * Math.ceil(scale / precision);
     }
   };

@@ -1,9 +1,9 @@
 if (OSM.MATOMO) {
-  $(document).ready(function () {
-    var base = document.location.protocol + "//" + OSM.MATOMO.location + "/";
-    var matomoTracker;
+  $(function () {
+    const base = location.protocol + "//" + OSM.MATOMO.location + "/";
+    let matomoTracker;
 
-    var matomoLoader = $.ajax({
+    const matomoLoader = $.ajax({
       url: base + "matomo.js",
       dataType: "script",
       cache: true,

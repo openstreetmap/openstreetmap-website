@@ -4,6 +4,7 @@
   <% data = { :configured => Settings.key?(:id_application) }
      data[:lat] = @lat if @lat
      data[:lon] = @lon if @lon
+     data[:zoom] = @zoom if @zoom
      data[:gpx] = trace_data_url(params[:gpx], :format => :xml) if params[:gpx]
      data[:url] = id_url(:locale => params[:locale]) %>
   <%= tag.iframe "", :frameBorder => 0, :id => "id-embed", :class => "w-100 h-100", :allowfullscreen => "", :data => data %>

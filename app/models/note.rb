@@ -2,23 +2,25 @@
 #
 # Table name: notes
 #
-#  id          :bigint(8)        not null, primary key
+#  id          :bigint           not null, primary key
 #  latitude    :integer          not null
 #  longitude   :integer          not null
-#  tile        :bigint(8)        not null
+#  tile        :bigint           not null
 #  updated_at  :datetime         not null
 #  created_at  :datetime         not null
 #  status      :enum             not null
 #  closed_at   :datetime
 #  description :text             default(""), not null
-#  user_id     :bigint(8)
+#  user_id     :bigint
 #  user_ip     :inet
 #
 # Indexes
 #
-#  notes_created_at_idx   (created_at)
-#  notes_tile_status_idx  (tile,status)
-#  notes_updated_at_idx   (updated_at)
+#  index_notes_on_description             (to_tsvector('english'::regconfig, description)) USING gin
+#  index_notes_on_user_id_and_created_at  (user_id,created_at) WHERE (user_id IS NOT NULL)
+#  notes_created_at_idx                   (created_at)
+#  notes_tile_status_idx                  (tile,status)
+#  notes_updated_at_idx                   (updated_at)
 #
 # Foreign Keys
 #
@@ -91,22 +93,9 @@ class Note < ApplicationRecord
     closed_at + DEFAULT_FRESHLY_CLOSED_LIMIT
   end
 
-  # Return the note's description, derived from the first comment
+  # Return the note's description
   def description
-    if user_ip.nil? && user_id.nil?
-      comments.first.body
-    else
-      RichText.new("text", super)
-    end
-  end
-
-  # Return the note's author object, derived from the first comment
-  def author
-    if user_ip.nil? && user_id.nil?
-      comments.first.author
-    else
-      super
-    end
+    RichText.new("text", super)
   end
 
   private

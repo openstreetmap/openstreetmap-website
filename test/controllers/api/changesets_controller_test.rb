@@ -6,16 +6,16 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
-        { :path => "/api/0.6/changeset/create", :method => :put },
+        { :path => "/api/0.6/changesets", :method => :get },
+        { :controller => "api/changesets", :action => "index" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changesets.json", :method => :get },
+        { :controller => "api/changesets", :action => "index", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changesets", :method => :post },
         { :controller => "api/changesets", :action => "create" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/upload", :method => :post },
-        { :controller => "api/changesets", :action => "upload", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/download", :method => :get },
-        { :controller => "api/changesets", :action => "download", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1", :method => :get },
@@ -24,6 +24,14 @@ module Api
       assert_routing(
         { :path => "/api/0.6/changeset/1.json", :method => :get },
         { :controller => "api/changesets", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/1", :method => :put },
+        { :controller => "api/changesets", :action => "update", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/1/upload", :method => :post },
+        { :controller => "api/changesets", :action => "upload", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
@@ -42,21 +50,257 @@ module Api
         { :controller => "api/changesets", :action => "unsubscribe", :id => "1", :format => "json" }
       )
       assert_routing(
-        { :path => "/api/0.6/changeset/1", :method => :put },
-        { :controller => "api/changesets", :action => "update", :id => "1" }
-      )
-      assert_routing(
         { :path => "/api/0.6/changeset/1/close", :method => :put },
         { :controller => "api/changesets", :action => "close", :id => "1" }
       )
-      assert_routing(
-        { :path => "/api/0.6/changesets", :method => :get },
-        { :controller => "api/changesets", :action => "index" }
+
+      assert_recognizes(
+        { :controller => "api/changesets", :action => "create" },
+        { :path => "/api/0.6/changeset/create", :method => :put }
       )
-      assert_routing(
-        { :path => "/api/0.6/changesets.json", :method => :get },
-        { :controller => "api/changesets", :action => "index", :format => "json" }
-      )
+    end
+
+    ##
+    # test the query functionality of changesets
+    def test_index
+      private_user = create(:user, :data_public => false)
+      private_user_changeset = create(:changeset, :user => private_user)
+      private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      closed_changeset = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+      changeset2 = create(:changeset, :min_lat => (5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round, :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (15 * GeoRecord::SCALE).round)
+      changeset3 = create(:changeset, :min_lat => (4.5 * GeoRecord::SCALE).round, :min_lon => (4.5 * GeoRecord::SCALE).round, :max_lat => (5 * GeoRecord::SCALE).round, :max_lon => (5 * GeoRecord::SCALE).round)
+
+      get api_changesets_path(:bbox => "-10,-10, 10, 10")
+      assert_response :success, "can't get changesets in bbox"
+      assert_changesets_in_order [changeset3, changeset2]
+
+      get api_changesets_path(:bbox => "4.5,4.5,4.6,4.6")
+      assert_response :success, "can't get changesets in bbox"
+      assert_changesets_in_order [changeset3]
+
+      # not found when looking for changesets of non-existing users
+      get api_changesets_path(:user => User.maximum(:id) + 1)
+      assert_response :not_found
+      assert_equal "text/plain", @response.media_type
+      get api_changesets_path(:display_name => " ")
+      assert_response :not_found
+      assert_equal "text/plain", @response.media_type
+
+      # can't get changesets of user 1 without authenticating
+      get api_changesets_path(:user => private_user.id)
+      assert_response :not_found, "shouldn't be able to get changesets by non-public user (ID)"
+      get api_changesets_path(:display_name => private_user.display_name)
+      assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
+
+      # but this should work
+      auth_header = bearer_authorization_header private_user
+      get api_changesets_path(:user => private_user.id), :headers => auth_header
+      assert_response :success, "can't get changesets by user ID"
+      assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
+
+      get api_changesets_path(:display_name => private_user.display_name), :headers => auth_header
+      assert_response :success, "can't get changesets by user name"
+      assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
+
+      # test json endpoint
+      get api_changesets_path(:display_name => private_user.display_name), :headers => auth_header, :params => { :format => "json" }
+      assert_response :success, "can't get changesets by user name"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_equal 2, js["changesets"].count
+
+      # check that the correct error is given when we provide both UID and name
+      get api_changesets_path(:user => private_user.id,
+                              :display_name => private_user.display_name), :headers => auth_header
+      assert_response :bad_request, "should be a bad request to have both ID and name specified"
+
+      get api_changesets_path(:user => private_user.id, :open => true), :headers => auth_header
+      assert_response :success, "can't get changesets by user and open"
+      assert_changesets_in_order [private_user_changeset]
+
+      get api_changesets_path(:time => "2007-12-31"), :headers => auth_header
+      assert_response :success, "can't get changesets by time-since"
+      assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset, private_user_closed_changeset, closed_changeset]
+
+      get api_changesets_path(:time => "2008-01-01T12:34Z"), :headers => auth_header
+      assert_response :success, "can't get changesets by time-since with hour"
+      assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset, private_user_closed_changeset, closed_changeset]
+
+      get api_changesets_path(:time => "2007-12-31T23:59Z,2008-01-02T00:01Z"), :headers => auth_header
+      assert_response :success, "can't get changesets by time-range"
+      assert_changesets_in_order [closed_changeset]
+
+      get api_changesets_path(:open => "true"), :headers => auth_header
+      assert_response :success, "can't get changesets by open-ness"
+      assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset]
+
+      get api_changesets_path(:closed => "true"), :headers => auth_header
+      assert_response :success, "can't get changesets by closed-ness"
+      assert_changesets_in_order [private_user_closed_changeset, closed_changeset]
+
+      get api_changesets_path(:closed => "true", :user => private_user.id), :headers => auth_header
+      assert_response :success, "can't get changesets by closed-ness and user"
+      assert_changesets_in_order [private_user_closed_changeset]
+
+      get api_changesets_path(:closed => "true", :user => user.id), :headers => auth_header
+      assert_response :success, "can't get changesets by closed-ness and user"
+      assert_changesets_in_order [closed_changeset]
+
+      get api_changesets_path(:changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"), :headers => auth_header
+      assert_response :success, "can't get changesets by id (as comma-separated string)"
+      assert_changesets_in_order [changeset, private_user_changeset, closed_changeset]
+
+      get api_changesets_path(:changesets => ""), :headers => auth_header
+      assert_response :bad_request, "should be a bad request since changesets is empty"
+    end
+
+    ##
+    # test the query functionality of changesets with the limit parameter
+    def test_index_limit
+      user = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 2, 1, 0, 0, 0), :closed_at => Time.utc(2008, 2, 2, 0, 0, 0))
+      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
+      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
+      changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
+
+      get api_changesets_path
+      assert_response :success
+      assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
+
+      get api_changesets_path(:limit => "3")
+      assert_response :success
+      assert_changesets_in_order [changeset5, changeset4, changeset3]
+
+      get api_changesets_path(:limit => "0")
+      assert_response :bad_request
+
+      get api_changesets_path(:limit => Settings.max_changeset_query_limit)
+      assert_response :success
+      assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
+
+      get api_changesets_path(:limit => Settings.max_changeset_query_limit + 1)
+      assert_response :bad_request
+    end
+
+    ##
+    # test the query functionality of sequential changesets with order and time parameters
+    def test_index_order
+      user = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 2, 1, 0, 0, 0), :closed_at => Time.utc(2008, 2, 2, 0, 0, 0))
+      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
+      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
+      changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
+      changeset6 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 6, 1, 0, 0, 0), :closed_at => Time.utc(2008, 6, 2, 0, 0, 0))
+
+      get api_changesets_path
+      assert_response :success
+      assert_changesets_in_order [changeset6, changeset5, changeset4, changeset3, changeset2, changeset1]
+
+      get api_changesets_path(:order => "oldest")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5, changeset6]
+
+      [
+        # lower time bound at the opening time of a changeset
+        ["2008-02-01T00:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3, changeset2]],
+        # lower time bound in the middle of a changeset
+        ["2008-02-01T12:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3]],
+        # lower time bound at the closing time of a changeset
+        ["2008-02-02T00:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3]],
+        # lower time bound after the closing time of a changeset
+        ["2008-02-02T00:00:01Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3], [changeset5, changeset4, changeset3]],
+        # upper time bound in the middle of a changeset
+        ["2007-09-09T12:00:00Z", "2008-04-01T12:00:00Z", [changeset4, changeset3, changeset2, changeset1], [changeset4, changeset3, changeset2, changeset1]],
+        # empty range
+        ["2009-02-02T00:00:01Z", "2018-05-15T00:00:00Z", [], []]
+      ].each do |from, to, interval_changesets, point_changesets|
+        get api_changesets_path(:time => "#{from},#{to}")
+        assert_response :success
+        assert_changesets_in_order interval_changesets
+
+        get api_changesets_path(:from => from, :to => to)
+        assert_response :success
+        assert_changesets_in_order point_changesets
+
+        get api_changesets_path(:from => from, :to => to, :order => "oldest")
+        assert_response :success
+        assert_changesets_in_order point_changesets.reverse
+      end
+    end
+
+    ##
+    # test the query functionality of overlapping changesets with order and time parameters
+    def test_index_order_overlapping
+      user = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 17, 0, 0), :closed_at => Time.utc(2015, 6, 4, 17, 0, 0))
+      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 16, 0, 0), :closed_at => Time.utc(2015, 6, 4, 18, 0, 0))
+      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 14, 0, 0), :closed_at => Time.utc(2015, 6, 4, 20, 0, 0))
+      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 3, 23, 0, 0), :closed_at => Time.utc(2015, 6, 4, 23, 0, 0))
+      create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 2, 23, 0, 0), :closed_at => Time.utc(2015, 6, 3, 23, 0, 0))
+
+      get api_changesets_path(:time => "2015-06-04T00:00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
+
+      get api_changesets_path(:from => "2015-06-04T00:00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3]
+
+      get api_changesets_path(:from => "2015-06-04T00:00:00Z", :order => "oldest")
+      assert_response :success
+      assert_changesets_in_order [changeset3, changeset2, changeset1]
+
+      get api_changesets_path(:time => "2015-06-04T16:00:00Z,2015-06-04T17:30:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
+
+      get api_changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2]
+
+      get api_changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z", :order => "oldest")
+      assert_response :success
+      assert_changesets_in_order [changeset2, changeset1]
+    end
+
+    ##
+    # check that errors are returned if garbage is inserted
+    # into query strings
+    def test_index_invalid
+      ["abracadabra!",
+       "1,2,3,F",
+       ";drop table users;"].each do |bbox|
+        get api_changesets_path(:bbox => bbox)
+        assert_response :bad_request, "'#{bbox}' isn't a bbox"
+      end
+
+      ["now()",
+       "00-00-00",
+       ";drop table users;",
+       ",",
+       "-,-"].each do |time|
+        get api_changesets_path(:time => time)
+        assert_response :bad_request, "'#{time}' isn't a valid time range"
+      end
+
+      ["me",
+       "foobar",
+       "-1",
+       "0"].each do |uid|
+        get api_changesets_path(:user => uid)
+        assert_response :bad_request, "'#{uid}' isn't a valid user ID"
+      end
+
+      get api_changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
+      assert_response :bad_request, "cannot use order=oldest with time"
     end
 
     # -----------------------
@@ -69,7 +313,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
       auth_header = bearer_authorization_header
@@ -77,7 +321,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
 
       assert_response :success, "Creation of changeset did not return success status"
       newid = @response.body.to_i
@@ -101,47 +345,55 @@ module Api
     def test_create_invalid
       auth_header = bearer_authorization_header create(:user, :data_public => false)
       xml = "<osm><changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
       ## Try the public user
       auth_header = bearer_authorization_header
       xml = "<osm><changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "creating a invalid changeset should fail"
     end
 
     def test_create_invalid_no_content
       ## First check with no auth
-      put changeset_create_path
+      post api_changesets_path
       assert_response :unauthorized, "shouldn't be able to create a changeset with no auth"
 
       ## Now try to with a non-public user
       auth_header = bearer_authorization_header create(:user, :data_public => false)
-      put changeset_create_path, :headers => auth_header
+      post api_changesets_path, :headers => auth_header
       assert_require_public_data
 
       ## Try an inactive user
       auth_header = bearer_authorization_header create(:user, :pending)
-      put changeset_create_path, :headers => auth_header
+      post api_changesets_path, :headers => auth_header
       assert_inactive_user
 
       ## Now try to use a normal user
       auth_header = bearer_authorization_header
-      put changeset_create_path, :headers => auth_header
+      post api_changesets_path, :headers => auth_header
       assert_response :bad_request, "creating a changeset with no content should fail"
     end
 
     def test_create_wrong_method
       auth_header = bearer_authorization_header
 
-      get changeset_create_path, :headers => auth_header
+      put api_changesets_path, :headers => auth_header
       assert_response :not_found
       assert_template "rescues/routing_error"
+    end
 
-      post changeset_create_path, :headers => auth_header
-      assert_response :not_found
-      assert_template "rescues/routing_error"
+    def test_create_legacy_path
+      auth_header = bearer_authorization_header
+      xml = "<osm><changeset></changeset></osm>"
+
+      assert_difference "Changeset.count", 1 do
+        put "/api/0.6/changeset/create", :params => xml, :headers => auth_header
+      end
+
+      assert_response :success, "Creation of changeset did not return success status"
+      assert_equal Changeset.last.id, @response.body.to_i
     end
 
     ##
@@ -150,7 +402,7 @@ module Api
     def test_show
       changeset = create(:changeset)
 
-      get changeset_show_path(changeset)
+      get api_changeset_path(changeset)
       assert_response :success, "cannot get first changeset"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -158,7 +410,7 @@ module Api
         assert_dom "> discussion", 0
       end
 
-      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      get api_changeset_path(changeset, :include_discussion => true)
       assert_response :success, "cannot get first changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -173,7 +425,7 @@ module Api
       changeset = create(:changeset, :closed)
       comment1, comment2, comment3 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      get api_changeset_path(changeset, :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
@@ -193,8 +445,9 @@ module Api
 
       # one hidden comment not included because not asked for
       comment2.update(:visible => false)
+      changeset.reload
 
-      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      get api_changeset_path(changeset, :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -210,7 +463,7 @@ module Api
       end
 
       # one hidden comment not included because no permissions
-      get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true }
+      get api_changeset_path(changeset, :include_discussion => true, :show_hidden_comments => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -229,8 +482,7 @@ module Api
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
       auth_header = bearer_authorization_header moderator_user
-      get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true },
-                                          :headers => auth_header
+      get api_changeset_path(changeset, :include_discussion => true, :show_hidden_comments => true), :headers => auth_header
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
@@ -248,10 +500,26 @@ module Api
       end
     end
 
+    def test_show_tags
+      changeset = create(:changeset, :closed)
+      create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
+      create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
+
+      get api_changeset_path(changeset)
+
+      assert_response :success
+      assert_dom "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
+      assert_single_changeset changeset do
+        assert_dom "> tag", 2
+        assert_dom "> tag[k='created_by'][v='JOSM/1.5 (18364)']", 1
+        assert_dom "> tag[k='comment'][v='changeset comment']", 1
+      end
+    end
+
     def test_show_json
       changeset = create(:changeset)
 
-      get changeset_show_path(changeset), :params => { :format => "json" }
+      get api_changeset_path(changeset, :format => "json")
       assert_response :success, "cannot get first changeset"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -265,7 +533,7 @@ module Api
       assert_equal changeset.user.id, js["changeset"]["uid"]
       assert_equal changeset.user.display_name, js["changeset"]["user"]
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true)
       assert_response :success, "cannot get first changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -286,7 +554,7 @@ module Api
       changeset = create(:changeset, :closed)
       comment0, comment1, comment2 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -304,8 +572,9 @@ module Api
 
       # one hidden comment not included because not asked for
       comment1.update(:visible => false)
+      changeset.reload
 
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -320,7 +589,7 @@ module Api
       assert js["changeset"]["comments"][1]["visible"]
 
       # one hidden comment not included because no permissions
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true }
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true, :show_hidden_comments => true)
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -338,8 +607,7 @@ module Api
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
       auth_header = bearer_authorization_header moderator_user
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true },
-                                          :headers => auth_header
+      get api_changeset_path(changeset, :format => "json", :include_discussion => true, :show_hidden_comments => true), :headers => auth_header
       assert_response :success, "cannot get closed changeset with comments"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -356,39 +624,22 @@ module Api
       assert js["changeset"]["comments"][2]["visible"]
     end
 
-    def test_show_tag_and_discussion_json
+    def test_show_tags_json
       changeset = create(:changeset, :closed)
+      create(:changeset_tag, :changeset => changeset, :k => "created_by", :v => "JOSM/1.5 (18364)")
+      create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset comment")
 
-      tag1 = ChangesetTag.new
-      tag1.changeset_id = changeset.id
-      tag1.k = "created_by"
-      tag1.v = "JOSM/1.5 (18364)"
+      get api_changeset_path(changeset, :format => "json")
 
-      tag2 = ChangesetTag.new
-      tag2.changeset_id = changeset.id
-      tag2.k = "comment"
-      tag2.v = "changeset comment"
-
-      changeset.changeset_tags = [tag1, tag2]
-
-      create_list(:changeset_comment, 3, :changeset_id => changeset.id)
-
-      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
-      assert_response :success, "cannot get closed changeset with comments"
-
+      assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
-
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
       assert_single_changeset_json changeset, js
       assert_equal 2, js["changeset"]["tags"].count
-      assert_equal 3, js["changeset"]["comments"].count
-      assert_equal 3, js["changeset"]["comments_count"]
-      assert_equal 0, js["changeset"]["changes_count"]
-      assert_not_nil js["changeset"]["comments"][0]["uid"]
-      assert_not_nil js["changeset"]["comments"][0]["user"]
-      assert_not_nil js["changeset"]["comments"][0]["text"]
+      assert_equal "JOSM/1.5 (18364)", js["changeset"]["tags"]["created_by"]
+      assert_equal "changeset comment", js["changeset"]["tags"]["comment"]
     end
 
     def test_show_bbox_json
@@ -396,7 +647,7 @@ module Api
       changeset = create(:changeset, :min_lat => (-5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round,
                                      :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (12 * GeoRecord::SCALE).round)
 
-      get changeset_show_path(changeset), :params => { :format => "json" }
+      get api_changeset_path(changeset, :format => "json")
       assert_response :success, "cannot get first changeset"
 
       js = ActiveSupport::JSON.decode(@response.body)
@@ -411,7 +662,7 @@ module Api
     # check that a changeset that doesn't exist returns an appropriate message
     def test_show_not_found
       [0, -32, 233455644, "afg", "213"].each do |id|
-        get changeset_show_path(id)
+        get api_changeset_path(id)
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -758,7 +1009,7 @@ module Api
               "<tag k='created_by' v='osm test suite checking changesets'/>" \
               "</changeset></osm>"
         assert_difference "Changeset.count", 1 do
-          put changeset_create_path, :params => xml, :headers => auth_header
+          post api_changesets_path, :params => xml, :headers => auth_header
         end
         assert_response :success
       end
@@ -772,7 +1023,7 @@ module Api
       create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
 
       # create a changeset
-      put changeset_create_path, :params => "<osm><changeset/></osm>", :headers => auth_header
+      post api_changesets_path, :params => "<osm><changeset/></osm>", :headers => auth_header
       assert_response :success, "Should be able to create a changeset: #{@response.body}"
       changeset_id = @response.body.to_i
 
@@ -1454,7 +1705,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1491,7 +1742,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1894,7 +2145,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with a normal user
@@ -1904,7 +2155,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1929,7 +2180,7 @@ module Api
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get changeset_download_path(changeset_id)
+      get api_changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -1949,7 +2200,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1987,7 +2238,7 @@ module Api
       assert_response :success,
                       "can't upload a diff from JOSM: #{@response.body}"
 
-      get changeset_download_path(changeset_id)
+      get api_changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2010,7 +2261,7 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -2042,7 +2293,7 @@ module Api
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get changeset_download_path(changeset_id)
+      get api_changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2053,63 +2304,6 @@ module Api
       assert_select "osmChange>delete>node", 1
       assert_select "osmChange>modify>node", 1
       assert_select "osmChange>modify>way", 1
-    end
-
-    def test_changeset_download
-      changeset = create(:changeset)
-      node = create(:node, :with_history, :version => 1, :changeset => changeset)
-      tag = create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1))
-      node2 = create(:node, :with_history, :version => 1, :changeset => changeset)
-      _node3 = create(:node, :with_history, :deleted, :version => 1, :changeset => changeset)
-      _relation = create(:relation, :with_history, :version => 1, :changeset => changeset)
-      _relation2 = create(:relation, :with_history, :deleted, :version => 1, :changeset => changeset)
-
-      get changeset_download_path(changeset)
-
-      assert_response :success
-
-      # FIXME: needs more assert_select tests
-      assert_select "osmChange[version='#{Settings.api_version}'][generator='#{Settings.generator}']" do
-        assert_select "create", :count => 5
-        assert_select "create>node[id='#{node.id}'][visible='#{node.visible?}'][version='#{node.version}']" do
-          assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
-        end
-        assert_select "create>node[id='#{node2.id}']"
-      end
-    end
-
-    test "sorts downloaded elements by timestamp" do
-      changeset = create(:changeset)
-      node1 = create(:old_node, :version => 2, :timestamp => "2020-02-01", :changeset => changeset)
-      node0 = create(:old_node, :version => 2, :timestamp => "2020-01-01", :changeset => changeset)
-
-      get changeset_download_path(changeset)
-      assert_response :success
-      assert_dom "modify", :count => 2 do |modify|
-        assert_dom modify[0], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node0.node_id.to_s
-        end
-        assert_dom modify[1], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node1.node_id.to_s
-        end
-      end
-    end
-
-    test "sorts downloaded elements by version" do
-      changeset = create(:changeset)
-      node1 = create(:old_node, :version => 3, :timestamp => "2020-01-01", :changeset => changeset)
-      node0 = create(:old_node, :version => 2, :timestamp => "2020-01-01", :changeset => changeset)
-
-      get changeset_download_path(changeset)
-      assert_response :success
-      assert_dom "modify", :count => 2 do |modify|
-        assert_dom modify[0], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node0.node_id.to_s
-        end
-        assert_dom modify[1], ">node", :count => 1 do |node|
-          assert_dom node, ">@id", node1.node_id.to_s
-        end
-      end
     end
 
     ##
@@ -2123,7 +2317,7 @@ module Api
 
       # create a new changeset
       xml = "<osm><changeset/></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success, "Creating of changeset failed."
       changeset_id = @response.body.to_i
 
@@ -2135,7 +2329,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(changeset_id)
+      get api_changeset_path(changeset_id)
       assert_response :success, "Couldn't read back changeset."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.1000000']", 1
@@ -2150,7 +2344,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(changeset_id)
+      get api_changeset_path(changeset_id)
       assert_response :success, "Couldn't read back changeset for the second time."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.2000000']", 1
@@ -2165,255 +2359,12 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(changeset_id)
+      get api_changeset_path(changeset_id)
       assert_response :success, "Couldn't read back changeset for the third time."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.3000000']", 1
       assert_select "osm>changeset[min_lat='0.1000000']", 1
       assert_select "osm>changeset[max_lat='0.3000000']", 1
-    end
-
-    ##
-    # test the query functionality of changesets
-    def test_query
-      private_user = create(:user, :data_public => false)
-      private_user_changeset = create(:changeset, :user => private_user)
-      private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      closed_changeset = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
-      changeset2 = create(:changeset, :min_lat => (5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round, :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (15 * GeoRecord::SCALE).round)
-      changeset3 = create(:changeset, :min_lat => (4.5 * GeoRecord::SCALE).round, :min_lon => (4.5 * GeoRecord::SCALE).round, :max_lat => (5 * GeoRecord::SCALE).round, :max_lon => (5 * GeoRecord::SCALE).round)
-
-      get changesets_path(:bbox => "-10,-10, 10, 10")
-      assert_response :success, "can't get changesets in bbox"
-      assert_changesets_in_order [changeset3, changeset2]
-
-      get changesets_path(:bbox => "4.5,4.5,4.6,4.6")
-      assert_response :success, "can't get changesets in bbox"
-      assert_changesets_in_order [changeset3]
-
-      # not found when looking for changesets of non-existing users
-      get changesets_path(:user => User.maximum(:id) + 1)
-      assert_response :not_found
-      assert_equal "text/plain", @response.media_type
-      get changesets_path(:display_name => " ")
-      assert_response :not_found
-      assert_equal "text/plain", @response.media_type
-
-      # can't get changesets of user 1 without authenticating
-      get changesets_path(:user => private_user.id)
-      assert_response :not_found, "shouldn't be able to get changesets by non-public user (ID)"
-      get changesets_path(:display_name => private_user.display_name)
-      assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
-
-      # but this should work
-      auth_header = bearer_authorization_header private_user
-      get changesets_path(:user => private_user.id), :headers => auth_header
-      assert_response :success, "can't get changesets by user ID"
-      assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
-
-      get changesets_path(:display_name => private_user.display_name), :headers => auth_header
-      assert_response :success, "can't get changesets by user name"
-      assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
-
-      # test json endpoint
-      get changesets_path(:display_name => private_user.display_name), :headers => auth_header, :params => { :format => "json" }
-      assert_response :success, "can't get changesets by user name"
-
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      assert_equal Settings.api_version, js["version"]
-      assert_equal Settings.generator, js["generator"]
-      assert_equal 2, js["changesets"].count
-
-      # check that the correct error is given when we provide both UID and name
-      get changesets_path(:user => private_user.id,
-                          :display_name => private_user.display_name), :headers => auth_header
-      assert_response :bad_request, "should be a bad request to have both ID and name specified"
-
-      get changesets_path(:user => private_user.id, :open => true), :headers => auth_header
-      assert_response :success, "can't get changesets by user and open"
-      assert_changesets_in_order [private_user_changeset]
-
-      get changesets_path(:time => "2007-12-31"), :headers => auth_header
-      assert_response :success, "can't get changesets by time-since"
-      assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset, private_user_closed_changeset, closed_changeset]
-
-      get changesets_path(:time => "2008-01-01T12:34Z"), :headers => auth_header
-      assert_response :success, "can't get changesets by time-since with hour"
-      assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset, private_user_closed_changeset, closed_changeset]
-
-      get changesets_path(:time => "2007-12-31T23:59Z,2008-01-02T00:01Z"), :headers => auth_header
-      assert_response :success, "can't get changesets by time-range"
-      assert_changesets_in_order [closed_changeset]
-
-      get changesets_path(:open => "true"), :headers => auth_header
-      assert_response :success, "can't get changesets by open-ness"
-      assert_changesets_in_order [changeset3, changeset2, changeset, private_user_changeset]
-
-      get changesets_path(:closed => "true"), :headers => auth_header
-      assert_response :success, "can't get changesets by closed-ness"
-      assert_changesets_in_order [private_user_closed_changeset, closed_changeset]
-
-      get changesets_path(:closed => "true", :user => private_user.id), :headers => auth_header
-      assert_response :success, "can't get changesets by closed-ness and user"
-      assert_changesets_in_order [private_user_closed_changeset]
-
-      get changesets_path(:closed => "true", :user => user.id), :headers => auth_header
-      assert_response :success, "can't get changesets by closed-ness and user"
-      assert_changesets_in_order [closed_changeset]
-
-      get changesets_path(:changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"), :headers => auth_header
-      assert_response :success, "can't get changesets by id (as comma-separated string)"
-      assert_changesets_in_order [changeset, private_user_changeset, closed_changeset]
-
-      get changesets_path(:changesets => ""), :headers => auth_header
-      assert_response :bad_request, "should be a bad request since changesets is empty"
-    end
-
-    ##
-    # test the query functionality of changesets with the limit parameter
-    def test_query_limit
-      user = create(:user)
-      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
-      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 2, 1, 0, 0, 0), :closed_at => Time.utc(2008, 2, 2, 0, 0, 0))
-      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
-      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
-      changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
-
-      get changesets_path
-      assert_response :success
-      assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
-
-      get changesets_path(:limit => "3")
-      assert_response :success
-      assert_changesets_in_order [changeset5, changeset4, changeset3]
-
-      get changesets_path(:limit => "0")
-      assert_response :bad_request
-
-      get changesets_path(:limit => Settings.max_changeset_query_limit)
-      assert_response :success
-      assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
-
-      get changesets_path(:limit => Settings.max_changeset_query_limit + 1)
-      assert_response :bad_request
-    end
-
-    ##
-    # test the query functionality of sequential changesets with order and time parameters
-    def test_query_order
-      user = create(:user)
-      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
-      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 2, 1, 0, 0, 0), :closed_at => Time.utc(2008, 2, 2, 0, 0, 0))
-      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
-      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
-      changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
-      changeset6 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 6, 1, 0, 0, 0), :closed_at => Time.utc(2008, 6, 2, 0, 0, 0))
-
-      get changesets_path
-      assert_response :success
-      assert_changesets_in_order [changeset6, changeset5, changeset4, changeset3, changeset2, changeset1]
-
-      get changesets_path(:order => "oldest")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5, changeset6]
-
-      [
-        # lower time bound at the opening time of a changeset
-        ["2008-02-01T00:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3, changeset2]],
-        # lower time bound in the middle of a changeset
-        ["2008-02-01T12:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3]],
-        # lower time bound at the closing time of a changeset
-        ["2008-02-02T00:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3]],
-        # lower time bound after the closing time of a changeset
-        ["2008-02-02T00:00:01Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3], [changeset5, changeset4, changeset3]],
-        # upper time bound in the middle of a changeset
-        ["2007-09-09T12:00:00Z", "2008-04-01T12:00:00Z", [changeset4, changeset3, changeset2, changeset1], [changeset4, changeset3, changeset2, changeset1]],
-        # empty range
-        ["2009-02-02T00:00:01Z", "2018-05-15T00:00:00Z", [], []]
-      ].each do |from, to, interval_changesets, point_changesets|
-        get changesets_path(:time => "#{from},#{to}")
-        assert_response :success
-        assert_changesets_in_order interval_changesets
-
-        get changesets_path(:from => from, :to => to)
-        assert_response :success
-        assert_changesets_in_order point_changesets
-
-        get changesets_path(:from => from, :to => to, :order => "oldest")
-        assert_response :success
-        assert_changesets_in_order point_changesets.reverse
-      end
-    end
-
-    ##
-    # test the query functionality of overlapping changesets with order and time parameters
-    def test_query_order_overlapping
-      user = create(:user)
-      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 17, 0, 0), :closed_at => Time.utc(2015, 6, 4, 17, 0, 0))
-      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 16, 0, 0), :closed_at => Time.utc(2015, 6, 4, 18, 0, 0))
-      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 14, 0, 0), :closed_at => Time.utc(2015, 6, 4, 20, 0, 0))
-      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 3, 23, 0, 0), :closed_at => Time.utc(2015, 6, 4, 23, 0, 0))
-      create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 2, 23, 0, 0), :closed_at => Time.utc(2015, 6, 3, 23, 0, 0))
-
-      get changesets_path(:time => "2015-06-04T00:00:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
-
-      get changesets_path(:from => "2015-06-04T00:00:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3]
-
-      get changesets_path(:from => "2015-06-04T00:00:00Z", :order => "oldest")
-      assert_response :success
-      assert_changesets_in_order [changeset3, changeset2, changeset1]
-
-      get changesets_path(:time => "2015-06-04T16:00:00Z,2015-06-04T17:30:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
-
-      get changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2]
-
-      get changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z", :order => "oldest")
-      assert_response :success
-      assert_changesets_in_order [changeset2, changeset1]
-    end
-
-    ##
-    # check that errors are returned if garbage is inserted
-    # into query strings
-    def test_query_invalid
-      ["abracadabra!",
-       "1,2,3,F",
-       ";drop table users;"].each do |bbox|
-        get changesets_path(:bbox => bbox)
-        assert_response :bad_request, "'#{bbox}' isn't a bbox"
-      end
-
-      ["now()",
-       "00-00-00",
-       ";drop table users;",
-       ",",
-       "-,-"].each do |time|
-        get changesets_path(:time => time)
-        assert_response :bad_request, "'#{time}' isn't a valid time range"
-      end
-
-      ["me",
-       "foobar",
-       "-1",
-       "0"].each do |uid|
-        get changesets_path(:user => uid)
-        assert_response :bad_request, "'#{uid}' isn't a valid user ID"
-      end
-
-      get changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
-      assert_response :bad_request, "cannot use order=oldest with time"
     end
 
     ##
@@ -2432,17 +2383,17 @@ module Api
       new_changeset.find("//osm/changeset").first << new_tag
 
       # try without any authorization
-      put changeset_show_path(private_changeset), :params => new_changeset.to_s
+      put api_changeset_path(private_changeset), :params => new_changeset.to_s
       assert_response :unauthorized
 
       # try with the wrong authorization
       auth_header = bearer_authorization_header
-      put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should get an unauthorized
       auth_header = bearer_authorization_header private_user
-      put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
       ## Now try with the public user
@@ -2453,17 +2404,17 @@ module Api
       new_changeset.find("//osm/changeset").first << new_tag
 
       # try without any authorization
-      put changeset_show_path(changeset), :params => new_changeset.to_s
+      put api_changeset_path(changeset), :params => new_changeset.to_s
       assert_response :unauthorized
 
       # try with the wrong authorization
       auth_header = bearer_authorization_header
-      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should work...
       auth_header = bearer_authorization_header user
-      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :success
 
       assert_select "osm>changeset[id='#{changeset.id}']", 1
@@ -2484,7 +2435,7 @@ module Api
       new_tag["v"] = "testing"
       new_changeset.find("//osm/changeset").first << new_tag
 
-      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
+      put api_changeset_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
     end
 
@@ -2500,7 +2451,7 @@ module Api
 
       # open a new changeset
       xml = "<osm><changeset/></osm>"
-      put changeset_create_path, :params => xml, :headers => auth_header
+      post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success, "can't create a new changeset"
       cs_id = @response.body.to_i
 
@@ -2550,25 +2501,6 @@ module Api
       assert_not(changeset.open?,
                  "changeset should have been auto-closed by exceeding " \
                  "element limit.")
-    end
-
-    ##
-    # check that the changeset download for a changeset with a redacted
-    # element in it doesn't contain that element.
-    def test_diff_download_redacted
-      changeset = create(:changeset)
-      node = create(:node, :with_history, :version => 2, :changeset => changeset)
-      node_v1 = node.old_nodes.find_by(:version => 1)
-      node_v1.redact!(create(:redaction))
-
-      get changeset_download_path(changeset)
-      assert_response :success
-
-      assert_select "osmChange", 1
-      # this changeset contains the node in versions 1 & 2, but 1 should
-      # be hidden.
-      assert_select "osmChange node[id='#{node.id}']", 1
-      assert_select "osmChange node[id='#{node.id}'][version='1']", 0
     end
 
     ##
@@ -2683,6 +2615,8 @@ module Api
           assert_dom "> @open", "false"
           assert_dom "> @closed_at", changeset.closed_at.xmlschema
         end
+        assert_dom "> @comments_count", changeset.comments.length.to_s
+        assert_dom "> @changes_count", changeset.num_changes.to_s
         yield if block_given?
       end
     end
@@ -2697,6 +2631,8 @@ module Api
         assert_not js["changeset"]["open"]
         assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
       end
+      assert_equal changeset.comments.length, js["changeset"]["comments_count"]
+      assert_equal changeset.num_changes, js["changeset"]["changes_count"]
     end
 
     ##

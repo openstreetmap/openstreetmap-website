@@ -27,6 +27,7 @@
 # Author: Jeeputer
 # Author: Leyth
 # Author: LordProfo
+# Author: Marwin H.H.
 # Author: Mcuteangel
 # Author: Mjbmr
 # Author: Mobin2008
@@ -277,9 +278,8 @@ fa:
         comment: نظر
         full: یادداشت کامل
   accounts:
-    edit:
+    show:
       title: ویرایش حساب
-      my settings: تنظیمات من
       current email address: رایانامهٔ کنونی
       external auth: احراز هویت خارجی
       openid:
@@ -351,9 +351,6 @@ fa:
           ارائه‌شده از سوی OSMF نافذ است. لطفاً روی پیوند کلیک کنید، متن را بخوانید
           و آن را بپذیرید.
         read_tou: شرایط استفاده را خوانده‌ام و آن را می‌پذیرم
-        consider_pd: علاوه بر موارد بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی
-          باشد.
-        consider_pd_why: این چیست؟
         continue: ادامه
         you need to accept or decline: برای ادامه لطفاً بخوانید و سپس شرایط جدید مشارکت‌کننده
           را بپذیرید یا رد کنید.
@@ -368,6 +365,19 @@ fa:
         terms_declined_html: از اینکه تصمیم گرفته‌اید شرایط جدید مشارکت‌کننده را نپذیرید،
           متأسف هستیم. برای اطلاعات بیشتر، لطفاً %{terms_declined_link} را ببینید.
         terms_declined_link: این صفحهٔ ویکی
+    pd_declarations:
+      show:
+        title: مشارکت‌های من را در مالکیت عمومی در نظر بگیر
+        consider_pd: من مشارکت‌های خود را در مالکیت عمومی در نظر می‌گیرم
+        consider_pd_why: چرا باید بخواهم که مشارکت‌هایم در مالکیت عمومی قرار گیرد؟
+        confirm: تأیید
+      create:
+        successfully_declared: شما با موفقیت اعلام کردید که ویرایش‌های خود را در مالکیت
+          عمومی در نظر می‌گیرید.
+        already_declared: شما هم‌اکنون اعلام کرده‌اید که ویرایش‌های خود را در مالکیت
+          عمومی در نظر می‌گیرید.
+        did_not_confirm: شما این که مشارکت‌هایتان در مالکیت عمومی قرار گیرد را تأیید
+          نکرده‌اید.
   browse:
     deleted_ago_by_html: '%{time_ago} %{user} حذفش کرد'
     edited_ago_by_html: '%{time_ago} %{user} ویرایشش کرد'
@@ -447,7 +457,8 @@ fa:
       telephone_link: ' تماس با %{phone_number}'
       colour_preview: پیش‌نمایش رنگ %{colour_value}
       email_link: فرستادن رایانامه به %{email}
-    query:
+  feature_queries:
+    show:
       title: پرس‌وجوی عارضه‌ها
       introduction: روی نقشه کلیک کنید تا عارضه‌های نزدیک را بیابید
       nearby: عارضه‌های نزدیک
@@ -869,6 +880,7 @@ fa:
           bridleway: راه حیوان رو
           bus_guideway: خط هدایت کننده اتوبوس
           bus_stop: ایستگاه اتوبوس
+          busway: مسیر اتوبوس
           construction: راه در دست ساخت
           corridor: راهرو
           cycleway: مسیر دوچرخه
@@ -1361,6 +1373,7 @@ fa:
       reports_count:
         one: '%{count} گزارش'
         other: '%{count} گزارش'
+      more_reporters: و %{count} مورد بیشتر
       reported_item: مورد گزارش‌شده
     show:
       reports:
@@ -1387,7 +1400,6 @@ fa:
       reopened: وضعیت مسئله روی «باز» تنظیم شد
     comments:
       comment_from_html: نظر از %{user_link} در %{comment_created_at}
-      reassign_param: مشکل تخصیص مجدد؟
     reports:
       reported_by_html: در %{updated_at}،‏ %{user} به‌عنوان %{category} گزارشش کرد
     helper:
@@ -1455,10 +1467,6 @@ fa:
       و آزادید آن را تحت پروانه‌ای آزاد استفاده کنید.
     partners_partners: شرکای تجاری
     tou: شرایط استفاده
-    osm_offline: پایگاه دادهٔ OpenStreetMap هم‌اکنون برون‌خط است تا کارهای ضروری برای
-      نگهداری آن انجام گیرد.
-    osm_read_only: پایگاه دادهٔ OpenStreetMap هم‌اکنون در حالت فقط‌خواندنی است تا
-      کارهای ضروری برای نگهداری آن انجام گیرد.
     nothing_to_preview: چیزی برای پیش‌نمایش وجود ندارد.
     help: راهنما
     about: درباره
@@ -1758,7 +1766,7 @@ fa:
       failure: ذخیره‌سازی نمایه انجام نشد.
   sessions:
     new:
-      tab_title: ورود
+      tab_title: ورود به سامانه
       email or username: نشانی رایانامه یا نام کاربری
       password: رمز عبور
       remember: مرا به خاطر بسپار
@@ -1886,13 +1894,14 @@ fa:
         copyright: حق نشر OpenStreetMap و مشارکت‌کنندگان، تحت یک پروانهٔ آزاد
       remote_failed: ویرایش انجام نشد - مطمئن شوید JOSM یا Merkaartor باز و گزینهٔ
         کنترل از دور فعال باشد
-    edit:
+    not_public_flash:
       not_public: تنظیم نکرده‌اید که ویرایش‌هایتان عمومی باشد.
       not_public_description_html: دیگر نمی‌توانید نقشه را ویرایش کنید مگر آنکه این
         کار را انجام دهید. در %{user_page} خود می‌توانید ویرایش‌هایتان را به‌عنوان
         عمومی تنظیم کنید.
       user_page_link: صفحهٔ کاربری
       anon_edits_link_text: بفهمید چرا این‌طور است.
+    edit:
       id_not_configured: iD پیکربندی نشده است
     export:
       title: برون‌ریزی
@@ -1973,6 +1982,9 @@ fa:
       where_am_i_title: با استفاده از موتور جستجو مکان فعلی را توصیف کنید
       submit_text: برو
       reverse_directions_text: برعکس‌کردن مسیر
+      modes:
+        bicycle: دوچرخه
+        car: خودرو
     key:
       table:
         entry:
@@ -2185,11 +2197,12 @@ fa:
     scopes:
       read_prefs: خواندن ترجیحات کاربری
       write_prefs: تغییر ترجیحات کاربری
-      write_diary: ایجاد روزنوشت، نظردهی و افزودن دوست
+      write_diary: ایجاد روزنوشت و نظردهی
       write_api: اصلاح نقشه
       read_gpx: خواندن ردهای جی‌پی‌اس خصوصی
       write_gpx: بارگذاری ردهای جی‌پی‌اس
       write_notes: اصلاح یادداشت‌ها
+      write_blocks: ایجاد و برداشتن قطع دسترسی‌های کاربر
       read_email: خواندن نشانی رایانامهٔ کاربر
       skip_authorization: برنامه با تأیید خودکار
   oauth2_applications:
@@ -2243,6 +2256,7 @@ fa:
   users:
     new:
       title: ثبت نام
+      tab_title: ثبت نام
       no_auto_account_create: متأسفانه در حال حاضر نمی‌توانیم به‌صورت خودکار برای
         شما حساب کاربری بسازیم.
       about:
@@ -2266,7 +2280,7 @@ fa:
       my notes: یادداشت‌های من
       my messages: پیام‌های من
       my profile: نمایهٔ من
-      my settings: تنظیمات من
+      my_account: حساب من
       my comments: نظرات من
       my_preferences: ترجیحات من
       my_dashboard: پیشخوان من
@@ -2325,13 +2339,25 @@ fa:
       show:
         title: کاربران
         heading: کاربران
-        empty: هیچ کاربر منطبقی یافت نشد
+        select_status: انتخاب وضعیت
+        states:
+          pending: در انتظار
+          active: فعال
+          confirmed: تأییدشده
+          suspended: تعلیق‌شده
+          deleted: حذف‌شده
+        ip_address: نشانی آی‌پی
+        search: جستجو
       page:
         confirm: تأیید کاربران انتخاب‌شده
         hide: پنهان‌کردن کاربران انتخاب‌شده
+        empty: هیچ کاربر منطبقی یافت نشد
       user:
         summary_html: '%{name} با آی‌پی %{ip_address} در %{date} ایجاد شد'
         summary_no_ip_html: '%{name} در %{date} ایجاد شد'
+    comments:
+      index:
+        diary_entries: مدخل‌های روزنوشت
     changeset_comments:
       page:
         when: زمان
@@ -2548,13 +2574,6 @@ fa:
       کنید. سپس اینجا کلیک کنید.
     directions:
       ascend: فراز
-      engines:
-        fossgis_osrm_bike: دوچرخه (OSRM)
-        fossgis_osrm_car: خودرو (OSRM)
-        fossgis_osrm_foot: پا (OSRM)
-        graphhopper_bicycle: دوچرخه (GraphHopper)
-        graphhopper_car: خودرو (GraphHopper)
-        graphhopper_foot: پیاده (GraphHopper)
       descend: فرود
       directions: راهنمای مسیر
       distance: مسافت
@@ -2644,6 +2663,9 @@ fa:
       show_address: نمایش نشانی
       query_features: پرس‌وجو برای عارضه‌ها
       centre_map: اینجا را مرکز نقشه کن
+    home:
+      marker_title: محل خانهٔ من
+      not_set: محل خانهٔ حساب شما تنظیم نشده است
   redactions:
     edit:
       heading: ویرایش پاک‌سازی

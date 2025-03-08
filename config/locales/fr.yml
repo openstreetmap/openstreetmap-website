@@ -64,6 +64,7 @@
 # Author: Macofe
 # Author: Mahabarata
 # Author: Manaviko
+# Author: Marwin H.H.
 # Author: Mathieu
 # Author: McDutchie
 # Author: Mdk
@@ -204,6 +205,7 @@ fr:
         allow_write_prefs: modifier les préférences de l’utilisateur
         allow_write_diary: créer des entrées du journal et des commentaires
         allow_write_api: modifier la carte
+        allow_write_changeset_comments: commenter les changements
         allow_read_gpx: lire ses traces GPS privées
         allow_write_gpx: téléverser des traces GPS
         allow_write_notes: modifier les notes
@@ -362,9 +364,9 @@ fr:
         comment: Commentaire
         full: Note complète
   accounts:
-    edit:
+    show:
       title: Modifier le compte
-      my settings: Mes paramètres
+      my_account: Mon compte
       current email address: Adresse de courriel actuelle
       external auth: Authentification externe
       openid:
@@ -381,6 +383,9 @@ fr:
           comme relevant du domaine public.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms/FR
         link text: qu’est-ce ?
+        not_agreed_with_pd: Vous n'avez pas indiqué si vous considériez vos modifications
+          comme faisant partie du domaine public.
+        pd_link_text: déclarer
       save changes button: Enregistrer les modifications
       delete_account: Supprimer le compte…
     go_public:
@@ -415,7 +420,7 @@ fr:
         delete_introduction: 'Vous pouvez supprimer votre compte OpenStreetMap en
           utilisant le bouton ci-dessous. Veuillez prendre note des détails suivants :'
         delete_profile: Les informations de votre profil, y compris votre avatar,
-          votre description et votre lieu de résidence seront supprimées.
+          votre description et l'emplacement de votre domicile, seront supprimées.
         delete_display_name: Votre pseudonyme sera supprimé et pourra être réutilisé
           pour d’autres comptes.
         retain_caveats: 'Cependant, quelques informations vous concernant seront conservées
@@ -450,10 +455,6 @@ fr:
           autres infrastructures fournies par OSMF. Veuillez cliquer sur le lien pour
           les lire et accepter le texte.
         read_tou: J’ai lu et j’accepte les Conditions d’utilisation
-        consider_pd: En plus de l’accord ci-dessus, je considère mes contributions
-          comme étant dans le domaine public.
-        consider_pd_why: qu’est-ce que ceci ?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Informations pour aider à comprendre ces termes : un
           %{readable_summary_link} et quelques %{informal_translations_link}'
         readable_summary: résumé lisible par un humain
@@ -475,6 +476,21 @@ fr:
           consulter %{terms_declined_link}.
         terms_declined_link: cette page du wiki
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Considérer mes contributions comme étant dans le domaine public
+        consider_pd: Je considère que mes contributions sont dans le domaine public
+        consider_pd_why: Pourquoi voudrais-je que mes contributions soient dans le
+          domaine public ?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Confirmer
+      create:
+        successfully_declared: Vous avez déclaré avec succès que vous considérez vos
+          modifications comme faisant partie du domaine public.
+        already_declared: Vous avez déjà déclaré que vous considérez vos modifications
+          comme faisant partie du domaine public.
+        did_not_confirm: Vous n'avez pas confirmé que vous considérez vos modifications
+          comme faisant partie du domaine public.
   browse:
     deleted_ago_by_html: Supprimé %{time_ago} par %{user}
     edited_ago_by_html: Modifié %{time_ago} par %{user}
@@ -547,6 +563,7 @@ fr:
       feature_warning: Le chargement de %{num_features} objets pourrait rendre votre
         navigateur lent ou le bloquer. Êtes-vous sûr de vouloir afficher ces données
         ?
+      feature_error: 'Les éléments caractéristiques n''ont pas pu être chargés : %{message}'
       load_data: Charger les données
       loading: Chargement en cours…
     tag_details:
@@ -560,7 +577,8 @@ fr:
       telephone_link: Appeler %{phone_number}
       colour_preview: Aperçu de la couleur %{colour_value}
       email_link: Courriel %{email}
-    query:
+  feature_queries:
+    show:
       title: Interroger les objets
       introduction: Cliquer sur la carte pour trouver des objets à proximité.
       nearby: Objets à proximité
@@ -1127,6 +1145,7 @@ fr:
           bridleway: Chemin pour cavaliers
           bus_guideway: Voie de bus guidé / trolley
           bus_stop: Arrêt de bus
+          busway: Voie dédiée aux bus
           construction: Route en construction
           corridor: Couloir
           crossing: Intersection / carrefour
@@ -1697,9 +1716,11 @@ fr:
       reports: Rapports
       last_updated: Dernière mise à jour
       last_updated_time_ago_user_html: '%{time_ago} par %{user}'
+      reporting_users: Signalement d'utilisateurs
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapports'
+      more_reporters: et %{count} de plus
       reported_item: Élément signalé
       states:
         ignored: Ignoré
@@ -1734,7 +1755,8 @@ fr:
       reopened: L’état du problème a été mis à « Ouvert »
     comments:
       comment_from_html: Commentaire de %{user_link} sur %{comment_created_at}
-      reassign_param: Réaffecter le problème ?
+      reassign_to_moderators: Réaffecter le problème aux modérateurs
+      reassign_to_administrators: Réaffecter le problème aux administrateurs
     reports:
       reported_by_html: Signalé comme %{category} par %{user} le %{updated_at}
     helper:
@@ -1788,7 +1810,7 @@ fr:
       h1: OpenStreetMap
     logo:
       alt_text: Logo d’OpenStreetMap
-    home: Aller à votre domicile
+    home: Aller à l'emplacement de votre domicile
     logout: Se déconnecter
     log_in: Se connecter
     sign_up: S’inscrire
@@ -1809,10 +1831,6 @@ fr:
     partners_corpmembers: Membres d'entreprise de l'OSMF
     partners_partners: partenaires
     tou: Conditions d’utilisation
-    osm_offline: La base de données OpenStreetMap est actuellement hors ligne ; une
-      maintenance essentielle à son bon fonctionnement est en cours.
-    osm_read_only: La base de données OpenStreetMap est actuellement en mode lecture
-      seule ; une maintenance essentielle à son bon fonctionnement est en cours.
     nothing_to_preview: Rien à voir en avant.
     help: Aide
     about: À propos
@@ -1820,6 +1838,13 @@ fr:
     communities: Communautés
     learn_more: En savoir plus
     more: Plus
+    offline_flash:
+      osm_offline: La base de données OpenStreetMap est actuellement hors ligne du
+        fait de travaux de maintenance essentiels en cours.
+      osm_read_only: La base de données OpenStreetMap est actuellement en mode lecture
+        seule du fait de travaux de maintenance essentiels en cours.
+      expected_restore_html: Les services devraient être rétablis dans %{time}.
+      announcement: Vous pouvez lire l'annonce ici.
   user_mailer:
     diary_comment_notification:
       description: 'Entrée du journal OpenStreetMap #%{id}'
@@ -1854,10 +1879,24 @@ fr:
       followed_you: '%{user} vous suit désormais sur OpenStreetMap.'
       see_their_profile: 'Vous pouvez voir son profil ici : %{userurl}.'
       see_their_profile_html: Vous pouvez voir son profil sur %{userurl}.
+      follow_them: Vous pouvez également le suivre sur %{followurl}.
+      follow_them_html: Vous pouvez également le suivre sur %{followurl}.
+    gpx_details:
+      details: 'Détails de votre dossier :'
+      filename: Nom du fichier
+      url: URL
+      description: Description
+      tags: Mots-clés
+      total_points: Nombre total de points
+      imported_points: Nombre de points importés
     gpx_failure:
       hi: Bonjour %{to_user},
       failed_to_import: Il semble que votre fichier n'ait pas pu être importé en tant
         que trace GPS.
+      verify: 'Veuillez vérifier que votre fichier est un fichier GPX valide ou une
+        archive contenant des fichiers GPX aux formats pris en charge (.tar.gz, .tar.bz2,
+        .tar, .zip, .gpx.gz, .gpx.bz2). Votre fichier a peut-être un problème de format
+        ou de syntaxe ? Voici l''erreur d''importation :'
       more_info: Vous trouverez plus d’informations sur les échecs d’import GPX et
         comment les éviter à l’adresse %{url}.
       more_info_html: Vous trouverez plus d’informations sur les échecs d’import GPX
@@ -1866,6 +1905,8 @@ fr:
       subject: '[OpenStreetMap] Échec de l’import GPX'
     gpx_success:
       hi: Bonjour %{to_user},
+      imported_successfully: Il semble que votre fichier ait été importé avec succès
+        en tant que trace GPS.
       all_your_traces: Toutes vos traces de GPX téléversées avec succès peuvent être
         trouvées à %{url}.
       all_your_traces_html: Toutes vos traces de GPX téléversées avec succès peuvent
@@ -2132,10 +2173,10 @@ fr:
       replace image: Remplacer l’image actuelle
       image size hint: (les images carrées d’au moins 100×100 pixels fonctionnent
         le mieux)
-      home location: Lieu de domicile
-      no home location: Vous n’avez pas indiqué votre lieu de domicile.
-      update home location on click: Mettre à jour mon lieu de domicile quand je clique
-        sur la carte ?
+      home location: Emplacement de votre domicile
+      no home location: Vous n’avez pas indiqué l'emplacement de votre domicile.
+      update home location on click: Mettre à jour l'emplacement de mon domicile quand
+        je clique sur la carte ?
       show: Afficher
       delete: Supprimer
       undelete: Annuler la suppression
@@ -2186,6 +2227,9 @@ fr:
       preview: Aperçu
       help: Aide
     pagination:
+      changeset_comments:
+        older: Commentaires plus anciens
+        newer: Commentaires plus récents
       diary_comments:
         older: Commentaires plus anciens
         newer: Commentaires plus récents
@@ -2436,14 +2480,16 @@ fr:
       remote_failed: Échec de la modification — vérifiez que l’éditeur externe JOSM
         ou Merkaartor est ouvert et que l’option de contrôle à distance de l’application
         est activée.
-    edit:
+    not_public_flash:
       not_public: Vous n’avez pas réglé vos modifications pour qu’elles soient publiques.
       not_public_description_html: Vous ne pouvez plus modifier la carte à moins que
         vous ne rendiez vos modifications publiques. Vous pouvez rendre vos modifications
         publiques à partir de votre %{user_page}.
       user_page_link: page utilisateur
       anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/FR:Modifications_anonymes
       anon_edits_link_text: Trouvez pourquoi ici.
+    edit:
       id_not_configured: iD n’a pas été configuré
     export:
       title: Exporter
@@ -2563,6 +2609,10 @@ fr:
       where_am_i_title: Décrit la position actuelle en utilisant le moteur de recherche
       submit_text: Aller
       reverse_directions_text: Inverser les directions
+      modes:
+        bicycle: À vélo
+        car: En voiture
+        foot: À pied
     key:
       table:
         entry:
@@ -2854,7 +2904,7 @@ fr:
     settings_menu:
       account_settings: Paramètres du compte
       oauth2_applications: Applications OAuth 2
-      oauth2_authorizations: Droits OAuth 2
+      oauth2_authorizations: Autorisations OAuth 2
       muted_users: Utilisateurs silencieux
     auth_providers:
       openid_url: URL OpenID
@@ -2906,12 +2956,14 @@ fr:
       openid: Se connecter avec OpenStreetMap
       read_prefs: Lire les préférences de l’utilisateur
       write_prefs: Modifier les préférences de l’utilisateur
-      write_diary: créer des entrées du journal et des commentaires
+      write_diary: Écrire dans le journal et créer des commentaires
       write_api: Modifier la carte
+      write_changeset_comments: Commenter les groupes de modifications
       read_gpx: Lire les traces GPC privées
       write_gpx: Mettre à jour les traces GPC
       write_notes: Modifier les notes
       write_redactions: Caviarder les données cartographiques
+      write_blocks: Créer et révoquer les blocages d'utilisateurs
       read_email: Lire l’adresse courriel de l’utilisateur
       consume_messages: Lire, modifier l’état et supprimer les messages de l’utilisateur
       send_messages: Envoyer des messages privés à d’autres utilisateurs
@@ -3007,8 +3059,6 @@ fr:
           sur les adresses e-mail
         html: Votre adresse n’est pas affichée publiquement, consultez notre %{privacy_policy_link}
           pour plus d’informations.
-      consider_pd_html: Je considère que mes contributions se situent dans le %{consider_pd_link}.
-      consider_pd: domaine public
       or: ou
       use external auth: ou vous pouvez vous connecter avec un service tiers.
     no_such_user:
@@ -3024,7 +3074,7 @@ fr:
       my notes: Mes notes
       my messages: Mes messages
       my profile: Mon profil
-      my settings: Mes options
+      my_account: Mon compte
       my comments: Mes commentaires
       my_preferences: Mes préférences
       my_dashboard: Mon tableau de bord
@@ -3038,6 +3088,8 @@ fr:
       edits: Modifications
       traces: Traces
       notes: Notes de carte
+      unfollow: Cesser de suivre
+      follow: Suivre
       mapper since: 'Cartographe depuis :'
       last map edit: 'Dernière modification de la carte :'
       no activity yet: Pas encore d'activité
@@ -3103,18 +3155,37 @@ fr:
       show:
         title: Utilisateurs
         heading: Utilisateurs
-        empty: Aucun utilisateur correspondant n’a été trouvé
+        select_status: Sélectionnez le statut
+        states:
+          pending: En attente
+          active: Actif
+          confirmed: Confirmé
+          suspended: Suspendu
+          deleted: Supprimé
+        name_or_email: Nom ou courriel
+        ip_address: Adresse IP
+        search: Rechercher
       page:
         found_users:
           one: '%{count} utilisateur trouvé'
           other: '%{count} utilisateurs trouvés'
         confirm: Confirmer les utilisateurs sélectionnés
         hide: Masquer les utilisateurs sélectionnés
+        empty: Aucun utilisateur correspondant n’a été trouvé
       user:
         summary_html: '%{name} créé depuis %{ip_address} le %{date}'
         summary_no_ip_html: '%{name} créé le %{date}'
+    comments:
+      index:
+        heading_html: Commentaires de %{user}
+        changesets: Groupes de modifications
+        diary_entries: Entrées du journal
+        no_comments: Aucun commentaire
     changeset_comments:
+      index:
+        title: Commentaires de groupe de modifications ajoutés par %{user}
       page:
+        changeset: Groupe de modifications
         when: Quand
         comment: Commentaire
     diary_comments:
@@ -3122,6 +3193,8 @@ fr:
         title: Commentaires de journal ajoutés par %{user}
       page:
         post: Billet
+        when: Quand
+        comment: Commentaire
     suspended:
       title: Compte suspendu
       heading: Compte suspendu
@@ -3220,6 +3293,7 @@ fr:
         ended: terminé
         revoked_html: révoqué par %{name}
         active: actif
+        active_until_read: actif jusqu'à la lecture
         read_html: lu à %{time}
         time_in_future_title: '%{time_absolute}; dans %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3299,6 +3373,8 @@ fr:
       open_title: Note non résolue nº %{note_name}
       closed_title: Note résolue nº %{note_name}
       hidden_title: Note masquée nº %{note_name}
+      description_when_author_is_deleted: supprimé
+      description_when_there_is_no_opening_comment: inconnu
       event_opened_by_html: Créé par %{user} %{time_ago}
       event_opened_by_anonymous_html: Créé par un anonyme %{time_ago}
       event_commented_by_html: Commentaire de %{user} %{time_ago}
@@ -3337,6 +3413,17 @@ fr:
         résoudre.
       anonymous_warning_log_in: se connecter
       anonymous_warning_sign_up: créer un compte
+      counter_warning_html: Vous avez déjà posté au moins %{x_anonymous_notes}, c'est
+        génial pour la communauté, merci ! Nous vous encourageons maintenant à %{contribute_by_yourself},
+        ce n'est pas si compliqué, et %{community_can_help}.
+      x_anonymous_notes:
+        one: une note anonyme
+        other: '%{count} notes anonymes'
+      counter_warning_guide_link:
+        text: contribuer vous-même
+        url: https://wiki.openstreetmap.org/wiki/FR:Guide_du_d%C3%A9butant
+      counter_warning_forum_link:
+        text: la communauté peut vous aider
       advice: Votre note est publique et peut être utilisée pour mettre à jour la
         carte, aussi n’entrez aucune information personnelle, ni aucune information
         venant de cartes protégées, ni aucune entrée de répertoire ou d’annuaire.
@@ -3349,6 +3436,8 @@ fr:
       showing_page: Page %{page}
       next: Suivant
       previous: Précédent
+    not_found_message:
+      sorry: 'Désolé, la note #%{id} n''a pas pu être trouvée.'
   javascripts:
     close: Fermer
     share:
@@ -3428,16 +3517,6 @@ fr:
       puis cliquez dessus.
     directions:
       ascend: Croissant
-      engines:
-        fossgis_osrm_bike: À vélo (OSRM)
-        fossgis_osrm_car: En voiture (OSRM)
-        fossgis_osrm_foot: À pied (OSRM)
-        graphhopper_bicycle: À vélo (GraphHopper)
-        graphhopper_car: En voiture (GraphHopper)
-        graphhopper_foot: À pied (GraphHopper)
-        fossgis_valhalla_bicycle: À vélo (Valhalla)
-        fossgis_valhalla_car: En voiture (Valhalla)
-        fossgis_valhalla_foot: À pied (Valhalla)
       descend: Décroissant
       directions: Itinéraire
       distance: Distance
@@ -3522,6 +3601,8 @@ fr:
           ninth: 9e
           tenth: 10e
       time: Temps
+      download: Télécharger l'itinéraire en GeoJSON
+      filename: itinéraire
     query:
       node: Nœud
       way: Chemin
@@ -3536,6 +3617,9 @@ fr:
       show_address: Afficher l’adresse
       query_features: Interroger les objets
       centre_map: Centrer la carte ici
+    home:
+      marker_title: Emplacement de mon domicile
+      not_set: L'emplacement du domicile n'est pas défini pour votre compte
   redactions:
     edit:
       heading: Modifier le masquage

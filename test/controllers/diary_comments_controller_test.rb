@@ -72,7 +72,6 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "[OpenStreetMap] #{other_user.display_name} commented on a diary entry", email.subject
     assert_match(/New comment/, email.text_part.decoded)
     assert_match(/New comment/, email.html_part.decoded)
-    ActionMailer::Base.deliveries.clear
     assert_equal entry.id, comment.diary_entry_id
     assert_equal other_user.id, comment.user_id
     assert_equal "New comment", comment.body
@@ -114,7 +113,6 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "[OpenStreetMap] #{other_user.display_name} commented on a diary entry", email.subject
     assert_match %r{http://example.com/spam}, email.text_part.decoded
     assert_match %r{http://example.com/spam}, email.html_part.decoded
-    ActionMailer::Base.deliveries.clear
     assert_equal entry.id, comment.diary_entry_id
     assert_equal other_user.id, comment.user_id
     assert_equal spammy_text, comment.body

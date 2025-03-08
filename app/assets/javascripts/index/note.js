@@ -1,8 +1,8 @@
 OSM.Note = function (map) {
-  var content = $("#sidebar_content"),
-      page = {};
+  const content = $("#sidebar_content"),
+        page = {};
 
-  var noteIcons = {
+  const noteIcons = {
     "new": L.icon({
       iconUrl: OSM.NEW_NOTE_MARKER,
       iconSize: [25, 40],
@@ -22,50 +22,52 @@ OSM.Note = function (map) {
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      initialize(path, id);
-
-      var data = $(".details").data();
+      const data = $(".details").data();
       if (!data) return;
-      var latLng = L.latLng(data.coordinates.split(","));
-      if (!map.getBounds().contains(latLng)) moveToNote();
+      const latLng = L.latLng(data.coordinates.split(","));
+      initialize(path, id, map.getBounds().contains(latLng));
     });
   };
 
   page.load = function (path, id) {
     initialize(path, id);
-    moveToNote();
   };
 
-  function initialize(path, id) {
+  function initialize(path, id, skipMoveToNote) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
-      var data = $(e.target).data();
-      var name = $(e.target).attr("name");
-      var ajaxSettings = {
-        url: data.url,
-        type: data.method,
-        oauth: true,
-        success: () => {
-          OSM.loadSidebarContent(path, () => {
-            initialize(path, id);
-            moveToNote();
+      const { url, method } = $(e.target).data(),
+            name = $(e.target).attr("name"),
+            data = new URLSearchParams();
+      content.find("button[name]").prop("disabled", true);
+
+      if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
+        data.set("text", content.find("textarea").val());
+      }
+
+      fetch(url, {
+        method: method,
+        headers: { ...OSM.oauth },
+        body: data
+      })
+        .then(response => {
+          if (response.ok) return response;
+          return response.text().then(text => {
+            throw new Error(text);
           });
-        },
-        error: (xhr) => {
+        })
+        .then(() => {
+          OSM.loadSidebarContent(path, () => {
+            initialize(path, id, false);
+          });
+        })
+        .catch(error => {
           content.find("#comment-error")
-            .text(xhr.responseText)
+            .text(error.message)
             .prop("hidden", false)
             .get(0).scrollIntoView({ block: "nearest" });
           updateButtons();
-        }
-      };
-
-      if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
-        ajaxSettings.data = { text: content.find("textarea").val() };
-      }
-
-      content.find("button[name]").prop("disabled", true);
-      $.ajax(ajaxSettings);
+        });
     });
 
     content.find("textarea").on("input", function (e) {
@@ -74,21 +76,29 @@ OSM.Note = function (map) {
 
     content.find("textarea").val("").trigger("input");
 
-    var data = $(".details").data();
+    const data = $(".details").data();
 
     if (data) {
+      const hashParams = OSM.parseHash(location.hash);
       map.addObject({
         type: "note",
         id: parseInt(id, 10),
         latLng: L.latLng(data.coordinates.split(",")),
         icon: noteIcons[data.status]
+      }, function () {
+        if (!hashParams.center && !skipMoveToNote) {
+          const latLng = L.latLng(data.coordinates.split(","));
+          OSM.router.withoutMoveListener(function () {
+            map.setView(latLng, 15, { reset: true });
+          });
+        }
       });
     }
   }
 
   function updateButtons() {
-    var resolveButton = content.find("button[name='close']");
-    var commentButton = content.find("button[name='comment']");
+    const resolveButton = content.find("button[name='close']");
+    const commentButton = content.find("button[name='comment']");
 
     content.find("button[name]").prop("disabled", false);
     if (content.find("textarea").val() === "") {
@@ -96,18 +106,6 @@ OSM.Note = function (map) {
       commentButton.prop("disabled", true);
     } else {
       resolveButton.text(resolveButton.data("commentActionText"));
-    }
-  }
-
-  function moveToNote() {
-    var data = $(".details").data();
-    if (!data) return;
-    var latLng = L.latLng(data.coordinates.split(","));
-
-    if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
-      OSM.router.withoutMoveListener(function () {
-        map.setView(latLng, 15, { reset: true });
-      });
     }
   }
 

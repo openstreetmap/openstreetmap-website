@@ -14,6 +14,7 @@
 # Author: Luckas
 # Author: LyzTyphone
 # Author: Marcellus
+# Author: Marwin H.H.
 # Author: Michawiki
 # Author: Mirin
 # Author: Objectivesea
@@ -111,6 +112,7 @@ eo:
         allow_write_prefs: modifi preferojn de uzantoj
         allow_write_diary: afiŝi en taglibro kaj komenti
         allow_write_api: redakti la mapon
+        allow_write_changeset_comments: komenti ŝanĝarojn
         allow_read_gpx: legi privatajn GPS-spurojn
         allow_write_gpx: alŝuti GPS-spurojn
         allow_write_notes: modifi rimarkojn
@@ -263,9 +265,9 @@ eo:
         comment: Komento
         full: Tuta rimarko
   accounts:
-    edit:
+    show:
       title: Redakti konton
-      my settings: Miaj agordoj
+      my_account: Mia konto
       current email address: Aktuala retpoŝta adreso
       external auth: Ekstera aŭtentigo
       openid:
@@ -278,7 +280,10 @@ eo:
           interkonsenton pri uzado.
         agreed_with_pd: Vi ankaŭ deklaris, ke viaj kontribuaĵoj estas en la publika
           havaĵo.
-        link text: Pliaj informoj
+        link text: pliaj informoj
+        not_agreed_with_pd: Vi ne deklaris, por ke viaj kontribuaĵoj estu en la publika
+          havaĵo.
+        pd_link_text: deklari
       save changes button: Konservi ŝanĝojn
       delete_account: Forigi konton…
     go_public:
@@ -340,9 +345,6 @@ eo:
           infrastrukturo provizata de la Fondaĵo OSM. Bonvolu alklaki la ligilon,
           legi, kaj konsenti la tekston.
         read_tou: Mi legis kaj konsentas la Uzkondiĉojn
-        consider_pd: Krom la ĉi-supro, mi konfirmas, ke miaj kontribuaĵoj apartenas
-          al la publika havaĵo
-        consider_pd_why: Pliaj informoj
         guidance_info_html: 'Pliaj informoj helpantaj kompreni ilin: %{readable_summary_link}
           kaj kelkaj %{informal_translations_link}'
         readable_summary: konciza sumiĝo
@@ -362,6 +364,20 @@ eo:
         terms_declined_html: Bedaŭrinde vi ne akceptis la novan interkonsenton pri
           kontribuado. Por pli da informoj, ekkonu kun %{terms_declined_link}.
         terms_declined_link: tiu ĉi viki‑paĝo
+    pd_declarations:
+      show:
+        title: Deklari miajn kontribuaĵojn kiel la publikan havaĵon
+        consider_pd: Mi deklaras, por ke miaj kontribuaĵoj (redaktoj) estu en la publika
+          havaĵo.
+        consider_pd_why: Kiel vi volus, ke miaj kontribuaĵoj estu publikaj?
+        confirm: Konfirmi
+      create:
+        successfully_declared: Vi sukcese deklaris, por ke viaj redaktoj estu en la
+          publika havaĵo.
+        already_declared: Vi jam deklaris, por ke viaj redaktoj estu en la publika
+          havaĵo.
+        did_not_confirm: Vi malkonsentis, por ke viaj redaktoj estu en la publika
+          havaĵo.
   browse:
     deleted_ago_by_html: Forigita %{time_ago} de %{user}
     edited_ago_by_html: Redaktita %{time_ago} de %{user}
@@ -432,6 +448,7 @@ eo:
     start_rjs:
       feature_warning: Ŝarĝanta %{num_features} objektojn, kiuj povas igi vian foliumilon
         malrapida aŭ nerespondebla. Ĉu vi certe volas montri tiujn ĉi datumojn?
+      feature_error: 'Ne povis enlegi objektojn: %{message}'
       load_data: Elŝuti datumojn
       loading: Ŝargado…
     tag_details:
@@ -445,7 +462,8 @@ eo:
       telephone_link: Telefoni %{phone_number}
       colour_preview: Antaŭvido de koloro “%{colour_value}”
       email_link: Sendi retleteron al %{email}
-    query:
+  feature_queries:
+    show:
       title: Informoj pri objektoj
       introduction: Alklaku la mapon por trovi proksimajn objektojn.
       nearby: Proksimaj objektoj
@@ -1000,6 +1018,7 @@ eo:
           bridleway: Ĉevalvojo
           bus_guideway: Aŭtobus-trako
           bus_stop: Haltejo aŭtobusa
+          busway: Aŭtobusa vojo
           construction: Vojo konstruata
           corridor: Koridoro
           crossing: Trapasejo
@@ -1570,9 +1589,11 @@ eo:
       reports: Raportoj
       last_updated: Laste aktualigita
       last_updated_time_ago_user_html: '%{time_ago} de %{user}'
+      reporting_users: Raportantaj uzantoj
       reports_count:
         one: '%{count} raporto'
         other: '%{count} raportoj'
+      more_reporters: kaj %{count} pli
       reported_item: Objekto raportita
       states:
         ignored: Ignorita
@@ -1607,7 +1628,8 @@ eo:
       reopened: Problemo estas malfermita
     comments:
       comment_from_html: Komento fare de %{user_link} je %{comment_created_at}
-      reassign_param: Ĉu reasigni problemon?
+      reassign_to_moderators: Reasigni problemon al kontrolantoj
+      reassign_to_administrators: Reasigni problemon al administrantoj
     reports:
       reported_by_html: Raportita kiel %{category} fare de %{user} je %{updated_at}
     helper:
@@ -1676,10 +1698,6 @@ eo:
     partners_corpmembers: firmaaj anoj de OSMF
     partners_partners: kunlaborantoj
     tou: Uzkondiĉoj
-    osm_offline: La OpenStreetMap-datumbazo estas nuntempe nealireabla pro necesaj
-      laboroj de prizorgado.
-    osm_read_only: La OpenStreetMap-datumbazo estas nuntempe nurlega pro necesaj laboroj
-      de prizorgado.
     nothing_to_preview: Nenio por antaŭvidi.
     help: Helpo
     about: Pri
@@ -1687,6 +1705,13 @@ eo:
     communities: Komunumoj
     learn_more: Ekscii pli
     more: Pli
+    offline_flash:
+      osm_offline: La OpenStreetMap-datumbazo estas nuntempe eksterreta pro necesaj
+        laboroj de prizorgado.
+      osm_read_only: La OpenStreetMap-datumbazo estas nuntempe en nurlega reĝimo pro
+        necesaj laboroj de prizorgado.
+      expected_restore_html: La servoj probable estos restarigitaj je %{time}.
+      announcement: Vi povas legi la afiŝon tie ĉi.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap: taglibra afiŝo %{id}'
@@ -2277,12 +2302,13 @@ eo:
         copyright: Aŭtorrajtoj al OpenStreetMap kaj kontribuintoj, laŭ malferma permesilo
       remote_failed: Redaktado malsukcesis - certigu ĉu JOSM aŭ Merkaartor estas startigita
         kaj ĉu defora aliro estas aktiva
-    edit:
+    not_public_flash:
       not_public: Vi ne agordis por viaj redaktoj estu publikaj.
       not_public_description_html: Vi ne povas plu redakti la mapon. Vi povas agordi
         ilin kiel publikan ĉe via %{user_page}.
       user_page_link: uzantpaĝo
       anon_edits_link_text: Tie ĉi vi sciiĝis kiel.
+    edit:
       id_not_configured: iD ne estas agordita
     export:
       title: Elporti
@@ -2392,6 +2418,14 @@ eo:
       where_am_i_title: Trovas la nunan pozicion per la foliumilo
       submit_text: Ek
       reverse_directions_text: Inversigi direkton
+      modes:
+        bicycle: Bicikle
+        car: Aŭte
+        foot: Piede
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2723,10 +2757,12 @@ eo:
       write_prefs: modifi preferojn de uzanto
       write_diary: afiŝi en taglibro kaj komenti
       write_api: redakti la mapon
+      write_changeset_comments: komenti ŝanĝarojn
       read_gpx: legi privatajn GPS-spurojn
       write_gpx: alŝuti GPS-spurojn
       write_notes: modifi rimarkojn
       write_redactions: Redakti map-datumojn
+      write_blocks: krei kaj nuligi blokadojn al uzantoj
       read_email: legi retpoŝtan adreson de uzanto
       consume_messages: legi, ŝanĝi staton kaj forigi mesaĝojn de uzanto
       send_messages: sendi privatajn mesaĝojn al aliaj uzantoj
@@ -2818,8 +2854,6 @@ eo:
           de retpoŝta adreso
         html: Via retpoŝta adreso ne estas publike montrata, legu nian %{privacy_policy_link}
           por pli da informoj.
-      consider_pd_html: Mi konsideras ke miaj kontribuoj estu eldonitaj en la %{consider_pd_link}.
-      consider_pd: publika havaĵo
       or: aŭ
       use external auth: 'registriĝi per ekstera liveranto:'
     no_such_user:
@@ -2835,7 +2869,7 @@ eo:
       my notes: Miaj rimarkoj
       my messages: Mesaĝoj
       my profile: Profilo
-      my settings: Agordoj
+      my_account: Mia konto
       my comments: Miaj komentoj
       my_preferences: Preferoj
       my_dashboard: Panelo
@@ -2913,21 +2947,31 @@ eo:
       show:
         title: Uzantoj
         heading: Uzantoj
-        empty: Kongruaj uzantoj ne trovitaj
+        select_status: Elekti staton
+        states:
+          pending: pritraktata
+          active: aktiva
+          confirmed: konfirmita
+          suspended: blokita
+          deleted: forigita
+        name_or_email: Nomo aŭ retpoŝta adreso
+        ip_address: IP-adreso
+        search: Serĉi
       page:
         found_users:
           one: '%{count} trovita uzanto'
           other: '%{count} trovitaj uzantoj'
         confirm: Konfirmi elektitajn uzantojn
         hide: Kaŝi elektitajn uzantojn
+        empty: Kongruaj uzantoj ne trovitaj
       user:
         summary_html: '%{name} kreita de %{ip_address} je %{date}'
         summary_no_ip_html: '%{name} kreita je %{date}'
     comments:
       index:
         heading_html: Komentoj de %{user}
-        changesets: pri ŝanĝaroj
-        diary_entries: pri taglibraj afiŝoj
+        changesets: Ŝanĝaroj
+        diary_entries: Taglibroj
         no_comments: Neniu komento
     changeset_comments:
       index:
@@ -2944,8 +2988,8 @@ eo:
         when: Kiam
         comment: Komento
     suspended:
-      title: Konto haltigita
-      heading: Konto haltigita
+      title: Konto blokita
+      heading: Konto blokita
       support: subtena teamo
       automatically_suspended: Bedaŭrinde via konto estas aŭtomate blokita pro suspektinda
         agado.
@@ -3113,6 +3157,8 @@ eo:
       open_title: 'Nesolvita rimarko #%{note_name}'
       closed_title: 'Solvita rimarko #%{note_name}'
       hidden_title: 'Kaŝita rimarko #%{note_name}'
+      description_when_author_is_deleted: forigita
+      description_when_there_is_no_opening_comment: nekonata
       event_opened_by_html: Kreita de %{user} %{time_ago}
       event_opened_by_anonymous_html: Anonime kreita %{time_ago}
       event_commented_by_html: Komento de %{time_ago} de %{user}
@@ -3252,16 +3298,6 @@ eo:
       alklaku tie ĉi.
     directions:
       ascend: Supreniro
-      engines:
-        fossgis_osrm_bike: Bicikle (OSRM)
-        fossgis_osrm_car: Aŭte (OSRM)
-        fossgis_osrm_foot: Piede (OSRM)
-        graphhopper_bicycle: Bicikle (GraphHopper)
-        graphhopper_car: Aŭte (GraphHopper)
-        graphhopper_foot: Piede (GraphHopper)
-        fossgis_valhalla_bicycle: Bicikle (Valhalla)
-        fossgis_valhalla_car: Aŭte (Valhalla)
-        fossgis_valhalla_foot: Piede (Valhalla)
       descend: Malsupreniro
       directions: Kurso
       distance: Distanco
@@ -3350,6 +3386,8 @@ eo:
           ninth: 9-an
           tenth: 10-an
       time: Tempo
+      download: Elŝuti kurson kiel GeoJSON
+      filename: kurso
     query:
       node: Nodo
       way: Linio
@@ -3364,6 +3402,9 @@ eo:
       show_address: Montri adreson
       query_features: Informoj pri objektoj
       centre_map: Centrigi mapon ĉi tien
+    home:
+      marker_title: Mia hejmloko
+      not_set: Hejmloko ne estas agordita por via konto
   redactions:
     edit:
       heading: Redakti korekton

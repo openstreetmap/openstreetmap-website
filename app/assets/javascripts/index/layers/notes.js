@@ -3,7 +3,7 @@ OSM.initializeNotesLayer = function (map) {
   const noteLayer = map.noteLayer;
   let notes = {};
 
-  var noteIcons = {
+  const noteIcons = {
     "new": L.icon({
       iconUrl: OSM.NEW_NOTE_MARKER,
       iconSize: [25, 40],
@@ -39,7 +39,7 @@ OSM.initializeNotesLayer = function (map) {
   });
 
   function updateMarker(old_marker, feature) {
-    var marker = old_marker;
+    let marker = old_marker;
     if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
     } else {
@@ -67,34 +67,34 @@ OSM.initializeNotesLayer = function (map) {
   };
 
   function loadNotes() {
-    var bounds = map.getBounds();
-    var size = bounds.getSize();
+    const bounds = map.getBounds();
+    const size = bounds.getSize();
 
     if (size <= OSM.MAX_NOTE_REQUEST_AREA) {
-      var url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBoxString();
+      const url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBoxString();
 
       if (noteLoader) noteLoader.abort();
 
-      noteLoader = $.ajax({
-        url: url,
-        success: success
-      });
+      noteLoader = new AbortController();
+      fetch(url, { signal: noteLoader.signal })
+        .then(response => response.json())
+        .then(success)
+        .catch(() => {})
+        .finally(() => noteLoader = null);
     }
 
     function success(json) {
-      var oldNotes = notes;
+      const oldNotes = notes;
       notes = {};
       for (const feature of json.features) {
-        var marker = oldNotes[feature.properties.id];
+        const marker = oldNotes[feature.properties.id];
         delete oldNotes[feature.properties.id];
         notes[feature.properties.id] = updateMarker(marker, feature);
       }
 
-      for (var id in oldNotes) {
+      for (const id in oldNotes) {
         noteLayer.removeLayer(oldNotes[id]);
       }
-
-      noteLoader = null;
     }
   }
 };

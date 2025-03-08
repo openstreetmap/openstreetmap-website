@@ -91,8 +91,9 @@ be-Tarask:
         support_url: URL-адрас падтрымкі
         allow_read_prefs: чытаць іх налады ўдзельніка
         allow_write_prefs: зьмяняць іх налады ўдзельніка
-        allow_write_diary: ствараць запісы ў дзёньніку, камэнтары і знаёміцца
+        allow_write_diary: ствараць запісы і камэнтары ў дзёньніку
         allow_write_api: зьмяняць мапу
+        allow_write_changeset_comments: камэнтаваць наборы зьменаў
         allow_read_gpx: чытаць іх прыватныя GPS-трэкі
         allow_write_gpx: загружаць GPS-трэкі
         allow_write_notes: зьмяняць нататкі
@@ -247,10 +248,11 @@ be-Tarask:
         comment: Камэнтар
         full: Поўны тэкст
   accounts:
-    edit:
+    show:
       title: Рэдагаваньне рахунку
-      my settings: Мае налады
+      my_account: Мой уліковы запіс
       current email address: Цяперашні адрас электроннай пошты
+      external auth: Вонкавая аўтэнтыфікацыя
       openid:
         link text: што гэта?
       contributor terms:
@@ -263,8 +265,13 @@ be-Tarask:
           набытак.
         link text: што гэта?
       save changes button: Захаваць зьмены
+      delete_account: Выдаліць уліковы запіс…
     go_public:
       heading: Публічнае рэдагаваньне
+      currently_not_public: Цяпер вашыя рэдагаваньні ананімныя, і людзі ня могуць
+        даслаць вам паведамленьні ці бачыць вашае знаходжаньне. Каб паказаць, што
+        вы рэдагавалі і дазволіць людзям зьвязвацца з вамі пра сайт, націсьніце кнопку
+        ніжэй.
       make_edits_public_button: Зрабіць усе мае рэдагаваньні публічнымі
     update:
       success_confirm_needed: Інфармацыя карыстальніка была абноўленая пасьпяхова.
@@ -281,9 +288,6 @@ be-Tarask:
       show:
         title: Умовы
         heading: Умовы
-        consider_pd: У дадатак да прыведзенага вышэй, я пацьвярджаю, што мой унёсак
-          знаходзіцца ў грамадзкім набытку
-        consider_pd_why: што гэта?
         you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся
           ці адхіліце новыя ўмовы супрацоўніцтва для працягу.
         legale_select: 'Калі ласка, выберыце сваю краіну пражываньня:'
@@ -293,6 +297,9 @@ be-Tarask:
           rest_of_world: Астатні сьвет
       update:
         terms accepted: Дзякуй за тое, што прынялі новыя ўмовы супрацоўніцтва!
+    pd_declarations:
+      show:
+        confirm: Пацьвердзіць
   browse:
     version: Вэрсія
     in_changeset: Набор зьменаў
@@ -363,7 +370,8 @@ be-Tarask:
         key: Старонка вікі, якая апісвае тэг %{key}
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
-    query:
+  feature_queries:
+    show:
       nearby: Аб’екты паблізу
       enclosing: Навакольныя аб’екты
   changesets:
@@ -867,10 +875,6 @@ be-Tarask:
     gps_traces: GPS-шляхі
     user_diaries: Дзёньнікі карыстальнікаў
     edit_with: Рэдагаваць праз %{editor}
-    osm_offline: База зьвестак OpenStreetMap у цяперашні момант недаступная, таму
-      што праводзяцца неабходныя тэхнічныя работы.
-    osm_read_only: База зьвестак OpenStreetMap у цяперашні момант даступная толькі
-      для чытаньня, таму што праводзяцца неабходныя тэхнічныя работы.
     help: Дапамога
     copyright: Аўтарскія правы
   user_mailer:
@@ -887,10 +891,7 @@ be-Tarask:
     follow_notification:
       see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
     gpx_failure:
-      failed_to_import: 'немагчыма імпартаваць як файл GPS-сьледу. Праверце, ці сапраўды
-        гэты файл ёсьць GPX альбо архівам з файлам(і) GPX падтрымліванага фармату
-        (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Магчыма, праблема з фарматам
-        ці сынтаксам вашага файлу? Памылка імпарту такая:'
+      failed_to_import: Падобна, што ваш файл не атрымалася імпартаваць як GPS-сьлед.
       subject: '[OpenStreetMap] памылка імпарту GPX'
     gpx_success:
       subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
@@ -1078,7 +1079,7 @@ be-Tarask:
       js_2: OpenStreetMap выкарыстоўвае JavaScript для паказу мапы.
       remote_failed: Памылка рэдагаваньня. Упэўніцеся, што JOSM ці Merkaartor загружаныя
         і дазволеная магчымасьць аддаленага кіраваньня
-    edit:
+    not_public_flash:
       not_public: Вы не зрабілі Вашыя рэдагаваньні публічнымі.
       not_public_description_html: Вы больш ня можаце рэдагаваць мапу ў такім рэжыме.
         Вы можаце зрабіць Вашыя рэдагаваньні публічнымі на Вашай %{user_page}.
@@ -1256,7 +1257,6 @@ be-Tarask:
       my diary: Мой дзёньнік
       my edits: Мае рэдагаваньні
       my traces: Мае трэкі
-      my settings: Мае налады
       blocks on me: Атрыманыя блякаваньні
       blocks by me: Заблякаваныя мной
       send message: Адаслаць паведамленьне
@@ -1306,10 +1306,10 @@ be-Tarask:
       show:
         title: Удзельнікі
         heading: Карыстальнікі
-        empty: Адпаведныя карыстальнікі ня знойдзеныя
       page:
         confirm: Пацьвердзіць выбраных карыстальнікаў
         hide: Схаваць выбраных карыстальнікаў
+        empty: Адпаведныя карыстальнікі ня знойдзеныя
       user:
         summary_html: '%{name} створаны з %{ip_address}, %{date}'
         summary_no_ip_html: '%{name} створаны %{date}'

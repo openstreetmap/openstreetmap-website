@@ -13,6 +13,7 @@
 # Author: Harald Khan
 # Author: Macofe
 # Author: Maddy from Celeste
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Nghtwlkr
@@ -217,9 +218,8 @@ nn:
         comment: Kommentar
         full: Fullstendig merknad
   accounts:
-    edit:
+    show:
       title: Rediger konto
-      my settings: Innstellingane mine
       current email address: Noverande e-postadresse
       external auth: Ekstern autentisering
       openid:
@@ -282,9 +282,6 @@ nn:
       show:
         title: Bidragsytervilkår
         heading: Bidragsytervilkåra
-        consider_pd: I tillegg til den ovannemnde avtala ansar eg bidraga mine for
-          å vere i public domain
-        consider_pd_why: kva er dette?
         you need to accept or decline: Les og deretter anten godta eller avslå dei
           nye bidragsytervilkåra for å halde fram.
         legale_select: 'Vel ditt bostedsland:'
@@ -371,7 +368,8 @@ nn:
       wikimedia_commons_link: Sida %{page} på Wikimedia Commons
       telephone_link: Ring %{phone_number}
       colour_preview: Førehandsvising av farga %{colour_value}
-    query:
+  feature_queries:
+    show:
       title: Finn objekt
       introduction: Klikk på kartet for å visa objekt i nærleiken.
       nearby: Nærliggjande objekt
@@ -1351,7 +1349,6 @@ nn:
       reopened: Stoda på saka har vorte sett til «Open»
     comments:
       comment_from_html: Kommentar frå %{user_link}, skriven %{comment_created_at}
-      reassign_param: Omdeleger saka?
     reports:
       reported_by_html: Meld som %{category} av %{user}, %{updated_at}
     helper:
@@ -1417,10 +1414,6 @@ nn:
     partners_fastly: Fastly
     partners_partners: partnarar
     tou: Bruksvilkår
-    osm_offline: OpenStreetMap databasen er for augneblunken utilgjengelig medan essensielt
-      vedlikeholdsarbeid vert utført.
-    osm_read_only: OpenStreetMap kan ikkje redigerast akkurat no, på grunn av nødvendig
-      vedlikehaldsarbeid.
     help: Hjelp
     about: Om
     copyright: Opphavsrett
@@ -1940,12 +1933,14 @@ nn:
         copyright: Kopibeskytta OpenStreetMap og bidragsytarar, under ein open lisens
       remote_failed: Klarte ikkje redigere - forsikre deg at JOSM eller Merkaartor
         er lasta og fjernkontrollvalget er aktivert
-    edit:
+    not_public_flash:
       not_public: Du har ikkje sett redigeringane dine til å vere offentlege.
       not_public_description_html: Du kan ikkje lenger redigere kartet om du ikkje
         gjer det. Du kan gjere redigeringane dine offentlege frå din %{user_page}.
       user_page_link: brukarside
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: Finn ut kvifor dette er tilfellet.
+    edit:
       id_not_configured: iD er ikkje konfigurert
     export:
       title: Eksporter
@@ -2031,6 +2026,10 @@ nn:
       where_am_i: Kor er eg?
       where_am_i_title: Bruk søkjemotoren til å skildre gjeldande lokasjon.
       submit_text: Gå
+      modes:
+        bicycle: Sykkel
+        car: Bil
+        foot: Til fots
     key:
       table:
         entry:
@@ -2228,7 +2227,6 @@ nn:
       my notes: Mine merknadar
       my messages: Mine meldingar
       my profile: Min profil
-      my settings: Mine innstillingar
       my comments: Mine kommentarar
       blocks on me: Mine blokeringar
       blocks by me: blokkeringar utført av meg
@@ -2282,10 +2280,10 @@ nn:
       show:
         title: Brukarar
         heading: Brukarar
-        empty: Ingen samsvarande brukarar funne
       page:
         confirm: Stadfest valde brukarar
         hide: Skjul valde brukarar
+        empty: Ingen samsvarande brukarar funne
       user:
         summary_html: '%{name} oppretta frå %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} oppretta %{date}'
@@ -2451,11 +2449,6 @@ nn:
       queryfeature_disabled_tooltip: Forstørra for å finna objekt
     directions:
       ascend: Stigande
-      engines:
-        fossgis_osrm_car: Bil (OSRM)
-        graphhopper_bicycle: Sykkel (GraphHopper)
-        graphhopper_car: Bil (GraphHopper)
-        graphhopper_foot: Til fots (GraphHopper)
       descend: Fallande
       directions: Vegskildringar
       distance: Avstand

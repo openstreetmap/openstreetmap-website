@@ -28,6 +28,7 @@
 # Author: Kwj2772
 # Author: Macofe
 # Author: Markingdots
+# Author: Marwin H.H.
 # Author: Nuevo Paso
 # Author: Priviet
 # Author: Revi
@@ -273,12 +274,13 @@ ko:
         comment: 의견
         full: 전체 참고
   accounts:
-    edit:
+    show:
       title: 계정 편집
-      my settings: 프로필 설정
+      my_account: 내 계정
       current email address: 현재 이메일 주소
       external auth: 외부 인증
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: 무엇인가요?
       contributor terms:
         heading: 기여자 약관
@@ -333,8 +335,6 @@ ko:
         tou_explain_html: 이러한 %{tou_link}는 오픈스트리트맵 재단에서 제공하는 웹사이트 및 기타 인프라 사용을 관리합니다.
           링크를 클릭하여 텍스트를 읽고 동의하십시오.
         read_tou: 이용약관을 읽었으며 동의합니다
-        consider_pd: 위의 내용 외에도 내 기여가 퍼블릭 도메인에 있다고 간주합니다
-        consider_pd_why: 무엇인가요?
         guidance_info_html: '이러한 용어를 이해하는 데 도움이 되는 정보: %{readable_summary_link} /
           일부 %{informal_translations_link}'
         readable_summary: 해석 요약본
@@ -353,6 +353,10 @@ ko:
         terms_declined_html: 새 기여자 약관에 동의하지 않기로 결정하셨습니다. 자세한 내용은 %{terms_declined_link}를
           참조하세요.
         terms_declined_link: 이 위키 문서
+    pd_declarations:
+      show:
+        consider_pd: 내 기여를 퍼블릭 도메인에 속하는 것으로 간주합니다
+        confirm: 확인
   browse:
     deleted_ago_by_html: '%{time_ago}에 %{user}님이 삭제함'
     edited_ago_by_html: '%{time_ago}에 %{user}님이 편집함'
@@ -429,7 +433,8 @@ ko:
       telephone_link: '%{phone_number}(으)로 전화 걸기'
       colour_preview: '%{colour_value}색 미리 보기'
       email_link: 이메일 %{email}
-    query:
+  feature_queries:
+    show:
       title: 지물 정보
       introduction: 근처의 지물을 찾으려면 지도에서 클릭하세요.
       nearby: 근처 지물
@@ -446,6 +451,8 @@ ko:
       view_redacted_data: 수정된 데이터 보기
       view_redaction_message: 수정 메시지 보기
   nodes:
+    not_found_message:
+      sorry: 죄송합니다, 노드 %{id}을(를) 찾을 수 없었습니다.
     timeout:
       sorry: 죄송합니다, %{id} id인 노드에 대한 데이터를 가져오는데 너무 오래 걸립니다.
   old_nodes:
@@ -1484,7 +1491,6 @@ ko:
       reopened: 이슈 상태가 '열림'으로 설정되었습니다
     comments:
       comment_from_html: '%{comment_created_at}에 %{user_link}님의 댓글'
-      reassign_param: 이슈를 다시 할당하시겠습니까?
     reports:
       reported_by_html: '%{updated_at}에 %{user}님이 %{category} 분류로 보고함'
     helper:
@@ -1554,8 +1560,6 @@ ko:
     partners_corpmembers: OSMF 기업 회원
     partners_partners: 협력단체
     tou: 이용 약관
-    osm_offline: 데이터베이스 점검을 위해 현재 오픈스트리트맵의 데이터가 오프라인 상태에 있습니다.
-    osm_read_only: 데이터베이스 점검을 위해 현재 오픈스트리트맵의 데이터가 읽기 전용으로 되어 있습니다.
     nothing_to_preview: 미리 볼 항목이 없습니다.
     help: 도움말
     about: 소개
@@ -2067,12 +2071,13 @@ ko:
       license:
         copyright: 저작권 오픈스트리트맵 및 기여자, 오픈 라이선스로 배포
       remote_failed: 편집을 실패했습니다 - JOSM이나 Merkaartor를 불러왔고 원격 제어 설정이 활성화되어 있는지 확인하세요
-    edit:
+    not_public_flash:
       not_public: 공개할 편집을 설정하지 않았습니다.
       not_public_description_html: 이렇게 하지 않으면 더 이상 지도를 편집할 수 없습니다. %{user_page}에서
         공개로 편집을 설정할 수 있습니다.
       user_page_link: 사용자 문서
       anon_edits_link_text: 왜 이러한지 알아보세요.
+    edit:
       id_not_configured: iD가 설정되지 않았습니다
     export:
       title: 내보내기
@@ -2173,6 +2178,10 @@ ko:
       where_am_i_title: 검색 엔진을 사용하여 현재 위치를 나타냅니다
       submit_text: 검색
       reverse_directions_text: 반대 방향
+      modes:
+        bicycle: 자전거
+        car: 자동차
+        foot: 도보
     key:
       table:
         entry:
@@ -2485,6 +2494,7 @@ ko:
       write_gpx: GPS 궤적 업로드
       write_notes: 참고 수정
       write_redactions: 지도 데이터 삭제
+      write_blocks: 사용자 차단 생성 및 취소
       read_email: 사용자 이메일 주소 읽기
       consume_messages: 사용자 메시지 읽기, 상태 업데이트 및 삭제
       send_messages: 다른 사용자에게 개인 메시지 보내기
@@ -2562,8 +2572,6 @@ ko:
         privacy_policy: 개인정보처리방침
         privacy_policy_title: 이메일 주소 섹션을 포함한 OSMF 개인 정보 보호 정책
         html: 당신의 주소는 공개적으로 노출되지 않습니다. 자세한 내용은 %{privacy_policy_link}를 참조하세요.
-      consider_pd_html: 내 기여가 %{consider_pd_link}에 속함을 선언합니다.
-      consider_pd: 퍼블릭 도메인
       or: 혹은
       use external auth: 다른 제3자 로그인 방식 사용하기
     no_such_user:
@@ -2578,7 +2586,7 @@ ko:
       my notes: 내 참고
       my messages: 내 메시지
       my profile: 내 프로필
-      my settings: 프로필 설정
+      my_account: 내 계정
       my comments: 내 의견
       my_preferences: 내 환경 설정
       my_dashboard: 내 대시보드
@@ -2650,12 +2658,20 @@ ko:
       show:
         title: 사용자
         heading: 사용자
-        empty: 일치하는 사용자를 찾을 수 없습니다
+        states:
+          pending: 보류 중
+          confirmed: 확인됨
+          suspended: 정지됨
+          deleted: 삭제됨
+        name_or_email: 이름 또는 이메일
+        ip_address: IP 주소
+        search: 검색
       page:
         found_users:
           other: 사용자 %{count}명 찾음
         confirm: 선택한 사용자 확인
         hide: 선택한 사용자 숨기기
+        empty: 일치하는 사용자를 찾을 수 없습니다
       user:
         summary_html: '%{name}님이 %{date}에 %{ip_address}에서 만들어짐'
         summary_no_ip_html: '%{name}이(가) %{date}에 만들어짐'
@@ -2817,6 +2833,7 @@ ko:
       open_title: '해결되지 않은 참고 #%{note_name}'
       closed_title: '해결된 참고 #%{note_name}'
       hidden_title: '숨겨진 참고 #%{note_name}'
+      description_when_there_is_no_opening_comment: 알 수 없음
       event_opened_by_html: '%{time_ago} %{user}님이 생성함'
       event_opened_by_anonymous_html: '%{time_ago} 익명의 사용자가 생성함'
       event_commented_by_html: '%{time_ago} %{user}님의 댓글'
@@ -2932,16 +2949,6 @@ ko:
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
     directions:
       ascend: 올라가기
-      engines:
-        fossgis_osrm_bike: 자전거 (OSRM)
-        fossgis_osrm_car: 자동차(OSRM)
-        fossgis_osrm_foot: 도보 (OSRM)
-        graphhopper_bicycle: 자전거 (GraphHopper)
-        graphhopper_car: 자동차(GraphHopper)
-        graphhopper_foot: 도보(GraphHopper)
-        fossgis_valhalla_bicycle: 자전거 (Valhalla)
-        fossgis_valhalla_car: 자동차 (Valhalla)
-        fossgis_valhalla_foot: 도보 (Valhalla)
       descend: 내려가기
       directions: 길
       distance: 거리

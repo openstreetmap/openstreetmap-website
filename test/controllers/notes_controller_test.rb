@@ -152,6 +152,24 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.note-comments ul li", :count => 1
   end
 
+  def test_read_note_hidden_opener
+    hidden_user = create(:user, :deleted)
+    note_with_hidden_opener = create(:note)
+    create(:note_comment, :author => hidden_user, :note => note_with_hidden_opener)
+
+    sidebar_browse_check :note_path, note_with_hidden_opener.id, "notes/show"
+    assert_select "div.note-comments ul li", :count => 0
+  end
+
+  def test_read_note_suspended_opener_and_comment
+    note = create(:note)
+    create(:note_comment, :note => note, :author => create(:user, :suspended))
+    create(:note_comment, :note => note, :event => "commented")
+
+    sidebar_browse_check :note_path, note.id, "notes/show"
+    assert_select "div.note-comments ul li", :count => 1
+  end
+
   def test_read_closed_note
     user = create(:user)
     closed_note = create(:note_with_comments, :closed, :closed_by => user, :comments_count => 2)

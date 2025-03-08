@@ -12,6 +12,7 @@
 # Author: Kareyac
 # Author: Macofe
 # Author: Maksim L.
+# Author: Marwin H.H.
 # Author: Mechanizatar
 # Author: Nerogaf
 # Author: Plaga med
@@ -290,9 +291,9 @@ be:
         comment: Каментар
         full: Тлумачэнне
   accounts:
-    edit:
+    show:
       title: Рэдагаваць уліковы запіс
-      my settings: Мае налады
+      my_account: Мой уліковы запіс
       current email address: Бягучы адрас электроннай пошты
       external auth: Знешняя Аўтэнтыфікацыя
       openid:
@@ -373,10 +374,8 @@ be:
         tou_explain_html: '%{tou_link} кіруе сайтам і іншай інфраструктурай OSMF.
           Калі ласка, прайдзіце па спасылцы і азнаёмцеся з тэкстам.'
         read_tou: Я згаджаюся з Умовамі выкарыстання
-        consider_pd: У праграму да прыведзенага пагаднення, я пацвярджаю, што мой
-          уклад знаходзіцца ў грамадскім набытку
-        consider_pd_why: што гэта?
         continue: Працягнуць
+        cancel: Скасаваць
         you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся
           ці адхіліце новыя ўмовы супрацоўніцтва для працягу.
         legale_select: 'Краіна пражывання:'
@@ -480,7 +479,8 @@ be:
       telephone_link: Патэлефанаваць %{phone_number}
       colour_preview: Прагляд колеру %{colour_value}
       email_link: Электронная пошта %{email}
-    query:
+  feature_queries:
+    show:
       title: Пошук аб’ектаў
       introduction: Націсніце на карце, каб атрымаць звесткі пра аб’екты паблізу.
       nearby: Аб’екты паблізу
@@ -1572,7 +1572,6 @@ be:
       reopened: Статус праблемы быў зменены на «Адкрыта»
     comments:
       comment_from_html: Каментарый ад %{user_link} у %{comment_created_at}
-      reassign_param: Пераназначыць праблему?
     reports:
       reported_by_html: Паведамлена як %{category} удзельнікам %{user} у %{updated_at}
     helper:
@@ -1643,10 +1642,6 @@ be:
     partners_corpmembers: Карпаратыўныя члены OSMF
     partners_partners: партнёры
     tou: Умовы карыстання
-    osm_offline: База даных OpenStreetMap зараз па-за сецівам, таму што праходзіць
-      неабходная тэхнічная праца.
-    osm_read_only: База даных OpenStreetMap зараз даступная толькі для чытання, таму
-      што праходзіць неабходная тэхнічная праца.
     help: Даведка
     about: Пра праект
     copyright: Аўтарскае права
@@ -2125,12 +2120,13 @@ be:
           адкрытай ліцэнзіі.
       remote_failed: Памылка рэдагавання. Упэўніцеся, што JOSM ці Merkaartor загружаныя
         і дазволеная магчымасць аддаленага кіравання
-    edit:
+    not_public_flash:
       not_public: Вы не дазволілі зрабіць усе вашыя змены публічнымі.
       not_public_description_html: Вы больш не можаце рэдагаваць карту ў такім рэжыме.
         Вы можаце зрабіць Вашыя рэдагаваньні публічнымі на Вашай %{user_page}.
       user_page_link: старонка карыстальніка
       anon_edits_link_text: Даведацца ў чым справа.
+    edit:
       id_not_configured: iD не быў настроены
     export:
       title: Экспарт
@@ -2216,6 +2212,9 @@ be:
       where_am_i_title: Апісаць бягучае месцазнаходжанне з дапамогай пошукавай сістэмы
       submit_text: Знайсці
       reverse_directions_text: Змяніць накірунак
+      modes:
+        bicycle: Веласіпед
+        car: Аўтамабіль
     key:
       table:
         entry:
@@ -2491,8 +2490,6 @@ be:
         privacy_policy: палітыкі прыватнасці
         html: Адрас вашай электроннай пошты не будзе паказвацца іншым карыстальнікам,
           звярніцеся да %{privacy_policy_link} за больш дэтальнай інфармацыяй.
-      consider_pd_html: Я пагаджаюся з тым, што мой унёсак будзе часткай %{consider_pd_link}.
-      consider_pd: грамадскага набытку
       or: або
       use external auth: У якасці альтэрнатывы выкарыстайце для ўваходу старонні сервіс
     no_such_user:
@@ -2508,7 +2505,6 @@ be:
       my notes: Мае заўвагі
       my messages: Паведамленні
       my profile: Мой профіль
-      my settings: Мае налады
       my comments: Мае каментары
       my_preferences: Мае параметры
       my_dashboard: Мая панэль
@@ -2573,10 +2569,10 @@ be:
       show:
         title: Удзельнікі
         heading: Удзельнікі
-        empty: Адпаведныя карыстальнікі не знойдзеныя
       page:
         confirm: Пацвердзіць выбраных карыстальнікаў
         hide: Схаваць выбраных карыстальнікаў
+        empty: Адпаведныя карыстальнікі не знойдзеныя
       user:
         summary_html: '%{name} створана з %{ip_address} %{date}'
         summary_no_ip_html: '%{name} створаны %{date}'
@@ -2809,13 +2805,6 @@ be:
       націсніце тут.
     directions:
       ascend: Угору
-      engines:
-        fossgis_osrm_bike: Веласіпед (OSRM)
-        fossgis_osrm_car: Аўтамабіль (OSRM)
-        fossgis_osrm_foot: Пешаход (OSRM)
-        graphhopper_bicycle: Веласіпед (GraphHopper)
-        graphhopper_car: Аўтамабіль (GraphHopper)
-        graphhopper_foot: Пешшу (GraphHopper)
       descend: Уніз
       directions: Маршрут
       distance: Адлегласць

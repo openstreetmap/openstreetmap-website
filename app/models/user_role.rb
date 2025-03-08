@@ -3,11 +3,11 @@
 # Table name: user_roles
 #
 #  id         :integer          not null, primary key
-#  user_id    :bigint(8)        not null
-#  role       :enum             not null
+#  user_id    :bigint           not null
 #  created_at :datetime
 #  updated_at :datetime
-#  granter_id :bigint(8)        not null
+#  role       :enum             not null
+#  granter_id :bigint           not null
 #
 # Indexes
 #

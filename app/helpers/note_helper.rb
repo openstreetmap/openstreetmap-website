@@ -1,9 +1,11 @@
 module NoteHelper
   include ActionView::Helpers::TranslationHelper
 
-  def note_description(author, description)
+  def note_description(author, description, first_comment)
     if !author.nil? && author.status == "deleted"
       RichText.new("text", t("notes.show.description_when_author_is_deleted"))
+    elsif first_comment&.event != "opened"
+      RichText.new("text", t("notes.show.description_when_there_is_no_opening_comment"))
     else
       description
     end

@@ -2,6 +2,8 @@
 
 module Api
   class ChangesetsController < ApiController
+    include QueryMethods
+
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
     before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
@@ -30,7 +32,7 @@ module Api
       changesets = conditions_bbox(changesets, bbox)
       changesets = conditions_user(changesets, params["user"], params["display_name"])
       changesets = conditions_time(changesets, params["time"])
-      changesets = conditions_from_to(changesets, params["from"], params["to"])
+      changesets = query_conditions_time(changesets)
       changesets = conditions_open(changesets, params["open"])
       changesets = conditions_closed(changesets, params["closed"])
       changesets = conditions_ids(changesets, params["changesets"])
@@ -43,7 +45,7 @@ module Api
                    end
 
       # limit the result
-      changesets = changesets.limit(result_limit)
+      changesets = query_limit(changesets)
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
@@ -61,7 +63,7 @@ module Api
       @changeset = Changeset.find(params[:id])
       if params[:include_discussion].presence
         @comments = @changeset.comments
-        @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:restore, ChangesetComment)
+        @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:create, :changeset_comment_visibility)
         @comments = @comments.includes(:author)
       end
 
@@ -125,58 +127,6 @@ module Api
         # to allow for any more when checking the limit
         check_rate_limit(0)
         render :xml => result.to_s
-      end
-    end
-
-    ##
-    # download the changeset as an osmChange document.
-    #
-    # to make it easier to revert diffs it would be better if the osmChange
-    # format were reversible, i.e: contained both old and new versions of
-    # modified elements. but it doesn't at the moment...
-    #
-    # this method cannot order the database changes fully (i.e: timestamp and
-    # version number may be too coarse) so the resulting diff may not apply
-    # to a different database. however since changesets are not atomic this
-    # behaviour cannot be guaranteed anyway and is the result of a design
-    # choice.
-    def download
-      changeset = Changeset.find(params[:id])
-
-      # get all the elements in the changeset which haven't been redacted
-      # and stick them in a big array.
-      elements = [changeset.old_nodes.unredacted,
-                  changeset.old_ways.unredacted,
-                  changeset.old_relations.unredacted].flatten
-
-      # sort the elements by timestamp and version number, as this is the
-      # almost sensible ordering available. this would be much nicer if
-      # global (SVN-style) versioning were used - then that would be
-      # unambiguous.
-      elements.sort_by! { |e| [e.timestamp, e.version] }
-
-      # generate an output element for each operation. note: we avoid looking
-      # at the history because it is simpler - but it would be more correct to
-      # check these assertions.
-      @created = []
-      @modified = []
-      @deleted = []
-
-      elements.each do |elt|
-        if elt.version == 1
-          # first version, so it must be newly-created.
-          @created << elt
-        elsif elt.visible
-          # must be a modify
-          @modified << elt
-        else
-          # if the element isn't visible then it must have been deleted
-          @deleted << elt
-        end
-      end
-
-      respond_to do |format|
-        format.xml
       end
     end
 
@@ -338,33 +288,6 @@ module Api
     end
 
     ##
-    # restrict changesets to those opened during a particular time period
-    # works similar to from..to of notes controller, including the requirement of 'from' when specifying 'to'
-    def conditions_from_to(changesets, from, to)
-      if from
-        begin
-          from = Time.parse(from).utc
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{from} is in a wrong format"
-        end
-
-        begin
-          to = if to
-                 Time.parse(to).utc
-               else
-                 Time.now.utc
-               end
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{to} is in a wrong format"
-        end
-
-        changesets.where(:created_at => from..to)
-      else
-        changesets
-      end
-    end
-
-    ##
     # return changesets which are open (haven't been closed yet)
     # we do this by seeing if the 'closed at' time is in the future. Also if we've
     # hit the maximum number of changes then it counts as no longer open.
@@ -401,20 +324,6 @@ module Api
       else
         ids = ids.split(",").collect(&:to_i)
         changesets.where(:id => ids)
-      end
-    end
-
-    ##
-    # Get the maximum number of results to return
-    def result_limit
-      if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_changeset_query_limit
-          params[:limit].to_i
-        else
-          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{Settings.max_changeset_query_limit}"
-        end
-      else
-        Settings.default_changeset_query_limit
       end
     end
   end

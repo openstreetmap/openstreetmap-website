@@ -29,6 +29,7 @@
 # Author: Macofe
 # Author: Mage Whopper
 # Author: MagicAho
+# Author: Marwin H.H.
 # Author: MathXplore
 # Author: Mfuji
 # Author: Miya
@@ -118,6 +119,7 @@ ja:
       message: メッセージ
       node: ノード
       node_tag: ノードのタグ
+      note: メモ
       old_node: 古いノード
       old_node_tag: 古いノードのタグ
       old_relation: 古いリレーション
@@ -148,7 +150,7 @@ ja:
         support_url: サポート URL
         allow_read_prefs: 利用者設定を読み込む
         allow_write_prefs: 利用者設定を変更する
-        allow_write_diary: 日記エントリを作成する・コメントする・友達を作る
+        allow_write_diary: 日記エントリを作成する・コメントする
         allow_write_api: 地図を変更する
         allow_read_gpx: 非公開GPSトレースを読み込む
         allow_write_gpx: GPSトレースをアップロードする
@@ -286,9 +288,8 @@ ja:
         comment: コメント
         full: メモ全文
   accounts:
-    edit:
+    show:
       title: アカウントの編集
-      my settings: 設定
       current email address: 現在のメールアドレス
       external auth: 外部認証
       openid:
@@ -345,12 +346,11 @@ ja:
         read_ct: 私は以下の貢献者同意を読み終え、これに同意します
         tou_explain_html: これらの%{tou_link}では、OSMFによって提供されているウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして、読み、文書に同意してください。
         read_tou: 私は利用規約を読み終え、これに同意します
-        consider_pd: 上記に加え、私の投稿をパブリック ドメインとします
-        consider_pd_why: これは何ですか?
         guidance_info_html: 'これらの用語を理解するのに役立つ情報: %{readable_summary_link} といくつかの %{informal_translations_link}'
         readable_summary: 人間が読める要約
         informal_translations: 非公式の翻訳
         continue: 続行
+        cancel: キャンセル
         you need to accept or decline: 続行するには新しい協力者規約を読んで承諾または拒否してください。
         legale_select: 'お住まいの国:'
         legale_names:
@@ -438,7 +438,8 @@ ja:
       telephone_link: '%{phone_number}に電話'
       colour_preview: 色彩%{colour_value}プレビュー
       email_link: メール %{email}
-    query:
+  feature_queries:
+    show:
       title: 地物を検索
       introduction: 地図上をクリックすると、近くの地物を探します。
       nearby: 近くの地物
@@ -455,6 +456,8 @@ ja:
       view_redacted_data: 編集されたデータを表示
       view_redaction_message: 編集メッセージを表示
   nodes:
+    not_found_message:
+      sorry: 'ノード #%{id} は見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、ノードのデータ（id %{id}）は、時間がかかりすぎたため取得できませんでした。
   old_nodes:
@@ -463,6 +466,8 @@ ja:
     timeout:
       sorry: 申し訳ありませんが、ID %{id} の履歴データは時間がかかりすぎたため取得できませんでした。
   ways:
+    not_found_message:
+      sorry: 'ウェイ #%{id} は見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、ウェイのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   old_ways:
@@ -471,6 +476,8 @@ ja:
     timeout:
       sorry: 申し訳ありませんが、ウェイの履歴データ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   relations:
+    not_found_message:
+      sorry: 'リレーション #%{id} は見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、リレーションのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   old_relations:
@@ -537,6 +544,8 @@ ja:
       ways_paginated: ウェイ (%{x}-%{y} / %{count})
       relations: リレーション (%{count}件)
       relations_paginated: リレーション (%{x}-%{y} / %{count})
+    not_found_message:
+      sorry: '変更セット #%{id} は見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、要求した変更セットの一覧は時間がかかりすぎたため取得できませんでした。
   changeset_subscriptions:
@@ -567,6 +576,8 @@ ja:
       edit_your_profile: プロフィールの編集
       nearby users: 周辺にいるその他の利用者
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
+      followed_changesets: 変更セット
+      followed_diaries: 日記エントリ
       nearby_changesets: 周辺の利用者の変更セット
       nearby_diaries: 周辺の利用者の日記エントリ
   diary_entries:
@@ -1540,7 +1551,6 @@ ja:
       reopened: 問題の状態は「未解決」に設定されました
     comments:
       comment_from_html: '%{comment_created_at} の %{user_link} さんからのコメント'
-      reassign_param: 問題を再度、割り当てますか？
     reports:
       reported_by_html: '%{user}による %{category} として%{updated_at}に報告済み'
     helper:
@@ -1608,8 +1618,6 @@ ja:
     partners_corpmembers: OSMF法人会員
     partners_partners: パートナー
     tou: 利用規約
-    osm_offline: OpenStreetMap のデータベースはメンテナンスのため一時的に停止しています。
-    osm_read_only: OpenStreetMap のデータベースは、メンテナンスのため一時的に読み取り専用モードになっています。
     nothing_to_preview: プレビューするものはありません。
     help: ヘルプ
     about: このサイトについて
@@ -1641,8 +1649,7 @@ ja:
       see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
-      failed_to_import: 'GPS トレース ファイルとしてインポートできませんでした。ファイルが有効な GPXファイル、または、GPX ファイルを含む圧縮ファイル（対応形式は.tar.gz,
-        .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2）であることを確認してください。ファイルの形式または構造に問題がある可能性があります。エラー内容は次の通りです:'
+      failed_to_import: ファイルをGPS トレースとしてインポートできませんでした。
       more_info: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       subject: '[OpenStreetMap] GPX インポートに失敗'
@@ -1826,6 +1833,14 @@ ja:
   preferences:
     show:
       title: 個人設定
+      site_color_schemes:
+        auto: 自動
+        light: ライト
+        dark: ダーク
+      map_color_schemes:
+        auto: 自動
+        light: ライト
+        dark: ダーク
       save: 設定の更新
     update:
       failure: 設定を更新できませんでした。
@@ -1897,6 +1912,9 @@ ja:
       preview: プレビュー
       help: ヘルプ
     pagination:
+      changeset_comments:
+        older: 古いコメント
+        newer: 新しいコメント
       diary_comments:
         older: 古いコメント
         newer: 新しいコメント
@@ -2077,11 +2095,12 @@ ja:
       license:
         copyright: オープンライセンスによるOpenStreetMapおよび協力者の著作権を保護する
       remote_failed: 編集に失敗しました - JOSM または Merkaartor を起動し、リモート制御オプションが有効になっていることを確認してください
-    edit:
+    not_public_flash:
       not_public: あなたの編集結果を公開できません。
       not_public_description_html: このようなことをしない限り、あなたは地図を編集できません。あなたは%{user_page}から編集内容を公開できます。
       user_page_link: 利用者ページ
       anon_edits_link_text: なぜそうなのかを調べる。
+    edit:
       id_not_configured: iDが設定されていません。
     export:
       title: エクスポート
@@ -2175,6 +2194,14 @@ ja:
       where_am_i_title: 検索エンジンを使用して現在の場所を記述
       submit_text: 検索
       reverse_directions_text: 反対方向
+      modes:
+        bicycle: 自転車
+        car: 自動車
+        foot: 徒歩
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2442,7 +2469,7 @@ ja:
       openid: OpenStreetMapを使用してログイン
       read_prefs: 利用者設定の読み込み
       write_prefs: 利用者設定の変更
-      write_diary: 日記エントリを作成する・コメントする・友達を作る
+      write_diary: 日記エントリを作成する・コメントする
       write_api: マップの修正
       read_gpx: 非公開GPSトレースを読む
       write_gpx: GPSトレースをアップロードする
@@ -2524,8 +2551,6 @@ ja:
         privacy_policy: プライバシー・ポリシー
         privacy_policy_title: OSMFのプライバシーポリシー（メールアドレスに関するセクションを含む）
         html: あなたのアドレスは公開されません。詳細については、%{privacy_policy_link} をご覧ください。
-      consider_pd_html: 私の貢献は %{consider_pd_link} にあるとみなします。
-      consider_pd: パブリックドメイン
       or: または
       use external auth: サードパーティのアカウントでもログインできます。
     no_such_user:
@@ -2540,7 +2565,6 @@ ja:
       my notes: 自分のメモ
       my messages: 自分のメッセージ
       my profile: 自分のプロフィール
-      my settings: 設定
       my comments: 自分のコメント
       my_preferences: 個人設定
       my_dashboard: 私のダッシュボード
@@ -2605,10 +2629,10 @@ ja:
       show:
         title: 利用者
         heading: 利用者
-        empty: 該当する利用者が見つかりません
       page:
         confirm: 選択した利用者を承認
         hide: 選択した利用者を非表示
+        empty: 該当する利用者が見つかりません
       user:
         summary_html: '%{name} は %{ip_address}から%{date}に作成されました。'
         summary_no_ip_html: '%{name} は%{date}に作成されました。'
@@ -2853,16 +2877,6 @@ ja:
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
     directions:
       ascend: 上り坂
-      engines:
-        fossgis_osrm_bike: 自転車(OSRM)
-        fossgis_osrm_car: 自動車(OSRM)
-        fossgis_osrm_foot: 徒歩(OSRM)
-        graphhopper_bicycle: 自転車(GraphHopper)
-        graphhopper_car: 自動車(GraphHopper)
-        graphhopper_foot: 歩行(GraphHopper)
-        fossgis_valhalla_bicycle: 自転車(Valhalla)
-        fossgis_valhalla_car: 自動車(Valhalla)
-        fossgis_valhalla_foot: 歩行(Valhalla)
       descend: 下り坂
       directions: 方向
       distance: 距離

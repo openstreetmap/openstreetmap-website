@@ -10,5 +10,6 @@ xml.user_block(attrs) do
   xml.user :uid => user_block.user_id, :user => user_block.user.display_name
   xml.creator :uid => user_block.creator_id, :user => user_block.creator.display_name
   xml.revoker :uid => user_block.revoker_id, :user => user_block.revoker.display_name if user_block.revoker
-  xml.reason user_block.reason
+
+  xml.reason user_block.reason unless @skip_reason
 end

@@ -15,9 +15,11 @@
 # Author: Anton Khorev
 # Author: Ashed
 # Author: Banonotit
+# Author: Borealex
 # Author: BushmanK
 # Author: Butko
 # Author: CM3X
+# Author: Cabadeck
 # Author: Calibrator
 # Author: Chilin
 # Author: Cjaushe4ka
@@ -59,6 +61,7 @@
 # Author: Lockal
 # Author: Lutece398
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: Mavl
 # Author: MaxSem
 # Author: McDutchie
@@ -112,6 +115,7 @@
 # Author: XnL
 # Author: Yuri Nazarov
 # Author: Yurik
+# Author: Yurina Tatiana
 # Author: Yuryleb
 # Author: Zverik
 # Author: Александр Сигачёв
@@ -203,6 +207,7 @@ ru:
         allow_write_prefs: изменять пользовательские настройки
         allow_write_diary: создавать записи в дневнике и комментарии
         allow_write_api: редактировать карту
+        allow_write_changeset_comments: комментировать пакеты правок
         allow_read_gpx: читать частные GPS-треки
         allow_write_gpx: загружать GPS-треки
         allow_write_notes: исправлять заметки
@@ -381,9 +386,9 @@ ru:
         comment: Комментарий
         full: Полный текст
   accounts:
-    edit:
+    show:
       title: Изменить учетную запись
-      my settings: Мои настройки
+      my_account: Мой аккаунт
       current email address: Текущий адрес электронной почты
       external auth: 'Внешняя аутентификация:'
       openid:
@@ -399,6 +404,9 @@ ru:
           в общественном достоянии.
         link: https://openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru
         link text: что это?
+        not_agreed_with_pd: Вы не заявили, что считаете свои правки находящимися в
+          общественном достоянии.
+        pd_link_text: объявить
       save changes button: Сохранить изменения
       delete_account: Удалить учётную запись…
     go_public:
@@ -462,10 +470,6 @@ ru:
         tou_explain_html: '%{tou_link} управляет сайтом и иной инфраструктурой, предоставляемой
           OSMF. Пожалуйста, перейдите по ссылке и ознакомьтесь с текстом.'
         read_tou: Я соглашаюсь с Условиями использования
-        consider_pd: В дополнение к вышеизложенному, я принимаю во внимание, что мой
-          вклад находится в общественном достоянии
-        consider_pd_why: что это значит?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Информация, помогающая понять эти условия: %{readable_summary_link}
           и некоторые %{informal_translations_link}'
         readable_summary: краткое содержание
@@ -486,6 +490,20 @@ ru:
           Для получения дополнительной информации смотрите %{terms_declined_link}.
         terms_declined_link: эта страница вики
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
+    pd_declarations:
+      show:
+        title: Считайте мои вклады общественным достоянием
+        consider_pd: Я считаю , мои вклады общественным достоянием.
+        consider_pd_why: Почему я хотел бы, чтобы мои материалы стали общественным
+          достоянием?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Подтвердить
+      create:
+        successfully_declared: Вы успешно заявили, что считаете свои правки общественным
+          достоянием.
+        already_declared: Вы уже заявили, что считаете свои правки общественным достоянием.
+        did_not_confirm: Вы не подтвердили, что считаете свои редактирования общественным
+          достоянием.
   browse:
     deleted_ago_by_html: Удален %{time_ago} пользователем %{user}
     edited_ago_by_html: Редактировал %{time_ago} %{user}
@@ -562,6 +580,7 @@ ru:
     start_rjs:
       feature_warning: Необходимо загрузить %{num_features} объектов, что может замедлить
         ваш браузер. Вы уверены, что хотите просмотреть эти данные?
+      feature_error: 'Не удалось загрузить объекты: %{message}'
       load_data: Загрузить данные
       loading: Загружается…
     tag_details:
@@ -575,7 +594,8 @@ ru:
       telephone_link: Позвонить %{phone_number}
       colour_preview: Просмотр цвета %{colour_value}
       email_link: Электронная почта %{email}
-    query:
+  feature_queries:
+    show:
       title: Что здесь?
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
@@ -724,6 +744,8 @@ ru:
       nearby users: Другие ближайшие пользователи
       no nearby users: Пока нет других пользователей, которые признают, что занимаются
         составлением карты поблизости.
+      followed_changesets: пакеты правок
+      followed_diaries: дневники
       nearby_changesets: пакеты правок соседей
       nearby_diaries: дневники соседей
   diary_entries:
@@ -1674,11 +1696,13 @@ ru:
       reports: Сообщения
       last_updated: Последнее изменение
       last_updated_time_ago_user_html: '%{time_ago} %{user}'
+      reporting_users: Сообщившие пользователи
       reports_count:
         one: 1 сообщение
         few: '%{count} сообщения'
         many: '%{count} сообщений'
         other: '%{count} сообщений'
+      more_reporters: и ещё %{count}
       reported_item: Элемент в сообщении
       states:
         open: Открыть
@@ -1712,7 +1736,8 @@ ru:
       reopened: Статус проблемы был установлен в "Открыто"
     comments:
       comment_from_html: Комментарий участника %{user_link}, созданный %{comment_created_at}
-      reassign_param: Переназначить проблему?
+      reassign_to_moderators: Перенаправить проблему модераторам
+      reassign_to_administrators: Перенаправить проблему Администраторам
     reports:
       reported_by_html: Указано как %{category} пользователем %{user} %{updated_at}
     helper:
@@ -1782,10 +1807,6 @@ ru:
     partners_fastly: Fastly
     partners_partners: партнёрами
     tou: Условия использования
-    osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится
-      необходимое техническое обслуживание.
-    osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения,
-      так как проводится необходимое техническое обслуживание.
     nothing_to_preview: Нечего предпросматривать.
     help: Помощь
     about: О проекте
@@ -2318,13 +2339,14 @@ ru:
           открытой лицензии
       remote_failed: Редактирование не удалось. Убедитесь, что JOSM или Merkaartor
         запущен и опция дистанционного управления включена
-    edit:
+    not_public_flash:
       not_public: Вы не сделали свои правки общедоступными.
       not_public_description_html: 'Вы не можете больше анонимно редактировать карту.
         Вы можете сделать ваши правки общедоступными здесь: %{user_page}.'
       user_page_link: страница пользователя
       anon_edits_html: '%{link}'
       anon_edits_link_text: Выяснить, в чём дело.
+    edit:
       id_not_configured: iD не был настроен
     export:
       title: Экспортировать
@@ -2433,6 +2455,10 @@ ru:
         поиска
       submit_text: Найти
       reverse_directions_text: Обратный маршрут
+      modes:
+        bicycle: На велосипеде
+        car: На машине
+        foot: Пешком
     key:
       table:
         entry:
@@ -2747,12 +2773,13 @@ ru:
     scopes:
       read_prefs: Прочитать настройки пользователя
       write_prefs: Изменить настройки пользователя
-      write_diary: Создавать записи в дневнике, комментировать и заводить друзей
+      write_diary: Создавать записи в дневнике и комментарии
       write_api: Изменить карту
       read_gpx: Читать частные GPS-треки
       write_gpx: Загрузить GPS-треки
       write_notes: Изменить заметки
       write_redactions: Редактировать данные карты
+      write_blocks: Создание и отмена блокировок пользователей
       read_email: Читать адрес электронной почты пользователя
       consume_messages: Читать, обновлять статус и удалять сообщения пользователей
       send_messages: Отправлять личные сообщения другим пользователям
@@ -2848,7 +2875,7 @@ ru:
       my notes: Мои заметки
       my messages: Мои сообщения
       my profile: Мой профиль
-      my settings: Мои настройки
+      my_account: Мой аккаунт
       my comments: Мои комментарии
       my_preferences: Мои предпочтения
       my_dashboard: Мой пульт
@@ -2912,15 +2939,31 @@ ru:
       show:
         title: Пользователи
         heading: Пользователи
-        empty: Не найдено соответствующих пользователей
+        states:
+          pending: В ожидании
+          active: Активен
+          confirmed: Подтверждено
+          suspended: Приостановлено
+          deleted: Удалено
+        name_or_email: Имя или адрес эл. почты
+        ip_address: IP-адрес
+        search: Поиск
       page:
         confirm: Подтвердить выделенных пользователей
         hide: Скрыть выделенных пользователей
+        empty: Не найдено соответствующих пользователей
       user:
         summary_html: '%{name} создан %{date}, с адреса %{ip_address}'
         summary_no_ip_html: '%{name} создан %{date}'
+    comments:
+      index:
+        heading_html: Комментарии пользователя %{user}
+        changesets: Пакеты правок
+        diary_entries: Записи в дневнике
+        no_comments: Нету комментариев
     changeset_comments:
       page:
+        changeset: Пакет правок
         when: Когда
         comment: Комментарий
     diary_comments:
@@ -2928,6 +2971,8 @@ ru:
         title: Комментарии к записям в дневнике, добавленные пользователем %{user}
       page:
         post: Сообщение
+        when: Когда
+        comment: Комментарий
     suspended:
       title: Учётная запись приостановлена
       heading: Учётная запись приостановлена
@@ -3236,16 +3281,6 @@ ru:
       кликните здесь.
     directions:
       ascend: Подъём
-      engines:
-        fossgis_osrm_bike: Велосипед (OSRM)
-        fossgis_osrm_car: На машине (OSRM)
-        fossgis_osrm_foot: Пешком (OSRM)
-        graphhopper_bicycle: На велосипеде (GraphHopper)
-        graphhopper_car: На машине (GraphHopper)
-        graphhopper_foot: Пешком (GraphHopper)
-        fossgis_valhalla_bicycle: На велосипеде (Valhalla)
-        fossgis_valhalla_car: На машине (Valhalla)
-        fossgis_valhalla_foot: Пешком (Valhalla)
       descend: Спуск
       directions: Маршрут
       distance: Расстояние
@@ -3345,6 +3380,9 @@ ru:
       show_address: Показать адрес
       query_features: Что здесь?
       centre_map: Центрировать карту
+    home:
+      marker_title: Мой домашний адрес
+      not_set: Установка места нахождения не установлена для вашей учётной записи
   redactions:
     edit:
       heading: Редактировать исправление

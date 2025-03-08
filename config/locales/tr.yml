@@ -24,8 +24,10 @@
 # Author: Katpatuka
 # Author: Khalvar
 # Author: Kumkumuk
+# Author: Leo
 # Author: LuCKY
 # Author: Makina88
+# Author: Marwin H.H.
 # Author: Mavrikant
 # Author: McAang
 # Author: Meelo
@@ -137,8 +139,9 @@ tr:
         support_url: Destek Bağlantısı
         allow_read_prefs: kullanıcı tercihlerini okuyun
         allow_write_prefs: kullanıcı tercihlerini değiştir
-        allow_write_diary: günlük girdiler, yorumlar oluşturun ve arkadaş edinin
+        allow_write_diary: günlük girdi ve yorum yaz
         allow_write_api: haritayı değiştir
+        allow_write_changeset_comments: değişiklik kaydı için yorum
         allow_read_gpx: özel GPS izlerini oku
         allow_write_gpx: GPS izlerini yükle
         allow_write_notes: notları değiştir
@@ -292,9 +295,9 @@ tr:
         comment: Yorum
         full: Notun tamamı
   accounts:
-    edit:
+    show:
       title: Hesabı düzenle
-      my settings: Ayarlarım
+      my_account: Hesabım
       current email address: Geçerli E-posta Adresi
       external auth: Harici Kimlik Doğrulama
       openid:
@@ -308,7 +311,10 @@ tr:
           için lütfen bu bağlantıyı kolaylık sağlamak için izleyin.
         agreed_with_pd: Ayrıca, düzenlemelerinizin Kamu Malı olduğunu düşündüğünüzü
           de beyan ettiniz.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: bu nedir?
+        not_agreed_with_pd: Yaptığınız düzenlemelerin Kamu Malı olduğunu beyan etmediniz.
+        pd_link_text: beyan et
       save changes button: Değişiklikleri Kaydet
       delete_account: Hesabı Sil...
     go_public:
@@ -370,10 +376,6 @@ tr:
           diğer altyapıların kullanımını yönetmektedir. Lütfen bağlantıya tıklayın,
           metni okuyun ve kabul edin.
         read_tou: Kullanım Şartlarını okudum ve kabul ediyorum
-        consider_pd: Yukarıdakilere ek olarak katkılarınızın kamu malı olarak kabul
-          edilmesini de seçebilirsiniz
-        consider_pd_why: bu nedir?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Bu terimleri anlamanıza yardımcı olacak bilgiler: %{readable_summary_link}
           ve bazı %{informal_translations_link}'
         readable_summary: okunabilir özet
@@ -394,6 +396,19 @@ tr:
           Daha fazla bilgi için lütfen %{terms_declined_link} sayfasına bakınız.
         terms_declined_link: bu wiki sayfası
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Katkılarımın Kamu Malı olduğunu beyan ediyorum
+        consider_pd: Katkılarımın Kamu Malı olduğunu bildiriyorum
+        consider_pd_why: Katkılarımın Kamu Malı olmasını neden isteyeyim?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Onayla
+      create:
+        successfully_declared: Düzenlemelerinizin Kamu Malı olduğunu kabul ettiğinizi
+          başarıyla beyan ettiniz.
+        already_declared: Yaptığınız düzenlemelerin Kamu Malı olduğunu zaten beyan
+          etmişsiniz.
+        did_not_confirm: Düzenlemelerinizin Kamu Malı olduğu konusunda teyitte bulunmadınız.
   browse:
     deleted_ago_by_html: '%{user} tarafından %{time_ago} silindi'
     edited_ago_by_html: '%{user} tarafından %{time_ago} düzenlendi'
@@ -462,6 +477,7 @@ tr:
       feature_warning: Tarayıcınızın yavaşlamasına veya yanıt vermemesine sebep olabilecek
         %{num_features} özellik yükleniyor. Bu veriyi görüntülemek istediğinize emin
         misiniz?
+      feature_error: 'Özellikler yüklenemedi: %{message}'
       load_data: Veri Yükle
       loading: Yükleniyor...
     tag_details:
@@ -475,7 +491,8 @@ tr:
       telephone_link: 'Ara: %{phone_number}'
       colour_preview: '%{colour_value} renginin önizlemesi'
       email_link: E-posta %{email}
-    query:
+  feature_queries:
+    show:
       title: Sorgu Özellikleri
       introduction: Yakındaki özellikleri bulmak için haritaya tıklayın.
       nearby: Yakındaki özellikler
@@ -541,6 +558,7 @@ tr:
       title: Değişiklik Kayıtları
       title_user: '%{user} kullanıcısının değişiklik kayıtları'
       title_user_link_html: '%{user_link} kullanıcısının değişiklik kayıtları'
+      title_followed: Takipçilere göre değişiklik kayıtları
       title_nearby: Yakındaki kullanıcıların değişiklik kayıtları
       empty: Değişiklik kayıtları bulunamadı.
       empty_area: Bu alanda değişiklik kaydı bulunmuyor.
@@ -611,13 +629,18 @@ tr:
     popup:
       your location: Konumum
       nearby mapper: Yakındaki haritacı
+      following: Takip
     show:
       title: Gösterge Panelim
       no_home_location_html: '%{edit_profile_link} ve yakındaki kullanıcıları görmek
         için bulunduğunuz konumu ayarlayın.'
       edit_your_profile: Profilinizi düzenleyin
+      followings: Takip
+      no followings: Henüz hiçbir kullanıcıyı takip etmediniz.
       nearby users: Yakın çevrede bulunan kullanıcılar
       no nearby users: Yakın çevrede herhangi başka kullanıcı henüz yok.
+      followed_changesets: değişiklik kaydı
+      followed_diaries: günlük girdileri
       nearby_changesets: yakınlarındaki kullanıcıların bütün değişiklik kayıtları
       nearby_diaries: yakınlarındaki kullanıcıların günlük girdileri
   diary_entries:
@@ -628,6 +651,7 @@ tr:
       use_map_link: Haritayı Kullan
     index:
       title: Kullanıcı Günlükleri
+      title_followed: Takipçi Günlükleri
       title_nearby: Yakındaki kullanıcıların günlükleri
       user_title: '%{user} Kullanıcısının Günlüğü'
       in_language_title: '%{language} dillindeki günlük girdiler'
@@ -756,7 +780,20 @@ tr:
   follows:
     show:
       follow:
+        heading: '%{user} kullanıcısını takip etmek ister misiniz?'
         button: Kullanıcıyı Takip Et
+      unfollow:
+        heading: '%{user} kullanıcısını takipten çıkmak istiyor musunuz?'
+        button: Kullanıcıyı Takipten Çıkar
+    create:
+      success: Artık %{name} kullanıcısını takip ediyorsunuz!
+      failed: Üzgünüz, %{name} kullanıcısını takip etme isteğiniz başarısız oldu.
+      already_followed: Zaten %{name} kullanıcısını takip ediyorsunuz.
+      limit_exceeded: Son zamanlarda çok sayıda kullanıcıyı takip ettiniz. Lütfen
+        daha fazla takip etmeye çalışmadan önce bir süre bekleyin.
+    destroy:
+      success: '%{name} kullanıcısını başarıyla takipten çıktınız.'
+      not_followed: '%{name} kullanıcısını takip etmiyorsunuz.'
   geocoder:
     search:
       title:
@@ -1011,6 +1048,7 @@ tr:
           bridleway: At Binme Yolu
           bus_guideway: Rehberli Otobüs Hattı
           bus_stop: Otobüs Durağı
+          busway: Otobüs yolu
           construction: Yapım Aşamasında Karayolu
           corridor: Koridor
           crossing: Geçit
@@ -1581,9 +1619,11 @@ tr:
       reports: Raporlar
       last_updated: Son Güncelleme
       last_updated_time_ago_user_html: '%{user} tarafından %{time_ago}'
+      reporting_users: Kullanıcı Bildirme
       reports_count:
         one: '%{count} Rapor'
         other: '%{count} Rapor'
+      more_reporters: ve %{count} daha fazla
       reported_item: Bildirilen Öge
       states:
         ignored: Yoksayıldı
@@ -1619,7 +1659,8 @@ tr:
       reopened: Sorun durumu 'Aç' olarak ayarlandı
     comments:
       comment_from_html: '%{comment_created_at} tarihinde %{user_link} üzerinden yorum'
-      reassign_param: Sorunu Yeniden Ata?
+      reassign_to_moderators: Konuyu Moderatörlere Yeniden Ata
+      reassign_to_administrators: Sorunu Yöneticilere Yeniden Ata
     reports:
       reported_by_html: '%{updated_at} tarihinde %{user} tarafından %{category} olarak
         bildirildi'
@@ -1690,10 +1731,6 @@ tr:
     partners_corpmembers: OSMF kurumsal üyeleri
     partners_partners: iş birlikçiler
     tou: Kullanım Şartları
-    osm_offline: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
-      şu anda çevrimdışıdır.
-    osm_read_only: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
-      şu anda sadece okunur durumdadır.
     nothing_to_preview: Önizlenecek bir şey yok.
     help: Yardım
     about: Hakkında
@@ -1701,6 +1738,14 @@ tr:
     communities: Topluluklar
     learn_more: Daha Fazla Bilgi
     more: Daha fazla
+    offline_flash:
+      osm_offline: OpenStreetMap veritabanı şu anda temel bakım çalışmaları yürütüldüğü
+        için çevrimdışıdır.
+      osm_read_only: OpenStreetMap veritabanı şu anda temel bakım çalışmaları yürütüldüğü
+        için salt okunur moddadır.
+      expected_restore_html: Hizmetlerin %{time} içerisinde tekrar aktif hale getirilmesi
+        bekleniyor.
+      announcement: Duyuruyu buradan okuyabilirsiniz.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap Günlük Girdisi #%{id}'
@@ -1730,8 +1775,12 @@ tr:
         adresinden ileti gönderebilirsiniz.
     follow_notification:
       hi: Merhaba %{to_user},
+      subject: '[OpenStreetMap] %{user} sizi takip etti'
+      followed_you: '%{user} artık sizi OpenStreetMap''te takip ediyor.'
       see_their_profile: '%{userurl} üzerinden profillerini görebilirsiniz.'
       see_their_profile_html: '%{userurl} üzerinden profilini görebilirsiniz.'
+      follow_them: Ayrıca onları %{followurl} adresinden de takip edebilirsiniz.
+      follow_them_html: Ayrıca onları %{followurl} adresinden de takip edebilirsiniz.
     gpx_details:
       details: 'Dosya bilgileriniz:'
       filename: Dosya adı
@@ -2076,6 +2125,9 @@ tr:
       preview: Önizleme
       help: Yardım
     pagination:
+      changeset_comments:
+        older: Daha Eski Yorumlar
+        newer: Daha Yeni Yorumlar
       diary_comments:
         older: Daha Eski Yorumlar
         newer: Daha Yeni Yorumlar
@@ -2319,12 +2371,15 @@ tr:
         copyright: Telif Hakkı OpenStreetMap ve katılımcılar, açık lisans altında
       remote_failed: Düzenleme başarısız - JOSM veya Merkaartor'un yüklendiğinden
         ve uzaktan kontrol seçeneğinin etkinleştirildiğinden emin olun.
-    edit:
+    not_public_flash:
       not_public: Düzenlemelerinizi herkese açık olacak şekilde ayarlamadınız.
       not_public_description_html: Siz bunu yapmadıkça haritayı artık düzenleyemezsiniz.
         Düzenlemelerinizi, %{user_page} sayfasından herkese açık olarak ayarlayabilirsiniz
       user_page_link: kullanıcı sayfası
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Tr:Anonymous_edits
       anon_edits_link_text: Durumun neden böyle olduğunu öğrenin.
+    edit:
       id_not_configured: iD yapılandırılmamış
     export:
       title: Dışa Aktar
@@ -2438,6 +2493,14 @@ tr:
       where_am_i_title: Arama motoru kullanarak geçerli konumunu tanımlar
       submit_text: Git
       reverse_directions_text: Yol Tarifi
+      modes:
+        bicycle: Bisikletle
+        car: Arabayla
+        foot: Yürüyerek
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2718,8 +2781,8 @@ tr:
         ancak bunları görmeniz gerekiyor.
     settings_menu:
       account_settings: Hesap Ayarları
-      oauth2_applications: OAuth 2 uygulamaları
-      oauth2_authorizations: OAuth 2 yetkilendirmeleri
+      oauth2_applications: OAuth 2 Uygulamaları
+      oauth2_authorizations: OAuth 2 Yetkilendirmeleri
       muted_users: Sessize Alınan Kullanıcılar
     auth_providers:
       openid_url: OpenID URL'si
@@ -2771,12 +2834,14 @@ tr:
       openid: OpenStreetMap'i kullanarak oturum açın
       read_prefs: Kullanıcı tercihlerini oku
       write_prefs: Kullanıcı tercihlerini değiştir
-      write_diary: Günlük girdiler, yorumlar oluştur ve arkadaşlar edin
+      write_diary: Günlük girdi ve yorum yaz
       write_api: Haritayı değiştir
+      write_changeset_comments: Değişiklik kayıtları için yorum yap
       read_gpx: Özel GPS izlerini oku
       write_gpx: GPS izlerini yükle
       write_notes: Notları değiştir
       write_redactions: Harita verilerini düzelt
+      write_blocks: Kullanıcı engelle ya da engeli iptal et
       read_email: Kullanıcı e-posta adresini oku
       consume_messages: Kullanıcı mesajlarını okuyun, güncelleyin ve silin
       send_messages: Diğer kullanıcılara özel mesajlar gönderin
@@ -2870,8 +2935,6 @@ tr:
           politikası
         html: Adresiniz herkese açık olarak görüntülenmiyor, daha fazla bilgi için
           %{privacy_policy_link} sayfasına bakın.
-      consider_pd_html: Katkılarımın %{consider_pd_link} içinde olduğunu düşünüyorum.
-      consider_pd: kamu malı
       or: veya
       use external auth: veya üçüncü bir parti uygulamasıyla kaydolun
     no_such_user:
@@ -2887,7 +2950,7 @@ tr:
       my notes: Notlarım
       my messages: Mesajlarım
       my profile: Profilim
-      my settings: Ayarlarım
+      my_account: Hesabım
       my comments: Yorumlarım
       my_preferences: Tercihlerim
       my_dashboard: Gösterge Panelim
@@ -2901,6 +2964,8 @@ tr:
       edits: Düzenlemeler
       traces: İzler
       notes: Harita Notları
+      unfollow: Takipten çık
+      follow: Takip et
       mapper since: 'Haritacılığa başlama tarihi:'
       last map edit: 'Son harita düzenlemesi:'
       no activity yet: Henüz herhangi bir etkinlik yok
@@ -2966,21 +3031,37 @@ tr:
       show:
         title: Kullanıcılar
         heading: Kullanıcılar
-        empty: Eşleşen kullanıcı bulunamadı
+        select_status: Durum Seç
+        states:
+          pending: Beklemede
+          active: Etkin
+          confirmed: Onaylandı
+          suspended: Askıya alındı
+          deleted: Silindi
+        name_or_email: İsim veya E-posta
+        ip_address: IP Adresi
+        search: Ara
       page:
         found_users:
           one: '%{count} kullanıcı bulundu'
           other: '%{count} kullanıcı bulundu'
         confirm: Seçili Kullanıcıları Doğrulayın
         hide: Seçilen Kullanıcıları Gizle
+        empty: Eşleşen kullanıcı bulunamadı
       user:
         summary_html: '%{name}, %{date} tarihinde %{ip_address} tarafından oluşturuldu.'
         summary_no_ip_html: '%{name} %{date} tarihinde oluşturuldu.'
     comments:
       index:
+        heading_html: '%{user} Kullanıcısının Yorumları'
+        changesets: Değişiklik Kayıtları
+        diary_entries: Günlük Girdileri
         no_comments: Yorum yok
     changeset_comments:
+      index:
+        title: '%{user} tarafından eklenen Değişiklik Kaydı Yorumları'
       page:
+        changeset: Değişiklik Kaydı
         when: Tarih
         comment: Yorum
     diary_comments:
@@ -2988,6 +3069,8 @@ tr:
         title: '%{user} tarafından yapılan günlük yorumları'
       page:
         post: Gönderi
+        when: Tarih
+        comment: Yorum
     suspended:
       title: Hesap Askıda
       heading: Hesap Askıda
@@ -3161,6 +3244,8 @@ tr:
       open_title: 'Çözümlenmemiş not: #%{note_name}'
       closed_title: 'Çözümlenmiş not: #%{note_name}'
       hidden_title: 'Gizli not #%{note_name}'
+      description_when_author_is_deleted: silindi
+      description_when_there_is_no_opening_comment: bilinmiyor
       event_opened_by_html: '%{time_ago} %{user} tarafından oluşturuldu'
       event_opened_by_anonymous_html: '%{time_ago} anonim biri tarafından oluşturuldu'
       event_commented_by_html: '%{user} tarafından %{time_ago} yapılan yorum'
@@ -3211,7 +3296,6 @@ tr:
         url: https://wiki.openstreetmap.org/wiki/Tr:Beginners%27_guide
       counter_warning_forum_link:
         text: topluluk size yardımcı olabilir
-        url: https://community.openstreetmap.org/
       advice: Notunuz herkese açıktır ve haritayı güncellemek için kullanılabilir,
         bu nedenle kişisel bilgilerinizi veya telif hakkıyla korunan haritalar veya
         dizin listelerinden bilgi girmeyin.
@@ -3306,16 +3390,6 @@ tr:
       sonra buraya tıklayın.
     directions:
       ascend: Yükselt
-      engines:
-        fossgis_osrm_bike: Bisikletle (OSRM)
-        fossgis_osrm_car: Arabayla (OSRM)
-        fossgis_osrm_foot: Yürüyerek (OSRM)
-        graphhopper_bicycle: Bisikletle (GraphHopper)
-        graphhopper_car: Arabayla (GraphHopper)
-        graphhopper_foot: Yürüyerek (GraphHopper)
-        fossgis_valhalla_bicycle: Bisikletle (Valhalla)
-        fossgis_valhalla_car: Arabayla (Valhalla)
-        fossgis_valhalla_foot: Yürüyerek (Valhalla)
       descend: İniş
       directions: İstikametler
       distance: Uzaklık
@@ -3400,6 +3474,8 @@ tr:
           ninth: dokuzuncu
           tenth: onuncu
       time: Zaman
+      download: Rotayı GeoJSON olarak indir
+      filename: rota
     query:
       node: Nokta
       way: Yol
@@ -3414,6 +3490,9 @@ tr:
       show_address: Adresi göster
       query_features: Özellikleri göster
       centre_map: Haritayı buraya ortala
+    home:
+      marker_title: Bulunduğum konum
+      not_set: Hesabınız için bulunduğunuz konum ayarlanmamış
   redactions:
     edit:
       heading: Redaksiyonu düzenle

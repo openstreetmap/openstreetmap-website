@@ -56,7 +56,6 @@ class FollowsControllerTest < ActionDispatch::IntegrationTest
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal follow.email, email.to.first
-    ActionMailer::Base.deliveries.clear
 
     # A second POST should report that the follow already exists
     assert_no_difference "ActionMailer::Base.deliveries.size" do
@@ -97,7 +96,6 @@ class FollowsControllerTest < ActionDispatch::IntegrationTest
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal follow.email, email.to.first
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_follow_unknown_user

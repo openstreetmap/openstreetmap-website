@@ -1,6 +1,6 @@
 OSM.Changeset = function (map) {
-  var page = {},
-      content = $("#sidebar_content");
+  const page = {},
+        content = $("#sidebar_content");
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
@@ -12,9 +12,10 @@ OSM.Changeset = function (map) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
+    const hashParams = OSM.parseHash(location.hash);
     initialize();
     map.addObject(changesetData, function (bounds) {
-      if (!window.location.hash && bounds.isValid()) {
+      if (!hashParams.center && bounds.isValid()) {
         OSM.router.withoutMoveListener(function () {
           map.fitBounds(bounds);
         });
@@ -23,51 +24,50 @@ OSM.Changeset = function (map) {
   };
 
   function updateChangeset(method, url, include_data) {
-    var data;
+    const data = new URLSearchParams();
 
     content.find("#comment-error").prop("hidden", true);
     content.find("button[data-method][data-url]").prop("disabled", true);
 
     if (include_data) {
-      data = { text: content.find("textarea").val() };
-    } else {
-      data = {};
+      data.set("text", content.find("textarea").val());
     }
 
-    $.ajax({
-      url: url,
-      type: method,
-      oauth: true,
-      data: data,
-      success: function () {
-        OSM.loadSidebarContent(window.location.pathname, page.load);
-      },
-      error: function (xhr) {
+    fetch(url, {
+      method: method,
+      headers: { ...OSM.oauth },
+      body: data
+    })
+      .then(response => {
+        if (response.ok) return response;
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      })
+      .then(() => {
+        OSM.loadSidebarContent(location.pathname, page.load);
+      })
+      .catch(error => {
         content.find("button[data-method][data-url]").prop("disabled", false);
         content.find("#comment-error")
-          .text(xhr.responseText)
+          .text(error.message)
           .prop("hidden", false)
           .get(0).scrollIntoView({ block: "nearest" });
-      }
-    });
+      });
   }
 
   function initialize() {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
-      var data = $(e.target).data();
-      var include_data = e.target.name === "comment";
+      const data = $(e.target).data();
+      const include_data = e.target.name === "comment";
       updateChangeset(data.method, data.url, include_data);
     });
 
     content.find("textarea").on("input", function (e) {
-      var form = e.target.form;
-
-      if ($(e.target).val() === "") {
-        $(form.comment).prop("disabled", true);
-      } else {
-        $(form.comment).prop("disabled", false);
-      }
+      const form = e.target.form,
+            disabled = $(e.target).val() === "";
+      form.comment.disabled = disabled;
     });
 
     content.find("textarea").val("").trigger("input");

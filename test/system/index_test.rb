@@ -56,20 +56,20 @@ class IndexTest < ApplicationSystemTestCase
 
   test "can navigate from hidden note to visible note" do
     sign_in_as(create(:moderator_user))
-    hidden_note = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note, :body => "this-is-a-hidden-note")
+    hidden_note = create(:note, :status => "hidden", :description => "Hidden Note Description")
+    create(:note_comment, :note => hidden_note, :body => "this-is-a-hidden-note", :event => "opened")
     position = (1.003 * GeoRecord::SCALE).to_i
-    visible_note = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => visible_note, :body => "this-is-a-visible-note")
+    visible_note = create(:note, :latitude => position, :longitude => position, :description => "Visible Note Description")
+    create(:note_comment, :note => visible_note, :body => "this-is-a-visible-note", :event => "opened")
 
     visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during note_path(hidden_note)
     visit note_path(hidden_note)
     find(".leaflet-control.control-layers .control-button").click
     find("#map-ui .overlay-layers .form-check-label", :text => "Map Notes").click
     visible_note_marker = find(".leaflet-marker-icon[title=this-is-a-visible-note]")
-    assert_selector "#sidebar", :text => "this-is-a-hidden-note"
+    assert_selector "#sidebar", :text => "Hidden Note Description"
 
     visible_note_marker.click
-    assert_selector "#sidebar", :text => "this-is-a-visible-note"
+    assert_selector "#sidebar", :text => "Visible Note Description"
   end
 end

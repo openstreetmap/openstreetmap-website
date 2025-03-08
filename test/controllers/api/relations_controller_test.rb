@@ -42,31 +42,6 @@ module Api
         { :controller => "api/relations", :action => "destroy", :id => "1" }
       )
 
-      assert_routing(
-        { :path => "/api/0.6/node/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_node", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/node/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_node", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1", :format => "json" }
-      )
-
       assert_recognizes(
         { :controller => "api/relations", :action => "create" },
         { :path => "/api/0.6/relation/create", :method => :put }
@@ -226,71 +201,6 @@ module Api
       js_nodes = js["elements"].filter { |e| e["type"] == "node" }
       assert_equal 1, js_nodes.count
       assert_equal node.id, js_nodes[0]["id"]
-    end
-
-    ##
-    # check that all relations containing a particular node, and no extra
-    # relations, are returned from the relations_for_node call.
-    def test_relations_for_node
-      node = create(:node)
-      # should include relations with that node as a member
-      relation_with_node = create(:relation_member, :member => node).relation
-      # should ignore relations without that node as a member
-      _relation_without_node = create(:relation_member).relation
-      # should ignore relations with the node involved indirectly, via a way
-      way = create(:way_node, :node => node).way
-      _relation_with_way = create(:relation_member, :member => way).relation
-      # should ignore relations with the node involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => node).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => node, :relation => relation_with_node)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => node, :relation => deleted_relation)
-
-      check_relations_for_element(node_relations_path(node), "node",
-                                  node.id,
-                                  [relation_with_node, second_relation])
-    end
-
-    def test_relations_for_way
-      way = create(:way)
-      # should include relations with that way as a member
-      relation_with_way = create(:relation_member, :member => way).relation
-      # should ignore relations without that way as a member
-      _relation_without_way = create(:relation_member).relation
-      # should ignore relations with the way involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => way).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => way, :relation => relation_with_way)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => way, :relation => deleted_relation)
-
-      check_relations_for_element(way_relations_path(way), "way",
-                                  way.id,
-                                  [relation_with_way, second_relation])
-    end
-
-    def test_relations_for_relation
-      relation = create(:relation)
-      # should include relations with that relation as a member
-      relation_with_relation = create(:relation_member, :member => relation).relation
-      # should ignore any relation without that relation as a member
-      _relation_without_relation = create(:relation_member).relation
-      # should ignore relations with the relation involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => relation).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => relation, :relation => relation_with_relation)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => relation, :relation => deleted_relation)
-      check_relations_for_element(relation_relations_path(relation), "relation",
-                                  relation.id,
-                                  [relation_with_relation, second_relation])
     end
 
     # -------------------------------------
@@ -872,7 +782,7 @@ module Api
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(relation_id, 2)
+        get api_relation_version_path(relation_id, 2)
         assert_response :success, "can't read back version 2 of the relation #{relation_id}"
         check_ordering(doc, @response.body)
       end
@@ -952,7 +862,7 @@ module Api
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(relation_id, 1)
+        get api_relation_version_path(relation_id, 1)
         assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
         check_ordering(doc, @response.body)
       end
@@ -1103,25 +1013,6 @@ module Api
 
     private
 
-    def check_relations_for_element(path, type, id, expected_relations)
-      # check the "relations for relation" mode
-      get path
-      assert_response :success
-
-      # count one osm element
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-
-      # we should have only the expected number of relations
-      assert_select "osm>relation", expected_relations.size
-
-      # and each of them should contain the element we originally searched for
-      expected_relations.each do |relation|
-        # The relation should appear once, but the element could appear multiple times
-        assert_select "osm>relation[id='#{relation.id}']", 1
-        assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
-      end
-    end
-
     ##
     # checks that the XML document and the string arguments have
     # members in the same order.
@@ -1152,7 +1043,7 @@ module Api
       # that the bounding box will be newly-generated.
       with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
-        put changeset_create_path, :params => xml, :headers => auth_header
+        post api_changesets_path, :params => xml, :headers => auth_header
         assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
       end
 
@@ -1163,7 +1054,7 @@ module Api
       # that the bounding box will be newly-generated.
       changeset_id = with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
-        put changeset_create_path, :params => xml, :headers => auth_header
+        post api_changesets_path, :params => xml, :headers => auth_header
         assert_response :success, "couldn't create changeset for modify test"
         @response.body.to_i
       end
@@ -1173,7 +1064,7 @@ module Api
 
       # now download the changeset to check its bounding box
       with_controller(Api::ChangesetsController.new) do
-        get changeset_show_path(changeset_id)
+        get api_changeset_path(changeset_id)
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -1193,7 +1084,7 @@ module Api
         get api_relation_path(id)
       else
         with_controller(OldRelationsController.new) do
-          get api_old_relation_path(id, ver)
+          get api_relation_version_path(id, ver)
         end
       end
       assert_response :success

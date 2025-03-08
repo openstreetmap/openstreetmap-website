@@ -6,6 +6,7 @@
 # Author: Julian Mendez
 # Author: Karmwiki
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Nemo bis
 ---
@@ -245,9 +246,8 @@ ia:
         comment: Commento
         full: Nota complete
   accounts:
-    edit:
+    show:
       title: Modificar conto
-      my settings: Mi parametros
       current email address: Adresse de e-mail actual
       external auth: Authentication externe
       openid:
@@ -325,10 +325,6 @@ ia:
           fornite per OSMF. Per favor, clicca sur le ligamine, lege le texto, e declara
           te de accordo.
         read_tou: Io ha legite e io accepta le Conditiones de uso
-        consider_pd: In addition a lo que precede, io considera mi contributiones
-          como essente in le dominio public
-        consider_pd_why: que es isto?
-        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         guidance_info_html: 'Information pro adjutar a comprender iste terminos: un
           %{readable_summary_link} e qualque %{informal_translations_link}'
         readable_summary: summario legibile per humanos
@@ -349,6 +345,9 @@ ia:
           Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
         terms_declined_link: iste pagina wiki
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
   browse:
     deleted_ago_by_html: Delite %{time_ago} per %{user}
     edited_ago_by_html: Modificate %{time_ago} per %{user}
@@ -430,7 +429,8 @@ ia:
       telephone_link: Telephonar %{phone_number}
       colour_preview: Previsualisation del color %{colour_value}
       email_link: E-mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Cercar objectos
       introduction: Clicca sur le carta pro cercar objectos a proximitate.
       nearby: Objectos proxime
@@ -1592,7 +1592,6 @@ ia:
       reopened: Le stato del problema ha essite cambiate a 'Aperte'
     comments:
       comment_from_html: Commento de %{user_link} del %{comment_created_at}
-      reassign_param: Reassignar problema?
     reports:
       reported_by_html: Reportate como %{category} per %{user} le %{updated_at}
     helper:
@@ -1665,10 +1664,6 @@ ia:
     partners_corpmembers: Membros corporative de OSMF
     partners_partners: partners
     tou: Conditiones de uso
-    osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento debite
-      a operationes de mantenentia essential.
-    osm_read_only: Le base de datos de OpenStreetMap es al momento in modo de solmente
-      lectura durante le execution de mantenentia essential.
     nothing_to_preview: Nihil a previsualisar.
     help: Adjuta
     about: A proposito
@@ -2261,12 +2256,13 @@ ia:
         copyright: Copyright OpenStreetMap e contributores, sub licentia aperte
       remote_failed: Modification fallite - assecura te que JOSM o Merkaartor es cargate
         e que le plug-in de controlo remote es activate
-    edit:
+    not_public_flash:
       not_public: Tu non ha configurate tu modificationes pro esser public.
       not_public_description_html: Tu non potera plus modificar le carta si tu non
         lo face. Tu pote configurar tu modificationes como public a partir de tu %{user_page}.
       user_page_link: pagina de usator
       anon_edits_link_text: Lege proque isto es le caso.
+    edit:
       id_not_configured: iD non ha essite configurate
     export:
       title: Exportar
@@ -2381,6 +2377,10 @@ ia:
       where_am_i_title: Describer le position actual per medio del motor de recerca
       submit_text: Va
       reverse_directions_text: Inverter le itinerario
+      modes:
+        bicycle: Bicycletta
+        car: Auto
+        foot: A pede
     key:
       table:
         entry:
@@ -2790,8 +2790,6 @@ ia:
           sur adresses de e-mail
         html: Tu adresse non es monstrate publicamente. Consulta nostre %{privacy_policy_link}
           pro plus information.
-      consider_pd_html: Io considera que mi contributiones es in le %{consider_pd_link}.
-      consider_pd: dominio public
       or: o
       use external auth: o usa un tertio pro aperir session
     no_such_user:
@@ -2807,7 +2805,6 @@ ia:
       my notes: Mi notas
       my messages: Mi messages
       my profile: Mi profilo
-      my settings: Mi parametros
       my comments: Mi commentos
       my_preferences: Mi preferentias
       my_dashboard: Mi pannello
@@ -2886,13 +2883,13 @@ ia:
       show:
         title: Usatores
         heading: Usatores
-        empty: Nulle usator correspondente trovate
       page:
         found_users:
           one: '%{count} usator trovate'
           other: '%{count} usatores trovate'
         confirm: Confirmar usatores seligite
         hide: Celar usatores seligite
+        empty: Nulle usator correspondente trovate
       user:
         summary_html: '%{name} create ab %{ip_address} le %{date}'
         summary_no_ip_html: '%{name} create le %{date}'
@@ -3183,16 +3180,6 @@ ia:
       postea clicca hic.
     directions:
       ascend: Ascender
-      engines:
-        fossgis_osrm_bike: Bicycletta (OSRM)
-        fossgis_osrm_car: Auto (OSRM)
-        fossgis_osrm_foot: A pede (OSRM)
-        graphhopper_bicycle: Bicycletta (GraphHopper)
-        graphhopper_car: Auto (GraphHopper)
-        graphhopper_foot: Pedestre (GraphHopper)
-        fossgis_valhalla_bicycle: Bicycletta (Valhalla)
-        fossgis_valhalla_car: Auto (Valhalla)
-        fossgis_valhalla_foot: A pede (Valhalla)
       descend: Descender
       directions: Itinerario
       distance: Distantia

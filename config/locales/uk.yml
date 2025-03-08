@@ -27,6 +27,7 @@
 # Author: Kareyac
 # Author: Lxlalexlxl
 # Author: Macofe
+# Author: Marwin H.H.
 # Author: MatviiBohdanFediura
 # Author: Mike140
 # Author: Movses
@@ -135,6 +136,7 @@ uk:
         allow_write_prefs: змінювати налаштування
         allow_write_diary: створювати записи у щоденнику та залишати коментарі
         allow_write_api: змінювати мапу
+        allow_write_changeset_comments: коментувати набори змін
         allow_read_gpx: отримувати приватні GPS-треки.
         allow_write_gpx: надсилати GPS-треки на сервер
         allow_write_notes: змінювати нотатки
@@ -315,9 +317,9 @@ uk:
         comment: Коментар
         full: Повний текст
   accounts:
-    edit:
+    show:
       title: Редагувати обліковий запис
-      my settings: Налаштування
+      my_account: Обліковий запис
       current email address: Поточна адреса електронної пошти
       external auth: Стороння автентифікація
       openid:
@@ -333,6 +335,8 @@ uk:
           Надбанням.
         link: https://wiki.openstreetmap.org/wiki/Uk:Open_Database_License/Contributor_Terms
         link text: що це?
+        not_agreed_with_pd: Ви не заявили, що ви вважаєте свій внесок Суспільним Надбанням.
+        pd_link_text: заявляю
       save changes button: Зберегти зміни
       delete_account: Видалити обліковий запис…
     go_public:
@@ -396,10 +400,6 @@ uk:
           іншої інфраструктури, що надається за підтримки OSMF. Натисніть на посилання,
           прочитайте та погодьтесь з текстом.'
         read_tou: Я уважно ознайомився та згоден з Умовами використання
-        consider_pd: На додачу до зазначеного, прошу вважати мій внесок суспільним
-          надбанням
-        consider_pd_why: що це?
-        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/Uk:Чому_я_хочу,_щоб_мої_внески_були_суспільним_надбанням
         guidance_info_html: 'Інформація, що допоможе зрозуміти ці терміни: %{readable_summary_link}
           та %{informal_translations_link}'
         readable_summary: простою мовою
@@ -420,6 +420,20 @@ uk:
           Докладніше дивіться %{terms_declined_link}.
         terms_declined_link: цю вікі-сторінку.
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Uk:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Вважайте, що мій внесок є Суспільним Надбанням
+        consider_pd: Я вважаю, що мій внесок є суспільним надбанням
+        consider_pd_why: Чому я мав(ла) би хотіти, щоб мій внесок став Суспільним
+          Надбанням?
+        consider_pd_why_url: https://wiki.openstreetmap.org/wiki/Uk:Чому_я_хочу,_щоб_мої_внески_були_суспільним_надбанням
+        confirm: Підтвердити
+      create:
+        successfully_declared: Ви заявили, що вважаєте, що ваші правки є Суспільним
+          Надбанням.
+        already_declared: Ви вже заявили, що вважаєте, що ваші правки є Суспільним
+          Надбанням.
+        did_not_confirm: Ви не підтвердили, що вважаєте свої правки Суспільним Надбанням.
   browse:
     deleted_ago_by_html: Вилучив(ла) %{time_ago} %{user}
     edited_ago_by_html: Змінено %{user} %{time_ago}
@@ -498,6 +512,7 @@ uk:
       feature_warning: Завантаження %{num_features} об’єктів, може призвести до уповільнення
         або неможливості роботи вашого оглядача. Ви справді бажаєте переглянути ці
         дані?
+      feature_error: 'Обʼєкти не вдалося завантажити: %{message}'
       load_data: Завантажити дані
       loading: Завантаження…
     tag_details:
@@ -511,7 +526,8 @@ uk:
       telephone_link: Зателефонуйте на %{phone_number}
       colour_preview: Перегляд кольору %{colour_value}
       email_link: Надіслати електронний лист %{email}
-    query:
+  feature_queries:
+    show:
       title: Отримати об’єкти
       introduction: Клацніть на мапі, щоб отримати дані про об’єкти поруч.
       nearby: Об’єкти поруч
@@ -578,6 +594,16 @@ uk:
     changeset:
       no_edits: (редагувань немає)
       view_changeset_details: Подивитися подробиці набору змін
+      comments:
+        one: '%{count} коментар'
+        few: '%{count} коментарі'
+        many: '%{count} коментарів'
+        other: ""
+      changes:
+        one: '%{count} зміна'
+        few: '%{count} зміни'
+        many: '%{count} змін'
+        other: ""
     index:
       title: Набори змін
       title_user: Набори змін від %{user}
@@ -1070,6 +1096,7 @@ uk:
           bridleway: Дорога для їзди верхи
           bus_guideway: Рейковий автобус
           bus_stop: Автобусна зупинка
+          busway: Дорога для автобусів
           construction: Будівництво автомагістралі
           corridor: Коридор
           crossing: Перехід
@@ -1642,11 +1669,13 @@ uk:
       reports: Скарги
       last_updated: Останнє оновлення
       last_updated_time_ago_user_html: '%{user} %{time_ago}'
+      reporting_users: Повідомлення про користувачів
       reports_count:
         one: '%{count} Скарга'
         few: '%{count} Скарги'
         many: '%{count} Скарг'
         other: ""
+      more_reporters: і ще %{count}
       reported_item: Про що
       states:
         ignored: Проігноровано
@@ -1683,7 +1712,8 @@ uk:
       reopened: Статус проблеми був змінений на 'Відкрито'
     comments:
       comment_from_html: Коментар від %{user_link}, %{comment_created_at}
-      reassign_param: Перепризначити звернення?
+      reassign_to_moderators: Перепризначити звернення Модераторам
+      reassign_to_administrators: Перепризначити звернення Адміністраторам
     reports:
       reported_by_html: Повідомлено як %{category}, %{user}, %{updated_at}
     helper:
@@ -1755,10 +1785,6 @@ uk:
     partners_corpmembers: Корпоративними членами OSMF
     partners_partners: партнерами
     tou: Умови використання
-    osm_offline: База даних OpenStreetMap в даний момент недоступна, бо саме проводиться
-      необхідне технічне обслуговування.
-    osm_read_only: База даних OpenStreetMap в даний момент доступна тільки для читання,
-      тому що проводиться необхідне технічне обслуговування.
     nothing_to_preview: Нічого немає для перегляду.
     help: Довідка
     about: Про проєкт
@@ -1766,6 +1792,13 @@ uk:
     communities: Спільноти
     learn_more: Докладніше
     more: Більше
+    offline_flash:
+      osm_offline: База даних OpenStreetMap наразі працює в режимі офлайн, поки проводяться
+        роботи з технічного обслуговування.
+      osm_read_only: База даних OpenStreetMap наразі працює в режимі тільки для читання,
+        поки проводяться роботи з технічного обслуговування.
+      expected_restore_html: Очікується, що роботу буде відновлено через %{time}.
+      announcement: Ознайомитися з оголошенням можна тут.
   user_mailer:
     diary_comment_notification:
       description: 'Запис у щоденнику OpenStreetMap #%{id}'
@@ -2102,7 +2135,7 @@ uk:
       failure: Неможливо зберегти оновлення профілю.
   sessions:
     new:
-      tab_title: Ласкаво просимо
+      tab_title: Вхід
       login_to_authorize_html: Увійдіть до OpenStreetMap, щоб отримати доступ до %{client_app_name}.
       email or username: Ел. пошта або прізвисько
       password: Пароль
@@ -2142,6 +2175,9 @@ uk:
       preview: Попередній перегляд
       help: Довідка
     pagination:
+      changeset_comments:
+        older: Старіші коментарі
+        newer: Нові коментарі
       diary_comments:
         older: Старіші коментарі
         newer: Нові коментарі
@@ -2378,12 +2414,15 @@ uk:
           ліцензії
       remote_failed: Редагування не вдалося — переконайтеся, що JOSM або Merkaartor
         завантажений та втулок дистанційного керування увімкнений.
-    edit:
+    not_public_flash:
       not_public: Ви не зробили свої редагування загальнодоступними.
       not_public_description_html: 'Ви не можете більше анонімно редагувати мапу.
         Ви можете зробити ваші редагування загальнодоступними тут: %{user_page}.'
       user_page_link: сторінка учасника
+      anon_edits_html: '%{link}'
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Uk:Анонімне_редагування
       anon_edits_link_text: З’ясувати в чому справа.
+    edit:
       id_not_configured: iD не був налаштований
     export:
       title: Експорт
@@ -2494,6 +2533,10 @@ uk:
         пошуку
       submit_text: ↵
       reverse_directions_text: Зворотний маршрут
+      modes:
+        bicycle: Велосипед
+        car: Машина
+        foot: Пішки
     key:
       table:
         entry:
@@ -2784,8 +2827,8 @@ uk:
         погоджуватись, але ви повинні переглянути їх.
     settings_menu:
       account_settings: Налаштування облікового запису
-      oauth2_applications: застосунки OAuth 2
-      oauth2_authorizations: авторизації OAuth 2
+      oauth2_applications: Застосунки OAuth 2
+      oauth2_authorizations: Авторизації OAuth 2
       muted_users: Стишені учасники
     auth_providers:
       openid_url: OpenID URL
@@ -2839,10 +2882,12 @@ uk:
       write_prefs: Змінювати налаштування
       write_diary: Створювати записи у щоденнику та залишати коментарі
       write_api: Змінювати мапу
+      write_changeset_comments: Коментувати набори змін
       read_gpx: Отримувати приватні GPS-треки
       write_gpx: Завантажувати GPS-треки
       write_notes: Змінювати нотатки
       write_redactions: Виконувати очищення даних
+      write_blocks: Створювати та скасовувати блокування користувачів
       read_email: Отримувати адресу е-пошти
       consume_messages: Прочитати, оновити статус та видалити повідомлення користувача
       send_messages: Надіслати приватне повідомлення іншим користувачам
@@ -2894,7 +2939,7 @@ uk:
       title: Авторизовані застосунки
       application: Застосунок
       permissions: Дозволи
-      last_authorized: Останній авторизований
+      last_authorized: В останнє авторизовано
       no_applications_html: У вас ще немає застосунків авторизованих через %{oauth2}.
     application:
       revoke: Відкликати доступ
@@ -2938,8 +2983,6 @@ uk:
           електронної пошти
         html: Ваша адреса ніколи не показуватиметься публічно. Ознайомтесь з нашою
           %{privacy_policy_link} для отримання докладної інформації.
-      consider_pd_html: Я вважаю свій внесок %{consider_pd_link}.
-      consider_pd: суспільним надбанням
       or: або
       use external auth: або використовуйте, облікові записи з інших ресурсів для
         входу
@@ -2956,7 +2999,7 @@ uk:
       my notes: Мої нотатки
       my messages: Повідомлення
       my profile: Профіль
-      my settings: Налаштування
+      my_account: Обліковий запис
       my comments: Мої коментарі
       my_preferences: Вподобання
       my_dashboard: Інфо панель
@@ -3039,7 +3082,16 @@ uk:
       show:
         title: Учасники
         heading: Учасники
-        empty: Не знайдено учасників відповідно до критеріїв пошуку
+        select_status: Обрати статус
+        states:
+          pending: В очікуванні
+          active: Активний
+          confirmed: Підтверджено
+          suspended: Призупинено
+          deleted: Вилучено
+        name_or_email: Імʼя або електронна пошта
+        ip_address: IP-адреса
+        search: Пошук
       page:
         found_users:
           one: знайдено %{count} користувача
@@ -3048,11 +3100,21 @@ uk:
           other: 'знайдено '
         confirm: Підтвердити вибір учасників
         hide: Сховати вибраних учасників
+        empty: Не знайдено учасників відповідно до критеріїв пошуку
       user:
         summary_html: '%{name} зареєстровано з %{ip_address}, %{date}'
         summary_no_ip_html: '%{name} зареєстровано %{date}'
+    comments:
+      index:
+        heading_html: Коментарі %{user}
+        changesets: Набори змін
+        diary_entries: Записи щоденника
+        no_comments: Немає коментарів
     changeset_comments:
+      index:
+        title: Коментарі до набору змін додані %{user}
       page:
+        changeset: Набір змін
         when: Коли
         comment: Коментар
     diary_comments:
@@ -3060,6 +3122,8 @@ uk:
         title: Коментарі до щоденника додав %{user}
       page:
         post: Повідомлення
+        when: Коли
+        comment: Коментар
     suspended:
       title: Обліковий запис призупинено
       heading: Обліковий запис призупинено
@@ -3247,6 +3311,8 @@ uk:
       open_title: 'Неопрацьована нотатка #%{note_name}'
       closed_title: 'Опрацьована нотатка #%{note_name}'
       hidden_title: 'Прихована нотатка #%{note_name}'
+      description_when_author_is_deleted: вилучено
+      description_when_there_is_no_opening_comment: невідомо
       event_opened_by_html: Створив(ла) %{user} %{time_ago}
       event_opened_by_anonymous_html: Створено анонімом %{time_ago}
       event_commented_by_html: Коментар від %{user} %{time_ago}
@@ -3394,16 +3460,6 @@ uk:
       клацніть тут.
     directions:
       ascend: Підйом
-      engines:
-        fossgis_osrm_bike: Велосипед (OSRM)
-        fossgis_osrm_car: Машина (OSRM)
-        fossgis_osrm_foot: Пішки (OSRM)
-        graphhopper_bicycle: Велосипед (GraphHopper)
-        graphhopper_car: Машина (GraphHopper)
-        graphhopper_foot: Пішки (GraphHopper)
-        fossgis_valhalla_bicycle: Велосипед (Valhalla)
-        fossgis_valhalla_car: Машина (Valhalla)
-        fossgis_valhalla_foot: Пішки (Valhalla)
       descend: Спуск
       directions: Маршрут
       distance: Відстань
@@ -3487,6 +3543,8 @@ uk:
           ninth: 9й
           tenth: 10й
       time: Час
+      download: Завантажити маршрут як GeoJSON
+      filename: маршрут
     query:
       node: Точка
       way: Лінія
@@ -3501,6 +3559,9 @@ uk:
       show_address: Показати адресу
       query_features: Отримати об’єкти
       centre_map: Центрувати мапу тут
+    home:
+      marker_title: Моє розташування
+      not_set: Для вашого облікового запису не вказано його розташування
   redactions:
     edit:
       heading: Змінити редакцію

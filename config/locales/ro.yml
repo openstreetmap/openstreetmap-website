@@ -16,6 +16,7 @@
 # Author: Kyouko
 # Author: Lucdrei
 # Author: MSClaudiu
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Minisarm
 # Author: Popetedenis
@@ -75,6 +76,7 @@ ro:
       message: Mesaj
       node: Nod
       node_tag: Etichetă nod
+      note: Notă
       old_node: Nod vechi
       old_node_tag: Etichetă nod vechi
       old_relation: Relație veche
@@ -105,7 +107,7 @@ ro:
         support_url: Suport URL
         allow_read_prefs: citiți preferințele utilizatorului
         allow_write_prefs: modifică preferințele utilizatorului
-        allow_write_diary: creați intrări în jurnal, comentarii și faceți prieteni
+        allow_write_diary: creați intrări în jurnal și comentarii
         allow_write_api: modifică harta
         allow_read_gpx: citiți traseele GPS private
         allow_write_gpx: încărcați urma GPS
@@ -136,7 +138,7 @@ ro:
         longitude: Longitudine
         public: Public
         description: Descriere
-        gpx_file: Încărcați fișier GPX
+        gpx_file: Alegeți fișierul de urmărire GPS
         visibility: Vizibilitate
         tagstring: Etichete
       message:
@@ -274,9 +276,8 @@ ro:
         comment: Comentariu
         full: Notă completă
   accounts:
-    edit:
+    show:
       title: Modificare cont
-      my settings: Setările mele
       current email address: Adresa de e-mail actuală
       external auth: Autentificare externă
       openid:
@@ -354,9 +355,6 @@ ro:
           a altor infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și
           agregați textul.
         read_tou: Am citit și sunt de acord cu Termenii și condițiile
-        consider_pd: Pe lângă acordul de mai sus, consider că contribuțiile mele sunt
-          în Domeniul Public
-        consider_pd_why: Ce este aceasta?
         guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
           un %{readable_summary_link} și câteva %{informal_translations_link}'
         readable_summary: rezumat care poate fi citit de om
@@ -376,10 +374,15 @@ ro:
         terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni
           de Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
         terms_declined_link: această pagină wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
   browse:
     deleted_ago_by_html: Șters %{time_ago} de %{user}
     edited_ago_by_html: Editat %{time_ago} de %{user}
     version: Versiune
+    redacted_version: Versiune Cenzurată
     in_changeset: Set de modificări
     anonymous: anonim
     no_comment: (niciun comentariu)
@@ -394,6 +397,7 @@ ro:
       other: '}}'
     download_xml: Descarcă XML
     view_history: Vezi istoric
+    view_unredacted_history: Vezi Istoricul Necenzurat
     view_details: Vezi detalii
     location: 'Amplasament:'
     node:
@@ -422,13 +426,13 @@ ro:
         way: Cale
         relation: Relație
     containing_relation:
-      entry_role_html: Relația %{relation_name} (ca %{relation_role})
+      entry_role_html: '%{relation_name} (ca %{relation_role})'
     not_found:
       title: Nu a fost găsit
     timeout:
       title: Eroare de expirare
-      sorry: Ne pare rău, dar durata recepționării datelor pentru %{type} cu identificatorul
-        %{id} este prea mare.
+      sorry: Ne pare rău, datele pentru %{type} cu ID %{id} a durat prea mult pentru
+        a fi preluate.
       type:
         node: nodul
         way: calea
@@ -445,8 +449,9 @@ ro:
         way: drum
         relation: relații
     start_rjs:
-      feature_warning: Se încarcă %{num_features} caracteristici, ceea care ar putea
-        încetini sau bloca navigatorul dumneavoastră. Doriți afișarea acestor date?
+      feature_warning: Se încarcă %{num_features} funcții, ceea ce poate face browserul
+        să încetinească sau să nu răspundă. Sigur doriți să afișați aceste date?
+      feature_error: 'Funcțiile nu au putut fi încărcate: %{message}'
       load_data: Încărcare date
       loading: Se încarcă...
     tag_details:
@@ -460,7 +465,8 @@ ro:
       telephone_link: Sună %{phone_number}
       colour_preview: Previzualizează %{colour_value} culoare
       email_link: Email %{email}
-    query:
+  feature_queries:
+    show:
       title: Interogări ale funcțiilor
       introduction: Dați clic pe hartă pentru a găsi obiectivele din apropiere.
       nearby: Obiectivele din apropiere
@@ -473,6 +479,27 @@ ro:
         title_html: 'Istoricul căii: %{name}'
       relation:
         title_html: 'Istoricul relației: %{name}'
+    actions:
+      view_redacted_data: Vedeți Datele Cenzurate
+      view_redaction_message: Afișează Mesajul Ascuns
+  nodes:
+    not_found_message:
+      sorry: 'Ne pare rău, nodul #%{id} nu a putut fi găsit.'
+    timeout:
+      sorry: Ne pare rău, datele pentru nodul cu id-ul %{id} a durat prea mult pentru
+        a fi preluate.
+  old_nodes:
+    not_found_message:
+      sorry: 'Ne pare rău, nodul #%{id} versiunea %{version} nu a putut fi găsit.'
+    timeout:
+      sorry: Ne pare rău, istoricul nodului cu id-ul %{id} a durat prea mult pentru
+        a fi preluat.
+  ways:
+    not_found_message:
+      sorry: 'Ne pare rău, calea #%{id} nu a putut fi găsită.'
+    timeout:
+      sorry: Ne pare rău, datele pentru drumul cu id-ul %{id} a durat prea mult pentru
+        a fi preluate.
   changeset_comments:
     feeds:
       comment:
@@ -1438,6 +1465,12 @@ ro:
           building_passage: Pasaj între clădiri
           culvert: Canal de scurgere
           "yes": Tunel
+        water:
+          reservoir: Rezervor
+          basin: Bazin de Apă
+          fishpond: Lac cu peşte
+          lagoon: Lagună
+          wastewater: Apă Uzată
         waterway:
           artificial: Cale navigabilă artificială
           boatyard: Șantier naval
@@ -1528,7 +1561,6 @@ ro:
       reopened: Starea problemei a fost setată la 'Deschis'
     comments:
       comment_from_html: Comentariu de la %{user_link} pe %{comment_created_at}
-      reassign_param: Realocați problema?
     reports:
       reported_by_html: Raportat %{category} de %{user} pe %{updated_at}
     helper:
@@ -1599,10 +1631,6 @@ ro:
     partners_corpmembers: Membrii corporați ai OSMF
     partners_partners: parteneri
     tou: Termeni de Utilizare
-    osm_offline: Baza de date OpenStreetMap este în prezent offline, în timp ce se
-      efectuează lucrări esențiale de întreținere a bazelor de date.
-    osm_read_only: Baza de date OpenStreetMap este în prezent în modul read-only,
-      în timp ce se efectuează lucrări de întreținere a bazei de date.
     nothing_to_preview: Nimic de previzualizat.
     help: Ajutor
     about: Despre
@@ -2191,12 +2219,13 @@ ro:
         copyright: Drepturi de autor OpenStreetMap și contribuitori, sub licență deschisă
       remote_failed: Editarea a eșuat - asigurați-vă că JOSM sau Merkaartor este încărcat
         și că opțiunea de control de la distanță este activată
-    edit:
+    not_public_flash:
       not_public: Nu ai setat editările ca fiind publice
       not_public_description_html: Nu mai puteți edita harta dacă nu faceți acest
         lucru. Puteți să vă setați editările ca public din %{user_page}.
       user_page_link: pagină de utilizator
       anon_edits_link_text: Aflați de ce este cazul.
+    edit:
       id_not_configured: iD nu a fost configurat
     export:
       title: Exportare
@@ -2311,6 +2340,10 @@ ro:
       where_am_i_title: Descrie locația curentă folosind motorul de căutare
       submit_text: Mergi
       reverse_directions_text: Inversează direcția
+      modes:
+        bicycle: Bicicletă
+        car: Mașină
+        foot: Mers
     key:
       table:
         entry:
@@ -2616,13 +2649,15 @@ ro:
       openid: Conectați-vă folosind OpenStreetMap
       read_prefs: Citiți preferințele utilizatorului
       write_prefs: Modificați preferințele utilizatorului
-      write_diary: Creează înregistrări în jurnal, comentarii și fă-ți prieteni
+      write_diary: Creați intrări în jurnal și comentarii
       write_api: Modificați harta
       read_gpx: Citiți track-urile GPS private
       write_gpx: Încărcați track-uri GPS
       write_notes: Modificați notele
       write_redactions: Redactați datele hărții
       read_email: Citiți adresa de e-mail a utilizatorului
+      consume_messages: Citiți, actualizați starea și ștergeți mesajele utilizatorului
+      send_messages: Trimite mesaj privat altor utilizatori
       skip_authorization: Aprobare automată a cererii
     for_roles:
       moderator: Această permisiune este pentru acțiuni valabile exclusiv pentru moderatori
@@ -2688,24 +2723,33 @@ ro:
         posibil.
       support: suport
       about:
-        header: Liberă și editabilă
+        header: Gratuit și editabil.
         paragraph_1: Spre deosebire de alte hărți, OpenStreetMap este creat complet
           de oameni ca tine și este gratuit pentru oricine să repare, să actualizeze,
           să descarce și să folosească.
-        paragraph_2: Înscrie-te pentru a începe să contribui. Vă vom trimite un e-mail
-          pentru a vă confirma contul.
+        paragraph_2: Înscrie-te pentru a începe să contribui
         welcome: Bun venit la OpenStreetMap
+      duplicate_social_email: Dacă aveți deja un cont OpenStreetMap și doriți să utilizați
+        un furnizor de identitate terță parte, vă rugăm conectați-vă folosind parola
+        și modificați setările contului.
       display name description: Numele dvs. de utilizator afișat public. Puteți schimba
         acest lucru mai târziu în preferințe.
       by_signing_up:
+        html: Prin înregistrare, sunteți de acord cu %{tou_link}, %{privacy_policy_link}
+          și %{contributor_terms_link}.
         privacy_policy: Politica de confidențialitate
         privacy_policy_title: Politica de confidențialitate OSMF, inclusiv secțiunea
           privind adresele de e-mail
+        contributor_terms: termenii contribuitorului
       continue: Înregistrare
       email_help:
+        privacy_policy: politica de confidențialitate
+        privacy_policy_title: Politica de confidențialitate OSMF, inclusiv secțiunea
+          privind adresele de e-mail
         html: Adresa dvs. nu este afișată public, consultați %{privacy_policy_link}
           pentru mai multe informații.
-      use external auth: 'Alternativ, utilizați o terță parte pentru a vă conecta:'
+      or: sau
+      use external auth: sau înregistrați-vă cu o terță parte
     no_such_user:
       title: Nici un utilizator găsit
       heading: Utilizatorul %{user} nu există
@@ -2719,7 +2763,6 @@ ro:
       my notes: Notițele mele
       my messages: Mesajele mele
       my profile: Profilul meu
-      my settings: Setările mele
       my comments: Comentariile mele
       my_preferences: Preferințele mele
       my_dashboard: Dashboardul meu
@@ -2731,6 +2774,8 @@ ro:
       edits: Modificare
       traces: Urme
       notes: Notițe hartă
+      unfollow: Nu mai urmări
+      follow: Urmărește
       mapper since: 'Cartograf din:'
       last map edit: 'Ultima editare a hărții:'
       no activity yet: Nicio activitate încă
@@ -2756,6 +2801,7 @@ ro:
           importer: Revocați accesul de importator
       block_history: Blocări active
       moderator_history: Blocări acordate
+      revoke_all_blocks: Revocați toate blocările
       comments: Comentarii
       create_block: Blochează acest utilizator
       activate_user: Activează acest utilizator
@@ -2780,19 +2826,44 @@ ro:
         title: Blocări pe %{name}
         heading_html: Lista blocărilor pe %{name}
         empty: '%{name} nu a fost blocat încă.'
+      edit:
+        title: Revocarea tuturor blocărilor de pe %{block_on}
+        heading_html: Revocarea tuturor blocurilor de pe %{block_on}
+        empty: '%{name} nu are blocări active.'
+        confirm: Sigur doriți să revocați %{active_blocks}?
+        active_blocks:
+          one: '%{count} active block'
+          few: '%{count} blocări active'
+          other: ""
+        revoke: Revocă!
+      destroy:
+        flash: Toate blocările active au fost revocate.
     lists:
       show:
         title: Utilizatori
         heading: Utilizatori
-        empty: Nu au fost găsiți utilizatori potriviți
       page:
+        found_users:
+          one: '%{count} utilizator găsit'
+          few: '%{count} utilizatori găsiți'
+          other: ""
         confirm: Confirmați utilizatorii selectați
         hide: Ascundeți utilizatorii selectați
+        empty: Nu au fost găsiți utilizatori potriviți
       user:
         summary_html: '%{name} creat de %{ip_address} pe %{date}'
         summary_no_ip_html: '%{name} creat pe %{date}'
+    comments:
+      index:
+        heading_html: Comentariile %{user}
+        changesets: Set de modificări
+        diary_entries: Înregistrări în jurnal
+        no_comments: Fără comentarii
     changeset_comments:
+      index:
+        title: Setul de modificări Comentarii adăugate de %{user}
       page:
+        changeset: Set de modificări
         when: Când
         comment: Comentariu
     diary_comments:
@@ -2800,6 +2871,8 @@ ro:
         title: Comentarii din jurnal adăugate de %{user}
       page:
         post: Postează
+        when: Când
+        comment: Comentariu
     suspended:
       title: Cont Suspendat
       heading: Cont Suspendat
@@ -2892,6 +2965,13 @@ ro:
           one: un an
           few: '%{count} ani'
           other: '%{count} de ani'
+      short:
+        revoked_html: revocat de %{name}
+        active: activ
+        active_until_read: activ până la citire
+        read_html: citit la %{time}
+        time_in_future_title: '%{time_absolute}; în %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} blocat de %{block_by}'
       heading_html: '%{block_on} blocat de %{block_by}'
@@ -2908,9 +2988,25 @@ ro:
       display_name: Utilizator blocat
       creator_name: Creator
       reason: Motivul blocării
+      start: Start
+      end: Final
       status: Stare
+    navigation:
+      all_blocks: Toate Blocările
+      blocks_on_me: Blocări pe Mine
+      blocks_on_user_html: Blocări pe %{user}
+      blocks_by_me: Blocări de Mine
+      blocks_by_user_html: Blocări de %{user}
+      block: 'Blocare #%{id}'
+      new_block: Blocare Nouă
   user_mutes:
     index:
+      title: Utilizatori Amuțiți
+      my_muted_users: Utilizatorii Mei Amuțiți
+      you_have_muted_n_users:
+        one: Ați amuțit utilizator %{count}
+        few: Ați amuțit %{count} utilizatori
+        other: ""
       table:
         thead:
           actions: Acțiuni
@@ -3050,16 +3146,6 @@ ro:
       faceți click aici.
     directions:
       ascend: Urcare
-      engines:
-        fossgis_osrm_bike: Bicicletă (OSRM)
-        fossgis_osrm_car: Mașină (OSRM)
-        fossgis_osrm_foot: Mers (OSRM)
-        graphhopper_bicycle: Bicicletă (GraphHopper)
-        graphhopper_car: Mașină (GraphHopper)
-        graphhopper_foot: Mers (GraphHopper)
-        fossgis_valhalla_bicycle: Bicicletă (Valhalla)
-        fossgis_valhalla_car: Maşina (Valhalla)
-        fossgis_valhalla_foot: Mers (Valhalla)
       descend: Coborâre
       directions: Direcții
       distance: Distanță

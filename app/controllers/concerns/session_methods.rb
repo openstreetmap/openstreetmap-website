@@ -81,13 +81,4 @@ module SessionMethods
 
     session.delete(:remember_me)
   end
-
-  ##
-  #
-  def disable_terms_redirect
-    # this is necessary otherwise going to the user terms page, when
-    # having not agreed already would cause an infinite redirect loop.
-    # it's .now so that this doesn't propagate to other pages.
-    flash.now[:skip_terms] = true
-  end
 end

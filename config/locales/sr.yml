@@ -8,6 +8,7 @@
 # Author: Kizule
 # Author: Macofe
 # Author: Magnumns
+# Author: Marwin H.H.
 # Author: Milicevic01
 # Author: Nemo bis
 # Author: Nikola Smolenski
@@ -257,9 +258,9 @@ sr:
         comment: Коментар
         full: Потпуна белешка
   accounts:
-    edit:
+    show:
       title: Уреди налог
-      my settings: Поставке
+      my_account: Налог
       current email address: Тренутна имејл адреса
       external auth: Спољна аутентификација
       openid:
@@ -272,6 +273,8 @@ sr:
           уређивања.
         agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
         link text: шта је ово?
+        not_agreed_with_pd: Нисте прогласили своје доприносе јавним власништвом.
+        pd_link_text: прогласи
       save changes button: Сачувај промене
       delete_account: Брисање налога...
     go_public:
@@ -299,9 +302,6 @@ sr:
         heading: Услови
         read_ct: Прочитао сам и прихватам горе наведене услове
         read_tou: Прочитао сам и прихватам Услове коришћења
-        consider_pd: Према горенаведеном, сматрам да моји доприноси припадају јавном
-          власништву
-        consider_pd_why: шта је ово?
         guidance_info_html: 'Информације за разумевање ових услова: a %{readable_summary_link}
           и %{informal_translations_link}'
         readable_summary: сумарум
@@ -319,6 +319,12 @@ sr:
         terms accepted: Хвала вам што прихватате нове услове уређивања.
       terms_declined_flash:
         terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
+    pd_declarations:
+      show:
+        title: Прогласи моје доприносе јавним власништвом
+        consider_pd: Проглашавам своје доприносе јавним власништвом
+        consider_pd_why: Зашто бих ово урадио?
+        confirm: Потврди
   browse:
     edited_ago_by_html: Уређено %{time_ago} од %{user}
     version: Верзија
@@ -383,7 +389,8 @@ sr:
       wikipedia_link: Чланак %{page} на Википедији
       telephone_link: Позови %{phone_number}
       email_link: Имејл %{email}
-    query:
+  feature_queries:
+    show:
       title: Информације о објектима
       introduction: Кликните на мапу да бисте пронашли објекте у близини.
       nearby: Објекти у близини
@@ -550,6 +557,8 @@ sr:
   errors:
     contact:
       contact: контакт
+    bad_request:
+      title: Лош захтев
     forbidden:
       title: Забрањено
     internal_server_error:
@@ -1234,6 +1243,7 @@ sr:
           "yes": Тунел
         water:
           lake: Језеро
+          pond: Језеро
           fishpond: Рибњак
           wastewater: Отпадне воде
         waterway:
@@ -1353,10 +1363,7 @@ sr:
       %{partners}.
     partners_partners: партнери
     tou: Услови коришћења
-    osm_offline: База OpenStreetMap-а је тренутно недоступна док се не заврше неопходни
-      радови на одржавању.
-    osm_read_only: Базу OpenStreetMap-а тренутно није могуће мењати док се не заврше
-      неопходни радови на одржавању.
+    nothing_to_preview: Ништа за преглед.
     help: Помоћ
     about: О нама
     copyright: Ауторска права
@@ -1575,7 +1582,7 @@ sr:
       flash changed: Ваша лозинка је промењена.
   preferences:
     show:
-      title: Моја подешавања
+      title: Подешавања
       site_color_schemes:
         auto: Аутоматски
         light: Светла
@@ -1633,12 +1640,15 @@ sr:
       headings: Наслови
       heading: Наслов
       subheading: Поднаслов
+      unordered: Несврстан списак
+      ordered: Сврстан списак
       first: Прва ставка
       second: Друга ставка
       link: Веза
       text: Текст
       image: Слика
       alt: Алтернативни текст
+      codeblock: Блок код
     richtext_field:
       edit: Уреди
       preview: Преглед
@@ -1676,6 +1686,8 @@ sr:
       legal_1_1_terms_of_use: услова коришћења
       legal_1_1_aup: политике прихватљиве употребе
       legal_1_1_privacy_policy: политике приватности
+      legal_2_2_html: OpenStreetMap, логотип лупе и карта иза су %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: регистроване робне марке OSMF-а
       partners_title: Партнери
     copyright:
       title: Ауторска права и лиценца
@@ -1692,6 +1704,7 @@ sr:
         native_link: српско издање
         mapping_link: почни с уређивањем карте
       legal_babble:
+        introduction_1_open_data: отворени подаци
         introduction_2_html: Можете да умножавате, делите, преносите и прилагођавате
           наше податке, све док наводите OpenStreetMap и њене уреднике. Ако желите
           да мењате и дограђујете наше податке, можете их делити само под истом лиценцом.
@@ -1730,6 +1743,7 @@ sr:
         contributors_rs_serbia: Србија
         contributors_rs_rgz: Републички геодетски завод
         contributors_si_slovenia: Словенија
+        contributors_si_mkgp: Министарство пољопривреде, шумарства и водопривреде
         contributors_es_spain: Шпанија
         contributors_za_south_africa: Јужна Африка
         contributors_gb_united_kingdom: Уједињено Краљевство
@@ -1742,7 +1756,10 @@ sr:
           из извора заштићених ауторским правима (нпр. Гугл мапе или штампане карте)
           без изричите дозволе носиоца ауторских права.
         trademarks_title: Заштитни знаци
-        trademarks_1_1_trademark_policy: Робне марке
+        trademarks_1_1_html: OpenStreetMap, логотип лупе и карта иза су регистровани
+          заштитни знаци OpenStreetMap фондације. Ако имате питања у вези коришћења
+          наших марки молимо погледајте %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: робне марке
     index:
       js_1: Користите прегледач који не подржава јаваскрипт или сте га онемогућили.
       js_2: OpenStreetMap користи јаваскрипт за приказивање мапа.
@@ -1750,12 +1767,13 @@ sr:
         copyright: Ауторска права Опенстритмап и доприносиоци, под отвореном лиценцом
       remote_failed: Уређивање није успело. Проверите да ли је JOSM или Merkaartor
         учитан и да је могућност даљинског управљања омогућена
-    edit:
+    not_public_flash:
       not_public: Нисте подесили да ваше измене буду јавне.
       not_public_description_html: Не можете уређивати мапу све док то не урадите.
         Можете подесити да ваше измене буду јавне с %{user_page}.
       user_page_link: корисничке странице
       anon_edits_link_text: Сазнајте зашто је то случај.
+    edit:
       id_not_configured: iD није конфигурисан
     export:
       title: Извоз
@@ -1838,6 +1856,10 @@ sr:
       where_am_i: Где је ово?
       where_am_i_title: Установите тренутну локацију помоћу претраживача
       submit_text: Иди
+      modes:
+        bicycle: Бициклом
+        car: Ауто
+        foot: Пешке
     key:
       table:
         entry:
@@ -1930,6 +1952,7 @@ sr:
         брзи водич са најбитнијим стварима које је потребно знати.
       whats_on_the_map:
         title: Шта је на карти
+        doesnt: не
       basic_terms:
         title: Основни картографски термини
         paragraph_1: ОпенСтритМап има свој жаргон. Ево пар кључних речи које могу
@@ -2022,6 +2045,7 @@ sr:
       empty_title: Нема ништа
       wiki_page: вики страница
       upload_trace: Отпреми траг
+      all_traces: Сви трагови
       my_traces: Моји трагови
     destroy:
       scheduled_for_deletion: Траг постављен за брисање
@@ -2114,6 +2138,7 @@ sr:
   users:
     new:
       title: Регистрација
+      tab_title: Регистрација
       no_auto_account_create: Нажалост, тренутно нисмо у могућности да отворимо нови
         налог.
       support: подршка
@@ -2122,15 +2147,20 @@ sr:
         paragraph_1: За разлику од других мапа, OpenStreetMap-е употпуности праве
           људи као Ви. И слободна је за све да је поправљају, ажурирају, преузимају
           и користе.
+        paragraph_2: Региструјте се да доприносили.
         welcome: Добро дошли на OpenStreetMap
       display name description: Јавно приказано корисничко име. Касније га можете
         променити у поставкама.
       by_signing_up:
-        privacy_policy: политика приватности
+        html: Регистровањем прихватате наше %{tou_link}, %{privacy_policy_link} и
+          %{contributor_terms_link}.
+        privacy_policy: политику приватности
+        contributor_terms: услове за доприносиоце
       continue: Отвори налог
       email_help:
-        privacy_policy: политика приватности
-      consider_pd: јавно власништво
+        privacy_policy: политику приватности
+        html: Ваш имејл неће бити јавно видљив, молимо погледајте нашу %{privacy_policy_link}
+          за више информација.
       or: или
       use external auth: или се региструјте путем треће стране
     no_such_user:
@@ -2144,21 +2174,24 @@ sr:
       my edits: Моје измене
       my traces: Моји трагови
       my notes: Моје белешке
-      my messages: Моје поруке
-      my profile: Мој профил
-      my settings: Моје поставке
+      my messages: Поруке
+      my profile: Профил
+      my_account: Мој налог
       my comments: Моји коментари
-      my_preferences: Моја подешавања
+      my_preferences: Подешавања
       my_dashboard: Tабла
       blocks on me: Мени забрањено
       blocks by me: Моје забране
+      create_mute: Пригуши корисника
       edit_profile: Уреди профил
       send message: Пошаљи поруку
       diary: Дневник
       edits: Измене
       traces: Трагови
       notes: Белешке на карти
+      follow: Прати
       mapper since: 'Картограф од:'
+      last map edit: 'Последње уређивање:'
       uid: 'ID корисника:'
       ct status: 'Услови за учешће:'
       ct undecided: Неодлучено
@@ -2208,13 +2241,21 @@ sr:
       show:
         title: Корисници
         heading: Корисници
-        empty: Није пронађен ниједан корисник
+        states:
+          deleted: Обрисано
+        name_or_email: Име или имејл
+        ip_address: IP адреса
+        search: Претрага
       page:
         confirm: Потврди изабране кориснике
         hide: Сакриј изабране кориснике
+        empty: Није пронађен ниједан корисник
       user:
         summary_html: '%{name} направљено од %{ip_address} дана %{date}'
         summary_no_ip_html: '%{name} направљено %{date}'
+    comments:
+      index:
+        no_comments: Нема коментара
     changeset_comments:
       page:
         when: Када
@@ -2314,9 +2355,12 @@ sr:
       title: Пригушени корисници
       table:
         thead:
+          muted_user: Пригушени корисници
           actions: Радње
         tbody:
           send_message: Пошаљи поруку
+    create:
+      notice: Пригушили сте %{name}.
   notes:
     index:
       title: Белешке послао или коментарисао %{user}
@@ -2328,12 +2372,18 @@ sr:
       description: Опис
       created_at: Направљено
       last_changed: Последња промена
+      apply: Примени
+      all: Све
+      open: Отворено
+      closed: Затворено
     show:
       title: Белешкаː %{id}
       description: Опис
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: Скривена белешка бр. %{note_name}
+      description_when_author_is_deleted: обрисано
+      description_when_there_is_no_opening_comment: непознато
       event_opened_by_html: Направио %{user} %{time_ago}
       report: пријави ову белешку
       anonymous_warning: Ова белешка садржи коментаре анонимних корисника које би
@@ -2346,14 +2396,19 @@ sr:
       reactivate: Поново покрени
       comment_and_resolve: Коментариши и разреши
       comment: Коментариши
+      log_in_to_comment: Пријавите се да би коментарисали ову белешку
     new:
       title: Нова белешка
       intro: Наишли сте на грешку или нешто недостаје? Обавестите друге картографе
         како бисмо решили проблем. Преместите маркер на исправно место и напишите
         објашњење.
+      anonymous_warning_log_in: пријавите се
+      anonymous_warning_sign_up: региструјте се
       advice: Ваша белешка је јавна и може се користити за ажурирање карте, па не
         уносите личне податке, податке који садрже ауторска права или податке из листинга.
       add: Додај белешку
+    new_readonly:
+      title: Нова белешка
     notes_paging_nav:
       showing_page: Страница %{page}
       next: Следеће
@@ -2417,13 +2472,6 @@ sr:
     edit_help: Помери карту и увећај на место које хоћеш да уредиш, затим кликни овде.
     directions:
       ascend: Растуће
-      engines:
-        fossgis_osrm_bike: Бицикл (OSRM)
-        fossgis_osrm_car: Аутомобилом (OSRM)
-        fossgis_osrm_foot: Пешке (OSRM)
-        graphhopper_bicycle: Бициклом (GraphHopper)
-        graphhopper_car: Ауто (GraphHopper)
-        graphhopper_foot: Пешке (GraphHopper)
       descend: Опадајуће
       directions: Путања
       distance: Удаљеност

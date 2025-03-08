@@ -29,6 +29,7 @@
 # Author: Lolekek
 # Author: MRidhaAJ
 # Author: Majid Al-Dharrab
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Meno25
 # Author: Mido
@@ -340,9 +341,8 @@ ar:
         comment: التعليق
         full: ملاحظة كاملة
   accounts:
-    edit:
+    show:
       title: عدل الحساب
-      my settings: إعداداتي
       current email address: عنوان البريد الإلكرتروني الحالي
       external auth: مصادقة خارجية
       openid:
@@ -415,9 +415,6 @@ ar:
           الأخرى التي يوفرها مؤسسة خريطة الشارع المفتوحة، يُرجَى النقر على الرابط،
           وقراءة والموافقة على النص.
         read_tou: قرأت شروط الاستخدام وأوافق عليها.
-        consider_pd: بالإضافة إلى ما طُرح أعلاه، أريد أن أنوه أنني أعتبر مساهماتي
-          ملكية عامة.
-        consider_pd_why: ما هذا؟
         continue: استمر
         you need to accept or decline: الرجاء القراءة ومن ثم قبول أو رفض شروط المساهمة
           الجديدة للمتابعة.
@@ -504,7 +501,8 @@ ar:
       telephone_link: اتصل بـ%{phone_number}
       colour_preview: معاينة اللون %{colour_value}
       email_link: إرسال بريد إلكتروني %{email}
-    query:
+  feature_queries:
+    show:
       title: ميزات الاستفهام
       introduction: اضغط على الخريطة لمعرفة النقاط القريبة
       nearby: نقاط قريبة
@@ -1509,7 +1507,6 @@ ar:
       reopened: تم تعيين حالة المشكلة إلى 'مفتوحة'
     comments:
       comment_from_html: التعليق من %{user_link} في %{comment_created_at}
-      reassign_param: إعادة تعيين المشكلة؟
     reports:
       reported_by_html: تم الإبلاغ عنه ك%{category} بواسطة %{user} في %{updated_at}
     helper:
@@ -1579,10 +1576,6 @@ ar:
     partners_fastly: بسرعة
     partners_partners: الشركاء
     tou: شروط الاستخدام
-    osm_offline: حاليًا قاعدة بيانات خريطة الشارع المفتوحة مغلقة بينما يتم الانتهاء
-      من أعمال الصيانة الأساسية لقاعدة البيانات.
-    osm_read_only: حاليًا قاعدة بيانات خريطة الشارع المفتوحة في وضع القراءة بينما
-      يتم الانتهاء من أعمال الصيانة الأساسية لقاعدة البيانات.
     help: مساعدة
     about: حول
     copyright: حقوق النسخ
@@ -2042,12 +2035,13 @@ ar:
         copyright: حقوق طبع ونشر ومساهمو خريطة الشارع المفتوحة، تحت رخصة مفتوحة
       remote_failed: فشل التعديل - تأكد من تحميل JOSM أو Merkaartor وتمكين خيار التحكم
         عن بعد
-    edit:
+    not_public_flash:
       not_public: لم تقم بتعيين تعديلاتك لتكون علنية.
       not_public_description_html: أنت لم تعد قادر على تعديل الخريطة إلا إذا قمت بذلك،
         يمكنك تعيين تعديلاتك لتكون علنية من %{user_page} الخاصة بك.
       user_page_link: صفحة مستخدم
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
+    edit:
       id_not_configured: لم يتم تكوين آي دي
     export:
       title: صدِّر
@@ -2127,6 +2121,10 @@ ar:
       where_am_i_title: صِف الموقع الحالي باستخدام محرك البحث
       submit_text: اذهب
       reverse_directions_text: اعكس الاتجاهات
+      modes:
+        bicycle: دراجة
+        car: سيارة
+        foot: قدم
     key:
       table:
         entry:
@@ -2370,7 +2368,6 @@ ar:
       my notes: ملاحظاتي
       my messages: رسائلي
       my profile: ملفي الشخصي
-      my settings: إعداداتي
       my comments: تعليقاتي
       blocks on me: عمليات منعي
       blocks by me: عمليات المنع بواسطتي
@@ -2424,10 +2421,10 @@ ar:
       show:
         title: المستخدمون
         heading: المستخدمون
-        empty: لم يتم العثور على مستخدمين متطابقين
       page:
         confirm: تأكيد المستخدمين المحددين
         hide: إخفاء المستخدمين المحددين
+        empty: لم يتم العثور على مستخدمين متطابقين
       user:
         summary_html: '%{name} تم إنشاؤها من %{ip_address} في %{date}'
         summary_no_ip_html: '%{name} تم إنشاؤه في %{date}'
@@ -2674,13 +2671,6 @@ ar:
     edit_help: انقل الخريطة وكبر الموقع الذي تريد تحريره، ثم اضغط هنا.
     directions:
       ascend: رفع
-      engines:
-        fossgis_osrm_bike: دراجة (OSRM)
-        fossgis_osrm_car: سيارة (OSRM)
-        fossgis_osrm_foot: قدم (OSRM)
-        graphhopper_bicycle: دراجة (GraphHopper)
-        graphhopper_car: سيارة (GraphHopper)
-        graphhopper_foot: قدم (GraphHopper)
       descend: منحدر
       directions: الاتجاهات
       distance: المسافات
