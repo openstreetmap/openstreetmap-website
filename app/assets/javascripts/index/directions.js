@@ -172,7 +172,7 @@ OSM.Directions = function (map) {
 
         const row = $("<tr class='turn'/>");
         if (direction) {
-          row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
+          row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#icon-route-" + direction + "' /></svg></td>");
         } else {
           row.append("<td class='border-0'>");
         }
