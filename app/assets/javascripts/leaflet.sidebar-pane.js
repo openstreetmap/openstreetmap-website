@@ -18,7 +18,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
     button.appendTo($container);
 
     const $ui = $("<div>")
-      .attr("class", uiClass + "-ui");
+      .attr("class", `${uiClass}-ui position-relative z-n1`);
 
     $("<h2 class='p-3 pb-0 pe-5 text-break'>")
       .text(I18n.t(paneTitle))
