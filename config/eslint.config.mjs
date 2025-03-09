@@ -182,5 +182,11 @@ export default [
     ignores: ["package-lock.json"],
     language: "json/json",
     ...json.configs.recommended
+  },
+  {
+    files: ["package.json"],
+    rules: {
+      "json/sort-keys": ["error", "asc", { minKeys: 5 }]
+    }
   }
 ];
