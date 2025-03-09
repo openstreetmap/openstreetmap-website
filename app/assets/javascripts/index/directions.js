@@ -84,13 +84,13 @@ OSM.Directions = function (map) {
     if (m < 5) {
       return "";
     } else if (m < 200) {
-      return String(Math.round(m / 10) * 10) + "m";
+      return I18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
     } else if (m < 1500) {
-      return String(Math.round(m / 100) * 100) + "m";
+      return I18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
     } else if (m < 5000) {
-      return String(Math.round(m / 100) / 10) + "km";
+      return I18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
     } else {
-      return String(Math.round(m / 1000)) + "km";
+      return I18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
     }
   }
 
