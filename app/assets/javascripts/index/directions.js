@@ -70,7 +70,7 @@ OSM.Directions = function (map) {
     OSM.router.route("/" + OSM.formatHash(map));
   });
 
-  function formatDistance(m) {
+  function formatTotalDistance(m) {
     if (m < 1000) {
       return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
     } else if (m < 10000) {
@@ -80,17 +80,17 @@ OSM.Directions = function (map) {
     }
   }
 
-  function getDistText(dist) {
-    if (dist < 5) {
+  function formatStepDistance(m) {
+    if (m < 5) {
       return "";
-    } else if (dist < 200) {
-      return String(Math.round(dist / 10) * 10) + "m";
-    } else if (dist < 1500) {
-      return String(Math.round(dist / 100) * 100) + "m";
-    } else if (dist < 5000) {
-      return String(Math.round(dist / 100) / 10) + "km";
+    } else if (m < 200) {
+      return String(Math.round(m / 10) * 10) + "m";
+    } else if (m < 1500) {
+      return String(Math.round(m / 100) * 100) + "m";
+    } else if (m < 5000) {
+      return String(Math.round(m / 100) / 10) + "km";
     } else {
-      return String(Math.round(dist / 1000)) + "km";
+      return String(Math.round(m / 1000)) + "km";
     }
   }
 
@@ -164,7 +164,7 @@ OSM.Directions = function (map) {
       }
 
       const distanceText = $("<p>").append(
-        I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
+        I18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
         I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
         distanceText.append(
@@ -194,7 +194,7 @@ OSM.Directions = function (map) {
           row.append("<td class='border-0'>");
         }
         row.append("<td>" + instruction);
-        row.append("<td class='distance text-body-secondary text-end'>" + getDistText(dist));
+        row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(dist));
 
         row.on("click", function () {
           popup
