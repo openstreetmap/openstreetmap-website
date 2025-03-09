@@ -31,10 +31,12 @@ module Users
       name_user = create(:user, :display_name => "Test User")
       email_user = create(:user, :email => "test@example.com")
       ip_user = create(:user, :creation_address => "1.2.3.4")
+      edits_user = create(:user)
+      create(:changeset, :user => edits_user)
 
-      # There are now 9 users - the 7 above, plus two extra "granters" for the
+      # There are now 10 users - the 8 above, plus two extra "granters" for the
       # moderator_user and administrator_user
-      assert_equal 9, User.count
+      assert_equal 10, User.count
 
       # Shouldn't work when not logged in
       get users_list_path
@@ -59,7 +61,7 @@ module Users
       get users_list_path
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 9
+      assert_select "table#user_list tbody tr", :count => 10
 
       # Should be able to limit by status
       get users_list_path, :params => { :status => "suspended" }
@@ -107,6 +109,22 @@ module Users
       assert_template :show
       assert_select "table#user_list tbody tr", :count => 1 do
         assert_select "a[href='#{user_path(ip_user)}']", :count => 1
+      end
+
+      # Should be able to limit to users with edits
+      get users_list_path, :params => { :edits => "yes" }
+      assert_response :success
+      assert_template :show
+      assert_select "table#user_list tbody tr", :count => 1 do
+        assert_select "a[href='#{user_path(edits_user)}']", :count => 1
+      end
+
+      # Should be able to limit to users with no edits
+      get users_list_path, :params => { :edits => "no" }
+      assert_response :success
+      assert_template :show
+      assert_select "table#user_list tbody tr", :count => 9 do
+        assert_select "a[href='#{user_path(edits_user)}']", :count => 0
       end
     end
 
