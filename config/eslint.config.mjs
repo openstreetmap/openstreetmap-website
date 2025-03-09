@@ -2,9 +2,9 @@ import globals from "globals";
 import js from "@eslint/js";
 import erb from "eslint-plugin-erb";
 import stylisticJs from "@stylistic/eslint-plugin-js";
+import json from "@eslint/json";
 
 export default [
-  js.configs.recommended,
   erb.configs.recommended,
   {
     ignores: [
@@ -18,6 +18,7 @@ export default [
     plugins: {
       "@stylistic": stylisticJs
     },
+    ignores: ["**/*.json"],
     languageOptions: {
       ecmaVersion: 2021,
       sourceType: "script",
@@ -44,6 +45,7 @@ export default [
       reportUnusedDisableDirectives: "off"
     },
     rules: {
+      ...js.configs.recommended.rules,
       "@stylistic/array-bracket-newline": ["error", "consistent"],
       "@stylistic/array-bracket-spacing": "error",
       "@stylistic/block-spacing": "error",
@@ -169,7 +171,16 @@ export default [
       sourceType: "module"
     },
     rules: {
-      "sort-keys": ["error", "asc", { minKeys: 5 }]
+      "sort-keys": ["error", "asc", { minKeys: 6 }]
     }
+  },
+  {
+    plugins: {
+      json: json
+    },
+    files: ["**/*.json"],
+    ignores: ["package-lock.json"],
+    language: "json/json",
+    ...json.configs.recommended
   }
 ];
