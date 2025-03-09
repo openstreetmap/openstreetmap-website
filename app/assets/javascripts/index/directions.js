@@ -70,11 +70,28 @@ OSM.Directions = function (map) {
     OSM.router.route("/" + OSM.formatHash(map));
   });
 
-  function formatDistance(m) {
-    const unitTemplate = "javascripts.directions.distance_";
-    if (m < 1000) return I18n.t(unitTemplate + "m", { distance: Math.round(m) });
-    if (m < 10000) return I18n.t(unitTemplate + "km", { distance: (m / 1000.0).toFixed(1) });
-    return I18n.t(unitTemplate + "km", { distance: Math.round(m / 1000) });
+  function formatTotalDistance(m) {
+    if (m < 1000) {
+      return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+    } else if (m < 10000) {
+      return I18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
+    } else {
+      return I18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
+    }
+  }
+
+  function formatStepDistance(m) {
+    if (m < 5) {
+      return "";
+    } else if (m < 200) {
+      return I18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
+    } else if (m < 1500) {
+      return I18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
+    } else if (m < 5000) {
+      return I18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
+    } else {
+      return I18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
+    }
   }
 
   function formatHeight(m) {
@@ -147,7 +164,7 @@ OSM.Directions = function (map) {
       }
 
       const distanceText = $("<p>").append(
-        I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
+        I18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
         I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
         distanceText.append(
@@ -177,7 +194,7 @@ OSM.Directions = function (map) {
           row.append("<td class='border-0'>");
         }
         row.append("<td>" + instruction);
-        row.append("<td class='distance text-body-secondary text-end'>" + getDistText(dist));
+        row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(dist));
 
         row.on("click", function () {
           popup
@@ -218,14 +235,6 @@ OSM.Directions = function (map) {
     }).finally(function () {
       controller = null;
     });
-
-    function getDistText(dist) {
-      if (dist < 5) return "";
-      if (dist < 200) return String(Math.round(dist / 10) * 10) + "m";
-      if (dist < 1500) return String(Math.round(dist / 100) * 100) + "m";
-      if (dist < 5000) return String(Math.round(dist / 100) / 10) + "km";
-      return String(Math.round(dist / 1000)) + "km";
-    }
   }
 
   function hideRoute(e) {

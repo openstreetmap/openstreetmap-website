@@ -102,7 +102,6 @@ export default [
       "no-caller": "error",
       "no-console": "warn",
       "no-div-regex": "error",
-      "no-else-return": ["error", { allowElseIf: false }],
       "no-eq-null": "error",
       "no-eval": "error",
       "no-extend-native": "error",
