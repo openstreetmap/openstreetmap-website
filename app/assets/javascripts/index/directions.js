@@ -80,6 +80,14 @@ OSM.Directions = function (map) {
     }
   }
 
+  function getDistText(dist) {
+    if (dist < 5) return "";
+    if (dist < 200) return String(Math.round(dist / 10) * 10) + "m";
+    if (dist < 1500) return String(Math.round(dist / 100) * 100) + "m";
+    if (dist < 5000) return String(Math.round(dist / 100) / 10) + "km";
+    return String(Math.round(dist / 1000)) + "km";
+  }
+
   function formatHeight(m) {
     return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
   }
@@ -221,14 +229,6 @@ OSM.Directions = function (map) {
     }).finally(function () {
       controller = null;
     });
-
-    function getDistText(dist) {
-      if (dist < 5) return "";
-      if (dist < 200) return String(Math.round(dist / 10) * 10) + "m";
-      if (dist < 1500) return String(Math.round(dist / 100) * 100) + "m";
-      if (dist < 5000) return String(Math.round(dist / 100) / 10) + "km";
-      return String(Math.round(dist / 1000)) + "km";
-    }
   }
 
   function hideRoute(e) {
