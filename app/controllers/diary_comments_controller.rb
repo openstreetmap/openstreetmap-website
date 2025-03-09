@@ -51,6 +51,6 @@ class DiaryCommentsController < ApplicationController
   ##
   # return permitted diary comment parameters
   def comment_params
-    params.require(:diary_comment).permit(:body)
+    params.expect(:diary_comment => [:body])
   end
 end

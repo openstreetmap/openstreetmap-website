@@ -36,9 +36,9 @@ Rails.application.configure do
     policy.report_uri(Settings.csp_report_url) if Settings.key?(:csp_report_url)
   end
 
-  # Generate session nonces for permitted importmap and inline scripts
+  # Generate session nonces for permitted importmap, inline scripts, and inline styles.
   config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(24) }
-  config.content_security_policy_nonce_directives = %w[style-src]
+  config.content_security_policy_nonce_directives = %w[script-src style-src]
 
   # Report violations without enforcing the policy.
   config.content_security_policy_report_only = true unless Settings.csp_enforce

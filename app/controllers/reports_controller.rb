@@ -49,7 +49,7 @@ class ReportsController < ApplicationController
   end
 
   def report_params
-    params.require(:report).permit(:details, :category)
+    params.expect(:report => [:details, :category])
   end
 
   def issue_params
