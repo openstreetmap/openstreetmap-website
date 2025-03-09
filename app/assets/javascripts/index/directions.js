@@ -81,11 +81,17 @@ OSM.Directions = function (map) {
   }
 
   function getDistText(dist) {
-    if (dist < 5) return "";
-    if (dist < 200) return String(Math.round(dist / 10) * 10) + "m";
-    if (dist < 1500) return String(Math.round(dist / 100) * 100) + "m";
-    if (dist < 5000) return String(Math.round(dist / 100) / 10) + "km";
-    return String(Math.round(dist / 1000)) + "km";
+    if (dist < 5) {
+      return "";
+    } else if (dist < 200) {
+      return String(Math.round(dist / 10) * 10) + "m";
+    } else if (dist < 1500) {
+      return String(Math.round(dist / 100) * 100) + "m";
+    } else if (dist < 5000) {
+      return String(Math.round(dist / 100) / 10) + "km";
+    } else {
+      return String(Math.round(dist / 1000)) + "km";
+    }
   }
 
   function formatHeight(m) {
