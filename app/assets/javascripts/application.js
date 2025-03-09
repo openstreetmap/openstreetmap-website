@@ -21,7 +21,6 @@
 
   I18n.default_locale = OSM.DEFAULT_LOCALE;
   I18n.locale = locale;
-  I18n.fallbacks = true;
 
   // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
   const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
