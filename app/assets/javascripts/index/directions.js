@@ -71,10 +71,13 @@ OSM.Directions = function (map) {
   });
 
   function formatDistance(m) {
-    const unitTemplate = "javascripts.directions.distance_";
-    if (m < 1000) return I18n.t(unitTemplate + "m", { distance: Math.round(m) });
-    if (m < 10000) return I18n.t(unitTemplate + "km", { distance: (m / 1000.0).toFixed(1) });
-    return I18n.t(unitTemplate + "km", { distance: Math.round(m / 1000) });
+    if (m < 1000) {
+      return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+    } else if (m < 10000) {
+      return I18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
+    } else {
+      return I18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
+    }
   }
 
   function formatHeight(m) {
