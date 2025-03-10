@@ -63,6 +63,7 @@ OSM = {
 
   mapParams: function (search) {
     const params = OSM.params(search),
+          geoURI = {},
           mapParams = {};
 
     if (params.mlon && params.mlat) {
@@ -79,6 +80,13 @@ OSM = {
     }
 
     const hash = OSM.parseHash(location.hash);
+
+    geoURI._regex = /;([\w-]+)=([\w-.!~*'()[\]:&+$%]+)/g;
+    geoURI._coordstring = params.geouri?.slice(4)?.replaceAll(geoURI._regex, (_, key, val = "") => {
+      geoURI[key] = decodeURIComponent(val);
+      return "";
+    });
+    geoURI._coords = geoURI._coordstring?.split(",");
 
     const loc = Cookies.get("_osm_location")?.split("|");
 
@@ -100,6 +108,11 @@ OSM = {
       mapParams.lon = params.mlon;
       mapParams.lat = params.mlat;
       mapParams.zoom = params.zoom || 12;
+    } else if (geoURI._coordstring && !geoURI.u) {
+      [mapParams.lat, mapParams.lon] = geoURI._coords;
+      mapParams.zoom = geoURI.z || Math.round(geoURI._coordstring.replaceAll(/,?[-\d]+\./g, "").length / 0.6) - 2;
+    } else if (geoURI._coordstring) {
+      mapParams.bounds = L.latLng(geoURI._coords).toBounds(geoURI.u * 4);
     } else if (loc) {
       [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
