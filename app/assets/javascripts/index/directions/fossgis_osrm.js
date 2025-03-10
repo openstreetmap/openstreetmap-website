@@ -22,7 +22,8 @@
         "turn slight right": "slight_right",
         "turn right": "turn_right",
         "turn sharp right": "sharp_right",
-        "turn uturn": "uturn",
+        "turn uturn left": "uturn",
+        "turn uturn right": "uturn",
         "turn sharp left": "sharp_left",
         "turn left": "turn_left",
         "turn slight left": "slight_left",
@@ -49,7 +50,8 @@
         "turn slight right": "slight-right",
         "turn right": "right",
         "turn sharp right": "sharp-right",
-        "turn uturn": "u-turn-left",
+        "turn uturn right": "u-turn-right",
+        "turn uturn left": "u-turn-left",
         "turn slight left": "slight-left",
         "turn left": "left",
         "turn sharp left": "sharp-left",
@@ -65,6 +67,7 @@
       }
       function getManeuverId(maneuver) {
         // special case handling
+        if (maneuver.modifier === "uturn") maneuver.modifier += " " + ((maneuver.bearing_after - maneuver.bearing_before + 360) % 360 > 180 ? "left" : "right");
         switch (maneuver.type) {
           case "on ramp":
           case "off ramp":
