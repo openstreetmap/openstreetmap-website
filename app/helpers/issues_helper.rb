@@ -25,6 +25,21 @@ module IssuesHelper
     end
   end
 
+  def reportable_dates(reportable)
+    case reportable
+    when DiaryEntry, DiaryComment, Note
+      created_at_time = tag.time l(reportable.created_at.to_datetime, :format => :friendly),
+                                 :datetime => reportable.created_at.xmlschema
+      updated_at_time = tag.time l(reportable.updated_at.to_datetime, :format => :friendly),
+                                 :datetime => reportable.updated_at.xmlschema
+      t "issues.helper.reportable_dates.created_on_updated_on_html", :datetime_created => created_at_time, :datetime_updated => updated_at_time
+    when User
+      created_at_time = tag.time l(reportable.created_at.to_datetime, :format => :friendly),
+                                 :datetime => reportable.created_at.xmlschema
+      t "issues.helper.reportable_dates.created_on_html", :datetime_created => created_at_time
+    end
+  end
+
   def open_issues_count
     count = Issue.visible_to(current_user).open.limit(Settings.max_issues_count).size
     if count >= Settings.max_issues_count

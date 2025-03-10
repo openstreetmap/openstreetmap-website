@@ -1,6 +1,10 @@
 <% content_for :heading do %>
 <h1><%= @title %></h1>
-<p><%= @issue.reportable.model_name.human %> : <%= link_to reportable_title(@issue.reportable), reportable_url(@issue.reportable) %></p>
+<p>
+  <%= @issue.reportable.model_name.human %> :
+  <%= link_to reportable_title(@issue.reportable), reportable_url(@issue.reportable) %> :
+  <%= reportable_dates(@issue.reportable) %>
+</p>
 <p class="text-body-secondary">
   <small>
     <%= @issue.assigned_role %>
