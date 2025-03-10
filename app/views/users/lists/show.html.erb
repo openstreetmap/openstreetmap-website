@@ -32,6 +32,13 @@
                          :class => "form-control" %>
     </div>
     <div class="mb-3 col-md-auto">
+      <%= select_tag :edits,
+                     options_for_select([["Has Edits", "yes"], ["No Edits", "no"]], params[:edits]),
+                     :include_blank => t(".edits"),
+                     :data => { :behavior => "category_dropdown" },
+                     :class => "form-select" %>
+    </div>
+    <div class="mb-3 col-md-auto">
       <%= submit_tag t(".search"), :name => nil, :class => "btn btn-primary" %>
     </div>
   </div>
