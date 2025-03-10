@@ -420,6 +420,21 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  ##
+  # Test the nominatim reverse JSON search
+  def test_search_osm_nominatim_reverse_json
+    with_http_stubs "nominatim" do
+      post geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 15, :format => "json"), :xhr => true
+      result_name_check_json("Broxbourne, Hertfordshire, East of England, England, United Kingdom")
+
+      post geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 17, :format => "json"), :xhr => true
+      result_name_check_json("Dinant Link Road, Broxbourne, Hertfordshire, East of England, England, EN11 8HX, United Kingdom")
+
+      post geocoder_search_osm_nominatim_reverse_path(:lat => 13.7709, :lon => 100.50507, :zoom => 19, :format => "json"), :xhr => true
+      result_name_check_json("MM Steak&Grill, ถนนศรีอยุธยา, บางขุนพรหม, กรุงเทพมหานคร, เขตดุสิต, กรุงเทพมหานคร, 10300, ประเทศไทย")
+    end
+  end
+
   private
 
   def latlon_check(query, lat, lon)
@@ -483,5 +498,12 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :error
     assert_template :layout => nil
     assert_select ".alert.alert-danger", error
+  end
+
+  def result_name_check_json(name)
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal name, js[0]["name"]
   end
 end
