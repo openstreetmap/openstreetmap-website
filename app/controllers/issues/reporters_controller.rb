@@ -11,7 +11,7 @@ module Issues
     def index
       @issue = Issue.visible_to(current_user).find(params[:issue_id])
 
-      user_ids = @issue.reports.order(:created_at => :desc).pluck(:user_id).uniq
+      user_ids = @issue.reports.reorder(:created_at => :desc).pluck(:user_id).uniq
       @unique_reporters = {
         @issue.id => {
           :count => user_ids.size,
