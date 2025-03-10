@@ -20,6 +20,7 @@
 # Author: DavidL
 # Author: Dereckson
 # Author: Derugon
+# Author: Dittograp
 # Author: DreZhsh
 # Author: E THP
 # Author: Efred
@@ -111,6 +112,7 @@
 # Author: Vega
 # Author: Verdy p
 # Author: Vikoula5
+# Author: WillyM
 # Author: Windes
 # Author: Wladek92
 # Author: WolfyzDBois
@@ -644,8 +646,12 @@ fr:
           avez demandés a pris trop de temps.
   changesets:
     changeset:
-      no_edits: (aucune modification)
-      view_changeset_details: Afficher les détails du groupe de modifications
+      comments:
+        one: '%{count} commentaire'
+        other: '%{count} commentaires'
+      changes:
+        one: '%{count} changement'
+        other: '%{count} changements'
     index:
       title: Groupes de modifications
       title_user: Groupes de modifications par %{user}
@@ -718,6 +724,8 @@ fr:
       km away: à %{count} km
       m away: à %{count} m
       latest_edit_html: 'Dernière modification (%{ago}) :'
+      no_edits: (aucune modification)
+      view_changeset_details: Afficher les détails du groupe de modifications
     popup:
       your location: Votre emplacement
       nearby mapper: Cartographe à proximité
@@ -1681,27 +1689,46 @@ fr:
           weir: Barrage
           "yes": Cours d’eau
       admin_levels:
-        level2: Frontière de pays
-        level3: Frontière de région
-        level4: Limite d’État, province ou région
-        level5: Limite de région
-        level6: Limite de département ou province
-        level7: Frontière municipale
-        level8: Limite communale
-        level9: Limite de village ou arrondissement municipal
-        level10: Limite de quartier
-        level11: Frontière de voisinage
+        level2: Frontière internationale
+        level3: Limite administrative (niveau 3)
+        level4: Limite administrative (niveau 4)
+        level5: Limite administrative (niveau 5)
+        level6: Limite administrative (niveau 6)
+        level7: Limite administrative (niveau 7)
+        level8: Limite administrative (niveau 8)
+        level9: Limite administrative (niveau 9)
+        level10: Limite administrative (niveau 10)
+        level11: Limite administrative (niveau 11)
+      border_types:
+        arrondissement: Limite d'arrondissement
+        borough: Limite de borough (sorte d'arrondissement)
+        cercle: Limite de cercle
+        city: Limite de ville
+        comarca: Limite de comarque
+        county: Limite de comté
+        departement: Limite départementale
+        department: Limite départementale
+        district: Limite de district
+        distrito: Limite de district
+        freguesia: Limite de freguesia
+        municipality: Limite municipale
+        nation: Frontière internationale
+        national: Frontière internationale
+        neighbourhood: Limite de quartier
+        township: Limite de township (canton)
+        village: Limite de village
     results:
       no_results: Aucun résultat n’a été trouvé
       more_results: Plus de résultats
+  directions:
+    search:
+      title: Itinéraire
   issues:
     index:
       title: Problèmes
       select_status: Sélectionner un état
       select_type: Sélectionner un type
-      select_last_updated_by: Sélectionner la dernière mise à jour par
       reported_user: Utilisateur signalé
-      not_updated: Non mis à jour
       search: Rechercher
       search_guidance: 'Problèmes de recherche :'
       states:
@@ -1715,12 +1742,10 @@ fr:
       status: État
       reports: Rapports
       last_updated: Dernière mise à jour
-      last_updated_time_ago_user_html: '%{time_ago} par %{user}'
       reporting_users: Signalement d'utilisateurs
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapports'
-      more_reporters: et %{count} de plus
       reported_item: Élément signalé
       states:
         ignored: Ignoré
@@ -1763,6 +1788,9 @@ fr:
       reportable_title:
         diary_comment: '%{entry_title}, commentaire nº %{comment_id}'
         note: Note nº %{note_id}
+    reporters:
+      reporters:
+        more_reporters: et %{count} de plus
   issue_comments:
     create:
       comment_created: Votre commentaire a bien été créé.
@@ -3518,7 +3546,6 @@ fr:
     directions:
       ascend: Croissant
       descend: Décroissant
-      directions: Itinéraire
       distance: Distance
       distance_m: '%{distance} m'
       distance_km: '%{distance} km'

@@ -551,8 +551,16 @@ sk:
           príliš dlho.
   changesets:
     changeset:
-      no_edits: (bez úprav)
-      view_changeset_details: Zobraziť detaily sady zmien
+      comments:
+        one: '%{count} komentár'
+        few: '%{count} komentáre'
+        many: '%{count} komentárov'
+        other: '%{count} komentárov'
+      changes:
+        one: '%{count} zmena'
+        few: '%{count} zmeny'
+        many: '%{count} zmien'
+        other: '%{count} zmien'
     index:
       title: Sady zmien
       title_user: Sady zmien používateľa %{user}
@@ -624,6 +632,8 @@ sk:
       km away: vzdialený %{count}km
       m away: vzdialený %{count}m
       latest_edit_html: 'Posledné úpravy %{ago}:'
+      no_edits: (bez úprav)
+      view_changeset_details: Zobraziť detaily sady zmien
     popup:
       your location: Vaša poloha
       nearby mapper: Používateľ v okolí
@@ -721,6 +731,13 @@ sk:
     new:
       heading: Pridať komentár k diskusii v denníku sledujúceho?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Autorizačný server vyžaduje výber konta koncového
+          používateľa
+        consent_required: Autorizačný server vyžaduje súhlas koncového používateľa
+        interaction_required: Autorizačný server vyžaduje interakciu koncového používateľa
+        login_required: Autorizačný server vyžaduje autentifikáciu koncového používateľa
     flash:
       applications:
         create:
@@ -1573,14 +1590,15 @@ sk:
     results:
       no_results: Neboli nájdené žiadne výsledky
       more_results: Viac výsledkov
+  directions:
+    search:
+      title: Trasa
   issues:
     index:
       title: Problémy
       select_status: Zvoľte Stav
       select_type: Zvoľte Typ
-      select_last_updated_by: Zvoľte Naposledy zmenené kým
       reported_user: Nahlásený používateľ
-      not_updated: Neaktualizované
       search: Hľadať
       search_guidance: 'Hľadať problémy:'
       states:
@@ -1594,14 +1612,12 @@ sk:
       status: Stav
       reports: Hlásenia
       last_updated: Posledná úprava
-      last_updated_time_ago_user_html: '%{time_ago} používateľom %{user}'
       reporting_users: Nahlasovanie používateľov
       reports_count:
         one: '%{count} hlásenie'
         few: '%{count} hlásenia}'
         many: '%{count} hlásení}'
         other: '%{count} hlásení'
-      more_reporters: a %{count} ďalších
       reported_item: Hlásená položka
       states:
         ignored: Ignorované
@@ -1646,6 +1662,11 @@ sk:
       reportable_title:
         diary_comment: '%{entry_title}, komentár č. %{comment_id}'
         note: Poznámka č. %{note_id}
+    reporters:
+      index:
+        title: Nahlasovatelia problému č. %{issue_id}
+      reporters:
+        more_reporters: a %{count} ďalších
   issue_comments:
     create:
       comment_created: Váš komentár bol úspešne ne vytvorený
@@ -2005,6 +2026,8 @@ sk:
       flash token bad: Zodpovedajúci kód nebol nájdený, skontrolujte prípadne URL.
     update:
       flash changed: Vaše heslo bolo zmenené.
+      flash token bad: Nenašiel sa príslušný kód (token), skontrolujte napr. adresu
+        URL?
   preferences:
     show:
       title: Moje predvoľby
@@ -2225,19 +2248,31 @@ sk:
         contributors_intro_html: 'Naši prispievatelia sú tisícky jednotlivcov. Máme
           aj dáta so slobodnou licenciou od národných geografických inštitúcií či
           iných zdrojov, medzi nimi:'
+        contributors_at_credit_html: |-
+          %{austria}: Obsahuje údaje, ktoré poskytlo %{stadt_wien_link} (pod licenciou %{cc_by_link}), %{land_vorarlberg_link}
+          and Tirolsko (pod licenciou %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Rakúsko
         contributors_at_stadt_wien: Mesto Viedeň
         contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Vorarlbersko
+        contributors_at_cc_by_at_with_amendments: CC BY AT s dodatkami
         contributors_au_australia: Austrália
+        contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Medzinárodná licencia Creative Commons Attribution
           4.0 (CC BY 4.0)
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: '%{czechia}: Obsahuje údaje zo Štátneho zememeračnského
+          úradu a katastra licencované pod %{cc_licence_link}'
         contributors_cz_czechia: Česko
+        contributors_cz_cc_licence: Medzinárodná licencia Creative Commons Attribution
+          4.0 (CC BY 4.0)
         contributors_fi_finland: Fínsko
+        contributors_fi_nlsfi_license: licenciou NLSFI
         contributors_fr_france: Francúzsko
         contributors_hr_croatia: Chorvátsko
         contributors_nl_netherlands: Holandsko
         contributors_nz_new_zealand: Nový Zéland
+        contributors_nz_linz_data_service: dátovej služby LINZ
         contributors_nz_cc_by: CC BY 4.0
         contributors_rs_serbia: Srbsko
         contributors_si_slovenia: Slovinsko
@@ -2279,6 +2314,7 @@ sk:
       not_public_description_html: Kým tak neurobíte, nemôžete ďalej editovať mapu.
         Svoje úpravy môžete nastaviť ako verejné na vašej %{user_page}.
       user_page_link: stránke používateľa
+      anon_edits_html: (%{link})
       anon_edits_link_text: Prečo to tak je?
     edit:
       id_not_configured: iD zatiaľ nie je nakonfigurovaný
@@ -2882,9 +2918,11 @@ sk:
         grant:
           administrator: Povoliť prístup administrátora
           moderator: Povoliť prístup moderátora
+          importer: Udeliť prístup importéra
         revoke:
           administrator: Zrušiť prístup administrátora
           moderator: Zrušiť prístup moderátora
+          importer: Odobrať prístup importéra
       block_history: Aktívne blokácie
       moderator_history: Udelené blokácie
       revoke_all_blocks: Odvolať všetky blokácie
@@ -3308,7 +3346,6 @@ sk:
     directions:
       ascend: Stúpanie
       descend: Klesanie
-      directions: Trasa
       distance: Vzdialenosť
       distance_m: '%{distance}m'
       distance_km: '%{distance}km'

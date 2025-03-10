@@ -617,8 +617,16 @@ pl:
           zbyt długo.
   changesets:
     changeset:
-      no_edits: (brak edycji)
-      view_changeset_details: Zobacz szczegóły zestawu zmian
+      comments:
+        one: '%{count} komentarz'
+        few: '%{count} komentarze'
+        many: '%{count} komentarzy'
+        other: '%{count} komentarza'
+      changes:
+        one: 1 zmiana
+        few: '%{count} zmiany'
+        many: '%{count} zmian'
+        other: '%{count} zmiany'
     index:
       title: Zestawy zmian
       title_user: Zestawy zmian użytkownika %{user}
@@ -690,6 +698,8 @@ pl:
       km away: '%{count} km stąd'
       m away: '%{count} m stąd'
       latest_edit_html: 'Ostatnia zmiana %{ago}:'
+      no_edits: (brak edycji)
+      view_changeset_details: Zobacz szczegóły zestawu zmian
     popup:
       your location: Twoje położenie
       nearby mapper: Mapujący z okolicy
@@ -1652,26 +1662,27 @@ pl:
           "yes": Ciek
       admin_levels:
         level2: Granica kraju
-        level3: Granica regionu
-        level4: Granica województwa
-        level5: Granica regionu
-        level6: Granica powiatu
-        level7: Granica gminy
-        level8: Granica miejscowości
-        level9: Granica dzielnicy
-        level10: Granica osiedla
-        level11: Granica osiedla
+        level3: Granica regionu (poziom 3)
+        level4: Granica województwa (poziom 4)
+        level5: Granica regionu (poziom 5)
+        level6: Granica powiatu (poziom 6)
+        level7: Granica gminy (poziom 7)
+        level8: Granica miejscowości (poziom 8)
+        level9: Granica dzielnicy (poziom 9)
+        level10: Granica osiedla (poziom 10)
+        level11: Granica osiedla (poziom 11)
     results:
       no_results: Nic nie znaleziono
       more_results: Więcej wyników
+  directions:
+    search:
+      title: Opis trasy
   issues:
     index:
       title: Sprawy
       select_status: Wybierz status
       select_type: Wybierz kategorię
-      select_last_updated_by: Ostatnio zaktualizowane przez
       reported_user: Zgłoszony użytkownik
-      not_updated: Niezaktualizowane
       search: Wyszukaj
       search_guidance: 'Przeszukaj sprawy:'
       states:
@@ -1685,14 +1696,12 @@ pl:
       status: Stan
       reports: Zgłoszenia
       last_updated: Ostatnia aktualizacja
-      last_updated_time_ago_user_html: '%{time_ago} przez %{user}'
       reporting_users: Raportowanie użytkowników
       reports_count:
         one: 1 zgłoszenie
         few: '%{count} zgłoszenia'
         many: '%{count} zgłoszeń'
         other: '%{count} zgłoszenia'
-      more_reporters: i jeszcze %{count}
       reported_item: Zgłoszony element
       states:
         ignored: Zignorowano
@@ -1738,6 +1747,9 @@ pl:
       reportable_title:
         diary_comment: '%{entry_title}, komentarz #%{comment_id}'
         note: 'Uwaga #%{note_id}'
+    reporters:
+      reporters:
+        more_reporters: i jeszcze %{count}
   issue_comments:
     create:
       comment_created: Twój komentarz został pomyślnie utworzony
@@ -2782,8 +2794,8 @@ pl:
       help_url: https://wiki.openstreetmap.org/wiki/Pl:Upload
     create:
       upload_trace: Wyślij ślad GPS
-      trace_uploaded: Plik GPX został wysłany i czeka na dodanie do bazy danych. Powinno
-        to nastąpić w ciągu 30 minut, a informacja o tym fakcie zostanie wysłana mailem.
+      trace_uploaded: Plik GPX został wysłany i czeka na dodanie do bazy danych. Następuje
+        to zwykle w ciągu 30 minut, a informacja o tym fakcie zostanie wysłana mailem.
       upload_failed: Niestety wysyłanie pliku GPX nie powiodło się. Administrator
         został powiadomiony o tym błędzie. Spróbuj ponownie
       traces_waiting:
@@ -3520,7 +3532,6 @@ pl:
     directions:
       ascend: W górę
       descend: W dół
-      directions: Opis trasy
       distance: Odległość
       distance_m: '%{distance} m'
       distance_km: '%{distance} km'

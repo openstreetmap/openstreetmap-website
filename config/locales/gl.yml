@@ -528,8 +528,12 @@ gl:
           que solicitaches tardou moito en obterse.
   changesets:
     changeset:
-      no_edits: (sen edicións)
-      view_changeset_details: Ollar os detalles do conxunto de modificacións
+      comments:
+        one: '%{count} comentario'
+        other: '%{count} comentarios'
+      changes:
+        one: '%{count} modificación'
+        other: '%{count} modificacións'
     index:
       title: Conxuntos de modificacións
       title_user: Conxuntos de modificacións de %{user}
@@ -603,6 +607,8 @@ gl:
       km away: a %{count}km de distancia
       m away: a %{count}m de distancia
       latest_edit_html: 'Última edición (%{ago}):'
+      no_edits: (sen edicións)
+      view_changeset_details: Ollar os detalles do conxunto de modificacións
     popup:
       your location: A túa localización
       nearby mapper: Cartógrafo preto de ti
@@ -1564,27 +1570,57 @@ gl:
           weir: Vaira
           "yes": Curso de auga
       admin_levels:
-        level2: Fronteira do país
-        level3: Fronteira de rexión
-        level4: Fronteira do estado/Rexión
-        level5: Fronteira da rexión
-        level6: Fronteira do condado/Provincia
-        level7: Fronteira de municipalidade
-        level8: Fronteira da cidade
-        level9: Fronteira da vila
-        level10: Fronteira do barrio
-        level11: Fronteira de barrio
+        level2: Fronteira internacional
+        level3: Fronteira administrativa (nivel 3)
+        level4: Fronteira administrativa (nivel 4)
+        level5: Fronteira administrativa (nivel 5)
+        level6: Fronteira administrativa (nivel 6)
+        level7: Fronteira administrativa (nivel 7)
+        level8: Fronteira administrativa (nivel 8)
+        level9: Fronteira administrativa (nivel 9)
+        level10: Fronteira administrativa (nivel 10)
+        level11: Fronteira administrativa (nivel 11)
+      border_types:
+        arrondissement: Fronteira de arrondissement (distrito)
+        borough: Fronteira de borough (distrito)
+        cercle: Fronteira de cercle (distrito)
+        city: Fronteira de cidade
+        comarca: Fronteira de comarca
+        county: Fronteira de condado
+        departement: Fronteira de departamento
+        department: Fronteira de departamento
+        district: Fronteira de distrito
+        distrito: Fronteira de distrito
+        freguesia: Fronteira de freguesía
+        local_authority: Fronteira de autoridade local
+        municipality: Fronteira de municipio
+        municipi: Fronteira de municipio
+        município: Fronteira de municipio
+        nation: Fronteira internacional
+        national: Fronteira internacional
+        neighbourhood: Fronteira de barrio
+        parish: Fronteira de parroquia
+        province: Fronteira de provincia
+        região: Fronteira de rexión
+        region: Fronteira de rexión
+        state: Fronteira de estado
+        town: Fronteira de vila
+        township: Fronteira de township (vila)
+        village: Fronteira de aldea
     results:
       no_results: Non se atopou ningún resultado
       more_results: Máis resultados
+  directions:
+    search:
+      title: Indicacións
   issues:
     index:
       title: Problemas
       select_status: Seleccionar estado
       select_type: Seleccionar tipo
-      select_last_updated_by: Seleccionar a última actualización por
+      select_last_managed_by: Seleccionar último xestor
       reported_user: Usuario denunciado
-      not_updated: Non Actualizados
+      not_managed: Non xestionado
       search: Procurar
       search_guidance: 'Procurar problemas:'
       states:
@@ -1598,12 +1634,11 @@ gl:
       status: Estado
       reports: Denuncias
       last_updated: Última actualización
-      last_updated_time_ago_user_html: '%{time_ago} por %{user}'
+      last_managed: Último xestor
       reporting_users: Usuarios denunciantes
       reports_count:
         one: '%{count} denuncia'
         other: '%{count} denuncias'
-      more_reporters: e %{count} máis
       reported_item: Elemento denunciado
       states:
         ignored: Ignorado
@@ -1641,11 +1676,16 @@ gl:
       reassign_to_moderators: Reasignar a incidencia aos moderadores
       reassign_to_administrators: Reasignar a incidencia aos administradores
     reports:
-      reported_by_html: Denunciado coma %{category} por %{user} o %{updated_at}
+      reported_by_html: Denunciado como %{category} por %{user} o %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, comentario n.º %{comment_id}'
         note: Nota n.º %{note_id}
+    reporters:
+      index:
+        title: Denunciante da incidencia n.º %{issue_id}
+      reporters:
+        more_reporters: e %{count} máis
   issue_comments:
     create:
       comment_created: O comentario creouse correctamente
@@ -1792,7 +1832,7 @@ gl:
       confirm: 'Antes de facer ren, cómpre confirmar que esta solicitude veu de ti.
         Se é así, preme na ligazón inferior para confirmar a conta:'
       welcome: Após confirmar a túa conta, proporcionarémosche algunha información
-        adicional coma axuda para comezar.
+        adicional como axuda para comezar.
     email_confirm:
       subject: '[OpenStreetMap] Confirma o teu enderezo de correo electrónico'
       greeting: 'Ola:'
@@ -1930,9 +1970,9 @@ gl:
       destroyed: Mensaxe eliminada
     read_marks:
       create:
-        notice: Mensaxe marcada coma lida
+        notice: Mensaxe marcada como lida
       destroy:
-        notice: Mensaxe marcada coma non lida
+        notice: Mensaxe marcada como non lida
     mutes:
       destroy:
         notice: A mensaxe moveuse á caixa de entrada
@@ -2147,7 +2187,7 @@ gl:
       open_data_title: Datos libres
       open_data_1_html: |-
         Os datos do OpenStreetMap son %{open_data}: podes empregalos libremente e para calquera finalidade
-        sempre que recoñezas ó OpenStreetMap e mailos seus colaboradores coma os autores dos datos. Se modificas os datos
+        sempre que recoñezas ó OpenStreetMap e mailos seus colaboradores como os autores dos datos. Se modificas os datos
         ou os empregas dalgún xeito para outros fins, podes distribuír o resultado sempre e cando o fagas empregando
         a mesma licenza. Atoparás información máis detallada na %{copyright_license_link}.
       open_data_open_data: datos libres
@@ -2362,10 +2402,10 @@ gl:
     not_public_flash:
       not_public: Non fixo que as túas edicións fosen públicas.
       not_public_description_html: Non podes editar o mapa a menos que o queiras facer.
-        Podes estabelecer as túas edicións coma públicas dende a túa %{user_page}.
+        Podes establecer as túas edicións como públicas dende a túa %{user_page}.
       user_page_link: páxina de usuario
       anon_edits_html: (%{link})
-      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Descobra velaquí o motivo.
     edit:
       id_not_configured: O iD non está configurado
@@ -2379,7 +2419,7 @@ gl:
       too_large:
         advice: 'Se a exportación anterior falla, considere empregar unha das fontes
           listadas deseguido:'
-        body: 'Esta zona é grande dabondo para ser exportada coma datos XML do OpenStreetMap.
+        body: 'Esta zona é grande dabondo para ser exportada como datos XML do OpenStreetMap.
           Achegue a zona ou escolla unha menor, ou empregue unha das seguintes fontes
           para as baixadas masivas de datos:'
         planet:
@@ -2601,7 +2641,7 @@ gl:
           clave que son de utilidade.
         an_editor_html: Un %{editor} é un programa ou sitio web que podes empregar
           para editar o mapa.
-        a_node_html: Un %{node} é un punto no mapa, coma un restaurante ou unha árbore.
+        a_node_html: Un %{node} é un punto no mapa, como un restaurante ou unha árbore.
         a_way_html: Unha %{way} é unha liña ou área, como unha estrada, un regato,
           unha lagoa ou un edificio.
         a_tag_html: Unha %{tag} é un anaco de datos sobre un nó ou unha vía, como
@@ -2654,9 +2694,9 @@ gl:
         communities_wiki: páxina wiki sobre as comunidades
   traces:
     visibility:
-      private: Privado (só compartido coma anónimo; puntos desordenados)
-      public: Público (amosado na listaxe de pistas e coma anónimo; puntos desordenados)
-      trackable: Rastrexábel (só compartido coma anónimo; puntos ordenados coa data
+      private: Privado (só compartido como anónimo; puntos desordenados)
+      public: Público (amosado na listaxe de pistas e como anónimo; puntos desordenados)
+      trackable: Rastrexábel (só compartido como anónimo; puntos ordenados coa data
         e hora)
       identifiable: Identificábel (amosado na listaxe de pistas e como identificábel;
         puntos ordenados coa data e hora)
@@ -3303,7 +3343,7 @@ gl:
       short_link: Ligazón acurtada
       geo_uri: Geo URI
       embed: HTML
-      custom_dimensions: Estabelecer dimensións personalizadas
+      custom_dimensions: Establecer dimensións personalizadas
       format: 'Formato:'
       scale: 'Escala:'
       image_dimensions: A imaxe amosará a capa %{layer} con %{width} x %{height}
@@ -3373,7 +3413,6 @@ gl:
     directions:
       ascend: Ascendente
       descend: Descendente
-      directions: Indicacións
       distance: Distancia
       distance_m: '%{distance} m'
       distance_km: '%{distance} km'
