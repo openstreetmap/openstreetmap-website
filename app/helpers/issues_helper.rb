@@ -25,18 +25,20 @@ module IssuesHelper
     end
   end
 
-  def reportable_dates(reportable)
+  def reportable_heading(reportable)
+    heading_params = { :title => link_to(reportable_title(reportable), reportable_url(reportable)) }
+    heading_params[:datetime_created] = reportable_heading_time(reportable.created_at)
+    heading_params[:datetime_updated] = reportable_heading_time(reportable.updated_at) unless reportable.is_a? User
+
     case reportable
-    when DiaryEntry, DiaryComment, Note
-      created_at_time = tag.time l(reportable.created_at.to_datetime, :format => :friendly),
-                                 :datetime => reportable.created_at.xmlschema
-      updated_at_time = tag.time l(reportable.updated_at.to_datetime, :format => :friendly),
-                                 :datetime => reportable.updated_at.xmlschema
-      t "issues.helper.reportable_dates.created_on_updated_on_html", :datetime_created => created_at_time, :datetime_updated => updated_at_time
+    when DiaryComment
+      t "issues.helper.reportable_heading.diary_comment_html", **heading_params
+    when DiaryEntry
+      t "issues.helper.reportable_heading.diary_entry_html", **heading_params
+    when Note
+      t "issues.helper.reportable_heading.note_html", **heading_params
     when User
-      created_at_time = tag.time l(reportable.created_at.to_datetime, :format => :friendly),
-                                 :datetime => reportable.created_at.xmlschema
-      t "issues.helper.reportable_dates.created_on_html", :datetime_created => created_at_time
+      t "issues.helper.reportable_heading.user_html", **heading_params
     end
   end
 
@@ -47,5 +49,11 @@ module IssuesHelper
     elsif count.positive?
       tag.span(count, :class => "badge count-number")
     end
+  end
+
+  private
+
+  def reportable_heading_time(datetime)
+    tag.time l(datetime.to_datetime, :format => :friendly), :datetime => datetime.xmlschema
   end
 end
