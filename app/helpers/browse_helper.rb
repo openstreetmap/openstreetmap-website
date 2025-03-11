@@ -29,11 +29,21 @@ module BrowseHelper
       locale = available_locales.preferred(preferred_languages, :default => nil)
 
       if object.tags.include? "name:#{locale}"
-        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["name:#{locale}"].to_s), :id => tag.bdi(name)
+        label = object.tags["name:#{locale}"].to_s
       elsif object.tags.include? "name"
-        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["name"].to_s), :id => tag.bdi(name)
+        label = object.tags["name"].to_s
       elsif object.tags.include? "ref"
-        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["ref"].to_s), :id => tag.bdi(name)
+        label = object.tags["ref"].to_s
+      end
+
+      if (object.tags.include? "start_date") || (object.tags.include? "end_date")
+        start_date = (object.tags.include? "start_date") ? object.tags["start_date"].to_s : nil
+        end_date = (object.tags.include? "end_date") ? object.tags["end_date"].to_s : nil
+        label = t "printable_name.with_date_html", :name => label, :dates => tag.bdi(printable_date_range(start_date, end_date))
+      end
+
+      if label
+        name = t "printable_name.with_name_html", :name => tag.bdi(label), :id => tag.bdi(id.to_s)
       end
     end
 

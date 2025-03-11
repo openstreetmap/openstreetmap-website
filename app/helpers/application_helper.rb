@@ -33,6 +33,25 @@ module ApplicationHelper
     tag.time(time_ago_in_words(date, :scope => :"datetime.distance_in_words_ago"), :title => l(date, :format => :friendly), :datetime => date.xmlschema)
   end
 
+  def printable_date_range(start_date, end_date)
+    printable_start_date = printable_date(start_date)
+    printable_end_date = printable_date(end_date)
+    if printable_start_date == printable_end_date
+      dates = printable_start_date
+    else
+      dates = t "time.formats.range", :start => printable_start_date, :end => printable_end_date
+    end
+  end
+
+  def printable_date(basic)
+    if basic
+      date = Date.new(basic.to_i)
+      l(date, :format => "%Y")
+    else
+      ""
+    end
+  end
+
   def body_class
     if content_for? :body_class
       content_for :body_class

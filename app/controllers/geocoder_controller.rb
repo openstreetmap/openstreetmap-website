@@ -109,10 +109,22 @@ class GeocoderController < ApplicationController
       object_type = place.attributes["osm_type"]
       object_id = place.attributes["osm_id"]
 
+      start_date, end_date = nil
+      place.elements["extratags"].elements.each("tag") do |extratag|
+        if extratag.attributes["key"] == "start_date"
+          start_date = extratag.attributes['value']
+        elsif extratag.attributes["key"] == "end_date"
+          end_date = extratag.attributes['value']
+        end
+      end
+      if start_date || end_date
+        suffix = t ".suffix_format", :dates => printable_date_range(start_date, end_date)
+      end
+
       @results.push(:lat => lat, :lon => lon,
                     :min_lat => min_lat, :max_lat => max_lat,
                     :min_lon => min_lon, :max_lon => max_lon,
-                    :prefix => prefix, :name => name,
+                    :prefix => prefix, :name => name, :suffix => suffix,
                     :type => object_type, :id => object_id)
     end
 
@@ -121,6 +133,25 @@ class GeocoderController < ApplicationController
     host = URI(Settings.nominatim_url).host
     @error = "Error contacting #{host}: #{e}"
     render :action => "error"
+  end
+
+  def printable_date_range(start_date, end_date)
+    printable_start_date = printable_date(start_date)
+    printable_end_date = printable_date(end_date)
+    if printable_start_date == printable_end_date
+      dates = printable_start_date
+    else
+      dates = t "time.formats.range", :start => printable_start_date, :end => printable_end_date
+    end
+  end
+
+  def printable_date(basic)
+    if basic
+      date = Date.new(basic.to_i)
+      l(date, :format => "%Y")
+    else
+      ""
+    end
   end
 
   def search_osm_nominatim_reverse
