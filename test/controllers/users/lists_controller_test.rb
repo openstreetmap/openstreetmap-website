@@ -210,6 +210,14 @@ module Users
 
       session_for(create(:administrator_user))
 
+      # Should do nothing when no users selected
+      assert_no_difference "User.active.count" do
+        put users_list_path, :params => { :confirm => 1 }
+      end
+      assert_redirected_to :action => :show
+      assert_equal "pending", inactive_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+
       # Should work when logged in as an administrator
       assert_difference "User.active.count", 2 do
         put users_list_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
@@ -253,6 +261,14 @@ module Users
       assert_equal "confirmed", confirmed_user.reload.status
 
       session_for(create(:administrator_user))
+
+      # Should do nothing when no users selected
+      assert_no_difference "User.active.count" do
+        put users_list_path, :params => { :hide => 1 }
+      end
+      assert_redirected_to :action => :show
+      assert_equal "active", normal_user.reload.status
+      assert_equal "confirmed", confirmed_user.reload.status
 
       # Should work when logged in as an administrator
       assert_difference "User.active.count", -2 do

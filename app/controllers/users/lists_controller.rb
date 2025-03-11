@@ -33,7 +33,7 @@ module Users
     ##
     # update status of selected users
     def update
-      ids = params[:user].keys.collect(&:to_i)
+      ids = params.fetch(:user, {}).keys.collect(&:to_i)
 
       User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
       User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
