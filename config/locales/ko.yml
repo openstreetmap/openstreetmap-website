@@ -22,6 +22,7 @@
 # Author: Hym411
 # Author: IRTC1015
 # Author: Idh0854
+# Author: Jay17
 # Author: Jerrykim306
 # Author: Jonghaya
 # Author: Kwj2772
@@ -89,6 +90,9 @@ ko:
         display_name_is_user_n: n이 사용자 ID가 아니라면 user_n이 될 수 없음
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: 님은 이미 음소거되어 있습니다
     models:
       acl: 접근 제어 목록
@@ -234,6 +238,9 @@ ko:
         other: '%{count}개월 전'
       x_years:
         other: '%{count}년 전'
+  printable_name:
+    version: v%{version}
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: 기본값 (현재 %{name})
     id:
@@ -325,7 +332,9 @@ ko:
       currently_not_public: 현재 귀하가 편집한 내용은 익명이며 사람들은 귀하에게 메시지를 보내거나 귀하의 위치를 볼 수 없습니다.
         수정한 내용을 표시하고 사람들이 웹사이트를 통해 연락할 수 있도록 하려면 아래 버튼을 클릭하세요.
       only_public_can_edit: 0.6 API 전환으로 공개 사용자만 지도 데이터를 편집할 수 있습니다.
+      find_out_why_html: (%{link}).
       find_out_why: 원인 알아보기
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: 귀하의 이메일 주소는 공개 처리 시에도 외부에 노출되지 않습니다.
       not_reversible: 이 조치는 되돌릴 수 없으며 현재 신규 사용자는 모두 기본적으로 공개가 됩니다.
       make_edits_public_button: 내 편집을 공개하기
@@ -612,7 +621,7 @@ ko:
         title: 오픈스트리트맵 일기 항목
         description: 오픈스트리트맵 사용자의 최근 일기 항목
     comments:
-      title: '%{user}님이 추가한 일기 댓글'
+      title: 오픈스트리트맵 일기 항목
     subscribe:
       heading: 다음 일기 항목 토론에 구독하시겠습니까?
       button: 토론 구독
