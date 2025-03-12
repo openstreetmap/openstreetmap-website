@@ -145,7 +145,7 @@ OSM.Directions = function (map) {
 
     OSM.router.replace("/directions?" + new URLSearchParams({
       engine: chosenEngine.id,
-      route: points.map(p => OSM.cropLocation(p, map.getZoom()).join()).join(";")
+      route: points.map(p => `${p.lat},${p.lng}`).join(";")
     }));
 
     // copy loading item to sidebar and display it. we copy it, rather than
