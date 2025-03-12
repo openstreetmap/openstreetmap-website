@@ -33,12 +33,12 @@ module Users
     ##
     # update status of selected users
     def update
-      ids = params[:user].keys.collect(&:to_i)
+      ids = params.fetch(:user, {}).keys.collect(&:to_i)
 
       User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
       User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
 
-      redirect_to url_for(params.permit(:status, :ip, :before, :after))
+      redirect_to url_for(params.permit(:status, :username, :ip, :edits, :before, :after))
     end
   end
 end

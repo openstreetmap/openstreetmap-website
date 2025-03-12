@@ -1,6 +1,6 @@
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <% unless @users.empty? %>
-    <%= form_tag @params, :method => :put do %>
+    <%= form_tag users_list_path, :method => :put do %>
       <div class="row">
         <div class="col">
           <%= render "shared/pagination",
@@ -14,7 +14,9 @@
       <div>
 
       <%= hidden_field_tag :status, params[:status] if params[:status] %>
+      <%= hidden_field_tag :username, params[:username] if params[:username] %>
       <%= hidden_field_tag :ip, params[:ip] if params[:ip] %>
+      <%= hidden_field_tag :edits, params[:edits] if params[:edits] %>
       <%= hidden_field_tag :page, params[:page] if params[:page] %>
       <table id="user_list" class="table table-borderless table-striped">
         <thead>

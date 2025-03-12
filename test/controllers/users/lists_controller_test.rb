@@ -67,64 +67,88 @@ module Users
       get users_list_path, :params => { :status => "suspended" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(suspended_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='status'][value='suspended']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(suspended_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit by name
       get users_list_path, :params => { :username => "Test User" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(name_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='username'][value='Test User']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(name_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit by name ignoring case
       get users_list_path, :params => { :username => "test user" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(name_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='username'][value='test user']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(name_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit by email
       get users_list_path, :params => { :username => "test@example.com" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(email_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='username'][value='test@example.com']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(email_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit by email ignoring case
       get users_list_path, :params => { :username => "TEST@example.com" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(email_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='username'][value='TEST@example.com']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(email_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit by IP address
       get users_list_path, :params => { :ip => "1.2.3.4" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(ip_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='ip'][value='1.2.3.4']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(ip_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit to users with edits
       get users_list_path, :params => { :edits => "yes" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 1 do
-        assert_select "a[href='#{user_path(edits_user)}']", :count => 1
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='edits'][value='yes']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 1 do
+          assert_select "a[href='#{user_path(edits_user)}']", :count => 1
+        end
       end
 
       # Should be able to limit to users with no edits
       get users_list_path, :params => { :edits => "no" }
       assert_response :success
       assert_template :show
-      assert_select "table#user_list tbody tr", :count => 9 do
-        assert_select "a[href='#{user_path(edits_user)}']", :count => 0
+      assert_select "turbo-frame#pagination", :count => 1 do
+        assert_select "input[type='hidden'][name='edits'][value='no']", :count => 1
+        assert_select "table#user_list tbody tr", :count => 9 do
+          assert_select "a[href='#{user_path(edits_user)}']", :count => 0
+        end
       end
     end
 
@@ -210,6 +234,14 @@ module Users
 
       session_for(create(:administrator_user))
 
+      # Should do nothing when no users selected
+      assert_no_difference "User.active.count" do
+        put users_list_path, :params => { :confirm => 1 }
+      end
+      assert_redirected_to :action => :show
+      assert_equal "pending", inactive_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+
       # Should work when logged in as an administrator
       assert_difference "User.active.count", 2 do
         put users_list_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
@@ -253,6 +285,14 @@ module Users
       assert_equal "confirmed", confirmed_user.reload.status
 
       session_for(create(:administrator_user))
+
+      # Should do nothing when no users selected
+      assert_no_difference "User.active.count" do
+        put users_list_path, :params => { :hide => 1 }
+      end
+      assert_redirected_to :action => :show
+      assert_equal "active", normal_user.reload.status
+      assert_equal "confirmed", confirmed_user.reload.status
 
       # Should work when logged in as an administrator
       assert_difference "User.active.count", -2 do
