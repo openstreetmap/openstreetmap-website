@@ -104,6 +104,13 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
   },
 
+  loadingLayers: [],
+
+  cancelLoading: function () {
+    this.loadingLayers.forEach(layer => clearTimeout(layer));
+    this.loadingLayers = [];
+  },
+
   addData: function (features) {
     if (!(features instanceof Array)) {
       features = this.buildFeatures(features);
@@ -220,9 +227,11 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
   eachLayer: function (method, context, asynchronous = false) {
     for (let i in this._layers) {
       if (asynchronous) {
-        setTimeout(() => {
-          method.call(context, this._layers[i]);
-        });
+        this.loadingLayers.push(
+          setTimeout(() => {
+            method.call(context, this._layers[i]);
+          })
+        );
       } else {
         method.call(context, this._layers[i]);
       }
