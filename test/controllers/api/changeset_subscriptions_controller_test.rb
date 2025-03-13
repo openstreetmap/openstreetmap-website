@@ -21,6 +21,23 @@ module Api
         { :path => "/api/0.6/changeset/1/subscription.json", :method => :delete },
         { :controller => "api/changeset_subscriptions", :action => "destroy", :changeset_id => "1", :format => "json" }
       )
+
+      assert_recognizes(
+        { :controller => "api/changeset_subscriptions", :action => "create", :changeset_id => "1" },
+        { :path => "/api/0.6/changeset/1/subscribe", :method => :post }
+      )
+      assert_recognizes(
+        { :controller => "api/changeset_subscriptions", :action => "create", :changeset_id => "1", :format => "json" },
+        { :path => "/api/0.6/changeset/1/subscribe.json", :method => :post }
+      )
+      assert_recognizes(
+        { :controller => "api/changeset_subscriptions", :action => "destroy", :changeset_id => "1" },
+        { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post }
+      )
+      assert_recognizes(
+        { :controller => "api/changeset_subscriptions", :action => "destroy", :changeset_id => "1", :format => "json" },
+        { :path => "/api/0.6/changeset/1/unsubscribe.json", :method => :post }
+      )
     end
 
     def test_create_by_unauthorized
@@ -89,6 +106,20 @@ module Api
       end
     end
 
+    def test_create_legacy
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset, :closed)
+
+      assert_difference "ChangesetSubscription.count", 1 do
+        assert_difference "changeset.subscribers.count", 1 do
+          post "/api/0.6/changeset/#{changeset.id}/subscribe", :headers => auth_header
+
+          assert_response :success
+        end
+      end
+    end
+
     def test_destroy_by_unauthorized
       changeset = create(:changeset, :closed)
 
@@ -150,6 +181,21 @@ module Api
       assert_difference "ChangesetSubscription.count", -1 do
         assert_difference "changeset.subscribers.count", -1 do
           delete api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :success
+        end
+      end
+    end
+
+    def test_destroy_legacy
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset, :closed)
+      changeset.subscribers.push(user)
+
+      assert_difference "ChangesetSubscription.count", -1 do
+        assert_difference "changeset.subscribers.count", -1 do
+          post "/api/0.6/changeset/#{changeset.id}/unsubscribe", :headers => auth_header
 
           assert_response :success
         end
