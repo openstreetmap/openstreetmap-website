@@ -84,7 +84,7 @@ class ChangesetSubscriptionsControllerTest < ActionDispatch::IntegrationTest
       post changeset_subscription_path(changeset)
     end
     assert_redirected_to changeset_path(changeset)
-    assert changeset.reload.subscribed?(other_user)
+    assert_includes changeset.reload.subscribers, other_user
   end
 
   def test_create_fail
@@ -122,7 +122,7 @@ class ChangesetSubscriptionsControllerTest < ActionDispatch::IntegrationTest
       delete changeset_subscription_path(changeset)
     end
     assert_redirected_to changeset_path(changeset)
-    assert_not changeset.reload.subscribed?(other_user)
+    assert_not_includes changeset.reload.subscribers, other_user
   end
 
   def test_unsubscribe_fail

@@ -11,7 +11,7 @@ class ChangesetSubscriptionsController < ApplicationController
 
   def show
     @changeset = Changeset.find(params[:changeset_id])
-    @subscribed = @changeset.subscribed?(current_user)
+    @subscribed = @changeset.subscribers.include?(current_user)
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -19,7 +19,7 @@ class ChangesetSubscriptionsController < ApplicationController
   def create
     @changeset = Changeset.find(params[:changeset_id])
 
-    @changeset.subscribe(current_user) unless @changeset.subscribed?(current_user)
+    @changeset.subscribers << current_user unless @changeset.subscribers.include?(current_user)
 
     redirect_to changeset_path(@changeset)
   rescue ActiveRecord::RecordNotFound
@@ -29,7 +29,7 @@ class ChangesetSubscriptionsController < ApplicationController
   def destroy
     @changeset = Changeset.find(params[:changeset_id])
 
-    @changeset.unsubscribe(current_user)
+    @changeset.subscribers.delete(current_user)
 
     redirect_to changeset_path(@changeset)
   rescue ActiveRecord::RecordNotFound

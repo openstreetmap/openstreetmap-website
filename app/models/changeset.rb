@@ -217,18 +217,6 @@ class Changeset < ApplicationRecord
     save_with_tags!
   end
 
-  def subscribe(user)
-    subscribers << user
-  end
-
-  def unsubscribe(user)
-    subscribers.delete(user)
-  end
-
-  def subscribed?(user)
-    subscribers.exists?(user.id)
-  end
-
   def size_limit
     @size_limit ||= ActiveRecord::Base.connection.select_value(
       "SELECT api_size_limit($1)", "api_size_limit", [user_id]
