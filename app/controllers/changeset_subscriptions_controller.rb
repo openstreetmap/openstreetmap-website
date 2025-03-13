@@ -5,7 +5,7 @@ class ChangesetSubscriptionsController < ApplicationController
   before_action :set_locale
   before_action :check_database_writable
 
-  authorize_resource :class => :changeset_subscription
+  authorize_resource
 
   around_action :web_timeout
 

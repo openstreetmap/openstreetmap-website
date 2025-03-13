@@ -63,7 +63,7 @@ class User < ApplicationRecord
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :changeset_comments, :foreign_key => :author_id, :inverse_of => :author
-  has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
+  has_many :changeset_subscriptions, :foreign_key => :subscriber_id
   has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
   has_many :note_subscriptions, :class_name => "NoteSubscription"
