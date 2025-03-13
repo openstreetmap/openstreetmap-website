@@ -23,93 +23,137 @@ module Api
       )
     end
 
-    def test_create_success
-      auth_header = bearer_authorization_header
+    def test_create_by_unauthorized
       changeset = create(:changeset, :closed)
 
-      assert_difference "changeset.subscribers.count", 1 do
-        post api_changeset_subscription_path(changeset), :headers => auth_header
-      end
-      assert_response :success
+      assert_no_difference "ChangesetSubscription.count" do
+        assert_no_difference "changeset.subscribers.count" do
+          post api_changeset_subscription_path(changeset)
 
-      # not closed changeset
-      changeset = create(:changeset)
-      assert_difference "changeset.subscribers.count", 1 do
-        post api_changeset_subscription_path(changeset), :headers => auth_header
+          assert_response :unauthorized
+        end
       end
-      assert_response :success
     end
 
-    def test_create_fail
+    def test_create_on_missing_changeset
       user = create(:user)
-
-      # unauthorized
-      changeset = create(:changeset, :closed)
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_subscription_path(changeset)
-      end
-      assert_response :unauthorized
-
       auth_header = bearer_authorization_header user
 
-      # bad changeset id
-      assert_no_difference "changeset.subscribers.count" do
+      assert_no_difference "ChangesetSubscription.count" do
         post api_changeset_subscription_path(999111), :headers => auth_header
-      end
-      assert_response :not_found
 
-      # trying to subscribe when already subscribed
-      changeset = create(:changeset, :closed)
-      changeset.subscribers.push(user)
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_subscription_path(changeset), :headers => auth_header
+        assert_response :not_found
       end
-      assert_response :conflict
     end
 
-    def test_destroy_success
+    def test_create_when_subscribed
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset, :closed)
+      changeset.subscribers << user
+
+      assert_no_difference "ChangesetSubscription.count" do
+        assert_no_difference "changeset.subscribers.count" do
+          post api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_create_on_open_changeset
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset)
+
+      assert_difference "ChangesetSubscription.count", 1 do
+        assert_difference "changeset.subscribers.count", 1 do
+          post api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :success
+        end
+      end
+    end
+
+    def test_create_on_closed_changeset
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset, :closed)
+
+      assert_difference "ChangesetSubscription.count", 1 do
+        assert_difference "changeset.subscribers.count", 1 do
+          post api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :success
+        end
+      end
+    end
+
+    def test_destroy_by_unauthorized
+      changeset = create(:changeset, :closed)
+
+      assert_no_difference "ChangesetSubscription.count" do
+        assert_no_difference "changeset.subscribers.count" do
+          delete api_changeset_subscription_path(changeset)
+
+          assert_response :unauthorized
+        end
+      end
+    end
+
+    def test_destroy_on_missing_changeset
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+
+      assert_no_difference "ChangesetSubscription.count" do
+        delete api_changeset_subscription_path(999111), :headers => auth_header
+
+        assert_response :not_found
+      end
+    end
+
+    def test_destroy_when_not_subscribed
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset, :closed)
+
+      assert_no_difference "ChangesetSubscription.count" do
+        assert_no_difference "changeset.subscribers.count" do
+          delete api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :not_found
+        end
+      end
+    end
+
+    def test_destroy_on_open_changeset
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      changeset = create(:changeset)
+      changeset.subscribers.push(user)
+
+      assert_difference "ChangesetSubscription.count", -1 do
+        assert_difference "changeset.subscribers.count", -1 do
+          delete api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :success
+        end
+      end
+    end
+
+    def test_destroy_on_closed_changeset
       user = create(:user)
       auth_header = bearer_authorization_header user
       changeset = create(:changeset, :closed)
       changeset.subscribers.push(user)
 
-      assert_difference "changeset.subscribers.count", -1 do
-        delete api_changeset_subscription_path(changeset), :headers => auth_header
+      assert_difference "ChangesetSubscription.count", -1 do
+        assert_difference "changeset.subscribers.count", -1 do
+          delete api_changeset_subscription_path(changeset), :headers => auth_header
+
+          assert_response :success
+        end
       end
-      assert_response :success
-
-      # not closed changeset
-      changeset = create(:changeset)
-      changeset.subscribers.push(user)
-
-      assert_difference "changeset.subscribers.count", -1 do
-        delete api_changeset_subscription_path(changeset), :headers => auth_header
-      end
-      assert_response :success
-    end
-
-    def test_destroy_fail
-      # unauthorized
-      changeset = create(:changeset, :closed)
-      assert_no_difference "changeset.subscribers.count" do
-        delete api_changeset_subscription_path(changeset)
-      end
-      assert_response :unauthorized
-
-      auth_header = bearer_authorization_header
-
-      # bad changeset id
-      assert_no_difference "changeset.subscribers.count" do
-        delete api_changeset_subscription_path(999111), :headers => auth_header
-      end
-      assert_response :not_found
-
-      # trying to unsubscribe when not subscribed
-      changeset = create(:changeset, :closed)
-      assert_no_difference "changeset.subscribers.count" do
-        delete api_changeset_subscription_path(changeset), :headers => auth_header
-      end
-      assert_response :not_found
     end
   end
 end
