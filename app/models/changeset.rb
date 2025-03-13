@@ -41,7 +41,8 @@ class Changeset < ApplicationRecord
   has_many :old_relations
 
   has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "ChangesetComment"
-  has_and_belongs_to_many :subscribers, :class_name => "User", :join_table => "changesets_subscribers", :association_foreign_key => "subscriber_id"
+  has_many :subscriptions, :class_name => "ChangesetSubscription"
+  has_many :subscribers, :through => :subscriptions
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
@@ -214,18 +215,6 @@ class Changeset < ApplicationRecord
     self.tags = other.tags
 
     save_with_tags!
-  end
-
-  def subscribe(user)
-    subscribers << user
-  end
-
-  def unsubscribe(user)
-    subscribers.delete(user)
-  end
-
-  def subscribed?(user)
-    subscribers.exists?(user.id)
   end
 
   def size_limit
