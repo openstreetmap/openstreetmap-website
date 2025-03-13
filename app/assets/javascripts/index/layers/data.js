@@ -89,6 +89,15 @@ OSM.initializeDataLayer = function (map) {
 
     if (dataLoader) dataLoader.abort();
 
+    $("#layers-data-loading").remove();
+
+    const spanLoading = $("<span>")
+      .attr("id", "layers-data-loading")
+      .attr("class", "spinner-border spinner-border-sm ms-1")
+      .attr("role", "status")
+      .html("<span class='visually-hidden'>" + I18n.t("browse.start_rjs.loading") + "</span>")
+      .appendTo($("#label-layers-data"));
+
     dataLoader = new AbortController();
     fetch(url, { signal: dataLoader.signal })
       .then(response => {
@@ -131,7 +140,10 @@ OSM.initializeDataLayer = function (map) {
           $("#browse_status").empty();
         });
       })
-      .finally(() => dataLoader = null);
+      .finally(() => {
+        dataLoader = null;
+        spanLoading.remove();
+      });
   }
 
   function onSelect(layer) {

@@ -100,6 +100,7 @@ L.OSM.layers = function (options) {
 
         const label = $("<label>")
           .attr("class", "form-check-label")
+          .attr("id", `label-layers-${name}`)
           .appendTo(item);
 
         let checked = map.hasLayer(layer);
@@ -114,10 +115,15 @@ L.OSM.layers = function (options) {
 
         input.on("change", function () {
           checked = input.is(":checked");
+          if (layer.cancelLoading) {
+            layer.cancelLoading();
+          }
+
           if (checked) {
             map.addLayer(layer);
           } else {
             map.removeLayer(layer);
+            $(`#layers-${name}-loading`).remove();
           }
         });
 

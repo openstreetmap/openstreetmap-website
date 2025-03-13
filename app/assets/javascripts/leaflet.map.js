@@ -47,7 +47,7 @@ L.OSM.Map = L.Map.extend({
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = { code: "N" };
 
-    this.dataLayer = new L.OSM.DataLayer(null);
+    this.dataLayer = new L.OSM.DataLayer(null, { asynchronous: true });
     this.dataLayer.options.code = "D";
 
     this.gpsLayer = new L.OSM.GPS({
@@ -306,7 +306,8 @@ L.OSM.Map = L.Map.extend({
               way: objectStyle,
               area: objectStyle,
               changeset: changesetStyle
-            }
+            },
+            asynchronous: true
           });
 
           map._objectLayer.interestingNode = function (node, wayNodes, relationNodes) {
