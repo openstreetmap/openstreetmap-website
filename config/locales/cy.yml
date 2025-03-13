@@ -554,6 +554,21 @@ cy:
         sorry: Mae'n ddrwg gennym, cymerodd rhy hir i nôl rhestr o sylwadau grŵp newid
           y gofynnoch amdanynt.
   changesets:
+    changeset:
+      comments:
+        zero: '%{count} sylw'
+        one: '%{count} sylw'
+        two: '%{count} sylw'
+        few: '%{count} sylw'
+        many: '%{count} sylw'
+        other: '%{count} sylw'
+      changes:
+        zero: '%{count} newid'
+        one: '%{count} newid'
+        two: '%{count} newid'
+        few: '%{count} newid'
+        many: '%{count} newid'
+        other: '%{count} newid'
     index:
       title: Grwpiau newid
       title_user: Grwpiau newid gan %{user}
@@ -780,6 +795,8 @@ cy:
       success: Rydych nawr yn dilyn %{name}!
       failed: Mae'n ddrwg gennym, mae eich cais i ddilyn %{name} wedi methu.
       already_followed: Rydych chi eisoes yn dilyn %{name}.
+      limit_exceeded: Rydych chi wedi dilyn llawer o ddefnyddwyr yn ddiweddar. Arhoswch
+        ychydig cyn ceisio dilyn rhagor.
     destroy:
       success: Rydych chi wedi dad-ddilyn %{name}.
       not_followed: Nid ydych yn dilyn %{name}.
@@ -1569,16 +1586,38 @@ cy:
           weir: Cored
           "yes": Dyfrffordd
       admin_levels:
-        level2: Ffin Gwledydd
-        level3: Ffin Rhanbarth
-        level4: Ffin Taleithiau
-        level5: Ffin Rhanbarth
-        level6: Ffin Sir / Swydd
-        level7: Ffin Dinesig
-        level8: Ffin Dinas
-        level9: Ffin Pentref
-        level10: Ffin Maesdref
-        level11: Ffin Cymdogaeth
+        level2: Ffin Ryngwladol
+        level3: Ffin Weinyddol (Lefel 3)
+        level4: Ffin Weinyddol (Lefel 4)
+        level5: Ffin Weinyddol (Lefel 5)
+        level6: Ffin Weinyddol (Lefel 6)
+        level7: Ffin Weinyddol (Lefel 7)
+        level8: Ffin Weinyddol (Lefel 8)
+        level9: Ffin Weinyddol (Lefel 9)
+        level10: Ffin Weinyddol (Lefel 10)
+        level11: Ffin Weinyddol (Lefel 11)
+      border_types:
+        arrondissement: Ffin Arrondissement
+        borough: Ffin Fwrdeistref
+        cercle: Ffin Cercle
+        city: Ffin Ddinas
+        comarca: Ffin Comarca
+        county: Ffin Sir / Swydd
+        departement: Ffin Adrannol
+        department: Ffin Adrannol
+        municipality: Ffin Dinesig
+        municipi: Ffin Dinesig
+        município: Ffin Dinesig
+        nation: Ffin Ryngwladol
+        national: Ffin Ryngwladol
+        neighbourhood: Ffin Gymdogaeth
+        parish: Ffin Blwyf
+        province: Ffin Daleithiol
+        região: Ffin Ranbarthol
+        region: Ffin Ranbarthol
+        state: Ffin Dalaith
+        town: Ffin Dref
+        village: Ffin Bentref
     results:
       no_results: Dim canlyniadau
       more_results: Rhagor o ganlyniadau
@@ -1658,6 +1697,8 @@ cy:
       reportable_title:
         diary_comment: '%{entry_title}, sylw #%{comment_id}'
         note: 'Nodyn #%{note_id}'
+      reportable_heading:
+        user_html: Defnyddiwr %{title} a grëwyd ar %{datetime_created}
     reporters:
       reporters:
         more_reporters: a %{count} arall
@@ -2294,7 +2335,7 @@ cy:
       not_public: Nid ydych wedi gosod eich golygiadau i fod yn gyhoeddus.
       user_page_link: tudalen defnyddiwr
       anon_edits_html: (%{link})
-      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Gweld pam.
     edit:
       id_not_configured: iD heb ei ffurfweddu
@@ -2388,6 +2429,10 @@ cy:
         bicycle: Beic
         car: Car
         foot: Troed
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2726,7 +2771,7 @@ cy:
         alt: Eicon X
   oauth:
     scopes:
-      openid: Mewngofnodi ag OpenStreetMap
+      openid: Mewngofnodi gan ddefnyddio OpenStreetMap
       read_prefs: Darllen dewisiadau defnyddwyr
       write_prefs: Addasu dewisiadau defnyddwyr
       write_diary: Creu cofnodion dyddiadur a sylwadau
@@ -2912,6 +2957,9 @@ cy:
           deleted: Wedi'u dileu
         name_or_email: Enw neu Gyfeiriad E-bost
         ip_address: Cyfeiriad IP
+        edits: Golygiadau?
+        has_edits: Wedi Golygu
+        no_edits: Dim Golygiadau
         search: Chwilio
       page:
         found_users:
@@ -2963,6 +3011,10 @@ cy:
       heading: Nid yw eich ID yn gysylltiedig â chyfrif OpenStreetMap eto.
       option_1: "Os ydych yn newydd i OpenStreetMap, crëwch \ngyfrif newydd\ngan ddefnyddio'r
         ffurflen isod."
+  user_role:
+    grant:
+      are_you_sure: Ydych chi'n siŵr eich bod am roi'r rôl '%{role}' i'r defnyddiwr
+        '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Rhaid bod yn gymedrolwr i greu neu ddiweddaru bloc.
@@ -3369,6 +3421,16 @@ cy:
     home:
       marker_title: Fy lleoliad cartref
       not_set: Nid yw lleoliad cartref wedi'i osod ar gyfer eich cyfrif
+    heatmap:
+      tooltip:
+        no_contributions: Dim cyfraniadau ar %{date}
+        contributions:
+          zero: '%{count} cyfraniad ar %{date}'
+          one: '%{count} cyfraniad ar %{date}'
+          two: '%{count} gyfraniad ar %{date}'
+          few: '%{count} chyfraniad ar %{date}'
+          many: '%{count} cyfraniad ar %{date}'
+          other: '%{count} o gyfraniadau ar %{date}'
   redactions:
     edit:
       heading: Golygu Gorchuddiad

@@ -129,8 +129,9 @@ pt-PT:
         support_url: URL de apoio
         allow_read_prefs: ler preferências do utilizador
         allow_write_prefs: modificar preferências do utilizador
-        allow_write_diary: criar publicações no diário, comentários e adicionar amigos
+        allow_write_diary: criar publicações no diário e fazer comentários
         allow_write_api: modificar o mapa
+        allow_write_changeset_comments: comentar em conjuntos de alterações
         allow_read_gpx: ler as rotas GPS privadas do utilizador
         allow_write_gpx: enviar rotas GPS
         allow_write_notes: modificar notas
@@ -287,9 +288,11 @@ pt-PT:
   accounts:
     show:
       title: Editar conta
+      my_account: A minha conta
       current email address: E-mail atual
       external auth: Autenticação externa
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: o que é isto?
       contributor terms:
         heading: Termos de contribuidor
@@ -299,7 +302,11 @@ pt-PT:
           os novos Termos de Contribuidor.
         agreed_with_pd: Também declaraste que as tuas edições são disponibilizadas
           em Domínio Público.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: o que é isto?
+        not_agreed_with_pd: Não declaraste que consideras as tuas edições pertencentes
+          ao domínio público.
+        pd_link_text: declarar
       save changes button: Gravar alterações
       delete_account: Apagar conta...
     go_public:
@@ -385,6 +392,21 @@ pt-PT:
           Contribuidor. Para mais informações, consulta %{terms_declined_link}.
         terms_declined_link: esta página wiki
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Considerar as minhas contribuições pertencentes ao Domínio Público
+        consider_pd: Considero as minhas contribuições como parte do Domínio Público
+        consider_pd_why: Porque haveria de querer as minhas contribuições no Domínio
+          Público?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Confirmar
+      create:
+        successfully_declared: Declaraste que consideras as tuas edições como parte
+          do Domínio Público.
+        already_declared: Já declaraste que consideras as tuas edições como parte
+          do Domínio Público.
+        did_not_confirm: Não confirmaste que consideras as tuas edições como parte
+          do Domínio Público.
   browse:
     deleted_ago_by_html: Eliminado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -455,6 +477,7 @@ pt-PT:
       feature_warning: A carregar %{num_features} elementos. Isto poderá deixar o
         navegador lento ou sem resposta. Tens a certeza de que queres mostrar estes
         dados?
+      feature_error: 'Os recursos não puderam ser carregados: %{message}'
       load_data: Carregar dados
       loading: A carregar…
     tag_details:
@@ -486,6 +509,8 @@ pt-PT:
       view_redacted_data: Ver dados reduzidos
       view_redaction_message: Ver mensagem de redação
   nodes:
+    not_found_message:
+      sorry: 'Lamentamos, mas não foi possível encontrar o ponto #%{id}.'
     timeout:
       sorry: Lamentamos, mas os dados do node com o id  %{id} levou demasiado tempo.
   old_nodes:
@@ -495,6 +520,8 @@ pt-PT:
       sorry: Lamentamos, mas o histórico do nó com o id %{id} demorou muito para ser
         obido.
   ways:
+    not_found_message:
+      sorry: 'Lamentamos, mas não foi possível encontrar a linha #%{id}.'
     timeout:
       sorry: Os dados para a linha com o id %{id} levaram demasiado tempo a ser carregados.
   old_ways:
@@ -503,6 +530,8 @@ pt-PT:
     timeout:
       sorry: O histórico da linha com o id %{id} levou demasiado tempo a ser carregado.
   relations:
+    not_found_message:
+      sorry: 'Lamentamos, mas não foi possível encontrar a relação #%{id}.'
     timeout:
       sorry: Os dados para a relação com o id %{id} levaram demasiado tempo a ser
         carregados.
@@ -525,10 +554,18 @@ pt-PT:
         sorry: Lamentamos, a lista de comentários sobre conjuntos de alterações que
           pediste demorou demasiado tempo a ser obtida.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} comentário'
+        other: '%{count} comentários'
+      changes:
+        one: '%{count} alteração'
+        other: '%{count} alterações'
     index:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
       title_user_link_html: Conjuntos de alterações de %{user_link}
+      title_followed: Conjuntos de alterações de quem tu segues
       title_nearby: Conjuntos de alterações feitos por utilizadores próximos
       empty: Não foi encontrado nenhum conjunto de alterações.
       empty_area: Não há nenhum conjunto de alterações nesta área.
@@ -571,6 +608,9 @@ pt-PT:
       ways_paginated: Linhas (%{x}-%{y} de %{count})
       relations: Relações (%{count})
       relations_paginated: Relações (%{x}-%{y} of %{count})
+    not_found_message:
+      sorry: 'Lamentamos, mas não foi possível encontrar o conjunto de alterações
+        #%{id}.'
     timeout:
       sorry: Lamentamos, mas a lista de conjuntos de alterações que pediste excedeu
         o tempo limite de resposta.
@@ -599,14 +639,19 @@ pt-PT:
     popup:
       your location: A tua localização
       nearby mapper: Mapeador próximo de ti
+      following: A seguir
     show:
       title: Painel de Controlo
       no_home_location_html: '%{edit_profile_link} e define a localização da tua morada
         para veres utilizadores próximos.'
       edit_your_profile: Editar perfil
+      followings: Pessoas que sigo
+      no followings: Ainda não segues nenhum utilizador.
       nearby users: Outros mapeadores nas redondezas
       no nearby users: Não há outros mapeadores que admitam estar a editar o mapa
         nas redondezas.
+      followed_changesets: conjuntos de alterações
+      followed_diaries: entradas de diário
       nearby_changesets: conjuntos de alterações de utilizadores próximos
       nearby_diaries: publicações no diário de utilizadores próximos
   diary_entries:
@@ -617,6 +662,7 @@ pt-PT:
       use_map_link: Usar mapa
     index:
       title: Diários dos Utilizadores
+      title_followed: Diários de quem sigo
       title_nearby: Diários dos utilizadores próximos
       user_title: Diário de %{user}
       in_language_title: Publicações em Diários em %{language}
@@ -744,6 +790,23 @@ pt-PT:
       title: Ficheiro não encontrado
       description: Não foi possível encontrar uma operação de ficheiro/diretório/API
         com esse nome no servidor do OpenStreetMap (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Queres seguir %{user}?
+        button: Seguir utilizador
+      unfollow:
+        heading: Queres deixar de seguir %{user}?
+        button: Deixar de seguir
+    create:
+      success: Não estás a seguir %{name}!
+      failed: Lamentamos, o teu pedido para seguir %{name} falhou.
+      already_followed: Já estás a seguir %{name}.
+      limit_exceeded: Optaste por seguir muitos utilizadores recentemente. Por favor,
+        aguarda um pouco antes de voltares a tentar seguir mais alguém.
+    destroy:
+      success: Deixaste de seguir %{name}.
+      not_followed: Não estás a seguir %{name}.
   geocoder:
     search:
       title:
@@ -998,6 +1061,7 @@ pt-PT:
           bridleway: Caminho equestre
           bus_guideway: Via para autocarros guiados
           bus_stop: Paragem de autocarro
+          busway: Via exclusiva de autocarros
           construction: Estrada em construção
           corridor: Corredor
           crossing: Passadeira
@@ -1160,6 +1224,8 @@ pt-PT:
           track: Pista de atletismo
           water_park: Parque aquático
           "yes": Lazer
+        lock:
+          "yes": Eclusa
         man_made:
           adit: Galeria de acesso a mina
           advertising: Publicidade
@@ -1509,6 +1575,8 @@ pt-PT:
           lagoon: Laguna
           wastewater: Águas residuais
           oxbow: Lago em ferradura
+          stream_pool: Poço fluvial
+          lock: Eclusa
         waterway:
           artificial: Curso de água artificial
           boatyard: Estaleiro naval
@@ -1529,16 +1597,43 @@ pt-PT:
           weir: Represa
           "yes": Curso de água
       admin_levels:
-        level2: Fronteira de país
-        level3: Fronteira
-        level4: Fronteira de região autónoma
-        level5: Fronteira
-        level6: Fronteira de distrito
-        level7: Fronteira de município
-        level8: Fronteira urbana
-        level9: Fronteira de freguesia
-        level10: Fronteira de subúrbio
-        level11: Fronteira de bairro
+        level2: Fronteira internacional
+        level3: Fronteira administrativa (nível 3)
+        level4: Fronteira de região autónoma (nível 4)
+        level5: Fronteira administrativa (nível 5)
+        level6: Fronteira de distrito (nível 6)
+        level7: Fronteira de município (nível 7)
+        level8: Fronteira de freguesia (nível 8)
+        level9: Fronteira administrativa (nível 9)
+        level10: Fronteira administrativa (nível 10)
+        level11: Fronteira administrativa (nível 11)
+      border_types:
+        arrondissement: Fronteira de arrondissement
+        borough: Fronteira de borough
+        cercle: Fronteira de cercle
+        city: Fronteira de cidade
+        comarca: Fronteira de comarca
+        county: Fronteira de condado
+        departement: Fronteira de departement
+        department: Fronteira de department
+        district: Fronteira de district
+        distrito: Fronteira de distrito
+        freguesia: Fronteira de freguesia
+        local_authority: Fronteira de autoridade local
+        municipality: Fronteira de municipality
+        municipi: Fronteira de municipi
+        município: Fronteira de município
+        nation: Fronteira internacional
+        national: Fronteira internacional
+        neighbourhood: Fronteira de neighbourhood
+        parish: Fronteira de parish
+        province: Fronteira de province
+        região: Fronteira de região autónoma
+        region: Fronteira regional
+        state: Fronteira de estado
+        town: Fronteira de vila
+        township: Fronteira de township
+        village: Fronteira de aldeia
     results:
       no_results: Não foram encontrados resultados
       more_results: Mais resultados
@@ -1550,7 +1645,9 @@ pt-PT:
       title: Problemas
       select_status: Selecionar estado
       select_type: Selecionar tipo
+      select_last_managed_by: Selecionar por último gestor
       reported_user: Utilizador denunciado
+      not_managed: Sem gestor
       search: Pesquisar
       search_guidance: 'Pesquisar problemas:'
       states:
@@ -1564,6 +1661,8 @@ pt-PT:
       status: Estado
       reports: Denúncias
       last_updated: Última atualização
+      last_managed: Último gestor
+      reporting_users: Utilizadores denunciantes
       reports_count:
         one: '%{count} denúncia'
         other: '%{count} denúncias'
@@ -1601,12 +1700,19 @@ pt-PT:
       reopened: O estado do problema foi alterado para 'Aberto'
     comments:
       comment_from_html: Comentário de %{user_link} em %{comment_created_at}
+      reassign_to_moderators: Reatribuir problema aos moderadores
+      reassign_to_administrators: Reatribuir problema aos administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} em %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, comentário #%{comment_id}'
         note: 'Nota #%{note_id}'
+    reporters:
+      index:
+        title: Denunciantes do problema %{issue_id}
+      reporters:
+        more_reporters: e %{count} mais
   issue_comments:
     create:
       comment_created: O comentário foi criado com sucesso
@@ -1678,6 +1784,13 @@ pt-PT:
     communities: Comunidades
     learn_more: Mais informações
     more: Mais
+    offline_flash:
+      osm_offline: A base de dados do OpenStreetMap encontra-se indisponível devido
+        a trabalhos de manutenção essenciais.
+      osm_read_only: A base de dados do OpenStreetMap encontra-se em modo de leitura
+        devido a trabalhos de manutenção essenciais.
+      expected_restore_html: Espera-se que os serviços sejam restabelecidos em %{time}.
+      announcement: Podes ler o anúncio aqui.
   user_mailer:
     diary_comment_notification:
       description: 'Entrada no Diário OpenStreetMap #%{id}'
@@ -1706,23 +1819,38 @@ pt-PT:
         autor em %{replyurl}
     follow_notification:
       hi: Olá, %{to_user}.
+      subject: '[OpenStreetMap] %{user} começou a seguir-te'
+      followed_you: O utilizador %{user} optou por te seguir no OpenStreetMap.
       see_their_profile: Podes ver o perfil dele em %{userurl}.
       see_their_profile_html: Podes ver o seu perfil em %{userurl}.
+      follow_them: Também podes devolver o gesto em %{followurl}.
+      follow_them_html: Também podes devolver o gesto em %{followurl}.
+    gpx_details:
+      details: 'Os detalhes do teu ficheiro:'
+      filename: Nome do ficheiro
+      url: URL
+      description: Descrição
+      tags: Etiquetas
+      total_points: Número de pontos
+      imported_points: Número de pontos importados
     gpx_failure:
       hi: Olá, %{to_user}.
-      failed_to_import: 'não pôde ser importado como ficheiro de rota GPS. Verifica
-        se o teu ficheiro é um ficheiro GPX válido ou um arquivo com ficheiro(s) GPX
-        no formato suportado (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Será
-        que existe algum problema de formato ou sintaxe com o ficheiro? Este é o erro
-        de importação:'
+      failed_to_import: Parece que o teu ficheiro não pôde ser importado como rota
+        GPS.
+      verify: 'Por favor, verifica se o ficheiro é um ficheiro GPX válido ou um arquivo
+        com ficheiro(s) GPX no formato suportado (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2). Poderá haver algum problema de formato ou sintaxe com o ficheiro?
+        Este é o erro de importação:'
       more_info: Podes encontrar mais informações sobre falhas de importação de ficheiros
-        GPX e como as evitar em %{url}.
+        GPX e como as evitar em %{url}
       more_info_html: Podes encontrar mais informações sobre falhas de importação
         GPX e como evitá-las em %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=pt
       subject: '[OpenStreetMap] Erro ao importar GPX'
     gpx_success:
       hi: Olá, %{to_user}.
+      imported_successfully: Parece que o teu ficheiro foi corretamente importado
+        como rota GPS.
       all_your_traces: Todas as tuas rotas GPX enviadas com sucesso podem ser encontradas
         em %{url}
       all_your_traces_html: Todas as rotas GPX que enviaste podem ser encontradas
@@ -1826,6 +1954,9 @@ pt-PT:
       success: Conta confirmada. Obrigado por te registares!
       already active: Esta conta já foi confirmada.
       unknown token: Esse código de confirmação expirou ou não existe.
+      if_need_resend: Se precisares que voltemos a enviar o e-mail de confirmação,
+        clica no botão a seguir.
+      resend_button: Reenviar o e-mail de confirmação
     confirm_resend:
       failure: O utilizador %{name} não foi encontrado.
     confirm_email:
@@ -2031,6 +2162,9 @@ pt-PT:
       preview: Pré-visualizar
       help: Ajuda
     pagination:
+      changeset_comments:
+        older: Comentários mais antigos
+        newer: Comentários mais recentes
       diary_comments:
         older: Comentários mais antigos
         newer: Comentários mais recentes
@@ -2268,6 +2402,8 @@ pt-PT:
       not_public_description_html: Não podes continuar a editar enquanto não o fizeres.
         Podes definir as tuas edições como públicas na tua %{user_page}.
       user_page_link: página de utilizador
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Descobre a que se deve isto.
     edit:
       id_not_configured: O editor iD não foi configurado
@@ -2386,6 +2522,10 @@ pt-PT:
         bicycle: De bicicleta
         car: De carro
         foot: A pé
+      providers:
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     key:
       table:
         entry:
@@ -2688,6 +2828,28 @@ pt-PT:
       wikipedia:
         title: Iniciar sessão com a Wikipédia
         alt: Logótipo Wikipédia
+    share:
+      email:
+        title: Partilhar por correio eletrónico
+        alt: Ícone de e-mail
+      bluesky:
+        title: Partilhar no Bluesky
+        alt: Ícone Bluesky
+      facebook:
+        title: Partilhar no Facebook
+        alt: Ícone do Facebook
+      linkedin:
+        title: Partilhar no LinkedIn
+        alt: Ícone do LinkedIn
+      mastodon:
+        title: Partilhar no Mastodon
+        alt: Ícone do Mastodon
+      telegram:
+        title: Partilhar no Telegram
+        alt: Ícone do Telegram
+      x:
+        title: Partilhar no X
+        alt: Ícone do X
   oauth:
     permissions:
       missing: Não deste permissão à aplicação para aceder a este serviço
@@ -2695,12 +2857,14 @@ pt-PT:
       openid: Iniciar sessão com OpenStreetMap
       read_prefs: Ler preferências de utilizador
       write_prefs: Modificar preferências de utilizador
-      write_diary: Criar entradas de diário, comentar e fazer amigos
+      write_diary: Criar publicações no diário e fazer comentários
       write_api: Modificar o mapa
+      write_changeset_comments: Comentar nos conjuntos de alterações
       read_gpx: Ler rotas GPS privadas
       write_gpx: Enviar rotas GPS
       write_notes: Modificar notas
       write_redactions: Rever dados do mapa
+      write_blocks: Criar e revogar bloqueios a utilizadores
       read_email: ‎Ler e-mail de utilizador
       consume_messages: Ler, atualizar estado e apagar mensagens de utilizadores
       send_messages: Enviar mensagens privadas a outros utilizadores
@@ -2760,7 +2924,7 @@ pt-PT:
   users:
     new:
       title: Criar conta
-      tab_title: Registar
+      tab_title: Criar conta
       signup_to_authorize_html: Inicia sessão no OpenStreetMap para acederes a %{client_app_name}.
       no_auto_account_create: Infelizmente, e de momento, não é possível criar uma
         conta automaticamente.
@@ -2809,6 +2973,7 @@ pt-PT:
       my notes: Notas
       my messages: Mensagens
       my profile: Perfil
+      my_account: A mina conta
       my comments: Comentários
       my_preferences: Preferências
       my_dashboard: Painel de controlo
@@ -2822,6 +2987,8 @@ pt-PT:
       edits: Edições
       traces: Rotas
       notes: Notas no mapa
+      unfollow: Deixar de seguir
+      follow: Seguir
       mapper since: 'A mapear desde:'
       last map edit: 'Última edição do mapa:'
       no activity yet: Ainda sem atividade
@@ -2887,6 +3054,19 @@ pt-PT:
       show:
         title: Utilizadores
         heading: Utilizadores
+        select_status: Escolher estado
+        states:
+          pending: Pendente
+          active: Ativo
+          confirmed: Confirmado
+          suspended: Suspenso
+          deleted: Eliminado
+        name_or_email: Nome ou e-mail
+        ip_address: Endereço IP
+        edits: Edições?
+        has_edits: Tem edições
+        no_edits: Sem edições
+        search: Pesquisar
       page:
         found_users:
           one: '%{count} utilizador encontrado'
@@ -2897,8 +3077,17 @@ pt-PT:
       user:
         summary_html: '%{name} criado com o ip %{ip_address} em %{date}'
         summary_no_ip_html: '%{name} criado em %{date}'
+    comments:
+      index:
+        heading_html: Comentários de %{user}
+        changesets: Conjuntos de alterações
+        diary_entries: Publicações no diário
+        no_comments: Sem comentários
     changeset_comments:
+      index:
+        title: Comentários ao conjunto de alterações adicionados por %{user}
       page:
+        changeset: Conjunto de alterações
         when: Quando
         comment: Comentário
     diary_comments:
@@ -2906,6 +3095,8 @@ pt-PT:
         title: Comentários no Diário feitos por %{user}
       page:
         post: Publicação
+        when: Quando
+        comment: Comentário
     suspended:
       title: Conta suspensa
       heading: Conta Suspensa
@@ -3004,6 +3195,7 @@ pt-PT:
         ended: finalizado
         revoked_html: revogado por %{name}
         active: ativo
+        active_until_read: ativo até ler
         read_html: Lido em %{time}
         time_in_future_title: '%{time_absolute}; daqui a %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -3084,6 +3276,8 @@ pt-PT:
       open_title: Nota não resolvida n.º %{note_name}
       closed_title: Nota resolvida n.º %{note_name}
       hidden_title: Nota oculta n.º %{note_name}
+      description_when_author_is_deleted: eliminado
+      description_when_there_is_no_opening_comment: desconhecido
       event_opened_by_html: Criada por %{user} %{time_ago}
       event_opened_by_anonymous_html: Criada por anónimo %{time_ago}
       event_commented_by_html: Comentada por %{user} %{time_ago}
@@ -3118,9 +3312,21 @@ pt-PT:
         para que outros mapeadores te possam ajudar. Posiciona o marcador no local
         correto e escreve uma nota que explique o problema.
       anonymous_warning_html: Não tens sessão iniciada. Por favor, %{log_in} ou %{sign_up}
-        se quiseres receber atualizações sobre a tua nota.
+        se quiseres receber atualizações sobre a tua nota e ajudar outros mapeadores
+        a resolvê-la.
       anonymous_warning_log_in: inicia sessão
       anonymous_warning_sign_up: regista-te
+      counter_warning_html: Já publicaste pelo menos %{x_anonymous_notes}, o que é
+        ótimo e a comunidade agradece! Agora encorajamos-te a %{contribute_by_yourself}.
+        Não é complicado e %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} nota anónima'
+        other: '%{count} notas anónimas'
+      counter_warning_guide_link:
+        text: contribuir efetivamente
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      counter_warning_forum_link:
+        text: a comunidade pode ajudar-te
       advice: 'Lembra-te: a tua nota é pública e poderá ser usada para atualizar o
         mapa, portanto, não introduzas informações pessoais, dados de mapas ou catálogos
         protegidos por direitos de autor.'
@@ -3133,6 +3339,8 @@ pt-PT:
       showing_page: Página %{page}
       next: Próxima
       previous: Anterior
+    not_found_message:
+      sorry: 'Lamentamos, mas não foi possível encontrar a nota #%{id}.'
   javascripts:
     close: Fechar
     share:
@@ -3154,6 +3362,8 @@ pt-PT:
       center_marker: Centrar o mapa no marcador
       paste_html: Colar HTML para incorporar na página web
       view_larger_map: Ver mapa maior
+      only_layers_exported_as_image: 'Somente as seguintes camadas podem ser exportadas
+        como imagem:'
     embed:
       report_problem: Reportar um problema
     key:
@@ -3293,6 +3503,8 @@ pt-PT:
           ninth: 9.ª
           tenth: 10.ª
       time: Tempo
+      download: Transferir rota como GeoJSON
+      filename: rota
     query:
       node: Nó
       way: Linha
@@ -3307,6 +3519,9 @@ pt-PT:
       show_address: Mostrar endereço
       query_features: Consultar elementos
       centre_map: Centrar mapa aqui
+    home:
+      marker_title: A minha localização base
+      not_set: A localização base não está definida para a tua conta
   redactions:
     edit:
       heading: Editar supressão

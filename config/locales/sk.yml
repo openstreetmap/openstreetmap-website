@@ -1598,7 +1598,9 @@ sk:
       title: Problémy
       select_status: Zvoľte Stav
       select_type: Zvoľte Typ
+      select_last_managed_by: Vyberte položku Naposledy spravovaný kým
       reported_user: Nahlásený používateľ
+      not_managed: Nie je spravovaný
       search: Hľadať
       search_guidance: 'Hľadať problémy:'
       states:
@@ -1612,6 +1614,7 @@ sk:
       status: Stav
       reports: Hlásenia
       last_updated: Posledná úprava
+      last_managed: Naposledy spravovaný
       reporting_users: Nahlasovanie používateľov
       reports_count:
         one: '%{count} hlásenie'
@@ -1662,6 +1665,14 @@ sk:
       reportable_title:
         diary_comment: '%{entry_title}, komentár č. %{comment_id}'
         note: Poznámka č. %{note_id}
+      reportable_heading:
+        diary_comment_html: Komentár denníka %{title} vytvorený dňa %{datetime_created},
+          aktualizovaný %{datetime_updated}
+        diary_entry_html: Záznam denníka %{title} vytvorený dňa %{datetime_created},
+          aktualizovaný %{datetime_updated}
+        note_html: '%{title} vytvorená dňa %{datetime_created}, aktualizovaná dňa
+          %{datetime_updated}'
+        user_html: Používateľ %{title} bol vytvorený dňa %{datetime_created}
     reporters:
       index:
         title: Nahlasovatelia problému č. %{issue_id}
@@ -2261,7 +2272,7 @@ sk:
         contributors_au_cc_licence: Medzinárodná licencia Creative Commons Attribution
           4.0 (CC BY 4.0)
         contributors_ca_canada: Kanada
-        contributors_cz_credit_html: '%{czechia}: Obsahuje údaje zo Štátneho zememeračnského
+        contributors_cz_credit_html: '%{czechia}: Obsahuje údaje zo Štátneho zememeračského
           úradu a katastra licencované pod %{cc_licence_link}'
         contributors_cz_czechia: Česko
         contributors_cz_cc_licence: Medzinárodná licencia Creative Commons Attribution
@@ -2270,11 +2281,21 @@ sk:
         contributors_fi_nlsfi_license: licenciou NLSFI
         contributors_fr_france: Francúzsko
         contributors_hr_croatia: Chorvátsko
+        contributors_nl_credit_html: '%{netherlands}: Obsahuje údaje &copy; AND, 2007
+          (%{and_link})'
         contributors_nl_netherlands: Holandsko
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Obsahuje dáta pochádzajúce z %{linz_data_service_link}
+           a licencované na opätovné použitie pod licenciou %{cc_by_link}.
         contributors_nz_new_zealand: Nový Zéland
         contributors_nz_linz_data_service: dátovej služby LINZ
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: |-
+          %{serbia}: Obsahuje údaje zo %{rgz_link} a %{open_data_portal}
+           (verejné informácie Srbska), 2018.
         contributors_rs_serbia: Srbsko
+        contributors_rs_rgz: Srbského geodetického úradu
+        contributors_rs_open_data_portal: Národného portálu otvorených údajov
         contributors_si_slovenia: Slovinsko
         contributors_es_spain: Španielsko
         contributors_es_cc_by: CC BY 4.0
@@ -2709,8 +2730,8 @@ sk:
     setup_user_auth:
       blocked_zero_hour: Na webstránke OpenStreetMap máte súrnu správu. Túto správu
         si musíte prečítať predtým než budete môcť uložiť zmeny.
-      blocked: Váš prístup do API bol zablokovaný. Prosím prihláste sa na webové rozhranie
-        pre zistenie viac informácií.
+      blocked: Váš prístup do API bol zablokovaný. Prosím prihláste sa do webového
+        rozhrania pre zistenie viac informácií.
       need_to_see_terms: Váš prístup k API je dočasne pozastavený. Prosím prihláste
         do webového rozhrania a prečítajte si Podmienky prispievania. Nie je nutné
         ich odsúhlasiť, musíte si ich ale zobraziť.
@@ -2976,6 +2997,9 @@ sk:
           deleted: Zmazaný
         name_or_email: Meno alebo email
         ip_address: IP adresa
+        edits: Úpravy
+        has_edits: Má úpravy
+        no_edits: Žiadne úpravy
         search: Hľadať
       page:
         found_users:
@@ -3081,9 +3105,10 @@ sk:
       heading: Zoznam blokovaní používateľov
       empty: Zatiaľ neboli vytvorené žiadne blokovania.
     helper:
-      time_future_html: Končí o %{time}.
+      time_future_html: Končí %{time} uplynutými od teraz.
       until_login: Aktívny až do prihlásenia používateľa.
-      time_future_and_until_login_html: Končí o %{time} a keď sa používateľ prihlási.
+      time_future_and_until_login_html: Končí %{time} uplynutými od dnes a keď sa
+        používateľ prihlási.
       time_past_html: Ukončené %{time}.
       block_duration:
         hours:
@@ -3117,7 +3142,7 @@ sk:
         active: aktívne
         active_until_read: aktívne až do prečítania
         read_html: prečítané dňa %{time}
-        time_in_future_title: '%{time_absolute}; o %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative} uplynutými od teraz'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} zablokovaný používateľom %{block_by}'
@@ -3144,7 +3169,7 @@ sk:
       blocks_on_user_html: Blokovania na používateľa %{user}
       blocks_by_me: Mnou udelené blokovania
       blocks_by_user_html: Blokovania od používateľa %{user}
-      block: Blokácia č. %{id}
+      block: Blokovanie č. %{id}
       new_block: Nové blokovanie
   user_mutes:
     index:
@@ -3446,6 +3471,14 @@ sk:
     home:
       marker_title: Moja domáca poloha
       not_set: Vo vašom účte nie je nastavená domovská poloha
+    heatmap:
+      tooltip:
+        no_contributions: Žiadne príspevky dňa %{date}
+        contributions:
+          one: '%{count} príspevok dňa %{date}'
+          few: '%{count} príspevky dňa %{date}'
+          many: '%{count} príspevkov dňa %{date}'
+          other: '%{count} príspevkov dňa %{date}'
   redactions:
     edit:
       heading: Upraviť revíziu
