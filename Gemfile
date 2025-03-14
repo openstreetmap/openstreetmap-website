@@ -1,81 +1,31 @@
 source "https://rubygems.org"
 
-# Require rails
+# Core dependencies
 gem "rails", "~> 7.2.0"
 gem "turbo-rails"
+gem "pg"  # PostgreSQL database
+gem "json"  # Required for multi_json
 
-# Require json for multi_json
-gem "json"
-
-# Use postgres as the database
-gem "pg"
-
-# Use SCSS for stylesheets
+# Asset management
 gem "dartsass-sprockets"
-# Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
 gem "sass-embedded", "~> 1.64.0"
-
-# Use Terser as compressor for JavaScript assets
 gem "terser"
-
-# Use jquery as the JavaScript library
 gem "jquery-rails"
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+# API & JSON handling
 gem "jbuilder", "~> 2.7"
 
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.4.2", :require => false
-
-# Use rtlcss for RTL conversion
+# Performance optimizations
+gem "bootsnap", ">= 1.4.2", require: false
 gem "mini_racer", "~> 0.9.0"
+
+# CSS & frontend utilities
 gem "rtlcss"
-
-# Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
-
-# Use image_optim to optimise images
 gem "image_optim_rails"
 
-# Use argon2 for password hashing
+# Security & authentication
 gem "argon2"
-
-# Support brotli compression for assets
-gem "sprockets-exporters_pack"
-
-# Restore File.exists? for oauth gem
-gem "file_exists"
-
-# Load rails plugins
-gem "actionpack-page_caching", ">= 1.2.0"
-gem "activerecord-import"
-gem "active_record_union"
-gem "bootstrap", "~> 5.3.2"
-gem "bootstrap_form", "~> 5.0"
-gem "cancancan"
-gem "config"
-gem "delayed_job_active_record"
-gem "dry-validation"
-gem "frozen_record"
-gem "http_accept_language", "~> 2.1.1"
-gem "i18n-js", "~> 3.9.2"
-gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
-gem "rack-cors"
-gem "rails-i18n", "~> 7.0.0"
-gem "rails_param"
-gem "rinku", ">= 2.0.6", :require => "rails_rinku"
-gem "strong_migrations", "< 2.0.0"
-gem "validates_email_format_of", ">= 1.5.1"
-
-# Native OSM extensions
-gem "quad_tile", "~> 1.0.1"
-
-# Sanitise URIs
-gem "addressable", "~> 2.8"
-gem "rack-uri_sanitizer"
-
-# Omniauth for authentication
-gem "multi_json"
 gem "omniauth", "~> 2.0.2"
 gem "omniauth-facebook"
 gem "omniauth-github"
@@ -85,65 +35,58 @@ gem "omniauth-microsoft_graph"
 gem "omniauth-openid"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 
-# Doorkeeper for OAuth2
+# OAuth2 support
 gem "doorkeeper"
 gem "doorkeeper-i18n"
 gem "doorkeeper-openid_connect"
 
-# Markdown formatting support
-gem "kramdown"
+# Database utilities
+gem "activerecord-import"
+gem "active_record_union"
+gem "quad_tile", "~> 1.0.1"  # Native OSM extensions
 
-# For status transitions of Issues
-gem "aasm"
+# Web utilities
+gem "rack-cors"
+gem "rails-i18n", "~> 7.0.0"
+gem "rails_param"
+gem "strong_migrations", "< 2.0.0"
 
-# Load libxml support for XML parsing and generation
-gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
-
-# Use for HTML sanitisation
+# HTML & text processing
+gem "kramdown"  # Markdown formatting
+gem "sanitize"  # Secure HTML sanitization
 gem "htmlentities"
-gem "sanitize"
+gem "rinku", ">= 2.0.6", require: "rails_rinku"
 
-# Load faraday for mockable HTTP client
+# HTTP & API handling
 gem "faraday"
+gem "http_accept_language", "~> 2.1.1"
 
-# Load maxminddb for querying Maxmind GeoIP database
+# Geolocation
 gem "maxminddb"
 
-# Load rotp to generate TOTP tokens
-gem "rotp"
+# Authentication & security
+gem "rotp"  # TOTP token generation
 
-# Load memcache client in case we are using it
+# Caching & performance
+gem "dalli"  # Memcache client
 gem "connection_pool"
-gem "dalli"
-gem "kgio"
 
-# Load canonical-rails to generate canonical URLs
-gem "canonical-rails"
-
-# Used to generate logstash friendly log files
+# Logging & monitoring
 gem "logstasher"
+gem "canonical-rails"  # SEO-friendly canonical URLs
 
-# Used to generate images for traces
+# Image processing & storage
+gem "aws-sdk-s3"
+gem "image_processing"
+gem "marcel"
 gem "bzip2-ffi"
 gem "ffi-libarchive"
 gem "gd2-ffij", ">= 0.4.0"
-gem "marcel"
 
-# Used for S3 object storage
-gem "aws-sdk-s3"
-
-# Used to resize user images
-gem "image_processing"
-
-# Used to validate widths
-gem "unicode-display_width"
-
-# Gems useful for development
+# Development tools
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
-  gem "danger"
-  gem "danger-auto_label"
   gem "debug_inspector"
   gem "i18n-tasks"
   gem "listen"
@@ -151,15 +94,15 @@ group :development do
   gem "vendorer"
 end
 
-# Gems needed for running tests
+# Testing utilities
 group :test do
   gem "brakeman"
   gem "capybara", ">= 2.15"
-  gem "erb_lint", :require => false
+  gem "erb_lint", require: false
   gem "factory_bot_rails"
   gem "jwt"
   gem "minitest", "~> 5.1"
-  gem "minitest-focus", :require => false
+  gem "minitest-focus", require: false
   gem "puma", "~> 5.6"
   gem "rails-controller-testing"
   gem "rubocop"
@@ -170,16 +113,15 @@ group :test do
   gem "rubocop-rails"
   gem "rubocop-rake"
   gem "selenium-webdriver"
-  gem "simplecov", :require => false
-  gem "simplecov-lcov", :require => false
+  gem "simplecov", require: false
+  gem "simplecov-lcov", require: false
   gem "webmock"
 end
 
+# Shared development & test utilities
 group :development, :test do
   gem "annotaterb"
   gem "teaspoon"
   gem "teaspoon-mocha", "~> 2.3.3"
-
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", :require => "debug/prelude"
+  gem "debug", require: "debug/prelude"
 end
