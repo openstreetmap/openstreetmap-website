@@ -10,4 +10,14 @@ class BrowseTest < ApplicationSystemTestCase
 
     assert_selector "#map .leaflet-overlay-pane path"
   end
+
+  test "map should center on a viewed node" do
+    node = create(:node, :lat => 59.55555, :lon => 29.55555)
+
+    visit node_path(node)
+
+    find("#map [aria-label='Share']").click
+    share_url = find_by_id("long_input").value
+    assert_match %r{map=\d+/59\.\d+/29\.\d+}, share_url
+  end
 end
