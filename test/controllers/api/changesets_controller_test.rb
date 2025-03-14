@@ -34,22 +34,6 @@ module Api
         { :controller => "api/changesets", :action => "upload", :id => "1" }
       )
       assert_routing(
-        { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
-        { :controller => "api/changesets", :action => "subscribe", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/subscribe.json", :method => :post },
-        { :controller => "api/changesets", :action => "subscribe", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
-        { :controller => "api/changesets", :action => "unsubscribe", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/unsubscribe.json", :method => :post },
-        { :controller => "api/changesets", :action => "unsubscribe", :id => "1", :format => "json" }
-      )
-      assert_routing(
         { :path => "/api/0.6/changeset/1/close", :method => :put },
         { :controller => "api/changesets", :action => "close", :id => "1" }
       )
@@ -2501,103 +2485,6 @@ module Api
       assert_not(changeset.open?,
                  "changeset should have been auto-closed by exceeding " \
                  "element limit.")
-    end
-
-    ##
-    # test subscribe success
-    def test_subscribe_success
-      auth_header = bearer_authorization_header
-      changeset = create(:changeset, :closed)
-
-      assert_difference "changeset.subscribers.count", 1 do
-        post api_changeset_subscribe_path(changeset), :headers => auth_header
-      end
-      assert_response :success
-
-      # not closed changeset
-      changeset = create(:changeset)
-      assert_difference "changeset.subscribers.count", 1 do
-        post api_changeset_subscribe_path(changeset), :headers => auth_header
-      end
-      assert_response :success
-    end
-
-    ##
-    # test subscribe fail
-    def test_subscribe_fail
-      user = create(:user)
-
-      # unauthorized
-      changeset = create(:changeset, :closed)
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_subscribe_path(changeset)
-      end
-      assert_response :unauthorized
-
-      auth_header = bearer_authorization_header user
-
-      # bad changeset id
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_subscribe_path(999111), :headers => auth_header
-      end
-      assert_response :not_found
-
-      # trying to subscribe when already subscribed
-      changeset = create(:changeset, :closed)
-      changeset.subscribers.push(user)
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_subscribe_path(changeset), :headers => auth_header
-      end
-      assert_response :conflict
-    end
-
-    ##
-    # test unsubscribe success
-    def test_unsubscribe_success
-      user = create(:user)
-      auth_header = bearer_authorization_header user
-      changeset = create(:changeset, :closed)
-      changeset.subscribers.push(user)
-
-      assert_difference "changeset.subscribers.count", -1 do
-        post api_changeset_unsubscribe_path(changeset), :headers => auth_header
-      end
-      assert_response :success
-
-      # not closed changeset
-      changeset = create(:changeset)
-      changeset.subscribers.push(user)
-
-      assert_difference "changeset.subscribers.count", -1 do
-        post api_changeset_unsubscribe_path(changeset), :headers => auth_header
-      end
-      assert_response :success
-    end
-
-    ##
-    # test unsubscribe fail
-    def test_unsubscribe_fail
-      # unauthorized
-      changeset = create(:changeset, :closed)
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_unsubscribe_path(changeset)
-      end
-      assert_response :unauthorized
-
-      auth_header = bearer_authorization_header
-
-      # bad changeset id
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_unsubscribe_path(999111), :headers => auth_header
-      end
-      assert_response :not_found
-
-      # trying to unsubscribe when not subscribed
-      changeset = create(:changeset, :closed)
-      assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_unsubscribe_path(changeset), :headers => auth_header
-      end
-      assert_response :not_found
     end
 
     private

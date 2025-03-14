@@ -23,14 +23,14 @@
           <%= tag.button t(".unsubscribe"),
                          :class => "btn btn-sm btn-primary",
                          :name => "unsubscribe",
-                         :data => { :method => "POST",
-                                    :url => api_changeset_unsubscribe_url(@changeset) } %>
+                         :data => { :method => "DELETE",
+                                    :url => api_changeset_subscription_path(@changeset) } %>
         <% else %>
           <%= tag.button t(".subscribe"),
                          :class => "btn btn-sm btn-primary",
                          :name => "subscribe",
                          :data => { :method => "POST",
-                                    :url => api_changeset_subscribe_url(@changeset) } %>
+                                    :url => api_changeset_subscription_path(@changeset) } %>
         <% end %>
       </div>
     <% end %>

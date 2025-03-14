@@ -3,7 +3,7 @@
 class ApiAbility
   include CanCan::Ability
 
-  def initialize(user, scopes)
+  def initialize(user, scopes) # rubocop:disable Metrics/CyclomaticComplexity
     can :read, [:version, :capability, :permission, :map]
 
     if Settings.status != "database_offline"
@@ -34,7 +34,8 @@ class ApiAbility
         can :read, :active_user_blocks_list if scopes.include?("read_prefs")
 
         if user.terms_agreed?
-          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scopes.include?("write_map")
+          can [:create, :update, :upload, :close], Changeset if scopes.include?("write_map")
+          can [:create, :destroy], ChangesetSubscription if scopes.include?("write_map")
           can :create, ChangesetComment if scopes.include?("write_changeset_comments")
           can [:create, :update, :destroy], [Node, Way, Relation] if scopes.include?("write_map")
         end
