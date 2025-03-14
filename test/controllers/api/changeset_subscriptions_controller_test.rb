@@ -76,6 +76,7 @@ module Api
           assert_response :conflict
         end
       end
+      assert_includes changeset.subscribers, user
     end
 
     def test_create_on_open_changeset
@@ -90,6 +91,7 @@ module Api
           assert_response :success
         end
       end
+      assert_includes changeset.subscribers, user
     end
 
     def test_create_on_closed_changeset
@@ -104,6 +106,7 @@ module Api
           assert_response :success
         end
       end
+      assert_includes changeset.subscribers, user
     end
 
     def test_create_legacy
@@ -118,6 +121,7 @@ module Api
           assert_response :success
         end
       end
+      assert_includes changeset.subscribers, user
     end
 
     def test_destroy_by_unauthorized
@@ -155,6 +159,7 @@ module Api
           assert_response :not_found
         end
       end
+      assert_not_includes changeset.subscribers, user
     end
 
     def test_destroy_on_open_changeset
@@ -170,6 +175,7 @@ module Api
           assert_response :success
         end
       end
+      assert_not_includes changeset.subscribers, user
     end
 
     def test_destroy_on_closed_changeset
@@ -185,6 +191,7 @@ module Api
           assert_response :success
         end
       end
+      assert_not_includes changeset.subscribers, user
     end
 
     def test_destroy_legacy
@@ -200,6 +207,7 @@ module Api
           assert_response :success
         end
       end
+      assert_not_includes changeset.subscribers, user
     end
   end
 end
