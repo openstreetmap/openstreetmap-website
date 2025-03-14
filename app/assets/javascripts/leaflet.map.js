@@ -373,8 +373,8 @@ L.OSM.Map = L.Map.extend({
 L.Icon.Default.imagePath = "/images/";
 
 L.Icon.Default.imageUrls = {
-  "/images/marker-icon.png": OSM.MARKER_ICON,
-  "/images/marker-icon-2x.png": OSM.MARKER_ICON_2X,
+  "/images/marker-icon.png": OSM.MARKER_BLUE,
+  "/images/marker-icon-2x.png": OSM.MARKER_BLUE,
   "/images/marker-shadow.png": OSM.MARKER_SHADOW
 };
 
@@ -398,8 +398,8 @@ OSM.isDarkMap = function () {
 OSM.getUserIcon = function (url) {
   return L.icon({
     iconUrl: url || OSM.MARKER_RED,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
+    iconSize: [25, 40],
+    iconAnchor: [12, 40],
     popupAnchor: [1, -34],
     shadowUrl: OSM.MARKER_SHADOW,
     shadowSize: [41, 41]

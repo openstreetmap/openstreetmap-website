@@ -5,17 +5,17 @@ OSM.initializeNotesLayer = function (map) {
 
   const noteIcons = {
     "new": L.icon({
-      iconUrl: OSM.NEW_NOTE_MARKER,
+      iconUrl: OSM.MARKER_NOTE_NEW,
       iconSize: [25, 40],
       iconAnchor: [12, 40]
     }),
     "open": L.icon({
-      iconUrl: OSM.OPEN_NOTE_MARKER,
+      iconUrl: OSM.MARKER_NOTE_OPEN,
       iconSize: [25, 40],
       iconAnchor: [12, 40]
     }),
     "closed": L.icon({
-      iconUrl: OSM.CLOSED_NOTE_MARKER,
+      iconUrl: OSM.MARKER_NOTE_CLOSED,
       iconSize: [25, 40],
       iconAnchor: [12, 40]
     })
