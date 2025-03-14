@@ -25,7 +25,7 @@ class AccountsController < ApplicationController
   end
 
   def update
-    user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider)
+    user_params = params.expect(:user => [:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider])
 
     if params[:user][:auth_provider].blank? ||
        (params[:user][:auth_provider] == current_user.auth_provider &&
