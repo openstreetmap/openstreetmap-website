@@ -63,12 +63,28 @@ OSM = {
 
   mapParams: function (search) {
     const params = OSM.params(search),
+          geoURI = URL.canParse(params.geouri) ? new URL(params.geouri) : { pathname: "", searchParams: [] },
           mapParams = {};
+
+    [geoURI.coordstring, ...geoURI.params] = geoURI.pathname.split(";");
+    geoURI.params = Object.fromEntries([...geoURI.searchParams, ...geoURI.params.map(p => p.split("=").map(decodeURIComponent))]);
+    geoURI.coords = L.latLng(geoURI.coordstring.split(","));
+    geoURI.epsg = geoURI.params.crs?.toUpperCase()?.replace(":", "");
+    if (geoURI.epsg?.startsWith("EPSG")) {
+      geoURI.coords = L.CRS.EPSG3857.unproject(L.CRS[geoURI.epsg]?.project(geoURI.coords));
+    }
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
       mapParams.mlon = parseFloat(params.mlon);
       mapParams.mlat = parseFloat(params.mlat);
+      mapParams.mrad = parseFloat(params.mrad);
+    }
+    if (geoURI.coords) {
+      mapParams.marker = true;
+      mapParams.mlon = geoURI.coords.lng;
+      mapParams.mlat = geoURI.coords.lat;
+      mapParams.mrad = geoURI.params.u;
     }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
@@ -100,6 +116,12 @@ OSM = {
       mapParams.lon = params.mlon;
       mapParams.lat = params.mlat;
       mapParams.zoom = params.zoom || 12;
+    } else if (geoURI.coordstring && !geoURI.params.u) {
+      mapParams.lon = geoURI.coords.lng;
+      mapParams.lat = geoURI.coords.lat;
+      mapParams.zoom = geoURI.params.z || 12;
+    } else if (geoURI.coordstring) {
+      mapParams.bounds = geoURI.coords.toBounds(geoURI.params.u * 4);
     } else if (loc) {
       [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
