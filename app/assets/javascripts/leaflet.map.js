@@ -306,8 +306,7 @@ L.OSM.Map = L.Map.extend({
               way: objectStyle,
               area: objectStyle,
               changeset: changesetStyle
-            },
-            asynchronous: true
+            }
           });
 
           map._objectLayer.interestingNode = function (node, wayNodes, relationNodes) {
