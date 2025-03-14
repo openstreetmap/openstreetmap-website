@@ -4,8 +4,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   endpoint.marker = L.marker([0, 0], {
     icon: L.icon({
       iconUrl: iconUrl,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
+      iconSize: [25, 40],
+      iconAnchor: [12, 40],
       popupAnchor: [1, -34],
       shadowUrl: OSM.MARKER_SHADOW,
       shadowSize: [41, 41]
