@@ -148,7 +148,7 @@ class GeocoderController < ApplicationController
   def printable_date(basic)
     if basic
       date = Date.new(basic.to_i)
-      l(date, :format => "%Y")
+      l(date, :format => :brief)
     else
       ""
     end
