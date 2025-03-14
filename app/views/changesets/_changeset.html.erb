@@ -4,7 +4,7 @@
       <span><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></span>
     </a>
   </p>
-  <div class="d-flex flex-nowrap gap-3 justify-content-between">
+  <div class="d-flex flex-nowrap gap-3 justify-content-between align-items-end">
     <div class="overflow-hidden pt-3">
       <%= changeset_details(changeset) %>
       &middot;
@@ -12,7 +12,7 @@
         #<%= changeset.id %>
       </a>
     </div>
-    <div class="d-flex flex-column justify-content-end align-items-end text-body-secondary">
+    <div class="d-flex flex-column align-items-end text-body-secondary">
       <%= tag.div :class => ["d-flex align-items-baseline gap-1", { "opacity-50" => changeset.comments.empty? }],
                   :title => t(".comments", :count => changeset.comments.length) do %>
         <%= changeset.comments.length %>
