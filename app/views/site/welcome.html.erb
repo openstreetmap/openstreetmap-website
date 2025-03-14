@@ -88,6 +88,11 @@
 <div class='alert alert-primary'>
   <h2><%= t ".add_a_note.title" %></h2>
   <p><%= t ".add_a_note.para_1" %></p>
-  <p><%= t ".add_a_note.para_2_html", :map_link => link_to(t(".add_a_note.the_map"), root_path),
-                                      :note_icon => tag.span(:class => "icon note bg-dark rounded-1") %></p>
+  <p><%= t(
+           ".add_a_note.para_2_html",
+           :map_link => link_to(t(".add_a_note.the_map"), root_path),
+           :note_icon => tag.svg(:width => "20", :height => "20", :fill => "currentColor", :class => "align-top") do
+             tag.path(:d => "M17 12H15v2H13v2h2v2h2V16h2V14H17V12ZM3 12H6l2 3 2-3h3l1-1V4L13 3H3L2 4v7Z")
+           end
+         ) %></p>
 </div>

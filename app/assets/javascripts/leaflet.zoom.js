@@ -33,11 +33,16 @@ L.OSM.Zoom = L.Control.extend({
 
   _createButton: function (html, title, className, container, fn, context) {
     const link = L.DomUtil.create("a", "control-button " + className, container);
+    const paths = { zoomin: "M16 8H12V4L11 3H10L9 4V8H5L4 9v1l1 1H9v4l1 1h1l1-1V11h4l1-1V9z", zoomout: "M4 9v1l1 1H16l1-1V9L16 8H5Z" };
     link.innerHTML = html;
     link.href = "#";
     link.title = title;
 
-    L.DomUtil.create("span", "icon " + className, link);
+    $(L.SVG.create("svg"))
+      .append($(L.SVG.create("path")).attr("d", paths[className]))
+      .attr("fill", "currentColor")
+      .attr("class", "h-100 w-100")
+      .appendTo(link);
 
     const stop = L.DomEvent.stopPropagation;
 
