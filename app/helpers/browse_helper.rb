@@ -1,4 +1,6 @@
 module BrowseHelper
+  require "date_range"
+
   def element_single_current_link(type, object)
     link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
@@ -39,7 +41,7 @@ module BrowseHelper
       if (object.tags.include? "start_date") || (object.tags.include? "end_date")
         start_date = (object.tags.include? "start_date") ? object.tags["start_date"].to_s : nil
         end_date = (object.tags.include? "end_date") ? object.tags["end_date"].to_s : nil
-        label = t "printable_name.with_date_html", :name => label, :dates => tag.bdi(printable_date_range(start_date, end_date))
+        label = t "printable_name.with_date_html", :name => label, :dates => tag.bdi(DateRange.new(start_date, end_date).to_s)
       end
 
       if label

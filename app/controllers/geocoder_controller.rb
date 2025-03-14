@@ -1,5 +1,6 @@
 class GeocoderController < ApplicationController
   require "cgi"
+  require "date_range"
   require "uri"
   require "rexml/document"
 
@@ -118,7 +119,7 @@ class GeocoderController < ApplicationController
         end
       end
       if start_date || end_date
-        suffix = t ".suffix_format", :dates => printable_date_range(start_date, end_date)
+        suffix = t ".suffix_format", :dates => DateRange.new(start_date, end_date).to_s
       end
 
       @results.push(:lat => lat, :lon => lon,
@@ -133,25 +134,6 @@ class GeocoderController < ApplicationController
     host = URI(Settings.nominatim_url).host
     @error = "Error contacting #{host}: #{e}"
     render :action => "error"
-  end
-
-  def printable_date_range(start_date, end_date)
-    printable_start_date = printable_date(start_date)
-    printable_end_date = printable_date(end_date)
-    if printable_start_date == printable_end_date
-      dates = printable_start_date
-    else
-      dates = t "time.formats.range", :start => printable_start_date, :end => printable_end_date
-    end
-  end
-
-  def printable_date(basic)
-    if basic
-      date = Date.new(basic.to_i)
-      l(date, :format => :brief)
-    else
-      ""
-    end
   end
 
   def search_osm_nominatim_reverse
