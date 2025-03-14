@@ -10,10 +10,6 @@
 //= require leaflet.osm
 //= require @maplibre/maplibre-gl-leaflet
 //= require ohm.style
-//= require ohm.style.original
-//= require ohm.style.woodblock
-//= require ohm.style.japanese
-//= require ohm.style.railway
 //= require leaflet-ohm-timeslider.js
 //= require decimaldate.js
 //= require leaflet.map
