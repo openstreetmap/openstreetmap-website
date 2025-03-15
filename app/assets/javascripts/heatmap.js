@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         type: "month",
         gutter: 4,
         label: {
-          text: (timestamp) => monthNames[new Date(timestamp).getMonth() + 1],
+          text: (timestamp) => monthNames[new Date(timestamp).getUTCMonth() + 1],
           position: "top",
           textAlign: "middle"
         },
