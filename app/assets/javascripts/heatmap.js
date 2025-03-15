@@ -70,6 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }]
     ]);
 
+    cal.on("mouseover", (event, _timestamp, value) => {
+      if (value) event.target.style.cursor = "pointer";
+    });
+
     cal.on("click", (_event, timestamp) => {
       if (!displayName) return;
       for (const { date, max_id } of heatmapData) {
