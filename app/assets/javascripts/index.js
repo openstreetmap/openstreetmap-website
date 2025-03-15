@@ -365,7 +365,7 @@ $(document).ready(function () {
         }
 
         var drawing = map._objectLayer.getLayers()[0];
-        if (drawing && ! hasurlparam_daterange) {
+        if (drawing && map.timeslider && ! hasurlparam_daterange) {
           var startdate = drawing.feature.tags.start_date && ! isNaN(parseInt(drawing.feature.tags.start_date)) ? drawing.feature.tags.start_date : undefined;
           var enddate = drawing.feature.tags.end_date && ! isNaN(parseInt(drawing.feature.tags.end_date)) ? drawing.feature.tags.end_date : undefined;
 
