@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const heatmapData = heatmapElement.dataset.heatmap ? JSON.parse(heatmapElement.dataset.heatmap) : [];
+  const displayName = heatmapElement.dataset.displayName;
   const colorScheme = document.documentElement.getAttribute("data-bs-theme") ?? "auto";
   const rangeColors = ["#14432a", "#166b34", "#37a446", "#4dd05a"];
   const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
@@ -68,6 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
         text: (date, value) => getTooltipText(date, value)
       }]
     ]);
+
+    cal.on("click", (_event, timestamp) => {
+      if (!displayName) return;
+      for (const { date, max_id } of heatmapData) {
+        if (!max_id) continue;
+        if (timestamp !== Date.parse(date)) continue;
+        const params = new URLSearchParams([["max_id", max_id]]);
+        location = `/user/${encodeURIComponent(displayName)}/history?${params}`;
+      }
+    });
   }
 
   function getTooltipText(date, value) {

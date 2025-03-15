@@ -57,6 +57,7 @@ OSM.History = function (map) {
 
   function update() {
     const data = new URLSearchParams();
+    const params = new URLSearchParams(location.search);
 
     if (location.pathname === "/history") {
       data.set("bbox", map.getBounds().wrap().toBBoxString());
@@ -66,6 +67,10 @@ OSM.History = function (map) {
     }
 
     data.set("list", "1");
+
+    if (params.has("max_id")) {
+      data.set("max_id", params.get("max_id"));
+    }
 
     fetch(location.pathname + "?" + data)
       .then(response => response.text())
