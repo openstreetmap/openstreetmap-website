@@ -17,12 +17,12 @@ class ChangesetsController < ApplicationController
   ##
   # list non-empty changesets in reverse chronological order
   def index
-    param! :max_id, Integer, :min => 1
+    param! :before, Integer, :min => 1
 
-    @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
+    @params = params.permit(:display_name, :bbox, :friends, :nearby, :before, :list)
 
-    if request.format == :atom && @params[:max_id]
-      redirect_to url_for(@params.merge(:max_id => nil)), :status => :moved_permanently
+    if request.format == :atom && @params[:before]
+      redirect_to url_for(@params.merge(:before => nil)), :status => :moved_permanently
       return
     end
 
@@ -59,7 +59,7 @@ class ChangesetsController < ApplicationController
         changesets = changesets.where(:user => current_user.nearby)
       end
 
-      changesets = changesets.where(:changesets => { :id => ..@params[:max_id] }) if @params[:max_id]
+      changesets = changesets.where(:changesets => { :id => ...@params[:before] }) if @params[:before]
 
       @changesets = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
