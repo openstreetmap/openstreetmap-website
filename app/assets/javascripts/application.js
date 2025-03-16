@@ -19,6 +19,8 @@
   const application_data = $("head").data();
   const locale = application_data.locale;
 
+  OSM.i18n = I18n;
+
   I18n.default_locale = OSM.DEFAULT_LOCALE;
   I18n.locale = locale;
 
