@@ -69,13 +69,13 @@ OSM.Query = function (map) {
     let prefix = "";
 
     if (tags.boundary === "administrative" && (tags.border_type || tags.admin_level)) {
-      prefix = I18n.t("geocoder.search_osm_nominatim.border_types." + tags.border_type, {
-        defaultValue: I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
-          defaultValue: I18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
+      prefix = OSM.i18n.t("geocoder.search_osm_nominatim.border_types." + tags.border_type, {
+        defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
+          defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
         })
       });
     } else {
-      const prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
+      const prefixes = OSM.i18n.t("geocoder.search_osm_nominatim.prefix");
 
       for (const key in tags) {
         const value = tags[key];
@@ -100,7 +100,7 @@ OSM.Query = function (map) {
     }
 
     if (!prefix) {
-      prefix = I18n.t("javascripts.query." + feature.type);
+      prefix = OSM.i18n.t("javascripts.query." + feature.type);
     }
 
     return prefix;
@@ -213,14 +213,14 @@ OSM.Query = function (map) {
         if (results.remark) {
           $("<li>")
             .addClass("list-group-item")
-            .text(I18n.t("javascripts.query.error", { server: url, error: results.remark }))
+            .text(OSM.i18n.t("javascripts.query.error", { server: url, error: results.remark }))
             .appendTo($ul);
         }
 
         if ($ul.find("li").length === 0) {
           $("<li>")
             .addClass("list-group-item")
-            .text(I18n.t("javascripts.query.nothing_found"))
+            .text(OSM.i18n.t("javascripts.query.nothing_found"))
             .appendTo($ul);
         }
       })
@@ -231,7 +231,7 @@ OSM.Query = function (map) {
 
         $("<li>")
           .addClass("list-group-item")
-          .text(I18n.t("javascripts.query.error", { server: url, error: error.message }))
+          .text(OSM.i18n.t("javascripts.query.error", { server: url, error: error.message }))
           .appendTo($ul);
       });
   }

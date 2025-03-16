@@ -21,13 +21,13 @@
 
   OSM.i18n = I18n;
 
-  I18n.default_locale = OSM.DEFAULT_LOCALE;
-  I18n.locale = locale;
+  OSM.i18n.default_locale = OSM.DEFAULT_LOCALE;
+  OSM.i18n.locale = locale;
 
   // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
   const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
   if (pluralizer) {
-    I18n.pluralization[locale] = (count) => [pluralizer(count), "other"];
+    OSM.i18n.pluralization[locale] = (count) => [pluralizer(count), "other"];
   }
 
   OSM.preferred_editor = application_data.preferredEditor;
@@ -199,5 +199,5 @@ $(function () {
   });
 
   $("#edit_tab")
-    .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
+    .attr("title", OSM.i18n.t("javascripts.site.edit_disabled_tooltip"));
 });

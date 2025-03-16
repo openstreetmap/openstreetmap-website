@@ -3,9 +3,9 @@ L.OSM.locate = function (options) {
     icon: "icon geolocate",
     iconLoading: "icon geolocate",
     strings: {
-      title: I18n.t("javascripts.map.locate.title"),
+      title: OSM.i18n.t("javascripts.map.locate.title"),
       popup: function (options) {
-        return I18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
+        return OSM.i18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
       }
     },
     ...options

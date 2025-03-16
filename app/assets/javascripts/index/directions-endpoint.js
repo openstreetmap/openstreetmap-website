@@ -117,7 +117,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       if (json.length === 0) {
         input.addClass("is-invalid");
         // eslint-disable-next-line no-alert
-        alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
+        alert(OSM.i18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
         return;
       }
 

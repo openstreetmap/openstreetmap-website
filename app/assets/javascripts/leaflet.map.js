@@ -23,7 +23,7 @@ L.OSM.Map = L.Map.extend({
         if (property === "credit") {
           layerOptions.attribution = makeAttribution(value);
         } else if (property === "nameId") {
-          layerOptions.name = I18n.t(`javascripts.map.base.${value}`);
+          layerOptions.name = OSM.i18n.t(`javascripts.map.base.${value}`);
         } else if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
         } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
@@ -66,10 +66,10 @@ L.OSM.Map = L.Map.extend({
     function makeAttribution(credit) {
       let attribution = "";
 
-      attribution += I18n.t("javascripts.map.copyright_text", {
+      attribution += OSM.i18n.t("javascripts.map.copyright_text", {
         copyright_link: $("<a>", {
           href: "/copyright",
-          text: I18n.t("javascripts.map.openstreetmap_contributors")
+          text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
         }).prop("outerHTML")
       });
 
@@ -79,7 +79,7 @@ L.OSM.Map = L.Map.extend({
 
       attribution += $("<a>", {
         href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
-        text: I18n.t("javascripts.map.website_and_api_terms")
+        text: OSM.i18n.t("javascripts.map.website_and_api_terms")
       }).prop("outerHTML");
 
       return attribution;
@@ -90,7 +90,7 @@ L.OSM.Map = L.Map.extend({
       for (const childId in credit.children) {
         children[childId] = makeCredit(credit.children[childId]);
       }
-      const text = I18n.t(`javascripts.map.${credit.id}`, children);
+      const text = OSM.i18n.t(`javascripts.map.${credit.id}`, children);
       if (credit.href) {
         const link = $("<a>", {
           href: credit.href,
