@@ -47,12 +47,24 @@ OSM.History = function (map) {
     $("#sidebar_content .changesets").html(html);
   }
 
-  function displayMoreChangesets(html) {
-    $("#sidebar_content .changeset_more").replaceWith(html);
-    const oldList = $("#sidebar_content .changesets ol").first();
-    const newList = oldList.next("ol");
-    newList.children().appendTo(oldList);
-    newList.remove();
+  function displayMoreChangesets(div, html) {
+    const oldList = $("#sidebar_content .changesets ol");
+
+    div.replaceWith(html);
+
+    const prevNewList = oldList.prevAll("ol");
+    if (prevNewList.length) {
+      prevNewList.next(".changeset_more").remove();
+      prevNewList.children().prependTo(oldList);
+      prevNewList.remove();
+    }
+
+    const nextNewList = oldList.nextAll("ol");
+    if (nextNewList.length) {
+      nextNewList.prev(".changeset_more").remove();
+      nextNewList.children().appendTo(oldList);
+      nextNewList.remove();
+    }
   }
 
   function update() {
@@ -70,6 +82,9 @@ OSM.History = function (map) {
 
     if (params.has("before")) {
       data.set("before", params.get("before"));
+    }
+    if (params.has("after")) {
+      data.set("after", params.get("after"));
     }
 
     fetch(location.pathname + "?" + data)
@@ -90,7 +105,7 @@ OSM.History = function (map) {
     div.find(".loader").show();
 
     $.get($(this).attr("href"), function (html) {
-      displayMoreChangesets(html);
+      displayMoreChangesets(div, html);
       updateMap();
     });
   }

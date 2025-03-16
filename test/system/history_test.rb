@@ -81,6 +81,34 @@ class HistoryTest < ApplicationSystemTestCase
     end
   end
 
+  test "user history starts after specified changeset" do
+    user = create(:user)
+    changeset0 = create(:changeset)
+    changeset1 = create_visible_changeset(user, "1st-changeset-in-history")
+    changeset2 = create_visible_changeset(user, "2nd-changeset-in-history")
+
+    visit "#{user_path user}/history?after=#{changeset2.id}"
+
+    within_sidebar do
+      assert_no_link "1st-changeset-in-history"
+      assert_no_link "2nd-changeset-in-history"
+    end
+
+    visit "#{user_path user}/history?after=#{changeset1.id}"
+
+    within_sidebar do
+      assert_no_link "1st-changeset-in-history"
+      assert_link "2nd-changeset-in-history"
+    end
+
+    visit "#{user_path user}/history?after=#{changeset0.id}"
+
+    within_sidebar do
+      assert_link "1st-changeset-in-history"
+      assert_link "2nd-changeset-in-history"
+    end
+  end
+
   private
 
   def create_visible_changeset(user, comment)
