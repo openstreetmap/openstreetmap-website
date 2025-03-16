@@ -4,7 +4,7 @@ OSM.History = function (map) {
   const page = {};
 
   $("#sidebar_content")
-    .on("click", ".changeset_more a", loadMore)
+    .on("click", ".changeset_more a", loadMoreChangesets)
     .on("mouseover", "[data-changeset]", function () {
       highlightChangeset($(this).data("changeset").id);
     })
@@ -132,7 +132,7 @@ OSM.History = function (map) {
     }
   }
 
-  function update() {
+  function loadFirstChangesets() {
     const data = new URLSearchParams();
     const params = new URLSearchParams(location.search);
 
@@ -173,7 +173,7 @@ OSM.History = function (map) {
       });
   }
 
-  function loadMore(e) {
+  function loadMoreChangesets(e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -250,17 +250,17 @@ OSM.History = function (map) {
     map.addLayer(group);
 
     if (location.pathname === "/history") {
-      map.on("moveend", update);
+      map.on("moveend", loadFirstChangesets);
     }
 
     map.on("zoomend", updateBounds);
 
-    update();
+    loadFirstChangesets();
   };
 
   page.unload = function () {
     map.removeLayer(group);
-    map.off("moveend", update);
+    map.off("moveend", loadFirstChangesets);
     map.off("zoomend", updateBounds);
     disableChangesetIntersectionObserver();
   };
