@@ -13,6 +13,7 @@
 #  description :text             default(""), not null
 #  user_id     :bigint
 #  user_ip     :inet
+#  version     :bigint           default(1), not null
 #
 # Indexes
 #
@@ -36,6 +37,7 @@ class Note < ApplicationRecord
   has_many :all_comments, -> { left_joins(:author).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id, :inverse_of => :note
   has_many :subscriptions, :class_name => "NoteSubscription"
   has_many :subscribers, :through => :subscriptions, :source => :user
+  has_many :note_versions, -> { order(:version) }, :inverse_of => :note
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }

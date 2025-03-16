@@ -1063,6 +1063,25 @@ CREATE TABLE public.note_subscriptions (
 
 
 --
+-- Name: note_versions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_versions (
+    note_id bigint NOT NULL,
+    latitude integer NOT NULL,
+    longitude integer NOT NULL,
+    tile bigint NOT NULL,
+    "timestamp" timestamp(6) without time zone NOT NULL,
+    status public.note_status_enum NOT NULL,
+    description text NOT NULL,
+    user_id bigint,
+    user_ip inet,
+    version bigint NOT NULL,
+    redaction_id integer
+);
+
+
+--
 -- Name: notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1077,7 +1096,8 @@ CREATE TABLE public.notes (
     closed_at timestamp without time zone,
     description text DEFAULT ''::text NOT NULL,
     user_id bigint,
-    user_ip inet
+    user_ip inet,
+    version bigint DEFAULT 1 NOT NULL
 );
 
 
@@ -2030,6 +2050,14 @@ ALTER TABLE ONLY public.note_comments
 
 ALTER TABLE ONLY public.note_subscriptions
     ADD CONSTRAINT note_subscriptions_pkey PRIMARY KEY (user_id, note_id);
+
+
+--
+-- Name: note_versions note_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_versions
+    ADD CONSTRAINT note_versions_pkey PRIMARY KEY (note_id, version);
 
 
 --
@@ -3250,6 +3278,14 @@ ALTER TABLE ONLY public.note_comments
 
 
 --
+-- Name: note_versions note_versions_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_versions
+    ADD CONSTRAINT note_versions_redaction_id_fkey FOREIGN KEY (redaction_id) REFERENCES public.redactions(id);
+
+
+--
 -- Name: notes notes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3444,6 +3480,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250316212229'),
 ('20250304172798'),
 ('20250304172758'),
 ('20250212160355'),
