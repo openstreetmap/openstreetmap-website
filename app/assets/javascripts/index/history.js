@@ -27,6 +27,65 @@ OSM.History = function (map) {
     return layer.id;
   };
 
+  let changesetIntersectionObserver;
+
+  function disableChangesetIntersectionObserver() {
+    if (changesetIntersectionObserver) {
+      changesetIntersectionObserver.disconnect();
+      changesetIntersectionObserver = null;
+    }
+  }
+
+  function enableChangesetIntersectionObserver() {
+    disableChangesetIntersectionObserver();
+    if (!window.IntersectionObserver) return;
+
+    let ignoreIntersectionEvents = true;
+
+    changesetIntersectionObserver = new IntersectionObserver((entries) => {
+      if (ignoreIntersectionEvents) {
+        ignoreIntersectionEvents = false;
+        return;
+      }
+
+      let closestTargetToTop,
+          closestDistanceToTop = Infinity,
+          closestTargetToBottom,
+          closestDistanceToBottom = Infinity;
+
+      for (const entry of entries) {
+        if (entry.isIntersecting) continue;
+
+        const distanceToTop = entry.rootBounds.top - entry.boundingClientRect.bottom;
+        const distanceToBottom = entry.boundingClientRect.top - entry.rootBounds.bottom;
+        if (distanceToTop >= 0 && distanceToTop < closestDistanceToTop) {
+          closestDistanceToTop = distanceToTop;
+          closestTargetToTop = entry.target;
+        }
+        if (distanceToBottom >= 0 && distanceToBottom <= closestDistanceToBottom) {
+          closestDistanceToBottom = distanceToBottom;
+          closestTargetToBottom = entry.target;
+        }
+      }
+
+      if (closestTargetToTop && closestDistanceToTop < closestDistanceToBottom) {
+        const id = $(closestTargetToTop).data("changeset")?.id;
+        if (id) {
+          OSM.router.replace(location.pathname + "?" + new URLSearchParams({ before: id }) + location.hash);
+        }
+      } else if (closestTargetToBottom) {
+        const id = $(closestTargetToBottom).data("changeset")?.id;
+        if (id) {
+          OSM.router.replace(location.pathname + "?" + new URLSearchParams({ after: id }) + location.hash);
+        }
+      }
+    }, { root: $("#sidebar")[0] });
+
+    $("#sidebar_content .changesets ol").children().each(function () {
+      changesetIntersectionObserver.observe(this);
+    });
+  }
+
   function highlightChangeset(id) {
     const layer = group.getLayer(id);
     if (layer) layer.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
@@ -77,6 +136,8 @@ OSM.History = function (map) {
     const data = new URLSearchParams();
     const params = new URLSearchParams(location.search);
 
+    disableChangesetIntersectionObserver();
+
     if (location.pathname === "/history") {
       data.set("bbox", map.getBounds().wrap().toBBoxString());
       const feedLink = $("link[type=\"application/atom+xml\"]"),
@@ -97,6 +158,7 @@ OSM.History = function (map) {
       .then(response => response.text())
       .then(function (html) {
         displayFirstChangesets(html);
+        enableChangesetIntersectionObserver();
         updateMap();
       });
   }
@@ -112,6 +174,7 @@ OSM.History = function (map) {
 
     $.get($(this).attr("href"), function (html) {
       displayMoreChangesets(div, html);
+      enableChangesetIntersectionObserver();
       updateMap();
     });
   }
@@ -189,6 +252,7 @@ OSM.History = function (map) {
     map.removeLayer(group);
     map.off("moveend", update);
     map.off("zoomend", updateBounds);
+    disableChangesetIntersectionObserver();
   };
 
   return page;
