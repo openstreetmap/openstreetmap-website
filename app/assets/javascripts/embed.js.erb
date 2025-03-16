@@ -18,7 +18,7 @@ I18n.fallbacks = true;
 window.onload = function () {
   const args = Object.fromEntries(new URLSearchParams(location.search));
 
-  const tileOptions = {
+  const options = {
     mapnik: {
 <% if Settings.key?(:tile_cdn_url) %>
       url: <%= Settings.tile_cdn_url.to_json %>
@@ -26,36 +26,16 @@ window.onload = function () {
     }
   };
 
-  const apiKeys = {
-<% if Settings.key?(:thunderforest_key) %>
-    THUNDERFOREST_KEY: <%= Settings.thunderforest_key.to_json %>
-<% end %>
-  };
-
   const map = L.map("map");
   map.attributionControl.setPrefix("");
   map.removeControl(map.attributionControl);
 
   const isDarkTheme = args.theme === "dark" || (args.theme !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  const layers = <%=
-    YAML.load_file(Rails.root.join("config/layers.yml"))
-      .select { |entry| entry["canEmbed"] }
-      .each_with_object({}) do |entry, obj|
-        obj[entry["layerId"]] = {
-          layer: entry["leafletOsmId"],
-          darkLayer: entry["leafletOsmDarkId"],
-          apiKeyId: entry["apiKeyId"]
-        }.compact
-      end.to_json
-    %>;
+  const layers = <%= MapLayers::embed_definitions("config/layers.yml").to_json %>;
   const layerId = (args.layer || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
-  const { layer, ...options } = {
-    layer: layerConfig.darkLayer && isDarkTheme ? layerConfig.darkLayer : layerConfig.layer,
-    apikey: apiKeys[layerConfig.apiKeyId],
-    ...tileOptions[layerId]
-  };
-  new L.OSM[layer](options).addTo(map);
+  const layer = (isDarkTheme && layerConfig.leafletOsmDarkId) || layerConfig.leafletOsmId;
+  new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
 
   if (args.marker) {
     L.marker(args.marker.split(","), { icon: L.icon({
