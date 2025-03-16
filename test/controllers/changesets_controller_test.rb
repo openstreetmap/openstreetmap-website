@@ -80,7 +80,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # This should report an error
   def test_index_invalid_xhr
     %w[-1 0 fred].each do |id|
-      get history_path(:format => "html", :list => "1", :max_id => id)
+      get history_path(:format => "html", :list => "1", :before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end
@@ -221,21 +221,21 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
   ##
   # Check that we can't request later pages of the changesets index
-  def test_index_max_id
-    changeset = create(:changeset, :num_changes => 1)
-    _changeset2 = create(:changeset, :num_changes => 1)
+  def test_index_before_id
+    changeset1 = create(:changeset, :num_changes => 1)
+    changeset2 = create(:changeset, :num_changes => 1)
 
-    get history_path(:format => "html", :max_id => changeset.id), :xhr => true
+    get history_path(:format => "html", :before => changeset2.id), :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get history_path(:format => "html", :list => "1", :max_id => changeset.id), :xhr => true
+    get history_path(:format => "html", :list => "1", :before => changeset2.id), :xhr => true
     assert_response :success
     assert_template "index"
 
-    check_index_result([changeset])
+    check_index_result [changeset1]
   end
 
   ##
@@ -411,8 +411,8 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
   ##
   # Check that we can't request later pages of the changesets feed
-  def test_feed_max_id
-    get history_feed_path(:format => "atom", :max_id => 100)
+  def test_feed_before
+    get history_feed_path(:format => "atom", :before => 100)
     assert_redirected_to :action => :feed
   end
 

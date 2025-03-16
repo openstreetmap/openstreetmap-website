@@ -364,7 +364,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, first_response_data.size, "Expected one entry in the heatmap data"
 
     # Inspect cache after the first request
-    cached_data = Rails.cache.read("heatmap_data_user_#{user.id}")
+    cached_data = Rails.cache.read("heatmap_data_with_ids_user_#{user.id}")
     assert_equal first_response_data, cached_data, "Expected the cache to contain the first response data"
 
     # Add a new changeset to the database
@@ -408,16 +408,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Test user with changesets
     user_with_changesets = create(:user)
-    create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 42)
-    create(:changeset, :user => user_with_changesets, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
+    changeset39 = create(:changeset, :user => user_with_changesets, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
+    _changeset5 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
+    changeset11 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
     get user_path(user_with_changesets)
     assert_response :success
     assert_select "div#cal-heatmap[data-heatmap]" do |elements|
       # Check the data-heatmap attribute is present and contains expected JSON
       heatmap_data = JSON.parse(elements.first["data-heatmap"])
       expected_data = [
-        { "date" => 4.months.ago.to_date.to_s, "total_changes" => 39 },
-        { "date" => 3.months.ago.to_date.to_s, "total_changes" => 42 }
+        { "date" => 4.months.ago.to_date.to_s, "total_changes" => 39, "max_id" => changeset39.id },
+        { "date" => 3.months.ago.to_date.to_s, "total_changes" => 16, "max_id" => changeset11.id }
       ]
       assert_equal expected_data, heatmap_data
     end

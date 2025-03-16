@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if @user && (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
 
-      @heatmap_data = Rails.cache.fetch("heatmap_data_user_#{@user.id}", :expires_in => 1.day) do
+      @heatmap_data = Rails.cache.fetch("heatmap_data_with_ids_user_#{@user.id}", :expires_in => 1.day) do
         one_year_ago = 1.year.ago.beginning_of_day
         today = Time.zone.now.end_of_day
 
@@ -33,12 +33,13 @@ class UsersController < ApplicationController
           .where(:created_at => one_year_ago..today)
           .where(:num_changes => 1..)
           .group("date_trunc('day', created_at)")
-          .select("date_trunc('day', created_at) AS date, SUM(num_changes) AS total_changes")
+          .select("date_trunc('day', created_at) AS date, SUM(num_changes) AS total_changes, MAX(id) AS max_id")
           .order("date")
           .map do |changeset|
             {
               :date => changeset.date.to_date.to_s,
-              :total_changes => changeset.total_changes.to_i
+              :total_changes => changeset.total_changes.to_i,
+              :max_id => changeset.max_id
             }
           end
       end
