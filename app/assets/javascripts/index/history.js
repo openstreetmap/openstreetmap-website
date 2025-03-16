@@ -159,6 +159,16 @@ OSM.History = function (map) {
       .then(function (html) {
         displayFirstChangesets(html);
         enableChangesetIntersectionObserver();
+
+        if (params.has("before")) {
+          const [firstItem] = $("#sidebar_content .changesets ol").children().first();
+          firstItem?.scrollIntoView();
+        }
+        if (params.has("after")) {
+          const [lastItem] = $("#sidebar_content .changesets ol").children().last();
+          lastItem?.scrollIntoView(false);
+        }
+
         updateMap();
       });
   }
