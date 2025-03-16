@@ -48,6 +48,9 @@ OSM.History = function (map) {
   }
 
   function displayMoreChangesets(div, html) {
+    const sidebar = $("#sidebar")[0];
+    const previousScrollHeightMinusTop = sidebar.scrollHeight - sidebar.scrollTop;
+
     const oldList = $("#sidebar_content .changesets ol");
 
     div.replaceWith(html);
@@ -57,6 +60,9 @@ OSM.History = function (map) {
       prevNewList.next(".changeset_more").remove();
       prevNewList.children().prependTo(oldList);
       prevNewList.remove();
+
+      // restore scroll position only if prepending
+      sidebar.scrollTop = sidebar.scrollHeight - previousScrollHeightMinusTop;
     }
 
     const nextNewList = oldList.nextAll("ol");
