@@ -19,15 +19,13 @@
   const application_data = $("head").data();
   const locale = application_data.locale;
 
-  OSM.i18n = I18n;
-
-  OSM.i18n.default_locale = OSM.DEFAULT_LOCALE;
-  OSM.i18n.locale = locale;
+  OSM.i18n.defaultLocale = OSM.DEFAULT_LOCALE;
+  OSM.i18n.locale = application_data.locale;
 
   // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
   const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
   if (pluralizer) {
-    OSM.i18n.pluralization[locale] = (count) => [pluralizer(count), "other"];
+    OSM.i18n.pluralization.register(locale, (_, count) => [pluralizer(count), "other"]);
   }
 
   OSM.preferred_editor = application_data.preferredEditor;

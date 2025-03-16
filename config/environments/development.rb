@@ -64,9 +64,6 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  # Export translations automatically.
-  config.middleware.use I18n::JS::Middleware
-
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

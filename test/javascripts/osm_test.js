@@ -4,7 +4,6 @@
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require leaflet.map
-//= require i18n/translations
 
 describe("OSM", function () {
   describe(".apiUrl", function () {

@@ -38,5 +38,10 @@ if Rails.env.test?
 end
 
 Rails.configuration.after_initialize do
+  require "i18n-js/listen"
+
+  # This will only run in development.
+  I18nJS.listen
+
   I18n.available_locales
 end

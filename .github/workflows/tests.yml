@@ -48,10 +48,10 @@ jobs:
         bundle exec rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
-    - name: Export javascript strings
-      run: bundle exec rails i18n:js:export
     - name: Install node modules
       run: bundle exec bin/yarn install
+    - name: Export javascript strings
+      run: bundle exec i18n export
     - name: Compile assets
       run: bundle exec rails assets:precompile
     - name: Create tmp/pids directory

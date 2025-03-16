@@ -6,16 +6,14 @@
 //= require i18n
 //= require i18n/embed
 
-const OSM = { i18n: I18n };
-
 if (navigator.languages) {
   OSM.i18n.locale = navigator.languages[0];
 } else if (navigator.language) {
   OSM.i18n.locale = navigator.language;
 }
 
-OSM.i18n.default_locale = <%= I18n.default_locale.to_json %>;
-OSM.i18n.fallbacks = true;
+OSM.i18n.defaultLocale = <%= I18n.default_locale.to_json %>;
+OSM.i18n.enableFallback = true;
 
 window.onload = function () {
   const args = Object.fromEntries(new URLSearchParams(location.search));
