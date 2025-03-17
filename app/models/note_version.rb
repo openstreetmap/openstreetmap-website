@@ -28,6 +28,8 @@
 class NoteVersion < ApplicationRecord
   belongs_to :note, :class_name => "Note", :inverse_of => :note_versions
 
+  has_many :note_tag_versions, :class_name => "NoteTagVersion", :foreign_key => [:note_id, :version], :inverse_of => :note_version
+
   def self.from_note(note, timestamp, note_author_info, note_comment_id, event)
     note_version = NoteVersion.new
 
