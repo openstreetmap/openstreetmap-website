@@ -1108,6 +1108,29 @@ CREATE TABLE public.note_subscriptions (
 
 
 --
+-- Name: note_tag_versions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_tag_versions (
+    note_id bigint NOT NULL,
+    version bigint DEFAULT 1 NOT NULL,
+    k character varying NOT NULL,
+    v character varying NOT NULL
+);
+
+
+--
+-- Name: note_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_tags (
+    note_id bigint NOT NULL,
+    k character varying NOT NULL,
+    v character varying NOT NULL
+);
+
+
+--
 -- Name: notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2076,6 +2099,22 @@ ALTER TABLE ONLY public.note_comments
 
 ALTER TABLE ONLY public.note_subscriptions
     ADD CONSTRAINT note_subscriptions_pkey PRIMARY KEY (user_id, note_id);
+
+
+--
+-- Name: note_tag_versions note_tag_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_tag_versions
+    ADD CONSTRAINT note_tag_versions_pkey PRIMARY KEY (note_id, version, k);
+
+
+--
+-- Name: note_tags note_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_tags
+    ADD CONSTRAINT note_tags_pkey PRIMARY KEY (note_id, k);
 
 
 --
@@ -3308,6 +3347,22 @@ ALTER TABLE ONLY public.note_comments
 
 ALTER TABLE ONLY public.note_comments
     ADD CONSTRAINT note_comments_note_id_fkey FOREIGN KEY (note_id) REFERENCES public.notes(id);
+
+
+--
+-- Name: note_tag_versions note_tag_versions_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_tag_versions
+    ADD CONSTRAINT note_tag_versions_id_fkey FOREIGN KEY (note_id, version) REFERENCES public.note_versions(note_id, version);
+
+
+--
+-- Name: note_tags note_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_tags
+    ADD CONSTRAINT note_tags_id_fkey FOREIGN KEY (note_id) REFERENCES public.notes(id);
 
 
 --
