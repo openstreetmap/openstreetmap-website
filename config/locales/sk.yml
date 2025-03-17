@@ -294,7 +294,7 @@ sk:
       current email address: Aktuálna e-mailová adresa
       external auth: Externá autentifikácia
       openid:
-        link: http://wiki.openstreetmap.org/wiki/CS:OpenID
+        link: https://wiki.openstreetmap.org/wiki/CS:OpenID
         link text: čo to znamená?
       contributor terms:
         heading: Podmienky prispievania
@@ -396,6 +396,7 @@ sk:
         consider_pd: Svoje príspevky považujem za voľné dielo (Public Domain)
         consider_pd_why: Prečo by som mal chcieť, aby boli moje príspevky voľným dielom
           (Public Domain)?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         confirm: Potvrdiť
       create:
         successfully_declared: Úspešne ste vyhlásili, že vaše úpravy považujete za
@@ -742,6 +743,19 @@ sk:
       applications:
         create:
           notice: Aplikácia bola zaregistrovaná.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Zlyhanie v dôsledku chýbajúcej
+            konfigurácie Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Zlyhanie v dôsledku chýbajúcej
+            konfigurácie Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Zlyhanie v dôsledku chýbajúcej
+            konfigurácie Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Zlyhanie v dôsledku chýbajúcej
+            konfigurácie Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generovanie tokenu ID zlyhalo, pretože chýba konfigurácia
+            Doorkeeper::OpenidConnect.configure.subject.
     scopes:
       address: Zobraziť vašu fyzickú adresu
       email: Zobraziť vašu emailovú adresu
@@ -1578,15 +1592,26 @@ sk:
           "yes": Vodná cesta
       admin_levels:
         level2: Štátna hranica
-        level3: Hranica regiónu
-        level4: Hranica kraja (state)
-        level5: Hranica regiónu
-        level6: Hranica okresu (county)
-        level7: Hranica obce
-        level8: Hranica mesta
-        level9: Hranica obce
-        level10: Hranica časti obce
-        level11: Hranica susedstva
+        level3: Administratívna hranica (úroveň 3)
+        level4: Administratívna hranica (úroveň 4)
+        level5: Administratívna hranica (úroveň 5)
+        level6: Administratívna hranica (úroveň 6)
+        level7: Administratívna hranica (úroveň 7)
+        level8: Administratívna hranica (úroveň 8)
+        level9: Administratívna hranica (úroveň 9)
+        level10: Administratívna hranica (úroveň 10)
+        level11: Administratívna hranica (úroveň 11)
+      border_types:
+        city: Hranica mesta
+        county: Hranica okresu
+        nation: Štátna hranica
+        national: Štátna hranica
+        parish: Hranica farnosti
+        região: Hranica regiónu
+        region: Hranica regiónu
+        state: Hranica kraja (state)
+        town: Hranica mesta
+        village: Hranica obce
     results:
       no_results: Neboli nájdené žiadne výsledky
       more_results: Viac výsledkov
@@ -2267,20 +2292,41 @@ sk:
         contributors_at_cc_by: CC BY
         contributors_at_land_vorarlberg: Vorarlbersko
         contributors_at_cc_by_at_with_amendments: CC BY AT s dodatkami
+        contributors_au_credit_html: |-
+          %{australia}: Zahŕňa alebo využíva Administrative Boundaries &copy; %{geoscape_australia_link}
+          licencované Austrálskym spoločenstvom pod licenciou %{cc_licence_link}.
         contributors_au_australia: Austrália
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Medzinárodná licencia Creative Commons Attribution
           4.0 (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: Obsahuje údaje z
+          GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada) a StatCan (Geography Division,
+          Statistics Canada).
         contributors_ca_canada: Kanada
         contributors_cz_credit_html: '%{czechia}: Obsahuje údaje zo Štátneho zememeračského
           úradu a katastra licencované pod %{cc_licence_link}'
         contributors_cz_czechia: Česko
         contributors_cz_cc_licence: Medzinárodná licencia Creative Commons Attribution
           4.0 (CC BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: Obsahuje údaje z topografickej databázy
+          National Land Survey of Finland
+          a ďalších súborov údajov pod %{nlsfi_license_link}.
         contributors_fi_finland: Fínsko
         contributors_fi_nlsfi_license: licenciou NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Obsahuje údaje pochádzajúce z
+          Direction Générale des Impôts.
         contributors_fr_france: Francúzsko
+        contributors_hr_credit_html: |-
+          %{croatia}: Obsahuje údaje zo %{dgu_link} a %{open_data_portal}
+           (verejné informácie Chorvátska).
         contributors_hr_croatia: Chorvátsko
+        contributors_hr_dgu: Štátnej geodetickej správy Chorvátska
+        contributors_hr_open_data_portal: Národného portálu otvorených údajov
         contributors_nl_credit_html: '%{netherlands}: Obsahuje údaje &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Holandsko
@@ -2296,10 +2342,26 @@ sk:
         contributors_rs_serbia: Srbsko
         contributors_rs_rgz: Srbského geodetického úradu
         contributors_rs_open_data_portal: Národného portálu otvorených údajov
+        contributors_si_credit_html: |-
+          %{slovenia}: Obsahuje údaje z %{gu_link} a %{mkgp_link}
+           (verejné informácie Slovinska).
         contributors_si_slovenia: Slovinsko
+        contributors_si_gu: Úradu pre zememeranie a mapovanie
+        contributors_si_mkgp: Ministerstva poľnohospodárstva, lesníctva a výživy
+        contributors_es_credit_html: |-
+          %{spain}: Obsahuje údaje pochádzajúce zo
+          Španielskeho národného geografického inštitútu (%{ign_link}) a
+          Národného kartografického systému (%{scne_link})
+          licencované na opätovné použitie pod licenciou %{cc_by_link}.
         contributors_es_spain: Španielsko
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Obsahuje údaje pochádzajúce
+          z %{ngi_link}, štátne autorské práva vyhradené.'
         contributors_za_south_africa: Južná Afrika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: Obsahuje údaje Ordnance
+          Survey &copy; Crown Copyright a právo na databázu 2010-2023.
         contributors_gb_united_kingdom: Spojené kráľovstvo
         contributors_2_html: Ďalšie podrobnosti o týchto a iných zdrojoch, ktoré boli
           použité na pomoc pri zlepšovaní OpenStreetMap, nájdete na %{contributors_page_link}
@@ -2450,10 +2512,6 @@ sk:
         bicycle: Bicykel
         car: Automobil
         foot: Pešo
-      providers:
-        fossgis_osrm: OSRM
-        graphhopper: GraphHopper
-        fossgis_valhalla: Valhalla
     key:
       table:
         entry:

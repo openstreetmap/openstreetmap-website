@@ -290,6 +290,8 @@ zh-TW:
         review link text: 請跟隨此連結，方便你檢視並接受新的貢獻者條款。
         agreed_with_pd: 你亦同意將你的編輯放到公共領域
         link text: 這是什麼？
+        not_agreed_with_pd: 你仍未宣稱你的編輯是公共領域。
+        pd_link_text: 宣稱
       save changes button: 儲存變更
       delete_account: 刪除帳號…
     go_public:
@@ -353,8 +355,15 @@ zh-TW:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
+        title: 認定我的貢獻屬於公共領域
+        consider_pd: 我認定我的貢獻屬於公共領域
+        consider_pd_why: 為什麼我希望認定我的貢獻屬於公共領域？
         consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         confirm: 確認
+      create:
+        successfully_declared: 你成功宣稱你的貢獻屬於公共領域了。
+        already_declared: 你已經宣稱你的貢獻屬於公共領域了。
+        did_not_confirm: 你仍未宣稱你的貢獻屬於公共領域。
   browse:
     deleted_ago_by_html: 由%{user}%{time_ago}刪除
     edited_ago_by_html: 由%{user}%{time_ago}編輯
@@ -492,6 +501,13 @@ zh-TW:
       timeout:
         sorry: 很抱歉，你請求的變更集評論過長無法讀取
   changesets:
+    changeset:
+      comments:
+        one: 1 項評論
+        other: '%{count} 項評論'
+      changes:
+        one: '%{count} 變更'
+        other: '%{count} 變更'
     index:
       title: 變更集
       title_user: '%{user} 的變更集'
@@ -1507,16 +1523,43 @@ zh-TW:
           weir: 堰
           "yes": 水道
       admin_levels:
-        level2: 國界
-        level3: 區界
-        level4: 州界
-        level5: 區界
-        level6: 縣界
-        level7: 自治邦界
-        level8: 市界
-        level9: 村里界
-        level10: 市區邊界
-        level11: 鄰近區界
+        level2: 國際邊界
+        level3: 行政邊界（等級3)
+        level4: 行政邊界（等級4)
+        level5: 行政邊界（等級5)
+        level6: 行政邊界 (等級6)
+        level7: 行政邊界（等級7)
+        level8: 行政邊界（等級8)
+        level9: 行政邊界（等級9)
+        level10: 行政邊界（等級10)
+        level11: 行政邊界（等級11)
+      border_types:
+        arrondissement: 行政區邊界
+        borough: 自治市鎮邊界
+        cercle: 邊界線
+        city: 市界
+        comarca: 科馬卡邊界
+        county: 縣界
+        departement: 部門邊界
+        department: 部門邊界
+        district: 區界
+        distrito: 區界
+        freguesia: 語域邊界
+        local_authority: 地方當局邊界
+        municipality: 市政邊界
+        municipi: 市政邊界
+        município: 市政邊界
+        nation: 國際邊界
+        national: 國際邊界
+        neighbourhood: 鄰里邊界
+        parish: 教區邊界
+        province: 省界
+        região: 地區邊界
+        region: 地區邊界
+        state: 州界
+        town: 城鎮邊界
+        township: 鄉鎮邊界
+        village: 村里邊界
     results:
       no_results: 找不到結果
       more_results: 更多結果
@@ -1588,7 +1631,11 @@ zh-TW:
       reportable_title:
         diary_comment: '%{entry_title}，留言 #%{comment_id}'
         note: '註記 #%{note_id}'
+      reportable_heading:
+        user_html: 使用者 %{title} 建立於 %{datetime_created}
     reporters:
+      index:
+        title: 'Issue #%{issue_id} 提交者'
       reporters:
         more_reporters: 以及 %{count} 個
   issue_comments:
@@ -2161,7 +2208,6 @@ zh-TW:
       not_public_description_html: 在你這麼做之前將無法再編輯地圖，可以在你的 %{user_page} 將自己的編輯設定為公開。
       user_page_link: 使用者頁面
       anon_edits_html: (%{link})
-      anon_edits_link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: 瞭解為什麼這很重要。
     edit:
       id_not_configured: iD 尚未設定
@@ -2743,7 +2789,18 @@ zh-TW:
       show:
         title: 使用者
         heading: 使用者
+        select_status: 選擇狀態
+        states:
+          pending: 待處理
+          active: 活躍
+          confirmed: 已確認
+          suspended: 已暫停
+          deleted: 已刪除
+        name_or_email: 姓名或電子郵件
         ip_address: IP 位址
+        edits: 編輯？
+        has_edits: 有編輯
+        no_edits: 沒有編輯
         search: 搜尋
       page:
         found_users:
@@ -2935,6 +2992,7 @@ zh-TW:
       closed_title: 已解決的註記：#%{note_name}
       hidden_title: 已隱藏的註記：#%{note_name}
       description_when_author_is_deleted: 已刪除
+      description_when_there_is_no_opening_comment: 未知的
       event_opened_by_html: 由%{user}%{time_ago}建立
       event_opened_by_anonymous_html: 由匿名使用者%{time_ago}建立
       event_commented_by_html: 來自%{user}%{time_ago}的評論
@@ -2971,7 +3029,6 @@ zh-TW:
         other: '%{count} 則匿名註記'
       counter_warning_guide_link:
         text: 自己做出貢獻
-        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       counter_warning_forum_link:
         text: 社群可以協助您
       advice: 你的註記已公開並可用於更新地圖，因此請不要輸入個人訊息，或是來自於具版權保護地圖的訊息以及目錄清單。
@@ -3154,6 +3211,11 @@ zh-TW:
       centre_map: 置此於地圖中央
     home:
       marker_title: 我家位置
+      not_set: 你的帳號還未設定家位置
+    heatmap:
+      tooltip:
+        no_contributions: '%{date} 沒有貢獻'
+        contributions: '{{PLURAL|one=%{count} 貢獻於%{date}|% {count} 貢獻於 %{date}}'
   redactions:
     edit:
       heading: 編輯修訂

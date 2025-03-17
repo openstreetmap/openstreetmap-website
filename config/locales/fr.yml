@@ -48,6 +48,7 @@
 # Author: Ignatgg
 # Author: Iketsi
 # Author: JB
+# Author: JLTRY
 # Author: Jean-Frédéric
 # Author: JenyxGym
 # Author: Jg45
@@ -256,7 +257,7 @@ fr:
         auth_provider: Fournisseur d’authentification
         auth_uid: UID d’authentification
         email: Courriel
-        new_email: Nouvelle adresse de courriel
+        new_email: Nouvelle adresse courriel
         active: Actif
         display_name: Pseudonyme
         description: Description du profil
@@ -1702,11 +1703,11 @@ fr:
         level11: Limite administrative (niveau 11)
       border_types:
         arrondissement: Limite d'arrondissement
-        borough: Limite de borough (sorte d'arrondissement)
+        borough: Limite d'arrondissement
         cercle: Limite de cercle
         city: Limite de ville
-        comarca: Limite de comarque
-        county: Limite de comté
+        comarca: Limite de la Comarque
+        county: Limite de département
         departement: Limite départementale
         department: Limite départementale
         district: Limite de district
@@ -1721,7 +1722,10 @@ fr:
         neighbourhood: Limite de quartier
         parish: Limite de la paroisse
         province: Frontière provinciale
+        região: Limite régionale
+        region: Limite régionale
         state: Frontière de l'État
+        town: Limite communale
         township: Limite de township (canton)
         village: Limite de village
     results:
@@ -1735,7 +1739,9 @@ fr:
       title: Problèmes
       select_status: Sélectionner un état
       select_type: Sélectionner un type
+      select_last_managed_by: Sélectionnez le dernier géré par
       reported_user: Utilisateur signalé
+      not_managed: Non géré
       search: Rechercher
       search_guidance: 'Problèmes de recherche :'
       states:
@@ -1749,6 +1755,7 @@ fr:
       status: État
       reports: Rapports
       last_updated: Dernière mise à jour
+      last_managed: Dernier géré
       reporting_users: Signalement d'utilisateurs
       reports_count:
         one: '%{count} rapport'
@@ -1796,11 +1803,15 @@ fr:
         diary_comment: '%{entry_title}, commentaire nº %{comment_id}'
         note: Note nº %{note_id}
       reportable_heading:
+        diary_comment_html: Commentaire de journal %{title} ajouté le %{datetime_created},
+          mis à jour le %{datetime_updated}
+        diary_entry_html: Entrée du journal %{title} ajouté le %{datetime_created},
+          mis à jour le %{datetime_updated}
         note_html: '%{title} créé le %{datetime_created}, mis à jour le %{datetime_updated}'
         user_html: Utilisateur %{title} créé le %{datetime_created}
     reporters:
       index:
-        title: Numéro de problème %{issue_id} Reporters
+        title: Numéro de problème #%{issue_id} Reporters
       reporters:
         more_reporters: et %{count} de plus
   issue_comments:
@@ -3204,6 +3215,9 @@ fr:
           deleted: Supprimé
         name_or_email: Nom ou courriel
         ip_address: Adresse IP
+        edits: Modifications ?
+        has_edits: A des modifications
+        no_edits: Aucune modification
         search: Rechercher
       page:
         found_users:
@@ -3664,7 +3678,7 @@ fr:
         no_contributions: Pas de contributions le %{date}
         contributions:
           one: '%{count} contribution le %{date}'
-          other: '% {count} contributions le %{date}'
+          other: '%{count} contributions le %{date}'
   redactions:
     edit:
       heading: Modifier le masquage
