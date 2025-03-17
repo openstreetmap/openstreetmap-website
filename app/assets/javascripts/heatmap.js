@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
+  /** @type {import('../../../node_modules/cal-heatmap/')} */
   let cal = new CalHeatmap();
   let currentTheme = getTheme();
 
