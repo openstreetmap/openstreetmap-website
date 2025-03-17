@@ -70,17 +70,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }]
     ]);
 
-    cal.on("mouseover", (event, _timestamp, value) => {
-      if (value) event.target.style.cursor = "pointer";
-    });
+    cal.on("mouseover", (event, timestamp, value) => {
+      if (!displayName || !value) return;
+      if (event.target.parentElement.nodeName === "a") return;
 
-    cal.on("click", (_event, timestamp) => {
-      if (!displayName) return;
       for (const { date, max_id } of heatmapData) {
         if (!max_id) continue;
         if (timestamp !== Date.parse(date)) continue;
+
         const params = new URLSearchParams([["before", max_id + 1]]);
-        location = `/user/${encodeURIComponent(displayName)}/history?${params}`;
+        const a = document.createElementNS("http://www.w3.org/2000/svg", "a");
+        a.setAttribute("href", `/user/${encodeURIComponent(displayName)}/history?${params}`);
+        $(event.target).wrap(a);
+        break;
       }
     });
   }
