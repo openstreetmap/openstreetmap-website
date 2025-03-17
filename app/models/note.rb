@@ -38,6 +38,7 @@ class Note < ApplicationRecord
   has_many :subscriptions, :class_name => "NoteSubscription"
   has_many :subscribers, :through => :subscriptions, :source => :user
   has_many :note_versions, -> { order(:version) }, :inverse_of => :note
+  has_many :note_tags
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
