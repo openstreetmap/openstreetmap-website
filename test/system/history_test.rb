@@ -109,6 +109,30 @@ class HistoryTest < ApplicationSystemTestCase
     end
   end
 
+  test "update sidebar when before param is included and map is moved" do
+    changeset1 = create(:changeset, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)
+    create(:changeset_tag, :changeset => changeset1, :k => "comment", :v => "changeset-at-fives")
+    changeset2 = create(:changeset, :num_changes => 1, :min_lat => 50100000, :max_lat => 50100001, :min_lon => 50100000, :max_lon => 50100001)
+    create(:changeset_tag, :changeset => changeset2, :k => "comment", :v => "changeset-close-to-fives")
+    changeset3 = create(:changeset)
+
+    visit "/history?before=#{changeset3.id}#map=17/5/5"
+
+    within_sidebar do
+      assert_link "changeset-at-fives"
+      assert_no_link "changeset-close-to-fives"
+    end
+
+    find("#map [aria-label='Zoom Out']").click(:shift)
+
+    within_sidebar do
+      assert_link "changeset-at-fives"
+      assert_link "changeset-close-to-fives"
+    end
+
+    assert_current_path history_path
+  end
+
   private
 
   def create_visible_changeset(user, comment)

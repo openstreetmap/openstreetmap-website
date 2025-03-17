@@ -189,6 +189,11 @@ OSM.History = function (map) {
     });
   }
 
+  function reloadChangesetsBecauseOfMapMovement() {
+    OSM.router.replace("/history" + window.location.hash);
+    loadFirstChangesets();
+  }
+
   let changesets = [];
 
   function updateBounds() {
@@ -250,7 +255,7 @@ OSM.History = function (map) {
     map.addLayer(group);
 
     if (location.pathname === "/history") {
-      map.on("moveend", loadFirstChangesets);
+      map.on("moveend", reloadChangesetsBecauseOfMapMovement);
     }
 
     map.on("zoomend", updateBounds);
@@ -260,7 +265,7 @@ OSM.History = function (map) {
 
   page.unload = function () {
     map.removeLayer(group);
-    map.off("moveend", loadFirstChangesets);
+    map.off("moveend", reloadChangesetsBecauseOfMapMovement);
     map.off("zoomend", updateBounds);
     disableChangesetIntersectionObserver();
   };
