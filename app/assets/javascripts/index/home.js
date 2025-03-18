@@ -18,12 +18,12 @@ OSM.Home = function (map) {
       });
       marker = L.marker(OSM.home, {
         icon: OSM.getUserIcon(),
-        title: I18n.t("javascripts.home.marker_title")
+        title: OSM.i18n.t("javascripts.home.marker_title")
       }).addTo(map);
     } else {
       $("#browse_status").html(
         $("<div class='m-2 alert alert-warning'>").text(
-          I18n.t("javascripts.home.not_set")
+          OSM.i18n.t("javascripts.home.not_set")
         )
       );
     }

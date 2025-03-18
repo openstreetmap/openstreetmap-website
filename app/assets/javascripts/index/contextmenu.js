@@ -1,6 +1,6 @@
 OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.directions_from"),
+    text: OSM.i18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {
       const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
@@ -12,7 +12,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.directions_to"),
+    text: OSM.i18n.t("javascripts.context.directions_to"),
     callback: function directionsToHere(e) {
       const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
@@ -24,7 +24,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.add_note"),
+    text: OSM.i18n.t("javascripts.context.add_note"),
     callback: function addNoteHere(e) {
       const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
@@ -33,7 +33,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.show_address"),
+    text: OSM.i18n.t("javascripts.context.show_address"),
     callback: function describeLocation(e) {
       const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
@@ -42,7 +42,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.query_features"),
+    text: OSM.i18n.t("javascripts.context.query_features"),
     callback: function queryFeatures(e) {
       const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
@@ -51,7 +51,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.centre_map"),
+    text: OSM.i18n.t("javascripts.context.centre_map"),
     callback: function centreMap(e) {
       map.panTo(e.latlng);
     }

@@ -72,11 +72,11 @@ OSM.Directions = function (map) {
 
   function formatTotalDistance(m) {
     if (m < 1000) {
-      return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+      return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
     } else if (m < 10000) {
-      return I18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
+      return OSM.i18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
     } else {
-      return I18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
+      return OSM.i18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
     }
   }
 
@@ -84,18 +84,18 @@ OSM.Directions = function (map) {
     if (m < 5) {
       return "";
     } else if (m < 200) {
-      return I18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
+      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
     } else if (m < 1500) {
-      return I18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
+      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
     } else if (m < 5000) {
-      return I18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
+      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
     } else {
-      return I18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
+      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
     }
   }
 
   function formatHeight(m) {
-    return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+    return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
   }
 
   function formatTime(s) {
@@ -164,13 +164,13 @@ OSM.Directions = function (map) {
       }
 
       const distanceText = $("<p>").append(
-        I18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
-        I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
+        OSM.i18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
+        OSM.i18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
         distanceText.append(
           $("<br>"),
-          I18n.t("javascripts.directions.ascend") + ": " + formatHeight(route.ascend) + ". " +
-          I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
+          OSM.i18n.t("javascripts.directions.ascend") + ": " + formatHeight(route.ascend) + ". " +
+          OSM.i18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
       const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
@@ -219,18 +219,18 @@ OSM.Directions = function (map) {
       downloadURL = URL.createObjectURL(blob);
 
       $("#directions_content").append(`<p class="text-center"><a href="${downloadURL}" download="${
-        I18n.t("javascripts.directions.filename")
+        OSM.i18n.t("javascripts.directions.filename")
       }">${
-        I18n.t("javascripts.directions.download")
+        OSM.i18n.t("javascripts.directions.download")
       }</a></p>`);
 
       $("#directions_content").append("<p class=\"text-center\">" +
-        I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
+        OSM.i18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
     }).catch(function () {
       map.removeLayer(polyline);
       if (reportErrors) {
-        $("#directions_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
+        $("#directions_content").html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
     }).finally(function () {
       controller = null;

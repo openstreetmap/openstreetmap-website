@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const colorScheme = document.documentElement.getAttribute("data-bs-theme") ?? "auto";
   const rangeColors = ["#14432a", "#166b34", "#37a446", "#4dd05a"];
   const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
-  const monthNames = I18n.t("date.abbr_month_names");
+  const monthNames = OSM.i18n.t("date.abbr_month_names");
 
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -88,13 +88,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getTooltipText(date, value) {
-    const localizedDate = I18n.l("date.formats.long", date);
+    const localizedDate = OSM.i18n.l("date.formats.long", date);
 
     if (value > 0) {
-      return I18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
+      return OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
     }
 
-    return I18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
+    return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
   }
 
   function getTheme() {

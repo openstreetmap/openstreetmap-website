@@ -7,13 +7,13 @@
 //= require i18n/embed
 
 if (navigator.languages) {
-  I18n.locale = navigator.languages[0];
+  OSM.i18n.locale = navigator.languages[0];
 } else if (navigator.language) {
-  I18n.locale = navigator.language;
+  OSM.i18n.locale = navigator.language;
 }
 
-I18n.default_locale = <%= I18n.default_locale.to_json %>;
-I18n.fallbacks = true;
+OSM.i18n.defaultLocale = <%= I18n.default_locale.to_json %>;
+OSM.i18n.enableFallback = true;
 
 window.onload = function () {
   const args = Object.fromEntries(new URLSearchParams(location.search));
@@ -56,7 +56,7 @@ window.onload = function () {
 L.Control.OSMReportAProblem = L.Control.Attribution.extend({
   options: {
     position: "bottomright",
-    prefix: `<a href="https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">${I18n.t("javascripts.embed.report_problem")}</a>`
+    prefix: `<a href="https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">${OSM.i18n.t("javascripts.embed.report_problem")}</a>`
   },
 
   onAdd: function (map) {

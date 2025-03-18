@@ -245,7 +245,7 @@ $(function () {
       })
       .catch(() => {
         // eslint-disable-next-line no-alert
-        alert(I18n.t("site.index.remote_failed"));
+        alert(OSM.i18n.t("site.index.remote_failed"));
       });
 
     function sendRemoteEditCommand(url) {
@@ -266,7 +266,7 @@ $(function () {
       .removeAttr("title")
       .tooltip({
         placement: "bottom",
-        title: I18n.t("javascripts.edit_help")
+        title: OSM.i18n.t("javascripts.edit_help")
       })
       .tooltip("show");
 
@@ -280,7 +280,7 @@ $(function () {
 
     page.pushstate = page.popstate = function () {
       map.setSidebarOverlaid(true);
-      document.title = I18n.t("layouts.project_name.title");
+      document.title = OSM.i18n.t("layouts.project_name.title");
     };
 
     page.load = function () {

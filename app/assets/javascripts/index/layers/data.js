@@ -51,15 +51,15 @@ OSM.initializeDataLayer = function (map) {
       $("<div class='p-3'>").append(
         $("<div class='d-flex'>").append(
           $("<h2 class='flex-grow-1 text-break'>")
-            .text(I18n.t("browse.start_rjs.load_data")),
+            .text(OSM.i18n.t("browse.start_rjs.load_data")),
           $("<div>").append(
             $("<button type='button' class='btn-close'>")
-              .attr("aria-label", I18n.t("javascripts.close"))
+              .attr("aria-label", OSM.i18n.t("javascripts.close"))
               .click(cancel))),
         $("<p class='alert alert-warning'>")
-          .text(I18n.t("browse.start_rjs.feature_warning", { num_features })),
+          .text(OSM.i18n.t("browse.start_rjs.feature_warning", { num_features })),
         $("<input type='submit' class='btn btn-primary d-block mx-auto'>")
-          .val(I18n.t("browse.start_rjs.load_data"))
+          .val(OSM.i18n.t("browse.start_rjs.load_data"))
           .click(add)));
   }
 
@@ -68,13 +68,13 @@ OSM.initializeDataLayer = function (map) {
       $("<div class='p-3'>").append(
         $("<div class='d-flex'>").append(
           $("<h2 class='flex-grow-1 text-break'>")
-            .text(I18n.t("browse.start_rjs.load_data")),
+            .text(OSM.i18n.t("browse.start_rjs.load_data")),
           $("<div>").append(
             $("<button type='button' class='btn-close'>")
-              .attr("aria-label", I18n.t("javascripts.close"))
+              .attr("aria-label", OSM.i18n.t("javascripts.close"))
               .click(close))),
         $("<p class='alert alert-warning'>")
-          .text(I18n.t("browse.start_rjs.feature_error", { message: message }))));
+          .text(OSM.i18n.t("browse.start_rjs.feature_error", { message: message }))));
   }
 
   function getData() {
@@ -95,7 +95,7 @@ OSM.initializeDataLayer = function (map) {
       .attr("id", "layers-data-loading")
       .attr("class", "spinner-border spinner-border-sm ms-1")
       .attr("role", "status")
-      .html("<span class='visually-hidden'>" + I18n.t("browse.start_rjs.loading") + "</span>")
+      .html("<span class='visually-hidden'>" + OSM.i18n.t("browse.start_rjs.loading") + "</span>")
       .appendTo($("#label-layers-data"));
 
     dataLoader = new AbortController();

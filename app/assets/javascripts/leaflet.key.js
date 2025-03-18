@@ -31,7 +31,7 @@ L.OSM.key = function (options) {
       button
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
-              I18n.t(disabled ?
+              OSM.i18n.t(disabled ?
                 "javascripts.key.tooltip_disabled" :
                 "javascripts.key.tooltip"));
     }

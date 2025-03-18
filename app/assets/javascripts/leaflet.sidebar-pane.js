@@ -12,7 +12,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
       .on("click", toggle);
 
     if (buttonTitle) {
-      button.attr("title", I18n.t(buttonTitle));
+      button.attr("title", OSM.i18n.t(buttonTitle));
     }
 
     button.appendTo($container);
@@ -21,7 +21,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
       .attr("class", `${uiClass}-ui position-relative z-n1`);
 
     $("<h2 class='p-3 pb-0 pe-5 text-break'>")
-      .text(I18n.t(paneTitle))
+      .text(OSM.i18n.t(paneTitle))
       .appendTo($ui);
 
     options.sidebar.addPane($ui);

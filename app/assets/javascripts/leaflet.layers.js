@@ -81,7 +81,7 @@ L.OSM.layers = function (options) {
         .appendTo($ui);
 
       $("<p>")
-        .text(I18n.t("javascripts.map.layers.overlays"))
+        .text(OSM.i18n.t("javascripts.map.layers.overlays"))
         .attr("class", "text-body-secondary small mb-2")
         .appendTo(overlaySection);
 
@@ -94,7 +94,7 @@ L.OSM.layers = function (options) {
 
         if (name === "notes" || name === "data") {
           item
-            .attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"))
+            .attr("title", OSM.i18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"))
             .tooltip("disable");
         }
 
@@ -111,7 +111,7 @@ L.OSM.layers = function (options) {
           .prop("checked", checked)
           .appendTo(label);
 
-        label.append(I18n.t("javascripts.map.layers." + name));
+        label.append(OSM.i18n.t("javascripts.map.layers." + name));
 
         input.on("change", function () {
           checked = input.is(":checked");
