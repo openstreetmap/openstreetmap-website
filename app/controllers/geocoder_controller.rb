@@ -34,13 +34,13 @@ class GeocoderController < ApplicationController
       # We've got two nondescript numbers for a query, which can mean both "lat, lon" or "lon, lat".
       @results = []
 
-      if lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
+      if lat.between?(-90, 90) && lon.between?(-180, 180)
         @results.push(:lat => params[:lat], :lon => params[:lon],
                       :zoom => params[:zoom],
                       :name => "#{params[:lat]}, #{params[:lon]}")
       end
 
-      if lon >= -90 && lon <= 90 && lat >= -180 && lat <= 180
+      if lon.between?(-90, 90) && lat.between?(-180, 180)
         @results.push(:lat => params[:lon], :lon => params[:lat],
                       :zoom => params[:zoom],
                       :name => "#{params[:lon]}, #{params[:lat]}")
@@ -54,10 +54,10 @@ class GeocoderController < ApplicationController
       end
     else
       # Coordinates in a query have come with markers for latitude and longitude.
-      if lat < -90 || lat > 90
+      if !lat.between?(-90, 90)
         @error = "Latitude #{lat} out of range"
         render :action => "error"
-      elsif lon < -180 || lon > 180
+      elsif !lon.between?(-180, 180)
         @error = "Longitude #{lon} out of range"
         render :action => "error"
       else
