@@ -97,7 +97,7 @@
             costing: costing,
             directions_options: {
               units: "km",
-              language: OSM.i18n.currentLocale()
+              language: OSM.i18n.locale
             }
           })
         });
