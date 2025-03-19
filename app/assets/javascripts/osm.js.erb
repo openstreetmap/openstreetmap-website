@@ -76,7 +76,7 @@ OSM = {
       }
     }
 
-    const hash = OSM.parseHash(location.hash);
+    const hash = OSM.parseHash();
 
     const loc = Cookies.get("_osm_location")?.split("|");
 
@@ -126,7 +126,7 @@ OSM = {
     return mapParams;
   },
 
-  parseHash: function (hash) {
+  parseHash: function (hash = location.hash) {
     const args = {};
 
     const i = hash.indexOf("#");

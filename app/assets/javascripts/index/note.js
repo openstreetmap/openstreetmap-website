@@ -79,7 +79,7 @@ OSM.Note = function (map) {
     const data = $(".details").data();
 
     if (data) {
-      const hashParams = OSM.parseHash(location.hash);
+      const hashParams = OSM.parseHash();
       map.addObject({
         type: "note",
         id: parseInt(id, 10),
