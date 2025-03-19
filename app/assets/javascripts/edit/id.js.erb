@@ -36,4 +36,10 @@ $(function () {
   if (idData.gpx) params.set("gpx", idData.gpx);
 
   id.attr("src", idData.url + "#" + params);
+
+  id.on("load", function () {
+    if (!this.contentWindow.location.href.startsWith(idData.url)) {
+      location.reload();
+    }
+  });
 });
