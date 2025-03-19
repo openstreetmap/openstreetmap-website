@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const url = location.protocol + "//" + location.host;
     idContext.preauth({
       url: url,
-      apiUrl: url === "https://www.openstreetmap.org" ? "https://api.openstreetmap.org" : url,
+      apiUrl: url.replace("www.openstreetmap.org", "api.openstreetmap.org"),
       access_token: container.dataset.token
     });
 
