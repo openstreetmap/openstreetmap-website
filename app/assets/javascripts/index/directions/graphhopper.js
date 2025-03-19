@@ -57,7 +57,7 @@
         // https://graphhopper.com/api/1/docs/routing/
         const query = new URLSearchParams({
           vehicle: vehicleType,
-          locale: OSM.i18n.currentLocale(),
+          locale: OSM.i18n.locale,
           key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
           elevation: false,
           instructions: true,
