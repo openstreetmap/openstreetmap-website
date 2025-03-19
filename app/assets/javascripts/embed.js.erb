@@ -16,7 +16,7 @@ OSM.i18n.defaultLocale = <%= I18n.default_locale.to_json %>;
 OSM.i18n.enableFallback = true;
 
 window.onload = function () {
-  const args = Object.fromEntries(new URLSearchParams(location.search));
+  const args = new URLSearchParams(location.search);
 
   const options = {
     mapnik: {
@@ -30,15 +30,15 @@ window.onload = function () {
   map.attributionControl.setPrefix("");
   map.removeControl(map.attributionControl);
 
-  const isDarkTheme = args.theme === "dark" || (args.theme !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const isDarkTheme = args.get("theme") === "dark" || (args.get("theme") !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const layers = <%= MapLayers::embed_definitions("config/layers.yml").to_json %>;
-  const layerId = (args.layer || "").replaceAll(" ", "");
+  const layerId = (args.get("layer") || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
   const layer = (isDarkTheme && layerConfig.leafletOsmDarkId) || layerConfig.leafletOsmId;
   new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
 
-  if (args.marker) {
-    L.marker(args.marker.split(","), { icon: L.icon({
+  if (args.has("marker")) {
+    L.marker(args.get("marker").split(","), { icon: L.icon({
       iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
       iconSize: new L.Point(25, 41),
       iconAnchor: new L.Point(12, 41),
@@ -47,7 +47,7 @@ window.onload = function () {
     }) }).addTo(map);
   }
 
-  const bbox = (args.bbox || "-180,-90,180,90").split(",");
+  const bbox = (args.get("bbox") || "-180,-90,180,90").split(",");
   map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]]);
 
   map.addControl(new L.Control.OSMReportAProblem());

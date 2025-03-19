@@ -1,11 +1,11 @@
 $(function () {
-  const params = OSM.params();
+  const params = new URLSearchParams(location.search);
 
-  if (params.lat && params.lon) {
+  if (params.has("lat") && params.has("lon")) {
     let url = "/edit";
 
-    if (params.editor) url += "?editor=" + params.editor;
-    if (!params.zoom) params.zoom = 17;
+    if (params.has("editor")) url += "?editor=" + params.get("editor");
+    if (!params.has("zoom")) params.set("zoom", 17);
     url += OSM.formatHash(params);
 
     $(".start-mapping").attr("href", url);

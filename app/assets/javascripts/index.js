@@ -261,7 +261,7 @@ $(function () {
     e.preventDefault();
   });
 
-  if (OSM.params().edit_help) {
+  if (new URLSearchParams(location.search).get("edit_help")) {
     $("#editanchor")
       .removeAttr("title")
       .tooltip({
