@@ -71,9 +71,15 @@ for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
     $cnt = stick_content_in_hash("tag", "Template:${lang}ValueDescription", \%feature);
     ok(1, "    Got $cnt value pages");
     $count{value} += $cnt;
+
+    # ChangesetKey pages
+    ok(1, "    Getting changeset key pages");
+    $cnt = stick_content_in_hash("key", "Template:${lang}ChangesetKeyDescription", \%feature, "ChangesetKey");
+    ok(1, "    Got $cnt changeset key pages");
+    $count{changesetkey} += $cnt;
 }
 
-ok(1, "Got a total of $count{$_} ${_}s") for qw[ key keyprefix value ];
+ok(1, "Got a total of $count{$_} ${_}s") for qw[ key keyprefix changesetkey value ];
 
 # Dump to .yml file
 open my $out, ">", $out_file or die "Can't open file '$out_file' supplied on the command line";
@@ -87,8 +93,9 @@ exit 0;
 
 sub stick_content_in_hash
 {
-    my ($key, $title, $hash) = @_;
+    my ($key, $title, $hash, $namespace) = @_;
     my $ukey = ucfirst $key;
+    $namespace ||= $ukey;
 
     my $space_to_underscore = sub {
         my $txt = shift;
@@ -105,7 +112,7 @@ sub stick_content_in_hash
         my $title = $link->{title};
         my $lang;
         my $key_name;
-        if ($title =~ /^$ukey:(?<key_name>.*?)$/) {
+        if ($title =~ /^($namespace|$ukey):(?<key_name>.*?)$/) {
             # English by default
             $lang = "en";
             $key_name = $space_to_underscore->($+{key_name});
