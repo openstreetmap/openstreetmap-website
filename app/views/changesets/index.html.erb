@@ -1,17 +1,17 @@
-<% if @changesets.present? %>
-  <ol class="changesets list-group list-group-flush">
-    <%= render @changesets %>
-  </ol>
-<% if @changesets.size == 20 -%>
-  <div class="changeset_more mt-3 text-center">
-    <%= link_to t(".load_more"), url_for(@params.merge(:before => @changesets.last.id)), :class => "btn btn-primary" %>
+<% if @newer_changesets_id %>
+  <div class="changeset_more my-3 text-center">
+    <%= link_to t(".load_more"), url_for(@params.merge(:before => nil, :after => @newer_changesets_id)), :class => "btn btn-primary" %>
     <div class="text-center loader">
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
       </div>
     </div>
   </div>
-<% end -%>
+<% end %>
+<% if @changesets.present? %>
+  <ol class="changesets list-group list-group-flush">
+    <%= render @changesets %>
+  </ol>
 <% elsif params[:bbox] %>
   <p class="mx-3"><%= params[:before] ? t(".no_more_area") : t(".empty_area") %></p>
 <% elsif params[:display_name] %>
@@ -19,3 +19,13 @@
 <% else %>
   <p class="mx-3"><%= params[:before] ? t(".no_more") : t(".empty") %></p>
 <% end %>
+<% if @older_changesets_id -%>
+  <div class="changeset_more my-3 text-center">
+    <%= link_to t(".load_more"), url_for(@params.merge(:before => @older_changesets_id, :after => nil)), :class => "btn btn-primary" %>
+    <div class="text-center loader">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+      </div>
+    </div>
+  </div>
+<% end -%>

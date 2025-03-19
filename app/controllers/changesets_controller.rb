@@ -2,6 +2,7 @@
 
 class ChangesetsController < ApplicationController
   include UserMethods
+  include PaginationMethods
 
   layout "site"
 
@@ -18,11 +19,12 @@ class ChangesetsController < ApplicationController
   # list non-empty changesets in reverse chronological order
   def index
     param! :before, Integer, :min => 1
+    param! :after, Integer, :min => 1
 
-    @params = params.permit(:display_name, :bbox, :friends, :nearby, :before, :list)
+    @params = params.permit(:display_name, :bbox, :friends, :nearby, :before, :after, :list)
 
-    if request.format == :atom && @params[:before]
-      redirect_to url_for(@params.merge(:before => nil)), :status => :moved_permanently
+    if request.format == :atom && (@params[:before] || @params[:after])
+      redirect_to url_for(@params.merge(:before => nil, :after => nil)), :status => :moved_permanently
       return
     end
 
@@ -59,9 +61,7 @@ class ChangesetsController < ApplicationController
         changesets = changesets.where(:user => current_user.nearby)
       end
 
-      changesets = changesets.where(:changesets => { :id => ...@params[:before] }) if @params[:before]
-
-      @changesets = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+      @changesets, @newer_changesets_id, @older_changesets_id = get_page_items(changesets, :includes => [:user, :changeset_tags, :comments])
 
       render :action => :index, :layout => false
     end
