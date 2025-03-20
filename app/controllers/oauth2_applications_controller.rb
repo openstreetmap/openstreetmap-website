@@ -21,8 +21,8 @@ class Oauth2ApplicationsController < Doorkeeper::ApplicationsController
 
   def application_params
     params[:oauth2_application][:scopes]&.delete("")
-    params.require(:oauth2_application)
-          .permit(:name, :redirect_uri, :confidential, :scopes => [])
-          .merge(:owner => current_resource_owner)
+    params
+      .expect(:oauth2_application => [:name, :redirect_uri, :confidential, { :scopes => [] }])
+      .merge(:owner => current_resource_owner)
   end
 end

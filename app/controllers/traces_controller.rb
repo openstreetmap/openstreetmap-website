@@ -223,6 +223,6 @@ class TracesController < ApplicationController
   end
 
   def trace_params
-    params.require(:trace).permit(:description, :tagstring, :visibility)
+    params.expect(:trace => [:description, :tagstring, :visibility])
   end
 end

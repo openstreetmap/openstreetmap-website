@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 7.2.0"
+gem "rails", "~> 8.0.0"
 gem "turbo-rails"
 
 # Require json for multi_json
@@ -49,7 +49,7 @@ gem "file_exists"
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
-gem "active_record_union"
+gem "active_record_union", :github => "brianhempel/active_record_union", :ref => "master"
 gem "bootstrap", "~> 5.3.2"
 gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
@@ -61,7 +61,7 @@ gem "http_accept_language", "~> 2.1.1"
 gem "i18n-js", "~> 4.2.3"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
-gem "rails-i18n", "~> 7.0.0"
+gem "rails-i18n", "~> 8.0.0"
 gem "rails_param"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations", "< 2.0.0"
