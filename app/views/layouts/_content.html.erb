@@ -15,5 +15,12 @@
         <%= yield %>
       </div>
     </div>
+    <% if content_for? :footer %>
+      <footer class="content-footer bg-body-secondary border-top border-secondary-subtle <%= yield :footer_outer_class %>">
+        <div class="content-inner <%= yield :footer_class %>">
+          <%= yield :footer %>
+        </div>
+      </footer>
+    <% end %>
   <% end %>
 </div>
