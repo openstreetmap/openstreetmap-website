@@ -151,6 +151,7 @@ nl:
         allow_write_prefs: gebruikersvoorkeuren wijzigen
         allow_write_diary: dagboekberichten schrijven en reacties toevoegen
         allow_write_api: de kaart wijzigen
+        allow_write_changeset_comments: opmerkingen over wijzigingensets plaatsen
         allow_read_gpx: privé-gps-trajecten lezen
         allow_write_gpx: gps-trajecten uploaden
         allow_write_notes: opmerkingen wijzigen
@@ -307,6 +308,7 @@ nl:
   accounts:
     show:
       title: Account bewerken
+      my_account: Mijn account
       current email address: Huidig e-mailadres
       external auth: Externe authenticatie
       openid:
@@ -320,6 +322,9 @@ nl:
         agreed_with_pd: U hebt ook verklaard dat uw bijdragen onderdeel zijn van het
           Publieke domein.
         link text: wat is dit?
+        not_agreed_with_pd: U hebt niet aangegeven dat u uw bewerkingen als publiek
+          domein beschouwt.
+        pd_link_text: verklaren
       save changes button: Wijzigingen opslaan
       delete_account: Account verwijderen...
     go_public:
@@ -406,6 +411,19 @@ nl:
           niet te accepteren. Zie %{terms_declined_link} voor meer informatie.
         terms_declined_link: deze wiki-pagina
         terms_declined_url: https://wiki.openstreetmap.org/wiki/NL:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Mijn bijdragen als publiek domein beschouwen
+        consider_pd: Ik beschouw mijn bijdragen als publiek domein
+        consider_pd_why: Waarom zou ik willen dat mijn bijdragen publiek domein zijn?
+        confirm: Bevestigen
+      create:
+        successfully_declared: U hebt verklaard dat u uw bewerkingen als publiek domein
+          beschouwt.
+        already_declared: U hebt al verklaard dat u uw bewerkingen als publiek domein
+          beschouwt.
+        did_not_confirm: U hebt niet bevestigd dat u uw bewerkingen als publiek domein
+          beschouwt.
   browse:
     deleted_ago_by_html: '%{time_ago} verwijderd door %{user}'
     edited_ago_by_html: '%{time_ago} bewerkt door %{user}'
@@ -475,6 +493,7 @@ nl:
       feature_warning: '%{num_features} functies worden geladen, waardoor uw browser
         traag kan worden of niet reageert. Weet u zeker dat je deze gegevens wilt
         weergeven?'
+      feature_error: 'Objecten konden niet worden geladen: %{message}'
       load_data: Gegevens laden
       loading: Bezig met laden…
     tag_details:
@@ -551,6 +570,13 @@ nl:
         sorry: Sorry, het oproepen van de lijst met wijzigingenset-opmerkingen die
           u hebt opgevraagd duurde te lang.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} opmerking'
+        other: '%{count} opmerkingen'
+      changes:
+        one: '%{count} wijziging'
+        other: '%{count} wijzigingen'
     index:
       title: Wijzigingensets
       title_user: Wijzigingensets door %{user}
@@ -1046,6 +1072,7 @@ nl:
           bridleway: Ruiterpad
           bus_guideway: Geleide busbaan
           bus_stop: Bushalte
+          busway: Busbaan
           construction: Weg in aanleg
           corridor: Corridor
           crossing: Oversteekplaats
@@ -1581,16 +1608,30 @@ nl:
           weir: Stuw
           "yes": Waterweg
       admin_levels:
-        level2: Landsgrens
-        level3: Regiogrens
-        level4: Staatsgrens
-        level5: Regiogrens
-        level6: Districtsgrens
-        level7: Gemeentegrens
-        level8: Stadsgrens
-        level9: Dorpsgrens
-        level10: Stadsdeelgrens
-        level11: Grens van buurt
+        level2: Internationale grens
+        level3: Administratieve grens (niveau 3)
+        level4: Administratieve grens (niveau 4)
+        level5: Administratieve grens (niveau 5)
+        level6: Administratieve grens (niveau 6)
+        level7: Administratieve grens (niveau 7)
+        level8: Administratieve grens (niveau 8)
+        level9: Administratieve grens (niveau 9)
+        level10: Administratieve grens (niveau 10)
+        level11: Administratieve grens (niveau 11)
+      border_types:
+        arrondissement: Arrondissementsgrens
+        city: Stadsgrens
+        municipality: Gemeentegrens
+        municipi: Gemeentegrens
+        município: Gemeentegrens
+        nation: Internationale grens
+        national: Internationale grens
+        neighbourhood: Buurtgrens
+        province: Provinciegrens
+        região: Regiogrens
+        region: Regiogrens
+        state: Staatsgrens
+        village: Dorpsgrens
     results:
       no_results: Geen resultaten gevonden
       more_results: Meer resultaten
@@ -2765,7 +2806,7 @@ nl:
         om meer te weten te komen.
       need_to_see_terms: Uw toegang tot de API is tijdelijk opgeschort. Meld u aan
         in de webinterface om de Voorwaarden voor Bijdragen te bekijken. U hoeft ze
-        niet te onderschijven, maar moet ze wel gezien hebben.
+        niet te onderschrijven, maar moet ze wel gezien hebben.
     settings_menu:
       account_settings: Accountinstellingen
       oauth2_applications: OAuth 2-toepassingen
