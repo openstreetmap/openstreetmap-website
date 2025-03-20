@@ -343,7 +343,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil heatmap_data
     assert_predicate heatmap_data[:data], :any?
     # The data should be in the right format
-    assert(heatmap_data[:data].values.all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
+    heatmap_data[:data].each_value do |entry|
+      assert_equal [:date, :max_id, :total_changes], entry.keys.sort, "Heatmap data entries should have expected keys"
+    end
     assert_equal 30, heatmap_data[:count]
   end
 
