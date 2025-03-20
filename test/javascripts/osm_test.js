@@ -20,14 +20,6 @@ describe("OSM", function () {
     });
   });
 
-  describe(".params", function () {
-    it("parses params", function () {
-      const params = OSM.params("?foo=a&bar=b");
-      expect(params).to.have.property("foo", "a");
-      expect(params).to.have.property("bar", "b");
-    });
-  });
-
   describe(".mapParams", function () {
     beforeEach(function () {
       delete OSM.home;

@@ -12,7 +12,7 @@ OSM.Changeset = function (map) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
-    const hashParams = OSM.parseHash(location.hash);
+    const hashParams = OSM.parseHash();
     initialize();
     map.addObject(changesetData, function (bounds) {
       if (!hashParams.center && bounds.isValid()) {

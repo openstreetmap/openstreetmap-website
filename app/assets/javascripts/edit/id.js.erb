@@ -8,9 +8,8 @@ $(function () {
     return;
   }
 
-  const hash = location.hash.substring(1);
-  const hashParams = hash ? OSM.params(hash) : {};
-  const hashArgs = OSM.parseHash(location.hash);
+  const hashParams = new URLSearchParams(location.hash.slice(1));
+  const hashArgs = OSM.parseHash();
   const mapParams = OSM.mapParams();
   const params = new URLSearchParams();
   let zoom, lat, lon;
@@ -28,7 +27,7 @@ $(function () {
 
   const passThroughKeys = ["background", "comment", "disable_features", "gpx", "hashtags", "locale", "maprules", "notes", "offset", "photo", "photo_dates", "photo_overlay", "photo_username", "presets", "source", "validationDisable", "validationWarning", "validationError", "walkthrough"];
   for (const key of passThroughKeys) {
-    if (hashParams[key]) params.set(key, hashParams[key]);
+    if (hashParams.has(key)) params.set(key, hashParams.get(key));
   }
 
   if (mapParams.layers.includes("N")) params.set("notes", "true");

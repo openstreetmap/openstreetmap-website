@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!max_id) continue;
         if (timestamp !== Date.parse(date)) continue;
 
-        const params = new URLSearchParams([["before", max_id + 1]]);
+        const params = new URLSearchParams({ before: max_id + 1 });
         const a = document.createElementNS("http://www.w3.org/2000/svg", "a");
         a.setAttribute("href", `/user/${encodeURIComponent(displayName)}/history?${params}`);
         $(event.target).wrap(a);

@@ -54,29 +54,24 @@ OSM = {
     return url;
   },
 
-  params: function (search) {
-    const query = search || location.search;
-    return Object.fromEntries(new URLSearchParams(query));
-  },
-
   mapParams: function (search) {
-    const params = OSM.params(search),
+    const params = new URLSearchParams(search || location.search),
           mapParams = {};
 
-    if (params.mlon && params.mlat) {
+    if (params.has("mlon") && params.has("mlat")) {
       mapParams.marker = true;
-      mapParams.mlon = parseFloat(params.mlon);
-      mapParams.mlat = parseFloat(params.mlat);
+      mapParams.mlon = parseFloat(params.get("mlon"));
+      mapParams.mlat = parseFloat(params.get("mlat"));
     }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
     for (const type of ["node", "way", "relation", "note"]) {
-      if (params[type]) {
-        mapParams.object = { type, id: parseInt(params[type], 10) };
+      if (params.has(type)) {
+        mapParams.object = { type, id: parseInt(params.get(type), 10) };
       }
     }
 
-    const hash = OSM.parseHash(location.hash);
+    const hash = OSM.parseHash();
 
     const loc = Cookies.get("_osm_location")?.split("|");
 
@@ -89,15 +84,15 @@ OSM = {
       mapParams.lon = hash.center.lng;
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
-    } else if (params.bbox) {
-      const [minlon, minlat, maxlon, maxlat] = params.bbox.split(",");
+    } else if (params.has("bbox")) {
+      const [minlon, minlat, maxlon, maxlat] = params.get("bbox").split(",");
       mapParams.bounds = bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat });
-    } else if (params.minlon && params.minlat && params.maxlon && params.maxlat) {
-      mapParams.bounds = bboxToLatLngBounds(params);
-    } else if (params.mlon && params.mlat) {
-      mapParams.lon = params.mlon;
-      mapParams.lat = params.mlat;
-      mapParams.zoom = params.zoom || 12;
+    } else if (params.has("minlon") && params.has("minlat") && params.has("maxlon") && params.has("maxlat")) {
+      mapParams.bounds = bboxToLatLngBounds(Object.fromEntries(params));
+    } else if (params.has("mlon") && params.has("mlat")) {
+      mapParams.lon = params.get("mlon");
+      mapParams.lat = params.get("mlat");
+      mapParams.zoom = params.get("zoom") || 12;
     } else if (loc) {
       [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
@@ -109,7 +104,7 @@ OSM = {
     } else {
       mapParams.lon = -0.1;
       mapParams.lat = 51.5;
-      mapParams.zoom = params.zoom || 5;
+      mapParams.zoom = params.get("zoom") || 5;
     }
 
     if (typeof mapParams.lat === "string") mapParams.lat = parseFloat(mapParams.lat);
@@ -118,7 +113,7 @@ OSM = {
 
     mapParams.layers = hash.layers || (loc && loc[3]) || "";
 
-    const scale = parseFloat(params.scale);
+    const scale = parseFloat(params.get("scale"));
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
     }
@@ -126,7 +121,7 @@ OSM = {
     return mapParams;
   },
 
-  parseHash: function (hash) {
+  parseHash: function (hash = location.hash) {
     const args = {};
 
     const i = hash.indexOf("#");
@@ -160,6 +155,10 @@ OSM = {
       center = args.getCenter();
       zoom = args.getZoom();
       layers = args.getLayersCode();
+    } else if (args instanceof URLSearchParams) {
+      center = args.get("center") || L.latLng(args.get("lat"), args.get("lon"));
+      zoom = args.get("zoom");
+      layers = args.get("layers") || "";
     } else {
       center = args.center || L.latLng(args.lat, args.lon);
       zoom = args.zoom;

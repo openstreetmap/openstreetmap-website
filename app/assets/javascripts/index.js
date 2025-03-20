@@ -261,7 +261,7 @@ $(function () {
     e.preventDefault();
   });
 
-  if (OSM.params().edit_help) {
+  if (new URLSearchParams(location.search).get("edit_help")) {
     $("#editanchor")
       .removeAttr("title")
       .tooltip({
@@ -311,7 +311,7 @@ $(function () {
     };
 
     function addObject(type, id, version, center) {
-      const hashParams = OSM.parseHash(location.hash);
+      const hashParams = OSM.parseHash();
       map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
         if (!hashParams.center && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
