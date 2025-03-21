@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const rangeColorsDark = ["#14432a", "#4dd05a"];
   const rangeColorsLight = ["#4dd05a", "#14432a"];
   const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
-  const monthNames = OSM.i18n.t("date.abbr_month_names");
 
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -36,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         type: "month",
         gutter: 4,
         label: {
-          text: (timestamp) => monthNames[new Date(timestamp).getUTCMonth() + 1],
+          text: (timestamp) => new Date(timestamp).toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" }),
           position: "top",
           textAlign: "middle"
         },
