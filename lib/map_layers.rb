@@ -3,6 +3,8 @@ module MapLayers
     YAML.load_file(Rails.root.join(layers_filename))
         .reject { |layer| layer["apiKeyId"] && !Settings[layer["apiKeyId"]] }
         .map do |layer|
+          layer["name"] = I18n.t("site.index.map.base.#{layer['nameId']}")
+          layer.delete "nameId"
           if layer["apiKeyId"]
             layer["apikey"] = Settings[layer["apiKeyId"]]
             layer.delete "apiKeyId"
