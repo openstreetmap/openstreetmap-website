@@ -152,7 +152,11 @@ class GeocoderController < ApplicationController
                     :type => object_type, :id => object_id)
     end
 
-    render :action => "results"
+    respond_to do |format|
+      format.html { render :action => "results" }
+      format.json { render :json => @results }
+      format.any { render :action => "results" }
+    end
   rescue StandardError => e
     host = URI(Settings.nominatim_url).host
     @error = "Error contacting #{host}: #{e}"
