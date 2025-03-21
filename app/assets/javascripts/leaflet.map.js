@@ -13,32 +13,22 @@ L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    this.baseLayers = [];
-
-    for (const layerDefinition of OSM.LAYER_DEFINITIONS) {
-      let layerConstructor = L.OSM.TileLayer;
-      const layerOptions = {};
-
-      for (const [property, value] of Object.entries(layerDefinition)) {
-        if (property === "credit") {
-          layerOptions.attribution = makeAttribution(value);
-        } else if (property === "nameId") {
-          layerOptions.name = OSM.i18n.t(`javascripts.map.base.${value}`);
-        } else if (property === "leafletOsmId") {
-          layerConstructor = L.OSM[value];
-        } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
-          layerConstructor = L.OSM[value];
-        } else {
-          layerOptions[property] = value;
-        }
-      }
+    this.baseLayers = OSM.LAYER_DEFINITIONS.map((
+      { credit, nameId, leafletOsmId, leafletOsmDarkId, ...layerOptions }
+    ) => {
+      if (credit) layerOptions.attribution = makeAttribution(credit);
+      if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
+      const layerConstructor =
+        (OSM.isDarkMap() && L.OSM[leafletOsmDarkId]) ||
+        L.OSM[leafletOsmId] ||
+        L.OSM.TileLayer;
 
       const layer = new layerConstructor(layerOptions);
       layer.on("add", () => {
         this.fire("baselayerchange", { layer: layer });
       });
-      this.baseLayers.push(layer);
-    }
+      return layer;
+    });
 
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = { code: "N" };
