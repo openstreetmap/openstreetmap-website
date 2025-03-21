@@ -68,7 +68,7 @@ module RichText
     protected
 
     def simple_format(text)
-      SimpleFormat.new.simple_format(text)
+      SimpleFormat.new.simple_format(text, :dir => "auto")
     end
 
     def sanitize(text)
