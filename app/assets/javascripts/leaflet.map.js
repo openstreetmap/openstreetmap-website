@@ -22,8 +22,6 @@ L.OSM.Map = L.Map.extend({
       for (const [property, value] of Object.entries(layerDefinition)) {
         if (property === "credit") {
           layerOptions.attribution = makeAttribution(value);
-        } else if (property === "nameId") {
-          layerOptions.name = OSM.i18n.t(`javascripts.map.base.${value}`);
         } else if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
         } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
