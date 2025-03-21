@@ -11,10 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  /** @type {{date: string; max_id: number; total_changes: number}[]} */
   const heatmapData = heatmapElement.dataset.heatmap ? JSON.parse(heatmapElement.dataset.heatmap) : [];
   const displayName = heatmapElement.dataset.displayName;
   const colorScheme = document.documentElement.getAttribute("data-bs-theme") ?? "auto";
-  const rangeColors = ["#14432a", "#166b34", "#37a446", "#4dd05a"];
+  const rangeColorsDark = ["#14432a", "#4dd05a"];
+  const rangeColorsLight = ["#4dd05a", "#14432a"];
   const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
   const monthNames = OSM.i18n.t("date.abbr_month_names");
 
@@ -59,9 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       scale: {
         color: {
-          type: "threshold",
-          range: currentTheme === "dark" ? rangeColors : Array.from(rangeColors).reverse(),
-          domain: [10, 20, 30, 40]
+          type: "sqrt",
+          range: currentTheme === "dark" ? rangeColorsDark : rangeColorsLight,
+          domain: [0, Math.max(0, ...heatmapData.map(d => d.total_changes))]
         }
       }
     }, [
