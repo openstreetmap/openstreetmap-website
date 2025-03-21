@@ -15,7 +15,7 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
-    for (const layerDefinition of OSM.LAYER_DEFINITIONS) {
+    for (const layerDefinition of JSON.parse(document.getElementById(id).dataset.layers)) {
       let layerConstructor = L.OSM.TileLayer;
       const layerOptions = {};
 
