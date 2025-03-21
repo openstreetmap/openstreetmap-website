@@ -86,7 +86,7 @@ module RichText
 
   class HTML < Base
     def to_html
-      linkify(sanitize(simple_format(self)))
+      linkify(sanitize(simple_format(self, dir: "auto")))
     end
 
     def to_text
@@ -176,7 +176,7 @@ module RichText
 
   class Text < Base
     def to_html
-      linkify(simple_format(ERB::Util.html_escape(self)))
+      linkify(simple_format(ERB::Util.html_escape(self), dir: "auto"))
     end
 
     def to_text
