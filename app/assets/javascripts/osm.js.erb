@@ -56,12 +56,19 @@ OSM = {
 
   mapParams: function (search) {
     const params = new URLSearchParams(search || location.search),
+          geoURI = new URLSearchParams(params.get("geouri")?.replaceAll(/[?;]/g, "&")?.replace(":", "=")),
           mapParams = {};
 
     if (params.has("mlon") && params.has("mlat")) {
       mapParams.marker = true;
       mapParams.mlon = parseFloat(params.get("mlon"));
       mapParams.mlat = parseFloat(params.get("mlat"));
+      mapParams.mrad = parseFloat(params.get("mrad"));
+    }
+    if (geoURI.has("geo")) {
+      mapParams.marker = true;
+      [mapParams.mlat, mapParams.mlon] = geoURI.get("geo").split(",").map(parseFloat);
+      mapParams.mrad = parseFloat(geoURI.get("u"));
     }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
@@ -93,6 +100,11 @@ OSM = {
       mapParams.lon = params.get("mlon");
       mapParams.lat = params.get("mlat");
       mapParams.zoom = params.get("zoom") || 12;
+    } else if (geoURI.has("geo") && geoURI.has("u") && !geoURI.has("z")) {
+      mapParams.bounds = L.latLng(geoURI.get("geo").split(",")).toBounds(geoURI.get("u") * 4);
+    } else if (geoURI.has("geo")) {
+      [mapParams.lat, mapParams.lon] = geoURI.get("geo").split(",");
+      mapParams.zoom = geoURI.getAll("z").reduce((out, cur) => parseInt(cur, 10) || out, 12);
     } else if (loc) {
       [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
