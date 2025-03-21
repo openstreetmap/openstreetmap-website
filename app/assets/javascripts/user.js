@@ -23,8 +23,8 @@ $(function () {
 
     const locate = L.control.locate({
       position: position,
-      icon: "icon geolocate",
-      iconLoading: "icon geolocate",
+      icon: "geolocate h-100 w-100 d-inline-block",
+      iconLoading: "geolocate h-100 w-100 d-inline-block",
       strings: {
         title: OSM.i18n.t("javascripts.map.locate.title"),
         popup: function (options) {

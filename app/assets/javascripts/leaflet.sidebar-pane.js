@@ -8,8 +8,12 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
     const button = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
-      .html("<span class=\"icon " + uiClass + "\"></span>")
       .on("click", toggle);
+
+    $(L.SVG.create("svg"))
+      .append($(L.SVG.create("use")).attr("href", "#icon-" + uiClass))
+      .attr("class", "h-100 w-100")
+      .appendTo(button);
 
     if (buttonTitle) {
       button.attr("title", OSM.i18n.t(buttonTitle));
