@@ -20,9 +20,7 @@ L.OSM.Map = L.Map.extend({
       const layerOptions = {};
 
       for (const [property, value] of Object.entries(layerDefinition)) {
-        if (property === "credit") {
-          layerOptions.attribution = makeAttribution(value);
-        } else if (property === "leafletOsmId") {
+        if (property === "leafletOsmId") {
           layerConstructor = L.OSM[value];
         } else if (property === "leafletOsmDarkId" && OSM.isDarkMap() && L.OSM[value]) {
           layerConstructor = L.OSM[value];
@@ -60,49 +58,6 @@ L.OSM.Map = L.Map.extend({
         this.setMaxZoom(event.layer.options.maxZoom);
       }
     });
-
-    function makeAttribution(credit) {
-      let attribution = "";
-
-      attribution += OSM.i18n.t("javascripts.map.copyright_text", {
-        copyright_link: $("<a>", {
-          href: "/copyright",
-          text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
-        }).prop("outerHTML")
-      });
-
-      attribution += credit.donate ? " &hearts; " : ". ";
-      attribution += makeCredit(credit);
-      attribution += ". ";
-
-      attribution += $("<a>", {
-        href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
-        text: OSM.i18n.t("javascripts.map.website_and_api_terms")
-      }).prop("outerHTML");
-
-      return attribution;
-    }
-
-    function makeCredit(credit) {
-      const children = {};
-      for (const childId in credit.children) {
-        children[childId] = makeCredit(credit.children[childId]);
-      }
-      const text = OSM.i18n.t(`javascripts.map.${credit.id}`, children);
-      if (credit.href) {
-        const link = $("<a>", {
-          href: credit.href,
-          text: text
-        });
-        if (credit.donate) {
-          link.addClass("donate-attr");
-        } else {
-          link.attr("target", "_blank");
-        }
-        return link.prop("outerHTML");
-      }
-      return text;
-    }
   },
 
   updateLayers: function (layerParam) {
