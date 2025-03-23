@@ -279,7 +279,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
     assert_dom "h2", :text => "Changeset: #{changeset.id}"
     assert_dom "p", :text => "tested-changeset-comment"
-    assert_dom "li#c#{changeset_comment.id}" do
+    assert_dom "article#c#{changeset_comment.id}" do
       assert_dom "> small", :text => /^Comment from #{commenting_user.display_name}/
       assert_dom "a[href='#{user_path(commenting_user)}']"
     end
