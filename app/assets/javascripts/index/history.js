@@ -4,7 +4,7 @@ OSM.History = function (map) {
   const page = {};
 
   $("#sidebar_content")
-    .on("click", ".changeset_more a", loadMore)
+    .on("click", ".changeset_more a", loadMoreChangesets)
     .on("mouseover", "[data-changeset]", function () {
       highlightChangeset($(this).data("changeset").id);
     })
@@ -26,6 +26,65 @@ OSM.History = function (map) {
   group.getLayerId = function (layer) {
     return layer.id;
   };
+
+  let changesetIntersectionObserver;
+
+  function disableChangesetIntersectionObserver() {
+    if (changesetIntersectionObserver) {
+      changesetIntersectionObserver.disconnect();
+      changesetIntersectionObserver = null;
+    }
+  }
+
+  function enableChangesetIntersectionObserver() {
+    disableChangesetIntersectionObserver();
+    if (!window.IntersectionObserver) return;
+
+    let ignoreIntersectionEvents = true;
+
+    changesetIntersectionObserver = new IntersectionObserver((entries) => {
+      if (ignoreIntersectionEvents) {
+        ignoreIntersectionEvents = false;
+        return;
+      }
+
+      let closestTargetToTop,
+          closestDistanceToTop = Infinity,
+          closestTargetToBottom,
+          closestDistanceToBottom = Infinity;
+
+      for (const entry of entries) {
+        if (entry.isIntersecting) continue;
+
+        const distanceToTop = entry.rootBounds.top - entry.boundingClientRect.bottom;
+        const distanceToBottom = entry.boundingClientRect.top - entry.rootBounds.bottom;
+        if (distanceToTop >= 0 && distanceToTop < closestDistanceToTop) {
+          closestDistanceToTop = distanceToTop;
+          closestTargetToTop = entry.target;
+        }
+        if (distanceToBottom >= 0 && distanceToBottom <= closestDistanceToBottom) {
+          closestDistanceToBottom = distanceToBottom;
+          closestTargetToBottom = entry.target;
+        }
+      }
+
+      if (closestTargetToTop && closestDistanceToTop < closestDistanceToBottom) {
+        const id = $(closestTargetToTop).data("changeset")?.id;
+        if (id) {
+          OSM.router.replace(location.pathname + "?" + new URLSearchParams({ before: id }) + location.hash);
+        }
+      } else if (closestTargetToBottom) {
+        const id = $(closestTargetToBottom).data("changeset")?.id;
+        if (id) {
+          OSM.router.replace(location.pathname + "?" + new URLSearchParams({ after: id }) + location.hash);
+        }
+      }
+    }, { root: $("#sidebar")[0] });
+
+    $("#sidebar_content .changesets ol").children().each(function () {
+      changesetIntersectionObserver.observe(this);
+    });
+  }
 
   function highlightChangeset(id) {
     const layer = group.getLayer(id);
@@ -73,9 +132,11 @@ OSM.History = function (map) {
     }
   }
 
-  function update() {
+  function loadFirstChangesets() {
     const data = new URLSearchParams();
     const params = new URLSearchParams(location.search);
+
+    disableChangesetIntersectionObserver();
 
     if (location.pathname === "/history") {
       data.set("bbox", map.getBounds().wrap().toBBoxString());
@@ -97,11 +158,22 @@ OSM.History = function (map) {
       .then(response => response.text())
       .then(function (html) {
         displayFirstChangesets(html);
+        enableChangesetIntersectionObserver();
+
+        if (params.has("before")) {
+          const [firstItem] = $("#sidebar_content .changesets ol").children().first();
+          firstItem?.scrollIntoView();
+        }
+        if (params.has("after")) {
+          const [lastItem] = $("#sidebar_content .changesets ol").children().last();
+          lastItem?.scrollIntoView(false);
+        }
+
         updateMap();
       });
   }
 
-  function loadMore(e) {
+  function loadMoreChangesets(e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -112,8 +184,14 @@ OSM.History = function (map) {
 
     $.get($(this).attr("href"), function (html) {
       displayMoreChangesets(div, html);
+      enableChangesetIntersectionObserver();
       updateMap();
     });
+  }
+
+  function reloadChangesetsBecauseOfMapMovement() {
+    OSM.router.replace("/history" + window.location.hash);
+    loadFirstChangesets();
   }
 
   let changesets = [];
@@ -177,18 +255,19 @@ OSM.History = function (map) {
     map.addLayer(group);
 
     if (location.pathname === "/history") {
-      map.on("moveend", update);
+      map.on("moveend", reloadChangesetsBecauseOfMapMovement);
     }
 
     map.on("zoomend", updateBounds);
 
-    update();
+    loadFirstChangesets();
   };
 
   page.unload = function () {
     map.removeLayer(group);
-    map.off("moveend", update);
+    map.off("moveend", reloadChangesetsBecauseOfMapMovement);
     map.off("zoomend", updateBounds);
+    disableChangesetIntersectionObserver();
   };
 
   return page;
