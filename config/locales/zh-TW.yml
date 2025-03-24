@@ -1571,7 +1571,9 @@ zh-TW:
       title: 問題
       select_status: 選擇狀態
       select_type: 選擇類型
+      select_last_managed_by: 選取上次管理者
       reported_user: 已回報使用者
+      not_managed: 未管理
       search: 搜尋
       search_guidance: 搜尋問題：
       states:
@@ -1585,6 +1587,7 @@ zh-TW:
       status: 狀態
       reports: 回報
       last_updated: 上一次更新
+      last_managed: 上次管理
       reporting_users: 回報使用者
       reports_count:
         one: '%{count} 份回報'
@@ -1632,6 +1635,9 @@ zh-TW:
         diary_comment: '%{entry_title}，留言 #%{comment_id}'
         note: '註記 #%{note_id}'
       reportable_heading:
+        diary_comment_html: 日記留言 %{title} 於 %{datetime_created} 建立，更新於 %{datetime_updated}
+        diary_entry_html: 日記條目 %{title} 於 %{datetime_created} 建立，更新於 %{datetime_updated}
+        note_html: '%{title} 於 %{datetime_created} 建立，更新於 %{datetime_updated}'
         user_html: 使用者 %{title} 建立於 %{datetime_created}
     reporters:
       index:
@@ -2307,95 +2313,6 @@ zh-TW:
         bicycle: 自行車
         car: 開車
         foot: 步行
-    key:
-      table:
-        entry:
-          motorway: 高速公路
-          main_road: 主要幹道
-          trunk: 快速公路
-          primary: 省道
-          secondary: 縣道
-          unclassified: 未分級道路
-          pedestrian: 人行道
-          track: 產業道路
-          bridleway: 馬道
-          cycleway: 自行車道
-          cycleway_national: 國家自行車道
-          cycleway_regional: 地區自行車道
-          cycleway_local: 地方自行車道
-          cycleway_mtb: 登山車路線
-          footway: 步道
-          rail: 鐵路
-          train: 列車
-          subway: 地下鐵
-          ferry: 渡輪
-          light_rail: 輕軌
-          tram: 路面電車
-          trolleybus: 無軌電車
-          bus: 公車
-          cable_car: 大型纜車
-          chair_lift: 吊椅式索道
-          runway: 機場跑道
-          taxiway: 滑行道
-          apron: 機場停機坪
-          admin: 行政區邊界
-          capital: 首都
-          city: 城市
-          orchard: 果園
-          vineyard: 葡萄園
-          forest: 人工林
-          wood: 自然林
-          farmland: 農地
-          grass: 草坪
-          meadow: 牧草地
-          bare_rock: 裸岩
-          sand: 沙地
-          golf: 高爾夫球場
-          park: 公園
-          common: 共有地
-          built_up: 建成區
-          resident: 住宅區
-          retail: 零售商區
-          industrial: 工業區
-          commercial: 商業區
-          heathland: 石楠荒地
-          scrubland: 灌木叢林地
-          lake: 湖泊
-          reservoir: 水庫/大型蓄水池
-          intermittent_water: 間歇性水體
-          glacier: 冰河
-          reef: 暗礁
-          wetland: 濕地
-          farm: 農田
-          brownfield: 棕色地 (受污染放置待恢復重開發地)
-          cemetery: 公墓
-          allotments: 社區農園
-          pitch: 運動場地
-          centre: 運動中心
-          beach: 海灘
-          reserve: 自然保育
-          military: 軍事區
-          school: 學校
-          university: 大學
-          hospital: 醫院
-          building: 重要建築
-          station: 鐵路車站
-          railway_halt: 鐵路招呼站
-          subway_station: 地鐵站
-          tram_stop: 路面電車停靠站
-          summit: 頂峰
-          peak: 山峰
-          tunnel: 虛線邊框 = 隧道
-          bridge: 黑線邊框 = 橋樑
-          private: 私人進出
-          destination: 目的地進出
-          construction: 興建中道路
-          bus_stop: 公車站牌
-          bicycle_shop: 自行車店
-          bicycle_rental: 自行車出租
-          bicycle_parking: 自行車停車場
-          bicycle_parking_small: 小型自行車停車場
-          toilets: 廁所
     welcome:
       title: 歡迎！
       introduction: 歡迎來到 OpenStreetMap，自由和可編輯的世界地圖。你目前已經登入，可以開始繪製地圖。這裡有一份你必須知道的最重要事項的快速指南。
@@ -2456,6 +2373,95 @@ zh-TW:
           沒有需要正式建立一個與地方分會同等規模的團體。
           事實上，許多團體作為人們的非正式集會或是社群團體而非常成功地存在。任何人都可以設定或是加入這些團體。請在%{communities_wiki_link}上閱讀更多內容。
         communities_wiki: 社群 wiki 頁面
+  map_keys:
+    show:
+      entries:
+        motorway: 高速公路
+        main_road: 主要幹道
+        trunk: 快速公路
+        primary: 省道
+        secondary: 縣道
+        unclassified: 未分級道路
+        pedestrian: 人行道
+        track: 產業道路
+        bridleway: 馬道
+        cycleway: 自行車道
+        cycleway_national: 國家自行車道
+        cycleway_regional: 地區自行車道
+        cycleway_local: 地方自行車道
+        cycleway_mtb: 登山車路線
+        footway: 步道
+        rail: 鐵路
+        train: 列車
+        subway: 地下鐵
+        ferry: 渡輪
+        light_rail: 輕軌
+        tram: 路面電車
+        trolleybus: 無軌電車
+        bus: 公車
+        cable_car: 大型纜車
+        chair_lift: 吊椅式索道
+        runway: 機場跑道
+        taxiway: 滑行道
+        apron: 機場停機坪
+        admin: 行政區邊界
+        capital: 首都
+        city: 城市
+        orchard: 果園
+        vineyard: 葡萄園
+        forest: 人工林
+        wood: 自然林
+        farmland: 農地
+        grass: 草坪
+        meadow: 牧草地
+        bare_rock: 裸岩
+        sand: 沙地
+        golf: 高爾夫球場
+        park: 公園
+        common: 共有地
+        built_up: 建成區
+        resident: 住宅區
+        retail: 零售商區
+        industrial: 工業區
+        commercial: 商業區
+        heathland: 石楠荒地
+        scrubland: 灌木叢林地
+        lake: 湖泊
+        reservoir: 水庫/大型蓄水池
+        intermittent_water: 間歇性水體
+        glacier: 冰河
+        reef: 暗礁
+        wetland: 濕地
+        farm: 農田
+        brownfield: 棕色地 (受污染放置待恢復重開發地)
+        cemetery: 公墓
+        allotments: 社區農園
+        pitch: 運動場地
+        centre: 運動中心
+        beach: 海灘
+        reserve: 自然保育
+        military: 軍事區
+        school: 學校
+        university: 大學
+        hospital: 醫院
+        building: 重要建築
+        station: 鐵路車站
+        railway_halt: 鐵路招呼站
+        subway_station: 地鐵站
+        tram_stop: 路面電車停靠站
+        summit: 頂峰
+        peak: 山峰
+        tunnel: 虛線邊框 = 隧道
+        bridge: 黑線邊框 = 橋樑
+        private: 私人進出
+        destination: 目的地進出
+        construction: 興建中道路
+        bus_stop: 公車站牌
+        bicycle_shop: 自行車店
+        bicycle_rental: 自行車出租
+        bicycle_parking: 自行車停車場
+        bicycle_parking_small: 小型自行車停車場
+        toilets: 廁所
   traces:
     visibility:
       private: 私人 (以匿名方式分享，節點無順序)
@@ -3215,7 +3221,7 @@ zh-TW:
     heatmap:
       tooltip:
         no_contributions: '%{date} 沒有貢獻'
-        contributions: '{{PLURAL|one=%{count} 貢獻於%{date}|% {count} 貢獻於 %{date}}'
+        contributions: '{{PLURAL|one=%{count} 貢獻於 %{date}|%{count} 貢獻於 %{date}}'
   redactions:
     edit:
       heading: 編輯修訂

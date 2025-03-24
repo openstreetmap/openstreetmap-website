@@ -1643,7 +1643,9 @@ nl:
       title: Problemen
       select_status: Selecteer Status
       select_type: Selecteer Type
+      select_last_managed_by: Selecteer Laatst beheerd door
       reported_user: Gerapporteerde gebruiker
+      not_managed: Niet beheerd
       search: Zoeken
       search_guidance: 'Problemen zoeken:'
       states:
@@ -1657,6 +1659,8 @@ nl:
       status: Status
       reports: Rapportages
       last_updated: Laatst Bijgewerkt
+      last_managed: Laatst beheerd
+      reporting_users: Gebruikers melden
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapporten'
@@ -1694,6 +1698,8 @@ nl:
       reopened: De status van het probleem is ingesteld op 'Open'
     comments:
       comment_from_html: Reactie van %{user_link} op %{comment_created_at}
+      reassign_to_moderators: Probleem opnieuw toewijzen aan moderators
+      reassign_to_administrators: Probleem opnieuw toewijzen aan beheerders
     reports:
       reported_by_html: Als %{category} gerapporteerd door %{user} op %{updated_at}
     helper:
@@ -2150,6 +2156,9 @@ nl:
       preview: Voorvertoning
       help: Hulp
     pagination:
+      changeset_comments:
+        older: Oudere opmerkingen
+        newer: Nieuwere opmerkingen
       diary_comments:
         older: Oudere reacties
         newer: Nieuwere reacties
@@ -2531,95 +2540,6 @@ nl:
         bicycle: Fiets
         car: Auto
         foot: Te voet
-    key:
-      table:
-        entry:
-          motorway: Autosnelweg
-          main_road: Hoofdweg
-          trunk: Autoweg
-          primary: Primaire weg
-          secondary: Secundaire weg
-          unclassified: Lokale weg
-          pedestrian: Voetpad
-          track: Veld- of bosweg
-          bridleway: Ruiterpad
-          cycleway: Fietspad
-          cycleway_national: Nationale fietsroute
-          cycleway_regional: Regionale fietsroute
-          cycleway_local: Lokale fietsroute
-          cycleway_mtb: Mountainbikeroute
-          footway: Voetpad
-          rail: Spoorweg
-          train: Trein
-          subway: Metro
-          ferry: Veerboot
-          light_rail: Lightrail
-          tram: Tram
-          trolleybus: Trolleybus
-          bus: Bus
-          cable_car: Kabelbaan
-          chair_lift: Stoeltjeslift
-          runway: Start- en landingsbaan
-          taxiway: Taxibaan
-          apron: Luchthavenplatform
-          admin: Bestuurlijke grens
-          capital: Hoofdstad
-          city: Stad
-          orchard: Boomgaard
-          vineyard: Wijngaard
-          forest: Bos
-          wood: Bos
-          farmland: Landbouwgrond
-          grass: Gras
-          meadow: Weide
-          bare_rock: Kale rots
-          sand: Zand
-          golf: Golfbaan
-          park: Park
-          common: Gemene grond
-          built_up: Bebouwde kom
-          resident: Woongebied
-          retail: Winkelgebied
-          industrial: Industriegebied
-          commercial: Commercieel gebied
-          heathland: Heide
-          scrubland: Struikgewas
-          lake: Meer
-          reservoir: Reservoir
-          intermittent_water: Onderbroken waterlichaam
-          glacier: Gletsjer
-          reef: Rif
-          wetland: Moeras
-          farm: Boerderij
-          brownfield: Braakliggend terrein
-          cemetery: Begraafplaats
-          allotments: Volkstuinen
-          pitch: Sportveld
-          centre: Sportcentrum
-          beach: Strand
-          reserve: Natuurreservaat
-          military: Militair gebied
-          school: School; universiteit
-          university: Universiteit
-          hospital: Ziekenhuis
-          building: Belangrijk gebouw
-          station: Spoorwegstation
-          railway_halt: Spoorweghalte
-          subway_station: Metrostation
-          tram_stop: Tramhalte
-          summit: Top
-          peak: Piek
-          tunnel: Tunnel
-          bridge: Brug
-          private: Privétoegang
-          destination: Bestemmingsverkeer
-          construction: Weg in aanleg
-          bus_stop: Bushalte
-          bicycle_shop: Fietsenwinkel
-          bicycle_rental: Fietsverhuur
-          bicycle_parking: Fietsenstalling
-          bicycle_parking_small: Kleine fietsenstalling
-          toilets: Toiletten
     welcome:
       title: Welkom!
       introduction: Welkom bij OpenStreetMap, de open en te bewerken kaart van de
@@ -2692,6 +2612,95 @@ nl:
           als informele bijeenkomst van mensen of als gemeenschapsgroep. Iedereen
           kan deze opzetten of er lid van worden. Lees meer op de %{communities_wiki_link}.
         communities_wiki: Wiki-pagina community's
+  map_keys:
+    show:
+      entries:
+        motorway: Autosnelweg
+        main_road: Hoofdweg
+        trunk: Autoweg
+        primary: Primaire weg
+        secondary: Secundaire weg
+        unclassified: Lokale weg
+        pedestrian: Voetpad
+        track: Veld- of bosweg
+        bridleway: Ruiterpad
+        cycleway: Fietspad
+        cycleway_national: Nationale fietsroute
+        cycleway_regional: Regionale fietsroute
+        cycleway_local: Lokale fietsroute
+        cycleway_mtb: Mountainbikeroute
+        footway: Voetpad
+        rail: Spoorweg
+        train: Trein
+        subway: Metro
+        ferry: Veerboot
+        light_rail: Lightrail
+        tram: Tram
+        trolleybus: Trolleybus
+        bus: Bus
+        cable_car: Kabelbaan
+        chair_lift: Stoeltjeslift
+        runway: Start- en landingsbaan
+        taxiway: Taxibaan
+        apron: Luchthavenplatform
+        admin: Bestuurlijke grens
+        capital: Hoofdstad
+        city: Stad
+        orchard: Boomgaard
+        vineyard: Wijngaard
+        forest: Bos
+        wood: Bos
+        farmland: Landbouwgrond
+        grass: Gras
+        meadow: Weide
+        bare_rock: Kale rots
+        sand: Zand
+        golf: Golfbaan
+        park: Park
+        common: Gemene grond
+        built_up: Bebouwde kom
+        resident: Woongebied
+        retail: Winkelgebied
+        industrial: Industriegebied
+        commercial: Commercieel gebied
+        heathland: Heide
+        scrubland: Struikgewas
+        lake: Meer
+        reservoir: Reservoir
+        intermittent_water: Onderbroken waterlichaam
+        glacier: Gletsjer
+        reef: Rif
+        wetland: Moeras
+        farm: Boerderij
+        brownfield: Braakliggend terrein
+        cemetery: Begraafplaats
+        allotments: Volkstuinen
+        pitch: Sportveld
+        centre: Sportcentrum
+        beach: Strand
+        reserve: Natuurreservaat
+        military: Militair gebied
+        school: School; universiteit
+        university: Universiteit
+        hospital: Ziekenhuis
+        building: Belangrijk gebouw
+        station: Spoorwegstation
+        railway_halt: Spoorweghalte
+        subway_station: Metrostation
+        tram_stop: Tramhalte
+        summit: Top
+        peak: Piek
+        tunnel: Tunnel
+        bridge: Brug
+        private: Privétoegang
+        destination: Bestemmingsverkeer
+        construction: Weg in aanleg
+        bus_stop: Bushalte
+        bicycle_shop: Fietsenwinkel
+        bicycle_rental: Fietsverhuur
+        bicycle_parking: Fietsenstalling
+        bicycle_parking_small: Kleine fietsenstalling
+        toilets: Toiletten
   traces:
     visibility:
       private: Persoonlijk (alleen gedeeld als anoniem; ongeordende punten)
@@ -2975,6 +2984,7 @@ nl:
       my notes: Mijn opmerkingen
       my messages: Mijn berichten
       my profile: Mijn profiel
+      my_account: Mijn account
       my comments: Mijn reacties
       my_preferences: Mijn voorkeuren
       my_dashboard: Mijn dashboard
@@ -3054,6 +3064,19 @@ nl:
       show:
         title: Gebruikers
         heading: Gebruikers
+        select_status: Selecteer Status
+        states:
+          pending: In behandeling
+          active: Actief
+          confirmed: Bevestigd
+          suspended: Opgeschort
+          deleted: Verwijderd
+        name_or_email: Naam of e-mail
+        ip_address: IP-adres
+        edits: Bewerkingen?
+        has_edits: Heeft bewerkingen
+        no_edits: Geen bewerkingen
+        search: Zoeken
       page:
         found_users:
           one: '%{count} gebruiker gevonden'
@@ -3066,8 +3089,10 @@ nl:
         summary_no_ip_html: '%{name} aangemaakt op %{date}'
     comments:
       index:
+        heading_html: Opmerkingen van %{user}
         changesets: Wijzigingensets
         diary_entries: Dagboekberichten
+        no_comments: Geen opmerkingen
     changeset_comments:
       page:
         changeset: Wijzigingenset
@@ -3079,6 +3104,7 @@ nl:
       page:
         post: Dagboekbericht
         when: Wanneer
+        comment: Opmerking
     suspended:
       title: Gebruiker opgeschort
       heading: Account opgeschort
@@ -3256,6 +3282,8 @@ nl:
       open_title: 'Onopgeloste opmerking #%{note_name}'
       closed_title: 'Opgeloste opmerking #%{note_name}'
       hidden_title: 'Verborgen opmerking #%{note_name}'
+      description_when_author_is_deleted: verwijderd
+      description_when_there_is_no_opening_comment: onbekend
       event_opened_by_html: '%{time_ago} aangemaakt door %{user}'
       event_opened_by_anonymous_html: '%{time_ago} anoniem aangemaakt'
       event_commented_by_html: Reactie van %{user}, %{time_ago}
@@ -3480,6 +3508,8 @@ nl:
           ninth: 9e
           tenth: 10e
       time: Tijd
+      download: Download route als GeoJSON
+      filename: route
     query:
       node: Knooppunt
       way: Weg
@@ -3494,6 +3524,15 @@ nl:
       show_address: Adres weergeven
       query_features: Kaartelementen opvragen
       centre_map: De kaart hier centreren
+    home:
+      marker_title: Mijn thuislocatie
+      not_set: De thuislocatie is niet ingesteld voor uw account
+    heatmap:
+      tooltip:
+        no_contributions: Geen bijdragen op %{date}
+        contributions:
+          one: '%{count} bijdrage op %{date}'
+          other: '% {count} bijdragen op %{date}'
   redactions:
     edit:
       heading: Redigering bewerken
