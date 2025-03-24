@@ -76,11 +76,7 @@ module RichText
     end
 
     def linkify(text, mode = :urls)
-      if text.html_safe?
-        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer")).html_safe
-      else
-        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer"))
-      end
+      Rinku.auto_link(ERB::Util.html_escape(text), mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer")).html_safe
     end
   end
 
