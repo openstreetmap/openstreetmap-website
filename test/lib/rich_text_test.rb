@@ -221,19 +221,23 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal 50, r.spam_score.round
   end
 
-  def test_text_to_html
+  def test_text_to_html_linkify
     r = RichText.new("text", "foo http://example.com/ bar")
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='http://example.com/']", 1
       assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
+  end
 
+  def test_text_to_html_email
     r = RichText.new("text", "foo example@example.com bar")
     assert_html r do
       assert_select "a", 0
     end
+  end
 
+  def test_text_to_html_escape
     r = RichText.new("text", "foo < bar & baz > qux")
     assert_html r do
       assert_select "p", "foo < bar & baz > qux"
