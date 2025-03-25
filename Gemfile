@@ -14,6 +14,8 @@ gem "pg"
 gem "dartsass-sprockets"
 # Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
 gem "sass-embedded", "~> 1.64.0"
+# Pin uri to avoid errors in dartsass-ruby
+gem "uri", "< 1.0.0"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"
