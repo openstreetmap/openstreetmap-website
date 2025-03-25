@@ -86,6 +86,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
 
       assert_content "Hidden note ##{note.id}"
       assert_no_content "<iframe" # leak from share textarea
+      assert_no_content "undefined" # value from missing comment textarea
     end
   end
 
