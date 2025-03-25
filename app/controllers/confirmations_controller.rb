@@ -118,7 +118,7 @@ class ConfirmationsController < ApplicationController
   end
 
   ##
-  # display a message about th current status of the gravatar setting
+  # display a message about the current status of the Gravatar setting
   def gravatar_status_message(user)
     if user.image_use_gravatar
       t "profiles.edit.gravatar.enabled"
