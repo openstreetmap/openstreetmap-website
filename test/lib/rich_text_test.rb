@@ -221,19 +221,62 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal 50, r.spam_score.round
   end
 
-  def test_text_to_html
-    r = RichText.new("text", "foo http://example.com/ bar")
-    assert_html r do
-      assert_select "a", 1
-      assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferrer']", 1
+  def test_text_to_html_linkify
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo http://example.com/ bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://example.com/" do
+          assert_dom "> @href", "http://example.com/"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
     end
+  end
 
+  def test_text_to_html_linkify_replace
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_replace_other_scheme
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_replace_undefined
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => nil) do
+      r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_email
     r = RichText.new("text", "foo example@example.com bar")
     assert_html r do
       assert_select "a", 0
     end
+  end
 
+  def test_text_to_html_escape
     r = RichText.new("text", "foo < bar & baz > qux")
     assert_html r do
       assert_select "p", "foo < bar & baz > qux"
