@@ -9,6 +9,12 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
 
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
@@ -1363,6 +1369,38 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: social_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.social_links (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    url character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: social_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.social_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: social_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.social_links_id_seq OWNED BY public.social_links.id;
+
+
+--
 -- Name: user_blocks; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1451,9 +1489,9 @@ CREATE TABLE public.user_preferences (
 CREATE TABLE public.user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
-    role public.user_role_enum NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    role public.user_role_enum NOT NULL,
     granter_id bigint NOT NULL
 );
 
@@ -1754,6 +1792,13 @@ ALTER TABLE ONLY public.redactions ALTER COLUMN id SET DEFAULT nextval('public.r
 --
 
 ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.reports_id_seq'::regclass);
+
+
+--
+-- Name: social_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.social_links ALTER COLUMN id SET DEFAULT nextval('public.social_links_id_seq'::regclass);
 
 
 --
@@ -2118,6 +2163,14 @@ ALTER TABLE ONLY public.reports
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: social_links social_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.social_links
+    ADD CONSTRAINT social_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -2647,6 +2700,13 @@ CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
 
 
 --
+-- Name: index_social_links_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_social_links_on_user_id ON public.social_links USING btree (user_id);
+
+
+--
 -- Name: index_user_blocks_on_creator_id_and_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3039,6 +3099,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 ALTER TABLE ONLY public.user_mutes
     ADD CONSTRAINT fk_rails_591dad3359 FOREIGN KEY (owner_id) REFERENCES public.users(id);
+
+
+--
+-- Name: social_links fk_rails_6034fd4f62; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.social_links
+    ADD CONSTRAINT fk_rails_6034fd4f62 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3449,6 +3517,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20250212160355'),
 ('20250206202905'),
 ('20250121191749'),
+('20250106113207'),
 ('20250105154621'),
 ('20250104140952'),
 ('20241023004427'),
