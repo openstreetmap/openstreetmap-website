@@ -76,7 +76,13 @@ module RichText
     end
 
     def linkify(text, mode = :urls)
-      Rinku.auto_link(ERB::Util.html_escape(text), mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer")).html_safe
+      link_attr = tag_builder.tag_options(:rel => "nofollow noopener noreferrer")
+      Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
+        %r{^https?://([^/]*)(.*)$}.match(url) do |m|
+          "#{Settings.linkify_hosts_replacement}#{m[2]}" if Settings.linkify_hosts_replacement &&
+                                                            Settings.linkify_hosts&.include?(m[1])
+        end || url
+      end.html_safe
     end
   end
 
