@@ -6,6 +6,11 @@
 function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
   const historicalLayerKeys = ['historical', 'woodblock', 'japanese', 'railway'];
 
+  // Same options as the _osm_location cookie in index.js.
+  const expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
+  const dateCookieOptions = { secure: true, expires: expiry, path: "/", samesite: "lax" };
+
   const sliderOptions = {
     vectorLayer: undefined,  // see addTimeSliderToMap() which searches for this
     sourcename: "osm",
@@ -15,20 +20,24 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
     // date: '1860-06-15', // see below
     onDateChange: function () {
       OSM.router.updateHash();
+      Cookies.set("_ohm_timeslider_date", map.timeslider.getDate(), dateCookieOptions);
     },
     onRangeChange: function () {
       OSM.router.updateHash();
+      Cookies.set("_ohm_timeslider_daterange", map.timeslider.getRange().join(","), dateCookieOptions);
     },
     onReady: function () {
       OSM.router.updateHash('force');
     },
     position: 'bottomright',
   };
-  if (params && params.date && typeof params.date == 'string' && params.date.match(/^\-?\d{1,4}\-\d\d\-\d\d$/)) {
-    sliderOptions.date = params.date;
+  const date = (params && params.date) || Cookies.get('_ohm_timeslider_date');
+  if (date && typeof date == 'string' && date.match(/^\-?\d{1,4}\-\d\d\-\d\d$/)) {
+    sliderOptions.date = date;
   }
-  if (params && params.daterange && typeof params.daterange == 'string' && params.daterange.match(/^\-?\d{1,4}\-\d\d\-\d\d,\-?\d{1,4}\-\d\d\-\d\d$/)) {
-    sliderOptions.range = params.daterange.split(',');
+  const daterange = (params && params.daterange) || Cookies.get('_ohm_timeslider_daterange');
+  if (daterange && typeof daterange == 'string' && daterange.match(/^\-?\d{1,4}\-\d\d\-\d\d,\-?\d{1,4}\-\d\d\-\d\d$/)) {
+    sliderOptions.range = daterange.split(',');
   }
   // change basemap = MBGL gone and so is the real timeslider, so reinstate a new one
   // add the slider IF the OSM vector map is the layer showing
