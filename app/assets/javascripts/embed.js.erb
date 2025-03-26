@@ -39,11 +39,11 @@ window.onload = function () {
 
   if (args.has("marker")) {
     L.marker(args.get("marker").split(","), { icon: L.icon({
-      iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
-      iconSize: new L.Point(25, 41),
-      iconAnchor: new L.Point(12, 41),
-      shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
-      shadowSize: new L.Point(41, 41)
+      iconUrl: <%= image_path("marker-blue.svg").to_json %>,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      shadowUrl: <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
+      shadowSize: [41, 41]
     }) }).addTo(map);
   }
 

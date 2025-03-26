@@ -17,6 +17,4 @@
 
 //= link_tree ../../../vendor/assets/leaflet .png
 
-//= link leaflet/dist/images/marker-icon.png
-//= link leaflet/dist/images/marker-icon-2x.png
 //= link leaflet/dist/images/marker-shadow.png
