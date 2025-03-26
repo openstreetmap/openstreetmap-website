@@ -107,6 +107,52 @@ OSM.Query = function (map) {
     return prefix;
   }
 
+  function featureSuffix(feature) {
+    const tags = feature.tags;
+    const startDate = parseYear(tags.start_date);
+    const endDate = parseYear(tags.end_date);
+
+    if (!startDate && !endDate) {
+      return null;
+    }
+
+    // Keep the date range suffix succinct by only including the year and era.
+    let options = {
+      timeZone: "UTC",
+      year: "numeric"
+    };
+    if (endDate) {
+      options.era = endDate.getUTCFullYear() < 1 ? "short" : undefined;
+    }
+    if (startDate) {
+      // Override any settings from the end of the range.
+      options.era = startDate.getUTCFullYear() < 1 ? "short" : undefined;
+    }
+
+    // Get the date range format in structured form, then filter out anything untagged.
+    let format = new Intl.DateTimeFormat(I18n.currentLocale(), options);
+    let lateDate = new Date(Date.UTC(9999));
+    let parts = format.formatRangeToParts(startDate || lateDate, endDate || lateDate);
+    if (!startDate) {
+      parts = parts.filter(p => p.source !== "startRange");
+    }
+    if (!endDate) {
+      parts = parts.filter(p => p.source !== "endRange");
+    }
+
+    return parts.map(p => p.value).join("");
+  }
+
+  function parseYear(iso8601) {
+    if (!iso8601) {
+      return null;
+    }
+
+    const date = new Date(0);
+    date.setUTCFullYear(parseInt(iso8601, 10));
+    return isNaN(date.getDate()) ? null : date;
+  }
+
   function featureName(feature) {
     var tags = feature.tags,
         locales = OSM.preferred_languages;
@@ -210,6 +256,13 @@ OSM.Query = function (map) {
               .data("geometry", featureGeometry(element))
               .text(featureName(element))
               .appendTo($li);
+
+            const suffix = featureSuffix(element);
+            if (suffix) {
+              $li
+                .append(" ")
+                .append(I18n.t("javascripts.query.suffix_format", { dates: featureSuffix(element) }));
+            }
           }
         }
 
@@ -349,7 +402,7 @@ OSM.Query = function (map) {
       originalLoadFunction();
     }
     else {
-      var params = querystring.parse(location.hash.substring(1));
+      let params = querystring.parse(location.hash.substring(1));
       addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
     }
   };

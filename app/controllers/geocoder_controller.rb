@@ -1,5 +1,6 @@
 class GeocoderController < ApplicationController
   require "cgi"
+  require "date_range"
   require "uri"
   require "rexml/document"
 
@@ -109,10 +110,22 @@ class GeocoderController < ApplicationController
       object_type = place.attributes["osm_type"]
       object_id = place.attributes["osm_id"]
 
+      start_date, end_date = nil
+      place.elements["extratags"].elements.each("tag") do |extratag|
+        if extratag.attributes["key"] == "start_date"
+          start_date = extratag.attributes['value']
+        elsif extratag.attributes["key"] == "end_date"
+          end_date = extratag.attributes['value']
+        end
+      end
+      if start_date || end_date
+        suffix = t ".suffix_format", :dates => DateRange.new(start_date, end_date).to_s
+      end
+
       @results.push(:lat => lat, :lon => lon,
                     :min_lat => min_lat, :max_lat => max_lat,
                     :min_lon => min_lon, :max_lon => max_lon,
-                    :prefix => prefix, :name => name,
+                    :prefix => prefix, :name => name, :suffix => suffix,
                     :type => object_type, :id => object_id)
     end
 
