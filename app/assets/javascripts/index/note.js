@@ -41,8 +41,11 @@ OSM.Note = function (map) {
             data = new URLSearchParams();
       content.find("button[name]").prop("disabled", true);
 
-      if (name !== "subscribe" && name !== "unsubscribe" && name !== "reopen") {
-        data.set("text", content.find("textarea").val());
+      if (name !== "subscribe" && name !== "unsubscribe") {
+        const textarea = content.find("textarea");
+        if (textarea.length) {
+          data.set("text", textarea.val());
+        }
       }
 
       fetch(url, {
