@@ -34,6 +34,8 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
   // add the slider IF the OSM vector map is the layer showing
   if (getHistoryLayerIfShowing()) {
     addTimeSliderToMap(sliderOptions);
+  } else {
+    onreadycallback();
   }
 
   map.on('baselayerchange', function () {
