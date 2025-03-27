@@ -88,7 +88,7 @@ module RichText
 
   class HTML < Base
     def to_html
-      linkify(sanitize(simple_format(self)))
+      linkify(simple_format(self))
     end
 
     def to_text
