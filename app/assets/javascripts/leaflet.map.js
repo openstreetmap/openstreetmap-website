@@ -391,6 +391,24 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
+OSM.markers = {
+  new_note: L.icon({
+    iconUrl: OSM.NEW_NOTE_MARKER,
+    iconSize: [25, 40],
+    iconAnchor: [12, 40]
+  }),
+  open_note: L.icon({
+    iconUrl: OSM.OPEN_NOTE_MARKER,
+    iconSize: [25, 40],
+    iconAnchor: [12, 40]
+  }),
+  closed_note: L.icon({
+    iconUrl: OSM.CLOSED_NOTE_MARKER,
+    iconSize: [25, 40],
+    iconAnchor: [12, 40]
+  })
+};
+
 OSM.getUserIcon = function (url) {
   return L.icon({
     iconUrl: url || OSM.MARKER_RED,
