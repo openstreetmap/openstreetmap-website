@@ -116,7 +116,11 @@ For example, let's download the District of Columbia from Geofabrik or [any othe
 ```
 wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf
 ```
+**Windows users:** On some Windows configurations, the downloaded file may not be saved properly. If you encounter issues, try using an explicit output filename with `-OutFile` in the wget command:
 
+```
+wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf -OutFile district-of-columbia-latest.osm.pbf
+```
 You can now use Docker to load this extract into your local Docker-based OSM instance:
 
 ```
