@@ -392,18 +392,18 @@ OSM.isDarkMap = function () {
 };
 
 OSM.markers = {
-  new_note: L.icon({
-    iconUrl: OSM.NEW_NOTE_MARKER,
+  new_note: L.divIcon({
+    html: "<svg viewBox='0 0 25 40'><use href='#pin-plus' color='#0b8ef1' /></svg>",
     iconSize: [25, 40],
     iconAnchor: [12, 40]
   }),
-  open_note: L.icon({
-    iconUrl: OSM.OPEN_NOTE_MARKER,
+  open_note: L.divIcon({
+    html: "<svg viewBox='0 0 25 40'><use href='#pin-cross' color='#f6110a' /></svg>",
     iconSize: [25, 40],
     iconAnchor: [12, 40]
   }),
-  closed_note: L.icon({
-    iconUrl: OSM.CLOSED_NOTE_MARKER,
+  closed_note: L.divIcon({
+    html: "<svg viewBox='0 0 25 40'><use href='#pin-tick' color='#9cef11' /></svg>",
     iconSize: [25, 40],
     iconAnchor: [12, 40]
   })
