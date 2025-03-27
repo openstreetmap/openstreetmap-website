@@ -25,8 +25,6 @@ module RichText
   end
 
   class Base < String
-    include ActionView::Helpers::TagHelper
-
     def spam_score
       link_count = 0
       link_size = 0
@@ -76,7 +74,7 @@ module RichText
     end
 
     def linkify(text, mode = :urls)
-      link_attr = tag_builder.tag_options(:rel => "nofollow noopener noreferrer")
+      link_attr = 'rel="nofollow noopener noreferrer"'
       Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
         %r{^https?://([^/]*)(.*)$}.match(url) do |m|
           "#{Settings.linkify_hosts_replacement}#{m[2]}" if Settings.linkify_hosts_replacement &&
