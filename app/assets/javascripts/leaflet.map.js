@@ -409,11 +409,11 @@ OSM.markers = {
   })
 };
 
-OSM.getUserIcon = function (url) {
-  return L.icon({
-    iconUrl: url || OSM.MARKER_RED,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
+OSM.getUserIcon = function (color = "#f6110a") {
+  return L.divIcon({
+    html: `<svg viewBox="0 0 25 40"><use href="#pin-circle" color="${color}" /></svg>`,
+    iconSize: [25, 40],
+    iconAnchor: [12, 40],
     popupAnchor: [1, -34],
     shadowUrl: OSM.MARKER_SHADOW,
     shadowSize: [41, 41]
