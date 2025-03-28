@@ -18,6 +18,24 @@ class AccountDeletionTest < ApplicationSystemTestCase
     @user.reload
     assert_equal "deleted", @user.status
     assert_equal "user_#{@user.id}", @user.display_name
+    assert_equal "#{@user.id}@example.com", @user.email
+  end
+
+  test "the email is kept if the user has edits" do
+    create(:changeset, :user => @user)
+
+    visit account_path
+
+    click_on "Delete Account..."
+    accept_confirm do
+      click_on "Delete Account"
+    end
+
+    assert_current_path root_path
+    @user.reload
+    assert_equal "deleted", @user.status
+    assert_equal "user_#{@user.id}", @user.display_name
+    assert_not_equal "#{@user.id}@example.com", @user.email
   end
 
   test "the user is signed out after deletion" do
