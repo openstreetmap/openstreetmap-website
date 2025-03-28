@@ -391,11 +391,29 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-OSM.getUserIcon = function (url) {
-  return L.icon({
-    iconUrl: url || OSM.MARKER_RED,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
+OSM.markers = {
+  new_note: L.divIcon({
+    html: "<svg viewBox='0 0 25 40'><use href='#pin-plus' color='#0b8ef1' /></svg>",
+    iconSize: [25, 40],
+    iconAnchor: [12, 40]
+  }),
+  open_note: L.divIcon({
+    html: "<svg viewBox='0 0 25 40'><use href='#pin-cross' color='#f6110a' /></svg>",
+    iconSize: [25, 40],
+    iconAnchor: [12, 40]
+  }),
+  closed_note: L.divIcon({
+    html: "<svg viewBox='0 0 25 40'><use href='#pin-tick' color='#9cef11' /></svg>",
+    iconSize: [25, 40],
+    iconAnchor: [12, 40]
+  })
+};
+
+OSM.getUserIcon = function (color = "#f6110a") {
+  return L.divIcon({
+    html: `<svg viewBox="0 0 25 40"><use href="#pin-circle" color="${color}" /></svg>`,
+    iconSize: [25, 40],
+    iconAnchor: [12, 40],
     popupAnchor: [1, -34],
     shadowUrl: OSM.MARKER_SHADOW,
     shadowSize: [41, 41]
