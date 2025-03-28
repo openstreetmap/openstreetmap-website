@@ -17,7 +17,7 @@ OSM.Home = function (map) {
         map.setView(OSM.home, 15, { reset: true });
       });
       marker = L.marker(OSM.home, {
-        icon: OSM.getUserIcon(),
+        icon: OSM.getMarker({}),
         title: OSM.i18n.t("javascripts.home.marker_title")
       }).addTo(map);
     } else {

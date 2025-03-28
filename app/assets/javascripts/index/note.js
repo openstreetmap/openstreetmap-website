@@ -2,24 +2,6 @@ OSM.Note = function (map) {
   const content = $("#sidebar_content"),
         page = {};
 
-  const noteIcons = {
-    "new": L.icon({
-      iconUrl: OSM.NEW_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "open": L.icon({
-      iconUrl: OSM.OPEN_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "closed": L.icon({
-      iconUrl: OSM.CLOSED_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    })
-  };
-
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
       const data = $(".details").data();
@@ -87,7 +69,7 @@ OSM.Note = function (map) {
         type: "note",
         id: parseInt(id, 10),
         latLng: L.latLng(data.coordinates.split(",")),
-        icon: noteIcons[data.status]
+        icon: OSM.getMarker({ icon: `${data.status}_NOTE_MARKER`, shadow: false, height: 40 })
       }, function () {
         if (!hashParams.center && !skipMoveToNote) {
           const latLng = L.latLng(data.coordinates.split(","));

@@ -51,7 +51,7 @@ $(function () {
 
     if ($("#map").hasClass("set_location")) {
       marker = L.marker([0, 0], {
-        icon: OSM.getUserIcon(),
+        icon: OSM.getMarker({}),
         keyboard: false,
         interactive: false
       });
@@ -124,7 +124,7 @@ $(function () {
       $("[data-user]").each(function () {
         const user = $(this).data("user");
         if (user.lon && user.lat) {
-          L.marker([user.lat, user.lon], { icon: OSM.getUserIcon(user.icon) }).addTo(map)
+          L.marker([user.lat, user.lon], { icon: OSM.getMarker({ icon: user.icon }) }).addTo(map)
             .bindPopup(user.description, { minWidth: 200 });
         }
       });
