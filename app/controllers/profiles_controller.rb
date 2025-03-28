@@ -31,6 +31,7 @@ class ProfilesController < ApplicationController
 
     current_user.home_lat = params[:user][:home_lat]
     current_user.home_lon = params[:user][:home_lon]
+    current_user.show_contribution_heatmap = params[:user][:show_contribution_heatmap]
 
     if current_user.save
       flash[:notice] = t ".success"
