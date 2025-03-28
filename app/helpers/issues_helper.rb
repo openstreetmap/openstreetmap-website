@@ -17,7 +17,7 @@ module IssuesHelper
     when DiaryEntry
       reportable.title
     when User
-      reportable.display_name
+      tag.span(reportable.display_name, :dir => :auto)
     when DiaryComment
       I18n.t("issues.helper.reportable_title.diary_comment", :entry_title => reportable.diary_entry.title, :comment_id => reportable.id)
     when Note
