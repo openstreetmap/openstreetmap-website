@@ -11,6 +11,8 @@
 
 <h2><%= t ".how_to_help.title" %></h2>
 
+<svg class="d-none"><%= render :partial => "layouts/defs_note_icon" %></svg>
+
 <div class='row'>
   <div class='col-sm'>
     <h3 class='fs-5'><%= t ".how_to_help.join_the_community.title" %></h3>
@@ -22,7 +24,14 @@
   <div class='col-sm'>
     <h3 class='fs-5'><%= t "site.welcome.add_a_note.title" %></h3>
     <p><%= t "site.welcome.add_a_note.para_1" %></p>
-    <p><%= t ".how_to_help.add_a_note.instructions_1_html", :note_icon => tag.a(:class => "icon note bg-dark rounded-1") %></p>
+    <p><%= t(
+             ".how_to_help.add_a_note.instructions_1_html",
+             :note_icon => link_to(
+               tag.svg(:width => "20", :height => "20", :fill => "currentColor", :class => "align-top") { tag.use(:href => "#icon-note") },
+               new_note_path,
+               :class => "new-note"
+             )
+           ) %></p>
   </div>
 </div>
 

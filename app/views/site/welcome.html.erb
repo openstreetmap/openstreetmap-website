@@ -13,6 +13,7 @@
 <div class='row'>
   <div class='col-sm'>
     <svg width='50' height='50' viewBox='0 0 100 100' class='d-block mx-auto'>
+      <%= render :partial => "layouts/defs_note_icon" %>
       <circle cx="50" cy="50" r="45" fill="#70cd8f" />
       <path d="M31 46h-2l-3 3v2l14 14 5 5 5-5 25-25v-2l-3-3h-2l-25 25z" fill="#fff" />
     </svg>
@@ -88,6 +89,9 @@
 <div class='alert alert-primary'>
   <h2><%= t ".add_a_note.title" %></h2>
   <p><%= t ".add_a_note.para_1" %></p>
-  <p><%= t ".add_a_note.para_2_html", :map_link => link_to(t(".add_a_note.the_map"), root_path),
-                                      :note_icon => tag.span(:class => "icon note bg-dark rounded-1") %></p>
+  <p><%= t(
+           ".add_a_note.para_2_html",
+           :map_link => link_to(t(".add_a_note.the_map"), root_path),
+           :note_icon => tag.svg(:width => "20", :height => "20", :fill => "currentColor", :class => "align-top") { tag.use(:href => "#icon-note") }
+         ) %></p>
 </div>
