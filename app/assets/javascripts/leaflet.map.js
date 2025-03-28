@@ -391,13 +391,17 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-OSM.getUserIcon = function (url) {
-  return L.icon({
-    iconUrl: url || OSM.MARKER_RED,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowUrl: OSM.MARKER_SHADOW,
-    shadowSize: [41, 41]
-  });
+OSM.getMarker = function ({ icon = "MARKER_RED", shadow = true, height = 41 }) {
+  const options = {
+    iconUrl: OSM[icon.toUpperCase()] || OSM.MARKER_RED,
+    iconSize: [25, height],
+    iconAnchor: [12, height],
+    popupAnchor: [1, -34]
+  };
+  if (shadow) {
+    options.shadowUrl = OSM.MARKER_SHADOW;
+    options.shadowSize = [41, 41];
+    options.shadowAnchor = [12, 41];
+  }
+  return L.icon(options);
 };

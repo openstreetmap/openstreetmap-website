@@ -63,7 +63,7 @@ OSM.Search = function (map) {
     if (!marker) {
       const data = $(this).find("a.set_position").data();
 
-      marker = L.marker([data.lat, data.lon], { icon: OSM.getUserIcon() });
+      marker = L.marker([data.lat, data.lon], { icon: OSM.getMarker({}) });
 
       $(this).data("marker", marker);
     }
