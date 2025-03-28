@@ -1,5 +1,53 @@
 # frozen_string_literal: true
 
+module Kramdown
+  module Converter
+    class HtmlBidi < Html
+      # Add dir="auto" for certain elements.
+
+      # Elements marked "container" or "child" are not viable in modern browsers unless and until the behaviour of dir="auto" changes:
+      # https://github.com/whatwg/html/issues/10097#issuecomment-2746324449
+      # instead, without dir, they'll inherit their parent's direction (for containers, likely the website's root direction)
+      [
+        "p", "header",
+
+        "codespan", "codeblock", # inner text will usually be LTR and should render accordingly
+
+        # "blockquote", # container
+
+        "ul", "ol", # match Discourse; sometimes container, but this is probably the least bad solution
+        # "li", # child; sometimes container
+
+        "table", # similar to Discourse, where the <div> parent of <table> gets dir="auto" (no parent div in kramdown)
+        # "td", # child
+        # "th", # child; not actually a thing in kramdown but hypothetically might be in the future
+
+        "dl",
+        # "dd", "dt", # child - since it's similar to a list, it has the same behavior as a list
+
+        "math" # don't know how this ends up, but dir="auto" is probably correct
+      ].each do |name|
+        define_method :"convert_#{name}" do |el, indent|
+          attr_bak = el.attr.dup # can't avoid mutating the attr hash, so make a backup
+          el.attr["dir"] = "auto" unless el.attr.key?("dir") # if by some miracle dir is already defined, don't override it
+          ret = super(el, indent)
+          el.attr.replace(attr_bak) # restore backup
+          ret
+        end
+      end
+
+      # only add dir="auto" to bare links
+      def convert_a(el, indent)
+        attr_bak = el.attr.dup
+        el.attr["dir"] = "auto" if !el.attr.key?("dir") && el.attr["href"] == inner(el, indent)
+        ret = super
+        el.attr.replace(attr_bak)
+        ret
+      end
+    end
+  end
+end
+
 module RichText
   SPAMMY_PHRASES = [
     "Business Description:", "Additional Keywords:"
@@ -112,7 +160,7 @@ module RichText
 
   class Markdown < Base
     def to_html
-      linkify(sanitize(document.to_html), :all)
+      linkify(sanitize(document.to_html_bidi), :all)
     end
 
     def to_text
