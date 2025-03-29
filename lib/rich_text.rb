@@ -75,7 +75,9 @@ module RichText
 
     def linkify(text, mode = :urls)
       link_attr = 'rel="nofollow noopener noreferrer"'
-      Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
+      combined_hosts = (Settings.linkify_hosts || []) + (Settings.linkify_wiki_hosts || [])
+      prefixed = recognize_hosts(ERB::Util.html_escape(text), combined_hosts)
+      Rinku.auto_link(prefixed, mode, link_attr) do |url|
         url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
         shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
           path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
@@ -84,6 +86,13 @@ module RichText
     end
 
     private
+
+    def recognize_hosts(text, hosts)
+      text.gsub(%r{([^:/\w])([\w.-]+\.[\w.-]+)}) do |m|
+        previous, host = Regexp.last_match.captures
+        hosts&.include?(host) && hosts.include?("www.#{host}") ? "#{previous}www.#{host}" : m
+      end
+    end
 
     def shorten_host(url, hosts, hosts_replacement)
       %r{^(https?://([^/]*))(.*)$}.match(url) do |m|

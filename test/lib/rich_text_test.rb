@@ -245,6 +245,18 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_recognize_replace
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
   def test_text_to_html_linkify_replace_other_scheme
     with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
       r = RichText.new("text", "foo ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
@@ -269,10 +281,35 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_recognize_replace_undefined
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => nil) do
+      r = RichText.new("text", "foo replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
   def test_text_to_html_linkify_wiki_replace_prefix
     with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
                   :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
       r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_wiki_recognize_replace_prefix
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
           assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
@@ -295,10 +332,36 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_wiki_recognize_replace_prefix_undefined
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => nil) do
+      r = RichText.new("text", "foo replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/wiki/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
   def test_text_to_html_linkify_wiki_replace_undefined_prefix
     with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => nil,
                   :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
       r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "https://replace-me-wiki.example.com/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_wiki_recognize_replace_undefined_prefix
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => nil,
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "https://replace-me-wiki.example.com/Tag:surface%3Dmetal" do
           assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
