@@ -11,7 +11,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
 
   feed.rights :type => "xhtml" do |xhtml|
     xhtml.a :href => "https://creativecommons.org/licenses/by-sa/2.0/" do |a|
-      a.img :src => image_url("cc_button.png"), :alt => "CC by-sa 2.0"
+      a.img :src => image_url("cc-by-sa.svg"), :alt => "CC by-sa 2.0"
     end
   end
 
