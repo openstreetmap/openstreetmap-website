@@ -3,24 +3,6 @@ OSM.initializeNotesLayer = function (map) {
   const noteLayer = map.noteLayer;
   let notes = {};
 
-  const noteIcons = {
-    "new": L.icon({
-      iconUrl: OSM.NEW_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "open": L.icon({
-      iconUrl: OSM.OPEN_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "closed": L.icon({
-      iconUrl: OSM.CLOSED_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    })
-  };
-
   noteLayer.on("add", () => {
     loadNotes();
     map.on("moveend", loadNotes);
@@ -41,7 +23,7 @@ OSM.initializeNotesLayer = function (map) {
   function updateMarker(old_marker, feature) {
     let marker = old_marker;
     if (marker) {
-      marker.setIcon(noteIcons[feature.properties.status]);
+      marker.setIcon(OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }));
     } else {
       let title;
       const description = feature.properties.comments[0];
@@ -51,7 +33,7 @@ OSM.initializeNotesLayer = function (map) {
       }
 
       marker = L.marker(feature.geometry.coordinates.reverse(), {
-        icon: noteIcons[feature.properties.status],
+        icon: OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }),
         title,
         opacity: 0.8,
         interactive: true
