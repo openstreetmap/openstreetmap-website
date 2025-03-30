@@ -221,7 +221,7 @@ class GeocoderController < ApplicationController
         params.merge!(to_decdeg(latlon.named_captures.compact)).delete(:query)
 
       elsif (latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$}))
-        params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
+        params.merge!(latlon.named_captures).delete(:query)
 
         params[:latlon_digits] = true
       end
