@@ -10,7 +10,7 @@ class Ability
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
     can [:finish, :embed], :export
-    can [:search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
+    can [:create, :search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
 
     if Settings.status != "database_offline"
       can [:read, :feed], Changeset
