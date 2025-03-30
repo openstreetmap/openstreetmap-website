@@ -76,5 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = parent.OSM.mapParams();
       goToLocation(data);
     });
+
+    const projectTitle = parent.document.title;
+    new MutationObserver(() =>
+      parent.document.title = [document.title, projectTitle].filter(t => t).join(" | ")
+    ).observe(document.querySelector("title"), { childList: true, subtree: true, characterData: true });
   }
 });
