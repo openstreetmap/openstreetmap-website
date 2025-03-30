@@ -462,7 +462,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
 
   def results_check(*results)
     assert_response :success
-    assert_template :results
+    assert_template :create
     assert_template :layout => nil
     if results.empty?
       assert_select "ul.results-list", 0
