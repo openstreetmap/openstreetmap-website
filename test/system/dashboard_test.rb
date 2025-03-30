@@ -19,7 +19,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     visit dashboard_path
     assert_no_text "You have not followed any user yet."
 
-    friends_heading = find :element, "h2", :text => "Followings"
+    friends_heading = find :element, "h2", :text => "Users you follow"
     others_heading = find :element, "h2", :text => "Other nearby users"
 
     assert_link friend_user.display_name, :below => friends_heading, :above => others_heading
@@ -41,7 +41,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
 
       click_on "Follow"
 
-      followings_heading = find :element, "h2", :text => "Followings"
+      followings_heading = find :element, "h2", :text => "Users you follow"
       others_nearby_heading = find :element, "h2", :text => "Other nearby users"
 
       assert_text "There are no other users who admit to mapping nearby yet"
