@@ -13,10 +13,10 @@ class GeocoderController < ApplicationController
     @sources = []
 
     if @params[:lat] && @params[:lon]
-      @sources.push(:name => "latlon", :url => root_path)
-      @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_url(:format => "html"))
+      @sources.push(:name => "latlon", :url => root_path, :fetch_url => url_for(@params.merge(:action => "search_latlon")))
+      @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_url(:format => "html"), :fetch_url => url_for(@params.merge(:action => "search_osm_nominatim_reverse")))
     elsif @params[:query]
-      @sources.push(:name => "osm_nominatim", :url => nominatim_url(:format => "html"))
+      @sources.push(:name => "osm_nominatim", :url => nominatim_url(:format => "html"), :fetch_url => url_for(@params.merge(:action => "search_osm_nominatim")))
     end
 
     if @sources.empty?
