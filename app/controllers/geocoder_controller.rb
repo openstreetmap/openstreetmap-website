@@ -53,24 +53,24 @@ class GeocoderController < ApplicationController
 
       if @results.empty?
         @error = "Latitude or longitude are out of range"
-        render :action => "error"
+        render "searches/queries/error"
       else
-        render :action => "results"
+        render "searches/queries/create"
       end
     else
       # Coordinates in a query have come with markers for latitude and longitude.
       if !lat.between?(-90, 90)
         @error = "Latitude #{lat} out of range"
-        render :action => "error"
+        render "searches/queries/error"
       elsif !lon.between?(-180, 180)
         @error = "Longitude #{lon} out of range"
-        render :action => "error"
+        render "searches/queries/error"
       else
         @results = [{ :lat => params[:lat], :lon => params[:lon],
                       :zoom => params[:zoom],
                       :name => "#{params[:lat]}, #{params[:lon]}" }]
 
-        render :action => "results"
+        render "searches/queries/create"
       end
     end
   end
@@ -126,11 +126,11 @@ class GeocoderController < ApplicationController
                     :type => object_type, :id => object_id)
     end
 
-    render :action => "results"
+    render "searches/queries/create"
   rescue StandardError => e
     host = URI(Settings.nominatim_url).host
     @error = "Error contacting #{host}: #{e}"
-    render :action => "error"
+    render "searches/queries/error"
   end
 
   def search_osm_nominatim_reverse
@@ -157,11 +157,11 @@ class GeocoderController < ApplicationController
                     :type => object_type, :id => object_id)
     end
 
-    render :action => "results"
+    render "searches/queries/create"
   rescue StandardError => e
     host = URI(Settings.nominatim_url).host
     @error = "Error contacting #{host}: #{e}"
-    render :action => "error"
+    render "searches/queries/error"
   end
 
   private
