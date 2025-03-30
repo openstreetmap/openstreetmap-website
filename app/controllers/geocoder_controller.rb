@@ -213,14 +213,14 @@ class GeocoderController < ApplicationController
   end
 
   def normalize_params
-    if query = params[:query]
+    if (query = params[:query])
       query.strip!
 
-      if latlon = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
-                  query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
+      if (latlon = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
+                   query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/))
         params.merge!(to_decdeg(latlon.named_captures.compact)).delete(:query)
 
-      elsif latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$})
+      elsif (latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$}))
         params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
 
         params[:latlon_digits] = true
