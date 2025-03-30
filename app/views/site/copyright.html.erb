@@ -129,8 +129,11 @@
     <p><%= t ".legal_babble.infringement_1_html" %></p>
     <p>
       <%= t ".legal_babble.infringement_2_ohm_html",
+            # Leave the subject untranslated so we know it’s urgent.
             :contact_team_link => mail_to(Settings.support_email,
-                                          t(".legal_babble.infringement_2_ohm_contact_team")) %>
+                                          t(".legal_babble.infringement_2_ohm_contact_team"),
+                                          :subject => "TAKEDOWN REQUEST"),
+            :subject => tag.q("TAKEDOWN REQUEST", :lang => "en", :dir => "ltr") %>
     </p>
 
     <h3 id="trademarks">
