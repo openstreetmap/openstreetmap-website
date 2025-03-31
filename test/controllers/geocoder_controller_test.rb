@@ -9,10 +9,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       { :controller => "geocoder", :action => "search" }
     )
     assert_routing(
-      { :path => "/geocoder/search_osm_nominatim", :method => :post },
-      { :controller => "geocoder", :action => "search_osm_nominatim" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_osm_nominatim_reverse", :method => :post },
       { :controller => "geocoder", :action => "search_osm_nominatim_reverse" }
     )
@@ -317,39 +313,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   # Test identification fall through to the default case
   def test_identify_default
     search_check "foo bar baz", %w[osm_nominatim]
-  end
-
-  ##
-  # Test the nominatim forward search
-  def test_search_osm_nominatim
-    with_http_stubs "nominatim" do
-      post geocoder_search_osm_nominatim_path(:query => "Hoddesdon", :zoom => 10,
-                                              :minlon => -0.559, :minlat => 51.217,
-                                              :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check "name" => "Hoddesdon, Hertfordshire, East of England, England, United Kingdom",
-                    "min-lat" => 51.7216709, "max-lat" => 51.8016709,
-                    "min-lon" => -0.0512898, "max-lon" => 0.0287102,
-                    "type" => "node", "id" => 18007599
-
-      post geocoder_search_osm_nominatim_path(:query => "Broxbourne", :zoom => 10,
-                                              :minlon => -0.559, :minlat => 51.217,
-                                              :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check({ "prefix" => "Suburb",
-                      "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                      "min-lat" => 51.7265723, "max-lat" => 51.7665723,
-                      "min-lon" => -0.0390782, "max-lon" => 0.0009218,
-                      "type" => "node", "id" => 28825933 },
-                    { "prefix" => "Village",
-                      "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                      "min-lat" => 51.6808751, "max-lat" => 51.7806237,
-                      "min-lon" => -0.114204, "max-lon" => 0.0145267,
-                      "type" => "relation", "id" => 2677978 },
-                    { "prefix" => "Railway Station",
-                      "name" => "Broxbourne, Stafford Drive, Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                      "min-lat" => 51.7418469, "max-lat" => 51.7518469,
-                      "min-lon" => -0.0156773, "max-lon" => -0.0056773,
-                      "type" => "node", "id" => 17044599 })
-    end
   end
 
   ##
