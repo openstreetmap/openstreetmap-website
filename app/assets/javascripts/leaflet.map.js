@@ -352,23 +352,6 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-L.Icon.Default.imagePath = "/images/";
-
-L.Icon.Default.imageUrls = {
-  "/images/marker-icon.png": OSM.MARKER_ICON,
-  "/images/marker-icon-2x.png": OSM.MARKER_ICON_2X,
-  "/images/marker-shadow.png": OSM.MARKER_SHADOW
-};
-
-L.extend(L.Icon.Default.prototype, {
-  _oldGetIconUrl: L.Icon.Default.prototype._getIconUrl,
-
-  _getIconUrl: function (name) {
-    const url = this._oldGetIconUrl(name);
-    return L.Icon.Default.imageUrls[url];
-  }
-});
-
 OSM.isDarkMap = function () {
   const mapTheme = $("body").attr("data-map-theme");
   if (mapTheme) return mapTheme === "dark";
