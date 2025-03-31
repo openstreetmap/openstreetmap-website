@@ -2,7 +2,7 @@ module Searches
   class QueriesController < ApplicationController
     before_action :authorize_web
     before_action :set_locale
-    authorize_resource :class => :geocoder
+    authorize_resource :class => :search
 
     private
 
