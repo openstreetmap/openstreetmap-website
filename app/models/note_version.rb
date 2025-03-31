@@ -45,11 +45,27 @@ class NoteVersion < ApplicationRecord
     note_version.user_ip = note_author_info[:user_ip]
     note_version.version = note.version
     note_version.note_comment_id = note_comment_id
+    note_version.tags = note.tags
 
     note_version
   end
 
   def save_with_history!
     save!
+
+    tags.each do |k, v|
+      tag = NoteTagVersion.new
+      tag.k = k
+      tag.v = v
+      tag.note_id = note_id
+      tag.version = version
+      tag.save!
+    end
   end
+
+  def tags
+    @tags ||= note_tag_versions.to_h { |t| [t.k, t.v] }
+  end
+
+  attr_writer :tags
 end
