@@ -3,6 +3,7 @@
 <% end %>
 
 <svg class="d-none"><%= render :partial => "layouts/control_icons", :locals => { :icons => %w[zoomin zoomout geolocate] } %></svg>
+<%= render :partial => "layouts/markers", :locals => { :types => %w[dot] } %>
 
 <div class="row">
   <div class="col-md order-md-last">
@@ -17,7 +18,7 @@
       <% user_data = {
            :lon => current_user.home_lon,
            :lat => current_user.home_lat,
-           :icon => "MARKER_RED",
+           :color => "var(--marker-red)",
            :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
          } %>
       <%= tag.div "", :id => "map", :class => "content_map border border-secondary-subtle rounded z-0", :data => { :user => user_data } %>
