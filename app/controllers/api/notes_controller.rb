@@ -77,30 +77,19 @@ module Api
       # Check the ACLs
       raise OSM::APIAccessDenied if current_user.nil? && Acl.no_note_comment(request.remote_ip)
 
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No lat was given" unless params[:lat]
-      raise OSM::APIBadUserInput, "No lon was given" unless params[:lon]
-      raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
-
-      # Extract the arguments
-      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
-      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
-      description = params[:text]
-
-      # Get note's author info (for logged in users - user_id, for logged out users - IP address)
-      note_author_info = author_info
+      # Creates and initializes new note object from passed parameters
+      @note = Note.from_params(params, author_info)
 
       # Include in a transaction to ensure that there is always a note_comment for every note
       Note.transaction do
-        # Create the note
-        @note = Note.create(:lat => lat, :lon => lon, :description => description, :user_id => note_author_info[:user_id], :user_ip => note_author_info[:user_ip])
-        raise OSM::APIBadUserInput, "The note is outside this world" unless @note.in_world?
+        # Saves the note without the history
+        @note.save_without_history!
 
-        # Save the note
-        @note.save!
+        # Adds opening comment (description) to the note
+        note_comment = add_comment(@note, @note.description, "opened")
 
-        # Add opening comment (description) to the note
-        add_comment(@note, description, "opened")
+        # Saves the note's history
+        @note.save_history!(@note.created_at, author_info, note_comment.id, "opened")
       end
 
       # Return a copy of the new note
@@ -126,11 +115,17 @@ module Api
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
-        # Mark the note as hidden
-        @note.status = "hidden"
-        @note.save
+        # Hide the note
+        @note.hide
 
-        add_comment(@note, comment, "hidden", :notify => false)
+        # Saves the note without the history
+        @note.save_without_history!
+
+        # Adds hiding comment to the note
+        note_comment = add_comment(@note, comment, "hidden", :notify => false)
+
+        # Saves the note's history
+        @note.save_history!(@note.updated_at, author_info, note_comment.id, "hidden")
       end
 
       # Return a copy of the updated note
@@ -158,7 +153,7 @@ module Api
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
         raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
 
-        # Add a comment to the note
+        # Adds a comment to the note
         add_comment(@note, comment, "commented")
       end
 
@@ -186,10 +181,17 @@ module Api
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
         raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
 
-        # Close the note and add a comment
+        # Close the note
         @note.close
 
-        add_comment(@note, comment, "closed")
+        # Saves the note without the history
+        @note.save_without_history!
+
+        # Adds closing comment to the note
+        note_comment = add_comment(@note, comment, "closed")
+
+        # Saves the note's history
+        @note.save_history!(@note.closed_at, author_info, note_comment.id, "closed")
       end
 
       # Return a copy of the updated note
@@ -216,10 +218,17 @@ module Api
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user.moderator?
         raise OSM::APINoteAlreadyOpenError, @note unless @note.closed? || !@note.visible?
 
-        # Reopen the note and add a comment
+        # Reopen the note
         @note.reopen
 
-        add_comment(@note, comment, "reopened")
+        # Saves the note without the history
+        @note.save_without_history!
+
+        # Adds reopening comment to the note
+        note_comment = add_comment(@note, comment, "reopened")
+
+        # Saves the note's history
+        @note.save_history!(@note.updated_at, author_info, note_comment.id, "reopened")
       end
 
       # Return a copy of the updated note
@@ -381,6 +390,8 @@ module Api
       end
 
       NoteSubscription.find_or_create_by(:note => note, :user => current_user) if current_user
+
+      comment
     end
   end
 end
