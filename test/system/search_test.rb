@@ -29,4 +29,28 @@ class SearchTest < ApplicationSystemTestCase
 
     assert_field "Search", :with => "4.321, 9.876"
   end
+
+  test "search adds viewbox param to Nominatim link" do
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/search\?})
+      .to_return(:status => 404)
+
+    visit "/"
+
+    fill_in "query", :with => "paris"
+    click_on "Go"
+
+    assert_link "OpenStreetMap Nominatim", :href => /&viewbox=/
+  end
+
+  test "search adds zoom param to reverse Nominatim link" do
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+      .to_return(:status => 404)
+
+    visit "/#map=7/1.234/6.789"
+
+    fill_in "query", :with => "60 30"
+    click_on "Go"
+
+    assert_link "OpenStreetMap Nominatim", :href => /&zoom=7/
+  end
 end
