@@ -9,10 +9,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       { :controller => "geocoder", :action => "search" }
     )
     assert_routing(
-      { :path => "/geocoder/search_latlon", :method => :post },
-      { :controller => "geocoder", :action => "search_latlon" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_osm_nominatim", :method => :post },
       { :controller => "geocoder", :action => "search_osm_nominatim" }
     )
@@ -321,49 +317,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   # Test identification fall through to the default case
   def test_identify_default
     search_check "foo bar baz", %w[osm_nominatim]
-  end
-
-  ##
-  # Test the builtin latitude+longitude search
-  def test_search_latlon
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 4.56, :zoom => 16), :xhr => true
-    results_check :name => "1.23, 4.56", :lat => 1.23, :lon => 4.56, :zoom => 16
-
-    post geocoder_search_latlon_path(:lat => -91.23, :lon => 4.56, :zoom => 16), :xhr => true
-    results_check_error "Latitude -91.23 out of range"
-
-    post geocoder_search_latlon_path(:lat => 91.23, :lon => 4.56, :zoom => 16), :xhr => true
-    results_check_error "Latitude 91.23 out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => -180.23, :zoom => 16), :xhr => true
-    results_check_error "Longitude -180.23 out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 180.23, :zoom => 16), :xhr => true
-    results_check_error "Longitude 180.23 out of range"
-  end
-
-  def test_search_latlon_digits
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 4.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check({ :name => "1.23, 4.56", :lat => 1.23, :lon => 4.56, :zoom => 16 },
-                  { :name => "4.56, 1.23", :lat => 4.56, :lon => 1.23, :zoom => 16 })
-
-    post geocoder_search_latlon_path(:lat => -91.23, :lon => 4.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check :name => "4.56, -91.23", :lat => 4.56, :lon => -91.23, :zoom => 16
-
-    post geocoder_search_latlon_path(:lat => -1.23, :lon => 170.23, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check :name => "-1.23, 170.23", :lat => -1.23, :lon => 170.23, :zoom => 16
-
-    post geocoder_search_latlon_path(:lat => 91.23, :lon => 94.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-
-    post geocoder_search_latlon_path(:lat => -91.23, :lon => -94.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => -180.23, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 180.23, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
   end
 
   ##

@@ -16,7 +16,7 @@ class GeocoderController < ApplicationController
 
     if params[:lat] && params[:lon]
       @sources.push(:name => "latlon", :url => root_path,
-                    :fetch_url => url_for(params.permit(:lat, :lon, :latlon_digits, :zoom).merge(:action => "search_latlon")))
+                    :fetch_url => search_latlon_query_path(params.permit(:lat, :lon, :latlon_digits, :zoom)))
       @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_query_url(:format => "html"),
                     :fetch_url => url_for(params.permit(:lat, :lon, :zoom).merge(:action => "search_osm_nominatim_reverse")))
     elsif params[:query]
@@ -28,50 +28,6 @@ class GeocoderController < ApplicationController
       head :bad_request
     else
       render :layout => map_layout
-    end
-  end
-
-  def search_latlon
-    lat = params[:lat].to_f
-    lon = params[:lon].to_f
-
-    if params[:latlon_digits]
-      # We've got two nondescript numbers for a query, which can mean both "lat, lon" or "lon, lat".
-      @results = []
-
-      if lat.between?(-90, 90) && lon.between?(-180, 180)
-        @results.push(:lat => params[:lat], :lon => params[:lon],
-                      :zoom => params[:zoom],
-                      :name => "#{params[:lat]}, #{params[:lon]}")
-      end
-
-      if lon.between?(-90, 90) && lat.between?(-180, 180)
-        @results.push(:lat => params[:lon], :lon => params[:lat],
-                      :zoom => params[:zoom],
-                      :name => "#{params[:lon]}, #{params[:lat]}")
-      end
-
-      if @results.empty?
-        @error = "Latitude or longitude are out of range"
-        render "searches/queries/error"
-      else
-        render "searches/queries/create"
-      end
-    else
-      # Coordinates in a query have come with markers for latitude and longitude.
-      if !lat.between?(-90, 90)
-        @error = "Latitude #{lat} out of range"
-        render "searches/queries/error"
-      elsif !lon.between?(-180, 180)
-        @error = "Longitude #{lon} out of range"
-        render "searches/queries/error"
-      else
-        @results = [{ :lat => params[:lat], :lon => params[:lon],
-                      :zoom => params[:zoom],
-                      :name => "#{params[:lat]}, #{params[:lon]}" }]
-
-        render "searches/queries/create"
-      end
     end
   end
 

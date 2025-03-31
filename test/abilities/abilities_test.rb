@@ -9,7 +9,7 @@ class GuestAbilityTest < AbilityTest
   test "geocoder permission for a guest" do
     ability = Ability.new nil
 
-    [:create, :search, :search_latlon, :search_osm_nominatim,
+    [:create, :search, :search_osm_nominatim,
      :search_osm_nominatim_reverse].each do |action|
       assert ability.can?(action, :geocoder), "should be able to #{action} geocoder"
     end
