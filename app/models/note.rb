@@ -59,6 +59,46 @@ class Note < ApplicationRecord
     errors.add(:base, "Note is not in the world") unless in_world?
   end
 
+  # Creates note from hash-table
+  def self.from_params(params, note_author_info)
+    note = Note.new
+
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput, "No lat was given" unless params[:lat]
+    raise OSM::APIBadUserInput, "No lon was given" unless params[:lon]
+    raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
+
+    # Extract the arguments
+    lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
+    lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
+    description = params[:text]
+
+    # Initialize the note (version is set to 1 by default)
+    note.lat = lat
+    note.lon = lon
+    note.description = description
+    note.user_id = note_author_info[:user_id]
+    note.user_ip = note_author_info[:user_ip]
+    raise OSM::APIBadUserInput, "The note is outside this world" unless note.in_world?
+
+    note
+  end
+
+  # Saves created note without the history
+  def save_without_history!
+    # Saves current note to database
+    save!
+  end
+
+  # Saves note's history
+  def save_history!(timestamp, note_comment_id)
+    # Creates and initializes note version
+    note_version = NoteVersion.from_note(self, timestamp, note_comment_id)
+
+    # Saves note version to database
+    note_version.save_with_history!
+  end
+
   # Close a note
   def close
     self.status = "closed"
