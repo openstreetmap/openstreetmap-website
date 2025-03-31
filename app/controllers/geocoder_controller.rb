@@ -1,15 +1,13 @@
 class GeocoderController < ApplicationController
-  require "uri"
-  require "rexml/document"
   include NominatimMethods
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_oauth, :only => [:search]
+  before_action :require_oauth
 
   authorize_resource :class => false
 
-  before_action :normalize_params, :only => [:search]
+  before_action :normalize_params
 
   def search
     @sources = []
@@ -32,20 +30,6 @@ class GeocoderController < ApplicationController
   end
 
   private
-
-  def fetch_text(url)
-    response = OSM.http_client.get(URI.parse(url))
-
-    if response.success?
-      response.body
-    else
-      raise response.status.to_s
-    end
-  end
-
-  def fetch_xml(url)
-    REXML::Document.new(fetch_text(url))
-  end
 
   def normalize_params
     if (query = params[:query])
