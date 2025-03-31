@@ -85,6 +85,15 @@ class Note < ApplicationRecord
     note.user_id = note_author_info[:user_id]
     note.user_ip = note_author_info[:user_ip]
 
+    # Extract the tags, if present
+    note.tags = {}
+    if params[:tags].present?
+      parsed_tags = JSON.parse(params[:tags])
+      parsed_tags.each do |key, value|
+        note.tags[key] = value if key.presence && value.presence
+      end
+    end
+
     note
   end
 
@@ -92,6 +101,17 @@ class Note < ApplicationRecord
   def save_without_history!
     # Saves current note to database
     save!
+
+    # Create note tags
+    tags = self.tags
+    NoteTag.where(:note_id => id).delete_all
+    tags.each do |k, v|
+      tag = NoteTag.new
+      tag.note_id = id
+      tag.k = k
+      tag.v = v
+      tag.save!
+    end
   end
 
   # Saves note's history
@@ -144,6 +164,12 @@ class Note < ApplicationRecord
 
     closed_at + DEFAULT_FRESHLY_CLOSED_LIMIT
   end
+
+  def tags
+    @tags ||= note_tags.to_h { |t| [t.k, t.v] }
+  end
+
+  attr_writer :tags
 
   # Return the note's description
   def description
