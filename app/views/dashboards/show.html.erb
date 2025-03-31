@@ -2,6 +2,7 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
+<%= render :partial => "layouts/markers", :locals => { :types => %w[dot] } %>
 <div class="row">
   <div class="col-md order-md-last">
     <% if !current_user.home_location? %>
@@ -15,7 +16,7 @@
       <% user_data = {
            :lon => current_user.home_lon,
            :lat => current_user.home_lat,
-           :icon => "MARKER_RED",
+           :color => MARKER_COLORS[:red],
            :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
          } %>
       <%= tag.div "", :id => "map", :class => "content_map border border-secondary-subtle rounded z-0", :data => { :user => user_data } %>
