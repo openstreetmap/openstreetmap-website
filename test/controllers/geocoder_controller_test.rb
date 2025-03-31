@@ -8,10 +8,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       { :path => "/search", :method => :get },
       { :controller => "geocoder", :action => "search" }
     )
-    assert_routing(
-      { :path => "/geocoder/search_osm_nominatim_reverse", :method => :post },
-      { :controller => "geocoder", :action => "search_osm_nominatim_reverse" }
-    )
   end
 
   ##
@@ -313,27 +309,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   # Test identification fall through to the default case
   def test_identify_default
     search_check "foo bar baz", %w[osm_nominatim]
-  end
-
-  ##
-  # Test the nominatim reverse search
-  def test_search_osm_nominatim_reverse
-    with_http_stubs "nominatim" do
-      post geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 15), :xhr => true
-      results_check :name => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                    :lat => 51.7465723, :lon => -0.0190782,
-                    :type => "node", :id => 28825933, :zoom => 15
-
-      post geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 17), :xhr => true
-      results_check :name => "Dinant Link Road, Broxbourne, Hertfordshire, East of England, England, EN11 8HX, United Kingdom",
-                    :lat => 51.7634883, :lon => -0.0088373,
-                    :type => "way", :id => 3489841, :zoom => 17
-
-      post geocoder_search_osm_nominatim_reverse_path(:lat => 13.7709, :lon => 100.50507, :zoom => 19), :xhr => true
-      results_check :name => "MM Steak&Grill, ถนนศรีอยุธยา, บางขุนพรหม, กรุงเทพมหานคร, เขตดุสิต, กรุงเทพมหานคร, 10300, ประเทศไทย",
-                    :lat => 13.7708691, :lon => 100.505073233221,
-                    :type => "way", :id => 542901374, :zoom => 19
-    end
   end
 
   private

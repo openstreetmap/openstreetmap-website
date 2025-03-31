@@ -18,7 +18,7 @@ class GeocoderController < ApplicationController
       @sources.push(:name => "latlon", :url => root_path,
                     :fetch_url => search_latlon_query_path(params.permit(:lat, :lon, :latlon_digits, :zoom)))
       @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_query_url(:format => "html"),
-                    :fetch_url => url_for(params.permit(:lat, :lon, :zoom).merge(:action => "search_osm_nominatim_reverse")))
+                    :fetch_url => search_nominatim_reverse_query_path(params.permit(:lat, :lon, :zoom)))
     elsif params[:query]
       @sources.push(:name => "osm_nominatim", :url => nominatim_query_url(:format => "html"),
                     :fetch_url => search_nominatim_query_path(params.permit(:query, :minlat, :minlon, :maxlat, :maxlon)))
@@ -29,37 +29,6 @@ class GeocoderController < ApplicationController
     else
       render :layout => map_layout
     end
-  end
-
-  def search_osm_nominatim_reverse
-    # get query parameters
-    zoom = params[:zoom]
-
-    # create result array
-    @results = []
-
-    # ask nominatim
-    response = fetch_xml(nominatim_reverse_query_url(:format => "xml"))
-
-    # parse the response
-    response.elements.each("reversegeocode/result") do |result|
-      lat = result.attributes["lat"]
-      lon = result.attributes["lon"]
-      object_type = result.attributes["osm_type"]
-      object_id = result.attributes["osm_id"]
-      description = result.text
-
-      @results.push(:lat => lat, :lon => lon,
-                    :zoom => zoom,
-                    :name => description,
-                    :type => object_type, :id => object_id)
-    end
-
-    render "searches/queries/create"
-  rescue StandardError => e
-    host = URI(Settings.nominatim_url).host
-    @error = "Error contacting #{host}: #{e}"
-    render "searches/queries/error"
   end
 
   private
