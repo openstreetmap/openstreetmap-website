@@ -1,4 +1,4 @@
-class GeocoderController < ApplicationController
+class SearchesController < ApplicationController
   include NominatimMethods
 
   before_action :authorize_web
@@ -9,7 +9,7 @@ class GeocoderController < ApplicationController
 
   before_action :normalize_params
 
-  def search
+  def show
     @sources = []
 
     if params[:lat] && params[:lon]

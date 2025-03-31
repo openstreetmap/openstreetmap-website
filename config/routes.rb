@@ -333,8 +333,7 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # geocoder
-  get "/search" => "geocoder#search"
-  resource :search, :only => [] do
+  resource :search, :only => :show do
     scope :module => :searches do
       resource :latlon_query, :only => :create
       resource :nominatim_query, :only => :create

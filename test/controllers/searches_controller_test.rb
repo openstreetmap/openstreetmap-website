@@ -1,12 +1,12 @@
 require "test_helper"
 
-class GeocoderControllerTest < ActionDispatch::IntegrationTest
+class SearchesControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/search", :method => :get },
-      { :controller => "geocoder", :action => "search" }
+      { :controller => "searches", :action => "show" }
     )
   end
 
@@ -243,7 +243,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     ].each do |code|
       get search_path(:query => code)
       assert_response :success
-      assert_template :search
+      assert_template :show
       assert_template :layout => "map"
       assert_equal %w[osm_nominatim], assigns(:sources).pluck(:name)
     end
@@ -316,7 +316,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   def latlon_check(query, lat, lon)
     get search_path(:query => query)
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "map"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
@@ -327,7 +327,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
 
     get search_path(:query => query), :xhr => true
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "xhr"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
@@ -340,13 +340,13 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   def search_check(query, sources)
     get search_path(:query => query)
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "map"
     assert_equal sources, assigns(:sources).pluck(:name)
 
     get search_path(:query => query), :xhr => true
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "xhr"
     assert_equal sources, assigns(:sources).pluck(:name)
   end
