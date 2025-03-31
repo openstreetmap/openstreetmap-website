@@ -6,24 +6,6 @@ OSM.NewNote = function (map) {
   let newNoteMarker,
       halo;
 
-  const noteIcons = {
-    "new": L.icon({
-      iconUrl: OSM.NEW_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "open": L.icon({
-      iconUrl: OSM.OPEN_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "closed": L.icon({
-      iconUrl: OSM.CLOSED_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    })
-  };
-
   addNoteButton.on("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -49,7 +31,7 @@ OSM.NewNote = function (map) {
 
   function addCreatedNoteMarker(feature) {
     const marker = L.marker(feature.geometry.coordinates.reverse(), {
-      icon: noteIcons[feature.properties.status],
+      icon: OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }),
       opacity: 0.9,
       interactive: true
     });
@@ -79,7 +61,7 @@ OSM.NewNote = function (map) {
     if (newNoteMarker) map.removeLayer(newNoteMarker);
 
     newNoteMarker = L.marker(latlng, {
-      icon: noteIcons.new,
+      icon: OSM.getMarker({ icon: "NEW_NOTE_MARKER", shadow: false, height: 40 }),
       opacity: 0.9,
       draggable: true
     });

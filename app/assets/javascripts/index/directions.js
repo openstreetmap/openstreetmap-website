@@ -33,8 +33,8 @@ OSM.Directions = function (map) {
   };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "MARKER_GREEN" }, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "MARKER_RED" }, endpointDragCallback, endpointChangeCallback)
   ];
 
   let downloadURL = null;
