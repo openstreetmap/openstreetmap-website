@@ -1,5 +1,4 @@
 class GeocoderController < ApplicationController
-  require "cgi"
   require "uri"
   require "rexml/document"
 
@@ -181,7 +180,7 @@ class GeocoderController < ApplicationController
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
     # build url
-    "#{Settings.nominatim_url}search?format=#{format}&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+    "#{Settings.nominatim_url}search?format=#{format}&extratags=1&q=#{CGI.escape(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
   end
 
   def nominatim_reverse_url(format: nil)
@@ -206,10 +205,6 @@ class GeocoderController < ApplicationController
 
   def fetch_xml(url)
     REXML::Document.new(fetch_text(url))
-  end
-
-  def escape_query(query)
-    CGI.escape(query)
   end
 
   def normalize_params
