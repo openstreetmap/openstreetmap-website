@@ -18,7 +18,11 @@
   </div>
 
   <h4><%= t ".licence" %></h4>
-  <p><%= t ".licence_details_html"%></p>
+  <p>
+    <%= t ".licence_details_ohm_html",
+          :cc0_link => link_to(t(".cc0"), t(".cc0_url")),
+          :copyright_page_link => link_to(t(".copyright_page"), copyright_path) %>
+  </p>
 
   <div id="export_osm_too_large">
     <p class="alert alert-warning">
@@ -40,6 +44,12 @@
 
     <dt><a href="http://planet.openhistoricalmap.org/"><%= t ".too_large.planet.title" %></a></dt>
     <dd><%= t ".too_large.planet.description" %></dd>
+
+    <dt>
+      <%= link_to(t(".too_large.other.title"),
+                  t(".too_large.other.url")) %>
+    </dt>
+    <dd><%= t ".too_large.other.description" %></dd>
 
  </dl>
 <% end %>
