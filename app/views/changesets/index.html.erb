@@ -1,6 +1,6 @@
 <% if @newer_changesets_id %>
   <div class="changeset_more my-3 text-center">
-    <%= link_to t(".load_more"), url_for(@params.merge(:before => nil, :after => @newer_changesets_id)), :class => "btn btn-primary" %>
+    <%= link_to t(".load_more"), url_for(:after => @newer_changesets_id), :class => "btn btn-primary" %>
     <div class="text-center loader">
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
@@ -21,7 +21,7 @@
 <% end %>
 <% if @older_changesets_id -%>
   <div class="changeset_more my-3 text-center">
-    <%= link_to t(".load_more"), url_for(@params.merge(:before => @older_changesets_id, :after => nil)), :class => "btn btn-primary" %>
+    <%= link_to t(".load_more"), url_for(:before => @older_changesets_id), :class => "btn btn-primary" %>
     <div class="text-center loader">
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
