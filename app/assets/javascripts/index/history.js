@@ -182,11 +182,14 @@ OSM.History = function (map) {
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function (html) {
-      displayMoreChangesets(div, html);
-      enableChangesetIntersectionObserver();
-      updateMap();
-    });
+    fetch($(this).attr("href"))
+      .then(response => response.text())
+      .then(function (html) {
+        displayMoreChangesets(div, html);
+        enableChangesetIntersectionObserver();
+
+        updateMap();
+      });
   }
 
   function reloadChangesetsBecauseOfMapMovement() {
