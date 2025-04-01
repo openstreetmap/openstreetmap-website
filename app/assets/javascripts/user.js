@@ -18,8 +18,7 @@ $(function () {
 
     const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-    L.OSM.zoom({ position: position })
-      .addTo(map);
+    L.OSM.zoom({ position }).addTo(map);
 
     const locate = L.control.locate({
       position: position,
