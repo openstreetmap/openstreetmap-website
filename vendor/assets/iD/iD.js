@@ -3809,14 +3809,14 @@
         var [lng, lat] = center;
         if (typeof lng !== "number" || typeof lat !== "number") {
           throw new Error(
-            "ERROR! Longitude and Latitude has to be numbers but where ".concat(typeof lng, " and ").concat(typeof lat)
+            `ERROR! Longitude and Latitude has to be numbers but where ${typeof lng} and ${typeof lat}`
           );
         }
         if (lng > 180 || lng < -180) {
-          throw new Error("ERROR! Longitude has to be between -180 and 180 but was ".concat(lng));
+          throw new Error(`ERROR! Longitude has to be between -180 and 180 but was ${lng}`);
         }
         if (lat > 90 || lat < -90) {
-          throw new Error("ERROR! Latitude has to be between -90 and 90 but was ".concat(lat));
+          throw new Error(`ERROR! Latitude has to be between -90 and 90 but was ${lat}`);
         }
       };
     }
@@ -3827,10 +3827,10 @@
     "node_modules/circle-to-polygon/input-validation/validateRadius.js"(exports2) {
       exports2.validateRadius = function validateRadius(radius) {
         if (typeof radius !== "number") {
-          throw new Error("ERROR! Radius has to be a positive number but was: ".concat(typeof radius));
+          throw new Error(`ERROR! Radius has to be a positive number but was: ${typeof radius}`);
         }
         if (radius <= 0) {
-          throw new Error("ERROR! Radius has to be a positive number but was: ".concat(radius));
+          throw new Error(`ERROR! Radius has to be a positive number but was: ${radius}`);
         }
       };
     }
@@ -3842,10 +3842,10 @@
       exports2.validateNumberOfEdges = function validateNumberOfEdges(numberOfEdges) {
         if (typeof numberOfEdges !== "number") {
           const ARGUMENT_TYPE = Array.isArray(numberOfEdges) ? "array" : typeof numberOfEdges;
-          throw new Error("ERROR! Number of edges has to be a number but was: ".concat(ARGUMENT_TYPE));
+          throw new Error(`ERROR! Number of edges has to be a number but was: ${ARGUMENT_TYPE}`);
         }
         if (numberOfEdges < 3) {
-          throw new Error("ERROR! Number of edges has to be at least 3 but was: ".concat(numberOfEdges));
+          throw new Error(`ERROR! Number of edges has to be at least 3 but was: ${numberOfEdges}`);
         }
       };
     }
@@ -3857,10 +3857,10 @@
       exports2.validateEarthRadius = function validateEarthRadius(earthRadius2) {
         if (typeof earthRadius2 !== "number") {
           const ARGUMENT_TYPE = Array.isArray(earthRadius2) ? "array" : typeof earthRadius2;
-          throw new Error("ERROR! Earth radius has to be a number but was: ".concat(ARGUMENT_TYPE));
+          throw new Error(`ERROR! Earth radius has to be a number but was: ${ARGUMENT_TYPE}`);
         }
         if (earthRadius2 <= 0) {
-          throw new Error("ERROR! Earth radius has to be a positive number but was: ".concat(earthRadius2));
+          throw new Error(`ERROR! Earth radius has to be a positive number but was: ${earthRadius2}`);
         }
       };
     }
@@ -3872,7 +3872,7 @@
       exports2.validateBearing = function validateBearing(bearing) {
         if (typeof bearing !== "number") {
           const ARGUMENT_TYPE = Array.isArray(bearing) ? "array" : typeof bearing;
-          throw new Error("ERROR! Bearing has to be a number but was: ".concat(ARGUMENT_TYPE));
+          throw new Error(`ERROR! Bearing has to be a number but was: ${ARGUMENT_TYPE}`);
         }
       };
     }
@@ -4336,7 +4336,7 @@
         var T8 = [4104605777, 1097159550, 396673818, 660510266, 2875968315, 2638606623, 4200115116, 3808662347, 821712160, 1986918061, 3430322568, 38544885, 3856137295, 718002117, 893681702, 1654886325, 2975484382, 3122358053, 3926825029, 4274053469, 796197571, 1290801793, 1184342925, 3556361835, 2405426947, 2459735317, 1836772287, 1381620373, 3196267988, 1948373848, 3764988233, 3385345166, 3263785589, 2390325492, 1480485785, 3111247143, 3780097726, 2293045232, 548169417, 3459953789, 3746175075, 439452389, 1362321559, 1400849762, 1685577905, 1806599355, 2174754046, 137073913, 1214797936, 1174215055, 3731654548, 2079897426, 1943217067, 1258480242, 529487843, 1437280870, 3945269170, 3049390895, 3313212038, 923313619, 679998e3, 3215307299, 57326082, 377642221, 3474729866, 2041877159, 133361907, 1776460110, 3673476453, 96392454, 878845905, 2801699524, 777231668, 4082475170, 2330014213, 4142626212, 2213296395, 1626319424, 1906247262, 1846563261, 562755902, 3708173718, 1040559837, 3871163981, 1418573201, 3294430577, 114585348, 1343618912, 2566595609, 3186202582, 1078185097, 3651041127, 3896688048, 2307622919, 425408743, 3371096953, 2081048481, 1108339068, 2216610296, 0, 2156299017, 736970802, 292596766, 1517440620, 251657213, 2235061775, 2933202493, 758720310, 265905162, 1554391400, 1532285339, 908999204, 174567692, 1474760595, 4002861748, 2610011675, 3234156416, 3693126241, 2001430874, 303699484, 2478443234, 2687165888, 585122620, 454499602, 151849742, 2345119218, 3064510765, 514443284, 4044981591, 1963412655, 2581445614, 2137062819, 19308535, 1928707164, 1715193156, 4219352155, 1126790795, 600235211, 3992742070, 3841024952, 836553431, 1669664834, 2535604243, 3323011204, 1243905413, 3141400786, 4180808110, 698445255, 2653899549, 2989552604, 2253581325, 3252932727, 3004591147, 1891211689, 2487810577, 3915653703, 4237083816, 4030667424, 2100090966, 865136418, 1229899655, 953270745, 3399679628, 3557504664, 4118925222, 2061379749, 3079546586, 2915017791, 983426092, 2022837584, 1607244650, 2118541908, 2366882550, 3635996816, 972512814, 3283088770, 1568718495, 3499326569, 3576539503, 621982671, 2895723464, 410887952, 2623762152, 1002142683, 645401037, 1494807662, 2595684844, 1335535747, 2507040230, 4293295786, 3167684641, 367585007, 3885750714, 1865862730, 2668221674, 2960971305, 2763173681, 1059270954, 2777952454, 2724642869, 1320957812, 2194319100, 2429595872, 2815956275, 77089521, 3973773121, 3444575871, 2448830231, 1305906550, 4021308739, 2857194700, 2516901860, 3518358430, 1787304780, 740276417, 1699839814, 1592394909, 2352307457, 2272556026, 188821243, 1729977011, 3687994002, 274084841, 3594982253, 3613494426, 2701949495, 4162096729, 322734571, 2837966542, 1640576439, 484830689, 1202797690, 3537852828, 4067639125, 349075736, 3342319475, 4157467219, 4255800159, 1030690015, 1155237496, 2951971274, 1757691577, 607398968, 2738905026, 499347990, 3794078908, 1011452712, 227885567, 2818666809, 213114376, 3034881240, 1455525988, 3414450555, 850817237, 1817998408, 3092726480];
         var U1 = [0, 235474187, 470948374, 303765277, 941896748, 908933415, 607530554, 708780849, 1883793496, 2118214995, 1817866830, 1649639237, 1215061108, 1181045119, 1417561698, 1517767529, 3767586992, 4003061179, 4236429990, 4069246893, 3635733660, 3602770327, 3299278474, 3400528769, 2430122216, 2664543715, 2362090238, 2193862645, 2835123396, 2801107407, 3035535058, 3135740889, 3678124923, 3576870512, 3341394285, 3374361702, 3810496343, 3977675356, 4279080257, 4043610186, 2876494627, 2776292904, 3076639029, 3110650942, 2472011535, 2640243204, 2403728665, 2169303058, 1001089995, 899835584, 666464733, 699432150, 59727847, 226906860, 530400753, 294930682, 1273168787, 1172967064, 1475418501, 1509430414, 1942435775, 2110667444, 1876241833, 1641816226, 2910219766, 2743034109, 2976151520, 3211623147, 2505202138, 2606453969, 2302690252, 2269728455, 3711829422, 3543599269, 3240894392, 3475313331, 3843699074, 3943906441, 4178062228, 4144047775, 1306967366, 1139781709, 1374988112, 1610459739, 1975683434, 2076935265, 1775276924, 1742315127, 1034867998, 866637845, 566021896, 800440835, 92987698, 193195065, 429456164, 395441711, 1984812685, 2017778566, 1784663195, 1683407248, 1315562145, 1080094634, 1383856311, 1551037884, 101039829, 135050206, 437757123, 337553864, 1042385657, 807962610, 573804783, 742039012, 2531067453, 2564033334, 2328828971, 2227573024, 2935566865, 2700099354, 3001755655, 3168937228, 3868552805, 3902563182, 4203181171, 4102977912, 3736164937, 3501741890, 3265478751, 3433712980, 1106041591, 1340463100, 1576976609, 1408749034, 2043211483, 2009195472, 1708848333, 1809054150, 832877231, 1068351396, 766945465, 599762354, 159417987, 126454664, 361929877, 463180190, 2709260871, 2943682380, 3178106961, 3009879386, 2572697195, 2538681184, 2236228733, 2336434550, 3509871135, 3745345300, 3441850377, 3274667266, 3910161971, 3877198648, 4110568485, 4211818798, 2597806476, 2497604743, 2261089178, 2295101073, 2733856160, 2902087851, 3202437046, 2968011453, 3936291284, 3835036895, 4136440770, 4169408201, 3535486456, 3702665459, 3467192302, 3231722213, 2051518780, 1951317047, 1716890410, 1750902305, 1113818384, 1282050075, 1584504582, 1350078989, 168810852, 67556463, 371049330, 404016761, 841739592, 1008918595, 775550814, 540080725, 3969562369, 3801332234, 4035489047, 4269907996, 3569255213, 3669462566, 3366754619, 3332740144, 2631065433, 2463879762, 2160117071, 2395588676, 2767645557, 2868897406, 3102011747, 3069049960, 202008497, 33778362, 270040487, 504459436, 875451293, 975658646, 675039627, 641025152, 2084704233, 1917518562, 1615861247, 1851332852, 1147550661, 1248802510, 1484005843, 1451044056, 933301370, 967311729, 733156972, 632953703, 260388950, 25965917, 328671808, 496906059, 1206477858, 1239443753, 1543208500, 1441952575, 2144161806, 1908694277, 1675577880, 1842759443, 3610369226, 3644379585, 3408119516, 3307916247, 4011190502, 3776767469, 4077384432, 4245618683, 2809771154, 2842737049, 3144396420, 3043140495, 2673705150, 2438237621, 2203032232, 2370213795];
         var U22 = [0, 185469197, 370938394, 487725847, 741876788, 657861945, 975451694, 824852259, 1483753576, 1400783205, 1315723890, 1164071807, 1950903388, 2135319889, 1649704518, 1767536459, 2967507152, 3152976349, 2801566410, 2918353863, 2631447780, 2547432937, 2328143614, 2177544179, 3901806776, 3818836405, 4270639778, 4118987695, 3299409036, 3483825537, 3535072918, 3652904859, 2077965243, 1893020342, 1841768865, 1724457132, 1474502543, 1559041666, 1107234197, 1257309336, 598438867, 681933534, 901210569, 1052338372, 261314535, 77422314, 428819965, 310463728, 3409685355, 3224740454, 3710368113, 3593056380, 3875770207, 3960309330, 4045380933, 4195456072, 2471224067, 2554718734, 2237133081, 2388260884, 3212035895, 3028143674, 2842678573, 2724322336, 4138563181, 4255350624, 3769721975, 3955191162, 3667219033, 3516619604, 3431546947, 3347532110, 2933734917, 2782082824, 3099667487, 3016697106, 2196052529, 2313884476, 2499348523, 2683765030, 1179510461, 1296297904, 1347548327, 1533017514, 1786102409, 1635502980, 2087309459, 2003294622, 507358933, 355706840, 136428751, 53458370, 839224033, 957055980, 605657339, 790073846, 2373340630, 2256028891, 2607439820, 2422494913, 2706270690, 2856345839, 3075636216, 3160175349, 3573941694, 3725069491, 3273267108, 3356761769, 4181598602, 4063242375, 4011996048, 3828103837, 1033297158, 915985419, 730517276, 545572369, 296679730, 446754879, 129166120, 213705253, 1709610350, 1860738147, 1945798516, 2029293177, 1239331162, 1120974935, 1606591296, 1422699085, 4148292826, 4233094615, 3781033664, 3931371469, 3682191598, 3497509347, 3446004468, 3328955385, 2939266226, 2755636671, 3106780840, 2988687269, 2198438022, 2282195339, 2501218972, 2652609425, 1201765386, 1286567175, 1371368976, 1521706781, 1805211710, 1620529459, 2105887268, 1988838185, 533804130, 350174575, 164439672, 46346101, 870912086, 954669403, 636813900, 788204353, 2358957921, 2274680428, 2592523643, 2441661558, 2695033685, 2880240216, 3065962831, 3182487618, 3572145929, 3756299780, 3270937875, 3388507166, 4174560061, 4091327024, 4006521127, 3854606378, 1014646705, 930369212, 711349675, 560487590, 272786309, 457992840, 106852767, 223377554, 1678381017, 1862534868, 1914052035, 2031621326, 1211247597, 1128014560, 1580087799, 1428173050, 32283319, 182621114, 401639597, 486441376, 768917123, 651868046, 1003007129, 818324884, 1503449823, 1385356242, 1333838021, 1150208456, 1973745387, 2125135846, 1673061617, 1756818940, 2970356327, 3120694122, 2802849917, 2887651696, 2637442643, 2520393566, 2334669897, 2149987652, 3917234703, 3799141122, 4284502037, 4100872472, 3309594171, 3460984630, 3545789473, 3629546796, 2050466060, 1899603969, 1814803222, 1730525723, 1443857720, 1560382517, 1075025698, 1260232239, 575138148, 692707433, 878443390, 1062597235, 243256656, 91341917, 409198410, 325965383, 3403100636, 3252238545, 3704300486, 3620022987, 3874428392, 3990953189, 4042459122, 4227665663, 2460449204, 2578018489, 2226875310, 2411029155, 3198115200, 3046200461, 2827177882, 2743944855];
-        var U3 = [0, 218828297, 437656594, 387781147, 875313188, 958871085, 775562294, 590424639, 1750626376, 1699970625, 1917742170, 2135253587, 1551124588, 1367295589, 1180849278, 1265195639, 3501252752, 3720081049, 3399941250, 3350065803, 3835484340, 3919042237, 4270507174, 4085369519, 3102249176, 3051593425, 2734591178, 2952102595, 2361698556, 2177869557, 2530391278, 2614737639, 3145456443, 3060847922, 2708326185, 2892417312, 2404901663, 2187128086, 2504130317, 2555048196, 3542330227, 3727205754, 3375740769, 3292445032, 3876557655, 3926170974, 4246310725, 4027744588, 1808481195, 1723872674, 1910319033, 2094410160, 1608975247, 1391201670, 1173430173, 1224348052, 59984867, 244860394, 428169201, 344873464, 935293895, 984907214, 766078933, 547512796, 1844882806, 1627235199, 2011214180, 2062270317, 1507497298, 1423022939, 1137477952, 1321699145, 95345982, 145085239, 532201772, 313773861, 830661914, 1015671571, 731183368, 648017665, 3175501286, 2957853679, 2807058932, 2858115069, 2305455554, 2220981195, 2474404304, 2658625497, 3575528878, 3625268135, 3473416636, 3254988725, 3778151818, 3963161475, 4213447064, 4130281361, 3599595085, 3683022916, 3432737375, 3247465558, 3802222185, 4020912224, 4172763771, 4122762354, 3201631749, 3017672716, 2764249623, 2848461854, 2331590177, 2280796200, 2431590963, 2648976442, 104699613, 188127444, 472615631, 287343814, 840019705, 1058709744, 671593195, 621591778, 1852171925, 1668212892, 1953757831, 2037970062, 1514790577, 1463996600, 1080017571, 1297403050, 3673637356, 3623636965, 3235995134, 3454686199, 4007360968, 3822090177, 4107101658, 4190530515, 2997825956, 3215212461, 2830708150, 2779915199, 2256734592, 2340947849, 2627016082, 2443058075, 172466556, 122466165, 273792366, 492483431, 1047239e3, 861968209, 612205898, 695634755, 1646252340, 1863638845, 2013908262, 1963115311, 1446242576, 1530455833, 1277555970, 1093597963, 1636604631, 1820824798, 2073724613, 1989249228, 1436590835, 1487645946, 1337376481, 1119727848, 164948639, 81781910, 331544205, 516552836, 1039717051, 821288114, 669961897, 719700128, 2973530695, 3157750862, 2871682645, 2787207260, 2232435299, 2283490410, 2667994737, 2450346104, 3647212047, 3564045318, 3279033885, 3464042516, 3980931627, 3762502690, 4150144569, 4199882800, 3070356634, 3121275539, 2904027272, 2686254721, 2200818878, 2384911031, 2570832044, 2486224549, 3747192018, 3528626907, 3310321856, 3359936201, 3950355702, 3867060991, 4049844452, 4234721005, 1739656202, 1790575107, 2108100632, 1890328081, 1402811438, 1586903591, 1233856572, 1149249077, 266959938, 48394827, 369057872, 418672217, 1002783846, 919489135, 567498868, 752375421, 209336225, 24197544, 376187827, 459744698, 945164165, 895287692, 574624663, 793451934, 1679968233, 1764313568, 2117360635, 1933530610, 1343127501, 1560637892, 1243112415, 1192455638, 3704280881, 3519142200, 3336358691, 3419915562, 3907448597, 3857572124, 4075877127, 4294704398, 3029510009, 3113855344, 2927934315, 2744104290, 2159976285, 2377486676, 2594734927, 2544078150];
+        var U32 = [0, 218828297, 437656594, 387781147, 875313188, 958871085, 775562294, 590424639, 1750626376, 1699970625, 1917742170, 2135253587, 1551124588, 1367295589, 1180849278, 1265195639, 3501252752, 3720081049, 3399941250, 3350065803, 3835484340, 3919042237, 4270507174, 4085369519, 3102249176, 3051593425, 2734591178, 2952102595, 2361698556, 2177869557, 2530391278, 2614737639, 3145456443, 3060847922, 2708326185, 2892417312, 2404901663, 2187128086, 2504130317, 2555048196, 3542330227, 3727205754, 3375740769, 3292445032, 3876557655, 3926170974, 4246310725, 4027744588, 1808481195, 1723872674, 1910319033, 2094410160, 1608975247, 1391201670, 1173430173, 1224348052, 59984867, 244860394, 428169201, 344873464, 935293895, 984907214, 766078933, 547512796, 1844882806, 1627235199, 2011214180, 2062270317, 1507497298, 1423022939, 1137477952, 1321699145, 95345982, 145085239, 532201772, 313773861, 830661914, 1015671571, 731183368, 648017665, 3175501286, 2957853679, 2807058932, 2858115069, 2305455554, 2220981195, 2474404304, 2658625497, 3575528878, 3625268135, 3473416636, 3254988725, 3778151818, 3963161475, 4213447064, 4130281361, 3599595085, 3683022916, 3432737375, 3247465558, 3802222185, 4020912224, 4172763771, 4122762354, 3201631749, 3017672716, 2764249623, 2848461854, 2331590177, 2280796200, 2431590963, 2648976442, 104699613, 188127444, 472615631, 287343814, 840019705, 1058709744, 671593195, 621591778, 1852171925, 1668212892, 1953757831, 2037970062, 1514790577, 1463996600, 1080017571, 1297403050, 3673637356, 3623636965, 3235995134, 3454686199, 4007360968, 3822090177, 4107101658, 4190530515, 2997825956, 3215212461, 2830708150, 2779915199, 2256734592, 2340947849, 2627016082, 2443058075, 172466556, 122466165, 273792366, 492483431, 1047239e3, 861968209, 612205898, 695634755, 1646252340, 1863638845, 2013908262, 1963115311, 1446242576, 1530455833, 1277555970, 1093597963, 1636604631, 1820824798, 2073724613, 1989249228, 1436590835, 1487645946, 1337376481, 1119727848, 164948639, 81781910, 331544205, 516552836, 1039717051, 821288114, 669961897, 719700128, 2973530695, 3157750862, 2871682645, 2787207260, 2232435299, 2283490410, 2667994737, 2450346104, 3647212047, 3564045318, 3279033885, 3464042516, 3980931627, 3762502690, 4150144569, 4199882800, 3070356634, 3121275539, 2904027272, 2686254721, 2200818878, 2384911031, 2570832044, 2486224549, 3747192018, 3528626907, 3310321856, 3359936201, 3950355702, 3867060991, 4049844452, 4234721005, 1739656202, 1790575107, 2108100632, 1890328081, 1402811438, 1586903591, 1233856572, 1149249077, 266959938, 48394827, 369057872, 418672217, 1002783846, 919489135, 567498868, 752375421, 209336225, 24197544, 376187827, 459744698, 945164165, 895287692, 574624663, 793451934, 1679968233, 1764313568, 2117360635, 1933530610, 1343127501, 1560637892, 1243112415, 1192455638, 3704280881, 3519142200, 3336358691, 3419915562, 3907448597, 3857572124, 4075877127, 4294704398, 3029510009, 3113855344, 2927934315, 2744104290, 2159976285, 2377486676, 2594734927, 2544078150];
         var U4 = [0, 151849742, 303699484, 454499602, 607398968, 758720310, 908999204, 1059270954, 1214797936, 1097159550, 1517440620, 1400849762, 1817998408, 1699839814, 2118541908, 2001430874, 2429595872, 2581445614, 2194319100, 2345119218, 3034881240, 3186202582, 2801699524, 2951971274, 3635996816, 3518358430, 3399679628, 3283088770, 4237083816, 4118925222, 4002861748, 3885750714, 1002142683, 850817237, 698445255, 548169417, 529487843, 377642221, 227885567, 77089521, 1943217067, 2061379749, 1640576439, 1757691577, 1474760595, 1592394909, 1174215055, 1290801793, 2875968315, 2724642869, 3111247143, 2960971305, 2405426947, 2253581325, 2638606623, 2487810577, 3808662347, 3926825029, 4044981591, 4162096729, 3342319475, 3459953789, 3576539503, 3693126241, 1986918061, 2137062819, 1685577905, 1836772287, 1381620373, 1532285339, 1078185097, 1229899655, 1040559837, 923313619, 740276417, 621982671, 439452389, 322734571, 137073913, 19308535, 3871163981, 4021308739, 4104605777, 4255800159, 3263785589, 3414450555, 3499326569, 3651041127, 2933202493, 2815956275, 3167684641, 3049390895, 2330014213, 2213296395, 2566595609, 2448830231, 1305906550, 1155237496, 1607244650, 1455525988, 1776460110, 1626319424, 2079897426, 1928707164, 96392454, 213114376, 396673818, 514443284, 562755902, 679998e3, 865136418, 983426092, 3708173718, 3557504664, 3474729866, 3323011204, 4180808110, 4030667424, 3945269170, 3794078908, 2507040230, 2623762152, 2272556026, 2390325492, 2975484382, 3092726480, 2738905026, 2857194700, 3973773121, 3856137295, 4274053469, 4157467219, 3371096953, 3252932727, 3673476453, 3556361835, 2763173681, 2915017791, 3064510765, 3215307299, 2156299017, 2307622919, 2459735317, 2610011675, 2081048481, 1963412655, 1846563261, 1729977011, 1480485785, 1362321559, 1243905413, 1126790795, 878845905, 1030690015, 645401037, 796197571, 274084841, 425408743, 38544885, 188821243, 3613494426, 3731654548, 3313212038, 3430322568, 4082475170, 4200115116, 3780097726, 3896688048, 2668221674, 2516901860, 2366882550, 2216610296, 3141400786, 2989552604, 2837966542, 2687165888, 1202797690, 1320957812, 1437280870, 1554391400, 1669664834, 1787304780, 1906247262, 2022837584, 265905162, 114585348, 499347990, 349075736, 736970802, 585122620, 972512814, 821712160, 2595684844, 2478443234, 2293045232, 2174754046, 3196267988, 3079546586, 2895723464, 2777952454, 3537852828, 3687994002, 3234156416, 3385345166, 4142626212, 4293295786, 3841024952, 3992742070, 174567692, 57326082, 410887952, 292596766, 777231668, 660510266, 1011452712, 893681702, 1108339068, 1258480242, 1343618912, 1494807662, 1715193156, 1865862730, 1948373848, 2100090966, 2701949495, 2818666809, 3004591147, 3122358053, 2235061775, 2352307457, 2535604243, 2653899549, 3915653703, 3764988233, 4219352155, 4067639125, 3444575871, 3294430577, 3746175075, 3594982253, 836553431, 953270745, 600235211, 718002117, 367585007, 484830689, 133361907, 251657213, 2041877159, 1891211689, 1806599355, 1654886325, 1568718495, 1418573201, 1335535747, 1184342925];
         function convertToInt32(bytes) {
           var result = [];
@@ -4408,7 +4408,7 @@
           for (var r2 = 1; r2 < rounds; r2++) {
             for (var c2 = 0; c2 < 4; c2++) {
               tt2 = this._Kd[r2][c2];
-              this._Kd[r2][c2] = U1[tt2 >> 24 & 255] ^ U22[tt2 >> 16 & 255] ^ U3[tt2 >> 8 & 255] ^ U4[tt2 & 255];
+              this._Kd[r2][c2] = U1[tt2 >> 24 & 255] ^ U22[tt2 >> 16 & 255] ^ U32[tt2 >> 8 & 255] ^ U4[tt2 & 255];
             }
           }
         };
@@ -5335,7 +5335,7 @@
       var ja = require_ja_JA();
       var alias = (lang, ...regions) => {
         for (let region of regions)
-          data["".concat(lang, "-").concat(region)] = data[lang];
+          data[`${lang}-${region}`] = data[lang];
       };
       var data = { en, es, de: de2, fr, it, ja };
       alias("en", "AU", "CA", "GB", "NZ", "SA", "US");
@@ -13896,7 +13896,7 @@
               rightPt = pt1;
               winding = -1;
             } else
-              throw new Error("Tried to create degenerate segment at [".concat(pt1.x, ", ").concat(pt1.y, "]"));
+              throw new Error(`Tried to create degenerate segment at [${pt1.x}, ${pt1.y}]`);
             const leftSE = new SweepEvent2(leftPt, true);
             const rightSE = new SweepEvent2(rightPt, false);
             return new Segment2(leftSE, rightSE, [ring], [winding]);
@@ -14226,7 +14226,7 @@
                 break;
               }
               default:
-                throw new Error("Unrecognized operation type found ".concat(operation2.type));
+                throw new Error(`Unrecognized operation type found ${operation2.type}`);
             }
             return this._isInResult;
           }
@@ -14400,7 +14400,7 @@
                   if (availableLEs.length === 0) {
                     const firstPt = events[0].point;
                     const lastPt = events[events.length - 1].point;
-                    throw new Error("Unable to complete output ring starting at [".concat(firstPt.x, ",") + " ".concat(firstPt.y, "]. Last matching segment found ends at") + " [".concat(lastPt.x, ", ").concat(lastPt.y, "]."));
+                    throw new Error(`Unable to complete output ring starting at [${firstPt.x}, ${firstPt.y}]. Last matching segment found ends at [${lastPt.x}, ${lastPt.y}].`);
                   }
                   if (availableLEs.length === 1) {
                     nextEvent = availableLEs[0].otherSE;
@@ -14580,7 +14580,7 @@
             }
             const node = event.isLeft ? this.tree.add(segment) : this.tree.find(segment);
             if (!node)
-              throw new Error("Unable to find segment #".concat(segment.id, " ") + "[".concat(segment.leftSE.point.x, ", ").concat(segment.leftSE.point.y, "] -> ") + "[".concat(segment.rightSE.point.x, ", ").concat(segment.rightSE.point.y, "] ") + "in SweepLine tree.");
+              throw new Error(`Unable to find segment #${segment.id} [${segment.leftSE.point.x}, ${segment.leftSE.point.y}] -> [${segment.rightSE.point.x}, ${segment.rightSE.point.y}] in SweepLine tree.`);
             let prevNode = node;
             let nextNode = node;
             let prevSeg = void 0;
@@ -14734,7 +14734,7 @@
               const evt = node.key;
               if (queue.size === prevQueueSize) {
                 const seg = evt.segment;
-                throw new Error("Unable to pop() ".concat(evt.isLeft ? "left" : "right", " SweepEvent ") + "[".concat(evt.point.x, ", ").concat(evt.point.y, "] from segment #").concat(seg.id, " ") + "[".concat(seg.leftSE.point.x, ", ").concat(seg.leftSE.point.y, "] -> ") + "[".concat(seg.rightSE.point.x, ", ").concat(seg.rightSE.point.y, "] from queue."));
+                throw new Error(`Unable to pop() ${evt.isLeft ? "left" : "right"} SweepEvent [${evt.point.x}, ${evt.point.y}] from segment #${seg.id} [${seg.leftSE.point.x}, ${seg.leftSE.point.y}] -> [${seg.rightSE.point.x}, ${seg.rightSE.point.y}] from queue.`);
               }
               if (queue.size > POLYGON_CLIPPING_MAX_QUEUE_SIZE) {
                 throw new Error("Infinite loop when passing sweep line over endpoints (queue size too big).");
@@ -17517,13 +17517,13 @@
       var n1 = [1, 0, 0], n22 = cartesianCross(pa, pb), n2n2 = cartesianDot(n22, n22), n1n2 = n22[0], determinant = n2n2 - n1n2 * n1n2;
       if (!determinant)
         return !two && a2;
-      var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n22), A3 = cartesianScale(n1, c1), B2 = cartesianScale(n22, c2);
-      cartesianAddInPlace(A3, B2);
-      var u2 = n1xn2, w2 = cartesianDot(A3, u2), uu = cartesianDot(u2, u2), t2 = w2 * w2 - uu * (cartesianDot(A3, A3) - 1);
+      var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n22), A4 = cartesianScale(n1, c1), B2 = cartesianScale(n22, c2);
+      cartesianAddInPlace(A4, B2);
+      var u2 = n1xn2, w2 = cartesianDot(A4, u2), uu = cartesianDot(u2, u2), t2 = w2 * w2 - uu * (cartesianDot(A4, A4) - 1);
       if (t2 < 0)
         return;
       var t3 = sqrt(t2), q2 = cartesianScale(u2, (-w2 - t3) / uu);
-      cartesianAddInPlace(q2, A3);
+      cartesianAddInPlace(q2, A4);
       q2 = spherical(q2);
       if (!two)
         return q2;
@@ -17535,7 +17535,7 @@
         z2 = phi02, phi02 = phi12, phi12 = z2;
       if (meridian ? polar ? phi02 + phi12 > 0 ^ q2[1] < (abs(q2[0] - lambda04) < epsilon ? phi02 : phi12) : phi02 <= q2[1] && q2[1] <= phi12 : delta2 > pi ^ (lambda04 <= q2[0] && q2[0] <= lambda12)) {
         var q1 = cartesianScale(u2, (-w2 + t3) / uu);
-        cartesianAddInPlace(q1, A3);
+        cartesianAddInPlace(q1, A4);
         return [q2, spherical(q1)];
       }
     }
@@ -20282,12 +20282,12 @@
   var reN = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*";
   var reP = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*";
   var reHex = /^#([0-9a-f]{3,8})$/;
-  var reRgbInteger = new RegExp("^rgb\\(".concat(reI, ",").concat(reI, ",").concat(reI, "\\)$"));
-  var reRgbPercent = new RegExp("^rgb\\(".concat(reP, ",").concat(reP, ",").concat(reP, "\\)$"));
-  var reRgbaInteger = new RegExp("^rgba\\(".concat(reI, ",").concat(reI, ",").concat(reI, ",").concat(reN, "\\)$"));
-  var reRgbaPercent = new RegExp("^rgba\\(".concat(reP, ",").concat(reP, ",").concat(reP, ",").concat(reN, "\\)$"));
-  var reHslPercent = new RegExp("^hsl\\(".concat(reN, ",").concat(reP, ",").concat(reP, "\\)$"));
-  var reHslaPercent = new RegExp("^hsla\\(".concat(reN, ",").concat(reP, ",").concat(reP, ",").concat(reN, "\\)$"));
+  var reRgbInteger = new RegExp(`^rgb\\(${reI},${reI},${reI}\\)$`);
+  var reRgbPercent = new RegExp(`^rgb\\(${reP},${reP},${reP}\\)$`);
+  var reRgbaInteger = new RegExp(`^rgba\\(${reI},${reI},${reI},${reN}\\)$`);
+  var reRgbaPercent = new RegExp(`^rgba\\(${reP},${reP},${reP},${reN}\\)$`);
+  var reHslPercent = new RegExp(`^hsl\\(${reN},${reP},${reP}\\)$`);
+  var reHslaPercent = new RegExp(`^hsla\\(${reN},${reP},${reP},${reN}\\)$`);
   var named = {
     aliceblue: 15792383,
     antiquewhite: 16444375,
@@ -20521,14 +20521,14 @@
     toString: rgb_formatRgb
   }));
   function rgb_formatHex() {
-    return "#".concat(hex(this.r)).concat(hex(this.g)).concat(hex(this.b));
+    return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}`;
   }
   function rgb_formatHex8() {
-    return "#".concat(hex(this.r)).concat(hex(this.g)).concat(hex(this.b)).concat(hex((isNaN(this.opacity) ? 1 : this.opacity) * 255));
+    return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}${hex((isNaN(this.opacity) ? 1 : this.opacity) * 255)}`;
   }
   function rgb_formatRgb() {
     const a2 = clampa(this.opacity);
-    return "".concat(a2 === 1 ? "rgb(" : "rgba(").concat(clampi(this.r), ", ").concat(clampi(this.g), ", ").concat(clampi(this.b)).concat(a2 === 1 ? ")" : ", ".concat(a2, ")"));
+    return `${a2 === 1 ? "rgb(" : "rgba("}${clampi(this.r)}, ${clampi(this.g)}, ${clampi(this.b)}${a2 === 1 ? ")" : `, ${a2})`}`;
   }
   function clampa(opacity) {
     return isNaN(opacity) ? 1 : Math.max(0, Math.min(1, opacity));
@@ -20609,7 +20609,7 @@
     },
     formatHsl() {
       const a2 = clampa(this.opacity);
-      return "".concat(a2 === 1 ? "hsl(" : "hsla(").concat(clamph(this.h), ", ").concat(clampt(this.s) * 100, "%, ").concat(clampt(this.l) * 100, "%").concat(a2 === 1 ? ")" : ", ".concat(a2, ")"));
+      return `${a2 === 1 ? "hsl(" : "hsla("}${clamph(this.h)}, ${clampt(this.s) * 100}%, ${clampt(this.l) * 100}%${a2 === 1 ? ")" : `, ${a2})`}`;
     }
   }));
   function clamph(value) {
@@ -21834,7 +21834,7 @@
     var timing;
     while (!(timing = node.__transition) || !(timing = timing[id3])) {
       if (!(node = node.parentNode)) {
-        throw new Error("transition ".concat(id3, " not found"));
+        throw new Error(`transition ${id3} not found`);
       }
     }
     return timing;
@@ -22898,12 +22898,12 @@
   // package.json
   var package_default = {
     name: "@openhistoricalmap/id",
-    version: "2.29.0-dev",
-    description: "A friendly editor for OpenStreetMap",
+    version: "2.29.3",
+    description: "The OpenHistoricalMap fork of a friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: {
       type: "git",
-      url: "git+https://github.com/OpenHistoricalMap/iD"
+      url: "git+https://github.com/OpenHistoricalMap/iD.git"
     },
     homepage: "https://github.com/OpenHistoricalMap/iD",
     bugs: "https://github.com/OpenHistoricalMap/issues/issues",
@@ -22958,7 +22958,7 @@
       "alif-toolkit": "^1.2.9",
       "core-js-bundle": "^3.36.1",
       diacritics: "1.3.0",
-      edtf: "^4.5.1",
+      edtf: "^4.7.1",
       exifr: "^7.1.3",
       "fast-deep-equal": "~3.1.1",
       "fast-json-stable-stringify": "2.1.0",
@@ -23039,7 +23039,7 @@
   function coreFileFetcher() {
     const ociVersion = package_default.dependencies["osm-community-index"] || package_default.devDependencies["osm-community-index"];
     const v2 = (0, import_vparse.default)(ociVersion);
-    const ociVersionMinor = "".concat(v2.major, ".").concat(v2.minor);
+    const ociVersionMinor = `${v2.major}.${v2.minor}`;
     const presetsVersion = package_default.devDependencies["@openstreetmap/id-tagging-schema"];
     let _this = {};
     let _inflight4 = {};
@@ -23076,7 +23076,7 @@
       const file = _fileMap[which];
       const url = file && _this.asset(file);
       if (!url) {
-        return Promise.reject('Unknown data file for "'.concat(which, '"'));
+        return Promise.reject(`Unknown data file for "${which}"`);
       }
       if (url.includes("{presets_version}")) {
         return _this.get("presets_package").then((result) => {
@@ -23100,7 +23100,7 @@
         }).then((result) => {
           delete _inflight4[url];
           if (!result) {
-            throw new Error('No data loaded for "'.concat(which, '"'));
+            throw new Error(`No data loaded for "${which}"`);
           }
           _cachedData[which] = result;
           return result;
@@ -26320,7 +26320,7 @@
         rightPt = pt1;
         winding = -1;
       } else
-        throw new Error("Tried to create degenerate segment at [".concat(pt1.x, ", ").concat(pt1.y, "]"));
+        throw new Error(`Tried to create degenerate segment at [${pt1.x}, ${pt1.y}]`);
       const leftSE = new SweepEvent(leftPt, true);
       const rightSE = new SweepEvent(rightPt, false);
       return new _Segment(leftSE, rightSE, [ring], [winding]);
@@ -26806,7 +26806,7 @@
             if (availableLEs.length === 0) {
               const firstPt = events[0].point;
               const lastPt = events[events.length - 1].point;
-              throw new Error("Unable to complete output ring starting at [".concat(firstPt.x, ",") + " ".concat(firstPt.y, "]. Last matching segment found ends at") + " [".concat(lastPt.x, ", ").concat(lastPt.y, "]."));
+              throw new Error(`Unable to complete output ring starting at [${firstPt.x}, ${firstPt.y}]. Last matching segment found ends at [${lastPt.x}, ${lastPt.y}].`);
             }
             if (availableLEs.length === 1) {
               nextEvent = availableLEs[0].otherSE;
@@ -27248,7 +27248,7 @@
         }
       }
       if (this.strict) {
-        throw new Error('validateLocation:  Invalid location: "'.concat(location, '".'));
+        throw new Error(`validateLocation:  Invalid location: "${location}".`);
       } else {
         return null;
       }
@@ -27309,7 +27309,7 @@
         return Object.assign(valid, { feature: feature3 });
       }
       if (this.strict) {
-        throw new Error("resolveLocation:  Couldn't resolve location \"".concat(location, '".'));
+        throw new Error(`resolveLocation:  Couldn't resolve location "${location}".`);
       } else {
         return null;
       }
@@ -27338,7 +27338,7 @@
       let exclude = (locationSet.exclude || []).map(validator).filter(Boolean);
       if (!include.length) {
         if (this.strict) {
-          throw new Error("validateLocationSet:  LocationSet includes nothing.");
+          throw new Error(`validateLocationSet:  LocationSet includes nothing.`);
         } else {
           locationSet.include = ["Q2"];
           include = [{ type: "countrycoder", location: "Q2", id: "Q2" }];
@@ -27531,7 +27531,7 @@
         const locationSetID = result.id;
         obj.locationSetID = locationSetID;
         if (!result.feature.geometry.coordinates.length || !result.feature.properties.area) {
-          throw new Error("locationSet ".concat(locationSetID, " resolves to an empty feature."));
+          throw new Error(`locationSet ${locationSetID} resolves to an empty feature.`);
         }
         let geojson = JSON.parse(JSON.stringify(result.feature));
         geojson.id = locationSetID;
@@ -29129,14 +29129,14 @@
 
   // node_modules/edtf/src/assert.js
   function assert(value, message) {
-    return equal(!!value, true, message || 'expected "'.concat(value, '" to be ok'));
+    return equal(!!value, true, message || `expected "${value}" to be ok`);
   }
   function equal(actual, expected, message) {
     if (actual == expected)
       return true;
     if (Number.isNaN(actual) && Number.isNaN(expected))
       return true;
-    throw new Error(message || 'expected "'.concat(actual, '" to equal "').concat(expected, '"'));
+    throw new Error(message || `expected "${actual}" to equal "${expected}"`);
   }
   assert.equal = equal;
   var assert_default = assert;
@@ -29174,20 +29174,20 @@
           if (PATTERN.test(value))
             return _Bitmask.compute(value);
         default:
-          throw new Error("invalid value: ".concat(value));
+          throw new Error(`invalid value: ${value}`);
       }
     }
     static compute(value) {
       return value.split("").reduce((memo, c2, idx) => memo | (SYMBOL.test(c2) ? pow(2, idx) : 0), 0);
     }
-    static values(mask2, digit = 0) {
+    static values(mask2, digit = 0, normalize2 = true) {
       let num2 = _Bitmask.numbers(mask2, digit).split("");
       let values = [Number(num2.slice(0, 4).join(""))];
       if (num2.length > 4)
         values.push(Number(num2.slice(4, 6).join("")));
       if (num2.length > 6)
         values.push(Number(num2.slice(6, 8).join("")));
-      return _Bitmask.normalize(values);
+      return normalize2 ? _Bitmask.normalize(values) : values;
     }
     static numbers(mask2, digit = 0) {
       return mask2.replace(SYMBOLS, digit);
@@ -29422,14 +29422,14 @@
       level
     });
   }
-  function masked(type2 = "unspecified", symbol = "X") {
+  function masked(type2 = "unspecified", symbol = "X", normalize2 = true) {
     return (data, _2, reject) => {
       data = data.join("");
       let negative = data.startsWith("-");
       let mask2 = data.replace(/-/g, "");
       if (mask2.indexOf(symbol) === -1)
         return reject;
-      let values = Bitmask.values(mask2, 0);
+      let values = Bitmask.values(mask2, 0, normalize2);
       if (negative)
         values[0] = -values[0];
       return {
@@ -29477,32 +29477,34 @@
       level: 0
     };
   }
-  function season(data, level = 1) {
+  function season(values, level = 1) {
     return {
       type: "Season",
       level,
-      values: [Number(data[0]), Number(data[2])]
+      values: values.map(Number)
     };
   }
   function list(data) {
     return assign({ values: data[1], level: 2 }, data[0], data[2]);
   }
-  function qualify([parts], _2, reject) {
-    let q2 = {
-      uncertain: new Bitmask(),
-      approximate: new Bitmask()
-    };
-    let values = parts.map(([lhs, part, rhs], idx) => {
-      for (let ua in lhs)
-        q2[ua].qualify(idx * 2);
-      for (let ua in rhs)
-        q2[ua].qualify(1 + idx * 2);
-      return part;
-    });
-    return !q2.uncertain.value && !q2.approximate.value ? reject : {
-      ...date(values, 2),
-      uncertain: q2.uncertain.value,
-      approximate: q2.approximate.value
+  function qualified(fn, level = 2) {
+    return ([parts], _2, reject) => {
+      let q2 = {
+        uncertain: new Bitmask(),
+        approximate: new Bitmask()
+      };
+      let values = parts.map(([lhs, part, rhs], idx) => {
+        for (let ua in lhs)
+          q2[ua].qualify(idx * 2);
+        for (let ua in rhs)
+          q2[ua].qualify(1 + idx * 2);
+        return part;
+      });
+      return !q2.uncertain.value && !q2.approximate.value ? reject : {
+        ...fn(values, level),
+        uncertain: q2.uncertain.value,
+        approximate: q2.approximate.value
+      };
     };
   }
 
@@ -29716,7 +29718,7 @@
     { "name": "UA", "symbols": [{ "literal": "?" }], "postprocess": () => ({ uncertain: true }) },
     { "name": "UA", "symbols": [{ "literal": "~" }], "postprocess": () => ({ approximate: true }) },
     { "name": "UA", "symbols": [{ "literal": "%" }], "postprocess": () => ({ approximate: true, uncertain: true }) },
-    { "name": "L1S", "symbols": ["year", { "literal": "-" }, "d21_24"], "postprocess": (data) => season(data, 1) },
+    { "name": "L1S", "symbols": ["year", { "literal": "-" }, "d21_24"], "postprocess": (d2) => season([d2[0], d2[2]], 1) },
     { "name": "L2", "symbols": ["L2d"], "postprocess": id2 },
     { "name": "L2", "symbols": ["L2Y"], "postprocess": id2 },
     { "name": "L2", "symbols": ["L2S"], "postprocess": id2 },
@@ -29731,9 +29733,9 @@
     { "name": "L2D", "symbols": ["decade", "UA"], "postprocess": merge2(0, 1) },
     { "name": "L2C", "symbols": ["century"], "postprocess": id2 },
     { "name": "L2C", "symbols": ["century", "UA"], "postprocess": merge2(0, 1, { level: 2 }) },
-    { "name": "ua_date", "symbols": ["ua_year"], "postprocess": qualify },
-    { "name": "ua_date", "symbols": ["ua_year_month"], "postprocess": qualify },
-    { "name": "ua_date", "symbols": ["ua_year_month_day"], "postprocess": qualify },
+    { "name": "ua_date", "symbols": ["ua_year"], "postprocess": qualified(date) },
+    { "name": "ua_date", "symbols": ["ua_year_month"], "postprocess": qualified(date) },
+    { "name": "ua_date", "symbols": ["ua_year_month_day"], "postprocess": qualified(date) },
     { "name": "ua_year", "symbols": ["UA", "year"], "postprocess": (data) => [data] },
     { "name": "ua_year_month$macrocall$2", "symbols": ["year"] },
     { "name": "ua_year_month$macrocall$1$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
@@ -29860,7 +29862,7 @@
     } },
     { "name": "exp_year", "symbols": ["exp_year$string$1", "exp"], "postprocess": (data) => year([-data[1]], 2) },
     { "name": "exp", "symbols": ["digits", { "literal": "E" }, "digits"], "postprocess": (data) => num(data[0]) * Math.pow(10, num(data[2])) },
-    { "name": "L2S", "symbols": ["year", { "literal": "-" }, "d25_41"], "postprocess": (data) => season(data, 2) },
+    { "name": "L2S", "symbols": ["year", { "literal": "-" }, "d25_41"], "postprocess": (d2) => season([d2[0], d2[2]], 2) },
     { "name": "decade", "symbols": ["positive_decade"], "postprocess": (data) => decade(data[0]) },
     { "name": "decade$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }, { "literal": "0" }], "postprocess": function joiner29(d2) {
       return d2.join("");
@@ -29914,9 +29916,35 @@
     } },
     { "name": "consecutives", "symbols": ["year", "consecutives$string$3", "year"], "postprocess": (d2) => [date([d2[0]]), date([d2[2]])] },
     { "name": "L3", "symbols": ["L3i"], "postprocess": id2 },
-    { "name": "L3i", "symbols": ["L3S", { "literal": "/" }, "L3S"], "postprocess": interval2(3) },
-    { "name": "L3S", "symbols": ["L1S"], "postprocess": id2 },
-    { "name": "L3S", "symbols": ["L2S"], "postprocess": id2 },
+    { "name": "L3", "symbols": ["L3S"], "postprocess": id2 },
+    { "name": "L3i", "symbols": ["L3s", { "literal": "/" }, "L3s"], "postprocess": interval2(3) },
+    { "name": "L3s", "symbols": ["L1S"], "postprocess": id2 },
+    { "name": "L3s", "symbols": ["L2S"], "postprocess": id2 },
+    { "name": "L3s", "symbols": ["L3S"], "postprocess": id2 },
+    { "name": "L3S", "symbols": ["ua_season"], "postprocess": qualified(season, 3) },
+    { "name": "L3S", "symbols": ["xx_season"], "postprocess": merge2(0, { type: "Season", level: 3 }) },
+    { "name": "ua_season$macrocall$2", "symbols": ["year"] },
+    { "name": "ua_season$macrocall$1$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_season$macrocall$1$ebnf$1", "symbols": [], "postprocess": function(d2) {
+      return null;
+    } },
+    { "name": "ua_season$macrocall$1$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_season$macrocall$1$ebnf$2", "symbols": [], "postprocess": function(d2) {
+      return null;
+    } },
+    { "name": "ua_season$macrocall$1", "symbols": ["ua_season$macrocall$1$ebnf$1", "ua_season$macrocall$2", "ua_season$macrocall$1$ebnf$2"] },
+    { "name": "ua_season$macrocall$4", "symbols": ["d21_41"] },
+    { "name": "ua_season$macrocall$3$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_season$macrocall$3$ebnf$1", "symbols": [], "postprocess": function(d2) {
+      return null;
+    } },
+    { "name": "ua_season$macrocall$3$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_season$macrocall$3$ebnf$2", "symbols": [], "postprocess": function(d2) {
+      return null;
+    } },
+    { "name": "ua_season$macrocall$3", "symbols": ["ua_season$macrocall$3$ebnf$1", "ua_season$macrocall$4", "ua_season$macrocall$3$ebnf$2"] },
+    { "name": "ua_season", "symbols": ["ua_season$macrocall$1", { "literal": "-" }, "ua_season$macrocall$3"], "postprocess": pluck(0, 2) },
+    { "name": "xx_season", "symbols": ["dx4", { "literal": "-" }, "d21_41"], "postprocess": masked("unspecified", "X", false) },
     { "name": "digit", "symbols": ["positive_digit"], "postprocess": id2 },
     { "name": "digit", "symbols": [{ "literal": "0" }], "postprocess": id2 },
     { "name": "digits", "symbols": ["digit"], "postprocess": id2 },
@@ -30068,6 +30096,8 @@
     { "name": "d25_41", "symbols": [{ "literal": "2" }, /[5-9]/], "postprocess": join },
     { "name": "d25_41", "symbols": [{ "literal": "3" }, "digit"], "postprocess": join },
     { "name": "d25_41", "symbols": [{ "literal": "4" }, /[01]/], "postprocess": join },
+    { "name": "d21_41", "symbols": ["d21_24"], "postprocess": id2 },
+    { "name": "d21_41", "symbols": ["d25_41"], "postprocess": id2 },
     { "name": "_$ebnf$1", "symbols": [] },
     { "name": "_$ebnf$1", "symbols": ["_$ebnf$1", { "literal": " " }], "postprocess": function arrpush(d2) {
       return d2[0].concat([d2[1]]);
@@ -30081,7 +30111,8 @@
   var defaults = {
     level: 2,
     types: [],
-    seasonIntervals: false
+    seasonIntervals: false,
+    seasonUncertainty: false
   };
   function byLevel(a2, b2) {
     return a2.level < b2.level ? -1 : a2.level > b2.level ? 1 : 0;
@@ -30092,10 +30123,13 @@
     let {
       level,
       types,
-      seasonIntervals
+      seasonIntervals,
+      seasonUncertainty
     } = { ...defaults, ...constraints };
     return results.filter((res) => {
       if (seasonIntervals && isSeasonInterval(res))
+        return true;
+      if (seasonUncertainty && isSeasonLevel3(res))
         return true;
       if (res.level > level)
         return false;
@@ -30106,6 +30140,9 @@
   }
   function isSeasonInterval({ type: type2, values }) {
     return type2 === "Interval" && values[0].type === "Season";
+  }
+  function isSeasonLevel3({ type: type2, level }) {
+    return type2 === "Season" && level >= 3;
   }
   function best(results) {
     if (results.length < 2)
@@ -30120,7 +30157,7 @@
         throw new Error("edtf: No possible parsings (@EOS)");
       return res;
     } catch (error) {
-      error.message += ' for "'.concat(input, '"');
+      error.message += ` for "${input}"`;
       throw error;
     }
   }
@@ -30516,16 +30553,16 @@
       if (!idx) {
         let k2 = abs2(number3);
         if (k2 < 10)
-          return "000".concat(k2);
+          return `000${k2}`;
         if (k2 < 100)
-          return "00".concat(k2);
+          return `00${k2}`;
         if (k2 < 1e3)
-          return "0".concat(k2);
-        return "".concat(k2);
+          return `0${k2}`;
+        return `${k2}`;
       }
       if (idx === 1)
         number3 = number3 + 1;
-      return number3 < 10 ? "0".concat(number3) : "".concat(number3);
+      return number3 < 10 ? `0${number3}` : `${number3}`;
     }
     bits(value) {
       if (value === true)
@@ -30593,10 +30630,10 @@
     }
     toEDTF() {
       let y2 = abs3(this.year);
-      let s2 = this.significant ? "S".concat(this.significant) : "";
+      let s2 = this.significant ? `S${this.significant}` : "";
       if (y2 <= 9999)
-        return "".concat(this.year < 0 ? "-" : "").concat(pad(this.year)).concat(s2);
-      return "Y".concat(this.year).concat(s2);
+        return `${this.year < 0 ? "-" : ""}${pad(this.year)}${s2}`;
+      return `Y${this.year}${s2}`;
     }
   };
 
@@ -30641,7 +30678,7 @@
     }
     set decade(decade2) {
       decade2 = floor2(Number(decade2));
-      assert_default(abs4(decade2) < 1e3, "invalid decade: ".concat(decade2));
+      assert_default(abs4(decade2) < 1e3, `invalid decade: ${decade2}`);
       this.values[0] = decade2;
     }
     get year() {
@@ -30671,10 +30708,10 @@
       let k2 = abs4(number3);
       let sign2 = k2 === number3 ? "" : "-";
       if (k2 < 10)
-        return "".concat(sign2, "00").concat(k2);
+        return `${sign2}00${k2}`;
       if (k2 < 100)
-        return "".concat(sign2, "0").concat(k2);
-      return "".concat(number3);
+        return `${sign2}0${k2}`;
+      return `${number3}`;
     }
   };
 
@@ -30719,7 +30756,7 @@
     }
     set century(century2) {
       century2 = floor3(Number(century2));
-      assert_default(abs5(century2) < 100, "invalid century: ".concat(century2));
+      assert_default(abs5(century2) < 100, `invalid century: ${century2}`);
       this.values[0] = century2;
     }
     get year() {
@@ -30749,16 +30786,20 @@
       let k2 = abs5(number3);
       let sign2 = k2 === number3 ? "" : "-";
       if (k2 < 10)
-        return "".concat(sign2, "0").concat(k2);
-      return "".concat(number3);
+        return `${sign2}0${k2}`;
+      return `${number3}`;
     }
   };
 
   // node_modules/edtf/src/season.js
+  var A2 = /* @__PURE__ */ new WeakMap();
+  var U2 = /* @__PURE__ */ new WeakMap();
   var V4 = /* @__PURE__ */ new WeakMap();
+  var X3 = /* @__PURE__ */ new WeakMap();
   var Season = class _Season extends ExtDateTime {
     constructor(input) {
       super();
+      let uncertain, approximate, unspecified;
       V4.set(this, []);
       switch (typeof input) {
         case "number":
@@ -30778,6 +30819,7 @@
             assert_default.equal(2, input.values.length);
             this.year = input.values[0];
             this.season = input.values[1];
+            ({ unspecified, uncertain, approximate } = input);
           }
           break;
         case "undefined":
@@ -30787,6 +30829,9 @@
         default:
           throw new RangeError("Invalid season value");
       }
+      this.unspecified = unspecified;
+      this.uncertain = uncertain;
+      this.approximate = approximate;
     }
     get year() {
       return this.values[0];
@@ -30803,8 +30848,26 @@
     get values() {
       return V4.get(this);
     }
+    set uncertain(value) {
+      U2.set(this, new Bitmask(value));
+    }
+    get uncertain() {
+      return U2.get(this);
+    }
+    set approximate(value) {
+      A2.set(this, new Bitmask(value));
+    }
+    get approximate() {
+      return A2.get(this);
+    }
+    set unspecified(value) {
+      X3.set(this, new Bitmask(value));
+    }
+    get unspecified() {
+      return X3.get(this);
+    }
     next(k2 = 1) {
-      let { season: season2, year: year2 } = this;
+      let { season: season2, year: year2, unspecified, approximate, uncertain } = this;
       switch (true) {
         case (season2 >= 21 && season2 <= 36):
           [year2, season2] = inc(year2, season2, k2, season2 - (season2 - 21) % 4, 4);
@@ -30816,9 +30879,14 @@
           [year2, season2] = inc(year2, season2, k2, 40, 2);
           break;
         default:
-          throw new RangeError("Cannot compute next/prev for season ".concat(season2));
+          throw new RangeError(`Cannot compute next/prev for season ${season2}`);
       }
-      return new _Season(year2, season2);
+      return new _Season({
+        values: [year2, season2],
+        approximate,
+        uncertain,
+        unspecified
+      });
     }
     prev(k2 = 1) {
       return this.next(-k2);
@@ -30857,45 +30925,55 @@
       }
     }
     get max() {
+      let year2 = this.unspecified.max([pad(this.year)]);
       switch (this.season) {
         case 21:
         case 25:
         case 32:
         case 33:
-          return ExtDateTime.UTC(this.year, 3) - 1;
+          return ExtDateTime.UTC(year2, 3) - 1;
         case 22:
         case 26:
         case 31:
         case 34:
         case 40:
-          return ExtDateTime.UTC(this.year, 6) - 1;
+          return ExtDateTime.UTC(year2, 6) - 1;
         case 23:
         case 27:
         case 30:
         case 35:
-          return ExtDateTime.UTC(this.year, 9) - 1;
+          return ExtDateTime.UTC(year2, 9) - 1;
         case 24:
         case 28:
         case 29:
         case 36:
         case 41:
         case 39:
-          return ExtDateTime.UTC(this.year + 1, 0) - 1;
+          return ExtDateTime.UTC(year2 + 1, 0) - 1;
         case 37:
-          return ExtDateTime.UTC(this.year, 5) - 1;
+          return ExtDateTime.UTC(year2, 5) - 1;
         case 38:
-          return ExtDateTime.UTC(this.year, 9) - 1;
+          return ExtDateTime.UTC(year2, 9) - 1;
         default:
-          return ExtDateTime.UTC(this.year + 1, 0) - 1;
+          return ExtDateTime.UTC(year2 + 1, 0) - 1;
       }
     }
     toEDTF() {
-      return "".concat(this.year < 0 ? "-" : "").concat(pad(this.year), "-").concat(this.season);
+      let sign2 = this.year < 0 ? "-" : "";
+      let values = [pad(this.year), String(this.season)];
+      if (this.unspecified.value)
+        return sign2 + this.unspecified.masks(values).join("-");
+      if (this.uncertain.value)
+        values = this.uncertain.marks(values, "?");
+      if (this.approximate.value) {
+        values = this.approximate.marks(values, "~").map((value) => value.replace(/(~\?)|(\?~)/, "%"));
+      }
+      return sign2 + values.join("-");
     }
   };
   function validate(season2) {
     if (isNaN(season2) || season2 < 21 || season2 === Infinity)
-      throw new RangeError("invalid division of year: ".concat(season2));
+      throw new RangeError(`invalid division of year: ${season2}`);
     return season2;
   }
   function inc(year2, season2, by, base, size) {
@@ -30944,7 +31022,7 @@
         case 0:
           break;
         default:
-          throw new RangeError("invalid interval value: ".concat(args));
+          throw new RangeError(`invalid interval value: ${args}`);
       }
     }
     get lower() {
@@ -30957,7 +31035,7 @@
         return this.values[0] = Infinity;
       value = getDateOrSeasonFrom(value);
       if (value >= this.upper && this.upper != null)
-        throw new RangeError("invalid lower bound: ".concat(value));
+        throw new RangeError(`invalid lower bound: ${value}`);
       this.values[0] = value;
     }
     get upper() {
@@ -30970,7 +31048,7 @@
         return this.values[1] = Infinity;
       value = getDateOrSeasonFrom(value);
       if (this.lower !== null && this.lower !== Infinity && value <= this.lower)
-        throw new RangeError("invalid upper bound: ".concat(value));
+        throw new RangeError(`invalid upper bound: ${value}`);
       this.values[1] = value;
     }
     get finite() {
@@ -31005,7 +31083,7 @@
   function getDateOrSeasonFrom(value) {
     try {
       return Date2.from(value);
-    } catch (de2) {
+    } catch {
       return Season.from(value);
     }
   }
@@ -31038,7 +31116,7 @@
             }
             break;
           default:
-            throw new RangeError("invalid ".concat(this.type, " value: ").concat(args));
+            throw new RangeError(`invalid ${this.type} value: ${args}`);
         }
       }
     }
@@ -31093,11 +31171,11 @@
     }
     toEDTF() {
       return this.wrap(
-        this.empty ? "" : "".concat(this.earlier ? ".." : "").concat(this.content()).concat(this.later ? ".." : "")
+        this.empty ? "" : `${this.earlier ? ".." : ""}${this.content()}${this.later ? ".." : ""}`
       );
     }
     wrap(content) {
-      return "{".concat(content, "}");
+      return `{${content}}`;
     }
   };
 
@@ -31110,7 +31188,7 @@
       return "Set";
     }
     wrap(content) {
-      return "[".concat(content, "]");
+      return `[${content}]`;
     }
   };
 
@@ -31246,9 +31324,9 @@
       }
       if (startEDTF && endEDTF) {
         if (startEDTF.match(/[~?%]/) || endEDTF.match(/[~?%]/)) {
-          return "".concat(startEDTF, "/").concat(endEDTF);
+          return `${startEDTF}/${endEDTF}`;
         } else {
-          return "[".concat(startEDTF, "..").concat(endEDTF, "]");
+          return `[${startEDTF}..${endEDTF}]`;
         }
       }
     }
@@ -31264,7 +31342,7 @@
       } else {
         year2 = year2.padStart(4, "0");
       }
-      return "".concat(year2).concat(monthDay).concat(circa);
+      return `${year2}${monthDay}${circa}`;
     }
     let decade2;
     [match, circa, decade2, bc] = osm.match(/^(~)?(\d+)0s( BCE?)?$/) || [];
@@ -31272,11 +31350,11 @@
       if (!circa)
         circa = "";
       if (!bc) {
-        return "".concat(decade2.padStart(3, "0"), "X").concat(circa);
+        return `${decade2.padStart(3, "0")}X${circa}`;
       }
       let startYear = String(parseInt(decade2, 10) * 10 + 8).padStart(4, "0");
       let endYear = String(parseInt(decade2, 10) * 10 - 1).padStart(4, "0");
-      return "-".concat(startYear).concat(circa, "/-").concat(endYear).concat(circa);
+      return `-${startYear}${circa}/-${endYear}${circa}`;
     }
     let century2;
     [match, circa, century2, bc] = osm.match(/^(~)?C(\d+)( BCE?)?$/) || [];
@@ -31284,11 +31362,11 @@
       if (!circa)
         circa = "";
       if (!bc) {
-        return "".concat(String(parseInt(century2, 10) - 1).padStart(2, "0"), "XX").concat(circa);
+        return `${String(parseInt(century2, 10) - 1).padStart(2, "0")}XX${circa}`;
       }
       let startYear = String((parseInt(century2, 10) - 1) * 100 + 98).padStart(4, "0");
       let endYear = String((parseInt(century2, 10) - 1) * 100 - 1).padStart(4, "0");
-      return "-".concat(startYear).concat(circa, "/-").concat(endYear).concat(circa);
+      return `-${startYear}${circa}/-${endYear}${circa}`;
     }
     let third;
     [match, third, decade2, bc] = osm.match(/^(early|mid|late) (\d+)0s( BCE?)?$/) || [];
@@ -31303,9 +31381,9 @@
       if (bc) {
         startYear = startYear + 1;
         endYear = endYear + 1;
-        return "-".concat(String(startYear).padStart(4, "0"), "~/-").concat(String(endYear).padStart(4, "0"), "~");
+        return `-${String(startYear).padStart(4, "0")}~/-${String(endYear).padStart(4, "0")}~`;
       } else {
-        return "".concat(String(startYear).padStart(4, "0"), "~/").concat(String(endYear).padStart(4, "0"), "~");
+        return `${String(startYear).padStart(4, "0")}~/${String(endYear).padStart(4, "0")}~`;
       }
     }
     [match, third, century2, bc] = osm.match(/^(early|mid|late) C(\d+)( BCE?)?$/) || [];
@@ -31321,18 +31399,18 @@
       if (bc) {
         startYear = startYear + 1;
         endYear = endYear + 1;
-        return "-".concat(String(startYear).padStart(4, "0"), "~/-").concat(String(endYear).padStart(4, "0"), "~");
+        return `-${String(startYear).padStart(4, "0")}~/-${String(endYear).padStart(4, "0")}~`;
       } else {
-        return "".concat(String(startYear).padStart(4, "0"), "~/").concat(String(endYear).padStart(4, "0"), "~");
+        return `${String(startYear).padStart(4, "0")}~/${String(endYear).padStart(4, "0")}~`;
       }
     }
     [match, end] = osm.match(/^before (\d{4}(?:-\d\d)?(?:-\d\d)?)$/) || [];
     if (match) {
-      return "[..".concat(end, "]");
+      return `[..${end}]`;
     }
     [match, start2] = osm.match(/^after (\d{4}(?:-\d\d)?(?:-\d\d)?)$/) || [];
     if (match) {
-      return "[".concat(start2, "..]");
+      return `[${start2}..]`;
     }
   }
 
@@ -32268,7 +32346,7 @@
       };
       let fileMap = _mainFileFetcher.fileMap();
       for (let scopeId in localeDirs) {
-        const key = "locales_index_".concat(scopeId);
+        const key = `locales_index_${scopeId}`;
         if (!fileMap[key]) {
           fileMap[key] = localeDirs[scopeId] + "/index.min.json";
         }
@@ -32340,9 +32418,9 @@
         return Promise.resolve(locale2);
       }
       let fileMap = _mainFileFetcher.fileMap();
-      const key = "locale_".concat(scopeId, "_").concat(locale2);
+      const key = `locale_${scopeId}_${locale2}`;
       if (!fileMap[key]) {
-        fileMap[key] = "".concat(directory, "/").concat(locale2, ".min.json");
+        fileMap[key] = `${directory}/${locale2}.min.json`;
       }
       return _mainFileFetcher.get(key).then((d2) => {
         if (!_localeStrings[scopeId])
@@ -32409,7 +32487,7 @@
                   value = value.toString();
                 }
               }
-              const token = "{".concat(key, "}");
+              const token = `{${key}}`;
               const regex = new RegExp(token, "g");
               result = result.replace(regex, value);
             }
@@ -32433,7 +32511,7 @@
           locale: null
         };
       }
-      const missing = "Missing ".concat(locale2, " translation: ").concat(origStringId);
+      const missing = `Missing ${locale2} translation: ${origStringId}`;
       if (typeof console !== "undefined")
         console.error(missing);
       return {
@@ -32460,7 +32538,7 @@
       }
       const info = localizer.tInfo(stringId, replacements, locale2);
       if (info.text) {
-        return '<span class="localized-text" lang="'.concat(info.locale || "und", '">').concat(info.text, "</span>");
+        return `<span class="localized-text" lang="${info.locale || "und"}">${info.text}</span>`;
       } else {
         return "";
       }
@@ -32519,12 +32597,12 @@
       const numerals = Array.from({ length: 10 }).map((_2, i3) => format3.format(i3));
       const index = new Map(numerals.map((d2, i3) => [d2, i3]));
       const literalPart = parts.find((d2) => d2.type === "literal");
-      const literal = literalPart && new RegExp("[".concat(literalPart.value, "]"), "g");
+      const literal = literalPart && new RegExp(`[${literalPart.value}]`, "g");
       const groupPart = parts.find((d2) => d2.type === "group");
-      const group = groupPart && new RegExp("[".concat(groupPart.value, "]"), "g");
+      const group = groupPart && new RegExp(`[${groupPart.value}]`, "g");
       const decimalPart = parts.find((d2) => d2.type === "decimal");
-      const decimal = decimalPart && new RegExp("[".concat(decimalPart.value, "]"));
-      const numeral = new RegExp("[".concat(numerals.join(""), "]"), "g");
+      const decimal = decimalPart && new RegExp(`[${decimalPart.value}]`);
+      const numeral = new RegExp(`[${numerals.join("")}]`, "g");
       const getIndex = (d2) => index.get(d2);
       return (string) => {
         string = string.trim();
@@ -32545,11 +32623,11 @@
         if ("formatToParts" in format3) {
           const parts = format3.formatToParts(-12345.6);
           const literalPart = parts.find((d2) => d2.type === "literal");
-          literal = literalPart && new RegExp("[".concat(literalPart.value, "]"), "g");
+          literal = literalPart && new RegExp(`[${literalPart.value}]`, "g");
           const groupPart = parts.find((d2) => d2.type === "group");
-          group = groupPart && new RegExp("[".concat(groupPart.value, "]"), "g");
+          group = groupPart && new RegExp(`[${groupPart.value}]`, "g");
           const decimalPart = parts.find((d2) => d2.type === "decimal");
-          decimal = decimalPart && new RegExp("[".concat(decimalPart.value, "]"));
+          decimal = decimalPart && new RegExp(`[${decimalPart.value}]`);
         }
       }
       return (string) => {
@@ -32711,8 +32789,8 @@
     _this.matchGeometry = (geom) => _this.geometry.indexOf(geom) >= 0;
     _this.matchAllGeometry = (geometries) => _this.members.collection.some((preset) => preset.matchAllGeometry(geometries));
     _this.matchScore = () => -1;
-    _this.name = () => _t("_tagging.presets.categories.".concat(categoryID, ".name"), { "default": categoryID });
-    _this.nameLabel = () => _t.append("_tagging.presets.categories.".concat(categoryID, ".name"), { "default": categoryID });
+    _this.name = () => _t(`_tagging.presets.categories.${categoryID}.name`, { "default": categoryID });
+    _this.nameLabel = () => _t.append(`_tagging.presets.categories.${categoryID}.name`, { "default": categoryID });
     _this.terms = () => [];
     _this.searchName = () => {
       if (!_searchName) {
@@ -32749,18 +32827,18 @@
       return !_this.geometry || geometries.every((geom) => _this.geometry.indexOf(geom) !== -1);
     };
     _this.t = (scope, options2) => _t(_mainLocalizer.coalesceStringIds([
-      "custom_presets.fields.".concat(localizerFieldID, ".").concat(scope),
-      "_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope)
+      `custom_presets.fields.${localizerFieldID}.${scope}`,
+      `_tagging.presets.fields.${localizerFieldID}.${scope}`
     ]), options2);
     _this.t.html = (scope, options2) => _t.html(_mainLocalizer.coalesceStringIds([
-      "custom_presets.fields.".concat(localizerFieldID, ".").concat(scope),
-      "_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope)
+      `custom_presets.fields.${localizerFieldID}.${scope}`,
+      `_tagging.presets.fields.${localizerFieldID}.${scope}`
     ]), options2);
     _this.t.append = (scope, options2) => _t.append(_mainLocalizer.coalesceStringIds([
-      "custom_presets.fields.".concat(localizerFieldID, ".").concat(scope),
-      "_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope)
+      `custom_presets.fields.${localizerFieldID}.${scope}`,
+      `_tagging.presets.fields.${localizerFieldID}.${scope}`
     ]), options2);
-    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId("custom_presets.fields.".concat(localizerFieldID, ".").concat(scope)) || _mainLocalizer.hasTextForStringId("_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope));
+    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`custom_presets.fields.${localizerFieldID}.${scope}`) || _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${localizerFieldID}.${scope}`);
     _this.resolveReference = (which) => {
       const referenceRegex = /^\{(.*)\}$/;
       const match = (field[which] || "").match(referenceRegex);
@@ -32769,7 +32847,7 @@
         if (field2) {
           return field2;
         }
-        console.error("Unable to resolve referenced field: ".concat(match[1]));
+        console.error(`Unable to resolve referenced field: ${match[1]}`);
       }
       return _this;
     };
@@ -32838,15 +32916,15 @@
     };
     _this.t = (scope, options2) => {
       const textID = _mainLocalizer.coalesceStringIds([
-        "custom_presets.presets.".concat(presetID, ".").concat(scope),
-        "_tagging.presets.presets.".concat(presetID, ".").concat(scope)
+        `custom_presets.presets.${presetID}.${scope}`,
+        `_tagging.presets.presets.${presetID}.${scope}`
       ]);
       return _t(textID, options2);
     };
     _this.t.append = (scope, options2) => {
       const textID = _mainLocalizer.coalesceStringIds([
-        "custom_presets.presets.".concat(presetID, ".").concat(scope),
-        "_tagging.presets.presets.".concat(presetID, ".").concat(scope)
+        `custom_presets.presets.${presetID}.${scope}`,
+        `_tagging.presets.presets.${presetID}.${scope}`
       ]);
       return _t.append(textID, options2);
     };
@@ -32857,7 +32935,7 @@
         if (preset2) {
           return preset2;
         }
-        console.error("Unable to resolve referenced preset: ".concat(match[1]));
+        console.error(`Unable to resolve referenced preset: ${match[1]}`);
       }
       return _this;
     }
@@ -32872,8 +32950,8 @@
         let path = presetID.split("/");
         path.pop();
         return _t(_mainLocalizer.coalesceStringIds([
-          "custom_presets.presets.".concat(path.join("/"), ".name"),
-          "_tagging.presets.presets.".concat(path.join("/"), ".name")
+          `custom_presets.presets.${path.join("/")}.name`,
+          `_tagging.presets.presets.${path.join("/")}.name`
         ]));
       }
       return null;
@@ -32883,8 +32961,8 @@
         let path = presetID.split("/");
         path.pop();
         return _t.append(_mainLocalizer.coalesceStringIds([
-          "custom_presets.presets.".concat(path.join("/"), ".name"),
-          "_tagging.presets.presets.".concat(path.join("/"), ".name")
+          `custom_presets.presets.${path.join("/")}.name`,
+          `_tagging.presets.presets.${path.join("/")}.name`
         ]));
       }
       return null;
@@ -33002,7 +33080,7 @@
         } else if (allFields[fieldID]) {
           resolved.push(allFields[fieldID]);
         } else {
-          console.log('Cannot resolve "'.concat(fieldID, '" found in ').concat(_this.id, ".").concat(which));
+          console.log(`Cannot resolve "${fieldID}" found in ${_this.id}.${which}`);
         }
       });
       if (!resolved.length) {
@@ -33780,7 +33858,7 @@
     var localizedNameKey = "name:" + _mainLocalizer.languageCode().toLowerCase();
     var name = entity.tags[localizedNameKey] || entity.tags.name || "";
     if (name) {
-      return dateRange ? "".concat(name, " [").concat(dateRange, "]") : name;
+      return dateRange ? `${name} [${dateRange}]` : name;
     }
     var tags = {
       direction: entity.tags.direction,
@@ -33811,7 +33889,7 @@
     if (keyComponents.length) {
       name = _t("inspector.display_name." + keyComponents.join("_"), tags);
     }
-    return dateRange ? "".concat(name, " [").concat(dateRange, "]") : name;
+    return dateRange ? `${name} [${dateRange}]` : name;
   }
   function utilDisplayNameForPath(entity) {
     var name = utilDisplayName(entity);
@@ -36951,7 +37029,7 @@
       this.loc = loc;
       this.service = service.title;
       this.itemType = itemType;
-      this.id = id3 ? id3 : "".concat(_QAItem.id());
+      this.id = id3 ? id3 : `${_QAItem.id()}`;
       this.update(props);
       if (service && typeof service.getIcon === "function") {
         this.icon = service.getIcon(itemType);
@@ -42034,13 +42112,13 @@
     }
     return capture;
     function linkErrorObject2(d2) {
-      return { html: '<a class="error_object_link">'.concat(d2, "</a>") };
+      return { html: `<a class="error_object_link">${d2}</a>` };
     }
     function linkEntity2(d2) {
-      return { html: '<a class="error_entity_link">'.concat(d2, "</a>") };
+      return { html: `<a class="error_entity_link">${d2}</a>` };
     }
     function linkURL(d2) {
-      return { html: '<a class="kr_external_link" target="_blank" href="'.concat(d2, '">').concat(d2, "</a>") };
+      return { html: `<a class="kr_external_link" target="_blank" href="${d2}">${d2}</a>` };
     }
     function parse211(capture2) {
       let newList = [];
@@ -42069,11 +42147,11 @@
       const items = capture2.split(",");
       items.forEach((item) => {
         item = item.split(" ");
-        const role = '"'.concat(item[0], '"');
+        const role = `"${item[0]}"`;
         const idType2 = item[1].slice(0, 1);
         let id3 = item[2].slice(1);
         id3 = linkEntity2(idType2 + id3);
-        newList.push("".concat(role, " ").concat(item[1], " ").concat(id3));
+        newList.push(`${role} ${item[1]} ${id3}`);
       });
       return newList.join(", ");
     }
@@ -42131,7 +42209,7 @@
           return;
         const [left, top, right, bottom] = tile.extent.rectangle();
         const params = Object.assign({}, options2, { left, bottom, right, top });
-        const url = "".concat(_krUrlRoot, "/export.php?") + utilQsString(params);
+        const url = `${_krUrlRoot}/export.php?` + utilQsString(params);
         const controller = new AbortController();
         _cache.inflightTile[tile.id] = controller;
         json_default(url, { signal: controller.signal }).then((data) => {
@@ -42162,7 +42240,7 @@
             const whichTemplate = _krData.errorTypes[whichType];
             switch (whichType) {
               case "170":
-                description = "This feature has a FIXME tag: ".concat(description);
+                description = `This feature has a FIXME tag: ${description}`;
                 break;
               case "292":
               case "293":
@@ -42173,7 +42251,7 @@
               case "296":
               case "297":
               case "298":
-                description = "This turn-restriction~".concat(description);
+                description = `This turn-restriction~${description}`;
                 break;
               case "300":
                 description = "This highway is missing a maxspeed tag";
@@ -42181,7 +42259,7 @@
               case "411":
               case "412":
               case "413":
-                description = "This feature~".concat(description);
+                description = `This feature~${description}`;
                 break;
             }
             let coincident = false;
@@ -42224,7 +42302,7 @@
       if (d2.newComment !== void 0) {
         params.co = d2.newComment;
       }
-      const url = "".concat(_krUrlRoot, "/comment.php?") + utilQsString(params);
+      const url = `${_krUrlRoot}/comment.php?` + utilQsString(params);
       const controller = new AbortController();
       _cache.inflightPost[d2.id] = controller;
       json_default(url, { signal: controller.signal }).finally(() => {
@@ -42233,7 +42311,7 @@
           this.removeItem(d2);
         } else if (d2.newStatus === "ignore_t") {
           this.removeItem(d2);
-          _cache.closed["".concat(d2.schema, ":").concat(d2.id)] = true;
+          _cache.closed[`${d2.schema}:${d2.id}`] = true;
         } else {
           d2 = this.replaceItem(d2.update({
             comment: d2.newComment,
@@ -42274,7 +42352,7 @@
       updateRtree(encodeIssueRtree(item), false);
     },
     issueURL(item) {
-      return "".concat(_krUrlRoot, "/report_map.php?schema=").concat(item.schema, "&error=").concat(item.id);
+      return `${_krUrlRoot}/report_map.php?schema=${item.schema}&error=${item.id}`;
     },
     // Get an array of issues closed during this session.
     // Used to populate `closed:keepright` changeset tag
@@ -42321,10 +42399,10 @@
     }
   }
   function linkErrorObject(d2) {
-    return { html: '<a class="error_object_link">'.concat(d2, "</a>") };
+    return { html: `<a class="error_object_link">${d2}</a>` };
   }
   function linkEntity(d2) {
-    return { html: '<a class="error_entity_link">'.concat(d2, "</a>") };
+    return { html: `<a class="error_entity_link">${d2}</a>` };
   }
   function pointAverage(points) {
     if (points.length) {
@@ -42357,7 +42435,7 @@
       315: "northwest",
       360: "north"
     };
-    return _t("QA.improveOSM.directions.".concat(compass[dir]));
+    return _t(`QA.improveOSM.directions.${compass[dir]}`);
   }
   function preventCoincident(loc, bumpUp) {
     let coincident = false;
@@ -42412,7 +42490,7 @@
             params,
             k2 === "mr" ? { type: "PARKING,ROAD,BOTH,PATH" } : { confidenceLevel: "C1" }
           );
-          const url = "".concat(_impOsmUrls[k2], "/search?") + utilQsString(kParams);
+          const url = `${_impOsmUrls[k2]}/search?` + utilQsString(kParams);
           const controller = new AbortController();
           requests[k2] = controller;
           json_default(url, { signal: controller.signal }).then((data) => {
@@ -42424,7 +42502,7 @@
             if (data.roadSegments) {
               data.roadSegments.forEach((feature3) => {
                 const { points, wayId, fromNodeId, toNodeId } = feature3;
-                const itemId = "".concat(wayId).concat(fromNodeId).concat(toNodeId);
+                const itemId = `${wayId}${fromNodeId}${toNodeId}`;
                 let mid = points.length / 2;
                 let loc;
                 if (mid % 1 === 0) {
@@ -42461,16 +42539,16 @@
               data.tiles.forEach((feature3) => {
                 const { type: type2, x: x2, y: y2, numberOfTrips } = feature3;
                 const geoType = type2.toLowerCase();
-                const itemId = "".concat(geoType).concat(x2).concat(y2).concat(numberOfTrips);
+                const itemId = `${geoType}${x2}${y2}${numberOfTrips}`;
                 let loc = pointAverage(feature3.points);
                 loc = preventCoincident(loc, false);
-                let d2 = new QAItem(loc, this, "".concat(k2, "-").concat(geoType), itemId, {
+                let d2 = new QAItem(loc, this, `${k2}-${geoType}`, itemId, {
                   issueKey: k2,
                   identifier: { x: x2, y: y2 }
                 });
                 d2.replacements = {
                   num_trips: numberOfTrips,
-                  geometry_type: _t("QA.improveOSM.geometry_types.".concat(geoType))
+                  geometry_type: _t(`QA.improveOSM.geometry_types.${geoType}`)
                 };
                 if (numberOfTrips === -1) {
                   d2.desc = _t("QA.improveOSM.error_types.mr.description_alt", d2.replacements);
@@ -42482,7 +42560,7 @@
             if (data.entities) {
               data.entities.forEach((feature3) => {
                 const { point: point2, id: id3, segments, numberOfPasses, turnType } = feature3;
-                const itemId = "".concat(id3.replace(/[,:+#]/g, "_"));
+                const itemId = `${id3.replace(/[,:+#]/g, "_")}`;
                 const loc = preventCoincident([point2.lon, point2.lat], true);
                 const ids = id3.split(",");
                 const from_way = ids[0];
@@ -42535,7 +42613,7 @@
       } else if (key === "tr") {
         qParams.targetId = item.identifier;
       }
-      const url = "".concat(_impOsmUrls[key], "/retrieveComments?") + utilQsString(qParams);
+      const url = `${_impOsmUrls[key]}/retrieveComments?` + utilQsString(qParams);
       const cacheComments = (data) => {
         item.comments = data.comments ? data.comments.reverse() : [];
         this.replaceItem(item);
@@ -42555,7 +42633,7 @@
           return callback(err, d2);
         }
         const key = d2.issueKey;
-        const url = "".concat(_impOsmUrls[key], "/comment");
+        const url = `${_impOsmUrls[key]}/comment`;
         const payload = {
           username: user.display_name,
           targetIds: [d2.identifier]
@@ -42942,11 +43020,11 @@
           loose: false,
           items: []
         };
-        bull = isordered ? "\\d{1,9}\\".concat(bull.slice(-1)) : "\\".concat(bull);
+        bull = isordered ? `\\d{1,9}\\${bull.slice(-1)}` : `\\${bull}`;
         if (this.options.pedantic) {
           bull = isordered ? bull : "[*+-]";
         }
-        const itemRegex = new RegExp("^( {0,3}".concat(bull, ")((?:[	 ][^\\n]*)?(?:\\n|$))"));
+        const itemRegex = new RegExp(`^( {0,3}${bull})((?:[	 ][^\\n]*)?(?:\\n|$))`);
         let raw = "";
         let itemContents = "";
         let endsWithBlankLine = false;
@@ -42979,10 +43057,10 @@
             endEarly = true;
           }
           if (!endEarly) {
-            const nextBulletRegex = new RegExp("^ {0,".concat(Math.min(3, indent - 1), "}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))"));
-            const hrRegex = new RegExp("^ {0,".concat(Math.min(3, indent - 1), "}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)"));
-            const fencesBeginRegex = new RegExp("^ {0,".concat(Math.min(3, indent - 1), "}(?:```|~~~)"));
-            const headingBeginRegex = new RegExp("^ {0,".concat(Math.min(3, indent - 1), "}#"));
+            const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`);
+            const hrRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
+            const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:\`\`\`|~~~)`);
+            const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}#`);
             while (src) {
               const rawLine = src.split("\n", 1)[0];
               nextLine = rawLine;
@@ -43491,7 +43569,7 @@
   };
   var blockPedantic = {
     ...blockNormal,
-    html: edit("^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:\"[^\"]*\"|'[^']*'|\\s[^'\"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))").replace("comment", _comment).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
+    html: edit(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", _comment).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
     def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
     heading: /^(#{1,6})(.*)(?:\n+|$)/,
     fences: noopTest,
@@ -43959,13 +44037,16 @@
       return '<pre><code class="language-' + escape$1(lang) + '">' + (escaped ? code : escape$1(code, true)) + "</code></pre>\n";
     }
     blockquote(quote) {
-      return "<blockquote>\n".concat(quote, "</blockquote>\n");
+      return `<blockquote>
+${quote}</blockquote>
+`;
     }
     html(html3, block2) {
       return html3;
     }
     heading(text, level, raw) {
-      return "<h".concat(level, ">").concat(text, "</h").concat(level, ">\n");
+      return `<h${level}>${text}</h${level}>
+`;
     }
     hr() {
       return "<hr>\n";
@@ -43976,44 +44057,49 @@
       return "<" + type2 + startatt + ">\n" + body + "</" + type2 + ">\n";
     }
     listitem(text, task, checked) {
-      return "<li>".concat(text, "</li>\n");
+      return `<li>${text}</li>
+`;
     }
     checkbox(checked) {
       return "<input " + (checked ? 'checked="" ' : "") + 'disabled="" type="checkbox">';
     }
     paragraph(text) {
-      return "<p>".concat(text, "</p>\n");
+      return `<p>${text}</p>
+`;
     }
     table(header, body) {
       if (body)
-        body = "<tbody>".concat(body, "</tbody>");
+        body = `<tbody>${body}</tbody>`;
       return "<table>\n<thead>\n" + header + "</thead>\n" + body + "</table>\n";
     }
     tablerow(content) {
-      return "<tr>\n".concat(content, "</tr>\n");
+      return `<tr>
+${content}</tr>
+`;
     }
     tablecell(content, flags) {
       const type2 = flags.header ? "th" : "td";
-      const tag2 = flags.align ? "<".concat(type2, ' align="').concat(flags.align, '">') : "<".concat(type2, ">");
-      return tag2 + content + "</".concat(type2, ">\n");
+      const tag2 = flags.align ? `<${type2} align="${flags.align}">` : `<${type2}>`;
+      return tag2 + content + `</${type2}>
+`;
     }
     /**
      * span level renderer
      */
     strong(text) {
-      return "<strong>".concat(text, "</strong>");
+      return `<strong>${text}</strong>`;
     }
     em(text) {
-      return "<em>".concat(text, "</em>");
+      return `<em>${text}</em>`;
     }
     codespan(text) {
-      return "<code>".concat(text, "</code>");
+      return `<code>${text}</code>`;
     }
     br() {
       return "<br>";
     }
     del(text) {
-      return "<del>".concat(text, "</del>");
+      return `<del>${text}</del>`;
     }
     link(href, title, text) {
       const cleanHref = cleanUrl(href);
@@ -44034,9 +44120,9 @@
         return text;
       }
       href = cleanHref;
-      let out = '<img src="'.concat(href, '" alt="').concat(text, '"');
+      let out = `<img src="${href}" alt="${text}"`;
       if (title) {
-        out += ' title="'.concat(title, '"');
+        out += ` title="${title}"`;
       }
       out += ">";
       return out;
@@ -44453,7 +44539,7 @@
           const renderer = this.defaults.renderer || new _Renderer(this.defaults);
           for (const prop in pack.renderer) {
             if (!(prop in renderer)) {
-              throw new Error("renderer '".concat(prop, "' does not exist"));
+              throw new Error(`renderer '${prop}' does not exist`);
             }
             if (prop === "options") {
               continue;
@@ -44475,7 +44561,7 @@
           const tokenizer = this.defaults.tokenizer || new _Tokenizer(this.defaults);
           for (const prop in pack.tokenizer) {
             if (!(prop in tokenizer)) {
-              throw new Error("tokenizer '".concat(prop, "' does not exist"));
+              throw new Error(`tokenizer '${prop}' does not exist`);
             }
             if (["options", "rules", "lexer"].includes(prop)) {
               continue;
@@ -44497,7 +44583,7 @@
           const hooks = this.defaults.hooks || new _Hooks();
           for (const prop in pack.hooks) {
             if (!(prop in hooks)) {
-              throw new Error("hook '".concat(prop, "' does not exist"));
+              throw new Error(`hook '${prop}' does not exist`);
             }
             if (prop === "options") {
               continue;
@@ -44738,7 +44824,7 @@
         if (_cache3.loadedTile[tile.id] || _cache3.inflightTile[tile.id])
           return;
         let [x2, y2, z2] = tile.xyz;
-        let url = "".concat(_osmoseUrlRoot, "/issues/").concat(z2, "/").concat(x2, "/").concat(y2, ".geojson?") + utilQsString(params);
+        let url = `${_osmoseUrlRoot}/issues/${z2}/${x2}/${y2}.geojson?` + utilQsString(params);
         let controller = new AbortController();
         _cache3.inflightTile[tile.id] = controller;
         json_default(url, { signal: controller.signal }).then((data) => {
@@ -44747,7 +44833,7 @@
           if (data.features) {
             data.features.forEach((issue) => {
               const { item, class: cl, uuid: id3 } = issue.properties;
-              const itemType = "".concat(item, "-").concat(cl);
+              const itemType = `${item}-${cl}`;
               if (itemType in _osmoseData.icons) {
                 let loc = issue.geometry.coordinates;
                 loc = preventCoincident2(loc);
@@ -44771,7 +44857,7 @@
       if (issue.elems !== void 0) {
         return Promise.resolve(issue);
       }
-      const url = "".concat(_osmoseUrlRoot, "/issue/").concat(issue.id, "?langs=").concat(_mainLocalizer.localeCode());
+      const url = `${_osmoseUrlRoot}/issue/${issue.id}?langs=${_mainLocalizer.localeCode()}`;
       const cacheDetails = (data) => {
         issue.elems = data.elems.map((e3) => e3.type.substring(0, 1) + e3.id);
         issue.detail = data.subtitle ? marked(data.subtitle.auto) : "";
@@ -44795,7 +44881,7 @@
           const [item2 = { class: [] }] = cat.items;
           const [cl2 = null] = item2.class;
           if (!cl2) {
-            console.log("Osmose strings request (".concat(itemType, ") had unexpected data"));
+            console.log(`Osmose strings request (${itemType}) had unexpected data`);
             return;
           }
           const { item: itemInt, color: color2 } = item2;
@@ -44815,7 +44901,7 @@
           _cache3.strings[locale2][itemType] = issueStrings;
         };
         const [item, cl] = itemType.split("-");
-        const url = "".concat(_osmoseUrlRoot, "/items/").concat(item, "/class/").concat(cl, "?langs=").concat(locale2);
+        const url = `${_osmoseUrlRoot}/items/${item}/class/${cl}?langs=${locale2}`;
         return json_default(url).then(cacheData);
       }).filter(Boolean);
       return Promise.all(allRequests).then(() => _cache3.strings[locale2]);
@@ -44830,7 +44916,7 @@
       if (_cache3.inflightPost[issue.id]) {
         return callback({ message: "Issue update already inflight", status: -2 }, issue);
       }
-      const url = "".concat(_osmoseUrlRoot, "/issue/").concat(issue.id, "/").concat(issue.newStatus);
+      const url = `${_osmoseUrlRoot}/issue/${issue.id}/${issue.newStatus}`;
       const controller = new AbortController();
       const after = () => {
         delete _cache3.inflightPost[issue.id];
@@ -44888,7 +44974,7 @@
       return _cache3.closed;
     },
     itemURL(item) {
-      return "https://osmose.openstreetmap.fr/en/error/".concat(item.id);
+      return `https://osmose.openstreetmap.fr/en/error/${item.id}`;
     }
   };
 
@@ -44899,9 +44985,9 @@
   var accessToken = "MLY|4100327730013843|5bb78b81720791946a9a7b956c57b7cf";
   var apiUrl = "https://graph.mapillary.com/";
   var baseTileUrl = "https://tiles.mapillary.com/maps/vtp";
-  var mapFeatureTileUrl = "".concat(baseTileUrl, "/mly_map_feature_point/2/{z}/{x}/{y}?access_token=").concat(accessToken);
-  var tileUrl = "".concat(baseTileUrl, "/mly1_public/2/{z}/{x}/{y}?access_token=").concat(accessToken);
-  var trafficSignTileUrl = "".concat(baseTileUrl, "/mly_map_feature_traffic_sign/2/{z}/{x}/{y}?access_token=").concat(accessToken);
+  var mapFeatureTileUrl = `${baseTileUrl}/mly_map_feature_point/2/{z}/{x}/{y}?access_token=${accessToken}`;
+  var tileUrl = `${baseTileUrl}/mly1_public/2/{z}/{x}/{y}?access_token=${accessToken}`;
+  var trafficSignTileUrl = `${baseTileUrl}/mly_map_feature_traffic_sign/2/{z}/{x}/{y}?access_token=${accessToken}`;
   var viewercss = "mapillary-js/mapillary.css";
   var viewerjs = "mapillary-js/mapillary.js";
   var minZoom = 14;
@@ -44924,7 +45010,7 @@
   }
   function loadTile(which, url, tile) {
     const cache = _mlyCache.requests;
-    const tileId = "".concat(tile.id, "-").concat(which);
+    const tileId = `${tile.id}-${which}`;
     if (cache.loaded[tileId] || cache.inflight[tileId])
       return;
     const controller = new AbortController();
@@ -45341,7 +45427,7 @@
         context.map().centerEase(loc);
         that.updateUrlImage(image.id);
         if (_mlyShowFeatureDetections || _mlyShowSignDetections) {
-          that.updateDetections(image.id, "".concat(apiUrl, "/").concat(image.id, "/detections?access_token=").concat(accessToken, "&fields=id,image,geometry,value"));
+          that.updateDetections(image.id, `${apiUrl}/${image.id}/detections?access_token=${accessToken}&fields=id,image,geometry,value`);
         }
         dispatch5.call("imageChanged");
       }
@@ -45364,7 +45450,7 @@
     },
     // Return a list of detection objects for the given id
     getDetections: function(id3) {
-      return loadData("".concat(apiUrl, "/").concat(id3, "/detections?access_token=").concat(accessToken, "&fields=id,value,image"));
+      return loadData(`${apiUrl}/${id3}/detections?access_token=${accessToken}&fields=id,value,image`);
     },
     // Set the currently visible image
     setActiveImage: function(image) {
@@ -48154,11 +48240,11 @@
         const secondLastNodesParents = historyGraph.parentWays(historyGraph.entity(secondLastNodeId)).filter((w2) => w2.id !== wayID);
         const featureType = getFeatureType(lastNodesParents);
         if (lastNodesParents.length !== 1 || secondLastNodesParents.length === 0) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append("operations.follow.error.intersection_of_multiple_ways.".concat(featureType)))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append(`operations.follow.error.intersection_of_multiple_ways.${featureType}`))();
           return;
         }
         if (!secondLastNodesParents.some((n3) => n3.id === lastNodesParents[0].id)) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append("operations.follow.error.intersection_of_different_ways.".concat(featureType)))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append(`operations.follow.error.intersection_of_different_ways.${featureType}`))();
           return;
         }
         const way = lastNodesParents[0];
@@ -48547,7 +48633,7 @@
       validateDate("end_date", "end");
       function showReferenceEDTF(selection2, parserError) {
         let message;
-        if (parserError.offset && parserError.token) {
+        if (typeof parserError.offset === "number" && parserError.token) {
           message = _t.append("issues.invalid_format.edtf.reference", {
             token: parserError.token.value,
             position: (parserError.offset + 1).toLocaleString(_mainLocalizer.localeCodes())
@@ -48947,7 +49033,7 @@
       }).filter(Boolean);
       function getReference(id3) {
         return function showReference(selection2) {
-          selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.incompatible_source.reference.".concat(id3)));
+          selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append(`issues.incompatible_source.reference.${id3}`));
         };
       }
     };
@@ -49055,13 +49141,15 @@
         if (!entity.tags[key] || !entity.tags[key + ":edtf"])
           return;
         let basic = entity.tags[key];
-        if (basic.match("^-?[0-9]+-[0-9]{2}-[0-9]{2}$")) {
-          basic = "".concat(basic, "T00:00:00/").concat(basic, "T24:00:00");
-        }
         let basicAsEDTF = parseEDTF(basic);
         let parsed = parseEDTF(entity.tags[key + ":edtf"]);
         if (!basicAsEDTF || !parsed || parsed.covers(basicAsEDTF) || basicAsEDTF.covers(parsed))
           return;
+        if (basic.match("^-?[0-9]+-[0-9]{2}-[0-9]{2}$")) {
+          let basicTime = parseEDTF(`${basic}T00:00:00/${basic}T24:00:00`);
+          if (basicTime && (parsed.covers(basicTime) || basicTime.covers(parsed)))
+            return;
+        }
         issues.push(new validationIssue({
           type: type2,
           subtype: "date",
@@ -49652,7 +49740,7 @@
           severity: "warning",
           message: function(context) {
             let entity2 = context.hasEntity(this.entityIds[0]);
-            return entity2 ? _t.append("issues.".concat(type2, ".").concat(subtype, ".message"), {
+            return entity2 ? _t.append(`issues.${type2}.${subtype}.message`, {
               feature: utilDisplayLabel(entity2, context.graph()),
               tag1: pair3[0],
               tag2: pair3[1]
@@ -49680,7 +49768,7 @@
         });
       }
       function showReference(selection2, pair3, subtype) {
-        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.".concat(type2, ".").concat(subtype, ".reference"), { tag1: pair3[0], tag2: pair3[1] }));
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append(`issues.${type2}.${subtype}.reference`, { tag1: pair3[0], tag2: pair3[1] }));
       }
       return issues;
     };
@@ -49839,7 +49927,7 @@
           return graph2;
         let newTags2 = Object.assign({}, currEntity.tags);
         const wd = item.mainTag;
-        const notwd = "not:".concat(wd);
+        const notwd = `not:${wd}`;
         const qid = item.tags[wd];
         newTags2[notwd] = qid;
         if (newTags2[wd] === qid) {
@@ -49853,7 +49941,7 @@
         const currEntity = context.hasEntity(entity.id);
         if (!currEntity)
           return "";
-        let messageID = "issues.outdated_tags.".concat(prefix, "message");
+        let messageID = `issues.outdated_tags.${prefix}message`;
         if (subtype === "noncanonical_brand" && isOnlyAddingTags) {
           messageID += "_incomplete";
         }
@@ -49868,11 +49956,11 @@
       }
       function showReference(selection2) {
         let enter = selection2.selectAll(".issue-reference").data([0]).enter();
-        enter.append("div").attr("class", "issue-reference").call(_t.append("issues.outdated_tags.".concat(prefix, "reference")));
+        enter.append("div").attr("class", "issue-reference").call(_t.append(`issues.outdated_tags.${prefix}reference`));
         enter.append("strong").call(_t.append("issues.suggested"));
         enter.append("table").attr("class", "tagDiff-table").selectAll(".tagDiff-row").data(tagDiff).enter().append("tr").attr("class", "tagDiff-row").append("td").attr("class", (d2) => {
           let klass = d2.type === "+" ? "add" : "remove";
-          return "tagDiff-cell tagDiff-cell-".concat(klass);
+          return `tagDiff-cell tagDiff-cell-${klass}`;
         }).html((d2) => d2.display);
       }
     }
@@ -50047,7 +50135,7 @@
         },
         reference: showReference,
         entityIds: [entityId],
-        hash: "".concat(nameKey, "=").concat(genericName),
+        hash: `${nameKey}=${genericName}`,
         dynamicFixes: function() {
           return [
             new validationIssueFix({
@@ -51032,7 +51120,11 @@
 
   // modules/renderer/background_source.js
   var isRetina = window.devicePixelRatio && window.devicePixelRatio >= 2;
-  window.matchMedia("\n        (-webkit-min-device-pixel-ratio: 2), /* Safari */\n        (min-resolution: 2dppx),             /* standard */\n        (min-resolution: 192dpi)             /* fallback */\n    ").addListener(function() {
+  window.matchMedia(`
+        (-webkit-min-device-pixel-ratio: 2), /* Safari */
+        (min-resolution: 2dppx),             /* standard */
+        (min-resolution: 192dpi)             /* fallback */
+    `).addListener(function() {
     isRetina = window.devicePixelRatio && window.devicePixelRatio >= 2;
   });
   function localeDateString(s2) {
@@ -51240,9 +51332,9 @@
       let subDomainNumbers = subDomains.map((subDomain) => {
         return subDomain.substring(1);
       }).join(",");
-      template = template.replace("{subdomain}", "t{switch:".concat(subDomainNumbers, "}")).replace("{quadkey}", "{u}");
+      template = template.replace("{subdomain}", `t{switch:${subDomainNumbers}}`).replace("{quadkey}", "{u}");
       if (!new URLSearchParams(template).has(strictParam)) {
-        template += "&".concat(strictParam, "=z");
+        template += `&${strictParam}=z`;
       }
       bing.template(template);
       providers = imageryResource.imageryProviders.map(function(provider) {
@@ -52148,17 +52240,17 @@
       }
       let baseFilter = "";
       if (_brightness !== 1) {
-        baseFilter += " brightness(".concat(_brightness, ")");
+        baseFilter += ` brightness(${_brightness})`;
       }
       if (_contrast !== 1) {
-        baseFilter += " contrast(".concat(_contrast, ")");
+        baseFilter += ` contrast(${_contrast})`;
       }
       if (_saturation !== 1) {
-        baseFilter += " saturate(".concat(_saturation, ")");
+        baseFilter += ` saturate(${_saturation})`;
       }
       if (_sharpness < 1) {
         const blur = number_default(0.5, 5)(1 - _sharpness);
-        baseFilter += " blur(".concat(blur, "px)");
+        baseFilter += ` blur(${blur}px)`;
       }
       let base = selection2.selectAll(".layer-background").data([0]);
       base = base.enter().insert("div", ".layer-data").attr("class", "layer layer-background").merge(base);
@@ -52171,9 +52263,9 @@
         mixBlendMode = "overlay";
         maskFilter = "saturate(0) blur(3px) invert(1)";
         let contrast = _sharpness - 1;
-        maskFilter += " contrast(".concat(contrast, ")");
+        maskFilter += ` contrast(${contrast})`;
         let brightness = number_default(1, 0.85)(_sharpness - 1);
-        maskFilter += " brightness(".concat(brightness, ")");
+        maskFilter += ` brightness(${brightness})`;
       }
       let mask2 = base.selectAll(".layer-unsharp-mask").data(_sharpness > 1 ? [0] : []);
       mask2.exit().remove();
@@ -52194,7 +52286,7 @@
       let hash = utilStringQs(window.location.hash);
       let id3 = currSource.id;
       if (id3 === "custom") {
-        id3 = "custom:".concat(currSource.template());
+        id3 = `custom:${currSource.template()}`;
       }
       if (id3) {
         hash.background = id3;
@@ -52207,7 +52299,7 @@
         delete hash.overlays;
       }
       if (Math.abs(x2) > EPSILON || Math.abs(y2) > EPSILON) {
-        hash.offset = "".concat(x2, ",").concat(y2);
+        hash.offset = `${x2},${y2}`;
       } else {
         delete hash.offset;
       }
@@ -53592,7 +53684,7 @@
     return Array.from(element.getElementsByTagName(tagName));
   }
   function normalizeId(id3) {
-    return id3[0] === "#" ? id3 : "#".concat(id3);
+    return id3[0] === "#" ? id3 : `#${id3}`;
   }
   function $ns(element, tagName, ns) {
     return Array.from(element.getElementsByTagNameNS(ns, tagName));
@@ -53656,7 +53748,7 @@
   function getLineStyle(node) {
     return get3(node, "line", (lineStyle) => {
       const val = Object.assign({}, val1(lineStyle, "color", (color2) => {
-        return { stroke: "#".concat(color2) };
+        return { stroke: `#${color2}` };
       }), $num(lineStyle, "opacity", (opacity) => {
         return { "stroke-opacity": opacity };
       }), $num(lineStyle, "width", (width) => {
@@ -54728,7 +54820,7 @@
       legend = legend.enter().append("div").attr("class", "fillD debug-legend").merge(legend);
       let legendItems = legend.selectAll(".debug-legend-item").data(debugData, (d2) => d2.label);
       legendItems.exit().remove();
-      legendItems.enter().append("span").attr("class", (d2) => "debug-legend-item ".concat(d2.class)).text((d2) => d2.label);
+      legendItems.enter().append("span").attr("class", (d2) => `debug-legend-item ${d2.class}`).text((d2) => d2.label);
       let layer = selection2.selectAll(".layer-debug").data(showImagery || showDownloaded ? [0] : []);
       layer.exit().remove();
       layer = layer.enter().append("g").attr("class", "layer-debug").merge(layer);
@@ -54931,7 +55023,7 @@
       const getTransform = svgPointTransform(projection2);
       const markers = drawLayer.selectAll(".qaItem.keepRight").data(data, (d2) => d2.id);
       markers.exit().remove();
-      const markersEnter = markers.enter().append("g").attr("class", (d2) => "qaItem ".concat(d2.service, " itemId-").concat(d2.id, " itemType-").concat(d2.parentIssueType));
+      const markersEnter = markers.enter().append("g").attr("class", (d2) => `qaItem ${d2.service} itemId-${d2.id} itemType-${d2.parentIssueType}`);
       markersEnter.append("ellipse").attr("cx", 0.5).attr("cy", 1).attr("rx", 6.5).attr("ry", 3).attr("class", "stroke");
       markersEnter.append("path").call(markerPath, "shadow");
       markersEnter.append("use").attr("class", "qaItem-fill").attr("width", "20px").attr("height", "20px").attr("x", "-8px").attr("y", "-22px").attr("xlink:href", "#iD-icon-bolt");
@@ -54941,7 +55033,7 @@
       const fillClass = context.getDebug("target") ? "pink " : "nocolor ";
       const targets = touchLayer.selectAll(".qaItem.keepRight").data(data, (d2) => d2.id);
       targets.exit().remove();
-      targets.enter().append("rect").attr("width", "20px").attr("height", "20px").attr("x", "-8px").attr("y", "-22px").merge(targets).sort(sortY).attr("class", (d2) => "qaItem ".concat(d2.service, " target ").concat(fillClass, " itemId-").concat(d2.id)).attr("transform", getTransform);
+      targets.enter().append("rect").attr("width", "20px").attr("height", "20px").attr("x", "-8px").attr("y", "-22px").merge(targets).sort(sortY).attr("class", (d2) => `qaItem ${d2.service} target ${fillClass} itemId-${d2.id}`).attr("transform", getTransform);
       function sortY(a2, b2) {
         return a2.id === selectedID ? 1 : b2.id === selectedID ? -1 : a2.severity === "error" && b2.severity !== "error" ? 1 : b2.severity === "error" && a2.severity !== "error" ? -1 : b2.loc[1] - a2.loc[1];
       }
@@ -55634,7 +55726,7 @@
           e3
         ).then(t2);
       } catch (t3) {
-        console.warn("Couldn't load ".concat(e3));
+        console.warn(`Couldn't load ${e3}`);
       }
   }
   var h = e.fetch;
@@ -55808,7 +55900,7 @@
     }
   };
   function P2(e3, t2) {
-    g2("".concat(e3, " '").concat(t2, "' was not loaded, try using full build of exifr."));
+    g2(`${e3} '${t2}' was not loaded, try using full build of exifr.`);
   }
   var k = class extends Map {
     constructor(e3) {
@@ -55816,7 +55908,7 @@
     }
     get(e3, t2) {
       return this.has(e3) || P2(this.kind, e3), t2 && (e3 in t2 || function(e4, t3) {
-        g2("Unknown ".concat(e4, " '").concat(t3, "'."));
+        g2(`Unknown ${e4} '${t3}'.`);
       }(this.kind, e3), t2[e3].enabled || P2(this.kind, e3)), super.get(e3);
     }
     keyList() {
@@ -55825,7 +55917,7 @@
   };
   var w = new k("file parser");
   var T = new k("segment parser");
-  var A2 = new k("file reader");
+  var A3 = new k("file reader");
   function D(e3, n3) {
     return "string" == typeof e3 ? O(e3, n3) : t && !i2 && e3 instanceof HTMLImageElement ? O(e3.src, n3) : e3 instanceof Uint8Array || e3 instanceof ArrayBuffer || e3 instanceof DataView ? new I(e3) : t && e3 instanceof Blob ? x(e3, n3, "blob", R) : void g2("Invalid input argument");
   }
@@ -55834,13 +55926,13 @@
     var s2;
   }
   async function x(e3, t2, i3, n3) {
-    return A2.has(i3) ? v(e3, t2, i3) : n3 ? async function(e4, t3) {
+    return A3.has(i3) ? v(e3, t2, i3) : n3 ? async function(e4, t3) {
       let i4 = await t3(e4);
       return new I(i4);
-    }(e3, n3) : void g2("Parser ".concat(i3, " is not loaded"));
+    }(e3, n3) : void g2(`Parser ${i3} is not loaded`);
   }
   async function v(e3, t2, i3) {
-    let n3 = new (A2.get(i3))(e3, t2);
+    let n3 = new (A3.get(i3))(e3, t2);
     return await n3.read(), n3;
   }
   var M = (e3) => h(e3).then((e4) => e4.arrayBuffer());
@@ -55856,7 +55948,7 @@
       return this.allValues || (this.allValues = Array.from(this.values())), this.allValues;
     }
   };
-  function U2(e3, t2, i3) {
+  function U3(e3, t2, i3) {
     let n3 = new L();
     for (let [e4, t3] of i3)
       n3.set(e4, t3);
@@ -55882,7 +55974,7 @@
   var j = [...z, ...H];
   var W = ["makerNote", "userComment"];
   var K = ["translateKeys", "translateValues", "reviveValues", "multiSegment"];
-  var X3 = [...K, "sanitize", "mergeOutput", "silentErrors"];
+  var X4 = [...K, "sanitize", "mergeOutput", "silentErrors"];
   var _ = class {
     get translate() {
       return this.translateKeys || this.translateValues || this.reviveValues;
@@ -55903,7 +55995,7 @@
           }
           this.applyInheritables(i3);
         } else
-          true === i3 || false === i3 ? this.parse = this.enabled = i3 : g2("Invalid options argument: ".concat(i3));
+          true === i3 || false === i3 ? this.parse = this.enabled = i3 : g2(`Invalid options argument: ${i3}`);
     }
     applyInheritables(e3) {
       let t2, i3;
@@ -55931,13 +56023,13 @@
       return void 0 !== t2 || (t2 = new this(e3), J.set(e3, t2)), t2;
     }
     constructor(e3) {
-      super(), true === e3 ? this.setupFromTrue() : void 0 === e3 ? this.setupFromUndefined() : Array.isArray(e3) ? this.setupFromArray(e3) : "object" == typeof e3 ? this.setupFromObject(e3) : g2("Invalid options argument ".concat(e3)), void 0 === this.firstChunkSize && (this.firstChunkSize = t ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = false), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
+      super(), true === e3 ? this.setupFromTrue() : void 0 === e3 ? this.setupFromUndefined() : Array.isArray(e3) ? this.setupFromArray(e3) : "object" == typeof e3 ? this.setupFromObject(e3) : g2(`Invalid options argument ${e3}`), void 0 === this.firstChunkSize && (this.firstChunkSize = t ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = false), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
     }
     setupFromUndefined() {
       let e3;
       for (e3 of G)
         this[e3] = $2[e3];
-      for (e3 of X3)
+      for (e3 of X4)
         this[e3] = $2[e3];
       for (e3 of W)
         this[e3] = $2[e3];
@@ -55948,7 +56040,7 @@
       let e3;
       for (e3 of G)
         this[e3] = $2[e3];
-      for (e3 of X3)
+      for (e3 of X4)
         this[e3] = $2[e3];
       for (e3 of W)
         this[e3] = true;
@@ -55959,7 +56051,7 @@
       let t2;
       for (t2 of G)
         this[t2] = $2[t2];
-      for (t2 of X3)
+      for (t2 of X4)
         this[t2] = $2[t2];
       for (t2 of W)
         this[t2] = $2[t2];
@@ -55971,7 +56063,7 @@
       let t2;
       for (t2 of (H.ifd0 = H.ifd0 || H.image, H.ifd1 = H.ifd1 || H.thumbnail, Object.assign(this, e3), G))
         this[t2] = Z(e3[t2], $2[t2]);
-      for (t2 of X3)
+      for (t2 of X4)
         this[t2] = Z(e3[t2], $2[t2]);
       for (t2 of W)
         this[t2] = Z(e3[t2], $2[t2]);
@@ -56082,7 +56174,7 @@
     let i3 = new te(t2);
     return await i3.read(e3), i3.parse();
   }
-  var ne = Object.freeze({ __proto__: null, parse: ie, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A2, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U2, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X3, Options: q });
+  var ne = Object.freeze({ __proto__: null, parse: ie, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A3, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U3, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X4, Options: q });
   var se = class {
     constructor(e3, t2, i3) {
       c(this, "errors", []), c(this, "ensureSegmentChunk", async (e4) => {
@@ -56094,7 +56186,7 @@
             try {
               e4.chunk = await this.file.readChunk(t3, i4);
             } catch (t4) {
-              g2("Couldn't read segment: ".concat(JSON.stringify(e4), ". ").concat(t4.message));
+              g2(`Couldn't read segment: ${JSON.stringify(e4)}. ${t4.message}`);
             }
         else
           this.file.byteLength > t3 + i4 ? e4.chunk = this.file.subarray(t3, i4) : void 0 === e4.size ? e4.chunk = this.file.subarray(t3) : g2("Segment unreachable: " + JSON.stringify(e4));
@@ -56271,7 +56363,7 @@
     }
     parseTag(e3, t2, i3) {
       let { chunk: n3 } = this, s2 = n3.getUint16(e3 + 2), r2 = n3.getUint32(e3 + 4), a2 = ue[s2];
-      if (a2 * r2 <= 4 ? e3 += 8 : e3 = n3.getUint32(e3 + 8), (s2 < 1 || s2 > 13) && g2("Invalid TIFF value type. block: ".concat(i3.toUpperCase(), ", tag: ").concat(t2.toString(16), ", type: ").concat(s2, ", offset ").concat(e3)), e3 > n3.byteLength && g2("Invalid TIFF value offset. block: ".concat(i3.toUpperCase(), ", tag: ").concat(t2.toString(16), ", type: ").concat(s2, ", offset ").concat(e3, " is outside of chunk size ").concat(n3.byteLength)), 1 === s2)
+      if (a2 * r2 <= 4 ? e3 += 8 : e3 = n3.getUint32(e3 + 8), (s2 < 1 || s2 > 13) && g2(`Invalid TIFF value type. block: ${i3.toUpperCase()}, tag: ${t2.toString(16)}, type: ${s2}, offset ${e3}`), e3 > n3.byteLength && g2(`Invalid TIFF value offset. block: ${i3.toUpperCase()}, tag: ${t2.toString(16)}, type: ${s2}, offset ${e3} is outside of chunk size ${n3.byteLength}`), 1 === s2)
         return n3.getUint8Array(e3, r2);
       if (2 === s2)
         return m(n3.getString(e3, r2));
@@ -56337,7 +56429,7 @@
         case 13:
           return i3.getUint32(t2);
         default:
-          g2("Invalid tiff type ".concat(e3));
+          g2(`Invalid tiff type ${e3}`);
       }
     }
   };
@@ -56372,7 +56464,8 @@
       if (this.ifd0)
         return;
       let { file: e3 } = this;
-      this.findIfd0Offset(), this.ifd0Offset < 8 && g2("Malformed EXIF data"), !e3.chunked && this.ifd0Offset > e3.byteLength && g2("IFD0 offset points to outside of file.\nthis.ifd0Offset: ".concat(this.ifd0Offset, ", file.byteLength: ").concat(e3.byteLength)), e3.tiff && await e3.ensureChunk(this.ifd0Offset, S2(this.options));
+      this.findIfd0Offset(), this.ifd0Offset < 8 && g2("Malformed EXIF data"), !e3.chunked && this.ifd0Offset > e3.byteLength && g2(`IFD0 offset points to outside of file.
+this.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e3.byteLength}`), e3.tiff && await e3.ensureChunk(this.ifd0Offset, S2(this.options));
       let t2 = this.parseBlock(this.ifd0Offset, "ifd0");
       return 0 !== t2.size ? (this.exifOffset = t2.get(34665), this.interopOffset = t2.get(40965), this.gpsOffset = t2.get(34853), this.xmp = t2.get(700), this.iptc = t2.get(33723), this.icc = t2.get(34675), this.options.sanitize && (t2.delete(34665), t2.delete(40965), t2.delete(34853), t2.delete(700), t2.delete(33723), t2.delete(34675)), t2) : void 0;
     }
@@ -56442,7 +56535,7 @@
     return "S" !== n3 && "W" !== n3 || (s2 *= -1), s2;
   }
   c(fe, "type", "tiff"), c(fe, "headerLength", 10), T.set("tiff", fe);
-  var pe = Object.freeze({ __proto__: null, default: ne, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A2, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U2, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X3, Options: q, parse: ie });
+  var pe = Object.freeze({ __proto__: null, default: ne, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A3, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U3, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X4, Options: q, parse: ie });
   var ge = { ifd0: false, ifd1: false, exif: false, gps: false, interop: false, sanitize: false, reviveValues: true, translateKeys: false, translateValues: false, mergeOutput: false };
   var me = Object.assign({}, ge, { firstChunkSize: 4e4, gps: [1, 2, 3, 4] });
   async function Se(e3) {
@@ -56603,7 +56696,7 @@
     close() {
     }
   };
-  A2.set("blob", class extends ve {
+  A3.set("blob", class extends ve {
     async readWhole() {
       this.chunked = false;
       let e3 = await R(this.input);
@@ -56617,12 +56710,12 @@
       return this.set(s2, e3, true);
     }
   });
-  var Me = Object.freeze({ __proto__: null, default: pe, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A2, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U2, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X3, Options: q, parse: ie, gpsOnlyOptions: me, gps: Se, thumbnailOnlyOptions: Ce, thumbnail: ye, thumbnailUrl: be, orientationOnlyOptions: Ie, orientation: Pe, rotations: ke, get rotateCanvas() {
+  var Me = Object.freeze({ __proto__: null, default: pe, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A3, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U3, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X4, Options: q, parse: ie, gpsOnlyOptions: me, gps: Se, thumbnailOnlyOptions: Ce, thumbnail: ye, thumbnailUrl: be, orientationOnlyOptions: Ie, orientation: Pe, rotations: ke, get rotateCanvas() {
     return we;
   }, get rotateCss() {
     return Te;
   }, rotation: Ae });
-  A2.set("url", class extends ve {
+  A3.set("url", class extends ve {
     async readWhole() {
       this.chunked = false;
       let e3 = await M(this.input);
@@ -56630,7 +56723,7 @@
     }
     async _readChunk(e3, t2) {
       let i3 = t2 ? e3 + t2 - 1 : void 0, n3 = this.options.httpHeaders || {};
-      (e3 || i3) && (n3.range = "bytes=".concat([e3, i3].join("-")));
+      (e3 || i3) && (n3.range = `bytes=${[e3, i3].join("-")}`);
       let s2 = await h(this.input, { headers: n3 }), r2 = await s2.arrayBuffer(), a2 = r2.byteLength;
       if (416 !== s2.status)
         return a2 !== t2 && (this.size = e3 + a2), this.set(r2, e3, true);
@@ -56747,8 +56840,8 @@
   c(Ue, "type", "heic");
   var Fe = class extends Le {
   };
-  c(Fe, "type", "avif"), w.set("heic", Ue), w.set("avif", Fe), U2(E, ["ifd0", "ifd1"], [[256, "ImageWidth"], [257, "ImageHeight"], [258, "BitsPerSample"], [259, "Compression"], [262, "PhotometricInterpretation"], [270, "ImageDescription"], [271, "Make"], [272, "Model"], [273, "StripOffsets"], [274, "Orientation"], [277, "SamplesPerPixel"], [278, "RowsPerStrip"], [279, "StripByteCounts"], [282, "XResolution"], [283, "YResolution"], [284, "PlanarConfiguration"], [296, "ResolutionUnit"], [301, "TransferFunction"], [305, "Software"], [306, "ModifyDate"], [315, "Artist"], [316, "HostComputer"], [317, "Predictor"], [318, "WhitePoint"], [319, "PrimaryChromaticities"], [513, "ThumbnailOffset"], [514, "ThumbnailLength"], [529, "YCbCrCoefficients"], [530, "YCbCrSubSampling"], [531, "YCbCrPositioning"], [532, "ReferenceBlackWhite"], [700, "ApplicationNotes"], [33432, "Copyright"], [33723, "IPTC"], [34665, "ExifIFD"], [34675, "ICC"], [34853, "GpsIFD"], [330, "SubIFD"], [40965, "InteropIFD"], [40091, "XPTitle"], [40092, "XPComment"], [40093, "XPAuthor"], [40094, "XPKeywords"], [40095, "XPSubject"]]), U2(E, "exif", [[33434, "ExposureTime"], [33437, "FNumber"], [34850, "ExposureProgram"], [34852, "SpectralSensitivity"], [34855, "ISO"], [34858, "TimeZoneOffset"], [34859, "SelfTimerMode"], [34864, "SensitivityType"], [34865, "StandardOutputSensitivity"], [34866, "RecommendedExposureIndex"], [34867, "ISOSpeed"], [34868, "ISOSpeedLatitudeyyy"], [34869, "ISOSpeedLatitudezzz"], [36864, "ExifVersion"], [36867, "DateTimeOriginal"], [36868, "CreateDate"], [36873, "GooglePlusUploadCode"], [36880, "OffsetTime"], [36881, "OffsetTimeOriginal"], [36882, "OffsetTimeDigitized"], [37121, "ComponentsConfiguration"], [37122, "CompressedBitsPerPixel"], [37377, "ShutterSpeedValue"], [37378, "ApertureValue"], [37379, "BrightnessValue"], [37380, "ExposureCompensation"], [37381, "MaxApertureValue"], [37382, "SubjectDistance"], [37383, "MeteringMode"], [37384, "LightSource"], [37385, "Flash"], [37386, "FocalLength"], [37393, "ImageNumber"], [37394, "SecurityClassification"], [37395, "ImageHistory"], [37396, "SubjectArea"], [37500, "MakerNote"], [37510, "UserComment"], [37520, "SubSecTime"], [37521, "SubSecTimeOriginal"], [37522, "SubSecTimeDigitized"], [37888, "AmbientTemperature"], [37889, "Humidity"], [37890, "Pressure"], [37891, "WaterDepth"], [37892, "Acceleration"], [37893, "CameraElevationAngle"], [40960, "FlashpixVersion"], [40961, "ColorSpace"], [40962, "ExifImageWidth"], [40963, "ExifImageHeight"], [40964, "RelatedSoundFile"], [41483, "FlashEnergy"], [41486, "FocalPlaneXResolution"], [41487, "FocalPlaneYResolution"], [41488, "FocalPlaneResolutionUnit"], [41492, "SubjectLocation"], [41493, "ExposureIndex"], [41495, "SensingMethod"], [41728, "FileSource"], [41729, "SceneType"], [41730, "CFAPattern"], [41985, "CustomRendered"], [41986, "ExposureMode"], [41987, "WhiteBalance"], [41988, "DigitalZoomRatio"], [41989, "FocalLengthIn35mmFormat"], [41990, "SceneCaptureType"], [41991, "GainControl"], [41992, "Contrast"], [41993, "Saturation"], [41994, "Sharpness"], [41996, "SubjectDistanceRange"], [42016, "ImageUniqueID"], [42032, "OwnerName"], [42033, "SerialNumber"], [42034, "LensInfo"], [42035, "LensMake"], [42036, "LensModel"], [42037, "LensSerialNumber"], [42080, "CompositeImage"], [42081, "CompositeImageCount"], [42082, "CompositeImageExposureTimes"], [42240, "Gamma"], [59932, "Padding"], [59933, "OffsetSchema"], [65e3, "OwnerName"], [65001, "SerialNumber"], [65002, "Lens"], [65100, "RawFile"], [65101, "Converter"], [65102, "WhiteBalance"], [65105, "Exposure"], [65106, "Shadows"], [65107, "Brightness"], [65108, "Contrast"], [65109, "Saturation"], [65110, "Sharpness"], [65111, "Smoothness"], [65112, "MoireFilter"], [40965, "InteropIFD"]]), U2(E, "gps", [[0, "GPSVersionID"], [1, "GPSLatitudeRef"], [2, "GPSLatitude"], [3, "GPSLongitudeRef"], [4, "GPSLongitude"], [5, "GPSAltitudeRef"], [6, "GPSAltitude"], [7, "GPSTimeStamp"], [8, "GPSSatellites"], [9, "GPSStatus"], [10, "GPSMeasureMode"], [11, "GPSDOP"], [12, "GPSSpeedRef"], [13, "GPSSpeed"], [14, "GPSTrackRef"], [15, "GPSTrack"], [16, "GPSImgDirectionRef"], [17, "GPSImgDirection"], [18, "GPSMapDatum"], [19, "GPSDestLatitudeRef"], [20, "GPSDestLatitude"], [21, "GPSDestLongitudeRef"], [22, "GPSDestLongitude"], [23, "GPSDestBearingRef"], [24, "GPSDestBearing"], [25, "GPSDestDistanceRef"], [26, "GPSDestDistance"], [27, "GPSProcessingMethod"], [28, "GPSAreaInformation"], [29, "GPSDateStamp"], [30, "GPSDifferential"], [31, "GPSHPositioningError"]]), U2(B, ["ifd0", "ifd1"], [[274, { 1: "Horizontal (normal)", 2: "Mirror horizontal", 3: "Rotate 180", 4: "Mirror vertical", 5: "Mirror horizontal and rotate 270 CW", 6: "Rotate 90 CW", 7: "Mirror horizontal and rotate 90 CW", 8: "Rotate 270 CW" }], [296, { 1: "None", 2: "inches", 3: "cm" }]]);
-  var Ee = U2(B, "exif", [[34850, { 0: "Not defined", 1: "Manual", 2: "Normal program", 3: "Aperture priority", 4: "Shutter priority", 5: "Creative program", 6: "Action program", 7: "Portrait mode", 8: "Landscape mode" }], [37121, { 0: "-", 1: "Y", 2: "Cb", 3: "Cr", 4: "R", 5: "G", 6: "B" }], [37383, { 0: "Unknown", 1: "Average", 2: "CenterWeightedAverage", 3: "Spot", 4: "MultiSpot", 5: "Pattern", 6: "Partial", 255: "Other" }], [37384, { 0: "Unknown", 1: "Daylight", 2: "Fluorescent", 3: "Tungsten (incandescent light)", 4: "Flash", 9: "Fine weather", 10: "Cloudy weather", 11: "Shade", 12: "Daylight fluorescent (D 5700 - 7100K)", 13: "Day white fluorescent (N 4600 - 5400K)", 14: "Cool white fluorescent (W 3900 - 4500K)", 15: "White fluorescent (WW 3200 - 3700K)", 17: "Standard light A", 18: "Standard light B", 19: "Standard light C", 20: "D55", 21: "D65", 22: "D75", 23: "D50", 24: "ISO studio tungsten", 255: "Other" }], [37385, { 0: "Flash did not fire", 1: "Flash fired", 5: "Strobe return light not detected", 7: "Strobe return light detected", 9: "Flash fired, compulsory flash mode", 13: "Flash fired, compulsory flash mode, return light not detected", 15: "Flash fired, compulsory flash mode, return light detected", 16: "Flash did not fire, compulsory flash mode", 24: "Flash did not fire, auto mode", 25: "Flash fired, auto mode", 29: "Flash fired, auto mode, return light not detected", 31: "Flash fired, auto mode, return light detected", 32: "No flash function", 65: "Flash fired, red-eye reduction mode", 69: "Flash fired, red-eye reduction mode, return light not detected", 71: "Flash fired, red-eye reduction mode, return light detected", 73: "Flash fired, compulsory flash mode, red-eye reduction mode", 77: "Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected", 79: "Flash fired, compulsory flash mode, red-eye reduction mode, return light detected", 89: "Flash fired, auto mode, red-eye reduction mode", 93: "Flash fired, auto mode, return light not detected, red-eye reduction mode", 95: "Flash fired, auto mode, return light detected, red-eye reduction mode" }], [41495, { 1: "Not defined", 2: "One-chip color area sensor", 3: "Two-chip color area sensor", 4: "Three-chip color area sensor", 5: "Color sequential area sensor", 7: "Trilinear sensor", 8: "Color sequential linear sensor" }], [41728, { 1: "Film Scanner", 2: "Reflection Print Scanner", 3: "Digital Camera" }], [41729, { 1: "Directly photographed" }], [41985, { 0: "Normal", 1: "Custom", 2: "HDR (no original saved)", 3: "HDR (original saved)", 4: "Original (for HDR)", 6: "Panorama", 7: "Portrait HDR", 8: "Portrait" }], [41986, { 0: "Auto", 1: "Manual", 2: "Auto bracket" }], [41987, { 0: "Auto", 1: "Manual" }], [41990, { 0: "Standard", 1: "Landscape", 2: "Portrait", 3: "Night", 4: "Other" }], [41991, { 0: "None", 1: "Low gain up", 2: "High gain up", 3: "Low gain down", 4: "High gain down" }], [41996, { 0: "Unknown", 1: "Macro", 2: "Close", 3: "Distant" }], [42080, { 0: "Unknown", 1: "Not a Composite Image", 2: "General Composite Image", 3: "Composite Image Captured While Shooting" }]]);
+  c(Fe, "type", "avif"), w.set("heic", Ue), w.set("avif", Fe), U3(E, ["ifd0", "ifd1"], [[256, "ImageWidth"], [257, "ImageHeight"], [258, "BitsPerSample"], [259, "Compression"], [262, "PhotometricInterpretation"], [270, "ImageDescription"], [271, "Make"], [272, "Model"], [273, "StripOffsets"], [274, "Orientation"], [277, "SamplesPerPixel"], [278, "RowsPerStrip"], [279, "StripByteCounts"], [282, "XResolution"], [283, "YResolution"], [284, "PlanarConfiguration"], [296, "ResolutionUnit"], [301, "TransferFunction"], [305, "Software"], [306, "ModifyDate"], [315, "Artist"], [316, "HostComputer"], [317, "Predictor"], [318, "WhitePoint"], [319, "PrimaryChromaticities"], [513, "ThumbnailOffset"], [514, "ThumbnailLength"], [529, "YCbCrCoefficients"], [530, "YCbCrSubSampling"], [531, "YCbCrPositioning"], [532, "ReferenceBlackWhite"], [700, "ApplicationNotes"], [33432, "Copyright"], [33723, "IPTC"], [34665, "ExifIFD"], [34675, "ICC"], [34853, "GpsIFD"], [330, "SubIFD"], [40965, "InteropIFD"], [40091, "XPTitle"], [40092, "XPComment"], [40093, "XPAuthor"], [40094, "XPKeywords"], [40095, "XPSubject"]]), U3(E, "exif", [[33434, "ExposureTime"], [33437, "FNumber"], [34850, "ExposureProgram"], [34852, "SpectralSensitivity"], [34855, "ISO"], [34858, "TimeZoneOffset"], [34859, "SelfTimerMode"], [34864, "SensitivityType"], [34865, "StandardOutputSensitivity"], [34866, "RecommendedExposureIndex"], [34867, "ISOSpeed"], [34868, "ISOSpeedLatitudeyyy"], [34869, "ISOSpeedLatitudezzz"], [36864, "ExifVersion"], [36867, "DateTimeOriginal"], [36868, "CreateDate"], [36873, "GooglePlusUploadCode"], [36880, "OffsetTime"], [36881, "OffsetTimeOriginal"], [36882, "OffsetTimeDigitized"], [37121, "ComponentsConfiguration"], [37122, "CompressedBitsPerPixel"], [37377, "ShutterSpeedValue"], [37378, "ApertureValue"], [37379, "BrightnessValue"], [37380, "ExposureCompensation"], [37381, "MaxApertureValue"], [37382, "SubjectDistance"], [37383, "MeteringMode"], [37384, "LightSource"], [37385, "Flash"], [37386, "FocalLength"], [37393, "ImageNumber"], [37394, "SecurityClassification"], [37395, "ImageHistory"], [37396, "SubjectArea"], [37500, "MakerNote"], [37510, "UserComment"], [37520, "SubSecTime"], [37521, "SubSecTimeOriginal"], [37522, "SubSecTimeDigitized"], [37888, "AmbientTemperature"], [37889, "Humidity"], [37890, "Pressure"], [37891, "WaterDepth"], [37892, "Acceleration"], [37893, "CameraElevationAngle"], [40960, "FlashpixVersion"], [40961, "ColorSpace"], [40962, "ExifImageWidth"], [40963, "ExifImageHeight"], [40964, "RelatedSoundFile"], [41483, "FlashEnergy"], [41486, "FocalPlaneXResolution"], [41487, "FocalPlaneYResolution"], [41488, "FocalPlaneResolutionUnit"], [41492, "SubjectLocation"], [41493, "ExposureIndex"], [41495, "SensingMethod"], [41728, "FileSource"], [41729, "SceneType"], [41730, "CFAPattern"], [41985, "CustomRendered"], [41986, "ExposureMode"], [41987, "WhiteBalance"], [41988, "DigitalZoomRatio"], [41989, "FocalLengthIn35mmFormat"], [41990, "SceneCaptureType"], [41991, "GainControl"], [41992, "Contrast"], [41993, "Saturation"], [41994, "Sharpness"], [41996, "SubjectDistanceRange"], [42016, "ImageUniqueID"], [42032, "OwnerName"], [42033, "SerialNumber"], [42034, "LensInfo"], [42035, "LensMake"], [42036, "LensModel"], [42037, "LensSerialNumber"], [42080, "CompositeImage"], [42081, "CompositeImageCount"], [42082, "CompositeImageExposureTimes"], [42240, "Gamma"], [59932, "Padding"], [59933, "OffsetSchema"], [65e3, "OwnerName"], [65001, "SerialNumber"], [65002, "Lens"], [65100, "RawFile"], [65101, "Converter"], [65102, "WhiteBalance"], [65105, "Exposure"], [65106, "Shadows"], [65107, "Brightness"], [65108, "Contrast"], [65109, "Saturation"], [65110, "Sharpness"], [65111, "Smoothness"], [65112, "MoireFilter"], [40965, "InteropIFD"]]), U3(E, "gps", [[0, "GPSVersionID"], [1, "GPSLatitudeRef"], [2, "GPSLatitude"], [3, "GPSLongitudeRef"], [4, "GPSLongitude"], [5, "GPSAltitudeRef"], [6, "GPSAltitude"], [7, "GPSTimeStamp"], [8, "GPSSatellites"], [9, "GPSStatus"], [10, "GPSMeasureMode"], [11, "GPSDOP"], [12, "GPSSpeedRef"], [13, "GPSSpeed"], [14, "GPSTrackRef"], [15, "GPSTrack"], [16, "GPSImgDirectionRef"], [17, "GPSImgDirection"], [18, "GPSMapDatum"], [19, "GPSDestLatitudeRef"], [20, "GPSDestLatitude"], [21, "GPSDestLongitudeRef"], [22, "GPSDestLongitude"], [23, "GPSDestBearingRef"], [24, "GPSDestBearing"], [25, "GPSDestDistanceRef"], [26, "GPSDestDistance"], [27, "GPSProcessingMethod"], [28, "GPSAreaInformation"], [29, "GPSDateStamp"], [30, "GPSDifferential"], [31, "GPSHPositioningError"]]), U3(B, ["ifd0", "ifd1"], [[274, { 1: "Horizontal (normal)", 2: "Mirror horizontal", 3: "Rotate 180", 4: "Mirror vertical", 5: "Mirror horizontal and rotate 270 CW", 6: "Rotate 90 CW", 7: "Mirror horizontal and rotate 90 CW", 8: "Rotate 270 CW" }], [296, { 1: "None", 2: "inches", 3: "cm" }]]);
+  var Ee = U3(B, "exif", [[34850, { 0: "Not defined", 1: "Manual", 2: "Normal program", 3: "Aperture priority", 4: "Shutter priority", 5: "Creative program", 6: "Action program", 7: "Portrait mode", 8: "Landscape mode" }], [37121, { 0: "-", 1: "Y", 2: "Cb", 3: "Cr", 4: "R", 5: "G", 6: "B" }], [37383, { 0: "Unknown", 1: "Average", 2: "CenterWeightedAverage", 3: "Spot", 4: "MultiSpot", 5: "Pattern", 6: "Partial", 255: "Other" }], [37384, { 0: "Unknown", 1: "Daylight", 2: "Fluorescent", 3: "Tungsten (incandescent light)", 4: "Flash", 9: "Fine weather", 10: "Cloudy weather", 11: "Shade", 12: "Daylight fluorescent (D 5700 - 7100K)", 13: "Day white fluorescent (N 4600 - 5400K)", 14: "Cool white fluorescent (W 3900 - 4500K)", 15: "White fluorescent (WW 3200 - 3700K)", 17: "Standard light A", 18: "Standard light B", 19: "Standard light C", 20: "D55", 21: "D65", 22: "D75", 23: "D50", 24: "ISO studio tungsten", 255: "Other" }], [37385, { 0: "Flash did not fire", 1: "Flash fired", 5: "Strobe return light not detected", 7: "Strobe return light detected", 9: "Flash fired, compulsory flash mode", 13: "Flash fired, compulsory flash mode, return light not detected", 15: "Flash fired, compulsory flash mode, return light detected", 16: "Flash did not fire, compulsory flash mode", 24: "Flash did not fire, auto mode", 25: "Flash fired, auto mode", 29: "Flash fired, auto mode, return light not detected", 31: "Flash fired, auto mode, return light detected", 32: "No flash function", 65: "Flash fired, red-eye reduction mode", 69: "Flash fired, red-eye reduction mode, return light not detected", 71: "Flash fired, red-eye reduction mode, return light detected", 73: "Flash fired, compulsory flash mode, red-eye reduction mode", 77: "Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected", 79: "Flash fired, compulsory flash mode, red-eye reduction mode, return light detected", 89: "Flash fired, auto mode, red-eye reduction mode", 93: "Flash fired, auto mode, return light not detected, red-eye reduction mode", 95: "Flash fired, auto mode, return light detected, red-eye reduction mode" }], [41495, { 1: "Not defined", 2: "One-chip color area sensor", 3: "Two-chip color area sensor", 4: "Three-chip color area sensor", 5: "Color sequential area sensor", 7: "Trilinear sensor", 8: "Color sequential linear sensor" }], [41728, { 1: "Film Scanner", 2: "Reflection Print Scanner", 3: "Digital Camera" }], [41729, { 1: "Directly photographed" }], [41985, { 0: "Normal", 1: "Custom", 2: "HDR (no original saved)", 3: "HDR (original saved)", 4: "Original (for HDR)", 6: "Panorama", 7: "Portrait HDR", 8: "Portrait" }], [41986, { 0: "Auto", 1: "Manual", 2: "Auto bracket" }], [41987, { 0: "Auto", 1: "Manual" }], [41990, { 0: "Standard", 1: "Landscape", 2: "Portrait", 3: "Night", 4: "Other" }], [41991, { 0: "None", 1: "Low gain up", 2: "High gain up", 3: "Low gain down", 4: "High gain down" }], [41996, { 0: "Unknown", 1: "Macro", 2: "Close", 3: "Distant" }], [42080, { 0: "Unknown", 1: "Not a Composite Image", 2: "General Composite Image", 3: "Composite Image Captured While Shooting" }]]);
   var Be = { 1: "No absolute unit of measurement", 2: "Inch", 3: "Centimeter" };
   Ee.set(37392, Be), Ee.set(41488, Be);
   var Ne = { 0: "Normal", 1: "Low", 2: "High" };
@@ -56780,9 +56873,9 @@
   function je(e3, t2) {
     return e3 << 8 | t2;
   }
-  Ee.set(41992, Ne), Ee.set(41993, Ne), Ee.set(41994, Ne), U2(N, ["ifd0", "ifd1"], [[50827, function(e3) {
+  Ee.set(41992, Ne), Ee.set(41993, Ne), Ee.set(41994, Ne), U3(N, ["ifd0", "ifd1"], [[50827, function(e3) {
     return "string" != typeof e3 ? b(e3) : e3;
-  }], [306, ze], [40091, He], [40092, He], [40093, He], [40094, He], [40095, He]]), U2(N, "exif", [[40960, Ve], [36864, Ve], [36867, ze], [36868, ze], [40962, Ge], [40963, Ge]]), U2(N, "gps", [[0, (e3) => Array.from(e3).join(".")], [7, (e3) => Array.from(e3).join(":")]]);
+  }], [306, ze], [40091, He], [40092, He], [40093, He], [40094, He], [40095, He]]), U3(N, "exif", [[40960, Ve], [36864, Ve], [36867, ze], [36868, ze], [40962, Ge], [40963, Ge]]), U3(N, "gps", [[0, (e3) => Array.from(e3).join(".")], [7, (e3) => Array.from(e3).join(":")]]);
   var We = class extends re2 {
     static canHandle(e3, t2) {
       return 225 === e3.getUint8(t2 + 1) && 1752462448 === e3.getUint32(t2 + 4) && "http://ns.adobe.com/" === e3.getString(t2 + 4, "http://ns.adobe.com/".length);
@@ -56810,9 +56903,9 @@
         return e4.replace(et, (e6, n4, s2) => {
           if ("<" === n4) {
             let n5 = ++i4[s2];
-            return t3[s2].push(n5), "".concat(e6, "#").concat(n5);
+            return t3[s2].push(n5), `${e6}#${n5}`;
           }
-          return "".concat(e6, "#").concat(t3[s2].pop());
+          return `${e6}#${t3[s2].pop()}`;
         });
       }(e3);
       let t2 = Xe.findAll(e3, "rdf", "Description");
@@ -56867,7 +56960,7 @@
     static findAll(e3, t2, i3) {
       if (void 0 !== t2 || void 0 !== i3) {
         t2 = t2 || "[\\w\\d-]+", i3 = i3 || "[\\w\\d-]+";
-        var n3 = new RegExp("<(".concat(t2, "):(").concat(i3, ")(#\\d+)?((\\s+?[\\w\\d-:]+=(\"[^\"]*\"|'[^']*'))*\\s*)(\\/>|>([\\s\\S]*?)<\\/\\1:\\2\\3>)"), "gm");
+        var n3 = new RegExp(`<(${t2}):(${i3})(#\\d+)?((\\s+?[\\w\\d-:]+=("[^"]*"|'[^']*'))*\\s*)(\\/>|>([\\s\\S]*?)<\\/\\1:\\2\\3>)`, "gm");
       } else
         n3 = /<([\w\d-]+):([\w\d-]+)(#\d+)?((\s+?[\w\d-:]+=("[^"]*"|'[^']*'))*\s*)(\/>|>([\s\S]*?)<\/\1:\2\3>)/gm;
       return qe(e3, n3).map(_Xe.unpackMatch);
@@ -56936,14 +57029,14 @@
     return "true" === i3 || "false" !== i3 && e3.trim();
   }
   var Ze = ["rdf:li", "rdf:Seq", "rdf:Bag", "rdf:Alt", "rdf:Description"];
-  var et = new RegExp("(<|\\/)(".concat(Ze.join("|"), ")"), "g");
-  var tt = Object.freeze({ __proto__: null, default: Me, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A2, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U2, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X3, Options: q, parse: ie, gpsOnlyOptions: me, gps: Se, thumbnailOnlyOptions: Ce, thumbnail: ye, thumbnailUrl: be, orientationOnlyOptions: Ie, orientation: Pe, rotations: ke, get rotateCanvas() {
+  var et = new RegExp(`(<|\\/)(${Ze.join("|")})`, "g");
+  var tt = Object.freeze({ __proto__: null, default: Me, Exifr: te, fileParsers: w, segmentParsers: T, fileReaders: A3, tagKeys: E, tagValues: B, tagRevivers: N, createDictionary: U3, extendDictionary: F, fetchUrlAsArrayBuffer: M, readBlobAsArrayBuffer: R, chunkedProps: G, otherSegments: V7, segments: z, tiffBlocks: H, segmentsAndBlocks: j, tiffExtractables: W, inheritables: K, allFormatters: X4, Options: q, parse: ie, gpsOnlyOptions: me, gps: Se, thumbnailOnlyOptions: Ce, thumbnail: ye, thumbnailUrl: be, orientationOnlyOptions: Ie, orientation: Pe, rotations: ke, get rotateCanvas() {
     return we;
   }, get rotateCss() {
     return Te;
   }, rotation: Ae });
   var at = l("fs", (e3) => e3.promises);
-  A2.set("fs", class extends ve {
+  A3.set("fs", class extends ve {
     async readWhole() {
       this.chunked = false, this.fs = await at;
       let e3 = await this.fs.readFile(this.input);
@@ -56967,7 +57060,7 @@
       }
     }
   });
-  A2.set("base64", class extends ve {
+  A3.set("base64", class extends ve {
     constructor(...e3) {
       super(...e3), this.input = this.input.replace(/^data:([^;]+);base64,/gim, ""), this.size = this.input.length / 4 * 3, this.input.endsWith("==") ? this.size -= 2 : this.input.endsWith("=") && (this.size -= 1);
     }
@@ -57071,9 +57164,9 @@
       }
     }
   };
-  c(ut, "type", "png"), w.set("png", ut), U2(E, "interop", [[1, "InteropIndex"], [2, "InteropVersion"], [4096, "RelatedImageFileFormat"], [4097, "RelatedImageWidth"], [4098, "RelatedImageHeight"]]), F(E, "ifd0", [[11, "ProcessingSoftware"], [254, "SubfileType"], [255, "OldSubfileType"], [263, "Thresholding"], [264, "CellWidth"], [265, "CellLength"], [266, "FillOrder"], [269, "DocumentName"], [280, "MinSampleValue"], [281, "MaxSampleValue"], [285, "PageName"], [286, "XPosition"], [287, "YPosition"], [290, "GrayResponseUnit"], [297, "PageNumber"], [321, "HalftoneHints"], [322, "TileWidth"], [323, "TileLength"], [332, "InkSet"], [337, "TargetPrinter"], [18246, "Rating"], [18249, "RatingPercent"], [33550, "PixelScale"], [34264, "ModelTransform"], [34377, "PhotoshopSettings"], [50706, "DNGVersion"], [50707, "DNGBackwardVersion"], [50708, "UniqueCameraModel"], [50709, "LocalizedCameraModel"], [50736, "DNGLensInfo"], [50739, "ShadowScale"], [50740, "DNGPrivateData"], [33920, "IntergraphMatrix"], [33922, "ModelTiePoint"], [34118, "SEMInfo"], [34735, "GeoTiffDirectory"], [34736, "GeoTiffDoubleParams"], [34737, "GeoTiffAsciiParams"], [50341, "PrintIM"], [50721, "ColorMatrix1"], [50722, "ColorMatrix2"], [50723, "CameraCalibration1"], [50724, "CameraCalibration2"], [50725, "ReductionMatrix1"], [50726, "ReductionMatrix2"], [50727, "AnalogBalance"], [50728, "AsShotNeutral"], [50729, "AsShotWhiteXY"], [50730, "BaselineExposure"], [50731, "BaselineNoise"], [50732, "BaselineSharpness"], [50734, "LinearResponseLimit"], [50735, "CameraSerialNumber"], [50741, "MakerNoteSafety"], [50778, "CalibrationIlluminant1"], [50779, "CalibrationIlluminant2"], [50781, "RawDataUniqueID"], [50827, "OriginalRawFileName"], [50828, "OriginalRawFileData"], [50831, "AsShotICCProfile"], [50832, "AsShotPreProfileMatrix"], [50833, "CurrentICCProfile"], [50834, "CurrentPreProfileMatrix"], [50879, "ColorimetricReference"], [50885, "SRawType"], [50898, "PanasonicTitle"], [50899, "PanasonicTitle2"], [50931, "CameraCalibrationSig"], [50932, "ProfileCalibrationSig"], [50933, "ProfileIFD"], [50934, "AsShotProfileName"], [50936, "ProfileName"], [50937, "ProfileHueSatMapDims"], [50938, "ProfileHueSatMapData1"], [50939, "ProfileHueSatMapData2"], [50940, "ProfileToneCurve"], [50941, "ProfileEmbedPolicy"], [50942, "ProfileCopyright"], [50964, "ForwardMatrix1"], [50965, "ForwardMatrix2"], [50966, "PreviewApplicationName"], [50967, "PreviewApplicationVersion"], [50968, "PreviewSettingsName"], [50969, "PreviewSettingsDigest"], [50970, "PreviewColorSpace"], [50971, "PreviewDateTime"], [50972, "RawImageDigest"], [50973, "OriginalRawFileDigest"], [50981, "ProfileLookTableDims"], [50982, "ProfileLookTableData"], [51043, "TimeCodes"], [51044, "FrameRate"], [51058, "TStop"], [51081, "ReelName"], [51089, "OriginalDefaultFinalSize"], [51090, "OriginalBestQualitySize"], [51091, "OriginalDefaultCropSize"], [51105, "CameraLabel"], [51107, "ProfileHueSatMapEncoding"], [51108, "ProfileLookTableEncoding"], [51109, "BaselineExposureOffset"], [51110, "DefaultBlackRender"], [51111, "NewRawImageDigest"], [51112, "RawToPreviewGain"]]);
+  c(ut, "type", "png"), w.set("png", ut), U3(E, "interop", [[1, "InteropIndex"], [2, "InteropVersion"], [4096, "RelatedImageFileFormat"], [4097, "RelatedImageWidth"], [4098, "RelatedImageHeight"]]), F(E, "ifd0", [[11, "ProcessingSoftware"], [254, "SubfileType"], [255, "OldSubfileType"], [263, "Thresholding"], [264, "CellWidth"], [265, "CellLength"], [266, "FillOrder"], [269, "DocumentName"], [280, "MinSampleValue"], [281, "MaxSampleValue"], [285, "PageName"], [286, "XPosition"], [287, "YPosition"], [290, "GrayResponseUnit"], [297, "PageNumber"], [321, "HalftoneHints"], [322, "TileWidth"], [323, "TileLength"], [332, "InkSet"], [337, "TargetPrinter"], [18246, "Rating"], [18249, "RatingPercent"], [33550, "PixelScale"], [34264, "ModelTransform"], [34377, "PhotoshopSettings"], [50706, "DNGVersion"], [50707, "DNGBackwardVersion"], [50708, "UniqueCameraModel"], [50709, "LocalizedCameraModel"], [50736, "DNGLensInfo"], [50739, "ShadowScale"], [50740, "DNGPrivateData"], [33920, "IntergraphMatrix"], [33922, "ModelTiePoint"], [34118, "SEMInfo"], [34735, "GeoTiffDirectory"], [34736, "GeoTiffDoubleParams"], [34737, "GeoTiffAsciiParams"], [50341, "PrintIM"], [50721, "ColorMatrix1"], [50722, "ColorMatrix2"], [50723, "CameraCalibration1"], [50724, "CameraCalibration2"], [50725, "ReductionMatrix1"], [50726, "ReductionMatrix2"], [50727, "AnalogBalance"], [50728, "AsShotNeutral"], [50729, "AsShotWhiteXY"], [50730, "BaselineExposure"], [50731, "BaselineNoise"], [50732, "BaselineSharpness"], [50734, "LinearResponseLimit"], [50735, "CameraSerialNumber"], [50741, "MakerNoteSafety"], [50778, "CalibrationIlluminant1"], [50779, "CalibrationIlluminant2"], [50781, "RawDataUniqueID"], [50827, "OriginalRawFileName"], [50828, "OriginalRawFileData"], [50831, "AsShotICCProfile"], [50832, "AsShotPreProfileMatrix"], [50833, "CurrentICCProfile"], [50834, "CurrentPreProfileMatrix"], [50879, "ColorimetricReference"], [50885, "SRawType"], [50898, "PanasonicTitle"], [50899, "PanasonicTitle2"], [50931, "CameraCalibrationSig"], [50932, "ProfileCalibrationSig"], [50933, "ProfileIFD"], [50934, "AsShotProfileName"], [50936, "ProfileName"], [50937, "ProfileHueSatMapDims"], [50938, "ProfileHueSatMapData1"], [50939, "ProfileHueSatMapData2"], [50940, "ProfileToneCurve"], [50941, "ProfileEmbedPolicy"], [50942, "ProfileCopyright"], [50964, "ForwardMatrix1"], [50965, "ForwardMatrix2"], [50966, "PreviewApplicationName"], [50967, "PreviewApplicationVersion"], [50968, "PreviewSettingsName"], [50969, "PreviewSettingsDigest"], [50970, "PreviewColorSpace"], [50971, "PreviewDateTime"], [50972, "RawImageDigest"], [50973, "OriginalRawFileDigest"], [50981, "ProfileLookTableDims"], [50982, "ProfileLookTableData"], [51043, "TimeCodes"], [51044, "FrameRate"], [51058, "TStop"], [51081, "ReelName"], [51089, "OriginalDefaultFinalSize"], [51090, "OriginalBestQualitySize"], [51091, "OriginalDefaultCropSize"], [51105, "CameraLabel"], [51107, "ProfileHueSatMapEncoding"], [51108, "ProfileLookTableEncoding"], [51109, "BaselineExposureOffset"], [51110, "DefaultBlackRender"], [51111, "NewRawImageDigest"], [51112, "RawToPreviewGain"]]);
   var ct = [[273, "StripOffsets"], [279, "StripByteCounts"], [288, "FreeOffsets"], [289, "FreeByteCounts"], [291, "GrayResponseCurve"], [292, "T4Options"], [293, "T6Options"], [300, "ColorResponseUnit"], [320, "ColorMap"], [324, "TileOffsets"], [325, "TileByteCounts"], [326, "BadFaxLines"], [327, "CleanFaxData"], [328, "ConsecutiveBadFaxLines"], [330, "SubIFD"], [333, "InkNames"], [334, "NumberofInks"], [336, "DotRange"], [338, "ExtraSamples"], [339, "SampleFormat"], [340, "SMinSampleValue"], [341, "SMaxSampleValue"], [342, "TransferRange"], [343, "ClipPath"], [344, "XClipPathUnits"], [345, "YClipPathUnits"], [346, "Indexed"], [347, "JPEGTables"], [351, "OPIProxy"], [400, "GlobalParametersIFD"], [401, "ProfileType"], [402, "FaxProfile"], [403, "CodingMethods"], [404, "VersionYear"], [405, "ModeNumber"], [433, "Decode"], [434, "DefaultImageColor"], [435, "T82Options"], [437, "JPEGTables"], [512, "JPEGProc"], [515, "JPEGRestartInterval"], [517, "JPEGLosslessPredictors"], [518, "JPEGPointTransforms"], [519, "JPEGQTables"], [520, "JPEGDCTables"], [521, "JPEGACTables"], [559, "StripRowCounts"], [999, "USPTOMiscellaneous"], [18247, "XP_DIP_XML"], [18248, "StitchInfo"], [28672, "SonyRawFileType"], [28688, "SonyToneCurve"], [28721, "VignettingCorrection"], [28722, "VignettingCorrParams"], [28724, "ChromaticAberrationCorrection"], [28725, "ChromaticAberrationCorrParams"], [28726, "DistortionCorrection"], [28727, "DistortionCorrParams"], [29895, "SonyCropTopLeft"], [29896, "SonyCropSize"], [32781, "ImageID"], [32931, "WangTag1"], [32932, "WangAnnotation"], [32933, "WangTag3"], [32934, "WangTag4"], [32953, "ImageReferencePoints"], [32954, "RegionXformTackPoint"], [32955, "WarpQuadrilateral"], [32956, "AffineTransformMat"], [32995, "Matteing"], [32996, "DataType"], [32997, "ImageDepth"], [32998, "TileDepth"], [33300, "ImageFullWidth"], [33301, "ImageFullHeight"], [33302, "TextureFormat"], [33303, "WrapModes"], [33304, "FovCot"], [33305, "MatrixWorldToScreen"], [33306, "MatrixWorldToCamera"], [33405, "Model2"], [33421, "CFARepeatPatternDim"], [33422, "CFAPattern2"], [33423, "BatteryLevel"], [33424, "KodakIFD"], [33445, "MDFileTag"], [33446, "MDScalePixel"], [33447, "MDColorTable"], [33448, "MDLabName"], [33449, "MDSampleInfo"], [33450, "MDPrepDate"], [33451, "MDPrepTime"], [33452, "MDFileUnits"], [33589, "AdventScale"], [33590, "AdventRevision"], [33628, "UIC1Tag"], [33629, "UIC2Tag"], [33630, "UIC3Tag"], [33631, "UIC4Tag"], [33918, "IntergraphPacketData"], [33919, "IntergraphFlagRegisters"], [33921, "INGRReserved"], [34016, "Site"], [34017, "ColorSequence"], [34018, "IT8Header"], [34019, "RasterPadding"], [34020, "BitsPerRunLength"], [34021, "BitsPerExtendedRunLength"], [34022, "ColorTable"], [34023, "ImageColorIndicator"], [34024, "BackgroundColorIndicator"], [34025, "ImageColorValue"], [34026, "BackgroundColorValue"], [34027, "PixelIntensityRange"], [34028, "TransparencyIndicator"], [34029, "ColorCharacterization"], [34030, "HCUsage"], [34031, "TrapIndicator"], [34032, "CMYKEquivalent"], [34152, "AFCP_IPTC"], [34232, "PixelMagicJBIGOptions"], [34263, "JPLCartoIFD"], [34306, "WB_GRGBLevels"], [34310, "LeafData"], [34687, "TIFF_FXExtensions"], [34688, "MultiProfiles"], [34689, "SharedData"], [34690, "T88Options"], [34732, "ImageLayer"], [34750, "JBIGOptions"], [34856, "Opto-ElectricConvFactor"], [34857, "Interlace"], [34908, "FaxRecvParams"], [34909, "FaxSubAddress"], [34910, "FaxRecvTime"], [34929, "FedexEDR"], [34954, "LeafSubIFD"], [37387, "FlashEnergy"], [37388, "SpatialFrequencyResponse"], [37389, "Noise"], [37390, "FocalPlaneXResolution"], [37391, "FocalPlaneYResolution"], [37392, "FocalPlaneResolutionUnit"], [37397, "ExposureIndex"], [37398, "TIFF-EPStandardID"], [37399, "SensingMethod"], [37434, "CIP3DataFile"], [37435, "CIP3Sheet"], [37436, "CIP3Side"], [37439, "StoNits"], [37679, "MSDocumentText"], [37680, "MSPropertySetStorage"], [37681, "MSDocumentTextPosition"], [37724, "ImageSourceData"], [40965, "InteropIFD"], [40976, "SamsungRawPointersOffset"], [40977, "SamsungRawPointersLength"], [41217, "SamsungRawByteOrder"], [41218, "SamsungRawUnknown"], [41484, "SpatialFrequencyResponse"], [41485, "Noise"], [41489, "ImageNumber"], [41490, "SecurityClassification"], [41491, "ImageHistory"], [41494, "TIFF-EPStandardID"], [41995, "DeviceSettingDescription"], [42112, "GDALMetadata"], [42113, "GDALNoData"], [44992, "ExpandSoftware"], [44993, "ExpandLens"], [44994, "ExpandFilm"], [44995, "ExpandFilterLens"], [44996, "ExpandScanner"], [44997, "ExpandFlashLamp"], [46275, "HasselbladRawImage"], [48129, "PixelFormat"], [48130, "Transformation"], [48131, "Uncompressed"], [48132, "ImageType"], [48256, "ImageWidth"], [48257, "ImageHeight"], [48258, "WidthResolution"], [48259, "HeightResolution"], [48320, "ImageOffset"], [48321, "ImageByteCount"], [48322, "AlphaOffset"], [48323, "AlphaByteCount"], [48324, "ImageDataDiscard"], [48325, "AlphaDataDiscard"], [50215, "OceScanjobDesc"], [50216, "OceApplicationSelector"], [50217, "OceIDNumber"], [50218, "OceImageLogic"], [50255, "Annotations"], [50459, "HasselbladExif"], [50547, "OriginalFileName"], [50560, "USPTOOriginalContentType"], [50656, "CR2CFAPattern"], [50710, "CFAPlaneColor"], [50711, "CFALayout"], [50712, "LinearizationTable"], [50713, "BlackLevelRepeatDim"], [50714, "BlackLevel"], [50715, "BlackLevelDeltaH"], [50716, "BlackLevelDeltaV"], [50717, "WhiteLevel"], [50718, "DefaultScale"], [50719, "DefaultCropOrigin"], [50720, "DefaultCropSize"], [50733, "BayerGreenSplit"], [50737, "ChromaBlurRadius"], [50738, "AntiAliasStrength"], [50752, "RawImageSegmentation"], [50780, "BestQualityScale"], [50784, "AliasLayerMetadata"], [50829, "ActiveArea"], [50830, "MaskedAreas"], [50935, "NoiseReductionApplied"], [50974, "SubTileBlockSize"], [50975, "RowInterleaveFactor"], [51008, "OpcodeList1"], [51009, "OpcodeList2"], [51022, "OpcodeList3"], [51041, "NoiseProfile"], [51114, "CacheVersion"], [51125, "DefaultUserCrop"], [51157, "NikonNEFInfo"], [65024, "KdcIFD"]];
-  F(E, "ifd0", ct), F(E, "exif", ct), U2(B, "gps", [[23, { M: "Magnetic North", T: "True North" }], [25, { K: "Kilometers", M: "Miles", N: "Nautical Miles" }]]);
+  F(E, "ifd0", ct), F(E, "exif", ct), U3(B, "gps", [[23, { M: "Magnetic North", T: "True North" }], [25, { K: "Kilometers", M: "Miles", N: "Nautical Miles" }]]);
   var ft = class extends re2 {
     static canHandle(e3, t2) {
       return 224 === e3.getUint8(t2 + 1) && 1246120262 === e3.getUint32(t2 + 4) && 0 === e3.getUint8(t2 + 8);
@@ -57085,7 +57178,7 @@
       this.raw = /* @__PURE__ */ new Map([[0, this.chunk.getUint16(0)], [2, this.chunk.getUint8(2)], [3, this.chunk.getUint16(3)], [5, this.chunk.getUint16(5)], [7, this.chunk.getUint8(7)], [8, this.chunk.getUint8(8)]]);
     }
   };
-  c(ft, "type", "jfif"), c(ft, "headerLength", 9), T.set("jfif", ft), U2(E, "jfif", [[0, "JFIFVersion"], [2, "ResolutionUnit"], [3, "XResolution"], [5, "YResolution"], [7, "ThumbnailWidth"], [8, "ThumbnailHeight"]]);
+  c(ft, "type", "jfif"), c(ft, "headerLength", 9), T.set("jfif", ft), U3(E, "jfif", [[0, "JFIFVersion"], [2, "ResolutionUnit"], [3, "XResolution"], [5, "YResolution"], [7, "ThumbnailWidth"], [8, "ThumbnailHeight"]]);
   var dt = class extends re2 {
     parse() {
       return this.parseTags(), this.translate(), this.output;
@@ -57094,7 +57187,7 @@
       this.raw = new Map([[0, this.chunk.getUint32(0)], [4, this.chunk.getUint32(4)], [8, this.chunk.getUint8(8)], [9, this.chunk.getUint8(9)], [10, this.chunk.getUint8(10)], [11, this.chunk.getUint8(11)], [12, this.chunk.getUint8(12)], ...Array.from(this.raw)]);
     }
   };
-  c(dt, "type", "ihdr"), T.set("ihdr", dt), U2(E, "ihdr", [[0, "ImageWidth"], [4, "ImageHeight"], [8, "BitDepth"], [9, "ColorType"], [10, "Compression"], [11, "Filter"], [12, "Interlace"]]), U2(B, "ihdr", [[9, { 0: "Grayscale", 2: "RGB", 3: "Palette", 4: "Grayscale with Alpha", 6: "RGB with Alpha", DEFAULT: "Unknown" }], [10, { 0: "Deflate/Inflate", DEFAULT: "Unknown" }], [11, { 0: "Adaptive", DEFAULT: "Unknown" }], [12, { 0: "Noninterlaced", 1: "Adam7 Interlace", DEFAULT: "Unknown" }]]);
+  c(dt, "type", "ihdr"), T.set("ihdr", dt), U3(E, "ihdr", [[0, "ImageWidth"], [4, "ImageHeight"], [8, "BitDepth"], [9, "ColorType"], [10, "Compression"], [11, "Filter"], [12, "Interlace"]]), U3(B, "ihdr", [[9, { 0: "Grayscale", 2: "RGB", 3: "Palette", 4: "Grayscale with Alpha", 6: "RGB with Alpha", DEFAULT: "Unknown" }], [10, { 0: "Deflate/Inflate", DEFAULT: "Unknown" }], [11, { 0: "Adaptive", DEFAULT: "Unknown" }], [12, { 0: "Noninterlaced", 1: "Adam7 Interlace", DEFAULT: "Unknown" }]]);
   var pt = class extends re2 {
     static canHandle(e3, t2) {
       return 226 === e3.getUint8(t2 + 1) && 1229144927 === e3.getUint32(t2 + 4);
@@ -57183,10 +57276,10 @@
   function mt(e3, t2) {
     return m(e3.getString(t2, 4));
   }
-  T.set("icc", pt), U2(E, "icc", [[4, "ProfileCMMType"], [8, "ProfileVersion"], [12, "ProfileClass"], [16, "ColorSpaceData"], [20, "ProfileConnectionSpace"], [24, "ProfileDateTime"], [36, "ProfileFileSignature"], [40, "PrimaryPlatform"], [44, "CMMFlags"], [48, "DeviceManufacturer"], [52, "DeviceModel"], [56, "DeviceAttributes"], [64, "RenderingIntent"], [68, "ConnectionSpaceIlluminant"], [80, "ProfileCreator"], [84, "ProfileID"], ["Header", "ProfileHeader"], ["MS00", "WCSProfiles"], ["bTRC", "BlueTRC"], ["bXYZ", "BlueMatrixColumn"], ["bfd", "UCRBG"], ["bkpt", "MediaBlackPoint"], ["calt", "CalibrationDateTime"], ["chad", "ChromaticAdaptation"], ["chrm", "Chromaticity"], ["ciis", "ColorimetricIntentImageState"], ["clot", "ColorantTableOut"], ["clro", "ColorantOrder"], ["clrt", "ColorantTable"], ["cprt", "ProfileCopyright"], ["crdi", "CRDInfo"], ["desc", "ProfileDescription"], ["devs", "DeviceSettings"], ["dmdd", "DeviceModelDesc"], ["dmnd", "DeviceMfgDesc"], ["dscm", "ProfileDescriptionML"], ["fpce", "FocalPlaneColorimetryEstimates"], ["gTRC", "GreenTRC"], ["gXYZ", "GreenMatrixColumn"], ["gamt", "Gamut"], ["kTRC", "GrayTRC"], ["lumi", "Luminance"], ["meas", "Measurement"], ["meta", "Metadata"], ["mmod", "MakeAndModel"], ["ncl2", "NamedColor2"], ["ncol", "NamedColor"], ["ndin", "NativeDisplayInfo"], ["pre0", "Preview0"], ["pre1", "Preview1"], ["pre2", "Preview2"], ["ps2i", "PS2RenderingIntent"], ["ps2s", "PostScript2CSA"], ["psd0", "PostScript2CRD0"], ["psd1", "PostScript2CRD1"], ["psd2", "PostScript2CRD2"], ["psd3", "PostScript2CRD3"], ["pseq", "ProfileSequenceDesc"], ["psid", "ProfileSequenceIdentifier"], ["psvm", "PS2CRDVMSize"], ["rTRC", "RedTRC"], ["rXYZ", "RedMatrixColumn"], ["resp", "OutputResponse"], ["rhoc", "ReflectionHardcopyOrigColorimetry"], ["rig0", "PerceptualRenderingIntentGamut"], ["rig2", "SaturationRenderingIntentGamut"], ["rpoc", "ReflectionPrintOutputColorimetry"], ["sape", "SceneAppearanceEstimates"], ["scoe", "SceneColorimetryEstimates"], ["scrd", "ScreeningDesc"], ["scrn", "Screening"], ["targ", "CharTarget"], ["tech", "Technology"], ["vcgt", "VideoCardGamma"], ["view", "ViewingConditions"], ["vued", "ViewingCondDesc"], ["wtpt", "MediaWhitePoint"]]);
+  T.set("icc", pt), U3(E, "icc", [[4, "ProfileCMMType"], [8, "ProfileVersion"], [12, "ProfileClass"], [16, "ColorSpaceData"], [20, "ProfileConnectionSpace"], [24, "ProfileDateTime"], [36, "ProfileFileSignature"], [40, "PrimaryPlatform"], [44, "CMMFlags"], [48, "DeviceManufacturer"], [52, "DeviceModel"], [56, "DeviceAttributes"], [64, "RenderingIntent"], [68, "ConnectionSpaceIlluminant"], [80, "ProfileCreator"], [84, "ProfileID"], ["Header", "ProfileHeader"], ["MS00", "WCSProfiles"], ["bTRC", "BlueTRC"], ["bXYZ", "BlueMatrixColumn"], ["bfd", "UCRBG"], ["bkpt", "MediaBlackPoint"], ["calt", "CalibrationDateTime"], ["chad", "ChromaticAdaptation"], ["chrm", "Chromaticity"], ["ciis", "ColorimetricIntentImageState"], ["clot", "ColorantTableOut"], ["clro", "ColorantOrder"], ["clrt", "ColorantTable"], ["cprt", "ProfileCopyright"], ["crdi", "CRDInfo"], ["desc", "ProfileDescription"], ["devs", "DeviceSettings"], ["dmdd", "DeviceModelDesc"], ["dmnd", "DeviceMfgDesc"], ["dscm", "ProfileDescriptionML"], ["fpce", "FocalPlaneColorimetryEstimates"], ["gTRC", "GreenTRC"], ["gXYZ", "GreenMatrixColumn"], ["gamt", "Gamut"], ["kTRC", "GrayTRC"], ["lumi", "Luminance"], ["meas", "Measurement"], ["meta", "Metadata"], ["mmod", "MakeAndModel"], ["ncl2", "NamedColor2"], ["ncol", "NamedColor"], ["ndin", "NativeDisplayInfo"], ["pre0", "Preview0"], ["pre1", "Preview1"], ["pre2", "Preview2"], ["ps2i", "PS2RenderingIntent"], ["ps2s", "PostScript2CSA"], ["psd0", "PostScript2CRD0"], ["psd1", "PostScript2CRD1"], ["psd2", "PostScript2CRD2"], ["psd3", "PostScript2CRD3"], ["pseq", "ProfileSequenceDesc"], ["psid", "ProfileSequenceIdentifier"], ["psvm", "PS2CRDVMSize"], ["rTRC", "RedTRC"], ["rXYZ", "RedMatrixColumn"], ["resp", "OutputResponse"], ["rhoc", "ReflectionHardcopyOrigColorimetry"], ["rig0", "PerceptualRenderingIntentGamut"], ["rig2", "SaturationRenderingIntentGamut"], ["rpoc", "ReflectionPrintOutputColorimetry"], ["sape", "SceneAppearanceEstimates"], ["scoe", "SceneColorimetryEstimates"], ["scrd", "ScreeningDesc"], ["scrn", "Screening"], ["targ", "CharTarget"], ["tech", "Technology"], ["vcgt", "VideoCardGamma"], ["view", "ViewingConditions"], ["vued", "ViewingCondDesc"], ["wtpt", "MediaWhitePoint"]]);
   var St = { "4d2p": "Erdt Systems", AAMA: "Aamazing Technologies", ACER: "Acer", ACLT: "Acolyte Color Research", ACTI: "Actix Sytems", ADAR: "Adara Technology", ADBE: "Adobe", ADI: "ADI Systems", AGFA: "Agfa Graphics", ALMD: "Alps Electric", ALPS: "Alps Electric", ALWN: "Alwan Color Expertise", AMTI: "Amiable Technologies", AOC: "AOC International", APAG: "Apago", APPL: "Apple Computer", AST: "AST", "AT&T": "AT&T", BAEL: "BARBIERI electronic", BRCO: "Barco NV", BRKP: "Breakpoint", BROT: "Brother", BULL: "Bull", BUS: "Bus Computer Systems", "C-IT": "C-Itoh", CAMR: "Intel", CANO: "Canon", CARR: "Carroll Touch", CASI: "Casio", CBUS: "Colorbus PL", CEL: "Crossfield", CELx: "Crossfield", CGS: "CGS Publishing Technologies International", CHM: "Rochester Robotics", CIGL: "Colour Imaging Group, London", CITI: "Citizen", CL00: "Candela", CLIQ: "Color IQ", CMCO: "Chromaco", CMiX: "CHROMiX", COLO: "Colorgraphic Communications", COMP: "Compaq", COMp: "Compeq/Focus Technology", CONR: "Conrac Display Products", CORD: "Cordata Technologies", CPQ: "Compaq", CPRO: "ColorPro", CRN: "Cornerstone", CTX: "CTX International", CVIS: "ColorVision", CWC: "Fujitsu Laboratories", DARI: "Darius Technology", DATA: "Dataproducts", DCP: "Dry Creek Photo", DCRC: "Digital Contents Resource Center, Chung-Ang University", DELL: "Dell Computer", DIC: "Dainippon Ink and Chemicals", DICO: "Diconix", DIGI: "Digital", "DL&C": "Digital Light & Color", DPLG: "Doppelganger", DS: "Dainippon Screen", DSOL: "DOOSOL", DUPN: "DuPont", EPSO: "Epson", ESKO: "Esko-Graphics", ETRI: "Electronics and Telecommunications Research Institute", EVER: "Everex Systems", EXAC: "ExactCODE", Eizo: "Eizo", FALC: "Falco Data Products", FF: "Fuji Photo Film", FFEI: "FujiFilm Electronic Imaging", FNRD: "Fnord Software", FORA: "Fora", FORE: "Forefront Technology", FP: "Fujitsu", FPA: "WayTech Development", FUJI: "Fujitsu", FX: "Fuji Xerox", GCC: "GCC Technologies", GGSL: "Global Graphics Software", GMB: "Gretagmacbeth", GMG: "GMG", GOLD: "GoldStar Technology", GOOG: "Google", GPRT: "Giantprint", GTMB: "Gretagmacbeth", GVC: "WayTech Development", GW2K: "Sony", HCI: "HCI", HDM: "Heidelberger Druckmaschinen", HERM: "Hermes", HITA: "Hitachi America", HP: "Hewlett-Packard", HTC: "Hitachi", HiTi: "HiTi Digital", IBM: "IBM", IDNT: "Scitex", IEC: "Hewlett-Packard", IIYA: "Iiyama North America", IKEG: "Ikegami Electronics", IMAG: "Image Systems", IMI: "Ingram Micro", INTC: "Intel", INTL: "N/A (INTL)", INTR: "Intra Electronics", IOCO: "Iocomm International Technology", IPS: "InfoPrint Solutions Company", IRIS: "Scitex", ISL: "Ichikawa Soft Laboratory", ITNL: "N/A (ITNL)", IVM: "IVM", IWAT: "Iwatsu Electric", Idnt: "Scitex", Inca: "Inca Digital Printers", Iris: "Scitex", JPEG: "Joint Photographic Experts Group", JSFT: "Jetsoft Development", JVC: "JVC Information Products", KART: "Scitex", KFC: "KFC Computek Components", KLH: "KLH Computers", KMHD: "Konica Minolta", KNCA: "Konica", KODA: "Kodak", KYOC: "Kyocera", Kart: "Scitex", LCAG: "Leica", LCCD: "Leeds Colour", LDAK: "Left Dakota", LEAD: "Leading Technology", LEXM: "Lexmark International", LINK: "Link Computer", LINO: "Linotronic", LITE: "Lite-On", Leaf: "Leaf", Lino: "Linotronic", MAGC: "Mag Computronic", MAGI: "MAG Innovision", MANN: "Mannesmann", MICN: "Micron Technology", MICR: "Microtek", MICV: "Microvitec", MINO: "Minolta", MITS: "Mitsubishi Electronics America", MITs: "Mitsuba", MNLT: "Minolta", MODG: "Modgraph", MONI: "Monitronix", MONS: "Monaco Systems", MORS: "Morse Technology", MOTI: "Motive Systems", MSFT: "Microsoft", MUTO: "MUTOH INDUSTRIES", Mits: "Mitsubishi Electric", NANA: "NANAO", NEC: "NEC", NEXP: "NexPress Solutions", NISS: "Nissei Sangyo America", NKON: "Nikon", NONE: "none", OCE: "Oce Technologies", OCEC: "OceColor", OKI: "Oki", OKID: "Okidata", OKIP: "Okidata", OLIV: "Olivetti", OLYM: "Olympus", ONYX: "Onyx Graphics", OPTI: "Optiquest", PACK: "Packard Bell", PANA: "Matsushita Electric Industrial", PANT: "Pantone", PBN: "Packard Bell", PFU: "PFU", PHIL: "Philips Consumer Electronics", PNTX: "HOYA", POne: "Phase One A/S", PREM: "Premier Computer Innovations", PRIN: "Princeton Graphic Systems", PRIP: "Princeton Publishing Labs", QLUX: "Hong Kong", QMS: "QMS", QPCD: "QPcard AB", QUAD: "QuadLaser", QUME: "Qume", RADI: "Radius", RDDx: "Integrated Color Solutions", RDG: "Roland DG", REDM: "REDMS Group", RELI: "Relisys", RGMS: "Rolf Gierling Multitools", RICO: "Ricoh", RNLD: "Edmund Ronald", ROYA: "Royal", RPC: "Ricoh Printing Systems", RTL: "Royal Information Electronics", SAMP: "Sampo", SAMS: "Samsung", SANT: "Jaime Santana Pomares", SCIT: "Scitex", SCRN: "Dainippon Screen", SDP: "Scitex", SEC: "Samsung", SEIK: "Seiko Instruments", SEIk: "Seikosha", SGUY: "ScanGuy.com", SHAR: "Sharp Laboratories", SICC: "International Color Consortium", SONY: "Sony", SPCL: "SpectraCal", STAR: "Star", STC: "Sampo Technology", Scit: "Scitex", Sdp: "Scitex", Sony: "Sony", TALO: "Talon Technology", TAND: "Tandy", TATU: "Tatung", TAXA: "TAXAN America", TDS: "Tokyo Denshi Sekei", TECO: "TECO Information Systems", TEGR: "Tegra", TEKT: "Tektronix", TI: "Texas Instruments", TMKR: "TypeMaker", TOSB: "Toshiba", TOSH: "Toshiba", TOTK: "TOTOKU ELECTRIC", TRIU: "Triumph", TSBT: "Toshiba", TTX: "TTX Computer Products", TVM: "TVM Professional Monitor", TW: "TW Casper", ULSX: "Ulead Systems", UNIS: "Unisys", UTZF: "Utz Fehlau & Sohn", VARI: "Varityper", VIEW: "Viewsonic", VISL: "Visual communication", VIVO: "Vivo Mobile Communication", WANG: "Wang", WLBR: "Wilbur Imaging", WTG2: "Ware To Go", WYSE: "WYSE Technology", XERX: "Xerox", XRIT: "X-Rite", ZRAN: "Zoran", Zebr: "Zebra Technologies", appl: "Apple Computer", bICC: "basICColor", berg: "bergdesign", ceyd: "Integrated Color Solutions", clsp: "MacDermid ColorSpan", ds: "Dainippon Screen", dupn: "DuPont", ffei: "FujiFilm Electronic Imaging", flux: "FluxData", iris: "Scitex", kart: "Scitex", lcms: "Little CMS", lino: "Linotronic", none: "none", ob4d: "Erdt Systems", obic: "Medigraph", quby: "Qubyx Sarl", scit: "Scitex", scrn: "Dainippon Screen", sdp: "Scitex", siwi: "SIWI GRAFIKA", yxym: "YxyMaster" };
   var Ct = { scnr: "Scanner", mntr: "Monitor", prtr: "Printer", link: "Device Link", abst: "Abstract", spac: "Color Space Conversion Profile", nmcl: "Named Color", cenc: "ColorEncodingSpace profile", mid: "MultiplexIdentification profile", mlnk: "MultiplexLink profile", mvis: "MultiplexVisualization profile", nkpf: "Nikon Input Device Profile (NON-STANDARD!)" };
-  U2(B, "icc", [[4, St], [12, Ct], [40, Object.assign({}, St, Ct)], [48, St], [80, St], [64, { 0: "Perceptual", 1: "Relative Colorimetric", 2: "Saturation", 3: "Absolute Colorimetric" }], ["tech", { amd: "Active Matrix Display", crt: "Cathode Ray Tube Display", kpcd: "Photo CD", pmd: "Passive Matrix Display", dcam: "Digital Camera", dcpj: "Digital Cinema Projector", dmpc: "Digital Motion Picture Camera", dsub: "Dye Sublimation Printer", epho: "Electrophotographic Printer", esta: "Electrostatic Printer", flex: "Flexography", fprn: "Film Writer", fscn: "Film Scanner", grav: "Gravure", ijet: "Ink Jet Printer", imgs: "Photo Image Setter", mpfr: "Motion Picture Film Recorder", mpfs: "Motion Picture Film Scanner", offs: "Offset Lithography", pjtv: "Projection Television", rpho: "Photographic Paper Printer", rscn: "Reflective Scanner", silk: "Silkscreen", twax: "Thermal Wax Printer", vidc: "Video Camera", vidm: "Video Monitor" }]]);
+  U3(B, "icc", [[4, St], [12, Ct], [40, Object.assign({}, St, Ct)], [48, St], [80, St], [64, { 0: "Perceptual", 1: "Relative Colorimetric", 2: "Saturation", 3: "Absolute Colorimetric" }], ["tech", { amd: "Active Matrix Display", crt: "Cathode Ray Tube Display", kpcd: "Photo CD", pmd: "Passive Matrix Display", dcam: "Digital Camera", dcpj: "Digital Cinema Projector", dmpc: "Digital Motion Picture Camera", dsub: "Dye Sublimation Printer", epho: "Electrophotographic Printer", esta: "Electrostatic Printer", flex: "Flexography", fprn: "Film Writer", fscn: "Film Scanner", grav: "Gravure", ijet: "Ink Jet Printer", imgs: "Photo Image Setter", mpfr: "Motion Picture Film Recorder", mpfs: "Motion Picture Film Scanner", offs: "Offset Lithography", pjtv: "Projection Television", rpho: "Photographic Paper Printer", rscn: "Reflective Scanner", silk: "Silkscreen", twax: "Thermal Wax Printer", vidc: "Video Camera", vidm: "Video Monitor" }]]);
   var yt = class extends re2 {
     static canHandle(e3, t2, i3) {
       return 237 === e3.getUint8(t2 + 1) && "Photoshop" === e3.getString(t2 + 4, 9) && void 0 !== this.containsIptc8bim(e3, t2, i3);
@@ -57219,7 +57312,7 @@
       return void 0 !== e3 ? e3 instanceof Array ? (e3.push(t2), e3) : [e3, t2] : t2;
     }
   };
-  c(yt, "type", "iptc"), c(yt, "translateValues", false), c(yt, "reviveValues", false), T.set("iptc", yt), U2(E, "iptc", [[0, "ApplicationRecordVersion"], [3, "ObjectTypeReference"], [4, "ObjectAttributeReference"], [5, "ObjectName"], [7, "EditStatus"], [8, "EditorialUpdate"], [10, "Urgency"], [12, "SubjectReference"], [15, "Category"], [20, "SupplementalCategories"], [22, "FixtureIdentifier"], [25, "Keywords"], [26, "ContentLocationCode"], [27, "ContentLocationName"], [30, "ReleaseDate"], [35, "ReleaseTime"], [37, "ExpirationDate"], [38, "ExpirationTime"], [40, "SpecialInstructions"], [42, "ActionAdvised"], [45, "ReferenceService"], [47, "ReferenceDate"], [50, "ReferenceNumber"], [55, "DateCreated"], [60, "TimeCreated"], [62, "DigitalCreationDate"], [63, "DigitalCreationTime"], [65, "OriginatingProgram"], [70, "ProgramVersion"], [75, "ObjectCycle"], [80, "Byline"], [85, "BylineTitle"], [90, "City"], [92, "Sublocation"], [95, "State"], [100, "CountryCode"], [101, "Country"], [103, "OriginalTransmissionReference"], [105, "Headline"], [110, "Credit"], [115, "Source"], [116, "CopyrightNotice"], [118, "Contact"], [120, "Caption"], [121, "LocalCaption"], [122, "Writer"], [125, "RasterizedCaption"], [130, "ImageType"], [131, "ImageOrientation"], [135, "LanguageIdentifier"], [150, "AudioType"], [151, "AudioSamplingRate"], [152, "AudioSamplingResolution"], [153, "AudioDuration"], [154, "AudioOutcue"], [184, "JobID"], [185, "MasterDocumentID"], [186, "ShortDocumentID"], [187, "UniqueDocumentID"], [188, "OwnerID"], [200, "ObjectPreviewFileFormat"], [201, "ObjectPreviewFileVersion"], [202, "ObjectPreviewData"], [221, "Prefs"], [225, "ClassifyState"], [228, "SimilarityIndex"], [230, "DocumentNotes"], [231, "DocumentHistory"], [232, "ExifCameraInfo"], [255, "CatalogSets"]]), U2(B, "iptc", [[10, { 0: "0 (reserved)", 1: "1 (most urgent)", 2: "2", 3: "3", 4: "4", 5: "5 (normal urgency)", 6: "6", 7: "7", 8: "8 (least urgent)", 9: "9 (user-defined priority)" }], [75, { a: "Morning", b: "Both Morning and Evening", p: "Evening" }], [131, { L: "Landscape", P: "Portrait", S: "Square" }]]);
+  c(yt, "type", "iptc"), c(yt, "translateValues", false), c(yt, "reviveValues", false), T.set("iptc", yt), U3(E, "iptc", [[0, "ApplicationRecordVersion"], [3, "ObjectTypeReference"], [4, "ObjectAttributeReference"], [5, "ObjectName"], [7, "EditStatus"], [8, "EditorialUpdate"], [10, "Urgency"], [12, "SubjectReference"], [15, "Category"], [20, "SupplementalCategories"], [22, "FixtureIdentifier"], [25, "Keywords"], [26, "ContentLocationCode"], [27, "ContentLocationName"], [30, "ReleaseDate"], [35, "ReleaseTime"], [37, "ExpirationDate"], [38, "ExpirationTime"], [40, "SpecialInstructions"], [42, "ActionAdvised"], [45, "ReferenceService"], [47, "ReferenceDate"], [50, "ReferenceNumber"], [55, "DateCreated"], [60, "TimeCreated"], [62, "DigitalCreationDate"], [63, "DigitalCreationTime"], [65, "OriginatingProgram"], [70, "ProgramVersion"], [75, "ObjectCycle"], [80, "Byline"], [85, "BylineTitle"], [90, "City"], [92, "Sublocation"], [95, "State"], [100, "CountryCode"], [101, "Country"], [103, "OriginalTransmissionReference"], [105, "Headline"], [110, "Credit"], [115, "Source"], [116, "CopyrightNotice"], [118, "Contact"], [120, "Caption"], [121, "LocalCaption"], [122, "Writer"], [125, "RasterizedCaption"], [130, "ImageType"], [131, "ImageOrientation"], [135, "LanguageIdentifier"], [150, "AudioType"], [151, "AudioSamplingRate"], [152, "AudioSamplingResolution"], [153, "AudioDuration"], [154, "AudioOutcue"], [184, "JobID"], [185, "MasterDocumentID"], [186, "ShortDocumentID"], [187, "UniqueDocumentID"], [188, "OwnerID"], [200, "ObjectPreviewFileFormat"], [201, "ObjectPreviewFileVersion"], [202, "ObjectPreviewData"], [221, "Prefs"], [225, "ClassifyState"], [228, "SimilarityIndex"], [230, "DocumentNotes"], [231, "DocumentHistory"], [232, "ExifCameraInfo"], [255, "CatalogSets"]]), U3(B, "iptc", [[10, { 0: "0 (reserved)", 1: "1 (most urgent)", 2: "2", 3: "3", 4: "4", 5: "5 (normal urgency)", 6: "6", 7: "7", 8: "8 (least urgent)", 9: "9 (user-defined priority)" }], [75, { a: "Morning", b: "Both Morning and Evening", p: "Evening" }], [131, { L: "Landscape", P: "Portrait", S: "Square" }]]);
   var full_esm_default = tt;
 
   // modules/services/plane_photo.js
@@ -57378,7 +57471,7 @@
       viewfields.enter().insert("path", "circle").attr("class", "viewfield").attr("transform", function() {
         var _a2;
         const d2 = this.parentNode.__data__;
-        return "rotate(".concat(Math.round((_a2 = d2.direction) != null ? _a2 : 0), ",0,0),scale(1.5,1.5),translate(-8,-13)");
+        return `rotate(${Math.round((_a2 = d2.direction) != null ? _a2 : 0)},0,0),scale(1.5,1.5),translate(-8,-13)`;
       }).attr("d", "M 6,9 C 8,8.4 8,8.4 10,9 L 16,-2 C 12,-5 4,-5 0,-2 z").style("visibility", function() {
         const d2 = this.parentNode.__data__;
         return isNumber_default(d2.direction) ? "visible" : "hidden";
@@ -57555,7 +57648,7 @@
       const getTransform = svgPointTransform(projection2);
       const markers = drawLayer.selectAll(".qaItem.improveOSM").data(data, (d2) => d2.id);
       markers.exit().remove();
-      const markersEnter = markers.enter().append("g").attr("class", (d2) => "qaItem ".concat(d2.service, " itemId-").concat(d2.id, " itemType-").concat(d2.itemType));
+      const markersEnter = markers.enter().append("g").attr("class", (d2) => `qaItem ${d2.service} itemId-${d2.id} itemType-${d2.itemType}`);
       markersEnter.append("polygon").call(markerPath, "shadow");
       markersEnter.append("ellipse").attr("cx", 0).attr("cy", 0).attr("rx", 4.5).attr("ry", 2).attr("class", "stroke");
       markersEnter.append("polygon").attr("fill", "currentColor").call(markerPath, "qaItem-fill");
@@ -57566,7 +57659,7 @@
       const fillClass = context.getDebug("target") ? "pink " : "nocolor ";
       const targets = touchLayer.selectAll(".qaItem.improveOSM").data(data, (d2) => d2.id);
       targets.exit().remove();
-      targets.enter().append("rect").attr("width", "20px").attr("height", "30px").attr("x", "-10px").attr("y", "-28px").merge(targets).sort(sortY).attr("class", (d2) => "qaItem ".concat(d2.service, " target ").concat(fillClass, " itemId-").concat(d2.id)).attr("transform", getTransform);
+      targets.enter().append("rect").attr("width", "20px").attr("height", "30px").attr("x", "-10px").attr("y", "-28px").merge(targets).sort(sortY).attr("class", (d2) => `qaItem ${d2.service} target ${fillClass} itemId-${d2.id}`).attr("transform", getTransform);
       function sortY(a2, b2) {
         return a2.id === selectedID ? 1 : b2.id === selectedID ? -1 : b2.loc[1] - a2.loc[1];
       }
@@ -57666,7 +57759,7 @@
       const getTransform = svgPointTransform(projection2);
       const markers = drawLayer.selectAll(".qaItem.osmose").data(data, (d2) => d2.id);
       markers.exit().remove();
-      const markersEnter = markers.enter().append("g").attr("class", (d2) => "qaItem ".concat(d2.service, " itemId-").concat(d2.id, " itemType-").concat(d2.itemType));
+      const markersEnter = markers.enter().append("g").attr("class", (d2) => `qaItem ${d2.service} itemId-${d2.id} itemType-${d2.itemType}`);
       markersEnter.append("polygon").call(markerPath, "shadow");
       markersEnter.append("ellipse").attr("cx", 0).attr("cy", 0).attr("rx", 4.5).attr("ry", 2).attr("class", "stroke");
       markersEnter.append("polygon").attr("fill", (d2) => service.getColor(d2.item)).call(markerPath, "qaItem-fill");
@@ -57677,7 +57770,7 @@
       const fillClass = context.getDebug("target") ? "pink" : "nocolor";
       const targets = touchLayer.selectAll(".qaItem.osmose").data(data, (d2) => d2.id);
       targets.exit().remove();
-      targets.enter().append("rect").attr("width", "20px").attr("height", "30px").attr("x", "-10px").attr("y", "-28px").merge(targets).sort(sortY).attr("class", (d2) => "qaItem ".concat(d2.service, " target ").concat(fillClass, " itemId-").concat(d2.id)).attr("transform", getTransform);
+      targets.enter().append("rect").attr("width", "20px").attr("height", "30px").attr("x", "-10px").attr("y", "-28px").merge(targets).sort(sortY).attr("class", (d2) => `qaItem ${d2.service} target ${fillClass} itemId-${d2.id}`).attr("transform", getTransform);
       function sortY(a2, b2) {
         return a2.id === selectedID ? 1 : b2.id === selectedID ? -1 : b2.loc[1] - a2.loc[1];
       }
@@ -61579,7 +61672,7 @@
   function uiAttribution(context) {
     let _selection = select_default2(null);
     function render(selection2, data, klass) {
-      let div = selection2.selectAll(".".concat(klass)).data([0]);
+      let div = selection2.selectAll(`.${klass}`).data([0]);
       div = div.enter().append("div").attr("class", klass).merge(div);
       let attributions = div.selectAll(".attribution").data(data, (d2) => d2.id);
       attributions.exit().remove();
@@ -61594,7 +61687,7 @@
         }
         const sourceID = d2.id.replace(/\./g, "<TX_DOT>");
         const terms_text = _t(
-          "imagery.".concat(sourceID, ".attribution.text"),
+          `imagery.${sourceID}.attribution.text`,
           { default: d2.terms_text || d2.id || d2.name() }
         );
         if (d2.icon && !d2.overlay) {
@@ -66344,7 +66437,7 @@
           buttons.filter((d2) => d2.title === s2.title).classed("finished", true);
           if (i3 < chapterFlow.length - 1) {
             const next = chapterFlow[i3 + 1];
-            context.container().select("button.chapter-".concat(next)).classed("next", true);
+            context.container().select(`button.chapter-${next}`).classed("next", true);
           }
           progress.push(chapter);
           corePreferences("walkthrough_progress", utilArrayUniq(progress).join(";"));
@@ -66378,7 +66471,7 @@
       let navwrap = selection2.append("div").attr("class", "intro-nav-wrap fillD");
       navwrap.append("svg").attr("class", "intro-nav-wrap-logo").append("use").attr("xlink:href", "#iD-logo-walkthrough");
       let buttonwrap = navwrap.append("div").attr("class", "joined").selectAll("button.chapter");
-      let buttons = buttonwrap.data(chapters).enter().append("button").attr("class", (d2, i3) => "chapter chapter-".concat(chapterFlow[i3])).on("click", enterChapter);
+      let buttons = buttonwrap.data(chapters).enter().append("button").attr("class", (d2, i3) => `chapter chapter-${chapterFlow[i3]}`).on("click", enterChapter);
       buttons.append("span").html((d2) => _t.html(d2.title));
       buttons.append("span").attr("class", "status").call(svgIcon(_mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward", "inline"));
       enterChapter(null, chapters[0]);
@@ -67409,7 +67502,7 @@
       var hideToggleEnter = hideToggle.enter().append("h3").append("a").attr("role", "button").attr("href", "#").attr("class", "hide-toggle hide-toggle-" + key).call(svgIcon("", "pre-text", "hide-toggle-icon"));
       hideToggleEnter.append("span").attr("class", "hide-toggle-text");
       hideToggle = hideToggleEnter.merge(hideToggle);
-      hideToggle.on("click", toggle).attr("title", _t("icons.".concat(_expanded ? "collapse" : "expand"))).attr("aria-expanded", _expanded).classed("expanded", _expanded);
+      hideToggle.on("click", toggle).attr("title", _t(`icons.${_expanded ? "collapse" : "expand"}`)).attr("aria-expanded", _expanded).classed("expanded", _expanded);
       const label = _label();
       const labelSelection = hideToggle.selectAll(".hide-toggle-text");
       if (typeof label !== "function") {
@@ -67432,7 +67525,7 @@
         if (_updatePreference) {
           corePreferences("disclosure." + key + ".expanded", _expanded);
         }
-        hideToggle.classed("expanded", _expanded).attr("aria-expanded", _expanded).attr("title", _t("icons.".concat(_expanded ? "collapse" : "expand")));
+        hideToggle.classed("expanded", _expanded).attr("aria-expanded", _expanded).attr("title", _t(`icons.${_expanded ? "collapse" : "expand"}`));
         hideToggle.selectAll(".hide-toggle-icon").attr(
           "xlink:href",
           _expanded ? "#iD-icon-down" : _mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward"
@@ -67981,7 +68074,7 @@
     lengthIndicator.update = function(val) {
       const strLen = utilUnicodeCharsCount(utilCleanOsmString(val, Number.POSITIVE_INFINITY));
       let indicator = _wrap.selectAll("span.length-indicator").data([strLen]);
-      indicator.enter().append("span").merge(indicator).classed("length-indicator", true).classed("limit-reached", (d2) => d2 > maxChars).style("border-right-width", (d2) => "".concat(Math.abs(maxChars - d2) * 2, "px")).style("margin-right", (d2) => d2 > maxChars ? "".concat((maxChars - d2) * 2, "px") : 0).style("opacity", (d2) => d2 > maxChars * 0.8 ? Math.min(1, (d2 / maxChars - 0.8) / (1 - 0.8)) : 0).style("pointer-events", (d2) => d2 > maxChars * 0.8 ? null : "none");
+      indicator.enter().append("span").merge(indicator).classed("length-indicator", true).classed("limit-reached", (d2) => d2 > maxChars).style("border-right-width", (d2) => `${Math.abs(maxChars - d2) * 2}px`).style("margin-right", (d2) => d2 > maxChars ? `${(maxChars - d2) * 2}px` : 0).style("opacity", (d2) => d2 > maxChars * 0.8 ? Math.min(1, (d2 / maxChars - 0.8) / (1 - 0.8)) : 0).style("pointer-events", (d2) => d2 > maxChars * 0.8 ? null : "none");
       if (_silent)
         return;
       if (strLen > maxChars) {
@@ -68057,7 +68150,7 @@
       return dval;
     }
     function getLabelId(field2, v2) {
-      return field2.hasTextForStringId("options.".concat(v2, ".title")) ? "options.".concat(v2, ".title") : "options.".concat(v2);
+      return field2.hasTextForStringId(`options.${v2}.title`) ? `options.${v2}.title` : `options.${v2}`;
     }
     function displayValue(tval) {
       tval = tval || "";
@@ -68117,7 +68210,7 @@
         return {
           key: v2,
           value: stringsField.t(labelId, { default: v2 }),
-          title: stringsField.t("options.".concat(v2, ".description"), { default: v2 }),
+          title: stringsField.t(`options.${v2}.description`, { default: v2 }),
           display: addComboboxIcons(stringsField.t.append(labelId, { default: v2 }), v2),
           klass: stringsField.hasTextForStringId(labelId) ? "" : "raw-option"
         };
@@ -68186,7 +68279,7 @@
           return {
             key: v2,
             value: label,
-            title: stringsField.t("options.".concat(v2, ".description"), { default: isLocalizable ? v2 : d2.title !== label ? d2.title : "" }),
+            title: stringsField.t(`options.${v2}.description`, { default: isLocalizable ? v2 : d2.title !== label ? d2.title : "" }),
             display: addComboboxIcons(stringsField.t.append(labelId, { default: v2 }), v2),
             klass: isLocalizable ? "" : "raw-option"
           };
@@ -68203,7 +68296,7 @@
         return function(selection2) {
           var span = selection2.insert("span", ":first-child").attr("class", "tag-value-icon");
           if (iconsField.icons[value]) {
-            span.call(svgIcon("#".concat(iconsField.icons[value])));
+            span.call(svgIcon(`#${iconsField.icons[value]}`));
           }
           disp.call(this, selection2);
         };
@@ -68385,7 +68478,7 @@
       if (iconsField.icons) {
         container.selectAll(".tag-value-icon").remove();
         if (iconsField.icons[value]) {
-          container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon("#".concat(iconsField.icons[value])));
+          container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon(`#${iconsField.icons[value]}`));
         }
       }
     }
@@ -68394,7 +68487,7 @@
       var stringsField = field.resolveReference("stringsCrossReference");
       var isMixed = Array.isArray(tags[field.key]);
       var showsValue = (value) => !isMixed && value && !(field.type === "typeCombo" && value === "yes");
-      var isRawValue = (value) => showsValue(value) && !stringsField.hasTextForStringId("options.".concat(value)) && !stringsField.hasTextForStringId("options.".concat(value, ".title"));
+      var isRawValue = (value) => showsValue(value) && !stringsField.hasTextForStringId(`options.${value}`) && !stringsField.hasTextForStringId(`options.${value}.title`);
       var isKnownValue = (value) => showsValue(value) && !isRawValue(value);
       var isReadOnly = !_allowCustomValues;
       if (_isMulti || _isSemi) {
@@ -68696,7 +68789,7 @@
           return "form-field-button " + which;
         }).attr("title", function(d2) {
           var which = d2 > 0 ? "increment" : "decrement";
-          return _t("inspector.".concat(which));
+          return _t(`inspector.${which}`);
         }).merge(buttons).on("click", function(d3_event, d2) {
           d3_event.preventDefault();
           var isMixed = Array.isArray(_tags[field.key]);
@@ -69292,16 +69385,16 @@
         const value = resultProp && d2.tags[resultProp] ? d2.tags[resultProp] : d2.tags.name;
         let title = value;
         if (type2 === "street") {
-          title = "".concat(addrField.t("placeholders.street"), ": ").concat(title);
+          title = `${addrField.t("placeholders.street")}: ${title}`;
         } else if (type2 === "place") {
-          title = "".concat(addrField.t("placeholders.place"), ": ").concat(title);
+          title = `${addrField.t("placeholders.place")}: ${title}`;
         }
         return {
           title,
           value,
           dist,
           type: type2,
-          klass: "address-".concat(type2)
+          klass: `address-${type2}`
         };
       }).sort(function(a2, b2) {
         return a2.dist - b2.dist;
@@ -69336,17 +69429,17 @@
           if (d2.tags.place === "city" || d2.tags.place === "town" || d2.tags.place === "village")
             return true;
         }
-        if (d2.tags["".concat(field.key, ":city")])
+        if (d2.tags[`${field.key}:city`])
           return true;
         return false;
       }
-      return getNear(isAddressable, "city", 200, "".concat(field.key, ":city"));
+      return getNear(isAddressable, "city", 200, `${field.key}:city`);
     }
     function getNearPostcodes() {
       return [...new Set([].concat(getNearValues("postcode")).concat(getNear((d2) => d2.tags.postal_code, "postcode", 200, "postal_code")))];
     }
     function getNearValues(key) {
-      const tagKey = "".concat(field.key, ":").concat(key);
+      const tagKey = `${field.key}:${key}`;
       function hasTag(d2) {
         return _entityIDs.indexOf(d2.id) === -1 && d2.tags[tagKey];
       }
@@ -69425,7 +69518,7 @@
           case "street+place":
             nearValues = () => [].concat(getNearStreets()).concat(getNearPlaces());
             d2.isAutoStreetPlace = true;
-            d2.id = _tags["".concat(field.key, ":place")] ? "place" : "street";
+            d2.id = _tags[`${field.key}:place`] ? "place" : "street";
             break;
           case "city":
             nearValues = getNearCities;
@@ -69437,7 +69530,7 @@
             nearValues = getNearValues;
         }
         select_default2(this).call(
-          uiCombobox(context, "address-".concat(d2.isAutoStreetPlace ? "street-place" : d2.id)).minItems(1).caseSensitive(true).fetcher(function(typedValue, callback) {
+          uiCombobox(context, `address-${d2.isAutoStreetPlace ? "street-place" : d2.id}`).minItems(1).caseSensitive(true).fetcher(function(typedValue, callback) {
             typedValue = typedValue.toLowerCase();
             callback(nearValues(d2.id).filter((v2) => v2.value.toLowerCase().indexOf(typedValue) !== -1));
           }).on("accept", function(selected) {
@@ -69484,9 +69577,9 @@
               return;
             if (subfield.isAutoStreetPlace) {
               if (subfield.id === "street") {
-                tags["".concat(field.key, ":place")] = void 0;
+                tags[`${field.key}:place`] = void 0;
               } else if (subfield.id === "place") {
-                tags["".concat(field.key, ":street")] = void 0;
+                tags[`${field.key}:street`] = void 0;
               }
             }
             tags[key] = value || void 0;
@@ -69502,7 +69595,7 @@
           return _t("inspector.multiple_values");
         }
         if (subfield.isAutoStreetPlace) {
-          return "".concat(getLocalPlaceholder("street"), " / ").concat(getLocalPlaceholder("place"));
+          return `${getLocalPlaceholder("street")} / ${getLocalPlaceholder("place")}`;
         }
         return getLocalPlaceholder(subfield.id);
       });
@@ -69518,8 +69611,8 @@
       utilGetSetValue(_wrap.selectAll("input"), (subfield) => {
         var val;
         if (subfield.isAutoStreetPlace) {
-          const streetKey = "".concat(field.key, ":street");
-          const placeKey = "".concat(field.key, ":place");
+          const streetKey = `${field.key}:street`;
+          const placeKey = `${field.key}:place`;
           if (tags[streetKey] !== void 0 || tags[placeKey] === void 0) {
             val = tags[streetKey];
             subfield.id = "street";
@@ -69528,7 +69621,7 @@
             subfield.id = "place";
           }
         } else {
-          val = tags["".concat(field.key, ":").concat(subfield.id)];
+          val = tags[`${field.key}:${subfield.id}`];
         }
         return typeof val === "string" ? val : "";
       }).attr("title", function(subfield) {
@@ -71394,7 +71487,7 @@
     });
     function wiki(selection2) {
       let wrap2 = selection2.selectAll(".form-field-input-wrap").data([0]);
-      wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-".concat(field.type)).merge(wrap2);
+      wrap2 = wrap2.enter().append("div").attr("class", `form-field-input-wrap form-field-input-${field.type}`).merge(wrap2);
       let langContainer = wrap2.selectAll(".wiki-lang-container").data([0]);
       langContainer = langContainer.enter().append("div").attr("class", "wiki-lang-container").merge(langContainer);
       _langInput = langContainer.selectAll("input.wiki-lang").data([0]);
@@ -71510,13 +71603,13 @@
         const nativeLangName = tagLangInfo[1];
         utilGetSetValue(_langInput, nativeLangName);
         utilGetSetValue(_titleInput, tagArticleTitle + (anchor ? "#" + anchor : ""));
-        _wikiURL = "".concat(scheme).concat(tagLang, ".").concat(domain, "/wiki/").concat(wiki.encodePath(tagArticleTitle, anchor));
+        _wikiURL = `${scheme}${tagLang}.${domain}/wiki/${wiki.encodePath(tagArticleTitle, anchor)}`;
       } else {
         utilGetSetValue(_titleInput, value);
         if (value && value !== "") {
           utilGetSetValue(_langInput, "");
           const defaultLangInfo = defaultLanguageInfo();
-          _wikiURL = "".concat(scheme).concat(defaultLangInfo[2], ".").concat(domain, "/w/index.php?fulltext=1&search=").concat(value);
+          _wikiURL = `${scheme}${defaultLangInfo[2]}.${domain}/w/index.php?fulltext=1&search=${value}`;
         } else {
           const shownOrDefaultLangInfo = language(
             true
@@ -71531,7 +71624,7 @@
       const underscoredTitle = tagArticleTitle.replace(/ /g, "_");
       const uriEncodedUnderscoredTitle = encodeURIComponent(underscoredTitle);
       const uriEncodedAnchorFragment = wiki.encodeURIAnchorFragment(anchor);
-      return "".concat(uriEncodedUnderscoredTitle).concat(uriEncodedAnchorFragment);
+      return `${uriEncodedUnderscoredTitle}${uriEncodedAnchorFragment}`;
     };
     wiki.encodeURIAnchorFragment = (anchor) => {
       if (!anchor)
@@ -73167,7 +73260,7 @@
       let pointBorderEnter = pointBorder.enter();
       const w2 = 40;
       const h2 = 40;
-      pointBorderEnter.append("svg").attr("class", "preset-icon-fill preset-icon-point-border").attr("width", w2).attr("height", h2).attr("viewBox", "0 0 ".concat(w2, " ").concat(h2)).append("path").attr("transform", "translate(11.5, 8)").attr("d", "M 17,8 C 17,13 11,21 8.5,23.5 C 6,21 0,13 0,8 C 0,4 4,-0.5 8.5,-0.5 C 13,-0.5 17,4 17,8 z");
+      pointBorderEnter.append("svg").attr("class", "preset-icon-fill preset-icon-point-border").attr("width", w2).attr("height", h2).attr("viewBox", `0 0 ${w2} ${h2}`).append("path").attr("transform", "translate(11.5, 8)").attr("d", "M 17,8 C 17,13 11,21 8.5,23.5 C 6,21 0,13 0,8 C 0,4 4,-0.5 8.5,-0.5 C 13,-0.5 17,4 17,8 z");
       pointBorder = pointBorderEnter.merge(pointBorder);
     }
     function renderCategoryBorder(container, category) {
@@ -73175,11 +73268,11 @@
       categoryBorder.exit().remove();
       let categoryBorderEnter = categoryBorder.enter();
       const d2 = 60;
-      let svgEnter = categoryBorderEnter.append("svg").attr("class", "preset-icon-fill preset-icon-category-border").attr("width", d2).attr("height", d2).attr("viewBox", "0 0 ".concat(d2, " ").concat(d2));
+      let svgEnter = categoryBorderEnter.append("svg").attr("class", "preset-icon-fill preset-icon-category-border").attr("width", d2).attr("height", d2).attr("viewBox", `0 0 ${d2} ${d2}`);
       svgEnter.append("path").attr("class", "area").attr("d", "M9.5,7.5 L25.5,7.5 L28.5,12.5 L49.5,12.5 C51.709139,12.5 53.5,14.290861 53.5,16.5 L53.5,43.5 C53.5,45.709139 51.709139,47.5 49.5,47.5 L10.5,47.5 C8.290861,47.5 6.5,45.709139 6.5,43.5 L6.5,12.5 L9.5,7.5 Z");
       categoryBorder = categoryBorderEnter.merge(categoryBorder);
       if (category) {
-        categoryBorder.selectAll("path").attr("class", "area ".concat(category.id));
+        categoryBorder.selectAll("path").attr("class", `area ${category.id}`);
       }
     }
     function renderCircleFill(container, drawVertex) {
@@ -73189,7 +73282,7 @@
       const w2 = 60;
       const h2 = 60;
       const d2 = 40;
-      vertexFillEnter.append("svg").attr("class", "preset-icon-fill preset-icon-fill-vertex").attr("width", w2).attr("height", h2).attr("viewBox", "0 0 ".concat(w2, " ").concat(h2)).append("circle").attr("cx", w2 / 2).attr("cy", h2 / 2).attr("r", d2 / 2);
+      vertexFillEnter.append("svg").attr("class", "preset-icon-fill preset-icon-fill-vertex").attr("width", w2).attr("height", h2).attr("viewBox", `0 0 ${w2} ${h2}`).append("circle").attr("cx", w2 / 2).attr("cy", h2 / 2).attr("r", d2 / 2);
       vertexFill = vertexFillEnter.merge(vertexFill);
     }
     function renderSquareFill(container, drawArea, tagClasses) {
@@ -73202,9 +73295,9 @@
       const l2 = d2 * 2 / 3;
       const c1 = (w2 - l2) / 2;
       const c2 = c1 + l2;
-      fillEnter = fillEnter.append("svg").attr("class", "preset-icon-fill preset-icon-fill-area").attr("width", w2).attr("height", h2).attr("viewBox", "0 0 ".concat(w2, " ").concat(h2));
+      fillEnter = fillEnter.append("svg").attr("class", "preset-icon-fill preset-icon-fill-area").attr("width", w2).attr("height", h2).attr("viewBox", `0 0 ${w2} ${h2}`);
       ["fill", "stroke"].forEach((klass) => {
-        fillEnter.append("path").attr("d", "M".concat(c1, " ").concat(c1, " L").concat(c1, " ").concat(c2, " L").concat(c2, " ").concat(c2, " L").concat(c2, " ").concat(c1, " Z")).attr("class", "area ".concat(klass));
+        fillEnter.append("path").attr("d", `M${c1} ${c1} L${c1} ${c2} L${c2} ${c2} L${c2} ${c1} Z`).attr("class", `area ${klass}`);
       });
       const rVertex = 2.5;
       [[c1, c1], [c1, c2], [c2, c2], [c2, c1]].forEach((point2) => {
@@ -73215,8 +73308,8 @@
         fillEnter.append("circle").attr("class", "midpoint").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", rMidpoint);
       });
       fill = fillEnter.merge(fill);
-      fill.selectAll("path.stroke").attr("class", "area stroke ".concat(tagClasses));
-      fill.selectAll("path.fill").attr("class", "area fill ".concat(tagClasses));
+      fill.selectAll("path.stroke").attr("class", `area stroke ${tagClasses}`);
+      fill.selectAll("path.fill").attr("class", `area fill ${tagClasses}`);
     }
     function renderLine(container, drawLine, tagClasses) {
       let line = container.selectAll(".preset-icon-line").data(drawLine ? [0] : []);
@@ -73230,16 +73323,16 @@
       const r2 = 2.5;
       const x12 = (w2 - l2) / 2;
       const x2 = x12 + l2;
-      lineEnter = lineEnter.append("svg").attr("class", "preset-icon-line").attr("width", w2).attr("height", h2).attr("viewBox", "0 0 ".concat(w2, " ").concat(h2));
+      lineEnter = lineEnter.append("svg").attr("class", "preset-icon-line").attr("width", w2).attr("height", h2).attr("viewBox", `0 0 ${w2} ${h2}`);
       ["casing", "stroke"].forEach((klass) => {
-        lineEnter.append("path").attr("d", "M".concat(x12, " ").concat(y2, " L").concat(x2, " ").concat(y2)).attr("class", "line ".concat(klass));
+        lineEnter.append("path").attr("d", `M${x12} ${y2} L${x2} ${y2}`).attr("class", `line ${klass}`);
       });
       [[x12 - 1, y2], [x2 + 1, y2]].forEach((point2) => {
         lineEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", r2);
       });
       line = lineEnter.merge(line);
-      line.selectAll("path.stroke").attr("class", "line stroke ".concat(tagClasses));
-      line.selectAll("path.casing").attr("class", "line casing ".concat(tagClasses));
+      line.selectAll("path.stroke").attr("class", `line stroke ${tagClasses}`);
+      line.selectAll("path.casing").attr("class", `line casing ${tagClasses}`);
     }
     function renderRoute(container, drawRoute, p2) {
       let route = container.selectAll(".preset-icon-route").data(drawRoute ? [0] : []);
@@ -73256,11 +73349,11 @@
       const x2 = x12 + l2 / 3;
       const x3 = x2 + l2 / 3;
       const x4 = x3 + l2 / 3;
-      routeEnter = routeEnter.append("svg").attr("class", "preset-icon-route").attr("width", w2).attr("height", h2).attr("viewBox", "0 0 ".concat(w2, " ").concat(h2));
+      routeEnter = routeEnter.append("svg").attr("class", "preset-icon-route").attr("width", w2).attr("height", h2).attr("viewBox", `0 0 ${w2} ${h2}`);
       ["casing", "stroke"].forEach((klass) => {
-        routeEnter.append("path").attr("d", "M".concat(x12, " ").concat(y12, " L").concat(x2, " ").concat(y2)).attr("class", "segment0 line ".concat(klass));
-        routeEnter.append("path").attr("d", "M".concat(x2, " ").concat(y2, " L").concat(x3, " ").concat(y12)).attr("class", "segment1 line ".concat(klass));
-        routeEnter.append("path").attr("d", "M".concat(x3, " ").concat(y12, " L").concat(x4, " ").concat(y2)).attr("class", "segment2 line ".concat(klass));
+        routeEnter.append("path").attr("d", `M${x12} ${y12} L${x2} ${y2}`).attr("class", `segment0 line ${klass}`);
+        routeEnter.append("path").attr("d", `M${x2} ${y2} L${x3} ${y12}`).attr("class", `segment1 line ${klass}`);
+        routeEnter.append("path").attr("d", `M${x3} ${y12} L${x4} ${y2}`).attr("class", `segment2 line ${klass}`);
       });
       [[x12, y12], [x2, y2], [x3, y12], [x4, y2]].forEach((point2) => {
         routeEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", r2);
@@ -73272,8 +73365,8 @@
         for (let i3 in segmentPresetIDs) {
           const segmentPreset = _mainPresetIndex.item(segmentPresetIDs[i3]);
           const segmentTagClasses = svgTagClasses().getClassesString(segmentPreset.tags, "");
-          route.selectAll("path.stroke.segment".concat(i3)).attr("class", "segment".concat(i3, " line stroke ").concat(segmentTagClasses));
-          route.selectAll("path.casing.segment".concat(i3)).attr("class", "segment".concat(i3, " line casing ").concat(segmentTagClasses));
+          route.selectAll(`path.stroke.segment${i3}`).attr("class", `segment${i3} line stroke ${segmentTagClasses}`);
+          route.selectAll(`path.casing.segment${i3}`).attr("class", `segment${i3} line casing ${segmentTagClasses}`);
         }
       }
     }
@@ -74281,7 +74374,7 @@
       var header = selection2.selectAll(".header").data([0]);
       var headerEnter = header.enter().append("div").attr("class", "header fillL");
       var direction = _mainLocalizer.textDirection() === "rtl" ? "forward" : "backward";
-      headerEnter.append("button").attr("class", "preset-reset preset-choose").attr("title", _t("inspector.back_tooltip")).call(svgIcon("#iD-icon-".concat(direction)));
+      headerEnter.append("button").attr("class", "preset-reset preset-choose").attr("title", _t("inspector.back_tooltip")).call(svgIcon(`#iD-icon-${direction}`));
       headerEnter.append("button").attr("class", "close").attr("title", _t("icons.close")).on("click", function() {
         context.enter(modeBrowse(context));
       }).call(svgIcon(_modified ? "#iD-icon-apply" : "#iD-icon-close"));
@@ -75188,13 +75281,13 @@
     if (localizerFn) {
       if (itemStrings.community) {
         const communityID = simplify(itemStrings.community);
-        itemStrings.community = localizerFn("_communities.".concat(communityID));
+        itemStrings.community = localizerFn(`_communities.${communityID}`);
       }
       ["name", "description", "extendedDescription"].forEach((prop) => {
         if (defaultStrings[prop])
-          defaultStrings[prop] = localizerFn("_defaults.".concat(item.type, ".").concat(prop));
+          defaultStrings[prop] = localizerFn(`_defaults.${item.type}.${prop}`);
         if (itemStrings[prop])
-          itemStrings[prop] = localizerFn("".concat(item.id, ".").concat(prop));
+          itemStrings[prop] = localizerFn(`${item.id}.${prop}`);
       });
     }
     let replacements = {
@@ -75227,12 +75320,12 @@
         return void 0;
       let result = s2;
       for (let key in replacements) {
-        const token = "{".concat(key, "}");
+        const token = `{${key}}`;
         const regex = new RegExp(token, "g");
         if (regex.test(result)) {
           let replacement = replacements[key];
           if (!replacement) {
-            throw new Error("Cannot resolve token: ".concat(token));
+            throw new Error(`Cannot resolve token: ${token}`);
           } else {
             if (addLinks && (key === "signupUrl" || key === "url")) {
               replacement = linkify(replacement);
@@ -75243,7 +75336,7 @@
       }
       const leftovers = result.match(anyToken);
       if (leftovers) {
-        throw new Error("Cannot resolve tokens: ".concat(leftovers));
+        throw new Error(`Cannot resolve tokens: ${leftovers}`);
       }
       if (addLinks && item.type === "reddit") {
         result = result.replace(/(\/r\/\w+\/*)/i, (match) => linkify(resolved.url, match));
@@ -75254,7 +75347,7 @@
       if (!url)
         return void 0;
       text = text || url;
-      return '<a target="_blank" href="'.concat(url, '">').concat(text, "</a>");
+      return `<a target="_blank" href="${url}">${text}</a>`;
     }
   }
 
@@ -75351,10 +75444,10 @@
       let summaryDetail = row.append("td").attr("class", "cell-detail summary-detail");
       summaryDetail.append("a").attr("class", "cell-detail summary-view-on-osm").attr("target", "_blank").attr("href", changesetURL).call(_t.append("success.view_on_osm"));
       summaryDetail.append("div").html(_t.html("success.changeset_id", {
-        changeset_id: { html: '<a href="'.concat(changesetURL, '" target="_blank">').concat(_changeset2.id, "</a>") }
+        changeset_id: { html: `<a href="${changesetURL}" target="_blank">${_changeset2.id}</a>` }
       }));
       if (showDonationMessage !== false) {
-        const donationUrl = "https://supporting.openstreetmap.org/";
+        const donationUrl = "https://openstreetmap.app.neoncrm.com/forms/ohm";
         let supporting = body.append("div").attr("class", "save-supporting");
         supporting.append("h3").call(_t.append("success.supporting.title"));
         supporting.append("p").call(_t.append("success.supporting.details"));
@@ -75376,7 +75469,7 @@
           if (resource.id === "forum") {
             area = 0;
           }
-          const ociLocalizer = (stringID) => _t.html(_mainLocalizer.coalesceStringIds(["custom_community.".concat(stringID), "community.".concat(stringID)]));
+          const ociLocalizer = (stringID) => _t.html(_mainLocalizer.coalesceStringIds([`custom_community.${stringID}`, `community.${stringID}`]));
           resource.resolved = resolveStrings(resource, oci.defaults, ociLocalizer);
           communities.push({
             area,
@@ -75394,7 +75487,7 @@
       let table = communityLinks.append("table").attr("class", "community-table");
       let row = table.selectAll(".community-row").data(resources);
       let rowEnter = row.enter().append("tr").attr("class", "community-row");
-      rowEnter.append("td").attr("class", "cell-icon community-icon").append("a").attr("target", "_blank").attr("href", (d2) => d2.resolved.url).append("svg").attr("class", "logo-small").append("use").attr("xlink:href", (d2) => "#community-".concat(d2.type));
+      rowEnter.append("td").attr("class", "cell-icon community-icon").append("a").attr("target", "_blank").attr("href", (d2) => d2.resolved.url).append("svg").attr("class", "logo-small").append("use").attr("xlink:href", (d2) => `#community-${d2.type}`);
       let communityDetail = rowEnter.append("td").attr("class", "cell-detail community-detail");
       communityDetail.each(showCommunityDetails);
       communityLinks.append("div").attr("class", "community-missing").call(_t.append("success.missing")).append("a").attr("class", "link-out").attr("target", "_blank").call(svgIcon("#iD-icon-out-link", "inline")).attr("href", "https://github.com/osmlab/osm-community-index/issues").append("span").call(_t.append("success.tell_us"));
@@ -75406,7 +75499,7 @@
       selection2.append("div").attr("class", "community-description").html(d2.resolved.descriptionHTML);
       if (d2.resolved.extendedDescriptionHTML || d2.languageCodes && d2.languageCodes.length) {
         selection2.append("div").call(
-          uiDisclosure(context, "community-more-".concat(d2.id), false).expanded(false).updatePreference(false).label(() => _t.append("success.more")).content(showMore)
+          uiDisclosure(context, `community-more-${d2.id}`, false).expanded(false).updatePreference(false).label(() => _t.append("success.more")).content(showMore)
         );
       }
       let nextEvents = (d2.events || []).map((event) => {
@@ -75421,7 +75514,7 @@
       }).slice(0, MAXEVENTS);
       if (nextEvents.length) {
         selection2.append("div").call(
-          uiDisclosure(context, "community-events-".concat(d2.id), false).expanded(false).updatePreference(false).label(_t.html("success.events")).content(showNextEvents)
+          uiDisclosure(context, `community-events-${d2.id}`, false).expanded(false).updatePreference(false).label(_t.html("success.events")).content(showNextEvents)
         ).select(".hide-toggle").append("span").attr("class", "badge-text").text(nextEvents.length);
       }
       function showMore(selection3) {
@@ -75442,7 +75535,7 @@
         itemEnter.append("div").attr("class", "community-event-name").append("a").attr("target", "_blank").attr("href", (d4) => d4.url).text((d4) => {
           let name = d4.name;
           if (d4.i18n && d4.id) {
-            name = _t("community.".concat(communityID, ".events.").concat(d4.id, ".name"), { default: name });
+            name = _t(`community.${communityID}.events.${d4.id}.name`, { default: name });
           }
           return name;
         });
@@ -75457,14 +75550,14 @@
         itemEnter.append("div").attr("class", "community-event-where").text((d4) => {
           let where = d4.where;
           if (d4.i18n && d4.id) {
-            where = _t("community.".concat(communityID, ".events.").concat(d4.id, ".where"), { default: where });
+            where = _t(`community.${communityID}.events.${d4.id}.where`, { default: where });
           }
           return where;
         });
         itemEnter.append("div").attr("class", "community-event-description").text((d4) => {
           let description = d4.description;
           if (d4.i18n && d4.id) {
-            description = _t("community.".concat(communityID, ".events.").concat(d4.id, ".description"), { default: description });
+            description = _t(`community.${communityID}.events.${d4.id}.description`, { default: description });
           }
           return description;
         });
@@ -75670,12 +75763,12 @@
       const issueKey = d2.issueKey;
       d2.replacements = d2.replacements || {};
       d2.replacements.default = { html: _t.html("inspector.unknown") };
-      return _t.html("QA.improveOSM.error_types.".concat(issueKey, ".description"), d2.replacements);
+      return _t.html(`QA.improveOSM.error_types.${issueKey}.description`, d2.replacements);
     }
     function improveOsmDetails(selection2) {
       const details = selection2.selectAll(".error-details").data(
         _qaItem ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       details.exit().remove();
       const detailsEnter = details.enter().append("div").attr("class", "error-details qa-details-container");
@@ -75743,16 +75836,16 @@
       const issueKey = d2.issueKey;
       d2.replacements = d2.replacements || {};
       d2.replacements.default = { html: _t.html("inspector.unknown") };
-      return _t.html("QA.improveOSM.error_types.".concat(issueKey, ".title"), d2.replacements);
+      return _t.html(`QA.improveOSM.error_types.${issueKey}.title`, d2.replacements);
     }
     function improveOsmHeader(selection2) {
       const header = selection2.selectAll(".qa-header").data(
         _qaItem ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       header.exit().remove();
       const headerEnter = header.enter().append("div").attr("class", "qa-header");
-      const svgEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d2) => d2.id < 0).append("svg").attr("width", "20px").attr("height", "30px").attr("viewbox", "0 0 20 30").attr("class", (d2) => "preset-icon-28 qaItem ".concat(d2.service, " itemId-").concat(d2.id, " itemType-").concat(d2.itemType));
+      const svgEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d2) => d2.id < 0).append("svg").attr("width", "20px").attr("height", "30px").attr("viewbox", "0 0 20 30").attr("class", (d2) => `preset-icon-28 qaItem ${d2.service} itemId-${d2.id} itemType-${d2.itemType}`);
       svgEnter.append("polygon").attr("fill", "currentColor").attr("class", "qaItem-fill").attr("points", "16,3 4,3 1,6 1,17 4,20 7,20 10,27 13,20 16,20 19,17.033 19,6");
       svgEnter.append("use").attr("class", "icon-annotation").attr("width", "12px").attr("height", "12px").attr("transform", "translate(4, 5.5)").attr("xlink:href", (d2) => d2.icon ? "#" + d2.icon : "");
       headerEnter.append("div").attr("class", "qa-header-label").html(issueTitle);
@@ -75787,7 +75880,7 @@
       const isShown = _qaItem && (isSelected || _qaItem.newComment || _qaItem.comment);
       let saveSection = selection2.selectAll(".qa-save").data(
         isShown ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       saveSection.exit().remove();
       const saveSectionEnter = saveSection.enter().append("div").attr("class", "qa-save save-section cf");
@@ -75826,7 +75919,7 @@
       });
       buttonSection.select(".close-button").html((d2) => {
         const andComment = d2.newComment ? "_comment" : "";
-        return _t.html("QA.keepRight.close".concat(andComment));
+        return _t.html(`QA.keepRight.close${andComment}`);
       }).on("click.close", function(d3_event, d2) {
         this.blur();
         const qaService = services.improveOSM;
@@ -75837,7 +75930,7 @@
       });
       buttonSection.select(".ignore-button").html((d2) => {
         const andComment = d2.newComment ? "_comment" : "";
-        return _t.html("QA.keepRight.ignore".concat(andComment));
+        return _t.html(`QA.keepRight.ignore${andComment}`);
       }).on("click.ignore", function(d3_event, d2) {
         this.blur();
         const qaService = services.improveOSM;
@@ -75864,16 +75957,16 @@
       const unknown = { html: _t.html("inspector.unknown") };
       let replacements = d2.replacements || {};
       replacements.default = unknown;
-      if (_mainLocalizer.hasTextForStringId("QA.keepRight.errorTypes.".concat(itemType, ".title"))) {
-        return _t.html("QA.keepRight.errorTypes.".concat(itemType, ".description"), replacements);
+      if (_mainLocalizer.hasTextForStringId(`QA.keepRight.errorTypes.${itemType}.title`)) {
+        return _t.html(`QA.keepRight.errorTypes.${itemType}.description`, replacements);
       } else {
-        return _t.html("QA.keepRight.errorTypes.".concat(parentIssueType, ".description"), replacements);
+        return _t.html(`QA.keepRight.errorTypes.${parentIssueType}.description`, replacements);
       }
     }
     function keepRightDetails(selection2) {
       const details = selection2.selectAll(".error-details").data(
         _qaItem ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       details.exit().remove();
       const detailsEnter = details.enter().append("div").attr("class", "error-details qa-details-container");
@@ -75942,21 +76035,21 @@
       const unknown = _t.html("inspector.unknown");
       let replacements = d2.replacements || {};
       replacements.default = { html: unknown };
-      if (_mainLocalizer.hasTextForStringId("QA.keepRight.errorTypes.".concat(itemType, ".title"))) {
-        return _t.html("QA.keepRight.errorTypes.".concat(itemType, ".title"), replacements);
+      if (_mainLocalizer.hasTextForStringId(`QA.keepRight.errorTypes.${itemType}.title`)) {
+        return _t.html(`QA.keepRight.errorTypes.${itemType}.title`, replacements);
       } else {
-        return _t.html("QA.keepRight.errorTypes.".concat(parentIssueType, ".title"), replacements);
+        return _t.html(`QA.keepRight.errorTypes.${parentIssueType}.title`, replacements);
       }
     }
     function keepRightHeader(selection2) {
       const header = selection2.selectAll(".qa-header").data(
         _qaItem ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       header.exit().remove();
       const headerEnter = header.enter().append("div").attr("class", "qa-header");
       const iconEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d2) => d2.id < 0);
-      iconEnter.append("div").attr("class", (d2) => "preset-icon-28 qaItem ".concat(d2.service, " itemId-").concat(d2.id, " itemType-").concat(d2.parentIssueType)).call(svgIcon("#iD-icon-bolt", "qaItem-fill"));
+      iconEnter.append("div").attr("class", (d2) => `preset-icon-28 qaItem ${d2.service} itemId-${d2.id} itemType-${d2.parentIssueType}`).call(svgIcon("#iD-icon-bolt", "qaItem-fill"));
       headerEnter.append("div").attr("class", "qa-header-label").html(issueTitle);
     }
     keepRightHeader.issue = function(val) {
@@ -76012,7 +76105,7 @@
       const isShown = _qaItem && (isSelected || _qaItem.newComment || _qaItem.comment);
       let saveSection = selection2.selectAll(".qa-save").data(
         isShown ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       saveSection.exit().remove();
       const saveSectionEnter = saveSection.enter().append("div").attr("class", "qa-save save-section cf");
@@ -76051,7 +76144,7 @@
       });
       buttonSection.select(".close-button").html((d2) => {
         const andComment = d2.newComment ? "_comment" : "";
-        return _t.html("QA.keepRight.close".concat(andComment));
+        return _t.html(`QA.keepRight.close${andComment}`);
       }).on("click.close", function(d3_event, d2) {
         this.blur();
         const qaService = services.keepRight;
@@ -76062,7 +76155,7 @@
       });
       buttonSection.select(".ignore-button").html((d2) => {
         const andComment = d2.newComment ? "_comment" : "";
-        return _t.html("QA.keepRight.ignore".concat(andComment));
+        return _t.html(`QA.keepRight.ignore${andComment}`);
       }).on("click.ignore", function(d3_event, d2) {
         this.blur();
         const qaService = services.keepRight;
@@ -76093,7 +76186,7 @@
     function osmoseDetails(selection2) {
       const details = selection2.selectAll(".error-details").data(
         _qaItem ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       details.exit().remove();
       const detailsEnter = details.enter().append("div").attr("class", "error-details qa-details-container");
@@ -76118,7 +76211,7 @@
       services.osmose.loadIssueDetail(_qaItem).then((d2) => {
         if (!d2.elems || d2.elems.length === 0)
           return;
-        if (context.selectedErrorID() !== thisItem.id && context.container().selectAll(".qaItem.osmose.hover.itemId-".concat(thisItem.id)).empty())
+        if (context.selectedErrorID() !== thisItem.id && context.container().selectAll(`.qaItem.osmose.hover.itemId-${thisItem.id}`).empty())
           return;
         if (d2.detail) {
           detailsDiv.append("h4").call(_t.append("QA.osmose.detail_title"));
@@ -76192,11 +76285,11 @@
     function osmoseHeader(selection2) {
       const header = selection2.selectAll(".qa-header").data(
         _qaItem ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       header.exit().remove();
       const headerEnter = header.enter().append("div").attr("class", "qa-header");
-      const svgEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d2) => d2.id < 0).append("svg").attr("width", "20px").attr("height", "30px").attr("viewbox", "0 0 20 30").attr("class", (d2) => "preset-icon-28 qaItem ".concat(d2.service, " itemId-").concat(d2.id, " itemType-").concat(d2.itemType));
+      const svgEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d2) => d2.id < 0).append("svg").attr("width", "20px").attr("height", "30px").attr("viewbox", "0 0 20 30").attr("class", (d2) => `preset-icon-28 qaItem ${d2.service} itemId-${d2.id} itemType-${d2.itemType}`);
       svgEnter.append("polygon").attr("fill", (d2) => services.osmose.getColor(d2.item)).attr("class", "qaItem-fill").attr("points", "16,3 4,3 1,6 1,17 4,20 7,20 10,27 13,20 16,20 19,17.033 19,6");
       svgEnter.append("use").attr("class", "icon-annotation").attr("width", "12px").attr("height", "12px").attr("transform", "translate(4, 5.5)").attr("xlink:href", (d2) => d2.icon ? "#" + d2.icon : "");
       headerEnter.append("div").attr("class", "qa-header-label").text(issueTitle);
@@ -76255,7 +76348,7 @@
       const isShown = _qaItem && isSelected;
       let saveSection = selection2.selectAll(".qa-save").data(
         isShown ? [_qaItem] : [],
-        (d2) => "".concat(d2.id, "-").concat(d2.status || 0)
+        (d2) => `${d2.id}-${d2.status || 0}`
       );
       saveSection.exit().remove();
       const saveSectionEnter = saveSection.enter().append("div").attr("class", "qa-save save-section cf");
@@ -76651,7 +76744,7 @@
       var direction = _mainLocalizer.textDirection() === "rtl" ? "backward" : "forward";
       messagewrap.append("button").attr("class", "preset-choose").attr("title", _entityIDs.length === 1 ? _t("inspector.edit") : _t("inspector.edit_features")).on("click", function() {
         dispatch14.call("cancel", this);
-      }).call(svgIcon("#iD-icon-".concat(direction)));
+      }).call(svgIcon(`#iD-icon-${direction}`));
       function initialKeydown(d3_event) {
         if (search.property("value").length === 0 && (d3_event.keyCode === utilKeybinding.keyCodes["\u232B"] || d3_event.keyCode === utilKeybinding.keyCodes["\u2326"])) {
           d3_event.preventDefault();
@@ -78721,7 +78814,7 @@
         updateValue(d2, val);
       });
       sildersControlEnter.append("button").attr("title", function(d2) {
-        return "".concat(_t("background.reset"), " ").concat(_t("background." + d2));
+        return `${_t("background.reset")} ${_t("background." + d2)}`;
       }).attr("class", function(d2) {
         return "display-option-reset display-option-reset-" + d2;
       }).on("click", function(d3_event, d2) {
@@ -78767,7 +78860,23 @@
       modal.classed("settings-modal settings-custom-background", true);
       modal.select(".modal-section.header").append("h3").call(_t.append("settings.custom_background.header"));
       var textSection = modal.select(".modal-section.message-text");
-      var instructions = "".concat(_t.html("settings.custom_background.instructions.info"), "\n") + "\n" + "#### ".concat(_t.html("settings.custom_background.instructions.wms.tokens_label"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.wms.tokens.proj"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.wms.tokens.wkid"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.wms.tokens.dimensions"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.wms.tokens.bbox"), "\n") + "\n" + "#### ".concat(_t.html("settings.custom_background.instructions.tms.tokens_label"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.tms.tokens.xyz"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.tms.tokens.flipped_y"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.tms.tokens.switch"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.tms.tokens.quadtile"), "\n") + "* ".concat(_t.html("settings.custom_background.instructions.tms.tokens.scale_factor"), "\n") + "\n" + "#### ".concat(_t.html("settings.custom_background.instructions.example"), "\n") + "`".concat(example, "`");
+      var instructions = `${_t.html("settings.custom_background.instructions.info")}
+
+#### ${_t.html("settings.custom_background.instructions.wms.tokens_label")}
+* ${_t.html("settings.custom_background.instructions.wms.tokens.proj")}
+* ${_t.html("settings.custom_background.instructions.wms.tokens.wkid")}
+* ${_t.html("settings.custom_background.instructions.wms.tokens.dimensions")}
+* ${_t.html("settings.custom_background.instructions.wms.tokens.bbox")}
+
+#### ${_t.html("settings.custom_background.instructions.tms.tokens_label")}
+* ${_t.html("settings.custom_background.instructions.tms.tokens.xyz")}
+* ${_t.html("settings.custom_background.instructions.tms.tokens.flipped_y")}
+* ${_t.html("settings.custom_background.instructions.tms.tokens.switch")}
+* ${_t.html("settings.custom_background.instructions.tms.tokens.quadtile")}
+* ${_t.html("settings.custom_background.instructions.tms.tokens.scale_factor")}
+
+#### ${_t.html("settings.custom_background.instructions.example")}
+\`${example}\``;
       textSection.append("div").attr("class", "instructions-template").html(marked(instructions));
       textSection.append("textarea").attr("class", "field-template").attr("placeholder", _t("settings.custom_background.template.placeholder")).call(utilNoAuto).property("value", _currSettings.template);
       var buttonSection = modal.select(".modal-section.buttons");
@@ -79013,7 +79122,7 @@
       var nudgeEnter = nudgeWrapEnter.append("div").attr("class", "nudge-outer-rect").on(_pointerPrefix + "down", dragOffset);
       nudgeEnter.append("div").attr("class", "nudge-inner-rect").append("input").attr("type", "text").attr("aria-label", _t("background.offset_label")).on("change", inputOffset);
       nudgeWrapEnter.append("div").selectAll("button").data(_directions).enter().append("button").attr("title", function(d2) {
-        return _t("background.nudge.".concat(d2[0]));
+        return _t(`background.nudge.${d2[0]}`);
       }).attr("class", function(d2) {
         return d2[0] + " nudge";
       }).on("click", function(d3_event, d2) {
@@ -81222,7 +81331,7 @@
       const filename = _assetPath + val;
       return _assetMap[filename] || filename;
     };
-    context.imagePath = (val) => context.asset("img/".concat(val));
+    context.imagePath = (val) => context.asset(`img/${val}`);
     context.reset = context.flush = () => {
       context.debouncedSave.cancel();
       Array.from(_deferred2).forEach((handle) => {
@@ -81794,7 +81903,7 @@
         const t2 = parts[0];
         const k2 = parts[1];
         const v2 = parts[2];
-        const thiskv = "".concat(k2, "/").concat(v2);
+        const thiskv = `${k2}/${v2}`;
         const tree = trees[t2];
         let branch = that.matchIndex.get(thiskv);
         if (!branch) {
@@ -81818,7 +81927,7 @@
         const alternateName = new RegExp(tree.nameTags.alternate, "i");
         const notName = /:(colou?r|type|forward|backward|left|right|etymology|pronunciation|wikipedia)$/i;
         const skipGenericKV = skipGenericKVMatches(t2, k2, v2);
-        const genericKV = /* @__PURE__ */ new Set(["".concat(k2, "/yes"), "building/yes"]);
+        const genericKV = /* @__PURE__ */ new Set([`${k2}/yes`, `building/yes`]);
         const matchGroupKV = /* @__PURE__ */ new Set();
         Object.values(matchGroups).forEach((matchGroup) => {
           const inGroup = matchGroup.some((otherkv) => otherkv === thiskv);
@@ -81829,7 +81938,7 @@
               return;
             matchGroupKV.add(otherkv);
             const otherk = otherkv.split("/", 2)[0];
-            genericKV.add("".concat(otherk, "/yes"));
+            genericKV.add(`${otherk}/yes`);
           });
         });
         items.forEach((item) => {
@@ -81840,7 +81949,7 @@
             if (!item.matchTags.length)
               delete item.matchTags;
           }
-          let kvTags = ["".concat(thiskv)].concat(item.matchTags || []);
+          let kvTags = [`${thiskv}`].concat(item.matchTags || []);
           if (!skipGenericKV) {
             kvTags = kvTags.concat(Array.from(genericKV));
           }
@@ -81880,7 +81989,7 @@
       });
       function insertName(which, t2, kv, nsimple, itemID) {
         if (!nsimple) {
-          that.warnings.push("Warning: skipping empty ".concat(which, " name for item ").concat(t2, "/").concat(kv, ": ").concat(itemID));
+          that.warnings.push(`Warning: skipping empty ${which} name for item ${t2}/${kv}: ${itemID}`);
           return;
         }
         let branch = that.matchIndex.get(kv);
@@ -81900,11 +82009,11 @@
         }
         leaf.add(itemID);
         if (!/yes$/.test(kv)) {
-          const kvnsimple = "".concat(kv, "/").concat(nsimple);
+          const kvnsimple = `${kv}/${nsimple}`;
           const existing = seenTree.get(kvnsimple);
           if (existing && existing !== t2) {
             const items = Array.from(leaf);
-            that.warnings.push('Duplicate cache key "'.concat(kvnsimple, '" in trees "').concat(t2, '" and "').concat(existing, '", check items: ').concat(items));
+            that.warnings.push(`Duplicate cache key "${kvnsimple}" in trees "${t2}" and "${existing}", check items: ${items}`);
             return;
           }
           seenTree.set(kvnsimple, t2);
@@ -81945,7 +82054,7 @@
           try {
             resolved = loco.resolveLocationSet(item.locationSet);
           } catch (err) {
-            console.warn("buildLocationIndex: ".concat(err.message));
+            console.warn(`buildLocationIndex: ${err.message}`);
           }
           if (!resolved || !resolved.id)
             return;
@@ -81956,7 +82065,7 @@
           feature3.id = resolved.id;
           feature3.properties.id = resolved.id;
           if (!feature3.geometry.coordinates.length || !feature3.properties.area) {
-            console.warn("buildLocationIndex: locationSet ".concat(resolved.id, " for ").concat(item.id, " resolves to an empty feature:"));
+            console.warn(`buildLocationIndex: locationSet ${resolved.id} for ${item.id} resolves to an empty feature:`);
             console.warn(JSON.stringify(feature3));
             return;
           }
@@ -82035,7 +82144,7 @@
       gatherResults("exclude");
       return results.length ? results : null;
       function gatherResults(which) {
-        const kv = "".concat(k2, "/").concat(v2);
+        const kv = `${k2}/${v2}`;
         let didMatch = tryMatch(which, kv);
         if (didMatch)
           return;
@@ -82144,7 +82253,7 @@
   function setNsiSources() {
     const nsiVersion = package_default.dependencies["name-suggestion-index"] || package_default.devDependencies["name-suggestion-index"];
     const v2 = (0, import_vparse2.default)(nsiVersion);
-    const vMinor = "".concat(v2.major, ".").concat(v2.minor);
+    const vMinor = `${v2.major}.${v2.minor}`;
     const cdn = nsiCdnUrl.replace("{version}", vMinor);
     const sources = {
       "nsi_data": cdn + "dist/nsi.min.json",
@@ -82280,9 +82389,9 @@
       if (!vmap)
         return;
       if (vmap.get(osmvalue)) {
-        primary.add("".concat(osmkey, "/").concat(osmvalue));
+        primary.add(`${osmkey}/${osmvalue}`);
       } else if (osmvalue === "yes") {
-        alternate.add("".concat(osmkey, "/").concat(osmvalue));
+        alternate.add(`${osmkey}/${osmvalue}`);
       }
     });
     const preset = _mainPresetIndex.matchTags(tags, "area");
@@ -82434,7 +82543,7 @@
         }
         if (replace && replace.wikipedia !== void 0) {
           changed = true;
-          const wpkey = "".concat(prefix, "wikipedia");
+          const wpkey = `${prefix}wikipedia`;
           if (replace.wikipedia) {
             newTags[wpkey] = replace.wikipedia;
           } else {
@@ -82474,7 +82583,7 @@
           continue;
         const mainTag = item.mainTag;
         const itemQID = item.tags[mainTag];
-        const notQID = newTags["not:".concat(mainTag)];
+        const notQID = newTags[`not:${mainTag}`];
         if (
           // Exceptions, skip this hit
           !itemQID || itemQID === notQID || // No `*:wikidata` or matched a `not:*:wikidata`
@@ -82498,7 +82607,7 @@
       let preserveTags = item.preserveTags || properties.preserveTags || [];
       ["building", "emergency", "internet_access", "takeaway"].forEach((osmkey) => {
         if (k2 !== osmkey)
-          preserveTags.push("^".concat(osmkey, "$"));
+          preserveTags.push(`^${osmkey}$`);
       });
       const regexes = preserveTags.map((s2) => new RegExp(s2, "i"));
       let keepTags = {};
@@ -83330,14 +83439,14 @@
     } = properties;
     let reference;
     if (year2 >= 2020) {
-      reference = "".concat(road_class).concat(road_status).concat(road_number, " S").concat(section, "D").concat(subsection);
+      reference = `${road_class}${road_status}${road_number} S${section}D${subsection}`;
       if (junction_part) {
-        reference = "".concat(reference, " M").concat(anker_point, " KD").concat(junction_part);
+        reference = `${reference} M${anker_point} KD${junction_part}`;
       } else if (services_part) {
-        reference = "".concat(reference, " M").concat(anker_point, " SD").concat(services_part);
+        reference = `${reference} M${anker_point} SD${services_part}`;
       }
     } else {
-      reference = "".concat(county_number).concat(road_class).concat(road_status).concat(road_number, " HP").concat(parcel);
+      reference = `${county_number}${road_class}${road_status}${road_number} HP${parcel}`;
     }
     return reference;
   }
@@ -83493,7 +83602,7 @@
         attribution.append("span").attr("class", "captured_at").text(localeTimestamp(d2.captured_at));
       }
       attribution.append("a").attr("target", "_blank").attr("href", "https://vegvesen.no").call(_t.append("vegbilder.publisher"));
-      attribution.append("a").attr("target", "_blank").attr("href", "https://vegbilder.atlas.vegvesen.no/?year=".concat(d2.captured_at.getFullYear(), "&lat=").concat(d2.loc[1], "&lng=").concat(d2.loc[0], "&view=image&imageId=").concat(d2.key)).call(_t.append("vegbilder.view_on"));
+      attribution.append("a").attr("target", "_blank").attr("href", `https://vegbilder.atlas.vegvesen.no/?year=${d2.captured_at.getFullYear()}&lat=${d2.loc[1]}&lng=${d2.loc[0]}&view=image&imageId=${d2.key}`).call(_t.append("vegbilder.view_on"));
       _currentFrame = d2.is_sphere ? _pannellumFrame : _planeFrame;
       _currentFrame.selectPhoto(d2, keepOrientation).showPhotoFrame(wrap2);
       return this;
@@ -85251,11 +85360,11 @@
       var type2 = value ? "Tag" : "Key";
       var prefix = "";
       if (isHistorical) {
-        prefix = "OpenHistoricalMap/Tags/".concat(type2, "/");
+        prefix = `OpenHistoricalMap/Tags/${type2}/`;
       } else {
         prefix = type2 + ":";
       }
-      return (prefix + (value ? "".concat(key, "=").concat(value) : key).replace(/_/g, " ")).trim();
+      return (prefix + (value ? `${key}=${value}` : key).replace(/_/g, " ")).trim();
     },
     //
     // Pass params object of the form:
@@ -87192,7 +87301,7 @@
   }
   function loadTile4(which, url, tile) {
     const cache = _cache4.requests;
-    const tileId = "".concat(tile.id, "-").concat(which);
+    const tileId = `${tile.id}-${which}`;
     if (cache.loaded[tileId] || cache.inflight[tileId])
       return;
     const controller = new AbortController();
@@ -87273,7 +87382,7 @@
     }
   }
   function getImageData(imageId, sequenceId) {
-    return fetch(apiUrl2 + "/api/sequence-detail?sequence_uuid=".concat(sequenceId), { method: "GET" }).then(function(response) {
+    return fetch(apiUrl2 + `/api/sequence-detail?sequence_uuid=${sequenceId}`, { method: "GET" }).then(function(response) {
       if (!response.ok) {
         throw new Error(response.status + " " + response.statusText);
       }
@@ -87419,7 +87528,7 @@
         attribution.append("span").attr("class", "captured_at").text(localeDateString2(d2.capture_time));
         attribution.append("span").text("|");
       }
-      attribution.append("a").attr("class", "image-link").attr("target", "_blank").attr("href", "https://mapilio.com/app?lat=".concat(d2.loc[1], "&lng=").concat(d2.loc[0], "&zoom=17&pId=").concat(d2.id)).text("mapilio.com");
+      attribution.append("a").attr("class", "image-link").attr("target", "_blank").attr("href", `https://mapilio.com/app?lat=${d2.loc[1]}&lng=${d2.loc[0]}&zoom=17&pId=${d2.id}`).text("mapilio.com");
       wrap2.transition().duration(100).call(imgZoom3.transform, identity2);
       wrap2.selectAll("img").remove();
       wrap2.selectAll("button.back").classed("hide", !_cache4.images.forImageId.hasOwnProperty(+id3 - 1));
@@ -89712,7 +89821,7 @@
   function number22(e3) {
     return [number1(e3[0]), number1(e3[1])];
   }
-  var X4 = {
+  var X5 = {
     name: "x",
     handles: ["w", "e"].map(type),
     input: function(x2, e3) {
