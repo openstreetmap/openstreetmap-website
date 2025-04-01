@@ -1,4 +1,5 @@
 //= require leaflet.locatecontrol/dist/L.Control.Locate.umd
+//= require leaflet.locate
 
 (function () {
   $(document).on("change", "#user_all", function () {
@@ -21,27 +22,7 @@ $(function () {
     L.OSM.zoom({ position: position })
       .addTo(map);
 
-    const locate = L.control.locate({
-      position: position,
-      icon: "icon geolocate",
-      iconLoading: "icon geolocate",
-      strings: {
-        title: OSM.i18n.t("javascripts.map.locate.title"),
-        popup: function (options) {
-          return OSM.i18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
-        }
-      }
-    }).addTo(map);
-
-    const locateContainer = locate.getContainer();
-
-    $(locateContainer)
-      .removeClass("leaflet-control-locate leaflet-bar")
-      .addClass("control-locate")
-      .children("a")
-      .attr("href", "#")
-      .removeClass("leaflet-bar-part leaflet-bar-part-single")
-      .addClass("control-button");
+    L.OSM.locate({ position }).addTo(map);
 
     if (OSM.home) {
       map.setView([OSM.home.lat, OSM.home.lon], defaultHomeZoom);
