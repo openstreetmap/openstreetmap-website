@@ -158,11 +158,11 @@ OSM = {
       layers = args.getLayersCode();
     } else if (args instanceof URLSearchParams) {
       center = args.get("center") || L.latLng(args.get("lat"), args.get("lon"));
-      zoom = args.get("zoom");
+      zoom = Number(args.get("zoom"));
       layers = args.get("layers") || "";
     } else {
       center = args.center || L.latLng(args.lat, args.lon);
-      zoom = args.zoom;
+      zoom = Number(args.zoom);
       layers = args.layers || "";
     }
 
