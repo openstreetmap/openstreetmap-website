@@ -173,8 +173,8 @@ OSM.History = function (map) {
 
     const div = $(this).parents(".changeset_more");
 
-    $(this).closest(".pagination").addClass("invisible");
-    div.find(".loader").show();
+    div.find(".pagination").addClass("invisible");
+    div.find("[hidden]").prop("hidden", false);
 
     const data = new URLSearchParams();
 
