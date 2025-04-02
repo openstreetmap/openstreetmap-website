@@ -104,6 +104,10 @@ OSM.History = function (map) {
 
   function displayFirstChangesets(html) {
     $("#sidebar_content .changesets").html(html);
+
+    if (location.pathname === "/history") {
+      setPaginationMapHashes();
+    }
   }
 
   function displayMoreChangesets(div, html) {
@@ -130,11 +134,23 @@ OSM.History = function (map) {
       nextNewList.children().appendTo(oldList);
       nextNewList.remove();
     }
+
+    if (location.pathname === "/history") {
+      setPaginationMapHashes();
+    }
+  }
+
+  function setPaginationMapHashes() {
+    $("#sidebar .pagination a").each(function () {
+      $(this).prop("hash", OSM.formatHash({
+        center: map.getCenter(),
+        zoom: map.getZoom()
+      }));
+    });
   }
 
   function loadFirstChangesets() {
     const data = new URLSearchParams();
-    const params = new URLSearchParams(location.search);
 
     disableChangesetIntersectionObserver();
 
@@ -145,14 +161,7 @@ OSM.History = function (map) {
       feedLink.attr("href", feedHref + "?" + data);
     }
 
-    data.set("list", "1");
-
-    if (params.has("before")) {
-      data.set("before", params.get("before"));
-    }
-    if (params.has("after")) {
-      data.set("after", params.get("after"));
-    }
+    setListFetchData(data, location);
 
     fetch(location.pathname + "?" + data)
       .then(response => response.text())
@@ -160,13 +169,15 @@ OSM.History = function (map) {
         displayFirstChangesets(html);
         enableChangesetIntersectionObserver();
 
-        if (params.has("before")) {
+        if (data.has("before")) {
           const [firstItem] = $("#sidebar_content .changesets ol").children().first();
           firstItem?.scrollIntoView();
-        }
-        if (params.has("after")) {
+        } else if (data.has("after")) {
           const [lastItem] = $("#sidebar_content .changesets ol").children().last();
           lastItem?.scrollIntoView(false);
+        } else {
+          const [sidebar] = $("#sidebar");
+          sidebar.scrollTop = 0;
         }
 
         updateMap();
@@ -179,14 +190,39 @@ OSM.History = function (map) {
 
     const div = $(this).parents(".changeset_more");
 
-    $(this).hide();
-    div.find(".loader").show();
+    div.find(".pagination").addClass("invisible");
+    div.find("[hidden]").prop("hidden", false);
 
-    $.get($(this).attr("href"), function (html) {
-      displayMoreChangesets(div, html);
-      enableChangesetIntersectionObserver();
-      updateMap();
-    });
+    const data = new URLSearchParams();
+
+    if (location.pathname === "/history") {
+      data.set("bbox", map.getBounds().wrap().toBBoxString());
+    }
+
+    const url = new URL($(this).attr("href"), location);
+    setListFetchData(data, url);
+
+    fetch(url.pathname + "?" + data)
+      .then(response => response.text())
+      .then(function (html) {
+        displayMoreChangesets(div, html);
+        enableChangesetIntersectionObserver();
+
+        updateMap();
+      });
+  }
+
+  function setListFetchData(data, url) {
+    const params = new URLSearchParams(url.search);
+
+    data.set("list", "1");
+
+    if (params.has("before")) {
+      data.set("before", params.get("before"));
+    }
+    if (params.has("after")) {
+      data.set("after", params.get("after"));
+    }
   }
 
   function reloadChangesetsBecauseOfMapMovement() {

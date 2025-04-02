@@ -1,11 +1,15 @@
 <% if @newer_changesets_id %>
-  <div class="changeset_more my-3 text-center">
-    <%= link_to t(".load_more"), url_for(@params.merge(:before => nil, :after => @newer_changesets_id)), :class => "btn btn-primary" %>
-    <div class="text-center loader">
+  <div class="changeset_more my-3">
+    <div class="text-center position-absolute start-0 end-0" hidden>
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
       </div>
     </div>
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <%= link_to t(".newer_changesets"), url_for(:after => @newer_changesets_id), :class => "page-link" %>
+      </li>
+    </ul>
   </div>
 <% end %>
 <% if @changesets.present? %>
@@ -20,12 +24,16 @@
   <p class="mx-3"><%= params[:before] ? t(".no_more") : t(".empty") %></p>
 <% end %>
 <% if @older_changesets_id -%>
-  <div class="changeset_more my-3 text-center">
-    <%= link_to t(".load_more"), url_for(@params.merge(:before => @older_changesets_id, :after => nil)), :class => "btn btn-primary" %>
-    <div class="text-center loader">
+  <div class="changeset_more my-3">
+    <div class="text-center position-absolute start-0 end-0" hidden>
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
       </div>
     </div>
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <%= link_to t(".older_changesets"), url_for(:before => @older_changesets_id), :class => "page-link" %>
+      </li>
+    </ul>
   </div>
 <% end -%>

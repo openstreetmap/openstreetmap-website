@@ -35,21 +35,21 @@ class HistoryTest < ApplicationSystemTestCase
       changesets.assert_no_text "bottom-changeset-in-batch-2"
       changesets.assert_no_text "first-changeset-in-history"
       changesets.assert_selector "ol", :count => 1
-      changesets.assert_selector "li", :count => PAGE_SIZE
+      changesets.assert_selector "li[data-changeset]", :count => PAGE_SIZE
 
-      changesets.find(".changeset_more a.btn").click
+      click_on "Older Changesets"
       changesets.assert_text "bottom-changeset-in-batch-1"
       changesets.assert_text "bottom-changeset-in-batch-2"
       changesets.assert_no_text "first-changeset-in-history"
       changesets.assert_selector "ol", :count => 1
-      changesets.assert_selector "li", :count => 2 * PAGE_SIZE
+      changesets.assert_selector "li[data-changeset]", :count => 2 * PAGE_SIZE
 
-      changesets.find(".changeset_more a.btn").click
+      click_on "Older Changesets"
       changesets.assert_text "bottom-changeset-in-batch-1"
       changesets.assert_text "bottom-changeset-in-batch-2"
       changesets.assert_text "first-changeset-in-history"
       changesets.assert_selector "ol", :count => 1
-      changesets.assert_selector "li", :count => (2 * PAGE_SIZE) + 1
+      changesets.assert_selector "li[data-changeset]", :count => (2 * PAGE_SIZE) + 1
     end
   end
 
