@@ -104,6 +104,10 @@ OSM.History = function (map) {
 
   function displayFirstChangesets(html) {
     $("#sidebar_content .changesets").html(html);
+
+    if (location.pathname === "/history") {
+      setPaginationMapHashes();
+    }
   }
 
   function displayMoreChangesets(div, html) {
@@ -130,6 +134,19 @@ OSM.History = function (map) {
       nextNewList.children().appendTo(oldList);
       nextNewList.remove();
     }
+
+    if (location.pathname === "/history") {
+      setPaginationMapHashes();
+    }
+  }
+
+  function setPaginationMapHashes() {
+    $("#sidebar .pagination a").each(function () {
+      $(this).prop("hash", OSM.formatHash({
+        center: map.getCenter(),
+        zoom: map.getZoom()
+      }));
+    });
   }
 
   function loadFirstChangesets() {
