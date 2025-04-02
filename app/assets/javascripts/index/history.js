@@ -155,10 +155,12 @@ OSM.History = function (map) {
         if (data.has("before")) {
           const [firstItem] = $("#sidebar_content .changesets ol").children().first();
           firstItem?.scrollIntoView();
-        }
-        if (data.has("after")) {
+        } else if (data.has("after")) {
           const [lastItem] = $("#sidebar_content .changesets ol").children().last();
           lastItem?.scrollIntoView(false);
+        } else {
+          const [sidebar] = $("#sidebar");
+          sidebar.scrollTop = 0;
         }
 
         updateMap();
