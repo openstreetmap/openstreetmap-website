@@ -31,6 +31,7 @@ class ProfilesController < ApplicationController
 
     current_user.home_lat = params[:user][:home_lat]
     current_user.home_lon = params[:user][:home_lon]
+    current_user.home_location_name = params[:user][:home_location_name]
 
     if current_user.save
       flash[:notice] = t ".success"
