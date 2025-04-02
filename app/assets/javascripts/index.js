@@ -111,39 +111,30 @@ $(function () {
   }
 
   addControlGroup([
-    L.OSM.zoom({ position: position }),
-    L.OSM.locate({ position: position })
+    L.OSM.zoom({ position }),
+    L.OSM.locate({ position })
   ]);
 
   addControlGroup([
     L.OSM.layers({
-      position: position,
-      layers: map.baseLayers,
-      sidebar: sidebar
+      position,
+      sidebar,
+      layers: map.baseLayers
     }),
-    L.OSM.key({
-      position: position,
-      sidebar: sidebar
-    }),
+    L.OSM.key({ position, sidebar }),
     L.OSM.share({
-      "position": position,
-      "sidebar": sidebar,
+      position,
+      sidebar,
       "short": true
     })
   ]);
 
   addControlGroup([
-    L.OSM.note({
-      position: position,
-      sidebar: sidebar
-    })
+    L.OSM.note({ position, sidebar })
   ]);
 
   addControlGroup([
-    L.OSM.query({
-      position: position,
-      sidebar: sidebar
-    })
+    L.OSM.query({ position, sidebar })
   ]);
 
   L.control.scale()

@@ -30,8 +30,7 @@ $(function () {
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
 
-    L.OSM.zoom({ position: position })
-      .addTo(map);
+    L.OSM.zoom({ position }).addTo(map);
 
     map.setView(centre, params.zoom);
 
