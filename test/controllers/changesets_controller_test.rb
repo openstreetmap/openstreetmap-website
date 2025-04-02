@@ -446,7 +446,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # check the result of a index
   def check_index_result(changesets)
-    assert_select "ol.changesets", :count => [changesets.size, 1].min do
+    assert_select "ol", :count => [changesets.size, 1].min do
       assert_select "li", :count => changesets.size
 
       changesets.each do |changeset|
