@@ -16,7 +16,17 @@ module SocialShareButtonHelper
     tag.div(
       :class => "social-share-buttons d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
-      safe_join(SOCIAL_SHARE_CONFIG.map do |site, icon|
+      buttons = [
+        tag.button(:type => "button",
+                   :class => "btn btn-secondary p-1 border-1 rounded-circle",
+                   :title => I18n.t("application.share.share.title"),
+                   :hidden => true,
+                   :data => { :share_type => "native" }) do
+          image_tag("social_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
+        end
+      ]
+
+      buttons << SOCIAL_SHARE_CONFIG.map do |site, icon|
         link_options = {
           :rel => "nofollow",
           :class => "rounded-circle focus-ring",
@@ -28,7 +38,9 @@ module SocialShareButtonHelper
         link_to generate_share_url(site, title, url), link_options do
           image_tag(icon, :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
         end
-      end, "\n")
+      end
+
+      safe_join(buttons, "\n")
     end
   end
 
