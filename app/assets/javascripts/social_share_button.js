@@ -14,4 +14,13 @@ $(function () {
     e.preventDefault();
     openShareUrl(this.href);
   });
+
+  if (navigator.share) {
+    $(".social-share-buttons [data-share-type='native']").prop("hidden", false).on("click", function () {
+      navigator.share({
+        text: this.dataset.shareText,
+        url: this.dataset.shareUrl
+      });
+    });
+  }
 });

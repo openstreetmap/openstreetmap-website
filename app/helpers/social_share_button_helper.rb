@@ -21,7 +21,9 @@ module SocialShareButtonHelper
                    :class => "btn btn-secondary p-1 border-1 rounded-circle",
                    :title => I18n.t("application.share.share.title"),
                    :hidden => true,
-                   :data => { :share_type => "native" }) do
+                   :data => { :share_type => "native",
+                              :share_text => title,
+                              :share_url => url }) do
           image_tag("social_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
         end
       ]
