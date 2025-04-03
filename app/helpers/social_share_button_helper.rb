@@ -19,7 +19,7 @@ module SocialShareButtonHelper
       safe_join(SOCIAL_SHARE_CONFIG.map do |site, icon|
         link_options = {
           :rel => "nofollow",
-          :class => "ssb-icon rounded-circle",
+          :class => "ssb-icon rounded-circle focus-ring",
           :title => I18n.t("application.share.#{site}.title"),
           :target => "_blank"
         }
