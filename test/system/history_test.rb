@@ -133,6 +133,34 @@ class HistoryTest < ApplicationSystemTestCase
     assert_current_path history_path
   end
 
+  test "changesets at both sides of dateline are listed" do
+    user = create(:user)
+    PAGE_SIZE.times do
+      create(:changeset, :user => user, :num_changes => 1,
+                         :min_lat => 0 * GeoRecord::SCALE, :min_lon => 176 * GeoRecord::SCALE,
+                         :max_lat => 1 * GeoRecord::SCALE, :max_lon => 178 * GeoRecord::SCALE) do |changeset|
+        create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "Western-Changeset")
+      end
+      create(:changeset, :user => user, :num_changes => 1,
+                         :min_lat => 0 * GeoRecord::SCALE, :min_lon => -178 * GeoRecord::SCALE,
+                         :max_lat => 1 * GeoRecord::SCALE, :max_lon => -176 * GeoRecord::SCALE) do |changeset|
+        create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "Eastern-Changeset")
+      end
+    end
+
+    visit history_path(:anchor => "map=6/0/179")
+
+    within_sidebar do
+      assert_link "Western-Changeset", :count => PAGE_SIZE / 2
+      assert_link "Eastern-Changeset", :count => PAGE_SIZE / 2
+
+      click_on "Older Changesets"
+
+      assert_link "Western-Changeset", :count => PAGE_SIZE
+      assert_link "Eastern-Changeset", :count => PAGE_SIZE
+    end
+  end
+
   private
 
   def create_visible_changeset(user, comment)
