@@ -133,6 +133,27 @@ class HistoryTest < ApplicationSystemTestCase
     assert_current_path history_path
   end
 
+  test "all changesets are listed when fully zoomed out" do
+    user = create(:user)
+    [-177, -90, 0, 90, 177].each do |lon|
+      create(:changeset, :user => user, :num_changes => 1,
+                         :min_lat => 0 * GeoRecord::SCALE, :min_lon => (lon - 1) * GeoRecord::SCALE,
+                         :max_lat => 1 * GeoRecord::SCALE, :max_lon => (lon + 1) * GeoRecord::SCALE) do |changeset|
+        create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset-at-lon(#{lon})")
+      end
+    end
+
+    visit history_path(:anchor => "map=0/0/0")
+
+    within_sidebar do
+      assert_link "changeset-at-lon(-177)", :count => 1
+      assert_link "changeset-at-lon(-90)", :count => 1
+      assert_link "changeset-at-lon(0)", :count => 1
+      assert_link "changeset-at-lon(90)", :count => 1
+      assert_link "changeset-at-lon(177)", :count => 1
+    end
+  end
+
   private
 
   def create_visible_changeset(user, comment)

@@ -213,7 +213,15 @@ OSM.History = function (map) {
   }
 
   function setBboxFetchData(data) {
-    data.set("bbox", map.getBounds().wrap().toBBoxString());
+    const crs = map.options.crs;
+    const sw = map.getBounds().getSouthWest();
+    const ne = map.getBounds().getNorthEast();
+    const swClamped = crs.unproject(crs.project(sw));
+    const neClamped = crs.unproject(crs.project(ne));
+
+    if (sw.lat >= swClamped.lat || ne.lat <= neClamped.lat || ne.lng - sw.lng < 360) {
+      data.set("bbox", map.getBounds().wrap().toBBoxString());
+    }
   }
 
   function setListFetchData(data, url) {
