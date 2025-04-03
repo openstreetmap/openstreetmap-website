@@ -155,7 +155,7 @@ OSM.History = function (map) {
     disableChangesetIntersectionObserver();
 
     if (location.pathname === "/history") {
-      data.set("bbox", map.getBounds().wrap().toBBoxString());
+      setBboxFetchData(data);
       const feedLink = $("link[type=\"application/atom+xml\"]"),
             feedHref = feedLink.attr("href").split("?")[0];
       feedLink.attr("href", feedHref + "?" + data);
@@ -196,7 +196,7 @@ OSM.History = function (map) {
     const data = new URLSearchParams();
 
     if (location.pathname === "/history") {
-      data.set("bbox", map.getBounds().wrap().toBBoxString());
+      setBboxFetchData(data);
     }
 
     const url = new URL($(this).attr("href"), location);
@@ -210,6 +210,10 @@ OSM.History = function (map) {
 
         updateMap();
       });
+  }
+
+  function setBboxFetchData(data) {
+    data.set("bbox", map.getBounds().wrap().toBBoxString());
   }
 
   function setListFetchData(data, url) {
