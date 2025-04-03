@@ -14,14 +14,15 @@ module SocialShareButtonHelper
   # Generates a set of social share buttons based on the specified options.
   def social_share_buttons(title:, url:)
     tag.div(
-      :class => "social-share-button d-flex gap-1 align-items-end flex-wrap mb-3"
+      :class => "social-share-buttons d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
       safe_join(SOCIAL_SHARE_CONFIG.map do |site, icon|
         link_options = {
           :rel => "nofollow",
-          :class => "ssb-icon rounded-circle focus-ring",
+          :class => "rounded-circle focus-ring",
           :title => I18n.t("application.share.#{site}.title"),
-          :target => "_blank"
+          :target => "_blank",
+          :data => { :share_type => site == :email ? "email" : "site" }
         }
 
         link_to generate_share_url(site, title, url), link_options do

@@ -10,11 +10,8 @@ $(function () {
     window.open(url, "popup", opts);
   }
 
-  $(".ssb-icon").on("click", function (e) {
-    const shareUrl = $(this).attr("href");
-    if (!shareUrl.startsWith("mailto:")) {
-      e.preventDefault();
-      openShareUrl(shareUrl);
-    }
+  $(".social-share-buttons [data-share-type='site']").on("click", function (e) {
+    e.preventDefault();
+    openShareUrl(this.href);
   });
 });
