@@ -287,7 +287,7 @@ ru:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: около часа назад
+        one: около %{count} часа назад
         few: около %{count} часов назад
         many: около %{count} часов назад
         other: ""
@@ -297,13 +297,13 @@ ru:
         many: около %{count} месяцев назад
         other: ""
       about_x_years:
-        one: около года назад
+        one: около %{count} года назад
         few: около %{count} лет назад
         many: около %{count} лет назад
         other: ""
       almost_x_years:
-        one: почти год назад
-        few: почти %{count} лет назад
+        one: почти %{count} год назад
+        few: почти %{count} года назад
         many: почти %{count} лет назад
         other: ""
       half_a_minute: полминуты назад
@@ -318,7 +318,7 @@ ru:
         many: менее %{count} минут назад
         other: ""
       over_x_years:
-        one: более года назад
+        one: более %{count} года назад
         few: более %{count} лет назад
         many: более %{count} лет назад
         other: ""
@@ -670,7 +670,6 @@ ru:
       no_more: Больше пакетов правок не обнаружено.
       no_more_area: Нет больше пакетов правок в этой области.
       no_more_user: Нет больше пакетов правок от этого пользователя.
-      load_more: Загрузить ещё
       feed:
         title: Пакет правок %{id}
         title_comment: Пакет правок %{id} — %{comment}
@@ -699,8 +698,11 @@ ru:
       changesetxml: XML пакета правок
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Точки
       nodes_paginated: Точки (%{x}-%{y} из %{count})
+      ways_title: Линии
       ways_paginated: Линии (%{x}-%{y} из %{count})
+      relations_title: Отношения
       relations_paginated: Отношения (%{x}-%{y} из %{count})
     not_found_message:
       sorry: 'К сожалению, пакет правок #%{id} не найден.'
@@ -1845,9 +1847,17 @@ ru:
       url: URL
       description: Описание
       tags: Теги
+      total_points: Общее количество точек
+      imported_points: Количество импортированных точек
     gpx_failure:
       hi: Здравствуйте, %{to_user},
-      failed_to_import: 'сбой импорта. Произошла ошибка:'
+      failed_to_import: Похоже, что ваш файл не удалось импортировать как GPS-трек.
+      verify: 'Пожалуйста, проверьте, что ваш файл является допустимым файлом GPX
+        или архивом файлов GPX в поддерживаемом формате (.tar.gz, .tar.bz2, .tar,
+        .zip, .gpx.gz, .gpx.bz2). Возможна ли проблема с форматом или синтаксисом
+        вашего файла? Вот ошибка импорта:'
+      more_info: Более подробную информацию об ошибках импорта GPX и о том, как их
+        избежать, можно найти на странице %{url}.
       more_info_html: Более подробную информацию об ошибках импорта GPX и о том, как
         их избежать, можно найти на %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/RU:GPX_Import_Failures
@@ -2900,13 +2910,15 @@ ru:
       role:
         administrator: Этот пользователь является администратором
         moderator: Этот пользователь является модератором
-        importer: Этот пользователь является импортером
+        importer: Этот пользователь является импортёром
         grant:
           administrator: Присвоить права администратора
           moderator: Присвоить права модератора
+          importer: Присвоить права импортёра
         revoke:
           administrator: Отозвать права администратора
           moderator: Отозвать права модератора
+          importer: Отозвать права импортёра
       block_history: Активные блокировки
       moderator_history: Созданные блокировки
       comments: Комментарии
@@ -2944,6 +2956,9 @@ ru:
           deleted: Удалено
         name_or_email: Имя или адрес эл. почты
         ip_address: IP-адрес
+        edits: Правки?
+        has_edits: С правками
+        no_edits: Без правок
         search: Поиск
       page:
         confirm: Подтвердить выделенных пользователей
@@ -3362,6 +3377,7 @@ ru:
           ninth: девятый
           tenth: десятый
       time: Время
+      download: Скачать маршрут в формате GeoJSON
     query:
       node: Точка
       way: Линия

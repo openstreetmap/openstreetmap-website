@@ -104,6 +104,7 @@ br:
         allow_write_prefs: kemmañ o fenndibaboù implijer.
         allow_write_diary: skrivit en ho teizlevr ha skrivit evezhiadennoù
         allow_write_api: kemmañ ar gartenn
+        allow_write_changeset_comments: skrivañ un evezhiadenn diwar-benn ar c'hemmoù
         allow_read_gpx: lenn o roudoù GPS prevez
         allow_write_gpx: kas roudoù GPS
         allow_write_notes: kemmañ an notennoù
@@ -303,6 +304,7 @@ br:
           nevez ar c'henlabourer hag asantiñ dezho.
         agreed_with_pd: Disklêriet hoc'h eus ivez emañ ho tegasadennoù en domani foran.
         link text: petra eo an dra-se ?
+        pd_link_text: disklêriañ
       save changes button: Enrollañ ar c'hemmoù
       delete_account: Dilemel ar gont...
     go_public:
@@ -472,6 +474,8 @@ br:
       relation:
         title_html: 'Istor an darempred: %{name}'
   nodes:
+    not_found_message:
+      sorry: 'Hon digarezit, n''eo ket bet kavet ar skoulm #%{id}.'
     timeout:
       sorry: Hon digarezit, ar roadennoù evit ar skoulm gant an id %{id} a zo re hir
         da adtapout.
@@ -479,10 +483,16 @@ br:
     not_found_message:
       sorry: 'Hon digarezit, n''eo ket bet kavet ar stumm %{version} eus ar skoulm
         #%{id}.'
+  ways:
+    not_found_message:
+      sorry: 'Hon digarezit, n''eo ket bet kavet ar roudenn #%{id}.'
   old_ways:
     not_found_message:
       sorry: 'Hon digarezit, n''eo ket bet kavet ar stumm %{version} eus ar roudenn
         #%{id}.'
+  relations:
+    not_found_message:
+      sorry: 'Hon digarezit, n''eo ket bet kavet an darempred #%{id}.'
   old_relations:
     not_found_message:
       sorry: 'Hon digarezit, n''eo ket bet kavet ar stumm %{version} eus an darempred
@@ -499,6 +509,13 @@ br:
       timeout:
         sorry: Ho tigarez, re hir eo adtapout ar roll evezhiadennoù ho peus goulennet.
   changesets:
+    changeset:
+      changes:
+        one: '%{count} cheñchamant'
+        two: '%{count} cheñchamant'
+        few: '%{count} cheñchamant'
+        many: '%{count} cheñchamant'
+        other: '%{count} cheñchamant'
     index:
       title: Hollad cheñchamantoù
       title_user: Hollad cheñchamantoù %{user}
@@ -510,7 +527,6 @@ br:
       no_more: N'eus bet kavet hollad cheñchamantoù ouzhpenn.
       no_more_area: Hollad cheñchamant ouzhpenn ebet ken en takad-mañ.
       no_more_user: Hollad cheñchamant ouzhpenn ebet ken gant an implijer-mañ.
-      load_more: Kargañ muioc'h
       feed:
         title: Hollad cheñchamantoù %{id}
         title_comment: Hollad cheñchamantoù %{id} - %{comment}
@@ -539,9 +555,13 @@ br:
       changesetxml: Hollad cheñchamantoù XML
       osmchangexml: Cheñchoùosm XML
     paging_nav:
+      nodes_title: Skoulmoù
       nodes_paginated: Skoulmoù (%{x}-%{y} diwar %{count})
+      ways_title: Hentoù
       ways_paginated: Hentoù (%{x}-%{y} diwar %{count})
+      relations_title: Darempredoù
       relations_paginated: Darempredoù (%{x}-%{y} diwar %{count})
+      range: '%{x}-%{y} diwar %{count}'
     not_found_message:
       sorry: 'Hon digarezit, n''eo ket bet kavet an hollad cheñchamantoù #%{id}.'
     timeout:
@@ -1452,6 +1472,7 @@ br:
           reservoir: Mirlenn
           basin: Oglenn
           fishpond: Poull-pesked
+          lagoon: Loc'h
           wastewater: Dour lous
           oxbow: Brec'h marv
           lock: Skluz
@@ -1475,16 +1496,37 @@ br:
           weir: Stankell
           "yes": Hent bageal
       admin_levels:
-        level2: Bevenn ar vro
-        level3: Harzoù Rannvro
-        level4: Bevenn ar Stad
-        level5: Bevenn ar rannvro
-        level6: Bevenn ar gontelezh
-        level7: Bevenn kêr
-        level8: Bevenn kêr
-        level9: Bevenn ar gumun
-        level10: Bevenn ar bannlev
-        level11: Harzoù amezegezh
+        level2: Harzoù etrebroadel
+        level3: Harzoù melestradurel (live 3)
+        level4: Harzoù melestradurel (live 4)
+        level5: Harzoù melestradurel (live 5)
+        level6: Harzoù melestradurel (live 6)
+        level7: Harzoù melestradurel (live 7)
+        level8: Harzoù melestradurel (live 8)
+        level9: Harzoù melestradurel (live 9)
+        level10: Harzoù melestradurel (live 10)
+        level11: Harzoù melestradurel (live 11)
+      border_types:
+        arrondissement: Harzoù an arondisamant
+        city: Bevenn kêr
+        county: Harzoù ar gontelezh
+        departement: Harzoù an departamant
+        department: Harzoù an departamant
+        district: Harzoù an distrig
+        distrito: Harzoù an distrig
+        freguesia: Harzoù ar Freguesia (parrez)
+        municipality: Bevenn kêr
+        municipi: Bevenn kêr
+        município: Bevenn kêr
+        nation: Harzoù etrebroadel
+        national: Harzoù etrebroadel
+        neighbourhood: Harzoù ar c'harter
+        parish: Harzoù ar barrez
+        province: Harzoù ar broviñs
+        região: Harzoù ar rannvro
+        region: Harzoù ar rannvro
+        state: Harzoù ar stad
+        village: Harzoù ar gêriadenn
     results:
       no_results: N'eus bet kavet respont ebet
       more_results: Disoc'hoù all
@@ -1497,6 +1539,7 @@ br:
       select_status: Diuzañ ur statud
       select_type: Diuzañ ur seurt
       reported_user: Implijer diskêriet
+      not_managed: N'eo ket meret
       search: Klask
       search_guidance: 'Kudennoù enklask :'
       states:
@@ -1668,8 +1711,8 @@ br:
       imported_points: Niver a boentoù enporzhiet
     gpx_failure:
       hi: Demat %{to_user},
-      failed_to_import: 'n''en deus ket gallet bezañ enporzhiet. Setu amañ ar fazi
-        :'
+      failed_to_import: War a seblant n'haller ket enporzhiañ ho restr evel ur roudenn
+        GPS.
       subject: '[OpenStreetMap] fazi e-pad an enporzhiadur GPX'
     gpx_success:
       hi: Demat %{to_user},
@@ -2736,10 +2779,17 @@ br:
       show:
         title: Implijerien
         heading: Implijerien
+        select_status: Diuzañ ur statud
         states:
+          pending: O c'hortoz
+          active: Oberiant
+          confirmed: Kadarnaet
           deleted: Dilamet
         name_or_email: Anv pe postel
         ip_address: Chomlec'h IP
+        edits: Kemmoù?
+        has_edits: Kemmoù en/he deus graet
+        no_edits: Kemm ebet
         search: Klask
       page:
         found_users:
@@ -2877,6 +2927,7 @@ br:
         ended: echu
         revoked_html: nullet gant %{name}
         active: oberiant
+        active_until_read: oberiant betek ma vefe lennet
         read_html: bet lennet da %{time}
         time_in_future_title: '%{time_absolute}; e %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -2988,6 +3039,8 @@ br:
         ha skrivit un notenn da zisplegañ ar gudenn.
       anonymous_warning_log_in: kevreañ
       anonymous_warning_sign_up: en em enskrivañ
+      counter_warning_guide_link:
+        text: kemerit perzh c'hwi hoc'h-unan
       counter_warning_forum_link:
         text: ar gumuniezh a c'hall sikour ac'hanoc'h
       advice: Foran eo ho notenn ha ne c'hall ket bezañ implijet evit hizivaat ar
@@ -3068,6 +3121,7 @@ br:
       thunderforest_credit: Teol pourchaset gant %{thunderforest_link}
       andy_allan: Andy Allan
       tracestrack_credit: Teol pourchaset gant %{tracestrack_link}
+      hotosm_name: Skipailh dengar OpenStreetMap
     site:
       edit_tooltip: Kemmañ ar gartenn
       edit_disabled_tooltip: Zoumañ da zegas kemmoù war ar gartenn
@@ -3181,6 +3235,15 @@ br:
       centre_map: Kreizañ ar gartenn amañ
     home:
       marker_title: Lec'hiadur ma zi
+    heatmap:
+      tooltip:
+        no_contributions: Degasadenn ebet d'an %{date}
+        contributions:
+          one: '%{count} degasadenn d''an %{date}'
+          two: '%{count} zegasadenn d''an %{date}'
+          few: '%{count} degasadenn d''an %{date}'
+          many: '%{count} degasadenn d''an %{date}'
+          other: '%{count} a zegasadennoù d''an %{date}'
   redactions:
     edit:
       heading: Aozañ ar skridaozadenn

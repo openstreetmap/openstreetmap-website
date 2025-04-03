@@ -473,6 +473,13 @@ et:
         sorry: Vabandust, sinu päritud muudatuskogumi kommetaaride loendi laadimiseks
           kulus liiga kaua aega.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} kommentaar'
+        other: '%{count} kommentaari'
+      changes:
+        one: '%{count} muudatus'
+        other: '%{count} muudatust'
     index:
       title: Muudatuskogumid
       title_user: Kasutaja %{user} muudatuskogumid
@@ -485,7 +492,6 @@ et:
       no_more: Rohkem muudatuskogumeid ei leitud.
       no_more_area: Sellest alast ei leitud rohkem muudatuskogumeid.
       no_more_user: Sellelt kasutajalt ei leitud rohkem muudatuskogumeid.
-      load_more: Laadi veel
       feed:
         title: Muudatuskogum %{id}
         title_comment: Muudatuskogum %{id} – %{comment}
@@ -514,9 +520,13 @@ et:
       changesetxml: Muudatuskogumi XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Sõlmed
       nodes_paginated: Sõlmed (%{x}–%{y} %{count}-st)
+      ways_title: Jooned
       ways_paginated: Jooned (%{x}–%{y} %{count}-st)
+      relations_title: Relatsioonid
       relations_paginated: Relatsioonid (%{x}–%{y} %{count}-st)
+      range: '%{x}–%{y} %{count}-st'
     timeout:
       sorry: Kahjuks võttis taotletud muudatuskogumite laadimine liiga kaua aega.
   changeset_subscriptions:
@@ -646,14 +656,14 @@ et:
       profile: Vaata oma profiili
   errors:
     contact:
-      contact: kontaktide
-      contact_the_community_html: Kui avastad katkise lingi või vea, palun kirjuta
-        sellest OpenStreetMapi kogukonnale siin %{contact_link} aadressil. Palun lisa
-        teatesse ka päringu täpne URL.
+      contact: ühendust
+      contact_the_community_html: Võta OpenStreetMapi kogukonnaga julgesti %{contact_link},
+        kui oled leidnud katkise lingi või vea. Palun lisa teatesse ka päringu täpne
+        URL.
     forbidden:
       title: Keelatud
-      description: Tegevus, mida sa üritasid OpenStreetMap'i serveris teha on lubadud
-        vaid administraatoriele (HTTP 403)
+      description: Tegevus, mida üritasid OpenStreetMapi serveris teha, on lubatud
+        vaid administraatoritele (HTTP 403)
     internal_server_error:
       title: Rakenduse viga
       description: OpenStreetMapi serveris tekkis ootamatu olukord, mistõttu vastust
@@ -671,8 +681,8 @@ et:
     search:
       title:
         latlon: Sisemised
-        osm_nominatim: OpenStreetMap Nominatimi
-        osm_nominatim_reverse: OpenStreetMap Nominatimi
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1430,15 +1440,15 @@ et:
           "yes": Veetee
       admin_levels:
         level2: Riigipiir
-        level3: 3. järgu piir
-        level4: 4. järgu piir
-        level5: 5. järgu piir
-        level6: 6. järgu piir
-        level7: Omavalitsusüksuse piir
-        level8: 8. järgu piir
-        level9: 9. järgu piir
-        level10: 10. järgu piir
-        level11: Naabruskonna piirjoon
+        level3: Halduspiir (3. tase)
+        level4: Halduspiir (4. tase)
+        level5: Halduspiir (5. tase)
+        level6: Halduspiir (6. tase)
+        level7: Halduspiir (7. tase)
+        level8: Halduspiir (8. tase)
+        level9: Halduspiir (9. tase)
+        level10: Halduspiir (10. tase)
+        level11: Halduspiir (11. tase)
     results:
       no_results: Ei leidnud midagi
       more_results: Veel tulemusi
@@ -2642,6 +2652,7 @@ et:
       my notes: Minu märkused
       my messages: Minu sõnumid
       my profile: Minu profiil
+      my_account: Minu konto
       my comments: Minu kommentaarid
       my_preferences: Minu eelistused
       my_dashboard: Minu andmelaud
@@ -2900,6 +2911,7 @@ et:
       open_title: 'Lahendamata märkus: #%{note_name}'
       closed_title: 'Lahendatud märkus: #%{note_name}'
       hidden_title: 'Peidetud märkus #%{note_name}'
+      description_when_author_is_deleted: kustutatud
       description_when_there_is_no_opening_comment: tundmatu
       event_opened_by_html: Loonud %{user} %{time_ago}
       event_opened_by_anonymous_html: Loonud anonüümne kasutaja %{time_ago}
@@ -3104,6 +3116,8 @@ et:
           ninth: "9"
           tenth: "10"
       time: Ajakulu
+      download: Laadi teekond alla GeoJSON-ina
+      filename: teekond
     query:
       node: Sõlm
       way: Joon
@@ -3118,6 +3132,12 @@ et:
       show_address: Kuva aadress
       query_features: Mis siin on?
       centre_map: Kuva kaardi keskel
+    heatmap:
+      tooltip:
+        no_contributions: Muudatused puuduvad – %{date}
+        contributions:
+          one: '%{count} muudatus – %{date}'
+          other: '%{count} muudatust – %{date}'
   redactions:
     edit:
       heading: Kinnikatmise redigeerimine

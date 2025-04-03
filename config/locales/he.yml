@@ -525,6 +525,8 @@ he:
     timeout:
       sorry: מצטערים, אחזור ההיסטוריה של נקודה מספר %{id} ארך זמן רב מדי.
   ways:
+    not_found_message:
+      sorry: מצטערים, לא ניתן למצוא את הדרך %{id}.
     timeout:
       sorry: מצטערים, אחזור הנתונים עבור הדרך מספר %{id} ארך זמן רב מדי.
   old_ways:
@@ -533,6 +535,8 @@ he:
     timeout:
       sorry: מצטערים, אחזור ההיסטוריה של דרך מספר %{id} ארך זמן רב מדי.
   relations:
+    not_found_message:
+      sorry: מצטערים, לא ניתן למצוא את היחס %{id}.
     timeout:
       sorry: מצטערים, אחזור הנתונים עבור היחס מספר %{id} ארך זמן רב מדי.
   old_relations:
@@ -552,10 +556,22 @@ he:
         sorry: מצטערים, הזמן שלקח לרשימת ההערות על ערכת השינויים שביקשת להתקבל ארוך
           מדי.
   changesets:
+    changeset:
+      comments:
+        one: תגובה אחת
+        two: '%{count} תגובות'
+        many: '%{count} תגובות'
+        other: '%{count} תגובות'
+      changes:
+        one: שינוי אחד
+        two: '%{count} שינויים'
+        many: '%{count} שינויים'
+        other: '%{count} שינויים'
     index:
       title: ערכות שינויים
       title_user: ערכות שינויים מאת %{user}
       title_user_link_html: ערכות שינויים מאת %{user_link}
+      title_followed: ערכות שינויים של משתמשים ברישמת המעקב שלך
       title_nearby: ערכות שינויים של משתמשים בסביבה
       empty: לא נמצאה אף ערכת שינויים.
       empty_area: אין ערכות שינויים באזור הזה.
@@ -563,7 +579,6 @@ he:
       no_more: לא נמצאו ערכות שינויים נוספות.
       no_more_area: אין עוד ערכות שינויים באזור הזה.
       no_more_user: אין ערכות שינויים נוספות מאת המשתמש הזה.
-      load_more: לטעון עוד
       feed:
         title: ערכת שינויים %{id}
         title_comment: ערכת שינויים %{id} – %{comment}
@@ -591,9 +606,15 @@ he:
       changesetxml: XML של ערכת השינויים
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: נקודות
       nodes_paginated: נקודות (%{x}–%{y} מתוך %{count})
+      ways_title: דרכים
       ways_paginated: קווים (%{x}–%{y} מתוך %{count})
+      relations_title: יחסים
       relations_paginated: יחסים (%{x}–%{y} מתוך %{count})
+      range: '%{x} עד %{y} מתוך %{count}'
+    not_found_message:
+      sorry: מצטערים, לא ניתן למצוא את ערכת השינויים %{id}.
     timeout:
       sorry: מצטערים, קבלת רשימת ערכות השינויים שביקשת אורכת זמן רב מדי.
   changeset_subscriptions:
@@ -621,13 +642,18 @@ he:
     popup:
       your location: מיקומך
       nearby mapper: ממפה סמוך
+      following: משתמש ברשימת המעקב שלך
     show:
       title: לוח הבקרה שלי
       no_home_location_html: '%{edit_profile_link} והגדרת מיקום הבית שלך לצפייה במשתמשים
         קרובים.'
       edit_your_profile: עריכת הפרופיל שלך
+      followings: משתמשים ברשימת המעקב שלך
+      no followings: לא עקבת עדיין אחרי שום משתמש
       nearby users: עוד משתמשים בסביבה
       no nearby users: אין עדיין עוד משתמשים שמודים שהם מיפו בסביבה.
+      followed_changesets: ערכות שינויים
+      followed_diaries: רשומות ביומן
       nearby_changesets: ערכות השינויים של משתמשים בסביבה
       nearby_diaries: רשומות יומן של משתמשים בסביבה
   diary_entries:
@@ -638,6 +664,7 @@ he:
       use_map_link: להשתמש במפה
     index:
       title: יומנים של המשתמש
+      title_followed: יומנים של משתמשים ברשימת המעקב שלך
       title_nearby: יומנים של משתמשים בסביבה
       user_title: היומן של %{user}
       in_language_title: רשומות יומן ב%{language}
@@ -756,6 +783,23 @@ he:
       title: הקובץ לא נמצא
       description: איתור קובץ/תיקייה/פעולת API בשם הזה בשרת של OpenStreetMap לא הצליחה
         (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: האם ברצונך לעקוב אחר %{user}?
+        button: לעקוב אחר משתמש
+      unfollow:
+        heading: האם ברצונך להפסיק לעקוב אחר %{user}?
+        button: להפסיק לעקוב אחר משתמש
+    create:
+      success: התחלת לעקוב אחר %{name}!
+      failed: מצטערים, בקשתך לעקוב אחר %{name} נכשלה.
+      already_followed: משתמש %{name} כבר ברשימת המעקב שלך.
+      limit_exceeded: התחלת לעקוב אחר משתמשים רבים לאחרונה. נא להמתין לפני ניסיון
+        לעקוב אחר משתמשים נוספים.
+    destroy:
+      success: הפסקת לעקוב אחר %{name}.
+      not_followed: הפסקת לעקוב אחר %{name}.
   geocoder:
     search:
       title:
@@ -1010,6 +1054,7 @@ he:
           bridleway: שביל עבור סוסים
           bus_guideway: נתיב תחבורה ציבורית מודרכת
           bus_stop: תחנת אוטובוס
+          busway: דרך לאוטובוסים
           construction: דרך בבנייה
           corridor: פרוזדור
           crossing: מעבר
@@ -1546,15 +1591,15 @@ he:
           "yes": נתיב שיט לא מוגדר
       admin_levels:
         level2: גבול בין מדינות
-        level3: גבול מנהלי (רמה 3)
-        level4: גבול מחוזגבול מנהלי (רמה 4)
-        level5: גבול מחוזגבול מנהלי (רמה 5)
-        level6: גבול מחוזגבול מנהלי (רמה 6)
-        level7: גבול מחוזגבול מנהלי (רמה 7)
-        level8: גבול מחוזגבול מנהלי (רמה 8)
-        level9: גבול מחוזגבול מנהלי (רמה 9)
-        level10: גבול מחוזגבול מנהלי (רמה 10)
-        level11: גבול מחוזגבול מנהלי (רמה 11)
+        level3: גבול שטח שיפוט (רמה 3)
+        level4: גבול שטח שיפוט (רמה 4)
+        level5: גבול שטח שיפוט (רמה 5)
+        level6: גבול שטח שיפוט (רמה 6)
+        level7: גבול שטח שיפוט (רמה 7)
+        level8: גבול שטח שיפוט (רמה 8)
+        level9: גבול שטח שיפוט (רמה 9)
+        level10: גבול שטח שיפוט (רמה 10)
+        level11: גבול שטח שיפוט (רמה 11)
       border_types:
         arrondissement: גבול נפה (ארונדיסמן)
         borough: גבול רובע (borough)
@@ -1593,7 +1638,9 @@ he:
       title: בעיות
       select_status: בחירת מצב
       select_type: בחירת סוג
+      select_last_managed_by: בחירת "נוהל לאחרונה לפי"
       reported_user: המשתמש המדוּוח
+      not_managed: לא מנוהל
       search: חיפוש
       search_guidance: 'חיפוש בעיות:'
       states:
@@ -1607,6 +1654,8 @@ he:
       status: מצב
       reports: דיווחים
       last_updated: עדכון אחרון
+      last_managed: נוהל לאחרונה
+      reporting_users: משתמשים מדווחים
       reports_count:
         one: דיווח אחד
         two: '%{count} דיווחים'
@@ -1648,12 +1697,26 @@ he:
       reopened: מצב הבעיות שונה ל„פתוחה”
     comments:
       comment_from_html: תגובה מאת %{user_link} על %{comment_created_at}
+      reassign_to_moderators: להקצות את הבעיה מחדש למפקחים
+      reassign_to_administrators: להקצות את הבעיה מחדש למנהלים
     reports:
       reported_by_html: דווח בתור %{category} על־ידי %{user} ב־%{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, תגובה מס׳ %{comment_id}'
         note: הערה מס׳ %{note_id}
+      reportable_heading:
+        diary_comment_html: הערת היומן %{title} נוצרה ב־%{datetime_created}, עודכנה
+          ב־%{datetime_updated}
+        diary_entry_html: רשומת היומן %{title} נוצרה ב־%{datetime_created}, עודכנה
+          ב־%{datetime_updated}
+        note_html: '%{title} נוצר ב־%{datetime_created}, עודכן ב-%{datetime_updated}'
+        user_html: המשתמש %{title} נוצר ב־%{datetime_created}
+    reporters:
+      index:
+        title: 'המדווחים של הבעיה #%{issue_id}'
+      reporters:
+        more_reporters: ועוד %{count}
   issue_comments:
     create:
       comment_created: התגובה שלך נוצרה בהצלחה
@@ -1723,6 +1786,13 @@ he:
     communities: קהילות
     learn_more: מידע נוסף
     more: עוד
+    offline_flash:
+      osm_offline: מסד הנתונים של אתר OpenStreetMap אינו מקוון כעת בשל ביצוע עבודות
+        תחזוקה.
+      osm_read_only: מסד הנתונים של אתר OpenStreetMap נתון כעת במצב קריאה בלבד בשל
+        עבודות תחזוקה המבוצעות בו.
+      expected_restore_html: השירותים צפויים להיות לחזור לפעילות בעוד %{time}.
+      announcement: אפשר לקרוא את ההודעה כאן.
   user_mailer:
     diary_comment_notification:
       description: רשומת יומן OpenStreetMap מס׳ %{id}
@@ -1746,8 +1816,12 @@ he:
         %{replyurl}
     follow_notification:
       hi: שלום %{to_user},
+      subject: '[אופן סטריט מאפ OpenStreetMap] משתמש %{user} הוסיף אותך לרשימת המעקב'
+      followed_you: המשתמש %{user} הוסיף אותך לרשימת המעקב ב־OpenStreetMap.
       see_their_profile: באפשרותך לצפות בפרופיל שלו בכתובת %{userurl}.
       see_their_profile_html: באפשרותך לצפות בפרופיל שלו בכתובת %{userurl}.
+      follow_them: באפשרותך להוסיף את החשבון הזה לרשימת המעקב שלך ב־%{followurl}.
+      follow_them_html: אפשר גם להוסיף את החשבון הזה לרשימת המעקב בדף %{followurl}.
     gpx_details:
       details: 'פרטי הקובץ שלך:'
       filename: שם הקובץ
@@ -1755,18 +1829,20 @@ he:
       description: תיאור
       tags: תגים
       total_points: סך הנקודות
+      imported_points: מספר הנקודות שיובאוי
     gpx_failure:
       hi: שלום %{to_user},
-      failed_to_import: 'הייבוא כקובץ מסלול GPS נכשל. נא לוודא שהקובץ שלך הוא קובץ
-        GPX תקני או ארכיון בתסדירים הנתמכים (‎.tar.gz,‏ ‎.tar.bz2,‏ ‎.tar,‏ ‎.zip,‏
-        ‎.gpx.gz,‏ ‎.gpx.bz2) שמכיל קובצי GPX. יכול להיות שיש בעיית תחביר או תסדיר
-        בקובץ שלך? הנה שגיאת הייבוא:'
-      more_info: מידע נוסף על תקלות ביבוא GPX ועל איך להימנע מהן נמצא בכתובת %{url}.
+      failed_to_import: נראה שיבוא הקובץ שלך בתור מסלול GPS נכשל.
+      verify: 'נא לוודא שהקובץ שלך הוא קובץ GPX תקין או ארכיון בתסדירים הנתמכים (‎.tar.gz,‏
+        ‎.tar.bz2,‏ ‎.tar,‏ ‎.zip,‏ ‎.gpx.gz,‏ ‎.gpx.bz2) שמכיל קובצי GPX. יכול להיות
+        שיש בעיית תחביר או תסדיר בקובץ שלך? הנה שגיאת היבוא:'
+      more_info: מידע נוסף על תקלות ביבוא GPX ועל איך להימנע מהן נמצא בכתובת %{url}
       more_info_html: מידע נוסף על תקלות ביבוא GPX ועל איך להימנע מהן נמצא בכתובת
         %{url}.
       subject: '[אופן סטריט מאפ OpenStreetMap] שגיאה בייבוא GPX'
     gpx_success:
       hi: שלום %{to_user},
+      imported_successfully: נראה שהקובץ שלך יובא בהצלחה כמסלול GPS.
       all_your_traces: אפשר למצוא את כל הקלטות ה־GPX שלך בכתובת %{url}
       all_your_traces_html: אפשר למצוא את כל עקבות ה־GPX שלך שהועלו בהצלחה דרך %{url}.
       subject: '[אופן סטריט מאפ OpenStreetMap] ייבוא GPX הצליח'
@@ -2060,6 +2136,9 @@ he:
       preview: תצוגה מקדימה
       help: עזרה
     pagination:
+      changeset_comments:
+        older: הערות ישנות
+        newer: הערות חדשות
       diary_comments:
         older: הערות ישנות
         newer: הערות חדשות
@@ -2942,6 +3021,12 @@ he:
           confirmed: מאושר
           suspended: מושהה
           deleted: מחוק
+        name_or_email: שם או דוא״ל
+        ip_address: כתובת IP
+        edits: עריכות?
+        has_edits: יש עריכות
+        no_edits: אין עריכות
+        search: חיפוש
       page:
         found_users:
           one: נמצא משתמש אחד
@@ -2954,8 +3039,17 @@ he:
       user:
         summary_html: '%{name} נוצר מכתובת %{ip_address} ב־%{date}'
         summary_no_ip_html: '%{name} נוצר ב־%{date}'
+    comments:
+      index:
+        heading_html: הערות של %{user}
+        changesets: ערכות שינויים
+        diary_entries: רשומות ביומן
+        no_comments: אין תגובות
     changeset_comments:
+      index:
+        title: תגובות על ערכות שינויים שנוספו על־ידי %{user}
       page:
+        changeset: ערכת שינויים
         when: מתי
         comment: תגובה
     diary_comments:
@@ -2963,6 +3057,7 @@ he:
         title: הערות יומן שנוספו על־ידי %{user}
       page:
         post: רשומה
+        when: מתי
         comment: הערה
     suspended:
       title: החשבון הושעה
@@ -3144,6 +3239,7 @@ he:
       closed_title: הערה פתורה מס׳ %{note_name}
       hidden_title: הערה מוסתרת מס׳ %{note_name}
       description_when_author_is_deleted: נמחק
+      description_when_there_is_no_opening_comment: לא ידוע
       event_opened_by_html: נוצר על־ידי %{user} %{time_ago}
       event_opened_by_anonymous_html: נוצר על־ידי אלמוני %{time_ago}
       event_commented_by_html: הערה מאת %{user} %{time_ago}
@@ -3178,6 +3274,15 @@ he:
         על ההערה שלך ולעזור לממפים לפתור את זה.
       anonymous_warning_log_in: להיכנס לחשבון
       anonymous_warning_sign_up: להירשם
+      counter_warning_html: כבר פרסמת לפחות %{x_anonymous_notes}, זה נהדר עבור הקהילה,
+        תודה! כעת אנו ממליצים לך %{contribute_by_yourself}, זה לא כל־כך מסובך, ו%{community_can_help}.
+      x_anonymous_notes:
+        one: הערה אלמונית אחת
+        two: '%{count} הערות אלמוניות'
+        many: '%{count} הערות אלמוניות'
+        other: '%{count} הערות אלמוניות'
+      counter_warning_guide_link:
+        text: לתרום בעצמך
       counter_warning_forum_link:
         text: הקהילה יכולה לעזור לך
       advice: /start
@@ -3190,6 +3295,8 @@ he:
       showing_page: הדף %{page}
       next: הבא
       previous: הקודם
+    not_found_message:
+      sorry: מצטערים, לא ניתן למצוא את ההערה %{id}.
   javascripts:
     close: סגירה
     share:
@@ -3349,6 +3456,8 @@ he:
           ninth: תשיעית
           tenth: עשירית
       time: זמן
+      download: הורדת מסלול בתור GeoJSON
+      filename: מסלול
     query:
       node: נקודה
       way: דרך
@@ -3363,6 +3472,17 @@ he:
       show_address: להציג כתובת
       query_features: שאילתת ישויות
       centre_map: למרכז את המפה כאן
+    home:
+      marker_title: מיקום הבית שלי
+      not_set: מיקום הבית לא מוגדר עבור החשבון שלך
+    heatmap:
+      tooltip:
+        no_contributions: אין תרומות ב־%{date}
+        contributions:
+          one: תרומה אחת ב־%{date}
+          two: '%{count} תרומות ב־%{date}'
+          many: '%{count} תרומות ב־%{date}'
+          other: '%{count} תרומות ב־%{date}'
   redactions:
     edit:
       heading: עריכת הסרה
