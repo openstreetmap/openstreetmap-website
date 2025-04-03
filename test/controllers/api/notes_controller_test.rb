@@ -17,6 +17,10 @@ module Api
         { :controller => "api/notes", :action => "create" }
       )
       assert_routing(
+        { :path => "/api/0.6/notes/1", :method => :put },
+        { :controller => "api/notes", :action => "update", :id => "1" }
+      )
+      assert_routing(
         { :path => "/api/0.6/notes/1", :method => :get },
         { :controller => "api/notes", :action => "show", :id => "1" }
       )
@@ -105,7 +109,18 @@ module Api
       assert_difference "Note.count", 1 do
         assert_difference "NoteComment.count", 1 do
           assert_no_difference "NoteSubscription.count" do
-            post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
+            assert_difference "NoteTag.count", 2 do
+              post api_notes_path(
+                :lat => -1.0,
+                :lon => -1.0,
+                :tags => {
+                  "created_by" => "OSM_TEST",
+                  "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր" => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ"
+                }.to_json,
+                :text => "This is a comment",
+                :format => "json"
+              )
+            end
           end
         end
       end
@@ -116,6 +131,9 @@ module Api
       assert_equal "Point", js["geometry"]["type"]
       assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
       assert_equal "open", js["properties"]["status"]
+      assert_equal 2, js["properties"]["tags"].count
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
       assert_equal 1, js["properties"]["comments"].count
       assert_equal "opened", js["properties"]["comments"].last["action"]
       assert_equal "This is a comment", js["properties"]["comments"].last["text"]
@@ -131,6 +149,9 @@ module Api
       assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
       assert_equal id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
+      assert_equal 2, js["properties"]["tags"].count
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
       assert_equal 1, js["properties"]["comments"].count
       assert_equal "opened", js["properties"]["comments"].last["action"]
       assert_equal "This is a comment", js["properties"]["comments"].last["text"]
@@ -239,6 +260,44 @@ module Api
 
         assert_response :forbidden
       end
+    end
+
+    def test_update_note
+      user = create(:user)
+
+      # Create first version of note
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user, :body => "Note description")
+      create(:note_tag, :note => note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
+
+      # Get authorization header
+      auth_header = bearer_authorization_header(user).merge({ "Accept" => "application/json" })
+
+      # Define updated parameters
+      updated_params = {
+        :id => note.id,
+        :lat => -2.0,
+        :lon => -2.0,
+        :text => "Updated note description",
+        :tags => { "created_by" => "UPDATED_TEST" }.to_json
+      }
+
+      # Update note (creates second version of note)
+      put api_note_path(note), :params => updated_params, :headers => auth_header
+      assert_response :success
+
+      # Parse and validate the JSON response
+      updated_js = ActiveSupport::JSON.decode(@response.body)
+
+      # Check content of second version of the note
+      assert_not_nil updated_js
+      assert_equal "Feature", updated_js["type"]
+      assert_equal "Point", updated_js["geometry"]["type"]
+      assert_equal [-2.0, -2.0], updated_js["geometry"]["coordinates"]
+      assert_equal "open", updated_js["properties"]["status"]
+      assert_equal 1, updated_js["properties"]["tags"].count
+      assert_equal "UPDATED_TEST", updated_js["properties"]["tags"]["created_by"]
     end
 
     def test_comment_success
@@ -601,6 +660,8 @@ module Api
 
     def test_show_success
       open_note = create(:note_with_comments)
+      create(:note_tag, :note => open_note, :k => "created_by", :v => "OSM_TEST")
+      create(:note_tag, :note => open_note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
 
       get api_note_path(open_note, :format => "xml")
       assert_response :success
@@ -617,6 +678,8 @@ module Api
             assert_select "comment", :count => 1
           end
         end
+        assert_select "tag[k='created_by'][v='OSM_TEST']", :count => 1
+        assert_select "tag[k='삭ÒX~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|傥4ր'][v='Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|؇Őϋ']", :count => 1
       end
 
       get api_note_path(open_note, :format => "rss")
@@ -650,6 +713,8 @@ module Api
       assert_equal close_api_note_url(open_note, :format => "json"), js["properties"]["close_url"]
       assert_equal open_note.created_at.to_s, js["properties"]["date_created"]
       assert_equal open_note.status, js["properties"]["status"]
+      assert_equal "OSM_TEST", js["properties"]["tags"]["created_by"]
+      assert_equal "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ", js["properties"]["tags"]["삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"]
 
       get api_note_path(open_note, :format => "gpx")
       assert_response :success
@@ -665,6 +730,8 @@ module Api
             assert_select "url", api_note_url(open_note, :format => "gpx")
             assert_select "comment_url", comment_api_note_url(open_note, :format => "gpx")
             assert_select "close_url", close_api_note_url(open_note, :format => "gpx")
+            assert_select "tag[k='created_by'][v='OSM_TEST']", :count => 1
+            assert_select "tag[k='삭ÒX~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|傥4ր'][v='Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:\\'\"[{}]\\\\|؇Őϋ']", :count => 1
           end
         end
       end
