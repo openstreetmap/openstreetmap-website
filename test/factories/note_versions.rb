@@ -6,6 +6,7 @@ FactoryBot.define do
     tile { 1 }
     status { "open" }
     note_comment_id { 1 }
+    event { "opened" }
 
     note :factory => :note
 
