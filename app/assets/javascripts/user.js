@@ -1,4 +1,3 @@
-//= require leaflet.locatecontrol/dist/L.Control.Locate.umd
 //= require leaflet.locate
 
 (function () {
