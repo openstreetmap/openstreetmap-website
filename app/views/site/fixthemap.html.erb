@@ -1,7 +1,3 @@
-<% content_for :head do %>
- <%= javascript_include_tag "fixthemap" %>
-<% end %>
-
 <% content_for :heading do %>
   <h1><%= t ".title" %></h1>
 <% end %>
@@ -23,6 +19,7 @@
     <h3 class='fs-5'><%= t "site.welcome.add_a_note.title" %></h3>
     <p><%= t "site.welcome.add_a_note.para_1" %></p>
     <p><%= t ".how_to_help.add_a_note.instructions_1_html", :note_icon => tag.a(:class => "icon note bg-dark rounded-1",
+                                                                                :href => new_note_path(:anchor => map_hash(params)),
                                                                                 :title => t("javascripts.site.createnote_tooltip")) %></p>
   </div>
 </div>

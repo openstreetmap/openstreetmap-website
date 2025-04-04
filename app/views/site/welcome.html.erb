@@ -81,7 +81,7 @@
 <% if params[:oauth_return_url] %>
   <a class="btn btn-primary" href="<%= params[:oauth_return_url] %>"><%= t ".continue_authorization" %></a>
 <% else %>
-  <a class="btn btn-primary start-mapping" href="<%= edit_path %>"><%= t ".start_mapping" %></a>
+  <%= link_to t(".start_mapping"), edit_path(:editor => params[:editor], :anchor => map_hash(params)), :class => "btn btn-primary start-mapping" %>
 <% end %>
 </div>
 
