@@ -142,10 +142,7 @@ OSM.History = function (map) {
 
   function setPaginationMapHashes() {
     $("#sidebar .pagination a").each(function () {
-      $(this).prop("hash", OSM.formatHash({
-        center: map.getCenter(),
-        zoom: map.getZoom()
-      }));
+      $(this).prop("hash", OSM.formatHash(map));
     });
   }
 
