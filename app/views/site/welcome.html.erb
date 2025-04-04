@@ -81,7 +81,9 @@
 <% if params[:oauth_return_url] %>
   <a class="btn btn-primary" href="<%= params[:oauth_return_url] %>"><%= t ".continue_authorization" %></a>
 <% else %>
-  <a class="btn btn-primary start-mapping" href="<%= edit_path %>"><%= t ".start_mapping" %></a>
+  <%= map_hash = "#map=#{params[:zoom].to_i || 17}/#{params[:lat].to_f}/#{params[:lon].to_f}" if params[:lat].present? && params[:lon].present?
+      editor_query = "?editor=#{params[:editor].to_s.split(/\W/)[0]}" if params[:editor].present?
+      link_to t(".start_mapping"), "#{edit_path}#{editor_query || ''}#{map_hash || ''}", :class => "btn btn-primary start-mapping" %>
 <% end %>
 </div>
 
