@@ -17,6 +17,8 @@ class ProfilesController < ApplicationController
       current_user.description_format = "markdown"
     end
 
+    current_user.show_contribution_heatmap = params[:user][:show_contribution_heatmap] if params[:user][:show_contribution_heatmap] != current_user.show_contribution_heatmap
+
     case params[:avatar_action]
     when "new"
       current_user.avatar.attach(params[:user][:avatar])
