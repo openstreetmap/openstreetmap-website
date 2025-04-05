@@ -12,7 +12,7 @@
       <% if current_user and @user.id == current_user.id %>
         <!-- Displaying user's own profile page -->
         <nav class='secondary-actions'>
-          <ul class='clearfix'>
+          <ul>
             <li>
               <%= link_to t(".my edits"), :controller => "changesets", :action => "index", :display_name => current_user.display_name %>
               <span class='badge count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
@@ -57,7 +57,7 @@
         <% else %>
         <!-- Displaying user profile page to the public -->
         <nav class='secondary-actions'>
-          <ul class='clearfix'>
+          <ul>
 
             <li>
               <%= link_to t(".edits"), :controller => "changesets", :action => "index", :display_name => @user.display_name %>
@@ -167,7 +167,7 @@
 
       <% if can?(:update, :user_status) %>
         <nav class='secondary-actions'>
-          <ul class='clearfix'>
+          <ul>
             <% if @user.may_activate? %>
               <li>
                 <%= link_to t(".activate_user"), user_status_path(@user, :event => "activate"), :method => :put, :data => { :confirm => t(".confirm") } %>
@@ -235,7 +235,7 @@
   </div>
 <% end %>
 
-<div class="richtext text-break clearfix"><%= @user.description.to_html %></div>
+<div class="richtext text-break"><%= @user.description.to_html %></div>
 
 <% if @heatmap_data.present? %>
   <div class="row">
