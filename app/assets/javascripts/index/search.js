@@ -18,9 +18,15 @@ OSM.Search = function (map) {
   $(".search_form").on("submit", function (e) {
     e.preventDefault();
     $("header").addClass("closed");
-    const query = $(this).find("input[name=query]").val();
-    let search = "/";
-    if (query) search = "/search?" + new URLSearchParams({ query });
+    const params = new URLSearchParams({
+      query: this.elements.query.value,
+      zoom: map.getZoom(),
+      minlon: map.getBounds().getWest(),
+      minlat: map.getBounds().getSouth(),
+      maxlon: map.getBounds().getEast(),
+      maxlat: map.getBounds().getNorth()
+    });
+    const search = params.get("query") ? `/search?${params}` : "/";
     OSM.router.route(search + OSM.formatHash(map));
   });
 
@@ -118,14 +124,7 @@ OSM.Search = function (map) {
       const entry = $(this);
       fetch(entry.data("href"), {
         method: "POST",
-        body: new URLSearchParams({
-          zoom: map.getZoom(),
-          minlon: map.getBounds().getWest(),
-          minlat: map.getBounds().getSouth(),
-          maxlon: map.getBounds().getEast(),
-          maxlat: map.getBounds().getNorth(),
-          ...OSM.csrf
-        })
+        body: new URLSearchParams(OSM.csrf)
       })
         .then(response => response.text())
         .then(function (html) {
