@@ -132,6 +132,8 @@ OSM.initializeDataLayer = function (map) {
         if (map._objectLayer) {
           map._objectLayer.bringToFront();
         }
+
+        dataLoader = null;
       })
       .catch(function (error) {
         if (error.name === "AbortError") return;
@@ -139,9 +141,10 @@ OSM.initializeDataLayer = function (map) {
         displayLoadError(error?.message, () => {
           $("#browse_status").empty();
         });
+
+        dataLoader = null;
       })
       .finally(() => {
-        dataLoader = null;
         spanLoading.remove();
       });
   }
