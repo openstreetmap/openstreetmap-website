@@ -2,21 +2,6 @@ OSM.initializeDataLayer = function (map) {
   let dataLoader, loadedBounds;
   const dataLayer = map.dataLayer;
 
-  dataLayer.setStyle({
-    way: {
-      weight: 3,
-      color: "#000000",
-      opacity: 0.4
-    },
-    area: {
-      weight: 3,
-      color: "#ff0000"
-    },
-    node: {
-      color: "#00ff00"
-    }
-  });
-
   dataLayer.isWayArea = function () {
     return false;
   };
