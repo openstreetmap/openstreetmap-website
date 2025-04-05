@@ -43,7 +43,7 @@ L.OSM.Map = L.Map.extend({
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = { code: "N" };
 
-    this.dataLayer = new L.OSM.DataLayer(null, { asynchronous: true });
+    this.dataLayer = new L.OSM.DataLayer(null);
     this.dataLayer.options.code = "D";
 
     this.gpsLayer = new L.OSM.GPS({
