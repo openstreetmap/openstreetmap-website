@@ -49,7 +49,7 @@ class User < ApplicationRecord
   require "digest"
   include AASM
 
-  CONFIRMATION_TOKENS = %i[account_confirmation new_user new_email]
+  CONFIRMATION_TOKENS = [:account_confirmation, :new_user, :new_email]
 
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
@@ -494,11 +494,11 @@ class User < ApplicationRecord
 
     oldsetting = image_use_gravatar
     self.image_use_gravatar = available
-    oldsetting != image_use_gravatar
 
     save
-  end
 
+    oldsetting != image_use_gravatar
+  end
 
   private
 

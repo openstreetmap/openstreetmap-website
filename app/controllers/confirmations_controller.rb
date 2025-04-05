@@ -11,7 +11,7 @@ class ConfirmationsController < ApplicationController
   authorize_resource :class => false
 
   before_action :check_database_writable, :only => [:new, :show, :create]
-  before_action :require_cookies, :only => [:new, :show, :create]
+  before_action :require_cookies, :only => [:show]
 
   def show
     if params[:confirm_string]
@@ -40,7 +40,7 @@ class ConfirmationsController < ApplicationController
 
         gravatar_enabled = user.gravatar_enable
 
-        if user.errors
+        if user.errors.any?
           flash[:errors] = user.errors
         else
           flash[:notice] = if gravatar_enabled
@@ -73,7 +73,7 @@ class ConfirmationsController < ApplicationController
       flash[:notice] = { :partial => "confirmations/resend_success_flash", :locals => { :email => user.email, :sender => Settings.email_from } }
     end
 
-    redirect_to login_path
+    redirect_to new_confirmations_path
   end
 
   private

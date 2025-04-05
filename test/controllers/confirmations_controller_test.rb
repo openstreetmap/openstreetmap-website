@@ -181,7 +181,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_redirected_to login_path
+    assert_redirected_to new_confirmations_path
     assert_equal("confirmations/resend_success_flash", flash[:notice][:partial])
     assert_equal({ :email => user.email, :sender => Settings.email_from }, flash[:notice][:locals])
 
@@ -202,7 +202,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_redirected_to login_path
+    assert_redirected_to new_confirmations_path
     assert_match "User #{user.display_name} not found.", flash[:error]
   end
 
@@ -213,7 +213,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_redirected_to login_path
+    assert_redirected_to new_confirmations_path
     assert_match "User No Such User not found.", flash[:error]
   end
 
