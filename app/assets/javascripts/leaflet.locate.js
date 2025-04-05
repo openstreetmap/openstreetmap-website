@@ -1,3 +1,5 @@
+//= require leaflet.locatecontrol/dist/L.Control.Locate.umd
+
 L.OSM.locate = function (options) {
   const control = L.control.locate({
     icon: "icon geolocate",
