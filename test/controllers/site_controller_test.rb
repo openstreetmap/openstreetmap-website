@@ -97,7 +97,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => :notes, :action => :show, :id => 123
 
     get root_path(:query => "test")
-    assert_redirected_to :controller => :geocoder, :action => :search, :query => "test"
+    assert_redirected_to search_path(:query => "test")
 
     get root_path(:lat => 4, :lon => 5)
     assert_redirected_to :controller => :site, :action => :index, :anchor => "map=5/4/5"
