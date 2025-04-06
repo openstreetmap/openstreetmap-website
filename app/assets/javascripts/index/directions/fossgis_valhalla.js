@@ -47,8 +47,7 @@
 
       const steps = leg.maneuvers.map(manoeuvre => {
         const lineseg = line
-          .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1)
-          .map(([lat, lng]) => ({ lat, lng }));
+          .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1);
         return [
           lineseg[0],
           INSTR_MAP[manoeuvre.type],

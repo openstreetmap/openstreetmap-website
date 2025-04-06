@@ -94,7 +94,7 @@
         const instrPrefix = "javascripts.directions.instructions.";
         let template = instrPrefix + INSTRUCTION_TEMPLATE[maneuver_id];
 
-        const step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(L.latLng);
+        const step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 });
 
         let instText;
         const destinations = "<b>" + step.destinations + "</b>";

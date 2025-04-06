@@ -23,8 +23,7 @@
 
       const steps = path.instructions.map(function (instr) {
         const lineseg = line
-          .slice(instr.interval[0], instr.interval[1] + 1)
-          .map(([lat, lng]) => ({ lat, lng }));
+          .slice(instr.interval[0], instr.interval[1] + 1);
         return [
           lineseg[0],
           GH_INSTR_MAP[instr.sign],
