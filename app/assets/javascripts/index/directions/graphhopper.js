@@ -25,14 +25,13 @@
         const lineseg = line
           .slice(instr.interval[0], instr.interval[1] + 1);
         return [
-          lineseg[0],
           GH_INSTR_MAP[instr.sign],
           instr.text,
           instr.distance,
           lineseg
         ];
       });
-      steps.at(-1)[1] = "destination";
+      steps.at(-1)[0] = "destination";
 
       return {
         line: line,

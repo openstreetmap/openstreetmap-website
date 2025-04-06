@@ -49,7 +49,6 @@
         const lineseg = line
           .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1);
         return [
-          lineseg[0],
           INSTR_MAP[manoeuvre.type],
           manoeuvre.instruction,
           manoeuvre.length * 1000,

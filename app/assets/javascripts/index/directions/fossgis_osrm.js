@@ -138,7 +138,6 @@
         const step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 });
         const instText = getInstructionText(step, maneuver_id);
         return [
-          [step.maneuver.location[1], step.maneuver.location[0]],
           ICON_MAP[maneuver_id],
           instText,
           step.distance,
@@ -147,7 +146,7 @@
       });
 
       return {
-        line: steps.flatMap(step => step[4]),
+        line: steps.flatMap(step => step[3]),
         steps,
         distance: leg.distance,
         time: leg.duration

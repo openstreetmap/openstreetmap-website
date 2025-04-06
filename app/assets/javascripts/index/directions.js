@@ -184,7 +184,7 @@ OSM.Directions = function (map) {
         );
 
       // Add each row
-      turnByTurnTable.append(route.steps.map(([ll, direction, instruction, dist, lineseg], i) => {
+      turnByTurnTable.append(route.steps.map(([direction, instruction, dist, lineseg], i) => {
         const row = $("<tr class='turn'/>");
         if (direction) {
           row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
@@ -196,7 +196,7 @@ OSM.Directions = function (map) {
 
         row.on("click", function () {
           popup
-            .setLatLng(ll)
+            .setLatLng(lineseg[0])
             .setContent(`<p><b>${i + 1}.</b> ${instruction}</p>`)
             .openOn(map);
         });
