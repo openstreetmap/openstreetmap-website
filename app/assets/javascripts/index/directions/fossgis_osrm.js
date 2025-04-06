@@ -5,7 +5,7 @@
   function FOSSGISOSRMEngine(modeId, vehicleType) {
     let cachedHints = [];
 
-    function getInstructionText(step, maneuver_id) {
+    function getInstructionText(step) {
       const INSTRUCTION_TEMPLATE = {
         "continue": "continue",
         "merge right": "merge_right",
@@ -38,7 +38,7 @@
       }
 
       const instrPrefix = "javascripts.directions.instructions.";
-      let template = instrPrefix + INSTRUCTION_TEMPLATE[maneuver_id];
+      let template = instrPrefix + INSTRUCTION_TEMPLATE[step.maneuverId];
 
       const destinations = "<b>" + step.destinations + "</b>";
       let namedRoad = true;
@@ -133,17 +133,14 @@
         "arrive": "destination"
       };
 
-      const steps = leg.steps.map(function (step) {
-        const maneuver_id = getManeuverId(step.maneuver);
-        const step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 });
-        const instText = getInstructionText(step, maneuver_id);
-        return [
-          ICON_MAP[maneuver_id],
-          instText,
-          step.distance,
-          step_geometry
-        ];
-      });
+      for (const step of leg.steps) step.maneuverId = getManeuverId(step.maneuver);
+
+      const steps = leg.steps.map(step => [
+        ICON_MAP[step.maneuverId],
+        getInstructionText(step),
+        step.distance,
+        L.PolylineUtil.decode(step.geometry, { precision: 5 })
+      ]);
 
       return {
         line: steps.flatMap(step => step[3]),

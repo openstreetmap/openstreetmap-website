@@ -45,16 +45,12 @@
     function _processDirections(leg) {
       const line = L.PolylineUtil.decode(leg.shape, { precision: 6 });
 
-      const steps = leg.maneuvers.map(manoeuvre => {
-        const lineseg = line
-          .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1);
-        return [
-          INSTR_MAP[manoeuvre.type],
-          manoeuvre.instruction,
-          manoeuvre.length * 1000,
-          lineseg
-        ];
-      });
+      const steps = leg.maneuvers.map(manoeuvre => [
+        INSTR_MAP[manoeuvre.type],
+        manoeuvre.instruction,
+        manoeuvre.length * 1000,
+        line.slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1)
+      ]);
 
       return {
         line: line,

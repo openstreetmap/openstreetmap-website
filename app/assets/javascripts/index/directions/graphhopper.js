@@ -21,16 +21,12 @@
     function _processDirections(path) {
       const line = L.PolylineUtil.decode(path.points);
 
-      const steps = path.instructions.map(function (instr) {
-        const lineseg = line
-          .slice(instr.interval[0], instr.interval[1] + 1);
-        return [
-          GH_INSTR_MAP[instr.sign],
-          instr.text,
-          instr.distance,
-          lineseg
-        ];
-      });
+      const steps = path.instructions.map(instr => [
+        GH_INSTR_MAP[instr.sign],
+        instr.text,
+        instr.distance,
+        line.slice(instr.interval[0], instr.interval[1] + 1)
+      ]);
       steps.at(-1)[0] = "destination";
 
       return {
