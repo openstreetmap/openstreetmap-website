@@ -278,9 +278,6 @@ $(function () {
       if (params.has("query")) {
         $("#sidebar .search_form input[name=query]").value(params.get("query"));
       }
-      if (!("autofocus" in document.createElement("input"))) {
-        $("#sidebar .search_form input[name=query]").focus();
-      }
       return map.getState();
     };
 
