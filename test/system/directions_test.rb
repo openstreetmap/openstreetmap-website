@@ -38,8 +38,8 @@ class DirectionsSystemTest < ApplicationSystemTestCase
       return Promise.resolve({
         line: points,
         steps: [
-          [points[0], "start", "<b>1.</b> #{start_instruction}", distance, points],
-          [points[1], "destination", "<b>2.</b> #{finish_instruction}", 0, [points[1]]]
+          ["start", "<b>1.</b> #{start_instruction}", distance, points],
+          ["destination", "<b>2.</b> #{finish_instruction}", 0, [points[1]]]
         ],
         distance,
         time

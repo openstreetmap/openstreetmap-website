@@ -42,41 +42,21 @@
       "merge-left" // kMergeLeft = 38;
     ];
 
-    function _processDirections(tripLegs) {
-      let line = [];
-      let steps = [];
-      let distance = 0;
-      let time = 0;
+    function _processDirections(leg) {
+      const line = L.PolylineUtil.decode(leg.shape, { precision: 6 });
 
-      for (const leg of tripLegs) {
-        const legLine = L.PolylineUtil.decode(leg.shape, {
-          precision: 6
-        });
-
-        const legSteps = leg.maneuvers.map(function (manoeuvre) {
-          const lineseg = legLine
-            .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1)
-            .map(([lat, lng]) => ({ lat, lng }));
-          return [
-            lineseg[0],
-            INSTR_MAP[manoeuvre.type],
-            manoeuvre.instruction,
-            manoeuvre.length * 1000,
-            lineseg
-          ];
-        });
-
-        line = line.concat(legLine);
-        steps = steps.concat(legSteps);
-        distance += leg.summary.length;
-        time += leg.summary.time;
-      }
+      const steps = leg.maneuvers.map(manoeuvre => [
+        INSTR_MAP[manoeuvre.type],
+        manoeuvre.instruction,
+        manoeuvre.length * 1000,
+        line.slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1)
+      ]);
 
       return {
-        line: line,
-        steps: steps,
-        distance: distance * 1000,
-        time: time
+        line,
+        steps,
+        distance: leg.summary.length * 1000,
+        time: leg.summary.time
       };
     }
 
@@ -104,7 +84,7 @@
           .then(response => response.json())
           .then(({ trip }) => {
             if (trip.status !== 0) throw new Error();
-            return _processDirections(trip.legs);
+            return _processDirections(trip.legs[0]);
           });
       }
     };

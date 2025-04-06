@@ -184,9 +184,7 @@ OSM.Directions = function (map) {
         );
 
       // Add each row
-      for (const [i, step] of route.steps.entries()) {
-        const [ll, direction, instruction, dist, lineseg] = step;
-
+      turnByTurnTable.append(route.steps.map(([direction, instruction, dist, lineseg], i) => {
         const row = $("<tr class='turn'/>");
         if (direction) {
           row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
@@ -198,8 +196,8 @@ OSM.Directions = function (map) {
 
         row.on("click", function () {
           popup
-            .setLatLng(ll)
-            .setContent("<p>" + instruction + "</p>")
+            .setLatLng(lineseg[0])
+            .setContent(`<p><b>${i + 1}.</b> ${instruction}</p>`)
             .openOn(map);
         });
 
@@ -211,8 +209,8 @@ OSM.Directions = function (map) {
           map.removeLayer(highlight);
         });
 
-        turnByTurnTable.append(row);
-      }
+        return row;
+      }));
 
       const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
       URL.revokeObjectURL(downloadURL);

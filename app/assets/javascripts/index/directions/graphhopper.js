@@ -21,23 +21,17 @@
     function _processDirections(path) {
       const line = L.PolylineUtil.decode(path.points);
 
-      const steps = path.instructions.map(function (instr) {
-        const lineseg = line
-          .slice(instr.interval[0], instr.interval[1] + 1)
-          .map(([lat, lng]) => ({ lat, lng }));
-        return [
-          lineseg[0],
-          GH_INSTR_MAP[instr.sign],
-          instr.text,
-          instr.distance,
-          lineseg
-        ]; // TODO does graphhopper map instructions onto line indices?
-      });
-      steps.at(-1)[1] = "destination";
+      const steps = path.instructions.map(instr => [
+        GH_INSTR_MAP[instr.sign],
+        instr.text,
+        instr.distance,
+        line.slice(instr.interval[0], instr.interval[1] + 1)
+      ]);
+      steps.at(-1)[0] = "destination";
 
       return {
-        line: line,
-        steps: steps,
+        line,
+        steps,
         distance: path.distance,
         time: path.time / 1000,
         ascend: path.ascend,
