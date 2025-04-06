@@ -42,10 +42,10 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Install Ruby packages
-ADD Gemfile Gemfile.lock /app/
+COPY Gemfile Gemfile.lock /app/
 RUN bundle install
 
 # Install NodeJS packages using yarn
-ADD package.json yarn.lock /app/
-ADD bin/yarn /app/bin/
+COPY package.json yarn.lock /app/
+COPY bin/yarn /app/bin/
 RUN bundle exec bin/yarn install
