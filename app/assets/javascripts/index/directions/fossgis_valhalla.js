@@ -53,8 +53,8 @@
       ]);
 
       return {
-        line: line,
-        steps: steps,
+        line,
+        steps,
         distance: leg.summary.length * 1000,
         time: leg.summary.time
       };

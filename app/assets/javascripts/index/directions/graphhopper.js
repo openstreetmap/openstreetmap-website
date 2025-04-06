@@ -30,8 +30,8 @@
       steps.at(-1)[0] = "destination";
 
       return {
-        line: line,
-        steps: steps,
+        line,
+        steps,
         distance: path.distance,
         time: path.time / 1000,
         ascend: path.ascend,
