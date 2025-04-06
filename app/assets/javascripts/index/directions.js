@@ -199,7 +199,7 @@ OSM.Directions = function (map) {
         row.on("click", function () {
           popup
             .setLatLng(ll)
-            .setContent("<p>" + instruction + "</p>")
+            .setContent(`<p><b>${i + 1}.</b> ${instruction}</p>`)
             .openOn(map);
         });
 
