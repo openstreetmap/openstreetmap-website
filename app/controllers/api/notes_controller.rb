@@ -2,9 +2,9 @@ module Api
   class NotesController < ApiController
     include QueryMethods
 
-    before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
+    before_action :check_api_writable, :only => [:create, :update, :comment, :close, :reopen, :destroy]
     before_action :setup_user_auth, :only => [:create, :show]
-    before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
+    before_action :authorize, :only => [:update, :close, :reopen, :destroy, :comment]
 
     authorize_resource
 
@@ -93,6 +93,46 @@ module Api
       end
 
       # Return a copy of the new note
+      respond_to do |format|
+        format.xml { render :action => :show }
+        format.json { render :action => :show }
+      end
+    end
+
+    ##
+    # Update an existing note
+    def update
+      # Check the ACLs
+      raise OSM::APIAccessDenied if current_user.nil? && Acl.no_note_comment(request.remote_ip)
+
+      # Check the arguments are sane
+      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+
+      # Extract the arguments
+      id = params[:id].to_i
+      comment = params[:comment].presence || ""
+
+      # Find the note, check it is valid and update from passed parameters
+      Note.transaction do
+        @note = Note.lock.find_by(:id => id)
+        raise OSM::APINotFoundError unless @note
+        raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+        raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
+
+        # Update note from params
+        @note.update_from_params(params, author_info)
+
+        # Saves the note without the history
+        @note.save_without_history!
+
+        # Adds closing comment to the note
+        note_comment = add_comment(@note, comment, "commented")
+
+        # Saves the note's history
+        @note.save_history!(@note.updated_at, note_comment.id)
+      end
+
+      # Return a copy of the updated note
       respond_to do |format|
         format.xml { render :action => :show }
         format.json { render :action => :show }
