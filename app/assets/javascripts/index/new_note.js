@@ -77,7 +77,7 @@ OSM.NewNote = function (map) {
     addHalo(newNoteMarker.getLatLng());
 
     newNoteMarker.on("dragend", function () {
-      content.find("textarea").focus();
+      content.find("textarea").trigger("focus");
     });
   }
 
@@ -87,10 +87,10 @@ OSM.NewNote = function (map) {
     newNoteMarker = null;
   }
 
-  function moveNewNotMarkerToClick(e) {
+  function moveNewNoteMarkerToClick(e) {
     if (newNoteMarker) newNoteMarker.setLatLng(e.latlng);
     if (halo) halo.setLatLng(e.latlng);
-    content.find("textarea").focus();
+    content.find("textarea").trigger("focus");
   }
 
   function updateControls() {
@@ -130,7 +130,9 @@ OSM.NewNote = function (map) {
 
     content.find("textarea")
       .on("input", updateControls)
-      .focus();
+      .attr("readonly", "readonly") // avoid virtual keyboard popping up on focus
+      .trigger("focus")
+      .removeAttr("readonly");
 
     content.find("input[type=submit]").on("click", function (e) {
       const location = newNoteMarker.getLatLng().wrap();
@@ -152,7 +154,7 @@ OSM.NewNote = function (map) {
       });
     });
 
-    map.on("click", moveNewNotMarkerToClick);
+    map.on("click", moveNewNoteMarkerToClick);
     addNoteButton.on("disabled enabled", updateControls);
     updateControls();
 
@@ -160,7 +162,7 @@ OSM.NewNote = function (map) {
   };
 
   page.unload = function () {
-    map.off("click", moveNewNotMarkerToClick);
+    map.off("click", moveNewNoteMarkerToClick);
     addNoteButton.off("disabled enabled", updateControls);
     removeNewNoteMarker();
     addNoteButton.removeClass("active");
