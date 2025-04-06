@@ -18,7 +18,7 @@ class ApiAbility
       can :read, UserBlock
 
       if user&.active?
-        can [:create, :comment, :close, :reopen], Note if scopes.include?("write_notes")
+        can [:create, :update, :comment, :close, :reopen], Note if scopes.include?("write_notes")
         can [:create, :destroy], NoteSubscription if scopes.include?("write_notes")
 
         can :read, Trace if scopes.include?("read_gpx")
