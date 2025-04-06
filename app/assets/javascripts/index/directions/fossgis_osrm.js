@@ -40,7 +40,6 @@
       const instrPrefix = "javascripts.directions.instructions.";
       let template = instrPrefix + INSTRUCTION_TEMPLATE[maneuver_id];
 
-      let instText;
       const destinations = "<b>" + step.destinations + "</b>";
       let namedRoad = true;
       let name;
@@ -57,30 +56,28 @@
       }
 
       if (step.maneuver.type.match(/^exit (rotary|roundabout)$/)) {
-        instText = OSM.i18n.t(template, { name: name });
-      } else if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
-        if (step.maneuver.exit) {
-          if (step.maneuver.exit <= 10) {
-            instText = OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
-          } else {
-            instText = OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
-          }
-        } else {
-          instText = OSM.i18n.t(template + "_without_exit", { name: name });
-        }
-      } else if (step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
-        const params = {};
-        if (step.exits && step.maneuver.type.match(/^(off ramp)$/)) params.exit = step.exits;
-        if (step.destinations) params.directions = destinations;
-        if (namedRoad) params.directions = name;
-        if (Object.keys(params).length > 0) {
-          template = template + "_with_" + Object.keys(params).join("_");
-        }
-        instText = OSM.i18n.t(template, params);
-      } else {
-        instText = OSM.i18n.t(template + "_without_exit", { name: name });
+        return OSM.i18n.t(template, { name: name });
       }
-      return instText;
+      if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
+        if (!step.maneuver.exit) {
+          return OSM.i18n.t(template + "_without_exit", { name: name });
+        }
+        if (step.maneuver.exit > 10) {
+          return OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
+        }
+        return OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
+      }
+      if (!step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
+        return OSM.i18n.t(template + "_without_exit", { name: name });
+      }
+      const params = {};
+      if (step.exits && step.maneuver.type.match(/^(off ramp)$/)) params.exit = step.exits;
+      if (step.destinations) params.directions = destinations;
+      if (namedRoad) params.directions = name;
+      if (Object.keys(params).length > 0) {
+        template = template + "_with_" + Object.keys(params).join("_");
+      }
+      return OSM.i18n.t(template, params);
     }
 
     function _processDirections(leg) {
