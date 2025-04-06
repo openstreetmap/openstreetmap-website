@@ -130,7 +130,9 @@ OSM.NewNote = function (map) {
 
     content.find("textarea")
       .on("input", updateControls)
-      .trigger("focus");
+      .attr("readonly", "readonly") // avoid virtual keyboard popping up on focus
+      .trigger("focus")
+      .removeAttr("readonly");
 
     content.find("input[type=submit]").on("click", function (e) {
       const location = newNoteMarker.getLatLng().wrap();
