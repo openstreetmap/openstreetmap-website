@@ -89,7 +89,7 @@
       }
 
       const steps = route.legs.flatMap(
-        leg => leg.steps.map(function (step, idx) {
+        leg => leg.steps.map(function (step) {
           const maneuver_id = getManeuverId(step.maneuver);
 
           const instrPrefix = "javascripts.directions.instructions.";
@@ -97,7 +97,7 @@
 
           const step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(L.latLng);
 
-          let instText = "<b>" + (idx + 1) + ".</b> ";
+          let instText;
           const destinations = "<b>" + step.destinations + "</b>";
           let namedRoad = true;
           let name;
@@ -114,16 +114,16 @@
           }
 
           if (step.maneuver.type.match(/^exit (rotary|roundabout)$/)) {
-            instText += OSM.i18n.t(template, { name: name });
+            instText = OSM.i18n.t(template, { name: name });
           } else if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
             if (step.maneuver.exit) {
               if (step.maneuver.exit <= 10) {
-                instText += OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
+                instText = OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
               } else {
-                instText += OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
+                instText = OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
               }
             } else {
-              instText += OSM.i18n.t(template + "_without_exit", { name: name });
+              instText = OSM.i18n.t(template + "_without_exit", { name: name });
             }
           } else if (step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
             const params = {};
@@ -133,9 +133,9 @@
             if (Object.keys(params).length > 0) {
               template = template + "_with_" + Object.keys(params).join("_");
             }
-            instText += OSM.i18n.t(template, params);
+            instText = OSM.i18n.t(template, params);
           } else {
-            instText += OSM.i18n.t(template + "_without_exit", { name: name });
+            instText = OSM.i18n.t(template + "_without_exit", { name: name });
           }
           return [[step.maneuver.location[1], step.maneuver.location[0]], ICON_MAP[maneuver_id], instText, step.distance, step_geometry];
         })
