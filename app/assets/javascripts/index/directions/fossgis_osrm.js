@@ -5,7 +5,7 @@
   function FOSSGISOSRMEngine(modeId, vehicleType) {
     let cachedHints = [];
 
-    function _processDirections(leg) {
+    function getInstructionText(step, maneuver_id) {
       const INSTRUCTION_TEMPLATE = {
         "continue": "continue",
         "merge right": "merge_right",
@@ -33,6 +33,81 @@
         "depart": "start",
         "arrive": "destination"
       };
+      function numToWord(num) {
+        return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num - 1];
+      }
+
+      const instrPrefix = "javascripts.directions.instructions.";
+      let template = instrPrefix + INSTRUCTION_TEMPLATE[maneuver_id];
+
+      let instText;
+      const destinations = "<b>" + step.destinations + "</b>";
+      let namedRoad = true;
+      let name;
+
+      if (step.name && step.ref) {
+        name = "<b>" + step.name + " (" + step.ref + ")</b>";
+      } else if (step.name) {
+        name = "<b>" + step.name + "</b>";
+      } else if (step.ref) {
+        name = "<b>" + step.ref + "</b>";
+      } else {
+        name = OSM.i18n.t(instrPrefix + "unnamed");
+        namedRoad = false;
+      }
+
+      if (step.maneuver.type.match(/^exit (rotary|roundabout)$/)) {
+        instText = OSM.i18n.t(template, { name: name });
+      } else if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
+        if (step.maneuver.exit) {
+          if (step.maneuver.exit <= 10) {
+            instText = OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
+          } else {
+            instText = OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
+          }
+        } else {
+          instText = OSM.i18n.t(template + "_without_exit", { name: name });
+        }
+      } else if (step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
+        const params = {};
+        if (step.exits && step.maneuver.type.match(/^(off ramp)$/)) params.exit = step.exits;
+        if (step.destinations) params.directions = destinations;
+        if (namedRoad) params.directions = name;
+        if (Object.keys(params).length > 0) {
+          template = template + "_with_" + Object.keys(params).join("_");
+        }
+        instText = OSM.i18n.t(template, params);
+      } else {
+        instText = OSM.i18n.t(template + "_without_exit", { name: name });
+      }
+      return instText;
+    }
+
+    function _processDirections(leg) {
+      function getManeuverId(maneuver) {
+        // special case handling
+        switch (maneuver.type) {
+          case "on ramp":
+          case "off ramp":
+          case "merge":
+          case "end of road":
+          case "fork":
+            return maneuver.type + " " + (maneuver.modifier.indexOf("left") >= 0 ? "left" : "right");
+          case "depart":
+          case "arrive":
+          case "roundabout":
+          case "rotary":
+          case "exit roundabout":
+          case "exit rotary":
+            return maneuver.type;
+          case "roundabout turn":
+          case "turn":
+            return "turn " + maneuver.modifier;
+            // for unknown types the fallback is turn
+          default:
+            return "turn " + maneuver.modifier;
+        }
+      }
       const ICON_MAP = {
         "continue": "straight",
         "merge right": "merge-right",
@@ -60,83 +135,18 @@
         "depart": "start",
         "arrive": "destination"
       };
-      function numToWord(num) {
-        return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num - 1];
-      }
-      function getManeuverId(maneuver) {
-        // special case handling
-        switch (maneuver.type) {
-          case "on ramp":
-          case "off ramp":
-          case "merge":
-          case "end of road":
-          case "fork":
-            return maneuver.type + " " + (maneuver.modifier.indexOf("left") >= 0 ? "left" : "right");
-          case "depart":
-          case "arrive":
-          case "roundabout":
-          case "rotary":
-          case "exit roundabout":
-          case "exit rotary":
-            return maneuver.type;
-          case "roundabout turn":
-          case "turn":
-            return "turn " + maneuver.modifier;
-            // for unknown types the fallback is turn
-          default:
-            return "turn " + maneuver.modifier;
-        }
-      }
 
       const steps = leg.steps.map(function (step) {
         const maneuver_id = getManeuverId(step.maneuver);
-
-        const instrPrefix = "javascripts.directions.instructions.";
-        let template = instrPrefix + INSTRUCTION_TEMPLATE[maneuver_id];
-
         const step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 });
-
-        let instText;
-        const destinations = "<b>" + step.destinations + "</b>";
-        let namedRoad = true;
-        let name;
-
-        if (step.name && step.ref) {
-          name = "<b>" + step.name + " (" + step.ref + ")</b>";
-        } else if (step.name) {
-          name = "<b>" + step.name + "</b>";
-        } else if (step.ref) {
-          name = "<b>" + step.ref + "</b>";
-        } else {
-          name = OSM.i18n.t(instrPrefix + "unnamed");
-          namedRoad = false;
-        }
-
-        if (step.maneuver.type.match(/^exit (rotary|roundabout)$/)) {
-          instText = OSM.i18n.t(template, { name: name });
-        } else if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
-          if (step.maneuver.exit) {
-            if (step.maneuver.exit <= 10) {
-              instText = OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
-            } else {
-              instText = OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
-            }
-          } else {
-            instText = OSM.i18n.t(template + "_without_exit", { name: name });
-          }
-        } else if (step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
-          const params = {};
-          if (step.exits && step.maneuver.type.match(/^(off ramp)$/)) params.exit = step.exits;
-          if (step.destinations) params.directions = destinations;
-          if (namedRoad) params.directions = name;
-          if (Object.keys(params).length > 0) {
-            template = template + "_with_" + Object.keys(params).join("_");
-          }
-          instText = OSM.i18n.t(template, params);
-        } else {
-          instText = OSM.i18n.t(template + "_without_exit", { name: name });
-        }
-        return [[step.maneuver.location[1], step.maneuver.location[0]], ICON_MAP[maneuver_id], instText, step.distance, step_geometry];
+        const instText = getInstructionText(step, maneuver_id);
+        return [
+          [step.maneuver.location[1], step.maneuver.location[0]],
+          ICON_MAP[maneuver_id],
+          instText,
+          step.distance,
+          step_geometry
+        ];
       });
 
       return {
