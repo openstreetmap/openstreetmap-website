@@ -77,7 +77,7 @@ OSM.NewNote = function (map) {
     addHalo(newNoteMarker.getLatLng());
 
     newNoteMarker.on("dragend", function () {
-      content.find("textarea").focus();
+      content.find("textarea").trigger("focus");
     });
   }
 
@@ -90,7 +90,7 @@ OSM.NewNote = function (map) {
   function moveNewNoteMarkerToClick(e) {
     if (newNoteMarker) newNoteMarker.setLatLng(e.latlng);
     if (halo) halo.setLatLng(e.latlng);
-    content.find("textarea").focus();
+    content.find("textarea").trigger("focus");
   }
 
   function updateControls() {
@@ -130,7 +130,7 @@ OSM.NewNote = function (map) {
 
     content.find("textarea")
       .on("input", updateControls)
-      .focus();
+      .trigger("focus");
 
     content.find("input[type=submit]").on("click", function (e) {
       const location = newNoteMarker.getLatLng().wrap();
