@@ -31,7 +31,7 @@
           instr.text,
           instr.distance,
           lineseg
-        ]; // TODO does graphhopper map instructions onto line indices?
+        ];
       });
       steps.at(-1)[1] = "destination";
 
