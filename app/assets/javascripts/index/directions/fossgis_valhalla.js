@@ -53,15 +53,14 @@
           precision: 6
         });
 
-        const legSteps = leg.maneuvers.map(function (manoeuvre, idx) {
-          const num = `<b>${idx + 1}.</b> `;
+        const legSteps = leg.maneuvers.map(function (manoeuvre) {
           const lineseg = legLine
             .slice(manoeuvre.begin_shape_index, manoeuvre.end_shape_index + 1)
             .map(([lat, lng]) => ({ lat, lng }));
           return [
             lineseg[0],
             INSTR_MAP[manoeuvre.type],
-            num + manoeuvre.instruction,
+            manoeuvre.instruction,
             manoeuvre.length * 1000,
             lineseg
           ];

@@ -184,7 +184,7 @@ OSM.Directions = function (map) {
         );
 
       // Add each row
-      route.steps.forEach(function (step) {
+      for (const [i, step] of route.steps.entries()) {
         const [ll, direction, instruction, dist, lineseg] = step;
 
         const row = $("<tr class='turn'/>");
@@ -193,7 +193,7 @@ OSM.Directions = function (map) {
         } else {
           row.append("<td class='border-0'>");
         }
-        row.append("<td>" + instruction);
+        row.append(`<td><b>${i + 1}.</b> ${instruction}`);
         row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(dist));
 
         row.on("click", function () {
@@ -212,7 +212,7 @@ OSM.Directions = function (map) {
         });
 
         turnByTurnTable.append(row);
-      });
+      }
 
       const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
       URL.revokeObjectURL(downloadURL);
