@@ -6,17 +6,22 @@ class GeocoderController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_oauth, :only => [:search]
+
   authorize_resource :class => false
 
+  before_action :normalize_params, :only => [:search]
+
   def search
-    @params = normalize_params
     @sources = []
 
-    if @params[:lat] && @params[:lon]
-      @sources.push(:name => "latlon", :url => root_path)
-      @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_url(:format => "html"))
-    elsif @params[:query]
-      @sources.push(:name => "osm_nominatim", :url => nominatim_url(:format => "html"))
+    if params[:lat] && params[:lon]
+      @sources.push(:name => "latlon", :url => root_path,
+                    :fetch_url => url_for(params.permit(:lat, :lon, :latlon_digits, :zoom).merge(:action => "search_latlon")))
+      @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_url(:format => "html"),
+                    :fetch_url => url_for(params.permit(:lat, :lon, :zoom).merge(:action => "search_osm_nominatim_reverse")))
+    elsif params[:query]
+      @sources.push(:name => "osm_nominatim", :url => nominatim_url(:format => "html"),
+                    :fetch_url => url_for(params.permit(:query, :minlat, :minlon, :maxlat, :maxlon).merge(:action => "search_osm_nominatim")))
     end
 
     if @sources.empty?
@@ -221,8 +226,6 @@ class GeocoderController < ApplicationController
         params[:latlon_digits] = true
       end
     end
-
-    params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
   end
 
   def dms_regexp(name_prefix)
