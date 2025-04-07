@@ -91,8 +91,9 @@ mk:
         support_url: URL за поддршка
         allow_read_prefs: им ги чита корисничките нагодувања
         allow_write_prefs: им ги менува корисничките нагодувања
-        allow_write_diary: создава ставки во дневникот, пишува коментари и да се спријателува
+        allow_write_diary: создавање на ставки во дневникот и коментари
         allow_write_api: ја менува картата
+        allow_write_changeset_comments: коментирање на измени
         allow_read_gpx: им ги чита личните ГПС-траги
         allow_write_gpx: подига ГПС-траги
         allow_write_notes: менува белешки
@@ -248,6 +249,7 @@ mk:
   accounts:
     show:
       title: Уреди сметка
+      my_account: Моја сметка
       current email address: Тековна е-пошта
       external auth: Надворешна заверка
       openid:
@@ -262,6 +264,7 @@ mk:
         agreed_with_pd: Исто така изјавивте дека вашите уредувања ги сметате за јавна
           сопственост.
         link text: што е ова?
+        pd_link_text: изјави
       save changes button: Зачувај ги промените
       delete_account: Избриши сметка...
     go_public:
@@ -340,6 +343,9 @@ mk:
           Повеќе информации ќе најдете на %{terms_declined_link}.
         terms_declined_link: оваа викистраница
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
+    pd_declarations:
+      show:
+        confirm: Потврди
   browse:
     deleted_ago_by_html: Избришано %{time_ago} од %{user}
     edited_ago_by_html: Изменето %{time_ago} од %{user}
@@ -495,6 +501,8 @@ mk:
       no_more: Нема повеќе промени.
       no_more_area: Нема повеќе промени на ова подрчаје.
       no_more_user: Нема повеќе промени од овој корисник.
+      older_changesets: Постари измени
+      newer_changesets: Понови измени
       feed:
         title: Измени %{id}
         title_comment: Измени %{id} - %{comment}
@@ -523,9 +531,13 @@ mk:
       changesetxml: XML за измените
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Јазли
       nodes_paginated: Јазли (%{x}-%{y} од вкупно %{count})
+      ways_title: Патишта
       ways_paginated: Патишта (%{x}-%{y} од вкупно %{count})
+      relations_title: Односи
       relations_paginated: Односи (%{x}-%{y} од вкупно %{count})
+      range: '%{x}-%{y} од %{count}'
     not_found_message:
       sorry: За жал, не можев да ги најдам промените со бр. %{id}.
     timeout:
@@ -556,14 +568,18 @@ mk:
     popup:
       your location: Ваша местоположба
       nearby mapper: Соседен картограф
+      following: Следите
     show:
       title: Моја управувачница
       no_home_location_html: '%{edit_profile_link} и задајте ја вашата матична местоположба
         за да гледате корисници во близина.'
       edit_your_profile: Уредете си го профилот
+      followings: Корисници што ги следите
       nearby users: Други соседни корисници
       no nearby users: Сè уште нема други корисници во вашата околина што признаваат
         дека работат на карти.
+      followed_changesets: измени
+      followed_diaries: дневнички ставки
       nearby_changesets: измени на соседните корисници
       nearby_diaries: дневнички ставки на сосед. корисн.
   diary_entries:
@@ -697,6 +713,23 @@ mk:
       title: Податотеката не е пронајдена
       description: Не можев да најдам постапка со податотека/папка/приложник со тоа
         име на опслужувачот на OpenStreetMap (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Дали сакате да го следите %{user}?
+        button: Следи корисник
+      unfollow:
+        heading: Дали сакате да не го следите %{user}?
+        button: Не следи корисник
+    create:
+      success: Го следите %{name}!
+      failed: За жал, вашето барање да го следите %{name} не успеа.
+      already_followed: Веќе го следите %{name}.
+      limit_exceeded: Во последно време следите многу корисници. Почекајте малку,
+        за да можете да се следите други.
+    destroy:
+      success: Успешно го прекинавте следењето на %{name}.
+      not_followed: Не го следите %{name}.
   geocoder:
     search:
       title:
@@ -951,6 +984,7 @@ mk:
           bridleway: Коњски пат
           bus_guideway: Автобуски шини
           bus_stop: Автобуска постојка
+          busway: Автобуски коловоз
           construction: Автопат во изградба
           corridor: Премин
           crossing: Премин
@@ -1487,15 +1521,42 @@ mk:
           "yes": Воден пат
       admin_levels:
         level2: Државна граница
-        level3: Регионална граница
-        level4: Покраинска граница
-        level5: Регионална граница
-        level6: Окружна граница
-        level7: Општинска граница
-        level8: Градска граница
-        level9: Селска граница
-        level10: Населбена граница
-        level11: Маалска граница
+        level3: Регионална граница (ниво 3)
+        level4: Административна граница (ниво 4)
+        level5: Административна граница (ниво 5)
+        level6: Административна граница (ниво 6)
+        level7: Административна граница (ниво 7)
+        level8: Административна граница (ниво 8)
+        level9: Административна граница (ниво 9)
+        level10: Административна граница (ниво 10)
+        level11: Административна граница (ниво 11)
+      border_types:
+        arrondissement: Окружна граница
+        borough: Околиска граница
+        cercle: Окружна граница
+        city: Градска граница
+        comarca: Граница на комарка
+        county: Окружна граница
+        departement: Департманска граница
+        department: Департманска граница
+        district: Окружна граница
+        distrito: Окружна граница
+        freguesia: Околиска граница
+        local_authority: Месноуправна граница
+        municipality: Општинска граница
+        municipi: Општинска граница
+        município: Општинска граница
+        nation: Државна граница
+        national: Државна граница
+        neighbourhood: Маалска граница
+        parish: Парохиска граница
+        province: Покраинска граница
+        região: Регионална граница
+        region: Регионална граница
+        state: Сојузнодржавна граница
+        town: Паланечка граница
+        township: Околиска граница
+        village: Селски атар
     results:
       no_results: Не пронајдов ништо
       more_results: Повеќе ставки
@@ -2629,7 +2690,7 @@ mk:
         Нема потреба да се согласувате со услоците, но мора да ги прочитате.
     settings_menu:
       account_settings: Нагодувања на сметката
-      oauth2_applications: Поставки за OAuth 2
+      oauth2_applications: Прилози за OAuth 2
       oauth2_authorizations: Овластувања за OAuth 2
       muted_users: Замолкнати корисници
     auth_providers:
@@ -2684,13 +2745,15 @@ mk:
       write_prefs: Менување на корисничките нагодувања
       write_diary: Создавање на дневнички ставки, коментирање и спријателување
       write_api: Менување на картата
+      write_changeset_comments: Коментирање на измени
       read_gpx: Читање на приватни ГПС-траги
       write_gpx: Подигање на ГПС-траги
       write_notes: Менување на белешки
       write_redactions: Прикриј податоци за картата
+      write_blocks: Создавање и отповикување на кориснички блокови
       read_email: Читање на корисничка е-пошта
       consume_messages: Читајте, менувајте статуси и бришете кориснички пораки
-      send_messages: Испраќајте приватни пораки до други корисници
+      send_messages: Испраќање приватни пораки до други корисници
       skip_authorization: Автоодобрување на прилог
     for_roles:
       moderator: Оваа дозвола е за дејства достапни само за модератори.
@@ -2793,6 +2856,7 @@ mk:
       my notes: Мои белешки
       my messages: Мои пораки
       my profile: Мојот профил
+      my_account: Моја сметка
       my comments: Мои коментари
       my_preferences: Мои нагодувања
       my_dashboard: Моја управувачница
@@ -2806,6 +2870,8 @@ mk:
       edits: Уредувања
       traces: Траги
       notes: Белешки на картата
+      unfollow: Престани да следиш
+      follow: Следи
       mapper since: 'Картограф од:'
       last map edit: 'Последно уредување на картата:'
       no activity yet: Сè уште нема активности
@@ -2870,6 +2936,19 @@ mk:
       show:
         title: Корисници
         heading: Корисници
+        select_status: Одберете статус
+        states:
+          pending: Во исчекување
+          active: Активно
+          confirmed: Потврдено
+          suspended: Запрено
+          deleted: Избришано
+        name_or_email: Име или е-пошта
+        ip_address: IP-адреса
+        edits: Уредувања?
+        has_edits: Има уредувања
+        no_edits: Нема уредувања
+        search: Пребарај
       page:
         found_users:
           one: Најдов %{count} корисник
@@ -2880,8 +2959,17 @@ mk:
       user:
         summary_html: '%{name} создадено од %{ip_address} на %{date}'
         summary_no_ip_html: '%{name} создадено на %{date}'
+    comments:
+      index:
+        heading_html: Коментари на %{user}
+        changesets: Измени
+        diary_entries: Дневнички ставки
+        no_comments: Нема коментари
     changeset_comments:
+      index:
+        title: Коментари на измени ставени од %{user}
       page:
+        changeset: Измени
         when: Кога
         comment: Коментар
     diary_comments:
@@ -2889,6 +2977,8 @@ mk:
         title: Дневнички коментари додадени од %{user}
       page:
         post: Објава
+        when: Кога
+        comment: Коментар
     suspended:
       title: Сметката е закочена
       heading: Сметката е закочена
@@ -3064,6 +3154,8 @@ mk:
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: 'Скриена белешка бр. #%{note_name}'
+      description_when_author_is_deleted: избришано
+      description_when_there_is_no_opening_comment: непознато
       event_opened_by_html: Создадено од %{user} %{time_ago}
       event_opened_by_anonymous_html: Создадено од анонимец %{time_ago}
       event_commented_by_html: Коментар од %{user} %{time_ago}
@@ -3100,6 +3192,16 @@ mk:
         да ве известуваме за вашата белешка.
       anonymous_warning_log_in: Најавете се
       anonymous_warning_sign_up: зачленете се
+      counter_warning_html: Веќе имате објавено барем %{x_anonymous_notes}. Тоа е
+        одлично за заедницата и ви благодариме! Сега ви предлагаме %{contribute_by_yourself}
+        — не е баш сложено, а и %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} анонимна белешка'
+        other: '%{count} анонимни белешки'
+      counter_warning_guide_link:
+        text: самите да придонесувате
+      counter_warning_forum_link:
+        text: заедницата може да ви помогне
       advice: Вашата белешка е јавна и може да се употреби за поднова на картата.
         Затоа, не внесувајте лични податоци, или пак податоци од карти или именици
         заштитени со авторски права.
@@ -3274,6 +3376,8 @@ mk:
           ninth: деветтиот
           tenth: десеттиот
       time: Време
+      download: Преземи патен правец како GeoJSON
+      filename: патен правец
     query:
       node: Јазол
       way: Пат
@@ -3288,6 +3392,15 @@ mk:
       show_address: Прикажи адреса
       query_features: Можности за барања
       centre_map: Тука сосредоточи ја картата
+    home:
+      marker_title: Моја домашна местоположба
+      not_set: На вашата сметка нема зададено домашна местоположба
+    heatmap:
+      tooltip:
+        no_contributions: Нема придонеси на %{date}
+        contributions:
+          one: '%{count} придонес на %{date}'
+          other: '%{count} придонеси на %{date}'
   redactions:
     edit:
       heading: Уреди исправки
