@@ -34,11 +34,31 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
       return b.bounds.getSize() - a.bounds.getSize();
     });
 
+    this.updateChangesetLocations(map);
+
     for (const changeset of this._changesets) {
       const rect = L.rectangle(changeset.bounds,
                                { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
       rect.id = changeset.id;
       rect.addTo(this);
+    }
+  },
+
+  updateChangesetLocations: function (map) {
+    const mapCenterLng = map.getCenter().lng;
+
+    for (const changeset of this._changesets) {
+      const changesetSouthWest = changeset.bounds.getSouthWest();
+      const changesetNorthEast = changeset.bounds.getNorthEast();
+      const changesetCenterLng = (changesetSouthWest.lng + changesetNorthEast.lng) / 2;
+      const shiftInWorldCircumferences = Math.round((changesetCenterLng - mapCenterLng) / 360);
+
+      if (shiftInWorldCircumferences) {
+        changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
+        changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
+
+        this.getLayer(changeset.id)?.setBounds(changeset.bounds);
+      }
     }
   },
 
