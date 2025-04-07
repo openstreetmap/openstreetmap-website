@@ -13,7 +13,7 @@ OSM.History = function (map) {
       unHighlightChangeset($(this).data("changeset").id);
     });
 
-  const group = new OSM.HistoryChangesetsLayer()
+  const changesetsLayer = new OSM.HistoryChangesetsLayer()
     .on("mouseover", function (e) {
       highlightChangeset(e.layer.id);
     })
@@ -84,12 +84,12 @@ OSM.History = function (map) {
   }
 
   function highlightChangeset(id) {
-    group.highlightChangeset(id);
+    changesetsLayer.highlightChangeset(id);
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
-    group.unHighlightChangeset(id);
+    changesetsLayer.unHighlightChangeset(id);
     $("#changeset_" + id).removeClass("selected");
   }
 
@@ -238,7 +238,7 @@ OSM.History = function (map) {
   }
 
   function updateBounds() {
-    group.updateChangesetShapes(map);
+    changesetsLayer.updateChangesetShapes(map);
   }
 
   function updateMap() {
@@ -248,10 +248,10 @@ OSM.History = function (map) {
       return changeset.bbox;
     });
 
-    group.updateChangesets(map, changesets);
+    changesetsLayer.updateChangesets(map, changesets);
 
     if (location.pathname !== "/history") {
-      const bounds = group.getBounds();
+      const bounds = changesetsLayer.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
   }
@@ -261,7 +261,7 @@ OSM.History = function (map) {
   };
 
   page.load = function () {
-    map.addLayer(group);
+    map.addLayer(changesetsLayer);
 
     if (location.pathname === "/history") {
       map.on("moveend", reloadChangesetsBecauseOfMapMovement);
@@ -273,7 +273,7 @@ OSM.History = function (map) {
   };
 
   page.unload = function () {
-    map.removeLayer(group);
+    map.removeLayer(changesetsLayer);
     map.off("moveend", reloadChangesetsBecauseOfMapMovement);
     map.off("zoomend", updateBounds);
     disableChangesetIntersectionObserver();
