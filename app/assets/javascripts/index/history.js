@@ -232,12 +232,14 @@ OSM.History = function (map) {
     }
   }
 
-  function reloadChangesetsBecauseOfMapMovement() {
-    OSM.router.replace("/history" + window.location.hash);
-    loadFirstChangesets();
+  function moveEndListener() {
+    if (location.pathname === "/history") {
+      OSM.router.replace("/history" + window.location.hash);
+      loadFirstChangesets();
+    }
   }
 
-  function updateBounds() {
+  function zoomEndListener() {
     changesetsLayer.updateChangesetShapes(map);
   }
 
@@ -262,20 +264,15 @@ OSM.History = function (map) {
 
   page.load = function () {
     map.addLayer(changesetsLayer);
-
-    if (location.pathname === "/history") {
-      map.on("moveend", reloadChangesetsBecauseOfMapMovement);
-    }
-
-    map.on("zoomend", updateBounds);
-
+    map.on("moveend", moveEndListener);
+    map.on("zoomend", zoomEndListener);
     loadFirstChangesets();
   };
 
   page.unload = function () {
     map.removeLayer(changesetsLayer);
-    map.off("moveend", reloadChangesetsBecauseOfMapMovement);
-    map.off("zoomend", updateBounds);
+    map.off("moveend", moveEndListener);
+    map.off("zoomend", zoomEndListener);
     disableChangesetIntersectionObserver();
   };
 
