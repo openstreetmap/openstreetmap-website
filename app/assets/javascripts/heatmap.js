@@ -2,56 +2,153 @@
 //= require cal-heatmap/dist/cal-heatmap
 //= require popper
 //= require cal-heatmap/dist/plugins/Tooltip
+//= require cal-heatmap/dist/plugins/CalendarLabel
 
-/* global CalHeatmap, Tooltip */
+/* global CalHeatmap, Tooltip, CalendarLabel */
+
+// Constants
+const ROWS_COUNT = 7;
+const ALLOWED_DOMAIN_TYPE = ["ghDay"];
+const CELL_SIZE = 11;
+const CELL_GUTTER = 4;
+const MONTH_LABEL_WIDTH = 61;
+const DAYS_IN_MONTH_THRESHOLD = 15;
+
+// Store global dates for use across functions
+let heatmapStartDate, heatmapEndDate;
+
+// Define the yearly template
+const yearlyTemplate = (DateHelper) => ({
+  name: "yearly",
+  allowedDomainType: ALLOWED_DOMAIN_TYPE,
+  rowsCount: () => ROWS_COUNT,
+  columnsCount: () => {
+    const startDate = DateHelper.date(heatmapStartDate);
+    const endDate = DateHelper.date(heatmapEndDate);
+    return Math.ceil(endDate.diff(startDate, "weeks", true)) + 1;
+  },
+  mapping: () => {
+    const startDate = DateHelper.date(heatmapStartDate);
+    const endDate = DateHelper.date(heatmapEndDate);
+    let weekNumber = -1;
+    let x = -1;
+
+    return DateHelper.intervals("day", startDate, endDate.add(1, "day")).map((ts) => {
+      const date = DateHelper.date(ts);
+      if (weekNumber !== date.week()) {
+        weekNumber = date.week();
+        x += 1;
+      }
+
+      return {
+        t: ts,
+        x,
+        y: date.weekday()
+      };
+    });
+  },
+  extractUnit: (ts) => DateHelper.date(ts).startOf("day").valueOf()
+});
+
+// Helper functions
+const getMonthLabels = () => {
+  const months = [];
+  const currentDate = new Date(heatmapStartDate);
+  const needsMonthRotation = currentDate.getUTCDate() > DAYS_IN_MONTH_THRESHOLD;
+  if (needsMonthRotation) {
+    const firstMonth = currentDate.toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" });
+    currentDate.setUTCMonth(currentDate.getUTCMonth() + 1);
+    for (let i = 0; i < 11; i++) {
+      months.push(currentDate.toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" }));
+      currentDate.setUTCMonth(currentDate.getUTCMonth() + 1);
+    }
+    months.push(firstMonth);
+  } else {
+    for (let i = 0; i < 12; i++) {
+      months.push(currentDate.toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" }));
+      currentDate.setUTCMonth(currentDate.getUTCMonth() + 1);
+    }
+  }
+  return months;
+};
+
+const getTooltipText = (date, value) => {
+  const localizedDate = OSM.i18n.l("date.formats.long", date);
+  const key = value > 0 ? "javascripts.heatmap.tooltip.contributions" : "javascripts.heatmap.tooltip.no_contributions";
+  return OSM.i18n.t(key, { count: value, date: localizedDate });
+};
+
+const getTheme = (colorScheme, mediaQuery) => {
+  if (colorScheme === "auto") {
+    return mediaQuery.matches ? "dark" : "light";
+  }
+  return colorScheme;
+};
+
+const setupDateRange = () => {
+  const now = new Date();
+  heatmapStartDate = new Date(Date.UTC(
+    now.getUTCFullYear() - 1,
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    0, 0, 0, 0
+  ));
+  heatmapEndDate = new Date(Date.UTC(
+    heatmapStartDate.getUTCFullYear() + 1,
+    heatmapStartDate.getUTCMonth(),
+    heatmapStartDate.getUTCDate(),
+    23, 59, 59, 999
+  ));
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const heatmapElement = document.querySelector("#cal-heatmap");
+  if (!heatmapElement) return;
 
-  if (!heatmapElement) {
-    return;
-  }
-
-  /** @type {{date: string; max_id: number; total_changes: number}[]} */
   const heatmapData = heatmapElement.dataset.heatmap ? JSON.parse(heatmapElement.dataset.heatmap) : [];
   const displayName = heatmapElement.dataset.displayName;
   const colorScheme = document.documentElement.getAttribute("data-bs-theme") ?? "auto";
   const rangeColorsDark = ["#14432a", "#4dd05a"];
   const rangeColorsLight = ["#4dd05a", "#14432a"];
-  const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
-
+  setupDateRange();
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
   let cal = new CalHeatmap();
-  let currentTheme = getTheme();
+  let currentTheme = getTheme(colorScheme, mediaQuery);
 
   function renderHeatmap() {
     cal.destroy();
     cal = new CalHeatmap();
+    cal.addTemplates(yearlyTemplate);
 
     cal.paint({
       itemSelector: "#cal-heatmap",
       theme: currentTheme,
       domain: {
-        type: "month",
-        gutter: 4,
+        type: "ghDay",
+        gutter: CELL_GUTTER,
         label: {
-          text: (timestamp) => new Date(timestamp).toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" }),
-          position: "top",
-          textAlign: "middle"
+          text: () => "" // disable default labels
         },
         dynamicDimension: true
       },
       subDomain: {
-        type: "ghDay",
+        type: "yearly",
         radius: 2,
-        width: 11,
-        height: 11,
-        gutter: 4
+        width: CELL_SIZE,
+        height: CELL_SIZE,
+        gutter: CELL_GUTTER,
+        highlightClass: (timestamp) => {
+          const date = new Date(timestamp);
+          const today = new Date();
+          return date.toDateString() === today.toDateString() ? "today" : null;
+        }
       },
       date: {
-        start: startDate
+        start: heatmapStartDate,
+        end: heatmapEndDate,
+        timezone: "UTC"
       },
-      range: 13,
+      range: 1,
       data: {
         source: heatmapData,
         type: "json",
@@ -68,6 +165,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }, [
       [Tooltip, {
         text: (date, value) => getTooltipText(date, value)
+      }],
+      [CalendarLabel, {
+        position: "top",
+        key: "month-labels",
+        text: getMonthLabels,
+        width: MONTH_LABEL_WIDTH,
+        textAlign: "middle",
+        padding: heatmapStartDate.getUTCDate() > DAYS_IN_MONTH_THRESHOLD ? [0, 0, 5, 5] : [0, 0, 5, 0]
       }]
     ]);
 
@@ -88,24 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function getTooltipText(date, value) {
-    const localizedDate = OSM.i18n.l("date.formats.long", date);
-
-    if (value > 0) {
-      return OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
-    }
-
-    return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
-  }
-
-  function getTheme() {
-    if (colorScheme === "auto") {
-      return mediaQuery.matches ? "dark" : "light";
-    }
-
-    return colorScheme;
-  }
-
   if (colorScheme === "auto") {
     mediaQuery.addEventListener("change", (e) => {
       currentTheme = e.matches ? "dark" : "light";
@@ -115,5 +202,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderHeatmap();
 });
-
 
