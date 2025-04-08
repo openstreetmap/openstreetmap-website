@@ -2,8 +2,7 @@ require "application_system_test_case"
 
 class BrowseCommentLinksTest < ApplicationSystemTestCase
   test "visiting changeset comment link should pan to changeset" do
-    changeset = create(:changeset, :min_lat => 60 * GeoRecord::SCALE, :min_lon => 30 * GeoRecord::SCALE,
-                                   :max_lat => 60 * GeoRecord::SCALE, :max_lon => 30 * GeoRecord::SCALE)
+    changeset = create(:changeset, :bbox => [30, 60, 30, 60])
     comment = create(:changeset_comment, :changeset => changeset, :body => "Linked changeset comment")
 
     visit changeset_path(changeset, :anchor => "c#{comment.id}")

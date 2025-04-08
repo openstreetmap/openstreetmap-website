@@ -110,9 +110,9 @@ class HistoryTest < ApplicationSystemTestCase
   end
 
   test "update sidebar when before param is included and map is moved" do
-    changeset1 = create(:changeset, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)
+    changeset1 = create(:changeset, :num_changes => 1, :bbox => [5, 5, 5, 5])
     create(:changeset_tag, :changeset => changeset1, :k => "comment", :v => "changeset-at-fives")
-    changeset2 = create(:changeset, :num_changes => 1, :min_lat => 50100000, :max_lat => 50100001, :min_lon => 50100000, :max_lon => 50100001)
+    changeset2 = create(:changeset, :num_changes => 1, :bbox => [5.01, 5.01, 5.01, 5.01])
     create(:changeset_tag, :changeset => changeset2, :k => "comment", :v => "changeset-close-to-fives")
     changeset3 = create(:changeset)
 
@@ -136,9 +136,7 @@ class HistoryTest < ApplicationSystemTestCase
   test "all changesets are listed when fully zoomed out" do
     user = create(:user)
     [-177, -90, 0, 90, 177].each do |lon|
-      create(:changeset, :user => user, :num_changes => 1,
-                         :min_lat => 0 * GeoRecord::SCALE, :min_lon => (lon - 1) * GeoRecord::SCALE,
-                         :max_lat => 1 * GeoRecord::SCALE, :max_lon => (lon + 1) * GeoRecord::SCALE) do |changeset|
+      create(:changeset, :user => user, :num_changes => 1, :bbox => [lon - 1, 0, lon + 1, 1]) do |changeset|
         create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "changeset-at-lon(#{lon})")
       end
     end

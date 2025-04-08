@@ -91,8 +91,8 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_index_bbox
-    changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)
-    other_changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 0, :max_lat => 1, :min_lon => 0, :max_lon => 1)
+    changesets = create_list(:changeset, 10, :num_changes => 1, :bbox => [5, 5, 5, 5])
+    other_changesets = create_list(:changeset, 10, :num_changes => 1, :bbox => [0, 0, 1, 1])
 
     # First check they all show up without a bbox parameter
     get history_path(:format => "html", :list => "1"), :xhr => true
@@ -389,12 +389,12 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_feed_bbox
-    changeset = create(:changeset, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+    changeset = create(:changeset, :num_changes => 1, :bbox => [5, 5, 5, 5])
     create(:changeset_tag, :changeset => changeset)
     create(:changeset_tag, :changeset => changeset, :k => "website", :v => "http://example.com/")
-    closed_changeset = create(:changeset, :closed, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
-    _elsewhere_changeset = create(:changeset, :num_changes => 1, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
-    _empty_changeset = create(:changeset, :num_changes => 0, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+    closed_changeset = create(:changeset, :closed, :num_changes => 1, :bbox => [5, 5, 5, 5])
+    _elsewhere_changeset = create(:changeset, :num_changes => 1, :bbox => [-5, -5, -5, -5])
+    _empty_changeset = create(:changeset, :num_changes => 0, :bbox => [5, 5, 5, 5])
 
     get history_feed_path(:format => :atom, :bbox => "4.5,4.5,5.5,5.5")
     assert_response :success

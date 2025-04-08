@@ -53,8 +53,8 @@ module Api
       user = create(:user)
       changeset = create(:changeset, :user => user)
       closed_changeset = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
-      changeset2 = create(:changeset, :min_lat => (5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round, :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (15 * GeoRecord::SCALE).round)
-      changeset3 = create(:changeset, :min_lat => (4.5 * GeoRecord::SCALE).round, :min_lon => (4.5 * GeoRecord::SCALE).round, :max_lat => (5 * GeoRecord::SCALE).round, :max_lon => (5 * GeoRecord::SCALE).round)
+      changeset2 = create(:changeset, :bbox => [5, 5, 15, 15])
+      changeset3 = create(:changeset, :bbox => [4.5, 4.5, 5, 5])
 
       get api_changesets_path(:bbox => "-10,-10, 10, 10")
       assert_response :success, "can't get changesets in bbox"
@@ -627,9 +627,7 @@ module Api
     end
 
     def test_show_bbox_json
-      # test bbox attribute
-      changeset = create(:changeset, :min_lat => (-5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round,
-                                     :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (12 * GeoRecord::SCALE).round)
+      changeset = create(:changeset, :bbox => [5, -5, 12, 15])
 
       get api_changeset_path(changeset, :format => "json")
       assert_response :success, "cannot get first changeset"
@@ -2092,9 +2090,7 @@ module Api
       create(:changeset, :user => user, :created_at => Time.now.utc - 7.days)
 
       # create a changeset that puts us near the initial size limit
-      changeset = create(:changeset, :user => user,
-                                     :min_lat => (-0.5 * GeoRecord::SCALE).round, :min_lon => (0.5 * GeoRecord::SCALE).round,
-                                     :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
+      changeset = create(:changeset, :user => user, :bbox => [0.5, -0.5, 2.5, 0.5])
 
       # create authentication header
       auth_header = bearer_authorization_header user
