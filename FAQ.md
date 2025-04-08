@@ -8,7 +8,7 @@ drive.  This is a great way to reach a lot of people!
 
 1. Please review the Operations Working Group's [Banner Policy](https://operations.osmfoundation.org/policies/banner/) to know whether your event qualifies for a front-page banner.
 2. Create the banner image.  The image needs to:
-   * be exactly 350px wide and at most 350px tall,
+   * be exactly 350px wide and no taller than 350px,
    * be in PNG format,
    * have nothing important in the top-right 60x60px corner of the banner which has a close 'X' button overlayed, and
    * have sufficient visual contrast with the colours #cccccc and #999999 so the 'X' can be seen.
@@ -34,4 +34,4 @@ There's no need to ask for an issue to be assigned before anyone starts working 
 
 In our experience, most people who ask for an issue to be assigned to them never create a pull request. So we would need to keep track of the assigned issues, and remember to unassign them a week or two into the future, when it is likely that they will not be making a PR. Assigned developers might feel bad if they perceive that we're unhappy with their progress, further discouraging them from contributing. Or we will get drawn into discussions about needing more time, or re-assigning them again, or so on. So it is best not to assign in the first place.
 
-The risk that two people are both genuinely working on the same task in the same hour or two is vanishingly remote, and doesn't outweigh the downsides described above. A better approach is to encourage people to simply work on the task and create a pull request, at which point everyone knows that they are actually working on the issue and not just planning/hoping/wishing to do so.
+The likelihood that two people are working on the same task at the same time is very low, and doesn't outweigh the downsides described above. A better approach is to encourage people to simply work on the task and create a pull request, at which point everyone knows that they are actually working on the issue and not just planning/hoping/wishing to do so.
