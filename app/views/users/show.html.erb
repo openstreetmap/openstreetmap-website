@@ -1,6 +1,7 @@
 <% content_for :head do %>
   <%= stylesheet_link_tag "cal-heatmap/dist/cal-heatmap" %>
   <%= javascript_include_tag "heatmap" %>
+  <%= stylesheet_link_tag "heatmap" %>
 <% end %>
 <% content_for :heading do %>
   <div class="row">
@@ -240,20 +241,21 @@
 <% if @heatmap_data.present? %>
   <div class="row">
     <div class="col overflow-auto">
-      <div class="heatmap-wrapper d-flex align-items-start">
-        <!-- Labels -->
-        <ul class="list-unstyled d-flex flex-column justify-content-between ch-domain-text mb-0 mt-4">
-          <li>&nbsp;</li>
-          <li><%= t("date.abbr_day_names")[1] %></li>
-          <li>&nbsp;</li>
-          <li><%= t("date.abbr_day_names")[3] %></li>
-          <li>&nbsp;</li>
-          <li><%= t("date.abbr_day_names")[5] %></li>
-          <li>&nbsp;</li>
-        </ul>
-        <!-- Heatmap -->
-        <div id="cal-heatmap" class="ms-2"
-          data-heatmap="<%= @heatmap_data.to_json %>" data-display-name="<%= @user.display_name %>">
+      <!-- Heatmap Row -->
+      <div class="row">
+        <div class="col">
+          <div class="heatmap-wrapper d-flex align-items-start">
+            <!-- Week Labels Container -->
+            <div class="heatmap-week-labels"></div>
+            <div class="flex-grow-1">
+              <!-- Month Labels Container -->
+              <div class="heatmap-month-labels"></div>
+            <!-- Heatmap -->
+            <div id="cal-heatmap" class="ms-2"
+              data-heatmap="<%= @heatmap_data.to_json %>" data-display-name="<%= @user.display_name %>">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
