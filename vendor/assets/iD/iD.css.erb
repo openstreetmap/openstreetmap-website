@@ -1334,8 +1334,13 @@
 .ideditor path.line.stroke.tag-pedestrian {
     stroke: #fff;
     stroke-width: 3.5;
-    stroke-dasharray: 8, 8;
+    stroke-dasharray: 6, 6;
     stroke-linecap: butt;
+}
+.ideditor path.line.stroke.tag-highway-pedestrian.tag-oneway,
+.ideditor path.line.stroke.tag-pedestrian.tag-oneway {
+    stroke-dasharray: 6, 6, 6, 18;
+    stroke-dashoffset: 9;
 }
 .ideditor .low-zoom path.line.stroke.tag-highway-pedestrian,
 .ideditor .low-zoom path.line.stroke.tag-pedestrian {
@@ -1412,6 +1417,13 @@
 .ideditor path.line.stroke.tag-highway-bridleway {
     stroke-linecap: butt;
     stroke-dasharray: 6, 6;
+}
+.ideditor path.line.stroke.tag-highway-path.tag-oneway,
+.ideditor path.line.stroke.tag-highway-footway.tag-oneway,
+.ideditor path.line.stroke.tag-highway-cycleway.tag-oneway,
+.ideditor path.line.stroke.tag-highway-bridleway.tag-oneway {
+    stroke-dasharray: 6, 6, 6, 18;
+    stroke-dashoffset: 9;
 }
 .ideditor .low-zoom path.line.stroke.tag-highway-path,
 .ideditor .low-zoom path.line.stroke.tag-highway-footway,
@@ -1562,6 +1574,10 @@
 .ideditor path.line.stroke.tag-highway.tag-crossing-unmarked {
     stroke-dasharray: 6, 4;
 }
+.ideditor path.line.stroke.tag-highway.tag-crossing-unmarked.tag-oneway {
+    stroke-dasharray: 6, 4, 6, 20;
+    stroke-dashoffset: 8;
+}
 .ideditor .low-zoom path.line.stroke.tag-highway.tag-crossing-unmarked {
     stroke-dasharray: 3, 2;
 }
@@ -1678,6 +1694,7 @@
     stroke-width: 2;
     stroke-linecap: butt;
     stroke-dasharray: 24, 48;
+    stroke-dashoffset: -7;
 }
 .ideditor .low-zoom path.line.shadow.tag-aeroway-runway {
     stroke-width: 16;
@@ -1714,7 +1731,11 @@
 .ideditor path.line.stroke.tag-railway {
     stroke-width: 2;
     stroke-linecap: butt;
-    stroke-dasharray: 12, 12;
+    stroke-dasharray: 10,8;
+}
+.ideditor path.line.stroke.tag-railway.tag-oneway {
+    stroke-dasharray: 10, 26;
+    stroke-dashoffset: 5;
 }
 .ideditor .low-zoom path.line.shadow.tag-railway {
     stroke-width: 12;
@@ -2567,6 +2588,11 @@
     left: 0;
 }
 
+.ideditor .disabled-panel {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 /* photo viewer div */
 .ideditor .photoviewer {
     position: relative;
@@ -2943,15 +2969,25 @@
 
 .ideditor .slider-wrap {
     display: inline-block;
+    width: 100%;
 }
 
-.ideditor .year-datalist {
+.ideditor .date-slider-label {
     display: flex;
     justify-content: space-between;
 }
 
-.ideditor .list-option-date-slider{
-    direction: rtl
+.ideditor .list-option-date-slider {
+    width: 100%;
+}
+
+.ideditor .yearSliderSpan{
+    padding: 2px;
+}
+
+
+.ideditor .list-item-date-slider label{
+    display: block !important;
 }
 
 /* Streetside Viewer (pannellum) */
@@ -3078,6 +3114,16 @@
     transform-origin: 0 0;
 }
 
+.ideditor .panoramax-wrapper .photo-attribution a:active {
+    color: #ff6f00;
+}
+
+@media (hover: hover) {
+    .ideditor .panoramax-wrapper .photo-attribution a:hover {
+        color: #ff6f00;
+    }
+}
+
 .ideditor .photo-wrapper {
     position: relative;
     background-color: #000;
@@ -3093,9 +3139,11 @@
 }
 
 .ideditor .photoviewer .plane-frame > img.plane-photo {
-    width: auto;
+    width: 100%;
     height: 100%;
-    transform-origin: 0 0;
+    overflow: hidden;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 /* photo-controls (step forward, back, rotate) */
@@ -3236,6 +3284,21 @@
     display: inline-block;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.ideditor .photo-controls-local {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.ideditor .photo-controls-local button {
+    padding:0 6px;
+    pointer-events: initial;
+}
+
+.ideditor .photo-controls-local button:disabled {
+    background: rgba(255,255,255,.25);
 }
 
 
@@ -3483,7 +3546,13 @@
 .ideditor.mode-select-note .fill-partial path.area.fill {
     pointer-events: visibleStroke;
 }
-.ideditor svg.preset-icon-category-border path {
+.ideditor.mode-browse .fill-full path.area.fill,
+.ideditor.mode-select .fill-full path.area.fill,
+.ideditor.mode-select-data .fill-full path.area.fill,
+.ideditor.mode-select-error .fill-full path.area.fill,
+.ideditor.mode-select-note .fill-full path.area.fill {
+    pointer-events: visibleFill;
+}.ideditor svg.preset-icon-category-border path {
     stroke-width: 1;
     stroke: rgb(170, 170, 170);
     fill: rgba(170, 170, 170, 0.3);
