@@ -220,7 +220,7 @@ OSM.History = function (map) {
     const neClamped = crs.unproject(crs.project(ne));
 
     if (sw.lat >= swClamped.lat || ne.lat <= neClamped.lat || ne.lng - sw.lng < 360) {
-      data.set("bbox", map.getBounds().wrap().toBBoxString());
+      data.set("bbox", map.getBounds().toBBoxString());
     }
   }
 
