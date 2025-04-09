@@ -35,14 +35,15 @@
         distance: path.distance,
         time: path.time / 1000,
         ascend: path.ascend,
-        descend: path.descend
+        descend: path.descend,
+        credit: "GraphHopper",
+        creditlink: "https://www.graphhopper.com/"
       };
     }
 
     return {
       mode: modeId,
       provider: "graphhopper",
-      creditline: "<a href=\"https://www.graphhopper.com/\" target=\"_blank\">GraphHopper</a>",
       draggable: false,
 
       getRoute: function (points, signal) {

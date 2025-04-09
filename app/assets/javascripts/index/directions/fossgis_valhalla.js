@@ -56,15 +56,15 @@
         line,
         steps,
         distance: leg.summary.length * 1000,
-        time: leg.summary.time
+        time: leg.summary.time,
+        credit: "Valhalla (FOSSGIS)",
+        creditlink: "https://gis-ops.com/global-open-valhalla-server-online/"
       };
     }
 
     return {
       mode: modeId,
       provider: "fossgis_valhalla",
-      creditline:
-      "<a href='https://gis-ops.com/global-open-valhalla-server-online/' target='_blank'>Valhalla (FOSSGIS)</a>",
       draggable: false,
 
       getRoute: function (points, signal) {

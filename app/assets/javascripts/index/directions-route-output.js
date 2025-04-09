@@ -52,7 +52,7 @@ OSM.DirectionsRouteOutput = function (map) {
 
   const routeOutput = {};
 
-  routeOutput.write = function (content, engine, route) {
+  routeOutput.write = function (content, route) {
     polyline
       .setLatLngs(route.line)
       .addTo(map);
@@ -117,7 +117,9 @@ OSM.DirectionsRouteOutput = function (map) {
     }</a></p>`);
 
     content.append("<p class=\"text-center\">" +
-      OSM.i18n.t("javascripts.directions.instructions.courtesy", { link: engine.creditline }) +
+      OSM.i18n.t("javascripts.directions.instructions.courtesy", {
+        link: `<a href="${route.creditlink}" target="_blank">${route.credit}</a>`
+      }) +
       "</p>");
   };
 
