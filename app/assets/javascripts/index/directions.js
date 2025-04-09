@@ -121,7 +121,7 @@ OSM.Directions = function (map) {
     });
   }
 
-  function hideRoute(e) {
+  function closeButtonListener(e) {
     e.stopPropagation();
     routeOutput.remove($("#directions_content"));
     map.setSidebarOverlaid(true);
@@ -185,7 +185,7 @@ OSM.Directions = function (map) {
   }
 
   function enableListeners() {
-    $("#sidebar .sidebar-close-controls button").on("click", hideRoute);
+    $("#sidebar .sidebar-close-controls button").on("click", closeButtonListener);
 
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
@@ -241,7 +241,7 @@ OSM.Directions = function (map) {
     $(".search_form").show();
     $(".directions_form").hide();
 
-    $("#sidebar .sidebar-close-controls button").off("click", hideRoute);
+    $("#sidebar .sidebar-close-controls button").off("click", closeButtonListener);
     $("#map").off("dragend dragover drop");
     map.off("locationfound", sendstartinglocation);
 
