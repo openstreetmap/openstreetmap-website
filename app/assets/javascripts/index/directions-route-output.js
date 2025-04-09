@@ -95,13 +95,15 @@ OSM.DirectionsRouteOutput = function (map) {
           .openOn(map);
       });
 
-      row.hover(function () {
-        highlight
-          .setLatLngs(lineseg)
-          .addTo(map);
-      }, function () {
-        map.removeLayer(highlight);
-      });
+      row
+        .on("mouseenter", function () {
+          highlight
+            .setLatLngs(lineseg)
+            .addTo(map);
+        })
+        .on("mouseleave", function () {
+          map.removeLayer(highlight);
+        });
     }
 
     const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
