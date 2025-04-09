@@ -33,9 +33,10 @@ OSM.Search = function (map) {
   $(".describe_location").on("click", function (e) {
     e.preventDefault();
     $("header").addClass("closed");
-    const [lat, lon] = OSM.cropLocation(map.getCenter(), map.getZoom());
+    const zoom = map.getZoom();
+    const [lat, lon] = OSM.cropLocation(map.getCenter(), zoom);
 
-    OSM.router.route("/search?" + new URLSearchParams({ lat, lon }));
+    OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom }));
   });
 
   $("#sidebar_content")

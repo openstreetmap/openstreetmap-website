@@ -1,15 +1,40 @@
 require "application_system_test_case"
 
 class SearchTest < ApplicationSystemTestCase
-  test "click on 'where is this' sets search input value" do
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
-      .to_return(:status => 404)
+  test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?.*zoom=$})
+      .to_return(:status => 400, :body => <<-BODY)
+        <?xml version="1.0" encoding="UTF-8"?>
+        <error>
+          <code>400</code>
+          <message>Parameter 'zoom' must be a number.</message>
+        </error>
+      BODY
 
-    visit "/#map=7/1.234/6.789"
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?.*zoom=15$})
+      .to_return(:status => 200, :body => <<-BODY)
+        <?xml version="1.0" encoding="UTF-8"?>
+        <reversegeocode timestamp="Sun, 01 Mar 15 22:49:45 +0000" attribution="Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright" querystring="accept-language=&amp;lat=51.76320&amp;lon=-0.00760&amp;zoom=15">
+          <result place_id="150696" osm_type="node" osm_id="28825933" ref="Broxbourne" lat="51.7465723" lon="-0.0190782">Broxbourne, Hertfordshire, East of England, England, United Kingdom</result>
+          <addressparts>
+            <suburb>Broxbourne</suburb>
+            <city>Broxbourne</city>
+            <county>Hertfordshire</county>
+            <state_district>East of England</state_district>
+            <state>England</state>
+            <country>United Kingdom</country>
+            <country_code>gb</country_code>
+          </addressparts>
+        </reversegeocode>
+      BODY
+
+    visit "/#map=15/51.76320/-0.00760"
 
     assert_field "Search", :with => ""
     click_on "Where is this?"
-    assert_field "Search", :with => "1.234, 6.789"
+
+    assert_field "Search", :with => "51.76320, -0.00760"
+    assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
   end
 
   test "query search link sets search input value" do
