@@ -480,6 +480,61 @@ CREATE TABLE public.changesets_subscribers (
 
 
 --
+-- Name: note_comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_comments (
+    id bigint NOT NULL,
+    note_id bigint NOT NULL,
+    visible boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    author_ip inet,
+    author_id bigint,
+    body text,
+    event public.note_event_enum
+);
+
+
+--
+-- Name: note_versions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_versions (
+    note_id bigint NOT NULL,
+    latitude integer NOT NULL,
+    longitude integer NOT NULL,
+    tile bigint NOT NULL,
+    "timestamp" timestamp(6) without time zone NOT NULL,
+    status public.note_status_enum NOT NULL,
+    event public.note_event_enum NOT NULL,
+    description text NOT NULL,
+    user_id bigint,
+    user_ip inet,
+    version bigint NOT NULL,
+    redaction_id integer,
+    note_comment_id bigint NOT NULL,
+    note_comment_visible boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- Name: composite_note_comments; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.composite_note_comments AS
+ SELECT COALESCE(note_version.note_comment_id, note_comment.id) AS id,
+    COALESCE(note_version.note_id, note_comment.note_id) AS note_id,
+    COALESCE(note_comment.visible, note_version.note_comment_visible) AS visible,
+    COALESCE(note_version."timestamp", note_comment.created_at) AS created_at,
+    COALESCE(note_version.user_ip, note_comment.author_ip) AS author_ip,
+    COALESCE(note_version.user_id, note_comment.author_id) AS author_id,
+    COALESCE(note_comment.body, ''::text) AS body,
+    COALESCE(note_version.event, note_comment.event) AS event
+   FROM (public.note_comments note_comment
+     FULL JOIN public.note_versions note_version ON ((note_comment.id = note_version.note_comment_id)));
+
+
+--
 -- Name: current_node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1024,22 +1079,6 @@ CREATE TABLE public.nodes (
 
 
 --
--- Name: note_comments; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.note_comments (
-    id bigint NOT NULL,
-    note_id bigint NOT NULL,
-    visible boolean NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    author_ip inet,
-    author_id bigint,
-    body text,
-    event public.note_event_enum
-);
-
-
---
 -- Name: note_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1065,28 +1104,6 @@ ALTER SEQUENCE public.note_comments_id_seq OWNED BY public.note_comments.id;
 CREATE TABLE public.note_subscriptions (
     user_id bigint NOT NULL,
     note_id bigint NOT NULL
-);
-
-
---
--- Name: note_versions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.note_versions (
-    note_id bigint NOT NULL,
-    latitude integer NOT NULL,
-    longitude integer NOT NULL,
-    tile bigint NOT NULL,
-    "timestamp" timestamp(6) without time zone NOT NULL,
-    status public.note_status_enum NOT NULL,
-    event public.note_event_enum NOT NULL,
-    description text NOT NULL,
-    user_id bigint,
-    user_ip inet,
-    version bigint NOT NULL,
-    redaction_id integer,
-    note_comment_id bigint NOT NULL,
-    note_comment_visible boolean DEFAULT true NOT NULL
 );
 
 
@@ -3496,6 +3513,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250409203044'),
 ('20250317122723'),
 ('20250316212229'),
 ('20250304172798'),
