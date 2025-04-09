@@ -1,4 +1,5 @@
 //= require jquery-simulate/jquery.simulate
+//= require ./history-changesets-layer
 
 OSM.History = function (map) {
   const page = {};
@@ -12,7 +13,7 @@ OSM.History = function (map) {
       unHighlightChangeset($(this).data("changeset").id);
     });
 
-  const group = L.featureGroup()
+  const changesetsLayer = new OSM.HistoryChangesetsLayer()
     .on("mouseover", function (e) {
       highlightChangeset(e.layer.id);
     })
@@ -22,10 +23,6 @@ OSM.History = function (map) {
     .on("click", function (e) {
       clickChangeset(e.layer.id, e.originalEvent);
     });
-
-  group.getLayerId = function (layer) {
-    return layer.id;
-  };
 
   let changesetIntersectionObserver;
 
@@ -87,14 +84,12 @@ OSM.History = function (map) {
   }
 
   function highlightChangeset(id) {
-    const layer = group.getLayer(id);
-    if (layer) layer.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
+    changesetsLayer.highlightChangeset(id);
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
-    const layer = group.getLayer(id);
-    if (layer) layer.setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
+    changesetsLayer.unHighlightChangeset(id);
     $("#changeset_" + id).removeClass("selected");
   }
 
@@ -237,60 +232,30 @@ OSM.History = function (map) {
     }
   }
 
-  function reloadChangesetsBecauseOfMapMovement() {
-    OSM.router.replace("/history" + window.location.hash);
-    loadFirstChangesets();
+  function moveEndListener() {
+    if (location.pathname === "/history") {
+      OSM.router.replace("/history" + window.location.hash);
+      loadFirstChangesets();
+    } else {
+      changesetsLayer.updateChangesetsPositions(map);
+    }
   }
 
-  let changesets = [];
-
-  function updateBounds() {
-    group.clearLayers();
-
-    for (const changeset of changesets) {
-      const bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
-            topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
-            width = topRight.x - bottomLeft.x,
-            height = bottomLeft.y - topRight.y,
-            minSize = 20; // Min width/height of changeset in pixels
-
-      if (width < minSize) {
-        bottomLeft.x -= ((minSize - width) / 2);
-        topRight.x += ((minSize - width) / 2);
-      }
-
-      if (height < minSize) {
-        bottomLeft.y += ((minSize - height) / 2);
-        topRight.y -= ((minSize - height) / 2);
-      }
-
-      changeset.bounds = L.latLngBounds(map.unproject(bottomLeft),
-                                        map.unproject(topRight));
-    }
-
-    changesets.sort(function (a, b) {
-      return b.bounds.getSize() - a.bounds.getSize();
-    });
-
-    for (const changeset of changesets) {
-      const rect = L.rectangle(changeset.bounds,
-                               { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
-      rect.id = changeset.id;
-      rect.addTo(group);
-    }
+  function zoomEndListener() {
+    changesetsLayer.updateChangesetShapes(map);
   }
 
   function updateMap() {
-    changesets = $("[data-changeset]").map(function (index, element) {
+    const changesets = $("[data-changeset]").map(function (index, element) {
       return $(element).data("changeset");
     }).get().filter(function (changeset) {
       return changeset.bbox;
     });
 
-    updateBounds();
+    changesetsLayer.updateChangesets(map, changesets);
 
     if (location.pathname !== "/history") {
-      const bounds = group.getBounds();
+      const bounds = changesetsLayer.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
   }
@@ -300,21 +265,16 @@ OSM.History = function (map) {
   };
 
   page.load = function () {
-    map.addLayer(group);
-
-    if (location.pathname === "/history") {
-      map.on("moveend", reloadChangesetsBecauseOfMapMovement);
-    }
-
-    map.on("zoomend", updateBounds);
-
+    map.addLayer(changesetsLayer);
+    map.on("moveend", moveEndListener);
+    map.on("zoomend", zoomEndListener);
     loadFirstChangesets();
   };
 
   page.unload = function () {
-    map.removeLayer(group);
-    map.off("moveend", reloadChangesetsBecauseOfMapMovement);
-    map.off("zoomend", updateBounds);
+    map.removeLayer(changesetsLayer);
+    map.off("moveend", moveEndListener);
+    map.off("zoomend", zoomEndListener);
     disableChangesetIntersectionObserver();
   };
 
