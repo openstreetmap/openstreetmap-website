@@ -1,4 +1,5 @@
 //= require ./directions-endpoint
+//= require ./directions-route-output
 //= require_self
 //= require_tree ./directions
 
@@ -7,22 +8,10 @@ OSM.Directions = function (map) {
   let lastLocation = [];
   let chosenEngine;
 
-  const popup = L.popup({ autoPanPadding: [100, 100] });
-
-  const polyline = L.polyline([], {
-    color: "#03f",
-    opacity: 0.3,
-    weight: 10
-  });
-
-  const highlight = L.polyline([], {
-    color: "#ff0",
-    opacity: 0.5,
-    weight: 12
-  });
+  const routeOutput = OSM.DirectionsRouteOutput(map);
 
   const endpointDragCallback = function (dragging) {
-    if (!map.hasLayer(polyline)) return;
+    if (!routeOutput.isVisible()) return;
     if (dragging && !chosenEngine.draggable) return;
     if (dragging && controller) return;
 
@@ -36,8 +25,6 @@ OSM.Directions = function (map) {
     OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "MARKER_GREEN" }, endpointDragCallback, endpointChangeCallback),
     OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "MARKER_RED" }, endpointDragCallback, endpointChangeCallback)
   ];
-
-  let downloadURL = null;
 
   const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
@@ -69,41 +56,6 @@ OSM.Directions = function (map) {
     $(".search_form input[name='query']").val(endpoints[1].value);
     OSM.router.route("/" + OSM.formatHash(map));
   });
-
-  function formatTotalDistance(m) {
-    if (m < 1000) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
-    } else if (m < 10000) {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
-    } else {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
-    }
-  }
-
-  function formatStepDistance(m) {
-    if (m < 5) {
-      return "";
-    } else if (m < 200) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
-    } else if (m < 1500) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
-    } else if (m < 5000) {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
-    } else {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
-    }
-  }
-
-  function formatHeight(m) {
-    return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
-  }
-
-  function formatTime(s) {
-    let m = Math.round(s / 60);
-    const h = Math.floor(m / 60);
-    m -= h * 60;
-    return h + ":" + (m < 10 ? "0" : "") + m;
-  }
 
   function setEngine(id) {
     const engines = OSM.Directions.engines;
@@ -155,78 +107,12 @@ OSM.Directions = function (map) {
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(function (route) {
-      polyline
-        .setLatLngs(route.line)
-        .addTo(map);
-
+      routeOutput.write($("#directions_content"), chosenEngine, route);
       if (fitRoute) {
-        map.fitBounds(polyline.getBounds().pad(0.05));
+        routeOutput.fit();
       }
-
-      const distanceText = $("<p>").append(
-        OSM.i18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
-        OSM.i18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
-      if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
-        distanceText.append(
-          $("<br>"),
-          OSM.i18n.t("javascripts.directions.ascend") + ": " + formatHeight(route.ascend) + ". " +
-          OSM.i18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
-      }
-
-      const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
-        .append($("<tbody>"));
-
-      $("#directions_content")
-        .empty()
-        .append(
-          distanceText,
-          turnByTurnTable
-        );
-
-      // Add each row
-      turnByTurnTable.append(route.steps.map(([direction, instruction, dist, lineseg], i) => {
-        const row = $("<tr class='turn'/>");
-        if (direction) {
-          row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
-        } else {
-          row.append("<td class='border-0'>");
-        }
-        row.append(`<td><b>${i + 1}.</b> ${instruction}`);
-        row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(dist));
-
-        row.on("click", function () {
-          popup
-            .setLatLng(lineseg[0])
-            .setContent(`<p><b>${i + 1}.</b> ${instruction}</p>`)
-            .openOn(map);
-        });
-
-        row.hover(function () {
-          highlight
-            .setLatLngs(lineseg)
-            .addTo(map);
-        }, function () {
-          map.removeLayer(highlight);
-        });
-
-        return row;
-      }));
-
-      const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
-      URL.revokeObjectURL(downloadURL);
-      downloadURL = URL.createObjectURL(blob);
-
-      $("#directions_content").append(`<p class="text-center"><a href="${downloadURL}" download="${
-        OSM.i18n.t("javascripts.directions.filename")
-      }">${
-        OSM.i18n.t("javascripts.directions.download")
-      }</a></p>`);
-
-      $("#directions_content").append("<p class=\"text-center\">" +
-        OSM.i18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
-        "</p>");
     }).catch(function () {
-      map.removeLayer(polyline);
+      routeOutput.remove($("#directions_content"));
       if (reportErrors) {
         $("#directions_content").html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
@@ -235,11 +121,9 @@ OSM.Directions = function (map) {
     });
   }
 
-  function hideRoute(e) {
+  function closeButtonListener(e) {
     e.stopPropagation();
-    map.removeLayer(polyline);
-    $("#directions_content").html("");
-    popup.close();
+    routeOutput.remove($("#directions_content"));
     map.setSidebarOverlaid(true);
     // TODO: collapse width of sidebar back to previous
   }
@@ -301,7 +185,7 @@ OSM.Directions = function (map) {
   }
 
   function enableListeners() {
-    $("#sidebar .sidebar-close-controls button").on("click", hideRoute);
+    $("#sidebar .sidebar-close-controls button").on("click", closeButtonListener);
 
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
@@ -357,7 +241,7 @@ OSM.Directions = function (map) {
     $(".search_form").show();
     $(".directions_form").hide();
 
-    $("#sidebar .sidebar-close-controls button").off("click", hideRoute);
+    $("#sidebar .sidebar-close-controls button").off("click", closeButtonListener);
     $("#map").off("dragend dragover drop");
     map.off("locationfound", sendstartinglocation);
 
@@ -367,9 +251,7 @@ OSM.Directions = function (map) {
     endpoints[0].clearValue();
     endpoints[1].clearValue();
 
-    map
-      .removeLayer(popup)
-      .removeLayer(polyline);
+    routeOutput.remove($("#directions_content"));
   };
 
   return page;
