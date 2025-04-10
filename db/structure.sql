@@ -10,13 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
-
---
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -1519,7 +1512,8 @@ CREATE TABLE public.users (
     tou_agreed timestamp without time zone,
     diary_comments_count integer DEFAULT 0,
     note_comments_count integer DEFAULT 0,
-    creation_address inet
+    creation_address inet,
+    show_contribution_heatmap boolean DEFAULT true NOT NULL
 );
 
 
@@ -3450,6 +3444,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250317000001'),
 ('20250304172798'),
 ('20250304172758'),
 ('20250212160355'),
