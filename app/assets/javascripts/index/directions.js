@@ -101,29 +101,32 @@ OSM.Directions = function (map) {
     }));
 
     $("#directions_loader").prop("hidden", false);
-    $("#directions_content").prop("hidden", true);
+    $("#directions_error").prop("hidden", true).empty();
+    $("#directions_route").prop("hidden", true);
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(function (route) {
-      routeOutput.write($("#directions_content"), route);
+      $("#directions_route").prop("hidden", false);
+      routeOutput.write($("#directions_route"), route);
       if (fitRoute) {
         routeOutput.fit();
       }
     }).catch(function () {
-      routeOutput.remove($("#directions_content"));
+      routeOutput.remove($("#directions_route"));
       if (reportErrors) {
-        $("#directions_content").html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
+        $("#directions_error")
+          .prop("hidden", false)
+          .html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
     }).finally(function () {
       $("#directions_loader").prop("hidden", true);
-      $("#directions_content").prop("hidden", false);
       controller = null;
     });
   }
 
   function closeButtonListener(e) {
     e.stopPropagation();
-    routeOutput.remove($("#directions_content"));
+    routeOutput.remove($("#directions_route"));
     map.setSidebarOverlaid(true);
     // TODO: collapse width of sidebar back to previous
   }
@@ -212,7 +215,7 @@ OSM.Directions = function (map) {
   const page = {};
 
   page.pushstate = page.popstate = function () {
-    if ($("#directions_content").length) {
+    if ($("#directions_route").length) {
       page.load();
     } else {
       initializeFromParams();
@@ -251,7 +254,7 @@ OSM.Directions = function (map) {
     endpoints[0].clearValue();
     endpoints[1].clearValue();
 
-    routeOutput.remove($("#directions_content"));
+    routeOutput.remove($("#directions_route"));
   };
 
   return page;
