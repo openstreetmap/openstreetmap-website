@@ -4,64 +4,48 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
-    assert_routing(
-      { :path => "/user/username/confirm", :method => :get },
-      { :controller => "confirmations", :action => "confirm", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username/confirm", :method => :post },
-      { :controller => "confirmations", :action => "confirm", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username/confirm/resend", :method => :post },
-      { :controller => "confirmations", :action => "confirm_resend", :display_name => "username" }
-    )
-
-    assert_routing(
-      { :path => "/user/confirm", :method => :get },
-      { :controller => "confirmations", :action => "confirm" }
-    )
-    assert_routing(
-      { :path => "/user/confirm", :method => :post },
-      { :controller => "confirmations", :action => "confirm" }
+    assert_recognizes(
+      { :controller => "confirmations", :action => "show", :display_name => "username" },
+      { :path => "/user/username/confirm", :method => :get }
     )
     assert_routing(
       { :path => "/user/confirm-email", :method => :get },
-      { :controller => "confirmations", :action => "confirm_email" }
+      { :controller => "confirmations", :action => "show" }
+    )
+    assert_recognizes(
+      { :controller => "confirmations", :action => "show", :display_name => "username" },
+      { :path => "/user/username/confirmations", :method => :get }
     )
     assert_routing(
-      { :path => "/user/confirm-email", :method => :post },
-      { :controller => "confirmations", :action => "confirm_email" }
+      { :path => "/user/username/confirmations", :method => :post },
+      { :controller => "confirmations", :action => "create", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/confirmations/new", :method => :get },
+      { :controller => "confirmations", :action => "new", :display_name => "username" }
     )
   end
 
   def test_confirm_get
     user = build(:user, :pending)
+    stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
-    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:account_confirmation)
 
-    get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_response :success
-    assert_template :confirm
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => welcome_path }
+    assert_redirected_to welcome_path
   end
 
   def test_confirm_get_already_confirmed
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
-    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:account_confirmation)
 
-    # Get the confirmation page
-    get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_response :success
-    assert_template :confirm
-
-    # Confirm the user
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => welcome_path }
     assert_redirected_to welcome_path
 
-    # Now try to get the confirmation page again
-    get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => welcome_path }
     assert_redirected_to root_path
   end
 
@@ -69,50 +53,50 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
-    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:account_confirmation)
 
     post logout_path
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_redirected_to login_path
-    assert_match(/Confirmed your account/, flash[:notice])
+    get confirmations_path(user.display_name), :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    assert_redirected_to root_path
+    assert_match(/Confirmed your email address/, flash[:notice])
   end
 
   def test_confirm_success_good_token_no_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
-    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:account_confirmation)
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_redirected_to welcome_path
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string }
+    assert_redirected_to root_path
   end
 
   def test_confirm_success_bad_token_no_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
-    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:account_confirmation)
 
     post logout_path
     session_for(create(:user))
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_redirected_to login_path
-    assert_match(/Confirmed your account/, flash[:notice])
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string }
+    assert_redirected_to root_path
+    assert_match(/Confirmed your email address/, flash[:notice])
   end
 
   def test_confirm_success_no_token_with_referer
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
-    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:account_confirmation)
 
     post logout_path
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
-    assert_redirected_to login_path(:referer => new_diary_entry_path)
-    assert_match(/Confirmed your account/, flash[:notice])
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => new_diary_entry_path }
+    assert_redirected_to new_diary_entry_path
+    assert_match(/Confirmed your email address/, flash[:notice])
   end
 
   def test_confirm_success_good_token_with_referer
@@ -121,7 +105,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => new_diary_entry_path }
     assert_redirected_to new_diary_entry_path
   end
 
@@ -134,9 +118,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post logout_path
     session_for(create(:user))
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
-    assert_redirected_to login_path(:referer => new_diary_entry_path)
-    assert_match(/Confirmed your account/, flash[:notice])
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => new_diary_entry_path }
+    assert_redirected_to new_diary_entry_path
+    assert_match(/Confirmed your email address/, flash[:notice])
   end
 
   def test_confirm_expired_token
@@ -146,9 +130,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     travel 2.weeks do
-      post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+      get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string }
     end
-    assert_redirected_to :action => "confirm"
+    assert_redirected_to root_path
     assert_match(/confirmation code has expired/, flash[:error])
   end
 
@@ -158,14 +142,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => new_diary_entry_path }
     assert_redirected_to new_diary_entry_path
 
     post logout_path
 
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
-    assert_redirected_to login_path
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string, :referer => new_diary_entry_path }
+    assert_redirected_to root_path
     assert_match(/already been confirmed/, flash[:error])
   end
 
@@ -178,11 +162,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     User.find_by(:display_name => user.display_name).hide!
 
     # Get the confirmation page
-    get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    get new_confirmations_path(user.display_name), :params => { :confirm_string => confirm_string }
     assert_redirected_to root_path
 
     # Confirm the user
-    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    get confirmations_path(user.display_name), :params => { :confirm_string => confirm_string }
     assert_response :not_found
     assert_template :no_such_user
   end
@@ -193,11 +177,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_confirm_resend_path(user)
+        post confirmations_path(user)
       end
     end
 
-    assert_redirected_to login_path
+    assert_redirected_to new_confirmations_path
     assert_equal("confirmations/resend_success_flash", flash[:notice][:partial])
     assert_equal({ :email => user.email, :sender => Settings.email_from }, flash[:notice][:locals])
 
@@ -214,32 +198,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        post user_confirm_resend_path(user)
+        post confirmations_path(user)
       end
     end
 
-    assert_redirected_to login_path
+    assert_redirected_to new_confirmations_path
     assert_match "User #{user.display_name} not found.", flash[:error]
   end
 
   def test_confirm_resend_unknown_user
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        post user_confirm_resend_path(:display_name => "No Such User")
+        post confirmations_path(:display_name => "No Such User")
       end
     end
 
-    assert_redirected_to login_path
+    assert_redirected_to new_confirmations_path
     assert_match "User No Such User not found.", flash[:error]
-  end
-
-  def test_confirm_email_get
-    user = create(:user)
-    confirm_string = user.generate_token_for(:new_email)
-
-    get user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_response :success
-    assert_template :confirm_email
   end
 
   def test_confirm_email_success
@@ -247,23 +222,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     stub_gravatar_request(user.new_email)
     confirm_string = user.generate_token_for(:new_email)
 
-    post user_confirm_email_path, :params => { :confirm_string => confirm_string }
+    get user_confirm_email_path, :params => { :confirm_string => confirm_string, :referer => account_path }
+    follow_redirect!
     assert_redirected_to account_path
-    assert_match(/Confirmed your change of email address/, flash[:notice])
+    assert_match(/Confirmed your email address/, flash[:notice])
   end
 
   def test_confirm_email_already_confirmed
     user = create(:user)
     confirm_string = user.generate_token_for(:new_email)
 
-    post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_redirected_to account_path
+    get user_confirm_email_path, :params => { :confirm_string => confirm_string }
+    follow_redirect!
+    assert_redirected_to root_path
     assert_match(/already been confirmed/, flash[:error])
   end
 
   def test_confirm_email_bad_token
-    post user_confirm_email_path, :params => { :confirm_string => "XXXXX" }
-    assert_redirected_to account_path
+    get user_confirm_email_path, :params => { :confirm_string => "XXXXX" }
+    follow_redirect!
+    assert_redirected_to root_path
     assert_match(/confirmation code has expired or does not exist/, flash[:error])
   end
 
@@ -278,9 +256,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = user.generate_token_for(:new_email)
     # precondition gravatar should be turned off
     assert_not user.image_use_gravatar
-    post user_confirm_email_path, :params => { :confirm_string => confirm_string }
+    get user_confirm_email_path, :params => { :confirm_string => confirm_string, :referer => account_path }
+    follow_redirect!
     assert_redirected_to account_path
-    assert_match(/Confirmed your change of email address/, flash[:notice])
+    assert_match(/Confirmed your email address/, flash[:notice])
     # gravatar use should now be enabled
     assert User.find(user.id).image_use_gravatar
   end
@@ -292,9 +271,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = user.generate_token_for(:new_email)
     # precondition gravatar should be turned on
     assert user.image_use_gravatar
-    post user_confirm_email_path, :params => { :confirm_string => confirm_string }
+    get user_confirm_email_path, :params => { :confirm_string => confirm_string, :referer => account_path }
+    follow_redirect!
     assert_redirected_to account_path
-    assert_match(/Confirmed your change of email address/, flash[:notice])
+    assert_match(/Confirmed your email address/, flash[:notice])
     # gravatar use should now be disabled
     assert_not User.find(user.id).image_use_gravatar
   end
