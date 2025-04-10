@@ -107,12 +107,12 @@ OSM.Directions = function (map) {
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(function (route) {
       $("#directions_route").prop("hidden", false);
-      routeOutput.write($("#directions_route"), route);
+      routeOutput.write(route);
       if (fitRoute) {
         routeOutput.fit();
       }
     }).catch(function () {
-      routeOutput.remove($("#directions_route"));
+      routeOutput.remove();
       if (reportErrors) {
         $("#directions_error")
           .prop("hidden", false)
@@ -126,7 +126,7 @@ OSM.Directions = function (map) {
 
   function closeButtonListener(e) {
     e.stopPropagation();
-    routeOutput.remove($("#directions_route"));
+    routeOutput.remove();
     map.setSidebarOverlaid(true);
     // TODO: collapse width of sidebar back to previous
   }
@@ -254,7 +254,7 @@ OSM.Directions = function (map) {
     endpoints[0].clearValue();
     endpoints[1].clearValue();
 
-    routeOutput.remove($("#directions_route"));
+    routeOutput.remove();
   };
 
   return page;

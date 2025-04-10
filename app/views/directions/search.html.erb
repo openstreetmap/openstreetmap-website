@@ -88,4 +88,28 @@
 
 <div id="directions_error" hidden></div>
 
-<div id="directions_route" hidden></div>
+<div id="directions_route" hidden>
+  <p>
+    <span>
+      <%= t "javascripts.directions.distance" %>: <output id="directions_route_distance"></output>.
+      <%= t "javascripts.directions.time" %>: <output id="directions_route_time"></output>.
+    </span>
+    <br>
+    <span id="directions_route_ascend_descend">
+      <%= t "javascripts.directions.ascend" %>: <output id="directions_route_ascend"></output>.
+      <%= t "javascripts.directions.descend" %>: <output id="directions_route_descend"></output>.
+    </span>
+  </p>
+
+  <table class='table table-hover table-sm mb-3'>
+    <tbody id="directions_route_steps"></tbody>
+  </table>
+
+  <p class="text-center">
+    <%= tag.a t("javascripts.directions.download"), :id => "directions_route_download", :download => t("javascripts.directions.filename") %>
+  </p>
+
+  <p class="text-center">
+    <%= t "javascripts.directions.instructions.courtesy_html", :link => tag.a("", :id => "directions_route_credit", :target => "_blank") %>
+  </p>
+</div>

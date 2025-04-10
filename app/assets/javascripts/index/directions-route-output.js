@@ -50,35 +50,25 @@ OSM.DirectionsRouteOutput = function (map) {
     return h + ":" + (m < 10 ? "0" : "") + m;
   }
 
-  const routeOutput = {};
-
-  routeOutput.write = function (content, route) {
-    polyline
-      .setLatLngs(route.line)
-      .addTo(map);
-
-    const distanceText = $("<p>").append(
-      OSM.i18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
-      OSM.i18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
+  function writeSummary(route) {
+    $("#directions_route_distance").val(formatTotalDistance(route.distance));
+    $("#directions_route_time").val(formatTime(route.time));
     if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
-      distanceText.append(
-        $("<br>"),
-        OSM.i18n.t("javascripts.directions.ascend") + ": " + formatHeight(route.ascend) + ". " +
-        OSM.i18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
+      $("#directions_route_ascend_descend").prop("hidden", false);
+      $("#directions_route_ascend").val(formatHeight(route.ascend));
+      $("#directions_route_descend").val(formatHeight(route.descend));
+    } else {
+      $("#directions_route_ascend_descend").prop("hidden", true);
+      $("#directions_route_ascend").val("");
+      $("#directions_route_descend").val("");
     }
+  }
 
-    const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
-      .append($("<tbody>"));
-
-    content
-      .empty()
-      .append(
-        distanceText,
-        turnByTurnTable
-      );
+  function writeSteps(route) {
+    $("#directions_route_steps").empty();
 
     for (const [i, [direction, instruction, dist, lineseg]] of route.steps.entries()) {
-      const row = $("<tr class='turn'/>").appendTo(turnByTurnTable);
+      const row = $("<tr class='turn'/>").appendTo($("#directions_route_steps"));
 
       if (direction) {
         row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
@@ -105,22 +95,26 @@ OSM.DirectionsRouteOutput = function (map) {
           map.removeLayer(highlight);
         });
     }
+  }
+
+  const routeOutput = {};
+
+  routeOutput.write = function (route) {
+    polyline
+      .setLatLngs(route.line)
+      .addTo(map);
+
+    writeSummary(route);
+    writeSteps(route);
 
     const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
     URL.revokeObjectURL(downloadURL);
     downloadURL = URL.createObjectURL(blob);
+    $("#directions_route_download").prop("href", downloadURL);
 
-    content.append(`<p class="text-center"><a href="${downloadURL}" download="${
-      OSM.i18n.t("javascripts.directions.filename")
-    }">${
-      OSM.i18n.t("javascripts.directions.download")
-    }</a></p>`);
-
-    content.append("<p class=\"text-center\">" +
-      OSM.i18n.t("javascripts.directions.instructions.courtesy", {
-        link: `<a href="${route.creditlink}" target="_blank">${route.credit}</a>`
-      }) +
-      "</p>");
+    $("#directions_route_credit")
+      .text(route.credit)
+      .prop("href", route.creditlink);
   };
 
   routeOutput.fit = function () {
@@ -131,11 +125,15 @@ OSM.DirectionsRouteOutput = function (map) {
     return map.hasLayer(polyline);
   };
 
-  routeOutput.remove = function (content) {
-    content.empty();
+  routeOutput.remove = function () {
     map
       .removeLayer(popup)
       .removeLayer(polyline);
+
+    $("#directions_route_steps").empty();
+
+    URL.revokeObjectURL(downloadURL);
+    $("#directions_route_download").prop("href", "");
   };
 
   return routeOutput;
