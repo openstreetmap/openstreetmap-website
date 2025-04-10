@@ -237,7 +237,7 @@ OSM.History = function (map) {
       OSM.router.replace("/history" + window.location.hash);
       loadFirstChangesets();
     } else {
-      changesetsLayer.updateChangesetsPositions(map);
+      changesetsLayer.updateChangesetLocations(map);
     }
   }
 
