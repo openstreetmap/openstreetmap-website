@@ -121,6 +121,29 @@ OSM = {
     return mapParams;
   },
 
+  parseGeoURI: function (geoURI) {
+    let url;
+    try {
+      url = new URL(geoURI);
+    } catch (e) { return; }
+    if (!url?.pathname || url.protocol !== "geo:") return;
+    const [path, ...params] = url.pathname.split(";");
+    let coords;
+    try {
+      coords = L.latLng(path.split(","));
+    } catch (e) { return; }
+    if (!coords) return;
+    const searchParams = new URLSearchParams(params.join("&").toLowerCase());
+    const crs = searchParams.get("crs");
+    if (crs && crs !== "wgs84") return;
+    const uncertainty = parseFloat(searchParams.get("u"));
+    const zoom = parseFloat(url.searchParams.get("z"));
+    const out = { coords };
+    if (uncertainty >= 0) out.uncertainty = uncertainty;
+    if (zoom >= 0) out.zoom = zoom;
+    return out;
+  },
+
   parseHash: function (hash = location.hash) {
     const args = {};
 
