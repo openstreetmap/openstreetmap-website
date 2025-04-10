@@ -6,12 +6,11 @@ class AbilityTest < ActiveSupport::TestCase
 end
 
 class GuestAbilityTest < AbilityTest
-  test "geocoder permission for a guest" do
+  test "search permissions for a guest" do
     ability = Ability.new nil
 
-    [:search, :search_latlon, :search_osm_nominatim,
-     :search_osm_nominatim_reverse].each do |action|
-      assert ability.can?(action, :geocoder), "should be able to #{action} geocoder"
+    [:create, :show].each do |action|
+      assert ability.can?(action, :search), "should be able to #{action} searches"
     end
   end
 
