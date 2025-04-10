@@ -130,6 +130,97 @@ describe("OSM", function () {
     });
   });
 
+  describe(".parseGeoURI", function () {
+    it("parses basic geoURIs", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845");
+      expect(params.coords).to.deep.equal(L.latLng(57.6247, -3.6845));
+      expect(params.zoom).to.be.undefined;
+      expect(params.uncertainty).to.be.undefined;
+    });
+    it("parses only geoURIs", function () {
+      const params = OSM.parseGeoURI("latlng:57.6247,-3.6845");
+      expect(params).to.be.undefined;
+    });
+    it("rejects geoURIs with less than 2 coordinates", function () {
+      const params = OSM.parseGeoURI("geo:57.6247");
+      expect(params).to.be.undefined;
+    });
+    it("parses geoURIs with altitude", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845,100");
+      expect(params.coords).to.deep.equal(L.latLng(57.6247, -3.6845, 100));
+    });
+    it("rejects geoURIs with more than 3 coordinates", function () {
+      const params = OSM.parseGeoURI("geo:123,57.6247,-3.6845,100");
+      expect(params).to.be.undefined;
+    });
+    it("ignores non-numeric coordinates", function () {
+      let params = OSM.parseGeoURI("geo:57.6247,-3.6845,abc");
+      expect(params.coords.lat).to.equal(57.6247);
+      expect(params.coords.lng).to.equal(-3.6845);
+      expect(isNaN(params.coords.alt)).to.be.true;
+      params = OSM.parseGeoURI("geo:57.6247,abc");
+      expect(params).to.be.undefined;
+    });
+    it("parses geoURIs with crs", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;crs=wgs84");
+      expect(params.coords).to.deep.equal(L.latLng(57.6247, -3.6845));
+    });
+    it("rejects geoURIs with different crs", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;crs=utm");
+      expect(params).to.be.undefined;
+    });
+    it("parses geoURIs with uncertainty", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;u=100");
+      expect(params.uncertainty).to.equal(100);
+    });
+    it("ignores negative uncertainty", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;u=-100");
+      expect(params.uncertainty).to.be.undefined;
+    });
+    it("ignores non-numeric uncertainty", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;u=abc");
+      expect(params.uncertainty).to.be.undefined;
+    });
+    it("parses uncertainty 0", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;u=0");
+      expect(params.uncertainty).to.equal(0);
+    });
+    it("rejects geoURIs with multiple uncertainties", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;u=100;u=200");
+      expect(params.uncertainty).to.be.undefined;
+    });
+    it("ignores uncertainty in the query parameters", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845?u=100");
+      expect(params.uncertainty).to.be.undefined;
+    });
+    it("parses geoURIs with zoom", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845?z=16");
+      expect(params.zoom).to.equal(16);
+    });
+    it("ignores non-numeric zoom", function () {
+      let params = OSM.parseGeoURI("geo:57.6247,-3.6845?z=abc");
+      expect(params.zoom).to.be.undefined;
+      params = OSM.parseGeoURI("geo:57.6247,-3.6845?z=abc&z=16");
+      expect(params.zoom).to.equal(16);
+    });
+    it("ignores negative zoom", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845?z=-100");
+      expect(params.zoom).to.be.undefined;
+    });
+    it("parses geoURIs with zoom level 0", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845?z=0");
+      expect(params.zoom).to.equal(0);
+    });
+    it("parses geoURIs with multiple zooms", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845?z=16&z=17");
+      expect(params.zoom).to.equal(16);
+    });
+    it("ignores zoom in the geouri parameters", function () {
+      const params = OSM.parseGeoURI("geo:57.6247,-3.6845;z=16");
+      expect(params.zoom).to.be.undefined;
+    });
+  });
+
   describe(".parseHash", function () {
     it("parses lat/lon/zoom params", function () {
       const args = OSM.parseHash("#map=5/57.6247/-3.6845&layers=M");
