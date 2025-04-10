@@ -264,6 +264,8 @@ mk:
         agreed_with_pd: Исто така изјавивте дека вашите уредувања ги сметате за јавна
           сопственост.
         link text: што е ова?
+        not_agreed_with_pd: Исто така, немате изјавено дека вашите уредувања ги сметате
+          за јавна сопственост.
         pd_link_text: изјави
       save changes button: Зачувај ги промените
       delete_account: Избриши сметка...
@@ -345,7 +347,16 @@ mk:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
     pd_declarations:
       show:
+        title: Сметај ги моите придонеси за јавна сопственост
+        consider_pd: Сметајте ги моите придонеси за јавна сопственост.
+        consider_pd_why: Зошто придонесите да ми бидат во јавна сопственост?
         confirm: Потврди
+      create:
+        successfully_declared: Успешно изјавивте дека вашите уредувања ги сметате
+          за јавна сопственост.
+        already_declared: Веќе изјавивте дека вашите уредувања ги сметате за јавна
+          сопственост.
+        did_not_confirm: Не потврдивте дека вашите уредувања ги сметате за јавна сопственост.
   browse:
     deleted_ago_by_html: Избришано %{time_ago} од %{user}
     edited_ago_by_html: Изменето %{time_ago} од %{user}
@@ -414,6 +425,7 @@ mk:
     start_rjs:
       feature_warning: Вчитувам %{num_features} елементи, што може да ви го забави
         прелистувачот. Дали сте сигурни дека сакате да се прикажат овие податоци?
+      feature_error: 'Функциите не можеа да се вчитаат: %{message}'
       load_data: Вчитај ги податоците
       loading: Вчитувам...
     tag_details:
@@ -490,10 +502,18 @@ mk:
         sorry: За жал, на списокот на измени што го побаравте му требаше предолго
           за да се преземе.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} коментар'
+        other: '%{count} коментари'
+      changes:
+        one: '%{count} промена'
+        other: '%{count} промени'
     index:
       title: Измени
       title_user: Измени на %{user}
       title_user_link_html: Промени од %{user_link}
+      title_followed: Измени од корисници што ги следите
       title_nearby: Измени од соседни корисници
       empty: Не пронајдов промени.
       empty_area: Нема промени на ова подрачје.
@@ -575,6 +595,7 @@ mk:
         за да гледате корисници во близина.'
       edit_your_profile: Уредете си го профилот
       followings: Корисници што ги следите
+      no followings: Сè уште не следите ниеден корисник.
       nearby users: Други соседни корисници
       no nearby users: Сè уште нема други корисници во вашата околина што признаваат
         дека работат на карти.
@@ -590,6 +611,7 @@ mk:
       use_map_link: На карта
     index:
       title: Дневници на корисници
+      title_followed: Дневници на следени корисници
       title_nearby: Дневници на соседните корисници
       user_title: Дневникот на %{user}
       in_language_title: Дневнички написи на %{language}
@@ -1568,7 +1590,9 @@ mk:
       title: Проблеми
       select_status: Одберете статус
       select_type: Одберете тип
+      select_last_managed_by: Одберете подследен управувач
       reported_user: Пријавен корисник
+      not_managed: Не се управува
       search: Пребарај
       search_guidance: 'Пребарајте проблеми:'
       states:
@@ -1582,6 +1606,8 @@ mk:
       status: Статус
       reports: Пријави
       last_updated: Последна поднова
+      last_managed: Последен управувач
+      reporting_users: Пријавување на корисници
       reports_count:
         one: '%{count} пријава'
         other: '%{count} пријави'
@@ -1619,12 +1645,26 @@ mk:
       reopened: Состојбата на проблемот е поставена како „Отворено“
     comments:
       comment_from_html: Коментар од %{user_link} на %{comment_created_at}
+      reassign_to_moderators: Преназначете го проблемот на модераторите
+      reassign_to_administrators: Преназначете го проблемот на администраторите
     reports:
       reported_by_html: Пријавено како %{category} од %{user} на %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, коментар бр. %{comment_id}'
         note: Напомена бр. %{note_id}
+      reportable_heading:
+        diary_comment_html: Дневнички коментар %{title} создаден на %{datetime_created},
+          подновен на %{datetime_updated}
+        diary_entry_html: Дневничка ставка %{title} создадена на %{datetime_created},
+          подновена на %{datetime_updated}
+        note_html: '%{title} создадено на %{datetime_created}, подновено на %{datetime_updated}'
+        user_html: Корисник %{title} создаден на %{datetime_created}
+    reporters:
+      index:
+        title: Пријавувачи на проблем бр. %{issue_id}
+      reporters:
+        more_reporters: и уште %{count}
   issue_comments:
     create:
       comment_created: Коментарот е успешно создаден
@@ -1694,6 +1734,13 @@ mk:
     communities: Заедници
     learn_more: Дознајте повеќе
     more: Повеќе
+    offline_flash:
+      osm_offline: Базата на податоци на OpenStreetMap моментално е исклучена додека
+        работиме на неопходни одржувања.
+      osm_read_only: Базата на податоци на OpenStreetMap моментално може само да се
+        чита, додека ги извршиме неопходните одржувања.
+      expected_restore_html: Се очекува услугата да се поврати за %{time}.
+      announcement: Тука можете да го прочитате соопштението.
   user_mailer:
     diary_comment_notification:
       description: Дневничка ставка бр. %{id} во OpenStreetMap
@@ -1722,22 +1769,37 @@ mk:
         порака на авторот на %{replyurl}
     follow_notification:
       hi: Здраво %{to_user},
+      subject: '[OpenStreetMap] %{user} ве следи'
+      followed_you: '%{user} не ве следи на OpenStreetMap.'
       see_their_profile: Можете да го погледате профилот на оваа личност на %{userurl}.
       see_their_profile_html: Можете да го погледате профилот на оваа личност на %{userurl}.
+      follow_them: Можете да го следите лицето и на %{followurl}.
+      follow_them_html: Можете да го следите лицето и на %{followurl}.
+    gpx_details:
+      details: 'Поединости за вашата податотека:'
+      filename: Име на податотеката
+      url: URL
+      description: Опис
+      tags: Ознаки
+      total_points: Вкупно точки
+      imported_points: Број на увезени точки
     gpx_failure:
       hi: Здраво %{to_user},
-      failed_to_import: 'не можеше да се увезе. Проверете дали е важечка GPX-податотека
-        или архив што содржи GPX-податотека/ки во поддржан формат (.tar.gz, .tar.bz2,
-        .tar, .zip, .gpx.gz, .gpx.bz2). Да не има форматен или синтаксен проблем со
-        податотеката? Еве ја гршеката при увоз:'
-      more_info: Повеќе информации за неуспесите на увозот на GPX и тоа како да ги
-        одбегнете ќе најдете на %{url}.
+      failed_to_import: Изгледа дека вашата податотека не успеа да се увезе како ГПС-трага.
+      verify: 'Проверете дали е важечка GPX-податотека или архив што содржи GPX-податотека/ки
+        во поддржан формат (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Да
+        не има форматен или синтаксен проблем со податотеката? Еве ја гршеката при
+        увоз:'
+      more_info: Повеќе информации за неуспесите на увозот на GPX и за тоа како да
+        ги одбегнете ќе најдете на %{url}.
       more_info_html: Повеќе информации за неуспесите на увозот на GPX и тоа како
         да ги одбегнете ќе најдете на %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=mk
       subject: '[OpenStreetMap] Проблем при увозот на GPX податотека'
     gpx_success:
       hi: Здраво %{to_user},
+      imported_successfully: Изгледа дека вашата податотека е успешно увезена како
+        ГПС-трага.
       all_your_traces: Сите ваши успешно подигнати GPX-траги ќе ги најдете на %{url}
       all_your_traces_html: Сите ваши успешно подигнати GPX-траги ќе ги најдете на
         %{url}.
@@ -2045,6 +2107,9 @@ mk:
       preview: Преглед
       help: Помош
     pagination:
+      changeset_comments:
+        older: Постари коментари
+        newer: Понови коментари
       diary_comments:
         older: Постари коментари
         newer: Понови коментари
@@ -2743,7 +2808,7 @@ mk:
       openid: Најава со OpenStreetMap
       read_prefs: Кориснички нагодувања за читање
       write_prefs: Менување на корисничките нагодувања
-      write_diary: Создавање на дневнички ставки, коментирање и спријателување
+      write_diary: Создавање на дневнички ставки и коментири
       write_api: Менување на картата
       write_changeset_comments: Коментирање на измени
       read_gpx: Читање на приватни ГПС-траги
@@ -3189,7 +3254,8 @@ mk:
         другите картографи за да ја средиме работата. Поместете го бележникот на исправното
         место и внесете порака, објаснувајќи го проблемот.
       anonymous_warning_html: Не сте најавени. %{log_in} или %{sign_up} ако сакате
-        да ве известуваме за вашата белешка.
+        да ве известуваме за вашата белешка и да им помогнете на картографите да ја
+        решат.
       anonymous_warning_log_in: Најавете се
       anonymous_warning_sign_up: зачленете се
       counter_warning_html: Веќе имате објавено барем %{x_anonymous_notes}. Тоа е
