@@ -27,7 +27,7 @@ L.OSM.key = function (options) {
     }
 
     function updateButton() {
-      const disabled = OSM.LAYERS_WITH_MAP_KEY.indexOf(map.getMapBaseLayerId()) === -1;
+      const disabled = !map.getMapBaseLayer().options.hasLegend;
       button
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
