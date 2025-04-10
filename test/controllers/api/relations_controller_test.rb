@@ -60,10 +60,12 @@ module Api
       # check error when no parameter provided
       get api_relations_path
       assert_response :bad_request
+      assert_match "parameter relations is required", @response.body
 
       # check error when no parameter value provided
       get api_relations_path(:relations => "")
       assert_response :bad_request
+      assert_match "No relations were given", @response.body
 
       # test a working call
       get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
@@ -78,7 +80,6 @@ module Api
 
       # test a working call with json format
       get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
-
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 4, js["elements"].count
@@ -91,6 +92,23 @@ module Api
       # check error when a non-existent relation is included
       get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
       assert_response :not_found
+    end
+
+    ##
+    # test fetching multiple relations with specified versions
+    def test_index_with_versions
+      relation1 = create(:relation)
+      relation2 = create(:relation, :with_history, :version => 2)
+
+      # test a working call with versions
+      get api_relations_path(:relations => "#{relation1.id},#{relation2.id}v1,#{relation2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "relation", :count => 3
+        assert_select "relation[id='#{relation1.id}'][version='1']", :count => 1
+        assert_select "relation[id='#{relation2.id}'][version='1']", :count => 1
+        assert_select "relation[id='#{relation2.id}'][version='2']", :count => 1
+      end
     end
 
     # -------------------------------------
