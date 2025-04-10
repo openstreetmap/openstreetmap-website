@@ -146,14 +146,15 @@
         line: steps.flatMap(step => step[3]),
         steps,
         distance: leg.distance,
-        time: leg.duration
+        time: leg.duration,
+        credit: "OSRM (FOSSGIS)",
+        creditlink: "https://routing.openstreetmap.de/about.html"
       };
     }
 
     return {
       mode: modeId,
       provider: "fossgis_osrm",
-      creditline: "<a href=\"https://routing.openstreetmap.de/about.html\" target=\"_blank\">OSRM (FOSSGIS)</a>",
       draggable: true,
 
       getRoute: function (points, signal) {

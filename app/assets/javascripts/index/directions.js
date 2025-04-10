@@ -107,7 +107,7 @@ OSM.Directions = function (map) {
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(function (route) {
-      routeOutput.write($("#directions_content"), chosenEngine, route);
+      routeOutput.write($("#directions_content"), route);
       if (fitRoute) {
         routeOutput.fit();
       }
