@@ -35,9 +35,10 @@ OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: OSM.i18n.t("javascripts.context.show_address"),
     callback: function describeLocation(e) {
-      const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
+      const zoom = map.getZoom();
+      const [lat, lon] = OSM.cropLocation(e.latlng, zoom);
 
-      OSM.router.route("/search?" + new URLSearchParams({ lat, lon }));
+      OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom }));
     }
   });
 
