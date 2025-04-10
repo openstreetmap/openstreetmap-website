@@ -1,5 +1,6 @@
 module MapLayers
-  def self.full_definitions(layers_filename)
+  def self.full_definitions(layers_filename, map_keys: nil)
+    keys = YAML.load_file(Rails.root.join(map_keys)).keys if map_keys
     YAML.load_file(Rails.root.join(layers_filename))
         .reject { |layer| layer["apiKeyId"] && !Settings[layer["apiKeyId"]] }
         .map do |layer|
@@ -7,6 +8,7 @@ module MapLayers
             layer["apikey"] = Settings[layer["apiKeyId"]]
             layer.delete "apiKeyId"
           end
+          layer["hasKey"] = true if keys&.include?(layer["layerId"])
           layer
         end
   end
