@@ -89,17 +89,27 @@
 <div id="directions_error" hidden></div>
 
 <div id="directions_route" hidden>
-  <p>
-    <span>
-      <%= t ".distance" %>: <output id="directions_route_distance"></output>.
-      <%= t ".time" %>: <output id="directions_route_time"></output>.
-    </span>
-    <br>
-    <span id="directions_route_ascend_descend">
-      <%= t ".ascend" %>: <output id="directions_route_ascend"></output>.
-      <%= t ".descend" %>: <output id="directions_route_descend"></output>.
-    </span>
-  </p>
+  <div class="d-flex align-items-end mb-3">
+    <div class="flex-grow-1 text-truncate">
+      <span>
+        <%= t ".distance" %>: <output id="directions_route_distance"></output>.
+        <%= t ".time" %>: <output id="directions_route_time"></output>.
+      </span>
+      <br>
+      <span id="directions_route_ascend_descend">
+        <%= t ".ascend" %>: <output id="directions_route_ascend"></output>.
+        <%= t ".descend" %>: <output id="directions_route_descend"></output>.
+      </span>
+    </div>
+
+    <div class="btn-group btn-group-sm">
+      <input type="radio" class="btn-check" name="directions_distance_units" id="directions_distance_units_km" autocomplete="off" checked>
+      <label class="btn btn-outline-secondary p-0 px-1" for="directions_distance_units_km"><%= t ".button_km" %></label>
+
+      <input type="radio" class="btn-check" name="directions_distance_units" id="directions_distance_units_mi" autocomplete="off">
+      <label class="btn btn-outline-secondary p-0 px-1" for="directions_distance_units_mi"><%= t ".button_mi" %></label>
+    </div>
+  </div>
 
   <table class='table table-hover table-sm mb-3'>
     <tbody id="directions_route_steps"></tbody>
