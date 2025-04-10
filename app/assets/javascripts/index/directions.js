@@ -100,10 +100,8 @@ OSM.Directions = function (map) {
       route: points.map(p => `${p.lat},${p.lng}`).join(";")
     }));
 
-    // copy loading item to sidebar and display it. we copy it, rather than
-    // just using it in-place and replacing it in case it has to be used
-    // again.
-    $("#directions_content").html($(".directions_form .loader_copy").html());
+    $("#directions_loader").prop("hidden", false);
+    $("#directions_content").prop("hidden", true);
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(function (route) {
@@ -117,6 +115,8 @@ OSM.Directions = function (map) {
         $("#directions_content").html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
     }).finally(function () {
+      $("#directions_loader").prop("hidden", true);
+      $("#directions_content").prop("hidden", false);
       controller = null;
     });
   }
