@@ -25,6 +25,11 @@ module RichText
   end
 
   class Base < String
+    def initialize(text)
+      super
+      @was_truncated = {}
+    end
+
     def spam_score
       link_count = 0
       link_size = 0
@@ -63,7 +68,49 @@ module RichText
       nil
     end
 
+    def was_truncated?(max_length)
+      @was_truncated[max_length]
+    end
+
     protected
+
+    def truncate_html(html_doc, max_length = nil, img_length = 1000)
+      return html_doc if max_length.nil?
+
+      doc = Nokogiri::HTML::DocumentFragment.parse(html_doc)
+      keep_or_discards = %w[p h1 h2 h3 h4 h5 h6 pre a table ul ol dl]
+      accumulated_length = 0
+      exceeded_node_parent = nil
+      @was_truncated[max_length] = false
+
+      doc.traverse do |node|
+        if accumulated_length >= max_length
+          if node == exceeded_node_parent
+            exceeded_node_parent = node.parent
+            node.remove if keep_or_discards.include?(node.name)
+          else
+            node.remove
+          end
+          next
+        end
+
+        next unless node.children.empty?
+
+        if node.text?
+          accumulated_length += node.text.length
+        elsif node.name == "img"
+          accumulated_length += img_length
+        end
+
+        if accumulated_length >= max_length
+          @was_truncated[max_length] = true
+          exceeded_node_parent = node.parent
+          node.remove
+        end
+      end
+
+      doc.to_html.html_safe
+    end
 
     def simple_format(text)
       SimpleFormat.new.simple_format(text, :dir => "auto")
@@ -101,8 +148,8 @@ module RichText
   end
 
   class HTML < Base
-    def to_html
-      linkify(simple_format(self))
+    def to_html(truncation_length = nil)
+      truncate_html(linkify(simple_format(self)), truncation_length)
     end
 
     def to_text
@@ -111,8 +158,8 @@ module RichText
   end
 
   class Markdown < Base
-    def to_html
-      linkify(sanitize(document.to_html), :all)
+    def to_html(truncation_length = nil)
+      truncate_html(linkify(sanitize(document.to_html), :all), truncation_length)
     end
 
     def to_text
@@ -191,8 +238,8 @@ module RichText
   end
 
   class Text < Base
-    def to_html
-      linkify(simple_format(ERB::Util.html_escape(self)))
+    def to_html(truncation_length = nil)
+      truncate_html(linkify(simple_format(ERB::Util.html_escape(self))), truncation_length)
     end
 
     def to_text
