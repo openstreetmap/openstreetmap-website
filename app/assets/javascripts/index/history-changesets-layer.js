@@ -64,12 +64,8 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
   },
 
-  highlightChangeset: function (id) {
-    this.getLayer(id)?.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
-  },
-
-  unHighlightChangeset: function (id) {
-    this.getLayer(id)?.setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
+  toggleChangesetHighlight: function (id, state) {
+    this.getLayer(id)?.setStyle(state ? { fillOpacity: 0.3, color: "#FF6600", weight: 3 } : { fillOpacity: 0, color: "#FF9500", weight: 2 });
   },
 
   getLayerId: function (layer) {

@@ -7,18 +7,18 @@ OSM.History = function (map) {
   $("#sidebar_content")
     .on("click", ".changeset_more a", loadMoreChangesets)
     .on("mouseover", "[data-changeset]", function () {
-      highlightChangeset($(this).data("changeset").id);
+      toggleChangesetHighlight($(this).data("changeset").id, true);
     })
     .on("mouseout", "[data-changeset]", function () {
-      unHighlightChangeset($(this).data("changeset").id);
+      toggleChangesetHighlight($(this).data("changeset").id, false);
     });
 
   const changesetsLayer = new OSM.HistoryChangesetsLayer()
     .on("mouseover", function (e) {
-      highlightChangeset(e.layer.id);
+      toggleChangesetHighlight(e.layer.id, true);
     })
     .on("mouseout", function (e) {
-      unHighlightChangeset(e.layer.id);
+      toggleChangesetHighlight(e.layer.id, false);
     })
     .on("click", function (e) {
       clickChangeset(e.layer.id, e.originalEvent);
@@ -83,14 +83,9 @@ OSM.History = function (map) {
     });
   }
 
-  function highlightChangeset(id) {
-    changesetsLayer.highlightChangeset(id);
-    $("#changeset_" + id).addClass("selected");
-  }
-
-  function unHighlightChangeset(id) {
-    changesetsLayer.unHighlightChangeset(id);
-    $("#changeset_" + id).removeClass("selected");
+  function toggleChangesetHighlight(id, state) {
+    changesetsLayer.toggleChangesetHighlight(id, state);
+    $("#changeset_" + id).toggleClass("selected", state);
   }
 
   function clickChangeset(id, e) {
