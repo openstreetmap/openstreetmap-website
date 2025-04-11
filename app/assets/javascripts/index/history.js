@@ -68,6 +68,8 @@ OSM.History = function (map) {
         }
       }
 
+      changesetsLayer.reorderChangesets();
+
       if (keepInitialLocation) {
         keepInitialLocation = false;
         return;

@@ -41,8 +41,6 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   },
 
   updateChangesetShapes: function (map) {
-    this.clearLayers();
-
     for (const changeset of this._changesets.values()) {
       const bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
             topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
@@ -64,20 +62,8 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
                                         map.unproject(topRight));
     }
 
-    const changesetEntries = [...this._changesets];
-    changesetEntries.sort(([, a], [, b]) => {
-      return b.bounds.getSize() - a.bounds.getSize();
-    });
-    this._changesets = new Map(changesetEntries);
-
     this.updateChangesetLocations(map);
-
-    for (const changeset of this._changesets.values()) {
-      delete changeset.isHighlighted;
-      const rect = L.rectangle(changeset.bounds, this._getChangesetStyle(changeset));
-      rect.id = changeset.id;
-      rect.addTo(this);
-    }
+    this.reorderChangesets();
   },
 
   updateChangesetLocations: function (map) {
@@ -95,6 +81,26 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
         this.getLayer(changeset.id)?.setBounds(changeset.bounds);
       }
+    }
+  },
+
+  reorderChangesets: function () {
+    const changesetEntries = [...this._changesets];
+    changesetEntries.sort(([, a], [, b]) => {
+      const aInViewport = !a.sidebarRelativePosition;
+      const bInViewport = !b.sidebarRelativePosition;
+      if (aInViewport !== bInViewport) return aInViewport - bInViewport;
+      return b.bounds.getSize() - a.bounds.getSize();
+    });
+    this._changesets = new Map(changesetEntries);
+
+    this.clearLayers();
+
+    for (const changeset of this._changesets.values()) {
+      delete changeset.isHighlighted;
+      const rect = L.rectangle(changeset.bounds, this._getChangesetStyle(changeset));
+      rect.id = changeset.id;
+      rect.addTo(this);
     }
   },
 
