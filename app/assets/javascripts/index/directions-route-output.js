@@ -15,38 +15,42 @@ OSM.DirectionsRouteOutput = function (map) {
 
   let downloadURL = null;
 
-  function formatTotalDistance(m) {
+  function translateDistanceUnits(m) {
+    return [m, "m", m / 1000, "km"];
+  }
+
+  function formatTotalDistance(minorValue, minorName, majorValue, majorName) {
     const scope = "javascripts.directions.distance_in_units";
 
-    if (m < 1000) {
-      return OSM.i18n.t("m", { scope, distance: Math.round(m) });
-    } else if (m < 10000) {
-      return OSM.i18n.t("km", { scope, distance: (m / 1000.0).toFixed(1) });
+    if (minorValue < 1000 || majorValue < 0.25) {
+      return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue) });
+    } else if (majorValue < 10) {
+      return OSM.i18n.t(majorName, { scope, distance: majorValue.toFixed(1) });
     } else {
-      return OSM.i18n.t("km", { scope, distance: Math.round(m / 1000) });
+      return OSM.i18n.t(majorName, { scope, distance: Math.round(majorValue) });
     }
   }
 
-  function formatStepDistance(m) {
+  function formatStepDistance(minorValue, minorName, majorValue, majorName) {
     const scope = "javascripts.directions.distance_in_units";
 
-    if (m < 5) {
+    if (minorValue < 5) {
       return "";
-    } else if (m < 200) {
-      return OSM.i18n.t("m", { scope, distance: Math.round(m / 10) * 10 });
-    } else if (m < 1500) {
-      return OSM.i18n.t("m", { scope, distance: Math.round(m / 100) * 100 });
-    } else if (m < 5000) {
-      return OSM.i18n.t("km", { scope, distance: Math.round(m / 100) / 10 });
+    } else if (minorValue < 200) {
+      return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue / 10) * 10 });
+    } else if (minorValue < 1500 || majorValue < 0.25) {
+      return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue / 100) * 100 });
+    } else if (majorValue < 5) {
+      return OSM.i18n.t(majorName, { scope, distance: majorValue.toFixed(1) });
     } else {
-      return OSM.i18n.t("km", { scope, distance: Math.round(m / 1000) });
+      return OSM.i18n.t(majorName, { scope, distance: Math.round(majorValue) });
     }
   }
 
-  function formatHeight(m) {
+  function formatHeight(minorValue, minorName) {
     const scope = "javascripts.directions.distance_in_units";
 
-    return OSM.i18n.t("m", { scope, distance: Math.round(m) });
+    return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue) });
   }
 
   function formatTime(s) {
@@ -57,12 +61,12 @@ OSM.DirectionsRouteOutput = function (map) {
   }
 
   function writeSummary(route) {
-    $("#directions_route_distance").val(formatTotalDistance(route.distance));
+    $("#directions_route_distance").val(formatTotalDistance(...translateDistanceUnits(route.distance)));
     $("#directions_route_time").val(formatTime(route.time));
     if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
       $("#directions_route_ascend_descend").prop("hidden", false);
-      $("#directions_route_ascend").val(formatHeight(route.ascend));
-      $("#directions_route_descend").val(formatHeight(route.descend));
+      $("#directions_route_ascend").val(formatHeight(...translateDistanceUnits(route.ascend)));
+      $("#directions_route_descend").val(formatHeight(...translateDistanceUnits(route.descend)));
     } else {
       $("#directions_route_ascend_descend").prop("hidden", true);
       $("#directions_route_ascend").val("");
@@ -82,7 +86,7 @@ OSM.DirectionsRouteOutput = function (map) {
         row.append("<td class='border-0'>");
       }
       row.append(`<td><b>${i + 1}.</b> ${instruction}`);
-      row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(dist));
+      row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
 
       row.on("click", function () {
         popup
