@@ -13,10 +13,15 @@ OSM.DirectionsRouteOutput = function (map) {
     weight: 12
   });
 
+  let distanceUnits = "km";
   let downloadURL = null;
 
   function translateDistanceUnits(m) {
-    return [m, "m", m / 1000, "km"];
+    if (distanceUnits === "km") {
+      return [m, "m", m / 1000, "km"];
+    } else {
+      return [m / 0.3048, "ft", m / 1609.344, "mi"];
+    }
   }
 
   function formatTotalDistance(minorValue, minorName, majorValue, majorName) {
@@ -117,6 +122,17 @@ OSM.DirectionsRouteOutput = function (map) {
     writeSummary(route);
     writeSteps(route);
 
+    $("#directions_distance_units_km").off().on("change", () => {
+      distanceUnits = "km";
+      writeSummary(route);
+      writeSteps(route);
+    });
+    $("#directions_distance_units_mi").off().on("change", () => {
+      distanceUnits = "mi";
+      writeSummary(route);
+      writeSteps(route);
+    });
+
     const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
     URL.revokeObjectURL(downloadURL);
     downloadURL = URL.createObjectURL(blob);
@@ -139,6 +155,9 @@ OSM.DirectionsRouteOutput = function (map) {
     map
       .removeLayer(popup)
       .removeLayer(polyline);
+
+    $("#directions_distance_units_km").off();
+    $("#directions_distance_units_mi").off();
 
     $("#directions_route_steps").empty();
 
