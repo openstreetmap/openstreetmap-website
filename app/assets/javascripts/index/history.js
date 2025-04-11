@@ -37,24 +37,27 @@ OSM.History = function (map) {
     disableChangesetIntersectionObserver();
     if (!window.IntersectionObserver) return;
 
-    let ignoreIntersectionEvents = true;
+    let keepInitialLocation = true;
 
     changesetIntersectionObserver = new IntersectionObserver((entries) => {
-      if (ignoreIntersectionEvents) {
-        ignoreIntersectionEvents = false;
-        return;
-      }
-
       let closestTargetToTop,
           closestDistanceToTop = Infinity,
           closestTargetToBottom,
           closestDistanceToBottom = Infinity;
 
       for (const entry of entries) {
-        if (entry.isIntersecting) continue;
+        const id = $(entry.target).data("changeset")?.id;
+
+        if (entry.isIntersecting) {
+          if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, 0);
+          continue;
+        }
 
         const distanceToTop = entry.rootBounds.top - entry.boundingClientRect.bottom;
         const distanceToBottom = entry.boundingClientRect.top - entry.rootBounds.bottom;
+
+        if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, distanceToTop >= 0 ? 1 : -1);
+
         if (distanceToTop >= 0 && distanceToTop < closestDistanceToTop) {
           closestDistanceToTop = distanceToTop;
           closestTargetToTop = entry.target;
@@ -63,6 +66,11 @@ OSM.History = function (map) {
           closestDistanceToBottom = distanceToBottom;
           closestTargetToBottom = entry.target;
         }
+      }
+
+      if (keepInitialLocation) {
+        keepInitialLocation = false;
+        return;
       }
 
       if (closestTargetToTop && closestDistanceToTop < closestDistanceToBottom) {

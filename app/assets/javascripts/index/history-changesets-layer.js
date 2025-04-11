@@ -1,9 +1,16 @@
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   _changesets: new Map,
 
-  _getChangesetStyle: function ({ isHighlighted }) {
-    let className = "changeset-in-sidebar-viewport";
+  _getChangesetStyle: function ({ isHighlighted, sidebarRelativePosition }) {
+    let className;
 
+    if (sidebarRelativePosition > 0) {
+      className = "changeset-above-sidebar-viewport";
+    } else if (sidebarRelativePosition < 0) {
+      className = "changeset-below-sidebar-viewport";
+    } else {
+      className = "changeset-in-sidebar-viewport";
+    }
     if (isHighlighted) {
       className += " changeset-highlighted";
     }
@@ -96,6 +103,14 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     if (!changeset) return;
 
     changeset.isHighlighted = state;
+    this._updateChangesetStyle(changeset);
+  },
+
+  setChangesetSidebarRelativePosition: function (id, state) {
+    const changeset = this._changesets.get(id);
+    if (!changeset) return;
+
+    changeset.sidebarRelativePosition = state;
     this._updateChangesetStyle(changeset);
   },
 
