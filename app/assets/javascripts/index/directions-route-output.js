@@ -33,13 +33,13 @@ OSM.DirectionsRouteOutput = function (map) {
     if (m < 5) {
       return "";
     } else if (m < 200) {
-      return OSM.i18n.t("m", { scope, distance: String(Math.round(m / 10) * 10) });
+      return OSM.i18n.t("m", { scope, distance: Math.round(m / 10) * 10 });
     } else if (m < 1500) {
-      return OSM.i18n.t("m", { scope, distance: String(Math.round(m / 100) * 100) });
+      return OSM.i18n.t("m", { scope, distance: Math.round(m / 100) * 100 });
     } else if (m < 5000) {
-      return OSM.i18n.t("km", { scope, distance: String(Math.round(m / 100) / 10) });
+      return OSM.i18n.t("km", { scope, distance: Math.round(m / 100) / 10 });
     } else {
-      return OSM.i18n.t("km", { scope, distance: String(Math.round(m / 1000)) });
+      return OSM.i18n.t("km", { scope, distance: Math.round(m / 1000) });
     }
   }
 
