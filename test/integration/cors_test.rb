@@ -3,8 +3,8 @@ require "test_helper"
 class CORSTest < ActionDispatch::IntegrationTest
   def test_api_routes_allow_cross_origin_requests
     process :options, "/api/capabilities", :headers => {
-      "HTTP_ORIGIN" => "http://www.example.com",
-      "HTTP_ACCESS_CONTROL_REQUEST_METHOD" => "GET"
+      "Origin" => "http://www.example.com",
+      "Access-Control-Request-Method" => "GET"
     }
 
     assert_response :success
@@ -15,8 +15,8 @@ class CORSTest < ActionDispatch::IntegrationTest
 
   def test_non_api_routes_dont_allow_cross_origin_requests
     process :options, "/", :headers => {
-      "HTTP_ORIGIN" => "http://www.example.com",
-      "HTTP_ACCESS_CONTROL_REQUEST_METHOD" => "GET"
+      "Origin" => "http://www.example.com",
+      "Access-Control-Request-Method" => "GET"
     }
 
     assert_response :success

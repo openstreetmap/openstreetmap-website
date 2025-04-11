@@ -14,7 +14,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
       assert_empty User.find(user.id).languages
       assert_select "html[lang=?]", "en"
 
-      get "/diary/new", :headers => { "HTTP_ACCEPT_LANGUAGE" => "fr, en" }
+      get "/diary/new", :headers => { "Accept-Language" => "fr, en" }
       assert_equal %w[fr en], User.find(user.id).languages
       assert_select "html[lang=?]", "fr"
     end
