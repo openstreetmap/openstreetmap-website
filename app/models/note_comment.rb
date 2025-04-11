@@ -36,6 +36,16 @@ class NoteComment < ApplicationRecord
   validates :event, :inclusion => %w[opened closed reopened commented hidden]
   validates :body, :length => { :maximum => 2000 }, :characters => true
 
+  # Retrieve next ID
+  def self.next_id
+    # This will increment the sequence but not create a row
+    next_id_query = "SELECT nextval('note_comments_id_seq')"
+    result = ActiveRecord::Base.connection.execute(next_id_query)
+
+    # Return the next id value from the query result
+    result.values[0][0]
+  end
+
   # Return the comment text
   def body
     RichText.new("text", self[:body])
