@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
 
-  before_action :fetch_body
+  after_action :close_body
 
   attr_accessor :current_user, :oauth_token
 
@@ -244,10 +244,10 @@ class ApplicationController < ActionController::Base
   #
   #   https://issues.apache.org/bugzilla/show_bug.cgi?id=44782
   #
-  # To work round this we call rewind on the body here, which is added
-  # as a filter, to force it to be fetched from Apache into a file.
-  def fetch_body
-    request.body.rewind
+  # To work round this we call close on the body here, which is added
+  # as a filter, to let Apache know we are done with it.
+  def close_body
+    request.body&.close
   end
 
   def map_layout
