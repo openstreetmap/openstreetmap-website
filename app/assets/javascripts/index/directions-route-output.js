@@ -16,31 +16,37 @@ OSM.DirectionsRouteOutput = function (map) {
   let downloadURL = null;
 
   function formatTotalDistance(m) {
+    const scope = "javascripts.directions.distance_in_units";
+
     if (m < 1000) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+      return OSM.i18n.t("m", { scope, distance: Math.round(m) });
     } else if (m < 10000) {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
+      return OSM.i18n.t("km", { scope, distance: (m / 1000.0).toFixed(1) });
     } else {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
+      return OSM.i18n.t("km", { scope, distance: Math.round(m / 1000) });
     }
   }
 
   function formatStepDistance(m) {
+    const scope = "javascripts.directions.distance_in_units";
+
     if (m < 5) {
       return "";
     } else if (m < 200) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
+      return OSM.i18n.t("m", { scope, distance: String(Math.round(m / 10) * 10) });
     } else if (m < 1500) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
+      return OSM.i18n.t("m", { scope, distance: String(Math.round(m / 100) * 100) });
     } else if (m < 5000) {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
+      return OSM.i18n.t("km", { scope, distance: String(Math.round(m / 100) / 10) });
     } else {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
+      return OSM.i18n.t("km", { scope, distance: String(Math.round(m / 1000)) });
     }
   }
 
   function formatHeight(m) {
-    return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+    const scope = "javascripts.directions.distance_in_units";
+
+    return OSM.i18n.t("m", { scope, distance: Math.round(m) });
   }
 
   function formatTime(s) {
