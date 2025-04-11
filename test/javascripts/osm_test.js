@@ -73,6 +73,33 @@ describe("OSM", function () {
       expect(params).to.have.property("zoom", 16);
     });
 
+    it("parses geoURIs", function () {
+      const params = OSM.mapParams("?geouri=geo%3A57.6247%2C-3.6845");
+      expect(params).to.have.property("lat", 57.6247);
+      expect(params).to.have.property("lon", -3.6845);
+      expect(params).to.have.property("mlat", 57.6247);
+      expect(params).to.have.property("mlon", -3.6845);
+      expect(params).to.have.property("zoom", 12);
+    });
+
+    it("parses zoom in geoURIs", function () {
+      const params = OSM.mapParams("?geouri=geo%3A57.6247%2C-3.6845%3Fz%3D16");
+      expect(params).to.have.property("lat", 57.6247);
+      expect(params).to.have.property("lon", -3.6845);
+      expect(params).to.have.property("mlat", 57.6247);
+      expect(params).to.have.property("mlon", -3.6845);
+      expect(params).to.have.property("zoom", 16);
+    });
+
+    it("parses uncertainty in geoURIs", function () {
+      const params = OSM.mapParams("?geouri=geo%3A57.6247%2C-3.6845%3Bu%3D100");
+      const expected = L.latLngBounds([57.62290336944585, -3.6878552857327764], [57.62649663055414, -3.6811447142672233]);
+      expect(params).to.have.property("mlat", 57.6247);
+      expect(params).to.have.property("mlon", -3.6845);
+      expect(params).to.have.property("mrad", 100);
+      expect(params).to.have.property("bounds").deep.equal(expected);
+    });
+
     it("parses lat/lon/zoom from the hash", function () {
       location.hash = "#map=16/57.6247/-3.6845";
       const params = OSM.mapParams("?");
