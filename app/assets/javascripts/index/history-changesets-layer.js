@@ -1,6 +1,19 @@
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   _changesets: new Map,
 
+  _getChangesetStyle: function ({ isHighlighted }) {
+    return {
+      weight: isHighlighted ? 3 : 2,
+      color: isHighlighted ? "#FF6600" : "#FF9500",
+      fillColor: "#FFFFAF",
+      fillOpacity: isHighlighted ? 0.3 : 0
+    };
+  },
+
+  _updateChangesetStyle: function (changeset) {
+    this.getLayer(changeset.id)?.setStyle(this._getChangesetStyle(changeset));
+  },
+
   updateChangesets: function (map, changesets) {
     this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
     this.updateChangesetShapes(map);
@@ -39,8 +52,8 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     this.updateChangesetLocations(map);
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds,
-                               { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
+      delete changeset.isHighlighted;
+      const rect = L.rectangle(changeset.bounds, this._getChangesetStyle(changeset));
       rect.id = changeset.id;
       rect.addTo(this);
     }
@@ -65,7 +78,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   },
 
   toggleChangesetHighlight: function (id, state) {
-    this.getLayer(id)?.setStyle(state ? { fillOpacity: 0.3, color: "#FF6600", weight: 3 } : { fillOpacity: 0, color: "#FF9500", weight: 2 });
+    const changeset = this._changesets.get(id);
+    if (!changeset) return;
+
+    changeset.isHighlighted = state;
+    this._updateChangesetStyle(changeset);
   },
 
   getLayerId: function (layer) {
