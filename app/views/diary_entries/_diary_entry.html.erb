@@ -2,7 +2,10 @@
   <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry" %>
 
   <div class="richtext text-break" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
-    <%= diary_entry.body.to_html %>
+    <%= truncated ? diary_entry.body.to_html(2000) : diary_entry.body.to_html %>
+    <% if truncated && diary_entry.body.was_truncated?(2000) %>
+      <p>&hellip; <%= link_to t(".full_entry"), diary_entry_path(diary_entry.user, diary_entry) %></p>
+    <% end %>
   </div>
 
   <% if diary_entry.latitude and diary_entry.longitude %>
