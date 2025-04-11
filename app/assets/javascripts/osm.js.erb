@@ -56,6 +56,7 @@ OSM = {
 
   mapParams: function (search) {
     const params = new URLSearchParams(search || location.search),
+          geoURI = OSM.parseGeoURI(params.get("geouri")),
           mapParams = {};
 
     if (params.has("mlon") && params.has("mlat")) {
@@ -63,6 +64,12 @@ OSM = {
       mapParams.mlon = parseFloat(params.get("mlon"));
       mapParams.mlat = parseFloat(params.get("mlat"));
       mapParams.mrad = parseFloat(params.get("mrad"));
+    }
+    if (geoURI) {
+      mapParams.marker = true;
+      mapParams.mlon = geoURI.coords.lng;
+      mapParams.mlat = geoURI.coords.lat;
+      mapParams.mrad = geoURI.uncertainty;
     }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
@@ -94,6 +101,12 @@ OSM = {
       mapParams.lon = params.get("mlon");
       mapParams.lat = params.get("mlat");
       mapParams.zoom = params.get("zoom") || 12;
+    } else if (geoURI?.uncertainty > 0 && !("zoom" in geoURI)) {
+      mapParams.bounds = geoURI.coords.toBounds(geoURI.uncertainty * 4);
+    } else if (geoURI) {
+      mapParams.lon = geoURI.coords.lng;
+      mapParams.lat = geoURI.coords.lat;
+      mapParams.zoom = geoURI.zoom || 12;
     } else if (loc) {
       [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
