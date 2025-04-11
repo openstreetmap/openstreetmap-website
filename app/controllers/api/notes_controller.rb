@@ -121,11 +121,16 @@ module Api
         # Saves the note without the history
         @note.save_without_history!
 
-        # Adds hiding comment to the note
-        note_comment = add_comment(@note, comment, "hidden", :notify => false)
+        if comment.present?
+          # Adds hiding comment to the note
+          note_comment = add_comment(@note, comment, "hidden", :notify => false)
 
-        # Saves the note's history
-        @note.save_history!(@note.updated_at, author_info, note_comment.id, "hidden")
+          # Saves the note's history
+          @note.save_history!(@note.updated_at, author_info, note_comment.id, "hidden")
+        else
+          # Saves the note's history
+          @note.save_history!(@note.updated_at, author_info, NoteComment.next_id, "hidden")
+        end
       end
 
       # Return a copy of the updated note
@@ -187,11 +192,16 @@ module Api
         # Saves the note without the history
         @note.save_without_history!
 
-        # Adds closing comment to the note
-        note_comment = add_comment(@note, comment, "closed")
+        if comment.present?
+          # Adds closing comment to the note
+          note_comment = add_comment(@note, comment, "closed")
 
-        # Saves the note's history
-        @note.save_history!(@note.closed_at, author_info, note_comment.id, "closed")
+          # Saves the note's history
+          @note.save_history!(@note.closed_at, author_info, note_comment.id, "closed")
+        else
+          # Saves the note's history
+          @note.save_history!(@note.closed_at, author_info, NoteComment.next_id, "closed")
+        end
       end
 
       # Return a copy of the updated note
@@ -224,11 +234,16 @@ module Api
         # Saves the note without the history
         @note.save_without_history!
 
-        # Adds reopening comment to the note
-        note_comment = add_comment(@note, comment, "reopened")
+        if comment.present?
+          # Adds reopening comment to the note
+          note_comment = add_comment(@note, comment, "reopened")
 
-        # Saves the note's history
-        @note.save_history!(@note.updated_at, author_info, note_comment.id, "reopened")
+          # Saves the note's history
+          @note.save_history!(@note.updated_at, author_info, note_comment.id, "reopened")
+        else
+          # Saves the note's history
+          @note.save_history!(@note.updated_at, author_info, NoteComment.next_id, "reopened")
+        end
       end
 
       # Return a copy of the updated note
@@ -266,11 +281,14 @@ module Api
 
       # Add any user filter
       user = query_conditions_user_value
-      @notes = @notes.joins(:comments).where(:note_comments => { :author_id => user }) if user
+      @notes = @notes.joins(:comments).where(:composite_note_comments => { :author_id => user }) if user
 
       # Add any text filter
       if params[:q]
-        @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?) OR to_tsvector('english', notes.description) @@ plainto_tsquery('english', ?)", params[:q], params[:q])
+        comments_query = "to_tsvector('english', composite_note_comments.body) @@ plainto_tsquery('english', ?)"
+        notes_query = "to_tsvector('english', notes.description) @@ plainto_tsquery('english', ?)"
+        @notes = @notes.joins(:comments)
+                       .where("#{comments_query} OR #{notes_query}", params[:q], params[:q])
       end
 
       # Add any date filter
@@ -370,7 +388,7 @@ module Api
     ##
     # Add a comment to a note
     def add_comment(note, text, event, notify: true)
-      attributes = { :visible => true, :event => event, :body => text }
+      attributes = { :note_id => note.id, :visible => true, :event => event, :body => text }
 
       # Get note comment's author info (for logged in users - user_id, for logged out users - IP address)
       note_comment_author_info = author_info
@@ -381,7 +399,8 @@ module Api
         attributes[:author_ip] = note_comment_author_info[:user_ip]
       end
 
-      comment = note.comments.create!(attributes)
+      # Create new note comment with passed attributes
+      comment = NoteComment.create!(attributes)
 
       if notify
         note.subscribers.visible.each do |user|
