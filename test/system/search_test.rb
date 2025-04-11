@@ -1,7 +1,13 @@
 require "application_system_test_case"
 
 class SearchTest < ApplicationSystemTestCase
-  test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
+  def setup
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/search\?})
+      .to_return(:status => 404)
+
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+      .to_return(:status => 404)
+
     stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?.*zoom=$})
       .to_return(:status => 400, :body => <<-BODY)
         <?xml version="1.0" encoding="UTF-8"?>
@@ -27,7 +33,9 @@ class SearchTest < ApplicationSystemTestCase
           </addressparts>
         </reversegeocode>
       BODY
+  end
 
+  test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
     visit "/#map=15/51.76320/-0.00760"
 
     assert_field "Search", :with => ""
@@ -37,28 +45,28 @@ class SearchTest < ApplicationSystemTestCase
     assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
   end
 
-  test "query search link sets search input value" do
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
-      .to_return(:status => 404)
+  test "'Show address' from context menu makes reverse geocoding request with zoom" do
+    visit "/#map=15/51.76320/-0.00760"
 
+    find_by_id("map").right_click
+    click_on "Show address"
+
+    assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
+  end
+
+  test "query search link sets search input value" do
     visit search_path(:query => "2.341, 7.896")
 
     assert_field "Search", :with => "2.341, 7.896"
   end
 
   test "latlon search link sets search input value" do
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
-      .to_return(:status => 404)
-
     visit search_path(:lat => "4.321", :lon => "9.876")
 
     assert_field "Search", :with => "4.321, 9.876"
   end
 
   test "search adds viewbox param to Nominatim link" do
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/search\?})
-      .to_return(:status => 404)
-
     visit "/"
 
     fill_in "query", :with => "paris"
@@ -68,9 +76,6 @@ class SearchTest < ApplicationSystemTestCase
   end
 
   test "search adds zoom param to reverse Nominatim link" do
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
-      .to_return(:status => 404)
-
     visit "/#map=7/1.234/6.789"
 
     fill_in "query", :with => "60 30"
