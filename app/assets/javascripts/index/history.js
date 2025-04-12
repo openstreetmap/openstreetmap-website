@@ -105,6 +105,10 @@ OSM.History = function (map) {
   function displayFirstChangesets(html) {
     $("#sidebar_content .changesets").html(html);
 
+    $("#sidebar_content .changesets ol")
+      .before($("<div class='changeset-color-hint-bar opacity-75 sticky-top changeset-above-sidebar-viewport'>"))
+      .after($("<div class='changeset-color-hint-bar opacity-75 sticky-bottom changeset-below-sidebar-viewport'>"));
+
     if (location.pathname === "/history") {
       setPaginationMapHashes();
     }
