@@ -2,16 +2,30 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   _changesets: new Map,
 
   _getChangesetStyle: function ({ isHighlighted }) {
+    let className = "changeset-in-sidebar-viewport";
+
+    if (isHighlighted) {
+      className += " changeset-highlighted";
+    }
+
     return {
       weight: isHighlighted ? 3 : 2,
-      color: isHighlighted ? "#FF6600" : "#FF9500",
-      fillColor: "#FFFFAF",
-      fillOpacity: isHighlighted ? 0.3 : 0
+      color: "var(--changeset-border-color)",
+      fillColor: "var(--changeset-fill-color)",
+      fillOpacity: isHighlighted ? 0.3 : 0,
+      className
     };
   },
 
   _updateChangesetStyle: function (changeset) {
-    this.getLayer(changeset.id)?.setStyle(this._getChangesetStyle(changeset));
+    const rect = this.getLayer(changeset.id);
+    if (!rect) return;
+
+    const style = this._getChangesetStyle(changeset);
+    rect.setStyle(style);
+    // setStyle doesn't update css classes: https://github.com/leaflet/leaflet/issues/2662
+    rect._path.classList.value = style.className;
+    rect._path.classList.add("leaflet-interactive");
   },
 
   updateChangesets: function (map, changesets) {
