@@ -16,82 +16,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let heatmapStartDate, heatmapEndDate;
 
-  const yearlyTemplate = (DateHelper) => ({
-    name: "yearly",
-    allowedDomainType: ALLOWED_DOMAIN_TYPE,
-    rowsCount: () => ROWS_COUNT,
-    columnsCount: () => {
-      const startDate = DateHelper.date(heatmapStartDate).startOf("week");
-      const endDate = DateHelper.date(heatmapEndDate);
-      return Math.ceil(endDate.diff(startDate, "weeks", true)) + 1;
-    },
-    mapping: () => {
-      const startDate = DateHelper.date(heatmapStartDate).startOf("week");
-      const endDate = DateHelper.date(heatmapEndDate);
-      // Check if weeks start on Monday
-      const weekStart = DateHelper.date().startOf("week");
-      const weekStartsOnMonday = weekStart.day() === 1;
+  const yearlyTemplate = (DateHelper) => {
+    window.heatmapDateHelper = DateHelper;
 
-      // Create a map of dates to x,y coordinates
-      const dateMap = new Map();
-      let x = 0;
+    return {
+      name: "yearly",
+      allowedDomainType: ALLOWED_DOMAIN_TYPE,
+      rowsCount: () => ROWS_COUNT,
+      columnsCount: () => {
+        const startDate = DateHelper.date(heatmapStartDate).startOf("week");
+        const endDate = DateHelper.date(heatmapEndDate);
+        return Math.ceil(endDate.diff(startDate, "weeks", true)) + 1;
+      },
+      mapping: () => {
+        const startDate = DateHelper.date(heatmapStartDate).startOf("week");
+        const endDate = DateHelper.date(heatmapEndDate);
+        const weekStart = DateHelper.date().startOf("week");
+        const weekStartsOnMonday = weekStart.day() === 1;
 
-      // First, determine the week transitions
-      let currentWeek = null;
-      DateHelper.intervals("day", startDate, endDate.add(1, "day")).forEach((ts) => {
-        const date = DateHelper.date(ts);
-        const week = date.startOf("week").valueOf();
+        const dateMap = new Map();
+        let x = 0;
 
-        if (currentWeek !== week) {
-          currentWeek = week;
-          x += 1;
-        }
+        let currentWeek = null;
+        DateHelper.intervals("day", startDate, endDate.add(1, "day")).forEach((ts) => {
+          const date = DateHelper.date(ts);
+          const week = date.startOf("week").valueOf();
 
-        // Calculate the y coordinate (day position within the week)
-        // For Sunday first (0-6): Sunday=0, Monday=1, ..., Saturday=6
-        // For Monday first (1-0): Monday=0, Tuesday=1, ..., Sunday=6
-        let y;
-        if (weekStartsOnMonday) {
-          // For Monday-first locales, we need to adjust the day number
-          y = date.day() === 0 ? 6 : date.day() - 1;
-        } else {
-          // For Sunday-first locales, day() already gives us the right index
-          y = date.day();
-        }
+          if (currentWeek !== week) {
+            currentWeek = week;
+            x += 1;
+          }
 
-        dateMap.set(ts, { x, y });
-      });
+          let y;
+          if (weekStartsOnMonday) {
+            y = date.day() === 0 ? 6 : date.day() - 1;
+          } else {
+            y = date.day();
+          }
 
-      return DateHelper.intervals("day", startDate, endDate.add(1, "day")).map((ts) => {
-        const coordinates = dateMap.get(ts);
-        return {
-          t: ts,
-          x: coordinates.x,
-          y: coordinates.y
-        };
-      });
-    },
-    extractUnit: (ts) => DateHelper.date(ts).startOf("day").valueOf()
-  });
+          dateMap.set(ts, { x, y });
+        });
 
-  // Helper functions
+        return DateHelper.intervals("day", startDate, endDate.add(1, "day")).map((ts) => {
+          const coordinates = dateMap.get(ts);
+          return {
+            t: ts,
+            x: coordinates.x,
+            y: coordinates.y
+          };
+        });
+      },
+      extractUnit: (ts) => DateHelper.date(ts).startOf("day").valueOf()
+    };
+  };
+
   const getMonthLabels = () => {
     const abbr_month_names = OSM.i18n.t("date.abbr_month_names");
     const currentDate = new Date(heatmapStartDate);
-    const startMonth = currentDate.getUTCMonth() + 1; // +1 since abbr_month_names is 1-indexed
+    const startMonth = currentDate.getUTCMonth() + 1;
     const startDayOfMonth = currentDate.getUTCDate();
-    // Create array of 12 months using map
     const months = Array.from({ length: 12 }).map((_, i) => {
-      // Get month index (1-12) with wrapping
       const monthIndex = ((startMonth + i - 1) % 12) + 1;
       return abbr_month_names[monthIndex];
     });
-    // If we need to rotate months because the start date is past the threshold
     if (startDayOfMonth > DAYS_IN_MONTH_THRESHOLD) {
-      // Move the first month to the end
       months.push(months.shift());
     }
     return months;
+  };
+
+  const getWeekLabels = () => {
+    const weekStart = window.heatmapDateHelper.date().startOf("week");
+    const weekStartsOnMonday = weekStart.day() === 1;
+    const dayNames = OSM.i18n.t("date.abbr_day_names");
+    const labels = weekStartsOnMonday ? [...dayNames.slice(1), dayNames[0]] : dayNames;
+    return labels.map((label, index) => [1, 3, 5].includes(index) ? label : "");
   };
 
   const getTooltipText = (date, value) => {
@@ -194,7 +193,15 @@ document.addEventListener("DOMContentLoaded", () => {
         text: getMonthLabels,
         width: MONTH_LABEL_WIDTH,
         textAlign: "middle",
-        padding: heatmapStartDate.getUTCDate() > DAYS_IN_MONTH_THRESHOLD ? [0, 0, 5, 5] : [0, 0, 5, 0]
+        padding: heatmapStartDate.getUTCDate() > DAYS_IN_MONTH_THRESHOLD ? [0, 0, 10, 5] : [0, 0, 10, 0]
+      }],
+      [CalendarLabel, {
+        position: "left",
+        key: "week-labels",
+        text: getWeekLabels,
+        width: 30,
+        textAlign: "right",
+        padding: [0, 5, 0, 0]
       }]
     ]);
 
