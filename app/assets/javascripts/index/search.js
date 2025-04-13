@@ -54,7 +54,7 @@ OSM.Search = function (map) {
     const div = $(this).parents(".search_more");
 
     $(this).hide();
-    div.find(".loader").show();
+    div.find(".loader").prop("hidden", false);
 
     fetch($(this).attr("href"), {
       method: "POST",
