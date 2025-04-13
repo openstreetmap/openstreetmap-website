@@ -279,13 +279,19 @@ class Trace < ApplicationRecord
   private
 
   def content_type(file)
-    case Open3.capture2("/usr/bin/file", "-Lbz", file).first.chomp
-    when /.*\btar archive\b.*\bgzip\b/ then "application/x-tar+gzip"
-    when /.*\btar archive\b.*\bbzip2\b/ then "application/x-tar+x-bzip2"
-    when /.*\btar archive\b/ then "application/x-tar"
-    when /.*\bZip archive\b/ then "application/zip"
-    when /.*\bXML\b.*\bgzip\b/ then "application/gzip"
-    when /.*\bXML\b.*\bbzip2\b/ then "application/x-bzip2"
+    file_type = Open3.capture2("/usr/bin/file", "-Lb", file).first.chomp
+
+    case file_type
+    when /\bcompressed data,/ then file_type = Open3.capture2("/usr/bin/file", "-Lbz", file).first.chomp
+    end
+
+    case file_type
+    when /\btar archive\b.*\bgzip\b/ then "application/x-tar+gzip"
+    when /\btar archive\b.*\bbzip2\b/ then "application/x-tar+x-bzip2"
+    when /\btar archive\b/ then "application/x-tar"
+    when /\bZip archive\b/ then "application/zip"
+    when /\bXML\b.*\bgzip\b/ then "application/gzip"
+    when /\bXML\b.*\bbzip2\b/ then "application/x-bzip2"
     else "application/gpx+xml"
     end
   end
