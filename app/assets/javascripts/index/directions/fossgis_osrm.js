@@ -30,6 +30,7 @@
         "rotary": "roundabout",
         "exit roundabout": "exit_roundabout",
         "exit rotary": "exit_roundabout",
+        "ferry": "continue",
         "depart": "start",
         "arrive": "destination"
       };
@@ -81,8 +82,10 @@
     }
 
     function _processDirections(leg) {
-      function getManeuverId(maneuver) {
+      function getManeuverId({ maneuver, mode, intersections }) {
         // special case handling
+        if (mode === "ferry") return "ferry";
+        if (intersections.some(i => i.classes?.includes("ferry"))) return "ferry";
         switch (maneuver.type) {
           case "on ramp":
           case "off ramp":
@@ -129,11 +132,12 @@
         "rotary": "roundabout",
         "exit roundabout": "roundabout",
         "exit rotary": "roundabout",
+        "ferry": "ferry",
         "depart": "start",
         "arrive": "destination"
       };
 
-      for (const step of leg.steps) step.maneuverId = getManeuverId(step.maneuver);
+      for (const step of leg.steps) step.maneuverId = getManeuverId(step);
 
       const steps = leg.steps.map(step => [
         ICON_MAP[step.maneuverId],
