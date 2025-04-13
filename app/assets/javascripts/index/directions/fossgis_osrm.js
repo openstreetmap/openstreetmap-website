@@ -30,7 +30,7 @@
         "rotary": "roundabout",
         "exit roundabout": "exit_roundabout",
         "exit rotary": "exit_roundabout",
-        "ferry": "continue",
+        "ferry": "ferry",
         "depart": "start",
         "arrive": "destination"
       };
