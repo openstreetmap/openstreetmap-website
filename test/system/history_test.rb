@@ -179,8 +179,14 @@ class HistoryTest < ApplicationSystemTestCase
   test "changeset bbox is shown on the map and clickable" do
     user = create(:user)
     changeset = create(:changeset, :user => user, :num_changes => 1, :bbox => [50, 50, 51, 51])
+    create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "Clickable changeset")
 
     visit "#{user_path(user)}/history"
+
+    within_sidebar do
+      assert_link "Clickable changeset"
+    end
+
     find_by_id("map").click
 
     assert_current_path changeset_path(changeset)
