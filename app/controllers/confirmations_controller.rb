@@ -19,10 +19,10 @@ class ConfirmationsController < ApplicationController
 
       if !user
         flash[:error] = t(".unknown token")
-        redirect_to root_path
+        handle_unknown_token
       elsif !user.account_unconfirmed?
-        flash[:error] = t(".failure")
-        redirect_to root_path
+        flash[:error] = t(".already active")
+        handle_already_active
       elsif !user.visible?
         render_unknown_user user.display_name
       else
@@ -77,6 +77,22 @@ class ConfirmationsController < ApplicationController
   end
 
   private
+
+  def handle_unknown_token
+    if user.new_email?
+      redirect_to account_path
+    else
+      redirect_to :action => "new"
+    end
+  end
+
+  def handle_already_active
+    if user.new_email?
+      redirect_to account_path
+    else
+      redirect_to login_path
+    end
+  end
 
   ##
   # display a message about the current status of the Gravatar setting
