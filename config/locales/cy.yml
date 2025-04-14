@@ -61,15 +61,15 @@ cy:
       note: Nodyn
       old_node: Hen Nod
       old_node_tag: Tag Hen Nod
-      old_relation: Hen Berthynas
-      old_relation_member: Aelod o Hen Berthynas
-      old_relation_tag: Tag Hen Berthynas
+      old_relation: Hen Gydberthynas
+      old_relation_member: Aelod o Hen Gydberthynas
+      old_relation_tag: Tag Hen Gydberthynas
       old_way: Hen Lwybr
       old_way_node: Hen Nod Llwybr
       old_way_tag: Tag Hen Lwybr
-      relation: Perthynas
-      relation_member: Aelod Perthynol
-      relation_tag: Tag Perthynas
+      relation: Cydberthynas
+      relation_member: Aelod o Gydberthynas
+      relation_tag: Tag Cydberthynas
       report: Adroddiad
       session: Sesiwn
       trace: Ôl
@@ -398,12 +398,12 @@ cy:
     no_comment: (dim sylw)
     part_of: Rhan o
     part_of_relations:
-      zero: '%{count} perthnasau'
-      one: '%{count} perthynas'
-      two: '%{count} berthynas'
-      few: '%{count} pherthynas'
-      many: '%{count} perthynas'
-      other: '%{count} perthynas'
+      zero: '%{count} cydberthnasau'
+      one: '%{count} cydberthynas'
+      two: '%{count} gydberthynas'
+      few: '%{count} chydberthynas'
+      many: '%{count} cydberthynas'
+      other: '%{count} cydberthynas'
     part_of_ways:
       zero: '%{count} llwybr'
       one: '%{count} llwybr'
@@ -436,7 +436,7 @@ cy:
         many: rhan o lwybr %{related_ways}
         other: rhan o lwybr %{related_ways}
     relation:
-      title_html: 'Perthynas: %{name}'
+      title_html: 'Cydberthynas: %{name}'
       members: Aelodau
       members_count:
         zero: '%{count} aelod'
@@ -450,7 +450,7 @@ cy:
       type:
         node: Nod
         way: Llwybr
-        relation: Perthynas
+        relation: Cydberthynas
     containing_relation:
       entry_role_html: '%{relation_name} (fel %{relation_role})'
     not_found:
@@ -461,7 +461,7 @@ cy:
       type:
         node: nod
         way: llwybr
-        relation: perthynas
+        relation: cydberthynas
         changeset: grŵp newid
         note: nodyn
     redacted:
@@ -471,7 +471,7 @@ cy:
       type:
         node: nod
         way: llwybr
-        relation: perthynas
+        relation: cydberthynas
     start_rjs:
       feature_warning: Wrthi'n llwytho %{num_features} nodwedd, a all arafu neu chwalu
         eich porwr. Ydych chi wir eisiau gweld y data?
@@ -502,7 +502,7 @@ cy:
       way:
         title_html: 'Hanes Llwybr: %{name}'
       relation:
-        title_html: 'Hanes Perthynas: %{name}'
+        title_html: 'Hanes Cydberthynas: %{name}'
     actions:
       view_redacted_data: Gweld Data Wedi'i Gorchuddio
       view_redaction_message: Gweld Neges Orchuddio
@@ -529,15 +529,15 @@ cy:
       sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl hanes llwybr #%{id}.'
   relations:
     not_found_message:
-      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i berthynas #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i gydberthynas #%{id}.'
     timeout:
-      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl data perthynas #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl data cydberthynas #%{id}.'
   old_relations:
     not_found_message:
-      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i fersiwn %{version} o berthynas
+      sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i fersiwn %{version} o gydberthynas
         #%{id}.'
     timeout:
-      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl hanes perthynas #%{id}.'
+      sorry: 'Mae''n ddrwg gennym, cymerodd rhy hir i nôl hanes cydberthynas #%{id}.'
   changeset_comments:
     feeds:
       comment:
@@ -577,6 +577,8 @@ cy:
       no_more: Heb ganfod rhagor o grwpiau newid.
       no_more_area: Heb ganfod rhagor o grwpiau newid yn yr ardal hon.
       no_more_user: Heb ganfod rhagor o grwpiau newid gan y defnyddiwr hwn.
+      older_changesets: Grwpiau Newid Hŷn
+      newer_changesets: Grwpiau Newid Diweddarach
       feed:
         title: Grŵp newid %{id}
         title_comment: Grŵp newid %{id} - %{comment}
@@ -605,9 +607,13 @@ cy:
       changesetxml: XML grŵp newid
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Nodau
       nodes_paginated: Nodau (%{x}-%{y} o %{count})
+      ways_title: Llwybrau
       ways_paginated: Llwybrau (%{x}-%{y} o %{count})
-      relations_paginated: Perthnasau (%{x}-%{y} o %{count})
+      relations_title: Cydberthnasau
+      relations_paginated: Cydberthnasau (%{x}-%{y} o %{count})
+      range: '%{x}-%{y} o %{count}'
     not_found_message:
       sorry: 'Mae''n ddrwg gennym, ni ellid dod o hyd i grŵp newid #%{id}.'
     timeout:
@@ -644,7 +650,7 @@ cy:
       no_home_location_html: '%{edit_profile_link} a gosodwch eich lleoliad i weld
         defnyddwyr cyfagos.'
       edit_your_profile: Golygwch eich proffil
-      followings: Yn dilyn
+      followings: Defnyddwyr rydych chi'n eu dilyn
       no followings: Nid ydych wedi dilyn unrhyw ddefnyddwyr eto.
       nearby users: Defnyddwyr eraill gerllaw
       no nearby users: Nid oes defnyddwyr gerllaw sy'n dweud eu bod yn mapio eto.
@@ -2504,10 +2510,10 @@ cy:
         track: Trac
         bridleway: Llwybr ceffylau
         cycleway: Llwybr beiciau
-        cycleway_national: Llwybr beiciau cenedlaethol
-        cycleway_regional: Llwybr beiciau rhanbarthol
-        cycleway_local: Llwybr beiciau lleol
-        cycleway_mtb: Ffordd Feicio Mynydd
+        national_bike_route: Llwybr beiciau cenedlaethol
+        regional_bike_route: Llwybr beiciau rhanbarthol
+        local_bike_route: Llwybr beiciau lleol
+        mountain_bike_route: Ffordd Feicio Mynydd
         footway: Troedffordd
         rail: Rheilffordd
         train: Trên
@@ -3392,7 +3398,7 @@ cy:
     query:
       node: Nod
       way: Llwybr
-      relation: Perthynas
+      relation: Cydberthynas
       nothing_found: Heb ganfod nodweddion
       error: 'Gwall wrth gysylltu â %{server}: %{error}'
       timeout: Goramser wrth gysylltu â %{server}

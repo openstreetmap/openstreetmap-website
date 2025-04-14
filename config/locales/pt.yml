@@ -349,21 +349,21 @@ pt:
         o seu e-mail para confirmar seu novo endereço.
       success: Sucesso ao atualizar informação de usuário.
     destroy:
-      success: Conta eliminada.
+      success: Conta deletada.
     deletions:
       show:
-        title: Eliminar minha conta
+        title: Deletar minha conta
         warning: Alerta! O processo de eliminação de contas é permanente, e não pode
           ser revertido.
-        delete_account: Eliminar conta
-        delete_introduction: 'Você pode eliminar sua conta no OpenStreetMap usando
+        delete_account: Deletar conta
+        delete_introduction: 'Você pode deletar sua conta no OpenStreetMap usando
           o botão abaixo. Por favor observe os detalhes a seguir:'
         delete_profile: Suas informações de perfil, incluindo seu avatar, descrição,
-          e localização, serão eliminadas.
-        delete_display_name: Seu nome de exibição será removido, e poderá ser reutilizado
+          e localização, serão deletadas.
+        delete_display_name: Seu nome de exibição será apagado, e poderá ser reutilizado
           por outras contas.
         retain_caveats: 'Entretanto, algumas informações sobre você serão mantidas
-          no OpenStreetMap, mesmo após sua conta ser eliminada:'
+          no OpenStreetMap, mesmo após sua conta ser deletada:'
         retain_edits: Suas edições ao banco de dados de mapas, se houverem, serão
           mantidas.
         retain_traces: Seus rastros enviados, caso existam, serão retidos.
@@ -584,6 +584,8 @@ pt:
       no_more: Nenhum conjunto de alterações encontrado.
       no_more_area: Não há mais conjuntos de alterações nesta área.
       no_more_user: Não há mais conjuntos de alterações para este usuário.
+      older_changesets: Alterações mais antigas
+      newer_changesets: Alterações mais novas
       feed:
         title: Conjunto de alterações %{id}
         title_comment: Conjunto de alterações %{id} - %{comment}
@@ -605,16 +607,18 @@ pt:
       subscribe: Inscrever
       unsubscribe: Cancelar inscrição
       comment_by_html: Comentário de %{user} há %{time_ago}
-      hidden_comment_by_html: Comentário ocultado por %{user} há %{time_ago}
+      hidden_comment_by_html: Comentário ocultado por %{user} %{time_ago}
       hide_comment: esconder
       unhide_comment: exibir
       comment: Comentar
       changesetxml: XML do conjunto de alterações
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Pontos
       nodes_paginated: Pontos (%{x}-%{y} de %{count})
       ways_title: Rotas
       ways_paginated: Linhas (%{x}-%{y} de %{count})
+      relations_title: Relações
       relations_paginated: Relações (%{x}-%{y} de %{count})
     not_found_message:
       sorry: 'Desculpe, não foi possível encontrar o conjunto de alteração #%{id}.'
@@ -1582,6 +1586,7 @@ pt:
           lagoon: Lagoa
           wastewater: Agua residual
           oxbow: Braço morto
+          stream_pool: Piscinão
           lock: Eclusa
         waterway:
           artificial: Via Aquática Artificial
@@ -1604,9 +1609,9 @@ pt:
           "yes": Via Aquática
       admin_levels:
         level2: Fronteira Nacional
-        level3: Limite de região
-        level4: Divisa Estadual
-        level5: Limite Regional
+        level3: Limite administrativo (nível 3)
+        level4: Limite administrativo (nível 4)
+        level5: Limite administrativo (nível 5)
         level6: Limite de Condado
         level7: Limite do município
         level8: Limite Municipal
@@ -1614,6 +1619,8 @@ pt:
         level10: Limite de Bairro
         level11: Limite da vizinhança
       border_types:
+        borough: Limite de bairro
+        cercle: Limite de distrito
         city: Limite de município
         comarca: Limite de comarca
         county: Limite de província
@@ -1622,6 +1629,18 @@ pt:
         district: Limite de distrito
         distrito: Limite de distrito
         freguesia: Limite de freguesia
+        local_authority: Limite de autoridade local
+        municipality: Limite municipal
+        municipi: Limite municipal
+        município: Limite municipal
+        nation: Limite internacional
+        national: Limite internacional
+        neighbourhood: Limite de vizinhança
+        parish: Limite paroquial
+        province: Limite provincial
+        região: Limite regional
+        region: Limite regional
+        state: Limite estadual
     results:
       no_results: Nenhum resultado encontrado
       more_results: Mais resultados
@@ -1647,6 +1666,7 @@ pt:
       status: Status
       reports: Denúncias
       last_updated: Última Atualização
+      reporting_users: Denunciar usuários
       reports_count:
         one: '%{count} denúncia'
         other: '%{count} denúncias'
@@ -1790,7 +1810,9 @@ pt:
       hi: Olá %{to_user},
       see_their_profile: Você pode ver o perfil dele(a) em %{userurl}.
       see_their_profile_html: Você pode ver o perfil dele(a) em %{userurl}.
+      follow_them_html: Siga também em %{followurl}.
     gpx_details:
+      details: 'Detalhes dos arquivos:'
       filename: Nome do arquivo
       url: URL
       description: Descrição
@@ -1799,10 +1821,10 @@ pt:
       imported_points: Número de pontos importados
     gpx_failure:
       hi: Olá %{to_user},
-      failed_to_import: 'falha na importação do arquivo de rastreamento de GPS. Por
-        favor, verifique se o formato do arquivo é GPX válido ou outro formato aceito
-        (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Poderia haver um problema
-        de formato ou sintaxe em seu arquivo? Veja detalhes sobre este erro:'
+      failed_to_import: Seu arquivo não pôde ser importado como rota de GPS.
+      verify: 'Por favor, verifique se seu arquivo é válido para GPX ou de outro formato
+        aceito (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Há algum problema
+        de formato ou sintaxe no seu arquivo? Veja o erro de importação:'
       more_info: Mais informações sobre as falhas de importação de GPX e como evitá-las
         podem ser encontradas em %{url}.
       more_info_html: Mais informações sobre as falhas de importação GPX e como evitá-las
@@ -1811,6 +1833,7 @@ pt:
       subject: '[OpenStreetMap] Falha ao importar arquivo GPX'
     gpx_success:
       hi: Olá %{to_user},
+      imported_successfully: Seu arquivo foi importado com sucesso como rota de GPS.
       all_your_traces: Todas as suas trilhas GPX enviadas com sucesso podem ser encontradas
         em %{url}
       all_your_traces_html: Todas as suas trilhas GPX enviadas com sucesso podem ser
@@ -2580,10 +2603,10 @@ pt:
         track: Estrada rústica
         bridleway: Hipovia
         cycleway: Ciclovia
-        cycleway_national: Ciclovia nacional
-        cycleway_regional: Ciclovia regional
-        cycleway_local: Ciclovia local
-        cycleway_mtb: Rota de bicicleta de montanha
+        national_bike_route: Ciclovia nacional
+        regional_bike_route: Ciclovia regional
+        local_bike_route: Ciclovia local
+        mountain_bike_route: Rota de bicicleta de montanha
         footway: Caminho de pedestre
         rail: Ferrovia
         train: Trem
@@ -3030,7 +3053,11 @@ pt:
           confirmed: Confirmado
           suspended: Suspenso
           deleted: Excluído
+        name_or_email: Nome ou e-mail
         ip_address: Endereço IP
+        edits: Edições?
+        has_edits: Há edições
+        no_edits: Sem edições
         search: Pesquisar
       page:
         found_users:
@@ -3237,15 +3264,16 @@ pt:
       closed_title: 'Nota resolvida #%{note_name}'
       hidden_title: 'Nota oculta #%{note_name}'
       description_when_author_is_deleted: excluído
-      event_opened_by_html: Criado por %{user} há %{time_ago}
-      event_opened_by_anonymous_html: Criado por anônimo há %{time_ago}
+      description_when_there_is_no_opening_comment: desconhecido
+      event_opened_by_html: Criado por %{user} %{time_ago}
+      event_opened_by_anonymous_html: Criado por anônimo %{time_ago}
       event_commented_by_html: Comentário de %{user} há %{time_ago}
       event_commented_by_anonymous_html: Comentário de anônimo há %{time_ago}
-      event_closed_by_html: Resolvido por %{user} há %{time_ago}
-      event_closed_by_anonymous_html: Resolvido por anônimo há %{time_ago}
+      event_closed_by_html: Resolvido por %{user} %{time_ago}
+      event_closed_by_anonymous_html: Resolvido por anônimo %{time_ago}
       event_reopened_by_html: Re-ativado por %{user} há %{time_ago}
       event_reopened_by_anonymous_html: Re-ativado por anônimo há %{time_ago}
-      event_hidden_by_html: Ocultado por %{user} há %{time_ago}
+      event_hidden_by_html: Ocultado por %{user} %{time_ago}
       report: denunciar esta nota
       anonymous_warning: Esta nota contém comentários de usuários anônimos que devem
         ser conferidos separadamente.
@@ -3460,6 +3488,7 @@ pt:
           ninth: 9.ª
           tenth: 10.ª
       time: Duração
+      download: Baixar rota como GeoJSON
       filename: rota
     query:
       node: Ponto
@@ -3478,6 +3507,9 @@ pt:
     home:
       marker_title: Localização da minha casa
       not_set: Localização da casa não está definida para sua conta
+    heatmap:
+      tooltip:
+        no_contributions: Sem contribuições em %{date}
   redactions:
     edit:
       heading: Editar anulação
