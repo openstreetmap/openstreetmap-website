@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class UsersController < ApiController
     before_action :setup_user_auth, :only => [:show, :index]

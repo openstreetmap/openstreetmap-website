@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddJoinTableBetweenUsersAndChangesets < ActiveRecord::Migration[4.2]
   def change
     create_table :changesets_subscribers, :id => false do |t|

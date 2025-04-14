@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 attrs = {
   "id" => old_relation.relation_id,
   "visible" => old_relation.visible,

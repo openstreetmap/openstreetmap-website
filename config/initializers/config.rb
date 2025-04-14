@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Guard against deployments with old-style application.yml configurations
 # Otherwise, admins might not be aware that they are now silently ignored
 # and major problems could occur

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlterUserRolesAndBlocks < ActiveRecord::Migration[4.2]
   class UserRole < ApplicationRecord
   end

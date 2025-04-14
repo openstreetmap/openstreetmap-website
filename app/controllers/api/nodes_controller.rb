@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The NodeController is the RESTful interface to Node objects
 
 module Api

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ValidateCreateDoorkeeperOpenidConnectTables < ActiveRecord::Migration[7.0]
   # Validate foreign key created by CreateDoorkeeperOpenidConnectTables
   def change
