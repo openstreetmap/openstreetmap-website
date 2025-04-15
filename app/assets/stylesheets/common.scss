@@ -601,7 +601,28 @@ tr.turn {
 
 /* Rules for the history sidebar */
 
+.changeset-above-sidebar-viewport {
+  --changeset-border-color: #CC7755;
+  --changeset-fill-color: #888888;
+}
+.changeset-in-sidebar-viewport {
+  --changeset-border-color: #FF9500;
+  &.changeset-highlighted {
+    --changeset-border-color: #FF6600;
+  }
+  --changeset-fill-color: #FFFFAF;
+}
+.changeset-below-sidebar-viewport {
+  --changeset-border-color: #8888AA;
+  --changeset-fill-color: #888888;
+}
+
 #sidebar .changesets {
+  .changeset-color-hint-bar {
+    height: 2px;
+    background: var(--changeset-border-color);
+  }
+
   li {
     &.selected {
       @extend :hover;

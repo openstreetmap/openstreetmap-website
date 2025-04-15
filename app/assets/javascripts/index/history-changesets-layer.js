@@ -1,15 +1,47 @@
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
-  _changesets: [],
+  _changesets: new Map,
+
+  _getChangesetStyle: function ({ isHighlighted, sidebarRelativePosition }) {
+    let className;
+
+    if (sidebarRelativePosition > 0) {
+      className = "changeset-above-sidebar-viewport";
+    } else if (sidebarRelativePosition < 0) {
+      className = "changeset-below-sidebar-viewport";
+    } else {
+      className = "changeset-in-sidebar-viewport";
+    }
+    if (isHighlighted) {
+      className += " changeset-highlighted";
+    }
+
+    return {
+      weight: isHighlighted ? 3 : 2,
+      color: "var(--changeset-border-color)",
+      fillColor: "var(--changeset-fill-color)",
+      fillOpacity: isHighlighted ? 0.3 : 0,
+      className
+    };
+  },
+
+  _updateChangesetStyle: function (changeset) {
+    const rect = this.getLayer(changeset.id);
+    if (!rect) return;
+
+    const style = this._getChangesetStyle(changeset);
+    rect.setStyle(style);
+    // setStyle doesn't update css classes: https://github.com/leaflet/leaflet/issues/2662
+    rect._path.classList.value = style.className;
+    rect._path.classList.add("leaflet-interactive");
+  },
 
   updateChangesets: function (map, changesets) {
-    this._changesets = changesets;
+    this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
     this.updateChangesetShapes(map);
   },
 
   updateChangesetShapes: function (map) {
-    this.clearLayers();
-
-    for (const changeset of this._changesets) {
+    for (const changeset of this._changesets.values()) {
       const bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
             topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
             width = topRight.x - bottomLeft.x,
@@ -30,24 +62,14 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
                                         map.unproject(topRight));
     }
 
-    this._changesets.sort(function (a, b) {
-      return b.bounds.getSize() - a.bounds.getSize();
-    });
-
     this.updateChangesetLocations(map);
-
-    for (const changeset of this._changesets) {
-      const rect = L.rectangle(changeset.bounds,
-                               { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
-      rect.id = changeset.id;
-      rect.addTo(this);
-    }
+    this.reorderChangesets();
   },
 
   updateChangesetLocations: function (map) {
     const mapCenterLng = map.getCenter().lng;
 
-    for (const changeset of this._changesets) {
+    for (const changeset of this._changesets.values()) {
       const changesetSouthWest = changeset.bounds.getSouthWest();
       const changesetNorthEast = changeset.bounds.getNorthEast();
       const changesetCenterLng = (changesetSouthWest.lng + changesetNorthEast.lng) / 2;
@@ -62,12 +84,40 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
   },
 
-  highlightChangeset: function (id) {
-    this.getLayer(id)?.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
+  reorderChangesets: function () {
+    const changesetEntries = [...this._changesets];
+    changesetEntries.sort(([, a], [, b]) => {
+      const aInViewport = !a.sidebarRelativePosition;
+      const bInViewport = !b.sidebarRelativePosition;
+      if (aInViewport !== bInViewport) return aInViewport - bInViewport;
+      return b.bounds.getSize() - a.bounds.getSize();
+    });
+    this._changesets = new Map(changesetEntries);
+
+    this.clearLayers();
+
+    for (const changeset of this._changesets.values()) {
+      delete changeset.isHighlighted;
+      const rect = L.rectangle(changeset.bounds, this._getChangesetStyle(changeset));
+      rect.id = changeset.id;
+      rect.addTo(this);
+    }
   },
 
-  unHighlightChangeset: function (id) {
-    this.getLayer(id)?.setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
+  toggleChangesetHighlight: function (id, state) {
+    const changeset = this._changesets.get(id);
+    if (!changeset) return;
+
+    changeset.isHighlighted = state;
+    this._updateChangesetStyle(changeset);
+  },
+
+  setChangesetSidebarRelativePosition: function (id, state) {
+    const changeset = this._changesets.get(id);
+    if (!changeset) return;
+
+    changeset.sidebarRelativePosition = state;
+    this._updateChangesetStyle(changeset);
   },
 
   getLayerId: function (layer) {

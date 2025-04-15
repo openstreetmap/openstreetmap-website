@@ -7,18 +7,18 @@ OSM.History = function (map) {
   $("#sidebar_content")
     .on("click", ".changeset_more a", loadMoreChangesets)
     .on("mouseover", "[data-changeset]", function () {
-      highlightChangeset($(this).data("changeset").id);
+      toggleChangesetHighlight($(this).data("changeset").id, true);
     })
     .on("mouseout", "[data-changeset]", function () {
-      unHighlightChangeset($(this).data("changeset").id);
+      toggleChangesetHighlight($(this).data("changeset").id, false);
     });
 
   const changesetsLayer = new OSM.HistoryChangesetsLayer()
     .on("mouseover", function (e) {
-      highlightChangeset(e.layer.id);
+      toggleChangesetHighlight(e.layer.id, true);
     })
     .on("mouseout", function (e) {
-      unHighlightChangeset(e.layer.id);
+      toggleChangesetHighlight(e.layer.id, false);
     })
     .on("click", function (e) {
       clickChangeset(e.layer.id, e.originalEvent);
@@ -37,24 +37,27 @@ OSM.History = function (map) {
     disableChangesetIntersectionObserver();
     if (!window.IntersectionObserver) return;
 
-    let ignoreIntersectionEvents = true;
+    let keepInitialLocation = true;
 
     changesetIntersectionObserver = new IntersectionObserver((entries) => {
-      if (ignoreIntersectionEvents) {
-        ignoreIntersectionEvents = false;
-        return;
-      }
-
       let closestTargetToTop,
           closestDistanceToTop = Infinity,
           closestTargetToBottom,
           closestDistanceToBottom = Infinity;
 
       for (const entry of entries) {
-        if (entry.isIntersecting) continue;
+        const id = $(entry.target).data("changeset")?.id;
+
+        if (entry.isIntersecting) {
+          if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, 0);
+          continue;
+        }
 
         const distanceToTop = entry.rootBounds.top - entry.boundingClientRect.bottom;
         const distanceToBottom = entry.boundingClientRect.top - entry.rootBounds.bottom;
+
+        if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, distanceToTop >= 0 ? 1 : -1);
+
         if (distanceToTop >= 0 && distanceToTop < closestDistanceToTop) {
           closestDistanceToTop = distanceToTop;
           closestTargetToTop = entry.target;
@@ -63,6 +66,13 @@ OSM.History = function (map) {
           closestDistanceToBottom = distanceToBottom;
           closestTargetToBottom = entry.target;
         }
+      }
+
+      changesetsLayer.reorderChangesets();
+
+      if (keepInitialLocation) {
+        keepInitialLocation = false;
+        return;
       }
 
       if (closestTargetToTop && closestDistanceToTop < closestDistanceToBottom) {
@@ -83,14 +93,9 @@ OSM.History = function (map) {
     });
   }
 
-  function highlightChangeset(id) {
-    changesetsLayer.highlightChangeset(id);
-    $("#changeset_" + id).addClass("selected");
-  }
-
-  function unHighlightChangeset(id) {
-    changesetsLayer.unHighlightChangeset(id);
-    $("#changeset_" + id).removeClass("selected");
+  function toggleChangesetHighlight(id, state) {
+    changesetsLayer.toggleChangesetHighlight(id, state);
+    $("#changeset_" + id).toggleClass("selected", state);
   }
 
   function clickChangeset(id, e) {
@@ -99,6 +104,10 @@ OSM.History = function (map) {
 
   function displayFirstChangesets(html) {
     $("#sidebar_content .changesets").html(html);
+
+    $("#sidebar_content .changesets ol")
+      .before($("<div class='changeset-color-hint-bar opacity-75 sticky-top changeset-above-sidebar-viewport'>"))
+      .after($("<div class='changeset-color-hint-bar opacity-75 sticky-bottom changeset-below-sidebar-viewport'>"));
 
     if (location.pathname === "/history") {
       setPaginationMapHashes();
