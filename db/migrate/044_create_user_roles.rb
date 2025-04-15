@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateUserRoles < ActiveRecord::Migration[4.2]
   class User < ApplicationRecord
   end

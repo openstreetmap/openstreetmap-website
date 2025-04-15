@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddForeignKeysToOauthTables < ActiveRecord::Migration[4.2]
   def change
     add_foreign_key :oauth_tokens, :users, :name => "oauth_tokens_user_id_fkey"

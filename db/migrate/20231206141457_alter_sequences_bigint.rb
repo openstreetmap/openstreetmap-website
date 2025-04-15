@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlterSequencesBigint < ActiveRecord::Migration[7.1]
   def up
     safety_assured do

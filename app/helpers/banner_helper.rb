@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BannerHelper
   def active_banners
     BANNERS.reject do |_k, v|

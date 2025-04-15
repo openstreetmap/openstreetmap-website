@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GeocoderController < ApplicationController
   require "cgi"
   require "uri"

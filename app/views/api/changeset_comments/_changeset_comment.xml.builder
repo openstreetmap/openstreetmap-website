@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cattrs = {
   "id" => changeset_comment.id,
   "date" => changeset_comment.created_at.xmlschema,

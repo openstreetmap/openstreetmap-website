@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddForeignKeys < ActiveRecord::Migration[4.2]
   def self.up
     add_foreign_key :changeset_tags, :changesets, :column => :id, :name => "changeset_tags_id_fkey"

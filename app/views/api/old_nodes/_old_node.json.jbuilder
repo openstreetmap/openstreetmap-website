@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.type "node"
 json.id old_node.node_id
 if old_node.visible

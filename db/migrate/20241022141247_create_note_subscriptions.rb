@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateNoteSubscriptions < ActiveRecord::Migration[7.2]
   def change
     create_table :note_subscriptions, :primary_key => [:user_id, :note_id] do |t|
