@@ -63,6 +63,48 @@ module RichText
       nil
     end
 
+    def truncate_html(max_length = nil, img_length = 1000)
+      html_doc = to_html
+      return html_doc if max_length.nil?
+
+      doc = Nokogiri::HTML::DocumentFragment.parse(html_doc)
+      keep_or_discards = %w[p h1 h2 h3 h4 h5 h6 pre a table ul ol dl]
+      accumulated_length = 0
+      exceeded_node_parent = nil
+      truncated = false
+
+      doc.traverse do |node|
+        if accumulated_length >= max_length
+          if node == exceeded_node_parent
+            exceeded_node_parent = node.parent
+            node.remove if keep_or_discards.include?(node.name)
+          else
+            node.remove
+          end
+          next
+        end
+
+        next unless node.children.empty?
+
+        if node.text?
+          accumulated_length += node.text.length
+        elsif node.name == "img"
+          accumulated_length += img_length
+        end
+
+        if accumulated_length >= max_length
+          truncated = true
+          exceeded_node_parent = node.parent
+          node.remove
+        end
+      end
+
+      {
+        :truncated => truncated,
+        :html => doc.to_html.html_safe
+      }
+    end
+
     protected
 
     def simple_format(text)
