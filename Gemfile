@@ -78,7 +78,7 @@ gem "rack-uri_sanitizer"
 
 # Omniauth for authentication
 gem "multi_json"
-gem "omniauth", "~> 2.0.2"
+gem "omniauth", "~> 2.1.3"
 gem "omniauth-facebook"
 gem "omniauth-github"
 gem "omniauth-google-oauth2", ">= 0.6.0"
@@ -162,7 +162,7 @@ group :test do
   gem "jwt"
   gem "minitest", "~> 5.1"
   gem "minitest-focus", :require => false
-  gem "puma", "~> 5.6"
+  gem "puma", "~> 6.6"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"
@@ -179,8 +179,10 @@ end
 
 group :development, :test do
   gem "annotaterb"
+  gem "rackup"
   gem "teaspoon"
   gem "teaspoon-mocha", "~> 2.3.3"
+  gem "webrick"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", :require => "debug/prelude"
