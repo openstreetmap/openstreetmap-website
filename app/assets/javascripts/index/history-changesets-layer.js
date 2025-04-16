@@ -16,7 +16,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
 
     return {
-      weight: isHighlighted ? 3 : 2,
+      weight: isHighlighted ? 4 : 2,
       color: "var(--changeset-border-color)",
       fillColor: "var(--changeset-fill-color)",
       fillOpacity: isHighlighted ? 0.3 : 0,
