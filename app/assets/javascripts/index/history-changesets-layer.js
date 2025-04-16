@@ -116,8 +116,10 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
 
-    changeset.sidebarRelativePosition = state;
-    this._updateChangesetStyle(changeset);
+    if (changeset.sidebarRelativePosition !== state) {
+      changeset.sidebarRelativePosition = state;
+      this._updateChangesetStyle(changeset);
+    }
   },
 
   getLayerId: function (layer) {

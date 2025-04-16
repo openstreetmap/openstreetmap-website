@@ -38,6 +38,7 @@ OSM.History = function (map) {
     if (!window.IntersectionObserver) return;
 
     let keepInitialLocation = true;
+    let itemsInViewport = $();
 
     changesetIntersectionObserver = new IntersectionObserver((entries) => {
       let closestTargetToTop,
@@ -49,14 +50,15 @@ OSM.History = function (map) {
         const id = $(entry.target).data("changeset")?.id;
 
         if (entry.isIntersecting) {
+          itemsInViewport = itemsInViewport.add(entry.target);
           if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, 0);
           continue;
+        } else {
+          itemsInViewport = itemsInViewport.not(entry.target);
         }
 
         const distanceToTop = entry.rootBounds.top - entry.boundingClientRect.bottom;
         const distanceToBottom = entry.boundingClientRect.top - entry.rootBounds.bottom;
-
-        if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, distanceToTop >= 0 ? 1 : -1);
 
         if (distanceToTop >= 0 && distanceToTop < closestDistanceToTop) {
           closestDistanceToTop = distanceToTop;
@@ -67,6 +69,15 @@ OSM.History = function (map) {
           closestTargetToBottom = entry.target;
         }
       }
+
+      itemsInViewport.first().prevAll().each(function () {
+        const id = $(this).data("changeset")?.id;
+        if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, 1);
+      });
+      itemsInViewport.last().nextAll().each(function () {
+        const id = $(this).data("changeset")?.id;
+        if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, -1);
+      });
 
       changesetsLayer.reorderChangesets();
 
