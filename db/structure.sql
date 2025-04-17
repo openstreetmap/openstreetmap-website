@@ -1519,7 +1519,8 @@ CREATE TABLE public.users (
     tou_agreed timestamp without time zone,
     diary_comments_count integer DEFAULT 0,
     note_comments_count integer DEFAULT 0,
-    creation_address inet
+    creation_address inet,
+    home_location_name character varying
 );
 
 
@@ -3457,6 +3458,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20250121191749'),
 ('20250105154621'),
 ('20250104140952'),
+('20241030090336'),
 ('20241023004427'),
 ('20241022141247'),
 ('20240913171951'),
