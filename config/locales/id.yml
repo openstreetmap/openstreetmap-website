@@ -20,6 +20,7 @@
 # Author: Hanif Al Husaini
 # Author: HarryMahar
 # Author: Hidayatsrf
+# Author: ID Owly01
 # Author: Ilham151096
 # Author: Irwangatot
 # Author: Iwan Novirion
@@ -95,6 +96,7 @@ id:
       message: Pesan
       node: Titik noda
       node_tag: Tag titik noda
+      note: Catatan
       old_node: Titik noda Lama
       old_node_tag: Tag Titik noda Lama
       old_relation: Relasi Lama
@@ -127,6 +129,7 @@ id:
         allow_write_prefs: memodifikasi pengaturan mereka sebagai pengguna
         allow_write_diary: buat entri buku harian dan komentar
         allow_write_api: memodifikasi peta
+        allow_write_changeset_comments: komentar pada set perubahan
         allow_read_gpx: baca jejak GPS pribadi mereka
         allow_write_gpx: unggah jejak GPS
         allow_write_notes: memodifikasi catatan
@@ -269,6 +272,7 @@ id:
   accounts:
     show:
       title: Edit akun
+      my_account: Akun saya
       current email address: Alamat surel saat ini
       external auth: Autentikasi Eksternal
       openid:
@@ -282,6 +286,9 @@ id:
         agreed_with_pd: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan
           Anda berada dalam Domain publik.
         link text: Apa ini?
+        not_agreed_with_pd: Anda belum menyatakan bahwa Anda mempertimbangkan suntingan
+          Anda berada dalam Domain Publik.
+        pd_link_text: menyatakan
       save changes button: Simpan Perubahan
       delete_account: Hapus Akun...
     go_public:
@@ -350,6 +357,7 @@ id:
         readable_summary: ringkasan dasar
         informal_translations: terjemahan tidak resmi
         continue: Lanjutkan
+        cancel: Batal
         you need to accept or decline: Silahkan baca dan setujui atau tolak Persyaratan
           Kontributor yang baru untuk melanjutkan.
         legale_select: 'Silahkan pilih negara tempat tinggal Anda:'
@@ -363,10 +371,24 @@ id:
         terms_declined_html: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor
           baru. Untuk informasi lebih lanjut, silakan lihat %{terms_declined_link}.
         terms_declined_link: halaman wiki ini
+    pd_declarations:
+      show:
+        title: Anggap kontribusi saya berada dalam Domain Publik
+        consider_pd: Saya menganggap kontribusi saya berada pada Domain Publik
+        consider_pd_why: Mengapa saya mau kontribusi saya berada dalam Domain Publik?
+        confirm: Konfirmasi
+      create:
+        successfully_declared: Anda telah menyatakan bahwa Anda mempertimbangkan suntingan
+          Anda berada dalam Domain Publik.
+        already_declared: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan
+          Anda berada dalam Domain publik.
+        did_not_confirm: Anda tidak mengonfirmasi bahwa Anda mempertimbangkan suntingan
+          Anda berada pada Domain Publik.
   browse:
     deleted_ago_by_html: Dihapus %{time_ago} oleh %{user}
     edited_ago_by_html: Disunting %{time_ago} oleh %{user}
     version: Versi
+    redacted_version: Versi yang direduksi
     in_changeset: Set Perubahan
     anonymous: Anonimitas
     no_comment: (tidak ada komentar)
@@ -377,6 +399,7 @@ id:
       other: '%{count} arah'
     download_xml: Unduh XML
     view_history: Versi terdahulu
+    view_unredacted_history: Lihat Riwayat yang Tidak Direduksi
     view_details: Lihat Rincian
     location: 'Lokasi:'
     node:
@@ -424,6 +447,7 @@ id:
     start_rjs:
       feature_warning: Memuat %{num_features} fitur, yang dapat membuat peramban Anda
         lambat atau tidak responsif. Apakah Anda yakin ingin menampilkan data ini?
+      feature_error: 'Fitur yang tidak dapat dimuat: %{message}'
       load_data: Memuat Data
       loading: Memuat...
     tag_details:
@@ -451,6 +475,9 @@ id:
         title_html: 'Riwayat Jalan: %{name}'
       relation:
         title_html: 'Riwayat Hubungan: %{name}'
+    actions:
+      view_redacted_data: Lihat Data yang Direduksi
+      view_redaction_message: Lihat Pesan Redaksi
   old_nodes:
     not_found_message:
       sorry: 'Maaf, titik #%{id} versi %{version} tidak dapat ditemukan.'
