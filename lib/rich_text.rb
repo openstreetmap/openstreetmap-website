@@ -116,7 +116,7 @@ module RichText
     end
 
     def linkify(text, mode = :urls)
-      link_attr = 'rel="nofollow noopener noreferrer"'
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
       Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
         url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
         shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
@@ -180,7 +180,25 @@ module RichText
     private
 
     def document
-      @document ||= Kramdown::Document.new(self)
+      return @document if @document
+
+      @document = Kramdown::Document.new(self)
+
+      should_get_dir_auto = lambda do |el|
+        dir_auto_types = [:p, :header, :codespan, :codeblock, :pre, :ul, :ol, :table, :dl, :math]
+        return true if dir_auto_types.include?(el.type)
+        return true if el.type == :a && el.children.length == 1 && el.children[0].type == :text && el.children[0].value == el.attr["href"]
+
+        false
+      end
+
+      add_dir = lambda do |element|
+        element.attr["dir"] ||= "auto" if should_get_dir_auto.call(element)
+        element.children.each(&add_dir)
+      end
+      add_dir.call(@document.root)
+
+      @document
     end
 
     def first_image_element(element)

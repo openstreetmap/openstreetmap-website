@@ -9,11 +9,11 @@ class ApplicationHelperTest < ActionView::TestCase
 
       html = linkify(text)
       assert_predicate html, :html_safe?
-      assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is &lt;b&gt;made&lt;/b&gt; into a link", html
+      assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\" dir=\"auto\">#{link}</a> is &lt;b&gt;made&lt;/b&gt; into a link", html
 
       html = linkify(text.html_safe)
       assert_predicate html, :html_safe?
-      assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is <b>made</b> into a link", html
+      assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\" dir=\"auto\">#{link}</a> is <b>made</b> into a link", html
     end
 
     %w[test@example.com mailto:test@example.com].each do |link|
