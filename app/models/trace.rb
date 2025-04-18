@@ -167,13 +167,12 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    file.open do |tracefile|
-      filetype = Open3.capture2("/usr/bin/file", "-Lbz", tracefile.path).first.chomp
-      gzipped = filetype.include?("gzip compressed")
-      bzipped = filetype.include?("bzip2 compressed")
-      zipped = filetype.include?("Zip archive")
-      tarred = filetype.include?("tar archive")
+    gzipped = file.content_type.end_with?("gzip")
+    bzipped = file.content_type.end_with?("bzip2")
+    zipped = file.content_type.start_with?("application/zip")
+    tarred = file.content_type.start_with?("application/x-tar")
 
+    file.open do |tracefile|
       if gzipped || bzipped || zipped || tarred
         file = Tempfile.new("trace.#{id}")
 
@@ -280,13 +279,19 @@ class Trace < ApplicationRecord
   private
 
   def content_type(file)
-    case Open3.capture2("/usr/bin/file", "-Lbz", file).first.chomp
-    when /.*\btar archive\b.*\bgzip\b/ then "application/x-tar+gzip"
-    when /.*\btar archive\b.*\bbzip2\b/ then "application/x-tar+x-bzip2"
-    when /.*\btar archive\b/ then "application/x-tar"
-    when /.*\bZip archive\b/ then "application/zip"
-    when /.*\bXML\b.*\bgzip\b/ then "application/gzip"
-    when /.*\bXML\b.*\bbzip2\b/ then "application/x-bzip2"
+    file_type = Open3.capture2("/usr/bin/file", "-Lb", file).first.chomp
+
+    case file_type
+    when /\bcompressed data,/ then file_type = Open3.capture2("/usr/bin/file", "-Lbz", file).first.chomp
+    end
+
+    case file_type
+    when /\btar archive\b.*\bgzip\b/ then "application/x-tar+gzip"
+    when /\btar archive\b.*\bbzip2\b/ then "application/x-tar+x-bzip2"
+    when /\btar archive\b/ then "application/x-tar"
+    when /\bZip archive\b/ then "application/zip"
+    when /\bXML\b.*\bgzip\b/ then "application/gzip"
+    when /\bXML\b.*\bbzip2\b/ then "application/x-bzip2"
     else "application/gpx+xml"
     end
   end
