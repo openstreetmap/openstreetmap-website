@@ -23,7 +23,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   },
 
   _updateChangesetStyle: function (changeset) {
-    const rect = this.getLayer(changeset.id);
+    const rect = this._interactiveLayer.getLayer(changeset.id);
     if (!rect) return;
 
     const style = this._getChangesetStyle(changeset);
@@ -77,7 +77,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
         changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
         changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
 
-        this.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        this._interactiveLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
       }
     }
   },
@@ -92,13 +92,13 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     });
     this._changesets = new Map(changesetEntries);
 
-    this.clearLayers();
+    this._interactiveLayer.clearLayers();
 
     for (const changeset of this._changesets.values()) {
       delete changeset.isHighlighted;
       const rect = L.rectangle(changeset.bounds, this._getChangesetStyle(changeset));
       rect.id = changeset.id;
-      rect.addTo(this);
+      rect.addTo(this._interactiveLayer);
     }
   },
 
@@ -114,13 +114,13 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
     changeset.sidebarRelativePosition = state;
-  },
-
-  getLayerId: function (layer) {
-    return layer.id;
   }
 });
 
 OSM.HistoryChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
+
+  this._interactiveLayer = L.featureGroup();
+  this._interactiveLayer.getLayerId = (layer) => layer.id;
+  this.addLayer(this._interactiveLayer);
 });
