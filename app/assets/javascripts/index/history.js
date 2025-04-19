@@ -13,11 +13,17 @@ OSM.History = function (map) {
       toggleChangesetHighlight($(this).data("changeset").id, false);
     });
 
+  let inZoom = false;
+  map.on("zoomstart", () => inZoom = true);
+  map.on("zoomend", () => inZoom = false);
+
   const changesetsLayer = new OSM.HistoryChangesetsLayer()
     .on("mouseover", function (e) {
+      if (inZoom) return;
       toggleChangesetHighlight(e.layer.id, true);
     })
     .on("mouseout", function (e) {
+      if (inZoom) return;
       toggleChangesetHighlight(e.layer.id, false);
     })
     .on("click", function (e) {
