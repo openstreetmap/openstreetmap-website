@@ -10,89 +10,70 @@ class ConfirmationsController < ApplicationController
 
   authorize_resource :class => false
 
-  before_action :check_database_writable, :only => [:confirm, :confirm_email]
-  before_action :require_cookies, :only => [:confirm]
+  before_action :check_database_writable, :only => [:new, :show, :create]
+  before_action :require_cookies, :only => [:show]
 
-  def confirm
-    if request.post?
-      user = User.find_by_token_for(:new_user, params[:confirm_string])
+  def show
+    if params[:confirm_string]
+      user = User.lookup_by_confirmation_token(params[:confirm_string])
 
       if !user
         flash[:error] = t(".unknown token")
-        redirect_to :action => "confirm"
-      elsif user.active?
-        flash[:error] = t(".already active")
-        redirect_to login_path
+        redirect_to root_path
+      elsif !user.account_unconfirmed?
+        flash[:error] = t(".failure")
+        redirect_to root_path
       elsif !user.visible?
         render_unknown_user user.display_name
       else
-        user.activate
-        user.email_valid = true
-        flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
-        user.save!
-        cookies.delete :_osm_anonymous_notes_count
+        user.confirm_account
+
+        gravatar_enabled = user.gravatar_enable
+
         referer = safe_referer(params[:referer]) if params[:referer]
 
         pending_user = session.delete(:pending_user)
 
-        if user.id == pending_user
+        unless pending_user && user.id != pending_user
+          cookies.delete :_osm_anonymous_notes_count
           session[:user] = user.id
           session[:fingerprint] = user.fingerprint
-
-          redirect_to referer || welcome_path
-        else
-          flash[:notice] = t(".success")
-          redirect_to login_path(:referer => referer)
         end
-      end
-    else
-      user = User.visible.find_by(:display_name => params[:display_name])
 
-      redirect_to root_path if user.nil? || user.active?
-    end
-  end
-
-  def confirm_resend
-    user = User.visible.find_by(:display_name => params[:display_name])
-
-    if user.nil? || user.id != session[:pending_user]
-      flash[:error] = t ".failure", :name => params[:display_name]
-    else
-      UserMailer.signup_confirm(user, user.generate_token_for(:new_user)).deliver_later
-      flash[:notice] = { :partial => "confirmations/resend_success_flash", :locals => { :email => user.email, :sender => Settings.email_from } }
-    end
-
-    redirect_to login_path
-  end
-
-  def confirm_email
-    if request.post?
-      self.current_user = User.find_by_token_for(:new_email, params[:confirm_string])
-
-      if current_user&.new_email?
-        current_user.email = current_user.new_email
-        current_user.new_email = nil
-        current_user.email_valid = true
-        gravatar_enabled = gravatar_enable(current_user)
-        if current_user.save
+        if user.errors.any?
+          flash[:errors] = user.errors
+        else
           flash[:notice] = if gravatar_enabled
-                             "#{t('.success')} #{gravatar_status_message(current_user)}"
+                             "#{t('.success')} #{gravatar_status_message(user)}"
                            else
                              t(".success")
                            end
-        else
-          flash[:errors] = current_user.errors
         end
-        session[:user] = current_user.id
-        session[:fingerprint] = current_user.fingerprint
-      elsif current_user
-        flash[:error] = t ".failure"
-      else
-        flash[:error] = t ".unknown_token"
-      end
 
-      redirect_to account_path
+        redirect_to referer || root_path
+      end
+    else
+      head :bad_request
     end
+  end
+
+  def new
+    user = User.visible.find_by(:display_name => params[:display_name])
+
+    redirect_to root_path if user.nil? || user.active?
+  end
+
+  def create
+    user = User.visible.find_by(:display_name => params[:display_name])
+
+    if user.nil? || (session[:pending_user] && user.id != session[:pending_user])
+      flash[:error] = t ".failure", :name => params[:display_name]
+    else
+      UserMailer.signup_confirm(user, user.generate_token_for(:account_confirmation), welcome_path).deliver_later
+      flash[:notice] = { :partial => "confirmations/resend_success_flash", :locals => { :email => user.email, :sender => Settings.email_from } }
+    end
+
+    redirect_to new_confirmations_path
   end
 
   private
