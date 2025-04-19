@@ -20,7 +20,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     # Updating the description should work
-    put profile_path, :params => { :user => { :description => "new description" } }
+    put profile_path, :params => { :user => { :description => "new description", :show_contribution_heatmap => user.show_contribution_heatmap } }
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -30,7 +30,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
-    put profile_path, :params => { :avatar_action => "new", :user => { :avatar => image, :description => user.description } }
+    put profile_path, :params => { :avatar_action => "new", :user => { :avatar => image, :description => user.description, :show_contribution_heatmap => user.show_contribution_heatmap } }
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -40,7 +40,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > fieldset > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
-    put profile_path, :params => { :avatar_action => "gravatar", :user => { :description => user.description } }
+    put profile_path, :params => { :avatar_action => "gravatar", :user => { :description => user.description, :show_contribution_heatmap => user.show_contribution_heatmap } }
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -50,7 +50,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
-    put profile_path, :params => { :avatar_action => "delete", :user => { :description => user.description } }
+    put profile_path, :params => { :avatar_action => "delete", :user => { :description => user.description, :show_contribution_heatmap => user.show_contribution_heatmap } }
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -59,5 +59,15 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     get edit_profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
+
+    # Updating show_contribution_heatmap should work
+    put profile_path, :params => { :user => { :description => user.description, :show_contribution_heatmap => false } }
+    assert_redirected_to user_path(user)
+    follow_redirect!
+    assert_response :success
+    assert_template :show
+    assert_select ".alert-success", /^Profile updated./
+    user.reload
+    assert_not user.show_contribution_heatmap
   end
 end
