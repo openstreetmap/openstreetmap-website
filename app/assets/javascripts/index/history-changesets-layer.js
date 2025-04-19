@@ -11,23 +11,22 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
   _getInteractiveStyle: function (changeset) {
     return {
-      weight: changeset.isHighlighted ? 4 : 2,
+      weight: 2,
       color: "var(--changeset-border-color)",
-      fillColor: "var(--changeset-fill-color)",
-      fillOpacity: changeset.isHighlighted ? 0.3 : 0,
-      className: this._getSidebarRelativeClassName(changeset) + (changeset.isHighlighted ? " changeset-highlighted" : "")
+      fillOpacity: 0,
+      className: this._getSidebarRelativeClassName(changeset)
     };
   },
 
-  _updateChangesetStyle: function (changeset) {
-    const rect = this._interactiveLayer.getLayer(changeset.id);
-    if (!rect) return;
-
-    const style = this._getInteractiveStyle(changeset);
-    rect.setStyle(style);
-    // setStyle doesn't update css classes: https://github.com/leaflet/leaflet/issues/2662
-    rect._path.classList.value = style.className;
-    rect._path.classList.add("leaflet-interactive");
+  _getHighlightStyle: function (changeset) {
+    return {
+      interactive: false,
+      weight: 4,
+      color: "var(--changeset-border-color)",
+      fillColor: "var(--changeset-fill-color)",
+      fillOpacity: 0.3,
+      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
+    };
   },
 
   updateChangesets: function (map, changesets) {
@@ -75,6 +74,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
         changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
 
         this._interactiveLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        this._highlightLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
       }
     }
   },
@@ -90,9 +90,9 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     this._changesets = new Map(changesetEntries);
 
     this._interactiveLayer.clearLayers();
+    this._highlightLayer.clearLayers();
 
     for (const changeset of this._changesets.values()) {
-      delete changeset.isHighlighted;
       const rect = L.rectangle(changeset.bounds, this._getInteractiveStyle(changeset));
       rect.id = changeset.id;
       rect.addTo(this._interactiveLayer);
@@ -103,8 +103,15 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
 
-    changeset.isHighlighted = state;
-    this._updateChangesetStyle(changeset);
+    let highlightRect = this._highlightLayer.getLayer(id);
+    if (!state && highlightRect) {
+      this._highlightLayer.removeLayer(highlightRect);
+    }
+    if (state && !highlightRect) {
+      highlightRect = L.rectangle(changeset.bounds, this._getHighlightStyle(changeset));
+      highlightRect.id = id;
+      this._highlightLayer.addLayer(highlightRect);
+    }
   },
 
   setChangesetSidebarRelativePosition: function (id, state) {
@@ -118,6 +125,8 @@ OSM.HistoryChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
 
   this._interactiveLayer = L.featureGroup();
-  this._interactiveLayer.getLayerId = (layer) => layer.id;
-  this.addLayer(this._interactiveLayer);
+  this._highlightLayer = L.featureGroup();
+
+  this._interactiveLayer.getLayerId = this._highlightLayer.getLayerId = (layer) => layer.id;
+  this.addLayer(this._interactiveLayer).addLayer(this._highlightLayer);
 });
