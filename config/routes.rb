@@ -206,10 +206,15 @@ OpenStreetMap::Application.routes.draw do
   resource :map_key, :path => "key", :only => :show
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
-  post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
-  match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
-  match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
-  match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]
+
+  # These routes match urls in emails sent before refactor of confirmations controller
+  get "/user/:display_name/confirm" => "confirmations#show"
+  get "/user/confirm-email" => "confirmations#show"
+
+  scope "/user/:display_name" do
+    resource :confirmations, only: [:new, :create, :show]
+  end
+
   post "/user/go_public" => "users#go_public"
   scope :user, :as => "user" do
     get "forgot-password" => "passwords#new"
