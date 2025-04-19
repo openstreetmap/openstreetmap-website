@@ -12,7 +12,7 @@ class UserMailer < ApplicationMailer
 
   def signup_confirm(user, token, referer = nil)
     with_recipient_locale user do
-      @url = url_for(:controller => "confirmations", :action => "confirm",
+      @url = url_for(:controller => "confirmations", :action => "show",
                      :display_name => user.display_name,
                      :confirm_string => token,
                      :referer => referer)
@@ -22,11 +22,13 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def email_confirm(user, token)
+  def email_confirm(user, token, referer = nil)
     with_recipient_locale user do
       @address = user.new_email
-      @url = url_for(:controller => "confirmations", :action => "confirm_email",
-                     :confirm_string => token)
+      @url = url_for(:controller => "confirmations", :action => "show",
+                     :display_name => user.display_name,
+                     :confirm_string => token,
+                     :referer => referer)
 
       mail :to => user.new_email,
            :subject => t(".subject")

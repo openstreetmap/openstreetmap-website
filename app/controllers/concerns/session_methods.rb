@@ -76,7 +76,7 @@ module SessionMethods
   def unconfirmed_login(user, referer = nil)
     session[:pending_user] = user.id
 
-    redirect_to :controller => "confirmations", :action => "confirm",
+    redirect_to :controller => "confirmations", :action => "new",
                 :display_name => user.display_name, :referer => referer
 
     session.delete(:remember_me)
