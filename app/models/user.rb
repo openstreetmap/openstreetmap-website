@@ -49,6 +49,8 @@ class User < ApplicationRecord
   require "digest"
   include AASM
 
+  CONFIRMATION_TOKENS = [:account_confirmation, :new_user, :new_email]
+
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
@@ -135,6 +137,10 @@ class User < ApplicationRecord
   end
 
   generates_token_for :password_reset, :expires_in => 1.week do
+    fingerprint
+  end
+
+  generates_token_for :account_confirmation, :expires_in => 1.week do
     fingerprint
   end
 
