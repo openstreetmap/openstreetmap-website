@@ -13,34 +13,49 @@ OSM.DirectionsRouteOutput = function (map) {
     weight: 12
   });
 
+  let distanceUnits = "km";
   let downloadURL = null;
 
-  function formatTotalDistance(m) {
-    if (m < 1000) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
-    } else if (m < 10000) {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
+  function translateDistanceUnits(m) {
+    if (distanceUnits === "km") {
+      return [m, "m", m / 1000, "km"];
     } else {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
+      return [m / 0.3048, "ft", m / 1609.344, "mi"];
     }
   }
 
-  function formatStepDistance(m) {
-    if (m < 5) {
+  function formatTotalDistance(minorValue, minorName, majorValue, majorName) {
+    const scope = "javascripts.directions.distance_in_units";
+
+    if (minorValue < 1000 || majorValue < 0.25) {
+      return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue) });
+    } else if (majorValue < 10) {
+      return OSM.i18n.t(majorName, { scope, distance: majorValue.toFixed(1) });
+    } else {
+      return OSM.i18n.t(majorName, { scope, distance: Math.round(majorValue) });
+    }
+  }
+
+  function formatStepDistance(minorValue, minorName, majorValue, majorName) {
+    const scope = "javascripts.directions.distance_in_units";
+
+    if (minorValue < 5) {
       return "";
-    } else if (m < 200) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 10) * 10) });
-    } else if (m < 1500) {
-      return OSM.i18n.t("javascripts.directions.distance_m", { distance: String(Math.round(m / 100) * 100) });
-    } else if (m < 5000) {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 100) / 10) });
+    } else if (minorValue < 200) {
+      return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue / 10) * 10 });
+    } else if (minorValue < 1500 || majorValue < 0.25) {
+      return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue / 100) * 100 });
+    } else if (majorValue < 5) {
+      return OSM.i18n.t(majorName, { scope, distance: majorValue.toFixed(1) });
     } else {
-      return OSM.i18n.t("javascripts.directions.distance_km", { distance: String(Math.round(m / 1000)) });
+      return OSM.i18n.t(majorName, { scope, distance: Math.round(majorValue) });
     }
   }
 
-  function formatHeight(m) {
-    return OSM.i18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
+  function formatHeight(minorValue, minorName) {
+    const scope = "javascripts.directions.distance_in_units";
+
+    return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue) });
   }
 
   function formatTime(s) {
@@ -50,35 +65,25 @@ OSM.DirectionsRouteOutput = function (map) {
     return h + ":" + (m < 10 ? "0" : "") + m;
   }
 
-  const routeOutput = {};
-
-  routeOutput.write = function (content, route) {
-    polyline
-      .setLatLngs(route.line)
-      .addTo(map);
-
-    const distanceText = $("<p>").append(
-      OSM.i18n.t("javascripts.directions.distance") + ": " + formatTotalDistance(route.distance) + ". " +
-      OSM.i18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
+  function writeSummary(route) {
+    $("#directions_route_distance").val(formatTotalDistance(...translateDistanceUnits(route.distance)));
+    $("#directions_route_time").val(formatTime(route.time));
     if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
-      distanceText.append(
-        $("<br>"),
-        OSM.i18n.t("javascripts.directions.ascend") + ": " + formatHeight(route.ascend) + ". " +
-        OSM.i18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
+      $("#directions_route_ascend_descend").prop("hidden", false);
+      $("#directions_route_ascend").val(formatHeight(...translateDistanceUnits(route.ascend)));
+      $("#directions_route_descend").val(formatHeight(...translateDistanceUnits(route.descend)));
+    } else {
+      $("#directions_route_ascend_descend").prop("hidden", true);
+      $("#directions_route_ascend").val("");
+      $("#directions_route_descend").val("");
     }
+  }
 
-    const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
-      .append($("<tbody>"));
-
-    content
-      .empty()
-      .append(
-        distanceText,
-        turnByTurnTable
-      );
+  function writeSteps(route) {
+    $("#directions_route_steps").empty();
 
     for (const [i, [direction, instruction, dist, lineseg]] of route.steps.entries()) {
-      const row = $("<tr class='turn'/>").appendTo(turnByTurnTable);
+      const row = $("<tr class='turn'/>").appendTo($("#directions_route_steps"));
 
       if (direction) {
         row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
@@ -86,7 +91,7 @@ OSM.DirectionsRouteOutput = function (map) {
         row.append("<td class='border-0'>");
       }
       row.append(`<td><b>${i + 1}.</b> ${instruction}`);
-      row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(dist));
+      row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
 
       row.on("click", function () {
         popup
@@ -105,22 +110,37 @@ OSM.DirectionsRouteOutput = function (map) {
           map.removeLayer(highlight);
         });
     }
+  }
+
+  const routeOutput = {};
+
+  routeOutput.write = function (route) {
+    polyline
+      .setLatLngs(route.line)
+      .addTo(map);
+
+    writeSummary(route);
+    writeSteps(route);
+
+    $("#directions_distance_units_km").off().on("change", () => {
+      distanceUnits = "km";
+      writeSummary(route);
+      writeSteps(route);
+    });
+    $("#directions_distance_units_mi").off().on("change", () => {
+      distanceUnits = "mi";
+      writeSummary(route);
+      writeSteps(route);
+    });
 
     const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
     URL.revokeObjectURL(downloadURL);
     downloadURL = URL.createObjectURL(blob);
+    $("#directions_route_download").prop("href", downloadURL);
 
-    content.append(`<p class="text-center"><a href="${downloadURL}" download="${
-      OSM.i18n.t("javascripts.directions.filename")
-    }">${
-      OSM.i18n.t("javascripts.directions.download")
-    }</a></p>`);
-
-    content.append("<p class=\"text-center\">" +
-      OSM.i18n.t("javascripts.directions.instructions.courtesy", {
-        link: `<a href="${route.creditlink}" target="_blank">${route.credit}</a>`
-      }) +
-      "</p>");
+    $("#directions_route_credit")
+      .text(route.credit)
+      .prop("href", route.creditlink);
   };
 
   routeOutput.fit = function () {
@@ -131,11 +151,18 @@ OSM.DirectionsRouteOutput = function (map) {
     return map.hasLayer(polyline);
   };
 
-  routeOutput.remove = function (content) {
-    content.empty();
+  routeOutput.remove = function () {
     map
       .removeLayer(popup)
       .removeLayer(polyline);
+
+    $("#directions_distance_units_km").off();
+    $("#directions_distance_units_mi").off();
+
+    $("#directions_route_steps").empty();
+
+    URL.revokeObjectURL(downloadURL);
+    $("#directions_route_download").prop("href", "");
   };
 
   return routeOutput;
