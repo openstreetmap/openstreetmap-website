@@ -1,0 +1,20 @@
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <div class='header-illustration confirm-main'>
+    <h1><%= t ".heading" %></h1>
+  </div>
+<% end %>
+
+<h1>
+  <%= t ".introduction_1" %>
+  <span class="text-body-secondary">
+    <%= t ".introduction_2" %>
+  </span>
+</h1>
+
+<p class='text-body-secondary'>
+<%= t ".if_need_resend" %>
+</p>
+<%= bootstrap_form_tag :url => confirmations_path(:display_name => params[:display_name]), method: :post do |f| %>
+  <%= f.submit t(".resend_button"), :class => "btn btn-outline-primary" %>
+<% end %>
