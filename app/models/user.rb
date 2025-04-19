@@ -445,6 +445,55 @@ class User < ApplicationRecord
     deletion_allowed_at <= Time.now.utc
   end
 
+  # Gracefully fallback to looking up users by deprecated new_user and new_email tokens
+  def self.lookup_by_confirmation_token(account_confirmation_token)
+    CONFIRMATION_TOKENS.each do |context|
+      user = User.find_by_token_for(context, account_confirmation_token)
+      return user unless user.nil?
+    end
+    nil
+  end
+
+  def confirm_account
+    if !active?
+      activate
+    elsif new_email?
+      self.email = new_email
+      self.new_email = nil
+    end
+
+    self.email_valid = true
+
+    save
+  end
+
+  def account_unconfirmed?
+    !active? || new_email?
+  end
+
+  ##
+  # check if this user has a gravatar and set the user pref is true
+  def gravatar_enable
+    # code from example https://en.gravatar.com/site/implement/images/ruby/
+    return false if avatar.attached?
+
+    begin
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
+      response = OSM.http_client.get(URI.parse(url))
+      available = response.success?
+    rescue StandardError
+      available = false
+    end
+
+    oldsetting = image_use_gravatar
+    self.image_use_gravatar = available
+
+    save
+
+    oldsetting != image_use_gravatar
+  end
+
   private
 
   def encrypt_password
