@@ -46,7 +46,7 @@ module UserMethods
       if user.new_email.blank? || user.new_email == user.email
         flash[:notice] = t "accounts.update.success"
       else
-        token = user.generate_token_for(:new_email)
+        token = user.generate_token_for(:account_confirmation)
 
         user.email = user.new_email
 
@@ -54,7 +54,7 @@ module UserMethods
           flash[:notice] = t "accounts.update.success_confirm_needed"
 
           begin
-            UserMailer.email_confirm(user, token).deliver_later
+            UserMailer.email_confirm(user, token, account_path).deliver_later
           rescue StandardError
             # Ignore errors sending email
           end
