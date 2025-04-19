@@ -1,6 +1,4 @@
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
-  _changesets: new Map,
-
   _getChangesetStyle: function ({ isHighlighted, sidebarRelativePosition }) {
     let className;
 
@@ -125,4 +123,8 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   getLayerId: function (layer) {
     return layer.id;
   }
+});
+
+OSM.HistoryChangesetsLayer.addInitHook(function () {
+  this._changesets = new Map;
 });
