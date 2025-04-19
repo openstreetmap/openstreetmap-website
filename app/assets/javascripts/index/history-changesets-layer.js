@@ -1,24 +1,21 @@
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
-  _getChangesetStyle: function ({ isHighlighted, sidebarRelativePosition }) {
-    let className;
-
+  _getSidebarRelativeClassName: function ({ sidebarRelativePosition }) {
     if (sidebarRelativePosition > 0) {
-      className = "changeset-above-sidebar-viewport";
+      return "changeset-above-sidebar-viewport";
     } else if (sidebarRelativePosition < 0) {
-      className = "changeset-below-sidebar-viewport";
+      return "changeset-below-sidebar-viewport";
     } else {
-      className = "changeset-in-sidebar-viewport";
+      return "changeset-in-sidebar-viewport";
     }
-    if (isHighlighted) {
-      className += " changeset-highlighted";
-    }
+  },
 
+  _getInteractiveStyle: function (changeset) {
     return {
-      weight: isHighlighted ? 4 : 2,
+      weight: changeset.isHighlighted ? 4 : 2,
       color: "var(--changeset-border-color)",
       fillColor: "var(--changeset-fill-color)",
-      fillOpacity: isHighlighted ? 0.3 : 0,
-      className
+      fillOpacity: changeset.isHighlighted ? 0.3 : 0,
+      className: this._getSidebarRelativeClassName(changeset) + (changeset.isHighlighted ? " changeset-highlighted" : "")
     };
   },
 
@@ -26,7 +23,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const rect = this._interactiveLayer.getLayer(changeset.id);
     if (!rect) return;
 
-    const style = this._getChangesetStyle(changeset);
+    const style = this._getInteractiveStyle(changeset);
     rect.setStyle(style);
     // setStyle doesn't update css classes: https://github.com/leaflet/leaflet/issues/2662
     rect._path.classList.value = style.className;
@@ -96,7 +93,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
     for (const changeset of this._changesets.values()) {
       delete changeset.isHighlighted;
-      const rect = L.rectangle(changeset.bounds, this._getChangesetStyle(changeset));
+      const rect = L.rectangle(changeset.bounds, this._getInteractiveStyle(changeset));
       rect.id = changeset.id;
       rect.addTo(this._interactiveLayer);
     }
