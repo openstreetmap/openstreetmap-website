@@ -245,7 +245,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_template :show
       assert_template :layout => "map"
-      assert_equal %w[osm_nominatim], assigns(:sources).pluck(:name)
+      assert_equal %w[nominatim], assigns(:sources).pluck(:name)
     end
   end
 
@@ -279,7 +279,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
       12345
       12345-6789
     ].each do |code|
-      search_check code, %w[osm_nominatim]
+      search_check code, %w[nominatim]
     end
   end
 
@@ -295,20 +295,20 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
       "CR2 6XH",
       "DN55 1PT"
     ].each do |code|
-      search_check code, %w[osm_nominatim]
+      search_check code, %w[nominatim]
     end
   end
 
   ##
   # Test identification of Canadian postcodes
   def test_identify_ca_postcode
-    search_check "A1B 2C3", %w[osm_nominatim]
+    search_check "A1B 2C3", %w[nominatim]
   end
 
   ##
   # Test identification fall through to the default case
   def test_identify_default
-    search_check "foo bar baz", %w[osm_nominatim]
+    search_check "foo bar baz", %w[nominatim]
   end
 
   private
@@ -318,7 +318,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :show
     assert_template :layout => "map"
-    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
+    assert_equal %w[latlon nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
@@ -329,7 +329,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :show
     assert_template :layout => "xhr"
-    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
+    assert_equal %w[latlon nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])

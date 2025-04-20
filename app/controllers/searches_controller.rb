@@ -15,10 +15,10 @@ class SearchesController < ApplicationController
     if params[:lat] && params[:lon]
       @sources.push(:name => "latlon", :url => root_path,
                     :fetch_url => search_latlon_query_path(params.permit(:lat, :lon, :latlon_digits, :zoom)))
-      @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_query_url(:format => "html"),
+      @sources.push(:name => "nominatim_reverse", :url => nominatim_reverse_query_url(:format => "html"),
                     :fetch_url => search_nominatim_reverse_query_path(params.permit(:lat, :lon, :zoom)))
     elsif params[:query]
-      @sources.push(:name => "osm_nominatim", :url => nominatim_query_url(:format => "html"),
+      @sources.push(:name => "nominatim", :url => nominatim_query_url(:format => "html"),
                     :fetch_url => search_nominatim_query_path(params.permit(:query, :minlat, :minlon, :maxlat, :maxlon)))
     end
 

@@ -72,7 +72,9 @@ class SearchTest < ApplicationSystemTestCase
     fill_in "query", :with => "paris"
     click_on "Go"
 
-    assert_link "OpenStreetMap Nominatim", :href => /&viewbox=/
+    within_sidebar do
+      assert_link "Nominatim", :href => /&viewbox=/
+    end
   end
 
   test "search adds zoom param to reverse Nominatim link" do
@@ -81,6 +83,8 @@ class SearchTest < ApplicationSystemTestCase
     fill_in "query", :with => "60 30"
     click_on "Go"
 
-    assert_link "OpenStreetMap Nominatim", :href => /&zoom=7/
+    within_sidebar do
+      assert_link "Nominatim", :href => /&zoom=7/
+    end
   end
 end
