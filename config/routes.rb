@@ -333,10 +333,13 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # geocoder
-  get "/search" => "geocoder#search"
-  post "/geocoder/search_latlon" => "geocoder#search_latlon"
-  post "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim"
-  post "/geocoder/search_osm_nominatim_reverse" => "geocoder#search_osm_nominatim_reverse"
+  resource :search, :only => :show do
+    scope :module => :searches do
+      resource :latlon_query, :only => :create
+      resource :nominatim_query, :only => :create
+      resource :nominatim_reverse_query, :only => :create
+    end
+  end
 
   # directions
   get "/directions" => "directions#search"

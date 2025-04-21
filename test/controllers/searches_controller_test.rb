@@ -1,24 +1,12 @@
 require "test_helper"
 
-class GeocoderControllerTest < ActionDispatch::IntegrationTest
+class SearchesControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/search", :method => :get },
-      { :controller => "geocoder", :action => "search" }
-    )
-    assert_routing(
-      { :path => "/geocoder/search_latlon", :method => :post },
-      { :controller => "geocoder", :action => "search_latlon" }
-    )
-    assert_routing(
-      { :path => "/geocoder/search_osm_nominatim", :method => :post },
-      { :controller => "geocoder", :action => "search_osm_nominatim" }
-    )
-    assert_routing(
-      { :path => "/geocoder/search_osm_nominatim_reverse", :method => :post },
-      { :controller => "geocoder", :action => "search_osm_nominatim_reverse" }
+      { :controller => "searches", :action => "show" }
     )
   end
 
@@ -255,9 +243,9 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     ].each do |code|
       get search_path(:query => code)
       assert_response :success
-      assert_template :search
+      assert_template :show
       assert_template :layout => "map"
-      assert_equal %w[osm_nominatim], assigns(:sources).pluck(:name)
+      assert_equal %w[nominatim], assigns(:sources).pluck(:name)
     end
   end
 
@@ -291,7 +279,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       12345
       12345-6789
     ].each do |code|
-      search_check code, %w[osm_nominatim]
+      search_check code, %w[nominatim]
     end
   end
 
@@ -307,117 +295,20 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "CR2 6XH",
       "DN55 1PT"
     ].each do |code|
-      search_check code, %w[osm_nominatim]
+      search_check code, %w[nominatim]
     end
   end
 
   ##
   # Test identification of Canadian postcodes
   def test_identify_ca_postcode
-    search_check "A1B 2C3", %w[osm_nominatim]
+    search_check "A1B 2C3", %w[nominatim]
   end
 
   ##
   # Test identification fall through to the default case
   def test_identify_default
-    search_check "foo bar baz", %w[osm_nominatim]
-  end
-
-  ##
-  # Test the builtin latitude+longitude search
-  def test_search_latlon
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 4.56, :zoom => 16), :xhr => true
-    results_check :name => "1.23, 4.56", :lat => 1.23, :lon => 4.56, :zoom => 16
-
-    post geocoder_search_latlon_path(:lat => -91.23, :lon => 4.56, :zoom => 16), :xhr => true
-    results_check_error "Latitude -91.23 out of range"
-
-    post geocoder_search_latlon_path(:lat => 91.23, :lon => 4.56, :zoom => 16), :xhr => true
-    results_check_error "Latitude 91.23 out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => -180.23, :zoom => 16), :xhr => true
-    results_check_error "Longitude -180.23 out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 180.23, :zoom => 16), :xhr => true
-    results_check_error "Longitude 180.23 out of range"
-  end
-
-  def test_search_latlon_digits
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 4.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check({ :name => "1.23, 4.56", :lat => 1.23, :lon => 4.56, :zoom => 16 },
-                  { :name => "4.56, 1.23", :lat => 4.56, :lon => 1.23, :zoom => 16 })
-
-    post geocoder_search_latlon_path(:lat => -91.23, :lon => 4.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check :name => "4.56, -91.23", :lat => 4.56, :lon => -91.23, :zoom => 16
-
-    post geocoder_search_latlon_path(:lat => -1.23, :lon => 170.23, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check :name => "-1.23, 170.23", :lat => -1.23, :lon => 170.23, :zoom => 16
-
-    post geocoder_search_latlon_path(:lat => 91.23, :lon => 94.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-
-    post geocoder_search_latlon_path(:lat => -91.23, :lon => -94.56, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => -180.23, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-
-    post geocoder_search_latlon_path(:lat => 1.23, :lon => 180.23, :zoom => 16, :latlon_digits => true), :xhr => true
-    results_check_error "Latitude or longitude are out of range"
-  end
-
-  ##
-  # Test the nominatim forward search
-  def test_search_osm_nominatim
-    with_http_stubs "nominatim" do
-      post geocoder_search_osm_nominatim_path(:query => "Hoddesdon", :zoom => 10,
-                                              :minlon => -0.559, :minlat => 51.217,
-                                              :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check "name" => "Hoddesdon, Hertfordshire, East of England, England, United Kingdom",
-                    "min-lat" => 51.7216709, "max-lat" => 51.8016709,
-                    "min-lon" => -0.0512898, "max-lon" => 0.0287102,
-                    "type" => "node", "id" => 18007599
-
-      post geocoder_search_osm_nominatim_path(:query => "Broxbourne", :zoom => 10,
-                                              :minlon => -0.559, :minlat => 51.217,
-                                              :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check({ "prefix" => "Suburb",
-                      "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                      "min-lat" => 51.7265723, "max-lat" => 51.7665723,
-                      "min-lon" => -0.0390782, "max-lon" => 0.0009218,
-                      "type" => "node", "id" => 28825933 },
-                    { "prefix" => "Village",
-                      "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                      "min-lat" => 51.6808751, "max-lat" => 51.7806237,
-                      "min-lon" => -0.114204, "max-lon" => 0.0145267,
-                      "type" => "relation", "id" => 2677978 },
-                    { "prefix" => "Railway Station",
-                      "name" => "Broxbourne, Stafford Drive, Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                      "min-lat" => 51.7418469, "max-lat" => 51.7518469,
-                      "min-lon" => -0.0156773, "max-lon" => -0.0056773,
-                      "type" => "node", "id" => 17044599 })
-    end
-  end
-
-  ##
-  # Test the nominatim reverse search
-  def test_search_osm_nominatim_reverse
-    with_http_stubs "nominatim" do
-      post geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 15), :xhr => true
-      results_check :name => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
-                    :lat => 51.7465723, :lon => -0.0190782,
-                    :type => "node", :id => 28825933, :zoom => 15
-
-      post geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 17), :xhr => true
-      results_check :name => "Dinant Link Road, Broxbourne, Hertfordshire, East of England, England, EN11 8HX, United Kingdom",
-                    :lat => 51.7634883, :lon => -0.0088373,
-                    :type => "way", :id => 3489841, :zoom => 17
-
-      post geocoder_search_osm_nominatim_reverse_path(:lat => 13.7709, :lon => 100.50507, :zoom => 19), :xhr => true
-      results_check :name => "MM Steak&Grill, ถนนศรีอยุธยา, บางขุนพรหม, กรุงเทพมหานคร, เขตดุสิต, กรุงเทพมหานคร, 10300, ประเทศไทย",
-                    :lat => 13.7708691, :lon => 100.505073233221,
-                    :type => "way", :id => 542901374, :zoom => 19
-    end
+    search_check "foo bar baz", %w[nominatim]
   end
 
   private
@@ -425,9 +316,9 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   def latlon_check(query, lat, lon)
     get search_path(:query => query)
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "map"
-    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
+    assert_equal %w[latlon nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
@@ -436,9 +327,9 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
 
     get search_path(:query => query), :xhr => true
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "xhr"
-    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
+    assert_equal %w[latlon nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
     assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
@@ -449,39 +340,14 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   def search_check(query, sources)
     get search_path(:query => query)
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "map"
     assert_equal sources, assigns(:sources).pluck(:name)
 
     get search_path(:query => query), :xhr => true
     assert_response :success
-    assert_template :search
+    assert_template :show
     assert_template :layout => "xhr"
     assert_equal sources, assigns(:sources).pluck(:name)
-  end
-
-  def results_check(*results)
-    assert_response :success
-    assert_template :results
-    assert_template :layout => nil
-    if results.empty?
-      assert_select "ul.results-list", 0
-    else
-      assert_select "ul.results-list", 1 do
-        assert_select "li.search_results_entry", results.count
-
-        results.each do |result|
-          attrs = result.collect { |k, v| "[data-#{k}='#{v}']" }.join
-          assert_select "li.search_results_entry a.set_position#{attrs}", result[:name]
-        end
-      end
-    end
-  end
-
-  def results_check_error(error)
-    assert_response :success
-    assert_template :error
-    assert_template :layout => nil
-    assert_select ".alert.alert-danger", error
   end
 end
