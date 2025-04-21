@@ -446,6 +446,26 @@ class User < ApplicationRecord
     deletion_allowed_at <= Time.now.utc
   end
 
+  ##
+  # check if this user has a gravatar and set the user pref is true
+  def gravatar_enable
+    # code from example https://en.gravatar.com/site/implement/images/ruby/
+    return false if avatar.attached?
+
+    begin
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
+      response = OSM.http_client.get(URI.parse(url))
+      available = response.success?
+    rescue StandardError
+      available = false
+    end
+
+    oldsetting = image_use_gravatar
+    self.image_use_gravatar = available
+    oldsetting != image_use_gravatar
+  end
+
   private
 
   def encrypt_password
