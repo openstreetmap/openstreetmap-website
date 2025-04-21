@@ -220,14 +220,15 @@ describe("OSM", function () {
 
   describe(".locationCookie", function () {
     it("creates a location cookie value", function () {
-      $("body").html($("<div id='map'>"));
+      $("body").append("<div id='map'>");
       const map = new L.OSM.Map("map", { center: [57.6247, -3.6845], zoom: 9 });
       map.updateLayers("");
       expect(OSM.locationCookie(map)).to.eq("-3.685|57.625|9|M");
+      $("#map").remove();
     });
 
     it("respects zoomPrecision", function () {
-      $("body").html($("<div id='map'>"));
+      $("body").append("<div id='map'>");
       const map = new L.OSM.Map("map", { center: [57.6247, -3.6845], zoom: 9 });
       map.updateLayers("");
       expect(OSM.locationCookie(map)).to.eq("-3.685|57.625|9|M");
@@ -235,6 +236,7 @@ describe("OSM", function () {
       // using map._zoom here to update the zoom level manually
       map._zoom = 5;
       expect(OSM.locationCookie(map)).to.eq("-3.68|57.62|5|M");
+      $("#map").remove();
     });
   });
 
