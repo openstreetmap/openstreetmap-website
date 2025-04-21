@@ -18,6 +18,10 @@ module Api
         { :controller => "api/traces", :action => "show", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/gpx/1.json", :method => :get },
+        { :controller => "api/traces", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/gpx/1", :method => :put },
         { :controller => "api/traces", :action => "update", :id => "1" }
       )
@@ -44,11 +48,21 @@ module Api
       get api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
 
-      # And finally we should be able to do it with the owner of the trace
+      # We should be able to do it with the owner of the trace
       auth_header = bearer_authorization_header public_trace_file.user
       get api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
       assert_select "gpx_file[id='#{public_trace_file.id}'][uid='#{public_trace_file.user.id}']", 1
+
+      # We should be able to do it with the owner of the trace with json format
+      auth_header = bearer_authorization_header public_trace_file.user
+      get api_trace_path(public_trace_file, :format => "json"), :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal public_trace_file.id, js["trace"]["id"]
+      assert_equal public_trace_file.user.id, js["trace"]["uid"]
     end
 
     # Check an anonymous trace can't be specifically fetched by another user

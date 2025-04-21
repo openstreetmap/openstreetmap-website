@@ -1,6 +1,7 @@
 module Api
   class TracesController < ApiController
     before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :only => [:show]
     before_action :set_locale
     before_action :authorize
 
@@ -12,7 +13,12 @@ module Api
     def show
       @trace = Trace.visible.find(params[:id])
 
-      head :forbidden unless @trace.public? || @trace.user == current_user
+      return head :forbidden unless @trace.public? || @trace.user == current_user
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def create

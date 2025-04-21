@@ -10,6 +10,10 @@ module Api
           { :path => "/api/0.6/user/gpx_files", :method => :get },
           { :controller => "api/users/traces", :action => "index" }
         )
+        assert_routing(
+          { :path => "/api/0.6/user/gpx_files.json", :method => :get },
+          { :controller => "api/users/traces", :action => "index", :format => "json" }
+        )
       end
 
       def test_index
@@ -34,6 +38,18 @@ module Api
         assert_select "gpx_file[id='#{trace2.id}']", 1 do
           assert_select "tag", "Birmingham"
         end
+
+        # check that we get a response when logged in with json
+        auth_header = bearer_authorization_header user, :scopes => %w[read_gpx]
+        get api_user_traces_path(:format => "json"), :headers => auth_header
+        assert_response :success
+        assert_equal "application/json", response.media_type
+        js = ActiveSupport::JSON.decode(@response.body)
+        assert_not_nil js
+        assert_equal trace1.id, js["traces"][0]["id"]
+        assert_equal "London", js["traces"][0]["tags"][0]
+        assert_equal trace2.id, js["traces"][1]["id"]
+        assert_equal "Birmingham", js["traces"][1]["tags"][0]
       end
 
       def test_index_anonymous
