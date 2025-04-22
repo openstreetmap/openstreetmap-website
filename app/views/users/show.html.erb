@@ -247,6 +247,8 @@
 
 <div class="richtext text-break"><%= @user.description.to_html %></div>
 
+<%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
+
 <% if @heatmap_data.present? %>
   <h2 class="text-body-secondary fs-5">
     <%= t(".contributions", :count => @changes_count) %>
