@@ -251,6 +251,8 @@
   <%= render :partial => "heatmap", :locals => @heatmap_data %>
 <% end %>
 
+<%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
+
 <% if current_user and @user.id == current_user.id %>
   <div class="my-3">
     <%= link_to t(".edit_profile"), edit_profile_path, :class => "btn btn-outline-primary" %>
