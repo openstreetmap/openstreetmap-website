@@ -246,8 +246,8 @@ module Api
       notes = bbox_condition(notes)
 
       # Find the comments we want to return
-      @comments = NoteComment.where(:note => notes)
-                             .order(:created_at => :desc)
+      @comments = CompositeNoteComment.where(:note => notes)
+                                      .order(:created_at => :desc)
       @comments = query_limit(@comments)
       @comments = @comments.preload(:author, :note => { :comments => :author })
 
