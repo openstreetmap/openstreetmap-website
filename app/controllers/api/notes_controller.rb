@@ -90,6 +90,9 @@ module Api
 
         # Saves the note's history
         @note.save_history!(@note.created_at, author_info, note_comment.id, "opened")
+
+        # Notify subscribers about new event and update list of subscribers
+        notify_and_update_subscribers(@note, "opened", @note.description)
       end
 
       # Return a copy of the new note
@@ -123,7 +126,7 @@ module Api
 
         if comment.present?
           # Adds hiding comment to the note
-          note_comment = add_comment(@note, comment, "hidden", :notify => false)
+          note_comment = add_comment(@note, comment, "hidden")
 
           # Saves the note's history
           @note.save_history!(@note.updated_at, author_info, note_comment.id, "hidden")
@@ -131,6 +134,9 @@ module Api
           # Saves the note's history
           @note.save_history!(@note.updated_at, author_info, NoteComment.next_id, "hidden")
         end
+
+        # Notify subscribers about new event and update list of subscribers
+        notify_and_update_subscribers(@note, "hidden", comment, :notify => false)
       end
 
       # Return a copy of the updated note
@@ -160,6 +166,9 @@ module Api
 
         # Adds a comment to the note
         add_comment(@note, comment, "commented")
+
+        # Notify subscribers about new event and update list of subscribers
+        notify_and_update_subscribers(@note, "commented", comment)
       end
 
       # Return a copy of the updated note
@@ -202,6 +211,9 @@ module Api
           # Saves the note's history
           @note.save_history!(@note.closed_at, author_info, NoteComment.next_id, "closed")
         end
+
+        # Notify subscribers about new event and update list of subscribers
+        notify_and_update_subscribers(@note, "closed", comment)
       end
 
       # Return a copy of the updated note
@@ -244,6 +256,9 @@ module Api
           # Saves the note's history
           @note.save_history!(@note.updated_at, author_info, NoteComment.next_id, "reopened")
         end
+
+        # Notify subscribers about new event and update list of subscribers
+        notify_and_update_subscribers(@note, "reopened", comment)
       end
 
       # Return a copy of the updated note
@@ -387,7 +402,7 @@ module Api
 
     ##
     # Add a comment to a note
-    def add_comment(note, text, event, notify: true)
+    def add_comment(note, text, event)
       attributes = { :note_id => note.id, :visible => true, :event => event, :body => text }
 
       # Get note comment's author info (for logged in users - user_id, for logged out users - IP address)
@@ -400,17 +415,19 @@ module Api
       end
 
       # Create new note comment with passed attributes
-      comment = NoteComment.create!(attributes)
+      NoteComment.create!(attributes)
+    end
 
+    ##
+    # Notify note subscribers about new event and update list of subscribers
+    def notify_and_update_subscribers(note, event, event_text, notify: true)
       if notify
         note.subscribers.visible.each do |user|
-          UserMailer.note_comment_notification(comment, user).deliver_later if current_user != user
+          UserMailer.note_comment_notification(note, event, current_user, event_text, user).deliver_later if current_user != user
         end
       end
 
       NoteSubscription.find_or_create_by(:note => note, :user => current_user) if current_user
-
-      comment
     end
   end
 end
