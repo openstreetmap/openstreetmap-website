@@ -9,7 +9,6 @@
 #  author_ip  :inet
 #  author_id  :bigint
 #  body       :text
-#  event      :enum
 #
 # Indexes
 #
@@ -33,8 +32,9 @@ class NoteComment < ApplicationRecord
   validates :note, :associated => true
   validates :visible, :inclusion => [true, false]
   validates :author, :associated => true
-  validates :event, :inclusion => %w[opened closed reopened commented hidden]
   validates :body, :length => { :maximum => 2000 }, :characters => true
+
+  self.ignored_columns += ["event"]
 
   # Retrieve next ID
   def self.next_id
