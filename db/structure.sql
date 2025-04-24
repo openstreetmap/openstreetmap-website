@@ -490,8 +490,7 @@ CREATE TABLE public.note_comments (
     created_at timestamp without time zone NOT NULL,
     author_ip inet,
     author_id bigint,
-    body text,
-    event public.note_event_enum
+    body text
 );
 
 
@@ -528,7 +527,7 @@ CREATE VIEW public.composite_note_comments AS
     COALESCE(note_version.user_ip, note_comment.author_ip) AS author_ip,
     COALESCE(note_version.user_id, note_comment.author_id) AS author_id,
     COALESCE(note_comment.body, ''::text) AS body,
-    COALESCE(note_version.event, note_comment.event) AS event
+    COALESCE(note_version.event, 'commented'::public.note_event_enum) AS event
    FROM (public.note_comments note_comment
      FULL JOIN public.note_versions note_version ON ((note_comment.id = note_version.note_comment_id)));
 
@@ -3513,6 +3512,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250411115753'),
 ('20250410151730'),
 ('20250409203044'),
 ('20250317122723'),
