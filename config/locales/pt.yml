@@ -703,6 +703,7 @@ pt:
     diary_entry:
       posted_by_html: Publicado por %{link_user} em %{created} em %{language_link}.
       updated_at_html: Última atualização em %{updated}.
+      full_entry: Ver entrada completa
       comment_link: Comentar nesta publicação
       reply_link: Enviar uma mensagem ao autor
       comment_count:
@@ -819,11 +820,6 @@ pt:
       success: Você deixou de seguir %{name} com sucesso.
       not_followed: Você não está seguindo %{name}.
   geocoder:
-    search:
-      title:
-        latlon: Interno
-        osm_nominatim: OpenStreetMap Nominatim
-        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1641,9 +1637,16 @@ pt:
         região: Limite regional
         region: Limite regional
         state: Limite estadual
-    results:
-      no_results: Nenhum resultado encontrado
-      more_results: Mais resultados
+  searches:
+    show:
+      title:
+        latlon: Interno
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
+    queries:
+      create:
+        no_results: Nenhum resultado encontrado
+        more_results: Mais resultados
   directions:
     search:
       title: Itinerário
@@ -1652,7 +1655,9 @@ pt:
       title: Problemas
       select_status: Selecionar status
       select_type: Selecione o tipo
+      select_last_managed_by: Selecionar última alteração por
       reported_user: Usuário denunciado
+      not_managed: Sem manutenção
       search: Pesquisar
       search_guidance: 'Pesquisar problemas:'
       states:
@@ -1666,6 +1671,7 @@ pt:
       status: Status
       reports: Denúncias
       last_updated: Última Atualização
+      last_managed: Última manutenção
       reporting_users: Denunciar usuários
       reports_count:
         one: '%{count} denúncia'
@@ -1704,12 +1710,17 @@ pt:
       reopened: O status do problema foi definido como "Aberto"
     comments:
       comment_from_html: Comentário de %{user_link} em %{comment_created_at}
+      reassign_to_moderators: Repassar problema aos moderadores
+      reassign_to_administrators: Repassar problema aos administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} em %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, comentário #%{comment_id}'
         note: 'Nota #%{note_id}'
+    reporters:
+      reporters:
+        more_reporters: e mais %{count}
   issue_comments:
     create:
       comment_created: Seu comentário foi criado com sucesso
@@ -1780,6 +1791,12 @@ pt:
     communities: Comunidades
     learn_more: Saiba Mais
     more: Mais
+    offline_flash:
+      osm_offline: A base de dados do OpenStreetMap, no momento, está fora do ar para
+        manutenção.
+      osm_read_only: A base de dados do OpenStreetMap, no momento, está somente em
+        modo de leitura para manutenção.
+      announcement: Você pode ler o anúncio aqui.
   user_mailer:
     diary_comment_notification:
       description: 'Entrada no diário do OpenStreetMap #%{id}'
@@ -1808,8 +1825,11 @@ pt:
         uma mensagem ao autor em %{replyurl}
     follow_notification:
       hi: Olá %{to_user},
+      subject: '[OpenStreetMap] %{user} te seguiu.'
+      followed_you: '%{user} agora te segue no OpenStreetMap.'
       see_their_profile: Você pode ver o perfil dele(a) em %{userurl}.
       see_their_profile_html: Você pode ver o perfil dele(a) em %{userurl}.
+      follow_them: Siga também em %{followurl}.
       follow_them_html: Siga também em %{followurl}.
     gpx_details:
       details: 'Detalhes dos arquivos:'
@@ -2603,6 +2623,7 @@ pt:
         track: Estrada rústica
         bridleway: Hipovia
         cycleway: Ciclovia
+        international_bike_route: Ciclovia internacional
         national_bike_route: Ciclovia nacional
         regional_bike_route: Ciclovia regional
         local_bike_route: Ciclovia local
@@ -3474,6 +3495,7 @@ pt:
         roundabout_with_exit: Na rotatória, pegue a saída %{exit} para %{name}
         roundabout_with_exit_ordinal: Na rotatória, pegue %{exit} saída para %{name}
         exit_roundabout: Saia da rotatória para %{name}
+        ferry_without_exit: Embarcar em %{name}
         unnamed: sem nome
         courtesy: Itinerário cortesia de %{link}
         exit_counts:
