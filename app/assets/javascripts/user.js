@@ -1,4 +1,5 @@
 //= require leaflet.locate
+//= require ./home_location_name-endpoint
 
 (function () {
   $(document).on("change", "#user_all", function () {
@@ -8,13 +9,17 @@
 
 $(function () {
   const defaultHomeZoom = 12;
-  let map, marker, deleted_lat, deleted_lon;
+  let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
 
   if ($("#map").length) {
     map = L.map("map", {
       attributionControl: false,
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
+
+    savedLat = $("#home_lat").val();
+    savedLon = $("#home_lon").val();
+    homeLocationNameGeocoder = OSM.HomeLocationNameGeocoder($("#home_lat"), $("#home_lon"), $("#home_location_name"));
 
     const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
@@ -48,9 +53,8 @@ $(function () {
         $("#home_lat").val(lat);
         $("#home_lon").val(lon);
 
-        deleted_lat = null;
-        deleted_lon = null;
-        respondToHomeUpdate();
+        clearDeletedText();
+        respondToHomeLatLonUpdate();
       }).on("moveend", function () {
         const lat = $("#home_lat").val().trim(),
               lon = $("#home_lon").val().trim();
@@ -68,9 +72,15 @@ $(function () {
       });
 
       $("#home_lat, #home_lon").on("input", function () {
-        deleted_lat = null;
-        deleted_lon = null;
-        respondToHomeUpdate();
+        clearDeletedText();
+        respondToHomeLatLonUpdate();
+      });
+
+      $("#home_location_name").on("input", function () {
+        homeLocationNameGeocoder.autofill = false;
+        clearDeletedText();
+
+        respondToHomeLatLonUpdate(false);
       });
 
       $("#home_show").click(function () {
@@ -82,21 +92,25 @@ $(function () {
 
       $("#home_delete").click(function () {
         const lat = $("#home_lat").val(),
-              lon = $("#home_lon").val();
+              lon = $("#home_lon").val(),
+              locationName = $("#home_location_name").val();
 
-        $("#home_lat, #home_lon").val("");
+        $("#home_lat, #home_lon, #home_location_name").val("");
         deleted_lat = lat;
         deleted_lon = lon;
-        respondToHomeUpdate();
+        deleted_home_name = locationName;
+
+        respondToHomeLatLonUpdate(false);
         $("#home_undelete").trigger("focus");
       });
 
       $("#home_undelete").click(function () {
         $("#home_lat").val(deleted_lat);
         $("#home_lon").val(deleted_lon);
-        deleted_lat = null;
-        deleted_lon = null;
-        respondToHomeUpdate();
+        $("#home_location_name").val(deleted_home_name);
+        clearDeletedText();
+
+        respondToHomeLatLonUpdate(false);
         $("#home_delete").trigger("focus");
       });
     } else {
@@ -110,14 +124,26 @@ $(function () {
     }
   }
 
-  function respondToHomeUpdate() {
+  function respondToHomeLatLonUpdate(updateLocationName = true) {
     const lat = $("#home_lat").val().trim(),
-          lon = $("#home_lon").val().trim();
+          lon = $("#home_lon").val().trim(),
+          locationName = $("#home_location_name").val().trim();
     let location;
 
     try {
       if (lat && lon) {
         location = L.latLng(lat, lon);
+        if (updateLocationName) {
+          if (savedLat && savedLon && $("#home_location_name").val().trim()) {
+            homeLocationNameGeocoder.updateHomeLocationName(false, savedLat, savedLon, () => {
+              savedLat = savedLon = null;
+              homeLocationNameGeocoder.updateHomeLocationName();
+            });
+          } else {
+            savedLat = savedLon = null;
+            homeLocationNameGeocoder.updateHomeLocationName();
+          }
+        }
       }
       $("#home_lat, #home_lon").removeClass("is-invalid");
     } catch (error) {
@@ -127,8 +153,11 @@ $(function () {
 
     $("#home_message").toggleClass("invisible", Boolean(location));
     $("#home_show").prop("hidden", !location);
-    $("#home_delete").prop("hidden", !location);
-    $("#home_undelete").prop("hidden", !(!location && deleted_lat && deleted_lon));
+    $("#home_delete").prop("hidden", !location && !locationName);
+    $("#home_undelete").prop("hidden", !(
+      (!location || !locationName) &&
+      ((deleted_lat && deleted_lon) || deleted_home_name)
+    ));
     if (location) {
       marker.setLatLng([lat, lon]);
       marker.addTo(map);
@@ -153,6 +182,12 @@ $(function () {
     } else {
       $("input#user_auth_uid").hide().prop("disabled", true);
     }
+  }
+
+  function clearDeletedText() {
+    deleted_lat = null;
+    deleted_lon = null;
+    deleted_home_name = null;
   }
 
   updateAuthUID();

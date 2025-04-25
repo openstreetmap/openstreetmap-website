@@ -12,6 +12,7 @@
 #  home_lat             :float
 #  home_lon             :float
 #  home_zoom            :integer          default(3)
+#  home_location_name   :string
 #  pass_salt            :string
 #  email_valid          :boolean          default(FALSE), not null
 #  new_email            :string

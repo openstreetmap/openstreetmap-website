@@ -24,6 +24,11 @@ module Searches
                       :zoom => zoom,
                       :name => description,
                       :type => object_type, :id => object_id)
+
+        respond_to do |format|
+          format.html
+          format.json { render :json => @results }
+        end
       end
     rescue StandardError => e
       host = URI(Settings.nominatim_url).host
