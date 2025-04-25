@@ -34,8 +34,6 @@ class NoteComment < ApplicationRecord
   validates :author, :associated => true
   validates :body, :length => { :maximum => 2000 }, :characters => true
 
-  self.ignored_columns += ["event"]
-
   # Retrieve next ID
   def self.next_id
     # This will increment the sequence but not create a row
