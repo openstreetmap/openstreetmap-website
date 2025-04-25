@@ -86,7 +86,7 @@ module Api
         @note.save_without_history!
 
         # Adds opening comment (description) to the note
-        note_comment = add_comment(@note, @note.description, "opened")
+        note_comment = add_comment(@note, @note.description)
 
         # Saves the note's history
         @note.save_history!(@note.created_at, author_info, note_comment.id, "opened")
@@ -126,7 +126,7 @@ module Api
 
         if comment.present?
           # Adds hiding comment to the note
-          note_comment = add_comment(@note, comment, "hidden")
+          note_comment = add_comment(@note, comment)
 
           # Saves the note's history
           @note.save_history!(@note.updated_at, author_info, note_comment.id, "hidden")
@@ -165,7 +165,7 @@ module Api
         raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
 
         # Adds a comment to the note
-        add_comment(@note, comment, "commented")
+        add_comment(@note, comment)
 
         # Notify subscribers about new event and update list of subscribers
         notify_and_update_subscribers(@note, "commented", comment)
@@ -203,7 +203,7 @@ module Api
 
         if comment.present?
           # Adds closing comment to the note
-          note_comment = add_comment(@note, comment, "closed")
+          note_comment = add_comment(@note, comment)
 
           # Saves the note's history
           @note.save_history!(@note.closed_at, author_info, note_comment.id, "closed")
@@ -248,7 +248,7 @@ module Api
 
         if comment.present?
           # Adds reopening comment to the note
-          note_comment = add_comment(@note, comment, "reopened")
+          note_comment = add_comment(@note, comment)
 
           # Saves the note's history
           @note.save_history!(@note.updated_at, author_info, note_comment.id, "reopened")
@@ -402,8 +402,8 @@ module Api
 
     ##
     # Add a comment to a note
-    def add_comment(note, text, event)
-      attributes = { :note_id => note.id, :visible => true, :event => event, :body => text }
+    def add_comment(note, text)
+      attributes = { :note_id => note.id, :visible => true, :body => text }
 
       # Get note comment's author info (for logged in users - user_id, for logged out users - IP address)
       note_comment_author_info = author_info
