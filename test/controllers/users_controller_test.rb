@@ -423,4 +423,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_equal expected_data, heatmap_data
     end
   end
+
+  def test_heatmap_visibility
+    user = create(:user)
+    create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
+
+    # Test when heatmap is enabled (default)
+    get user_path(user.display_name)
+    assert_response :success
+    assert_not_nil assigns(:heatmap_data), "Heatmap data should be present when enabled"
+    assert_select "div#cal-heatmap", 1, "Heatmap should be rendered when enabled"
+
+    # Test when heatmap is disabled
+    user.update(:show_contribution_heatmap => false)
+    get user_path(user.display_name)
+    assert_response :success
+    assert_nil assigns(:heatmap_data), "Heatmap data should be nil when disabled"
+    assert_select "div#cal-heatmap", 0, "Heatmap should not be rendered when disabled"
+  end
 end
