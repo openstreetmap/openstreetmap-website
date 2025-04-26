@@ -25,7 +25,7 @@ class UserLoginTest < ApplicationSystemTestCase
     user1 = create(:user, :display_name => "First User")
     sign_in_as(user1)
 
-    visit login_path(:referer => about_path)
+    visit login_path(:referer => copyright_path, :anchor => "trademarks")
 
     assert_button "First User"
     within_content_body do
@@ -35,7 +35,8 @@ class UserLoginTest < ApplicationSystemTestCase
       click_on "Visit referring page"
     end
 
-    assert_current_path about_path
+    assert_current_path copyright_path
+    assert_equal "#trademarks", execute_script("return location.hash")
   end
 
   test "Only show safe referer links inside warnings" do
