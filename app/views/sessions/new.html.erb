@@ -28,8 +28,18 @@
 <% end %>
 
 <% if current_user %>
-  <div class="alert alert-warning">
-    <%= t ".already_logged_in_html", :user => tag.strong(current_user.display_name) %>
+  <div class="alert alert-warning pb-0">
+    <p>
+      <%= t ".already_logged_in_html", :user => tag.strong(current_user.display_name) %>
+    </p>
+    <% if @safe_referer %>
+      <p>
+        <%= t ".access_another_page" %>
+      </p>
+      <p class="text-center">
+        <%= link_to t(".visit_referring_page"), @safe_referer, :class => "btn btn-warning" %>
+      </p>
+    <% end %>
   </div>
 <% end %>
 
