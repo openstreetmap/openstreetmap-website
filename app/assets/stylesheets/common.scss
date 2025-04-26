@@ -84,12 +84,14 @@ time[title] {
 
 /* Bootstrap close button overrides for nested light/dark themes */
 
-[data-bs-theme="dark"] .btn-close {
-  filter: var(--bs-btn-close-white-filter);
+[data-bs-theme="dark"],
+[data-bs-theme] [data-bs-theme="dark"] {
+  --bs-btn-close-filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-[data-bs-theme="light"] .btn-close {
-  filter: none;
+[data-bs-theme="light"],
+[data-bs-theme] [data-bs-theme="light"] {
+  --bs-btn-close-filter: none;
 }
 
 /* Rules for the header */
