@@ -211,7 +211,9 @@ $(function () {
     map.setView([params.lat, params.lon], params.zoom);
   }
 
-  if (params.marker) {
+  if (params.marker && params.mrad) {
+    L.circle([params.mlat, params.mlon], { radius: params.mrad }).addTo(map);
+  } else if (params.marker) {
     L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
