@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRedactions < ActiveRecord::Migration[4.2]
   def change
     create_table :redactions do |t|

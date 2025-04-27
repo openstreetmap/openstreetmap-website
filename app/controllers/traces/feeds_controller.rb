@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Traces
   class FeedsController < ApplicationController
     before_action :authorize_web

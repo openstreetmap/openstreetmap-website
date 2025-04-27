@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.config.active_storage.queues.analysis = :storage
 Rails.application.config.active_storage.queues.purge = :storage
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Traces
     class DataController < ApiController

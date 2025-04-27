@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRelations < ActiveRecord::Migration[4.2]
   def self.up
     # enums work like strings but are more efficient

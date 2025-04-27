@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "queries_controller_test"
 
 module Searches

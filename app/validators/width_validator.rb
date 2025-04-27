@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WidthValidator < ActiveModel::Validations::LengthValidator
   module WidthAsLength
     def length

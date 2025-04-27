@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class CapabilitiesController < ApiController
     skip_before_action :check_api_readable

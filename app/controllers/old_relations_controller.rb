@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OldRelationsController < OldElementsController
   def index
     @type = "relation"

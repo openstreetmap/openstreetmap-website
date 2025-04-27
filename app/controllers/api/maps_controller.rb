@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class MapsController < ApiController
     authorize_resource :class => false

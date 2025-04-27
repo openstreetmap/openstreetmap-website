@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.partial! "root_attributes"
 
 json.partial! "bounds"

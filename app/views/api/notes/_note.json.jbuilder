@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.type "Feature"
 
 json.geometry do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Users
   class StatusesController < ApplicationController
     layout :site_layout

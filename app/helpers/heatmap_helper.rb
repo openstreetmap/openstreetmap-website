@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HeatmapHelper
   def prepare_heatmap(data, from, to)
     # Pad the start by one week to ensure the heatmap can start on the first day of the week

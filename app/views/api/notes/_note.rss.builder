@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.item do
   location = describe_location(note.lat, note.lon, 14, locale)
 
