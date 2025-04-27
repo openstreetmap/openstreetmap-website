@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.instruct! :xml, :version => "1.0"
 
 xml.osmChange(OSM::API.new.xml_root_attributes) do |osm|

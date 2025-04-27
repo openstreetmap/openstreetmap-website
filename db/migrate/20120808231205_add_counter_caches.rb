@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCounterCaches < ActiveRecord::Migration[4.2]
   class Changeset < ApplicationRecord
   end

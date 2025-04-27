@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Sanitize::Config::OSM = Sanitize::Config.merge(
   Sanitize::Config::RELAXED,
   :elements => Sanitize::Config::RELAXED[:elements] - %w[div style],

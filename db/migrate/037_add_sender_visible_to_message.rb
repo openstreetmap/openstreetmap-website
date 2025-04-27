@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSenderVisibleToMessage < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :messages, :visible, :to_user_visible

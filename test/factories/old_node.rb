@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :old_node do
     latitude { 1 * GeoRecord::SCALE }

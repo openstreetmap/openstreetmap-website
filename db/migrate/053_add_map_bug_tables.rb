@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMapBugTables < ActiveRecord::Migration[4.2]
   def self.up
     create_enum :map_bug_status_enum, %w[open closed hidden]

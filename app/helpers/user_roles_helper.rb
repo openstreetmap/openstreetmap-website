@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UserRolesHelper
   def role_icons(user)
     safe_join(UserRole::ALL_ROLES.filter_map { |role| role_icon(user, role) }, " ")

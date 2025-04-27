@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActionController
   # === Action Pack pagination for Active Record collections
   #

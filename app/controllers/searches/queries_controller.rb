@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Searches
   class QueriesController < ApplicationController
     before_action :authorize_web

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFineOAuthPermissions < ActiveRecord::Migration[4.2]
   PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary, :allow_write_api, :allow_read_gpx, :allow_write_gpx].freeze
 

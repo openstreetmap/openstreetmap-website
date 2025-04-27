@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TraceDestroyerJob < ApplicationJob
   queue_as :traces
 

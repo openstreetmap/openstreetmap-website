@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc "Expire old tokens"
   task :expire_tokens => :environment do

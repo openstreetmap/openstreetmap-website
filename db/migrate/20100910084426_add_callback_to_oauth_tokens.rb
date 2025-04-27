@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCallbackToOauthTokens < ActiveRecord::Migration[4.2]
   def self.up
     add_column :oauth_tokens, :callback_url, :string
