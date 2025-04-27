@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messages
   class MutedInboxesController < MailboxesController
     # Display the list of muted messages received by the user.

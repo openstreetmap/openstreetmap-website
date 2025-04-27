@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # validation method to be included like any other validations methods
 # in the models definitions. this one checks that the named attribute

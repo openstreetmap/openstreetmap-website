@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # DiffReader reads OSM diffs and applies them to the database.
 #

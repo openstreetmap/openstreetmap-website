@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.bounds do
   json.minlat GeoRecord::Coord.new(@bounds.min_lat)
   json.minlon GeoRecord::Coord.new(@bounds.min_lon)

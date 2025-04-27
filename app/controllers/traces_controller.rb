@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TracesController < ApplicationController
   include UserMethods
   include PaginationMethods

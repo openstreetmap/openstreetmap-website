@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BrowseHelper
   def element_icon(type, object)
     selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }

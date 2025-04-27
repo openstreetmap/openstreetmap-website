@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PaginationHelper
   def pagination_item(params, title, &)
     link_class = "page-link icon-link text-center"

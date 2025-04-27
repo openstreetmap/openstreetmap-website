@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UserMailerHelper
   def fp(text)
     format_paragraph(text, 72, 0)

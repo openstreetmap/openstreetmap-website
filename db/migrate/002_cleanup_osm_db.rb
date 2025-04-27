@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CleanupOsmDb < ActiveRecord::Migration[4.2]
   def self.up
     change_column "current_nodes", "latitude", :float, :limit => 53, :null => false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DiaryCommentsController < ApplicationController
   layout :site_layout
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUserCommentIndexes < ActiveRecord::Migration[7.2]
   disable_ddl_transaction!
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messages
   class ReadMarksController < ApplicationController
     layout :site_layout

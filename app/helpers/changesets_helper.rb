@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ChangesetsHelper
   def changeset_user_link(changeset)
     if changeset.user.status == "deleted"

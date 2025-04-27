@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeDefaultFormats < ActiveRecord::Migration[4.2]
   def up
     change_column_default :diary_entries, :body_format, "markdown"

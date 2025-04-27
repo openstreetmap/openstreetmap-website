@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropNearbyPlaceFromNotes < ActiveRecord::Migration[4.2]
   def up
     remove_column :notes, :nearby_place

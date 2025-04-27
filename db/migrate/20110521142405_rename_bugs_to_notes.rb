@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameBugsToNotes < ActiveRecord::Migration[4.2]
   def self.up
     rename_enum "map_bug_status_enum", :to => "note_status_enum"

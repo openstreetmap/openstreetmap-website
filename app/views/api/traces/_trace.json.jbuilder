@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id trace.id
 json.name trace.name
 json.uid trace.user_id

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
   module OpenStreetMap
     module AbstractAdapter

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Country
   attr_reader :code, :min_lat, :max_lat, :min_lon, :max_lon
 

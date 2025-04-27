@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.type "way"
 json.id old_way.way_id
 json.timestamp old_way.timestamp.xmlschema

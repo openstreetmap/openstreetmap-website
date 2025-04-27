@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.item do
   xml.title t(".comment", :author => comment.author.display_name, :changeset_id => comment.changeset.id.to_s)
 

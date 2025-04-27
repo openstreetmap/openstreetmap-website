@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveAuthorNameFromNoteComment < ActiveRecord::Migration[4.2]
   def up
     remove_column :note_comments, :author_name

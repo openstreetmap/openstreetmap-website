@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OsmCommunityIndex
   def self.add_to_i18n
     # Filter the communities here to avoid loading excessive numbers of translations

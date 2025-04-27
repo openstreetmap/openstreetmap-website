@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DirectionsController < ApplicationController
   layout :map_layout
 

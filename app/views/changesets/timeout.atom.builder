@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 atom_feed(:language => I18n.locale, :schema_date => 2009,
           :id => url_for(params.merge(:only_path => false)),
           :root_url => url_for(params.merge(:only_path => false, :format => nil)),

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :oauth_access_grant, :class => "Doorkeeper::AccessGrant" do
     application :factory => :oauth_application

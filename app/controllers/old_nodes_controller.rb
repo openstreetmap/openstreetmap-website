@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OldNodesController < OldElementsController
   def index
     @type = "node"

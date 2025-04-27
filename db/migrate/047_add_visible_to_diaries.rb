@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVisibleToDiaries < ActiveRecord::Migration[4.2]
   def self.up
     add_column :diary_entries, :visible, :boolean, :null => false, :default => true

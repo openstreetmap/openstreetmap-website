@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMoreChangesetIndexes < ActiveRecord::Migration[4.2]
   def self.up
     enable_extension "btree_gist"

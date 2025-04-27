@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConfirmationsController < ApplicationController
   include SessionMethods
   include UserMethods

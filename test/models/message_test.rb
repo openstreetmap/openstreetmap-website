@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
-  EURO = "\xe2\x82\xac".freeze # euro symbol
+  EURO = "\xe2\x82\xac" # euro symbol
 
   def test_check_empty_message_fails
     message = build(:message, :title => nil, :body => nil, :sent_on => nil)

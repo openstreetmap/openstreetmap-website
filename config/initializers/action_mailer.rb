@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Configure queue to use for ActionMailer deliveries
 ActionMailer::Base.deliver_later_queue_name = :mailers
 

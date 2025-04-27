@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :issue_comment do
     sequence(:body) { |n| "This is issue comment #{n}" }

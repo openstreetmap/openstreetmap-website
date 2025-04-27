@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMapBugCommentEvent < ActiveRecord::Migration[4.2]
   def self.up
     create_enum :map_bug_event_enum, %w[opened closed reopened commented hidden]

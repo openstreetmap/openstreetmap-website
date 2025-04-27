@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddChangesetIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index "nodes", ["changeset_id"], :name => "nodes_changeset_id_idx"

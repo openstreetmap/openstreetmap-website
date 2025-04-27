@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTextFormat < ActiveRecord::Migration[4.2]
   def up
     create_enum :format_enum, %w[html markdown text]

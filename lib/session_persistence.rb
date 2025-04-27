@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2010 August Lilleaas
 #
 # Permission is hereby granted, free of charge, to any person obtaining

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GeocoderHelper
   def result_to_html(result)
     html_options = { :class => "set_position stretched-link", :data => {} }

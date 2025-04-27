@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 pass_crypt = PasswordHash.create("test").first
 
 FactoryBot.define do

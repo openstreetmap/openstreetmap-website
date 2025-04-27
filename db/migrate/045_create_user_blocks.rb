@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateUserBlocks < ActiveRecord::Migration[4.2]
   def change
     create_table :user_blocks do |t|

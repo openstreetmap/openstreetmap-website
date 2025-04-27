@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveNearbyFromUsers < ActiveRecord::Migration[5.2]
   def change
     # We've already ignored this column in the model, so it is safe to remove

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 attrs = {
   "id" => old_node.node_id,
   "visible" => old_node.visible,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id changeset_comment.id
 json.visible changeset_comment.visible
 json.date changeset_comment.created_at.xmlschema

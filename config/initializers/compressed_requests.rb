@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenStreetMap
   class CompressedRequests
     def initialize(app)

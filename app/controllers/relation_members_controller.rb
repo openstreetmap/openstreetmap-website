@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RelationMembersController < ElementsController
   def show
     @type = "relation"

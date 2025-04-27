@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # this class pulls together the logic for all the old_* controllers
 # into one place. as it turns out, the API methods for historical
 # nodes, ways and relations are basically identical.
