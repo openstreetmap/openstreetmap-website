@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Some versions of ruby seem to accidentally force the encoding
 # as part of normalize_path and some don't
 

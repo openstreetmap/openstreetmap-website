@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # basic attributes
 json.id changeset.id
 json.created_at changeset.created_at.xmlschema

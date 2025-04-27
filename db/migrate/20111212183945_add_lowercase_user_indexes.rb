@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLowercaseUserIndexes < ActiveRecord::Migration[4.2]
   def up
     add_index :users, "LOWER(display_name)", :name => "users_display_name_lower_idx"

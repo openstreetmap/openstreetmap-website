@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddImageUseGravatarToUsers < ActiveRecord::Migration[4.2]
   class User < ApplicationRecord
   end

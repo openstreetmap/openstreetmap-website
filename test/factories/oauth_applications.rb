@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :oauth_application, :class => "Oauth2Application" do
     sequence(:name) { |n| "OAuth application #{n}" }
