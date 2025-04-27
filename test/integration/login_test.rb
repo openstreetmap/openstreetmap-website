@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UserLoginTest < ActionDispatch::IntegrationTest
+class LoginTest < ActionDispatch::IntegrationTest
   def setup
     OmniAuth.config.test_mode = true
   end
