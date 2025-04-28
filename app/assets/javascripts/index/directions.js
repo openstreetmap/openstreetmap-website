@@ -8,6 +8,8 @@ OSM.Directions = function (map) {
   let lastLocation = [];
   let chosenEngine;
 
+  let scheduledRouteArguments = null;
+
   const routeOutput = OSM.DirectionsRouteOutput(map);
 
   const endpointDragCallback = function (dragging) {
@@ -86,7 +88,15 @@ OSM.Directions = function (map) {
     select.val(chosenEngine.provider);
   }
 
-  function getRoute(fitRoute, reportErrors) {
+  function getRoute(...routeArguments) {
+    if ($("#directions_content").length) {
+      getScheduledRoute(...routeArguments);
+    } else {
+      scheduledRouteArguments = routeArguments;
+    }
+  }
+
+  function getScheduledRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
 
@@ -220,7 +230,14 @@ OSM.Directions = function (map) {
       $(".search_form").hide();
       $(".directions_form").show();
 
-      OSM.loadSidebarContent("/directions", enableListeners);
+      OSM.loadSidebarContent("/directions", () => {
+        enableListeners();
+
+        if (scheduledRouteArguments) {
+          getScheduledRoute(...scheduledRouteArguments);
+          scheduledRouteArguments = null;
+        }
+      });
 
       map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
     }
@@ -252,6 +269,8 @@ OSM.Directions = function (map) {
     endpoints[1].clearValue();
 
     routeOutput.remove($("#directions_content"));
+
+    scheduledRouteArguments = null;
   };
 
   return page;
