@@ -222,25 +222,18 @@ OSM.Directions = function (map) {
   const page = {};
 
   page.pushstate = page.popstate = function () {
-    if ($("#directions_content").length) {
-      page.load();
-    } else {
-      initializeFromParams();
+    page.load();
 
-      $(".search_form").hide();
-      $(".directions_form").show();
+    if ($("#directions_content").length) return;
 
-      OSM.loadSidebarContent("/directions", () => {
-        enableListeners();
+    OSM.loadSidebarContent("/directions", () => {
+      if (scheduledRouteArguments) {
+        getScheduledRoute(...scheduledRouteArguments);
+        scheduledRouteArguments = null;
+      }
+    });
 
-        if (scheduledRouteArguments) {
-          getScheduledRoute(...scheduledRouteArguments);
-          scheduledRouteArguments = null;
-        }
-      });
-
-      map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
-    }
+    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
 
   page.load = function () {
