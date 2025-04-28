@@ -29,10 +29,6 @@ module Api
         { :path => "/api/0.6/changeset/1", :method => :put },
         { :controller => "api/changesets", :action => "update", :id => "1" }
       )
-      assert_routing(
-        { :path => "/api/0.6/changeset/1/upload", :method => :post },
-        { :controller => "api/changesets/uploads", :action => "create", :changeset_id => "1" }
-      )
 
       assert_recognizes(
         { :controller => "api/changesets", :action => "create" },
