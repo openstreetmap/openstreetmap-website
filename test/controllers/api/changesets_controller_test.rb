@@ -31,7 +31,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/upload", :method => :post },
-        { :controller => "api/changesets", :action => "upload", :id => "1" }
+        { :controller => "api/changesets/uploads", :action => "create", :changeset_id => "1" }
       )
 
       assert_recognizes(
@@ -690,7 +690,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff
+      post api_changeset_upload_path(changeset), :params => diff
       assert_response :unauthorized,
                       "shouldn't be able to upload a simple valid diff to changeset: #{@response.body}"
 
@@ -719,7 +719,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(private_changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(private_changeset), :params => diff, :headers => auth_header
       assert_response :forbidden,
                       "can't upload a simple valid diff to changeset: #{@response.body}"
 
@@ -748,7 +748,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a simple valid diff to changeset: #{@response.body}"
 
@@ -792,7 +792,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a simple valid creation to changeset: #{@response.body}"
 
@@ -857,7 +857,7 @@ module Api
       end
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -884,7 +884,7 @@ module Api
       diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{changeset.id}'/></delete></osmChange>"
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -950,7 +950,7 @@ module Api
 
       # upload it, which used to cause an error like "PGError: ERROR:
       # integer out of range" (bug #2152). but shouldn't any more.
-      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a spatially-large diff to changeset: #{@response.body}"
 
@@ -992,7 +992,7 @@ module Api
       end
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :precondition_failed,
                       "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
       assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
@@ -1035,7 +1035,7 @@ module Api
       end
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "can't do a conditional delete of in use objects: #{@response.body}"
 
@@ -1086,7 +1086,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to upload too long a tag to changeset: #{@response.body}"
     end
@@ -1128,7 +1128,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a complex diff to changeset: #{@response.body}"
 
@@ -1189,7 +1189,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :conflict,
                       "uploading a diff with multiple changesets should have failed"
 
@@ -1225,7 +1225,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -1254,7 +1254,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :conflict,
                       "shouldn't be able to upload the same element twice in a diff: #{@response.body}"
     end
@@ -1275,7 +1275,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to upload an element without version: #{@response.body}"
     end
@@ -1294,7 +1294,7 @@ module Api
           </ping>
         </osmChange>
       CHANGESET
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
       assert_equal("Unknown action ping, choices are create, modify, delete", @response.body)
     end
@@ -1327,7 +1327,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a valid diff with whitespace variations to changeset: #{@response.body}"
 
@@ -1364,7 +1364,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a valid diff with re-used placeholders to changeset: #{@response.body}"
 
@@ -1392,7 +1392,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to re-use placeholder IDs"
 
@@ -1409,7 +1409,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to re-use placeholder IDs"
     end
@@ -1433,7 +1433,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't refer elements behind it"
     end
@@ -1456,7 +1456,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :gone,
                       "transaction should be cancelled by second deletion"
 
@@ -1473,7 +1473,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
       assert_select "diffResult>node", 3
       assert_select "diffResult>node[old_id='-1']", 3
@@ -1507,7 +1507,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
@@ -1530,7 +1530,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder node not found for reference -4 in way #{way.id}", @response.body
@@ -1562,7 +1562,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
@@ -1585,7 +1585,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder Way not found for reference -1 in relation #{relation.id}.", @response.body
@@ -1617,7 +1617,7 @@ module Api
       diff.root << modify
 
       # upload it
-      post changeset_upload_path(changeset_id), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset_id), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "diff should have uploaded OK"
 
@@ -1656,7 +1656,7 @@ module Api
       diff.root << modify
 
       # upload it
-      post changeset_upload_path(changeset_id), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset_id), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "diff should have uploaded OK"
 
@@ -1680,7 +1680,7 @@ module Api
        "<osmChange><modify/></osmChange>",
        "<osmChange><modify></modify></osmChange>"].each do |diff|
         # upload it
-        post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
         assert_response(:success, "should be able to upload " \
                                   "empty changeset: " + diff)
       end
@@ -1704,7 +1704,7 @@ module Api
 
       # upload it
       error_header = error_format_header "xml"
-      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header.merge(error_header)
+      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header.merge(error_header)
       assert_response :success,
                       "failed to return error in XML format"
 
@@ -1729,7 +1729,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Node should not be found"
 
       # modify way
@@ -1742,7 +1742,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Way should not be found"
 
       # modify relation
@@ -1755,7 +1755,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Relation should not be found"
 
       # delete node
@@ -1768,7 +1768,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Node should not be deleted"
 
       # delete way
@@ -1781,7 +1781,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Way should not be deleted"
 
       # delete relation
@@ -1794,7 +1794,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Relation should not be deleted"
     end
 
@@ -1827,7 +1827,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :bad_request, "shouldn't be able to use reference -4 in relation -2: #{@response.body}"
       assert_equal "Placeholder Relation not found for reference -4 in relation -2.", @response.body
     end
@@ -1855,7 +1855,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :precondition_failed,
                       "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
       assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", @response.body
@@ -1903,7 +1903,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :too_many_requests, "upload did not hit rate limit"
     end
 
@@ -1958,7 +1958,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :too_many_requests, "upload did not hit rate limit"
     end
 
@@ -1989,7 +1989,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :payload_too_large, "upload did not hit size limit"
     end
 
@@ -2021,7 +2021,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :payload_too_large, "upload did not hit size limit"
     end
 
@@ -2069,7 +2069,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -2127,7 +2127,7 @@ module Api
       OSMFILE
 
       # upload it
-      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a diff from JOSM: #{@response.body}"
 
@@ -2182,7 +2182,7 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
+      post api_changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 

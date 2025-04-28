@@ -4,16 +4,14 @@ module Api
   class ChangesetsController < ApiController
     include QueryMethods
 
-    before_action :check_api_writable, :only => [:create, :update, :upload]
+    before_action :check_api_writable, :only => [:create, :update]
     before_action :setup_user_auth, :only => [:show]
-    before_action :authorize, :only => [:create, :update, :upload]
+    before_action :authorize, :only => [:create, :update]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :upload]
-    before_action :set_request_formats, :except => [:create, :upload]
-
-    skip_around_action :api_call_timeout, :only => [:upload]
+    before_action :require_public_data, :only => [:create, :update]
+    before_action :set_request_formats, :except => [:create]
 
     # Helper methods for checking consistency
     include ConsistencyValidations
@@ -85,33 +83,6 @@ module Api
       cs.subscribers << current_user
 
       render :plain => cs.id.to_s
-    end
-
-    ##
-    # Upload a diff in a single transaction.
-    #
-    # This means that each change within the diff must succeed, i.e: that
-    # each version number mentioned is still current. Otherwise the entire
-    # transaction *must* be rolled back.
-    #
-    # Furthermore, each element in the diff can only reference the current
-    # changeset.
-    #
-    # Returns: a diffResult document, as described in
-    # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
-    def upload
-      changeset = Changeset.find(params[:id])
-      check_changeset_consistency(changeset, current_user)
-
-      diff_reader = DiffReader.new(request.raw_post, changeset)
-      Changeset.transaction do
-        result = diff_reader.commit
-        # the number of changes in this changeset has already been
-        # updated and is visible in this transaction so we don't need
-        # to allow for any more when checking the limit
-        check_rate_limit(0)
-        render :xml => result.to_s
-      end
     end
 
     ##
