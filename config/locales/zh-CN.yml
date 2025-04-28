@@ -55,6 +55,7 @@
 # Author: NigelSoft
 # Author: PhiLiP
 # Author: Qiyue2001
+# Author: Ral-hole
 # Author: RyRubyy
 # Author: RyanCray88
 # Author: Shizhao
@@ -595,9 +596,12 @@ zh-CN:
       changesetxml: 变更集 XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: 节点
       nodes_paginated: 节点 (%{x}-%{y}，共 %{count})
+      ways_title: 路径
       ways_paginated: 路径 (%{x}-%{y}，共 %{count})
       relations_paginated: 关系 (%{x}-%{y}，共 %{count})
+      range: '%{x}-%{y} 共%{count}'
     not_found_message:
       sorry: '抱歉，未能找到编号为 #%{id} 的更改集。'
     timeout:
@@ -631,7 +635,7 @@ zh-CN:
       title: 我的综合面板
       no_home_location_html: '%{edit_profile_link}并设定你的家庭地址来查看附近的用户。'
       edit_your_profile: 编辑你的档案
-      followings: 关注中的用户
+      followings: 您关注的用户
       no followings: 您还没有关注任何用户。
       nearby users: 其他附近的用户
       no nearby users: 附近没有在进行制图的用户。
@@ -647,7 +651,7 @@ zh-CN:
       use_map_link: 使用地图
     index:
       title: 用户日记
-      title_followed: 关注中的用户的日记
+      title_followed: 关注的用户的日记
       title_nearby: 附近用户的日记
       user_title: '%{user}的日记'
       in_language_title: '%{language}日记文章'
@@ -676,6 +680,7 @@ zh-CN:
     diary_entry:
       posted_by_html: '%{link_user} 于 %{created} 以 %{language_link} 发布'
       updated_at_html: 最后一次更新于%{updated}。
+      full_entry: 查看完整日记文章
       comment_link: 评论该文章
       reply_link: 向作者发送消息
       comment_count:
@@ -771,6 +776,14 @@ zh-CN:
       unfollow:
         heading: 您想要取消关注%{user}吗？
         button: 取消关注用户
+    create:
+      success: 您已关注%{name}！
+      failed: 抱歉，您关注%{name}的请求失败。
+      already_followed: 您已关注%{name}。
+      limit_exceeded: 您最近关注了大量用户。请稍候再试关注更多用户。
+    destroy:
+      success: 您已成功取消关注%{name}。
+      not_followed: 您未关注%{name}。
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1556,16 +1569,42 @@ zh-CN:
           weir: 堰
           "yes": 航道
       admin_levels:
-        level2: 国界
-        level3: 大区界
-        level4: 州界/省界
-        level5: 地区界(地级行政区界)
-        level6: 县界
-        level7: 市边界
-        level8: 乡界
-        level9: 村界
-        level10: 村界
-        level11: 邻里界
+        level2: 国际边界
+        level3: 行政边界（3 级）
+        level4: 行政边界（4 级）
+        level5: 行政边界（5 级）
+        level6: 行政边界（6 级）
+        level7: 行政边界（7 级）
+        level8: 行政边界（8 级）
+        level9: 行政边界（9 级）
+        level10: 行政边界（10 级）
+        level11: 行政边界（11 级）
+      border_types:
+        arrondissement: 区界
+        borough: 行政区界
+        cercle: 环界
+        city: 市界
+        comarca: 县界
+        county: 县界
+        departement: 省界
+        department: 县界
+        district: 区界
+        distrito: 区界
+        freguesia: 堂区界
+        local_authority: 地方政府界
+        municipality: 市镇界
+        municipi: 市镇界
+        município: 市镇界
+        nation: 国际边界
+        national: 国际边界
+        parish: 堂区界
+        province: 省界
+        região: 自治区界
+        region: 大区界
+        state: 州界
+        town: 镇界
+        township: 乡界
+        village: 村界
   searches:
     show:
       title:
@@ -1583,6 +1622,7 @@ zh-CN:
       select_status: 选择状态
       select_type: 选择类型
       reported_user: 被举报用户
+      not_managed: 未管理
       search: 搜索
       search_guidance: 搜索问题：
       states:
@@ -1596,6 +1636,7 @@ zh-CN:
       status: 状态
       reports: 举报
       last_updated: 最后更新
+      last_managed: 上次管理
       reporting_users: 举报用户
       reports_count:
         one: '%{count}个举报'
@@ -1634,6 +1675,8 @@ zh-CN:
       reopened: 问题状态已设置为“开放”
     comments:
       comment_from_html: '%{user_link}于%{comment_created_at}发表的评论'
+      reassign_to_moderators: 重新指派问题给仲裁员
+      reassign_to_administrators: 重新指派问题给管理员
     reports:
       reported_by_html: 由%{user}在%{updated_at}报告为%{category}
     helper:
@@ -1710,6 +1753,7 @@ zh-CN:
     learn_more: 了解更多
     more: 更多
     offline_flash:
+      expected_restore_html: 服务预计于%{time}内恢复。
       announcement: 您可以在此阅读公告。
   user_mailer:
     diary_comment_notification:
@@ -1733,6 +1777,8 @@ zh-CN:
       hi: 您好，%{to_user}：
       see_their_profile: 您可以在%{userurl}查看他们的个人资料。
       see_their_profile_html: 您可以在%{userurl}查看他们的个人资料。
+      follow_them: 您也可以通过%{followurl}关注他。
+      follow_them_html: 您也可以通过%{followurl}关注他。
     gpx_details:
       details: 文件详细信息：
       filename: 文件名
@@ -2367,9 +2413,10 @@ zh-CN:
         track: 小路
         bridleway: 马道
         cycleway: 自行车道
-        national_bike_route: 国家自行车道
-        regional_bike_route: 地区自行车道
-        local_bike_route: 本地自行车道
+        international_bike_route: 国际自行车路线
+        national_bike_route: 国家自行车路线
+        regional_bike_route: 地区自行车路线
+        local_bike_route: 本地自行车路线
         mountain_bike_route: 山地自行车路线
         footway: 步道
         rail: 铁路
@@ -2567,6 +2614,9 @@ zh-CN:
         title: 使用维基百科登录
         alt: 维基百科标志
     share:
+      share:
+        title: 分享
+        alt: 分享图标
       email:
         title: 通过电子邮件分享
         alt: 电子邮件图标
@@ -2775,7 +2825,16 @@ zh-CN:
         title: 用户
         heading: 用户
         select_status: 选择状态
+        states:
+          pending: 待处理
+          active: 活跃
+          confirmed: 已确认
+          deleted: 已删除
+        name_or_email: 姓名或电子邮件
         ip_address: IP地址
+        edits: 编辑？
+        has_edits: 有编辑
+        no_edits: 无编辑
         search: 搜索
       page:
         found_users:
@@ -2967,6 +3026,7 @@ zh-CN:
       closed_title: '已解决注记 #%{note_name}'
       hidden_title: '隐藏注记 #%{note_name}'
       description_when_author_is_deleted: 已删除
+      description_when_there_is_no_opening_comment: 未知
       event_opened_by_html: 由%{user}%{time_ago}创建
       event_opened_by_anonymous_html: 由匿名用户%{time_ago}创建
       event_commented_by_html: 来自%{user}%{time_ago}的评论
@@ -3155,6 +3215,7 @@ zh-CN:
         roundabout_with_exit: 在环形交叉的%{exit}号出口离开前往%{name}
         roundabout_with_exit_ordinal: 在环形交叉的%{exit}号出口离开前往%{name}
         exit_roundabout: 沿环形交叉退出至%{name}
+        ferry_without_exit: 乘坐%{name}渡轮
         unnamed: 未命名道路
         courtesy: 方向经由%{link}
         exit_counts:
@@ -3187,6 +3248,11 @@ zh-CN:
       centre_map: 将此处置于地图中间
     home:
       marker_title: 我家位置
+      not_set: 您的帐户未设置家位置
+    heatmap:
+      tooltip:
+        no_contributions: '%{date}未有贡献'
+        contributions: '%{date}贡献%{count}次'
   redactions:
     edit:
       heading: 编辑隐删
