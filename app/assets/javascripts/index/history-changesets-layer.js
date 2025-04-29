@@ -3,6 +3,13 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
     return layer.id;
   },
 
+  addChangesetLayer: function (changeset) {
+    const style = this._getChangesetStyle(changeset);
+    const rectangle = L.rectangle(changeset.bounds, style);
+    rectangle.id = changeset.id;
+    return this.addLayer(rectangle);
+  },
+
   updateChangesetLayerBounds: function (changeset) {
     this.getLayer(changeset.id)?.setBounds(changeset.bounds);
   },
@@ -119,15 +126,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._areaLayer._getChangesetStyle(changeset));
-      rect.id = changeset.id;
-      rect.addTo(this._areaLayer);
+      this._areaLayer.addChangesetLayer(changeset);
     }
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._borderLayer._getChangesetStyle(changeset));
-      rect.id = changeset.id;
-      rect.addTo(this._borderLayer);
+      this._borderLayer.addChangesetLayer(changeset);
     }
   },
 
@@ -136,9 +139,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     if (!changeset) return;
 
     if (state) {
-      const highlightRect = L.rectangle(changeset.bounds, this._highlightLayer._getChangesetStyle(changeset));
-      highlightRect.id = id;
-      this._highlightLayer.addLayer(highlightRect);
+      this._highlightLayer.addChangesetLayer(changeset);
     } else {
       this._highlightLayer.removeLayer(id);
     }
