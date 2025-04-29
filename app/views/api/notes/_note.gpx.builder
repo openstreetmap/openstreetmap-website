@@ -10,6 +10,7 @@ xml.wpt("lon" => note.lon, "lat" => note.lat) do
 
   xml.extensions do
     xml.id note.id
+    xml.version note.version
     xml.url api_note_url(note, :format => params[:format])
 
     if note.closed?

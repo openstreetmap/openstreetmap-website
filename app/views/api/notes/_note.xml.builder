@@ -1,4 +1,4 @@
-xml.note("lon" => note.lon, "lat" => note.lat) do
+xml.note("lon" => note.lon, "lat" => note.lat, "version" => note.version) do
   xml.id note.id
   xml.url api_note_url(note, :format => params[:format])
 
