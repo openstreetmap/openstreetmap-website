@@ -9,11 +9,19 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
   },
 
-  _getInteractiveStyle: function (changeset) {
+  _getAreaStyle: function (changeset) {
+    return {
+      weight: 0,
+      fillOpacity: 0,
+      className: this._getSidebarRelativeClassName(changeset)
+    };
+  },
+
+  _getBorderStyle: function (changeset) {
     return {
       weight: 2,
       color: "var(--changeset-border-color)",
-      fillOpacity: 0,
+      fill: false,
       className: this._getSidebarRelativeClassName(changeset)
     };
   },
@@ -73,7 +81,8 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
         changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
         changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
 
-        this._interactiveLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        this._areaLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        this._borderLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
         this._highlightLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
       }
     }
@@ -89,13 +98,20 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     });
     this._changesets = new Map(changesetEntries);
 
-    this._interactiveLayer.clearLayers();
+    this._areaLayer.clearLayers();
+    this._borderLayer.clearLayers();
     this._highlightLayer.clearLayers();
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._getInteractiveStyle(changeset));
+      const rect = L.rectangle(changeset.bounds, this._getAreaStyle(changeset));
       rect.id = changeset.id;
-      rect.addTo(this._interactiveLayer);
+      rect.addTo(this._areaLayer);
+    }
+
+    for (const changeset of this._changesets.values()) {
+      const rect = L.rectangle(changeset.bounds, this._getBorderStyle(changeset));
+      rect.id = changeset.id;
+      rect.addTo(this._borderLayer);
     }
   },
 
@@ -124,9 +140,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 OSM.HistoryChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
 
-  this._interactiveLayer = L.featureGroup();
-  this._highlightLayer = L.featureGroup();
+  this._areaLayer = L.featureGroup().addTo(this);
+  this._borderLayer = L.featureGroup().addTo(this);
+  this._highlightLayer = L.featureGroup().addTo(this);
 
-  this._interactiveLayer.getLayerId = this._highlightLayer.getLayerId = (layer) => layer.id;
-  this.addLayer(this._interactiveLayer).addLayer(this._highlightLayer);
+  this._areaLayer.getLayerId = (layer) => layer.id;
+  this._borderLayer.getLayerId = (layer) => layer.id;
+  this._highlightLayer.getLayerId = (layer) => layer.id;
 });
