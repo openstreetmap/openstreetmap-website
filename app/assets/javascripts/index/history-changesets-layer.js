@@ -1,3 +1,5 @@
+OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({});
+
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   _getSidebarRelativeClassName: function ({ sidebarRelativePosition }) {
     if (sidebarRelativePosition > 0) {
@@ -139,9 +141,9 @@ OSM.HistoryChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
 
   this._bboxLayers = [
-    this._areaLayer = L.featureGroup().addTo(this),
-    this._borderLayer = L.featureGroup().addTo(this),
-    this._highlightLayer = L.featureGroup().addTo(this)
+    this._areaLayer = new OSM.HistoryChangesetBboxLayer().addTo(this),
+    this._borderLayer = new OSM.HistoryChangesetBboxLayer().addTo(this),
+    this._highlightLayer = new OSM.HistoryChangesetBboxLayer().addTo(this)
   ];
 
   for (const layer of this._bboxLayers) {
