@@ -97,7 +97,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, cha
 
   function getGeocode() {
     const viewbox = map.getBounds().toBBoxString(), // <sw lon>,<sw lat>,<ne lon>,<ne lat>
-          geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox });
+          geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox, limit: 1 });
 
     endpoint.geocodeRequest = new AbortController();
     fetch(geocodeUrl, { signal: endpoint.geocodeRequest.signal })
