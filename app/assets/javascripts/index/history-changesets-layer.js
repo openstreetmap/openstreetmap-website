@@ -1,6 +1,10 @@
 OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
   getLayerId: function (layer) {
     return layer.id;
+  },
+
+  updateChangesetLayerBounds: function (changeset) {
+    this.getLayer(changeset.id)?.setBounds(changeset.bounds);
   }
 });
 
@@ -88,7 +92,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
         changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
 
         for (const layer of this._bboxLayers) {
-          layer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+          layer.updateChangesetLayerBounds(changeset);
         }
       }
     }
