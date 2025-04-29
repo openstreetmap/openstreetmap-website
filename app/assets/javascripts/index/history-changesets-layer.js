@@ -119,14 +119,12 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
 
-    let highlightRect = this._highlightLayer.getLayer(id);
-    if (!state && highlightRect) {
-      this._highlightLayer.removeLayer(highlightRect);
-    }
-    if (state && !highlightRect) {
-      highlightRect = L.rectangle(changeset.bounds, this._getHighlightStyle(changeset));
+    if (state) {
+      const highlightRect = L.rectangle(changeset.bounds, this._getHighlightStyle(changeset));
       highlightRect.id = id;
       this._highlightLayer.addLayer(highlightRect);
+    } else {
+      this._highlightLayer.removeLayer(id);
     }
   },
 
