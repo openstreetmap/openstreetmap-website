@@ -5,16 +5,8 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
 
   updateChangesetLayerBounds: function (changeset) {
     this.getLayer(changeset.id)?.setBounds(changeset.bounds);
-  }
-});
+  },
 
-OSM.HistoryChangesetBboxAreaLayer = OSM.HistoryChangesetBboxLayer.extend({});
-
-OSM.HistoryChangesetBboxBorderLayer = OSM.HistoryChangesetBboxLayer.extend({});
-
-OSM.HistoryChangesetBboxHighlightLayer = OSM.HistoryChangesetBboxLayer.extend({});
-
-OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   _getSidebarRelativeClassName: function ({ sidebarRelativePosition }) {
     if (sidebarRelativePosition > 0) {
       return "changeset-above-sidebar-viewport";
@@ -23,26 +15,32 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     } else {
       return "changeset-in-sidebar-viewport";
     }
-  },
+  }
+});
 
-  _getAreaStyle: function (changeset) {
+OSM.HistoryChangesetBboxAreaLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
     return {
       weight: 0,
       fillOpacity: 0,
       className: this._getSidebarRelativeClassName(changeset)
     };
-  },
+  }
+});
 
-  _getBorderStyle: function (changeset) {
+OSM.HistoryChangesetBboxBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
     return {
       weight: 2,
       color: "var(--changeset-border-color)",
       fill: false,
       className: this._getSidebarRelativeClassName(changeset)
     };
-  },
+  }
+});
 
-  _getHighlightStyle: function (changeset) {
+OSM.HistoryChangesetBboxHighlightLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
       weight: 4,
@@ -51,8 +49,10 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
       fillOpacity: 0.3,
       className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
     };
-  },
+  }
+});
 
+OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   updateChangesets: function (map, changesets) {
     this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
     this.updateChangesetShapes(map);
@@ -119,13 +119,13 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._getAreaStyle(changeset));
+      const rect = L.rectangle(changeset.bounds, this._areaLayer._getChangesetStyle(changeset));
       rect.id = changeset.id;
       rect.addTo(this._areaLayer);
     }
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._getBorderStyle(changeset));
+      const rect = L.rectangle(changeset.bounds, this._borderLayer._getChangesetStyle(changeset));
       rect.id = changeset.id;
       rect.addTo(this._borderLayer);
     }
@@ -136,7 +136,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     if (!changeset) return;
 
     if (state) {
-      const highlightRect = L.rectangle(changeset.bounds, this._getHighlightStyle(changeset));
+      const highlightRect = L.rectangle(changeset.bounds, this._highlightLayer._getChangesetStyle(changeset));
       highlightRect.id = id;
       this._highlightLayer.addLayer(highlightRect);
     } else {
