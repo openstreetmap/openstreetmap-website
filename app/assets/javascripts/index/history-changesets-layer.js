@@ -1,4 +1,8 @@
-OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({});
+OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
+  getLayerId: function (layer) {
+    return layer.id;
+  }
+});
 
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   _getSidebarRelativeClassName: function ({ sidebarRelativePosition }) {
@@ -145,8 +149,4 @@ OSM.HistoryChangesetsLayer.addInitHook(function () {
     this._borderLayer = new OSM.HistoryChangesetBboxLayer().addTo(this),
     this._highlightLayer = new OSM.HistoryChangesetBboxLayer().addTo(this)
   ];
-
-  for (const layer of this._bboxLayers) {
-    layer.getLayerId = (layer) => layer.id;
-  }
 });
