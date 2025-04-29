@@ -113,12 +113,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
   reorderChangesets: function () {
     const changesetEntries = [...this._changesets];
-    changesetEntries.sort(([, a], [, b]) => {
-      const aInViewport = !a.sidebarRelativePosition;
-      const bInViewport = !b.sidebarRelativePosition;
-      if (aInViewport !== bInViewport) return aInViewport - bInViewport;
-      return b.bounds.getSize() - a.bounds.getSize();
-    });
+    changesetEntries.sort(([, a], [, b]) => b.bounds.getSize() - a.bounds.getSize());
     this._changesets = new Map(changesetEntries);
 
     for (const layer of this._bboxLayers) {
@@ -126,11 +121,27 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
 
     for (const changeset of this._changesets.values()) {
-      this._areaLayer.addChangesetLayer(changeset);
+      if (changeset.sidebarRelativePosition !== 0) {
+        this._areaLayer.addChangesetLayer(changeset);
+      }
     }
 
     for (const changeset of this._changesets.values()) {
-      this._borderLayer.addChangesetLayer(changeset);
+      if (changeset.sidebarRelativePosition === 0) {
+        this._areaLayer.addChangesetLayer(changeset);
+      }
+    }
+
+    for (const changeset of this._changesets.values()) {
+      if (changeset.sidebarRelativePosition !== 0) {
+        this._borderLayer.addChangesetLayer(changeset);
+      }
+    }
+
+    for (const changeset of this._changesets.values()) {
+      if (changeset.sidebarRelativePosition === 0) {
+        this._borderLayer.addChangesetLayer(changeset);
+      }
     }
   },
 
