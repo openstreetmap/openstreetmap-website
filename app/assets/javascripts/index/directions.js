@@ -8,6 +8,8 @@ OSM.Directions = function (map) {
   let lastLocation = [];
   let chosenEngine;
 
+  let scheduledRouteArguments = null;
+
   const routeOutput = OSM.DirectionsRouteOutput(map);
 
   const endpointDragCallback = function (dragging) {
@@ -86,7 +88,15 @@ OSM.Directions = function (map) {
     select.val(chosenEngine.provider);
   }
 
-  function getRoute(fitRoute, reportErrors) {
+  function getRoute(...routeArguments) {
+    if ($("#directions_content").length) {
+      getScheduledRoute(...routeArguments);
+    } else {
+      scheduledRouteArguments = routeArguments;
+    }
+  }
+
+  function getScheduledRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
 
@@ -212,18 +222,18 @@ OSM.Directions = function (map) {
   const page = {};
 
   page.pushstate = page.popstate = function () {
-    if ($("#directions_content").length) {
-      page.load();
-    } else {
-      initializeFromParams();
+    page.load();
 
-      $(".search_form").hide();
-      $(".directions_form").show();
+    if ($("#directions_content").length) return;
 
-      OSM.loadSidebarContent("/directions", enableListeners);
+    OSM.loadSidebarContent("/directions", () => {
+      if (scheduledRouteArguments) {
+        getScheduledRoute(...scheduledRouteArguments);
+        scheduledRouteArguments = null;
+      }
+    });
 
-      map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
-    }
+    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
 
   page.load = function () {
@@ -252,6 +262,8 @@ OSM.Directions = function (map) {
     endpoints[1].clearValue();
 
     routeOutput.remove($("#directions_content"));
+
+    scheduledRouteArguments = null;
   };
 
   return page;
