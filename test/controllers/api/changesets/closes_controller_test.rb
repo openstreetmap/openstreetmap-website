@@ -16,6 +16,20 @@ module Api
         end
       end
 
+      def test_update_missing_changeset_when_unauthorized
+        put api_changeset_close_path(999111)
+
+        assert_response :unauthorized
+      end
+
+      def test_update_missing_changeset_by_regular_user
+        auth_header = bearer_authorization_header
+
+        put api_changeset_close_path(999111), :headers => auth_header
+
+        assert_response :not_found
+      end
+
       def test_update_when_unauthorized
         changeset = create(:changeset)
 
@@ -74,25 +88,6 @@ module Api
         post api_changeset_close_path(changeset), :headers => auth_header
         assert_response :not_found
         assert_template "rescues/routing_error"
-      end
-
-      ##
-      # check that you can't close a changeset that isn't found
-      def test_update_not_found
-        cs_ids = [0, "123"]
-
-        # First try to do it with no auth
-        cs_ids.each do |id|
-          put api_changeset_close_path(id)
-          assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
-        end
-
-        # Now try with auth
-        auth_header = bearer_authorization_header
-        cs_ids.each do |id|
-          put api_changeset_close_path(id), :headers => auth_header
-          assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
-        end
       end
     end
   end
