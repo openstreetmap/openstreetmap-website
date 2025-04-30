@@ -62,10 +62,21 @@ module Api
         assert_predicate changeset.reload, :open?
       end
 
-      def test_update_by_changeset_creator
+      def test_update_without_required_scope
         user = create(:user)
         changeset = create(:changeset, :user => user)
-        auth_header = bearer_authorization_header user
+        auth_header = bearer_authorization_header user, :scopes => %w[read_prefs]
+
+        put api_changeset_close_path(changeset), :headers => auth_header
+
+        assert_response :forbidden
+        assert_predicate changeset.reload, :open?
+      end
+
+      def test_update_by_changeset_creator_with_required_scope
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+        auth_header = bearer_authorization_header user, :scopes => %w[write_api]
 
         put api_changeset_close_path(changeset), :headers => auth_header
 
