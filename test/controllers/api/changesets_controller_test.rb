@@ -35,7 +35,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1/close", :method => :put },
-        { :controller => "api/changesets", :action => "close", :id => "1" }
+        { :controller => "api/changesets/closes", :action => "update", :changeset_id => "1" }
       )
 
       assert_recognizes(
@@ -660,19 +660,19 @@ module Api
       changeset = create(:changeset, :user => user)
 
       ## Try without authentication
-      put changeset_close_path(changeset)
+      put api_changeset_close_path(changeset)
       assert_response :unauthorized
 
       ## Try using the non-public user
       auth_header = bearer_authorization_header private_user
-      put changeset_close_path(private_changeset), :headers => auth_header
+      put api_changeset_close_path(private_changeset), :headers => auth_header
       assert_require_public_data
 
       ## The try with the public user
       auth_header = bearer_authorization_header user
 
       cs_id = changeset.id
-      put changeset_close_path(cs_id), :headers => auth_header
+      put api_changeset_close_path(cs_id), :headers => auth_header
       assert_response :success
 
       # test that it really is closed now
@@ -689,7 +689,7 @@ module Api
 
       auth_header = bearer_authorization_header user
 
-      put changeset_close_path(changeset), :headers => auth_header
+      put api_changeset_close_path(changeset), :headers => auth_header
       assert_response :conflict
       assert_equal "The user doesn't own that changeset", @response.body
     end
@@ -702,11 +702,11 @@ module Api
 
       auth_header = bearer_authorization_header user
 
-      get changeset_close_path(changeset), :headers => auth_header
+      get api_changeset_close_path(changeset), :headers => auth_header
       assert_response :not_found
       assert_template "rescues/routing_error"
 
-      post changeset_close_path(changeset), :headers => auth_header
+      post api_changeset_close_path(changeset), :headers => auth_header
       assert_response :not_found
       assert_template "rescues/routing_error"
     end
@@ -718,7 +718,7 @@ module Api
 
       # First try to do it with no auth
       cs_ids.each do |id|
-        put changeset_close_path(id)
+        put api_changeset_close_path(id)
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -727,7 +727,7 @@ module Api
       # Now try with auth
       auth_header = bearer_authorization_header
       cs_ids.each do |id|
-        put changeset_close_path(id), :headers => auth_header
+        put api_changeset_close_path(id), :headers => auth_header
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
