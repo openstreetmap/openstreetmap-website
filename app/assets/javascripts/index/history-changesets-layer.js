@@ -57,14 +57,26 @@ OSM.HistoryChangesetBboxBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
   }
 });
 
-OSM.HistoryChangesetBboxHighlightLayer = OSM.HistoryChangesetBboxLayer.extend({
+OSM.HistoryChangesetBboxHighlightBackLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
+    return {
+      interactive: false,
+      weight: 6,
+      color: "var(--changeset-outline-color)",
+      fillColor: "var(--changeset-fill-color)",
+      fillOpacity: 0.3,
+      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
+    };
+  }
+});
+
+OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
       weight: 4,
       color: "var(--changeset-border-color)",
-      fillColor: "var(--changeset-fill-color)",
-      fillOpacity: 0.3,
+      fill: false,
       className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
     };
   }
@@ -167,9 +179,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     if (!changeset) return;
 
     if (state) {
-      this._highlightLayer.addChangesetLayer(changeset);
+      this._highlightBackLayer.addChangesetLayer(changeset);
+      this._highlightBorderLayer.addChangesetLayer(changeset);
     } else {
-      this._highlightLayer.removeLayer(id);
+      this._highlightBackLayer.removeLayer(id);
+      this._highlightBorderLayer.removeLayer(id);
     }
   },
 
@@ -187,6 +201,7 @@ OSM.HistoryChangesetsLayer.addInitHook(function () {
     this._areaLayer = new OSM.HistoryChangesetBboxAreaLayer().addTo(this),
     this._outlineLayer = new OSM.HistoryChangesetBboxOutlineLayer().addTo(this),
     this._borderLayer = new OSM.HistoryChangesetBboxBorderLayer().addTo(this),
-    this._highlightLayer = new OSM.HistoryChangesetBboxHighlightLayer().addTo(this)
+    this._highlightBackLayer = new OSM.HistoryChangesetBboxHighlightBackLayer().addTo(this),
+    this._highlightBorderLayer = new OSM.HistoryChangesetBboxHighlightBorderLayer().addTo(this)
   ];
 });
