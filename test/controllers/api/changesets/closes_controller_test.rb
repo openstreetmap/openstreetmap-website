@@ -10,6 +10,10 @@ module Api
           { :path => "/api/0.6/changeset/1/close", :method => :put },
           { :controller => "api/changesets/closes", :action => "update", :changeset_id => "1" }
         )
+
+        assert_raises(ActionController::UrlGenerationError) do
+          put api_changeset_close_path(-132)
+        end
       end
 
       def test_update_when_unauthorized
@@ -75,14 +79,12 @@ module Api
       ##
       # check that you can't close a changeset that isn't found
       def test_update_not_found
-        cs_ids = [0, -132, "123"]
+        cs_ids = [0, "123"]
 
         # First try to do it with no auth
         cs_ids.each do |id|
           put api_changeset_close_path(id)
           assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
-        rescue ActionController::UrlGenerationError => e
-          assert_match(/No route matches/, e.to_s)
         end
 
         # Now try with auth
@@ -90,8 +92,6 @@ module Api
         cs_ids.each do |id|
           put api_changeset_close_path(id), :headers => auth_header
           assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
-        rescue ActionController::UrlGenerationError => e
-          assert_match(/No route matches/, e.to_s)
         end
       end
     end
