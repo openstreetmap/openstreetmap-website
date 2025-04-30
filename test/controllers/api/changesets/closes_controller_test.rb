@@ -12,34 +12,35 @@ module Api
         )
       end
 
-      ##
-      # test that the user who opened a change can close it
-      def test_update
-        private_user = create(:user, :data_public => false)
-        private_changeset = create(:changeset, :user => private_user)
-        user = create(:user)
-        changeset = create(:changeset, :user => user)
+      def test_update_when_unauthorized
+        changeset = create(:changeset)
 
-        ## Try without authentication
         put api_changeset_close_path(changeset)
+
         assert_response :unauthorized
+        assert_predicate changeset.reload, :open?
+      end
 
-        ## Try using the non-public user
-        auth_header = bearer_authorization_header private_user
-        put api_changeset_close_path(private_changeset), :headers => auth_header
-        assert_require_public_data
-
-        ## The try with the public user
+      def test_update_by_private_user
+        user = create(:user, :data_public => false)
+        changeset = create(:changeset, :user => user)
         auth_header = bearer_authorization_header user
 
-        cs_id = changeset.id
-        put api_changeset_close_path(cs_id), :headers => auth_header
-        assert_response :success
+        put api_changeset_close_path(changeset), :headers => auth_header
 
-        # test that it really is closed now
-        cs = Changeset.find(changeset.id)
-        assert_not(cs.open?,
-                   "changeset should be closed now (#{cs.closed_at} > #{Time.now.utc}.")
+        assert_require_public_data
+        assert_predicate changeset.reload, :open?
+      end
+
+      def test_update_by_changeset_creator
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+        auth_header = bearer_authorization_header user
+
+        put api_changeset_close_path(changeset), :headers => auth_header
+
+        assert_response :success
+        assert_not_predicate changeset.reload, :open?
       end
 
       ##
