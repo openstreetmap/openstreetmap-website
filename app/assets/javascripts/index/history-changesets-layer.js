@@ -81,9 +81,9 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
         changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
         changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
 
-        this._areaLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
-        this._borderLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
-        this._highlightLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        for (const layer of this._bboxLayers) {
+          layer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        }
       }
     }
   },
@@ -98,9 +98,9 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     });
     this._changesets = new Map(changesetEntries);
 
-    this._areaLayer.clearLayers();
-    this._borderLayer.clearLayers();
-    this._highlightLayer.clearLayers();
+    for (const layer of this._bboxLayers) {
+      layer.clearLayers();
+    }
 
     for (const changeset of this._changesets.values()) {
       const rect = L.rectangle(changeset.bounds, this._getAreaStyle(changeset));
@@ -138,11 +138,13 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 OSM.HistoryChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
 
-  this._areaLayer = L.featureGroup().addTo(this);
-  this._borderLayer = L.featureGroup().addTo(this);
-  this._highlightLayer = L.featureGroup().addTo(this);
+  this._bboxLayers = [
+    this._areaLayer = L.featureGroup().addTo(this),
+    this._borderLayer = L.featureGroup().addTo(this),
+    this._highlightLayer = L.featureGroup().addTo(this)
+  ];
 
-  this._areaLayer.getLayerId = (layer) => layer.id;
-  this._borderLayer.getLayerId = (layer) => layer.id;
-  this._highlightLayer.getLayerId = (layer) => layer.id;
+  for (const layer of this._bboxLayers) {
+    layer.getLayerId = (layer) => layer.id;
+  }
 });
