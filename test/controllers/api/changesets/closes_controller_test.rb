@@ -84,6 +84,31 @@ module Api
         assert_not_predicate changeset.reload, :open?
       end
 
+      def test_update_twice
+        user = create(:user)
+        auth_header = bearer_authorization_header user
+
+        freeze_time do
+          changeset = create(:changeset, :user => user)
+
+          travel 30.minutes
+          put api_changeset_close_path(changeset), :headers => auth_header
+
+          assert_response :success
+          changeset.reload
+          assert_not_predicate changeset, :open?
+          assert_equal 0.minutes.ago, changeset.closed_at
+
+          travel 30.minutes
+          put api_changeset_close_path(changeset), :headers => auth_header
+
+          assert_response :conflict
+          changeset.reload
+          assert_not_predicate changeset, :open?
+          assert_equal 30.minutes.ago, changeset.closed_at
+        end
+      end
+
       ##
       # test that you can't close using another method
       def test_update_method_invalid
