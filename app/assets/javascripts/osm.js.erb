@@ -89,9 +89,7 @@ OSM = {
 
     // Decide on a map starting position. Various ways of doing this.
     if (hash.center) {
-      mapParams.lon = hash.center.lng;
-      mapParams.lat = hash.center.lat;
-      mapParams.zoom = hash.zoom;
+      Object.assign(mapParams, hash);
     } else if (params.has("bbox")) {
       const [minlon, minlat, maxlon, maxlat] = params.get("bbox").split(",");
       mapParams.bounds = bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat });
@@ -159,22 +157,20 @@ OSM = {
   },
 
   parseHash: function (hash = location.hash) {
-    const args = {};
-
     const i = hash.indexOf("#");
-    if (i < 0) {
-      return args;
-    }
+    if (i < 0) return {};
 
-    const hashParams = new URLSearchParams(hash.slice(i + 1));
-
-    const map = (hashParams.get("map") || "").split("/"),
+    const hashParams = new URLSearchParams(hash.slice(i + 1)),
+          map = (hashParams.get("map") || "").split("/"),
           zoom = parseInt(map[0], 10),
           lat = parseFloat(map[1]),
-          lon = parseFloat(map[2]);
+          lon = parseFloat(map[2]),
+          args = {};
 
     if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
       args.center = new L.LatLng(lat, lon);
+      args.lat = lat;
+      args.lon = lon;
       args.zoom = zoom;
     }
 
