@@ -32,6 +32,18 @@ module Api
         assert_predicate changeset.reload, :open?
       end
 
+      def test_update_by_changeset_non_creator
+        user = create(:user)
+        changeset = create(:changeset)
+        auth_header = bearer_authorization_header user
+
+        put api_changeset_close_path(changeset), :headers => auth_header
+
+        assert_response :conflict
+        assert_equal "The user doesn't own that changeset", @response.body
+        assert_predicate changeset.reload, :open?
+      end
+
       def test_update_by_changeset_creator
         user = create(:user)
         changeset = create(:changeset, :user => user)
@@ -41,19 +53,6 @@ module Api
 
         assert_response :success
         assert_not_predicate changeset.reload, :open?
-      end
-
-      ##
-      # test that a different user can't close another user's changeset
-      def test_update_invalid
-        user = create(:user)
-        changeset = create(:changeset)
-
-        auth_header = bearer_authorization_header user
-
-        put api_changeset_close_path(changeset), :headers => auth_header
-        assert_response :conflict
-        assert_equal "The user doesn't own that changeset", @response.body
       end
 
       ##
