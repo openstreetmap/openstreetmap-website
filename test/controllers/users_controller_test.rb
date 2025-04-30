@@ -423,4 +423,33 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_equal expected_data, heatmap_data
     end
   end
+
+  def test_heatmap_headline_changset_zero
+    user = create(:user)
+
+    get user_path(user)
+
+    assert_response :success
+    assert_select "h2.text-body-secondary.fs-5", :count => 0
+  end
+
+  def test_heatmap_headline_changeset_singular
+    user = create(:user)
+    create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 1)
+
+    get user_path(user)
+
+    assert_response :success
+    assert_select "h2.text-body-secondary.fs-5", :text => "1 contribution in the last year"
+  end
+
+  def test_heatmap_headline_changeset_plural
+    user = create(:user)
+    create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 12)
+
+    get user_path(user)
+
+    assert_response :success
+    assert_select "h2.text-body-secondary.fs-5", :text => "12 contributions in the last year"
+  end
 end

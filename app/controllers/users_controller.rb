@@ -43,6 +43,8 @@ class UsersController < ApplicationController
             }
           end
       end
+
+      @changes_count = @heatmap_data.sum { |entry| entry[:total_changes] }
     else
       render_unknown_user params[:display_name]
     end
