@@ -6,12 +6,12 @@ module Api
 
     before_action :check_api_writable, :only => [:create, :update, :upload]
     before_action :setup_user_auth, :only => [:show]
-    before_action :authorize, :only => [:create, :update, :upload, :close]
+    before_action :authorize, :only => [:create, :update, :upload]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :upload, :close]
-    before_action :set_request_formats, :except => [:create, :close, :upload]
+    before_action :require_public_data, :only => [:create, :update, :upload]
+    before_action :set_request_formats, :except => [:create, :upload]
 
     skip_around_action :api_call_timeout, :only => [:upload]
 
@@ -85,22 +85,6 @@ module Api
       cs.subscribers << current_user
 
       render :plain => cs.id.to_s
-    end
-
-    ##
-    # marks a changeset as closed. this may be called multiple times
-    # on the same changeset, so is idempotent.
-    def close
-      changeset = Changeset.find(params[:id])
-      check_changeset_consistency(changeset, current_user)
-
-      # to close the changeset, we'll just set its closed_at time to
-      # now. this might not be enough if there are concurrency issues,
-      # but we'll have to wait and see.
-      changeset.set_closed_time_now
-
-      changeset.save!
-      head :ok
     end
 
     ##

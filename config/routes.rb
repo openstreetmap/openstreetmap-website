@@ -18,12 +18,12 @@ OpenStreetMap::Application.routes.draw do
     get "permissions" => "permissions#show"
 
     post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
-    put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
     resources :changesets, :only => [:index, :create]
     resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
+      resource :close, :module => :changesets, :only => :update
       resource :download, :module => :changesets, :only => :show
       resource :subscription, :controller => :changeset_subscriptions, :only => [:create, :destroy]
       resources :changeset_comments, :path => "comment", :only => :create
