@@ -8,7 +8,7 @@ OSM.Directions = function (map) {
   let lastLocation = [];
   let chosenEngine;
 
-  let scheduledRouteArguments = null;
+  let sidebarReadyPromise = null;
 
   const routeOutput = OSM.DirectionsRouteOutput(map);
 
@@ -88,15 +88,7 @@ OSM.Directions = function (map) {
     select.val(chosenEngine.provider);
   }
 
-  function getRoute(...routeArguments) {
-    if ($("#directions_route").length) {
-      getScheduledRoute(...routeArguments);
-    } else {
-      scheduledRouteArguments = routeArguments;
-    }
-  }
-
-  function getScheduledRoute(fitRoute, reportErrors) {
+  function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
 
@@ -115,13 +107,15 @@ OSM.Directions = function (map) {
     $("#directions_route").prop("hidden", true);
     map.setSidebarOverlaid(false);
     controller = new AbortController();
-    chosenEngine.getRoute(points, controller.signal).then(function (route) {
+    chosenEngine.getRoute(points, controller.signal).then(async function (route) {
+      await sidebarLoaded();
       $("#directions_route").prop("hidden", false);
       routeOutput.write(route);
       if (fitRoute) {
         routeOutput.fit();
       }
-    }).catch(function () {
+    }).catch(async function () {
+      await sidebarLoaded();
       routeOutput.remove();
       if (reportErrors) {
         $("#directions_error")
@@ -137,6 +131,7 @@ OSM.Directions = function (map) {
   function closeButtonListener(e) {
     e.stopPropagation();
     routeOutput.remove();
+    sidebarReadyPromise = null;
     map.setSidebarOverlaid(true);
     // TODO: collapse width of sidebar back to previous
   }
@@ -224,28 +219,23 @@ OSM.Directions = function (map) {
 
   const page = {};
 
-  page.pushstate = page.popstate = function () {
-    page.load();
+  function sidebarLoaded() {
+    if ($("#directions_route").length) {
+      sidebarReadyPromise = null;
+      return Promise.resolve();
+    }
+    if (sidebarReadyPromise) return sidebarReadyPromise;
+    sidebarReadyPromise = new Promise(resolve => OSM.loadSidebarContent("/directions", resolve));
+    return sidebarReadyPromise;
+  }
 
-    if ($("#directions_route").length) return;
-
-    OSM.loadSidebarContent("/directions", () => {
-      if (scheduledRouteArguments) {
-        getScheduledRoute(...scheduledRouteArguments);
-        scheduledRouteArguments = null;
-      }
-    });
-
-    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
-  };
-
-  page.load = function () {
+  page.pushstate = page.popstate = page.load = function () {
     initializeFromParams();
 
     $(".search_form").hide();
     $(".directions_form").show();
 
-    enableListeners();
+    sidebarLoaded().then(enableListeners);
 
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
@@ -266,7 +256,7 @@ OSM.Directions = function (map) {
 
     routeOutput.remove();
 
-    scheduledRouteArguments = null;
+    sidebarReadyPromise = null;
   };
 
   return page;
