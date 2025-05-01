@@ -33,95 +33,85 @@ $(function () {
       map.setView([0, 0], 0);
     }
 
-    if ($("#map").hasClass("set_location")) {
-      marker = L.marker([0, 0], {
-        icon: OSM.getMarker({}),
-        keyboard: false,
-        interactive: false
-      });
+    marker = L.marker([0, 0], {
+      icon: OSM.getMarker({}),
+      keyboard: false,
+      interactive: false
+    });
 
-      if (OSM.home) {
-        marker.setLatLng([OSM.home.lat, OSM.home.lon]);
-        marker.addTo(map);
+    if (OSM.home) {
+      marker.setLatLng([OSM.home.lat, OSM.home.lon]);
+      marker.addTo(map);
+    }
+
+    map.on("click", function (e) {
+      if (!$("#updatehome").is(":checked")) return;
+
+      const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
+
+      $("#home_lat").val(lat);
+      $("#home_lon").val(lon);
+
+      clearDeletedText();
+      respondToHomeLatLonUpdate();
+    }).on("moveend", function () {
+      const lat = $("#home_lat").val().trim(),
+            lon = $("#home_lon").val().trim();
+      let location;
+
+      try {
+        if (lat && lon) {
+          location = L.latLng(lat, lon);
+        }
+      } catch (error) {
+        // keep location undefined
       }
 
-      map.on("click", function (e) {
-        if (!$("#updatehome").is(":checked")) return;
+      $("#home_show").prop("disabled", !location || isCloseEnoughToMapCenter(location));
+    });
 
-        const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
+    $("#home_lat, #home_lon").on("input", function () {
+      clearDeletedText();
+      respondToHomeLatLonUpdate();
+    });
 
-        $("#home_lat").val(lat);
-        $("#home_lon").val(lon);
+    $("#home_location_name").on("input", function () {
+      homeLocationNameGeocoder.autofill = false;
+      clearDeletedText();
 
-        clearDeletedText();
-        respondToHomeLatLonUpdate();
-      }).on("moveend", function () {
-        const lat = $("#home_lat").val().trim(),
-              lon = $("#home_lon").val().trim();
-        let location;
+      respondToHomeLatLonUpdate(false);
+    });
 
-        try {
-          if (lat && lon) {
-            location = L.latLng(lat, lon);
-          }
-        } catch (error) {
-          // keep location undefined
-        }
+    $("#home_show").click(function () {
+      const lat = $("#home_lat").val(),
+            lon = $("#home_lon").val();
 
-        $("#home_show").prop("disabled", !location || isCloseEnoughToMapCenter(location));
-      });
+      map.setView([lat, lon], defaultHomeZoom);
+    });
 
-      $("#home_lat, #home_lon").on("input", function () {
-        clearDeletedText();
-        respondToHomeLatLonUpdate();
-      });
+    $("#home_delete").click(function () {
+      const lat = $("#home_lat").val(),
+            lon = $("#home_lon").val(),
+            locationName = $("#home_location_name").val();
 
-      $("#home_location_name").on("input", function () {
-        homeLocationNameGeocoder.autofill = false;
-        clearDeletedText();
+      $("#home_lat, #home_lon, #home_location_name").val("");
+      deleted_lat = lat;
+      deleted_lon = lon;
+      deleted_home_name = locationName;
 
-        respondToHomeLatLonUpdate(false);
-      });
+      respondToHomeLatLonUpdate(false);
+      $("#home_undelete").trigger("focus");
+    });
 
-      $("#home_show").click(function () {
-        const lat = $("#home_lat").val(),
-              lon = $("#home_lon").val();
+    $("#home_undelete").click(function () {
+      $("#home_lat").val(deleted_lat);
+      $("#home_lon").val(deleted_lon);
+      $("#home_location_name").val(deleted_home_name);
+      clearDeletedText();
 
-        map.setView([lat, lon], defaultHomeZoom);
-      });
-
-      $("#home_delete").click(function () {
-        const lat = $("#home_lat").val(),
-              lon = $("#home_lon").val(),
-              locationName = $("#home_location_name").val();
-
-        $("#home_lat, #home_lon, #home_location_name").val("");
-        deleted_lat = lat;
-        deleted_lon = lon;
-        deleted_home_name = locationName;
-
-        respondToHomeLatLonUpdate(false);
-        $("#home_undelete").trigger("focus");
-      });
-
-      $("#home_undelete").click(function () {
-        $("#home_lat").val(deleted_lat);
-        $("#home_lon").val(deleted_lon);
-        $("#home_location_name").val(deleted_home_name);
-        clearDeletedText();
-
-        respondToHomeLatLonUpdate(false);
-        $("#home_delete").trigger("focus");
-      });
-    } else {
-      $("[data-user]").each(function () {
-        const user = $(this).data("user");
-        if (user.lon && user.lat) {
-          L.marker([user.lat, user.lon], { icon: OSM.getMarker({ icon: user.icon }) }).addTo(map)
-            .bindPopup(user.description, { minWidth: 200 });
-        }
-      });
-    }
+      respondToHomeLatLonUpdate(false);
+      $("#home_delete").trigger("focus");
+    });
   }
 
   function respondToHomeLatLonUpdate(updateLocationName = true) {

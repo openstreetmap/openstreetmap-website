@@ -49,4 +49,25 @@ class DashboardSystemTest < ApplicationSystemTestCase
       assert_link "Unfollow", :below => followings_heading, :above => others_nearby_heading
     end
   end
+
+  test "show map with home marker if home location is set" do
+    user = create(:user, :display_name => "Fred Tester", :home_lon => 1.1, :home_lat => 1.1)
+    sign_in_as(user)
+
+    visit dashboard_path
+
+    within "#map" do
+      assert_no_text "Your location"
+      assert_no_link "Fred Tester"
+
+      find("img.leaflet-marker-icon").click
+
+      assert_text "Your location"
+      assert_link "Fred Tester"
+
+      click_on "Fred Tester"
+    end
+
+    assert_current_path user_path(user)
+  end
 end
