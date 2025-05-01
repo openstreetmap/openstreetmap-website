@@ -11,6 +11,7 @@
 //= require @maplibre/maplibre-gl-leaflet
 //= require ohm.style
 //= require leaflet-ohm-timeslider.js
+//= require @openhistoricalmap/maplibre-gl-language
 //= require decimaldate.js
 //= require leaflet.map
 //= require leaflet.zoom

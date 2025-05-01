@@ -63,9 +63,26 @@ L.OSM.layers = function (options) {
       });
 
       input.on("click", function () {
+        console.info(`preferred_languages: ${OSM.preferred_languages}`);
         layers.forEach(function (other) {
           if (other === layer) {
             map.addLayer(other);
+            if (other.options.style.name.match(/^ohm/)) {
+              const language = new MapboxLanguage({
+                defaultLanguage: 'mul'
+              });
+              for (let i=0; i<OSM.preferred_languages.length; i++) {
+                console.info(`i: ${i} ${OSM.preferred_languages[i]}`);
+                if (language.supportedLanguages.includes(OSM.preferred_languages[i])) {
+                  console.info(`found language: ${OSM.preferred_languages[i]}`);
+                  other.getMaplibreMap().setStyle(language.setLanguage(other.getMaplibreMap().getStyle(), OSM.preferred_languages[i]));
+                  break
+                }
+              }
+              console.info(`language: ${JSON.stringify(language)}`);
+
+              // console.info(`added to ${other.options.style.name}`)
+            }
           } else {
             map.removeLayer(other);
           }
