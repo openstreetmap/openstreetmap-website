@@ -1,4 +1,19 @@
-OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
+OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
+  getLayerId: function (layer) {
+    return layer.id;
+  },
+
+  addChangesetLayer: function (changeset) {
+    const style = this._getChangesetStyle(changeset);
+    const rectangle = L.rectangle(changeset.bounds, style);
+    rectangle.id = changeset.id;
+    return this.addLayer(rectangle);
+  },
+
+  updateChangesetLayerBounds: function (changeset) {
+    this.getLayer(changeset.id)?.setBounds(changeset.bounds);
+  },
+
   _getSidebarRelativeClassName: function ({ sidebarRelativePosition }) {
     if (sidebarRelativePosition > 0) {
       return "changeset-above-sidebar-viewport";
@@ -7,36 +22,67 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     } else {
       return "changeset-in-sidebar-viewport";
     }
-  },
+  }
+});
 
-  _getAreaStyle: function (changeset) {
+OSM.HistoryChangesetBboxAreaLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
     return {
       weight: 0,
       fillOpacity: 0,
       className: this._getSidebarRelativeClassName(changeset)
     };
-  },
+  }
+});
 
-  _getBorderStyle: function (changeset) {
+OSM.HistoryChangesetBboxOutlineLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
+    return {
+      weight: 4,
+      color: "var(--changeset-outline-color)",
+      fill: false,
+      className: this._getSidebarRelativeClassName(changeset)
+    };
+  }
+});
+
+OSM.HistoryChangesetBboxBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
     return {
       weight: 2,
       color: "var(--changeset-border-color)",
       fill: false,
       className: this._getSidebarRelativeClassName(changeset)
     };
-  },
+  }
+});
 
-  _getHighlightStyle: function (changeset) {
+OSM.HistoryChangesetBboxHighlightBackLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
-      weight: 4,
-      color: "var(--changeset-border-color)",
+      weight: 6,
+      color: "var(--changeset-outline-color)",
       fillColor: "var(--changeset-fill-color)",
       fillOpacity: 0.3,
       className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
     };
-  },
+  }
+});
 
+OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
+  _getChangesetStyle: function (changeset) {
+    return {
+      interactive: false,
+      weight: 4,
+      color: "var(--changeset-border-color)",
+      fill: false,
+      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
+    };
+  }
+});
+
+OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   updateChangesets: function (map, changesets) {
     this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
     this.updateChangesetShapes(map);
@@ -81,37 +127,50 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
         changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
         changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
 
-        this._areaLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
-        this._borderLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
-        this._highlightLayer.getLayer(changeset.id)?.setBounds(changeset.bounds);
+        for (const layer of this._bboxLayers) {
+          layer.updateChangesetLayerBounds(changeset);
+        }
       }
     }
   },
 
   reorderChangesets: function () {
     const changesetEntries = [...this._changesets];
-    changesetEntries.sort(([, a], [, b]) => {
-      const aInViewport = !a.sidebarRelativePosition;
-      const bInViewport = !b.sidebarRelativePosition;
-      if (aInViewport !== bInViewport) return aInViewport - bInViewport;
-      return b.bounds.getSize() - a.bounds.getSize();
-    });
+    changesetEntries.sort(([, a], [, b]) => b.bounds.getSize() - a.bounds.getSize());
     this._changesets = new Map(changesetEntries);
 
-    this._areaLayer.clearLayers();
-    this._borderLayer.clearLayers();
-    this._highlightLayer.clearLayers();
-
-    for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._getAreaStyle(changeset));
-      rect.id = changeset.id;
-      rect.addTo(this._areaLayer);
+    for (const layer of this._bboxLayers) {
+      layer.clearLayers();
     }
 
     for (const changeset of this._changesets.values()) {
-      const rect = L.rectangle(changeset.bounds, this._getBorderStyle(changeset));
-      rect.id = changeset.id;
-      rect.addTo(this._borderLayer);
+      if (changeset.sidebarRelativePosition !== 0) {
+        this._areaLayer.addChangesetLayer(changeset);
+      }
+    }
+
+    for (const changeset of this._changesets.values()) {
+      if (changeset.sidebarRelativePosition === 0) {
+        this._areaLayer.addChangesetLayer(changeset);
+      }
+    }
+
+    for (const changeset of this._changesets.values()) {
+      if (changeset.sidebarRelativePosition !== 0) {
+        this._borderLayer.addChangesetLayer(changeset);
+      }
+    }
+
+    for (const changeset of this._changesets.values()) {
+      if (changeset.sidebarRelativePosition === 0) {
+        this._outlineLayer.addChangesetLayer(changeset);
+      }
+    }
+
+    for (const changeset of this._changesets.values()) {
+      if (changeset.sidebarRelativePosition === 0) {
+        this._borderLayer.addChangesetLayer(changeset);
+      }
     }
   },
 
@@ -119,14 +178,12 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
 
-    let highlightRect = this._highlightLayer.getLayer(id);
-    if (!state && highlightRect) {
-      this._highlightLayer.removeLayer(highlightRect);
-    }
-    if (state && !highlightRect) {
-      highlightRect = L.rectangle(changeset.bounds, this._getHighlightStyle(changeset));
-      highlightRect.id = id;
-      this._highlightLayer.addLayer(highlightRect);
+    if (state) {
+      this._highlightBackLayer.addChangesetLayer(changeset);
+      this._highlightBorderLayer.addChangesetLayer(changeset);
+    } else {
+      this._highlightBackLayer.removeLayer(id);
+      this._highlightBorderLayer.removeLayer(id);
     }
   },
 
@@ -140,11 +197,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 OSM.HistoryChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
 
-  this._areaLayer = L.featureGroup().addTo(this);
-  this._borderLayer = L.featureGroup().addTo(this);
-  this._highlightLayer = L.featureGroup().addTo(this);
-
-  this._areaLayer.getLayerId = (layer) => layer.id;
-  this._borderLayer.getLayerId = (layer) => layer.id;
-  this._highlightLayer.getLayerId = (layer) => layer.id;
+  this._bboxLayers = [
+    this._areaLayer = new OSM.HistoryChangesetBboxAreaLayer().addTo(this),
+    this._outlineLayer = new OSM.HistoryChangesetBboxOutlineLayer().addTo(this),
+    this._borderLayer = new OSM.HistoryChangesetBboxBorderLayer().addTo(this),
+    this._highlightBackLayer = new OSM.HistoryChangesetBboxHighlightBackLayer().addTo(this),
+    this._highlightBorderLayer = new OSM.HistoryChangesetBboxHighlightBorderLayer().addTo(this)
+  ];
 });
