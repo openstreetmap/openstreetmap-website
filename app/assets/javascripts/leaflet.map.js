@@ -379,7 +379,7 @@ OSM.isDarkMap = function () {
 
 OSM.getMarker = function ({ icon = "MARKER_RED", shadow = true, height = 41 }) {
   const options = {
-    iconUrl: OSM[icon.toUpperCase()] || OSM.MARKER_RED,
+    iconUrl: OSM[icon] || OSM.MARKER_RED,
     iconSize: [25, height],
     iconAnchor: [12, height],
     popupAnchor: [1, -34]
@@ -390,4 +390,10 @@ OSM.getMarker = function ({ icon = "MARKER_RED", shadow = true, height = 41 }) {
     options.shadowAnchor = [12, 41];
   }
   return L.icon(options);
+};
+
+OSM.noteMarkers = {
+  "closed": OSM.getMarker({ icon: "CLOSED_NOTE_MARKER", shadow: false, height: 40 }),
+  "new": OSM.getMarker({ icon: "NEW_NOTE_MARKER", shadow: false, height: 40 }),
+  "open": OSM.getMarker({ icon: "OPEN_NOTE_MARKER", shadow: false, height: 40 })
 };
