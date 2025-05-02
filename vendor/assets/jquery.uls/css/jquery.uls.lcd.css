@@ -1,0 +1,140 @@
+/*
+ * Language Category Display (LCD) consists of multiple sections:
+ * - one to display when there are no search results (which might display suggested languages)
+ * - one for each region of the world, plus regions for world languages and suggested languages
+ * The regions consist of one or more rows (blocks) which consist of one-to-four columns. Each
+ * column is an ul element, and contains up to 8 li elements, each containing a link.
+ */
+
+.uls-lcd {
+	background-color: #fcfcfc;
+	height: 20em;
+	/* Work around Chrome bug where it places scrollbar on the left in
+	 * in RTL mode but actually reserves the place on the right side */
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: auto;
+	padding: 0 16px;
+}
+
+.uls-lcd-region-title {
+	color: #555;
+	font-size: 1em;
+	padding-left: 28px;
+}
+
+.uls-lcd--no-quicklist [ data-region='all' ] .uls-lcd-region-title {
+	display: none;
+}
+
+.uls-lcd-region-section {
+	margin-top: 10px;
+}
+
+/*
+ * We need to have this as a grid row to push rest of the content below it, but resetting
+ * padding and margin so that calculating them for children is easier.
+ */
+.grid .uls-language-block.row {
+	padding: 0;
+	margin: 0;
+}
+
+.uls-language-block > ul {
+	/*
+	 * We don't want any visible bullets in this list. Not by default anyway.
+	 * Using very unspecific selector here to allow other classes to override.
+	 * Bug because overflow: hidden is incompatible with bullets, also render
+	 * the bullets inside the list in case there should be any.
+	 */
+	list-style: none none;
+}
+
+/*
+ * Each block should have 16px padding on both sides. But because we already gave
+ * 16px for the whole menu, we need to remove it for first and last items the blocks.
+ */
+.grid .uls-language-block > ul {
+	margin: 0 0 20px 0;
+	padding: 0 16px;
+}
+
+.grid .uls-language-block > ul:first-child {
+	padding-left: 0;
+}
+
+.grid .uls-language-block > ul:last-child {
+	padding-right: 0;
+}
+
+.uls-language-block > ul > li {
+	margin-left: 20px;
+	padding: 0;
+	/*
+	 * The directionality (ltr/rtl) for each list item is set dynamically
+	 * as HTML attributes in JavaScript. Setting directionality also applies
+	 * alignment, but a list with mixed alignment is hard to read.
+	 * All items are therefore explicitly aligned to the left, including names
+	 * of right-to-left languages in left-to-right environment and vice versa.
+	 * As long as the directionality of the item is set correctly, the text
+	 * is readable.
+	 */
+	text-align: left;
+}
+
+.uls-language-block > ul > li:hover {
+	background-color: #eaeff7;
+}
+
+.uls-language-block a {
+	cursor: pointer;
+	text-decoration: none;
+	color: #36c;
+	font-size: 1em;
+	display: inline-block;
+	width: 100%;
+	overflow-x: hidden;
+	padding: 8px;
+	/*
+	 * Some languages have long names for various reasons and we still want
+	 * them to appear on one line.
+	 * To make it work correctly, the directionality must be set correctly
+	 * on the item level.
+	 */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+.uls-no-results-view {
+	display: none;
+}
+
+.uls-lcd.uls-no-results > .uls-lcd-region-section {
+	display: none;
+}
+
+.uls-lcd.uls-no-results > .uls-no-results-view {
+	display: block;
+}
+
+.uls-no-results-found-title {
+	font-size: 1.143em;
+	padding: 0 16px 0 28px;
+	margin: 20px 0;
+	border-bottom: 0;
+	color: #54595d;
+}
+
+.uls-no-found-more {
+	border-top: 1px solid #eaecf0;
+	color: #54595d;
+	padding: 12px 16px 12px 44px;
+	font-size: 0.9em;
+	width: 100%;
+	margin-top: 1.6em;
+	line-height: 1.6;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
