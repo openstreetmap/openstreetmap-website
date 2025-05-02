@@ -8,7 +8,7 @@ class NoteLayerTest < ApplicationSystemTestCase
     end
 
     visit root_path(:anchor => "map=18/1.1/1.1&layers=N")
-    all "img.leaflet-marker-icon", :count => 1 do |marker|
+    all ".leaflet-marker-icon", :count => 1 do |marker|
       assert_equal "Note description", marker["title"]
     end
   end
@@ -21,7 +21,7 @@ class NoteLayerTest < ApplicationSystemTestCase
     end
 
     visit root_path(:anchor => "map=18/1.1/1.1&layers=N")
-    all "img.leaflet-marker-icon", :count => 1 do |marker|
+    all ".leaflet-marker-icon", :count => 1 do |marker|
       assert_equal "", marker["title"]
     end
   end
@@ -33,7 +33,7 @@ class NoteLayerTest < ApplicationSystemTestCase
     end
 
     visit root_path(:anchor => "map=18/1.1/1.1&layers=N")
-    all "img.leaflet-marker-icon", :count => 1 do |marker|
+    all ".leaflet-marker-icon", :count => 1 do |marker|
       assert_equal "", marker["title"]
     end
   end
