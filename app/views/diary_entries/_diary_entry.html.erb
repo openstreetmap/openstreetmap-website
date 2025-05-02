@@ -41,12 +41,12 @@
         </li>
       <% end %>
 
-      <% if can? :hide, DiaryEntry %>
+      <% if can? :hide, diary_entry %>
         <li>
           <% if diary_entry.visible %>
-            <%= link_to t(".hide_link"), hide_diary_entry_path(diary_entry.user, diary_entry), :method => :post, :data => { :confirm => t(".confirm") } %>
+            <%= link_to t(".delete_link"), hide_diary_entry_path(diary_entry.user, diary_entry), :method => :post, :data => { :confirm => t(".confirm") } %>
           <% else %>
-            <%= link_to t(".unhide_link"), unhide_diary_entry_path(diary_entry.user, diary_entry), :method => :post, :data => { :confirm => t(".confirm") } %>
+            <%= link_to t(".restore_link"), unhide_diary_entry_path(diary_entry.user, diary_entry), :method => :post, :data => { :confirm => t(".confirm") } %>
           <% end %>
         </li>
       <% end %>
