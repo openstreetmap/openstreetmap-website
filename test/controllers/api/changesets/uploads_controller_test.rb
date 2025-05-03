@@ -715,6 +715,24 @@ module Api
         assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
       end
 
+      def test_upload_modify_unknown_node_placeholder
+        check_upload_results_in_not_found do |changeset|
+          "<modify><node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/></modify>"
+        end
+      end
+
+      def test_upload_modify_unknown_way_placeholder
+        check_upload_results_in_not_found do |changeset|
+          "<modify><way id='-1' changeset='#{changeset.id}' version='1'/></modify>"
+        end
+      end
+
+      def test_upload_modify_unknown_relation_placeholder
+        check_upload_results_in_not_found do |changeset|
+          "<modify><relation id='-1' changeset='#{changeset.id}' version='1'/></modify>"
+        end
+      end
+
       # -------------------------------------
       # Test deleting elements.
       # -------------------------------------
@@ -910,6 +928,24 @@ module Api
         assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", @response.body
       end
 
+      def test_upload_delete_unknown_node_placeholder
+        check_upload_results_in_not_found do |changeset|
+          "<delete><node id='-1' changeset='#{changeset.id}' version='1'/></delete>"
+        end
+      end
+
+      def test_upload_delete_unknown_way_placeholder
+        check_upload_results_in_not_found do |changeset|
+          "<delete><way id='-1' changeset='#{changeset.id}' version='1'/></delete>"
+        end
+      end
+
+      def test_upload_delete_unknown_relation_placeholder
+        check_upload_results_in_not_found do |changeset|
+          "<delete><relation id='-1' changeset='#{changeset.id}' version='1'/></delete>"
+        end
+      end
+
       # -------------------------------------
       # Test combined element changes.
       # -------------------------------------
@@ -1060,6 +1096,20 @@ module Api
         node = Node.last
         assert_equal 2, node.version
         assert_not node.visible
+      end
+
+      private
+
+      def check_upload_results_in_not_found(&)
+        changeset = create(:changeset)
+        diff = "<osmChange>#{yield changeset}</osmChange>"
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :not_found
+        changeset.reload
+        assert_equal 0, changeset.num_changes
       end
     end
   end
