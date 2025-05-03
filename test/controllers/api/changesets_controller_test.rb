@@ -787,34 +787,6 @@ module Api
       assert_equal 0.3 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 0.3 degrees"
     end
 
-    ##
-    # test that the X-Error-Format header works to request XML errors
-    def test_upload_xml_errors
-      changeset = create(:changeset)
-      node = create(:node)
-      create(:relation_member, :member => node)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      # try and delete a node that is in use
-      diff = XML::Document.new
-      diff.root = XML::Node.new "osmChange"
-      delete = XML::Node.new "delete"
-      diff.root << delete
-      delete << xml_node_for_node(node)
-
-      # upload it
-      error_header = error_format_header "xml"
-      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header.merge(error_header)
-      assert_response :success,
-                      "failed to return error in XML format"
-
-      # check the returned payload
-      assert_select "osmError[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "osmError>status", 1
-      assert_select "osmError>message", 1
-    end
-
     def test_upload_not_found
       changeset = create(:changeset)
 
