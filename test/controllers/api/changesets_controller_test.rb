@@ -770,25 +770,6 @@ module Api
     end
 
     ##
-    # try to upload with commands other than create, modify, or delete
-    def test_action_upload_invalid
-      changeset = create(:changeset)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      diff = <<~CHANGESET
-        <osmChange>
-          <ping>
-           <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
-          </ping>
-        </osmChange>
-      CHANGESET
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
-      assert_equal("Unknown action ping, choices are create, modify, delete", @response.body)
-    end
-
-    ##
     # test that a placeholder can be reused within the same upload.
     def test_upload_reuse_placeholder_valid
       changeset = create(:changeset)

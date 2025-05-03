@@ -125,6 +125,27 @@ module Api
         assert_equal 1 * GeoRecord::SCALE, node.longitude
       end
 
+      ##
+      # try to upload with commands other than create, modify, or delete
+      def test_upload_unknown_action
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <ping>
+              <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
+            </ping>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :bad_request
+        assert_equal "Unknown action ping, choices are create, modify, delete", @response.body
+      end
+
       # -------------------------------------
       # Test creating elements.
       # -------------------------------------
