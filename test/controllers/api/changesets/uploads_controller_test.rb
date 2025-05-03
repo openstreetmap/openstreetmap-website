@@ -490,6 +490,167 @@ module Api
         assert_equal [["Way", way.id, "some"], ["Node", node.id, "some"], ["Relation", other_relation.id, "some"]], relation.members
       end
 
+      ##
+      # upload multiple versions of the same element in the same diff.
+      def test_upload_modify_multiple_node_versions
+        node = create(:node)
+        changeset = create(:changeset)
+
+        # change the location of a node multiple times, each time referencing
+        # the last version. doesn't this depend on version numbers being
+        # sequential?
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node.id}' lon='0.0' lat='0.0' changeset='#{changeset.id}' version='1'/>
+              <node id='#{node.id}' lon='0.1' lat='0.0' changeset='#{changeset.id}' version='2'/>
+              <node id='#{node.id}' lon='0.1' lat='0.1' changeset='#{changeset.id}' version='3'/>
+              <node id='#{node.id}' lon='0.1' lat='0.2' changeset='#{changeset.id}' version='4'/>
+              <node id='#{node.id}' lon='0.2' lat='0.2' changeset='#{changeset.id}' version='5'/>
+              <node id='#{node.id}' lon='0.3' lat='0.2' changeset='#{changeset.id}' version='6'/>
+              <node id='#{node.id}' lon='0.3' lat='0.3' changeset='#{changeset.id}' version='7'/>
+              <node id='#{node.id}' lon='0.9' lat='0.9' changeset='#{changeset.id}' version='8'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        assert_dom "diffResult>node", 8
+
+        node.reload
+        assert_equal 9, node.version
+        assert_equal 0.9 * GeoRecord::SCALE, node.latitude
+        assert_equal 0.9 * GeoRecord::SCALE, node.longitude
+      end
+
+      ##
+      # upload multiple versions of the same element in the same diff, but
+      # keep the version numbers the same.
+      def test_upload_modify_duplicate_node_versions
+        node = create(:node, :latitude => 0, :longitude => 0)
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+              <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset.id}' version='1'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :conflict
+
+        node.reload
+        assert_equal 1, node.version
+        assert_equal 0, node.latitude
+        assert_equal 0, node.longitude
+      end
+
+      ##
+      # try to upload some elements without specifying the version
+      def test_upload_modify_missing_node_version
+        node = create(:node, :latitude => 0, :longitude => 0)
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :bad_request
+
+        node.reload
+        assert_equal 1, node.version
+        assert_equal 0, node.latitude
+        assert_equal 0, node.longitude
+      end
+
+      ##
+      # create a diff which references several changesets, which should cause
+      # a rollback and none of the diff gets committed
+      def test_upload_modify_with_references_to_different_changesets
+        changeset1 = create(:changeset)
+        changeset2 = create(:changeset, :user => changeset1.user)
+        node1 = create(:node)
+        node2 = create(:node)
+
+        # simple diff to create a node way and relation using placeholders
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node1.id}' lon='0' lat='0' changeset='#{changeset1.id}' version='1'/>
+            </modify>
+            <modify>
+              <node id='#{node2.id}' lon='0' lat='0' changeset='#{changeset2.id}' version='1'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset1.user
+
+        post api_changeset_upload_path(changeset1), :params => diff, :headers => auth_header
+
+        assert_response :conflict
+
+        assert_nodes_are_equal(node1, Node.find(node1.id))
+        assert_nodes_are_equal(node2, Node.find(node2.id))
+      end
+
+      ##
+      # upload a valid changeset which has a mixture of whitespace
+      # to check a bug https://github.com/openstreetmap/trac-tickets/issues/1565
+      def test_upload_modify_with_mixed_whitespace
+        changeset = create(:changeset)
+        node = create(:node)
+        way = create(:way_with_nodes, :nodes_count => 2)
+        relation = create(:relation)
+        other_relation = create(:relation)
+        create(:relation_tag, :relation => relation)
+
+        diff = <<~CHANGESET
+          <osmChange>
+          <modify><node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}'
+            version='1'></node>
+            <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='2'><tag k='k' v='v'/></node></modify>
+          <modify>
+          <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'><member
+            type='way' role='some' ref='#{way.id}'/><member
+              type='node' role='some' ref='#{node.id}'/>
+            <member type='relation' role='some' ref='#{other_relation.id}'/>
+            </relation>
+          </modify></osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        assert_dom "diffResult>node", 2
+        assert_dom "diffResult>relation", 1
+
+        assert_equal 1, Node.find(node.id).tags.size, "node #{node.id} should now have one tag"
+        assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
+      end
+
       # -------------------------------------
       # Test deleting elements.
       # -------------------------------------
