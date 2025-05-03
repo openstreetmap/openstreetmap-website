@@ -63,6 +63,68 @@ module Api
         assert_equal 0, node.longitude
       end
 
+      def test_upload_without_required_scope
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+        node = create(:node, :latitude => 0, :longitude => 0)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset.id}' version='1'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user, :scopes => %w[read_prefs]
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :forbidden
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        node.reload
+        assert_equal 1, node.version
+        assert_equal 0, node.latitude
+        assert_equal 0, node.longitude
+      end
+
+      def test_upload_with_required_scope
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+        node = create(:node, :latitude => 0, :longitude => 0)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset.id}' version='1'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user, :scopes => %w[write_api]
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+          assert_dom "> node", 1 do
+            assert_dom "> @old_id", node.id.to_s
+            assert_dom "> @new_id", node.id.to_s
+            assert_dom "> @new_version", "2"
+          end
+        end
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        node.reload
+        assert_equal 2, node.version
+        assert_equal 2 * GeoRecord::SCALE, node.latitude
+        assert_equal 1 * GeoRecord::SCALE, node.longitude
+      end
+
       # -------------------------------------
       # Test modifying elements.
       # -------------------------------------
