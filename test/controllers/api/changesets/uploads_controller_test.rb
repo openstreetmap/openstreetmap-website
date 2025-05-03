@@ -489,6 +489,201 @@ module Api
         assert_equal 0, relation.tags.size, "relation #{relation.id} should now have no tags"
         assert_equal [["Way", way.id, "some"], ["Node", node.id, "some"], ["Relation", other_relation.id, "some"]], relation.members
       end
+
+      # -------------------------------------
+      # Test deleting elements.
+      # -------------------------------------
+
+      ##
+      # test a complex delete where we delete elements which rely on each other
+      # in the same transaction.
+      def test_upload_delete_elements
+        changeset = create(:changeset)
+        super_relation = create(:relation)
+        used_relation = create(:relation)
+        used_way = create(:way)
+        used_node = create(:node)
+        create(:relation_member, :relation => super_relation, :member => used_relation)
+        create(:relation_member, :relation => super_relation, :member => used_way)
+        create(:relation_member, :relation => super_relation, :member => used_node)
+
+        diff = XML::Document.new
+        diff.root = XML::Node.new "osmChange"
+        delete = XML::Node.new "delete"
+        diff.root << delete
+        delete << xml_node_for_relation(super_relation)
+        delete << xml_node_for_relation(used_relation)
+        delete << xml_node_for_way(used_way)
+        delete << xml_node_for_node(used_node)
+        %w[node way relation].each do |type|
+          delete.find("//osmChange/delete/#{type}").each do |n|
+            n["changeset"] = changeset.id.to_s
+          end
+        end
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+
+        assert_response :success
+
+        assert_dom "diffResult", 1 do
+          assert_dom "> node", 1
+          assert_dom "> way", 1
+          assert_dom "> relation", 2
+        end
+
+        assert_not Node.find(used_node.id).visible
+        assert_not Way.find(used_way.id).visible
+        assert_not Relation.find(super_relation.id).visible
+        assert_not Relation.find(used_relation.id).visible
+      end
+
+      ##
+      # test uploading a delete with no lat/lon, as they are optional in the osmChange spec.
+      def test_upload_delete_node_without_latlon
+        node = create(:node)
+        changeset = create(:changeset)
+
+        diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{changeset.id}'/></delete></osmChange>"
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        assert_dom "diffResult", 1 do
+          assert_dom "> node", 1 do
+            assert_dom "> @old_id", node.id.to_s
+            assert_dom "> @new_id", 0
+            assert_dom "> @new_version", 0
+          end
+        end
+
+        node.reload
+        assert_not node.visible
+      end
+
+      ##
+      # test that deleting stuff in a transaction doesn't bypass the checks
+      # to ensure that used elements are not deleted.
+      def test_upload_delete_referenced_elements
+        changeset = create(:changeset)
+        relation = create(:relation)
+        other_relation = create(:relation)
+        used_way = create(:way)
+        used_node = create(:node)
+        create(:relation_member, :relation => relation, :member => used_way)
+        create(:relation_member, :relation => relation, :member => used_node)
+
+        diff = XML::Document.new
+        diff.root = XML::Node.new "osmChange"
+        delete = XML::Node.new "delete"
+        diff.root << delete
+        delete << xml_node_for_relation(other_relation)
+        delete << xml_node_for_way(used_way)
+        delete << xml_node_for_node(used_node)
+        %w[node way relation].each do |type|
+          delete.find("//osmChange/delete/#{type}").each do |n|
+            n["changeset"] = changeset.id.to_s
+          end
+        end
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+
+        assert_response :precondition_failed
+        assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
+
+        assert Node.find(used_node.id).visible
+        assert Way.find(used_way.id).visible
+        assert Relation.find(relation.id).visible
+        assert Relation.find(other_relation.id).visible
+      end
+
+      ##
+      # test that a conditional delete of an in use object works.
+      def test_upload_delete_if_unused
+        changeset = create(:changeset)
+        super_relation = create(:relation)
+        used_relation = create(:relation)
+        used_way = create(:way)
+        used_node = create(:node)
+        create(:relation_member, :relation => super_relation, :member => used_relation)
+        create(:relation_member, :relation => super_relation, :member => used_way)
+        create(:relation_member, :relation => super_relation, :member => used_node)
+
+        diff = XML::Document.new
+        diff.root = XML::Node.new "osmChange"
+        delete = XML::Node.new "delete"
+        diff.root << delete
+        delete["if-unused"] = ""
+        delete << xml_node_for_relation(used_relation)
+        delete << xml_node_for_way(used_way)
+        delete << xml_node_for_node(used_node)
+        %w[node way relation].each do |type|
+          delete.find("//osmChange/delete/#{type}").each do |n|
+            n["changeset"] = changeset.id.to_s
+          end
+        end
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+
+        assert_response :success
+
+        assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+          assert_dom "> node", 1 do
+            assert_dom "> @old_id", used_node.id.to_s
+            assert_dom "> @new_id", used_node.id.to_s
+            assert_dom "> @new_version", used_node.version.to_s
+          end
+          assert_dom "> way", 1 do
+            assert_dom "> @old_id", used_way.id.to_s
+            assert_dom "> @new_id", used_way.id.to_s
+            assert_dom "> @new_version", used_way.version.to_s
+          end
+          assert_dom "> relation", 1 do
+            assert_dom "> @old_id", used_relation.id.to_s
+            assert_dom "> @new_id", used_relation.id.to_s
+            assert_dom "> @new_version", used_relation.version.to_s
+          end
+        end
+
+        assert Node.find(used_node.id).visible
+        assert Way.find(used_way.id).visible
+        assert Relation.find(used_relation.id).visible
+      end
+
+      def test_upload_delete_with_multiple_blocks_and_if_unused
+        changeset = create(:changeset)
+        node = create(:node)
+        way = create(:way)
+        create(:way_node, :way => way, :node => node)
+        alone_node = create(:node)
+
+        diff = <<~CHANGESET
+          <osmChange version='0.6'>
+            <delete version="0.6">
+              <node id="#{node.id}" version="#{node.version}" changeset="#{changeset.id}"/>
+            </delete>
+            <delete version="0.6" if-unused="true">
+              <node id="#{alone_node.id}" version="#{alone_node.version}" changeset="#{changeset.id}"/>
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+
+        assert_response :precondition_failed
+
+        assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", @response.body
+      end
     end
   end
 end
