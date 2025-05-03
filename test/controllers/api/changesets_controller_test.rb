@@ -644,73 +644,6 @@ module Api
     end
 
     ##
-    # upload something which creates new objects using placeholders
-    def test_upload_create_valid
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      node = create(:node)
-      way = create(:way_with_nodes, :nodes_count => 2)
-      relation = create(:relation)
-
-      auth_header = bearer_authorization_header user
-
-      # simple diff to create a node way and relation using placeholders
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
-           <tag k='foo' v='bar'/>
-           <tag k='baz' v='bat'/>
-          </node>
-          <way id='-1' changeset='#{changeset.id}'>
-           <nd ref='#{node.id}'/>
-          </way>
-         </create>
-         <create>
-          <relation id='-1' changeset='#{changeset.id}'>
-           <member type='way' role='some' ref='#{way.id}'/>
-           <member type='node' role='some' ref='#{node.id}'/>
-           <member type='relation' role='some' ref='#{relation.id}'/>
-          </relation>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :success,
-                      "can't upload a simple valid creation to changeset: #{@response.body}"
-
-      # check the returned payload
-      new_node_id, new_way_id, new_rel_id = nil
-      assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
-        # inspect the response to find out what the new element IDs are
-        # check the old IDs are all present and negative one
-        # check the versions are present and equal one
-        assert_dom "> node", 1 do |(node_el)|
-          new_node_id = node_el["new_id"].to_i
-          assert_dom "> @old_id", "-1"
-          assert_dom "> @new_version", "1"
-        end
-        assert_dom "> way", 1 do |(way_el)|
-          new_way_id = way_el["new_id"].to_i
-          assert_dom "> @old_id", "-1"
-          assert_dom "> @new_version", "1"
-        end
-        assert_dom "> relation", 1 do |(rel_el)|
-          new_rel_id = rel_el["new_id"].to_i
-          assert_dom "> @old_id", "-1"
-          assert_dom "> @new_version", "1"
-        end
-      end
-
-      # check that the changes made it into the database
-      assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
-      assert_equal 0, Way.find(new_way_id).tags.size, "new way should have no tags"
-      assert_equal 0, Relation.find(new_rel_id).tags.size, "new relation should have no tags"
-    end
-
-    ##
     # test a complex delete where we delete elements which rely on eachother
     # in the same transaction.
     def test_upload_delete
@@ -950,30 +883,6 @@ module Api
       assert Node.find(used_node.id).visible
       assert Way.find(used_way.id).visible
       assert Relation.find(used_relation.id).visible
-    end
-
-    ##
-    # upload an element with a really long tag value
-    def test_upload_invalid_too_long_tag
-      changeset = create(:changeset)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      # simple diff to create a node way and relation using placeholders
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
-           <tag k='foo' v='#{'x' * 256}'/>
-          </node>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to upload too long a tag to changeset: #{@response.body}"
     end
 
     ##
@@ -1258,71 +1167,6 @@ module Api
       assert_select "diffResult>node[old_id='-1']", 3
     end
 
-    ##
-    # test what happens if a diff upload re-uses placeholder IDs in an
-    # illegal way.
-    def test_upload_placeholder_invalid
-      changeset = create(:changeset)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-          <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
-          <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to re-use placeholder IDs"
-
-      # placeholder_ids must be unique across all action blocks
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-         </create>
-         <create>
-          <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to re-use placeholder IDs"
-    end
-
-    def test_upload_process_order
-      changeset = create(:changeset)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      diff = <<~CHANGESET
-        <osmChange>
-        <create>
-          <node id="-1" lat="1" lon="2" changeset="#{changeset.id}"/>
-          <way id="-1" changeset="#{changeset.id}">
-              <nd ref="-1"/>
-              <nd ref="-2"/>
-          </way>
-          <node id="-2" lat="1" lon="2" changeset="#{changeset.id}"/>
-        </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't refer elements behind it"
-    end
-
     def test_upload_duplicate_delete
       changeset = create(:changeset)
 
@@ -1364,116 +1208,6 @@ module Api
       assert_select "diffResult>node[old_id='-1']", 3
       assert_select "diffResult>node[new_version='1']", 1
       assert_select "diffResult>node[new_version='2']", 1
-    end
-
-    ##
-    # test that uploading a way referencing invalid placeholders gives a
-    # proper error, not a 500.
-    def test_upload_placeholder_invalid_way
-      changeset = create(:changeset)
-      way = create(:way)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
-          <way id="-1" changeset="#{changeset.id}" version="1">
-           <nd ref="-1"/>
-           <nd ref="-2"/>
-           <nd ref="-3"/>
-           <nd ref="-4"/>
-          </way>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to use invalid placeholder IDs"
-      assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
-
-      # the same again, but this time use an existing way
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
-          <way id="#{way.id}" changeset="#{changeset.id}" version="1">
-           <nd ref="-1"/>
-           <nd ref="-2"/>
-           <nd ref="-3"/>
-           <nd ref="-4"/>
-          </way>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to use invalid placeholder IDs"
-      assert_equal "Placeholder node not found for reference -4 in way #{way.id}", @response.body
-    end
-
-    ##
-    # test that uploading a relation referencing invalid placeholders gives a
-    # proper error, not a 500.
-    def test_upload_placeholder_invalid_relation
-      changeset = create(:changeset)
-      relation = create(:relation)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
-          <relation id="-1" changeset="#{changeset.id}" version="1">
-           <member type="node" role="foo" ref="-1"/>
-           <member type="node" role="foo" ref="-2"/>
-           <member type="node" role="foo" ref="-3"/>
-           <member type="node" role="foo" ref="-4"/>
-          </relation>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to use invalid placeholder IDs"
-      assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
-
-      # the same again, but this time use an existing relation
-      diff = <<~CHANGESET
-        <osmChange>
-         <create>
-          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
-          <relation id="#{relation.id}" changeset="#{changeset.id}" version="1">
-           <member type="node" role="foo" ref="-1"/>
-           <member type="node" role="foo" ref="-2"/>
-           <member type="node" role="foo" ref="-3"/>
-           <member type="way" role="bar" ref="-1"/>
-          </relation>
-         </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-      assert_response :bad_request,
-                      "shouldn't be able to use invalid placeholder IDs"
-      assert_equal "Placeholder Way not found for reference -1 in relation #{relation.id}.", @response.body
     end
 
     ##
@@ -1681,40 +1415,6 @@ module Api
       # upload it
       post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :not_found, "Relation should not be deleted"
-    end
-
-    def test_upload_relation_placeholder_not_fix
-      changeset = create(:changeset)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      # modify node
-      diff = <<~CHANGESET
-        <osmChange version='0.6'>
-          <create>
-            <relation id='-2' version='0' changeset='#{changeset.id}'>
-              <member type='relation' role='' ref='-4' />
-              <tag k='type' v='route' />
-              <tag k='name' v='AtoB' />
-            </relation>
-            <relation id='-3' version='0' changeset='#{changeset.id}'>
-              <tag k='type' v='route' />
-              <tag k='name' v='BtoA' />
-            </relation>
-            <relation id='-4' version='0' changeset='#{changeset.id}'>
-              <member type='relation' role='' ref='-2' />
-              <member type='relation' role='' ref='-3' />
-              <tag k='type' v='route_master' />
-              <tag k='name' v='master' />
-            </relation>
-          </create>
-        </osmChange>
-      CHANGESET
-
-      # upload it
-      post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
-      assert_response :bad_request, "shouldn't be able to use reference -4 in relation -2: #{@response.body}"
-      assert_equal "Placeholder Relation not found for reference -4 in relation -2.", @response.body
     end
 
     def test_upload_multiple_delete_block
