@@ -788,24 +788,6 @@ module Api
     end
 
     ##
-    # test for more issues in #1568
-    def test_upload_empty_invalid
-      changeset = create(:changeset)
-
-      auth_header = bearer_authorization_header changeset.user
-
-      ["<osmChange/>",
-       "<osmChange></osmChange>",
-       "<osmChange><modify/></osmChange>",
-       "<osmChange><modify></modify></osmChange>"].each do |diff|
-        # upload it
-        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
-        assert_response(:success, "should be able to upload " \
-                                  "empty changeset: " + diff)
-      end
-    end
-
-    ##
     # test that the X-Error-Format header works to request XML errors
     def test_upload_xml_errors
       changeset = create(:changeset)

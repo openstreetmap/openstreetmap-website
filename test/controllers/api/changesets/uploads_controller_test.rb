@@ -146,6 +146,23 @@ module Api
         assert_equal "Unknown action ping, choices are create, modify, delete", @response.body
       end
 
+      ##
+      # test for issues in https://github.com/openstreetmap/trac-tickets/issues/1568
+      def test_upload_empty_changeset
+        changeset = create(:changeset)
+
+        auth_header = bearer_authorization_header changeset.user
+
+        ["<osmChange/>",
+         "<osmChange></osmChange>",
+         "<osmChange><modify/></osmChange>",
+         "<osmChange><modify></modify></osmChange>"].each do |diff|
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+      end
+
       # -------------------------------------
       # Test creating elements.
       # -------------------------------------
