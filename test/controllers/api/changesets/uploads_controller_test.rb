@@ -866,6 +866,158 @@ module Api
 
         assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", @response.body
       end
+
+      # -------------------------------------
+      # Test combined element changes.
+      # -------------------------------------
+
+      ##
+      # upload something which creates new objects and inserts them into
+      # existing containers using placeholders.
+      def test_upload_create_and_insert_elements
+        way = create(:way)
+        node = create(:node)
+        relation = create(:relation)
+        create(:way_node, :way => way, :node => node)
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+                <tag k='foo' v='bar'/>
+                <tag k='baz' v='bat'/>
+              </node>
+            </create>
+            <modify>
+              <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
+                <nd ref='-1'/>
+                <nd ref='#{node.id}'/>
+              </way>
+              <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
+                <member type='way' role='some' ref='#{way.id}'/>
+                <member type='node' role='some' ref='-1'/>
+                <member type='relation' role='some' ref='#{relation.id}'/>
+              </relation>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        new_node_id = nil
+        assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+          assert_dom "> node", 1 do |(node_el)|
+            new_node_id = node_el["new_id"].to_i
+          end
+          assert_dom "> way", 1
+          assert_dom "> relation", 1
+        end
+
+        assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
+        assert_equal [new_node_id, node.id], Way.find(way.id).nds, "way nodes should match"
+        Relation.find(relation.id).members.each do |type, id, _role|
+          assert_equal new_node_id, id, "relation should contain new node" if type == "node"
+        end
+      end
+
+      ##
+      # test that a placeholder can be reused within the same upload.
+      def test_upload_create_modify_delete_node_reusing_placeholder
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+                <tag k="foo" v="bar"/>
+              </node>
+            </create>
+            <modify>
+              <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+            </modify>
+            <delete>
+              <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        assert_difference "Node.count", 1 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        assert_dom "diffResult>node", 3
+        assert_dom "diffResult>node[old_id='-1']", 3
+
+        node = Node.last
+        assert_equal 3, node.version
+        assert_not node.visible
+      end
+
+      def test_upload_create_and_duplicate_delete
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id="-1" lat="39" lon="116" changeset="#{changeset.id}" />
+            </create>
+            <delete>
+              <node id="-1" version="1" changeset="#{changeset.id}" />
+              <node id="-1" version="1" changeset="#{changeset.id}" />
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        assert_no_difference "Node.count" do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :gone
+        end
+      end
+
+      def test_upload_create_and_duplicate_delete_if_unused
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id="-1" lat="39" lon="116" changeset="#{changeset.id}" />
+            </create>
+            <delete if-unused="true">
+              <node id="-1" version="1" changeset="#{changeset.id}" />
+              <node id="-1" version="1" changeset="#{changeset.id}" />
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        assert_difference "Node.count", 1 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        assert_dom "diffResult>node", 3
+        assert_dom "diffResult>node[old_id='-1']", 3
+        assert_dom "diffResult>node[new_version='1']", 1
+        assert_dom "diffResult>node[new_version='2']", 1
+
+        node = Node.last
+        assert_equal 2, node.version
+        assert_not node.visible
+      end
     end
   end
 end
