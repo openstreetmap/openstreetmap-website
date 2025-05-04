@@ -10,7 +10,7 @@ OpenStreetMap::Application.routes.draw do
   # API
   namespace :api do
     get "capabilities" => "capabilities#show", :as => nil # Deprecated, remove when 0.6 support is removed
-    get "versions" => "versions#show"
+    resource :versions, :only => :show
   end
 
   namespace :api, :path => "api/0.6" do
