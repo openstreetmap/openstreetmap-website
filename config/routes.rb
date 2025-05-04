@@ -342,7 +342,7 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # directions
-  get "/directions" => "directions#search"
+  resource :directions, :only => :show
 
   # export
   post "/export/finish" => "export#finish"
