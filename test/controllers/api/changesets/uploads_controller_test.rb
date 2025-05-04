@@ -1098,6 +1098,150 @@ module Api
         assert_not node.visible
       end
 
+      # -------------------------------------
+      # Test upload rate/size limits.
+      # -------------------------------------
+
+      def test_upload_initial_rate_limit
+        user = create(:user)
+        node = create(:node)
+        way = create(:way_with_nodes, :nodes_count => 2)
+        relation = create(:relation)
+
+        # create a changeset that puts us near the initial rate limit
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => Settings.initial_changes_per_hour - 2)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+                <tag k='foo' v='bar'/>
+                <tag k='baz' v='bat'/>
+              </node>
+              <way id='-1' changeset='#{changeset.id}'>
+                <nd ref='#{node.id}'/>
+              </way>
+            </create>
+            <create>
+              <relation id='-1' changeset='#{changeset.id}'>
+                <member type='way' role='some' ref='#{way.id}'/>
+                <member type='node' role='some' ref='#{node.id}'/>
+                <member type='relation' role='some' ref='#{relation.id}'/>
+              </relation>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :too_many_requests, "upload did not hit rate limit"
+      end
+
+      def test_upload_maximum_rate_limit
+        user = create(:user)
+        node = create(:node)
+        way = create(:way_with_nodes, :nodes_count => 2)
+        relation = create(:relation)
+
+        # create a changeset to establish our initial edit time
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 28.days)
+
+        # create changeset to put us near the maximum rate limit
+        total_changes = Settings.max_changes_per_hour - 2
+        while total_changes.positive?
+          changes = [total_changes, Changeset::MAX_ELEMENTS].min
+          changeset = create(:changeset, :user => user,
+                                         :created_at => Time.now.utc - 5.minutes,
+                                         :num_changes => changes)
+          total_changes -= changes
+        end
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+                <tag k='foo' v='bar'/>
+                <tag k='baz' v='bat'/>
+              </node>
+              <way id='-1' changeset='#{changeset.id}'>
+                <nd ref='#{node.id}'/>
+              </way>
+            </create>
+            <create>
+              <relation id='-1' changeset='#{changeset.id}'>
+                <member type='way' role='some' ref='#{way.id}'/>
+                <member type='node' role='some' ref='#{node.id}'/>
+                <member type='relation' role='some' ref='#{relation.id}'/>
+              </relation>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :too_many_requests, "upload did not hit rate limit"
+      end
+
+      def test_upload_initial_size_limit
+        user = create(:user)
+
+        # create a changeset that puts us near the initial size limit
+        changeset = create(:changeset, :user => user,
+                                       :min_lat => (-0.5 * GeoRecord::SCALE).round, :min_lon => (0.5 * GeoRecord::SCALE).round,
+                                       :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='0.9' lat='2.9' changeset='#{changeset.id}'>
+                <tag k='foo' v='bar'/>
+                <tag k='baz' v='bat'/>
+              </node>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :payload_too_large, "upload did not hit size limit"
+      end
+
+      def test_upload_size_limit_after_one_week
+        user = create(:user)
+
+        # create a changeset to establish our initial edit time
+        create(:changeset, :user => user, :created_at => Time.now.utc - 7.days)
+
+        # create a changeset that puts us near the initial size limit
+        changeset = create(:changeset, :user => user, :bbox => [0.5, -0.5, 2.5, 0.5])
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='35' lat='35' changeset='#{changeset.id}'>
+                <tag k='foo' v='bar'/>
+                <tag k='baz' v='bat'/>
+              </node>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :payload_too_large, "upload did not hit size limit"
+      end
+
       private
 
       def check_upload_results_in_not_found(&)
