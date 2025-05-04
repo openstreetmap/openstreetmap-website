@@ -15,10 +15,11 @@ OpenStreetMap::Application.routes.draw do
 
   scope "api/0.6", :module => :api do
     get "capabilities" => "capabilities#show"
-    get "permissions" => "permissions#show"
   end
 
   namespace :api, :path => "api/0.6" do
+    resource :permissions, :only => :show
+
     resources :changesets, :only => [:index, :create]
     resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
       scope :module => :changesets do
