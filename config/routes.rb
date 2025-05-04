@@ -16,15 +16,16 @@ OpenStreetMap::Application.routes.draw do
   scope "api/0.6", :module => :api do
     get "capabilities" => "capabilities#show"
     get "permissions" => "permissions#show"
-
-    post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
   end
 
   namespace :api, :path => "api/0.6" do
     resources :changesets, :only => [:index, :create]
     resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
-      resource :close, :module => :changesets, :only => :update
-      resource :download, :module => :changesets, :only => :show
+      scope :module => :changesets do
+        resource :upload, :only => :create
+        resource :download, :only => :show
+        resource :close, :only => :update
+      end
       resource :subscription, :controller => :changeset_subscriptions, :only => [:create, :destroy]
       resources :changeset_comments, :path => "comment", :only => :create
     end

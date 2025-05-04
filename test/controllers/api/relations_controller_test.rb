@@ -1128,7 +1128,7 @@ module Api
         change << modify
         modify << doc.import(rel.find("//osm/relation").first)
 
-        post changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
+        post api_changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
         assert_response :success, "can't upload diff relation: #{@response.body}"
         version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
       end
