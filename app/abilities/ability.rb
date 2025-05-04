@@ -7,7 +7,7 @@ class Ability
     can :read, [:feature_query, :map_key]
     can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
     can [:show, :create], Note
-    can :search, :direction
+    can :read, :directions
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
     can [:finish, :embed], :export
     can [:create, :read], :search
