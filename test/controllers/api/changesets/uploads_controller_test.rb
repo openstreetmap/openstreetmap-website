@@ -1099,6 +1099,116 @@ module Api
       end
 
       # -------------------------------------
+      # Test bounding boxes.
+      # -------------------------------------
+
+      def test_upload_bbox_of_widely_spaced_nodes
+        user = create(:user)
+
+        # create an old changeset to ensure we have the maximum rate limit
+        create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
+
+        changeset = create(:changeset, :user => user)
+
+        # upload some widely-spaced nodes, spiralling positive and negative
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='-20' lat='-10' changeset='#{changeset.id}'/>
+              <node id='-10' lon='20'  lat='10' changeset='#{changeset.id}'/>
+              <node id='-2' lon='-40' lat='-20' changeset='#{changeset.id}'/>
+              <node id='-11' lon='40'  lat='20' changeset='#{changeset.id}'/>
+              <node id='-3' lon='-60' lat='-30' changeset='#{changeset.id}'/>
+              <node id='-12' lon='60'  lat='30' changeset='#{changeset.id}'/>
+              <node id='-4' lon='-80' lat='-40' changeset='#{changeset.id}'/>
+              <node id='-13' lon='80'  lat='40' changeset='#{changeset.id}'/>
+              <node id='-5' lon='-100' lat='-50' changeset='#{changeset.id}'/>
+              <node id='-14' lon='100'  lat='50' changeset='#{changeset.id}'/>
+              <node id='-6' lon='-120' lat='-60' changeset='#{changeset.id}'/>
+              <node id='-15' lon='120'  lat='60' changeset='#{changeset.id}'/>
+              <node id='-7' lon='-140' lat='-70' changeset='#{changeset.id}'/>
+              <node id='-16' lon='140'  lat='70' changeset='#{changeset.id}'/>
+              <node id='-8' lon='-160' lat='-80' changeset='#{changeset.id}'/>
+              <node id='-17' lon='160'  lat='80' changeset='#{changeset.id}'/>
+              <node id='-9' lon='-179.9' lat='-89.9' changeset='#{changeset.id}'/>
+              <node id='-18' lon='179.9'  lat='89.9' changeset='#{changeset.id}'/>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        # check that the changeset bbox is within bounds
+        changeset.reload
+        assert_operator changeset.min_lon, :>=, -180 * GeoRecord::SCALE, "Minimum longitude (#{changeset.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
+        assert_operator changeset.max_lon, :<=, 180 * GeoRecord::SCALE, "Maximum longitude (#{changeset.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
+        assert_operator changeset.min_lat, :>=, -90 * GeoRecord::SCALE, "Minimum latitude (#{changeset.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
+        assert_operator changeset.max_lat, :<=, 90 * GeoRecord::SCALE, "Maximum latitude (#{changeset.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
+      end
+
+      def test_upload_bbox_of_moved_node
+        changeset = create(:changeset)
+        node = create(:node, :lat => 1.0, :lon => 2.0)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <node id='#{node.id}' lat='1.1' lon='2.1' changeset='#{changeset.id}' version='1'/>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        # check the bbox
+        changeset.reload
+        assert_equal 1.0 * GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1.0 degrees"
+        assert_equal 2.0 * GeoRecord::SCALE, changeset.min_lon, "min_lon should be 2.0 degrees"
+        assert_equal 1.1 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 1.1 degrees"
+        assert_equal 2.1 * GeoRecord::SCALE, changeset.max_lon, "max_lon should be 2.1 degrees"
+      end
+
+      def test_upload_bbox_of_extended_way
+        way = create(:way)
+        initial_node = create(:node, :lat => 1.1, :lon => 2.1)
+        create(:way_node, :way => way, :node => initial_node)
+        added_node = create(:node, :lat => 1.3, :lon => 2.3)
+        changeset = create(:changeset)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <modify>
+              <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
+                <nd ref='#{initial_node.id}'/>
+                <nd ref='#{added_node.id}'/>
+              </way>
+            </modify>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+        assert_response :success
+
+        # check the bbox
+        changeset.reload
+        assert_equal 1.1 * GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1.1 degrees"
+        assert_equal 2.1 * GeoRecord::SCALE, changeset.min_lon, "min_lon should be 2.1 degrees"
+        assert_equal 1.3 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 1.3 degrees"
+        assert_equal 2.3 * GeoRecord::SCALE, changeset.max_lon, "max_lon should be 2.3 degrees"
+      end
+
+      # -------------------------------------
       # Test upload rate/size limits.
       # -------------------------------------
 
