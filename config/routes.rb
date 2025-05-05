@@ -9,16 +9,14 @@ OpenStreetMap::Application.routes.draw do
 
   # API
   namespace :api do
-    get "capabilities" => "capabilities#show" # Deprecated, remove when 0.6 support is removed
-    get "versions" => "versions#show"
-  end
-
-  scope "api/0.6", :module => :api do
-    get "capabilities" => "capabilities#show"
-    get "permissions" => "permissions#show"
+    get "capabilities" => "capabilities#show", :as => nil # Deprecated, remove when 0.6 support is removed
+    resource :versions, :only => :show
   end
 
   namespace :api, :path => "api/0.6" do
+    resource :capabilities, :only => :show
+    resource :permissions, :only => :show
+
     resources :changesets, :only => [:index, :create]
     resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
       scope :module => :changesets do
