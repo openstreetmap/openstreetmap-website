@@ -85,10 +85,10 @@ OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.ext
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   updateChangesets: function (map, changesets) {
     this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
-    this.updateChangesetShapes(map);
+    this.updateChangesetsGeometry(map);
   },
 
-  updateChangesetShapes: function (map) {
+  updateChangesetsGeometry: function (map) {
     for (const changeset of this._changesets.values()) {
       const topLeft = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon)),
             bottomRight = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon)),
@@ -110,11 +110,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
                                         map.unproject(bottomRight));
     }
 
-    this.updateChangesetLocations(map);
-    this.reorderChangesets();
+    this._updateChangesetLocations(map);
+    this.updateChangesetsOrder();
   },
 
-  updateChangesetLocations: function (map) {
+  _updateChangesetLocations: function (map) {
     const mapCenterLng = map.getCenter().lng;
 
     for (const changeset of this._changesets.values()) {
@@ -135,7 +135,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
   },
 
-  reorderChangesets: function () {
+  updateChangesetsOrder: function () {
     const changesetEntries = [...this._changesets];
     changesetEntries.sort(([, a], [, b]) => b.bounds.getSize() - a.bounds.getSize());
     this._changesets = new Map(changesetEntries);

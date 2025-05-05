@@ -85,7 +85,7 @@ OSM.History = function (map) {
         if (id) changesetsLayer.setChangesetSidebarRelativePosition(id, -1);
       });
 
-      changesetsLayer.reorderChangesets();
+      changesetsLayer.updateChangesetsOrder();
 
       if (keepInitialLocation) {
         keepInitialLocation = false;
@@ -263,12 +263,12 @@ OSM.History = function (map) {
       OSM.router.replace("/history" + window.location.hash);
       loadFirstChangesets();
     } else {
-      changesetsLayer.updateChangesetLocations(map);
+      changesetsLayer.updateChangesetsGeometry(map);
     }
   }
 
   function zoomEndListener() {
-    changesetsLayer.updateChangesetShapes(map);
+    changesetsLayer.updateChangesetsGeometry(map);
   }
 
   function updateMap() {
