@@ -89,9 +89,16 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   },
 
   updateChangesetsGeometry: function (map) {
-    const changesetSizeLowerBound = 20; // Min width/height of changeset in pixels
+    const changesetSizeLowerBound = 20, // Min width/height of changeset in pixels
+          mapViewExpansion = 2; // Half of bbox border+outline width in pixels
 
-    const mapViewCenterLng = map.getCenter().lng;
+    const mapViewCenterLng = map.getCenter().lng,
+          mapViewPixelBounds = map.getPixelBounds();
+
+    mapViewPixelBounds.min.x -= mapViewExpansion;
+    mapViewPixelBounds.min.y -= mapViewExpansion;
+    mapViewPixelBounds.max.x += mapViewExpansion;
+    mapViewPixelBounds.max.y += mapViewExpansion;
 
     for (const changeset of this._changesets.values()) {
       const changesetNorthWestLatLng = L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon),
@@ -121,6 +128,11 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
       changeset.bounds = L.latLngBounds(map.unproject(changesetMinCorner),
                                         map.unproject(changesetMaxCorner));
+
+      const changesetPixelBounds = L.bounds(changesetMinCorner, changesetMaxCorner);
+
+      changeset.hasEdgesInMapView = changesetPixelBounds.overlaps(mapViewPixelBounds) &&
+                                    !changesetPixelBounds.contains(mapViewPixelBounds);
     }
 
     this.updateChangesetsOrder();
@@ -136,13 +148,13 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
 
     for (const changeset of this._changesets.values()) {
-      if (changeset.sidebarRelativePosition !== 0) {
+      if (changeset.sidebarRelativePosition !== 0 && changeset.hasEdgesInMapView) {
         this._areaLayer.addChangesetLayer(changeset);
       }
     }
 
     for (const changeset of this._changesets.values()) {
-      if (changeset.sidebarRelativePosition === 0) {
+      if (changeset.sidebarRelativePosition === 0 && changeset.hasEdgesInMapView) {
         this._areaLayer.addChangesetLayer(changeset);
       }
     }
