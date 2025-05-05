@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rtlcss"
 
 class RtlcssSCSSProcessor < SassC::Rails::ScssTemplate

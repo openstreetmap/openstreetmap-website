@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Monkey patch pending new release with
 # https://github.com/jejacks0n/teaspoon/pull/604
 Rack::Server = Rackup::Server

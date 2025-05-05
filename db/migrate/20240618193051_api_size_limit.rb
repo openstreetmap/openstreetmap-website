@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiSizeLimit < ActiveRecord::Migration[7.1]
   def up
     safety_assured do

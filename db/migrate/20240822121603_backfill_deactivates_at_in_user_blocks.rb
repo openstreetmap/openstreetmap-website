@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BackfillDeactivatesAtInUserBlocks < ActiveRecord::Migration[7.1]
   class UserBlock < ApplicationRecord; end
 

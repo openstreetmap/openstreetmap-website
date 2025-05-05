@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id user_block.id
 json.created_at user_block.created_at.xmlschema
 json.updated_at user_block.updated_at.xmlschema

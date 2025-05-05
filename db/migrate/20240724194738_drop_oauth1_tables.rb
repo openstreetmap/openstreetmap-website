@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropOauth1Tables < ActiveRecord::Migration[7.1]
   def change
     remove_index :oauth_nonces, [:nonce, :timestamp], :unique => true

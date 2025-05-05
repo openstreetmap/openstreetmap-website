@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 OpenStreetMap::Application.routes.draw do
   use_doorkeeper :scope => "oauth2" do
     controllers :authorizations => "oauth2_authorizations",
