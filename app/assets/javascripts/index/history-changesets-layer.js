@@ -90,24 +90,24 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
   updateChangesetsGeometry: function (map) {
     for (const changeset of this._changesets.values()) {
-      const topLeft = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon)),
-            bottomRight = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon)),
-            width = bottomRight.x - topLeft.x,
-            height = bottomRight.y - topLeft.y,
-            minSize = 20; // Min width/height of changeset in pixels
+      const changesetMinCorner = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon)),
+            changesetMaxCorner = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon)),
+            changesetSizeX = changesetMaxCorner.x - changesetMinCorner.x,
+            changesetSizeY = changesetMaxCorner.y - changesetMinCorner.y,
+            changesetSizeLowerBound = 20; // Min width/height of changeset in pixels
 
-      if (width < minSize) {
-        topLeft.x -= ((minSize - width) / 2);
-        bottomRight.x += ((minSize - width) / 2);
+      if (changesetSizeX < changesetSizeLowerBound) {
+        changesetMinCorner.x -= (changesetSizeLowerBound - changesetSizeX) / 2;
+        changesetMaxCorner.x += (changesetSizeLowerBound - changesetSizeX) / 2;
       }
 
-      if (height < minSize) {
-        topLeft.y -= ((minSize - height) / 2);
-        bottomRight.y += ((minSize - height) / 2);
+      if (changesetSizeY < changesetSizeLowerBound) {
+        changesetMinCorner.y -= (changesetSizeLowerBound - changesetSizeY) / 2;
+        changesetMaxCorner.y += (changesetSizeLowerBound - changesetSizeY) / 2;
       }
 
-      changeset.bounds = L.latLngBounds(map.unproject(topLeft),
-                                        map.unproject(bottomRight));
+      changeset.bounds = L.latLngBounds(map.unproject(changesetMinCorner),
+                                        map.unproject(changesetMaxCorner));
     }
 
     this._updateChangesetLocations(map);
