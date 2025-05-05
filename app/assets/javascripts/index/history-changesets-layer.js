@@ -89,12 +89,25 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   },
 
   updateChangesetsGeometry: function (map) {
+    const changesetSizeLowerBound = 20; // Min width/height of changeset in pixels
+
+    const mapViewCenterLng = map.getCenter().lng;
+
     for (const changeset of this._changesets.values()) {
-      const changesetMinCorner = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon)),
-            changesetMaxCorner = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon)),
+      const changesetNorthWestLatLng = L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon),
+            changesetSouthEastLatLng = L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon),
+            changesetCenterLng = (changesetNorthWestLatLng.lng + changesetSouthEastLatLng.lng) / 2,
+            shiftInWorldCircumferences = Math.round((changesetCenterLng - mapViewCenterLng) / 360);
+
+      if (shiftInWorldCircumferences) {
+        changesetNorthWestLatLng.lng -= shiftInWorldCircumferences * 360;
+        changesetSouthEastLatLng.lng -= shiftInWorldCircumferences * 360;
+      }
+
+      const changesetMinCorner = map.project(changesetNorthWestLatLng),
+            changesetMaxCorner = map.project(changesetSouthEastLatLng),
             changesetSizeX = changesetMaxCorner.x - changesetMinCorner.x,
-            changesetSizeY = changesetMaxCorner.y - changesetMinCorner.y,
-            changesetSizeLowerBound = 20; // Min width/height of changeset in pixels
+            changesetSizeY = changesetMaxCorner.y - changesetMinCorner.y;
 
       if (changesetSizeX < changesetSizeLowerBound) {
         changesetMinCorner.x -= (changesetSizeLowerBound - changesetSizeX) / 2;
@@ -110,29 +123,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
                                         map.unproject(changesetMaxCorner));
     }
 
-    this._updateChangesetLocations(map);
     this.updateChangesetsOrder();
-  },
-
-  _updateChangesetLocations: function (map) {
-    const mapViewCenterLng = map.getCenter().lng;
-
-    for (const changeset of this._changesets.values()) {
-      const changesetNorthWestLatLng = changeset.bounds.getNorthWest();
-      const changesetSouthEastLatLng = changeset.bounds.getSouthEast();
-      const changesetCenterLng = (changesetNorthWestLatLng.lng + changesetSouthEastLatLng.lng) / 2;
-      const shiftInWorldCircumferences = Math.round((changesetCenterLng - mapViewCenterLng) / 360);
-
-      if (shiftInWorldCircumferences) {
-        changesetNorthWestLatLng.lng -= shiftInWorldCircumferences * 360;
-        changesetSouthEastLatLng.lng -= shiftInWorldCircumferences * 360;
-        changeset.bounds = L.latLngBounds(changesetNorthWestLatLng, changesetSouthEastLatLng);
-
-        for (const layer of this._bboxLayers) {
-          layer.updateChangesetLayerBounds(changeset);
-        }
-      }
-    }
   },
 
   updateChangesetsOrder: function () {
