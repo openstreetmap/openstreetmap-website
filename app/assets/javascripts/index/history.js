@@ -263,11 +263,13 @@ OSM.History = function (map) {
       OSM.router.replace("/history" + window.location.hash);
       loadFirstChangesets();
     } else {
+      $("#sidebar_content .changesets ol li").removeClass("selected");
       changesetsLayer.updateChangesetsGeometry(map);
     }
   }
 
   function zoomEndListener() {
+    $("#sidebar_content .changesets ol li").removeClass("selected");
     changesetsLayer.updateChangesetsGeometry(map);
   }
 
