@@ -90,24 +90,24 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
   updateChangesetShapes: function (map) {
     for (const changeset of this._changesets.values()) {
-      const bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
-            topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
-            width = topRight.x - bottomLeft.x,
-            height = bottomLeft.y - topRight.y,
+      const topLeft = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon)),
+            bottomRight = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon)),
+            width = bottomRight.x - topLeft.x,
+            height = bottomRight.y - topLeft.y,
             minSize = 20; // Min width/height of changeset in pixels
 
       if (width < minSize) {
-        bottomLeft.x -= ((minSize - width) / 2);
-        topRight.x += ((minSize - width) / 2);
+        topLeft.x -= ((minSize - width) / 2);
+        bottomRight.x += ((minSize - width) / 2);
       }
 
       if (height < minSize) {
-        bottomLeft.y += ((minSize - height) / 2);
-        topRight.y -= ((minSize - height) / 2);
+        topLeft.y -= ((minSize - height) / 2);
+        bottomRight.y += ((minSize - height) / 2);
       }
 
-      changeset.bounds = L.latLngBounds(map.unproject(bottomLeft),
-                                        map.unproject(topRight));
+      changeset.bounds = L.latLngBounds(map.unproject(topLeft),
+                                        map.unproject(bottomRight));
     }
 
     this.updateChangesetLocations(map);
