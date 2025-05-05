@@ -118,14 +118,15 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const mapCenterLng = map.getCenter().lng;
 
     for (const changeset of this._changesets.values()) {
-      const changesetSouthWest = changeset.bounds.getSouthWest();
-      const changesetNorthEast = changeset.bounds.getNorthEast();
-      const changesetCenterLng = (changesetSouthWest.lng + changesetNorthEast.lng) / 2;
+      const changesetNorthWest = changeset.bounds.getNorthWest();
+      const changesetSouthEast = changeset.bounds.getSouthEast();
+      const changesetCenterLng = (changesetNorthWest.lng + changesetSouthEast.lng) / 2;
       const shiftInWorldCircumferences = Math.round((changesetCenterLng - mapCenterLng) / 360);
 
       if (shiftInWorldCircumferences) {
-        changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
-        changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
+        changesetNorthWest.lng -= shiftInWorldCircumferences * 360;
+        changesetSouthEast.lng -= shiftInWorldCircumferences * 360;
+        changeset.bounds = L.latLngBounds(changesetNorthWest, changesetSouthEast);
 
         for (const layer of this._bboxLayers) {
           layer.updateChangesetLayerBounds(changeset);
