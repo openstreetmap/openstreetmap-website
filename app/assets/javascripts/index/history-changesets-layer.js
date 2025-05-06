@@ -28,7 +28,7 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
 OSM.HistoryChangesetBboxAreaLayer = OSM.HistoryChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
-      weight: 0,
+      stroke: false,
       fillOpacity: 0,
       className: this._getSidebarRelativeClassName(changeset)
     };
