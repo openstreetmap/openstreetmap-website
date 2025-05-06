@@ -37,21 +37,6 @@ $(document).ready(function () {
     worldCopyJump: true
   });
 
-
-  console.info(`index: preferred_languages: ${OSM.preferred_languages}`);
-  const language = new MapboxLanguage({
-    defaultLanguage: 'mul'
-  });
-  for (let i=0; i<OSM.preferred_languages.length; i++) {
-    console.info(`i: ${i} ${OSM.preferred_languages[i]}`);
-    if (language.supportedLanguages.includes(OSM.preferred_languages[i])) {
-      console.info(`found language: ${OSM.preferred_languages[i]}`);
-  //     other.getMaplibreMap().setStyle(language.setLanguage(other.getMaplibreMap().getStyle(), OSM.preferred_languages[i]));
-  //     break
-    }
-  }
-  console.info(`language: ${JSON.stringify(language)}`);
-
   OSM.loadSidebarContent = function (path, callback) {
     var content_path = path;
 

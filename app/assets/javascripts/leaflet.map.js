@@ -76,12 +76,31 @@ L.OSM.Map = L.Map.extend({
 
     /* see also timeslider.js and viewreset/baselayerchange handlers */
 
+    // Add multi-lingual awareness
+    const language = new MapboxLanguage({
+      defaultLanguage: 'mul'
+    });
+    console.info(`leaflet.map: preferred_languages: ${OSM.preferred_languages}`);
+    console.info(`  browser_language: ${navigator.language}`);
+    let selectedLanguage, plFound = false;
+    for (let i=0; i<OSM.preferred_languages.length; i++) {
+      // Strip variant, e.g., '_US', as none are to be found in supportedLanguages. Loop is broken so deduping preferred_languages unnecessary.
+      OSM.preferred_languages[i] = OSM.preferred_languages[i].replace(/-.*$/,'')
+      if (language.supportedLanguages.includes(OSM.preferred_languages[i])) {
+        selectedLanguage = OSM.preferred_languages[i];
+        plFound = true;
+        break
+      }
+      if (!plFound) selectedLanguage = navigator.language.replace(/-.*$/,'')
+    }
+    console.info(`  using language: ${selectedLanguage}`);
+
     this.baseLayers.push(new L.MaplibreGL(
       Object.assign(this.ohmMaplibreOptions, {
         code: "O",
         keyid: "historical",
         name: I18n.t("javascripts.map.base.historical"),
-        style: ohmVectorStyles.Historical,
+        style: language.setLanguage(ohmVectorStyles.Historical, selectedLanguage)
       })
     ));
 
@@ -90,7 +109,7 @@ L.OSM.Map = L.Map.extend({
         code: "R",
         keyid: "railway",
         name: I18n.t("javascripts.map.base.railway"),
-        style: ohmVectorStyles.Railway,
+        style: language.setLanguage(ohmVectorStyles.Railway, selectedLanguage),
       })
     ));
 
@@ -99,7 +118,7 @@ L.OSM.Map = L.Map.extend({
         code: "W",
         keyid: "woodblock",
         name: I18n.t("javascripts.map.base.woodblock"),
-        style: ohmVectorStyles.Woodblock,
+        style: language.setLanguage(ohmVectorStyles.Woodblock, selectedLanguage),
       })
     ));
 
@@ -108,7 +127,7 @@ L.OSM.Map = L.Map.extend({
         code: "J",
         keyid: "japanese",
         name: I18n.t("javascripts.map.base.japanesescroll"),
-        style: ohmVectorStyles.JapaneseScroll,
+        style: language.setLanguage(ohmVectorStyles.JapaneseScroll, selectedLanguage),
       })
     ));
 
@@ -173,6 +192,8 @@ L.OSM.Map = L.Map.extend({
   updateLayers: function (layerParam) {
     var layers = layerParam || "O",
         layersAdded = "";
+
+
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
       if (layers.indexOf(this.baseLayers[i].options.code) >= 0) {
