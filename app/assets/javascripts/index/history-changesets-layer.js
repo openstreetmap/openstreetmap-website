@@ -85,56 +85,60 @@ OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.ext
 OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   updateChangesets: function (map, changesets) {
     this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
-    this.updateChangesetShapes(map);
+    this.updateChangesetsGeometry(map);
   },
 
-  updateChangesetShapes: function (map) {
-    for (const changeset of this._changesets.values()) {
-      const bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
-            topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
-            width = topRight.x - bottomLeft.x,
-            height = bottomLeft.y - topRight.y,
-            minSize = 20; // Min width/height of changeset in pixels
+  updateChangesetsGeometry: function (map) {
+    const changesetSizeLowerBound = 20, // Min width/height of changeset in pixels
+          mapViewExpansion = 2; // Half of bbox border+outline width in pixels
 
-      if (width < minSize) {
-        bottomLeft.x -= ((minSize - width) / 2);
-        topRight.x += ((minSize - width) / 2);
-      }
+    const mapViewCenterLng = map.getCenter().lng,
+          mapViewPixelBounds = map.getPixelBounds();
 
-      if (height < minSize) {
-        bottomLeft.y += ((minSize - height) / 2);
-        topRight.y -= ((minSize - height) / 2);
-      }
-
-      changeset.bounds = L.latLngBounds(map.unproject(bottomLeft),
-                                        map.unproject(topRight));
-    }
-
-    this.updateChangesetLocations(map);
-    this.reorderChangesets();
-  },
-
-  updateChangesetLocations: function (map) {
-    const mapCenterLng = map.getCenter().lng;
+    mapViewPixelBounds.min.x -= mapViewExpansion;
+    mapViewPixelBounds.min.y -= mapViewExpansion;
+    mapViewPixelBounds.max.x += mapViewExpansion;
+    mapViewPixelBounds.max.y += mapViewExpansion;
 
     for (const changeset of this._changesets.values()) {
-      const changesetSouthWest = changeset.bounds.getSouthWest();
-      const changesetNorthEast = changeset.bounds.getNorthEast();
-      const changesetCenterLng = (changesetSouthWest.lng + changesetNorthEast.lng) / 2;
-      const shiftInWorldCircumferences = Math.round((changesetCenterLng - mapCenterLng) / 360);
+      const changesetNorthWestLatLng = L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon),
+            changesetSouthEastLatLng = L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon),
+            changesetCenterLng = (changesetNorthWestLatLng.lng + changesetSouthEastLatLng.lng) / 2,
+            shiftInWorldCircumferences = Math.round((changesetCenterLng - mapViewCenterLng) / 360);
 
       if (shiftInWorldCircumferences) {
-        changesetSouthWest.lng -= shiftInWorldCircumferences * 360;
-        changesetNorthEast.lng -= shiftInWorldCircumferences * 360;
-
-        for (const layer of this._bboxLayers) {
-          layer.updateChangesetLayerBounds(changeset);
-        }
+        changesetNorthWestLatLng.lng -= shiftInWorldCircumferences * 360;
+        changesetSouthEastLatLng.lng -= shiftInWorldCircumferences * 360;
       }
+
+      const changesetMinCorner = map.project(changesetNorthWestLatLng),
+            changesetMaxCorner = map.project(changesetSouthEastLatLng),
+            changesetSizeX = changesetMaxCorner.x - changesetMinCorner.x,
+            changesetSizeY = changesetMaxCorner.y - changesetMinCorner.y;
+
+      if (changesetSizeX < changesetSizeLowerBound) {
+        changesetMinCorner.x -= (changesetSizeLowerBound - changesetSizeX) / 2;
+        changesetMaxCorner.x += (changesetSizeLowerBound - changesetSizeX) / 2;
+      }
+
+      if (changesetSizeY < changesetSizeLowerBound) {
+        changesetMinCorner.y -= (changesetSizeLowerBound - changesetSizeY) / 2;
+        changesetMaxCorner.y += (changesetSizeLowerBound - changesetSizeY) / 2;
+      }
+
+      changeset.bounds = L.latLngBounds(map.unproject(changesetMinCorner),
+                                        map.unproject(changesetMaxCorner));
+
+      const changesetPixelBounds = L.bounds(changesetMinCorner, changesetMaxCorner);
+
+      changeset.hasEdgesInMapView = changesetPixelBounds.overlaps(mapViewPixelBounds) &&
+                                    !changesetPixelBounds.contains(mapViewPixelBounds);
     }
+
+    this.updateChangesetsOrder();
   },
 
-  reorderChangesets: function () {
+  updateChangesetsOrder: function () {
     const changesetEntries = [...this._changesets];
     changesetEntries.sort(([, a], [, b]) => b.bounds.getSize() - a.bounds.getSize());
     this._changesets = new Map(changesetEntries);
@@ -144,13 +148,13 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     }
 
     for (const changeset of this._changesets.values()) {
-      if (changeset.sidebarRelativePosition !== 0) {
+      if (changeset.sidebarRelativePosition !== 0 && changeset.hasEdgesInMapView) {
         this._areaLayer.addChangesetLayer(changeset);
       }
     }
 
     for (const changeset of this._changesets.values()) {
-      if (changeset.sidebarRelativePosition === 0) {
+      if (changeset.sidebarRelativePosition === 0 && changeset.hasEdgesInMapView) {
         this._areaLayer.addChangesetLayer(changeset);
       }
     }
