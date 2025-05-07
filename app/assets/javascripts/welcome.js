@@ -1,18 +1,9 @@
 $(function () {
-  const params = new URLSearchParams(location.search);
-
-  if (params.has("lat") && params.has("lon")) {
-    let url = "/edit";
-
-    if (params.has("editor")) url += "?editor=" + params.get("editor");
-    if (!params.has("zoom")) params.set("zoom", 17);
-    url += OSM.formatHash(params);
-
-    $(".start-mapping").attr("href", url);
-  } else {
-    $(".start-mapping").on("click", function (e) {
+  const mappingBtn = $(".start-mapping");
+  if (!mappingBtn.prop("hash")) {
+    mappingBtn.on("click", function (e) {
       e.preventDefault();
-      $(".start-mapping").addClass("loading");
+      mappingBtn.addClass("loading");
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(geoSuccess, manualEdit);
