@@ -118,9 +118,10 @@ module RichText
     def linkify(text, mode = :urls)
       link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
       Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
-        url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
-        shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
-          path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
+        Array(Settings.linkify_rules).reduce(url) do |normalised_url, rule|
+          shorten_host(normalised_url, rule[:hosts], rule[:host_replacement]) do |path|
+            path.sub(Regexp.new(rule[:path_prefix] || ""), "")
+          end
         end
       end.html_safe
     end
