@@ -15,17 +15,16 @@ OSM.DirectionsRouteOutput = function (map) {
 
   let distanceUnits = "km";
   let downloadURL = null;
+  let route = {};
 
   function translateDistanceUnits(m) {
-    if (distanceUnits === "km") {
-      return [m, "m", m / 1000, "km"];
-    } else {
-      return [m / 0.3048, "ft", m / 1609.344, "mi"];
-    }
+    const scope = "javascripts.directions.distance_in_units.";
+    if (distanceUnits === "mi") return [scope + "miles", m / 0.3048, "ft", m / 1609.344, "mi"];
+    return [scope + "meters", m, "m", m / 1000, "km"];
   }
 
-  function formatTotalDistance(minorValue, minorName, majorValue, majorName) {
-    const scope = "javascripts.directions.distance_in_units";
+  function formatTotalDistance(m) {
+    const [scope, minorValue, minorName, majorValue, majorName] = translateDistanceUnits(m);
 
     if (minorValue < 1000 || majorValue < 0.25) {
       return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue) });
@@ -36,8 +35,8 @@ OSM.DirectionsRouteOutput = function (map) {
     }
   }
 
-  function formatStepDistance(minorValue, minorName, majorValue, majorName) {
-    const scope = "javascripts.directions.distance_in_units";
+  function formatStepDistance(m) {
+    const [scope, minorValue, minorName, majorValue, majorName] = translateDistanceUnits(m);
 
     if (minorValue < 5) {
       return "";
@@ -52,10 +51,10 @@ OSM.DirectionsRouteOutput = function (map) {
     }
   }
 
-  function formatHeight(minorValue, minorName) {
-    const scope = "javascripts.directions.distance_in_units";
+  function formatHeight(m) {
+    const [scope, value, name] = translateDistanceUnits(m);
 
-    return OSM.i18n.t(minorName, { scope, distance: Math.round(minorValue) });
+    return OSM.i18n.t(name, { scope, distance: Math.round(value) });
   }
 
   function formatTime(s) {
@@ -65,73 +64,56 @@ OSM.DirectionsRouteOutput = function (map) {
     return h + ":" + (m < 10 ? "0" : "") + m;
   }
 
-  function writeSummary(route) {
-    $("#directions_route_distance").val(formatTotalDistance(...translateDistanceUnits(route.distance)));
+  function writeContent() {
+    if (this?.dataset?.unit) distanceUnits = this.dataset.unit;
+
+    $("#directions_route_distance").val(formatTotalDistance(route.distance));
     $("#directions_route_time").val(formatTime(route.time));
-    if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
-      $("#directions_route_ascend_descend").prop("hidden", false);
-      $("#directions_route_ascend").val(formatHeight(...translateDistanceUnits(route.ascend)));
-      $("#directions_route_descend").val(formatHeight(...translateDistanceUnits(route.descend)));
-    } else {
-      $("#directions_route_ascend_descend").prop("hidden", true);
-      $("#directions_route_ascend").val("");
-      $("#directions_route_descend").val("");
+    $("#directions_route_ascend_descend").prop("hidden", typeof route.ascend === "undefined" || typeof route.descend === "undefined");
+    $("#directions_route_ascend").val(formatHeight(route.ascend ?? 0));
+    $("#directions_route_descend").val(formatHeight(route.descend ?? 0));
+    $("#directions_route_steps").empty();
+
+    for (const [i, step] of route.steps.entries()) {
+      writeStep(step, i).appendTo("#directions_route_steps");
     }
   }
 
-  function writeSteps(route) {
-    $("#directions_route_steps").empty();
+  function writeStep([direction, instruction, dist, lineseg], i) {
+    const popupText = `<b>${i + 1}.</b> ${instruction}`;
+    let icon = "";
+    if (direction) icon = `<svg width="20" height="20" class="d-block"><use href="#routing-sprite-${direction}" /></svg>`;
 
-    for (const [i, [direction, instruction, dist, lineseg]] of route.steps.entries()) {
-      const row = $("<tr class='turn'/>").appendTo($("#directions_route_steps"));
-
-      if (direction) {
-        row.append("<td class='ps-3'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
-      } else {
-        row.append("<td class='ps-3'>");
-      }
-      row.append(`<td><b>${i + 1}.</b> ${instruction}`);
-      row.append("<td class='pe-3 distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
-
-      row.on("click", function () {
+    return $("<tr class='turn'/>")
+      .append(`<td class="ps-3">${icon}</td>`)
+      .append(`<td>${popupText}</td>`)
+      .append(`<td class="pe-3 distance text-body-secondary text-end">${formatStepDistance(dist)}</td>`)
+      .on("click", function () {
         popup
           .setLatLng(lineseg[0])
-          .setContent(`<p><b>${i + 1}.</b> ${instruction}</p>`)
+          .setContent(`<p>${popupText}</p>`)
           .openOn(map);
+      })
+      .on("mouseenter", function () {
+        highlight
+          .setLatLngs(lineseg)
+          .addTo(map);
+      })
+      .on("mouseleave", function () {
+        map.removeLayer(highlight);
       });
-
-      row
-        .on("mouseenter", function () {
-          highlight
-            .setLatLngs(lineseg)
-            .addTo(map);
-        })
-        .on("mouseleave", function () {
-          map.removeLayer(highlight);
-        });
-    }
   }
 
   const routeOutput = {};
 
-  routeOutput.write = function (route) {
+  routeOutput.write = function (r) {
+    route = r;
     polyline
       .setLatLngs(route.line)
       .addTo(map);
 
-    writeSummary(route);
-    writeSteps(route);
-
-    $("#directions_distance_units_km").off().on("change", () => {
-      distanceUnits = "km";
-      writeSummary(route);
-      writeSteps(route);
-    });
-    $("#directions_distance_units_mi").off().on("change", () => {
-      distanceUnits = "mi";
-      writeSummary(route);
-      writeSteps(route);
-    });
+    writeContent();
+    $("#directions_route input[data-unit]").off().on("change", writeContent);
 
     const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
     URL.revokeObjectURL(downloadURL);
@@ -156,8 +138,7 @@ OSM.DirectionsRouteOutput = function (map) {
       .removeLayer(popup)
       .removeLayer(polyline);
 
-    $("#directions_distance_units_km").off();
-    $("#directions_distance_units_mi").off();
+    $("#directions_route input[data-unit]").off();
 
     $("#directions_route_steps").empty();
 
