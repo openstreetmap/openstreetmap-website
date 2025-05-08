@@ -73,7 +73,7 @@ OSM.HistoryChangesetBboxHighlightOutlineLayer = OSM.HistoryChangesetBboxLayer.ex
   _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
-      weight: 6,
+      weight: changeset.sidebarRelativePosition === 0 ? 8 : 6,
       color: "var(--changeset-outline-color)",
       fill: false,
       className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
