@@ -76,7 +76,7 @@ OSM.HistoryChangesetBboxHighlightOutlineLayer = OSM.HistoryChangesetBboxLayer.ex
       weight: changeset.sidebarRelativePosition === 0 ? 8 : 6,
       color: "var(--changeset-outline-color)",
       fill: false,
-      className: this._getSidebarRelativeClassName(changeset)
+      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlight-outline"
     };
   }
 });
