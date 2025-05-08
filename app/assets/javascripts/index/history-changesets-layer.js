@@ -64,7 +64,7 @@ OSM.HistoryChangesetBboxHighlightAreaLayer = OSM.HistoryChangesetBboxLayer.exten
       stroke: false,
       fillColor: "var(--changeset-fill-color)",
       fillOpacity: 0.3,
-      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
+      className: this._getSidebarRelativeClassName(changeset)
     };
   }
 });
@@ -76,7 +76,7 @@ OSM.HistoryChangesetBboxHighlightOutlineLayer = OSM.HistoryChangesetBboxLayer.ex
       weight: changeset.sidebarRelativePosition === 0 ? 8 : 6,
       color: "var(--changeset-outline-color)",
       fill: false,
-      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
+      className: this._getSidebarRelativeClassName(changeset)
     };
   }
 });
@@ -88,7 +88,7 @@ OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.ext
       weight: 4,
       color: "var(--changeset-border-color)",
       fill: false,
-      className: this._getSidebarRelativeClassName(changeset) + " changeset-highlighted"
+      className: this._getSidebarRelativeClassName(changeset)
     };
   }
 });
