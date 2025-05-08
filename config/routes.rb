@@ -126,6 +126,7 @@ OpenStreetMap::Application.routes.draw do
         post "reopen"
       end
 
+      resources :versions, :path => "history", :controller => :note_versions, :only => :index
       resource :version, :path => ":version", :version => /\d+/, :controller => :note_versions, :only => :show
 
       resource :subscription, :only => [:create, :destroy], :controller => "note_subscriptions"
