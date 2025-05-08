@@ -26,7 +26,10 @@
 #
 
 class NoteVersion < ApplicationRecord
+  include Redactable
+
   belongs_to :note, :class_name => "Note", :inverse_of => :note_versions
+  belongs_to :redaction, :optional => true
 
   has_many :note_tag_versions, :class_name => "NoteTagVersion", :foreign_key => [:note_id, :version], :inverse_of => :note_version
 
