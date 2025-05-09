@@ -127,10 +127,13 @@ OpenStreetMap::Application.routes.draw do
       end
 
       resources :versions, :path => "history", :controller => :note_versions, :only => :index
-      resource :version, :path => ":version", :version => /\d+/, :controller => :note_versions, :only => :show
+      resource :version, :path => ":version", :version => /\d+/, :controller => :note_versions, :only => :show do
+        resource :redaction, :module => :note_versions, :only => [:create, :destroy]
+      end
 
       resource :subscription, :only => [:create, :destroy], :controller => "note_subscriptions"
     end
+    post "notes/:note_id/:version/redact" => "note_versions/redactions#create", :note_id => /\d+/, :version => /\d+/, :allow_delete => true, :as => nil
 
     resources :user_blocks, :only => [:show, :create], :id => /\d+/, :controller => "user_blocks"
     namespace :user_blocks, :path => "user/blocks" do

@@ -71,4 +71,9 @@ class NoteVersion < ApplicationRecord
   end
 
   attr_writer :tags
+
+  # Check whether this version is the latest version
+  def latest_version?
+    note.version == version
+  end
 end
