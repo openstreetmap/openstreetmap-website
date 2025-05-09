@@ -6,6 +6,8 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
+<svg class="d-none"><defs><%= render :partial => "layouts/control_icons", :locals => { :icons => %w[zoomin zoomout geolocate] } %></defs></svg>
+
 <%= bootstrap_form_for current_user, :url => { :action => :update }, :html => { :multipart => true, :autocomplete => :off } do |f| %>
   <%= f.richtext_field :description, :cols => 80, :rows => 20 %>
 
