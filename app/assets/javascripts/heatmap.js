@@ -1,91 +1,67 @@
-//= require d3/dist/d3
-//= require cal-heatmap/dist/cal-heatmap
-//= require popper
-//= require cal-heatmap/dist/plugins/Tooltip
+$(function () {
+  const heatmap = $(".heatmap").removeClass("d-none").addClass("d-grid");
+  const weekInfo = getWeekInfo();
+  const maxPerDay = heatmap.data("max-per-day");
+  const weekdayLabels = heatmap.find("[data-weekday]");
+  let weekColumn = 1;
+  let previousMonth = null;
 
-/* global CalHeatmap, Tooltip */
-document.addEventListener("DOMContentLoaded", () => {
-  const heatmapElement = document.querySelector("#cal-heatmap");
-
-  if (!heatmapElement) {
-    return;
+  for (const day of weekdayLabels) {
+    const $day = $(day);
+    const weekday = $day.data("weekday");
+    if (weekday < weekInfo.firstDay % 7) {
+      $day.insertAfter(weekdayLabels.last());
+    }
+    const weekdayRow = getWeekdayRow(weekday);
+    if (weekdayRow % 2 === 0) $day.remove();
+    $day.css("grid-area", weekdayRow + " / 1");
   }
 
-  /** @type {{date: string; max_id: number; total_changes: number}[]} */
-  const heatmapData = heatmapElement.dataset.heatmap ? JSON.parse(heatmapElement.dataset.heatmap) : [];
-  const displayName = heatmapElement.dataset.displayName;
-  const colorScheme = document.documentElement.getAttribute("data-bs-theme") ?? "auto";
-  const rangeColorsDark = ["#14432a", "#4dd05a"];
-  const rangeColorsLight = ["#4dd05a", "#14432a"];
-  const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
-
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-  let cal = new CalHeatmap();
-  let currentTheme = getTheme();
-
-  function renderHeatmap() {
-    cal.destroy();
-    cal = new CalHeatmap();
-
-    cal.paint({
-      itemSelector: "#cal-heatmap",
-      theme: currentTheme,
-      domain: {
-        type: "month",
-        gutter: 4,
-        label: {
-          text: (timestamp) => new Date(timestamp).toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" }),
-          position: "top",
-          textAlign: "middle"
-        },
-        dynamicDimension: true
-      },
-      subDomain: {
-        type: "ghDay",
-        radius: 2,
-        width: 11,
-        height: 11,
-        gutter: 4
-      },
-      date: {
-        start: startDate
-      },
-      range: 13,
-      data: {
-        source: heatmapData,
-        type: "json",
-        x: "date",
-        y: "total_changes"
-      },
-      scale: {
-        color: {
-          type: "sqrt",
-          range: currentTheme === "dark" ? rangeColorsDark : rangeColorsLight,
-          domain: [0, Math.max(0, ...heatmapData.map(d => d.total_changes))]
-        }
+  for (const day of heatmap.find("[data-date]")) {
+    const $day = $(day);
+    const date = new Date($day.data("date"));
+    if (date.getUTCDay() === weekInfo.firstDay) {
+      weekColumn++;
+      const currentMonth = getMonthOfThisWeek(date);
+      if (previousMonth === null) {
+        previousMonth = currentMonth;
+        heatmap.find(`[data-month]:has( ~ [data-month="${previousMonth}"])`).remove();
+        heatmap.find("[data-month]").first().css("grid-column-start", 2);
       }
-    }, [
-      [Tooltip, {
-        text: (date, value) => getTooltipText(date, value)
-      }]
-    ]);
-
-    cal.on("mouseover", (event, timestamp, value) => {
-      if (!displayName || !value) return;
-      if (event.target.parentElement.nodeName === "a") return;
-
-      for (const { date, max_id } of heatmapData) {
-        if (!max_id) continue;
-        if (timestamp !== Date.parse(date)) continue;
-
-        const params = new URLSearchParams({ before: max_id + 1 });
-        const a = document.createElementNS("http://www.w3.org/2000/svg", "a");
-        a.setAttribute("href", `/user/${encodeURIComponent(displayName)}/history?${params}`);
-        $(event.target).wrap(a);
-        break;
+      if (previousMonth % 12 !== currentMonth % 12) {
+        heatmap.find(`[data-month="${previousMonth}"]`).css("grid-column-end", weekColumn);
+        previousMonth++;
+        heatmap.find(`[data-month="${previousMonth}"]`).css("grid-column-start", weekColumn);
       }
-    });
+    }
+    if (weekColumn === 1) {
+      $day.remove();
+      continue;
+    }
+    const count = $day.data("count") ?? 0;
+    const tooltipText = getTooltipText(date, count);
+    $day
+      .css("grid-area", getWeekdayRow(date.getUTCDay()) + " / " + weekColumn)
+      .attr("aria-label", tooltipText)
+      .tooltip({
+        title: tooltipText,
+        customClass: "wide",
+        delay: { show: 0, hide: 0 }
+      })
+      .find("div")
+      .css("opacity", Math.sqrt(count / maxPerDay));
+  }
+  heatmap.find(`[data-month="${previousMonth}"] ~ [data-month]`).remove();
+  heatmap.find("[data-month]").last().css("grid-column-end", weekColumn + 1);
+
+  function getMonthOfThisWeek(date) {
+    const nextDate = new Date(date);
+    nextDate.setUTCDate(date.getUTCDate() + weekInfo.minimalDays - 1);
+    return nextDate.getUTCMonth() + 1;
+  }
+
+  function getWeekdayRow(weekday) {
+    return ((weekday - weekInfo.firstDay + 7) % 7) + 2;
   }
 
   function getTooltipText(date, value) {
@@ -98,22 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
   }
 
-  function getTheme() {
-    if (colorScheme === "auto") {
-      return mediaQuery.matches ? "dark" : "light";
-    }
-
-    return colorScheme;
+  function getWeekInfo() {
+    const weekInfo = { firstDay: 1, minimalDays: 4 }; // ISO 8601
+    const locale = new Intl.Locale(OSM.i18n.locale);
+    return { ...weekInfo, ...locale.weekInfo, ...locale.getWeekInfo?.() };
   }
-
-  if (colorScheme === "auto") {
-    mediaQuery.addEventListener("change", (e) => {
-      currentTheme = e.matches ? "dark" : "light";
-      renderHeatmap();
-    });
-  }
-
-  renderHeatmap();
 });
-
-
