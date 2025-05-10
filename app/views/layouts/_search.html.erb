@@ -81,11 +81,18 @@
             </svg>
           </label>
         </div>
-        <select class="routing_engines form-select py-1 px-2" name="routing_engines">
-          <option value="graphhopper" disabled><%= t("site.search.providers.graphhopper") %></option>
-          <option value="fossgis_osrm" disabled><%= t("site.search.providers.fossgis_osrm") %></option>
-          <option value="fossgis_valhalla" disabled><%= t("site.search.providers.fossgis_valhalla") %></option>
-        </select>
+        <div class="d-flex flex-grow-1">
+          <select class="routing_engines form-select py-1 px-2" name="routing_engines" title="<%= t("site.search.providers.description") %>">
+            <optgroup label="<%= t("site.search.providers.description") %>">
+              <option value="graphhopper" disabled><%= t("site.search.providers.graphhopper") %></option>
+              <option value="fossgis_osrm" disabled><%= t("site.search.providers.fossgis_osrm") %></option>
+              <option value="fossgis_valhalla" disabled><%= t("site.search.providers.fossgis_valhalla") %></option>
+            </optgroup>
+          </select>
+          <div class="border-0 input-group-text p-0 position-relative">
+            <span class="border-1 end-0 position-absolute rounded-circle text-body-secondary" data-bs-original-title="<%= t("site.search.providers.tooltip") %>">i</span>
+          </div>
+        </div>
         <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-primary py-1 px-2", :data => { :disable_with => false } %>
       </div>
     </div>

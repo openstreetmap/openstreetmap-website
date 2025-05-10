@@ -59,6 +59,8 @@ OSM.Directions = function (map) {
     OSM.router.route("/" + OSM.formatHash(map));
   });
 
+  $(".directions_form select + .input-group-text > span").tooltip();
+
   function setEngine(id) {
     const engines = OSM.Directions.engines;
     const desired = engines.find(engine => engine.id === id);
