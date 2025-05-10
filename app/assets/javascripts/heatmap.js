@@ -38,24 +38,30 @@ $(function () {
       $(day).addClass("d-none");
       continue;
     }
-    const tooltipOptions = {
-      placement: "top",
-      trigger: "hover",
-      delay: { show: 0, hide: 0 }
-    };
-    const localizedDate = OSM.i18n.l("date.formats.long", date);
     if (data.count > 0) {
-      tooltipOptions.title = OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: data.count, date: localizedDate });
       $(day).find("div").css("opacity", Math.sqrt(data.count / maxPerDay));
-    } else {
-      tooltipOptions.title = OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
     }
     $(day)
       .css({ "grid-column": week + 1, "grid-row": weekday + 2 })
-      .tooltip(tooltipOptions);
+      .tooltip({
+        title: getTooltipText(date, data.count),
+        placement: "top",
+        trigger: "hover",
+        delay: { show: 0, hide: 0 }
+      });
   }
   $(".heatmap [data-month]").first().css({ "grid-column-start": 2 });
   $(".heatmap [data-month]").last().css({ "grid-column-end": week + 2 });
+
+  function getTooltipText(date, value) {
+    const localizedDate = OSM.i18n.l("date.formats.long", date);
+
+    if (value > 0) {
+      return OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
+    }
+
+    return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
+  }
 
   function getWeekInfo() {
     const weekInfo = { firstDay: 1, minimalDays: 4 }; // ISO 8601
