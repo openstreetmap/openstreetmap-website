@@ -24,7 +24,7 @@
             <td><%= t ".states.#{issue.status}" %></td>
             <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
             <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
-            <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
+            <td><%= link_to issue.reported_user.display_name, issue.reported_user, :dir => :auto if issue.reported_user %></td>
             <td class="reporting_users text-truncate">
               <%= render :partial => "issues/reporters/reporters", :locals => { :issue => issue } %>
             </td>
@@ -32,7 +32,7 @@
               <%= friendly_date_ago(issue.updated_at) %>
             </td>
             <td>
-              <%= link_to(issue.user_updated.display_name, issue.user_updated) if issue.user_updated %>
+              <%= link_to(issue.user_updated.display_name, issue.user_updated, :dir => :auto) if issue.user_updated %>
             </td>
           </tr>
         <% end %>

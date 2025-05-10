@@ -1,6 +1,7 @@
 class TracesController < ApplicationController
   include UserMethods
   include PaginationMethods
+  include ActionView::Helpers::TagHelper
 
   layout "site"
 
@@ -33,7 +34,7 @@ class TracesController < ApplicationController
              elsif current_user && current_user == target_user
                t ".my_gps_traces"
              else
-               t ".public_traces_from", :user => target_user.display_name
+               t ".public_traces_from_html", :user => tag.bdi(target_user.display_name)
              end
 
     @title += t ".tagged_with", :tags => params[:tag] if params[:tag]

@@ -1,13 +1,13 @@
-<% @title = t(".title", :name => @user.display_name) %>
+<% @title = t(".title_html", :name => tag.bdi(@user.display_name)) %>
 
 <% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
-  <h1><%= t(".heading_html", :name => link_to(@user.display_name, @user)) %></h1>
+  <h1><%= t(".heading_html", :name => link_to(@user.display_name, @user, :dir => :auto)) %></h1>
   <%= render :partial => "user_blocks/navigation" %>
 <% end %>
 
 <% unless @user_blocks.empty? %>
 <%= render :partial => "user_blocks/page" %>
 <% else %>
-<p><%= t ".empty", :name => @user.display_name %></p>
+<p><%= t ".empty_html", :name => tag.bdi(@user.display_name) %></p>
 <% end %>
