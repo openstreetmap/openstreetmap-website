@@ -114,7 +114,8 @@ OSM.Directions = function (map) {
       if (fitRoute) {
         routeOutput.fit();
       }
-    }).catch(async function () {
+    }).catch(async function (error) {
+      if (error.name === "AbortError") return;
       await sidebarLoaded();
       routeOutput.remove();
       if (reportErrors) {
