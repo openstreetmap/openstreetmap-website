@@ -45,7 +45,7 @@ class Ability
         can [:create], DiaryComment
         can [:show, :create, :destroy], Follow
         can [:read, :create, :destroy], Message
-        can [:close, :reopen], Note
+        can [:update, :close, :reopen], Note
         can [:read, :update], :preference
         can :update, :profile
         can :create, Report

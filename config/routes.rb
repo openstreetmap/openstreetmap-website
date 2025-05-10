@@ -114,7 +114,7 @@ OpenStreetMap::Application.routes.draw do
     get "gpx/:id/details" => "traces#show", :id => /\d+/, :as => :trace_details
 
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :id => /\d+/, :controller => "notes" do
+    resources :notes, :except => [:new, :edit], :id => /\d+/, :controller => "notes" do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -125,6 +125,8 @@ OpenStreetMap::Application.routes.draw do
         post "close"
         post "reopen"
       end
+
+      resource :version, :path => ":version", :version => /\d+/, :controller => :note_versions, :only => :show
 
       resource :subscription, :only => [:create, :destroy], :controller => "note_subscriptions"
     end
