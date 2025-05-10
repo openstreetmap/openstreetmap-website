@@ -20,4 +20,3 @@
 //= link leaflet/dist/images/marker-icon.png
 //= link leaflet/dist/images/marker-icon-2x.png
 //= link leaflet/dist/images/marker-shadow.png
-//= link cal-heatmap/dist/cal-heatmap.css

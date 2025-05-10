@@ -1,92 +1,57 @@
-//= require d3/dist/d3
-//= require cal-heatmap/dist/cal-heatmap
-//= require popper
-//= require cal-heatmap/dist/plugins/Tooltip
+$(function () {
+  $(".heatmap-wrapper").attr("hidden", false);
+  const weekInfo = getWeekInfo();
+  const maxPerDay = $(".heatmap").data("max-per-day");
+  let week = 0;
+  let lastUpdatedMonth = -1;
 
-/* global CalHeatmap, Tooltip */
-document.addEventListener("DOMContentLoaded", () => {
-  const heatmapElement = document.querySelector("#cal-heatmap");
-
-  if (!heatmapElement) {
-    return;
+  for (const day of $(".heatmap [data-weekday]")) {
+    const weekday = $(day).data("weekday");
+    const weekdayOffset = (weekday - weekInfo.firstDay + 7) % 7;
+    if (weekday < weekInfo.firstDay % 7) {
+      $(day).insertAfter($(".heatmap [data-weekday]").last());
+    }
+    if (weekdayOffset % 2 === 0) {
+      $(day).addClass("d-none");
+    }
+    $(day).css({ "grid-column": 1, "grid-row": weekdayOffset + 2 });
   }
 
-  /** @type {{date: string; max_id: number; total_changes: number}[]} */
-  const heatmapData = heatmapElement.dataset.heatmap ? JSON.parse(heatmapElement.dataset.heatmap) : [];
-  const displayName = heatmapElement.dataset.displayName;
-  const colorScheme = document.documentElement.getAttribute("data-bs-theme") ?? "auto";
-  const rangeColorsDark = ["#14432a", "#4dd05a"];
-  const rangeColorsLight = ["#4dd05a", "#14432a"];
-  const startDate = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000));
-
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-  let cal = new CalHeatmap();
-  let currentTheme = getTheme();
-
-  function renderHeatmap() {
-    cal.destroy();
-    cal = new CalHeatmap();
-
-    cal.paint({
-      itemSelector: "#cal-heatmap",
-      theme: currentTheme,
-      domain: {
-        type: "month",
-        gutter: 4,
-        label: {
-          text: (timestamp) => new Date(timestamp).toLocaleString(OSM.i18n.locale, { timeZone: "UTC", month: "short" }),
-          position: "top",
-          textAlign: "middle"
-        },
-        dynamicDimension: true
-      },
-      subDomain: {
-        type: "ghDay",
-        radius: 2,
-        width: 11,
-        height: 11,
-        gutter: 4
-      },
-      date: {
-        start: startDate
-      },
-      range: 13,
-      data: {
-        source: heatmapData,
-        type: "json",
-        x: "date",
-        y: "total_changes"
-      },
-      scale: {
-        color: {
-          type: "sqrt",
-          range: currentTheme === "dark" ? rangeColorsDark : rangeColorsLight,
-          domain: [0, Math.max(0, ...heatmapData.map(d => d.total_changes))]
-        }
+  for (const day of $(".heatmap [data-date]")) {
+    const data = $(day).data();
+    const date = new Date(data.date);
+    const isBeginningOfWeek = date.getUTCDay() === weekInfo.firstDay;
+    if (isBeginningOfWeek) {
+      week++;
+      // check (respecting weekInfo.minimalDays) if the new week is a new month
+      const nextDate = new Date(date);
+      nextDate.setUTCDate(date.getUTCDate() + weekInfo.minimalDays - 1);
+      const nextMonth = nextDate.getUTCMonth();
+      if (lastUpdatedMonth !== nextMonth) {
+        $(`.heatmap [data-month="${lastUpdatedMonth + 1}"]`).css({ "grid-column-end": week + 1 });
+        $(`.heatmap [data-month="${nextMonth + 1}"]`).css({ "grid-column-start": week + 1 });
+        lastUpdatedMonth = nextMonth;
       }
-    }, [
-      [Tooltip, {
-        text: (date, value) => getTooltipText(date, value)
-      }]
-    ]);
-
-    cal.on("mouseover", (event, timestamp, value) => {
-      if (!displayName || !value) return;
-      if (event.target.parentElement.nodeName === "a") return;
-
-      for (const { date, max_id } of heatmapData) {
-        if (!max_id) continue;
-        if (timestamp !== Date.parse(date)) continue;
-
-        const params = new URLSearchParams({ before: max_id + 1 });
-        const a = document.createElementNS("http://www.w3.org/2000/svg", "a");
-        a.setAttribute("href", `/user/${encodeURIComponent(displayName)}/history?${params}`);
-        $(event.target).wrap(a);
-        break;
-      }
-    });
+    }
+    const weekday = (date.getUTCDay() - weekInfo.firstDay + 7) % 7;
+    if (!week) {
+      $(day).addClass("d-none");
+      continue;
+    }
+    if (data.count > 0) {
+      $(day).find("div").css("opacity", Math.sqrt(data.count / maxPerDay));
+    }
+    $(day)
+      .css({ "grid-column": week + 1, "grid-row": weekday + 2 })
+      .tooltip({
+        title: getTooltipText(date, data.count),
+        placement: "top",
+        trigger: "hover",
+        delay: { show: 0, hide: 0 }
+      });
   }
+  $(".heatmap [data-month]").first().css({ "grid-column-start": 2 });
+  $(".heatmap [data-month]").last().css({ "grid-column-end": week + 2 });
 
   function getTooltipText(date, value) {
     const localizedDate = OSM.i18n.l("date.formats.long", date);
@@ -98,22 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
   }
 
-  function getTheme() {
-    if (colorScheme === "auto") {
-      return mediaQuery.matches ? "dark" : "light";
-    }
-
-    return colorScheme;
+  function getWeekInfo() {
+    const weekInfo = { firstDay: 1, minimalDays: 4 }; // ISO 8601
+    const locale = new Intl.Locale(OSM.i18n.locale);
+    return locale.getWeekInfo?.() || locale.weekInfo || weekInfo;
   }
-
-  if (colorScheme === "auto") {
-    mediaQuery.addEventListener("change", (e) => {
-      currentTheme = e.matches ? "dark" : "light";
-      renderHeatmap();
-    });
-  }
-
-  renderHeatmap();
 });
-
-

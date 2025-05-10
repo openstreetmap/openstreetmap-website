@@ -24,11 +24,11 @@ class UsersController < ApplicationController
     if @user && (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
 
-      @heatmap_data = Rails.cache.fetch("heatmap_data_with_ids_user_#{@user.id}", :expires_in => 1.day) do
+      @heatmap_data = Rails.cache.fetch("heatmap_data_newvers_with_ids_user_#{@user.id}", :expires_in => 1.day) do
         one_year_ago = 1.year.ago.beginning_of_day
         today = Time.zone.now.end_of_day
 
-        Changeset
+        changeset_data = Changeset
           .where(:user_id => @user.id)
           .where(:created_at => one_year_ago..today)
           .where(:num_changes => 1..)
@@ -37,14 +37,35 @@ class UsersController < ApplicationController
           .order("date")
           .map do |changeset|
             {
-              :date => changeset.date.to_date.to_s,
+              :date => changeset.date.to_date,
               :total_changes => changeset.total_changes.to_i,
               :max_id => changeset.max_id
             }
           end
-      end
+          .index_by { |entry| entry[:date] }
 
-      @changes_count = @heatmap_data.sum { |entry| entry[:total_changes] }
+        # Pad the start by one week to ensure the heatmap can start on the first day of the week
+        all_days = ((1.year.ago - 1.week).beginning_of_day.to_date..today.to_date).map do |date|
+          changeset_data[date] || { :date => date, :total_changes => 0 }
+        end
+
+        # Get unique months with repeating months
+        months = all_days
+          .map { |entry| entry[:date].month }
+          .chunk_while { |before, after| before == after }
+          .map(&:first)
+
+        total = changeset_data.values.sum { |entry| entry[:total_changes] }
+        max_per_day = changeset_data.values.map { |entry| entry[:total_changes] }.max
+
+        {
+          :legacy => changeset_data,
+          :days => all_days,
+          :months => months,
+          :total => total,
+          :max_per_day => max_per_day
+        }
+      end
     else
       render_unknown_user params[:display_name]
     end
