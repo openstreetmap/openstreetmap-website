@@ -1,23 +1,25 @@
 <h2 class="text-body-secondary fs-5">
-  <%= t("users.show.contributions", :count => @changes_count) %>
+  <%= t("users.show.contributions", :count => @heatmap_data[:total]) %>
 </h2>
-<div class="row">
+<div class="heatmap-wrapper row" hidden>
   <div class="col overflow-auto">
-    <div class="heatmap-wrapper d-flex align-items-start">
-      <!-- Labels -->
-      <ul class="list-unstyled d-flex flex-column justify-content-between ch-domain-text mb-0 mt-4">
-        <li>&nbsp;</li>
-        <li><%= t("date.abbr_day_names")[1] %></li>
-        <li>&nbsp;</li>
-        <li><%= t("date.abbr_day_names")[3] %></li>
-        <li>&nbsp;</li>
-        <li><%= t("date.abbr_day_names")[5] %></li>
-        <li>&nbsp;</li>
-      </ul>
+    <div class="heatmap d-grid align-items-center" data-max-per-day="<%= @heatmap_data[:max_per_day] %>">
+      <!-- Months -->
+      <% @heatmap_data[:months].each do |month| %>
+        <span class="text-center mb-2" data-month="<%= month %>"><%= t("date.abbr_month_names")[month] %></span>
+      <% end %>
+      <!-- Days -->
+      <% (0..6).each do |day| %>
+        <span class="text-center me-2 my-n1" data-weekday="<%= day %>"><%= t("date.abbr_day_names")[day] %></span>
+      <% end %>
       <!-- Heatmap -->
-      <div id="cal-heatmap" class="ms-2"
-        data-heatmap="<%= @heatmap_data.to_json %>" data-display-name="<%= @user.display_name %>">
-      </div>
+      <% @heatmap_data[:days].each do |day| %>
+        <% if day[:total_changes] == 0 %>
+          <span data-date="<%= day[:date] %>" class="rounded-1" ></span>
+        <% else %>
+          <a href="<%= "#{user_path}/history?before=#{day[:max_id] + 1}" %>" data-date="<%= day[:date] %>" data-count="<%= day[:total_changes] %>" class="rounded-1" ><div class="h-100 w-100 bg-success rounded-1"></div></a>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
