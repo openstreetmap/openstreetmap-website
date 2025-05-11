@@ -8,8 +8,12 @@ L.OSM.query = function (options) {
     const link = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
-      .html("<span class=\"icon query\"></span>")
       .appendTo($container);
+
+    $(L.SVG.create("svg"))
+      .append($(L.SVG.create("use")).attr("href", "#icon-query"))
+      .attr("class", "h-100 w-100")
+      .appendTo(link);
 
     map.on("zoomend", update);
 
