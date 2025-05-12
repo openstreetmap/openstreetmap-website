@@ -73,7 +73,8 @@ CREATE TYPE public.note_event_enum AS ENUM (
     'closed',
     'reopened',
     'commented',
-    'hidden'
+    'hidden',
+    'updated'
 );
 
 
@@ -3567,6 +3568,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250512135304'),
 ('20250412162641'),
 ('20250411115753'),
 ('20250410151730'),
