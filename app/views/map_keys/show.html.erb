@@ -17,4 +17,11 @@
       <% end %>
     <% end %>
   </table>
+  <% @key.each do |layer_name, layer_data| %>
+    <% if layer_data["legend"] %>
+      <%= tag.div :data => { :layer => layer_name }, :class => "mt-3 text-center" do %>
+        <%= link_to t(".see_external_legend"), layer_data["legend"], :target => "_blank", :rel => "noopener" %>
+      <% end %>
+    <% end %>
+  <% end %>
 </div>
