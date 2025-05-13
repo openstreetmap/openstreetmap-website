@@ -47,15 +47,13 @@
       draggable: false,
 
       getRoute: function (points, signal) {
-        // GraphHopper Directions API documentation
-        // https://graphhopper.com/api/1/docs/routing/
+        // GraphHopper Directions API documentation https://docs.graphhopper.com
         const query = new URLSearchParams({
-          vehicle: vehicleType,
+          profile: vehicleType,
           locale: OSM.i18n.locale,
-          key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
+          key: "7cb4eb19-e0f4-40a3-a5e0-f2c039366f32",
           elevation: false,
-          instructions: true,
-          turn_costs: vehicleType === "car"
+          instructions: true
         });
         points.forEach(p => query.append("point", p.lat + "," + p.lng));
         return fetch(OSM.GRAPHHOPPER_URL + "?" + query, { signal })
