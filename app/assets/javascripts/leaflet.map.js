@@ -80,20 +80,21 @@ L.OSM.Map = L.Map.extend({
     const language = new MapboxLanguage({
       defaultLanguage: 'mul'
     });
-    console.info(`leaflet.map: preferred_languages: ${OSM.preferred_languages}`);
-    console.info(`  browser_language: ${navigator.language}`);
-    let selectedLanguage, plFound = false;
-    for (let i=0; i<OSM.preferred_languages.length; i++) {
-      // Strip variant, e.g., '_US', as none are to be found in supportedLanguages. Loop is broken so deduping preferred_languages unnecessary.
-      OSM.preferred_languages[i] = OSM.preferred_languages[i].replace(/-.*$/,'')
-      if (language.supportedLanguages.includes(OSM.preferred_languages[i])) {
-        selectedLanguage = OSM.preferred_languages[i];
-        plFound = true;
-        break
+    let selectedLanguage;
+    /*
+     * Note: there is no language validation at this step; OSM.preferred_languages[0] may be any arbitrary string. Even
+     * if it is a valid (RFC 5646) language string it may be filtered out for being infrequently used
+     * (see https://github.com/OpenHistoricalMap/issues/issues/948) and may not appear on the OHM map.
+     */
+    if (OSM.preferred_languages !== undefined && OSM.preferred_languages.length > 0) {
+      selectedLanguage = OSM.preferred_languages[0]
+    } else {
+      if (navigator.language) {
+        selectedLanguage = navigator.language
       }
-      if (!plFound) selectedLanguage = navigator.language.replace(/-.*$/,'')
     }
-    console.info(`  using language: ${selectedLanguage}`);
+    console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
+    language.supportedLanguages.push(selectedLanguage);
 
     this.baseLayers.push(new L.MaplibreGL(
       Object.assign(this.ohmMaplibreOptions, {
