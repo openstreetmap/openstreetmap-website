@@ -133,14 +133,36 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_new_get_with_params
+    create(:language, :code => "fr")
     # Now try creating a diary entry using get
-    session_for(create(:user))
+    session_for(create(:user, :languages => ["en"]))
+
     assert_difference "DiaryEntry.count", 0 do
       get new_diary_entry_path(:diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
-                                                 :longitude => "2.2", :language_code => "en" })
+                                                 :longitude => "2.2", :language_code => "fr" })
     end
+
     assert_response :success
     assert_template :new
+    assert_dom "div#content", :count => 1 do
+      assert_dom "form[action='/diary'][method=post]", :count => 1 do
+        assert_dom "input#diary_entry_title[name='diary_entry[title]']", :count => 1 do
+          assert_dom "> @value", "New Title"
+        end
+        assert_dom "textarea#diary_entry_body[name='diary_entry[body]']", :count => 1, :text => "This is a new body for the diary entry"
+        assert_dom "select#diary_entry_language_code", :count => 1 do
+          assert_dom "option[selected]", :count => 1 do
+            assert_dom "> @value", "fr"
+          end
+        end
+        assert_dom "input#latitude[name='diary_entry[latitude]']", :count => 1 do
+          assert_dom "> @value", "1.1"
+        end
+        assert_dom "input#longitude[name='diary_entry[longitude]']", :count => 1 do
+          assert_dom "> @value", "2.2"
+        end
+      end
+    end
   end
 
   def test_create_no_body
