@@ -104,24 +104,30 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_new_form
     # Now try again when logged in
-    session_for(create(:user))
+    session_for(create(:user, :languages => ["en"]))
+
     get new_diary_entry_path
+
     assert_response :success
-    assert_select "title", :text => /New Diary Entry/, :count => 1
-    assert_select "div.content-heading", :count => 1 do
-      assert_select "h1", :text => /New Diary Entry/, :count => 1
+    assert_dom "title", :text => /New Diary Entry/, :count => 1
+    assert_dom "div.content-heading", :count => 1 do
+      assert_dom "h1", :text => /New Diary Entry/, :count => 1
     end
-    assert_select "div#content", :count => 1 do
-      assert_select "form[action='/diary'][method=post]", :count => 1 do
-        assert_select "input#diary_entry_title[name='diary_entry[title]']", :count => 1
-        assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => "", :count => 1
-        assert_select "select#diary_entry_language_code", :count => 1
-        assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
-        assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
-        assert_select "input[name=commit][type=submit][value=Publish]", :count => 1
-        assert_select "button[type=button]", :text => "Edit", :count => 1
-        assert_select "button[type=button]", :text => "Preview", :count => 1
-        assert_select "input", :count => 4
+    assert_dom "div#content", :count => 1 do
+      assert_dom "form[action='/diary'][method=post]", :count => 1 do
+        assert_dom "input#diary_entry_title[name='diary_entry[title]']", :count => 1
+        assert_dom "textarea#diary_entry_body[name='diary_entry[body]']", :text => "", :count => 1
+        assert_dom "select#diary_entry_language_code", :count => 1 do
+          assert_dom "option[selected]", :count => 1 do
+            assert_dom "> @value", "en"
+          end
+        end
+        assert_dom "input#latitude[name='diary_entry[latitude]']", :count => 1
+        assert_dom "input#longitude[name='diary_entry[longitude]']", :count => 1
+        assert_dom "input[name=commit][type=submit][value=Publish]", :count => 1
+        assert_dom "button[type=button]", :text => "Edit", :count => 1
+        assert_dom "button[type=button]", :text => "Preview", :count => 1
+        assert_dom "input", :count => 4
       end
     end
   end
