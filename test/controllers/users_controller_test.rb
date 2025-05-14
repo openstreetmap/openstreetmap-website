@@ -330,20 +330,40 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
+  def test_show_heatmap_data_when_not_logged_in
+    user = create(:user)
+    create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
+
+    get user_path(user.display_name)
+
+    assert_response :success
+    assert_nil assigns(:heatmap_data)
+  end
+
+  def test_show_heatmap_data_no_changesets
+    user = create(:user)
+
+    session_for(create(:user))
+    get user_path(user.display_name)
+
+    assert_response :success
+    assert_empty assigns(:heatmap_data)
+  end
+
   def test_show_heatmap_data
     user = create(:user)
-    # Create two changesets
     create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
     create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
 
+    session_for(create(:user))
     get user_path(user.display_name)
+
     assert_response :success
     # The data should not be empty
     assert_not_nil assigns(:heatmap_data)
-
-    heatmap_data = assigns(:heatmap_data)
     # The data should be in the right format
-    assert(heatmap_data.all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
+    heatmap_data = assigns(:heatmap_data)
+    assert(heatmap_data.all? { |entry| entry[:date] && entry[:total_changes] && entry[:max_id] }, "Heatmap data should have :date, :total_changes and :max_id keys")
   end
 
   def test_show_heatmap_data_caching
@@ -358,6 +378,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 15)
 
     # First request to populate the cache
+    session_for(create(:user))
     get user_path(user.display_name)
     first_response_data = assigns(:heatmap_data)
     assert_not_nil first_response_data, "Expected heatmap data to be assigned on the first request"
@@ -390,28 +411,35 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     Rails.cache = @original_cache_store
   end
 
-  def test_show_heatmap_data_no_changesets
+  def test_show_heatmap_rendering_when_not_logged_in
     user = create(:user)
+    create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
 
     get user_path(user.display_name)
-    assert_response :success
-    # There should be no entries in heatmap data
-    assert_empty assigns(:heatmap_data)
-  end
 
-  def test_heatmap_rendering
-    # Test user with no changesets
-    user_without_changesets = create(:user)
-    get user_path(user_without_changesets)
     assert_response :success
     assert_select "div#cal-heatmap", 0
+  end
 
-    # Test user with changesets
-    user_with_changesets = create(:user)
-    changeset39 = create(:changeset, :user => user_with_changesets, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
-    _changeset5 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
-    changeset11 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
-    get user_path(user_with_changesets)
+  def test_show_heatmap_rendering_of_user_with_no_changesets
+    user = create(:user)
+
+    session_for(create(:user))
+    get user_path(user)
+
+    assert_response :success
+    assert_select "div#cal-heatmap", 0
+  end
+
+  def test_show_heatmap_rendering_of_user_with_changesets
+    user = create(:user)
+    changeset39 = create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
+    _changeset5 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
+    changeset11 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
+
+    session_for(create(:user))
+    get user_path(user)
+
     assert_response :success
     assert_select "div#cal-heatmap[data-heatmap]" do |elements|
       # Check the data-heatmap attribute is present and contains expected JSON
