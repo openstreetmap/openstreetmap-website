@@ -243,19 +243,45 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_languages
-    create(:language, :code => "en")
-    create(:language, :code => "de")
-    create(:language, :code => "sl")
-
     user = create(:user, :languages => ["en"])
     assert_equal ["en"], user.languages
     user.languages = %w[de fr en]
     assert_equal %w[de fr en], user.languages
     user.languages = %w[fr de sl]
-    assert_equal "de", user.preferred_language
     assert_equal %w[fr de sl], user.preferred_languages.map(&:to_s)
     user = create(:user, :languages => %w[en de])
     assert_equal %w[en de], user.languages
+  end
+
+  def test_default_diary_language_undefined
+    create(:language, :code => "en")
+    user = create(:user, :languages => [])
+    assert_nil user.default_diary_language
+  end
+
+  def test_default_diary_language_known
+    create(:language, :code => "en")
+    user = create(:user, :languages => ["en"])
+    assert_equal "en", user.default_diary_language
+  end
+
+  def test_default_diary_language_known_with_fallback
+    create(:language, :code => "en")
+    create(:language, :code => "fr")
+    user = create(:user, :languages => ["fr en"])
+    assert_equal "fr", user.default_diary_language
+  end
+
+  def test_default_diary_language_unknown
+    create(:language, :code => "en")
+    user = create(:user, :languages => ["unknown"])
+    assert_nil user.default_diary_language
+  end
+
+  def test_default_diary_language_unknown_with_known_fallback
+    create(:language, :code => "en")
+    user = create(:user, :languages => ["unknown en"])
+    assert_equal "en", user.default_diary_language
   end
 
   def test_visible?

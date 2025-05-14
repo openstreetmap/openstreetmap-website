@@ -250,12 +250,17 @@ class User < ApplicationRecord
     self[:languages] = languages.join(",")
   end
 
-  def preferred_language
-    languages.find { |l| Language.exists?(:code => l) }
-  end
-
   def preferred_languages
     @preferred_languages ||= Locale.list(languages)
+  end
+
+  def default_diary_language
+    diary_language_preference = preferences.find_by(:k => "diary.default_language")
+    if diary_language_preference
+      diary_language_preference.v
+    else
+      languages.find { |l| Language.exists?(:code => l) }
+    end
   end
 
   def home_location?
