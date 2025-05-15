@@ -67,17 +67,17 @@ class DiaryEntriesController < ApplicationController
   def show
     entries = @user.diary_entries
     entries = entries.visible unless can? :unhide, DiaryEntry
-    @entry = entries.find_by(:id => params[:id])
-    if @entry
-      @title = t ".title", :user => params[:display_name], :title => @entry.title
+    @diary_entry = entries.find_by(:id => params[:id])
+    if @diary_entry
+      @title = t ".title", :user => params[:display_name], :title => @diary_entry.title
       @opengraph_properties = {
-        "og:title" => @entry.title,
-        "og:image" => @entry.body.image,
-        "og:image:alt" => @entry.body.image_alt,
-        "og:description" => @entry.body.description,
-        "article:published_time" => @entry.created_at.xmlschema
+        "og:title" => @diary_entry.title,
+        "og:image" => @diary_entry.body.image,
+        "og:image:alt" => @diary_entry.body.image_alt,
+        "og:description" => @diary_entry.body.description,
+        "article:published_time" => @diary_entry.created_at.xmlschema
       }
-      @comments = can?(:unhide, DiaryComment) ? @entry.comments : @entry.visible_comments
+      @comments = can?(:unhide, DiaryComment) ? @diary_entry.comments : @diary_entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
