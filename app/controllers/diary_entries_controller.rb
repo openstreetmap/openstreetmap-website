@@ -109,13 +109,7 @@ class DiaryEntriesController < ApplicationController
     @diary_entry.user = current_user
 
     if @diary_entry.save
-      diary_language_preference = current_user.preferences.find_by(:k => "diary.default_language")
-      if diary_language_preference
-        diary_language_preference.v = @diary_entry.language_code
-        diary_language_preference.save!
-      else
-        current_user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
-      end
+      current_user.default_diary_language = @diary_entry.language_code
 
       # Subscribe user to diary comments
       @diary_entry.subscriptions.create(:user => current_user)

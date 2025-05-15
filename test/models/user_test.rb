@@ -284,6 +284,38 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "en", user.default_diary_language
   end
 
+  def test_default_diary_language_set
+    create(:language, :code => "en")
+    user = create(:user, :languages => [])
+
+    assert_difference "user.preferences.count", 1 do
+      assert_equal "en", (user.default_diary_language = "en")
+    end
+
+    user.reload
+    assert_equal "en", user.default_diary_language
+    preference = user.preferences.find_by(:k => "diary.default_language")
+    assert_equal "en", preference.v
+  end
+
+  def test_default_diary_language_set_twice
+    create(:language, :code => "en")
+    create(:language, :code => "fr")
+    user = create(:user, :languages => [])
+
+    assert_difference "user.preferences.count", 1 do
+      assert_equal "en", (user.default_diary_language = "en")
+    end
+    assert_difference "user.preferences.count", 0 do
+      assert_equal "fr", (user.default_diary_language = "fr")
+    end
+
+    user.reload
+    assert_equal "fr", user.default_diary_language
+    preference = user.preferences.find_by(:k => "diary.default_language")
+    assert_equal "fr", preference.v
+  end
+
   def test_visible?
     assert_predicate build(:user, :pending), :visible?
     assert_predicate build(:user, :active), :visible?

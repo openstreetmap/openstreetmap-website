@@ -263,6 +263,11 @@ class User < ApplicationRecord
     end
   end
 
+  def default_diary_language=(language)
+    preference = preferences.find_or_create_by(:k => "diary.default_language")
+    preference.update!(:v => language)
+  end
+
   def home_location?
     home_lat && home_lon
   end
