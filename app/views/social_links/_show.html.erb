@@ -1,0 +1,14 @@
+<ul class="list-unstyled">
+  <% social_links.each do |social_link| %>
+    <li>
+      <%= link_to social_link.parsed[:url], :class => "icon-link mw-100 text-body-secondary mb-3", :rel => "nofollow me" do %>
+        <%= image_tag "social_link_icons/#{social_link.parsed[:platform].nil? ? 'other' : social_link.parsed[:platform]}.svg",
+                      :alt => social_link.parsed[:platform].nil? ? t(".other") : social_link.parsed[:platform],
+                      :size => "16" %>
+        <span class="text-truncate">
+          <%= social_link.parsed[:name] %>
+        </span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
