@@ -75,6 +75,30 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     assert_no_link "Diary Entries in Russian"
   end
 
+  test "should have new diary entry link on own diary entry page" do
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+
+    sign_in_as(user)
+    visit diary_entry_path(diary_entry.user, diary_entry)
+
+    within_content_heading do
+      assert_link "New Diary Entry"
+    end
+  end
+
+  test "should not have new diary entry link on other user's diary entry page" do
+    user = create(:user)
+    diary_entry = create(:diary_entry)
+
+    sign_in_as(user)
+    visit diary_entry_path(diary_entry.user, diary_entry)
+
+    within_content_heading do
+      assert_no_link "New Diary Entry"
+    end
+  end
+
   test "should not be hidden on the list page" do
     body = SecureRandom.alphanumeric(1998)
     create(:diary_entry, :body => body)
