@@ -86,12 +86,12 @@ OSM.DirectionsRouteOutput = function (map) {
       const row = $("<tr class='turn'/>").appendTo($("#directions_route_steps"));
 
       if (direction) {
-        row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
+        row.append("<td class='ps-3'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
       } else {
-        row.append("<td class='border-0'>");
+        row.append("<td class='ps-3'>");
       }
       row.append(`<td><b>${i + 1}.</b> ${instruction}`);
-      row.append("<td class='distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
+      row.append("<td class='pe-3 distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
 
       row.on("click", function () {
         popup
