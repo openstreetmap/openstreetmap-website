@@ -960,6 +960,33 @@ img.trace_image {
   }
 }
 
-.heatmap-wrapper {
-  height: 130px;
+/* Rules for the heatmap */
+
+.heatmap {
+  grid-template-columns: auto;
+  grid-auto-columns: minmax(1em, 1fr);
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(1em, 1fr);
+  font-size: x-small;
+  gap: 0.3em;
+  [data-date] {
+    aspect-ratio: 1;
+    background-color: var(--bs-success-border-subtle);
+    @extend .h-100, .overflow-hidden;
+    border-radius: 25%;
+    div {
+      background-color: var(--bs-success-text-emphasis);
+      @extend .h-100;
+    }
+    &:empty {
+      @extend .bg-body-secondary, .bg-opacity-75;
+    }
+    &:hover {
+      border: solid 1px #8884;
+    }
+  }
+}
+
+.tooltip.wide {
+  --bs-tooltip-max-width: none;
 }
