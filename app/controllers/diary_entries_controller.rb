@@ -89,7 +89,7 @@ class DiaryEntriesController < ApplicationController
 
     default_lang = current_user.preferences.find_by(:k => "diary.default_language")
     lang_code = default_lang ? default_lang.v : current_user.preferred_language
-    @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
+    @diary_entry = DiaryEntry.new(entry_params.reverse_merge(:language_code => lang_code))
     set_map_location
     render :action => "new"
   end
