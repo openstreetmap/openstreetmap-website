@@ -25,12 +25,12 @@ class UsersController < ApplicationController
       @title = @user.display_name
 
       @heatmap_data = Rails.cache.fetch("heatmap_data_of_user_#{@user.id}", :expires_at => Time.zone.now.end_of_day) do
-        one_year_ago = 1.year.ago.beginning_of_day
-        today = Time.zone.now.end_of_day
+        from = 1.year.ago.beginning_of_day
+        to = Time.zone.now.end_of_day
 
         mapped = Changeset
                  .where(:user_id => @user.id)
-                 .where(:created_at => one_year_ago..today)
+                 .where(:created_at => from..to)
                  .where(:num_changes => 1..)
                  .group("date_trunc('day', created_at)")
                  .select("date_trunc('day', created_at) AS date, SUM(num_changes) AS total_changes, MAX(id) AS max_id")
@@ -43,32 +43,11 @@ class UsersController < ApplicationController
                    }
                  end
 
-        indexed = mapped.index_by { |entry| entry[:date] }
-
-        # Pad the start by one week to ensure the heatmap can start on the first day of the week
-        all_days = ((1.year.ago - 1.week).beginning_of_day.to_date..today.to_date).map do |date|
-          indexed[date] || { :date => date, :total_changes => 0 }
-        end
-
-        # Get unique months with repeating months and count into the next year with numbers over 12
-        month_offset = 0
-        months = ((1.year.ago - 2.weeks).beginning_of_day.to_date..(today + 1.week).to_date)
-                 .map(&:month)
-                 .chunk_while { |before, after| before == after }
-                 .map(&:first)
-                 .map do |month|
-                   month_offset += 12 if month == 1
-                   month + month_offset
-                 end
-
-        total = mapped.sum { |entry| entry[:total_changes] }
-        max_per_day = mapped.map { |entry| entry[:total_changes] }.max
-
         {
-          :days => all_days,
-          :months => months,
-          :total => total,
-          :max_per_day => max_per_day
+          :count => mapped.sum { |entry| entry[:total_changes] },
+          :data => mapped.index_by { |entry| entry[:date] },
+          :from => from,
+          :to => to
         }
       end
     else
