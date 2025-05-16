@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if @user && (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
 
-      @heatmap_data = Rails.cache.fetch("heatmap_data_of_user_#{@user.id}", :expires_in => 1.day) do
+      @heatmap_data = Rails.cache.fetch("heatmap_data_of_user_#{@user.id}", :expires_at => Time.zone.now.end_of_day) do
         one_year_ago = 1.year.ago.beginning_of_day
         today = Time.zone.now.end_of_day
 
