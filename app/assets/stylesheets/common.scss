@@ -16,36 +16,6 @@ time[title] {
   text-decoration: underline dotted;
 }
 
-/* Rules for icons */
-
-.icon {
-  display: inline-block;
-  vertical-align: top;
-  width: 20px;
-  height: 20px;
-  background: transparent image-url("sprite.svg") no-repeat 0 0;
-  text-indent: -9999px;
-  overflow: hidden;
-}
-
-.icon.search      { /*rtl:ignore*/ background-position: 0 0; }
-.icon.donate      { /*rtl:ignore*/ background-position: -20px 0; }
-.icon.zoomin      { /*rtl:ignore*/ background-position: -40px 0; }
-.icon.zoomout     { /*rtl:ignore*/ background-position: -60px 0; }
-.icon.geolocate   { /*rtl:ignore*/ background-position: -80px 0; }
-.active .icon.geolocate   { /*rtl:ignore*/ background-position: -80px -20px; }
-.icon.layers      { /*rtl:ignore*/ background-position: -100px 0; }
-.icon.key         { /*rtl:ignore*/ background-position: -120px 0; }
-.icon.share       { /*rtl:ignore*/ background-position: -140px 0; }
-.icon.clipboard   { /*rtl:ignore*/ background-position: -160px 0; }
-.icon.link        { /*rtl:ignore*/ background-position: -180px 0; }
-.icon.close       { /*rtl:ignore*/ background-position: -200px 0; }
-.icon.close:hover { /*rtl:ignore*/ background-position: -200px -20px; }
-.icon.check       { /*rtl:ignore*/ background-position: -220px 0; }
-.icon.note        { /*rtl:ignore*/ background-position: -240px 0; }
-.icon.note.grey   { /*rtl:ignore*/ background-position: -240px -20px; }
-.icon.query       { /*rtl:ignore*/ background-position: -260px 0; }
-
 /* Utility for de-emphasizing content */
 
 .text-body-secondary a {
@@ -147,10 +117,6 @@ nav.primary {
     .btn-outline-primary {
       color: $grey;
       cursor: default;
-
-      .caret {
-        border-top-color: $grey;
-      }
 
       &:hover {
         background-color: lighten($green, 30%);
@@ -283,7 +249,8 @@ body.small-nav {
   display: block;
   height: 40px;
   width: 40px;
-  background-color: #333;
+  color: white;
+  padding: 10px;
   background-color: rgba(0,0,0,.6);
   outline: none;
 
@@ -294,13 +261,8 @@ body.small-nav {
 
   &.disabled,
   &.leaflet-disabled {
-    background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
-  }
-
-  &.active {
-    background-color: $vibrant-green;
   }
 
   &-first {
@@ -311,10 +273,10 @@ body.small-nav {
     border-end-start-radius: 4px;
     margin-bottom: 10px;
   }
+}
 
-  .icon {
-    margin: 10px;
-  }
+.leaflet-control.active .control-button {
+  background-color: $vibrant-green;
 }
 
 /* Rules for the sidebar and main map area */
@@ -513,7 +475,7 @@ body.small-nav {
 
 @mixin dark-map-color-scheme {
   .leaflet-tile-container,
-  .mapkey-table-entry td:first-child > * {
+  #mapkey .filtered-image {
     filter: var(--dark-mode-map-filter);
   }
 
@@ -776,15 +738,13 @@ tr.turn {
 
 .content_map .leaflet-popup-content {
   margin: $spacer;
-  min-height: 50px;
 }
 
 /* Rules for user popups on maps */
 
 .user_popup {
   p {
-    padding: 0 0 5px 0;
-    margin: 0 0 0 60px;
+    margin: 0 0 5px 0 !important;
     font-size: 12px;
   }
 }
@@ -1000,6 +960,33 @@ img.trace_image {
   }
 }
 
-.heatmap-wrapper {
-  height: 130px;
+/* Rules for the heatmap */
+
+.heatmap {
+  grid-template-columns: auto;
+  grid-auto-columns: minmax(1em, 1fr);
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(1em, 1fr);
+  font-size: x-small;
+  gap: 0.3em;
+  [data-date] {
+    aspect-ratio: 1;
+    background-color: var(--bs-success-border-subtle);
+    @extend .h-100, .overflow-hidden;
+    border-radius: 25%;
+    div {
+      background-color: var(--bs-success-text-emphasis);
+      @extend .h-100;
+    }
+    &:empty {
+      @extend .bg-body-secondary, .bg-opacity-75;
+    }
+    &:hover {
+      border: solid 1px #8884;
+    }
+  }
+}
+
+.tooltip.wide {
+  --bs-tooltip-max-width: none;
 }

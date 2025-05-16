@@ -1,7 +1,8 @@
 OSM.Query = function (map) {
   const url = OSM.OVERPASS_URL,
         credentials = OSM.OVERPASS_CREDENTIALS,
-        queryButton = $(".control-query .control-button"),
+        control = $(".control-query"),
+        queryButton = control.find(".control-button"),
         uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
 
@@ -17,19 +18,19 @@ OSM.Query = function (map) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (queryButton.hasClass("active")) {
+    if (control.hasClass("active")) {
       disableQueryMode();
     } else if (!queryButton.hasClass("disabled")) {
       enableQueryMode();
     }
   }).on("disabled", function () {
-    if (queryButton.hasClass("active")) {
+    if (control.hasClass("active")) {
       map.off("click", clickHandler);
       $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
       $(this).tooltip("show");
     }
   }).on("enabled", function () {
-    if (queryButton.hasClass("active")) {
+    if (control.hasClass("active")) {
       map.on("click", clickHandler);
       $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
       $(this).tooltip("hide");
@@ -304,7 +305,7 @@ OSM.Query = function (map) {
   }
 
   function enableQueryMode() {
-    queryButton.addClass("active");
+    control.addClass("active");
     map.on("click", clickHandler);
     $(map.getContainer()).addClass("query-active");
   }
@@ -313,7 +314,7 @@ OSM.Query = function (map) {
     if (marker) map.removeLayer(marker);
     $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
     map.off("click", clickHandler);
-    queryButton.removeClass("active");
+    control.removeClass("active");
   }
 
   const page = {};

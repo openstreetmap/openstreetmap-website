@@ -250,12 +250,22 @@ class User < ApplicationRecord
     self[:languages] = languages.join(",")
   end
 
-  def preferred_language
-    languages.find { |l| Language.exists?(:code => l) }
-  end
-
   def preferred_languages
     @preferred_languages ||= Locale.list(languages)
+  end
+
+  def default_diary_language
+    diary_language_preference = preferences.find_by(:k => "diary.default_language")
+    if diary_language_preference
+      diary_language_preference.v
+    else
+      languages.find { |l| Language.exists?(:code => l) }
+    end
+  end
+
+  def default_diary_language=(language)
+    preference = preferences.find_or_create_by(:k => "diary.default_language")
+    preference.update!(:v => language)
   end
 
   def home_location?
@@ -444,6 +454,26 @@ class User < ApplicationRecord
 
   def deletion_allowed?
     deletion_allowed_at <= Time.now.utc
+  end
+
+  ##
+  # check if this user has a gravatar and set the user pref is true
+  def gravatar_enable
+    # code from example https://en.gravatar.com/site/implement/images/ruby/
+    return false if avatar.attached?
+
+    begin
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
+      response = OSM.http_client.get(URI.parse(url))
+      available = response.success?
+    rescue StandardError
+      available = false
+    end
+
+    oldsetting = image_use_gravatar
+    self.image_use_gravatar = available
+    oldsetting != image_use_gravatar
   end
 
   private

@@ -2,8 +2,6 @@
 
 L.OSM.locate = function (options) {
   const control = L.control.locate({
-    icon: "icon geolocate",
-    iconLoading: "icon geolocate",
     strings: {
       title: OSM.i18n.t("javascripts.map.locate.title"),
       popup: function (options) {
@@ -21,7 +19,14 @@ L.OSM.locate = function (options) {
       .children("a")
       .attr("href", "#")
       .removeClass("leaflet-bar-part leaflet-bar-part-single")
-      .addClass("control-button");
+      .addClass("control-button")
+      .empty()
+      .append(
+        $(L.SVG.create("svg"))
+          .attr("class", "h-100 w-100")
+          .append(
+            $(L.SVG.create("use"))
+              .attr("href", "#icon-geolocate")));
     return container;
   };
 

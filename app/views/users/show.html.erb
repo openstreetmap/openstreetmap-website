@@ -1,5 +1,4 @@
 <% content_for :head do %>
-  <%= stylesheet_link_tag "cal-heatmap/dist/cal-heatmap" %>
   <%= javascript_include_tag "heatmap" %>
 <% end %>
 <% content_for :heading do %>
@@ -247,30 +246,8 @@
 
 <div class="richtext text-break"><%= @user.description.to_html %></div>
 
-<% if @heatmap_data.present? %>
-  <h2 class="text-body-secondary fs-5">
-    <%= t(".contributions", :count => @changes_count) %>
-  </h2>
-  <div class="row">
-    <div class="col overflow-auto">
-      <div class="heatmap-wrapper d-flex align-items-start">
-        <!-- Labels -->
-        <ul class="list-unstyled d-flex flex-column justify-content-between ch-domain-text mb-0 mt-4">
-          <li>&nbsp;</li>
-          <li><%= t("date.abbr_day_names")[1] %></li>
-          <li>&nbsp;</li>
-          <li><%= t("date.abbr_day_names")[3] %></li>
-          <li>&nbsp;</li>
-          <li><%= t("date.abbr_day_names")[5] %></li>
-          <li>&nbsp;</li>
-        </ul>
-        <!-- Heatmap -->
-        <div id="cal-heatmap" class="ms-2"
-          data-heatmap="<%= @heatmap_data.to_json %>" data-display-name="<%= @user.display_name %>">
-        </div>
-      </div>
-    </div>
-  </div>
+<% if @heatmap_data[:total].positive? %>
+  <%= render :partial => "heatmap", :locals => { :data => @heatmap_data } %>
 <% end %>
 
 <% if current_user and @user.id == current_user.id %>

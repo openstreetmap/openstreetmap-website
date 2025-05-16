@@ -339,11 +339,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_path(user.display_name)
     assert_response :success
     # The data should not be empty
-    assert_not_nil assigns(:heatmap_data)
-
     heatmap_data = assigns(:heatmap_data)
+    assert_not_nil heatmap_data
+    assert_predicate heatmap_data[:days], :any?
     # The data should be in the right format
-    assert(heatmap_data.all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
+    assert(heatmap_data[:days].all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
+    assert_predicate heatmap_data[:months], :any?
+    assert_equal 30, heatmap_data[:total]
+    assert_equal 20, heatmap_data[:max_per_day]
   end
 
   def test_show_heatmap_data_caching
@@ -361,10 +364,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_path(user.display_name)
     first_response_data = assigns(:heatmap_data)
     assert_not_nil first_response_data, "Expected heatmap data to be assigned on the first request"
-    assert_equal 1, first_response_data.size, "Expected one entry in the heatmap data"
+    assert_equal 1, first_response_data[:days].count { |day| day[:total_changes].positive? }, "Expected one entry in the heatmap data"
 
     # Inspect cache after the first request
-    cached_data = Rails.cache.read("heatmap_data_with_ids_user_#{user.id}")
+    cached_data = Rails.cache.read("heatmap_data_of_user_#{user.id}")
     assert_equal first_response_data, cached_data, "Expected the cache to contain the first response data"
 
     # Add a new changeset to the database
@@ -383,7 +386,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     third_response_data = assigns(:heatmap_data)
 
     # Ensure the new entry is now included
-    assert_equal 2, third_response_data.size, "Expected two entries in the heatmap data after clearing the cache"
+    assert_equal 2, third_response_data[:days].count { |day| day[:total_changes].positive? }, "Expected two entries in the heatmap data after clearing the cache"
 
     # Reset caching config to defaults
     Rails.cache.clear
@@ -395,8 +398,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_path(user.display_name)
     assert_response :success
-    # There should be no entries in heatmap data
-    assert_empty assigns(:heatmap_data)
+    assert_empty(assigns(:heatmap_data)[:days].select { |e| e[:total_changes].positive? })
+    assert_select ".heatmap", :count => 0
   end
 
   def test_heatmap_rendering
@@ -404,7 +407,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user_without_changesets = create(:user)
     get user_path(user_without_changesets)
     assert_response :success
-    assert_select "div#cal-heatmap", 0
+    assert_select ".heatmap", 0
 
     # Test user with changesets
     user_with_changesets = create(:user)
@@ -413,15 +416,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     changeset11 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
     get user_path(user_with_changesets)
     assert_response :success
-    assert_select "div#cal-heatmap[data-heatmap]" do |elements|
-      # Check the data-heatmap attribute is present and contains expected JSON
-      heatmap_data = JSON.parse(elements.first["data-heatmap"])
-      expected_data = [
-        { "date" => 4.months.ago.to_date.to_s, "total_changes" => 39, "max_id" => changeset39.id },
-        { "date" => 3.months.ago.to_date.to_s, "total_changes" => 16, "max_id" => changeset11.id }
-      ]
-      assert_equal expected_data, heatmap_data
-    end
+    assert_select ".heatmap a", 2
+
+    history_path = user_history_path(user_with_changesets)
+    assert_select ".heatmap a[data-date='#{4.months.ago.to_date}'][data-count='39'][href='#{history_path}?before=#{changeset39.id + 1}']"
+    assert_select ".heatmap a[data-date='#{3.months.ago.to_date}'][data-count='16'][href='#{history_path}?before=#{changeset11.id + 1}']"
+    assert_select ".heatmap [data-date='#{5.months.ago.to_date}']:not([data-count])"
   end
 
   def test_heatmap_headline_changset_zero

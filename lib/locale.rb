@@ -36,9 +36,7 @@ class Locale < I18n::Locale::Tag::Rfc4646
   end
 
   def invalid?
-    I18n.t("activerecord.models.acl", :locale => self, :fallback => false, :raise => true).nil?
-  rescue I18n::MissingTranslationData
-    true
+    !I18n.exists? "activerecord.models.acl", :locale => self, :fallback => false
   end
 
   def candidates
