@@ -61,6 +61,42 @@ module Preferences
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
     end
 
+    def test_update_preferred_language_from_en_selecting_fr
+      check_language_change %w[en], "fr", %w[fr]
+    end
+
+    def test_update_preferred_language_from_unknown_selecting_fr
+      check_language_change %w[unknown], "fr", %w[fr]
+    end
+
+    def test_update_preferred_language_from_unknown_en_selecting_en
+      check_language_change %w[unknown en], "en", %w[unknown en]
+    end
+
+    def test_update_preferred_language_from_unknown_en_selecting_fr
+      check_language_change %w[unknown en], "fr", %w[fr]
+    end
+
+    def test_update_preferred_language_from_en_unknown_selecting_fr
+      check_language_change %w[en unknown], "fr", %w[fr]
+    end
+
+    def test_update_preferred_language_from_ru_en_selecting_en
+      check_language_change %w[ru en], "en", %w[en ru]
+    end
+
+    def test_update_preferred_language_from_fr_enau_selecting_en
+      check_language_change %w[fr en-AU], "en", %w[en en-AU fr]
+    end
+
+    def test_update_preferred_language_from_fr_enau_en_selecting_en
+      check_language_change %w[fr en-AU en], "en", %w[en en-AU fr]
+    end
+
+    def test_update_preferred_language_from_fr_es_selecting_de
+      check_language_change %w[fr es], "de", %w[de]
+    end
+
     def test_update_preferred_site_color_scheme
       user = create(:user, :languages => [])
       session_for(user)
@@ -103,6 +139,22 @@ module Preferences
       assert_template :show
       assert_select ".alert-success", /^Preferences updated/
       assert_equal "auto", user.preferences.find_by(:k => "map.color_scheme")&.v
+    end
+
+    private
+
+    def check_language_change(from_languages, selecting_language, to_languages)
+      user = create(:user, :languages => from_languages)
+      another_user = create(:user, :languages => %w[not going to change])
+      session_for(user)
+
+      put basic_preferences_path, :params => { :user => { :preferred_editor => "default" }, :language => selecting_language }
+
+      assert_redirected_to basic_preferences_path
+      user.reload
+      assert_equal to_languages, user.languages
+      another_user.reload
+      assert_equal %w[not going to change], another_user.languages
     end
   end
 end
