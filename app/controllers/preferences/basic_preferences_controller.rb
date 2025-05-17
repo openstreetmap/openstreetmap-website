@@ -1,18 +1,8 @@
 module Preferences
-  class BasicPreferencesController < ApplicationController
-    layout "site"
+  class BasicPreferencesController < PreferencesController
+    private
 
-    before_action :authorize_web
-    before_action :set_locale
-
-    authorize_resource :class => :preferences
-
-    before_action :check_database_readable
-    before_action :check_database_writable, :only => [:update]
-
-    def show; end
-
-    def update
+    def update_preferences
       current_user.languages = params[:user][:languages].split(",")
 
       current_user.preferred_editor = if params[:user][:preferred_editor] == "default"
@@ -33,14 +23,7 @@ module Preferences
         success &= map_color_scheme_preference.update(:v => params[:map_color_scheme])
       end
 
-      if success
-        # Use a partial so that it is rendered during the next page load in the correct language.
-        flash[:notice] = { :partial => "update_success_flash" }
-        redirect_to basic_preferences_path
-      else
-        flash.now[:error] = t ".failure"
-        render :show
-      end
+      success
     end
   end
 end
