@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 class PreferencesTest < ApplicationSystemTestCase
-  def test_flash_message_shows_in_original_language
+  test "flash message shows in original language" do
     sign_in_as(create(:user))
 
     visit basic_preferences_path
@@ -10,7 +10,7 @@ class PreferencesTest < ApplicationSystemTestCase
     assert_content "Preferences updated"
   end
 
-  def test_flash_message_shows_in_new_language
+  test "flash message shows in new language" do
     sign_in_as(create(:user))
 
     visit basic_preferences_path
