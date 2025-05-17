@@ -116,9 +116,6 @@ class UsersController < ApplicationController
     email = auth_info[:info][:email]
 
     email_verified = case provider
-                     when "openid"
-                       uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
-                       uid.match(%r{https://me.yahoo.com/(.*)})
                      when "google", "facebook", "microsoft", "github", "wikipedia"
                        true
                      else

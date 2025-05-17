@@ -38,7 +38,7 @@ class AccountsController < ApplicationController
       end
     else
       session[:new_user_settings] = user_params.to_h
-      redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid]), :status => :temporary_redirect
+      redirect_to auth_url(params[:user][:auth_provider]), :status => :temporary_redirect
     end
   end
 

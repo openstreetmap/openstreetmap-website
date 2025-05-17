@@ -1,5 +1,5 @@
 module Auth
-  @providers = ["openid"]
+  @providers = []
   @providers << "google" if Settings.key?(:google_auth_id)
   @providers << "facebook" if Settings.key?(:facebook_auth_id)
   @providers << "microsoft" if Settings.key?(:microsoft_auth_id)
