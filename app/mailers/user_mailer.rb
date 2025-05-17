@@ -132,28 +132,28 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def note_comment_notification(comment, recipient)
+  def note_comment_notification(note, event, event_author, event_comment_text, recipient)
     with_recipient_locale recipient do
-      @noteurl = note_url(comment.note)
-      @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, I18n.locale)
-      @comment = comment.body
-      @owner = recipient == comment.note.author
-      @event = comment.event
+      @noteurl = note_url(note)
+      @place = Nominatim.describe_location(note.lat, note.lon, 14, I18n.locale)
+      @comment = RichText.new("text", event_comment_text)
+      @owner = recipient == note.author
+      @event = event
 
-      @commenter = if comment.author
-                     comment.author.display_name
+      @commenter = if event_author
+                     event_author.display_name
                    else
                      t(".anonymous")
                    end
 
       @author = @commenter
-      attach_user_avatar(comment.author)
+      attach_user_avatar(event_author)
 
-      set_references("note", comment.note)
+      set_references("note", note)
 
       set_list_headers(
-        "#{comment.note.id}.note.www.openstreetmap.org",
-        t(".description", :id => comment.note.id),
+        "#{note.id}.note.www.openstreetmap.org",
+        t(".description", :id => note.id),
         :archive => @noteurl
       )
 

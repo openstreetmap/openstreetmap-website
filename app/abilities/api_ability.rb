@@ -8,6 +8,7 @@ class ApiAbility
 
     if Settings.status != "database_offline"
       can [:read, :feed, :search], Note
+      can :read, NoteVersion
       can :create, Note unless user
 
       can :read, Changeset
@@ -18,7 +19,7 @@ class ApiAbility
       can :read, UserBlock
 
       if user&.active?
-        can [:create, :comment, :close, :reopen], Note if scopes.include?("write_notes")
+        can [:create, :update, :comment, :close, :reopen], Note if scopes.include?("write_notes")
         can [:create, :destroy], NoteSubscription if scopes.include?("write_notes")
 
         can :read, Trace if scopes.include?("read_gpx")

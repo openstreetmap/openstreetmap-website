@@ -1,4 +1,4 @@
-xml.note("lon" => note.lon, "lat" => note.lat) do
+xml.note("lon" => note.lon, "lat" => note.lat, "version" => note.version) do
   xml.id note.id
   xml.url api_note_url(note, :format => params[:format])
 
@@ -13,6 +13,10 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
   xml.status note.status
 
   xml.date_closed note.closed_at if note.closed?
+
+  note.tags.each do |k, v|
+    xml.tag(:k => k, :v => v)
+  end
 
   xml.comments do
     note.comments.each do |comment|
