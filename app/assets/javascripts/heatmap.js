@@ -65,7 +65,7 @@ $(function () {
   }
 
   function getTooltipText(date, value) {
-    const localizedDate = OSM.i18n.l("date.formats.long", date);
+    const localizedDate = OSM.i18n.l("date.formats.heatmap", date);
 
     if (value > 0) {
       return OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
