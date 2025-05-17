@@ -3,7 +3,8 @@ module Preferences
     private
 
     def update_preferences
-      true
+      current_user.languages = params[:user][:languages].split(",")
+      current_user.save
     end
   end
 end

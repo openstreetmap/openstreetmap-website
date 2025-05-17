@@ -19,4 +19,14 @@ class PreferencesTest < ApplicationSystemTestCase
 
     assert_content "Préférences mises à jour"
   end
+
+  test "flash message shows in new language on advanced page" do
+    sign_in_as(create(:user))
+
+    visit advanced_preferences_path
+    fill_in "Preferred Languages", :with => "fr"
+    click_on "Update Preferences"
+
+    assert_content "Préférences mises à jour"
+  end
 end

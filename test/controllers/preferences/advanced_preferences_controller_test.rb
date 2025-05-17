@@ -14,5 +14,19 @@ module Preferences
         { :controller => "preferences/advanced_preferences", :action => "update" }
       )
     end
+
+    def test_update_languages
+      user = create(:user, :languages => [])
+      session_for(user)
+
+      put advanced_preferences_path, :params => { :user => { :preferred_editor => "id", :languages => "fr es en" } }
+
+      assert_redirected_to advanced_preferences_path
+      follow_redirect!
+      assert_template :show
+      assert_select ".alert-success", /^Préférences mises à jour/
+      user.reload
+      assert_equal %w[fr es en], user.languages
+    end
   end
 end
