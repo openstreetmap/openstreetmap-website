@@ -3,7 +3,15 @@ module Preferences
     private
 
     def update_preferences
-      current_user.languages = [params[:language]]
+      if params[:language] != I18n.locale.to_s
+        matching_languages, other_languages = current_user.languages.partition do |language|
+          Locale.available.preferred(Locale.list([language]), :default => nil).to_s == params[:language]
+        end
+
+        current_user.languages = [params[:language]]
+
+        current_user.languages += (matching_languages - [params[:language]]) + other_languages unless matching_languages.empty?
+      end
 
       current_user.preferred_editor = if params[:user][:preferred_editor] == "default"
                                         nil
