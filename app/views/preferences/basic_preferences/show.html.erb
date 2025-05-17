@@ -8,7 +8,7 @@
 <%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
   <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{Settings.default_editor}.name")), "default"]] + Editors::AVAILABLE_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
 
-  <%= f.text_field :languages %>
+  <%= f.select :languages, AVAILABLE_LANGUAGES.map { |e| [e[:native_name], e[:code]] } %>
 
   <div class="mb-3">
     <%= label_tag "site_color_scheme", t(".preferred_site_color_scheme"), :class => "form-label" %>
