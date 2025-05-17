@@ -3,7 +3,7 @@ module Preferences
     private
 
     def update_preferences
-      current_user.languages = params[:user][:languages].split(",")
+      current_user.languages = [params[:language]]
 
       current_user.preferred_editor = if params[:user][:preferred_editor] == "default"
                                         nil
