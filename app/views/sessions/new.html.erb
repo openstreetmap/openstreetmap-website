@@ -64,7 +64,7 @@
   </div>
 <% end %>
 
-<% unless @preferred_auth_provider %>
+<% unless @preferred_auth_provider or Auth.providers.empty? %>
   <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
   <%= render :partial => "auth_providers" %>
 <% end %>
