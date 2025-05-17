@@ -59,5 +59,14 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     get edit_profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
+
+    # Updating the company name should work
+    put profile_path, :params => { :user => { :company => "new company", :description => user.description } }
+    assert_redirected_to user_path(user)
+    follow_redirect!
+    assert_response :success
+    assert_template :show
+    assert_select ".alert-success", /^Profile updated./
+    assert_select "dd", "new company"
   end
 end

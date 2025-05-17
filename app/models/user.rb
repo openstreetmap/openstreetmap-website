@@ -34,6 +34,7 @@
 #  diary_comments_count :integer          default(0)
 #  note_comments_count  :integer          default(0)
 #  creation_address     :inet
+#  company              :string
 #
 # Indexes
 #
