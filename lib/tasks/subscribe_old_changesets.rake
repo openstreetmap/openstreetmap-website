@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   task :subscribe_old_changesets => :environment do
     Changeset.find_each do |changeset|

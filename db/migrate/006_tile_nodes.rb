@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TileNodes < ActiveRecord::Migration[4.2]
   class Node < ApplicationRecord
     self.table_name = "current_nodes"

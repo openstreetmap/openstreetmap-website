@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 attrs = {
   "id" => way.id,
   "visible" => way.visible,

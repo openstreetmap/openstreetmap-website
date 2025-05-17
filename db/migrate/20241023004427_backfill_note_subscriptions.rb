@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BackfillNoteSubscriptions < ActiveRecord::Migration[7.2]
   class NoteComment < ApplicationRecord; end
   class NoteSubscription < ApplicationRecord; end

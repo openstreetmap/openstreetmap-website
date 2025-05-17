@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ChangesetController is the RESTful interface to Changeset objects
 
 class ChangesetsController < ApplicationController

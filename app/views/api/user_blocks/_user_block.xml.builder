@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 attrs = {
   "id" => user_block.id,
   "created_at" => user_block.created_at.xmlschema,

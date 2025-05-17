@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user_block do
     sequence(:reason) { |n| "User Block #{n}" }
