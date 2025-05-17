@@ -28,7 +28,7 @@ module Preferences
       session_for(user)
 
       # Changing to a invalid editor should fail
-      put basic_preferences_path, :params => { :user => { :preferred_editor => "unknown", :languages => [] } }
+      put basic_preferences_path, :params => { :user => { :preferred_editor => "unknown" } }
       assert_response :success
       assert_template :show
       assert_select ".alert-success", false
@@ -39,7 +39,7 @@ module Preferences
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
       # Changing to a valid editor should work
-      put basic_preferences_path, :params => { :user => { :preferred_editor => "id", :languages => [] } }
+      put basic_preferences_path, :params => { :user => { :preferred_editor => "id" } }
       assert_redirected_to basic_preferences_path
       follow_redirect!
       assert_template :show
@@ -50,7 +50,7 @@ module Preferences
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
       # Changing to the default editor should work
-      put basic_preferences_path, :params => { :user => { :preferred_editor => "default", :languages => [] } }
+      put basic_preferences_path, :params => { :user => { :preferred_editor => "default" } }
       assert_redirected_to basic_preferences_path
       follow_redirect!
       assert_template :show

@@ -12,7 +12,7 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
 
     visit basic_preferences_path
-    select "français", :from => "Preferred Languages"
+    select "français", :from => "Preferred Language"
     click_on "Update Preferences"
 
     visit "/communities"
