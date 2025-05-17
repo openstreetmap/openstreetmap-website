@@ -315,10 +315,12 @@ OpenStreetMap::Application.routes.draw do
   get "/account/edit", :to => redirect(:path => "/account"), :as => nil
 
   resource :dashboard, :only => [:show]
-  resource :preferences, :only => [:show, :update]
-  get "/preferences/edit", :to => redirect(:path => "/preferences"), :as => nil
   resource :profile, :only => [:show, :update]
   get "/profile/edit", :to => redirect(:path => "/profile"), :as => nil
+
+  resource :preferences, :path => "preferences/basic", :only => [:show, :update]
+  get "/preferences", :to => redirect(:path => "/preferences/basic"), :as => nil
+  get "/preferences/edit", :to => redirect(:path => "/preferences/basic"), :as => nil
 
   # friendships
   scope "/user/:display_name" do

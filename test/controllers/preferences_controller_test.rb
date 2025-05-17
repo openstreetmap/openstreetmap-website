@@ -5,14 +5,19 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/preferences", :method => :get },
+      { :path => "/preferences/basic", :method => :get },
       { :controller => "preferences", :action => "show" }
     )
-
     assert_routing(
-      { :path => "/preferences", :method => :put },
+      { :path => "/preferences/basic", :method => :put },
       { :controller => "preferences", :action => "update" }
     )
+
+    get "/preferences"
+    assert_redirected_to "/preferences/basic"
+
+    get "/preferences/edit"
+    assert_redirected_to "/preferences/basic"
   end
 
   def test_update_preferred_editor
