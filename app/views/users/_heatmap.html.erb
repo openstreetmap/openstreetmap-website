@@ -1,11 +1,9 @@
-<h2 class="text-body-secondary fs-5 mt-4">
-  <%= t("users.show.contributions", :count => data[:total]) %>
-</h2>
+<% cal_data = prepare_heatmap(data, from, to) %>
 <div class="row">
   <div class="col overflow-auto">
-    <div class="heatmap d-none align-items-center mb-1 text-center" data-max-per-day="<%= data[:max_per_day] %>">
+    <div class="heatmap d-none align-items-center mb-1 text-center" data-max-per-day="<%= cal_data[:max_per_day] %>">
       <!-- Months -->
-      <% data[:months].each do |month| %>
+      <% cal_data[:months].each do |month| %>
         <span class="mb-1 mx-n2" data-month="<%= month %>"><%= t("date.abbr_month_names")[((month - 1) % 12) + 1] %></span>
       <% end %>
       <!-- Days -->
@@ -13,7 +11,7 @@
         <span class="me-1 my-n1" data-weekday="<%= day %>"><%= t("date.abbr_day_names")[day] %></span>
       <% end %>
       <!-- Heatmap -->
-      <% data[:days].each do |day| %>
+      <% cal_data[:days].each do |day| %>
         <% if day[:total_changes] == 0 %>
           <span data-date="<%= day[:date] %>"></span>
         <% else %>

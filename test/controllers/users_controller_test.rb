@@ -341,12 +341,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # The data should not be empty
     heatmap_data = assigns(:heatmap_data)
     assert_not_nil heatmap_data
-    assert_predicate heatmap_data[:days], :any?
+    assert_predicate heatmap_data[:data], :any?
     # The data should be in the right format
-    assert(heatmap_data[:days].all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
-    assert_predicate heatmap_data[:months], :any?
-    assert_equal 30, heatmap_data[:total]
-    assert_equal 20, heatmap_data[:max_per_day]
+    assert(heatmap_data[:data].values.all? { |entry| entry[:date] && entry[:total_changes] }, "Heatmap data should have :date and :total_changes keys")
+    assert_equal 30, heatmap_data[:count]
   end
 
   def test_show_heatmap_data_caching
@@ -364,7 +362,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_path(user.display_name)
     first_response_data = assigns(:heatmap_data)
     assert_not_nil first_response_data, "Expected heatmap data to be assigned on the first request"
-    assert_equal 1, first_response_data[:days].count { |day| day[:total_changes].positive? }, "Expected one entry in the heatmap data"
+    assert_equal 1, first_response_data[:data].values.count { |day| day[:total_changes].positive? }, "Expected one entry in the heatmap data"
 
     # Inspect cache after the first request
     cached_data = Rails.cache.read("heatmap_data_of_user_#{user.id}")
@@ -386,7 +384,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     third_response_data = assigns(:heatmap_data)
 
     # Ensure the new entry is now included
-    assert_equal 2, third_response_data[:days].count { |day| day[:total_changes].positive? }, "Expected two entries in the heatmap data after clearing the cache"
+    assert_equal 2, third_response_data[:data].values.count { |day| day[:total_changes].positive? }, "Expected two entries in the heatmap data after clearing the cache"
 
     # Reset caching config to defaults
     Rails.cache.clear
@@ -398,7 +396,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_path(user.display_name)
     assert_response :success
-    assert_empty(assigns(:heatmap_data)[:days].select { |e| e[:total_changes].positive? })
+    assert_empty(assigns(:heatmap_data)[:data].values)
     assert_select ".heatmap", :count => 0
   end
 

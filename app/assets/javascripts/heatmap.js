@@ -20,7 +20,7 @@ $(function () {
   for (const day of heatmap.find("[data-date]")) {
     const $day = $(day);
     const date = new Date($day.data("date"));
-    if (date.getUTCDay() === weekInfo.firstDay) {
+    if (date.getUTCDay() === weekInfo.firstDay % 7) {
       weekColumn++;
       const currentMonth = getMonthOfThisWeek(date);
       if (previousMonth === null) {
