@@ -318,7 +318,9 @@ OpenStreetMap::Application.routes.draw do
   resource :profile, :only => [:show, :update]
   get "/profile/edit", :to => redirect(:path => "/profile"), :as => nil
 
-  resource :basic_preferences, :controller => :preferences, :path => "preferences/basic", :only => [:show, :update]
+  scope :preferences, :module => :preferences do
+    resource :basic_preferences, :path => "basic", :only => [:show, :update]
+  end
   get "/preferences", :to => redirect(:path => "/preferences/basic"), :as => nil
   get "/preferences/edit", :to => redirect(:path => "/preferences/basic"), :as => nil
 
