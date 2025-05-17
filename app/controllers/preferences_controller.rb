@@ -35,7 +35,7 @@ class PreferencesController < ApplicationController
     if success
       # Use a partial so that it is rendered during the next page load in the correct language.
       flash[:notice] = { :partial => "preferences/update_success_flash" }
-      redirect_to preferences_path
+      redirect_to basic_preferences_path
     else
       flash.now[:error] = t ".failure"
       render :show

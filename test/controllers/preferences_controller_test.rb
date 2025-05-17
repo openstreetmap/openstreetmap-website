@@ -27,7 +27,7 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     # Changing to a invalid editor should fail
-    put preferences_path, :params => { :user => { :preferred_editor => "unknown", :languages => [] } }
+    put basic_preferences_path, :params => { :user => { :preferred_editor => "unknown", :languages => [] } }
     assert_response :success
     assert_template :show
     assert_select ".alert-success", false
@@ -38,8 +38,8 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
     # Changing to a valid editor should work
-    put preferences_path, :params => { :user => { :preferred_editor => "id", :languages => [] } }
-    assert_redirected_to preferences_path
+    put basic_preferences_path, :params => { :user => { :preferred_editor => "id", :languages => [] } }
+    assert_redirected_to basic_preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
@@ -49,8 +49,8 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
     # Changing to the default editor should work
-    put preferences_path, :params => { :user => { :preferred_editor => "default", :languages => [] } }
-    assert_redirected_to preferences_path
+    put basic_preferences_path, :params => { :user => { :preferred_editor => "default", :languages => [] } }
+    assert_redirected_to basic_preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
@@ -66,16 +66,16 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_nil user.preferences.find_by(:k => "site.color_scheme")
 
     # Changing when previously not defined
-    put preferences_path, :params => { :user => user.attributes, :site_color_scheme => "light" }
-    assert_redirected_to preferences_path
+    put basic_preferences_path, :params => { :user => user.attributes, :site_color_scheme => "light" }
+    assert_redirected_to basic_preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
     assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
 
     # Changing when previously defined
-    put preferences_path, :params => { :user => user.attributes, :site_color_scheme => "auto" }
-    assert_redirected_to preferences_path
+    put basic_preferences_path, :params => { :user => user.attributes, :site_color_scheme => "auto" }
+    assert_redirected_to basic_preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
@@ -88,16 +88,16 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_nil user.preferences.find_by(:k => "map.color_scheme")
 
     # Changing when previously not defined
-    put preferences_path, :params => { :user => user.attributes, :map_color_scheme => "light" }
-    assert_redirected_to preferences_path
+    put basic_preferences_path, :params => { :user => user.attributes, :map_color_scheme => "light" }
+    assert_redirected_to basic_preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
     assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
 
     # Changing when previously defined
-    put preferences_path, :params => { :user => user.attributes, :map_color_scheme => "auto" }
-    assert_redirected_to preferences_path
+    put basic_preferences_path, :params => { :user => user.attributes, :map_color_scheme => "auto" }
+    assert_redirected_to basic_preferences_path
     follow_redirect!
     assert_template :show
     assert_select ".alert-success", /^Preferences updated/
