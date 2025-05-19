@@ -977,12 +977,29 @@ img.trace_image {
   }
 
   [data-date] {
-    @extend .bg-body-secondary, .bg-opacity-75;
+    background-color: #ededed;
     span {
-      background-color: $green;
+      background-color: #14432a;
+    }
+    &[data-count] {
+      background-color: #4dd05a;
     }
     &:hover {
       border: solid 1px #8884;
+    }
+  }
+}
+
+@include color-mode(dark) {
+  .heatmap {
+    [data-date] {
+      background-color: #2d333b;
+      span {
+        background-color: #4dd05a;
+      }
+      &[data-count] {
+        background-color: #14432a;
+      }
     }
   }
 }
