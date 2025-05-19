@@ -402,23 +402,27 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".heatmap", :count => 0
   end
 
-  def test_heatmap_rendering
-    # Test user with no changesets
+  def test_show_heatmap_rendering_of_user_with_no_changesets
     user_without_changesets = create(:user)
+
     get user_path(user_without_changesets)
+
     assert_response :success
     assert_select ".heatmap", 0
+  end
 
-    # Test user with changesets
-    user_with_changesets = create(:user)
-    changeset39 = create(:changeset, :user => user_with_changesets, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
-    _changeset5 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
-    changeset11 = create(:changeset, :user => user_with_changesets, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
-    get user_path(user_with_changesets)
+  def test_show_heatmap_rendering_of_user_with_changesets
+    user = create(:user)
+    changeset39 = create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 39)
+    _changeset5 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
+    changeset11 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
+
+    get user_path(user)
+
     assert_response :success
     assert_select ".heatmap a", 2
 
-    history_path = user_history_path(user_with_changesets)
+    history_path = user_history_path(user)
     assert_select ".heatmap a[data-date='#{4.months.ago.to_date}'][data-count='39'][href='#{history_path}?before=#{changeset39.id + 1}']"
     assert_select ".heatmap a[data-date='#{3.months.ago.to_date}'][data-count='16'][href='#{history_path}?before=#{changeset11.id + 1}']"
     assert_select ".heatmap [data-date='#{5.months.ago.to_date}']:not([data-count])"
