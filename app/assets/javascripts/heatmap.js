@@ -48,7 +48,7 @@ $(function () {
         customClass: "wide",
         delay: { show: 0, hide: 0 }
       })
-      .find("div")
+      .find("span")
       .css("opacity", Math.sqrt(count / maxPerDay));
   }
   heatmap.find(`[data-month="${previousMonth}"] ~ [data-month]`).remove();
