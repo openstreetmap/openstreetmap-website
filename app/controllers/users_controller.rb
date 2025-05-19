@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     if @user && (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
-      @heatmap_frame = true
+      @heatmap_frame = true if current_user
     else
       render_unknown_user params[:display_name]
     end

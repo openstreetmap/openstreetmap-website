@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :data => { :turbo => false } do %>
-  <% if @heatmap_data[:count].positive? %>
+  <% if @heatmap_data.present? && @heatmap_data[:count].positive? %>
     <h2 class="text-body-secondary fs-5 mt-4"><%= t("users.show.contributions", :count => @heatmap_data[:count]) %></h2>
     <% cal_data = prepare_heatmap(@heatmap_data[:data], @heatmap_data[:from], @heatmap_data[:to]) %>
     <div class="row">
