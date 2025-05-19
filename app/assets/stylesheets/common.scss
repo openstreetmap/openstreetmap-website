@@ -969,13 +969,17 @@ img.trace_image {
   grid-auto-rows: minmax(1em, 1fr);
   font-size: x-small;
   gap: 0.3em;
-  [data-date] {
+
+  [data-date], [data-date] div {
+    display: block;
     aspect-ratio: 1;
-    @extend .bg-body-secondary, .bg-opacity-75, .h-100, .overflow-hidden;
     border-radius: 25%;
+  }
+
+  [data-date] {
+    @extend .bg-body-secondary, .bg-opacity-75;
     div {
       background-color: $green;
-      @extend .h-100;
     }
     &:hover {
       border: solid 1px #8884;
