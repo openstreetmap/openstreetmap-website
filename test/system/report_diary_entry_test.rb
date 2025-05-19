@@ -7,7 +7,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
   end
 
   def test_no_link_when_not_logged_in
-    visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
+    visit diary_entry_path(@diary_entry.user, @diary_entry)
     assert_content @diary_entry.title
 
     assert_no_content I18n.t("diary_entries.diary_entry.report")
@@ -15,7 +15,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
 
   def test_it_works
     sign_in_as(create(:user))
-    visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
+    visit diary_entry_path(@diary_entry.user, @diary_entry)
     assert_content @diary_entry.title
 
     click_on I18n.t("diary_entries.diary_entry.report")
@@ -39,7 +39,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     issue.resolve!
 
     sign_in_as(create(:user))
-    visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
+    visit diary_entry_path(@diary_entry.user, @diary_entry)
     assert_content @diary_entry.title
 
     click_on I18n.t("diary_entries.diary_entry.report")

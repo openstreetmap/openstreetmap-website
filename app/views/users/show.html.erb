@@ -87,9 +87,9 @@
             <% if current_user %>
               <li>
                 <% if current_user.follows?(@user) %>
-                  <%= link_to t(".unfollow"), follow_path(:display_name => @user.display_name), :method => :delete %>
+                  <%= link_to t(".unfollow"), follow_path(@user), :method => :delete %>
                 <% else %>
-                  <%= link_to t(".follow"), follow_path(:display_name => @user.display_name), :method => :post %>
+                  <%= link_to t(".follow"), follow_path(@user), :method => :post %>
                 <% end %>
               </li>
             <% end %>
