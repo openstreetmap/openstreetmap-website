@@ -1,7 +1,7 @@
 <%= tag.li :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data(changeset) }, :class => "list-group-item list-group-item-action" do %>
   <p class="fs-6 text-truncate text-wrap mb-0">
     <a class="changeset_id link-body-emphasis stretched-link" href="<%= changeset_path(changeset) %>">
-      <span><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></span>
+      <bdi><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></bdi>
     </a>
   </p>
   <div class="d-flex flex-nowrap gap-3 justify-content-between align-items-end">
