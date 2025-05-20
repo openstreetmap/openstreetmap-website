@@ -8,6 +8,7 @@ L.OSM.locate = function (options) {
         return OSM.i18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
       }
     },
+    showCompass: false,
     ...options
   });
 
