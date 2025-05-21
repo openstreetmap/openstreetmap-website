@@ -109,23 +109,14 @@ OSM.Query = function (map) {
 
   function featureName(feature) {
     const tags = feature.tags,
-          locales = OSM.preferred_languages;
+          localeKeys = OSM.preferred_languages.map(locale => `name:${locale}`);
 
-    for (const locale of locales) {
-      if (tags["name:" + locale]) {
-        return tags["name:" + locale];
-      }
+    for (const key of [...localeKeys, "name", "ref", "addr:housename"]) {
+      if (tags[key]) return tags[key];
     }
+    // TODO: Localize format to country of address
+    if (tags["addr:housenumber"] && tags["addr:street"]) return `${tags["addr:housenumber"]} ${tags["addr:street"]}`;
 
-    for (const key of ["name", "ref", "addr:housename"]) {
-      if (tags[key]) {
-        return tags[key];
-      }
-    }
-
-    if (tags["addr:housenumber"] && tags["addr:street"]) {
-      return tags["addr:housenumber"] + " " + tags["addr:street"];
-    }
     return "#" + feature.id;
   }
 

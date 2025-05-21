@@ -47,17 +47,8 @@ module BrowseHelper
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
-      available_locales = Locale.list(name_locales(object))
-
-      locale = available_locales.preferred(preferred_languages, :default => nil)
-
-      if object.tags.include? "name:#{locale}"
-        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["name:#{locale}"].to_s), :id => tag.bdi(name)
-      elsif object.tags.include? "name"
-        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["name"].to_s), :id => tag.bdi(name)
-      elsif object.tags.include? "ref"
-        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["ref"].to_s), :id => tag.bdi(name)
-      end
+      feature_name = feature_name(object.tags)
+      name = t "printable_name.with_name_html", :name => tag.bdi(feature_name), :id => tag.bdi(id.to_s) if feature_name.present?
     end
 
     name
@@ -104,7 +95,15 @@ module BrowseHelper
 
   private
 
-  def name_locales(object)
-    object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
+  def feature_name(tags)
+    locale_keys = preferred_languages.expand.map { |locale| "name:#{locale}" }
+
+    (locale_keys + %w[name ref addr:housename]).each do |key|
+      return tags[key] if tags[key]
+    end
+    # TODO: Localize format to country of address
+    return "#{tags['addr:housenumber']} #{tags['addr:street']}" if tags["addr:housenumber"] && tags["addr:street"]
+
+    nil
   end
 end
