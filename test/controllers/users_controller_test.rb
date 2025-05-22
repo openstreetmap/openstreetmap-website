@@ -450,4 +450,48 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h2.text-body-secondary.fs-5", :text => "12 contributions in the last year"
   end
+
+  def test_show_profile_diaries
+    user = create(:user)
+    create(:language, :code => "en")
+    create(:diary_entry, :user => user, :title => "First Entry", :body => "First body")
+    create(:diary_entry, :user => user, :title => "Second Entry", :body => "Second body")
+    create(:diary_entry, :user => user, :title => "Third Entry", :body => "Third body")
+    create(:diary_entry, :user => user, :title => "Fourth Entry", :body => "Fourth body")
+    create(:diary_entry, :user => user, :title => "Fifth Entry", :body => "Fifth body")
+
+    get user_path(user)
+    assert_response :success
+
+    # Should only show the 4 most recent entries
+    assert_select ".profile-diary-card", 4
+    assert_select ".card-title", "Fifth Entry"
+    assert_select ".card-title", "Fourth Entry"
+    assert_select ".card-title", "Third Entry"
+    assert_select ".card-title", "Second Entry"
+    assert_select ".card-title", { :text => "First Entry", :count => 0 }
+  end
+
+  def test_show_profile_diaries_with_comments
+    user = create(:user)
+    create(:language, :code => "en")
+    entry = create(:diary_entry, :user => user, :title => "Entry with Comments")
+    create(:diary_comment, :diary_entry => entry)
+    create(:diary_comment, :diary_entry => entry)
+
+    get user_path(user)
+    assert_response :success
+
+    assert_select ".profile-diary-card" do
+      assert_select ".card-title", "Entry with Comments"
+      assert_select "small.text-body-secondary", /2 comments/
+    end
+  end
+
+  def test_show_profile_diaries_empty
+    user = create(:user)
+    get user_path(user)
+    assert_response :success
+    assert_select ".profile-diary-card", 0
+  end
 end
