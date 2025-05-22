@@ -59,5 +59,14 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     get edit_profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
+
+    # Updating social links should work
+    put profile_path, :params => { :user => { :description => user.description, :social_links_attributes => [{ :url => "https://test.com/test" }] } }
+    assert_redirected_to user_path(user)
+    follow_redirect!
+    assert_response :success
+    assert_template :show
+    assert_select ".alert-success", /^Profile updated./
+    assert_select "a", "test.com/test"
   end
 end
