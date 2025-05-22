@@ -247,7 +247,7 @@
 <div class="richtext text-break"><%= @user.description.to_html %></div>
 
 <% if @heatmap_data[:count].positive? %>
-  <h2 class="text-body-secondary fs-5 mt-4"><%= t("users.show.contributions", :count => @heatmap_data[:count]) %></h2>
+  <h2 class="text-body-secondary fs-5 mt-4"><%= t("users.show.contributions", :count => number_with_delimiter(@heatmap_data[:count])) %></h2>
   <%= render :partial => "heatmap", :locals => @heatmap_data %>
 <% end %>
 
