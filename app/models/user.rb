@@ -88,6 +88,9 @@ class User < ApplicationRecord
 
   has_many :reports
 
+  has_many :social_links
+  accepts_nested_attributes_for :social_links, :allow_destroy => true
+
   scope :visible, -> { where(:status => %w[pending active confirmed]) }
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }

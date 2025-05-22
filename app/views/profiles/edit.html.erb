@@ -12,6 +12,22 @@
   <%= f.richtext_field :description, :cols => 80, :rows => 20 %>
 
   <fieldset class="mb-3">
+
+    <%= f.label t(".social_links.title"), :class => "form-label" %>
+    <div id="social_links">
+      <%= f.fields_for :social_links do |social_link_form| %>
+        <div class="social-link-fields row mb-3">
+          <%= social_link_form.text_field :url, :hide_label => true, :wrapper_class => "col-sm-8" %>
+          <%= social_link_form.check_box :_destroy, :wrapper_class => "d-none social_link_destroy" %>
+          <%= social_link_form.label :_destroy, t(".social_links.remove"), :class => "btn btn-outline-primary col-sm-2 align-self-start" %>
+        </div>
+      <% end %>
+    </div>
+
+    <button id="add-social-link" type="button" class="btn btn-outline-primary"><%= t ".social_links.add" %></button>
+  </fieldset>
+
+  <fieldset class="mb-3">
     <%= f.label t(".image") %>
     <div class="row">
       <div class="col-sm-2">

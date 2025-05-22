@@ -243,8 +243,19 @@
     </div>
   </div>
 <% end %>
-
-<div class="richtext text-break"><%= @user.description.to_html %></div>
+<% if @user.social_links.empty? %>
+  <div class="richtext text-break"><%= @user.description.to_html %></div>
+<% else %>
+  <div class="row">
+    <div class="col-sm-3">
+      <%= render "social_links/show",
+                 :social_links => @user.social_links %>
+    </div>
+    <div class="col-sm-9">
+      <div class="richtext text-break"><%= @user.description.to_html %></div>
+    </div>
+  </div>
+<% end %>
 
 <% if @heatmap_data[:count].positive? %>
   <h2 class="text-body-secondary fs-5 mt-4"><%= t("users.show.contributions", :count => @heatmap_data[:count]) %></h2>
