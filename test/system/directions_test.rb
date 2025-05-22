@@ -1,13 +1,48 @@
 require "application_system_test_case"
 
 class DirectionsSystemTest < ApplicationSystemTestCase
+  test "updates route output on mode change" do
+    visit directions_path
+    stub_straight_routing(:start_instruction => "Start popup text")
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    find_by_id("route_to").set("61 31").send_keys :enter
+
+    within "#sidebar" do
+      assert_content "Start popup text (car)"
+    end
+
+    choose "bicycle", :allow_label_click => true
+
+    within "#sidebar" do
+      assert_content "Start popup text (bicycle)"
+    end
+  end
+
+  test "swaps route endpoints on reverse button click" do
+    visit directions_path
+    stub_straight_routing(:start_instruction => "Start popup text")
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    find_by_id("route_to").set("61 31").send_keys :enter
+
+    click_on :class => "reverse_directions"
+
+    start_location = find_by_id("route_from").value
+    finish_location = find_by_id("route_to").value
+
+    click_on :class => "reverse_directions"
+
+    assert_equal finish_location, find_by_id("route_from").value
+    assert_equal start_location, find_by_id("route_to").value
+  end
+
   test "removes popup on sidebar close" do
     visit directions_path
     stub_straight_routing(:start_instruction => "Start popup text")
 
-    fill_in "route_from", :with => "60 30"
-    fill_in "route_to", :with => "61 31"
-    click_on "Go"
+    find_by_id("route_from").set("60 30").send_keys :enter
+    find_by_id("route_to").set("61 31").send_keys :enter
 
     within "#map" do
       assert_no_content "Start popup text"
@@ -38,8 +73,8 @@ class DirectionsSystemTest < ApplicationSystemTestCase
       return Promise.resolve({
         line: points,
         steps: [
-          ["start", "<b>1.</b> #{start_instruction}", distance, points],
-          ["destination", "<b>2.</b> #{finish_instruction}", 0, [points[1]]]
+          ["start", `<b>1.</b> #{start_instruction} (${this.mode})`, distance, points],
+          ["destination", `<b>2.</b> #{finish_instruction} (${this.mode})`, 0, [points[1]]]
         ],
         distance,
         time
@@ -51,7 +86,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     execute_script <<~SCRIPT
       $(() => {
         for (const engine of OSM.Directions.engines) {
-          engine.getRoute = (points, signal) => {
+          engine.getRoute = function(points, signal) {
               #{callback_code}
           };
         }
