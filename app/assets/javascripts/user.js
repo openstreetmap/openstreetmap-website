@@ -29,6 +29,8 @@ $(function () {
       });
 
       $("#social_links").append(socialLinkForm);
+
+      socialLinkForm.find("input").trigger("focus");
     });
 
     $(".social_link_destroy input[type='checkbox']").change(function () {
