@@ -293,6 +293,7 @@ OpenStreetMap::Application.routes.draw do
   resources :users, :path => "user", :param => :display_name, :only => [:new, :create, :show] do
     resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
     scope :module => :users do
+      resource :heatmap, :only => :show
       resources :diary_comments, :only => :index
       resources :changeset_comments, :only => :index
       resource :issued_blocks, :path => "blocks_by", :only => :show

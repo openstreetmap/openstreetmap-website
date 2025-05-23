@@ -336,7 +336,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
     create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
 
-    get user_path(user)
+    get user_heatmap_path(user)
     assert_response :success
     # The data should not be empty
     heatmap_data = assigns(:heatmap_data)
@@ -361,7 +361,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 15)
 
     # First request to populate the cache
-    get user_path(user)
+    get user_heatmap_path(user)
     first_response_data = assigns(:heatmap_data)
     assert_not_nil first_response_data, "Expected heatmap data to be assigned on the first request"
     assert_equal 1, first_response_data[:data].values.count { |day| day[:total_changes].positive? }, "Expected one entry in the heatmap data"
@@ -374,7 +374,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
 
     # Second request
-    get user_path(user)
+    get user_heatmap_path(user)
     second_response_data = assigns(:heatmap_data)
 
     # Confirm that the cache is still being used
@@ -382,7 +382,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Clear the cache and make a third request to confirm new data is retrieved
     Rails.cache.clear
-    get user_path(user)
+    get user_heatmap_path(user)
     third_response_data = assigns(:heatmap_data)
 
     # Ensure the new entry is now included
@@ -396,7 +396,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_show_heatmap_data_no_changesets
     user = create(:user)
 
-    get user_path(user)
+    get user_heatmap_path(user)
+
     assert_response :success
     assert_empty(assigns(:heatmap_data)[:data].values)
     assert_select ".heatmap", :count => 0
@@ -405,7 +406,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_show_heatmap_rendering_of_user_with_no_changesets
     user_without_changesets = create(:user)
 
-    get user_path(user_without_changesets)
+    get user_heatmap_path(user_without_changesets)
 
     assert_response :success
     assert_select ".heatmap", 0
@@ -417,7 +418,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     _changeset5 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
     changeset11 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
 
-    get user_path(user)
+    get user_heatmap_path(user)
 
     assert_response :success
     assert_select ".heatmap a", 2
@@ -431,7 +432,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_heatmap_headline_changset_zero
     user = create(:user)
 
-    get user_path(user)
+    get user_heatmap_path(user)
 
     assert_response :success
     assert_select "h2.text-body-secondary.fs-5", :count => 0
@@ -441,7 +442,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 1)
 
-    get user_path(user)
+    get user_heatmap_path(user)
 
     assert_response :success
     assert_select "h2.text-body-secondary.fs-5", :text => "1 contribution in the last year"
@@ -451,7 +452,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 12)
 
-    get user_path(user)
+    get user_heatmap_path(user)
 
     assert_response :success
     assert_select "h2.text-body-secondary.fs-5", :text => "12 contributions in the last year"
