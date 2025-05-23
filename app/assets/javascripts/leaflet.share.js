@@ -115,7 +115,8 @@ L.OSM.share = function (options) {
     $("<div>")
       .appendTo($geoUriSection)
       .append($("<a>")
-        .attr("id", "geo_uri"));
+        .attr("id", "geo_uri")
+        .on("mouseover click focus", askToHandleGeoURI));
 
     // Image
 
@@ -438,6 +439,16 @@ L.OSM.share = function (options) {
     function roundScale(scale) {
       const precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
       return precision * Math.ceil(scale / precision);
+    }
+
+    function askToHandleGeoURI() {
+      if (sessionStorage.getItem("geoHandlerAsked")) return;
+      try {
+        navigator.registerProtocolHandler("geo", "/?geouri=%s");
+        sessionStorage.setItem("geoHandlerAsked", "registered");
+      } catch (e) {
+        sessionStorage.setItem("geoHandlerAsked", "rejected");
+      }
     }
   };
 
