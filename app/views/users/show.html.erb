@@ -257,9 +257,8 @@
   </div>
 <% end %>
 
-<% if @heatmap_data[:count].positive? %>
-  <h2 class="text-body-secondary fs-5 mt-4"><%= t("users.show.contributions", :count => @heatmap_data[:count]) %></h2>
-  <%= render :partial => "heatmap", :locals => @heatmap_data %>
+<% if @heatmap_frame %>
+  <%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :src => user_heatmap_path(@user), :data => { :turbo => false } %>
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>

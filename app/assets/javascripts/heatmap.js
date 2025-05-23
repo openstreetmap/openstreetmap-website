@@ -1,4 +1,4 @@
-$(function () {
+$(document).on("turbo:frame-load", function () {
   const heatmap = $(".heatmap").removeClass("d-none").addClass("d-grid");
   const weekInfo = getWeekInfo();
   const maxPerDay = heatmap.data("max-per-day");
