@@ -2,13 +2,13 @@ module ShareButtonsHelper
   require "uri"
 
   SHARE_BUTTONS_CONFIG = {
-    :email => "social_icons/email.svg",
-    :bluesky => "social_icons/bluesky.svg",
-    :facebook => "social_icons/facebook.svg",
-    :linkedin => "social_icons/linkedin.svg",
-    :mastodon => "social_icons/mastodon.svg",
-    :telegram => "social_icons/telegram.svg",
-    :x => "social_icons/x.svg"
+    :email => "share_button_icons/email.svg",
+    :bluesky => "share_button_icons/bluesky.svg",
+    :facebook => "share_button_icons/facebook.svg",
+    :linkedin => "share_button_icons/linkedin.svg",
+    :mastodon => "share_button_icons/mastodon.svg",
+    :telegram => "share_button_icons/telegram.svg",
+    :x => "share_button_icons/x.svg"
   }.freeze
 
   # Generates a set of share buttons based on the specified options.
@@ -24,7 +24,7 @@ module ShareButtonsHelper
                    :data => { :share_type => "native",
                               :share_text => title,
                               :share_url => url }) do
-          image_tag("social_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
+          image_tag("share_button_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
         end
       ]
 
