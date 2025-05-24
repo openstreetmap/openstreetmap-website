@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AuthorizationHelper
   include ActionView::Helpers::TranslationHelper
 

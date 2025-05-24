@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTimestampIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index :current_ways, :timestamp, :name => :current_ways_timestamp_idx

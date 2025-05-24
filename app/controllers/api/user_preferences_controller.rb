@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update and read user preferences, which are arbitrary key/val pairs
 module Api
   class UserPreferencesController < ApiController

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id message.id
 json.from_user_id message.from_user_id
 json.from_display_name message.sender.display_name
