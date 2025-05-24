@@ -41,7 +41,6 @@ class SocialLink < ApplicationRecord
     :osm_wiki => %r{\Ahttps?://wiki\.openstreetmap\.org/wiki/User:([a-zA-Z0-9_-]+)},
     :quora => %r{\Ahttps?://(?:www\.)?quora\.com/profile/([a-zA-Z0-9_-]+)},
     :reddit => %r{\Ahttps?://(?:www\.)?reddit\.com/user/([a-zA-Z0-9_-]+)},
-    :skype => %r{\Ahttps?://join\.skype\.com/invite/([a-zA-Z0-9_-]+)},
     :slack => %r{\Ahttps?://join\.slack\.com/shareDM/([a-zA-Z0-9_~-]+)},
     :snapchat => %r{\Ahttps?://(?:www\.)?snapchat\.com/add/([a-zA-Z0-9_-]+)},
     :stackoverflow => %r{\Ahttps?://(?:www\.)?stackoverflow\.com/users/\d+/([a-zA-Z0-9_-]+)},
@@ -61,7 +60,7 @@ class SocialLink < ApplicationRecord
     :youtube => %r{\Ahttps?://(?:www\.)?youtube\.com/@([a-zA-Z0-9_-]+)}
   }.freeze
 
-  NO_USERNAME_PLATFORMS = %w[discord line skype slack].freeze
+  NO_USERNAME_PLATFORMS = %w[discord line slack].freeze
 
   def parsed
     URL_PATTERNS.each do |platform, pattern|
