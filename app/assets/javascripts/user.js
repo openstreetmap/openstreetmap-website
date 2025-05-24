@@ -195,49 +195,15 @@ $(function () {
     return centerPt.distanceTo(inputPt) < 10;
   }
 
-  function updateAuthUID() {
-    const provider = $("select#user_auth_provider").val();
-
-    if (provider === "openid") {
-      $("input#user_auth_uid").show().prop("disabled", false);
-    } else {
-      $("input#user_auth_uid").hide().prop("disabled", true);
-    }
-  }
-
   function clearDeletedText() {
     deleted_lat = null;
     deleted_lon = null;
     deleted_home_name = null;
   }
 
-  updateAuthUID();
-
-  $("select#user_auth_provider").on("change", updateAuthUID);
-
   $("input#user_avatar").on("change", function () {
     $("#user_avatar_action_new").prop("checked", true);
   });
-
-  function enableAuth() {
-    $("#auth_prompt").hide();
-    $("#auth_field").show();
-    $("#user_auth_uid").prop("disabled", false);
-  }
-
-  function disableAuth() {
-    $("#auth_prompt").show();
-    $("#auth_field").hide();
-    $("#user_auth_uid").prop("disabled", true);
-  }
-
-  $("#auth_enable").click(enableAuth);
-
-  if ($("select#user_auth_provider").val() === "") {
-    disableAuth();
-  } else {
-    enableAuth();
-  }
 
   $("#content.user_confirm").each(function () {
     $(this).hide();

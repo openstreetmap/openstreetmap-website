@@ -17,10 +17,8 @@ module SessionMethods
 
   ##
   # return the URL to use for authentication
-  def auth_url(provider, uid, referer = nil)
+  def auth_url(provider, referer = nil)
     params = { :provider => provider }
-
-    params[:openid_url] = uid if provider == "openid"
 
     if referer.nil?
       params[:origin] = request.path
