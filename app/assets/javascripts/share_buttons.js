@@ -10,13 +10,13 @@ $(function () {
     window.open(url, "popup", opts);
   }
 
-  $(".social-share-buttons [data-share-type='site']").on("click", function (e) {
+  $("[data-share-type='site']").on("click", function (e) {
     e.preventDefault();
     openShareUrl(this.href);
   });
 
   if (navigator.share) {
-    $(".social-share-buttons [data-share-type='native']").prop("hidden", false).on("click", function () {
+    $("[data-share-type='native']").prop("hidden", false).on("click", function () {
       navigator.share({
         text: this.dataset.shareText,
         url: this.dataset.shareUrl

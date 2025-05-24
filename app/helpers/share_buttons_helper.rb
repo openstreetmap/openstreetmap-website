@@ -14,7 +14,7 @@ module ShareButtonsHelper
   # Generates a set of share buttons based on the specified options.
   def share_buttons(title:, url:)
     tag.div(
-      :class => "social-share-buttons d-flex gap-1 align-items-end flex-wrap mb-3"
+      :class => "d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
       buttons = [
         tag.button(:type => "button",
