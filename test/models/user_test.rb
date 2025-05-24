@@ -136,6 +136,18 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user, :valid?, "user_0 display_name is invalid but it hasn't been changed"
   end
 
+  def test_description_length
+    user = build(:user)
+    user.description = "x" * 65536
+    assert_predicate user, :valid?, "should allow 65536 char description"
+    user.description = "x" * 65537
+    assert_not_predicate user, :valid?, "should not allow 65537 char description"
+    user.description = ""
+    assert_predicate user, :valid?, "should allow blank/0 char description"
+    user.description = nil
+    assert_predicate user, :valid?, "should allow nil value"
+  end
+
   def test_follows
     alice = create(:user, :active)
     bob = create(:user, :active)
