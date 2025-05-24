@@ -1,20 +1,20 @@
-module SocialShareButtonHelper
+module ShareButtonsHelper
   require "uri"
 
-  SOCIAL_SHARE_CONFIG = {
-    :email => "social_icons/email.svg",
-    :bluesky => "social_icons/bluesky.svg",
-    :facebook => "social_icons/facebook.svg",
-    :linkedin => "social_icons/linkedin.svg",
-    :mastodon => "social_icons/mastodon.svg",
-    :telegram => "social_icons/telegram.svg",
-    :x => "social_icons/x.svg"
+  SHARE_BUTTONS_CONFIG = {
+    :email => "share_button_icons/email.svg",
+    :bluesky => "share_button_icons/bluesky.svg",
+    :facebook => "share_button_icons/facebook.svg",
+    :linkedin => "share_button_icons/linkedin.svg",
+    :mastodon => "share_button_icons/mastodon.svg",
+    :telegram => "share_button_icons/telegram.svg",
+    :x => "share_button_icons/x.svg"
   }.freeze
 
-  # Generates a set of social share buttons based on the specified options.
-  def social_share_buttons(title:, url:)
+  # Generates a set of share buttons based on the specified options.
+  def share_buttons(title:, url:)
     tag.div(
-      :class => "social-share-buttons d-flex gap-1 align-items-end flex-wrap mb-3"
+      :class => "d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
       buttons = [
         tag.button(:type => "button",
@@ -24,11 +24,11 @@ module SocialShareButtonHelper
                    :data => { :share_type => "native",
                               :share_text => title,
                               :share_url => url }) do
-          image_tag("social_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
+          image_tag("share_button_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
         end
       ]
 
-      buttons << SOCIAL_SHARE_CONFIG.map do |site, icon|
+      buttons << SHARE_BUTTONS_CONFIG.map do |site, icon|
         link_options = {
           :rel => "nofollow",
           :class => "rounded-circle focus-ring",

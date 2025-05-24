@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <%= javascript_include_tag "social_share_button" %>
+  <%= javascript_include_tag "share_buttons" %>
 <% end %>
 
 <% content_for :heading do %>
@@ -15,7 +15,7 @@
 <% end %>
 
 <%= render @diary_entry, :truncated => false %>
-<%= social_share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
+<%= share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
 
 <div id="comments" class="comments mb-3 overflow-hidden">
   <div class="row border-bottom border-secondary-subtle">
