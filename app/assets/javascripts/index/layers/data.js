@@ -88,7 +88,7 @@ OSM.initializeDataLayer = function (map) {
       .then(response => {
         if (response.ok) return response.json();
         const status = response.statusText || response.status;
-        if (response.status !== 400) throw new Error(status);
+        if (response.status !== 400 && response.status !== 509) throw new Error(status);
         return response.text().then(text => {
           throw new Error(text || status);
         });
