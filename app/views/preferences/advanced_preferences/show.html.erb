@@ -1,0 +1,12 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+  <%= render :partial => "navigation" %>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
+  <%= f.text_field :languages %>
+
+  <%= f.primary t(".save") %>
+<% end %>

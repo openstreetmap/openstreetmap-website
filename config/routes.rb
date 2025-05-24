@@ -315,9 +315,14 @@ OpenStreetMap::Application.routes.draw do
   get "/account/edit", :to => redirect(:path => "/account"), :as => nil
 
   resource :dashboard, :only => [:show]
-  resource :preferences, :only => [:show, :update]
-  get "/preferences/edit", :to => redirect(:path => "/preferences")
   resource :profile, :only => [:edit, :update]
+
+  scope :preferences, :module => :preferences do
+    resource :basic_preferences, :path => "basic", :only => [:show, :update]
+    resource :advanced_preferences, :path => "advanced", :only => [:show, :update]
+  end
+  get "/preferences", :to => redirect(:path => "/preferences/basic"), :as => nil
+  get "/preferences/edit", :to => redirect(:path => "/preferences/basic"), :as => nil
 
   # friendships
   scope "/user/:display_name" do

@@ -46,7 +46,7 @@ class Ability
         can [:show, :create, :destroy], Follow
         can [:read, :create, :destroy], Message
         can [:close, :reopen], Note
-        can [:read, :update], :preference
+        can [:read, :update], :preferences
         can :update, :profile
         can :create, Report
         can [:mine, :create, :update, :destroy], Trace

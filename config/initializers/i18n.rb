@@ -45,3 +45,5 @@ Rails.configuration.after_initialize do
 
   I18n.available_locales
 end
+
+AVAILABLE_LANGUAGES = YAML.load_file(Rails.root.join("config/ui_languages.yml"))
