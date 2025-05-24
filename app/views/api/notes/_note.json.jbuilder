@@ -7,6 +7,7 @@ end
 
 json.properties do
   json.id note.id
+  json.version note.version
   json.url api_note_url(note, :format => params[:format])
 
   if note.closed?
@@ -19,6 +20,8 @@ json.properties do
   json.date_created note.created_at.to_s
   json.status note.status
   json.closed_at note.closed_at.to_s if note.closed?
+
+  json.tags note.tags unless note.tags.empty?
 
   json.comments(note.comments) do |comment|
     json.date comment.created_at.to_s
