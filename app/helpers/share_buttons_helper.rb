@@ -1,7 +1,7 @@
-module SocialShareButtonHelper
+module ShareButtonsHelper
   require "uri"
 
-  SOCIAL_SHARE_CONFIG = {
+  SHARE_BUTTONS_CONFIG = {
     :email => "social_icons/email.svg",
     :bluesky => "social_icons/bluesky.svg",
     :facebook => "social_icons/facebook.svg",
@@ -11,8 +11,8 @@ module SocialShareButtonHelper
     :x => "social_icons/x.svg"
   }.freeze
 
-  # Generates a set of social share buttons based on the specified options.
-  def social_share_buttons(title:, url:)
+  # Generates a set of share buttons based on the specified options.
+  def share_buttons(title:, url:)
     tag.div(
       :class => "social-share-buttons d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
@@ -28,7 +28,7 @@ module SocialShareButtonHelper
         end
       ]
 
-      buttons << SOCIAL_SHARE_CONFIG.map do |site, icon|
+      buttons << SHARE_BUTTONS_CONFIG.map do |site, icon|
         link_options = {
           :rel => "nofollow",
           :class => "rounded-circle focus-ring",
