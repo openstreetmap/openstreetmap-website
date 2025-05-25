@@ -4,7 +4,7 @@ module TraceHelper
   end
 
   def trace_icon(trace, options = {})
-    options[:class] ||= "trace_image"
+    options[:class] ||= "trace_image icon-invertible"
     options[:alt] ||= ""
 
     image_tag trace_icon_path(trace.user, trace),
@@ -12,7 +12,7 @@ module TraceHelper
   end
 
   def trace_picture(trace, options = {})
-    options[:class] ||= "trace_image"
+    options[:class] ||= "trace_image icon-invertible"
     options[:alt] ||= ""
 
     image_tag trace_picture_path(trace.user, trace),
