@@ -521,9 +521,6 @@ th:
       title_nearby: บันทึกของผู้ใช้ที่อยู่ใกล้เคียง
       user_title: บันทึกของ %{user}
       in_language_title: รายการบันทึกทั้งหมดในภาษา %{language}
-      new: สร้างรายการบันทึกใหม่
-      new_title: สร้างรายการบันทึกใหม่
-      my_diary: บันทึกของฉัน
       no_entries: ไม่มีรายการบันทึก
     page:
       recent_entries: รายการบันทึกล่าสุด
@@ -581,6 +578,10 @@ th:
     unsubscribe:
       heading: เลิกติดตามการอภิปรายต่อไปนี้หรือไม่
       button: เลิกติดตามการอภิปราย
+    navigation:
+      my_diary: บันทึกของฉัน
+      new: สร้างรายการบันทึกใหม่
+      new_title: สร้างรายการบันทึกใหม่
   doorkeeper:
     errors:
       messages:
@@ -1421,8 +1422,13 @@ th:
         no_results: ไม่พบผลลัพธ์
         more_results: ดูผลลัพธ์เพิ่ม
   directions:
-    search:
+    show:
       title: เส้นทาง
+      distance: ระยะทาง
+      time: เวลา
+      ascend: ลาดขึ้น
+      descend: ลาดลง
+      directions_courtesy_html: เอื้อเฟื้อเส้นทางโดย %{link}
   issues:
     index:
       title: ปัญหา
@@ -1820,20 +1826,18 @@ th:
         native_link: รุ่นภาษาTHIS_LANGUAGE_NAME_HERE
         mapping_link: เริ่มการทำแผนที่
       legal_babble:
-        introduction_1_open_data: ข้อมูลเปิดเผย
-        introduction_2_html: คุณสามารถคัดลอก แจกจ่าย ถ่ายทอด และดัดแปลงข้อมูลของเราได้อย่างเสรี
-          ตราบใดที่คุณให้อ้างอิงเครดิต OpenStreetMap และผู้ร่วมให้ข้อมูล ถ้าคุณแก้ไข
-          หรือสร้างข้อมูลต่อจากข้อมูลของเรา คุณสามารถเผยแพร่ผลลัพธ์ภายใต้สัญญาเดิมเท่านั้น
-          คำอธิบายเพิ่มเติมเกี่ยวกับสิทธิและความรับผิดชอบของคุณสามารถเข้าถึงได้ที่%{legal_code_link}
         credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
         credit_1_html: |-
           เราจำเป็นต้องให้ท่านแสดงที่มาหรือคำขอบคุณแก่ &ldquo;&copy; ผู้ร่วมสร้างสรรค์ OpenStreetMap
           &rdquo;.
-        credit_3_attribution_guidelines: แนวทางการระบุแหล่งที่มา
+        credit_3_v2025_attribution_guidelines: แนวทางการระบุแหล่งที่มา
         attribution_example:
           alt: ตัวอย่างการอ้างอิง OpenStreetMap บนหน้าเว็บ
           title: ตัวอย่างการอ้างอิง
-        more_title_html: ค้นหาเพิ่มเติม
+        infringement_title_html: การละเมิดลิขสิทธิ์
+        infringement_1_html: ผู้ร่วมให้ข้อมูล OSM จะถูกเตือนไม่ให้เพิ่มข้อมูลจากแหล่งข้อมูลที่มีลิขสิทธิ์
+          (เช่น Google Maps หรือแผนที่แบบพิมพ์) โดยไม่ได้รับอนุญาตอย่างชัดเจนจากเจ้าของลิขสิทธิ์
+        trademarks_title: เครื่องหมายการค้า
         contributors_title_html: ผู้ร่วมให้ข้อมูลของเรา
         contributors_intro_html: 'ผู้ร่วมให้ข้อมูลของเรามีอยู่หลายพันคน เรายังมีข้อมูลที่ใช้สัญญาอนุญาตแบบเปิด
           จากตัวแทนการทำแผนที่ของชาติต่าง ๆ และแหล่งข้อมูลอื่น ๆ ต่อไปนี้:'
@@ -1856,10 +1860,6 @@ th:
         contributors_es_spain: สเปน
         contributors_footer_2_html: การรวมข้อมูลใน OpenStreetMap ไม่ได้หมายความว่าผู้ให้บริการข้อมูลดั้งเดิมจะรับรอง
           OpenStreetMap รับประกัน หรือรับผิดชอบใด ๆ
-        infringement_title_html: การละเมิดลิขสิทธิ์
-        infringement_1_html: ผู้ร่วมให้ข้อมูล OSM จะถูกเตือนไม่ให้เพิ่มข้อมูลจากแหล่งข้อมูลที่มีลิขสิทธิ์
-          (เช่น Google Maps หรือแผนที่แบบพิมพ์) โดยไม่ได้รับอนุญาตอย่างชัดเจนจากเจ้าของลิขสิทธิ์
-        trademarks_title: เครื่องหมายการค้า
     index:
       js_1: ท่านกำลังใช้เบราว์เซอร์ที่ไม่รองรับจาวาสคริปต์ หรือท่านปิดใช้งานจาวาสคริปต์
       js_2: OpenStreetMap ใช้จาวาสคริปต์ในการแสดงแผนที่
@@ -1947,10 +1947,10 @@ th:
       rules:
         title: อย่าลืมกติกา!
       start_mapping: เริ่มการทำแผนที่
-      add_a_note:
-        title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
-        para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
-          คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
+    add_a_note:
+      title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
+      para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
+        คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
   map_keys:
     show:
       entries:
@@ -2343,9 +2343,6 @@ th:
       queryfeature_tooltip: เรียกดูคุณลักษณะ
       queryfeature_disabled_tooltip: ซูมเข้าเพื่อเรียกดูคุณลักษณะ
     directions:
-      ascend: ลาดขึ้น
-      descend: ลาดลง
-      distance: ระยะทาง
       errors:
         no_route: ไม่พบเส้นทางระหว่างสองจุดที่คุณต้องการ
         no_place: ขออภัย - ไม่พบสถานที่ "%{place}"
@@ -2379,7 +2376,6 @@ th:
         roundabout_with_exit: ณ วงเวียน ใช้ทางออก %{exit} ไปที่ถนน %{name}
         exit_roundabout: ออกจากวงเวียนไปทาง %{name}
         unnamed: ถนนไม่มีชื่อ
-        courtesy: เอื้อเฟื้อเส้นทางโดย %{link}
         exit_counts:
           first: แรก
           second: ที่สอง
@@ -2391,7 +2387,6 @@ th:
           eighth: ที่แปด
           ninth: ที่เก้า
           tenth: ที่สิบ
-      time: เวลา
     query:
       node: หมุด
       way: เส้นทาง

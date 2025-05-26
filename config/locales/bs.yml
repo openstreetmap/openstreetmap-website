@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Alenmahovic
 # Author: CERminator
+# Author: Cranki
 # Author: DzWiki
 # Author: Edinwiki
 # Author: Gravitystorm
@@ -47,6 +48,10 @@ bs:
         create: Napraviti blokadu
         update: Osvježiti blokadu
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ne može biti user_n osim ako n nije vaš korisnički
+          ID
     models:
       acl: Kontrole pristupa
       changeset: Set promjena
@@ -60,6 +65,7 @@ bs:
       message: Poruka
       node: Čvor
       node_tag: Oznaka čvora
+      note: Napomena
       old_node: Stari čvor
       old_node_tag: Oznaka starog čvora
       old_relation: Stara relacija
@@ -85,19 +91,30 @@ bs:
     attributes:
       client_application:
         name: Ime (obavezno)
+        url: Glavni URL aplikacije (potreban)
         callback_url: URL za povratni poziv
         support_url: URL podrške
+        allow_read_prefs: Pročitajte njihove korisničke postavke
+        allow_write_prefs: izmijenjite njihove korisničke postavke
+        allow_write_diary: kreirajte dnevničke zapise i komentare
         allow_write_api: izmijeni kartu
+        allow_read_gpx: čitati njihove privatne GPS tragove
+        allow_write_gpx: uploadujte GPS tragove
+        allow_write_notes: izmijeni bilješke
       diary_comment:
         body: Tijelo
       diary_entry:
         user: Korisnik
         title: Predmet
+        body: Tijelo
         latitude: Geografska širina (Latitude)
         longitude: Geografska dužina (Longitude)
         language_code: Jezik
       doorkeeper/application:
         name: Naziv
+        redirect_uri: Preusmjeravanje URI-ja
+        confidential: Povjerljiva prijava?
+        scopes: Dozvole
       friend:
         user: Korisnik
         friend: Prijatelj
@@ -110,7 +127,7 @@ bs:
         longitude: Geografska dužina (Longitude)
         public: Javno
         description: Opis
-        gpx_file: Poslati GPX datoteku
+        gpx_file: Odaberi GPS trag datoteku
         visibility: Vidljivost
         tagstring: Oznake
       message:
@@ -119,8 +136,14 @@ bs:
         body: Tijelo
         recipient: Primalac
       redaction:
+        title: Naslov
         description: Opis
+      report:
+        category: Odaberite razlog za vašu prijavu
+        details: Molimo vas da navedete još neke detalje o problemu (obavezno).
       user:
+        auth_provider: Pružatelj autentifikacije
+        auth_uid: UID autentifikacije
         email: E-mail
         new_email: Nova adresa e-pošte
         active: Aktivan
@@ -129,14 +152,28 @@ bs:
         home_lat: Geografska širina
         home_lon: Geografska dužina
         languages: Preferirani jezici
+        preferred_editor: Preferirani urednik
         pass_crypt: Lozinka
+        pass_crypt_confirmation: Potvrdite lozinku
     help:
+      doorkeeper/application:
+        confidential: Aplikacija će se koristiti tamo gdje se tajni podaci klijenta
+          mogu čuvati u tajnosti (nativne mobilne aplikacije i aplikacije s jednom
+          stranicom nisu povjerljive)
+        redirect_uri: Koristite jedan red po URI-ju
       trace:
         tagstring: odvojeno zarezima
       user_block:
+        reason: Razlog zašto je korisnik blokiran. Molimo vas da budete što smireniji
+          i razumniji, dajući što više detalja o situaciji, imajući na umu da će poruka
+          biti javno vidljiva. Imajte na umu da ne razumiju svi korisnici žargon zajednice,
+          pa pokušajte koristiti jednostavne termine.
         needs_view: Da li se korisnik mora prijaviti prije nego se očisti blokada?
       user:
         new_email: (nikada se ne prikazuje javno)
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: prije pola minute
   editor:
     default: Zadano (currently %{name})
     id:
@@ -145,14 +182,29 @@ bs:
     remote:
       name: Udaljena kontrola
       description: Udaljena kontrola (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Nema
+      google: Google
+      facebook: Facebook
+      github: GitHub
+      wikipedia: Wikipedija
   api:
     notes:
       comment:
         opened_at_html: Kreirano %{when}
+      rss:
+        title: OpenStreetMap zapis
+        description_all: Spisak prijavljenih, komentiranih ili zatvorenih bilješki
+      entry:
+        comment: Komentar
+        full: Potpuna bilješka
   accounts:
     show:
       title: Urediti korisnički račun
+      my_account: Moj račun
       current email address: Trenutna adresa e-pošte
+      external auth: Vanjska autentifikacija
       openid:
         link text: Šta je ovo?
       contributor terms:
@@ -163,14 +215,49 @@ bs:
           da pregledate i prihvatite nove uslove za doprinosioce.
         agreed_with_pd: Takođe ste proglasili da će vaše izmjene biti u javnom vlasništvu.
         link text: Šta je ovo?
+        not_agreed_with_pd: Niste izjavili da smatrate da su vaše izmjene u javnom
+          vlasništvu.
+        pd_link_text: proglasi
       save changes button: Sačuvati promjene
+      delete_account: Izbriši račun...
     go_public:
       heading: Javno uređivanje
+      currently_not_public: Trenutno su vaše izmjene anonimne i ljudi vam ne mogu
+        slati poruke niti vidjeti vašu lokaciju. Da biste prikazali šta ste uredili
+        i omogućili ljudima da vas kontaktiraju putem web stranice, kliknite na dugme
+        ispod.
+      only_public_can_edit: Od prelaska na verziju 0.6 API-ja, samo javni korisnici
+        mogu uređivati podatke mapa.
+      find_out_why: saznaj zašto
+      email_not_revealed: Vaša adresa e-pošte neće biti otkrivena ako postanete javni.
+      not_reversible: Ova radnja se ne može poništiti i svi novi korisnici su sada
+        prema zadanim postavkama javni.
       make_edits_public_button: Napraviti sve moje promjene javnim
     update:
       success_confirm_needed: Korisničke informacije su uspješno osvježene. Provjerite
         e-mail za porukom za potvrdu nove e-mail adrese.
       success: Korisničke informacije su uspješno osvježene.
+    destroy:
+      success: Račun izbrisan.
+    deletions:
+      show:
+        title: Izbriši moj račun
+        warning: Upozorenje! Brisanje računa je konačan i ne može se poništiti.
+        delete_account: Izbriši račun
+        delete_introduction: 'Svoj OpenStreetMap račun možete izbrisati pomoću dugmeta
+          ispod. Molimo vas da obratite pažnju na sljedeće detalje:'
+        delete_profile: Informacije s vašeg profila, uključujući vaš avatar, opis
+          i lokaciju doma, bit će uklonjen.
+        delete_display_name: Vaše prikazano ime će biti uklonjeno i moći će ga ponovo
+          koristiti drugi računi.
+        retain_caveats: 'Međutim, neke informacije o vama će biti sačuvane na OpenStreetMap-u,
+          čak i nakon što vaš račun bude izbrisan:'
+        retain_edits: Vaše izmjene u bazi podataka mapa, ako ih ima, bit će sačuvane.
+        retain_traces: Vaši preneseni tragovi, ako ih ima, bit će sačuvani.
+        retain_diary_entries: Vaši dnevnički zapisi i komentari, ako ih ima, bit će
+          sačuvani, ali ne javni.
+        retain_notes: Vaše bilješke na mapi i komentari, ako ih ima, bit će sačuvani,
+          ali ne javni.
     terms:
       show:
         title: Uslovi za doprinosioce
@@ -288,8 +375,6 @@ bs:
       title_nearby: Dnevnici obližnjih korisnika
       user_title: Dnevnik od %{user}
       in_language_title: 'Unosi u dnevnik na jeziku: %{language}'
-      new: Novi unos u dnevnik
-      new_title: Napravite novi unos u vaš dnevnik
       no_entries: Nema unosa u dnevniku
     page:
       recent_entries: 'Nedavni unosi u dnevnik:'
@@ -334,6 +419,9 @@ bs:
       all:
         title: Unosi u OpenStreetMap dnevniku
         description: Nedavni unosi u dnevnik OpenStreetMap korisnika
+    navigation:
+      new: Novi unos u dnevnik
+      new_title: Napravite novi unos u vaš dnevnik
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1023,7 +1111,10 @@ bs:
         attribution_example:
           alt: Primjer kako se navodi zasluga projekta OpenStreetMap na web stranici
           title: Primjer navođenja zasluge
-        more_title_html: Više o
+        infringement_title_html: Kršenje autorskih prava
+        infringement_1_html: OSM doprinosioci se podsjećaju da nikada ne dodaju podatke
+          sa bilo kojeg izvora koji zadržava autorska prava (npr. Google Maps ili
+          printane karte) bez eksplicitne dozvole od strane autora.
         contributors_title_html: Naši korisnici - doprinosioci
         contributors_intro_html: 'Naši doprinosioci su hiljade osoba. Mi takođe uključujemo
           podatke sa otvorenom dozvolom iz nacionalnih kartografskih agencija i drugih
@@ -1031,10 +1122,6 @@ bs:
         contributors_footer_2_html: '  Uvrštenje podataka u OpenStreetMap ne podrazumjeva
           da se izvorni davatelj podataka podržava OpenStreetMap, pruža bilo kakvu
           garanciju, ili prihvata bilo kakve obaveze.'
-        infringement_title_html: Kršenje autorskih prava
-        infringement_1_html: OSM doprinosioci se podsjećaju da nikada ne dodaju podatke
-          sa bilo kojeg izvora koji zadržava autorska prava (npr. Google Maps ili
-          printane karte) bez eksplicitne dozvole od strane autora.
     index:
       js_1: Koristite internet preglednik koji ne podržava JavaScript, ili ste onemogućili
         JavaScript.

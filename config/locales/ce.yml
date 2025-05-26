@@ -57,6 +57,7 @@ ce:
       message: Хаам
       node: ТӀадам
       node_tag: ТӀадаман тег
+      note: ТӀадам
       old_node: Шира тӀадам
       old_node_tag: ТӀадаман шира тег
       old_relation: Шира хилар
@@ -91,6 +92,7 @@ ce:
           тептар тIехь йаздарш кхолла а, комментареш йа а,
            доттагӀий лаха
         allow_write_api: карта нисдар
+        allow_write_changeset_comments: хийцаран пакеташна тӀехь комментарий йе
         allow_read_gpx: долахь йолу GPS-трекаш йеша
         allow_write_gpx: GPS-трекаш чуйаха
         allow_write_notes: заметкаш нисайар
@@ -244,6 +246,7 @@ ce:
   accounts:
     show:
       title: Аккаунт хийца
+      my_account: Сан аккаунт
       current email address: Карара электронан поштан адрес
       external auth: Арахьара аутентификаци
       openid:
@@ -257,6 +260,7 @@ ce:
         agreed_with_pd: Иштта ахь дӀакхайкхийна, хьайн хийцамаш Къоман Кхиам лоруш
           йу аьлла.
         link text: хӀун йу хӀара?
+        pd_link_text: дӀакхайкхо
       save changes button: Хийцамаш дӀаӀалашбан
       delete_account: Аккаунт дӀайаккхар...
     go_public:
@@ -323,6 +327,7 @@ ce:
         readable_summary: адамо еша йиш йолу чулацам
         informal_translations: формалан доцу гочдар
         continue: Кхин дӀа
+        cancel: Йухайаккхар
         you need to accept or decline: Дехар ду, деша, тӀаккха реза хила йа йухатоха
           керла дакъалацаран хьелаш.
         legale_select: 'Дехар ду, шу деха пачхьалкх хьаржар:'
@@ -336,6 +341,11 @@ ce:
         terms_declined_html: Тхуна хала хетта, ахь керла Лелоран хьелаш тӀе ца эца
           сацам барна. Кхин дӀа хаа лууш волчунна, хьажа  %{terms_declined_link}.
         terms_declined_link: хӀара вики агӀо йу
+    pd_declarations:
+      show:
+        title: Сан къинхьегам йукъараллин рицкъ санна лара
+        consider_pd: Сан къинхьегам йукъараллин рицкъ санна лору ас.
+        confirm: Бакъдан
   browse:
     deleted_ago_by_html: ДӀадаьккхина %{time_ago} декъашхочо %{user}
     edited_ago_by_html: Нисайина %{time_ago} декъашхочо %{user}
@@ -454,6 +464,10 @@ ce:
         sorry: Бехк ма билла, ахьа бихина нисдарийн могӀанаш, арабаха тӀехь сов хьан
           оьшу.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} коммент'
+        other: '%{count} комментареш'
     index:
       title: Нисдарш
       title_user: Декъашхочун %{user} нисдарш
@@ -493,9 +507,15 @@ ce:
       changesetxml: Нисдарийн XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: ТӀадамаш
       nodes_paginated: ТӀадамаш (%{x}-%{y} чуьра %{count})
+      ways_title: Сизаш
       ways_paginated: Сиз (%{x}-%{y} чуьра %{count})
+      relations_title: Йукъаметтигаш
       relations_paginated: Хилар (%{x}-%{y} чуьра %{count})
+      range: '%{x}-%{y} %{count} чуьра'
+    not_found_message:
+      sorry: 'Халахетарх, #%{id} нисдарийн пакет цакарий.'
     timeout:
       sorry: Бехк ма билла, ахьа бихина нисдарийн могӀа, арабаккха тӀехь сов хьан
         оьшу.
@@ -545,9 +565,6 @@ ce:
       title_nearby: Уллера декъашхойн тептарш
       user_title: Декъашхочун тептар %{user}
       in_language_title: '%{language} маттахь дневникан дӀайаздарш'
-      new: Дневник чуьра керла дӀайаздар
-      new_title: Кхолла хьайн дневник чохь керла дӀайаздар
-      my_diary: Сан тептар
       no_entries: Дневник чохь дӀайаздарш дац
     page:
       recent_entries: Дукха хан йоцу дӀайаздарш
@@ -607,6 +624,10 @@ ce:
     unsubscribe:
       heading: РoгӀepa йаззам йазъечу дискуссина тIера дӀакъастий?
       button: ДӀакъаста дийцар тIера
+    navigation:
+      my_diary: Сан тептар
+      new: Дневник чуьра керла дӀайаздар
+      new_title: Кхолла хьайн дневник чохь керла дӀайаздар
   diary_comments:
     new:
       heading: Дневник йазъйаран дискуссе комментари тӀетоха?
@@ -999,6 +1020,8 @@ ce:
           wayside_shrine: Некъаца йолу Iибадатан меттиг
           wreck: ХIорд-кеман остов
           "yes": Иэсан меттиг
+        information:
+          map: Карта
         junction:
           "yes": Галморзе
         landuse:
@@ -1071,6 +1094,8 @@ ce:
           track: Спортан некъ
           water_park: Аквапарк
           "yes": Мукъа хан
+        lock:
+          "yes": Шлюз
         man_made:
           adit: Галерей
           advertising: Реклама
@@ -1413,6 +1438,11 @@ ce:
           building_passage: ГӀишлочухула чакхавалар
           culvert: Хина турба
           "yes": Туннель
+        water:
+          lake: Iам
+          pond: Ӏам
+          reservoir: Хи латтийла
+          lock: Шлюз
         waterway:
           artificial: Искусствени хи дIадохар
           boatyard: Верфь
@@ -1433,16 +1463,20 @@ ce:
           weir: ЧӀинг
           "yes": Хичура маршрут
       admin_levels:
-        level2: Паччалкхан доза
+        level2: Дуьненайукъара доза
         level3: Регионан доза
         level4: Штатан доза
         level5: Регионан доза
         level6: КIоштан доза
         level7: Муниципалитетан доза
-        level8: ГIалан доза
-        level9: Йуртан доза
+        level8: ГӀалин доза
+        level9: Йуьртан доза
         level10: ГӀалин йистан доза
         level11: Лулахойн доза
+      border_types:
+        city: ГIалин доза
+        county: КIоштан доза
+        village: Йуьртан доза
   searches:
     show:
       title:
@@ -1452,8 +1486,13 @@ ce:
         no_results: ХӀумма а ца карийна
         more_results: Кхин каринарш
   directions:
-    search:
+    show:
       title: Маршрут
+      distance: Йукъ
+      time: Хан
+      ascend: Хьала
+      descend: Охье
+      directions_courtesy_html: Маршрут гIотайина %{link}
   issues:
     index:
       title: Проблемаш
@@ -1608,6 +1647,8 @@ ce:
       hi: Маршалла ду %{to_user},
       see_their_profile: Хьан церан профиль ган йиш йу %{userurl} тӀехь.
       see_their_profile_html: Хьан церан профиль ган йиш йу %{userurl} тӀехь.
+    gpx_details:
+      tags: Тегаш
     gpx_failure:
       hi: Маршалла ду %{to_user},
       failed_to_import: 'импорт ян аьтто ца баьлла. Кхузахь гӀалат ду:'
@@ -1923,7 +1964,7 @@ ce:
         newer: Керла комменташ
       diary_entries:
         older: Шира дӀайаздарш
-        newer: Керла дӀайаздарш
+        newer: Керла аккаунташ
       issues:
         older: Шира арахецнарш
         newer: Керла арахецнарш
@@ -1994,55 +2035,35 @@ ce:
         native_link: нохчийн верси
         mapping_link: Карт дила волало
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} хIара %{open_data}, лицензи луш йу
-          %{odc_odbl_link} (ODbL) йина %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: биллина хаамаш
-        introduction_1_odc_odbl: Схьабиллина хаамаш йукъара схьайиллина базин лицензи
-        introduction_1_osm_foundation: OpenStreetMap Фонд
-        introduction_2_html: Хьо маьрша ву тхан хаамаш копеш йан, дӀасабаржо, нисбан,
-          ахь OpenStreetMap а, цуьнан агӀончаш а билгала баьхчахьана. Нагахь санна
-          ахь хийцамаш бахь я тхан хаамашна тӀехь болх бахь, ахь дӀасадаржо мегар
-          ду цуна лицензица. Дуьззина %{legal_code_link} хьан бакъонаш а, декхарш
-          а дуьйцу.
-        introduction_2_legal_code: бакъонан кодекс
-        introduction_3_html: Тхан документаци %{creative_commons_link} (CC BY-SA 2.0)
-          лицензица йу .
-        introduction_3_creative_commons: Creative Commons Attribution Share Alike
+        licensing_1_odc_odbl: Схьабиллина хаамаш йукъара схьайиллина базин лицензи
+        licensing_1_osm_foundation: OpenStreetMap Фонд
+        licensing_4_osmf_license_page: OSMF лицензин агӀо
         credit_title_html: OpenStreetMap-на тIехьажа муха ло
         credit_1_html: 'OpenStreetMap-ан хаамашехь пайдаоьцучохь, ахь дан деза хӀара
           ши хӀума:'
-        credit_2_1: OpenStreetMap-на оьшург дIа ло, тхан авторан бакъонаш ларъяр гойтуш.
-        credit_2_2: ДӀахаийта, хаамаш лело йиш йу Схьайиллина базин лицензица.
-        credit_3_html: Авторан бакъонаш ларъярехь, тхан тайп-тайпана лехамаш бу, и
-          муха гайта деза, ахь тхан хаамаш муха лелабо хьаьжжина. Масала, тайп-тайпана
-          бакъонаш лелайо авторан бакъонаш ларъяран хаам муха гайта беза, ахь леха
-          йиш йолу карта, зорбане даьккхина карта я статикан сурт кхоьллина хиларе
-          хьаьжжина. Лехамех лаьцна буьззина хаамаш каро йиш йу %{attribution_guidelines_link}
-          тӀехь.
-        credit_3_attribution_guidelines: Атрибуцин низам
-        credit_4_1_html: Схьайиллина база лицензица хаамаш лелаш хилар билгалдаккхархьама,
-          ахь хьажо мегар ду %{this_copyright_page_link}. Иштта,альтернатив меттан,
-          ткъа шардар санна нагахь санна ахь OSM дӀасаяржош елахь хаамийн кепехь,
-          хьан йиш йу цӀе а, лицензи (аш) нийса тӀехьажорг тIе хьажо. ТӀехьажоргаш
-          йан йиш йоцчу хаамийн гӀирсашкахь (масала, зорбане яьхна произведенеш),
-          ​​оха тӀедуьллу хьуна хьайн ешархой openstreetmap.org сайте дӀаберзо (хила
-          тарло 'OpenStreetMap' оцу дуьззина адресе кхаччалц шордарца) а, opendatacommons.org
-          сайте а. ХӀокху масалехь хьахора, картан маьӀӀехь гойту.
-        credit_4_1_this_copyright_page: хӀара авторан бакъонаш йолу агӀо
+        credit_2_license: ДӀахаийта, хаамаш лело йиш йу Схьайиллина базин лицензица.
+        credit_3_v2025_attribution_guidelines: Атрибуцин низам
+        credit_4_v2025_this_copyright_page: хӀара авторан бакъонаш йолу агӀо
         attribution_example:
           alt: OpenStreetMap веб-агӀон тӀехь атрибут муха йан еза бохучух лаьцна масал
           title: Автор хиларна масал
-        more_title_html: Кхин алсам довза
-        more_1_1_html: Кхин дӀа еша тхан хаамаш лелорах лаьцна, ткъа иштта тхуна гIо
-          муха до, %{osmf_licence_page_link} тӀехь.
-        more_1_1_osmf_licence_page: OSMF лицензин агӀо
-        more_2_1_html: |-
-          OpenStreetMap биллина хаамаш балахь а, тхан йиш йац мах боцуш картан API кхоалгӀачу агӀонна дӀадала.
-          Хьажа вай %{api_usage_policy_link}, %{tile_usage_policy_link} а, %{nominatim_usage_policy_link} а.
-        more_2_1_api_usage_policy: API лелоран политика
-        more_2_1_tile_usage_policy: Плитка лелоран политика
-        more_2_1_nominatim_usage_policy: Номиналан лелоран политика
+        infringement_title_html: Авторийн бакъонаш талхор
+        infringement_1_html: OSM-н декъашхошна дагадоуьйту, авторийн бакъонаш йолчу
+          нехан билгал бакъо йоцуш, цхьана а авторан бакъонаш йолчу хьостанашкара
+          (масала, Google Maps йа зорбане даьхна карташ) хаамаш тӀетоха ца безий.
+        infringement_2_1_html: Нагахь санна хьайна, авторан бакъонаш ларйина материал
+          нийса йоцуш тӀетоьхна хетахь OpenStreetMap базана я хӀокху сайтана, хьажа
+          тхан %{takedown_procedure_link} йа хьажаде тхан %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: дӀаяккхаран процедура
+        infringement_2_1_online_filing_page: онлайн дӀаяздаран агӀо
+        trademarks_title: Товаран таммагӀаш
+        trademarks_1_1_html: OpenStreetMap а, логотип а, State of the Map а OpenStreetMap
+          фондан дӀаязйина Товаран таммагӀаш йу. Нагахь санна хьан билгалонаш лелорца
+          доьзна хаттарш делахь, хьажа тхан %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Йохк-эцаран билгалонаш
+        services_1_api_usage_policy: API лелоран политика
+        services_1_tile_usage_policy: Плитка лелоран политика
+        services_1_nominatim_usage_policy: Номиналан лелоран политика
         contributors_title_html: Тхан дакъалацархой
         contributors_intro_html: 'Вайн гӀо деш берш эзарнаш нах бу. Иштта оха йукъабоху
           къоман картографин агенталлашкара а, кхечу хьостанашкара а йиллина лицензи
@@ -2126,20 +2147,6 @@ ce:
         contributors_footer_2_html: OpenStreetMap чу хаамаш юкъабахар бохург дац,
           хьалхара хаамаш луш волчо OpenStreetMap къобалйо, цхьа а гарантии ло, йа
           цхьа а жоьпалла тӀеоьцу.
-        infringement_title_html: Авторийн бакъонаш талхор
-        infringement_1_html: OSM-н декъашхошна дагадоуьйту, авторийн бакъонаш йолчу
-          нехан билгал бакъо йоцуш, цхьана а авторан бакъонаш йолчу хьостанашкара
-          (масала, Google Maps йа зорбане даьхна карташ) хаамаш тӀетоха ца безий.
-        infringement_2_1_html: Нагахь санна хьайна, авторан бакъонаш ларйина материал
-          нийса йоцуш тӀетоьхна хетахь OpenStreetMap базана я хӀокху сайтана, хьажа
-          тхан %{takedown_procedure_link} йа хьажаде тхан %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: дӀаяккхаран процедура
-        infringement_2_1_online_filing_page: онлайн дӀаяздаран агӀо
-        trademarks_title: Товаран таммагӀаш
-        trademarks_1_1_html: OpenStreetMap а, логотип а, State of the Map а OpenStreetMap
-          фондан дӀаязйина Товаран таммагӀаш йу. Нагахь санна хьан билгалонаш лелорца
-          доьзна хаттарш делахь, хьажа тхан %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Йохк-эцаран билгалонаш
     index:
       js_1: Йа JavaScript лелош йоцу браузер лелош йу ахь, йа JavaScript дӀаяьккхина
         йу.
@@ -2193,10 +2200,6 @@ ce:
           explanation_html: Нагахь санна ахь тидам бина белахь тхан картан хаамашца
             цхьа проблема, масала, некъ бац йа хьан адрес, уггаре а дика некъ бу OpenStreetMap
             юкъаралле дӀакхетар, хьайна хаамаш тӀетохар йа тодар.
-        add_a_note:
-          instructions_1_html: |-
-            ХIар %{note_icon} тӀе тӀетаӀае йа картан гайтам тӀехь и санна таммагӀа.
-            Оцу гӀуллакхо карти тӀе маркер тӀетоьхна, ахь дӀасалело йиш хир йу. Хьайн хаам тӀетоха, тӀаккха "Iалашайе" тӀе тӀетаӀае, тӀаккха кхечу картографаша таллам бийр бу.
       other_concerns:
         title: Кхин баланаш
         concerns_html: Нагахь санна хьан сингаттам белахь тхан хаамаш муха лелабо
@@ -2310,15 +2313,11 @@ ce:
         automated_edits: Авто нисдарш
       start_mapping: Карт дила волаво
       continue_authorization: Кхин дӀа йе авторизаци
-      add_a_note:
-        title: Нисайа хан йац? Цхьа Билгалдаккхар тӀетоха!
-        para_1: Нагахь санна еккъа цхьа жима хӀума нисдан лаахь, дӀаязвала а, хийцамаш
-          бан Ӏама а хан яцахь, атта ду заметка йа.
-        para_2_html: 'ХIар %{map_link} чу а гӀой, дӀаяздаран таммагӀа тӀе тӀетаӀае:
-          %{note_icon}. Оцу гӀуллакхо карти тӀе маркер тӀетоьхна, ахь дӀасалело йиш
-          хир йу. Хьайн хаам тӀетоха, тӀаккха "Iалашайе"  тӀе тӀетаӀае, тӀаккха кхечу
-          картографаша таллам бийр бу.'
-        the_map: карта
+    add_a_note:
+      title: Нисайа хан йац? Цхьа Билгалдаккхар тӀетоха!
+      para_1: Нагахь санна еккъа цхьа жима хӀума нисдан лаахь, дӀаязвала а, хийцамаш
+        бан Ӏама а хан яцахь, атта ду заметка йа.
+      the_map: карта
     communities:
       title: Тобаш
       lede_text: |-
@@ -3059,11 +3058,10 @@ ce:
     edit_help: Карта дӀа хила де, хьайна хийца луучу метте масштаб совъяккха, тӀаккха
       кхузахь тIетIаIайе.
     directions:
-      ascend: Хьала
-      descend: Охье
-      distance: Йукъ
-      distance_m: '%{distance}м'
-      distance_km: '%{distance}км'
+      distance_in_units:
+        meters:
+          m: '%{distance}м'
+          km: '%{distance}км'
       errors:
         no_route: Цу шина меттигна юккъера некъ ца карийра.
         no_place: Бехк ма билла - '%{place}' ца карийра.
@@ -3132,7 +3130,6 @@ ce:
         roundabout_with_exit_ordinal: Горгачу меттигехь %{exit} аравала %{name} тӀе
         exit_roundabout: Го тIера аравала  %{name} тӀе
         unnamed: некъ
-        courtesy: Маршрут гIотайина %{link}
         exit_counts:
           first: хьалхара
           second: шолгӀа
@@ -3144,7 +3141,6 @@ ce:
           eighth: бархӀалгӀа
           ninth: уьссалгӀа
           tenth: уьтталгӀа
-      time: Хан
     query:
       node: ТӀадам
       way: Сиз

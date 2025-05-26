@@ -590,9 +590,6 @@ ro:
       title_nearby: Jurnalele utilizatorilor aflați în apropiere
       user_title: Jurnalul utilizatorului %{user}
       in_language_title: Înregistrări de jurnal în %{language}
-      new: O nouă înregistrare în jurnal
-      new_title: Compune o înregistrare nouă în jurnalul meu de utilizator
-      my_diary: Jurnalul meu
       no_entries: Nu există înregistrări în jurnal
     page:
       recent_entries: Înregistrări recente din jurnal
@@ -654,6 +651,10 @@ ro:
     unsubscribe:
       heading: Te dezabonezi de la următoarea discuție de intrare a jurnalului?
       button: Dezabonează-te de la discuție
+    navigation:
+      my_diary: Jurnalul meu
+      new: O nouă înregistrare în jurnal
+      new_title: Compune o înregistrare nouă în jurnalul meu de utilizator
   diary_comments:
     new:
       heading: Adaugi un comentariu la următoarea discuție de intrare a jurnalului?
@@ -1498,8 +1499,13 @@ ro:
         no_results: Niciun rezultat găsit
         more_results: Mai multe rezultate
   directions:
-    search:
+    show:
       title: Direcții
+      distance: Distanță
+      time: Durată
+      ascend: Urcare
+      descend: Coborâre
+      directions_courtesy_html: Instrucțiuni prin curtoazia %{link}
   issues:
     index:
       title: Probleme
@@ -2041,60 +2047,40 @@ ro:
         native_link: Versiune THIS_LANGUAGE_NAME_HERE
         mapping_link: Începeți să cartografiați
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} este %{open_data}, licențiat în conformitate cu
-          %{odc_odbl_link} (ODbL) de către %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: date deschise
-        introduction_1_odc_odbl: Open Data Commons Licență pentru baze de date deschise
-        introduction_1_osm_foundation: Fundația OpenStreetMap
-        introduction_2_html: |-
-          Sunteți liber să copiați, să distribuiți, să transmiteți și să adaptați datele noastre,
-          atâta timp cât creditați OpenStreetMap și a acestuia
-          contribuabili. Dacă modificați sau construiți pe baza datelor noastre, dvs
-          poate distribui rezultatul numai sub aceeași licență. The
-          %{legal_code_link} complet explică drepturile și responsabilitățile dvs.
-        introduction_2_legal_code: cod juridic
-        introduction_3_html: Documentația noastră este licențiată sub licența %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
+        licensing_1_odc_odbl: Open Data Commons Licență pentru baze de date deschise
+        licensing_1_osm_foundation: Fundația OpenStreetMap
+        licensing_4_osmf_license_page: Pagina de licență OSMF
         credit_title_html: Cum se creditează OpenStreetMap
         credit_1_html: 'Acolo unde utilizați datele OpenStreetMap, vi se cere să faceți
           următoarele două lucruri:'
-        credit_2_1: Oferiți credit OpenStreetMap afișând notificarea noastră privind
-          drepturile de autor.
-        credit_2_2: Asigurați-vă că datele sunt disponibile în baza licenței pentru
-          baze de date deschise.
-        credit_3_html: |-
-          Pentru notificarea privind drepturile de autor, avem cerințe diferite despre cum ar trebui să fie
-          afișate, în funcție de modul în care utilizați datele noastre. De exemplu, diferit
-          se aplică reguli cu privire la modul de afișare a notificării privind drepturile de autor, în funcție de faptul că aveți
-          a creat o hartă navigabilă, o hartă tipărită sau o imagine statică. Detalii complete pe
-          cerințele pot fi găsite în %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Orientări Privind Atribuirea
-        credit_4_1_html: |-
-          Pentru a clarifica faptul că datele sunt disponibile în cadrul Open
-          Licență pentru baze de date, puteți face link la %{this_copyright_page_link}.
-          Alternativ, și ca o cerință dacă distribuiți OSM într-un
-          formular de date, puteți numi și conecta direct la licență(e). În media
-          unde link-urile nu sunt posibile (de exemplu, lucrări tipărite), vă sugerăm
-          direcționați-vă cititorii către openstreetmap.org (poate prin extinderea
-          „OpenStreetMap” la această adresă completă) și la opendatacommons.org.
-          În acest exemplu, creditul apare în colțul hărții.
-        credit_4_1_this_copyright_page: această pagină de drepturi de autor
+        credit_2_license: Asigurați-vă că datele sunt disponibile în baza licenței
+          pentru baze de date deschise.
+        credit_3_v2025_attribution_guidelines: Orientări Privind Atribuirea
+        credit_4_v2025_this_copyright_page: această pagină de drepturi de autor
         attribution_example:
           alt: Exemplu de atribuire a OpenStreetMap pe o pagină Web
           title: Exemplul de atribuire
-        more_title_html: Aflați mai multe.
-        more_1_1_html: Citiți mai multe despre utilizarea datelor noastre și despre
-          cum să ne creditați, la %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: Pagina de licență OSMF
-        more_2_1_html: |-
-          Deși OpenStreetMap este date deschise, nu putem oferi o
-          API gratuit pentru hărți pentru terți.
-          Consultați %{api_usage_policy_link}, %{tile_usage_policy_link} și %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Politica de utilizare API
-        more_2_1_tile_usage_policy: Politica de Utilizare a Plăcilor
-        more_2_1_nominatim_usage_policy: Politica Utilizare Nominatim
+        infringement_title_html: Încălcarea drepturilor de autor
+        infringement_1_html: Responsabilii OSM sunt reamintiți să nu adauge niciodată
+          date de la nici una dintre sursele protejate de drepturi de autor (de ex.,
+          Hărți Google sau hărți tipărite) fără permisiunea explicită din partea deținătorilor
+          drepturilor de autor.
+        infringement_2_1_html: |-
+          Dacă credeți că materialul protejat prin drepturi de autor a fost inadecvat
+          adăugat la baza de date OpenStreetMap sau la acest site, vă rugăm să consultați
+          la %{takedown_procedure_link} sau un fișier direct la nostru
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procedura de eliminare
+        infringement_2_1_online_filing_page: pagina de depunere online
+        trademarks_title: Mărci înregistrate
+        trademarks_1_1_html: |-
+          OpenStreetMap, logo-ul lupei și State of the Map sunt mărci comerciale înregistrate ale
+          Fundația OpenStreetMap. Dacă aveți întrebări despre utilizarea mărcilor, vă rugăm să consultați
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Politica Mărcilor Înregistrate
+        services_1_api_usage_policy: Politica de utilizare API
+        services_1_tile_usage_policy: Politica de Utilizare a Plăcilor
+        services_1_nominatim_usage_policy: Politica Utilizare Nominatim
         contributors_title_html: Contribuitorii noștri
         contributors_intro_html: |-
           Contribuitorii noștri sunt mii de indivizi. De asemenea, includem
@@ -2185,24 +2171,6 @@ ro:
           Includerea datelor în OpenStreetMap nu implică faptul că originalul
           furnizor de date acceptă OpenStreetMap, oferă orice garanție sau
           acceptă orice răspundere.
-        infringement_title_html: Încălcarea drepturilor de autor
-        infringement_1_html: Responsabilii OSM sunt reamintiți să nu adauge niciodată
-          date de la nici una dintre sursele protejate de drepturi de autor (de ex.,
-          Hărți Google sau hărți tipărite) fără permisiunea explicită din partea deținătorilor
-          drepturilor de autor.
-        infringement_2_1_html: |-
-          Dacă credeți că materialul protejat prin drepturi de autor a fost inadecvat
-          adăugat la baza de date OpenStreetMap sau la acest site, vă rugăm să consultați
-          la %{takedown_procedure_link} sau un fișier direct la nostru
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: procedura de eliminare
-        infringement_2_1_online_filing_page: pagina de depunere online
-        trademarks_title: Mărci înregistrate
-        trademarks_1_1_html: |-
-          OpenStreetMap, logo-ul lupei și State of the Map sunt mărci comerciale înregistrate ale
-          Fundația OpenStreetMap. Dacă aveți întrebări despre utilizarea mărcilor, vă rugăm să consultați
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Politica Mărcilor Înregistrate
     index:
       js_1: Utilizați fie un browser care nu acceptă JavaScript, fie aveți JavaScript
         dezactivat.
@@ -2257,11 +2225,6 @@ ro:
             de exemplu un drum care lipsește sau adresa dvs., cel mai bun mod de a
             rezolva această problemă este să vă alăturați comunității OpenStreetMap
             și să adăugați sau să reparați singuri datele.
-        add_a_note:
-          instructions_1_html: |-
-            Doar faceți clic pe %{note_icon} sau pe aceeași pictogramă de pe afișajul hărții.
-            Aceasta va adăuga un marcator pe hartă, pe care îl puteți muta
-            prin tragere. Adăugați mesajul dvs., apoi faceți clic pe Salvați, iar alți cartografi vor investiga.
       other_concerns:
         title: Alte preocupări
         concerns_html: |-
@@ -2378,16 +2341,12 @@ ro:
         automated_edits: Editări automate
       start_mapping: Începeți să cartografiați
       continue_authorization: Continuați autorizarea
-      add_a_note:
-        title: Nu aveți timp pentru editare? Adaugați o notă!
-        para_1: |-
-          Dacă doriți doar ceva îndreptați o eroare minoră și nu aveți timp să vă înscrieți și să învățați cum să editați, este
-          ușor să adăugați o notă.
-        para_2_html: |-
-          Accesați %{map_link} și faceți clic pe pictograma notă: %{note_icon}.
-          Acest lucru va adăuga un marcator pe hartă, pe care îl puteți muta prin glisare.
-          Adăugați mesajul dvs., apoi faceți clic pe Salvare și alți cartografi vor investiga.
-        the_map: harta
+    add_a_note:
+      title: Nu aveți timp pentru editare? Adaugați o notă!
+      para_1: |-
+        Dacă doriți doar ceva îndreptați o eroare minoră și nu aveți timp să vă înscrieți și să învățați cum să editați, este
+        ușor să adăugați o notă.
+      the_map: harta
     communities:
       title: Comunitățile
       lede_text: "Oameni din întreaga lume contribuie sau folosesc OpenStreetMap.\nÎn
@@ -3137,11 +3096,10 @@ ro:
     edit_help: Deplasați harta și măriți o locație pe care doriți să o editați, apoi
       faceți click aici.
     directions:
-      ascend: Urcare
-      descend: Coborâre
-      distance: Distanță
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: Nu s-a putut găsi un traseu între cele două locuri.
         no_place: Scuze - nu am găsit '%{place}'.
@@ -3209,7 +3167,6 @@ ro:
         roundabout_with_exit_ordinal: La sensul giratoriu a %{exit} ieșire spre %{name}
         exit_roundabout: Ieșiți din sensul giratoriu spre %{name}
         unnamed: drum fără nume
-        courtesy: Instrucțiuni prin curtoazia %{link}
         exit_counts:
           first: primul loc
           second: al doilea loc
@@ -3221,7 +3178,6 @@ ro:
           eighth: locul 8
           ninth: locul 9
           tenth: locul 10
-      time: Durată
     query:
       node: Nod
       way: Cale

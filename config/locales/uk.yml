@@ -708,9 +708,6 @@ uk:
       title_nearby: Щоденники учасників поряд з вами
       user_title: Щоденник %{user}
       in_language_title: Записи щоденника мовою %{language}
-      new: Новий допис у щоденнику
-      new_title: Зробити новий запис у моєму щоденнику
-      my_diary: Мій щоденник
       no_entries: У щоденнику немає записів
     page:
       recent_entries: Останні записи в щоденнику
@@ -772,6 +769,10 @@ uk:
     unsubscribe:
       heading: Відписатись від обговорення цього допису щоденника?
       button: Відписатися від обговорення
+    navigation:
+      my_diary: Мій щоденник
+      new: Новий допис у щоденнику
+      new_title: Зробити новий запис у моєму щоденнику
   diary_comments:
     new:
       heading: Додати коментар до обговорення запису в щоденнику?
@@ -1674,13 +1675,24 @@ uk:
     show:
       title:
         latlon: Внутрішніх джерел
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Нічого не знайдено
         more_results: Більше результатів
   directions:
-    search:
+    show:
       title: Маршрут
+      distance: Відстань
+      time: Час
+      ascend: Підйом
+      descend: Спуск
+      button_km: км
+      button_mi: мл
+      download: Завантажити маршрут як GeoJSON
+      filename: маршрут
+      directions_courtesy_html: Маршрут наданий %{link}
   issues:
     index:
       title: Звернення
@@ -2181,6 +2193,12 @@ uk:
     new:
       tab_title: Вхід
       login_to_authorize_html: Увійдіть до OpenStreetMap, щоб отримати доступ до %{client_app_name}.
+      already_logged_in_html: Ви вже увійшли з обліковим записом %{user}. Повторний
+        вхід змінить ваш поточний обліковий запис.
+      access_another_page: 'Ви потрапили сюди, намагаючись отримати доступ до іншої
+        сторінки. Якщо ви хочете отримати доступ до цієї сторінки, використовуючи
+        свій поточний обліковий запис, натисніть кнопку нижче:'
+      visit_referring_page: Перейди до сторінки посилання
       email or username: Ел. пошта або прізвисько
       password: Пароль
       remember: Запам’ятати мене
@@ -2300,55 +2318,38 @@ uk:
         native_link: української версії
         mapping_link: почати мапити
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} — це %{open_data},
-          ліцензовані %{osm_foundation_link} (OSMF) на умовах ліцензії %{odc_odbl_link}
-          (ODbL).
-        introduction_1_open_data: відкриті дані
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: Фундацією OpenStreetMap
-        introduction_2_html: |-
-          Ви можете вільно копіювати, поширювати, передавати та адаптувати наші дані, за умови, що ви посилаєтесь на OpenStreetMap та його
-          учасників. Якщо ви змінюєте або використовуєте наші дані, ви
-          можете поширювати результат лише за тією самою ліцензією. Повний текст %{legal_code_link} пояснює ваші права та обов’язки.
-        introduction_2_legal_code: Ліцензійної угоди
-        introduction_3_html: Наша документація надається на умовах ліцензії %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: Фундацією OpenStreetMap
+        licensing_4_osmf_license_page: сторінці OSMF Licence
         credit_title_html: Як посилатись на OpenStreetMap
         credit_1_html: 'У разі використання даних OpenStreetMap, вам потрібно зробити
           дві речі:'
-        credit_2_1: Зазначити авторські права OpenStreetMap показуючи наше повідомлення
-          про авторське право.
-        credit_2_2: Явним чином зазначити, що дані доступні на умовах Open Database
+        credit_2_license: Явним чином зазначити, що дані доступні на умовах Open Database
           License.
-        credit_3_html: |-
-          Що стосується сповіщення про авторські права, ми маємо різні вимоги щодо того, як це має бути зазначено, залежно від того, як ви використовуєте наші дані. Наприклад, застосовуються різні
-          правила щодо того, як показувати повідомлення про авторські права, залежно від того, чи ви створили мапу для онлайн перегляду, друковану мапу чи статичне зображення. Повну інформацію про
-          вимоги можна знайти в %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Настановах з атрибуції
-        credit_4_1_html: Ви повинні чітко вказувати, що дані доступні на умовах ліцензії
-          Open Database License. Ви можете зробити це, пославшись на %{this_copyright_page_link}.
-          Або ж, під час розповсюдження даних OSM, ви можете безпосередньо вказувати
-          назву ліцензії(й) та посилання на її(їх) текст. Якщо ви користуєтесь носіями,
-          де використання гіпертекстових посилань неможливе (наприклад друковані матеріали),
-          ми пропонуємо посилатися безпосередньо на www.openstreetmap.org (або розширено
-          "www.openstreetmap.org, OpenStreetMap") та на opendatacommons.org. В цьому
-          прикладі посилання знаходиться в куті мапи.
-        credit_4_1_this_copyright_page: сторінку з роз’ясненням ліцензійних вимог
+        credit_3_v2025_attribution_guidelines: Настановах з атрибуції
+        credit_4_v2025_this_copyright_page: сторінку з роз’ясненням ліцензійних вимог
         attribution_example:
           alt: Приклад того, як треба посилатись на OpenStreetMap на веб-сторінці
           title: Приклад зазначення авторства
-        more_title_html: Дізнатися більше
-        more_1_1_html: Дізнайтеся більше про використання наших даних і про те, як
-          посилатись на проєкт, на %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: сторінці OSMF Licence
-        more_2_1_html: |-
-          Хоча OpenStreetMap є відкритими даними, ми не можемо надати
-          безплатний API для мап для всіх.
-          Ознайомтесь з нашими %{api_usage_policy_link}, %{tile_usage_policy_link} і %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Правилами використання API
-        more_2_1_tile_usage_policy: Правилами використання тайлів
-        more_2_1_nominatim_usage_policy: Правилами використання сервісу Nominatim
+        infringement_title_html: Порушення авторських прав
+        infringement_1_html: Члени спільноти OSM повинні завжди пам’ятати про те,
+          що забороняється додавати дані з будь-яких захищених авторським правом джерел
+          (наприклад, з Google Maps чи з друкованих мап) без отримання попереднього
+          дозволу правовласників.
+        infringement_2_1_html: Якщо ви вважаєте, що матеріал, захищений авторським
+          правом, було неналежним чином додано до бази даних OpenStreetMap або на
+          цей сайт, ознайомтеся з нашою %{takedown_procedure_link} або залиште звернення
+          безпосередньо на %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: процедурою вилучення даних
+        infringement_2_1_online_filing_page: нашій онлайн сторінці для звернень
+        trademarks_title: Торгові марки
+        trademarks_1_1_html: |-
+          OpenStreetMap, логотип у вигляді лупи та State of the Map є зареєстрованими товарними знаками Фундації OpenStreetMap. Якщо у вас виникли запитання щодо використання вами цих знаків, перегляньте наші
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Правила використання торгової марки
+        services_1_api_usage_policy: Правилами використання API
+        services_1_tile_usage_policy: Правилами використання тайлів
+        services_1_nominatim_usage_policy: Правилами використання сервісу Nominatim
         contributors_title_html: Наші учасники
         contributors_intro_html: 'Нашими учасниками є тисячі людей. Наші дані також
           містять дані від національних картографічних агенцій, які розповсюджуються
@@ -2434,22 +2435,6 @@ uk:
         contributors_footer_2_html: Включення даних до OpenStreetMap не означає, що
           постачальник цих даних якимось чином підтримує OpenStreetMap, надає які-небудь
           гарантії чи бере на себе якусь  відповідальність.
-        infringement_title_html: Порушення авторських прав
-        infringement_1_html: Члени спільноти OSM повинні завжди пам’ятати про те,
-          що забороняється додавати дані з будь-яких захищених авторським правом джерел
-          (наприклад, з Google Maps чи з друкованих мап) без отримання попереднього
-          дозволу правовласників.
-        infringement_2_1_html: Якщо ви вважаєте, що матеріал, захищений авторським
-          правом, було неналежним чином додано до бази даних OpenStreetMap або на
-          цей сайт, ознайомтеся з нашою %{takedown_procedure_link} або залиште звернення
-          безпосередньо на %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: процедурою вилучення даних
-        infringement_2_1_online_filing_page: нашій онлайн сторінці для звернень
-        trademarks_title: Торгові марки
-        trademarks_1_1_html: |-
-          OpenStreetMap, логотип у вигляді лупи та State of the Map є зареєстрованими товарними знаками Фундації OpenStreetMap. Якщо у вас виникли запитання щодо використання вами цих знаків, перегляньте наші
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Правила використання торгової марки
     index:
       js_1: Ви користуєтесь оглядачем, в якому не підтримується або відключений JavaScript.
       js_2: OpenStreetMap використовує JavaScript для мапи.
@@ -2504,11 +2489,6 @@ uk:
           explanation_html: Якщо ви помітили, неточності в наших даних, наприклад
             відсутня дорога або ваша адреса, найкращий спосіб це виправити — приєднатись
             до спільноти OpenStreetMap і додати або виправити дані самостійно.
-        add_a_note:
-          instructions_1_html: Натисніть %{note_icon} або такий же значок на мапі.
-            Це дозволить додати маркер, який ви зможете перетягувати на мапі. Додайте
-            ваше повідомлення та натисніть кнопку Зберегти й інші учасники матимуть
-            змогу з цим розібратись.
       other_concerns:
         title: Інші проблеми
         concerns_html: |-
@@ -2623,16 +2603,11 @@ uk:
         automated_edits: автоматизованих змін
       start_mapping: Розпочати мапити
       continue_authorization: Продовжити авторизацію
-      add_a_note:
-        title: Немаєте часу, щоб виправити мапу? Додайте нотатку!
-        para_1: Якщо потрібно внести дрібне уточнення, заради якого немає потреби
-          витрачати час на реєстрацію та вивчення правил редагування, то можна просто
-          додати нотатку.
-        para_2_html: 'Перейдіть до %{map_link} та натисніть піктограму нотатки: %{note_icon}.
-          Це дозволить додати маркер на мапу, який ви зможете перетягнути мишею. Додайте
-          ваше повідомлення, натисніть «зберегти», і інші учасники проєкту побачать
-          його та, у разі потреби, внесуть зміни на мапу.'
-        the_map: мапи
+    add_a_note:
+      title: Немаєте часу, щоб виправити мапу? Додайте нотатку!
+      para_1: Якщо потрібно внести дрібне уточнення, заради якого немає потреби витрачати
+        час на реєстрацію та вивчення правил редагування, то можна просто додати нотатку.
+      the_map: мапи
     communities:
       title: Спільноти
       lede_text: "Люди з усього світу роблять свій внесок в OpenStreetMap.\nХоча багато
@@ -2897,6 +2872,9 @@ uk:
         title: Увійти через Вікіпедію
         alt: Wikipedia лого
     share:
+      share:
+        title: Поділитися
+        alt: Значок «Поділитися»
       email:
         title: Поділитися через електронну пошту
         alt: Піктограма електронної пошти
@@ -3062,6 +3040,7 @@ uk:
       follow: Слідкувати
       mapper since: 'Обліковий запис створено:'
       last map edit: 'Останнє редагування мапи:'
+      home location: Місце розташування
       no activity yet: Ще немає активності
       uid: 'id учасника:'
       ct status: 'Умови співпраці:'
@@ -3507,11 +3486,13 @@ uk:
     edit_help: Перемістіть мапу і наблизьтесь до місця, яке ви бажаєте змінити, потім
       клацніть тут.
     directions:
-      ascend: Підйом
-      descend: Спуск
-      distance: Відстань
-      distance_m: '%{distance} м'
-      distance_km: '%{distance} км'
+      distance_in_units:
+        meters:
+          m: '%{distance} м'
+          km: '%{distance} км'
+        miles:
+          ft: '%{distance} фт'
+          mi: '%{distance} мл'
       errors:
         no_route: Не вдалося знайти маршрут між цими двома точками.
         no_place: На жаль неможливо знайти '%{place}'.
@@ -3578,7 +3559,6 @@ uk:
         exit_roundabout: Поверніть з кільця %{name}
         ferry_without_exit: Скористайтесь поромом %{name}
         unnamed: без імені
-        courtesy: Маршрут наданий %{link}
         exit_counts:
           first: 1й
           second: 2й
@@ -3590,9 +3570,6 @@ uk:
           eighth: 8й
           ninth: 9й
           tenth: 10й
-      time: Час
-      download: Завантажити маршрут як GeoJSON
-      filename: маршрут
     query:
       node: Точка
       way: Лінія

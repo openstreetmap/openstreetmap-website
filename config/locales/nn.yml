@@ -467,9 +467,6 @@ nn:
       title_nearby: Dagbøkene til brukarar i nærleiken
       user_title: '%{user} si dagbok'
       in_language_title: Dagbokoppføringar på %{language}
-      new: Ny dagbokoppføring
-      new_title: Skriv ei ny oppføring i dagboka di
-      my_diary: Dagboka mi
       no_entries: Ingen oppføringar i dagboka
     page:
       recent_entries: Nye oppføringer i dagboka
@@ -519,6 +516,10 @@ nn:
       all:
         title: Oppføringar OpenStreetMap-dagboka
         description: Nylege oppføringar i dagbøkene til OpenStreetMap-brukarar
+    navigation:
+      my_diary: Dagboka mi
+      new: Ny dagbokoppføring
+      new_title: Skriv ei ny oppføring i dagboka di
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1298,8 +1299,13 @@ nn:
         no_results: Ingen resultat funne
         more_results: Fleire resultat
   directions:
-    search:
+    show:
       title: Vegskildringar
+      distance: Avstand
+      time: Tid
+      ascend: Stigande
+      descend: Fallande
+      directions_courtesy_html: Vegskildringar med velvillig løyve frå %{link}
   issues:
     index:
       title: Saker
@@ -1790,53 +1796,36 @@ nn:
         native_link: Nynorsk versjon
         mapping_link: start kartlegging
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} er %{open_data},
-          med lisens %{odc_odbl_link} (ODbL) av %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: ope data
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: OpenStreetMap Foundation
-        introduction_2_html: Du har rett til å kopiera, spreia, overføra og tilpassa
-          dataen vår, so lengje du siterer OpenStreetMap og bidragsytarane. Dersom
-          du endrar eller byggjer på dataen, kan du berre publisera resultatet under
-          den same lisensen. Den fulle %{legal_code_link} forklårar rettane og skyldnadene
-          dine.
-        introduction_2_legal_code: juridiske teksten
-        introduction_3_html: Dokumentasjonen vår er publisert under lisensen %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Navngiving-DelPåSameVilkår
-          2.0
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: OpenStreetMap Foundation
+        licensing_4_osmf_license_page: OSMF si side om lisens.
         credit_title_html: Korleis kreditere OpenStreetMap
         credit_1_html: 'Når du bruker data frå OpenStreetMap, krevst to ting av deg:'
-        credit_2_1: Godskriv OpenStreetMap ved å visa opphavsrettsfråsegna vår.
-        credit_2_2: Gjer det tydeleg at dataen er tilgjengeleg under vilkåra av Open
-          Database License.
-        credit_3_html: Me har ulike krav til korleis opphavsrettsfråsegna skal visast,
-          avhengig av korleis du bruker dataen vår. Til dømes finst det ulike reglar
-          for vising av fråsegna avhengig av om du har skapt eit interaktivt kart
-          på nett, eit trykt kart eller eit statisk bilete. Utdjupande detaljar om
-          krava finn du i %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Retningslinene for kjeldetilvising
-        credit_4_1_html: For å gjera det tydeleg at dataen er tilgjengeleg under vilkåra
-          til Open Database License, kan du lenkja til %{this_copyright_page_link}.
-          Du kan òg – og må, dersom du distribuerer OSM i dataform – namngje og lenkja
-          direkte til lisensane. I medium der lenkjer ikkje er moglege (t.d. trykksaker),
-          rår vi til å visa til openstreetmap.org (kan henda ved å utvida «OpenStreetMap»
-          til den fulle adressa) og til opendatacommons.org. I dette dømet er kjeldetilvisinga
-          i hjørnet på kartet.
-        credit_4_1_this_copyright_page: denne sida om opphavsrett
+        credit_2_license: Gjer det tydeleg at dataen er tilgjengeleg under vilkåra
+          av Open Database License.
+        credit_3_v2025_attribution_guidelines: Retningslinene for kjeldetilvising
+        credit_4_v2025_this_copyright_page: denne sida om opphavsrett
         attribution_example:
           alt: Døme på korleis ein syner OpenStreetMap som kjelde på ei vevside
           title: Døme på kjeldehenvising
-        more_title_html: Finn ut meir
-        more_1_1_html: Les meir om å bruke dataen vår, og korleis å godskriva oss,
-          på %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: OSMF si side om lisens.
-        more_2_1_html: |-
-          Enda OpenStreetMap er ope data, kan vi ikkje levera eit gratis kart-API til tredje partar.
-          Sjå %{api_usage_policy_link}, %{tile_usage_policy_link} og %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Retningslina for bruk av API
-        more_2_1_tile_usage_policy: Retningslina for bruk av kartfliser
-        more_2_1_nominatim_usage_policy: REtningslina for bruk av Nominatim
+        infringement_title_html: Illegal kopiering
+        infringement_1_html: |-
+          OSM-bidragsytarar vert minna på å aldri leggje til data frå opphavsrettsbeskytta kjelder (t.d. Google Maps eller utskrivne kart) utan
+            uttrykkeleg løyve frå rettighetshavere.
+        infringement_2_1_html: Dersom du trur at innhald som er verna av opphavsrett
+          har vorte føydd til urettkomment i OpenStreetMap sin database eller nettstad,
+          ver venleg og fylg %{takedown_procedure_link}, eller klaga direkte gjennom
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: prosedyren for fjerning av materiale
+        infringement_2_1_online_filing_page: klageformularet
+        trademarks_title: Varemerke
+        trademarks_1_1_html: OpenStreetMap, lupe-logoen og «State of the Map» er registrerte
+          varemerke av OpenStreetMap Foundation. Viss du har spørsmål om bruken av
+          varemerka, sjå %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Varemerkeretningslinene
+        services_1_api_usage_policy: Retningslina for bruk av API
+        services_1_tile_usage_policy: Retningslina for bruk av kartfliser
+        services_1_nominatim_usage_policy: REtningslina for bruk av Nominatim
         contributors_title_html: Bidragsytarane våre
         contributors_intro_html: 'Me har tusenvis av individuelle bidragsytarar. Me
           inkluderer óg åpne datasett frå nasjonale karttjenester og andre kjelder,
@@ -1907,21 +1896,6 @@ nn:
             Inkludering av data i OpenStreetMap inneber ikkje at den opphavlege
             dataleverandøren støttar OpenStreetMap, gjev nokon garanti eller
             godtek noko erstatningsansvar.
-        infringement_title_html: Illegal kopiering
-        infringement_1_html: |-
-          OSM-bidragsytarar vert minna på å aldri leggje til data frå opphavsrettsbeskytta kjelder (t.d. Google Maps eller utskrivne kart) utan
-            uttrykkeleg løyve frå rettighetshavere.
-        infringement_2_1_html: Dersom du trur at innhald som er verna av opphavsrett
-          har vorte føydd til urettkomment i OpenStreetMap sin database eller nettstad,
-          ver venleg og fylg %{takedown_procedure_link}, eller klaga direkte gjennom
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: prosedyren for fjerning av materiale
-        infringement_2_1_online_filing_page: klageformularet
-        trademarks_title: Varemerke
-        trademarks_1_1_html: OpenStreetMap, lupe-logoen og «State of the Map» er registrerte
-          varemerke av OpenStreetMap Foundation. Viss du har spørsmål om bruken av
-          varemerka, sjå %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Varemerkeretningslinene
     index:
       js_1: Du har ein nettleser som ikkje støttar JavaScript eller så har du slått
         av JavaScript.
@@ -1972,10 +1946,6 @@ nn:
           explanation_html: Viss du har merka eit problem med dataen vår, til dømes
             at det manglar ein veg eller adresse, er det beste å bli med i OpenStreetMap-fellesskapet
             og føya til eller vøla opplysinga sjølv.
-        add_a_note:
-          instructions_1_html: |-
-            Berre klikk på %{note_icon}, eller det tilsvarande ikonet på kartvisinga.
-            Dette vil legga til ein markør på kartet, som du kan flytta ved å dra i han. Legg til meldinga di og klikk «Lagra», og andre brukarar vil undersøka saka.
       other_concerns:
         title: Andre problemstillingar
         concerns_html: Dersom du har bekymringar om korleis dataen vår vert brukt
@@ -2035,8 +2005,8 @@ nn:
       rules:
         title: Reglar!
       start_mapping: Start kartlegging
-      add_a_note:
-        title: Ikkje tid til å kartleggje sjølv? Legg inn ein merknad.
+    add_a_note:
+      title: Ikkje tid til å kartleggje sjølv? Legg inn ein merknad.
   map_keys:
     show:
       entries:
@@ -2444,9 +2414,6 @@ nn:
       queryfeature_tooltip: Finn objekt
       queryfeature_disabled_tooltip: Forstørra for å finna objekt
     directions:
-      ascend: Stigande
-      descend: Fallande
-      distance: Avstand
       errors:
         no_route: Klarte ikkje å finne vegen mellom desse to plassane.
         no_place: Beklagar - klarte ikkje å finne den plassen.
@@ -2482,8 +2449,6 @@ nn:
         end_oneway_without_exit: Slutt på einvegskøyring på %{name}
         roundabout_with_exit: Ved rundkøyringa, ta avkøyrselen %{exit} mot %{name}
         unnamed: namnlaus veg
-        courtesy: Vegskildringar med velvillig løyve frå %{link}
-      time: Tid
     query:
       node: Node
       way: Veg

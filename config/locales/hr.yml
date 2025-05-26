@@ -422,9 +422,6 @@ hr:
       title_nearby: Dnevnici obližnjih članova
       user_title: '%{user}ov dnevnik'
       in_language_title: 'Zapisi u dnevniku na jeziku: %{language}'
-      new: Novi zapis u dnevnik
-      new_title: Sročite novi zapis u vaš dnevnik
-      my_diary: Moj dnevnik
       no_entries: Nema zapisa u dnevniku
     page:
       recent_entries: Nedavni zapisi u dnevnik
@@ -471,6 +468,10 @@ hr:
       all:
         title: Zapisi u OpenStreetMap dnevniku
         description: Nedavni zapisi u dnevnik korisnika OpenStreetMapa
+    navigation:
+      my_diary: Moj dnevnik
+      new: Novi zapis u dnevnik
+      new_title: Sročite novi zapis u vaš dnevnik
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -981,8 +982,11 @@ hr:
         no_results: Nisu nađeni rezultati
         more_results: Više rezultata
   directions:
-    search:
+    show:
       title: Upute
+      distance: Udaljenost
+      time: Vrijeme
+      descend: Silazno
   layouts:
     logo:
       alt_text: OpenStreetMap logotip
@@ -1226,29 +1230,18 @@ hr:
         native_link: hrvatsko izdanje
         mapping_link: počnite kartirati
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} su %{open_data},
-          koje je licencirao %{osm_foundation_link} (OSMF) pod %{odc_odbl_link} (ODbL).
-        introduction_2_html: Slobodni ste kopirati, distribuirati, prenositi i adaptirati
-          naše podatke, dokle god navodite OpenStreetMap i njegove doprinositelje
-          kao izvor. Ako izmijenite ili nadogradite naše podatke, možete distribuirati
-          rezultate samo pod istom licencijom. Puni %{legal_code_link} objašnjava
-          vaša prava i obveze.
-        introduction_3_html: Naša dokumentacija je licencirana pod licencijom %{creative_commons_link}
-          (CC BY-SA 2.0).
         credit_title_html: Kako iskazati zasluge OpenStreetMap-a
         credit_1_html: 'Tamo gdje koristite OpenStreetMap podatke, morate učiniti
           sljedeće dvije stvari:'
-        credit_2_2: Objasnite da su podaci dostupni pod licencijom "Open Database
+        credit_2_license: Objasnite da su podaci dostupni pod licencijom "Open Database
           License".
-        credit_4_1_html: |-
-          Kako biste razjasnili da su podaci dostupni pod "Open
-          Database License", možete postaviti poveznicu na
-          %{this_copyright_page_link}. Alternativno, i kao uvjet ako distribuirate OSM u formi podataka, možete navesti i postaviti poveznicu izravno na tekst licencu(e). Ako oblik medija ne omogućuje korištenje poveznica (npr. tiskana djela), predlažemo da uputite Vaše čitatelje na openstreetmap.org (recimo navođenjem točne adrese ove web stranice umjesto samo imena projekta 'OpenStreetMap') i na opendatacommons.org.
-          U ovom primjeru atribucija se pojavljuje u kutu karte.
         attribution_example:
           alt: Primjer kako atribuirati OpenStreetMap na web stranici
           title: Primjer atribucije
-        more_title_html: Saznaj više
+        infringement_title_html: Kršenje autorskih prava
+        infringement_1_html: Suradnike OSM-a podsjećamo da nikada ne dodaju podatke
+          iz bilo kakvih izvora zaštićenih autorskim pravima (npr. Google karte ili
+          tiskane karte) bez izričitog dopuštenja nositelja autorskih prava.
         contributors_title_html: Naši doprinositelji
         contributors_intro_html: 'Sudionici projekta su tisuće individualaca. Projekt
           također uključuje podatke pod slobodnim licencama od nacionalnih kartografskih
@@ -1256,10 +1249,6 @@ hr:
         contributors_footer_2_html: Uvrštavanje podataka u OpenStreetMap ne podrazumijeva
           da izvorni davatelj podataka podržava OpenStreetMap, pruža bilo kakvo jamstvo,
           ili prihvaća bilo kakve obveze.
-        infringement_title_html: Kršenje autorskih prava
-        infringement_1_html: Suradnike OSM-a podsjećamo da nikada ne dodaju podatke
-          iz bilo kakvih izvora zaštićenih autorskim pravima (npr. Google karte ili
-          tiskane karte) bez izričitog dopuštenja nositelja autorskih prava.
     index:
       js_1: Koristite preglednik koji ne podržava JavaScript ili Vam je JavaScript
         isključen.
@@ -1330,10 +1319,10 @@ hr:
       whats_on_the_map:
         title: Što ova karta sadrži
       start_mapping: Počni kartirati
-      add_a_note:
-        title: Nemaš vremena za uređivanje? Dodaj bilješku!
-        para_1: Ako želiš samo napraviti malu doradu i nemaš vremena za registraciju
-          i učenje pravila uređivanja, možeš jednostavno dodati bilješku na kartu.
+    add_a_note:
+      title: Nemaš vremena za uređivanje? Dodaj bilješku!
+      para_1: Ako želiš samo napraviti malu doradu i nemaš vremena za registraciju
+        i učenje pravila uređivanja, možeš jednostavno dodati bilješku na kartu.
   map_keys:
     show:
       entries:
@@ -1757,8 +1746,6 @@ hr:
       queryfeature_disabled_tooltip: Približi za provjeru elemenata
     edit_help: Pomakni kartu i približi dio koji želiš urediti, zatim klikni ovdje.
     directions:
-      descend: Silazno
-      distance: Udaljenost
       errors:
         no_route: Nismo mogli naći put između ta dva mjesta.
         no_place: 'Žao nam je - nismo mogli naći mjesto: ''%{place}''.'
@@ -1781,7 +1768,6 @@ hr:
           eighth: "8."
           ninth: "9."
           tenth: "10."
-      time: Vrijeme
     query:
       node: Točka
       way: Put

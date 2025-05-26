@@ -554,9 +554,6 @@ fa:
       title_nearby: روزنوشت‌های کاربران نزدیک
       user_title: روزنوشت‌های %{user}
       in_language_title: روزنوشت‌های %{language}
-      new: روزنوشت تازه
-      new_title: ساخت روزنوشت تازه در روزنوشت‌های کاربری من
-      my_diary: روزنوشت‌های من
       no_entries: روزنوشتی نیست
     page:
       recent_entries: روزنوشت‌های اخیر
@@ -610,6 +607,10 @@ fa:
       button: اشتراک در بحث
     unsubscribe:
       button: لغو اشتراک در بحث
+    navigation:
+      my_diary: روزنوشت‌های من
+      new: روزنوشت تازه
+      new_title: ساخت روزنوشت تازه در روزنوشت‌های کاربری من
   doorkeeper:
     flash:
       applications:
@@ -1346,8 +1347,13 @@ fa:
         no_results: نتیجه‌ای یافت نشد
         more_results: نتایج بیشتر
   directions:
-    search:
+    show:
       title: راهنمای مسیر
+      distance: مسافت
+      time: مدت
+      ascend: فراز
+      descend: فرود
+      directions_courtesy_html: راهنمای مسیر با همکاری %{link}
   issues:
     index:
       title: مسئله‌ها
@@ -1759,6 +1765,8 @@ fa:
       update home location on click: وقتی روی نقشه کلیک می‌کنم موقعیت خانه روزآمد
         شود.
       delete: حذف
+      social_links:
+        remove: حذف
     update:
       success: نمایه ذخیره شد.
       failure: ذخیره‌سازی نمایه انجام نشد.
@@ -1857,7 +1865,10 @@ fa:
         attribution_example:
           alt: مثالی از شیوهٔ انتساب به OpenStreetMap در صفحهٔ وبی.
           title: مثال انتساب
-        more_title_html: کسب اطلاعات بیشتر
+        infringement_title_html: نقض حق نشر
+        infringement_1_html: به مشارکت‌کنندگان OSM یادآوری شده است که هرگز از منابع
+          دارای حق نشر داده اضافه نکنند (مثلاً نقشه‌های گوگل یا نقشه‌های چاپی)، مگر
+          با اجازهٔ صریح و آشکار از صاحبان حق نشر.
         contributors_title_html: همکاران ما
         contributors_intro_html: 'مشارکت‌کنندگانی که با ما همکاری می‌کنند هزاران شخص
           هستند. داده‌هایی با پروانهٔ آزاد از سازمان‌های نقشه‌برداری ملی و دیگر منابع
@@ -1880,10 +1891,6 @@ fa:
         contributors_footer_2_html: ورود داده در OpenStreetMap به این معنی نیست که
           فراهم‌کنندهٔ اصلی داده OpenStreetMap را تأیید می‌کند، ضمانتی می‌دهد، یا
           مسئولیتی می‌پذیرد.
-        infringement_title_html: نقض حق نشر
-        infringement_1_html: به مشارکت‌کنندگان OSM یادآوری شده است که هرگز از منابع
-          دارای حق نشر داده اضافه نکنند (مثلاً نقشه‌های گوگل یا نقشه‌های چاپی)، مگر
-          با اجازهٔ صریح و آشکار از صاحبان حق نشر.
     index:
       js_1: شما در حال استفاده از مرورگری هستید که جاوااسکریپت را پشتیبانی نمی‌کند،
         یا جاوااسکریپت را غیرفعال کرده‌اید.
@@ -1997,11 +2004,11 @@ fa:
       rules:
         title: قوانین!
       start_mapping: نقشه‌کشی را آغاز کنید
-      add_a_note:
-        title: زمانی برای ویرایش ندارید؟ یادداشت اضافه کنید!
-        para_1: |-
-          اگر فقط می‌خواهید چیز کوچکی را درست کنید و وقت  کافی برای نام‌نویسی و یادگیری ویرایش ندارید، خیلی راحت
-          یک یادداشت بنویسید.
+    add_a_note:
+      title: زمانی برای ویرایش ندارید؟ یادداشت اضافه کنید!
+      para_1: |-
+        اگر فقط می‌خواهید چیز کوچکی را درست کنید و وقت  کافی برای نام‌نویسی و یادگیری ویرایش ندارید، خیلی راحت
+        یک یادداشت بنویسید.
     communities:
       title: جوامع
   map_keys:
@@ -2570,12 +2577,11 @@ fa:
       map_data_zoom_in_tooltip: برای دیدن دادهٔ نقشه بزرگ‌نمایی کنید
       queryfeature_tooltip: پرس‌وجوی عارضه‌ها
       queryfeature_disabled_tooltip: برای پرس‌وجوی عارضه‌ها بزرگ‌نمایی کنید
+    social_links:
+      remove: حذف
     edit_help: نقشه را جابه‌جا کنید و روی مکانی که می‌خواهید ویرایش نمایید بزرگ‌نمایی
       کنید. سپس اینجا کلیک کنید.
     directions:
-      ascend: فراز
-      descend: فرود
-      distance: مسافت
       errors:
         no_route: بین این دو مکان، مسیری پیدا نشد.
         no_place: متأسفیم - %{place} پیدا نشد.
@@ -2633,7 +2639,6 @@ fa:
         roundabout_with_exit_ordinal: در میدان، از خروجی %{exit} به %{name} بروید
         exit_roundabout: از میدان به‌طرف %{name} خارج شوید
         unnamed: معبر بی‌نام
-        courtesy: راهنمای مسیر با همکاری %{link}
         exit_counts:
           first: اول
           second: دوم
@@ -2645,7 +2650,6 @@ fa:
           eighth: هشتم
           ninth: نهم
           tenth: دهم
-      time: مدت
     query:
       node: گره
       way: راه

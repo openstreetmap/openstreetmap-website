@@ -670,9 +670,6 @@ he:
       title_nearby: יומנים של משתמשים בסביבה
       user_title: היומן של %{user}
       in_language_title: רשומות יומן ב%{language}
-      new: רשומת יומן חדשה
-      new_title: כתיבת רשומה חדשה ביומן המשתמש שלי
-      my_diary: היום שלי
       no_entries: אין רשומות יומן
     page:
       recent_entries: רשומות יומן אחרונות
@@ -696,7 +693,7 @@ he:
     diary_entry:
       posted_by_html: פורסם על־ידי %{link_user} ב־%{created} ב%{language_link}.
       updated_at_html: עודכן לאחרונה ב־%{updated}.
-      full_entry: צפייה בערך מלא
+      full_entry: צפייה ברשומה המלאה
       comment_link: הערות לרשומה הזאת
       reply_link: שליחת תגובה למחבר
       comment_count:
@@ -734,6 +731,10 @@ he:
     unsubscribe:
       heading: לבטל את המינוי לדיון ברשומת היומן הבאה?
       button: ביטול המינוי לדיון
+    navigation:
+      my_diary: היום שלי
+      new: רשומת יומן חדשה
+      new_title: כתיבת רשומה חדשה ביומן המשתמש שלי
   diary_comments:
     new:
       heading: להוסיף הערה לדיון ברשומת היומן הבאה?
@@ -1636,8 +1637,15 @@ he:
         no_results: לא נמצאו תוצאות
         more_results: תוצאות נוספות
   directions:
-    search:
+    show:
       title: כיוונים
+      distance: מרחק
+      time: זמן
+      ascend: מעלה
+      descend: מטה
+      download: הורדת מסלול בתור GeoJSON
+      filename: מסלול
+      directions_courtesy_html: הכיוונים באדיבות %{link}
   issues:
     index:
       title: בעיות
@@ -2225,56 +2233,40 @@ he:
         native_link: גרסה העברית
         mapping_link: להתחיל למפות
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} הוא מיזם %{open_data}, שמתפרסמים לפי תנאי
-          %{odc_odbl_link} (ר״ת ODbL) על־ידי %{osm_foundation_link} (ר״ת OSMF).
-        introduction_1_open_data: נתונים פתוחים
-        introduction_1_odc_odbl: רישיון מסד נתונים פתוח של Open Data Commons
-        introduction_1_osm_foundation: קרן אופן סטריט מאפ
-        introduction_2_html: |-
-          יש לך חופש להעתיק, להפיץ, לשדר ולהתאים את הנתונים שלנו,
-          אבל חובה לתת ייחוס ל־OpenStreetMap
-          ולתורמים למיזם. אם שינית את הנתונים או את המפות שלנו או הסתמכת עליהם כדי ליצור משהו חדש,
-          מותר לך להפיץ את התוצאות רק לפי תנאי אותו הרישיון.
-          %{legal_code_link} המלא מסביר את הזכויות שלך ואת תחומי האחריות שלך.
-        introduction_2_legal_code: המסמך המשפטי
-        introduction_3_html: התיעוד שלנו מתפרסם לפי תנאי רישיון %{creative_commons_link}
-          (ר״ת CC BY-SA 2.0).
-        introduction_3_creative_commons: קריאייטיב קומונז–ייחוס–שיתוף זהה 2.0
-        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.he
+        licensing_1_odc_odbl: רישיון מסד נתונים פתוח של Open Data Commons
+        licensing_1_osm_foundation: קרן אופן סטריט מאפ
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.he
+        licensing_4_osmf_license_page: דף הרישיון של OSMF
         credit_title_html: איך לתת ייחוס ל־OpenStreetMap
         credit_1_html: 'בעת שימוש בנתונים של OpenStreetMap, חובה לעשות את שני הדברים
           הבאים:'
-        credit_2_1: יש לתת ייחוס ל־OpenStreetMap על־ידי הצגת הודעת זכויות היוצרים
-          שלנו.
-        credit_2_2: יש להבהיר שהנתונים זמינים לפי רישיון מסד נתונים פתוח.
-        credit_3_html: |-
-          לגבי הודעת זכויות היוצרים, יש לנו דרישות שונות לגבי איך זה צריך להיות
-          מוצג, בהתאם לאופן שבו עשית שימוש בנתונים שלנו. למשל, כללים שונים
-          חלים על אופן הצגת הודעת זכויות היוצרים – תלוי אם
-          יצרת מפה ניתנת לעיון, מפה מודפסת, או תמונה סטטית. פרטים מלאים על
-          דרישות ניתן למצוא בדף %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: הנחיות ייחוס
-        credit_4_1_html: |-
-          כדי להבהיר שהנתונים זמינים לפי תנאי רישיון מסד הנתונים הפתוח, באפשרותך לקשר ל%{this_copyright_page_link}.
-          לחלופין, וכדרישה אם OSM מופץ על־ידיך בצורת נתונים, אפשר לספק שם ולקשר ישירות לרישיון (או רישיונות). באמצעי אחסון שבהם קישורים אינם אפשריים (למשל עבודות מודפסות), אנו מציעים לך להפנות את הקוראים שלך לאתר openstreetmap.org (אולי על‏‏־ידי הרחבת
-          ‚OpenStreetMap’ לכתובת המלאה הזאת) ולאתר opendatacommons.org.
-          בדוגמה הזאת, התודות מופיעות בפינת המפה.
-        credit_4_1_this_copyright_page: דף זכויות היוצרים הזה
+        credit_2_license: יש להבהיר שהנתונים זמינים לפי רישיון מסד נתונים פתוח.
+        credit_3_v2025_attribution_guidelines: הנחיות ייחוס
+        credit_4_v2025_this_copyright_page: דף זכויות היוצרים הזה
         attribution_example:
           alt: דוגמה לצורה הנכונה לתת ייחוס ל־OpenStreetMap באתר האינטרנט
           title: דוגמה לייחוס
-        more_title_html: איך למצוא מידע נוסף
-        more_1_1_html: אפשר לקרוא עוד על השימוש בנתונים שלנו, ועל איך לתת לנו ייחוס,
-          ב־%{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: דף הרישיון של OSMF
-        more_2_1_html: |-
-          אף ש־OpenStreetMap היא נתונים פתוחים, איננו יכולים לספק
-          API של מפות ללא תשלום עבור צדדים שלישיים.
-          נא לעיין ב%{api_usage_policy_link}, ב%{tile_usage_policy_link} וב%{nominatim_usage_policy_link} שלנו.
-        more_2_1_api_usage_policy: מדינית השימוש ב־API
-        more_2_1_tile_usage_policy: מדיניות השימוש באריחים
-        more_2_1_nominatim_usage_policy: מדיניות השימוש בנומינטים
+        infringement_title_html: הפרת זכויות יוצרים
+        infringement_1_html: |-
+          אנו מזכירים לתורמים ל־OSM לעולם לא להוסיף נתונים משום מקור
+          שמוגבל בזכויות יוצרים (למשל מפות גוגל או מפות מודפסות) ללא
+          אישור מפורש מבעלי הזכויות.
+        infringement_2_1_html: |-
+          אם נראה לך שחומר המוגבל בזכויות יוצרים התווסף באופן בלתי־הולם
+          למסד הנתונים של OpenStreetMap או לאתר הזה, נא לעיין
+          ב%{takedown_procedure_link} שלנו או להגיש בקשה ישירות
+          ב%{online_filing_page_link} שלנו.
+        infringement_2_1_takedown_procedure: הליך ההסרה
+        infringement_2_1_online_filing_page: דף ההגשה המקוון
+        trademarks_title: סימנים מסחריים
+        trademarks_1_1_html: |-
+          OpenStreetMap, לוגו הזכוכית המגדלת ו־State of the Map הם סימנים מסחריים רשומים של
+          קרן OpenStreetMap. אם יש לך שאלות לגבי השימוש שלך בסימנים,
+          ר׳ את %{trademark_policy_link} שלנו.
+        trademarks_1_1_trademark_policy: מדיניות הסימנים המסחריים
+        services_1_api_usage_policy: מדינית השימוש ב־API
+        services_1_tile_usage_policy: מדיניות השימוש באריחים
+        services_1_nominatim_usage_policy: מדיניות השימוש בנומינטים
         contributors_title_html: התורמים שלנו
         contributors_intro_html: |-
           התורמים שלנו הם אלפי אנשים. אנו גם כוללים
@@ -2371,24 +2363,6 @@ he:
           הכללה של נתונים ב־OpenStreetMap אינה אומרת שהספק המקורי
           של הנתוהים תומך ב־OpenStreetMap, לוקח על עצמו אחריות כלשהי, או
           מקבל חבות כלשהי.
-        infringement_title_html: הפרת זכויות יוצרים
-        infringement_1_html: |-
-          אנו מזכירים לתורמים ל־OSM לעולם לא להוסיף נתונים משום מקור
-          שמוגבל בזכויות יוצרים (למשל מפות גוגל או מפות מודפסות) ללא
-          אישור מפורש מבעלי הזכויות.
-        infringement_2_1_html: |-
-          אם נראה לך שחומר המוגבל בזכויות יוצרים התווסף באופן בלתי־הולם
-          למסד הנתונים של OpenStreetMap או לאתר הזה, נא לעיין
-          ב%{takedown_procedure_link} שלנו או להגיש בקשה ישירות
-          ב%{online_filing_page_link} שלנו.
-        infringement_2_1_takedown_procedure: הליך ההסרה
-        infringement_2_1_online_filing_page: דף ההגשה המקוון
-        trademarks_title: סימנים מסחריים
-        trademarks_1_1_html: |-
-          OpenStreetMap, לוגו הזכוכית המגדלת ו־State of the Map הם סימנים מסחריים רשומים של
-          קרן OpenStreetMap. אם יש לך שאלות לגבי השימוש שלך בסימנים,
-          ר׳ את %{trademark_policy_link} שלנו.
-        trademarks_1_1_trademark_policy: מדיניות הסימנים המסחריים
     index:
       js_1: הדפדפן שבו אתה משתמש אינו תומך ב־JavaScript, או שכיבית את השימוש ב־JavaScript.
       js_2: אתר OpenStreetMap משתמש ב־JavaScript למפה המחליקה.
@@ -2438,11 +2412,6 @@ he:
           explanation_html: |-
             אם שמת לב לבעיה על נתוני המפה שלנו, למשל שדרך או שכתובת שלך חסרה, הדרך הטובה ביותר
             להמשיך היא להצטרף לקהילת OpenStreetMap ולתקן את הנתונים בעצמך.
-        add_a_note:
-          instructions_1_html: |-
-            צריך פשוט ללחוץ על %{note_icon} או על אותו הסמל בתצוגת המפה.
-            זה יוסיף למפה סמן שאפשר להזיז
-            באמצעות גרירה. יש להוסיף את ההערה שלך, ואז ללחוץ שמירה, וממפים אחרים יחקרו את זה.
       other_concerns:
         title: דאגות אחרות
         concerns_html: אם יש לך חששות לגבי אופן השימוש בנתונים שלנו או לגבי התוכן,
@@ -2549,15 +2518,11 @@ he:
         automated_edits: עריכות אוטומטית
       start_mapping: להתחיל למפות
       continue_authorization: המשך האישור
-      add_a_note:
-        title: אין לך זמן לערוך? אפשר להוסיף הערה!
-        para_1: אם רק רצית לתקן משהו קטן ואין לך זמן להירשם וללמוד איך לערוך, קל להוסיף
-          הערה.
-        para_2_html: |-
-          צריך פשוט לגשת ל%{map_link} וללחוץ על סמל הפתק: %{note_icon}.
-          הפעולה הזאת תוסיף סמן למפה, שניתן להעביר בגרירה.
-          אפשר להוסיף את ההודעה שלך, ללחוץ על שמירה וממפים אחרים יחקרו את זה.
-        the_map: מפה
+    add_a_note:
+      title: אין לך זמן לערוך? אפשר להוסיף הערה!
+      para_1: אם רק רצית לתקן משהו קטן ואין לך זמן להירשם וללמוד איך לערוך, קל להוסיף
+        הערה.
+      the_map: מפה
     communities:
       title: קהילות
       lede_text: "אנשים מכל רחבי העולם תורמים או משתמשים ב־OpenStreetMap.\nבעוד שרבים
@@ -2592,7 +2557,7 @@ he:
         track: מסלול
         bridleway: מסלול לרכיבת סוסים
         cycleway: דרך לאופניים
-        international_bike_route: מסלול בינלאומי לאופניים
+        international_bike_route: מסלול אופניים ביו־לאומי
         national_bike_route: מסלול אופניים לאומי
         regional_bike_route: מסלול אופניים אזורי
         local_bike_route: מסלול אופניים מקומי
@@ -3385,11 +3350,10 @@ he:
       embed_html_disabled: הטבעת HTML אינה זמינה בשכבת המפה הזאת
     edit_help: יש להזיז את המפה ולהתמקד על מיקום שברצונך לערוך ואז ללחוץ כאן.
     directions:
-      ascend: מעלה
-      descend: מטה
-      distance: מרחק
-      distance_m: '%{distance} מ׳'
-      distance_km: '%{distance} ק״מ'
+      distance_in_units:
+        meters:
+          m: '%{distance} מ׳'
+          km: '%{distance} ק״מ'
       errors:
         no_route: לא מצאנו נתיב שמחבר בין שני המקומות האלה.
         no_place: מצטערים – לא מצאנו את %{place}.
@@ -3453,7 +3417,6 @@ he:
         exit_roundabout: בכיכר עליך לצאת אל %{name}
         ferry_without_exit: סע במעבורת %{name}
         unnamed: ללא שם
-        courtesy: הכיוונים באדיבות %{link}
         exit_counts:
           first: ראשונה
           second: שנייה
@@ -3465,9 +3428,6 @@ he:
           eighth: שמינית
           ninth: תשיעית
           tenth: עשירית
-      time: זמן
-      download: הורדת מסלול בתור GeoJSON
-      filename: מסלול
     query:
       node: נקודה
       way: דרך

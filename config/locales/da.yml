@@ -74,6 +74,10 @@ da:
       models:
         user_mute:
           is_already_muted: er allerede gjort stille
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL'en skal starte med http:// eller https://
     models:
       acl: Adgangskontrolliste
       changeset: Ændringssæt
@@ -647,9 +651,6 @@ da:
       title_nearby: Blogs fra brugere i nærheden
       user_title: Blog for %{user}
       in_language_title: Blogindlæg på %{language}
-      new: Nyt blogindlæg
-      new_title: Skriv nyt indlæg i min brugerblog
-      my_diary: Min blog
       no_entries: Ingen blogindlæg
     page:
       recent_entries: Seneste blogindlæg
@@ -709,6 +710,16 @@ da:
     unsubscribe:
       heading: Vil du afmelde følgende blogindlægsdiskussion?
       button: Afmeld diskussion
+    navigation:
+      in_language: Blogindlæg på %{language}
+      my_diary: Min blog
+      new: Nyt blogindlæg
+      new_title: Skriv nyt indlæg i min brugerblog
+    profile_diaries:
+      latest_diaries: Seneste blogs
+      comments:
+        one: '%{count} kommentar'
+        other: '%{count} kommentarer'
   diary_comments:
     new:
       heading: Vil du tilføje en kommentar til følgende blogindlægsdiskussion?
@@ -1590,8 +1601,17 @@ da:
         no_results: Ingen resultater fundet
         more_results: Flere resultater
   directions:
-    search:
+    show:
       title: Rutevejledning
+      distance: Afstand
+      time: Tid
+      ascend: Stigning
+      descend: Fald
+      button_km: km
+      button_mi: mi
+      download: Download rute som GeoJSON
+      filename: rute
+      directions_courtesy_html: Anvisninger venligst leveret af %{link}
   issues:
     index:
       title: Sager
@@ -2072,6 +2092,9 @@ da:
       show: Vis
       delete: Slet
       undelete: Fortryd sletning
+      social_links:
+        remove: Fjern
+        add: Tilføj socialt link
     update:
       success: Profil opdateret.
       failure: Kunne ikke opdatere profil.
@@ -2084,6 +2107,7 @@ da:
       access_another_page: 'Du kom hertil, mens du forsøgte at få adgang til en anden
         side. Hvis du vil have adgang til den side med din nuværende konto, skal du
         klikke på knappen nedenfor:'
+      visit_referring_page: Besøg henvisende side
       email or username: E-mailadresse eller brugernavn
       password: Adgangskode
       remember: Husk mig
@@ -2206,54 +2230,57 @@ da:
         native_link: den danske udgave
         mapping_link: begynde kortlægningen
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} er %{open_data},
-          licenseret under %{odc_odbl_link} (ODbL) af %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: åbne data
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: OpenStreetMap Foundation
-        introduction_2_html: "Du kan frit kopiere, distribuere, overføre og tilpasse
-          vores data, \nså længe du angiver OpenStreetMap og dets\nbidragsydere som
-          kilde. Hvis du ændrer eller bygger på vores\ndata, må du kun distribuere
-          resultatet under den samme licens. Den\nfulde %{legal_code_link} forklarer
-          dine rettigheder og pligter."
-        introduction_2_legal_code: juridiske tekst
-        introduction_3_html: Vores dokumentation er licenseret under %{creative_commons_link}-licensen
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Kreditering-Deling på samme
-          vilkår 2.0
+        lead_1_html: "OpenStreetMap leverer åbne kortdata til tusindvis af websteder,
+          mobilapps og hardwareenheder. \nOpenStreetMap er bygget af et fællesskab
+          af mennesker som dig, der bidrager med og vedligeholder kortdata\nom veje,
+          stier, caféer, togstationer og meget mere over hele verden."
+        lead_2_html: |-
+          %{learn_more_about_osm_link} og %{get_started_mapping_link}!
+          Du kan læse mere på %{osm_blog_link} og abonnere på %{weeklyosm_link}.
+          Find andre kortlæggere i dit lokale %{osm_community_link}.
+          Støt projektet ved at blive medlem af %{osm_foundation_link} og %{making_donation_link}.
+        lead_2_learn_more_about_osm: Lær mere om OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/Da:Om_OpenStreetMap
+        lead_2_get_started_mapping: kom i gang med at kortlægge
+        lead_2_osm_blog: OpenStreetMap-bloggen
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM-fællesskabet
+        lead_2_making_donation: at give en donation
+        licensing_1_open: åbne
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: OpenStreetMap Foundation
+        licensing_4_osmf_license_page: OSMF Licens-siden
         credit_title_html: Kildeangivelse og OpenStreetMap
         credit_1_html: 'Når du bruger OpenStreetMap-data, er du forpligtet til at
           gøre følgende to ting:'
-        credit_2_1: Giv OpenStreetMap kredit ved at vise vores ophavsretsmeddelelse.
-        credit_2_2: Gør det klart, at dataene er tilgængelige under Open Database
+        credit_2_license: Gør det klart, at dataene er tilgængelige under Open Database
           License.
-        credit_3_html: Vi har forskellige krav til ophavsretsmeddelelsen om, hvordan
-          den skal vises, afhængigt af hvordan du bruger vores data. For eksempel
-          gælder der forskellige regler for, hvordan ophavsretsmeddelelsen skal vises,
-          afhængigt af, om du har oprettet et kort, der er interaktivt, et trykt kort
-          eller et statisk billede. Alle oplysninger om krav kan findes i %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Retningslinjer for kildeangivelse
-        credit_4_1_html: For at gøre det klart, at dataene er tilgængelige under Open
-          Database License, kan du linke til %{this_copyright_page_link}. Alternativt,
-          og som et krav, hvis du distribuerer OSM i dataform, kan du nævne og linke
-          direkte til licensen/licenserne. I medier, hvor links ikke er mulige (f.eks.
-          trykte værker), foreslår vi, at du henviser dine læsere til openstreetmap.org
-          (evt. ved at udvide "OpenStreetMap" til denne fulde adresse) og til opendatacommons.org.
-          I dette eksempel vises kreditten i hjørnet af kortet.
-        credit_4_1_this_copyright_page: denne copyright-side
+        credit_3_v2025_attribution_guidelines: Retningslinjer for kildeangivelse
+        credit_4_v2025_this_copyright_page: denne copyright-side
         attribution_example:
           alt: Eksempel på hvordan man angiver OpenStreetMap som kilde for en webside
           title: Eksempel på kildeangivelse
-        more_title_html: Læs mere
-        more_1_1_html: Læs mere om brug af vores data, og hvordan du krediterer os,
-          på %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: OSMF Licens-siden
-        more_2_1_html: "Selvom OpenStreetMap er åbne data, kan vi ikke levere et gratis
-          kort-API til tredjeparter.\nSe vores \n%{api_usage_policy_link}, %{tile_usage_policy_link}
-          og %{nominatim_usage_policy_link}."
-        more_2_1_api_usage_policy: Politik for brug af API
-        more_2_1_tile_usage_policy: Politik for brug af kort-fliser
-        more_2_1_nominatim_usage_policy: Politik for brug af Nominatim
+        infringement_title_html: Krænkelse af ophavsretten
+        infringement_1_html: |-
+          OSM-bidragsydere bliver mindet om aldrig at tilføje data fra nogen
+          ophavsretligt beskyttede kilder (f.eks. Google Maps eller trykte kort) uden
+          eksplicit tilladelse fra ophavsret-indehaverne.
+        infringement_2_1_html: Hvis du mener, at ophavsretligt beskyttet materiale
+          uberettiget er føjet til OpenStreetMap-databasen eller dette websted, bedes
+          du følge vores %{takedown_procedure_link} eller klage direkte via vores
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procedure til fjernelse a materiale
+        infringement_2_1_online_filing_page: on-line formular
+        trademarks_title: Varemærker
+        trademarks_1_1_html: OpenStreetMap, forstørrelsesglas-logoet og "State of
+          the Map" er varemærker registreret til OpenStreetMap Foundation. Hvis du
+          har spørgsmål om din brug af mærkerne, så se %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Varemærkepolitikken
+        services_1_api_usage_policy: Politik for brug af API
+        services_1_tile_usage_policy: Politik for brug af kort-fliser
+        services_1_nominatim_usage_policy: Politik for brug af Nominatim
         contributors_title_html: Vores bidragsydere
         contributors_intro_html: |-
           Vores bidragsydere er tusinder af individer. Vi medtager også
@@ -2336,22 +2363,6 @@ da:
           Optagelse af data i OpenStreetMap indebærer ikke at den oprindelige
           dataudbyder siger god for OpenStreetMap, giver nogen garanti eller
           accepterer nogen form for erstatningspligt.
-        infringement_title_html: Krænkelse af ophavsretten
-        infringement_1_html: |-
-          OSM-bidragsydere bliver mindet om aldrig at tilføje data fra nogen
-          ophavsretligt beskyttede kilder (f.eks. Google Maps eller trykte kort) uden
-          eksplicit tilladelse fra ophavsret-indehaverne.
-        infringement_2_1_html: Hvis du mener, at ophavsretligt beskyttet materiale
-          uberettiget er føjet til OpenStreetMap-databasen eller dette websted, bedes
-          du følge vores %{takedown_procedure_link} eller klage direkte via vores
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: procedure til fjernelse a materiale
-        infringement_2_1_online_filing_page: on-line formular
-        trademarks_title: Varemærker
-        trademarks_1_1_html: OpenStreetMap, forstørrelsesglas-logoet og "State of
-          the Map" er varemærker registreret til OpenStreetMap Foundation. Hvis du
-          har spørgsmål om din brug af mærkerne, så se %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Varemærkepolitikken
     index:
       js_1: Du bruger enten en browser som ikke understøtter Javascript, eller du
         har deaktiveret Javascript.
@@ -2407,10 +2418,6 @@ da:
             eksempel en vej der mangler eller din adresse, er den bedste måde at gøre
             noget ved det, at deltage i OpenStreetMap-fællesskabet, og tilføje eller
             reparere data selv.
-        add_a_note:
-          instructions_1_html: |-
-            Bare klik på %{note_icon} eller det samme ikon på kortvisningen.
-            Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked, klik på gem og andre brugere vil undersøge sagen.
       other_concerns:
         title: Andre bekymringer
         concerns_html: Hvis du har bekymringer omkring hvordan vores data anvendes
@@ -2527,14 +2534,11 @@ da:
         automated_edits: Automatiske Redigeringer
       start_mapping: Begynd at kortlægge
       continue_authorization: Fortsæt autorisation
-      add_a_note:
-        title: Ikke tid til redigering? Tilføj en bemærkning!
-        para_1: Hvis du bare vil have en lille detalje rettet, men ikke har tid til
-          at registrere dig og gøre det selv, så kan du let tilføje en bemærkning.
-        para_2_html: |-
-          Bare gå ind på %{map_link} og klik på bemærknings-ikonet: %{note_icon}.
-          Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked, klik på gem og andre brugere vil undersøge sagen.
-        the_map: kortet
+    add_a_note:
+      title: Ikke tid til redigering? Tilføj en bemærkning!
+      para_1: Hvis du bare vil have en lille detalje rettet, men ikke har tid til
+        at registrere dig og gøre det selv, så kan du let tilføje en bemærkning.
+      the_map: kortet
     communities:
       title: Fællesskaber
       lede_text: |-
@@ -3374,13 +3378,16 @@ da:
       queryfeature_tooltip: Find kortobjekter
       queryfeature_disabled_tooltip: Zoom ind for at finde kortobjekter
       embed_html_disabled: HTML-indlejring er ikke tilgængelig for dette kortlag
+    social_links:
+      remove: Fjern
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
     directions:
-      ascend: Stigning
-      descend: Fald
-      distance: Afstand
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
+        miles:
+          ft: '%{distance} fod'
       errors:
         no_route: Kunne ikke finde en rute mellem de to steder.
         no_place: Beklager - kunne ikke finde '%{place}'.
@@ -3448,7 +3455,6 @@ da:
         exit_roundabout: Forlad rundkørsel mod %{name}
         ferry_without_exit: Tag færgen %{name}
         unnamed: unavngiven vej
-        courtesy: Anvisninger venligst leveret af %{link}
         exit_counts:
           first: "1."
           second: "2."
@@ -3460,9 +3466,6 @@ da:
           eighth: "8."
           ninth: "9."
           tenth: "10."
-      time: Tid
-      download: Download rute som GeoJSON
-      filename: rute
     query:
       node: Punkt
       way: Linjestreng

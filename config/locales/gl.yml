@@ -637,9 +637,6 @@ gl:
       title_nearby: Diarios dos usuarios de lugares preto de ti
       user_title: Diario de %{user}
       in_language_title: Entradas do diario en %{language}
-      new: Nova entrada no diario
-      new_title: Compor unha nova entrada no meu diario do usuario
-      my_diary: O meu diario
       no_entries: Non hai entradas no diario
     page:
       recent_entries: Entradas recentes no diario
@@ -701,6 +698,10 @@ gl:
       heading: Queres cancelar a subscrición á seguinte conversa sobre a entrada no
         diario?
       button: Cancelar a subscrición á conversa
+    navigation:
+      my_diary: O meu diario
+      new: Nova entrada no diario
+      new_title: Compor unha nova entrada no meu diario do usuario
   diary_comments:
     new:
       heading: Queres engadir un comentario á seguinte conversa sobre a entrada no
@@ -1612,8 +1613,17 @@ gl:
         no_results: Non se atopou ningún resultado
         more_results: Máis resultados
   directions:
-    search:
+    show:
       title: Indicacións
+      distance: Distancia
+      time: Tempo
+      ascend: Ascendente
+      descend: Descendente
+      button_km: km
+      button_mi: mi
+      download: Descargar a ruta como GeoJSON
+      filename: ruta
+      directions_courtesy_html: Indicacións cortesía de %{link}
   issues:
     index:
       title: Problemas
@@ -2237,59 +2247,39 @@ gl:
         native_link: versión en galego
         mapping_link: comezar a contribuír
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} son %{open_data}, baixo a licenza
-          %{odc_odbl_link} (ODbL) da %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: datos libres
-        introduction_1_odc_odbl: Licenza Open Data Commons Open Database
-        introduction_1_osm_foundation: Fundación OpenStreetMap
-        introduction_2_html: |-
-          Es libre de copiar, distribuír, transmitir e adaptar os nosos datos,
-          na medida en que acredites o OpenStreetMap e mailos seus
-          colaboradores. Se alteras ou constrúes a partir dos nosos datos, terás
-          que distribuír o resultado baixo a mesma licenza. O
-          %{legal_code_link} ao completo explica os teus dereitos e responsabilidades.
-        introduction_2_legal_code: código legal
-        introduction_3_html: A nosa documentación está licenciada baixo a licenza
-          %{creative_commons_link} (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons recoñecemento compartir
-          igual 2.0
+        licensing_1_odc_odbl: Licenza Open Data Commons Open Database
+        licensing_1_osm_foundation: Fundación OpenStreetMap
+        licensing_4_osmf_license_page: páxina da licenza OSMF
         credit_title_html: De que xeito acreditar o OpenStreetMap
         credit_1_html: 'Aló onde uses datos de OpenStreetMap, debes facer dúas cousas:'
-        credit_2_1: Proporciona crédito ao OpenStreetMap mostrando o noso aviso de
-          dereitos de autoría.
-        credit_2_2: Aclara que os datos están dispoñibles baixo a licenza Open Database.
-        credit_3_html: |-
-          Para amosar o aviso de dereitos de autoría, temos diferentes requisitos
-          dependendo de como usas os nosos datos. Por exemplo, existen distintas
-          regras en función de se creaches un mapa explorable,
-          un mapa impreso ou unha imaxe estática. Podes atopar todos os detalles
-          sobre os requisitos nas %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: directrices de atribución
-        credit_4_1_html: |-
-          Para deixares claro que os datos están dispoñibles baixo a licenza
-          Open Database, podes deixar unha ligazón a %{this_copyright_page_link}.
-          Como alternativa, e como requisito se estás distribuíndo OSM en forma
-          de datos, podes nomear e ligar directamente a(s) licenza(s). En medios
-          nos que non é posible incluír ligazóns (por exemplo, libros impresos), suxerimos
-          dirixir aos lectores a openstreetmap.org (se cadra, ampliando
-          "OpenStreetMap" a este enderezo completo) e a opendatacommons.org.
-          Neste exemplo, os créditos aparecen no curruncho do mapa.
-        credit_4_1_this_copyright_page: esta páxina dos dereitos de autoría
+        credit_2_license: Aclara que os datos están dispoñibles baixo a licenza Open
+          Database.
+        credit_3_v2025_attribution_guidelines: directrices de atribución
+        credit_4_v2025_this_copyright_page: esta páxina dos dereitos de autoría
         attribution_example:
           alt: Exemplo de como recoñecer o OpenStreetMap nunha páxina web
           title: Exemplo de recoñecemento
-        more_title_html: Máis información
-        more_1_1_html: Consulta máis información sobre o uso dos nosos datos e como
-          acreditarnos na %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: páxina da licenza OSMF
-        more_2_1_html: |-
-          Malia que os datos do OpenStreetMap son libres, non podemos ofrecer unha
-          API de mapas gratuíta para terceiros.
-          Consulta a nosa %{api_usage_policy_link}, a nosa %{tile_usage_policy_link} e a nosa %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: política de uso da API
-        more_2_1_tile_usage_policy: política de uso de mosaicos
-        more_2_1_nominatim_usage_policy: política de uso de Nominatim
+        infringement_title_html: Violación dos dereitos de autoría
+        infringement_1_html: |-
+          Lembramos ós colaboradores do OSM que nunca engadan datos de
+          fontes con dereitos de autoría (por exemplo, o Google Maps ou mapas impresos) sen
+          o permiso explícito dos posuidores deses dereitos.
+        infringement_2_1_html: |-
+          Se cres que se engadiu de forma inadecuada material protexido
+          por dereitos de autoría á base de datos do OpenStreetMap ou a este sitio, consulta
+          o noso %{takedown_procedure_link} ou diríxete directamente á nosa
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procedemento de retirada
+        infringement_2_1_online_filing_page: páxina de presentación en liña
+        trademarks_title: Marcas rexistradas
+        trademarks_1_1_html: |-
+          OpenStreetMap, o logotipo da lupa e State of the Map son marcas rexistradas da
+          Fundación OpenStreetMap. Se tes dúbidas sobre o teu uso das marcas, consulta a nosa
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: política de marcas rexistradas
+        services_1_api_usage_policy: política de uso da API
+        services_1_tile_usage_policy: política de uso de mosaicos
+        services_1_nominatim_usage_policy: política de uso de Nominatim
         contributors_title_html: Os nosos colaboradores
         contributors_intro_html: |-
           Os nosos colaboradores son milleiros de persoas. Tamén incluímos
@@ -2386,24 +2376,6 @@ gl:
           A inclusión de datos no OpenStreetMap non implica que a persoa que
           orixinalmente forneceu os datos apoie o OpenStreetMap,
           dea calquera garantía ou acepte calquera responsabilidade.
-        infringement_title_html: Violación dos dereitos de autoría
-        infringement_1_html: |-
-          Lembramos ós colaboradores do OSM que nunca engadan datos de
-          fontes con dereitos de autoría (por exemplo, o Google Maps ou mapas impresos) sen
-          o permiso explícito dos posuidores deses dereitos.
-        infringement_2_1_html: |-
-          Se cres que se engadiu de forma inadecuada material protexido
-          por dereitos de autoría á base de datos do OpenStreetMap ou a este sitio, consulta
-          o noso %{takedown_procedure_link} ou diríxete directamente á nosa
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: procedemento de retirada
-        infringement_2_1_online_filing_page: páxina de presentación en liña
-        trademarks_title: Marcas rexistradas
-        trademarks_1_1_html: |-
-          OpenStreetMap, o logotipo da lupa e State of the Map son marcas rexistradas da
-          Fundación OpenStreetMap. Se tes dúbidas sobre o teu uso das marcas, consulta a nosa
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: política de marcas rexistradas
     index:
       js_1: Estás a usar un navegador que non soporta o JavaScript ou telo desactivado.
       js_2: O OpenStreetMap emprega JavaScript para o seu mapa estático e dinámico.
@@ -2458,11 +2430,6 @@ gl:
           explanation_html: |-
             Se atopas algún problema cos datos dos nosos mapas (por exemplo, se falta algunha estrada), o mellor é
             unirse á comunidade do OpenStreetMap e engadir ou corrixir os datos directamente.
-        add_a_note:
-          instructions_1_html: |-
-            Preme na %{note_icon} ou na mesma icona na visualización do mapa.
-            Isto ha engadir unha marcaxe ó mapa que podes mover
-            arrastrando. Engade a túa mensaxe, preme en "Gardar" e outras persoas pescudarán iso.
       other_concerns:
         title: Outras preocupacións
         concerns_html: |-
@@ -2580,15 +2547,11 @@ gl:
         automated_edits: edicións automáticas
       start_mapping: Comezar a cartografar
       continue_authorization: Continuar coa autorización
-      add_a_note:
-        title: Non tes tempo para editar? Engade unha nota!
-        para_1: Se soamente queres corrixir unha pequena cousa e non tes tempo de
-          te rexistrares e aprenderes a editar, engadir unha nota é moi doado.
-        para_2_html: |-
-          Vai %{map_link} e preme na icona das notas: %{note_icon}.
-          Isto ha engadir unha marcaxe ó mapa que podes mover arrastrando.
-          Engade a túa mensaxe, preme en "Gardar" e outras persoas pescudarán iso.
-        the_map: ó mapa
+    add_a_note:
+      title: Non tes tempo para editar? Engade unha nota!
+      para_1: Se soamente queres corrixir unha pequena cousa e non tes tempo de te
+        rexistrares e aprenderes a editar, engadir unha nota é moi doado.
+      the_map: ó mapa
     communities:
       title: Comunidades
       lede_text: "Persoas de todo o mundo contribúen ou usan OpenStreetMap.\nAínda
@@ -3426,11 +3389,13 @@ gl:
     edit_help: Desplaza o mapa e achégao na localización que queiras editar; logo,
       preme aquí.
     directions:
-      ascend: Ascendente
-      descend: Descendente
-      distance: Distancia
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance} m'
+          km: '%{distance} km'
+        miles:
+          ft: '%{distance} pés'
+          mi: '%{distance} mi'
       errors:
         no_route: Non se puido atopar unha ruta entre eses dous lugares.
         no_place: Sentímolo, non foi posíbel atopar "%{place}".
@@ -3498,7 +3463,6 @@ gl:
         exit_roundabout: Sae da rotonda cara a %{name}
         ferry_without_exit: Colle o transbordador %{name}
         unnamed: estrada sen nome
-        courtesy: Indicacións cortesía de %{link}
         exit_counts:
           first: 1.ª
           second: 2.ª
@@ -3510,9 +3474,6 @@ gl:
           eighth: 8.ª
           ninth: 9.ª
           tenth: 10.ª
-      time: Tempo
-      download: Descargar a ruta como GeoJSON
-      filename: ruta
     query:
       node: Nó
       way: Vía

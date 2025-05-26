@@ -116,11 +116,15 @@
 # Author: Unkn0wnCat
 # Author: Vrifox
 # Author: Wolfdietmann
+# Author: Wolfgang8
 # Author: Woodpeck
 # Author: Wuzzy
 # Author: Zauberzunge2000
 ---
 de:
+  date:
+    formats:
+      heatmap: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y um %H:%M Uhr'
@@ -157,6 +161,10 @@ de:
       models:
         user_mute:
           is_already_muted: ist bereits stummgeschaltet
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Die URL sollte mit http:// oder https:// beginnen.
     models:
       acl: Zugriffssteuerungsliste
       changeset: Änderungssatz
@@ -744,13 +752,10 @@ de:
       use_map_link: Karte benutzen
     index:
       title: Benutzer-Blogs
-      title_followed: Benutzereinträge abonnierter Benutzer
+      title_followed: Blogs abonnierter Benutzer
       title_nearby: Blogs von Nutzern in der Nähe
       user_title: Blog von %{user}
       in_language_title: Blog-Einträge in %{language}
-      new: Neuer Blog-Eintrag
-      new_title: Blogeintrag erstellen
-      my_diary: Mein Blog
       no_entries: Keine Blogeinträge
     page:
       recent_entries: Neueste Einträge
@@ -775,6 +780,7 @@ de:
     diary_entry:
       posted_by_html: Verfasst von %{link_user} am %{created} in %{language_link}
       updated_at_html: Zuletzt aktualisiert am %{updated}.
+      full_entry: Vollständigen Blogeintrag anzeigen
       comment_link: Kommentar zu diesem Eintrag
       reply_link: Eine Nachricht an den Autor senden
       comment_count:
@@ -810,6 +816,16 @@ de:
     unsubscribe:
       heading: Von der folgenden Tagebucheintragsdiskussion abmelden?
       button: Von der Diskussion abmelden
+    navigation:
+      in_language: Blog-Einträge in %{language}
+      my_diary: Mein Blog
+      new: Neuer Blog-Eintrag
+      new_title: Blogeintrag erstellen
+    profile_diaries:
+      latest_diaries: Neuste Blogs
+      comments:
+        one: '%{count} Kommentar'
+        other: '%{count} Kommentare'
   diary_comments:
     new:
       heading: Einen Kommentar zur folgenden Tagebucheintragsdiskussion hinzufügen?
@@ -1172,7 +1188,7 @@ de:
           street_lamp: Straßenlaterne
           tertiary: Hauptstraße
           tertiary_link: Hauptstraße-Auffahrt
-          track: Feldweg
+          track: Feld-/Waldweg
           traffic_mirror: Verkehrsspiegel
           traffic_signals: Lichtzeichenanlage
           trailhead: Ausgangspunkt eines Wanderweges
@@ -1690,14 +1706,23 @@ de:
         no_results: Keine Ergebnisse gefunden
         more_results: Mehr Treffer
   directions:
-    search:
+    show:
       title: 'Routenanweisungen:'
+      distance: Distanz
+      time: Dauer
+      ascend: Aufsteigend
+      descend: Absteigend
+      download: Route als GeoJSON herunterladen
+      filename: route
+      directions_courtesy_html: Routenanweisungen stammen von %{link}
   issues:
     index:
       title: Probleme
       select_status: Status auswählen
       select_type: Typ auswählen
+      select_last_managed_by: Letzte Verwaltung auswählen
       reported_user: Gemeldeter Benutzer
+      not_managed: Nicht verwaltet
       search: Suchen
       search_guidance: 'Probleme durchsuchen:'
       states:
@@ -1711,6 +1736,7 @@ de:
       status: Status
       reports: Meldungen
       last_updated: Zuletzt aktualisiert
+      last_managed: Zuletzt verwaltet
       reporting_users: Benutzer melden
       reports_count:
         one: Eine Meldung
@@ -1758,9 +1784,15 @@ de:
         diary_comment: '%{entry_title}, Kommentar Nr. %{comment_id}'
         note: Hinweis Nr. %{note_id}
       reportable_heading:
+        diary_comment_html: Blogkommentar %{title} erstellt am %{datetime_created},
+          aktualisiert am %{datetime_updated}
+        diary_entry_html: Blogeintrag %{title} erstellt am %{datetime_created}, aktualisiert
+          am %{datetime_updated}
         note_html: '%{title} erstellt am %{datetime_created}, aktualisiert am %{datetime_updated}'
         user_html: Benutzer %{title} erstellt am %{datetime_created}
     reporters:
+      index:
+        title: 'Melder Problem #%{issue_id}'
       reporters:
         more_reporters: und %{count} mehr
   issue_comments:
@@ -2182,6 +2214,10 @@ de:
       show: Anzeigen
       delete: Löschen
       undelete: Löschen rückgängig machen
+      social_links:
+        title: Links zu sozialen Profilen
+        remove: Entferne
+        add: Social Link hinzufügen
     update:
       success: Profil aktualisiert.
       failure: Profil konnte nicht aktualisiert werden.
@@ -2190,6 +2226,12 @@ de:
       tab_title: Anmelden
       login_to_authorize_html: Melde dich bei OpenStreetMap an, um auf %{client_app_name}
         zuzugreifen.
+      already_logged_in_html: Du bist bereits als %{user} angemeldet. Wenn du dich
+        erneut anmeldest, ändert sich dein aktuelles Konto.
+      access_another_page: 'Du bist hier gelandet beim Versuch, auf eine andere Seite
+        zuzugreifen. Wenn du diese Seite mit deinem aktuellen Konto aufrufen möchtest,
+        klicke auf die folgende Schaltfläche:'
+      visit_referring_page: Zur verweisenden Seite
       email or username: E-Mail-Adresse oder Benutzername
       password: Passwort
       remember: Anmeldedaten merken
@@ -2315,62 +2357,95 @@ de:
         native_link: deutschen Sprachversion
         mapping_link: mit dem Kartieren anfangen
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} sind %{open_data} (open data), lizenziert unter der
-          %{odc_odbl_link} (ODbL) von der %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: offene Daten
-        introduction_1_odc_odbl: Open Data Commons Open Database-Lizenz
-        introduction_1_osm_foundation: OpenStreetMap Stiftung
-        introduction_2_html: |-
+        lead_1_html: |-
+          OpenStreetMap bietet offene Kartendaten für Tausende von Websites, mobilen Apps und Hardwaregeräten.
+          OpenStreetMap wird von einer Community von Menschen wie Ihnen erstellt, die Kartendaten
+          über Straßen, Wanderwege, Cafés, Bahnhöfe und vieles mehr auf der ganzen Welt beitragen und pflegen.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} und %{get_started_mapping_link}!
+          Du kannst mehr im %{osm_blog_link} lesen und %{weeklyosm_link} abonnieren.
+          Finde andere Mapper in deiner lokalen %{osm_community_link}.
+          Unterstütze das Projekt, indem du der %{osm_foundation_link} beitrittst und %{making_donation_link}.
+        lead_2_learn_more_about_osm: Erfahre mehr über OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/DE:Über_OSM
+        lead_2_get_started_mapping: beginne mit der Kartierung
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/?lang=de
+        lead_2_weeklyosm_url: https://weeklyosm.eu/de/
+        lead_2_osm_community: OSM-Community
+        lead_2_making_donation: eine Spende leistest
+        licensing_title: OpenStreetMap-Lizenzierung
+        licensing_1_html: |-
+          OpenStreetMap ist ein %{open} Datensatz, lizenziert unter der
+          %{odc_odbl_link} (ODbL) der %{osm_foundation_link} (OSMF). Zusammengefasst:
+        licensing_1_open: offener
+        licensing_1_odc_odbl: Open Data Commons Open Database-Lizenz
+        licensing_1_osm_foundation: OpenStreetMap Stiftung
+        licensing_2_html: |-
           Es steht dir frei, unsere Daten zu kopieren, weiterzugeben,
           zu übermitteln sowie anzupassen, sofern du OpenStreetMap
           und seine Mitwirkenden als Quelle angibst. Für den Fall, dass
           du auf Basis unserer Daten Anpassungen vornimmst oder sie
           als Grundlage für weitere Bearbeitungen verwendest, kannst
           du das Ergebnis auch nur unter derselben Lizenz weitergeben.
-          Der vollständige %{legal_code_link} erläutert deine Rechte und Pflichten.
-        introduction_2_legal_code: Lizenztext
-        introduction_3_html: Unsere Dokumentation steht unter der %{creative_commons_link}-Lizenz
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Namensnennung – Weitergabe
-          unter gleichen Bedingungen 2.0
+          Der %{legal_code_link} erläutert deine Rechte und Pflichten.
+        licensing_2_legal_code: vollständige Lizenztext bei Open Data Commons
+        licensing_3_html: Unsere Dokumentation ist unter der %{creative_commons_license_link}
+          (CC BY-SA 2.0) lizenziert.
+        licensing_3_creative_commons_license: Creative-Commons-Lizenz Namensnennung
+          – Weitergabe unter gleichen Bedingungen 2.0
+        licensing_4_html: Lies mehr über die Verwendung unserer Daten unter %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: OSMF-Lizenzseite
         credit_title_html: Wie auf die Urheberschaft von OpenStreetMap hinzuweisen
           ist
         credit_1_html: 'Wenn du OpenStreetMap-Daten verwendest, musst du die folgenden
           zwei Bedingungen erfüllen:'
-        credit_2_1: Nennung von OpenStreetMap, indem du unseren Urheberrechts-Hinweis
+        credit_2_attribution: Gib OpenStreetMap als Urheber an, indem du unseren Quellenvermerk
           anzeigst.
-        credit_2_2: Mache deutlich, dass die Daten unter der Open Database-Lizenz
+        credit_2_license: Mache deutlich, dass die Daten unter der Open Database-Lizenz
           verfügbar sind.
-        credit_3_html: Für den Urheberrechts-Hinweis haben wir unterschiedliche Anforderungen,
-          wie dieser angezeigt werden soll, je nachdem, wie du unsere Daten verwendest.
-          Beispielsweise gelten unterschiedliche Regeln für die Anzeige des Urheberrechtshinweises,
-          je nachdem, ob du eine durchsuchbare Karte, eine gedruckte Karte oder ein
-          statisches Bild erstellt hast. Ausführliche Informationen zu den Anforderungen
-          findest du unter %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Richtlinien für Namensnennungen
-        credit_4_1_html: Um klarzustellen, dass die Daten unter der Open Database
-          License verfügbar sind, kannst Du auf %{this_copyright_page_link} verlinken.
-          Alternativ und als Anforderung, wenn Du OSM in einer Datenform verbreitest,
-          kannst Du die Lizenz(en) direkt benennen und verlinken. In Medien, in denen
-          Links nicht möglich sind (z. B. gedruckte Werke), empfehlen wir, Leser auf
-          openstreetmap.org (vielleicht durch das Erweitern von 'OpenStreetMap' auf
-          diese vollständige Adresse) und auf opendatacommons.org zu verweisen. In
-          diesem Beispiel erscheint der Hinweis in der Ecke der Karte.
-        credit_4_1_this_copyright_page: diese Copyright-Seite
+        credit_3_v2025_html: |-
+          Für den Quellenvermerk haben wir unterschiedliche %{requirements_on_how_displayed_link}, je nachdem, wie du unsere Daten verwendest.
+          Beispielsweise gelten unterschiedliche Regeln für die Anzeige des Quellenvermerks, je nachdem, ob du
+          eine durchsuchbare Karte, eine gedruckte Karte oder ein statisches Bild erstellt hast.
+          Weitere Einzelheiten findest du im Abschnitt %{attribution_guidelines_link} der %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: Darstellungsanforderungen
+        credit_3_v2025_attribution_guidelines: Richtlinien für Namensnennungen
+        credit_3_v2025_licensing_requirements: Lizenzanforderungen
+        credit_4_v2025_html: Um deutlich zu machen, dass die Daten unter der Open
+          Database License verfügbar sind, darfst du grundsätzlich auf %{this_copyright_page_link}
+          verlinken. Wenn du OSM in Datenform verbreitest, gib bitte die Lizenz(en)
+          an und verlinke direkt darauf. Bei Medien, bei denen keine Verlinkung möglich
+          ist (z. B. gedruckte Werke), gib bitte die vollständige URL der Seite an,
+          z. B. %{copyright_page_url}.
+        credit_4_v2025_this_copyright_page: diese Copyright-Seite
+        credit_5_v2025_html: 'In diesem Beispiel erscheint die Attribution in der
+          Ecke der Karte:'
         attribution_example:
           alt: Beispiel, wie man auf OpenStreetMap auf einer Webseite hinweist
           title: Namensnennung-Beispiel
-        more_title_html: Weitere Informationen
-        more_1_1_html: Weitere Informationen zur Nutzung unserer Daten und zur Gutschrift
-          findest du unter %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: OSMF-Lizenzseite
-        more_2_1_html: |-
-          Obwohl es sich bei OpenStreetMap um offene Daten handelt, können wir keine kostenlose Karten-API für Dritte bereitstellen.
+        infringement_title_html: Urheberrechtsverletzung
+        infringement_1_html: Die Mitwirkenden von OpenStreetMap weisen wir darauf
+          hin, dass keinesfalls Daten aus urheberrechtlich geschützten Quellen verwendet
+          werden dürfen (z. B. Google Maps oder gedruckte Kartenwerke), ohne vorher
+          die ausdrückliche Erlaubnis des Rechteinhabers erhalten zu haben.
+        infringement_2_1_html: Wenn du glaubst, dass urheberrechtlich geschütztes
+          Material unangemessen zur OpenStreetMap-Datenbank oder dieser Website hinzugefügt
+          wurde, lies bitte %{takedown_procedure_link} oder reiche die Beschwerde
+          direkt bei über %{online_filing_page_link} ein.
+        infringement_2_1_takedown_procedure: Takedown-Verfahren
+        infringement_2_1_online_filing_page: Online-Einreichungsseite
+        trademarks_title: Warenzeichen
+        trademarks_1_1_html: OpenStreetMap, das Lupenlogo und State of the Map sind
+          eingetragene Marken der OpenStreetMap Foundation. Wenn du Fragen zu der
+          Verwendung der Marken hast, lies bitte unsere %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Richtlinie für Warenzeichen
+        services_title_html: Zusätzliche Dienstleistungen
+        services_1_html: |-
+          Obwohl es sich bei OpenStreetMap um offene Daten handelt, können wir keine kostenlose Karten-API oder Kartenkacheln für Dritte bereitstellen.
           Siehe unsere %{api_usage_policy_link}, %{tile_usage_policy_link} und %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: API-Nutzungsrichtlinie
-        more_2_1_tile_usage_policy: Nutzungsrichtlinie für Kacheln
-        more_2_1_nominatim_usage_policy: Nominatim-Nutzungsrichtlinie
+        services_1_api_usage_policy: API-Nutzungsrichtlinie
+        services_1_tile_usage_policy: Nutzungsrichtlinie für Kacheln
+        services_1_nominatim_usage_policy: Nominatim-Nutzungsrichtlinie
         contributors_title_html: Unsere Mitwirkenden
         contributors_intro_html: 'Unsere Mitwirkenden sind tausende einzelne Menschen.
           Wir beziehen auch offen lizenzierte Daten von nationalen Kartenagenturen
@@ -2463,23 +2538,6 @@ de:
         contributors_footer_2_html: Die Einbeziehung von Daten bei OpenStreetMap bedeutet
           nicht, dass der ursprüngliche Datenlieferant OpenStreetMap unterstützt,
           Gewährleistung dafür gibt oder die Haftung dafür übernimmt.
-        infringement_title_html: Urheberrechtsverletzung
-        infringement_1_html: Die Mitwirkenden von OpenStreetMap weisen wir darauf
-          hin, dass keinesfalls Daten aus urheberrechtlich geschützten Quellen verwendet
-          werden dürfen (z. B. Google Maps oder gedruckte Kartenwerke), ohne vorher
-          die ausdrückliche Erlaubnis des Rechteinhabers erhalten zu haben.
-        infringement_2_1_html: Wenn du glaubst, dass urheberrechtlich geschütztes
-          Material unangemessen zur OpenStreetMap-Datenbank oder dieser Website hinzugefügt
-          wurde, lies bitte %{takedown_procedure_link} oder reiche die Beschwerde
-          direkt bei über %{online_filing_page_link} ein.
-        infringement_2_1_takedown_procedure: Takedown-Verfahren
-        infringement_2_1_online_filing_page: Online-Einreichungsseite
-        trademarks_title: Warenzeichen
-        trademarks_1_1_html: |-
-          OpenStreetMap, das Lupenlogo und State of the Map sind eingetragene Marken der
-          OpenStreetMap Foundation. Wenn du Fragen zu der Verwendung der Marken hast, lies bitte unsere
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Richtlinie für Warenzeichen
     index:
       js_1: Dein Browser unterstützt kein JavaScript oder du hast es deaktiviert.
       js_2: OpenStreetMap nutzt JavaScript für die Kartendarstellung.
@@ -2534,10 +2592,6 @@ de:
           explanation_html: |-
             Falls du bei unseren Kartendaten ein Problem bemerkt hast wie das Fehlen einer Straße oder deiner Adresse,
             ist der beste Weg zum Weitermachen der Beitritt zur OpenStreetMap-Gemeinschaft und das Beheben der Daten durch dich selbst.
-        add_a_note:
-          instructions_1_html: |-
-            Klicke einfach auf %{note_icon} oder das gleiche Symbol in der Kartenanzeige.
-            Dadurch wird der Karte eine Markierung hinzugefügt, die du durch Ziehen verschieben kannst. Füge deine Nachricht hinzu und klicke dann auf Speichern. Andere Mapper werden sich dann um die Untersuchung kümmern.
       other_concerns:
         title: Andere Anliegen
         concerns_html: "Wenn du Bedenken hinsichtlich der Verwendung unserer Daten
@@ -2660,17 +2714,16 @@ de:
         automated_edits: Automatisierte Bearbeitungen
       start_mapping: Beginne mit dem Bearbeiten der Karte
       continue_authorization: Autorisierung fortsetzen
-      add_a_note:
-        title: Keine Zeit? Dann füge einen Hinweis ein!
-        para_1: Falls du nur eine Kleinigkeit korrigieren möchtest und dir die Zeit
-          fehlt, dich einzuarbeiten, wie man in OSM Daten editiert, so gib einfach
-          einen Hinweis/melde einen Fehler, dann kann sich ein anderer Mapper darum
-          kümmern.
-        para_2_html: 'Gehe einfach zu %{map_link} und klicke dort auf das Notiz-Symbol:
-          %{note_icon}. Dadurch wird ein Marker auf der Karte hinzugefügt, den Du
-          verschieben kannst, indem Du ihn ziehst. Füge Deine Nachricht hinzu, klicke
-          dann auf Speichern, und andere Mapper werden Deinem Hinweis nachgehen.'
-        the_map: die Karte
+    add_a_note:
+      title: Keine Zeit? Dann füge einen Hinweis ein!
+      para_1: Falls du nur eine Kleinigkeit korrigieren möchtest und dir die Zeit
+        fehlt, dich einzuarbeiten, wie man in OSM Daten editiert, so gib einfach einen
+        Hinweis/melde einen Fehler, dann kann sich ein anderer Mapper darum kümmern.
+      para_2_html: Klicke einfach auf %{note_icon} oder das gleiche Symbol in %{map_link}.
+        Dadurch wird eine Markierung auf der Karte hinzugefügt, die du durch Ziehen
+        verschieben kannst. Füge deine Nachricht hinzu, klicke dann auf Speichern,
+        und andere Mapper werden deinem Hinweis nachgehen.
+      the_map: die Karte
     communities:
       title: Gemeinschaften
       lede_text: |-
@@ -2702,7 +2755,7 @@ de:
         secondary: Landes-, Kreisstraße
         unclassified: Straße
         pedestrian: Fußgängerzone
-        track: Wald-, Feldweg
+        track: Feld-/Waldweg
         bridleway: Reitweg
         cycleway: Radweg
         international_bike_route: Internationale Radroute
@@ -2782,6 +2835,7 @@ de:
         bicycle_parking: Fahrradparkplatz
         bicycle_parking_small: Kleiner Fahrradabstellplatz
         toilets: Toiletten
+      see_external_legend: Siehe externe Kartenlegende
   traces:
     visibility:
       private: Privat (werden nur als anonyme, unsortierte Punkte ohne Zeitangaben
@@ -2926,6 +2980,9 @@ de:
         title: Mit Wikipedia anmelden
         alt: Wikipedia Logo
     share:
+      share:
+        title: Teilen
+        alt: Teilen-Symbol
       email:
         title: Per E-Mail teilen
         alt: E-Mail-Symbol
@@ -3089,6 +3146,7 @@ de:
       follow: Folgen
       mapper since: 'Mapper seit:'
       last map edit: 'Letzte Kartenbearbeitung:'
+      home location: Heimatort
       no activity yet: Noch keine Aktivität
       uid: 'Benutzer-ID:'
       ct status: 'Bedingungen für Mitwirkende:'
@@ -3124,6 +3182,9 @@ de:
       delete_user: Benutzer löschen
       confirm: Bestätigen
       report: Diesen Benutzer melden
+      contributions:
+        one: '%{count} Beitrag im letzten Jahr'
+        other: '%{count} Beiträge im letzten Jahr'
     go_public:
       flash success: Alle deine Bearbeitungen sind nun öffentlich und du kannst nun
         die Kartendaten bearbeiten.
@@ -3516,14 +3577,18 @@ de:
       queryfeature_tooltip: Objektabfrage
       queryfeature_disabled_tooltip: Für Objektabfrage vergrößern
       embed_html_disabled: Für diese Kartenebene ist keine HTML-Einbettung verfügbar
+    social_links:
+      remove: Entferne
     edit_help: Wähle eine höhere Zoomstufe und verschiebe die Karte an einen Ort,
       den du bearbeiten möchtest, und klicke hier.
     directions:
-      ascend: Aufsteigend
-      descend: Absteigend
-      distance: Distanz
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
+        miles:
+          ft: '%{distance}ft'
+          mi: '%{distance}mi'
       errors:
         no_route: Wir konnten keine Strecke zwischen diesen beiden Orten berechnen.
         no_place: Wir konnten den Ort „%{place}“ leider nicht finden.
@@ -3594,7 +3659,6 @@ de:
         exit_roundabout: Kreisverkehr auf %{name} verlassen
         ferry_without_exit: Die Fähre %{name} nehmen
         unnamed: unbekannt
-        courtesy: Routenanweisungen stammen von %{link}
         exit_counts:
           first: erste
           second: zweite
@@ -3606,9 +3670,6 @@ de:
           eighth: achte
           ninth: neunte
           tenth: zehnte
-      time: Zeit
-      download: Route als GeoJSON herunterladen
-      filename: route
     query:
       node: Knoten
       way: Linie

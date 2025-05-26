@@ -31,6 +31,9 @@
 # Author: Ziko
 ---
 eo:
+  date:
+    formats:
+      heatmap: la %-d-a de %B
   time:
     formats:
       friendly: '%e %B %Y je %H:%M'
@@ -66,6 +69,10 @@ eo:
       models:
         user_mute:
           is_already_muted: jam estas silentigita
+        social_link:
+          attributes:
+            url:
+              http_parse_error: ligilo komenciĝu per http:// aŭ https://
     models:
       acl: Listo de kontrolo de akiroj
       changeset: Ŝanĝaro
@@ -225,7 +232,7 @@ eo:
         one: antaŭ %{count} jaro
         other: antaŭ %{count} jaroj
   editor:
-    default: Implicita (nune %{name})
+    default: implicita (nune %{name})
     id:
       name: iD
       description: iD (en-retfoliumila redaktilo)
@@ -638,9 +645,6 @@ eo:
       title_nearby: Taglibroj de proksimaj uzantoj
       user_title: Taglibro de %{user}
       in_language_title: Taglibraj afiŝoj en %{language}
-      new: Nova taglibra afiŝo
-      new_title: Krei novan afiŝon en mia uzant-taglibro
-      my_diary: Mia taglibro
       no_entries: Neniu taglibra afiŝo
     page:
       recent_entries: Lastaj taglibraj afiŝoj
@@ -700,6 +704,16 @@ eo:
     unsubscribe:
       heading: Ĉu malaboni diskuton pri tiu ĉi taglibra afiŝo?
       button: Malaboni diskuton
+    navigation:
+      in_language: Taglibraj afiŝoj en %{language}
+      my_diary: Mia taglibro
+      new: Nova taglibra afiŝo
+      new_title: Krei novan afiŝon en mia uzant-taglibro
+    profile_diaries:
+      latest_diaries: Plej novaj afiŝoj en taglibro
+      comments:
+        one: '%{count} komento'
+        other: '%{count} komentoj'
   diary_comments:
     new:
       heading: Ĉu aldoni komenton al la diskuto pri tiu ĉi taglibra afiŝo?
@@ -1606,8 +1620,17 @@ eo:
         no_results: Neniu rezulto trovita
         more_results: Pliaj rezultoj
   directions:
-    search:
+    show:
       title: Kurso
+      distance: Distanco
+      time: Tempo
+      ascend: Supreniro
+      descend: Malsupreniro
+      button_km: km
+      button_mi: mi
+      download: Elŝuti kurson kiel GeoJSON
+      filename: kurso
+      directions_courtesy_html: Kalkulado de kurso danke al %{link}
   issues:
     index:
       title: Problemoj
@@ -2072,6 +2095,10 @@ eo:
       show: Montri
       delete: Forigi
       undelete: Malforigi
+      social_links:
+        title: Ligiloj al sociaj komunikiloj
+        remove: Forigi
+        add: Aldoni ligilon al socia komunikilo
     update:
       success: Aktualigis profilon.
       failure: Ne povis aktualigi la profilon.
@@ -2201,56 +2228,85 @@ eo:
         native_link: Esperanta versio
         mapping_link: ekigi mapigadon
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} estas %{open_data}
-          eldonataj laŭ la permesilo %{odc_odbl_link} (ODbL) fare de la %{osm_foundation_link}
-          (OSMF).
-        introduction_1_open_data: malfermaj datumoj
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: Fondaĵo OpenStreetMap
-        introduction_2_html: Vi rajtas kopii, disdoni, transdoni kaj modifi niajn
+        lead_1_html: OpenStreetMap liveras malfermajn map-datumojn por miloj da retejoj,
+          poŝtelefonaj aplikaĵoj kaj aparatoj. OpenStreetMap estas kreata de la komunumo
+          de homoj kiel vi, kiuj kontribuas kaj prizorgas map-datumojn pri vojoj,
+          kursoj, kafejoj, fervojaj stacioj kaj pli de la tuta mondo.
+        lead_2_html: '%{learn_more_about_osm_link} kaj %{get_started_mapping_link}!
+          Vi povas legi pli en la %{osm_blog_link} kaj aboni la novaĵfluon %{weeklyosm_link}.
+          Trovu aliajn mapigistojn en via loka %{osm_community_link}. Subtenu la projekton
+          per aniĝi al la %{osm_foundation_link} kaj per %{making_donation_link}.'
+        lead_2_learn_more_about_osm: Sciiĝu pli pri OpenStreetMap
+        lead_2_get_started_mapping: ekigu mapigi
+        lead_2_osm_blog: OpenStreetMap-taglibro
+        lead_2_osm_community: komunumo OSM
+        lead_2_osm_foundation: Fondaĵo OpenStreetMap
+        lead_2_making_donation: donaci monon
+        licensing_title: Permesiloj
+        licensing_1_html: 'OpenStreetMap estas %{open} datumoj, eldonataj laŭ la permesilo
+          %{odc_odbl_link} (ODbL) fare de la %{osm_foundation_link}. Sumigo:'
+        licensing_1_open: malfermaj
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: Fondaĵo OpenStreetMap
+        licensing_2_html: Vi rajtas libere kopii, disdoni, transdoni kaj modifi niajn
           datumojn, nur se vi atribuos aŭtorecon al OpenStreetMap kaj ĝiaj kontribuintoj.
           Se vi modifos aŭ uzos niajn datumojn, vi povos distribui la rezulton nur
-          laŭ la sama permesilo. La plena %{legal_code_link} klarigas viajn rajtojn
-          kaj devojn.
-        introduction_2_legal_code: jura teksto
-        introduction_3_html: Nia dokumentaro estas eldonata laŭ la permesilo %{creative_commons_link}
+          laŭ la sama permesilo. La %{legal_code_link} klarigas viajn rajtojn kaj
+          devojn.
+        licensing_2_legal_code: plena teksto de la permesilo ĉe Open Data Commons
+        licensing_3_html: Nia dokumentaro estas eldonata laŭ la permesilo %{creative_commons_license_link}
           (CC BY-SA 2.0).
-        introduction_3_creative_commons: Krea Komunaĵo Atribuite-Samkondiĉe 2.0
-        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.eo
+        licensing_3_creative_commons_license: Creative Commons Atribuite-Samkondiĉe
+          2.0 Ĝenerala
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.eo
+        licensing_4_html: Pliaj informoj pri uzado de niaj datumoj troviĝas sur la
+          %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: retpaĝo “Permesilo” ĉe OSMF
         credit_title_html: Kiel atribui aŭtorecon
         credit_1_html: 'Kiam vi uzas OpenStreetMap-datumojn, vi devas fari la jenajn
           du agojn:'
-        credit_2_1: afiŝi aŭtorecon al OpenStreetMap per montri nian noton pri aŭtorrajtoj;
-        credit_2_2: klarigi, ke la datumoj estas eldonitaj laŭ la permesilo Open Database
-          License.
-        credit_3_html: Por la noto pri aŭtorrajtoj, niaj postuloj pri kiel montri
-          ĝin dependas de maniero en kiu vi uzas niajn datumojn. Ekzemple malsamaj
-          reguloj aplikiĝas kiam vi kreas enretan ŝoveblan mapon, statikan mapon aŭ
-          presitan mapon. Plenaj detaloj pri la postuloj troviĝas en la %{attribution_guidelines_link}
-          (en la angla).
-        credit_3_attribution_guidelines: konsiloj pri atribuo
-        credit_4_1_html: Por klare indiki, ke la datumoj estas disponeblaj laŭ la
-          permesilo Open Database License, vi povas enmeti ligilon al %{this_copyright_page_link}
-          tiu ĉi paĝo pri aŭtorrajtoj. Alimaniere, se vi distribuas OSM kiel datumojn
-          vi povas enmeti nomojn kaj ligilojn al la permesiloj. Kiam ne eblas enmeti
-          ligilojn (ekzemple en paperaj materialoj), ni sugestas direkti la uzantojn
-          al openstreetmap.org (aŭ eĉ liveri la plenan ligilon de tiu ĉi retpaĝo)
-          kaj al opendatacommons.org. En la suba ekzemplo la noto pri aŭtorrajtoj
-          troviĝas ĉe la angulo de la mapo.
-        credit_4_1_this_copyright_page: tiu ĉi paĝo de aŭtorrajtoj
+        credit_2_attribution: Afiŝi aŭtorecon al OpenStreetMap per montri nian aŭtorec-noton.
+        credit_2_license: Klarigi, ke la datumoj estas eldonitaj laŭ la permesilo
+          Open Database License.
+        credit_3_v2025_html: Por la aŭtorec-noto, ni havas kelkajn %{requirements_on_how_displayed_link},
+          depende de kiel via uzas niajn datumojn. Ekzemple, malsamaj reguloj aplikiĝas
+          al foliumebla mapo, al presita mapo aŭ al senmova bildo. Pliaj detaloj troviĝas
+          en %{attribution_guidelines_link} en la sekcio %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: postulojn pri kiel ĝi estu montrata
+        credit_3_v2025_attribution_guidelines: konsiloj pri atribui aŭtorecon
+        credit_3_v2025_licensing_requirements: postuloj de la permesilo
+        credit_4_v2025_html: 'Ĝenerale, por klarigi, ke datumoj estas eldonitaj laŭ
+          la permesilo ODbL, vi povas montri ligilon al %{this_copyright_page_link}.
+          Se vi distribuas OSM kiel datumojn, liveru ĝian nomon kaj senpera(j)n ligilo(j)n
+          al permesilo(j). Tiam, kiam tio ne eblas (ekzemple en presaĵoj), montru
+          la plenan ligilon sur la paĝo: %{copyright_page_url}.'
+        credit_4_v2025_this_copyright_page: tiu ĉi retpaĝo pri aŭtorrajtoj
+        credit_5_v2025_html: 'En la jena ekzemplo, la aŭtorec-noto aperas en angulo
+          de la mapo:'
         attribution_example:
           alt: Ekzemplo kiel atribui OpenStreetMap sur retpaĝo
           title: Ekzemplo de aŭtorec-atribuado
-        more_title_html: Pliaj informoj
-        more_1_1_html: Pliaj informoj pri uzado de niaj datumoj kaj pri atribuado
-          troviĝas sur la %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: retpaĝo “permesilo” ĉe OSMF
-        more_2_1_html: Kvankam OpenStreetMap estas malfermaj datumoj, ni ne povas
-          liveri senpagan API al triaj partioj. Ekkonu kun %{api_usage_policy_link},
-          %{tile_usage_policy_link} kaj %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: uzkondiĉoj de API
-        more_2_1_tile_usage_policy: uzkondiĉoj de kaheloj
-        more_2_1_nominatim_usage_policy: uzkondiĉoj de Nominatim
+        infringement_title_html: Rompo de aŭtorrajtoj
+        infringement_1_html: OSM-kunlaborantoj memoru, por ke neniam aldonu datumojn
+          el iuj ajn fontoj protektataj de aŭtorrajtoj (ekz. Google Maps aŭ paperaj
+          mapoj) sen klara permeso de posedanto de aŭtorrajtoj.
+        infringement_2_1_html: Se viaopinie iu materialo protektata per aŭtorrajtoj
+          estas kontraŭleĝe aldonita al la OpenStreetMap-datumbazo aŭ al tiu ĉi retejo,
+          legu pri la %{takedown_procedure_link} aŭ senpere plenigu nian %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: foriga proceduro
+        infringement_2_1_online_filing_page: enretan formularon
+        trademarks_title: Varmarkoj
+        trademarks_1_1_html: «OpenStreetMap», la bildsimbolo de lupeo kaj «State of
+          the Map» estas registritaj varmarkoj de la Fondaĵo OpenStreetMap. Se vi
+          havas demandojn pri via uzo de la varmarkoj, legu nian %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Politikon pri varmarkoj
+        services_title_html: Aliaj servoj
+        services_1_html: 'Kvankam OpenStreetMap estas malfermaj datumoj, ni ne povas
+          liveri senpagajn API kaj map-kahelojn al aliuloj. Ekkonu kun la dokumentoj:
+          %{api_usage_policy_link}, %{tile_usage_policy_link} kaj %{nominatim_usage_policy_link}.'
+        services_1_api_usage_policy: Uzkondiĉoj de API
+        services_1_tile_usage_policy: Uzkondiĉoj de kaheloj
+        services_1_nominatim_usage_policy: Uzkondiĉoj de Nominatim
         contributors_title_html: Kunlaborantoj
         contributors_intro_html: 'Niaj kunlaborantoj estas miloj da homoj. Ni ankaŭ
           inkludas datumoj laŭ malferma permesilo el landaj kartografiaj organizaĵoj
@@ -2337,20 +2393,6 @@ eo:
         contributors_footer_2_html: Inkludo de datumoj en OpenStreetMap ne indikas,
           ke la provizanto de datumoj apogas OpenStreetMap, garantias por iu aŭ respondumas
           por iu.
-        infringement_title_html: Rompo de aŭtorrajtoj
-        infringement_1_html: OSM-kunlaborantoj memoru, por ke neniam aldonu datumojn
-          el iuj ajn fontoj protektataj de aŭtorrajtoj (ekz. Google Maps aŭ paperaj
-          mapoj) sen klara permeso de posedanto de aŭtorrajtoj.
-        infringement_2_1_html: Se viaopinie iu materialo protektata per aŭtorrajtoj
-          estas kontraŭleĝe aldonita al la OpenStreetMap-datumbazo aŭ al tiu ĉi retejo,
-          legu pri la %{takedown_procedure_link} aŭ senpere plenigu nian %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: foriga proceduro
-        infringement_2_1_online_filing_page: enretan formularon
-        trademarks_title: Varmarkoj
-        trademarks_1_1_html: OpenStreetMap, la emblemo de lupeo kaj State of the Map
-          estas registritaj varmarkoj de la Fondaĵo OpenStreetMap. Se vi havas demandojn
-          pri via uzo de la varmarkoj, legu nian %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: politikon pri varmarkoj
     index:
       js_1: Vi aŭ uzas foliumilon, kiu ne subtenas Ĝavoskripton, aŭ vi havas ĝin malaktivan.
       js_2: OpensStreetMap uzas Ĝavoskripton por montri ŝoveblan mapon.
@@ -2401,11 +2443,6 @@ eo:
           explanation_html: Se vi rimarkis iun problemon kun niaj map-datumoj, ekzemple
             strato aŭ adreso mankas, la plej bona rimedo estas aniĝi OpenStreetMap-komunumo
             kaj redakti kaj ripari datumojn mem.
-        add_a_note:
-          instructions_1_html: Simple alklaku %{note_icon} aŭ la saman bildsimbolon
-            sur la mapo. Tiel markilo estos aldonita la la mapo, kiun vi povos movi
-            per ŝovi ĝin. Skribu vian mesaĝon, alklaku “Konservi” kaj aliaj mapigistoj
-            okupiĝos pri ĝi.
       other_concerns:
         title: Aliaj aferoj
         concerns_html: Se vi havas demandojn pri kiel niaj datumoj estas uzataj aŭ
@@ -2519,15 +2556,14 @@ eo:
         automated_edits: aŭtomataj redaktoj
       start_mapping: Ekigi mapigadon
       continue_authorization: Daŭrigi Rajtigon
-      add_a_note:
-        title: Ĉu mankas al vi tempo por redakti? Aldonu rimarkon!
-        para_1: Se vi volas nur korekti iun etan kaj vi ne havas tempon por registriĝi
-          kaj lerni redaktadon, vi povas facile aldoni rimarkon.
-        para_2_html: 'Simple malfermu la %{map_link} kaj alklaku la bildsimbolon de
-          rimarko: %{note_icon}. Tiel vi aldonos ŝoveblan markon al la mapo. Enigu
-          vian mesaĝon, alklaku “Aldoni rimarkon” kaj aliaj mapigistoj okupiĝos pri
-          ĝi.'
-        the_map: mapon
+    add_a_note:
+      title: Ĉu mankas al vi tempo por redakti? Aldonu rimarkon!
+      para_1: Se vi volas nur korekti iun etan kaj vi ne havas tempon por registriĝi
+        kaj lerni redaktadon, vi povas facile aldoni rimarkon.
+      para_2_html: Simple alklaku %{note_icon} aŭ la saman bildsimbolon sur %{map_link}.
+        Tiel markilo estos aldonita al la mapo, kiun vi povos movi per ŝovi ĝin. Skribu
+        vian mesaĝon, alklaku “Konservi” kaj aliaj mapigistoj okupiĝos pri ĝi.
+      the_map: mapon
     communities:
       title: Komunumoj
       lede_text: Homoj de la tuta mondo kontribuas al aŭ uzas OpenStreetMap. Dum kiam
@@ -2552,6 +2588,10 @@ eo:
           aŭ kiel komunumoj. Ĉiu povas aliĝi aŭ krei la propran. Pliaj informoj troviĝas
           sur %{communities_wiki_link}.
         communities_wiki: tiu ĉi viki-paĝo
+  social_links:
+    show:
+      one: alia
+      other: aliaj
   map_keys:
     show:
       entries:
@@ -2642,6 +2682,7 @@ eo:
         bicycle_parking: Parkumejo bicikla
         bicycle_parking_small: Malgranda parkumejo bicikla
         toilets: Necesejo
+      see_external_legend: Montri eksteran mapklarigon
   traces:
     visibility:
       private: privata (kunhavigata nur kiel sennomaj, malordigitaj punktoj)
@@ -2979,6 +3020,9 @@ eo:
       delete_user: Forigi ĉi tiun uzanton
       confirm: Konfirmi
       report: Raporti tiun ĉi uzanton
+      contributions:
+        one: '%{count} kontribuo dum la antaŭa jaro'
+        other: '%{count} kontribuoj dum la antaŭa jaro'
     go_public:
       flash success: Ĉiuj viaj redaktoj naŭ estas publikaj, kaj vi naŭ rajtas redakti.
     issued_blocks:
@@ -3354,14 +3398,18 @@ eo:
       queryfeature_tooltip: Montri informojn pri objekto
       queryfeature_disabled_tooltip: Pligrandigu por montri informojn pri objektoj
       embed_html_disabled: HTML-enigo ne haveblas por ĉi tiu mapo-tavolo
+    social_links:
+      remove: Forigi
     edit_help: Movu la mapon kaj pligrandigu al loko kiun vi volas redakti, kaj poste
       alklaku tie ĉi.
     directions:
-      ascend: Supreniro
-      descend: Malsupreniro
-      distance: Distanco
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance} m'
+          km: '%{distance} km'
+        miles:
+          ft: '%{distance} ft'
+          mi: '%{distance} mi'
       errors:
         no_route: Ne povis trovi kurson inter tiuj du punktoj.
         no_place: Bedaŭrinde ne povas trovi “%{place}”.
@@ -3433,7 +3481,6 @@ eo:
         exit_roundabout: Elveturu el trafikcirklo al %{name}
         ferry_without_exit: Enigu la pramon %{name}
         unnamed: sennoma vojo
-        courtesy: Kalkulado de kurso danke al %{link}
         exit_counts:
           first: 1-an
           second: 2-an
@@ -3445,9 +3492,6 @@ eo:
           eighth: 8-an
           ninth: 9-an
           tenth: 10-an
-      time: Tempo
-      download: Elŝuti kurson kiel GeoJSON
-      filename: kurso
     query:
       node: Nodo
       way: Linio

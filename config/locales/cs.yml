@@ -697,9 +697,6 @@ cs:
       title_nearby: Deníky uživatelů poblíž
       user_title: Deník uživatele %{user}
       in_language_title: Deníkové záznamy v jazyce %{language}
-      new: Nový záznam do deníku
-      new_title: Vložit nový záznam do mého uživatelského deníku
-      my_diary: Můj deník
       no_entries: Žádné záznamy v deníku
     page:
       recent_entries: Nedávné deníkové záznamy
@@ -761,6 +758,10 @@ cs:
     unsubscribe:
       heading: Odhlásit odběr následující diskuse k deníkovému záznamu?
       button: Zrušit odběr diskuse
+    navigation:
+      my_diary: Můj deník
+      new: Nový záznam do deníku
+      new_title: Vložit nový záznam do mého uživatelského deníku
   diary_comments:
     new:
       heading: Přidat komentář do následující diskuse k deníkovému záznamu?
@@ -1643,8 +1644,17 @@ cs:
         no_results: Nenalezeny žádné výsledky
         more_results: Další výsledky
   directions:
-    search:
+    show:
       title: Pokyny
+      distance: Vzdálenost
+      time: Čas
+      ascend: Výstup
+      descend: Klesání
+      button_km: km
+      button_mi: mi
+      download: Stáhnout trasu jako GeoJSON
+      filename: trasa
+      directions_courtesy_html: Trasa díky %{link}
   issues:
     index:
       title: Problémy
@@ -2126,6 +2136,12 @@ cs:
     new:
       tab_title: Přihlášení
       login_to_authorize_html: Pro přístup k %{client_app_name} se přihlaste do OpenStreetMap.
+      already_logged_in_html: Již jste přihlášeni jako %{user}. Opětovné přihlášení
+        změní váš aktuální účet.
+      access_another_page: 'Na tuto stránku jste dorazili při pokusu o přístup na
+        jinou stránku. Pokud chcete tuto stránku navštívit pomocí stávajícího účtu,
+        klikněte na tlačítko níže:'
+      visit_referring_page: Navštívit odkazující stránku
       email or username: E-mailová adresa nebo uživatelské jméno
       password: Heslo
       remember: Zapamatuj si mě
@@ -2241,61 +2257,38 @@ cs:
         native_link: českou verzi
         mapping_link: začít mapovat
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} jsou %{open_data},
-          která za podmínek %{odc_odbl_link} (ODbL) nabízí %{osm_foundation_link}
-          (OSMF).
-        introduction_1_open_data: otevřená data
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: Nadace OpenStreetMap
-        introduction_2_html: Smíte kopírovat, distribuovat, sdělovat veřejnosti a
-          upravovat naše data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele.
-          Pokud naše data budete upravovat nebo je použijete ve svém díle, musíte
-          výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny
-          v plném %{legal_code_link}.
-        introduction_2_legal_code: licenčním ujednání
-        introduction_3_html: Naše dokumentace je licencována pod licencí %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Uveďte autora-Zachovejte
-          licenci 2.0
-        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.cs
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: Nadace OpenStreetMap
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.cs
+        licensing_4_osmf_license_page: licenční stránce OSMF
         credit_title_html: Jak uvádět OpenStreetMap
         credit_1_html: 'Pokud používáte data OpenStreetMap, máte povinnost učinit
           následující dvě věci:'
-        credit_2_1: Uvést jako zdroj OpenStreetMap zobrazením naší informace o autorských
-          právech.
-        credit_2_2: Jasně uvést, že data jsou dostupná za podmínek Open Database License.
-        credit_3_html: |-
-          Co se týká uvedení autorských práv, liší se naše požadavky podle toho,
-          jak naše data používáte. Různá pravidla například platí, když tvoříte
-          interaktivní mapu, tištěnou mapu nebo statický obrázek. Podrobné
-          informace k požadavkům naleznete
-          v %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Pokynech pro uvádění původu
-        credit_4_1_html: |-
-          Aby bylo zřejmé, že jsou data dostupná za podmínek Open
-          Database License, můžete odkázat na
-          %{this_copyright_page_link}. Jinou možností – a povinností v případě,
-          že OSM šíříte v datové podobě, můžete uvést a odkázat přímo
-          na licenci. Ve formě, ve které odkazování není možné (např.
-          v tištěných dílech), navrhujeme, abyste čtenáře nasměřovali
-          na openstreetmap.org (např. rozšířením „OpenStreetMap“ na
-          tuto celou adresu) a opendatacommons.org.
-          V tomto příkladu se informace o zdroji objevuje v rohu mapy.
-        credit_4_1_this_copyright_page: tuto stránku k autorským právům
+        credit_2_license: Jasně uvést, že data jsou dostupná za podmínek Open Database
+          License.
+        credit_3_v2025_attribution_guidelines: Pokynech pro uvádění původu
+        credit_4_v2025_this_copyright_page: tuto stránku k autorským právům
         attribution_example:
           alt: Příklad, jak uvádět autorství OpenStreetMap na webové stránce
           title: Příklad uvedení autorství
-        more_title_html: Další informace
-        more_1_1_html: O používání našich dat a způsobu uvádění autorství se můžete
-          dočíst více na %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: licenční stránce OSMF
-        more_2_1_html: |-
-          Přestože jsou OpenStreetMap otevřená data, nemůžeme třetím stranám poskytovat
-          bezplatné mapové API.
-          Vizte naše %{api_usage_policy_link}, %{tile_usage_policy_link} a %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Pravidla použití API
-        more_2_1_tile_usage_policy: Pravidla použití dlaždic
-        more_2_1_nominatim_usage_policy: Pravidla použití Nominatimu
+        infringement_title_html: Porušení autorských práv
+        infringement_1_html: Přispěvatelům OSM připomínáme, že by nikdy neměli přidávat
+          data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné
+          mapy) bez výslovného svolení držitelů práv.
+        infringement_2_1_html: Pokud si myslíte, že byl do databáze OpenStreetMap
+          nebo na tento server neoprávněně vložen autorskoprávně chráněný obsah, postupujte
+          podle našeho %{takedown_procedure_link} nebo přímo podejte výzvu pomocí
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: postupu pro odstranění
+        infringement_2_1_online_filing_page: on-line formuláře
+        trademarks_title: Ochranné známky
+        trademarks_1_1_html: OpenStreetMap, jeho logo s lupou a State of the Map jsou
+          zapsané ochranné známky OpenStreetMap Foundation. Pokud máte dotazy ohledně
+          vašeho používání těchto známek, vizte naše %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Pravidla k ochranným známkám
+        services_1_api_usage_policy: Pravidla použití API
+        services_1_tile_usage_policy: Pravidla použití dlaždic
+        services_1_nominatim_usage_policy: Pravidla použití Nominatimu
         contributors_title_html: Naši přispěvatelé
         contributors_intro_html: 'Našimi přispěvateli jsou tisíce jednotlivců. Také
           zahrnujeme svobodně licencovaná data z národních zeměměřických úřadů a dalších
@@ -2380,21 +2373,6 @@ cs:
         contributors_footer_2_html: Zahrnutí dat do OpenStreetMap neznamená, že původní
           poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá
           jakoukoli zodpovědnost.
-        infringement_title_html: Porušení autorských práv
-        infringement_1_html: Přispěvatelům OSM připomínáme, že by nikdy neměli přidávat
-          data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné
-          mapy) bez výslovného svolení držitelů práv.
-        infringement_2_1_html: Pokud si myslíte, že byl do databáze OpenStreetMap
-          nebo na tento server neoprávněně vložen autorskoprávně chráněný obsah, postupujte
-          podle našeho %{takedown_procedure_link} nebo přímo podejte výzvu pomocí
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: postupu pro odstranění
-        infringement_2_1_online_filing_page: on-line formuláře
-        trademarks_title: Ochranné známky
-        trademarks_1_1_html: OpenStreetMap, jeho logo s lupou a State of the Map jsou
-          zapsané ochranné známky OpenStreetMap Foundation. Pokud máte dotazy ohledně
-          vašeho používání těchto známek, vizte naše %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Pravidla k ochranným známkám
     index:
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript
         zakázaný.
@@ -2446,10 +2424,6 @@ cs:
           explanation_html: Pokud jste si všimli nějakého nedostatku našich mapových
             dat, např. chybějící silnice nebo vaše adresa, nejlepším řešením je připojit
             se ke komunitě OpenStreetMap a přidat nebo opravit data vlastnoručně.
-        add_a_note:
-          instructions_1_html: |-
-            Stačí kliknout na %{note_icon} nebo na stejnou ikonku na zobrazené mapě.
-            Tím do mapy přidáte značku, kterou můžete přesunout tažením myší. Přidejte svou zprávu a klikněte na uložit a ostatní uživatelé se na to podívají.
       other_concerns:
         title: Jiné problémy
         concerns_html: Pokud máte pochyby o používání našich dat nebo jejich obsahu,
@@ -2564,15 +2538,11 @@ cs:
         automated_edits: Automatizované úpravy
       start_mapping: Začít mapovat
       continue_authorization: Pokračovat v autorizaci
-      add_a_note:
-        title: Nemáte čas editovat? Přidejte poznámku!
-        para_1: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat
-          a učit se editovat, můžete jednoduše přidat poznámku.
-        para_2_html: |-
-          Stačí přejít na %{map_link} a kliknout na ikonu poznámky: %{note_icon}.
-          Tím přidáte značku na mapu, kterou můžete přesunout přetažením.
-          Přidejte svou zprávu, poté klikněte na Uložit a další mapovači to prozkoumají.
-        the_map: mapu
+    add_a_note:
+      title: Nemáte čas editovat? Přidejte poznámku!
+      para_1: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat
+        a učit se editovat, můžete jednoduše přidat poznámku.
+      the_map: mapu
     communities:
       title: Komunity
       lede_text: |-
@@ -2997,6 +2967,7 @@ cs:
       follow: Sledovat
       mapper since: 'Účastník projektu od:'
       last map edit: 'Poslední úprava mapy:'
+      home location: Poloha domova
       no activity yet: Zatím žádná činnost
       uid: 'ID uživatele:'
       ct status: 'Podmínky pro přispěvatele:'
@@ -3432,11 +3403,13 @@ cs:
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte
       zde.
     directions:
-      ascend: Výstup
-      descend: Klesání
-      distance: Vzdálenost
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance} m'
+          km: '%{distance} km'
+        miles:
+          ft: '%{distance} ft'
+          mi: '%{distance} mi'
       errors:
         no_route: Nepodařilo se nalézt trasu mezi zadanými místy.
         no_place: Omlouváme se – nepodařilo se nám najít „%{place}“.
@@ -3504,7 +3477,6 @@ cs:
         exit_roundabout: Z kruhového objezdu vyjeďte na %{name}
         ferry_without_exit: Nastupte na trajekt %{name}
         unnamed: nepojmenovaná cesta
-        courtesy: Trasa díky %{link}
         exit_counts:
           first: "1."
           second: "2."
@@ -3516,9 +3488,6 @@ cs:
           eighth: "8."
           ninth: "9."
           tenth: "10."
-      time: Čas
-      download: Stáhnout trasu jako GeoJSON
-      filename: trasa
     query:
       node: Uzel
       way: Cesta

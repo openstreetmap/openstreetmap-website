@@ -607,9 +607,6 @@ lt:
       title_nearby: Netoliese esančių naudotojų dienoraščiai
       user_title: '%{user} dienoraštis'
       in_language_title: 'Dienoraščio įrašai: %{language}'
-      new: Naujas dienoraščio įrašas
-      new_title: Sukurti naują mano dienoraščio įrašą
-      my_diary: Mano dienoraštis
       no_entries: Nėra dienoraščio įrašų
     page:
       recent_entries: Paskutiniai dienoraščio įrašai
@@ -669,6 +666,10 @@ lt:
     unsubscribe:
       heading: Atsisakyti šios dienoraščio įrašo diskusijos prenumeratos?
       button: Atsisakyti diskusijos prenumeratos
+    navigation:
+      my_diary: Mano dienoraštis
+      new: Naujas dienoraščio įrašas
+      new_title: Sukurti naują mano dienoraščio įrašą
   diary_comments:
     new:
       heading: Pridėti komentarą prie šios dienoraščio įrašo diskusijos?
@@ -1467,8 +1468,13 @@ lt:
         no_results: Daugiau rezultatų nėra
         more_results: Daugiau rezultatų
   directions:
-    search:
+    show:
       title: Nurodymai
+      distance: Atstumas
+      time: Laikas
+      ascend: Pakilimas
+      descend: Nusileidimas
+      directions_courtesy_html: Nuorodas pateikė %{link}
   issues:
     index:
       title: Problemos
@@ -2017,55 +2023,30 @@ lt:
         native_link: Lietuviška versija
         mapping_link: pradėti žymėjimą
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} yra %{open_data}, licencijuota pagal
-          %{odc_odbl_link} (ODbL) pagal %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: atviri duomenys
-        introduction_1_odc_odbl: Open Data Commons Open Database licencija
-        introduction_1_osm_foundation: OpenStreetMap fondas
-        introduction_2_html: Galite laisvai kopijuoti, platinti, perduoti ir pritaikyti
-          mūsų duomenis, jei tik nurodysite OpenStreetMap ir jo pagalbininkus. Jei
-          pakeisite arba remsitės mūsų duomenimis, rezultatus galite platinti tik
-          pagal tą pačią licenciją. Pilnas %{legal_code_link} paaiškina jūsų teises
-          ir pareigas.
-        introduction_2_legal_code: teisinis kodas
-        introduction_3_html: Mūsų dokumentai yra licencijuoti pagal %{creative_commons_link}
-          licenciją (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
+        licensing_1_odc_odbl: Open Data Commons Open Database licencija
+        licensing_1_osm_foundation: OpenStreetMap fondas
+        licensing_4_osmf_license_page: OSMF licencijos puslapis
         credit_title_html: Kaip paminėti OpenStreetMap
         credit_1_html: 'Naudodami OpenStreetMap duomenis, privalote atlikti šiuos
           du dalykus:'
-        credit_2_1: Nurodykite priskyrimą naudojant OpenStreetMap autorių teisių pranešimą.
-        credit_2_2: Paaiškinkite, kad duomenys yra prieinami pagal atviros duomenų
+        credit_2_license: Paaiškinkite, kad duomenys yra prieinami pagal atviros duomenų
           bazės licenciją.
-        credit_3_html: |-
-          Autorių teisių įspėjimui taikome skirtingus reikalavimus,
-          atsižvelgiant į tai, kaip naudojate mūsų duomenis. Pavyzdžiui, taikomos skirtingos
-          taisyklės, kaip rodyti pranešimą apie autorių teises, atsižvelgiant į tai, ar
-          sukūrėte naršomą žemėlapį, spausdintą žemėlapį ar statinį vaizdą. Visą informaciją apie
-          reikalavimus rasite %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Priskyrimo gairės
-        credit_4_1_html: "Kad būtų aišku, duomenys yra prieinami pagal Open\nDatabase
-          licenciją, galite nurodyti į %{this_copyright_page_link}.\nAlternatyviai
-          arba, jei platinate OSM\nduomenų forma, galite pateikti nuorodą tiesiai
-          į licenciją (-as). Medijoje,\nkur nuorodos neįmanomos (pvz., spausdintuose
-          kūriniuose), siūlome\nnukreipti savo skaitytojus į openstreetmap.org (galbūt
-          išplečiant\n'OpenStreetMap' šiuo visu adresu) ir į opendatacommons.org.
-          \nŠiame pavyzdyje nuoroda rodoma žemėlapio kampe."
-        credit_4_1_this_copyright_page: šį autorių teisių puslapį
+        credit_3_v2025_attribution_guidelines: Priskyrimo gairės
+        credit_4_v2025_this_copyright_page: šį autorių teisių puslapį
         attribution_example:
           alt: Pavyzdys kaip galima priskirti paskyrimus OpenStreetMap svetainėje
           title: Priskyrimo pavyzdys
-        more_title_html: Papildoma informacija
-        more_1_1_html: Skaitykite daugiau apie mūsų duomenų naudojimą ir kaip mums
-          priskirti autorystę apsilankę %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: OSMF licencijos puslapis
-        more_2_1_html: Nors OpenStreetMap yra atvirų duomenų, mes negalime teikti
-          nemokamo žemėlapių API trečiosioms šalims. Žiūrėkite mūsų %{api_usage_policy_link},
-          %{tile_usage_policy_link} ir %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: API naudojimo politika
-        more_2_1_tile_usage_policy: Plytelių naudojimo politika
-        more_2_1_nominatim_usage_policy: Nominatim naudojimo politika
+        infringement_title_html: Autorių teisių pažeidimas
+        infringement_1_html: OSM pildytojai primenami niekada nesinaudoti autorių
+          teisėmis apsaugotų šaltinių (pvz. Google Maps ar spausdintų žemėlapių) be
+          leidimo naudoti.
+        infringement_2_1_takedown_procedure: pašalinimo procedūra
+        infringement_2_1_online_filing_page: pildymo internetu puslapis
+        trademarks_title: Prekių ženklai
+        trademarks_1_1_trademark_policy: Prekių ženklų politika
+        services_1_api_usage_policy: API naudojimo politika
+        services_1_tile_usage_policy: Plytelių naudojimo politika
+        services_1_nominatim_usage_policy: Nominatim naudojimo politika
         contributors_title_html: Mūsų autoriai
         contributors_intro_html: Mūsų autoriai yra tūkstančiai įvairių žmonių. Taip
           pat įtrauktas ir laisvai prieinamas turinys iš valstybinių kartografijos
@@ -2155,14 +2136,6 @@ lt:
         contributors_footer_2_html: Duomenų įtraukimas į OpenStreetMap nereiškia,
           kad originalių duomenų tiekėjas remia OpenStreetMap. Nenumatomos jokios
           garantijos ir neprisiimama jokia atsakomybė.
-        infringement_title_html: Autorių teisių pažeidimas
-        infringement_1_html: OSM pildytojai primenami niekada nesinaudoti autorių
-          teisėmis apsaugotų šaltinių (pvz. Google Maps ar spausdintų žemėlapių) be
-          leidimo naudoti.
-        infringement_2_1_takedown_procedure: pašalinimo procedūra
-        infringement_2_1_online_filing_page: pildymo internetu puslapis
-        trademarks_title: Prekių ženklai
-        trademarks_1_1_trademark_policy: Prekių ženklų politika
     index:
       js_1: Jūs arba naudojate naršyklę, nepalaikančią JavaScript, arba išjungėte
         JavaScript palaikymą.
@@ -2316,11 +2289,11 @@ lt:
         imports: Importai
         automated_edits: Automatizuoti pakeitimai
       start_mapping: Pradėti žymėti
-      add_a_note:
-        title: Neturite laiko redaguoti? Pridėkite pastabą!
-        para_1: Jei norite pataisyti kažką nedidelio ir neturite laiko registruotis
-          ir mokytis redaguoti - labai paprasta tiesiog palikti pastabą.
-        the_map: žemėlapis
+    add_a_note:
+      title: Neturite laiko redaguoti? Pridėkite pastabą!
+      para_1: Jei norite pataisyti kažką nedidelio ir neturite laiko registruotis
+        ir mokytis redaguoti - labai paprasta tiesiog palikti pastabą.
+      the_map: žemėlapis
     communities:
       title: Bendruomenės
       lede_text: |-
@@ -3031,11 +3004,10 @@ lt:
     edit_help: Pastumkite žemėlapį ir padidinkite vietą, kurią norite keisti, tada
       spauskite čia.
     directions:
-      ascend: Pakilimas
-      descend: Nusileidimas
-      distance: Atstumas
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance} m'
+          km: '%{distance} km'
       errors:
         no_route: Nepavyko rasti maršruto tarp šių dviejų vietų.
         no_place: 'Atsiprašome - nerandame tokios vietos: %{place}'
@@ -3102,7 +3074,6 @@ lt:
         roundabout_with_exit_ordinal: Žiede sukite į %{exit} išvažiavimą į %{name}
         exit_roundabout: Išvažiuokite iš žiedo į %{name}
         unnamed: bevardis
-        courtesy: Nuorodas pateikė %{link}
         exit_counts:
           first: 1ą
           second: 2ą
@@ -3114,7 +3085,6 @@ lt:
           eighth: 8ą
           ninth: 9ą
           tenth: 10ą
-      time: Laikas
     query:
       node: Taškas
       way: Kelias

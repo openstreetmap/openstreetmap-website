@@ -68,6 +68,9 @@
 # Author: ZioNicco
 ---
 it:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y alle %H:%M'
@@ -104,6 +107,10 @@ it:
       models:
         user_mute:
           is_already_muted: è già silenziato
+        social_link:
+          attributes:
+            url:
+              http_parse_error: L'URL dovrebbe iniziare con http:// o https://
     models:
       acl: Lista di controllo degli accessi
       changeset: Gruppo di modifiche
@@ -687,9 +694,6 @@ it:
       title_nearby: Diari degli utenti nelle vicinanze
       user_title: Diario di %{user}
       in_language_title: Voci del diario in %{language}
-      new: Nuova voce del diario
-      new_title: Componi una nuova voce nel tuo diario utente
-      my_diary: Il mio diario
       no_entries: Nessuna voce nel diario
     page:
       recent_entries: Voci del diario recenti
@@ -750,6 +754,16 @@ it:
     unsubscribe:
       heading: Annullare l'iscrizione alla seguente discussione sul diario?
       button: Annulla l'iscrizione alla discussione
+    navigation:
+      in_language: Voci del diario in %{language}
+      my_diary: Il mio diario
+      new: Nuova voce del diario
+      new_title: Componi una nuova voce nel tuo diario utente
+    profile_diaries:
+      latest_diaries: Ultimi diari
+      comments:
+        one: '%{count} commento'
+        other: '%{count} commenti'
   diary_comments:
     new:
       heading: Aggiungere un commento alla discussione sulla seguente voce del diario?
@@ -1481,7 +1495,7 @@ it:
           erotic: Sexy shop
           estate_agent: Agenzia immobiliare
           fabric: Negozio di tessuti
-          farm: Negozio di fattoria
+          farm: Spaccio agricolo
           fashion: Negozio moda
           fishing: Negozio per la pesca
           florist: Fioraio
@@ -1623,28 +1637,54 @@ it:
         level10: Confine amministrativo (livello 10)
         level11: Confine amministrativo (livello 11)
       border_types:
+        arrondissement: Confine di arrondissement
+        borough: Confine del distretto
+        cercle: Confine del cerchio
         city: Confine della città
+        comarca: Confine della comarca
         county: Confine della contea
         departement: Confine dipartimentale
         department: Confine dipartimentale
+        district: Confine distrettuale
+        distrito: Confine distrettuale
+        freguesia: Confine di Freguesia
+        local_authority: Confine dell'autorità locale
+        municipality: Confine comunale
+        municipi: Confine comunale
+        município: Confine comunale
         nation: Confine internazionale
         national: Confine internazionale
+        neighbourhood: Confine di quartiere
         parish: Confine parrocchiale
         province: Confine provinciale
         região: Confine regionale
         region: Confine regionale
+        state: Confine di Stato
+        town: Confine della città
+        township: Confine del comune
         village: Confine del villaggio
   searches:
     show:
       title:
         latlon: Interno
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Nessun risultato trovato
         more_results: Altri risultati
   directions:
-    search:
+    show:
       title: Indicazioni
+      distance: Distanza
+      time: Tempo
+      ascend: Salita
+      descend: Discesa
+      button_km: km
+      button_mi: mi
+      download: Scarica l'itinerario come GeoJson
+      filename: itinerario
+      directions_courtesy_html: Indicazioni per gentile concessione di %{link}
   issues:
     index:
       title: Problemi
@@ -1921,7 +1961,7 @@ it:
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} ha riattivato una delle tue note'
         subject_other: '[OpenStreetMap] %{commenter} ha riattivato una nota a cui
-          eri interesssato'
+          eri interessato'
         your_note: '%{commenter} ha riattivato una delle tue note vicino a %{place}.'
         your_note_html: '%{commenter} ha riattivato una delle tue note vicino a %{place}.'
         commented_note: '%{commenter} ha riattivato una nota che avevi commentato.
@@ -2130,6 +2170,10 @@ it:
       show: Mostra
       delete: Cancella
       undelete: Annulla eliminazione
+      social_links:
+        title: Link ai profili social
+        remove: Rimuovi
+        add: Aggiungi collegamento social
     update:
       success: Il profilo è stato aggiornato.
       failure: Impossibile aggiornare il profilo.
@@ -2262,52 +2306,69 @@ it:
         native_link: versione in italiano
         mapping_link: inizia a mappare
       legal_babble:
-        introduction_1_html: OpenStreetMap%{registered_trademark_link} è basato su
-          %{open_data}, rilasciato con %{odc_odbl_link} (ODbL) dalla %{osm_foundation_link}
-          (OSMF).
-        introduction_1_open_data: dati aperti
-        introduction_1_odc_odbl: Licenza della base di dati aperti Open Data Commons
+        lead_1_html: |-
+          OpenStreetMap fornisce dati cartografici aperti per migliaia di siti web, app mobili e dispositivi hardware.
+          OpenStreetMap è stato creato da una comunità di persone come te che contribuiscono e gestiscono dati cartografici
+          su strade, sentieri, bar, stazioni ferroviarie e molto altro, in tutto il mondo.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} e %{get_started_mapping_link}!
+          Puoi leggere di più su %{osm_blog_link} e iscriverti a %{weeklyosm_link}.
+          Trova altri mappatori nella tua %{osm_community_link} locale.
+          Sostieni il progetto unendoti alla %{osm_foundation_link} e %{making_donation_link}.
+        lead_2_learn_more_about_osm: Scopri di più su OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/IT:About_OpenStreetMap
+        lead_2_get_started_mapping: inizia a mappare
+        lead_2_osm_blog: OpenStreetMap Blog
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM community
+        lead_2_osm_foundation: OSM Foundation
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: fare una donazione
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: Usare OpenStreetMap
+        licensing_1_html: |-
+          OpenStreetMap è %{open} data, concessa in licenza con licenza
+          %{odc_odbl_link} (ODbL) dalla %{osm_foundation_link} (OSMF). In sintesi:
+        licensing_1_odc_odbl: Licenza della base di dati aperti Open Data Commons
           (ODbL)
-        introduction_1_osm_foundation: Fondazione OpenStreetMap
-        introduction_2_html: |-
-          Sei libero di copiare, distribuire, trasmettere e adattare i nostri dati, finché lo attribuisci a OpenStreetMap e ai suoi contributori. Se alteri o ti basi sui nostri dati,
+        licensing_1_osm_foundation: Fondazione OpenStreetMap
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: |-
+          Sei libero di copiare, distribuire, trasmettere e adattare i nostri dati, finché li attribuisci a OpenStreetMap e ai suoi contributori. Se alteri o ti basi sui nostri dati,
           puoi distribuire il risultato solo con la stessa licenza. Il %{legal_code_link} illustra i tuoi diritti e le tue responsabilità.
-        introduction_2_legal_code: testo giuridico
-        introduction_3_html: La nostra documentazione è rilasciato con licenza %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Attribuzione-Condividi allo
-          stesso modo 2.0
+        licensing_2_legal_code: codice legale completo su Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_4_osmf_license_page: pagina della Licenza della Fondazione OSM
         credit_title_html: Come si attribuisce a OpenStreetMap
         credit_1_html: 'Quando utilizzi i dati di OpenStreetMap, devi eseguire le
           seguenti due operazioni:'
-        credit_2_1: Fornisci l'attribuzione a OpenStreetMap mostrando il nostro avviso
-          sul diritto d'autore.
-        credit_2_2: Indica chiaramente che i dati sono disponibili con licenza Open
-          Database.
-        credit_3_html: Per l'avviso sul diritto d'autore, abbiamo requisiti diversi
-          su come dovrebbe essere visualizzato, a seconda di come stai utilizzando
-          i nostri dati. Ad esempio, si applicano regole diverse su come mostrare
-          l'avviso sul diritto d'autore a seconda che tu abbia creato una mappa navigabile,
-          una mappa stampata o un'immagine statica. Tutti i dettagli sui requisiti
-          possono essere trovati nelle %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Linee guida per l'attribuzione
-        credit_4_1_html: |-
-          Per rendere chiaro che i dati sono disponibili in base alla licenza Open Database, puoi inserire un collegamento a %{this_copyright_page_link}. In alternativa, e come requisito se stai distribuendo OSM in un
-          modulo dati, è possibile nominare e collegare direttamente la/e licenza/e. Nei media dove i collegamenti non sono possibili (ad es. opere cartacee), ti suggeriamo di indirizzare i tuoi lettori direttamente a openstreetmap.org (magari espandendo 'OpenStreetMap' al suo indirizzo completo) e a opendatacommons.org. In questo esempio, l'attribuzione compare nell'angolo della mappa.
-        credit_4_1_this_copyright_page: questa pagina del diritto d'autore
+        credit_2_license: Indica chiaramente che i dati sono disponibili con licenza
+          Open Database.
+        credit_3_v2025_attribution_guidelines: linee guida per l'attribuzione
+        credit_4_v2025_this_copyright_page: questa pagina del diritto d'autore
         attribution_example:
           alt: Esempio di come attribuire ad OpenStreetMap su una pagina web
           title: Esempio di attribuzione
-        more_title_html: Per saperne di più
-        more_1_1_html: Per saperne di più sui nostri dati e su come inserire l'attribuzione,
-          leggi la %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: pagina della Licenza della Fondazione OSM
-        more_2_1_html: |-
-          Sebbene OpenStreetMap sia costituita interamente di dati aperti, non possiamo fornire un'API cartografica gratuita a terzi.
-          Consulta la nostra %{api_usage_policy_link}, %{tile_usage_policy_link} e %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Normativa sull'utilizzo delle API
-        more_2_1_tile_usage_policy: Normativa sull'utilizzo dei tasselli
-        more_2_1_nominatim_usage_policy: Normativa sull'utilizzo di Nominatim
+        infringement_title_html: Violazione del copyright
+        infringement_1_html: Ai contributori OSM si ricorda di non aggiungere dati
+          da qualsiasi fonte protetta da copyright (ad esempio Google Maps o mappe
+          stampate) senza esplicita autorizzazione dei titolari del copyright.
+        infringement_2_1_html: |-
+          Se ritieni che materiale protetto da diritto d'autore sia stato aggiunto in modo inappropriato al database di OpenStreetMap o a questo sito, fai riferimento
+          alla nostra %{takedown_procedure_link} o invia un reclamo direttamente alla nostra %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procedura di rimozione
+        infringement_2_1_online_filing_page: pagina di segnalazione online
+        trademarks_title: Marchi registrati
+        trademarks_1_1_html: |-
+          OpenStreetMap, il logo della lente di ingrandimento e State of the Map sono marchi registrati della
+          OpenStreetMap Foundation. Se hai domande sull'uso dei marchi, consulta la nostra
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Normativa sui marchi registrati
+        services_1_api_usage_policy: Normativa sull'utilizzo delle API
+        services_1_tile_usage_policy: Normativa sull'utilizzo dei tasselli
+        services_1_nominatim_usage_policy: Normativa sull'utilizzo di Nominatim
         contributors_title_html: Nostri collaboratori
         contributors_intro_html: 'I nostri contributori sono migliaia di individui.
           Includiamo anche dati distribuiti sotto licenze aperte provenienti da agenzie
@@ -2399,25 +2460,10 @@ it:
           L'inserimento dei dati in OpenStreetMap non implica che il fornitore
           originale dei dati appoggi OpenStreetMap, fornisca alcuna garanzia o
           accetti qualsiasi responsabilità.
-        infringement_title_html: Violazione del copyright
-        infringement_1_html: Ai contributori OSM si ricorda di non aggiungere dati
-          da qualsiasi fonte protetta da copyright (ad esempio Google Maps o mappe
-          stampate) senza esplicita autorizzazione dei titolari del copyright.
-        infringement_2_1_html: |-
-          Se ritieni che materiale protetto da diritto d'autore sia stato aggiunto in modo inappropriato al database di OpenStreetMap o a questo sito, fai riferimento
-          alla nostra %{takedown_procedure_link} o invia un reclamo direttamente alla nostra %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: procedura di rimozione
-        infringement_2_1_online_filing_page: pagina di segnalazione online
-        trademarks_title: Marchi registrati
-        trademarks_1_1_html: |-
-          OpenStreetMap, il logo della lente di ingrandimento e State of the Map sono marchi registrati della
-          OpenStreetMap Foundation. Se hai domande sull'uso dei marchi, consulta la nostra
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Normativa sui marchi registrati
     index:
       js_1: Si sta utilizzando un browser che non supporta JavaScript, oppure è stato
         disabilitato JavaScript.
-      js_2: OpenStreetMap utilizza JavaScript per le sua mappa.
+      js_2: OpenStreetMap utilizza JavaScript per la sua mappa.
       license:
         copyright: Copyright OpenStreetMap e collaboratori, sotto una licenza aperta
       remote_failed: Modifica non riuscita - assicurarsi che JOSM o Merkaartor sia
@@ -2469,11 +2515,6 @@ it:
             per esempio manca una strada o il tuo indirizzo, il modo migliore per
             procedere è quello di unirsi alla comunità di OpenStreetMap e aggiungere
             o riparare quel dato da te.
-        add_a_note:
-          instructions_1_html: Basta cliccare su %{note_icon} o sulla stessa icona
-            visualizzata sulla mappa. Ciò aggiungerà un indicatore alla mappa che
-            puoi spostare trascinandolo. Aggiungi un messaggio, poi fai clic su “Salva”
-            e altri mappatori indagheranno.
       other_concerns:
         title: Ulteriori dubbi
         concerns_html: Se hai dubbi su come vengono utilizzati in nostri dati o sui
@@ -2590,16 +2631,12 @@ it:
         automated_edits: Contributi automatici
       start_mapping: Inizia a mappare
       continue_authorization: Continua l'autorizzazione
-      add_a_note:
-        title: Non hai tempo per editare? Aggiungi una nota!
-        para_1: Se vuoi fare solo una piccola correzione, ma non hai abbastanza tempo
-          per registrarti e imparare come modificare, puoi semplicemente aggiungere
-          una nota.
-        para_2_html: |-
-          Vai semplicemente su %{map_link} e clicca sull’icona della nota: %{note_icon}.
-          Comparirà un marcatore sulla mappa che potrai spostare trascinandolo.
-          Aggiungi il tuo messaggio, clicca su “salva” e gli altri mappatori indagheranno.
-        the_map: la mappa
+    add_a_note:
+      title: Non hai tempo per editare? Aggiungi una nota!
+      para_1: Se vuoi fare solo una piccola correzione, ma non hai abbastanza tempo
+        per registrarti e imparare come modificare, puoi semplicemente aggiungere
+        una nota.
+      the_map: la mappa
     communities:
       title: Comunità
       lede_text: Persone da tutto il mondo contribuiscono o usano OpenStreetMap. Sebbene
@@ -3447,11 +3484,13 @@ it:
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare,
       quindi clicca qui.
     directions:
-      ascend: Salita
-      descend: Discesa
-      distance: Distanza
-      distance_m: '%{distance}&nbsp;m'
-      distance_km: '%{distance}&nbsp;km'
+      distance_in_units:
+        meters:
+          m: '%{distance}&nbsp;m'
+          km: '%{distance}&nbsp;km'
+        miles:
+          ft: '%{distance}ft'
+          mi: '%{distance}mi'
       errors:
         no_route: Impossibile trovare un percorso fra questi due posti.
         no_place: Spiacenti, non è possibile trovare '%{place}'.
@@ -3518,7 +3557,6 @@ it:
         exit_roundabout: Esci dalla rotonda su %{name}
         ferry_without_exit: Prendi il traghetto %{name}
         unnamed: senza nome
-        courtesy: Indicazioni per gentile concessione di %{link}
         exit_counts:
           first: 1ª
           second: 2ª
@@ -3530,9 +3568,6 @@ it:
           eighth: 8ª
           ninth: 9ª
           tenth: 10ª
-      time: Tempo
-      download: Scarica l'itinerario come GeoJson
-      filename: itinerario
     query:
       node: Nodo
       way: Percorso

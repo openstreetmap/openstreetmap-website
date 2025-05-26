@@ -32,6 +32,7 @@
 # Author: Marwin H.H.
 # Author: Mbee-wiki
 # Author: Mnam23
+# Author: NikolasKHF
 # Author: Pebaryan
 # Author: Polos
 # Author: RXerself
@@ -573,9 +574,6 @@ id:
       title_nearby: Catatan harian pengguna terdekat
       user_title: Catatan harian %{user}
       in_language_title: Entri catatan harian dalam %{language}
-      new: Entri baru catatan harian
-      new_title: Buat entri baru dalam catatan harian saya
-      my_diary: Catatan Harian Saya
       no_entries: Tidak ada entri catatan harian
     page:
       recent_entries: 'Entri buku harian terbaru:'
@@ -626,6 +624,10 @@ id:
       all:
         title: Entri catatan harian OpenStreetMap
         description: Entri catatan harian terbaru dari pengguna OpenStreetMap
+    navigation:
+      my_diary: Catatan Harian Saya
+      new: Entri baru catatan harian
+      new_title: Buat entri baru dalam catatan harian saya
   doorkeeper:
     errors:
       messages:
@@ -1455,8 +1457,13 @@ id:
         no_results: Tidak ada hasil yang ditemukan
         more_results: Hasil lainnya
   directions:
-    search:
+    show:
       title: Petunjuk Arah
+      distance: Jarak
+      time: Waktu tempuh
+      ascend: Naik
+      descend: Turun
+      directions_courtesy_html: Petunjuk arah disediakan oleh %{link}
   issues:
     index:
       title: Isu
@@ -1986,53 +1993,37 @@ id:
         native_link: versi bahasa Indonesia
         mapping_link: memulai pemetaan
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} tergolong %{open_data}, berlisensi
-          %{odc_odbl_link} (ODbL) yang diterbitkan oleh %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: data terbuka
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: Yayasan OpenStreetMap
-        introduction_2_html: Anda boleh menyalin, menyebarluaskan, mengirimkan, dan
-          menyesuaikan data kami asalkan mencantumkan sumber OpenStreetMap dan kontributornya.
-          Bila Anda mengubah atau memanfaatkan data kami, Anda boleh menyebarluaskan
-          produk akhirnya dengan lisensi yang sama. Hak dan tanggung jawab Anda tercantum
-          selengkapnya dalam %{legal_code_link}.
-        introduction_2_legal_code: aturan hukum
-        introduction_3_html: Dokumentasi kami berlisensi %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Atribusi-BerbagiSerupa 2.0
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: Yayasan OpenStreetMap
+        licensing_4_osmf_license_page: Halaman Lisensi OSMF
         credit_title_html: Cara memberikan kredit pada OpenStreetMap
         credit_1_html: 'Ketika Anda menggunakan data OpenStreetMap, Anda diwajibkan
           untuk melakukan dua hal berikut:'
-        credit_2_1: Cantumkan sumber OpenStreetMap dengan menampilkan pemberitahuan
-          hak cipta kami.
-        credit_2_2: Tambahkan bahwa data peta ini berlisensi Open Database License.
-        credit_3_html: Soal pemberitahuan hak cipta, kami punya aturan yang berbeda
-          tergantung cara Anda menggunakan data kami. Misalnya, peta digital, peta
-          cetak, atau gambar tidak bergerak (statis) masing-masing punya cara pencantuman
-          sumbernya sendiri. Info lebih lanjut dapat dibaca di %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Pedoman Pencantuman Sumber
-        credit_4_1_html: Tambahkan tautan ke %{this_copyright_page_link} untuk memperjelas
-          bahwa data peta ini berlisensi Open Database License. Selain itu, bila Anda
-          menyebarluaskan OSM dalam bentuk data, cantumkan dan tautkan langsung lisensinya.
-          Di medium yang tidak memungkinkan klik-mengeklik (misalnya karya cetak),
-          tulis saja openstreetmap.org (atau URL lengkapnya) dan opendatacommons.org.
-          Dalam contoh berikut ini, sumbernya tercantum di pojok peta.
-        credit_4_1_this_copyright_page: laman hak cipta ini
+        credit_2_license: Tambahkan bahwa data peta ini berlisensi Open Database License.
+        credit_3_v2025_attribution_guidelines: Pedoman Pencantuman Sumber
+        credit_4_v2025_this_copyright_page: laman hak cipta ini
         attribution_example:
           alt: Contoh tentang bagaimana memberikan atribusi untuk OpenStreetMap pada
             halaman web
           title: Contoh atribusi
-        more_title_html: Mengetahui lebih lanjut
-        more_1_1_html: Simak lebih lanjut tata cara pemanfaatan data kami dan pencantuman
-          sumber di %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: Halaman Lisensi OSMF
-        more_2_1_html: Meski data OpenStreetMap bersifat terbuka, kami tidak bisa
-          menyediakan API peta gratis untuk pihak ketiga. Simak %{api_usage_policy_link},
-          %{tile_usage_policy_link}, dan %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Aturan Penggunaan API
-        more_2_1_tile_usage_policy: Aturan Penggunaan Kotak Peta
-        more_2_1_nominatim_usage_policy: Aturan Penggunaan Nominatim
+        infringement_title_html: Pelanggaran hak cipta
+        infringement_1_html: Kontributor OSM diingatkan untuk tidak menambahkan data
+          dari sumber yang memiliki hak cipta sendiri (misalnya, Google Maps atau
+          peta cetak) tanpa izin eksplisit dari pemegang hak cipta.
+        infringement_2_1_html: Bila Anda curiga ada materi berhak cipta di dalam data
+          OpenStreetMap atau situs ini, simak %{takedown_procedure_link} kami atau
+          isi %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: prosedur penghapusan
+        infringement_2_1_online_filing_page: formulir digital
+        trademarks_title: Merek dagang
+        trademarks_1_1_html: OpenStreetMap, logo kaca pembesar, dan State of the Map
+          adalah merek dagang terdaftar Yayasan OpenStreetMap. Bila Anda ingin tahu
+          lebih lanjut soal penggunaan merek-merek ini, silakan baca %{trademark_policy_link}
+          kami.
+        trademarks_1_1_trademark_policy: Aturan Merek Dagang
+        services_1_api_usage_policy: Aturan Penggunaan API
+        services_1_tile_usage_policy: Aturan Penggunaan Kotak Peta
+        services_1_nominatim_usage_policy: Aturan Penggunaan Nominatim
         contributors_title_html: Kontributor kami
         contributors_intro_html: 'Kontributor kami terdiri dari ribuan orang. Kami
           juga memasukkan data dengan lisensi terbuka yang didapat dari badan-badan
@@ -2111,21 +2102,6 @@ id:
         contributors_footer_2_html: Dimasukkannya data dalam OpenStreetMap tidak berarti
           bahwa penyedia data yang asli mendukung OpenStreetMap, menyediakan jaminan,
           atau menerima tanggung jawab apapun.
-        infringement_title_html: Pelanggaran hak cipta
-        infringement_1_html: Kontributor OSM diingatkan untuk tidak menambahkan data
-          dari sumber yang memiliki hak cipta sendiri (misalnya, Google Maps atau
-          peta cetak) tanpa izin eksplisit dari pemegang hak cipta.
-        infringement_2_1_html: Bila Anda curiga ada materi berhak cipta di dalam data
-          OpenStreetMap atau situs ini, simak %{takedown_procedure_link} kami atau
-          isi %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: prosedur penghapusan
-        infringement_2_1_online_filing_page: formulir digital
-        trademarks_title: Merek dagang
-        trademarks_1_1_html: OpenStreetMap, logo kaca pembesar, dan State of the Map
-          adalah merek dagang terdaftar Yayasan OpenStreetMap. Bila Anda ingin tahu
-          lebih lanjut soal penggunaan merek-merek ini, silakan baca %{trademark_policy_link}
-          kami.
-        trademarks_1_1_trademark_policy: Aturan Merek Dagang
     index:
       js_1: Anda menggunakan browser yang tidak mendukung JavaScript, atau Anda telah
         menonaktifkan JavaScript.
@@ -2180,10 +2156,6 @@ id:
             misalnya jalan yang hilang atau alamat Anda, cara terbaik untuk \nmelanjutkan
             adalah untuk bergabung dengan komunitas OpenStreetMap dan menambah atau
             memperbaiki data diri."
-        add_a_note:
-          instructions_1_html: |-
-            Klik %{note_icon} atau ikon serupa di peta.
-            Markah/penanda akan muncul di peta. Anda bisa memindahkannya dengan cara klik-seret. Tulis pesan Anda, lalu klik simpan. Kontributor lain akan menanggapinya.
       other_concerns:
         title: Kekhawatiran lain
         concerns_html: "Bila Anda ingin tahu soal pemanfaatan data kami atau konten
@@ -2299,14 +2271,11 @@ id:
         automated_edits: Edit Otomatis
       start_mapping: Mulai pemetaan
       continue_authorization: Lanjutkan Otorisasi
-      add_a_note:
-        title: Keberatan menyunting? Tambahkan catatan!
-        para_1: Jika Anda ingin memberi perbaikan kecil dan tidak mau mendaftar ataupun
-          mempelajari cara penyuntingan, Anda cukup memberi catatan.
-        para_2_html: 'Klik %{map_link} dan klik ikon catatan: %{note_icon}. Markah/penanda
-          akan muncul di peta. Anda bisa memindahkannya dengan cara klik-seret. Tulis
-          pesan Anda, lalu klik simpan. Kontributor lain akan menanggapinya.'
-        the_map: peta
+    add_a_note:
+      title: Keberatan menyunting? Tambahkan catatan!
+      para_1: Jika Anda ingin memberi perbaikan kecil dan tidak mau mendaftar ataupun
+        mempelajari cara penyuntingan, Anda cukup memberi catatan.
+      the_map: peta
     communities:
       title: Komunitas
       lede_text: Banyak orang dari berbagai negara turut memperkaya atau memanfaatkan
@@ -2994,11 +2963,10 @@ id:
     edit_help: Memindahkan peta dan memperbesar lokasi yang ingin Anda sunting, kemudian
       klik di sini.
     directions:
-      ascend: Naik
-      descend: Turun
-      distance: Jarak
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: Gagal menemukan rute antara dua tempat tersebut.
         no_place: Maaf - '%{place}' tidak ditemukan.
@@ -3065,7 +3033,6 @@ id:
           %{name}
         exit_roundabout: Keluar bundaran menuju %{name}
         unnamed: jalan tanpa nama
-        courtesy: Petunjuk arah disediakan oleh %{link}
         exit_counts:
           first: ke-1
           second: ke-2
@@ -3077,7 +3044,6 @@ id:
           eighth: ke-8
           ninth: ke-9
           tenth: ke-10
-      time: Waktu tempuh
     query:
       node: Titik noda
       way: Jalan

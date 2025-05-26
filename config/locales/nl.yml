@@ -678,9 +678,6 @@ nl:
       title_nearby: Dagboeken van gebruikers in de buurt
       user_title: Dagboek van %{user}
       in_language_title: Dagboekberichten in het %{language}
-      new: Nieuw dagboekbericht
-      new_title: Nieuw bericht in mijn dagboek schrijven
-      my_diary: Mijn dagboek
       no_entries: Het dagboek is leeg
     page:
       recent_entries: Recente dagboekberichten
@@ -740,6 +737,10 @@ nl:
     unsubscribe:
       heading: Afmelden voor de volgende dagboekaantekeningendiscussie?
       button: Van discussie afmelden
+    navigation:
+      my_diary: Mijn dagboek
+      new: Nieuw dagboekbericht
+      new_title: Nieuw bericht in mijn dagboek schrijven
   diary_comments:
     new:
       heading: Een reactie toevoegen aan de volgende dagboekaantekening?
@@ -1171,7 +1172,7 @@ nl:
           forest: Bos
           garages: Garages
           grass: Gras
-          greenfield: Stadsgroen
+          greenfield: Bouwgrond
           industrial: Industriegebied
           landfill: Stortplaats
           meadow: Weide
@@ -1633,8 +1634,15 @@ nl:
         no_results: Geen resultaten gevonden
         more_results: Meer resultaten
   directions:
-    search:
+    show:
       title: Routebeschrijving
+      distance: Afstand
+      time: Tijd
+      ascend: Bergop
+      descend: Bergaf
+      download: Download route als GeoJSON
+      filename: route
+      directions_courtesy_html: Routebeschrijving met dank aan %{link}
   issues:
     index:
       title: Problemen
@@ -2239,60 +2247,40 @@ nl:
         native_link: Nederlandstalige versie
         mapping_link: beginnen met mappen
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} is %{open_data}, in licentie gegeven onder de
-          %{odc_odbl_link} (ODbL) door de %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: open data
-        introduction_1_odc_odbl: Open Data Commons Open Database-licentie
-        introduction_1_osm_foundation: OpenStreetMap Foundation
-        introduction_2_html: |-
-          Het staat u vrij onze gegevens te kopiëren, te distribueren,
-          weer te geven en aan te passen, zo lang u OpenStreetMap en haar
-          bijdragers vermeldt. Als u onze kaarten of gegevens wijzigt of erop verder bouwt,
-          mag u het resultaat enkel onder dezelfde licentie distribueren. In de
-          volledige %{legal_code_link} worden uw rechten en verantwoordelijkheden uitgelegd.
-        introduction_2_legal_code: juridische tekst
-        introduction_3_html: Onze documentatie is te gebruiken onder de %{creative_commons_link}-licentie
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Naamsvermelding-GelijkDelen
-          2.0
+        licensing_1_odc_odbl: Open Data Commons Open Database-licentie
+        licensing_1_osm_foundation: OpenStreetMap Foundation
+        licensing_4_osmf_license_page: OSMF-licentiepagina
         credit_title_html: Hoe OpenStreetMap te vermelden
         credit_1_html: 'Wanneer u OpenStreetMap-gegevens gebruikt, bent u verplicht
           de volgende twee dingen te doen:'
-        credit_2_1: Vermeld OpenStreetMap door onze copyrightmelding weer te geven.
-        credit_2_2: Maak duidelijk dat de data beschikbaar is onder de Open Database-licentie.
-        credit_3_html: Voor de auteursrechtelijke vermelding hanteren wij verschillende
-          voorschriften ten aanzien van de manier waarop deze moet worden weergegeven,
-          afhankelijk van de wijze waarop u onze gegevens gebruikt. Zo gelden er verschillende
-          regels voor het weergeven van de auteursrechtelijke vermelding, afhankelijk
-          van of u een doorbladerbare kaart, een afgedrukte kaart of een statische
-          afbeelding hebt gemaakt. Alle details over de vereisten zijn te vinden in
-          de %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: richtlijnen voor naamsvermelding
-        credit_4_1_html: Om duidelijk te maken dat de gegevens beschikbaar zijn onder
-          de Open Database-licentie, kunt u een koppeling maken naar %{this_copyright_page_link}.
-          Een andere mogelijkheid, en een vereiste als u OSM in de vorm van gegevens
-          verspreidt, is dat u de licentie(s) noemt en er een rechtstreekse koppeling
-          naar maakt. Bij dragers waar koppelingen niet mogelijk zijn (bijv. gedrukte
-          werken), stellen we voor dat u uw lezers verwijst naar openstreetmap.org
-          (wellicht door 'OpenStreetMap' om te zetten in dit volledige adres) en naar
-          opendatacommons.org. In dit voorbeeld staat de naamsvermelding op de hoek
-          van de kaart.
-        credit_4_1_this_copyright_page: deze auteursrechtpagina
+        credit_2_license: Maak duidelijk dat de data beschikbaar is onder de Open
+          Database-licentie.
+        credit_3_v2025_attribution_guidelines: richtlijnen voor naamsvermelding
+        credit_4_v2025_this_copyright_page: deze auteursrechtpagina
         attribution_example:
           alt: Voorbeeld van een naamsvermelding van OpenStreetMap op een webpagina
           title: Voorbeeld naamsvermelding
-        more_title_html: Meer informatie
-        more_1_1_html: Lees meer over het gebruik van onze gegevens en hoe u ons kunt
-          vermelden op %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: OSMF-licentiepagina
-        more_2_1_html: |-
-          Hoewel OpenStreetMap open data is, kunnen we geen
-          gratis kaart-API voor derden aanbieden.
-          Zie onze %{api_usage_policy_link}, %{tile_usage_policy_link} en %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: API-gebruiksbeleid
-        more_2_1_tile_usage_policy: gebruiksbeleid voor kaarttegels
-        more_2_1_nominatim_usage_policy: gebruiksbeleid voor Nominatim
+        infringement_title_html: Auteursrechtenschending
+        infringement_1_html: |-
+          OSM-bijdragers horen nooit gegevens toe te voegen
+          uit bronnen waarvan de licentie niet vrij is (bijvoorbeeld Google Maps of gedrukte kaarten)
+          zonder expliciete toestemming van de auteursrechtenhouders.
+        infringement_2_1_html: |-
+          Als u van mening bent dat auteursrechtelijk beschermd materiaal ongepast
+           is toegevoegd aan de OpenStreetMap-database of deze site, raadpleeg
+           dan onze %{takedown_procedure_link} of maak rechtstreeks een melding op onze
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: verwijderingsprocedure
+        infringement_2_1_online_filing_page: online meldingspagina
+        trademarks_title: Handelsmerken
+        trademarks_1_1_html: |-
+          OpenStreetMap, het vergrootglaslogo en State of the Map zijn geregistreerde handelsmerken van de
+          OpenStreetMap Foundation. Als u vragen heeft over uw gebruik van de merken, zie dan ons
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: handelsmerkbeleid
+        services_1_api_usage_policy: API-gebruiksbeleid
+        services_1_tile_usage_policy: gebruiksbeleid voor kaarttegels
+        services_1_nominatim_usage_policy: gebruiksbeleid voor Nominatim
         contributors_title_html: Onze bijdragers
         contributors_intro_html: |-
           Onze bijdragers zijn duizenden individuen. OSM bevat ook
@@ -2386,24 +2374,6 @@ nl:
           Opname van gegevens in OpenStreetMap betekent niet dat de originele
           gegevensverstrekker OpenStreetMap ondersteunt, enige vorm van garantie geeft, of
           aansprakelijkheid aanvaardt.
-        infringement_title_html: Auteursrechtenschending
-        infringement_1_html: |-
-          OSM-bijdragers horen nooit gegevens toe te voegen
-          uit bronnen waarvan de licentie niet vrij is (bijvoorbeeld Google Maps of gedrukte kaarten)
-          zonder expliciete toestemming van de auteursrechtenhouders.
-        infringement_2_1_html: |-
-          Als u van mening bent dat auteursrechtelijk beschermd materiaal ongepast
-           is toegevoegd aan de OpenStreetMap-database of deze site, raadpleeg
-           dan onze %{takedown_procedure_link} of maak rechtstreeks een melding op onze
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: verwijderingsprocedure
-        infringement_2_1_online_filing_page: online meldingspagina
-        trademarks_title: Handelsmerken
-        trademarks_1_1_html: |-
-          OpenStreetMap, het vergrootglaslogo en State of the Map zijn geregistreerde handelsmerken van de
-          OpenStreetMap Foundation. Als u vragen heeft over uw gebruik van de merken, zie dan ons
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: handelsmerkbeleid
     index:
       js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript
         uitgeschakeld.
@@ -2457,11 +2427,6 @@ nl:
             (er ontbreekt bijvoorbeeld een weg of uw adres staat er niet in) dan kunt
             u zich het best bij OpenStreetMap inschrijven en de gegevens zelf toevoegen
             of corrigeren.
-        add_a_note:
-          instructions_1_html: |-
-            Klik op %{note_icon} of hetzelfde pictogram op de kaartweergave.
-            Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen
-            door deze te verslepen. Voeg uw bericht toe en klik op “Opslaan”, dan zullen andere kaartmakers uw melding nagaan.
       other_concerns:
         title: Andere aangelegenheden
         concerns_html: |-
@@ -2581,15 +2546,12 @@ nl:
         automated_edits: Geautomatiseerde bewerkingen
       start_mapping: Beginnen met kaarten maken
       continue_authorization: Doorgaan met autoriseren
-      add_a_note:
-        title: Geen tijd om te bewerken? Voeg een opmerking toe!
-        para_1: Als u gewoon iets kleins wilt verbeteren en niet de tijd hebt om u
-          in te schrijven en om te leren hoe te bewerken, kunt u eenvoudig een opmerking
-          toevoegen.
-        para_2_html: |-
-          Ga naar %{map_link} en klik op het opmerkingssymbool:
-          %{note_icon}. Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen door te slepen. Voeg uw bericht toe en klik op “Opslaan”, dan zullen andere kaartmakers uw melding nagaan.
-        the_map: de kaart
+    add_a_note:
+      title: Geen tijd om te bewerken? Voeg een opmerking toe!
+      para_1: Als u gewoon iets kleins wilt verbeteren en niet de tijd hebt om u in
+        te schrijven en om te leren hoe te bewerken, kunt u eenvoudig een opmerking
+        toevoegen.
+      the_map: de kaart
     communities:
       title: Gemeenschappen
       lede_text: "Mensen van over de hele wereld dragen bij aan of gebruiken OpenStreetMap.\nHoewel
@@ -3424,11 +3386,10 @@ nl:
     edit_help: Verplaats de kaart en zoom in op een plaats die u wilt bewerken. Klik
       daarna hier.
     directions:
-      ascend: Bergop
-      descend: Bergaf
-      distance: Afstand
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: Kon geen route tussen deze twee plaatsen vinden.
         no_place: Kon %{place} niet vinden.
@@ -3493,7 +3454,6 @@ nl:
         roundabout_with_exit_ordinal: Neem op de rotonde afslag %{exit} naar %{name}
         exit_roundabout: Verlaat de rotonde naar %{name}
         unnamed: naamloos
-        courtesy: Routebeschrijving met dank aan %{link}
         exit_counts:
           first: 1e
           second: 2e
@@ -3505,9 +3465,6 @@ nl:
           eighth: 8e
           ninth: 9e
           tenth: 10e
-      time: Tijd
-      download: Download route als GeoJSON
-      filename: route
     query:
       node: Knooppunt
       way: Weg
@@ -3530,7 +3487,7 @@ nl:
         no_contributions: Geen bijdragen op %{date}
         contributions:
           one: '%{count} bijdrage op %{date}'
-          other: '% {count} bijdragen op %{date}'
+          other: '%{count} bijdragen op %{date}'
   redactions:
     edit:
       heading: Redigering bewerken

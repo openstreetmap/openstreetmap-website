@@ -49,6 +49,10 @@ lb:
       models:
         user_mute:
           is_already_muted: ass scho stommgeschalt
+        social_link:
+          attributes:
+            url:
+              http_parse_error: D'URL sollt mat http:// oder https:// ufänken
     models:
       acl: Zougrëffssteierlëscht
       changeset: Set vun Ännerungen
@@ -143,7 +147,7 @@ lb:
         email: E-Mail
         new_email: Nei E-Mail-Adress
         active: Aktiv
-        display_name: Numm dee gewise gëtt
+        display_name: Numm, dee gewise gëtt
         description: Beschreiwung vum Profil
         home_lat: Breedegrad
         home_lon: Längegrad
@@ -552,9 +556,6 @@ lb:
       title_nearby: Blogge vu Benotzer an dénger Noperschaft
       user_title: Blog vum %{user}
       in_language_title: Blog-Anträg op %{language}
-      new: Neie Blogantrag
-      new_title: Blogantrag erstellen
-      my_diary: Mäi Blog
       no_entries: Keng Bloganträg
     page:
       recent_entries: Neiest Anträg
@@ -611,6 +612,10 @@ lb:
       button: Diskussioun abonéieren
     unsubscribe:
       button: Diskussioun ofbestellen
+    navigation:
+      my_diary: Mäi Blog
+      new: Neie Blogantrag
+      new_title: Blogantrag erstellen
   doorkeeper:
     flash:
       applications:
@@ -1442,8 +1447,16 @@ lb:
         no_results: Näischt fonnt
         more_results: Méi Resultater
   directions:
-    search:
+    show:
       title: Richtungen
+      distance: Distanz
+      time: Dauer
+      ascend: Vu kleng op grouss
+      descend: Vu grouss op kleng
+      button_km: km
+      button_mi: mi
+      download: Streck als GeoJSON eroflueden
+      filename: Streck
   issues:
     index:
       title: Problemer
@@ -1550,7 +1563,7 @@ lb:
       provide_details: Gitt wgl. déi gefroten Detailer un
   layouts:
     logo:
-      alt_text: OpenStreetMap Logo
+      alt_text: OpenStreetMap-Logo
     home: Op déi Plaz zréckgoen déi als Doheem definéiert ass
     logout: Ofmellen
     log_in: Aloggen
@@ -1637,7 +1650,7 @@ lb:
       welcome: No der Bestätegung vun dengem Benotzerkont gi mir dir zousätzlech Informatiounen,
         fir unzefänken.
     email_confirm:
-      subject: '[OpenStreetMap] Confirméiert Är E-Mailadress'
+      subject: '[OpenStreetMap] Confirméiert Är E-Mail-Adress'
       greeting: Salut,
       hopefully_you: Iergendeen (hoffentlech Dir selwer) wëll seng E-Mail-Adress op
         %{server_url} op %{new_address} änneren.
@@ -1648,7 +1661,7 @@ lb:
       greeting: Salut,
       hopefully_you: Iergendeen (hoffentlech Dir selwer) huet ugefrot fir d'Passwuert
         vum openstreetmap.org-Kont vun dëser E-Mail-Adress zréckzesetzen.
-      click_the_link: Wann Dir dat sidd da klickt wgl. op de Link hei drënner fir
+      click_the_link: Wann Dir dat sidd, da klickt wgl. op de Link hei drënner fir
         Äert Passwuert zréckzesetzen.
     note_comment_notification:
       anonymous: En anonyme Benotzer
@@ -1737,7 +1750,7 @@ lb:
     confirm_resend:
       failure: Benotzer %{name} gouf net fonnt.
     confirm_email:
-      heading: Eng Ännerung vun enger E-Mailadress confirméieren
+      heading: Ännerung vun der E-Mail-Adress confirméieren
       press confirm button: Fir d'Bestätegung vun der neier E-Mail-Adress, klick wannechgelift
         ënnen op „Bestätegen“.
       button: Confirméieren
@@ -1888,6 +1901,8 @@ lb:
       show: Weisen
       delete: Läschen
       undelete: Läsche réckgängeg maachen
+      social_links:
+        remove: Ewechhuelen
     update:
       success: Profil aktualiséiert.
       failure: De Profil konnt net aktualiséiert ginn.
@@ -1981,11 +1996,15 @@ lb:
         native_link: lëtzebuergesch Versioun
         mapping_link: mat dem Kaartéieren ufänken
       legal_babble:
+        lead_2_learn_more_about_osm: Méi iwwer OpenStreetMap gewuer ginn
+        lead_2_osm_blog: OpenStreetMap-Blog
+        lead_2_osm_community: OSM-Communautéit
+        licensing_title: OpenStreetMap-Lizenzéierung
+        licensing_4_osmf_license_page: OSMF-Lizenzsäit
         credit_title_html: Wéi een op d'Urhiewerschaft vun OpenStreetMap hiweist
         credit_1_html: 'Wann Dir Donnéeë vun OpenStreetMap benotzt, muss Dir dës zwou
           Saache respektéieren:'
-        more_title_html: Fir méi ze wëssen
-        more_1_1_osmf_licence_page: OSMF-Lizenzsäit
+        infringement_title_html: Copyright-Verletzung
         contributors_title_html: Eis Matwierkend
         contributors_intro_html: 'Eis Matwierkend sinn dausende vun eenzele Mënschen.
           Mir bezéien och oppe lizenzéiert Donnéeë vu nationale Kaartenagenturen an
@@ -2009,7 +2028,6 @@ lb:
         contributors_es_spain: Spuenien
         contributors_za_south_africa: Südafrika
         contributors_gb_united_kingdom: Vereenegt Kinnekräich
-        infringement_title_html: Copyright-Verletzung
     index:
       js_1: Dir hutt entweder e Browser dee JavaScript net ënnerstëtzt oder Dir hutt
         JavaScript desaktivéiert.
@@ -2076,12 +2094,14 @@ lb:
       search_results: Resultater vum Sichen
     search:
       search: Sichen
-      from: Vum
+      from: Vun
+      to: Op
       where_am_i: Wou ass dat?
       submit_text: Lass
+      reverse_directions_text: Richtung ëmdréinen
       modes:
         bicycle: Mam Vëlo
-        car: Auto
+        car: Mam Auto
         foot: Zu Fouss
     welcome:
       title: Wëllkomm!
@@ -2091,9 +2111,10 @@ lb:
         node: Knuet
       rules:
         title: Reegelen!
-      add_a_note:
-        title: Keng Zäit fir z'änneren? Setzt eng Notiz derbäi!
-        the_map: d'Kaart
+        automated_edits: Automatiséiert Ännerungen
+    add_a_note:
+      title: Keng Zäit fir z'änneren? Setzt eng Notiz derbäi!
+      the_map: d'Kaart
     communities:
       title: Communautéiten
       local_chapters:
@@ -2223,6 +2244,8 @@ lb:
       public: ËFFENTLECH
       private: PRIVAT
       trackable: VERFOLLEGBAR
+      details_with_tags_html: viru(n) %{time_ago} vum %{user} a(n) %{tags}
+      details_without_tags_html: viru(n) %{time_ago} vum %{user}
     index:
       public_traces: Ëffentlech GPS Spueren
       public_traces_from: Ëffentlech GPS-Spuere vu(n) %{user}
@@ -2240,10 +2263,14 @@ lb:
       description:
         description_without_count: GPX-Fichier vum %{user}
   application:
+    setup_user_auth:
+      blocked_zero_hour: Dir hutt en dréngende Message op der OpenStreetMap-Websäit.
+        Dir musst de Message liesen, ier der Är Ännerunge späichere kënnt.
     settings_menu:
       account_settings: Astellunge vum Benotzerkont
       oauth2_applications: OAuth-2-Applikatiounen
       oauth2_authorizations: OAuth-2-Autorisatiounen
+      muted_users: Stommgeschalt Benotzer
     auth_providers:
       openid_url: OpenID-URL
       openid_login_button: Virufueren
@@ -2363,13 +2390,17 @@ lb:
       my comments: Meng Bemierkungen
       my_preferences: Meng Benotzerastellungen
       my_dashboard: Meng Iwwersiichtssäit
-      blocks by me: vu Mir Gespaart
+      blocks on me: Späre vum mir
+      blocks by me: Spären duerch mech
+      create_mute: Dëse Benotzer stommschalten
+      destroy_mute: D'Stommschaltung vun dësem Benotzer ophiewen
       edit_profile: Profil änneren
       send message: Message schécken
       diary: Blog
       edits: Ännerungen
       traces: Spueren
       notes: Notizen op der Kaart
+      home location: Doheem
       no activity yet: Nach keng Aktivitéit
       uid: 'Benotzer-ID:'
       email address: 'E-Mail-Adress:'
@@ -2401,10 +2432,17 @@ lb:
       show:
         title: Späre vum %{name}
         heading_html: Lëscht vun de Spären vum %(name)
+        empty: De Benotzer %{name} huet nach keng Späre gemaach.
     received_blocks:
       show:
         title: Späre vum %{name}
-        empty: '%{name} gouf bis elo nach net gespaart.'
+        heading_html: Lëscht vun de Späre vum %{name}
+        empty: De Benotzer %{name} gouf bis elo nach net gespaart.
+      edit:
+        empty: De Benotzer %{name} huet keng aktiv Spären.
+        active_blocks:
+          one: '%{count} aktiv Spär'
+          other: '%{count} aktiv Spären'
     lists:
       show:
         title: Benotzer
@@ -2436,6 +2474,7 @@ lb:
         title: Tagebuch Kommentarer bäigefüügt vum %{user}
       page:
         post: Blogantrag
+        when: Wéini
     suspended:
       support: Ënnerstëtzung
     auth_failure:
@@ -2466,6 +2505,9 @@ lb:
       heading: Lëscht vu gespaarte Benotzer
       empty: Et goufe nach keng Späre gemaach.
     helper:
+      time_future_html: Leeft a(n) %{time} of.
+      until_login: Aktiv, bis de Benotzer sech aloggt.
+      time_past_html: '%{time} ofgelaf.'
       block_duration:
         hours:
           one: '%{count} Stonn'
@@ -2498,19 +2540,53 @@ lb:
     page:
       display_name: Gespaarte Benotzer
       reason: Grond fir d'Spär
+      start: Ufank
+      end: Schluss
       status: Status
+    navigation:
+      all_blocks: All Spären
+      blocks_on_me: Meng Spären
+      blocks_on_user_html: Späre vum Benotzer %{user}
+      blocks_by_me: Spären duerch mech
+      blocks_by_user_html: Spären duerch de Benotzer %{user}
+      block: 'Spär #%{id}'
+      new_block: Nei Spär
   user_mutes:
     index:
+      title: Stommgeschalt Benotzer
+      my_muted_users: Meng stommgeschalt Benotzer
+      you_have_muted_n_users:
+        one: Dir hutt %{count} Benotzer stommgeschalt
+        other: Dir hutt %{count} Benotzer stommgeschalt
+      user_mute_explainer: Messagë vu stommgeschalte Benotzer ginn an e separate Postagang
+        ëmgeleet an Dir kritt keng E-Mail-Notifikatiounen.
+      user_mute_admins_and_moderators: Dir kënnt Administrateuren a Moderatore stommschalten,
+        mee hir Messagë ginn net stommgeschalt.
       table:
         thead:
+          muted_user: Stommgeschalt Benotzer
           actions: Aktiounen
         tbody:
+          unmute: Stommschaltung ophiewen
           send_message: Message schécken
+    create:
+      notice: Dir hutt de Benotzer %{name} stommgeschalt.
+      error: De Benotzer %{name} konnt net stommgeschalt ginn. %{full_message}
+    destroy:
+      notice: Dir hutt d'Stommschaltung vum Benotzer %{name} opgehuewen.
+      error: D'Stommschalte vum Benotzer konnt net opgehuewe ginn. Probéiert wgl.
+        nach eng Kéier.
   notes:
     index:
       no_notes: Keng Notizen
+      id: ID
       description: Beschreiwung
+      created_at: Ugeluecht de(n)
       last_changed: Lescht Ännerung
+      apply: Uwenden
+      all: All
+      open: Oppen
+      closed: Zou
       status: Status
     show:
       title: 'Notiz: %{id}'
@@ -2530,6 +2606,7 @@ lb:
       comment: Kommentéieren
     new:
       title: Nei Notiz
+      anonymous_warning_log_in: aloggen
       counter_warning_forum_link:
         text: d'Communautéit kann Iech hëllefen
       add: Notiz derbäisetzen
@@ -2547,6 +2624,7 @@ lb:
       image: Bild
       link: Link oder HTML
       long_link: Link
+      geo_uri: Geo-URI
       embed: HTML
       custom_dimensions: Personaliséiert Dimensiounen astellen
       format: 'Format:'
@@ -2583,6 +2661,7 @@ lb:
         gps: Ëffentlech GPS Spueren
         overlays: Overlayë fir d’Feelersich aktivéieren
         title: Niveauen
+      andy_allan: Andy Allan
     site:
       edit_tooltip: Kaart änneren
       edit_disabled_tooltip: Vergréissere fir d'Kaart z'änneren
@@ -2591,40 +2670,84 @@ lb:
       map_data_zoom_in_tooltip: Vergréissert d'Kaart fir d'Donnéeën ze gesinn
       queryfeature_tooltip: Objetsoffro
       queryfeature_disabled_tooltip: Fir Objetsoffro vergréisseren
+    social_links:
+      remove: Ewechhuelen
     edit_help: Réckelt d'Kaart a vergréissert op eng Plaz, déi Dir ännere wëllt, a
       klickt dann hei.
     directions:
-      ascend: Vu kleng op grouss
-      descend: Vu grouss op kleng
-      distance: Distanz
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance}&nbsp;m'
+          km: '%{distance}&nbsp;km'
+        miles:
+          ft: '%{distance}&nbsp;ft'
+          mi: '%{distance}&nbsp;mi'
       errors:
+        no_route: Konnt keng Streck tëscht deenen zwou Plaze fannen.
         no_place: Mir konnten d'Plaz '%{place}' leider net fannen.
       instructions:
         continue_without_exit: Virun op %{name}
-        offramp_right_with_name: Déi riets Opfaart op %{name} huelen
+        slight_right_without_exit: Liicht riets op %{name}
+        offramp_right: D'Opfaart op der rietser Säit huelen
+        offramp_right_with_exit: D'Ausfaart %{exit} op der rietser Säit huelen
+        offramp_right_with_exit_name: D'Ausfaart %{exit} op der rietser Säit op %{name}
+          huelen
+        offramp_right_with_exit_directions: D'Ausfaart %{exit} op der rietser Säit
+          Richtung %{directions} huelen
+        offramp_right_with_exit_name_directions: D'Ausfaart %{exit} op der rietser
+          Säit op %{name} Richtung %{directions} huelen
+        offramp_right_with_name: D'Opfaart op der rietser Säit op %{name} huelen
+        offramp_right_with_directions: D'Opfaart op der rietser Säit Richtung %{directions}
+          huelen
+        offramp_right_with_name_directions: D'Opfaart op der rietser Säit op %{name}
+          Richtung %{directions} huelen
         onramp_right_without_exit: Bei der Opfaart riets ofbéien op %{name}
-        onramp_right: Op der Opfaart no riets ofbéien
+        onramp_right_with_directions: Riets ofbéien op d'Opfaart Richtung %{directions}
+        onramp_right_with_name_directions: Bei der Opfaart riets ofbéien op %{name}
+          Richtung %{directions}
+        onramp_right_without_directions: Riets ofbéien op d'Opfaart
+        onramp_right: Riets ofbéien op d'Opfaart
         endofroad_right_without_exit: Um Ënn vun der Strooss riets ofbéien op %{name}
         merge_right_without_exit: Riets areien op %{name}
         fork_right_without_exit: Um Ënn vun der Strooss riets ofbéien op %{name}
+        turn_right_without_exit: Riets ofbéien op %{name}
         sharp_right_without_exit: Schaarf riets op %{name}
+        uturn_without_exit: Op %{name} d'Kéier maachen
         sharp_left_without_exit: Schaarf lénks op %{name}
-        offramp_left_with_name: Déi lénks Opfaart op %{name} huelen
+        turn_left_without_exit: Lénks ofbéien op %{name}
+        offramp_left: D'Opfaart op der lénkser Säit huelen
+        offramp_left_with_exit: D'Ausfaart %{exit} op der lénkser Säit huelen
+        offramp_left_with_exit_name: D'Ausfaart %{exit} op der lénkser Säit op %{name}
+          huelen
+        offramp_left_with_exit_directions: D'Ausfaart %{exit} op der lénkser Säit
+          Richtung %{directions} huelen
+        offramp_left_with_exit_name_directions: D'Ausfaart %{exit} op der lénkser
+          Säit op %{name} Richtung %{directions} huelen
+        offramp_left_with_name: D'Opfaart op der lénkser Säit op %{name} huelen
+        offramp_left_with_directions: D'Opfaart op der lénkser Säit Richtung %{directions}
+          huelen
+        offramp_left_with_name_directions: D'Opfaart op der lénkser Säit op %{name}
+          Richtung %{directions} huelen
         onramp_left_without_exit: Bei der Opfaart lénks ofbéien op %{name}
-        onramp_left: Op der Opfaart no lénks ofbéien
+        onramp_left_with_directions: Lénks ofbéien op d'Opfaart Richtung %{directions}
+        onramp_left_with_name_directions: Bei der Opfaart lénks ofbéien op %{name}
+          Richtung %{directions}
+        onramp_left_without_directions: Lénks ofbéien op d'Opfaart
+        onramp_left: Lénks ofbéien op d'Opfaart
         endofroad_left_without_exit: Um Ënn vun der Strooss lénks ofbéien op %{name}
         merge_left_without_exit: Lénks areien op %{name}
         fork_left_without_exit: Um Ënn vun der Strooss lénks ofbéien op %{name}
+        slight_left_without_exit: Liicht lénks op %{name}
         via_point_without_exit: (iwwer de Punkt)
         roundabout_without_exit: Am Kreesverkéier huelt d'Ausfaart op %{name}
         leave_roundabout_without_exit: Aus dem Kreesverkéier erausgoen - %{name}
         stay_roundabout_without_exit: Am Kreesverkéier bleiwen - %{name}
         start_without_exit: Bei %{name} ufänken
+        destination_without_exit: Zil erreecht
         roundabout_with_exit: Am Rond-point huelt d'Ausfaart %{exit} op %{name}
         roundabout_with_exit_ordinal: Am Rond-point huelt déi %{exit} exit op %{name}
         exit_roundabout: Am Kreesverkéier d'Ausfaart op %{name} huelen
+        ferry_without_exit: D'Fär %{name} huelen
         unnamed: Strooss ouni Numm
         exit_counts:
           first: éischt
@@ -2637,10 +2760,8 @@ lb:
           eighth: aacht
           ninth: néngt
           tenth: zéngt
-      time: Zäit
-      download: Streck als GeoJSON eroflueden
-      filename: Streck
     query:
+      node: Knuet
       way: Wee
       relation: Relatioun
     context:
@@ -2650,6 +2771,15 @@ lb:
       show_address: Adress weisen
       query_features: Objetsoffro
       centre_map: Kaart hei zentréieren
+    home:
+      marker_title: Mäin Doheem
+      not_set: Fir Äre Kont ass keen Doheem definéiert
+    heatmap:
+      tooltip:
+        no_contributions: Keng Kontributioune vum %{date}
+        contributions:
+          one: '%{count} Kontributioun vum %{date}'
+          other: '%{count} Konstributioune vum %{date}'
   redactions:
     show:
       description: 'Beschreiwung:'

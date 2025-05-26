@@ -562,9 +562,6 @@ ca:
       title_nearby: Diaris d'usuaris propers
       user_title: Diari de %{user}
       in_language_title: Entrades de diari en %{language}
-      new: Entrada de diari nova
-      new_title: Redacta una nova entrada en el meu diari d'usuari
-      my_diary: El meu diari
       no_entries: No hi ha cap entrada en el diari
     page:
       recent_entries: Entrades recents al diari
@@ -617,6 +614,10 @@ ca:
       all:
         title: Entrades de diari d'OpenStreetMap
         description: Entrades de diari recents dels usuaris d'OpenStreetMap
+    navigation:
+      my_diary: El meu diari
+      new: Entrada de diari nova
+      new_title: Redacta una nova entrada en el meu diari d'usuari
   doorkeeper:
     flash:
       applications:
@@ -1453,8 +1454,13 @@ ca:
         no_results: Cap resultat trobat
         more_results: Més resultats
   directions:
-    search:
+    show:
       title: Indicacions
+      distance: Distància
+      time: Temps
+      ascend: Desnivell positiu
+      descend: Desnivell negatiu
+      directions_courtesy_html: Direccions cortesia de %{link}
   issues:
     index:
       title: Incidències
@@ -1976,52 +1982,37 @@ ca:
         native_link: Versió en català
         mapping_link: Comença a cartografiar
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} són %{open_data}, sota la llicència
-          %{odc_odbl_link} (ODbL) per la %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: dades obertes
-        introduction_1_odc_odbl: Llicència de base de dades oberta d'Open Data Commons
-        introduction_1_osm_foundation: Fundació OpenStreetMap
-        introduction_2_html: "Sou lliure de copiar, distribuir, transmetre i adaptar
-          les nostres dades, sempre que especifiqueu que són obra d'OpenStreetMap
-          i els seus col·laboradors. Si modifiqueu o amplieu les\nnostres dades, només
-          podreu distribuir l'obra \nresultant amb la mateixa llicència. El %{legal_code_link}
-          complet explica detalladament els vostres drets i responsabilitats."
-        introduction_2_legal_code: codi legal
-        introduction_3_html: La documentació està sota llicència %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Reconeixement-CompartirIgual
-          2.0
+        licensing_1_odc_odbl: Llicència de base de dades oberta d'Open Data Commons
+        licensing_1_osm_foundation: Fundació OpenStreetMap
+        licensing_4_osmf_license_page: Pàgina de llicència de l'OSMF
         credit_title_html: Com atribuir autoria a OpenStreetMap
         credit_1_html: 'Allà on utilitzeu les dades de l''OpenStreetMap, cal que feu
           les dues coses següents:'
-        credit_2_1: Doneu reconeixement a OpenstreetMap mostrant l'avís de copyright.
-        credit_2_2: Deixeu clar que les dades estan disponibles sota la llicència
+        credit_2_license: Deixeu clar que les dades estan disponibles sota la llicència
           de base de dades oberta (ODbL).
-        credit_3_html: Per a l'avís de copyright, tenim diferents requisits sobre
-          com cal mostrar-lo depenent de com feu servir les nostres dades. Per exemple,
-          s'apliquen diferents regles depenent de si heu creat un mapa navegable,
-          un mapa imprès o una imatge estàtica. Per a més detalls, podeu consultar
-          les %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: directrius d'atribució
-        credit_4_1_html: |-
-          Per tal de fer patent que les dades es troben sota l'Open
-          Database License, podeu enllaçar %{this_copyright_page_link}. Alternativament, i com a requisit si esteu distribuint l'OSM en un formulari de dades, podeu anomenar i enllaçar directament les llicències. En aquells llocs on els enllaços no siguin possibles (p. ex., en material imprès), us suggerim que dirigiu als lectors a openstreetmap.org (possiblement estenent 'OpenStreetMap' a aquesta adreça sencera) i a opendatacommons.org. En aquest exemple, l'atribució apareix a la cantonada del mapa.
-        credit_4_1_this_copyright_page: aquesta pàgina de copyright
+        credit_3_v2025_attribution_guidelines: directrius d'atribució
+        credit_4_v2025_this_copyright_page: aquesta pàgina de copyright
         attribution_example:
           alt: Exemple de com atribuir l'autoria a OpenStreetMap en una pàgina web
           title: Exemple d'atribució d'autoria
-        more_title_html: Saber-ne més
-        more_1_1_html: Llegiu més sobre com usar les nostres dades i donar-nos reconeixament
-          a la %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: Pàgina de llicència de l'OSMF
-        more_2_1_html: |-
-          Tot i que OpenStreetMap són dades obertes, no podem proporcionar
-          una API gratuïta als mapes per a tercers.
-          Vegeu la %{api_usage_policy_link}, %{tile_usage_policy_link} i %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Política d'ús de l'API
-        more_2_1_tile_usage_policy: Política d'ús de les tessel·les
-        more_2_1_nominatim_usage_policy: Política d'ús de Nominatim
+        infringement_title_html: Violació dels drets d'autor
+        infringement_1_html: Recordem als col·laboradors de l'OSM que mai no s'han
+          d'afegir dades de cap font amb drets d'autor registrats (com Google Maps
+          o mapes impresos per exemple) sense tenir una autorització explícita dels
+          titulars dels drets d'autor.
+        infringement_2_1_html: Si creieu que s'ha afegit material amb drets d'autor
+          de forma inapropiada a la base de dades d'OpenstreetMap o en aquest lloc,
+          dirigiu-vos al %{takedown_procedure_link} o ompliu directament a la %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procediment de retirada
+        infringement_2_1_online_filing_page: pàgina del formulari en línia
+        trademarks_title: Marques registrades
+        trademarks_1_1_html: OpenStreetMap, el logotip de la lupa i Estat del Mapa
+          són marques registrades de la Fundació OpenStreetMap. Si teniu dubtes sobre
+          l'ús de les marques, vegeu %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Polítiques de marca registrada
+        services_1_api_usage_policy: Política d'ús de l'API
+        services_1_tile_usage_policy: Política d'ús de les tessel·les
+        services_1_nominatim_usage_policy: Política d'ús de Nominatim
         contributors_title_html: Els nostres col·laboradors
         contributors_intro_html: 'Els nostres col·laboradors són milers de persones.
           També incloem dades amb llicència oberta de les agències públiques de cartografia
@@ -2071,21 +2062,6 @@ ca:
         contributors_footer_2_html: La inclusió de dades a l'OpenStreetMap no implica
           que el proveïdor original de les dades dona suport a l'OpenStreetMap, proporciona
           cap garantia o accepta cap responsabilitat.
-        infringement_title_html: Violació dels drets d'autor
-        infringement_1_html: Recordem als col·laboradors de l'OSM que mai no s'han
-          d'afegir dades de cap font amb drets d'autor registrats (com Google Maps
-          o mapes impresos per exemple) sense tenir una autorització explícita dels
-          titulars dels drets d'autor.
-        infringement_2_1_html: Si creieu que s'ha afegit material amb drets d'autor
-          de forma inapropiada a la base de dades d'OpenstreetMap o en aquest lloc,
-          dirigiu-vos al %{takedown_procedure_link} o ompliu directament a la %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: procediment de retirada
-        infringement_2_1_online_filing_page: pàgina del formulari en línia
-        trademarks_title: Marques registrades
-        trademarks_1_1_html: OpenStreetMap, el logotip de la lupa i Estat del Mapa
-          són marques registrades de la Fundació OpenStreetMap. Si teniu dubtes sobre
-          l'ús de les marques, vegeu %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Polítiques de marca registrada
     index:
       js_1: O bé esteu utilitzant un navegador no compatible amb JavaScript o bé teniu
         JavaScript deshabilitat.
@@ -2143,10 +2119,6 @@ ca:
             carretera que falta o bé la vostra adreça, la millor forma d'arreglar-ho
             és unint-vos a la comunitat d'OpenStreetMap i afegir o bé corregir les
             dades vós mateix.
-        add_a_note:
-          instructions_1_html: |-
-            Feu clic a %{note_icon} o a la mateixa icona sobre el mapa.
-            Això afegirà un marcador al mapa, que podeu desplaçar arrossegant-lo. Afegiu el vostre missatge, deseu-lo i altres usuaris ho investigaran.
       other_concerns:
         title: Altres qüestions
         concerns_html: Si us preocupa com s'usen les dades o dubteu dels continguts,
@@ -2265,14 +2237,11 @@ ca:
         automated_edits: Edicions automatitzades
       start_mapping: Comença a editar el mapa
       continue_authorization: Continua amb l'autorització
-      add_a_note:
-        title: No tens temps per editar? Escriu una nota
-        para_1: Si només voleu fer una petita modificació, però no disposeu del temps
-          per registrar-vos i aprendre a editar, deixeu una nota al mapa.
-        para_2_html: |-
-          Només cal que us dirigiu al %{map_link} i cliqueu la icona de la nota: %{note_icon}.
-          Això afegirà un marcador al mapa que podeu moure arrossegant-lo. Afegiu el missatge, cliqueu el botó de desar, i altres usuaris ho investigaran.
-        the_map: el mapa
+    add_a_note:
+      title: No tens temps per editar? Escriu una nota
+      para_1: Si només voleu fer una petita modificació, però no disposeu del temps
+        per registrar-vos i aprendre a editar, deixeu una nota al mapa.
+      the_map: el mapa
     communities:
       title: Comunitats
       lede_text: "Persones d'arreu del món contribueixen o utilitzen OpenStreetMap.\nSi
@@ -2986,11 +2955,10 @@ ca:
     edit_help: Moveu el mapa i feu zoom sobre una ubicació que vulgueu editar, i a
       continuació, feu clic aquí.
     directions:
-      ascend: Desnivell positiu
-      descend: Desnivell negatiu
-      distance: Distància
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: No s'ha pogut establir una ruta entre aquests dos punts.
         no_place: No hem pogut trobar «%{place}».
@@ -3059,7 +3027,6 @@ ca:
           %{name}
         exit_roundabout: Sortiu la rotonda cap a %{name}
         unnamed: sense nom
-        courtesy: Direccions cortesia de %{link}
         exit_counts:
           first: 1a
           second: 2a
@@ -3071,7 +3038,6 @@ ca:
           eighth: 8a
           ninth: 9a
           tenth: 10a
-      time: Temps
     query:
       node: Node
       way: Via

@@ -46,6 +46,7 @@
 # Author: LaoShuBaby
 # Author: Lepus
 # Author: Liangent
+# Author: Lily9814
 # Author: LittlePaw365
 # Author: Liuxinyu970226
 # Author: Marwin H.H.
@@ -600,6 +601,7 @@ zh-CN:
       nodes_paginated: 节点 (%{x}-%{y}，共 %{count})
       ways_title: 路径
       ways_paginated: 路径 (%{x}-%{y}，共 %{count})
+      relations_title: 关系
       relations_paginated: 关系 (%{x}-%{y}，共 %{count})
       range: '%{x}-%{y} 共%{count}'
     not_found_message:
@@ -655,9 +657,6 @@ zh-CN:
       title_nearby: 附近用户的日记
       user_title: '%{user}的日记'
       in_language_title: '%{language}日记文章'
-      new: 新日记文章
-      new_title: 在我的用户日记中撰写新文章
-      my_diary: 我的日记
       no_entries: 无日记文章
     page:
       recent_entries: 最近的日记文章
@@ -716,6 +715,10 @@ zh-CN:
     unsubscribe:
       heading: 退订以下日记讨论吗？
       button: 退订讨论
+    navigation:
+      my_diary: 我的日记
+      new: 新日记文章
+      new_title: 在我的用户日记中撰写新文章
   diary_comments:
     new:
       heading: 在以下日记条目的讨论中留言吗？
@@ -1597,6 +1600,7 @@ zh-CN:
         município: 市镇界
         nation: 国际边界
         national: 国际边界
+        neighbourhood: 邻里界
         parish: 堂区界
         province: 省界
         região: 自治区界
@@ -1609,18 +1613,30 @@ zh-CN:
     show:
       title:
         latlon: 内部
+        nominatim: 提名者
+        nominatim_reverse: 提名者
     queries:
       create:
         no_results: 没有找到结果
         more_results: 更多结果
   directions:
-    search:
+    show:
       title: 方向
+      distance: 距离
+      time: 时间
+      ascend: 上升
+      descend: 下降
+      button_km: 公里
+      button_mi: 米
+      download: 以GeoJSON格式下载路线
+      filename: 路线
+      directions_courtesy_html: 方向经由%{link}
   issues:
     index:
       title: 问题
       select_status: 选择状态
       select_type: 选择类型
+      select_last_managed_by: 选择上次管理者
       reported_user: 被举报用户
       not_managed: 未管理
       search: 搜索
@@ -1683,7 +1699,14 @@ zh-CN:
       reportable_title:
         diary_comment: '%{entry_title}，评论#%{comment_id}'
         note: 注记#%{note_id}
+      reportable_heading:
+        diary_comment_html: 日记评论 %{title} 创建于 %{datetime_created}，更新于 %{datetime_updated}
+        diary_entry_html: 日记条目 %{title} 创建于 %{datetime_created}，更新于 %{datetime_updated}
+        note_html: '%{title} 创建于 %{datetime_created}，更新于 %{datetime_updated}'
+        user_html: 用户 %{title} 创建于 %{datetime_created}
     reporters:
+      index:
+        title: '第 #%{issue_id} 期记者'
       reporters:
         more_reporters: 以及%{count}个
   issue_comments:
@@ -1753,6 +1776,8 @@ zh-CN:
     learn_more: 了解更多
     more: 更多
     offline_flash:
+      osm_offline: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于脱机状态。
+      osm_read_only: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于只读模式。
       expected_restore_html: 服务预计于%{time}内恢复。
       announcement: 您可以在此阅读公告。
   user_mailer:
@@ -1775,6 +1800,8 @@ zh-CN:
       footer_html: 您还可以在%{readurl}阅读这条信息并在%{replyurl}向作者发送信息
     follow_notification:
       hi: 您好，%{to_user}：
+      subject: '[OpenStreetMap] %{user} 关注了您'
+      followed_you: '%{user} 现在正在 OpenStreetMap 上关注您。'
       see_their_profile: 您可以在%{userurl}查看他们的个人资料。
       see_their_profile_html: 您可以在%{userurl}查看他们的个人资料。
       follow_them: 您也可以通过%{followurl}关注他。
@@ -2021,6 +2048,9 @@ zh-CN:
     new:
       tab_title: 登录
       login_to_authorize_html: 登录 OpenStreetMap 以访问 %{client_app_name}。
+      already_logged_in_html: 您已以 %{user} 身份登录。重新登录将会更改您当前的帐户。
+      access_another_page: 您在尝试访问另一个页面时到达此处。如果您想使用当前帐户访问该页面，请点击下方按钮：
+      visit_referring_page: 访问引用页面
       email or username: 电子邮件地址或用户名
       password: 密码
       remember: 记住我
@@ -2124,38 +2154,30 @@ zh-CN:
         native_link: 简体中文版本
         mapping_link: 开始绘制地图
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} 是%{open_data}，由 %{osm_foundation_link} (OSMF) 在
-          %{odc_odbl_link} (ODbL) 下获得许可。
-        introduction_1_open_data: 开放数据
-        introduction_1_odc_odbl: 开放数据共享开放数据库许可协议
-        introduction_1_osm_foundation: OpenStreetMap 基金会
-        introduction_2_html: 只要你表明来源为OpenStreetMap及其贡献者，你就可以自由地复制、分发、传送和改编我们的数据。如果你想转换或者以我们的数据为基础进行创作，你只能采用相同的许可协议发表你的作品。完整的%{legal_code_link}阐明了你的权利和义务。
-        introduction_2_legal_code: 法律条款
-        introduction_3_html: 我们的文档根据 %{creative_commons_link} 许可协议（CC BY-SA 2.0）获得许可。
-        introduction_3_creative_commons: 知识共享署名-相同方式共享 2.0
+        licensing_1_odc_odbl: 开放数据共享开放数据库许可协议
+        licensing_1_osm_foundation: OpenStreetMap 基金会
+        licensing_4_osmf_license_page: OSMF 许可页面
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
-        credit_2_1: 通过显示我们的版权声明为 OpenStreetMap 提供署名。
-        credit_2_2: 明确数据在开放数据库许可证下可用。
-        credit_3_html: 对于版权声明的显示，我们会依据您如何使用我们的数据，而有不同的要求。例如，不同的规则要如何显示版权声明，具体取决于您是否建立了可浏览的地图、列印的地图或是静态图像。完整的详细信息要求可以在%{attribution_guidelines_link}上查看。
-        credit_3_attribution_guidelines: 署名指南
-        credit_4_1_html: |-
-          请明确表示数据在开放数据库许可协议下可用，您可以链接到%{this_copyright_page_link}。
-          相对地，如果您以数据表来分发 OSM，您可以命名并直接链接到许可协议。在一些无法作出链接的媒介（例如印刷品），我们建议您引导您的读者到 openstreetmap.org（像是注明“OpenStreetMap”的完整网址）以及 opendatacommons.org。
-          在此示例中，版权相关的归属会出现在地图的角落。
-        credit_4_1_this_copyright_page: 该版权页
+        credit_2_license: 明确数据在开放数据库许可证下可用。
+        credit_3_v2025_attribution_guidelines: 署名指南
+        credit_4_v2025_this_copyright_page: 该版权页
         attribution_example:
           alt: 如何在网页上署名 OpenStreetMap 的示例
           title: 署名示例
-        more_title_html: 了解更多
-        more_1_1_html: 在 %{osmf_licence_page_link} 阅读更多关于使用我们的数据以及如何为我们署名的信息。
-        more_1_1_osmf_licence_page: OSMF 许可页面
-        more_2_1_html: 尽管 OpenStreetMap 是开放数据，但我们无法为第三方提供免费的地图 API。请参阅我们的 %{api_usage_policy_link}、%{tile_usage_policy_link}
-          和 %{nominatim_usage_policy_link}。
-        more_2_1_api_usage_policy: API 使用政策
-        more_2_1_tile_usage_policy: 瓦片使用政策
-        more_2_1_nominatim_usage_policy: Nominatim使用政策
+        infringement_title_html: 著作权侵犯
+        infringement_1_html: OSM 的贡献者会被提醒，绝不要在没有著作权人的明确许可时添加来自任何有著作权的来源的数据(如谷歌地图或印刷地图)。
+        infringement_2_1_html: 如果您认为受版权保护的材料已被不适当地添加到 OpenStreetMap 数据库或本网站，请参考、我们的
+          %{takedown_procedure_link} 或直接在我们的 %{online_filing_page_link} 递交。
+        infringement_2_1_takedown_procedure: 下架程序
+        infringement_2_1_online_filing_page: 在线申请页面
+        trademarks_title: 商标
+        trademarks_1_1_html: "OpenStreetMap、放大镜标志和 State of the Map 是 \nOpenStreetMap
+          Foundation 的注册商标。如果您对商标的使用有任何疑问，请参阅我们的\n%{trademark_policy_link}。"
+        trademarks_1_1_trademark_policy: 商标政策
+        services_1_api_usage_policy: API 使用政策
+        services_1_tile_usage_policy: 瓦片使用政策
+        services_1_nominatim_usage_policy: Nominatim使用政策
         contributors_title_html: 我们的贡献者
         contributors_intro_html: 我们的数据来源于成千上万人的贡献。但我们也从国家测绘机构等处获取公共版权的数据，其中包括：
         contributors_at_credit_html: |-
@@ -2228,16 +2250,6 @@ zh-CN:
           Wiki 上的 %{contributors_page_link}。
         contributors_2_contributors_page: 贡献者页面
         contributors_footer_2_html: OpenStreetMap 纳入数据并不意味着原始数据提供者认可 OpenStreetMap、提供任何担保或担负任何法律责任。
-        infringement_title_html: 著作权侵犯
-        infringement_1_html: OSM 的贡献者会被提醒，绝不要在没有著作权人的明确许可时添加来自任何有著作权的来源的数据(如谷歌地图或印刷地图)。
-        infringement_2_1_html: 如果您认为受版权保护的材料已被不适当地添加到 OpenStreetMap 数据库或本网站，请参考、我们的
-          %{takedown_procedure_link} 或直接在我们的 %{online_filing_page_link} 递交。
-        infringement_2_1_takedown_procedure: 下架程序
-        infringement_2_1_online_filing_page: 在线申请页面
-        trademarks_title: 商标
-        trademarks_1_1_html: "OpenStreetMap、放大镜标志和 State of the Map 是 \nOpenStreetMap
-          Foundation 的注册商标。如果您对商标的使用有任何疑问，请参阅我们的\n%{trademark_policy_link}。"
-        trademarks_1_1_trademark_policy: 商标政策
     index:
       js_1: 您或许正在使用不支持 JavaScript 的浏览器，或您禁用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 让地图更平滑。
@@ -2281,10 +2293,6 @@ zh-CN:
           title: 加入社区
           explanation_html: 如果您发现我们的地图数据有问题，例如缺少某条道路或者您的地址，最好的处理方法就是加入 OpenStreetMap
             社区，然后您自己添加或者改进数据。
-        add_a_note:
-          instructions_1_html: |-
-            只需点击%{note_icon}或地图显示上的相同图标。
-            这会在地图上添加一个标记，您可以通过拖动它。添加您的注记，然后点击保存，其他绘图者将作出查证。
       other_concerns:
         title: 其他问题
         concerns_html: 如果您对我们的数据使用方式或内容有疑虑，请参阅我们的%{copyright_link}来了解更多法律信息，或者联系相应的%{working_group_link}。
@@ -2378,11 +2386,10 @@ zh-CN:
         automated_edits: 自动化编辑
       start_mapping: 开始绘制地图
       continue_authorization: 继续授权
-      add_a_note:
-        title: 没有时间编辑？添加注记！
-        para_1: 如果您这是想做一些微小改动而没有时间登录来学习如何编辑，那添加注记是非常容易的。
-        para_2_html: 只要去%{map_link}并单击注记图标：%{note_icon}。这将在地图上添加一个标记，您可以拖动它，并添加您的备注，然后单击保存，其他人绘图者将确认其是否正确。
-        the_map: 地图
+    add_a_note:
+      title: 没有时间编辑？添加注记！
+      para_1: 如果您这是想做一些微小改动而没有时间登录来学习如何编辑，那添加注记是非常容易的。
+      the_map: 地图
     communities:
       title: 社区
       lede_text: |-
@@ -2762,6 +2769,7 @@ zh-CN:
       follow: 关注
       mapper since: 绘图者注册于：
       last map edit: 最后地图编辑于：
+      home location: 您的位置
       no activity yet: 尚无活动
       uid: 用户ID：
       ct status: 贡献者条款：
@@ -2829,6 +2837,7 @@ zh-CN:
           pending: 待处理
           active: 活跃
           confirmed: 已确认
+          suspended: 挂起
           deleted: 已删除
         name_or_email: 姓名或电子邮件
         ip_address: IP地址
@@ -3154,11 +3163,13 @@ zh-CN:
       embed_html_disabled: HTML 嵌入不适用于此地图图层
     edit_help: 移动地图并在您想编辑的位置放大，然后点击这里。
     directions:
-      ascend: 上升
-      descend: 下降
-      distance: 距离
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}公里'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}公里'
+        miles:
+          ft: '%{distance}公里'
+          mi: '%{distance}公里'
       errors:
         no_route: 找不到那两个地方之间的路径。
         no_place: 对不起——无法定位“%{place}”。
@@ -3217,7 +3228,6 @@ zh-CN:
         exit_roundabout: 沿环形交叉退出至%{name}
         ferry_without_exit: 乘坐%{name}渡轮
         unnamed: 未命名道路
-        courtesy: 方向经由%{link}
         exit_counts:
           first: 第1
           second: 第2
@@ -3229,9 +3239,6 @@ zh-CN:
           eighth: 第8
           ninth: 第9
           tenth: 第10
-      time: 时间
-      download: 以GeoJSON格式下载路线
-      filename: 路线
     query:
       node: 节点
       way: 路径

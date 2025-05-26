@@ -608,9 +608,6 @@ zh-TW:
       title_nearby: 附近的使用者的日記
       user_title: '%{user} 的日記'
       in_language_title: 語言為%{language}的日記項目
-      new: 新增日記項目
-      new_title: 在我的使用者日記裡撰寫新內容
-      my_diary: 我的日記
       no_entries: 沒有日記項目
     page:
       recent_entries: 最近的日記項目
@@ -669,6 +666,10 @@ zh-TW:
     unsubscribe:
       heading: 取消訂閱以下日記項目討論？
       button: 取消訂閱討論
+    navigation:
+      my_diary: 我的日記
+      new: 新增日記項目
+      new_title: 在我的使用者日記裡撰寫新內容
   diary_comments:
     new:
       heading: 在以下日記項目討論新增留言？
@@ -1566,8 +1567,15 @@ zh-TW:
         no_results: 找不到結果
         more_results: 更多結果
   directions:
-    search:
+    show:
       title: 路線
+      distance: 距離
+      time: 時間
+      ascend: 上升
+      descend: 下降
+      download: 以 GeoJSON 格式下載路線
+      filename: 路線
+      directions_courtesy_html: 感謝 %{link} 提供路線資訊
   issues:
     index:
       title: 問題
@@ -2099,39 +2107,30 @@ zh-TW:
         native_link: 繁體中文版
         mapping_link: 開始製圖
       legal_babble:
-        introduction_1_html: 開放街圖%{registered_trademark_link}是%{open_data}，透過%{osm_foundation_link}
-          (OSMF) 以%{odc_odbl_link}（ODbL）授權。
-        introduction_1_open_data: 開放資料
-        introduction_1_odc_odbl: 開放資料共享開放資料庫授權
-        introduction_1_osm_foundation: 開放街圖基金會
-        introduction_2_html: 你可以自由複製、散布、傳輸及修改我們的資料，前提是必須標明作者為開放街圖及其貢獻者。若在我們的資料上作變動或以此來建立其他資料，你只能依照相同授權條款來散佈成果。%{legal_code_link}有詳述你的權責。
-        introduction_2_legal_code: 法律條款
-        introduction_3_html: 我們的文件是依據 %{creative_commons_link} 授權條款（CC BY-SA 2.0）獲得許可。
-        introduction_3_creative_commons: 創用 CC 姓名標示-相同方式分享
-        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW
+        licensing_1_odc_odbl: 開放資料共享開放資料庫授權
+        licensing_1_osm_foundation: 開放街圖基金會
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW
+        licensing_4_osmf_license_page: OSMF 授權條款頁面
         credit_title_html: 如何標明作者是開放街圖
         credit_1_html: 當你使用開放街圖的資料，你會被要求遵循兩件事：
-        credit_2_1: 透過顯示我們的版權聲明為開放街圖提供署名。
-        credit_2_2: 明確資料在開放資料共享開放資料庫授權下可用。
-        credit_3_html: 對於版權聲明的顯示，我們會依據你如何使用我們的資料，而有不同的要求。例如：不同的規則要如何顯示版權聲明，具體取決於你是否有建立可瀏覽的地圖、列印的地圖、或靜態圖片。完整的詳細資訊要求可以在%{attribution_guidelines_link}上查看。
-        credit_3_attribution_guidelines: 姓名標示指南
-        credit_4_1_html: |-
-          請明確表示資料在開放資料庫授權條款下可用，你可以連結到%{this_copyright_page_link}。
-          相對地，如果你以資料表來分發 OSM，你可以命名並直接連結到授權條款。在一些無法作出連結的媒體 (例如印刷品)，我們建議引導你的讀者到 openstreetmap.org (像是註明「OpenStreetMap」的完整網址) 以及 opendatacommons.org。
-          在此範例中，版權相關聲明會出現在地圖的角落處。
-        credit_4_1_this_copyright_page: 此版權頁面
+        credit_2_license: 明確資料在開放資料共享開放資料庫授權下可用。
+        credit_3_v2025_attribution_guidelines: 姓名標示指南
+        credit_4_v2025_this_copyright_page: 此版權頁面
         attribution_example:
           alt: 如何在網頁上署名開放街圖的例子
           title: 姓名標示例子
-        more_title_html: 尋找更多
-        more_1_1_html: 在%{osmf_licence_page_link}閱讀更多關於使用我們的資料，以及如何屬名我們的方式。
-        more_1_1_osmf_licence_page: OSMF 授權條款頁面
-        more_2_1_html: |-
-          儘管開放街圖是開放資料，但我們不對第三方提供免費的地圖 API。
-          請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}以及%{nominatim_usage_policy_link}。
-        more_2_1_api_usage_policy: API 使用方針
-        more_2_1_tile_usage_policy: 圖磚使用方針
-        more_2_1_nominatim_usage_policy: 提名使用方針
+        infringement_title_html: 侵犯版權
+        infringement_1_html: OSM 的貢獻者會被提醒，絕不要在沒有版權所有人的明確淮許下，加入來自任何有版權的來源的資料 (如 Google
+          地圖或印刷地圖)。
+        infringement_2_1_html: 如果你認為有受版權保護的素材被不恰當地加到開放街圖資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反應。
+        infringement_2_1_takedown_procedure: 侵權處理程序
+        infringement_2_1_online_filing_page: 線上申請頁面
+        trademarks_title: 商標
+        trademarks_1_1_html: 開放街圖、網站上的放大鏡標誌以及 State of the Map 是開放街圖基金會的註冊商標。如果你對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
+        trademarks_1_1_trademark_policy: 商標方針
+        services_1_api_usage_policy: API 使用方針
+        services_1_tile_usage_policy: 圖磚使用方針
+        services_1_nominatim_usage_policy: 提名使用方針
         contributors_title_html: 我們的貢獻者
         contributors_intro_html: 我們的貢獻者為成千上萬的人。我們也收納了從國家測繪機構及其他來源等取得的開放版權資料，其中包括：
         contributors_at_credit_html: '%{austria}：包含來自%{stadt_wien_link} (依據%{cc_by_link})、%{land_vorarlberg_link}、與
@@ -2195,15 +2194,6 @@ zh-TW:
         contributors_2_html: 關於這些的進一步詳細資訊，與其他已使用來改善開放街圖的來源，請參閱開放街圖 Wiki 上的%{contributors_page_link}。
         contributors_2_contributors_page: 貢獻者頁面
         contributors_footer_2_html: 開放街圖收錄一項資料，並不意味原本的資料提供者認可開放街圖、提供任何保證或承擔任何法律責任。
-        infringement_title_html: 侵犯版權
-        infringement_1_html: OSM 的貢獻者會被提醒，絕不要在沒有版權所有人的明確淮許下，加入來自任何有版權的來源的資料 (如 Google
-          地圖或印刷地圖)。
-        infringement_2_1_html: 如果你認為有受版權保護的素材被不恰當地加到開放街圖資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反應。
-        infringement_2_1_takedown_procedure: 侵權處理程序
-        infringement_2_1_online_filing_page: 線上申請頁面
-        trademarks_title: 商標
-        trademarks_1_1_html: 開放街圖、網站上的放大鏡標誌以及 State of the Map 是開放街圖基金會的註冊商標。如果你對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
-        trademarks_1_1_trademark_policy: 商標方針
     index:
       js_1: 你使用不支援 JavaScript 的瀏覽器，或者停用了 JavaScript。
       js_2: 開放街圖使用 JavaScript 讓地圖更平順。
@@ -2248,10 +2238,6 @@ zh-TW:
         join_the_community:
           title: 加入社群
           explanation_html: 如果你發現我們的地圖資料有問題，例如缺少某條道路或者你的地址，最好的方法就是加入開放街圖社群，然後自己加入或者改進資料。
-        add_a_note:
-          instructions_1_html: |-
-            只需點選%{note_icon}或地圖上顯示的同一圖示，
-            這會在地圖上加入一個標記，你可以拖動它，並新增你的註記，然後點選儲存，其他製圖者會作出查證。
       other_concerns:
         title: 其他問題
         concerns_html: 如果你對我們的資料使用方面或內容有所疑慮，請參考我們的%{copyright_link}來了解更多法律資訊，或是聯繫相應的%{working_group_link}。
@@ -2348,14 +2334,10 @@ zh-TW:
         automated_edits: 自動化編輯
       start_mapping: 開始製圖
       continue_authorization: 繼續授權
-      add_a_note:
-        title: 沒有時間編輯嗎？可加入註記！
-        para_1: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
-        para_2_html: |-
-          只要到%{map_link}並點選註解圖示：%{note_icon}。
-          這樣做會在地圖上新增標記，你可以用拖拉方式移動。
-          並且新增你註記內容，接著點儲存，其他圖客則會開始調查。
-        the_map: 地圖
+    add_a_note:
+      title: 沒有時間編輯嗎？可加入註記！
+      para_1: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
+      the_map: 地圖
     communities:
       title: 社群
       lede_text: |-
@@ -3126,11 +3108,10 @@ zh-TW:
       embed_html_disabled: HTML 內嵌對此地圖圖層不可用
     edit_help: 將地圖移至你想編輯的位置並放大，然後按這裡。
     directions:
-      ascend: 上升
-      descend: 下降
-      distance: 距離
-      distance_m: '%{distance} 公尺'
-      distance_km: '%{distance}公里'
+      distance_in_units:
+        meters:
+          m: '%{distance} 公尺'
+          km: '%{distance}公里'
       errors:
         no_route: 查無兩個地點間的路徑。
         no_place: 抱歉 - 查無地點「%{place}」。
@@ -3189,7 +3170,6 @@ zh-TW:
         exit_roundabout: 離開圓環到 %{name}
         ferry_without_exit: 搭乘%{name}渡輪
         unnamed: 未命名道路
-        courtesy: 感謝 %{link} 提供路線資訊
         exit_counts:
           first: 第 1
           second: 第 2
@@ -3201,9 +3181,6 @@ zh-TW:
           eighth: 第 8
           ninth: 第 9
           tenth: 第 10
-      time: 時間
-      download: 以 GeoJSON 格式下載路線
-      filename: 路線
     query:
       node: 節點
       way: 路徑

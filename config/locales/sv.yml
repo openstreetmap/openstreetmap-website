@@ -47,6 +47,7 @@
 # Author: Sertion
 # Author: Shirayuki
 # Author: Stefan2255
+# Author: Teaparty
 # Author: Technic2
 # Author: The real emj
 # Author: Tor.klingberg
@@ -551,7 +552,7 @@ sv:
       title: Ändringsuppsättningar
       title_user: Ändringsuppsättningar av %{user}
       title_user_link_html: Ändringsuppsättningar av %{user_link}
-      title_followed: Ändringsuppsättning efter följande
+      title_followed: Ändringsuppsättningar av användare du följer
       title_nearby: Ändringsuppsättningar av närbelägna användare
       empty: Inga ändringsuppsättningar hittades.
       empty_area: Inga ändringsuppsättningar i det här området.
@@ -559,6 +560,8 @@ sv:
       no_more: Inga fler ändringsuppsättningar hittades.
       no_more_area: Inga fler ändringsuppsättningar i det här området.
       no_more_user: Inga fler ändringsuppsättningar av den här användaren.
+      older_changesets: Äldre ändringsuppsättningar
+      newer_changesets: Nyare ändringsuppsättningar
       feed:
         title: Ändringsuppsättning %{id}
         title_comment: Ändringsset %{id} - %{comment}
@@ -589,7 +592,9 @@ sv:
     paging_nav:
       nodes_paginated: Noder (%{x}-%{y} av %{count})
       ways_paginated: Sträckor (%{x}-%{y} av %{count})
+      relations_title: Relationer
       relations_paginated: Förbindelser (%{x}-%{y} av %{count})
+      range: '%{x}–%{y} av %{count}'
     not_found_message:
       sorry: 'Tyvärr kunde inte ändringsuppsättning #%{id} hittas.'
     timeout:
@@ -626,7 +631,7 @@ sv:
       no_home_location_html: '%{edit_profile_link} och sätt din hemposition för att
         se närliggande användare.'
       edit_your_profile: Redigera din profil
-      followings: Följare
+      followings: Användare du följer
       no followings: Du följare ännu inga andra användare.
       nearby users: Andra användare nära dig
       no nearby users: Det är ännu inga andra användare som uppgett att de kartlägger
@@ -643,13 +648,10 @@ sv:
       use_map_link: Använd karta
     index:
       title: Användardagböcker
-      title_followed: Följares dagböcker
+      title_followed: Följda användares dagböcker
       title_nearby: Närbelägna användares dagböcker
       user_title: '%{user}s dagbok'
       in_language_title: Dagboksinlägg på %{language}
-      new: Nytt dagboksinlägg
-      new_title: Skapa ett nytt inlägg i min användardagbok
-      my_diary: Min dagbok
       no_entries: Inga dagboksinlägg
     page:
       recent_entries: Nyligen skapade dagboksinlägg
@@ -673,6 +675,7 @@ sv:
     diary_entry:
       posted_by_html: Skrivet av %{link_user} den %{created} på %{language_link}.
       updated_at_html: Uppdaterades senast %{updated}.
+      full_entry: Se hela inlägget
       comment_link: Kommentera detta inlägg
       reply_link: Skicka ett meddelande till skribenten
       comment_count:
@@ -708,6 +711,10 @@ sv:
     unsubscribe:
       heading: Avsluta prenumeration på följande diskussion om dagboksinlägg?
       button: Avsluta prenumeration på diskussion
+    navigation:
+      my_diary: Min dagbok
+      new: Nytt dagboksinlägg
+      new_title: Skapa ett nytt inlägg i min användardagbok
   diary_comments:
     new:
       heading: Lägg en kommentar på följande diskussion om dagboksinlägg?
@@ -1565,16 +1572,16 @@ sv:
           weir: Överfallsvärn
           "yes": Vattenväg
       admin_levels:
-        level2: Landsgräns
-        level3: Regiongräns
-        level4: Statsgräns
-        level5: Regionsgräns
-        level6: Länsgräns
-        level7: Kommungräns
-        level8: Stadsgräns
-        level9: Bygräns
-        level10: Förortsgräns
-        level11: Kvartersgräns
+        level2: Internationell gräns
+        level3: Administrativ gräns (nivå 3)
+        level4: Administrativ gräns (nivå 4)
+        level5: Administrativ gräns (nivå 5)
+        level6: Administrativ gräns (nivå 6)
+        level7: Administrativ gräns (nivå 7)
+        level8: Administrativ gräns (nivå 8)
+        level9: Administrativ gräns (nivå 9)
+        level10: Administrativ gräns (nivå 10)
+        level11: Administrativ gräns (nivå 11)
   searches:
     show:
       title:
@@ -1584,8 +1591,15 @@ sv:
         no_results: Inga resultat hittades
         more_results: Fler resultat
   directions:
-    search:
+    show:
       title: Vägbeskrivning
+      distance: Avstånd
+      time: Tid
+      ascend: Stigande
+      descend: Fallande
+      download: Ladda ner rutt som GeoJSON
+      filename: rutt
+      directions_courtesy_html: Vägbeskrivning med tillstånd av %{link}
   issues:
     index:
       title: Ärenden
@@ -2185,57 +2199,39 @@ sv:
         native_link: svensk version
         mapping_link: börja kartlägga
       legal_babble:
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} är %{open_data}, licensierad under
-          %{odc_odbl_link} (ODbL) av %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: öppna data
-        introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: OpenStreetMap-stiftelsen
-        introduction_2_html: |-
-          Du är fri att kopiera, distribuera, överföra och anpassa vår data,
-          så länge du anger OpenStreetMap och dess bidragsgivare som källa.
-          Om du ändrar eller bygger vidare på vår data kan du
-          endast distribuera resultatet under samma licens. Den
-          fullständiga %{legal_code_link} förklarar dina rättigheter och skyldigheter.
-        introduction_2_legal_code: juridiska texten
-        introduction_3_html: Vår dokumentation är licensierad under licensen %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Erkännande-DelaLika 2.0
+        licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_osm_foundation: OpenStreetMap-stiftelsen
+        licensing_4_osmf_license_page: OSMF-licenssida
         credit_title_html: Hur du anger OpenStreetMap som källa
         credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
           saker:'
-        credit_2_1: Tillskriva datan till OpenStreetMap genom att visa vårt upphovsrättsmeddelande.
-        credit_2_2: Gör klart att uppgifterna är tillgängliga under Öppen Database
+        credit_2_license: Gör klart att uppgifterna är tillgängliga under Öppen Database
           Licensen.
-        credit_3_html: |-
-          För upphovsrättsmeddelandet har vi olika krav på hur detta ska visas, beroende på hur du använder vår data. Exempelvis gäller olika
-          regler för hur upphovsrättsmeddelandet ska visas beroende på om du har
-          skapat en bläddringsbar karta, en utskriven karta eller en statisk bild. Fullständig information om
-          -kraven finns i %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Riktlinjer för tillskrivning
-        credit_4_1_html: "För att tydliggöra att data är tillgänglig under Öppen\nDatabase
-          Licensen kan du länka till %{this_copyright_page_link}.\nAlternativt, och
-          som ett krav om du distribuerar OSM i en\ndataform kan du namn och länk
-          direkt till licensen/licenserna. I media\ndär länkar inte är möjliga (t.ex.
-          tryckta verk) föreslår vi att du\ndirigerar dina läsare till openstreetmap.org
-          (kanske genom att utöka\n'OpenStreetMap' till denna fullständiga adress)
-          och till opendatacommons.org. \nI det här exemplet visas upphovsrättsinformation
-          i kartans hörn."
-        credit_4_1_this_copyright_page: denna upphovsrättssida
+        credit_3_v2025_attribution_guidelines: Riktlinjer för tillskrivning
+        credit_4_v2025_this_copyright_page: denna upphovsrättssida
         attribution_example:
           alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
           title: Exempel på attribuering.
-        more_title_html: Mer information
-        more_1_1_html: Läs mer om hur du använder vår data och hur du krediterar oss
-          på %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: OSMF-licenssida
-        more_2_1_html: |-
-          Även om OpenStreetMap är öppen data kan vi inte tillhandahålla ett
-          gratis kart-API för tredje part.
-          Se våra %{api_usage_policy_link}, %{tile_usage_policy_link} och %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: API-användningspolicy
-        more_2_1_tile_usage_policy: Användningspolicy för Brickor
-        more_2_1_nominatim_usage_policy: Nominativ användningspolicy
+        infringement_title_html: Upphovsrättsintrång
+        infringement_1_html: |-
+          Bidragsgivare till OSM påminns om att aldrig lägga till data från
+          upphovsrättsskyddade källor (t.ex. Google Maps och tryckta kartor) utan
+          uttryckligt tillstånd från upphovsrättsinnehavarna.
+        infringement_2_1_html: |-
+          Om du anser att upphovsrättsskyddat material har lagts till på ett olämpligt sätt
+           i OpenStreetMap-databasen eller den här webbplatsen, vänligen se vår %{takedown_procedure_link} eller registrera direkt på vår
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: borttagningsförfarande
+        infringement_2_1_online_filing_page: on-line registreringssida
+        trademarks_title: Varumärken
+        trademarks_1_1_html: |-
+          OpenStreetMap, förstoringsglasets logotyp och State of the Map är registrerade varumärken som tillhör
+          OpenStreetMap Foundation. Om du har frågor om din användning av märkena, se vår
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Varumärkespolicy
+        services_1_api_usage_policy: API-användningspolicy
+        services_1_tile_usage_policy: Användningspolicy för Brickor
+        services_1_nominatim_usage_policy: Nominativ användningspolicy
         contributors_title_html: Våra bidragsgivare
         contributors_intro_html: |-
           Våra bidragsgivare är tusentals individer. Vi inkluderar också
@@ -2322,23 +2318,6 @@ sv:
         contributors_footer_2_html: "Införandet av uppgifter i OpenStreetMap innebär
           inte att den ursprungliga \ndatagivaren stödjer OpenStreetMap, \nger någon
           som helst garanti eller \ntar på sig något ansvar."
-        infringement_title_html: Upphovsrättsintrång
-        infringement_1_html: |-
-          Bidragsgivare till OSM påminns om att aldrig lägga till data från
-          upphovsrättsskyddade källor (t.ex. Google Maps och tryckta kartor) utan
-          uttryckligt tillstånd från upphovsrättsinnehavarna.
-        infringement_2_1_html: |-
-          Om du anser att upphovsrättsskyddat material har lagts till på ett olämpligt sätt
-           i OpenStreetMap-databasen eller den här webbplatsen, vänligen se vår %{takedown_procedure_link} eller registrera direkt på vår
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: borttagningsförfarande
-        infringement_2_1_online_filing_page: on-line registreringssida
-        trademarks_title: Varumärken
-        trademarks_1_1_html: |-
-          OpenStreetMap, förstoringsglasets logotyp och State of the Map är registrerade varumärken som tillhör
-          OpenStreetMap Foundation. Om du har frågor om din användning av märkena, se vår
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Varumärkespolicy
     index:
       js_1: Du använder antingen en webbläsare som inte stöder JavaScript, eller så
         har du inaktiverat JavaScript.
@@ -2391,11 +2370,6 @@ sv:
           explanation_html: Om du har hittat ett problem med vår kartdata, till exempel
             att en väg eller din adress saknas, är den bästa lösningen att gå med
             i OpenStreetMap-gemenskapen och själv lägga till eller reparera datan.
-        add_a_note:
-          instructions_1_html: |-
-            Klicka bara på %{note_icon} eller samma ikon på kartvisningen.
-            Detta lägger till en markör på kartan som du kan flytta
-            genom att dra. Lägg till ditt meddelande och klicka sedan på spara, så kommer andra kartläggare att undersöka det.
       other_concerns:
         title: Andra farhågor
         concerns_html: |-
@@ -2514,15 +2488,11 @@ sv:
         automated_edits: Automatiserade redigeringar
       start_mapping: Börja kartlägga
       continue_authorization: Fortsätt auktorisering
-      add_a_note:
-        title: Ingen tid att redigera? Lägg till en kommentar!
-        para_1: Om du bara vill ha ett litet problem fixat och inte har tid att registrera
-          dig så är det lätt att lämna en kartanteckning.
-        para_2_html: |-
-          Gå bara till %{map_link} och klicka på anteckningsikonen: %{note_icon}.
-          Detta lägger till en markör på kartan som du kan flytta genom att dra.
-          Lägg till ditt meddelande, klicka sedan på spara och annat kartläggare kommer att undersöka.
-        the_map: kartan
+    add_a_note:
+      title: Ingen tid att redigera? Lägg till en kommentar!
+      para_1: Om du bara vill ha ett litet problem fixat och inte har tid att registrera
+        dig så är det lätt att lämna en kartanteckning.
+      the_map: kartan
     communities:
       title: Gemenskaper
       lede_text: "Människor från hela världen bidrar till eller använder OpenStreetMap.\nMedan
@@ -2771,6 +2741,8 @@ sv:
         title: Logga in med Wikipedia
         alt: Wikipedia-logotyp
     share:
+      share:
+        title: Dela
       email:
         title: Dela via e-post
         alt: E-post-ikon
@@ -2801,10 +2773,12 @@ sv:
       write_prefs: Ändra användaralternativ
       write_diary: Skapa dagboksanteckning och kommentarer
       write_api: Ändra kartan
+      write_changeset_comments: Kommentera på ändringsuppsättningar
       read_gpx: Läs privata GPS-spår
       write_gpx: Ladda upp GPS-spår
       write_notes: Ändra anteckningar
       write_redactions: Omarbeta kartdata
+      write_blocks: Skapa och återkalla användarblockeringar
       read_email: Läs användarens e-postadress
       consume_messages: Läs, uppdatera status och radera användarmeddelanden
       send_messages: Skicka privata meddelanden till andra användare
@@ -3347,11 +3321,10 @@ sv:
     edit_help: Flytta kartan och zooma in på en plats som du vill redigera, klicka
       sedan här.
     directions:
-      ascend: Stigande
-      descend: Fallande
-      distance: Avstånd
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance} m'
+          km: '%{distance} km'
       errors:
         no_route: Kunde inte hitta en väg mellan dessa två platser.
         no_place: Ledsen - kunde inte hitta %{place}.
@@ -3413,8 +3386,8 @@ sv:
         roundabout_with_exit: Vid rondellen, ta avfart %{exit} mot %{name}
         roundabout_with_exit_ordinal: Vid rondellen, ta avfart %{exit} mot %{name}
         exit_roundabout: Lämna rondellen mot %{name}
+        ferry_without_exit: Ta färjan %{name}
         unnamed: icke namngiven väg
-        courtesy: Vägbeskrivning med tillstånd av %{link}
         exit_counts:
           first: 1:a
           second: 2:a
@@ -3426,9 +3399,6 @@ sv:
           eighth: 8:e
           ninth: 9:e
           tenth: 10:e
-      time: Tid
-      download: Ladda ner rutt som GeoJSON
-      filename: rutt
     query:
       node: Nod
       way: Sträcka
