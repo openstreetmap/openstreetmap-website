@@ -344,11 +344,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Should only show the 4 most recent entries
     assert_select ".profile-diary-card", 4
-    assert_select ".card-title", "Fifth Entry"
-    assert_select ".card-title", "Fourth Entry"
-    assert_select ".card-title", "Third Entry"
-    assert_select ".card-title", "Second Entry"
-    assert_select ".card-title", { :text => "First Entry", :count => 0 }
+    assert_select ".card-title a", "Fifth Entry"
+    assert_select ".card-title a", "Fourth Entry"
+    assert_select ".card-title a", "Third Entry"
+    assert_select ".card-title a", "Second Entry"
+    assert_select ".card-title a", { :text => "First Entry", :count => 0 }
   end
 
   def test_show_profile_diaries_with_comments
@@ -362,7 +362,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_select ".profile-diary-card" do
-      assert_select ".card-title", "Entry with Comments"
+      assert_select ".card-title a", "Entry with Comments"
       assert_select "small.text-body-secondary", /2 comments/
     end
   end
