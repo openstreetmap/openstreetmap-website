@@ -84,7 +84,7 @@
   </div>
 <% end %>
 
-<% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? %>
+<% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? and !Auth.providers.empty? %>
   <%= render :partial => "shared/section_divider", :locals => { :text => t(".use external auth") } %>
   <%= render :partial => "auth_providers" %>
 <% end %>
