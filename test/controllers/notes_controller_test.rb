@@ -67,6 +67,27 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_displaying_note_with_tags
+    user = create(:user)
+
+    note = create(:note)
+    create(:note_comment, :note => note, :author => user, :body => "Note description")
+    create(:note_tag, :note => note, :k => "created_by", :v => "OSM_TEST")
+    create(:note_tag, :note => note, :k => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր", :v => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ")
+
+    sidebar_browse_check :note_path, note.id, "notes/show"
+    assert_dom "h2", :text => "Unresolved note ##{note.id}"
+    assert_dom "p", :text => "Note description"
+    assert_dom "tr" do
+      assert_dom "th", :text => "created_by"
+      assert_dom "td", :text => "OSM_TEST"
+    end
+    assert_dom "tr" do
+      assert_dom "th", :text => "삭ÒX~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|傥4ր"
+      assert_dom "td", :text => "Ƭ߯ĸá~`!@#$%^&*()-=_+,<.>/?;:'\"[{}]\\|؇Őϋ"
+    end
+  end
+
   def test_index_paged
     user = create(:user)
 

@@ -30,6 +30,7 @@ class Redaction < ApplicationRecord
   has_many :old_nodes
   has_many :old_ways
   has_many :old_relations
+  has_many :note_versions
 
   validates :title, :presence => true, :characters => true
   validates :description, :presence => true, :characters => true

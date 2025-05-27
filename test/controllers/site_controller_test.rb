@@ -305,7 +305,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   def test_edit_with_note
     user = create(:user)
     note = create(:note) do |n|
-      n.comments.create(:author_id => user.id)
+      create(:note_comment, :note => n, :event => "opened")
     end
     session_for(user)
 
@@ -321,7 +321,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   def test_edit_with_inaccessible_notes
     user = create(:user)
     deleted_note = create(:note, :status => "hidden") do |n|
-      n.comments.create(:author_id => user.id)
+      create(:note_comment, :note => n, :event => "opened")
     end
     session_for(user)
 

@@ -1,23 +1,6 @@
 require "test_helper"
 
 class NoteCommentTest < ActiveSupport::TestCase
-  def test_event_valid
-    ok = %w[opened closed reopened commented hidden]
-    bad = %w[expropriated fubared]
-
-    ok.each do |event|
-      note_comment = create(:note_comment)
-      note_comment.event = event
-      assert_predicate note_comment, :valid?, "#{event} is invalid, when it should be"
-    end
-
-    bad.each do |event|
-      note_comment = create(:note_comment)
-      note_comment.event = event
-      assert_not_predicate note_comment, :valid?, "#{event} is valid when it shouldn't be"
-    end
-  end
-
   def test_body_valid
     ok = %W[Name vergrößern foo\nbar
             ルシステムにも対応します 輕觸搖晃的遊戲]

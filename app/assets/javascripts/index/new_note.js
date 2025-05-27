@@ -23,6 +23,9 @@ OSM.NewNote = function (map) {
       body: new URLSearchParams({
         lat: location.lat,
         lon: location.lng,
+        tags: JSON.stringify({
+          created_by: "OpenStreetMap-Website"
+        }),
         text
       })
     })
