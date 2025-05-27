@@ -93,6 +93,11 @@ L.OSM.Map = L.Map.extend({
         selectedLanguage = navigator.language
       }
     }
+    if (selectedLanguage) {
+      // Strip out country and script codes. Country- and script-qualified language tags are relatively rare in OHM, and mapbox-gl-language lacks cascading fallback functionality.
+      // https://github.com/mapbox/mapbox-gl-language/issues/4
+      selectedLanguage = selectedLanguage.split("-")[0];
+    }
     console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
     language.supportedLanguages.push(selectedLanguage);
 
