@@ -28,7 +28,7 @@ module Api
         return
       end
 
-      nodes = Node.bbox(@bounds).where(:visible => true).includes(:node_tags).limit(Settings.max_number_of_nodes + 1)
+      nodes = Node.bbox(@bounds).where(:visible => true).includes(:node_tags, :changeset).limit(Settings.max_number_of_nodes + 1)
 
       node_ids = nodes.collect(&:id)
       if node_ids.length > Settings.max_number_of_nodes
@@ -52,7 +52,7 @@ module Api
       # - [0] in case some thing links to node 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
       nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
-      nodes += Node.includes(:node_tags).find(nodes_to_fetch) unless nodes_to_fetch.empty?
+      nodes += Node.includes(:node_tags, :changeset).find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
       @nodes = nodes.filter(&:visible?)
 
