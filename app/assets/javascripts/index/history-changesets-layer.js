@@ -5,7 +5,20 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
 
   addChangesetLayer: function (changeset) {
     const style = this._getChangesetStyle(changeset);
-    const rectangle = L.rectangle(changeset.bounds, style);
+    const rectangle = L.rectangle(changeset.bounds, {
+      ...style,
+      contextmenu: true,
+      contextmenuItems: [{
+        text: OSM.i18n.t("javascripts.context.scroll_to_changeset"),
+        callback: () => {
+          this.fire("requestscrolltochangeset", { id: changeset.id }, true);
+        },
+        index: 0
+      }, {
+        separator: true,
+        index: 1
+      }]
+    });
     rectangle.id = changeset.id;
     return this.addLayer(rectangle);
   },

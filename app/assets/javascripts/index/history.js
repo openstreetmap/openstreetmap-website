@@ -28,6 +28,10 @@ OSM.History = function (map) {
     })
     .on("click", function (e) {
       clickChangeset(e.layer.id, e.originalEvent);
+    })
+    .on("requestscrolltochangeset", function (e) {
+      const [item] = $(`#changeset_${e.id}`);
+      item?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     });
 
   let changesetIntersectionObserver;
