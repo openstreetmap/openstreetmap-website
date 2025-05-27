@@ -206,14 +206,14 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
 
+    this._highlightAreaLayer.clearLayers();
+    this._highlightOutlineLayer.clearLayers();
+    this._highlightBorderLayer.clearLayers();
+
     if (state) {
       this._highlightAreaLayer.addChangesetLayer(changeset);
       this._highlightOutlineLayer.addChangesetLayer(changeset);
       this._highlightBorderLayer.addChangesetLayer(changeset);
-    } else {
-      this._highlightAreaLayer.removeLayer(id);
-      this._highlightOutlineLayer.removeLayer(id);
-      this._highlightBorderLayer.removeLayer(id);
     }
   },
 

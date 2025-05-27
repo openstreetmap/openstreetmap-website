@@ -116,7 +116,10 @@ OSM.History = function (map) {
 
   function toggleChangesetHighlight(id, state) {
     changesetsLayer.toggleChangesetHighlight(id, state);
-    $("#changeset_" + id).toggleClass("selected", state);
+    $("#sidebar_content .changesets ol li").removeClass("selected");
+    if (state) {
+      $("#changeset_" + id).addClass("selected");
+    }
   }
 
   function clickChangeset(id, e) {
