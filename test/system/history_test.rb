@@ -10,8 +10,10 @@ class HistoryTest < ApplicationSystemTestCase
     end
 
     visit "#{user_path(user)}/history"
-    changesets = find "div.changesets"
-    changesets.assert_text "first-changeset-in-history"
+
+    within_sidebar do
+      assert_text "first-changeset-in-history"
+    end
 
     assert_css "link[type='application/atom+xml'][href$='#{user_path(user)}/history/feed']", :visible => false
   end
@@ -30,26 +32,30 @@ class HistoryTest < ApplicationSystemTestCase
 
     assert_nothing_raised do
       visit "#{user_path(user)}/history"
-      changesets = find "div.changesets"
-      changesets.assert_text "bottom-changeset-in-batch-1"
-      changesets.assert_no_text "bottom-changeset-in-batch-2"
-      changesets.assert_no_text "first-changeset-in-history"
-      changesets.assert_selector "ol", :count => 1
-      changesets.assert_selector "li[data-changeset]", :count => PAGE_SIZE
 
-      click_on "Older Changesets"
-      changesets.assert_text "bottom-changeset-in-batch-1"
-      changesets.assert_text "bottom-changeset-in-batch-2"
-      changesets.assert_no_text "first-changeset-in-history"
-      changesets.assert_selector "ol", :count => 1
-      changesets.assert_selector "li[data-changeset]", :count => 2 * PAGE_SIZE
+      within_sidebar do
+        assert_text "bottom-changeset-in-batch-1"
+        assert_no_text "bottom-changeset-in-batch-2"
+        assert_no_text "first-changeset-in-history"
+        assert_selector "ol", :count => 1
+        assert_selector "li[data-changeset]", :count => PAGE_SIZE
 
-      click_on "Older Changesets"
-      changesets.assert_text "bottom-changeset-in-batch-1"
-      changesets.assert_text "bottom-changeset-in-batch-2"
-      changesets.assert_text "first-changeset-in-history"
-      changesets.assert_selector "ol", :count => 1
-      changesets.assert_selector "li[data-changeset]", :count => (2 * PAGE_SIZE) + 1
+        click_on "Older Changesets"
+
+        assert_text "bottom-changeset-in-batch-1"
+        assert_text "bottom-changeset-in-batch-2"
+        assert_no_text "first-changeset-in-history"
+        assert_selector "ol", :count => 1
+        assert_selector "li[data-changeset]", :count => 2 * PAGE_SIZE
+
+        click_on "Older Changesets"
+
+        assert_text "bottom-changeset-in-batch-1"
+        assert_text "bottom-changeset-in-batch-2"
+        assert_text "first-changeset-in-history"
+        assert_selector "ol", :count => 1
+        assert_selector "li[data-changeset]", :count => (2 * PAGE_SIZE) + 1
+      end
     end
   end
 
