@@ -19,15 +19,34 @@ $(function () {
         .find("input").attr("name", `user[social_links_attributes][${newIndex}][url]`).trigger("focus")
         .end().find("button").on("click", function () {
           $(this).parent().remove();
+          renumberSocialLinks();
         });
+
+      renumberSocialLinks();
     });
 
     $(".social_link_destroy input[type='checkbox']").change(function () {
       $(this).parent().parent().addClass("d-none");
+      renumberSocialLinks();
     });
 
     $(".social_link_destroy input[type='checkbox']:checked").each(function () {
       $(this).parent().parent().addClass("d-none");
+    });
+
+    renumberSocialLinks();
+  }
+
+  function renumberSocialLinks() {
+    $("#social_links .row:not(.d-none)").each(function (i) {
+      const inputLabel = OSM.i18n.t("javascripts.profile.social_link_n", { n: i + 1 });
+      const removeButtonLabel = OSM.i18n.t("javascripts.profile.remove_social_link_n", { n: i + 1 });
+
+      $(this).find("input[type='text']")
+        .attr("placeholder", inputLabel)
+        .attr("aria-label", inputLabel);
+      $(this).find("label, button")
+        .attr("title", removeButtonLabel);
     });
   }
 
