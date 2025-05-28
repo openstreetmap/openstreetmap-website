@@ -44,7 +44,7 @@ module Api
       else
         way_nodes = WayNode.where(:node_id => node_ids)
         way_ids = way_nodes.collect { |way_node| way_node.id[0] }
-        ways = Way.preload(:way_nodes, :way_tags).find(way_ids)
+        ways = Way.preload(:way_nodes, :way_tags, :changeset).find(way_ids)
 
         list_of_way_nodes = ways.flat_map { |way| way.way_nodes.map(&:node_id) }
       end
@@ -58,8 +58,12 @@ module Api
 
       @ways = ways.filter(&:visible?)
 
-      @relations = Relation.nodes(@nodes).visible +
-                   Relation.ways(@ways).visible
+      @relations = Relation.nodes(@nodes)
+                           .visible
+                           .includes(:changeset, :relation_members, :relation_tags) +
+                   Relation.ways(@ways)
+                           .visible
+                           .includes(:changeset, :relation_members, :relation_tags)
 
       # we do not normally return the "other" partners referenced by an relation,
       # e.g. if we return a way A that is referenced by relation X, and there's
