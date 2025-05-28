@@ -14,22 +14,12 @@ $(function () {
   if ($("#social_links").length) {
     $("#add-social-link").click(function () {
       const newIndex = -Date.now();
-      const socialLinkForm = $(`
-        <div class="social-link-added-fields row mb-3">
-          <div class="col-sm-8">
-            <input class="form-control" type="text" name="user[social_links_attributes][${newIndex}][url]">
-          </div>
-          <button type="button" class="btn btn-outline-primary col-sm-2 align-self-start">${OSM.i18n.t("javascripts.social_links.remove")}</button>
-        </div>
-      `);
 
-      socialLinkForm.find("button").click(function () {
-        $(this).parent().remove();
-      });
-
-      $("#social_links").append(socialLinkForm);
-
-      socialLinkForm.find("input").trigger("focus");
+      $("#social_links template").contents().clone().appendTo("#social_links")
+        .find("input").attr("name", `user[social_links_attributes][${newIndex}][url]`).trigger("focus")
+        .end().find("button").on("click", function () {
+          $(this).parent().remove();
+        });
     });
 
     $(".social_link_destroy input[type='checkbox']").change(function () {
