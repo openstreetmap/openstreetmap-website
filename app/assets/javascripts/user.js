@@ -17,7 +17,7 @@ $(function () {
       const socialLinkForm = $(`
         <div class="social-link-added-fields row mb-3">
           <div class="col-sm-8">
-            <input class="form-control" type="text" name="user[social_links_attributes][${newIndex}][url]" id="user_social_links_attributes_${newIndex}_url">
+            <input class="form-control" type="text" name="user[social_links_attributes][${newIndex}][url]">
           </div>
           <button type="button" class="btn btn-outline-primary col-sm-2 align-self-start">${OSM.i18n.t("javascripts.social_links.remove")}</button>
         </div>
