@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UsersControllerTest < ActionDispatch::IntegrationTest
+class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
