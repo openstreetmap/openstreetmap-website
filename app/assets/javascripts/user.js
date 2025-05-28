@@ -12,8 +12,7 @@ $(function () {
   let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
 
   if ($("#social_links").length) {
-    $("#add-social-link").click(function (event) {
-      event.preventDefault();
+    $("#add-social-link").click(function () {
       const newIndex = -Date.now();
       const socialLinkForm = $(`
         <div class="social-link-added-fields row mb-3">
