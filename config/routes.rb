@@ -202,6 +202,7 @@ OpenStreetMap::Application.routes.draw do
   post "/login" => "sessions#create"
   match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
+  resource :layers_pane, :path => "/panes/layers", :only => :show
   resource :legend_pane, :path => "/panes/legend", :only => :show
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
