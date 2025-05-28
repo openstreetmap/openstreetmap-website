@@ -18,4 +18,9 @@ module MapLayers
       .select { |entry| entry["canEmbed"] }
       .to_h { |entry| [entry["layerId"], entry.slice("leafletOsmId", "leafletOsmDarkId", "apikey").compact] }
   end
+
+  def self.ids(layers_filename)
+    full_definitions(layers_filename)
+      .map { |layer| layer.slice("layerId", "nameId") }
+  end
 end

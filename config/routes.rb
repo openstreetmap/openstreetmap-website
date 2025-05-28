@@ -203,6 +203,7 @@ OpenStreetMap::Application.routes.draw do
   match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
   resource :map_key, :path => "key", :only => :show
+  resource :layer, :path => "layers", :only => :show
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
