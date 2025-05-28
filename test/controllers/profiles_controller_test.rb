@@ -5,14 +5,16 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/profile/edit", :method => :get },
-      { :controller => "profiles", :action => "edit" }
+      { :path => "/profile", :method => :get },
+      { :controller => "profiles", :action => "show" }
     )
-
     assert_routing(
       { :path => "/profile", :method => :put },
       { :controller => "profiles", :action => "update" }
     )
+
+    get "/profile/edit"
+    assert_redirected_to "/profile"
   end
 
   def test_update
@@ -36,7 +38,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :show
     assert_select ".alert-success", /^Profile updated./
-    get edit_profile_path
+    get profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
@@ -46,7 +48,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :show
     assert_select ".alert-success", /^Profile updated./
-    get edit_profile_path
+    get profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
@@ -56,7 +58,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :show
     assert_select ".alert-success", /^Profile updated./
-    get edit_profile_path
+    get profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
 

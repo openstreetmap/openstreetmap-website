@@ -40,14 +40,13 @@ class Ability
         can :update, :account_terms
         can :create, :account_pd_declaration
         can :read, :dashboard
+        can [:read, :update], [:preference, :profile]
         can [:create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
         can [:create], DiaryComment
         can [:show, :create, :destroy], Follow
         can [:read, :create, :destroy], Message
         can [:close, :reopen], Note
-        can [:read, :update], :preference
-        can :update, :profile
         can :create, Report
         can [:mine, :create, :update, :destroy], Trace
         can [:account, :go_public], User
