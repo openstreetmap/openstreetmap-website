@@ -316,8 +316,9 @@ OpenStreetMap::Application.routes.draw do
 
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :update]
-  get "/preferences/edit", :to => redirect(:path => "/preferences")
-  resource :profile, :only => [:edit, :update]
+  get "/preferences/edit", :to => redirect(:path => "/preferences"), :as => nil
+  resource :profile, :only => [:show, :update]
+  get "/profile/edit", :to => redirect(:path => "/profile"), :as => nil
 
   # friendships
   scope "/user/:display_name" do

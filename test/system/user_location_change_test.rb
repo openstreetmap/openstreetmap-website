@@ -15,7 +15,7 @@ class UserLocationChangeTest < ApplicationSystemTestCase
       assert_no_selector ".bi.bi-geo-alt-fill"
     end
 
-    visit edit_profile_path
+    visit profile_path
 
     fill_in "Home location name", :with => "Test Location"
     click_on "Update Profile"

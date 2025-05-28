@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:update]
 
-  def edit; end
+  def show; end
 
   def update
     social_links_params = params.permit(:user => [:social_links_attributes => [:id, :url, :_destroy]])
