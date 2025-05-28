@@ -5,7 +5,20 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
 
   addChangesetLayer: function (changeset) {
     const style = this._getChangesetStyle(changeset);
-    const rectangle = L.rectangle(changeset.bounds, style);
+    const rectangle = L.rectangle(changeset.bounds, {
+      ...style,
+      contextmenu: true,
+      contextmenuItems: [{
+        text: OSM.i18n.t("javascripts.context.scroll_to_changeset"),
+        callback: () => {
+          this.fire("requestscrolltochangeset", { id: changeset.id }, true);
+        },
+        index: 0
+      }, {
+        separator: true,
+        index: 1
+      }]
+    });
     rectangle.id = changeset.id;
     return this.addLayer(rectangle);
   },
@@ -193,14 +206,14 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     const changeset = this._changesets.get(id);
     if (!changeset) return;
 
+    this._highlightAreaLayer.clearLayers();
+    this._highlightOutlineLayer.clearLayers();
+    this._highlightBorderLayer.clearLayers();
+
     if (state) {
       this._highlightAreaLayer.addChangesetLayer(changeset);
       this._highlightOutlineLayer.addChangesetLayer(changeset);
       this._highlightBorderLayer.addChangesetLayer(changeset);
-    } else {
-      this._highlightAreaLayer.removeLayer(id);
-      this._highlightOutlineLayer.removeLayer(id);
-      this._highlightBorderLayer.removeLayer(id);
     }
   },
 
