@@ -151,7 +151,7 @@ L.OSM.share = function (options) {
         .toggleClass("btn-secondary", !canEmbed)
         .tooltip(canEmbed ? "disable" : "enable");
       if (!canEmbed && $("#embed_link").hasClass("active")) {
-        $("#long_link").click();
+        $("#long_link").trigger("click");
       }
 
       $("#embed_html").val(
