@@ -4,13 +4,11 @@ L.OSM.layers = function (options) {
   control.onAddPane = function (map, button, $ui, toggle) {
     const layers = options.layers;
 
-    fetch("/layers")
-      .then(r => r.text())
-      .then(html => { $(html).appendTo($ui); })
-      .then(() => {
-        $ui.find(".base-layers>div").each(initBaseLayer);
-        initOverlays();
-      });
+    control.onContentLoaded = function () {
+      $ui.find(".base-layers>div").each(initBaseLayer);
+      initOverlays();
+    };
+    control.loadContent();
 
     function initBaseLayer() {
       const [container, input, item] = this.children;
