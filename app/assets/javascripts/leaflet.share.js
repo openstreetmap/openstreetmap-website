@@ -232,10 +232,8 @@ L.OSM.share = function (options) {
   control.onAddPane = function (map, button, $ui) {
     $("#content").addClass("overlay-right-sidebar");
 
-    fetch("/share")
-      .then(r => r.text())
-      .then(html => { $(html).appendTo($ui); })
-      .then(() => init(map, $ui));
+    control.onContentLoaded = () => init(map, $ui);
+    $ui.one("show", control.loadContent);
   };
 
   return control;
