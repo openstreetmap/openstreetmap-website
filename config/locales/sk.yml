@@ -68,6 +68,10 @@ sk:
       models:
         user_mute:
           is_already_muted: je už stlmený/á.
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL adresa by mala začínať na http:// alebo https://
     models:
       acl: Zoznam prístupových práv
       changeset: Sada zmien
@@ -296,9 +300,6 @@ sk:
       my_account: Môj účet
       current email address: Aktuálna e-mailová adresa
       external auth: Externá autentifikácia
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/CS:OpenID
-        link text: čo to znamená?
       contributor terms:
         heading: Podmienky prispievania
         agreed: Súhlasili ste s novými Podmienkami prispievania.
@@ -731,9 +732,17 @@ sk:
       heading: Odhlásiť sa diskusie v denníku sledujúceho?
       button: Zrušiť odber diskusie
     navigation:
+      in_language: Záznamy denníka v jazyku %{language}
       my_diary: Môj denník
       new: Nový záznam denníka
       new_title: Napísať nový záznam do používateľského denníka
+    profile_diaries:
+      latest_diaries: Najnovšie denníky
+      comments:
+        one: 1 komentár
+        few: '%{count} komentáre'
+        many: '%{count} komentárov}'
+        other: '%{count} komentárov'
   diary_comments:
     new:
       heading: Pridať komentár k diskusii v denníku sledujúceho?
@@ -2099,7 +2108,7 @@ sk:
     update_success_flash:
       message: Predvoľby aktualizované.
   profiles:
-    edit:
+    show:
       title: Upraviť profil
       save: Aktualizovať profil
       cancel: Zrušiť
@@ -2120,6 +2129,10 @@ sk:
       show: Zobraziť
       delete: Zmazať
       undelete: Vrátiť späť odstránenie
+      social_links:
+        title: Odkazy na sociálne profily
+        remove: Odstrániť
+        add: Pridať odkaz na sociálnu sieť
     update:
       success: Profil aktualizovaný.
       failure: Nepodarilo sa upraviť profil.
@@ -2252,16 +2265,77 @@ sk:
         native_link: slovenskú verziu
         mapping_link: začať mapovať
       legal_babble:
+        lead_1_html: OpenStreetMap poskytuje otvorené mapové dáta pre tisíce webových
+          stránok, mobilných aplikácií a hardvérových zariadení. OpenStreetMap je
+          vytvorený komunitou ľudí ako vy, ktorí prispievajú a spravujú mapové dáta
+          o cestách, chodníkoch, kaviarňach, železničných staniciach a mnohých ďalších
+          veciach po celom svete.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} a %{get_started_mapping_link}!
+          Viac si môžete prečítať na %{osm_blog_link} a prihlásiť sa na odber %{weeklyosm_link}.
+          Nájdite ďalších mapovačov vo vašej miestnej %{osm_community_link}.
+          Podporte projekt pripojením sa k %{osm_foundation_link} a %{making_donation_link}.
+        lead_2_learn_more_about_osm: Získajte viac informácií o OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/Cs:Co_je_OpenStreetMap
+        lead_2_get_started_mapping: začnite mapovať
+        lead_2_osm_blog: blogu OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM (týždenné novinky OSM)
+        lead_2_weeklyosm_url: https://weeklyosm.eu/cz/
+        lead_2_osm_community: komunite OSM
+        lead_2_osm_foundation: Nadácii OSM (OSM Foundation)
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: poskytnutím príspevku
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: Licencovanie OpenStreetMap
+        licensing_1_html: "OpenStreetMap sú %{open} dáta, licencované pod \n%{odc_odbl_link}
+          (ODbL) od %{osm_foundation_link} (OSMF). V súhrne:"
+        licensing_1_open: otvorené
         licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: Nadácia OpenStreetMap
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: "Môžete voľne kopírovať, distribuovať, prenášať a upravovať
+          naše údaje, pokiaľ uvediete ako zdroj OpenStreetMap a jej prispievateľov.
+          Ak pozmeníte naše údaje alebo na nich budete stavať, môžete výsledok distribuovať
+          iba na základe rovnakej licencie. Stránka \n%{legal_code_link} vysvetľuje
+          vaše práva a povinnosti."
+        licensing_2_legal_code: o kompletných právnych ustanoveniach na Open Data
+          Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: Naša dokumentácia je licencovaná pod licenciou %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Attribution-ShareAlike
+          2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Viac informácií o používaní našich údajov nájdete na %{osmf_license_page_link}.
         licensing_4_osmf_license_page: Licenčnej stránke OSMF
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Ako uvádzať OpenStreetMap
         credit_1_html: 'Kde používate údaje OpenStreetMap, musíte urobiť nasledujúce
           dve veci:'
+        credit_2_attribution: Vyjadrite uznanie autorstva OpenStreetMap zobrazením
+          nášho oznámenia o autorstve.
         credit_2_license: Jasne uveďte, že údaje sú dostupné pod licenciou Open Database
           License.
-        credit_3_v2025_attribution_guidelines: Pokyny na uvádzanie pôvodu
+        credit_3_v2025_html: |-
+          Pre oznámenie o zdroji máme rôzne %{requirements_on_how_displayed_link} v závislosti od toho, ako používate naše údaje.
+          Napríklad platia rôzne pravidlá pre zobrazenie oznámenia o zdroji v závislosti od toho, či ste
+          vytvorili prehliadateľnú mapu, tlačenú mapu alebo statický obrázok.
+          Viac podrobností nájdete v časti %{attribution_guidelines_link} %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: požiadavky na to, ako by sa
+          to malo zobrazovať
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_attribution_guidelines: pokynov na uvádzanie pôvodu
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: licenčných požiadaviek
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: |-
+          Vo všeobecnosti, aby bolo jasné, že dáta sú dostupné pod licenciou Open
+          Database, môžete odkazovať na %{this_copyright_page_link}. Ak distribuujete OSM v dátovej forme, uveďte názov a priamy odkaz na licenciu (licencie). V médiách, kde odkazy nie sú možné (napr. tlačené diela), uveďte úplnú URL adresu stránky, napr. %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: túto stránku o autorských právach
+        credit_5_v2025_html: 'V tomto príklade sa uznanie autorstva zobrazí v rohu
+          mapy:'
         attribution_example:
           alt: Príklad, ako uvádzať autorstvo OpenStreetMap na webovej stránke
           title: Príklad uvedenia autorstva
@@ -2279,9 +2353,16 @@ sk:
           ochranné známky nadácie OpenStreetMap. Ak máte otázky týkajúce sa používania
           známok, prosím pozrite naše %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Zásady používania ochranných známok
+        services_title_html: Doplnkové služby
+        services_1_html: |-
+          Hoci OpenStreetMap sú otvorené údaje, nemôžeme tretím stranám poskytnúť
+          bezplatné mapové API (aplikačné rozhranie) ani hotové mapové dlaždice. Pozrite si naše stránky %{api_usage_policy_link}, %{tile_usage_policy_link} a %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Zásady používania API (aplikačného rozhrania)
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: Zásady používania dlaždíc
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         services_1_nominatim_usage_policy: Pravidlá použitia Nominatim
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Naši prispievatelia
         contributors_intro_html: 'Naši prispievatelia sú tisícky jednotlivcov. Máme
           aj dáta so slobodnou licenciou od národných geografických inštitúcií či
@@ -2539,6 +2620,10 @@ sk:
       title: Nie je čas upravovať? Pridajte poznámku!
       para_1: Pokiaľ chcete len opraviť nejakú drobnosť a nemáte čas sa registrovať
         a učiť sa upravovať, môžete jednoducho pridať poznámku.
+      para_2_html: |-
+        Stačí kliknúť na %{note_icon} alebo na rovnakú ikonu %{map_link}.
+        Týmto sa pridá značka na mapu, ktorú môžete presúvať
+        ťahaním. Pridajte svoju správu, kliknite na tlačidlo Uložiť a ostatní tvorcovia máp to preskúmajú.
       the_map: mapu
     communities:
       title: Komunity
@@ -2562,6 +2647,12 @@ sk:
           ako neformálne zoskupenie ľudí alebo ako komunitná skupina. Ktokoľvek ich
           môže zostaviť alebo sa k nim pripojiť. Prečítajte si viac na %{communities_wiki_link}.
         communities_wiki: Wiki stránke o komunitách
+  social_links:
+    show:
+      one: Iný
+      few: Iné
+      many: Iné
+      other: Iné
   map_keys:
     show:
       entries:
@@ -2652,6 +2743,7 @@ sk:
         bicycle_parking: Parkovanie pre bicykle
         bicycle_parking_small: Malé parkovisko pre bicykle
         toilets: WC
+      see_external_legend: Zobraziť legendu externej mapy
   traces:
     visibility:
       private: Súkromné (iba zdieľané ako anonymné, neusporiadané body)
@@ -2779,11 +2871,6 @@ sk:
       oauth2_authorizations: Autorizácie OAuth 2
       muted_users: Stlmení používatelia
     auth_providers:
-      openid_url: OpenID URL
-      openid_login_button: Pokračovať
-      openid:
-        title: Prihlásenie sa pomocou OpenID
-        alt: Prihlásenie sa pomocou OpenID URL
       google:
         title: Prihlásenie sa pomocou Google
         alt: Prihlásenie sa pomocou Google OpenID
@@ -3000,6 +3087,11 @@ sk:
       delete_user: Odstrániť tohoto používateľa
       confirm: Potvrdiť
       report: Nahlásiť tohto používateľa
+      contributions:
+        one: '%{count} príspevok za posledný rok'
+        few: '%{count} príspevky za posledný rok'
+        many: '%{count} príspevkov za posledný rok'
+        other: '%{count} príspevkov za posledný rok'
     go_public:
       flash success: Všetky vaše úpravy sú teraz verejné, a teraz máte povolenie na
         úpravu.
@@ -3408,6 +3500,8 @@ sk:
       queryfeature_tooltip: Prieskum prvkov
       queryfeature_disabled_tooltip: Pre prieskum prvkov priblížte
       embed_html_disabled: Vkladanie HTML nie je pre túto vrstvu mapy k dispozícii
+    social_links:
+      remove: Odstrániť
     edit_help: Posuňte mapu a priblížte ju na miesto, ktoré chcete upraviť, potom
       kliknite sem.
     directions:
