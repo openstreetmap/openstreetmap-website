@@ -70,5 +70,14 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template :show
     assert_select ".alert-success", /^Profile updated./
     assert_select "a", "test.com/test"
+
+    # Updating the company name should work
+    put profile_path, :params => { :user => { :company => "new company", :description => user.description } }
+    assert_redirected_to user_path(user)
+    follow_redirect!
+    assert_response :success
+    assert_template :show
+    assert_select ".alert-success", /^Profile updated./
+    assert_select "dd", "new company"
   end
 end
