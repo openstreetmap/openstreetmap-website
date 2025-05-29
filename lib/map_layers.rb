@@ -21,6 +21,6 @@ module MapLayers
 
   def self.ids(layers_filename)
     full_definitions(layers_filename)
-      .map { |layer| layer.slice("layerId", "nameId") }
+      .map { |layer| layer.slice("layerId", "nameId", "canDownloadImage") }
   end
 end
