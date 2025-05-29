@@ -12,33 +12,46 @@ $(function () {
   let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
 
   if ($("#social_links").length) {
-    $("#add-social-link").click(function (event) {
-      event.preventDefault();
+    $("#add-social-link").on("click", function () {
       const newIndex = -Date.now();
-      const socialLinkForm = $(`
-        <div class="social-link-added-fields row mb-3">
-          <div class="col-sm-8">
-            <input class="form-control" type="text" name="user[social_links_attributes][${newIndex}][url]" id="user_social_links_attributes_${newIndex}_url">
-          </div>
-          <button type="button" class="btn btn-outline-primary col-sm-2 align-self-start">${OSM.i18n.t("javascripts.social_links.remove")}</button>
-        </div>
-      `);
 
-      socialLinkForm.find("button").click(function () {
-        $(this).parent().remove();
-      });
+      $("#social_links template").contents().clone().appendTo("#social_links")
+        .find("input").attr("name", `user[social_links_attributes][${newIndex}][url]`).trigger("focus");
 
-      $("#social_links").append(socialLinkForm);
-
-      socialLinkForm.find("input").trigger("focus");
+      renumberSocialLinks();
     });
 
-    $(".social_link_destroy input[type='checkbox']").change(function () {
-      $(this).parent().parent().addClass("d-none");
+    $("#social_links").on("click", "button", function () {
+      const row = $(this).closest(".row");
+      const [destroyCheckbox] = row.find(".social_link_destroy input[type='checkbox']");
+
+      if (destroyCheckbox) {
+        destroyCheckbox.checked = true;
+        row.addClass("d-none");
+      } else {
+        row.remove();
+      }
+
+      renumberSocialLinks();
     });
 
     $(".social_link_destroy input[type='checkbox']:checked").each(function () {
-      $(this).parent().parent().addClass("d-none");
+      $(this).closest(".row").addClass("d-none");
+    });
+
+    renumberSocialLinks();
+  }
+
+  function renumberSocialLinks() {
+    $("#social_links .row:not(.d-none)").each(function (i) {
+      const inputLabel = OSM.i18n.t("javascripts.profile.social_link_n", { n: i + 1 });
+      const removeButtonLabel = OSM.i18n.t("javascripts.profile.remove_social_link_n", { n: i + 1 });
+
+      $(this).find("input[type='text']")
+        .attr("placeholder", inputLabel)
+        .attr("aria-label", inputLabel);
+      $(this).find("button")
+        .attr("title", removeButtonLabel);
     });
   }
 
