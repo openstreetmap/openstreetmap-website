@@ -18,7 +18,7 @@
         { :layer_id => "dataLayer", :name => "data", :max_area => Settings.max_request_area },
         { :layer_id => "gpsLayer", :name => "gps" }].each do |layer|
          options = { :data => layer, :class => "form-check" }
-         options[:title] = t("javascripts.site.map_#{layer[:name]}_zoom_in_tooltip") if layer[:max_area] %>
+         options[:title] = t(".map_#{layer[:name]}_zoom_in_tooltip") if layer[:max_area] %>
       <%= tag.div(**options) do %>
         <label id="<%= "label-layers-#{layer[:name]}" %>" class="form-check-label">
           <input type="checkbox" class="form-check-input">
