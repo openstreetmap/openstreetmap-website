@@ -166,18 +166,14 @@ OSM.Query = function (map) {
         $section.find(".loader").hide();
 
         if (merge) {
-          elements = results.elements.reduce(function (hash, element) {
+          elements = Object.values(results.elements.reduce(function (hash, element) {
             const key = element.type + element.id;
             if ("geometry" in element) {
               delete element.bounds;
             }
             hash[key] = $.extend({}, hash[key], element);
             return hash;
-          }, {});
-
-          elements = Object.keys(elements).map(function (key) {
-            return elements[key];
-          });
+          }, {}));
         } else {
           elements = results.elements;
         }
