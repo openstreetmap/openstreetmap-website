@@ -224,15 +224,12 @@ OSM.Query = function (map) {
       });
   }
 
-  function compareSize(feature1, feature2) {
-    const width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
-          height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
-          area1 = width1 * height1,
-          width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-          height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-          area2 = width2 * height2;
+  function featureArea({ bounds }) {
+    const height = bounds.maxlat - bounds.minlat;
+    let width = bounds.maxlon - bounds.minlon;
 
-    return area1 - area2;
+    if (width < 0) width += 360;
+    return width * height;
   }
 
   /*
@@ -282,7 +279,7 @@ OSM.Query = function (map) {
     }).addTo(map);
 
     runQuery(latlng, radius, nearby, $("#query-nearby"), false);
-    runQuery(latlng, radius, isin, $("#query-isin"), true, compareSize);
+    runQuery(latlng, radius, isin, $("#query-isin"), true, (feature1, feature2) => featureArea(feature1) - featureArea(feature2));
   }
 
   function clickHandler(e) {
