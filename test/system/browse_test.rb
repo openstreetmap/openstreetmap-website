@@ -16,7 +16,10 @@ class BrowseTest < ApplicationSystemTestCase
 
     visit node_path(node)
 
-    find("#map [aria-label='Share']").click
+    within "#map" do
+      click_on "Share"
+    end
+
     share_url = find_by_id("long_input").value
     assert_match %r{map=\d+/59\.\d+/29\.\d+}, share_url
   end
