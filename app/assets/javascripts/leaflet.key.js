@@ -1,5 +1,5 @@
 L.OSM.key = function (options) {
-  const control = L.OSM.sidebarPane(options, "key", null, "javascripts.key.title");
+  const control = L.OSM.sidebarPane(options, "key", "javascripts.key.title", "javascripts.key.title");
 
   control.onAddPane = function (map, button, $ui) {
     const $section = $("<div>")
