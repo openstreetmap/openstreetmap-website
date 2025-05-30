@@ -61,6 +61,13 @@ jobs:
       run: bundle exec rails test:all
     - name: Run javascript tests
       run: bundle exec teaspoon
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: screenshots
+        path: tmp/screenshots
+        if-no-files-found: ignore
     - name: Report completion to Coveralls
       uses: coverallsapp/github-action@v2.3.6
       with:
