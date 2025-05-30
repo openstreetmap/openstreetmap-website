@@ -80,7 +80,7 @@ class SiteTest < ApplicationSystemTestCase
   end
 
   test "notes layer tooltip appears on zoom out" do
-    visit "/#map=9/40/-4" # depends on zoom levels where notes are allowed
+    visit "/#map=10/40/-4" # depends on zoom levels where notes are allowed
 
     find(".control-layers .control-button").click
     li = find(".layers-ui .overlay-layers li:first-child")
@@ -88,7 +88,7 @@ class SiteTest < ApplicationSystemTestCase
     li.hover # try to trigger disabled tooltip
     zoomout = find(".control-button.zoomout")
     zoomout.hover # un-hover the tooltip that's being tested
-    zoomout.click
+    zoomout.click(:shift)
     li.matches_css? ".disabled"
     li.hover
     assert_selector ".tooltip", :text => "Zoom in"
