@@ -84,12 +84,12 @@ class SiteTest < ApplicationSystemTestCase
 
     find(".control-layers .control-button").click
     li = find(".layers-ui .overlay-layers li:first-child")
-    li.not_matches_css? ".disabled"
+    assert_not_matches_css li, ".disabled"
     li.hover # try to trigger disabled tooltip
     zoomout = find(".control-button.zoomout")
     zoomout.hover # un-hover the tooltip that's being tested
     zoomout.click(:shift)
-    li.matches_css? ".disabled"
+    assert_matches_css li, ".disabled"
     li.hover
     assert_selector ".tooltip", :text => "Zoom in"
   end
