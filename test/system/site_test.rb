@@ -83,14 +83,14 @@ class SiteTest < ApplicationSystemTestCase
     visit "/#map=10/40/-4" # depends on zoom levels where notes are allowed
 
     find(".control-layers .control-button").click
-    li = find(".layers-ui .overlay-layers li:first-child")
-    assert_not_matches_css li, ".disabled"
-    li.hover # try to trigger disabled tooltip
+    notes_checkbox = find(".layers-ui .overlay-layers .form-check", :text => "Map Notes")
+    assert_not_matches_css notes_checkbox, ".disabled"
+    notes_checkbox.hover # try to trigger disabled tooltip
     zoomout = find(".control-button.zoomout")
     zoomout.hover # un-hover the tooltip that's being tested
     zoomout.click(:shift)
-    assert_matches_css li, ".disabled"
-    li.hover
+    assert_matches_css notes_checkbox, ".disabled"
+    notes_checkbox.hover
     assert_selector ".tooltip", :text => "Zoom in"
   end
 end
