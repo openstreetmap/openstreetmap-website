@@ -1552,7 +1552,8 @@ CREATE TABLE public.users (
     diary_comments_count integer DEFAULT 0,
     note_comments_count integer DEFAULT 0,
     creation_address inet,
-    home_location_name character varying
+    home_location_name character varying,
+    company character varying
 );
 
 
@@ -3513,6 +3514,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250506052030'),
 ('20250304172798'),
 ('20250304172758'),
 ('20250217140049'),

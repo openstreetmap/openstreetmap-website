@@ -32,6 +32,8 @@ class ProfilesController < ApplicationController
       current_user.image_use_gravatar = true
     end
 
+    current_user.company = params[:user][:company]
+
     current_user.home_lat = params[:user][:home_lat]
     current_user.home_lon = params[:user][:home_lon]
     current_user.home_location_name = params[:user][:home_location_name]
