@@ -60,7 +60,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
       assert_no_text "Your location"
       assert_no_link "Fred Tester"
 
-      find("img.leaflet-marker-icon").click
+      find(".leaflet-marker-icon").click
 
       assert_text "Your location"
       assert_link "Fred Tester"
