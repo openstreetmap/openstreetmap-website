@@ -1,7 +1,5 @@
 OSM.Query = function (map) {
-  const url = OSM.OVERPASS_URL,
-        credentials = OSM.OVERPASS_CREDENTIALS,
-        control = $(".control-query"),
+  const control = $(".control-query"),
         queryButton = control.find(".control-button"),
         uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
@@ -151,12 +149,12 @@ OSM.Query = function (map) {
     }
 
     $section.data("ajax", new AbortController());
-    fetch(url, {
+    fetch(OSM.OVERPASS_URL, {
       method: "POST",
       body: new URLSearchParams({
         data: "[timeout:10][out:json];" + query
       }),
-      credentials: credentials ? "include" : "same-origin",
+      credentials: OSM.OVERPASS_CREDENTIALS ? "include" : "same-origin",
       signal: $section.data("ajax").signal
     })
       .then(response => response.json())
@@ -201,7 +199,7 @@ OSM.Query = function (map) {
         if (results.remark) {
           $("<li>")
             .addClass("list-group-item")
-            .text(OSM.i18n.t("javascripts.query.error", { server: url, error: results.remark }))
+            .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: results.remark }))
             .appendTo($ul);
         }
 
@@ -219,7 +217,7 @@ OSM.Query = function (map) {
 
         $("<li>")
           .addClass("list-group-item")
-          .text(OSM.i18n.t("javascripts.query.error", { server: url, error: error.message }))
+          .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: error.message }))
           .appendTo($ul);
       });
   }
