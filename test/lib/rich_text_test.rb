@@ -461,14 +461,16 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_markdown_description_max_length
-    r = RichText.new("markdown", "x" * RichText::DESCRIPTION_MAX_LENGTH)
-    assert_equal "x" * RichText::DESCRIPTION_MAX_LENGTH, r.description
+    m = RichText::DESCRIPTION_MAX_LENGTH
 
-    r = RichText.new("markdown", "y" * (RichText::DESCRIPTION_MAX_LENGTH + 1))
-    assert_equal "#{'y' * (RichText::DESCRIPTION_MAX_LENGTH - 3)}...", r.description
+    r = RichText.new("markdown", "x" * m)
+    assert_equal "x" * m, r.description
 
-    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((RichText::DESCRIPTION_MAX_LENGTH + 1) / 10.0).ceil)
-    assert_equal "#{'z' * (RichText::DESCRIPTION_MAX_LENGTH - 3)}...", r.description
+    r = RichText.new("markdown", "y" * (m + 1))
+    assert_equal "#{'y' * (m - 3)}...", r.description
+
+    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((m + 1) / 10.0).ceil)
+    assert_equal "#{'z' * (m - 3)}...", r.description
   end
 
   private
