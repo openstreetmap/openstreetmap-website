@@ -461,14 +461,44 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_markdown_description_max_length
-    r = RichText.new("markdown", "x" * RichText::MAX_DESCRIPTION_LENGTH)
-    assert_equal "x" * RichText::MAX_DESCRIPTION_LENGTH, r.description
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    o = 3 # "...".length
 
-    r = RichText.new("markdown", "y" * (RichText::MAX_DESCRIPTION_LENGTH + 1))
-    assert_equal "#{'y' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+    r = RichText.new("markdown", "x" * m)
+    assert_equal "x" * m, r.description
 
-    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((RichText::MAX_DESCRIPTION_LENGTH + 1) / 10.0).ceil)
-    assert_equal "#{'z' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+    r = RichText.new("markdown", "y" * (m + 1))
+    assert_equal "#{'y' * (m - o)}...", r.description
+
+    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((m + 1) / 10.0).ceil)
+    assert_equal "#{'z' * (m - o)}...", r.description
+  end
+
+  def test_markdown_description_word_break_threshold_length
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    t = RichText::DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+    o = 3 # "...".length
+
+    r = RichText.new("markdown", "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1) - 1)}")
+    assert_equal "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1) - 1)}", r.description
+
+    r = RichText.new("markdown", "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1))}")
+    assert_equal "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1) - 4)}...", r.description
+
+    r = RichText.new("markdown", "#{'x' * (t - o)} #{'y' * (m - (t - o) - 1)}")
+    assert_equal "#{'x' * (t - o)} #{'y' * (m - (t - o) - 1)}", r.description
+
+    r = RichText.new("markdown", "#{'x' * (t - o)} #{'y' * (m - (t - o))}")
+    assert_equal "#{'x' * (t - o)}...", r.description
+  end
+
+  def test_markdown_description_word_break_multiple_spaces
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    t = RichText::DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+    o = 3 # "...".length
+
+    r = RichText.new("markdown", "#{'x' * (t - o)}  #{'y' * (m - (t - o - 1))}")
+    assert_equal "#{'x' * (t - o)}...", r.description
   end
 
   private
