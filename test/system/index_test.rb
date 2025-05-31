@@ -3,36 +3,70 @@ require "application_system_test_case"
 class IndexTest < ApplicationSystemTestCase
   test "should remove and add an overlay on share button click" do
     node = create(:node)
+
     visit node_path(node)
+
     assert_selector "#content.overlay-right-sidebar"
-    find(".control-share a").click
+
+    within "#map" do
+      click_on "Share"
+    end
+
     assert_no_selector "#content.overlay-right-sidebar"
-    find(".control-share a").click
+
+    within "#map" do
+      click_on "Share"
+    end
+
     assert_selector "#content.overlay-right-sidebar"
   end
 
   test "should add an overlay on close" do
     node = create(:node)
+
     visit node_path(node)
-    find(".control-share a").click
+
+    within "#map" do
+      click_on "Share"
+    end
+
     assert_no_selector "#content.overlay-right-sidebar"
-    find("#map-ui .btn-close").click
+
+    within "#map-ui" do
+      click_on "Close"
+    end
+
     assert_selector "#content.overlay-right-sidebar"
   end
 
   test "should not add overlay when not closing right menu popup" do
     node = create(:node)
+
     visit node_path(node)
-    find(".control-share a").click
 
-    find(".control-key a").click
-    assert_no_selector "#content.overlay-right-sidebar"
-    find(".control-layers a").click
-    assert_no_selector "#content.overlay-right-sidebar"
-    find(".control-key a").click
+    within "#map" do
+      click_on "Share"
+      click_on "Map Key"
+    end
+
     assert_no_selector "#content.overlay-right-sidebar"
 
-    find(".control-key a").click
+    within "#map" do
+      click_on "Layers"
+    end
+
+    assert_no_selector "#content.overlay-right-sidebar"
+
+    within "#map" do
+      click_on "Map Key"
+    end
+
+    assert_no_selector "#content.overlay-right-sidebar"
+
+    within "#map" do
+      click_on "Map Key"
+    end
+
     assert_selector "#content.overlay-right-sidebar"
   end
 
@@ -64,12 +98,23 @@ class IndexTest < ApplicationSystemTestCase
 
     visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during note_path(hidden_note)
     visit note_path(hidden_note)
-    find(".leaflet-control.control-layers .control-button").click
-    find("#map-ui .overlay-layers .form-check-label", :text => "Map Notes").click
-    visible_note_marker = find(".leaflet-marker-icon[title=this-is-a-visible-note]")
-    assert_selector "#sidebar", :text => "Hidden Note Description"
 
+    within "#map" do
+      click_on "Layers"
+    end
+    within "#map-ui" do
+      check "Map Notes"
+    end
+
+    within_sidebar do
+      assert_text "Hidden Note Description"
+    end
+
+    visible_note_marker = find(".leaflet-marker-icon[title=this-is-a-visible-note]")
     visible_note_marker.click
-    assert_selector "#sidebar", :text => "Visible Note Description"
+
+    within_sidebar do
+      assert_text "Visible Note Description"
+    end
   end
 end

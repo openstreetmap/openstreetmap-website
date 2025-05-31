@@ -8,6 +8,7 @@ L.OSM.query = function (options) {
     const link = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
+      .attr("title", OSM.i18n.t("javascripts.site.queryfeature_tooltip"))
       .appendTo($container);
 
     $(L.SVG.create("svg"))
