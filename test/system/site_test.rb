@@ -49,34 +49,24 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_no_text "Zoom in"
   end
 
-  [
-    "#edit_tab",
-    ".control-note .control-button",
-    ".control-query .control-button"
-  ].each do |selector|
-    test "tooltips on low zoom levels for disabled control '#{selector}'" do
-      visit "/#map=10/0/0"
+  test "tooltips on low zoom levels for disabled control 'Edit'" do
+    check_control_tooltips_on_low_zoom "Edit"
+  end
+  test "tooltips on low zoom levels for disabled control 'Add a note to the map'" do
+    check_control_tooltips_on_low_zoom "Add a note to the map"
+  end
+  test "tooltips on low zoom levels for disabled control 'Query features'" do
+    check_control_tooltips_on_low_zoom "Query features"
+  end
 
-      assert_no_selector ".tooltip"
-      find(selector).hover
-      assert_selector ".tooltip", :text => "Zoom in"
-    end
-
-    test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control '#{selector}'" do
-      visit "/#map=14/0/0"
-
-      assert_no_selector ".tooltip"
-      find(selector).hover
-      assert_no_selector ".tooltip", :text => "Zoom in"
-      find("h1").hover # un-hover original element
-
-      visit "#map=10/0/0"
-      find("#{selector}.disabled") # Ensure that capybara has waited for JS to finish processing
-
-      assert_no_selector ".tooltip"
-      find(selector).hover
-      assert_selector ".tooltip", :text => "Zoom in"
-    end
+  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Edit'" do
+    check_control_tooltips_on_high_zoom "Edit"
+  end
+  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Add a note to the map'" do
+    check_control_tooltips_on_high_zoom "Add a note to the map"
+  end
+  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Query features'" do
+    check_control_tooltips_on_high_zoom "Query features"
   end
 
   test "notes layer tooltip appears on zoom out" do
@@ -99,5 +89,31 @@ class SiteTest < ApplicationSystemTestCase
       find_field("Map Notes", :disabled => true).hover
     end
     assert_selector ".tooltip", :text => "Zoom in to see"
+  end
+
+  private
+
+  def check_control_tooltips_on_low_zoom(locator)
+    visit "/#map=10/0/0"
+
+    assert_no_selector ".tooltip"
+    find_link(locator).hover
+    assert_selector ".tooltip", :text => "Zoom in to"
+  end
+
+  def check_control_tooltips_on_high_zoom(locator)
+    visit "/#map=14/0/0"
+
+    assert_no_selector ".tooltip"
+    find_link(locator).hover
+    assert_no_selector ".tooltip", :text => "Zoom in to"
+    find("h1").hover # un-hover original element
+
+    visit "#map=10/0/0"
+    find_link(locator, :class => "disabled") # Ensure that capybara has waited for JS to finish processing
+
+    assert_no_selector ".tooltip"
+    find_link(locator).hover
+    assert_selector ".tooltip", :text => "Zoom in to"
   end
 end
