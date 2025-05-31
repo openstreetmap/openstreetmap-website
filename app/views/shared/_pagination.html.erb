@@ -1,36 +1,30 @@
 <% if older_id || newer_id %>
 
 <% translation_scope ||= "shared.pagination.#{controller.controller_name}" %>
-<nav>
-  <% link_class = "page-link icon-link text-center" %>
+<nav class="d-flex justify-content-between gap-2">
   <ul class="pagination">
-    <% newer_link_content = capture do %>
-      <%= previous_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
-      <%= t :newer, :scope => translation_scope %>
+    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => nil),
+                        t(:newest, :scope => translation_scope)) do %>
+      <%= previous_page_svg_tag :class => "flex-shrink-0", :count => 2 %>
     <% end %>
-    <% if newer_id -%>
-      <li class="page-item d-flex">
-        <%= link_to newer_link_content, @params.merge(:before => nil, :after => newer_id), :class => link_class, :data => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" } %>
-      </li>
-    <% else -%>
-      <li class="page-item d-flex disabled">
-        <%= tag.span newer_link_content, :class => link_class %>
-      </li>
-    <% end -%>
-
-    <% older_link_content = capture do %>
-      <%= t :older, :scope => translation_scope %>
-      <%= next_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
+  </ul>
+  <ul class="pagination">
+    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => newer_id),
+                        t(:newer, :scope => translation_scope)) do %>
+      <%= previous_page_svg_tag :class => "flex-shrink-0" %>
+      <span class="d-none d-sm-block"><%= t :newer, :scope => translation_scope %></span>
     <% end %>
-    <% if older_id -%>
-      <li class="page-item d-flex">
-        <%= link_to older_link_content, @params.merge(:before => older_id, :after => nil), :class => link_class, :data => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" } %>
-      </li>
-    <% else -%>
-      <li class="page-item d-flex disabled">
-        <%= tag.span older_link_content, :class => link_class %>
-      </li>
-    <% end -%>
+    <%= pagination_item(older_id && @params.merge(:before => older_id, :after => nil),
+                        t(:older, :scope => translation_scope)) do %>
+      <span class="d-none d-sm-block"><%= t :older, :scope => translation_scope %></span>
+      <%= next_page_svg_tag :class => "flex-shrink-0" %>
+    <% end %>
+  </ul>
+  <ul class="pagination">
+    <%= pagination_item(older_id && @params.merge(:before => nil, :after => 0),
+                        t(:oldest, :scope => translation_scope)) do %>
+      <%= next_page_svg_tag :class => "flex-shrink-0", :count => 2 %>
+    <% end %>
   </ul>
 </nav>
 
