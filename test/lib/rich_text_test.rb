@@ -492,6 +492,15 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "#{'x' * (t - o)}...", r.description
   end
 
+  def test_markdown_description_word_break_multiple_spaces
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    t = RichText::DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+    o = 3 # "...".length
+
+    r = RichText.new("markdown", "#{'x' * (t - o)}  #{'y' * (m - (t - o - 1))}")
+    assert_equal "#{'x' * (t - o)}...", r.description
+  end
+
   private
 
   def assert_html(richtext, &block)

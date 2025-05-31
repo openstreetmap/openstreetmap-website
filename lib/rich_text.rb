@@ -239,7 +239,7 @@ module RichText
 
       return nil if text.blank?
 
-      text_truncated_to_word_break = text.truncate(DESCRIPTION_MAX_LENGTH, :separator => " ")
+      text_truncated_to_word_break = text.truncate(DESCRIPTION_MAX_LENGTH, :separator => /(?<!\s)\s+/)
 
       if text_truncated_to_word_break.length >= DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
         text_truncated_to_word_break
