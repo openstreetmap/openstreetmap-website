@@ -6,6 +6,7 @@ module RichText
   ].freeze
 
   DESCRIPTION_MAX_LENGTH = 500
+  DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH = 450
 
   def self.new(format, text)
     case format
@@ -238,7 +239,13 @@ module RichText
 
       return nil if text.blank?
 
-      text.truncate(DESCRIPTION_MAX_LENGTH)
+      text_truncated_to_word_break = text.truncate(DESCRIPTION_MAX_LENGTH, :separator => " ")
+
+      if text_truncated_to_word_break.length >= DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+        text_truncated_to_word_break
+      else
+        text.truncate(DESCRIPTION_MAX_LENGTH)
+      end
     end
 
     def image?(element)
