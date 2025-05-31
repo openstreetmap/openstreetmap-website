@@ -5,7 +5,7 @@ module RichText
     "Business Description:", "Additional Keywords:"
   ].freeze
 
-  MAX_DESCRIPTION_LENGTH = 500
+  DESCRIPTION_MAX_LENGTH = 500
 
   def self.new(format, text)
     case format
@@ -230,7 +230,7 @@ module RichText
         else
           child.children.each do |c|
             append_text.call(c)
-            break if text.length > MAX_DESCRIPTION_LENGTH
+            break if text.length > DESCRIPTION_MAX_LENGTH
           end
         end
       end
@@ -238,7 +238,7 @@ module RichText
 
       return nil if text.blank?
 
-      text.truncate(MAX_DESCRIPTION_LENGTH)
+      text.truncate(DESCRIPTION_MAX_LENGTH)
     end
 
     def image?(element)
