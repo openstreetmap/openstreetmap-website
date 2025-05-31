@@ -129,7 +129,9 @@ class HistoryTest < ApplicationSystemTestCase
       assert_no_link "changeset-close-to-fives"
     end
 
-    find("#map [aria-label='Zoom Out']").click(:shift)
+    within "#map" do
+      find_link("Zoom Out").click(:shift)
+    end
 
     within_sidebar do
       assert_link "changeset-at-fives"

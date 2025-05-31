@@ -85,12 +85,10 @@ L.OSM.layers = function (options) {
         .attr("class", "text-body-secondary small mb-2")
         .appendTo(overlaySection);
 
-      const overlays = $("<ul class='list-unstyled form-check'>")
-        .appendTo(overlaySection);
-
       const addOverlay = function (layer, name, maxArea) {
-        const item = $("<li>")
-          .appendTo(overlays);
+        const item = $("<div>")
+          .attr("class", "form-check")
+          .appendTo(overlaySection);
 
         if (name === "notes" || name === "data") {
           item
@@ -111,7 +109,7 @@ L.OSM.layers = function (options) {
           .prop("checked", checked)
           .appendTo(label);
 
-        label.append(OSM.i18n.t("javascripts.map.layers." + name));
+        label.append(" ", OSM.i18n.t("javascripts.map.layers." + name));
 
         input.on("change", function () {
           checked = input.is(":checked");
@@ -145,7 +143,7 @@ L.OSM.layers = function (options) {
           }
 
           $(item)
-            .attr("class", disabled ? "disabled" : "")
+            .toggleClass("disabled", disabled)
             .tooltip(disabled ? "enable" : "disable");
         });
       };

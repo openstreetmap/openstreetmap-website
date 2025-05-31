@@ -41,14 +41,18 @@ class CreateNoteTest < ApplicationSystemTestCase
       assert_button "Add Note", :disabled => false
     end
 
-    find(".control-button.zoomout").click
+    within "#map" do
+      click_on "Zoom Out"
+    end
 
     within_sidebar do
       assert_content "Zoom in to add a note"
       assert_button "Add Note", :disabled => true
     end
 
-    find(".control-button.zoomin").click
+    within "#map" do
+      click_on "Zoom In"
+    end
 
     within_sidebar do
       assert_no_content "Zoom in to add a note"
@@ -74,7 +78,9 @@ class CreateNoteTest < ApplicationSystemTestCase
       assert_button "Add Note", :disabled => true
     end
 
-    find(".control-button.zoomin").click
+    within "#map" do
+      click_on "Zoom In"
+    end
 
     within_sidebar do
       assert_no_content "Zoom in to add a note"
