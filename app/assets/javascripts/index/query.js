@@ -196,12 +196,7 @@ OSM.Query = function (map) {
             .appendTo($li);
         }
 
-        if (results.remark) {
-          $("<li>")
-            .addClass("list-group-item")
-            .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: results.remark }))
-            .appendTo($ul);
-        }
+        if (results.remark) renderError($ul, results.remark);
 
         if ($ul.find("li").length === 0) {
           $("<li>")
@@ -215,11 +210,15 @@ OSM.Query = function (map) {
 
         $section.find(".loader").hide();
 
-        $("<li>")
-          .addClass("list-group-item")
-          .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: error.message }))
-          .appendTo($ul);
+        renderError($ul, error.message);
       });
+  }
+
+  function renderError($ul, errorMessage) {
+    $("<li>")
+      .addClass("list-group-item")
+      .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: errorMessage }))
+      .appendTo($ul);
   }
 
   function featureArea({ bounds }) {
