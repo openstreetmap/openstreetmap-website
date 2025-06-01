@@ -9,6 +9,10 @@ end
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include ActionMailer::TestCase::ClearTestDeliveries
 
+  Capybara.configure do |config|
+    config.enable_aria_label = true
+  end
+
   driven_by :selenium, :using => Settings.system_test_headless ? :headless_firefox : :firefox do |options|
     options.add_preference("intl.accept_languages", "en")
     options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
