@@ -194,7 +194,7 @@ class UsersController < ApplicationController
 
     provider = auth_info[:provider]
     uid = auth_info[:uid]
-    name = auth_info[:info][:name]
+    name = provider.to_s == "openstreetmap" ? auth_info.dig(:extra, :raw_info, "preferred_username") : auth_info[:info][:name]
     email = auth_info[:info][:email]
 
     email_verified = case provider
