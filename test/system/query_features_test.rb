@@ -128,6 +128,75 @@ class QueryFeaturesSystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "sorts enclosing features correctly with multiple bboxes across antimeridian" do
+    visit "/#map=15/-16.155/179.995"
+
+    within "#map" do
+      click_on "Query features"
+
+      stub_overpass :enclosing_elements => [
+        {
+          "type" => "relation",
+          "id" => 571747,
+          "bounds" => {
+            "minlat" => -21.9434274,
+            "minlon" => 174.4214965,
+            "maxlat" => -12.2613866,
+            "maxlon" => -178.0034928
+          },
+          "tags" => {
+            "admin_level" => "2",
+            "boundary" => "administrative",
+            "name" => "Viti",
+            "name:en" => "Fiji",
+            "name:fj" => "Viti",
+            "type" => "boundary"
+          }
+        },
+        {
+          "type" => "relation",
+          "id" => 2325025,
+          "bounds" => {
+            "minlat" => -17.0160140,
+            "minlon" => 178.4754914,
+            "maxlat" => -16.1243512,
+            "maxlon" => -179.6630100
+          },
+          "tags" => {
+            "name" => "Vanua Levu Group",
+            "place" => "archipelago",
+            "type" => "multipolygon",
+            "wikidata" => "Q2756586"
+          }
+        },
+        {
+          "type" => "relation",
+          "id" => 4097003,
+          "bounds" => {
+            "minlat" => -17.0160140,
+            "minlon" => 178.4754914,
+            "maxlat" => -16.1243512,
+            "maxlon" => -179.9513876
+          },
+          "tags" => {
+            "name" => "Vanua Levu",
+            "place" => "island",
+            "type" => "multipolygon",
+            "wikidata" => "Q327733"
+          }
+        }
+      ]
+
+      click
+    end
+
+    within_sidebar do
+      assert_link "Vanua Levu"
+      assert_link "Vanua Levu Group", :below => find_link("Vanua Levu")
+      assert_link "Fiji", :below => find_link("Vanua Levu Group")
+    end
+  end
+
   private
 
   def stub_overpass(nearby_elements: [], enclosing_elements: [])
