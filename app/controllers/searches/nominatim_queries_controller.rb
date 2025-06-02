@@ -2,6 +2,8 @@ module Searches
   class NominatimQueriesController < QueriesController
     include NominatimMethods
 
+    LANGUAGE_CODES = { "cn" => "zh-Hans", "hk" => "zh-HK", "jp" => "ja", "tw" => "zh-Hant", "bg" => "bg", "rs" => "rs" }.freeze
+
     def create
       # ask nominatim
       response = fetch_xml(nominatim_query_url(:format => "xml"))
@@ -45,11 +47,14 @@ module Searches
         prefix = t "geocoder.search_osm_nominatim.prefix_format", :name => prefix_name
         object_type = place.attributes["osm_type"]
         object_id = place.attributes["osm_id"]
+        # add lang attribute for frontend in certain regions
+        country_code = place.elements["country_code"]&.text
+        lang = country_code ? LANGUAGE_CODES[country_code] : nil
 
         @results.push(:lat => lat, :lon => lon,
                       :min_lat => min_lat, :max_lat => max_lat,
                       :min_lon => min_lon, :max_lon => max_lon,
-                      :prefix => prefix, :name => name,
+                      :prefix => prefix, :name => name, :lang => lang,
                       :type => object_type, :id => object_id)
       end
     rescue StandardError => e

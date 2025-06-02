@@ -2,6 +2,8 @@ module GeocoderHelper
   def result_to_html(result)
     html_options = { :class => "set_position stretched-link", :data => {} }
 
+    html_options[:lang] = result[:lang] if result[:lang]
+
     url = if result[:type] && result[:id]
             url_for(:controller => "/#{result[:type].pluralize}", :action => :show, :id => result[:id])
           elsif result[:min_lon] && result[:min_lat] && result[:max_lon] && result[:max_lat]
