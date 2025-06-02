@@ -10,6 +10,9 @@
 # Author: Robin Owain
 ---
 cy:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y am %H:%M'
@@ -45,6 +48,10 @@ cy:
       models:
         user_mute:
           is_already_muted: wedi anwybyddu yn barod
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Dylai'r URL ddechrau gyda http:// neu https://
     models:
       acl: Rhestr Rheoli Mynediad
       changeset: Grŵp newid
@@ -736,6 +743,14 @@ cy:
       my_diary: Fy Nyddiadur
       new: Cofnod Dyddiadur Newydd
       new_title: Creu cofnod newydd yn fy nyddiadur defnyddiwr
+    profile_diaries:
+      comments:
+        zero: Dim sylwadau
+        one: '%{count} sylw'
+        two: '%{count} sylw'
+        few: '%{count} sylw'
+        many: '%{count} sylw'
+        other: '%{count} sylw'
   diary_comments:
     new:
       heading: Ychwanegu sylw at y drafodaeth cofnod dyddiadur canlynol?
@@ -1616,6 +1631,8 @@ cy:
     show:
       title:
         latlon: Mewnol
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Dim canlyniadau
@@ -2027,23 +2044,25 @@ cy:
       flash changed: Mae eich cyfrinair wedi'i newid.
       flash token bad: Methu dod o hyd i'r tocyn hwnnw, gwiriwch yr URL?
   preferences:
-    show:
-      title: Dewisiadau
-      preferred_site_color_scheme: Dewis Lliw Gwefan
-      site_color_schemes:
-        auto: Awtomatig
-        light: Golau
-        dark: Tywyll
-      preferred_map_color_scheme: Dewis Lliw Map
-      map_color_schemes:
-        auto: Awtomatig
-        light: Golau
-        dark: Tywyll
-      save: Diweddaru Dewisiadau
-    update:
-      failure: Ni ellir diweddaru'r dewisiadau.
-    update_success_flash:
-      message: Diweddarwyd eich dewisiadau.
+    preferences:
+      update:
+        failure: Ni ellir diweddaru'r dewisiadau.
+      update_success_flash:
+        message: Diweddarwyd eich dewisiadau.
+    basic_preferences:
+      show:
+        title: Dewisiadau
+        preferred_site_color_scheme: Dewis Lliw Gwefan
+        site_color_schemes:
+          auto: Awtomatig
+          light: Golau
+          dark: Tywyll
+        preferred_map_color_scheme: Dewis Lliw Map
+        map_color_schemes:
+          auto: Awtomatig
+          light: Golau
+          dark: Tywyll
+        save: Diweddaru Dewisiadau
   profiles:
     show:
       title: Golygu proffil
@@ -2067,6 +2086,10 @@ cy:
       show: Dangos
       delete: Dileu
       undelete: Dadwneud dileu
+      social_links:
+        title: Dolenni Proffil Cymdeithasol
+        remove: Dileu
+        add: Ychwanegu Cyswllt Proffil Cymdeithasol
     update:
       success: Proffil wedi'i ddiweddaru.
       failure: Ni ellir diweddaru'r proffil.
@@ -2191,15 +2214,28 @@ cy:
         native_link: fersiwn Cymraeg
         mapping_link: dechrau mapio
       legal_babble:
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: Cymuned OSM
+        lead_2_osm_foundation: Sefydliad OSM
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: gwneud rhodd
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: Trwyddedu OpenStreetMap
+        licensing_1_open: agored
         licensing_1_odc_odbl: Open Data Commons Open Database License
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: Sefydliad OpenStreetMap
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
         licensing_4_osmf_license_page: dudalen Drwydded yr OSMF
         credit_title_html: Sut i gydnabod OpenStreetMap
         credit_1_html: 'Pan fyddwch yn defnyddio data OpenStreetMap, mae rhaid i chi
           wneud y ddau beth canlynol:'
         credit_2_license: Gwnewch yn glir bod y data ar gael o dan y Drwydded Cronfa
           Ddata Agored.
-        credit_3_v2025_attribution_guidelines: Canllawiau Priodoli
+        credit_3_v2025_attribution_guidelines: canllawiau priodoli
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_4_v2025_this_copyright_page: dudalen hawlfraint hon
         attribution_example:
           alt: Enghraifft o sut i briodoli OpenStreetMap ar dudalen we
@@ -2471,6 +2507,14 @@ cy:
           Nid oes rhaid sefydlu grŵp ffurfiol yn yr un modd â'r Siapteri Lleol.
           Mae llawer o grwpiau llwyddiannus yn bodoli fel grwpiau anffurfiol neu fel grŵp cymunedol. Gall unrhyw un ddechrau neu ymuno â grwp. Darllenwch fwy ar y %{communities_wiki_link}.
         communities_wiki: dudalen wici Cymunedau
+  social_links:
+    show:
+      zero: Arall
+      one: Arall
+      two: Arall
+      few: Arall
+      many: Arall
+      other: Arall
   map_keys:
     show:
       entries:
@@ -2484,6 +2528,7 @@ cy:
         track: Trac
         bridleway: Llwybr ceffylau
         cycleway: Llwybr beiciau
+        international_bike_route: Llwybr beicio rhyngwladol
         national_bike_route: Llwybr beiciau cenedlaethol
         regional_bike_route: Llwybr beiciau rhanbarthol
         local_bike_route: Llwybr beiciau lleol
@@ -2560,6 +2605,7 @@ cy:
         bicycle_parking: Man parcio beiciau
         bicycle_parking_small: Parcio Beiciau Bach
         toilets: Toiledau
+      see_external_legend: Gweler allwedd y map allanol
   traces:
     visibility:
       private: Preifat (dim ond yn cael ei rannu fel pwyntiau dienw, heb eu trefnu)
@@ -3280,6 +3326,9 @@ cy:
       queryfeature_tooltip: Ymholiad nodweddion
       queryfeature_disabled_tooltip: Chwyddwch i mewn i wneud ymholiad nodweddion
       embed_html_disabled: Nid yw mewnosod HTML ar gael ar gyfer yr haen fap hon
+    profile:
+      social_link_n: Dolen Broffil Cymdeithasol %{n}
+      remove_social_link_n: Dileu Dolen Broffil Cymdeithasol %{n}
     edit_help: Symudwch y map a chwyddwch i mewn i leoliad rydych chi am ei olygu,
       yna cliciwch yma.
     directions:
@@ -3381,6 +3430,7 @@ cy:
       show_address: Dangos cyfeiriad
       query_features: Ymholiad nodweddion
       centre_map: Canoli'r map yma
+      scroll_to_changeset: Sgrolio i'r grŵp newid
     home:
       marker_title: Fy lleoliad cartref
       not_set: Nid yw lleoliad cartref wedi'i osod ar gyfer eich cyfrif

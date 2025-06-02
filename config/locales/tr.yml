@@ -61,6 +61,9 @@
 # Author: 아라
 ---
 tr:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y saat %H.%M'
@@ -96,6 +99,10 @@ tr:
       models:
         user_mute:
           is_already_muted: zaten sessize alındı
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL http:// veya https:// ile başlamalıdır.
     models:
       acl: Erişim Kontrol Listesi
       changeset: Değişiklik Kaydı
@@ -194,6 +201,7 @@ tr:
         active: Etkin
         display_name: Görünen Ad
         description: Profil Açıklaması
+        company: Şirket
         home_lat: Enlem
         home_lon: Boylam
         languages: Tercih Edilen Diller
@@ -722,9 +730,15 @@ tr:
       heading: Aşağıdaki günlük girdisi tartışmasının aboneliği iptal edilsin mi?
       button: Tartışma aboneliğinden çık
     navigation:
+      in_language: '%{language} dillindeki günlük girdiler'
       my_diary: Günlüğüm
       new: Yeni Günlük Girdisi
       new_title: Kullanıcı günlüğümde yeni bir girdi oluştur
+    profile_diaries:
+      latest_diaries: Son Günlükler
+      comments:
+        one: '%{count} yorum'
+        other: '%{count} yorum'
   diary_comments:
     new:
       heading: Aşağıdaki günlük girdisinin tartışmasına bir yorum ekle?
@@ -1614,16 +1628,20 @@ tr:
         nation: Uluslararası Sınır
         national: Uluslararası Sınır
         neighbourhood: Mahalle Sınırı
+        parish: Mahalle Sınırı
         province: İl Sınırı
         região: Bölge Sınırı
         region: Bölge Sınırı
         state: Eyalet Sınırı
         town: Şehir Sınırı
+        township: Şehir Sınırı
         village: Köy Sınırı
   searches:
     show:
       title:
         latlon: Dahili
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Sonuç bulunamadı
@@ -1635,6 +1653,8 @@ tr:
       time: Zaman
       ascend: Yükselt
       descend: İniş
+      button_km: km
+      button_mi: mi
       download: Rotayı GeoJSON olarak indir
       filename: rota
       directions_courtesy_html: Yolculuğun izniyle %{link}x
@@ -1643,7 +1663,9 @@ tr:
       title: Sorunlar
       select_status: Durum Seç
       select_type: Tür Seç
+      select_last_managed_by: Son Güncelleme
       reported_user: Bildirilen Kullanıcı
+      not_managed: Yönetilmiyor
       search: Ara
       search_guidance: 'Arama Sorunları:'
       states:
@@ -1657,6 +1679,7 @@ tr:
       status: Durum
       reports: Raporlar
       last_updated: Son Güncelleme
+      last_managed: Son Yönetilen
       reporting_users: Kullanıcı Bildirme
       reports_count:
         one: '%{count} Rapor'
@@ -1705,7 +1728,17 @@ tr:
       reportable_title:
         diary_comment: '%{entry_title}, yorum #%{comment_id}'
         note: 'Not #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Günlük Yorumu %{title} %{datetime_created} tarihinde oluşturuldu,
+          %{datetime_updated} tarihinde güncellendi
+        diary_entry_html: Günlük Yorumu %{title} %{datetime_created} tarihinde oluşturuldu,
+          %{datetime_updated} tarihinde güncellendi
+        note_html: Günlük Yorumu %{title} %{datetime_created} tarihinde oluşturuldu,
+          %{datetime_updated} tarihinde güncellendi
+        user_html: Kullanıcı %{title} %{datetime_created} tarihinde oluşturuldu
     reporters:
+      index:
+        title: 'Sorun #%{issue_id} Muhabirler'
       reporters:
         more_reporters: ve %{count} daha fazla
   issue_comments:
@@ -2078,23 +2111,25 @@ tr:
       flash changed: Parolanız değiştirildi.
       flash token bad: Bu simgeyi bulamadıysanız belki de bağlantıyı kontrol etmelisiniz?
   preferences:
-    show:
-      title: Tercihlerim
-      preferred_site_color_scheme: Tercih Edilen Web Sitesi Renk Düzeni
-      site_color_schemes:
-        auto: Otomatik
-        light: Açık
-        dark: Koyu
-      preferred_map_color_scheme: Tercih Edilen Web Sitesi Renk Düzeni
-      map_color_schemes:
-        auto: Otomatik
-        light: Açık
-        dark: Koyu
-      save: Tercihleri Güncelle
-    update:
-      failure: Tercihler güncellenemedi.
-    update_success_flash:
-      message: Tercihler güncellendi.
+    preferences:
+      update:
+        failure: Tercihler güncellenemedi.
+      update_success_flash:
+        message: Tercihler güncellendi.
+    basic_preferences:
+      show:
+        title: Tercihlerim
+        preferred_site_color_scheme: Tercih Edilen Web Sitesi Renk Düzeni
+        site_color_schemes:
+          auto: Otomatik
+          light: Açık
+          dark: Koyu
+        preferred_map_color_scheme: Tercih Edilen Web Sitesi Renk Düzeni
+        map_color_schemes:
+          auto: Otomatik
+          light: Açık
+          dark: Koyu
+        save: Tercihleri Güncelle
   profiles:
     show:
       title: Profili Düzenle
@@ -2118,6 +2153,10 @@ tr:
       show: Göster
       delete: Sil
       undelete: Silme işlemini geri al
+      social_links:
+        title: Sosyal medya bağlantıları
+        remove: kaldır
+        add: Sosyal bağlantı ekle
     update:
       success: Profil güncellendi.
       failure: Profil güncellenemedi.
@@ -2126,6 +2165,12 @@ tr:
       tab_title: Oturum Aç
       login_to_authorize_html: '%{client_app_name} uygulamasına erişmek için OpenStreetMap''te
         oturum açın.'
+      already_logged_in_html: Zaten %{user} olarak giriş yaptınız. Tekrar giriş yapmanız
+        mevcut hesabınızı değiştirecektir.
+      access_another_page: 'Başka bir sayfaya erişmeye çalışırken buraya geldiniz.
+        Mevcut hesabınızı kullanarak o sayfaya erişmek istiyorsanız, aşağıdaki düğmeye
+        tıklayın:'
+      visit_referring_page: Referans sayfasını ziyaret edin
       email or username: E-posta Adresi veya Kullanıcı Adı
       password: Parola
       remember: Beni hatırla
@@ -2190,9 +2235,9 @@ tr:
       heading_html: '%{copyright}OpenStreetMap''e %{br} katkıda bulunanlar'
       used_by_html: '%{name}; binlerce web sitesi, mobil uygulama ve donanım cihazı
         için harita verisi sağlar.'
-      lede_text: OpenStreetMap; tüm dünyada yollar, patikalar, kafeler, tren istasyonları
-        ve çok daha fazlası hakkında veri sağlayan ve bunları koruyan bir haritacılar
-        topluluğu tarafından oluşturulmuştur.
+      lede_text: OpenStreetMap, dünyanın dört bir yanındaki yollar, patikalar, kafeler,
+        tren istasyonları ve daha fazlası hakkında veri toplayan ve bunları koruyan
+        bir haritacılar topluluğu tarafından oluşturulmuştur.
       local_knowledge_title: Yerel Bilgi
       local_knowledge_html: |-
         OpenStreetMap, piyasa bilgisi üzerinde durmaktadır. Katkıda bulunanlar,
@@ -2248,6 +2293,27 @@ tr:
         native_link: Türkçe sürümü
         mapping_link: haritacılığa başla
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap, binlerce web sitesi, mobil uygulama ve donanım aygıtı için açık harita verileri sağlar.
+          OpenStreetMap, sizin gibi dünyanın dört bir yanındaki yollar, patikalar, kafeler, tren istasyonları ve daha fazlası hakkında haritalama verilerine katkıda bulunan ve bunları koruyan bir topluluk tarafından oluşturulmuştur.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} ve %{get_started_mapping_link}!
+          Daha fazlasını %{osm_blog_link} adresinde okuyabilir ve %{weeklyosm_link}'e abone olabilirsiniz.
+          Yerel %{osm_community_link} topluluğunuzdaki diğer haritacıları bulun.
+          %{osm_foundation_link} ve %{making_donation_link}'e katılarak projeyi destekleyin.
+        lead_2_learn_more_about_osm: OpenStreetMap hakkında daha fazla bilgi edinin
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
+        lead_2_get_started_mapping: haritalamaya başla
+        lead_2_osm_blog: OpenStreetMap Blogu
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM topluluğu
+        lead_2_osm_foundation: OSM Vakfı
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: Bir bağışta bulunun
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: OpenStreetMap lisanslama
         licensing_1_odc_odbl: Open Data Commons Açık Veritabanı Lisansı
         licensing_1_osm_foundation: OpenStreetMap Vakfı
         licensing_4_osmf_license_page: OSMF Lisans sayfası
@@ -2992,6 +3058,9 @@ tr:
       delete_user: Bu Kullanıcıyı Sil
       confirm: Onayla
       report: Bu Kullanıcıyı Bildir
+      contributions:
+        one: '%{count} son yıldaki katkı sayısı'
+        other: '%{count} son yıldaki katkı sayısı'
     go_public:
       flash success: Tüm düzenlemeleriniz şimdi herkese açık ve siz de düzenleme yetkisine
         sahipsiniz.

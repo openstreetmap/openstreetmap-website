@@ -56,6 +56,9 @@
 # Author: 아라
 ---
 zh-TW:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%Y年%m月%e日 %H時%M分'
@@ -1560,6 +1563,8 @@ zh-TW:
     show:
       title:
         latlon: 內部
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: 找不到結果
@@ -1571,6 +1576,8 @@ zh-TW:
       time: 時間
       ascend: 上升
       descend: 下降
+      button_km: 公里
+      button_mi: 英哩
       download: 以 GeoJSON 格式下載路線
       filename: 路線
       directions_courtesy_html: 感謝 %{link} 提供路線資訊
@@ -1953,23 +1960,25 @@ zh-TW:
       flash changed: 你的密碼已經變更。
       flash token bad: 找不到該授權密鑰，可能要檢查一下 URL？
   preferences:
-    show:
-      title: 我的偏好設定
-      preferred_site_color_scheme: 偏好的網站配色
-      site_color_schemes:
-        auto: 自動
-        light: 淺色
-        dark: 深色
-      preferred_map_color_scheme: 偏好的地圖配色
-      map_color_schemes:
-        auto: 自動
-        light: 明亮
-        dark: 深色
-      save: 更新偏好
-    update:
-      failure: 無法更新偏好設定。
-    update_success_flash:
-      message: 偏好設定已更新。
+    preferences:
+      update:
+        failure: 無法更新偏好設定。
+      update_success_flash:
+        message: 偏好設定已更新。
+    basic_preferences:
+      show:
+        title: 我的偏好設定
+        preferred_site_color_scheme: 偏好的網站配色
+        site_color_schemes:
+          auto: 自動
+          light: 淺色
+          dark: 深色
+        preferred_map_color_scheme: 偏好的地圖配色
+        map_color_schemes:
+          auto: 自動
+          light: 明亮
+          dark: 深色
+        save: 更新偏好
   profiles:
     show:
       title: 編輯基本資料
@@ -1978,6 +1987,7 @@ zh-TW:
       image: 圖片
       gravatar:
         gravatar: 使用 Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: 什麼是 Gravatar？
         disabled: Gravatar已停用。
         enabled: 你的 Gravatar 顯示功能已啟用。
@@ -1992,6 +2002,10 @@ zh-TW:
       show: 顯示
       delete: 刪除
       undelete: 還原刪除
+      social_links:
+        title: 社群帳號連結
+        remove: 移除
+        add: 新增社群媒體連結
     update:
       success: 已更新基本資料。
       failure: 無法更新個人資料。
@@ -2105,6 +2119,15 @@ zh-TW:
         native_link: 繁體中文版
         mapping_link: 開始製圖
       legal_babble:
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: 周刊OSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM 社群
+        lead_2_osm_foundation: OSM基金會
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: 捐款
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: 開放街圖授權條款
         licensing_1_odc_odbl: 開放資料共享開放資料庫授權
         licensing_1_osm_foundation: 開放街圖基金會
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW
@@ -2113,6 +2136,9 @@ zh-TW:
         credit_1_html: 當你使用開放街圖的資料，你會被要求遵循兩件事：
         credit_2_license: 明確資料在開放資料共享開放資料庫授權下可用。
         credit_3_v2025_attribution_guidelines: 姓名標示指南
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: 授權條款要求
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
         credit_4_v2025_this_copyright_page: 此版權頁面
         attribution_example:
           alt: 如何在網頁上署名開放街圖的例子
@@ -2126,6 +2152,7 @@ zh-TW:
         trademarks_title: 商標
         trademarks_1_1_html: 開放街圖、網站上的放大鏡標誌以及 State of the Map 是開放街圖基金會的註冊商標。如果你對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
         trademarks_1_1_trademark_policy: 商標方針
+        services_title_html: 額外服務項目
         services_1_api_usage_policy: API 使用方針
         services_1_tile_usage_policy: 圖磚使用方針
         services_1_nominatim_usage_policy: 提名使用方針

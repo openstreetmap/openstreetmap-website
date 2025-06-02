@@ -95,6 +95,10 @@ sv:
       models:
         user_mute:
           is_already_muted: är redan tystad
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL borde inledas med http:// eller https://
     models:
       acl: Tillgångskontrollista (ACL)
       changeset: Ändringsuppsättning
@@ -193,6 +197,7 @@ sv:
         active: Aktiv
         display_name: Visa namn
         description: Profilbeskrivning
+        company: Företag
         home_lat: Breddgrad (latitud)
         home_lon: Längdgrad (longitud)
         languages: Föredragna språk
@@ -404,6 +409,10 @@ sv:
       create:
         successfully_declared: Du har förklarat att du anser att dina redigeringar
           är inom public domain.
+        already_declared: Du har redan förklarat att du anser att dina redigeringar
+          är inom Public Domain.
+        did_not_confirm: Du har inte förklarat att du anser att dina redigeringar
+          är inom Public Domain.
   browse:
     deleted_ago_by_html: Raderades %{time_ago} av %{user}
     edited_ago_by_html: Redigerades %{time_ago} av %{user}
@@ -546,6 +555,13 @@ sv:
         sorry: Tyvärr, listan med ändringsuppsättningskommentarer du begärde kunde
           inte hämtas då begäran tog för lång tid.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} kommentar'
+        other: '%{count} kommentarer'
+      changes:
+        one: '%{count} ändring'
+        other: '%{count} ändringar'
     index:
       title: Ändringsuppsättningar
       title_user: Ändringsuppsättningar av %{user}
@@ -588,7 +604,9 @@ sv:
       changesetxml: XML för ändringsuppsättning
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Noder
       nodes_paginated: Noder (%{x}-%{y} av %{count})
+      ways_title: Vägar
       ways_paginated: Sträckor (%{x}-%{y} av %{count})
       relations_title: Relationer
       relations_paginated: Förbindelser (%{x}-%{y} av %{count})
@@ -710,9 +728,15 @@ sv:
       heading: Avsluta prenumeration på följande diskussion om dagboksinlägg?
       button: Avsluta prenumeration på diskussion
     navigation:
+      in_language: Dagboksinlägg på %{language}
       my_diary: Min dagbok
       new: Nytt dagboksinlägg
       new_title: Skapa ett nytt inlägg i min användardagbok
+    profile_diaries:
+      latest_diaries: Senaste dagböcker
+      comments:
+        one: '%{count} kommentar'
+        other: '%{count} kommentarer'
   diary_comments:
     new:
       heading: Lägg en kommentar på följande diskussion om dagboksinlägg?
@@ -1663,7 +1687,11 @@ sv:
       reportable_title:
         diary_comment: '%{entry_title}, kommentar nr %{comment_id}'
         note: Anteckning nr %{note_id}
+      reportable_heading:
+        user_html: Användaren %{title} skapades den %{datetime_created}
     reporters:
+      index:
+        title: Ärende %{issue_id} Reportrar
       reporters:
         more_reporters: och %{count} till
   issue_comments:
@@ -2027,23 +2055,25 @@ sv:
       flash changed: Ditt lösenord har ändrats.
       flash token bad: Hittade inte den nyckeln, kontrollera webbadressen kanske?
   preferences:
-    show:
-      title: Mina alternativ
-      preferred_site_color_scheme: Föredraget färgtema för webbplatsen
-      site_color_schemes:
-        auto: Automatiskt
-        light: Ljust
-        dark: Mörkt
-      preferred_map_color_scheme: Föredragen karta för färgtema
-      map_color_schemes:
-        auto: Automatiskt
-        light: Ljust
-        dark: Mörkt
-      save: Uppdatera alternativ
-    update:
-      failure: Kunde inte uppdatera alternativ.
-    update_success_flash:
-      message: Inställningarna uppdaterade.
+    preferences:
+      update:
+        failure: Kunde inte uppdatera alternativ.
+      update_success_flash:
+        message: Inställningarna uppdaterade.
+    basic_preferences:
+      show:
+        title: Mina alternativ
+        preferred_site_color_scheme: Föredraget färgtema för webbplatsen
+        site_color_schemes:
+          auto: Automatiskt
+          light: Ljust
+          dark: Mörkt
+        preferred_map_color_scheme: Föredragen karta för färgtema
+        map_color_schemes:
+          auto: Automatiskt
+          light: Ljust
+          dark: Mörkt
+        save: Uppdatera alternativ
   profiles:
     show:
       title: Redigera profil
@@ -2066,6 +2096,10 @@ sv:
       show: Visa
       delete: Radera
       undelete: Ångra radera
+      social_links:
+        title: Länkar till social profil
+        remove: Ta bort
+        add: Lägg till social länk
     update:
       success: Profil uppdaterad.
       failure: Kunde inte uppdatera profilen.
@@ -2073,6 +2107,8 @@ sv:
     new:
       tab_title: Logga in
       login_to_authorize_html: Logga in på OpenStreetMap för att komma åt %{client_app_name}.
+      already_logged_in_html: Du är redan inloggad som %{user}. Att logga in igen
+        kommer ändra ditt aktuella konto.
       email or username: E-postadress eller Användarnamn
       password: Lösenord
       remember: Kom ihåg mig
@@ -2197,6 +2233,11 @@ sv:
         native_link: svensk version
         mapping_link: börja kartlägga
       legal_babble:
+        lead_2_osm_community: OSM-gemenskap
+        lead_2_osm_foundation: OSM-stiftelsen
+        lead_2_making_donation: att donera
+        licensing_title: OpenStreetMap-licensiering
+        licensing_1_open: öppen
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_osm_foundation: OpenStreetMap-stiftelsen
         licensing_4_osmf_license_page: OSMF-licenssida
@@ -2227,6 +2268,7 @@ sv:
           OpenStreetMap Foundation. Om du har frågor om din användning av märkena, se vår
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Varumärkespolicy
+        services_title_html: Ytterligare tjänster
         services_1_api_usage_policy: API-användningspolicy
         services_1_tile_usage_policy: Användningspolicy för Brickor
         services_1_nominatim_usage_policy: Nominativ användningspolicy
@@ -2510,6 +2552,10 @@ sv:
           Det finns inget behov av att formellt bilda en grupp i samma utsträckning som de lokala avdelningarna.
           Många grupper existerar faktiskt mycket framgångsrikt som en informell sammankomst av människor eller som en gemenskapsgrupp. Vem som helst kan ställa in eller gå med i dessa. Läs mer på %{communities_wiki_link}.
         communities_wiki: Gemenskapswikisida
+  social_links:
+    show:
+      one: Annan
+      other: Andra
   map_keys:
     show:
       entries:
@@ -2523,6 +2569,7 @@ sv:
         track: Traktorväg
         bridleway: Ridstig
         cycleway: Cykelväg
+        international_bike_route: Internationell cykelväg
         national_bike_route: Nationell cykelväg
         regional_bike_route: Regional cykelväg
         local_bike_route: Lokal cykelväg
@@ -2599,6 +2646,7 @@ sv:
         bicycle_parking: Cykelparkering
         bicycle_parking_small: Liten cykelparkering
         toilets: Toaletter
+      see_external_legend: Se extern kartförklaring
   traces:
     visibility:
       private: Privat (spåret delas anonymt och utan ordning)
@@ -2736,6 +2784,7 @@ sv:
     share:
       share:
         title: Dela
+        alt: Dela ikon
       email:
         title: Dela via e-post
         alt: E-post-ikon
@@ -2897,6 +2946,9 @@ sv:
       follow: Följ
       mapper since: 'Karterar sedan:'
       last map edit: 'Senaste kartredigering:'
+      home location: Hemplats
+      company: Företag
+      company tooltip: Företagstillhörigheten är självrapporterad och inte verifierad
       no activity yet: Ännu ingen aktivitet
       uid: 'Användar id:'
       ct status: 'Användarvillkor:'
@@ -2932,6 +2984,9 @@ sv:
       delete_user: Radera denna användare
       confirm: Bekräfta
       report: Rapportera denna användare
+      contributions:
+        one: '%{count} bidrag under det senaste året'
+        other: '%{count} bidrag under det senaste året'
     go_public:
       flash success: Alla dina ändringar är nu publika, och du får lov att redigera.
     issued_blocks:
@@ -2966,7 +3021,11 @@ sv:
           confirmed: Bekräftad
           suspended: Uppskjutet
           deleted: Raderad
+        name_or_email: Namn eller e-post
         ip_address: IP-adress
+        edits: Redigeringar?
+        has_edits: Har redigeringar
+        no_edits: Inga redigeringar
         search: Sök
       page:
         found_users:
@@ -3311,6 +3370,9 @@ sv:
       queryfeature_tooltip: Undersök kartobjekt
       queryfeature_disabled_tooltip: Zooma in för att undersöka kartobjekt
       embed_html_disabled: HTML-inbäddning är inte tillgänglig för det här kartlagret
+    profile:
+      social_link_n: Länk till social profil %{n}
+      remove_social_link_n: Ta bort länk till social profil %{n}
     edit_help: Flytta kartan och zooma in på en plats som du vill redigera, klicka
       sedan här.
     directions:
@@ -3318,6 +3380,9 @@ sv:
         meters:
           m: '%{distance} m'
           km: '%{distance} km'
+        miles:
+          ft: '%{distance} fot'
+          mi: '%{distance} mil'
       errors:
         no_route: Kunde inte hitta en väg mellan dessa två platser.
         no_place: Ledsen - kunde inte hitta %{place}.
@@ -3406,9 +3471,16 @@ sv:
       show_address: Visa adress
       query_features: Undersök kartobjekt
       centre_map: Centrera kartan här
+      scroll_to_changeset: Scrolla till ändringsuppsättningen
     home:
       marker_title: Min hemort
       not_set: Hemort har inte angetts för ditt konto
+    heatmap:
+      tooltip:
+        no_contributions: Inga bidrag på %{date}
+        contributions:
+          one: '%{count} bidrag på %{date}'
+          other: '%{count} bidrag på %{date}'
   redactions:
     edit:
       heading: Redigera maskering

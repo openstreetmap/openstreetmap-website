@@ -171,6 +171,7 @@ eo:
         active: Aktiva
         display_name: Montra nomo
         description: Priskribo de profilo
+        company: Firmao
         home_lat: Latitudo
         home_lon: Longitudo
         languages: Preferataj lingvoj
@@ -189,7 +190,7 @@ eo:
           trankvila kaj prudenta, donu kiel eble plej multe da detaloj pri la situacio
           kaj memoru, ke la mesaĝo estos videbla publike. Memoru, ke ne ĉiuj uzantoj
           komprenas la komunuman ĵargonon, do bonvolu uzi simplajn vortojn.
-        needs_view: Ĉu la uzanto devas ensaluti antaŭ ĉi tiu blokado nuligos?
+        needs_view: Ĉu la uzanto devas ensaluti antaŭ ol tiu ĉi blokado nuliĝos?
       user:
         new_email: (neniam publike montrita)
   datetime:
@@ -781,7 +782,7 @@ eo:
       failed: Bedaŭrinde malsukcesis aldoni la uzanton %{name} al viaj sekvataj uzantoj.
       already_followed: Vi jam sekvas la uzanton %{name}.
       limit_exceeded: Vi antaŭtempe aldonis multajn uzantojn al via listo de sekvataj
-        uzantoj. Atendu iom da tempo antaŭ aldoni pliajn.
+        uzantoj. Atendu iom da tempo antaŭ ol aldoni pliajn.
     destroy:
       success: Vi nun ne sekvas la uzanton %{name}.
       not_followed: Vi ne sekvas la uzanton %{name}.
@@ -1718,7 +1719,7 @@ eo:
       title_html: Raporti %{link}
       missing_params: Ne povas krei novan raporton
       disclaimer:
-        intro: 'Antaŭ sendi raporton al kontrolantoj, bonvolu certiĝi ke:'
+        intro: 'Antaŭ ol sendi raporton al kontrolantoj, certiĝu ke:'
         not_just_mistake: raportata problemo ne estas simpla eraro de uzanto
         unable_to_fix: vi ne povas mem ripari la problemon aŭ kun helpo de la komunumo
         resolve_with_user: vi jam provis solvi la problemon kun koncerna uzanto
@@ -2053,23 +2054,25 @@ eo:
       flash changed: Via pasvorto estis ŝanĝita.
       flash token bad: Ne povas trovi ĵetonon. Provu kontroli la retadreson.
   preferences:
-    show:
-      title: Miaj preferoj
-      preferred_site_color_scheme: Preferata kolorskemo de retejo
-      site_color_schemes:
-        auto: aŭtomate
-        light: hela
-        dark: malhela
-      preferred_map_color_scheme: Preferata kolorskemo de mapo
-      map_color_schemes:
-        auto: aŭtomate
-        light: hela
-        dark: malhela
-      save: Konservi preferojn
-    update:
-      failure: Ne povis konservi preferojn.
-    update_success_flash:
-      message: Konservis preferojn.
+    preferences:
+      update:
+        failure: Ne povis konservi preferojn.
+      update_success_flash:
+        message: Konservis preferojn.
+    basic_preferences:
+      show:
+        title: Miaj preferoj
+        preferred_site_color_scheme: Preferata kolorskemo de retejo
+        site_color_schemes:
+          auto: aŭtomate
+          light: hela
+          dark: malhela
+        preferred_map_color_scheme: Preferata kolorskemo de mapo
+        map_color_schemes:
+          auto: aŭtomate
+          light: hela
+          dark: malhela
+        save: Konservi preferojn
   profiles:
     show:
       title: Redakti profilon
@@ -2513,6 +2516,8 @@ eo:
         bicycle: Bicikle
         car: Aŭte
         foot: Piede
+      providers:
+        description: Kurs-kalkulaj servoj
     welcome:
       title: Bonvenon!
       introduction: Bonvenon al OpenStreetMap, la libera kaj redaktebla mapo de la
@@ -2701,10 +2706,10 @@ eo:
       upload_failed: Malsukcesis alŝuti GPX-dosieron. Administranto estis sciigita
         pri tiu ĉi eraro. Bonvolu reprovi
       traces_waiting:
-        one: Vi havas %{count} spuron atendanta alŝutado. Bonvolu atendi ĝis ĝi estos
-          alŝutita, antaŭ alŝuti aliajn, do vi ne blokos atendovicon por aliaj uzantoj.
-        other: Vi havas %{count} spurojn atendantaj alŝutado. Bonvolu atendi ĝis ili
-          estos alŝutitaj, antaŭ alŝuti aliajn, do vi ne blokos atendovicon por aliaj
+        one: Vi havas %{count} spuron atendantan alŝuton. Atendu ĝis ĝi estos alŝutita,
+          antaŭ ol alŝuti aliajn, do vi ne blokos atendovicon por aliaj uzantoj.
+        other: Vi havas %{count} spurojn atendantajn alŝutojn. Atendu ĝis ili estos
+          alŝutitaj, antaŭ ol alŝuti aliajn, do vi ne blokos atendovicon por aliaj
           uzantoj.
     edit:
       cancel: Nuligi
@@ -2863,7 +2868,7 @@ eo:
     index:
       title: Miaj klientaj aplikaĵoj
       no_applications_html: Ĉu vi havas iun aplikaĵon, kiun vi volas registri uzante
-        la normon %{oauth2}? Vi devas registri vian aplikaĵon, antaŭ ĝi eblos fari
+        la normon %{oauth2}? Vi devas registri vian aplikaĵon, antaŭ ol ĝi povos plenumi
         OAuth-petojn al tiu ĉi servo.
       new: Registri novan aplikaĵon
       name: Nomo
@@ -2978,6 +2983,8 @@ eo:
       mapper since: 'Mapigisto ekde:'
       last map edit: 'Antaŭa map-redakto:'
       home location: Hejmloko
+      company: Firmao
+      company tooltip: Aparteno al firmao estas memdeklarita kaj ne neverigita
       no activity yet: ankoraŭ neniu agado
       uid: 'Identigilo de uzanto:'
       ct status: 'Interkonsento pri kontribuado:'
@@ -3391,8 +3398,9 @@ eo:
       queryfeature_tooltip: Montri informojn pri objekto
       queryfeature_disabled_tooltip: Pligrandigu por montri informojn pri objektoj
       embed_html_disabled: HTML-enigo ne haveblas por ĉi tiu mapo-tavolo
-    social_links:
-      remove: Forigi
+    profile:
+      social_link_n: 'ligilo al socia komunikilo #%{n}'
+      remove_social_link_n: 'Forigi ligilon al socia komunikilo #%{n}'
     edit_help: Movu la mapon kaj pligrandigu al loko kiun vi volas redakti, kaj poste
       alklaku tie ĉi.
     directions:
@@ -3534,8 +3542,8 @@ eo:
     update:
       flash: Ŝanĝoj konservitaj.
     destroy:
-      not_empty: La korekto ne estas malplena. Bonvolu malfari ĉiujn versiojnm kiuj
-        apartenas al ĉi tiu korekto, antaŭ vi forigos ĝin.
+      not_empty: La korekto ne estas malplena. Malfaru ĉiujn versiojn, kiuj apartenas
+        al tiu ĉi korekto, antaŭ ol forigi ĝin.
       flash: Korekto forigita.
       error: Okazis eraro dum forigado de ĉi tiu korekto.
   validations:

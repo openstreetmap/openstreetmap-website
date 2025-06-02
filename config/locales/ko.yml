@@ -56,6 +56,9 @@
 # Author: 한림
 ---
 ko:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%Y년 %B %e일 %H:%M'
@@ -92,10 +95,14 @@ ko:
       models:
         user_mute:
           is_already_muted: 님은 이미 음소거되어 있습니다
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL은 http:// 또는 https://로 시작해야 합니다.
     models:
       acl: 접근 제어 목록
-      changeset: 변경집합
-      changeset_tag: 변경집합 태그
+      changeset: 바뀜집합
+      changeset_tag: 바뀜집합 태그
       country: 국가
       diary_comment: 일기 댓글
       diary_entry: 일기 항목
@@ -138,7 +145,7 @@ ko:
         allow_write_prefs: 사용자 환경 설정을 수정합니다
         allow_write_diary: 일기 항목 및 댓글 작성
         allow_write_api: 지도를 수정합니다
-        allow_write_changeset_comments: 변경집합에 대한 댓글
+        allow_write_changeset_comments: 바뀜집합 댓글
         allow_read_gpx: 비공개 GPS 궤적을 읽습니다
         allow_write_gpx: GPS 궤적을 업로드합니다
         allow_write_notes: 참고를 수정합니다
@@ -190,6 +197,7 @@ ko:
         active: 활성
         display_name: 표시 이름
         description: 프로필 설명
+        company: 회사
         home_lat: 위도
         home_lon: 경도
         languages: 선호하는 언어
@@ -290,6 +298,7 @@ ko:
         review link text: 원하는 시간에 이 링크를 따라 새로운 기여자 약관을 검토하고 수락하세요.
         agreed_with_pd: 또한 자신의 편집이 퍼블릭 도메인에 있어야 한다고 생각하는 것도 선언하고 있습니다.
         link text: 무엇인가요?
+        not_agreed_with_pd: 자신의 편집을 퍼블릭 도메인으로 간주한다고 선언하지 않았습니다.
         pd_link_text: 선언
       save changes button: 변경사항 저장
       delete_account: 계정 삭제...
@@ -320,7 +329,7 @@ ko:
         retain_traces: 업로드된 경로가 있는 경우 그대로 유지됩니다.
         retain_diary_entries: 일기 항목과 일기에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
         retain_notes: 지도 메모와 메모에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
-        retain_changeset_discussions: 변경집합 토론이 있는 경우 유지됩니다.
+        retain_changeset_discussions: 바뀜집합 토론이 있는 경우 유지됩니다.
         retain_email: 이메일 주소는 그대로 유지됩니다.
         recent_editing_html: 최근 편집했으므로 현재 계정을 삭제할 수 없습니다. %{time} 후에 삭제가 가능합니다.
         confirm_delete: 확실합니까?
@@ -357,14 +366,20 @@ ko:
         terms_declined_link: 이 위키 문서
     pd_declarations:
       show:
+        title: 내 기여를 퍼블릭 도메인에 속하는 것으로 간주합니다
         consider_pd: 내 기여를 퍼블릭 도메인에 속하는 것으로 간주합니다
+        consider_pd_why: 퍼블릭 도메인으로 기여하면 어떤 점이 좋을까요?
         confirm: 확인
+      create:
+        successfully_declared: 자신의 편집을 퍼블릭 도메인으로 간주한다고 선언했습니다.
+        already_declared: 이미 자신의 편집을 퍼블릭 도메인으로 간주한다고 선언했습니다.
+        did_not_confirm: 자신의 편집을 퍼블릭 도메인으로 간주할지 확정하지 않았습니다.
   browse:
     deleted_ago_by_html: '%{time_ago}에 %{user}님이 삭제함'
     edited_ago_by_html: '%{time_ago}에 %{user}님이 편집함'
     version: 버전
     redacted_version: 수정된 버전
-    in_changeset: 변경집합
+    in_changeset: 바뀜집합
     anonymous: 익명
     no_comment: (댓글 없음)
     part_of: '다음의 일부:'
@@ -404,12 +419,12 @@ ko:
       title: 찾을 수 없음
     timeout:
       title: 시간 초과 오류
-      sorry: 죄송합니다, %{id} id인 %{type}에 대한 데이터를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 %{type}에 대한 데이터를 가져오는 데 너무 오래 걸립니다.
       type:
         node: 교점
         way: 길
         relation: 관계
-        changeset: 변경집합
+        changeset: 바뀜집합
         note: 참고
     redacted:
       redaction: 개정 %{id}
@@ -422,6 +437,7 @@ ko:
     start_rjs:
       feature_warning: 지물 %{num_features}개를 불러오고 있으며, 브라우저가 느려지거나 응답하지 않을 수 있습니다.
         정말 이 데이터를 표시하겠습니까?
+      feature_error: '지물을 불러올 수 없음: %{message}'
       load_data: 데이터 불러오기
       loading: 불러오는 중...
     tag_details:
@@ -456,60 +472,70 @@ ko:
     not_found_message:
       sorry: 죄송합니다, 노드 %{id}을(를) 찾을 수 없었습니다.
     timeout:
-      sorry: 죄송합니다, %{id} id인 노드에 대한 데이터를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 노드에 대한 데이터를 가져오는 데 너무 오래 걸립니다.
   old_nodes:
     not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 노드 #%{id}를 찾을 수 없습니다.'
     timeout:
-      sorry: 죄송합니다, %{id} id인 노드의 역사를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 노드의 역사를 가져오는 데 너무 오래 걸립니다.
   ways:
+    not_found_message:
+      sorry: '죄송합니다. 길 #%{id}을(를) 찾을 수 없습니다.'
     timeout:
-      sorry: 죄송합니다, %{id} id인 길 데이터를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 길 데이터를 가져오는 데 너무 오래 걸립니다.
   old_ways:
     not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 경로 #%{id}를 찾을 수 없습니다.'
     timeout:
-      sorry: 죄송합니다, %{id} id인 길 역사를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 길 역사를 가져오는 데 너무 오래 걸립니다.
   relations:
+    not_found_message:
+      sorry: '죄송합니다. 관계 #%{id}을(를) 찾을 수 없습니다.'
     timeout:
-      sorry: 죄송합니다, %{id} id인 관계 데이터를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 관계 데이터를 가져오는 데 너무 오래 걸립니다.
   old_relations:
     not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 관계 #%{id}를 찾을 수 없습니다.'
     timeout:
-      sorry: 죄송합니다, %{id} id인 관계 역사를 가져오는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, %{id} id인 관계 역사를 가져오는 데 너무 오래 걸립니다.
   changeset_comments:
     feeds:
       comment:
-        comment: '변경집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
+        comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
         commented_at_by_html: '%{user}님이 %{when}에 업데이트함'
       show:
-        title_all: OpenStreetMap 변경집합 토론
-        title_particular: 'OpenStreetMap 변경집합 #%{changeset_id} 토론'
+        title_all: OpenStreetMap 바뀜집합 토론
+        title_particular: 'OpenStreetMap 바뀜집합 #%{changeset_id}의 토론'
       timeout:
-        sorry: 죄송합니다, 요청하는 변경집합 댓글을 불러오는 데 너무 오래 걸렸습니다.
+        sorry: 죄송합니다, 바뀜집합 댓글을 불러오는 요청이 너무 오래 걸립니다.
   changesets:
+    changeset:
+      comments:
+        other: 댓글 %{count}개
+      changes:
+        other: 수정 사항 %{count}개
     index:
-      title: 변경집합
-      title_user: '%{user}님의 변경집합'
-      title_user_link_html: '%{user_link}님의 변경집합'
-      title_nearby: 근처 사용자의 변경집합
-      empty: 찾은 변경집합이 없습니다.
-      empty_area: 이 지역에 변경집합이 없습니다.
-      empty_user: 이 사용자의 변경집합이 없습니다.
-      no_more: 찾은 변경집합이 더 없습니다.
-      no_more_area: 이 지역에서 변경집합이 더 없습니다.
-      no_more_user: 이 사용자의 변경집합이 더 없습니다.
-      older_changesets: 이전 변경집합
-      newer_changesets: 다음 변경집합
+      title: 바뀜집합
+      title_user: '%{user}의 바뀜집합'
+      title_user_link_html: '%{user_link}의 바뀜집합'
+      title_followed: 팔로우하고 있는 사용자의 바뀜집합
+      title_nearby: 근처 사용자의 바뀜집합
+      empty: 바뀜집합을 찾지 못했습니다.
+      empty_area: 이 지역에 바뀜집합이 없습니다.
+      empty_user: 이 사용자는 바뀜집합을 올리지 않았습니다.
+      no_more: 바뀜집합을 더 찾지 못했습니다.
+      no_more_area: 이 지역에 바뀜집합이 더 이상 없습니다.
+      no_more_user: 이 사용자의 바뀜집합이 더 이상 없습니다.
+      older_changesets: 이전 바뀜집합
+      newer_changesets: 다음 바뀜집합
       feed:
-        title: 변경집합 %{id}
-        title_comment: 변경집합 %{id} - %{comment}
+        title: 바뀜집합 %{id}
+        title_comment: 바뀜집합 %{id} - %{comment}
         created: 만들어짐
         closed: 닫힘
         belongs_to: 저자
     show:
-      title: '변경집합: %{id}'
+      title: '바뀜집합: %{id}'
       created: '생성 시기: %{when}'
       closed: '닫힘: %{when}'
       created_ago_html: '%{time_ago}에 생성됨'
@@ -518,7 +544,7 @@ ko:
       closed_ago_by_html: '%{time_ago}에 %{user}님이 닫음'
       discussion: 토론
       join_discussion: 토론에 참여하려면 로그인하세요
-      still_open: 변경집합이 아직 열려 있습니다 - 토론은 변경집합이 닫히면 시작됩니다.
+      still_open: 바뀜집합이 아직 열려 있습니다. 토론은 바뀜집합이 닫히면 시작됩니다.
       subscribe: 구독
       unsubscribe: 구독 해지
       comment_by_html: '%{time_ago} %{user}님의 의견'
@@ -526,7 +552,7 @@ ko:
       hide_comment: 숨기기
       unhide_comment: 숨기기 취소
       comment: 의견
-      changesetxml: 변경집합 XML
+      changesetxml: 바뀜집합 XML
       osmchangexml: osmChange XML
     paging_nav:
       nodes_title: 교점
@@ -535,41 +561,47 @@ ko:
       ways_paginated: 길(%{count}개 중 %{x}-%{y})
       relations_title: 관계
       relations_paginated: 관계(%{count}개 중 %{x}-%{y})
+      range: '%{count}개 중 %{x}-%{y}개'
     not_found_message:
-      sorry: '죄송합니다, 변경집합 #%{id}을(를) 찾을 수 없었습니다.'
+      sorry: '죄송합니다, 바뀜집합 #%{id}을(를) 찾을 수 없습니다.'
     timeout:
-      sorry: 죄송합니다, 요청하는 변경집합 목록을 가져오는 데 너무 오래 걸렸습니다.
+      sorry: 죄송합니다, 요청하는 바뀜집합 목록을 가져오는 데 너무 오래 걸립니다.
   changeset_subscriptions:
     show:
       subscribe:
-        heading: 다음 변경집합 토론을 구독하시겠습니까?
+        heading: 다음 바뀜집합 토론을 구독하시겠습니까?
         button: 토론 구독
       unsubscribe:
-        heading: 다음 변경집합 토론의 구독을 취소하시겠습니까?
+        heading: 다음 바뀜집합 토론의 구독을 취소하시겠습니까?
         button: 토론 구독 취소
     heading:
-      title: 변경집합 %{id}
+      title: 바뀜집합 %{id}
       created_by_html: '%{created}에 의해 %{link_user}이(가) 생성되었습니다.'
     no_such_entry:
       heading: 'id에 해당하는 엔트리 없음: %{id}'
+      body: 죄송합니다, ID %{id} 바뀜집합이 없습니다. 입력이 잘못되었거나 클릭한 링크가 잘못되었는지 확인해 주세요.
   dashboards:
     contact:
       km away: '%{count}km 거리'
       m away: '%{count}m 거리'
       latest_edit_html: '마지막 편집 (%{ago}):'
       no_edits: (편집 없음)
-      view_changeset_details: 변경집합의 자세한 사항 보기
+      view_changeset_details: 바뀜집합의 자세한 내용 보기
     popup:
       your location: 내 위치
       nearby mapper: 근처 매퍼
+      following: 팔로잉
     show:
       title: 내 대시보드
       no_home_location_html: '%{edit_profile_link}을 하여 집 위치를 설정하면 주변 사용자를 볼 수 있습니다.'
       edit_your_profile: 내 프로파일 편집
+      followings: 나를 팔로우하는 사람
+      no followings: 아직 팔로우 중인 사용자가 없습니다.
       nearby users: 기타 근처 사용자
       no nearby users: 아직 근처에 매핑을 인정하는 다른 사용자가 없습니다.
-      followed_changesets: 변경집합
-      nearby_changesets: 근처 사용자의 변경집합
+      followed_changesets: 바뀜집합
+      followed_diaries: 일기 항목
+      nearby_changesets: 근처 사용자의 바뀜집합
       nearby_diaries: 근처 사용자의 일기 항목
   diary_entries:
     new:
@@ -579,6 +611,7 @@ ko:
       use_map_link: 지도 사용
     index:
       title: 사용자의 일기
+      title_followed: 팔로우하는 사람의 일기
       title_nearby: 근처 사용자의 일기
       user_title: '%{user}의 일기'
       in_language_title: '%{language}의 일기 항목'
@@ -604,6 +637,7 @@ ko:
     diary_entry:
       posted_by_html: '%{link_user}님이 %{language_link}로 %{created}에 게시함.'
       updated_at_html: 최근 %{updated}에 업데이트됨.
+      full_entry: 모든 항목 보기
       comment_link: 이 항목에 의견 남기기
       reply_link: 저자에게 메시지 보내기
       comment_count:
@@ -639,9 +673,17 @@ ko:
       heading: 다음 일기 항목 토론에 구독 취소하시겠습니까?
       button: 토론 구독 취소
     navigation:
+      in_language: '%{language}(으)로 된 일기'
       my_diary: 내 일기
       new: 새 일기 항목
       new_title: 내 사용자 일기에 새 항목 작성
+    profile_diaries:
+      latest_diaries: 최근 일기
+      comments:
+        other: 댓글 %{count}개
+  diary_comments:
+    new:
+      heading: 댓글을 추가하는 동시에 다음 일기의 토론을 구독하시겠습니까?
   doorkeeper:
     errors:
       messages:
@@ -656,6 +698,14 @@ ko:
     openid_connect:
       errors:
         messages:
+          auth_time_from_resource_owner_not_configured: 작업에 실패했습니다. Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            구성값이 없습니다.
+          reauthenticate_resource_owner_not_configured: 작업에 실패했습니다. Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            구성값이 없습니다.
+          resource_owner_from_access_token_not_configured: 작업에 실패했습니다. Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            구성값이 없습니다.
+          select_account_for_resource_owner_not_configured: 작업에 실패했습니다. Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            구성값이 없습니다.
           subject_not_configured: Doorkeeper::OpenidConnect.configure.subject 설정 누락으로
             인해 ID 토큰 생성에 실패했습니다.
     scopes:
@@ -682,6 +732,22 @@ ko:
     not_found:
       title: 파일을 찾을 수 없습니다
       description: 오픈스트리트맵 서버에서 해당 이름으로 파일/디렉토리/API 작업을 찾을 수 없습니다(HTTP 404).
+  follows:
+    show:
+      follow:
+        heading: '%{user}을(를) 팔로우하시겠습니까?'
+        button: 팔로우
+      unfollow:
+        heading: '%{user}을(를) 팔로우 취소하시겠습니까?'
+        button: 팔로우 취소
+    create:
+      success: 이제 %{name}을(를) 팔로우하고 있습니다!
+      failed: 죄송합니다. %{name}을(를) 팔로우하려는 요청이 실패했습니다.
+      already_followed: 이미 %{name}을(를) 팔로우하고 있습니다.
+      limit_exceeded: 최근에 많은 사람을 팔로우했습니다. 잠시 기다렸다가 팔로우해 보세요.
+    destroy:
+      success: '%{name}을(를) 성공적으로 팔로우 취소했습니다.'
+      not_followed: '%{name}을(를) 팔로우하고 있지 않습니다.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -792,6 +858,7 @@ ko:
           ranger_station: 관리소
           recycling: 재활용장
           restaurant: 음식점
+          sanitary_dump_station: 하수 처리장
           school: 학교
           shelter: 대피소
           shower: 샤워장
@@ -1673,24 +1740,24 @@ ko:
       details: '%{url}에서 참고에 답변하거나 자세한 내용을 볼 수 있습니다.'
       details_html: '%{url}에서 참고에 답변하거나 자세한 내용을 볼 수 있습니다.'
     changeset_comment_notification:
-      description: 'OpenStreetMap 변경집합 #%{id}'
+      description: 'OpenStreetMap 바뀜집합 #%{id}'
       hi: 안녕하세요 %{to_user}님,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter}님이 변경집합 중 하나에 댓글을 남겼습니다'
-        subject_other: '[OpenStreetMap] %{commenter}님이 내가 관심을 가진 변경집합에 댓글을 남겼습니다'
-        your_changeset: '%{commenter}님이 %{time}에 변경집합 중 하나에 댓글을 달았습니다'
-        your_changeset_html: '%{commenter}님이 %{time}에 변경집합 중 하나에 댓글을 달았습니다'
-        commented_changeset: '%{commenter}님이 %{time}에 %{changeset_author}님이 만든 내가
-          주시 중인 변경집합에 댓글을 남겼습니다'
-        commented_changeset_html: '%{commenter}님이 %{time}에 내가 주시하고 있는 %{changeset_author}님이
-          만든 변경집합에 댓글을 남겼습니다'
+        subject_own: '[OpenStreetMap] %{commenter} 님이 바뀜집합 중 하나에 댓글을 남겼습니다'
+        subject_other: '[OpenStreetMap] %{commenter} 님이 내가 관심을 가진 바뀜집합에 댓글을 남겼습니다'
+        your_changeset: '%{commenter} 님이 %{time}에 바뀜집합 중 하나에 댓글을 달았습니다'
+        your_changeset_html: '%{commenter} 님이 %{time}에 바뀜집합 중 하나에 댓글을 달았습니다'
+        commented_changeset: '%{commenter} 님이 %{time}에 내가 주시 중인 %{changeset_author}
+          님의 바뀜집합에 댓글을 남겼습니다'
+        commented_changeset_html: '%{commenter} 님이 %{time}에 내가 주시하고 있는 %{changeset_author}
+          님의 바뀜집합에 댓글을 남겼습니다'
         partial_changeset_with_comment: ‘%{changeset_comment}’ 댓글로
         partial_changeset_with_comment_html: ‘%{changeset_comment}’ 댓글로
         partial_changeset_without_comment: 의견 없이
-      details: '%{url}에서 변경집합에 대해 댓글을 남기거나 자세히 알아보세요.'
-      details_html: '%{url}에서 변경집합에 대해 댓글을 남기거나 자세히 알아보세요.'
-      unsubscribe: '%{url} 에서 이 변경집합의 업데이트를 구독 취소할 수 있습니다.'
-      unsubscribe_html: '%{url} 에서 이 변경집합의 업데이트를 구독 취소할 수 있습니다.'
+      details: '%{url}을(를) 통해 바뀜집합에 대해 댓글을 남기거나 자세히 알아보세요.'
+      details_html: '%{url}을(를) 통해 바뀜집합에 대해 댓글을 남기거나 자세히 알아보세요.'
+      unsubscribe: '%{url}을(를) 통해 이 바뀜집합의 업데이트를 구독 취소할 수 있습니다.'
+      unsubscribe_html: '%{url}을(를) 통해 이 바뀜집합의 업데이트를 구독 취소할 수 있습니다.'
   confirmations:
     confirm:
       heading: 이메일을 확인하세요!
@@ -1811,23 +1878,25 @@ ko:
       flash changed: 비밀번호가 바뀌었습니다.
       flash token bad: 토큰을 찾지 못했습니다. URL을 확인했습니까?
   preferences:
-    show:
-      title: 내 환경 설정
-      preferred_site_color_scheme: 선호하는 웹사이트 색상 구성표
-      site_color_schemes:
-        auto: 자동
-        light: 밝음
-        dark: 어두움
-      preferred_map_color_scheme: 선호하는 지도 색상 구성표
-      map_color_schemes:
-        auto: 자동
-        light: 밝음
-        dark: 어두움
-      save: 환경 설정 갱신
-    update:
-      failure: 환경 설정을 갱신할 수 없음.
-    update_success_flash:
-      message: 환경 설정이 갱신 됨.
+    preferences:
+      update:
+        failure: 환경 설정을 갱신할 수 없음.
+      update_success_flash:
+        message: 환경 설정이 갱신 됨.
+    basic_preferences:
+      show:
+        title: 내 환경 설정
+        preferred_site_color_scheme: 선호하는 웹사이트 색상 구성표
+        site_color_schemes:
+          auto: 자동
+          light: 밝음
+          dark: 어두움
+        preferred_map_color_scheme: 선호하는 지도 색상 구성표
+        map_color_schemes:
+          auto: 자동
+          light: 밝음
+          dark: 어두움
+        save: 환경 설정 갱신
   profiles:
     show:
       title: 프로필 수정
@@ -1967,14 +2036,34 @@ ko:
         native_link: 한국어 버전
         mapping_link: 매핑을 시작
       legal_babble:
+        lead_2_learn_more_about_osm: OpenStreetMap 더 알아보기
+        lead_2_osm_blog: OpenStreetMap 블로그
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: 주간OSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM 커뮤니티
+        lead_2_osm_foundation: OSM 재단
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: 기부하기
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: OpenStreetMap 라이선스 정책
         licensing_1_odc_odbl: 오픈 데이터 커먼즈 오픈 데이터베이스 라이선스
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: OpenStreetMap 재단
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_creative_commons_license: 크리에이티브 커먼즈 저작자표시-동일조건변경허락 2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
         licensing_4_osmf_license_page: OSMF 라이선스 페이지
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: OpenStreetMap의 기여진을 밝히는 방법
         credit_1_html: 오픈스트리트맵 데이터를 이용하려면 다음 두 가지를 해야 합니다.
         credit_2_license: 데이터 활용 시 오픈 데이터베이스 라이선스 (Open Database License)에 따른 것임을
           밝혀 주시기 바랍니다.
-        credit_3_v2025_attribution_guidelines: 기여 지침
+        credit_3_v2025_attribution_guidelines: 저작자 표기 지침
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: 라이선스 요구 사항
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
         credit_4_v2025_this_copyright_page: 이 저작권 페이지
         attribution_example:
           alt: 웹페이지에 오픈스트리트맵를 표시하는 방법의 예시
@@ -1992,9 +2081,10 @@ ko:
         infringement_2_1_online_filing_page: 온라인 접수 페이지
         trademarks_title: 상표
         trademarks_1_1_html: |-
-          OpenStreetMap(오픈스트리트맵)과 지도 위 돋보기 로고는 OpenStreetMap Foundation(오픈스트리트맵 재단)의 등록 상표입니다. 상표 이용에 대해 궁금한 점이 있으면
-          %{trademark_policy_link}를 참조하세요.
+          OpenStreetMap과 지도 위 돋보기 로고는 OpenStreetMap Foundation의 등록 상표입니다. 상표 이용에 대해 궁금한 점이 있다면
+          %{trademark_policy_link}을(를) 참조하세요.
         trademarks_1_1_trademark_policy: 상표 정책
+        services_title_html: 추가 서비스
         services_1_api_usage_policy: API 사용 정책
         services_1_tile_usage_policy: 타일 사용 정책
         services_1_nominatim_usage_policy: 지명 사용 정책
@@ -2238,6 +2328,9 @@ ko:
           그룹으로 잘 꾸려지고 있습니다. 누구나 이러한 그룹을 만들거나 가입할 수 있습니다. 커뮤니티 위키에 대한 자세한 내용은 %{communities_wiki_link}를
           보시기 바랍니다.
         communities_wiki: 커뮤니티 위키 페이지
+  social_links:
+    show:
+      other: 기타
   map_keys:
     show:
       entries:
@@ -2484,7 +2577,7 @@ ko:
       write_prefs: 사용자 환경 설정 수정
       write_diary: 일기 항목 및 댓글 작성
       write_api: 지도 수정
-      write_changeset_comments: 변경집합에 댓글 달기
+      write_changeset_comments: 바뀜집합에 댓글 달기
       read_gpx: 비공개 GPS 궤적 읽기
       write_gpx: GPS 궤적 업로드
       write_notes: 참고 수정
@@ -2678,7 +2771,7 @@ ko:
         no_comments: 의견 없음
     changeset_comments:
       page:
-        changeset: 변경집합
+        changeset: 바뀜집합
         when: 날짜
         comment: 의견
     diary_comments:
