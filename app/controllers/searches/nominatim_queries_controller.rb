@@ -2,7 +2,7 @@ module Searches
   class NominatimQueriesController < QueriesController
     include NominatimMethods
 
-    LANGUAGE_CODES = { "cn" => "zh-Hans", "hk" => "zh-HK", "jp" => "ja", "tw" => "zh-Hant", "bg" => "bg", "rs" => "rs" }.freeze
+    LANGUAGE_CODES = { "cn" => "zh-Hans", "hk" => "zh-HK", "jp" => "ja", "tw" => "zh-Hant" }.freeze
 
     def create
       # ask nominatim
