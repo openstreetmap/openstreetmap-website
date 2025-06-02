@@ -2,6 +2,8 @@ module Searches
   class NominatimReverseQueriesController < QueriesController
     include NominatimMethods
 
+    LANGUAGE_CODES = { "cn" => "zh-Hans", "hk" => "zh-HK", "jp" => "ja", "tw" => "zh-Hant" }.freeze
+
     def create
       # get query parameters
       zoom = params[:zoom]
@@ -12,6 +14,14 @@ module Searches
       # ask nominatim
       response = fetch_xml(nominatim_reverse_query_url(:format => "xml"))
 
+      # add lang attribute for frontend in certain regions
+      addressparts = response.elements["reversegeocode/addressparts"]
+      lang = nil
+      if addressparts
+        region_code = addressparts.elements["ISO3166-2-lvl3"]&.text == "CN-HK" ? "hk" : addressparts.elements["country_code"]&.text
+        lang = region_code ? LANGUAGE_CODES[region_code] : nil
+      end
+
       # parse the response
       response.elements.each("reversegeocode/result") do |result|
         lat = result.attributes["lat"]
@@ -21,6 +31,7 @@ module Searches
         description = result.text
 
         @results.push(:lat => lat, :lon => lon,
+                      :lang => lang,
                       :zoom => zoom,
                       :name => description,
                       :type => object_type, :id => object_id)
