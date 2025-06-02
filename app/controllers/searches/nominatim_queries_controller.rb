@@ -48,8 +48,8 @@ module Searches
         object_type = place.attributes["osm_type"]
         object_id = place.attributes["osm_id"]
         # add lang attribute for frontend in certain regions
-        country_code = place.elements["country_code"]&.text
-        lang = country_code ? LANGUAGE_CODES[country_code] : nil
+        region_code = place.elements["ISO3166-2-lvl3"]&.text == "CN-HK" ? "hk" : place.elements["country_code"]&.text
+        lang = region_code ? LANGUAGE_CODES[region_code] : nil
 
         @results.push(:lat => lat, :lon => lon,
                       :min_lat => min_lat, :max_lat => max_lat,
