@@ -32,7 +32,7 @@ osm_oidc_options = { :name => :openstreetmap,
                      :issuer => "https://www.openstreetmap.org",
                      :discovery => true,
                      :response_type => :code,
-                     :uid_field => "preferred_username",
+                     :uid_field => "sub",
                      :client_options => {
                        :port => 443,
                        :scheme => "https",
