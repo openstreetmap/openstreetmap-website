@@ -2,8 +2,11 @@
   <%= javascript_include_tag "user" %>
 <% end %>
 
+<% content_for :heading_class, "pb-0" %>
+
 <% content_for :heading do %>
   <h1><%= t ".title" %></h1>
+  <%= render :partial => "navigation" %>
 <% end %>
 
 <svg class="d-none"><defs><%= render :partial => "layouts/control_icons", :locals => { :icons => %w[zoomin zoomout geolocate] } %></defs></svg>
