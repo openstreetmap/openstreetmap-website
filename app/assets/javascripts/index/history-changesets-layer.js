@@ -164,7 +164,7 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
 
   updateChangesetsOrder: function () {
     const changesetEntries = [...this._changesets];
-    changesetEntries.sort(([, a], [, b]) => b.bounds.getSize() - a.bounds.getSize());
+    changesetEntries.sort(([, a], [, b]) => OSM.boundsArea(b.bounds.toArray()) - OSM.boundsArea(a.bounds.toArray()));
     this._changesets = new Map(changesetEntries);
 
     for (const layer of this._bboxLayers) {

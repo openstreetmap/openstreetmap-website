@@ -222,11 +222,7 @@ OSM.Query = function (map) {
   }
 
   function featureArea({ bounds }) {
-    const height = bounds.maxlat - bounds.minlat;
-    let width = bounds.maxlon - bounds.minlon;
-
-    if (width < 0) width += 360;
-    return width * height;
+    return OSM.boundsArea([[bounds.minlat, bounds.minlon], [bounds.maxlat, bounds.maxlon]]);
   }
 
   /*
