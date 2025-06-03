@@ -55,10 +55,10 @@ describe("OSM", function () {
     it("parses bbox params", function () {
       const expected = L.latLngBounds([57.6247, -3.6845], [57.7247, -3.7845]);
       let params = OSM.mapParams("?bbox=-3.6845,57.6247,-3.7845,57.7247");
-      expect(params).to.have.property("bounds").deep.equal(expected);
+      expect(L.latLngBounds(params.bounds)).to.deep.equal(expected);
 
       params = OSM.mapParams("?minlon=-3.6845&minlat=57.6247&maxlon=-3.7845&maxlat=57.7247");
-      expect(params).to.have.property("bounds").deep.equal(expected);
+      expect(L.latLngBounds(params.bounds)).to.deep.equal(expected);
     });
 
     it("parses mlat/mlon/zoom params", function () {
@@ -119,7 +119,7 @@ describe("OSM", function () {
       OSM.location = { minlon: -3.7845, minlat: 57.6247, maxlon: -3.6845, maxlat: 57.7247 };
       const expected = L.latLngBounds([57.6247, -3.6845], [57.7247, -3.7845]);
       const params = OSM.mapParams("?");
-      expect(params).to.have.property("bounds").deep.equal(expected);
+      expect(L.latLngBounds(params.bounds)).to.deep.equal(expected);
     });
 
     it("parses params from the _osm_location cookie", function () {
