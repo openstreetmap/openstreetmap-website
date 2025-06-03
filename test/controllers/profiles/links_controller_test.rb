@@ -30,5 +30,30 @@ module Profiles
 
       assert_redirected_to login_path(:referer => profile_links_path)
     end
+
+    def test_update
+      user = create(:user)
+      session_for(user)
+
+      put profile_links_path, :params => { :user => { :social_links_attributes => [{ :url => "https://test.com/test" }] } }
+
+      assert_redirected_to user_path(user)
+      follow_redirect!
+      assert_response :success
+      assert_template :show
+      assert_dom ".alert-success", :text => "Profile updated."
+      assert_dom "a", "test.com/test"
+    end
+
+    def test_update_empty_social_link
+      user = create(:user)
+      session_for(user)
+
+      put profile_links_path, :params => { :user => { :social_links_attributes => [{ :url => "" }] } }
+
+      assert_response :success
+      assert_template :show
+      assert_dom ".alert-danger", :text => "Couldn't update profile."
+    end
   end
 end
