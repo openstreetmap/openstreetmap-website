@@ -251,7 +251,7 @@ OSM.Query = function (map) {
    */
   function queryOverpass(lat, lng) {
     const latlng = L.latLng(lat, lng).wrap(),
-          bounds = map.getBounds().wrap(),
+          bounds = map.getBounds(),
           zoom = map.getZoom(),
           bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
             .map(c => OSM.cropLocation(c, zoom))
