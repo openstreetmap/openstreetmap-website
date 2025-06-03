@@ -43,7 +43,7 @@ class ProfilesController < ApplicationController
       redirect_to user_path(current_user)
     else
       flash.now[:error] = t ".failure"
-      render :edit
+      render :show
     end
   end
 end
