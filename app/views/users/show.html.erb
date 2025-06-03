@@ -253,16 +253,26 @@
     </div>
   </div>
 <% end %>
-<% if @user.social_links.empty? %>
+
+<% if @user.social_links.empty? && !(current_user && @user == current_user) %>
   <div class="richtext text-break"><%= @user.description.to_html %></div>
 <% else %>
   <div class="row">
     <div class="col-sm-3">
-      <%= render "social_links/show",
-                 :social_links => @user.social_links %>
+      <%= render "social_links/show", :social_links => @user.social_links %>
+      <% if current_user and @user == current_user %>
+        <div class="mb-3">
+          <%= link_to t(".edit_links"), profile_links_path, :class => "btn btn-outline-primary" %>
+        </div>
+      <% end %>
     </div>
     <div class="col-sm-9">
       <div class="richtext text-break"><%= @user.description.to_html %></div>
+      <% if current_user and @user == current_user %>
+        <div class="mb-3">
+          <%= link_to t(".edit_description"), profile_description_path, :class => "btn btn-outline-primary" %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
@@ -272,9 +282,3 @@
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
-
-<% if current_user and @user.id == current_user.id %>
-  <div class="my-3">
-    <%= link_to t(".edit_profile"), profile_description_path, :class => "btn btn-outline-primary" %>
-  </div>
-<% end %>

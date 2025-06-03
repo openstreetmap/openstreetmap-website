@@ -16,7 +16,7 @@ class ProfileLocationChangeTest < ApplicationSystemTestCase
     end
 
     within_content_body do
-      click_on "Edit Profile"
+      click_on "Edit Description"
     end
     within_content_heading do
       click_on "Location"
