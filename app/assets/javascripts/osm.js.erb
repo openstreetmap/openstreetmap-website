@@ -83,18 +83,14 @@ OSM = {
 
     const loc = Cookies.get("_osm_location")?.split("|");
 
-    function bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat }) {
-      return L.latLngBounds([minlat, minlon], [maxlat, maxlon]);
-    }
-
     // Decide on a map starting position. Various ways of doing this.
     if (hash.center) {
       Object.assign(mapParams, hash);
     } else if (params.has("bbox")) {
       const [minlon, minlat, maxlon, maxlat] = params.get("bbox").split(",");
-      mapParams.bounds = bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat });
+      mapParams.bounds = [[minlat, minlon], [maxlat, maxlon]];
     } else if (params.has("minlon") && params.has("minlat") && params.has("maxlon") && params.has("maxlat")) {
-      mapParams.bounds = bboxToLatLngBounds(Object.fromEntries(params));
+      mapParams.bounds = [[params.get("minlat"), params.get("minlon")], [params.get("maxlat"), params.get("maxlon")]];
     } else if (params.has("mlon") && params.has("mlat")) {
       mapParams.lon = params.get("mlon");
       mapParams.lat = params.get("mlat");
@@ -112,7 +108,8 @@ OSM = {
       mapParams.lat = OSM.home.lat;
       mapParams.zoom = 10;
     } else if (OSM.location) {
-      mapParams.bounds = bboxToLatLngBounds(OSM.location);
+      const { minlon, minlat, maxlon, maxlat } = OSM.location;
+      mapParams.bounds = [[minlat, minlon], [maxlat, maxlon]];
     } else {
       mapParams.lon = -0.1;
       mapParams.lat = 51.5;
