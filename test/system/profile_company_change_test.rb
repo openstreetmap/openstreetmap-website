@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class UserCompanyTest < ApplicationSystemTestCase
+class ProfileCompanyChangeTest < ApplicationSystemTestCase
   test "User can change company" do
     user = create(:user)
     sign_in_as(user)
