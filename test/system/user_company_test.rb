@@ -14,12 +14,12 @@ class UserCompanyTest < ApplicationSystemTestCase
 
     visit profile_path
 
-    assert_text I18n.t("activerecord.attributes.user.company")
+    within_content_body do
+      fill_in "Company", :with => company
+      click_on "Update Profile"
+    end
 
-    fill_in "Company", :with => company
-    click_on I18n.t("profiles.show.save")
-
-    assert_text I18n.t("profiles.update.success")
+    assert_text "Profile updated"
     within_content_heading do
       assert_text company
     end
