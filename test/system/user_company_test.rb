@@ -19,7 +19,7 @@ class UserCompanyTest < ApplicationSystemTestCase
       click_on "Update Profile"
     end
 
-    assert_text "Profile updated"
+    assert_text "Profile company updated."
     within_content_heading do
       assert_text company
     end

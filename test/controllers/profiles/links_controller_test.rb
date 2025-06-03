@@ -41,7 +41,7 @@ module Profiles
       follow_redirect!
       assert_response :success
       assert_template :show
-      assert_dom ".alert-success", :text => "Profile updated."
+      assert_dom ".alert-success", :text => "Profile links updated."
       assert_dom "a", "test.com/test"
     end
 
@@ -53,7 +53,7 @@ module Profiles
 
       assert_response :success
       assert_template :show
-      assert_dom ".alert-danger", :text => "Couldn't update profile."
+      assert_dom ".alert-danger", :text => "Couldn't update profile links."
     end
   end
 end

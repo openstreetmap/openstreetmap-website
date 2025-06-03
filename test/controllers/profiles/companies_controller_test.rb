@@ -41,7 +41,7 @@ module Profiles
       follow_redirect!
       assert_response :success
       assert_template :show
-      assert_dom ".alert-success", :text => "Profile updated."
+      assert_dom ".alert-success", :text => "Profile company updated."
       assert_dom "dd", "new company"
 
       user.reload
