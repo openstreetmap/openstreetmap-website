@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class UserLocationChangeTest < ApplicationSystemTestCase
+class ProfileLocationChangeTest < ApplicationSystemTestCase
   def setup
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
   end
