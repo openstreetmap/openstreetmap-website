@@ -36,37 +36,6 @@
     <button id="add-social-link" type="button" class="btn btn-outline-primary"><%= t ".social_links.add" %></button>
   </fieldset>
 
-  <fieldset class="mb-3">
-    <%= f.label t(".image") %>
-    <div class="row">
-      <div class="col-sm-2">
-        <%= user_image current_user %>
-      </div>
-      <div class="col-sm-10">
-        <% if current_user.avatar.attached? %>
-          <%= f.radio_button "avatar_action", "keep", :name => "avatar_action", :label => t(".keep image"), :checked => !current_user.image_use_gravatar %>
-        <% end %>
-        <% if current_user.avatar.attached? || current_user.image_use_gravatar? %>
-          <%= f.radio_button "avatar_action", "delete", :name => "avatar_action", :label => t(".delete image"), :checked => false %>
-        <% end %>
-        <% if current_user.avatar.attached? %>
-          <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
-            <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".replace image"), :checked => false %>
-            <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
-          <% end %>
-        <% else %>
-          <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
-            <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".new image"), :checked => false %>
-            <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
-          <% end %>
-        <% end %>
-        <%= f.form_group :help => link_to(t(".gravatar.what_is_gravatar"), t(".gravatar.link")) do %>
-          <%= f.radio_button "avatar_action", "gravatar", :name => "avatar_action", :label => t(".gravatar.gravatar"), :checked => current_user.image_use_gravatar %>
-        <% end %>
-      </div>
-    </div>
-  </fieldset>
-
   <%= f.primary t(".save") %>
   <%= link_to t(".cancel"), current_user, :class => "btn btn-link" %>
 <% end %>
