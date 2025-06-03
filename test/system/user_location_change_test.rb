@@ -15,7 +15,7 @@ class UserLocationChangeTest < ApplicationSystemTestCase
       assert_no_text :all, "Home location"
     end
 
-    visit profile_path
+    visit profile_description_path
 
     within_content_body do
       fill_in "Home Location Name", :with => "Test Place"
