@@ -3,6 +3,8 @@ module Profiles
     private
 
     def update_profile
+      current_user.company = params[:user][:company]
+
       current_user.save
     end
   end

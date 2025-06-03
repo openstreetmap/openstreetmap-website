@@ -90,15 +90,6 @@ module Profiles
       assert_template :show
       assert_select ".alert-success", /^Profile updated./
       assert_select "a", "test.com/test"
-
-      # Updating the company name should work
-      put profile_description_path, :params => { :user => { :company => "new company", :description => user.description } }
-      assert_redirected_to user_path(user)
-      follow_redirect!
-      assert_response :success
-      assert_template :show
-      assert_select ".alert-success", /^Profile updated./
-      assert_select "dd", "new company"
     end
 
     def test_update_empty_social_link

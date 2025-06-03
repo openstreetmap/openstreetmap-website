@@ -30,5 +30,22 @@ module Profiles
 
       assert_redirected_to login_path(:referer => profile_company_path)
     end
+
+    def test_update
+      user = create(:user)
+      session_for(user)
+
+      put profile_company_path, :params => { :user => { :company => "new company", :description => user.description } }
+
+      assert_redirected_to user_path(user)
+      follow_redirect!
+      assert_response :success
+      assert_template :show
+      assert_dom ".alert-success", :text => "Profile updated."
+      assert_dom "dd", "new company"
+
+      user.reload
+      assert_equal "new company", user.company
+    end
   end
 end
