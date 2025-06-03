@@ -7,9 +7,7 @@ OSM.Export = function (map) {
   }).on("change", update);
 
   function getBounds() {
-    return L.latLngBounds(
-      L.latLng($("#minlat").val(), $("#minlon").val()),
-      L.latLng($("#maxlat").val(), $("#maxlon").val()));
+    return [[$("#minlat").val(), $("#minlon").val()], [$("#maxlat").val(), $("#maxlon").val()]];
   }
 
   function boundsChanged() {
@@ -49,12 +47,12 @@ OSM.Export = function (map) {
   }
 
   function validateControls() {
-    $("#export_osm_too_large").toggle(getBounds().getSize() > OSM.MAX_REQUEST_AREA);
-    $("#export_commit").toggle(getBounds().getSize() < OSM.MAX_REQUEST_AREA);
+    $("#export_osm_too_large").toggle(OSM.boundsArea(getBounds()) > OSM.MAX_REQUEST_AREA);
+    $("#export_commit").toggle(OSM.boundsArea(getBounds()) < OSM.MAX_REQUEST_AREA);
   }
 
   function checkSubmit(e) {
-    if (getBounds().getSize() > OSM.MAX_REQUEST_AREA) e.preventDefault();
+    if (OSM.boundsArea(getBounds()) > OSM.MAX_REQUEST_AREA) e.preventDefault();
   }
 
   page.pushstate = page.popstate = function (path) {

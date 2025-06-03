@@ -1,7 +1,6 @@
 L.extend(L.LatLngBounds.prototype, {
-  getSize: function () {
-    return (this._northEast.lat - this._southWest.lat) *
-           (this._northEast.lng - this._southWest.lng);
+  toArray: function () {
+    return [[this.getSouth(), this.getWest()], [this.getNorth(), this.getEast()]];
   },
 
   wrap: function () {
@@ -372,6 +371,10 @@ L.extend(L.Icon.Default.prototype, {
     return L.Icon.Default.imageUrls[url];
   }
 });
+
+OSM.boundsArea = function ([[minLat, minLon], [maxLat, maxLon]]) {
+  return (maxLon - minLon) * (maxLat - minLat);
+};
 
 OSM.isDarkMap = function () {
   const mapTheme = $("body").attr("data-map-theme");
