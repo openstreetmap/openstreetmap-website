@@ -318,6 +318,7 @@ OpenStreetMap::Application.routes.draw do
 
   namespace :profile, :module => :profiles do
     resource :description, :only => [:show, :update]
+    resource :location, :only => [:show, :update]
   end
   get "/profile", :to => redirect(:path => "/profile/description"), :as => nil
   get "/profile/edit", :to => redirect(:path => "/profile/description"), :as => nil
