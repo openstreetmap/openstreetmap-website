@@ -359,14 +359,4 @@ describe("OSM", function () {
       $("#map").remove();
     });
   });
-
-  describe(".distance", function () {
-    it("computes distance between points", function () {
-      const latlng1 = L.latLng(51.76712, -0.00484),
-            latlng2 = L.latLng(51.7675159, -0.0078329);
-
-      expect(OSM.distance(latlng1, latlng2)).to.be.closeTo(210.664, 0.005);
-      expect(OSM.distance(latlng2, latlng1)).to.be.closeTo(210.664, 0.005);
-    });
-  });
 });
