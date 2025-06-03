@@ -12,7 +12,7 @@ class UserCompanyTest < ApplicationSystemTestCase
       assert_no_selector ".bi.bi-suitcase-lg-fill"
     end
 
-    visit profile_path
+    visit profile_description_path
 
     within_content_body do
       fill_in "Company", :with => company
