@@ -1,18 +1,8 @@
 module Profiles
-  class DescriptionsController < ApplicationController
-    layout "site"
+  class DescriptionsController < ProfileSectionsController
+    private
 
-    before_action :authorize_web
-    before_action :set_locale
-
-    authorize_resource :class => :profile
-
-    before_action :check_database_readable
-    before_action :check_database_writable, :only => [:update]
-
-    def show; end
-
-    def update
+    def update_profile
       social_links_params = params.permit(:user => [:social_links_attributes => [:id, :url, :_destroy]])
       current_user.assign_attributes(social_links_params[:user])
 
@@ -39,13 +29,7 @@ module Profiles
       current_user.home_lon = params[:user][:home_lon]
       current_user.home_location_name = params[:user][:home_location_name]
 
-      if current_user.save
-        flash[:notice] = t ".success"
-        redirect_to user_path(current_user)
-      else
-        flash.now[:error] = t ".failure"
-        render :show
-      end
+      current_user.save
     end
   end
 end
