@@ -21,6 +21,22 @@ module Profiles
       assert_redirected_to "/profile/description"
     end
 
+    def test_show
+      user = create(:user)
+      session_for(user)
+
+      get profile_description_path
+
+      assert_response :success
+      assert_template :show
+    end
+
+    def test_show_unauthorized
+      get profile_description_path
+
+      assert_redirected_to login_path(:referer => profile_description_path)
+    end
+
     def test_update
       user = create(:user)
       session_for(user)
