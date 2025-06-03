@@ -41,7 +41,7 @@ module Profiles
       follow_redirect!
       assert_response :success
       assert_template :show
-      assert_dom ".alert-success", :text => "Profile updated."
+      assert_dom ".alert-success", :text => "Profile location updated."
 
       user.reload
       assert_equal 60, user.home_lat
@@ -58,7 +58,7 @@ module Profiles
 
       assert_response :success
       assert_template :show
-      assert_dom ".alert-danger", :text => "Couldn't update profile."
+      assert_dom ".alert-danger", :text => "Couldn't update profile location."
 
       user.reload
       assert_nil user.home_lat
@@ -75,7 +75,7 @@ module Profiles
 
       assert_response :success
       assert_template :show
-      assert_dom ".alert-danger", :text => "Couldn't update profile."
+      assert_dom ".alert-danger", :text => "Couldn't update profile location."
 
       user.reload
       assert_nil user.home_lat

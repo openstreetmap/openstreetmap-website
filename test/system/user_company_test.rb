@@ -18,7 +18,7 @@ class UserCompanyTest < ApplicationSystemTestCase
       click_on "Update Profile"
     end
 
-    assert_text "Profile updated."
+    assert_text "Profile company updated."
 
     within_content_body do
       assert_text :all, "Company Test Co."

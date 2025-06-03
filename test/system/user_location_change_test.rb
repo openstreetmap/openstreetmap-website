@@ -27,7 +27,7 @@ class UserLocationChangeTest < ApplicationSystemTestCase
       click_on "Update Profile"
     end
 
-    assert_text "Profile updated."
+    assert_text "Profile location updated."
 
     within_content_body do
       assert_text :all, "Home location Test Place"
