@@ -11,7 +11,7 @@ class UserCompanyTest < ApplicationSystemTestCase
       assert_no_text :all, "Company"
     end
 
-    visit profile_description_path
+    visit profile_company_path
 
     within_content_body do
       fill_in "Company", :with => "Test Co."

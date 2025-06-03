@@ -23,8 +23,6 @@ module Profiles
         current_user.image_use_gravatar = true
       end
 
-      current_user.company = params[:user][:company]
-
       current_user.save
     end
   end
