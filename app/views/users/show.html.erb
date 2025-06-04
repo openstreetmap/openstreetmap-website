@@ -246,7 +246,9 @@
                                     :edit_path => profile_image_path do %>
       <% end %>
 
-      <%= render "sidebar_section", :present => @user.home_location_name&.strip.present? do %>
+      <%= render "sidebar_section", :present => @user.home_location_name&.strip.present?,
+                                    :edit_title => t(".edit_location"),
+                                    :edit_path => profile_location_path do %>
         <div class="icon-link mw-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
             <title><%= t ".home_location" %></title>
