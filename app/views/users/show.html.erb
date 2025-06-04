@@ -258,7 +258,9 @@
         </div>
       <% end %>
 
-      <%= render "sidebar_section", :present => @user.company&.strip.present? do %>
+      <%= render "sidebar_section", :present => @user.company&.strip.present?,
+                                    :edit_title => t(".edit_company"),
+                                    :edit_path => profile_company_path do %>
         <div class="icon-link mw-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
             <title><%= t ".company" %></title>
