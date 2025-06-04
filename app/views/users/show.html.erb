@@ -146,15 +146,20 @@
       <div class='text-body-secondary'>
         <small>
           <dl class="list-inline">
-            <% if @user.home_location_name&.strip.present? %>
+            <% if @user.home_location_name&.strip.present? || (current_user && @user == current_user) %>
               <dt class="list-inline-item m-0 align-text-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6">
-                    <title><%= t ".home location" %></title>
-                  </path>
-                </svg>
+                <%= tag.svg :width => 16, :height => 16, :fill => "currentColor", :opacity => @user.home_location_name&.strip.present? ? nil : 0.5 do %>
+                  <title><%= t @user.home_location_name&.strip.present? ? ".home location" : ".no home location" %></title>
+                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                <% end %>
               </dt>
-              <dd class="list-inline-item"><%= @user.home_location_name %></dd>
+              <dd class="list-inline-item">
+                <%= @user.home_location_name %>
+                <% if current_user && @user == current_user %>
+                  <%= link_to t(".edit"), profile_location_path, :title => t(".edit_location"),
+                                                                 :class => "btn btn-sm btn-outline-secondary py-0 px-1 align-baseline my-n1" %>
+                <% end %>
+              </dd>
             <% end %>
             <% if @user.company&.strip.present? || (current_user && @user == current_user) %>
               <dt class="list-inline-item m-0 align-text-bottom">
