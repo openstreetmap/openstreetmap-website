@@ -4,7 +4,11 @@
 <% content_for :heading do %>
   <div class="row">
     <div class="col-sm-auto">
-      <%= user_image @user %>
+      <% if current_user and @user == current_user %>
+        <%= link_to user_image(@user), profile_image_path, :class => "d-block", :title => t(".edit_image") %>
+      <% else %>
+        <%= user_image @user %>
+      <% end %>
     </div>
     <div class="col">
       <h1><%= @user.display_name %> <%= role_icons(@user) %></h1>
