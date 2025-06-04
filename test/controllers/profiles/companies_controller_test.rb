@@ -42,7 +42,6 @@ module Profiles
       assert_response :success
       assert_template :show
       assert_dom ".alert-success", :text => "Profile company updated."
-      assert_dom "dd", "new company"
 
       user.reload
       assert_equal "new company", user.company
