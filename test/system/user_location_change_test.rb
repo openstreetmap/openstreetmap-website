@@ -11,8 +11,8 @@ class UserLocationChangeTest < ApplicationSystemTestCase
 
     visit user_path(user)
 
-    within_content_heading do
-      assert_no_text "Home location"
+    within_content_body do
+      assert_no_text :all, "Home location"
     end
 
     visit profile_path
@@ -24,8 +24,8 @@ class UserLocationChangeTest < ApplicationSystemTestCase
 
     assert_text "Profile updated."
 
-    within_content_heading do
-      assert_text "Home location Test Place"
+    within_content_body do
+      assert_text :all, "Home location Test Place"
     end
   end
 end

@@ -7,8 +7,8 @@ class UserCompanyTest < ApplicationSystemTestCase
 
     visit user_path(user)
 
-    within_content_heading do
-      assert_no_text "Company"
+    within_content_body do
+      assert_no_text :all, "Company"
     end
 
     visit profile_path
@@ -20,8 +20,8 @@ class UserCompanyTest < ApplicationSystemTestCase
 
     assert_text "Profile updated."
 
-    within_content_heading do
-      assert_text "Company Test Co."
+    within_content_body do
+      assert_text :all, "Company Test Co."
     end
   end
 end
