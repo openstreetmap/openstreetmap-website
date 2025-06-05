@@ -132,7 +132,7 @@ OSM.Query = function (map) {
     }
   }
 
-  function runQuery(latlng, radius, query, $section, merge, compare) {
+  function runQuery(query, $section, merge, compare) {
     const $ul = $section.find("ul");
 
     $ul.empty();
@@ -265,8 +265,8 @@ OSM.Query = function (map) {
       ...featureStyle
     }).addTo(map);
 
-    runQuery(latlng, radius, nearby, $("#query-nearby"), false);
-    runQuery(latlng, radius, isin, $("#query-isin"), true, (feature1, feature2) => featureArea(feature1) - featureArea(feature2));
+    runQuery(nearby, $("#query-nearby"), false);
+    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => featureArea(feature1) - featureArea(feature2));
   }
 
   function clickHandler(e) {
