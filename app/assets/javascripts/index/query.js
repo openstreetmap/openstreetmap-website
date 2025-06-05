@@ -245,14 +245,12 @@ OSM.Query = function (map) {
           bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
             .map(c => OSM.cropLocation(c, zoom))
             .join(),
-          geombbox = "geom(" + bbox + ");",
+          geom = `geom(${bbox})`,
           radius = 10 * Math.pow(1.5, 19 - zoom),
-          around = "(around:" + radius + "," + lat + "," + lng + ")",
-          nodes = "node" + around,
-          ways = "way" + around,
-          relations = "relation" + around,
-          nearby = "(" + nodes + ";" + ways + ";);out tags " + geombbox + relations + ";out " + geombbox,
-          isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids " + geombbox + "relation(pivot.a);out tags bb;";
+          here = `(around:${radius},${lat},${lng})`,
+          enclosed = "(pivot.a);out tags bb",
+          nearby = `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
+          isin = `is_in(${lat},${lng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
 
     $("#sidebar_content .query-intro")
       .hide();
