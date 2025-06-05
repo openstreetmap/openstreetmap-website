@@ -37,7 +37,7 @@ $(function () {
   id.attr("src", idData.url + "#" + params);
 
   id.ready(function () {
-    if (!this.contentWindow.location.href.startsWith(idData.url)) {
+    if (this.contentWindow && !this.contentWindow.location.href.startsWith(idData.url)) {
       location.reload();
     }
   });
