@@ -4,7 +4,11 @@
 <% content_for :heading do %>
   <div class="row">
     <div class="col-sm-auto">
-      <%= user_image @user %>
+      <% if current_user and @user == current_user %>
+        <%= link_to user_image(@user), profile_image_path, :class => "d-block", :title => t(".edit_image") %>
+      <% else %>
+        <%= user_image @user %>
+      <% end %>
     </div>
     <div class="col">
       <h1><%= @user.display_name %> <%= role_icons(@user) %></h1>
@@ -142,25 +146,35 @@
       <div class='text-body-secondary'>
         <small>
           <dl class="list-inline">
-            <% if @user.home_location_name&.strip.present? %>
+            <% if @user.home_location_name&.strip.present? || (current_user && @user == current_user) %>
               <dt class="list-inline-item m-0 align-text-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6">
-                    <title><%= t ".home location" %></title>
-                  </path>
-                </svg>
+                <%= tag.svg :width => 16, :height => 16, :fill => "currentColor", :opacity => @user.home_location_name&.strip.present? ? nil : 0.5 do %>
+                  <title><%= t @user.home_location_name&.strip.present? ? ".home location" : ".no home location" %></title>
+                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                <% end %>
               </dt>
-              <dd class="list-inline-item"><%= @user.home_location_name %></dd>
+              <dd class="list-inline-item">
+                <%= @user.home_location_name %>
+                <% if current_user && @user == current_user %>
+                  <%= link_to t(".edit"), profile_location_path, :title => t(".edit_location"),
+                                                                 :class => "btn btn-sm btn-outline-secondary py-0 px-1 align-baseline my-n1" %>
+                <% end %>
+              </dd>
             <% end %>
-            <% if @user.company&.strip.present? %>
+            <% if @user.company&.strip.present? || (current_user && @user == current_user) %>
               <dt class="list-inline-item m-0 align-text-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
-                  <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z">
-                    <title><%= t ".company" %></title>
-                  </path>
-                </svg>
+                <%= tag.svg :width => 16, :height => 16, :fill => "currentColor", :opacity => @user.company&.strip.present? ? nil : 0.5 do %>
+                  <title><%= t @user.company&.strip.present? ? ".company" : ".no company" %></title>
+                  <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z" />
+                <% end %>
               </dt>
-              <dd class="list-inline-item" title="<%= t ".company tooltip" %>"><%= @user.company %></dd>
+              <dd class="list-inline-item">
+                <%= tag.span @user.company, :title => t(".company tooltip") %>
+                <% if current_user && @user == current_user %>
+                  <%= link_to t(".edit"), profile_company_path, :title => t(".edit_company"),
+                                                                :class => "btn btn-sm btn-outline-secondary py-0 px-1 align-baseline my-n1" %>
+                <% end %>
+              </dd>
             <% end %>
             <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
             <dd class="list-inline-item"><%= l @user.created_at.to_date, :format => :long %></dd>
@@ -253,16 +267,26 @@
     </div>
   </div>
 <% end %>
-<% if @user.social_links.empty? %>
+
+<% if @user.social_links.empty? && !(current_user && @user == current_user) %>
   <div class="richtext text-break"><%= @user.description.to_html %></div>
 <% else %>
   <div class="row">
     <div class="col-sm-3">
-      <%= render "social_links/show",
-                 :social_links => @user.social_links %>
+      <%= render "social_links/show", :social_links => @user.social_links %>
+      <% if current_user and @user == current_user %>
+        <div class="mb-3">
+          <%= link_to t(".edit_links"), profile_links_path, :class => "btn btn-outline-primary" %>
+        </div>
+      <% end %>
     </div>
     <div class="col-sm-9">
       <div class="richtext text-break"><%= @user.description.to_html %></div>
+      <% if current_user and @user == current_user %>
+        <div class="mb-3">
+          <%= link_to t(".edit_description"), profile_description_path, :class => "btn btn-outline-primary" %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
@@ -272,9 +296,3 @@
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
-
-<% if current_user and @user.id == current_user.id %>
-  <div class="my-3">
-    <%= link_to t(".edit_profile"), profile_path, :class => "btn btn-outline-primary" %>
-  </div>
-<% end %>
