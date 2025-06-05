@@ -95,6 +95,10 @@ zh-TW:
       models:
         user_mute:
           is_already_muted: 已忽視
+        social_link:
+          attributes:
+            url:
+              http_parse_error: 網址應以 http:// 或 https:// 開頭
     models:
       acl: 存取控制清單
       changeset: 變更集
@@ -193,6 +197,7 @@ zh-TW:
         active: 活躍
         display_name: 顯示名稱
         description: 個人檔案描述
+        company: 公司
         home_lat: 緯度
         home_lon: 經度
         languages: 偏好的語言
@@ -668,9 +673,13 @@ zh-TW:
       heading: 取消訂閱以下日記項目討論？
       button: 取消訂閱討論
     navigation:
+      in_language: '%{language}日記項目'
       my_diary: 我的日記
       new: 新增日記項目
       new_title: 在我的使用者日記裡撰寫新內容
+    profile_diaries:
+      latest_diaries: 最新日記
+      comments: '%{count}條評論'
   diary_comments:
     new:
       heading: 在以下日記項目討論新增留言？
@@ -1300,7 +1309,7 @@ zh-TW:
           hamlet: 聚落
           house: 房屋
           houses: 房屋
-          island: 小島
+          island: 島嶼
           islet: 小島
           isolated_dwelling: 獨立住宅
           locality: 地方
@@ -1965,9 +1974,13 @@ zh-TW:
         failure: 無法更新偏好設定。
       update_success_flash:
         message: 偏好設定已更新。
+      navigation:
+        preferences: 偏好設定
+        advanced_preferences: 進階偏好設定
     basic_preferences:
       show:
         title: 我的偏好設定
+        preferred_language: 偏好語言
         preferred_site_color_scheme: 偏好的網站配色
         site_color_schemes:
           auto: 自動
@@ -1979,6 +1992,10 @@ zh-TW:
           light: 明亮
           dark: 深色
         save: 更新偏好
+    advanced_preferences:
+      show:
+        title: 我的進階偏好設定
+        save: 更新偏好設定
   profiles:
     show:
       title: 編輯基本資料
@@ -2013,6 +2030,9 @@ zh-TW:
     new:
       tab_title: 登入
       login_to_authorize_html: 登入開放街圖以存取 %{client_app_name}。
+      already_logged_in_html: 你已經以 %{user} 登入，重新登入將變更你目前的帳號。
+      access_another_page: 你嘗試瀏覽其他頁面時來到這邊，如果你想以目前帳號瀏覽這頁，請點下方按鈕：
+      visit_referring_page: 檢視引述頁面
       email or username: 電子郵件地址或使用者名稱
       password: 密碼
       remember: 記住我
@@ -2119,6 +2139,14 @@ zh-TW:
         native_link: 繁體中文版
         mapping_link: 開始製圖
       legal_babble:
+        lead_1_html: "開放街圖為數以萬計的網站、行動應用程式和硬體設備提供開放地圖資料。 \n開放街圖是由像您一樣的人組成的社群創建的，他們貢獻並維護有關世界各地道路、小徑、咖啡館、火車站等的地圖資料。"
+        lead_2_html: "%{learn_more_about_osm_link} 和 %{get_started_mapping_link}!\n您可以在
+          %{osm_blog_link} 上閱讀更多內容，並訂閱 %{weeklyosm_link}。 \n在您當地的 %{osm_community_link}
+          中尋找其他圖客。 \n透過加入 %{osm_foundation_link} 和 %{making_donation_link} 來支持該專案。"
+        lead_2_learn_more_about_osm: 瞭解開放街圖更多資訊
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
+        lead_2_get_started_mapping: 開始繪製地圖
+        lead_2_osm_blog: 開放街圖部落格
         lead_2_osm_blog_url: https://blog.openstreetmap.org/
         lead_2_weeklyosm: 周刊OSM
         lead_2_weeklyosm_url: https://weeklyosm.eu/
@@ -2128,18 +2156,41 @@ zh-TW:
         lead_2_making_donation: 捐款
         lead_2_making_donation_url: https://supporting.openstreetmap.org/
         licensing_title: 開放街圖授權條款
+        licensing_1_html: "OpenStreetMap 是 %{open} 資料，由 %{osm_foundation_link} (OSMF)
+          授權，並遵循 \n%{odc_odbl_link} (ODbL) 授權條款。總結如下："
+        licensing_1_open: 開啟
         licensing_1_odc_odbl: 開放資料共享開放資料庫授權
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: 開放街圖基金會
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: 你可以自由複製、散布、傳輸及修改我們的資料，前提是必須署名為開放街圖及其貢獻者。若有依據資料做出變動或以此來建立其他資料，你只能依照相同授權條款來散佈成果。%{legal_code_link}有詳述你的權責。
+        licensing_2_legal_code: 開放資料共享中的完整法律程式碼
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: 我們的說明文件是依據 %{creative_commons_license_link} 授權條款（CC BY-SA
+          2.0）釋出。
+        licensing_3_creative_commons_license: 創用CC 姓名標示-相同方式分享 2.0授權條款
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW
+        licensing_4_html: 請參閱 %{osmf_license_page_link} 以了解更多有關使用我們資料的資訊。
         licensing_4_osmf_license_page: OSMF 授權條款頁面
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: 如何標明作者是開放街圖
         credit_1_html: 當你使用開放街圖的資料，你會被要求遵循兩件事：
+        credit_2_attribution: 透過署名資料來自開放街圖完成署名義務。
         credit_2_license: 明確資料在開放資料共享開放資料庫授權下可用。
+        credit_3_v2025_html: "對於署名聲明，我們有不同的 %{requirements_on_how_displayed_link}，這取決於您如何使用我們的資料。
+          \n例如，根據您是否建立了可瀏覽地圖、列印地圖或靜態圖像，對於如何顯示署名聲明適用不同的規則。 \n更多詳細資訊，請參閱 %{licensing_requirements_link}
+          的 %{attribution_guidelines_link} 部分。"
+        credit_3_v2025_requirements_on_how_displayed: 關於如何顯示的要求
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_attribution_guidelines: 姓名標示指南
         credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_licensing_requirements: 授權條款要求
         credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: |-
+          一般來說，為了明確表示資料遵循開放資料庫授權 (Open
+          Database License)條款，您可以連結到 %{this_copyright_page_link}。如果您以資料形式散佈 OSM，請註明並直接連結到授權條款。在無法連結的媒體（例如印刷作品）中，請在頁面上包含完整的 URL，例如 %{copyright_page_url}。
         credit_4_v2025_this_copyright_page: 此版權頁面
+        credit_5_v2025_html: 在這範例當中，署名義務可以顯示在地圖的角落：
         attribution_example:
           alt: 如何在網頁上署名開放街圖的例子
           title: 姓名標示例子
@@ -2153,9 +2204,15 @@ zh-TW:
         trademarks_1_1_html: 開放街圖、網站上的放大鏡標誌以及 State of the Map 是開放街圖基金會的註冊商標。如果你對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
         trademarks_1_1_trademark_policy: 商標方針
         services_title_html: 額外服務項目
+        services_1_html: |-
+          儘管開放街圖屬於開放資料，我們不對第三方提供免費的地圖 API。
+          請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}、和%{nominatim_usage_policy_link}。
         services_1_api_usage_policy: API 使用方針
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: 圖磚使用方針
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         services_1_nominatim_usage_policy: 提名使用方針
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: 我們的貢獻者
         contributors_intro_html: 我們的貢獻者為成千上萬的人。我們也收納了從國家測繪機構及其他來源等取得的開放版權資料，其中包括：
         contributors_at_credit_html: '%{austria}：包含來自%{stadt_wien_link} (依據%{cc_by_link})、%{land_vorarlberg_link}、與
@@ -2325,6 +2382,8 @@ zh-TW:
         bicycle: 自行車
         car: 開車
         foot: 步行
+      providers:
+        description: 導航服務
     welcome:
       title: 歡迎！
       introduction: 歡迎來到 OpenStreetMap，自由和可編輯的世界地圖。你目前已經登入，可以開始繪製地圖。這裡有一份你必須知道的最重要事項的快速指南。
@@ -2362,6 +2421,7 @@ zh-TW:
     add_a_note:
       title: 沒有時間編輯嗎？可加入註記！
       para_1: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
+      para_2_html: 只要點一下 %{note_icon} 或是 %{map_link} 上的相同圖示即可。這將在地圖上添加一個標記，您可以透過拖曳來移動它。新增您的資訊，然後按一下“儲存”，其他圖客將會進行調查。
       the_map: 地圖
     communities:
       title: 社群
@@ -2381,6 +2441,9 @@ zh-TW:
           沒有需要正式建立一個與地方分會同等規模的團體。
           事實上，許多團體作為人們的非正式集會或是社群團體而非常成功地存在。任何人都可以設定或是加入這些團體。請在%{communities_wiki_link}上閱讀更多內容。
         communities_wiki: 社群 wiki 頁面
+  social_links:
+    show:
+      other: 其他
   map_keys:
     show:
       entries:
@@ -2471,6 +2534,7 @@ zh-TW:
         bicycle_parking: 自行車停車場
         bicycle_parking_small: 小型自行車停車場
         toilets: 廁所
+      see_external_legend: 參見外部地圖圖例
   traces:
     visibility:
       private: 私人 (以匿名方式分享，節點無順序)
@@ -2590,6 +2654,9 @@ zh-TW:
         title: 使用維基百科登入
         alt: 維基百科標誌
     share:
+      share:
+        title: 分享
+        alt: 分享圖示
       email:
         title: 透過電子郵件分享
         alt: 電子郵件圖示
@@ -2737,6 +2804,9 @@ zh-TW:
       follow: 追蹤
       mapper since: 註冊為製圖者日期：
       last map edit: 最後地圖編輯於：
+      home location: 家的位置
+      company: 公司
+      company tooltip: 該公司隸屬關係為自我揭露，未經證實
       no activity yet: 尚無活動
       uid: 使用者 ID：
       ct status: 貢獻者條款：
@@ -2772,6 +2842,7 @@ zh-TW:
       delete_user: 刪除這位使用者
       confirm: 確認
       report: 回報此使用者
+      contributions: 去年有%{count}貢獻
     go_public:
       flash success: 現在你所有的編輯都是公開的，而你已獲准編輯。
     issued_blocks:
@@ -3126,12 +3197,18 @@ zh-TW:
       queryfeature_tooltip: 查詢圖徵
       queryfeature_disabled_tooltip: 放大地圖以查询圖徵
       embed_html_disabled: HTML 內嵌對此地圖圖層不可用
+    profile:
+      social_link_n: 社群帳號連結 %{n}
+      remove_social_link_n: 移除社群帳號連結 %{n}
     edit_help: 將地圖移至你想編輯的位置並放大，然後按這裡。
     directions:
       distance_in_units:
         meters:
           m: '%{distance} 公尺'
           km: '%{distance}公里'
+        miles:
+          ft: '%{distance}英尺'
+          mi: '%{distance}英里'
       errors:
         no_route: 查無兩個地點間的路徑。
         no_place: 抱歉 - 查無地點「%{place}」。
@@ -3215,6 +3292,7 @@ zh-TW:
       show_address: 顯示地址
       query_features: 查詢圖徵
       centre_map: 置此於地圖中央
+      scroll_to_changeset: 捲動到變更集
     home:
       marker_title: 我家位置
       not_set: 你的帳號還未設定家位置

@@ -15,12 +15,12 @@ ps:
       prompt: دوتنه ټاکل
     submit:
       diary_comment:
-        create: تبصره
+        create: څرگندونه
       diary_entry:
         create: خپرول
         update: تازه کول
       issue_comment:
-        create: تبصره ورگډول
+        create: څرگندونه ورگډول
       message:
         create: لېږل
       oauth2_application:
@@ -33,12 +33,28 @@ ps:
     models:
       country: هېواد
       friend: ملگری
+      issue: ستونزه
       language: ژبه
       message: پيغام
+      note: يادښت
+      old_relation: زړه اړيکه
+      old_relation_member: زړې اړيکې غړی
+      old_relation_tag: زړې اړيکې نښلن
       old_way: زړه لاره
+      relation: اړيکه
+      relation_member: اړيکې غړی
+      relation_tag: اړيکې نښلن
+      report: راپور
+      session: غونډه
       user: کارن
+      user_preference: کارن غوره‌توب
+      user_token: کارن نښه
       way: لار
+      way_tag: لار نښلن
     attributes:
+      client_application:
+        name: نوم (اړين دی)
+        url: ار غوښتنليک وېب‌تړ (اړين دی)
       diary_comment:
         body: جوسه
       diary_entry:
@@ -47,47 +63,77 @@ ps:
         latitude: لوړوالی
         longitude: اوږدوالی
         language_code: ژبه
+      doorkeeper/application:
+        name: نوم
+        scopes: پرېښولي
       friend:
         user: کارن
         friend: ملگری
       trace:
         user: کارن
         visible: ښکاره
-        name: نوم
+        name: دوتنې‌نوم
         size: کچه
         latitude: لوړوالی
         longitude: اوږدوالی
         public: ټولگړی
         description: څرگندونه
         gpx_file: 'GPX دوتنه پورته کول:'
-        visibility: 'ښکارېدنه:'
-        tagstring: 'نښلنونه:'
+        visibility: ښکارېدنه
+        tagstring: نښلنونه
       message:
         sender: لېږونکی
         title: سکالو
         body: جوسه
         recipient: اخيستونکی
       redaction:
-        description: څرگندونه
+        title: سرليک
+        description: څرگنداوی
+      report:
+        category: د خپل راپور لامل غوره کړئ
       user:
         email: برېښليک
-        new_email: 'نوې برېښليک پته:'
-        active: فعال
+        new_email: نوې برېښليک پته
+        active: کارنده
         display_name: ښکارېدونکی نوم
-        description: څرگندونه
-        languages: ژبې
+        description: پېژنيال څرگنداوی
+        company: کمپنۍ
+        home_lat: لوړوالی
+        home_lon: اوږدوالی
+        languages: غوره ژبې
+        preferred_editor: غوره سمونگر
         pass_crypt: پټنوم
+        pass_crypt_confirmation: پټنوم تاييدول
   editor:
     default: تلواليز (اوسنی %{name})
     id:
       name: iD
+  auth:
+    providers:
+      none: هيڅ
+      google: گوگل
+      facebook: فيسبوک
+      github: گيټ‌هاب
+      wikipedia: ويکيپېډيا
+  api:
+    notes:
+      entry:
+        comment: څرگندونه
+        full: بشپړ یادښت
   accounts:
     show:
+      title: گڼون سمول
+      my_account: زما گڼون
+      current email address: 'اوسنۍ برېښليک‌پته:'
+      external auth: بېرونۍ تاييدي
       contributor terms:
+        heading: مرستيالۍ لارښود
         link text: دا څه دی؟
       save changes button: بدلونونه خوندي کول
     terms:
       show:
+        title: منښتونه
+        heading: منښتونه
         legale_names:
           france: فرانسه
           italy: اېټاليا
