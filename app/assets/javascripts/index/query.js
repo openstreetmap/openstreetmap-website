@@ -153,21 +153,17 @@ OSM.Query = function (map) {
     })
       .then(response => response.json())
       .then(function (results) {
-        let elements;
+        let elements = results.elements;
 
         $section.find(".loader").hide();
 
         if (merge) {
-          elements = Object.values(results.elements.reduce(function (hash, element) {
+          elements = Object.values(elements.reduce(function (hash, element) {
             const key = element.type + element.id;
-            if ("geometry" in element) {
-              delete element.bounds;
-            }
-            hash[key] = $.extend({}, hash[key], element);
+            if ("geometry" in element) delete element.bounds;
+            hash[key] = { ...hash[key], ...element };
             return hash;
           }, {}));
-        } else {
-          elements = results.elements;
         }
 
         if (compare) {
