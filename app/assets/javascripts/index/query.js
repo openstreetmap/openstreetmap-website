@@ -119,23 +119,17 @@ OSM.Query = function (map) {
   }
 
   function featureGeometry(feature) {
-    let geometry;
-
-    if (feature.type === "node" && feature.lat && feature.lon) {
-      geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
-    } else if (feature.type === "way" && feature.geometry && feature.geometry.length > 0) {
-      geometry = L.polyline(feature.geometry.filter(function (point) {
-        return point !== null;
-      }).map(function (point) {
-        return [point.lat, point.lon];
-      }), featureStyle);
-    } else if (feature.type === "relation" && feature.members) {
-      geometry = L.featureGroup(feature.members.map(featureGeometry).filter(function (geometry) {
-        return typeof geometry !== "undefined";
-      }));
+    switch (feature.type) {
+      case "node":
+        if (!feature.lat || !feature.lon) return;
+        return L.circleMarker([feature.lat, feature.lon], featureStyle);
+      case "way":
+        if (!feature.geometry?.length) return;
+        return L.polyline(feature.geometry.filter(p => p).map(p => [p.lat, p.lon]), featureStyle);
+      case "relation":
+        if (!feature.members?.length) return;
+        return L.featureGroup(feature.members.map(featureGeometry).filter(g => g));
     }
-
-    return geometry;
   }
 
   function runQuery(latlng, radius, query, $section, merge, compare) {
