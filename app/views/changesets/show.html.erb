@@ -41,7 +41,7 @@
     <article id="c<%= comment.id %>">
       <small class='text-body-secondary'>
         <%= comment_by_options = { :time_ago => friendly_date_ago(comment.created_at),
-                                   :user => link_to(comment.author.display_name, comment.author) }
+                                   :user => link_to(comment.author.display_name, comment.author, :dir => :auto) }
             comment.visible ? t(".comment_by_html", **comment_by_options) : t(".hidden_comment_by_html", **comment_by_options) %>
         <% if current_user&.moderator? %>
           —
@@ -57,7 +57,7 @@
           </svg>
         </a>
       </small>
-      <div class="mx-2">
+      <div class="mx-2" dir="auto">
         <%= comment.body.to_html %>
       </div>
     </article>
