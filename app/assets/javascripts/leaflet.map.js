@@ -1,11 +1,6 @@
 L.extend(L.LatLngBounds.prototype, {
-  getSize: function () {
-    return (this._northEast.lat - this._southWest.lat) *
-           (this._northEast.lng - this._southWest.lng);
-  },
-
-  wrap: function () {
-    return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
+  toArray: function () {
+    return [[this.getSouth(), this.getWest()], [this.getNorth(), this.getEast()]];
   }
 });
 
@@ -372,6 +367,14 @@ L.extend(L.Icon.Default.prototype, {
     return L.Icon.Default.imageUrls[url];
   }
 });
+
+OSM.boundsArea = function ([[minLat, minLon], [maxLat, maxLon]]) {
+  const height = maxLat - minLat;
+  let width = maxLon - minLon;
+
+  if (width < 0) width += 360;
+  return width * height;
+};
 
 OSM.isDarkMap = function () {
   const mapTheme = $("body").attr("data-map-theme");

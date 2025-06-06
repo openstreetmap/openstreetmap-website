@@ -50,7 +50,7 @@ OSM.initializeNotesLayer = function (map) {
 
   function loadNotes() {
     const bounds = map.getBounds();
-    const size = bounds.getSize();
+    const size = OSM.boundsArea(bounds.toArray());
 
     if (size <= OSM.MAX_NOTE_REQUEST_AREA) {
       const url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBoxString();
