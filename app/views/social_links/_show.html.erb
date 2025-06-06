@@ -5,6 +5,7 @@
         <%= inline_svg_tag "social_link_icons/#{social_link.parsed[:platform] || 'website'}.svg",
                            :title => social_link.parsed[:platform] || t(".website"),
                            :class => "flex-shrink-0 mb-n1" %>
+        <%= inline_svg_tag "social_link_icons/osm_related_indicator.svg", :class => "mb-n2 ms-n3 mt-1 opacity-25 position-absolute" if social_link.parsed[:is_osm_related] %>
         <span class="text-truncate">
           <%= social_link.parsed[:name] %>
         </span>
