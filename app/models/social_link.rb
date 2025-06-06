@@ -67,6 +67,8 @@ class SocialLink < ApplicationRecord
 
   NO_USERNAME_PLATFORMS = %w[discord line slack].freeze
 
+  OSM_RELATED_PLATFORMS = %w[ohm osm_forum osm_wiki].freeze
+
   def parsed
     URL_PATTERNS.each do |platform, pattern|
       names = url.match(pattern)
@@ -76,6 +78,7 @@ class SocialLink < ApplicationRecord
         return {
           :url => "https://#{names[2]}/@#{names[1]}",
           :platform => "mastodon",
+          :is_osm_related => names[2] == "en.osm.town",
           :name => "@#{names[1]}@#{names[2]}"
         }
       end
@@ -83,9 +86,13 @@ class SocialLink < ApplicationRecord
       name = names[2].nil? ? names[1] : "#{names[2]}@#{names[1]}"
       name = platform.to_s.capitalize if NO_USERNAME_PLATFORMS.include?(platform.to_s)
 
+      is_osm_related = OSM_RELATED_PLATFORMS.include?(platform.to_s) ||
+                       (platform == :mastodon && names[1] == "en.osm.town")
+
       return {
         :url => url,
         :platform => platform.to_s,
+        :is_osm_related => is_osm_related,
         :name => name
       }
     end
