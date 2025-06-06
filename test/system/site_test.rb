@@ -116,4 +116,24 @@ class SiteTest < ApplicationSystemTestCase
     find_link(locator).hover
     assert_selector ".tooltip", :text => "Zoom in to"
   end
+
+  test "language selector should exist when logged out" do
+    visit "/"
+    assert_selector ".language-change-trigger", :visible => "all"
+    Locale.available
+          .each do |locale|
+      if I18n.exists? "shared.language_selector.#{locale}"
+        assert_selector "option[value='#{locale}']", :visible => "all"
+      else
+        assert_no_selector "option[value='#{locale}']", :visible => "all"
+      end
+    end
+  end
+
+  test "language selector should not exist when logged in" do
+    sign_in_as(create(:user))
+
+    visit "/"
+    assert_no_selector ".language-change-trigger", :visible => "all"
+  end
 end
