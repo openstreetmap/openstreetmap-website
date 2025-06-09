@@ -127,6 +127,9 @@
 fr:
   html:
     dir: ltr
+  date:
+    formats:
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y à %-H h %M'
@@ -164,6 +167,10 @@ fr:
       models:
         user_mute:
           is_already_muted: est déjà en sourdine
+        social_link:
+          attributes:
+            url:
+              http_parse_error: L’URL doit commencer par http:// ou https://
     models:
       acl: Liste de contrôle d’accès
       changeset: Groupe de modifications
@@ -262,6 +269,7 @@ fr:
         active: Actif
         display_name: Pseudonyme
         description: Description du profil
+        company: Entreprise
         home_lat: Latitude
         home_lon: Longitude
         languages: Langues préférées
@@ -819,9 +827,15 @@ fr:
       heading: Se désinscrire de la discussion suivante sur les entrées du journal ?
       button: Se désinscrire de la discussion
     navigation:
+      in_language: Entrées du journal en %{language}
       my_diary: Mon journal
       new: Nouvelle entrée du journal
       new_title: Écrire une nouvelle entrée dans mon journal utilisateur
+    profile_diaries:
+      latest_diaries: Derniers journaux
+      comments:
+        one: Un commentaire
+        other: '%{count} commentaires'
   diary_comments:
     new:
       heading: Ajouter un commentaire à cette discussion ?
@@ -2210,6 +2224,7 @@ fr:
     basic_preferences:
       show:
         title: Mes préférences
+        preferred_language: Langue préférée
         preferred_site_color_scheme: Système de couleurs préféré pour le site Internet
         site_color_schemes:
           auto: Auto
@@ -2220,6 +2235,10 @@ fr:
           auto: Auto
           light: Clair
           dark: Sombre
+        save: Mettre à jour les préférences
+    advanced_preferences:
+      show:
+        title: Mes préférences avancées
         save: Mettre à jour les préférences
   profiles:
     show:
@@ -2246,6 +2265,10 @@ fr:
       show: Afficher
       delete: Supprimer
       undelete: Annuler la suppression
+      social_links:
+        title: Liens du profil social
+        remove: Retirer
+        add: Ajouter un lien social
     update:
       success: Profil mis à jour.
       failure: Impossible de mettre à jour le profil.
@@ -2382,16 +2405,59 @@ fr:
         native_link: traduction française
         mapping_link: commencer à contribuer
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap fournit des données cartographiques ouvertes pour des milliers de sites web,
+          d’applications mobiles et d’appareils. OpenStreetMap est développé par une communauté de
+          personnes comme vous qui contribuent et maintiennent des données cartographiques sur les
+          routes, les sentiers, les cafés, les gares et bien plus encore, partout dans le monde.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} et %{get_started_mapping_link} !
+          Vous pouvez en savoir plus sur le %{osm_blog_link} et vous abonner à %{weeklyosm_link}.
+          Trouvez d’autres cartographes dans votre %{osm_community_link} locale.
+          Soutenez le projet en rejoignant la %{osm_foundation_link} et en %{making_donation_link}.
+        lead_2_learn_more_about_osm: Apprenez-en plus sur OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/FR:%C3%80_propos_d%E2%80%99OpenStreetMap
+        lead_2_get_started_mapping: commencez à cartographier
         lead_2_osm_blog: blog d’OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/?lang=fr
+        lead_2_weeklyosm: hebdoOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/fr/
+        lead_2_osm_community: communauté OSM
+        lead_2_osm_foundation: fondation OSM
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: faisant un don
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: Licence OpenStreetMap
+        licensing_1_html: |-
+          Les données d’OpenStreetMap sont %{open}, sous la
+          %{odc_odbl_link} (ODbL) de la %{osm_foundation_link} (OSMF). En résumé :
+        licensing_1_open: libres
         licensing_1_odc_odbl: licence de base de données ouverte Open Data Commons
         licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/summary/
-        licensing_1_osm_foundation: Fondation OpenStreetMap
+        licensing_1_osm_foundation: fondation OpenStreetMap
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: |-
+          Vous êtes libre de copier, distribuer, transmettre et adapter nos données,
+          à condition que vous créditiez OpenStreetMap et ses contributeurs.
+          Si vous modifiez ou utilisez nos données dans d’autres œuvres dérivées,
+          vous ne pouvez distribuer celles-ci que sous la même licence. Le
+          %{legal_code_link} complet détaille vos droits et responsabilités.
+        licensing_2_legal_code: code juridique complet sur Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: Notre documentation est sous license %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Attribution – Partage
+          à l’identique v2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.fr
-        licensing_4_osmf_license_page: page de Licence de la Fondation OSM
+        licensing_4_html: Pour en savoir plus sur l’utilisation de nos données, consultez
+          la %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: page de licence de la fondation OSM
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Comment créditer OpenStreetMap
         credit_1_html: 'Lorsque vous utilisez des données d’OpenStreetMap, vous devez
           effectuer les deux choses suivantes :'
-        credit_2_license: indiquer clairement que les données sont disponibles sous
+        credit_2_attribution: Créditez OpenStreetMap en affichant notre avis d’attribution.
+        credit_2_license: Indiquez clairement que les données sont disponibles sous
           la Licence Open Database.
         credit_3_v2025_attribution_guidelines: directives d’attribution
         credit_4_v2025_this_copyright_page: cette page de copyright

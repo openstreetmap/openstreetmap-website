@@ -735,9 +735,15 @@ pt-PT:
         no diário?
       button: Deixar de acompanhar a discussão
     navigation:
+      in_language: Entradas de diário em %{language}
       my_diary: O meu diário
       new: Criar nova publicação no diário
       new_title: Escrever uma nova publicação no meu diário de utilizador
+    profile_diaries:
+      latest_diaries: Diários mais recentes
+      comments:
+        one: '%{count} comentário'
+        other: '%{count} comentários'
   diary_comments:
     new:
       heading: Adicionar um comentário à seguinte discussão de entrada no diário?
@@ -1655,6 +1661,7 @@ pt-PT:
       ascend: Ascenção
       descend: Descida
       button_km: km
+      button_mi: mi
       download: Transferir rota como GeoJSON
       filename: rota
       directions_courtesy_html: Indicações fornecidas por %{link}
@@ -2113,6 +2120,7 @@ pt-PT:
     basic_preferences:
       show:
         title: Preferências
+        preferred_language: Linguagem de Preferência
         preferred_site_color_scheme: Esquema de cores do website
         site_color_schemes:
           auto: Automático
@@ -2124,6 +2132,10 @@ pt-PT:
           light: Claro
           dark: Escuro
         save: Atualizar preferências
+    advanced_preferences:
+      show:
+        title: Preferências Avançadas
+        save: Actualizar Preferências
   profiles:
     show:
       title: Editar Perfil
@@ -2132,6 +2144,7 @@ pt-PT:
       image: Imagem
       gravatar:
         gravatar: Usar Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: O que é o Gravatar?
         disabled: O Gravatar foi desativado.
         enabled: A exibição do teu Gravatar foi ativada.
@@ -2148,7 +2161,9 @@ pt-PT:
       delete: Eliminar
       undelete: Desfazer eliminação
       social_links:
+        title: Ligações para Perfis Sociais
         remove: Remover
+        add: Adicionar Ligação Social
     update:
       success: Perfil atualizado.
       failure: Não foi possível atualizar o perfil.
@@ -2156,6 +2171,11 @@ pt-PT:
     new:
       tab_title: Iniciar sessão
       login_to_authorize_html: Inicia sessão no OpenStreetMap para acederes a %{client_app_name}.
+      already_logged_in_html: Já tens sessão iniciada como %{user}. Iniciar sessão
+        novamente irá mudar a tua conta actual.
+      access_another_page: 'Chegaste aqui tentando aceder a outra página. Se queres
+        aceder a essa página usando a tua conta actual, clica no butão abaixo:'
+      visit_referring_page: Visitar a página referida
       email or username: 'E-mail ou Nome de utilizador:'
       password: Palavra-passe
       remember: Ficar autenticado entre sessões
@@ -2272,16 +2292,72 @@ pt-PT:
         native_link: Versão em português europeu
         mapping_link: começar a mapear
       legal_babble:
+        lead_1_html: |-
+          O OpenStreetMap fornece dados abertos de mapas a milhares de sítios web, aplicações móveis, e dispositivos de hardware.
+          O OpenStreetMap é criado por uma comunidade de pessoas como tu, que contribuem e mantêm dados de mapa de estradas, percursos pedestres, cafés, estações de comboio, e muito mais, pelo mundo todo.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} e %{get_started_mapping_link}!
+          Podes ler mais no %{osm_blog_link}, e subscrever ao %{weeklyosm_link}.
+          Encontra outros mapeadores no tua %{osm_community_link} local.
+          Apoia o projecto associando-te à %{osm_foundation_link} e %{making_donation_link}.
+        lead_2_learn_more_about_osm: Aprende mais sobre o OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
+        lead_2_get_started_mapping: começa a mapear
+        lead_2_osm_blog: Blog do OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: Comunidade OSM
+        lead_2_osm_foundation: Fundação OSM
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: fazer uma doação
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: Licenças do OpenStreetMap
+        licensing_1_html: 'O OpenStreetMap é uma base de dados %{open}, licenciados
+          sob a %{odc_odbl_link} (ODbL) pela %{osm_foundation_link} (OSMF). Resumidamente:'
+        licensing_1_open: abertos
         licensing_1_odc_odbl: Licença de Base de Dados Aberta de Open Data Commons
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: Fundação OpenStreetMap
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: És livre de copiar, distribuir, transmitir e adaptar os
+          nossos dados, desde que dês a devida atribuição ao OpenStreetMap e os seus
+          contribuidores. Se alterares ou desenvolveres sobres os nossos dados, podes
+          distribuir o resultado sob a mesma licença apenas. A página %{legal_code_link}
+          explica os teus direitos e as responsabilidades.
+        licensing_2_legal_code: código legal completo em Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: A nossa documentação é licenciada sob a %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Licença Creative Commons Atribuição
+          CompartilhaIgual 2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Lê mais sobre usar os nossos dados em %{osmf_license_page_link}.
         licensing_4_osmf_license_page: Página de Licença OSMF
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Como creditar o OpenStreetMap
         credit_1_html: 'Onde usar dados do OpenStreetMap, é necessário fazer as duas
           coisas seguintes:'
+        credit_2_attribution: Fornecer os devidos créditos ao OpenStreetMap mostrando
+          o nosso aviso de atribuição.
         credit_2_license: Deixar claro que os dados estão disponíveis sob a Licença
           de Base de Dados Abertos.
-        credit_3_v2025_attribution_guidelines: Diretrizes de Atribuição
+        credit_3_v2025_html: |-
+          Para o aviso de atribuição, temos vários %{requirements_on_how_displayed_link}, dependendo de como usas os nossos dados.
+          Por exemplo, aplicam-se regras diferentes sobre como mostrar o aviso de atribuição no caso de teres criado um mapa navegável, um mapa impresso ou uma imagem estática.
+          Podes encontrar mais detalhes na secção %{attribution_guidelines_link} dos %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: requisitos sobre como deve ser
+          mostrado
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_attribution_guidelines: diretrizes de atribuição
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: requisitos de licenciamento
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: |-
+          De modo geral, para deixar claro que os dados estão disponíveis sob a Open Database License, podes redireccionar para %{this_copyright_page_link}.
+          Se distribuis o OSM na forma de dados, nomeia e liga directamente à(s) licença(s). Em meios onde ligações não são possíveis (e.g. obras impressas), inclui o URL completo na página, e.g. %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: esta página de direitos de autor
+        credit_5_v2025_html: 'Neste exemplo, a atribuição aparece no canto do mapa:'
         attribution_example:
           alt: Exemplo de como indicar os créditos do OpenStreetMap numa página eletrónica
           title: Exemplo de atribuição
@@ -2297,13 +2373,20 @@ pt-PT:
         infringement_2_1_takedown_procedure: procedimento de remoção
         infringement_2_1_online_filing_page: formulário online
         trademarks_title: Marcas registadas
-        trademarks_1_1_html: O OpenStreetMap, o logótipo com a lupa e o State of the
-          Map são marcas registadas da Fundação OpenStreetMap. Se tiver dúvidas sobre
-          o uso das marcas, consulte a nossa %{trademark_policy_link}.
+        trademarks_1_1_html: O OpenStreetMap, o logótipo da lupa, e o State of the
+          Map são marcas registadas da Fundação OpenStreetMap. Se tiveres dúvidas
+          sobre o uso destas marcas, consulta a nossa %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Política de Marcas Registadas
+        services_title_html: Serviços adicionais
+        services_1_html: |-
+          Apesar do OpenStreetMap ser uma base de dados abertos, não podemos oferecer uma API ou quadrículas de mapas de forma gratuita.
+          Vê a nossa %{api_usage_policy_link}, %{tile_usage_policy_link} e %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Política de Uso da API
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: Política de Uso de Mosaicos
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         services_1_nominatim_usage_policy: Política de Uso do Nominatim
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Os nossos contribuidores
         contributors_intro_html: 'O OpenStreetMap tem milhares de contribuidores.
           Também são utilizados dados de agências cartográficas nacionais e outras
@@ -2454,8 +2537,8 @@ pt-PT:
         working_group: grupo de trabalho OSMF
     help:
       title: Como Obter Ajuda
-      introduction: O OpenStreetMap tem vários recursos para aprender mais sobre o
-        projeto, perguntar e responder a perguntas, e discutir e documentar assuntos
+      introduction: O OpenStreetMap tem vários recursos para que possas aprender mais
+        sobre o projeto, fazer e responder a perguntas, e discutir e documentar assuntos
         sobre mapeamento de forma colaborativa.
       welcome:
         url: /welcome
@@ -2518,6 +2601,8 @@ pt-PT:
         bicycle: De bicicleta
         car: De carro
         foot: A pé
+      providers:
+        description: Serviços de indicações
     welcome:
       title: Bem-vind@!
       introduction: Bem-vindo(a) ao OpenStreetMap, o mapa do mundo, grátis e editável.
@@ -2562,6 +2647,10 @@ pt-PT:
       title: Sem tempo para editar? Adiciona uma nota!
       para_1: Se pretendes que seja feita uma pequena correção, mas não tens disponibilidade
         para criar uma conta e aprender a editar, é muito simples deixar uma nota.
+      para_2_html: |-
+        Clica no %{note_icon} ou no mesmo ícone no %{map_link}.
+        Isso vai adicionar um marcador ao mapa, que podes arrastar.
+        Escreve uma mensagem e clica em "Adicionar nota" para que outros mapeadores possam investigar.
       the_map: mapa
     communities:
       title: Comunidades
@@ -2586,6 +2675,10 @@ pt-PT:
           Não há necessidade de estabelecer formalmente um grupo como os Capítulos Locais.
           Na verdade, há muitos grupos de sucesso que funcionam como encontros informais de pessoas ou como grupos comunitários. Qualquer pessoa pode criar um ou juntar-se a um que já exista. Lê mais na %{communities_wiki_link}.
         communities_wiki: página wiki das comunidades
+  social_links:
+    show:
+      one: Outro(a)
+      other: Outros(as)
   map_keys:
     show:
       entries:
@@ -2676,6 +2769,7 @@ pt-PT:
         bicycle_parking: Estacionamento de bicicletas
         bicycle_parking_small: Estacionamento para bicicletas
         toilets: Casas de banho
+      see_external_legend: Ver legenda do mapa externo
   traces:
     visibility:
       private: Privado (apenas partilhado como anónimo, pontos não ordenados)
@@ -2980,6 +3074,8 @@ pt-PT:
       mapper since: 'A mapear desde:'
       last map edit: 'Última edição do mapa:'
       home location: Localização base
+      company: Empresa
+      company tooltip: A afiliação à empresa é autodeclarada e não foi verificada.
       no activity yet: Ainda sem atividade
       uid: 'Id de utilizador:'
       ct status: 'Termos do Contribuidor:'
@@ -3015,6 +3111,9 @@ pt-PT:
       delete_user: Eliminar este utilizador
       confirm: Confirmar
       report: Denunciar este utilizador
+      contributions:
+        one: '%{count} contribuição no ano passado'
+        other: '%{count} contribuições no ano passado'
     go_public:
       flash success: Todas as tuas edições são agora públicas e já podes começar a
         editar.
@@ -3404,12 +3503,18 @@ pt-PT:
       queryfeature_disabled_tooltip: Amplia para consultares elementos
       embed_html_disabled: A incorporação de HTML não está disponível para esta camada
         do mapa
+    profile:
+      social_link_n: Ligação de Perfil Social %{n}
+      remove_social_link_n: Remover Ligação de Perfil Social %{n}
     edit_help: Move o mapa, amplia-o no local que pretendes editar e clica aqui.
     directions:
       distance_in_units:
         meters:
           m: '%{distance} m'
           km: '%{distance} km'
+        miles:
+          ft: '%{distance}ft'
+          mi: '%{distance}mi'
       errors:
         no_route: Não foi encontrada uma rota entre os dois pontos.
         no_place: Desculpe - não foi possível encontrar '%{place}'.
@@ -3503,6 +3608,7 @@ pt-PT:
       show_address: Mostrar endereço
       query_features: Consultar elementos
       centre_map: Centrar mapa aqui
+      scroll_to_changeset: Deslocar para o conjunto de alterações
     home:
       marker_title: A minha localização base
       not_set: A localização base não está definida para a tua conta

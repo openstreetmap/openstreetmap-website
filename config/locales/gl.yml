@@ -20,6 +20,9 @@
 # Author: Vivaelcelta
 ---
 gl:
+  date:
+    formats:
+      heatmap: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y ás %H:%M'
@@ -59,6 +62,10 @@ gl:
       models:
         user_mute:
           is_already_muted: xa está silenciado
+        social_link:
+          attributes:
+            url:
+              http_parse_error: O enderezo URL debe comezar por http:// ou https://
     models:
       acl: Listaxe do control de acceso
       changeset: Conxunto de modificacións
@@ -157,12 +164,13 @@ gl:
         active: Activo
         display_name: Nome público
         description: Descrición do perfil
+        company: Empresa
         home_lat: Latitude
         home_lon: Lonxitude
         languages: Linguas preferidas
         preferred_editor: Editor preferido
         pass_crypt: Contrasinal
-        pass_crypt_confirmation: Confirmar contrasinal
+        pass_crypt_confirmation: Confirmar o contrasinal
     help:
       doorkeeper/application:
         confidential: Usarase a aplicación onde o segredo do cliente se poida manter
@@ -341,7 +349,7 @@ gl:
         read_ct: Lin e acepto os termos do colaborador anteriores
         tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
           infraestruturas fornecidas pola OSMF.  Preme na ligazón, le e acepta o texto.
-        read_tou: Lin e acepto os Termos de uso
+        read_tou: Lin e acepto os termos de uso
         guidance_info_html: 'Información para axudar a comprender estes termos: un
           %{readable_summary_link} e algunhas %{informal_translations_link}'
         readable_summary: resumo lexible por humanos
@@ -697,9 +705,15 @@ gl:
         diario?
       button: Cancelar a subscrición á conversa
     navigation:
+      in_language: Entradas do diario en %{language}
       my_diary: O meu diario
       new: Nova entrada no diario
       new_title: Compor unha nova entrada no meu diario do usuario
+    profile_diaries:
+      latest_diaries: Últimos diarios
+      comments:
+        one: '%{count} comentario'
+        other: '%{count} comentarios'
   diary_comments:
     new:
       heading: Queres engadir un comentario á seguinte conversa sobre a entrada no
@@ -1763,7 +1777,7 @@ gl:
       e outros %{partners}.
     partners_corpmembers: membros corporativos da OSMF
     partners_partners: socios
-    tou: Termos de uso
+    tou: termos de uso
     nothing_to_preview: Non hai nada que previsualizar.
     help: Axuda
     about: Acerca de
@@ -2072,9 +2086,13 @@ gl:
         failure: Non foi posíbel actualizar as preferencias.
       update_success_flash:
         message: Preferencias actualizadas.
+      navigation:
+        preferences: Preferencias
+        advanced_preferences: Preferencias avanzadas
     basic_preferences:
       show:
         title: As miñas preferencias
+        preferred_language: Lingua preferida
         preferred_site_color_scheme: Esquema de cores preferido para o sitio web
         site_color_schemes:
           auto: Automático
@@ -2085,7 +2103,11 @@ gl:
           auto: Automático
           light: Claro
           dark: Escuro
-        save: Actualizar preferencias
+        save: Actualizar as preferencias
+    advanced_preferences:
+      show:
+        title: As miñas preferencias avanzadas
+        save: Actualizar as preferencias
   profiles:
     show:
       title: Editar perfil
@@ -2094,6 +2116,7 @@ gl:
       image: Imaxe
       gravatar:
         gravatar: Empregar o Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gl:Gravatar
         what_is_gravatar: Que é o Gravatar?
         disabled: Gravatar foi desactivado.
         enabled: A visualización do teu Gravatar foi activada.
@@ -2109,6 +2132,10 @@ gl:
       show: Amosar
       delete: Borrar
       undelete: Desfacer o borrado
+      social_links:
+        title: Ligazóns de perfil social
+        remove: Eliminar
+        add: Engadir a ligazón social
     update:
       success: Perfil actualizado.
       failure: Non foi posíbel actualizar o perfil.
@@ -2129,7 +2156,7 @@ gl:
       login_button: Acceder ao sistema
       with external: ou accede cun servizo de terceiros
       or: ou
-      auth failure: Sentímolo, non puido acceder ó sistema con eses datos.
+      auth failure: Sentímolo, non se puido acceder ó sistema con eses datos.
     destroy:
       title: Pechar a sesión
       heading: Saír do OpenStreetMap
@@ -2247,15 +2274,78 @@ gl:
         native_link: versión en galego
         mapping_link: comezar a contribuír
       legal_babble:
-        licensing_1_odc_odbl: Licenza Open Data Commons Open Database
+        lead_1_html: |-
+          O OpenStreetMap fornece datos de mapas abertos para miles de sitios web, aplicacións móbiles e dispositivos.
+          O OpenStreetMap está construído por unha comunidade de persoas coma ti que contribúen e manteñen datos cartográficos sobre estradas, sendeiros, cafetarías, estacións de tren e moitos máis lugares de todo o mundo.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} e %{get_started_mapping_link}!
+          Podes ler máis no %{osm_blog_link} e subscríbete a %{weeklyosm_link}.
+          Atopa outros cartógrafos na túa %{osm_community_link} local.
+          Apoia o proxecto uníndote á %{osm_foundation_link} e %{making_donation_link}.
+        lead_2_learn_more_about_osm: Aprende máis sobre o OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/Gl:Acerca_do_OpenStreetMap
+        lead_2_get_started_mapping: comeza a cartografar
+        lead_2_osm_blog: blog do OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/?lang=gl
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: comunidade OSM
+        lead_2_osm_foundation: Fundación OSM
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: facendo unha doazón
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: Licenzas do OpenStreetMap
+        licensing_1_html: |-
+          O OpenStreetMap son datos %{open}, licenciados baixo a
+          %{odc_odbl_link} (ODbL) pola %{osm_foundation_link} (OSMF). En resumo:
+        licensing_1_open: abertos
+        licensing_1_odc_odbl: licenza Open Data Commons Open Database
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: Fundación OpenStreetMap
-        licensing_4_osmf_license_page: páxina da licenza OSMF
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: |-
+          Es libre de copiar, distribuír, transmitir e adaptar os nosos datos,
+          na medida en que acredites o OpenStreetMap e mailos seus
+          colaboradores. Se alteras ou constrúes a partir dos nosos datos, terás
+          que distribuír o resultado baixo a mesma licenza. O
+          %{legal_code_link} explica os teus dereitos e responsabilidades.
+        licensing_2_legal_code: código legal completo en Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: A nosa documentación está licenciada baixo a %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: licenza Creative Commons recoñecemento
+          compartir igual 2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.gl
+        licensing_4_html: Le máis sobre o uso dos nosos datos na %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: páxina de licenza da OSMF
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: De que xeito acreditar o OpenStreetMap
-        credit_1_html: 'Aló onde uses datos de OpenStreetMap, debes facer dúas cousas:'
+        credit_1_html: 'Aló onde uses datos do OpenStreetMap, debes facer dúas cousas:'
+        credit_2_attribution: Proporciona crédito ao OpenStreetMap mostrando o noso
+          aviso de recoñecemento.
         credit_2_license: Aclara que os datos están dispoñibles baixo a licenza Open
           Database.
-        credit_3_v2025_attribution_guidelines: directrices de atribución
-        credit_4_v2025_this_copyright_page: esta páxina dos dereitos de autoría
+        credit_3_v2025_html: |-
+          Para o aviso de recoñecemento, temos diferentes %{requirements_on_how_displayed_link}, dependendo de como esteas a usar os nosos datos.
+          Por exemplo, aplícanse diferentes regras sobre como mostrar o aviso de recoñecemento dependendo de se creaches un mapa navegable, un mapa impreso ou unha imaxe estática.
+          Podes atopar máis detalles na sección %{attribution_guidelines_link} dos %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: requisitos sobre como se debe
+          mostrar isto
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_attribution_guidelines: directrices de recoñecemento
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: requisitos de licenza
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: |-
+          En xeral,
+          para deixares claro que os datos están dispoñibles baixo a licenza Open
+          Database, podes deixar unha ligazón a %{this_copyright_page_link}.
+          Se estás a distribuír no OSM en forma
+          de datos, nomea e liga directamente ás licenzas. En medios
+          nos que non é posible incluír ligazóns (por exemplo, obras impresas),
+          inclúe o enderezo URL completo na páxina; por exemplo, %{copyright_page_url}.
+        credit_4_v2025_this_copyright_page: esta páxina de dereitos de autoría
+        credit_5_v2025_html: 'Neste exemplo, os créditos aparecen no recuncho do mapa:'
         attribution_example:
           alt: Exemplo de como recoñecer o OpenStreetMap nunha páxina web
           title: Exemplo de recoñecemento
@@ -2273,13 +2363,21 @@ gl:
         infringement_2_1_online_filing_page: páxina de presentación en liña
         trademarks_title: Marcas rexistradas
         trademarks_1_1_html: |-
-          OpenStreetMap, o logotipo da lupa e State of the Map son marcas rexistradas da
+          O OpenStreetMap, o logotipo da lupa e State of the Map son marcas rexistradas da
           Fundación OpenStreetMap. Se tes dúbidas sobre o teu uso das marcas, consulta a nosa
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: política de marcas rexistradas
+        services_title_html: Servizos adicionais
+        services_1_html: |-
+          Malia que os datos do OpenStreetMap son libres, non podemos ofrecer unha
+          API de mapas ou mosaicos de mapas gratuítos para terceiros.
+          Consulta a nosa %{api_usage_policy_link}, a nosa %{tile_usage_policy_link} e a nosa %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: política de uso da API
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: política de uso de mosaicos
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         services_1_nominatim_usage_policy: política de uso de Nominatim
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Os nosos colaboradores
         contributors_intro_html: |-
           Os nosos colaboradores son milleiros de persoas. Tamén incluímos
@@ -2291,6 +2389,7 @@ gl:
         contributors_at_austria: Austria
         contributors_at_stadt_wien: Stadt Wien
         contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.gl
         contributors_at_land_vorarlberg: o estado Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT con emendas
         contributors_au_credit_html: |-
@@ -2300,6 +2399,7 @@ gl:
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: licenza Creative Commons recoñecemento 4.0 international
           (CC BY 4.0)
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.gl
         contributors_ca_credit_html: |-
           %{canada}: Contén datos de
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2339,6 +2439,7 @@ gl:
         contributors_nz_new_zealand: Nova Zelandia
         contributors_nz_linz_data_service: servizo de datos LINZ
         contributors_nz_cc_by: CC BY 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.gl
         contributors_rs_credit_html: |-
           %{serbia}: Contén datos da %{rgz_link} e o %{open_data_portal}
           (información pública de Serbia), 2018.
@@ -2359,6 +2460,7 @@ gl:
         contributors_es_spain: España
         contributors_es_ign: IGN
         contributors_es_cc_by: CC BY 4.0
+        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.gl
         contributors_za_credit_html: '%{south_africa}: Contén datos procedentes da
           %{ngi_link}, dereitos de autoría reservados ao estado.'
         contributors_za_south_africa: Suráfrica
@@ -2504,11 +2606,13 @@ gl:
         bicycle: Bicicleta
         car: Coche
         foot: A pé
+      providers:
+        description: Servizos de indicacións
     welcome:
-      title: Reciba a nosa benvida!
-      introduction: Dámoslle a benvida ó OpenStreetMap, o mapa do mundo libre e editábel.
-        Agora que está rexistrado, xa pode comezar a cartografar. Velaquí hai unha
-        guía rápida das cousas máis importantes que precisa saber.
+      title: Recibe a nosa benvida!
+      introduction: Dámosche a benvida ó OpenStreetMap, o mapa do mundo libre e editábel.
+        Agora que completaches o rexistro, xa podes comezar a cartografar. Velaquí
+        hai unha guía rápida das cousas máis importantes que precisas saber.
       whats_on_the_map:
         title: Que hai no mapa
         on_the_map_html: |-
@@ -2551,7 +2655,11 @@ gl:
       title: Non tes tempo para editar? Engade unha nota!
       para_1: Se soamente queres corrixir unha pequena cousa e non tes tempo de te
         rexistrares e aprenderes a editar, engadir unha nota é moi doado.
-      the_map: ó mapa
+      para_2_html: |-
+        Preme na %{note_icon} ou na mesma icona no %{map_link}.
+        Isto ha engadir un marcador ó mapa que podes mover arrastrando.
+        Engade a túa mensaxe, preme en "Gardar" e outras persoas pescudarán iso.
+      the_map: mapa
     communities:
       title: Comunidades
       lede_text: "Persoas de todo o mundo contribúen ou usan OpenStreetMap.\nAínda
@@ -2574,6 +2682,10 @@ gl:
           De feito, moitos grupos existen con moito éxito como reunión informal de persoas ou como grupo
           comunitario. Calquera pode configurar ou unirse a estes grupos. Le máis na %{communities_wiki_link}.
         communities_wiki: páxina wiki sobre as comunidades
+  social_links:
+    show:
+      one: Outra
+      other: Outras
   map_keys:
     show:
       entries:
@@ -2664,6 +2776,7 @@ gl:
         bicycle_parking: Aparcadoiro de bicicletas
         bicycle_parking_small: Aparcadoiro de bicicletas pequeno
         toilets: Servizos
+      see_external_legend: Ver a lenda do mapa externo
   traces:
     visibility:
       private: Privado (só compartido como anónimo; puntos desordenados)
@@ -2953,7 +3066,7 @@ gl:
       blocks by me: Bloqueos efectuados
       create_mute: Silenciar este usuario
       destroy_mute: Deixar de silenciar este usuario
-      edit_profile: Editar perfil
+      edit_profile: Editar o perfil
       send message: Enviar unha mensaxe
       diary: Diario
       edits: Edicións
@@ -2964,6 +3077,9 @@ gl:
       mapper since: 'Cartógrafo dende:'
       last map edit: 'Última edición do mapa:'
       home location: Lugar de residencia
+      company: Empresa
+      company tooltip: A afiliación á empresa foi declarada pola persoa e non foi
+        verificada
       no activity yet: Aínda non hai actividade
       uid: 'Identificador de usuario:'
       ct status: 'Termos do colaborador:'
@@ -2999,8 +3115,11 @@ gl:
       delete_user: Eliminar este usuario
       confirm: Confirmar
       report: Denunciar este usuario
+      contributions:
+        one: '%{count} contribución no último ano'
+        other: '%{count} contribucións no último ano'
     go_public:
-      flash success: Tódalas túas edicións son públicas e agora está autorizado a
+      flash success: Tódalas túas edicións son públicas e agora estás autorizado a
         editar.
     issued_blocks:
       show:
@@ -3381,7 +3500,10 @@ gl:
       queryfeature_disabled_tooltip: Achegar para consultar os elementos
       embed_html_disabled: A incorporación de HTML non está dispoñible para esta capa
         de mapa
-    edit_help: Desplaza o mapa e achégao na localización que queiras editar; logo,
+    profile:
+      social_link_n: Ligazóns de perfil social %{n}
+      remove_social_link_n: Eliminar a ligazón de perfil social %{n}
+    edit_help: Despraza o mapa e achégao á localización que queiras editar; logo,
       preme aquí.
     directions:
       distance_in_units:
@@ -3483,6 +3605,7 @@ gl:
       show_address: Amosar enderezo
       query_features: Consultar elementos
       centre_map: Centrar o mapa aquí
+      scroll_to_changeset: Desprazarse ata o conxunto de cambios
     home:
       marker_title: Localización da miña casa
       not_set: A localización da casa non está configurada para a túa conta
