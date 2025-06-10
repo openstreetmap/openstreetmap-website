@@ -17,7 +17,7 @@ class UserLocationChangeTest < ApplicationSystemTestCase
 
     visit profile_path
 
-    fill_in "Home location name", :with => "Test Location"
+    fill_in "Home Location Name", :with => "Test Location"
     click_on "Update Profile"
 
     assert_text "Profile updated"
