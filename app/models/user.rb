@@ -463,7 +463,7 @@ class User < ApplicationRecord
 
   ##
   # check if this user has a gravatar and set the user pref is true
-  def gravatar_enable
+  def gravatar_enable!
     # code from example https://en.gravatar.com/site/implement/images/ruby/
     return false if avatar.attached?
 

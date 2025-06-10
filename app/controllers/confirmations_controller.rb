@@ -28,7 +28,7 @@ class ConfirmationsController < ApplicationController
       else
         user.activate
         user.email_valid = true
-        flash[:notice] = gravatar_status_message(user) if user.gravatar_enable
+        flash[:notice] = gravatar_status_message(user) if user.gravatar_enable!
         user.save!
         cookies.delete :_osm_anonymous_notes_count
         referer = safe_referer(params[:referer]) if params[:referer]
@@ -73,7 +73,7 @@ class ConfirmationsController < ApplicationController
         current_user.email = current_user.new_email
         current_user.new_email = nil
         current_user.email_valid = true
-        gravatar_enabled = current_user.gravatar_enable
+        gravatar_enabled = current_user.gravatar_enable!
         if current_user.save
           flash[:notice] = if gravatar_enabled
                              "#{t('.success')} #{gravatar_status_message(current_user)}"
