@@ -91,6 +91,21 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Zoom in to see"
   end
 
+  test "language selector should exist when logged out" do
+    visit "/"
+    assert_selector ".language-change-trigger", :visible => "all"
+    AVAILABLE_LANGUAGES.each do |locale|
+      assert_selector "option[value='#{locale[:code]}']", :visible => "all"
+    end
+  end
+
+  test "language selector should not exist when logged in" do
+    sign_in_as(create(:user))
+
+    visit "/"
+    assert_no_selector ".language-change-trigger", :visible => "all"
+  end
+
   private
 
   def check_control_tooltips_on_low_zoom(locator)
