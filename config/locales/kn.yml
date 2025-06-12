@@ -6,6 +6,7 @@
 # Author: Anzx
 # Author: Nayvik
 # Author: Omshivaprakash
+# Author: Prnhdl
 # Author: Shankar
 # Author: Srividyacb
 # Author: VASANTH S.N.
@@ -35,10 +36,26 @@ kn:
       oauth2_application:
         create: ನೊಂದಾಯಿಸಿರಿ
         update: ನವೀಕರಿಸಿ
+      redaction:
+        update: ಸಂಪಾದನೆಯನ್ನು ಉಳಿಸಿ
       trace:
         create: ಅಪ್ಲೋಡ್
         update: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
+      user_block:
+        create: ಬ್ಲಾಕ್ ರಚಿಸಿ
+        update: ಬ್ಲಾಕ್ ಅನ್ನು ನವೀಕರಿಸಿ
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ನಿಮ್ಮ ಬಳಕೆದಾರ ಗುರುತು ಸಂಖ್ಯೆ n ಆಗದ ಹೊರತು ಬಳಕೆದಾರ_n
+          ಆಗಲು ಸಾಧ್ಯವಿಲ್ಲ
+      models:
+        user_mute:
+          is_already_muted: ಈಗಾಗಲೇ ಮ್ಯೂಟ್ ಆಗಿದೆ
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL http:// ಅಥವಾ https:// ನೊಂದಿಗೆ ಪ್ರಾರಂಭವಾಗಬೇಕು.
     models:
       acl: ಪ್ರವೇಶ ನಿಯಂತ್ರಣ ಸೂಚಿ
       changeset: ಬದಲಾವಣೆಗಳು
@@ -47,9 +64,12 @@ kn:
       diary_comment: ಡೈರಿ ಅನಿಸಿಕೆ
       diary_entry: ಡೈರಿಯನ್ನು ಬರೆ
       friend: ಗೆಳೆಯ
+      issue: ಸಮಸ್ಯೆ
       language: ಭಾಷೆ
       message: ಸಂದೇಶ
       node: ನೋಡ್
+      node_tag: ನೋಡ್ ಟ್ಯಾಗ್
+      note: ಟಿಪ್ಪಣಿ
       old_node: ‍ಹಳೆಯ ನೋಡ್
       old_node_tag: ಹಳೆಯ ನೊಡ್ ನ ಭಾಗ
       old_relation: ಹಿಂದಿನ ಸಂಬಂಧ
@@ -60,16 +80,29 @@ kn:
       old_way_tag: ಹಳೆಯ ದಾರಿಯ ಟ್ಯಾಗ್
       relation: ಸಂಬಂಧ
       relation_member: ಸಂಬಂಧದ ಸದಸ್ಯ
+      relation_tag: ಸಂಬಂಧದ ಟ್ಯಾಗ್
+      report: ವರದಿ
       session: ಅಧಿವೇಶನ
       trace: ರೇಖಿಸು
       tracepoint: ರೇಖಾ ಬಿಂದು
+      tracetag: ಜಾಡು ಟ್ಯಾಗ್
       user: ಬಳಕೆದಾರ
       user_preference: ಬಳಕೆದಾರನ ಆದ್ಯತೆ
       user_token: ಬಳಕೆದಾರನ ಗುರುತು
       way: ದಾರಿ
+      way_node: ವೇ ನೋಡ್
+      way_tag: ಮಾರ್ಗ ಟ್ಯಾಗ್
     attributes:
       client_application:
+        name: ಹೆಸರು (ಅಗತ್ಯವಿದೆ)
+        url: ಮುಖ್ಯ ಅಪ್ಲಿಕೇಶನ್ URL (ಅಗತ್ಯವಿದೆ)
+        callback_url: ಕಾಲ್‌ಬ್ಯಾಕ್ URL
+        support_url: ಬೆಂಬಲ URL
+        allow_read_prefs: ಅವರ ಬಳಕೆದಾರರ ಆದ್ಯತೆಗಳನ್ನು ಓದಿ
+        allow_write_prefs: ಅವರ ಬಳಕೆದಾರ ಆದ್ಯತೆಗಳನ್ನು ಮಾರ್ಪಡಿಸಿ
+        allow_write_diary: ದಿನಚರಿಯ ನಮೂದುಗಳು ಮತ್ತು ಕಾಮೆಂಟ್ಗಳನ್ನು ರಚಿಸಿ
         allow_write_api: ನಕ್ಷೆಯನ್ನು ಮಾರ್ಪಡಿಸಿ
+        allow_write_changeset_comments: ಬದಲಾವಣೆಗಳ ಬಗ್ಗೆ ಕಾಮೆಂಟ್ ಮಾಡಿ
         allow_read_gpx: ಅವರ ಖಾಸಗಿ ಜಿಪಿಎಸ್ ಟ್ರೇಸ್‌ಗಳನ್ನು ಓದಿ
         allow_write_gpx: GPS ಟ್ರೇಸ್‌ಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ
         allow_write_notes: ಟಿಪ್ಪಣಿಗಳನ್ನು ಮಾರ್ಪಡಿಸಿ
@@ -78,11 +111,15 @@ kn:
       diary_entry:
         user: ಬಳಕೆದಾರ
         title: ವಿಷಯ
+        body: ಶರೀರ
         latitude: ಅಕ್ಷಾಂಶ
         longitude: ರೇಖಾಂಶ
         language_code: ಭಾಷೆ
       doorkeeper/application:
         name: ಹೆಸರು
+        redirect_uri: URI ಗಳನ್ನು ಮರುನಿರ್ದೇಶಿಸಿ
+        confidential: ಗೌಪ್ಯವಾದ ಅರ್ಜಿಯೇ?
+        scopes: ಅನುಮತಿಗಳು
       friend:
         user: ಬಳಕೆದಾರ
         friend: ಗೆಳೆಯ
@@ -95,7 +132,7 @@ kn:
         longitude: ರೇಖಾಂಶ
         public: ಸಾರ್ವಜನಿಕ
         description: ವಿವರಣೆ
-        gpx_file: GPX ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ
+        gpx_file: ಜಿಪಿಎಸ್ ಟ್ರೇಸ್ ಕಡತವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ
         visibility: ಗೋಚರತೆ
         tagstring: ಟ್ಯಾಗ್‌ಗಳು
       message:
@@ -106,17 +143,34 @@ kn:
       redaction:
         title: ಶೀರ್ಷಿಕೆ
         description: ವಿವರಣೆ
+      report:
+        category: ನಿಮ್ಮ ವರದಿಗಾಗಿ ಒಂದು ಕಾರಣವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ
+        details: ದಯವಿಟ್ಟು ಸಮಸ್ಯೆಯ ಕುರಿತು ಇನ್ನಷ್ಟು ವಿವರಗಳನ್ನು ನೀಡಿ (ಅಗತ್ಯವಿದೆ).
       user:
+        auth_provider: ದೃಢೀಕರಣ ಒದಗಿಸುವವರು
+        auth_uid: ದೃಢೀಕರಣ ಯುಐಡಿ
         email: ಇ-ಅಂಚೆ
         new_email: ಹೊಸ ಇ-ಅಂಚೆ ವಿಳಾಸ
         active: ಸಕ್ರಿಯ
         display_name: ಹೆಸರನ್ನು ಪ್ರದರ್ಶಿಸು
         description: ಪ್ರೊಫೈಲ್ ವಿವರ
+        company: ಕಂಪನಿ
         home_lat: ಅಕ್ಷಾಂಶ
         home_lon: ರೇಖಾಂಶ
+        home_location_name: ಮನೆ ಸ್ಥಳದ ಹೆಸರು
         languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
+        preferred_editor: ಆದ್ಯತೆಯ ಸಂಪಾದಕ
         pass_crypt: ಪ್ರವೇಶಪದ
         pass_crypt_confirmation: ಪ್ರವೇಶಪದವನ್ನು ಧೃಡೀಕರಿಸಿ
+    help:
+      doorkeeper/application:
+        redirect_uri: ಪ್ರತಿ URI ಗೆ ಒಂದು ಸಾಲನ್ನು ಬಳಸಿ
+      trace:
+        tagstring: ಅಲ್ಪವಿರಾಮದಿಂದ ಬೇರ್ಪಡಿಸಲಾಗಿದೆ
+      user_block:
+        needs_view: ಈ ನಿರ್ಬಂಧವನ್ನು ತೆರವುಗೊಳಿಸುವ ಮೊದಲು ಬಳಕೆದಾರರು ಲಾಗಿನ್ ಆಗಬೇಕೇ?
+      user:
+        new_email: (ಸಾರ್ವಜನಿಕವಾಗಿ ಎಂದಿಗೂ ಪ್ರದರ್ಶಿಸಲಾಗುವುದಿಲ್ಲ)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -175,12 +229,16 @@ kn:
       comment:
         opened_at_html: ಸೃಷ್ಟಿಸಲಾಗಿದೆ %{when}
         opened_at_by_html: ಸೃಷ್ಟಿಸಲಾಗಿದೆ %{when} ಇವರಿಂದ %{user}
+        commented_at_by_html: '%{user} ಅವರಿಂದ %{when} ನವೀಕರಿಸಲಾಗಿದೆ'
         closed_at_html: ಪರಿಹರಿಸಲಾಗಿದೆ %{when}
         closed_at_by_html: ಪರಿಹರಿಸಲಾಗಿದೆ %{when} ಇವರಿಂದ %{user}
+        reopened_at_by_html: '%{user} ಅವರಿಂದ %{when} ಅನ್ನು ಪುನಃ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ'
       rss:
         title: ಓಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಟಿಪ್ಪಣಿಗಳು
+        description_all: ವರದಿ ಮಾಡಲಾದ, ಟಿಪ್ಪಣಿ ಮಾಡಲಾದ ಅಥವಾ ಮುಚ್ಚಿದ ಟಿಪ್ಪಣಿಗಳ ಪಟ್ಟಿ
         description_area: '[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] ನಿಮ್ಮ
           ಸ್ಥಳದಲ್ಲಿ ಮುಗಿಸಿದ ಅಥವಾ ವರದಿಮಾಡಿದ, ಟಿಪ್ಪಣಿಗಳ ಪಟ್ಟಿ'
+        description_item: ಟಿಪ್ಪಣಿ %{id} ಗಾಗಿ ಒಂದು rss ಫೀಡ್
         opened: ಹೊಸ ಟಿಪ್ಪಣಿ (near %{place})
         commented: ಹೊಸ ಅಭಿಪ್ರಾಯ (near %{place})
         closed: '%{place} ಹತ್ತಿರ ಮುಗಿಸಿದ ಪಟ್ಟಿ'

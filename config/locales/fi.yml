@@ -12,6 +12,7 @@
 # Author: Crt
 # Author: Daeron
 # Author: Espeox
+# Author: Hdicu
 # Author: Jnovikov
 # Author: Joquliina
 # Author: Kesäpäivä
@@ -57,6 +58,9 @@
 # Author: ZeiP
 ---
 fi:
+  date:
+    formats:
+      heatmap: '%-d. %B'
   time:
     formats:
       friendly: '%e. %Bta %Y klo %H.%M'
@@ -193,8 +197,10 @@ fi:
         active: Aktivoitu
         display_name: Näyttönimi
         description: Henkilökuvaus
+        company: Yritys
         home_lat: Leveyspiiri
         home_lon: Pituuspiiri
+        home_location_name: Kotipaikan nimi
         languages: Kielet
         preferred_editor: Ensisijainen muokkausohjelma
         pass_crypt: Salasana
@@ -437,7 +443,7 @@ fi:
         way: Polku
         relation: Relaatio
     containing_relation:
-      entry_role_html: Relaatio %{relation_name} (rooli %{relation_role})
+      entry_role_html: '%{relation_name} (rooli %{relation_role})'
     not_found:
       title: Ei löytynyt
     timeout:
@@ -460,6 +466,7 @@ fi:
     start_rjs:
       feature_warning: Ladataan %{num_features} ominaisuutta, mikä saatta hidastaa
         tai kaataa verkkoselaimen. Haluatko varmasti näyttää nämä tiedot?
+      feature_error: 'Ominaisuuksia ei voi ladata: %{message}'
       load_data: Lataa tiedot
       loading: Ladataan tietoja...
     tag_details:
@@ -487,6 +494,9 @@ fi:
         title_html: Viivan %{name} historia
       relation:
         title_html: Relaation %{name} historia
+  nodes:
+    not_found_message:
+      sorry: 'Valitettavasti solmua #%{id} ei löydy'
   changeset_comments:
     feeds:
       comment:
@@ -615,6 +625,7 @@ fi:
     diary_entry:
       posted_by_html: Käyttäjä %{link_user} kirjoitti tämän %{created} kielellä %{language_link}.
       updated_at_html: Päivitetty viimeksi %{updated}.
+      full_entry: Katso koko merkintä
       comment_link: Kommentoi tätä kirjoitusta
       reply_link: Lähetä viesti tekijälle
       comment_count:
@@ -652,14 +663,23 @@ fi:
       heading: Lopetetaanko seuraavan päiväkirjakeskustelun tilaaminen?
       button: Lopeta keskustelun tilaaminen
     navigation:
+      in_language: Päiväkirjamerkinnät kielellä %{language}
       my_diary: Päiväkirjani
       new: Lisää päiväkirjamerkintä
       new_title: Kirjoita uusi merkintä käyttäjän päiväkirjaani
+    profile_diaries:
+      latest_diaries: Uusimmat päiväkirjat
   doorkeeper:
     flash:
       applications:
         create:
           notice: Sovellus rekisteröity.
+    scopes:
+      address: Näytä fyysinen osoitteesi
+      email: Näytä sähköpostiosoitteesi
+      openid: Autentikoi tilisi
+      phone: Näytä puhelinnumerosi
+      profile: Näytä profiilisi tiedot
   errors:
     contact:
       contact: Ota yhteyttä
@@ -1016,8 +1036,10 @@ fi:
           wreck: Hylky
           "yes": historiallinen paikka
         information:
+          guidepost: Tienviitta
           map: Kartta
           office: Matkailuneuvonta
+          sign: Infokyltti
         junction:
           "yes": Risteys
         landuse:
@@ -1089,6 +1111,8 @@ fi:
           track: Juoksurata
           water_park: Vesipuisto
           "yes": Vapaa-aika
+        lock:
+          "yes": Lukko
         man_made:
           adit: Suuaukko
           advertising: Mainonta
@@ -1426,6 +1450,11 @@ fi:
           building_passage: Läpikäytävä
           culvert: Siltarumpu
           "yes": Tunneli
+        water:
+          lake: Järvi
+          pond: Lampi
+          reservoir: Tekojärvi
+          lagoon: Laguuni
         waterway:
           artificial: Kanava
           boatyard: Telakka
@@ -1446,19 +1475,31 @@ fi:
           weir: Pato
           "yes": Vesistö
       admin_levels:
-        level2: Valtion raja
-        level3: Alueraja
-        level4: Osavaltion raja
-        level5: Alueen raja
-        level6: Maakunnan raja
-        level7: Kunnanraja
-        level8: Kunnan raja
-        level9: Kylän raja
-        level10: Asuinalueen raja
-        level11: Naapuruston raja
+        level2: Kansainvälinen raja
+        level3: Hallinnollinen raja (taso 3)
+        level4: Hallinnollinen raja (taso 4)
+        level5: Hallinnollinen raja (taso 5)
+        level6: Hallinnollinen raja (taso 6)
+        level7: Hallinnollinen raja (taso 7)
+        level8: Hallinnollinen raja (taso 8)
+        level9: Hallinnollinen raja (taso 9)
+        level10: Hallinnollinen raja (taso 10)
+        level11: Hallinnollinen raja (taso 11)
       border_types:
+        borough: Kaupunkinosan raja
+        city: Kaupungin raja
+        county: Maakunnan raja
+        municipality: Kunnan raja
+        municipi: Kunnan raja
+        município: Kunnan raja
         nation: Kansainvälinen raja
         national: Kansainvälinen raja
+        neighbourhood: Naapuruston raja
+        região: Alueen raja
+        region: Alueen raja
+        state: Osavaltion raja
+        town: Kaupungin raja
+        village: Kylän raja
   searches:
     show:
       title:
@@ -1474,7 +1515,10 @@ fi:
       time: Matka-aika
       ascend: Nousu
       descend: Lasku
+      button_km: km
+      button_mi: mailia
       download: Lataa reitti GeoJSON-muodossa
+      filename: reitti
       directions_courtesy_html: Reittiohjeet tarjoaa %{link}
   issues:
     index:
@@ -1499,6 +1543,9 @@ fi:
         one: '%{count} ilmoitus'
         other: '%{count} ilmiantoa'
       reported_item: Ilmiannettu kohde
+      states:
+        open: Avoin
+        resolved: Ratkaistu
     show:
       reports:
         one: '%{count} ilmianto'
@@ -1530,6 +1577,9 @@ fi:
       reportable_title:
         diary_comment: '%{entry_title}, kommenttitunnus %{comment_id}'
         note: Karttailmoitustunnus %{note_id}
+    reporters:
+      reporters:
+        more_reporters: ja %{count} lisää
   issue_comments:
     create:
       comment_created: Kommentti jätetty
@@ -1591,6 +1641,7 @@ fi:
     partners_corpmembers: OSM-säätiön yritysjäsenet
     partners_partners: kumppanimme
     tou: Käyttöehdot
+    nothing_to_preview: Ei mitään esikatseltavaa
     help: Ohje
     about: Tietoja
     copyright: Tekijänoikeudet
@@ -1624,6 +1675,14 @@ fi:
       see_their_profile_html: Tutustu hänen käyttäjäsivuunsa osoitteessa %{userurl}.
       follow_them: Seuraa häntä takaisin osoitteessa %{followurl}.
       follow_them_html: Seuraa häntä takaisin osoitteessa %{followurl}.
+    gpx_details:
+      details: 'Tiedostosi tiedot:'
+      filename: Tiedostonnimi
+      url: URL
+      description: Kuvaus
+      tags: Tagit
+      total_points: Pisteiden kokonaismäärä
+      imported_points: Tuotujen pisteiden määrä
     gpx_failure:
       hi: Hei %{to_user}!
       failed_to_import: 'epäonnistui tuoda. Tässä virhe:'
@@ -1830,6 +1889,8 @@ fi:
         failure: Asetuksia ei voida päivittää.
       update_success_flash:
         message: Asetukset päivitetty.
+      navigation:
+        preferences: Asetukset
     basic_preferences:
       show:
         title: Asetukset
@@ -1904,19 +1965,30 @@ fi:
       image: Kuva
       alt: Vaihtoehtoinen teksti
       url: URL
+      codeblock: Koodilohko
     richtext_field:
       edit: Muokkaa
       preview: Esikatsele
+      help: Tuki
     pagination:
+      changeset_comments:
+        older: Vanhemmat kommentit
+        newer: Uudemmat kommentit
       diary_comments:
         older: Vanhemmat kommentit
         newer: Uudemmat kommentit
       diary_entries:
         older: Vanhempia...
         newer: Uudempia...
+      issues:
+        older: Vanhemmat ongelmat
+        newer: Uudemmat ongelmat
       traces:
         older: Vanhat jäljet
         newer: Uudet jäljet
+      user_blocks:
+        older: Vanhemmat estot
+        newer: Uudemmat estot
       users:
         older: Vanhemmat käyttäjät
         newer: Uudemmat käyttäjät
@@ -2265,6 +2337,7 @@ fi:
         editor: Muokkain
         node: Piste
         way: viiva
+        tag: tagi
       rules:
         title: Pelisäännöt
         imports: Tuonnit
@@ -2274,6 +2347,7 @@ fi:
       title: Eikö muokkaaminen innosta? Ilmoita karttavirheistä!
       para_1: Jos huomaat kartalla virheen, muttet halua korjata sitä itse, tee siitä
         karttavirheilmoitus.
+      the_map: kartta
     communities:
       title: Yhteisöt
       lede_text: |-
@@ -2580,6 +2654,7 @@ fi:
       delete: Poista
       confirm_delete: Poista tämä sovellus?
       client_id: Asiakastunnus
+      client_secret: Asiakkan avain
       client_secret_warning: Varmista, että tallennat tämän salaisuuden - et näe sitä
         enää uudelleen
       permissions: Oikeudet
@@ -2670,6 +2745,7 @@ fi:
       mapper since: 'Rekisteröitynyt:'
       last map edit: 'Viimeisin karttamuokkaus:'
       home location: Kotipaikka
+      company: Yritys
       no activity yet: Ei vielä toimintaa
       uid: 'Käyttäjätunnus:'
       ct status: 'Osallistumisehdot:'

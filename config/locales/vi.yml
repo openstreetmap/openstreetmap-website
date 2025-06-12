@@ -23,6 +23,7 @@
 # Author: Nguyễn Mạnh An
 # Author: Ninomax
 # Author: Phjtieudoc
+# Author: Quangquy322
 # Author: Ruila
 # Author: Trần Nguyễn Minh Huy
 # Author: Trọng Đặng
@@ -167,8 +168,10 @@ vi:
         active: Tích cực
         display_name: Tên Hiển thị
         description: Miêu tả trong Hồ sơ
+        company: Công ty
         home_lat: Vĩ độ
         home_lon: Kinh độ
+        home_location_name: Tên Địa điểm Nhà
         languages: Ngôn ngữ Ưu tiên
         preferred_editor: Trình vẽ Ưa thích
         pass_crypt: Mật khẩu
@@ -526,6 +529,8 @@ vi:
       no_more: Không tìm thấy thêm bộ thay đổi.
       no_more_area: Không có thêm bộ thay đổi trong khu vực này.
       no_more_user: Không có thêm bộ thay đổi bởi người dùng này.
+      older_changesets: Các Bộ thay đổi Cũ hơn
+      newer_changesets: Các Bộ thay đổi Mới hơn
       feed:
         title: Bộ thay đổi %{id}
         title_comment: Bộ thay đổi %{id} – %{comment}
@@ -639,6 +644,7 @@ vi:
     diary_entry:
       posted_by_html: Do %{link_user} đăng vào %{created} bằng %{language_link}.
       updated_at_html: Cập nhật lần cuối cùng vào %{updated}.
+      full_entry: Xem mục đầy đủ
       comment_link: Nhận xét về mục này
       reply_link: Nhắn tin cho tác giả
       comment_count:
@@ -674,9 +680,14 @@ vi:
       heading: Ngừng theo dõi cuộc thảo luận về mục nhật ký sau đây?
       button: Ngừng theo dõi cuộc thảo luận
     navigation:
+      in_language: Các Mục Nhật ký trong %{language}
       my_diary: Nhật ký của Tôi
       new: Mục nhật ký mới
       new_title: Soạn thảo mục mới trong nhật ký của tôi
+    profile_diaries:
+      latest_diaries: Các Mục Nhật ký Gần đây
+      comments:
+        other: '%{count} bình luận'
   diary_comments:
     new:
       heading: Thêm bình luận vào cuộc thảo luận về mục nhật ký sau đây?
@@ -1477,6 +1488,8 @@ vi:
     show:
       title:
         latlon: Nội bộ
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Không tìm thấy kết quả
@@ -1488,6 +1501,8 @@ vi:
       time: Thời gian
       ascend: Lên
       descend: Xuống
+      button_km: km
+      button_mi: dặm
       download: Tải về tuyến đường dưới dạng GeoJSON
       filename: tuyến đường
       directions_courtesy_html: Chỉ đường do %{link} cung cấp
@@ -1551,6 +1566,9 @@ vi:
       reportable_title:
         diary_comment: '%{entry_title}, bình luận #%{comment_id}'
         note: 'Ghi chú #%{note_id}'
+      reportable_heading:
+        note_html: '%{title} tạo ra vào %{datetime_created}, cập nhật vào %{datetime_updated}'
+        user_html: Người dùng %{title} được tạo ra vào %{datetime_created}
     reporters:
       index:
         title: 'Người Báo cáo Vấn đề #%{issue_id}'
@@ -1914,9 +1932,13 @@ vi:
         failure: Không thể cập nhật tùy chỉnh.
       update_success_flash:
         message: Đã cập nhật tùy chỉnh.
+      navigation:
+        preferences: Tùy chọn
+        advanced_preferences: Tùy chỉnh Nâng cao
     basic_preferences:
       show:
         title: Tùy chỉnh
+        preferred_language: Ngôn ngữ Ưu tiên
         preferred_site_color_scheme: Bộ màu Trang Ưa thích
         site_color_schemes:
           auto: Tự động
@@ -1927,6 +1949,10 @@ vi:
           auto: Tự động
           light: Sáng
           dark: Tối
+        save: Cập nhật Tùy chỉnh
+    advanced_preferences:
+      show:
+        title: Tùy chỉnh Nâng cao
         save: Cập nhật Tùy chỉnh
   profiles:
     show:
@@ -1952,6 +1978,10 @@ vi:
       show: Hiện
       delete: Xóa
       undelete: Phục hồi
+      social_links:
+        title: Các Liên kết Hồ sơ Xã hội
+        remove: Xóa
+        add: Thêm Liên kết Xã hội
     update:
       success: Đã cập nhật hồ sơ.
       failure: Không thể cập nhật hồ sơ.
@@ -1959,6 +1989,12 @@ vi:
     new:
       tab_title: Đăng nhập
       login_to_authorize_html: Đăng nhập vào OpenStreetMap để truy cập %{client_app_name}.
+      already_logged_in_html: Bạn đã đăng nhập là %{user}. Việc đăng nhập lại sẽ thay
+        đổi tài khoản hiện tại của bạn.
+      access_another_page: 'Bạn đã đến đây trong việc truy cập một trang khác. Nếu
+        bạn vẫn muốn truy cập trang đó dùng tài khoản hiện tại của bạn, hãy bấm nút
+        bên dưới:'
+      visit_referring_page: Truy cập trang đề cập
       email or username: Địa chỉ Thư điện tử hoặc Tên người dùng
       password: Mật khẩu
       remember: Nhớ tôi
@@ -2076,15 +2112,42 @@ vi:
         native_link: bản dịch tiếng Việt
         mapping_link: bắt đầu vẽ bản đồ
       legal_babble:
+        lead_2_html: |-
+          %{learn_more_about_osm_link} và %{get_started_mapping_link}!
+          Đọc thêm tại %{osm_blog_link} và đăng ký theo dõi %{weeklyosm_link}.
+          Tìm người lập bản đồ khác trong %{osm_community_link} địa phương gần bạn.
+          Ủng hộ dự án bằng cách gia nhập %{osm_foundation_link} và %{making_donation_link}.
+        lead_2_learn_more_about_osm: Tìm hiểu thêm về OpenStreetMap
+        lead_2_get_started_mapping: bắt đầu lập bản đồ
+        lead_2_osm_blog: Blog OpenStreetMap
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_osm_community: cộng đồng OSM
+        lead_2_osm_foundation: Quỹ OSM
+        lead_2_making_donation: quyên góp
+        licensing_title: giấy phép OpenStreetMap
+        licensing_1_html: 'OpenStreetMap là dữ liệu %{open} được phát hành dưới %{odc_odbl_link}
+          (ODbL) bởi %{osm_foundation_link} (OSMF). Tóm tắt:'
+        licensing_1_open: mở
         licensing_1_odc_odbl: Giấy phép Cơ sở dữ liệu Mở của Open Data Commons
         licensing_1_osm_foundation: Quỹ OpenStreetMap
+        licensing_2_html: Bạn được tự do sao chép, phân phối, truyền, và tạo ra các
+          tác phẩm phái sinh từ các dữ liệu của chúng ta, miễn là bạn ghi công OpenStreetMap
+          và những người đóng góp vào nó. Nếu bạn sửa đổi hoặc tạo sản phẩm dựa trên
+          các dữ liệu của chúng tôi, bạn chỉ được phép phân phối kết quả theo cùng
+          giấy phép. %{legal_code_link} đầy đủ giải thích các quyền và trách nhiệm
+          của bạn.
+        licensing_2_legal_code: các điều khoản pháp lý tại Open Data Commons
+        licensing_3_html: Tài liệu của chúng tôi được phát hành dưới %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: giấy phép Creative Commons Ghi công–Chia
+          sẻ tương tự 2.0
         licensing_4_osmf_license_page: trang Giấy phép của Quỹ OSM
         credit_title_html: Cách ghi công OpenStreetMap
         credit_1_html: 'Khi nào bạn sử dụng dữ liệu OpenStreetMap, bạn cần phải tuân
           tho hai quy tắc sau:'
         credit_2_license: Làm rõ rằng dữ liệu được phát hành theo Giấy phép Cơ sở
           dữ liệu Mở.
-        credit_3_v2025_attribution_guidelines: Hướng dẫn ghi công
+        credit_3_v2025_attribution_guidelines: hướng dẫn ghi công
         credit_4_v2025_this_copyright_page: trang bản quyền này
         attribution_example:
           alt: Ví dụ ghi công OpenStreetMap trên một trang Web
@@ -2100,6 +2163,7 @@ vi:
           OpenStreetMap, biểu trưng kính lúp, và State of the Map là các nhãn hiệu do Quỹ OpenStreetMap đăng ký. Nếu bạn có thắc mắc về việc sử dụng các nhãn hiệu, xin vui lòng xem
           %{trademark_policy_link} của chúng tôi.
         trademarks_1_1_trademark_policy: Quy định Nhãn hiệu
+        services_title_html: Dịch vụ bổ sung
         services_1_api_usage_policy: Quy định Sử dụng API
         services_1_tile_usage_policy: Quy định Sử dụng Mảnh bản đồ
         services_1_nominatim_usage_policy: Quy định Sử dụng Nominatim
@@ -2296,6 +2360,8 @@ vi:
         bicycle: Xe đạp
         car: Xe hơi
         foot: Đi bộ
+      providers:
+        description: Dịch vụ chỉ đường
     welcome:
       title: Hoan nghênh!
       introduction: Chào mừng bạn đã đến OpenStreetMap, bản đồ thế giới có dữ liệu
@@ -2343,6 +2409,9 @@ vi:
       title: Không có Thì giờ Sửa đổi? Thêm một Ghi chú!
       para_1: Nếu bạn chỉ muốn sửa một chi tiết nhỏ và không có thì giờ tập sửa đổi,
         bạn có thể thêm một ghi chú dễ dàng.
+      para_2_html: Chỉ việc bấm %{note_icon} hoặc hình này trên %{map_link}. Đinh
+        ghim sẽ được thả trên bản đồ. Kéo ghim vào đúng vị trí, ghi lời miêu tả vấn
+        đề, và bấm “Thêm Ghi chú”. Cộng đồng sẽ cố gắng sửa theo ý của bạn.
       the_map: bản đồ
     communities:
       title: Cộng đồng
@@ -2365,6 +2434,9 @@ vi:
           rất thành công tuy chỉ là cuộc họp mặt thoải mái. Ai có thể tổ chức một
           nhóm cộng đồng bình thường như thế. Để biết thêm chi tiết, xem %{communities_wiki_link}.
         communities_wiki: trang wiki về nhóm người dùng
+  social_links:
+    show:
+      other: Khác
   map_keys:
     show:
       entries:
@@ -2378,6 +2450,7 @@ vi:
         track: Đường mòn
         bridleway: Đường cưỡi ngựa
         cycleway: Đường xe đạp
+        international_bike_route: Tuyến đường xe đạp quốc tế
         national_bike_route: Quốc lộ xe đạp
         regional_bike_route: Xa lộ xe đạp
         local_bike_route: Đường xe đạp địa phương
@@ -2451,6 +2524,7 @@ vi:
         bicycle_rental: Cho thuê xe đạp
         bicycle_parking: Chỗ đậu xe đạp
         toilets: Vệ sinh
+      see_external_legend: Xem chú giải bản đồ bên ngoài
   traces:
     visibility:
       private: Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)
@@ -2583,6 +2657,9 @@ vi:
         title: Đăng nhập qua Wikipedia
         alt: Biểu trưng Wikipedia
     share:
+      share:
+        title: Chia sẻ
+        alt: Biểu tượng Chia sẻ
       email:
         title: Chia sẻ qua Thư điện tử
         alt: Biểu tượng thư điện tử
@@ -2744,6 +2821,10 @@ vi:
       follow: Theo dõi
       mapper since: 'Tham gia:'
       last map edit: 'Sửa đổi bản đồ cuối cùng:'
+      home location: Vị trí nhà
+      company: Công ty
+      company tooltip: Mối liên quan đến công ty được tự giới thiệu và không được
+        xác minh
       no activity yet: Chưa có hoạt động nào
       uid: 'Số người dùng:'
       ct status: 'Điều khoản đóng góp:'
@@ -2779,6 +2860,8 @@ vi:
       delete_user: Xóa Tài khoản Này
       confirm: Xác nhận
       report: Báo cáo Người dùng này
+      contributions:
+        other: Đóng góp %{count} lần trong năm qua
     go_public:
       flash success: Tất cả các sửa đổi của bạn được phát hành công khai, và bạn mới
         được phép sửa đổi.
@@ -3152,6 +3235,9 @@ vi:
       queryfeature_tooltip: Thăm dò yếu tố
       queryfeature_disabled_tooltip: Phóng to để thăm dò yếu tố
       embed_html_disabled: Chức năng nhúng HTML không có sẵn đối với lớp bản đồ này
+    profile:
+      social_link_n: Liên kết Hồ sơ Xã hội %{n}
+      remove_social_link_n: Xóa Liên kết Hồ sơ Xã hội %{n}
     edit_help: Di chuyển bản đồ và phóng to một vị trí mà bạn muốn sửa đổi, rồi nhấn
       chuột vào đây.
     directions:
@@ -3159,6 +3245,9 @@ vi:
         meters:
           m: '%{distance}&nbsp;m'
           km: '%{distance}&nbsp;km'
+        miles:
+          ft: '%{distance}&thinsp;bộ'
+          mi: '%{distance}&nbsp;dặm'
       errors:
         no_route: Không tìm thấy tuyến đường giữa hai địa điểm này.
         no_place: Rất tiếc, không tìm thấy “%{place}”.
@@ -3220,6 +3309,7 @@ vi:
         roundabout_with_exit_ordinal: Tại bùng binh, đi ra tại đường thứ %{exit} tức
           %{name}
         exit_roundabout: Đi ra tại đường %{name}
+        ferry_without_exit: Đi phà %{name}
         unnamed: không tên
         exit_counts:
           first: nhất
@@ -3246,6 +3336,7 @@ vi:
       show_address: Xem địa chỉ
       query_features: Thăm dò yếu tố
       centre_map: Tập trung bản đồ tại đây
+      scroll_to_changeset: Cuộn đến bộ thay đổi
     home:
       marker_title: Vị trí nhà ở của tôi
       not_set: Tài khoản của bạn chưa đặt vị trí nhà ở

@@ -98,6 +98,9 @@
 # Author: 아라
 ---
 zh-CN:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%Y年%B%e日 %H:%M'
@@ -134,6 +137,10 @@ zh-CN:
       models:
         user_mute:
           is_already_muted: 已忽视
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL应以http://或https://开头
     models:
       acl: 访问控制列表
       changeset: 变更集
@@ -232,8 +239,10 @@ zh-CN:
         active: 激活
         display_name: 显示名称
         description: 个人资料描述
+        company: 公司
         home_lat: 纬度
         home_lon: 经度
+        home_location_name: 家庭地址名称
         languages: 首选语言
         preferred_editor: 首选编辑器
         pass_crypt: 密码
@@ -2010,9 +2019,13 @@ zh-CN:
         failure: 无法更新首选项。
       update_success_flash:
         message: 偏好已更新。
+      navigation:
+        preferences: 参数设置
+        advanced_preferences: 高级设置
     basic_preferences:
       show:
         title: 我的偏好
+        preferred_language: 首选语言
         preferred_site_color_scheme: 首选网站配色方案
         site_color_schemes:
           auto: 自动
@@ -2024,6 +2037,19 @@ zh-CN:
           light: 浅色
           dark: 深色
         save: 更新首选项
+    advanced_preferences:
+      show:
+        title: |-
+          我的高级设置
+
+          翻译：
+
+              高级
+          用法说明：
+
+              参见：模板:Identical/Advanced
+           设置
+        save: 更新首选项
   profiles:
     show:
       title: 编辑个人资料
@@ -2032,6 +2058,7 @@ zh-CN:
       image: 图像
       gravatar:
         gravatar: 使用 Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: 什么是Gravatar？
         disabled: Gravatar已禁用。
         enabled: 您的Gravatar显示已启用。
@@ -2046,6 +2073,10 @@ zh-CN:
       show: 显示
       delete: 删除
       undelete: 撤销删除
+      social_links:
+        title: 社交媒体链接
+        remove: 移除
+        add: 添加社交媒体链接
     update:
       success: 个人资料已更新。
       failure: 无法更新个人资料。
@@ -2159,15 +2190,41 @@ zh-CN:
         native_link: 简体中文版本
         mapping_link: 开始绘制地图
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap 为数以千计的网站、移动应用程序和硬件设备提供开放地图数据。
+          OpenStreetMap 是由像您一样的人们组成的社区创建的，他们贡献并维护有关世界各地道路、小径、咖啡馆、火车站等的地图数据！N!。
         lead_2_weeklyosm: OSM周刊
+        lead_2_osm_community: 开放街图社区
         lead_2_osm_foundation: OSM基金会
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: 捐款
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: OpenStreetMap许可
+        licensing_1_html: |-
+          OpenStreetMap 是 %{open} 数据，由 %{osm_foundation_link}（OSMF）根据
+          %{odc_odbl_link}（ODbL）许可协议发布。简而言之：
+        licensing_1_open: 打开
         licensing_1_odc_odbl: 开放数据共享开放数据库许可协议
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: OpenStreetMap 基金会
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: |-
+          您可以自由地复制、分发、传输和改编我们的数据，
+          只要您注明OpenStreetMap及其
+          贡献者。如果您修改或基于我们的数据进行创作，您
+          只能在相同的许可协议下分发结果。
+          %{legal_code_link} 解释了您的权利和责任。
+        licensing_2_legal_code: 完整的法律代码可在开放数据共同体（Open Data Commons）获取。
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: 我们的文档根据 %{creative_commons_license_link} 许可协议（CC BY-SA 2.0）获得许可。
+        licensing_3_creative_commons_license: 知识共享-署名-相同方式共享许可协议2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
         licensing_4_osmf_license_page: OSMF 许可页面
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
         credit_2_license: 明确数据在开放数据库许可证下可用。
         credit_3_v2025_attribution_guidelines: 署名指南
+        credit_3_v2025_licensing_requirements: 许可证要求
         credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
         credit_4_v2025_this_copyright_page: 该版权页
         attribution_example:
@@ -2180,9 +2237,10 @@ zh-CN:
         infringement_2_1_takedown_procedure: 下架程序
         infringement_2_1_online_filing_page: 在线申请页面
         trademarks_title: 商标
-        trademarks_1_1_html: "OpenStreetMap、放大镜标志和 State of the Map 是 \nOpenStreetMap
-          Foundation 的注册商标。如果您对商标的使用有任何疑问，请参阅我们的\n%{trademark_policy_link}。"
+        trademarks_1_1_html: OpenStreetMap、放大镜标志和 State of the Map 是 OpenStreetMap
+          Foundation 的注册商标。如果您对商标的使用有任何疑问，请参阅我们的 %{trademark_policy_link}。
         trademarks_1_1_trademark_policy: 商标政策
+        services_title_html: 附加服务
         services_1_api_usage_policy: API 使用政策
         services_1_tile_usage_policy: 瓦片使用政策
         services_1_nominatim_usage_policy: Nominatim使用政策
@@ -2505,6 +2563,9 @@ zh-CN:
         bicycle_parking: 自行车停车场
         bicycle_parking_small: 小型自行车停车场
         toilets: 厕所
+      see_external_legend: |2-
+
+        参见外部地图图例
   traces:
     visibility:
       private: 私有 (只以匿名分享，无顺序的点)
@@ -2773,6 +2834,7 @@ zh-CN:
       mapper since: 绘图者注册于：
       last map edit: 最后地图编辑于：
       home location: 您的位置
+      company: 公司
       no activity yet: 尚无活动
       uid: 用户ID：
       ct status: 贡献者条款：
