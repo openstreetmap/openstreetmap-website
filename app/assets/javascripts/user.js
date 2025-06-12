@@ -12,9 +12,10 @@ $(document).ready(function () {
 
   if ($("#map").length) {
     map = L.map("map", {
-      attributionControl: false,
+      attributionControl: true,
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
+    map.attributionControl.setPrefix(false);
 
     var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
