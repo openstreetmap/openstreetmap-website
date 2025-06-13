@@ -33,10 +33,10 @@
     <p class="text-body-secondary mb-0">
       <% if trace.tags.empty? %>
         <%= t ".details_without_tags_html", :time_ago => friendly_date_ago(trace.timestamp),
-                                            :user => link_to(trace.user.display_name, trace.user) %>
+                                            :user => link_to(trace.user.display_name, trace.user, :dir => :auto) %>
       <% else %>
         <%= t ".details_with_tags_html", :time_ago => friendly_date_ago(trace.timestamp),
-                                         :user => link_to(trace.user.display_name, trace.user),
+                                         :user => link_to(trace.user.display_name, trace.user, :dir => :auto),
                                          :tags => safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
       <% end %>
     </p>

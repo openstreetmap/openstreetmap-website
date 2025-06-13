@@ -1,8 +1,8 @@
-<% @title = t ".title", :name => @user_block.user.display_name %>
+<% @title = t ".title_html", :name => tag.bdi(@user_block.user.display_name) %>
 
 <% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
-  <h1><%= t(".heading_html", :name => link_to(@user_block.user.display_name, @user_block.user)) %></h1>
+  <h1><%= t(".heading_html", :name => link_to(@user_block.user.display_name, @user_block.user, :dir => :auto)) %></h1>
   <%= render :partial => "navigation" %>
 <% end %>
 
