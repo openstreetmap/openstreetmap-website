@@ -32,6 +32,7 @@ L.OSM.share = function (options) {
         .attr("id", "link_marker")
         .attr("type", "checkbox")
         .attr("class", "form-check-input")
+        .prop("checked", true)
         .bind("change", toggleMarker));
 
     $("<div class='btn-group btn-group-sm mb-2'>")
