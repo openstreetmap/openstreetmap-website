@@ -91,19 +91,35 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Zoom in to see"
   end
 
-  test "language selector should exist when logged out" do
+  test "language selector should be active when logged out" do
     visit "/"
-    assert_selector ".language-change-trigger", :visible => "all"
-    AVAILABLE_LANGUAGES.each do |locale|
-      assert_selector "option[value='#{locale[:code]}']", :visible => "all"
+
+    within "#language-selector" do
+      assert_selector ".dropdown-toggle[data-bs-toggle='dropdown']", :visible => "all"
+
+      AVAILABLE_LANGUAGES.each do |locale|
+        assert_selector ".dropdown-item[data-language='#{locale[:code]}']", :visible => "all"
+      end
+
+      click_on "Language Selector"
+      click_on "français"
     end
+
+    assert_selector "html[lang='fr']"
   end
 
-  test "language selector should not exist when logged in" do
+  test "language selector should not be active when logged in" do
     sign_in_as(create(:user))
 
     visit "/"
-    assert_no_selector ".language-change-trigger", :visible => "all"
+
+    within "#language-selector" do
+      assert_no_selector ".dropdown-toggle[data-bs-toggle='dropdown']", :visible => "all"
+
+      click_on "Language Selector"
+    end
+
+    assert_current_path basic_preferences_path
   end
 
   private
