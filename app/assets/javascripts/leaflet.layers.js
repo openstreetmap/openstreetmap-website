@@ -76,9 +76,7 @@ L.OSM.layers = function (options) {
 
         $(input).on("change", function () {
           checked = input.checked;
-          if (layer.cancelLoading) {
-            layer.cancelLoading();
-          }
+          layer.cancelLoading?.();
 
           if (checked) {
             map.addLayer(layer);
@@ -94,20 +92,17 @@ L.OSM.layers = function (options) {
 
         map.on("zoomend", function () {
           const disabled = map.getBounds().getSize() >= item.dataset.maxArea;
-          $(input).prop("disabled", disabled);
+          input.disabled = disabled;
 
-          if (disabled && $(input).is(":checked")) {
-            $(input).prop("checked", false)
-              .trigger("change");
+          if (disabled && input.checked) {
+            input.click();
             checked = true;
-          } else if (!disabled && !$(input).is(":checked") && checked) {
-            $(input).prop("checked", true)
-              .trigger("change");
+          } else if (!disabled && !input.checked && checked) {
+            input.click();
           }
 
-          $(item)
-            .toggleClass("disabled", disabled)
-            .tooltip(disabled ? "enable" : "disable");
+          item.classList.toggle("disabled", disabled);
+          $(item).tooltip(disabled ? "enable" : "disable");
         });
       });
     }
