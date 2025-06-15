@@ -13,14 +13,14 @@ OSM.DirectionsRouteOutput = function (map) {
     weight: 12
   });
 
-  let distanceUnits = "km";
+  let distanceUnits = "km_m";
   let downloadURL = null;
 
   function translateDistanceUnits(m) {
-    if (distanceUnits === "km") {
-      return [m, "m", m / 1000, "km"];
-    } else {
+    if (distanceUnits === "mi_ft") {
       return [m / 0.3048, "ft", m / 1609.344, "mi"];
+    } else {
+      return [m, "m", m / 1000, "km"];
     }
   }
 
