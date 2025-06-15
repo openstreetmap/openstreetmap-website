@@ -3,24 +3,20 @@ L.OSM.key = function (options) {
 
   control.onAddPane = function (map, button, $ui) {
     $ui
-      .on("show", shown)
-      .on("hide", hidden);
+      .on("show", () => {
+        map.on("zoomend", update);
+        update();
+      })
+      .on("hide", () => {
+        map.off("zoomend", update);
+      });
 
     map.on("baselayerchange", updateButton);
 
     updateButton();
 
-    function shown() {
-      map.on("zoomend baselayerchange", update);
-      fetch("/key")
-        .then(r => r.text())
-        .then(html => { $ui.html(html); })
-        .then(update);
-    }
-
-    function hidden() {
-      map.off("zoomend baselayerchange", update);
-    }
+    control.onContentLoaded = update;
+    $ui.one("show", control.loadContent);
 
     function updateButton() {
       const disabled = !map.getMapBaseLayer().options.hasLegend;
