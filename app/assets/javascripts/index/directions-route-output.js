@@ -19,6 +19,8 @@ OSM.DirectionsRouteOutput = function (map) {
   function translateDistanceUnits(m) {
     if (distanceUnits === "mi_ft") {
       return [m / 0.3048, "ft", m / 1609.344, "mi"];
+    } else if (distanceUnits === "mi_yd") {
+      return [m / 0.9144, "yd", m / 1609.344, "mi"];
     } else {
       return [m, "m", m / 1000, "km"];
     }
