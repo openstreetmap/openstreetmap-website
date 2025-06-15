@@ -119,26 +119,20 @@ OSM.Query = function (map) {
   }
 
   function featureGeometry(feature) {
-    let geometry;
-
-    if (feature.type === "node" && feature.lat && feature.lon) {
-      geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
-    } else if (feature.type === "way" && feature.geometry && feature.geometry.length > 0) {
-      geometry = L.polyline(feature.geometry.filter(function (point) {
-        return point !== null;
-      }).map(function (point) {
-        return [point.lat, point.lon];
-      }), featureStyle);
-    } else if (feature.type === "relation" && feature.members) {
-      geometry = L.featureGroup(feature.members.map(featureGeometry).filter(function (geometry) {
-        return typeof geometry !== "undefined";
-      }));
+    switch (feature.type) {
+      case "node":
+        if (!feature.lat || !feature.lon) return;
+        return L.circleMarker([feature.lat, feature.lon], featureStyle);
+      case "way":
+        if (!feature.geometry?.length) return;
+        return L.polyline(feature.geometry.filter(p => p).map(p => [p.lat, p.lon]), featureStyle);
+      case "relation":
+        if (!feature.members?.length) return;
+        return L.featureGroup(feature.members.map(featureGeometry).filter(g => g));
     }
-
-    return geometry;
   }
 
-  function runQuery(latlng, radius, query, $section, merge, compare) {
+  function runQuery(query, $section, merge, compare) {
     const $ul = $section.find("ul");
 
     $ul.empty();
@@ -159,21 +153,24 @@ OSM.Query = function (map) {
     })
       .then(response => response.json())
       .then(function (results) {
-        let elements;
+        let elements = results.elements;
 
         $section.find(".loader").hide();
 
+        // Make Overpass-specific bounds to Leaflet compatible
+        for (const element of elements) {
+          if (!element.bounds) continue;
+          if (element.bounds.maxlon > element.bounds.minlon) continue;
+          element.bounds.maxlon += 360;
+        }
+
         if (merge) {
-          elements = Object.values(results.elements.reduce(function (hash, element) {
+          elements = Object.values(elements.reduce(function (hash, element) {
             const key = element.type + element.id;
-            if ("geometry" in element) {
-              delete element.bounds;
-            }
-            hash[key] = $.extend({}, hash[key], element);
+            if ("geometry" in element) delete element.bounds;
+            hash[key] = { ...hash[key], ...element };
             return hash;
           }, {}));
-        } else {
-          elements = results.elements;
         }
 
         if (compare) {
@@ -196,12 +193,7 @@ OSM.Query = function (map) {
             .appendTo($li);
         }
 
-        if (results.remark) {
-          $("<li>")
-            .addClass("list-group-item")
-            .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: results.remark }))
-            .appendTo($ul);
-        }
+        if (results.remark) renderError($ul, results.remark);
 
         if ($ul.find("li").length === 0) {
           $("<li>")
@@ -215,19 +207,19 @@ OSM.Query = function (map) {
 
         $section.find(".loader").hide();
 
-        $("<li>")
-          .addClass("list-group-item")
-          .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: error.message }))
-          .appendTo($ul);
+        renderError($ul, error.message);
       });
   }
 
-  function featureArea({ bounds }) {
-    const height = bounds.maxlat - bounds.minlat;
-    let width = bounds.maxlon - bounds.minlon;
+  function renderError($ul, errorMessage) {
+    $("<li>")
+      .addClass("list-group-item")
+      .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: errorMessage }))
+      .appendTo($ul);
+  }
 
-    if (width < 0) width += 360;
-    return width * height;
+  function size({ maxlon, minlon, maxlat, minlat }) {
+    return (maxlon - minlon) * (maxlat - minlat);
   }
 
   /*
@@ -250,34 +242,31 @@ OSM.Query = function (map) {
    * In both cases we then ask to retrieve tags and the geometry
    * for each object.
    */
-  function queryOverpass(lat, lng) {
-    const latlng = L.latLng(lat, lng).wrap(),
-          bounds = map.getBounds().wrap(),
+  function queryOverpass(latlng) {
+    const bounds = map.getBounds(),
           zoom = map.getZoom(),
           bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
             .map(c => OSM.cropLocation(c, zoom))
             .join(),
-          geombbox = "geom(" + bbox + ");",
+          geom = `geom(${bbox})`,
           radius = 10 * Math.pow(1.5, 19 - zoom),
-          around = "(around:" + radius + "," + lat + "," + lng + ")",
-          nodes = "node" + around,
-          ways = "way" + around,
-          relations = "relation" + around,
-          nearby = "(" + nodes + ";" + ways + ";);out tags " + geombbox + relations + ";out " + geombbox,
-          isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids " + geombbox + "relation(pivot.a);out tags bb;";
+          here = `(around:${radius},${latlng})`,
+          enclosed = "(pivot.a);out tags bb",
+          nearby = `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
+          isin = `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
 
     $("#sidebar_content .query-intro")
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, {
+    marker = L.circle(L.latLng(latlng).wrap(), {
       radius: radius,
       className: "query-marker",
       ...featureStyle
     }).addTo(map);
 
-    runQuery(latlng, radius, nearby, $("#query-nearby"), false);
-    runQuery(latlng, radius, isin, $("#query-isin"), true, (feature1, feature2) => featureArea(feature1) - featureArea(feature2));
+    runQuery(nearby, $("#query-nearby"), false);
+    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
   }
 
   function clickHandler(e) {
@@ -317,7 +306,7 @@ OSM.Query = function (map) {
       });
     }
 
-    queryOverpass(params.get("lat"), params.get("lon"));
+    queryOverpass([params.get("lat"), params.get("lon")]);
   };
 
   page.unload = function (sameController) {

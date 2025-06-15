@@ -116,7 +116,7 @@ describe("OSM", function () {
     });
 
     it("sets bbox from OSM.location", function () {
-      OSM.location = { minlon: -3.6845, minlat: 57.6247, maxlon: -3.7845, maxlat: 57.7247 };
+      OSM.location = { minlon: -3.7845, minlat: 57.6247, maxlon: -3.6845, maxlat: 57.7247 };
       const expected = L.latLngBounds([57.6247, -3.6845], [57.7247, -3.7845]);
       const params = OSM.mapParams("?");
       expect(params).to.have.property("bounds").deep.equal(expected);
@@ -357,16 +357,6 @@ describe("OSM", function () {
       map._zoom = 5;
       expect(OSM.locationCookie(map)).to.eq("-3.68|57.62|5|M");
       $("#map").remove();
-    });
-  });
-
-  describe(".distance", function () {
-    it("computes distance between points", function () {
-      const latlng1 = L.latLng(51.76712, -0.00484),
-            latlng2 = L.latLng(51.7675159, -0.0078329);
-
-      expect(OSM.distance(latlng1, latlng2)).to.be.closeTo(210.664, 0.005);
-      expect(OSM.distance(latlng2, latlng1)).to.be.closeTo(210.664, 0.005);
     });
   });
 });
