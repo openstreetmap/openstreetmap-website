@@ -2,10 +2,6 @@ L.OSM.key = function (options) {
   const control = L.OSM.sidebarPane(options, "key", "javascripts.key.title", "javascripts.key.title");
 
   control.onAddPane = function (map, button, $ui) {
-    const $section = $("<div>")
-      .attr("class", "p-3")
-      .appendTo($ui);
-
     $ui
       .on("show", shown)
       .on("hide", hidden);
@@ -18,7 +14,7 @@ L.OSM.key = function (options) {
       map.on("zoomend baselayerchange", update);
       fetch("/key")
         .then(r => r.text())
-        .then(html => { $section.html(html); })
+        .then(html => { $ui.html(html); })
         .then(update);
     }
 
