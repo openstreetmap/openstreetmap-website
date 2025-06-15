@@ -240,8 +240,7 @@ OSM.Query = function (map) {
    * for each object.
    */
   function queryOverpass(lat, lng) {
-    const latlng = L.latLng(lat, lng).wrap(),
-          bounds = map.getBounds(),
+    const bounds = map.getBounds(),
           zoom = map.getZoom(),
           bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
             .map(c => OSM.cropLocation(c, zoom))
@@ -259,7 +258,7 @@ OSM.Query = function (map) {
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, {
+    marker = L.circle(L.latLng(lat, lng).wrap(), {
       radius: radius,
       className: "query-marker",
       ...featureStyle
