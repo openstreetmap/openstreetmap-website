@@ -122,13 +122,8 @@ OSM.DirectionsRouteOutput = function (map) {
     writeSummary(route);
     writeSteps(route);
 
-    $("#directions_distance_units_km").off().on("change", () => {
-      distanceUnits = "km";
-      writeSummary(route);
-      writeSteps(route);
-    });
-    $("#directions_distance_units_mi").off().on("change", () => {
-      distanceUnits = "mi";
+    $("#directions_distance_units_settings input").off().on("change", function () {
+      distanceUnits = this.value;
       writeSummary(route);
       writeSteps(route);
     });
@@ -156,8 +151,7 @@ OSM.DirectionsRouteOutput = function (map) {
       .removeLayer(popup)
       .removeLayer(polyline);
 
-    $("#directions_distance_units_km").off();
-    $("#directions_distance_units_mi").off();
+    $("#directions_distance_units_settings input").off();
 
     $("#directions_route_steps").empty();
 
