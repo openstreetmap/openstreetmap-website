@@ -239,7 +239,7 @@ OSM.Query = function (map) {
    * In both cases we then ask to retrieve tags and the geometry
    * for each object.
    */
-  function queryOverpass(lat, lng) {
+  function queryOverpass(latlng) {
     const bounds = map.getBounds(),
           zoom = map.getZoom(),
           bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
@@ -247,16 +247,16 @@ OSM.Query = function (map) {
             .join(),
           geom = `geom(${bbox})`,
           radius = 10 * Math.pow(1.5, 19 - zoom),
-          here = `(around:${radius},${lat},${lng})`,
+          here = `(around:${radius},${latlng})`,
           enclosed = "(pivot.a);out tags bb",
           nearby = `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
-          isin = `is_in(${lat},${lng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
+          isin = `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
 
     $("#sidebar_content .query-intro")
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(L.latLng(lat, lng).wrap(), {
+    marker = L.circle(L.latLng(latlng).wrap(), {
       radius: radius,
       className: "query-marker",
       ...featureStyle
@@ -303,7 +303,7 @@ OSM.Query = function (map) {
       });
     }
 
-    queryOverpass(params.get("lat"), params.get("lon"));
+    queryOverpass([params.get("lat"), params.get("lon")]);
   };
 
   page.unload = function (sameController) {
