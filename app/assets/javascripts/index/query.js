@@ -157,6 +157,13 @@ OSM.Query = function (map) {
 
         $section.find(".loader").hide();
 
+        // Make Overpass-specific bounds to Leaflet compatible
+        for (const element of elements) {
+          if (!element.bounds) continue;
+          if (element.bounds.maxlon > element.bounds.minlon) continue;
+          element.bounds.maxlon += 360;
+        }
+
         if (merge) {
           elements = Object.values(elements.reduce(function (hash, element) {
             const key = element.type + element.id;
@@ -211,12 +218,8 @@ OSM.Query = function (map) {
       .appendTo($ul);
   }
 
-  function featureArea({ bounds }) {
-    const height = bounds.maxlat - bounds.minlat;
-    let width = bounds.maxlon - bounds.minlon;
-
-    if (width < 0) width += 360;
-    return width * height;
+  function size({ maxlon, minlon, maxlat, minlat }) {
+    return (maxlon - minlon) * (maxlat - minlat);
   }
 
   /*
@@ -263,7 +266,7 @@ OSM.Query = function (map) {
     }).addTo(map);
 
     runQuery(nearby, $("#query-nearby"), false);
-    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => featureArea(feature1) - featureArea(feature2));
+    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
   }
 
   function clickHandler(e) {
