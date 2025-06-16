@@ -6,6 +6,7 @@
 # Author: Alphensebezorger
 # Author: Aranka
 # Author: Arent
+# Author: Baggeraar
 # Author: Bouman4
 # Author: CGID
 # Author: Carsrac
@@ -71,6 +72,9 @@
 # Author: Xbaked potatox
 ---
 nl:
+  date:
+    formats:
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
@@ -106,6 +110,10 @@ nl:
       models:
         user_mute:
           is_already_muted: is al gedempt
+        social_link:
+          attributes:
+            url:
+              http_parse_error: De URL moet beginnen met http:// of https://
     models:
       acl: Toegangscontrolelijst
       changeset: Wijzigingenset
@@ -204,6 +212,7 @@ nl:
         active: Actief
         display_name: Weergavenaam
         description: Profielbeschrijving
+        company: Bedrijf
         home_lat: Breedtegraad
         home_lon: Lengtegraad
         languages: Voorkeurstalen
@@ -588,6 +597,8 @@ nl:
       no_more: Geen wijzigingensets meer gevonden.
       no_more_area: Geen wijzigingensets meer in dit gebied.
       no_more_user: Geen wijzigingensets meer van deze gebruiker.
+      older_changesets: Oudere wijzigingensets
+      newer_changesets: Nieuwere wijzigingensets
       feed:
         title: Wijzigingenset %{id}
         title_comment: Wijzigingenset %{id} - %{comment}
@@ -616,9 +627,13 @@ nl:
       changesetxml: Wijzigingenset-XML
       osmchangexml: osmChange-XML
     paging_nav:
+      nodes_title: Knopen
       nodes_paginated: Knooppunten (%{x}-%{y} van %{count})
+      ways_title: Wegen
       ways_paginated: Wegen (%{x}-%{y} van %{count})
+      relations_title: Relaties
       relations_paginated: Relaties (%{x}-%{y} van %{count})
+      range: '%{x}-%{y} van %{count}'
     not_found_message:
       sorry: 'Wijzigingenset #%{id} kon helaas niet gevonden worden.'
     timeout:
@@ -699,6 +714,7 @@ nl:
     diary_entry:
       posted_by_html: Geplaatst door %{link_user} op %{created} in het %{language_link}.
       updated_at_html: Laatst aangepast op %{updated}.
+      full_entry: Bekijk het volledige bericht
       comment_link: Reageer op dit bericht
       reply_link: Een bericht sturen naar de auteur
       comment_count:
@@ -736,6 +752,7 @@ nl:
       heading: Afmelden voor de volgende dagboekaantekeningendiscussie?
       button: Van discussie afmelden
     navigation:
+      in_language: Dagboekberichten in het %{language}
       my_diary: Mijn dagboek
       new: Nieuw dagboekbericht
       new_title: Nieuw bericht in mijn dagboek schrijven
@@ -2080,9 +2097,13 @@ nl:
         failure: Kon de voorkeuren niet bijwerken.
       update_success_flash:
         message: Voorkeuren bijgewerkt.
+      navigation:
+        preferences: Voorkeuren
+        advanced_preferences: Geavanceerde voorkeuren
     basic_preferences:
       show:
         title: Mijn voorkeuren
+        preferred_language: Voorkeurstaal
         preferred_site_color_scheme: Het gewenste kleurenschema voor de website
         site_color_schemes:
           auto: Automatisch
@@ -2093,6 +2114,10 @@ nl:
           auto: Automatisch
           light: Licht
           dark: Donker
+        save: Voorkeuren bijwerken
+    advanced_preferences:
+      show:
+        title: Mijn geavanceerde voorkeuren
         save: Voorkeuren bijwerken
   profiles:
     show:
@@ -2992,6 +3017,9 @@ nl:
       delete_user: Deze gebruiker verwijderen
       confirm: Bevestigen
       report: Rapporteer deze Gebruiker
+      contributions:
+        one: '%{count} bijdrage in het afgelopen jaar'
+        other: '%{count} bijdragen in het afgelopen jaar'
     go_public:
       flash success: Al uw bewerkingen zijn nu openbaar en u kunt bewerken.
     issued_blocks:
@@ -3448,6 +3476,7 @@ nl:
         roundabout_with_exit: Neem op de rotonde afslag %{exit} naar %{name}
         roundabout_with_exit_ordinal: Neem op de rotonde afslag %{exit} naar %{name}
         exit_roundabout: Verlaat de rotonde naar %{name}
+        ferry_without_exit: Neem de veerboot %{name}
         unnamed: naamloos
         exit_counts:
           first: 1e

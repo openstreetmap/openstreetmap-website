@@ -100,6 +100,7 @@
 # Author: Translationista
 # Author: VegaDark
 # Author: Vivaelcelta
+# Author: Wracking
 # Author: Xuacu
 # Author: Yllelder
 # Author: Yonseca
@@ -140,6 +141,10 @@ es:
       models:
         user_mute:
           is_already_muted: ya esta silenciado
+        social_link:
+          attributes:
+            url:
+              http_parse_error: La URL debe comenzar con http:// o https://
     models:
       acl: Lista de control de acceso
       changeset: Conjunto de cambios
@@ -238,8 +243,10 @@ es:
         active: Activo
         display_name: Nombre para mostrar
         description: Descripción del perfil
+        company: Empresa
         home_lat: Latitud
         home_lon: Longitud
+        home_location_name: Nombre de ubicación de casa
         languages: Idiomas preferidos
         preferred_editor: Editor preferido
         pass_crypt: Contraseña
@@ -781,9 +788,15 @@ es:
       heading: ¿Deseas desuscribirte de la siguiente discusión de entrada de diario?
       button: Desuscribirse de la discusión
     navigation:
+      in_language: Entradas de diario en %{language}
       my_diary: Mi diario
       new: Nueva entrada de diario
       new_title: Escribir una nueva entrada en mi diario de usuario
+    profile_diaries:
+      latest_diaries: Últimos diarios
+      comments:
+        one: '%{count} comentario'
+        other: '%{count} comentarios'
   diary_comments:
     new:
       heading: ¿Añadir un comentario a la siguiente discusión de entrada en el diario?
@@ -2159,9 +2172,13 @@ es:
         failure: No se pudieron actualizar las preferencias.
       update_success_flash:
         message: Preferencias actualizadas.
+      navigation:
+        preferences: Preferencias
+        advanced_preferences: Preferencias avanzadas
     basic_preferences:
       show:
         title: Mis Preferencias
+        preferred_language: Idioma preferido
         preferred_site_color_scheme: Esquema de colores preferido para el sitio web
         site_color_schemes:
           auto: Automático
@@ -2172,6 +2189,10 @@ es:
           auto: Automático
           light: Claro
           dark: Oscuro
+        save: Actualizar preferencias
+    advanced_preferences:
+      show:
+        title: Mis preferencias avanzadas
         save: Actualizar preferencias
   profiles:
     show:
@@ -2197,6 +2218,10 @@ es:
       show: Mostrar
       delete: Eliminar
       undelete: Deshacer eliminación
+      social_links:
+        title: Enlaces de perfiles de redes sociales
+        remove: Quitar
+        add: Añadir enlace de redes sociales
     update:
       success: Perfil actualizado.
       failure: No se pudo actualizar el perfil.
@@ -2290,7 +2315,7 @@ es:
         desastres, \ny muchos más. \nPara obtener más información sobre la comunidad,
         mira el %{osm_blog_link}, \n%{user_diaries_link}, %{community_blogs_link}
         y el sitio web de %{osm_foundation_link}."
-      community_driven_osm_blog: Blog de OpenStreetMap
+      community_driven_osm_blog: blog de OpenStreetMap
       community_driven_user_diaries: diarios de usuario
       community_driven_community_blogs: blogs comunitarios
       community_driven_osm_foundation: OSM Foundation
@@ -2306,7 +2331,7 @@ es:
       legal_1_1_html: "Este sitio y muchos otros servicios relacionados son operados
         formalmente por la \n%{openstreetmap_foundation_link} (OSMF)  \nen nombre
         de la comunidad. El uso de todos los servicios operados por el OSMF está sujeto
-        a nuestors %{terms_of_use_link}, %{aup_link} y nuestra %{privacy_policy_link}."
+        a nuestros %{terms_of_use_link}, %{aup_link} y nuestra %{privacy_policy_link}."
       legal_1_1_openstreetmap_foundation: Fundación OpenStreetMap
       legal_1_1_terms_of_use: Términos de Uso
       legal_1_1_aup: Normativas de uso aceptable
@@ -2333,17 +2358,65 @@ es:
         native_link: versión en español
         mapping_link: comenzar a mapear
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap proporciona datos de mapas abiertos para miles de sitios web, aplicaciones móviles y dispositivos de hardware.
+          OpenStreetMap está construido por una comunidad de personas como tú que contribuyen y mantienen datos de mapas sobre carreteras, senderos, cafés, estaciones de tren y mucho más, en todo el mundo.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} y %{get_started_mapping_link}!
+          Lee más en %{osm_blog_link} y suscríbete a %{weeklyosm_link}.
+          Encuentra otros mapeadores en tu %{osm_community_link} local.
+          Apoya el proyecto uniéndote a %{osm_foundation_link} y %{making_donation_link}.
+        lead_2_learn_more_about_osm: Más información sobre OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/ES:Acerca_de_OpenStreetMap
+        lead_2_get_started_mapping: empezar a mapear
+        lead_2_osm_blog: blog de OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/?lang=es
+        lead_2_weeklyosm: semanarioOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/es/
+        lead_2_osm_community: Comunidad OSM
+        lead_2_osm_foundation: Fundación OSM
+        lead_2_making_donation: hacer una donación
+        licensing_1_html: 'OpenStreetMap es un sistema de datos %{open}, licenciado
+          bajo la %{odc_odbl_link} (ODbL) por la %{osm_foundation_link}. En resumen:'
+        licensing_1_open: abiertos
         licensing_1_odc_odbl: Licencia de bases de datos abiertas de Open Data Commons
         licensing_1_osm_foundation: Fundación OpenStreetMap
+        licensing_2_html: Puede copiar, distribuir, transmitir y adaptar nuestros
+          datos libremente, siempre que cite a OpenStreetMap y a sus colaboradores.
+          Si modifica o amplía nuestros datos, podrá distribuir el resultado solo
+          bajo la misma licencia. El %{legal_code_link} explica sus derechos y responsabilidades.
+        licensing_2_legal_code: código legal completo en Open Data Commons
+        licensing_3_html: Nuestra documentación está licenciada bajo de %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: licencia Creative Commons Atribución-CompartirIgual
+          2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.es
+        licensing_4_html: Lee más sobre el uso de nuestros datos en %{osmf_license_page_link}.
         licensing_4_osmf_license_page: página de licencia de la OSMF
         credit_title_html: Cómo dar reconocimiento a OpenStreetMap
         credit_1_html: 'Cuando utilices datos de OpenStreetMap, deberás hacer las
           siguientes dos cosas:'
+        credit_2_attribution: Proporciona crédito a OpenStreetMap mostrando nuestro
+          aviso de atribución.
         credit_2_license: Especifica que los datos están disponibles bajo la Licencia
           de base de datos abierta.
-        credit_3_v2025_attribution_guidelines: Directrices de atribución
+        credit_3_v2025_html: |-
+          Para el aviso de atribución, tenemos diferentes %{requirements_on_how_displayed_link}, dependiendo de cómo utilice nuestros datos.
+          Por ejemplo, se aplican diferentes reglas sobre cómo mostrar el aviso de atribución dependiendo de si ha creado un mapa navegable, un mapa impreso o una imagen estática.
+          Encuentra más detalles en la sección %{attribution_guidelines_link} de %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: requisitos sobre la forma en
+          que debe mostrarse
+        credit_3_v2025_attribution_guidelines: directrices de atribución
+        credit_3_v2025_licensing_requirements: los requisitos de licencia
+        credit_4_v2025_html: En general, para aclarar que los datos están disponibles
+          bajo la Licencia de Base de Datos Abierta (Open Database License), puedes
+          enlazar a %{this_copyright_page_link}. Si distribuyes OSM en formato de
+          datos, indica la(s) licencia(s) y enlace directamente a ellas. En los medios
+          donde no sea posible enlazar (por ejemplo, obras impresas), incluye la URL
+          completa en la página, por ejemplo, %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: esta página de derechos de autor
+        credit_5_v2025_html: 'En este ejemplo, el crédito aparece en la esquina del
+          mapa:'
         attribution_example:
           alt: Ejemplo de cómo dar reconocimiento a OpenStreetMap en una página web
           title: Ejemplo de atribución
@@ -2363,6 +2436,11 @@ es:
           OpenStreetMap. Si tienes preguntas sobre el uso de las marcas, consulta nuestra
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Normativa de marcas
+        services_title_html: Servicios adicionales
+        services_1_html: "Aunque OpenStreetMap es un sistema de datos abiertos, no
+          podemos proporcionar una API de mapas gratuita ni teselas de mapas gratuitas
+          para terceros. \nMira nuestra %{api_usage_policy_link}, %{tile_usage_policy_link}
+          y %{nominatim_usage_policy_link}."
         services_1_api_usage_policy: Normativa de uso de la API
         services_1_tile_usage_policy: Política de uso de teselas
         services_1_nominatim_usage_policy: Normativa de uso de Nominatim
@@ -2589,6 +2667,8 @@ es:
         bicycle: Bicicleta
         car: Automóvil
         foot: A pie
+      providers:
+        description: Servicios de indicaciones
     welcome:
       title: ¡Bienvenido!
       introduction: Te damos la bienvenida a OpenStreetMap, el mapa libre y editable
@@ -2637,6 +2717,9 @@ es:
       title: ¿No tienes tiempo para editar? ¡Añade una nota!
       para_1: Si sólo deseas corregir algo pequeño y no tienes tiempo para registrarte
         y aprender a editar, añadir una nota es fácil.
+      para_2_html: "Simplemente haz clic en %{note_icon} o en el mismo icono en %{map_link}.\nEsto
+        agregará un marcador al mapa que puedes mover arrastrándolo. \nEscribe tu
+        mensaje, luego haz clic en guardar, y otros mapeadores lo investigarán."
       the_map: el mapa
     communities:
       title: Comunidades
@@ -2753,6 +2836,7 @@ es:
         bicycle_parking: Estacionamiento de bicicletas
         bicycle_parking_small: Pequeño aparcamiento para bicicletas
         toilets: Baños
+      see_external_legend: Ver leyenda del mapa externo
   traces:
     visibility:
       private: Privado (solo compartido como anónimo, puntos no ordenados)
@@ -3056,6 +3140,8 @@ es:
       mapper since: 'Mapeando desde:'
       last map edit: Última edición del mapa
       home location: Ubicación de casa
+      company: Empresa
+      company tooltip: La afiliación de la empresa es autoinformada y no verificada.
       no activity yet: Sin actividad todavía
       uid: 'Identificación de usuario:'
       ct status: 'Términos de Colaborador:'
@@ -3091,6 +3177,9 @@ es:
       delete_user: Eliminar este usuario
       confirm: Confirmar
       report: Denunciar a este usuario
+      contributions:
+        one: '%{count} contribución en el último año'
+        other: '%{count} contribuciones en el último año'
     go_public:
       flash success: Todas tus ediciones ahora son públicas y ya estás autorizado
         para editar.

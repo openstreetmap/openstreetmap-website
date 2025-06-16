@@ -110,6 +110,7 @@
 # Author: Valencia212
 # Author: Vlad5250
 # Author: Vovenarg
+# Author: Werwerton2525
 # Author: Wileyfoxyx
 # Author: WindEwriX
 # Author: Wirbel78
@@ -166,6 +167,10 @@ ru:
       models:
         user_mute:
           is_already_muted: уже заглушён
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL должен начинаться с http:// ли https://
     models:
       acl: Список контроля доступа
       changeset: Пакет правок
@@ -264,6 +269,7 @@ ru:
         active: Активен
         display_name: Отображаемое имя
         description: Описание профиля
+        company: Компания
         home_lat: Широта
         home_lon: Долгота
         languages: Предпочитаемые языки
@@ -1684,7 +1690,9 @@ ru:
       time: Время
       ascend: Подъём
       descend: Спуск
+      button_km: км
       download: Скачать маршрут в формате GeoJSON
+      filename: маршрут
       directions_courtesy_html: Маршрут предоставлен %{link}
   issues:
     index:
@@ -1713,6 +1721,7 @@ ru:
         other: '%{count} сообщений'
       reported_item: Элемент в сообщении
       states:
+        ignored: Проигнорировано
         open: Открыть
     show:
       title:
@@ -1824,6 +1833,11 @@ ru:
     communities: Сообщества
     learn_more: Узнать больше
     more: Ещё
+    offline_flash:
+      osm_offline: В данный момент база данных OpenStreetMap не доступна, так как
+        проводятся необходимые работы по техническому обслуживанию.
+      osm_read_only: База данных OpenStreetMap в данный момент доступна только для
+        чтения, так как проводится необходимое техническое обслуживание.
   user_mailer:
     diary_comment_notification:
       description: 'Запись в дневнике OpenStreetMap #%{id}'
@@ -1974,6 +1988,7 @@ ru:
       success: Ваша учётная запись подтверждена, спасибо за регистрацию!
       already active: Эта учётная запись уже подтверждена.
       unknown token: Такой код подтверждения истек или не существует.
+      resend_button: Отправить письмо подтверждения снова.
     confirm_resend:
       failure: Участник %{name} не найден.
     confirm_email:
@@ -2090,6 +2105,10 @@ ru:
       new password button: Вышлите мне новый пароль
       help_text: Введите адрес вашей электронной почты, который вы использовали для
         подписки, и мы вышлем инструкции, как можно обновить ваш пароль.
+    create:
+      send_paranoid_instructions: Если Ваш адрес электронной почты существует в нашей
+        базе данных, то Вы получите письмо с ссылкой восстановления пароля в течение
+        несколько минут.
     edit:
       title: Повторная установка пароля
       heading: Повторная установка пароля для %{user}
@@ -2103,9 +2122,13 @@ ru:
         failure: Не удалось обновить предпочтения.
       update_success_flash:
         message: Предпочтения обновлены.
+      navigation:
+        preferences: Настройки
+        advanced_preferences: Расширенные настройки
     basic_preferences:
       show:
         title: Мои предпочтения
+        preferred_language: Предпочитаемый язык
         preferred_site_color_scheme: Предпочитаемая цветовая схема сайта
         site_color_schemes:
           auto: Автоматическая
@@ -2142,12 +2165,16 @@ ru:
       show: Показать
       delete: Удалить
       undelete: Отменить удаление
+      social_links:
+        remove: Удалить
+        add: Добавить ссылку на социальную сеть
     update:
       success: Профиль обновлён.
       failure: Не удалось обновить профиль.
   sessions:
     new:
       tab_title: Вход
+      login_to_authorize_html: Войдите в OpenStreetMap чтобы получить доступ к %{client_app_name}.
       email or username: Адрес эл. почты или имя пользователя
       password: Пароль
       remember: Запомнить меня
@@ -2267,6 +2294,8 @@ ru:
         native_link: русской версии
         mapping_link: начать картографирование
       legal_babble:
+        lead_2_learn_more_about_osm: Узнайте больше про OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/RU:%D0%9E_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5
         licensing_1_open: открыть
         licensing_1_odc_odbl: Лицензия Open Data Commons Open Database
         licensing_1_osm_foundation: Фонд OpenStreetMap
@@ -3138,6 +3167,7 @@ ru:
       open_title: 'Незакрытая заметка #%{note_name}'
       closed_title: 'Закрытая заметка #%{note_name}'
       hidden_title: 'Скрытая заметка #%{note_name}'
+      description_when_there_is_no_opening_comment: неизвестно
       event_opened_by_html: Создано %{user} %{time_ago}
       event_opened_by_anonymous_html: Создано анонимом %{time_ago}
       event_commented_by_html: Комментарий от %{user} %{time_ago}
