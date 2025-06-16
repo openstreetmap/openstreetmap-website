@@ -160,7 +160,7 @@ OSM.Query = function (map) {
         // Make Overpass-specific bounds to Leaflet compatible
         for (const element of elements) {
           if (!element.bounds) continue;
-          if (element.bounds.maxlon > element.bounds.minlon) continue;
+          if (element.bounds.maxlon >= element.bounds.minlon) continue;
           element.bounds.maxlon += 360;
         }
 
