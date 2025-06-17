@@ -1,20 +1,20 @@
 require "test_helper"
 
-class MapKeysControllerTest < ActionDispatch::IntegrationTest
+class LegendPanesControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/key", :method => :get },
-      { :controller => "map_keys", :action => "show" }
+      { :controller => "legend_panes", :action => "show" }
     )
   end
 
   def test_show
-    get map_key_path, :xhr => true
+    get legend_pane_path, :xhr => true
 
     assert_response :success
-    assert_template "map_keys/show"
+    assert_template "legend_panes/show"
     assert_template :layout => false
   end
 end

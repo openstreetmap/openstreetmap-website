@@ -1,4 +1,4 @@
-class MapKeysController < ApplicationController
+class LegendPanesController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   authorize_resource :class => false
