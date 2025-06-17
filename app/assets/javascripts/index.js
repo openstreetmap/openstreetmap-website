@@ -3,7 +3,7 @@
 //= require leaflet.sidebar-pane
 //= require leaflet.locate
 //= require leaflet.layers
-//= require leaflet.key
+//= require leaflet.legend
 //= require leaflet.note
 //= require leaflet.share
 //= require leaflet.polyline
@@ -120,7 +120,7 @@ $(function () {
       sidebar,
       layers: map.baseLayers
     }),
-    L.OSM.key({ position, sidebar }),
+    L.OSM.legend({ position, sidebar }),
     L.OSM.share({
       position,
       sidebar,

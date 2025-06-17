@@ -1,4 +1,4 @@
-L.OSM.key = function (options) {
+L.OSM.legend = function (options) {
   const control = L.OSM.sidebarPane(options, "key", "javascripts.key.title", "javascripts.key.title");
 
   control.onAddPane = function (map, button, $ui) {
