@@ -28,7 +28,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
     options.sidebar.addPane($ui);
 
     this.loadContent = () =>
-      fetch("/" + uiClass)
+      fetch("/panes/" + uiClass)
         .then(r => r.text())
         .then(html => { $(html).appendTo($ui); })
         .then(this.onContentLoaded);

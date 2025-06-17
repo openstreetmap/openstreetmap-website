@@ -5,7 +5,7 @@ class LegendPanesControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/key", :method => :get },
+      { :path => "/panes/legend", :method => :get },
       { :controller => "legend_panes", :action => "show" }
     )
   end

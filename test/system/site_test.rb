@@ -20,7 +20,7 @@ class SiteTest < ApplicationSystemTestCase
     visit "/"
 
     assert_no_selector ".tooltip"
-    button = find ".control-key .control-button"
+    button = find ".control-legend .control-button"
     button.hover
     tooltip = find ".tooltip"
     tooltip.assert_text "Map Key"
@@ -31,7 +31,7 @@ class SiteTest < ApplicationSystemTestCase
     visit "/#layers=H" # assumes that HOT layer has no map key
 
     assert_no_selector ".tooltip"
-    button = find ".control-key .control-button"
+    button = find ".control-legend .control-button"
     button.hover
     tooltip = find ".tooltip"
     tooltip.assert_text "Map Key"
