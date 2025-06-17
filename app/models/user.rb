@@ -424,7 +424,7 @@ class User < ApplicationRecord
   def max_messages_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
-    recent_messages = messages.where(:sent_on => Time.now.utc - 3600..).count
+    recent_messages = messages.where(:sent_on => (Time.now.utc - 3600)..).count
     max_messages = account_age_in_hours.ceil + recent_messages - (active_reports * 10)
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
@@ -432,7 +432,7 @@ class User < ApplicationRecord
   def max_follows_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
-    recent_follows = Follow.where(:following => self).where(:created_at => Time.now.utc - 3600..).count
+    recent_follows = Follow.where(:following => self).where(:created_at => (Time.now.utc - 3600)..).count
     max_follows = account_age_in_hours.ceil + recent_follows - (active_reports * 10)
     max_follows.clamp(0, Settings.max_follows_per_hour)
   end

@@ -109,7 +109,7 @@ module Api
 
           assert_operator(jsm[0]["id"], :>=, params[:from_id]) unless params[:from_id].nil?
           # ensure ascending order
-          (0..jsm.count - 1).each do |i|
+          (0..(jsm.count - 1)).each do |i|
             assert_operator(jsm[i]["id"], :<, jsm[i + 1]["id"]) unless i == jsm.count - 1
             msgs_read[jsm[i]["id"]] = jsm[i]
           end
@@ -147,7 +147,7 @@ module Api
             assert_operator jsm[0]["id"], :<=, params[:from_id]
           end
           # ensure descending order
-          (0..jsm.count - 1).each do |i|
+          (0..(jsm.count - 1)).each do |i|
             assert_operator(jsm[i]["id"], :>, jsm[i + 1]["id"]) unless i == jsm.count - 1
             msgs_read[jsm[i]["id"]] = jsm[i]
           end
