@@ -1,5 +1,5 @@
 L.OSM.legend = function (options) {
-  const control = L.OSM.sidebarPane(options, "legend", "javascripts.key.title", "javascripts.key.title");
+  const control = L.OSM.sidebarPane(options, "legend", "javascripts.legend.title", "javascripts.legend.title");
 
   control.onAddPane = function (map, button, $ui) {
     $ui
@@ -24,8 +24,8 @@ L.OSM.legend = function (options) {
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
               OSM.i18n.t(disabled ?
-                "javascripts.key.tooltip_disabled" :
-                "javascripts.key.tooltip"));
+                "javascripts.legend.tooltip_disabled" :
+                "javascripts.legend.tooltip"));
     }
 
     function update() {
