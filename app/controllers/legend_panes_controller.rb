@@ -5,7 +5,7 @@ class LegendPanesController < ApplicationController
 
   def show
     expires_in 7.days, :public => true
-    @key = YAML.load_file(Rails.root.join("config/key.yml"))
+    @key = YAML.load_file(Rails.root.join("config/legend.yml"))
     @key.each_value do |layer_data|
       layer_data["entries"].each do |entry|
         entry["name"] = Array(entry["name"])
