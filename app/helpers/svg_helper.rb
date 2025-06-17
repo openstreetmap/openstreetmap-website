@@ -13,7 +13,7 @@ module SvgHelper
     adjacent_page_svg_tag(dir == "rtl" ? -1 : 1, **)
   end
 
-  def key_svg_tag(**options)
+  def legend_svg_tag(**options)
     border_width = options["border"] ? (options["border-width"] || 1) : 0
     rect_attrs = {
       :width => "100%",
