@@ -32,7 +32,7 @@ L.OSM.key = function (options) {
       const layerId = map.getMapBaseLayerId(),
             zoom = map.getZoom();
 
-      $("#mapkey [data-layer]").each(function () {
+      $("#legend [data-layer]").each(function () {
         const data = $(this).data();
         $(this).toggle(
           layerId === data.layer &&
