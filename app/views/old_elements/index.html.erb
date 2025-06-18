@@ -2,7 +2,23 @@
 
 <%= render "sidebar_header", :title => t(".#{@type}.title_html", :name => printable_element_name(@feature)) %>
 
-<%= render :partial => "browse/#{@type}", :collection => @feature.send(:"old_#{@type}s").reverse %>
+<% if @newer_features_version %>
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <%= link_to t(".newer_versions"), params.permit(:show_redactions).merge(:after => @newer_features_version), :class => "page-link" %>
+    </li>
+  </ul>
+<% end %>
+
+<%= render :partial => "browse/#{@type}", :collection => @old_features %>
+
+<% if @older_features_version %>
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <%= link_to t(".older_versions"), params.permit(:show_redactions).merge(:before => @older_features_version), :class => "page-link" %>
+    </li>
+  </ul>
+<% end %>
 
 <div class='secondary-actions'>
   <%= link_to t("browse.download_xml"), send(:"api_#{@type}_versions_path", @feature.id) %>
