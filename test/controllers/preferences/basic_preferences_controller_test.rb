@@ -61,6 +61,12 @@ module Preferences
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
     end
 
+    def test_update_with_referer
+      session_for(create(:user))
+      put basic_preferences_path, :params => { :referer => root_path }
+      assert_redirected_to root_path
+    end
+
     def test_update_preferred_language_from_en_selecting_fr
       check_language_change %w[en], "fr", %w[fr]
     end
