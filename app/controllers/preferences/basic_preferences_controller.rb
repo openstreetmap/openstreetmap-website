@@ -13,11 +13,13 @@ module Preferences
         current_user.languages += (matching_languages - [params[:language]]) + other_languages unless matching_languages.empty?
       end
 
-      current_user.preferred_editor = if params[:user][:preferred_editor] == "default"
-                                        nil
-                                      else
-                                        params[:user][:preferred_editor]
-                                      end
+      if params.dig(:user, :preferred_editor)
+        current_user.preferred_editor = if params[:user][:preferred_editor] == "default"
+                                          nil
+                                        else
+                                          params[:user][:preferred_editor]
+                                        end
+      end
 
       success = current_user.save
 
