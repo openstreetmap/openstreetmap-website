@@ -6,251 +6,37 @@ L.OSM.share = function (options) {
           adjustButton: false
         });
 
-  control.onAddPane = function (map, button, $ui) {
+  function init(map, $ui) {
     // Link / Embed
-    $("#content").addClass("overlay-right-sidebar");
 
-    const $linkSection = $("<div>")
-      .attr("class", "share-link p-3 border-bottom border-secondary-subtle")
-      .appendTo($ui);
+    $ui.find("#link_marker").on("change", toggleMarker);
 
-    $("<h4>")
-      .text(OSM.i18n.t("javascripts.share.link"))
-      .appendTo($linkSection);
-
-    let $form = $("<form>")
-      .appendTo($linkSection);
-
-    $("<div>")
-      .attr("class", "form-check mb-3")
-      .appendTo($form)
-      .append($("<label>")
-        .attr("for", "link_marker")
-        .attr("class", "form-check-label")
-        .text(OSM.i18n.t("javascripts.share.include_marker")))
-      .append($("<input>")
-        .attr("id", "link_marker")
-        .attr("type", "checkbox")
-        .attr("class", "form-check-input")
-        .bind("change", toggleMarker));
-
-    $("<div class='btn-group btn-group-sm mb-2'>")
-      .appendTo($form)
-      .append($("<a class='btn btn-primary'>")
-        .addClass("active")
-        .attr("for", "long_input")
-        .attr("id", "long_link")
-        .text(OSM.i18n.t("javascripts.share.long_link")))
-      .append($("<a class='btn btn-primary'>")
-        .attr("for", "short_input")
-        .attr("id", "short_link")
-        .text(OSM.i18n.t("javascripts.share.short_link")))
-      .append($("<a class='btn btn-primary'>")
-        .attr("for", "embed_html")
-        .attr("id", "embed_link")
-        .attr("data-bs-title", OSM.i18n.t("javascripts.site.embed_html_disabled"))
-        .attr("href", "#")
-        .text(OSM.i18n.t("javascripts.share.embed")))
-      .on("click", "a", function (e) {
+    $ui.find(".btn-group .btn")
+      .on("click", function (e) {
         e.preventDefault();
         if (!$(this).hasClass("btn-primary")) return;
         const id = "#" + $(this).attr("for");
         $(this).siblings("a")
           .removeClass("active");
         $(this).addClass("active");
-        $linkSection.find(".share-tab")
-          .hide();
-        $linkSection.find(".share-tab:has(" + id + ")")
-          .show()
+        $ui.find(".share-tab")
+          .prop("hidden", true);
+        $ui.find(".share-tab:has(" + id + ")")
+          .prop("hidden", false)
           .find("input, textarea")
-          .select();
+          .trigger("select");
       });
 
-    $("<div>")
-      .attr("class", "share-tab")
-      .appendTo($form)
-      .append($("<input>")
-        .attr("id", "long_input")
-        .attr("type", "text")
-        .attr("class", "form-control form-control-sm font-monospace")
-        .attr("readonly", true)
-        .on("click", select));
-
-    $("<div>")
-      .attr("class", "share-tab")
-      .hide()
-      .appendTo($form)
-      .append($("<input>")
-        .attr("id", "short_input")
-        .attr("type", "text")
-        .attr("class", "form-control form-control-sm font-monospace")
-        .attr("readonly", true)
-        .on("click", select));
-
-    $("<div>")
-      .attr("class", "share-tab")
-      .hide()
-      .appendTo($form)
-      .append(
-        $("<textarea>")
-          .attr("id", "embed_html")
-          .attr("class", "form-control form-control-sm font-monospace")
-          .attr("readonly", true)
-          .on("click", select))
-      .append(
-        $("<p>")
-          .attr("class", "text-body-secondary")
-          .text(OSM.i18n.t("javascripts.share.paste_html")));
-
-    // Geo URI
-
-    const $geoUriSection = $("<div>")
-      .attr("class", "share-geo-uri p-3 border-bottom border-secondary-subtle")
-      .appendTo($ui);
-
-    $("<h4>")
-      .text(OSM.i18n.t("javascripts.share.geo_uri"))
-      .appendTo($geoUriSection);
-
-    $("<div>")
-      .appendTo($geoUriSection)
-      .append($("<a>")
-        .attr("id", "geo_uri"));
+    $ui.find(".share-tab [id]").on("click", select);
 
     // Image
 
-    const $imageSection = $("<div>")
-      .attr("class", "share-image p-3")
-      .appendTo($ui);
+    $ui.find("#mapnik_scale").on("change", update);
 
-    $("<h4>")
-      .text(OSM.i18n.t("javascripts.share.image"))
-      .appendTo($imageSection);
+    $ui.find("#image_filter").bind("change", toggleFilter);
 
-    $("<div>")
-      .attr("id", "export-warning")
-      .attr("class", "text-body-secondary")
-      .text(OSM.i18n.t("javascripts.share.only_layers_exported_as_image"))
-      .append(
-        $("<ul>").append(
-          map.baseLayers
-            .filter(layer => layer.options.canDownloadImage)
-            .map(layer => $("<li>").text(layer.options.name))))
-      .appendTo($imageSection);
-
-    $form = $("<form>")
-      .attr("id", "export-image")
-      .attr("action", "/export/finish")
-      .attr("method", "post")
-      .appendTo($imageSection);
-
-    $("<div>")
-      .appendTo($form)
-      .attr("class", "row mb-3")
-      .append($("<label>")
-        .attr("for", "mapnik_format")
-        .attr("class", "col-auto col-form-label")
-        .text(OSM.i18n.t("javascripts.share.format")))
-      .append($("<div>")
-        .attr("class", "col-auto")
-        .append($("<select>")
-          .attr("name", "mapnik_format")
-          .attr("id", "mapnik_format")
-          .attr("class", "form-select w-auto")
-          .append($("<option>").val("png").text("PNG").prop("selected", true))
-          .append($("<option>").val("jpeg").text("JPEG"))
-          .append($("<option>").val("webp").text("WEBP"))
-          .append($("<option>").val("svg").text("SVG"))
-          .append($("<option>").val("pdf").text("PDF"))));
-
-    $("<div>")
-      .appendTo($form)
-      .attr("class", "row mb-3")
-      .attr("id", "mapnik_scale_row")
-      .append($("<label>")
-        .attr("for", "mapnik_scale")
-        .attr("class", "col-auto col-form-label")
-        .text(OSM.i18n.t("javascripts.share.scale")))
-      .append($("<div>")
-        .attr("class", "col-auto")
-        .append($("<div>")
-          .attr("class", "input-group flex-nowrap")
-          .append($("<span>")
-            .attr("class", "input-group-text")
-            .text("1 : "))
-          .append($("<input>")
-            .attr("name", "mapnik_scale")
-            .attr("id", "mapnik_scale")
-            .attr("type", "text")
-            .attr("class", "form-control")
-            .on("change", update))));
-
-    $("<div>")
-      .attr("class", "row mb-3")
-      .appendTo($form)
-      .append($("<div>")
-        .attr("class", "col-auto")
-        .append($("<div>")
-          .attr("class", "form-check")
-          .append($("<label>")
-            .attr("for", "image_filter")
-            .attr("class", "form-check-label")
-            .text(OSM.i18n.t("javascripts.share.custom_dimensions")))
-          .append($("<input>")
-            .attr("id", "image_filter")
-            .attr("type", "checkbox")
-            .attr("class", "form-check-input")
-            .bind("change", toggleFilter))));
-
-    const mapnikNames = ["minlon", "minlat", "maxlon", "maxlat", "lat", "lon"];
-
-    for (const name of mapnikNames) {
-      $("<input>")
-        .attr("id", "mapnik_" + name)
-        .attr("name", name)
-        .attr("type", "hidden")
-        .appendTo($form);
-    }
-
-    const hiddenExportDefaults = {
-      format: "mapnik",
-      zoom: map.getZoom(),
-      width: 0,
-      height: 0
-    };
-
-    for (const name in hiddenExportDefaults) {
-      $("<input>")
-        .attr("id", "map_" + name)
-        .attr("name", name)
-        .attr("value", hiddenExportDefaults[name])
-        .attr("type", "hidden")
-        .appendTo($form);
-    }
-
-    const csrfAttrs = { type: "hidden" };
-    [[csrfAttrs.name, csrfAttrs.value]] = Object.entries(OSM.csrf);
-
-    $("<input>")
-      .attr(csrfAttrs)
-      .appendTo($form);
-
-    const args = {
-      layer: "<span id=\"mapnik_image_layer\"></span>",
-      width: "<span id=\"mapnik_image_width\"></span>",
-      height: "<span id=\"mapnik_image_height\"></span>"
-    };
-
-    $("<p>")
-      .attr("class", "text-body-secondary")
-      .html(OSM.i18n.t("javascripts.share.image_dimensions", args))
-      .appendTo($form);
-
-    $("<input>")
-      .attr("type", "submit")
-      .attr("class", "btn btn-primary")
-      .attr("value", OSM.i18n.t("javascripts.share.download"))
-      .appendTo($form);
+    const csrfInput = $ui.find("#csrf_export")[0];
+    [[csrfInput.name, csrfInput.value]] = Object.entries(OSM.csrf);
 
     locationFilter
       .on("change", update)
@@ -263,6 +49,8 @@ L.OSM.share = function (options) {
     $ui
       .on("show", shown)
       .on("hide", hidden);
+
+    update();
 
     function shown() {
       $("#mapnik_scale").val(getScale());
@@ -363,7 +151,7 @@ L.OSM.share = function (options) {
         .toggleClass("btn-secondary", !canEmbed)
         .tooltip(canEmbed ? "disable" : "enable");
       if (!canEmbed && $("#embed_link").hasClass("active")) {
-        $("#long_link").click();
+        $("#long_link").trigger("click");
       }
 
       $("#embed_html").val(
@@ -377,7 +165,7 @@ L.OSM.share = function (options) {
 
       $("#geo_uri")
         .attr("href", map.getGeoUri(marker))
-        .html(map.getGeoUri(marker));
+        .text(map.getGeoUri(marker));
 
       // Image
 
@@ -422,7 +210,7 @@ L.OSM.share = function (options) {
     }
 
     function select() {
-      $(this).select();
+      $(this).trigger("select");
     }
 
     function getScale() {
@@ -439,6 +227,13 @@ L.OSM.share = function (options) {
       const precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
       return precision * Math.ceil(scale / precision);
     }
+  }
+
+  control.onAddPane = function (map, button, $ui) {
+    $("#content").addClass("overlay-right-sidebar");
+
+    control.onContentLoaded = () => init(map, $ui);
+    $ui.one("show", control.loadContent);
   };
 
   return control;
