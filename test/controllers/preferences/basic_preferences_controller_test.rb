@@ -145,15 +145,16 @@ module Preferences
 
     def check_language_change(from_languages, selecting_language, to_languages)
       I18n.with_locale "en" do
-        user = create(:user, :languages => from_languages)
+        user = create(:user, :preferred_editor => "remote", :languages => from_languages)
         another_user = create(:user, :languages => %w[not going to change])
         session_for(user)
 
-        put basic_preferences_path, :params => { :user => { :preferred_editor => "default" }, :language => selecting_language }
+        put basic_preferences_path, :params => { :language => selecting_language }
 
         assert_redirected_to basic_preferences_path
         user.reload
         assert_equal to_languages, user.languages
+        assert_equal "remote", user.preferred_editor
         another_user.reload
         assert_equal %w[not going to change], another_user.languages
       end
