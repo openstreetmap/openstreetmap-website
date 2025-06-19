@@ -1,10 +1,7 @@
 <div class='secondary-actions mb-2'>
-  <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
   <% if !@feature.redacted? %>
-    &middot;
     <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
   <% elsif current_user&.moderator? %>
-    &middot;
     <% if !params[:show_redactions] %>
       <%= link_to t(".view_redacted_data"), :params => { :show_redactions => true } %>
     <% else %>
