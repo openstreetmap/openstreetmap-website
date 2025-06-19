@@ -13,6 +13,7 @@
   <% end %>
 </div>
 
+<!--
 <div class='secondary-actions'>
   <% if @feature.version > 1 %>
     <%= link_to({ :version => @feature.version - 1 }, { :class => "icon-link" }) do %>
@@ -30,3 +31,27 @@
     <% end %>
   <% end %>
 </div>
+-->
+
+<nav>
+  <ol class="breadcrumb mb-1">
+    <li class="breadcrumb-item"><%= link_to "Element", @current_feature %></li>
+    <li class="breadcrumb-item"><%= link_to "History", :action => :index %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @feature.version %></li>
+  </ol>
+  <ul class="pagination pagination-sm overflow-x-scroll">
+    <% 1.upto(@current_feature.version) do |v| %>
+      <%= tag.li(:class => ["page-item", {
+            "active" => v == @feature.version,
+            "position-sticky z-1 start-0" => @current_feature.version > 1 && v == 1,
+            "position-sticky z-1 end-0" => @current_feature.version > 1 && v == @current_feature.version
+          }]) do %>
+        <% if v == @feature.version %>
+          <span class="page-link"><%= v %></span>
+        <% else %>
+          <%= link_to v, { :version => v }, :class => "page-link" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </ul>
+</nav>
