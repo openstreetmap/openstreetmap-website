@@ -1,13 +1,16 @@
 <% [[:error, :danger], [:warning, :warning], [:notice, :success]].each do |flash_type, bootstrap_type| %>
   <% if flash[flash_type] %>
-    <%= tag.div :class => "alert alert-#{bootstrap_type} row mx-0 mb-0 p-3 rounded-0 align-items-center",
+    <%= tag.div :class => "alert alert-dismissible alert-#{bootstrap_type} mb-0 rounded-0",
                 :data => { :turbo_temporary => true } do %>
-      <div class="col-auto">
-        <%= notice_svg_tag %>
+      <div class="d-flex gap-3 align-items-center">
+        <div class="d-flex">
+          <%= notice_svg_tag %>
+        </div>
+        <div>
+          <%= render_flash flash[flash_type] %>
+        </div>
       </div>
-      <div class="col">
-        <%= render_flash flash[flash_type] %>
-      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t("javascripts.close") %>"></button>
     <% end %>
   <% end %>
 <% end %>
