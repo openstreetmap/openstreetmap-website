@@ -302,9 +302,11 @@ $(function () {
     };
 
     function initVersionsNavigation() {
-      const [activeItem] = $("#versions-navigation .pagination.overflow-x-scroll .page-item.active");
+      const $pagination = $("#versions-navigation .pagination.overflow-x-scroll");
+      const [pagination] = $pagination;
+      const [activeItem] = $pagination.find(".page-item.active");
       if (activeItem) {
-        activeItem.scrollIntoView({ inline: "center" });
+        pagination.scrollLeft = Math.round(activeItem.offsetLeft - (pagination.offsetWidth / 2) + (activeItem.offsetWidth / 2));
       }
     }
 
