@@ -1,7 +1,17 @@
 class OldNodesController < OldElementsController
   def index
     @type = "node"
-    @feature = Node.preload(:node_tags, :old_nodes => [:old_tags, { :changeset => [:changeset_tags, :user] }]).find(params[:id])
+    @feature = Node.preload(:node_tags).find(params[:id])
+    @old_features, @newer_features_version, @older_features_version = get_page_items(
+      OldNode.where(:node_id => params[:id]),
+      :cursor_column => :version,
+      :includes => [:old_tags, { :changeset => [:changeset_tags, :user] }]
+    )
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end
