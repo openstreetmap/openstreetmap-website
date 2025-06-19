@@ -34,7 +34,7 @@
 -->
 
 <% w = @current_feature.version %>
-<nav id="versions-navigation">
+<nav>
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><%= link_to "Element", @current_feature %></li>
     <li class="breadcrumb-item"><%= link_to "History", :action => :index %></li>
@@ -53,7 +53,7 @@
         <% end %>
       </ul>
     <% else %>
-      <ul class="pagination pagination-sm">
+      <ul id="versions-navigation-pinned-start" class="pagination pagination-sm z-1">
         <%= tag.li(:class => ["page-item", { "active" => 1 == @feature.version }]) do %>
           <% if 1 == @feature.version %>
             <span class="page-link rounded-end-0"><%= 1 %></span>
@@ -62,7 +62,7 @@
           <% end %>
         <% end %>
       </ul>
-      <ul class="pagination pagination-sm mb-1 overflow-x-scroll position-relative">
+      <ul id="versions-navigation-scrollable" class="pagination pagination-sm mb-1 overflow-x-scroll position-relative z-0">
         <% 2.upto(@current_feature.version - 1) do |v| %>
           <%= tag.li(:class => ["page-item", { "active" => v == @feature.version }]) do %>
             <% page_link_class = ["page-link rounded-0", { "border-start-0" => v == 2,
@@ -75,7 +75,7 @@
           <% end %>
         <% end %>
       </ul>
-      <ul class="pagination pagination-sm">
+      <ul id="versions-navigation-pinned-end" class="pagination pagination-sm z-1">
         <%= tag.li(:class => ["page-item", { "active" => w == @feature.version }]) do %>
           <% if w == @feature.version %>
             <span class="page-link rounded-start-0"><%= w %></span>

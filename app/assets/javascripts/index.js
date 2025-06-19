@@ -302,11 +302,37 @@ $(function () {
     };
 
     function initVersionsNavigation() {
-      const $pagination = $("#versions-navigation .pagination.overflow-x-scroll");
-      const [pagination] = $pagination;
-      const [activeItem] = $pagination.find(".page-item.active");
+      // $("#versions-navigation-pinned-start").css("box-shadow", "rgba(0, 0, 0, 0.075) 2px 0px 2px");
+      // $("#versions-navigation-pinned-end").css("box-shadow", "rgba(0, 0, 0, 0.075) -2px 0px 2px");
+
+      const $scrollable = $("#versions-navigation-scrollable");
+      const [scrollable] = $scrollable;
+      const [activeItem] = $scrollable.find(".page-item.active");
+
       if (activeItem) {
-        pagination.scrollLeft = Math.round(activeItem.offsetLeft - (pagination.offsetWidth / 2) + (activeItem.offsetWidth / 2));
+        scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));
+      }
+
+      const [scrollableFirstItem] = $scrollable.children().first();
+
+      if (scrollableFirstItem) {
+        const scrollStartObserver = new IntersectionObserver(([entry]) => {
+          $("#versions-navigation-pinned-start").css(
+            "box-shadow", entry.intersectionRatio < 1 ? "rgba(0, 0, 0, 0.075) 2px 0px 2px" : ""
+          );
+        }, { threshold: 1 });
+        scrollStartObserver.observe(scrollableFirstItem);
+      }
+
+      const [scrollableLastItem] = $scrollable.children().last();
+
+      if (scrollableLastItem) {
+        const scrollStartObserver = new IntersectionObserver(([entry]) => {
+          $("#versions-navigation-pinned-end").css(
+            "box-shadow", entry.intersectionRatio < 1 ? "rgba(0, 0, 0, 0.075) -2px 0px 2px" : ""
+          );
+        }, { threshold: 1 });
+        scrollStartObserver.observe(scrollableLastItem);
       }
     }
 
