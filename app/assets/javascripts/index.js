@@ -288,6 +288,7 @@ $(function () {
 
   OSM.Browse = function (map, type) {
     const page = {};
+    let scrollStartObserver, scrollEndObserver;
 
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
@@ -316,7 +317,7 @@ $(function () {
       const [scrollableFirstItem] = $scrollable.children().first();
 
       if (scrollableFirstItem) {
-        const scrollStartObserver = new IntersectionObserver(([entry]) => {
+        scrollStartObserver = new IntersectionObserver(([entry]) => {
           $("#versions-navigation-pinned-start").css(
             "box-shadow", entry.intersectionRatio < 1 ? "rgba(0, 0, 0, 0.075) 2px 0px 2px" : ""
           );
@@ -327,12 +328,12 @@ $(function () {
       const [scrollableLastItem] = $scrollable.children().last();
 
       if (scrollableLastItem) {
-        const scrollStartObserver = new IntersectionObserver(([entry]) => {
+        scrollEndObserver = new IntersectionObserver(([entry]) => {
           $("#versions-navigation-pinned-end").css(
             "box-shadow", entry.intersectionRatio < 1 ? "rgba(0, 0, 0, 0.075) -2px 0px 2px" : ""
           );
         }, { threshold: 1 });
-        scrollStartObserver.observe(scrollableLastItem);
+        scrollEndObserver.observe(scrollableLastItem);
       }
     }
 
@@ -350,6 +351,10 @@ $(function () {
 
     page.unload = function () {
       map.removeObject();
+      scrollStartObserver?.disconnect();
+      scrollStartObserver = null;
+      scrollEndObserver?.disconnect();
+      scrollEndObserver = null;
     };
 
     return page;
