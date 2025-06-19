@@ -1,5 +1,5 @@
-L.OSM.key = function (options) {
-  const control = L.OSM.sidebarPane(options, "key", "javascripts.key.title", "javascripts.key.title");
+L.OSM.legend = function (options) {
+  const control = L.OSM.sidebarPane(options, "legend", "javascripts.legend.title", "javascripts.legend.title");
 
   control.onAddPane = function (map, button, $ui) {
     $ui
@@ -24,15 +24,15 @@ L.OSM.key = function (options) {
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
               OSM.i18n.t(disabled ?
-                "javascripts.key.tooltip_disabled" :
-                "javascripts.key.tooltip"));
+                "javascripts.legend.tooltip_disabled" :
+                "javascripts.legend.tooltip"));
     }
 
     function update() {
       const layerId = map.getMapBaseLayerId(),
             zoom = map.getZoom();
 
-      $("#mapkey [data-layer]").each(function () {
+      $("#legend [data-layer]").each(function () {
         const data = $(this).data();
         $(this).toggle(
           layerId === data.layer &&
