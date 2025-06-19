@@ -7,6 +7,11 @@ class OldNodesController < OldElementsController
       :cursor_column => :version,
       :includes => [:old_tags, { :changeset => [:changeset_tags, :user] }]
     )
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end
