@@ -1,4 +1,4 @@
-<div class='secondary-actions'>
+<div class='secondary-actions mb-2'>
   <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
   <% if !@feature.redacted? %>
     &middot;
@@ -42,7 +42,7 @@
           <% end %>
         <% end %>
       </ul>
-      <ul id="versions-navigation-scrollable" class="pagination pagination-sm mb-1 overflow-x-scroll position-relative z-0">
+      <ul id="versions-navigation-scrollable" class="pagination pagination-sm pb-3 overflow-x-scroll position-relative z-0">
         <% 2.upto(@current_feature.version - 1) do |v| %>
           <%= tag.li(:class => ["page-item", { "active" => v == @feature.version }]) do %>
             <% page_link_class = ["page-link rounded-0", { "border-start-0" => v == 2,
