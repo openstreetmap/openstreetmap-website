@@ -303,9 +303,6 @@ $(function () {
     };
 
     function initVersionsNavigation() {
-      // $("#versions-navigation-pinned-start").css("box-shadow", "rgba(0, 0, 0, 0.075) 2px 0px 2px");
-      // $("#versions-navigation-pinned-end").css("box-shadow", "rgba(0, 0, 0, 0.075) -2px 0px 2px");
-
       const $scrollable = $("#versions-navigation-scrollable");
       const [scrollable] = $scrollable;
       const [activeItem] = $scrollable.find(".page-item.active");
@@ -314,29 +311,26 @@ $(function () {
         scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));
       }
 
-      const threshold = 0.95;
-
       const [scrollableFirstItem] = $scrollable.children().first();
 
       if (scrollableFirstItem) {
-        scrollStartObserver = new IntersectionObserver(([entry]) => {
-          $("#versions-navigation-pinned-start").css(
-            "box-shadow", entry.intersectionRatio < threshold ? "rgba(0, 0, 0, 0.075) 2px 0px 2px" : ""
-          );
-        }, { threshold });
+        scrollStartObserver = createScrollObserver("#versions-navigation-pinned-start", "2px 0px");
         scrollStartObserver.observe(scrollableFirstItem);
       }
 
       const [scrollableLastItem] = $scrollable.children().last();
 
       if (scrollableLastItem) {
-        scrollEndObserver = new IntersectionObserver(([entry]) => {
-          $("#versions-navigation-pinned-end").css(
-            "box-shadow", entry.intersectionRatio < threshold ? "rgba(0, 0, 0, 0.075) -2px 0px 2px" : ""
-          );
-        }, { threshold });
+        scrollEndObserver = createScrollObserver("#versions-navigation-pinned-end", "-2px 0px");
         scrollEndObserver.observe(scrollableLastItem);
       }
+    }
+
+    function createScrollObserver(shadowTarget, shadowOffset) {
+      const threshold = 0.95;
+      return new IntersectionObserver(([entry]) => {
+        $(shadowTarget).css("box-shadow", entry.intersectionRatio < threshold ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "");
+      }, { threshold });
     }
 
     function addObject(type, id, version, center) {
