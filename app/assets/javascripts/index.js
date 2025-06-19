@@ -291,13 +291,22 @@ $(function () {
 
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
+        initVersionsNavigation();
         addObject(type, id, version);
       });
     };
 
     page.load = function (path, id, version) {
+      initVersionsNavigation();
       addObject(type, id, version, true);
     };
+
+    function initVersionsNavigation() {
+      const [activeItem] = $("#versions-navigation .pagination.overflow-x-scroll .page-item.active");
+      if (activeItem) {
+        activeItem.scrollIntoView({ inline: "center" });
+      }
+    }
 
     function addObject(type, id, version, center) {
       const hashParams = OSM.parseHash();
