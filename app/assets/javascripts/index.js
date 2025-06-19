@@ -314,14 +314,16 @@ $(function () {
         scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));
       }
 
+      const threshold = 0.95;
+
       const [scrollableFirstItem] = $scrollable.children().first();
 
       if (scrollableFirstItem) {
         scrollStartObserver = new IntersectionObserver(([entry]) => {
           $("#versions-navigation-pinned-start").css(
-            "box-shadow", entry.intersectionRatio < 1 ? "rgba(0, 0, 0, 0.075) 2px 0px 2px" : ""
+            "box-shadow", entry.intersectionRatio < threshold ? "rgba(0, 0, 0, 0.075) 2px 0px 2px" : ""
           );
-        }, { threshold: 1 });
+        }, { threshold });
         scrollStartObserver.observe(scrollableFirstItem);
       }
 
@@ -330,9 +332,9 @@ $(function () {
       if (scrollableLastItem) {
         scrollEndObserver = new IntersectionObserver(([entry]) => {
           $("#versions-navigation-pinned-end").css(
-            "box-shadow", entry.intersectionRatio < 1 ? "rgba(0, 0, 0, 0.075) -2px 0px 2px" : ""
+            "box-shadow", entry.intersectionRatio < threshold ? "rgba(0, 0, 0, 0.075) -2px 0px 2px" : ""
           );
-        }, { threshold: 1 });
+        }, { threshold });
         scrollEndObserver.observe(scrollableLastItem);
       }
     }
