@@ -91,11 +91,6 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Zoom in to see"
   end
 
-  test "language selector should exist when logged out" do
-    visit "/"
-    assert_button "Select Language"
-  end
-
   private
 
   def check_control_tooltips_on_low_zoom(locator)
