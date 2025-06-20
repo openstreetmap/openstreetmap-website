@@ -69,10 +69,14 @@
       <li class="nav-item ps-1 not-collapsible">
         <% if current_user && current_user.id %>
           <%= link_to(basic_preferences_path, :class => "nav-link text-secondary") do %>
-            <%= render "shared/language_selector", :classes => "", :disabled => true %>
+            <%= render "layouts/select_language_button" %>
           <% end %>
         <% else %>
-          <%= render "shared/language_selector", :classes => "nav-link text-secondary", :disabled => false %>
+          <%= tag.button :type => "button",
+                         :class => "btn btn-link p-0 text-secondary",
+                         :data => { :bs_toggle => "modal", :bs_target => "#select_language_dialog" } do %>
+            <%= render "layouts/select_language_button" %>
+          <% end %>
         <% end %>
       </li>
     </ul>
@@ -111,3 +115,19 @@
     <% end %>
   </nav>
 </header>
+
+<% unless current_user&.id %>
+<div class="modal fade" id="select_language_dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="select_language_dialog_label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="select_language_dialog_label"><%= t ".select_language" %></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
+      </div>
+      <div class="modal-body px-1">
+        <%= render "layouts/select_language_list" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
