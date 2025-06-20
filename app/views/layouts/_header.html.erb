@@ -5,6 +5,7 @@
       <%= t "layouts.project_name.h1" %>
     </a>
   </h1>
+  <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none position-absolute"] %>
   <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <%= content_for :header %>
@@ -68,7 +69,7 @@
       </li>
     </ul>
 
-    <%= render "layouts/select_language_button", :extra_classes => [{ "border-secondary-subtle" => current_user&.id }] %>
+    <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block", { "border-secondary-subtle" => current_user&.id }] %>
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in'>
         <button class='d-flex gap-1 align-items-center justify-content-center dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1 mw-100' type='button' data-bs-toggle='dropdown'>
