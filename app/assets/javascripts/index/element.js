@@ -50,10 +50,21 @@ OSM.Element = function (map, type) {
 
   function scrollToCurrentVersion() {
     const [scrollable] = $("#versions-navigation-scrollable");
-    const [activeItem] = $("#versions-navigation-scrollable #versions-navigation-current-page-link");
 
-    if (scrollable && activeItem) {
-      scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));
+    if (!scrollable) return;
+
+    const [activeStartItem] = $("#versions-navigation-pinned-start #versions-navigation-current-page-link");
+    const [activeScrollableItem] = $("#versions-navigation-scrollable #versions-navigation-current-page-link");
+    const [activeEndItem] = $("#versions-navigation-pinned-end #versions-navigation-current-page-link");
+
+    if (activeStartItem) {
+      scrollable.scrollLeft = 0;
+    }
+    if (activeScrollableItem) {
+      scrollable.scrollLeft = Math.round(activeScrollableItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeScrollableItem.offsetWidth / 2));
+    }
+    if (activeEndItem) {
+      scrollable.scrollLeft = scrollable.scrollWidth - scrollable.offsetWidth;
     }
   }
 
