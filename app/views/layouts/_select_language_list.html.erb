@@ -5,7 +5,11 @@
                   { :class => ["btn btn-link text-start", { "bg-body-secondary text-secondary-emphasis" => language[:code] == I18n.locale.to_s }],
                     :data => { :bs_dismiss => "modal",
                                :language_code => language[:code] } }) do %>
-        <%= language[:native_name] %>
+        <% if language[:short_native_name] %>
+          <%= language[:short_native_name] %>
+        <% else %>
+          <%= language[:native_name] %>
+        <% end %>
       <% end %>
     </li>
   <% end %>
