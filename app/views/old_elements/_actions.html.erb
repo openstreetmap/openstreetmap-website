@@ -10,7 +10,6 @@
   <% end %>
 </div>
 
-<% w = @current_feature.version %>
 <nav>
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><%= link_to "Element", @current_feature %></li>
@@ -22,50 +21,5 @@
     </li>
   </ol>
 
-  <div class="d-flex align-items-start">
-    <% if w == 1 %>
-      <ul class="pagination pagination-sm">
-        <%= tag.li(:class => ["page-item", { "active" => 1 == @feature.version }]) do %>
-          <% if 1 == @feature.version %>
-            <span class="page-link"><%= 1 %></span>
-          <% else %>
-            <%= link_to 1, { :version => 1 }, :class => "page-link" %>
-          <% end %>
-        <% end %>
-      </ul>
-    <% else %>
-      <ul id="versions-navigation-pinned-start" class="pagination pagination-sm z-1">
-        <%= tag.li(:class => ["page-item", { "active" => 1 == @feature.version }]) do %>
-          <% if 1 == @feature.version %>
-            <span class="page-link rounded-end-0"><%= 1 %></span>
-          <% else %>
-            <%= link_to 1, { :version => 1 }, :class => "page-link rounded-end-0" %>
-          <% end %>
-        <% end %>
-      </ul>
-      <ul id="versions-navigation-scrollable" class="pagination pagination-sm pb-3 overflow-x-scroll position-relative z-0">
-        <% 2.upto(@current_feature.version - 1) do |v| %>
-          <%= tag.li(:id => ("versions-navigation-current-page-link" if v == @feature.version),
-                     :class => ["page-item", { "active" => v == @feature.version }]) do %>
-            <% page_link_class = ["page-link rounded-0", { "border-start-0" => v == 2,
-                                                           "border-end-0" => v == @current_feature.version - 1 }] %>
-            <% if v == @feature.version %>
-              <%= tag.span v, :class => page_link_class %>
-            <% else %>
-              <%= link_to v, { :version => v }, :class => page_link_class %>
-            <% end %>
-          <% end %>
-        <% end %>
-      </ul>
-      <ul id="versions-navigation-pinned-end" class="pagination pagination-sm z-1">
-        <%= tag.li(:class => ["page-item", { "active" => w == @feature.version }]) do %>
-          <% if w == @feature.version %>
-            <span class="page-link rounded-start-0"><%= w %></span>
-          <% else %>
-            <%= link_to w, { :version => w }, :class => "page-link rounded-start-0" %>
-          <% end %>
-        <% end %>
-      </ul>
-    <% end %>
-  </div>
+  <%= element_versions_pagination(@feature.version, @current_feature.version) %>
 </nav>

@@ -50,7 +50,7 @@ OSM.Element = function (map, type) {
 
   function scrollToCurrentVersion() {
     const [scrollable] = $("#versions-navigation-scrollable");
-    const [activeItem] = $("#versions-navigation-current-page-link");
+    const [activeItem] = $("#versions-navigation-scrollable #versions-navigation-current-page-link");
 
     if (scrollable && activeItem) {
       scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));

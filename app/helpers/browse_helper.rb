@@ -93,6 +93,52 @@ module BrowseHelper
     end
   end
 
+  def element_versions_pagination(displayed_version, top_version)
+    lists = []
+
+    if top_version <= 5
+      lists << tag.ul(:class => "pagination pagination-sm") do
+        concat element_versions_pagination_item(1, 1 == displayed_version)
+      end
+    else
+      start_bound = displayed_version < 3 ? displayed_version + 2 : 2
+      end_bound = displayed_version > top_version - 2 ? displayed_version - 1 : top_version
+
+      lists << tag.ul(:id => "versions-navigation-pinned-start",
+                      :class => "pagination pagination-sm z-1") do
+        (1...start_bound).each do |v|
+          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-end-0" => v == start_bound - 1 })
+        end
+      end
+      lists << tag.ul(:id => "versions-navigation-scrollable",
+                      :class => "pagination pagination-sm pb-3 overflow-x-scroll position-relative z-0") do
+        (start_bound...end_bound).each do |v|
+          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-0" => true,
+                                                                               "border-start-0" => v == start_bound,
+                                                                               "border-end-0" => v == end_bound - 1 })
+        end
+      end
+      lists << tag.ul(:id => "versions-navigation-pinned-end",
+                      :class => "pagination pagination-sm z-1") do
+        (end_bound..top_version).each do |v|
+          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-start-0" => v == end_bound })
+        end
+      end
+    end
+
+    tag.div safe_join(lists), :class => "d-flex align-items-start"
+  end
+
+  def element_versions_pagination_item(version, active, extra_classes = {})
+    link = if active
+             tag.span version, :class => ["page-link", extra_classes]
+           else
+             link_to version, { :version => version }, :class => ["page-link", extra_classes]
+           end
+    tag.li link, :id => ("versions-navigation-current-page-link" if active),
+                 :class => ["page-item", { "active" => active }]
+  end
+
   private
 
   def feature_name(tags)
