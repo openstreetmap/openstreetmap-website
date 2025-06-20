@@ -67,17 +67,7 @@
         </ul>
       </li>
       <li class="nav-item ps-1 not-collapsible">
-        <% if current_user && current_user.id %>
-          <%= link_to(basic_preferences_path, :class => "nav-link text-secondary") do %>
-            <%= render "layouts/select_language_button" %>
-          <% end %>
-        <% else %>
-          <%= tag.button :type => "button",
-                         :class => "btn btn-link p-0 text-secondary",
-                         :data => { :bs_toggle => "modal", :bs_target => "#select_language_dialog" } do %>
-            <%= render "layouts/select_language_button" %>
-          <% end %>
-        <% end %>
+        <%= render "layouts/select_language_button" %>
       </li>
     </ul>
     <% if current_user && current_user.id %>
@@ -116,7 +106,6 @@
   </nav>
 </header>
 
-<% unless current_user&.id %>
 <div class="modal fade" id="select_language_dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="select_language_dialog_label" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
@@ -125,9 +114,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
       </div>
       <div class="modal-body px-1">
-        <%= render "layouts/select_language_list" %>
+        <% if current_user&.id %>
+          <%= form_tag basic_preferences_path, :method => "PUT" do %>
+            <%= hidden_field_tag "referer", request.fullpath %>
+            <%= hidden_field_tag "language", I18n.locale %>
+            <%= render "layouts/select_language_list" %>
+          <% end %>
+        <% else %>
+          <%= render "layouts/select_language_list" %>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
-<% end %>
