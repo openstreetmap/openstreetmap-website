@@ -1,4 +1,4 @@
-OSM.Browse = function (map, type) {
+OSM.Element = function (map, type) {
   const page = {};
   let scrollStartObserver, scrollEndObserver;
 
@@ -10,14 +10,25 @@ OSM.Browse = function (map, type) {
   page.pushstate = page.popstate = function (path, id, version) {
     OSM.loadSidebarContent(path, function () {
       initVersionsNavigation();
-      addObject(type, id, version);
+      page._addObject(type, id, version);
     });
   };
 
   page.load = function (path, id, version) {
     initVersionsNavigation();
-    addObject(type, id, version, true);
+    page._addObject(type, id, version, true);
   };
+
+  page.unload = function () {
+    page._removeObject();
+    scrollStartObserver?.disconnect();
+    scrollStartObserver = null;
+    scrollEndObserver?.disconnect();
+    scrollEndObserver = null;
+  };
+
+  page._addObject = function () {};
+  page._removeObject = function () {};
 
   function initVersionsNavigation() {
     scrollToCurrentVersion();
@@ -53,7 +64,13 @@ OSM.Browse = function (map, type) {
     }, { threshold });
   }
 
-  function addObject(type, id, version, center) {
+  return page;
+};
+
+OSM.MappedElement = function (map, type) {
+  const page = OSM.Element(map, type);
+
+  page._addObject = function (type, id, version, center) {
     const hashParams = OSM.parseHash();
     map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
       if (!hashParams.center && bounds.isValid() &&
@@ -63,24 +80,10 @@ OSM.Browse = function (map, type) {
         });
       }
     });
-  }
-
-  page.unload = function () {
-    map.removeObject();
-    scrollStartObserver?.disconnect();
-    scrollStartObserver = null;
-    scrollEndObserver?.disconnect();
-    scrollEndObserver = null;
   };
 
-  return page;
-};
-
-OSM.OldBrowse = function () {
-  const page = {};
-
-  page.pushstate = page.popstate = function (path) {
-    OSM.loadSidebarContent(path);
+  page._removeObject = function () {
+    map.removeObject();
   };
 
   return page;
