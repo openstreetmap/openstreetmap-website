@@ -7,6 +7,9 @@
                                :language_code => language[:code] } }) do %>
         <% if language[:short_native_name] %>
           <%= language[:short_native_name] %>
+          <% if language[:short_native_note] %>
+            <small>(<%= language[:short_native_note] %>)</small>
+          <% end %>
         <% else %>
           <%= language[:native_name] %>
         <% end %>
