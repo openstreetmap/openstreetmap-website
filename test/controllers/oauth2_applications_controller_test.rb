@@ -74,7 +74,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     get new_oauth_application_path
     assert_response :success
     assert_template "oauth2_applications/new"
-    assert_select "form", 1 do
+    assert_select "#content form", 1 do
       assert_select "input#oauth2_application_name", 1
       assert_select "textarea#oauth2_application_redirect_uri", 1
       assert_select "input#oauth2_application_confidential", 1
@@ -183,7 +183,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     get edit_oauth_application_path(:id => client)
     assert_response :success
     assert_template "oauth2_applications/edit"
-    assert_select "form", 1 do
+    assert_select "#content form", 1 do
       assert_select "input#oauth2_application_name", 1
       assert_select "textarea#oauth2_application_redirect_uri", 1
       assert_select "input#oauth2_application_confidential", 1
