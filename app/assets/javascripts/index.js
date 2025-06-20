@@ -290,6 +290,11 @@ $(function () {
     const page = {};
     let scrollStartObserver, scrollEndObserver;
 
+    $(document).on("click", "a[href='#versions-navigation-current-page-link']", function (e) {
+      scrollToCurrentVersion();
+      e.preventDefault();
+    });
+
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
         initVersionsNavigation();
@@ -303,26 +308,29 @@ $(function () {
     };
 
     function initVersionsNavigation() {
+      scrollToCurrentVersion();
+
       const $scrollable = $("#versions-navigation-scrollable");
-      const [scrollable] = $scrollable;
-      const [activeItem] = $scrollable.find(".page-item.active");
-
-      if (activeItem) {
-        scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));
-      }
-
       const [scrollableFirstItem] = $scrollable.children().first();
+      const [scrollableLastItem] = $scrollable.children().last();
 
       if (scrollableFirstItem) {
         scrollStartObserver = createScrollObserver("#versions-navigation-pinned-start", "2px 0px");
         scrollStartObserver.observe(scrollableFirstItem);
       }
 
-      const [scrollableLastItem] = $scrollable.children().last();
-
       if (scrollableLastItem) {
         scrollEndObserver = createScrollObserver("#versions-navigation-pinned-end", "-2px 0px");
         scrollEndObserver.observe(scrollableLastItem);
+      }
+    }
+
+    function scrollToCurrentVersion() {
+      const [scrollable] = $("#versions-navigation-scrollable");
+      const [activeItem] = $("#versions-navigation-current-page-link");
+
+      if (scrollable && activeItem) {
+        scrollable.scrollLeft = Math.round(activeItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeItem.offsetWidth / 2));
       }
     }
 

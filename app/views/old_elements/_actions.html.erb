@@ -15,7 +15,11 @@
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><%= link_to "Element", @current_feature %></li>
     <li class="breadcrumb-item"><%= link_to "History", :action => :index %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= @feature.version %></li>
+    <li class="breadcrumb-item active" aria-current="page">
+      <a href="#versions-navigation-current-page-link" class="link-body-emphasis">
+        <%= t("browse.version") + " ##{@feature.version}" %>
+      </a>
+    </li>
   </ol>
 
   <div class="d-flex align-items-start">
@@ -41,7 +45,8 @@
       </ul>
       <ul id="versions-navigation-scrollable" class="pagination pagination-sm pb-3 overflow-x-scroll position-relative z-0">
         <% 2.upto(@current_feature.version - 1) do |v| %>
-          <%= tag.li(:class => ["page-item", { "active" => v == @feature.version }]) do %>
+          <%= tag.li(:id => ("versions-navigation-current-page-link" if v == @feature.version),
+                     :class => ["page-item", { "active" => v == @feature.version }]) do %>
             <% page_link_class = ["page-link rounded-0", { "border-start-0" => v == 2,
                                                            "border-end-0" => v == @current_feature.version - 1 }] %>
             <% if v == @feature.version %>
