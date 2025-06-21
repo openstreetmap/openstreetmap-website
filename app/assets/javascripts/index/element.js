@@ -1,7 +1,7 @@
 (function () {
-  $(document).on("click", "a[href='#versions-navigation-current-page-link']", function (e) {
+  $(document).on("click", "a[href='#versions-navigation-current-page-item']", function (e) {
     scrollToCurrentVersion();
-    $("#versions-navigation-current-page-link a.page-link").trigger("focus");
+    $("#versions-navigation-current-page-item a.page-link").trigger("focus");
     e.preventDefault();
   });
 
@@ -90,9 +90,9 @@
 
     if (!scrollable) return;
 
-    const [activeStartItem] = $("#versions-navigation-pinned-start #versions-navigation-current-page-link");
-    const [activeScrollableItem] = $("#versions-navigation-scrollable #versions-navigation-current-page-link");
-    const [activeEndItem] = $("#versions-navigation-pinned-end #versions-navigation-current-page-link");
+    const [activeStartItem] = $("#versions-navigation-pinned-start #versions-navigation-current-page-item");
+    const [activeScrollableItem] = $("#versions-navigation-scrollable #versions-navigation-current-page-item");
+    const [activeEndItem] = $("#versions-navigation-pinned-end #versions-navigation-current-page-item");
 
     if (activeStartItem) {
       scrollable.scrollLeft = 0;
