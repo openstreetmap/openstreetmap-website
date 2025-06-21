@@ -32,6 +32,7 @@ class SocialLink < ApplicationRecord
     :instagram => %r{\Ahttps?://(?:www\.)?instagram\.com/([a-zA-Z0-9._]+)},
     :linkedin => %r{\Ahttps?://(?:www\.)?linkedin\.com/in/([a-zA-Z0-9_-]+)},
     :line => %r{\Ahttps?://(?:www\.)?line\.me/ti/p/([a-zA-Z0-9_-]+)},
+    :mapillary => %r{\Ahttps?://(?:www\.)?mapillary\.com/(?:app/user|profile)/([a-zA-Z0-9_-]+)},
     :mastodon => %r{\Ahttps?://(?:(?:www\.)?(mastodon\.social|en\.osm\.town))/(@[a-zA-Z0-9_]+)},
     :mastodon_general => /\A@([a-zA-Z0-9_]+)@([\w\-\.]+)/,
     :medium => %r{\Ahttps?://(?:www\.)?medium\.com/@([a-zA-Z0-9_]+)},
