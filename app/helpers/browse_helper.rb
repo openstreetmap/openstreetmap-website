@@ -115,7 +115,8 @@ module BrowseHelper
         (start_list_version_from..start_list_version_to).each do |v|
           concat element_versions_pagination_item(:version => v,
                                                   :active => v == active_version,
-                                                  :last_item => v == start_list_version_to)
+                                                  :last_item => v == start_list_version_to,
+                                                  :edge_item_border => true)
         end
       end
       lists << tag.ul(:id => "versions-navigation-list-scrollable",
@@ -139,7 +140,8 @@ module BrowseHelper
         (end_list_version_from..end_list_version_to).each do |v|
           concat element_versions_pagination_item(:version => v,
                                                   :active => v == active_version,
-                                                  :first_item => v == end_list_version_from)
+                                                  :first_item => v == end_list_version_from,
+                                                  :edge_item_border => true)
         end
       end
     end
@@ -147,9 +149,11 @@ module BrowseHelper
     tag.div safe_join(lists), :class => "d-flex align-items-start"
   end
 
-  def element_versions_pagination_item(version: nil, active: false, first_item: false, last_item: false)
+  def element_versions_pagination_item(version: nil, active: false, first_item: false, last_item: false, edge_item_border: false)
     link_class = ["page-link", { "rounded-start-0" => first_item,
-                                 "rounded-end-0" => last_item }]
+                                 "border-start-0" => first_item && !edge_item_border,
+                                 "rounded-end-0" => last_item,
+                                 "border-end-0" => last_item && !edge_item_border }]
     link = if version
              link_to version, { :version => version }, :class => link_class
            else
