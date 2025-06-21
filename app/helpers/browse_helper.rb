@@ -105,13 +105,13 @@ module BrowseHelper
       end_bound = displayed_version > top_version - 2 ? displayed_version - 1 : top_version
 
       lists << tag.ul(:id => "versions-navigation-pinned-start",
-                      :class => "pagination pagination-sm mt-1 z-1") do
+                      :class => "pagination pagination-sm mt-1") do
         (1...start_bound).each do |v|
           concat element_versions_pagination_item(v, v == displayed_version, { "rounded-end-0" => v == start_bound - 1 })
         end
       end
       lists << tag.ul(:id => "versions-navigation-scrollable",
-                      :class => "pagination pagination-sm pt-1 pb-3 overflow-x-scroll position-relative z-0") do
+                      :class => "pagination pagination-sm pt-1 pb-3 px-1 mx-n1 overflow-x-scroll position-relative") do
         (start_bound...end_bound).each do |v|
           concat element_versions_pagination_item(v, v == displayed_version, { "rounded-0" => true,
                                                                                "border-start-0" => v == start_bound,
@@ -119,7 +119,7 @@ module BrowseHelper
         end
       end
       lists << tag.ul(:id => "versions-navigation-pinned-end",
-                      :class => "pagination pagination-sm mt-1 z-1") do
+                      :class => "pagination pagination-sm mt-1") do
         (end_bound..top_version).each do |v|
           concat element_versions_pagination_item(v, v == displayed_version, { "rounded-start-0" => v == end_bound })
         end

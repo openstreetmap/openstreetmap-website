@@ -71,7 +71,10 @@ OSM.Element = function (map, type) {
   function createScrollObserver(shadowTarget, shadowOffset) {
     const threshold = 0.95;
     return new IntersectionObserver(([entry]) => {
-      $(shadowTarget).css("box-shadow", entry.intersectionRatio < threshold ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "");
+      const floating = entry.intersectionRatio < threshold;
+      $(shadowTarget)
+        .css("box-shadow", floating ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "")
+        .css("z-index", floating ? "5" : ""); // floating z-index should be larger than z-index of Bootstrap's .page-link:focus, which is 3
     }, { threshold });
   }
 
