@@ -92,15 +92,12 @@
 
     const [activeStartItem] = $("#versions-navigation-list-start #versions-navigation-current-page-item");
     const [activeScrollableItem] = $("#versions-navigation-list-middle #versions-navigation-current-page-item");
-    const [activeEndItem] = $("#versions-navigation-list-end #versions-navigation-current-page-item");
 
     if (activeStartItem) {
       scrollableList.scrollLeft = 0;
-    }
-    if (activeScrollableItem) {
+    } else if (activeScrollableItem) {
       scrollableList.scrollLeft = Math.round(activeScrollableItem.offsetLeft - (scrollableList.offsetWidth / 2) + (activeScrollableItem.offsetWidth / 2));
-    }
-    if (activeEndItem) {
+    } else {
       scrollableList.scrollLeft = scrollableList.scrollWidth - scrollableList.offsetWidth;
     }
   }
