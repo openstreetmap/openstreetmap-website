@@ -104,13 +104,13 @@ module BrowseHelper
       start_bound = displayed_version < 3 ? displayed_version + 2 : 2
       end_bound = displayed_version > top_version - 2 ? displayed_version - 1 : top_version
 
-      lists << tag.ul(:id => "versions-navigation-pinned-start",
+      lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
         (1...start_bound).each do |v|
           concat element_versions_pagination_item(v, v == displayed_version, { "rounded-end-0" => v == start_bound - 1 })
         end
       end
-      lists << tag.ul(:id => "versions-navigation-scrollable",
+      lists << tag.ul(:id => "versions-navigation-list-scrollable",
                       :class => [
                         "pagination pagination-sm",
                         "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
@@ -123,7 +123,7 @@ module BrowseHelper
                                                                                "border-end-0" => v == end_bound - 1 })
         end
       end
-      lists << tag.ul(:id => "versions-navigation-pinned-end",
+      lists << tag.ul(:id => "versions-navigation-list-end",
                       :class => "pagination pagination-sm mt-1") do
         (end_bound..top_version).each do |v|
           concat element_versions_pagination_item(v, v == displayed_version, { "rounded-start-0" => v == end_bound })

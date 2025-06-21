@@ -35,17 +35,17 @@
     function initVersionsNavigation() {
       scrollToCurrentVersion();
 
-      const $scrollable = $("#versions-navigation-scrollable");
-      const [scrollableFirstItem] = $scrollable.children().first();
-      const [scrollableLastItem] = $scrollable.children().last();
+      const $scrollableList = $("#versions-navigation-list-scrollable");
+      const [scrollableFirstItem] = $scrollableList.children().first();
+      const [scrollableLastItem] = $scrollableList.children().last();
 
       if (scrollableFirstItem) {
-        scrollStartObserver = createScrollObserver("#versions-navigation-pinned-start", "2px 0px");
+        scrollStartObserver = createScrollObserver("#versions-navigation-list-start", "2px 0px");
         scrollStartObserver.observe(scrollableFirstItem);
       }
 
       if (scrollableLastItem) {
-        scrollEndObserver = createScrollObserver("#versions-navigation-pinned-end", "-2px 0px");
+        scrollEndObserver = createScrollObserver("#versions-navigation-list-end", "-2px 0px");
         scrollEndObserver.observe(scrollableLastItem);
       }
     }
@@ -86,22 +86,22 @@
   };
 
   function scrollToCurrentVersion() {
-    const [scrollable] = $("#versions-navigation-scrollable");
+    const [scrollableList] = $("#versions-navigation-list-scrollable");
 
-    if (!scrollable) return;
+    if (!scrollableList) return;
 
-    const [activeStartItem] = $("#versions-navigation-pinned-start #versions-navigation-current-page-item");
-    const [activeScrollableItem] = $("#versions-navigation-scrollable #versions-navigation-current-page-item");
-    const [activeEndItem] = $("#versions-navigation-pinned-end #versions-navigation-current-page-item");
+    const [activeStartItem] = $("#versions-navigation-list-start #versions-navigation-current-page-item");
+    const [activeScrollableItem] = $("#versions-navigation-list-scrollable #versions-navigation-current-page-item");
+    const [activeEndItem] = $("#versions-navigation-list-end #versions-navigation-current-page-item");
 
     if (activeStartItem) {
-      scrollable.scrollLeft = 0;
+      scrollableList.scrollLeft = 0;
     }
     if (activeScrollableItem) {
-      scrollable.scrollLeft = Math.round(activeScrollableItem.offsetLeft - (scrollable.offsetWidth / 2) + (activeScrollableItem.offsetWidth / 2));
+      scrollableList.scrollLeft = Math.round(activeScrollableItem.offsetLeft - (scrollableList.offsetWidth / 2) + (activeScrollableItem.offsetWidth / 2));
     }
     if (activeEndItem) {
-      scrollable.scrollLeft = scrollable.scrollWidth - scrollable.offsetWidth;
+      scrollableList.scrollLeft = scrollableList.scrollWidth - scrollableList.offsetWidth;
     }
   }
 }());
