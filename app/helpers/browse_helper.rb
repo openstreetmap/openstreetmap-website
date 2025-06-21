@@ -98,7 +98,9 @@ module BrowseHelper
 
     if top_version <= 5
       lists << tag.ul(:class => "pagination pagination-sm mt-1") do
-        concat element_versions_pagination_item(1, 1 == active_version)
+        (1..top_version).each do |v|
+          concat element_versions_pagination_item(:version => v, :active => v == active_version)
+        end
       end
     else
       start_list_version_from = 1
