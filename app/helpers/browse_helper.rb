@@ -1,4 +1,6 @@
 module BrowseHelper
+  ELEMENT_PAGINATION_WINDOW_HALF_SIZE = 50
+
   def element_icon(type, object)
     selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }
 
@@ -101,13 +103,17 @@ module BrowseHelper
         concat element_versions_pagination_item(1, 1 == displayed_version)
       end
     else
-      start_bound = displayed_version < 3 ? displayed_version + 2 : 2
-      end_bound = displayed_version > top_version - 2 ? displayed_version - 1 : top_version
+      start_list_version_from = 1
+      start_list_version_to = displayed_version < 3 ? displayed_version + 1 : 1
+      end_list_version_from = displayed_version > top_version - 2 ? displayed_version - 1 : top_version
+      end_list_version_to = top_version
+      middle_list_version_from = [displayed_version - ELEMENT_PAGINATION_WINDOW_HALF_SIZE, start_list_version_to + 1].max
+      middle_list_version_to = [displayed_version + ELEMENT_PAGINATION_WINDOW_HALF_SIZE, end_list_version_to - 1].min
 
       lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
-        (1...start_bound).each do |v|
-          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-end-0" => v == start_bound - 1 })
+        (start_list_version_from..start_list_version_to).each do |v|
+          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-end-0" => v == start_list_version_to })
         end
       end
       lists << tag.ul(:id => "versions-navigation-list-scrollable",
@@ -117,16 +123,24 @@ module BrowseHelper
                         "pt-1 px-1 mx-n1", # space reserved for focus outlines
                         "position-relative" # required for centering when clicking "Version #n"
                       ]) do
-        (start_bound...end_bound).each do |v|
-          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-0" => true,
-                                                                               "border-start-0" => v == start_bound,
-                                                                               "border-end-0" => v == end_bound - 1 })
+        if middle_list_version_from > start_list_version_to + 1
+          concat element_versions_pagination_item_span("...", false)
+        end
+        (middle_list_version_from..middle_list_version_to).each do |v|
+          is_first_item = v == start_list_version_to + 1
+          is_last_item = v == end_list_version_from - 1
+          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-0" => is_first_item || is_last_item,
+                                                                               "border-start-0" => is_first_item,
+                                                                               "border-end-0" => is_last_item })
+        end
+        if middle_list_version_to < end_list_version_from - 1
+          concat element_versions_pagination_item_span("...", false)
         end
       end
       lists << tag.ul(:id => "versions-navigation-list-end",
                       :class => "pagination pagination-sm mt-1") do
-        (end_bound..top_version).each do |v|
-          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-start-0" => v == end_bound })
+        (end_list_version_from..end_list_version_to).each do |v|
+          concat element_versions_pagination_item(v, v == displayed_version, { "rounded-start-0" => v == end_list_version_from })
         end
       end
     end
@@ -138,6 +152,12 @@ module BrowseHelper
     link = link_to version, { :version => version }, :class => ["page-link", extra_classes]
     tag.li link, :id => ("versions-navigation-current-page-item" if active),
                  :class => ["page-item", { "active" => active }]
+  end
+
+  def element_versions_pagination_item_span(version, active, extra_classes = {}) # TODO: can't be active
+    link = tag.span version, :class => ["page-link", extra_classes]
+    tag.li link, :id => ("versions-navigation-current-page-item" if active),
+                 :class => ["page-item disabled", { "active" => active }]
   end
 
   private
