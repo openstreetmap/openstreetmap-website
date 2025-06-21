@@ -111,7 +111,12 @@ module BrowseHelper
         end
       end
       lists << tag.ul(:id => "versions-navigation-scrollable",
-                      :class => "pagination pagination-sm pt-1 pb-3 px-1 mx-n1 overflow-x-scroll position-relative") do
+                      :class => [
+                        "pagination pagination-sm",
+                        "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
+                        "pt-1 px-1 mx-n1", # space reserved for focus outlines
+                        "position-relative" # required for centering when clicking "Version #n"
+                      ]) do
         (start_bound...end_bound).each do |v|
           concat element_versions_pagination_item(v, v == displayed_version, { "rounded-0" => true,
                                                                                "border-start-0" => v == start_bound,
