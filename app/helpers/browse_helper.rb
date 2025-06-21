@@ -135,11 +135,7 @@ module BrowseHelper
   end
 
   def element_versions_pagination_item(version, active, extra_classes = {})
-    link = if active
-             tag.span version, :class => ["page-link", extra_classes]
-           else
-             link_to version, { :version => version }, :class => ["page-link", extra_classes]
-           end
+    link = link_to version, { :version => version }, :class => ["page-link", extra_classes]
     tag.li link, :id => ("versions-navigation-current-page-link" if active),
                  :class => ["page-item", { "active" => active }]
   end
