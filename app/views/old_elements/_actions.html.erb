@@ -1,4 +1,4 @@
-<div class='secondary-actions mb-2'>
+<div class='secondary-actions mb-3'>
   <% if !@feature.redacted? %>
     <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
   <% elsif current_user&.moderator? %>
@@ -19,7 +19,7 @@
       <%= link_to "History", :action => :index %>
     </li>
     <li class="breadcrumb-item active" aria-current="page">
-      <a href="#versions-navigation-current-page-item" class="link-body-emphasis">
+      <a href="#versions-navigation-current-page-item" class="py-1 px-2 rounded bg-body-secondary link-body-emphasis">
         <%= t("browse.version") + " ##{@feature.version}" %>
       </a>
     </li>

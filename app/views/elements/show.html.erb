@@ -5,7 +5,7 @@
 <%= render :partial => "browse/#{@type}", :object => @feature %>
 
 <% if @feature.visible? %>
-  <div class='secondary-actions'>
+  <div class='secondary-actions mb-3'>
     <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
   </div>
 <% end %>
@@ -13,7 +13,7 @@
 <nav>
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item active" aria-current="page">
-      <%= link_to "Element", @feature %>
+      <span class="py-1 px-2 rounded bg-body-secondary">Element</span>
     </li>
     <li class="breadcrumb-item">
       <%= link_to "History", :controller => "old_#{@type.pluralize}" %>
