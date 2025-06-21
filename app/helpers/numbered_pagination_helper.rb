@@ -1,11 +1,11 @@
 module NumberedPaginationHelper
-  def element_versions_pagination(active_version, top_version, window_half_size: 50)
+  def element_versions_pagination(active_version, top_version, window_half_size: 50, &)
     lists = []
 
     if top_version <= 5
       lists << tag.ul(:class => "pagination pagination-sm mt-1") do
         (1..top_version).each do |v|
-          concat element_versions_pagination_item(v, :href => { :version => v },
+          concat element_versions_pagination_item(v, :href => yield(v),
                                                      :active => v == active_version)
         end
       end
@@ -20,7 +20,7 @@ module NumberedPaginationHelper
       lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
         (start_list_version_from..start_list_version_to).each do |v|
-          concat element_versions_pagination_item(v, :href => { :version => v },
+          concat element_versions_pagination_item(v, :href => yield(v),
                                                      :active => v == active_version,
                                                      :last_item => v == start_list_version_to,
                                                      :edge_item_border => true)
@@ -35,7 +35,7 @@ module NumberedPaginationHelper
                       ]) do
         concat element_versions_pagination_item("...", :first_item => true) if middle_list_version_from > start_list_version_to + 1
         (middle_list_version_from..middle_list_version_to).each do |v|
-          concat element_versions_pagination_item(v, :href => { :version => v },
+          concat element_versions_pagination_item(v, :href => yield(v),
                                                      :active => v == active_version,
                                                      :first_item => v == start_list_version_to + 1,
                                                      :last_item => v == end_list_version_from - 1)
@@ -45,7 +45,7 @@ module NumberedPaginationHelper
       lists << tag.ul(:id => "versions-navigation-list-end",
                       :class => "pagination pagination-sm mt-1") do
         (end_list_version_from..end_list_version_to).each do |v|
-          concat element_versions_pagination_item(v, :href => { :version => v },
+          concat element_versions_pagination_item(v, :href => yield(v),
                                                      :active => v == active_version,
                                                      :first_item => v == end_list_version_from,
                                                      :edge_item_border => true)

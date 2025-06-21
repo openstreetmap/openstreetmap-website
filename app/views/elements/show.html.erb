@@ -24,5 +24,7 @@
     </li>
   </ol>
 
-  <%= element_versions_pagination(@feature.version, @feature.version) %>
+  <%= element_versions_pagination(@feature.version, @feature.version) do |v|
+        { :controller => "old_#{@type.pluralize}", :action => :show, :version => v }
+      end %>
 </nav>
