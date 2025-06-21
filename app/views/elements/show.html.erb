@@ -9,24 +9,20 @@
     <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
   </div>
 <% end %>
-<div class='secondary-actions'>
-  <% if @feature.version > 1 %>
-    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => 1 }, :class => "icon-link") do %>
-      <%= previous_page_svg_tag :height => 11, :count => 2 %>
-      <%= "#{t('browse.version')} #1" %>
-    <% end %>
-    &middot;
-  <% end %>
-    <%= link_to t("browse.view_history"), :controller => "old_#{@type.pluralize}" %>
-  <% if current_user&.moderator? %>
-    &middot;
-    <%= link_to(t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true }) %>
-  <% end %>
-  <% if @feature.version > 1 %>
-    &middot;
-    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => @feature.version }, :class => "icon-link") do %>
-      <%= "#{t('browse.version')} ##{@feature.version}" %>
-      <%= next_page_svg_tag :height => 11, :count => 2 %>
-    <% end %>
-  <% end %>
-</div>
+
+<nav>
+  <ol class="breadcrumb mb-1">
+    <li class="breadcrumb-item active" aria-current="page">
+      <%= link_to "Element", @feature %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to "History", :controller => "old_#{@type.pluralize}" %>
+      <% if current_user&.moderator? %>
+        &middot;
+        <%= link_to "Unredacted History", :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
+      <% end %>
+    </li>
+  </ol>
+
+  <%= element_versions_pagination(@feature.version, @feature.version) %>
+</nav>
