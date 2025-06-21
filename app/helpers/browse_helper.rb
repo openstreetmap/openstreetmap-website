@@ -93,26 +93,26 @@ module BrowseHelper
     end
   end
 
-  def element_versions_pagination(displayed_version, top_version, window_half_size: 50)
+  def element_versions_pagination(active_version, top_version, window_half_size: 50)
     lists = []
 
     if top_version <= 5
       lists << tag.ul(:class => "pagination pagination-sm mt-1") do
-        concat element_versions_pagination_item(1, 1 == displayed_version)
+        concat element_versions_pagination_item(1, 1 == active_version)
       end
     else
       start_list_version_from = 1
-      start_list_version_to = displayed_version < 3 ? displayed_version + 1 : 1
-      end_list_version_from = displayed_version > top_version - 2 ? displayed_version - 1 : top_version
+      start_list_version_to = active_version < 3 ? active_version + 1 : 1
+      end_list_version_from = active_version > top_version - 2 ? active_version - 1 : top_version
       end_list_version_to = top_version
-      middle_list_version_from = [displayed_version - window_half_size, start_list_version_to + 1].max
-      middle_list_version_to = [displayed_version + window_half_size, end_list_version_from - 1].min
+      middle_list_version_from = [active_version - window_half_size, start_list_version_to + 1].max
+      middle_list_version_to = [active_version + window_half_size, end_list_version_from - 1].min
 
       lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
         (start_list_version_from..start_list_version_to).each do |v|
           concat element_versions_pagination_item(:version => v,
-                                                  :active => v == displayed_version,
+                                                  :active => v == active_version,
                                                   :last_item => v == start_list_version_to)
         end
       end
@@ -126,7 +126,7 @@ module BrowseHelper
         concat element_versions_pagination_item(:first_item => true) if middle_list_version_from > start_list_version_to + 1
         (middle_list_version_from..middle_list_version_to).each do |v|
           concat element_versions_pagination_item(:version => v,
-                                                  :active => v == displayed_version,
+                                                  :active => v == active_version,
                                                   :first_item => v == start_list_version_to + 1,
                                                   :last_item => v == end_list_version_from - 1)
         end
@@ -136,7 +136,7 @@ module BrowseHelper
                       :class => "pagination pagination-sm mt-1") do
         (end_list_version_from..end_list_version_to).each do |v|
           concat element_versions_pagination_item(:version => v,
-                                                  :active => v == displayed_version,
+                                                  :active => v == active_version,
                                                   :first_item => v == end_list_version_from)
         end
       end
