@@ -35,7 +35,7 @@
     function initVersionsNavigation() {
       scrollToCurrentVersion();
 
-      const $scrollableList = $("#versions-navigation-list-scrollable");
+      const $scrollableList = $("#versions-navigation-list-middle");
       const [scrollableFirstItem] = $scrollableList.children().first();
       const [scrollableLastItem] = $scrollableList.children().last();
 
@@ -86,12 +86,12 @@
   };
 
   function scrollToCurrentVersion() {
-    const [scrollableList] = $("#versions-navigation-list-scrollable");
+    const [scrollableList] = $("#versions-navigation-list-middle");
 
     if (!scrollableList) return;
 
     const [activeStartItem] = $("#versions-navigation-list-start #versions-navigation-current-page-item");
-    const [activeScrollableItem] = $("#versions-navigation-list-scrollable #versions-navigation-current-page-item");
+    const [activeScrollableItem] = $("#versions-navigation-list-middle #versions-navigation-current-page-item");
     const [activeEndItem] = $("#versions-navigation-list-end #versions-navigation-current-page-item");
 
     if (activeStartItem) {

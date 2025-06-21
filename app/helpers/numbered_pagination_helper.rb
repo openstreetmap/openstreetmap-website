@@ -26,7 +26,7 @@ module NumberedPaginationHelper
                                                      :edge_item_border => true)
         end
       end
-      lists << tag.ul(:id => "versions-navigation-list-scrollable",
+      lists << tag.ul(:id => "versions-navigation-list-middle",
                       :class => [
                         "pagination pagination-sm",
                         "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
