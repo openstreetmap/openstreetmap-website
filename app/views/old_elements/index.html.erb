@@ -35,20 +35,20 @@
 <nav>
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item">
-      <%= link_to "Element", @current_feature %>
+      <%= link_to t(@type, :scope => "browse.versions_navigation"), @current_feature %>
     </li>
     <li class="breadcrumb-item active">
       <% if !params["show_redactions"] %>
-        <%= tag.span "History", :class => "py-1 px-2 rounded bg-body-secondary" %>
+        <%= tag.span t("browse.versions_navigation.history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
       <% else %>
-        <%= link_to "History", params.permit(:before, :after) %>
+        <%= link_to t("browse.versions_navigation.history"), params.permit(:before, :after) %>
       <% end %>
       <% if current_user&.moderator? %>
         &middot;
         <% if params["show_redactions"] %>
-          <%= tag.span "Unredacted History", :class => "py-1 px-2 rounded bg-body-secondary" %>
+          <%= tag.span t("browse.versions_navigation.unredacted_history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
         <% else %>
-          <%= link_to "Unredacted History", params.permit(:before, :after).merge(:show_redactions => true) %>
+          <%= link_to t("browse.versions_navigation.unredacted_history"), params.permit(:before, :after).merge(:show_redactions => true) %>
         <% end %>
       <% end %>
     </li>

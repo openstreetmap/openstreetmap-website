@@ -13,13 +13,13 @@
 <nav>
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item active" aria-current="page">
-      <%= tag.span "Element", :class => "py-1 px-2 rounded bg-body-secondary" %>
+      <%= tag.span t(@type, :scope => "browse.versions_navigation"), :class => "py-1 px-2 rounded bg-body-secondary" %>
     </li>
     <li class="breadcrumb-item">
-      <%= link_to "History", :controller => "old_#{@type.pluralize}" %>
+      <%= link_to t("browse.versions_navigation.history"), :controller => "old_#{@type.pluralize}" %>
       <% if current_user&.moderator? %>
         &middot;
-        <%= link_to "Unredacted History", :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
+        <%= link_to t("browse.versions_navigation.unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
       <% end %>
     </li>
   </ol>
