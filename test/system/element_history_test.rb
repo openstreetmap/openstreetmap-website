@@ -1,33 +1,33 @@
 require "application_system_test_case"
 
 class ElementHistoryTest < ApplicationSystemTestCase
-  test "can view node history" do
+  test "can view node history pages" do
     node = create(:node, :with_history, :version => 41)
 
     visit node_path(node)
 
-    check_element_history(->(v) { old_node_path(node, v) })
+    check_element_history_pages(->(v) { old_node_path(node, v) })
   end
 
-  test "can view way history" do
+  test "can view way history pages" do
     way = create(:way, :with_history, :version => 41)
 
     visit way_path(way)
 
-    check_element_history(->(v) { old_way_path(way, v) })
+    check_element_history_pages(->(v) { old_way_path(way, v) })
   end
 
-  test "can view relation history" do
+  test "can view relation history pages" do
     relation = create(:relation, :with_history, :version => 41)
 
     visit relation_path(relation)
 
-    check_element_history(->(v) { old_relation_path(relation, v) })
+    check_element_history_pages(->(v) { old_relation_path(relation, v) })
   end
 
   private
 
-  def check_element_history(get_path)
+  def check_element_history_pages(get_path)
     within_sidebar do
       click_on "View History"
 
