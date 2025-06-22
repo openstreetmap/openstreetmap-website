@@ -12,8 +12,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_text(/Location: 60\.\d+, 30\.\d+/)
 
       assert_link "Download XML", :href => api_node_version_path(node, 1)
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
     end
   end
 
@@ -27,8 +27,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_css "h4", :text => "Version #1"
 
       assert_link "Download XML", :href => api_way_version_path(way, 1)
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
     end
   end
 
@@ -42,8 +42,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_css "h4", :text => "Version #1"
 
       assert_link "Download XML", :href => api_relation_version_path(relation, 1)
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
     end
   end
 
@@ -59,8 +59,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_text(/Location: 59\.\d+, 29\.\d+/)
 
       assert_link "Download XML", :href => api_node_version_path(node, 1)
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
 
       click_on "Version #2"
 
@@ -69,8 +69,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_text(/Location: 60\.\d+, 30\.\d+/)
 
       assert_link "Download XML", :href => api_node_version_path(node, 2)
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
     end
   end
 
@@ -84,8 +84,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_css "h4", :text => "Version #1"
 
       assert_link "Download XML", :href => api_way_version_path(way, 1)
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
 
       click_on "Version #2"
 
@@ -93,8 +93,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_css "h4", :text => "Version #2"
 
       assert_link "Download XML", :href => api_way_version_path(way, 2)
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
     end
   end
 
@@ -108,8 +108,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_css "h4", :text => "Version #1"
 
       assert_link "Download XML", :href => api_relation_version_path(relation, 1)
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
 
       click_on "Version #2"
 
@@ -117,8 +117,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_css "h4", :text => "Version #2"
 
       assert_link "Download XML", :href => api_relation_version_path(relation, 2)
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
     end
   end
 
@@ -135,8 +135,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
 
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
     end
   end
 
@@ -153,8 +153,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
 
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
     end
   end
 
@@ -171,8 +171,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
 
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
     end
   end
 
@@ -190,8 +190,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
 
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
     end
   end
 
@@ -209,8 +209,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
 
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
     end
   end
 
@@ -228,8 +228,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
 
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
     end
   end
 
@@ -248,8 +248,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "Download XML"
       assert_link "View Redacted Data"
       assert_no_link "View Redaction Message"
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
 
       click_on "View Redacted Data"
 
@@ -261,8 +261,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
       assert_link "View Redaction Message"
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History", :href => node_history_path(node)
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true, :href => node_history_path(node)
 
       click_on "View Redaction Message"
 
@@ -285,8 +285,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "Download XML"
       assert_link "View Redacted Data"
       assert_no_link "View Redaction Message"
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
 
       click_on "View Redacted Data"
 
@@ -297,8 +297,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
       assert_link "View Redaction Message"
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History", :href => way_history_path(way)
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true, :href => way_history_path(way)
 
       click_on "View Redaction Message"
 
@@ -321,8 +321,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "Download XML"
       assert_link "View Redacted Data"
       assert_no_link "View Redaction Message"
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
 
       click_on "View Redacted Data"
 
@@ -333,8 +333,8 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "Download XML"
       assert_no_link "View Redacted Data"
       assert_link "View Redaction Message"
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
 
       click_on "View Redaction Message"
 

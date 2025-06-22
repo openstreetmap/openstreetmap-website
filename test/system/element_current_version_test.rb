@@ -15,8 +15,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_text "Deleted"
 
       assert_link "Download XML", :href => api_node_path(node)
-      assert_link "View History", :href => node_history_path(node)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => node_history_path(node)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -33,8 +33,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_text "Deleted"
 
       assert_link "Download XML", :href => api_way_path(way)
-      assert_link "View History", :href => way_history_path(way)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => way_history_path(way)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -51,8 +51,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_text "Deleted"
 
       assert_link "Download XML", :href => api_relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -70,8 +70,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_text "Deleted"
 
       assert_link "Download XML", :href => api_node_path(node)
-      assert_link "View History", :href => node_history_path(node)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => node_history_path(node)
+      assert_no_link "Unredacted History"
       assert_link "Version #1", :href => old_node_path(node, 1)
       assert_link "Version #2", :href => old_node_path(node, 2)
     end
@@ -90,8 +90,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_text "Deleted"
 
       assert_link "Download XML", :href => api_way_path(way)
-      assert_link "View History", :href => way_history_path(way)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => way_history_path(way)
+      assert_no_link "Unredacted History"
       assert_link "Version #1", :href => old_way_path(way, 1)
       assert_link "Version #2", :href => old_way_path(way, 2)
     end
@@ -110,8 +110,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_text "Deleted"
 
       assert_link "Download XML", :href => api_relation_path(relation)
-      assert_link "View History", :href => relation_history_path(relation)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
+      assert_no_link "Unredacted History"
       assert_link "Version #1", :href => old_relation_path(relation, 1)
       assert_link "Version #2", :href => old_relation_path(relation, 2)
     end
@@ -131,8 +131,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_text "Deleted"
 
       assert_no_link "Download XML"
-      assert_link "View History", :href => node_history_path(node)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => node_history_path(node)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -149,8 +149,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_text "Deleted"
 
       assert_no_link "Download XML"
-      assert_link "View History", :href => way_history_path(way)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => way_history_path(way)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -167,8 +167,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_text "Deleted"
 
       assert_no_link "Download XML"
-      assert_link "View History", :href => relation_history_path(relation)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -179,8 +179,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     visit node_path(node)
 
     within_sidebar do
-      assert_link "View History", :href => node_history_path(node)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => node_history_path(node)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -191,8 +191,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     visit way_path(way)
 
     within_sidebar do
-      assert_link "View History", :href => way_history_path(way)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => way_history_path(way)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -203,8 +203,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     visit relation_path(relation)
 
     within_sidebar do
-      assert_link "View History", :href => relation_history_path(relation)
-      assert_no_link "View Unredacted History"
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -215,8 +215,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     visit node_path(node)
 
     within_sidebar do
-      assert_link "View History", :href => node_history_path(node)
-      assert_link "View Unredacted History", :href => node_history_path(node, :show_redactions => true)
+      assert_link "History", :exact => true, :href => node_history_path(node)
+      assert_link "Unredacted History", :href => node_history_path(node, :show_redactions => true)
     end
   end
 
@@ -227,8 +227,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     visit way_path(way)
 
     within_sidebar do
-      assert_link "View History", :href => way_history_path(way)
-      assert_link "View Unredacted History", :href => way_history_path(way, :show_redactions => true)
+      assert_link "History", :exact => true, :href => way_history_path(way)
+      assert_link "Unredacted History", :href => way_history_path(way, :show_redactions => true)
     end
   end
 
@@ -239,8 +239,8 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     visit relation_path(relation)
 
     within_sidebar do
-      assert_link "View History", :href => relation_history_path(relation)
-      assert_link "View Unredacted History", :href => relation_history_path(relation, :show_redactions => true)
+      assert_link "History", :exact => true, :href => relation_history_path(relation)
+      assert_link "Unredacted History", :href => relation_history_path(relation, :show_redactions => true)
     end
   end
 
