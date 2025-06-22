@@ -1,7 +1,7 @@
 class OldNodesController < OldElementsController
   def index
     @type = "node"
-    @feature = Node.preload(:node_tags).find(params[:id])
+    @current_feature = @feature = Node.preload(:node_tags).find(params[:id])
     @old_features, @newer_features_version, @older_features_version = get_page_items(
       OldNode.where(:node_id => params[:id]),
       :cursor_column => :version,
@@ -18,6 +18,7 @@ class OldNodesController < OldElementsController
 
   def show
     @type = "node"
+    @current_feature = Node.find(params[:id])
     @feature = OldNode.preload(:old_tags, :changeset => [:changeset_tags, :user]).find([params[:id], params[:version]])
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
