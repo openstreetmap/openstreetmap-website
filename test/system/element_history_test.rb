@@ -48,6 +48,28 @@ class ElementHistoryTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows history of a relation" do
+    relation = create(:relation, :with_history, :version => 2)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v2 = relation.old_relations.find_by(:version => 2)
+    create(:old_relation_tag, :old_relation => relation_v1, :k => "key", :v => "VALUE-ONE")
+    create(:old_relation_tag, :old_relation => relation_v2, :k => "key", :v => "VALUE-TWO")
+
+    visit relation_history_path(relation)
+
+    within_sidebar do
+      v2_heading = find :element, "h4", :text => "Version #2"
+      v1_heading = find :element, "h4", :text => "Version #1", :below => v2_heading
+
+      assert_css "td", :text => "VALUE-TWO", :below => v2_heading, :above => v1_heading
+      assert_css "td", :text => "VALUE-ONE", :below => v1_heading
+
+      assert_link "View Details", :href => relation_path(relation)
+      assert_no_link "View History"
+      assert_no_link "View Unredacted History"
+    end
+  end
+
   test "shows history of a node to a regular user" do
     node = create(:node, :with_history)
 
@@ -67,6 +89,18 @@ class ElementHistoryTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_link "View Details", :href => way_path(way)
+      assert_no_link "View History"
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows history of a relation to a regular user" do
+    relation = create(:relation, :with_history)
+
+    visit relation_history_path(relation)
+
+    within_sidebar do
+      assert_link "View Details", :href => relation_path(relation)
       assert_no_link "View History"
       assert_no_link "View Unredacted History"
     end
@@ -114,6 +148,28 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_text "Version 1 of this way cannot be shown"
 
       assert_link "View Details", :href => way_path(way)
+      assert_no_link "View History"
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows history of a relation with one redacted version" do
+    relation = create(:relation, :with_history, :version => 2)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v2 = relation.old_relations.find_by(:version => 2)
+    create(:old_relation_tag, :old_relation => relation_v1, :k => "key", :v => "VALUE-ONE")
+    create(:old_relation_tag, :old_relation => relation_v2, :k => "key", :v => "VALUE-TWO")
+    relation_v1.redact!(create(:redaction))
+
+    visit relation_history_path(relation)
+
+    within_sidebar do
+      assert_css "h4", :text => "Version #2"
+      assert_css "td", :text => "VALUE-TWO"
+      assert_no_css "td", :text => "VALUE-ONE"
+      assert_text "Version 1 of this relation cannot be shown"
+
+      assert_link "View Details", :href => relation_path(relation)
       assert_no_link "View History"
       assert_no_link "View Unredacted History"
     end
@@ -193,6 +249,42 @@ class ElementHistoryTest < ApplicationSystemTestCase
       click_on "View History"
 
       assert_text "Version 1 of this way cannot be shown"
+    end
+  end
+
+  test "shows history of a relation with one redacted version to a moderator" do
+    relation = create(:relation, :with_history, :version => 2)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v2 = relation.old_relations.find_by(:version => 2)
+    create(:old_relation_tag, :old_relation => relation_v1, :k => "key", :v => "VALUE-ONE")
+    create(:old_relation_tag, :old_relation => relation_v2, :k => "key", :v => "VALUE-TWO")
+    relation_v1.redact!(create(:redaction))
+
+    sign_in_as(create(:moderator_user))
+    visit relation_history_path(relation)
+
+    within_sidebar do
+      assert_css "td", :text => "VALUE-TWO"
+      assert_no_css "td", :text => "VALUE-ONE"
+      assert_text "Version 1 of this relation cannot be shown"
+
+      assert_link "View Details", :href => relation_path(relation)
+      assert_no_link "View History"
+      assert_link "View Unredacted History"
+
+      click_on "View Unredacted History"
+
+      assert_css "td", :text => "VALUE-TWO"
+      assert_css "td", :text => "VALUE-ONE"
+      assert_no_text "Version 1 of this relation cannot be shown"
+
+      assert_link "View Details", :href => relation_path(relation)
+      assert_link "View History"
+      assert_no_link "View Unredacted History"
+
+      click_on "View History"
+
+      assert_text "Version 1 of this relation cannot be shown"
     end
   end
 
