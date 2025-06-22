@@ -4,6 +4,8 @@ class SharePanesController < ApplicationController
   authorize_resource :class => false
 
   def show
+    @downloadable_layers = MapLayers.full_definitions("config/layers.yml")
+                                    .select { |layer| layer["canDownloadImage"] }
     render :layout => false
   end
 end
