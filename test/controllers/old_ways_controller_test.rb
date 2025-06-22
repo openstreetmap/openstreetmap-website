@@ -17,6 +17,23 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     sidebar_browse_check :way_history_path, way.id, "old_elements/index"
   end
 
+  def test_index_show_redactions_to_unauthorized
+    way = create(:way, :with_history)
+
+    get way_history_path(:id => way, :params => { :show_redactions => true })
+
+    assert_response :redirect
+  end
+
+  def test_index_show_redactions_to_regular_user
+    way = create(:way, :with_history)
+
+    session_for(create(:user))
+    get way_history_path(:id => way, :params => { :show_redactions => true })
+
+    assert_response :redirect
+  end
+
   def test_show
     way = create(:way, :with_history)
 
