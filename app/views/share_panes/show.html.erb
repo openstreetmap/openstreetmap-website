@@ -31,9 +31,7 @@
   <div id="export-warning" class="text-body-secondary">
     <%= t ".only_layers_exported_as_image" %>
     <ul>
-      <% MapLayers.full_definitions("config/layers.yml")
-                  .select { |layer| layer["canDownloadImage"] }
-                  .each do |layer| %>
+      <% @downloadable_layers.each do |layer| %>
         <li><%= t "javascripts.map.base.#{layer['nameId']}" %></li>
       <% end %>
     </ul>
