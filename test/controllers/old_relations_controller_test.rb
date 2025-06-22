@@ -17,6 +17,23 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     sidebar_browse_check :relation_history_path, relation.id, "old_elements/index"
   end
 
+  def test_index_show_redactions_to_unauthorized
+    relation = create(:relation, :with_history)
+
+    get relation_history_path(:id => relation, :params => { :show_redactions => true })
+
+    assert_response :redirect
+  end
+
+  def test_index_show_redactions_to_regular_user
+    relation = create(:relation, :with_history)
+
+    session_for(create(:user))
+    get relation_history_path(:id => relation, :params => { :show_redactions => true })
+
+    assert_response :redirect
+  end
+
   def test_show
     relation = create(:relation, :with_history)
 
