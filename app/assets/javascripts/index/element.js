@@ -1,5 +1,5 @@
 (function () {
-  OSM.OldBrowse = function () {
+  OSM.Element = function () {
     const page = {};
 
     page.pushstate = page.popstate = function (path) {
@@ -9,7 +9,7 @@
     return page;
   };
 
-  OSM.Browse = function (map, type) {
+  OSM.MappedElement = function (map, type) {
     const page = {};
 
     page.pushstate = page.popstate = function (path, id, version) {
