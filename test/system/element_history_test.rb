@@ -1,6 +1,109 @@
 require "application_system_test_case"
 
 class ElementHistoryTest < ApplicationSystemTestCase
+  test "shows history of a node" do
+    node = create(:node, :with_history, :version => 2, :lat => 60, :lon => 30)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    create(:old_node_tag, :old_node => node_v1, :k => "key", :v => "VALUE-ONE")
+    create(:old_node_tag, :old_node => node_v2, :k => "key", :v => "VALUE-TWO")
+    node_v1.update(:lat => 59, :lon => 29)
+
+    visit node_history_path(node)
+
+    within_sidebar do
+      v2_heading = find :element, "h4", :text => "Version #2"
+      v1_heading = find :element, "h4", :text => "Version #1", :below => v2_heading
+
+      assert_css "td", :text => "VALUE-TWO", :below => v2_heading, :above => v1_heading
+      assert_css "td", :text => "VALUE-ONE", :below => v1_heading
+      assert_text(/Location: 60\.\d+, 30\.\d+/)
+      assert_text(/Location: 59\.\d+, 29\.\d+/)
+
+      assert_link "View Details", :href => node_path(node)
+      assert_no_link "View History"
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows history of a node to a regular user" do
+    node = create(:node, :with_history)
+
+    visit node_history_path(node)
+
+    within_sidebar do
+      assert_link "View Details", :href => node_path(node)
+      assert_no_link "View History"
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows history of a node with one redacted version" do
+    node = create(:node, :with_history, :version => 2, :lat => 60, :lon => 30)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    create(:old_node_tag, :old_node => node_v1, :k => "key", :v => "VALUE-ONE")
+    create(:old_node_tag, :old_node => node_v2, :k => "key", :v => "VALUE-TWO")
+    node_v1.update(:lat => 59, :lon => 29)
+    node_v1.redact!(create(:redaction))
+
+    visit node_history_path(node)
+
+    within_sidebar do
+      assert_css "h4", :text => "Version #2"
+      assert_css "td", :text => "VALUE-TWO"
+      assert_no_css "td", :text => "VALUE-ONE"
+      assert_text(/Location: 60\.\d+, 30\.\d+/)
+      assert_no_text(/Location: 59\.\d+, 29\.\d+/)
+      assert_text "Version 1 of this node cannot be shown"
+
+      assert_link "View Details", :href => node_path(node)
+      assert_no_link "View History"
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows history of a node with one redacted version to a moderator" do
+    node = create(:node, :with_history, :version => 2, :lat => 60, :lon => 30)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    create(:old_node_tag, :old_node => node_v1, :k => "key", :v => "VALUE-ONE")
+    create(:old_node_tag, :old_node => node_v2, :k => "key", :v => "VALUE-TWO")
+    node_v1.update(:lat => 59, :lon => 29)
+    node_v1.redact!(create(:redaction))
+
+    sign_in_as(create(:moderator_user))
+    visit node_history_path(node)
+
+    within_sidebar do
+      assert_css "td", :text => "VALUE-TWO"
+      assert_no_css "td", :text => "VALUE-ONE"
+      assert_text(/Location: 60\.\d+, 30\.\d+/)
+      assert_no_text(/Location: 59\.\d+, 29\.\d+/)
+      assert_text "Version 1 of this node cannot be shown"
+
+      assert_link "View Details", :href => node_path(node)
+      assert_no_link "View History"
+      assert_link "View Unredacted History"
+
+      click_on "View Unredacted History"
+
+      assert_css "td", :text => "VALUE-TWO"
+      assert_css "td", :text => "VALUE-ONE"
+      assert_text(/Location: 60\.\d+, 30\.\d+/)
+      assert_text(/Location: 59\.\d+, 29\.\d+/)
+      assert_no_text "Version 1 of this node cannot be shown"
+
+      assert_link "View Details", :href => node_path(node)
+      assert_link "View History"
+      assert_no_link "View Unredacted History"
+
+      click_on "View History"
+
+      assert_text "Version 1 of this node cannot be shown"
+    end
+  end
+
   test "can view node history pages" do
     node = create(:node, :with_history, :version => 41)
 
