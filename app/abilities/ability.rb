@@ -4,7 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, [:feature_query, :legend_pane, :share_pane]
+    can :read, [:feature_query, :layers_pane, :legend_pane, :share_pane]
     can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
     can [:show, :create], Note
     can :read, :directions
