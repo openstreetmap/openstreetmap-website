@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class BrowseTest < ApplicationSystemTestCase
+class ElementCurrentVersionTest < ApplicationSystemTestCase
   test "relation member nodes should be visible on the map when viewing relations" do
     relation = create(:relation)
     node = create(:node)
