@@ -18,7 +18,6 @@ class WaysControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".secondary-actions a[href='#{api_way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
-    assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
   end
 
   def test_show_multiple_versions

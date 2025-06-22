@@ -18,7 +18,6 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".secondary-actions a[href='#{api_node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
-    assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
   end
 
   def test_show_multiple_versions

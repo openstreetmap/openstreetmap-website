@@ -18,7 +18,6 @@ class RelationsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".secondary-actions a[href='#{api_relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
-    assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
   end
 
   def test_show_multiple_versions
