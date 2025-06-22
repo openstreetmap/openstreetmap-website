@@ -20,6 +20,24 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a way with one version" do
+    way = create(:way)
+
+    visit way_path(way)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      within "h4", :text => "Version #1" do
+        assert_link "1", :href => old_way_path(way, 1)
+      end
+      assert_no_text "Deleted"
+
+      assert_link "Download XML", :href => api_way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+      assert_no_link "View Unredacted History"
+    end
+  end
+
   test "shows a node with two versions" do
     node = create(:node, :with_history, :lat => 60, :lon => 30, :version => 2)
 
@@ -38,6 +56,26 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
       assert_no_link "View Unredacted History"
       assert_link "Version #1", :href => old_node_path(node, 1)
       assert_link "Version #2", :href => old_node_path(node, 2)
+    end
+  end
+
+  test "shows a way with two versions" do
+    way = create(:way, :version => 2)
+
+    visit way_path(way)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      within "h4", :text => "Version #2" do
+        assert_link "2", :href => old_way_path(way, 2)
+      end
+      assert_no_text "Deleted"
+
+      assert_link "Download XML", :href => api_way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+      assert_no_link "View Unredacted History"
+      assert_link "Version #1", :href => old_way_path(way, 1)
+      assert_link "Version #2", :href => old_way_path(way, 2)
     end
   end
 
@@ -60,6 +98,24 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a deleted way" do
+    way = create(:way, :visible => false, :version => 2)
+
+    visit way_path(way)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      within "h4", :text => "Version #2" do
+        assert_link "2", :href => old_way_path(way, 2)
+      end
+      assert_text "Deleted"
+
+      assert_no_link "Download XML"
+      assert_link "View History", :href => way_history_path(way)
+      assert_no_link "View Unredacted History"
+    end
+  end
+
   test "shows node navigation to regular users" do
     node = create(:node, :with_history)
 
@@ -68,6 +124,18 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_link "View History", :href => node_history_path(node)
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows way navigation to regular users" do
+    way = create(:way, :with_history)
+
+    sign_in_as(create(:user))
+    visit way_path(way)
+
+    within_sidebar do
+      assert_link "View History", :href => way_history_path(way)
       assert_no_link "View Unredacted History"
     end
   end
@@ -84,12 +152,36 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows way navigation to moderators" do
+    way = create(:way, :with_history)
+
+    sign_in_as(create(:moderator_user))
+    visit way_path(way)
+
+    within_sidebar do
+      assert_link "View History", :href => way_history_path(way)
+      assert_link "View Unredacted History", :href => way_history_path(way, :show_redactions => true)
+    end
+  end
+
   test "shows a link to containing relation of a node" do
     node = create(:node)
     containing_relation = create(:relation)
     create(:relation_member, :relation => containing_relation, :member => node)
 
     visit node_path(node)
+
+    within_sidebar do
+      assert_link :href => relation_path(containing_relation)
+    end
+  end
+
+  test "shows a link to containing relation of a way" do
+    way = create(:way)
+    containing_relation = create(:relation)
+    create(:relation_member, :relation => containing_relation, :member => way)
+
+    visit way_path(way)
 
     within_sidebar do
       assert_link :href => relation_path(containing_relation)
