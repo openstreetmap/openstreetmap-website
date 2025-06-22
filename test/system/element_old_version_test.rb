@@ -17,6 +17,21 @@ class ElementOldVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a way with one version" do
+    way = create(:way, :with_history)
+
+    visit old_way_path(way, 1)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_css "h4", :text => "Version #1"
+
+      assert_link "Download XML", :href => api_way_version_path(way, 1)
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+    end
+  end
+
   test "shows a node with two versions" do
     node = create(:node, :with_history, :version => 2, :lat => 60, :lon => 30)
     node.old_nodes.find_by(:version => 1).update(:lat => 59, :lon => 29)
@@ -44,6 +59,30 @@ class ElementOldVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a way with two versions" do
+    way = create(:way, :with_history, :version => 2)
+
+    visit old_way_path(way, 1)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_css "h4", :text => "Version #1"
+
+      assert_link "Download XML", :href => api_way_version_path(way, 1)
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+
+      click_on "Version #2"
+
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_css "h4", :text => "Version #2"
+
+      assert_link "Download XML", :href => api_way_version_path(way, 2)
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+    end
+  end
+
   test "show a redacted node version" do
     node = create_redacted_node
 
@@ -59,6 +98,24 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "View Redacted Data"
       assert_link "View Details", :href => node_path(node)
       assert_link "View History", :href => node_history_path(node)
+    end
+  end
+
+  test "show a redacted way version" do
+    way = create_redacted_way
+
+    visit old_way_path(way, 1)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_text "Version 1 of this way cannot be shown"
+      assert_no_text "Location"
+      assert_no_text "TOP SECRET"
+
+      assert_no_link "Download XML"
+      assert_no_link "View Redacted Data"
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
     end
   end
 
@@ -78,6 +135,25 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       assert_no_link "View Redacted Data"
       assert_link "View Details", :href => node_path(node)
       assert_link "View History", :href => node_history_path(node)
+    end
+  end
+
+  test "show a redacted way version to a regular user" do
+    way = create_redacted_way
+
+    sign_in_as(create(:user))
+    visit old_way_path(way, 1)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_text "Version 1 of this way cannot be shown"
+      assert_no_text "Location"
+      assert_no_text "TOP SECRET"
+
+      assert_no_link "Download XML"
+      assert_no_link "View Redacted Data"
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
     end
   end
 
@@ -118,6 +194,42 @@ class ElementOldVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "show a redacted way version to a moderator" do
+    way = create_redacted_way
+
+    sign_in_as(create(:moderator_user))
+    visit old_way_path(way, 1)
+
+    within_sidebar do
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_text "Version 1 of this way cannot be shown"
+      assert_no_text "Location"
+      assert_no_text "TOP SECRET"
+
+      assert_no_link "Download XML"
+      assert_link "View Redacted Data"
+      assert_no_link "View Redaction Message"
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+
+      click_on "View Redacted Data"
+
+      assert_css "h2", :text => "Way: #{way.id}"
+      assert_css "h4", :text => "Redacted Version #1"
+      assert_text "TOP SECRET"
+
+      assert_no_link "Download XML"
+      assert_no_link "View Redacted Data"
+      assert_link "View Redaction Message"
+      assert_link "View Details", :href => way_path(way)
+      assert_link "View History", :href => way_history_path(way)
+
+      click_on "View Redaction Message"
+
+      assert_text "Version 1 of this way cannot be shown"
+    end
+  end
+
   private
 
   def create_redacted_node
@@ -126,6 +238,14 @@ class ElementOldVersionTest < ApplicationSystemTestCase
       node_v1.update(:lat => 59, :lon => 29)
       create(:old_node_tag, :old_node => node_v1, :k => "name", :v => "TOP SECRET")
       node_v1.redact!(create(:redaction))
+    end
+  end
+
+  def create_redacted_way
+    create(:way, :with_history, :version => 2) do |way|
+      way_v1 = way.old_ways.find_by(:version => 1)
+      create(:old_way_tag, :old_way => way_v1, :k => "name", :v => "TOP SECRET")
+      way_v1.redact!(create(:redaction))
     end
   end
 end
