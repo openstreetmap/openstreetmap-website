@@ -38,6 +38,24 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a relation with one version" do
+    relation = create(:relation)
+
+    visit relation_path(relation)
+
+    within_sidebar do
+      assert_css "h2", :text => "Relation: #{relation.id}"
+      within "h4", :text => "Version #1" do
+        assert_link "1", :href => old_relation_path(relation, 1)
+      end
+      assert_no_text "Deleted"
+
+      assert_link "Download XML", :href => api_relation_path(relation)
+      assert_link "View History", :href => relation_history_path(relation)
+      assert_no_link "View Unredacted History"
+    end
+  end
+
   test "shows a node with two versions" do
     node = create(:node, :with_history, :lat => 60, :lon => 30, :version => 2)
 
@@ -79,6 +97,26 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a relation with two versions" do
+    relation = create(:relation, :version => 2)
+
+    visit relation_path(relation)
+
+    within_sidebar do
+      assert_css "h2", :text => "Relation: #{relation.id}"
+      within "h4", :text => "Version #2" do
+        assert_link "2", :href => old_relation_path(relation, 2)
+      end
+      assert_no_text "Deleted"
+
+      assert_link "Download XML", :href => api_relation_path(relation)
+      assert_link "View History", :href => relation_history_path(relation)
+      assert_no_link "View Unredacted History"
+      assert_link "Version #1", :href => old_relation_path(relation, 1)
+      assert_link "Version #2", :href => old_relation_path(relation, 2)
+    end
+  end
+
   test "shows a deleted node" do
     node = create(:node, :with_history, :lat => 60, :lon => 30, :visible => false, :version => 2)
 
@@ -116,6 +154,24 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows a deleted relation" do
+    relation = create(:relation, :visible => false, :version => 2)
+
+    visit relation_path(relation)
+
+    within_sidebar do
+      assert_css "h2", :text => "Relation: #{relation.id}"
+      within "h4", :text => "Version #2" do
+        assert_link "2", :href => old_relation_path(relation, 2)
+      end
+      assert_text "Deleted"
+
+      assert_no_link "Download XML"
+      assert_link "View History", :href => relation_history_path(relation)
+      assert_no_link "View Unredacted History"
+    end
+  end
+
   test "shows node navigation to regular users" do
     node = create(:node, :with_history)
 
@@ -136,6 +192,18 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_link "View History", :href => way_history_path(way)
+      assert_no_link "View Unredacted History"
+    end
+  end
+
+  test "shows relation navigation to regular users" do
+    relation = create(:relation, :with_history)
+
+    sign_in_as(create(:user))
+    visit relation_path(relation)
+
+    within_sidebar do
+      assert_link "View History", :href => relation_history_path(relation)
       assert_no_link "View Unredacted History"
     end
   end
@@ -164,6 +232,18 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows relation navigation to moderators" do
+    relation = create(:relation, :with_history)
+
+    sign_in_as(create(:moderator_user))
+    visit relation_path(relation)
+
+    within_sidebar do
+      assert_link "View History", :href => relation_history_path(relation)
+      assert_link "View Unredacted History", :href => relation_history_path(relation, :show_redactions => true)
+    end
+  end
+
   test "shows a link to containing relation of a node" do
     node = create(:node)
     containing_relation = create(:relation)
@@ -182,6 +262,18 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     create(:relation_member, :relation => containing_relation, :member => way)
 
     visit way_path(way)
+
+    within_sidebar do
+      assert_link :href => relation_path(containing_relation)
+    end
+  end
+
+  test "shows a link to containing relation of a relation" do
+    relation = create(:relation)
+    containing_relation = create(:relation)
+    create(:relation_member, :relation => containing_relation, :member => relation)
+
+    visit relation_path(relation)
 
     within_sidebar do
       assert_link :href => relation_path(containing_relation)
