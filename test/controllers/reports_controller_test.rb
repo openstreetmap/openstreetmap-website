@@ -65,7 +65,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :new
-    assert_match(/Please provide the required details/, flash[:notice])
+    assert_match(/Please provide the required details/, flash[:warning])
 
     assert_equal 1, issue.reports.count
   end
