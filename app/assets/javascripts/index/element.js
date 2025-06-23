@@ -1,4 +1,10 @@
 (function () {
+  $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
+    scrollToActiveVersion();
+    $("#versions-navigation-active-page-item a.page-link").trigger("focus");
+    e.preventDefault();
+  });
+
   OSM.Element = function (map, type) {
     const page = {};
 
