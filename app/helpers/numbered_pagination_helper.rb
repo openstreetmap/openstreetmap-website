@@ -14,17 +14,20 @@ module NumberedPaginationHelper
       middle_list_versions = Range.new([active_version - window_half_size, start_list_versions.last + 1].max,
                                        [active_version + window_half_size, end_list_versions.first - 1].min)
 
-      lists << tag.ul(:class => "pagination pagination-sm mt-1") do
+      lists << tag.ul(:id => "versions-navigation-list-start",
+                      :class => "pagination pagination-sm mt-1") do
         start_list_versions.each do |v|
           concat element_versions_pagination_item(v, **yield(v), :active => v == active_version,
                                                                  :edge => [false, v == start_list_versions.last],
                                                                  :edge_border => true)
         end
       end
-      lists << tag.ul(:class => [
+      lists << tag.ul(:id => "versions-navigation-list-middle",
+                      :class => [
                         "pagination pagination-sm",
                         "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
-                        "pt-1 px-1 mx-n1" # space reserved for focus outlines
+                        "pt-1 px-1 mx-n1", # space reserved for focus outlines
+                        "position-relative" # required for centering when clicking "Version #n"
                       ]) do
         concat element_versions_pagination_item("...", :edge => [true, false]) if middle_list_versions.first > start_list_versions.last + 1
         middle_list_versions.each do |v|
@@ -34,7 +37,8 @@ module NumberedPaginationHelper
         end
         concat element_versions_pagination_item("...", :edge => [false, true]) if middle_list_versions.last < end_list_versions.first - 1
       end
-      lists << tag.ul(:class => "pagination pagination-sm mt-1") do
+      lists << tag.ul(:id => "versions-navigation-list-end",
+                      :class => "pagination pagination-sm mt-1") do
         end_list_versions.each do |v|
           concat element_versions_pagination_item(v, **yield(v), :active => v == active_version,
                                                                  :edge => [v == end_list_versions.first, false],
@@ -58,6 +62,7 @@ module NumberedPaginationHelper
            else
              tag.span body, :class => link_class
            end
-    tag.li link, :class => ["page-item", { "disabled" => !href, "active" => active }]
+    tag.li link, :id => ("versions-navigation-active-page-item" if active),
+                 :class => ["page-item", { "disabled" => !href, "active" => active }]
   end
 end
