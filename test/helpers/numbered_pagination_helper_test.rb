@@ -11,6 +11,16 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
+  def test_element_versions_pagination1_active1
+    pagination = element_versions_pagination(1, :active_version => 1) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 1 do
+      assert_dom "> li", 1 do
+        check_version_link sample_item_data(1), :active => true
+      end
+    end
+  end
+
   def test_element_versions_pagination5
     pagination = element_versions_pagination(5) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
@@ -41,13 +51,128 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
+  def test_element_versions_pagination6_active1
+    pagination = element_versions_pagination(6, :active_version => 1) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 2 do |items|
+        check_version_link items.shift, sample_item_data(1), :active => true
+        check_version_link items.shift, sample_item_data(2)
+      end
+      assert_dom lists[1], "> li", 3 do |items|
+        check_version_link items.shift, sample_item_data(3)
+        check_version_link items.shift, sample_item_data(4)
+        check_version_link items.shift, sample_item_data(5)
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(6)
+      end
+    end
+  end
+
+  def test_element_versions_pagination6_active2
+    pagination = element_versions_pagination(6, :active_version => 2) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 3 do |items|
+        check_version_link items.shift, sample_item_data(1)
+        check_version_link items.shift, sample_item_data(2), :active => true
+        check_version_link items.shift, sample_item_data(3)
+      end
+      assert_dom lists[1], "> li", 2 do |items|
+        check_version_link items.shift, sample_item_data(4)
+        check_version_link items.shift, sample_item_data(5)
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(6)
+      end
+    end
+  end
+
+  def test_element_versions_pagination6_active3
+    pagination = element_versions_pagination(6, :active_version => 3) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 4 do |items|
+        check_version_link items.shift, sample_item_data(2)
+        check_version_link items.shift, sample_item_data(3), :active => true
+        check_version_link items.shift, sample_item_data(4)
+        check_version_link items.shift, sample_item_data(5)
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(6)
+      end
+    end
+  end
+
+  def test_element_versions_pagination6_active4
+    pagination = element_versions_pagination(6, :active_version => 4) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 4 do |items|
+        check_version_link items.shift, sample_item_data(2)
+        check_version_link items.shift, sample_item_data(3)
+        check_version_link items.shift, sample_item_data(4), :active => true
+        check_version_link items.shift, sample_item_data(5)
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(6)
+      end
+    end
+  end
+
+  def test_element_versions_pagination6_active5
+    pagination = element_versions_pagination(6, :active_version => 5) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 2 do |items|
+        check_version_link items.shift, sample_item_data(2)
+        check_version_link items.shift, sample_item_data(3)
+      end
+      assert_dom lists[2], "> li", 3 do |items|
+        check_version_link items.shift, sample_item_data(4)
+        check_version_link items.shift, sample_item_data(5), :active => true
+        check_version_link items.shift, sample_item_data(6)
+      end
+    end
+  end
+
+  def test_element_versions_pagination6_active6
+    pagination = element_versions_pagination(6, :active_version => 6) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 3 do |items|
+        check_version_link items.shift, sample_item_data(2)
+        check_version_link items.shift, sample_item_data(3)
+        check_version_link items.shift, sample_item_data(4)
+      end
+      assert_dom lists[2], "> li", 2 do |items|
+        check_version_link items.shift, sample_item_data(5)
+        check_version_link items.shift, sample_item_data(6), :active => true
+      end
+    end
+  end
+
   private
 
   def sample_item_data(version)
     { :href => "test/version/#{version}", :title => "Version ##{version}" }
   end
 
-  def check_version_link(*elements, data)
+  def check_version_link(*elements, data, active: false)
+    assert_dom(*elements, "> @class", active ? "page-item active" : "page-item")
     assert_dom(*elements, "> a", 1) do
       assert_dom "> @href", data[:href]
       assert_dom "> @title", data[:title]

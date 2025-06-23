@@ -9,8 +9,8 @@ module NumberedPaginationHelper
         end
       end
     else
-      start_list_versions = 1..1
-      end_list_versions = top_version..top_version
+      start_list_versions = 1..(active_version < 3 ? active_version + 1 : 1)
+      end_list_versions = (active_version > top_version - 2 ? active_version - 1 : top_version)..top_version
       middle_list_versions = (start_list_versions.last + 1)..(end_list_versions.first - 1)
 
       lists << tag.ul(:class => "pagination pagination-sm mt-1") do
