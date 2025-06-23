@@ -23,7 +23,7 @@ module NumberedPaginationHelper
       lists << tag.ul(:class => [
                         "pagination pagination-sm",
                         "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
-                        "pt-1" # space reserved for focus outlines
+                        "pt-1 px-1 mx-n1" # space reserved for focus outlines
                       ]) do
         middle_list_versions.each do |v|
           concat element_versions_pagination_item(v, **yield(v), :active => v == active_version,
