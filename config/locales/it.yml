@@ -20,6 +20,7 @@
 # Author: Efred
 # Author: Egidio24
 # Author: Einreiher
+# Author: Emabarto01
 # Author: Federico Mugnaini
 # Author: Frammm
 # Author: Fringio
@@ -228,12 +229,12 @@ it:
         tagstring: delimitato da virgola
       user_block:
         reason: La motivazione per cui l'utente è stato bloccato. Per favore sii il
-          più possibile paziente e ragionevole, fornendo il maggior numero di dettagli
-          sulla situazione e ricordando che il messaggio sarà pubblicamente visibile.
-          Tieni a mente che non tutti gli utenti comprendono il gergo della comunità,
+          più paziente e ragionevole possibile, fornisci il maggior numero di dettagli
+          sulla situazione e ricorda che il messaggio sarà visibile pubblicamente.
+          Ricorda che non tutti gli utenti comprendono il linguaggio della comunità,
           quindi cerca di utilizzare dei termini comuni.
-        needs_view: L'utente ha bisogno di collegarsi prima che questo blocco sia
-          cancellato?
+        needs_view: L'utente deve effettuare l'accesso prima che questo blocco venga
+          rimosso?
       user:
         new_email: (mai visualizzato pubblicamente)
   datetime:
@@ -311,7 +312,7 @@ it:
         opened: nuova nota (vicino a %{place})
         commented: nuovo commento (vicino a %{place})
         closed: nota chiusa (vicino a %{place})
-        reopened: nota riattivata (vicino a %{place})
+        reopened: nota riaperta (vicino a %{place})
       entry:
         comment: Commento
         full: Nota completa
@@ -366,18 +367,18 @@ it:
         delete_profile: Le informazioni del tuo profilo, inclusi il tuo avatar, la
           descrizione e la posizione di casa saranno rimossi.
         delete_display_name: Il tuo nome utente sarà cancellato, e potrà essere utilizzato
-          da altri account.
+          da altre utenze.
         retain_caveats: 'Ciò nonostante, alcuni dati saranno conservati su OpenStreetMap,
-          anche dopo la cancellazione del tuo account:'
-        retain_edits: Le modifiche apportate alla mappa, se ne hai fatte, saranno
-          mantenute.
-        retain_traces: Le tracce GPS che hai caricato saranno mantenute.
+          anche dopo la cancellazione della tua utenza:'
+        retain_edits: Le modifiche apportate alla mappa, se presenti, saranno mantenute.
+        retain_traces: Le tracce GPS che hai caricato, se presenti, saranno mantenute.
         retain_diary_entries: Le tue voci e commenti sul diario, se presenti, saranno
           mantenuti ma nascosti.
-        retain_notes: Le tue note e commenti sulle note, se presenti, saranno mantenuti
+        retain_notes: Le tue note e commenti nelle note, se presenti, saranno mantenuti
           ma nascosti.
-        retain_changeset_discussions: Le discussioni su tuoi gruppi di modifiche e
-          i commenti inseriti su altri gruppi di modifiche, se presenti, saranno mantenute.
+        retain_changeset_discussions: Le discussioni sui tuoi gruppi di modifiche
+          e i commenti inseriti su altri gruppi di modifiche, se presenti, saranno
+          mantenute.
         retain_email: Il tuo indirizzo e-mail sarà conservato.
         recent_editing_html: Dato che hai effettuato delle modifiche di recente, al
           momento la tua utenza non può essere eliminata. Sarà possibile farlo tra
@@ -530,6 +531,8 @@ it:
         title_html: 'Cronologia percorso: %{name}'
       relation:
         title_html: 'Cronologia relazione: %{name}'
+      older_versions: Versioni precedenti
+      newer_versions: Versioni più recenti
     actions:
       view_redacted_data: Mostra dati rimossi
       view_redaction_message: Vedi messaggio di rimozione
@@ -2712,7 +2715,14 @@ it:
           Chiunque può crearne uno o unirsi ad uno già esistente. Per saperne di più
           consulta la %{communities_wiki_link}.
         communities_wiki: Pagina wiki delle comunità
-  map_keys:
+  social_links:
+    show:
+      website: sito web
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zooma per vedere le note della mappa
+      map_data_zoom_in_tooltip: Zooma per vedere i dati della mappa
+  legend_panes:
     show:
       entries:
         motorway: Autostrada
@@ -2803,6 +2813,26 @@ it:
         bicycle_parking_small: Piccolo parcheggio per biciclette
         toilets: Bagni pubblici
       see_external_legend: Vedi la legenda della mappa esterna
+  share_panes:
+    show:
+      link: Collegamento o HTML
+      include_marker: Includi il marcatore
+      long_link: Link
+      short_link: Link breve
+      embed: HTML
+      embed_html_disabled: L'incorporamento HTML non è disponibile per questo livello
+        mappa
+      paste_html: Incolla l'HTML per incorporarlo nel sito web
+      geo_uri: Geo URI
+      image: Immagine
+      only_layers_exported_as_image: 'Solo i seguenti livelli possono essere esportati
+        come immagine:'
+      format: 'Formato:'
+      scale: 'Scala:'
+      custom_dimensions: Imposta dimensioni personalizzate
+      image_dimensions_html: L'immagine mostrerà il livello %{layer} in %{width} x
+        %{height}
+      download: Scarica
   traces:
     visibility:
       private: Privato (condiviso solamente come anonimo, punti non ordinati)
@@ -3461,28 +3491,10 @@ it:
     close: Chiudi
     share:
       title: Condividi
-      cancel: Annulla
-      image: Immagine
-      link: Collegamento o HTML
-      long_link: Link
-      short_link: Link breve
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Imposta dimensioni personalizzate
-      format: 'Formato:'
-      scale: 'Scala:'
-      image_dimensions: L'immagine mostrerà il livello %{layer} in %{width} x %{height}
-      download: Scarica
-      short_url: URL breve
-      include_marker: Includi il marcatore
-      center_marker: Centra la mappa sul marcatore
-      paste_html: Incolla l'HTML per incorporarlo nel sito web
       view_larger_map: Visualizza mappa ingrandita
-      only_layers_exported_as_image: 'Solo i seguenti livelli possono essere esportati
-        come immagine:'
     embed:
       report_problem: Segnala un problema
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: La legenda non è disponibile per questo livello
@@ -3526,12 +3538,8 @@ it:
       edit_disabled_tooltip: Zooma per modificare la mappa
       createnote_tooltip: Aggiungi una nota sulla mappa
       createnote_disabled_tooltip: Ingrandisci la mappa per aggiungere una nota
-      map_notes_zoom_in_tooltip: Zooma per vedere le note della mappa
-      map_data_zoom_in_tooltip: Zooma per vedere i dati della mappa
       queryfeature_tooltip: Ricerca di elementi
       queryfeature_disabled_tooltip: Ingrandisci per ricercare elementi
-      embed_html_disabled: L'incorporamento HTML non è disponibile per questo livello
-        mappa
     profile:
       social_link_n: Collegamento al profilo social %{n}
       remove_social_link_n: Rimuovi collegamento al profilo social %{n}

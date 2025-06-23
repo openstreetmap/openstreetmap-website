@@ -39,6 +39,9 @@
 # Author: Zakawer2
 ---
 da:
+  date:
+    formats:
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
@@ -491,6 +494,8 @@ da:
         title_html: 'Linjehistorik: %{name}'
       relation:
         title_html: 'Relationshistorik: %{name}'
+      older_versions: Ældre versioner
+      newer_versions: Nyere versioner
     actions:
       view_redacted_data: Vis redigeret data
       view_redaction_message: Vis redigeringsbesked
@@ -2637,7 +2642,14 @@ da:
           faste rammer. Enhver kan oprette eller blive medlem af sådanne. Læs mere
           på %{communities_wiki_link}.
         communities_wiki: wiki-siden for fællesskaber
-  map_keys:
+  social_links:
+    show:
+      website: websted
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zoom ind for at se kort kommentarer
+      map_data_zoom_in_tooltip: Zoom ind for at se kortdata
+  legend_panes:
     show:
       entries:
         motorway: Motorvej
@@ -2728,6 +2740,23 @@ da:
         bicycle_parking_small: Mindre cykelparkering
         toilets: Toiletter
       see_external_legend: Se ekstern kortforklaring
+  share_panes:
+    show:
+      link: Link eller HTML
+      include_marker: Medtag markør
+      long_link: Link
+      short_link: Kort link
+      embed: HTML
+      embed_html_disabled: HTML-indlejring er ikke tilgængelig for dette kortlag
+      paste_html: Indsæt HTML som skal indlejres i websiden
+      geo_uri: Geo-URI
+      image: Billede
+      only_layers_exported_as_image: 'Kun de følgende lag kan eksporteres som et billede:'
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Angiv brugerdefinerede dimensioner
+      image_dimensions_html: Billedet vil vise laget %{layer} i %{width} x %{height}
+      download: Hent
   traces:
     visibility:
       private: Privat (kun delt som anonyme punkter uden rækkefølge og tidsstempler)
@@ -3386,27 +3415,10 @@ da:
     close: Luk
     share:
       title: Del
-      cancel: Annuller
-      image: Billede
-      link: Link eller HTML
-      long_link: Link
-      short_link: Kort link
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Angiv brugerdefinerede dimensioner
-      format: 'Format:'
-      scale: 'Skala:'
-      image_dimensions: Billedet vil vise laget %{layer} i %{width} x %{height}
-      download: Hent
-      short_url: Kort URL
-      include_marker: Medtag markør
-      center_marker: Centrér kortet på markøren
-      paste_html: Indsæt HTML som skal indlejres i websiden
       view_larger_map: Vis større kort
-      only_layers_exported_as_image: 'Kun de følgende lag kan eksporteres som et billede:'
     embed:
       report_problem: Rapporter et problem
-    key:
+    legend:
       title: Kortsymboler
       tooltip: Kortsymboler
       tooltip_disabled: Kortnøgle findes ikke til dette lag
@@ -3450,11 +3462,8 @@ da:
       edit_disabled_tooltip: Zoom ind for at redigere kortet
       createnote_tooltip: Tilføj en bemærkning på kortet
       createnote_disabled_tooltip: Zoom ind for at tilføje en bemærkning til kortet
-      map_notes_zoom_in_tooltip: Zoom ind for at se kort kommentarer
-      map_data_zoom_in_tooltip: Zoom ind for at se kortdata
       queryfeature_tooltip: Find kortobjekter
       queryfeature_disabled_tooltip: Zoom ind for at finde kortobjekter
-      embed_html_disabled: HTML-indlejring er ikke tilgængelig for dette kortlag
     profile:
       social_link_n: Link til social profil %{n}
       remove_social_link_n: Fjern link til social profil %{n}

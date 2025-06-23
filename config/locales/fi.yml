@@ -494,6 +494,8 @@ fi:
         title_html: Viivan %{name} historia
       relation:
         title_html: Relaation %{name} historia
+      older_versions: Vanhemmat versiot
+      newer_versions: Uudemmat versiot
   nodes:
     not_found_message:
       sorry: 'Valitettavasti solmua #%{id} ei löydy'
@@ -509,6 +511,13 @@ fi:
         sorry: Valitettavasti pyytämäsi muutoskokoelmien kommenttien hakeminen kesti
           liian kauan.
   changesets:
+    changeset:
+      comments:
+        one: '%{count} kommentti'
+        other: '%{count} kommenttia'
+      changes:
+        one: '%{count} muutos'
+        other: '%{count} muutosta'
     index:
       title: Muutoskokoelmat
       title_user: Käyttäjän %{user} muutoskokoelmat
@@ -669,6 +678,12 @@ fi:
       new_title: Kirjoita uusi merkintä käyttäjän päiväkirjaani
     profile_diaries:
       latest_diaries: Uusimmat päiväkirjat
+      comments:
+        one: '%{count} kommentti'
+        other: '%{count} kommenttia'
+      title_label: Päiväkirjamerkintä
+      comments_label: Kommentit
+      date_label: Päiväys
   doorkeeper:
     flash:
       applications:
@@ -685,6 +700,10 @@ fi:
       contact: Ota yhteyttä
       contact_the_community_html: '%{contact_link} OpenStreetMap-yhteisöön, jos olet
         löytänyt rikkinäisen linkin / virheen. Kirjoita muistiin pyyntösi tarkka URL-osoite.'
+    bad_request:
+      title: Virheellinen pyyntö
+      description: OpenStreetMap-palvelimelta pyytämäsi toiminto ei ole kelvollinen
+        (HTTP 400)
     forbidden:
       title: Kielletty
       description: OpenStreetMap-palvelimella pyytämäsi toiminto on vain järjestelmänvalvojien
@@ -698,6 +717,7 @@ fi:
   follows:
     show:
       follow:
+        heading: Haluatko seurata käyttäjää %{user}?
         button: Seuraa käyttäjää
       unfollow:
         heading: Lopetetaanko käyttäjän %{user} seuraaminen?
@@ -1689,6 +1709,7 @@ fi:
       subject: '[OpenStreetMap] GPX-tuonti epäonnistui'
     gpx_success:
       hi: Hei %{to_user}!
+      imported_successfully: Vaikuttaa siltä, että tiedoston tuonti GPS-jälkenä onnistui.
       subject: '[OpenStreetMap] GPX-tuonti onnistui'
     signup_confirm:
       subject: '[OpenStreetMap] Tervetuloa OpenStreetMapiin'
@@ -1784,6 +1805,8 @@ fi:
       success: Käyttäjätunnuksesi on nyt vahvistettu.
       already active: Tämä tunnus on jo vahvistettu.
       unknown token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
+      if_need_resend: Jos haluat meidän lähettävän vahvistussähköpostin uudelleen,
+        napsauta alla olevaa painiketta.
       resend_button: Lähetä vahvistussähköposti uudelleen
     confirm_resend:
       failure: Käyttäjää %{name} ei löytynyt.
@@ -1876,6 +1899,9 @@ fi:
       new password button: Lähetä salasanan palautusohjeet
       help_text: Kirjoita alapuolelle kirjautumissähköpostiosoitteesi. Osoitteeseen
         lähetetään salasanan palautusohjeet.
+    create:
+      send_paranoid_instructions: Jos sähköpostiosoitteesi on tietokannassamme, saat
+        muutamassa minuutissa sähköpostin, jossa on ohjeet salasanan palautukseen.
     edit:
       title: Salasanan vaihto
       heading: Vaihda käyttäjän %{user} salasana
@@ -1891,9 +1917,11 @@ fi:
         message: Asetukset päivitetty.
       navigation:
         preferences: Asetukset
+        advanced_preferences: Lisäasetukset
     basic_preferences:
       show:
         title: Asetukset
+        preferred_language: Ensisijainen kieli
         preferred_site_color_scheme: Ensisijainen sivuston väriteema
         site_color_schemes:
           auto: Automaattinen
@@ -1904,6 +1932,9 @@ fi:
           auto: Automaattinen
           light: Vaalea
           dark: Tumma
+        save: Päivitä asetukset
+    advanced_preferences:
+      show:
         save: Päivitä asetukset
   profiles:
     show:
@@ -1928,12 +1959,17 @@ fi:
       show: Näytä
       delete: Poista
       undelete: Peruuta poistaminen
+      social_links:
+        title: Sosiaalisen median profiililinkit
+        remove: Poista
+        add: Lisää sosiaalisen median linkki
     update:
       success: Profiili päivitetty.
       failure: Profiilia ei voitu päivittää.
   sessions:
     new:
       tab_title: Kirjaudu
+      visit_referring_page: Käy viittaavalla sivulla
       email or username: Sähköpostiosoite tai käyttäjätunnus
       password: Salasana
       remember: Pidä minut sisäänkirjautuneena
@@ -2314,6 +2350,8 @@ fi:
         bicycle: Pyörällä
         car: Autolla
         foot: Kävellen
+      providers:
+        description: Reitityspalvelut
     welcome:
       title: Tervetuloa!
       introduction: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
@@ -2360,7 +2398,11 @@ fi:
       other_groups:
         title: Muut ryhmät
         communities_wiki: Yhteisöjen wiki-sivu
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
+      map_data_zoom_in_tooltip: Näytä kartta-aineisto lähentämällä karttaa
+  legend_panes:
     show:
       entries:
         motorway: Moottoritie
@@ -2451,6 +2493,23 @@ fi:
         bicycle_parking_small: Pieni pyöräparkki
         toilets: Vessat
       see_external_legend: Laajempi kartan selite toisessa palvelussa
+  share_panes:
+    show:
+      link: Linkki tai HTML-koodi
+      include_marker: Lisää karttamerkki
+      long_link: Linkki
+      short_link: Lyhyt linkki
+      embed: HTML-koodi
+      embed_html_disabled: HTML-upotus ei ole käytettävissä tälle karttatasolle
+      paste_html: Upota karttaikkuna liittämällä tämä koodi verkkosivulle
+      geo_uri: Geo URI
+      image: Kartta kuvana
+      only_layers_exported_as_image: 'Vain nämä tasot voi viedä kuvaksi:'
+      format: 'Tiedostomuoto:'
+      scale: 'Mittakaava:'
+      custom_dimensions: Rajaa alue itse
+      image_dimensions_html: '%{layer}-karttanäkymä koossa %{width} x %{height}'
+      download: Lataa
   traces:
     visibility:
       private: Yksityinen (vain pisteet ilman nimeä ja aikaleimoja)
@@ -2777,6 +2836,9 @@ fi:
       delete_user: Poista tämä käyttäjä
       confirm: Vahvista
       report: Ilmianna käyttäjä
+      contributions:
+        one: '%{count} muokkaus viimeisen vuoden aikana'
+        other: '%{count} muokkausta viimeisen vuoden aikana'
     go_public:
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
     issued_blocks:
@@ -3074,27 +3136,10 @@ fi:
     close: Sulje
     share:
       title: Jakaminen
-      cancel: Peruuta
-      image: Kartta kuvana
-      link: Linkki tai HTML-koodi
-      long_link: Linkki
-      short_link: Lyhyt linkki
-      geo_uri: Geo URI
-      embed: HTML-koodi
-      custom_dimensions: Rajaa alue itse
-      format: 'Tiedostomuoto:'
-      scale: 'Mittakaava:'
-      image_dimensions: '%{layer}-karttanäkymä koossa %{width} x %{height}'
-      download: Lataa
-      short_url: Lyhyt osoite
-      include_marker: Lisää karttamerkki
-      center_marker: Keskitä kartta karttamerkkiin
-      paste_html: Upota karttaikkuna liittämällä tämä koodi verkkosivulle
       view_larger_map: Näytä isommalla kartalla
-      only_layers_exported_as_image: 'Vain nämä tasot voi viedä kuvaksi:'
     embed:
       report_problem: Ilmoita ongelmasta
-    key:
+    legend:
       title: Kartta­merkinnät
       tooltip: Merkkien selitykset
       tooltip_disabled: Ei käytettävissä tässä karttanäkymässä
@@ -3137,11 +3182,11 @@ fi:
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
       createnote_tooltip: Ilmoita karttavirheestä
       createnote_disabled_tooltip: Lähennä karttaa ennen karttavirheestä ilmoittamista.
-      map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
-      map_data_zoom_in_tooltip: Näytä kartta-aineisto lähentämällä karttaa
       queryfeature_tooltip: Karttakohdeluettelo
       queryfeature_disabled_tooltip: Näytä ominaisuusluettelo suurentamalla karttaa
-      embed_html_disabled: HTML-upotus ei ole käytettävissä tälle karttatasolle
+    profile:
+      social_link_n: Sosiaalisen median profiililinkki %{n}
+      remove_social_link_n: Poista sosiaalisen median profiililinkki %{n}
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
     directions:
       distance_in_units:
@@ -3245,6 +3290,7 @@ fi:
       show_address: Näytä osoite
       query_features: Lähistöllä
       centre_map: Keskitä kartta
+      scroll_to_changeset: Vieritä muutosjoukkoon
     home:
       marker_title: Kotipaikka
       not_set: Tilille ei ole asetettu kotipaikkaa

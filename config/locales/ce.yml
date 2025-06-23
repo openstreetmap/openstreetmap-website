@@ -9,6 +9,9 @@
 # Author: Умар
 ---
 ce:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y %H:%M'
@@ -44,6 +47,10 @@ ce:
       models:
         user_mute:
           is_already_muted: хӀинцале а дӀайаккхина
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Url дӀайолаяла еза http:// йа https://
     models:
       acl: ТӀецакхачаран бахьанин могӀа
       changeset: Нисдарш
@@ -88,9 +95,7 @@ ce:
         support_url: URL гӀо дар
         allow_read_prefs: йеша лелорчера лаамаш
         allow_write_prefs: хийца лелорчера лаамаш
-        allow_write_diary: |-
-          тептар тIехь йаздарш кхолла а, комментареш йа а,
-           доттагӀий лаха
+        allow_write_diary: тептар тIехь йаздарш кхолла а, комментареш йа а
         allow_write_api: карта нисдар
         allow_write_changeset_comments: хийцаран пакеташна тӀехь комментарий йе
         allow_read_gpx: долахь йолу GPS-трекаш йеша
@@ -122,7 +127,7 @@ ce:
         longitude: Дохалла
         public: Массарна
         description: Цуьнах лаьцна
-        gpx_file: GPX файл чуйаккха
+        gpx_file: GPS трасировка йа файл хаьржа
         visibility: Гуш хилар
         tagstring: Тегаш
       message:
@@ -349,6 +354,9 @@ ce:
         consider_pd: Сан къинхьегам йукъараллин рицкъ санна лору ас.
         consider_pd_why: ХӀунда лаьа суна сан материалаш йукъараллин рицӀкехь хила?
         confirm: Бакъдан
+      create:
+        successfully_declared: Ахь кхиамца дӀакхайкхийна, хьайн хийцамаш Къоман Доменехь
+          лоруш хилар.
   browse:
     deleted_ago_by_html: ДӀадаьккхина %{time_ago} декъашхочо %{user}
     edited_ago_by_html: Нисайина %{time_ago} декъашхочо %{user}
@@ -2345,7 +2353,11 @@ ce:
           Меттигерчу дакъанаша цхьана барамехь формалан кепара тоба кхолла оьшуш дац.
           Баккъалла а дуккха а тобанаш йу чӀогӀа кхиамца адамийн формалан доцу гулам санна йа юкъараллин тоба санна. Муьлххачу а стеган йиш йу уьш дӀахӀитто йа дӀакхета. Кхин дӀа еша %{communities_wiki_link} тӀехь.
         communities_wiki: Йукъараллаш вики агӀо
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Доккха де, заметкаш ган
+      map_data_zoom_in_tooltip: Доккха де, хаамаш ган
+  legend_panes:
     show:
       entries:
         motorway: Бокх некъ
@@ -2434,6 +2446,23 @@ ce:
         bicycle_parking: Вилспетан парковка
         bicycle_parking_small: Жима вилспетан парковка
         toilets: ХьаштагӀа
+  share_panes:
+    show:
+      link: Хьажорг йа чуйилла код
+      include_marker: Маркер латтайе
+      long_link: Йуьззина хьажорг
+      short_link: Йоца хьажорг
+      embed: Код
+      embed_html_disabled: HTML чутохар, оцу картан чкъоьран тӀекхочийла дац
+      paste_html: HTML-код веб-сайта чу дӀаязъян
+      geo_uri: Geo URI
+      image: Сурт
+      format: 'Формат:'
+      scale: 'Масштаб:'
+      custom_dimensions: Куьйгаца хӀоттабе барам
+      image_dimensions_html: Суьрто гойтур ду %{layer} чкъор  %{width} x %{height}
+        тIехь
+      download: Схьаэца
   traces:
     visibility:
       private: Къаьсттина (анониман бен тIекхочийла йац, гойту ларийн тептарехь а,
@@ -2987,26 +3016,10 @@ ce:
     close: ДӀачӀагӀа
     share:
       title: Сайт тӀе йилла
-      cancel: Йухайаккха
-      image: Сурт
-      link: Хьажорг йа чуйилла код
-      long_link: Йуьззина хьажорг
-      short_link: Йоца хьажорг
-      geo_uri: Geo URI
-      embed: Код
-      custom_dimensions: Куьйгаца хӀоттабе барам
-      format: 'Формат:'
-      scale: 'Масштаб:'
-      image_dimensions: Суьрто гойтур ду %{layer} чкъор  %{width} x %{height} тIехь
-      download: Схьаэца
-      short_url: Йоца хьажорг
-      include_marker: Маркер латтайе
-      center_marker: Маркер тӀехь карта йуккъе даккха
-      paste_html: HTML-код веб-сайта чу дӀаязъян
       view_larger_map: Доккха картага хьажа
     embed:
       report_problem: Проблемах лаьцна хаийта
-    key:
+    legend:
       title: Картан догIа
       tooltip: Картан догIа
       tooltip_disabled: Картан догIа мегаш дац цу чкъоьран
@@ -3050,11 +3063,8 @@ ce:
       edit_disabled_tooltip: Хийцамашбан гергадаладе карта
       createnote_tooltip: Картан заметка тӀе тӀетоха
       createnote_disabled_tooltip: Улле даладе карта заметка тIетоха
-      map_notes_zoom_in_tooltip: Доккха де, заметкаш ган
-      map_data_zoom_in_tooltip: Доккха де, хаамаш ган
       queryfeature_tooltip: ХӀун йу кхузахь?
       queryfeature_disabled_tooltip: Улле даладе карта тIера объекташкехь лаьцна хьажа
-      embed_html_disabled: HTML чутохар, оцу картан чкъоьран тӀекхочийла дац
     edit_help: Карта дӀа хила де, хьайна хийца луучу метте масштаб совъяккха, тӀаккха
       кхузахь тIетIаIайе.
     directions:
