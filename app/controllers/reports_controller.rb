@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
       @report = Report.new
       @report.issue = Issue.find_or_initialize_by(create_new_report_params)
     else
-      redirect_to root_path, :notice => t(".missing_params")
+      head :bad_request
     end
   end
 

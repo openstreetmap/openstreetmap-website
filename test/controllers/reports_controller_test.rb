@@ -1,6 +1,13 @@
 require "test_helper"
 
 class ReportsControllerTest < ActionDispatch::IntegrationTest
+  def test_new_missing_parameters
+    session_for(create(:user))
+    get new_report_path
+
+    assert_response :bad_request
+  end
+
   def test_new_report_without_login
     target_user = create(:user)
     get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
