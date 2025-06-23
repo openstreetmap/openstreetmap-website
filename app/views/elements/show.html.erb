@@ -23,18 +23,9 @@
       <% end %>
     </li>
   </ol>
-</nav>
 
-<div class='secondary-actions'>
-  <% if @feature.version > 1 %>
-    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => 1 }, :class => "icon-link") do %>
-      <%= previous_page_svg_tag :height => 11, :count => 2 %>
-      <%= "#{t('browse.version')} #1" %>
-    <% end %>
-    &middot;
-    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => @feature.version }, :class => "icon-link") do %>
-      <%= "#{t('browse.version')} ##{@feature.version}" %>
-      <%= next_page_svg_tag :height => 11, :count => 2 %>
-    <% end %>
-  <% end %>
-</div>
+  <%= element_versions_pagination(@feature.version, :active_version => @feature.version) do |v|
+        { :href => { :controller => "old_#{@type.pluralize}", :action => :show, :version => v },
+          :title => t("browse.versions_navigation.version", :version => v) }
+      end %>
+</nav>

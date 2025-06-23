@@ -342,6 +342,28 @@ class ElementOldVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "navigates between multiple node versions" do
+    node = create(:node, :with_history, :version => 5)
+
+    visit node_path(node)
+
+    within_sidebar do
+      assert_css "h4", :text => "Version #5"
+
+      click_on "Version #3"
+
+      assert_css "h4", :text => "Version #3"
+
+      click_on "Version #2"
+
+      assert_css "h4", :text => "Version #2"
+
+      click_on "Version #4"
+
+      assert_css "h4", :text => "Version #4"
+    end
+  end
+
   private
 
   def create_redacted_node
