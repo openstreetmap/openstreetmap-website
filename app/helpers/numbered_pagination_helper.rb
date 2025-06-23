@@ -1,14 +1,18 @@
 module NumberedPaginationHelper
   def element_versions_pagination(top_version, active_version: 0, &)
-    tag.ul(:class => [
-             "pagination pagination-sm",
-             "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
-             "pt-1" # space reserved for focus outlines
-           ]) do
+    lists = []
+
+    lists << tag.ul(:class => [
+                      "pagination pagination-sm",
+                      "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
+                      "pt-1" # space reserved for focus outlines
+                    ]) do
       (1..top_version).each do |v|
         concat element_versions_pagination_item(v, **yield(v), :active => v == active_version)
       end
     end
+
+    tag.div safe_join(lists), :class => "d-flex align-items-start"
   end
 
   private
