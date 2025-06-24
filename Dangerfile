@@ -24,7 +24,7 @@ else
 end
 
 # Report if there are merge-commits in PR
-if git.commits.any? { |c| c.parents.many? }
+if git.commits.any? { |c| c.parents.count > 1 }
   warn("Merge commits are found in PR. Please rebase to get rid of the merge commits in this PR, see CONTRIBUTING.md.")
   auto_label.set(pr_number, "merge-commits", "D93F0B")
 else
