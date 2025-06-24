@@ -36,7 +36,7 @@ class PasswordsController < ApplicationController
     if user.nil?
       users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
 
-      user = users.first if users.count == 1
+      user = users.first if users.one?
     end
 
     if user

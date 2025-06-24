@@ -105,7 +105,7 @@ module Api
           jsm = js["messages"]
           assert_operator jsm.count, :<=, 20
 
-          break if jsm.nil? || jsm.count.zero?
+          break if jsm.nil? || jsm.none?
 
           assert_operator(jsm[0]["id"], :>=, params[:from_id]) unless params[:from_id].nil?
           # ensure ascending order
@@ -139,7 +139,7 @@ module Api
           jsm = js["messages"]
           assert_operator jsm.count, :<=, 20
 
-          break if jsm.nil? || jsm.count.zero?
+          break if jsm.nil? || jsm.none?
 
           if params[:from_id].nil?
             real_max_id = jsm[0]["id"]

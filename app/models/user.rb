@@ -161,7 +161,7 @@ class User < ApplicationRecord
       if user.nil?
         users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", options[:username].strip, options[:username])
 
-        user = users.first if users.count == 1
+        user = users.first if users.one?
       end
 
       if user && PasswordHash.check(user.pass_crypt, user.pass_salt, options[:password])

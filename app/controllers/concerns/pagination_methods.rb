@@ -27,8 +27,8 @@ module PaginationMethods
 
     [
       page_items,
-      (newer_items_cursor if page_items.count.positive? && items.exists?(["#{qualified_cursor_column} > ?", newer_items_cursor])),
-      (older_items_cursor if page_items.count.positive? && items.exists?(["#{qualified_cursor_column} < ?", older_items_cursor]))
+      (newer_items_cursor if page_items.any? && items.exists?(["#{qualified_cursor_column} > ?", newer_items_cursor])),
+      (older_items_cursor if page_items.any? && items.exists?(["#{qualified_cursor_column} < ?", older_items_cursor]))
     ]
   end
 end
