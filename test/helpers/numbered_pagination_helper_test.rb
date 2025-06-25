@@ -274,6 +274,100 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
+  def test_element_versions_pagination_step
+    pagination = element_versions_pagination(35, :step_size => 10, :window_half_size => 0) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 7 do |items|
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(10)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(20)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(30)
+        check_version_ellipsis items.shift
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(35)
+      end
+    end
+  end
+
+  def test_element_versions_pagination_step_end_touch
+    pagination = element_versions_pagination(31, :step_size => 10, :window_half_size => 0) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 6 do |items|
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(10)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(20)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(30)
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(31)
+      end
+    end
+  end
+
+  def test_element_versions_pagination_step_window
+    pagination = element_versions_pagination(35, :active_version => 15, :step_size => 10, :window_half_size => 1) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 11 do |items|
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(10)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(14)
+        check_version_link items.shift, sample_item_data(15), :active => true
+        check_version_link items.shift, sample_item_data(16)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(20)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(30)
+        check_version_ellipsis items.shift
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(35)
+      end
+    end
+  end
+
+  def test_element_versions_pagination_step_window_touch
+    pagination = element_versions_pagination(35, :active_version => 12, :step_size => 10, :window_half_size => 1) { |v| sample_item_data v }
+    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    assert_dom pagination_dom, "ul", :count => 3 do |lists|
+      assert_dom lists[0], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(1)
+      end
+      assert_dom lists[1], "> li", 10 do |items|
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(10)
+        check_version_link items.shift, sample_item_data(11)
+        check_version_link items.shift, sample_item_data(12), :active => true
+        check_version_link items.shift, sample_item_data(13)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(20)
+        check_version_ellipsis items.shift
+        check_version_link items.shift, sample_item_data(30)
+        check_version_ellipsis items.shift
+      end
+      assert_dom lists[2], "> li", 1 do |items|
+        check_version_link items.shift, sample_item_data(35)
+      end
+    end
+  end
+
   private
 
   def sample_item_data(version)
