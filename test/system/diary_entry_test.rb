@@ -74,4 +74,78 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     assert_link "Diary Entries in Portuguese", :href => "/diary/pt"
     assert_no_link "Diary Entries in Russian"
   end
+
+  test "should have new diary entry link on own diary entry page" do
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+
+    sign_in_as(user)
+    visit diary_entry_path(diary_entry.user, diary_entry)
+
+    within_content_heading do
+      assert_link "New Diary Entry"
+    end
+  end
+
+  test "should not have new diary entry link on other user's diary entry page" do
+    user = create(:user)
+    diary_entry = create(:diary_entry)
+
+    sign_in_as(user)
+    visit diary_entry_path(diary_entry.user, diary_entry)
+
+    within_content_heading do
+      assert_no_link "New Diary Entry"
+    end
+  end
+
+  test "should not be hidden on the list page" do
+    body = SecureRandom.alphanumeric(1998)
+    create(:diary_entry, :body => body)
+
+    visit diary_entries_path
+
+    assert_content body
+    assert_no_content I18n.t("diary_entries.diary_entry.full_entry")
+  end
+
+  test "should be hidden on the list page" do
+    body = SecureRandom.alphanumeric(2000)
+    create(:diary_entry, :body => body)
+
+    visit diary_entries_path
+
+    assert_no_content body
+    assert_content I18n.t("diary_entries.diary_entry.full_entry")
+  end
+
+  test "should be partially hidden on the list page" do
+    text1 = "a" * 500
+    text2 = "b" * 500
+    text3 = "c" * 999
+    text4 = "dd"
+    text5 = "ff"
+
+    body = "<p>#{text1}</p><div><p>#{text2}</p><p>#{text3}<a href='#'>#{text4}</a></p></div><p>#{text5}</p>"
+    create(:diary_entry, :body => body)
+
+    visit diary_entries_path
+
+    assert_content text1
+    assert_content text2
+    assert_no_content text3
+    assert_no_content text4
+    assert_no_content text5
+    assert_content I18n.t("diary_entries.diary_entry.full_entry")
+  end
+
+  test "should not be hidden on the show page" do
+    body = SecureRandom.alphanumeric(2001)
+    diary_entry = create(:diary_entry, :body => body)
+
+    visit diary_entry_path(diary_entry.user, diary_entry)
+
+    assert_content body
+    assert_no_content I18n.t("diary_entries.diary_entry.full_entry")
+  end
 end

@@ -56,7 +56,7 @@ This is a workaround. [See issues/2185 for details](https://github.com/openstree
 touch config/settings.local.yml
 ```
 
-**Windows users:** `touch` is not an availible command in Windows so just create a `settings.local.yml` file in the `config` directory, or if you have WSL you can run `wsl touch config/settings.local.yml`.
+**Windows users:** `touch` is not an available command in Windows so just create a `settings.local.yml` file in the `config` directory, or if you have WSL you can run `wsl touch config/settings.local.yml`.
 
 ## Installation
 

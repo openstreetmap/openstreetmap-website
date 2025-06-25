@@ -278,7 +278,7 @@ module ActionController
 
       # Returns true if this paginator contains the page of index +number+.
       def contains_page?(number)
-        number >= 1 && number <= page_count
+        number.between?(1, page_count)
       end
 
       # Returns a new Page representing the page with the given index

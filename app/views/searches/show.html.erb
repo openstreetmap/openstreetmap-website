@@ -1,0 +1,16 @@
+<% set_title(params[:query]) %>
+
+<%= render "sidebar_header", :title => t("site.sidebar.search_results") %>
+
+<% @sources.each do |source| %>
+  <h4>
+    <%= link_to t(".title.#{source[:name]}"), source[:url].to_s %>
+  </h4>
+  <div class="search_results_entry mx-n3" data-href="<%= source[:fetch_url] %>">
+    <div class="text-center loader">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 7.2.0"
+gem "rails", "~> 8.0.0"
 gem "turbo-rails"
 
 # Require json for multi_json
@@ -14,6 +14,8 @@ gem "pg"
 gem "dartsass-sprockets"
 # Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
 gem "sass-embedded", "~> 1.64.0"
+# Pin uri to avoid errors in dartsass-ruby
+gem "uri", "< 1.0.0"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"
@@ -49,7 +51,7 @@ gem "file_exists"
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
-gem "active_record_union"
+gem "active_record_union", :github => "brianhempel/active_record_union", :ref => "master"
 gem "bootstrap", "~> 5.3.2"
 gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
@@ -58,13 +60,13 @@ gem "delayed_job_active_record"
 gem "dry-validation"
 gem "frozen_record"
 gem "http_accept_language", "~> 2.1.1"
-gem "i18n-js", "~> 3.9.2"
+gem "i18n-js", "~> 4.2.3"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
-gem "rails-i18n", "~> 7.0.0"
+gem "rails-i18n", "~> 8.0.0"
 gem "rails_param"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
-gem "strong_migrations", "< 2.0.0"
+gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
 
 # Native OSM extensions
@@ -76,14 +78,12 @@ gem "rack-uri_sanitizer"
 
 # Omniauth for authentication
 gem "multi_json"
-gem "omniauth", "~> 2.0.2"
+gem "omniauth", "~> 2.1.3"
 gem "omniauth-facebook"
 gem "omniauth-github"
 gem "omniauth-google-oauth2", ">= 0.6.0"
 gem "omniauth-mediawiki", ">= 0.0.4"
 gem "omniauth-microsoft_graph"
-gem "omniauth-openid"
-gem "omniauth_openid_connect"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 
 # Doorkeeper for OAuth2
@@ -118,9 +118,6 @@ gem "connection_pool"
 gem "dalli"
 gem "kgio"
 
-# Load secure_headers for Content-Security-Policy support
-gem "secure_headers"
-
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails"
 
@@ -133,9 +130,6 @@ gem "ffi-libarchive"
 gem "gd2-ffij", ">= 0.4.0"
 gem "marcel"
 
-# Used for browser detection
-gem "browser", "< 6" # for ruby 3.1 support
-
 # Used for S3 object storage
 gem "aws-sdk-s3"
 
@@ -144,9 +138,6 @@ gem "image_processing"
 
 # Used to validate widths
 gem "unicode-display_width"
-
-# Lock some modules to old versions for ruby 3.1 support
-gem "zeitwerk", "< 2.7"
 
 # Gems useful for development
 group :development do
@@ -170,7 +161,7 @@ group :test do
   gem "jwt"
   gem "minitest", "~> 5.1"
   gem "minitest-focus", :require => false
-  gem "puma", "~> 5.6"
+  gem "puma", "~> 6.6"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"
@@ -186,9 +177,11 @@ group :test do
 end
 
 group :development, :test do
-  gem "annotate"
+  gem "annotaterb"
+  gem "rackup"
   gem "teaspoon"
   gem "teaspoon-mocha", "~> 2.3.3"
+  gem "webrick"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", :require => "debug/prelude"

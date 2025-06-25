@@ -1,46 +1,41 @@
 L.OSM.key = function (options) {
-  var control = L.OSM.sidebarPane(options, "key", null, "javascripts.key.title");
+  const control = L.OSM.sidebarPane(options, "key", "javascripts.key.title", "javascripts.key.title");
 
   control.onAddPane = function (map, button, $ui) {
-    var $section = $("<div>")
-      .attr("class", "p-3")
-      .appendTo($ui);
-
     $ui
-      .on("show", shown)
-      .on("hide", hidden);
+      .on("show", () => {
+        map.on("zoomend", update);
+        update();
+      })
+      .on("hide", () => {
+        map.off("zoomend", update);
+      });
 
     map.on("baselayerchange", updateButton);
 
     updateButton();
 
-    function shown() {
-      map.on("zoomend baselayerchange", update);
-      $section.load("/key", update);
-    }
-
-    function hidden() {
-      map.off("zoomend baselayerchange", update);
-    }
+    control.onContentLoaded = update;
+    $ui.one("show", control.loadContent);
 
     function updateButton() {
-      var disabled = OSM.LAYERS_WITH_MAP_KEY.indexOf(map.getMapBaseLayerId()) === -1;
+      const disabled = !map.getMapBaseLayer().options.hasLegend;
       button
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
-              I18n.t(disabled ?
+              OSM.i18n.t(disabled ?
                 "javascripts.key.tooltip_disabled" :
                 "javascripts.key.tooltip"));
     }
 
     function update() {
-      var layer = map.getMapBaseLayerId(),
-          zoom = map.getZoom();
+      const layerId = map.getMapBaseLayerId(),
+            zoom = map.getZoom();
 
-      $(".mapkey-table-entry").each(function () {
-        var data = $(this).data();
+      $("#mapkey [data-layer]").each(function () {
+        const data = $(this).data();
         $(this).toggle(
-          layer === data.layer &&
+          layerId === data.layer &&
           (!data.zoomMin || zoom >= data.zoomMin) &&
           (!data.zoomMax || zoom <= data.zoomMax)
         );

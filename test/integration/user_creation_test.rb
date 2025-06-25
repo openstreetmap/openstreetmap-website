@@ -8,7 +8,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def teardown
-    OmniAuth.config.mock_auth[:openid] = nil
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
     OmniAuth.config.mock_auth[:microsoft] = nil
@@ -30,12 +29,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest",
-                                       :consider_pd => "1" } }
+                                       :pass_crypt_confirmation => "testtest" } }
         end
       end
     end
@@ -51,14 +49,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest",
                                        :auth_provider => "google",
-                                       :auth_uid => "123454321",
-                                       :consider_pd => "1" } }
+                                       :auth_uid => "123454321" } }
         end
       end
     end
@@ -74,7 +71,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => email,
                                        :display_name => dup_display_name,
                                        :pass_crypt => "testtest",
@@ -93,12 +90,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "blahblah",
-                                       :consider_pd => "1" } }
+                                       :pass_crypt_confirmation => "blahblah" } }
         end
       end
     end
@@ -113,12 +109,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => email,
                                        :display_name => dup_display_name,
                                        :auth_provider => "google",
-                                       :auth_uid => "123454321",
-                                       :consider_pd => "1" } }
+                                       :auth_uid => "123454321" } }
         end
       end
     end
@@ -134,12 +129,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 1) do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest",
-                                       :consider_pd => "1" } }
+                                       :pass_crypt_confirmation => "testtest" } }
           assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
@@ -158,7 +152,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     found_confirmation_url = register_email.parts.first.parts.first.to_s =~ %r{\shttp://test.host(/\S+)\s}
     assert found_confirmation_url
     confirmation_url = Regexp.last_match(1)
-    ActionMailer::Base.deliveries.clear
 
     post confirmation_url
 
@@ -188,12 +181,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => password,
-                                       :pass_crypt_confirmation => password,
-                                       :consider_pd => "1" },
+                                       :pass_crypt_confirmation => password },
                             :referer => referer }
           assert_response(:redirect)
           assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
@@ -216,143 +208,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
-
-    # Go to the confirmation page
-    get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
-    assert_response :success
-    assert_template "confirmations/confirm"
-
-    post "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_template "site/welcome"
-  end
-
-  def test_user_create_openid_success
-    new_email = "newtester-openid@osm.org"
-    display_name = "new_tester-openid"
-    openid_url = "http://localhost:1000/new.tester"
-    auth_uid = "http://localhost:1123/new.tester"
-
-    OmniAuth.config.add_mock(:openid,
-                             :uid => auth_uid,
-                             :info => { :email => new_email, :name => display_name })
-
-    assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        perform_enqueued_jobs do
-          post auth_path(:provider => "openid", :openid_url => openid_url, :origin => "/user/new")
-          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => openid_url, :origin => "/user/new")
-          follow_redirect!
-          assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => new_email,
-                               :auth_provider => "openid", :auth_uid => auth_uid
-          follow_redirect!
-          post "/user/new",
-               :params => { :user => { :email => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "openid",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
-        end
-      end
-    end
-
-    # Check the page
-    assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
-
-    ActionMailer::Base.deliveries.clear
-  end
-
-  def test_user_create_openid_duplicate_email
-    dup_user = create(:user)
-    display_name = "new_tester-openid"
-    auth_uid = "123454321"
-
-    OmniAuth.config.add_mock(:openid,
-                             :uid => auth_uid,
-                             :info => { :email => dup_user.email, :name => display_name })
-
-    post auth_path(:provider => "openid", :origin => "/user/new")
-    assert_redirected_to auth_success_path(:provider => "openid", :origin => "/user/new")
-    follow_redirect!
-    assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => dup_user.email,
-                         :auth_provider => "openid", :auth_uid => auth_uid
-    follow_redirect!
-
-    assert_response :success
-    assert_template "users/new"
-    assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
-  end
-
-  def test_user_create_openid_failure
-    OmniAuth.config.mock_auth[:openid] = :connection_failed
-
-    assert_difference("User.count", 0) do
-      assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        perform_enqueued_jobs do
-          post auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-          follow_redirect!
-          assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/user/new")
-          follow_redirect!
-          assert_redirected_to "/user/new"
-        end
-      end
-    end
-
-    ActionMailer::Base.deliveries.clear
-  end
-
-  def test_user_create_openid_redirect
-    openid_url = "http://localhost:1000/new.tester"
-    auth_uid = "http://localhost:1123/new.tester"
-    new_email = "redirect_tester_openid@osm.org"
-    display_name = "redirect_tester_openid"
-
-    OmniAuth.config.add_mock(:openid,
-                             :uid => auth_uid,
-                             :info => { :email => new_email, :name => display_name })
-
-    assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        perform_enqueued_jobs do
-          post auth_path(:provider => "openid", :openid_url => openid_url, :origin => "/user/new")
-          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => openid_url, :origin => "/user/new")
-          follow_redirect!
-          assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => new_email,
-                               :auth_provider => "openid", :auth_uid => auth_uid
-          follow_redirect!
-          post "/user/new",
-               :params => { :user => { :email => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "openid",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
-          follow_redirect!
-        end
-      end
-    end
-
-    # Check the e-mail
-    register_email = ActionMailer::Base.deliveries.first
-
-    assert_equal register_email.to.first, new_email
-    # Check that the confirm account url is correct
-    confirm_regex = Regexp.new("confirm_string=([a-zA-Z0-9%_-]*)")
-    email_text_parts(register_email).each do |part|
-      assert_match confirm_regex, part.body.to_s
-    end
-    confirm_string = CGI.unescape(email_text_parts(register_email).first.body.match(confirm_regex)[1])
-
-    # Check the page
-    assert_response :success
-    assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -388,12 +243,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "google", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" },
+                                       :auth_uid => auth_uid },
                             :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
@@ -404,8 +258,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_google_duplicate_email
@@ -429,8 +281,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_google_failure
@@ -448,8 +298,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_google_redirect
@@ -474,13 +322,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "google", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "google",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -501,8 +348,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -537,12 +382,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "facebook", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" },
+                                       :auth_uid => auth_uid },
                             :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
@@ -553,8 +397,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_facebook_duplicate_email
@@ -577,8 +419,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_facebook_failure
@@ -596,8 +436,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_facebook_redirect
@@ -623,13 +461,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "facebook", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -650,8 +487,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -685,12 +520,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "microsoft", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" },
+                                       :auth_uid => auth_uid },
                             :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
@@ -701,8 +535,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_microsoft_duplicate_email
@@ -725,8 +557,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_microsoft_failure
@@ -744,8 +574,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_microsoft_redirect
@@ -770,13 +598,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "microsoft", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -797,8 +624,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -834,7 +659,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "github", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
@@ -853,8 +678,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "site/welcome"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_github_duplicate_email
@@ -878,8 +701,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_github_failure
@@ -896,8 +717,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_github_redirect
@@ -921,13 +740,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "github", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "github",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -948,8 +766,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }
@@ -984,7 +800,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "wikipedia", :auth_uid => auth_uid
           follow_redirect!
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
@@ -1025,8 +841,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "users/new"
     assert_select "form > div > input.is-invalid#user_email"
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_wikipedia_failure
@@ -1044,8 +858,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
     end
-
-    ActionMailer::Base.deliveries.clear
   end
 
   def test_user_create_wikipedia_redirect
@@ -1071,13 +883,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                :auth_provider => "wikipedia", :auth_uid => auth_uid
           follow_redirect!
 
-          post "/user/new",
+          post "/user",
                :params => { :user => { :email => new_email,
                                        :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
-                                       :auth_uid => auth_uid,
-                                       :consider_pd => "1" } }
+                                       :auth_uid => auth_uid } }
           assert_response :redirect
           follow_redirect!
         end
@@ -1098,8 +909,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
-
-    ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :referer => "/welcome", :confirm_string => confirm_string }

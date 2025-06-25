@@ -1,0 +1,15 @@
+<%= tag.tr(:id => "inbox-#{message.id}", :class => { "table-success" => !message.message_read? }) do %>
+  <td><%= link_to message.sender.display_name, user_path(message.sender), :class => "username d-inline-block text-truncate text-wrap align-bottom", :dir => "auto" %></td>
+  <td><%= link_to message.title, message_path(message) %></td>
+  <td class="text-nowrap"><%= l message.sent_on, :format => :friendly %></td>
+  <td class="text-nowrap">
+    <div class="d-flex justify-content-end gap-1">
+      <%= button_to t(".unread_button"), message_read_mark_path(message), :method => :delete, :class => "btn btn-sm btn-primary", :form => { :data => { :turbo => true }, :hidden => !message.message_read? } %>
+      <%= button_to t(".read_button"), message_read_mark_path(message), :method => :post, :class => "btn btn-sm btn-primary", :form => { :data => { :turbo => true }, :hidden => message.message_read? } %>
+      <%= button_to t(".destroy_button"), message_path(message, :referer => request.fullpath), :method => :delete, :class => "btn btn-sm btn-danger", :form => { :data => { :turbo => true }, :class => "destroy-message" } %>
+      <% if message.muted? %>
+        <%= button_to t(".unmute_button"), message_mute_path(message), :method => :delete, :class => "btn btn-sm btn-secondary", :form => { :data => { :turbo => true } } %>
+      <% end %>
+    </div>
+  </td>
+<% end %>

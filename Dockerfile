@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM ruby:3.2-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -24,7 +24,6 @@ RUN apt-get update \
   postgresql-client \
   ruby-dev \
   ruby-bundler \
-  software-properties-common \
   tzdata \
   unzip \
   nodejs \
@@ -43,11 +42,11 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Install Ruby packages
-ADD Gemfile Gemfile.lock /app/
+COPY Gemfile Gemfile.lock /app/
 RUN gem update bundler
 RUN bundle install
 
 # Install NodeJS packages using yarn
-ADD package.json yarn.lock /app/
-ADD bin/yarn /app/bin/
+COPY package.json yarn.lock /app/
+COPY bin/yarn /app/bin/
 RUN bundle exec bin/yarn install

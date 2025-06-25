@@ -1,35 +1,37 @@
 L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
-  var control = L.control(options);
+  const control = L.control(options);
 
   control.onAdd = function (map) {
-    var $container = $("<div>")
+    const $container = $("<div>")
       .attr("class", "control-" + uiClass);
 
-    var button = $("<a>")
+    const button = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
-      .html("<span class=\"icon " + uiClass + "\"></span>")
+      .attr("title", OSM.i18n.t(buttonTitle))
       .on("click", toggle);
 
-    if (buttonTitle) {
-      button.attr("title", I18n.t(buttonTitle));
-    }
+    $(L.SVG.create("svg"))
+      .append($(L.SVG.create("use")).attr("href", "#icon-" + uiClass))
+      .attr("class", "h-100 w-100")
+      .appendTo(button);
 
     button.appendTo($container);
 
-    var $ui = $("<div>")
-      .attr("class", uiClass + "-ui");
+    const $ui = $("<div>")
+      .attr("class", `${uiClass}-ui position-relative z-n1`);
 
-    $("<div class='d-flex p-3 pb-0'>")
-      .appendTo($ui)
-      .append($("<h2 class='flex-grow-1 text-break'>")
-        .text(I18n.t(paneTitle)))
-      .append($("<div>")
-        .append($("<button type='button' class='btn-close'>")
-          .attr("aria-label", I18n.t("javascripts.close"))
-          .bind("click", toggle)));
+    $("<h2 class='p-3 pb-0 pe-5 text-break'>")
+      .text(OSM.i18n.t(paneTitle))
+      .appendTo($ui);
 
     options.sidebar.addPane($ui);
+
+    this.loadContent = () =>
+      fetch("/" + uiClass)
+        .then(r => r.text())
+        .then(html => { $(html).appendTo($ui); })
+        .then(this.onContentLoaded);
 
     this.onAddPane(map, button, $ui, toggle);
 

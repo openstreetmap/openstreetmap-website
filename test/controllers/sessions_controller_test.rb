@@ -95,12 +95,4 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_template "sessions/destroy"
     assert_select "input[name=referer][value=?]", "/test"
   end
-
-  def test_logout_removes_session_token
-    user = build(:user, :pending)
-    post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
-    post logout_path
-    assert_redirected_to root_path
-  end
 end

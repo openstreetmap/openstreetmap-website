@@ -1,21 +1,39 @@
-<% if @changesets.present? %>
-  <ol class="changesets list-group list-group-flush">
-    <%= render @changesets %>
-  </ol>
-<% if @changesets.size == 20 -%>
-  <div class="changeset_more mt-3 text-center">
-    <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @changesets.last.id - 1)), :class => "btn btn-primary" %>
-    <div class="text-center loader">
+<% if @newer_changesets_id %>
+  <div class="changeset_more my-3">
+    <div class="text-center position-absolute start-0 end-0" hidden>
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
       </div>
     </div>
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <%= link_to t(".newer_changesets"), url_for(:after => @newer_changesets_id), :class => "page-link" %>
+      </li>
+    </ul>
+  </div>
+<% end %>
+<% if @changesets.present? %>
+  <ol class="list-group list-group-flush">
+    <%= render @changesets %>
+  </ol>
+<% elsif params[:bbox] %>
+  <p class="mx-3"><%= params[:before] ? t(".no_more_area") : t(".empty_area") %></p>
+<% elsif params[:display_name] %>
+  <p class="mx-3"><%= params[:before] ? t(".no_more_user") : t(".empty_user") %></p>
+<% else %>
+  <p class="mx-3"><%= params[:before] ? t(".no_more") : t(".empty") %></p>
+<% end %>
+<% if @older_changesets_id -%>
+  <div class="changeset_more my-3">
+    <div class="text-center position-absolute start-0 end-0" hidden>
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+      </div>
+    </div>
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <%= link_to t(".older_changesets"), url_for(:before => @older_changesets_id), :class => "page-link" %>
+      </li>
+    </ul>
   </div>
 <% end -%>
-<% elsif params[:bbox] %>
-  <p class="mx-3"><%= params[:max_id] ? t(".no_more_area") : t(".empty_area") %></p>
-<% elsif params[:display_name] %>
-  <p class="mx-3"><%= params[:max_id] ? t(".no_more_user") : t(".empty_user") %></p>
-<% else %>
-  <p class="mx-3"><%= params[:max_id] ? t(".no_more") : t(".empty") %></p>
-<% end %>

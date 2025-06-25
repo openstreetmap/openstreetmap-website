@@ -1,13 +1,13 @@
 module Api
   class RelationsController < ApiController
-    before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :authorize, :only => [:create, :update, :delete]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :delete]
-    before_action :set_request_formats, :except => [:create, :update, :delete]
-    before_action :check_rate_limit, :only => [:create, :update, :delete]
+    before_action :require_public_data, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :except => [:create, :update, :destroy]
+    before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
       raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
@@ -26,9 +26,64 @@ module Api
     end
 
     def show
-      @relation = Relation.find(params[:id])
-      response.last_modified = @relation.timestamp
-      if @relation.visible
+      relation = Relation.find(params[:id])
+
+      response.last_modified = relation.timestamp unless params[:full]
+
+      @nodes = []
+      @ways = []
+      @relations = []
+
+      if relation.visible
+        if params[:full]
+          # with parameter :full
+          # returns representation of one relation object plus all its
+          # members, plus all nodes part of member ways
+
+          # first find the ids of nodes, ways and relations referenced by this
+          # relation - note that we exclude this relation just in case.
+
+          node_ids = relation.members.select { |m| m[0] == "Node" }.pluck(1)
+          way_ids = relation.members.select { |m| m[0] == "Way" }.pluck(1)
+          relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.pluck(1)
+
+          # next load the relations and the ways.
+
+          relations = Relation.where(:id => relation_ids).includes(:relation_tags)
+          ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
+
+          # now additionally collect nodes referenced by ways. Note how we
+          # recursively evaluate ways but NOT relations.
+
+          way_node_ids = ways.collect do |way|
+            way.way_nodes.collect(&:node_id)
+          end
+          node_ids += way_node_ids.flatten
+          nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
+
+          @nodes = []
+          nodes.each do |node|
+            next unless node.visible? # should be unnecessary if data is consistent.
+
+            @nodes << node
+          end
+
+          ways.each do |way|
+            next unless way.visible? # should be unnecessary if data is consistent.
+
+            @ways << way
+          end
+
+          relations.each do |rel|
+            next unless rel.visible? # should be unnecessary if data is consistent.
+
+            @relations << rel
+          end
+        end
+
+        # finally add self
+        @relations << relation
+
         # Render the result
         respond_to do |format|
           format.xml
@@ -48,8 +103,6 @@ module Api
     end
 
     def update
-      logger.debug request.raw_post
-
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
 
@@ -59,7 +112,7 @@ module Api
       render :plain => relation.version.to_s
     end
 
-    def delete
+    def destroy
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
       if new_relation && new_relation.id == relation.id
@@ -67,107 +120,6 @@ module Api
         render :plain => relation.version.to_s
       else
         head :bad_request
-      end
-    end
-
-    # -----------------------------------------------------------------
-    # full
-    #
-    # input parameters: id
-    #
-    # returns XML representation of one relation object plus all its
-    # members, plus all nodes part of member ways
-    # -----------------------------------------------------------------
-    def full
-      relation = Relation.find(params[:id])
-
-      if relation.visible
-
-        # first find the ids of nodes, ways and relations referenced by this
-        # relation - note that we exclude this relation just in case.
-
-        node_ids = relation.members.select { |m| m[0] == "Node" }.pluck(1)
-        way_ids = relation.members.select { |m| m[0] == "Way" }.pluck(1)
-        relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.pluck(1)
-
-        # next load the relations and the ways.
-
-        relations = Relation.where(:id => relation_ids).includes(:relation_tags)
-        ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
-
-        # now additionally collect nodes referenced by ways. Note how we
-        # recursively evaluate ways but NOT relations.
-
-        way_node_ids = ways.collect do |way|
-          way.way_nodes.collect(&:node_id)
-        end
-        node_ids += way_node_ids.flatten
-        nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
-
-        visible_nodes = {}
-
-        @nodes = []
-        nodes.each do |node|
-          next unless node.visible? # should be unnecessary if data is consistent.
-
-          @nodes << node
-          visible_nodes[node.id] = node
-        end
-
-        @ways = []
-        ways.each do |way|
-          next unless way.visible? # should be unnecessary if data is consistent.
-
-          @ways << way
-        end
-
-        @relations = []
-        relations.each do |rel|
-          next unless rel.visible? # should be unnecessary if data is consistent.
-
-          @relations << rel
-        end
-
-        # finally add self
-        @relations << relation
-
-        # Render the result
-        respond_to do |format|
-          format.xml
-          format.json
-        end
-      else
-        head :gone
-      end
-    end
-
-    def relations_for_way
-      relations_for_object("Way")
-    end
-
-    def relations_for_node
-      relations_for_object("Node")
-    end
-
-    def relations_for_relation
-      relations_for_object("Relation")
-    end
-
-    private
-
-    def relations_for_object(objtype)
-      relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect(&:relation_id).uniq
-
-      @relations = []
-
-      Relation.find(relationids).each do |relation|
-        @relations << relation if relation.visible
-      end
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
   end

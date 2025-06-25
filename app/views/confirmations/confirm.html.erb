@@ -28,7 +28,9 @@
   </h1>
 
   <p class='text-body-secondary'>
-    <%= t ".resend_html",
-          :reconfirm_link => link_to(t(".click_here"), url_for(:action => "confirm_resend")) %>
+    <%= t ".if_need_resend" %>
   </p>
+  <%= bootstrap_form_tag :url => url_for(:action => "confirm_resend") do |f| %>
+    <%= f.submit t(".resend_button"), :class => "btn btn-outline-primary" %>
+  <% end %>
 <% end %>

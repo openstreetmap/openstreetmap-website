@@ -1,0 +1,18 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t("users.show.my messages") %></h1>
+  <ul class="nav nav-tabs">
+    <% { t(".my_inbox") => messages_inbox_path, t(".my_outbox") => messages_outbox_path, t(".muted_messages") => messages_muted_inbox_path }.each do |label, path| %>
+    <% next if path == messages_muted_inbox_path && current_user.muted_messages.none? %>
+
+    <li class="nav-item">
+      <% if path == active_link_path %>
+        <a class="nav-link active"><%= label %></a>
+      <% else %>
+        <%= link_to label, path, :class => "nav-link" %>
+      <% end %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

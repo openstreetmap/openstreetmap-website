@@ -5,21 +5,15 @@ def yarn_path
 end
 
 def config_file
-  Rails.root.join("config/eslint.js").to_s
-end
-
-def js_files
-  Rails.application.assets.each_file.select do |file|
-    file.ends_with?(".js") && !file.match?(%r{/(gems|vendor|i18n|node_modules)/})
-  end
+  Rails.root.join("config/eslint.config.mjs").to_s
 end
 
 namespace "eslint" do
   task :check => :environment do
-    system(yarn_path, "run", "eslint", "-c", config_file, *js_files) || abort
+    system(yarn_path, "run", "eslint", "-c", config_file, "--no-warn-ignored", Rails.root.to_s) || abort
   end
 
   task :fix => :environment do
-    system(yarn_path, "run", "eslint", "-c", config_file, "--fix", *js_files) || abort
+    system(yarn_path, "run", "eslint", "-c", config_file, "--no-warn-ignored", "--fix", Rails.root.to_s) || abort
   end
 end

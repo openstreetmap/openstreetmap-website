@@ -18,8 +18,8 @@ class IssuesController < ApplicationController
     @title = t ".title"
 
     @issue_types = []
-    @issue_types.push("Note", "User") if current_user.moderator?
-    @issue_types.push("DiaryEntry", "DiaryComment", "User") if current_user.administrator?
+    @issue_types |= %w[Note User] if current_user.moderator?
+    @issue_types |= %w[DiaryEntry DiaryComment User] if current_user.administrator?
 
     @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
     @issues = Issue.visible_to(current_user)
@@ -44,11 +44,21 @@ class IssuesController < ApplicationController
     end
 
     @issues, @newer_issues_id, @older_issues_id = get_page_items(@issues, :limit => @params[:limit])
+
+    @unique_reporters_limit = 3
+    @unique_reporters = @issues.each_with_object({}) do |issue, reporters|
+      user_ids = issue.reports.reorder(:created_at => :desc).pluck(:user_id).uniq
+      reporters[issue.id] = {
+        :count => user_ids.size,
+        :users => User.in_order_of(:id, user_ids.first(@unique_reporters_limit))
+      }
+    end
+
     render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
-    @title = t ".title", :status => @issue.status.humanize, :issue_id => @issue.id
+    @title = t ".title.#{@issue.status}", :issue_id => @issue.id
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments

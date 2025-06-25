@@ -23,6 +23,10 @@ api_version: "0.6"
 #   database_offline - database offline with site in emergency mode
 #   gpx_offline - gpx storage offline
 status: "online"
+# Expected services restoration date added to offline flash messages
+#status_expected_restore_date: "2024-12-18 12:00:00Z"
+# Application status announcement url added to offline flash messages
+#status_announcement_url: "https://en.osm.town/@osm_tech"
 # The maximum area you're allowed to request, in square degrees
 max_request_area: 0.25
 # Number of GPS trace/trackpoints returned per-page
@@ -31,6 +35,14 @@ tracepoints_per_page: 5000
 default_changeset_query_limit: 100
 # Maximum limit on the number of changesets returned by the changeset query api method
 max_changeset_query_limit: 100
+# Default limit on the number of changeset comments returned by the api
+default_changeset_comment_query_limit: 100
+# Maximum limit on the number of changesets comments returned by the api
+max_changeset_comment_query_limit: 10000
+# Default limit on the number of changeset comments in feeds
+default_changeset_comments_feed_query_limit: 100
+# Maximum limit on the number of changesets comments in feeds
+max_changeset_comments_feed_query_limit: 10000
 # Maximum number of nodes that will be returned by the api in a map request
 max_number_of_nodes: 50000
 # Maximum number of nodes that can be in a way (checked on save)
@@ -63,8 +75,8 @@ max_messages_per_hour: 60
 default_message_query_limit: 100
 # Maximum number of messages returned by inbox and outbox message api
 max_message_query_limit: 100
-# Rate limit for friending
-max_friends_per_hour: 60
+# Rate limit for following
+max_follows_per_hour: 60
 # Rate limit for changeset comments
 min_changeset_comments_per_hour: 1
 initial_changeset_comments_per_hour: 6
@@ -124,6 +136,16 @@ overpass_credentials: false
 graphhopper_url: "https://graphhopper.com/api/1/route"
 fossgis_osrm_url: "https://routing.openstreetmap.de/"
 fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
+# Main website hosts to match in linkify
+linkify_hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
+# Shorter host to replace main hosts
+linkify_hosts_replacement: "osm.org"
+# Wiki website hosts to match in linkify
+linkify_wiki_hosts: ["wiki.openstreetmap.org", "wiki.osm.org", "wiki.openstreetmap.com", "wiki.openstreetmaps.org", "osm.wiki", "www.osm.wiki", "wiki.osm.wiki"]
+# Shorter host to replace wiki hosts
+linkify_wiki_hosts_replacement: "osm.wiki"
+# Regexp for wiki prefix that can be removed
+linkify_wiki_optional_path_prefix: "^/wiki(?=/[A-Z])"
 # External authentication credentials
 #google_auth_id: ""
 #google_auth_secret: ""

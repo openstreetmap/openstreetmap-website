@@ -3,7 +3,7 @@ module ChangesetsHelper
     if changeset.user.status == "deleted"
       t("users.no_such_user.deleted")
     elsif changeset.user.data_public?
-      link_to changeset.user.display_name, changeset.user
+      link_to changeset.user.display_name, changeset.user, :class => "mw-100 d-inline-block align-bottom text-truncate text-wrap", :dir => "auto"
     else
       t("browse.anonymous")
     end
@@ -32,7 +32,7 @@ module ChangesetsHelper
 
   def changeset_index_title(params, user)
     if params[:friends] && user
-      t "changesets.index.title_friend"
+      t "changesets.index.title_followed"
     elsif params[:nearby] && user
       t "changesets.index.title_nearby"
     elsif params[:display_name]
@@ -40,5 +40,21 @@ module ChangesetsHelper
     else
       t "changesets.index.title"
     end
+  end
+
+  def changeset_data(changeset)
+    changeset_data = { :id => changeset.id }
+
+    if changeset.bbox_valid?
+      bbox = changeset.bbox.to_unscaled
+      changeset_data[:bbox] = {
+        :minlon => bbox.min_lon,
+        :minlat => bbox.min_lat,
+        :maxlon => bbox.max_lon,
+        :maxlat => bbox.max_lat
+      }
+    end
+
+    changeset_data
   end
 end

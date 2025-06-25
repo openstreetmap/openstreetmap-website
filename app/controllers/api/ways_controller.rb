@@ -1,13 +1,13 @@
 module Api
   class WaysController < ApiController
-    before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :authorize, :only => [:create, :update, :delete]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :delete]
-    before_action :set_request_formats, :except => [:create, :update, :delete]
-    before_action :check_rate_limit, :only => [:create, :update, :delete]
+    before_action :require_public_data, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :except => [:create, :update, :destroy]
+    before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
       raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
@@ -26,12 +26,21 @@ module Api
     end
 
     def show
-      @way = Way.find(params[:id])
+      @way = Way
+      @way = @way.includes(:nodes => :node_tags) if params[:full]
+      @way = @way.find(params[:id])
 
-      response.last_modified = @way.timestamp
+      response.last_modified = @way.timestamp unless params[:full]
 
       if @way.visible
-        # Render the result
+        if params[:full]
+          @nodes = []
+
+          @way.nodes.uniq.each do |node|
+            @nodes << node if node.visible
+          end
+        end
+
         respond_to do |format|
           format.xml
           format.json
@@ -60,7 +69,7 @@ module Api
     end
 
     # This is the API call to delete a way
-    def delete
+    def destroy
       way = Way.find(params[:id])
       new_way = Way.from_xml(request.raw_post)
 
@@ -69,47 +78,6 @@ module Api
         render :plain => way.version.to_s
       else
         head :bad_request
-      end
-    end
-
-    def full
-      @way = Way.includes(:nodes => :node_tags).find(params[:id])
-
-      if @way.visible
-        visible_nodes = {}
-
-        @nodes = []
-
-        @way.nodes.uniq.each do |node|
-          if node.visible
-            @nodes << node
-            visible_nodes[node.id] = node
-          end
-        end
-
-        # Render the result
-        respond_to do |format|
-          format.xml
-          format.json
-        end
-      else
-        head :gone
-      end
-    end
-
-    ##
-    # returns all the ways which are currently using the node given in the
-    # :id parameter. note that this used to return deleted ways as well, but
-    # this seemed not to be the expected behaviour, so it was removed.
-    def ways_for_node
-      wayids = WayNode.where(:node_id => params[:id]).collect { |ws| ws.id[0] }.uniq
-
-      @ways = Way.where(:id => wayids, :visible => true)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
   end

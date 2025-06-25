@@ -122,6 +122,26 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_predicate issue.reload, :resolved?
   end
 
+  def test_resolve_note_of_deleted_user
+    target_user = create(:user)
+    target_note = create(:note, :author => target_user)
+    issue = create(:issue, :reportable => target_note, :reported_user => target_user, :assigned_role => "moderator")
+    target_user.soft_destroy!
+
+    session_for(create(:moderator_user))
+    post resolve_issue_path(issue)
+    assert_redirected_to issue_path(issue)
+    assert_predicate issue.reload, :resolved?
+
+    follow_redirect!
+    assert_response :success
+    assert_dom "a[href='#{note_url target_note}']"
+
+    get issues_path
+    assert_response :success
+    assert_dom "a[href='#{note_url target_note}']"
+  end
+
   def test_ignore_moderator
     target_user = create(:user)
     issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")

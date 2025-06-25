@@ -1,7 +1,7 @@
 OSM.Export = function (map) {
-  var page = {};
+  const page = {};
 
-  var locationFilter = new L.LocationFilter({
+  const locationFilter = new L.LocationFilter({
     enableButton: false,
     adjustButton: false
   }).on("change", update);
@@ -13,7 +13,7 @@ OSM.Export = function (map) {
   }
 
   function boundsChanged() {
-    var bounds = getBounds();
+    const bounds = getBounds();
     map.fitBounds(bounds);
     locationFilter.setBounds(bounds);
     locationFilter.enable();
@@ -36,16 +36,16 @@ OSM.Export = function (map) {
   }
 
   function setBounds(bounds) {
-    var precision = OSM.zoomPrecision(map.getZoom());
-    $("#minlon").val(bounds.getWest().toFixed(precision));
-    $("#minlat").val(bounds.getSouth().toFixed(precision));
-    $("#maxlon").val(bounds.getEast().toFixed(precision));
-    $("#maxlat").val(bounds.getNorth().toFixed(precision));
+    const truncated = [bounds.getSouthWest(), bounds.getNorthEast()]
+      .map(c => OSM.cropLocation(c, map.getZoom()));
+    $("#minlon").val(truncated[0][1]);
+    $("#minlat").val(truncated[0][0]);
+    $("#maxlon").val(truncated[1][1]);
+    $("#maxlat").val(truncated[1][0]);
 
     $("#export_overpass").attr("href",
-                               "https://overpass-api.openhistoricalmap.org/api/map?bbox=" +
-                               $("#minlon").val() + "," + $("#minlat").val() + "," +
-                               $("#maxlon").val() + "," + $("#maxlat").val());
+      "https://overpass-api.de/api/map?bbox=" +
+      truncated.map(p => p.reverse()).join());
   }
 
   function validateControls() {
@@ -61,22 +61,21 @@ OSM.Export = function (map) {
     OSM.loadSidebarContent(path, page.load);
   };
 
-  page.load = function() {
+  page.load = function () {
     // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
     // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
     function originalLoadFunction () {
-    map
-      .addLayer(locationFilter)
-      .on("moveend", update);
+      map
+        .addLayer(locationFilter)
+        .on("moveend", update);
 
-    $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
-    $("#drag_box").click(enableFilter);
-    $(".export_form").on("submit", checkSubmit);
+      $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
+      $("#drag_box").click(enableFilter);
+      $(".export_form").on("submit", checkSubmit);
 
-    update();
-
-    return map.getState();
-    }  // end originalLoadFunction
+      update();
+      return map.getState();
+    } // end originalLoadFunction
 
     // "if map.timeslider" only try to add the timeslider if we don't already have it
     if (map.timeslider) {

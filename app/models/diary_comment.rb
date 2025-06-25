@@ -2,9 +2,9 @@
 #
 # Table name: diary_comments
 #
-#  id             :bigint(8)        not null, primary key
-#  diary_entry_id :bigint(8)        not null
-#  user_id        :bigint(8)        not null
+#  id             :bigint           not null, primary key
+#  diary_entry_id :bigint           not null
+#  user_id        :bigint           not null
 #  body           :text             not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -15,6 +15,7 @@
 #
 #  diary_comment_user_id_created_at_index  (user_id,created_at)
 #  diary_comments_entry_id_idx             (diary_entry_id,id) UNIQUE
+#  index_diary_comments_on_user_id_and_id  (user_id,id)
 #
 # Foreign Keys
 #
@@ -28,7 +29,7 @@ class DiaryComment < ApplicationRecord
 
   scope :visible, -> { where(:visible => true) }
 
-  validates :body, :presence => true, :characters => true
+  validates :body, :presence => true, :characters => true, :length => 1..65536
   validates :diary_entry, :user, :associated => true
 
   after_save :spam_check

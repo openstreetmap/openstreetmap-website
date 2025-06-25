@@ -1,3 +1,7 @@
+# Monkey patch pending new release with
+# https://github.com/jejacks0n/teaspoon/pull/604
+Rack::Server = Rackup::Server
+
 Teaspoon.configure do |config|
   # Determines where the Teaspoon routes will be mounted. Changing this to "/jasmine" would allow you to browse to
   # `http://localhost:3000/jasmine` to run your tests.
@@ -100,10 +104,13 @@ Teaspoon.configure do |config|
   # Capybara Webkit: https://github.com/jejacks0n/teaspoon/wiki/Using-Capybara-Webkit
   require "selenium-webdriver"
   config.driver = :selenium
+  firefox_options = Selenium::WebDriver::Firefox::Options.new
+  firefox_options.args = ["-headless"] if Settings.system_test_headless
+  firefox_options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
   config.driver_options = {
     :client_driver => :firefox,
     :selenium_options => {
-      :options => Selenium::WebDriver::Firefox::Options.new(:args => ["-headless"])
+      :options => firefox_options
     }
   }
 

@@ -2,14 +2,14 @@
 
 module Api
   class NodesController < ApiController
-    before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :authorize, :only => [:create, :update, :delete]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
 
-    before_action :require_public_data, :only => [:create, :update, :delete]
-    before_action :set_request_formats, :except => [:create, :update, :delete]
-    before_action :check_rate_limit, :only => [:create, :update, :delete]
+    before_action :require_public_data, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :except => [:create, :update, :destroy]
+    before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     # Dump the details on many nodes whose ids are given in the "nodes" parameter.
     def index
@@ -68,7 +68,7 @@ module Api
     # Delete a node. Doesn't actually delete it, but retains its history
     # in a wiki-like way. We therefore treat it like an update, so the delete
     # method returns the new version number.
-    def delete
+    def destroy
       node = Node.find(params[:id])
       new_node = Node.from_xml(request.raw_post)
 

@@ -10,6 +10,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+--
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -1073,7 +1080,10 @@ CREATE TABLE public.notes (
     updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
     status public.note_status_enum NOT NULL,
-    closed_at timestamp without time zone
+    closed_at timestamp without time zone,
+    description text DEFAULT ''::text NOT NULL,
+    user_id bigint,
+    user_ip inet
 );
 
 
@@ -1359,6 +1369,38 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: social_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.social_links (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: social_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.social_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: social_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.social_links_id_seq OWNED BY public.social_links.id;
+
+
+--
 -- Name: user_blocks; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1509,7 +1551,9 @@ CREATE TABLE public.users (
     tou_agreed timestamp without time zone,
     diary_comments_count integer DEFAULT 0,
     note_comments_count integer DEFAULT 0,
-    creation_address inet
+    creation_address inet,
+    home_location_name character varying,
+    company character varying
 );
 
 
@@ -1750,6 +1794,13 @@ ALTER TABLE ONLY public.redactions ALTER COLUMN id SET DEFAULT nextval('public.r
 --
 
 ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.reports_id_seq'::regclass);
+
+
+--
+-- Name: social_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.social_links ALTER COLUMN id SET DEFAULT nextval('public.social_links_id_seq'::regclass);
 
 
 --
@@ -2117,6 +2168,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: social_links social_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.social_links
+    ADD CONSTRAINT social_links_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: user_blocks user_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2398,6 +2457,13 @@ CREATE INDEX index_changeset_comments_on_author_id_and_created_at ON public.chan
 
 
 --
+-- Name: index_changeset_comments_on_author_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_changeset_comments_on_author_id_and_id ON public.changeset_comments USING btree (author_id, id);
+
+
+--
 -- Name: index_changeset_comments_on_changeset_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2433,6 +2499,13 @@ CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_
 
 
 --
+-- Name: index_diary_comments_on_user_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diary_comments_on_user_id_and_id ON public.diary_comments USING btree (user_id, id);
+
+
+--
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2444,6 +2517,13 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 --
 
 CREATE INDEX index_friends_on_user_id_and_created_at ON public.friends USING btree (user_id, created_at);
+
+
+--
+-- Name: index_gpx_files_on_user_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_gpx_files_on_user_id_and_id ON public.gpx_files USING btree (user_id, id);
 
 
 --
@@ -2521,6 +2601,20 @@ CREATE INDEX index_note_comments_on_created_at ON public.note_comments USING btr
 --
 
 CREATE INDEX index_note_subscriptions_on_note_id ON public.note_subscriptions USING btree (note_id);
+
+
+--
+-- Name: index_notes_on_description; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_description ON public.notes USING gin (to_tsvector('english'::regconfig, description));
+
+
+--
+-- Name: index_notes_on_user_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_user_id_and_created_at ON public.notes USING btree (user_id, created_at) WHERE (user_id IS NOT NULL);
 
 
 --
@@ -2605,6 +2699,13 @@ CREATE INDEX index_reports_on_issue_id ON public.reports USING btree (issue_id);
 --
 
 CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
+
+
+--
+-- Name: index_social_links_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_social_links_on_user_id ON public.social_links USING btree (user_id);
 
 
 --
@@ -3003,6 +3104,14 @@ ALTER TABLE ONLY public.user_mutes
 
 
 --
+-- Name: social_links fk_rails_6034fd4f62; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.social_links
+    ADD CONSTRAINT fk_rails_6034fd4f62 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_tokens fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3211,6 +3320,14 @@ ALTER TABLE ONLY public.note_comments
 
 
 --
+-- Name: notes notes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT notes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: redactions redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3397,6 +3514,16 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250506052030'),
+('20250304172798'),
+('20250304172758'),
+('20250217140049'),
+('20250212160355'),
+('20250206202905'),
+('20250121191749'),
+('20250105154621'),
+('20250104140952'),
+('20241030090336'),
 ('20241023004427'),
 ('20241022141247'),
 ('20240913171951'),

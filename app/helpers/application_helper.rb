@@ -2,10 +2,11 @@ module ApplicationHelper
   require "rexml/document"
 
   def linkify(text)
+    link_attr = 'rel="nofollow" dir="auto"'
     if text.html_safe?
-      Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow")).html_safe
+      Rinku.auto_link(text, :urls, link_attr).html_safe
     else
-      Rinku.auto_link(ERB::Util.h(text), :urls, tag_builder.tag_options(:rel => "nofollow")).html_safe
+      Rinku.auto_link(ERB::Util.h(text), :urls, link_attr).html_safe
     end
   end
 
@@ -37,12 +38,13 @@ module ApplicationHelper
     if content_for? :body_class
       content_for :body_class
     else
-      "#{params[:controller]} #{params[:controller]}-#{params[:action]}"
+      controller_part = params[:controller].tr("/", "-")
+      "#{controller_part} #{controller_part}-#{params[:action]}"
     end
   end
 
   def header_nav_link_class(path)
-    ["nav-link", current_page?(path) ? "text-secondary-emphasis" : "text-secondary"]
+    ["nav-link", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"]
   end
 
   def application_data

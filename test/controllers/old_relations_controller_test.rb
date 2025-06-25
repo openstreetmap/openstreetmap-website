@@ -14,7 +14,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
 
   def test_history
     relation = create(:relation, :with_history)
-    sidebar_browse_check :relation_history_path, relation.id, "browse/history"
+    sidebar_browse_check :relation_history_path, relation.id, "old_elements/index"
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :text => "1", :count => 1
     end
@@ -29,7 +29,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
 
     get relation_history_path(:id => relation)
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     # there are 4 revisions of the redacted relation, but only 2
     # should be showing details here.
@@ -48,7 +48,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
 
     get relation_history_path(:id => relation, :params => { :show_redactions => true })
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     assert_select ".browse-section", 4
     assert_select ".browse-section.browse-redacted", 0
@@ -64,7 +64,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_relation_version_path relation, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
@@ -79,7 +79,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_relation_version_path relation, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 2}']", :count => 1
@@ -91,7 +91,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 2}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_relation_version_path relation, 2}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 1
@@ -116,7 +116,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_relation_version_path relation, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to regular users" do
@@ -130,7 +130,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_relation_version_path relation, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to moderators" do
@@ -144,7 +144,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_relation_version_path relation, 1}']", :count => 0
   end
 
   test "don't reveal redacted versions to anonymous users" do
@@ -172,7 +172,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
   def test_not_found
     get old_relation_path(0, 0)
     assert_response :not_found
-    assert_template "old_relations/not_found"
+    assert_template "browse/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /relation #0 version 0 could not be found/
   end

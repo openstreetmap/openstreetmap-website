@@ -28,7 +28,7 @@ class SiteTest < ApplicationSystemTestCase
   end
 
   test "tooltip shows for Map Key button on a layer without a key provided" do
-    visit "/#layers=Y" # assumes that CyclOSM layer has no map key
+    visit "/#layers=H" # assumes that HOT layer has no map key
 
     assert_no_selector ".tooltip"
     button = find ".control-key .control-button"
@@ -49,48 +49,86 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_no_text "Zoom in"
   end
 
-  [
-    "#edit_tab",
-    ".control-note .control-button",
-    ".control-query .control-button"
-  ].each do |selector|
-    test "tooltips on low zoom levels for disabled control '#{selector}'" do
-      visit "/#map=10/0/0"
+  test "tooltips on low zoom levels for disabled control 'Edit'" do
+    check_control_tooltips_on_low_zoom "Edit"
+  end
+  test "tooltips on low zoom levels for disabled control 'Add a note to the map'" do
+    check_control_tooltips_on_low_zoom "Add a note to the map"
+  end
+  test "tooltips on low zoom levels for disabled control 'Query features'" do
+    check_control_tooltips_on_low_zoom "Query features"
+  end
 
-      assert_no_selector ".tooltip"
-      find(selector).hover
-      assert_selector ".tooltip", :text => "Zoom in"
-    end
-
-    test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control '#{selector}'" do
-      visit "/#map=14/0/0"
-
-      assert_no_selector ".tooltip"
-      find(selector).hover
-      assert_no_selector ".tooltip", :text => "Zoom in"
-      find("h1").hover # un-hover original element
-
-      visit "#map=10/0/0"
-      find("#{selector}.disabled") # Ensure that capybara has waited for JS to finish processing
-
-      assert_no_selector ".tooltip"
-      find(selector).hover
-      assert_selector ".tooltip", :text => "Zoom in"
-    end
+  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Edit'" do
+    check_control_tooltips_on_high_zoom "Edit"
+  end
+  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Add a note to the map'" do
+    check_control_tooltips_on_high_zoom "Add a note to the map"
+  end
+  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Query features'" do
+    check_control_tooltips_on_high_zoom "Query features"
   end
 
   test "notes layer tooltip appears on zoom out" do
-    visit "/#map=9/40/-4" # depends on zoom levels where notes are allowed
+    visit "/#map=10/40/-4" # depends on zoom levels where notes are allowed
 
-    find(".control-layers .control-button").click
-    li = find(".layers-ui .overlay-layers li:first-child")
-    li.not_matches_css? ".disabled"
-    li.hover # try to trigger disabled tooltip
-    zoomout = find(".control-button.zoomout")
-    zoomout.hover # un-hover the tooltip that's being tested
-    zoomout.click
-    li.matches_css? ".disabled"
-    li.hover
-    assert_selector ".tooltip", :text => "Zoom in"
+    within "#map" do
+      click_on "Layers"
+    end
+    within "#map-ui" do
+      assert_field "Map Notes"
+      find_field("Map Notes").hover # try to trigger disabled tooltip
+    end
+    within "#map" do
+      zoom_out = find_link("Zoom Out")
+      zoom_out.hover # un-hover the tooltip that's being tested
+      zoom_out.click(:shift)
+    end
+    within "#map-ui" do
+      assert_field "Map Notes", :disabled => true
+      find_field("Map Notes", :disabled => true).hover
+    end
+    assert_selector ".tooltip", :text => "Zoom in to see"
+  end
+
+  test "language selector should exist when logged out" do
+    visit "/"
+    assert_selector ".language-change-trigger", :visible => "all"
+    AVAILABLE_LANGUAGES.each do |locale|
+      assert_selector "option[value='#{locale[:code]}']", :visible => "all"
+    end
+  end
+
+  test "language selector should not exist when logged in" do
+    sign_in_as(create(:user))
+
+    visit "/"
+    assert_no_selector ".language-change-trigger", :visible => "all"
+  end
+
+  private
+
+  def check_control_tooltips_on_low_zoom(locator)
+    visit "/#map=10/0/0"
+
+    assert_no_selector ".tooltip"
+    find_link(locator).hover
+    assert_selector ".tooltip", :text => "Zoom in to"
+  end
+
+  def check_control_tooltips_on_high_zoom(locator)
+    visit "/#map=14/0/0"
+
+    assert_no_selector ".tooltip"
+    find_link(locator).hover
+    assert_no_selector ".tooltip", :text => "Zoom in to"
+    find("h1").hover # un-hover original element
+
+    visit "#map=10/0/0"
+    find_link(locator, :class => "disabled") # Ensure that capybara has waited for JS to finish processing
+
+    assert_no_selector ".tooltip"
+    find_link(locator).hover
+    assert_selector ".tooltip", :text => "Zoom in to"
   end
 end

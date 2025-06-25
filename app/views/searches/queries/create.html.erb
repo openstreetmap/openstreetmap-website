@@ -1,0 +1,23 @@
+<% if @results.empty? %>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <%= t ".no_results" %>
+    </li>
+  </ul>
+<% else %>
+  <ul class='results-list list-group list-group-flush'>
+    <% @results.each do |result| %>
+      <li class="list-group-item list-group-item-action search_results_entry"><%= result_to_html(result) %></li>
+    <% end %>
+  </ul>
+  <% if @more_params %>
+    <div class="search_more text-center my-3">
+      <%= link_to t(".more_results"), url_for(@more_params), :class => "btn btn-primary" %>
+      <div class="text-center loader" hidden>
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

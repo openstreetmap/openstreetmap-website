@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module RichText
   SPAMMY_PHRASES = [
     "Business Description:", "Additional Keywords:"
   ].freeze
 
-  MAX_DESCRIPTION_LENGTH = 500
+  DESCRIPTION_MAX_LENGTH = 500
+  DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH = 450
 
   def self.new(format, text)
     case format
@@ -23,8 +26,6 @@ module RichText
   end
 
   class Base < String
-    include ActionView::Helpers::TagHelper
-
     def spam_score
       link_count = 0
       link_size = 0
@@ -63,10 +64,52 @@ module RichText
       nil
     end
 
+    def truncate_html(max_length = nil, img_length = 1000)
+      html_doc = to_html
+      return html_doc if max_length.nil?
+
+      doc = Nokogiri::HTML::DocumentFragment.parse(html_doc)
+      keep_or_discards = %w[p h1 h2 h3 h4 h5 h6 pre a table ul ol dl]
+      accumulated_length = 0
+      exceeded_node_parent = nil
+      truncated = false
+
+      doc.traverse do |node|
+        if accumulated_length >= max_length
+          if node == exceeded_node_parent
+            exceeded_node_parent = node.parent
+            node.remove if keep_or_discards.include?(node.name)
+          else
+            node.remove
+          end
+          next
+        end
+
+        next unless node.children.empty?
+
+        if node.text?
+          accumulated_length += node.text.length
+        elsif node.name == "img"
+          accumulated_length += img_length
+        end
+
+        if accumulated_length >= max_length
+          truncated = true
+          exceeded_node_parent = node.parent
+          node.remove
+        end
+      end
+
+      {
+        :truncated => truncated,
+        :html => doc.to_html.html_safe
+      }
+    end
+
     protected
 
     def simple_format(text)
-      SimpleFormat.new.simple_format(text)
+      SimpleFormat.new.simple_format(text, :dir => "auto")
     end
 
     def sanitize(text)
@@ -74,17 +117,35 @@ module RichText
     end
 
     def linkify(text, mode = :urls)
-      if text.html_safe?
-        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer")).html_safe
-      else
-        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer"))
-      end
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+      Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
+        url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
+        shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
+          path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
+        end
+      end.html_safe
+    end
+
+    private
+
+    def shorten_host(url, hosts, hosts_replacement)
+      %r{^(https?://([^/]*))(.*)$}.match(url) do |m|
+        scheme_host, host, path = m.captures
+        if hosts&.include?(host)
+          path = yield(path) if block_given?
+          if hosts_replacement
+            "#{hosts_replacement}#{path}"
+          else
+            "#{scheme_host}#{path}"
+          end
+        end || url
+      end || url
     end
   end
 
   class HTML < Base
     def to_html
-      linkify(sanitize(simple_format(self)))
+      linkify(simple_format(self))
     end
 
     def to_text
@@ -120,7 +181,25 @@ module RichText
     private
 
     def document
-      @document ||= Kramdown::Document.new(self)
+      return @document if @document
+
+      @document = Kramdown::Document.new(self)
+
+      should_get_dir_auto = lambda do |el|
+        dir_auto_types = [:p, :header, :codespan, :codeblock, :pre, :ul, :ol, :table, :dl, :math]
+        return true if dir_auto_types.include?(el.type)
+        return true if el.type == :a && el.children.length == 1 && el.children[0].type == :text && el.children[0].value == el.attr["href"]
+
+        false
+      end
+
+      add_dir = lambda do |element|
+        element.attr["dir"] ||= "auto" if should_get_dir_auto.call(element)
+        element.children.each(&add_dir)
+      end
+      add_dir.call(@document.root)
+
+      @document
     end
 
     def first_image_element(element)
@@ -144,7 +223,7 @@ module RichText
     end
 
     def truncated_text_content(element)
-      text = ""
+      text = +""
 
       append_text = lambda do |child|
         if child.type == :text
@@ -152,7 +231,7 @@ module RichText
         else
           child.children.each do |c|
             append_text.call(c)
-            break if text.length > MAX_DESCRIPTION_LENGTH
+            break if text.length > DESCRIPTION_MAX_LENGTH
           end
         end
       end
@@ -160,7 +239,13 @@ module RichText
 
       return nil if text.blank?
 
-      text.truncate(MAX_DESCRIPTION_LENGTH)
+      text_truncated_to_word_break = text.truncate(DESCRIPTION_MAX_LENGTH, :separator => /(?<!\s)\s+/)
+
+      if text_truncated_to_word_break.length >= DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+        text_truncated_to_word_break
+      else
+        text.truncate(DESCRIPTION_MAX_LENGTH)
+      end
     end
 
     def image?(element)

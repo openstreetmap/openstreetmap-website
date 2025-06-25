@@ -1,16 +1,18 @@
-$(document).ready(function () {
-  var marker, map;
+$(function () {
+  let marker, map;
 
   function setLocation(e) {
-    $("#latitude").val(e.latlng.lat);
-    $("#longitude").val(e.latlng.lng);
+    const latlng = e.latlng.wrap();
+
+    $("#latitude").val(latlng.lat);
+    $("#longitude").val(latlng.lng);
 
     if (marker) {
       map.removeLayer(marker);
     }
 
-    marker = L.marker(e.latlng, { icon: OSM.getUserIcon() }).addTo(map)
-      .bindPopup(I18n.t("diary_entries.edit.marker_text"));
+    marker = L.marker(e.latlng, { icon: OSM.getMarker({}) }).addTo(map)
+      .bindPopup(OSM.i18n.t("diary_entries.edit.marker_text"));
   }
 
   $("#usemap").click(function (e) {
@@ -19,23 +21,22 @@ $(document).ready(function () {
     $("#map").show();
     $("#usemap").hide();
 
-    var params = $("#map").data();
-    var centre = [params.lat, params.lon];
-    var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
+    const params = $("#map").data();
+    const centre = [params.lat, params.lon];
+    const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
     map = L.map("map", {
       attributionControl: false,
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
 
-    L.OSM.zoom({ position: position })
-      .addTo(map);
+    L.OSM.zoom({ position }).addTo(map);
 
     map.setView(centre, params.zoom);
 
     if ($("#latitude").val() && $("#longitude").val()) {
-      marker = L.marker(centre, { icon: OSM.getUserIcon() }).addTo(map)
-        .bindPopup(I18n.t("diary_entries.edit.marker_text"));
+      marker = L.marker(centre, { icon: OSM.getMarker({}) }).addTo(map)
+        .bindPopup(OSM.i18n.t("diary_entries.edit.marker_text"));
     }
 
     map.on("click", setLocation);

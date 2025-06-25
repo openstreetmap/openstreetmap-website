@@ -1,0 +1,54 @@
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <% unless @users.empty? %>
+    <%= form_tag users_list_path, :method => :put do %>
+      <div class="row">
+        <div class="col">
+          <%= render "shared/pagination",
+                     :translation_scope => "shared.pagination.users",
+                     :newer_id => @newer_users_id,
+                     :older_id => @older_users_id %>
+        </div>
+        <div class="col col-auto">
+          <%= t ".found_users", :count => @users_count %>
+        </div>
+      <div>
+
+      <%= hidden_field_tag :status, params[:status] if params[:status] %>
+      <%= hidden_field_tag :username, params[:username] if params[:username] %>
+      <%= hidden_field_tag :ip, params[:ip] if params[:ip] %>
+      <%= hidden_field_tag :edits, params[:edits] if params[:edits] %>
+      <%= hidden_field_tag :page, params[:page] if params[:page] %>
+      <table id="user_list" class="table table-borderless table-striped">
+        <thead>
+          <tr>
+            <td colspan="2">
+            </td>
+            <td>
+              <%= check_box_tag "user_all", "1", false %>
+            </td>
+          </tr>
+        </thead>
+        <%= render :partial => "user", :collection => @users %>
+      </table>
+
+      <div class="row">
+        <div class="col">
+          <%= render "shared/pagination",
+                     :translation_scope => "shared.pagination.users",
+                     :newer_id => @newer_users_id,
+                     :older_id => @older_users_id %>
+        </div>
+        <div class="col col-auto">
+          <%= t ".found_users", :count => @users_count %>
+        </div>
+      <div>
+
+      <div>
+        <%= submit_tag t(".confirm"), :name => "confirm", :class => "btn btn-primary" %>
+        <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-primary" %>
+      </div>
+    <% end %>
+  <% else -%>
+    <p><%= t ".empty" %></p>
+  <% end -%>
+</turbo-frame>

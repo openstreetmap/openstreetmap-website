@@ -1,7 +1,9 @@
 module Api
   class ChangesetCommentsController < ApiController
-    before_action :check_api_writable
-    before_action :authorize
+    include QueryMethods
+
+    before_action :check_api_writable, :except => [:index]
+    before_action :authorize, :except => [:index]
 
     authorize_resource
 
@@ -10,19 +12,28 @@ module Api
     before_action :set_request_formats
 
     ##
+    # show all comments or search for a subset
+    def index
+      @comments = ChangesetComment.includes(:author).where(:visible => true).order("created_at DESC")
+      @comments = query_conditions_time(@comments)
+      @comments = query_conditions_user(@comments, :author)
+      @comments = query_limit(@comments)
+    end
+
+    ##
     # Add a comment to a changeset
     def create
       # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+      raise OSM::APIBadUserInput, "No id was given" unless params[:changeset_id]
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
       raise OSM::APIRateLimitExceeded if rate_limit_exceeded?
 
       # Extract the arguments
-      id = params[:id].to_i
+      changeset_id = params[:changeset_id].to_i
       body = params[:text]
 
       # Find the changeset and check it is valid
-      changeset = Changeset.find(id)
+      changeset = Changeset.find(changeset_id)
       raise OSM::APIChangesetNotYetClosedError, changeset if changeset.open?
 
       # Add a comment to the changeset
@@ -40,56 +51,6 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "api/changesets/show"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
-    ##
-    # Sets visible flag on comment to false
-    def destroy
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset
-      comment = ChangesetComment.find(id)
-
-      # Hide the comment
-      comment.update(:visible => false)
-
-      # Return a copy of the updated changeset
-      @changeset = comment.changeset
-      render "api/changesets/show"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
-
-    ##
-    # Sets visible flag on comment to true
-    def restore
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset
-      comment = ChangesetComment.find(id)
-
-      # Unhide the comment
-      comment.update(:visible => true)
-
-      # Return a copy of the updated changeset
-      @changeset = comment.changeset
       render "api/changesets/show"
 
       respond_to do |format|

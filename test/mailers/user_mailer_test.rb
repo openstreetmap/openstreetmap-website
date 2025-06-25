@@ -15,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
     email = UserMailer.gpx_success(trace, 100)
 
-    assert_match("<em>one</em>, <em>two&amp;three</em>, <em>four&lt;five</em>", email.html_part.body.to_s)
+    assert_match("one, two&amp;three, four&lt;five", email.html_part.body.to_s)
     assert_match("one, two&three, four<five", email.text_part.body.to_s)
   end
 
@@ -83,7 +83,7 @@ class UserMailerTest < ActionMailer::TestCase
     body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
 
     url = Rails.application.routes.url_helpers.changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
-    unsubscribe_url = Rails.application.routes.url_helpers.unsubscribe_changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    unsubscribe_url = Rails.application.routes.url_helpers.changeset_subscription_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
     assert_select body, "a[href^='#{url}']"
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
   end

@@ -2,14 +2,14 @@
 #
 # Table name: way_tags
 #
-#  way_id  :bigint(8)        not null, primary key
+#  way_id  :bigint           not null, primary key
 #  k       :string           not null, primary key
 #  v       :string           not null
-#  version :bigint(8)        not null, primary key
+#  version :bigint           not null, primary key
 #
 # Foreign Keys
 #
-#  way_tags_id_fkey  (["way_id", "version"] => ways.["way_id", "version"])
+#  way_tags_id_fkey  ([way_id, version] => ways[way_id, version])
 #
 
 class OldWayTag < ApplicationRecord

@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  email                :string           not null
-#  id                   :bigint(8)        not null, primary key
+#  id                   :bigint           not null, primary key
 #  pass_crypt           :string           not null
 #  creation_time        :datetime         not null
 #  display_name         :string           default(""), not null
@@ -12,6 +12,7 @@
 #  home_lat             :float
 #  home_lon             :float
 #  home_zoom            :integer          default(3)
+#  home_location_name   :string
 #  pass_salt            :string
 #  email_valid          :boolean          default(FALSE), not null
 #  new_email            :string
@@ -28,11 +29,12 @@
 #  diary_entries_count  :integer          default(0), not null
 #  image_use_gravatar   :boolean          default(FALSE), not null
 #  auth_provider        :string
-#  home_tile            :bigint(8)
+#  home_tile            :bigint
 #  tou_agreed           :datetime
 #  diary_comments_count :integer          default(0)
 #  note_comments_count  :integer          default(0)
 #  creation_address     :inet
+#  company              :string
 #
 # Indexes
 #
@@ -58,12 +60,12 @@ class User < ApplicationRecord
   has_many :new_messages, -> { where(:to_user_visible => true, :muted => false, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
   has_many :muted_messages, -> { where(:to_user_visible => true, :muted => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :to_user_id
-  has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
-  has_many :friends, :through => :friendships, :source => :befriendee
+  has_many :follows, -> { joins(:following).where(:users => { :status => %w[active confirmed] }) }
+  has_many :followings, :through => :follows, :source => :following
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :changeset_comments, :foreign_key => :author_id, :inverse_of => :author
-  has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
+  has_many :changeset_subscriptions, :foreign_key => :subscriber_id
   has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
   has_many :note_subscriptions, :class_name => "NoteSubscription"
@@ -86,6 +88,9 @@ class User < ApplicationRecord
   has_many :issue_comments
 
   has_many :reports
+
+  has_many :social_links
+  accepts_nested_attributes_for :social_links, :allow_destroy => true
 
   scope :visible, -> { where(:status => %w[pending active confirmed]) }
   scope :active, -> { where(:status => %w[active confirmed]) }
@@ -116,6 +121,7 @@ class User < ApplicationRecord
                        :uniqueness => { :scope => :auth_provider }
   validates :avatar, :if => proc { |u| u.attachment_changes["avatar"] },
                      :image => true
+  validates :description, :length => 0..65536
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
@@ -249,12 +255,22 @@ class User < ApplicationRecord
     self[:languages] = languages.join(",")
   end
 
-  def preferred_language
-    languages.find { |l| Language.exists?(:code => l) }
-  end
-
   def preferred_languages
     @preferred_languages ||= Locale.list(languages)
+  end
+
+  def default_diary_language
+    diary_language_preference = preferences.find_by(:k => "diary.default_language")
+    if diary_language_preference
+      diary_language_preference.v
+    else
+      languages.find { |l| Language.exists?(:code => l) }
+    end
+  end
+
+  def default_diary_language=(language)
+    preference = preferences.find_or_create_by(:k => "diary.default_language")
+    preference.update!(:v => language)
   end
 
   def home_location?
@@ -282,8 +298,8 @@ class User < ApplicationRecord
     OSM::GreatCircle.new(home_lat, home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
 
-  def friends_with?(new_friend)
-    friendships.exists?(:befriendee => new_friend)
+  def follows?(user)
+    follows.exists?(:following => user)
   end
 
   ##
@@ -359,11 +375,13 @@ class User < ApplicationRecord
     trace_score = traces.size * 50
     diary_entry_score = diary_entries.visible.inject(0) { |acc, elem| acc + elem.body.spam_score }
     diary_comment_score = diary_comments.visible.inject(0) { |acc, elem| acc + elem.body.spam_score }
+    report_score = Report.where(:category => "spam", :issue => issues.with_status("open")).distinct.count(:user_id) * 20
 
     score = description.spam_score / 4.0
     score += diary_entries.visible.where("created_at > ?", 1.day.ago).count * 10
     score += diary_entry_score / diary_entries.visible.length unless diary_entries.visible.empty?
     score += diary_comment_score / diary_comments.visible.length unless diary_comments.visible.empty?
+    score += report_score
     score -= changeset_score
     score -= trace_score
 
@@ -411,12 +429,12 @@ class User < ApplicationRecord
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
 
-  def max_friends_per_hour
+  def max_follows_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
-    recent_friends = Friendship.where(:befriendee => self).where(:created_at => Time.now.utc - 3600..).count
-    max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
-    max_friends.clamp(0, Settings.max_friends_per_hour)
+    recent_follows = Follow.where(:following => self).where(:created_at => Time.now.utc - 3600..).count
+    max_follows = account_age_in_hours.ceil + recent_follows - (active_reports * 10)
+    max_follows.clamp(0, Settings.max_follows_per_hour)
   end
 
   def max_changeset_comments_per_hour
@@ -441,6 +459,26 @@ class User < ApplicationRecord
 
   def deletion_allowed?
     deletion_allowed_at <= Time.now.utc
+  end
+
+  ##
+  # check if this user has a gravatar and set the user pref is true
+  def gravatar_enable!
+    # code from example https://en.gravatar.com/site/implement/images/ruby/
+    return false if avatar.attached?
+
+    begin
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
+      response = OSM.http_client.get(URI.parse(url))
+      available = response.success?
+    rescue StandardError
+      available = false
+    end
+
+    oldsetting = image_use_gravatar
+    self.image_use_gravatar = available
+    oldsetting != image_use_gravatar
   end
 
   private

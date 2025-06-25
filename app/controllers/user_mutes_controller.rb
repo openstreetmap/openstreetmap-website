@@ -16,7 +16,7 @@ class UserMutesController < ApplicationController
     @muted_users = current_user.muted_users
     @title = t ".title"
 
-    redirect_to edit_account_path unless @muted_users.any?
+    redirect_to account_path unless @muted_users.any?
   end
 
   def create

@@ -9,16 +9,18 @@
         <th><%= t ".creator_name" %></th>
         <% end %>
         <th><%= t ".reason" %></th>
+        <th><%= t ".start" %></th>
+        <th><%= t ".end" %></th>
         <th><%= t ".status" %></th>
-        <th><%= t ".revoker_name" %></th>
         <th></th>
         <th></th>
       </tr>
     </thead>
-    <%= render :partial => "block", :collection => @user_blocks %>
+    <%= render :partial => "user_blocks/block", :collection => @user_blocks %>
   </table>
 
   <%= render "shared/pagination",
+             :translation_scope => "shared.pagination.user_blocks",
              :newer_id => @newer_user_blocks_id,
              :older_id => @older_user_blocks_id %>
 </turbo-frame>

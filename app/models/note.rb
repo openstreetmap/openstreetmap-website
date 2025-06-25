@@ -2,24 +2,35 @@
 #
 # Table name: notes
 #
-#  id         :bigint(8)        not null, primary key
-#  latitude   :integer          not null
-#  longitude  :integer          not null
-#  tile       :bigint(8)        not null
-#  updated_at :datetime         not null
-#  created_at :datetime         not null
-#  status     :enum             not null
-#  closed_at  :datetime
+#  id          :bigint           not null, primary key
+#  latitude    :integer          not null
+#  longitude   :integer          not null
+#  tile        :bigint           not null
+#  updated_at  :datetime         not null
+#  created_at  :datetime         not null
+#  status      :enum             not null
+#  closed_at   :datetime
+#  description :text             default(""), not null
+#  user_id     :bigint
+#  user_ip     :inet
 #
 # Indexes
 #
-#  notes_created_at_idx   (created_at)
-#  notes_tile_status_idx  (tile,status)
-#  notes_updated_at_idx   (updated_at)
+#  index_notes_on_description             (to_tsvector('english'::regconfig, description)) USING gin
+#  index_notes_on_user_id_and_created_at  (user_id,created_at) WHERE (user_id IS NOT NULL)
+#  notes_created_at_idx                   (created_at)
+#  notes_tile_status_idx                  (tile,status)
+#  notes_updated_at_idx                   (updated_at)
+#
+# Foreign Keys
+#
+#  notes_user_id_fkey  (user_id => users.id)
 #
 
 class Note < ApplicationRecord
   include GeoRecord
+
+  belongs_to :author, :class_name => "User", :foreign_key => "user_id", :optional => true
 
   has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
   has_many :all_comments, -> { left_joins(:author).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id, :inverse_of => :note
@@ -82,14 +93,9 @@ class Note < ApplicationRecord
     closed_at + DEFAULT_FRESHLY_CLOSED_LIMIT
   end
 
-  # Return the author object, derived from the first comment
-  def author
-    comments.first.author
-  end
-
-  # Return the author IP address, derived from the first comment
-  def author_ip
-    comments.first.author_ip
+  # Return the note's description
+  def description
+    RichText.new("text", super)
   end
 
   private

@@ -32,22 +32,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/history/feed", :method => :get },
       { :controller => "changesets", :action => "feed", :format => :atom }
     )
-    assert_routing(
-      { :path => "/changeset/1/subscribe", :method => :get },
-      { :controller => "changesets", :action => "subscribe", :id => "1" }
-    )
-    assert_routing(
-      { :path => "/changeset/1/subscribe", :method => :post },
-      { :controller => "changesets", :action => "subscribe", :id => "1" }
-    )
-    assert_routing(
-      { :path => "/changeset/1/unsubscribe", :method => :get },
-      { :controller => "changesets", :action => "unsubscribe", :id => "1" }
-    )
-    assert_routing(
-      { :path => "/changeset/1/unsubscribe", :method => :post },
-      { :controller => "changesets", :action => "unsubscribe", :id => "1" }
-    )
   end
 
   ##
@@ -96,7 +80,10 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # This should report an error
   def test_index_invalid_xhr
     %w[-1 0 fred].each do |id|
-      get history_path(:format => "html", :list => "1", :max_id => id)
+      get history_path(:format => "html", :list => "1", :before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get history_path(:format => "html", :list => "1", :after => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end
@@ -104,8 +91,8 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_index_bbox
-    changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)
-    other_changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 0, :max_lat => 1, :min_lon => 0, :max_lon => 1)
+    changesets = create_list(:changeset, 10, :num_changes => 1, :bbox => [5, 5, 5, 5])
+    other_changesets = create_list(:changeset, 10, :num_changes => 1, :bbox => [0, 0, 1, 1])
 
     # First check they all show up without a bbox parameter
     get history_path(:format => "html", :list => "1"), :xhr => true
@@ -128,6 +115,127 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
 
     check_index_result(changesets)
+  end
+
+  def test_index_bbox_across_antimeridian_with_changesets_close_to_antimeridian
+    west_of_antimeridian_changeset = create(:changeset, :num_changes => 1, :bbox => [176, 0, 178, 1])
+    east_of_antimeridian_changeset = create(:changeset, :num_changes => 1, :bbox => [-178, 0, -176, 1])
+
+    get history_path(:format => "html", :list => "1")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset, west_of_antimeridian_changeset])
+
+    # negative longitudes
+    get history_path(:format => "html", :list => "1", :bbox => "-190,-10,-170,10")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset, west_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-183,-10,-177,10")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset, west_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-181,-10,-177,10")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-183,-10,-179,10")
+    assert_response :success
+    check_index_result([west_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-181,-10,-179,10")
+    assert_response :success
+    check_index_result([])
+
+    # positive longitudes
+    get history_path(:format => "html", :list => "1", :bbox => "170,-10,190,10")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset, west_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "177,-10,183,10")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset, west_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "177,-10,181,10")
+    assert_response :success
+    check_index_result([west_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "179,-10,183,10")
+    assert_response :success
+    check_index_result([east_of_antimeridian_changeset])
+
+    get history_path(:format => "html", :list => "1", :bbox => "179,-10,181,10")
+    assert_response :success
+    check_index_result([])
+  end
+
+  def test_index_bbox_across_antimeridian_with_changesets_around_globe
+    changeset1 = create(:changeset, :num_changes => 1, :bbox => [-150, 40, -140, 50])
+    changeset2 = create(:changeset, :num_changes => 1, :bbox => [-30, -30, -20, -20])
+    changeset3 = create(:changeset, :num_changes => 1, :bbox => [10, 60, 20, 70])
+    changeset4 = create(:changeset, :num_changes => 1, :bbox => [150, -60, 160, -50])
+
+    # no bbox, get all changesets
+    get history_path(:format => "html", :list => "1")
+    assert_response :success
+    check_index_result([changeset4, changeset3, changeset2, changeset1])
+
+    # large enough bbox within normal range
+    get history_path(:format => "html", :list => "1", :bbox => "-170,-80,170,80")
+    assert_response :success
+    check_index_result([changeset4, changeset3, changeset2, changeset1])
+
+    # bbox for [1,2] within normal range
+    get history_path(:format => "html", :list => "1", :bbox => "-160,-80,0,80")
+    assert_response :success
+    check_index_result([changeset2, changeset1])
+
+    # bbox for [1,4] containing antimeridian with negative lon
+    get history_path(:format => "html", :list => "1", :bbox => "-220,-80,-100,80")
+    assert_response :success
+    check_index_result([changeset4, changeset1])
+
+    # bbox for [1,4] containing antimeridian with positive lon
+    get history_path(:format => "html", :list => "1", :bbox => "100,-80,220,80")
+    assert_response :success
+    check_index_result([changeset4, changeset1])
+
+    # large enough bbox outside normal range
+    get history_path(:format => "html", :list => "1", :bbox => "-220,-80,220,80")
+    assert_response :success
+    check_index_result([changeset4, changeset3, changeset2, changeset1])
+  end
+
+  ##
+  # Test that -180..180 longitudes don't result in empty bbox
+  def test_index_bbox_entire_world
+    changeset = create(:changeset, :num_changes => 1, :bbox => [30, 60, 31, 61])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-180,-80,-180,80")
+    assert_response :success
+    check_index_result([])
+
+    get history_path(:format => "html", :list => "1", :bbox => "180,-80,180,80")
+    assert_response :success
+    check_index_result([])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-180,-80,180,80")
+    assert_response :success
+    check_index_result([changeset])
+  end
+
+  ##
+  # Test that -270..270 longitudes don't result in 90..-90 bbox
+  def test_index_bbox_larger_than_entire_world
+    changeset1 = create(:changeset, :num_changes => 1, :bbox => [30, 60, 31, 61])
+    changeset2 = create(:changeset, :num_changes => 1, :bbox => [130, 60, 131, 61])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-90,-80,90,80")
+    assert_response :success
+    check_index_result([changeset1])
+
+    get history_path(:format => "html", :list => "1", :bbox => "-270,-80,270,80")
+    assert_response :success
+    check_index_result([changeset2, changeset1])
   end
 
   ##
@@ -190,8 +298,8 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # Checks the display of the friends changesets listing
   def test_index_friends
     private_user = create(:user, :data_public => true)
-    friendship = create(:friendship, :befriender => private_user)
-    changeset = create(:changeset, :user => friendship.befriendee, :num_changes => 1)
+    follow = create(:follow, :follower => private_user)
+    changeset = create(:changeset, :user => follow.following, :num_changes => 1)
     _changeset2 = create(:changeset, :user => create(:user), :num_changes => 1)
 
     get friend_changesets_path
@@ -237,21 +345,38 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
   ##
   # Check that we can't request later pages of the changesets index
-  def test_index_max_id
-    changeset = create(:changeset, :num_changes => 1)
-    _changeset2 = create(:changeset, :num_changes => 1)
+  def test_index_before_id
+    changeset1 = create(:changeset, :num_changes => 1)
+    changeset2 = create(:changeset, :num_changes => 1)
 
-    get history_path(:format => "html", :max_id => changeset.id), :xhr => true
+    get history_path(:format => "html", :before => changeset2.id), :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get history_path(:format => "html", :list => "1", :max_id => changeset.id), :xhr => true
+    get history_path(:format => "html", :list => "1", :before => changeset2.id), :xhr => true
     assert_response :success
     assert_template "index"
 
-    check_index_result([changeset])
+    check_index_result [changeset1]
+  end
+
+  def test_index_after_id
+    changeset1 = create(:changeset, :num_changes => 1)
+    changeset2 = create(:changeset, :num_changes => 1)
+
+    get history_path(:format => "html", :after => changeset1.id), :xhr => true
+    assert_response :success
+    assert_template "history"
+    assert_template :layout => "xhr"
+    assert_select "h2", :text => "Changesets", :count => 1
+
+    get history_path(:format => "html", :list => "1", :after => changeset1.id), :xhr => true
+    assert_response :success
+    assert_template "index"
+
+    check_index_result [changeset2]
   end
 
   ##
@@ -275,7 +400,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
     assert_dom "h2", :text => "Changeset: #{changeset.id}"
     assert_dom "p", :text => "tested-changeset-comment"
-    assert_dom "li#c#{changeset_comment.id}" do
+    assert_dom "article#c#{changeset_comment.id}" do
       assert_dom "> small", :text => /^Comment from #{commenting_user.display_name}/
       assert_dom "a[href='#{user_path(commenting_user)}']"
     end
@@ -385,12 +510,12 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_feed_bbox
-    changeset = create(:changeset, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+    changeset = create(:changeset, :num_changes => 1, :bbox => [5, 5, 5, 5])
     create(:changeset_tag, :changeset => changeset)
     create(:changeset_tag, :changeset => changeset, :k => "website", :v => "http://example.com/")
-    closed_changeset = create(:changeset, :closed, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
-    _elsewhere_changeset = create(:changeset, :num_changes => 1, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
-    _empty_changeset = create(:changeset, :num_changes => 0, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
+    closed_changeset = create(:changeset, :closed, :num_changes => 1, :bbox => [5, 5, 5, 5])
+    _elsewhere_changeset = create(:changeset, :num_changes => 1, :bbox => [-5, -5, -5, -5])
+    _empty_changeset = create(:changeset, :num_changes => 0, :bbox => [5, 5, 5, 5])
 
     get history_feed_path(:format => :atom, :bbox => "4.5,4.5,5.5,5.5")
     assert_response :success
@@ -427,122 +552,14 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
   ##
   # Check that we can't request later pages of the changesets feed
-  def test_feed_max_id
-    get history_feed_path(:format => "atom", :max_id => 100)
+  def test_feed_before
+    get history_feed_path(:format => "atom", :before => 100)
     assert_redirected_to :action => :feed
   end
 
-  def test_subscribe_page
-    user = create(:user)
-    other_user = create(:user)
-    changeset = create(:changeset, :user => user)
-    path = subscribe_changeset_path(changeset)
-
-    get path
-    assert_redirected_to login_path(:referer => path)
-
-    session_for(other_user)
-    get path
-    assert_response :success
-    assert_dom ".content-body" do
-      assert_dom "a[href='#{changeset_path(changeset)}']", :text => "Changeset #{changeset.id}"
-      assert_dom "a[href='#{user_path(user)}']", :text => user.display_name
-    end
-  end
-
-  def test_subscribe_success
-    user = create(:user)
-    other_user = create(:user)
-    changeset = create(:changeset, :user => user)
-
-    session_for(other_user)
-    assert_difference "changeset.subscribers.count", 1 do
-      post subscribe_changeset_path(changeset)
-    end
-    assert_redirected_to changeset_path(changeset)
-    assert changeset.reload.subscribed?(other_user)
-  end
-
-  def test_subscribe_fail
-    user = create(:user)
-    other_user = create(:user)
-
-    changeset = create(:changeset, :user => user)
-
-    # not signed in
-    assert_no_difference "changeset.subscribers.count" do
-      post subscribe_changeset_path(changeset)
-    end
-    assert_response :forbidden
-
-    session_for(other_user)
-
-    # bad diary id
-    post subscribe_changeset_path(999111)
-    assert_response :not_found
-
-    # trying to subscribe when already subscribed
-    post subscribe_changeset_path(changeset)
-    assert_no_difference "changeset.subscribers.count" do
-      post subscribe_changeset_path(changeset)
-    end
-  end
-
-  def test_unsubscribe_page
-    user = create(:user)
-    other_user = create(:user)
-    changeset = create(:changeset, :user => user)
-    path = unsubscribe_changeset_path(changeset)
-
-    get path
-    assert_redirected_to login_path(:referer => path)
-
-    session_for(other_user)
-    get path
-    assert_response :success
-    assert_dom ".content-body" do
-      assert_dom "a[href='#{changeset_path(changeset)}']", :text => "Changeset #{changeset.id}"
-      assert_dom "a[href='#{user_path(user)}']", :text => user.display_name
-    end
-  end
-
-  def test_unsubscribe_success
-    user = create(:user)
-    other_user = create(:user)
-
-    changeset = create(:changeset, :user => user)
-    changeset.subscribers.push(other_user)
-
-    session_for(other_user)
-    assert_difference "changeset.subscribers.count", -1 do
-      post unsubscribe_changeset_path(changeset)
-    end
-    assert_redirected_to changeset_path(changeset)
-    assert_not changeset.reload.subscribed?(other_user)
-  end
-
-  def test_unsubscribe_fail
-    user = create(:user)
-    other_user = create(:user)
-
-    changeset = create(:changeset, :user => user)
-
-    # not signed in
-    assert_no_difference "changeset.subscribers.count" do
-      post unsubscribe_changeset_path(changeset)
-    end
-    assert_response :forbidden
-
-    session_for(other_user)
-
-    # bad diary id
-    post unsubscribe_changeset_path(999111)
-    assert_response :not_found
-
-    # trying to unsubscribe when not subscribed
-    assert_no_difference "changeset.subscribers.count" do
-      post unsubscribe_changeset_path(changeset)
-    end
+  def test_feed_after
+    get history_feed_path(:format => "atom", :after => 100)
+    assert_redirected_to :action => :feed
   end
 
   private
@@ -550,7 +567,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # check the result of a index
   def check_index_result(changesets)
-    assert_select "ol.changesets", :count => [changesets.size, 1].min do
+    assert_select "ol", :count => [changesets.size, 1].min do
       assert_select "li", :count => changesets.size
 
       changesets.each do |changeset|

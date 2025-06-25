@@ -24,7 +24,7 @@ class SiteController < ApplicationController
   end
 
   def index
-    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
+    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless %w[database_readonly database_offline].include?(Settings.status)
   end
 
   def permalink
@@ -55,20 +55,6 @@ class SiteController < ApplicationController
            end
 
     redirect_to path
-  end
-
-  def key
-    expires_in 7.days, :public => true
-    @key = YAML.load_file(Rails.root.join("config/key.yml"))
-    @key.each_value do |layer_data|
-      layer_data.each do |entry|
-        entry["name"] = Array(entry["name"])
-      end
-      layer_data.each_cons(2) do |entry, next_entry|
-        entry["max_zoom"] = next_entry["min_zoom"] - 1 if entry["name"] == next_entry["name"] && !entry["max_zoom"] && next_entry["min_zoom"]
-      end
-    end
-    render :layout => false
   end
 
   def edit
@@ -107,6 +93,14 @@ class SiteController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       # don't try and derive a location from a missing/deleted object
     end
+
+    if api_status != "online"
+      flash.now[:warning] = { :partial => "layouts/offline_flash" }
+    elsif current_user && !current_user.data_public?
+      flash.now[:warning] = { :partial => "not_public_flash" }
+    else
+      @enable_editor = true
+    end
   end
 
   def copyright
@@ -127,11 +121,7 @@ class SiteController < ApplicationController
   def export; end
 
   def offline
-    flash.now[:warning] = if Settings.status == "database_offline"
-                            t("layouts.osm_offline")
-                          else
-                            t("layouts.osm_read_only")
-                          end
+    flash.now[:warning] = { :partial => "layouts/offline_flash" }
     render :html => nil, :layout => true
   end
 

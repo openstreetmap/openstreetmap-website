@@ -1,6 +1,6 @@
 inherit_from: .rubocop_todo.yml
 
-require:
+plugins:
   - rubocop-capybara
   - rubocop-factory_bot
   - rubocop-minitest
@@ -8,8 +8,11 @@ require:
   - rubocop-rails
   - rubocop-rake
 
+require:
+  - ./.rubocop/specific_action_names.rb
+
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
     - 'vendor/**/*'
@@ -19,12 +22,6 @@ Rails:
 
 Layout/ExtraSpacing:
   AllowForAlignment: true
-
-Lint/PercentStringArray:
-  Exclude:
-    - 'config/initializers/secure_headers.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/site_controller.rb'
 
 Metrics/BlockLength:
   Exclude:
@@ -44,6 +41,11 @@ Naming/FileName:
 
 Naming/MethodParameterName:
   Enabled: false
+
+# AllowedMethods can be replaced with AllowBangMethods after release of
+# https://github.com/rubocop/rubocop/pull/14270
+Naming/PredicateMethod:
+  AllowedMethods: gravatar_enable!
 
 # This conflicts with Strong Migrations, which can't check `change_table`
 Rails/BulkChangeTable:
@@ -70,14 +72,10 @@ Rails/ReflectionClassName:
 Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/*.rb'
-    - 'app/controllers/users_controller.rb'
+    - 'app/controllers/users/lists_controller.rb'
 
 Style/Documentation:
   Enabled: false
-
-Style/FormatStringToken:
-  Exclude:
-    - 'config/routes.rb'
 
 Style/IfInsideElse:
   Enabled: false
@@ -90,9 +88,6 @@ Style/HashEachMethods:
 
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
-  Exclude:
-    - 'lib/tasks/testing.rake'
-    - 'config/initializers/wrap_parameters.rb'
 
 Style/HashTransformKeys:
   Enabled: true
@@ -105,8 +100,41 @@ Style/MixinUsage:
     - 'bin/setup'
     - 'bin/update'
 
+Style/RaiseArgs:
+  Exclude:
+    - 'lib/osm.rb'
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/SymbolArray:
   EnforcedStyle: brackets
+
+Rails/SpecificActionNames:
+  Description: Use only specific action names.
+  Enabled: true
+  ActionNames:
+    - index
+    - show
+    - new
+    - edit
+    - create
+    - update
+    - destroy
+  Include:
+    - app/controllers/**/*.rb
+  Exclude:
+    # This is a todo list, but is currently too long for `rubocop --auto-gen-config`
+    - 'app/controllers/api/notes_controller.rb'
+    - 'app/controllers/api/user_preferences_controller.rb'
+    - 'app/controllers/api/users_controller.rb'
+    - 'app/controllers/changesets_controller.rb'
+    - 'app/controllers/confirmations_controller.rb'
+    - 'app/controllers/diary_comments_controller.rb'
+    - 'app/controllers/diary_entries_controller.rb'
+    - 'app/controllers/errors_controller.rb'
+    - 'app/controllers/export_controller.rb'
+    - 'app/controllers/issues_controller.rb'
+    - 'app/controllers/site_controller.rb'
+    - 'app/controllers/traces_controller.rb'
+    - 'app/controllers/users_controller.rb'

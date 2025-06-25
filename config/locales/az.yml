@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: AZISS
 # Author: Cekli829
+# Author: Gravitystorm
 # Author: Huseyn
 # Author: Mushviq Abdulla
 # Author: NMW03
@@ -33,9 +34,11 @@ az:
         create: Şərh əlavə et
       message:
         create: Göndər
-      client_application:
+      oauth2_application:
         create: Qeydiyyatdan keç
         update: Yenilə
+      redaction:
+        create: Redaksiya yarat
       trace:
         create: Yüklə
         update: Dəyişiklikləri yadda saxla
@@ -74,8 +77,8 @@ az:
       tracepoint: Trek Nöqtəsi
       tracetag: Trek Teqi
       user: İstifadəçi
-      user_preference: İstifadəçi Qurmaları
-      user_token: İstifadəçi Əlaməti
+      user_preference: İstifadəçi nizamlamaları
+      user_token: İstifadəçi tokeni
       way: Xətt
       way_node: Xəttin Nöqtələri
       way_tag: Xəttin Teqi
@@ -106,7 +109,7 @@ az:
         longitude: Uzunluq dairəsi
         public: İctimai
         description: İzah
-        gpx_file: GPX faylı yüklə
+        gpx_file: GPS İz Faylını seçin
         visibility: Görünüş
         tagstring: Etiketlər
       message:
@@ -156,22 +159,27 @@ az:
   api:
     notes:
       rss:
-        title: OpenStreetMap haqqında qeydlər
+        title: OpenHistoricalMap haqqında qeydlər
       entry:
         comment: Şərh
         full: Tam qeydlər
   accounts:
-    edit:
+    show:
       current email address: Hazırki E-Poçt Ünvanı
-      openid:
-        link text: bu nədir?
-      public editing:
-        enabled link text: Bu nədir?
-        disabled link text: Niyə mən redaktə edə bilmirəm?
       contributor terms:
         link text: bu nədir?
       save changes button: Dəyişiklikləri yadda saxla
+    go_public:
+      make_edits_public_button: Bütün redaktələrimi açıq et
+    destroy:
+      success: Hesab silindi.
+    terms:
+      show:
+        legale_names:
+          france: Fransa
+          italy: İtaliya
   browse:
+    deleted_ago_by_html: '%{user} tərəfindən %{time_ago} silindi'
     version: Versiya
     in_changeset: Dəyişikliklər
     anonymous: anonim
@@ -190,19 +198,12 @@ az:
         way: Xətt
         relation: Əlaqə
     containing_relation:
-      entry_html: Əlaqəsi %{relation_name}
-      entry_role_html: Əlaqəsi %{relation_name} (%{relation_role} kimi)
+      entry_role_html: '%{relation_name} (%{relation_role} kimi)'
     not_found:
-      sorry: Təəsüf ki, %{id} %{type} tapılmadı.
-      type:
-        node: nöqtə
-        way: xətt
-        relation: əlaqə
-        changeset: dəyişikliklər dəsti
-        note: qeyd
+      title: Tapılmadı
     timeout:
       sorry: Bağışlayın, %{id} identifikatorlu %{type} üçün məlumatlar çıxarılmaq
-        üçün cox uzundurlar.
+        üçün çox uzundurlar.
       type:
         node: nöqtə
         way: xətt
@@ -226,14 +227,11 @@ az:
         key: '%{key} teqini təsvir edən viki səhifəsi'
         tag: '%{key}=%{value} teqini təsvir edən viki səhifəsi'
       wikipedia_link: Vikipediyada %{page} məqaləsi
+      email_link: E-poçt %{email}
   changesets:
-    changeset:
-      no_edits: (redaktə yoxdur)
-      view_changeset_details: Dəyişikliklər dəstinin ətraflı görüntüsü
     index:
       title: Dəyişikliklər dəsti
       title_user: '%{user} tərəfindən edilmiş dəyişikliklər dəsti'
-      title_friend: Dostlarınız tərəfindən edilmiş dəyişikliklər dəsti
       title_nearby: Yaxınlıqdakı istifadəçilər tərəfindən edilmiş dəyişikliklər dəsti
       feed:
         title: Dəyişikliklər dəsti  %{id}
@@ -245,19 +243,22 @@ az:
       title: 'Dəyişikliklər dəsti: %{id}'
       subscribe: Abunə ol
       comment: Şərh
+      hide_comment: gizlət
       changesetxml: XML dəyişikliklər dəsti
       osmchangexml: osmChange XML
-    paging_nav:
-      nodes: (%{count}) nöqtə
     timeout:
       sorry: Üzr istəyirik, sorğu etdiyiniz dəyişikliklərin siyahısını əldə etmək
         çox uzun çəkdi.
   dashboards:
     contact:
-      latest_edit_html: 'Son redaktə %{ago}:'
+      latest_edit_html: 'Son redaktə (%{ago}):'
+      no_edits: (redaktə yoxdur)
+      view_changeset_details: Dəyişikliklər dəstinin ətraflı görüntüsü
     popup:
       your location: Yerləşdiyin yer
-      friend: Dost
+    show:
+      edit_your_profile: Profilinizi redaktə edin
+      nearby users: Yaxınlıqdakı digər istifadəçilər
   diary_entries:
     new:
       title: Yeni Gündəlik Yazısı
@@ -266,12 +267,9 @@ az:
       use_map_link: Xəritədən istifadə et
     index:
       title: İstifadəçi gündəlikləri
-      title_friends: Dostların gündəlikləri
       title_nearby: Yaxınlıqdakı İstifadəçilərin Gündəlikləri
       user_title: '%{user}''nin gündəliyi'
       in_language_title: '%{language} dilində gündəlik qeydlər'
-      new: Yeni Gündəlik Yazısı
-      new_title: İstifadəçi gündəliyinizə yeni yazı əlavə etmək
       no_entries: Gundəlikdə yazı yoxdur
     page:
       recent_entries: Yaxın müddətdəki gündəlik yazıları
@@ -288,49 +286,42 @@ az:
       title: Belə bir gündəlik yazısı mövcud deyil
       heading: 'Bu nömrəyə sahib yazı mövcud deyil: %{id}'
     diary_entry:
-      posted_by_html: '%{link_user} tərəfindən %{created} yazılıb, %{language_link}
-        dilində.'
-      comment_link: Bu yazıyı şərh et
-      reply_link: Bu yazıya cavab ver
+      posted_by_html: '%{link_user} tərəfindən %{created} tarixində %{language_link}
+        dilində paylaşılıb.'
+      comment_link: Bu yazıya şərh yaz
+      reply_link: Müəllifə mesaj göndər
       comment_count:
-        one: '%{count} şərh var'
-        zero: Şərh yoxdur
-        other: '%{count} şərh var'
-      edit_link: Bu yazıyı redaktə et
+        one: '%{count} şərh'
+        other: '%{count} şərh'
+      no_comments: Şərh yoxdur
+      edit_link: Bu yazını redaktə et
       hide_link: Bu yazını gizlət
-      confirm: Təsdiq etmək
+      unhide_link: Bu yazını göstər
+      confirm: Təsdiq et
     diary_comment:
       comment_from_html: Şərh %{link_user} tərəfindən %{comment_created_at}
       hide_link: Bu şərhi gizlət
-      confirm: Təsdiq etmək
+      confirm: Təsdiq et
+      report: Bu şərhi şikayət et
     location:
       location: 'Yerləşdiyi yer:'
     feed:
       user:
-        title: '%{user} üçün OpenStreetMap gündəlik yazıları'
-        description: '%{user} üçün axırıncı OpenStreetMap gündəlik yazıları'
+        title: '%{user} üçün OpenHistoricalMap gündəlik yazıları'
+        description: '%{user} üçün axırıncı OpenHistoricalMap gündəlik yazıları'
       language:
-        title: '%{language_name} dilində OpenStreetMap gündəlik yazıları'
-        description: '%{language_name} dilində OpenStreetMap istifadəçilərinin axırıncı
+        title: '%{language_name} dilində OpenHistoricalMap gündəlik yazıları'
+        description: '%{language_name} dilində OpenHistoricalMap istifadəçilərinin axırıncı
           gündəlik yazıları'
       all:
-        title: OpenStreetMap gündəlik yazısı
-        description: OpenStreetMap istifadəçilərinin axırıncı gündəlik yazıları
-  diary_comments:
-    page:
-      post: Post
-      when: Nə vaxt
-      comment: Şərh
-  friendships:
-    make_friend:
-      heading: '%{user}-i(ı) dostluğa əlavə edək?'
-      button: Dostluğa əlavə et
-      success: '%{name} indi sənin dostundur.'
-      failed: Bağışlayın, %{name}-i(ı) dostluğa əlavə etmədə xəta yarandı.
-      already_a_friend: Siz artıq %{name} dostsunuz.
-    remove_friend:
-      heading: '%{user} dostluqdan silək?'
-      button: Dostluqdan sil
+        title: OpenHistoricalMap gündəlik yazısı
+        description: OpenHistoricalMap istifadəçilərinin axırıncı gündəlik yazıları
+    navigation:
+      new: Yeni Gündəlik Yazısı
+      new_title: İstifadəçi gündəliyinizə yeni yazı əlavə etmək
+  errors:
+    not_found:
+      title: Fayl tapılmadı
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -433,6 +424,13 @@ az:
           viaduct: Viaduk
           "yes": Körpü
         building:
+          apartment: Yaşayış binası
+          office: Ofis binası
+          public: İctimai bina
+          residential: Yaşayış binası
+          roof: Dam
+          ruins: Dağılmış Bina
+          school: Məktəb binası
           "yes": Tikili
         craft:
           brewery: Pivə zavodu
@@ -521,8 +519,8 @@ az:
           brownfield: Tərk edilmiş ərazi
           cemetery: Məzarlıq
           commercial: Ticarət sahəsi
-          conservation: Konservasiya ərazisi
-          construction: Tikinti
+          conservation: Mühafizə zonası
+          construction: Tikinti sahəsi
           farmland: Kənd təsərrüfatı
           farmyard: Ferma həyəti
           forest: Meşə təsərrüfatı
@@ -535,6 +533,7 @@ az:
           military: Hərbi ərazi
           mine: Mədən
           orchard: Meyvə bağı
+          plant_nursery: Tinglik
           quarry: Karxana
           railway: Dəmir yolu
           recreation_ground: Istirahət guşəsi
@@ -775,12 +774,14 @@ az:
         level8: Şəhər sərhəddi
         level9: Kənd sərhəddi
         level10: Məhəllə sərhəddi
-    results:
-      no_results: Nəticələr tapılmadı
-      more_results: Daha çox nəticə
+  searches:
+    queries:
+      create:
+        no_results: Nəticələr tapılmadı
+        more_results: Daha çox nəticə
   layouts:
     logo:
-      alt_text: OpenStreetMap loqosu
+      alt_text: OpenHistoricalMap loqosu
     home: evə
     logout: çıxış
     log_in: daxil ol
@@ -789,27 +790,27 @@ az:
     history: Tarix
     export: İxrac
     gps_traces: GPS cizgilər
-    user_diaries: İstifadəçi Gündəlikləri
+    user_diaries: İstifadəçi gündəlikləri
     edit_with: '%{editor} köməyi ilə dəyişdir'
     tag_line: Azad Viki Dünya Xəritəsi
     intro_2_create_account: İstifadəçi hesabı yarat
     partners_title: partnyorlar
     help: Kömək
-    copyright: Müəllif hüquqları və Lisenziyalar
+    copyright: Müəllif hüququ
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} adlı istifadəçi sənin gündəliy yazına şərh
+      subject: '[OpenHistoricalMap] %{user} adlı istifadəçi sənin gündəliy yazına şərh
         yazıb'
       hi: Salam %{to_user},
     message_notification:
       hi: Salam %{to_user},
     signup_confirm:
-      subject: '[OpenStreetMap] "OpenHistoricalMap"ə xoş gəlmisiniz'
+      subject: '[OpenHistoricalMap] "OpenHistoricalMap"ə xoş gəlmisiniz'
       greeting: Salam!
     email_confirm:
       greeting: Salam,
     lost_password:
-      subject: '[OpenStreetMap] Parolu yeniləmək tələbi'
+      subject: '[OpenHistoricalMap] Parolu yeniləmək tələbi'
       greeting: Salam,
       click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, parolunuzu əvəzləmək üçün
         aşağı göstərilmiş istinaddakı ünvana keçin.
@@ -821,27 +822,6 @@ az:
     confirm_email:
       button: Təsdiq et
   messages:
-    inbox:
-      title: Gələnlər
-      messages: 'Sizin varınızdır: %{new_messages} və %{old_messages}.'
-      new_messages:
-        one: '%{count} yeni mesaj'
-        other: '%{count} yeni mesaj'
-      old_messages:
-        one: '%{count} köhnə mesaj'
-        other: '%{count} köhnə mesaj'
-      no_messages_yet_html: Sizin hələdə mesajınız yoxdur. Niyə də ki, %{people_mapping_nearby_link}
-        danışmırsınız?
-      people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
-    messages_table:
-      from: Kimdən
-      to: Kimə
-      subject: Mövzu
-      date: Tarix
-    message_summary:
-      unread_button: Oxunulmamış kimi işarələ
-      read_button: Oxunulmuş kimi işarələ
-      destroy_button: Sil
     new:
       title: Mesaj göndər
       send_message_to_html: '%{name} yeni mesaj göndər'
@@ -854,22 +834,48 @@ az:
       title: Belə bir mesaj yoxdur
       heading: Belə bir mesaj yoxdur
       body: Bağışlayın, amma belə ID ilə mesaj yoxdur.
-    outbox:
-      title: Göndərilənlər
-      people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
     show:
       title: Mesajı oxu
       reply_button: Geri göndər
       unread_button: Oxunulmamış kimi işarələ
-    sent_message_summary:
-      destroy_button: Sil
-    heading:
-      my_inbox: Mənim gələnlər
-    mark:
-      as_read: Mesaj oxunulmuş kimi işarələndi
-      as_unread: Mesaj oxunulmamış kimi işarələndi
     destroy:
       destroyed: Mesaj silindi
+    read_marks:
+      create:
+        notice: Mesaj oxunulmuş kimi işarələndi
+      destroy:
+        notice: Mesaj oxunulmamış kimi işarələndi
+    mailboxes:
+      heading:
+        my_inbox: Mənim gələnlər
+      messages_table:
+        from: Kimdən
+        to: Kimə
+        subject: Mövzu
+        date: Tarix
+      message:
+        unread_button: Oxunulmamış kimi işarələ
+        read_button: Oxunulmuş kimi işarələ
+        destroy_button: Sil
+    inboxes:
+      show:
+        title: Gələnlər
+        messages: 'Sizin varınızdır: %{new_messages} və %{old_messages}.'
+        new_messages:
+          one: '%{count} yeni mesaj'
+          other: '%{count} yeni mesaj'
+        old_messages:
+          one: '%{count} köhnə mesaj'
+          other: '%{count} köhnə mesaj'
+        no_messages_yet_html: Sizin hələdə mesajınız yoxdur. Niyə də ki, %{people_mapping_nearby_link}
+          danışmırsınız?
+        people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
+    outboxes:
+      show:
+        title: Göndərilənlər
+        people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
+      message:
+        destroy_button: Sil
   passwords:
     new:
       title: İtirilmiş parol
@@ -883,7 +889,7 @@ az:
     update:
       flash changed: Parolun indi dəyişildi.
   profiles:
-    edit:
+    show:
       image: 'Şəkil:'
       new image: Şəkil kimi əlavə et
       delete image: Hazırki şəkili sil
@@ -899,7 +905,7 @@ az:
         edin:'
     destroy:
       title: Sistemdən çıx
-      heading: OpenStreetMap-dən çıx
+      heading: OpenHistoricalMap-dən çıx
       logout_button: Sistemdən çıx
   shared:
     pagination:
@@ -927,14 +933,13 @@ az:
           OpenHistoricalMap <a
           href="http://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database License</a> (ODbL) lisenziyası üzrə istifadə olunan <i>açıq məlumatlardan</i> ibarətdir.
-        credit_title_html: OpenStreetMap-ə Necə istinad etmək olar
+        credit_title_html: OpenHistoricalMapOpenHistoricalMap-ə Necə istinad etmək olar
         attribution_example:
-          alt: Nümunə üçün, veb-səhifədən OpenStreetMap-ə necə istinad vermək
+          alt: Nümunə üçün, veb-səhifədən OpenHistoricalMap-ə necə istinad vermək
           title: Müəllifin göstərilməsinin nümunəsi
-        more_title_html: Daha ətraflı öyrən
-        contributors_title_html: Kimlər bizim layihəyə töhfə verir
         infringement_title_html: Müəllif hüquqlarının pozulması
-    edit:
+        contributors_title_html: Kimlər bizim layihəyə töhfə verir
+    not_public_flash:
       user_page_link: istifadəçi səhifəsi
     export:
       manually_select: Digər ərazini seçmək
@@ -942,49 +947,47 @@ az:
       export_button: İxrac etmək
     help:
       beginners_guide:
-        url: http://wiki.openstreetmap.org/wiki/Az:Beginners%27_guide
+        url: https://wiki.openstreetmap.org/wiki/Az:Beginners%27_guide
     sidebar:
       search_results: Axtarış Nəticələri
     search:
       search: Axtar
       where_am_i: Mən haradayam?
       submit_text: Keç
-    key:
-      table:
-        entry:
-          motorway: Avtomagistral
-          trunk: Baş yol
-          primary: Birinci dərəcəli yol
-          secondary: İkici dərəcəli yol
-          unclassified: Təsnifatsız yol
-          track: Cığır
-          footway: Piyada yolu
-          rail: Dəmir yolu
-          subway: Metro
-          tram: tramvay
-          runway: Aeroport uçuş-enmə zolağı
-          admin: Administrativ sərhəd
-          forest: Meşə
-          meadow: çəmənlik
-          park: Park
-          resident: Yaşayış sahəsi
-          retail: Ticarət sahəsi
-          industrial: Sənaye sahəsi
-          commercial: Ticarət sahəsi
-          lake: Göl
-          reservoir: su anbarı
-          farm: Ferma
-          cemetery: Məzarlıq
-          centre: İdman mərkəzi
-          reserve: Təbiət Qoruğu
-          military: Hərbi ərazi
-          school: Məktəb
-          university: universitet
-          building: Əhəmiyyətli bina
-          station: Dəmiryol stansiyası
-          summit: Zirvə
-          peak: pik
-          private: Xüsusi giriş
+  map_keys:
+    show:
+      entries:
+        motorway: Avtomagistral
+        trunk: Baş yol
+        primary: Birinci dərəcəli yol
+        secondary: İkici dərəcəli yol
+        unclassified: Təsnifatsız yol
+        track: Cığır
+        footway: Piyada yolu
+        rail: Dəmir yolu
+        subway: Metro
+        runway: Aeroport uçuş-enmə zolağı
+        admin: Administrativ sərhəd
+        forest: Meşə
+        park: Park
+        resident: Yaşayış sahəsi
+        retail: Ticarət sahəsi
+        industrial: Sənaye sahəsi
+        commercial: Ticarət sahəsi
+        lake: Göl
+        reservoir: su anbarı
+        farm: Ferma
+        cemetery: Məzarlıq
+        centre: İdman mərkəzi
+        reserve: Təbiət Qoruğu
+        military: Hərbi ərazi
+        school: Məktəb
+        university: universitet
+        building: Əhəmiyyətli bina
+        station: Dəmiryol stansiyası
+        summit: Zirvə
+        peak: pik
+        private: Xüsusi giriş
   traces:
     new:
       help: Kömək
@@ -1013,19 +1016,12 @@ az:
     new:
       title: Hesab aç
       continue: Davam et
-    terms:
-      consider_pd_why: bu nədir?
-      legale_names:
-        france: Fransa
-        italy: İtaliya
     show:
       my diary: mənim gündəliyim
       my edits: mənim redaktələrim
       my comments: mənim şərhlərim
       send message: mesaj göndər
       diary: gündəlik
-      remove as friend: dostluqdan silinmiş
-      add as friend: dostluğa əlavə edilmiş
       email address: 'E-poçt ünvanı:'
       status: 'Status:'
       create_block: bu istifadəçini blokla
@@ -1033,14 +1029,25 @@ az:
       hide_user: Bu istifadəçini gizlət
       delete_user: bu istifadəçini sil
       confirm: Təsdiq et
-    index:
-      title: İstifadəçilər
-      heading: İstifadəçilər
-    page:
-      found_users:
-        one: '%{count} istifadəçi tapıldı'
-        other: '%{count} istifadəçi tapıldı'
-      hide: Seçilmiş istifadəçiləri gizlət
+    issued_blocks:
+      show:
+        title: '%{name} tərəfindən blok edilib'
+    lists:
+      show:
+        title: İstifadəçilər
+        heading: İstifadəçilər
+      page:
+        found_users:
+          one: '%{count} istifadəçi tapıldı'
+          other: '%{count} istifadəçi tapıldı'
+        hide: Seçilmiş istifadəçiləri gizlət
+    changeset_comments:
+      page:
+        when: Nə vaxt
+        comment: Şərh
+    diary_comments:
+      page:
+        post: Post
   user_blocks:
     create:
       flash: '%{name} adlı istifadəçiyə blok yaradılıb.'
@@ -1053,13 +1060,10 @@ az:
       revoke: Ləğv et!
     helper:
       time_past_html: '%{time} əvvəl sona çatıb.'
-    blocks_by:
-      title: '%{name} tərəfindən blok edilib'
     show:
       title: '%{block_on}, %{block_by} tərəfindən blok edilib'
       status: Status
     block:
-      not_revoked: (ləgv edilməyib)
       show: Göstər
       edit: Redaktə et
     page:
@@ -1067,7 +1071,6 @@ az:
       creator_name: Yaradıcı
       reason: Bloklanma səbəbi
       status: Status
-      revoker_name: Tərəfindən ləgv edilib
   notes:
     show:
       description: Təsvir

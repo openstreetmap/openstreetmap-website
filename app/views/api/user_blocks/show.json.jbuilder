@@ -1,3 +1,5 @@
 json.partial! "api/root_attributes"
 
-json.partial! @user_block
+json.user_block do
+  json.partial! @user_block
+end

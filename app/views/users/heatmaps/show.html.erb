@@ -1,0 +1,28 @@
+<%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :data => { :turbo => false } do %>
+  <% if @heatmap_data[:count].positive? %>
+    <h2 class="text-body-secondary fs-5 mt-4"><%= t("users.show.contributions", :count => @heatmap_data[:count]) %></h2>
+    <% cal_data = prepare_heatmap(@heatmap_data[:data], @heatmap_data[:from], @heatmap_data[:to]) %>
+    <div class="row">
+      <div class="col overflow-auto">
+        <div class="heatmap d-none align-items-center mb-1 text-center" data-max-per-day="<%= cal_data[:max_per_day] %>">
+          <!-- Months -->
+          <% cal_data[:months].each do |month| %>
+            <span class="mb-1 mx-n2" data-month="<%= month %>"><%= t("date.abbr_month_names")[((month - 1) % 12) + 1] %></span>
+          <% end %>
+          <!-- Days -->
+          <% (0..6).each do |day| %>
+            <span class="me-1 my-n1" data-weekday="<%= day %>"><%= t("date.abbr_day_names")[day] %></span>
+          <% end %>
+          <!-- Heatmap -->
+          <% cal_data[:days].each do |day| %>
+            <% if day[:total_changes] == 0 %>
+              <span data-date="<%= day[:date] %>"></span>
+            <% else %>
+              <a href="<%= user_history_path @user, :before => day[:max_id] + 1 %>" data-date="<%= day[:date] %>" data-count="<%= day[:total_changes] %>"><span></span></a>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

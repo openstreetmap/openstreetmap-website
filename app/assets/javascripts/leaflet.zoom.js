@@ -4,15 +4,15 @@ L.OSM.Zoom = L.Control.extend({
   },
 
   onAdd: function (map) {
-    var zoomName = "zoom",
-        container = L.DomUtil.create("div", zoomName);
+    const zoomName = "zoom",
+          container = L.DomUtil.create("div", zoomName);
 
     this._map = map;
 
     this._zoomInButton = this._createButton(
-      "", I18n.t("javascripts.map.zoom.in"), zoomName + "in", container, this._zoomIn, this);
+      "", OSM.i18n.t("javascripts.map.zoom.in"), zoomName + "in", container, this._zoomIn, this);
     this._zoomOutButton = this._createButton(
-      "", I18n.t("javascripts.map.zoom.out"), zoomName + "out", container, this._zoomOut, this);
+      "", OSM.i18n.t("javascripts.map.zoom.out"), zoomName + "out", container, this._zoomOut, this);
 
     map.on("zoomend zoomlevelschange", this._updateDisabled, this);
 
@@ -32,14 +32,17 @@ L.OSM.Zoom = L.Control.extend({
   },
 
   _createButton: function (html, title, className, container, fn, context) {
-    var link = L.DomUtil.create("a", "control-button " + className, container);
+    const link = L.DomUtil.create("a", "control-button " + className, container);
     link.innerHTML = html;
     link.href = "#";
     link.title = title;
 
-    L.DomUtil.create("span", "icon " + className, link);
+    $(L.SVG.create("svg"))
+      .append($(L.SVG.create("use")).attr("href", "#icon-" + className))
+      .attr("class", "h-100 w-100")
+      .appendTo(link);
 
-    var stop = L.DomEvent.stopPropagation;
+    const stop = L.DomEvent.stopPropagation;
 
     L.DomEvent
       .on(link, "click", stop)
@@ -52,8 +55,8 @@ L.OSM.Zoom = L.Control.extend({
   },
 
   _updateDisabled: function () {
-    var map = this._map,
-        className = "disabled";
+    const map = this._map,
+          className = "disabled";
 
     L.DomUtil.removeClass(this._zoomInButton, className);
     L.DomUtil.removeClass(this._zoomOutButton, className);

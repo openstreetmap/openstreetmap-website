@@ -1,0 +1,47 @@
+<% @title = t(".title") %>
+
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= t(".heading") %></h1>
+<% end %>
+
+<%= form_tag(users_list_path, :method => :get, :data => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" }) do %>
+  <div class="row gx-1">
+    <div class="mb-3 col-md-auto">
+      <%= select_tag :status,
+                     options_for_select(User.aasm.states.map(&:name).map { |state| [t(".states.#{state}"), state] }, params[:status]),
+                     :include_blank => t(".select_status"),
+                     :data => { :behavior => "category_dropdown" },
+                     :class => "form-select" %>
+    </div>
+    <div class="mb-3 col-md">
+      <%= text_field_tag :username,
+                         params[:username],
+                         :placeholder => t(".name_or_email"),
+                         :autocomplete => "on",
+                         :class => "form-control" %>
+    </div>
+    <div class="mb-3 col-md">
+      <%= text_field_tag :ip,
+                         params[:ip],
+                         :placeholder => t(".ip_address"),
+                         :autocomplete => "on",
+                         :class => "form-control" %>
+    </div>
+    <div class="mb-3 col-md-auto">
+      <%= select_tag :edits,
+                     options_for_select([[t(".has_edits"), "yes"], [t(".no_edits"), "no"]], params[:edits]),
+                     :include_blank => t(".edits"),
+                     :data => { :behavior => "category_dropdown" },
+                     :class => "form-select" %>
+    </div>
+    <div class="mb-3 col-md-auto">
+      <%= submit_tag t(".search"), :name => nil, :class => "btn btn-primary" %>
+    </div>
+  </div>
+<% end -%>
+
+<%= render :partial => "page" %>

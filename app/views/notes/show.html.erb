@@ -5,42 +5,60 @@
 <div>
   <h4><%= t(".description") %></h4>
   <div class="overflow-hidden ms-2">
-    <%= h(@note_comments.first.body.to_html) %>
+    <%= note_description(@note.author, @note.description, current_user&.moderator? ? @note.comments.unscope(:where => :visible).first : @note.comments.first).to_html %>
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
-    <ul class="list-unstyled">
-      <li><%= note_event("opened", @note.created_at, @note.author) %></li>
-      <% if @note.status == "closed" %>
-        <li><%= note_event(@note.status, @note.closed_at, @note.all_comments.last.author) %></li>
-      <% end %>
-      <li>
-        <%= t "browse.location" %>
-        <%= link_to(t(".coordinates_html",
-                      :latitude => tag.span(number_with_delimiter(@note.lat), :class => "latitude"),
-                      :longitude => tag.span(number_with_delimiter(@note.lon), :class => "longitude")),
-                    root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}")) %>
-      </li>
-    </ul>
+    <p class="mb-2"><%= note_event("opened", @note.created_at, @note.author) %></p>
+    <% if @note.status == "closed" %>
+      <p class="mb-2"><%= note_event(@note.status, @note.closed_at, @note.all_comments.last.author) %></p>
+    <% end %>
+    <p>
+      <%= t "browse.location" %>
+      <%= link_to t(".coordinates_html",
+                    :latitude => tag.span(number_with_delimiter(@note.lat), :class => "latitude"),
+                    :longitude => tag.span(number_with_delimiter(@note.lon), :class => "longitude")),
+                  root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}") %>
+    </p>
   </div>
 
-  <% if @note_comments.find { |comment| comment.author.nil? } -%>
+  <% if @note_includes_anonymous -%>
     <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
 
-  <% if @note_comments.length > 1 %>
-    <div class='note-comments'>
-      <ul class="list-unstyled">
-        <% @note_comments.drop(1).each do |comment| %>
-          <li id="c<%= comment.id %>">
-            <small class='text-body-secondary'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
-            <div class="mx-2">
-              <%= comment.body.to_html %>
-            </div>
-          </li>
-        <% end %>
-      </ul>
+  <div class="row">
+    <div class="col">
+      <h4><%= t(".discussion") %></h4>
     </div>
+
+    <% if current_user %>
+      <div class="col-auto">
+        <% if @note.subscribers.exists?(current_user.id) %>
+          <%= tag.button t(".unsubscribe"),
+                         :type => "button",
+                         :class => "btn btn-sm btn-primary",
+                         :name => "unsubscribe",
+                         :data => { :method => "DELETE",
+                                    :url => api_note_subscription_path(@note) } %>
+        <% else %>
+          <%= tag.button t(".subscribe"),
+                         :type => "button",
+                         :class => "btn btn-sm btn-primary",
+                         :name => "subscribe",
+                         :data => { :method => "POST",
+                                    :url => api_note_subscription_path(@note) } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% @note_comments.each do |comment| %>
+    <article id="c<%= comment.id %>">
+      <small class='text-body-secondary'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
+      <div class="mx-2">
+        <%= comment.body.to_html %>
+      </div>
+    </article>
   <% end %>
 
   <% if @note.status == "open" %>

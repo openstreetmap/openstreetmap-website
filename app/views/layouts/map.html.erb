@@ -4,18 +4,6 @@
 
 <% content_for(:body_class) { "map-layout" } %>
 
-<% if current_user&.home_location? %>
-  <% content_for :greeting do %>
-    <%= link_to t("layouts.home"),
-                "#",
-                :id => "homeanchor",
-                :class => "set_position dropdown-item",
-                :data => { :lat => current_user.home_lat,
-                           :lon => current_user.home_lon,
-                           :zoom => 15 } %>
-  <% end %>
-<% end %>
-
 <% content_for :header do %>
   <%= render :partial => "layouts/search", :locals => { :autofocus => false } %>
 <% end %>
@@ -30,19 +18,22 @@
 
     <div id="browse_status"></div>
 
-    <div id="sidebar_loader" class="my-3 text-center loader">
+    <%= render :partial => "layouts/sidebar_close" %>
+
+    <div id="sidebar_loader" class="my-3 text-center loader" hidden>
       <div class="spinner-border" role="status">
         <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
       </div>
     </div>
 
-    <div id="sidebar_content" class="p-3">
+    <div id="sidebar_content" class="p-3 position-relative z-n1">
       <%= yield %>
     </div>
 
     <% unless current_user %>
-      <div class="welcome p-3" hidden>
-        <%= render "sidebar_header", :title => t("layouts.intro_header") %>
+      <div class="welcome position-relative p-3" hidden>
+        <button type="button" class="btn-close position-absolute end-0 top-0 m-2 rounded-5 p-2" aria-label="<%= t("javascripts.close") %>"></button>
+        <h2 class="me-4 text-break"><%= t "layouts.intro_header" %></h2>
         <p class="fs-6 fw-light"><%= t "layouts.intro_text" %></p>
         <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html",
                                        :devseed => link_to(t("layouts.partners_devseed"), "https://developmentseed.org/"),
@@ -52,13 +43,16 @@
         </p>
         <div class="d-flex gap-2">
           <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
-          <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
+          <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= new_user_path %>"><%= t("layouts.start_mapping") %></a>
         </div>
       </div>
     <% end %>
 
     <%= render :partial => "layouts/banner" %>
   </div>
+
+  <svg class="d-none"><defs><%= render :partial => "layouts/control_icons",
+                                       :locals => { :icons => %w[zoomin zoomout geolocate layers key share note query] } %></defs></svg>
 
   <noscript>
     <div class="mt-5 p-3">
@@ -68,6 +62,7 @@
   </noscript>
 
   <div id="map-ui" class="bg-body z-2">
+    <%= render :partial => "layouts/sidebar_close" %>
   </div>
 
   <div id="map" tabindex="2" class="bg-body-secondary z-0">
