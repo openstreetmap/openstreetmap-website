@@ -17,10 +17,18 @@ module NumberedPaginationHelper
       middle_list_version_window = Range.new([active_version - window_half_size, start_list_versions.last].max,
                                              [active_version + window_half_size, end_list_versions.first].min).to_a
       middle_list_versions_with_sentinels = (middle_list_version_sentinels | middle_list_version_steps | middle_list_version_window).sort
-      middle_list_versions_with_gaps = middle_list_versions_with_sentinels.each_cons(2).flat_map do |previous_version, v|
-        v == previous_version + 1 ? [v] : [:gap, v]
-      end[...-1]
-      middle_list_versions = middle_list_versions_with_gaps
+      middle_list_versions_with_sentinels_and_gaps = [middle_list_versions_with_sentinels.first] +
+                                                     middle_list_versions_with_sentinels.each_cons(2).flat_map do |previous_version, v|
+                                                       v == previous_version + 1 ? [v] : [:gap, v]
+                                                     end
+      middle_list_versions_with_small_gaps_filled = middle_list_versions_with_sentinels_and_gaps.each_cons(3).map do |previous_version, v, next_version|
+        if v == :gap && previous_version != :gap && next_version != :gap && next_version - previous_version == 2
+          previous_version + 1
+        else
+          v
+        end
+      end
+      middle_list_versions = middle_list_versions_with_small_gaps_filled
 
       lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
