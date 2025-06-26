@@ -18,7 +18,6 @@
 //= require leaflet.locationfilter
 //= require i18n
 //= require make-plural/cardinals
-//= require oauth
 //= require matomo
 //= require richtext
 //= require language_selector

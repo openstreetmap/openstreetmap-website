@@ -294,7 +294,7 @@ $(function () {
     page.load = function () {
       // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
       // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
-      function originalLoadFunction () {
+      function originalLoadFunction() {
         const params = new URLSearchParams(location.search);
         if (params.has("query")) {
           $("#sidebar .search_form input[name=query]").value(params.get("query"));
@@ -305,176 +305,176 @@ $(function () {
       // "if map.timeslider" only try to add the timeslider if we don't already have it
       if (map.timeslider) {
         originalLoadFunction();
+      } else {
+        var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+        addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+      }
+    };
+
+    return page;
+  };
+
+  OSM.Browse = function (map, type) {
+    const page = {};
+
+    page.pushstate = page.popstate = function (path, id, version) {
+      OSM.loadSidebarContent(path, function () {
+        addObject(type, id, version);
+      });
+    };
+
+    // page.load was originally simply the addObject() call
+    // but with MBGLTimeSlider we need to wait for it to become ready
+    page.load = function (path, id, version) {
+      // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+      // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+      function originalLoadFunction () {
+        addObject(type, id, version, true);
+      } // end originalLoadFunction
+
+      // "if map.timeslider" only try to add the timeslider if we don't already have it
+      if (map.timeslider) {
+        originalLoadFunction();
       }
       else {
         var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
         addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
       }
-
-      return page;
     };
 
-    OSM.Browse = function (map, type) {
-      const page = {};
+    function addObject(type, id, version, center) {
+      // cache these now, before the URL param updating starts and messes it up
+      // is this still true? 24 June 2025
+      const hasurlparam_center = window.location.hash.indexOf('map=') !== -1;
+      const hasurlparam_daterange = window.location.hash.indexOf('daterange=') !== -1;
 
-      page.pushstate = page.popstate = function (path, id, version) {
-        OSM.loadSidebarContent(path, function () {
-          addObject(type, id, version);
-        });
-      };
-
-      // page.load was originally simply the addObject() call
-      // but with MBGLTimeSlider we need to wait for it to become ready
-      page.load = function (path, id, version) {
-        // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
-        // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
-        function originalLoadFunction () {
-          addObject(type, id, version, true);
-        } // end originalLoadFunction
-
-        // "if map.timeslider" only try to add the timeslider if we don't already have it
-        if (map.timeslider) {
-          originalLoadFunction();
+      const hashParams = OSM.parseHash();
+      map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
+        if (!hashParams.center && bounds.isValid() &&
+          (center || !map.getBounds().contains(bounds))) {
+          OSM.router.withoutMoveListener(function () {
+            map.fitBounds(bounds);
+          });
         }
-        else {
-          var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
-          addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+
+        var drawing = map._objectLayer.getLayers()[0];
+        if (drawing && map.timeslider && ! hasurlparam_daterange) {
+          var startdate = drawing.feature.tags.start_date && ! isNaN(parseInt(drawing.feature.tags.start_date)) ? drawing.feature.tags.start_date : undefined;
+          var enddate = drawing.feature.tags.end_date && ! isNaN(parseInt(drawing.feature.tags.end_date)) ? drawing.feature.tags.end_date : undefined;
+
+          if (startdate && enddate) {
+            map.timeslider.setDate(startdate).setRange([startdate, enddate]);
+          }
+          else if (startdate) {
+            map.timeslider.setDate(startdate).setRangeLower(startdate);
+          }
+          else if (enddate) {
+            map.timeslider.setDate(enddate).setRangeUpper(enddate);
+          }
         }
-      };
-
-      function addObject(type, id, version, center) {
-        // cache these now, before the URL param updating starts and messes it up
-        // is this still true? 24 June 2025
-        const hasurlparam_center = window.location.hash.indexOf('map=') !== -1;
-        const hasurlparam_daterange = window.location.hash.indexOf('daterange=') !== -1;
-
-        const hashParams = OSM.parseHash();
-        map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
-          if (!hashParams.center && bounds.isValid() &&
-            (center || !map.getBounds().contains(bounds))) {
-            OSM.router.withoutMoveListener(function () {
-              map.fitBounds(bounds);
-            });
-          }
-
-          var drawing = map._objectLayer.getLayers()[0];
-          if (drawing && map.timeslider && ! hasurlparam_daterange) {
-            var startdate = drawing.feature.tags.start_date && ! isNaN(parseInt(drawing.feature.tags.start_date)) ? drawing.feature.tags.start_date : undefined;
-            var enddate = drawing.feature.tags.end_date && ! isNaN(parseInt(drawing.feature.tags.end_date)) ? drawing.feature.tags.end_date : undefined;
-
-            if (startdate && enddate) {
-              map.timeslider.setDate(startdate).setRange([startdate, enddate]);
-            }
-            else if (startdate) {
-              map.timeslider.setDate(startdate).setRangeLower(startdate);
-            }
-            else if (enddate) {
-              map.timeslider.setDate(enddate).setRangeUpper(enddate);
-            }
-          }
-        });
-
-        setTimeout(() => {
-          addOpenHistoricalMapInspector()
-        }, 250);
-
-        $(".colour-preview-box").each(function () {
-          $(this).css("background-color", $(this).data("colour"));
-        });
-      }
-
-      page.unload = function () {
-        map.removeObject();
-      };
-
-      return page;
-    };
-
-    OSM.OldBrowse = function () {
-      const page = {};
-
-      page.pushstate = page.popstate = function (path) {
-        OSM.loadSidebarContent(path);
-      };
-
-      return page;
-    };
-
-    // add the enhanced inspector
-    function addOpenHistoricalMapInspector () {
-      var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
-        debug: true,
-        onFeatureFail: function (type, id) {
-          console.log([ 'failed to load feature', type, id ]);
-        },
-        onFeatureLoaded: function (type, id, xmldoc) {
-          console.log([ 'loaded feature', type, id, xmldoc ]);
-        },
-        apiBaseUrl: "/api",  // no trailing /
       });
-      inspector.selectFeatureFromUrl();
+
+      setTimeout(() => {
+        addOpenHistoricalMapInspector()
+      }, 250);
+
+      $(".colour-preview-box").each(function () {
+        $(this).css("background-color", $(this).data("colour"));
+      });
     }
 
-    const history = OSM.History(map);
+    page.unload = function () {
+      map.removeObject();
+    };
 
-    OSM.router = OSM.Router(map, {
-      "/": OSM.Index(map),
-      "/search": OSM.Search(map),
-      "/directions": OSM.Directions(map),
-      "/export": OSM.Export(map),
-      "/note/new": OSM.NewNote(map),
-      "/history/friends": history,
-      "/history/nearby": history,
-      "/history": history,
-      "/user/:display_name/history": history,
-      "/note/:id": OSM.Note(map),
-      "/node/:id(/history)": OSM.Browse(map, "node"),
-      "/node/:id/history/:version": OSM.Browse(map, "node"),
-      "/way/:id(/history)": OSM.Browse(map, "way"),
-      "/way/:id/history/:version": OSM.OldBrowse(),
-      "/relation/:id(/history)": OSM.Browse(map, "relation"),
-      "/relation/:id/history/:version": OSM.OldBrowse(),
-      "/changeset/:id": OSM.Changeset(map),
-      "/query": OSM.Query(map),
-      "/account/home": OSM.Home(map)
+    return page;
+  };
+
+  OSM.OldBrowse = function () {
+    const page = {};
+
+    page.pushstate = page.popstate = function (path) {
+      OSM.loadSidebarContent(path);
+    };
+
+    return page;
+  };
+
+  // add the enhanced inspector
+  function addOpenHistoricalMapInspector () {
+    var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
+      debug: true,
+      onFeatureFail: function (type, id) {
+        console.log([ 'failed to load feature', type, id ]);
+      },
+      onFeatureLoaded: function (type, id, xmldoc) {
+        console.log([ 'loaded feature', type, id, xmldoc ]);
+      },
+      apiBaseUrl: "/api",  // no trailing /
     });
+    inspector.selectFeatureFromUrl();
+  }
 
-    if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {
-      remoteEditHandler(map.getBounds(), params.object);
-      OSM.router.setCurrentPath("/");
-    }
+  const history = OSM.History(map);
 
-    OSM.router.load();
-
-    $(document).on("click", "a", function (e) {
-      if (e.isDefaultPrevented() || e.isPropagationStopped() || $(e.target).data("turbo")) {
-        return;
-      }
-
-      // Open links in a new tab as normal.
-      if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
-        return;
-      }
-
-      // Open local anchor links as normal.
-      if ($(this).attr("href")?.startsWith("#")) {
-        return;
-      }
-
-      // Ignore cross-protocol and cross-origin links.
-      if (location.protocol !== this.protocol || location.host !== this.host) {
-        return;
-      }
-
-      if (OSM.router.route(this.pathname + this.search + this.hash)) {
-        e.preventDefault();
-        if (this.pathname !== "/directions") {
-          $("header").addClass("closed");
-        }
-      }
-    });
-
-    $(document).on("click", "#sidebar .sidebar-close-controls button", function () {
-      OSM.router.route("/" + OSM.formatHash(map));
-    });
+  OSM.router = OSM.Router(map, {
+    "/": OSM.Index(map),
+    "/search": OSM.Search(map),
+    "/directions": OSM.Directions(map),
+    "/export": OSM.Export(map),
+    "/note/new": OSM.NewNote(map),
+    "/history/friends": history,
+    "/history/nearby": history,
+    "/history": history,
+    "/user/:display_name/history": history,
+    "/note/:id": OSM.Note(map),
+    "/node/:id(/history)": OSM.Browse(map, "node"),
+    "/node/:id/history/:version": OSM.Browse(map, "node"),
+    "/way/:id(/history)": OSM.Browse(map, "way"),
+    "/way/:id/history/:version": OSM.OldBrowse(),
+    "/relation/:id(/history)": OSM.Browse(map, "relation"),
+    "/relation/:id/history/:version": OSM.OldBrowse(),
+    "/changeset/:id": OSM.Changeset(map),
+    "/query": OSM.Query(map),
+    "/account/home": OSM.Home(map)
   });
+
+  if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {
+    remoteEditHandler(map.getBounds(), params.object);
+    OSM.router.setCurrentPath("/");
+  }
+
+  OSM.router.load();
+
+  $(document).on("click", "a", function (e) {
+    if (e.isDefaultPrevented() || e.isPropagationStopped() || $(e.target).data("turbo")) {
+      return;
+    }
+
+    // Open links in a new tab as normal.
+    if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
+
+    // Open local anchor links as normal.
+    if ($(this).attr("href")?.startsWith("#")) {
+      return;
+    }
+
+    // Ignore cross-protocol and cross-origin links.
+    if (location.protocol !== this.protocol || location.host !== this.host) {
+      return;
+    }
+
+    if (OSM.router.route(this.pathname + this.search + this.hash)) {
+      e.preventDefault();
+      if (this.pathname !== "/directions") {
+        $("header").addClass("closed");
+      }
+    }
+  });
+
+  $(document).on("click", "#sidebar .sidebar-close-controls button", function () {
+    OSM.router.route("/" + OSM.formatHash(map));
+  });
+});
