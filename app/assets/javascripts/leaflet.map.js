@@ -3,7 +3,7 @@
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
-      (this._northEast.lng - this._southWest.lng);
+           (this._northEast.lng - this._southWest.lng);
   },
 
   wrap: function () {
@@ -15,60 +15,61 @@ L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    var copyright_link = $("<a>", {
-      href: "/copyright",
-      text: I18n.t("javascripts.map.openstreetmap_contributors")
-    }).prop("outerHTML");
-    var copyright = I18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
-
-    var donate = $("<a>", {
-      "href": "https://openstreetmap.app.neoncrm.com/forms/ohm",
-      "class": "donate-attr",
-      "text": I18n.t("javascripts.map.make_a_donation")
-    }).prop("outerHTML");
-
-    var terms = $("<a>", {
-      href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
-      text: I18n.t("javascripts.map.website_and_api_terms")
-    }).prop("outerHTML");
+    // var copyright_link = $("<a>", {
+    //   href: "/copyright",
+    //   text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
+    // }).prop("outerHTML");
+    // const copyright = OSM.i18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
+    //
+    // var donate = $("<a>", {
+    //   "href": "https://openstreetmap.app.neoncrm.com/forms/ohm",
+    //   "class": "donate-attr",
+    //   "text":OSM.i18n.t("javascripts.map.make_a_donation")
+    // }).prop("outerHTML");
+    //
+    // var terms = $("<a>", {
+    //   href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+    //   text:OSM.i18n.t("javascripts.map.website_and_api_terms")
+    // }).prop("outerHTML");
 
     var cyclosm_link = $("<a>", {
       href: "https://www.cyclosm.org",
       target: "_blank",
-      text: I18n.t("javascripts.map.cyclosm_name")
+      text: OSM.i18n.t("javascripts.map.cyclosm_name")
     }).prop("outerHTML");
     var osm_france_link = $("<a>", {
       href: "https://openstreetmap.fr/",
       target: "_blank",
-      text: I18n.t("javascripts.map.osm_france")
+      text: OSM.i18n.t("javascripts.map.osm_france")
     }).prop("outerHTML");
-    var cyclosm = I18n.t("javascripts.map.cyclosm_credit", { cyclosm_link: cyclosm_link, osm_france_link: osm_france_link });
+    var cyclosm = OSM.i18n.t("javascripts.map.cyclosm_credit", { cyclosm_link: cyclosm_link, osm_france_link: osm_france_link });
 
     var thunderforest_link = $("<a>", {
       href: "https://www.thunderforest.com/",
       target: "_blank",
-      text: I18n.t("javascripts.map.andy_allan")
+      text:OSM.i18n.t("javascripts.map.andy_allan")
     }).prop("outerHTML");
-    var thunderforest = I18n.t("javascripts.map.thunderforest_credit", { thunderforest_link: thunderforest_link });
+    var thunderforest = OSM.i18n.t("javascripts.map.thunderforest_credit", { thunderforest_link: thunderforest_link });
 
     var memomaps_link = $("<a>", {
       href: "https://memomaps.de/",
       target: "_blank",
-      text: I18n.t("javascripts.map.memomaps")
+      text:OSM.i18n.t("javascripts.map.memomaps")
     }).prop("outerHTML");
-    var memomaps = I18n.t("javascripts.map.opnvkarte_credit", { memomaps_link: memomaps_link });
+    var memomaps = OSM.i18n.t("javascripts.map.opnvkarte_credit", { memomaps_link: memomaps_link });
 
     var hotosm_link = $("<a>", {
       href: "https://www.hotosm.org/",
       target: "_blank",
-      text: I18n.t("javascripts.map.hotosm_name")
+      text:OSM.i18n.t("javascripts.map.hotosm_name")
     }).prop("outerHTML");
-    var hotosm = I18n.t("javascripts.map.hotosm_credit", { hotosm_link: hotosm_link, osm_france_link: osm_france_link });
+    var hotosm = OSM.i18n.t("javascripts.map.hotosm_credit", { hotosm_link: hotosm_link, osm_france_link: osm_france_link });
 
     this.baseLayers = [];
 
+    const credit = { 'id': 'ohm_credit', 'children': { 'ohm_link': { 'id': 'OHM', 'href': 'https://example.com/' }} }
     this.ohmMaplibreOptions = {
-      attribution: `<a href="https://wiki.openstreetmap.org/wiki/OHM">OHM</a> &hearts; ${donate}`,
+      attribution: makeAttribution(credit), // `<a href="https://wiki.openstreetmap.org/wiki/OHM">OHM</a> &hearts; ${donate}`,
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
@@ -105,7 +106,7 @@ L.OSM.Map = L.Map.extend({
       Object.assign(this.ohmMaplibreOptions, {
         code: "O",
         keyid: "historical",
-        name: OSM.I18n.t("javascripts.map.base.historical"),
+        name: OSM.i18n.t("javascripts.map.base.historical"),
         style: language.setLanguage(ohmVectorStyles.Historical, selectedLanguage)
       })
     ));
@@ -114,7 +115,7 @@ L.OSM.Map = L.Map.extend({
       Object.assign(this.ohmMaplibreOptions, {
         code: "R",
         keyid: "railway",
-        name: OSM.I18n.t("javascripts.map.base.railway"),
+        name: OSM.i18n.t("javascripts.map.base.railway"),
         style: language.setLanguage(ohmVectorStyles.Railway, selectedLanguage),
       })
     ));
@@ -123,7 +124,7 @@ L.OSM.Map = L.Map.extend({
       Object.assign(this.ohmMaplibreOptions, {
         code: "W",
         keyid: "woodblock",
-        name: OSM.I18n.t("javascripts.map.base.woodblock"),
+        name: OSM.i18n.t("javascripts.map.base.woodblock"),
         style: language.setLanguage(ohmVectorStyles.Woodblock, selectedLanguage),
       })
     ));
@@ -132,7 +133,7 @@ L.OSM.Map = L.Map.extend({
       Object.assign(this.ohmMaplibreOptions, {
         code: "J",
         keyid: "japanese",
-        name: OSM.I18n.t("javascripts.map.base.japanesescroll"),
+        name: OSM.i18n.t("javascripts.map.base.japanesescroll"),
         style: language.setLanguage(ohmVectorStyles.JapaneseScroll, selectedLanguage),
       })
     ));
@@ -141,14 +142,14 @@ L.OSM.Map = L.Map.extend({
       attribution: copyright + " &hearts; " + donate + ". " + terms,
       code: "M",
       keyid: "mapnik",
-      name: OSM.I18n.t("javascripts.map.base.standard")
+      name: OSM.i18n.t("javascripts.map.base.standard")
     }));
 
     this.baseLayers.push(new L.OSM.CyclOSM({
       attribution: copyright + ". " + cyclosm + ". " + terms,
       code: "Y",
       keyid: "cyclosm",
-      name: OSM.I18n.t("javascripts.map.base.cyclosm")
+      name: OSM.i18n.t("javascripts.map.base.cyclosm")
     }));
 
     if (OSM.THUNDERFOREST_KEY) {
@@ -157,7 +158,7 @@ L.OSM.Map = L.Map.extend({
         apikey: OSM.THUNDERFOREST_KEY,
         code: "C",
         keyid: "cyclemap",
-        name: OSM.I18n.t("javascripts.map.base.cycle_map")
+        name: OSM.i18n.t("javascripts.map.base.cycle_map")
       }));
 
       this.baseLayers.push(new L.OSM.TransportMap({
@@ -165,7 +166,7 @@ L.OSM.Map = L.Map.extend({
         apikey: OSM.THUNDERFOREST_KEY,
         code: "T",
         keyid: "transportmap",
-        name: OSM.I18n.t("javascripts.map.base.transport_map")
+        name: OSM.i18n.t("javascripts.map.base.transport_map")
       }));
     }
 
@@ -173,7 +174,7 @@ L.OSM.Map = L.Map.extend({
       attribution: copyright + ". " + hotosm + ". " + terms,
       code: "H",
       keyid: "hot",
-      name: OSM.I18n.t("javascripts.map.base.hot")
+      name: OSM.i18n.t("javascripts.map.base.hot")
     }));
 
     this.noteLayer = new L.FeatureGroup();
@@ -185,7 +186,7 @@ L.OSM.Map = L.Map.extend({
     this.gpsLayer = new L.OSM.GPS({
       pane: "overlayPane",
       code: "G",
-      name: OSM.I18n.t("javascripts.map.base.gps")
+      name: OSM.i18n.t("javascripts.map.base.gps")
     });
     this.gpsLayer.on("add", () => {
       this.fire("overlayadd", { layer: this.gpsLayer });
@@ -290,7 +291,7 @@ L.OSM.Map = L.Map.extend({
 
     let url = location.protocol + "//" + OSM.SERVER_URL + "/";
     const query = new URLSearchParams(params),
-      hash = OSM.formatHash(this);
+          hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
     if (hash) url += hash;
@@ -300,15 +301,15 @@ L.OSM.Map = L.Map.extend({
 
   getShortUrl: function (marker) {
     const zoom = this.getZoom(),
-      latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
-      char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
-      x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
-      y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
-      // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
-      // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
-      // and drops the last 4 bits of the full 64 bit Morton code.
-      c1 = interlace(x >>> 17, y >>> 17),
-      c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
+          latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
+          char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
+          x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
+          y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
+          // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
+          // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
+          // and drops the last 4 bits of the full 64 bit Morton code.
+          c1 = interlace(x >>> 17, y >>> 17),
+          c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
     let str = location.protocol + "//" + location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/";
 
     for (let i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
@@ -324,7 +325,7 @@ L.OSM.Map = L.Map.extend({
     // Called to interlace the bits in x and y, making a Morton code.
     function interlace(x, y) {
       let interlaced_x = x,
-        interlaced_y = y;
+          interlaced_y = y;
       interlaced_x = (interlaced_x | (interlaced_x << 8)) & 0x00ff00ff;
       interlaced_x = (interlaced_x | (interlaced_x << 4)) & 0x0f0f0f0f;
       interlaced_x = (interlaced_x | (interlaced_x << 2)) & 0x33333333;
@@ -448,7 +449,7 @@ L.OSM.Map = L.Map.extend({
 
           map._objectLayer.interestingNode = function (node, wayNodes, relationNodes) {
             return object.type === "node" ||
-              (object.type === "relation" && Boolean(relationNodes[node.id]));
+                   (object.type === "relation" && Boolean(relationNodes[node.id]));
           };
 
           map._objectLayer.addData(data);
