@@ -6,8 +6,8 @@ module PaginationMethods
   ##
   # limit selected items to one page, get ids of first item before/after the page
   def get_page_items(items, includes: [], limit: 20, cursor_column: :id)
-    param! :before, Integer, :min => 1
-    param! :after, Integer, :min => 1
+    param! :before, Integer, :min => 0
+    param! :after, Integer, :min => 0
 
     qualified_cursor_column = "#{items.table_name}.#{cursor_column}"
     page_items = if params[:before]
