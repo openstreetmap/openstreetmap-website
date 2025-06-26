@@ -70,7 +70,6 @@ module Api
       relation2 = create(:relation, :deleted)
       relation3 = create(:relation, :with_history, :version => 2)
       relation4 = create(:relation, :with_history, :version => 2)
-      relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
       get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
 
@@ -89,7 +88,6 @@ module Api
       relation2 = create(:relation, :deleted)
       relation3 = create(:relation, :with_history, :version => 2)
       relation4 = create(:relation, :with_history, :version => 2)
-      relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
       get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
 
@@ -204,6 +202,45 @@ module Api
         assert_dom "relation", :count => 2
         assert_dom "relation[id='#{relation.id}'][version='1']", :count => 1
         assert_dom "relation[id='#{relation.id}'][version='2']", :count => 1
+      end
+    end
+
+    def test_index_redacted_version
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_relations_path(:relations => "#{relation.id}v1")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_and_visible_version
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_relations_path(:relations => "#{relation.id}v1,#{relation.id}v2")
+
+      assert_response :not_found
+    end
+
+    def test_index_visible_version_of_element_with_redacted_version
+      relation = create(:relation, :with_history, :version => 2)
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 2), :k => "name", :v => "public")
+      create(:relation_tag, :relation => relation, :k => "name", :v => "public")
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_relations_path(:relations => "#{relation.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "relation", :count => 1
+        assert_dom "relation[id='#{relation.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
       end
     end
 

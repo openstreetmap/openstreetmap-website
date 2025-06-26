@@ -17,7 +17,7 @@ module Api
 
       result = current_model.find(ids)
       unless id_vers.empty?
-        result += old_model.find(id_vers)
+        result += old_model.unredacted.find(id_vers)
         result.uniq! do |element|
           if element.id.is_a?(Array)
             element.id

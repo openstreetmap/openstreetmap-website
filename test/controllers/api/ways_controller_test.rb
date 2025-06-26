@@ -206,6 +206,45 @@ module Api
       end
     end
 
+    def test_index_redacted_version
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v1")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_and_visible_version
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v1,#{way.id}v2")
+
+      assert_response :not_found
+    end
+
+    def test_index_visible_version_of_element_with_redacted_version
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "public")
+      create(:way_tag, :way => way, :k => "name", :v => "public")
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 1
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
+    end
+
     # -------------------------------------
     # Test showing ways.
     # -------------------------------------

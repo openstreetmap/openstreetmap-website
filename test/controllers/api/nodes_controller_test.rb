@@ -202,6 +202,45 @@ module Api
       end
     end
 
+    def test_index_redacted_version
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v1")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_and_visible_version
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v1,#{node.id}v2")
+
+      assert_response :not_found
+    end
+
+    def test_index_visible_version_of_element_with_redacted_version
+      node = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 2), :k => "name", :v => "public")
+      create(:node_tag, :node => node, :k => "name", :v => "public")
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 1
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
+    end
+
     def test_create_when_unauthorized
       with_unchanging_request do |_headers, changeset|
         osm = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
