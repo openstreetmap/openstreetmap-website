@@ -43,8 +43,18 @@ module Api
       )
     end
 
-    ##
-    # test fetching multiple nodes
+    def test_index_no_param
+      get api_nodes_path
+
+      assert_response :bad_request
+    end
+
+    def test_index_empty_param
+      get api_nodes_path(:nodes => "")
+
+      assert_response :bad_request
+    end
+
     def test_index
       node1 = create(:node)
       node2 = create(:node, :deleted)
@@ -52,29 +62,29 @@ module Api
       node4 = create(:node, :with_history, :version => 2)
       node5 = create(:node, :deleted, :with_history, :version => 2)
 
-      # check error when no parameter provided
-      get api_nodes_path
-      assert_response :bad_request
-
-      # check error when no parameter value provided
-      get api_nodes_path(:nodes => "")
-      assert_response :bad_request
-
-      # test a working call
       get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}")
-      assert_response :success
-      assert_select "osm" do
-        assert_select "node", :count => 5
-        assert_select "node[id='#{node1.id}'][visible='true']", :count => 1
-        assert_select "node[id='#{node2.id}'][visible='false']", :count => 1
-        assert_select "node[id='#{node3.id}'][visible='true']", :count => 1
-        assert_select "node[id='#{node4.id}'][visible='true']", :count => 1
-        assert_select "node[id='#{node5.id}'][visible='false']", :count => 1
-      end
 
-      # test a working call with json format
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 5
+        assert_dom "node[id='#{node1.id}'][visible='true']", :count => 1
+        assert_dom "node[id='#{node2.id}'][visible='false']", :count => 1
+        assert_dom "node[id='#{node3.id}'][visible='true']", :count => 1
+        assert_dom "node[id='#{node4.id}'][visible='true']", :count => 1
+        assert_dom "node[id='#{node5.id}'][visible='false']", :count => 1
+      end
+    end
+
+    def test_index_json
+      node1 = create(:node)
+      node2 = create(:node, :deleted)
+      node3 = create(:node)
+      node4 = create(:node, :with_history, :version => 2)
+      node5 = create(:node, :deleted, :with_history, :version => 2)
+
       get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json")
 
+      assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 5, js["elements"].count
@@ -84,9 +94,19 @@ module Api
       assert_equal(1, js["elements"].count { |a| a["id"] == node3.id && a["visible"].nil? })
       assert_equal(1, js["elements"].count { |a| a["id"] == node4.id && a["visible"].nil? })
       assert_equal(1, js["elements"].count { |a| a["id"] == node5.id && a["visible"] == false })
+    end
 
-      # check error when a non-existent node is included
-      get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0")
+    def test_index_nonexisting_element
+      get api_nodes_path(:nodes => "0")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_element
+      node = create(:node)
+
+      get api_nodes_path(:nodes => "#{node.id},0")
+
       assert_response :not_found
     end
 

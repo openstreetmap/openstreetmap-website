@@ -51,36 +51,45 @@ module Api
       )
     end
 
-    ##
-    # test fetching multiple ways
+    def test_index_no_param
+      get api_ways_path
+
+      assert_response :bad_request
+    end
+
+    def test_index_empty_param
+      get api_ways_path(:ways => "")
+
+      assert_response :bad_request
+    end
+
     def test_index
       way1 = create(:way)
       way2 = create(:way, :deleted)
       way3 = create(:way)
       way4 = create(:way)
 
-      # check error when no parameter provided
-      get api_ways_path
-      assert_response :bad_request
-
-      # check error when no parameter value provided
-      get api_ways_path(:ways => "")
-      assert_response :bad_request
-
-      # test a working call
       get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
-      assert_response :success
-      assert_select "osm" do
-        assert_select "way", :count => 4
-        assert_select "way[id='#{way1.id}'][visible='true']", :count => 1
-        assert_select "way[id='#{way2.id}'][visible='false']", :count => 1
-        assert_select "way[id='#{way3.id}'][visible='true']", :count => 1
-        assert_select "way[id='#{way4.id}'][visible='true']", :count => 1
-      end
 
-      # test a working call with json format
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 4
+        assert_dom "way[id='#{way1.id}'][visible='true']", :count => 1
+        assert_dom "way[id='#{way2.id}'][visible='false']", :count => 1
+        assert_dom "way[id='#{way3.id}'][visible='true']", :count => 1
+        assert_dom "way[id='#{way4.id}'][visible='true']", :count => 1
+      end
+    end
+
+    def test_index_json
+      way1 = create(:way)
+      way2 = create(:way, :deleted)
+      way3 = create(:way)
+      way4 = create(:way)
+
       get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json")
 
+      assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 4, js["elements"].count
@@ -89,9 +98,19 @@ module Api
       assert_equal(1, js["elements"].count { |a| a["id"] == way2.id && a["visible"] == false })
       assert_equal(1, js["elements"].count { |a| a["id"] == way3.id && a["visible"].nil? })
       assert_equal(1, js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
+    end
 
-      # check error when a non-existent way is included
-      get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")
+    def test_index_nonexisting_element
+      get api_ways_path(:ways => "0")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_element
+      way = create(:way)
+
+      get api_ways_path(:ways => "#{way.id},0")
+
       assert_response :not_found
     end
 
