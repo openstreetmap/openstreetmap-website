@@ -245,6 +245,75 @@ module Api
       end
     end
 
+    def test_index_redacted_version_with_show_redactions_when_unauthorized
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v1", :show_redactions => "true")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_regular_user
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header
+
+      get api_ways_path(:ways => "#{way.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_moderator
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "public")
+      create(:way_tag, :way => way, :k => "name", :v => "public")
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_ways_path(:ways => "#{way.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 1
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+      end
+    end
+
+    def test_index_redacted_and_visible_version_with_show_redactions_for_moderator
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "public")
+      create(:way_tag, :way => way, :k => "name", :v => "public")
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_ways_path(:ways => "#{way.id}v1,#{way.id}v2", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 2
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
+    end
+
     # -------------------------------------
     # Test showing ways.
     # -------------------------------------

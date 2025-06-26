@@ -17,7 +17,8 @@ module Api
 
       result = current_model.find(ids)
       unless id_vers.empty?
-        result += old_model.unredacted.find(id_vers)
+        scoped_old_model = show_redactions? ? old_model : old_model.unredacted
+        result += scoped_old_model.find(id_vers)
         result.uniq! do |element|
           if element.id.is_a?(Array)
             element.id
@@ -33,6 +34,10 @@ module Api
         format.xml
         format.json
       end
+    end
+
+    def show_redactions?
+      current_user&.moderator? && params[:show_redactions] == "true"
     end
   end
 end

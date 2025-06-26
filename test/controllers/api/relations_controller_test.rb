@@ -244,6 +244,75 @@ module Api
       end
     end
 
+    def test_index_redacted_version_with_show_redactions_when_unauthorized
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_relations_path(:relations => "#{relation.id}v1", :show_redactions => "true")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_regular_user
+      relation = create(:relation, :with_history, :version => 2)
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header
+
+      get api_relations_path(:relations => "#{relation.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_moderator
+      relation = create(:relation, :with_history, :version => 2)
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 2), :k => "name", :v => "public")
+      create(:relation_tag, :relation => relation, :k => "name", :v => "public")
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_relations_path(:relations => "#{relation.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "relation", :count => 1
+        assert_dom "relation[id='#{relation.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+      end
+    end
+
+    def test_index_redacted_and_visible_version_with_show_redactions_for_moderator
+      relation = create(:relation, :with_history, :version => 2)
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 2), :k => "name", :v => "public")
+      create(:relation_tag, :relation => relation, :k => "name", :v => "public")
+      relation.old_relations.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_relations_path(:relations => "#{relation.id}v1,#{relation.id}v2", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "relation", :count => 2
+        assert_dom "relation[id='#{relation.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+        assert_dom "relation[id='#{relation.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
+    end
+
     # -------------------------------------
     # Test showing relations.
     # -------------------------------------
