@@ -3,6 +3,7 @@
 module Api
   class NodesController < ElementsController
     before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :setup_user_auth, :only => :index
     before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
