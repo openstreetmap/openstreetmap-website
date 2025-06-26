@@ -247,8 +247,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "en", entry.language_code
     assert_equal "suspended", User.find(user.id).status
 
-    # Follow the redirect
-    get diary_entries_path(:display_name => user.display_name)
+    follow_redirect!
     assert_redirected_to :controller => :users, :action => :suspended
   end
 
