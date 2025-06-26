@@ -20,9 +20,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_text(/Location: 60\.\d+, 30\.\d+/)
       assert_text(/Location: 59\.\d+, 29\.\d+/)
 
-      assert_link "View Details", :href => node_path(node)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Node", :href => node_path(node)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -42,9 +42,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_css "td", :text => "VALUE-TWO", :below => v2_heading, :above => v1_heading
       assert_css "td", :text => "VALUE-ONE", :below => v1_heading
 
-      assert_link "View Details", :href => way_path(way)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Way", :href => way_path(way)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -64,9 +64,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_css "td", :text => "VALUE-TWO", :below => v2_heading, :above => v1_heading
       assert_css "td", :text => "VALUE-ONE", :below => v1_heading
 
-      assert_link "View Details", :href => relation_path(relation)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Relation", :href => relation_path(relation)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -76,9 +76,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
     visit node_history_path(node)
 
     within_sidebar do
-      assert_link "View Details", :href => node_path(node)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Node", :href => node_path(node)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -88,9 +88,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
     visit way_history_path(way)
 
     within_sidebar do
-      assert_link "View Details", :href => way_path(way)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Way", :href => way_path(way)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -100,9 +100,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
     visit relation_history_path(relation)
 
     within_sidebar do
-      assert_link "View Details", :href => relation_path(relation)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Relation", :href => relation_path(relation)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -125,9 +125,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_no_text(/Location: 59\.\d+, 29\.\d+/)
       assert_text "Version 1 of this node cannot be shown"
 
-      assert_link "View Details", :href => node_path(node)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Node", :href => node_path(node)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -147,9 +147,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_no_css "td", :text => "VALUE-ONE"
       assert_text "Version 1 of this way cannot be shown"
 
-      assert_link "View Details", :href => way_path(way)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Way", :href => way_path(way)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -169,9 +169,9 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_no_css "td", :text => "VALUE-ONE"
       assert_text "Version 1 of this relation cannot be shown"
 
-      assert_link "View Details", :href => relation_path(relation)
-      assert_no_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Relation", :href => relation_path(relation)
+      assert_no_link "History", :exact => true
+      assert_no_link "Unredacted History"
     end
   end
 
@@ -194,11 +194,11 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_no_text(/Location: 59\.\d+, 29\.\d+/)
       assert_text "Version 1 of this node cannot be shown"
 
-      assert_link "View Details", :href => node_path(node)
-      assert_no_link "View History"
-      assert_link "View Unredacted History"
+      assert_link "Node", :href => node_path(node)
+      assert_no_link "History", :exact => true
+      assert_link "Unredacted History"
 
-      click_on "View Unredacted History"
+      click_on "Unredacted History"
 
       assert_css "td", :text => "VALUE-TWO"
       assert_css "td", :text => "VALUE-ONE"
@@ -206,11 +206,11 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_text(/Location: 59\.\d+, 29\.\d+/)
       assert_no_text "Version 1 of this node cannot be shown"
 
-      assert_link "View Details", :href => node_path(node)
-      assert_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Node", :href => node_path(node)
+      assert_link "History", :exact => true
+      assert_no_link "Unredacted History"
 
-      click_on "View History"
+      click_on "History", :exact => true
 
       assert_text "Version 1 of this node cannot be shown"
     end
@@ -232,21 +232,21 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_no_css "td", :text => "VALUE-ONE"
       assert_text "Version 1 of this way cannot be shown"
 
-      assert_link "View Details", :href => way_path(way)
-      assert_no_link "View History"
-      assert_link "View Unredacted History"
+      assert_link "Way", :href => way_path(way)
+      assert_no_link "History", :exact => true
+      assert_link "Unredacted History"
 
-      click_on "View Unredacted History"
+      click_on "Unredacted History"
 
       assert_css "td", :text => "VALUE-TWO"
       assert_css "td", :text => "VALUE-ONE"
       assert_no_text "Version 1 of this way cannot be shown"
 
-      assert_link "View Details", :href => way_path(way)
-      assert_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Way", :href => way_path(way)
+      assert_link "History", :exact => true
+      assert_no_link "Unredacted History"
 
-      click_on "View History"
+      click_on "History", :exact => true
 
       assert_text "Version 1 of this way cannot be shown"
     end
@@ -268,21 +268,21 @@ class ElementHistoryTest < ApplicationSystemTestCase
       assert_no_css "td", :text => "VALUE-ONE"
       assert_text "Version 1 of this relation cannot be shown"
 
-      assert_link "View Details", :href => relation_path(relation)
-      assert_no_link "View History"
-      assert_link "View Unredacted History"
+      assert_link "Relation", :href => relation_path(relation)
+      assert_no_link "History", :exact => true
+      assert_link "Unredacted History"
 
-      click_on "View Unredacted History"
+      click_on "Unredacted History"
 
       assert_css "td", :text => "VALUE-TWO"
       assert_css "td", :text => "VALUE-ONE"
       assert_no_text "Version 1 of this relation cannot be shown"
 
-      assert_link "View Details", :href => relation_path(relation)
-      assert_link "View History"
-      assert_no_link "View Unredacted History"
+      assert_link "Relation", :href => relation_path(relation)
+      assert_link "History", :exact => true
+      assert_no_link "Unredacted History"
 
-      click_on "View History"
+      click_on "History", :exact => true
 
       assert_text "Version 1 of this relation cannot be shown"
     end
@@ -316,7 +316,7 @@ class ElementHistoryTest < ApplicationSystemTestCase
 
   def check_element_history_pages(get_path)
     within_sidebar do
-      click_on "View History"
+      click_on "History", :exact => true
 
       41.downto(22) do |v|
         assert_link v.to_s, :href => get_path.call(v)

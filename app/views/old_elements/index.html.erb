@@ -28,15 +28,34 @@
   </ul>
 <% end %>
 
-<div class='secondary-actions'>
+<div class='secondary-actions mb-3'>
   <%= link_to t("browse.download_xml"), send(:"api_#{@type}_versions_path", @feature.id) %>
-  &middot;
-  <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
-  <% if params[:show_redactions] %>
-    &middot;
-    <%= link_to t("browse.view_history"), params.permit(:before, :after) %>
-  <% elsif current_user&.moderator? %>
-    &middot;
-    <%= link_to t("browse.view_unredacted_history"), params.permit(:before, :after).merge(:show_redactions => true) %>
-  <% end %>
 </div>
+
+<nav>
+  <ol class="breadcrumb mb-1">
+    <li class="breadcrumb-item">
+      <%= link_to t(@type, :scope => "browse.versions_navigation"), @current_feature %>
+    </li>
+    <li class="breadcrumb-item active">
+      <% if !params["show_redactions"] %>
+        <%= tag.span t("browse.versions_navigation.history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
+      <% else %>
+        <%= link_to t("browse.versions_navigation.history"), params.permit(:before, :after) %>
+      <% end %>
+      <% if current_user&.moderator? %>
+        &middot;
+        <% if params["show_redactions"] %>
+          <%= tag.span t("browse.versions_navigation.unredacted_history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
+        <% else %>
+          <%= link_to t("browse.versions_navigation.unredacted_history"), params.permit(:before, :after).merge(:show_redactions => true) %>
+        <% end %>
+      <% end %>
+    </li>
+  </ol>
+
+  <%= element_versions_pagination(@current_feature.version) do |v|
+        { :href => { :action => :show, :version => v },
+          :title => t("browse.versions_navigation.version", :version => v) }
+      end %>
+</nav>
