@@ -1,9 +1,28 @@
+//= require maplibre-gl
+//= require @maplibre/maplibre-gl-leaflet
+
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
            (this._northEast.lng - this._southWest.lng);
   }
 });
+
+if (OSM.SHORTBREAD_STYLE_URL) {
+  maplibregl.setRTLTextPlugin(OSM.RTL_TEXT_PLUGIN, true);
+  L.OSM.Shortbread = L.MaplibreGL.extend({
+    options: {
+      maxZoom: 20,
+      style: OSM.SHORTBREAD_STYLE_URL
+    },
+    onAdd: function (map) {
+      L.MaplibreGL.prototype.onAdd.call(this, map);
+    },
+    onRemove: function (map) {
+      L.MaplibreGL.prototype.onRemove.call(this, map);
+    }
+  });
+}
 
 L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {

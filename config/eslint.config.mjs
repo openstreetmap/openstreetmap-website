@@ -31,7 +31,8 @@ export default [
         OSM: "writable",
         Turbo: "readonly",
         plurals: "readonly",
-        updateLinks: "readonly"
+        updateLinks: "readonly",
+        maplibregl: "readonly"
       }
     },
     linterOptions: {
