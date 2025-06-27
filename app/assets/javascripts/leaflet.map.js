@@ -1,5 +1,3 @@
-//= require qs/dist/qs
-
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
@@ -15,61 +13,26 @@ L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    // var copyright_link = $("<a>", {
-    //   href: "/copyright",
-    //   text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
-    // }).prop("outerHTML");
-    // const copyright = OSM.i18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
-    //
-    // var donate = $("<a>", {
-    //   "href": "https://openstreetmap.app.neoncrm.com/forms/ohm",
-    //   "class": "donate-attr",
-    //   "text":OSM.i18n.t("javascripts.map.make_a_donation")
-    // }).prop("outerHTML");
-    //
-    // var terms = $("<a>", {
-    //   href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
-    //   text:OSM.i18n.t("javascripts.map.website_and_api_terms")
-    // }).prop("outerHTML");
+    this.baseLayers = OSM.LAYER_DEFINITIONS.map((
+      { credit, nameId, leafletOsmId, leafletOsmDarkId, ...layerOptions }
+    ) => {
+      if (credit) layerOptions.attribution = makeAttribution(credit);
+      if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
+      const layerConstructor =
+        (OSM.isDarkMap() && L.OSM[leafletOsmDarkId]) ||
+        L.OSM[leafletOsmId] ||
+        L.OSM.TileLayer;
 
-    var cyclosm_link = $("<a>", {
-      href: "https://www.cyclosm.org",
-      target: "_blank",
-      text: OSM.i18n.t("javascripts.map.cyclosm_name")
-    }).prop("outerHTML");
-    var osm_france_link = $("<a>", {
-      href: "https://openstreetmap.fr/",
-      target: "_blank",
-      text: OSM.i18n.t("javascripts.map.osm_france")
-    }).prop("outerHTML");
-    var cyclosm = OSM.i18n.t("javascripts.map.cyclosm_credit", { cyclosm_link: cyclosm_link, osm_france_link: osm_france_link });
+      const layer = new layerConstructor(layerOptions);
+      layer.on("add", () => {
+        this.fire("baselayerchange", { layer: layer });
+      });
+      return layer;
+    });
 
-    var thunderforest_link = $("<a>", {
-      href: "https://www.thunderforest.com/",
-      target: "_blank",
-      text:OSM.i18n.t("javascripts.map.andy_allan")
-    }).prop("outerHTML");
-    var thunderforest = OSM.i18n.t("javascripts.map.thunderforest_credit", { thunderforest_link: thunderforest_link });
-
-    var memomaps_link = $("<a>", {
-      href: "https://memomaps.de/",
-      target: "_blank",
-      text:OSM.i18n.t("javascripts.map.memomaps")
-    }).prop("outerHTML");
-    var memomaps = OSM.i18n.t("javascripts.map.opnvkarte_credit", { memomaps_link: memomaps_link });
-
-    var hotosm_link = $("<a>", {
-      href: "https://www.hotosm.org/",
-      target: "_blank",
-      text:OSM.i18n.t("javascripts.map.hotosm_name")
-    }).prop("outerHTML");
-    var hotosm = OSM.i18n.t("javascripts.map.hotosm_credit", { hotosm_link: hotosm_link, osm_france_link: osm_france_link });
-
-    this.baseLayers = [];
-
-    const credit = { 'id': 'ohm_credit', 'children': { 'ohm_link': { 'id': 'OHM', 'href': 'https://example.com/' }} }
+    const credit = { 'id': 'make_a_donation', 'href': 'https://openstreetmap.app.neoncrm.com/forms/ohm', 'donate': true }
     this.ohmMaplibreOptions = {
-      attribution: makeAttribution(credit), // `<a href="https://wiki.openstreetmap.org/wiki/OHM">OHM</a> &hearts; ${donate}`,
+      attribution: makeAttribution(credit, true),
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
@@ -102,34 +65,7 @@ L.OSM.Map = L.Map.extend({
     console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
     language.supportedLanguages.push(selectedLanguage);
 
-    this.baseLayers.push(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
-        code: "O",
-        keyid: "historical",
-        name: OSM.i18n.t("javascripts.map.base.historical"),
-        style: language.setLanguage(ohmVectorStyles.Historical, selectedLanguage)
-      })
-    ));
-
-    this.baseLayers.push(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
-        code: "R",
-        keyid: "railway",
-        name: OSM.i18n.t("javascripts.map.base.railway"),
-        style: language.setLanguage(ohmVectorStyles.Railway, selectedLanguage),
-      })
-    ));
-
-    this.baseLayers.push(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
-        code: "W",
-        keyid: "woodblock",
-        name: OSM.i18n.t("javascripts.map.base.woodblock"),
-        style: language.setLanguage(ohmVectorStyles.Woodblock, selectedLanguage),
-      })
-    ));
-
-    this.baseLayers.push(new L.MaplibreGL(
+    this.baseLayers.unshift(new L.MaplibreGL(
       Object.assign(this.ohmMaplibreOptions, {
         code: "J",
         keyid: "japanese",
@@ -138,44 +74,32 @@ L.OSM.Map = L.Map.extend({
       })
     ));
 
-    this.baseLayers.push(new L.OSM.Mapnik({
-      attribution: copyright + " &hearts; " + donate + ". " + terms,
-      code: "M",
-      keyid: "mapnik",
-      name: OSM.i18n.t("javascripts.map.base.standard")
-    }));
+    this.baseLayers.unshift(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "W",
+        keyid: "woodblock",
+        name: OSM.i18n.t("javascripts.map.base.woodblock"),
+        style: language.setLanguage(ohmVectorStyles.Woodblock, selectedLanguage),
+      })
+    ));
 
-    this.baseLayers.push(new L.OSM.CyclOSM({
-      attribution: copyright + ". " + cyclosm + ". " + terms,
-      code: "Y",
-      keyid: "cyclosm",
-      name: OSM.i18n.t("javascripts.map.base.cyclosm")
-    }));
+    this.baseLayers.unshift(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "R",
+        keyid: "railway",
+        name: OSM.i18n.t("javascripts.map.base.railway"),
+        style: language.setLanguage(ohmVectorStyles.Railway, selectedLanguage),
+      })
+    ));
 
-    if (OSM.THUNDERFOREST_KEY) {
-      this.baseLayers.push(new L.OSM.CycleMap({
-        attribution: copyright + ". " + thunderforest + ". " + terms,
-        apikey: OSM.THUNDERFOREST_KEY,
-        code: "C",
-        keyid: "cyclemap",
-        name: OSM.i18n.t("javascripts.map.base.cycle_map")
-      }));
-
-      this.baseLayers.push(new L.OSM.TransportMap({
-        attribution: copyright + ". " + thunderforest + ". " + terms,
-        apikey: OSM.THUNDERFOREST_KEY,
-        code: "T",
-        keyid: "transportmap",
-        name: OSM.i18n.t("javascripts.map.base.transport_map")
-      }));
-    }
-
-    this.baseLayers.push(new L.OSM.HOT({
-      attribution: copyright + ". " + hotosm + ". " + terms,
-      code: "H",
-      keyid: "hot",
-      name: OSM.i18n.t("javascripts.map.base.hot")
-    }));
+    this.baseLayers.unshift(new L.MaplibreGL(
+      Object.assign(this.ohmMaplibreOptions, {
+        code: "O",
+        keyid: "historical",
+        name: OSM.i18n.t("javascripts.map.base.historical"),
+        style: language.setLanguage(ohmVectorStyles.Historical, selectedLanguage)
+      })
+    ));
 
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = { code: "N" };
@@ -201,22 +125,31 @@ L.OSM.Map = L.Map.extend({
       }
     });
 
-    function makeAttribution(credit) {
+    function makeAttribution(credit, isOhm = false) {
       let attribution = "";
 
-      attribution += OSM.i18n.t("javascripts.map.copyright_text", {
-        copyright_link: $("<a>", {
-          href: "/copyright",
-          text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
-        }).prop("outerHTML")
-      });
+      if (isOhm) {
+        attribution += OSM.i18n.t("javascripts.map.cc0_text", {
+          copyright_link: $("<a>", {
+            href: "/copyright",
+            text: OSM.i18n.t("javascripts.map.openhistoricalmap_contributors")
+          }).prop("outerHTML")
+        })
+      } else {
+        attribution += OSM.i18n.t("javascripts.map.copyright_text", {
+          copyright_link: $("<a>", {
+            href: "/copyright",
+            text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
+          }).prop("outerHTML")
+        })
+      }
 
       attribution += credit.donate ? " &hearts; " : ". ";
       attribution += makeCredit(credit);
       attribution += ". ";
 
       attribution += $("<a>", {
-        href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+        href: isOhm ? "https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse" : "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
         text: OSM.i18n.t("javascripts.map.website_and_api_terms")
       }).prop("outerHTML");
 
@@ -277,6 +210,12 @@ L.OSM.Map = L.Map.extend({
       if (layer.options && layer.options.keyid) baseLayerId = layer.options.keyid;
     });
     return baseLayerId;
+  },
+
+  getMapBaseLayer: function () {
+    for (const layer of this.baseLayers) {
+      if (this.hasLayer(layer)) return layer;
+    }
   },
 
   getUrl: function (marker) {

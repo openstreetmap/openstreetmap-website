@@ -1,10 +1,10 @@
 L.OSM.share = function (options) {
   const control = L.OSM.sidebarPane(options, "share", "javascripts.share.title", "javascripts.share.title"),
-    marker = L.marker([0, 0], { draggable: true }),
-    locationFilter = new L.LocationFilter({
-      enableButton: false,
-      adjustButton: false
-    });
+        marker = L.marker([0, 0], { draggable: true }),
+        locationFilter = new L.LocationFilter({
+          enableButton: false,
+          adjustButton: false
+        });
 
   control.onAddPane = function (map, button, $ui) {
     // Link / Embed
@@ -258,7 +258,7 @@ L.OSM.share = function (options) {
 
     marker.on("dragend", movedMarker);
     map.on("move", movedMap);
-    map.on("moveend baselayerchange overlayadd overlayremove", update);
+    map.on("moveend layeradd layerremove baselayerchange overlayadd overlayremove", update);
 
     $ui
       .on("show", shown)
@@ -377,7 +377,7 @@ L.OSM.share = function (options) {
         OSM.EMBED_SERVER_URL + location.hash + '&bbox=' + params.bbox +
         "\" style=\"border: 1px solid black\"></iframe><br/>" +
         "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
-        escapeHTML(OSM.I18n.t("javascripts.share.view_larger_map")) + "</a></small>");
+        escapeHTML(OSM.i18n.t("javascripts.share.view_larger_map")) + "</a></small>");
 
       // Geo URI
 
@@ -413,14 +413,13 @@ L.OSM.share = function (options) {
 
       const canDownloadImage = Boolean(layer && layer.options.canDownloadImage);
 
-      const layer = map.getMapBaseLayerId();
       const layerKeys = new Map([
         ["mapnik", "standard"],
         ["cyclemap", "cycle_map"],
         ["transportmap", "transport_map"]
       ]);
 
-      $("#mapnik_image_layer").text(layerKeys.has(layer) ? I18n.t(`javascripts.map.base.${layerKeys.get(layer)}`) : "");
+      $("#mapnik_image_layer").text(layerKeys.has(layer) ?OSM.i18n.t(`javascripts.map.base.${layerKeys.get(layer)}`) : "");
       $("#map_format").val(layer);
 
       $("#map_zoom").val(map.getZoom());
