@@ -14,6 +14,7 @@ class ConfirmationsController < ApplicationController
   before_action :require_cookies, :only => [:confirm]
 
   def confirm
+    # The post happens in confirm.html.erb and user.js
     if request.post?
       user = User.find_by_token_for(:new_user, params[:confirm_string])
 
