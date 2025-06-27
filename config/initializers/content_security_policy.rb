@@ -31,7 +31,7 @@ Rails.application.configure do
     policy.plugin_types
     policy.script_src(*script_src)
     policy.style_src(:self)
-    policy.worker_src(:none)
+    policy.worker_src(:blob)
     policy.manifest_src(:self)
     policy.report_uri(Settings.csp_report_url) if Settings.key?(:csp_report_url)
   end
