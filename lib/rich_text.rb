@@ -2,7 +2,14 @@
 
 module RichText
   SPAMMY_PHRASES = [
-    "Business Description:", "Additional Keywords:"
+    "website:",
+    "mail:",
+    "phone:",
+    "address:",
+    "hours:",
+    "description:",
+    "name:",
+    "keywords:"
   ].freeze
 
   DESCRIPTION_MAX_LENGTH = 500
@@ -44,7 +51,7 @@ module RichText
       end
 
       spammy_phrases = SPAMMY_PHRASES.count do |phrase|
-        doc.content.include?(phrase)
+        doc.content.downcase.include?(phrase)
       end
 
       ([link_proportion - 0.2, 0.0].max * 200) +
