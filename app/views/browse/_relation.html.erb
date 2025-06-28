@@ -1,4 +1,5 @@
-<%= tag.div :class => ["browse-section", { "text-body-secondary" => relation.redacted? && params[:show_redactions] }] do %>
+<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3",
+                       { "text-body-secondary" => relation.redacted? && params[:show_redactions] }] do %>
   <% if relation.redacted? && !params[:show_redactions] %>
     <%= t "browse.redacted.message_html",
           :type => t("browse.redacted.type.relation"),
