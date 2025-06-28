@@ -1,13 +1,11 @@
-<% if way.redacted? && !params[:show_redactions] %>
-  <div class="browse-section">
+<%= tag.div :class => ["browse-section", { "text-body-secondary" => way.redacted? && params[:show_redactions] }] do %>
+  <% if way.redacted? && !params[:show_redactions] %>
     <%= t "browse.redacted.message_html",
           :type => t("browse.redacted.type.way"),
           :version => way.version,
           :redaction_link => link_to(t("browse.redacted.redaction",
                                        :id => way.redaction.id), way.redaction) %>
-  </div>
-<% else %>
-  <%= tag.div :class => ["browse-section", { "text-body-secondary" => way.redacted? }] do %>
+  <% else %>
     <%= render :partial => "browse/common_details", :object => way %>
 
     <% unless way.containing_relation_members.empty? %>
