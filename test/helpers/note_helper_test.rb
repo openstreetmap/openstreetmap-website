@@ -47,4 +47,52 @@ class NoteHelperTest < ActionView::TestCase
       assert_dom "> @href", "http://test.host/user/#{ERB::Util.u(user.display_name)}"
     end
   end
+
+  def test_note_list_row_class_created
+    user = create(:user)
+    note = create(:note)
+    create(:note_comment, :note => note, :author => user)
+
+    assert_equal "table-danger", note_list_row_class(note, user)
+  end
+
+  def test_note_list_row_class_created_and_resolved
+    user = create(:user)
+    note = create(:note)
+    create(:note_comment, :note => note, :author => user)
+    create(:note_comment, :note => note, :author => user, :event => "closed")
+
+    assert_equal "table-warning", note_list_row_class(note, user)
+  end
+
+  def test_note_list_row_class_resolved
+    user = create(:user)
+    other_user = create(:user)
+    note = create(:note)
+    create(:note_comment, :note => note, :author => other_user)
+    create(:note_comment, :note => note, :author => user, :event => "closed")
+
+    assert_equal "table-success", note_list_row_class(note, user)
+  end
+
+  def test_note_list_row_class_resolved_and_reopened_by_other_user
+    user = create(:user)
+    other_user = create(:user)
+    note = create(:note)
+    create(:note_comment, :note => note, :author => other_user)
+    create(:note_comment, :note => note, :author => user, :event => "closed")
+    create(:note_comment, :note => note, :author => other_user, :event => "reopened")
+
+    assert_nil note_list_row_class(note, user)
+  end
+
+  def test_note_list_row_class_commented
+    user = create(:user)
+    other_user = create(:user)
+    note = create(:note)
+    create(:note_comment, :note => note, :author => other_user)
+    create(:note_comment, :note => note, :author => user, :event => "commented")
+
+    assert_nil note_list_row_class(note, user)
+  end
 end
