@@ -11,18 +11,21 @@ class UserLocationChangeTest < ApplicationSystemTestCase
 
     visit user_path(user)
 
-    within_content_heading do
-      assert_no_selector ".bi.bi-geo-alt-fill"
+    within_content_body do
+      assert_no_text :all, "Home location"
     end
 
     visit profile_path
 
-    fill_in "Home Location Name", :with => "Test Location"
-    click_on "Update Profile"
+    within_content_body do
+      fill_in "Home Location Name", :with => "Test Place"
+      click_on "Update Profile"
+    end
 
-    assert_text "Profile updated"
-    within_content_heading do
-      assert_text "Test Location"
+    assert_text "Profile updated."
+
+    within_content_body do
+      assert_text :all, "Home location Test Place"
     end
   end
 end
