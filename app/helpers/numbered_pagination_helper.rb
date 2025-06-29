@@ -41,7 +41,7 @@ module NumberedPaginationHelper
       lists << tag.ul(:id => "versions-navigation-list-middle",
                       :class => [
                         "pagination pagination-sm",
-                        "overflow-x-scroll pb-3", # horizontal scrollbar with reserved space below
+                        "overflow-x-auto pb-3", # horizontal scrollbar with reserved space below
                         "pt-1 px-1 mx-n1", # space reserved for focus outlines
                         "position-relative" # required for centering when clicking "Version #n"
                       ]) do
