@@ -27,26 +27,6 @@
     </div>
   </fieldset>
 
-  <div class="mb-3 d-flex flex-column flex-sm-row column-gap-1">
-    <label class="form-label text-nowrap mb-0"><%= t ".contributor terms.heading" %></label>
-    <span class="form-text text-body-secondary">
-      <% if current_user.terms_agreed? %>
-        <%= t ".contributor terms.agreed" %>
-        (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
-        <br>
-        <% if current_user.consider_pd? %>
-          <%= t ".contributor terms.agreed_with_pd" %>
-        <% else %>
-          <%= t ".contributor terms.not_agreed_with_pd" %>
-          (<%= link_to t(".contributor terms.pd_link_text"), account_pd_declaration_path %>)
-        <% end %>
-      <% else %>
-        <%= t ".contributor terms.not yet agreed" %>
-        <%= link_to t(".contributor terms.review link text"), account_terms_path %>
-      <% end %>
-    </span>
-  </div>
-
   <div class="row justify-content-between g-1">
     <div class="col-auto">
       <%= f.primary t(".save changes button") %>
@@ -55,7 +35,48 @@
       <%= link_to t(".delete_account"), account_deletion_path, :class => "btn btn-outline-danger" %>
     </div>
   </div>
+
 <% end %>
+
+<hr>
+
+<div class="row">
+  <section class="col-md-6 mb-3">
+    <h2 class="fs-6 fw-normal"><%= t ".contributor_terms.heading" %></h2>
+    <div class="small text-body-secondary">
+      <% if current_user.terms_agreed? %>
+        <%= t ".contributor_terms.agreed", :date => l(@current_user.terms_agreed.to_date, :format => :long) %>
+      <% else %>
+        <%= t ".contributor_terms.not_agreed" %>
+      <% end %>
+      <br>
+      <% if current_user.consider_pd? %>
+        <%= t ".contributor_terms.agreed_with_pd" %>
+      <% else %>
+        <%= t ".contributor_terms.not_agreed_with_pd" %>
+      <% end %>
+      <br class="mb-1">
+      <%= link_to current_user.terms_agreed? ? t(".contributor_terms.review") : t(".contributor_terms.review_and_accept"), account_terms_path %>
+      <% unless current_user.consider_pd? %>
+        &middot;
+        <%= link_to t(".contributor_terms.consider_pd"), account_pd_declaration_path %>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="col-md-6 mb-3">
+    <h2 class="fs-6 fw-normal"><%= t ".terms_of_use.heading" %></h2>
+    <div class="small text-body-secondary">
+      <% if current_user.tou_agreed? %>
+        <%= t ".terms_of_use.agreed", :date => l(@current_user.tou_agreed.to_date, :format => :long) %>
+      <% else %>
+        <%= t ".terms_of_use.not_agreed" %>
+      <% end %>
+      <br class="mb-1">
+      <%= link_to current_user.tou_agreed? ? t(".terms_of_use.review") : t(".terms_of_use.review_and_accept"), account_terms_path %>
+    </div>
+  </section>
+</div>
 
 <% unless current_user.data_public? %>
   <%= render :partial => "go_public" %>
