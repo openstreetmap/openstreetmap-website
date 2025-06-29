@@ -46,10 +46,10 @@
       <%= link_to t(@type, :scope => "browse.versions_navigation"), @current_feature %>
     </li>
     <li class="breadcrumb-item active">
-      <% if !params["show_redactions"] %>
-        <%= tag.span t("browse.versions_navigation.history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
+      <% if params[:show_redactions] || params[:before] || params[:after] %>
+        <%= link_to t("browse.versions_navigation.history"), {}, :class => "py-1 px-2 rounded bg-body-secondary" %>
       <% else %>
-        <%= link_to t("browse.versions_navigation.history"), params.permit(:before, :after), :class => "py-1 px-2 rounded bg-body-secondary" %>
+        <%= tag.span t("browse.versions_navigation.history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
       <% end %>
     </li>
   </ol>
