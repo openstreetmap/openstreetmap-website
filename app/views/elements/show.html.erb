@@ -7,6 +7,10 @@
 <% if @feature.visible? %>
   <div class='secondary-actions mb-3'>
     <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
+    <% if current_user&.moderator? %>
+      &middot;
+      <%= link_to t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
+    <% end %>
   </div>
 <% end %>
 
@@ -17,10 +21,6 @@
     </li>
     <li class="breadcrumb-item">
       <%= link_to t("browse.versions_navigation.history"), :controller => "old_#{@type.pluralize}" %>
-      <% if current_user&.moderator? %>
-        &middot;
-        <%= link_to t("browse.versions_navigation.unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
-      <% end %>
     </li>
   </ol>
 

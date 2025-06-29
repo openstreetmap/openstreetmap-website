@@ -30,6 +30,14 @@
 
 <div class='secondary-actions mb-3'>
   <%= link_to t("browse.download_xml"), send(:"api_#{@type}_versions_path", @feature.id) %>
+  <% if current_user&.moderator? %>
+    &middot;
+    <% if params["show_redactions"] %>
+      <%= tag.span t("browse.view_unredacted_history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
+    <% else %>
+      <%= link_to t("browse.view_unredacted_history"), params.permit(:before, :after).merge(:show_redactions => true) %>
+    <% end %>
+  <% end %>
 </div>
 
 <nav>
@@ -41,15 +49,7 @@
       <% if !params["show_redactions"] %>
         <%= tag.span t("browse.versions_navigation.history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
       <% else %>
-        <%= link_to t("browse.versions_navigation.history"), params.permit(:before, :after) %>
-      <% end %>
-      <% if current_user&.moderator? %>
-        &middot;
-        <% if params["show_redactions"] %>
-          <%= tag.span t("browse.versions_navigation.unredacted_history"), :class => "py-1 px-2 rounded bg-body-secondary" %>
-        <% else %>
-          <%= link_to t("browse.versions_navigation.unredacted_history"), params.permit(:before, :after).merge(:show_redactions => true) %>
-        <% end %>
+        <%= link_to t("browse.versions_navigation.history"), params.permit(:before, :after), :class => "py-1 px-2 rounded bg-body-secondary" %>
       <% end %>
     </li>
   </ol>
