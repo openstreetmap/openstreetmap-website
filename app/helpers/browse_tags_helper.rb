@@ -17,10 +17,16 @@ module BrowseTagsHelper
     elsif wdt = wikidata_links(key, value)
       # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
       # which just returns one such hash.
+      svg = button_tag :type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.map { |w| w[:title] } } do
+        tag.svg :width => 27, :height => 16 do
+          concat tag.title t("browse.tag_details.wikidata_preview", :count => wdt.length)
+          concat tag.path :fill => "currentColor", :d => "M0 16h1V0h-1Zm2 0h3V0h-3Zm4 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Z"
+        end
+      end
       wdt = wdt.map do |w|
         link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
       end
-      safe_join(wdt, ";")
+      svg + safe_join(wdt, ";")
     elsif wmc = wikimedia_commons_link(key, value)
       link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
