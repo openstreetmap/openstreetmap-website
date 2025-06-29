@@ -10,13 +10,29 @@ L.extend(L.LatLngBounds.prototype, {
 
 if (OSM.SHORTBREAD_STYLE_URL) {
   maplibregl.setRTLTextPlugin(OSM.RTL_TEXT_PLUGIN, true);
+  const styleOrigin = (new URL(OSM.SHORTBREAD_STYLE_URL)).origin;
   L.OSM.Shortbread = L.MaplibreGL.extend({
-    options: {
-      maxZoom: 20,
-      style: OSM.SHORTBREAD_STYLE_URL
-    },
     onAdd: function (map) {
       L.MaplibreGL.prototype.onAdd.call(this, map);
+      this.getMaplibreMap().setStyle(OSM.SHORTBREAD_STYLE_URL, {
+        transformStyle: (previousStyle, nextStyle) => ({
+          ...nextStyle,
+          sprite: [...nextStyle.sprite.map(s => {
+            return {
+              ...s,
+              url: new URL(s.url, styleOrigin).href
+            };
+          })],
+          // URL will % encode the {} in nextStyle.glyphs, so assemble the URL manually
+          glyphs: styleOrigin + nextStyle.glyphs,
+          sources: {
+            "versatiles-shortbread": {
+              ...nextStyle.sources["versatiles-shortbread"],
+              tiles: [styleOrigin + nextStyle.sources["versatiles-shortbread"].tiles[0]]
+            }
+          }
+        })
+      });
     },
     onRemove: function (map) {
       L.MaplibreGL.prototype.onRemove.call(this, map);

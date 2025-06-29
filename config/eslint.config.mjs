@@ -30,9 +30,9 @@ export default [
         Matomo: "readonly",
         OSM: "writable",
         Turbo: "readonly",
+        maplibregl: "readonly",
         plurals: "readonly",
-        updateLinks: "readonly",
-        maplibregl: "readonly"
+        updateLinks: "readonly"
       }
     },
     linterOptions: {
