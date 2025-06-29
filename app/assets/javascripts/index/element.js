@@ -8,17 +8,116 @@
   OSM.Element = function (map, type) {
     const page = {};
     let scrollStartObserver, scrollEndObserver;
+    let abortController = null;
+
+    function markWikidataLinkAsExplainable(i, link) {
+      const qid = link.href.match(/Q\d+/)?.at();
+      if (!qid) {
+        $(link).addClass("unexplainable");
+        return;
+      }
+      $(link).addClass("explainable")
+        .one("click", function (e) {
+          e.preventDefault();
+          explainWikidataLink(link, qid);
+        });
+    }
+
+    function explainWikidataLink(link, qid) {
+      const langs = [...new Set([...OSM.preferred_languages.map(l => l.toLowerCase()), "en"])];
+      const wikis = [...new Set(langs.map(l => l.split("-")[0] + "wiki"))];
+      fetch(OSM.WIKIDATA_URL + "?" + new URLSearchParams({
+        action: "wbgetentities",
+        format: "json",
+        origin: "*",
+        ids: qid,
+        props: "labels|sitelinks|claims|descriptions",
+        languages: langs.join("|"),
+        sitefilter: wikis.join("|")
+      }), { signal: abortController.signal })
+        .then(response => response.ok ? response.json() : Promise.reject(response))
+        .then(({ entities }) => {
+          if (!entities || !entities[qid]) return Promise.reject(entities);
+          const entity = entities[qid];
+          const localizedProperty = (property, langs) => langs.reduce((out, lang) => out ?? entity[property][lang], null);
+          const data = {
+            link,
+            qid,
+            label: localizedProperty("labels", langs)?.value,
+            icon: ["P8972", "P154", "P14"].reduce((out, prop) => out ?? entity.claims[prop]?.[0]?.mainsnak?.datavalue?.value, null),
+            description: localizedProperty("descriptions", langs)?.value,
+            article: localizedProperty("sitelinks", wikis)
+          };
+          if (!data.label && !data.icon && !data.description && !data.article) return Promise.reject(data);
+          renderWikidataResponse(data);
+        })
+        .catch(() => $(link).removeClass("explainable").addClass("unexplainable"));
+    }
+
+    function renderWikidataResponse(data) {
+      const labelLink = $(data.link).removeClass("explainable unexplainable").addClass("explained");
+      const cell = $("<td>")
+        .attr("colspan", 2)
+        .addClass("bg-body-tertiary");
+      labelLink
+        .closest("tr")
+        .after($("<tr>").append(cell));
+
+      if (data.icon) {
+        $("<a>")
+          .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "File:" + data.icon)
+          .append($("<img>").attr({ src: OSM.WIKIMEDIA_COMMONS_URL + "Special:FilePath/" + data.icon, height: "32" }))
+          .addClass("float-end mb-1 ms-2")
+          .appendTo(cell);
+      }
+      if (data.label) {
+        labelLink.clone()
+          .text(data.label)
+          .removeAttr("title")
+          .addClass("me-1")
+          .appendTo(cell);
+      }
+      if (data.article) {
+        $(`<${data.label ? "sup" : "div"}>`)
+          .append($("<a>")
+            .attr("href", `https://${data.article.site.slice(0, -4)}.wikipedia.org/wiki/` + encodeURIComponent(data.article.title))
+            .text(data.label ? data.article.site : data.article.title)
+          )
+          .appendTo(cell);
+      }
+      if (data.description) {
+        $("<div>")
+          .text(data.description)
+          .addClass("small")
+          .appendTo(cell);
+      }
+    }
+
+    function initWikidataLinks() {
+      const markWikidataLinksAsExplainable = () => $("a[href*='wikidata.org/entity/Q']:not([class*='explain'])").each(markWikidataLinkAsExplainable);
+      abortController = new AbortController();
+      markWikidataLinksAsExplainable();
+      $("#sidebar-content").on("turbo:before-stream-render", event => {
+        const defaultRender = event.detail.render;
+        event.detail.render = function (streamElement) {
+          defaultRender(streamElement);
+          markWikidataLinksAsExplainable();
+        };
+      });
+    }
 
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
         initVersionsNavigation();
         page._addObject(type, id, version);
+        initWikidataLinks();
       });
     };
 
     page.load = function (path, id, version) {
       initVersionsNavigation();
       page._addObject(type, id, version, true);
+      initWikidataLinks();
     };
 
     page.unload = function () {
@@ -27,6 +126,8 @@
       scrollStartObserver = null;
       scrollEndObserver?.disconnect();
       scrollEndObserver = null;
+      abortController?.abort();
+      $("#sidebar_content").off("turbo:before-stream-render");
     };
 
     page._addObject = function () {};
