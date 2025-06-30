@@ -4,15 +4,15 @@
       <bdi><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></bdi>
     </a>
   </p>
-  <div class="d-flex flex-nowrap gap-3 justify-content-between align-items-end">
+
     <div class="overflow-hidden pt-3">
       <%= changeset_details(changeset) %>
-      &middot;
-      <a class="changeset_id link-body-emphasis" href="<%= changeset_path(changeset) %>">
+    </div>
+
+    <div class="d-flex gap-2">
+      <a class="changeset_id link-body-emphasis me-auto" href="<%= changeset_path(changeset) %>">
         #<%= changeset.id %>
       </a>
-    </div>
-    <div class="d-flex flex-column align-items-end text-body-secondary">
       <%= tag.div :class => ["d-flex align-items-baseline gap-1", { "opacity-50" => changeset.comments.empty? }],
                   :title => t(".comments", :count => changeset.comments.length) do %>
         <%= changeset.comments.length %>
@@ -32,5 +32,4 @@
         </svg>
       <% end %>
     </div>
-  </div>
 <% end %>
