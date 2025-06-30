@@ -23,7 +23,7 @@ if (OSM.SHORTBREAD_STYLE_URL) {
               url: new URL(s.url, styleOrigin).href
             };
           })],
-          // URL will % encode the {} in nextStyle.glyphs, so assemble the URL manually
+          // URL will % encode the {} in glyph and source URL so assemble them manually
           glyphs: styleOrigin + nextStyle.glyphs,
           sources: {
             "versatiles-shortbread": {
