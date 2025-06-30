@@ -25,6 +25,8 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         rubygems: 3.4.10
         bundler-cache: true
+    - name: Corepack enable
+      run: corepack enable
     - name: Cache node modules
       uses: actions/setup-node@v4
       with:
@@ -50,8 +52,6 @@ jobs:
         bundle exec rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
-    - name: Corepack enable
-      run: corepack enable
     - name: Install node modules
       run: bundle exec bin/yarn install
     - name: Export javascript strings
