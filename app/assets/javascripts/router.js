@@ -67,7 +67,7 @@ OSM.Router = function (map, rts) {
       return regexp.test(path);
     };
 
-    route.run = function (action, path) {
+    route.run = function (action, path, ...args) {
       let params = [];
 
       if (path) {
@@ -76,9 +76,7 @@ OSM.Router = function (map, rts) {
         });
       }
 
-      params = params.concat(Array.prototype.slice.call(arguments, 2));
-
-      return (controller[action] || $.noop).apply(controller, params);
+      return controller[action]?.(...params, ...args);
     };
 
     return route;
