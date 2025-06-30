@@ -29,8 +29,6 @@ jobs:
       run: corepack enable
     - name: Cache node modules
       uses: actions/setup-node@v4
-      with:
-        cache: yarn
     - name: Install packages
       run: |
         sudo apt-get -yqq update
@@ -53,7 +51,7 @@ jobs:
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
     - name: Install node modules
-      run: bundle exec bin/yarn install --check-cache
+      run: bundle exec bin/yarn install
     - name: Export javascript strings
       run: bundle exec i18n export
     - name: Compile assets
