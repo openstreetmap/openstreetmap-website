@@ -1,8 +1,8 @@
 name: Tests
 on:
   workflow_dispatch:
-  - push
-  - pull_request
+  push:
+  pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
