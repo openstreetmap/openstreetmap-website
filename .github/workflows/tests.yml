@@ -15,6 +15,7 @@ jobs:
     env:
       RAILS_ENV: test
       OPENSTREETMAP_MEMCACHE_SERVERS: 127.0.0.1
+    timeout-minutes: 20
     steps:
     - name: Checkout source
       uses: actions/checkout@v4
@@ -55,6 +56,7 @@ jobs:
       run: bundle exec i18n export
     - name: Compile assets
       run: bundle exec rails assets:precompile
+      timeout-minutes: 10
     - name: Create tmp/pids directory
       run: mkdir -p tmp/pids
     - name: Run tests
@@ -79,6 +81,7 @@ jobs:
     name: Finalise
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
     - name: Report completion to Coveralls
       uses: coverallsapp/github-action@v2.3.6
