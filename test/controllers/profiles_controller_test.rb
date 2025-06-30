@@ -78,7 +78,8 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :show
     assert_select ".alert-success", /^Profile updated./
-    assert_select "dd", "new company"
+    user.reload
+    assert_equal "new company", user.company
   end
 
   def test_update_empty_social_link
