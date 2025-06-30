@@ -13,11 +13,11 @@
 
   $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.currentTarget)));
 
-  OSM.Element = function (map, type) {
+  OSM.Element = function () {
     const page = {};
     let scrollStartObserver, scrollEndObserver;
 
-    page.pushstate = page.popstate = function (path, id, version) {
+    page.pushstate = page.popstate = function (path, type, id, version) {
       OSM.loadSidebarContent(path, function () {
         initVersionsNavigation();
         page._addObject(type, id, version);
@@ -25,7 +25,7 @@
       });
     };
 
-    page.load = function (path, id, version) {
+    page.load = function (path, type, id, version) {
       initVersionsNavigation();
       page._addObject(type, id, version, true);
       abortController = new AbortController();
@@ -74,8 +74,8 @@
     return page;
   };
 
-  OSM.MappedElement = function (map, type) {
-    const page = OSM.Element(map, type);
+  OSM.MappedElement = function (map) {
+    const page = OSM.Element();
 
     page._addObject = function (type, id, version, center) {
       const hashParams = OSM.parseHash();
