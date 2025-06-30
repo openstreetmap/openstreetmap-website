@@ -20,10 +20,12 @@
 # Author: DavidL
 # Author: Dereckson
 # Author: Derugon
+# Author: Dittograp
 # Author: DreZhsh
 # Author: E THP
 # Author: Efred
 # Author: Eihel
+# Author: EmDashUser002
 # Author: Eruedin
 # Author: EtienneChove
 # Author: F.rodrigo
@@ -123,6 +125,12 @@
 fr:
   html:
     dir: ltr
+  date:
+    formats:
+      brief: '%{year}'
+      brief_bce: '%{year} AEC'
+      brief_ce: '%{year} EC'
+      range: '%{start} – %{end}'
   time:
     formats:
       friendly: '%e %B %Y à %-H h %M'
@@ -336,6 +344,7 @@ fr:
   printable_name:
     version: v%{version}
     with_name_html: '%{name} (%{id})'
+    with_date_html: '%{name} [%{dates}]'
     current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Par défaut (actuellement %{name})
@@ -354,6 +363,7 @@ fr:
       microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipédia
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -624,6 +634,8 @@ fr:
       no_more_user: Aucun autre groupe de modifications par cet utilisateur.
       load_more: Charger davantage
       feed:
+        cc0: Creative Commons Zéro
+        cc0_url: https://creativecommons.org/publicdomain/zero/1.0/deed.fr
         title: Groupe de modifications %{id}
         title_comment: 'Groupe de modifications %{id} : %{comment}'
         created: Créé
@@ -870,6 +882,7 @@ fr:
         osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
+      suffix_format: '[%{dates}]'
       prefix:
         aerialway:
           cable_car: Téléphérique
@@ -1750,8 +1763,8 @@ fr:
       provide_details: Veuillez fournir les détails requis
   layouts:
     project_name:
-      title: OpenStreetMap
-      h1: OpenStreetMap
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: Logo d’OpenStreetMap
     home: Aller à votre domicile
@@ -2183,62 +2196,70 @@ fr:
         newer: Utilisateurs plus récents
   site:
     about:
-      heading_html: '%{copyright}contributeurs%{br} d’OpenStreetMap'
-      copyright_symbol_html: '&copy;'
-      used_by_html: '%{name} fournit les données cartographiques pour des milliers
-        de sites web, d’applications mobiles et d’appareils'
-      lede_text: OpenStreetMap est bâti par une communauté de cartographes bénévoles
-        qui contribuent et maintiennent les données des routes, sentiers, cafés, stations
-        ferroviaires et bien plus encore, partout dans le monde.
-      local_knowledge_title: Connaissance locale
-      local_knowledge_html: OpenStreetMap encourage et met en avant la connaissance
-        locale du terrain. Les contributeurs utilisent l’imagerie aérienne, les récepteurs
-        GPS et les cartes classiques du terrain pour vérifier qu’OSM est exact et
-        à jour.
-      community_driven_title: Conduit par la communauté
-      community_driven_1_html: |-
-        La communauté d’OpenStreetMap est diverse, passionnée et grossit chaque jour. Nos contributeurs incluent des cartographes enthousiastes, des professionnels du SIG, des ingénieurs qui font fonctionner les serveurs d’OSM, des humanitaires cartographiant les zones dévastées par une catastrophe et beaucoup d’autres.
-        Pour en savoir plus sur la communauté, consultez le %{osm_blog_link}, les %{user_diaries_link}, les %{community_blogs_link} et le site web de la %{osm_foundation_link}.
-      community_driven_osm_blog: blogue d’OpenStreetMap
-      community_driven_osm_blog_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/News
-      community_driven_user_diaries: agendas d’utilisateurs
-      community_driven_community_blogs: blogues de la communauté
-      community_driven_community_blogs_url: https://forum.openhistoricalmap.org/
-      community_driven_osm_foundation: Fondation OSM
-      community_driven_osm_foundation_url: https://slack.openstreetmap.us/
+      used_by_html: Explorez le monde à n’importe quelle époque avec %{name}.
+      lede_text: OpenStreetMap est un projet ambitieux mené par une communauté pour
+        cartographier les changements naturels et articifiels de la géographie à travers
+        le monde… à travers les âges.
+      scope_title: Grand et petit, hier et aujourd’hui
+      scope_html: Les empires s’élèvent et s’effondrent. Les glaciers disparaissent.
+        Les langues et religions se propagent d’une région à l’autre. De simples chemins
+        de terre se transforment en autoroutes très fréquentées et voies ferrées.
+        De modestes bâtiments cèdent la place à d’imposants gratte-ciel. Et vous vous
+        souvenez d’à quoi ressemblait votre quartier. Tout cela a sa place sur OpenHistoricalMap.
+      contribute_title: Vous pouvez aider
+      contribute_1_ohm_html: |-
+        Notre communauté croissante de contributeurs bénévoles comprend des historiens amateurs et professionnels, des contributeurs OpenStreetMap et Wikipédia, des spécialistes de SIG et des personnes ordinaires qui connaissant bien leur environnement.
+        Nous sommes passionnés par la documentation du monde et nous aidons les communautés du monde réel à partager leurs histoires.
+        Pour en savoir plus sur la communauté, consultez %{wiki_link}, visitez %{forum_link}, lisez les %{user_diaries_link} et suivez notre compte %{mastodon_link} ou %{bluesky_link}.
+      contribute_1_bluesky: Bluesky
+      contribute_1_forum: notre forum de discussion
+      contribute_1_mastodon: Mastodon
+      contribute_1_user_diaries: agendas d’utilisateurs
+      contribute_1_wiki: notre vaste documentation wiki
+      contribute_1_wiki_url: https://wiki.openstreetmap.org/wiki/FR:OpenHistoricalMap
+      contribute_2_html: |-
+        Vous pouvez commencer à contribuer à la carte dès aujourd’hui en %{create_account_link}.
+        Nous acceptons également des %{donations_link} via %{osmus_link}, une organisation à but non lucratif 501(c)(3) avec un statut d’exonération fiscale.
+        Votre généreux don contribuera directement au bon fonctionnement d’OpenHistoricalMap pour tous.
+      contribute_2_create_account: créant un compte gratuit
+      contribute_2_donations: dons de charité
+      contribute_2_osmus: OpenStreetMap États-Unis
       open_data_title: Données libres
-      open_data_1_html: |-
-        <p>OpenHistoricalMap est une base de données cartographique <i>ouverte</i> : vous êtes libre de l'utiliser à toutes fins selon les termes des données que vous utilisez. OpenHistoricalMap identifie les exigences de licence et de citation au niveau de l'objet (le cas échéant). Un crédit ou une citation d'OpenHistoricalMap pour la consolidation de ces données sera apprécié mais n'est pas obligatoire.
-        Si vous modifiez ou développez les données de certaines manières, vous ne pouvez distribuer le résultat que sous la même licence. Voir le %{copyright_license_link} pour plus de détails.</p>
-        <p>Vous pouvez accéder aux données OHM via divers services, au-delà de ce site Internet. Consultez une liste des sites Internet et des API de production et de préparation disponibles sur <a href='https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Development#Environments'>notre page wiki</a>.</p>
-      open_data_open_data: données libres
-      open_data_copyright_license: page sur les droits d’auteur et la licence
+      open_data_1_1_html: |-
+        La carte sur notre page d’accueil n’est qu’une des nombreuses façons de découvrir les informations historiques que nous avons collectées.
+        Les données sous-jacentes sont %{reuse_link} sous téléchargement ou via diverses API gratuites compatibles avec les logiciels open source.
+      open_data_1_1_reuse: disponibles
+      open_data_1_1_reuse_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse
+      open_data_2_html: |-
+        Les données sont dans le domaine public, sauf indication contraire.
+        Vous êtes libre de les utiliser à toutes fins, sans aucune restriction.
+        Néanmoins, nous apprécions grandement tout crédit ou citation envers OpenHistoricalMap.
+        Pour plus de détails et de remerciements, voir %{copyright_license_link}.
+      open_data_2_copyright_license: Droits d’auteur et remerciements
       legal_title: Informations juridiques
-      legal_1_1_html: |-
-        Ce site et de nombreux autres services associés sont officiellement gérés par le collectif
-        très informel OpenHistoricalMap au nom de la communauté. L'utilisation de tous les services exploités par OHM est soumise à nos conditions d'utilisation, à nos politiques d'utilisation acceptable et à notre <a href="/privacy-policy">politique de confidentialité</a>.
-      legal_1_1_openstreetmap_foundation: Fondation OpenStreetMap
-      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
-      legal_1_1_terms_of_use: Conditions d’utilisation
-      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
-      legal_1_1_aup: Politique des usages acceptés
-      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
-      legal_1_1_privacy_policy: Politique de confidentialité
-      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
-      legal_2_1_html: Veuillez contacter l’équipe OHM à <a href='mailto:ohm-admins@googlegroups.com'>ohm-admins@googlegroups.com</a>
-        si vous avez des questions sur les licences, les droits d’auteur ou d’autres
-        questions juridiques.<br>
-      legal_2_1_contact_the_osmf: contacter l’OSMF
-      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
-      legal_2_2_html: |-
-        OpenStreetMap, le logo avec la loupe, ainsi que State of the Map sont des %{registered_trademarks_link}.
-
-        OpenStreetMap et le logo en forme de loupe sont des %{registered_trademarks_link}.
-      legal_2_2_registered_trademarks: marques commerciales enregistrées de l’OSMF
-      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
+      legal_1_html: |-
+        Ce site et de nombreux autres services connexes sont formellement exploités par un %{group_link} affilié à OpenStreetMap États-Unis au nom de la communauté.
+        L’utilisation de tous les services offerts par l’OSMF est sujette à nos %{terms_of_use_link}, à notre %{aup_link} et à notre %{privacy_policy_link}.
+      legal_1_group: groupe informel
+      legal_1_group_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Governance
+      legal_1_terms_of_use: conditions d’utilisation
+      legal_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
+      legal_1_aup: politique des usages acceptés
+      legal_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
+      legal_1_privacy_policy: politique de confidentialité
+      legal_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
+      legal_2_html: |-
+        Veuillez %{contact_the_osmf_link}
+        si vous avez des questions sur les conditions de licence, les droits d’auteur ou d’autres questions juridiques.
+      legal_2_contact_team: contacter l’équipe OpenHistoricalMap
+      legal_3_html: |-
+        OpenHistoricalMap® est une marque déposée (U.S. Reg. No. 90,019,364).
+        OpenStreetMap et le logo en forme de loupe sont des %{osmf_trademarks_link}.
+      legal_3_osmf_trademarks: marques déposées de la Fondation OpenStreetMap
+      legal_3_osmf_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Partenaires
     copyright:
-      title: Droits d’auteur et licence
+      title: Droits d'auteur et remerciements
       foreign:
         title: À propos de cette traduction
         html: En cas de conflit entre la présente page traduite et %{english_original_link},
@@ -2252,66 +2273,59 @@ fr:
         native_link: traduction française
         mapping_link: commencer à contribuer
       legal_babble:
-        introduction_1_html: |-
-          <b>OpenHistoricalMap</b> fournit une cartographique historique et des données liées,
-          sous une licence fournie par les contributeurs au niveau de l’objet. Les contributeurs sont
-          fermement encouragés à contribuer des données en utilisant la licence
-          <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>,
-          mais dans l’intérêt de la protection des droits des créateurs de données historiques,
-          telles que des sources académiques, d’autres licences ouvertes sont également prises en
-          charge, comme toutes combinaison de CC, BY, SA et NC. Vous assumez la responsabilité
-          de la compréhension des termes des licences incluses dans les données que vous copiez,
-          distribuez, transmettez et adaptez.
-        introduction_1_registered_trademark_html: ®
-        introduction_1_open_data: données libres
-        introduction_1_odc_odbl: Licence de base de données ouverte Open Data Commons
-          (ODbL)
-        introduction_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/summary/
-        introduction_1_osm_foundation: Fondation OpenStreetMap
-        introduction_1_osm_foundation_url: https://osmfoundation.org/
-        introduction_2_html: |-
-          Vous êtes libre de copier, distribuer, transmettre et adapter nos données, tant que
-          vous respectez les conditions des données que vous copiez, distribuez ou adaptez.
-          Si vous modifiez ou élaborez en vous basant sur les données de ce site, vous pouvez
-          distribuer le résultats selon les termes des licences des objets sous-jacents.
-        introduction_2_legal_code: texte juridique
-        introduction_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1.0/
-        introduction_3_html: "Notre documentation est disponible sous la licence \n<a
-          href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
-          paternité – partage à l’identique 2.0</a> (CC-BY-SA 2.0)."
-        introduction_3_creative_commons: Licence Creative Commons Attribution – Partage
+        introduction_1_ohm_html: |-
+          OpenHistoricalMap est une collection de données ouvertes géospatiales.
+          Sauf indication contraire, les données OpenHistoricalMap sont dans le domaine public sous une dédicace %{cc0_link}.
+          Dans la mesure où ce que vous utilisez est dans le domaine public, vous êtes libre de le copier, distribuer, transmettre et adapter à n'importe quelle fin, sans aucune restriction.
+        introduction_1_cc0: Creative Commons CC0
+        introduction_1_cc0_url: https://creativecommons.org/publicdomain/zero/1.0/deed.fr
+        introduction_2_ohm_html: |-
+          La base de données OpenHistoricalMap intègre certaines fonctionnalités cartographiques individuelles sous copyright.
+          Ces fonctionnalités sont disponibles sous une licence ouverte, telle que %{cc_by_link} (CC&nbsp;BY) ou %{cc_by_sa_link} (CC&nbsp;BY-SA), comme indiqué dans les balises %{license_key_link} sur les éléments individuels.
+          Dans la mesure où vous utilisez une partie importante de la base de données couverte par une licence « partage similaire », vous devez respecter les termes de cette licence de votre propre adaptation.
+        introduction_2_cc_by: Attribution Creative Commons
+        introduction_2_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.fr
+        introduction_2_cc_by_sa: Creative Commons Attribution-ShareAlike
+        introduction_2_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/4.0/deed.fr
+        introduction_2_license_key_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Tags/Key/license
+        introduction_3_ohm_html: Les styles de cartes présentés sur notre page d'accueil
+          sont dans le domaine public sous licence CC0. Vous êtes libre de les copier,
+          distribuer, transmettre et adapter à toutes fins, sans aucune restriction.
+        introduction_4_ohm_html: Notre documentation est titulaire d'une licence sous
+          la licence %{creative_commons_link} (CC BY-SA 2.0)
+        introduction_4_creative_commons: Licence Creative Commons Attribution – Partage
           à l’identique v2.0
-        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.fr
+        introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.fr
         credit_title_html: Comment créditer OpenStreetMap
-        credit_1_html: 'Lorsque vous utilisez des données d’OpenStreetMap, vous devez
-          effectuer les deux choses suivantes :'
-        credit_2_1: |-
-          Pour une carte électronique navigable, OHM préfère que les crédits facultatifs apparaissent
-          dans le coin inférieur droit de la carte.
-          Par exemple :
-        credit_2_2: Indiquez clairement que les données sont disponibles sous la Licence
-          Open Database.
-        credit_3_html: |-
-          Pour l’avis relatif aux droits d’auteurs (copyright), nous avons différentes exigences sur la manière dont cela doit être affiché, selon comment dont vous utilisez nos données.
-          Par exemple, différentes règles s’appliquent sur la façon d’afficher cet avis, qui dépend de si vous avez créé une carte navigable, une carte imprimée ou une image statique.
-          Pour plus de détails sur ces exigences, consultez les %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Directives d’attribution
-        credit_3_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
-        credit_4_1_html: |-
-          Pour afficher clairement que les données sont disponibles sous la Licence OdBL (Open Database License), vous pouvez apposer un lien vers %{this_copyright_page_link}.
-          Autrement, et il s’agit d’une exigence si vous distribuez OSM sous forme de données, vous pouvez nommer la ou les licence(s) demandées et vous lier directement à elle(s).
-          Sur des médias où les liens sont impossibles (par exemple des œuvres imprimées), nous vous suggérons de diriger vos lecteurs vers openstreetmap.org (probablement en étendant « OpenStreetMap » en son adresse complète) et vers opendatacommons.org.
-          Dans cet exemple, la ligne d’attribution apparaît clairement dans un coin de la carte.
-        credit_4_1_this_copyright_page: cette page de copyright
+        credit_1_html: Bien que la loi sur le droit d'auteur ne restreint ni n'impose
+          aucune condition de votre utilisation du contenu du domaine public, nous
+          apprécions grandement toute mérite que vous accordez à OpenHistoricalMap
+          lors de la réutilisation, adaptation ou de toute simplement l'utilisation
+          de nos cartes ou données.
+        credit_2_ohm_html: |-
+          Vous pouvez présenter cette reconnaissance de toute manière raisonnable.
+          Par exemple, sur une carte numérique, vous pouvez mentionner OpenHistoricalMap en petits caractères dans le coin, en créant un lien vers %{this_copyright_page_link} ou %{home_link} :
+        credit_2_this_copyright_page: cette page de copyright
+        credit_2_home: notre page d'accueil
+        credit_3_ohm_html: 'Ou, vous pouvez inclure un reconnaissance sur une page
+          de mentions séparé où vous attribuez le mérite d''autres sources :'
+        credit_3_credit_html: Données cartographiques fournies par le projet %{project_link},
+          dans le domaine public, sauf toute mention contraire.
+        credit_3_project: OpenHistoricalMap
+        credit_4_ohm_html: |-
+          Sur une carte imprimée, vous pouvez placer les remerciements dans la légende.
+          Dans un livre, vous pouvez décrire votre utilisation d'OpenHistoricalMap dans une note de bas de page, bibliographie ou colophon.
+          Dans un article universitaire, vous pouvez nous citer de différentes manières dépendant du contenu que vous avez utilisé.
         attribution_example:
-          alt: Exemple d’attribution d’OpenStreetMap sur une page Internet
-          title: Exemple d’attribution
+          alt: Un lien intitulé “OHM” dans le coin inférieur droit d'une page Web,
+            sous un curseur de temps.
+          title: Exemple de comment attribuer les mentions à OpenHistoricaMap, sur
+            une page Web
         more_title_html: Pour trouver plus d’informations
-        more_1_1_html: |-
-          Pour en savoir plus sur l’utilisation de nos données et comment nous créditer, voir la <a
-          href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/License">page de licence OHM</a>.
-        more_1_1_osmf_licence_page: page de Licence de la Fondation OSM
-        more_1_1_osmf_licence_page_url: https://osmfoundation.org/Licence
+        more_1_ohm_html: Apprenez-en davantage sur les considérations juridiques liées
+          à l'utilisation de nos données ainsi que la manière de nous créditer, %{wiki_link}.
+        more_1_wiki: sur le wiki OpenStreetMap
+        more_1_wiki_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Licence
         more_2_1_html: |-
           Bien qu’OpenStreetMap soit des données ouvertes, nous ne pouvons pas fournir une
           API cartographique gratuite pour des tiers.
@@ -2322,130 +2336,45 @@ fr:
         more_2_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         more_2_1_nominatim_usage_policy: Politique d’utilisation de Nominatim
         more_2_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
-        contributors_title_html: Nos contributeurs
-        contributors_intro_html: 'Nos contributeurs sont des milliers de personnes.
-          Nous incluons également des données publiées sous licence ouverte par des
-          agences nationales de cartographie et par d’autres sources, notamment :'
-        contributors_cambridge-anr_html: Contient des données créées par le projet
-          <a href="https://anrcommunes.hypotheses.org/">ANR Communes</a> du <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/"><em>Groupe
-          de Cambridge pour l’histoire de la population et des structures sociales</a>.
-        contributors_ned_html: Contient des données provenant de divers jeux de données
-          de <a href="https://www.naturalearthdata.com/"><em>Natural Earth Data</em></a>.
-        contributors_newberry_html: Contient des données de l’<a href-"https://digital.newberry.org/ahcb/">Atlas
-          des limites historiques des comtés</a> de la <a href="https://www.newberry.org/">Bibliothèque
-          de Newberry</a>.
-        contributors_footer_1_html: Pour plus de détails sur ceux-ci et sur d’autres
-          sources qui ont été utilisées pour aider à améliorer OpenHistoricalMap,
-          veuillez consulter la page <a href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/OHM_Contributors">Contributeurs</a>
-          sur le wiki d’OpenStreetMap.
-        contributors_at_credit_html: |-
-          %{austria} : contient des données de %{stadt_wien_link} (sous %{cc_by_link}), %{land_vorarlberg_link}
-          et du Land du Tirol (sous %{cc_by_at_with_amendments_link}).
-        contributors_at_austria: Autriche
-        contributors_at_stadt_wien: Ville de Vienne
-        contributors_at_stadt_wien_url: https://data.wien.gv.at/
-        contributors_at_cc_by: CC BY
-        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.fr
-        contributors_at_land_vorarlberg: Land de Vorarlberg
-        contributors_at_land_vorarlberg_url: https://vorarlberg.at/-/wms-dienste
-        contributors_at_cc_by_at_with_amendments: CC BY AT avec amendements
-        contributors_at_cc_by_at_with_amendments_url: https://www.tirol.gv.at/data/nutzungsbedingungen/
-        contributors_au_credit_html: |-
-          %{australia} : incorpore ou est développé à l'aide des Limites administratives © %{geoscape_australia_link}
-          sous licence du Commonwealth d’Australie sous %{cc_licence_link}.
-        contributors_au_australia: Australie
-        contributors_au_geoscape_australia: Geoscape Australie
-        contributors_au_geoscape_australia_url: https://geoscape.com.au/legal/data-copyright-and-disclaimer/
-        contributors_au_cc_licence: licence Creative Commons Attribution 4.0 International
-          (CC BY 4.0)
-        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.fr
-        contributors_ca_credit_html: |-
-          %{canada} : contient des données de GeoBase®,
-          GéoGratis (© Ministère des Ressources naturelles Canada),
-          CanVec (© Ministère des Ressources naturelles Canada) et
-          StatCan (Division de la géographie, Statistiques Canada).
-        contributors_ca_canada: Canada
-        contributors_cz_credit_html: '%{czechia} : Contient des données de l’Administration
-          d’état de l’enregistrement des terrains et du cadastre, sous la licence
-          %{cc_licence_link}'
-        contributors_cz_czechia: Tchéquie
-        contributors_cz_cc_licence: Licence Creative Commons Attribution 4.0 International
-          (CC BY 4.0)
-        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
-        contributors_fi_credit_html: |-
-          %{finland} : contient des données de la 
-          Base de données topographiques de l’Arpentage du territoire national de la Finlande
-          et d'autres ensembles de données, sous la %{nlsfi_license_link}.
-        contributors_fi_finland: Finlande
-        contributors_fi_nlsfi_license: Licence NLSFI
-        contributors_fi_nlsfi_license_url: https://www.maanmittauslaitos.fi/en/opendata-licence-version1
-        contributors_fr_credit_html: '%{france} : contient des données de la Direction
-          générale des finances publiques (anciennement la Direction générale des
-          impôts).'
-        contributors_fr_france: France
-        contributors_hr_credit_html: |-
-          %{croatia} : contient des données de %{dgu_link} et %{open_data_portal}
-          (informations publiques de Croatie).
-        contributors_hr_croatia: Croatie
-        contributors_hr_dgu: Administration géodésique de l'État de Croatie
-        contributors_hr_dgu_url: https://dgu.gov.hr/
-        contributors_hr_open_data_portal: Portail national des données ouvertes
-        contributors_hr_open_data_portal_url: https://data.gov.hr/
-        contributors_nl_credit_html: '%{netherlands} : contient des données © AND,
-          2007 (%{and_link})'
-        contributors_nl_netherlands: Pays-Bas
-        contributors_nl_and: www.and.com
-        contributors_nl_and_url: https://www.and.com/
-        contributors_nz_credit_html: |-
-          %{new_zealand} : contient des données provenant du %{linz_data_service_link}
-          et réutilisables sous licence %{cc_by_link}.
-        contributors_nz_new_zealand: Nouvelle-Zélande
-        contributors_nz_linz_data_service: Service de données LINZ
-        contributors_nz_linz_data_service_url: https://data.linz.govt.nz/
-        contributors_nz_cc_by: CC BY 4.0
-        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.fr
-        contributors_rs_credit_html: |-
-          %{serbia} : contient des données provenant de %{rgz_link} et %{open_data_portal}
-           (informations publiques de la Serbie), 2018.
-        contributors_rs_serbia: Serbie
-        contributors_rs_rgz: Autorité géodésique serbe
-        contributors_rs_rgz_url: https://geosrbija.rs/
-        contributors_rs_open_data_portal: Portail national des données ouvertes
-        contributors_rs_open_data_portal_url: https://data.gov.rs/sr/
-        contributors_si_credit_html: |-
-          %{slovenia} : contient des données provenant de l’%{gu_link} et du %{mkgp_link}
-           (informations publiques de Slovénie).
-        contributors_si_slovenia: Slovénie
-        contributors_si_gu: Autorité d’arpentage et de cartographie
-        contributors_si_gu_url: https://www.gov.si/en/state-authorities/bodies-within-ministries/surveying-and-mapping-authority/
-        contributors_si_mkgp: Ministère de l’Agriculture, des Forêts et de l’Alimentation
-        contributors_si_mkgp_url: https://www.gov.si/en/state-authorities/ministries/ministry-of-agriculture-forestry-and-food/
-        contributors_es_credit_html: |-
-          %{spain} : contient des données provenant de
-          l’Institut géographique national espagnol (%{ign_link}) et du
-          Système cartographique national (%{scne_link})
-          réutilisables sous licence %{cc_by_link}.
-        contributors_es_spain: Espagne
-        contributors_es_ign: IGN.es
-        contributors_es_ign_url: https://www.ign.es/
-        contributors_es_scne: SCNE
-        contributors_es_scne_url: https://www.scne.es/
-        contributors_es_cc_by: CC BY 4.0
-        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.fr
-        contributors_za_credit_html: '%{south_africa} : contient des données provenant
-          de la %{ngi_link}, droits d’auteur réservés à l’État.'
-        contributors_za_south_africa: Afrique du Sud
-        contributors_za_ngi: 'Direction générale : Information géospatiale nationale'
-        contributors_za_ngi_url: https://ngi.dalrrd.gov.za/
-        contributors_gb_credit_html: '%{united_kingdom} : contient des données issues
-          de l’Ordnance Survey © 2010–2023 Droits d’auteur et de base de données de
-          la Couronne.'
-        contributors_gb_united_kingdom: Royaume-Uni
-        contributors_2_html: |-
-          Pour plus de détails sur ceux-ci et sur d’autres sources qui ont été utilisées pour aider à améliorer
-          OpenStreetMap, veuillez consulter la %{contributors_page_link} sur le wiki d’OpenStreetMap.
-        contributors_2_contributors_page: Page des contributeurs
-        contributors_2_contributors_page_url: https://wiki.openstreetmap.org/wiki/Contributors
+        contributors_title_html: Remerciements
+        contributors_intro_html: 'OpenHistoricalMap est le fruit de l''effort de miller
+          d''individus et d''organisations, qui à leur tour font comportent un vaste
+          corpus de connaissances, de journalisme et de documentation. Nos sources
+          et contributeurs les plus importants sont :'
+        contributors_anr_communes_html: Données créées par le projet %{anr_communes_link}
+          en collaboration avec %{campop_link}.
+        contributors_anr_communes_project: ANR COMMUNES
+        contributors_anr_communes_campop: Le Cambridge Group for the History of Population
+          and Social Structures
+        contributors_anr_communes_campop_url: https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/
+        contributors_newberry_ahcb_html: Données du %{ahcb_link}, un projet du William
+          M. Scholl Center for American History and Culture à %{newberry_link}, qui
+          est disponible pour la réutilisation sans restrictions.
+        contributors_newberry: La Newberry Library
+        contributors_newberry_ahcb: Atlas des Frontières Historiques du Comté
+        contributors_osm_html: Données à propos des littoraux, plans d'eau et cours
+          d'eau ©%{osm_link}, %{cc_by_sa_link}
+        contributors_osm: Contributeurs OpenStreetMap
+        contributors_osm_cc_by_sa: CC BY-SA 2.0
+        contributors_osm_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/2.0/deed.fr
+        contributors_2_ohm_html: 'Les styles de carte présentés sur la Page d''accueil
+          contiennent des données OpenHistoricalMap et les sources suivantes :'
+        contributors_natural_earth_html: Ensembles de données %{natural_earth_link}
+          dans le domaine public.
+        contributors_natural_earth: Natural Earth
+        contributors_globcover_html: Couverture du sol de %{globcover_link}, © ESA
+          2010 et UCLouvain, disponible pour réutilisation à des fins éducatives et/ou
+          scientifiques avec attribution.
+        contributors_globcover: GlobCover
+        contributors_gmted_html: 'Données d''élévation du terrain de Danielson, J.J.,
+          et Gesch, D.B., 2011, %{gmted_link} (GMTED2010) : US Geological Survey Open-File
+          Report 2011–1073, 26 p. Domaine public.'
+        contributors_gmted: Données mondiales 2010 en multi-résolution de l'élévation
+          du terrain
+        contributors_more_sources_html: '%{sources_link} sont disponibles sur le wiki
+          OpenStreetMap.'
+        contributors_more_sources_page: Contributeurs et sources additionnelles
+        contributors_more_sources_page_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Sources
         contributors_footer_2_html: L’inclusion de données dans OpenStreetMap n’implique
           pas que les fournisseurs d’origine du contenu approuvent OpenStreetMap,
           ni qu’ils garantissent ou acceptent quelque responsabilité que ce soit.
@@ -2454,27 +2383,21 @@ fr:
           jamais ajouter de données provenant de sources protégées par le droit d’auteur
           (copyright) ou des droits voisins (par ex. Google Maps ou des cartes imprimées)
           sans autorisation explicite de la part des détenteurs de ces droits.
-        infringement_2_1_html: Si vous pensez que du matériel protégé par des droits
-          d’auteur a été ajouté de manière inappropriée à la base de données d’OpenHistoricalMap
-          ou à ce site, veuillez envoyer un courriel à ohm-admins@googlegroups.com
-          en indiquant « TAKEDOWN REQUEST » dans la ligne d’objet.
-        infringement_2_1_takedown_procedure: procédure de retrait
-        infringement_2_1_takedown_procedure_url: https://osmfoundation.org/wiki/Takedown_procedure
-        infringement_2_1_online_filing_page: page de signalement en ligne
-        infringement_2_1_online_filing_page_url: https://dmca.openstreetmap.org/
+        infringement_2_ohm_html: Si vous croyez que du matériel protégé par le droit
+          d'auteur a été ajouté de manière inappropriée à la base de données OpenHistoricalMap
+          ou à ce site, veuillez %{contact_team_link} avec %{subject} dans le champ
+          “Objet”.
+        infringement_2_ohm_contact_team: contacter l'équipe OpenHistoricalMap
         trademarks_title: Marques de commerce
-        trademarks_1_1_html: Si vous avez des questions à propos de l’utilisation
-          du nom OpenHistoricalMap, merci de consulter notre <a href="https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Copyright">Règlement
-          concernant les marques déposées</a>.
-        trademarks_1_1_trademark_policy: Politique relative aux marques
-        trademarks_1_1_trademark_policy_url: https://osmfoundation.org/wiki/Trademark_Policy
+        trademarks_1_ohm_html: Si vous avez des question à propos de votre utilisation
+          du nom OpenHistoricaMap, veuillez %{contact_team_link}.
+        trademarks_1_ohm_contact_team: contacter l'équipe OpenHistoricalMap
     index:
       js_1: JavaScript n’est pas pris en charge par le navigateur que vous utilisez,
         ou bien vous l’avez désactivé.
       js_2: OpenStreetMap utilise Javascript pour ses cartes glissantes.
       license:
-        copyright: Copyright OpenStreetMap et ses contributeurs, sous une licence
-          ouverte
+        copyright: OpenHistoricalMap est dans le domaine public, sauf indication contraire.
       remote_failed: Échec de la modification — vérifiez que l’éditeur externe JOSM
         ou Merkaartor est ouvert et que l’option de contrôle à distance de l’application
         est activée.
@@ -2491,17 +2414,12 @@ fr:
       title: Exporter
       manually_select: Sélectionner manuellement une autre zone
       licence: Licence
-      licence_details_html: OpenHistoricalMap (OHM) offre une cartographie historique
-        et des données associées, fournies par les contributeurs sous des licences
-        au niveau des objets. Les contributeurs sont fortement encouragés à contribuer
-        des données en utilisant la licence CC0, mais dans le but de protéger les
-        droits des créateurs de données historiques, tels que les universitaires,
-        d’autres licences ouvertes, telles que toute combinaison de CC, BY, SA et
-        NC sont également prises en charge. Vous assumez la responsabilité de comprendre
-        les termes des licences incluses dans les données que vous copiez, distribuez,
-        transmettez et adaptez.
-      odbl: Licence de base de données ouverte Open Data Commons (ODbL)
-      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
+      licence_details_ohm_html: Sauf mention contraire, les données OpenHistoricalMap
+        sont dans le domaine public sous le régime de %{cc0_link}. Consultez la page
+        %{copyright_page_link} pour plus de détails.
+      cc0: Creative Commons CC0
+      cc0_url: https://creativecommons.org/publicdomain/zero/1.0/deed.fr
+      copyright_page: Droits d'auteur et remerciements
       too_large:
         advice: 'Si l’export ci-dessus échoue, veuillez envisager l’utilisation de
           l’une des sources listées ci-dessous :'
@@ -2523,6 +2441,7 @@ fr:
         other:
           title: Autres sources
           description: Sources supplémentaires listées sur le wiki d’OpenStreetMap
+          url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse
       export_button: Exporter
     fixthemap:
       title: Signaler un problème / Corriger la carte
@@ -2535,19 +2454,18 @@ fr:
             moyen de faire est de rejoindre la communauté OpenStreetMap et d’ajouter
             ou réparer les données vous-même.
         add_a_note:
-          instructions_1_html: |-
-            Cliquez simplement sur <a class="icon note"></a> ou cette même icône sur l’affichage de la carte.
-            Cela placera un marqueur sur la carte, que vous pourrez déplacer en faisant glisser la carte. Ajoutez votre message, puis cliquez sur « Enregistrer » ; alors d’autres cartographes iront enquêter.
+          instructions_1_html: Cliquez tout simplement sur %{note_icon} ou le même
+            icône sur affiché sur la carte. Cela ajoutera un point de repère sur la
+            carte, que vous pouvez déplacer par la glissant. Ajoutez votre messages,
+            puis cliquez “Enregistrer”, et les autres cartographes iront enquêter.
       other_concerns:
         title: Autres préoccupations
-        concerns_html: Si vous êtes préoccupé(e) par la manière dont nos données sont
-          utilisées ou sur leur contenu, veuillez consulter notre <a href="/copyright">page
-          relative aux droits d’auteur</a> pour davantage d’informations légales,
-          ou bien contactez l’<a href="https://openhistoricalmap.org/">adresse de
-          courriel</a> appropriée.
+        concerns_ohm_html: Si vous avez des inquiétudes dont la manière nos données
+          sont utilisés, ou à propos de notre contenu, veuillez consulter %{copyright_link}
+          pour plus d'informations juridiques ou contacter %{contact_link}.
         copyright: page relative aux droits d’auteur
-        working_group: groupe de travail de la Fondation OSM
-        working_group_url: https://osmfoundation.org/wiki/Working_Groups
+        contact: contactez-nous
+        contact_url: https://wiki.openstreetmap.org/wiki/FR:Canaux_de_contact
     help:
       title: Obtenir de l’aide
       introduction: OpenStreetMap propose plusieurs ressources pour apprendre à travailler
@@ -3242,6 +3160,9 @@ fr:
       wikipedia:
         title: Se connecter avec Wikipédia
         alt: Logo Wikipédia
+      openstreetmap:
+        title: Se connecter avec OpenStreetMap
+        alt: Logo OpenStreetMap
   oauth:
     permissions:
       missing: Vous n’avez pas autorisé l’application à accéder à cette fonctionnalité
@@ -3897,6 +3818,7 @@ fr:
       nothing_found: Aucun objet trouvé
       error: 'Erreur en contactant %{server} : %{error}'
       timeout: Délai dépassé en contactant %{server}
+      suffix_format: '[%{dates}]'
     context:
       directions_from: Itinéraire à partir d’ici
       directions_to: Itinéraire vers ici

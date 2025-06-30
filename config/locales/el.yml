@@ -52,6 +52,10 @@
 # Author: 아라
 ---
 el:
+  date:
+    formats:
+      brief_bce: '%{year} π.Χ.'
+      brief_ce: '%{year} μ.Χ.'
   time:
     formats:
       friendly: '%e %B %Y στις %H:%M'
@@ -681,7 +685,8 @@ el:
         title: Καταχωρήσεις ημερολογίου OpenStreetMap
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap
     comments:
-      title: Προστέθηκαν σχόλια ημερολογίου από %{user}
+      title: Καταχωρήσεις ημερολογίου OpenHistoricalMap
+      description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap
     subscribe:
       heading: Εγγραφή στην ακόλουθη συζήτηση καταχώρισης ημερολογίου;
       button: Εγγραφείτε στη συζήτηση
@@ -784,7 +789,7 @@ el:
         latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenStreetMap Nominatim
         osm_nominatim_url: https://nominatim.openhistoricalmap.org/
-        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenHistoricalMap Nominatim
         osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
@@ -1691,6 +1696,8 @@ el:
       σαν κι εσάς και είναι δωρεάν, υπό άδεια ελεύθερης χρήσης.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
     partners_title: Συνεργάτες
+    partners_osmf: Ίδρυμα OpenStreetMap
+    partners_osmus: OpenStreetMap U.S.
     tou: Όροι χρήσης
     osm_offline: Η βάση δεδομένων του OpenStreetMap είναι προσωρινά εκτός λειτουργίας
       λόγω εργασιών συντήρησης.
@@ -2059,6 +2066,8 @@ el:
   shared:
     markdown_help:
       heading_html: Αναλυμμένο με %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Επικεφαλίδες
       heading: Κεφαλίδα
       subheading: Υποκεφαλίδα
@@ -2097,60 +2106,36 @@ el:
         newer: Νεότεροι Χρήστες
   site:
     about:
-      heading_html: '%{copyright}OpenStreetMap %{br} συνεισφέροντες'
-      copyright_symbol_html: ©
       used_by_html: Το %{name} προσφέρει δεδομένα χάρτη σε χιλιάδες ιστότοπους, εφαρμογές
         κινητού και συσκευές υλισμικού
       lede_text: Το OpenStreetMap αναπτύσσεται από μια κοινότητα χαρτογράφων που συνεισφέρουν
         και διατηρούν δεδομένα σχετικά με δρόμους, μονοπάτια, καφετέριες, σιδηροδρομικούς
         σταθμούς και πολλά περισσότερα, σε όλον τον κόσμο.
-      local_knowledge_title: Τοπική γνώση
-      local_knowledge_html: Το OpenStreetMap τονίζει την τοπική γνώση. Οι συνεισφέροντες
-        χρησιμοποιούν αεροφωτογραφίες, συσκευές GPS και τοπικούς χάρτες χαμηλής τεχνολογίας
-        για να σιγουρευτούν πως το OSM είναι ακριβής και ενημερωμένο.
-      community_driven_title: Βασίζεται στην κοινότητα
-      community_driven_1_html: |-
-        Η κοινότητα του OpenStreetMap είναι ποικίλη, παθιασμένη και αυξάνεται καθημερινά.
-        Οι συνεισφέροντες μας, περιλαμβάνουν ενθουσιώδεις χαρτογράφους, επαγγελματίες GIS, μηχανικούς
-        που τρέχουν τους διακομιστές OSM, ανθρωπιστές που χαρτογραφούν περιοχές που έχουν πληγεί από καταστροφές,
-        και πολλά άλλα.
-        Για να μάθετε περισσότερα σχετικά με την κοινότητα, δείτε στον ιστότοπο %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} και στο %{osm_foundation_link}.
-      community_driven_osm_blog: Ιστολόγιο OpenStreetMap
-      community_driven_user_diaries: ημερολόγια χρηστών
-      community_driven_community_blogs: ιστολόγια κοινότητας
-      community_driven_osm_foundation: Ίδρυμα OSM
+      contribute_title: Μπορείτε να βοηθήσετε
+      contribute_1_forum: το φόρουμ συζήτησης μας
+      contribute_1_user_diaries: ημερολόγια χρηστών
+      contribute_2_create_account: δημιουργία ενός δωρεάν λογαριασμού
+      contribute_2_donations: αποδεχόμαστε φιλανθρωπικές δωρεές
+      contribute_2_osmus: OpenStreetMap U.S.
       open_data_title: Ανοικτά Δεδομένα
-      open_data_1_html: 'Το OpenStreetMap είναι %{open_data}: είστε ελεύθεροι να τα
-        χρησιμοποιήστε για οποιονδήποτε σκοπό, εφόσον μνημονεύετε το OpenStreetMap
-        και τους συνεισφέροντες του. Εάν προσαρμόσετε ή αξιοποιήσετε αυτά τα δεδομένα
-        με συγκεκριμένους τρόπους, πρέπει να διανείμετε το αποτέλεσμα μόνο υπό την
-        ίδια άδεια χρήσης. Δείτε τη σελίδα %{copyright_license_link} για λεπτομέρειες.'
-      open_data_open_data: ανοιχτά δεδομένα
-      open_data_copyright_license: Σελίδα Πνευματικών Δικαιωμάτων και Άδειας Χρήσης
+      open_data_1_1_reuse: διαθέσιμα για επαναχρησιμοποίηση
       legal_title: Νομικό
-      legal_1_1_html: Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες λειτουργούν
-        επίσημα από το <a href='https://osmfoundation.org/'>Ίδρυμα OpenHistoricalMap</a>
-        (OSMF) εκ μέρους της κοινότητας. Η χρήση όλων των υπηρεσιών του OSMF  υπόκειται
-        στους <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a>,
-        στην <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Πολιτική
-        Αποδεκτής Χρήσης</a> και στην <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Πολιτική
-        Απορρήτου</a> μας.
-      legal_1_1_openstreetmap_foundation: Ίδρυμα OpenStreetMap
-      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
-      legal_1_1_terms_of_use: Όρους Χρήσης
-      legal_1_1_aup: Αποδεκτές Πολιτικές Χρήσης
-      legal_1_1_privacy_policy: Πολιτική Απορρήτου
-      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Πολιτική Απορρήτου
-      legal_2_1_html: |-
-        Παρακαλούμε <a href='https://osmfoundation.org/Contact'>επικοινωνήστε με το OSMF</a>
-        αν έχετε ερωτήματα για άδειες χρήσης, πνευματικά δικαιώματα ή άλλα νομικά θέματα.
-        <br>
-        Το OpenHistoricalMap, το λογότυπο με το μεγεθυντικό φακό και το «State of the Map» είναι <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">κατατεθέντα σήματα του OSMF</a>.
-      legal_2_1_contact_the_osmf: επικοινωνήστε με το OSMF
-      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
-      legal_2_2_html: Το OpenStreetMap, το λογότυπο με τον μεγεθυντικό φακό και το
-        State of the Map είναι %{registered_trademarks_link}.
-      legal_2_2_registered_trademarks: εγγεγραμμένα εμπορικά σήματα του OSMF
+      legal_1_html: Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες διαχειρίζονται
+        επίσημα από το %{openstreetmap_foundation_link} (OSMF) εκ μέρους της κοινότητας.
+        Η χρήση όλων των υπηρεσιών που διαχειρίζεται το OSMF υπόκειται στους %{terms_of_use_link}
+        μας, στις %{aup_link} και στην %{privacy_policy_link} μας.
+      legal_1_group: μια άτυπη ομάδα
+      legal_1_terms_of_use: Όρους Χρήσης
+      legal_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
+      legal_1_aup: Αποδεκτές Πολιτικές Χρήσης
+      legal_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
+      legal_1_privacy_policy: Πολιτική Απορρήτου
+      legal_1_privacy_policy_url: https://osmfoundation.org/wiki/Πολιτική Απορρήτου
+      legal_2_html: |-
+        Παρακαλούμε %{contact_the_osmf_link}
+        εάν έχετε ερωτήσεις για αδειοδότηση, πνευματικά δικαιώματα ή άλλα νομικά.
+      legal_2_contact_team: επικοινωνήστε με την ομάδα του OpenHistoricalMap
+      legal_3_osmf_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Συνεργάτες
     copyright:
       title: Πνευματικά δικαιώματα και άδεια χρήσης
@@ -2167,153 +2152,44 @@ el:
         native_link: ελληνική έκδοση
         mapping_link: αρχίστε τη χαρτογράφηση
       legal_babble:
-        introduction_1_html: |-
-          Το OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> είναι βάση <i>ανοικτών δεδομένων</i> αδειοδοτημένα υπό την <a href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) από το <a
-          href="https://osmfoundation.org/">Ίδρυμα OpenHistoricalMap</a> (OSMF).
-        introduction_1_registered_trademark_html: ®
-        introduction_1_open_data: ανοιχτά δεδομένα
-        introduction_1_odc_odbl: Open Data Commons Άδεια Ανοικτής Βάσης Δεδομένων
-        introduction_1_osm_foundation: Ίδρυμα OpenStreetMap
-        introduction_2_html: Είστε ελεύθεροι να αντιγράψετε, να διανείμετε, μεταδώσετε
-          και προσαρμόσετε τα δεδομένα μας εφόσον κάνετε αναφορά στο OpenHistoricalMap
-          και στους συνεισφέροντές του. Εάν τροποποιήσετε ή αξιοποιήσετε τα δεδομένα
-          μας, μπορείτε να διανείμετε το αποτέλεσμα μόνο σύμφωνα με την ίδια άδεια.
-          Ο πλήρης <a href="https://opendatacommons.org/licenses/odbl/1.0/">νομικός
-          κώδικας</a> εξηγεί τα δικαιώματα και τις υποχρεώσεις.
-        introduction_2_legal_code: νομικός κώδικας
-        introduction_3_html: |-
-          Η τεκμηρίωση μας, αδειοδοτείται υπό την άδεια <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Αναφορά Δημιουργού-Παρόμοια
+        introduction_1_cc0_url: https://creativecommons.org/publicdomain/zero/1.0/
+        introduction_2_cc_by_url: https://creativecommons.org/licenses/by/4.0/
+        introduction_2_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/4.0/
+        introduction_2_license_key_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Tags/Key/license
+        introduction_4_creative_commons: Creative Commons Αναφορά Δημιουργού-Παρόμοια
           Διανομή 2.0
+        introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/
         credit_title_html: Πως να κάνετε αναφορά δημιουργού προς το OpenStreetMap
         credit_1_html: 'Όπου χρησιμοποιείτε δεδομένα του OpenStreetMap, υποχρεούστε
           να κάνετε τα ακόλουθα δύο πράγματα:'
-        credit_2_1: |-
-          Επίσης πρέπει να κάνετε σαφές ότι τα δεδομένα διατίθενται υπό την άδεια Open Database License και αν χρησιμοποιείτε τα πλακίδια χάρτη, ότι η χαρτογραφία είναι υπό την άδεια CC-BY-SA. Μπορείτε να το κάνετε αυτό με σύνδεσμο σε <a href="https://www.openstreetmap.org/copyright">αυτήν τη σελίδα δικαιωμάτων</a>.
-          Εναλλακτικά και σαν προαπαιτούμενο εάν διαμοιράζετε δεδομένα OSM, μπορείτε να δώσετε απευθείας σύνδεσμο προς τις άδειες. Σε μέσα στα οποία οι σύνδεσμοι δεν είναι εφικτοί (π.χ. εκτυπώσεις), προτείνουμε να κατευθύνετε τους αναγνώστες σας στο openstreetmap.org (ίσως επεκτείνοντας το «OpenHistoricalMap» σε αυτήν τη πλήρη διεύθυνση), προς opendatacommons.org και αναλόγως στο creativecommons.org.
-        credit_2_2: Διευκρινίσετε ότι τα δεδομένα είναι διαθέσιμα υπό την Άδεια Ανοιχτής
-          Βάσης Δεδομένων.
-        credit_3_html: Για τη σημείωση πνευματικών δικαιωμάτων, έχουμε διαφορετικές
-          απαιτήσεις σχετικά με τον τρόπο εμφάνισης της, ανάλογα με τον τρόπο με τον
-          οποίο χρησιμοποιείτε τα δεδομένα μας. Για παράδειγμα, ισχύουν διαφορετικοί
-          κανόνες σχετικά με τον τρόπο εμφάνισης της σημείωσης πνευματικών δικαιωμάτων,
-          ανάλογα με το αν έχετε δημιουργήσει έναν χάρτη με δυνατότητα περιήγησης,
-          έναν έντυπο χάρτη ή μια στατική εικόνα. Μπορείτε να βρείτε πλήρεις λεπτομέρειες
-          σχετικά με τις απαιτήσεις στις %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Οδηγίες Αναφοράς
-        credit_4_1_html: Για να καταστήσετε σαφές ότι τα δεδομένα είναι διαθέσιμα
-          υπό την Άδεια Ανοιχτής Βάσης Δεδομένων, μπορείτε να βάλετε σύνδεσμο προς
-          %{this_copyright_page_link}. Εναλλακτικά, και ως απαίτηση εάν διανέμετε
-          το OSM σε μορφή δεδομένων, μπορείτε να ονομάσετε και να βάλετε σύνδεσμο
-          απευθείας προς την άδεια ή τις άδειες. Σε μέσα όπου οι σύνδεσμοι δεν είναι
-          δυνατοί (π.χ. έντυπα έργα), σας προτείνουμε να κατευθύνετε τους αναγνώστες
-          σας στο openstreetmap.org (ίσως επεκτείνοντας το 'OpenStreetMap' σε αυτήν
-          την πλήρη διεύθυνση) και στο opendatacommons.org. Σε αυτό το παράδειγμα,
-          τα εύσημα εμφανίζονται στη γωνία του χάρτη.
-        credit_4_1_this_copyright_page: αυτή τη σελίδα πνευματικών δικαιωμάτων
+        credit_2_this_copyright_page: αυτή τη σελίδα πνευματικών δικαιωμάτων
+        credit_2_home: η αρχική μας σελίδα
+        credit_3_project: OpenHistoricalMap
         attribution_example:
           alt: Παράδειγμα του πως αναφέρεται το OpenStreetMap σε μια ιστοσελίδα
           title: Παράδειγμα αναφοράς δημιουργού
         more_title_html: Μαθαίνοντας περισσότερα
-        more_1_1_html: Διαβάστε περισσότερα σχετικά με τη χρήση των δεδομένων μας
-          και πως να μας δώσετε τα εύσημα, στη %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: Σελίδα Άδειας Χρήσης OSMF
+        more_1_wiki: στο Wiki του OpenStreetMap
+        more_1_wiki_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/License
         more_2_1_html: |-
           Παρόλο που το OpenStreetMap είναι ανοιχτά δεδομένα, δεν μπορούμε να παρέχουμε API χάρτη για τρίτα μέρη χωρίς χρέωση.
           Δείτε την %{api_usage_policy_link}, %{tile_usage_policy_link} και %{nominatim_usage_policy_link}.
         more_2_1_api_usage_policy: Πολιτική Χρήσης API
+        more_2_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         more_2_1_tile_usage_policy: Πολιτική Χρήσης Πλακιδίων
+        more_2_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         more_2_1_nominatim_usage_policy: Πολιτική Χρήσης Nominatim
+        more_2_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Οι συνεισφέροντες μας
         contributors_intro_html: 'Οι συνεισφέροντες μας είναι χιλιάδες άτομα. Επίσης
           έχουμε περιλάβει δεδομένα ανοικτής άδειας από εθνικές υπηρεσίες χαρτογράφησης
           και άλλες πηγές, μεταξύ αυτών:'
-        contributors_footer_1_html: |-
-          Για περισσότερες λεπτομέρειες σχετικά με αυτές, και άλλες πηγές που χρησιμοποιήθηκαν
-          για να βελτιώσουν το OpenHistoricalMap, παρακαλούμε δείτε τη σελίδα <a href="https://wiki.openstreetmap.org/wiki/Contributors">Συνεισφέροντες</a> στο OpenStreetMap Wiki.
-        contributors_at_credit_html: |-
-          %{austria}: Περιέχει δεδομένα από %{stadt_wien_link} (υπό %{cc_by_link}), %{land_vorarlberg_link}
-          και Land Tirol (υπό %{cc_by_at_with_amendments_link}).
-        contributors_at_austria: Αυστρία
-        contributors_at_stadt_wien: Stadt Wien
-        contributors_at_cc_by: CC BY
-        contributors_at_land_vorarlberg: Land Vorarlberg
-        contributors_at_cc_by_at_with_amendments: CC BY AT με τροποποιήσεις
-        contributors_au_credit_html: |-
-          %{australia}: Ενσωματώνει ή ανεπτυγμένα χρησιμοποιώντας τα Διοικητικά Όρια &copy; %{geoscape_australia_link}
-          αδειοδοτημένα από την Κοινοπολιτεία της Αυστραλίας υπό την %{cc_licence_link}.
-        contributors_au_australia: Αυστραλία
-        contributors_au_geoscape_australia: Geoscape Australia
-        contributors_au_cc_licence: άδεια Creative Commons Αναφορά Δημιουργού 4.0
-          Διεθνές (CC BY 4.0)
-        contributors_ca_credit_html: "%{canada}: Περιέχει δεδομένα από \nGeoBase&reg;,
-          GeoGratis (&copy; Υπουργείο Φυσικών Πόρων Καναδά), CanVec (&copy; Υπουργείο
-          Φυσικών Πόρων Καναδά), και StatCan (Τομέας Γεωγραφίας, Στατιστική Υπηρεσία
-          του Καναδά)."
-        contributors_ca_canada: Καναδάς
-        contributors_cz_credit_html: '%{czechia}: Περιέχει δεδομένα από την Κρατική
-          Διοίκηση Τοπογραφίας και Κτηματολογίου αδειοδοτημένα υπό την %{cc_licence_link}'
-        contributors_cz_czechia: Τσεχία
-        contributors_cz_cc_licence: άδεια Creative Commons Αναφορά Δημιουργού 4.0
-          Διεθνές (CC BY 4.0)
-        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
-        contributors_fi_credit_html: '%{finland}: Περιέχει δεδομένα από την Εθνική
-          Τοπογραφική Υπηρεσία της Φινλανδικής Τοπογραφικής Βάσης Δεδομένων και άλλα
-          σύνολα δεδομένων, υπό την %{nlsfi_license_link}.'
-        contributors_fi_finland: Φινλανδία
-        contributors_fi_nlsfi_license: Άδεια NLSFI
-        contributors_fr_credit_html: |-
-          %{france}: Περιέχει δεδομένα που προέρχονται από
-          Direction Générale des Impôts.
-        contributors_fr_france: Γαλλία
-        contributors_hr_credit_html: |-
-          %{croatia}: Περιέχει δεδομένα από την %{dgu_link} και την %{open_data_portal}
-          (δημόσιες πληροφορίες της Κροατίας).
-        contributors_hr_croatia: Κροατία
-        contributors_hr_dgu: Κρατική Γεωδαιτική Διοίκηση της Κροατίας
-        contributors_hr_open_data_portal: Εθνική Πύλη Ανοικτών Δεδομένων
-        contributors_nl_credit_html: '%{netherlands}: Περιέχει δεδομένα &copy; AND
-          (Automotive Navigation Data), 2007 (%{and_link})'
-        contributors_nl_netherlands: Κάτω Χώρες
-        contributors_nz_credit_html: |-
-          %{new_zealand}: Περιέχει δεδομένα που προέρχονται από την %{linz_data_service_link}
-          και με άδεια για επαναχρησιμοποίηση υπό %{cc_by_link}.
-        contributors_nz_new_zealand: Νέα Ζηλανδία
-        contributors_nz_linz_data_service: Υπηρεσία Δεδομένων LINZ
-        contributors_nz_cc_by: CC BY 4.0
-        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/
-        contributors_rs_credit_html: |-
-          %{serbia}: Περιέχει δεδομένα από τη %{rgz_link} και την %{open_data_portal}
-          (δημόσιες πληροφορίες της Σερβίας), 2018.
-        contributors_rs_serbia: Σερβία
-        contributors_rs_rgz: Σερβική Γεωδαιτική Αρχή
-        contributors_rs_open_data_portal: Εθνική Πύλη Ανοικτών Δεδομένων
-        contributors_si_credit_html: |-
-          %{slovenia}: Περιέχει δεδομένα από την %{gu_link} και το %{mkgp_link}
-          (δημόσιες πληροφορίες της Σλοβενίας).
-        contributors_si_slovenia: Σλοβενία
-        contributors_si_gu: Αρχή Χωρομέτρησης και Χαρτογράφησης
-        contributors_si_mkgp: Υπουργείο Γεωργίας, Δασών και Τροφίμων
-        contributors_es_credit_html: '%{spain}: Περιέχει δεδομένα που προέρχονται
-          από το Εθνικό Γεωγραφικό Ινστιτούτο της Ισπανίας (%{ign_link}) και το Εθνικό
-          Χαρτογραφικό Σύστημα (%{scne_link}) με άδεια για επαναχρησιμοποίηση υπό
-          %{cc_by_link}.'
-        contributors_es_spain: Ισπανία
-        contributors_es_ign: IGN
-        contributors_es_cc_by: CC BY 4.0
-        contributors_za_credit_html: '%{south_africa}: Περιέχει δεδομένα που προέρχονται
-          από την %{ngi_link}, με την επιφύλαξη κρατικών πνευματικών δικαιωμάτων.'
-        contributors_za_south_africa: Νότια Αφρική
-        contributors_za_ngi: 'Προϊσταμένη Διεύθυνση: Εθνικές Γεω-Χωρικές Πληροφορίες'
-        contributors_gb_credit_html: |-
-          %{united_kingdom}: Περιέχει δεδομένα Χαρτογραφικής Υπηρεσίας &copy; Crown πνευματικά δικαιώματα και δικαιώματα βάσης δεδομένων
-          2010-2023.
-        contributors_gb_united_kingdom: Ηνωμένο Βασίλειο
-        contributors_2_html: Για περισσότερες λεπτομέρειες για αυτές, και άλλες πηγές
-          που έχουν χρησιμοποιηθεί για να βοηθήσουν στην βελτίωση του OpenStreetMap,
-          παρακαλούμε δείτε την %{contributors_page_link} στο OpenStreetMap Wiki.
-        contributors_2_contributors_page: Σελίδα συνεισφερόντων
+        contributors_anr_communes_campop_url: https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/
+        contributors_osm_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/2.0/
+        contributors_natural_earth: Natural Earth
+        contributors_globcover: GlobCover
+        contributors_more_sources_page: Πρόσθετες πηγές και συνεισφέροντες
+        contributors_more_sources_page_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Sources
         contributors_footer_2_html: Η συμπερίληψη δεδομένων στο OpenStreetMap δεν
           συνεπάγεται ότι ο αρχικός πάροχος δεδομένων εγκρίνει το OpenStreetMap, παρέχει
           οποιαδήποτε εγγύηση ή αποδέχεται καμία ευθύνη.
@@ -2321,21 +2197,8 @@ el:
         infringement_1_html: Υπενθυμίζουμε στους συνεισφέροντες του OSM να μην προσθέτουν
           δεδομένα από πηγές με πνευματικά δικαιώματα (π.χ. Google Maps η έντυπους
           χάρτες) χωρίς την προηγούμενη άδεια από τους ιδιοκτήτες των δικαιωμάτων.
-        infringement_2_1_html: Εάν πιστεύετε ότι προστέθηκε παράνομα υλικό που προστατεύεται
-          από πνευματικά δικαιώματα στη βάση δεδομένων του OpenHistoricalMap ή σε
-          αυτόν τον ιστότοπο, παρακαλούμε απευθυνθείτε στη <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">διαδικασία
-          απομάκρυνσης</a> ή καταθέστε άμεσα μια αίτηση στην <a href="https://dmca.openstreetmap.org/">on-line
-          σελίδα αιτήσεων</a>.
-        infringement_2_1_takedown_procedure: διαδικασία αφαίρεσης
-        infringement_2_1_online_filing_page: ηλεκτρονική φόρμα
         trademarks_title: Εμπορικά σήματα
-        trademarks_1_1_html: Το OpenHistoricalMap, το λογότυπο με το μεγεθυντικό φακό
-          και το «State of the Map» είναι σήματα κατατεθέντα του Ιδρύματος OpenHistoricalMap.
-          Αν έχετε ερωτήσεις σχετικά με τη χρήση των σημάτων, παρακαλούμε επισκεφθείτε
-          το <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Πολιτική
-          Εμπορικών Σημάτων</a>.
-        trademarks_1_1_trademark_policy: Πολιτική Εμπορικών Σημάτων
-        trademarks_1_1_trademark_policy_url: https://osmfoundation.org/wiki/Trademark_Policy
+        trademarks_1_ohm_contact_team: επικοινωνήστε με την ομάδα του OpenHistoricalMap
     index:
       js_1: Είτε χρησιμοποιείτε πρόγραμμα περιήγησης που δεν υποστηρίζει JavaScript
         ή έχετε απενεργοποιήσει την JavaScript.
@@ -2356,9 +2219,7 @@ el:
       title: Εξαγωγή
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
       licence: Άδεια
-      licence_details_html: Τα δεδομένα OpenStreetMap αδειοδοτούνται με %{odbl_link}
-        (ODbL).
-      odbl: Άδεια χρήσης Open Data Commons Open Database
+      cc0_url: https://creativecommons.org/publicdomain/zero/1.0/
       too_large:
         advice: 'Αν η εξαγωγή αποτυγχάνει, παρακαλούμε δοκιμάστε μία από τις πηγές
           που αναφέρονται παρακάτω:'
@@ -2380,6 +2241,7 @@ el:
         other:
           title: Άλλες πηγές
           description: Επιπλέον πηγές απαριθμούνται στο wiki του OpenStreetMap
+          url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse
       export_button: Εξαγωγή
     fixthemap:
       title: Αναφέρετε πρόβλημα / Διορθώστε τον χάρτη
@@ -2398,13 +2260,8 @@ el:
             Προσθέστε το μήνυμά σας και στη συνέχεια, κάντε κλικ στο κουμπί αποθήκευσης, ώστε να μπορούν άλλοι χαρτογράφοι να ερευνήσουν το πρόβλημα.
       other_concerns:
         title: Άλλες ανησυχίες
-        concerns_html: Αν ανησυχείτε για το πώς χρησιμοποιούνται τα δεδομένα μας ή
-          σχετικά με τα περιεχόμενα, παρακαλούμε συμβουλευτείτε τη <a href='/copyright'>σελίδα
-          πνευματικών δικαιωμάτων</a> μας για περισσότερες νομικές πληροφορίες ή επικοινωνήστε
-          με την κατάλληλη <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>ομάδα
-          εργασίας του OSMF</a>.
         copyright: σελίδα πνευματικών δικαιωμάτων
-        working_group: ομάδα εργασίας του OSMF
+        contact: επικοινωνήστε μαζί μας
     help:
       title: Βοήθεια
       introduction: Το OpenStreetMap έχει πολλαπλούς πόρους για να μάθετε για το εγχείρημα,
@@ -2420,6 +2277,7 @@ el:
         title: Οδηγός Αρχαρίων
         description: Οδηγός αρχαρίων διατηρούμενος από την κοινότητα.
       community:
+        url: https://community.openstreetmap.org/
         title: Φόρουμ κοινότητας & βοήθειας
         description: Ένα κοινόχρηστο μέρος για αναζήτηση βοήθειας και για συνομιλίες
           σχετικά με το OpenStreetMap.
@@ -2441,6 +2299,13 @@ el:
           ότι χρειάζεται στο Welcome Mat.
       discord:
         title: switch2osm
+      forum:
+        title: Φόρουμ
+      github:
+        url: https://github.com/OpenHistoricalMap/
+      mailing_list:
+        title: Λίστα αλληλογραφίας
+        description: Εγγραφείτε στη χαμηλού όγκου λίστα αλληλογραφίας μας.
       slack:
         title: IRC
       wiki:
@@ -2453,6 +2318,7 @@ el:
       desktop_application_html: Μπορείτε να χρησιμοποιήσετε ακόμα το Potlatch από
         %{download_link}.
       download: λήψη της εφαρμογής επιφάνειας εργασίας για Mac και Windows
+      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Εναλλακτικά, μπορείτε να ορίσετε το προεπιλεγμένο πρόγραμμα
         επεξεργασίας σε iD, το οποίο εκτελείται στο πρόγραμμα περιήγησής σας όπως
         έκανε στο παρελθόν το Potlatch. %{change_preferences_link}.
@@ -2464,6 +2330,7 @@ el:
         ερωτήσεις, και συλλογικά να συζητάτε και να τεκμηριώνετε θέματα χαρτογράφησης. %{help_link}. Είστε με έναν οργανισμό που κάνει σχέδια για το OpenStreetMap; %{welcome_mat_link}.
       get_help_here: Λάβετε βοήθεια εδώ
       welcome_mat: Δείτε το Χαλάκι Καλωσορίσματος
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Αποτελέσματα Αναζήτησης
     search:
@@ -2498,11 +2365,11 @@ el:
           subway: Υπόγειος Σιδηρόδρομος
           ferry: Πορθμείο
           light_rail: Προαστιακός
-          tram: τραμ
+          tram: Τραμ
           trolleybus: Τρόλεϊ
           bus: Λεωφορείο
           cable_car: Τελεφερίκ
-          chair_lift: τελεφερίκ με καθίσματα
+          chair_lift: Αναβατήρας
           runway: Διάδρομος Αεροδρομίου
           taxiway: Τροχόδρομος
           apron: Πίστα προσγείωσης αεροδρομίου
@@ -2515,7 +2382,7 @@ el:
           wood: Φυσικό δάσος
           farmland: Καλλιεργήσιμη έκταση
           grass: Γρασίδι
-          meadow: λιβάδι
+          meadow: Λιβάδι
           bare_rock: Γυμνός βράχος
           sand: Άμμος
           golf: Γήπεδο γκολφ
@@ -2606,7 +2473,9 @@ el:
           την επεξεργασία με το χέρι, παρακαλούμε διαβάστε και ακολουθήστε τις οδηγίες
           για %{imports_link} και %{automated_edits_link}.
         imports: Εισαγωγές
+        imports_url: https://wiki.openstreetmap.org/wiki/Import/Guidelines
         automated_edits: Αυτοματοποιημένες Επεξεργασίες
+        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Ξεκινήστε τη Χαρτογράφηση
       continue_authorization: Συνέχιση Εξουσιοδότησης
       add_a_note:
@@ -2642,6 +2511,17 @@ el:
           Οποιοσδήποτε μπορεί να στήσει μια ή να συμμετάσχει σε αυτές. Διαβάστε περισσότερα
           στη %{communities_wiki_link}.
         communities_wiki: Wiki σελίδα κοινοτήτων
+        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
+    ohm_privacy_policy:
+      page_title_html: Πολιτική Απορρήτου
+      introduction:
+        title_html: Εισαγωγή
+      map_data:
+        title_html: Δεδομένα χάρτη
+      gravatar:
+        title_html: Gravatar
+      contact:
+        title_html: Επικοινωνία
   traces:
     visibility:
       private: Προσωπικό (διαμοιρασμός μόνο σαν ανώνυμος, μη χρονοσημασμένα σημεία)
@@ -2886,19 +2766,23 @@ el:
         html: Με την εγγραφή σας, συμφωνείτε στους %{tou_link}, στην %{privacy_policy_link}
           και στους %{contributor_terms_link}.
         privacy_policy: πολιτική απορρήτου
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
           για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
+        contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: όρους συνεισφοράς
       continue: Εγγραφή
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       email_help:
         privacy_policy: πολιτική απορρήτου
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
           για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
         html: Η διεύθυνσή σας δεν εμφανίζεται δημόσια, ανατρέξτε στην %{privacy_policy_link}
           για περισσότερες πληροφορίες.
       consider_pd_html: Θεωρώ τις συνεισφορές μου να είναι στο %{consider_pd_link}.
       consider_pd: κοινό κτήμα
+      consider_pd_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: ή
       use external auth: ή συνδεθείτε μέσω τρίτης υπηρεσίας
     terms:
@@ -2918,7 +2802,7 @@ el:
       consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, καταστώ τις συνεισφορές
         μου στο κοινό κτήμα (για ελεύθερη χρήση)
       consider_pd_why: τι είναι αυτό;
-      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_info_html: 'Πληροφορίες για να βοηθήσουν να κατανοήσετε αυτούς τους
         όρους: a %{readable_summary_link} και μερικά %{informal_translations_link}'
       readable_summary: περίληψη αναγνώσιμη από τον άνθρωπο
@@ -3198,6 +3082,11 @@ el:
       description: Περιγραφή
       created_at: Δημιουργήθηκε στις
       last_changed: Τελευταία αλλαγή
+      apply: Εφαρμογή
+      all: Όλες
+      open: Ανοιχτές
+      closed: Κλειστές
+      status: Κατάσταση
     show:
       title: 'Σημείωση: %{id}'
       description: Περιγραφή
@@ -3289,6 +3178,10 @@ el:
           one: Είστε εντός %{count} ποδός από το σημείο
           other: Είστε εντός %{count} ποδιών από το σημείο
       base:
+        historical: Ιστορικός
+        woodblock: Ξυλόγλυπτο
+        japanesescroll: Ιαπωνικός πάπυρος
+        railway: Σιδηροδρομικός
         standard: Κανονικός
         cyclosm: CyclOSM ποδηλασία
         cycle_map: Ποδηλασία
@@ -3401,18 +3294,17 @@ el:
         slight_left_without_exit: Ελαφριά αριστερά στην %{name}
         via_point_without_exit: (μέσω σημείου)
         follow_without_exit: Ακολουθήστε την %{name}
-        roundabout_without_exit: Στον κυκλικό κόμβο βγείτε στο %{name}
+        roundabout_without_exit: Στον κυκλικό κόμβο πάρτε την έξοδο προς %{name}
         leave_roundabout_without_exit: Βγείτε από τον κυκλικό κόμβο - %{name}
         stay_roundabout_without_exit: Μείνετε στον κυκλικό κόμβο - %{name}
         start_without_exit: Ξεκινήστε στο %{name}
         destination_without_exit: Φτάσατε στον προορισμό σας
         against_oneway_without_exit: Πηγαίνετε αντίθετα στον μονόδρομο %{name}
         end_oneway_without_exit: Τέλος του μονόδρομου %{name}
-        roundabout_with_exit: Στην κυκλική διασταύρωση, πάρτε την %{exit}η έξοδο προς
-          %{name}
-        roundabout_with_exit_ordinal: Στην κυκλική διασταύρωση, πάρτε την έξοδο %{exit}
+        roundabout_with_exit: Στον κυκλικό κόμβο, πάρτε την %{exit} έξοδο προς %{name}
+        roundabout_with_exit_ordinal: Στον κυκλικό κόμβο, πάρτε την %{exit} έξοδο
           προς %{name}
-        exit_roundabout: Βγείτε από την κυκλική διασταύρωση προς %{name}
+        exit_roundabout: Βγείτε από τον κυκλικό κόμβο προς %{name}
         unnamed: ανώνυμος δρόμος
         courtesy: Οι οδηγίες είναι προσφορά του %{link}
         exit_counts:
