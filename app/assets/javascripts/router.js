@@ -53,13 +53,15 @@ OSM.Router = function (map, rts) {
   const splatParam = /\*\w+/g;
 
   function Route(path, controller) {
-    const regexp = new RegExp("^" +
-      path.replace(escapeRegExp, "\\$&")
+    const regexp = new RegExp(
+      "^" +
+      path
+        .replace(escapeRegExp, "\\$&")
         .replace(optionalParam, "(?:$1)?")
-        .replace(namedParam, function (match, optional) {
-          return optional ? match : "([^/]+)";
-        })
-        .replace(splatParam, "(.*?)") + "(?:\\?.*)?$");
+        .replace(namedParam, (match, optional) => optional ? match : "([^/]+)")
+        .replace(splatParam, "(.*?)") +
+      "(?:\\?.*)?$"
+    );
 
     const route = {};
 
