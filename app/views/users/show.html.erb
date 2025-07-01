@@ -262,7 +262,9 @@
         </div>
       <% end %>
 
-      <%= render "sidebar_section", :present => !@user.social_links.empty? do %>
+      <%= render "sidebar_section", :present => !@user.social_links.empty?,
+                                    :edit_title => t(".edit_links"),
+                                    :edit_path => profile_links_path do %>
         <%= render "social_links/show", :social_links => @user.social_links %>
       <% end %>
 
