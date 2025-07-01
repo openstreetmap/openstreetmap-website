@@ -265,6 +265,14 @@
       <%= render "sidebar_section", :present => !@user.social_links.empty? do %>
         <%= render "social_links/show", :social_links => @user.social_links %>
       <% end %>
+
+      <% if owned %>
+        <div class="mt-2">
+          <%= tag.button t(".edit_profile_details"), :type => "button",
+                                                     :class => "btn btn-sm btn-outline-primary w-100 overflow-hidden",
+                                                     :data => { :bs_toggle => "collapse", :bs_target => "[data-sidebar-edit]" } %>
+        </div>
+      <% end %>
     </div>
     <div class="col-sm-9">
       <div class="richtext text-break"><%= @user.description.to_html %></div>
