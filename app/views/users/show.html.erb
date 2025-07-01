@@ -234,7 +234,8 @@
   </div>
 <% end %>
 
-<% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? %>
+<% owned = current_user && @user == current_user %>
+<% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
   <div class="row">
     <div class="col-sm-3">
       <% if @user.home_location_name&.strip.present? %>
@@ -272,6 +273,11 @@
     </div>
     <div class="col-sm-9">
       <div class="richtext text-break"><%= @user.description.to_html %></div>
+      <% if owned %>
+        <div class="mb-3">
+          <%= link_to t(".edit_description"), profile_description_path, :class => "btn btn-outline-primary" %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% else %>
@@ -284,7 +290,7 @@
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
 
-<% if current_user and @user.id == current_user.id %>
+<% if owned %>
   <div class="my-3">
     <%= link_to t(".edit_profile"), profile_description_path, :class => "btn btn-outline-primary" %>
   </div>
