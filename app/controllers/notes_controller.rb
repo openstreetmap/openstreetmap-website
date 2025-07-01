@@ -5,12 +5,12 @@ class NotesController < ApplicationController
 
   before_action :check_api_readable
   before_action :authorize_web
+  before_action :set_locale
   before_action :require_oauth
 
   authorize_resource
 
   before_action :lookup_user, :only => [:index]
-  before_action :set_locale
   around_action :web_timeout
 
   ##
