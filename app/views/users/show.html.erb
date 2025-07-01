@@ -238,6 +238,10 @@
 <% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
   <div class="row">
     <div class="col-sm-3">
+      <%= render "sidebar_section", :edit_title => t(".change_image"),
+                                    :edit_path => profile_image_path do %>
+      <% end %>
+
       <%= render "sidebar_section", :present => @user.home_location_name&.strip.present? do %>
         <div class="icon-link mw-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
