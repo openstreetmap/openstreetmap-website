@@ -1,11 +1,11 @@
 <%= tag.li :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data(changeset) }, :class => "list-group-item list-group-item-action" do %>
-  <p class="fs-6 text-truncate text-wrap mb-0">
+  <p class="fs-6 text-truncate text-wrap mb-2">
     <%= link_to changeset, :class => "changeset_id link-body-emphasis stretched-link" do %>
       <bdi><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></bdi>
     <% end %>
   </p>
 
-  <div class="overflow-hidden pt-3">
+  <div class="overflow-hidden">
     <%= changeset_details(changeset) %>
   </div>
 
