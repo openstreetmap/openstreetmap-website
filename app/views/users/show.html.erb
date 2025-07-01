@@ -4,7 +4,11 @@
 <% content_for :heading do %>
   <div class="row">
     <div class="col-sm-auto">
-      <%= user_image @user %>
+      <% if current_user and @user == current_user %>
+        <%= link_to user_image(@user), profile_image_path, :class => "d-block", :title => t(".change_image") %>
+      <% else %>
+        <%= user_image @user %>
+      <% end %>
     </div>
     <div class="col">
       <h1><%= @user.display_name %> <%= role_icons(@user) %></h1>
@@ -234,44 +238,63 @@
   </div>
 <% end %>
 
-<% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? %>
+<% owned = current_user && @user == current_user %>
+<% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
   <div class="row">
     <div class="col-sm-3">
-      <% if @user.home_location_name&.strip.present? %>
-        <div class="border-bottom text-body-secondary mb-2">
-          <div class="icon-link mw-100 mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
-              <title><%= t ".home location" %></title>
-              <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
-            </svg>
-            <span class="text-truncate">
-              <%= @user.home_location_name %>
-            </span>
-          </div>
+      <%= render "sidebar_section", :edit_title => t(".change_image"),
+                                    :edit_path => profile_image_path do %>
+      <% end %>
+
+      <%= render "sidebar_section", :present => @user.home_location_name&.strip.present?,
+                                    :edit_title => t(".edit_location"),
+                                    :edit_path => profile_location_path do %>
+        <div class="icon-link mw-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
+            <title><%= t ".home_location" %></title>
+            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+          </svg>
+          <span class="text-truncate">
+            <%= @user.home_location_name %>
+          </span>
         </div>
       <% end %>
-      <% if @user.company&.strip.present? %>
-        <div class="border-bottom text-body-secondary mb-2">
-          <div class="icon-link mw-100 mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
-              <title><%= t ".company" %></title>
-              <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z" />
-            </svg>
-            <span class="text-truncate" title="<%= t ".company tooltip" %>">
-              <%= @user.company %>
-            </span>
-          </div>
+
+      <%= render "sidebar_section", :present => @user.company&.strip.present?,
+                                    :edit_title => t(".edit_company"),
+                                    :edit_path => profile_company_path do %>
+        <div class="icon-link mw-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="flex-shrink-0">
+            <title><%= t ".company" %></title>
+            <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z" />
+          </svg>
+          <%= tag.span :class => "text-truncate", :title => t(".company_tooltip") do %>
+            <%= @user.company %>
+          <% end %>
         </div>
       <% end %>
-      <% unless @user.social_links.empty? %>
-        <div class="border-bottom mb-2">
-          <%= render "social_links/show",
-                     :social_links => @user.social_links %>
+
+      <%= render "sidebar_section", :present => !@user.social_links.empty?,
+                                    :edit_title => t(".edit_links"),
+                                    :edit_path => profile_links_path do %>
+        <%= render "social_links/show", :social_links => @user.social_links %>
+      <% end %>
+
+      <% if owned %>
+        <div class="mt-2">
+          <%= tag.button t(".edit_profile_details"), :type => "button",
+                                                     :class => "btn btn-sm btn-outline-primary w-100 overflow-hidden",
+                                                     :data => { :bs_toggle => "collapse", :bs_target => "[data-sidebar-edit]" } %>
         </div>
       <% end %>
     </div>
     <div class="col-sm-9">
       <div class="richtext text-break"><%= @user.description.to_html %></div>
+      <% if owned %>
+        <div class="mb-3">
+          <%= link_to t(".edit_description"), profile_description_path, :class => "btn btn-outline-primary" %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% else %>
@@ -283,9 +306,3 @@
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
-
-<% if current_user and @user.id == current_user.id %>
-  <div class="my-3">
-    <%= link_to t(".edit_profile"), profile_path, :class => "btn btn-outline-primary" %>
-  </div>
-<% end %>

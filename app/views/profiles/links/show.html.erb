@@ -1,0 +1,38 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+  <%= render :partial => "navigation" %>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
+  <fieldset class="mb-3">
+    <%= f.label t(".social_links.title"), :class => "form-label" %>
+    <div id="social_links">
+      <template>
+        <div class="social-link-added-fields row mb-3">
+          <div class="col-sm-8">
+            <input class="form-control" type="text" autocomplete="off">
+          </div>
+          <button type="button" class="btn btn-outline-primary col-sm-2 align-self-start"><%= t(".social_links.remove") %></button>
+        </div>
+      </template>
+      <%= f.fields_for :social_links do |social_link_form| %>
+        <div class="social-link-fields row mb-3">
+          <%= social_link_form.text_field :url, :skip_label => true, :wrapper_class => "col-sm-8" %>
+          <%= social_link_form.check_box :_destroy, :wrapper_class => "d-none social_link_destroy" %>
+          <button type="button" class="btn btn-outline-primary col-sm-2 align-self-start"><%= t(".social_links.remove") %></button>
+        </div>
+      <% end %>
+    </div>
+
+    <button id="add-social-link" type="button" class="btn btn-outline-primary"><%= t ".social_links.add" %></button>
+  </fieldset>
+
+  <%= f.primary t(".save") %>
+  <%= link_to t(".cancel"), current_user, :class => "btn btn-link" %>
+<% end %>

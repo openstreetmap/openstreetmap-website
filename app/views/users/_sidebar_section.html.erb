@@ -1,0 +1,21 @@
+<%# locals: (present: false, edit_title: nil, edit_path: nil) %>
+<% editable = edit_title && edit_path && current_user && @user == current_user %>
+<% edit_button_classes = %w[btn btn-sm btn-outline-primary py-0 w-100 overflow-hidden] %>
+<% if present %>
+  <div class="border-bottom text-body-secondary">
+    <div class="my-2">
+      <%= yield %>
+    </div>
+    <% if editable %>
+      <div class="collapse" data-sidebar-edit>
+        <%= link_to edit_title, edit_path, :class => [*edit_button_classes, "mb-2"] %>
+      </div>
+    <% end %>
+  </div>
+<% elsif editable %>
+  <div class="border-bottom text-body-secondary collapse" data-sidebar-edit>
+    <div class="py-2">
+      <%= link_to edit_title, edit_path, :class => edit_button_classes %>
+    </div>
+  </div>
+<% end %>

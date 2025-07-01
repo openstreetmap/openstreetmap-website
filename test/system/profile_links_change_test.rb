@@ -1,17 +1,39 @@
 require "application_system_test_case"
 
-class UserSocialLinksTest < ApplicationSystemTestCase
-  def setup
-    stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
+class ProfileLinksChangeTest < ApplicationSystemTestCase
+  test "can't change links when unauthorized" do
+    user = create(:user)
 
-    @user = create(:user)
-    sign_in_as(@user)
-    visit user_path(@user)
+    visit user_path(user)
+
+    within_content_body do
+      assert_no_button "Edit Profile Details"
+      assert_no_link "Edit Links"
+    end
+  end
+
+  test "can't change links of another user" do
+    user = create(:user)
+    another_user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(another_user)
+
+    within_content_body do
+      assert_no_button "Edit Profile Details"
+      assert_no_link "Edit Links"
+    end
   end
 
   test "can add and remove social link without submitting" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
     within_content_body do
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
 
       assert_no_field "Social Profile Link 1"
 
@@ -26,8 +48,14 @@ class UserSocialLinksTest < ApplicationSystemTestCase
   end
 
   test "can add and remove social links" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
     within_content_body do
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
 
       assert_no_field "Social Profile Link 1"
 
@@ -37,7 +65,8 @@ class UserSocialLinksTest < ApplicationSystemTestCase
 
       assert_link "example.com/user/fred"
 
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
       click_on "Remove Social Profile Link 1"
 
       assert_no_field "Social Profile Link 1"
@@ -49,8 +78,14 @@ class UserSocialLinksTest < ApplicationSystemTestCase
   end
 
   test "can control social links using keyboard without submitting" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
     within_content_body do
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
       click_on "Add Social Link"
 
       assert_field "Social Profile Link 1"
@@ -62,15 +97,22 @@ class UserSocialLinksTest < ApplicationSystemTestCase
   end
 
   test "can control social links using keyboard" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
     within_content_body do
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
       click_on "Add Social Link"
       send_keys "https://example.com/user/typed"
       click_on "Update Profile"
 
       assert_link "example.com/user/typed"
 
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
       find_field("Social Profile Link 1").click
       send_keys :tab, :enter
 
@@ -83,8 +125,14 @@ class UserSocialLinksTest < ApplicationSystemTestCase
   end
 
   test "can add and remove multiple links" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
     within_content_body do
-      click_on "Edit Profile"
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
       click_on "Add Social Link"
       fill_in "Social Profile Link 1", :with => "https://example.com/a"
       click_on "Add Social Link"
@@ -97,8 +145,8 @@ class UserSocialLinksTest < ApplicationSystemTestCase
       assert_link "example.com/b"
       assert_link "example.com/c"
 
-      click_on "Edit Profile"
-
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
       assert_field "Social Profile Link 1", :with => "https://example.com/a"
       assert_field "Social Profile Link 2", :with => "https://example.com/b"
       assert_field "Social Profile Link 3", :with => "https://example.com/c"

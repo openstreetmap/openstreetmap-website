@@ -317,8 +317,16 @@ OpenStreetMap::Application.routes.draw do
   get "/account/edit", :to => redirect(:path => "/account"), :as => nil
 
   resource :dashboard, :only => [:show]
-  resource :profile, :only => [:show, :update]
-  get "/profile/edit", :to => redirect(:path => "/profile"), :as => nil
+
+  namespace :profile, :module => :profiles do
+    resource :description, :only => [:show, :update]
+    resource :links, :only => [:show, :update]
+    resource :image, :only => [:show, :update]
+    resource :company, :only => [:show, :update]
+    resource :location, :only => [:show, :update]
+  end
+  get "/profile", :to => redirect(:path => "/profile/description"), :as => nil
+  get "/profile/edit", :to => redirect(:path => "/profile/description"), :as => nil
 
   scope :preferences, :module => :preferences do
     resource :basic_preferences, :path => "basic", :only => [:show, :update]
