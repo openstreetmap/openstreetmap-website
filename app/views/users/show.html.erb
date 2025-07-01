@@ -306,9 +306,3 @@
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
-
-<% if owned %>
-  <div class="my-3">
-    <%= link_to t(".edit_profile"), profile_description_path, :class => "btn btn-outline-primary" %>
-  </div>
-<% end %>
