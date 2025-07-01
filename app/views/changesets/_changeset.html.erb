@@ -10,7 +10,9 @@
     </div>
 
     <div class="d-flex gap-2">
-      <%= link_to "##{changeset.id}", changeset, :class => "changeset_id link-body-emphasis me-auto" %>
+      <span class="me-auto">
+        #<%= link_to changeset.id, changeset, :class => "changeset_id link-body-emphasis" %>
+      </span>
       <%= tag.div :class => ["d-flex align-items-baseline gap-1", { "opacity-50" => changeset.comments.empty? }],
                   :title => t(".comments", :count => changeset.comments.length) do %>
         <%= changeset.comments.length %>
