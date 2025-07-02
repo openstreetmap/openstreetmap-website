@@ -92,6 +92,15 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_index_user_not_found_language
+    get user_notes_path("no_such_user"), :headers => { "Accept-Language" => "fr" }
+
+    assert_response :not_found
+    assert_dom "html" do
+      assert_dom "> @lang", "fr"
+    end
+  end
+
   def test_empty_page
     user = create(:user)
     get user_notes_path(user)
