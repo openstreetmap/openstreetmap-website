@@ -5,20 +5,24 @@
       <label for="link_marker" class="form-check-label"><%= t ".include_marker" %></label>
       <input id="link_marker" type="checkbox" class="form-check-input" />
     </div>
-    <div class="btn-group btn-group-sm mb-2">
-      <a class="btn btn-primary active" for="long_input" id="long_link"><%= t ".long_link" %></a>
-      <a class="btn btn-primary" for="short_input" id="short_link"><%= t ".short_link" %></a>
-      <a class="btn btn-primary" for="embed_html" id="embed_link" data-bs-title="<%= t ".embed_html_disabled" %>" href="#"><%= t ".embed" %></a>
+    <div class="btn-group btn-group-sm mb-2 nav nav-pills" id="nav-tab" role="tablist">
+      <a class="btn btn-primary flex-grow-0 active" id="long_link" data-bs-toggle="tab" data-bs-target="#nav-long-link" type="button" role="tab" aria-controls="nav-long-link" aria-selected="true"><%= t ".long_link" %></a>
+      <a class="btn btn-primary flex-grow-0" id="short_link" data-bs-toggle="tab" data-bs-target="#nav-short-link" type="button" role="tab" aria-controls="nav-short-link" aria-selected="false"><%= t ".short_link" %></a>
+      <span class="btn-group btn-group-sm" tabindex="0" data-bs-title="<%= t ".embed_html_disabled" %>" data-bs-toggle="tooltip">
+        <a class="btn btn-primary" id="embed_link" data-bs-toggle="tab" data-bs-target="#nav-embed" type="button" role="tab" aria-controls="nav-embed" aria-selected="false"><%= t ".embed" %></a>
+      </span>
     </div>
-    <div class="share-tab">
-      <input id="long_input" type="text" class="form-control form-control-sm font-monospace" autocomplete="off" readonly />
-    </div>
-    <div class="share-tab" hidden>
-      <input id="short_input" type="text" class="form-control form-control-sm font-monospace" autocomplete="off" readonly />
-    </div>
-    <div class="share-tab" hidden>
-      <textarea id="embed_html" class="form-control form-control-sm font-monospace" readonly></textarea>
-      <p class="text-body-secondary"><%= t ".paste_html" %></p>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane active" id="nav-long-link" role="tabpanel" aria-labelledby="long_link">
+        <input type="text" id="long_input" class="form-control form-control-sm font-monospace" autocomplete="off" readonly />
+      </div>
+      <div class="tab-pane" id="nav-short-link" role="tabpanel" aria-labelledby="short_link">
+        <input type="text" id="short_input" class="form-control form-control-sm font-monospace" autocomplete="off" readonly />
+      </div>
+      <div class="tab-pane" id="nav-embed" role="tabpanel" aria-labelledby="embed_link">
+        <textarea id="embed_html" class="form-control form-control-sm font-monospace" readonly></textarea>
+        <p class="text-body-secondary mb-0"><%= t ".paste_html" %></p>
+      </div>
     </div>
   </form>
 </div>

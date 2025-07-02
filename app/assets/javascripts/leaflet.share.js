@@ -12,18 +12,8 @@ L.OSM.share = function (options) {
     $ui.find("#link_marker").on("change", toggleMarker);
 
     $ui.find(".btn-group .btn")
-      .on("click", function (e) {
-        e.preventDefault();
-        if (!$(this).hasClass("btn-primary")) return;
-        const id = "#" + $(this).attr("for");
-        $(this).siblings("a")
-          .removeClass("active");
-        $(this).addClass("active");
-        $ui.find(".share-tab")
-          .prop("hidden", true);
-        $ui.find(".share-tab:has(" + id + ")")
-          .prop("hidden", false)
-          .find("input, textarea")
+      .on("shown.bs.tab", () =>{
+        $ui.find(".tab-pane.active [id]")
           .trigger("select");
       });
 
@@ -146,13 +136,13 @@ L.OSM.share = function (options) {
         params.set("marker", latLng.lat + "," + latLng.lng);
       }
 
-      $("#embed_link")
-        .toggleClass("btn-primary", canEmbed)
-        .toggleClass("btn-secondary", !canEmbed)
-        .tooltip(canEmbed ? "disable" : "enable");
-      if (!canEmbed && $("#embed_link").hasClass("active")) {
-        $("#long_link").trigger("click");
+      if (!canEmbed && $("#nav-embed").hasClass("active")) {
+        bootstrap.Tab.getOrCreateInstance($("#long_link")).show();
       }
+      $("#embed_link")
+        .toggleClass("disabled", !canEmbed)
+        .parent()
+        .tooltip(canEmbed ? "disable" : "enable");
 
       $("#embed_html").val(
         "<iframe width=\"425\" height=\"350\" src=\"" +
