@@ -36,7 +36,7 @@ module Messages
       get new_message_reply_path(message)
       assert_response :success
       assert_template "new"
-      assert_select "title", "Re: #{message.title} | OpenStreetMap"
+      assert_select "title", "Re: #{message.title} | OpenHistoricalMap"
       assert_select "form[action='/messages']", :count => 1 do
         assert_select "input[type='hidden'][name='display_name'][value='#{user.display_name}']"
         assert_select "input#message_title[value='Re: #{message.title}']", :count => 1
