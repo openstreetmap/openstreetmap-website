@@ -46,6 +46,7 @@ export default [
     rules: {
       "@stylistic/array-bracket-newline": ["error", "consistent"],
       "@stylistic/array-bracket-spacing": "error",
+      "@stylistic/arrow-spacing": "error",
       "@stylistic/block-spacing": "error",
       "@stylistic/brace-style": ["error", "1tbs", { allowSingleLine: true }],
       "@stylistic/comma-dangle": "error",
