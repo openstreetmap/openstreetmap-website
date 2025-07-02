@@ -5,6 +5,7 @@
 # Author: Amire80
 # Author: Kizule
 # Author: McDutchie
+# Author: Minh Nguyen
 # Author: PiefPafPier
 # Author: Robby
 # Author: Verdy p
@@ -17,6 +18,12 @@ qqq:
       The only two possible values are:
       * rtl: for right-to-left scripts (Arabic, Hebrew, etc.)
       * ltr: for left-to-right scripts (unnecessary, as it is inherited from English)
+  date:
+    formats:
+      brief: '{{Optional|Only translate if the date format for a year must include
+        a prefix or suffix.}}'
+      range: '{{Optional|Only translate if the format for a date range uses different
+        punctuation or spacing.}}'
   helpers:
     submit:
       diary_comment:
@@ -32,6 +39,10 @@ qqq:
     attributes:
       trace:
         description: '{{identical|Description}}'
+  printable_name:
+    with_date_html: '{{Optional|Only translate if the conventional format for indicating
+      the dates associated with something would different punctuation or non-ASCII
+      punctuation, or if the dates would be prepended.}}'
   editor:
     id:
       name: |-
@@ -57,13 +68,26 @@ qqq:
         :* {{msg-ohm|Ohm-browse.not found.type.relation}}
         :* {{msg-ohm|Ohm-browse.not found.type.changeset}}
         :* {{msg-ohm|Ohm-browse.not found.type.note}}
+  changesets:
+    index:
+      feed:
+        cc0: '{{Optional}}'
+        cc0_url: '{{Optional}}'
   geocoder:
     search:
       title:
         latlon_url: '{{optional}}'
         osm_nominatim_url: '{{optional}}'
         osm_nominatim_reverse_url: '{{optional}}'
+    search_osm_nominatim:
+      suffix_format: |-
+        {{Optional|Only translate if the conventional format for indicating the dates associated with something would different punctuation or non-ASCII punctuation.}}
+
+        {{Identical|Date suffix format}}
   layouts:
+    project_name:
+      title: '{{Identical|OpenHistoricalMap}}'
+      h1: '{{Identical|OpenHistoricalMap}}'
     partners_devseed: See https://developmentseed.org/
     partners_greeninfo: See https://www.greeninfo.org/
     tou: '{{Identical|Requestaccount-page}}'
@@ -85,10 +109,48 @@ qqq:
     markdown_help:
       kramdown: See https://kramdown.gettalong.org/
   site:
+    about:
+      contribute_1_ohm_html: |-
+        See also:
+        * {{msg-ohm|ohm-site.about.contribute_1_wiki}}
+        * {{msg-ohm|ohm-site.about.contribute_1_wiki_url}}
+        * {{msg-ohm|ohm-site.about.contribute_1_forum}}
+        * {{msg-ohm|ohm-site.about.contribute_1_user_diaries}}
+        * {{msg-ohm|ohm-site.about.contribute_1_mastodon}}
+      contribute_1_bluesky: '{{Optional}}'
+      contribute_1_mastodon: '{{Optional}}'
+      contribute_1_wiki_url: '{{Optional}}'
+      contribute_2_html: |-
+        See also:
+        * {{msg-ohm|ohm-site.about.contribute_2_create_account}}
+        * {{msg-ohm|ohm-site.about.contribute_2_donations}}
+        * {{msg-ohm|ohm-site.about.contribute_2_osmus}}
+      contribute_2_create_account: This message is the parameter %{create_account_link}
+        in {{msg-ohm|Ohm-site.about.contribute 2 html}}.
+      contribute_2_donations: This message is the parameter %{donations_link} in {{msg-ohm|Ohm-site.about.contribute
+        2 html}}.
+      contribute_2_osmus: This message is the parameter %{osmus_link} in {{msg-ohm|Ohm-site.about.contribute
+        2 html}}.
+      open_data_1_1_html: |-
+        See also:
+        * {{msg-ohm|ohm-site.about.open_data_1_1_reuse}}
+        * {{msg-ohm|ohm-site.about.open_data_1_1_reuse_url}}
+      open_data_1_1_reuse: This message is the link text for the parameter %{reuse_link}
+        in {{msg-ohm|Ohm-site.about.open data 1 1 html}}.
+      open_data_1_1_reuse_url: '{{Optional}}'
+      open_data_2_html: |-
+        See also:
+        * {{msg-ohm|ohm-site.about.open_data_2_copyright_license}}
+      legal_1_group_url: '{{Optional}}'
+      legal_3_html: |-
+        See also:
+        * {{msg-ohm|ohm-site.about.legal_3_osmf_trademarks}}
+        * {{msg-ohm|ohm-site.about.legal_3_osmf_trademarks_url}}
+      legal_3_osmf_trademarks: This message is the link text for the parameter %{osmf_trademarks_link}
+        in {{msg-ohm|Ohm-site.about.legal 3 html}}.
     copyright:
       legal_babble:
-        contributors_es_scne: Sistema Cartográfico Nacional de España (Spain's National
-          Cartographic System), see https://www.scne.es/
+        credit_3_project: '{{Identical|OpenHistoricalMap}}'
     edit:
       id_not_configured: |-
         The term '''iD''' (with a lowercase initial and a capital second letter) is the actual name of an online map editor for OpenStreepMap or similar map editing projects.
@@ -107,4 +169,9 @@ qqq:
         cyclosm: '{{optional}}'
       copyright_text: '{{optional}}'
       cyclosm_name: '{{optional}}'
+    query:
+      suffix_format: |-
+        {{Optional|Only translate if the customary format for indicating the date range associated with something uses different punctuation.}}
+
+        {{Identical|Date suffix format}}
 ...
