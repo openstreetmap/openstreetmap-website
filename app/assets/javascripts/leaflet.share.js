@@ -12,7 +12,7 @@ L.OSM.share = function (options) {
     $ui.find("#link_marker").on("change", toggleMarker);
 
     $ui.find(".btn-group .btn")
-      .on("shown.bs.tab", () =>{
+      .on("shown.bs.tab", () => {
         $ui.find(".tab-pane.active [id]")
           .trigger("select");
       });
