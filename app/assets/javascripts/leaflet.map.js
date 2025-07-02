@@ -1,9 +1,44 @@
+//= require maplibre-gl
+//= require @maplibre/maplibre-gl-leaflet
+
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
            (this._northEast.lng - this._southWest.lng);
   }
 });
+
+if (OSM.SHORTBREAD_STYLE_URL) {
+  maplibregl.setRTLTextPlugin(OSM.RTL_TEXT_PLUGIN, true);
+  const styleOrigin = (new URL(OSM.SHORTBREAD_STYLE_URL)).origin;
+  L.OSM.Shortbread = L.MaplibreGL.extend({
+    onAdd: function (map) {
+      L.MaplibreGL.prototype.onAdd.call(this, map);
+      this.getMaplibreMap().setStyle(OSM.SHORTBREAD_STYLE_URL, {
+        transformStyle: (previousStyle, nextStyle) => ({
+          ...nextStyle,
+          sprite: [...nextStyle.sprite.map(s => {
+            return {
+              ...s,
+              url: new URL(s.url, styleOrigin).href
+            };
+          })],
+          // URL will % encode the {} in glyph and source URL so assemble them manually
+          glyphs: styleOrigin + nextStyle.glyphs,
+          sources: {
+            "versatiles-shortbread": {
+              ...nextStyle.sources["versatiles-shortbread"],
+              tiles: [styleOrigin + nextStyle.sources["versatiles-shortbread"].tiles[0]]
+            }
+          }
+        })
+      });
+    },
+    onRemove: function (map) {
+      L.MaplibreGL.prototype.onRemove.call(this, map);
+    }
+  });
+}
 
 L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
