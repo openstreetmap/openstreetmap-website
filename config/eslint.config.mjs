@@ -30,6 +30,7 @@ export default [
         Matomo: "readonly",
         OSM: "writable",
         Turbo: "readonly",
+        bootstrap: "readonly",
         plurals: "readonly",
         updateLinks: "readonly"
       }
