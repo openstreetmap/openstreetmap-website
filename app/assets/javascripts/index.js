@@ -288,6 +288,7 @@ $(function () {
   };
 
   const history = OSM.History(map);
+  const mappedElement = OSM.MappedElement(map);
 
   OSM.router = OSM.Router(map, {
     "/": OSM.Index(map),
@@ -300,12 +301,9 @@ $(function () {
     "/history": history,
     "/user/:display_name/history": history,
     "/note/:id": OSM.Note(map),
-    "/node/:id(/history)": OSM.MappedElement(map, "node"),
-    "/node/:id/history/:version": OSM.MappedElement(map, "node"),
-    "/way/:id(/history)": OSM.MappedElement(map, "way"),
-    "/way/:id/history/:version": OSM.Element(map, "way"),
-    "/relation/:id(/history)": OSM.MappedElement(map, "relation"),
-    "/relation/:id/history/:version": OSM.Element(map, "relation"),
+    "/type:node way relation/:id(/history)": mappedElement,
+    "/node/:id/history/:version": mappedElement,
+    "/type:way relation/:id/history/:version": OSM.Element(map),
     "/changeset/:id": OSM.Changeset(map),
     "/query": OSM.Query(map),
     "/account/home": OSM.Home(map)
