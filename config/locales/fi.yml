@@ -416,8 +416,6 @@ fi:
       one: '%{count} viiva'
       other: '%{count} viivaa'
     download_xml: Lataa XML-tiedostona
-    view_history: Näytä historia
-    view_details: Näytä tiedot
     location: 'Sijainti:'
     node:
       title_html: 'Piste: %{name}'
@@ -511,7 +509,7 @@ fi:
         sorry: Valitettavasti pyytämäsi muutoskokoelmien kommenttien hakeminen kesti
           liian kauan.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} kommentti'
         other: '%{count} kommenttia'
@@ -1535,8 +1533,6 @@ fi:
       time: Matka-aika
       ascend: Nousu
       descend: Lasku
-      button_km: km
-      button_mi: mailia
       download: Lataa reitti GeoJSON-muodossa
       filename: reitti
       directions_courtesy_html: Reittiohjeet tarjoaa %{link}
@@ -1823,6 +1819,9 @@ fi:
     resend_success_flash:
       confirmation_sent: Olemme lähettäneet uuden vahvistusviestin osoitteeseen %{email}.
         Vahvistettuasi käyttäjätunnuksesi voit aloittaa kartoittamisen.
+    gravatar:
+      disabled: Gravatar on poistettu käytöstä.
+      enabled: Gravatarisi näyttäminen on otettu käyttöön.
   messages:
     new:
       title: Lähetä viesti
@@ -1940,35 +1939,40 @@ fi:
       show:
         save: Päivitä asetukset
   profiles:
-    show:
-      title: Muokkaa profiilia
-      save: Päivitä profiili
-      cancel: Peruuta
-      image: Kuva
-      gravatar:
-        gravatar: Käytä Gravataria
-        what_is_gravatar: Mikä on Gravatar?
-        disabled: Gravatar on poistettu käytöstä.
-        enabled: Gravatarisi näyttäminen on otettu käyttöön.
-      new image: Lisää kuva
-      keep image: Säilytä nykyinen kuva
-      delete image: Poista nykyinen kuva
-      replace image: Korvaa nykyinen kuva
-      image size hint: (parhaat kuvat ovat neliönmuotoisia, joiden koko on vähintään
-        100x100)
-      home location: Kotipaikka
-      no home location: Kotipaikkaa ei ole vielä määritetty.
-      update home location on click: Päivitä kotipaikka karttaa napsauttaessa
-      show: Näytä
-      delete: Poista
-      undelete: Peruuta poistaminen
-      social_links:
-        title: Sosiaalisen median profiililinkit
-        remove: Poista
-        add: Lisää sosiaalisen median linkki
-    update:
-      success: Profiili päivitetty.
-      failure: Profiilia ei voitu päivittää.
+    profile_sections:
+      navigation:
+        image: Kuva
+        company: Yritys
+    descriptions:
+      show:
+        title: Muokkaa profiilia
+        save: Päivitä profiili
+        cancel: Peruuta
+    links:
+      show:
+        title: Muokkaa profiilia
+        social_links:
+          title: Sosiaalisen median profiililinkit
+          remove: Poista
+          add: Lisää sosiaalisen median linkki
+    images:
+      show:
+        gravatar:
+          gravatar: Käytä Gravataria
+          what_is_gravatar: Mikä on Gravatar?
+        new image: Lisää kuva
+        keep image: Säilytä nykyinen kuva
+        delete image: Poista nykyinen kuva
+        replace image: Korvaa nykyinen kuva
+        image size hint: (parhaat kuvat ovat neliönmuotoisia, joiden koko on vähintään
+          100x100)
+    locations:
+      show:
+        no home location: Kotipaikkaa ei ole vielä määritetty.
+        update home location on click: Päivitä kotipaikka karttaa napsauttaessa
+        show: Näytä
+        delete: Poista
+        undelete: Peruuta poistaminen
   sessions:
     new:
       tab_title: Kirjaudu
@@ -2796,7 +2800,6 @@ fi:
       blocks by me: Tekemäni estot
       create_mute: Hiljennä käyttäjä
       destroy_mute: Poista käyttäjän hiljennys
-      edit_profile: Muokkaa profiilia
       send message: Lähetä viesti
       diary: Päiväkirja
       edits: Muokkaukset
@@ -2806,8 +2809,6 @@ fi:
       follow: Seuraa
       mapper since: 'Rekisteröitynyt:'
       last map edit: 'Viimeisin karttamuokkaus:'
-      home location: Kotipaikka
-      company: Yritys
       no activity yet: Ei vielä toimintaa
       uid: 'Käyttäjätunnus:'
       ct status: 'Osallistumisehdot:'
@@ -2842,6 +2843,8 @@ fi:
       contributions:
         one: '%{count} muokkaus viimeisen vuoden aikana'
         other: '%{count} muokkausta viimeisen vuoden aikana'
+    sidebar_section:
+      home_location: Kotipaikka
     go_public:
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
     issued_blocks:
@@ -3193,12 +3196,10 @@ fi:
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} jalkaa'
-          mi: '%{distance} mailia'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} jalkaa'
+        mi: '%{distance} mailia'
       errors:
         no_route: Reittiä näiden paikkojen välille ei löytynyt.
         no_place: Paikkaa '%{place}' ei löytynyt.

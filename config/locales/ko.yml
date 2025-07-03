@@ -388,9 +388,7 @@ ko:
     part_of_ways:
       other: 길 %{count}건
     download_xml: XML 다운로드
-    view_history: 역사 보기
     view_unredacted_history: 수정되지 않은 기록 보기
-    view_details: 자세한 내용 보기
     location: '위치:'
     node:
       title_html: '교점: %{name}'
@@ -509,7 +507,7 @@ ko:
       timeout:
         sorry: 죄송합니다, 바뀜집합 댓글을 불러오는 요청이 너무 오래 걸립니다.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         other: 댓글 %{count}개
       changes:
@@ -1785,6 +1783,9 @@ ko:
         있습니다.'
       whitelist: 확인 요청 알림을 스팸으로 처리하는 시스템을 사용 중이신 경우에는 확인 요청에 응할 수 없으므로 %{sender}을(를)
         수신 허용 목록에 추가해 주세요.
+    gravatar:
+      disabled: 그라바타가 비활성화되었습니다.
+      enabled: 그라바타의 표시가 활성화되었습니다
   messages:
     new:
       title: 메시지 보내기
@@ -1905,30 +1906,35 @@ ko:
       show:
         save: 환경 설정 갱신
   profiles:
-    show:
-      title: 프로필 수정
-      save: 프로필 갱신
-      cancel: 취소
-      image: 이미지
-      gravatar:
-        gravatar: Gravatar 사용
-        what_is_gravatar: Gravatar는 무엇입니까?
-        disabled: 그라바타가 비활성화되었습니다.
-        enabled: 그라바타의 표시가 활성화되었습니다
-      new image: 그림 추가
-      keep image: 현재 그림 유지
-      delete image: 현재 그림 제거
-      replace image: 현재 그림 바꾸기
-      image size hint: (100x100 이하의 정사각형 그림이 최적)
-      home location: 집 위치
-      no home location: 집 위치를 입력하지 않았습니다.
-      update home location on click: 지도에서 클릭하면 집 위치로 업데이트할까요?
-      show: 보기
-      delete: 삭제
-      undelete: 삭제 취소
-    update:
-      success: 프로필이 갱신 됨.
-      failure: 프로필을 갱신할 수 없음.
+    profile_sections:
+      navigation:
+        image: 이미지
+        company: 기업
+    descriptions:
+      show:
+        title: 프로필 수정
+        save: 프로필 갱신
+        cancel: 취소
+    links:
+      show:
+        title: 프로필 수정
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar 사용
+          what_is_gravatar: Gravatar는 무엇입니까?
+        new image: 그림 추가
+        keep image: 현재 그림 유지
+        delete image: 현재 그림 제거
+        replace image: 현재 그림 바꾸기
+        image size hint: (100x100 이하의 정사각형 그림이 최적)
+    locations:
+      show:
+        no home location: 집 위치를 입력하지 않았습니다.
+        update home location on click: 지도에서 클릭하면 집 위치로 업데이트할까요?
+        show: 보기
+        delete: 삭제
+        undelete: 삭제 취소
   sessions:
     new:
       tab_title: 로그인
@@ -2708,7 +2714,6 @@ ko:
       blocks by me: 나한테 차단
       create_mute: 이 사용자 음소거하기
       destroy_mute: 이 사용자를 음소거 해제
-      edit_profile: 프로필 수정
       send message: 메시지 보내기
       diary: 일기
       edits: 편집
@@ -2716,8 +2721,6 @@ ko:
       notes: 지도 참고
       mapper since: '가입일:'
       last map edit: '마지막 지도 편집:'
-      home location: 집 위치
-      company: 기업
       no activity yet: 아직 활동이 없습니다
       uid: '사용자 아이디:'
       ct status: '기여자 약관:'
@@ -2753,6 +2756,8 @@ ko:
       delete_user: 이 사용자를 삭제
       confirm: 확인
       report: 신고
+    sidebar_section:
+      home_location: 집 위치
     go_public:
       flash success: 지금 모든 편집을 공개하고, 편집을 허용하지 않습니다.
     issued_blocks:
@@ -3046,9 +3051,8 @@ ko:
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: 두 장소 사이의 경로를 찾을 수 없습니다.
         no_place: 죄송합니다 - '%{place}'의 위치를 찾을 수 없었습니다.

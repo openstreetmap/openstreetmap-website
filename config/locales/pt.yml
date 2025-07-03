@@ -219,6 +219,7 @@ pt:
         company: Empresa
         home_lat: Latitude
         home_lon: Longitude
+        home_location_name: Nome da sua localização
         languages: Idiomas preferidos
         preferred_editor: Editor preferido
         pass_crypt: Senha
@@ -451,9 +452,7 @@ pt:
       one: '%{count} via'
       other: '%{count} vias'
     download_xml: Baixar XML
-    view_history: Ver histórico
     view_unredacted_history: Ver histórico não editado
-    view_details: Ver detalhes
     location: 'Localização:'
     node:
       title_html: 'Ponto: %{name}'
@@ -517,6 +516,13 @@ pt:
       telephone_link: Ligar para %{phone_number}
       colour_preview: Pré-visualização da cor %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Nó
+      way: Caminho
+      relation: Relação
+      history: Histórico
+      version: 'Versão #%{version}'
+      versions_label: 'Versões:'
   feature_queries:
     show:
       title: Consultar elementos
@@ -531,6 +537,8 @@ pt:
         title_html: 'Histórico da linha: %{name}'
       relation:
         title_html: 'Histórico da relação: %{name}'
+      older_versions: Versões mais antigas
+      newer_versions: Versões mais recentes
     actions:
       view_redacted_data: Ver dados reduzidos
       view_redaction_message: Ver mensagem de redação
@@ -581,7 +589,7 @@ pt:
         sorry: Desculpe, a lista de comentários do conjunto de alterações que você
           solicitou demorou muito para ser recuperada.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} comentário'
         other: '%{count} comentários'
@@ -764,6 +772,9 @@ pt:
       comments:
         one: '%{count} comentário'
         other: '%{count} comentários'
+      title_label: Entrada do diário
+      comments_label: Comentários
+      date_label: Data
   diary_comments:
     new:
       heading: Deseja adicionar um comentário na seguinte discussão sobre a entrada
@@ -1682,8 +1693,10 @@ pt:
       time: Tempo
       ascend: Ascenção
       descend: Descida
-      button_km: km
-      button_mi: mi
+      kilometers: quilômetros
+      miles_feet: milhas, pés
+      miles_yards: milhas, jardas
+      distance_units_settings: Configurações de unidades de distância
       download: Baixar rota como GeoJSON
       filename: rota
       directions_courtesy_html: Itinerário cortesia de %{link}
@@ -1836,6 +1849,10 @@ pt:
     communities: Comunidades
     learn_more: Saiba Mais
     more: Mais
+    header:
+      select_language: Selecionar idioma
+    select_language_button:
+      title: Selecionar idioma
     offline_flash:
       osm_offline: A base de dados do OpenStreetMap, no momento, está fora do ar para
         manutenção.
@@ -2022,6 +2039,9 @@ pt:
       whitelist: Se usar um sistema antispam que envia pedidos de confirmação, certifica-te
         de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
         de responder a pedidos de confirmação.
+    gravatar:
+      disabled: O Gravatar foi desativado.
+      enabled: A exibição do seu Gravatar foi ativada.
   messages:
     new:
       title: Enviar mensagem
@@ -2155,35 +2175,71 @@ pt:
         title: Minhas preferências avançadas
         save: Atualizar preferências
   profiles:
-    show:
-      title: Editar perfil
-      save: Atualizar perfil
-      cancel: Cancelar
-      image: Imagem
-      gravatar:
-        gravatar: Usar o Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=pt-br
-        what_is_gravatar: O que é o Gravatar?
-        disabled: O Gravatar foi desativado.
-        enabled: A exibição do seu Gravatar foi ativada.
-      new image: Adicionar uma imagem
-      keep image: Manter a imagem atual
-      delete image: Remover a imagem atual
-      replace image: Trocar a imagem atual
-      image size hint: (imagens quadradas, com pelo menos 100x100, funcionam melhor)
-      home location: Local principal
-      no home location: Você ainda não definiu o seu local principal.
-      update home location on click: Atualizar local principal ao clicar no mapa?
-      show: Exibir
-      delete: Excluir
-      undelete: Desfazer eliminação
-      social_links:
-        title: Links de perfis sociais
-        remove: Remover
-        add: Adicionar link social
-    update:
-      success: Perfil atualizado.
-      failure: Não foi possível atualizar o perfil.
+    profile_sections:
+      navigation:
+        description: Descrição
+        links: Links
+        image: Imagem
+        company: Empresa
+        location: Localização
+    descriptions:
+      show:
+        title: Editar perfil
+        save: Atualizar perfil
+        cancel: Cancelar
+      update:
+        success: Descrição do perfil atualizada.
+        failure: Não foi possível atualizar a descrição do perfil.
+    links:
+      show:
+        title: Editar perfil
+        save: Atualizar perfil
+        cancel: Cancelar
+        social_links:
+          title: Links de perfis sociais
+          remove: Remover
+          add: Adicionar link social
+      update:
+        success: Links de perfil atualizados.
+        failure: Não foi possível atualizar os links do perfil.
+    images:
+      show:
+        title: Editar perfil
+        save: Atualizar perfil
+        cancel: Cancelar
+        gravatar:
+          gravatar: Usar o Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=pt-br
+          what_is_gravatar: O que é o Gravatar?
+        new image: Adicionar uma imagem
+        keep image: Manter a imagem atual
+        delete image: Remover a imagem atual
+        replace image: Trocar a imagem atual
+        image size hint: (imagens quadradas, com pelo menos 100x100, funcionam melhor)
+      update:
+        success: Imagem de perfil atualizada.
+        failure: Não foi possível atualizar a imagem do perfil.
+    companies:
+      show:
+        title: Editar perfil
+        save: Atualizar perfil
+        cancel: Cancelar
+      update:
+        success: Perfil da empresa atualizado.
+        failure: Não foi possível atualizar o perfil da empresa.
+    locations:
+      show:
+        title: Editar perfil
+        save: Atualizar perfil
+        cancel: Cancelar
+        no home location: Você ainda não definiu o seu local principal.
+        update home location on click: Atualizar local principal ao clicar no mapa?
+        show: Exibir
+        delete: Excluir
+        undelete: Desfazer eliminação
+      update:
+        success: Localização do perfil atualizada.
+        failure: Não foi possível atualizar a localização do perfil.
   sessions:
     new:
       tab_title: Entrar
@@ -2234,24 +2290,38 @@ pt:
       changeset_comments:
         older: Comentários mais antigos
         newer: Comentários mais recentes
+        oldest: Comentários mais antigos
+        newest: Comentários mais recentes
       diary_comments:
         older: Comentários mais antigos
         newer: Comentários mais recentes
+        oldest: Comentários mais antigos
+        newest: Comentários mais recentes
       diary_entries:
         older: Publicações mais antigas
         newer: Publicações mais novas
+        oldest: Publicações mais antigas
+        newest: Publicações mais novas
       issues:
         older: Problemas antigos
         newer: Problemas recentes
+        oldest: Problemas antigos
+        newest: Problemas recentes
       traces:
         older: Trilhas mais antigas
         newer: Trilhas mais recentes
+        oldest: Trilhas mais antigas
+        newest: Trilhas mais recentes
       user_blocks:
         older: Bloqueios mais antigos
         newer: Bloqueios mais recentes
+        oldest: Bloqueios mais antigos
+        newest: Bloqueios mais recentes
       users:
         older: Usuários antigos
         newer: Novos usuários
+        oldest: Usuários antigos
+        newest: Novos usuários
   site:
     about:
       heading_html: '%{copyright}Contribuidores %{br} do OpenStreetMap'
@@ -2717,6 +2787,9 @@ pt:
           Não há necessidade de estabelecer formalmente um grupo na mesma medida que os Capítulos Locais.
           De fato, muitos grupos existem com muito sucesso como uma reunião informal de pessoas ou como um grupo comunitário. Qualquer um pode criar ou se juntar a eles. Leia mais em %{communities_wiki_link}.
         communities_wiki: Páginas wiki de comunidades
+  social_links:
+    show:
+      website: site
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Aproxime para ver notas de mapa
@@ -3045,7 +3118,7 @@ pt:
   oauth2_authorizations:
     new:
       title: Autorização necessária
-      introduction: Autorizar o acesso de %{application} à tua conta com as seguintes
+      introduction: Autorizar o acesso de %{application} à sua conta com as seguintes
         permissões?
       authorize: Autorizar
       deny: Negar
@@ -3123,7 +3196,6 @@ pt:
       blocks by me: Bloqueios por mim
       create_mute: Silenciar este usuário
       destroy_mute: Deixar de silenciar este usuário
-      edit_profile: Editar perfil
       send message: Enviar mensagem
       diary: Diário
       edits: Edições
@@ -3133,9 +3205,6 @@ pt:
       follow: Seguir
       mapper since: 'Mapeador desde:'
       last map edit: 'Última edição do mapa:'
-      home location: Local principal
-      company: Empresa
-      company tooltip: A afiliação à empresa é autodeclarada e não verificada.
       no activity yet: Ainda sem atividade
       uid: 'ID do usário:'
       ct status: 'Termos do contribuidor:'
@@ -3171,9 +3240,19 @@ pt:
       delete_user: Excluir este usuário
       confirm: Confirmar
       report: Denunciar este usuário
+      edit_profile_details: Editar detalhes do perfil
+      edit_description: Editar descrição
+      edit_links: Editar links
+      change_image: Alterar imagem
+      edit_company: Editar empresa
+      edit_location: Editar localização
       contributions:
         one: '%{count} contribuição no último ano'
         other: '%{count} contribuições no último ano'
+    sidebar_section:
+      home_location: Local principal
+      company: Empresa
+      company_tooltip: A afiliação à empresa é autodeclarada e não verificada.
     go_public:
       flash success: Todas as suas edições agora são públicas, e você está com autorizado
         a editar.
@@ -3543,12 +3622,11 @@ pt:
       aqui.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
-        miles:
-          ft: '%{distance}ft'
-          mi: '%{distance}mi'
+        m: '%{distance}m'
+        km: '%{distance}km'
+        ft: '%{distance}ft'
+        yd: '%{distance}yd'
+        mi: '%{distance}mi'
       errors:
         no_route: Rota entre esses dois lugares não encontrada.
         no_place: Desculpe - não foi possível encontrar '%{place}'.

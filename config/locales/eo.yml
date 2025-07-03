@@ -401,9 +401,7 @@ eo:
       one: '%{count} linio'
       other: '%{count} linioj'
     download_xml: Elŝuti XML
-    view_history: Vidi historion
     view_unredacted_history: Vidigi historion de neredaktitaj
-    view_details: Montri detalojn
     location: 'Pozicio:'
     common_details:
       coordinates_html: '%{latitude}; %{longitude}'
@@ -469,6 +467,13 @@ eo:
       telephone_link: Telefoni %{phone_number}
       colour_preview: Antaŭvido de koloro “%{colour_value}”
       email_link: Sendi retleteron al %{email}
+    versions_navigation:
+      node: Nodo
+      way: Linio
+      relation: Rilato
+      history: Historio
+      version: 'Versio #%{version}'
+      versions_label: 'Versioj:'
   feature_queries:
     show:
       title: Informoj pri objektoj
@@ -536,7 +541,7 @@ eo:
         sorry: Bedaŭrinde daŭris tro longe por akiri la petitan liston de komentoj
           pri ŝanĝaro.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} komento'
         other: '%{count} komentoj'
@@ -1631,8 +1636,6 @@ eo:
       time: Tempo
       ascend: Supreniro
       descend: Malsupreniro
-      button_km: km
-      button_mi: mi
       download: Elŝuti kurson kiel GeoJSON
       filename: kurso
       directions_courtesy_html: Kalkulado de kurso danke al %{link}
@@ -1959,6 +1962,9 @@ eo:
       whitelist: Se vi uzas kontraŭtrudmesaĝan sistemon, kiu sendas konfirmpetojn;
         certiĝu ke la sendinto %{sender} estu sur la permesata listo, ĉar ni ne povas
         respondi al konfirmpetoj.
+    gravatar:
+      disabled: “Gravataro” estas malaktiva.
+      enabled: Montrado de via “Gravataro” estas aktiva.
   messages:
     new:
       title: Sendi mesaĝon
@@ -2091,35 +2097,40 @@ eo:
         title: Miaj altnivelaj preferoj
         save: Konservi preferojn
   profiles:
-    show:
-      title: Redakti profilon
-      save: Aktualigi profilon
-      cancel: Nuligi
-      image: Profilbildo
-      gravatar:
-        gravatar: Uzi “Gravataron”
-        what_is_gravatar: Kio estas Gravatar?
-        disabled: “Gravataro” estas malaktiva.
-        enabled: Montrado de via “Gravataro” estas aktiva.
-      new image: Aldoni bildon
-      keep image: Konservi la aktualan bildon
-      delete image: Forigi la aktualan bildon
-      replace image: Anstataŭigi la aktualan bildon
-      image size hint: (kvadrataj bildoj kun grando pli ol 100x100 taŭgas)
-      home location: Hejma pozicio
-      no home location: Vi ne enigis vian hejmlokon.
-      update home location on click: Ĉu freŝigi la hejmlokon kiam mi alklakas sur
-        la mapo?
-      show: Montri
-      delete: Forigi
-      undelete: Malforigi
-      social_links:
-        title: Ligiloj al sociaj komunikiloj
-        remove: Forigi
-        add: Aldoni ligilon al socia komunikilo
-    update:
-      success: Aktualigis profilon.
-      failure: Ne povis aktualigi la profilon.
+    profile_sections:
+      navigation:
+        image: Profilbildo
+        company: Firmao
+    descriptions:
+      show:
+        title: Redakti profilon
+        save: Aktualigi profilon
+        cancel: Nuligi
+    links:
+      show:
+        title: Redakti profilon
+        social_links:
+          title: Ligiloj al sociaj komunikiloj
+          remove: Forigi
+          add: Aldoni ligilon al socia komunikilo
+    images:
+      show:
+        gravatar:
+          gravatar: Uzi “Gravataron”
+          what_is_gravatar: Kio estas Gravatar?
+        new image: Aldoni bildon
+        keep image: Konservi la aktualan bildon
+        delete image: Forigi la aktualan bildon
+        replace image: Anstataŭigi la aktualan bildon
+        image size hint: (kvadrataj bildoj kun grando pli ol 100x100 taŭgas)
+    locations:
+      show:
+        no home location: Vi ne enigis vian hejmlokon.
+        update home location on click: Ĉu freŝigi la hejmlokon kiam mi alklakas sur
+          la mapo?
+        show: Montri
+        delete: Forigi
+        undelete: Malforigi
   sessions:
     new:
       tab_title: Ensaluti
@@ -2170,24 +2181,38 @@ eo:
       changeset_comments:
         older: Pli malnovaj komentoj
         newer: Pli novaj komentoj
+        oldest: Plej malnovaj komentoj
+        newest: Plej novaj komentoj
       diary_comments:
         older: Pli malnovaj komentoj
         newer: Pli novaj komentoj
+        oldest: Plej malnovaj komentoj
+        newest: Plej novaj komentoj
       diary_entries:
         older: Pli malnovaj afiŝoj
         newer: Pli novaj afiŝoj
+        oldest: Plej malnovaj afiŝoj
+        newest: Plej novaj afiŝoj
       issues:
         older: Pli malnovaj problemoj
         newer: Pli novaj problemoj
+        oldest: Plej malnovaj problemoj
+        newest: Plej novaj problemoj
       traces:
         older: Pli malnovaj spuroj
         newer: Pli novaj spuroj
+        oldest: Plej malnovaj spuroj
+        newest: Plej novaj spuroj
       user_blocks:
         older: Pli malnovaj blokadoj
         newer: Pli novaj blokadoj
+        oldest: Plej malnovaj blokadoj
+        newest: Plej novaj blokadoj
       users:
         older: Pli malnovaj uzantoj
         newer: Pli novaj uzantoj
+        oldest: Plej malnovaj uzantoj
+        newest: Plej novaj uzantoj
   site:
     about:
       heading_html: '%{copyright}kontribuintoj de %{br} OpenStreetMap'
@@ -3010,7 +3035,6 @@ eo:
       blocks by me: Blokitaj de mi
       create_mute: Silentigi tiun ĉi uzanton
       destroy_mute: Malsilentigi tiun ĉi uzanton
-      edit_profile: Redakti profilon
       send message: Sendi mesaĝon
       diary: Taglibro
       edits: Redaktoj
@@ -3020,9 +3044,6 @@ eo:
       follow: Sekvi
       mapper since: 'Mapigisto ekde:'
       last map edit: 'Antaŭa map-redakto:'
-      home location: Hejmloko
-      company: Firmao
-      company tooltip: Aparteno al firmao estas memdeklarita kaj ne neverigita
       no activity yet: ankoraŭ neniu agado
       uid: 'Identigilo de uzanto:'
       ct status: 'Interkonsento pri kontribuado:'
@@ -3061,6 +3082,9 @@ eo:
       contributions:
         one: '%{count} kontribuo dum la antaŭa jaro'
         other: '%{count} kontribuoj dum la antaŭa jaro'
+    sidebar_section:
+      home_location: Hejmloko
+      company_tooltip: Aparteno al firmao estas memdeklarita kaj ne neverigita
     go_public:
       flash success: Ĉiuj viaj redaktoj naŭ estas publikaj, kaj vi naŭ rajtas redakti.
     issued_blocks:
@@ -3422,12 +3446,10 @@ eo:
       alklaku tie ĉi.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} ft'
-          mi: '%{distance} mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} ft'
+        mi: '%{distance} mi'
       errors:
         no_route: Ne povis trovi kurson inter tiuj du punktoj.
         no_place: Bedaŭrinde ne povas trovi “%{place}”.

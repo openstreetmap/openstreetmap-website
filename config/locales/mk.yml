@@ -379,9 +379,7 @@ mk:
       one: '%{count} пат'
       other: '%{count} патишта'
     download_xml: Преземи XML
-    view_history: Погл. историја
     view_unredacted_history: Погл. неизменета историја
-    view_details: Погл. поединости
     location: 'Местоположба:'
     node:
       title_html: 'Јазол: %{name}'
@@ -445,6 +443,13 @@ mk:
       telephone_link: Јави се на %{phone_number}
       colour_preview: Преглед на бојата %{colour_value}
       email_link: Е-пошта %{email}
+    versions_navigation:
+      node: Јазол
+      way: Пат
+      relation: Однос
+      history: Историја
+      version: Верзија бр. %{version}
+      versions_label: 'Верзии:'
   feature_queries:
     show:
       title: Пребарување на елементи
@@ -510,7 +515,7 @@ mk:
         sorry: За жал, на списокот на измени што го побаравте му требаше предолго
           за да се преземе.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} коментар'
         other: '%{count} коментари'
@@ -1610,8 +1615,10 @@ mk:
       time: Време
       ascend: Нагорно
       descend: Надолно
-      button_km: км
-      button_mi: ми
+      kilometers: километри
+      miles_feet: милји, стапки
+      miles_yards: милји, јарди
+      distance_units_settings: Поставки за единици за растојание
       download: Преземи патен правец како GeoJSON
       filename: патен правец
       directions_courtesy_html: Насоките ги добивте благодарение на %{link}
@@ -1950,6 +1957,9 @@ mk:
       whitelist: Ако користите систем против спан кој испраќа барања за потврда, осигурајте
         се дека %{sender} е ставен на белиот список бидејќи не сме во можност да одговараме
         на барања за потврда.
+    gravatar:
+      disabled: Граватарот е исклучен.
+      enabled: Вашиот граватар е вклучен.
   messages:
     new:
       title: Испрати ја пораката
@@ -2082,36 +2092,72 @@ mk:
         title: Мои напредни нагодувања
         save: Поднови нагодувања
   profiles:
-    show:
-      title: Уреди профил
-      save: Поднови профил
-      cancel: Откажи
-      image: Слика
-      gravatar:
-        gravatar: Користи Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=mk
-        what_is_gravatar: Што е тоа Gravatar?
-        disabled: Граватарот е исклучен.
-        enabled: Вашиот граватар е вклучен.
-      new image: Додај слика
-      keep image: Задржи ја тековната слика
-      delete image: Отстрани тековна слика
-      replace image: Замени тековна слика
-      image size hint: (најдобро работат квадратни слики, барем 100×100)
-      home location: Матична местоположба
-      no home location: Немате внесено матична местоположба.
-      update home location on click: Подновувај ја матичната местоположба кога ќе
-        стиснам на картата
-      show: Прикажи
-      delete: Избриши
-      undelete: Откажи бришење
-      social_links:
-        title: Врски до друштвени профили
-        remove: Отстрани
-        add: Додај друштвена врска
-    update:
-      success: Профилот е подновен.
-      failure: Не можев да го подновам профилот.
+    profile_sections:
+      navigation:
+        description: Опис
+        links: Врски
+        image: Слика
+        company: Фирма
+        location: Местоположба
+    descriptions:
+      show:
+        title: Уреди профил
+        save: Поднови профил
+        cancel: Откажи
+      update:
+        success: Описот на профилот е подновен.
+        failure: Не можев да го подновам описот на профилот.
+    links:
+      show:
+        title: Уреди профил
+        save: Поднови профил
+        cancel: Откажи
+        social_links:
+          title: Врски до друштвени профили
+          remove: Отстрани
+          add: Додај друштвена врска
+      update:
+        success: Врските на профилот се подновени.
+        failure: Не можев да ги подновам врските на профилот.
+    images:
+      show:
+        title: Уреди профил
+        save: Поднови профил
+        cancel: Откажи
+        gravatar:
+          gravatar: Користи Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=mk
+          what_is_gravatar: Што е тоа Gravatar?
+        new image: Додај слика
+        keep image: Задржи ја тековната слика
+        delete image: Отстрани тековна слика
+        replace image: Замени тековна слика
+        image size hint: (најдобро работат квадратни слики, барем 100×100)
+      update:
+        success: Сликата на профилот е подновена.
+        failure: Не можев да ја подновам сликата на профилот.
+    companies:
+      show:
+        title: Уреди профил
+        save: Поднови профил
+        cancel: Откажи
+      update:
+        success: Фирмата на профилот е подновена.
+        failure: Не можев да ја подновам фирмата на профилот.
+    locations:
+      show:
+        title: Уреди профил
+        save: Поднови профил
+        cancel: Откажи
+        no home location: Немате внесено матична местоположба.
+        update home location on click: Подновувај ја матичната местоположба кога ќе
+          стиснам на картата
+        show: Прикажи
+        delete: Избриши
+        undelete: Откажи бришење
+      update:
+        success: Местоположбата на профилот е подновена.
+        failure: Не можев да ја подновам местоположбата на профилот.
   sessions:
     new:
       tab_title: Најава
@@ -2163,24 +2209,38 @@ mk:
       changeset_comments:
         older: Постари коментари
         newer: Понови коментари
+        oldest: Најстари коментари
+        newest: Најнови коментари
       diary_comments:
         older: Постари коментари
         newer: Понови коментари
+        oldest: Најстари коментари
+        newest: Најнови коментари
       diary_entries:
         older: Постари ставки
         newer: Понови ставки
+        oldest: Најстари ставки
+        newest: Најнови ставки
       issues:
         older: Постари проблеми
         newer: Понови проблеми
+        oldest: Најстари проблеми
+        newest: Најнови проблеми
       traces:
         older: Постари траги
         newer: Понови траги
+        oldest: Најстари траги
+        newest: Најнови траги
       user_blocks:
         older: Постари блокови
         newer: Понови блокови
+        oldest: Најстари блокови
+        newest: Најнови блокови
       users:
         older: Постари корисници
         newer: Понови корисници
+        oldest: Најстари корисници
+        newest: Најнови корисници
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} учесници'
@@ -3038,7 +3098,6 @@ mk:
       blocks by me: Извршени болокови
       create_mute: Замолкни го корисников
       destroy_mute: Одмолкни го корисников
-      edit_profile: Уреди профил
       send message: Испрати порака
       diary: Дневник
       edits: Уредувања
@@ -3048,9 +3107,6 @@ mk:
       follow: Следи
       mapper since: 'Картограф од:'
       last map edit: 'Последно уредување на картата:'
-      home location: Матична местоположба
-      company: Фирма
-      company tooltip: Припадноста на фирмата е самопријавена и не е потврдена
       no activity yet: Сè уште нема активности
       uid: 'Корисничка назнака:'
       ct status: 'Услови за учество:'
@@ -3086,9 +3142,19 @@ mk:
       delete_user: Избриши го корисников
       confirm: Потврди
       report: Пријави го корисников
+      edit_profile_details: Уреди поединости на профилот
+      edit_description: Уреди опис
+      edit_links: Уреди врски
+      change_image: Смени слика
+      edit_company: Уреди фирма
+      edit_location: Уреди местоположба
       contributions:
         one: '%{count} придонес во минатата година'
         other: '%{count} придонеси во минатата година'
+    sidebar_section:
+      home_location: Матична местоположба
+      company: Фирма
+      company_tooltip: Припадноста на фирмата е самопријавена и не е потврдена
     go_public:
       flash success: Сега сите уредувања ви се јавни, и ви е дозволено да уредувате.
     issued_blocks:
@@ -3457,12 +3523,11 @@ mk:
       па стиснете тука.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} м'
-          km: '%{distance} км'
-        miles:
-          ft: '%{distance} ст'
-          mi: '%{distance} ми'
+        m: '%{distance} м'
+        km: '%{distance} км'
+        ft: '%{distance} ст'
+        yd: '%{distance} јд'
+        mi: '%{distance} ми'
       errors:
         no_route: Не можев да најдам маршрута помеѓу тие две места.
         no_place: За жал, не можев да го најдам  местото „%{place}“.

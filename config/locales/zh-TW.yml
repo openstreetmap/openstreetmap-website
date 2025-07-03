@@ -200,6 +200,7 @@ zh-TW:
         company: 公司
         home_lat: 緯度
         home_lon: 經度
+        home_location_name: 家位置名稱
         languages: 偏好的語言
         preferred_editor: 偏好編輯器
         pass_crypt: 密碼
@@ -385,9 +386,7 @@ zh-TW:
       one: '%{count} 條路徑'
       other: '%{count} 條路徑'
     download_xml: 下載 XML
-    view_history: 檢視歷史
     view_unredacted_history: 查看未編輯的歷史記錄
-    view_details: 檢視詳細資料
     location: 位置：
     node:
       title_html: 節點：%{name}
@@ -448,6 +447,12 @@ zh-TW:
       telephone_link: 致電 %{phone_number}
       colour_preview: 色彩%{colour_value}預覽
       email_link: 電子郵件 %{email}
+    versions_navigation:
+      node: 節點
+      way: 路徑
+      relation: 關聯
+      history: 歷史
+      versions_label: 版本：
   feature_queries:
     show:
       title: 查詢圖徵
@@ -462,6 +467,8 @@ zh-TW:
         title_html: 路徑歷史：%{name}
       relation:
         title_html: 關聯歷史：%{name}
+      older_versions: 較舊版本
+      newer_versions: 較新版本
     actions:
       view_redacted_data: 查看編修資料
       view_redaction_message: 查看密文訊息
@@ -506,7 +513,7 @@ zh-TW:
       timeout:
         sorry: 很抱歉，你請求的變更集評論過長無法讀取
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: 1 項評論
         other: '%{count} 項評論'
@@ -680,6 +687,7 @@ zh-TW:
     profile_diaries:
       latest_diaries: 最新日記
       comments: '%{count}條評論'
+      comments_label: 評論
       date_label: 日期
   diary_comments:
     new:
@@ -1586,11 +1594,13 @@ zh-TW:
       time: 時間
       ascend: 上升
       descend: 下降
-      button_km: 公里
-      button_mi: 英哩
+      kilometers: 公里
+      miles_feet: 英里、英尺
+      miles_yards: 英里、碼
+      distance_units_settings: 距離單位設定
       download: 以 GeoJSON 格式下載路線
       filename: 路線
-      directions_courtesy_html: 感謝 %{link} 提供路線資訊
+      directions_courtesy_html: 由 %{link} 提供路線指引
   issues:
     index:
       title: 問題
@@ -1737,6 +1747,10 @@ zh-TW:
     communities: 社群
     learn_more: 瞭解更多
     more: 更多
+    header:
+      select_language: 選擇語言
+    select_language_button:
+      title: 選擇語言
     offline_flash:
       osm_offline: 開放街圖資料庫目前已離線，正在進行必要的維護工作。
       osm_read_only: 開放街圖資料庫目前處於唯讀模式，正在進行必要的維護工作。
@@ -1874,6 +1888,9 @@ zh-TW:
     resend_success_flash:
       confirmation_sent: 我們已發送新的確認通知到 %{email}，一旦你確認你的帳號後，就能取得製圖權限。
       whitelist: 如果你用來發送確認請求的信箱有反垃圾郵件系統，請確認有將 %{sender} 將入白名單，因為我們無法回覆任何確認請求。
+    gravatar:
+      disabled: Gravatar已停用。
+      enabled: 你的 Gravatar 顯示功能已啟用。
   messages:
     new:
       title: 寄出訊息
@@ -1997,35 +2014,48 @@ zh-TW:
         title: 我的進階偏好設定
         save: 更新偏好設定
   profiles:
-    show:
-      title: 編輯基本資料
-      save: 更新基本資料
-      cancel: 取消
-      image: 圖片
-      gravatar:
-        gravatar: 使用 Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: 什麼是 Gravatar？
-        disabled: Gravatar已停用。
-        enabled: 你的 Gravatar 顯示功能已啟用。
-      new image: 加入圖片
-      keep image: 保持目前的圖片
-      delete image: 移除目前的圖片
-      replace image: 取代目前的圖片
-      image size hint: ' (方形圖片至少 100x100 的效果最好)'
-      home location: 家的位置
-      no home location: 你尚未輸入家的位置。
-      update home location on click: 當我點選地圖時更新家的位置？
-      show: 顯示
-      delete: 刪除
-      undelete: 還原刪除
-      social_links:
-        title: 社群帳號連結
-        remove: 移除
-        add: 新增社群媒體連結
-    update:
-      success: 已更新基本資料。
-      failure: 無法更新個人資料。
+    profile_sections:
+      navigation:
+        links: 連結
+        image: 圖片
+        company: 公司
+        location: 位置
+    descriptions:
+      show:
+        title: 編輯基本資料
+        save: 更新基本資料
+        cancel: 取消
+    links:
+      show:
+        title: 編輯個人資料
+        cancel: 取消
+        social_links:
+          title: 社群帳號連結
+          remove: 移除
+          add: 新增社群媒體連結
+    images:
+      show:
+        cancel: 取消
+        gravatar:
+          gravatar: 使用 Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: 什麼是 Gravatar？
+        new image: 加入圖片
+        keep image: 保持目前的圖片
+        delete image: 移除目前的圖片
+        replace image: 取代目前的圖片
+        image size hint: ' (方形圖片至少 100x100 的效果最好)'
+    companies:
+      show:
+        cancel: 取消
+    locations:
+      show:
+        cancel: 取消
+        no home location: 你尚未輸入家的位置。
+        update home location on click: 當我點選地圖時更新家的位置？
+        show: 顯示
+        delete: 刪除
+        undelete: 還原刪除
   sessions:
     new:
       tab_title: 登入
@@ -2073,24 +2103,36 @@ zh-TW:
       changeset_comments:
         older: 較舊的留言
         newer: 較新的留言
+        oldest: 最早評論
+        newest: 最新評論
       diary_comments:
         older: 較舊的評論
         newer: 較新的評論
+        oldest: 最早評論
+        newest: 最新評論
       diary_entries:
         older: 較舊的項目
         newer: 較新的項目
       issues:
         older: 舊問題
         newer: 新問題
+        oldest: 最早問題
+        newest: 最新問題
       traces:
         older: 較舊軌跡
         newer: 較新軌跡
+        oldest: 最早軌跡
+        newest: 最新軌跡
       user_blocks:
         older: 舊的封鎖
         newer: 新的封鎖
+        oldest: 最早封鎖
+        newest: 最新封鎖
       users:
         older: 舊使用者
         newer: 新使用者
+        oldest: 最早使用者
+        newest: 最新使用者
   site:
     about:
       heading_html: '%{copyright}開放街圖 %{br} 貢獻者'
@@ -2190,7 +2232,7 @@ zh-TW:
           一般來說，為了明確表示資料遵循開放資料庫授權 (Open
           Database License)條款，您可以連結到 %{this_copyright_page_link}。如果您以資料形式散佈 OSM，請註明並直接連結到授權條款。在無法連結的媒體（例如印刷作品）中，請在頁面上包含完整的 URL，例如 %{copyright_page_url}。
         credit_4_v2025_this_copyright_page: 此版權頁面
-        credit_5_v2025_html: 在這範例當中，署名義務可以顯示在地圖的角落：
+        credit_5_v2025_html: 在此範例中，署名顯示在地圖的角落：
         attribution_example:
           alt: 如何在網頁上署名開放街圖的例子
           title: 姓名標示例子
@@ -2441,6 +2483,9 @@ zh-TW:
           沒有需要正式建立一個與地方分會同等規模的團體。
           事實上，許多團體作為人們的非正式集會或是社群團體而非常成功地存在。任何人都可以設定或是加入這些團體。請在%{communities_wiki_link}上閱讀更多內容。
         communities_wiki: 社群 wiki 頁面
+  social_links:
+    show:
+      website: 網站
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: 放大以查看註記
@@ -2812,7 +2857,6 @@ zh-TW:
       blocks by me: 我所設的封鎖
       create_mute: 忽視這名使用者
       destroy_mute: 取消忽視這名使用者
-      edit_profile: 編輯個人資料
       send message: 傳送訊息
       diary: 日記
       edits: 編輯
@@ -2822,9 +2866,6 @@ zh-TW:
       follow: 追蹤
       mapper since: 註冊為製圖者日期：
       last map edit: 最後地圖編輯於：
-      home location: 家的位置
-      company: 公司
-      company tooltip: 該公司隸屬關係為自我揭露，未經證實
       no activity yet: 尚無活動
       uid: 使用者 ID：
       ct status: 貢獻者條款：
@@ -2860,7 +2901,15 @@ zh-TW:
       delete_user: 刪除這位使用者
       confirm: 確認
       report: 回報此使用者
+      edit_links: 編輯連結
+      change_image: 更改圖片
+      edit_company: 編輯公司
+      edit_location: 編輯位置
       contributions: 去年有%{count}貢獻
+    sidebar_section:
+      home_location: 家的位置
+      company: 公司
+      company_tooltip: 該公司隸屬關係為自我揭露，未經證實
     go_public:
       flash success: 現在你所有的編輯都是公開的，而你已獲准編輯。
     issued_blocks:
@@ -3201,12 +3250,11 @@ zh-TW:
     edit_help: 將地圖移至你想編輯的位置並放大，然後按這裡。
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} 公尺'
-          km: '%{distance}公里'
-        miles:
-          ft: '%{distance}英尺'
-          mi: '%{distance}英里'
+        m: '%{distance} 公尺'
+        km: '%{distance}公里'
+        ft: '%{distance}英尺'
+        yd: '%{distance}碼'
+        mi: '%{distance}英里'
       errors:
         no_route: 查無兩個地點間的路徑。
         no_place: 抱歉 - 查無地點「%{place}」。

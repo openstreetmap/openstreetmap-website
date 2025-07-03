@@ -11,6 +11,9 @@
 # Author: Nemo bis
 ---
 ia:
+  date:
+    formats:
+      heatmap: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B %Y a %H:%M'
@@ -46,6 +49,10 @@ ia:
       models:
         user_mute:
           is_already_muted: es ja silentiate
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Le URL debe comenciar con http:// o https://
     models:
       acl: Lista de controlo de accesso
       changeset: Gruppo de modificationes
@@ -92,6 +99,7 @@ ia:
         allow_write_prefs: modificar su preferentias de usator
         allow_write_diary: crear entratas de diario e commentos
         allow_write_api: modificar le carta
+        allow_write_changeset_comments: commentar gruppos de modificationes
         allow_read_gpx: leger su tracias GPS private
         allow_write_gpx: incargar tracias GPS
         allow_write_notes: modificar notas
@@ -143,8 +151,10 @@ ia:
         active: Active
         display_name: Nomine public
         description: Description del profilo
+        company: Compania
         home_lat: Latitude
         home_lon: Longitude
+        home_location_name: Nomine del loco de residentia
         languages: Linguas preferite
         preferred_editor: Editor preferite
         pass_crypt: Contrasigno
@@ -248,6 +258,7 @@ ia:
   accounts:
     show:
       title: Modificar conto
+      my_account: Mi conto
       current email address: Adresse de e-mail actual
       external auth: Authentication externe
       contributor terms:
@@ -259,6 +270,9 @@ ia:
         agreed_with_pd: Tu ha anque declarate que tu considera tu modificationes como
           liberate al Dominio Public.
         link text: que es isto?
+        not_agreed_with_pd: Tu non ha declarate que tu considera tu modificationes
+          como liberate al Dominio Public.
+        pd_link_text: declara
       save changes button: Salveguardar modificationes
       delete_account: Deler conto…
     go_public:
@@ -342,6 +356,20 @@ ia:
         terms_declined_html: Nos regretta que tu ha decidite de non acceptar le nove
           Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
         terms_declined_link: iste pagina wiki
+    pd_declarations:
+      show:
+        title: Considerar mi modificationes como liberate al Dominio Public
+        consider_pd: Io considera mi modificationes como liberate al Dominio Public
+        consider_pd_why: Proque deberea io voler liberar mi contributiones al Dominio
+          Public?
+        confirm: Confirmar
+      create:
+        successfully_declared: Tu ha correctemente declarate que tu considera tu modificationes
+          como liberate al Dominio Public.
+        already_declared: Tu ha jam declarate que tu considera tu modificationes como
+          liberate al Dominio Public.
+        did_not_confirm: Tu non ha confirmate que tu considera tu modificationes como
+          liberate al Dominio Public.
   browse:
     deleted_ago_by_html: Delite %{time_ago} per %{user}
     edited_ago_by_html: Modificate %{time_ago} per %{user}
@@ -358,9 +386,7 @@ ia:
       one: '%{count} via'
       other: '%{count} vias'
     download_xml: Discargar XML
-    view_history: Vider historia
     view_unredacted_history: Vider historia non censurate
-    view_details: Vider detalios
     location: 'Loco:'
     node:
       title_html: 'Nodo: %{name}'
@@ -410,6 +436,7 @@ ia:
     start_rjs:
       feature_warning: Le cargamento de %{num_features} objectos pote relentar o congelar
         tu navigator. Es tu secur de voler visualisar iste datos?
+      feature_error: 'Le elementos non poteva esser cargate: %{message}'
       load_data: Cargar datos
       loading: Cargamento...
     tag_details:
@@ -423,6 +450,13 @@ ia:
       telephone_link: Telephonar %{phone_number}
       colour_preview: Previsualisation del color %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Nodo
+      way: Via
+      relation: Relation
+      history: Historia
+      version: 'Version #%{version}'
+      versions_label: 'Versiones:'
   feature_queries:
     show:
       title: Cercar objectos
@@ -437,6 +471,8 @@ ia:
         title_html: 'Historia del via: %{name}'
       relation:
         title_html: 'Historia del relation: %{name}'
+      older_versions: Versiones plus ancian
+      newer_versions: Versiones plus nove
     actions:
       view_redacted_data: Vider datos censurate
       view_redaction_message: Vider message de censura
@@ -490,6 +526,13 @@ ia:
         sorry: Le lista de commentos sur gruppos de modificationes que tu requestava
           tardava troppo de tempore pro esser recuperate.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} commento'
+        other: '%{count} commentos'
+      changes:
+        one: '%{count} modification'
+        other: '%{count} modificationes'
     index:
       title: Gruppos de modificationes
       title_user: Gruppos de modificationes facite per %{user}
@@ -502,6 +545,8 @@ ia:
       no_more: Nulle altere gruppo de modificationes trovate.
       no_more_area: Nulle altere gruppo de modificationes in iste area.
       no_more_user: Nulle altere gruppo de modificationes facite per iste usator.
+      older_changesets: Gruppos de modificationes plus ancian
+      newer_changesets: Gruppos de modificationes plus nove
       feed:
         title: Gruppo de modificationes %{id}
         title_comment: Gruppo de modificationes %{id} - %{comment}
@@ -530,6 +575,7 @@ ia:
       changesetxml: XML del gruppo de modificationes
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Nodos
       nodes_paginated: Nodos (%{x}-%{y} de %{count})
       ways_paginated: Vias (%{x}-%{y} de %{count})
       relations_paginated: Relationes (%{x}-%{y} de %{count})
@@ -1827,6 +1873,9 @@ ia:
       whitelist: Si tu usa un systema anti-spam que invia requestas de confirmation,
         alora assecura te de exceptar %{sender} perque nos non pote responder a requestas
         de confirmation.
+    gravatar:
+      disabled: Gravatar ha essite disactivate.
+      enabled: Tu Gravatar ha essite activate e essera monstrate desde ora.
   messages:
     new:
       title: Inviar message
@@ -1942,31 +1991,35 @@ ia:
         title: Mi preferentias
         save: Actualisar preferentias
   profiles:
-    show:
-      title: Modificar profilo
-      save: Actualisar profilo
-      cancel: Cancellar
-      image: Imagine
-      gravatar:
-        gravatar: Usar Gravatar
-        what_is_gravatar: Que es Gravatar?
-        disabled: Gravatar ha essite disactivate.
-        enabled: Tu Gravatar ha essite activate e essera monstrate desde ora.
-      new image: Adder un imagine
-      keep image: Retener le imagine actual
-      delete image: Remover le imagine actual
-      replace image: Reimplaciar le imagine actual
-      image size hint: (imagines quadrate de al minus 100×100 functiona melio)
-      home location: Loco de residentia
-      no home location: Tu non ha definite tu loco de residentia.
-      update home location on click: Actualisar le loco de residentia quando io clicca
-        sur le carta?
-      show: Monstrar
-      delete: Deler
-      undelete: Disfacer deletion
-    update:
-      success: Profilo actualisate.
-      failure: Non poteva actualisar le profilo.
+    profile_sections:
+      navigation:
+        image: Imagine
+    descriptions:
+      show:
+        title: Modificar profilo
+        save: Actualisar profilo
+        cancel: Cancellar
+    links:
+      show:
+        title: Modificar profilo
+    images:
+      show:
+        gravatar:
+          gravatar: Usar Gravatar
+          what_is_gravatar: Que es Gravatar?
+        new image: Adder un imagine
+        keep image: Retener le imagine actual
+        delete image: Remover le imagine actual
+        replace image: Reimplaciar le imagine actual
+        image size hint: (imagines quadrate de al minus 100×100 functiona melio)
+    locations:
+      show:
+        no home location: Tu non ha definite tu loco de residentia.
+        update home location on click: Actualisar le loco de residentia quando io
+          clicca sur le carta?
+        show: Monstrar
+        delete: Deler
+        undelete: Disfacer deletion
   sessions:
     new:
       tab_title: Aperir session
@@ -2780,7 +2833,6 @@ ia:
       blocks by me: Blocadas facite per me
       create_mute: Silentiar iste usator
       destroy_mute: Non silentiar iste usator
-      edit_profile: Modificar profilo
       send message: Inviar message
       diary: Diario
       edits: Modificationes
@@ -3128,9 +3180,8 @@ ia:
       postea clicca hic.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Nulle route ha essite trovate inter iste duo locos.
         no_place: '''%{place}'' non poteva esser trovate.'

@@ -400,9 +400,7 @@ gl:
       one: '%{count} vía'
       other: '%{count} vías'
     download_xml: Baixar en XML
-    view_history: Ollar o historial
     view_unredacted_history: Ollar o historial non censurado
-    view_details: Ollar os detalles
     location: 'Localización:'
     node:
       title_html: 'Nó: %{name}'
@@ -467,6 +465,13 @@ gl:
       telephone_link: Chamar a %{phone_number}
       colour_preview: Previsualización da cor %{colour_value}
       email_link: Correo electrónico %{email}
+    versions_navigation:
+      node: Nó
+      way: Vía
+      relation: Relación
+      history: Historial
+      version: Versión n.º %{version}
+      versions_label: 'Versións:'
   feature_queries:
     show:
       title: Consultar os elementos
@@ -481,7 +486,7 @@ gl:
         title_html: 'Historial da vía: %{name}'
       relation:
         title_html: 'Historial da relación: %{name}'
-      older_versions: Versións máis antigas
+      older_versions: Versións máis vellas
       newer_versions: Versións máis novas
     actions:
       view_redacted_data: Ollar os datos censurados
@@ -532,7 +537,7 @@ gl:
         sorry: Sentímolo, a listaxe dos comentarios do conxuntos de modificacións
           que solicitaches tardou moito en obterse.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} comentario'
         other: '%{count} comentarios'
@@ -551,7 +556,7 @@ gl:
       no_more: Non se atoparon máis conxuntos de modificacións.
       no_more_area: Non hai máis conxuntos de modificacións nesta zona.
       no_more_user: Non hai máis conxuntos de modificacións deste usuario.
-      older_changesets: Conxuntos de cambios máis antigos
+      older_changesets: Conxuntos de cambios máis vellos
       newer_changesets: Conxuntos de cambios máis novos
       feed:
         title: Conxunto de modificacións %{id}
@@ -1637,8 +1642,10 @@ gl:
       time: Tempo
       ascend: Ascendente
       descend: Descendente
-      button_km: km
-      button_mi: mi
+      kilometers: quilómetros
+      miles_feet: millas, pés
+      miles_yards: millas, iardas
+      distance_units_settings: Configuración das unidades de distancia
       download: Descargar a ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicacións cortesía de %{link}
@@ -1982,6 +1989,9 @@ gl:
       whitelist: Se empregas un sistema de bloqueo de spam que envía solicitudes de
         confirmación, asegúrate de incluír a %{sender} na túa lista branca, xa que
         non podemos responder as devanditas solicitudes.
+    gravatar:
+      disabled: Gravatar foi desactivado.
+      enabled: A visualización do teu Gravatar foi activada.
   messages:
     new:
       title: Enviar unha mensaxe
@@ -2118,36 +2128,72 @@ gl:
         title: As miñas preferencias avanzadas
         save: Actualizar as preferencias
   profiles:
-    show:
-      title: Editar perfil
-      save: Actualizar perfil
-      cancel: Cancelar
-      image: Imaxe
-      gravatar:
-        gravatar: Empregar o Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gl:Gravatar
-        what_is_gravatar: Que é o Gravatar?
-        disabled: Gravatar foi desactivado.
-        enabled: A visualización do teu Gravatar foi activada.
-      new image: Engadir unha imaxe
-      keep image: Manter a imaxe actual
-      delete image: Eliminar a imaxe actual
-      replace image: Substituír a imaxe actual
-      image size hint: (as imaxes cadradas de, polo menos, 100x100 funcionan mellor)
-      home location: Localización da túa casa
-      no home location: Non inseriches a localización da túa casa.
-      update home location on click: Queres actualizar a localización da túa casa
-        ó premer sobre o mapa?
-      show: Amosar
-      delete: Borrar
-      undelete: Desfacer o borrado
-      social_links:
-        title: Ligazóns de perfil social
-        remove: Eliminar
-        add: Engadir a ligazón social
-    update:
-      success: Perfil actualizado.
-      failure: Non foi posíbel actualizar o perfil.
+    profile_sections:
+      navigation:
+        description: Descrición
+        links: Ligazóns
+        image: Imaxe
+        company: Empresa
+        location: Localización
+    descriptions:
+      show:
+        title: Editar perfil
+        save: Actualizar perfil
+        cancel: Cancelar
+      update:
+        success: Actualizouse a descrición do perfil.
+        failure: Non se puido actualizar a descrición do perfil.
+    links:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+        social_links:
+          title: Ligazóns de perfil social
+          remove: Eliminar
+          add: Engadir a ligazón social
+      update:
+        success: Actualizáronse as ligazóns do perfil.
+        failure: Non se puideron actualizar as ligazóns do perfil.
+    images:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+        gravatar:
+          gravatar: Empregar o Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gl:Gravatar
+          what_is_gravatar: Que é o Gravatar?
+        new image: Engadir unha imaxe
+        keep image: Manter a imaxe actual
+        delete image: Eliminar a imaxe actual
+        replace image: Substituír a imaxe actual
+        image size hint: (as imaxes cadradas de, polo menos, 100x100 funcionan mellor)
+      update:
+        success: Actualizouse a imaxe do perfil.
+        failure: Non se puido actualizar a imaxe do perfil.
+    companies:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+      update:
+        success: Actualizouse o perfil da empresa.
+        failure: Non se puido actualizar o perfil da empresa.
+    locations:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+        no home location: Non inseriches a localización da túa casa.
+        update home location on click: Queres actualizar a localización da túa casa
+          ó premer sobre o mapa?
+        show: Amosar
+        delete: Borrar
+        undelete: Desfacer o borrado
+      update:
+        success: Actualizouse a localización do perfil.
+        failure: Non se puido actualizar a localización do perfil.
   sessions:
     new:
       tab_title: Iniciar a sesión
@@ -2198,25 +2244,39 @@ gl:
     pagination:
       changeset_comments:
         older: Comentarios máis vellos
-        newer: Comentarios máis recentes
+        newer: Comentarios máis novos
+        oldest: Os comentarios máis vellos
+        newest: Os comentarios máis recentes
       diary_comments:
         older: Comentarios máis vellos
-        newer: Comentarios máis recentes
+        newer: Comentarios máis novos
+        oldest: Os comentarios máis vellos
+        newest: Os comentarios máis recentes
       diary_entries:
         older: Entradas máis vellas
         newer: Entradas máis novas
+        oldest: As entradas máis vellas
+        newest: As entradas máis novas
       issues:
         older: Problemas máis vellos
         newer: Problemas máis novos
+        oldest: Os problemas máis vellos
+        newest: Os problemas máis novos
       traces:
-        older: Pistas máis antigas
+        older: Pistas máis vellas
         newer: Pistas máis novas
+        oldest: As pistas máis vellas
+        newest: As pistas máis novas
       user_blocks:
-        older: Bloqueos máis antigos
+        older: Bloqueos máis vellos
         newer: Bloqueos máis novos
+        oldest: Os bloqueos máis vellos
+        newest: Os bloqueos máis novos
       users:
         older: Usuarios máis vellos
         newer: Usuarios máis novos
+        oldest: Os usuarios máis vellos
+        newest: Os usuarios máis novos
   site:
     about:
       heading_html: '%{copyright}Colaboradores do %{br} OpenStreetMap'
@@ -3097,7 +3157,6 @@ gl:
       blocks by me: Bloqueos efectuados
       create_mute: Silenciar este usuario
       destroy_mute: Deixar de silenciar este usuario
-      edit_profile: Editar o perfil
       send message: Enviar unha mensaxe
       diary: Diario
       edits: Edicións
@@ -3107,10 +3166,6 @@ gl:
       follow: Seguir
       mapper since: 'Cartógrafo dende:'
       last map edit: 'Última edición do mapa:'
-      home location: Localización da túa casa
-      company: Empresa
-      company tooltip: A afiliación á empresa foi declarada pola persoa e non foi
-        verificada
       no activity yet: Aínda non hai actividade
       uid: 'Identificador de usuario:'
       ct status: 'Termos do colaborador:'
@@ -3146,9 +3201,20 @@ gl:
       delete_user: Eliminar este usuario
       confirm: Confirmar
       report: Denunciar este usuario
+      edit_profile_details: Editar os detalles do perfil
+      edit_description: Editar a descrición
+      edit_links: Editar as ligazóns
+      change_image: Cambiar a imaxe
+      edit_company: Editar a empresa
+      edit_location: Editar a localización
       contributions:
         one: '%{count} contribución no último ano'
         other: '%{count} contribucións no último ano'
+    sidebar_section:
+      home_location: Localización da túa casa
+      company: Empresa
+      company_tooltip: A afiliación á empresa foi declarada pola persoa e non foi
+        verificada
     go_public:
       flash success: Tódalas túas edicións son públicas e agora estás autorizado a
         editar.
@@ -3516,12 +3582,11 @@ gl:
       preme aquí.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} pés'
-          mi: '%{distance} mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} pés'
+        yd: '%{distance} yd'
+        mi: '%{distance} mi'
       errors:
         no_route: Non se puido atopar unha ruta entre eses dous lugares.
         no_place: Sentímolo, non foi posíbel atopar "%{place}".

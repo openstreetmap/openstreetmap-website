@@ -150,8 +150,10 @@ et:
         active: Aktiivne
         display_name: Kuvatav nimi
         description: Profiili kirjeldus
+        company: Ettevõte
         home_lat: Laius
         home_lon: Pikkus
+        home_location_name: Kodukoha nimi
         languages: Eelistatavad keeled
         preferred_editor: Eelistatav redaktor
         pass_crypt: Parool
@@ -372,9 +374,7 @@ et:
       one: '%{count} joon'
       other: '%{count} joont'
     download_xml: Laadi alla XML
-    view_history: Vaata ajalugu
     view_unredacted_history: Vaata ajalugu kinnikatmata kujul
-    view_details: Vaata üksikasju
     location: 'Asukoht:'
     node:
       title_html: 'Sõlm: %{name}'
@@ -436,6 +436,13 @@ et:
       telephone_link: Helista %{phone_number}
       colour_preview: 'Värvuse eelvaade: %{colour_value}'
       email_link: Kirjuta e-kiri aadressil %{email}
+    versions_navigation:
+      node: Sõlm
+      way: Joon
+      relation: Relatsioon
+      history: Ajalugu
+      version: 'Versioon #%{version}'
+      versions_label: 'Versioonid:'
   feature_queries:
     show:
       title: Info objektide kohta
@@ -450,15 +457,26 @@ et:
         title_html: 'Joone ajalugu: %{name}'
       relation:
         title_html: 'Relatsiooni ajalugu: %{name}'
+      older_versions: Vanemad versioonid
+      newer_versions: Uuemad versioonid
     actions:
       view_redacted_data: Vaata kinni kaetud andmeid
       view_redaction_message: Vaata kinnikatmise sõnumit
+  nodes:
+    not_found_message:
+      sorry: 'Vabandust, sõlme #%{id} ei õnnestunud leida.'
   old_nodes:
     not_found_message:
       sorry: 'Vabandust, sõlme #%{id} versiooni %{version} ei õnnestu leida.'
+  ways:
+    not_found_message:
+      sorry: 'Vabandust, joont #%{id} ei õnnestunud leida.'
   old_ways:
     not_found_message:
       sorry: 'Vabandust, joone #%{id} versiooni %{version} ei õnnestu leida.'
+  relations:
+    not_found_message:
+      sorry: 'Vabandust, relatsiooni #%{id} ei õnnestunud leida.'
   old_relations:
     not_found_message:
       sorry: 'Vabandust, relatsiooni #%{id} versiooni %{version} ei õnnestu leida.'
@@ -475,7 +493,7 @@ et:
         sorry: Vabandust, sinu päritud muudatuskogumi kommetaaride loendi laadimiseks
           kulus liiga kaua aega.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} kommentaar'
         other: '%{count} kommentaari'
@@ -531,6 +549,8 @@ et:
       relations_title: Relatsioonid
       relations_paginated: Relatsioonid (%{x}–%{y} %{count}-st)
       range: '%{x}–%{y} %{count}-st'
+    not_found_message:
+      sorry: 'Vabandust, muudatuskogumit #%{id} ei õnnestunud leida.'
     timeout:
       sorry: Kahjuks võttis taotletud muudatuskogumite laadimine liiga kaua aega.
   changeset_subscriptions:
@@ -1585,6 +1605,10 @@ et:
     communities: Kogukonnad
     learn_more: Lisateave
     more: Veel
+    header:
+      select_language: Vali keel
+    select_language_button:
+      title: Vali keel
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMapi päevikusissekanne #%{id}'
@@ -1752,6 +1776,9 @@ et:
       whitelist: Kui kasutad rämpskirjade vastast süsteemi, mis saadab kinnitustaotluse,
         siis veendu, et oled kandnud aadressi %{sender} valgesse nimekirja, sest meil
         pole võimalik kinnitustaotlustele vastata.
+    gravatar:
+      disabled: Gravatar on kasutusest eemaldatud.
+      enabled: Sinu Gravatar on nüüd kasutusel.
   messages:
     new:
       title: Saada sõnum
@@ -1860,9 +1887,13 @@ et:
         failure: Eelistusi ei õnnestunud uuendada.
       update_success_flash:
         message: Eelistused uuendatud.
+      navigation:
+        preferences: Eelistused
+        advanced_preferences: Täpsemad eelistused
     basic_preferences:
       show:
         title: Minu eelistused
+        preferred_language: Eelistatav keel
         preferred_site_color_scheme: Eelistatav veebisaidi värviskeem
         site_color_schemes:
           auto: Automaatne
@@ -1874,31 +1905,43 @@ et:
           light: Hele
           dark: Tume
         save: Uuenda eelistusi
+    advanced_preferences:
+      show:
+        title: Minu täpsemad eelistused
+        save: Uuenda eelistusi
   profiles:
-    show:
-      title: Profiili muutmine
-      save: Uuenda profiili
-      cancel: Loobu
-      image: Pilt
-      gravatar:
-        gravatar: Kasuta Gravatari
-        what_is_gravatar: Mis on Gravatar?
-        disabled: Gravatar on kasutusest eemaldatud.
-        enabled: Sinu Gravatar on nüüd kasutusel.
-      new image: Lisa pilt
-      keep image: Säilitada praegune pilt
-      delete image: Eemalda praegune pilt
-      replace image: Asenda praegune pilt
-      image size hint: (ruudukujuline pilt mõõtudega vähemalt 100x100 on sobiv)
-      home location: Kodu asukoht
-      no home location: Sa pole oma kodu asukohta märkinud.
-      update home location on click: Kas uuendan kodu asukohta, kui klõpsan kaardil?
-      show: Näita
-      delete: Kustuta
-      undelete: Võta kustutamine tagasi
-    update:
-      success: Profiil uuendatud.
-      failure: Profiili ei õnnestunud uuendada.
+    profile_sections:
+      navigation:
+        image: Pilt
+    descriptions:
+      show:
+        title: Profiili muutmine
+        save: Uuenda profiili
+        cancel: Loobu
+    links:
+      show:
+        title: Muuda profiili
+        social_links:
+          title: Sotsiaalprofiilide lingid
+          remove: Eemalda
+          add: Lisa sotsiaallink
+    images:
+      show:
+        gravatar:
+          gravatar: Kasuta Gravatari
+          what_is_gravatar: Mis on Gravatar?
+        new image: Lisa pilt
+        keep image: Säilitada praegune pilt
+        delete image: Eemalda praegune pilt
+        replace image: Asenda praegune pilt
+        image size hint: (ruudukujuline pilt mõõtudega vähemalt 100x100 on sobiv)
+    locations:
+      show:
+        no home location: Sa pole oma kodu asukohta märkinud.
+        update home location on click: Kas uuendan kodu asukohta, kui klõpsan kaardil?
+        show: Näita
+        delete: Kustuta
+        undelete: Võta kustutamine tagasi
   sessions:
     new:
       tab_title: Logi sisse
@@ -2750,7 +2793,6 @@ et:
       blocks by me: Minu seatud blokeeringud
       create_mute: Vaigista see kasutaja
       destroy_mute: Tühista selle kasutaja vaigistamine
-      edit_profile: Muuda profiili
       send message: Saada sõnum
       diary: Päevik
       edits: Muudatused
@@ -3097,13 +3139,15 @@ et:
       createnote_disabled_tooltip: Suurenda, et lisada kaardile märkus
       queryfeature_tooltip: Mis siin on?
       queryfeature_disabled_tooltip: Suurenda, et objektide kohta päring teha
+    profile:
+      social_link_n: Sotsiaalprofiili link %{n}
+      remove_social_link_n: Eemalda sotsiaalprofiili link %{n}
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}&nbsp;m'
-          km: '%{distance}&nbsp;km'
+        m: '%{distance}&nbsp;m'
+        km: '%{distance}&nbsp;km'
       errors:
         no_route: Ei suutnud leida teekonda nende kahe koha vahel.
         no_place: Kohta "%{place}" ei õnnestunud kahjuks leida.

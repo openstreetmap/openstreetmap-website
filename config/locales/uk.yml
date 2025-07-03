@@ -462,9 +462,7 @@ uk:
       many: '%{count} ліній'
       other: ""
     download_xml: Завантажити XML
-    view_history: Перегляд історії
     view_unredacted_history: Перегляд невідредагованої історії
-    view_details: Поточна інформація
     location: 'Координати:'
     node:
       title_html: 'Точка: %{name}'
@@ -534,6 +532,13 @@ uk:
       telephone_link: Зателефонуйте на %{phone_number}
       colour_preview: Перегляд кольору %{colour_value}
       email_link: Надіслати електронний лист %{email}
+    versions_navigation:
+      node: Точка
+      way: Лінія
+      relation: Зв’язок
+      history: Історія
+      version: 'Версія #%{version}'
+      versions_label: 'Версії:'
   feature_queries:
     show:
       title: Отримати об’єкти
@@ -601,7 +606,7 @@ uk:
         sorry: На жаль, перелік наборів змін, який ви запросили, потребує забагато
           часу для завантаження.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} коментар'
         few: '%{count} коментарі'
@@ -1708,8 +1713,6 @@ uk:
       time: Час
       ascend: Підйом
       descend: Спуск
-      button_km: км
-      button_mi: мл
       download: Завантажити маршрут як GeoJSON
       filename: маршрут
       directions_courtesy_html: Маршрут наданий %{link}
@@ -1867,6 +1870,10 @@ uk:
     communities: Спільноти
     learn_more: Докладніше
     more: Більше
+    header:
+      select_language: Обрати мову
+    select_language_button:
+      title: Обрати мову
     offline_flash:
       osm_offline: База даних OpenStreetMap наразі працює в режимі офлайн, поки проводяться
         роботи з технічного обслуговування.
@@ -2053,6 +2060,9 @@ uk:
       whitelist: У разі використання систем протидії спам-повідомленням, що надсилають
         зворотні запити, переконайтесь що ви додали %{sender} до переліку уповноважених
         дописувачів, бо ми не в змозі відповідати на такі запити.
+    gravatar:
+      disabled: Gravatar вимкнено.
+      enabled: Показ Вашого Gravatar'а увімкнено.
   messages:
     new:
       title: Надіслати повідомлення
@@ -2193,36 +2203,41 @@ uk:
         title: Розширені налаштування
         save: Зберегти налаштування
   profiles:
-    show:
-      title: Редагування профілю
-      save: Зберегти профіль
-      cancel: Скасувати
-      image: Зображення
-      gravatar:
-        gravatar: Використовувати Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Uk:Gravatar
-        what_is_gravatar: Про Gravatar.
-        disabled: Gravatar вимкнено.
-        enabled: Показ Вашого Gravatar'а увімкнено.
-      new image: Додати зображення
-      keep image: Залишити поточне зображення
-      delete image: Вилучити поточне зображення
-      replace image: Замінити поточне зображення
-      image size hint: (найкраще підходять квадратні зображення, принаймні 100х100)
-      home location: Основне місце розташування
-      no home location: Ви не позначили своє основне місце розташування.
-      update home location on click: Оновлювати моє місце розташування, коли я клацаю
-        на мапу?
-      show: Показати
-      delete: Вилучити
-      undelete: Скасувати вилучення
-      social_links:
-        title: Посилання на профілі в соцмережах
-        remove: Вилучити
-        add: Додати профіль
-    update:
-      success: Профіль збережено.
-      failure: Неможливо зберегти оновлення профілю.
+    profile_sections:
+      navigation:
+        image: Зображення
+        company: Компанія
+    descriptions:
+      show:
+        title: Редагування профілю
+        save: Зберегти профіль
+        cancel: Скасувати
+    links:
+      show:
+        title: Редагувати профіль
+        social_links:
+          title: Посилання на профілі в соцмережах
+          remove: Вилучити
+          add: Додати профіль
+    images:
+      show:
+        gravatar:
+          gravatar: Використовувати Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Uk:Gravatar
+          what_is_gravatar: Про Gravatar.
+        new image: Додати зображення
+        keep image: Залишити поточне зображення
+        delete image: Вилучити поточне зображення
+        replace image: Замінити поточне зображення
+        image size hint: (найкраще підходять квадратні зображення, принаймні 100х100)
+    locations:
+      show:
+        no home location: Ви не позначили своє основне місце розташування.
+        update home location on click: Оновлювати моє місце розташування, коли я клацаю
+          на мапу?
+        show: Показати
+        delete: Вилучити
+        undelete: Скасувати вилучення
   sessions:
     new:
       tab_title: Вхід
@@ -2274,24 +2289,38 @@ uk:
       changeset_comments:
         older: Старіші коментарі
         newer: Нові коментарі
+        oldest: Найстаріші коментарі
+        newest: Найновіші коментарі
       diary_comments:
         older: Старіші коментарі
         newer: Нові коментарі
+        oldest: Найстаріші коментарі
+        newest: Найновіші коментарі
       diary_entries:
         older: Старіші записи
         newer: Новіші записи
+        oldest: Найстаріші записи
+        newest: Найновіші записи
       issues:
         older: Старіші повідомлення
         newer: Новіші повідомлення
+        oldest: Найстаріші проблеми
+        newest: Найновіші проблеми
       traces:
         older: Старіші треки
         newer: Новіші треки
+        oldest: Найновіші треки
+        newest: Найстаріші треки
       user_blocks:
         older: Старіші блокування
         newer: Новіші блокування
+        oldest: Найстаріші блокування
+        newest: Найновіші блокування
       users:
         older: Раніше зареєстровані користувачі
         newer: Нещодавно зареєстровані користувачі
+        oldest: Найстаріші користувачі
+        newest: Найновіші користувачі
   site:
     about:
       heading_html: '%{copyright}Учасники %{br} OpenStreetMap'
@@ -3156,7 +3185,6 @@ uk:
       blocks by me: Заблоковано мною
       create_mute: Стишити цього учасника
       destroy_mute: Зняти стишення з цього учасника
-      edit_profile: Редагувати профіль
       send message: Надіслати повідомлення
       diary: Щоденник
       edits: Редагування
@@ -3166,9 +3194,6 @@ uk:
       follow: Слідкувати
       mapper since: 'Обліковий запис створено:'
       last map edit: 'Останнє редагування мапи:'
-      home location: Місце розташування
-      company: Компанія
-      company tooltip: Приналежність до компанії вказується самостійно та не верифікується.
       no activity yet: Ще немає активності
       uid: 'id учасника:'
       ct status: 'Умови співпраці:'
@@ -3209,6 +3234,9 @@ uk:
         few: Кількість редагувань за останній рік — %{count} елементи
         many: Кількість редагувань за останній рік — %{count} елементів
         other: 'Кількість редагувань за останній рік — '
+    sidebar_section:
+      home_location: Місце розташування
+      company_tooltip: Приналежність до компанії вказується самостійно та не верифікується.
     go_public:
       flash success: Усі Ваші редагування тепер є загальнодоступними, і Ви тепер можете
         редагувати.
@@ -3603,12 +3631,10 @@ uk:
       клацніть тут.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} м'
-          km: '%{distance} км'
-        miles:
-          ft: '%{distance} фт'
-          mi: '%{distance} мл'
+        m: '%{distance} м'
+        km: '%{distance} км'
+        ft: '%{distance} фт'
+        mi: '%{distance} мл'
       errors:
         no_route: Не вдалося знайти маршрут між цими двома точками.
         no_place: На жаль неможливо знайти '%{place}'.

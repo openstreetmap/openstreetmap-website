@@ -448,9 +448,7 @@ nl:
       one: '%{count} weg'
       other: '%{count} wegen'
     download_xml: XML downloaden
-    view_history: Geschiedenis weergeven
     view_unredacted_history: Niet-geredigeerde geschiedenis bekijken
-    view_details: Details weergeven
     location: 'Locatie:'
     node:
       title_html: 'Knooppunt: %{name}'
@@ -515,6 +513,13 @@ nl:
       telephone_link: Bel %{phone_number}
       colour_preview: Kleur %{colour_value} voorbeeld
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Knoop
+      way: Weg
+      relation: Relatie
+      history: Geschiedenis
+      version: 'Versie #%{version}'
+      versions_label: 'Versies:'
   feature_queries:
     show:
       title: Objecten opvragen
@@ -529,6 +534,8 @@ nl:
         title_html: 'Weggeschiedenis: %{name}'
       relation:
         title_html: 'Relatiegeschiedenis: %{name}'
+      older_versions: Oudere versies
+      newer_versions: Nieuwere versies
     actions:
       view_redacted_data: Geredigeerde gegevens bekijken
       view_redaction_message: Redactiebericht bekijken
@@ -578,7 +585,7 @@ nl:
         sorry: Sorry, het oproepen van de lijst met wijzigingenset-opmerkingen die
           u hebt opgevraagd duurde te lang.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} opmerking'
         other: '%{count} opmerkingen'
@@ -1986,6 +1993,9 @@ nl:
       whitelist: Als u een antispamsysteem gebruikt dat bevestigingsverzoeken verzendt,
         zorg er dan voor dat u %{sender} op de witte lijst plaatst, aangezien we niet
         kunnen reageren op bevestigingsverzoeken.
+    gravatar:
+      disabled: Gravatar is uitgeschakeld.
+      enabled: Het weergeven van uw Gravatar is ingeschakeld.
   messages:
     new:
       title: Bericht verzenden
@@ -2119,32 +2129,36 @@ nl:
         title: Mijn geavanceerde voorkeuren
         save: Voorkeuren bijwerken
   profiles:
-    show:
-      title: Profiel wijzigen
-      save: Profiel bijwerken
-      cancel: Annuleren
-      image: Afbeelding
-      gravatar:
-        gravatar: Gravatar gebruiken
-        link: https://wiki.openstreetmap.org/wiki/NL:Gravatar
-        what_is_gravatar: Wat is Gravatar?
-        disabled: Gravatar is uitgeschakeld.
-        enabled: Het weergeven van uw Gravatar is ingeschakeld.
-      new image: Afbeelding toevoegen
-      keep image: Huidige afbeelding behouden
-      delete image: Huidige afbeelding verwijderen
-      replace image: Huidige afbeelding vervangen
-      image size hint: (vierkante afbeeldingen van minstens 100x100 pixels werken
-        het beste)
-      home location: Thuislocatie
-      no home location: Er is geen thuislocatie ingevoerd.
-      update home location on click: Thuislocatie aanpassen bij klikken op de kaart
-      show: Weergeven
-      delete: Verwijderen
-      undelete: Verwijderen ongedaan maken
-    update:
-      success: Profiel bijgewerkt.
-      failure: Kon het profiel niet bijwerken.
+    profile_sections:
+      navigation:
+        image: Afbeelding
+    descriptions:
+      show:
+        title: Profiel wijzigen
+        save: Profiel bijwerken
+        cancel: Annuleren
+    links:
+      show:
+        title: Profiel wijzigen
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar gebruiken
+          link: https://wiki.openstreetmap.org/wiki/NL:Gravatar
+          what_is_gravatar: Wat is Gravatar?
+        new image: Afbeelding toevoegen
+        keep image: Huidige afbeelding behouden
+        delete image: Huidige afbeelding verwijderen
+        replace image: Huidige afbeelding vervangen
+        image size hint: (vierkante afbeeldingen van minstens 100x100 pixels werken
+          het beste)
+    locations:
+      show:
+        no home location: Er is geen thuislocatie ingevoerd.
+        update home location on click: Thuislocatie aanpassen bij klikken op de kaart
+        show: Weergeven
+        delete: Verwijderen
+        undelete: Verwijderen ongedaan maken
   sessions:
     new:
       tab_title: Aanmelden
@@ -2994,7 +3008,6 @@ nl:
       blocks by me: Blokkades door u
       create_mute: Demp deze gebruiker
       destroy_mute: Hef het dempen van deze gebruiker op
-      edit_profile: Profiel wijzigen
       send message: Bericht verzenden
       diary: Dagboek
       edits: Bewerkingen
@@ -3410,9 +3423,8 @@ nl:
       daarna hier.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Kon geen route tussen deze twee plaatsen vinden.
         no_place: Kon %{place} niet vinden.

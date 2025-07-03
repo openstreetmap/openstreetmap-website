@@ -484,9 +484,7 @@ pl:
       many: '%{count} linii'
       other: '%{count} linii'
     download_xml: Pobierz XML
-    view_history: Wyświetl historię
     view_unredacted_history: Pokaż historię bez poprawek
-    view_details: Wyświetl szczegóły
     location: 'Położenie:'
     node:
       title_html: 'Węzeł: %{name}'
@@ -555,6 +553,13 @@ pl:
       telephone_link: Zadzwoń pod %{phone_number}
       colour_preview: Podgląd koloru %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Szczegóły
+      way: Szczegóły
+      relation: Szczegóły
+      history: Historia
+      version: 'Wersja #%{version}'
+      versions_label: 'Wersje:'
   feature_queries:
     show:
       title: Dane obiektów
@@ -569,6 +574,8 @@ pl:
         title_html: 'Historia linii: %{name}'
       relation:
         title_html: 'Historia relacji: %{name}'
+      older_versions: Starsze wersje
+      newer_versions: Nowsze wersje
     actions:
       view_redacted_data: Pokaż poprawione dane
       view_redaction_message: Pokaż wiadomość poprawki
@@ -618,7 +625,7 @@ pl:
         sorry: Niestety, pobieranie listy żądanych komentarzy do zestawów zmian trwało
           zbyt długo.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} komentarz'
         few: '%{count} komentarze'
@@ -1724,8 +1731,6 @@ pl:
       time: Czas
       ascend: W górę
       descend: W dół
-      button_km: km
-      button_mi: mi
       download: Pobierz trasę jako GeoJSON
       filename: trasa
       directions_courtesy_html: Wyznaczanie trasy dzięki uprzejmości %{link}
@@ -1874,6 +1879,10 @@ pl:
     communities: Społeczności
     learn_more: Dowiedz się więcej
     more: Więcej
+    header:
+      select_language: Wybierz język
+    select_language_button:
+      title: Wybierz język
     offline_flash:
       osm_offline: Baza danych OpenStreetMap jest w trybie offline na czas ważnych
         zadań administracyjnych, które są w tym momencie wykonywane.
@@ -2061,6 +2070,9 @@ pl:
       whitelist: Jeśli używasz systemu antyspamowego, upewnij się, że do swojej białej
         listy dodałeś adres %{sender}. Dzięki temu będziemy mogli skontaktować się
         z tobą bez problemów.
+    gravatar:
+      disabled: Wyłączono Gravatara.
+      enabled: Włączono wyświetlanie Gravatara.
   messages:
     new:
       title: Wysyłanie wiadomości
@@ -2201,36 +2213,69 @@ pl:
         title: Moje zaawansowane preferencje
         save: Zapisz preferencje
   profiles:
-    show:
-      title: Edycja profilu
-      save: Zapisz zmiany
-      cancel: Anuluj
-      image: 'Obraz:'
-      gravatar:
-        gravatar: Użyj Gravatara
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Co to jest Gravatar?
-        disabled: Wyłączono Gravatara.
-        enabled: Włączono wyświetlanie Gravatara.
-      new image: Dodanie obrazu
-      keep image: Pozostaw dotychczasowy obraz
-      delete image: Usuń aktualny obraz
-      replace image: Zmień aktualny obraz
-      image size hint: (najlepiej sprawdzają się kwadratowe obrazy o rozmiarach przynajmniej
-        100x100)
-      home location: 'Położenie domu:'
-      no home location: Nie wpisałeś swojej lokalizacji domowej.
-      update home location on click: Uaktualnianie położenia kliknięciem na mapie
-      show: Pokaż
-      delete: Usuń
-      undelete: Cofnij usunięcie
-      social_links:
-        title: Linki do portali społecznościowych
-        remove: Usuń
-        add: Dodaj link do portalu społecznościowego
-    update:
-      success: Zaktualizowano profil użytkownika.
-      failure: Nie udało się zaktualizować profilu.
+    profile_sections:
+      navigation:
+        image: 'Obraz:'
+        company: Firma
+    descriptions:
+      show:
+        title: Edycja profilu
+        save: Zapisz zmiany
+        cancel: Anuluj
+      update:
+        success: Zaktualizowano opis profilu.
+        failure: Nie udało się zaktualizować opisu profilu.
+    links:
+      show:
+        title: Edytuj profil
+        save: Zapisz zmiany
+        cancel: Anuluj
+        social_links:
+          title: Linki do portali społecznościowych
+          remove: Usuń
+          add: Dodaj link do portalu społecznościowego
+      update:
+        success: Zaktualizowano linki.
+        failure: Nie udało się zaktualizować linków.
+    images:
+      show:
+        title: Edycja profilu
+        save: Zapisz zmiany
+        cancel: Anuluj
+        gravatar:
+          gravatar: Użyj Gravatara
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Co to jest Gravatar?
+        new image: Dodanie obrazu
+        keep image: Pozostaw dotychczasowy obraz
+        delete image: Usuń aktualny obraz
+        replace image: Zmień aktualny obraz
+        image size hint: (najlepiej sprawdzają się kwadratowe obrazy o rozmiarach
+          przynajmniej 100x100)
+      update:
+        success: Zaktualizowano obraz.
+        failure: Nie udało się zaktualizować obrazu.
+    companies:
+      show:
+        title: Edycja profilu
+        save: Zapisz zmiany
+        cancel: Anuluj
+      update:
+        success: Zaktualizowano firmę.
+        failure: Nie udało się zaktualizować firmy.
+    locations:
+      show:
+        title: Edycja profilu
+        save: Zapisz zmiany
+        cancel: Anuluj
+        no home location: Nie wpisałeś swojej lokalizacji domowej.
+        update home location on click: Uaktualnianie położenia kliknięciem na mapie
+        show: Pokaż
+        delete: Usuń
+        undelete: Cofnij usunięcie
+      update:
+        success: Zaktualizowano położenie.
+        failure: Nie udało się zaktualizować położenia.
   sessions:
     new:
       tab_title: Logowanie
@@ -2284,24 +2329,38 @@ pl:
       changeset_comments:
         older: Starsze komentarze
         newer: Nowsze komentarze
+        oldest: Najstarsze komentarze
+        newest: Najnowsze komentarze
       diary_comments:
         older: Starsze komentarze
         newer: Nowsze komentarze
+        oldest: Najstarsze komentarze
+        newest: Najnowsze komentarze
       diary_entries:
         older: Starsze wpisy
         newer: Nowsze wpisy
+        oldest: Najstarsze wpisy
+        newest: Najnowsze wpisy
       issues:
         older: Starsze sprawy
         newer: Nowsze sprawy
+        oldest: Najstarsze sprawy
+        newest: Najnowsze sprawy
       traces:
         older: Starsze ślady
         newer: Nowsze ślady
+        oldest: Najstarsze ślady
+        newest: Najnowsze ślady
       user_blocks:
         older: Starsze blokady
         newer: Nowsze blokady
+        oldest: Najstarsze blokady
+        newest: Najnowsze blokady
       users:
         older: Starsi użytkownicy
         newer: Nowsi użytkownicy
+        oldest: Najstarsi użytkownicy
+        newest: Najnowsi użytkownicy
   site:
     about:
       heading_html: '%{copyright}Autorzy OpenStreetMap%{br}'
@@ -3128,7 +3187,6 @@ pl:
       blocks by me: Nałożone blokady
       create_mute: wycisz tego użytkownika
       destroy_mute: odcisz tego użytkownika
-      edit_profile: Edytuj profil
       send message: wyślij wiadomość
       diary: dziennik
       edits: edycje
@@ -3138,10 +3196,6 @@ pl:
       follow: dodaj do znajomych
       mapper since: 'Mapuje od:'
       last map edit: 'Ostatnia edycja mapy:'
-      home location: Położenie domu
-      company: Firma
-      company tooltip: Przynależność do firmy jest deklarowana przez użytkownika i
-        nie jest weryfikowana
       no activity yet: —
       uid: 'Identyfikator użytkownika:'
       ct status: 'Warunki uczestnictwa:'
@@ -3177,11 +3231,21 @@ pl:
       delete_user: Usuń tego użytkownika
       confirm: Potwierdź
       report: zgłoś tego użytkownika
+      edit_profile_details: Edytuj szczegóły profilu
+      edit_description: Edytuj opis
+      edit_links: Edytuj linki
+      change_image: Zmień obraz
+      edit_company: Edytuj firmę
+      edit_location: Edytuj położenie
       contributions:
         one: '%{count} edytowany obiekt w ciągu ostatniego roku'
         few: '%{count} edytowane obiekty w ciągu ostatniego roku'
         many: '%{count} edytowanych obiektów w ciągu ostatniego roku'
         other: '%{count} edytowanego obiektu w ciągu ostatniego roku'
+    sidebar_section:
+      home_location: Położenie domu
+      company_tooltip: Przynależność do firmy jest deklarowana przez użytkownika i
+        nie jest weryfikowana
     go_public:
       flash success: Wszystkie twoje edycje są od teraz publiczne i jesteś uprawniony
         do edycji.
@@ -3571,12 +3635,10 @@ pl:
       kliknij tutaj.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} ft'
-          mi: '%{distance} mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} ft'
+        mi: '%{distance} mi'
       errors:
         no_route: Nie udało się wyznaczyć trasy pomiędzy tymi dwoma punktami.
         no_place: Niestety nie udało się odnaleźć „%{place}”.

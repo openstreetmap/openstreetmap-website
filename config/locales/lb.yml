@@ -332,8 +332,6 @@ lb:
       one: '%{count} Wee'
       other: '%{count} Weeër'
     download_xml: XML eroflueden
-    view_history: Versioune weisen
-    view_details: Detailer weisen
     location: 'Plaz:'
     node:
       title_html: 'Knuet: %{name}'
@@ -397,6 +395,12 @@ lb:
       telephone_link: '%{phone_number} uruffen'
       colour_preview: Faarw %{colour_value} Ausbléck
       email_link: E-Mail %{email}
+    versions_navigation:
+      node: Knuet
+      way: Wee
+      relation: Relatioun
+      version: 'Versioun #%{version}'
+      versions_label: 'Versiounen:'
   feature_queries:
     show:
       title: Objetsoffro
@@ -462,7 +466,7 @@ lb:
         sorry: Leider huet et ze laang gedauert fir d'Lëscht mat de Commentairë vun
           den Ännerungssätz, déi Dir ugefrot hutt, opzeruffen.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} Kommentar'
         other: '%{count} Kommentaren'
@@ -1456,8 +1460,7 @@ lb:
       time: Dauer
       ascend: Vu kleng op grouss
       descend: Vu grouss op kleng
-      button_km: km
-      button_mi: mi
+      kilometers: Kilometer
       download: Streck als GeoJSON eroflueden
       filename: Streck
   issues:
@@ -1769,6 +1772,9 @@ lb:
       whitelist: Wann Dir en Antispam-System benotzt, dee Bestätegungsufroe verschéckt,
         stellt wgl. sécher, datt Dir %{sender} op eng Erlaabnislëscht setzt, well
         mir op keng Bestätegungsufroen äntwere kënnen.
+    gravatar:
+      disabled: Gravatar gouf desaktivéiert.
+      enabled: D'Weise vun Ärem Gravatar gouf aktivéiert.
   messages:
     new:
       title: Noriicht schécken
@@ -1893,34 +1899,62 @@ lb:
         title: Meng erweidert Astellungen
         save: Astellungen aktualiséieren
   profiles:
-    show:
-      title: Profil änneren
-      save: Profil aktualiséieren
-      cancel: Ofbriechen
-      image: Bild
-      gravatar:
-        gravatar: Gravatar benotzen
-        link: https://wiki.openstreetmap.org/wiki/DE:Gravatar
-        what_is_gravatar: Wat ass Gravatar?
-        disabled: Gravatar gouf desaktivéiert.
-        enabled: D'Weise vun Ärem Gravatar gouf aktivéiert.
-      new image: E Bild derbäisetzen
-      keep image: Dat aktuellt Bild halen
-      delete image: Dat aktuellt Bild ewechhuelen
-      replace image: Dat aktuellt Bild ersetzen
-      image size hint: (quadratesch Biller mat mindestens 100x100 Pixel funktionéieren
-        am beschten)
-      home location: Heemechtsplaz
-      no home location: Dir hutt nach keng Heemechtsplaz aginn.
-      update home location on click: Heemechtsplaz beim Klicken op d'Kaart aktualiséieren?
-      show: Weisen
-      delete: Läschen
-      undelete: Läsche réckgängeg maachen
-      social_links:
-        remove: Ewechhuelen
-    update:
-      success: Profil aktualiséiert.
-      failure: De Profil konnt net aktualiséiert ginn.
+    profile_sections:
+      navigation:
+        description: Beschreiwung
+        links: Linken
+        image: Bild
+    descriptions:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+      update:
+        success: Profilbeschreiwung aktualiséiert.
+        failure: D'Profilbeschreiwung konnt net aktualiséiert ginn.
+    links:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+        social_links:
+          remove: Ewechhuelen
+      update:
+        success: Profillinken aktualiséiert.
+        failure: D'Profillinke konnten net aktualiséiert ginn.
+    images:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+        gravatar:
+          gravatar: Gravatar benotzen
+          link: https://wiki.openstreetmap.org/wiki/DE:Gravatar
+          what_is_gravatar: Wat ass Gravatar?
+        new image: E Bild derbäisetzen
+        keep image: Dat aktuellt Bild halen
+        delete image: Dat aktuellt Bild ewechhuelen
+        replace image: Dat aktuellt Bild ersetzen
+        image size hint: (quadratesch Biller mat mindestens 100x100 Pixel funktionéieren
+          am beschten)
+      update:
+        success: Profilbild aktualiséiert.
+        failure: D'Profilbild konnt net aktualiséiert ginn.
+    companies:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+    locations:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+        no home location: Dir hutt nach keng Heemechtsplaz aginn.
+        update home location on click: Heemechtsplaz beim Klicken op d'Kaart aktualiséieren?
+        show: Weisen
+        delete: Läschen
+        undelete: Läsche réckgängeg maachen
   sessions:
     new:
       tab_title: Aloggen
@@ -1962,24 +1996,37 @@ lb:
       preview: Virschau
       help: Hëllef
     pagination:
+      changeset_comments:
+        oldest: Eelst Kommentaren
+        newest: Neist Kommentaren
       diary_comments:
         older: Eeler Bemierkungen
         newer: Méi nei Bemierkungen
+        oldest: Eelst Kommentaren
+        newest: Neist Kommentaren
       diary_entries:
         older: Eeler Anträg
         newer: Méi nei Anträg
+        oldest: Eelst Anträg
+        newest: Neist Anträg
       issues:
         older: Eeler Problemer
         newer: Méi nei Problemer
+        oldest: Eelst Problemer
+        newest: Neist Problemer
       traces:
         older: Eeler Spueren
         newer: Méi nei Spueren
       user_blocks:
         older: Eeler Spären
         newer: Méi nei Spären
+        oldest: Eelst Spären
+        newest: Neist Spären
       users:
         older: Eeler Benotzer
         newer: Méi nei Benotzer
+        oldest: Eelst Benotzer
+        newest: Neist Benotzer
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} Mataarbechter'
@@ -2421,13 +2468,11 @@ lb:
       blocks by me: Spären duerch mech
       create_mute: Dëse Benotzer stommschalten
       destroy_mute: D'Stommschaltung vun dësem Benotzer ophiewen
-      edit_profile: Profil änneren
       send message: Message schécken
       diary: Blog
       edits: Ännerungen
       traces: Spueren
       notes: Notizen op der Kaart
-      home location: Doheem
       no activity yet: Nach keng Aktivitéit
       uid: 'Benotzer-ID:'
       email address: 'E-Mail-Adress:'
@@ -2453,6 +2498,12 @@ lb:
       delete_user: Dëse Benotzer läschen
       confirm: Confirméieren
       report: Dëse Benotzer mellen
+      edit_profile_details: Profildetailer änneren
+      edit_description: Beschreiwung änneren
+      edit_links: Linken änneren
+      change_image: Bild änneren
+    sidebar_section:
+      home_location: Doheem
     go_public:
       flash success: All Är Ännerunge sinn elo ëffentlech, an Dir däerft elo änneren.
     issued_blocks:
@@ -2689,12 +2740,10 @@ lb:
       klickt dann hei.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}&nbsp;m'
-          km: '%{distance}&nbsp;km'
-        miles:
-          ft: '%{distance}&nbsp;ft'
-          mi: '%{distance}&nbsp;mi'
+        m: '%{distance}&nbsp;m'
+        km: '%{distance}&nbsp;km'
+        ft: '%{distance}&nbsp;ft'
+        mi: '%{distance}&nbsp;mi'
       errors:
         no_route: Konnt keng Streck tëscht deenen zwou Plaze fannen.
         no_place: Mir konnten d'Plaz '%{place}' leider net fannen.

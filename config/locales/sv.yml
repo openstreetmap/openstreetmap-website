@@ -429,9 +429,7 @@ sv:
       one: '%{count} sträcka'
       other: '%{count} sträckor'
     download_xml: Ladda ner XML
-    view_history: Visa historik
     view_unredacted_history: Visa oredigerad historik
-    view_details: Visa detaljer
     location: 'Plats:'
     node:
       title_html: 'Nod: %{name}'
@@ -555,7 +553,7 @@ sv:
         sorry: Tyvärr, listan med ändringsuppsättningskommentarer du begärde kunde
           inte hämtas då begäran tog för lång tid.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} kommentar'
         other: '%{count} kommentarer'
@@ -1950,6 +1948,9 @@ sv:
         så fort du verifierar ditt konto kommer du kunna kartlägga.
       whitelist: Om du använder ett antispam-system som skickar bekräftelsemail se
         till att vitlista %{sender} eftersom vi inte kan svara på några bekräfelsemail.
+    gravatar:
+      disabled: Gravatar har inaktiverats.
+      enabled: Din Gravatar har aktiverats.
   messages:
     new:
       title: Skicka meddelande
@@ -2074,34 +2075,39 @@ sv:
           dark: Mörkt
         save: Uppdatera alternativ
   profiles:
-    show:
-      title: Redigera profil
-      save: Uppdatera profil
-      cancel: Avbryt
-      image: Bild
-      gravatar:
-        gravatar: Använd Gravatar
-        what_is_gravatar: Vad är Gravatar?
-        disabled: Gravatar har inaktiverats.
-        enabled: Din Gravatar har aktiverats.
-      new image: Lägg till en bild
-      keep image: Behåll nuvarande bild
-      delete image: Ta bort nuvarande bild
-      replace image: Ersätt nuvarande bild
-      image size hint: (kvadratiska bilder på minst 100x100 fungerar bäst)
-      home location: Hemposition
-      no home location: Du har inte angivit någon hemposition.
-      update home location on click: Uppdatera hemposition när jag klickar på kartan?
-      show: Visa
-      delete: Radera
-      undelete: Ångra radera
-      social_links:
-        title: Länkar till social profil
-        remove: Ta bort
-        add: Lägg till social länk
-    update:
-      success: Profil uppdaterad.
-      failure: Kunde inte uppdatera profilen.
+    profile_sections:
+      navigation:
+        image: Bild
+        company: Företag
+    descriptions:
+      show:
+        title: Redigera profil
+        save: Uppdatera profil
+        cancel: Avbryt
+    links:
+      show:
+        title: Redigera profil
+        social_links:
+          title: Länkar till social profil
+          remove: Ta bort
+          add: Lägg till social länk
+    images:
+      show:
+        gravatar:
+          gravatar: Använd Gravatar
+          what_is_gravatar: Vad är Gravatar?
+        new image: Lägg till en bild
+        keep image: Behåll nuvarande bild
+        delete image: Ta bort nuvarande bild
+        replace image: Ersätt nuvarande bild
+        image size hint: (kvadratiska bilder på minst 100x100 fungerar bäst)
+    locations:
+      show:
+        no home location: Du har inte angivit någon hemposition.
+        update home location on click: Uppdatera hemposition när jag klickar på kartan?
+        show: Visa
+        delete: Radera
+        undelete: Ångra radera
   sessions:
     new:
       tab_title: Logga in
@@ -2953,7 +2959,6 @@ sv:
       blocks by me: Blockeringar lagda av mig
       create_mute: Tysta denna användare
       destroy_mute: Sluta tysta användaren
-      edit_profile: Redigera profil
       send message: Skicka meddelande
       diary: Dagbok
       edits: Redigeringar
@@ -2963,9 +2968,6 @@ sv:
       follow: Följ
       mapper since: 'Karterar sedan:'
       last map edit: 'Senaste kartredigering:'
-      home location: Hemplats
-      company: Företag
-      company tooltip: Företagstillhörigheten är självrapporterad och inte verifierad
       no activity yet: Ännu ingen aktivitet
       uid: 'Användar id:'
       ct status: 'Användarvillkor:'
@@ -3004,6 +3006,9 @@ sv:
       contributions:
         one: '%{count} bidrag under det senaste året'
         other: '%{count} bidrag under det senaste året'
+    sidebar_section:
+      home_location: Hemplats
+      company_tooltip: Företagstillhörigheten är självrapporterad och inte verifierad
     go_public:
       flash success: Alla dina ändringar är nu publika, och du får lov att redigera.
     issued_blocks:
@@ -3373,12 +3378,10 @@ sv:
       sedan här.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} fot'
-          mi: '%{distance} mil'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} fot'
+        mi: '%{distance} mil'
       errors:
         no_route: Kunde inte hitta en väg mellan dessa två platser.
         no_place: Ledsen - kunde inte hitta %{place}.

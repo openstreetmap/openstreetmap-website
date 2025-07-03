@@ -163,8 +163,10 @@ br:
         active: Oberiant
         display_name: Anv diskouezet
         description: Deskrivadur ar profil
+        company: Embregerezh
         home_lat: Ledred
         home_lon: Hedred
+        home_location_name: Anv al lec'h annezañ
         languages: 'Yezhoù gwellañ karet :'
         preferred_editor: 'Aozer karetañ :'
         pass_crypt: Ger-tremen
@@ -393,8 +395,6 @@ br:
       many: '%{count} roudenn.'
       other: '%{count} roudenn.'
     download_xml: Pellgargañ XML
-    view_history: Gwelet an istor
-    view_details: ↓Gwelet ar munudoù
     location: 'Lec''hiadur:'
     node:
       title_html: 'Skoulm: %{name}'
@@ -464,6 +464,11 @@ br:
       telephone_link: Gervel %{phone_number}
       colour_preview: Rakwel al liv %{colour_value}
       email_link: Chomlec'h postel %{email}
+    versions_navigation:
+      node: Skoulm
+      way: Hent
+      relation: Darempred
+      history: Istor
   feature_queries:
     show:
       title: Arc'hweladurioù enklask
@@ -514,7 +519,7 @@ br:
       timeout:
         sorry: Ho tigarez, re hir eo adtapout ar roll evezhiadennoù ho peus goulennet.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} evezhiadenn'
         two: '%{count} evezhiadenn'
@@ -531,6 +536,7 @@ br:
       title: Hollad cheñchamantoù
       title_user: Hollad cheñchamantoù %{user}
       title_user_link_html: Hollad cheñchamantoù %{user_link}
+      title_followed: Holladoù cheñchamantoù an implijerien a heuilhit
       title_nearby: Hollad cheñchamantoù graet gant implijerien a-dost
       empty: N'eus bet kavet hollad cheñchamant ebet.
       empty_area: Hollad cheñchamant ebet en takad-mañ.
@@ -695,6 +701,14 @@ br:
       new_title: Ouzhpennañ un enmont nevez d'ho teizlevr
     profile_diaries:
       latest_diaries: Deizlevrioù nevesañ
+      comments:
+        one: '%{count} evezhiadenn'
+        two: '%{count} evezhiadenn'
+        few: '%{count} evezhiadenn'
+        many: '%{count} evezhiadenn'
+        other: '%{count} evezhiadenn'
+      comments_label: Evezhiadennoù
+      date_label: Deiziad
   doorkeeper:
     flash:
       applications:
@@ -1556,8 +1570,6 @@ br:
       time: Eur
       ascend: Pignat
       descend: Diskenn
-      button_km: km
-      button_mi: mi
       download: Pellgargañ an hentad evel ur restr GeoJSON
       filename: hentad
       directions_courtesy_html: Hent a-berzh %{link}
@@ -1695,6 +1707,10 @@ br:
     communities: Kumuniezhioù
     learn_more: Gouzout hiroc'h
     more: Muioc'h
+    header:
+      select_language: Dibab ar yezh
+    select_language_button:
+      title: Dibab ar yezh
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} en deus lezet un addispleg war hoc''h enmoned
@@ -1864,6 +1880,9 @@ br:
       success: Kadarnaet eo ho chomlec'h postel !
       failure: Kadarnaet ez eus bet ur chomlec'h postel dija gant art jedouer-mañ.
       unknown_token: N'eo ket mat ar c'hod kadarnaat-mañ ken pe n'eus ket anezhañ
+    gravatar:
+      disabled: Diweredekaet eo bet Gravatar.
+      enabled: Gweredekaet eo bet diskwel ho Kravatar.
   messages:
     new:
       title: Kas ur gemennadenn
@@ -1967,9 +1986,13 @@ br:
         failure: N'haller ket hizivaat ar penndibaboù.
       update_success_flash:
         message: Hizivaet eo ar penndibaboù
+      navigation:
+        preferences: Penndibaboù
+        advanced_preferences: Penndibaboù araokaet
     basic_preferences:
       show:
         title: Ma fenndibaboù
+        preferred_language: Yezhoù gwellañ karet
         preferred_site_color_scheme: Liv gwellañ al lec'hienn
         site_color_schemes:
           auto: Emgefreek
@@ -1981,35 +2004,44 @@ br:
           light: Sklaer
           dark: Teñval
         save: Hizivaat ar penndibaboù
+    advanced_preferences:
+      show:
+        title: Ma fenndibaboù araokaet
+        save: Hizivaat ar penndibaboù
   profiles:
-    show:
-      title: Aozañ ar profil
-      save: Hizivaat ar profil
-      cancel: Nullañ
-      image: Skeudenn
-      gravatar:
-        gravatar: Implijout Gravatar
-        what_is_gravatar: Petra eo Gravatar?
-        disabled: Diweredekaet eo bet Gravatar.
-        enabled: Gweredekaet eo bet diskwel ho Kravatar.
-      new image: Ouzhpennañ ur skeudenn
-      keep image: Derc'hel ar skeudenn a-vremañ
-      delete image: Dilemel ar skeudenn a-vremañ
-      replace image: Erlec'hiañ ar skeudenn a-vremañ
-      image size hint: (ar skeudennoù karrezenneg gant ar stumm 100×100 pixel a zo
-        ar re wellañ)
-      home location: Lec'hiadur ar gêr
-      no home location: N'hoc'h eus ket ebarzhet lec'hiadur ho kêr.
-      update home location on click: Hizivaat lec'hiadur ho kêr pa glikit war ar gartenn
-        ?
-      show: Diskouez
-      delete: Dilemel
-      undelete: Dizober al lamidigezh
-      social_links:
-        remove: Dilemel
-    update:
-      success: Profil hizivaet.
-      failure: N'haller ket hizivaat ar profil.
+    profile_sections:
+      navigation:
+        image: Skeudenn
+        company: Embregerezh
+    descriptions:
+      show:
+        title: Aozañ ar profil
+        save: Hizivaat ar profil
+        cancel: Nullañ
+    links:
+      show:
+        title: Aozañ ar profil
+        social_links:
+          remove: Dilemel
+    images:
+      show:
+        gravatar:
+          gravatar: Implijout Gravatar
+          what_is_gravatar: Petra eo Gravatar?
+        new image: Ouzhpennañ ur skeudenn
+        keep image: Derc'hel ar skeudenn a-vremañ
+        delete image: Dilemel ar skeudenn a-vremañ
+        replace image: Erlec'hiañ ar skeudenn a-vremañ
+        image size hint: (ar skeudennoù karrezenneg gant ar stumm 100×100 pixel a
+          zo ar re wellañ)
+    locations:
+      show:
+        no home location: N'hoc'h eus ket ebarzhet lec'hiadur ho kêr.
+        update home location on click: Hizivaat lec'hiadur ho kêr pa glikit war ar
+          gartenn ?
+        show: Diskouez
+        delete: Dilemel
+        undelete: Dizober al lamidigezh
   sessions:
     new:
       tab_title: Kennaskañ
@@ -2055,18 +2087,26 @@ br:
       changeset_comments:
         older: Evezhiadennoù koshañ
         newer: Evezhiadennoù nevesañ
+        oldest: Evezhiadennoù koshañ
+        newest: Evezhiadennoù nevesañ
       diary_comments:
         older: Evezhiadennoù koshañ
         newer: Evezhiadennoù nevesañ
+        oldest: Evezhiadennoù koshañ
+        newest: Evezhiadennoù nevesañ
       diary_entries:
         older: Enmont koshañ
         newer: Enmont nevesañ
       issues:
         older: Kudennoù koshoc'h
         newer: Kudennoù nevesoc'h
+        oldest: Kudennoù koshañ
+        newest: Kudennoù nevesañ
       traces:
         older: ↓Roudoù kozh
         newer: ↓Roudoù nevez
+        oldest: Roudoù koshañ
+        newest: Roudoù nevesañ
       user_blocks:
         older: Stankadurioù koshoc'h
         newer: Stankadurioù nevesañ
@@ -2382,6 +2422,9 @@ br:
       other_groups:
         title: Strolladoù all
         communities_wiki: pajenn wiki ar c'humuniezhioù
+  social_links:
+    show:
+      website: lec'hienn
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Zoumiñ evit gwelet notennoù ar gartenn
@@ -2630,6 +2673,7 @@ br:
     share:
       share:
         title: Rannañ
+        alt: Arouezenn rannañ
       email:
         title: Rannañ gant ar chomlec'h postel
         alt: Ikon ar postel
@@ -2759,7 +2803,6 @@ br:
       blocks by me: stankadurioù graet ganin
       create_mute: Kuzhat an implijer-mañ
       destroy_mute: Diguzhat an implijer-mañ
-      edit_profile: Aozañ ar profil
       send message: Kas ur gemennadenn
       diary: deizlevr
       edits: Kemmoù
@@ -2804,6 +2847,8 @@ br:
       delete_user: Dilemel an implijer-mañ
       confirm: Kadarnaat
       report: Disklêriañ an implijer-mañ
+    sidebar_section:
+      home_location: Lec'h annezañ
     go_public:
       flash success: Foran eo hoc'h holl aozadennoù bremañ, ha n'oc'h ket aotreet
         da aozañ.
@@ -3173,12 +3218,10 @@ br:
       neuze klikit amañ.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
-        miles:
-          ft: '%{distance}tt'
-          mi: '%{distance}mi'
+        m: '%{distance}m'
+        km: '%{distance}km'
+        ft: '%{distance}tt'
+        mi: '%{distance}mi'
       errors:
         no_route: Ne c'haller ket kavout un hent etre an daou lec'h-mañ.
         no_place: 'Ho tigarez, ne c''haller ket kavout al lec''h-mañ : %{place}.'

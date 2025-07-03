@@ -454,10 +454,10 @@ de:
           Infrastruktur, die von der OSMF zur Verfügung gestellt wird. Klicke bitte
           auf den Link, lies den Text und stimme dann zu.
         read_tou: Ich habe die Nutzungsbedingungen gelesen und stimme ihnen zu
-        guidance_info_html: 'Informationen zum Verständnis dieser Begriffe: ein %{readable_summary_link}
+        guidance_info_html: 'Informationen zum Verständnis dieser Begriffe: eine %{readable_summary_link}
           und einige %{informal_translations_link}'
         readable_summary: menschenlesbare Zusammenfassung
-        informal_translations: informelle Übersetzung
+        informal_translations: informelle Übersetzungen
         continue: Weiter
         cancel: Abbrechen
         you need to accept or decline: Bitte lies die neuen Bedingungen für Mitwirkende
@@ -486,7 +486,7 @@ de:
       create:
         successfully_declared: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei
           veröffentlichst (unter Public Domain stellst).
-        already_declared: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei
+        already_declared: Du hast schon erklärt, dass du deine Beiträge gemeinfrei
           veröffentlichst (unter Public Domain stellst).
         did_not_confirm: Du hast nicht bestätigt, dass du deine Bearbeitungen als
           gemeinfrei betrachtest.
@@ -506,9 +506,7 @@ de:
       one: 1 Weg
       other: '%{count} Wege'
     download_xml: XML herunterladen
-    view_history: Verlauf anzeigen
     view_unredacted_history: Unzensierten Verlauf ansehen
-    view_details: Details anzeigen
     location: 'Standort:'
     node:
       title_html: 'Knoten: %{name}'
@@ -550,7 +548,7 @@ de:
     redacted:
       redaction: Schwärzung %{id}
       message_html: 'Die Version %{version} diese%{type} kann nicht angezeigt werden,
-        weil hier etwas geschwärzt wurde. Mehr erfahren: %{redaction_link}.'
+        da sie geschwärzt wurde. Mehr erfahren: %{redaction_link}.'
       type:
         node: s Knotens
         way: s Weges
@@ -559,7 +557,7 @@ de:
       feature_warning: Lade %{num_features} Funktionen, was deinen Browser verlangsamen
         oder nicht mehr reagieren lassen könnte. Bist du sicher, dass du diese Daten
         anzeigen möchtest?
-      feature_error: 'Funktionen konnten nicht geladen werden: %{message}'
+      feature_error: 'Objekte konnten nicht geladen werden: %{message}'
       load_data: Daten laden
       loading: Lade …
     tag_details:
@@ -573,6 +571,13 @@ de:
       telephone_link: '%{phone_number} anrufen'
       colour_preview: Farbe %{colour_value} Vorschau
       email_link: E-Mail %{email}
+    versions_navigation:
+      node: Knoten
+      way: Linie
+      relation: Relation
+      history: Verlauf
+      version: 'Version #%{version}'
+      versions_label: 'Versionen:'
   feature_queries:
     show:
       title: Objektabfrage
@@ -600,8 +605,7 @@ de:
         gedauert.
   old_nodes:
     not_found_message:
-      sorry: 'Entschuldigung, Knoten #%{id} Version %{version} konnte nicht gefunden
-        werden.'
+      sorry: 'Leider konnte Knoten #%{id} Version %{version} nicht gefunden werden.'
     timeout:
       sorry: Leider hat das Abrufen der Historie des Knotens mit der ID %{id} zu lange
         gedauert.
@@ -613,8 +617,7 @@ de:
         gedauert.
   old_ways:
     not_found_message:
-      sorry: 'Entschuldigung, Weg #%{id} Version %{version} konnte nicht gefunden
-        werden.'
+      sorry: 'Leider konnte Weg #%{id} Version %{version} nicht gefunden werden.'
     timeout:
       sorry: Leider hat das Abrufen der Historie des Weges mit der ID %{id} zu lange
         gedauert.
@@ -626,8 +629,7 @@ de:
         gedauert.
   old_relations:
     not_found_message:
-      sorry: 'Entschuldigung, Relation #%{id} Version %{version} konnte nicht gefunden
-        werden.'
+      sorry: 'Leider konnte Relation #%{id} Version %{version} nicht gefunden werden.'
     timeout:
       sorry: Leider dauerte das Abrufen der Historie der Relation mit der ID %{id}
         zu lange.
@@ -644,7 +646,7 @@ de:
         sorry: Leider ist die Liste der Kommentare der Änderungssätze, die du angefordert
           hast, für den Abruf zu lang.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} Kommentar'
         other: '%{count} Kommentare'
@@ -701,7 +703,7 @@ de:
       relations_paginated: Relationen (%{x}–%{y} von %{count})
       range: '%{x}–%{y} von %{count}'
     not_found_message:
-      sorry: 'Leider konnte das Changeset #%{id} nicht gefunden werden.'
+      sorry: 'Leider konnte der Änderungssatz #%{id} nicht gefunden werden.'
     timeout:
       sorry: Es hat leider zu lange gedauert, die angeforderten Änderungssätze abzurufen.
   changeset_subscriptions:
@@ -832,7 +834,7 @@ de:
       date_label: Datum
   diary_comments:
     new:
-      heading: Einen Kommentar zur folgenden Tagebucheintragsdiskussion hinzufügen?
+      heading: Einen Kommentar zur folgenden Blogeintragsdiskussion hinzufügen?
   doorkeeper:
     errors:
       messages:
@@ -1691,20 +1693,49 @@ de:
           weir: Wehr
           "yes": Wasserstraße
       admin_levels:
-        level2: Staatsgrenze
-        level3: Regionsgrenze
-        level4: Landesgrenze
-        level5: Regionsgrenze
-        level6: Kreis-/Bezirksgrenze
-        level7: Gemeindegrenze
-        level8: Gemeinde-/Stadtgrenze
-        level9: Stadtteilgrenze
-        level10: Nachbarschaftsgrenze
-        level11: Nachbarschaftsgrenze
+        level2: Internationale Grenze
+        level3: Verwaltungsgrenze (Ebene 3)
+        level4: Verwaltungsgrenze (Ebene 4)
+        level5: Verwaltungsgrenze (Ebene 5)
+        level6: Verwaltungsgrenze (Ebene 6)
+        level7: Verwaltungsgrenze (Ebene 7)
+        level8: Verwaltungsgrenze (Ebene 8)
+        level9: Verwaltungsgrenze (Ebene 9)
+        level10: Verwaltungsgrenze (Ebene 10)
+        level11: Verwaltungsgrenze (Ebene 11)
+      border_types:
+        arrondissement: Bezirksgrenze
+        borough: Gemeindegrenze
+        cercle: Kreisgrenze
+        city: Stadtgrenze
+        comarca: Comarca-Grenze
+        county: Bezirksgrenze
+        departement: Abteilungsgrenze
+        department: Abteilungsgrenze
+        district: Bezirksgrenze
+        distrito: Bezirksgrenze
+        freguesia: Freguesia-Grenze
+        local_authority: Gemeindegrenze
+        municipality: Gemeindegrenze
+        municipi: Gemeindegrenze
+        município: Gemeindegrenze
+        nation: Internationale Grenze
+        national: Internationale Grenze
+        neighbourhood: Nachbarschaftsgrenze
+        parish: Gemeindegrenze
+        province: Provinzgrenze
+        região: Regionsgrenze
+        region: Regionsgrenze
+        state: Landesgrenze
+        town: Stadtgrenze
+        township: Gemeindegrenze
+        village: Stadtteilgrenze
   searches:
     show:
       title:
         latlon: Intern
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Keine Ergebnisse gefunden
@@ -1716,6 +1747,10 @@ de:
       time: Dauer
       ascend: Aufsteigend
       descend: Absteigend
+      kilometers: Kilometer
+      miles_feet: Meilen, Fuß
+      miles_yards: Meilen, Yards
+      distance_units_settings: Einstellungen für Entfernungseinheiten
       download: Route als GeoJSON herunterladen
       filename: route
       directions_courtesy_html: Routenanweisungen stammen von %{link}
@@ -1860,7 +1895,7 @@ de:
       und frei verwendbar unter einer offenen Lizenz.
     hosting_partners_2024_html: Das Hosting wird von %{fastly}, %{corpmembers} und
       anderen %{partners} unterstützt.
-    partners_corpmembers: OSMF-Unternehmensmitglieder
+    partners_corpmembers: OSMF-Unternehmensmitgliedern
     partners_partners: Partnern
     tou: Nutzungsbedingungen
     nothing_to_preview: Es existiert keine Vorschau.
@@ -1883,7 +1918,7 @@ de:
       announcement: Hier kannst du die Ankündigung lesen.
   user_mailer:
     diary_comment_notification:
-      description: 'OpenStreetMap-Tagebucheintrag #%{id}'
+      description: 'OpenStreetMap-Blogeintrag #%{id}'
       subject: '[OpenStreetMap] %{user} hat zu einem Blogeintrag kommentiert'
       hi: Hallo %{to_user},
       header: '%{from_user} hat zu dem OpenStreetMap-Blogeintrag mit dem Thema %{subject}
@@ -2073,6 +2108,9 @@ de:
       whitelist: Wenn du ein Antispam-System verwendest, das Bestätigungsanfragen
         sendet, stelle bitte sicher, dass du %{sender} auf eine Erlaubnisliste setzt,
         da wir keine Bestätigungsanfragen beantworten können.
+    gravatar:
+      disabled: Gravatar wurde deaktiviert.
+      enabled: Die Anzeige deines Gravatars wurde aktiviert.
   messages:
     new:
       title: Nachricht senden
@@ -2209,35 +2247,72 @@ de:
         title: Erweiterte Einstellungen
         save: Einstellungen aktualisieren
   profiles:
-    show:
-      title: Profil bearbeiten
-      save: Profil aktualisieren
-      cancel: Abbrechen
-      image: Bild
-      gravatar:
-        gravatar: Gravatar verwenden
-        what_is_gravatar: Was ist Gravatar?
-        disabled: Gravatar wurde deaktiviert.
-        enabled: Die Anzeige deines Gravatars wurde aktiviert.
-      new image: Bild einfügen
-      keep image: Bild unverändert beibehalten
-      delete image: Bild löschen
-      replace image: Bild austauschen
-      image size hint: (quadratische Bilder mit zumindest 100x100 Pixel funktionieren
-        am besten)
-      home location: Heimatstandort
-      no home location: Du hast noch keinen Standort angegeben.
-      update home location on click: Standort beim Klick auf die Karte aktualisieren
-      show: Anzeigen
-      delete: Löschen
-      undelete: Löschen rückgängig machen
-      social_links:
-        title: Links zu sozialen Profilen
-        remove: Entfernen
-        add: Social Link hinzufügen
-    update:
-      success: Profil aktualisiert.
-      failure: Profil konnte nicht aktualisiert werden.
+    profile_sections:
+      navigation:
+        description: Beschreibung
+        links: Links
+        image: Bild
+        company: Unternehmen
+        location: Standort
+    descriptions:
+      show:
+        title: Profil bearbeiten
+        save: Profil aktualisieren
+        cancel: Abbrechen
+      update:
+        success: Profilbeschreibung wurde aktualisiert.
+        failure: Profilbeschreibung konnte nicht aktualisiert werden.
+    links:
+      show:
+        title: Profil bearbeiten
+        save: Profil aktualisieren
+        cancel: Abbrechen
+        social_links:
+          title: Links zu sozialen Profilen
+          remove: Entfernen
+          add: Social Link hinzufügen
+      update:
+        success: Profillinks aktualisiert.
+        failure: Profillinks konnten nicht aktualisiert werden.
+    images:
+      show:
+        title: Profil bearbeiten
+        save: Profil aktualisieren
+        cancel: Abbrechen
+        gravatar:
+          gravatar: Gravatar verwenden
+          link: https://wiki.openstreetmap.org/wiki/DE:Gravatar
+          what_is_gravatar: Was ist Gravatar?
+        new image: Bild einfügen
+        keep image: Bild unverändert beibehalten
+        delete image: Bild löschen
+        replace image: Bild austauschen
+        image size hint: (quadratische Bilder mit zumindest 100x100 Pixel funktionieren
+          am besten)
+      update:
+        success: Profilbild aktualisiert.
+        failure: Profilbild konnte nicht aktualisiert werden.
+    companies:
+      show:
+        title: Profil bearbeiten
+        save: Profil aktualisieren
+        cancel: Abbrechen
+      update:
+        success: Profilfirma aktualisiert.
+        failure: Profilfirma konnte nicht aktualisiert werden.
+    locations:
+      show:
+        title: Profil bearbeiten
+        save: Profil aktualisieren
+        cancel: Abbrechen
+        no home location: Du hast noch keinen Standort angegeben.
+        update home location on click: Standort beim Klick auf die Karte aktualisieren
+        show: Anzeigen
+        delete: Löschen
+        undelete: Löschen rückgängig machen
+      update:
+        success: Profilstandort aktualisiert.
+        failure: Profilstandort konnte nicht aktualisiert werden.
   sessions:
     new:
       tab_title: Anmelden
@@ -2290,24 +2365,38 @@ de:
       changeset_comments:
         older: Ältere Kommentare
         newer: Neuere Kommentare
+        oldest: Älteste Kommentare
+        newest: Neueste Kommentare
       diary_comments:
         older: Ältere Kommentare
         newer: Neuere Kommentare
+        oldest: Älteste Kommentare
+        newest: Neueste Kommentare
       diary_entries:
         older: Ältere
         newer: Neuere
+        oldest: Älteste Einträge
+        newest: Neueste Einträge
       issues:
         older: Ältere Probleme
         newer: Neuere Probleme
+        oldest: Älteste Probleme
+        newest: Neueste Probleme
       traces:
         older: Ältere Tracks
         newer: Neuere Tracks
+        oldest: Älteste Tracks
+        newest: Neueste Tracks
       user_blocks:
         older: Ältere Sperren
         newer: Neuere Sperren
+        oldest: Älteste Sperren
+        newest: Neueste Sperren
       users:
         older: Ältere Benutzer
         newer: Neuere Benutzer
+        oldest: Älteste Benutzer
+        newest: Neueste Benutzer
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} Mitwirkende'
@@ -2386,7 +2475,9 @@ de:
         lead_2_learn_more_about_osm: Erfahre mehr über OpenStreetMap
         lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/DE:Über_OSM
         lead_2_get_started_mapping: beginne mit der Kartierung
+        lead_2_osm_blog: OpenStreetMap Blog
         lead_2_osm_blog_url: https://blog.openstreetmap.org/?lang=de
+        lead_2_weeklyosm: Wochennotiz
         lead_2_weeklyosm_url: https://weeklyosm.eu/de/
         lead_2_osm_community: OSM-Gemeinschaft
         lead_2_osm_foundation: OSM-Stiftung
@@ -3177,7 +3268,6 @@ de:
       blocks by me: Vergebene Sperren
       create_mute: Diesen Benutzer stummschalten
       destroy_mute: Hebe die Stummschaltung dieses Benutzers auf
-      edit_profile: Profil bearbeiten
       send message: Nachricht senden
       diary: Blog
       edits: Bearbeitungen
@@ -3187,10 +3277,6 @@ de:
       follow: Folgen
       mapper since: 'Mapper seit:'
       last map edit: 'Letzte Kartenbearbeitung:'
-      home location: Heimatort
-      company: Unternehmen
-      company tooltip: Die Unternehmenszugehörigkeit ist selbst gemeldet und nicht
-        verifiziert
       no activity yet: Noch keine Aktivität
       uid: 'Benutzer-ID:'
       ct status: 'Bedingungen für Mitwirkende:'
@@ -3226,9 +3312,20 @@ de:
       delete_user: Benutzer löschen
       confirm: Bestätigen
       report: Diesen Benutzer melden
+      edit_profile_details: Profildetails bearbeiten
+      edit_description: Beschreibung bearbeiten
+      edit_links: Links bearbeiten
+      change_image: Bild ändern
+      edit_company: Firma bearbeiten
+      edit_location: Standort bearbeiten
       contributions:
         one: '%{count} Beitrag im letzten Jahr'
         other: '%{count} Beiträge im letzten Jahr'
+    sidebar_section:
+      home_location: Heimatort
+      company: Unternehmen
+      company_tooltip: Die Unternehmenszugehörigkeit ist selbst gemeldet und nicht
+        verifiziert
     go_public:
       flash success: Alle deine Bearbeitungen sind nun öffentlich und du kannst nun
         die Kartendaten bearbeiten.
@@ -3607,12 +3704,11 @@ de:
       den du bearbeiten möchtest, und klicke hier.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
-        miles:
-          ft: '%{distance}ft'
-          mi: '%{distance}mi'
+        m: '%{distance}m'
+        km: '%{distance}km'
+        ft: '%{distance}ft'
+        yd: '%{distance}yd'
+        mi: '%{distance}mi'
       errors:
         no_route: Wir konnten keine Strecke zwischen diesen beiden Orten berechnen.
         no_place: Wir konnten den Ort „%{place}“ leider nicht finden.

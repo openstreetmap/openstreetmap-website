@@ -74,6 +74,7 @@
 # Author: Metroitendo
 # Author: Momo50WM
 # Author: Mulcyber
+# Author: Mæ CALDÌN
 # Author: Méthodes Bulebe Hangi
 # Author: Nemo bis
 # Author: NicoScribe
@@ -516,9 +517,7 @@ fr:
       one: '%{count} chemin'
       other: '%{count} chemins'
     download_xml: Télécharger en XML
-    view_history: Voir l’historique
     view_unredacted_history: Voir l'historique non masqué
-    view_details: Afficher les détails
     location: 'Emplacement :'
     common_details:
       coordinates_html: '%{latitude} ; %{longitude}'
@@ -586,6 +585,13 @@ fr:
       telephone_link: Appeler %{phone_number}
       colour_preview: Aperçu de la couleur %{colour_value}
       email_link: Courriel %{email}
+    versions_navigation:
+      node: Nœud
+      way: Chemin
+      relation: Relation
+      history: Historique
+      version: 'Version #%{version}'
+      versions_label: 'Versions :'
   feature_queries:
     show:
       title: Interroger les objets
@@ -654,7 +660,7 @@ fr:
         sorry: Désolé, récupérer les commentaires du groupe de modifications que vous
           avez demandés a pris trop de temps.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} commentaire'
         other: '%{count} commentaires'
@@ -1096,10 +1102,10 @@ fr:
           greenhouse: Serre
           hangar: Hangar
           hospital: Bâtiment hospitalier
-          hotel: Bâtiment d’hôtel
+          hotel: Bâtiment hôtelier
           house: Maison
           houseboat: Habitation flottante
-          hut: Cahute
+          hut: Hutte
           industrial: Bâtiment industriel
           kindergarten: Bâtiment d’école maternelle
           manufacture: Bâtiment d’usine
@@ -1760,8 +1766,10 @@ fr:
       time: Temps 
       ascend: Croissant
       descend: Décroissant
-      button_km: km
-      button_mi: mi
+      kilometers: kilomètres
+      miles_feet: milles, pieds
+      miles_yards: milles, yards
+      distance_units_settings: Paramètres des unités de distance
       download: Télécharger l'itinéraire en GeoJSON
       filename: itinéraire
       directions_courtesy_html: Itinéraire fourni par %{link}
@@ -2114,6 +2122,9 @@ fr:
       whitelist: Si vous utilisez un système anti-pourriel qui envoie des demandes
         de confirmation, alors assurez-vous que %{sender} est en liste blanche, car
         nous ne pouvons pas répondre aux requêtes de confirmation.
+    gravatar:
+      disabled: Gravatar a été désactivé.
+      enabled: L’affichage de votre Gravatar a été activé.
   messages:
     new:
       title: Envoyer un message
@@ -2250,37 +2261,73 @@ fr:
         title: Mes préférences avancées
         save: Mettre à jour les préférences
   profiles:
-    show:
-      title: Modifier le profil
-      save: Mettre à jour le profil
-      cancel: Annuler
-      image: Image
-      gravatar:
-        gravatar: Utiliser Gravatar
-        link: https://wiki.openstreetmap.org/wiki/FR:Gravatar
-        what_is_gravatar: Qu’est-ce que Gravatar ?
-        disabled: Gravatar a été désactivé.
-        enabled: L’affichage de votre Gravatar a été activé.
-      new image: Ajouter une image
-      keep image: Garder l’image actuelle
-      delete image: Supprimer l’image actuelle
-      replace image: Remplacer l’image actuelle
-      image size hint: (les images carrées d’au moins 100×100 pixels fonctionnent
-        le mieux)
-      home location: Emplacement de votre domicile
-      no home location: Vous n’avez pas indiqué l'emplacement de votre domicile.
-      update home location on click: Mettre à jour l'emplacement de mon domicile quand
-        je clique sur la carte ?
-      show: Afficher
-      delete: Supprimer
-      undelete: Annuler la suppression
-      social_links:
-        title: Liens du profil social
-        remove: Retirer
-        add: Ajouter un lien social
-    update:
-      success: Profil mis à jour.
-      failure: Impossible de mettre à jour le profil.
+    profile_sections:
+      navigation:
+        description: Description
+        links: Liens
+        image: Image
+        company: Entreprise
+        location: Emplacement
+    descriptions:
+      show:
+        title: Modifier le profil
+        save: Mettre à jour le profil
+        cancel: Annuler
+      update:
+        success: Description du profil mise à jour.
+        failure: Impossible de mettre à jour la description du profil.
+    links:
+      show:
+        title: Modifier le profil
+        save: Mettre à jour le profil
+        cancel: Annuler
+        social_links:
+          title: Liens du profil social
+          remove: Retirer
+          add: Ajouter un lien social
+      update:
+        success: Liens du profil mis à jour.
+        failure: Impossible de mettre à jour les liens du profil.
+    images:
+      show:
+        title: Modifier le profil
+        save: Mettre à jour le profil
+        cancel: Annuler
+        gravatar:
+          gravatar: Utiliser Gravatar
+          link: https://wiki.openstreetmap.org/wiki/FR:Gravatar
+          what_is_gravatar: Qu’est-ce que Gravatar ?
+        new image: Ajouter une image
+        keep image: Garder l’image actuelle
+        delete image: Supprimer l’image actuelle
+        replace image: Remplacer l’image actuelle
+        image size hint: (les images carrées d’au moins 100×100 pixels fonctionnent
+          le mieux)
+      update:
+        success: Image de profil mise à jour.
+        failure: Impossible de mettre à jour l’image de profil.
+    companies:
+      show:
+        title: Modifier le profil
+        save: Mettre à jour le profil
+        cancel: Annuler
+      update:
+        success: Entreprise du profil mise à jour.
+        failure: Impossible de mettre à jour l’entreprise du profil.
+    locations:
+      show:
+        title: Modifier le profil
+        save: Mettre à jour le profil
+        cancel: Annuler
+        no home location: Vous n’avez pas indiqué l'emplacement de votre domicile.
+        update home location on click: Mettre à jour l'emplacement de mon domicile
+          quand je clique sur la carte ?
+        show: Afficher
+        delete: Supprimer
+        undelete: Annuler la suppression
+      update:
+        success: Emplacement du profil mis à jour.
+        failure: Impossible de mettre à jour l’emplacement du profil.
   sessions:
     new:
       tab_title: Se connecter
@@ -2334,24 +2381,38 @@ fr:
       changeset_comments:
         older: Commentaires plus anciens
         newer: Commentaires plus récents
+        oldest: Commentaires les plus anciens
+        newest: Commentaires les plus récents
       diary_comments:
         older: Commentaires plus anciens
         newer: Commentaires plus récents
+        oldest: Commentaires les plus anciens
+        newest: Commentaires les plus récents
       diary_entries:
         older: Entrées plus anciennes
         newer: Entrées plus récentes
+        oldest: Entrées les plus anciennes
+        newest: Entrées les plus récentes
       issues:
         older: Problèmes plus anciens
         newer: Problèmes plus récents
+        oldest: Problèmes les plus anciens
+        newest: Problèmes les plus récents
       traces:
         older: Traces plus anciennes
         newer: Traces plus récentes
+        oldest: Traces les plus anciennes
+        newest: Traces les plus récentes
       user_blocks:
         older: Blocs plus anciens
         newer: Blocs plus récents
+        oldest: Blocs les plus anciens
+        newest: Blocs les plus récents
       users:
         older: Utilisateurs plus anciens
         newer: Utilisateurs plus récents
+        oldest: Utilisateurs les plus anciens
+        newest: Utilisateurs les plus récents
   site:
     about:
       heading_html: '%{copyright}contributeurs%{br} d’OpenStreetMap'
@@ -3252,7 +3313,6 @@ fr:
       blocks by me: Blocages de ma part
       create_mute: Mettre cet utilisateur en sourdine
       destroy_mute: Réactiver le son de cet utilisateur
-      edit_profile: Modifier le profil
       send message: Envoyer un message
       diary: Journal
       edits: Modifications
@@ -3262,9 +3322,6 @@ fr:
       follow: Suivre
       mapper since: 'Cartographe depuis :'
       last map edit: 'Dernière modification de la carte :'
-      home location: Lieu de résidence
-      company: Entreprise
-      company tooltip: L’affiliation à l’entreprise est autodéclarée et non vérifiée
       no activity yet: Pas encore d'activité
       uid: 'Identifiant utilisateur :'
       ct status: 'Conditions de contribution :'
@@ -3300,9 +3357,19 @@ fr:
       delete_user: Supprimer cet utilisateur ou cette utilisatrice
       confirm: Confirmer
       report: Signaler cet utilisateur ou cette utilisatrice
+      edit_profile_details: Modifier les détails du profil
+      edit_description: Modifier la description
+      edit_links: Modifier les liens
+      change_image: Changer l’image
+      edit_company: Modifier l’entreprise
+      edit_location: Modifier l’emplacement
       contributions:
         one: Une contribution au cours de la dernière année
         other: '%{count} contributions au cours de la dernière année'
+    sidebar_section:
+      home_location: Lieu de résidence
+      company: Entreprise
+      company_tooltip: L’affiliation à l’entreprise est autodéclarée et non vérifiée
     go_public:
       flash success: Toutes vos modifications sont dorénavant publiques et vous êtes
         autorisé à modifier.
@@ -3681,12 +3748,11 @@ fr:
       puis cliquez dessus.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} pieds'
-          mi: '%{distance} milles'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} pieds'
+        yd: '%{distance} yards'
+        mi: '%{distance} milles'
       errors:
         no_route: Impossible de trouver une route entre ces deux lieux.
         no_place: Désolé, impossible de trouver « %{place} ».

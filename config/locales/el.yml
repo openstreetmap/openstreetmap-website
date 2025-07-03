@@ -72,8 +72,8 @@ el:
         create: Εγγραφή
         update: Ενημέρωση
       redaction:
-        create: Δημιουργία παράλειψης
-        update: Αποθήκευση παράλειψης
+        create: Δημιουργία απόκρυψης
+        update: Αποθήκευση απόκρυψης
       trace:
         create: Μεταφόρτωση
         update: Αποθήκευση αλλαγών
@@ -416,7 +416,7 @@ el:
     deleted_ago_by_html: Διαγράφηκε %{time_ago} από %{user}
     edited_ago_by_html: Επεξεργάστηκε %{time_ago} από %{user}
     version: Έκδοση
-    redacted_version: Επανεξεργασμένη έκδοση
+    redacted_version: Αποκρυμμένη έκδοση
     in_changeset: Σύνολο αλλαγών
     anonymous: ανώνυμος
     no_comment: (χωρίς σχόλιο)
@@ -428,9 +428,7 @@ el:
       one: '%{count} γραμμή'
       other: '%{count} γραμμές'
     download_xml: Λήψη XML
-    view_history: Προβολή ιστορικού
     view_unredacted_history: Προβολή μη τροποποιημένου ιστορικού
-    view_details: Προβολή λεπτομερειών
     location: 'Τοποθεσία:'
     node:
       title_html: 'Κόμβος: %{name}'
@@ -470,12 +468,12 @@ el:
         changeset: σύνολο αλλαγών
         note: τη σημείωση
     redacted:
-      redaction: την Αναθεώρηση %{id}
+      redaction: την Απόκρυψη %{id}
       message_html: Η έκδοση %{version} %{type} δε μπορεί να εμφανιστεί, δεδομένου
-        ότι έχει αναθεωρηθεί. Παρακαλούμε δείτε %{redaction_link} για λεπτομέρειες.
+        ότι έχει αποκρυβεί. Παρακαλούμε δείτε %{redaction_link} για λεπτομέρειες.
       type:
         node: του κόμβου
-        way: γραμμή
+        way: της γραμμής
         relation: της σχέσης
     start_rjs:
       feature_warning: Η φόρτωση %{num_features} χαρακτηριστικών ενδέχεται να καταστήσει
@@ -495,6 +493,13 @@ el:
       telephone_link: Καλέστε στο %{phone_number}
       colour_preview: Προεπισκόπηση χρώματος %{colour_value}
       email_link: Αποστολή μέιλ στο %{email}
+    versions_navigation:
+      node: Κόμβος
+      way: Γραμμή
+      relation: Σχέση
+      history: Ιστορικό
+      version: 'Έκδοση #%{version}'
+      versions_label: 'Εκδόσεις:'
   feature_queries:
     show:
       title: Πληροφορίες χαρακτηριστικών
@@ -512,8 +517,8 @@ el:
       older_versions: Παλαιότερες εκδόσεις
       newer_versions: Νεότερες εκδόσεις
     actions:
-      view_redacted_data: Προβολή αναδιατυπωμένων δεδομένων
-      view_redaction_message: Προβολή μηνύματος διόρθωσης
+      view_redacted_data: Προβολή αποκρυμμένων δεδομένων
+      view_redaction_message: Προβολή μηνύματος απόκρυψης
   nodes:
     not_found_message:
       sorry: 'Λυπούμαστε, ο κόμβος #%{id} δεν βρέθηκε.'
@@ -563,7 +568,7 @@ el:
         sorry: Λυπόμαστε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε, χρειάστηκε
           πολύ χρόνο για να ανακτηθεί.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} σχόλιο'
         other: '%{count} σχόλια'
@@ -797,7 +802,7 @@ el:
       contact: επικοινωνήσετε
       contact_the_community_html: Μη διστάσετε να %{contact_link} με την κοινότητα
         του OpenStreetMap εάν έχετε βρει έναν κατεστραμμένο σύνδεσμο / σφάλμα. Σημειώστε
-        την ακριβή διεύθυνση URL του αιτήματός σας.
+        την ακριβή διεύθυνση URL του αιτήματος σας.
     bad_request:
       title: Κακό αίτημα
       description: Η λειτουργία που αιτηθήκατε στον διακομιστή OpenStreetMap δεν είναι
@@ -1670,8 +1675,10 @@ el:
       time: Ώρα
       ascend: Ανάβαση
       descend: Κατάβαση
-      button_km: χλμ
-      button_mi: μι
+      kilometers: χιλιόμετρα
+      miles_feet: μίλια, πόδια
+      miles_yards: μίλια, γιάρδες
+      distance_units_settings: Ρυθμίσεις μονάδων απόστασης
       download: Λήψη διαδρομής ως GeoJSON
       filename: διαδρομή
       directions_courtesy_html: Οι οδηγίες είναι προσφορά του %{link}
@@ -2029,6 +2036,9 @@ el:
         τότε παρακαλούμε σιγουρευτείτε να προσθέσετε στην λίστα μη κακόβουλων χρηστών
         το %{sender}  μιας και δεν μπορούμε να στείλουμε απάντηση σε οποιαδήποτε αίτηση
         επαλήθευσης.
+    gravatar:
+      disabled: Το Gravatar έχει απενεργοποιηθεί.
+      enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
   messages:
     new:
       title: Αποστολή μηνύματος
@@ -2163,36 +2173,72 @@ el:
         title: Οι προηγμένες προτιμήσεις μου
         save: Ενημέρωση προτιμήσεων
   profiles:
-    show:
-      title: Επεξεργασία προφίλ
-      save: Ενημέρωση προφίλ
-      cancel: Ακύρωση
-      image: Εικόνα
-      gravatar:
-        gravatar: Χρήση Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Τί είναι το Gravatar;
-        disabled: Το Gravatar έχει απενεργοποιηθεί.
-        enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
-      new image: Προσθήκη εικόνας
-      keep image: Διατήρηση της τρέχουσας εικόνας
-      delete image: Αφαίρεση της τρέχουσας εικόνας
-      replace image: Αντικατάσταση της τρέχουσας εικόνας
-      image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
-      home location: Τοποθεσία σπιτιού
-      no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
-      update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
-        χάρτη;
-      show: Εμφάνιση
-      delete: Διαγραφή
-      undelete: Αναίρεση διαγραφής
-      social_links:
-        title: Σύνδεσμοι προφίλ κοινωνικής δικτύωσης
-        remove: Αφαίρεση
-        add: Προσθήκη συνδέσμου κοινωνικής δικτύωσης
-    update:
-      success: Το προφίλ ενημερώθηκε.
-      failure: Δεν μπόρεσε να ενημερωθεί το προφίλ.
+    profile_sections:
+      navigation:
+        description: Περιγραφή
+        links: Σύνδεσμοι
+        image: Εικόνα
+        company: Εταιρεία
+        location: Τοποθεσία
+    descriptions:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+      update:
+        success: Η περιγραφή του προφίλ ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση της περιγραφής του προφίλ.
+    links:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+        social_links:
+          title: Σύνδεσμοι προφίλ κοινωνικής δικτύωσης
+          remove: Αφαίρεση
+          add: Προσθήκη συνδέσμου κοινωνικής δικτύωσης
+      update:
+        success: Οι σύνδεσμοι προφίλ ενημερώθηκαν.
+        failure: Δεν ήταν δυνατή η ενημέρωση συνδέσμων προφίλ.
+    images:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+        gravatar:
+          gravatar: Χρήση Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Τί είναι το Gravatar;
+        new image: Προσθήκη εικόνας
+        keep image: Διατήρηση της τρέχουσας εικόνας
+        delete image: Αφαίρεση της τρέχουσας εικόνας
+        replace image: Αντικατάσταση της τρέχουσας εικόνας
+        image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
+      update:
+        success: Η εικόνα προφίλ ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση της εικόνας προφίλ.
+    companies:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+      update:
+        success: Ενημερώθηκε το προφίλ της εταιρείας.
+        failure: Δεν ήταν δυνατή η ενημέρωση του προφίλ της εταιρείας.
+    locations:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+        no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
+        update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ
+          στον χάρτη;
+        show: Εμφάνιση
+        delete: Διαγραφή
+        undelete: Αναίρεση διαγραφής
+      update:
+        success: Η τοποθεσία του προφίλ ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση της τοποθεσίας του προφίλ.
   sessions:
     new:
       tab_title: Σύνδεση
@@ -2245,24 +2291,38 @@ el:
       changeset_comments:
         older: Παλαιότερα σχόλια
         newer: Νεότερα σχόλια
+        oldest: Παλαιότερα σχόλια
+        newest: Νεότερα σχόλια
       diary_comments:
         older: Παλαιότερα σχόλια
         newer: Νεότερα σχόλια
+        oldest: Παλαιότερα σχόλια
+        newest: Νεότερα σχόλια
       diary_entries:
         older: Παλιότερες καταχωρίσεις
         newer: Νεότερες καταχωρίσεις
+        oldest: Παλαιότερες καταχωρήσεις
+        newest: Νεότερες καταχωρήσεις
       issues:
         older: Παλαιότερα ζητήματα
         newer: Νεότερα ζητήματα
+        oldest: Παλαιότερα ζητήματα
+        newest: Νεότερα ζητήματα
       traces:
         older: Παλαιότερα ίχνη
         newer: Νεότερα ίχνη
+        oldest: Παλαιότερα ίχνη
+        newest: Νεότερα ίχνη
       user_blocks:
         older: Παλαιότερες φραγές
         newer: Νεότερες φραγές
+        oldest: Παλαιότερες φραγές
+        newest: Νεότερες φραγές
       users:
         older: Παλαιότεροι χρήστες
         newer: Νεότεροι χρήστες
+        oldest: Παλαιότεροι χρήστες
+        newest: Νεότεροι χρήστες
   site:
     about:
       heading_html: '%{copyright}συνεισφέροντες %{br} OpenStreetMap'
@@ -3147,7 +3207,6 @@ el:
       blocks by me: Φραγές από εμένα
       create_mute: Σίγαση αυτού του χρήστη
       destroy_mute: Κατάργηση σίγασης αυτού του χρήστη
-      edit_profile: Επεξεργασία προφίλ
       send message: Αποστολή μηνύματος
       diary: Ημερολόγιο
       edits: Επεξεργασίες
@@ -3157,9 +3216,6 @@ el:
       follow: Ακολούθηση
       mapper since: 'Χαρτογράφος από:'
       last map edit: 'Τελευταία επεξεργασία χάρτη:'
-      home location: Τοποθεσία σπιτιού
-      company: Εταιρεία
-      company tooltip: Η εταιρική σχέση είναι αυτοαναφερόμενη και όχι επαληθευμένη
       no activity yet: Καμία δραστηριότητα ακόμη
       uid: 'Id χρήστη:'
       ct status: 'Όροι συνεισφοράς:'
@@ -3195,9 +3251,19 @@ el:
       delete_user: Διαγραφή αυτού του χρήστη
       confirm: Επιβεβαίωση
       report: Αναφορά αυτού του χρήστη
+      edit_profile_details: Επεξεργασία λεπτομερειών προφίλ
+      edit_description: Επεξεργασία περιγραφής
+      edit_links: Επεξεργασία συνδέσμων
+      change_image: Αλλαγή εικόνας
+      edit_company: Επεξεργασία εταιρείας
+      edit_location: Επεξεργασία τοποθεσίας
       contributions:
         one: '%{count} συνεισφορά τον τελευταίο χρόνο'
         other: '%{count} συνεισφορές τον τελευταίο χρόνο'
+    sidebar_section:
+      home_location: Τοποθεσία σπιτιού
+      company: Εταιρεία
+      company_tooltip: Η εταιρική σχέση είναι αυτοαναφερόμενη και όχι επαληθευμένη
     go_public:
       flash success: Όλες οι επεξεργασίες σας είναι τώρα δημόσιες και έχετε τη δυνατότητα
         να επεξεργαστείτε τον χάρτη.
@@ -3574,12 +3640,11 @@ el:
       να επεξεργαστείτε, στη συνέχεια, κάντε κλικ εδώ.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} μ'
-          km: '%{distance} χλμ.'
-        miles:
-          ft: '%{distance}πδ'
-          mi: '%{distance}μι'
+        m: '%{distance} μ'
+        km: '%{distance} χλμ.'
+        ft: '%{distance}πδ'
+        yd: '%{distance}γδ'
+        mi: '%{distance}μι'
       errors:
         no_route: Δεν βρέθηκε διαδρομή ανάμεσα σε αυτά τα δύο μέρη.
         no_place: Συγγνώμη, δεν βρέθηκε αυτό το '%{place}'.
@@ -3685,33 +3750,33 @@ el:
           other: '%{count} συνεισφορές στις %{date}'
   redactions:
     edit:
-      heading: Επεξεργασία παράληψης
-      title: Επεξεργαστείτε την παράληψη
+      heading: Επεξεργασία Απόκρυψης
+      title: Επεξεργασία Απόκρυψης
     index:
-      empty: Καμία παράληψη προς εμφάνιση.
-      heading: Κατάλογος παραλήψεων
-      title: Κατάλογος συντακτικών αλλαγών
+      empty: Καμία απόκρυψη προς εμφάνιση.
+      heading: Κατάλογος Αποκρύψεων
+      title: Κατάλογος Αποκρύψεων
       new: Νέα Απόκρυψη
     new:
-      heading: Εισαγωγή πληροφοριών για νέα παράληψη
-      title: Δημιουργώντας νέα παράληψη
+      heading: Εισαγωγή Πληροφοριών για Νέα Απόκρυψη
+      title: Δημιουργία Νέας Απόκρυψης
     show:
       description: 'Περιγραφή:'
-      heading: Εμφάνιση παράληψης «%{title}»
-      title: Εμφανίζεται η παράληψη
+      heading: Εμφάνιση Απόκρυψης «%{title}»
+      title: Εμφάνιση Απόκρυψης
       user: 'Δημιουργός:'
-      edit: Επεξεργασία αυτής της παράληψης
-      destroy: Κατάργηση αυτής της παράληψης
-      confirm: Είσαι σίγουρος;
+      edit: Επεξεργασία αυτής της απόκρυψης
+      destroy: Κατάργηση αυτής της απόκρυψης
+      confirm: Είστε σίγουροι;
     create:
-      flash: Η παράληψη δημιουργήθηκε.
+      flash: Η απόκρυψη δημιουργήθηκε.
     update:
       flash: Οι αλλαγές αποθηκεύτηκαν.
     destroy:
-      not_empty: Η σύνταξη δεν είναι κενή. Παρακαλούμε απο-συντάξτε όλες τις εκδόσεις
-        σε αυτή τη σύνταξη πριν την καταστρέψετε.
-      flash: Η παράληψη καταστραφεί.
-      error: Εμφανίστηκε ένα σφάλμα στη καταστροφή αυτής της παράλειψης.
+      not_empty: Η απόκρυψη δεν είναι κενή. Παρακαλούμε αναιρέστε την απόκρυψη σε
+        όλες τις εκδόσεις σε αυτή τη απόκρυψη πριν την καταστρέψετε.
+      flash: Η απόκρυψη καταστράφηκε.
+      error: Εμφανίστηκε ένα σφάλμα στη καταστροφή αυτής της απόκρυψης.
   validations:
     leading_whitespace: περιέχει κενό διάστημα στην αρχή
     trailing_whitespace: περιέχει κενό διάστημα στο τέλος

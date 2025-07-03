@@ -108,7 +108,7 @@ sk:
       user: Používateľ
       user_preference: Osobné nastavenia
       user_token: Používateľský token
-      way: Cesta
+      way: Línia
       way_node: Bod cesty
       way_tag: Značka cesty
     attributes:
@@ -431,14 +431,12 @@ sk:
       many: '%{count} ciest'
       other: '%{count} ciest'
     download_xml: Stiahnuť XML
-    view_history: Zobraziť históriu
     view_unredacted_history: Zobraziť neredigovanú históriu
-    view_details: Zobraziť detaily
     location: 'Poloha:'
     node:
       title_html: 'Uzol: %{name}'
     way:
-      title_html: 'Cesta: %{name}'
+      title_html: 'Línia: %{name}'
       nodes: Uzly
       nodes_count:
         one: 1 uzol
@@ -446,8 +444,10 @@ sk:
         many: '%{count} uzlov'
         other: '%{count} uzlov'
       also_part_of_html:
-        one: súčasťou cesty %{related_ways}
-        other: súčasťou ciest %{related_ways}
+        one: súčasťou línie %{related_ways}
+        few: súčasťou línií %{related_ways}
+        many: súčasťou línií %{related_ways}
+        other: súčasťou línií %{related_ways}
     relation:
       title_html: 'Relácia: %{name}'
       members: Prvky
@@ -460,7 +460,7 @@ sk:
       entry_role_html: '%{type} %{name} ako %{role}'
       type:
         node: Uzol
-        way: Cesta
+        way: Línia
         relation: Relácia
     containing_relation:
       entry_role_html: '%{relation_name} (ako %{relation_role})'
@@ -471,7 +471,7 @@ sk:
       sorry: Ľutujeme, ale načítanie dát typu %{type} číslo %{id} trvalo príliš dlho.
       type:
         node: uzol
-        way: cesta
+        way: línia
         relation: relácia
         changeset: sada zmien
         note: poznámka
@@ -481,7 +481,7 @@ sk:
         pretože bola skrytá. Viac informácií nájdete na %{redaction_link}.
       type:
         node: uzol
-        way: cesta
+        way: línia
         relation: vzťah
     start_rjs:
       feature_warning: Načítava sa %{num_features} objektov, čo môže váš prehliadač
@@ -500,6 +500,13 @@ sk:
       telephone_link: Vytočiť %{phone_number}
       colour_preview: Náhľad farby %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Uzol
+      way: Línia
+      relation: Relácia
+      history: História
+      version: 'Verzia #%{version}'
+      versions_label: 'Verzie:'
   feature_queries:
     show:
       title: Prieskum prvkov
@@ -561,7 +568,7 @@ sk:
         sorry: Ľutujeme, ale vami požadovaný zoznam komentárov k sade zmien sa načítaval
           príliš dlho.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} komentár'
         few: '%{count} komentáre'
@@ -614,10 +621,10 @@ sk:
       changesetxml: XML sady zmien
       osmchangexml: osmChange XML
     paging_nav:
-      nodes_title: Body
+      nodes_title: Uzly
       nodes_paginated: Uzly (%{x}–%{y} z %{count})
       ways_title: Línie
-      ways_paginated: Cesty (%{x}–%{y} z %{count})
+      ways_paginated: Línie (%{x}–%{y} z %{count})
       relations_title: Relácie
       relations_paginated: Relácie (%{x}–%{y} z %{count})
       range: '%{x}-%{y} z %{count}'
@@ -1649,8 +1656,10 @@ sk:
       time: Čas
       ascend: Stúpanie
       descend: Klesanie
-      button_km: km
-      button_mi: míľ
+      kilometers: kilometre
+      miles_feet: míle, stopy
+      miles_yards: míle, yardy
+      distance_units_settings: Nastavenia jednotiek vzdialenosti
       download: Stiahnuť trasu ako GeoJSON
       filename: trasa
       directions_courtesy_html: Trasa získaná vďaka %{link}
@@ -1808,6 +1817,10 @@ sk:
     communities: Komunity
     learn_more: Viac info
     more: Ďalšie
+    header:
+      select_language: Zvoľte jazyk
+    select_language_button:
+      title: Zvoľte jazyk
     offline_flash:
       osm_offline: Databáza OpenStreetMap je momentálne offline, zatiaľ čo sa vykonávajú
         dôležité údržbárske práce.
@@ -1990,6 +2003,9 @@ sk:
       whitelist: Ak používate systém proti nevyžiadanej pošte (antispam), pridajte
         odosielateľa %{sender} do výnimiek, pretože my nemôžeme odpovedať na emailové
         požiadavky na potvrdenie.
+    gravatar:
+      disabled: Gravatar bol vypnutý.
+      enabled: Zobrazenie vášho Gravatara bolo zapnuté.
   messages:
     new:
       title: Odoslať správu
@@ -2127,35 +2143,43 @@ sk:
         title: Moje rozšírené predvoľby
         save: Aktualizovať predvoľby
   profiles:
-    show:
-      title: Upraviť profil
-      save: Aktualizovať profil
-      cancel: Zrušiť
-      image: Obrázok
-      gravatar:
-        gravatar: Používať Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Čo je Gravatar?
-        disabled: Gravatar bol vypnutý.
-        enabled: Zobrazenie vášho Gravatara bolo zapnuté.
-      new image: 'Pridať obrázok:'
-      keep image: Ponechať aktuálny obrázok
-      delete image: Odstrániť aktuálny obrázok
-      replace image: Nahradiť aktuálny obrázok
-      image size hint: (najvhodnejšie sú štvorcové obrázky s veľkosťou najmenej 100×100)
-      home location: Domovská poloha
-      no home location: Nezadali ste svoju domovskú polohu.
-      update home location on click: Aktualizovať domovskú polohu kliknutím na mapu?
-      show: Zobraziť
-      delete: Zmazať
-      undelete: Vrátiť späť odstránenie
-      social_links:
-        title: Odkazy na sociálne profily
-        remove: Odstrániť
-        add: Pridať odkaz na sociálnu sieť
-    update:
-      success: Profil aktualizovaný.
-      failure: Nepodarilo sa upraviť profil.
+    profile_sections:
+      navigation:
+        description: Popis
+        links: Odkazy
+        image: Obrázok
+        company: Spoločnosť
+    descriptions:
+      show:
+        title: Upraviť profil
+        save: Aktualizovať profil
+        cancel: Zrušiť
+    links:
+      show:
+        title: Upraviť profil
+        social_links:
+          title: Odkazy na sociálne profily
+          remove: Odstrániť
+          add: Pridať odkaz na sociálnu sieť
+    images:
+      show:
+        gravatar:
+          gravatar: Používať Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Čo je Gravatar?
+        new image: 'Pridať obrázok:'
+        keep image: Ponechať aktuálny obrázok
+        delete image: Odstrániť aktuálny obrázok
+        replace image: Nahradiť aktuálny obrázok
+        image size hint: (najvhodnejšie sú štvorcové obrázky s veľkosťou najmenej
+          100×100)
+    locations:
+      show:
+        no home location: Nezadali ste svoju domovskú polohu.
+        update home location on click: Aktualizovať domovskú polohu kliknutím na mapu?
+        show: Zobraziť
+        delete: Zmazať
+        undelete: Vrátiť späť odstránenie
   sessions:
     new:
       tab_title: Prihlásenie
@@ -2206,24 +2230,38 @@ sk:
       changeset_comments:
         older: Staršie komentáre
         newer: Novšie komentáre
+        oldest: Najstaršie komentáre
+        newest: Najnovšie komentáre
       diary_comments:
         older: Staršie komentáre
         newer: Novšie komentáre
+        oldest: Najstaršie komentáre
+        newest: Najnovšie komentáre
       diary_entries:
         older: Staršie záznamy
         newer: Novšie záznamy
+        oldest: Najstaršie záznamy
+        newest: Najnovšie záznamy
       issues:
         older: Staršie problémy
         newer: Novšie problémy
+        oldest: Najstaršie hlásenia
+        newest: Najnovšiehlásenia
       traces:
         older: Staršie stopy
         newer: Novšie stopy
+        oldest: Najstaršie stopy
+        newest: Najnovšie stopy
       user_blocks:
         older: Staršie blokácie
         newer: Novšie blokácie
+        oldest: Najstaršie blokovania
+        newest: Najnovšie blokovania
       users:
         older: Starší používatelia
         newer: Novší používatelia
+        oldest: Najstarší používatelia
+        newest: Najnovší používatelia
   site:
     about:
       heading_html: '%{copyright}prispievatelia %{br} OpenStreetMap'
@@ -2625,8 +2663,8 @@ sk:
         a_tag_html: '%{tag} je časť údajov o uzle alebo ceste, napríklad názov reštaurácie
           alebo rýchlostný limit cesty.'
         editor: Editor
-        node: Uzol
-        way: Cesta
+        node: uzol
+        way: línia
         tag: Značka
       rules:
         title: Pravidlá!
@@ -3083,7 +3121,6 @@ sk:
       blocks by me: Mnou udelené blokácie
       create_mute: Stlmiť tohto používateľa
       destroy_mute: Zrušiť stlmenie tohto používateľa
-      edit_profile: Upraviť profil
       send message: Poslať správu
       diary: Denník
       edits: Úpravy
@@ -3093,10 +3130,6 @@ sk:
       follow: Sledovať
       mapper since: 'Mapuje od:'
       last map edit: 'Posledná úprava mapy:'
-      home location: Domovská poloha
-      company: Spoločnosť
-      company tooltip: Príslušnosť k spoločnosti je nahlásená samostatne a nie je
-        overená
       no activity yet: Zatiaľ žiadna aktivita
       uid: 'ID používateľa:'
       ct status: 'Podmienky prispievania:'
@@ -3137,6 +3170,10 @@ sk:
         few: '%{count} príspevky za posledný rok'
         many: '%{count} príspevkov za posledný rok'
         other: '%{count} príspevkov za posledný rok'
+    sidebar_section:
+      home_location: Domovská poloha
+      company_tooltip: Príslušnosť k spoločnosti je nahlásená samostatne a nie je
+        overená
     go_public:
       flash success: Všetky vaše úpravy sú teraz verejné, a teraz máte povolenie na
         úpravu.
@@ -3530,12 +3567,10 @@ sk:
       kliknite sem.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
-        miles:
-          ft: '%{distance} stôp'
-          mi: '%{distance} míľ'
+        m: '%{distance}m'
+        km: '%{distance}km'
+        ft: '%{distance} stôp'
+        mi: '%{distance} míľ'
       errors:
         no_route: Nepodarilo sa nájsť trasu medzi týmito miestami.
         no_place: Ospravedlňujeme sa - nepodarilo sa nájsť '%{place}'.
@@ -3615,7 +3650,7 @@ sk:
           tenth: "10."
     query:
       node: Uzol
-      way: Cesta
+      way: Línia
       relation: Relácia
       nothing_found: Neboli nájdené žiadne objekty
       error: 'Chyba pri pripájaní k %{server}: %{error}'

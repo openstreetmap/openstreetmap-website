@@ -247,7 +247,7 @@ ru:
         longitude: Долгота
         public: Публичный
         description: Описание
-        gpx_file: Загрузить GPX-файл
+        gpx_file: Выберите файл GPS-трассировки
         visibility: 'Видимость:'
         tagstring: 'Теги:'
       message:
@@ -531,9 +531,7 @@ ru:
       many: '%{count} линиях'
       other: ""
     download_xml: Скачать XML
-    view_history: Посмотреть историю
     view_unredacted_history: Просмотр неотредактированной истории
-    view_details: Подробнее
     location: 'Географическое положение:'
     node:
       title_html: 'Точка: %{name}'
@@ -601,6 +599,11 @@ ru:
       telephone_link: Позвонить %{phone_number}
       colour_preview: Просмотр цвета %{colour_value}
       email_link: Электронная почта %{email}
+    versions_navigation:
+      relation: Отношение
+      history: История
+      version: 'Версия #%{version}'
+      versions_label: 'Версии:'
   feature_queries:
     show:
       title: Что здесь?
@@ -615,6 +618,8 @@ ru:
         title_html: 'История линии: %{name}'
       relation:
         title_html: 'История отношения: %{name}'
+      older_versions: Более старые версии
+      newer_versions: Более новые версии
     actions:
       view_redacted_data: Просмотр отредактированных данных
       view_redaction_message: Просмотр отредактированного сообщения
@@ -830,6 +835,9 @@ ru:
       my_diary: Мой дневник
       new: Новая запись в дневнике
       new_title: Создать новую запись в моём дневнике
+    profile_diaries:
+      comments_label: Комментарии
+      date_label: Дата
   diary_comments:
     new:
       heading: Добавить комментарий к следующему обсуждению записи в дневнике?
@@ -1136,6 +1144,7 @@ ru:
           bridleway: Дорожка для верховой езды
           bus_guideway: Автобусная полоса-рельс
           bus_stop: Автобусная остановка
+          busway: Автобусная полоса
           construction: Ремонт/строительство дороги
           corridor: Проход через здание
           crossing: Перекрёсток
@@ -1222,6 +1231,10 @@ ru:
           guidepost: Указательный столб
           board: Информационная доска
           map: Карта
+          office: Туристический офис
+          terminal: Информационный терминал
+          sign: Информационный знак
+          stele: Информационная стела
         junction:
           "yes": Перекрёсток
         landuse:
@@ -1640,6 +1653,8 @@ ru:
           lake: Озеро
           pond: Пруд
           reservoir: Водохранилище
+          basin: Водоём
+          fishpond: Рыбный пруд
           lagoon: Лагуна
           wastewater: Сточные воды
           oxbow: Старица
@@ -1665,16 +1680,16 @@ ru:
           weir: Плотина
           "yes": Водный маршрут
       admin_levels:
-        level2: Граница страны
-        level3: Граница региона
-        level4: Граница штата, субъекта
-        level5: Граница региона
-        level6: Граница района
-        level7: Граница муниципалитета
-        level8: Граница города
-        level9: Граница села, деревни
-        level10: Граница пригорода
-        level11: Граница между соседствами
+        level2: Международная граница
+        level3: Административная граница (уровень 3)
+        level4: Административная граница (уровень 4)
+        level5: Административная граница (уровень 5)
+        level6: Административная граница (уровень 6)
+        level7: Административная граница (уровень 7)
+        level8: Административная граница (уровень 8)
+        level9: Административная граница (уровень 9)
+        level10: Административная граница (уровень 10)
+        level11: Административная граница (уровень 11)
   searches:
     show:
       title:
@@ -1690,7 +1705,6 @@ ru:
       time: Время
       ascend: Подъём
       descend: Спуск
-      button_km: км
       download: Скачать маршрут в формате GeoJSON
       filename: маршрут
       directions_courtesy_html: Маршрут предоставлен %{link}
@@ -2004,6 +2018,9 @@ ru:
       whitelist: Если вы используете антиспам, посылающий запросы на подтверждение,
         внесите адрес %{sender} в ваш белый список, так как мы не можем отвечать на
         такие запросы.
+    gravatar:
+      disabled: Gravatar отключён.
+      enabled: Отображение вашего Gravatar включено.
   messages:
     new:
       title: Отправить сообщение
@@ -2140,36 +2157,40 @@ ru:
           dark: Тёмная
         save: Обновить предпочтения
   profiles:
-    show:
-      title: Редактирование профиля
-      save: Обновить профиль
-      cancel: Отмена
-      image: Изображение
-      gravatar:
-        gravatar: Использовать Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=ru
-        what_is_gravatar: Что такое Gravatar?
-        disabled: Gravatar отключён.
-        enabled: Отображение вашего Gravatar включено.
-      new image: Добавить изображение
-      keep image: Оставить текущее изображение
-      delete image: Удалить текущее изображение
-      replace image: Заменить текущее изображение
-      image size hint: (квадратные изображения, по крайней мере 100×100, работают
-        лучше)
-      home location: Моё местоположение
-      no home location: Вы не обозначили свое домашнее местоположение.
-      update home location on click: Обновлять моё местоположение, когда я нажимаю
-        на карту?
-      show: Показать
-      delete: Удалить
-      undelete: Отменить удаление
-      social_links:
-        remove: Удалить
-        add: Добавить ссылку на социальную сеть
-    update:
-      success: Профиль обновлён.
-      failure: Не удалось обновить профиль.
+    profile_sections:
+      navigation:
+        image: Изображение
+    descriptions:
+      show:
+        title: Редактирование профиля
+        save: Обновить профиль
+        cancel: Отмена
+    links:
+      show:
+        title: Редактировать профиль
+        social_links:
+          remove: Удалить
+          add: Добавить ссылку на социальную сеть
+    images:
+      show:
+        gravatar:
+          gravatar: Использовать Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=ru
+          what_is_gravatar: Что такое Gravatar?
+        new image: Добавить изображение
+        keep image: Оставить текущее изображение
+        delete image: Удалить текущее изображение
+        replace image: Заменить текущее изображение
+        image size hint: (квадратные изображения, по крайней мере 100×100, работают
+          лучше)
+    locations:
+      show:
+        no home location: Вы не обозначили свое домашнее местоположение.
+        update home location on click: Обновлять моё местоположение, когда я нажимаю
+          на карту?
+        show: Показать
+        delete: Удалить
+        undelete: Отменить удаление
   sessions:
     new:
       tab_title: Вход
@@ -2303,7 +2324,7 @@ ru:
           следующие два условия:'
         credit_2_license: Дайте понять, что данные доступны по лицензии открытой базы
           данных.
-        credit_3_v2025_attribution_guidelines: Руководство по атрибуции
+        credit_3_v2025_attribution_guidelines: руководство по атрибуции
         credit_4_v2025_this_copyright_page: эту страницу об авторских правах
         attribution_example:
           alt: Пример того, как сослаться на OpenStreetMap с веб-страницы
@@ -2550,6 +2571,9 @@ ru:
           Действительно, многие группы существуют очень успешно как неформальные собрания людей или как
           общинные группы. Любой может настроить или присоединиться к ним. Подробнее читайте на %{communities_wiki_link}.
         communities_wiki: Вики-странице сообщества
+  social_links:
+    show:
+      website: сайт
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть заметки
@@ -2920,7 +2944,6 @@ ru:
       blocks by me: Наложенные мною блокировки
       create_mute: Заглушить этого пользователя
       destroy_mute: Отменить заглушение этого пользователя
-      edit_profile: Редактировать профиль
       send message: Отправить сообщение
       diary: Дневник
       edits: Правки
@@ -3303,9 +3326,8 @@ ru:
       кликните здесь.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}м'
-          km: '%{distance}км'
+        m: '%{distance}м'
+        km: '%{distance}км'
       errors:
         no_route: Не удалось найти маршрут между этими двумя точками.
         no_place: К сожалению невозможно определить '%{place}'.

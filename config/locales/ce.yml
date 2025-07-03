@@ -373,9 +373,7 @@ ce:
       one: '%{count} сиза'
       other: '%{count} сизнаш'
     download_xml: Схьаэца XML
-    view_history: Хьажа истори
     view_unredacted_history: Хьажа нисайаза историга
-    view_details: Мадарра
     location: 'Географин йолу меттиг:'
     node:
       title_html: 'ТӀадам: %{name}'
@@ -475,7 +473,7 @@ ce:
         sorry: Бехк ма билла, ахьа бихина нисдарийн могӀанаш, арабаха тӀехь сов хьан
           оьшу.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} коммент'
         other: '%{count} комментареш'
@@ -1789,6 +1787,9 @@ ce:
       whitelist: Нагахь санна ахь антиспам-система лелош елахь, цо тӀечӀагӀдаран дехарш
         дохьуьйту, тӀаккха дехар ду ахь %{sender} хьан кӀайн тептаре язде, хӀунда
         аьлча тхан аьтто бац и санна дехаршна жоп дала.
+    gravatar:
+      disabled: Gravatar дӀайайина.
+      enabled: Хьан Gravatar гайтар дӀахӀоттийна.
   messages:
     new:
       title: ДӀабахьийта хаам
@@ -1904,30 +1905,34 @@ ce:
         title: Суна хазахеттарш
         save: Карладаха хазахеттарш
   profiles:
-    show:
-      title: Профиль нисйан
-      save: Карлайаккха профиль
-      cancel: ДӀадаккхар
-      image: Сурт
-      gravatar:
-        gravatar: Gravatar лелайар
-        what_is_gravatar: Gravatar хIун йу?
-        disabled: Gravatar дӀайайина.
-        enabled: Хьан Gravatar гайтар дӀахӀоттийна.
-      new image: Сурт тӀетоха
-      keep image: ХӀинцалера сурт дита
-      delete image: ХӀинцалера сурт дӀадаккха
-      replace image: ХӀинцалера сурт хийца
-      image size hint: (квадратан суьрташ лаххара а 100x100 дика болх беш ду)
-      home location: Со волу меттиг
-      no home location: Хьайн цӀера меттиг ца гайтина ахь.
-      update home location on click: Карта тӀе хьаьжча цӀийнан меттиг карлаяккха?
-      show: Гайта
-      delete: ДӀайаккха
-      undelete: Йухадаккха дӀадаккхар
-    update:
-      success: Профиль карлаяьккхина.
-      failure: Профиль карлаяккха аьтто ца баьлла.
+    profile_sections:
+      navigation:
+        image: Сурт
+    descriptions:
+      show:
+        title: Профиль нисйан
+        save: Карлайаккха профиль
+        cancel: ДӀадаккхар
+    links:
+      show:
+        title: Профиль нисйан
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar лелайар
+          what_is_gravatar: Gravatar хIун йу?
+        new image: Сурт тӀетоха
+        keep image: ХӀинцалера сурт дита
+        delete image: ХӀинцалера сурт дӀадаккха
+        replace image: ХӀинцалера сурт хийца
+        image size hint: (квадратан суьрташ лаххара а 100x100 дика болх беш ду)
+    locations:
+      show:
+        no home location: Хьайн цӀера меттиг ца гайтина ахь.
+        update home location on click: Карта тӀе хьаьжча цӀийнан меттиг карлаяккха?
+        show: Гайта
+        delete: ДӀайаккха
+        undelete: Йухадаккха дӀадаккхар
   sessions:
     new:
       tab_title: ЧугӀо
@@ -1953,7 +1958,7 @@ ce:
   shared:
     markdown_help:
       heading_html: '%{kramdown_link} лелош анализ йина'
-      headings: Коьрта могlнаш
+      headings: Кортош
       heading: Корта
       subheading: Корталг
       unordered: Низам боцу къепйоза
@@ -2721,7 +2726,6 @@ ce:
       blocks by me: Сан блоктохарш
       create_mute: ХӀара декъашхо дӀаваьккха
       destroy_mute: ХӀокху Декъашхочун аз хьалалатаде
-      edit_profile: Профиль нисйан
       send message: ДӀабахьийта хаам
       diary: Тептар
       edits: Нисдарш
@@ -3068,9 +3072,8 @@ ce:
       кхузахь тIетIаIайе.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}м'
-          km: '%{distance}км'
+        m: '%{distance}м'
+        km: '%{distance}км'
       errors:
         no_route: Цу шина меттигна юккъера некъ ца карийра.
         no_place: Бехк ма билла - '%{place}' ца карийра.

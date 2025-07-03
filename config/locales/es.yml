@@ -109,7 +109,7 @@
 es:
   date:
     formats:
-      heatmap: '%B %-d'
+      heatmap: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y a las %H:%M'
@@ -487,9 +487,7 @@ es:
       one: '%{count} vía'
       other: '%{count} vías'
     download_xml: Descargar XML
-    view_history: Ver historial
     view_unredacted_history: Ver historial sin censura
-    view_details: Ver detalles
     location: 'Ubicación:'
     node:
       title_html: 'Nodo: %{name}'
@@ -554,6 +552,13 @@ es:
       telephone_link: Llamar al %{phone_number}
       colour_preview: Vista previa del color %{colour_value}
       email_link: Correo electrónico %{email}
+    versions_navigation:
+      node: Nodo
+      way: Vía
+      relation: Relación
+      history: Historial
+      version: 'Versión #%{version}'
+      versions_label: 'Versiones:'
   feature_queries:
     show:
       title: Consultar Elementos
@@ -620,7 +625,7 @@ es:
         sorry: Lo sentimos, la lista de comentarios del conjunto de cambios que solicitó
           tardó demasiado en obtenerse.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} comentario'
         other: '%{count} comentarios'
@@ -1723,8 +1728,6 @@ es:
       time: Tiempo
       ascend: Ascender
       descend: Descender
-      button_km: km
-      button_mi: mi
       download: Descargar ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicaciones cortesía de %{link}
@@ -2071,6 +2074,9 @@ es:
       whitelist: Si usas un sistema antispam que envía solicitudes de confirmación
         entonces por favor asegúrate de incluir en la lista blanca %{sender}, ya que
         no podemos responder solicitud de confirmación alguna.
+    gravatar:
+      disabled: Gravatar se ha deshabilitado.
+      enabled: Se ha habilitado la visualización de tu Gravatar.
   messages:
     new:
       title: Enviar mensaje
@@ -2207,36 +2213,41 @@ es:
         title: Mis preferencias avanzadas
         save: Actualizar preferencias
   profiles:
-    show:
-      title: Editar Perfil
-      save: Actualizar perfil
-      cancel: Cancelar
-      image: Imagen
-      gravatar:
-        gravatar: Usa Gravatar
-        link: https://wiki.openstreetmap.org/wiki/ES:Gravatar
-        what_is_gravatar: ¿Qué es Gravatar?
-        disabled: Gravatar se ha deshabilitado.
-        enabled: Se ha habilitado la visualización de tu Gravatar.
-      new image: Añadir una imagen
-      keep image: Mantener la imagen actual
-      delete image: Eliminar la imagen actual
-      replace image: Reemplazar la imagen actual
-      image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
-      home location: Ubicación de Casa
-      no home location: No has introducido tu Ubicación de Casa.
-      update home location on click: ¿Actualizar tu Ubicación de Casa cuando hagas
-        clic sobre el mapa?
-      show: Mostrar
-      delete: Eliminar
-      undelete: Deshacer eliminación
-      social_links:
-        title: Enlaces de perfiles de redes sociales
-        remove: Quitar
-        add: Añadir enlace de redes sociales
-    update:
-      success: Perfil actualizado.
-      failure: No se pudo actualizar el perfil.
+    profile_sections:
+      navigation:
+        image: Imagen
+        company: Empresa
+    descriptions:
+      show:
+        title: Editar Perfil
+        save: Actualizar perfil
+        cancel: Cancelar
+    links:
+      show:
+        title: Editar perfil
+        social_links:
+          title: Enlaces de perfiles de redes sociales
+          remove: Quitar
+          add: Añadir enlace de redes sociales
+    images:
+      show:
+        gravatar:
+          gravatar: Usa Gravatar
+          link: https://wiki.openstreetmap.org/wiki/ES:Gravatar
+          what_is_gravatar: ¿Qué es Gravatar?
+        new image: Añadir una imagen
+        keep image: Mantener la imagen actual
+        delete image: Eliminar la imagen actual
+        replace image: Reemplazar la imagen actual
+        image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
+    locations:
+      show:
+        no home location: No has introducido tu Ubicación de Casa.
+        update home location on click: ¿Actualizar tu Ubicación de Casa cuando hagas
+          clic sobre el mapa?
+        show: Mostrar
+        delete: Eliminar
+        undelete: Deshacer eliminación
   sessions:
     new:
       tab_title: Iniciar sesión
@@ -2289,24 +2300,38 @@ es:
       changeset_comments:
         older: Comentarios más antiguos
         newer: Comentarios más recientes
+        oldest: Comentarios más antiguos
+        newest: Comentarios más recientes
       diary_comments:
         older: Comentarios más antiguos
         newer: Comentarios más recientes
+        oldest: Comentarios más antiguos
+        newest: Comentarios más recientes
       diary_entries:
         older: Entradas más antiguas
         newer: Entradas más recientes
+        oldest: Entradas más antiguas
+        newest: Entradas más recientes
       issues:
         older: Incidencias más antiguas
         newer: Incidencias más recientes
+        oldest: Incidencias más antiguas
+        newest: Incidencias más recientes
       traces:
         older: Trazas más antiguas
         newer: Trazas más recientes
+        oldest: Trazas más antiguas
+        newest: Trazas más recientes
       user_blocks:
         older: Bloqueos más antiguos
         newer: Bloqueos más recientes
+        oldest: Bloqueos más antiguos
+        newest: Bloqueos más recientes
       users:
         older: Usuarios más antiguos
         newer: Usuarios más recientes
+        oldest: Usuarios más antiguos
+        newest: Usuarios más recientes
   site:
     about:
       heading_html: Contribuidores %{copyright}OpenStreetMap %{br}
@@ -3180,7 +3205,6 @@ es:
       blocks by me: Bloqueados por mí
       create_mute: Silenciar a este usuario
       destroy_mute: Dejar de silenciar a este usuario
-      edit_profile: Editar perfil
       send message: Enviar mensaje
       diary: Diario
       edits: Ediciones
@@ -3190,9 +3214,6 @@ es:
       follow: Seguir
       mapper since: 'Mapeando desde:'
       last map edit: Última edición del mapa
-      home location: Ubicación de Casa
-      company: Empresa
-      company tooltip: La afiliación de la empresa es autoinformada y no verificada.
       no activity yet: Sin actividad todavía
       uid: 'Identificación de usuario:'
       ct status: 'Términos de Colaborador:'
@@ -3231,6 +3252,9 @@ es:
       contributions:
         one: '%{count} contribución en el último año'
         other: '%{count} contribuciones en el último año'
+    sidebar_section:
+      home_location: Ubicación de Casa
+      company_tooltip: La afiliación de la empresa es autoinformada y no verificada.
     go_public:
       flash success: Todas tus ediciones ahora son públicas y ya estás autorizado
         para editar.
@@ -3604,12 +3628,10 @@ es:
       haz clic aquí.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} pies'
-          mi: '%{distance} millas'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} pies'
+        mi: '%{distance} millas'
       errors:
         no_route: No se pudo encontrar una ruta entre esos dos lugares.
         no_place: Lo sentimos - no se pudo localizar «%{place}».
@@ -3713,7 +3735,7 @@ es:
         no_contributions: No hay contribuciones el %{date}
         contributions:
           one: '%{count} contribución el %{date}'
-          other: '% {count} contribuciones el %{date}'
+          other: '%{count} contribuciones el %{date}'
   redactions:
     edit:
       heading: Editar censura

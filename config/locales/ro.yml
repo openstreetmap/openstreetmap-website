@@ -8,6 +8,7 @@
 # Author: C1pr1an
 # Author: Cevamihnea
 # Author: Cristina S
+# Author: Dimitrie569
 # Author: EddyPetrisor
 # Author: Firilacroco
 # Author: GabiBil
@@ -27,6 +28,9 @@
 # Author: Wintereu
 ---
 ro:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y la %H:%M'
@@ -63,6 +67,10 @@ ro:
       models:
         user_mute:
           is_already_muted: este deja lipsit de drept de vorbire
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Adresa URL ar trebui să înceapă cu http:// sau https://
     models:
       acl: Lista de control al accesului
       changeset: Set de modificări
@@ -390,9 +398,7 @@ ro:
       few: '%{count} căi}}'
       other: '}}'
     download_xml: Descarcă XML
-    view_history: Vezi istoric
     view_unredacted_history: Vezi Istoricul Necenzurat
-    view_details: Vezi detalii
     location: 'Amplasament:'
     node:
       title_html: 'Nod: %{name}'
@@ -1789,6 +1795,9 @@ ro:
       whitelist: Dacă utilizați un sistem antispam care trimite cereri de confirmare,
         vă rugăm să vă asigurați că ați plasat pe lista albă %{sender}, deoarece nu
         putem răspunde la nicio solicitare de confirmare.
+    gravatar:
+      disabled: Gravatar a fost dezactivat.
+      enabled: Afișarea Gravatarului dvs. a fost activată.
   messages:
     new:
       title: Trimite mesajul
@@ -1898,31 +1907,35 @@ ro:
         title: Preferințe
         save: Actualizare Preferințe
   profiles:
-    show:
-      title: Editare Profil
-      save: Actualizează Profil
-      cancel: Revocare
-      image: Imagine
-      gravatar:
-        gravatar: Utilizați Gravatar
-        what_is_gravatar: Ce este Gravatar?
-        disabled: Gravatar a fost dezactivat.
-        enabled: Afișarea Gravatarului dvs. a fost activată.
-      new image: Adaugă imagine nouă
-      keep image: Păstrați imaginea curentă
-      delete image: Eliminați imaginea curentă
-      replace image: Înlocuiți imaginea curentă
-      image size hint: (imagini pătrate cel puțin 100x100 merg cel mai bine)
-      home location: Locație Acasă
-      no home location: Nu ați introdus locația dvs. de domiciliu.
-      update home location on click: Actualizați locația locuinței dvs. când faceți
-        click pe hartă?
-      show: Arată
-      delete: Șterge
-      undelete: Anulează ștergerea
-    update:
-      success: Profil actualizat.
-      failure: Nu s-a putut actualiza profilul.
+    profile_sections:
+      navigation:
+        image: Imagine
+    descriptions:
+      show:
+        title: Editare Profil
+        save: Actualizează Profil
+        cancel: Revocare
+    links:
+      show:
+        title: Editează profilul
+    images:
+      show:
+        gravatar:
+          gravatar: Utilizați Gravatar
+          what_is_gravatar: Ce este Gravatar?
+        new image: Adaugă imagine nouă
+        keep image: Păstrați imaginea curentă
+        delete image: Eliminați imaginea curentă
+        replace image: Înlocuiți imaginea curentă
+        image size hint: (imagini pătrate cel puțin 100x100 merg cel mai bine)
+    locations:
+      show:
+        no home location: Nu ați introdus locația dvs. de domiciliu.
+        update home location on click: Actualizați locația locuinței dvs. când faceți
+          click pe hartă?
+        show: Arată
+        delete: Șterge
+        undelete: Anulează ștergerea
   sessions:
     new:
       tab_title: Autentificare
@@ -2735,7 +2748,6 @@ ro:
       my_dashboard: Dashboardul meu
       blocks on me: Blochează pe mine
       blocks by me: Blochează de mine
-      edit_profile: Editează profilul
       send message: Trimite mesajul
       diary: Jurnal
       edits: Modificare
@@ -3093,9 +3105,8 @@ ro:
       faceți click aici.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Nu s-a putut găsi un traseu între cele două locuri.
         no_place: Scuze - nu am găsit '%{place}'.

@@ -455,9 +455,7 @@ cs:
       many: '%{count} cesty'
       other: '%{count} cest'
     download_xml: Stáhnout XML
-    view_history: Zobrazit historii
     view_unredacted_history: Zobrazit neredigovanou historii
-    view_details: Zobrazit detaily
     location: 'Pozice:'
     node:
       title_html: 'Uzel: %{name}'
@@ -583,7 +581,7 @@ cs:
         sorry: Omlouváme se, ale vámi požadované komentáře k sadě změn se načítaly
           příliš dlouho.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} komentář'
         few: '%{count} komentáře'
@@ -1652,8 +1650,6 @@ cs:
       time: Čas
       ascend: Výstup
       descend: Klesání
-      button_km: km
-      button_mi: mi
       download: Stáhnout trasu jako GeoJSON
       filename: trasa
       directions_courtesy_html: Trasa díky %{link}
@@ -1981,6 +1977,9 @@ cs:
       whitelist: Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení,
         nezapomeňte zařídit výjimku pro %{sender}, neboť na žádosti o potvrzení nejsme
         schopni reagovat.
+    gravatar:
+      disabled: Gravatar byl zakázán.
+      enabled: Zobrazování vašeho Gravataru bylo povoleno.
   messages:
     new:
       title: Odeslat zprávu
@@ -2110,31 +2109,35 @@ cs:
           dark: Tmavé
         save: Nastavit preference
   profiles:
-    show:
-      title: Upravit profil
-      save: Nastavit profil
-      cancel: Storno
-      image: Obrázek
-      gravatar:
-        gravatar: Používat Gravatar
-        link: https://wiki.openstreetmap.org/wiki/CS:Gravatar
-        what_is_gravatar: Co je Gravatar?
-        disabled: Gravatar byl zakázán.
-        enabled: Zobrazování vašeho Gravataru bylo povoleno.
-      new image: Přidat obrázek
-      keep image: Zachovat stávající obrázek
-      delete image: Odstranit stávající obrázek
-      replace image: Nahradit stávající obrázek
-      image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
-      home location: Poloha domova
-      no home location: Nezadali jste polohu svého bydliště.
-      update home location on click: Upravit pozici domova při kliknutí na mapu?
-      show: Zobrazit
-      delete: Smazat
-      undelete: Vrátit smazání
-    update:
-      success: Profil nastaven.
-      failure: Nepodařilo se nastavit profil.
+    profile_sections:
+      navigation:
+        image: Obrázek
+    descriptions:
+      show:
+        title: Upravit profil
+        save: Nastavit profil
+        cancel: Storno
+    links:
+      show:
+        title: Upravit profil
+    images:
+      show:
+        gravatar:
+          gravatar: Používat Gravatar
+          link: https://wiki.openstreetmap.org/wiki/CS:Gravatar
+          what_is_gravatar: Co je Gravatar?
+        new image: Přidat obrázek
+        keep image: Zachovat stávající obrázek
+        delete image: Odstranit stávající obrázek
+        replace image: Nahradit stávající obrázek
+        image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
+    locations:
+      show:
+        no home location: Nezadali jste polohu svého bydliště.
+        update home location on click: Upravit pozici domova při kliknutí na mapu?
+        show: Zobrazit
+        delete: Smazat
+        undelete: Vrátit smazání
   sessions:
     new:
       tab_title: Přihlášení
@@ -2977,7 +2980,6 @@ cs:
       blocks by me: Zablokování mnou
       create_mute: Ztlumit tohoto uživatele
       destroy_mute: Zrušit ztlumení tohoto uživatele
-      edit_profile: Upravit profil
       send message: Poslat zprávu
       diary: Deník
       edits: Úpravy
@@ -2987,7 +2989,6 @@ cs:
       follow: Sledovat
       mapper since: 'Účastník projektu od:'
       last map edit: 'Poslední úprava mapy:'
-      home location: Poloha domova
       no activity yet: Zatím žádná činnost
       uid: 'ID uživatele:'
       ct status: 'Podmínky pro přispěvatele:'
@@ -3023,6 +3024,8 @@ cs:
       delete_user: Odstranit tohoto uživatele
       confirm: Potvrdit
       report: Nahlásit tohoto uživatele
+    sidebar_section:
+      home_location: Poloha domova
     go_public:
       flash success: Všechny vaše úpravy jsou nyní veřejné a máte oprávnění k úpravám.
     issued_blocks:
@@ -3403,12 +3406,10 @@ cs:
       zde.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} ft'
-          mi: '%{distance} mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} ft'
+        mi: '%{distance} mi'
       errors:
         no_route: Nepodařilo se nalézt trasu mezi zadanými místy.
         no_place: Omlouváme se – nepodařilo se nám najít „%{place}“.

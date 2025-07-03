@@ -414,9 +414,7 @@ da:
       one: '%{count} linjestreng'
       other: '%{count} linjestrenge'
     download_xml: Hent XML
-    view_history: Se historik
     view_unredacted_history: Vis uredigeret historik
-    view_details: Se detaljer
     location: 'Sted:'
     node:
       title_html: 'Punkt: %{name}'
@@ -480,6 +478,13 @@ da:
       telephone_link: Ring til %{phone_number}
       colour_preview: Forhåndsvisning af farve %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Punkt
+      way: Linjestreng
+      relation: Relation
+      history: Historik
+      version: 'Version #%{version}'
+      versions_label: 'Versioner:'
   feature_queries:
     show:
       title: Find kortobjekter
@@ -543,7 +548,7 @@ da:
         sorry: Desværre tog det for lang tid at indlæse kommentarerne til ændringssættet
           du har bedt om.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} kommentar'
         other: '%{count} kommentarer'
@@ -1638,8 +1643,10 @@ da:
       time: Tid
       ascend: Stigning
       descend: Fald
-      button_km: km
-      button_mi: mi
+      kilometers: kilometer
+      miles_feet: miles, fod
+      miles_yards: miles, yards
+      distance_units_settings: Indstillinger for afstandsenheder
       download: Download rute som GeoJSON
       filename: rute
       directions_courtesy_html: Anvisninger venligst leveret af %{link}
@@ -1981,6 +1988,9 @@ da:
       whitelist: Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler
         så vær sikker på at du tilføjer %{sender} til whitelist, da vi ikke kan svare
         på nogen bekræftelsesforespørgsler.
+    gravatar:
+      disabled: Gravatar er blevet deaktiveret.
+      enabled: Visning af din Gravatar er blevet aktiveret.
   messages:
     new:
       title: Send besked
@@ -2115,34 +2125,69 @@ da:
         title: Mine avancerede præferencer
         save: Opdater præferencer
   profiles:
-    show:
-      title: Rediger profil
-      save: Opdater profil
-      cancel: Annuller
-      image: Billede
-      gravatar:
-        gravatar: Brug Gravatar
-        what_is_gravatar: Hvad er Gravatar?
-        disabled: Gravatar er blevet deaktiveret.
-        enabled: Visning af din Gravatar er blevet aktiveret.
-      new image: Tilføj et billede
-      keep image: Behold det nuværende billede
-      delete image: Fjern det nuværende billede
-      replace image: Erstat det aktuelle billede
-      image size hint: (kvadratiske billeder på mindst 100x100 fungerer bedst)
-      home location: Hjemmeposition
-      no home location: Du har ikke angivet din hjemmeposition.
-      update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
-      show: Vis
-      delete: Slet
-      undelete: Fortryd sletning
-      social_links:
-        title: Links til sociale profiler
-        remove: Fjern
-        add: Tilføj socialt link
-    update:
-      success: Profil opdateret.
-      failure: Kunne ikke opdatere profil.
+    profile_sections:
+      navigation:
+        description: Beskrivelse
+        image: Billede
+        company: Virksomhed
+        location: Placering
+    descriptions:
+      show:
+        title: Rediger profil
+        save: Opdater profil
+        cancel: Annuller
+      update:
+        success: Profilbeskrivelse opdateret.
+        failure: Profilbeskrivelse kunne ikke opdateres.
+    links:
+      show:
+        title: Rediger profil
+        save: Opdater profil
+        cancel: Annullér
+        social_links:
+          title: Links til sociale profiler
+          remove: Fjern
+          add: Tilføj socialt link
+      update:
+        success: Profillinks opdateret.
+        failure: Kunne ikke opdatere profillinks.
+    images:
+      show:
+        title: Rediger profil
+        save: Opdater profil
+        cancel: Annullér
+        gravatar:
+          gravatar: Brug Gravatar
+          what_is_gravatar: Hvad er Gravatar?
+        new image: Tilføj et billede
+        keep image: Behold det nuværende billede
+        delete image: Fjern det nuværende billede
+        replace image: Erstat det aktuelle billede
+        image size hint: (kvadratiske billeder på mindst 100x100 fungerer bedst)
+      update:
+        success: Profilbillede opdateret.
+        failure: Kunne ikke opdatere profilbilledet.
+    companies:
+      show:
+        title: Rediger profil
+        save: Opdater profil
+        cancel: Annullér
+      update:
+        success: Profilvirksomhed opdateret.
+        failure: Kunne ikke opdatere profilvirksomhed.
+    locations:
+      show:
+        title: Rediger profil
+        save: Opdater profil
+        cancel: Annullér
+        no home location: Du har ikke angivet din hjemmeposition.
+        update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
+        show: Vis
+        delete: Slet
+        undelete: Fortryd sletning
+      update:
+        success: Profilplacering opdateret.
+        failure: Kunne ikke opdatere profilplacering.
   sessions:
     new:
       tab_title: Log ind
@@ -2195,24 +2240,36 @@ da:
       changeset_comments:
         older: Ældre kommentarer
         newer: Nyere kommentarer
+        oldest: Ældste kommentarer
+        newest: Nyeste kommentarer
       diary_comments:
         older: Ældre kommentarer
         newer: Nyere kommentarer
+        oldest: Ældste kommentarer
+        newest: Nyeste kommentarer
       diary_entries:
         older: Ældre indlæg
         newer: Nyere indlæg
+        oldest: Ældste indlæg
+        newest: Nyeste indlæg
       issues:
         older: Ældre sager
         newer: Nyere sager
       traces:
         older: Ældre spor
         newer: Nyere spor
+        oldest: Ældste spor
+        newest: Nyeste spor
       user_blocks:
         older: Ældre blokeringer
         newer: Nyere blokeringer
+        oldest: Ældste blokeringer
+        newest: Nyeste blokeringer
       users:
         older: Ældre brugere
         newer: Nyere brugere
+        oldest: Ældste brugere
+        newest: Nyeste brugere
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap-%{br}bidragsydere'
@@ -3048,7 +3105,6 @@ da:
       blocks by me: Blokeringer udført af mig
       create_mute: Stillegør denne bruger
       destroy_mute: Fjern stillegørelse fra denne bruger
-      edit_profile: Rediger profil
       send message: Send besked
       diary: Blog
       edits: Redigeringer
@@ -3058,9 +3114,6 @@ da:
       follow: Følg
       mapper since: 'Kortlægger siden:'
       last map edit: 'Sidste kortredigering:'
-      home location: Hjemmeposition
-      company: Virksomhed
-      company tooltip: Virksomhedstilhørsforholdet er selvrapporteret og ikke verificeret
       no activity yet: Ingen aktivitet endnu
       uid: 'Bruger-ID:'
       ct status: 'Vilkår for bidragsydere:'
@@ -3099,6 +3152,9 @@ da:
       contributions:
         one: '%{count} bidrag i det seneste år'
         other: '%{count} bidrag i det seneste år'
+    sidebar_section:
+      home_location: Hjemmeposition
+      company_tooltip: Virksomhedstilhørsforholdet er selvrapporteret og ikke verificeret
     go_public:
       flash success: Alle dine redigeringer er nu offentlige, og du har lov til at
         redigere.
@@ -3473,12 +3529,10 @@ da:
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
-        miles:
-          ft: '%{distance} fod'
-          mi: '%{distance} mi'
+        m: '%{distance}m'
+        km: '%{distance}km'
+        ft: '%{distance} fod'
+        mi: '%{distance} mi'
       errors:
         no_route: Kunne ikke finde en rute mellem de to steder.
         no_place: Beklager - kunne ikke finde '%{place}'.

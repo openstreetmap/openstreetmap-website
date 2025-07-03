@@ -428,9 +428,7 @@ pt-PT:
       one: '%{count} via'
       other: '%{count} vias'
     download_xml: Transferir XML
-    view_history: Ver histórico
     view_unredacted_history: Ver histórico não editado
-    view_details: Ver detalhes
     location: 'Localização:'
     node:
       title_html: 'Nó: %{name}'
@@ -496,6 +494,12 @@ pt-PT:
       telephone_link: Telefonar %{phone_number}
       colour_preview: Antevisão da cor %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Ponto
+      way: Linha
+      relation: Relação
+      history: Histórico
+      version: 'Versão #%{version}'
   feature_queries:
     show:
       title: Consultar elementos
@@ -561,7 +565,7 @@ pt-PT:
         sorry: Lamentamos, a lista de comentários sobre conjuntos de alterações que
           pediste demorou demasiado tempo a ser obtida.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} comentário'
         other: '%{count} comentários'
@@ -1666,8 +1670,9 @@ pt-PT:
       time: Tempo
       ascend: Ascenção
       descend: Descida
-      button_km: km
-      button_mi: mi
+      kilometers: quilómetros
+      miles_feet: milhas, pés
+      miles_yards: milhas, jardas
       download: Transferir rota como GeoJSON
       filename: rota
       directions_courtesy_html: Indicações fornecidas por %{link}
@@ -2013,6 +2018,9 @@ pt-PT:
       whitelist: Se usares um sistema antispam que envia pedidos de confirmação, certifica-te
         de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
         de responder a pedidos de confirmação.
+    gravatar:
+      disabled: O Gravatar foi desativado.
+      enabled: A exibição do teu Gravatar foi ativada.
   messages:
     new:
       title: Enviar mensagem
@@ -2146,36 +2154,41 @@ pt-PT:
         title: Preferências Avançadas
         save: Actualizar Preferências
   profiles:
-    show:
-      title: Editar Perfil
-      save: Atualizar Perfil
-      cancel: Cancelar
-      image: Imagem
-      gravatar:
-        gravatar: Usar Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: O que é o Gravatar?
-        disabled: O Gravatar foi desativado.
-        enabled: A exibição do teu Gravatar foi ativada.
-      new image: Adicionar uma imagem
-      keep image: Manter a imagem atual
-      delete image: Remover a imagem atual
-      replace image: Substituir a imagem atual
-      image size hint: (as imagens quadradas com, pelo menos, 100x100 píxeis funcionam
-        melhor)
-      home location: Localização principal
-      no home location: Não definiste a tua localização principal.
-      update home location on click: Atualizar a localização ao clicar no mapa?
-      show: Mostrar
-      delete: Eliminar
-      undelete: Desfazer eliminação
-      social_links:
-        title: Ligações para Perfis Sociais
-        remove: Remover
-        add: Adicionar Ligação Social
-    update:
-      success: Perfil atualizado.
-      failure: Não foi possível atualizar o perfil.
+    profile_sections:
+      navigation:
+        image: Imagem
+        company: Empresa
+    descriptions:
+      show:
+        title: Editar Perfil
+        save: Atualizar Perfil
+        cancel: Cancelar
+    links:
+      show:
+        title: Editar perfil
+        social_links:
+          title: Ligações para Perfis Sociais
+          remove: Remover
+          add: Adicionar Ligação Social
+    images:
+      show:
+        gravatar:
+          gravatar: Usar Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: O que é o Gravatar?
+        new image: Adicionar uma imagem
+        keep image: Manter a imagem atual
+        delete image: Remover a imagem atual
+        replace image: Substituir a imagem atual
+        image size hint: (as imagens quadradas com, pelo menos, 100x100 píxeis funcionam
+          melhor)
+    locations:
+      show:
+        no home location: Não definiste a tua localização principal.
+        update home location on click: Atualizar a localização ao clicar no mapa?
+        show: Mostrar
+        delete: Eliminar
+        undelete: Desfazer eliminação
   sessions:
     new:
       tab_title: Iniciar sessão
@@ -2225,24 +2238,38 @@ pt-PT:
       changeset_comments:
         older: Comentários mais antigos
         newer: Comentários mais recentes
+        oldest: Comentários mais antigos
+        newest: Comentários mais recentes
       diary_comments:
         older: Comentários mais antigos
         newer: Comentários mais recentes
+        oldest: Comentários mais antigos
+        newest: Comentários mais recentes
       diary_entries:
         older: Publicações mais antigas
         newer: Publicações mais recentes
+        oldest: Publicações mais antigas
+        newest: Publicações mais recentes
       issues:
         older: Problemas antigos
         newer: Problemas recentes
+        oldest: Problemas mais antigos
+        newest: Problemas mais recentes
       traces:
         older: Rotas GPS mais antigas
         newer: Rotas GPS mais recentes
+        oldest: Rotas mais antigas
+        newest: Rotas mais recentes
       user_blocks:
         older: Bloqueios mais antigos
         newer: Bloqueios mais recentes
+        oldest: Bloqueios mais antigos
+        newest: Bloqueios mais recentes
       users:
         older: Utilizadores mais antigos
         newer: Utilizadores mais recentes
+        oldest: Utilizadores mais antigos
+        newest: Utilizadores mais recentes
   site:
     about:
       heading_html: '%{copyright}Contribuidores %{br} do OpenStreetMap'
@@ -2306,20 +2333,20 @@ pt-PT:
           O OpenStreetMap é criado por uma comunidade de pessoas que contribuem e mantêm dados de mapas de estradas, percursos pedestres, cafés, estações de comboio e muito mais, em todo o mundo.
         lead_2_html: |-
           %{learn_more_about_osm_link} e %{get_started_mapping_link}!
-          Podes ler mais no %{osm_blog_link}, e subscrever ao %{weeklyosm_link}.
-          Encontra outros mapeadores no tua %{osm_community_link} local.
+          Podes ler mais no %{osm_blog_link} e subscrever a %{weeklyosm_link}.
+          Encontra outros mapeadores na tua %{osm_community_link} local.
           Apoia o projeto associando-te à %{osm_foundation_link} e %{making_donation_link}.
         lead_2_learn_more_about_osm: Aprende mais sobre o OpenStreetMap
         lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
-        lead_2_get_started_mapping: começa a mapear
-        lead_2_osm_blog: Blog do OpenStreetMap
+        lead_2_get_started_mapping: comece a mapear
+        lead_2_osm_blog: Blogue do OpenStreetMap
         lead_2_osm_blog_url: https://blog.openstreetmap.org/
         lead_2_weeklyosm: weeklyOSM
         lead_2_weeklyosm_url: https://weeklyosm.eu/
         lead_2_osm_community: Comunidade OSM
         lead_2_osm_foundation: Fundação OSM
         lead_2_osm_foundation_url: https://osmfoundation.org/
-        lead_2_making_donation: fazer uma doação
+        lead_2_making_donation: fazendo uma doação
         lead_2_making_donation_url: https://supporting.openstreetmap.org/
         licensing_title: Licenças do OpenStreetMap
         licensing_1_html: 'O OpenStreetMap é uma base de dados %{open}, licenciados
@@ -3096,7 +3123,6 @@ pt-PT:
       blocks by me: Os meus bloqueios
       create_mute: Silenciar este utilizador
       destroy_mute: Ativar este utilizador
-      edit_profile: Editar perfil
       send message: Enviar mensagem
       diary: Diário
       edits: Edições
@@ -3106,9 +3132,6 @@ pt-PT:
       follow: Seguir
       mapper since: 'A mapear desde:'
       last map edit: 'Última edição do mapa:'
-      home location: Localização base
-      company: Empresa
-      company tooltip: A afiliação à empresa é autodeclarada e não foi verificada.
       no activity yet: Ainda sem atividade
       uid: 'Id de utilizador:'
       ct status: 'Termos do Contribuidor:'
@@ -3147,6 +3170,9 @@ pt-PT:
       contributions:
         one: '%{count} contribuição no ano passado'
         other: '%{count} contribuições no ano passado'
+    sidebar_section:
+      home_location: Localização base
+      company_tooltip: A afiliação à empresa é autodeclarada e não foi verificada.
     go_public:
       flash success: Todas as tuas edições são agora públicas e já podes começar a
         editar.
@@ -3520,12 +3546,10 @@ pt-PT:
     edit_help: Move o mapa, amplia-o no local que pretendes editar e clica aqui.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance}ft'
-          mi: '%{distance}mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance}ft'
+        mi: '%{distance}mi'
       errors:
         no_route: Não foi encontrada uma rota entre os dois pontos.
         no_place: Desculpe - não foi possível encontrar '%{place}'.

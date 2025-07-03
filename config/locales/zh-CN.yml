@@ -439,9 +439,7 @@ zh-CN:
       one: '%{count} 条路径'
       other: '%{count} 条路径'
     download_xml: 下载 XML
-    view_history: 查看历史
     view_unredacted_history: 查看未隐删的历史
-    view_details: 查看详情
     location: 位置：
     node:
       title_html: 节点：%{name}
@@ -500,6 +498,11 @@ zh-CN:
       telephone_link: 请拨打 %{phone_number}
       colour_preview: '%{colour_value}的颜色预览'
       email_link: 电子邮件 %{email}
+    versions_navigation:
+      node: 节点
+      way: 路径
+      history: 历史
+      versions_label: 版本：
   feature_queries:
     show:
       title: 查询要素
@@ -514,6 +517,8 @@ zh-CN:
         title_html: 路径历史：%{name}
       relation:
         title_html: 关系历史：%{name}
+      older_versions: 较旧版本
+      newer_versions: 较新版本
     actions:
       view_redacted_data: 查看已隐删的数据
       view_redaction_message: 查看隐删消息
@@ -558,7 +563,7 @@ zh-CN:
       timeout:
         sorry: 抱歉，您请求的变更集评论列表检索时间过长。
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} 个评论'
         other: '%{count} 个评论'
@@ -1641,8 +1646,10 @@ zh-CN:
       time: 时间
       ascend: 上升
       descend: 下降
-      button_km: 公里
-      button_mi: 米
+      kilometers: 公里
+      miles_feet: 英里、英尺
+      miles_yards: 英里、码
+      distance_units_settings: 距离单位设置
       download: 以GeoJSON格式下载路线
       filename: 路线
       directions_courtesy_html: 方向经由%{link}
@@ -1791,6 +1798,8 @@ zh-CN:
     more: 更多
     header:
       select_language: 选择语言
+    select_language_button:
+      title: 选择语言
     offline_flash:
       osm_offline: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于脱机状态。
       osm_read_only: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于只读模式。
@@ -1927,6 +1936,9 @@ zh-CN:
     resend_success_flash:
       confirmation_sent: 我们已经向%{email}发出一条新的确认通知，一旦您确认您的账户，就能开始绘图。
       whitelist: 如果您用于发送确认请求的邮箱具有反垃圾邮件系统，请确保将%{sender}加入白名单，因为我们无法恢复任何确认请求。
+    gravatar:
+      disabled: Gravatar已禁用。
+      enabled: 您的Gravatar显示已启用。
   messages:
     new:
       title: 发消息
@@ -2055,35 +2067,48 @@ zh-CN:
            设置
         save: 更新首选项
   profiles:
-    show:
-      title: 编辑个人资料
-      save: 更新个人资料
-      cancel: 取消
-      image: 图像
-      gravatar:
-        gravatar: 使用 Gravatar
-        link: http://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: 什么是Gravatar？
-        disabled: Gravatar已禁用。
-        enabled: 您的Gravatar显示已启用。
-      new image: 添加图像
-      keep image: 保持当前图像
-      delete image: 删除当前图像
-      replace image: 替换当前图像
-      image size hint: (正方形图像，尺寸至少为100x100)
-      home location: 住所位置
-      no home location: 您还没有输入您的住所位置。
-      update home location on click: 点击地图时更新所在位置？
-      show: 显示
-      delete: 删除
-      undelete: 撤销删除
-      social_links:
-        title: 社交媒体链接
-        remove: 移除
-        add: 添加社交媒体链接
-    update:
-      success: 个人资料已更新。
-      failure: 无法更新个人资料。
+    profile_sections:
+      navigation:
+        links: 链接
+        image: 图像
+        company: 公司
+        location: 位置
+    descriptions:
+      show:
+        title: 编辑个人资料
+        save: 更新个人资料
+        cancel: 取消
+    links:
+      show:
+        title: 编辑个人资料
+        cancel: 取消
+        social_links:
+          title: 社交媒体链接
+          remove: 移除
+          add: 添加社交媒体链接
+    images:
+      show:
+        cancel: 取消
+        gravatar:
+          gravatar: 使用 Gravatar
+          link: http://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: 什么是Gravatar？
+        new image: 添加图像
+        keep image: 保持当前图像
+        delete image: 删除当前图像
+        replace image: 替换当前图像
+        image size hint: (正方形图像，尺寸至少为100x100)
+    companies:
+      show:
+        cancel: 取消
+    locations:
+      show:
+        cancel: 取消
+        no home location: 您还没有输入您的住所位置。
+        update home location on click: 点击地图时更新所在位置？
+        show: 显示
+        delete: 删除
+        undelete: 撤销删除
   sessions:
     new:
       tab_title: 登录
@@ -2131,24 +2156,38 @@ zh-CN:
       changeset_comments:
         older: 较旧评论
         newer: 较新评论
+        oldest: 最早评论
+        newest: 最新评论
       diary_comments:
         older: 较旧评论
         newer: 较新评论
+        oldest: 最早评论
+        newest: 最新评论
       diary_entries:
         older: 较早的文章
         newer: 较新的文章
+        oldest: 最早文章
+        newest: 最新文章
       issues:
         older: 旧问题
         newer: 新问题
+        oldest: 最早问题
+        newest: 最新问题
       traces:
         older: 较旧轨迹
         newer: 较新轨迹
+        oldest: 最早轨迹
+        newest: 最新轨迹
       user_blocks:
         older: 旧的封禁
         newer: 新的封禁
+        oldest: 最早封禁
+        newest: 最新封禁
       users:
         older: 老用户
         newer: 新用户
+        oldest: 最早用户
+        newest: 最新用户
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} 贡献者'
@@ -2198,6 +2237,7 @@ zh-CN:
           OpenStreetMap 为数以千计的网站、移动应用程序和硬件设备提供开放地图数据。
           OpenStreetMap 是由像您一样的人们组成的社区创建的，他们贡献并维护有关世界各地道路、小径、咖啡馆、火车站等的地图数据！N!。
         lead_2_learn_more_about_osm: 了解有关OpenStreetMap的更多信息
+        lead_2_get_started_mapping: 开始绘制地图
         lead_2_osm_blog: OpenStreetMap博客
         lead_2_weeklyosm: OSM周刊
         lead_2_osm_community: 开放街图社区
@@ -2229,10 +2269,12 @@ zh-CN:
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
         credit_2_license: 明确数据在开放数据库许可证下可用。
+        credit_3_v2025_requirements_on_how_displayed: 关于如何显示的要求
         credit_3_v2025_attribution_guidelines: 署名指南
         credit_3_v2025_licensing_requirements: 许可证要求
         credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
         credit_4_v2025_this_copyright_page: 该版权页
+        credit_5_v2025_html: 在此示例中，署名置于地图的角落：
         attribution_example:
           alt: 如何在网页上署名 OpenStreetMap 的示例
           title: 署名示例
@@ -2480,6 +2522,9 @@ zh-CN:
           没有必要正式建立一个与地方分会同等规模的团体。
           事实上，许多团体作为非正式的聚会或社区团体非常成功地存在。任何人都可以创设或加入这些团体。在%{communities_wiki_link}上阅读更多内容。
         communities_wiki: 社区 wiki 页面
+  social_links:
+    show:
+      website: 网站
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: 放大地图以查看注记
@@ -2851,7 +2896,6 @@ zh-CN:
       blocks by me: 被我封禁
       create_mute: 忽视此用户
       destroy_mute: 取消忽视此用户
-      edit_profile: 编辑个人资料
       send message: 发送消息
       diary: 日记
       edits: 编辑
@@ -2861,9 +2905,6 @@ zh-CN:
       follow: 关注
       mapper since: 绘图者注册于：
       last map edit: 最后地图编辑于：
-      home location: 您的位置
-      company: 公司
-      company tooltip: 该公司隶属关系为自我揭露，未经证实
       no activity yet: 尚无活动
       uid: 用户ID：
       ct status: 贡献者条款：
@@ -2899,7 +2940,15 @@ zh-CN:
       delete_user: 删除此用户
       confirm: 确认
       report: 举报此用户
+      edit_links: 编辑链接
+      change_image: 更改图片
+      edit_company: 编辑公司
+      edit_location: 编辑位置
       contributions: 去年有%{count}贡献
+    sidebar_section:
+      home_location: 您的位置
+      company: 公司
+      company_tooltip: 该公司隶属关系为自我揭露，未经证实
     go_public:
       flash success: 您的所有编辑现在均已公开，现在允许您开始编辑。
     issued_blocks:
@@ -3239,12 +3288,11 @@ zh-CN:
     edit_help: 移动地图并在您想编辑的位置放大，然后点击这里。
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}公里'
-        miles:
-          ft: '%{distance}英尺'
-          mi: '%{distance}英里'
+        m: '%{distance}m'
+        km: '%{distance}公里'
+        ft: '%{distance}英尺'
+        yd: '%{distance}码'
+        mi: '%{distance}英里'
       errors:
         no_route: 找不到那两个地方之间的路径。
         no_place: 对不起——无法定位“%{place}”。

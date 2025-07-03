@@ -429,9 +429,7 @@ tr:
       one: '%{count} yol'
       other: '%{count} yol'
     download_xml: XML İndir
-    view_history: Geçmişi Görüntüle
     view_unredacted_history: Düzenlenmemiş Geçmişi Görüntüle
-    view_details: Ayrıntıları Görüntüle
     location: 'Konum:'
     node:
       title_html: 'Nokta: %{name}'
@@ -555,7 +553,7 @@ tr:
         sorry: Üzgünüz, talep ettiğiniz değişiklik kaydı yorumlarının alınması çok
           uzun sürdü.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} yorum'
         other: '%{count} yorum'
@@ -1653,8 +1651,6 @@ tr:
       time: Zaman
       ascend: Yükselt
       descend: İniş
-      button_km: km
-      button_mi: mi
       download: Rotayı GeoJSON olarak indir
       filename: rota
       directions_courtesy_html: Yolculuğun izniyle %{link}x
@@ -1809,6 +1805,8 @@ tr:
     communities: Topluluklar
     learn_more: Daha Fazla Bilgi
     more: Daha fazla
+    header:
+      select_language: Dil seçin
     offline_flash:
       osm_offline: OpenStreetMap veritabanı şu anda temel bakım çalışmaları yürütüldüğü
         için çevrimdışıdır.
@@ -2006,6 +2004,9 @@ tr:
       whitelist: Onay istekleri gönderen bir istenmeyen posta önleme sistemi kullanıyorsan
         herhangi bir onay isteğine yanıt veremediğimiz için lütfen %{sender} beyaz
         listeye eklediğinden emin ol.
+    gravatar:
+      disabled: Gravatar devre dışı bırakıldı.
+      enabled: Gravatarınızın gösterimi etkinleştirildi.
   messages:
     new:
       title: Mesaj gönder
@@ -2130,35 +2131,39 @@ tr:
           dark: Koyu
         save: Tercihleri Güncelle
   profiles:
-    show:
-      title: Profili Düzenle
-      save: Profili Güncelle
-      cancel: İptal
-      image: Resim
-      gravatar:
-        gravatar: Gravatar kullan
-        link: https://wiki.openstreetmap.org/wiki/Tr:Gravatar
-        what_is_gravatar: Gravatar nedir?
-        disabled: Gravatar devre dışı bırakıldı.
-        enabled: Gravatarınızın gösterimi etkinleştirildi.
-      new image: Resim ekle
-      keep image: Geçerli resim dursun
-      delete image: Geçerli resmi kaldır
-      replace image: Geçerli resmi değiştir
-      image size hint: (100x100 olan kare resimler daha iyi görünür)
-      home location: Bulunduğunuz Konum
-      no home location: Konum girilmedi.
-      update home location on click: Haritaya tıklandığında konum güncellensin mi?
-      show: Göster
-      delete: Sil
-      undelete: Silme işlemini geri al
-      social_links:
-        title: Sosyal medya bağlantıları
-        remove: kaldır
-        add: Sosyal bağlantı ekle
-    update:
-      success: Profil güncellendi.
-      failure: Profil güncellenemedi.
+    profile_sections:
+      navigation:
+        image: Resim
+    descriptions:
+      show:
+        title: Profili Düzenle
+        save: Profili Güncelle
+        cancel: İptal
+    links:
+      show:
+        title: Profili Düzenle
+        social_links:
+          title: Sosyal medya bağlantıları
+          remove: kaldır
+          add: Sosyal bağlantı ekle
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar kullan
+          link: https://wiki.openstreetmap.org/wiki/Tr:Gravatar
+          what_is_gravatar: Gravatar nedir?
+        new image: Resim ekle
+        keep image: Geçerli resim dursun
+        delete image: Geçerli resmi kaldır
+        replace image: Geçerli resmi değiştir
+        image size hint: (100x100 olan kare resimler daha iyi görünür)
+    locations:
+      show:
+        no home location: Konum girilmedi.
+        update home location on click: Haritaya tıklandığında konum güncellensin mi?
+        show: Göster
+        delete: Sil
+        undelete: Silme işlemini geri al
   sessions:
     new:
       tab_title: Oturum Aç
@@ -3047,7 +3052,6 @@ tr:
       blocks by me: Engellediklerim
       create_mute: Bu Kullanıcıyı Sessize Al
       destroy_mute: Bu Kullanıcının Sesini Aç
-      edit_profile: Profili Düzenle
       send message: Mesaj Gönder
       diary: Günlük
       edits: Düzenlemeler
@@ -3462,9 +3466,8 @@ tr:
       sonra buraya tıklayın.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Bu iki yer arasında bir rota bulunamadı.
         no_place: Maalesef, '%{place}' adlı yeri bulamadık!
