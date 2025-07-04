@@ -131,59 +131,80 @@ module Api
       assert node.visible, "saved node is not visible"
     end
 
-    def test_create_invalid_xml
-      ## Only test public user here, as test_create should cover what's the forbidden
-      ## that would occur here
+    def test_create_invalid_osm_structure
+      user = create(:user)
+      xml = "<create/>"
 
+      assert_no_difference "Node.count" do
+        post api_nodes_path, :params => xml, :headers => bearer_authorization_header(user)
+
+        assert_response :bad_request, "node upload did not return bad_request status"
+      end
+      assert_equal "Cannot parse valid node from xml string <create/>. XML doesn't contain an osm/node element.", @response.body
+    end
+
+    def test_create_without_lat
       user = create(:user)
       changeset = create(:changeset, :user => user)
+      xml = "<osm><node lon='3.23' changeset='#{changeset.id}'/></osm>"
 
-      auth_header = bearer_authorization_header user
-      lat = 3.434
-      lon = 3.23
+      assert_no_difference "Node.count" do
+        post api_nodes_path, :params => xml, :headers => bearer_authorization_header(user)
 
-      # test that the upload is rejected when xml is valid, but osm doc isn't
-      xml = "<create/>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      assert_response :bad_request, "node upload did not return bad_request status"
-      assert_equal "Cannot parse valid node from xml string <create/>. XML doesn't contain an osm/node element.", @response.body
-
-      # test that the upload is rejected when no lat is supplied
-      # create a minimal xml file
-      xml = "<osm><node lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :bad_request, "node upload did not return bad_request status"
+        assert_response :bad_request, "node upload did not return bad_request status"
+      end
       assert_equal "Cannot parse valid node from xml string <node lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat missing", @response.body
+    end
 
-      # test that the upload is rejected when no lon is supplied
-      # create a minimal xml file
-      xml = "<osm><node lat='#{lat}' changeset='#{changeset.id}'/></osm>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :bad_request, "node upload did not return bad_request status"
+    def test_create_without_lon
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = "<osm><node lat='3.434' changeset='#{changeset.id}'/></osm>"
+
+      assert_no_difference "Node.count" do
+        post api_nodes_path, :params => xml, :headers => bearer_authorization_header(user)
+
+        assert_response :bad_request, "node upload did not return bad_request status"
+      end
       assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
+    end
 
-      # test that the upload is rejected when lat is non-numeric
-      # create a minimal xml file
-      xml = "<osm><node lat='abc' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :bad_request, "node upload did not return bad_request status"
-      assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"#{lon}\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
+    def test_create_with_non_numeric_lat
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = "<osm><node lat='abc' lon='3.23' changeset='#{changeset.id}'/></osm>"
 
-      # test that the upload is rejected when lon is non-numeric
-      # create a minimal xml file
-      xml = "<osm><node lat='#{lat}' lon='abc' changeset='#{changeset.id}'/></osm>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :bad_request, "node upload did not return bad_request status"
-      assert_equal "Cannot parse valid node from xml string <node lat=\"#{lat}\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
+      assert_no_difference "Node.count" do
+        post api_nodes_path, :params => xml, :headers => bearer_authorization_header(user)
 
-      # test that the upload is rejected when we have a tag which is too long
-      xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      assert_response :bad_request, "node upload did not return bad_request status"
+        assert_response :bad_request, "node upload did not return bad_request status"
+      end
+      assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
+    end
+
+    def test_create_with_non_numeric_lon
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = "<osm><node lat='3.434' lon='abc' changeset='#{changeset.id}'/></osm>"
+
+      assert_no_difference "Node.count" do
+        post api_nodes_path, :params => xml, :headers => bearer_authorization_header(user)
+
+        assert_response :bad_request, "node upload did not return bad_request status"
+      end
+      assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
+    end
+
+    def test_create_with_tag_too_long
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = "<osm><node lat='3.434' lon='3.23' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>"
+
+      assert_no_difference "Node.count" do
+        post api_nodes_path, :params => xml, :headers => bearer_authorization_header(user)
+
+        assert_response :bad_request, "node upload did not return bad_request status"
+      end
       assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
     end
 
