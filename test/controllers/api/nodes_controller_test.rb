@@ -218,11 +218,11 @@ module Api
       assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
     end
 
-    # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
-    def test_lat_lon_xml_format
+    def test_show_lat_lon_decimal_format
       node = create(:node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
 
       get api_node_path(node)
+
       assert_match(/lat="0.0000400"/, response.body)
       assert_match(/lon="0.0000800"/, response.body)
     end
