@@ -236,4 +236,10 @@ class Changeset < ApplicationRecord
       "SELECT api_size_limit($1)", "api_size_limit", [user_id]
     )
   end
+
+  def num_type_changes_in_sync?
+    num_changes == num_created_nodes + num_modified_nodes + num_deleted_nodes +
+                   num_created_ways + num_modified_ways + num_deleted_ways +
+                   num_created_relations + num_modified_relations + num_deleted_relations
+  end
 end
