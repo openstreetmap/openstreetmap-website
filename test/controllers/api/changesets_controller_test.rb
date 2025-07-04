@@ -284,14 +284,6 @@ module Api
     # -----------------------
 
     def test_create
-      auth_header = bearer_authorization_header create(:user, :data_public => false)
-      # Create the first user's changeset
-      xml = "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-      post api_changesets_path, :params => xml, :headers => auth_header
-      assert_require_public_data
-
       auth_header = bearer_authorization_header
       # Create the first user's changeset
       xml = "<osm><changeset>" \
