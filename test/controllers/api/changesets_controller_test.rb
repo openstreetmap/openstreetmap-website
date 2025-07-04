@@ -284,7 +284,8 @@ module Api
     # -----------------------
 
     def test_create
-      auth_header = bearer_authorization_header
+      user = create(:user)
+      auth_header = bearer_authorization_header user
       # Create the first user's changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
@@ -308,8 +309,7 @@ module Api
         assert_equal 3600, duration.round, "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
       end
 
-      # checks if uploader was subscribed
-      assert_equal 1, cs.subscribers.length
+      assert_equal [user], cs.subscribers
     end
 
     def test_create_invalid
