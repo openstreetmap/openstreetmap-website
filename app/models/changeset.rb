@@ -2,15 +2,24 @@
 #
 # Table name: changesets
 #
-#  id          :bigint           not null, primary key
-#  user_id     :bigint           not null
-#  created_at  :datetime         not null
-#  min_lat     :integer
-#  max_lat     :integer
-#  min_lon     :integer
-#  max_lon     :integer
-#  closed_at   :datetime         not null
-#  num_changes :integer          default(0), not null
+#  id                     :bigint           not null, primary key
+#  user_id                :bigint           not null
+#  created_at             :datetime         not null
+#  min_lat                :integer
+#  max_lat                :integer
+#  min_lon                :integer
+#  max_lon                :integer
+#  closed_at              :datetime         not null
+#  num_changes            :integer          default(0), not null
+#  num_created_nodes      :integer          default(0), not null
+#  num_modified_nodes     :integer          default(0), not null
+#  num_deleted_nodes      :integer          default(0), not null
+#  num_created_ways       :integer          default(0), not null
+#  num_modified_ways      :integer          default(0), not null
+#  num_deleted_ways       :integer          default(0), not null
+#  num_created_relations  :integer          default(0), not null
+#  num_modified_relations :integer          default(0), not null
+#  num_deleted_relations  :integer          default(0), not null
 #
 # Indexes
 #
