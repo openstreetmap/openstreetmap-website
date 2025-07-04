@@ -289,9 +289,11 @@ module Api
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      post api_changesets_path, :params => xml, :headers => auth_header
 
-      assert_response :success, "Creation of changeset did not return success status"
+      assert_difference "Changeset.count", 1 do
+        post api_changesets_path, :params => xml, :headers => auth_header
+        assert_response :success, "Creation of changeset did not return success status"
+      end
       newid = @response.body.to_i
 
       # check end time, should be an hour ahead of creation time
