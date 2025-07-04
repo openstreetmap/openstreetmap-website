@@ -310,6 +310,7 @@ module Api
       end
 
       assert_equal [user], changeset.subscribers
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create_invalid
