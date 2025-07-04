@@ -31,6 +31,123 @@ class ChangesetTest < ActiveSupport::TestCase
      end
   end
 
+  def test_num_type_changes_in_sync_for_new_changeset
+    changeset = create(:changeset)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_not_in_sync_for_changeset_without_type_changes
+    changeset = create(:changeset, :num_changes => 1)
+    assert_not_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_created_nodes
+    changeset = create(:changeset, :num_changes => 1, :num_created_nodes => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_modified_nodes
+    changeset = create(:changeset, :num_changes => 1, :num_modified_nodes => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_deleted_nodes
+    changeset = create(:changeset, :num_changes => 1, :num_deleted_nodes => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_changed_nodes
+    changeset = create(:changeset, :num_changes => 3 + 2 + 1,
+                                   :num_created_nodes => 3,
+                                   :num_modified_nodes => 2,
+                                   :num_deleted_nodes => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_created_ways
+    changeset = create(:changeset, :num_changes => 1, :num_created_ways => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_modified_ways
+    changeset = create(:changeset, :num_changes => 1, :num_modified_ways => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_deleted_ways
+    changeset = create(:changeset, :num_changes => 1, :num_deleted_ways => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_changed_ways
+    changeset = create(:changeset, :num_changes => 3 + 2 + 1,
+                                   :num_created_ways => 3,
+                                   :num_modified_ways => 2,
+                                   :num_deleted_ways => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_created_relations
+    changeset = create(:changeset, :num_changes => 1, :num_created_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_modified_relations
+    changeset = create(:changeset, :num_changes => 1, :num_modified_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_deleted_relations
+    changeset = create(:changeset, :num_changes => 1, :num_deleted_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_changed_relations
+    changeset = create(:changeset, :num_changes => 3 + 2 + 1,
+                                   :num_created_relations => 3,
+                                   :num_modified_relations => 2,
+                                   :num_deleted_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_created_elements
+    changeset = create(:changeset, :num_changes => 3 + 2 + 1,
+                                   :num_created_nodes => 3,
+                                   :num_created_ways => 2,
+                                   :num_created_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_modified_elements
+    changeset = create(:changeset, :num_changes => 3 + 2 + 1,
+                                   :num_modified_nodes => 3,
+                                   :num_modified_ways => 2,
+                                   :num_modified_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_deleted_elements
+    changeset = create(:changeset, :num_changes => 3 + 2 + 1,
+                                   :num_deleted_nodes => 3,
+                                   :num_deleted_ways => 2,
+                                   :num_deleted_relations => 1)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
+  def test_num_type_changes_in_sync_for_changeset_with_changed_elements
+    changeset = create(:changeset, :num_changes => 33 + 32 + 31 + 23 + 22 + 21 + 13 + 12 + 11,
+                                   :num_created_nodes => 33,
+                                   :num_created_ways => 32,
+                                   :num_created_relations => 31,
+                                   :num_modified_nodes => 23,
+                                   :num_modified_ways => 22,
+                                   :num_modified_relations => 21,
+                                   :num_deleted_nodes => 13,
+                                   :num_deleted_ways => 12,
+                                   :num_deleted_relations => 11)
+    assert_predicate changeset, :num_type_changes_in_sync?
+  end
+
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) do
