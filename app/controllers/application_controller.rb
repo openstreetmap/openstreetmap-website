@@ -246,7 +246,7 @@ class ApplicationController < ActionController::Base
   def map_layout
     policy = request.content_security_policy.clone
 
-    policy.connect_src(*policy.connect_src, "http://127.0.0.1:8111", Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
+    policy.connect_src(*policy.connect_src, "http://127.0.0.1:8111", "https://api.maptiler.com", Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
     policy.form_action(*policy.form_action, "render.openstreetmap.org")
     policy.style_src(*policy.style_src, :unsafe_inline)
 
