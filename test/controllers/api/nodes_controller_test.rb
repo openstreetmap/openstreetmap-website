@@ -90,54 +90,46 @@ module Api
       assert_response :not_found
     end
 
+    def test_create_when_unauthorized
+      with_unchanging_request do |_headers, changeset|
+        osm = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+
+        post api_nodes_path, :params => osm
+
+        assert_response :unauthorized
+      end
+    end
+
+    def test_create_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+
+        post api_nodes_path, :params => osm, :headers => headers
+
+        assert_require_public_data "node create did not return forbidden status"
+      end
+    end
+
     def test_create
-      private_user = create(:user, :data_public => false)
-      private_changeset = create(:changeset, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
+      with_request do |headers, changeset|
+        lat = rand(-50..50) + rand
+        lon = rand(-50..50) + rand
 
-      # create a node with random lat/lon
-      lat = rand(-50..50) + rand
-      lon = rand(-50..50) + rand
+        assert_difference "Node.count", 1 do
+          osm = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
 
-      ## First try with no auth
-      # create a minimal xml file
-      xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      assert_difference("OldNode.count", 0) do
-        post api_nodes_path, :params => xml
+          post api_nodes_path, :params => osm, :headers => headers
+
+          assert_response :success, "node upload did not return success status"
+        end
+
+        created_node_id = @response.body
+        node = Node.find(created_node_id)
+        assert_in_delta lat * 10000000, node.latitude, 1, "saved node does not match requested latitude"
+        assert_in_delta lon * 10000000, node.longitude, 1, "saved node does not match requested longitude"
+        assert_equal changeset.id, node.changeset_id, "saved node does not belong to changeset that it was created in"
+        assert node.visible, "saved node is not visible"
       end
-      # hope for unauthorized
-      assert_response :unauthorized, "node upload did not return unauthorized status"
-
-      ## Now try with the user which doesn't have their data public
-      auth_header = bearer_authorization_header private_user
-
-      # create a minimal xml file
-      xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>"
-      assert_difference("Node.count", 0) do
-        post api_nodes_path, :params => xml, :headers => auth_header
-      end
-      # hope for success
-      assert_require_public_data "node create did not return forbidden status"
-
-      ## Now try with the user that has the public data
-      auth_header = bearer_authorization_header user
-
-      # create a minimal xml file
-      xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
-      post api_nodes_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success, "node upload did not return success status"
-
-      # read id of created node and search for it
-      nodeid = @response.body
-      checknode = Node.find(nodeid)
-      assert_not_nil checknode, "uploaded node not found in data base after upload"
-      # compare values
-      assert_in_delta lat * 10000000, checknode.latitude, 1, "saved node does not match requested latitude"
-      assert_in_delta lon * 10000000, checknode.longitude, 1, "saved node does not match requested longitude"
-      assert_equal changeset.id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
-      assert checknode.visible, "saved node is not visible"
     end
 
     def test_create_invalid_xml
