@@ -55,9 +55,14 @@ class Changeset < ApplicationRecord
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
-  validates :num_changes, :presence => true,
-                          :numericality => { :only_integer => true,
-                                             :greater_than_or_equal_to => 0 }
+  [:num_changes,
+   :num_created_nodes, :num_modified_nodes, :num_deleted_nodes,
+   :num_created_ways, :num_modified_ways, :num_deleted_ways,
+   :num_created_relations, :num_modified_relations, :num_deleted_relations].each do |counter_attribute|
+    validates counter_attribute, :presence => true,
+                                 :numericality => { :only_integer => true,
+                                                    :greater_than_or_equal_to => 0 }
+  end
   validates :created_at, :closed_at, :presence => true
   validates :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true,
                                                     :numericality => { :only_integer => true }

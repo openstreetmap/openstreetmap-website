@@ -1,6 +1,36 @@
 require "test_helper"
 
 class ChangesetTest < ActiveSupport::TestCase
+  def test_num_changes_valid
+    changeset = create(:changeset)
+    assert_predicate changeset, :valid?
+    changeset.num_changes = nil
+    assert_not_predicate changeset, :valid?
+    changeset.num_changes = -1
+    assert_not_predicate changeset, :valid?
+    changeset.num_changes = 0
+    assert_predicate changeset, :valid?
+    changeset.num_changes = 1
+    assert_predicate changeset, :valid?
+  end
+
+  def test_num_type_changes_valid
+    [:num_created_nodes, :num_modified_nodes, :num_deleted_nodes,
+     :num_created_ways, :num_modified_ways, :num_deleted_ways,
+     :num_created_relations, :num_modified_relations, :num_deleted_relations].each do |counter_attribute|
+       changeset = create(:changeset)
+       assert_predicate changeset, :valid?
+       changeset[counter_attribute] = nil
+       assert_not_predicate changeset, :valid?
+       changeset[counter_attribute] = -1
+       assert_not_predicate changeset, :valid?
+       changeset[counter_attribute] = 0
+       assert_predicate changeset, :valid?
+       changeset[counter_attribute] = 1
+       assert_predicate changeset, :valid?
+     end
+  end
+
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) do
