@@ -298,18 +298,18 @@ module Api
       newid = @response.body.to_i
 
       # check end time, should be an hour ahead of creation time
-      cs = Changeset.find(newid)
-      duration = cs.closed_at - cs.created_at
+      changeset = Changeset.find(newid)
+      duration = changeset.closed_at - changeset.created_at
       # the difference can either be a rational, or a floating point number
       # of seconds, depending on the code path taken :-(
       if duration.instance_of?(Rational)
-        assert_equal Rational(1, 24), duration, "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
+        assert_equal Rational(1, 24), duration, "initial idle timeout should be an hour (#{changeset.created_at} -> #{changeset.closed_at})"
       else
         # must be number of seconds...
-        assert_equal 3600, duration.round, "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
+        assert_equal 3600, duration.round, "initial idle timeout should be an hour (#{changeset.created_at} -> #{changeset.closed_at})"
       end
 
-      assert_equal [user], cs.subscribers
+      assert_equal [user], changeset.subscribers
     end
 
     def test_create_invalid
@@ -738,19 +738,19 @@ module Api
       xml = "<osm><changeset/></osm>"
       post api_changesets_path, :params => xml, :headers => auth_header
       assert_response :success, "can't create a new changeset"
-      cs_id = @response.body.to_i
+      changeset_id = @response.body.to_i
 
       # start the counter just short of where the changeset should finish.
       offset = 10
       # alter the database to set the counter on the changeset directly,
       # otherwise it takes about 6 minutes to fill all of them.
-      changeset = Changeset.find(cs_id)
+      changeset = Changeset.find(changeset_id)
       changeset.num_changes = Changeset::MAX_ELEMENTS - offset
       changeset.save!
 
       with_controller(NodesController.new) do
         # create a new node
-        xml = "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
+        xml = "<osm><node changeset='#{changeset_id}' lat='0.0' lon='0.0'/></osm>"
         post api_nodes_path, :params => xml, :headers => auth_header
         assert_response :success, "can't create a new node"
         node_id = @response.body.to_i
@@ -779,7 +779,7 @@ module Api
         assert_response :conflict, "final attempt should have failed"
       end
 
-      changeset = Changeset.find(cs_id)
+      changeset = Changeset.find(changeset_id)
       assert_equal Changeset::MAX_ELEMENTS + 1, changeset.num_changes
 
       # check that the changeset is now closed as well
@@ -837,13 +837,13 @@ module Api
     def create_changeset_xml(user: nil, id: nil)
       root = XML::Document.new
       root.root = XML::Node.new "osm"
-      cs = XML::Node.new "changeset"
+      changeset = XML::Node.new "changeset"
       if user
-        cs["user"] = user.display_name
-        cs["uid"] = user.id.to_s
+        changeset["user"] = user.display_name
+        changeset["uid"] = user.id.to_s
       end
-      cs["id"] = id.to_s if id
-      root.root << cs
+      changeset["id"] = id.to_s if id
+      root.root << changeset
       root
     end
   end
