@@ -96,6 +96,10 @@ module Api
 
         assert_response :unauthorized
       end
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create_by_private_user
@@ -108,6 +112,10 @@ module Api
 
         assert_require_public_data "node create did not return forbidden status"
       end
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create
@@ -154,6 +162,10 @@ module Api
         assert_response :bad_request, "node upload did not return bad_request status"
       end
       assert_equal "Cannot parse valid node from xml string <node lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat missing", @response.body
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create_without_lon
@@ -167,6 +179,10 @@ module Api
         assert_response :bad_request, "node upload did not return bad_request status"
       end
       assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create_with_non_numeric_lat
@@ -180,6 +196,10 @@ module Api
         assert_response :bad_request, "node upload did not return bad_request status"
       end
       assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create_with_non_numeric_lon
@@ -193,6 +213,10 @@ module Api
         assert_response :bad_request, "node upload did not return bad_request status"
       end
       assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_create_with_tag_too_long
@@ -206,6 +230,10 @@ module Api
         assert_response :bad_request, "node upload did not return bad_request status"
       end
       assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     ##
@@ -223,6 +251,10 @@ module Api
 
         assert_require_public_data "Shouldn't be able to create with non-public user"
       end
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     ##
