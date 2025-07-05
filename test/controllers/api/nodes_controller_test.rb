@@ -591,6 +591,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_in_closed_changeset_by_private_user
@@ -602,6 +606,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_in_missing_changeset_by_private_user
@@ -627,6 +635,10 @@ module Api
         put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
         assert_require_public_data "node at #{name}=#{value} should be forbidden, when data isn't public"
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
     end
 
@@ -639,6 +651,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_require_public_data "should have failed with a forbidden when data isn't public"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_in_changeset_of_other_user
@@ -650,6 +666,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_response :conflict, "update with other user's changeset should be rejected"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_in_closed_changeset
@@ -661,6 +681,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_response :conflict, "update with closed changeset should be rejected"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_in_missing_changeset
@@ -686,6 +710,10 @@ module Api
         put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
         assert_response :bad_request, "node at #{name}=#{value} should be rejected"
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
     end
 
@@ -699,6 +727,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_response :conflict, "should have failed on old version number"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_with_version_ahead
@@ -711,6 +743,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_response :conflict, "should have failed on skipped version number"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_with_invalid_version
@@ -723,6 +759,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_response :conflict, "should not be able to put 'p1r4at3s!' in the version field"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_other_node
@@ -734,6 +774,10 @@ module Api
       put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
       assert_response :bad_request, "should not be able to update a node with a different ID from the XML"
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_invalid_osm_structure
@@ -775,6 +819,10 @@ module Api
 
       assert_response :bad_request, "adding duplicate tags to a node should fail with 'bad request'"
       assert_equal "Element node/#{node.id} has duplicate tags with key test_key", @response.body
+
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     ##
