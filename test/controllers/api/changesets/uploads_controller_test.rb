@@ -30,6 +30,7 @@ module Api
 
         changeset.reload
         assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         node.reload
         assert_equal 1, node.version
         assert_equal 0, node.latitude
@@ -57,6 +58,7 @@ module Api
 
         changeset.reload
         assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         node.reload
         assert_equal 1, node.version
         assert_equal 0, node.latitude
@@ -84,6 +86,7 @@ module Api
 
         changeset.reload
         assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         node.reload
         assert_equal 1, node.version
         assert_equal 0, node.latitude
@@ -144,6 +147,10 @@ module Api
 
         assert_response :bad_request
         assert_equal "Unknown action ping, choices are create, modify, delete", @response.body
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       ##
@@ -161,6 +168,10 @@ module Api
 
           assert_response :success
         end
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       ##
@@ -276,6 +287,10 @@ module Api
 
           assert_response :bad_request
         end
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_nodes_with_invalid_placeholder_reuse_in_one_action_block
@@ -297,6 +312,10 @@ module Api
 
           assert_response :bad_request
         end
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_nodes_with_invalid_placeholder_reuse_in_two_action_blocks
@@ -320,6 +339,10 @@ module Api
 
           assert_response :bad_request
         end
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_way_referring_node_placeholder_defined_later
@@ -346,6 +369,10 @@ module Api
           end
         end
         assert_equal "Placeholder node not found for reference -1 in way -1", @response.body
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_way_referring_undefined_node_placeholder
@@ -369,6 +396,10 @@ module Api
           assert_response :bad_request
         end
         assert_equal "Placeholder node not found for reference -1 in way -1", @response.body
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_existing_way_referring_undefined_node_placeholder
@@ -392,6 +423,9 @@ module Api
         assert_response :bad_request
         assert_equal "Placeholder node not found for reference -1 in way #{way.id}", @response.body
 
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         way.reload
         assert_equal 1, way.version
       end
@@ -417,6 +451,10 @@ module Api
           assert_response :bad_request
         end
         assert_equal "Placeholder Node not found for reference -1 in relation -1.", @response.body
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_existing_relation_referring_undefined_way_placeholder
@@ -440,6 +478,9 @@ module Api
         assert_response :bad_request
         assert_equal "Placeholder Way not found for reference -1 in relation #{relation.id}.", @response.body
 
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         relation.reload
         assert_equal 1, relation.version
       end
@@ -475,6 +516,10 @@ module Api
 
         assert_response :bad_request
         assert_equal "Placeholder Relation not found for reference -4 in relation -2.", @response.body
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       # -------------------------------------
@@ -614,6 +659,9 @@ module Api
 
         assert_response :conflict
 
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         node.reload
         assert_equal 1, node.version
         assert_equal 0, node.latitude
@@ -640,6 +688,9 @@ module Api
 
         assert_response :bad_request
 
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         node.reload
         assert_equal 1, node.version
         assert_equal 0, node.latitude
@@ -673,6 +724,9 @@ module Api
 
         assert_response :conflict
 
+        changeset1.reload
+        assert_equal 0, changeset1.num_changes
+        assert_predicate changeset1, :num_type_changes_in_sync?
         assert_nodes_are_equal(node1, Node.find(node1.id))
         assert_nodes_are_equal(node2, Node.find(node2.id))
       end
@@ -840,6 +894,9 @@ module Api
         assert_response :precondition_failed
         assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
         assert Node.find(used_node.id).visible
         assert Way.find(used_way.id).visible
         assert Relation.find(relation.id).visible
@@ -924,8 +981,11 @@ module Api
         post api_changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
 
         assert_response :precondition_failed
-
         assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", @response.body
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_delete_unknown_node_placeholder
@@ -1063,6 +1123,10 @@ module Api
 
           assert_response :gone
         end
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_create_and_duplicate_delete_if_unused
@@ -1219,9 +1283,11 @@ module Api
         relation = create(:relation)
 
         # create a changeset that puts us near the initial rate limit
+        num_changes = Settings.initial_changes_per_hour - 2
         changeset = create(:changeset, :user => user,
                                        :created_at => Time.now.utc - 5.minutes,
-                                       :num_changes => Settings.initial_changes_per_hour - 2)
+                                       :num_changes => num_changes,
+                                       :num_created_nodes => num_changes)
 
         diff = <<~CHANGESET
           <osmChange>
@@ -1249,6 +1315,10 @@ module Api
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
         assert_response :too_many_requests, "upload did not hit rate limit"
+
+        changeset.reload
+        assert_equal num_changes, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_maximum_rate_limit
@@ -1262,13 +1332,15 @@ module Api
                                        :created_at => Time.now.utc - 28.days)
 
         # create changeset to put us near the maximum rate limit
-        total_changes = Settings.max_changes_per_hour - 2
-        while total_changes.positive?
-          changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        remaining_num_changes = Settings.max_changes_per_hour - 2
+        num_changes = 0
+        while remaining_num_changes.positive?
+          num_changes = [remaining_num_changes, Changeset::MAX_ELEMENTS].min
           changeset = create(:changeset, :user => user,
                                          :created_at => Time.now.utc - 5.minutes,
-                                         :num_changes => changes)
-          total_changes -= changes
+                                         :num_changes => num_changes,
+                                         :num_created_nodes => num_changes)
+          remaining_num_changes -= num_changes
         end
 
         diff = <<~CHANGESET
@@ -1297,6 +1369,10 @@ module Api
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
         assert_response :too_many_requests, "upload did not hit rate limit"
+
+        changeset.reload
+        assert_equal num_changes, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_initial_size_limit
@@ -1323,6 +1399,10 @@ module Api
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
         assert_response :payload_too_large, "upload did not hit size limit"
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       def test_upload_size_limit_after_one_week
@@ -1350,6 +1430,10 @@ module Api
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
         assert_response :payload_too_large, "upload did not hit size limit"
+
+        changeset.reload
+        assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
 
       private
@@ -1362,8 +1446,10 @@ module Api
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
         assert_response :not_found
+
         changeset.reload
         assert_equal 0, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
       end
     end
   end
