@@ -337,6 +337,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_in_missing_changeset_by_private_user
@@ -362,6 +365,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_deleted_node_by_private_user
@@ -376,6 +382,9 @@ module Api
 
       node.reload
       assert_not_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_missing_node_by_private_user
@@ -399,6 +408,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_node_in_relation_by_private_user
@@ -414,6 +426,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_in_closed_changeset
@@ -428,6 +443,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_in_missing_changeset
@@ -458,6 +476,9 @@ module Api
       assert_predicate node, :visible?
       other_node.reload
       assert_predicate other_node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_invalid_osm_structure
@@ -527,6 +548,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_destroy_node_in_relations
@@ -544,6 +568,9 @@ module Api
 
       node.reload
       assert_predicate node, :visible?
+      changeset.reload
+      assert_equal 0, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
     end
 
     def test_update_when_unauthorized
