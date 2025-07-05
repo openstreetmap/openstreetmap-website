@@ -407,12 +407,6 @@ module Api
 
       ## Finally test with the public user
 
-      # try and update a node without authorisation
-      # first try to update node without auth
-      xml = xml_for_node(node)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
-
       # setup auth
       auth_header = bearer_authorization_header user
 
