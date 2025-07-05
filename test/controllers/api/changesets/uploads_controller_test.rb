@@ -232,6 +232,11 @@ module Api
           end
         end
 
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_nodes
+
         assert_equal 1, node.version
         assert_equal changeset, node.changeset
         assert_predicate node, :visible?
@@ -1565,8 +1570,12 @@ module Api
 
         assert_response :success
 
-        # check that the changeset bbox is within bounds
         changeset.reload
+        assert_equal 18, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 18, changeset.num_created_nodes
+
+        # check that the changeset bbox is within bounds
         assert_operator changeset.min_lon, :>=, -180 * GeoRecord::SCALE, "Minimum longitude (#{changeset.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
         assert_operator changeset.max_lon, :<=, 180 * GeoRecord::SCALE, "Maximum longitude (#{changeset.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
         assert_operator changeset.min_lat, :>=, -90 * GeoRecord::SCALE, "Minimum latitude (#{changeset.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
