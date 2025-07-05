@@ -196,6 +196,8 @@ class Node < ApplicationRecord
     # update the changeset to include the new location
     changeset.update_bbox!(bbox)
 
+    changeset.num_created_nodes += 1
+
     save_with_history!
   end
 

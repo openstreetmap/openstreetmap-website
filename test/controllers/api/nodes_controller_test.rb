@@ -129,6 +129,11 @@ module Api
         assert_in_delta lon * 10000000, node.longitude, 1, "saved node does not match requested longitude"
         assert_equal changeset.id, node.changeset_id, "saved node does not belong to changeset that it was created in"
         assert node.visible, "saved node is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_nodes
       end
     end
 
