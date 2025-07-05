@@ -467,128 +467,187 @@ module Api
       assert_predicate node, :visible?
     end
 
-    ##
-    # tests whether the API works and prevents incorrect use while trying
-    # to update nodes.
-    def test_update
+    def test_update_when_unauthorized
+      node = create(:node)
+      xml = xml_for_node(node)
+
+      put api_node_path(node), :params => xml.to_s
+
+      assert_response :unauthorized
+    end
+
+    def test_update_in_changeset_of_other_user_by_private_user
+      node = create(:node)
+      user = create(:user, :data_public => false)
+      changeset = create(:changeset)
+      xml = update_changeset xml_for_node(node), changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
+      assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
+    end
+
+    def test_update_in_closed_changeset_by_private_user
+      node = create(:node)
+      user = create(:user, :data_public => false)
+      changeset = create(:changeset, :closed, :user => user)
+      xml = update_changeset xml_for_node(node), changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
+      assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
+    end
+
+    def test_update_in_missing_changeset_by_private_user
+      node = create(:node)
+      user = create(:user, :data_public => false)
+      xml = update_changeset xml_for_node(node), 0
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
+      assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
+    end
+
+    def test_update_with_invalid_attr_values_by_private_user
+      node = create(:node)
+      user = create(:user, :data_public => false)
+      changeset = create(:changeset, :user => user)
       invalid_attr_values = [["lat", 91.0], ["lat", -91.0], ["lon", 181.0], ["lon", -181.0]]
 
-      ## First test with no user credentials
-      # try and update a node without authorisation
-      # first try to delete node without auth
-      private_user = create(:user, :data_public => false)
-      private_node = create(:node, :changeset => create(:changeset, :user => private_user))
-      user = create(:user)
-      node = create(:node, :changeset => create(:changeset, :user => user))
-
-      xml = xml_for_node(node)
-      put api_node_path(node), :params => xml.to_s
-      assert_response :unauthorized
-
-      ## Second test with the private user
-
-      # setup auth
-      auth_header = bearer_authorization_header private_user
-
-      ## trying to break changesets
-
-      # try and update in someone else's changeset
-      xml = update_changeset(xml_for_node(private_node),
-                             create(:changeset).id)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
-
-      # try and update in a closed changeset
-      xml = update_changeset(xml_for_node(private_node),
-                             create(:changeset, :closed, :user => private_user).id)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
-
-      # try and update in a non-existant changeset
-      xml = update_changeset(xml_for_node(private_node), 0)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
-
-      ## try and submit invalid updates
       invalid_attr_values.each do |name, value|
-        xml = xml_attr_rewrite(xml_for_node(private_node), name, value)
-        put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
+        xml = xml_attr_rewrite xml_for_node(node), name, value
+        xml = update_changeset xml, changeset.id
+
+        put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
         assert_require_public_data "node at #{name}=#{value} should be forbidden, when data isn't public"
       end
+    end
 
-      ## finally, produce a good request which still won't work
-      xml = xml_for_node(private_node)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
+    def test_update_by_private_user
+      node = create(:node)
+      user = create(:user, :data_public => false)
+      changeset = create(:changeset, :user => user)
+      xml = update_changeset xml_for_node(node), changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
       assert_require_public_data "should have failed with a forbidden when data isn't public"
+    end
 
-      ## Finally test with the public user
+    def test_update_in_changeset_of_other_user
+      node = create(:node)
+      user = create(:user)
+      changeset = create(:changeset)
+      xml = update_changeset xml_for_node(node), changeset.id
 
-      # setup auth
-      auth_header = bearer_authorization_header user
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
-      ## trying to break changesets
-
-      # try and update in someone else's changeset
-      xml = update_changeset(xml_for_node(node),
-                             create(:changeset).id)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
       assert_response :conflict, "update with other user's changeset should be rejected"
+    end
 
-      # try and update in a closed changeset
-      xml = update_changeset(xml_for_node(node),
-                             create(:changeset, :closed, :user => user).id)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
+    def test_update_in_closed_changeset
+      node = create(:node)
+      user = create(:user)
+      changeset = create(:changeset, :closed, :user => user)
+      xml = update_changeset xml_for_node(node), changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
       assert_response :conflict, "update with closed changeset should be rejected"
+    end
 
-      # try and update in a non-existant changeset
-      xml = update_changeset(xml_for_node(node), 0)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
+    def test_update_in_missing_changeset
+      user = create(:user)
+      node = create(:node)
+      xml = update_changeset xml_for_node(node), 0
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
       assert_response :conflict, "update with changeset=0 should be rejected"
+    end
 
-      ## try and submit invalid updates
+    def test_update_with_invalid_attr_values
+      user = create(:user)
+      node = create(:node)
+      changeset = create(:changeset, :user => user)
+      invalid_attr_values = [["lat", 91.0], ["lat", -91.0], ["lon", 181.0], ["lon", -181.0]]
+
       invalid_attr_values.each do |name, value|
-        xml = xml_attr_rewrite(xml_for_node(node), name, value)
-        put api_node_path(node), :params => xml.to_s, :headers => auth_header
+        xml = xml_attr_rewrite xml_for_node(node), name, value
+        xml = update_changeset xml, changeset.id
+
+        put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
         assert_response :bad_request, "node at #{name}=#{value} should be rejected"
       end
+    end
 
-      ## next, attack the versioning
-      current_node_version = node.version
+    def test_update_with_version_behind
+      node = create(:node, :version => 2)
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = xml_attr_rewrite xml_for_node(node), "version", node.version - 1
+      xml = update_changeset xml, changeset.id
 
-      # try and submit a version behind
-      xml = xml_attr_rewrite(xml_for_node(node),
-                             "version", current_node_version - 1)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
       assert_response :conflict, "should have failed on old version number"
+    end
 
-      # try and submit a version ahead
-      xml = xml_attr_rewrite(xml_for_node(node),
-                             "version", current_node_version + 1)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
+    def test_update_with_version_ahead
+      node = create(:node, :version => 2)
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = xml_attr_rewrite xml_for_node(node), "version", node.version + 1
+      xml = update_changeset xml, changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
       assert_response :conflict, "should have failed on skipped version number"
+    end
 
-      # try and submit total crap in the version field
-      xml = xml_attr_rewrite(xml_for_node(node),
-                             "version", "p1r4t3s!")
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict,
-                      "should not be able to put 'p1r4at3s!' in the version field"
+    def test_update_with_invalid_version
+      node = create(:node)
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = xml_attr_rewrite xml_for_node(node), "version", "p1r4t3s!"
+      xml = update_changeset xml, changeset.id
 
-      ## try an update with the wrong ID
-      xml = xml_for_node(create(:node))
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "should not be able to update a node with a different ID from the XML"
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
 
-      ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
+      assert_response :conflict, "should not be able to put 'p1r4at3s!' in the version field"
+    end
+
+    def test_update_other_node
+      node = create(:node)
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = update_changeset xml_for_node(create(:node)), changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
+      assert_response :bad_request, "should not be able to update a node with a different ID from the XML"
+    end
+
+    def test_update_invalid_osm_structure
+      node = create(:node)
+      user = create(:user)
       xml = "<update/>"
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "should not be able to update a node with non-OSM XML doc."
 
-      ## finally, produce a good request which should work
-      xml = xml_for_node(node)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
+      assert_response :bad_request, "should not be able to update a node with non-OSM XML doc."
+    end
+
+    def test_update
+      node = create(:node)
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      xml = update_changeset xml_for_node(node), changeset.id
+
+      put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+
       assert_response :success, "a valid update request failed"
     end
 
