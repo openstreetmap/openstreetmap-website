@@ -193,6 +193,148 @@ module Api
       # Test creating elements.
       # -------------------------------------
 
+      def test_upload_create_node
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='30' lat='60' changeset='#{changeset.id}'>
+                <tag k='amenity' v='bar'/>
+                <tag k='name' v='Foo'/>
+              </node>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        assert_difference "Node.count" => 1,
+                          "OldNode.count" => 1,
+                          "NodeTag.count" => 2,
+                          "OldNodeTag.count" => 2 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        node = nil
+        assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+          assert_dom "> node", 1 do |(node_el)|
+            node = Node.find(node_el["new_id"].to_i)
+            assert_dom "> @old_id", "-1"
+            assert_dom "> @new_version", "1"
+          end
+        end
+
+        assert_equal 1, node.version
+        assert_equal changeset, node.changeset
+        assert_predicate node, :visible?
+        assert_equal({ "name" => "Foo", "amenity" => "bar" }, node.tags)
+        assert_equal 60, node.lat
+        assert_equal 30, node.lon
+      end
+
+      def test_upload_create_way
+        node1 = create(:node)
+        node2 = create(:node)
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <way id='-1' changeset='#{changeset.id}'>
+                <tag k='highway' v='primary'/>
+                <tag k='name' v='Foo'/>
+                <nd ref='#{node1.id}'/>
+                <nd ref='#{node2.id}'/>
+              </way>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        assert_difference "Way.count" => 1,
+                          "OldWay.count" => 1,
+                          "WayTag.count" => 2,
+                          "OldWayTag.count" => 2,
+                          "WayNode.count" => 2,
+                          "OldWayNode.count" => 2 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        way = nil
+        assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+          assert_dom "> way", 1 do |(way_el)|
+            way = Way.find(way_el["new_id"].to_i)
+            assert_dom "> @old_id", "-1"
+            assert_dom "> @new_version", "1"
+          end
+        end
+
+        assert_equal 1, way.version
+        assert_equal changeset, way.changeset
+        assert_predicate way, :visible?
+        assert_equal({ "name" => "Foo", "highway" => "primary" }, way.tags)
+        assert_equal [node1, node2], way.nodes
+      end
+
+      def test_upload_create_relation
+        node1 = create(:node)
+        way1 = create(:way_with_nodes)
+        relation1 = create(:relation)
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <relation id='-1' changeset='#{changeset.id}'>
+                <member type='node' role='n_role' ref='#{node1.id}'/>
+                <member type='way' role='w_role' ref='#{way1.id}'/>
+                <member type='relation' role='r_role' ref='#{relation1.id}'/>
+                <tag k='type' v='collection'/>
+              </relation>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user
+
+        assert_difference "Relation.count" => 1,
+                          "OldRelation.count" => 1,
+                          "RelationTag.count" => 1,
+                          "OldRelationTag.count" => 1,
+                          "RelationMember.count" => 3,
+                          "OldRelationMember.count" => 3 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        relation = nil
+        assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+          assert_dom "> relation", 1 do |(relation_el)|
+            relation = Relation.find(relation_el["new_id"].to_i)
+            assert_dom "> @old_id", "-1"
+            assert_dom "> @new_version", "1"
+          end
+        end
+
+        assert_equal 1, relation.version
+        assert_equal changeset, relation.changeset
+        assert_predicate relation, :visible?
+        assert_equal({ "type" => "collection" }, relation.tags)
+        assert_equal [["Node", node1.id, "n_role"],
+                      ["Way", way1.id, "w_role"],
+                      ["Relation", relation1.id, "r_role"]], relation.members
+      end
+
       def test_upload_create_elements
         user = create(:user)
         changeset = create(:changeset, :user => user)
