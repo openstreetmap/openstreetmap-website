@@ -227,133 +227,228 @@ module Api
       assert_match(/lon="0.0000800"/, response.body)
     end
 
-    # this tests deletion restrictions - basic deletion is tested in the unit
-    # tests for node!
+    def test_destroy_when_unauthorized
+      with_unchanging(:node) do |node|
+        delete api_node_path(node)
+
+        assert_response :unauthorized
+      end
+    end
+
+    def test_destroy_in_closed_changeset_by_private_user
+      with_unchanging(:node) do |node|
+        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "non-public user shouldn't be able to delete node"
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset_by_private_user
+      with_unchanging(:node) do |node|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "shouldn't be able to delete node, when user's data is private"
+        end
+      end
+    end
+
+    def test_destroy_by_private_user
+      with_unchanging(:node) do |node|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "shouldn't be able to delete node when user's data isn't public'"
+        end
+      end
+    end
+
+    def test_destroy_deleted_node_by_private_user
+      with_unchanging(:node, :deleted) do |node|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = "<osm><node id='#{node.id}' changeset='#{changeset.id}' version='1' lat='0' lon='0'/></osm>"
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data
+        end
+      end
+    end
+
+    def test_destroy_missing_node_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers|
+        delete api_node_path(0), :headers => headers
+
+        assert_require_public_data
+      end
+    end
+
+    def test_destroy_node_in_way_by_private_user
+      with_unchanging(:node) do |node|
+        create(:way_node, :node => node)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
+        end
+      end
+    end
+
+    def test_destroy_node_in_relation_by_private_user
+      with_unchanging(:node) do |node|
+        create(:relation_member, :member => node)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset
+      with_unchanging(:node) do |node|
+        with_unchanging_request([], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset
+      with_unchanging(:node) do |node|
+        with_unchanging_request do |headers|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_different_node
+      with_unchanging(:node) do |node|
+        with_unchanging(:node) do |other_node|
+          with_unchanging_request do |headers, changeset|
+            osm_xml = xml_for_node other_node
+            osm_xml = update_changeset osm_xml, changeset.id
+
+            delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+            assert_response :bad_request, "should not be able to delete a node with a different ID from the XML"
+          end
+        end
+      end
+    end
+
+    def test_destroy_invalid_osm_structure
+      with_unchanging(:node) do |node|
+        with_unchanging_request do |headers|
+          osm = "<delete/>"
+
+          delete api_node_path(node), :params => osm, :headers => headers
+
+          assert_response :bad_request, "should not be able to delete a node without a valid XML payload"
+        end
+      end
+    end
+
     def test_destroy
-      private_user = create(:user, :data_public => false)
-      private_user_changeset = create(:changeset, :user => private_user)
-      private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
-      private_node = create(:node, :changeset => private_user_changeset)
-      private_deleted_node = create(:node, :deleted, :changeset => private_user_changeset)
+      with_request do |headers, changeset|
+        node = create(:node)
+        osm_xml = xml_for_node node
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      ## first try to delete node without auth
-      delete api_node_path(private_node)
-      assert_response :unauthorized
+        delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
 
-      ## now set auth for the non-data public user
-      auth_header = bearer_authorization_header private_user
+        assert_response :success
 
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_node(private_node), private_user_closed_changeset.id)
-      delete api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data("non-public user shouldn't be able to delete node")
+        response_node_version = @response.body.to_i
+        assert_operator response_node_version, :>, node.version, "delete request should return a new version number for node"
+        node.reload
+        assert_not_predicate node, :visible?
+        assert_equal response_node_version, node.version
+      end
+    end
 
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_node(private_node), 0)
-      delete api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data("shouldn't be able to delete node, when user's data is private")
+    def test_destroy_twice
+      user = create(:user)
+      node = create(:node, :changeset => create(:changeset, :user => user))
+      osm_xml = xml_for_node node
 
-      # valid delete now takes a payload
-      xml = xml_for_node(private_node)
-      delete api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
+      delete api_node_path(node), :params => osm_xml.to_s, :headers => bearer_authorization_header(user)
 
-      # this won't work since the node is already deleted
-      xml = xml_for_node(private_deleted_node)
-      delete api_node_path(private_deleted_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data
-
-      # this won't work since the node never existed
-      delete api_node_path(0), :headers => auth_header
-      assert_require_public_data
-
-      ## these test whether nodes which are in-use can be deleted:
-      # in a way...
-      private_used_node = create(:node, :changeset => private_user_changeset)
-      create(:way_node, :node => private_used_node)
-
-      xml = xml_for_node(private_used_node)
-      delete api_node_path(private_used_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
-
-      # in a relation...
-      private_used_node2 = create(:node, :changeset => private_user_changeset)
-      create(:relation_member, :member => private_used_node2)
-
-      xml = xml_for_node(private_used_node2)
-      delete api_node_path(private_used_node2), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
-
-      ## now setup for the public data user
-      user = create(:user, :data_public => true)
-      changeset = create(:changeset, :user => user)
-      closed_changeset = create(:changeset, :closed, :user => user)
-      node = create(:node, :changeset => changeset)
-      auth_header = bearer_authorization_header user
-
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_node(node), closed_changeset.id)
-      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_node(node), 0)
-      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # try to delete a node with a different ID
-      other_node = create(:node)
-      xml = xml_for_node(other_node)
-      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "should not be able to delete a node with a different ID from the XML"
-
-      # try to delete a node rubbish in the payloads
-      xml = "<delete/>"
-      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "should not be able to delete a node without a valid XML payload"
-
-      # valid delete now takes a payload
-      xml = xml_for_node(node)
-      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
       assert_response :success
 
-      # valid delete should return the new version number, which should
-      # be greater than the old version number
-      assert_operator @response.body.to_i, :>, node.version, "delete request should return a new version number for node"
+      delete api_node_path(node), :params => osm_xml.to_s, :headers => bearer_authorization_header(user)
 
-      # deleting the same node twice doesn't work
-      xml = xml_for_node(node)
-      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
       assert_response :gone
+    end
 
-      # this won't work since the node never existed
-      delete api_node_path(0), :headers => auth_header
-      assert_response :not_found
+    def test_destroy_missing_node
+      with_unchanging_request do |headers|
+        delete api_node_path(0), :headers => headers
 
-      ## these test whether nodes which are in-use can be deleted:
-      # in a way...
-      used_node = create(:node, :changeset => create(:changeset, :user => user))
-      way_node = create(:way_node, :node => used_node)
-      way_node2 = create(:way_node, :node => used_node)
+        assert_response :not_found
+      end
+    end
 
-      xml = xml_for_node(used_node)
-      delete api_node_path(used_node), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed,
-                      "shouldn't be able to delete a node used in a way (#{@response.body})"
-      assert_equal "Precondition failed: Node #{used_node.id} is still used by ways #{way_node.way.id},#{way_node2.way.id}.", @response.body
+    def test_destroy_node_in_ways
+      with_unchanging(:node) do |node|
+        way_node = create(:way_node, :node => node)
+        way_node2 = create(:way_node, :node => node)
 
-      # in a relation...
-      used_node2 = create(:node, :changeset => create(:changeset, :user => user))
-      relation_member = create(:relation_member, :member => used_node2)
-      relation_member2 = create(:relation_member, :member => used_node2)
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      xml = xml_for_node(used_node2)
-      delete api_node_path(used_node2), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed,
-                      "shouldn't be able to delete a node used in a relation (#{@response.body})"
-      assert_equal "Precondition failed: Node #{used_node2.id} is still used by relations #{relation_member.relation.id},#{relation_member2.relation.id}.", @response.body
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :precondition_failed, "shouldn't be able to delete a node used in a way (#{@response.body})"
+          assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way_node.way.id},#{way_node2.way.id}.", @response.body
+        end
+      end
+    end
+
+    def test_destroy_node_in_relations
+      with_unchanging(:node) do |node|
+        relation_member = create(:relation_member, :member => node)
+        relation_member2 = create(:relation_member, :member => node)
+
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :precondition_failed, "shouldn't be able to delete a node used in a relation (#{@response.body})"
+          assert_equal "Precondition failed: Node #{node.id} is still used by relations #{relation_member.relation.id},#{relation_member2.relation.id}.", @response.body
+        end
+      end
     end
 
     ##
