@@ -198,6 +198,58 @@ module Api
       end
     end
 
+    ##
+    # try and put something into a string that the API might
+    # use unquoted and therefore allow code injection
+    def test_create_with_string_injection_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <node lat='0' lon='0' changeset='#{changeset.id}'>
+              <tag k='\#{@user.inspect}' v='0'/>
+            </node>
+          </osm>
+        OSM
+
+        post api_nodes_path, :params => osm, :headers => headers
+
+        assert_require_public_data "Shouldn't be able to create with non-public user"
+      end
+    end
+
+    ##
+    # try and put something into a string that the API might
+    # use unquoted and therefore allow code injection
+    def test_create_with_string_injection
+      with_request do |headers, changeset|
+        assert_difference "Node.count", 1 do
+          osm = <<~OSM
+            <osm>
+              <node lat='0' lon='0' changeset='#{changeset.id}'>
+                <tag k='\#{@user.inspect}' v='0'/>
+              </node>
+            </osm>
+          OSM
+
+          post api_nodes_path, :params => osm, :headers => headers
+
+          assert_response :success
+        end
+
+        created_node_id = @response.body
+        db_node = Node.find(created_node_id)
+
+        get api_node_path(created_node_id)
+
+        assert_response :success
+
+        api_node = Node.from_xml(@response.body)
+        assert_not_nil api_node, "downloaded node is nil, but shouldn't be"
+        assert_equal db_node.tags, api_node.tags, "tags are corrupted"
+        assert_includes api_node.tags, "\#{@user.inspect}"
+      end
+    end
+
     def test_show_not_found
       get api_node_path(0)
       assert_response :not_found
@@ -700,59 +752,6 @@ module Api
           assert_equal "Element node/#{node.id} has duplicate tags with key key_to_duplicate", @response.body
         end
       end
-    end
-
-    # test whether string injection is possible
-    def test_string_injection
-      private_user = create(:user, :data_public => false)
-      private_changeset = create(:changeset, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-
-      ## First try with the non-data public user
-      auth_header = bearer_authorization_header private_user
-
-      # try and put something into a string that the API might
-      # use unquoted and therefore allow code injection...
-      xml = <<~OSM
-        <osm>
-          <node lat='0' lon='0' changeset='#{private_changeset.id}'>
-            <tag k='\#{@user.inspect}' v='0'/>
-          </node>
-        </osm>
-      OSM
-      post api_nodes_path, :params => xml, :headers => auth_header
-      assert_require_public_data "Shouldn't be able to create with non-public user"
-
-      ## Then try with the public data user
-      auth_header = bearer_authorization_header user
-
-      # try and put something into a string that the API might
-      # use unquoted and therefore allow code injection...
-      xml = <<~OSM
-        <osm>
-          <node lat='0' lon='0' changeset='#{changeset.id}'>
-            <tag k='\#{@user.inspect}' v='0'/>
-          </node>
-        </osm>
-      OSM
-      post api_nodes_path, :params => xml, :headers => auth_header
-      assert_response :success
-      nodeid = @response.body
-
-      # find the node in the database
-      checknode = Node.find(nodeid)
-      assert_not_nil checknode, "node not found in data base after upload"
-
-      # and grab it using the api
-      get api_node_path(nodeid)
-      assert_response :success
-      apinode = Node.from_xml(@response.body)
-      assert_not_nil apinode, "downloaded node is nil, but shouldn't be"
-
-      # check the tags are not corrupted
-      assert_equal checknode.tags, apinode.tags
-      assert_includes apinode.tags, "\#{@user.inspect}"
     end
 
     ##
