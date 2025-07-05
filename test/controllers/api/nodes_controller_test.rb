@@ -681,28 +681,25 @@ module Api
       end
     end
 
-    ##
-    # test adding tags to a node
-    def test_duplicate_tags
-      existing_tag = create(:node_tag)
-      assert existing_tag.node.changeset.user.data_public
-      # setup auth
-      auth_header = bearer_authorization_header existing_tag.node.changeset.user
+    def test_update_with_duplicate_tags
+      with_unchanging(:node) do |node|
+        create(:node_tag, :node => node, :k => "key_to_duplicate", :v => "value_to_duplicate")
 
-      # add an identical tag to the node
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = existing_tag.k
-      tag_xml["v"] = existing_tag.v
+        with_unchanging_request do |headers, changeset|
+          tag_xml = XML::Node.new("tag")
+          tag_xml["k"] = "key_to_duplicate"
+          tag_xml["v"] = "value_to_duplicate"
 
-      # add the tag into the existing xml
-      node_xml = xml_for_node(existing_tag.node)
-      node_xml.find("//osm/node").first << tag_xml
+          osm_xml = xml_for_node node
+          osm_xml.find("//osm/node").first << tag_xml
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # try and upload it
-      put api_node_path(existing_tag.node), :params => node_xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "adding duplicate tags to a node should fail with 'bad request'"
-      assert_equal "Element node/#{existing_tag.node.id} has duplicate tags with key #{existing_tag.k}", @response.body
+          put api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :bad_request, "adding duplicate tags to a node should fail with 'bad request'"
+          assert_equal "Element node/#{node.id} has duplicate tags with key key_to_duplicate", @response.body
+        end
+      end
     end
 
     # test whether string injection is possible
