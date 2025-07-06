@@ -401,7 +401,7 @@ module Api
 
       # create a relation with non-existing node as member
       xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='node' ref='0'/><tag k='test' v='yes' />" \
+            "<member type='node' ref='0'/>" \
             "</relation></osm>"
       post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
@@ -423,7 +423,7 @@ module Api
       # create some xml that should return an error
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member type='type' ref='#{node.id}' role=''/>" \
-            "<tag k='tester' v='yep'/></relation></osm>"
+            "</relation></osm>"
       post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :bad_request
@@ -589,7 +589,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+            "</relation></osm>"
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
@@ -600,7 +600,7 @@ module Api
       xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+            "</relation></osm>"
       put api_relation_path(relationid), :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation update did not hit rate limit"
 
@@ -613,7 +613,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+            "</relation></osm>"
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
@@ -649,7 +649,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+            "</relation></osm>"
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
@@ -660,7 +660,7 @@ module Api
       xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+            "</relation></osm>"
       put api_relation_path(relationid), :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation update did not hit rate limit"
 
@@ -673,7 +673,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+            "</relation></osm>"
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end

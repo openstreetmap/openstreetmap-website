@@ -273,7 +273,7 @@ module Api
       # use the first user's open changeset
       # create a way with non-existing node
       xml = "<osm><way changeset='#{private_open_changeset.id}'>" \
-            "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+            "<nd ref='0'/></way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :forbidden,
@@ -281,7 +281,7 @@ module Api
 
       # create a way with no nodes
       xml = "<osm><way changeset='#{private_open_changeset.id}'>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :forbidden,
@@ -301,7 +301,7 @@ module Api
       # use the first user's open changeset
       # create a way with non-existing node
       xml = "<osm><way changeset='#{open_changeset.id}'>" \
-            "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+            "<nd ref='0'/></way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
@@ -310,7 +310,7 @@ module Api
 
       # create a way with no nodes
       xml = "<osm><way changeset='#{open_changeset.id}'>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
@@ -799,7 +799,7 @@ module Api
       # try creating a way
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       assert_response :success, "way create did not return success status"
 
@@ -809,7 +809,7 @@ module Api
       # try updating the way, which should be rate limited
       xml = "<osm><way id='#{wayid}' version='1' changeset='#{changeset.id}'>" \
             "<nd ref='#{node2.id}'/><nd ref='#{node1.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       put api_way_path(wayid), :params => xml, :headers => auth_header
       assert_response :too_many_requests, "way update did not hit rate limit"
 
@@ -821,7 +821,7 @@ module Api
       # try creating a way, which should be rate limited
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "way create did not hit rate limit"
     end
@@ -856,7 +856,7 @@ module Api
       # try creating a way
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       assert_response :success, "way create did not return success status"
 
@@ -866,7 +866,7 @@ module Api
       # try updating the way, which should be rate limited
       xml = "<osm><way id='#{wayid}' version='1' changeset='#{changeset.id}'>" \
             "<nd ref='#{node2.id}'/><nd ref='#{node1.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       put api_way_path(wayid), :params => xml, :headers => auth_header
       assert_response :too_many_requests, "way update did not hit rate limit"
 
@@ -878,7 +878,7 @@ module Api
       # try creating a way, which should be rate limited
       xml = "<osm><way changeset='#{changeset.id}'>" \
             "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
+            "</way></osm>"
       post api_ways_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "way create did not hit rate limit"
     end
