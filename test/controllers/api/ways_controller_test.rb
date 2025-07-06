@@ -587,133 +587,265 @@ module Api
       end
     end
 
-    ##
-    # tests whether the API works and prevents incorrect use while trying
-    # to update ways.
+    # -------------------------------------
+    # Test updating ways.
+    # -------------------------------------
+
+    def test_update_when_unauthorized
+      with_unchanging(:way_with_nodes) do |way|
+        osm_xml = xml_for_way way
+
+        put api_way_path(way), :params => osm_xml.to_s
+
+        assert_response :unauthorized
+      end
+    end
+
+    def test_update_in_changeset_of_other_user_by_private_user
+      with_unchanging(:way_with_nodes) do |way|
+        other_user = create(:user)
+
+        with_unchanging_request([:data_public => false], [:user => other_user]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
+        end
+      end
+    end
+
+    def test_update_in_closed_changeset_by_private_user
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
+        end
+      end
+    end
+
+    def test_update_in_missing_changeset_by_private_user
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, 0
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
+        end
+      end
+    end
+
+    def test_update_with_missing_node_by_private_user
+      with_unchanging(:way) do |way|
+        node = create(:node)
+        create(:way_node, :way => way, :node => node)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_replace_node osm_xml, node.id, 9999
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "way with non-existent node should be forbidden, when data isn't public"
+        end
+      end
+    end
+
+    def test_update_with_deleted_node_by_private_user
+      with_unchanging(:way) do |way|
+        node = create(:node)
+        deleted_node = create(:node, :deleted)
+        create(:way_node, :way => way, :node => node)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_replace_node osm_xml, node.id, deleted_node.id
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "way with deleted node should be forbidden, when data isn't public"
+        end
+      end
+    end
+
+    def test_update_by_private_user
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_require_public_data "should have failed with a forbidden when data isn't public"
+        end
+      end
+    end
+
+    def test_update_in_changeset_of_other_user
+      with_unchanging(:way_with_nodes) do |way|
+        other_user = create(:user)
+
+        with_unchanging_request([], [:user => other_user]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "update with other user's changeset should be rejected"
+        end
+      end
+    end
+
+    def test_update_in_closed_changeset
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request([], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "update with closed changeset should be rejected"
+        end
+      end
+    end
+
+    def test_update_in_missing_changeset
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request do |headers|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, 0
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "update with changeset=0 should be rejected"
+        end
+      end
+    end
+
+    def test_update_with_missing_node
+      with_unchanging(:way) do |way|
+        node = create(:node)
+        create(:way_node, :way => way, :node => node)
+
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_replace_node osm_xml, node.id, 9999
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :precondition_failed, "way with non-existent node should be rejected"
+        end
+      end
+    end
+
+    def test_update_with_deleted_node
+      with_unchanging(:way) do |way|
+        node = create(:node)
+        deleted_node = create(:node, :deleted)
+        create(:way_node, :way => way, :node => node)
+
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_replace_node osm_xml, node.id, deleted_node.id
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :precondition_failed, "way with deleted node should be rejected"
+        end
+      end
+    end
+
+    def test_update_with_version_behind
+      with_unchanging(:way_with_nodes, :version => 2) do |way|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_attr_rewrite osm_xml, "version", way.version - 1
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "should have failed on old version number"
+        end
+      end
+    end
+
+    def test_update_with_version_ahead
+      with_unchanging(:way_with_nodes, :version => 2) do |way|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_attr_rewrite osm_xml, "version", way.version + 1
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "should have failed on skipped version number"
+        end
+      end
+    end
+
+    def test_update_with_invalid_version
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = xml_attr_rewrite osm_xml, "version", "p1r4t3s!"
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "should not be able to put 'p1r4at3s!' in the version field"
+        end
+      end
+    end
+
+    def test_update_other_way
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging(:way_with_nodes) do |other_way|
+          with_unchanging_request do |headers, changeset|
+            osm_xml = xml_for_way other_way
+            osm_xml = update_changeset osm_xml, changeset.id
+
+            put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+            assert_response :bad_request, "should not be able to update a way with a different ID from the XML"
+          end
+        end
+      end
+    end
+
+    def test_update_with_invalid_osm_structure
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request do |headers|
+          osm = "<update/>"
+
+          put api_way_path(way), :params => osm, :headers => headers
+
+          assert_response :bad_request, "should not be able to update a way with non-OSM XML doc."
+        end
+      end
+    end
+
     def test_update
-      private_user = create(:user, :data_public => false)
-      private_way = create(:way, :changeset => create(:changeset, :user => private_user))
-      user = create(:user)
-      way = create(:way, :changeset => create(:changeset, :user => user))
-      node = create(:node)
-      create(:way_node, :way => private_way, :node => node)
-      create(:way_node, :way => way, :node => node)
+      way = create(:way_with_nodes)
 
-      ## First test with no user credentials
-      # try and update a way without authorisation
-      xml = xml_for_way(way)
-      put api_way_path(way), :params => xml.to_s
-      assert_response :unauthorized
+      with_request do |headers, changeset|
+        osm_xml = xml_for_way way
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      ## Second test with the private user
+        put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # setup auth
-      auth_header = bearer_authorization_header private_user
-
-      ## trying to break changesets
-
-      # try and update in someone else's changeset
-      xml = update_changeset(xml_for_way(private_way),
-                             create(:changeset).id)
-      put api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
-
-      # try and update in a closed changeset
-      xml = update_changeset(xml_for_way(private_way),
-                             create(:changeset, :closed, :user => private_user).id)
-      put api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
-
-      # try and update in a non-existant changeset
-      xml = update_changeset(xml_for_way(private_way), 0)
-      put api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
-
-      ## try and submit invalid updates
-      xml = xml_replace_node(xml_for_way(private_way), node.id, 9999)
-      put api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "way with non-existent node should be forbidden, when data isn't public"
-
-      xml = xml_replace_node(xml_for_way(private_way), node.id, create(:node, :deleted).id)
-      put api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "way with deleted node should be forbidden, when data isn't public"
-
-      ## finally, produce a good request which will still not work
-      xml = xml_for_way(private_way)
-      put api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "should have failed with a forbidden when data isn't public"
-
-      ## Finally test with the public user
-
-      # setup auth
-      auth_header = bearer_authorization_header user
-
-      ## trying to break changesets
-
-      # try and update in someone else's changeset
-      xml = update_changeset(xml_for_way(way),
-                             create(:changeset).id)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict, "update with other user's changeset should be rejected"
-
-      # try and update in a closed changeset
-      xml = update_changeset(xml_for_way(way),
-                             create(:changeset, :closed, :user => user).id)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict, "update with closed changeset should be rejected"
-
-      # try and update in a non-existant changeset
-      xml = update_changeset(xml_for_way(way), 0)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict, "update with changeset=0 should be rejected"
-
-      ## try and submit invalid updates
-      xml = xml_replace_node(xml_for_way(way), node.id, 9999)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed, "way with non-existent node should be rejected"
-
-      xml = xml_replace_node(xml_for_way(way), node.id, create(:node, :deleted).id)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed, "way with deleted node should be rejected"
-
-      ## next, attack the versioning
-      current_way_version = way.version
-
-      # try and submit a version behind
-      xml = xml_attr_rewrite(xml_for_way(way),
-                             "version", current_way_version - 1)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict, "should have failed on old version number"
-
-      # try and submit a version ahead
-      xml = xml_attr_rewrite(xml_for_way(way),
-                             "version", current_way_version + 1)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict, "should have failed on skipped version number"
-
-      # try and submit total crap in the version field
-      xml = xml_attr_rewrite(xml_for_way(way),
-                             "version", "p1r4t3s!")
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict,
-                      "should not be able to put 'p1r4at3s!' in the version field"
-
-      ## try an update with the wrong ID
-      xml = xml_for_way(create(:way))
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "should not be able to update a way with a different ID from the XML"
-
-      ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
-      xml = "<update/>"
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "should not be able to update a way with non-OSM XML doc."
-
-      ## finally, produce a good request which should work
-      xml = xml_for_way(way)
-      put api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :success, "a valid update request failed"
+        assert_response :success, "a valid update request failed"
+      end
     end
 
     # ------------------------------------------------------------
