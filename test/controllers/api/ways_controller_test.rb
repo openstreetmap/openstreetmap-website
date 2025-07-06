@@ -252,118 +252,121 @@ module Api
       end
     end
 
-    # -------------------------------------
-    # Test creating some invalid ways.
-    # -------------------------------------
+    def test_create_with_missing_node_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='0'/>
+            </way>
+          </osm>
+        OSM
 
-    def test_create_invalid
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "way upload with invalid node using a private user did not return 'forbidden'"
+      end
+    end
+
+    def test_create_without_nodes_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}' />
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "way upload with no node using a private user did not return 'forbidden'"
+      end
+    end
+
+    def test_create_in_closed_changeset_by_private_user
       node = create(:node)
-      private_user = create(:user, :data_public => false)
-      private_open_changeset = create(:changeset, :user => private_user)
-      private_closed_changeset = create(:changeset, :closed, :user => private_user)
-      user = create(:user)
-      open_changeset = create(:changeset, :user => user)
-      closed_changeset = create(:changeset, :closed, :user => user)
 
-      ## First test with a private user to make sure that they are not authorized
-      auth_header = bearer_authorization_header private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='#{node.id}'/>
+            </way>
+          </osm>
+        OSM
 
-      # use the first user's open changeset
-      # create a way with non-existing node
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{private_open_changeset.id}'>
-            <nd ref='0'/>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :forbidden,
-                      "way upload with invalid node using a private user did not return 'forbidden'"
+        post api_ways_path, :params => osm, :headers => headers
 
-      # create a way with no nodes
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{private_open_changeset.id}'>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :forbidden,
-                      "way upload with no node using a private userdid not return 'forbidden'"
+        assert_response :forbidden, "way upload to closed changeset with a private user did not return 'forbidden'"
+      end
+    end
 
-      # create a way inside a closed changeset
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{private_closed_changeset.id}'>
-            <nd ref='#{node.id}'/>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :forbidden,
-                      "way upload to closed changeset with a private user did not return 'forbidden'"
+    def test_create_with_missing_node
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='0'/>
+            </way>
+          </osm>
+        OSM
 
-      ## Now test with a public user
-      auth_header = bearer_authorization_header user
+        post api_ways_path, :params => osm, :headers => headers
 
-      # use the first user's open changeset
-      # create a way with non-existing node
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{open_changeset.id}'>
-            <nd ref='0'/>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :precondition_failed,
-                      "way upload with invalid node did not return 'precondition failed'"
-      assert_equal "Precondition failed: Way  requires the nodes with id in (0), which either do not exist, or are not visible.", @response.body
+        assert_response :precondition_failed, "way upload with invalid node did not return 'precondition failed'"
+        assert_equal "Precondition failed: Way  requires the nodes with id in (0), which either do not exist, or are not visible.", @response.body
+      end
+    end
 
-      # create a way with no nodes
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{open_changeset.id}'>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :precondition_failed,
-                      "way upload with no node did not return 'precondition failed'"
-      assert_equal "Precondition failed: Cannot create way: data is invalid.", @response.body
+    def test_create_without_nodes
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}' />
+          </osm>
+        OSM
 
-      # create a way inside a closed changeset
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{closed_changeset.id}'>
-            <nd ref='#{node.id}'/>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :conflict,
-                      "way upload to closed changeset did not return 'conflict'"
+        post api_ways_path, :params => osm, :headers => headers
 
-      # create a way with a tag which is too long
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{open_changeset.id}'>
-            <nd ref='#{node.id}'/>
-            <tag k='foo' v='#{'x' * 256}'/>
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :bad_request,
-                      "way upload to with too long tag did not return 'bad_request'"
+        assert_response :precondition_failed, "way upload with no node did not return 'precondition failed'"
+        assert_equal "Precondition failed: Cannot create way: data is invalid.", @response.body
+      end
+    end
+
+    def test_create_in_closed_changeset
+      node = create(:node)
+
+      with_unchanging_request([], [:closed]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='#{node.id}'/>
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :conflict, "way upload to closed changeset did not return 'conflict'"
+      end
+    end
+
+    def test_create_with_tag_too_long
+      node = create(:node)
+
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='#{node.id}'/>
+              <tag k='foo' v='#{'x' * 256}'/>
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :bad_request, "way upload to with too long tag did not return 'bad_request'"
+      end
     end
 
     # -------------------------------------
