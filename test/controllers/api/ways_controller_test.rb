@@ -885,52 +885,45 @@ module Api
       end
     end
 
-    ##
-    # Try adding a duplicate of an existing tag to a way
-    def test_add_duplicate_tags
-      private_user = create(:user, :data_public => false)
-      private_way = create(:way, :changeset => create(:changeset, :user => private_user))
-      private_existing_tag = create(:way_tag, :way => private_way)
-      user = create(:user)
-      way = create(:way, :changeset => create(:changeset, :user => user))
-      existing_tag = create(:way_tag, :way => way)
+    def test_update_with_duplicated_existing_tags_by_private_user
+      with_unchanging(:way_with_nodes) do |way|
+        create(:way_tag, :way => way, :k => "key_to_duplicate", :v => "value_to_duplicate")
 
-      ## Try with the non-public user
-      # setup auth
-      auth_header = bearer_authorization_header private_user
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          tag_xml = XML::Node.new("tag")
+          tag_xml["k"] = "key_to_duplicate"
+          tag_xml["v"] = "value_to_duplicate"
 
-      # add an identical tag to the way
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = private_existing_tag.k
-      tag_xml["v"] = private_existing_tag.v
+          osm_xml = xml_for_way way
+          osm_xml.find("//osm/way").first << tag_xml
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # add the tag into the existing xml
-      way_xml = xml_for_way(private_way)
-      way_xml.find("//osm/way").first << tag_xml
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # try and upload it
-      put api_way_path(private_way), :params => way_xml.to_s, :headers => auth_header
-      assert_response :forbidden,
-                      "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
+          assert_response :forbidden, "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
+        end
+      end
+    end
 
-      ## Now try with the public user
-      # setup auth
-      auth_header = bearer_authorization_header user
+    def test_update_with_duplicated_existing_tags
+      with_unchanging(:way_with_nodes) do |way|
+        create(:way_tag, :way => way, :k => "key_to_duplicate", :v => "value_to_duplicate")
 
-      # add an identical tag to the way
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = existing_tag.k
-      tag_xml["v"] = existing_tag.v
+        with_unchanging_request do |headers, changeset|
+          tag_xml = XML::Node.new("tag")
+          tag_xml["k"] = "key_to_duplicate"
+          tag_xml["v"] = "value_to_duplicate"
 
-      # add the tag into the existing xml
-      way_xml = xml_for_way(way)
-      way_xml.find("//osm/way").first << tag_xml
+          osm_xml = xml_for_way way
+          osm_xml.find("//osm/way").first << tag_xml
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # try and upload it
-      put api_way_path(way), :params => way_xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "adding a duplicate tag to a way should fail with 'bad request'"
-      assert_equal "Element way/#{way.id} has duplicate tags with key #{existing_tag.k}", @response.body
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :bad_request, "adding a duplicate tag to a way should fail with 'bad request'"
+          assert_equal "Element way/#{way.id} has duplicate tags with key key_to_duplicate", @response.body
+        end
+      end
     end
 
     ##
