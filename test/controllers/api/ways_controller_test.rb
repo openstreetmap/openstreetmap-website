@@ -926,54 +926,41 @@ module Api
       end
     end
 
-    ##
-    # Try adding a new duplicate tags to a way
-    def test_new_duplicate_tags
-      private_user = create(:user, :data_public => false)
-      private_way = create(:way, :changeset => create(:changeset, :user => private_user))
-      user = create(:user)
-      way = create(:way, :changeset => create(:changeset, :user => user))
+    def test_update_with_new_duplicate_tags_by_private_user
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          tag_xml = XML::Node.new("tag")
+          tag_xml["k"] = "i_am_a_duplicate"
+          tag_xml["v"] = "foobar"
 
-      ## First test with the non-public user so should be rejected
-      # setup auth
-      auth_header = bearer_authorization_header private_user
+          osm_xml = xml_for_way way
+          osm_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # create duplicate tag
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = "i_am_a_duplicate"
-      tag_xml["v"] = "foobar"
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # add the tag into the existing xml
-      way_xml = xml_for_way(private_way)
+          assert_response :forbidden, "adding new duplicate tags to a way using a non-public user should fail with 'forbidden'"
+        end
+      end
+    end
 
-      # add two copies of the tag
-      way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
+    def test_update_with_new_duplicate_tags
+      with_unchanging(:way_with_nodes) do |way|
+        with_unchanging_request do |headers, changeset|
+          tag_xml = XML::Node.new("tag")
+          tag_xml["k"] = "i_am_a_duplicate"
+          tag_xml["v"] = "foobar"
 
-      # try and upload it
-      put api_way_path(private_way), :params => way_xml.to_s, :headers => auth_header
-      assert_response :forbidden,
-                      "adding new duplicate tags to a way using a non-public user should fail with 'forbidden'"
+          osm_xml = xml_for_way way
+          osm_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      ## Now test with the public user
-      # setup auth
-      auth_header = bearer_authorization_header user
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # create duplicate tag
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = "i_am_a_duplicate"
-      tag_xml["v"] = "foobar"
-
-      # add the tag into the existing xml
-      way_xml = xml_for_way(way)
-
-      # add two copies of the tag
-      way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
-
-      # try and upload it
-      put api_way_path(way), :params => way_xml.to_s, :headers => auth_header
-      assert_response :bad_request,
-                      "adding new duplicate tags to a way should fail with 'bad request'"
-      assert_equal "Element way/#{way.id} has duplicate tags with key i_am_a_duplicate", @response.body
+          assert_response :bad_request, "adding new duplicate tags to a way should fail with 'bad request'"
+          assert_equal "Element way/#{way.id} has duplicate tags with key i_am_a_duplicate", @response.body
+        end
+      end
     end
 
     ##
