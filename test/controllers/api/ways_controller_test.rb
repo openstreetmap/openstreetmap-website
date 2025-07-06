@@ -198,75 +198,58 @@ module Api
     end
 
     # -------------------------------------
-    # Test simple way creation.
+    # Test creating ways.
     # -------------------------------------
+
+    def test_create_by_private_user
+      node1 = create(:node)
+      node2 = create(:node)
+
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='#{node1.id}'/>
+              <nd ref='#{node2.id}'/>
+              <tag k='test' v='yes' />
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "way upload did not return forbidden status"
+      end
+    end
 
     def test_create
       node1 = create(:node)
       node2 = create(:node)
-      private_user = create(:user, :data_public => false)
-      private_changeset = create(:changeset, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
 
-      ## First check that it fails when creating a way using a non-public user
-      auth_header = bearer_authorization_header private_user
+      with_request do |headers, changeset|
+        assert_difference "Way.count" => 1,
+                          "WayNode.count" => 2 do
+          osm = <<~OSM
+            <osm>
+              <way changeset='#{changeset.id}'>
+                <nd ref='#{node1.id}'/>
+                <nd ref='#{node2.id}'/>
+                <tag k='test' v='yes' />
+              </way>
+            </osm>
+          OSM
 
-      # use the first user's open changeset
-      changeset_id = private_changeset.id
+          post api_ways_path, :params => osm, :headers => headers
 
-      # create a way with pre-existing nodes
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{changeset_id}'>
-            <nd ref='#{node1.id}'/>
-            <nd ref='#{node2.id}'/>
-            <tag k='test' v='yes' />
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # hope for failure
-      assert_response :forbidden,
-                      "way upload did not return forbidden status"
+          assert_response :success, "way upload did not return success status"
+        end
 
-      ## Now use a public user
-      auth_header = bearer_authorization_header user
-
-      # use the first user's open changeset
-      changeset_id = changeset.id
-
-      # create a way with pre-existing nodes
-      xml = <<~OSM
-        <osm>
-          <way changeset='#{changeset_id}'>
-            <nd ref='#{node1.id}'/>
-            <nd ref='#{node2.id}'/>
-            <tag k='test' v='yes' />
-          </way>
-        </osm>
-      OSM
-      post api_ways_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "way upload did not return success status"
-      # read id of created way and search for it
-      wayid = @response.body
-      checkway = Way.find(wayid)
-      assert_not_nil checkway,
-                     "uploaded way not found in data base after upload"
-      # compare values
-      assert_equal(2, checkway.nds.length, "saved way does not contain exactly one node")
-      assert_equal checkway.nds[0], node1.id,
-                   "saved way does not contain the right node on pos 0"
-      assert_equal checkway.nds[1], node2.id,
-                   "saved way does not contain the right node on pos 1"
-      assert_equal checkway.changeset_id, changeset_id,
-                   "saved way does not belong to the correct changeset"
-      assert_equal user.id, checkway.changeset.user_id,
-                   "saved way does not belong to user that created it"
-      assert checkway.visible,
-             "saved way is not visible"
+        created_way_id = @response.body
+        way = Way.find(created_way_id)
+        assert_equal [node1, node2], way.nodes
+        assert_equal changeset.id, way.changeset_id, "saved way does not belong to the correct changeset"
+        assert way.visible, "saved way is not visible"
+      end
     end
 
     # -------------------------------------
