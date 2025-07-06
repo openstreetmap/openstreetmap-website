@@ -848,54 +848,41 @@ module Api
       end
     end
 
-    # ------------------------------------------------------------
-    # test tags handling
-    # ------------------------------------------------------------
+    def test_update_with_new_tags_by_private_user
+      with_unchanging(:way_with_nodes, :nodes_count => 2) do |way|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          tag_xml = XML::Node.new("tag")
+          tag_xml["k"] = "new"
+          tag_xml["v"] = "yes"
 
-    ##
-    # Try adding a new tag to a way
-    def test_add_tags
-      private_user = create(:user, :data_public => false)
-      private_way = create(:way_with_nodes, :nodes_count => 2, :changeset => create(:changeset, :user => private_user))
-      user = create(:user)
-      way = create(:way_with_nodes, :nodes_count => 2, :changeset => create(:changeset, :user => user))
+          osm_xml = xml_for_way way
+          osm_xml.find("//osm/way").first << tag_xml
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      ## Try with the non-public user
-      # setup auth
-      auth_header = bearer_authorization_header private_user
+          put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # add an identical tag to the way
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = "new"
-      tag_xml["v"] = "yes"
+          assert_response :forbidden, "adding a tag to a way for a non-public should fail with 'forbidden'"
+        end
+      end
+    end
 
-      # add the tag into the existing xml
-      way_xml = xml_for_way(private_way)
-      way_xml.find("//osm/way").first << tag_xml
+    def test_update_with_new_tags
+      way = create(:way_with_nodes, :nodes_count => 2)
 
-      # try and upload it
-      put api_way_path(private_way), :params => way_xml.to_s, :headers => auth_header
-      assert_response :forbidden,
-                      "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
+      with_request do |headers, changeset|
+        tag_xml = XML::Node.new("tag")
+        tag_xml["k"] = "new"
+        tag_xml["v"] = "yes"
 
-      ## Now try with the public user
-      # setup auth
-      auth_header = bearer_authorization_header user
+        osm_xml = xml_for_way way
+        osm_xml.find("//osm/way").first << tag_xml
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      # add an identical tag to the way
-      tag_xml = XML::Node.new("tag")
-      tag_xml["k"] = "new"
-      tag_xml["v"] = "yes"
+        put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # add the tag into the existing xml
-      way_xml = xml_for_way(way)
-      way_xml.find("//osm/way").first << tag_xml
-
-      # try and upload it
-      put api_way_path(way), :params => way_xml.to_s, :headers => auth_header
-      assert_response :success,
-                      "adding a new tag to a way should succeed"
-      assert_equal way.version + 1, @response.body.to_i
+        assert_response :success, "adding a new tag to a way should succeed"
+        assert_equal way.version + 1, @response.body.to_i
+      end
     end
 
     ##
