@@ -369,6 +369,47 @@ module Api
       end
     end
 
+    def test_create_with_duplicate_tags_by_private_user
+      node = create(:node)
+
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='#{node.id}'/>
+              <tag k='addr:housenumber' v='1'/>
+              <tag k='addr:housenumber' v='2'/>
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "adding new duplicate tags to a way with a non-public user should fail with 'forbidden'"
+      end
+    end
+
+    def test_create_with_duplicate_tags
+      node = create(:node)
+
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <way changeset='#{changeset.id}'>
+              <nd ref='#{node.id}'/>
+              <tag k='addr:housenumber' v='1'/>
+              <tag k='addr:housenumber' v='2'/>
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :bad_request, "adding new duplicate tags to a way should fail with 'bad request'"
+        assert_equal "Element way/ has duplicate tags with key addr:housenumber", @response.body
+      end
+    end
+
     # -------------------------------------
     # Test deleting ways.
     # -------------------------------------
@@ -961,56 +1002,6 @@ module Api
           assert_equal "Element way/#{way.id} has duplicate tags with key i_am_a_duplicate", @response.body
         end
       end
-    end
-
-    ##
-    # Try adding a new duplicate tags to a way.
-    # But be a bit subtle - use unicode decoding ambiguities to use different
-    # binary strings which have the same decoding.
-    def test_invalid_duplicate_tags
-      private_user = create(:user, :data_public => false)
-      private_changeset = create(:changeset, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-
-      ## First make sure that you can't with a non-public user
-      # setup auth
-      auth_header = bearer_authorization_header private_user
-
-      # add the tag into the existing xml
-      way_str = <<~OSM
-        <osm>
-          <way changeset='#{private_changeset.id}'>
-            <tag k='addr:housenumber' v='1'/>
-            <tag k='addr:housenumber' v='2'/>
-          </way>
-        </osm>
-      OSM
-
-      # try and upload it
-      post api_ways_path, :params => way_str, :headers => auth_header
-      assert_response :forbidden,
-                      "adding new duplicate tags to a way with a non-public user should fail with 'forbidden'"
-
-      ## Now do it with a public user
-      # setup auth
-      auth_header = bearer_authorization_header user
-
-      # add the tag into the existing xml
-      way_str = <<~OSM
-        <osm>
-          <way changeset='#{changeset.id}'>
-            <tag k='addr:housenumber' v='1'/>
-            <tag k='addr:housenumber' v='2'/>
-          </way>
-        </osm>
-      OSM
-
-      # try and upload it
-      post api_ways_path, :params => way_str, :headers => auth_header
-      assert_response :bad_request,
-                      "adding new duplicate tags to a way should fail with 'bad request'"
-      assert_equal "Element way/ has duplicate tags with key addr:housenumber", @response.body
     end
 
     ##
