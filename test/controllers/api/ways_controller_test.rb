@@ -373,123 +373,218 @@ module Api
     # Test deleting ways.
     # -------------------------------------
 
+    def test_destroy_when_unauthorized
+      with_unchanging(:way) do |way|
+        delete api_way_path(way)
+
+        assert_response :unauthorized
+      end
+    end
+
+    def test_destroy_without_payload_by_private_user
+      with_unchanging(:way) do |way|
+        with_unchanging_request([:data_public => false]) do |headers|
+          delete api_way_path(way), :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_without_changeset_id_by_private_user
+      with_unchanging(:way) do |way|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm = "<osm><way id='#{way.id}'/></osm>"
+
+          delete api_way_path(way), :params => osm, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset_by_private_user
+      with_unchanging(:way) do |way|
+        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset_by_private_user
+      with_unchanging(:way) do |way|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_by_private_user
+      with_unchanging(:way) do |way|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_deleted_way_by_private_user
+      with_unchanging(:way, :deleted) do |way|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_way_in_relation_by_private_user
+      with_unchanging(:way) do |way|
+        create(:relation_member, :member => way)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden, "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
+        end
+      end
+    end
+
+    def test_destroy_missing_way_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers|
+        delete api_way_path(0), :headers => headers
+
+        assert_response :forbidden
+      end
+    end
+
+    def test_destroy_without_payload
+      with_unchanging(:way) do |way|
+        with_unchanging_request do |headers|
+          delete api_way_path(way), :headers => headers
+
+          assert_response :bad_request
+        end
+      end
+    end
+
+    def test_destroy_without_changeset_id
+      with_unchanging(:way) do |way|
+        with_unchanging_request do |headers|
+          osm = "<osm><way id='#{way.id}'/></osm>"
+
+          delete api_way_path(way), :params => osm, :headers => headers
+
+          assert_response :bad_request
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset
+      with_unchanging(:way) do |way|
+        with_unchanging_request([], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset
+      with_unchanging(:way) do |way|
+        with_unchanging_request do |headers|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
     def test_destroy
-      private_user = create(:user, :data_public => false)
-      private_open_changeset = create(:changeset, :user => private_user)
-      private_closed_changeset = create(:changeset, :closed, :user => private_user)
-      private_way = create(:way, :changeset => private_open_changeset)
-      private_deleted_way = create(:way, :deleted, :changeset => private_open_changeset)
-      private_used_way = create(:way, :changeset => private_open_changeset)
-      create(:relation_member, :member => private_used_way)
-      user = create(:user)
-      open_changeset = create(:changeset, :user => user)
-      closed_changeset = create(:changeset, :closed, :user => user)
-      way = create(:way, :changeset => open_changeset)
-      deleted_way = create(:way, :deleted, :changeset => open_changeset)
-      used_way = create(:way, :changeset => open_changeset)
-      relation_member = create(:relation_member, :member => used_way)
-      relation = relation_member.relation
+      way = create(:way)
 
-      # first try to delete way without auth
-      delete api_way_path(way)
-      assert_response :unauthorized
+      with_request do |headers, changeset|
+        osm_xml = xml_for_way way
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      # now set auth using the private user
-      auth_header = bearer_authorization_header private_user
+        delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # this shouldn't work as with the 0.6 api we need pay load to delete
-      delete api_way_path(private_way), :headers => auth_header
-      assert_response :forbidden
+        assert_response :success
 
-      # Now try without having a changeset
-      xml = "<osm><way id='#{private_way.id}'/></osm>"
-      delete api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+        response_way_version = @response.body.to_i
+        assert_operator response_way_version, :>, way.version, "delete request should return a new version number for way"
+        way.reload
+        assert_not_predicate way, :visible?
+        assert_equal response_way_version, way.version
+      end
+    end
 
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_way(private_way), private_closed_changeset.id)
-      delete api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+    def test_destroy_deleted_way
+      with_unchanging(:way, :deleted) do |way|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_way(private_way), 0)
-      delete api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # Now try with a valid changeset
-      xml = xml_for_way(private_way)
-      delete api_way_path(private_way), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+          assert_response :gone
+        end
+      end
+    end
 
-      # check the returned value - should be the new version number
-      # valid delete should return the new version number, which should
-      # be greater than the old version number
-      # assert @response.body.to_i > current_ways(:visible_way).version,
-      #   "delete request should return a new version number for way"
+    def test_destroy_way_in_relation
+      with_unchanging(:way) do |way|
+        relation_member = create(:relation_member, :member => way)
 
-      # this won't work since the way is already deleted
-      xml = xml_for_way(private_deleted_way)
-      delete api_way_path(private_deleted_way), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # this shouldn't work as the way is used in a relation
-      xml = xml_for_way(private_used_way)
-      delete api_way_path(private_used_way), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden,
-                      "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
+          delete api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
-      # this won't work since the way never existed
-      delete api_way_path(0), :headers => auth_header
-      assert_response :forbidden
+          assert_response :precondition_failed, "shouldn't be able to delete a way used in a relation (#{@response.body})"
+          assert_equal "Precondition failed: Way #{way.id} is still used by relations #{relation_member.relation.id}.", @response.body
+        end
+      end
+    end
 
-      ### Now check with a public user
-      # now set auth
-      auth_header = bearer_authorization_header user
+    def test_destroy_missing_way_with_payload
+      with_unchanging(:way) do |way|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_way way
+          osm_xml = update_changeset osm_xml, changeset.id
 
-      # this shouldn't work as with the 0.6 api we need pay load to delete
-      delete api_way_path(way), :headers => auth_header
-      assert_response :bad_request
+          delete api_way_path(0), :params => osm_xml.to_s, :headers => headers
 
-      # Now try without having a changeset
-      xml = "<osm><way id='#{way.id}'/></osm>"
-      delete api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request
-
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_way(way), closed_changeset.id)
-      delete api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_way(way), 0)
-      delete api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # Now try with a valid changeset
-      xml = xml_for_way(way)
-      delete api_way_path(way), :params => xml.to_s, :headers => auth_header
-      assert_response :success
-
-      # check the returned value - should be the new version number
-      # valid delete should return the new version number, which should
-      # be greater than the old version number
-      assert_operator @response.body.to_i, :>, way.version, "delete request should return a new version number for way"
-
-      # this won't work since the way is already deleted
-      xml = xml_for_way(deleted_way)
-      delete api_way_path(deleted_way), :params => xml.to_s, :headers => auth_header
-      assert_response :gone
-
-      # this shouldn't work as the way is used in a relation
-      xml = xml_for_way(used_way)
-      delete api_way_path(used_way), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed,
-                      "shouldn't be able to delete a way used in a relation (#{@response.body})"
-      assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
-
-      # this won't work since the way never existed
-      delete api_way_path(0), :params => xml.to_s, :headers => auth_header
-      assert_response :not_found
+          assert_response :not_found
+        end
+      end
     end
 
     ##
