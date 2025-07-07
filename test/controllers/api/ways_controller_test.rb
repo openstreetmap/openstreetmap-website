@@ -249,6 +249,11 @@ module Api
         assert_equal [node1, node2], way.nodes
         assert_equal changeset.id, way.changeset_id, "saved way does not belong to the correct changeset"
         assert way.visible, "saved way is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_ways
       end
     end
 
