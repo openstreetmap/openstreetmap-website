@@ -418,6 +418,26 @@ module Api
       end
     end
 
+    def test_create_with_invalid_member_type
+      node = create(:node)
+
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member type='type' ref='#{node.id}' role=''/>
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :bad_request
+        assert_match(/Cannot parse valid relation from xml string/, @response.body)
+        assert_match(/The type is not allowed only, /, @response.body)
+      end
+    end
+
     def test_create_and_show
       user = create(:user)
       changeset = create(:changeset, :user => user)
@@ -457,31 +477,6 @@ module Api
       update_changeset(rel, changeset.id)
       put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
       assert_response :bad_request
-    end
-
-    # -------------------------------------
-    # Test creating a relation, with some invalid XML
-    # -------------------------------------
-    def test_create_invalid_xml
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      node = create(:node)
-
-      auth_header = bearer_authorization_header user
-
-      # create some xml that should return an error
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member type='type' ref='#{node.id}' role=''/>
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :bad_request
-      assert_match(/Cannot parse valid relation from xml string/, @response.body)
-      assert_match(/The type is not allowed only, /, @response.body)
     end
 
     # -------------------------------------
