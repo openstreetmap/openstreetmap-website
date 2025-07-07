@@ -720,8 +720,7 @@ module Api
 
           # get it back and check the ordering
           get api_relation_path(relation)
-          assert_response :success, "can't read back the relation: #{@response.body}"
-          check_ordering(relation_xml, @response.body)
+          assert_members_equal_response relation_xml
         end
       end
     end
@@ -783,8 +782,7 @@ module Api
 
       # get it back and check the ordering
       get api_relation_path(relation_id)
-      assert_response :success, "can't read back the relation: #{@response.body}"
-      check_ordering(doc, @response.body)
+      assert_members_equal_response doc
 
       # insert a member at the front
       new_member = XML::Node.new "member"
@@ -803,13 +801,11 @@ module Api
 
       # get it back again and check the ordering again
       get api_relation_path(relation_id)
-      assert_response :success, "can't read back the relation: #{@response.body}"
-      check_ordering(doc, @response.body)
+      assert_members_equal_response doc
 
       # check the ordering in the history tables:
       get api_relation_version_path(relation_id, 2)
-      assert_response :success, "can't read back version 2 of the relation #{relation_id}"
-      check_ordering(doc, @response.body)
+      assert_members_equal_response doc, "can't read back version 2 of the relation"
     end
 
     ##
@@ -848,8 +844,7 @@ module Api
 
       # get it back and check the ordering
       get api_relation_path(relation_id)
-      assert_response :success, "can't read back the relation: #{relation_id}"
-      check_ordering(doc, @response.body)
+      assert_members_equal_response doc
     end
 
     ##
@@ -881,13 +876,11 @@ module Api
 
       # check the ordering in the current tables:
       get api_relation_path(relation_id)
-      assert_response :success, "can't read back the relation: #{@response.body}"
-      check_ordering(doc, @response.body)
+      assert_members_equal_response doc
 
       # check the ordering in the history tables:
       get api_relation_version_path(relation_id, 1)
-      assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
-      check_ordering(doc, @response.body)
+      assert_members_equal_response doc, "can't read back version 1 of the relation"
     end
 
     ##
@@ -1036,10 +1029,11 @@ module Api
     private
 
     ##
-    # checks that the XML document and the string arguments have
+    # checks that the XML document and the response have
     # members in the same order.
-    def check_ordering(doc, xml)
-      new_doc = XML::Parser.string(xml).parse
+    def assert_members_equal_response(doc, response_message = "can't read back the relation")
+      assert_response :success, "#{response_message}: #{@response.body}"
+      new_doc = XML::Parser.string(@response.body).parse
 
       doc_members = doc.find("//osm/relation/member").collect do |m|
         [m["ref"].to_i, m["type"].to_sym, m["role"]]
@@ -1049,7 +1043,7 @@ module Api
         [m["ref"].to_i, m["type"].to_sym, m["role"]]
       end
 
-      assert_equal doc_members, new_members, "members are not equal - ordering is wrong? (#{doc}, #{xml})"
+      assert_equal doc_members, new_members, "members are not equal - ordering is wrong? (#{doc}, #{@response.body})"
     end
 
     ##
