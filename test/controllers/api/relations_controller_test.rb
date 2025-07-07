@@ -400,18 +400,15 @@ module Api
       # check that the downloaded tags are the same as the uploaded tags...
       new_version = do_update(rel, rel_id, auth_header)
       get api_relation_path(rel_id)
-      assert_response :success
-      assert_tags_equal rel, xml_parse(@response.body)
+      assert_tags_equal_response rel
 
       # check the original one in the current_* table again
       get api_relation_path(relation)
-      assert_response :success
-      assert_tags_equal rel, xml_parse(@response.body)
+      assert_tags_equal_response rel
 
       # now check the version in the history
       get api_relation_version_path(relation, new_version)
-      assert_response :success
-      assert_tags_equal rel, xml_parse(@response.body)
+      assert_tags_equal_response rel
     end
 
     ##
@@ -440,18 +437,15 @@ module Api
       # check that the downloaded tags are the same as the uploaded tags...
       new_version = do_update_diff(rel, auth_header)
       get api_relation_path(rel_id)
-      assert_response :success
-      assert_tags_equal rel, xml_parse(@response.body)
+      assert_tags_equal_response rel
 
       # check the original one in the current_* table again
       get api_relation_path(relation)
-      assert_response :success
-      assert_tags_equal rel, xml_parse(@response.body)
+      assert_tags_equal_response rel
 
       # now check the version in the history
       get api_relation_version_path(relation, new_version)
-      assert_response :success
-      assert_tags_equal rel, xml_parse(@response.body)
+      assert_tags_equal_response rel
     end
 
     def test_update_wrong_id
@@ -1134,14 +1128,17 @@ module Api
     end
 
     ##
-    # assert that all tags on relation documents +a+ and +b+
-    # are equal
-    def assert_tags_equal(a, b)
-      # turn the XML doc into tags hashes
-      a_tags = get_tags_as_hash(a)
-      b_tags = get_tags_as_hash(b)
+    # assert that tags on relation document +rel+
+    # are equal to tags in response
+    def assert_tags_equal_response(rel)
+      assert_response :success
+      response_xml = xml_parse(@response.body)
 
-      assert_equal a_tags, b_tags, "Tags should be identical."
+      # turn the XML doc into tags hashes
+      rel_tags = get_tags_as_hash(rel)
+      response_tags = get_tags_as_hash(response_xml)
+
+      assert_equal rel_tags, response_tags, "Tags should be identical."
     end
 
     ##
