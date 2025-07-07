@@ -42,9 +42,15 @@ ku-Latn:
         update: Astengê nû bike
   activerecord:
     errors:
+      messages:
+        display_name_is_user_n: nabe ku bibe user_n eger n ne IDya te be
       models:
         user_mute:
           is_already_muted: jixwe bêdengkirî ne
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Divê Url bi http:// yan jî https:// dest pê bike
     models:
       acl: Lîsteya kontrola têketinan
       changeset: Qeyda guhartinan
@@ -58,6 +64,7 @@ ku-Latn:
       message: Peyam
       node: Nuqte
       node_tag: Nîşana Nuqteyê
+      note: Not
       old_node: Nuqteya Kevin
       old_node_tag: Nîşana Nuqteya Kevin
       old_relation: Eleqeya Kevin
@@ -88,8 +95,9 @@ ku-Latn:
         support_url: Lînka piştgirîkirinê
         allow_read_prefs: tercîhên wan ên bikarhêneriyê bixwîne
         allow_write_prefs: tercîhên wan ên bikarhêneriyê biguherîne
-        allow_write_diary: rojnivîsk, şîroveyan çêke û ji xwe re hevalan hevalan çêke
+        allow_write_diary: qeydên rojnivîskê û şîroveyan çêke
         allow_write_api: nexşeyê biguherîne
+        allow_write_changeset_comments: şîroveya li ser qeyda guhertinan
         allow_read_gpx: şopên wan ên GPSê yên xisûsî bixwîne
         allow_write_gpx: şopên GPSê bar bike
         allow_write_notes: notan biguherîne
@@ -119,7 +127,7 @@ ku-Latn:
         longitude: Hêlîlar
         public: Giştî
         description: Danasîn
-        gpx_file: Dosyeyek GPXê bar bike
+        gpx_file: Dosyeya Şopa GPSê bibijêre
         visibility: Kî dikare bibîne
         tagstring: Etîketên vê
       message:
@@ -142,8 +150,10 @@ ku-Latn:
         active: Çalak
         display_name: Nav nîşan bide
         description: Danasîna Profîlê
+        company: Şirket
         home_lat: Hêlîpan
         home_lon: Hêlîlar
+        home_location_name: Navê ji bo cihê mala te
         languages: Zimanên tercîhkirî
         preferred_editor: Edîtora tercîhkirî
         pass_crypt: Şîfre
@@ -247,6 +257,7 @@ ku-Latn:
   accounts:
     show:
       title: Hesabê biguherîne
+      my_account: Hesabê Min
       current email address: Navnîşana e-nameyê yê niha
       external auth: Teyîdkirina xaricî
       contributor terms:
@@ -258,6 +269,9 @@ ku-Latn:
         agreed_with_pd: Herwiha te beyan kir ku tu dixwazî guherandinên te wek Malê
           Giştî were qebûlkirin.
         link text: Ev çi ye?
+        not_agreed_with_pd: Te beyan nekiriye ku tu dixwazî guherandinên te wek Malê
+          Giştî were qebûlkirin.
+        pd_link_text: beyan bike
       save changes button: Guherandinan qeyd bike
       delete_account: Hesabê Jê bibe...
     go_public:
@@ -265,6 +279,13 @@ ku-Latn:
       currently_not_public: Vê gavê guhertinên te anonîm in û însan nikarin mesaj
         bişînin te an lokasyona te bibînin. Ji bo nîşandan guhertinên te kirî û îzin
         bidî însanan ku bi rêya malperê bi te re îrtîbat deynin, li bûtona jêrî bitikîne.
+      only_public_can_edit: Ji guhertina API 0.6 pê ve, tenê bikarhênerên giştî karin
+        daneya xerîteyê biguherînin.
+      find_out_why: bibîne ka çima
+      email_not_revealed: Bi giştîbûnê wê adresa te ya emaîlê ji her kesî re neyê
+        eşkerekirin.
+      not_reversible: Ev fiîl nayê vegerandin û vê gavê hemû bikarhênerên nû otomatîk
+        giştî ne.
       make_edits_public_button: Hemû guherandinên min bila ji her kesê re vekirî be
     update:
       success_confirm_needed: Agahiyên bikarhêner bi awayekî serkeftî hate nûkirin.
@@ -317,11 +338,12 @@ ku-Latn:
         readable_summary: kurteya xwendinbar ê li gor însanan
         informal_translations: tercimeyên nefermî
         continue: Dewam bike
+        cancel: Betal bike
         you need to accept or decline: Ji bo ku dewam bikî, xêra xwe şertên beşdariyê
           bixwîne û piştre qebûl an jî red bike.
         legale_select: Welatê ku tu lê îqamet dikîː
         legale_names:
-          france: Frensa
+          france: Fransa
           italy: Îtalya
           rest_of_world: Cihên din ên dinyayê
       update:
@@ -331,6 +353,13 @@ ku-Latn:
         terms_declined_html: Em xengîn bûn ji ber te qerar da ku Şertûmercên Bikaranînê
           qebûl nekî. Ji bo agahiyên zêdetir, ji kerema xwe binêre %{terms_declined_link}.
         terms_declined_link: ev rûpela wîkiyê
+    pd_declarations:
+      show:
+        title: Ez dizanim ku beşdarîyên min wê li Domaîna Giştî bên hesibandin
+        consider_pd: Ez dizanim ku beşdarîyên min wê li Domaîna Giştî bên hesibandin
+        consider_pd_why: Çima ez bixwazim ku beşdarîyên min li Domaîna Giştî werin
+          hesibandin?
+        confirm: Tesdîq bike
   browse:
     version: Guherto
     in_changeset: Qeyda Guhartinan
@@ -368,12 +397,12 @@ ku-Latn:
         way: Rê
         relation: Eleqe
     containing_relation:
-      entry_role_html: Eleqe %{relation_name} (wekî %{relation_role})
+      entry_role_html: '%{relation_name} (wekî %{relation_role})'
     not_found:
       title: Nehate dîtin
     timeout:
       title: Çewtiya Demborînê
-      sorry: Li me bibore, anîna daneyên %{type} ji bo anîna %{id}yek demekî zahf
+      sorry: Li me bibore, anîna daneyên %{type} ji bo anîna %{id}yek wextekî zahf
         dirêj girt.
       type:
         node: nuqte
@@ -1343,16 +1372,16 @@ ku-Latn:
           weir: Bariyera avê
           "yes": Robar
       admin_levels:
-        level2: Hidûda welatê
-        level3: Sînora Herêmê
-        level4: Sînora parêzgehê
-        level5: Sînora herêmê
-        level6: Hidûda navçeyê
-        level7: Sînora Şaredariyê
-        level8: Hidûda bajarê
-        level9: Sînora gundê
-        level10: Sînora taxê
-        level11: Sînora Taxê
+        level2: Hidûda navneteweyî
+        level3: Sînora Îdarî (Level 3)
+        level4: Sînora Îdarî (Derece 4)
+        level5: Sînora Îdarî (Derece 5)
+        level6: Hidûda Îdarî (Level 6)
+        level7: Sînora İdarî (Derece 7)
+        level8: Hidûda Îdarî (Derece 8)
+        level9: Sînora Îdarî (Derece 9)
+        level10: Sînora Îdarî (Derece 10)
+        level11: Sînora Îdarî (Derece 11)
   searches:
     show:
       title:
@@ -1520,7 +1549,8 @@ ku-Latn:
       see_their_profile_html: Ji ser %{userurl} dikarî binêrî profîlê wan.
     gpx_failure:
       hi: Merheba %{to_user},
-      failed_to_import: 'anîna dosyeyê bi ser neket. Çewtî ev e:'
+      failed_to_import: Wisa tê xuyan ku bi ser neket ku dosyeya te wek şopeke GPSê
+        bîne.
       more_info_html: Agahiyên zêdetir ên derbarê çewtiyên împortkirinê û rêlibergirtina
         wê ji %{url} dikarî peyda bikî.
       subject: '[OpenStreetMap] Anîna GPXê bi ser neket'
@@ -1671,9 +1701,9 @@ ku-Latn:
       unread_button: Wek nexwendî nîşan bide
       destroy_button: Jê bibe
       back: Paşve vegere
-      wrong_user: Te wek `%{user}' têket, lê peyama ku dihate xwestin ku tu wê bixwînî
-        ji aliyê wî/wê bikarhênerê ve an jî ji wî/wê bikarhênerê re nehatiye şandin.
-        Xêra xwe ji bo xwendinê wekî bikarhênerê rast têkeve.
+      wrong_user: Te wek `%{user}' têket, lê peyama ku dixwazî bixwînî ji aliyê wî
+        bikarhênerê ve an jî ji wî bikarhênerê re nehatiye şandin. Xêra xwe ji bo
+        xwendinê wekî bikarhênerê rast têkeve.
     destroy:
       destroyed: Payam hate jêbirin
     read_marks:
@@ -2203,7 +2233,7 @@ ku-Latn:
       blocked_zero_hour: Li ser malpera OpenStreetMapê ji te re peyamek acîl heye.
         Berî ku tu guherandinên xwe qeyd bikî divê tu wê peyamê bixwînî.
       blocked: Gihîna te ya APIyê hatiye astengkirin. Xêra xwe ji bo ku tu zêdetir
-        agahiyan werbigrî têkeve înterfeysa webê.
+        agahiyan werbigirî têkeve înterfeysa webê.
       need_to_see_terms: Gihîna te ya APIyê ji bo demekê kurt hatiye astengkirin.
         Xêra xwe ji bo ku Şertên Beşdaran bibînî têkeve înterfeysa webê. Hewce nake
         ku tu van qebûl bikî, lê divê tu van bibînî.
@@ -2233,8 +2263,7 @@ ku-Latn:
     scopes:
       read_prefs: Tercîhên bikarhênerê bixwîne
       write_prefs: Tercîhên bikarhênerê biguherîne
-      write_diary: Nivîsên rojnivîskê çêke, şîroveyan bike ji xwe re hevalan peyda
-        bike
+      write_diary: Nivîsên rojnivîskê çêke û şîroveyan bike
       write_api: Nexşeyê biguherîne
       read_gpx: Şopên GPSê yên xisûsî bixwîne
       write_gpx: Şopên GPSê hilbar bike
@@ -2416,15 +2445,15 @@ ku-Latn:
         (IDya) xwe bi hesabê xwe ve girê bidî.
   user_role:
     filter:
-      not_a_role: '`%{role}'' ne rolek muteber e.'
+      not_a_role: '''%{role}'' ne rolek muteber e.'
       already_has_role: Bikarhêner jixwe xwediyê rola %{role} ye.
       doesnt_have_role: Bikahêner ne xwediyê rola %{role} ye.
       not_revoke_admin_current_user: Rola rêvebiriyê ji vê bikarhênerê nikare were
         rakirin.
     grant:
-      are_you_sure: Tu piştrast î ku tu dixwazî rola `%{role}' bidî bikarhêner `%{name}'?
+      are_you_sure: Tu piştrast î ku tu dixwazî rola '%{role}' bidî bikarhêner '%{name}'?
     revoke:
-      are_you_sure: Tu piştrast î ku tu dixwazî rola `%{role}' ji bikarhêner `%{name}'
+      are_you_sure: Tu piştrast î ku tu dixwazî rola '%{role}' ji bikarhêner '%{name}'
         rabikî?
   user_blocks:
     model:

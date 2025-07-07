@@ -58,7 +58,7 @@
 zh-TW:
   date:
     formats:
-      heatmap: '%B %-d'
+      heatmap: '%-m月%-d日'
   time:
     formats:
       friendly: '%Y年%m月%e日 %H時%M分'
@@ -237,7 +237,9 @@ zh-TW:
       x_seconds:
         one: 1秒前
         other: '%{count}秒前'
-      x_minutes: '%{count} 分鐘前'
+      x_minutes:
+        one: '%{count} 分鐘前'
+        other: '%{count} 分鐘前'
       x_days: '%{count} 天前'
       x_months:
         one: '%{count} 個月前'
@@ -452,6 +454,7 @@ zh-TW:
       way: 路徑
       relation: 關聯
       history: 歷史
+      version: 版本：%{version}
       versions_label: 版本：
   feature_queries:
     show:
@@ -687,6 +690,7 @@ zh-TW:
     profile_diaries:
       latest_diaries: 最新日記
       comments: '%{count}條評論'
+      title_label: 日記項目
       comments_label: 評論
       date_label: 日期
   diary_comments:
@@ -2016,6 +2020,7 @@ zh-TW:
   profiles:
     profile_sections:
       navigation:
+        description: 描述
         links: 連結
         image: 圖片
         company: 公司
@@ -2025,16 +2030,25 @@ zh-TW:
         title: 編輯基本資料
         save: 更新基本資料
         cancel: 取消
+      update:
+        success: 已更新個人資料描述。
+        failure: 無法更新個人資料描述。
     links:
       show:
         title: 編輯個人資料
+        save: 更新個人資料
         cancel: 取消
         social_links:
           title: 社群帳號連結
           remove: 移除
           add: 新增社群媒體連結
+      update:
+        success: 已更新個人資料連結。
+        failure: 無法更新個人資料連結。
     images:
       show:
+        title: 編輯個人資料
+        save: 更新個人資料
         cancel: 取消
         gravatar:
           gravatar: 使用 Gravatar
@@ -2045,17 +2059,30 @@ zh-TW:
         delete image: 移除目前的圖片
         replace image: 取代目前的圖片
         image size hint: ' (方形圖片至少 100x100 的效果最好)'
+      update:
+        success: 已更新個人資料圖片。
+        failure: 無法更新個人資料圖片。
     companies:
       show:
+        title: 編輯個人資料
+        save: 更新個人資料
         cancel: 取消
+      update:
+        success: 已更新個人資料公司。
+        failure: 無法更新個人資料公司。
     locations:
       show:
+        title: 編輯個人資料
+        save: 更新個人資料
         cancel: 取消
         no home location: 你尚未輸入家的位置。
         update home location on click: 當我點選地圖時更新家的位置？
         show: 顯示
         delete: 刪除
         undelete: 還原刪除
+      update:
+        success: 個人資料位置已更新。
+        failure: 無法更新個人資料位置。
   sessions:
     new:
       tab_title: 登入
@@ -2113,6 +2140,8 @@ zh-TW:
       diary_entries:
         older: 較舊的項目
         newer: 較新的項目
+        oldest: 最舊項目
+        newest: 最新項目
       issues:
         older: 舊問題
         newer: 新問題
@@ -2826,6 +2855,7 @@ zh-TW:
       display name description: 你公開顯示的使用者名稱，之後可以在偏好設定中改變它。
       by_signing_up:
         html: 註冊即表示你同意我們的 %{tou_link}、%{privacy_policy_link} 與 %{contributor_terms_link}。
+        tou: 使用條款
         privacy_policy: 隱私權政策
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
@@ -2901,6 +2931,8 @@ zh-TW:
       delete_user: 刪除這位使用者
       confirm: 確認
       report: 回報此使用者
+      edit_profile_details: 編輯個人資料詳情
+      edit_description: 編輯描述
       edit_links: 編輯連結
       change_image: 更改圖片
       edit_company: 編輯公司
@@ -3345,7 +3377,7 @@ zh-TW:
     heatmap:
       tooltip:
         no_contributions: '%{date} 沒有貢獻'
-        contributions: '{{PLURAL|one=%{count} 貢獻於 %{date}|%{count} 貢獻於 %{date}}'
+        contributions: '%{date}有%{count}貢獻'
   redactions:
     edit:
       heading: 編輯修訂

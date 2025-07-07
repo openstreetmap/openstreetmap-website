@@ -215,6 +215,7 @@ nl:
         company: Bedrijf
         home_lat: Breedtegraad
         home_lon: Lengtegraad
+        home_location_name: Naam van thuislocatie
         languages: Voorkeurstalen
         preferred_editor: Voorkeursprogramma voor kaartbewerking
         pass_crypt: Wachtwoord
@@ -514,7 +515,7 @@ nl:
       colour_preview: Kleur %{colour_value} voorbeeld
       email_link: E-mail %{email}
     versions_navigation:
-      node: Knoop
+      node: Knooppunt
       way: Weg
       relation: Relatie
       history: Geschiedenis
@@ -634,7 +635,7 @@ nl:
       changesetxml: Wijzigingenset-XML
       osmchangexml: osmChange-XML
     paging_nav:
-      nodes_title: Knopen
+      nodes_title: Knooppunten
       nodes_paginated: Knooppunten (%{x}-%{y} van %{count})
       ways_title: Wegen
       ways_paginated: Wegen (%{x}-%{y} van %{count})
@@ -763,6 +764,14 @@ nl:
       my_diary: Mijn dagboek
       new: Nieuw dagboekbericht
       new_title: Nieuw bericht in mijn dagboek schrijven
+    profile_diaries:
+      latest_diaries: Nieuwste dagboekberichten
+      comments:
+        one: '%{count} commentaar'
+        other: '%{count} commentaren'
+      title_label: Dagboekbericht
+      comments_label: Reacties
+      date_label: Datum
   diary_comments:
     new:
       heading: Een reactie toevoegen aan de volgende dagboekaantekening?
@@ -1635,22 +1644,37 @@ nl:
         level11: Administratieve grens (niveau 11)
       border_types:
         arrondissement: Arrondissementsgrens
+        borough: Grens van borough (VK)
+        cercle: Grens van cercle (Mali)
         city: Stadsgrens
+        comarca: Grens van comarca (Spanje)
+        county: Grens van county (VS)
+        departement: Grens van departement (Frankrijk)
+        department: Grens van departement (Burkina Faso)
+        district: Districtsgrens
+        distrito: Districtsgrens (Portugal)
+        freguesia: Grens van freguesia (Portugal)
+        local_authority: Grens van lokale overheid (Maleisië)
         municipality: Gemeentegrens
         municipi: Gemeentegrens
         município: Gemeentegrens
         nation: Internationale grens
         national: Internationale grens
         neighbourhood: Buurtgrens
+        parish: Parochiegrens
         province: Provinciegrens
         região: Regiogrens
         region: Regiogrens
         state: Staatsgrens
+        town: Grens van town
+        township: Grens van township (VS)
         village: Dorpsgrens
   searches:
     show:
       title:
         latlon: Intern
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Geen resultaten gevonden
@@ -1662,6 +1686,10 @@ nl:
       time: Tijd
       ascend: Bergop
       descend: Bergaf
+      kilometers: kilometers
+      miles_feet: mijlen, voet
+      miles_yards: mijlen, yards
+      distance_units_settings: Afstandseenheden
       download: Download route als GeoJSON
       filename: route
       directions_courtesy_html: Routebeschrijving met dank aan %{link}
@@ -1733,7 +1761,16 @@ nl:
       reportable_title:
         diary_comment: '%{entry_title}, reactie #%{comment_id}'
         note: 'Opmerking #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Dagboekreactie %{title}, gemaakt op %{datetime_created},
+          bijgewerkt op %{datetime_updated}
+        diary_entry_html: Dagboekbericht %{title}, gemaakt op %{datetime_created},
+          bijgewerkt op %{datetime_updated}
+        note_html: '%{title}, gemaakt op %{datetime_created}, bijgewerkt op %{datetime_updated}'
+        user_html: Gebruiker %{title}, gemaakt op %{datetime_created}
     reporters:
+      index:
+        title: 'Melders van probleem #%{issue_id}'
       reporters:
         more_reporters: en %{count} meer
   issue_comments:
@@ -1808,6 +1845,18 @@ nl:
     communities: Gemeenschappen
     learn_more: Meer lezen
     more: Meer
+    header:
+      select_language: Taal selecteren
+    select_language_button:
+      title: Taal selecteren
+    offline_flash:
+      osm_offline: De OpenStreetMap-database is momenteel niet beschikbaar wegens
+        het uitvoeren van onderhoudswerkzaamheden.
+      osm_read_only: De OpenStreetMap-database kan op het moment niet gewijzigd worden
+        wegens het uitvoeren van onderhoudswerkzaamheden.
+      expected_restore_html: Naar verwachting wordt de dienstverlening hersteld over
+        %{time}.
+      announcement: U kunt de aankondiging hier lezen.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap-dagboekbericht #%{id}'
@@ -2131,17 +2180,36 @@ nl:
   profiles:
     profile_sections:
       navigation:
+        description: Beschrijving
+        links: Koppelingen
         image: Afbeelding
+        company: Bedrijf
+        location: Locatie
     descriptions:
       show:
         title: Profiel wijzigen
         save: Profiel bijwerken
         cancel: Annuleren
+      update:
+        success: Profielbeschrijving bijgewerkt.
+        failure: Profielbeschrijving kon niet bijgewerkt worden.
     links:
       show:
         title: Profiel wijzigen
+        save: Profiel bijwerken
+        cancel: Annuleren
+        social_links:
+          title: Koppelingen naar sociale profielen
+          remove: Verwijderen
+          add: Sociale koppeling toevoegen
+      update:
+        success: Profielkoppelingen bijgewerkt.
+        failure: Profielkoppelingen konden niet bijgewerkt worden.
     images:
       show:
+        title: Profiel bewerken
+        save: Profiel bijwerken
+        cancel: Annuleren
         gravatar:
           gravatar: Gravatar gebruiken
           link: https://wiki.openstreetmap.org/wiki/NL:Gravatar
@@ -2152,18 +2220,41 @@ nl:
         replace image: Huidige afbeelding vervangen
         image size hint: (vierkante afbeeldingen van minstens 100x100 pixels werken
           het beste)
+      update:
+        success: Profielafbeelding bijgewerkt.
+        failure: Profielafbeelding kon niet bijgewerkt worden.
+    companies:
+      show:
+        title: Profiel bewerken
+        save: Profiel bijwerken
+        cancel: Annuleren
+      update:
+        success: Bedrijfsinformatie op profiel bijgewerkt.
+        failure: Bedrijfsinformatie op profiel kon niet bijgewerkt worden.
     locations:
       show:
+        title: Profiel bewerken
+        save: Profiel bijwerken
+        cancel: Annuleren
         no home location: Er is geen thuislocatie ingevoerd.
         update home location on click: Thuislocatie aanpassen bij klikken op de kaart
         show: Weergeven
         delete: Verwijderen
         undelete: Verwijderen ongedaan maken
+      update:
+        success: Locatie-informatie op profiel bijgewerkt.
+        failure: Locatie-informatie op profiel kon niet bijgewerkt worden.
   sessions:
     new:
       tab_title: Aanmelden
       login_to_authorize_html: Meld u aan bij OpenStreetMap om toegang te krijgen
         tot %{client_app_name}.
+      already_logged_in_html: U bent al aangemeld als %{user}. Door opnieuw aan te
+        melden, wordt u onder een ander gebruikersprofiel actief.
+      access_another_page: 'U bent hier terechtgekomen terwijl u probeerde een andere
+        pagina te openen. Als u die pagina wilt openen met uw huidige account, klik
+        dan op de onderstaande knop:'
+      visit_referring_page: Naar de verwijzende pagina
       email or username: 'E-mailadres of gebruikersnaam:'
       password: 'Wachtwoord:'
       remember: Aanmeldgegevens onthouden
@@ -2204,24 +2295,38 @@ nl:
       changeset_comments:
         older: Oudere opmerkingen
         newer: Nieuwere opmerkingen
+        oldest: Oudste reacties
+        newest: Nieuwste reacties
       diary_comments:
         older: Oudere reacties
         newer: Nieuwere reacties
+        oldest: Oudste reacties
+        newest: Nieuwste reacties
       diary_entries:
         older: Oudere berichten
         newer: Nieuwere berichten
+        oldest: Oudste berichten
+        newest: Nieuwste berichten
       issues:
         older: Oudere meldingen
         newer: Nieuwere meldingen
+        oldest: Oudste problemen
+        newest: Nieuwste problemen
       traces:
         older: Oudere trajecten
         newer: Nieuwere trajecten
+        oldest: Oudste trajecten
+        newest: Nieuwste trajecten
       user_blocks:
         older: Oudere blokkades
         newer: Nieuwere blokkades
+        oldest: Oudste blokkades
+        newest: Nieuwste blokkades
       users:
         older: Oudere gebruikers
         newer: Nieuwere gebruikers
+        oldest: Oudste gebruikers
+        newest: Nieuwste gebruikers
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap- %{br} bijdragers'
@@ -2285,16 +2390,73 @@ nl:
         native_link: Nederlandstalige versie
         mapping_link: beginnen met mappen
       legal_babble:
+        lead_1_html: OpenStreetMap voorziet vrije kaartgegevens voor duizenden websites,
+          mobiele apps en hardwareapparaten. OpenStreetMap wordt gemaakt door een
+          gemeenschap van mensen zoals u, die wereldwijd kaartgegevens bijdragen en
+          onderhouden over wegen, paden, cafés, treinstations en nog veel meer.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} en %{get_started_mapping_link}! Lees meer in de %{osm_blog_link} en abonneer u op %{weeklyosm_link}.
+          Ontmoet kaartmakers in uw lokale %{osm_community_link}.
+          Ondersteun het project door lid te worden van de %{osm_foundation_link} en %{making_donation_link}.
+        lead_2_learn_more_about_osm: Kom meer te weten over OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/NL:Wat_is_OpenStreetMap%3F
+        lead_2_get_started_mapping: begin met karteren
+        lead_2_osm_blog: OpenStreetMap-blog
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM-gemeenschap
+        lead_2_osm_foundation: Stichting OSM
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: een gift te doen
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: OpenStreetMap-licentie
+        licensing_1_html: 'OpenStreetMap is %{open} data, in licentie gegeven onder
+          de %{odc_odbl_link} (ODbL) door de %{osm_foundation_link} (OSMF). Samengevat:'
+        licensing_1_open: open
         licensing_1_odc_odbl: Open Data Commons Open Database-licentie
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: OpenStreetMap Foundation
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: U kunt onze data vrij kopiëren, distribueren, weergeven
+          en aanpassen, zolang u OpenStreetMap en haar bijdragers vermeldt. Als u
+          onze data aanpast of erop verder bouwt, mag u het resultaat enkel onder
+          dezelfde licentie verspreiden. De %{legal_code_link} beschrijft uw rechten
+          en verplichtingen.
+        licensing_2_legal_code: de volledige juridische tekst bij Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: Onze documentatie valt onder de licentie %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Naamsvermelding-GelijkDelen
+          2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/nl/
+        licensing_4_html: Lees meer over het gebruik van onze data op de %{osmf_license_page_link}.
         licensing_4_osmf_license_page: OSMF-licentiepagina
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Hoe OpenStreetMap te vermelden
         credit_1_html: 'Wanneer u OpenStreetMap-gegevens gebruikt, bent u verplicht
           de volgende twee dingen te doen:'
+        credit_2_attribution: Vermeld OpenStreetMap als bron met onze naamsvermeldingstekst.
         credit_2_license: Maak duidelijk dat de data beschikbaar is onder de Open
           Database-licentie.
+        credit_3_v2025_html: |-
+          De %{requirements_on_how_displayed_link}, zijn afhankelijk van hoe u onze data gebruikt.
+          Er gelden bijvoorbeeld verschillende regels voor interactieve kaarten, statische afbeeldingen, en afgedrukte kaarten.
+          Meer details zijn te vinden in de afdeling %{attribution_guidelines_link} van %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: verplichtingen rond hoe de naamsvermelding
+          hoort te gebeuren
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_attribution_guidelines: richtlijnen voor naamsvermelding
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: de licentievoorwaarden
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: |-
+          In het algemeen kunt u een koppeling opnemen naar %{this_copyright_page_link} om duidelijk te maken dat de data onder de Open Database-licentie beschikbaar zijn.
+          Als u OSM in data-vorm verspreidt, noem en koppel dan rechtstreeks naar de licentie(s).
+          Waar hyperlinks niet mogelijk zijn (zoals in drukwerk), neemt u de volledige URL op, bv. %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: deze auteursrechtpagina
+        credit_5_v2025_html: 'In dit voorbeeld verschijnt de naamsvermelding in een
+          hoek van de kaart:'
         attribution_example:
           alt: Voorbeeld van een naamsvermelding van OpenStreetMap op een webpagina
           title: Voorbeeld naamsvermelding
@@ -2316,9 +2478,16 @@ nl:
           OpenStreetMap Foundation. Als u vragen heeft over uw gebruik van de merken, zie dan ons
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: handelsmerkbeleid
+        services_title_html: Bijkomende diensten
+        services_1_html: |-
+          Hoewel OpenStreetMap open data is, kunnen we geen gratis kaart-API of kaarttegels aanbieden voor derden.
+          Raadpleeg onze %{api_usage_policy_link}, %{tile_usage_policy_link} en %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: API-gebruiksbeleid
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: gebruiksbeleid voor kaarttegels
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         services_1_nominatim_usage_policy: gebruiksbeleid voor Nominatim
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Onze bijdragers
         contributors_intro_html: |-
           Onze bijdragers zijn duizenden individuen. OSM bevat ook
@@ -2541,6 +2710,8 @@ nl:
         bicycle: Fiets
         car: Auto
         foot: Te voet
+      providers:
+        description: Routeringsdiensten
     welcome:
       title: Welkom!
       introduction: Welkom bij OpenStreetMap, de open en te bewerken kaart van de
@@ -2589,6 +2760,10 @@ nl:
       para_1: Als u gewoon iets kleins wilt verbeteren en niet de tijd hebt om u in
         te schrijven en om te leren hoe te bewerken, kunt u eenvoudig een opmerking
         toevoegen.
+      para_2_html: |-
+        Klik op %{note_icon} of hetzelfde pictogram op %{map_link}.
+        Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen
+        door deze te verslepen. Voeg uw bericht toe en klik op “Opslaan”, dan zullen andere kaartmakers uw melding nagaan.
       the_map: de kaart
     communities:
       title: Gemeenschappen
@@ -2610,6 +2785,9 @@ nl:
           als informele bijeenkomst van mensen of als gemeenschapsgroep. Iedereen
           kan deze opzetten of er lid van worden. Lees meer op de %{communities_wiki_link}.
         communities_wiki: Wiki-pagina community's
+  social_links:
+    show:
+      website: website
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Inzoomen om kaartopmerkingen te bekijken
@@ -2627,6 +2805,7 @@ nl:
         track: Veld- of bosweg
         bridleway: Ruiterpad
         cycleway: Fietspad
+        international_bike_route: Internationale fietsroute
         national_bike_route: Nationale fietsroute
         regional_bike_route: Regionale fietsroute
         local_bike_route: Lokale fietsroute
@@ -2703,6 +2882,7 @@ nl:
         bicycle_parking: Fietsenstalling
         bicycle_parking_small: Kleine fietsenstalling
         toilets: Toiletten
+      see_external_legend: Externe kaartlegende raadplegen
   share_panes:
     show:
       link: Koppeling of HTML
@@ -2859,6 +3039,9 @@ nl:
         title: Aanmelden met Wikipedia
         alt: Wikipedia-logo
     share:
+      share:
+        title: Delen
+        alt: Delen-pictogram
       email:
         title: Delen via e-mail
         alt: E-mailpictogram
@@ -2889,10 +3072,12 @@ nl:
       write_prefs: Gebruikersvoorkeuren wijzigen
       write_diary: Dagboekberichten schrijven en reacties bij dagboekberichten plaatsen
       write_api: De kaart wijzigen
+      write_changeset_comments: Reageren op wijzigingensets
       read_gpx: Persoonlijke gps-trajecten lezen
       write_gpx: Gps-trajecten uploaden
       write_notes: Opmerkingen wijzigen
       write_redactions: Kaartgegevens redigeren
+      write_blocks: Gebruikersblokkades instellen en intrekken
       read_email: E-mailadres lezen
       consume_messages: Gebruikersberichten lezen, bijwerken en verwijderen
       send_messages: Privéberichten naar andere gebruikers verzenden
@@ -2976,6 +3161,7 @@ nl:
       by_signing_up:
         html: Door u aan te melden, gaat u akkoord met onze %{tou_link}, %{privacy_policy_link}
           en %{contributor_terms_link}.
+        tou: gebruiksvoorwaarden
         privacy_policy: privacybeleid
         privacy_policy_title: OSMF-privacybeleid, met een kopje over e-mailadressen
         contributor_terms: bijdragevoorwaarden
@@ -3052,9 +3238,20 @@ nl:
       delete_user: Deze gebruiker verwijderen
       confirm: Bevestigen
       report: Rapporteer deze Gebruiker
+      edit_profile_details: Profiel bewerken
+      edit_description: Beschrijving bewerken
+      edit_links: Koppelingen bewerken
+      change_image: Afbeelding wijzigen
+      edit_company: Bedrijf bewerken
+      edit_location: Locatie bewerken
       contributions:
         one: '%{count} bijdrage in het afgelopen jaar'
         other: '%{count} bijdragen in het afgelopen jaar'
+    sidebar_section:
+      home_location: Thuislocatie
+      company: Bedrijf
+      company_tooltip: Informatie over geaffilieerde bedrijven is opgegeven door de
+        kaartmaker zelf en wordt niet geverifieerd
     go_public:
       flash success: Al uw bewerkingen zijn nu openbaar en u kunt bewerken.
     issued_blocks:
@@ -3112,6 +3309,8 @@ nl:
         diary_entries: Dagboekberichten
         no_comments: Geen opmerkingen
     changeset_comments:
+      index:
+        title: Reacties op wijzingenset toegevoegd door %{user}
       page:
         changeset: Wijzigingenset
         when: Wanneer
@@ -3419,12 +3618,18 @@ nl:
       createnote_disabled_tooltip: Inzoomen om een opmerking op de kaart toe te voegen
       queryfeature_tooltip: Nabije objecten opvragen
       queryfeature_disabled_tooltip: Inzoomen om objecten op te vragen
+    profile:
+      social_link_n: Koppeling naar sociaal profiel %{n}
+      remove_social_link_n: Koppeling naar sociaal profiel %{n} verwijderen
     edit_help: Verplaats de kaart en zoom in op een plaats die u wilt bewerken. Klik
       daarna hier.
     directions:
       distance_in_units:
         m: '%{distance}m'
         km: '%{distance}km'
+        ft: '%{distance} ft'
+        yd: '%{distance} yd'
+        mi: '%{distance} mi'
       errors:
         no_route: Kon geen route tussen deze twee plaatsen vinden.
         no_place: Kon %{place} niet vinden.
@@ -3515,6 +3720,7 @@ nl:
       show_address: Adres weergeven
       query_features: Kaartelementen opvragen
       centre_map: De kaart hier centreren
+      scroll_to_changeset: Scroll naar wijzigingenset
     home:
       marker_title: Mijn thuislocatie
       not_set: De thuislocatie is niet ingesteld voor uw account
