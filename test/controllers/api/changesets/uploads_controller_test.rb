@@ -286,6 +286,11 @@ module Api
           end
         end
 
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_ways
+
         assert_equal 1, way.version
         assert_equal changeset, way.changeset
         assert_predicate way, :visible?

@@ -160,6 +160,7 @@ class Way < ApplicationRecord
 
     self.version = 0
     self.visible = true
+    changeset.num_created_ways += 1
     save_with_history!
   end
 
