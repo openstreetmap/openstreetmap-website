@@ -396,9 +396,11 @@ module Api
       tag = rel.find("//osm/relation/tag").first
       tag["v"] = "some changed value"
       update_changeset(rel, changeset.id)
+      put api_relation_path(rel_id), :params => rel.to_s, :headers => auth_header
+      assert_response :success, "can't update relation: #{@response.body}"
+      new_version = @response.body.to_i
 
       # check that the downloaded tags are the same as the uploaded tags...
-      new_version = do_update(rel, rel_id, auth_header)
       get api_relation_path(rel_id)
       assert_tags_equal_response rel
 
@@ -433,9 +435,21 @@ module Api
       tag = rel.find("//osm/relation/tag").first
       tag["v"] = "some changed value"
       update_changeset(rel, changeset.id)
+      new_version = nil
+      with_controller(Api::ChangesetsController.new) do
+        doc = OSM::API.new.xml_doc
+        change = XML::Node.new "osmChange"
+        doc.root = change
+        modify = XML::Node.new "modify"
+        change << modify
+        modify << doc.import(rel.find("//osm/relation").first)
+
+        post api_changeset_upload_path(changeset), :params => doc.to_s, :headers => auth_header
+        assert_response :success, "can't upload diff relation: #{@response.body}"
+        new_version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
+      end
 
       # check that the downloaded tags are the same as the uploaded tags...
-      new_version = do_update_diff(rel, auth_header)
       get api_relation_path(rel_id)
       assert_tags_equal_response rel
 
@@ -1083,40 +1097,6 @@ module Api
         assert_select "osm>changeset[max_lon='#{format('%<lon>.7f', :lon => bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
         assert_select "osm>changeset[max_lat='#{format('%<lat>.7f', :lat => bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
       end
-    end
-
-    ##
-    # updates the relation (XML) +rel+ and
-    # returns the new version of that relation.
-    def do_update(rel, rel_id, headers)
-      put api_relation_path(rel_id), :params => rel.to_s, :headers => headers
-      assert_response :success, "can't update relation: #{@response.body}"
-      version = @response.body.to_i
-
-      version
-    end
-
-    ##
-    # updates the relation (XML) +rel+ via the diff-upload API and
-    # returns the new version of that relation.
-    def do_update_diff(rel, headers)
-      cs_id = rel.find("//osm/relation").first["changeset"].to_i
-      version = nil
-
-      with_controller(Api::ChangesetsController.new) do
-        doc = OSM::API.new.xml_doc
-        change = XML::Node.new "osmChange"
-        doc.root = change
-        modify = XML::Node.new "modify"
-        change << modify
-        modify << doc.import(rel.find("//osm/relation").first)
-
-        post api_changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
-        assert_response :success, "can't upload diff relation: #{@response.body}"
-        version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
-      end
-
-      version
     end
 
     ##
