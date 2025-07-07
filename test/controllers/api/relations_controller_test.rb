@@ -387,23 +387,29 @@ module Api
 
       auth_header = bearer_authorization_header user
 
-      with_relation(relation.id) do |rel|
-        # alter one of the tags
-        tag = rel.find("//osm/relation/tag").first
-        tag["v"] = "some changed value"
-        update_changeset(rel, changeset.id)
+      get api_relation_path(relation)
+      assert_response :success
+      rel = xml_parse(@response.body)
 
-        # check that the downloaded tags are the same as the uploaded tags...
-        new_version = with_update(rel, auth_header) do |new_rel|
-          assert_tags_equal rel, new_rel
-        end
+      # alter one of the tags
+      tag = rel.find("//osm/relation/tag").first
+      tag["v"] = "some changed value"
+      update_changeset(rel, changeset.id)
 
-        # check the original one in the current_* table again
-        with_relation(relation.id) { |r| assert_tags_equal rel, r }
-
-        # now check the version in the history
-        with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
+      # check that the downloaded tags are the same as the uploaded tags...
+      new_version = with_update(rel, auth_header) do |new_rel|
+        assert_tags_equal rel, new_rel
       end
+
+      # check the original one in the current_* table again
+      get api_relation_path(relation)
+      assert_response :success
+      assert_tags_equal rel, xml_parse(@response.body)
+
+      # now check the version in the history
+      get api_relation_version_path(relation, new_version)
+      assert_response :success
+      assert_tags_equal rel, xml_parse(@response.body)
     end
 
     ##
@@ -419,23 +425,29 @@ module Api
 
       auth_header = bearer_authorization_header user
 
-      with_relation(relation.id) do |rel|
-        # alter one of the tags
-        tag = rel.find("//osm/relation/tag").first
-        tag["v"] = "some changed value"
-        update_changeset(rel, changeset.id)
+      get api_relation_path(relation)
+      assert_response :success
+      rel = xml_parse(@response.body)
 
-        # check that the downloaded tags are the same as the uploaded tags...
-        new_version = with_update_diff(rel, auth_header) do |new_rel|
-          assert_tags_equal rel, new_rel
-        end
+      # alter one of the tags
+      tag = rel.find("//osm/relation/tag").first
+      tag["v"] = "some changed value"
+      update_changeset(rel, changeset.id)
 
-        # check the original one in the current_* table again
-        with_relation(relation.id) { |r| assert_tags_equal rel, r }
-
-        # now check the version in the history
-        with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
+      # check that the downloaded tags are the same as the uploaded tags...
+      new_version = with_update_diff(rel, auth_header) do |new_rel|
+        assert_tags_equal rel, new_rel
       end
+
+      # check the original one in the current_* table again
+      get api_relation_path(relation)
+      assert_response :success
+      assert_tags_equal rel, xml_parse(@response.body)
+
+      # now check the version in the history
+      get api_relation_version_path(relation, new_version)
+      assert_response :success
+      assert_tags_equal rel, xml_parse(@response.body)
     end
 
     def test_update_wrong_id
@@ -445,11 +457,13 @@ module Api
       other_relation = create(:relation)
 
       auth_header = bearer_authorization_header user
-      with_relation(relation.id) do |rel|
-        update_changeset(rel, changeset.id)
-        put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
-        assert_response :bad_request
-      end
+      get api_relation_path(relation)
+      assert_response :success
+      rel = xml_parse(@response.body)
+
+      update_changeset(rel, changeset.id)
+      put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
+      assert_response :bad_request
     end
 
     # -------------------------------------
@@ -1071,22 +1085,6 @@ module Api
         assert_select "osm>changeset[max_lon='#{format('%<lon>.7f', :lon => bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
         assert_select "osm>changeset[max_lat='#{format('%<lat>.7f', :lat => bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
       end
-    end
-
-    ##
-    # yields the relation with the given +id+ (and optional +version+
-    # to read from the history tables) into the block. the parsed XML
-    # doc is returned.
-    def with_relation(id, ver = nil)
-      if ver.nil?
-        get api_relation_path(id)
-      else
-        with_controller(OldRelationsController.new) do
-          get api_relation_version_path(id, ver)
-        end
-      end
-      assert_response :success
-      yield xml_parse(@response.body)
     end
 
     ##
