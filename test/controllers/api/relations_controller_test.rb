@@ -207,212 +207,218 @@ module Api
     end
 
     # -------------------------------------
-    # Test simple relation creation.
+    # Test creating relations.
     # -------------------------------------
 
-    def test_create
-      private_user = create(:user, :data_public => false)
-      private_changeset = create(:changeset, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
+    def test_create_without_members_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload should have failed with forbidden"
+      end
+    end
+
+    def test_create_with_node_member_with_role_by_private_user
+      node = create(:node)
+
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member ref='#{node.id}' type='node' role='some'/>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload did not return forbidden status"
+      end
+    end
+
+    def test_create_with_node_member_without_role_by_private_user
+      node = create(:node)
+
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member ref='#{node.id}' type='node'/>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload did not return forbidden status"
+      end
+    end
+
+    def test_create_with_node_and_way_members_by_private_user
       node = create(:node)
       way = create(:way_with_nodes, :nodes_count => 2)
 
-      auth_header = bearer_authorization_header private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member type='node' ref='#{node.id}' role='some'/>
+              <member type='way' ref='#{way.id}' role='other'/>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
 
-      # create an relation without members
-      xml = <<~OSM
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload did not return success status"
+      end
+    end
+
+    def test_create_without_members
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 0 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_empty relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_node_member_with_role
+      node = create(:node)
+
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 1 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member ref='#{node.id}' type='node' role='some'/>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_equal [["Node", node.id, "some"]], relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_node_member_without_role
+      node = create(:node)
+
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 1 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member ref='#{node.id}' type='node'/>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_equal [["Node", node.id, ""]], relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_node_and_way_members
+      node = create(:node)
+      way = create(:way_with_nodes, :nodes_count => 2)
+
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 2 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member type='node' ref='#{node.id}' role='some'/>
+                <member type='way' ref='#{way.id}' role='other'/>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_equal [["Node", node.id, "some"],
+                      ["Way", way.id, "other"]], relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_and_show
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+
+      osm = <<~OSM
         <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <tag k='test' v='yes' />
-          </relation>
+          <relation changeset='#{changeset.id}'/>
         </osm>
       OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden, due to user
-      assert_response :forbidden,
-                      "relation upload should have failed with forbidden"
 
-      ###
-      # create an relation with a node as member
-      # This time try with a role attribute in the relation
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <member ref='#{node.id}' type='node' role='some'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden due to user
-      assert_response :forbidden,
-                      "relation upload did not return forbidden status"
+      post api_relations_path, :params => osm, :headers => bearer_authorization_header(user)
 
-      ###
-      # create an relation with a node as member, this time test that we don't
-      # need a role attribute to be included
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <member ref='#{node.id}' type='node'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden due to user
-      assert_response :forbidden,
-                      "relation upload did not return forbidden status"
+      assert_response :success, "relation upload did not return success status"
 
-      ###
-      # create an relation with a way and a node as members
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <member type='node' ref='#{node.id}' role='some'/>
-            <member type='way' ref='#{way.id}' role='other'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden, due to user
-      assert_response :forbidden,
-                      "relation upload did not return success status"
+      created_relation_id = @response.body
 
-      ## Now try with the public user
-      auth_header = bearer_authorization_header user
+      get api_relation_path(created_relation_id)
 
-      # create an relation without members
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(0, checkrelation.members.length, "saved relation contains members but should not")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-      get api_relation_path(relationid)
-      assert_response :success
-
-      ###
-      # create an relation with a node as member
-      # This time try with a role attribute in the relation
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member ref='#{node.id}' type='node' role='some'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-
-      get api_relation_path(relationid)
-      assert_response :success
-
-      ###
-      # create an relation with a node as member, this time test that we don't
-      # need a role attribute to be included
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member ref='#{node.id}' type='node'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-
-      get api_relation_path(relationid)
-      assert_response :success
-
-      ###
-      # create an relation with a way and a node as members
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member type='node' ref='#{node.id}' role='some'/>
-            <member type='way' ref='#{way.id}' role='other'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(2, checkrelation.members.length, "saved relation does not have exactly two members")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-      get api_relation_path(relationid)
       assert_response :success
     end
 
