@@ -689,6 +689,10 @@ module Api
       get api_relation_path(relation_id)
       assert_members_equal_response doc
 
+      # check the ordering in the history tables:
+      get api_relation_version_path(relation_id, 1)
+      assert_members_equal_response doc, "can't read back version 2 of the relation"
+
       # insert a member at the front
       new_member = XML::Node.new "member"
       new_member["ref"] = node3.id.to_s
@@ -750,6 +754,10 @@ module Api
       # get it back and check the ordering
       get api_relation_path(relation_id)
       assert_members_equal_response doc
+
+      # check the ordering in the history tables:
+      get api_relation_version_path(relation_id, 1)
+      assert_members_equal_response doc, "can't read back version 1 of the relation"
     end
 
     ##
