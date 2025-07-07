@@ -1027,9 +1027,7 @@ module Api
         [m["ref"].to_i, m["type"].to_sym, m["role"]]
       end
 
-      doc_members.zip(new_members).each do |d, n|
-        assert_equal d, n, "members are not equal - ordering is wrong? (#{doc}, #{xml})"
-      end
+      assert_equal doc_members, new_members, "members are not equal - ordering is wrong? (#{doc}, #{xml})"
     end
 
     ##
