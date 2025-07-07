@@ -373,95 +373,6 @@ module Api
     # Test updating relations
     # ------------------------------------
 
-    ##
-    # test that, when tags are updated on a relation, the correct things
-    # happen to the correct tables and the API gives sensible results.
-    # this is to test a case that gregory marler noticed and posted to
-    # josm-dev.
-    ## FIXME Move this to an integration test
-    def test_update_relation_tags
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      relation = create(:relation)
-      create_list(:relation_tag, 4, :relation => relation)
-
-      auth_header = bearer_authorization_header user
-
-      get api_relation_path(relation)
-      assert_response :success
-      rel = xml_parse(@response.body)
-      rel_id = rel.find("//osm/relation").first["id"].to_i
-
-      # alter one of the tags
-      tag = rel.find("//osm/relation/tag").first
-      tag["v"] = "some changed value"
-      update_changeset(rel, changeset.id)
-      put api_relation_path(rel_id), :params => rel.to_s, :headers => auth_header
-      assert_response :success, "can't update relation: #{@response.body}"
-      new_version = @response.body.to_i
-
-      # check that the downloaded tags are the same as the uploaded tags...
-      get api_relation_path(rel_id)
-      assert_tags_equal_response rel
-
-      # check the original one in the current_* table again
-      get api_relation_path(relation)
-      assert_tags_equal_response rel
-
-      # now check the version in the history
-      get api_relation_version_path(relation, new_version)
-      assert_tags_equal_response rel
-    end
-
-    ##
-    # test that, when tags are updated on a relation when using the diff
-    # upload function, the correct things happen to the correct tables
-    # and the API gives sensible results. this is to test a case that
-    # gregory marler noticed and posted to josm-dev.
-    def test_update_relation_tags_via_upload
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      relation = create(:relation)
-      create_list(:relation_tag, 4, :relation => relation)
-
-      auth_header = bearer_authorization_header user
-
-      get api_relation_path(relation)
-      assert_response :success
-      rel = xml_parse(@response.body)
-      rel_id = rel.find("//osm/relation").first["id"].to_i
-
-      # alter one of the tags
-      tag = rel.find("//osm/relation/tag").first
-      tag["v"] = "some changed value"
-      update_changeset(rel, changeset.id)
-      new_version = nil
-      with_controller(Api::ChangesetsController.new) do
-        doc = OSM::API.new.xml_doc
-        change = XML::Node.new "osmChange"
-        doc.root = change
-        modify = XML::Node.new "modify"
-        change << modify
-        modify << doc.import(rel.find("//osm/relation").first)
-
-        post api_changeset_upload_path(changeset), :params => doc.to_s, :headers => auth_header
-        assert_response :success, "can't upload diff relation: #{@response.body}"
-        new_version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
-      end
-
-      # check that the downloaded tags are the same as the uploaded tags...
-      get api_relation_path(rel_id)
-      assert_tags_equal_response rel
-
-      # check the original one in the current_* table again
-      get api_relation_path(relation)
-      assert_tags_equal_response rel
-
-      # now check the version in the history
-      get api_relation_version_path(relation, new_version)
-      assert_tags_equal_response rel
-    end
-
     def test_update_wrong_id
       user = create(:user)
       changeset = create(:changeset, :user => user)
@@ -471,7 +382,7 @@ module Api
       auth_header = bearer_authorization_header user
       get api_relation_path(relation)
       assert_response :success
-      rel = xml_parse(@response.body)
+      rel = XML::Parser.string(@response.body).parse
 
       update_changeset(rel, changeset.id)
       put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
@@ -770,28 +681,6 @@ module Api
     private
 
     ##
-    # returns a k->v hash of tags from an xml doc
-    def get_tags_as_hash(a)
-      a.find("//osm/relation/tag").to_h do |tag|
-        [tag["k"], tag["v"]]
-      end
-    end
-
-    ##
-    # assert that tags on relation document +rel+
-    # are equal to tags in response
-    def assert_tags_equal_response(rel)
-      assert_response :success
-      response_xml = xml_parse(@response.body)
-
-      # turn the XML doc into tags hashes
-      rel_tags = get_tags_as_hash(rel)
-      response_tags = get_tags_as_hash(response_xml)
-
-      assert_equal rel_tags, response_tags, "Tags should be identical."
-    end
-
-    ##
     # update the changeset_id of a node element
     def update_changeset(xml, changeset_id)
       xml_attr_rewrite(xml, "changeset", changeset_id)
@@ -802,13 +691,6 @@ module Api
     def xml_attr_rewrite(xml, name, value)
       xml.find("//osm/relation").first[name] = value.to_s
       xml
-    end
-
-    ##
-    # parse some xml
-    def xml_parse(xml)
-      parser = XML::Parser.string(xml)
-      parser.parse
     end
   end
 end
