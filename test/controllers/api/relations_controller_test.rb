@@ -390,6 +390,7 @@ module Api
       get api_relation_path(relation)
       assert_response :success
       rel = xml_parse(@response.body)
+      rel_id = rel.find("//osm/relation").first["id"].to_i
 
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
@@ -397,9 +398,10 @@ module Api
       update_changeset(rel, changeset.id)
 
       # check that the downloaded tags are the same as the uploaded tags...
-      new_version = with_update(rel, auth_header) do |new_rel|
-        assert_tags_equal rel, new_rel
-      end
+      new_version = do_update(rel, rel_id, auth_header)
+      get api_relation_path(rel_id)
+      assert_response :success
+      assert_tags_equal rel, xml_parse(@response.body)
 
       # check the original one in the current_* table again
       get api_relation_path(relation)
@@ -428,6 +430,7 @@ module Api
       get api_relation_path(relation)
       assert_response :success
       rel = xml_parse(@response.body)
+      rel_id = rel.find("//osm/relation").first["id"].to_i
 
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
@@ -435,9 +438,10 @@ module Api
       update_changeset(rel, changeset.id)
 
       # check that the downloaded tags are the same as the uploaded tags...
-      new_version = with_update_diff(rel, auth_header) do |new_rel|
-        assert_tags_equal rel, new_rel
-      end
+      new_version = do_update_diff(rel, auth_header)
+      get api_relation_path(rel_id)
+      assert_response :success
+      assert_tags_equal rel, xml_parse(@response.body)
 
       # check the original one in the current_* table again
       get api_relation_path(relation)
@@ -1089,30 +1093,19 @@ module Api
 
     ##
     # updates the relation (XML) +rel+ and
-    # yields the new version of that relation into the block.
-    # the parsed XML doc is returned.
-    def with_update(rel, headers)
-      rel_id = rel.find("//osm/relation").first["id"].to_i
+    # returns the new version of that relation.
+    def do_update(rel, rel_id, headers)
       put api_relation_path(rel_id), :params => rel.to_s, :headers => headers
       assert_response :success, "can't update relation: #{@response.body}"
       version = @response.body.to_i
-
-      # now get the new version
-      get api_relation_path(rel_id)
-      assert_response :success
-      new_rel = xml_parse(@response.body)
-
-      yield new_rel
 
       version
     end
 
     ##
     # updates the relation (XML) +rel+ via the diff-upload API and
-    # yields the new version of that relation into the block.
-    # the parsed XML doc is returned.
-    def with_update_diff(rel, headers)
-      rel_id = rel.find("//osm/relation").first["id"].to_i
+    # returns the new version of that relation.
+    def do_update_diff(rel, headers)
       cs_id = rel.find("//osm/relation").first["changeset"].to_i
       version = nil
 
@@ -1128,13 +1121,6 @@ module Api
         assert_response :success, "can't upload diff relation: #{@response.body}"
         version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
       end
-
-      # now get the new version
-      get api_relation_path(rel_id)
-      assert_response :success
-      new_rel = xml_parse(@response.body)
-
-      yield new_rel
 
       version
     end
