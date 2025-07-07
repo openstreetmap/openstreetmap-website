@@ -1146,7 +1146,7 @@ module Api
     ##
     # returns a k->v hash of tags from an xml doc
     def get_tags_as_hash(a)
-      a.find("//osm/relation/tag").sort_by { |v| v["k"] }.each_with_object({}) do |v, h|
+      a.find("//osm/relation/tag").each_with_object({}) do |v, h|
         h[v["k"]] = v["v"]
       end
     end
