@@ -1159,12 +1159,7 @@ module Api
       a_tags = get_tags_as_hash(a)
       b_tags = get_tags_as_hash(b)
 
-      assert_equal a_tags.keys, b_tags.keys, "Tag keys should be identical."
-      a_tags.each do |k, v|
-        assert_equal v, b_tags[k],
-                     "Tags which were not altered should be the same. " \
-                     "#{a_tags.inspect} != #{b_tags.inspect}"
-      end
+      assert_equal a_tags, b_tags, "Tags should be identical."
     end
 
     ##
