@@ -401,6 +401,23 @@ module Api
       end
     end
 
+    def test_create_with_missing_node_member
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member type='node' ref='0'/>
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :precondition_failed, "relation upload with invalid node did not return 'precondition failed'"
+        assert_equal "Precondition failed: Relation with id  cannot be saved due to Node with id 0", @response.body
+      end
+    end
+
     def test_create_and_show
       user = create(:user)
       changeset = create(:changeset, :user => user)
@@ -440,31 +457,6 @@ module Api
       update_changeset(rel, changeset.id)
       put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
       assert_response :bad_request
-    end
-
-    # -------------------------------------
-    # Test creating some invalid relations.
-    # -------------------------------------
-
-    def test_create_invalid
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-
-      auth_header = bearer_authorization_header user
-
-      # create a relation with non-existing node as member
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member type='node' ref='0'/>
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :precondition_failed,
-                      "relation upload with invalid node did not return 'precondition failed'"
-      assert_equal "Precondition failed: Relation with id  cannot be saved due to Node with id 0", @response.body
     end
 
     # -------------------------------------
