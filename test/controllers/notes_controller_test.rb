@@ -93,11 +93,13 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_user_not_found_language
-    get user_notes_path("no_such_user"), :headers => { "Accept-Language" => "fr" }
+    I18n.with_locale "en" do
+      get user_notes_path("no_such_user"), :headers => { "Accept-Language" => "fr" }
 
-    assert_response :not_found
-    assert_dom "html" do
-      assert_dom "> @lang", "fr"
+      assert_response :not_found
+      assert_dom "html" do
+        assert_dom "> @lang", "fr"
+      end
     end
   end
 
