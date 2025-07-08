@@ -514,21 +514,20 @@ module Api
       end
     end
 
-    def test_update_with_invalid_attr_values_by_private_user
-      node = create(:node)
-      user = create(:user, :data_public => false)
-      changeset = create(:changeset, :user => user)
-      invalid_attr_values = [["lat", 91.0], ["lat", -91.0], ["lon", 181.0], ["lon", -181.0]]
+    def test_update_with_lat_too_large_by_private_user
+      check_update_with_invalid_attr_value "lat", 91.0, :data_public => false
+    end
 
-      invalid_attr_values.each do |name, value|
-        xml = xml_for_node node
-        xml = xml_attr_rewrite xml, name, value
-        xml = update_changeset xml, changeset.id
+    def test_update_with_lat_too_small_by_private_user
+      check_update_with_invalid_attr_value "lat", -91.0, :data_public => false
+    end
 
-        put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+    def test_update_with_lon_too_large_by_private_user
+      check_update_with_invalid_attr_value "lon", 181.0, :data_public => false
+    end
 
-        assert_require_public_data "node at #{name}=#{value} should be forbidden, when data isn't public"
-      end
+    def test_update_with_lon_too_small_by_private_user
+      check_update_with_invalid_attr_value "lon", -181.0, :data_public => false
     end
 
     def test_update_by_private_user
@@ -585,21 +584,20 @@ module Api
       end
     end
 
-    def test_update_with_invalid_attr_values
-      user = create(:user)
-      node = create(:node)
-      changeset = create(:changeset, :user => user)
-      invalid_attr_values = [["lat", 91.0], ["lat", -91.0], ["lon", 181.0], ["lon", -181.0]]
+    def test_update_with_lat_too_large
+      check_update_with_invalid_attr_value "lat", 91.0
+    end
 
-      invalid_attr_values.each do |name, value|
-        xml = xml_for_node node
-        xml = xml_attr_rewrite xml, name, value
-        xml = update_changeset xml, changeset.id
+    def test_update_with_lat_too_small
+      check_update_with_invalid_attr_value "lat", -91.0
+    end
 
-        put api_node_path(node), :params => xml.to_s, :headers => bearer_authorization_header(user)
+    def test_update_with_lon_too_large
+      check_update_with_invalid_attr_value "lon", 181.0
+    end
 
-        assert_response :bad_request, "node at #{name}=#{value} should be rejected"
-      end
+    def test_update_with_lon_too_small
+      check_update_with_invalid_attr_value "lon", -181.0
     end
 
     def test_update_with_version_behind
@@ -846,6 +844,24 @@ module Api
     end
 
     private
+
+    def check_update_with_invalid_attr_value(name, value, data_public: true)
+      with_unchanging(:node) do |node|
+        with_unchanging_request([:data_public => data_public]) do |headers, changeset|
+          osm_xml = xml_for_node node
+          osm_xml = xml_attr_rewrite osm_xml, name, value
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          put api_node_path(node), :params => osm_xml.to_s, :headers => headers
+
+          if data_public
+            assert_response :bad_request, "node at #{name}=#{value} should be rejected"
+          else
+            assert_require_public_data "node at #{name}=#{value} should be forbidden, when data isn't public"
+          end
+        end
+      end
+    end
 
     def affected_models
       [Node, NodeTag,
