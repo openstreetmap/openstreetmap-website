@@ -463,20 +463,19 @@ module Api
     # Test updating relations
     # ------------------------------------
 
-    def test_update_wrong_id
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      relation = create(:relation)
-      other_relation = create(:relation)
+    def test_update_other_relation
+      with_unchanging(:relation) do |relation|
+        with_unchanging(:relation) do |other_relation|
+          with_unchanging_request do |headers, changeset|
+            osm_xml = xml_for_relation other_relation
+            osm_xml = update_changeset osm_xml, changeset.id
 
-      auth_header = bearer_authorization_header user
-      get api_relation_path(relation)
-      assert_response :success
-      rel = XML::Parser.string(@response.body).parse
+            put api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
 
-      update_changeset(rel, changeset.id)
-      put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
-      assert_response :bad_request
+            assert_response :bad_request
+          end
+        end
+      end
     end
 
     # -------------------------------------
