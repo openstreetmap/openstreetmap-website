@@ -119,6 +119,9 @@ module Api
 
         changeset.reload
         assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_nodes
+
         node.reload
         assert_equal 2, node.version
         assert_equal 2 * GeoRecord::SCALE, node.latitude
@@ -702,6 +705,9 @@ module Api
 
         changeset.reload
         assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_nodes
+
         node.reload
         assert_equal 2, node.version
         assert_equal 2 * GeoRecord::SCALE, node.latitude
@@ -909,6 +915,11 @@ module Api
         assert_response :success
 
         assert_dom "diffResult>node", 8
+
+        changeset.reload
+        assert_equal 8, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 8, changeset.num_modified_nodes
 
         node.reload
         assert_equal 9, node.version
@@ -1617,8 +1628,12 @@ module Api
 
         assert_response :success
 
-        # check the bbox
         changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_nodes
+
+        # check the bbox
         assert_equal 1.0 * GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1.0 degrees"
         assert_equal 2.0 * GeoRecord::SCALE, changeset.min_lon, "min_lon should be 2.0 degrees"
         assert_equal 1.1 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 1.1 degrees"
