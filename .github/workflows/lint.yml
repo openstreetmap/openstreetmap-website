@@ -11,6 +11,7 @@ jobs:
   rubocop:
     name: RuboCop
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -25,6 +26,7 @@ jobs:
   erblint:
     name: ERB Lint
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -39,6 +41,7 @@ jobs:
   eslint:
     name: ESLint
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -61,6 +64,7 @@ jobs:
   brakeman:
     name: Brakeman
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -77,6 +81,7 @@ jobs:
       RAILS_ENV: test
     name: Rails Annotate Models
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
       uses: actions/checkout@v4
