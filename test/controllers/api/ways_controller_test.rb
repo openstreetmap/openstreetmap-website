@@ -970,6 +970,11 @@ module Api
 
     private
 
+    def affected_models
+      [Way, WayNode, WayTag,
+       OldWay, OldWayNode, OldWayTag]
+    end
+
     ##
     # update an attribute in the way element
     def xml_attr_rewrite(xml, name, value)

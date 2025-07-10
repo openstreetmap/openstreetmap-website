@@ -759,6 +759,11 @@ module Api
 
     private
 
+    def affected_models
+      [Relation, RelationTag, RelationMember,
+       OldRelation, OldRelationTag, OldRelationMember]
+    end
+
     ##
     # update an attribute in the node element
     def xml_attr_rewrite(xml, name, value)

@@ -643,6 +643,11 @@ module Api
 
     private
 
+    def affected_models
+      [Node, NodeTag,
+       OldNode, OldNodeTag]
+    end
+
     ##
     # update an attribute in the node element
     def xml_attr_rewrite(xml, name, value)
