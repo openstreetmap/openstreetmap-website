@@ -1017,6 +1017,113 @@ module Api
       # Test deleting elements.
       # -------------------------------------
 
+      def test_upload_delete_node
+        changeset = create(:changeset)
+        node = create(:node, :lat => 0, :lon => 0)
+        create(:node_tag, :node => node)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <delete>
+              <node id='#{node.id}' changeset='#{changeset.id}' version='1' lat='0' lon='0'/>
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        assert_difference "Node.count" => 0,
+                          "OldNode.count" => 1,
+                          "NodeTag.count" => -1,
+                          "OldNodeTag.count" => 0 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        assert_dom "diffResult", 1 do
+          assert_dom "> node", 1 do
+            assert_dom "> @old_id", node.id.to_s
+          end
+        end
+
+        node.reload
+        assert_not_predicate node, :visible?
+      end
+
+      def test_upload_delete_way
+        changeset = create(:changeset)
+        way = create(:way_with_nodes, :nodes_count => 3)
+        create(:way_tag, :way => way)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <delete>
+              <way id='#{way.id}' changeset='#{changeset.id}' version='1'/>
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        assert_difference "Way.count" => 0,
+                          "OldWay.count" => 1,
+                          "WayTag.count" => -1,
+                          "OldWayTag.count" => 0,
+                          "WayNode.count" => -3,
+                          "OldWayNode.count" => 0 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        assert_dom "diffResult", 1 do
+          assert_dom "> way", 1 do
+            assert_dom "> @old_id", way.id.to_s
+          end
+        end
+
+        way.reload
+        assert_not_predicate way, :visible?
+      end
+
+      def test_upload_delete_relation
+        changeset = create(:changeset)
+        relation = create(:relation)
+        create(:relation_member, :relation => relation, :member => create(:node))
+        create(:relation_tag, :relation => relation)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <delete>
+              <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'/>
+            </delete>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header changeset.user
+
+        assert_difference "Relation.count" => 0,
+                          "OldRelation.count" => 1,
+                          "RelationTag.count" => -1,
+                          "OldRelationTag.count" => 0,
+                          "RelationMember.count" => -1,
+                          "OldRelationMember.count" => 0 do
+          post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+          assert_response :success
+        end
+
+        assert_dom "diffResult", 1 do
+          assert_dom "> relation", 1 do
+            assert_dom "> @old_id", relation.id.to_s
+          end
+        end
+
+        relation.reload
+        assert_not_predicate relation, :visible?
+      end
+
       ##
       # test a complex delete where we delete elements which rely on each other
       # in the same transaction.
