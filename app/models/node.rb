@@ -184,6 +184,8 @@ class Node < ApplicationRecord
       # update changeset bbox with *new* position
       changeset.update_bbox!(bbox)
 
+      changeset.num_modified_nodes += 1
+
       save_with_history!
     end
   end
