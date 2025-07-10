@@ -409,6 +409,18 @@ module Api
       assert_response :gone
     end
 
+    def test_destroy_deleted_node
+      with_unchanging(:node, :deleted) do |node|
+        with_unchanging_request do |headers, changeset|
+          osm = "<osm><node id='#{node.id}' changeset='#{changeset.id}' version='1' lat='0' lon='0'/></osm>"
+
+          delete api_node_path(node), :params => osm, :headers => headers
+
+          assert_response :gone
+        end
+      end
+    end
+
     def test_destroy_missing_node
       with_unchanging_request do |headers|
         delete api_node_path(0), :headers => headers
