@@ -340,6 +340,11 @@ module Api
           end
         end
 
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_relations
+
         assert_equal 1, relation.version
         assert_equal changeset, relation.changeset
         assert_predicate relation, :visible?
@@ -404,6 +409,13 @@ module Api
             assert_dom "> @new_version", "1"
           end
         end
+
+        changeset.reload
+        assert_equal 3, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_nodes
+        assert_equal 1, changeset.num_created_ways
+        assert_equal 1, changeset.num_created_relations
 
         assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
         assert_equal 0, Way.find(new_way_id).tags.size, "new way should have no tags"
