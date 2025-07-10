@@ -755,6 +755,9 @@ module Api
 
         changeset.reload
         assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_ways
+
         way.reload
         assert_equal 2, way.version
         assert_equal 0, way.tags.size, "way #{way.id} should now have no tags"
@@ -1664,8 +1667,12 @@ module Api
 
         assert_response :success
 
-        # check the bbox
         changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_ways
+
+        # check the bbox
         assert_equal 1.1 * GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1.1 degrees"
         assert_equal 2.1 * GeoRecord::SCALE, changeset.min_lon, "min_lon should be 2.1 degrees"
         assert_equal 1.3 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 1.3 degrees"

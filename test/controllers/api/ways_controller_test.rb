@@ -891,6 +891,11 @@ module Api
         put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
         assert_response :success, "a valid update request failed"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_ways
       end
     end
 
@@ -928,6 +933,11 @@ module Api
 
         assert_response :success, "adding a new tag to a way should succeed"
         assert_equal way.version + 1, @response.body.to_i
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_ways
       end
     end
 
