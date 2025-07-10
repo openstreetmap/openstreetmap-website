@@ -501,136 +501,265 @@ module Api
     # Test deleting relations.
     # -------------------------------------
 
+    def test_destroy_when_unauthorized
+      with_unchanging(:relation) do |relation|
+        delete api_relation_path(relation)
+
+        assert_response :unauthorized
+      end
+    end
+
+    def test_destroy_without_payload_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers|
+          delete api_relation_path(relation), :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_without_changeset_id_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm = "<osm><relation id='#{relation.id}' version='#{relation.version}'/></osm>"
+
+          delete api_relation_path(relation), :params => osm, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_relation_used_by_other_relation_by_private_user
+      with_unchanging(:relation) do |relation|
+        create(:relation_member, :member => relation)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_deleted_relation_by_private_user
+      with_unchanging(:relation, :deleted) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_missing_relation_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers|
+        delete api_relation_path(0), :headers => headers
+
+        assert_response :forbidden
+      end
+    end
+
+    def test_destroy_without_payload
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          delete api_relation_path(relation), :headers => headers
+
+          assert_response :bad_request
+        end
+      end
+    end
+
+    def test_destroy_without_changeset_id
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          osm = "<osm><relation id='#{relation.id}' version='#{relation.version}'/></osm>"
+
+          delete api_relation_path(relation), :params => osm, :headers => headers
+
+          assert_response :bad_request
+          assert_match(/Changeset id is missing/, @response.body)
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_in_changeset_of_other_user
+      with_unchanging(:relation) do |relation|
+        other_user = create(:user)
+
+        with_unchanging_request([], [:user => other_user]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
+        end
+      end
+    end
+
+    def test_destroy_other_relation
+      with_unchanging(:relation) do |relation|
+        with_unchanging(:relation) do |other_relation|
+          with_unchanging_request do |headers, changeset|
+            osm_xml = xml_for_relation other_relation
+            osm_xml = update_changeset osm_xml, changeset.id
+
+            delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+            assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
+          end
+        end
+      end
+    end
+
+    def test_destroy_relation_used_by_other_relation
+      with_unchanging(:relation) do |relation|
+        super_relation = create(:relation)
+        create(:relation_member, :relation => super_relation, :member => relation)
+
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :precondition_failed, "shouldn't be able to delete a relation used in a relation (#{@response.body})"
+          assert_equal "Precondition failed: The relation #{relation.id} is used in relation #{super_relation.id}.", @response.body
+        end
+      end
+    end
+
     def test_destroy
-      private_user = create(:user, :data_public => false)
-      private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
-      user = create(:user)
-      closed_changeset = create(:changeset, :closed, :user => user)
-      changeset = create(:changeset, :user => user)
       relation = create(:relation)
+      create_list(:relation_tag, 4, :relation => relation)
+
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation relation
+        osm_xml = update_changeset osm_xml, changeset.id
+
+        delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+        assert_response :success
+        assert_operator @response.body.to_i, :>, relation.version, "delete request should return a new version number for relation"
+      end
+    end
+
+    def test_destroy_deleted_relation
+      with_unchanging(:relation, :deleted) do |relation|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :gone
+        end
+      end
+    end
+
+    def test_destroy_super_relation_then_used_relation
       used_relation = create(:relation)
-      super_relation = create(:relation_member, :member => used_relation).relation
-      deleted_relation = create(:relation, :deleted)
-      multi_tag_relation = create(:relation)
-      create_list(:relation_tag, 4, :relation => multi_tag_relation)
+      super_relation = create(:relation)
+      create(:relation_member, :relation => super_relation, :member => used_relation)
 
-      ## First try to delete relation without auth
-      delete api_relation_path(relation)
-      assert_response :unauthorized
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation super_relation
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      ## Then try with the private user, to make sure that you get a forbidden
-      auth_header = bearer_authorization_header private_user
+        delete api_relation_path(super_relation), :params => osm_xml.to_s, :headers => headers
 
-      # this shouldn't work, as we should need the payload...
-      delete api_relation_path(relation), :headers => auth_header
-      assert_response :forbidden
+        assert_response :success
+      end
 
-      # try to delete without specifying a changeset
-      xml = "<osm><relation id='#{relation.id}'/></osm>"
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation used_relation
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_relation(relation),
-                             private_user_closed_changeset.id)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+        delete api_relation_path(used_relation), :params => osm_xml.to_s, :headers => headers
 
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_relation(relation), 0)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+        assert_response :success, "should be able to delete a relation used in an old relation (#{@response.body})"
+      end
+    end
 
-      # this won't work because the relation is in-use by another relation
-      xml = xml_for_relation(used_relation)
-      delete api_relation_path(used_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+    def test_destroy_missing_relation
+      with_unchanging_request do |headers|
+        delete api_relation_path(0), :headers => headers
 
-      # this should work when we provide the appropriate payload...
-      xml = xml_for_relation(relation)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
-
-      # this won't work since the relation is already deleted
-      xml = xml_for_relation(deleted_relation)
-      delete api_relation_path(deleted_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
-
-      # this won't work since the relation never existed
-      delete api_relation_path(0), :headers => auth_header
-      assert_response :forbidden
-
-      ## now set auth for the public user
-      auth_header = bearer_authorization_header user
-
-      # this shouldn't work, as we should need the payload...
-      delete api_relation_path(relation), :headers => auth_header
-      assert_response :bad_request
-
-      # try to delete without specifying a changeset
-      xml = "<osm><relation id='#{relation.id}' version='#{relation.version}' /></osm>"
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request
-      assert_match(/Changeset id is missing/, @response.body)
-
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_relation(relation),
-                             closed_changeset.id)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_relation(relation), 0)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # this won't work because the relation is in a changeset owned by someone else
-      xml = update_changeset(xml_for_relation(relation), create(:changeset).id)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict,
-                      "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
-
-      # this won't work because the relation in the payload is different to that passed
-      xml = update_changeset(xml_for_relation(relation), changeset.id)
-      delete api_relation_path(create(:relation)), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
-
-      # this won't work because the relation is in-use by another relation
-      xml = update_changeset(xml_for_relation(used_relation), changeset.id)
-      delete api_relation_path(used_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed,
-                      "shouldn't be able to delete a relation used in a relation (#{@response.body})"
-      assert_equal "Precondition failed: The relation #{used_relation.id} is used in relation #{super_relation.id}.", @response.body
-
-      # this should work when we provide the appropriate payload...
-      xml = update_changeset(xml_for_relation(multi_tag_relation), changeset.id)
-      delete api_relation_path(multi_tag_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :success
-
-      # valid delete should return the new version number, which should
-      # be greater than the old version number
-      assert_operator @response.body.to_i, :>, multi_tag_relation.version, "delete request should return a new version number for relation"
-
-      # this won't work since the relation is already deleted
-      xml = update_changeset(xml_for_relation(deleted_relation), changeset.id)
-      delete api_relation_path(deleted_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :gone
-
-      # Public visible relation needs to be deleted
-      xml = update_changeset(xml_for_relation(super_relation), changeset.id)
-      delete api_relation_path(super_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :success
-
-      # this works now because the relation which was using this one
-      # has been deleted.
-      xml = update_changeset(xml_for_relation(used_relation), changeset.id)
-      delete api_relation_path(used_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :success,
-                      "should be able to delete a relation used in an old relation (#{@response.body})"
-
-      # this won't work since the relation never existed
-      delete api_relation_path(0), :headers => auth_header
-      assert_response :not_found
+        assert_response :not_found
+      end
     end
 
     ##
