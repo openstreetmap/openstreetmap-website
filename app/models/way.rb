@@ -205,6 +205,7 @@ class Way < ApplicationRecord
       self.tags = []
       self.nds = []
       self.visible = false
+      changeset.num_deleted_ways += 1
       save_with_history!
     end
   end

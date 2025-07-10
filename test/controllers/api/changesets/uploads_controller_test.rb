@@ -1167,6 +1167,11 @@ module Api
           end
         end
 
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_ways
+
         way.reload
         assert_not_predicate way, :visible?
       end

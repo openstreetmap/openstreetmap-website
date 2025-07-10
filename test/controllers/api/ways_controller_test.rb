@@ -588,6 +588,11 @@ module Api
         way.reload
         assert_not_predicate way, :visible?
         assert_equal response_way_version, way.version
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_ways
       end
     end
 
