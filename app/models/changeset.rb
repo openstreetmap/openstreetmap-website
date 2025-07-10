@@ -237,9 +237,19 @@ class Changeset < ApplicationRecord
     )
   end
 
+  def num_created_elements
+    num_created_nodes + num_created_ways + num_created_relations
+  end
+
+  def num_modified_elements
+    num_modified_nodes + num_modified_ways + num_modified_relations
+  end
+
+  def num_deleted_elements
+    num_deleted_nodes + num_deleted_ways + num_deleted_relations
+  end
+
   def num_type_changes_in_sync?
-    num_changes == num_created_nodes + num_modified_nodes + num_deleted_nodes +
-                   num_created_ways + num_modified_ways + num_deleted_ways +
-                   num_created_relations + num_modified_relations + num_deleted_relations
+    num_changes == num_created_elements + num_modified_elements + num_deleted_elements
   end
 end
