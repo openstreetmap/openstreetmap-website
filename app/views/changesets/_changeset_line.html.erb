@@ -1,9 +1,11 @@
+<%# locals: (changeset:, show_num_changes: true, show_num_comments: true) %>
 <div class="changeset_line d-flex gap-2">
   <span class="me-auto">
     <%= yield %>
   </span>
 
-  <% if num_changes %>
+  <% if show_num_changes %>
+    <% num_changes = changeset.num_changes %>
     <%= tag.span :class => ["d-flex align-items-baseline gap-1", { "opacity-50" => num_changes.zero? }],
                  :title => t(".changes", :count => num_changes) do %>
       <%= num_changes %>
@@ -13,7 +15,8 @@
     <% end %>
   <% end %>
 
-  <% if num_comments %>
+  <% if show_num_comments %>
+    <% num_comments = changeset.comments.length %>
     <%= tag.span :class => ["changeset_num_comments d-flex align-items-baseline gap-1 justify-content-end", { "opacity-50" => num_comments.zero? }],
                  :title => t(".comments", :count => num_comments) do %>
       <%= num_comments %>
