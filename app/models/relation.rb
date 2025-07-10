@@ -175,6 +175,7 @@ class Relation < ApplicationRecord
       self.tags = {}
       self.members = []
       self.visible = false
+      changeset.num_deleted_relations += 1
       save_with_history!
     end
   end
