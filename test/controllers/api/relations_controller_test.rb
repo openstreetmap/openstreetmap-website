@@ -463,6 +463,25 @@ module Api
     # Test updating relations
     # ------------------------------------
 
+    def test_update
+      relation = create(:relation)
+
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation relation
+        osm_xml = update_changeset osm_xml, changeset.id
+
+        put api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+        assert_response :success
+
+        relation.reload
+        assert_equal 2, relation.version
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+      end
+    end
+
     def test_update_other_relation
       with_unchanging(:relation) do |relation|
         with_unchanging(:relation) do |other_relation|
