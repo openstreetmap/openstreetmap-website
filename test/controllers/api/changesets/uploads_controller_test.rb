@@ -1209,6 +1209,11 @@ module Api
           end
         end
 
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_relations
+
         relation.reload
         assert_not_predicate relation, :visible?
       end
@@ -1251,6 +1256,13 @@ module Api
           assert_dom "> way", 1
           assert_dom "> relation", 2
         end
+
+        changeset.reload
+        assert_equal 4, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_nodes
+        assert_equal 1, changeset.num_deleted_ways
+        assert_equal 2, changeset.num_deleted_relations
 
         assert_not Node.find(used_node.id).visible
         assert_not Way.find(used_way.id).visible
