@@ -808,6 +808,9 @@ module Api
 
         changeset.reload
         assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_relations
+
         relation.reload
         assert_equal 2, relation.version
         assert_equal 0, relation.tags.size, "relation #{relation.id} should now have no tags"
@@ -872,6 +875,11 @@ module Api
 
         changeset.reload
         assert_equal 3, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_nodes
+        assert_equal 1, changeset.num_modified_ways
+        assert_equal 1, changeset.num_modified_relations
+
         node.reload
         assert_equal 2, node.version
         assert_equal 2 * GeoRecord::SCALE, node.latitude
@@ -1055,6 +1063,12 @@ module Api
 
         assert_dom "diffResult>node", 2
         assert_dom "diffResult>relation", 1
+
+        changeset.reload
+        assert_equal 3, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 2, changeset.num_modified_nodes
+        assert_equal 1, changeset.num_modified_relations
 
         assert_equal 1, Node.find(node.id).tags.size, "node #{node.id} should now have one tag"
         assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
@@ -1453,6 +1467,13 @@ module Api
           assert_dom "> way", 1
           assert_dom "> relation", 1
         end
+
+        changeset.reload
+        assert_equal 3, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_nodes
+        assert_equal 1, changeset.num_modified_ways
+        assert_equal 1, changeset.num_modified_relations
 
         assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
         assert_equal [new_node_id, node.id], Way.find(way.id).nds, "way nodes should match"
