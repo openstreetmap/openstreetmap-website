@@ -159,6 +159,8 @@ class Node < ApplicationRecord
       # update the changeset with the deleted position
       changeset.update_bbox!(bbox)
 
+      changeset.num_deleted_nodes += 1
+
       save_with_history!
     end
   end
