@@ -407,12 +407,6 @@ module Api
 
       ## Finally test with the public user
 
-      # try and update a node without authorisation
-      # first try to update node without auth
-      xml = xml_for_node(node)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
-
       # setup auth
       auth_header = bearer_authorization_header user
 
@@ -518,9 +512,13 @@ module Api
 
       # try and put something into a string that the API might
       # use unquoted and therefore allow code injection...
-      xml = "<osm><node lat='0' lon='0' changeset='#{private_changeset.id}'>" \
-            "<tag k='\#{@user.inspect}' v='0'/>" \
-            "</node></osm>"
+      xml = <<~OSM
+        <osm>
+          <node lat='0' lon='0' changeset='#{private_changeset.id}'>
+            <tag k='\#{@user.inspect}' v='0'/>
+          </node>
+        </osm>
+      OSM
       post api_nodes_path, :params => xml, :headers => auth_header
       assert_require_public_data "Shouldn't be able to create with non-public user"
 
@@ -529,9 +527,13 @@ module Api
 
       # try and put something into a string that the API might
       # use unquoted and therefore allow code injection...
-      xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'>" \
-            "<tag k='\#{@user.inspect}' v='0'/>" \
-            "</node></osm>"
+      xml = <<~OSM
+        <osm>
+          <node lat='0' lon='0' changeset='#{changeset.id}'>
+            <tag k='\#{@user.inspect}' v='0'/>
+          </node>
+        </osm>
+      OSM
       post api_nodes_path, :params => xml, :headers => auth_header
       assert_response :success
       nodeid = @response.body

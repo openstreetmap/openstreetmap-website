@@ -218,7 +218,13 @@ module Api
       auth_header = bearer_authorization_header private_user
 
       # create an relation without members
-      xml = "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{private_changeset.id}'>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden, due to user
       assert_response :forbidden,
@@ -227,9 +233,14 @@ module Api
       ###
       # create an relation with a node as member
       # This time try with a role attribute in the relation
-      xml = "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{private_changeset.id}'>
+            <member ref='#{node.id}' type='node' role='some'/>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
@@ -238,8 +249,14 @@ module Api
       ###
       # create an relation with a node as member, this time test that we don't
       # need a role attribute to be included
-      xml = "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{private_changeset.id}'>
+            <member ref='#{node.id}' type='node'/>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
@@ -247,10 +264,15 @@ module Api
 
       ###
       # create an relation with a way and a node as members
-      xml = "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member type='node' ref='#{node.id}' role='some'/>" \
-            "<member type='way' ref='#{way.id}' role='other'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{private_changeset.id}'>
+            <member type='node' ref='#{node.id}' role='some'/>
+            <member type='way' ref='#{way.id}' role='other'/>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden, due to user
       assert_response :forbidden,
@@ -260,7 +282,13 @@ module Api
       auth_header = bearer_authorization_header user
 
       # create an relation without members
-      xml = "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
@@ -286,9 +314,14 @@ module Api
       ###
       # create an relation with a node as member
       # This time try with a role attribute in the relation
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member ref='#{node.id}' type='node' role='some'/>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
@@ -315,8 +348,14 @@ module Api
       ###
       # create an relation with a node as member, this time test that we don't
       # need a role attribute to be included
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member ref='#{node.id}' type='node'/>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
@@ -342,10 +381,15 @@ module Api
 
       ###
       # create an relation with a way and a node as members
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='node' ref='#{node.id}' role='some'/>" \
-            "<member type='way' ref='#{way.id}' role='other'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member type='node' ref='#{node.id}' role='some'/>
+            <member type='way' ref='#{way.id}' role='other'/>
+            <tag k='test' v='yes' />
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
@@ -400,9 +444,13 @@ module Api
       auth_header = bearer_authorization_header user
 
       # create a relation with non-existing node as member
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='node' ref='0'/><tag k='test' v='yes' />" \
-            "</relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member type='node' ref='0'/>
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
@@ -421,9 +469,13 @@ module Api
       auth_header = bearer_authorization_header user
 
       # create some xml that should return an error
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='type' ref='#{node.id}' role=''/>" \
-            "<tag k='tester' v='yep'/></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member type='type' ref='#{node.id}' role=''/>
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :bad_request
@@ -586,10 +638,14 @@ module Api
       auth_header = bearer_authorization_header user
 
       # try creating a relation
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member ref='#{node1.id}' type='node' role='some'/>
+            <member ref='#{node2.id}' type='node' role='some'/>
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
@@ -597,10 +653,14 @@ module Api
       relationid = @response.body
 
       # try updating the relation, which should be rate limited
-      xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
-            "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation id='#{relationid}' version='1' changeset='#{changeset.id}'>
+            <member ref='#{node2.id}' type='node' role='some'/>
+            <member ref='#{node1.id}' type='node' role='some'/>
+          </relation>
+        </osm>
+      OSM
       put api_relation_path(relationid), :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation update did not hit rate limit"
 
@@ -610,10 +670,14 @@ module Api
       assert_response :too_many_requests, "relation delete did not hit rate limit"
 
       # try creating a relation, which should be rate limited
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member ref='#{node1.id}' type='node' role='some'/>
+            <member ref='#{node2.id}' type='node' role='some'/>
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
@@ -646,10 +710,14 @@ module Api
       auth_header = bearer_authorization_header user
 
       # try creating a relation
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member ref='#{node1.id}' type='node' role='some'/>
+            <member ref='#{node2.id}' type='node' role='some'/>
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
@@ -657,10 +725,14 @@ module Api
       relationid = @response.body
 
       # try updating the relation, which should be rate limited
-      xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
-            "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation id='#{relationid}' version='1' changeset='#{changeset.id}'>
+            <member ref='#{node2.id}' type='node' role='some'/>
+            <member ref='#{node1.id}' type='node' role='some'/>
+          </relation>
+        </osm>
+      OSM
       put api_relation_path(relationid), :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation update did not hit rate limit"
 
@@ -670,10 +742,14 @@ module Api
       assert_response :too_many_requests, "relation delete did not hit rate limit"
 
       # try creating a relation, which should be rate limited
-      xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node1.id}' type='node' role='some'/>" \
-            "<member  ref='#{node2.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
+      xml = <<~OSM
+        <osm>
+          <relation changeset='#{changeset.id}'>
+            <member ref='#{node1.id}' type='node' role='some'/>
+            <member ref='#{node2.id}' type='node' role='some'/>
+          </relation>
+        </osm>
+      OSM
       post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
