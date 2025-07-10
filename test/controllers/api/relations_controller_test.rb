@@ -308,6 +308,11 @@ module Api
         assert_equal({ "test" => "yes" }, relation.tags)
         assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
         assert relation.visible, "saved relation is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_relations
       end
     end
 
@@ -337,6 +342,11 @@ module Api
         assert_equal({ "test" => "yes" }, relation.tags)
         assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
         assert relation.visible, "saved relation is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_relations
       end
     end
 
@@ -366,6 +376,11 @@ module Api
         assert_equal({ "test" => "yes" }, relation.tags)
         assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
         assert relation.visible, "saved relation is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_relations
       end
     end
 
@@ -398,6 +413,11 @@ module Api
         assert_equal({ "test" => "yes" }, relation.tags)
         assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
         assert relation.visible, "saved relation is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_relations
       end
     end
 

@@ -200,6 +200,7 @@ class Relation < ApplicationRecord
 
     self.version = 0
     self.visible = true
+    changeset.num_created_relations += 1
     save_with_history!
   end
 
