@@ -449,6 +449,11 @@ module Api
         node.reload
         assert_not_predicate node, :visible?
         assert_equal response_node_version, node.version
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_nodes
       end
     end
 

@@ -1126,6 +1126,11 @@ module Api
           end
         end
 
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_nodes
+
         node.reload
         assert_not_predicate node, :visible?
       end
@@ -1269,6 +1274,11 @@ module Api
             assert_dom "> @new_version", 0
           end
         end
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_nodes
 
         node.reload
         assert_not node.visible
@@ -1514,6 +1524,13 @@ module Api
         assert_dom "diffResult>node", 3
         assert_dom "diffResult>node[old_id='-1']", 3
 
+        changeset.reload
+        assert_equal 3, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_nodes
+        assert_equal 1, changeset.num_modified_nodes
+        assert_equal 1, changeset.num_deleted_nodes
+
         node = Node.last
         assert_equal 3, node.version
         assert_not node.visible
@@ -1572,6 +1589,12 @@ module Api
         assert_dom "diffResult>node[old_id='-1']", 3
         assert_dom "diffResult>node[new_version='1']", 1
         assert_dom "diffResult>node[new_version='2']", 1
+
+        changeset.reload
+        assert_equal 2, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_nodes
+        assert_equal 1, changeset.num_deleted_nodes
 
         node = Node.last
         assert_equal 2, node.version
