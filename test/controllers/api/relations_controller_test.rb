@@ -1,7 +1,10 @@
 require "test_helper"
+require_relative "elements_test_helper"
 
 module Api
   class RelationsControllerTest < ActionDispatch::IntegrationTest
+    include ElementsTestHelper
+
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -756,10 +759,9 @@ module Api
 
     private
 
-    ##
-    # update the changeset_id of a node element
-    def update_changeset(xml, changeset_id)
-      xml_attr_rewrite(xml, "changeset", changeset_id)
+    def affected_models
+      [Relation, RelationTag, RelationMember,
+       OldRelation, OldRelationTag, OldRelationMember]
     end
 
     ##
