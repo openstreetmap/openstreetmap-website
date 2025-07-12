@@ -207,212 +207,255 @@ module Api
     end
 
     # -------------------------------------
-    # Test simple relation creation.
+    # Test creating relations.
     # -------------------------------------
 
-    def test_create
-      private_user = create(:user, :data_public => false)
-      private_changeset = create(:changeset, :user => private_user)
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
+    def test_create_without_members_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload should have failed with forbidden"
+      end
+    end
+
+    def test_create_with_node_member_with_role_by_private_user
+      node = create(:node)
+
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member ref='#{node.id}' type='node' role='some'/>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload did not return forbidden status"
+      end
+    end
+
+    def test_create_with_node_member_without_role_by_private_user
+      node = create(:node)
+
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member ref='#{node.id}' type='node'/>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload did not return forbidden status"
+      end
+    end
+
+    def test_create_with_node_and_way_members_by_private_user
       node = create(:node)
       way = create(:way_with_nodes, :nodes_count => 2)
 
-      auth_header = bearer_authorization_header private_user
+      with_unchanging_request([:data_public => false]) do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member type='node' ref='#{node.id}' role='some'/>
+              <member type='way' ref='#{way.id}' role='other'/>
+              <tag k='test' v='yes' />
+            </relation>
+          </osm>
+        OSM
 
-      # create an relation without members
-      xml = <<~OSM
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :forbidden, "relation upload did not return success status"
+      end
+    end
+
+    def test_create_without_members
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 0 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_empty relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_node_member_with_role
+      node = create(:node)
+
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 1 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member ref='#{node.id}' type='node' role='some'/>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_equal [["Node", node.id, "some"]], relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_node_member_without_role
+      node = create(:node)
+
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 1 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member ref='#{node.id}' type='node'/>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_equal [["Node", node.id, ""]], relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_node_and_way_members
+      node = create(:node)
+      way = create(:way_with_nodes, :nodes_count => 2)
+
+      with_request do |headers, changeset|
+        assert_difference "Relation.count" => 1,
+                          "RelationMember.count" => 2 do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member type='node' ref='#{node.id}' role='some'/>
+                <member type='way' ref='#{way.id}' role='other'/>
+                <tag k='test' v='yes' />
+              </relation>
+            </osm>
+          OSM
+
+          post api_relations_path, :params => osm, :headers => headers
+
+          assert_response :success, "relation upload did not return success status"
+        end
+
+        created_relation_id = @response.body
+        relation = Relation.find(created_relation_id)
+        assert_equal [["Node", node.id, "some"],
+                      ["Way", way.id, "other"]], relation.members
+        assert_equal({ "test" => "yes" }, relation.tags)
+        assert_equal changeset.id, relation.changeset_id, "saved relation does not belong in the changeset it was assigned to"
+        assert relation.visible, "saved relation is not visible"
+      end
+    end
+
+    def test_create_with_missing_node_member
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member type='node' ref='0'/>
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :precondition_failed, "relation upload with invalid node did not return 'precondition failed'"
+        assert_equal "Precondition failed: Relation with id  cannot be saved due to Node with id 0", @response.body
+      end
+    end
+
+    def test_create_with_invalid_member_type
+      node = create(:node)
+
+      with_unchanging_request do |headers, changeset|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='#{changeset.id}'>
+              <member type='type' ref='#{node.id}' role=''/>
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :bad_request
+        assert_match(/Cannot parse valid relation from xml string/, @response.body)
+        assert_match(/The type is not allowed only, /, @response.body)
+      end
+    end
+
+    def test_create_and_show
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+
+      osm = <<~OSM
         <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <tag k='test' v='yes' />
-          </relation>
+          <relation changeset='#{changeset.id}'/>
         </osm>
       OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden, due to user
-      assert_response :forbidden,
-                      "relation upload should have failed with forbidden"
 
-      ###
-      # create an relation with a node as member
-      # This time try with a role attribute in the relation
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <member ref='#{node.id}' type='node' role='some'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden due to user
-      assert_response :forbidden,
-                      "relation upload did not return forbidden status"
+      post api_relations_path, :params => osm, :headers => bearer_authorization_header(user)
 
-      ###
-      # create an relation with a node as member, this time test that we don't
-      # need a role attribute to be included
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <member ref='#{node.id}' type='node'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden due to user
-      assert_response :forbidden,
-                      "relation upload did not return forbidden status"
+      assert_response :success, "relation upload did not return success status"
 
-      ###
-      # create an relation with a way and a node as members
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{private_changeset.id}'>
-            <member type='node' ref='#{node.id}' role='some'/>
-            <member type='way' ref='#{way.id}' role='other'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for forbidden, due to user
-      assert_response :forbidden,
-                      "relation upload did not return success status"
+      created_relation_id = @response.body
 
-      ## Now try with the public user
-      auth_header = bearer_authorization_header user
+      get api_relation_path(created_relation_id)
 
-      # create an relation without members
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(0, checkrelation.members.length, "saved relation contains members but should not")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-      get api_relation_path(relationid)
-      assert_response :success
-
-      ###
-      # create an relation with a node as member
-      # This time try with a role attribute in the relation
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member ref='#{node.id}' type='node' role='some'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-
-      get api_relation_path(relationid)
-      assert_response :success
-
-      ###
-      # create an relation with a node as member, this time test that we don't
-      # need a role attribute to be included
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member ref='#{node.id}' type='node'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-
-      get api_relation_path(relationid)
-      assert_response :success
-
-      ###
-      # create an relation with a way and a node as members
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member type='node' ref='#{node.id}' role='some'/>
-            <member type='way' ref='#{way.id}' role='other'/>
-            <tag k='test' v='yes' />
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # hope for success
-      assert_response :success,
-                      "relation upload did not return success status"
-      # read id of created relation and search for it
-      relationid = @response.body
-      checkrelation = Relation.find(relationid)
-      assert_not_nil checkrelation,
-                     "uploaded relation not found in data base after upload"
-      # compare values
-      assert_equal(2, checkrelation.members.length, "saved relation does not have exactly two members")
-      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
-      assert_equal changeset.id, checkrelation.changeset.id,
-                   "saved relation does not belong in the changeset it was assigned to"
-      assert_equal user.id, checkrelation.changeset.user_id,
-                   "saved relation does not belong to user that created it"
-      assert checkrelation.visible,
-             "saved relation is not visible"
-      # ok the relation is there but can we also retrieve it?
-      get api_relation_path(relationid)
       assert_response :success
     end
 
@@ -420,206 +463,303 @@ module Api
     # Test updating relations
     # ------------------------------------
 
-    def test_update_wrong_id
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
+    def test_update
       relation = create(:relation)
-      other_relation = create(:relation)
 
-      auth_header = bearer_authorization_header user
-      get api_relation_path(relation)
-      assert_response :success
-      rel = XML::Parser.string(@response.body).parse
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation relation
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      update_changeset(rel, changeset.id)
-      put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
-      assert_response :bad_request
+        put api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+        assert_response :success
+
+        relation.reload
+        assert_equal 2, relation.version
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+      end
     end
 
-    # -------------------------------------
-    # Test creating some invalid relations.
-    # -------------------------------------
+    def test_update_other_relation
+      with_unchanging(:relation) do |relation|
+        with_unchanging(:relation) do |other_relation|
+          with_unchanging_request do |headers, changeset|
+            osm_xml = xml_for_relation other_relation
+            osm_xml = update_changeset osm_xml, changeset.id
 
-    def test_create_invalid
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
+            put api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
 
-      auth_header = bearer_authorization_header user
-
-      # create a relation with non-existing node as member
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member type='node' ref='0'/>
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :precondition_failed,
-                      "relation upload with invalid node did not return 'precondition failed'"
-      assert_equal "Precondition failed: Relation with id  cannot be saved due to Node with id 0", @response.body
-    end
-
-    # -------------------------------------
-    # Test creating a relation, with some invalid XML
-    # -------------------------------------
-    def test_create_invalid_xml
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      node = create(:node)
-
-      auth_header = bearer_authorization_header user
-
-      # create some xml that should return an error
-      xml = <<~OSM
-        <osm>
-          <relation changeset='#{changeset.id}'>
-            <member type='type' ref='#{node.id}' role=''/>
-          </relation>
-        </osm>
-      OSM
-      post api_relations_path, :params => xml, :headers => auth_header
-      # expect failure
-      assert_response :bad_request
-      assert_match(/Cannot parse valid relation from xml string/, @response.body)
-      assert_match(/The type is not allowed only, /, @response.body)
+            assert_response :bad_request
+          end
+        end
+      end
     end
 
     # -------------------------------------
     # Test deleting relations.
     # -------------------------------------
 
+    def test_destroy_when_unauthorized
+      with_unchanging(:relation) do |relation|
+        delete api_relation_path(relation)
+
+        assert_response :unauthorized
+      end
+    end
+
+    def test_destroy_without_payload_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers|
+          delete api_relation_path(relation), :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_without_changeset_id_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm = "<osm><relation id='#{relation.id}' version='#{relation.version}'/></osm>"
+
+          delete api_relation_path(relation), :params => osm, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_relation_used_by_other_relation_by_private_user
+      with_unchanging(:relation) do |relation|
+        create(:relation_member, :member => relation)
+
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_by_private_user
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_deleted_relation_by_private_user
+      with_unchanging(:relation, :deleted) do |relation|
+        with_unchanging_request([:data_public => false]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_missing_relation_by_private_user
+      with_unchanging_request([:data_public => false]) do |headers|
+        delete api_relation_path(0), :headers => headers
+
+        assert_response :forbidden
+      end
+    end
+
+    def test_destroy_without_payload
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          delete api_relation_path(relation), :headers => headers
+
+          assert_response :bad_request
+        end
+      end
+    end
+
+    def test_destroy_without_changeset_id
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          osm = "<osm><relation id='#{relation.id}' version='#{relation.version}'/></osm>"
+
+          delete api_relation_path(relation), :params => osm, :headers => headers
+
+          assert_response :bad_request
+          assert_match(/Changeset id is missing/, @response.body)
+        end
+      end
+    end
+
+    def test_destroy_in_closed_changeset
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request([], [:closed]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_in_missing_changeset
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, 0
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict
+        end
+      end
+    end
+
+    def test_destroy_in_changeset_of_other_user
+      with_unchanging(:relation) do |relation|
+        other_user = create(:user)
+
+        with_unchanging_request([], [:user => other_user]) do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
+        end
+      end
+    end
+
+    def test_destroy_other_relation
+      with_unchanging(:relation) do |relation|
+        with_unchanging(:relation) do |other_relation|
+          with_unchanging_request do |headers, changeset|
+            osm_xml = xml_for_relation other_relation
+            osm_xml = update_changeset osm_xml, changeset.id
+
+            delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+            assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
+          end
+        end
+      end
+    end
+
+    def test_destroy_relation_used_by_other_relation
+      with_unchanging(:relation) do |relation|
+        super_relation = create(:relation)
+        create(:relation_member, :relation => super_relation, :member => relation)
+
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :precondition_failed, "shouldn't be able to delete a relation used in a relation (#{@response.body})"
+          assert_equal "Precondition failed: The relation #{relation.id} is used in relation #{super_relation.id}.", @response.body
+        end
+      end
+    end
+
     def test_destroy
-      private_user = create(:user, :data_public => false)
-      private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
-      user = create(:user)
-      closed_changeset = create(:changeset, :closed, :user => user)
-      changeset = create(:changeset, :user => user)
       relation = create(:relation)
+      create_list(:relation_tag, 4, :relation => relation)
+
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation relation
+        osm_xml = update_changeset osm_xml, changeset.id
+
+        delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+        assert_response :success
+        assert_operator @response.body.to_i, :>, relation.version, "delete request should return a new version number for relation"
+      end
+    end
+
+    def test_destroy_deleted_relation
+      with_unchanging(:relation, :deleted) do |relation|
+        with_unchanging_request do |headers, changeset|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, changeset.id
+
+          delete api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :gone
+        end
+      end
+    end
+
+    def test_destroy_super_relation_then_used_relation
       used_relation = create(:relation)
-      super_relation = create(:relation_member, :member => used_relation).relation
-      deleted_relation = create(:relation, :deleted)
-      multi_tag_relation = create(:relation)
-      create_list(:relation_tag, 4, :relation => multi_tag_relation)
+      super_relation = create(:relation)
+      create(:relation_member, :relation => super_relation, :member => used_relation)
 
-      ## First try to delete relation without auth
-      delete api_relation_path(relation)
-      assert_response :unauthorized
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation super_relation
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      ## Then try with the private user, to make sure that you get a forbidden
-      auth_header = bearer_authorization_header private_user
+        delete api_relation_path(super_relation), :params => osm_xml.to_s, :headers => headers
 
-      # this shouldn't work, as we should need the payload...
-      delete api_relation_path(relation), :headers => auth_header
-      assert_response :forbidden
+        assert_response :success
+      end
 
-      # try to delete without specifying a changeset
-      xml = "<osm><relation id='#{relation.id}'/></osm>"
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+      with_request do |headers, changeset|
+        osm_xml = xml_for_relation used_relation
+        osm_xml = update_changeset osm_xml, changeset.id
 
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_relation(relation),
-                             private_user_closed_changeset.id)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+        delete api_relation_path(used_relation), :params => osm_xml.to_s, :headers => headers
 
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_relation(relation), 0)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+        assert_response :success, "should be able to delete a relation used in an old relation (#{@response.body})"
+      end
+    end
 
-      # this won't work because the relation is in-use by another relation
-      xml = xml_for_relation(used_relation)
-      delete api_relation_path(used_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
+    def test_destroy_missing_relation
+      with_unchanging_request do |headers|
+        delete api_relation_path(0), :headers => headers
 
-      # this should work when we provide the appropriate payload...
-      xml = xml_for_relation(relation)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
-
-      # this won't work since the relation is already deleted
-      xml = xml_for_relation(deleted_relation)
-      delete api_relation_path(deleted_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :forbidden
-
-      # this won't work since the relation never existed
-      delete api_relation_path(0), :headers => auth_header
-      assert_response :forbidden
-
-      ## now set auth for the public user
-      auth_header = bearer_authorization_header user
-
-      # this shouldn't work, as we should need the payload...
-      delete api_relation_path(relation), :headers => auth_header
-      assert_response :bad_request
-
-      # try to delete without specifying a changeset
-      xml = "<osm><relation id='#{relation.id}' version='#{relation.version}' /></osm>"
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request
-      assert_match(/Changeset id is missing/, @response.body)
-
-      # try to delete with an invalid (closed) changeset
-      xml = update_changeset(xml_for_relation(relation),
-                             closed_changeset.id)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(xml_for_relation(relation), 0)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict
-
-      # this won't work because the relation is in a changeset owned by someone else
-      xml = update_changeset(xml_for_relation(relation), create(:changeset).id)
-      delete api_relation_path(relation), :params => xml.to_s, :headers => auth_header
-      assert_response :conflict,
-                      "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
-
-      # this won't work because the relation in the payload is different to that passed
-      xml = update_changeset(xml_for_relation(relation), changeset.id)
-      delete api_relation_path(create(:relation)), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
-
-      # this won't work because the relation is in-use by another relation
-      xml = update_changeset(xml_for_relation(used_relation), changeset.id)
-      delete api_relation_path(used_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :precondition_failed,
-                      "shouldn't be able to delete a relation used in a relation (#{@response.body})"
-      assert_equal "Precondition failed: The relation #{used_relation.id} is used in relation #{super_relation.id}.", @response.body
-
-      # this should work when we provide the appropriate payload...
-      xml = update_changeset(xml_for_relation(multi_tag_relation), changeset.id)
-      delete api_relation_path(multi_tag_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :success
-
-      # valid delete should return the new version number, which should
-      # be greater than the old version number
-      assert_operator @response.body.to_i, :>, multi_tag_relation.version, "delete request should return a new version number for relation"
-
-      # this won't work since the relation is already deleted
-      xml = update_changeset(xml_for_relation(deleted_relation), changeset.id)
-      delete api_relation_path(deleted_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :gone
-
-      # Public visible relation needs to be deleted
-      xml = update_changeset(xml_for_relation(super_relation), changeset.id)
-      delete api_relation_path(super_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :success
-
-      # this works now because the relation which was using this one
-      # has been deleted.
-      xml = update_changeset(xml_for_relation(used_relation), changeset.id)
-      delete api_relation_path(used_relation), :params => xml.to_s, :headers => auth_header
-      assert_response :success,
-                      "should be able to delete a relation used in an old relation (#{@response.body})"
-
-      # this won't work since the relation never existed
-      delete api_relation_path(0), :headers => auth_header
-      assert_response :not_found
+        assert_response :not_found
+      end
     end
 
     ##
