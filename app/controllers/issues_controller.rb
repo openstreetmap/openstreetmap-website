@@ -53,8 +53,6 @@ class IssuesController < ApplicationController
         :users => User.in_order_of(:id, user_ids.first(@unique_reporters_limit))
       }
     end
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show

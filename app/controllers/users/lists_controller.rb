@@ -26,8 +26,6 @@ module Users
       @users_count = I18n.t("count.at_least_pattern", :count => 500) if @users_count > 500
 
       @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
-
-      render :partial => "page" if turbo_frame_request_id == "pagination"
     end
 
     ##
