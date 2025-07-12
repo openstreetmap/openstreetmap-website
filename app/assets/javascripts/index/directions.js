@@ -54,7 +54,6 @@ OSM.Directions = function (map) {
 
   $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
-    $(".describe_location").toggle(!endpoints[1].value);
     $(".search_form input[name='query']").val(endpoints[1].value);
     OSM.router.route("/" + OSM.formatHash(map));
   });
