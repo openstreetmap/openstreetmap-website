@@ -1,12 +1,4 @@
 OSM.Search = function (map) {
-  $(".search_form input[name=query]").on("input", function (e) {
-    if ($(e.target).val() === "") {
-      $(".describe_location").fadeIn(100);
-    } else {
-      $(".describe_location").fadeOut(100);
-    }
-  });
-
   $(".search_form a.btn.switch_link").on("click", function (e) {
     e.preventDefault();
     const query = $(this).closest("form").find("input[name=query]").val();
@@ -112,10 +104,8 @@ OSM.Search = function (map) {
     const params = new URLSearchParams(path.substring(path.indexOf("?")));
     if (params.has("query")) {
       $(".search_form input[name=query]").val(params.get("query"));
-      $(".describe_location").hide();
     } else if (params.has("lat") && params.has("lon")) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
-      $(".describe_location").hide();
     }
     OSM.loadSidebarContent(path, page.load);
   };
@@ -146,7 +136,6 @@ OSM.Search = function (map) {
   page.unload = function () {
     markers.clearLayers();
     $(".search_form input[name=query]").val("");
-    $(".describe_location").fadeIn(100);
   };
 
   return page;
