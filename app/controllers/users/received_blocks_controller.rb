@@ -25,8 +25,6 @@ module Users
 
       @show_user_name = false
       @show_creator_name = true
-
-      render :partial => "user_blocks/page" if turbo_frame_request_id == "pagination"
     end
 
     ##
