@@ -32,7 +32,7 @@ OSM.NewNote = function (map) {
 
   function addCreatedNoteMarker(feature) {
     const marker = L.marker(feature.geometry.coordinates.reverse(), {
-      icon: OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }),
+      icon: OSM.noteMarkers[feature.properties.status],
       opacity: 0.9,
       interactive: true
     });
@@ -62,7 +62,7 @@ OSM.NewNote = function (map) {
     if (newNoteMarker) map.removeLayer(newNoteMarker);
 
     newNoteMarker = L.marker(latlng, {
-      icon: OSM.getMarker({ icon: "NEW_NOTE_MARKER", shadow: false, height: 40 }),
+      icon: OSM.noteMarkers.new,
       opacity: 0.9,
       draggable: true
     });
