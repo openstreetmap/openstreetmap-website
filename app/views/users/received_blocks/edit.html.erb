@@ -1,7 +1,7 @@
-<% @title = t ".title", :block_on => @user.display_name %>
+<% @title = t ".title_html", :block_on => tag.bdi(@user.display_name) %>
 
 <% content_for :heading do %>
-  <h1><%= t ".heading_html", :block_on => link_to(@user.display_name, @user) %></h1>
+  <h1><%= t ".heading_html", :block_on => link_to(@user.display_name, @user, :dir => :auto) %></h1>
 <% end %>
 
 <% unless @user.blocks.active.empty? %>
@@ -20,5 +20,5 @@
   <% end %>
 
 <% else %>
-<p><%= t ".empty", :name => @user.display_name %></p>
+<p><%= t ".empty_html", :name => tag.bdi(@user.display_name) %></p>
 <% end %>

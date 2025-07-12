@@ -1,21 +1,21 @@
 <% content_for :heading do %>
-  <h1><%= @message.title %></h1>
+  <h1 dir="auto"><%= @message.title %></h1>
 <% end %>
 
 <div class='mb-3 border-bottom border-secondary-subtle py-1 d-flex gap-1 flex-wrap'>
   <% if current_user == @message.recipient %>
     <%= user_thumbnail_tiny @message.sender %>
-    <%= link_to @message.sender.display_name, @message.sender %>
+    <%= link_to @message.sender.display_name, @message.sender, :dir => :auto %>
   <% else %>
     <%= user_thumbnail_tiny @message.recipient %>
-    <%= link_to @message.recipient.display_name, @message.recipient %>
+    <%= link_to @message.recipient.display_name, @message.recipient, :dir => :auto %>
   <% end %>
   <span class="ms-auto">
     <%= l @message.sent_on, :format => :friendly %>
   </span>
 </div>
 
-<div class="richtext text-break"><%= @message.body.to_html %></div>
+<div class="richtext text-break" dir="auto"><%= @message.body.to_html %></div>
 
 <div>
   <%= link_to t(".reply_button"), new_message_reply_path(@message), :class => "btn btn-primary" %>

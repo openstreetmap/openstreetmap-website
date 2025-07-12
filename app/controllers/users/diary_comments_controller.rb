@@ -1,7 +1,9 @@
 module Users
   class DiaryCommentsController < CommentsController
+    include ActionView::Helpers::TagHelper
+
     def index
-      @title = t ".title", :user => @user.display_name
+      @title = t ".title_html", :user => tag.bdi(@user.display_name)
 
       comments = DiaryComment.where(:user => @user)
       comments = comments.visible unless can? :unhide, DiaryComment

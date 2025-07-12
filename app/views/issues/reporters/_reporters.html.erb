@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "#{dom_id(issue)}_reporters", :data => { :turbo => false } do %>
   <% @unique_reporters[issue.id][:users].each do |reporter| %>
-    <%= link_to reporter.display_name, reporter, :class => "d-block text-truncate", :title => reporter.display_name %>
+    <%= link_to reporter.display_name, reporter, :class => "d-block text-truncate", :title => reporter.display_name, :dir => :auto %>
   <% end %>
   <% if @unique_reporters_limit && @unique_reporters[issue.id][:count] > @unique_reporters_limit %>
     <p class="m-0">
