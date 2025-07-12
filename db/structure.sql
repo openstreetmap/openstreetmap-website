@@ -446,7 +446,16 @@ CREATE TABLE public.changesets (
     min_lon integer,
     max_lon integer,
     closed_at timestamp without time zone NOT NULL,
-    num_changes integer DEFAULT 0 NOT NULL
+    num_changes integer DEFAULT 0 NOT NULL,
+    num_created_nodes integer DEFAULT 0 NOT NULL,
+    num_modified_nodes integer DEFAULT 0 NOT NULL,
+    num_deleted_nodes integer DEFAULT 0 NOT NULL,
+    num_created_ways integer DEFAULT 0 NOT NULL,
+    num_modified_ways integer DEFAULT 0 NOT NULL,
+    num_deleted_ways integer DEFAULT 0 NOT NULL,
+    num_created_relations integer DEFAULT 0 NOT NULL,
+    num_modified_relations integer DEFAULT 0 NOT NULL,
+    num_deleted_relations integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3514,6 +3523,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20250704143751'),
 ('20250506052030'),
 ('20250304172798'),
 ('20250304172758'),

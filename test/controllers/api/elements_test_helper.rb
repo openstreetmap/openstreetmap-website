@@ -15,6 +15,7 @@ module Api
         if changeset
           changeset.reload
           assert_equal 0, changeset.num_changes
+          assert_predicate changeset, :num_type_changes_in_sync?
         end
       end
     end

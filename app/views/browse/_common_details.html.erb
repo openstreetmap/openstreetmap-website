@@ -21,8 +21,8 @@
           :time_ago => friendly_date_ago(common_details.timestamp),
           :user => changeset_user_link(common_details.changeset) %>
   </div>
-  <%= render "changesets/changeset_line", :num_changes => nil,
-                                          :num_comments => common_details.changeset.comments.length do %>
+  <%= render "changesets/changeset_line", :changeset => common_details.changeset,
+                                          :show_num_changes => false do %>
     <%= t "browse.in_changeset" %>
     #<%= link_to common_details.changeset_id, common_details.changeset %>
   <% end %>

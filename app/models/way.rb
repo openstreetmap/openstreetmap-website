@@ -150,6 +150,7 @@ class Way < ApplicationRecord
       self.tags = new_way.tags
       self.nds = new_way.nds
       self.visible = true
+      changeset.num_modified_ways += 1
       save_with_history!
     end
   end
@@ -160,6 +161,7 @@ class Way < ApplicationRecord
 
     self.version = 0
     self.visible = true
+    changeset.num_created_ways += 1
     save_with_history!
   end
 
@@ -203,6 +205,7 @@ class Way < ApplicationRecord
       self.tags = []
       self.nds = []
       self.visible = false
+      changeset.num_deleted_ways += 1
       save_with_history!
     end
   end
