@@ -24,8 +24,9 @@ class ExportController < ApplicationController
     when "mapnik"
       # redirect to a special 'export' cgi script
       scale = params[:mapnik_scale]
+      token = ROTP::TOTP.new(Settings.totp_key, :interval => 3600).now if Settings.totp_key
 
-      redirect_to "https://render.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}", :allow_other_host => true
+      redirect_to "https://render.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}&token=#{token}", :allow_other_host => true
     when "cyclemap", "transportmap"
       zoom = params[:zoom]
       lat = params[:lat]
