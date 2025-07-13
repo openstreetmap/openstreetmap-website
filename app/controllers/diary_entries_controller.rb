@@ -2,7 +2,7 @@ class DiaryEntriesController < ApplicationController
   include UserMethods
   include PaginationMethods
 
-  layout "site", :except => :rss
+  layout :site_layout, :except => :rss
 
   before_action :authorize_web
   before_action :set_locale

@@ -2,7 +2,7 @@ module Users
   class ListsController < ApplicationController
     include PaginationMethods
 
-    layout "site"
+    layout :site_layout
 
     before_action :authorize_web
     before_action :set_locale

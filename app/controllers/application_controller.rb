@@ -39,6 +39,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def site_layout
+    turbo_frame_request? ? "turbo_frame" : "site"
+  end
+
   def authorize_web(skip_terms: false)
     if session[:user]
       self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
