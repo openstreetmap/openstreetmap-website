@@ -404,14 +404,6 @@
     transition: opacity 100ms linear;
 }
 
-/* Opera doesn't support dominant-baseline. See #715 */
-/* Safari 10 seems to have regressed too */
-.ideditor .linelabel-halo .textpath,
-.ideditor .linelabel .textpath {
-  baseline-shift: -33%;
-  dominant-baseline: auto;
-}
-
 .ideditor .labels-group.halo text {
     opacity: 0.7;
     stroke: #fff;
@@ -3973,6 +3965,9 @@
     background-color: rgba(255,255,255,.25);
     color: rgba(0,0,0,.4);
     cursor: not-allowed;
+}
+.ideditor button.disabled .icon {
+    fill: rgba(0,0,0,.4);
 }
 
 .ideditor .joined > * {
@@ -7877,7 +7872,8 @@
 .ideditor .inspector-hover .form-field-input-radio label,
 .ideditor .inspector-hover .form-field-input-radio label span,
 .ideditor .inspector-hover .form-field-input-radio label.remove .icon,
-.ideditor .inspector-hover .add-row,
+.ideditor .inspector-hover .tag-row button,
+.ideditor .inspector-hover .tag-row.add-tag,
 .ideditor .inspector-hover .section-entity-issues .issue-container .issue-fix-list,
 .ideditor .inspector-hover .section-entity-issues .issue-container .issue-info-button {
     display: none;
@@ -7891,9 +7887,8 @@
 .ideditor .inspector-hover .hide-toggle:before,
 .ideditor .inspector-hover .more-fields,
 .ideditor .inspector-hover .field-label button,
-.ideditor .inspector-hover .tag-row button,
 .ideditor .inspector-hover .footer * {
-    opacity: 0;
+    visibility: hidden;
 }
 
 /* Unstyle the active entity issue on hover */
