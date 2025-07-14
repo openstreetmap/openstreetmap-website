@@ -1,7 +1,7 @@
 <article class='diary_post border-top border-secondary-subtle py-3<%= " text-body-secondary px-3 bg-danger bg-opacity-10" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
   <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry" %>
 
-  <div class="richtext text-break" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
+  <div class="richtext text-break clearfix" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
     <% if truncated %>
       <% truncated_entry = diary_entry.body.truncate_html(2000) %>
       <%= truncated_entry[:html] %>
