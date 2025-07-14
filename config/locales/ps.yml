@@ -10,6 +10,12 @@
 ps:
   html:
     dir: rtl
+  date:
+    formats:
+      heatmap: '%B %-d'
+  time:
+    formats:
+      friendly: '%e %B %Y په %H:%M'
   helpers:
     file:
       prompt: دوتنه ټاکل
@@ -29,8 +35,22 @@ ps:
       trace:
         create: پورته کول
         update: بدلونونه خوندي کول
+      user_block:
+        create: بنديز جوړول
+        update: بنديز وسمهالول
   activerecord:
+    errors:
+      models:
+        user_mute:
+          is_already_muted: له مخکې چوپ‌شوی
+        social_link:
+          attributes:
+            url:
+              http_parse_error: وېبتړ بايد له http:// or https:// سره پيل شي
     models:
+      acl: د لاسرسي واگ لړليک
+      changeset: بدلون‌ټولگه
+      changeset_tag: بدلون‌ټولگې نښلن
       country: هېواد
       friend: ملگری
       issue: ستونزه
@@ -126,9 +146,13 @@ ps:
       my_account: زما گڼون
       current email address: 'اوسنۍ برېښليک‌پته:'
       external auth: بېرونۍ تاييدي
-      contributor terms:
+      contributor_terms:
         heading: مرستيالۍ لارښود
-        link text: دا څه دی؟
+      terms_of_use:
+        heading: کارولو منښتونه
+        agreed: تاسو په %{date} د کارونې منښتونو سره همغږيتوب وښود.
+        review: منښتونو بياکتنه
+        review_and_accept: د منښتونو بياکتنه او منل
       save changes button: بدلونونه خوندي کول
     terms:
       show:

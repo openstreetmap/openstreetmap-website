@@ -303,15 +303,10 @@ br:
       my_account: Ma c'hont
       current email address: Chomlec'h postel a-vremañ
       external auth: Dilesadur diavaez
-      contributor terms:
+      contributor_terms:
         heading: Diferadennoù ar c'henlabourer
         agreed: Degemeret hoc'h eus diferadennoù nevez ar c'henlabourer.
-        not yet agreed: N'hoc'h eus ket degemeret c'hoazh diferadennoù nevez ar c'henlabourer.
-        review link text: Heuilhit al liamm-mañ evel ma karot evit sellet ouzh diferadennoù
-          nevez ar c'henlabourer hag asantiñ dezho.
         agreed_with_pd: Disklêriet hoc'h eus ivez emañ ho tegasadennoù en domani foran.
-        link text: petra eo an dra-se ?
-        pd_link_text: disklêriañ
       save changes button: Enrollañ ar c'hemmoù
       delete_account: Dilemel ar gont...
     go_public:
@@ -469,6 +464,8 @@ br:
       way: Hent
       relation: Darempred
       history: Istor
+      version: 'Stumm #%{version}'
+      versions_label: 'Stummoù:'
   feature_queries:
     show:
       title: Arc'hweladurioù enklask
@@ -483,6 +480,8 @@ br:
         title_html: 'Istor an hent: %{name}'
       relation:
         title_html: 'Istor an darempred: %{name}'
+      older_versions: Stummoù koshoc'h
+      newer_versions: Stummoù nevesoc'h
   nodes:
     not_found_message:
       sorry: 'Hon digarezit, n''eo ket bet kavet ar skoulm #%{id}.'
@@ -998,7 +997,7 @@ br:
           elevator: Pignerez
           emergency_access_point: Poent moned trummadoù
           emergency_bay: Takad sikour
-          footway: Gwenodenn evit an dud war-droad
+          footway: Gwenodenn kerzhet
           ford: Roudour
           give_way: Panell "Lezit da dremen"
           living_street: Straed annez
@@ -1008,7 +1007,7 @@ br:
           motorway_link: Gourhent
           passing_place: Lec'h tremen
           path: Gwenodenn
-          pedestrian: Hent evit an dud war-droad
+          pedestrian: Straed kerzhet
           platform: Pladfurm
           primary: Hent kentañ renk
           primary_link: Pennhent
@@ -1542,6 +1541,7 @@ br:
         district: Harzoù an distrig
         distrito: Harzoù an distrig
         freguesia: Harzoù ar Freguesia (parrez)
+        local_authority: Harzoù an aotrouniezh lec'hel
         municipality: Bevenn kêr
         municipi: Bevenn kêr
         município: Bevenn kêr
@@ -1570,6 +1570,10 @@ br:
       time: Eur
       ascend: Pignat
       descend: Diskenn
+      kilometers: kilometroù
+      miles_feet: miltirioù; troadoù
+      miles_yards: miltirioù, yardoù
+      distance_units_settings: Arventennoù an unanennoù muzuliañ
       download: Pellgargañ an hentad evel ur restr GeoJSON
       filename: hentad
       directions_courtesy_html: Hent a-berzh %{link}
@@ -2011,20 +2015,36 @@ br:
   profiles:
     profile_sections:
       navigation:
+        description: Deskrivadur
+        links: Liammoù
         image: Skeudenn
         company: Embregerezh
+        location: Lec'hiadur
     descriptions:
       show:
         title: Aozañ ar profil
         save: Hizivaat ar profil
         cancel: Nullañ
+      update:
+        success: Deskrivadur ar profil hizivaet.
+        failure: N'haller ket hizivaat deskrivadur ar bajenn.
     links:
       show:
         title: Aozañ ar profil
+        save: Hizivaat ar profil
+        cancel: Nullañ
         social_links:
+          title: Liammoù rouedadoù sokial ar profil
           remove: Dilemel
+          add: Ouzhpennañ liamm ur rouedad sokial
+      update:
+        success: Liammoù ar profil hizivaet.
+        failure: N'haller ket hizivaat liammoù ar profil.
     images:
       show:
+        title: Kemmañ ar profil
+        save: Hizivaat ar profil
+        cancel: Nullañ
         gravatar:
           gravatar: Implijout Gravatar
           what_is_gravatar: Petra eo Gravatar?
@@ -2034,14 +2054,31 @@ br:
         replace image: Erlec'hiañ ar skeudenn a-vremañ
         image size hint: (ar skeudennoù karrezenneg gant ar stumm 100×100 pixel a
           zo ar re wellañ)
+      update:
+        success: Skeudenn profil hizivaet.
+        failure: N'haller ket hizivaat ar skeudenn profil.
+    companies:
+      show:
+        title: Kemmañ ar profil
+        save: Hizivaat ar profil
+        cancel: Nullañ
+      update:
+        success: Embregerezh ar profil hizivaet.
+        failure: N'haller ket hizivaat embregerezh ar profil.
     locations:
       show:
+        title: Kemmañ ar profil
+        save: Hizivaat ar profil
+        cancel: Nullañ
         no home location: N'hoc'h eus ket ebarzhet lec'hiadur ho kêr.
         update home location on click: Hizivaat lec'hiadur ho kêr pa glikit war ar
           gartenn ?
         show: Diskouez
         delete: Dilemel
         undelete: Dizober al lamidigezh
+      update:
+        success: Lec'hiadur ar profil hizivaet.
+        failure: N'haller ket hizivaat lec'hiadur ar profil.
   sessions:
     new:
       tab_title: Kennaskañ
@@ -2110,9 +2147,13 @@ br:
       user_blocks:
         older: Stankadurioù koshoc'h
         newer: Stankadurioù nevesañ
+        oldest: Stankadurioù koshañ
+        newest: Stankadurioù nevesañ
       users:
         older: Implijerien goshoc'h
         newer: Implijerien nevesoc'h
+        oldest: Implijerien goshañ
+        newest: Implijerien nevesañ
   site:
     about:
       heading_html: Kenlabourerien %{copyright}OpenStreetMap %{br}
@@ -2438,7 +2479,7 @@ br:
         primary: Hent bras
         secondary: Hent bihan
         unclassified: Hent n'eo ket rummet
-        pedestrian: Hent evit an dud war-droad
+        pedestrian: Straed kerzhet
         track: Roudenn
         bridleway: Hent evit kezeg
         cycleway: Roudenn divrodegoù
@@ -2447,7 +2488,7 @@ br:
         regional_bike_route: Roudenn divrodegoù rannvroel
         local_bike_route: roudenn lec'hel evit an divrodegoù
         mountain_bike_route: Hent MTB
-        footway: Hent evit an dud war droad
+        footway: Gwenodenn kerzhet
         rail: Hent-houarn
         train: Tren
         subway: Linenn vetro
@@ -2519,6 +2560,7 @@ br:
         bicycle_parking: Parklec'h belioù
         bicycle_parking_small: Parklec'h marc'hoù-houarn bihan
         toilets: Privezioù
+      see_external_legend: Gwelet alc'hwez diavaez ar gartenn
   share_panes:
     show:
       link: Liamm pe HTML
@@ -2711,6 +2753,9 @@ br:
       read_email: Lenn chomlec'h postel an implijer
   oauth2_applications:
     index:
+      no_applications_html: Ha bez' hoc'h eus un arload ho pefe c'hoant da varilhañ
+        evit implijout ar standard %{oauth2} ganimp? Ret eo deoc'h marilhañ hoc'h
+        arload web a-raok dezhi ober rekedoù d'ar servij-mañ.
       new: Marilhañ un arload nevez
       name: Anv
       permissions: Aotreoù
@@ -2773,6 +2818,7 @@ br:
       display name description: Emañ hoc'h anv implijer a-wel d'an holl. Se a c'hallit
         cheñch diwezhatoc'h en ho penndibaboù.
       by_signing_up:
+        tou: Termenoù implij
         privacy_policy: reolennoù prevezded
         contributor_terms: reolennoù ar genlabourerien
       continue: En em enskrivañ
@@ -2807,7 +2853,7 @@ br:
       diary: deizlevr
       edits: Kemmoù
       traces: roudoù
-      notes: Notennoù kartenn
+      notes: Notennoù ar gartenn
       unfollow: Na heuliañ
       follow: Heuliañ
       mapper since: 'Kartennour abaoe :'
@@ -2847,8 +2893,15 @@ br:
       delete_user: Dilemel an implijer-mañ
       confirm: Kadarnaat
       report: Disklêriañ an implijer-mañ
+      edit_profile_details: Kemmañ munudoù ar profil
+      edit_description: Kemmañ an deskrivadur
+      edit_links: Kemmañ al liammoù
+      change_image: Cheñch skeudenn
+      edit_company: Kemmañ an embregerezh
+      edit_location: Kemmañ al lec'hiadur
     sidebar_section:
       home_location: Lec'h annezañ
+      company: Embregerezh
     go_public:
       flash success: Foran eo hoc'h holl aozadennoù bremañ, ha n'oc'h ket aotreet
         da aozañ.
@@ -3188,13 +3241,13 @@ br:
           other: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
       base:
         standard: Standard
-        cycle_map: Kelc'hiad kartenn
+        cycle_map: Kartenn marc'hoù-houarn
         transport_map: Kartenn treuzdougen
-        tracestracktop_topo: Tracestrack Topo
+        tracestracktop_topo: Topografiezh Tracestrack
         hot: Denegour
       layers:
-        header: Gwiskadoù kartenn
-        notes: Notennoù kartenn
+        header: Gwiskadoù ar gartenn
+        notes: Notennoù ar gartenn
         data: Roadennoù ar gartenn
         gps: Roudoù GPS foran
         overlays: Gweredekaat an adwiskadoù evit dresañ ar gartenn
@@ -3214,6 +3267,9 @@ br:
       createnote_disabled_tooltip: Zoumañ da ouzhpennañ un notenn d'ar gartenn
       queryfeature_tooltip: Arc'hweladurioù enklask
       queryfeature_disabled_tooltip: Zoumañ evit an arc'hweladurioù enklask
+    profile:
+      social_link_n: Liamm rouedad sokial ar profil %{n}
+      remove_social_link_n: Dilemel liamm rouedad sokial ar profil %{n}
     edit_help: Dilec'hiit ar gartenn ha zoumit war ul lec'h a fell deoc'h aozañ, ha
       neuze klikit amañ.
     directions:
@@ -3221,6 +3277,7 @@ br:
         m: '%{distance}m'
         km: '%{distance}km'
         ft: '%{distance}tt'
+        yd: '%{distance}yd'
         mi: '%{distance}mi'
       errors:
         no_route: Ne c'haller ket kavout un hent etre an daou lec'h-mañ.
@@ -3314,6 +3371,7 @@ br:
       show_address: Diskouez ar chomlec'h
       query_features: Perzhioù enklask
       centre_map: Kreizañ ar gartenn amañ
+      scroll_to_changeset: Dibunañ betek an hollad cheñchamantoù
     home:
       marker_title: Lec'hiadur ma zi
       not_set: N'haller ket kaout lec'hiadur ho ti war ar gont-mañ

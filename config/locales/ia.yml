@@ -261,18 +261,23 @@ ia:
       my_account: Mi conto
       current email address: Adresse de e-mail actual
       external auth: Authentication externe
-      contributor terms:
+      contributor_terms:
         heading: Conditiones de contributor
-        agreed: Tu ha acceptate le nove Conditiones de Contributor.
-        not yet agreed: Tu non ha ancora acceptate le nove Conditiones de Contributor.
-        review link text: Per favor seque iste ligamine a tu convenientia pro revider
-          e acceptar le nove Conditiones de Contributor.
+        agreed: Tu ha acceptate le Conditiones de Contributor le %{date}.
+        not_agreed: Tu non ha ancora acceptate le Conditiones de Contributor.
         agreed_with_pd: Tu ha anque declarate que tu considera tu modificationes como
           liberate al Dominio Public.
-        link text: que es isto?
         not_agreed_with_pd: Tu non ha declarate que tu considera tu modificationes
           como liberate al Dominio Public.
-        pd_link_text: declara
+        review: Leger le Conditiones
+        review_and_accept: Leger e acceptar le Conditiones
+        consider_pd: Considera le dominio public
+      terms_of_use:
+        heading: Conditiones de uso
+        agreed: Tu ha acceptate le Conditiones de uso le %{date}.
+        not_agreed: Tu non ha ancora acceptate le Conditiones de uso.
+        review: Leger le Conditiones
+        review_and_accept: Leger e acceptar le Conditiones
       save changes button: Salveguardar modificationes
       delete_account: Deler conto…
     go_public:
@@ -1550,6 +1555,8 @@ ia:
           lagoon: Laguna
           wastewater: Aqua residual
           oxbow: Laco de meandro isolate
+          stream_pool: Stagno fluvial
+          lock: Esclusa
         waterway:
           artificial: Via aquatic artificial
           boatyard: Cantier naval
@@ -1580,10 +1587,39 @@ ia:
         level9: Limite administrative (nivello 9)
         level10: Limite administrative (nivello 10)
         level11: Limite administrative (nivello 11)
+      border_types:
+        arrondissement: Limite de arrondissement
+        borough: Limite de borough
+        cercle: Limite de cercle
+        city: Limite de citate
+        comarca: Limite de comarca
+        county: Limite de contato
+        departement: Limite departimental
+        department: Limite departimental
+        district: Limite de districto
+        distrito: Limite de districto
+        freguesia: Limite de freguesia
+        local_authority: Limite de autoritate local
+        municipality: Limite municipal
+        municipi: Limite municipal
+        município: Limite municipal
+        nation: Frontiera international
+        national: Frontiera international
+        neighbourhood: Limite de quartiero
+        parish: Limite parochial
+        province: Limite provincial
+        região: Limite regional
+        region: Limite regional
+        state: Frontiera de stato
+        town: Limite de urbe
+        township: Limite de township
+        village: Limite de village
   searches:
     show:
       title:
         latlon: Interne
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Nulle resultato trovate
@@ -1595,13 +1631,21 @@ ia:
       time: Tempore
       ascend: Ascender
       descend: Descender
+      kilometers: kilometros
+      miles_feet: millias, pedes
+      miles_yards: millias, yards
+      distance_units_settings: Parametros de unitates de distantia
+      download: Discargar itinerario in GeoJSON
+      filename: itinerario
       directions_courtesy_html: Itinerario fornite per %{link}
   issues:
     index:
       title: Problemas
       select_status: Selige stato
       select_type: Selige typo
+      select_last_managed_by: Selige ultime gestion per
       reported_user: Usator reportate
+      not_managed: Non gerite
       search: Recerca
       search_guidance: 'Cercar problemas:'
       states:
@@ -1615,6 +1659,8 @@ ia:
       status: Stato
       reports: Reportos
       last_updated: Ultime actualisation
+      last_managed: Ultime gestion
+      reporting_users: Signalar usatores
       reports_count:
         one: '%{count} reporto'
         other: '%{count} reportos'
@@ -1624,6 +1670,10 @@ ia:
         open: Aperte
         resolved: Resolvite
     show:
+      title:
+        open: 'Problema aperte #%{issue_id}'
+        ignored: 'Problema ignorate #%{issue_id}'
+        resolved: 'Problema resolvite #%{issue_id}'
       reports:
         one: '%{count} reporto'
         other: '%{count} reportos'
@@ -1648,12 +1698,26 @@ ia:
       reopened: Le stato del problema ha essite cambiate a 'Aperte'
     comments:
       comment_from_html: Commento de %{user_link} del %{comment_created_at}
+      reassign_to_moderators: Reassignar le problema al moderatores
+      reassign_to_administrators: Reassignar le problema al administratores
     reports:
       reported_by_html: Reportate como %{category} per %{user} le %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, commento #%{comment_id}'
         note: 'Nota #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Commento de diario %{title} create le %{datetime_created},
+          actualisate le %{datetime_updated}
+        diary_entry_html: Entrata de diario %{title} create le %{datetime_created},
+          actualisate le %{datetime_updated}
+        note_html: '%{title} create le %{datetime_created}, actualisate le %{datetime_updated}'
+        user_html: Usator %{title} create le %{datetime_created}
+    reporters:
+      index:
+        title: Signalatores del problema №%{issue_id}
+      reporters:
+        more_reporters: e %{count} alteres
   issue_comments:
     create:
       comment_created: Tu commento ha essite create
@@ -1725,6 +1789,17 @@ ia:
     communities: Communitates
     learn_more: Leger plus
     more: Plus
+    header:
+      select_language: Selige lingua
+    select_language_button:
+      title: Selige lingua
+    offline_flash:
+      osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento
+        debite a operationes de mantenentia essential.
+      osm_read_only: Le base de datos de OpenStreetMap es al momento in modo de solmente
+        lectura durante le execution de mantenentia essential.
+      expected_restore_html: Es previdite que le servicios essera restablite in %{time}.
+      announcement: Le annuncio se trova hic.
   user_mailer:
     diary_comment_notification:
       description: 'Entrata de diario de OpenStreetMap #%{id}'
@@ -1753,12 +1828,28 @@ ia:
         message al autor a %{replyurl}
     follow_notification:
       hi: Salute %{to_user},
+      subject: '[OpenStreetMap] %{user} te seque'
+      followed_you: '%{user} ora te seque sur OpenStreetMap.'
       see_their_profile: Tu pote vider su profilo a %{userurl}.
       see_their_profile_html: Tu pote vider su profilo a %{userurl}.
+      follow_them: Tu pote sequer iste persona in retorno sur %{followurl}.
+      follow_them_html: Tu pote sequer iste persona in retorno sur %{followurl}.
+    gpx_details:
+      details: 'Detalios de tu file:'
+      filename: Nomine de file
+      url: URL
+      description: Description
+      tags: Etiquettas
+      total_points: Numero total de punctos
+      imported_points: Numero de punctos importate
     gpx_failure:
       hi: Salute %{to_user},
       failed_to_import: Pare que tu file non poteva esser importate como file de tracia
         GPS.
+      verify: 'Per favor verifica que tu file es un file GPX valide o un archivo que
+        contine file(s) GPX in le formato supportate (.tar.gz, .tar.bz2, .tar, .zip,
+        .gpx.gz, .gpx.bz2). Poterea il haber un problema de formato o de syntaxe con
+        tu file? Ecce le error de importation:'
       more_info: Plus information sur le fallimento de importation GPX e como evitar
         lo se trova sur %{url}
       more_info_html: Plus information sur le fallimento de importation GPX e como
@@ -1767,6 +1858,8 @@ ia:
       subject: '[OpenStreetMap] Importation GPX fallite'
     gpx_success:
       hi: Salute %{to_user},
+      imported_successfully: Pare que tu file ha essite importate con successo como
+        un tracia GPS.
       all_your_traces: Tote tu tracias GPX incargate con successo pote esser trovate
         sur %{url}
       all_your_traces_html: Tote le tracias GPX que tu ha incargate con successo pote
@@ -1872,6 +1965,9 @@ ia:
       success: Tu conto ha essite confirmate, gratias pro inscriber te!
       already active: Iste conto ha ja essite confirmate.
       unknown token: Iste codice de confirmation ha expirate o non existe.
+      if_need_resend: Si tu vole que nos reinvia le message de confirmation, clicca
+        sur le button infra.
+      resend_button: Reinviar le message de confirmation
     confirm_resend:
       failure: Usator %{name} non trovate.
     confirm_email:
@@ -2001,24 +2097,61 @@ ia:
         failure: Non poteva actualisar le preferentias.
       update_success_flash:
         message: Preferentias actualisate.
+      navigation:
+        preferences: Preferentias
+        advanced_preferences: Preferentias avantiate
     basic_preferences:
       show:
         title: Mi preferentias
+        preferred_language: Lingua preferite
+        preferred_site_color_scheme: Schema de colores preferite pro le sito web
+        site_color_schemes:
+          auto: Automatic
+          light: Clar
+          dark: Obscur
+        preferred_map_color_scheme: Schema de colores preferite pro le carta
+        map_color_schemes:
+          auto: Automatic
+          light: Clar
+          dark: Obscur
+        save: Actualisar preferentias
+    advanced_preferences:
+      show:
+        title: Mi preferentias avantiate
         save: Actualisar preferentias
   profiles:
     profile_sections:
       navigation:
+        description: Description
+        links: Ligamines
         image: Imagine
+        company: Compania
+        location: Loco
     descriptions:
       show:
         title: Modificar profilo
         save: Actualisar profilo
         cancel: Cancellar
+      update:
+        success: Description del profilo actualisate.
+        failure: Non poteva actualisar le description del profilo.
     links:
       show:
         title: Modificar profilo
+        save: Actualisar profilo
+        cancel: Cancellar
+        social_links:
+          title: Ligamines de profilo social
+          remove: Remover
+          add: Adder ligamine social
+      update:
+        success: Ligamines de profilo actualisate.
+        failure: Non poteva actualisar le ligamines de profilo.
     images:
       show:
+        title: Modificar profilo
+        save: Actualisar profilo
+        cancel: Cancellar
         gravatar:
           gravatar: Usar Gravatar
           what_is_gravatar: Que es Gravatar?
@@ -2027,18 +2160,41 @@ ia:
         delete image: Remover le imagine actual
         replace image: Reimplaciar le imagine actual
         image size hint: (imagines quadrate de al minus 100×100 functiona melio)
+      update:
+        success: Imagine de profilo actualisate.
+        failure: Non poteva actualisar le imagine de profilo.
+    companies:
+      show:
+        title: Modificar profilo
+        save: Actualisar profilo
+        cancel: Cancellar
+      update:
+        success: Compania del profilo actualisate.
+        failure: Non poteva actualisar le compania del profilo.
     locations:
       show:
+        title: Modificar profilo
+        save: Actualisar profilo
+        cancel: Cancellar
         no home location: Tu non ha definite tu loco de residentia.
         update home location on click: Actualisar le loco de residentia quando io
           clicca sur le carta?
         show: Monstrar
         delete: Deler
         undelete: Disfacer deletion
+      update:
+        success: Loco del profilo actualisate.
+        failure: Non poteva actualisar le loco del profilo.
   sessions:
     new:
       tab_title: Aperir session
       login_to_authorize_html: Aperi session in OpenStreetMap pro acceder a %{client_app_name}.
+      already_logged_in_html: Tu es ja in session como %{user}. Si tu aperi session
+        de novo, tu cambiara de conto.
+      access_another_page: 'Tu ha arrivate hic durante que tu tentava acceder a un
+        altere pagina. Si tu vole acceder a ille pagina usante tu conto actual, clicca
+        sur le button infra:'
+      visit_referring_page: Visitar le pagina referente
       email or username: Adresse de e-mail o nomine de usator
       password: Contrasigno
       remember: Memorar me
@@ -2077,24 +2233,41 @@ ia:
       preview: Previsualisar
       help: Adjuta
     pagination:
+      changeset_comments:
+        older: Commentos plus ancian
+        newer: Commentos plus nove
+        oldest: Le commentos le plus ancian
+        newest: Le commentos le plus nove
       diary_comments:
         older: Commentos plus ancian
         newer: Commentos plus recente
+        oldest: Le commentos le plus ancian
+        newest: Le commentos le plus nove
       diary_entries:
         older: Entratas plus ancian
         newer: Entratas plus recente
+        oldest: Le entratas le plus ancian
+        newest: Le entratas le plus nove
       issues:
         older: Problemas plus ancian
         newer: Problemas plus recente
+        oldest: Le problema le plus ancian
+        newest: Le problemas le plus nove
       traces:
         older: Tracias plus ancian
         newer: Tracias plus nove
+        oldest: Le tracias le plus ancian
+        newest: Le tracias le plus nove
       user_blocks:
         older: Blocos plus ancian
         newer: Blocos plus nove
+        oldest: Le blocos le plus ancian
+        newest: Le blocos le plus nove
       users:
         older: Usatores plus ancian
         newer: Usatores plus nove
+        oldest: Le usatores le plus ancian
+        newest: Le usatores le plus nove
   site:
     about:
       heading_html: '%{copyright}Contributores %{br} de OpenStreetMap'
@@ -2155,17 +2328,61 @@ ia:
         native_link: version in interlingua
         mapping_link: comenciar le cartographia
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap forni datos cartographic aperte pro milliardos de sitos web, applicationes mobile, e apparatos hardware.
+          OpenStreetMap es construite per un communitate de personas como tu qui contribue e mantene datos cartographic coperiente vias, sentieros, cafés, stationes de ferrovia, e multo plus, in tote le mundo.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} e %{get_started_mapping_link}!
+          Tu pote leger plus sur le %{osm_blog_link}, e abonar te a %{weeklyosm_link}.
+          Trova altere cartographos in tu %{osm_community_link} local.
+          Pro appoia le projecto, adhere al %{osm_foundation_link} e %{making_donation_link}.
+        lead_2_learn_more_about_osm: Discoperir plus sur OpenStreetMap
+        lead_2_get_started_mapping: comenciar a cartographar
+        lead_2_osm_blog: Blog de OpenStreetMap
+        lead_2_osm_community: Communitate OSM
+        lead_2_osm_foundation: Fundation OSM
+        lead_2_making_donation: face un donation
+        licensing_title: Licentias de OpenStreetMap
+        licensing_1_html: |-
+          OpenStreetMap consiste de datos %{open}, licentiate sub le
+          %{odc_odbl_link} (ODbL) per le %{osm_foundation_link} (OSMF). In summario:
+        licensing_1_open: aperte
         licensing_1_odc_odbl: Licentia de base de datos aperte de Open Data Commons
         licensing_1_osm_foundation: Fundation OpenStreetMap
+        licensing_2_html: Vos es libere de copiar, distribuer, transmitter e adaptar
+          nostre datos, a condition que vos da recognoscentia a OpenStreetMap e su
+          contributores. Si vos altera o extende nostre datos, vos pote distribuer
+          le resultato solmente sub le mesme licentia. Le %{legal_code_link} explica
+          vostre derectos e responsabilitates.
+        licensing_2_legal_code: codice juridic complete sur Open Data Commons
+        licensing_3_html: Nostre documentation es sub licentia %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: licentia Creative Commons Attribution-CompartiSimile
+          2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Pro saper plus sur le uso de nostre datos, consulta le %{osmf_license_page_link}.
         licensing_4_osmf_license_page: pagina Licentia del Fundation OSM
         credit_title_html: Como dar recognoscentia a OpenStreetMap
         credit_1_html: 'Ubi tu usa le datos de OpenStreetMap, tu es obligate a facer
           le sequente duo cosas:'
+        credit_2_attribution: Forni credito a OpenStreetMap monstrante nostre aviso
+          de attribution.
         credit_2_license: Rende clar que le datos es disponibile sub le Licentia Open
           Database.
+        credit_3_v2025_html: |-
+          Pro le aviso de attribution, nos ha differente %{requirements_on_how_displayed_link}, dependente de como tu usa nostre datos.
+          Per exemplo, differente regulas se applica pro monstrar le aviso de attribution, dependente de si tu ha create un carta navigabile, un carta imprimite o un imagine static.
+          Plus detalios se trova in le section %{attribution_guidelines_link} del %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: requisitos sur le maniera de
+          monstrar lo
         credit_3_v2025_attribution_guidelines: directivas de attribution
+        credit_3_v2025_licensing_requirements: requisitos de licentia
+        credit_4_v2025_html: |-
+          In general, pro clarificar que le datos es disponibile sub le Open Database License, tu pote ligar a %{this_copyright_page_link}.
+          Si tu distribue OSM in forma de datos, per favor nomina e liga directemente al licentia(s). In medios ubi ligamines non es possibile (p.ex. obras imprimite), per favor include le URL complete sur le pagina, p.ex. %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: iste pagina de derecto de autor
+        credit_5_v2025_html: 'In iste exemplo, le credito appare in le angulo del
+          carta:'
         attribution_example:
           alt: Exemplo de como recognoscer OpenStreetMap in un pagina web
           title: Exemplo de recognoscentia
@@ -2185,6 +2402,10 @@ ia:
           Map es marcas deponite del Fundation OpenStreetMap. Si vos ha questiones
           sur vostre uso de iste marcas, per favor vide nostre %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Politica de marcas de commercio
+        services_title_html: Servicios additional
+        services_1_html: |-
+          Benque OpenStreetMap es datos aperte, nos non pote fornir un API cartographic gratuite o tegulas cartographic a tertios.
+          Vide nostre %{api_usage_policy_link}, %{tile_usage_policy_link} e %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Politica de uso del API
         services_1_tile_usage_policy: Politica de uso de tegulas
         services_1_nominatim_usage_policy: Politica de uso de Nominatim
@@ -2404,6 +2625,8 @@ ia:
         bicycle: Bicycletta
         car: Auto
         foot: A pede
+      providers:
+        description: Servicios de orientation
     welcome:
       title: Benvenite!
       introduction: Bevenite a OpenStreetMap, le carta libere e modificabile del mundo.
@@ -2449,6 +2672,10 @@ ia:
       title: Non ha tempore pro modificar? Adde un nota!
       para_1: Si tu vole meliorar un micre cosa e non ha le tempore pro crear un conto
         e apprender a modificar, alora il es facile adder un nota.
+      para_2_html: Clicca sur %{note_icon} o sur le mesme icone sur %{map_link}. Un
+        marcator essera addite al carta, que tu pote displaciar trahente lo con le
+        mouse. Adde tu message, pois clicca sur Salveguardar, e altere cartographos
+        lo investigara.
       the_map: le carta
     communities:
       title: Communitates
@@ -2473,6 +2700,9 @@ ia:
           Non es necessari stabilir formalmente un gruppo in le mesme mesura que le capitulos local.
           In effecto, multe gruppos existe con grande successo como reunion informal de personas o como un gruppo communitari. Omnes pote crear o adherer a tales. Lege plus sur le %{communities_wiki_link}.
         communities_wiki: pagina wiki sur communitates
+  social_links:
+    show:
+      website: sito web
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Face zoom avante pro vider le notas del carta
@@ -2490,6 +2720,7 @@ ia:
         track: Pista
         bridleway: Sentiero pro cavallos
         cycleway: Via cyclabile
+        international_bike_route: Pista cyclabile international
         national_bike_route: Pista cyclabile national
         regional_bike_route: Pista cyclabile regional
         local_bike_route: Pista cyclabile local
@@ -2566,6 +2797,7 @@ ia:
         bicycle_parking: Parcamento de bicyclettas
         bicycle_parking_small: Micre spatio de parcamento pro bicyclettas
         toilets: Toilettes
+      see_external_legend: Vider le legenda externe del carta
   share_panes:
     show:
       link: Ligamine o HTML
@@ -2578,6 +2810,8 @@ ia:
       paste_html: Colla HTML pro incorporar in sito web
       geo_uri: Geo URI
       image: Imagine
+      only_layers_exported_as_image: 'Solmente le sequente stratos pote esser exportate
+        in forma de imagine:'
       format: 'Formato:'
       scale: 'Scala:'
       custom_dimensions: Personalisar dimensiones
@@ -2720,6 +2954,31 @@ ia:
       wikipedia:
         title: Aperir session con Wikipedia
         alt: Logotypo de Wikipedia
+    share:
+      share:
+        title: Condivider
+        alt: Icone pro condivider
+      email:
+        title: Condivider in e-mail
+        alt: Icone de e-mail
+      bluesky:
+        title: Condivider sur Bluesky
+        alt: Icone de Bluesky
+      facebook:
+        title: Condivider sur Facebook
+        alt: Icone de Facebook
+      linkedin:
+        title: Condivider sur LinkedIn
+        alt: Icone de LinkedIn
+      mastodon:
+        title: Condivider sur Mastodon
+        alt: Icone de Mastodon
+      telegram:
+        title: Condivider sur Telegram
+        alt: Icone de Telegram
+      x:
+        title: Condivider sur X
+        alt: Icone de X
   oauth:
     permissions:
       missing: Tu non ha permittite al application le accesso a iste facilitate
@@ -2729,10 +2988,12 @@ ia:
       write_prefs: Modificar preferentias de usator
       write_diary: Crear entratas de diario e commentos
       write_api: Modificar le carta
+      write_changeset_comments: Commentar gruppos de modificationes
       read_gpx: Leger tracias GPS private
       write_gpx: Incargar tracias GPS
       write_notes: Modificar notas
       write_redactions: Censurar datos del carta
+      write_blocks: Crear e revocar blocadas de usatores
       read_email: Leger le adresse de e-mail del usator
       consume_messages: Leger, actualisar stato e deler messages del usator
       send_messages: Inviar messages private a altere usatores
@@ -2815,6 +3076,7 @@ ia:
       by_signing_up:
         html: Creante un conto, tu accepta nostre %{tou_link}, %{privacy_policy_link}
           e %{contributor_terms_link}.
+        tou: Conditiones de uso
         privacy_policy: politica de confidentialitate
         privacy_policy_title: Politica de confidentialitate del OSMF con un section
           sur adresses de e-mail
@@ -2841,6 +3103,7 @@ ia:
       my notes: Mi notas
       my messages: Mi messages
       my profile: Mi profilo
+      my_account: Mi conto
       my comments: Mi commentos
       my_preferences: Mi preferentias
       my_dashboard: Mi pannello
@@ -2853,6 +3116,8 @@ ia:
       edits: Modificationes
       traces: Tracias
       notes: Notas de carta
+      unfollow: Non plus sequer
+      follow: Sequer
       mapper since: 'Cartographo depost:'
       last map edit: 'Ultime modification del carta:'
       no activity yet: Necun activitate ancora
@@ -2890,6 +3155,19 @@ ia:
       delete_user: Deler iste usator
       confirm: Confirmar
       report: Signalar iste usator
+      edit_profile_details: Modificar le detalios del profilo
+      edit_description: Modificar description
+      edit_links: Modificar ligamines
+      change_image: Cambiar imagine
+      edit_company: Modificar compania
+      edit_location: Modificar loco
+      contributions:
+        one: '%{count} contribution in the le ultime anno'
+        other: '%{count} contributiones in le ultime anno'
+    sidebar_section:
+      home_location: Loco de residentia
+      company: Compania
+      company_tooltip: Le affiliation al compania es autodeclarate e non verificate
     go_public:
       flash success: Tote tu modificationes es ora public, e tu ha ora le permission
         de modificar.
@@ -2918,6 +3196,19 @@ ia:
       show:
         title: Usatores
         heading: Usatores
+        select_status: Selige stato
+        states:
+          pending: Pendente
+          active: Active
+          confirmed: Confirmate
+          suspended: Suspendite
+          deleted: Delite
+        name_or_email: Nomine o e-mail
+        ip_address: Adresse IP
+        edits: Modificationes?
+        has_edits: Ha modificationes
+        no_edits: Necun modification
+        search: Cercar
       page:
         found_users:
           one: '%{count} usator trovate'
@@ -2928,8 +3219,17 @@ ia:
       user:
         summary_html: '%{name} create ab %{ip_address} le %{date}'
         summary_no_ip_html: '%{name} create le %{date}'
+    comments:
+      index:
+        heading_html: Commentos de %{user}
+        changesets: Gruppos de modificationes
+        diary_entries: Entratas de diario
+        no_comments: Necun commento
     changeset_comments:
+      index:
+        title: Commentos de gruppo de modificationes addite per %{user}
       page:
+        changeset: Gruppo de modificationes
         when: Quando
         comment: Commento
     diary_comments:
@@ -2937,6 +3237,8 @@ ia:
         title: Commentos de diario addite per %{user}
       page:
         post: Articulo
+        when: Quando
+        comment: Commento
     suspended:
       title: Conto suspendite
       heading: Conto suspendite
@@ -3026,6 +3328,14 @@ ia:
         years:
           one: '%{count} anno'
           other: '%{count} annos'
+      short:
+        ended: terminate
+        revoked_html: revocate per %{name}
+        active: active
+        active_until_read: active usque al lectura
+        read_html: legite a %{time}
+        time_in_future_title: '%{time_absolute}; in %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} blocate per %{block_by}'
       heading_html: '%{block_on} blocate per %{block_by}'
@@ -3042,6 +3352,8 @@ ia:
       display_name: Usator blocate
       creator_name: Creator
       reason: Motivo del blocada
+      start: Initio
+      end: Fin
       status: Stato
     navigation:
       all_blocks: Tote le blocadas
@@ -3089,12 +3401,19 @@ ia:
       description: Description
       created_at: Create a
       last_changed: Ultime modification
+      apply: Applicar
+      all: Totes
+      open: Aperte
+      closed: Clause
+      status: Stato
     show:
       title: 'Nota: %{id}'
       description: Description
       open_title: Nota non resolvite №%{note_name}
       closed_title: Nota resolvite №%{note_name}
       hidden_title: Nota celate №%{note_name}
+      description_when_author_is_deleted: delite
+      description_when_there_is_no_opening_comment: incognite
       event_opened_by_html: Create per %{user} %{time_ago}
       event_opened_by_anonymous_html: Create anonymemente %{time_ago}
       event_commented_by_html: Commento de %{user} %{time_ago}
@@ -3108,6 +3427,9 @@ ia:
       coordinates_html: '%{latitude}; %{longitude}'
       anonymous_warning: Iste nota include commentos de usatores anonyme que debe
         esser verificate independentemente.
+      discussion: Discussion
+      subscribe: Abonar me
+      unsubscribe: Disabonar me
       hide: Celar
       resolve: Resolver
       reactivate: Reactivar

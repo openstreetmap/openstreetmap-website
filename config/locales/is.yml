@@ -18,10 +18,15 @@
 is:
   html:
     dir: ltr
+  date:
+    formats:
+      heatmap: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
       blog: '%e. %B %Y'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Veldu skrá
@@ -55,6 +60,10 @@ is:
       models:
         user_mute:
           is_already_muted: er nú þegar þaggað
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Vefslóð ætti að byrja á http:// eða https://
     models:
       acl: Aðgangslisti
       changeset: Breytingasett
@@ -67,9 +76,10 @@ is:
       language: Tungumál
       message: Skilaboð
       node: Liður
-      node_tag: Merki hnúts
+      node_tag: Merki liðar
+      note: Ábending
       old_node: Gamall liður
-      old_node_tag: Merki gamals hnúts
+      old_node_tag: Merki gamals liðar
       old_relation: Gömul vensl
       old_relation_member: Stak í gömlum venslum
       old_relation_tag: Merki gamalla vensla
@@ -98,9 +108,9 @@ is:
         support_url: Slóð á aðstoð
         allow_read_prefs: lesa notandastillingar þeirra
         allow_write_prefs: breyta notandastillingum þeirra
-        allow_write_diary: búa til bloggfærslur, setja inn athugasemdir og bæta við
-          vinum
+        allow_write_diary: búa til bloggfærslur og athugasemdir
         allow_write_api: breyta kortagögnunum
+        allow_write_changeset_comments: athugasemd við breytingarsett
         allow_read_gpx: lesa einka-GPS-ferlana þeirra
         allow_write_gpx: senda inn GPS ferla
         allow_write_notes: breyta minnispunktum
@@ -130,7 +140,7 @@ is:
         longitude: Lengdargráða
         public: Opinbert
         description: Lýsing
-        gpx_file: Hlaða inn GPX-skrá
+        gpx_file: Veldu GPS-ferilskrá
         visibility: Sýnileiki
         tagstring: Merki
       message:
@@ -152,8 +162,10 @@ is:
         active: Virkur
         display_name: Sýnilegt nafn
         description: Lýsing á þér
+        company: Fyrirtæki
         home_lat: Breiddargráða
         home_lon: Lengdargráða
+        home_location_name: Nafn heimilisstaðsetningar
         languages: Ákjósanleg tungumál
         preferred_editor: Eftirlætisritill
         pass_crypt: Lykilorð
@@ -228,6 +240,7 @@ is:
   auth:
     providers:
       none: Ekkert
+      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -262,19 +275,26 @@ is:
   accounts:
     show:
       title: Stillingar
+      my_account: Minn aðgangur
       current email address: Núverandi póstfang
       external auth: Ytri auðkenning
-      contributor terms:
+      contributor_terms:
         heading: Skilmálar vegna framlags
-        agreed: Þú hefur samþykkt nýju skilmálana vegna framlags þíns.
-        not yet agreed: Þú hefur ekki ennþá samþykkt nýju skilmálana vegna framlags
-          þíns.
-        review link text: Þegar þér hentar skaltu endilega lesa og samþykkja nýju
-          skilmálana vegna framlags þíns.
+        agreed: Þú hefur samþykkt nýju skilmálana vegna framlags þíns þann %{date}.
+        not_agreed: Þú hefur ekki ennþá samþykkt nýju skilmálana vegna framlags þíns.
         agreed_with_pd: Þú hefur einnig lýst því yfir að breytingar þínar verði í
           almenningseigu (Public Domain).
-        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
-        link text: Hvað er þetta?
+        not_agreed_with_pd: Þú hefur einnig lýst því yfir að breytingar þínar verði
+          í almenningseigu (Public Domain).
+        review: Yfirfara skilmálana
+        review_and_accept: Farðu yfir og samþykktu skilmálana
+        consider_pd: Íhugaðu almenningseign (Public Domain)
+      terms_of_use:
+        heading: Notkunarskilmálar
+        agreed: Þú samþykktir notkunarskilmálana þann %{date}.
+        not_agreed: Þú hefur ekki enn samþykkt notkunarskilmálana.
+        review: Farðu yfir skilmálana
+        review_and_accept: Farðu yfir og samþykktu skilmálana
       save changes button: Vista breytingar
       delete_account: Eyði aðgangi...
     go_public:
@@ -344,6 +364,7 @@ is:
         readable_summary: læsilegt yfirlit
         informal_translations: óformlegar þýðingar
         continue: Halda áfram
+        cancel: Hætta við
         you need to accept or decline: Endilega lestu og samþykktu eða hafnaðu nýju
           skilmálunum vegna framlags þíns, áður en þú heldur áfram.
         legale_select: 'Búseta (land):'
@@ -359,6 +380,21 @@ is:
           nýja skilmála vegna framlags (contributor terms). Til að sjá ítarlegri upplýsingar,
           geturðu skoðað %{terms_declined_link}.
         terms_declined_link: þessari wiki síðu
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: Lítið á framlög mín sem almenningseign
+        consider_pd: Ég tel framlög mín vera í almenningseigu
+        consider_pd_why: Hvers vegna ætti ég að vilja að framlög mín séu í almannaeigu?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Staðfesta
+      create:
+        successfully_declared: Þú hefur lýst því yfir að breytingar þínar verði í
+          almenningseigu (Public Domain).
+        already_declared: Þú hefur þegar lýst því yfir að breytingar þínar verði í
+          almenningseigu (Public Domain).
+        did_not_confirm: Þú hefur ekki staðfest að breytingar þínar verði í almenningseigu
+          (Public Domain).
   browse:
     deleted_ago_by_html: Eytt %{time_ago} af %{user}
     edited_ago_by_html: Breytt %{time_ago} af %{user}
@@ -377,6 +413,8 @@ is:
     download_xml: Sækja XML
     view_unredacted_history: Sjá óendurskoðaða útgáfu
     location: 'Staðsetning:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Liður: %{name}'
     way:
@@ -402,13 +440,12 @@ is:
         way: Leið
         relation: Vensl
     containing_relation:
-      entry_role_html: Venslin %{relation_name} (sem „%{relation_role}“)
+      entry_role_html: '%{relation_name} (sem %{relation_role})'
     not_found:
       title: Fannst ekki
     timeout:
       title: Villa í tímamörkum
-      sorry: Ekki var hægt að ná í gögn fyrir %{type} með auðkennið %{id}, það tók
-        of langan tíma að ná í gögnin.
+      sorry: Það tók of langan tíma að ná í gögnin fyrir %{type} með auðkennið %{id}.
       type:
         node: liðinn
         way: leiðina
@@ -427,6 +464,7 @@ is:
       feature_warning: Hleð inn %{num_features} fitjum (kortahlutum), sem gæti valdið
         því að vafrinn þinn verði hægur eða svari ekki. Ertu viss um að þú viljir
         birta þessi gögn?
+      feature_error: 'Ekki var hægt að hlaða inn eiginleikum: %{message}'
       load_data: Hlaða inn gögnum
       loading: Hleð inn gögnum...
     tag_details:
@@ -440,6 +478,13 @@ is:
       telephone_link: Hringja í %{phone_number}
       colour_preview: Forskoðun á litnum %{colour_value}
       email_link: Tölvupóstfang %{email}
+    versions_navigation:
+      node: Liður
+      way: Leið
+      relation: Vensl
+      history: Vinnsluferill
+      version: 'Útgáfa #%{version}'
+      versions_label: 'Útgáfur:'
   feature_queries:
     show:
       title: Rannsaka fitjur
@@ -449,17 +494,31 @@ is:
   old_elements:
     index:
       node:
-        title_html: 'Saga hnúts: %{name}'
+        title_html: 'Ferill liðar: %{name}'
       way:
         title_html: 'Saga leiðar: %{name}'
       relation:
         title_html: 'Ferill vensla: %{name}'
+      older_versions: Eldri útgáfur
+      newer_versions: Nýrri útgáfur
     actions:
       view_redacted_data: Sjá endurskoðuð gögn
       view_redaction_message: Sjá skilaboð með yfirferð
+  nodes:
+    not_found_message:
+      sorry: 'Því miður, liðurinn #%{id} fannst ekki.'
+    timeout:
+      sorry: Ekki var hægt að ná í gögn fyrir liðinn með kennitöluna %{id}, það tók
+        of langan tíma að ná í gögnin.
   old_nodes:
     not_found_message:
       sorry: 'Því miður, liðurinn #%{id} útgáfa %{version} fannst ekki.'
+    timeout:
+      sorry: Ekki var hægt að ná í vinnsluferil fyrir liðinn með kennitöluna %{id},
+        það tók of langan tíma að ná í gögnin.
+  ways:
+    not_found_message:
+      sorry: Því miður, leiðin með auðkennið %{id} fannst ekki.
   old_ways:
     not_found_message:
       sorry: 'Því miður, leiðin #%{id} útgáfa %{version} fannst ekki.'
@@ -478,10 +537,18 @@ is:
         sorry: Því miður, það tók of langan tíma að ná í listann yfir þær athugasemdir
           við breytingasett sem þú baðst um.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} athugasemd'
+        other: '%{count} athugasemdir'
+      changes:
+        one: '%{count} breyting'
+        other: '%{count} breytingar'
     index:
       title: Breytingasett
       title_user: Breytingar eftir %{user}
       title_user_link_html: Breytingasett eftir %{user_link}
+      title_followed: Breytingar eftir notendur sem þú fylgist með
       title_nearby: Breytingar eftir nálæga notendur
       empty: Engin breytingasett fundust.
       empty_area: Engin breytingasett á þessu svæði.
@@ -489,6 +556,8 @@ is:
       no_more: Engin fleiri breytingasett fundust.
       no_more_area: Engin fleiri breytingasett á þessu svæði.
       no_more_user: Engin fleiri breytingasett eftir þennan notanda.
+      older_changesets: Eldri breytingasett
+      newer_changesets: Nýrri breytingasett
       feed:
         title: Breytingasett %{id}
         title_comment: Breytingasett %{id} - %{comment}
@@ -517,9 +586,13 @@ is:
       changesetxml: XML breytingasetts
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Liðir
       nodes_paginated: Liðir (%{x}-%{y} af %{count})
+      ways_title: Leiðir
       ways_paginated: Leiðir (%{x}-%{y} af %{count})
+      relations_title: Vensl
       relations_paginated: Vensl (%{x}-%{y} af %{count})
+      range: '%{x}-%{y} af %{count}'
     timeout:
       sorry: Því miður, það tók of langan tíma að ná í listann yfir þau breytingasett
         sem þú baðst um.
@@ -548,14 +621,18 @@ is:
     popup:
       your location: Staðsetning þín
       nearby mapper: Nálægur notandi
+      following: Fylgist með
     show:
       title: Stjórnborðið mitt
       no_home_location_html: '%{edit_profile_link} og stilltu heimastaðsetninguna
         þína til að sjá nálæga notendur.'
       edit_your_profile: Breyttu notandaaðgangnum þínum
+      followings: Notendur sem þú fylgist með
       nearby users: Aðrir nálægir notendur
       no nearby users: Engir notendur hafa stillt staðsetningu sína á korti nálægt
         þér.
+      followed_changesets: breytingasett
+      followed_diaries: bloggfærslur
       nearby_changesets: breytingasett vina í næsta nágrenni
       nearby_diaries: bloggfærslur vina í næsta nágrenni
   diary_entries:
@@ -592,6 +669,7 @@ is:
     diary_entry:
       posted_by_html: Sett inn af %{link_user} %{created} á %{language_link}.
       updated_at_html: Síðast uppfært %{updated}.
+      full_entry: Sjá alla færsluna
       comment_link: Bæta athugasemd við þessa færslu
       reply_link: Senda skilaboð til höfundar
       comment_count:
@@ -632,6 +710,13 @@ is:
       my_diary: Bloggið mitt
       new: Ný bloggfærsla
       new_title: Semja nýja færslu á bloggið mitt
+    profile_diaries:
+      comments:
+        one: '%{count} athugasemd'
+        other: '%{count} athugasemdir'
+      title_label: Bloggfærsla
+      comments_label: Athugasemdir
+      date_label: Dagsetning
   diary_comments:
     new:
       heading: Bæta athugasemd við umræðu með bloggfærslu?
@@ -691,6 +776,14 @@ is:
       title: Skrá fannst ekki
       description: Gat ekki fundið skrá/skrá/API-aðgerð með því nafni á OpenStreetMap-þjóninum
         (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Viltu fylgjast með %{user}?
+        button: Fylgjast með notanda
+      unfollow:
+        heading: Viltu hætta að fylgjast með %{user}?
+        button: Hætta að fylgjast með notanda
   geocoder:
     search_osm_nominatim:
       prefix_format: '%{name}:'
@@ -941,6 +1034,7 @@ is:
           bridleway: Reiðstígur
           bus_guideway: Strætisvagnaakrein með stýringu
           bus_stop: Strætisvagnabiðstöð
+          busway: Strætóakrein
           construction: Hraðbraut í byggingu
           corridor: Gangur
           crossing: Götugangur
@@ -1023,6 +1117,13 @@ is:
           wayside_shrine: Vegaskrín
           wreck: Flak
           "yes": Sögustaður
+        information:
+          guidepost: Leiðsögustaur
+          board: Upplýsingaskilti
+          map: Landakort
+          office: Upplýsingaskrifstofa ferðamanna
+          terminal: Upplýsingaskjár
+          sign: Upplýsingaskilti
         junction:
           "yes": Tenging
         landuse:
@@ -1095,6 +1196,8 @@ is:
           track: Hlaupabraut
           water_park: Vatnsleikjagarður
           "yes": Afþreying
+        lock:
+          "yes": Flóðgátt
         man_made:
           adit: Námuinngangur
           advertising: Auglýsing
@@ -1435,6 +1538,15 @@ is:
           building_passage: Undirgöng í gegnum byggingu
           culvert: Ræsi
           "yes": Göng
+        water:
+          lake: Stöðuvatn
+          pond: Tjörn
+          reservoir: Uppistöðulón
+          fishpond: Fiskatjörn
+          lagoon: Lón
+          wastewater: Skólp
+          stream_pool: Hylur
+          lock: Flóðgátt
         waterway:
           artificial: Manngerð vatnaleið
           boatyard: Bátalægi
@@ -1469,6 +1581,8 @@ is:
     show:
       title:
         latlon: Innri
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Ekkert fannst
@@ -1480,6 +1594,12 @@ is:
       time: Tími
       ascend: Fara upp
       descend: Fara niður
+      kilometers: kílómetrar
+      miles_feet: mílur, fet
+      miles_yards: mílur, yardar
+      distance_units_settings: Stillingar á einingum vegalengda
+      download: Sækja leið sem GeoJSON
+      filename: leið
       directions_courtesy_html: Leiðarlýsing í boði %{link}
   issues:
     index:
@@ -1503,7 +1623,15 @@ is:
         one: '%{count} skýrsla'
         other: '%{count} skýrslur'
       reported_item: Tilkynnt atriði
+      states:
+        ignored: Hunsað
+        open: Opið
+        resolved: Leyst
     show:
+      title:
+        open: 'Opið vandamál #%{issue_id}'
+        ignored: 'Hunsað vandamál #%{issue_id}'
+        resolved: 'Leyst vandamál #%{issue_id}'
       reports:
         one: '%{count} skýrsla'
         other: '%{count} skýrslur'
@@ -1534,6 +1662,9 @@ is:
       reportable_title:
         diary_comment: '%{entry_title}, athugasemd #%{comment_id}'
         note: 'Minnispunktur #%{note_id}'
+    reporters:
+      reporters:
+        more_reporters: og %{count} til viðbótar
   issue_comments:
     create:
       comment_created: Það tókst að búa til athugasemdina þína
@@ -1597,6 +1728,7 @@ is:
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
     hosting_partners_2024_html: Vefhýsing er studd af %{fastly}, %{corpmembers} og
       öðrum %{partners}.
+    partners_fastly: Fastly
     partners_corpmembers: Fyrirtækjameðlimir OSMF
     partners_partners: samstarfsaðilum
     tou: Notkunarskilmálar
@@ -1607,6 +1739,12 @@ is:
     communities: Samfélög
     learn_more: Vita meira
     more: Meira
+    header:
+      select_language: Veldu tungumál
+    select_language_button:
+      title: Veldu tungumál
+    offline_flash:
+      announcement: Þú getur lesið tilkynninguna hér.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap bloggfærsla #%{id}'
@@ -1634,9 +1772,18 @@ is:
         til höfundarins á %{replyurl}
     follow_notification:
       hi: Hæ %{to_user},
+      subject: '[OpenStreetMap] %{user} fylgdist með þér'
+      followed_you: Notandinn %{user} er núna að fylgjast með þér i á OpenStreetMap.
       see_their_profile: Þú getur séð notandasíðu notandans á %{userurl} og jafnvel
         bætt honum við sem vini líka.
       see_their_profile_html: Þú getur séð notandasíðu notandans á %{userurl}.
+    gpx_details:
+      filename: Skráarheiti
+      url: Vefslóð
+      description: Lýsing
+      tags: Merki
+      total_points: Heildarfjöldi punkta
+      imported_points: Fjöldi innfluttra punkta
     gpx_failure:
       hi: Hæ %{to_user},
       failed_to_import: 'tókst ekki að flytja inn. Hér er villan:'
@@ -1884,14 +2031,36 @@ is:
         failure: Gat ekki uppfært kjörstillingar.
       update_success_flash:
         message: Kjörstillingar uppfærðar.
+      navigation:
+        preferences: Kjörstillingar
+        advanced_preferences: Ítarlegar kjörstillingar
     basic_preferences:
       show:
         title: Kjörstillingar
+        preferred_language: Æskilegt tungumál
+        preferred_site_color_scheme: Æskilegt litastef vefsvæðis
+        site_color_schemes:
+          auto: Sjálfvirkt
+          light: Ljóst
+          dark: Dökkt
+        preferred_map_color_scheme: Æskilegt litastef korts
+        map_color_schemes:
+          auto: Sjálfvirkt
+          light: Ljóst
+          dark: Dökkt
+        save: Uppfæra kjörstillingar
+    advanced_preferences:
+      show:
+        title: Ítarlegar kjörstillingar mínar
         save: Uppfæra kjörstillingar
   profiles:
     profile_sections:
       navigation:
+        description: Lýsing
+        links: Tenglar
         image: Mynd
+        company: Fyrirtæki
+        location: Staðsetning
     descriptions:
       show:
         title: Breyta notandasíðu
@@ -1900,8 +2069,13 @@ is:
     links:
       show:
         title: Breyta notandasíðu
+        save: Uppfæra notandasíðu
+        cancel: Hætta við
+        social_links:
+          remove: Fjarlægja
     images:
       show:
+        cancel: Hætta við
         gravatar:
           gravatar: Nota Gravatar-auðkennismynd
           link: https://wiki.openstreetmap.org/wiki/Gravatar
@@ -1968,6 +2142,11 @@ is:
       diary_entries:
         older: Eldri færslur
         newer: Nýrri færslur
+      issues:
+        older: Eldri vandamál
+        newer: Nýrri vandamál
+        oldest: Elstu vandamál
+        newest: Nýjustu vandamál
       traces:
         older: Eldri ferlar
         newer: Nýrri ferlar
@@ -2045,18 +2224,28 @@ is:
         native_link: íslensku útgáfuna
         mapping_link: farið að kortleggja
       legal_babble:
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
+        lead_2_osm_blog: OpenStreetMap bloggið
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
         lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
         licensing_1_odc_odbl: Open Data Commons Open Database License (ODbL) notkunarleyfi
         licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: OpenStreetMap-sjálfseignarstofnuninni
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
         licensing_4_osmf_license_page: síðunni um OSMF notkunarleyfi
         licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Hvernig á að vísa til OpenStreetMap
         credit_1_html: 'Þegar þú notar gögn úr OpenStreetMap, þarft þú að gera tvennt:'
+        credit_2_attribution: Birta tilvísun í OpenStreetMap með höfundarréttartilkynningu
+          okkar.
         credit_2_license: Gera ljóst að gögnin séu tiltæk með Open Database License
           notkunarleyfinu.
         credit_3_v2025_attribution_guidelines: Leiðbeiningar varðandi tilvísanir höfundarréttar
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
         credit_4_v2025_this_copyright_page: þessa höfundarréttarsíðu
         attribution_example:
           alt: Dæmi um hvernig eigi að vísa til OpenStreetMap á vefsíðu
@@ -2082,6 +2271,11 @@ is:
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: reglur fyrir vörumerkið
         trademarks_1_1_trademark_policy_url: https://wiki.osmfoundation.org/wiki/Trademark_Policy
+        services_title_html: Viðbótarþjónustur
+        services_1_html: |-
+          Þrátt fyrir að OpenStreetMap séu opin gögn, getum við ekki veitt
+          ókeypis óheftan aðgang að API-viðmóti kortagrunnsins fyrir utanaðkomandi aðila.
+          Skoðaðu síðurnar %{api_usage_policy_link}, %{tile_usage_policy_link} og %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Stefna varðandi notkun API-kerfisviðmóts
         services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: Stefna varðandi notkun kortatígla
@@ -2415,6 +2609,9 @@ is:
           samfélagshópar. Allir geta sett upp eða tekið þátt í slíku. Lestu meira um þetta á %{communities_wiki_link}.
         communities_wiki: Wiki-síðunni um samfélögin
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
+  social_links:
+    show:
+      website: vefsvæði
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Renndu að til að sjá minnispunkta á kortinu
@@ -2432,6 +2629,7 @@ is:
         track: Slóði
         bridleway: Reiðstígur
         cycleway: Hjólaleið
+        international_bike_route: Alþjóðleg hjólaleið
         national_bike_route: Hjólaleið á landsneti
         regional_bike_route: Svæðisbundin hjólaleið
         local_bike_route: Staðbundin hjólaleið
@@ -2857,6 +3055,11 @@ is:
       show:
         title: Notendur
         heading: Notendur
+        ip_address: IP-vistfang
+        edits: Breytingar?
+        has_edits: Er með breytingar
+        no_edits: Engar breytingar
+        search: Leita
       page:
         found_users:
           one: '%{count} notandi fannst'
@@ -2867,15 +3070,26 @@ is:
       user:
         summary_html: '%{name} var útbúinn frá %{ip_address} þann %{date}'
         summary_no_ip_html: '%{name} útbúinn þann %{date}'
+    comments:
+      index:
+        heading_html: Athugasemdir frá %{user}
+        changesets: Breytingasett
+        diary_entries: Bloggfærslur
+        no_comments: Engar athugasemdir
     changeset_comments:
+      index:
+        title: Athugasemdum við breytingasett bætt við af %{user}
       page:
+        changeset: Breytingasett
         when: Þegar
         comment: Athugasemd
     diary_comments:
       index:
-        title: Dagbók Athugasemdir bætt við af %{user}
+        title: Athugasemdum við blogg bætt við af %{user}
       page:
         post: Senda
+        when: Hvenær
+        comment: Athugasemd
     suspended:
       title: Aðgangur frystur
       heading: Aðgangur frystur
@@ -2902,7 +3116,7 @@ is:
         við auðkennið þitt í notandastillingunum.
   user_role:
     filter:
-      not_a_role: „%{role}“ er ekki gilt leyfi.
+      not_a_role: Strengurinn '%{role}' er ekki gilt leyfi.
       already_has_role: Notandinn hefur þegar „%{role}“ leyfi
       doesnt_have_role: Notandinn er ekki með „%{role}“ leyfi.
       not_revoke_admin_current_user: Get ekki svift þennan notanda möppudýrsréttindum.
@@ -3135,6 +3349,9 @@ is:
       distance_in_units:
         m: '%{distance}m'
         km: '%{distance}km'
+        ft: '%{distance}ft'
+        yd: '%{distance}yd'
+        mi: '%{distance}mi'
       errors:
         no_route: Gat ekki fundið leið á milli þessara tveggja staða.
         no_place: Því miður - gat ekki fundið '%{place}'.
