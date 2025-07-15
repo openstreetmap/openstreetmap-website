@@ -14,6 +14,10 @@
 # Author: Volvox
 ---
 lb:
+  date:
+    formats:
+      brief_bce: '%{year} v.&nbsp;Chr.'
+      brief_ce: '%{year} n.&nbsp;Chr.'
   time:
     formats:
       friendly: '%-d. %B %Y um %H:%M Auer'
@@ -47,6 +51,10 @@ lb:
         create: Spären
         update: Spär aktualiséieren
   activerecord:
+    errors:
+      models:
+        user_mute:
+          is_already_muted: ass scho stommgeschalt
     models:
       acl: Zougrëffssteierlëscht
       changeset: Set vun Ännerungen
@@ -142,7 +150,7 @@ lb:
         email: E-Mail
         new_email: Nei E-Mail-Adress
         active: Aktiv
-        display_name: Numm dee gewise gëtt
+        display_name: Numm, dee gewise gëtt
         description: Beschreiwung vum Profil
         home_lat: Breedegrad
         home_lon: Längegrad
@@ -241,7 +249,7 @@ lb:
         reopened_at_html: Reaktivéiert %{when}
         reopened_at_by_html: Reaktivéiert %{when} vum %{user}
       rss:
-        title: OpenStreetMap Notizen
+        title: OpenHistoricalMap-Notizzen
         description_area: Iwwersiicht vun de gemellten, kommentéierten oder ofgeschlossenen
           Hiweiser am Beräich [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})].
         description_item: En RSS-Feed fir den Hiweis %{id}
@@ -259,13 +267,13 @@ lb:
         warning: Opgepasst! De Läschprozess vum Benotzerkont ass definitiv a kann
           net réckgängeg gemaach ginn.
         delete_account: Benotzerkont läschen
-        delete_introduction: 'Dir kënnt Ären OpenStreetMap-Kont mat dem Knäppchen
+        delete_introduction: 'Dir kënnt Ären OpenHistoricalMap-Kont mat dem Knäppchen
           hei drënner läschen. Berücksichtegt wgl. déi folgend Detailer:'
         delete_profile: Är Profilinformatiounen, wéi Ären Avatar, Beschreiwung an
           Heemplaz ginn geläscht.
         delete_display_name: Ären affichéierten Numm gëtt geläscht, a ka vun anere
           Konte benotzt ginn.
-        retain_caveats: 'E puer Informatiounen iwwer Iech ginn awer op OpenStreetMap
+        retain_caveats: 'E puer Informatiounen iwwer Iech ginn awer op OpenHistoricalMap
           behalen, och nodeems Äre Kont geläscht ass:'
         retain_edits: Är Ännerunge un der Kaarten Datebank, wann et der ginn, ginn
           bäibehalen.
@@ -481,6 +489,10 @@ lb:
         created: Ugeluecht
         closed: Zou
         belongs_to: Auteur
+    subscribe:
+      button: Diskussioun abonéieren
+    unsubscribe:
+      button: Diskussioun ofbestellen
     show:
       title: 'Set vun Ännerungen: %{id}'
       created: 'Ugeluecht: %{when}'
@@ -593,14 +605,14 @@ lb:
       location: 'Plaz:'
     feed:
       user:
-        title: OpenStreetMap Bloganträg vun %{user}
-        description: Lescht OpenStreetMap Bloganträg vun %{user}
+        title: OpenHistoricalMap-Bloganträg vum %{user}
+        description: Lescht OpenHistoricalMap-Bloganträg vum %{user}
       language:
-        title: OpenStreetMap Bloganträg op %{language_name}
-        description: Lescht Bloganträg vu Benotzer op OpenStreetMap op %{language_name}
+        title: OpenHistoricalMap-Bloganträg op %{language_name}
+        description: Lescht Bloganträg vu Benotzer op OpenHistoricalMap op %{language_name}
       all:
-        title: OpenStreetMap Blogbäiträg
-        description: Neiest Bloganträg vun OpenStreetMap-Benotzer
+        title: OpenHistoricalMap-Blogbäiträg
+        description: Neist Bloganträg vun OpenHistoricalMap-Benotzer
     subscribe:
       button: Diskussioun abonéieren
     unsubscribe:
@@ -1541,7 +1553,7 @@ lb:
       provide_details: Gitt wgl. déi gefroten Detailer un
   layouts:
     logo:
-      alt_text: OpenStreetMap Logo
+      alt_text: OpenHistoricalMap-Logo
     home: Op déi Plaz zréckgoen déi als Doheem definéiert ass
     logout: Ofmellen
     log_in: Aloggen
@@ -1556,17 +1568,17 @@ lb:
     edit_with: Ännere mat %{editor}
     tag_line: D'fräi Wiki-Weltkaart
     intro_header: Wëllkomm bei OpenHistoricalMap!
-    intro_text: OpenStreetMap ass eng Kaart vun der Welt, déi vu Leit wéi Iech gemaach
-      gouf an déi fräi ënner enger oppener Lizenz benotzt ka ginn.
+    intro_text: OpenHistoricalMap ass eng Kaart vun der Welt, déi vu Leit wéi Iech
+      gemaach gouf an déi fräi ënner enger oppener Lizenz benotzt ka ginn.
     intro_2_create_account: E Benotzerkont uleeën
     partners_title: Partner
     partners_greeninfo: GreenInfo Netzwierk
     partners_osmf: OpenStreetMap Fondatioun
     tou: Benotzungs-Bedéngungen
-    osm_offline: D'OpenStreetMap Datebank ass elo net disponibel well dru geschafft
+    osm_offline: D'OpenHistoricalMap-Datebank ass elo net disponibel well dru geschafft
       muss ginn.
-    osm_read_only: D'OpenStreetMap Datebank kann den Ament nëmmen ausgelies an net
-      beaarbecht ginn, well se gewaart gëtt.
+    osm_read_only: D'OpenHistoricalMap-Datebank kann den Ament nëmmen ausgelies an
+      net beaarbecht ginn, well se gewaart gëtt.
     help: Hëllef
     about: Iwwer
     copyright: Copyright
@@ -1575,24 +1587,24 @@ lb:
     more: Méi
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} huet e Blogantrag kommentéiert'
+      subject: '[OpenHistoricalMap] %{user} huet e Blogantrag kommentéiert'
       hi: Salut %{to_user},
-      header: '%{from_user} huet den OpenStreetMap-Blogantrag mam Theema %{subject}
+      header: '%{from_user} huet den OpenHistoricalMap-Blogantrag mam Theema %{subject}
         kommentéiert:'
-      header_html: '%{from_user} huet den OpenStreetMap-Blogantrag mam Theema %{subject}
-        kommentéiert:'
+      header_html: '%{from_user} huet den OpenHistoricalMap-Blogantrag mam Theema
+        %{subject} kommentéiert:'
       footer: Dir kënnt de Commentaire och ënner %{readurl} liesen an Dir kënnt ënner
         %{commenturl} kommentéieren oder dem Auteur ënner %{replyurl} e Message schécken
       footer_html: Dir kënnt de Commentaire och ënner %{readurl} liesen an Dir kënnt
         ënner %{commenturl} kommentéieren oder dem Auteur ënner %{replyurl} e Message
         schécken
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Salut %{to_user},
-      header: '%{from_user} huet dir e Message iwwer OpenStreetMap mam Betreff %{subject}
-        geschéckt:'
-      header_html: '%{from_user} huet dir e Message iwwer OpenStreetMap mat dem Betreff
+      header: '%{from_user} huet dir e Message iwwer OpenHistoricalMap mam Betreff
         %{subject} geschéckt:'
+      header_html: '%{from_user} huet dir e Message iwwer OpenHistoricalMap mat dem
+        Betreff %{subject} geschéckt:'
       footer: Dir kënnt de Message och ënner %{readurl} liesen an Dir kënnt dem Auteur
         ënner %{replyurl} e Message schécken
       footer_html: Dir kënnt de Message och op %{readurl} liesen an Dir kënnt op %{replyurl}
@@ -1606,8 +1618,8 @@ lb:
       befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} derbäisetzen.
       befriend_them_html: Dir kënnt hien/si och als Frënd ënner %{befriendurl} derbäisetzen.
     gpx_description:
-      description_with_tags_html: 'Et schéngt, datt déng GPX-Datei %{trace_name} mat
-        der Beschreiwung %{trace_description} an de folgenden Taggen: %{tags}'
+      description_with_tags_html: 'Et schéngt, datt Är Datei %{trace_name} mat der
+        Beschreiwung %{trace_description} an de folgenden Taggen: %{tags}'
       description_with_no_tags_html: Et schéngt, datt Äre Fichier %{trace_name} mat
         der Beschreiwung %{trace_description} an ouni Taggen
     gpx_failure:
@@ -1616,12 +1628,12 @@ lb:
       more_info_html: Weider Informatiounen iwwer Feeler bei GPX-Importer a wéi se
         vermidde kënne gi fanne sech ënner %{url}
       import_failures_url: https://wiki.openstreetmap.org/wiki/LB:GPX
-      subject: '[OpenStreetMap] GPX-Import Feeler'
+      subject: '[OpenHistoricalMap] GPX-Import Feeler'
     gpx_success:
       hi: Salut %{to_user},
-      subject: '[OpenStreetMap] GPX-Import erfollegräich'
+      subject: '[OpenHistoricalMap] GPX-Import erfollegräich'
     signup_confirm:
-      subject: '[OpenStreetMap] Wëllkomm bei OpenStreetMap'
+      subject: '[OpenHistoricalMap] Wëllkomm bei OpenHistoricalMap'
       greeting: Moien!
       created: Iergendeen (hoffentlech Dir selwer) huet grad bei %{site_url} e Benotzerkont
         ugeluecht.
@@ -1631,14 +1643,14 @@ lb:
       welcome: No der Bestätegung vun dengem Benotzerkont gi mir dir zousätzlech Informatiounen,
         fir unzefänken.
     email_confirm:
-      subject: '[OpenStreetMap] Confirméiert Är E-Mailadress'
+      subject: '[OpenHistoricalMap] Confirméiert Är E-Mail-Adress'
       greeting: Salut,
       hopefully_you: Iergendeen (hoffentlech Dir selwer) wëll seng E-Mail-Adress op
         %{server_url} op %{new_address} änneren.
       click_the_link: Wann Dir dat sidd, da klickt op de Link hei drënner fir d'Ännerung
         ze confirméieren.
     lost_password:
-      subject: '[OpenStreetMap] Ufro fir d''Passwuert zréckzesetzen'
+      subject: '[OpenHistoricalMap] Ufro fir d''Passwuert zréckzesetzen'
       greeting: Salut,
       hopefully_you: Iergendeen (hoffentlech Dir selwer) huet ugefrot fir d'Passwuert
         vum openhistoricalmap.org-Kont vun dëser E-Mail-Adress zréckzesetzen.
@@ -1648,7 +1660,8 @@ lb:
       anonymous: En anonyme Benotzer
       greeting: Salut,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} huet ee vun déngen Hiweiser kommentéiert'
+        subject_own: '[OpenHistoricalMap] %{commenter} huet ee vun déngen Hiweiser
+          kommentéiert'
         subject_other: '[OpenHistoricalMap] %{commenter} huet en Hiweis kommentéiert,
           un deem Dir interesséiert sidd'
         your_note: '%{commenter} huet ee vun dir gemellten Hiweis an der Noperschaft
@@ -1662,7 +1675,8 @@ lb:
           hutt, e weidere Commentaire hannerluecht. Den Hiweis ass an der Géigend
           vu(n) %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Hiweiser kommentéiert'
+        subject_own: '[OpenHistoricalMap] %{commenter} huet ee vun dengen Hiweiser
+          kommentéiert'
         subject_other: '[OpenHistoricalMap] %{commenter} huet e Kaartenhiweis geléist,
           un deem Dir interesséiert sidd'
         your_note: '%{commenter} huet ee vun Iech gemellte Problem an der Noperschaft
@@ -1674,7 +1688,8 @@ lb:
         commented_note_html: '%{commenter} huet e Problem/Theema geléist, zu deem
           Dir e Kommentar gemaach hutt. Den Hiweis war an der Géigend vu(n) %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Hiweiser kommentéiert'
+        subject_own: '[OpenHistoricalMap] %{commenter} huet ee vun dengen Hiweiser
+          kommentéiert'
         subject_other: '[OpenHistoricalMap] %{commenter} huet e Kaartenhiweis geléist,
           un deem Dir interesséiert sidd'
         your_note: '%{commenter} huet ee vun Iech gemellte Problem an der Noperschaft
@@ -1690,7 +1705,7 @@ lb:
     changeset_comment_notification:
       hi: Salut %{to_user},
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Ännerungssätz
+        subject_own: '[OpenHistoricalMap] %{commenter} huet ee vun dengen Ännerungssätz
           kommentéiert.'
         subject_other: '[OpenHistoricalMap] %{commenter} huet en Ännerungssaz kommentéiert,
           un deem Dir interesséiert sidd'
@@ -1729,7 +1744,7 @@ lb:
     confirm_resend:
       failure: Benotzer %{name} gouf net fonnt.
     confirm_email:
-      heading: Eng Ännerung vun enger E-Mailadress confirméieren
+      heading: Ännerung vun der E-Mail-Adress confirméieren
       press confirm button: Fir d'Bestätegung vun der neier E-Mail-Adress, klick wannechgelift
         ënnen op „Bestätegen“.
       button: Confirméieren
@@ -1785,6 +1800,8 @@ lb:
       no_sent_messages_html: Dir hutt nach keng Noriichte verschéckt. Wëllt Dir mat
         %{people_mapping_nearby_link} Kontakt ophuelen?
       people_mapping_nearby: Mapperen an der Noperschaft
+    muted:
+      title: Stommgeschalt Messagen
     reply:
       wrong_user: Dir sidd als '%{user}' ugemellt, awer d'Noriicht, op déi Dir äntwere
         wollt, gouf net un dëse Benotzer geschéckt. Mellt Iech wgl. mat dem richtege
@@ -1803,6 +1820,7 @@ lb:
     heading:
       my_inbox: Mäi Postagang
       my_outbox: Mäi Postausgang
+      muted_messages: Stommgeschalt Messagen
     mark:
       as_read: Message als gelies markéiert
       as_unread: Message als net gelies markéiert
@@ -1879,7 +1897,7 @@ lb:
       auth failure: Mat dëssen Daten ass leider keng Umeldung méiglech.
     destroy:
       title: Ofmellen
-      heading: Vun OpenStreetMap ofmellen
+      heading: Vun OpenHistoricalMap ofmellen
       logout_button: Ofmellen
     suspended_flash:
       suspended: Äre Kont gouf leider wéinst verdächtegen Aktivitéite suspendéiert.
@@ -1900,6 +1918,7 @@ lb:
       image: Bild
       alt: Alternativen Text
       url: URL
+      codeblock: Code-Block
     richtext_field:
       edit: Änneren
       preview: Virschau
@@ -1922,23 +1941,15 @@ lb:
         newer: Méi nei Benotzer
   site:
     about:
-      heading_html: <span>&copy;</span>OpenHistoricalMap<br>Matwierkend
       used_by_html: '%{name} stellt Kaartendonnéeë fir dausende vu Websäiten, Appen
         an anere Geräter zur Verfügung'
-      lede_text: OpenStreetMap gëtt vun enger Panoplie vu Mapperen erstallt, déi Donnéeën
-        zu Weeër, Gebaier an allerlee Weiderem weltwäit erfaassen a fleegen.
-      local_knowledge_title: Lokaalt Wëssen
-      local_knowledge_html: OpenStreetMap leet Wäert op lokaalt Wëssen. Auteure benotze
-        Loftbiller, GPS-Geräter a Feldkaarte fir d'Verifizéierung, sou dass OSM korrekt
-        an aktuell ass.
-      community_driven_title: Communautéitsbedriwwen
-      community_driven_community_blogs: Forum
+      lede_text: OpenHistoricalMap gëtt vun enger Panoplie vu Mapperen erstallt, déi
+        Donnéeën zu Weeër, Gebaier an allerlee Weiderem weltwäit erfaassen a fleegen.
+      scope_title: Grouss a kleng, deemools an haut
+      contribute_title: Dir kënnt mathëllefen
       open_data_title: Open Data
       legal_title: Rechtlech Hiweiser
-      legal_1_1_html: |-
-        Dës Websäit a vill domat an Zesummenhang stoend Déngschter gi vun der <a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a> (OSMF) fir d'OSM-Communautéit bedriwwen. D'Benotze vun allen OSMF-bedriwwenen Déngschter gëtt duerch eis „<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Acceptable Use Policies</a>“
-        an eis <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Dateschutzrichtlinn</a> gereegelt.
-      legal_1_1_privacy_policy: Dateschutzrichtlinnen
+      legal_1_privacy_policy: Dateschutzrichtlinnen
       partners_title: Partneren
     copyright:
       title: Copyright a Lizenz
@@ -1952,43 +1963,24 @@ lb:
         native_link: lëtzebuergesch Versioun
         mapping_link: mat dem Kaartéieren ufänken
       legal_babble:
-        credit_title_html: Wéi et op d'Urhiewerschaft vun OpenStreetMap hinzeweise
+        introduction_1_cc0: Creative Commons CC0
+        credit_title_html: Wéi et op d'Urhiewerschaft vun OpenHistoricalMap hinzeweise
           gëllt
         credit_1_html: 'Wann Dir Donnéeë vun OpenStreetMap benotz muss Dir dës zwou
           Saache respektéieren:'
+        credit_3_project: OpenHistoricalMap
         more_title_html: Fir méi ze wëssen
         contributors_title_html: Eis Matwierkend
         contributors_intro_html: 'Eis Matwierkend sinn dausende vun eenzele Mënschen.
           Mir bezéien och oppe lizenzéiert Donnéeë vu nationale Kaartenagenturen an
           anere Quellen an, dorënner:'
-        contributors_at_austria: Éisträich
-        contributors_at_stadt_wien: Stad Wien
-        contributors_at_cc_by: CC BY
-        contributors_at_land_vorarlberg: Land Vorarlberg
-        contributors_au_australia: Australien
-        contributors_au_geoscape_australia: Geoscape Australien
-        contributors_ca_canada: Kanada
-        contributors_cz_czechia: Tschechien
-        contributors_fi_finland: Finnland
-        contributors_fi_nlsfi_license: NLSFI-Lizenz
-        contributors_fr_france: Frankräich
-        contributors_hr_croatia: Kroatien
-        contributors_nl_netherlands: Holland
-        contributors_nz_new_zealand: Neiséiland
-        contributors_nz_cc_by: CC BY 4.0
-        contributors_rs_serbia: Serbien
-        contributors_si_slovenia: Slowenien
-        contributors_es_spain: Spuenien
-        contributors_za_south_africa: Südafrika
-        contributors_gb_united_kingdom: Vereenegt Kinnekräich
+        contributors_osm_cc_by_sa: CC BY-SA 2.0
+        contributors_osm_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/2.0/
         infringement_title_html: Copyright-Verletzung
-        trademarks_1_1_html: OpenHistoricalMap, de Luppelogo a „State of the Map“
-          sinn agedroe Wouerzeeche vun der OpenHistoricalMap Foundation. Falls du
-          Froen iwwer d'Verwendung vu Marken hues, lies wannechgelift eis <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy"><Markerichtlinn</a>.
     index:
       js_1: Dir hutt entweder e Browser dee JavaScript net ënnerstëtzt oder Dir hutt
         JavaScript desaktivéiert.
-      js_2: OpenStreetMap benotzt JavaScript fir d'Kaartenduerstellung
+      js_2: OpenHistoricalMap benotzt JavaScript fir d'Kaartenduerstellung
       license:
         copyright: Copyright OpenStreetMap a Matwierkend, ënner enger oppener Lizenz
     edit:
@@ -1999,6 +1991,7 @@ lb:
       title: Exportéieren
       manually_select: Sicht manuell eng aner Géigend eraus
       licence: Lizenz
+      cc0: Creative Commons CC0
       too_large:
         body: Dëse Beräich ass ze grouss, fir als OpenStreetMap-XML-Donnéeën exportéiert
           ze ginn. Wannechgelift vergréisseren, e méi klenge Beräich wielen oder eng
@@ -2044,7 +2037,7 @@ lb:
       slack:
         title: IRC
       wiki:
-        title: OpenStreetMap Wiki
+        title: Wiki
     any_questions:
       title: Nach Froen?
     sidebar:
@@ -2238,6 +2231,8 @@ lb:
       wikipedia:
         title: Mat Wikipedia aloggen
         alt: Wikipedia-Logo
+      openstreetmap:
+        alt: OpenStreetMap-Logo
   oauth:
     scopes:
       read_prefs: Benotzerastellunge liesen
@@ -2531,7 +2526,7 @@ lb:
       edit_disabled_tooltip: Vergréissere fir d'Kaart z'änneren
       createnote_tooltip: En Hiweis/Feeler zu de Kaartendonnéeë mellen
       createnote_disabled_tooltip: Zum Erstelle vun Hiweiser muss vergréissert ginn
-      map_data_zoom_in_tooltip: Vergréisser d'Kaart, fir 'Donnéeën ze gesinn
+      map_data_zoom_in_tooltip: Vergréissert d'Kaart fir d'Donnéeën ze gesinn
       queryfeature_tooltip: Objetsoffro
       queryfeature_disabled_tooltip: Fir Objetsoffro vergréisseren
     edit_help: Réckelt d'Kaart a vergréissert op eng Plaz, déi Dir ännere wëllt, a
@@ -2563,7 +2558,7 @@ lb:
         sharp_left_without_exit: Schaarf lénks op %{name}
         offramp_left_with_name: Déi lénks Opfaart op %{name} huelen
         onramp_left_without_exit: Bei der Opfaart lénks ofbéien op %{name}
-        onramp_left: Op der Opfaart no lénks ofbéien
+        onramp_left: Lénks ofbéien op d'Opfaart
         endofroad_left_without_exit: Um Ënn vun der Strooss lénks ofbéien op %{name}
         merge_left_without_exit: Lénks areien op %{name}
         fork_left_without_exit: Um Ënn vun der Strooss lénks ofbéien op %{name}
@@ -2607,5 +2602,5 @@ lb:
       flash: Ännerunge gespäichert.
   validations:
     leading_whitespace: huet en Espace am Ufank
-    invalid_characters: huet net valabel Zeechen
+    invalid_characters: enthält ongülteg Zeechen
 ...
