@@ -40,7 +40,7 @@ module BrowseTagsHelper
       end
       svg + colour_value
     else
-      safe_join(value.split(";", -1).map { |x| linkify(h(x)) }, ";")
+      safe_join(value.split(";", -1).map { |x| tag2link_link(key, x) || linkify(h(x)) }, ";")
     end
   end
 
@@ -125,6 +125,15 @@ module BrowseTagsHelper
       }
     end
     nil
+  end
+
+  def tag2link_link(key, value)
+    # skip if it's a full URL
+    return nil if %r{^https?://}.match?(value)
+
+    return nil unless TAG2LINK[key]
+
+    link_to(h(value), TAG2LINK[key].gsub("$1", value), :rel => "nofollow")
   end
 
   def email_link(key, value)

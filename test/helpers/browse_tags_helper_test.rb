@@ -53,6 +53,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("wikimedia_commons", "File:Test.jpg")
     assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
 
+    html = format_value("mapillary", "123;https://example.com")
+    assert_dom_equal "<a rel=\"nofollow\" href=\"https://www.mapillary.com/app/?pKey=123\">123</a>;<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>",
+                     html
+
     html = format_value("colour", "#f00")
     dom = Rails::Dom::Testing.html_document_fragment.parse html
     assert_select dom, "svg>rect>@fill", "#f00"
