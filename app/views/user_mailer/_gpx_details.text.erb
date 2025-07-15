@@ -1,0 +1,22 @@
+<%= t ".details" %>
+
+<%= t ".filename" %>
+	<%= @trace_name %>
+<% if @trace_url %>
+<%= t ".url" %>
+	<%= @trace_url %>
+<% end %>
+<%= t ".description" %>
+	<%= @trace_description %>
+<% if @trace_tags.length > 0 %>
+<%= t ".tags" %>
+	<%= @trace_tags.map(&:tag).join(", ") %>
+<% end %>
+<% if @possible_points %>
+<%= t ".total_points" %>
+	<%= @possible_points %>
+<% end %>
+<% if @trace_points %>
+<%= t ".imported_points" %>
+	<%= @trace_points %>
+<% end %>

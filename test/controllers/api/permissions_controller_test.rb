@@ -16,14 +16,14 @@ module Api
     end
 
     def test_permissions_anonymous
-      get permissions_path
+      get api_permissions_path
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 0
       end
 
       # Test json
-      get permissions_path(:format => "json")
+      get api_permissions_path(:format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
 
@@ -35,7 +35,7 @@ module Api
     def test_permissions_oauth2
       user = create(:user)
       auth_header = bearer_authorization_header(user, :scopes => %w[read_prefs write_api])
-      get permissions_path, :headers => auth_header
+      get api_permissions_path, :headers => auth_header
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 2

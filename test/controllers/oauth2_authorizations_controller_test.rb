@@ -102,6 +102,20 @@ class Oauth2AuthorizationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", "The requested scope is invalid, unknown, or malformed."
   end
 
+  def test_new_db_readonly
+    application = create(:oauth_application, :scopes => "write_api")
+
+    session_for(create(:user))
+
+    with_settings(:status => "database_readonly") do
+      get oauth_authorization_path(:client_id => application.uid,
+                                   :redirect_uri => application.redirect_uri,
+                                   :response_type => "code",
+                                   :scope => "write_api")
+      assert_redirected_to offline_path
+    end
+  end
+
   def test_create
     application = create(:oauth_application, :scopes => "write_api")
 

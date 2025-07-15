@@ -3,119 +3,123 @@
 require "test_helper"
 
 class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
-  test "as a normal user with permissionless token" do
-    token = create(:oauth_access_token)
-    capability = ApiCapability.new token
+  test "as a normal user without scopes" do
+    user = create(:user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert capability.cannot? action, ChangesetComment
-    end
+    assert ability.cannot? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
-  test "as a normal user with write_api token" do
-    token = create(:oauth_access_token, :scopes => %w[write_api])
-    capability = ApiCapability.new token
+  test "as a normal user with write_changeset_comments scope" do
+    user = create(:user)
+    scopes = Set.new %w[write_changeset_comments]
+    ability = ApiAbility.new user, scopes
 
-    [:destroy, :restore].each do |action|
-      assert capability.cannot? action, ChangesetComment
-    end
-
-    [:create].each do |action|
-      assert capability.can? action, ChangesetComment
-    end
+    assert ability.can? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
-  test "as a moderator with permissionless token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id)
-    capability = ApiCapability.new token
+  test "as a moderator without scopes" do
+    user = create(:moderator_user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert capability.cannot? action, ChangesetComment
-    end
+    assert ability.cannot? :create, ChangesetComment
+    assert ability.cannot? :create, :changeset_comment_visibility
+    assert ability.cannot? :destroy, :changeset_comment_visibility
   end
 
-  test "as a moderator with write_api token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id, :scopes => %w[write_api])
-    capability = ApiCapability.new token
+  test "as a moderator with write_changeset_comments scope" do
+    user = create(:moderator_user)
+    scopes = Set.new %w[write_changeset_comments]
+    ability = ApiAbility.new user, scopes
 
-    [:create, :destroy, :restore].each do |action|
-      assert capability.can? action, ChangesetComment
-    end
+    assert ability.can? :create, ChangesetComment
+    assert ability.can? :create, :changeset_comment_visibility
+    assert ability.can? :destroy, :changeset_comment_visibility
   end
 end
 
 class NoteApiCapabilityTest < ActiveSupport::TestCase
-  test "as a normal user with permissionless token" do
-    token = create(:oauth_access_token)
-    capability = ApiCapability.new token
+  test "as a normal user without scopes" do
+    user = create(:user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
     [:create, :comment, :close, :reopen, :destroy].each do |action|
-      assert capability.cannot? action, Note
+      assert ability.cannot? action, Note
     end
   end
 
-  test "as a normal user with write_notes token" do
-    token = create(:oauth_access_token, :scopes => %w[write_notes])
-    capability = ApiCapability.new token
+  test "as a normal user with write_notes scope" do
+    user = create(:user)
+    scopes = Set.new %w[write_notes]
+    ability = ApiAbility.new user, scopes
 
     [:destroy].each do |action|
-      assert capability.cannot? action, Note
+      assert ability.cannot? action, Note
     end
 
     [:create, :comment, :close, :reopen].each do |action|
-      assert capability.can? action, Note
+      assert ability.can? action, Note
     end
   end
 
-  test "as a moderator with permissionless token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id)
-    capability = ApiCapability.new token
+  test "as a moderator without scopes" do
+    user = create(:moderator_user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
     [:destroy].each do |action|
-      assert capability.cannot? action, Note
+      assert ability.cannot? action, Note
     end
   end
 
-  test "as a moderator with write_notes token" do
-    token = create(:oauth_access_token, :resource_owner_id => create(:moderator_user).id, :scopes => %w[write_notes])
-    capability = ApiCapability.new token
+  test "as a moderator with write_notes scope" do
+    user = create(:moderator_user)
+    scopes = Set.new %w[write_notes]
+    ability = ApiAbility.new user, scopes
 
     [:destroy].each do |action|
-      assert capability.can? action, Note
+      assert ability.can? action, Note
     end
   end
 end
 
 class UserApiCapabilityTest < ActiveSupport::TestCase
   test "user preferences" do
-    # A user with empty tokens
-    token = create(:oauth_access_token)
-    capability = ApiCapability.new token
+    user = create(:user)
+    scopes = Set.new
+    ability = ApiAbility.new user, scopes
 
     [:index, :show, :update_all, :update, :destroy].each do |act|
-      assert capability.cannot? act, UserPreference
+      assert ability.cannot? act, UserPreference
     end
 
-    token = create(:oauth_access_token, :scopes => %w[read_prefs])
-    capability = ApiCapability.new token
+    scopes = Set.new %w[read_prefs]
+    ability = ApiAbility.new user, scopes
 
     [:update_all, :update, :destroy].each do |act|
-      assert capability.cannot? act, UserPreference
+      assert ability.cannot? act, UserPreference
     end
 
     [:index, :show].each do |act|
-      assert capability.can? act, UserPreference
+      assert ability.can? act, UserPreference
     end
 
-    token = create(:oauth_access_token, :scopes => %w[write_prefs])
-    capability = ApiCapability.new token
+    scopes = Set.new %w[write_prefs]
+    ability = ApiAbility.new user, scopes
 
     [:index, :show].each do |act|
-      assert capability.cannot? act, UserPreference
+      assert ability.cannot? act, UserPreference
     end
 
     [:update_all, :update, :destroy].each do |act|
-      assert capability.can? act, UserPreference
+      assert ability.can? act, UserPreference
     end
   end
 end

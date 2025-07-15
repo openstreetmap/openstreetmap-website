@@ -1,0 +1,10 @@
+<%= tag.tr(:id => "outbox-#{message.id}") do %>
+  <td><%= link_to message.recipient.display_name, user_path(message.recipient), :class => "username d-inline-block text-truncate text-wrap align-bottom", :dir => "auto" %></td>
+  <td><%= link_to message.title, message_path(message) %></td>
+  <td class="text-nowrap"><%= l message.sent_on, :format => :friendly %></td>
+  <td class="text-nowrap">
+    <div class="d-flex justify-content-end gap-1">
+      <%= button_to t(".destroy_button"), message_path(message, :referer => request.fullpath), :method => :delete, :class => "btn btn-sm btn-danger", :form => { :data => { :turbo => true }, :class => "destroy-message" } %>
+    </div>
+  </td>
+<% end %>

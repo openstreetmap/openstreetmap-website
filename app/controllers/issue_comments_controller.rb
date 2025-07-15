@@ -33,7 +33,7 @@ class IssueCommentsController < ApplicationController
   private
 
   def issue_comment_params
-    params.require(:issue_comment).permit(:body)
+    params.expect(:issue_comment => [:body])
   end
 
   # This sort of assumes there are only two roles

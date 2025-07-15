@@ -28,8 +28,8 @@ class DiaryEntriesController < ApplicationController
       end
     elsif params[:friends]
       if current_user
-        @title = t ".title_friends"
-        entries = DiaryEntry.where(:user => current_user.friends)
+        @title = t ".title_followed"
+        entries = DiaryEntry.where(:user => current_user.followings)
       else
         require_user
         return
@@ -67,17 +67,17 @@ class DiaryEntriesController < ApplicationController
   def show
     entries = @user.diary_entries
     entries = entries.visible unless can? :unhide, DiaryEntry
-    @entry = entries.find_by(:id => params[:id])
-    if @entry
-      @title = t ".title", :user => params[:display_name], :title => @entry.title
+    @diary_entry = entries.find_by(:id => params[:id])
+    if @diary_entry
+      @title = t ".title", :user => params[:display_name], :title => @diary_entry.title
       @opengraph_properties = {
-        "og:title" => @entry.title,
-        "og:image" => @entry.body.image,
-        "og:image:alt" => @entry.body.image_alt,
-        "og:description" => @entry.body.description,
-        "article:published_time" => @entry.created_at.xmlschema
+        "og:title" => @diary_entry.title,
+        "og:image" => @diary_entry.body.image,
+        "og:image:alt" => @diary_entry.body.image_alt,
+        "og:description" => @diary_entry.body.description,
+        "article:published_time" => @diary_entry.created_at.xmlschema
       }
-      @comments = can?(:unhide, DiaryComment) ? @entry.comments : @entry.visible_comments
+      @comments = can?(:unhide, DiaryComment) ? @diary_entry.comments : @diary_entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -86,12 +86,9 @@ class DiaryEntriesController < ApplicationController
 
   def new
     @title = t ".title"
+    @diary_entry = DiaryEntry.new(entry_params.reverse_merge(:language_code => current_user.default_diary_language))
 
-    default_lang = current_user.preferences.find_by(:k => "diary.default_language")
-    lang_code = default_lang ? default_lang.v : current_user.preferred_language
-    @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
     set_map_location
-    render :action => "new"
   end
 
   def edit
@@ -112,18 +109,12 @@ class DiaryEntriesController < ApplicationController
     @diary_entry.user = current_user
 
     if @diary_entry.save
-      default_lang = current_user.preferences.find_by(:k => "diary.default_language")
-      if default_lang
-        default_lang.v = @diary_entry.language_code
-        default_lang.save!
-      else
-        current_user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
-      end
+      current_user.default_diary_language = @diary_entry.language_code
 
       # Subscribe user to diary comments
       @diary_entry.subscriptions.create(:user => current_user)
 
-      redirect_to :action => "index", :display_name => current_user.display_name
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     else
       render :action => "new"
     end
@@ -219,7 +210,7 @@ class DiaryEntriesController < ApplicationController
   ##
   # return permitted diary entry parameters
   def entry_params
-    params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
+    params.expect(:diary_entry => [:title, :body, :language_code, :latitude, :longitude])
   rescue ActionController::ParameterMissing
     ActionController::Parameters.new.permit(:title, :body, :language_code, :latitude, :longitude)
   end

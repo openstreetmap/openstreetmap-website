@@ -136,18 +136,30 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user, :valid?, "user_0 display_name is invalid but it hasn't been changed"
   end
 
-  def test_friends_with
+  def test_description_length
+    user = build(:user)
+    user.description = "x" * 65536
+    assert_predicate user, :valid?, "should allow 65536 char description"
+    user.description = "x" * 65537
+    assert_not_predicate user, :valid?, "should not allow 65537 char description"
+    user.description = ""
+    assert_predicate user, :valid?, "should allow blank/0 char description"
+    user.description = nil
+    assert_predicate user, :valid?, "should allow nil value"
+  end
+
+  def test_follows
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
-    create(:friendship, :befriender => alice, :befriendee => bob)
+    create(:follow, :follower => alice, :following => bob)
 
-    assert alice.friends_with?(bob)
-    assert_not alice.friends_with?(charlie)
-    assert_not bob.friends_with?(alice)
-    assert_not bob.friends_with?(charlie)
-    assert_not charlie.friends_with?(bob)
-    assert_not charlie.friends_with?(alice)
+    assert alice.follows?(bob)
+    assert_not alice.follows?(charlie)
+    assert_not bob.follows?(alice)
+    assert_not bob.follows?(charlie)
+    assert_not charlie.follows?(bob)
+    assert_not charlie.follows?(alice)
   end
 
   def test_users_nearby
@@ -174,13 +186,13 @@ class UserTest < ActiveSupport::TestCase
   def test_friends
     norm = create(:user, :active)
     sec = create(:user, :active)
-    create(:friendship, :befriender => norm, :befriendee => sec)
+    create(:follow, :follower => norm, :following => sec)
 
-    assert_equal [sec], norm.friends
-    assert_equal 1, norm.friends.size
+    assert_equal [sec], norm.followings
+    assert_equal 1, norm.followings.size
 
-    assert_empty sec.friends
-    assert_equal 0, sec.friends.size
+    assert_empty sec.followings
+    assert_equal 0, sec.followings.size
   end
 
   def test_user_preferred_editor
@@ -243,19 +255,77 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_languages
-    create(:language, :code => "en")
-    create(:language, :code => "de")
-    create(:language, :code => "sl")
-
     user = create(:user, :languages => ["en"])
     assert_equal ["en"], user.languages
     user.languages = %w[de fr en]
     assert_equal %w[de fr en], user.languages
     user.languages = %w[fr de sl]
-    assert_equal "de", user.preferred_language
     assert_equal %w[fr de sl], user.preferred_languages.map(&:to_s)
     user = create(:user, :languages => %w[en de])
     assert_equal %w[en de], user.languages
+  end
+
+  def test_default_diary_language_undefined
+    create(:language, :code => "en")
+    user = create(:user, :languages => [])
+    assert_nil user.default_diary_language
+  end
+
+  def test_default_diary_language_known
+    create(:language, :code => "en")
+    user = create(:user, :languages => ["en"])
+    assert_equal "en", user.default_diary_language
+  end
+
+  def test_default_diary_language_known_with_fallback
+    create(:language, :code => "en")
+    create(:language, :code => "fr")
+    user = create(:user, :languages => ["fr en"])
+    assert_equal "fr", user.default_diary_language
+  end
+
+  def test_default_diary_language_unknown
+    create(:language, :code => "en")
+    user = create(:user, :languages => ["unknown"])
+    assert_nil user.default_diary_language
+  end
+
+  def test_default_diary_language_unknown_with_known_fallback
+    create(:language, :code => "en")
+    user = create(:user, :languages => ["unknown en"])
+    assert_equal "en", user.default_diary_language
+  end
+
+  def test_default_diary_language_set
+    create(:language, :code => "en")
+    user = create(:user, :languages => [])
+
+    assert_difference "user.preferences.count", 1 do
+      assert_equal "en", (user.default_diary_language = "en")
+    end
+
+    user.reload
+    assert_equal "en", user.default_diary_language
+    preference = user.preferences.find_by(:k => "diary.default_language")
+    assert_equal "en", preference.v
+  end
+
+  def test_default_diary_language_set_twice
+    create(:language, :code => "en")
+    create(:language, :code => "fr")
+    user = create(:user, :languages => [])
+
+    assert_difference "user.preferences.count", 1 do
+      assert_equal "en", (user.default_diary_language = "en")
+    end
+    assert_difference "user.preferences.count", 0 do
+      assert_equal "fr", (user.default_diary_language = "fr")
+    end
+
+    user.reload
+    assert_equal "fr", user.default_diary_language
+    preference = user.preferences.find_by(:k => "diary.default_language")
+    assert_equal "fr", preference.v
   end
 
   def test_visible?
@@ -306,7 +376,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_soft_destroy_revokes_oauth2_tokens
     user = create(:user)
-    oauth_access_token = create(:oauth_access_token, :resource_owner_id => user.id)
+    oauth_access_token = create(:oauth_access_token, :user => user)
     assert_equal 1, user.access_tokens.not_expired.count
 
     user.soft_destroy

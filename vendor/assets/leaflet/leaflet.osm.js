@@ -51,6 +51,14 @@ L.OSM.TransportMap = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.TransportDarkMap = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    maxZoom: 21,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
+  }
+});
+
 L.OSM.OPNVKarte = L.OSM.TileLayer.extend({
   options: {
     url: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
@@ -70,7 +78,7 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
 
 L.OSM.TracestrackTopo = L.OSM.TileLayer.extend({
   options: {
-    url: 'https://tile.tracestrack.com/topo__/{z}/{x}/{y}.png?key={apikey}',
+    url: 'https://tile.tracestrack.com/topo__/{z}/{x}/{y}.webp?key={apikey}',
     maxZoom: 19,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="https://www.tracestrack.com/" target="_blank">Tracestrack Maps</a>'
   }
@@ -89,7 +97,8 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
   options: {
     areaTags: ['area', 'building', 'leisure', 'tourism', 'ruins', 'historic', 'landuse', 'military', 'natural', 'sport'],
     uninterestingTags: ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
-    styles: {}
+    styles: {},
+    asynchronous: false,
   },
 
   initialize: function (xml, options) {
@@ -102,13 +111,20 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
   },
 
+  loadingLayers: [],
+
+  cancelLoading: function () {
+    this.loadingLayers.forEach(layer => clearTimeout(layer));
+    this.loadingLayers = [];
+  },
+
   addData: function (features) {
     if (!(features instanceof Array)) {
       features = this.buildFeatures(features);
     }
 
     for (var i = 0; i < features.length; i++) {
-      var feature = features[i], layer;
+      let feature = features[i], layer;
 
       if (feature.type === "changeset") {
         layer = L.rectangle(feature.latLngBounds, this.options.styles.changeset);
@@ -129,20 +145,44 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
         }
       }
 
-      layer.addTo(this);
+      if (this.options.asynchronous) {
+        setTimeout(() => layer.addTo(this));
+      } else {
+        layer.addTo(this);
+      }
+
       layer.feature = feature;
     }
   },
 
-  buildFeatures: function (xml) {
-    var features = L.OSM.getChangesets(xml),
-      nodes = L.OSM.getNodes(xml),
-      ways = L.OSM.getWays(xml, nodes),
-      relations = L.OSM.getRelations(xml, nodes, ways);
+  buildFeatures: function (data) {
+
+    const parser = data instanceof Document ? L.OSM.XMLParser : L.OSM.JSONParser;
+
+    var features = parser.getChangesets(data),
+        nodes = parser.getNodes(data),
+        ways = parser.getWays(data, nodes),
+        relations = parser.getRelations(data, nodes, ways);
+
+    var wayNodes = {}
+    for (var i = 0; i < ways.length; i++) {
+      var way = ways[i];
+      for (var j = 0; j < way.nodes.length; j++) {
+        wayNodes[way.nodes[j].id] = true
+      }
+    }
+
+    var relationNodes = {}
+    for (var i = 0; i < relations.length; i++){
+      var relation = relations[i];
+      for (var j = 0; j < relation.members.length; j++) {
+        relationNodes[relation.members[j].id] = true
+      }
+    }
 
     for (var node_id in nodes) {
       var node = nodes[node_id];
-      if (this.interestingNode(node, ways, relations)) {
+      if (this.interestingNode(node, wayNodes, relationNodes)) {
         features.push(node);
       }
     }
@@ -169,23 +209,9 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     return false;
   },
 
-  interestingNode: function (node, ways, relations) {
-    var used = false;
-
-    for (var i = 0; i < ways.length; i++) {
-      if (ways[i].nodes.indexOf(node) >= 0) {
-        used = true;
-        break;
-      }
-    }
-
-    if (!used) {
-      return true;
-    }
-
-    for (var i = 0; i < relations.length; i++) {
-      if (relations[i].members.indexOf(node) >= 0)
-        return true;
+  interestingNode: function (node, wayNodes, relationNodes) {
+    if (!wayNodes[node.id] || relationNodes[node.id]) {
+      return true
     }
 
     for (var key in node.tags) {
@@ -195,41 +221,60 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
 
     return false;
-  }
-});
-
-L.Util.extend(L.OSM, {
-  getChangesets: function (xml) {
-    var result = [];
-
-    var nodes = xml.getElementsByTagName("changeset");
-    for (var i = 0; i < nodes.length; i++) {
-      var node = nodes[i], id = node.getAttribute("id");
-      result.push({
-        id: id,
-        type: "changeset",
-        latLngBounds: L.latLngBounds(
-          [node.getAttribute("min_lat"), node.getAttribute("min_lon")],
-          [node.getAttribute("max_lat"), node.getAttribute("max_lon")]),
-        tags: this.getTags(node)
-      });
-    }
-
-    return result;
   },
 
-  getNodes: function (xml) {
-    var result = {};
+  onRemove: function(map) {
+    this.eachLayer(map.removeLayer, map, this.options.asynchronous);
+  },
 
-    var nodes = xml.getElementsByTagName("node");
-    for (var i = 0; i < nodes.length; i++) {
-      var node = nodes[i], id = node.getAttribute("id");
+  onAdd: function(map) {
+    this.eachLayer(map.addLayer, map, this.options.asynchronous);
+  },
+
+  eachLayer: function (method, context, asynchronous = false) {
+    for (let i in this._layers) {
+      if (asynchronous) {
+        this.loadingLayers.push(
+          setTimeout(() => {
+            method.call(context, this._layers[i]);
+          })
+        );
+      } else {
+        method.call(context, this._layers[i]);
+      }
+    }
+    return this;
+  },
+});
+
+L.OSM.XMLParser = {
+  getChangesets(xml) {
+    const changesets = [...xml.getElementsByTagName("changeset")];
+    return changesets.map(cs => ({
+      id: String(cs.getAttribute("id")),
+      type: "changeset",
+      latLngBounds: L.latLngBounds(
+        [cs.getAttribute("min_lat"), cs.getAttribute("min_lon")],
+        [cs.getAttribute("max_lat"), cs.getAttribute("max_lon")]
+      ),
+      tags: this.getTags(cs)
+    }));
+  },
+
+  getNodes(xml) {
+    const result = {};
+    const nodes = [...xml.getElementsByTagName("node")];
+
+    for (const node of nodes) {
+      const id = node.getAttribute("id");
       result[id] = {
-        id: id,
+        id: String(id),
         type: "node",
-        latLng: L.latLng(node.getAttribute("lat"),
-                         node.getAttribute("lon"),
-                         true),
+        latLng: L.latLng(
+          node.getAttribute("lat"),
+          node.getAttribute("lon"),
+          true
+        ),
         tags: this.getTags(node)
       };
     }
@@ -237,65 +282,102 @@ L.Util.extend(L.OSM, {
     return result;
   },
 
-  getWays: function (xml, nodes) {
-    var result = [];
-
-    var ways = xml.getElementsByTagName("way");
-    for (var i = 0; i < ways.length; i++) {
-      var way = ways[i], nds = way.getElementsByTagName("nd");
-
-      var way_object = {
-        id: way.getAttribute("id"),
+  getWays(xml, nodes) {
+    const ways = [...xml.getElementsByTagName("way")];
+    return ways.map(way => {
+      const nds = [...way.getElementsByTagName("nd")];
+      return {
+        id: String(way.getAttribute("id")),
         type: "way",
-        nodes: new Array(nds.length),
+        nodes: nds.map(nd => nodes[nd.getAttribute("ref")]),
         tags: this.getTags(way)
       };
-
-      for (var j = 0; j < nds.length; j++) {
-        way_object.nodes[j] = nodes[nds[j].getAttribute("ref")];
-      }
-
-      result.push(way_object);
-    }
-
-    return result;
+    });
   },
 
-  getRelations: function (xml, nodes, ways) {
-    var result = [];
-
-    var rels = xml.getElementsByTagName("relation");
-    for (var i = 0; i < rels.length; i++) {
-      var rel = rels[i], members = rel.getElementsByTagName("member");
-
-      var rel_object = {
-        id: rel.getAttribute("id"),
+  getRelations(xml, nodes, ways) {
+    const rels = [...xml.getElementsByTagName("relation")];
+    return rels.map(rel => {
+      const members = [...rel.getElementsByTagName("member")];
+      return {
+        id: String(rel.getAttribute("id")),
         type: "relation",
-        members: new Array(members.length),
+        members: members    // relation-way and relation-relation membership not implemented
+          .map(member => member.getAttribute("type") === "node" ? nodes[member.getAttribute("ref")] : null)
+          .filter(Boolean),    // filter out null and undefined
         tags: this.getTags(rel)
       };
-
-      for (var j = 0; j < members.length; j++) {
-        if (members[j].getAttribute("type") === "node")
-          rel_object.members[j] = nodes[members[j].getAttribute("ref")];
-        else // relation-way and relation-relation membership not implemented
-          rel_object.members[j] = null;
-      }
-
-      result.push(rel_object);
-    }
-
-    return result;
+    });
   },
 
-  getTags: function (xml) {
-    var result = {};
+  getTags(xml) {
+    const result = {};
+    const tags = [...xml.getElementsByTagName("tag")];
 
-    var tags = xml.getElementsByTagName("tag");
-    for (var j = 0; j < tags.length; j++) {
-      result[tags[j].getAttribute("k")] = tags[j].getAttribute("v");
+    for (const tag of tags) {
+      result[tag.getAttribute("k")] = tag.getAttribute("v");
     }
 
     return result;
   }
-});
+}
+
+L.OSM.JSONParser = {
+  getChangesets(json) {
+    const changesets = json.changeset ? [json.changeset] : [];
+
+    return changesets.map(cs => ({
+      id: String(cs.id),
+      type: "changeset",
+      latLngBounds: L.latLngBounds(
+        [cs.min_lat, cs.min_lon],
+        [cs.max_lat, cs.max_lon]
+      ),
+      tags: this.getTags(cs)
+    }));
+  },
+
+  getNodes(json) {
+    const nodes = json.elements?.filter(el => el.type === "node") ?? [];
+    let result = {};
+
+    for (const node of nodes) {
+      result[node.id] = {
+        id: String(node.id),
+        type: "node",
+        latLng: L.latLng(node.lat, node.lon, true),
+        tags: this.getTags(node)
+      };
+    }
+
+    return result;
+  },
+
+  getWays(json, nodes) {
+    const ways = json.elements?.filter(el => el.type === "way") ?? [];
+
+    return ways.map(way => ({
+      id: String(way.id),
+      type: "way",
+      nodes: way.nodes.map(nodeId => nodes[nodeId]),
+      tags: this.getTags(way)
+    }));
+  },
+
+  getRelations(json, nodes, ways) {
+    const relations = json.elements?.filter(el => el.type === "relation") ?? [];
+
+    return relations.map(rel => ({
+      id: String(rel.id),
+      type: "relation",
+      members: (rel.members ?? [])   // relation-way and relation-relation membership not implemented
+        .map(member => member.type === "node" ? nodes[member.ref] : null)
+        .filter(Boolean),     // filter out null and undefined
+      tags: this.getTags(rel)
+    }));
+  },
+
+  getTags(json) {
+    return json.tags ?? {};
+  }
+};

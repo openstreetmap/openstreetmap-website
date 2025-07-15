@@ -1,90 +1,72 @@
-function GraphHopperEngine(id, vehicleType) {
-  var GH_INSTR_MAP = {
-    "-3": 7, // sharp left
-    "-2": 6, // left
-    "-1": 5, // slight left
-    "0": 0, // straight
-    "1": 1, // slight right
-    "2": 2, // right
-    "3": 3, // sharp right
-    "4": 14, // finish reached
-    "5": 14, // via reached
-    "6": 10, // roundabout
-    "-7": 19, // keep left
-    "7": 18, // keep right
-    "-98": 4, // unknown direction u-turn
-    "-8": 4, // left u-turn
-    "8": 4 // right u-turn
-  };
+(function () {
+  function GraphHopperEngine(modeId, vehicleType) {
+    const GH_INSTR_MAP = {
+      "-3": "sharp-left",
+      "-2": "left",
+      "-1": "slight-left",
+      "0": "straight",
+      "1": "slight-right",
+      "2": "right",
+      "3": "sharp-right",
+      "4": "destination", // finish reached
+      "5": "destination", // via reached
+      "6": "roundabout",
+      "-7": "fork-left",
+      "7": "fork-right",
+      "-98": "u-turn-left", // unknown direction u-turn
+      "-8": "u-turn-left", // left u-turn
+      "8": "u-turn-right" // right u-turn
+    };
 
-  return {
-    id: id,
-    creditline: "<a href=\"https://www.graphhopper.com/\" target=\"_blank\">GraphHopper</a>",
-    draggable: false,
+    function _processDirections(path) {
+      const line = L.PolylineUtil.decode(path.points);
 
-    getRoute: function (points, callback) {
-      // GraphHopper Directions API documentation
-      // https://graphhopper.com/api/1/docs/routing/
-      return $.ajax({
-        url: OSM.GRAPHHOPPER_URL,
-        data: {
-          vehicle: vehicleType,
-          locale: I18n.currentLocale(),
-          key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
-          elevation: false,
-          instructions: true,
-          turn_costs: vehicleType === "car",
-          point: points.map(function (p) { return p.lat + "," + p.lng; })
-        },
-        traditional: true,
-        dataType: "json",
-        success: function (data) {
-          if (!data.paths || data.paths.length === 0) {
-            return callback(true);
-          }
+      const steps = path.instructions.map(instr => [
+        GH_INSTR_MAP[instr.sign],
+        instr.text,
+        instr.distance,
+        line.slice(instr.interval[0], instr.interval[1] + 1)
+      ]);
+      steps.at(-1)[0] = "destination";
 
-          var path = data.paths[0];
-          var line = L.PolylineUtil.decode(path.points);
-
-          var steps = [];
-          var len = path.instructions.length;
-          for (var i = 0; i < len; i++) {
-            var instr = path.instructions[i];
-            var instrCode = (i === len - 1) ? 14 : GH_INSTR_MAP[instr.sign];
-            var instrText = "<b>" + (i + 1) + ".</b> ";
-            instrText += instr.text;
-            var latLng = line[instr.interval[0]];
-            var distInMeter = instr.distance;
-            var lineseg = [];
-            for (var j = instr.interval[0]; j <= instr.interval[1]; j++) {
-              lineseg.push({ lat: line[j][0], lng: line[j][1] });
-            }
-            steps.push([
-              { lat: latLng[0], lng: latLng[1] },
-              instrCode,
-              instrText,
-              distInMeter,
-              lineseg
-            ]); // TODO does graphhopper map instructions onto line indices?
-          }
-
-          callback(false, {
-            line: line,
-            steps: steps,
-            distance: path.distance,
-            time: path.time / 1000,
-            ascend: path.ascend,
-            descend: path.descend
-          });
-        },
-        error: function () {
-          callback(true);
-        }
-      });
+      return {
+        line,
+        steps,
+        distance: path.distance,
+        time: path.time / 1000,
+        ascend: path.ascend,
+        descend: path.descend,
+        credit: "GraphHopper",
+        creditlink: "https://www.graphhopper.com/"
+      };
     }
-  };
-}
 
-OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_car", "car"), true);
-OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "bike"), true);
-OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "foot"), true);
+    return {
+      mode: modeId,
+      provider: "graphhopper",
+      draggable: false,
+
+      getRoute: function (points, signal) {
+        // GraphHopper Directions API documentation https://docs.graphhopper.com
+        const query = new URLSearchParams({
+          profile: vehicleType,
+          locale: OSM.i18n.locale,
+          key: "7cb4eb19-e0f4-40a3-a5e0-f2c039366f32",
+          elevation: false,
+          instructions: true
+        });
+        points.forEach(p => query.append("point", p.lat + "," + p.lng));
+        return fetch(OSM.GRAPHHOPPER_URL + "?" + query, { signal })
+          .then(response => response.json())
+          .then(({ paths }) => {
+            if (!paths || paths.length === 0) throw new Error();
+            return _processDirections(paths[0]);
+          });
+      }
+    };
+  }
+
+  OSM.Directions.addEngine(new GraphHopperEngine("car", "car"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("bicycle", "bike"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("foot", "foot"), true);
+}());

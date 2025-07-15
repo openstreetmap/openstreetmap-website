@@ -27,6 +27,22 @@
   <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
 <% end %>
 
+<% if current_user %>
+  <div class="alert alert-warning pb-0">
+    <p>
+      <%= t ".already_logged_in_html", :user => tag.strong(current_user.display_name) %>
+    </p>
+    <% if @safe_referer %>
+      <p>
+        <%= t ".access_another_page" %>
+      </p>
+      <p class="text-center">
+        <%= link_to t(".visit_referring_page"), @safe_referer, :id => "referer_link", :class => "btn btn-warning" %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
 <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
   <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
 
@@ -48,7 +64,7 @@
   </div>
 <% end %>
 
-<% unless @preferred_auth_provider %>
+<% unless @preferred_auth_provider or Auth.providers.empty? %>
   <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
   <%= render :partial => "auth_providers" %>
 <% end %>

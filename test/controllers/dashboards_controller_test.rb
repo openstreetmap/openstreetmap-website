@@ -9,4 +9,10 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       { :controller => "dashboards", :action => "show" }
     )
   end
+
+  def test_show_unauthorized
+    get dashboard_path
+
+    assert_redirected_to login_path(:referer => dashboard_path)
+  end
 end

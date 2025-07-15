@@ -14,7 +14,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
 
   def test_history
     way = create(:way, :with_history)
-    sidebar_browse_check :way_history_path, way.id, "browse/history"
+    sidebar_browse_check :way_history_path, way.id, "old_elements/index"
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_way_path way, 1}']", :text => "1", :count => 1
     end
@@ -29,7 +29,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
 
     get way_history_path(:id => way)
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     # there are 4 revisions of the redacted way, but only 2
     # should be showing details here.
@@ -48,7 +48,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
 
     get way_history_path(:id => way, :params => { :show_redactions => true })
     assert_response :success
-    assert_template "browse/history"
+    assert_template "old_elements/index"
 
     assert_select ".browse-section", 4
     assert_select ".browse-section.browse-redacted", 0
@@ -64,7 +64,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_way_path way, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_way_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_way_version_path way, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
@@ -79,7 +79,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_way_path way, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_way_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_way_version_path way, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 2}']", :count => 1
@@ -91,7 +91,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_way_path way, 2}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{api_old_way_path way, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_way_version_path way, 2}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 1
@@ -121,7 +121,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_way_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_way_version_path way, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to regular users" do
@@ -135,7 +135,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_way_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_way_version_path way, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to moderators" do
@@ -149,7 +149,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{api_old_way_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_way_version_path way, 1}']", :count => 0
   end
 
   test "don't reveal redacted versions to anonymous users" do
@@ -177,7 +177,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
   def test_not_found
     get old_way_path(0, 0)
     assert_response :not_found
-    assert_template "old_ways/not_found"
+    assert_template "browse/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /way #0 version 0 could not be found/
   end

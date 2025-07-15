@@ -1,7 +1,5 @@
 <%= tag.head :data => application_data do %>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%= javascript_include_tag "es6" unless browser.es6? %>
+  <%= render :partial => "layouts/meta" %>
   <%= javascript_include_tag "turbo", :type => "module" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "i18n/#{I18n.locale}" %>
@@ -9,7 +7,11 @@
   <script type="text/javascript" src="https://openhistoricalmap.github.io/ohm-inspector/api/api.js"></script>
   <link rel="stylesheet" type="text/css" href="https://openhistoricalmap.github.io/ohm-inspector/api/api.css" />
 
-  <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
+  <% if preferred_color_scheme(:site) == "auto" %>
+    <%= stylesheet_link_tag "screen-auto-#{dir}", :media => "screen" %>
+  <% else %>
+    <%= stylesheet_link_tag "screen-manual-#{dir}", :media => "screen" %>
+  <% end %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "maplibre-gl-all", :media => "screen, print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>

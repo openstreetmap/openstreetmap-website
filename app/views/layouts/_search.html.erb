@@ -5,69 +5,86 @@
                   end %>
 
 <div class="search_forms">
-  <form method="GET" action="<%= search_path %>" class="search_form bg-body-secondary px-1 py-2">
-    <div class="row gx-2 mx-0">
-      <div class="col">
-        <div class="input-group flex-nowrap">
-          <%= text_field_tag "query", search_query, :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control z-0 py-1 px-2", :dir => "auto" %>
-          <div class="input-group-text border-start-0 p-0 position-relative">
-            <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 top-0 bottom-0 m-1 btn btn-outline-primary border-0 p-1 bg-transparent text-primary link-body-emphasis link-opacity-100-hover", :title => t("site.search.where_am_i_title") %>
-          </div>
-          <%= button_tag :class => "btn btn-primary p-1", :title => t("site.search.submit_text") do %>
-            <svg width="24" height="20">
-              <circle cx="13" cy="7" r="6.5" fill="#fff8" stroke="#fff" />
-              <path d="M9.75 12.629 A6.5 6.5 0 0 1 7.371 10.25" fill="none" stroke="#fff" stroke-width="1.5" />
-              <line x1="1" y1="19" x2="1.5" y2="18.5" stroke="#fff8" stroke-width="2" />
-              <line x1="1.5" y1="18.5" x2="6" y2="14" stroke="#fff" stroke-width="2.5" />
-              <line x1="6" y1="14" x2="6.5" y2="13.5" stroke="#fff8" stroke-width="2" />
-              <line x1="6.5" y1="13.5" x2="8.5" y2="11.5" stroke="#fff" stroke-width="1.5" />
-            </svg>
-          <% end %>
+  <form method="GET" action="<%= search_path %>" class="search_form bg-body-secondary p-2">
+    <div class="d-flex gap-2">
+      <div class="input-group flex-nowrap">
+        <%= text_field_tag "query", search_query, :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control z-0 py-1 px-2", :dir => "auto" %>
+        <div class="input-group-text border-start-0 p-0 position-relative">
+          <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 m-1 btn btn-outline-primary border-0 p-1 text-primary link-body-emphasis link-opacity-100-hover", :title => t("site.search.where_am_i_title") %>
         </div>
+        <%= button_tag :class => "btn btn-primary p-1", :title => t("site.search.submit_text") do %>
+          <svg width="24" height="20">
+            <circle cx="13" cy="7" r="6.5" fill="#fff8" stroke="#fff" />
+            <path d="M9.75 12.629 A6.5 6.5 0 0 1 7.371 10.25" fill="none" stroke="#fff" stroke-width="1.5" />
+            <line x1="1" y1="19" x2="1.5" y2="18.5" stroke="#fff8" stroke-width="2" />
+            <line x1="1.5" y1="18.5" x2="6" y2="14" stroke="#fff" stroke-width="2.5" />
+            <line x1="6" y1="14" x2="6.5" y2="13.5" stroke="#fff8" stroke-width="2" />
+            <line x1="6.5" y1="13.5" x2="8.5" y2="11.5" stroke="#fff" stroke-width="1.5" />
+          </svg>
+        <% end %>
       </div>
+      <%= link_to directions_path, :class => "btn btn-primary p-1 switch_link", :title => t("site.search.get_directions_title") do %>
+        <svg width="28" height="24" class="align-bottom">
+          <path d="M11.5 11.5v-3h3v-1l-5-5-5 5v1h3v6" fill="none" stroke="#fff8" />
+          <path d="M7.5 21.5h4v-5a1 1 0 0 1 1-1h5v3h1l5-5-5-5h-1v3h-6a4 4 0 0 0-4 4z" fill="#fff8" stroke="#fff" />
+        </svg>
+      <% end %>
     </div>
   </form>
 
-  <form method="GET" action="<%= directions_path %>" class="directions_form bg-body-secondary pb-2">
-    <div class="d-flex flex-row-reverse px-3 pt-3 pb-1"><button type="button" class="btn-close" aria-label="<%= t("javascripts.close") %>"></button></div>
-
-    <div class="d-flex flex-column mx-2 gap-1">
-      <div class="d-flex gap-1 align-items-center">
-        <div class="d-flex flex-column gap-1 flex-grow-1">
-          <div class="d-flex gap-2 align-items-center">
-            <div class="routing_marker_column flex-shrink-0">
-              <%= image_tag "marker-green.png", :class => "img-fluid", :data => { :type => "from" }, :draggable => "true" %>
-            </div>
-            <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
-          </div>
-          <div class="d-flex gap-2 align-items-center">
-            <div class="routing_marker_column flex-shrink-0">
-              <%= image_tag "marker-red.png", :class => "img-fluid", :data => { :type => "to" }, :draggable => "true" %>
-            </div>
-            <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
-          </div>
-        </div>
-        <div>
-          <button type="button" class="reverse_directions btn btn-outline-secondary border-0 p-2" title="<%= t("site.search.reverse_directions_text") %>">
-            <svg class="d-block" width="20" height="20" viewBox="-10 -10 20 20" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m-4 -2 0 10 m-4 -4 4 4 4 -4" />
-              <path d="m4 2 0 -10 m4 4 -4 -4 -4 4" />
+  <form method="GET" action="<%= directions_path %>" class="directions_form bg-body-secondary p-2">
+    <div class="d-flex flex-column gap-2">
+      <div class="d-flex gap-2 align-items-center">
+        <div class="btn-group routing_modes" role="group">
+          <input type="radio" class="btn-check" name="modes" id="car" autocomplete="off" disabled>
+          <label class="btn btn-outline-secondary px-2" for="car" title="<%= t("site.search.modes.car") %>">
+            <svg class="d-block" width="16" height="16" fill="currentColor">
+              <path d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2m10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM2.906 5.189a.51.51 0 0 0 .497.731c.91-.073 3.35-.17 4.597-.17s3.688.097 4.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 11.691 3H4.309a.5.5 0 0 0-.447.276L2.906 5.19Z" />
             </svg>
-          </button>
+          </label>
+          <input type="radio" class="btn-check" name="modes" id="bicycle" autocomplete="off" disabled>
+          <label class="btn btn-outline-secondary px-2" for="bicycle" title="<%= t("site.search.modes.bicycle") %>">
+            <svg class="d-block" width="16" height="16" fill="currentColor">
+              <path d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5m1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139zM8 9.057 9.598 6.5H6.402zM4.937 9.5a2 2 0 0 0-.487-.877l-.548.877zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53z" />
+            </svg>
+          </label>
+          <input type="radio" class="btn-check" name="modes" id="foot" autocomplete="off" disabled>
+          <label class="btn btn-outline-secondary px-2" for="foot" title="<%= t("site.search.modes.foot") %>">
+            <svg class="d-block" width="16" height="16" fill="currentColor">
+              <path d="M9.5 1.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0M6.44 3.752A.75.75 0 017 3.5h1.445c.742 0 1.32.643 1.243 1.38l-.43 4.083a1.8 1.8 0 01-.088.395l-.318.906.213.242a.8.8 0 01.114.175l2 4.25a.75.75 0 11-1.357.638l-1.956-4.154-1.68-1.921A.75.75 0 016 8.96l.138-2.613-.435.489-.464 2.786a.75.75 0 11-1.48-.246l.5-3a.75.75 0 01.18-.375l2-2.25zm-.19 7.993v-1.418l1.204 1.375.261.524a.8.8 0 01-.12.231l-2.5 3.25a.75.75 0 11-1.19-.914zm4.22-4.215-.494-.494.205-1.843.006-.067 1.124 1.124h1.44a.75.75 0 010 1.5H11a.75.75 0 01-.531-.22Z" />
+            </svg>
+          </label>
         </div>
+        <select class="routing_engines form-select py-1 px-2" name="routing_engines" title="<%= t("site.search.providers.description") %>">
+          <optgroup label="<%= t("site.search.providers.description") %>">
+            <option value="graphhopper" disabled><%= t("site.search.providers.graphhopper") %></option>
+            <option value="fossgis_osrm" disabled><%= t("site.search.providers.fossgis_osrm") %></option>
+            <option value="fossgis_valhalla" disabled><%= t("site.search.providers.fossgis_valhalla") %></option>
+          </optgroup>
+        </select>
+        <button type="button" class="btn-close flex-shrink-0 p-2 rounded-5" aria-label="<%= t("javascripts.close") %>"></button>
       </div>
       <div class="d-flex gap-2 align-items-center">
-        <div class="routing_marker_column flex-shrink-0"></div>
-        <select class="routing_engines form-select py-1 px-2" name="routing_engines"></select>
-        <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-primary py-1 px-2", :data => { :disable_with => false } %>
-      </div>
-    </div>
-
-    <div class="loader_copy d-none">
-      <div class="text-center loader">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+        <div class="d-flex flex-column gap-1 flex-grow-1">
+          <div class="d-flex align-items-center">
+            <div class="routing_marker_column position-absolute">
+              <%= image_tag "marker-green.png", :class => "img-fluid", :data => { :type => "from" }, :draggable => "true" %>
+            </div>
+            <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control py-1 px-2 ps-4", :dir => "auto" %>
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="routing_marker_column position-absolute">
+              <%= image_tag "marker-red.png", :class => "img-fluid", :data => { :type => "to" }, :draggable => "true" %>
+            </div>
+            <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2 ps-4", :dir => "auto" %>
+          </div>
         </div>
+        <button type="button" class="reverse_directions btn btn-outline-secondary border-0 p-1" title="<%= t("site.search.reverse_directions_text") %>">
+          <svg class="d-block" width="22" height="22" viewBox="-11 -11 22 22" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m-4 -2 0 10 m-4 -4 4 4 4 -4" />
+            <path d="m4 2 0 -10 m4 4 -4 -4 -4 4" />
+          </svg>
+        </button>
       </div>
     </div>
   </form>

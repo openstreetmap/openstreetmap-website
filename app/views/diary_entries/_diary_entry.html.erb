@@ -2,7 +2,15 @@
   <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry" %>
 
   <div class="richtext text-break" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
-    <%= diary_entry.body.to_html %>
+    <% if truncated %>
+      <% truncated_entry = diary_entry.body.truncate_html(2000) %>
+      <%= truncated_entry[:html] %>
+      <% if truncated_entry[:truncated] %>
+        <p>&hellip; <%= link_to t(".full_entry"), diary_entry_path(diary_entry.user, diary_entry) %></p>
+      <% end %>
+    <% else %>
+       <%= diary_entry.body.to_html %>
+    <% end %>
   </div>
 
   <% if diary_entry.latitude and diary_entry.longitude %>
@@ -10,7 +18,7 @@
   <% end %>
 
   <nav class='secondary-actions'>
-    <ul class='clearfix'>
+    <ul>
       <% if params[:action] == 'index' %>
         <li><%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %></li>
         <li><%= link_to t(".reply_link"), new_message_path(diary_entry.user, :message => { :title => "Re: #{diary_entry.title}" }) %></li>
@@ -44,4 +52,5 @@
       <% end %>
     </ul>
   </nav>
+
 </article>

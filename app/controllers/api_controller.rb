@@ -49,25 +49,27 @@ class ApiController < ApplicationController
     end
   end
 
-  def authorize(errormessage = "Couldn't authenticate you")
+  def authorize(errormessage: "Couldn't authenticate you", skip_blocks: false, skip_terms: false)
     # make the current_user object from any auth sources we have
-    setup_user_auth
+    setup_user_auth(:skip_blocks => skip_blocks, :skip_terms => skip_terms)
 
-    # handle authenticate pass/fail
-    unless current_user
-      # no auth, the user does not exist or the password was wrong
-      render :plain => errormessage, :status => :unauthorized
-
-      false
-    end
+    # error if we could not authenticate the user
+    render :plain => errormessage, :status => :unauthorized unless current_user
   end
 
   def current_ability
     # Use capabilities from the oauth token if it exists and is a valid access token
     if doorkeeper_token&.accessible?
-      ApiAbility.new(nil).merge(ApiCapability.new(doorkeeper_token))
+      user = User.find(doorkeeper_token.resource_owner_id)
+      scopes = Set.new doorkeeper_token.scopes
+      if scopes.include?("write_api")
+        scopes.add("write_map")
+        scopes.add("write_changeset_comments")
+        scopes.delete("write_api")
+      end
+      ApiAbility.new(user, scopes)
     else
-      ApiAbility.new(current_user)
+      ApiAbility.new(nil, Set.new)
     end
   end
 
@@ -75,8 +77,6 @@ class ApiController < ApplicationController
     if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
-    elsif current_user
-      head :forbidden
     else
       head :unauthorized
     end
@@ -92,7 +92,7 @@ class ApiController < ApplicationController
   # sets up the current_user for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
-  def setup_user_auth
+  def setup_user_auth(skip_blocks: false, skip_terms: false)
     logger.info " setup_user_auth"
     # try and setup using OAuth
     self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
@@ -100,20 +100,22 @@ class ApiController < ApplicationController
     # have we identified the user?
     if current_user
       # check if the user has been banned
-      user_block = current_user.blocks.active.take
-      unless user_block.nil?
-        set_locale
-        if user_block.zero_hour?
-          report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
-        else
-          report_error t("application.setup_user_auth.blocked"), :forbidden
+      unless skip_blocks
+        user_block = current_user.blocks.active.take
+        unless user_block.nil?
+          set_locale
+          if user_block.zero_hour?
+            report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
+          else
+            report_error t("application.setup_user_auth.blocked"), :forbidden
+          end
         end
       end
 
       # if the user hasn't seen the contributor terms then don't
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
-      if !current_user.terms_seen && flash[:skip_terms].nil?
+      if !current_user.terms_seen && !skip_terms
         set_locale
         report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
       end
@@ -170,4 +172,10 @@ class ApiController < ApplicationController
 
     raise OSM::APIRateLimitExceeded if new_changes > max_changes
   end
+
+  def scope_enabled?(scope)
+    doorkeeper_token&.includes_scope?(scope)
+  end
+
+  helper_method :scope_enabled?
 end

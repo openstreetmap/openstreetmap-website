@@ -12,10 +12,10 @@ class AccountsController < ApplicationController
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:update]
 
-  allow_thirdparty_images :only => [:edit, :update]
-  allow_social_login :only => [:edit, :update]
+  allow_thirdparty_images :only => [:show, :update]
+  allow_social_login :only => [:show, :update]
 
-  def edit
+  def show
     if errors = session.delete(:user_errors)
       errors.each do |attribute, error|
         current_user.errors.add(attribute, error)
@@ -25,20 +25,19 @@ class AccountsController < ApplicationController
   end
 
   def update
-    user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider)
+    user_params = params.expect(:user => [:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider])
 
     if params[:user][:auth_provider].blank? ||
-       (params[:user][:auth_provider] == current_user.auth_provider &&
-        params[:user][:auth_uid] == current_user.auth_uid)
+       params[:user][:auth_provider] == current_user.auth_provider
       update_user(current_user, user_params)
-      if current_user.errors.count.zero?
-        redirect_to edit_account_path
+      if current_user.errors.empty?
+        redirect_to account_path
       else
-        render :edit
+        render :show
       end
     else
       session[:new_user_settings] = user_params.to_h
-      redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid]), :status => :temporary_redirect
+      redirect_to auth_url(params[:user][:auth_provider]), :status => :temporary_redirect
     end
   end
 

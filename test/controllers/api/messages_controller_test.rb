@@ -6,30 +6,6 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
-        { :path => "/api/0.6/user/messages/inbox", :method => :get },
-        { :controller => "api/messages", :action => "inbox" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/messages/inbox.xml", :method => :get },
-        { :controller => "api/messages", :action => "inbox", :format => "xml" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/messages/inbox.json", :method => :get },
-        { :controller => "api/messages", :action => "inbox", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/messages/outbox", :method => :get },
-        { :controller => "api/messages", :action => "outbox" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/messages/outbox.xml", :method => :get },
-        { :controller => "api/messages", :action => "outbox", :format => "xml" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/messages/outbox.json", :method => :get },
-        { :controller => "api/messages", :action => "outbox", :format => "json" }
-      )
-      assert_routing(
         { :path => "/api/0.6/user/messages/1", :method => :get },
         { :controller => "api/messages", :action => "show", :id => "1" }
       )
@@ -46,8 +22,12 @@ module Api
         { :controller => "api/messages", :action => "create" }
       )
       assert_routing(
-        { :path => "/api/0.6/user/messages/1", :method => :post },
+        { :path => "/api/0.6/user/messages/1", :method => :put },
         { :controller => "api/messages", :action => "update", :id => "1" }
+      )
+      assert_recognizes(
+        { :controller => "api/messages", :action => "update", :id => "1" },
+        { :path => "/api/0.6/user/messages/1", :method => :post }
       )
       assert_routing(
         { :path => "/api/0.6/user/messages/1", :method => :delete },
@@ -161,19 +141,19 @@ module Api
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
       # fail if not authorized
-      get api_message_path(:id => msg.id)
+      get api_message_path(msg)
       assert_response :unauthorized
 
       # only recipient and sender can read the message
-      get api_message_path(:id => msg.id), :headers => user3_auth
+      get api_message_path(msg), :headers => user3_auth
       assert_response :forbidden
 
       # message does not exist
-      get api_message_path(:id => 99999), :headers => user3_auth
+      get api_message_path(99999), :headers => user3_auth
       assert_response :not_found
 
       # verify xml output
-      get api_message_path(:id => msg.id), :headers => recipient_auth
+      get api_message_path(msg), :headers => recipient_auth
       assert_equal "application/xml", response.media_type
       assert_select "message", :count => 1 do
         assert_select "[id='#{msg.id}']"
@@ -190,7 +170,7 @@ module Api
       end
 
       # verify json output
-      get api_message_path(:id => msg.id, :format => "json"), :headers => recipient_auth
+      get api_message_path(msg, :format => "json"), :headers => recipient_auth
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       jsm = js["message"]
@@ -207,7 +187,7 @@ module Api
       assert_equal "markdown", jsm["body_format"]
       assert_equal msg.body, jsm["body"]
 
-      get api_message_path(:id => msg.id), :headers => sender_auth
+      get api_message_path(msg), :headers => sender_auth
       assert_equal "application/xml", response.media_type
       assert_select "message", :count => 1 do
         assert_select "[id='#{msg.id}']"
@@ -224,7 +204,7 @@ module Api
       end
 
       # verify json output
-      get api_message_path(:id => msg.id, :format => "json"), :headers => sender_auth
+      get api_message_path(msg, :format => "json"), :headers => sender_auth
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       jsm = js["message"]
@@ -242,6 +222,34 @@ module Api
       assert_equal msg.body, jsm["body"]
     end
 
+    def test_show_message_to_self_read
+      user = create(:user)
+      message = create(:message, :sender => user, :recipient => user)
+      auth_header = bearer_authorization_header user
+
+      get api_message_path(message), :headers => auth_header
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_dom "message", :count => 1 do
+        assert_dom "> @message_read", "false"
+      end
+    end
+
+    def test_show_message_to_self_read_json
+      user = create(:user)
+      message = create(:message, :sender => user, :recipient => user)
+      auth_header = bearer_authorization_header user
+
+      get api_message_path(message, :format => "json"), :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      jsm = js["message"]
+      assert_not_nil jsm
+      assert jsm.key?("message_read")
+      assert_not jsm["message_read"]
+    end
+
     def test_update_status
       recipient = create(:user)
       sender = create(:user)
@@ -253,27 +261,27 @@ module Api
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
       # attempt to mark message as read by recipient, not authenticated
-      post api_message_path(:id => msg.id), :params => { :read_status => true }
+      put api_message_path(msg), :params => { :read_status => true }
       assert_response :unauthorized
 
       # attempt to mark message as read by recipient, not allowed
-      post api_message_path(:id => msg.id), :params => { :read_status => true }, :headers => user3_auth
+      put api_message_path(msg), :params => { :read_status => true }, :headers => user3_auth
       assert_response :forbidden
 
       # missing parameter
-      post api_message_path(:id => msg.id), :headers => recipient_auth
+      put api_message_path(msg), :headers => recipient_auth
       assert_response :bad_request
 
       # wrong type of parameter
-      post api_message_path(:id => msg.id),
-           :params => { :read_status => "not a boolean" },
-           :headers => recipient_auth
+      put api_message_path(msg),
+          :params => { :read_status => "not a boolean" },
+          :headers => recipient_auth
       assert_response :bad_request
 
       # mark message as read by recipient
-      post api_message_path(:id => msg.id, :format => "json"),
-           :params => { :read_status => true },
-           :headers => recipient_auth
+      put api_message_path(msg, :format => "json"),
+          :params => { :read_status => true },
+          :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -292,9 +300,9 @@ module Api
       assert_equal msg.body, jsm["body"]
 
       # mark message as unread by recipient
-      post api_message_path(:id => msg.id, :format => "json"),
-           :params => { :read_status => false },
-           :headers => recipient_auth
+      put api_message_path(msg, :format => "json"),
+          :params => { :read_status => false },
+          :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -326,15 +334,15 @@ module Api
       msg = create(:message, :read, :sender => sender, :recipient => recipient)
 
       # attempt to delete message, not authenticated
-      delete api_message_path(:id => msg.id)
+      delete api_message_path(msg)
       assert_response :unauthorized
 
       # attempt to delete message, by user3
-      delete api_message_path(:id => msg.id), :headers => user3_auth
+      delete api_message_path(msg), :headers => user3_auth
       assert_response :forbidden
 
       # delete message by recipient
-      delete api_message_path(:id => msg.id, :format => "json"), :headers => recipient_auth
+      delete api_message_path(msg, :format => "json"), :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -353,7 +361,7 @@ module Api
       assert_equal msg.body, jsm["body"]
 
       # delete message by sender
-      delete api_message_path(:id => msg.id, :format => "json"), :headers => sender_auth
+      delete api_message_path(msg, :format => "json"), :headers => sender_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -370,194 +378,6 @@ module Api
       assert_not jsm.key?("message_read")
       assert_equal "markdown", jsm["body_format"]
       assert_equal msg.body, jsm["body"]
-    end
-
-    def test_list_messages
-      user1 = create(:user)
-      user1_auth = bearer_authorization_header(user1, :scopes => %w[send_messages consume_messages])
-
-      user2 = create(:user)
-      user2_auth = bearer_authorization_header(user2, :scopes => %w[send_messages consume_messages])
-
-      user3 = create(:user)
-      user3_auth = bearer_authorization_header(user3, :scopes => %w[send_messages consume_messages])
-
-      # create some messages between users
-      # user | inbox | outbox
-      #   1  |   0   |   3
-      #   2  |   2   |   1
-      #   3  |   2   |   0
-      create(:message, :unread, :sender => user1, :recipient => user2)
-      create(:message, :unread, :sender => user1, :recipient => user2)
-      create(:message, :unread, :sender => user1, :recipient => user3)
-      create(:message, :unread, :sender => user2, :recipient => user3)
-
-      # only authorized users
-      get inbox_api_messages_path
-      assert_response :unauthorized
-      get outbox_api_messages_path
-      assert_response :unauthorized
-
-      # no messages in user1.inbox
-      get inbox_api_messages_path, :headers => user1_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "message", :count => 0
-
-      # 3 messages in user1.outbox
-      get outbox_api_messages_path, :headers => user1_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "message", :count => 3 do
-        assert_select "[from_user_id='#{user1.id}']"
-        assert_select "[from_display_name='#{user1.display_name}']"
-        assert_select "[to_user_id]"
-        assert_select "[to_display_name]"
-        assert_select "[sent_on]"
-        assert_select "[message_read]", 0
-        assert_select "[deleted='false']"
-        assert_select "[body_format]"
-        assert_select "body", false
-        assert_select "title"
-      end
-
-      # 2 messages in user2.inbox
-      get inbox_api_messages_path, :headers => user2_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "message", :count => 2 do
-        assert_select "[from_user_id]"
-        assert_select "[from_display_name]"
-        assert_select "[to_user_id='#{user2.id}']"
-        assert_select "[to_display_name='#{user2.display_name}']"
-        assert_select "[sent_on]"
-        assert_select "[message_read='false']"
-        assert_select "[deleted='false']"
-        assert_select "[body_format]"
-        assert_select "body", false
-        assert_select "title"
-      end
-
-      # 1 message in user2.outbox
-      get outbox_api_messages_path, :headers => user2_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "message", :count => 1 do
-        assert_select "[from_user_id='#{user2.id}']"
-        assert_select "[from_display_name='#{user2.display_name}']"
-        assert_select "[to_user_id]"
-        assert_select "[to_display_name]"
-        assert_select "[sent_on]"
-        assert_select "[deleted='false']"
-        assert_select "[message_read]", 0
-        assert_select "[body_format]"
-        assert_select "body", false
-        assert_select "title"
-      end
-
-      # 2 messages in user3.inbox
-      get inbox_api_messages_path, :headers => user3_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "message", :count => 2 do
-        assert_select "[from_user_id]"
-        assert_select "[from_display_name]"
-        assert_select "[to_user_id='#{user3.id}']"
-        assert_select "[to_display_name='#{user3.display_name}']"
-        assert_select "[sent_on]"
-        assert_select "[message_read='false']"
-        assert_select "[deleted='false']"
-        assert_select "[body_format]"
-        assert_select "body", false
-        assert_select "title"
-      end
-
-      # 0 messages in user3.outbox
-      get outbox_api_messages_path, :headers => user3_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "message", :count => 0
-    end
-
-    def test_paged_list_messages_asc
-      recipient = create(:user)
-      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
-
-      sender = create(:user)
-
-      create_list(:message, 100, :unread, :sender => sender, :recipient => recipient)
-
-      msgs_read = {}
-      params = { :order => "oldest", :limit => 20 }
-      10.times do
-        get inbox_api_messages_path(:format => "json"),
-            :params => params,
-            :headers => recipient_auth
-        assert_response :success
-        assert_equal "application/json", response.media_type
-        js = ActiveSupport::JSON.decode(@response.body)
-        jsm = js["messages"]
-        assert_operator jsm.count, :<=, 20
-
-        break if jsm.nil? || jsm.count.zero?
-
-        assert_operator(jsm[0]["id"], :>=, params[:from_id]) unless params[:from_id].nil?
-        # ensure ascending order
-        (0..jsm.count - 1).each do |i|
-          assert_operator(jsm[i]["id"], :<, jsm[i + 1]["id"]) unless i == jsm.count - 1
-          msgs_read[jsm[i]["id"]] = jsm[i]
-        end
-        params[:from_id] = jsm[jsm.count - 1]["id"]
-      end
-      assert_equal 100, msgs_read.count
-    end
-
-    def test_paged_list_messages_desc
-      recipient = create(:user)
-      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
-
-      sender = create(:user)
-
-      create_list(:message, 100, :unread, :sender => sender, :recipient => recipient)
-
-      real_max_id = -1
-      msgs_read = {}
-      params = { :order => "newest", :limit => 20 }
-      10.times do
-        get inbox_api_messages_path(:format => "json"),
-            :params => params,
-            :headers => recipient_auth
-        assert_response :success
-        assert_equal "application/json", response.media_type
-        js = ActiveSupport::JSON.decode(@response.body)
-        jsm = js["messages"]
-        assert_operator jsm.count, :<=, 20
-
-        break if jsm.nil? || jsm.count.zero?
-
-        if params[:from_id].nil?
-          real_max_id = jsm[0]["id"]
-        else
-          assert_operator jsm[0]["id"], :<=, params[:from_id]
-        end
-        # ensure descending order
-        (0..jsm.count - 1).each do |i|
-          assert_operator(jsm[i]["id"], :>, jsm[i + 1]["id"]) unless i == jsm.count - 1
-          msgs_read[jsm[i]["id"]] = jsm[i]
-        end
-        params[:from_id] = jsm[jsm.count - 1]["id"]
-      end
-      assert_equal 100, msgs_read.count
-      assert_not_equal(-1, real_max_id)
-
-      # invoke without min_id/max_id parameters, verify that we get the last batch
-      get inbox_api_messages_path(:format => "json"), :params => { :limit => 20 }, :headers => recipient_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      jsm = js["messages"]
-      assert_not_nil jsm
-      assert_equal real_max_id, jsm[0]["id"]
     end
   end
 end

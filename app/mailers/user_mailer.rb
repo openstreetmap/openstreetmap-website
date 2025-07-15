@@ -78,7 +78,7 @@ class UserMailer < ApplicationMailer
       @text = message.body
       @title = message.title
       @readurl = message_url(message)
-      @replyurl = message_reply_url(message)
+      @replyurl = new_message_reply_url(message)
       @author = @from_user
 
       attach_user_avatar(message.sender)
@@ -119,16 +119,16 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def friendship_notification(friendship)
-    with_recipient_locale friendship.befriendee do
-      @friendship = friendship
-      @viewurl = user_url(@friendship.befriender)
-      @friendurl = make_friend_url(@friendship.befriender)
-      @author = @friendship.befriender.display_name
+  def follow_notification(follow)
+    with_recipient_locale follow.following do
+      @follow = follow
+      @viewurl = user_url(@follow.follower)
+      @followurl = follow_url(@follow.follower)
+      @author = @follow.follower.display_name
 
-      attach_user_avatar(@friendship.befriender)
-      mail :to => friendship.befriendee.email,
-           :subject => t(".subject", :user => friendship.befriender.display_name)
+      attach_user_avatar(@follow.follower)
+      mail :to => follow.following.email,
+           :subject => t(".subject", :user => follow.follower.display_name)
     end
   end
 
@@ -177,7 +177,7 @@ class UserMailer < ApplicationMailer
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
-      @unsubscribe_url = unsubscribe_changeset_url(comment.changeset)
+      @changeset_subscription_url = changeset_subscription_url(comment.changeset)
       @author = @commenter
 
       subject = if @owner
@@ -193,8 +193,8 @@ class UserMailer < ApplicationMailer
       set_list_headers(
         "#{comment.changeset.id}.changeset.www.openstreetmap.org",
         t(".description", :id => comment.changeset.id),
-        :subscribe => subscribe_changeset_url(comment.changeset),
-        :unsubscribe => @unsubscribe_url,
+        :subscribe => @changeset_subscription_url,
+        :unsubscribe => @changeset_subscription_url,
         :archive => @changeset_url
       )
 

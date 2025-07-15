@@ -3,12 +3,12 @@
 # Table name: user_blocks
 #
 #  id             :integer          not null, primary key
-#  user_id        :bigint(8)        not null
-#  creator_id     :bigint(8)        not null
+#  user_id        :bigint           not null
+#  creator_id     :bigint           not null
 #  reason         :text             not null
 #  ends_at        :datetime         not null
 #  needs_view     :boolean          default(FALSE), not null
-#  revoker_id     :bigint(8)
+#  revoker_id     :bigint
 #  created_at     :datetime
 #  updated_at     :datetime
 #  reason_format  :enum             default("markdown"), not null

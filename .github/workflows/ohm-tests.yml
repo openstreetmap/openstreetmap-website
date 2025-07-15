@@ -3,20 +3,18 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 878-support-multilingual-labels
-      - 961-osm-references-have-reappeared
+      - 994-catchup+ci-configuration
 #  pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 jobs:
   test:
-    name: Ubuntu ${{ matrix.ubuntu }}, Ruby ${{ matrix.ruby }}
+    name: Ruby ${{ matrix.ruby }}
     strategy:
       matrix:
-        ubuntu: [22.04]
-        ruby: ['3.1']
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+        ruby: ['3.4']
+    runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
       OPENSTREETMAP_MEMCACHE_SERVERS: 127.0.0.1
@@ -30,12 +28,9 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/cache@v4
+      uses: actions/setup-node@v4
       with:
-        path: node_modules
-        key: yarn-ubuntu-${{ matrix.ubuntu }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: |
-          yarn-ubuntu-${{ matrix.ubuntu }}-
+        cache: yarn
     - name: Install packages
       run: |
         sudo apt-get -yqq update
@@ -53,13 +48,14 @@ jobs:
     - name: Populate database
       run: |
         sed -f script/normalise-structure db/structure.sql > db/structure.expected
+        rm -f db/structure.sql
         bundle exec rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
-    - name: Export javascript strings
-      run: bundle exec rails i18n:js:export
     - name: Install node modules
       run: bundle exec bin/yarn install
+    - name: Export javascript strings
+      run: bundle exec i18n export
     - name: Compile assets
       run: bundle exec rails assets:precompile
     - name: Create tmp/pids directory
@@ -68,11 +64,18 @@ jobs:
       run: bundle exec rails test:all
     - name: Run javascript tests
       run: bundle exec teaspoon
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: screenshots
+        path: tmp/screenshots
+        if-no-files-found: ignore
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.3.4
+      uses: coverallsapp/github-action@v2.3.6
       with:
         github-token: ${{ secrets.github_token }}
-        flag-name: ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}
+        flag-name: ruby-${{ matrix.ruby }}
         format: lcov
         parallel: true
   finish:
@@ -81,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.3.4
+      uses: coverallsapp/github-action@v2.3.6
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true

@@ -1,17 +1,40 @@
 module BrowseHelper
   require "date_range"
 
+  def element_icon(type, object)
+    selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }
+
+    unless object.redacted?
+      target_tags = object.tags.find_all { |k, _v| BROWSE_ICONS.key? k }.sort
+      title = target_tags.map { |k, v| "#{k}=#{v}" }.to_sentence unless target_tags.empty?
+
+      target_tags.each do |k, v|
+        icon_data = BROWSE_ICONS[k][v] || BROWSE_ICONS[k][:*]
+        selected_icon_data = icon_data if icon_data && icon_data[:priority] > selected_icon_data[:priority]
+      end
+    end
+
+    image_tag "browse/#{selected_icon_data[:filename]}",
+              :size => 20,
+              :class => ["align-bottom object-fit-none browse-icon", { "browse-icon-invertible" => selected_icon_data[:invert] }],
+              :title => title
+  end
+
   def element_single_current_link(type, object)
-    link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+    link_to object, { :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
         printable_element_name object
       end
     end
   end
 
-  def element_list_item(type, object, &block)
-    tag.li :class => element_class(type, object), :title => element_title(object) do
-      element_strikethrough object, &block
+  def element_list_item(type, object, &)
+    tag.li(tag.div(element_icon(type, object) + tag.div(:class => "align-self-center", &), :class => "d-flex gap-1"))
+  end
+
+  def element_list_item_with_strikethrough(type, object, &)
+    element_list_item type, object do
+      element_strikethrough object, &
     end
   end
 
@@ -26,26 +49,13 @@ module BrowseHelper
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
-      available_locales = Locale.list(name_locales(object))
-
-      locale = available_locales.preferred(preferred_languages, :default => nil)
-
-      if object.tags.include? "name:#{locale}"
-        label = object.tags["name:#{locale}"].to_s
-      elsif object.tags.include? "name"
-        label = object.tags["name"].to_s
-      elsif object.tags.include? "ref"
-        label = object.tags["ref"].to_s
-      end
+      feature_name = feature_name(object.tags)
+      name = t "printable_name.with_name_html", :name => tag.bdi(feature_name), :id => tag.bdi(id.to_s) if feature_name.present?
 
       if (object.tags.include? "start_date") || (object.tags.include? "end_date")
         start_date = (object.tags.include? "start_date") ? object.tags["start_date"].to_s : nil
         end_date = (object.tags.include? "end_date") ? object.tags["end_date"].to_s : nil
         label = t "printable_name.with_date_html", :name => label, :dates => tag.bdi(DateRange.new(start_date, end_date).to_s)
-      end
-
-      if label
-        name = t "printable_name.with_name_html", :name => tag.bdi(label), :id => tag.bdi(id.to_s)
       end
     end
 
@@ -64,34 +74,8 @@ module BrowseHelper
     end
   end
 
-  def element_class(type, object)
-    classes = [type]
-    classes += icon_tags(object).flatten.map { |t| h(t) } unless object.redacted?
-    classes.join(" ")
-  end
-
-  def element_title(object)
-    if object.redacted?
-      ""
-    else
-      h(icon_tags(object).map { |k, v| "#{k}=#{v}" }.to_sentence)
-    end
-  end
-
   def link_follow(object)
     "nofollow" if object.tags.empty?
-  end
-
-  def type_and_paginated_count(type, pages, selected_page = pages.current_page)
-    if pages.page_count == 1
-      t ".#{type.pluralize}",
-        :count => pages.item_count
-    else
-      t ".#{type.pluralize}_paginated",
-        :x => selected_page.first_item,
-        :y => selected_page.last_item,
-        :count => pages.item_count
-    end
   end
 
   def sidebar_classic_pagination(pages, page_param)
@@ -119,13 +103,15 @@ module BrowseHelper
 
   private
 
-  ICON_TAGS = %w[aeroway amenity barrier building highway historic landuse leisure man_made natural office railway shop tourism waterway].freeze
+  def feature_name(tags)
+    locale_keys = preferred_languages.expand.map { |locale| "name:#{locale}" }
 
-  def icon_tags(object)
-    object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
-  end
+    (locale_keys + %w[name ref addr:housename]).each do |key|
+      return tags[key] if tags[key]
+    end
+    # TODO: Localize format to country of address
+    return "#{tags['addr:housenumber']} #{tags['addr:street']}" if tags["addr:housenumber"] && tags["addr:street"]
 
-  def name_locales(object)
-    object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
+    nil
   end
 end

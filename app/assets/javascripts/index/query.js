@@ -1,13 +1,12 @@
 //= require qs/dist/qs
 
 OSM.Query = function (map) {
-  var url = OSM.OVERPASS_URL,
-      credentials = OSM.OVERPASS_CREDENTIALS,
-      queryButton = $(".control-query .control-button"),
-      uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
-      marker;
+  const control = $(".control-query"),
+    queryButton = control.find(".control-button"),
+    uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
+  let marker;
 
-  var featureStyle = {
+  const featureStyle = {
     color: "#FF6200",
     weight: 4,
     opacity: 1,
@@ -19,19 +18,19 @@ OSM.Query = function (map) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (queryButton.hasClass("active")) {
+    if (control.hasClass("active")) {
       disableQueryMode();
     } else if (!queryButton.hasClass("disabled")) {
       enableQueryMode();
     }
   }).on("disabled", function () {
-    if (queryButton.hasClass("active")) {
+    if (control.hasClass("active")) {
       map.off("click", clickHandler);
       $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
       $(this).tooltip("show");
     }
   }).on("enabled", function () {
-    if (queryButton.hasClass("active")) {
+    if (control.hasClass("active")) {
       map.on("click", clickHandler);
       $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
       $(this).tooltip("hide");
@@ -39,13 +38,13 @@ OSM.Query = function (map) {
   });
 
   function showResultGeometry() {
-    var geometry = $(this).data("geometry");
+    const geometry = $(this).data("geometry");
     if (geometry) map.addLayer(geometry);
     $(this).addClass("selected");
   }
 
   function hideResultGeometry() {
-    var geometry = $(this).data("geometry");
+    const geometry = $(this).data("geometry");
     if (geometry) map.removeLayer(geometry);
     $(this).removeClass("selected");
   }
@@ -56,7 +55,7 @@ OSM.Query = function (map) {
 
   function interestingFeature(feature) {
     if (feature.tags) {
-      for (var key in feature.tags) {
+      for (const key in feature.tags) {
         if (uninterestingTags.indexOf(key) < 0) {
           return true;
         }
@@ -67,19 +66,20 @@ OSM.Query = function (map) {
   }
 
   function featurePrefix(feature) {
-    var tags = feature.tags;
-    var prefix = "";
+    const tags = feature.tags;
+    let prefix = "";
 
-    if (tags.boundary === "administrative" && tags.admin_level) {
-      prefix = I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
-        defaultValue: I18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
+    if (tags.boundary === "administrative" && (tags.border_type || tags.admin_level)) {
+      prefix = OSM.i18n.t("geocoder.search_osm_nominatim.border_types." + tags.border_type, {
+        defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
+          defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
+        })
       });
     } else {
-      var prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
-      var key, value;
+      const prefixes = OSM.i18n.t("geocoder.search_osm_nominatim.prefix");
 
-      for (key in tags) {
-        value = tags[key];
+      for (const key in tags) {
+        const value = tags[key];
 
         if (prefixes[key]) {
           if (prefixes[key][value]) {
@@ -88,12 +88,12 @@ OSM.Query = function (map) {
         }
       }
 
-      for (key in tags) {
-        value = tags[key];
+      for (const key in tags) {
+        const value = tags[key];
 
         if (prefixes[key]) {
-          var first = value.slice(0, 1).toUpperCase(),
-              rest = value.slice(1).replace(/_/g, " ");
+          const first = value.slice(0, 1).toUpperCase(),
+            rest = value.slice(1).replace(/_/g, " ");
 
           return first + rest;
         }
@@ -101,7 +101,7 @@ OSM.Query = function (map) {
     }
 
     if (!prefix) {
-      prefix = I18n.t("javascripts.query." + feature.type);
+      prefix = OSM.i18n.t("javascripts.query." + feature.type);
     }
 
     return prefix;
@@ -154,50 +154,34 @@ OSM.Query = function (map) {
   }
 
   function featureName(feature) {
-    var tags = feature.tags,
-        locales = OSM.preferred_languages;
+    const tags = feature.tags,
+      localeKeys = OSM.preferred_languages.map(locale => `name:${locale}`);
 
-    for (var i = 0; i < locales.length; i++) {
-      if (tags["name:" + locales[i]]) {
-        return tags["name:" + locales[i]];
-      }
+    for (const key of [...localeKeys, "name", "ref", "addr:housename"]) {
+      if (tags[key]) return tags[key];
     }
+    // TODO: Localize format to country of address
+    if (tags["addr:housenumber"] && tags["addr:street"]) return `${tags["addr:housenumber"]} ${tags["addr:street"]}`;
 
-    if (tags.name) {
-      return tags.name;
-    } else if (tags.ref) {
-      return tags.ref;
-    } else if (tags["addr:housename"]) {
-      return tags["addr:housename"];
-    } else if (tags["addr:housenumber"] && tags["addr:street"]) {
-      return tags["addr:housenumber"] + " " + tags["addr:street"];
-    } else {
-      return "#" + feature.id;
-    }
+    return "#" + feature.id;
   }
 
   function featureGeometry(feature) {
-    var geometry;
-
-    if (feature.type === "node" && feature.lat && feature.lon) {
-      geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
-    } else if (feature.type === "way" && feature.geometry && feature.geometry.length > 0) {
-      geometry = L.polyline(feature.geometry.filter(function (point) {
-        return point !== null;
-      }).map(function (point) {
-        return [point.lat, point.lon];
-      }), featureStyle);
-    } else if (feature.type === "relation" && feature.members) {
-      geometry = L.featureGroup(feature.members.map(featureGeometry).filter(function (geometry) {
-        return typeof geometry !== "undefined";
-      }));
+    switch (feature.type) {
+      case "node":
+        if (!feature.lat || !feature.lon) return;
+        return L.circleMarker([feature.lat, feature.lon], featureStyle);
+      case "way":
+        if (!feature.geometry?.length) return;
+        return L.polyline(feature.geometry.filter(p => p).map(p => [p.lat, p.lon]), featureStyle);
+      case "relation":
+        if (!feature.members?.length) return;
+        return L.featureGroup(feature.members.map(featureGeometry).filter(g => g));
     }
-
-    return geometry;
   }
 
-  function runQuery(latlng, radius, query, $section, merge, compare) {
-    var $ul = $section.find("ul");
+  function runQuery(query, $section, merge, compare) {
+    const $ul = $section.find("ul");
 
     $ul.empty();
     $section.show();
@@ -206,100 +190,91 @@ OSM.Query = function (map) {
       $section.data("ajax").abort();
     }
 
-    $section.data("ajax", $.ajax({
-      url: url,
+    $section.data("ajax", new AbortController());
+    fetch(OSM.OVERPASS_URL, {
       method: "POST",
-      data: {
+      body: new URLSearchParams({
         data: "[timeout:10][out:json];" + query
-      },
-      xhrFields: {
-        withCredentials: credentials
-      },
-      success: function (results) {
-        var elements;
+      }),
+      credentials: OSM.OVERPASS_CREDENTIALS ? "include" : "same-origin",
+      signal: $section.data("ajax").signal
+    })
+      .then(response => response.json())
+      .then(function (results) {
+        let elements = results.elements;
 
         $section.find(".loader").hide();
 
-        if (merge) {
-          elements = results.elements.reduce(function (hash, element) {
-            var key = element.type + element.id;
-            if ("geometry" in element) {
-              delete element.bounds;
-            }
-            hash[key] = $.extend({}, hash[key], element);
-            return hash;
-          }, {});
+        // Make Overpass-specific bounds to Leaflet compatible
+        for (const element of elements) {
+          if (!element.bounds) continue;
+          if (element.bounds.maxlon >= element.bounds.minlon) continue;
+          element.bounds.maxlon += 360;
+        }
 
-          elements = Object.keys(elements).map(function (key) {
-            return elements[key];
-          });
-        } else {
-          elements = results.elements;
+        if (merge) {
+          elements = Object.values(elements.reduce(function (hash, element) {
+            const key = element.type + element.id;
+            if ("geometry" in element) delete element.bounds;
+            hash[key] = { ...hash[key], ...element };
+            return hash;
+          }, {}));
         }
 
         if (compare) {
           elements = elements.sort(compare);
         }
 
-        for (var i = 0; i < elements.length; i++) {
-          var element = elements[i];
+        for (const element of elements) {
+          if (!interestingFeature(element)) continue;
 
-          if (interestingFeature(element)) {
-            var $li = $("<li>")
-              .addClass("list-group-item list-group-item-action")
-              .text(featurePrefix(element) + " ")
-              .appendTo($ul);
+          const $li = $("<li>")
+            .addClass("list-group-item list-group-item-action")
+            .text(featurePrefix(element) + " ")
+            .appendTo($ul);
 
-            $("<a>")
-              .addClass("stretched-link")
-              .attr("href", "/" + element.type + "/" + element.id)
-              .data("geometry", featureGeometry(element))
-              .text(featureName(element))
-              .appendTo($li);
+          $("<a>")
+            .addClass("stretched-link")
+            .attr("href", "/" + element.type + "/" + element.id)
+            .data("geometry", featureGeometry(element))
+            .text(featureName(element))
+            .appendTo($li);
 
-            const suffix = featureSuffix(element);
-            if (suffix) {
-              $li
-                .append(" ")
-                .append(I18n.t("javascripts.query.suffix_format", { dates: featureSuffix(element) }));
-            }
+          const suffix = featureSuffix(element);
+          if (suffix) {
+            $li
+              .append(" ")
+              .append(OSM.I18n.t("javascripts.query.suffix_format", { dates: featureSuffix(element) }));
           }
         }
 
-        if (results.remark) {
-          $("<li>")
-            .addClass("list-group-item")
-            .text(I18n.t("javascripts.query.error", { server: url, error: results.remark }))
-            .appendTo($ul);
-        }
+        if (results.remark) renderError($ul, results.remark);
 
         if ($ul.find("li").length === 0) {
           $("<li>")
             .addClass("list-group-item")
-            .text(I18n.t("javascripts.query.nothing_found"))
+            .text(OSM.i18n.t("javascripts.query.nothing_found"))
             .appendTo($ul);
         }
-      },
-      error: function (xhr, status, error) {
+      })
+      .catch(function (error) {
+        if (error.name === "AbortError") return;
+
         $section.find(".loader").hide();
 
-        $("<li>")
-          .addClass("list-group-item")
-          .text(I18n.t("javascripts.query." + status, { server: url, error: error }))
-          .appendTo($ul);
-      }
-    }));
+        renderError($ul, error.message);
+      });
   }
 
-  function compareSize(feature1, feature2) {
-    var width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
-        height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
-        area1 = width1 * height1,
-        width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-        height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-        area2 = width2 * height2;
+  function renderError($ul, errorMessage) {
+    $("<li>")
+      .addClass("list-group-item")
+      .text(OSM.i18n.t("javascripts.query.error", { server: OSM.OVERPASS_URL, error: errorMessage }))
+      .appendTo($ul);
+  }
 
-    return area1 - area2;
+  function size({ maxlon, minlon, maxlat, minlat }) {
+    return (maxlon - minlon) * (maxlat - minlat);
   }
 
   /*
@@ -322,46 +297,41 @@ OSM.Query = function (map) {
    * In both cases we then ask to retrieve tags and the geometry
    * for each object.
    */
-  function queryOverpass(lat, lng) {
-    var latlng = L.latLng(lat, lng).wrap(),
-        bounds = map.getBounds().wrap(),
-        precision = OSM.zoomPrecision(map.getZoom()),
-        bbox = bounds.getSouth().toFixed(precision) + "," +
-               bounds.getWest().toFixed(precision) + "," +
-               bounds.getNorth().toFixed(precision) + "," +
-               bounds.getEast().toFixed(precision),
-        radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
-        around = "around:" + radius + "," + lat + "," + lng,
-        nodes = "node(" + around + ")",
-        ways = "way(" + around + ")",
-        relations = "relation(" + around + ")",
-        nearby = "(" + nodes + ";" + ways + ";);out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
-        isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
+  function queryOverpass(latlng) {
+    const bounds = map.getBounds(),
+      zoom = map.getZoom(),
+      bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
+        .map(c => OSM.cropLocation(c, zoom))
+        .join(),
+      geom = `geom(${bbox})`,
+      radius = 10 * Math.pow(1.5, 19 - zoom),
+      here = `(around:${radius},${latlng})`,
+      enclosed = "(pivot.a);out tags bb",
+      nearby = `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
+      isin = `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
 
     $("#sidebar_content .query-intro")
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, Object.assign({
+    marker = L.circle(L.latLng(latlng).wrap(), {
       radius: radius,
-      className: "query-marker"
-    }, featureStyle)).addTo(map);
+      className: "query-marker",
+      ...featureStyle
+    }).addTo(map);
 
-    runQuery(latlng, radius, nearby, $("#query-nearby"), false);
-    runQuery(latlng, radius, isin, $("#query-isin"), true, compareSize);
+    runQuery(nearby, $("#query-nearby"), false);
+    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
   }
 
   function clickHandler(e) {
-    var precision = OSM.zoomPrecision(map.getZoom()),
-        latlng = e.latlng.wrap(),
-        lat = latlng.lat.toFixed(precision),
-        lng = latlng.lng.toFixed(precision);
+    const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
 
-    OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
+    OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
   }
 
   function enableQueryMode() {
-    queryButton.addClass("active");
+    control.addClass("active");
     map.on("click", clickHandler);
     $(map.getContainer()).addClass("query-active");
   }
@@ -370,10 +340,10 @@ OSM.Query = function (map) {
     if (marker) map.removeLayer(marker);
     $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
     map.off("click", clickHandler);
-    queryButton.removeClass("active");
+    control.removeClass("active");
   }
 
-  var page = {};
+  const page = {};
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
@@ -382,20 +352,20 @@ OSM.Query = function (map) {
   };
 
   page.load = function (path, noCentre) {
-    var params = Qs.parse(path.substring(path.indexOf("?") + 1)),
-        latlng = L.latLng(params.lat, params.lon);
-
     // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
     // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
     function originalLoadFunction () {
-    if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
-      OSM.router.withoutMoveListener(function () {
-        map.setView(latlng, 15);
-      });
-    }
+      const params = new URLSearchParams(path.substring(path.indexOf("?"))),
+        latlng = L.latLng(params.get("lat"), params.get("lon"));
 
-    queryOverpass(params.lat, params.lon);
-    }  // end originalLoadFunction
+      if (!location.hash && !noCentre && !map.getBounds().contains(latlng)) {
+        OSM.router.withoutMoveListener(function () {
+          map.setView(latlng, 15);
+        });
+      }
+
+      queryOverpass([params.get("lat"), params.get("lon")]);
+    } // end originalLoadFunction
 
     // "if map.timeslider" only try to add the timeslider if we don't already have it
     if (map.timeslider) {

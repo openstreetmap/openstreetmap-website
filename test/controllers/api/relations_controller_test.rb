@@ -6,16 +6,16 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
-        { :path => "/api/0.6/relation/create", :method => :put },
+        { :path => "/api/0.6/relations", :method => :get },
+        { :controller => "api/relations", :action => "index" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relations.json", :method => :get },
+        { :controller => "api/relations", :action => "index", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relations", :method => :post },
         { :controller => "api/relations", :action => "create" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/full", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/full.json", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :get },
@@ -26,142 +26,26 @@ module Api
         { :controller => "api/relations", :action => "show", :id => "1", :format => "json" }
       )
       assert_routing(
+        { :path => "/api/0.6/relation/1/full", :method => :get },
+        { :controller => "api/relations", :action => "show", :full => true, :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relation/1/full.json", :method => :get },
+        { :controller => "api/relations", :action => "show", :full => true, :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/relation/1", :method => :put },
         { :controller => "api/relations", :action => "update", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :delete },
-        { :controller => "api/relations", :action => "delete", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relations", :method => :get },
-        { :controller => "api/relations", :action => "index" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "index", :format => "json" }
+        { :controller => "api/relations", :action => "destroy", :id => "1" }
       )
 
-      assert_routing(
-        { :path => "/api/0.6/node/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_node", :id => "1" }
+      assert_recognizes(
+        { :controller => "api/relations", :action => "create" },
+        { :path => "/api/0.6/relation/create", :method => :put }
       )
-      assert_routing(
-        { :path => "/api/0.6/way/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/node/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_node", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/way/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/relation/1/relations.json", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1", :format => "json" }
-      )
-    end
-
-    # -------------------------------------
-    # Test showing relations.
-    # -------------------------------------
-
-    def test_show
-      # check that a visible relation is returned properly
-      get api_relation_path(create(:relation))
-      assert_response :success
-
-      # check that an invisible relation is not returned
-      get api_relation_path(create(:relation, :deleted))
-      assert_response :gone
-
-      # check chat a non-existent relation is not returned
-      get api_relation_path(0)
-      assert_response :not_found
-    end
-
-    ##
-    # check that all relations containing a particular node, and no extra
-    # relations, are returned from the relations_for_node call.
-    def test_relations_for_node
-      node = create(:node)
-      # should include relations with that node as a member
-      relation_with_node = create(:relation_member, :member => node).relation
-      # should ignore relations without that node as a member
-      _relation_without_node = create(:relation_member).relation
-      # should ignore relations with the node involved indirectly, via a way
-      way = create(:way_node, :node => node).way
-      _relation_with_way = create(:relation_member, :member => way).relation
-      # should ignore relations with the node involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => node).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => node, :relation => relation_with_node)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => node, :relation => deleted_relation)
-
-      check_relations_for_element(node_relations_path(node), "node",
-                                  node.id,
-                                  [relation_with_node, second_relation])
-    end
-
-    def test_relations_for_way
-      way = create(:way)
-      # should include relations with that way as a member
-      relation_with_way = create(:relation_member, :member => way).relation
-      # should ignore relations without that way as a member
-      _relation_without_way = create(:relation_member).relation
-      # should ignore relations with the way involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => way).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => way, :relation => relation_with_way)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => way, :relation => deleted_relation)
-
-      check_relations_for_element(way_relations_path(way), "way",
-                                  way.id,
-                                  [relation_with_way, second_relation])
-    end
-
-    def test_relations_for_relation
-      relation = create(:relation)
-      # should include relations with that relation as a member
-      relation_with_relation = create(:relation_member, :member => relation).relation
-      # should ignore any relation without that relation as a member
-      _relation_without_relation = create(:relation_member).relation
-      # should ignore relations with the relation involved indirectly, via a relation
-      second_relation = create(:relation_member, :member => relation).relation
-      _super_relation = create(:relation_member, :member => second_relation).relation
-      # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => relation, :relation => relation_with_relation)
-      # should not include deleted relations
-      deleted_relation = create(:relation, :deleted)
-      create(:relation_member, :member => relation, :relation => deleted_relation)
-      check_relations_for_element(relation_relations_path(relation), "relation",
-                                  relation.id,
-                                  [relation_with_relation, second_relation])
-    end
-
-    def test_full
-      # check the "full" mode
-      get relation_full_path(:id => 999999)
-      assert_response :not_found
-
-      get relation_full_path(:id => create(:relation, :deleted).id)
-      assert_response :gone
-
-      get relation_full_path(:id => create(:relation).id)
-      assert_response :success
-      # FIXME: check whether this contains the stuff we want!
     end
 
     ##
@@ -174,15 +58,15 @@ module Api
       relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
       # check error when no parameter provided
-      get relations_path
+      get api_relations_path
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get relations_path(:relations => "")
+      get api_relations_path(:relations => "")
       assert_response :bad_request
 
       # test a working call
-      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
+      get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "relation", :count => 4
@@ -193,7 +77,7 @@ module Api
       end
 
       # test a working call with json format
-      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
+      get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -205,8 +89,118 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
 
       # check error when a non-existent relation is included
-      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
+      get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
       assert_response :not_found
+    end
+
+    # -------------------------------------
+    # Test showing relations.
+    # -------------------------------------
+
+    def test_show_not_found
+      get api_relation_path(0)
+      assert_response :not_found
+    end
+
+    def test_show_deleted
+      get api_relation_path(create(:relation, :deleted))
+      assert_response :gone
+    end
+
+    def test_show
+      relation = create(:relation, :timestamp => "2021-02-03T00:00:00Z")
+      node = create(:node, :timestamp => "2021-04-05T00:00:00Z")
+      create(:relation_member, :relation => relation, :member => node)
+
+      get api_relation_path(relation)
+
+      assert_response :success
+      assert_not_nil @response.header["Last-Modified"]
+      assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
+      assert_dom "node", :count => 0
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_not_found
+      get api_relation_path(999999, :full => true)
+      assert_response :not_found
+    end
+
+    def test_full_deleted
+      get api_relation_path(create(:relation, :deleted), :full => true)
+      assert_response :gone
+    end
+
+    def test_full_empty
+      relation = create(:relation)
+
+      get api_relation_path(relation, :full => true)
+
+      assert_response :success
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_node_member
+      relation = create(:relation)
+      node = create(:node)
+      create(:relation_member, :relation => relation, :member => node)
+
+      get api_relation_path(relation, :full => true)
+
+      assert_response :success
+      assert_dom "node", :count => 1 do
+        assert_dom "> @id", :text => node.id.to_s
+      end
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_way_member
+      relation = create(:relation)
+      way = create(:way_with_nodes)
+      create(:relation_member, :relation => relation, :member => way)
+
+      get api_relation_path(relation, :full => true)
+
+      assert_response :success
+      assert_dom "node", :count => 1 do
+        assert_dom "> @id", :text => way.nodes[0].id.to_s
+      end
+      assert_dom "way", :count => 1 do
+        assert_dom "> @id", :text => way.id.to_s
+      end
+      assert_dom "relation", :count => 1 do
+        assert_dom "> @id", :text => relation.id.to_s
+      end
+    end
+
+    def test_full_with_node_member_json
+      relation = create(:relation)
+      node = create(:node)
+      create(:relation_member, :relation => relation, :member => node)
+
+      get api_relation_path(relation, :full => true, :format => "json")
+
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 2, js["elements"].count
+
+      js_relations = js["elements"].filter { |e| e["type"] == "relation" }
+      assert_equal 1, js_relations.count
+      assert_equal relation.id, js_relations[0]["id"]
+      assert_equal 1, js_relations[0]["members"].count
+      assert_equal "node", js_relations[0]["members"][0]["type"]
+      assert_equal node.id, js_relations[0]["members"][0]["ref"]
+
+      js_nodes = js["elements"].filter { |e| e["type"] == "node" }
+      assert_equal 1, js_nodes.count
+      assert_equal node.id, js_nodes[0]["id"]
     end
 
     # -------------------------------------
@@ -225,7 +219,7 @@ module Api
 
       # create an relation without members
       xml = "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden, due to user
       assert_response :forbidden,
                       "relation upload should have failed with forbidden"
@@ -236,7 +230,7 @@ module Api
       xml = "<osm><relation changeset='#{private_changeset.id}'>" \
             "<member  ref='#{node.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
                       "relation upload did not return forbidden status"
@@ -246,7 +240,7 @@ module Api
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{private_changeset.id}'>" \
             "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
                       "relation upload did not return forbidden status"
@@ -257,7 +251,7 @@ module Api
             "<member type='node' ref='#{node.id}' role='some'/>" \
             "<member type='way' ref='#{way.id}' role='other'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for forbidden, due to user
       assert_response :forbidden,
                       "relation upload did not return success status"
@@ -267,7 +261,7 @@ module Api
 
       # create an relation without members
       xml = "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -295,7 +289,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -323,7 +317,7 @@ module Api
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -352,7 +346,7 @@ module Api
             "<member type='node' ref='#{node.id}' role='some'/>" \
             "<member type='way' ref='#{way.id}' role='other'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
                       "relation upload did not return success status"
@@ -472,7 +466,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member type='node' ref='0'/><tag k='test' v='yes' />" \
             "</relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :precondition_failed,
                       "relation upload with invalid node did not return 'precondition failed'"
@@ -493,7 +487,7 @@ module Api
       xml = "<osm><relation changeset='#{changeset.id}'>" \
             "<member type='type' ref='#{node.id}' role=''/>" \
             "<tag k='tester' v='yep'/></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       # expect failure
       assert_response :bad_request
       assert_match(/Cannot parse valid relation from xml string/, @response.body)
@@ -504,7 +498,7 @@ module Api
     # Test deleting relations.
     # -------------------------------------
 
-    def test_delete
+    def test_destroy
       private_user = create(:user, :data_public => false)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
       user = create(:user)
@@ -757,7 +751,7 @@ module Api
       OSM
       doc = XML::Parser.string(doc_str).parse
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
@@ -788,7 +782,7 @@ module Api
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(relation_id, 2)
+        get api_relation_version_path(relation_id, 2)
         assert_response :success, "can't read back version 2 of the relation #{relation_id}"
         check_ordering(doc, @response.body)
       end
@@ -818,13 +812,13 @@ module Api
       ## First try with the private user
       auth_header = bearer_authorization_header private_user
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with the public user
       auth_header = bearer_authorization_header user
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
@@ -857,7 +851,7 @@ module Api
       doc = XML::Parser.string(doc_str).parse
       auth_header = bearer_authorization_header user
 
-      put relation_create_path, :params => doc.to_s, :headers => auth_header
+      post api_relations_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
       relation_id = @response.body.to_i
 
@@ -868,7 +862,7 @@ module Api
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(relation_id, 1)
+        get api_relation_version_path(relation_id, 1)
         assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
         check_ordering(doc, @response.body)
       end
@@ -929,7 +923,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
       # get the id of the relation we created
@@ -953,7 +947,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
 
@@ -989,7 +983,7 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :success, "relation create did not return success status"
 
       # get the id of the relation we created
@@ -1013,30 +1007,11 @@ module Api
             "<member  ref='#{node1.id}' type='node' role='some'/>" \
             "<member  ref='#{node2.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
-      put relation_create_path, :params => xml, :headers => auth_header
+      post api_relations_path, :params => xml, :headers => auth_header
       assert_response :too_many_requests, "relation create did not hit rate limit"
     end
 
     private
-
-    def check_relations_for_element(path, type, id, expected_relations)
-      # check the "relations for relation" mode
-      get path
-      assert_response :success
-
-      # count one osm element
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-
-      # we should have only the expected number of relations
-      assert_select "osm>relation", expected_relations.size
-
-      # and each of them should contain the element we originally searched for
-      expected_relations.each do |relation|
-        # The relation should appear once, but the element could appear multiple times
-        assert_select "osm>relation[id='#{relation.id}']", 1
-        assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
-      end
-    end
 
     ##
     # checks that the XML document and the string arguments have
@@ -1068,7 +1043,7 @@ module Api
       # that the bounding box will be newly-generated.
       with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
-        put changeset_create_path, :params => xml, :headers => auth_header
+        post api_changesets_path, :params => xml, :headers => auth_header
         assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
       end
 
@@ -1079,7 +1054,7 @@ module Api
       # that the bounding box will be newly-generated.
       changeset_id = with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
-        put changeset_create_path, :params => xml, :headers => auth_header
+        post api_changesets_path, :params => xml, :headers => auth_header
         assert_response :success, "couldn't create changeset for modify test"
         @response.body.to_i
       end
@@ -1089,7 +1064,7 @@ module Api
 
       # now download the changeset to check its bounding box
       with_controller(Api::ChangesetsController.new) do
-        get changeset_show_path(changeset_id)
+        get api_changeset_path(changeset_id)
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -1109,7 +1084,7 @@ module Api
         get api_relation_path(id)
       else
         with_controller(OldRelationsController.new) do
-          get api_old_relation_path(id, ver)
+          get api_relation_version_path(id, ver)
         end
       end
       assert_response :success
@@ -1153,7 +1128,7 @@ module Api
         change << modify
         modify << doc.import(rel.find("//osm/relation").first)
 
-        post changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
+        post api_changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
         assert_response :success, "can't upload diff relation: #{@response.body}"
         version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
       end

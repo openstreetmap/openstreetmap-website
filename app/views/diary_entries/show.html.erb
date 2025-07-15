@@ -1,16 +1,21 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "share_buttons" %>
+<% end %>
+
 <% content_for :heading do %>
   <div class="row">
     <div class="col-sm-auto">
-      <%= user_image @entry.user %>
+      <%= user_image @diary_entry.user %>
     </div>
     <div class="col">
-      <h1><%= link_to t(".user_title", :user => @entry.user.display_name), :action => :index %></h1>
-      <p><%= rss_link_to :action => :rss, :display_name => @entry.user.display_name %></p>
+      <h1><%= link_to t(".user_title", :user => @diary_entry.user.display_name), :action => :index %></h1>
+      <%= render :partial => "navigation" %>
     </div>
   </div>
 <% end %>
 
-<%= render @entry %>
+<%= render @diary_entry, :truncated => false %>
+<%= share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
 
 <div id="comments" class="comments mb-3 overflow-hidden">
   <div class="row border-bottom border-secondary-subtle">
@@ -18,10 +23,10 @@
 
     <% if current_user %>
       <div class="col-auto">
-        <% if @entry.subscribers.exists?(current_user.id) %>
-          <%= link_to t(".unsubscribe"), diary_entry_unsubscribe_path(@entry.user, @entry), :method => :post, :class => "btn btn-sm btn-primary" %>
+        <% if @diary_entry.subscribers.exists?(current_user.id) %>
+          <%= link_to t(".unsubscribe"), diary_entry_unsubscribe_path(@diary_entry.user, @diary_entry), :method => :post, :class => "btn btn-sm btn-primary" %>
         <% else %>
-          <%= link_to t(".subscribe"), diary_entry_subscribe_path(@entry.user, @entry), :method => :post, :class => "btn btn-sm btn-primary" %>
+          <%= link_to t(".subscribe"), diary_entry_subscribe_path(@diary_entry.user, @diary_entry), :method => :post, :class => "btn btn-sm btn-primary" %>
         <% end %>
       </div>
     <% end %>
@@ -34,7 +39,7 @@
   <% if current_user %>
     <h3 id="newcomment"><%= t ".leave_a_comment" %></h3>
 
-    <%= bootstrap_form_for @entry.comments.new, :url => comment_diary_entry_path(@entry.user, @entry) do |f| %>
+    <%= bootstrap_form_for @diary_entry.comments.new, :url => comment_diary_entry_path(@diary_entry.user, @diary_entry) do |f| %>
       <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
       <%= f.primary %>
     <% end %>
@@ -44,5 +49,5 @@
 </div>
 
 <% content_for :auto_discovery_link_tag do -%>
-<%= auto_discovery_link_tag :rss, :action => :rss, :display_name => @entry.user.display_name %>
+<%= auto_discovery_link_tag :rss, :action => :rss, :display_name => @diary_entry.user.display_name %>
 <% end -%>

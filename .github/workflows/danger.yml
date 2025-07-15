@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   danger:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -19,15 +19,15 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1
+          ruby-version: 3.2
           rubygems: 3.4.10
           bundler-cache: true
       - name: Create base branch
         run: |
-          git fetch ${{ github.event.pull_request.base.repo.clone_url }} ${{ github.event.pull_request.base.ref }}:danger_base
+          git fetch ${{ github.event.pull_request.base.repo.clone_url }} ${{ github.event.pull_request.base.sha }}:danger_base
       - name: Create head branch
         run: |
-          git fetch ${{ github.event.pull_request.head.repo.clone_url }} ${{ github.event.pull_request.head.ref }}:danger_head
+          git fetch ${{ github.event.pull_request.head.repo.clone_url }} ${{ github.event.pull_request.head.sha }}:danger_head
       - name: Danger
         env:
           DANGER_GITHUB_BEARER_TOKEN: ${{ secrets.GITHUB_TOKEN }}

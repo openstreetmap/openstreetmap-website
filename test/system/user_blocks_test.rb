@@ -31,7 +31,7 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     blocked_user = create(:user)
     sign_in_as(create(:moderator_user))
 
-    visit revoke_all_user_blocks_path(blocked_user)
+    visit edit_user_received_blocks_path(blocked_user)
     assert_title "Revoking all blocks on #{blocked_user.display_name}"
     assert_text "Revoking all blocks on #{blocked_user.display_name}"
     assert_no_button "Revoke!"

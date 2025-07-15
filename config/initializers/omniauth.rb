@@ -1,27 +1,9 @@
 require "multi_json"
-require "openid/fetchers"
-require "openid/util"
-
-CA_BUNDLES = ["/etc/ssl/certs/ca-certificates.crt", "/etc/pki/tls/cert.pem"].freeze
-
-OpenID.fetcher.ca_file = CA_BUNDLES.find { |f| File.exist?(f) }
-OpenID::Util.logger = Rails.logger
 
 OmniAuth.config.logger = Rails.logger
 OmniAuth.config.failure_raise_out_environments = []
 OmniAuth.config.allowed_request_methods = [:post, :patch]
 
-if Settings.key?(:memcache_servers)
-  require "openid/store/memcache"
-
-  openid_store = OpenID::Store::Memcache.new(Dalli::Client.new(Settings.memcache_servers, :namespace => "rails"))
-else
-  require "openid/store/filesystem"
-
-  openid_store = OpenID::Store::Filesystem.new(Rails.root.join("tmp/openids"))
-end
-
-openid_options = { :name => "openid", :store => openid_store }
 google_options = { :name => "google", :scope => "email", :access_type => "online" }
 facebook_options = { :name => "facebook", :scope => "email", :client_options => { :site => "https://graph.facebook.com/v17.0", :authorize_url => "https://www.facebook.com/v17.0/dialog/oauth" } }
 microsoft_options = { :name => "microsoft", :scope => "openid User.Read" }
@@ -45,11 +27,11 @@ osm_oidc_options = { :name => :openstreetmap,
 google_options[:openid_realm] = Settings.google_openid_realm if Settings.key?(:google_openid_realm)
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :openid, openid_options
-  provider :openid_connect, osm_oidc_options
   provider :google_oauth2, Settings.google_auth_id, Settings.google_auth_secret, google_options if Settings.key?(:google_auth_id)
   provider :facebook, Settings.facebook_auth_id, Settings.facebook_auth_secret, facebook_options if Settings.key?(:facebook_auth_id)
   provider :microsoft_graph, Settings.microsoft_auth_id, Settings.microsoft_auth_secret, microsoft_options if Settings.key?(:microsoft_auth_id)
   provider :github, Settings.github_auth_id, Settings.github_auth_secret, github_options if Settings.key?(:github_auth_id)
   provider :mediawiki, Settings.wikipedia_auth_id, Settings.wikipedia_auth_secret, wikipedia_options if Settings.key?(:wikipedia_auth_id)
+  #OSM as oauth2 to OHM
+  provider :openid_connect, osm_oidc_options
 end

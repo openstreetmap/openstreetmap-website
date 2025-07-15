@@ -221,19 +221,114 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal 50, r.spam_score.round
   end
 
-  def test_text_to_html
-    r = RichText.new("text", "foo http://example.com/ bar")
-    assert_html r do
-      assert_select "a", 1
-      assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferrer']", 1
+  def test_text_to_html_linkify
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo http://example.com/ bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://example.com/" do
+          assert_dom "> @href", "http://example.com/"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
     end
+  end
 
+  def test_text_to_html_linkify_replace
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_replace_other_scheme
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_replace_undefined
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => nil) do
+      r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_wiki_replace_prefix
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_wiki_replace_prefix_undefined
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => nil) do
+      r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/wiki/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_wiki_replace_undefined_prefix
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => nil,
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "https://replace-me-wiki.example.com/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_wiki_replace_prefix_no_match
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/w bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/wiki/w" do
+          assert_dom "> @href", "https://replace-me-wiki.example.com/wiki/w"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_email
     r = RichText.new("text", "foo example@example.com bar")
     assert_html r do
       assert_select "a", 0
     end
+  end
 
+  def test_text_to_html_escape
     r = RichText.new("text", "foo < bar & baz > qux")
     assert_html r do
       assert_select "p", "foo < bar & baz > qux"
@@ -366,14 +461,44 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_markdown_description_max_length
-    r = RichText.new("markdown", "x" * RichText::MAX_DESCRIPTION_LENGTH)
-    assert_equal "x" * RichText::MAX_DESCRIPTION_LENGTH, r.description
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    o = 3 # "...".length
 
-    r = RichText.new("markdown", "y" * (RichText::MAX_DESCRIPTION_LENGTH + 1))
-    assert_equal "#{'y' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+    r = RichText.new("markdown", "x" * m)
+    assert_equal "x" * m, r.description
 
-    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((RichText::MAX_DESCRIPTION_LENGTH + 1) / 10.0).ceil)
-    assert_equal "#{'z' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+    r = RichText.new("markdown", "y" * (m + 1))
+    assert_equal "#{'y' * (m - o)}...", r.description
+
+    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((m + 1) / 10.0).ceil)
+    assert_equal "#{'z' * (m - o)}...", r.description
+  end
+
+  def test_markdown_description_word_break_threshold_length
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    t = RichText::DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+    o = 3 # "...".length
+
+    r = RichText.new("markdown", "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1) - 1)}")
+    assert_equal "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1) - 1)}", r.description
+
+    r = RichText.new("markdown", "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1))}")
+    assert_equal "#{'x' * (t - o - 1)} #{'y' * (m - (t - o - 1) - 4)}...", r.description
+
+    r = RichText.new("markdown", "#{'x' * (t - o)} #{'y' * (m - (t - o) - 1)}")
+    assert_equal "#{'x' * (t - o)} #{'y' * (m - (t - o) - 1)}", r.description
+
+    r = RichText.new("markdown", "#{'x' * (t - o)} #{'y' * (m - (t - o))}")
+    assert_equal "#{'x' * (t - o)}...", r.description
+  end
+
+  def test_markdown_description_word_break_multiple_spaces
+    m = RichText::DESCRIPTION_MAX_LENGTH
+    t = RichText::DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH
+    o = 3 # "...".length
+
+    r = RichText.new("markdown", "#{'x' * (t - o)}  #{'y' * (m - (t - o - 1))}")
+    assert_equal "#{'x' * (t - o)}...", r.description
   end
 
   private

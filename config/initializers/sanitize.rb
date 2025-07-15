@@ -2,6 +2,10 @@ Sanitize::Config::OSM = Sanitize::Config.merge(
   Sanitize::Config::RELAXED,
   :elements => Sanitize::Config::RELAXED[:elements] - %w[div style],
   :remove_contents => %w[script style],
+  :attributes => Sanitize::Config.merge(
+    Sanitize::Config::RELAXED[:attributes],
+    "img" => Sanitize::Config::RELAXED[:attributes]["img"] + ["loading"]
+  ),
   :transformers => lambda do |env|
     style = env[:node]["style"] || ""
 
@@ -24,5 +28,7 @@ Sanitize::Config::OSM = Sanitize::Config.merge(
 
       env[:node]["rel"] = rel.split.select { |r| r == "me" }.append("nofollow", "noopener", "noreferrer").sort.join(" ")
     end
+
+    env[:node]["loading"] = "lazy" if env[:node_name] == "img"
   end
 )

@@ -1,0 +1,11 @@
+<p><%= t ".hi", :to_user => @follow.following.display_name %></p>
+
+<p><%= t ".followed_you", :user => @follow.follower.display_name %></p>
+
+<%= message_body do %>
+  <p><%= t ".see_their_profile_html", :userurl => link_to(@viewurl, @viewurl) %></p>
+
+  <% unless @follow.following.follows?(@follow.follower) -%>
+  <p><%= t ".follow_them_html", :followurl => link_to(@followurl, @followurl) %></p>
+  <% end -%>
+<% end %>

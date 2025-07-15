@@ -1,41 +1,46 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= depend_on layers.yml
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require i18n
 //= require i18n/embed
 
 if (navigator.languages) {
-  I18n.locale = navigator.languages[0];
+  OSM.i18n.locale = navigator.languages[0];
 } else if (navigator.language) {
-  I18n.locale = navigator.language;
+  OSM.i18n.locale = navigator.language;
 }
 
+OSM.i18n.defaultLocale = <%= I18n.default_locale.to_json %>;
+OSM.i18n.enableFallback = true;
+
 window.onload = function () {
-  var query = (window.location.search || '?').slice(1),
-    args  = {};
+  const args = new URLSearchParams(location.search);
 
-  var pairs = query.split('&');
-  for (var i = 0; i < pairs.length; i++) {
-    var parts = pairs[i].split('=');
-    args[parts[0]] = decodeURIComponent(parts[1] || '');
-  }
-
-  var mapnikOptions = {
-    <% if Settings.key?(:tile_cdn_url) %>
-    url: <%= Settings.tile_cdn_url.to_json %>
-    <% end %>
+  const options = {
+    mapnik: {
+      <% if Settings.key?(:tile_cdn_url) %>
+      url: <%= Settings.tile_cdn_url.to_json %>
+      <% end %>
+    },
+    thunderforest: {
+      <% if Settings.key?(:thunderforest_key) %>
+      apikey: <%= Settings.thunderforest_key.to_json %>
+      <% end %>
+    }
   };
 
-  var thunderforestOptions = {
-    <% if Settings.key?(:thunderforest_key) %>
-    apikey: <%= Settings.thunderforest_key.to_json %>
-    <% end %>
-  };
-
-  var map = L.map("map");
-  map.attributionControl.setPrefix('');
+  const map = L.map("map");
+  map.attributionControl.setPrefix("");
   map.removeControl(map.attributionControl);
+
+  const isDarkTheme = args.get("theme") === "dark" || (args.get("theme") !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const layers = <%= MapLayers::embed_definitions("config/layers.yml").to_json %>;
+  const layerId = (args.get("layer") || "").replaceAll(" ", "");
+  const layerConfig = layers[layerId] || layers.mapnik;
+  const layer = (isDarkTheme && layerConfig.leafletOsmDarkId) || layerConfig.leafletOsmId;
+  new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
 
   if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
     new L.OSM.Mapnik().addTo(map);
@@ -51,37 +56,32 @@ window.onload = function () {
     new L.OSM.Mapnik(mapnikOptions).addTo(map);
   }
 
-  if (args.marker) {
-    L.marker(args.marker.split(','), {icon: L.icon({
+  if (args.has("marker")) {
+    L.marker(args.get("marker").split(","), { icon: L.icon({
         iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
         iconSize: new L.Point(25, 41),
         iconAnchor: new L.Point(12, 41),
         shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
         shadowSize: new L.Point(41, 41)
-      })}).addTo(map);
+      }) }).addTo(map);
   }
 
-  if (args.bbox) {
-    var bbox = args.bbox.split(',');
-    map.fitBounds([L.latLng(bbox[1], bbox[0]),
-      L.latLng(bbox[3], bbox[2])]);
-  } else {
-    map.fitWorld();
-  }
+  const bbox = (args.get("bbox") || "-180,-90,180,90").split(",");
+  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]]);
 
   map.addControl(new L.Control.OSMReportAProblem());
 };
 
 L.Control.OSMReportAProblem = L.Control.Attribution.extend({
   options: {
-    position: 'bottomright',
-    prefix: '<a href="https://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">'+I18n.t('javascripts.embed.report_problem')+'</a>'
+    position: "bottomright",
+    prefix: `<a href="/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">${OSM.i18n.t("javascripts.embed.report_problem")}</a>`
   },
 
   onAdd: function (map) {
-    var container = L.Control.Attribution.prototype.onAdd.call(this, map);
+    const container = L.Control.Attribution.prototype.onAdd.call(this, map);
 
-    map.on('moveend', this._update, this);
+    map.on("moveend", this._update, this);
 
     return container;
   },
@@ -91,8 +91,8 @@ L.Control.OSMReportAProblem = L.Control.Attribution.extend({
 
     this._container.innerHTML =
       this._container.innerHTML
-        .replace('{x}', this._map.getCenter().lat)
-        .replace('{y}', this._map.getCenter().lng)
-        .replace('{z}', this._map.getZoom());
+        .replace("{x}", this._map.getCenter().lat)
+        .replace("{y}", this._map.getCenter().lng)
+        .replace("{z}", this._map.getZoom());
   }
 });

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
 
-  before_action :fetch_body
+  after_action :close_body
 
   attr_accessor :current_user, :oauth_token
 
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   helper_method :oauth_token
 
   def self.allow_thirdparty_images(**options)
-    content_security_policy(options) do |policy|
+    content_security_policy(**options) do |policy|
       policy.img_src("*", :data)
     end
   end
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def authorize_web
+  def authorize_web(skip_terms: false)
     if session[:user]
       self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
 
@@ -53,14 +53,14 @@ class ApplicationController < ActionController::Base
 
         redirect_to :controller => "users", :action => "suspended"
 
-      # don't allow access to any auth-requiring part of the site unless
-      # the new CTs have been seen (and accept/decline chosen).
-      elsif !current_user.terms_seen && flash[:skip_terms].nil?
-        flash[:notice] = t "users.terms.you need to accept or decline"
+        # don't allow access to any auth-requiring part of the site unless
+        # the new CTs have been seen (and accept/decline chosen).
+      elsif !current_user.terms_seen && !skip_terms
+        flash[:notice] = t "accounts.terms.show.you need to accept or decline"
         if params[:referer]
-          redirect_to :controller => "users", :action => "terms", :referer => params[:referer]
+          redirect_to account_terms_path(:referer => params[:referer])
         else
-          redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
+          redirect_to account_terms_path(:referer => request.fullpath)
         end
       end
     end
@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
 
   def check_database_writable(need_api: false)
     if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
-       (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
+       (need_api && %w[api_offline api_readonly].include?(Settings.status))
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -124,17 +124,11 @@ class ApplicationController < ActionController::Base
   end
 
   def check_api_readable
-    if api_status == "offline"
-      report_error "Database offline for maintenance", :service_unavailable
-      false
-    end
+    report_error "Database offline for maintenance", :service_unavailable if api_status == "offline"
   end
 
   def check_api_writable
-    unless api_status == "online"
-      report_error "Database offline for maintenance", :service_unavailable
-      false
-    end
+    report_error "Database offline for maintenance", :service_unavailable unless api_status == "online"
   end
 
   def database_status
@@ -162,10 +156,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_public_data
-    unless current_user.data_public?
-      report_error "You must make your edits public to upload new data", :forbidden
-      false
-    end
+    report_error "You must make your edits public to upload new data", :forbidden unless current_user.data_public?
   end
 
   # Report and error to the user
@@ -194,6 +185,8 @@ class ApplicationController < ActionController::Base
                                Locale.list(params[:locale])
                              elsif current_user
                                current_user.preferred_languages
+                             elsif request.cookies["_osm_locale"]
+                               Locale.list(request.cookies["_osm_locale"])
                              else
                                Locale.list(http_accept_language.user_preferred_languages)
                              end
@@ -244,29 +237,22 @@ class ApplicationController < ActionController::Base
   #
   #   https://issues.apache.org/bugzilla/show_bug.cgi?id=44782
   #
-  # To work round this we call rewind on the body here, which is added
-  # as a filter, to force it to be fetched from Apache into a file.
-  def fetch_body
-    request.body.rewind
+  # To work round this we call close on the body here, which is added
+  # as a filter, to let Apache know we are done with it.
+  def close_body
+    request.body&.close
   end
 
   def map_layout
     policy = request.content_security_policy.clone
 
-    policy.child_src(*policy.child_src, "http://127.0.0.1:8111", "https://127.0.0.1:8112")
-    policy.frame_src(*policy.frame_src, "http://127.0.0.1:8111", "https://127.0.0.1:8112")
-    policy.connect_src(*policy.connect_src, Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
+    policy.connect_src(*policy.connect_src, "http://127.0.0.1:8111", Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
     policy.form_action(*policy.form_action, "render.openstreetmap.org")
     policy.style_src(*policy.style_src, :unsafe_inline)
 
     request.content_security_policy = policy
 
-    case Settings.status
-    when "database_offline", "api_offline"
-      flash.now[:warning] = t("layouts.osm_offline")
-    when "database_readonly", "api_readonly"
-      flash.now[:warning] = t("layouts.osm_read_only")
-    end
+    flash.now[:warning] = { :partial => "layouts/offline_flash" } unless api_status == "online"
 
     request.xhr? ? "xhr" : "map"
   end
@@ -281,7 +267,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :preferred_editor
+  def preferred_color_scheme(subject)
+    if current_user
+      current_user.preferences.find_by(:k => "#{subject}.color_scheme")&.v || "auto"
+    else
+      "auto"
+    end
+  end
+
+  helper_method :preferred_editor, :preferred_color_scheme
 
   def update_totp
     if Settings.key?(:totp_key)
@@ -298,10 +292,7 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access(_exception)
-    if doorkeeper_token
-      set_locale
-      report_error t("oauth.permissions.missing"), :forbidden
-    elsif current_user
+    if current_user
       set_locale
       respond_to do |format|
         format.html { redirect_to :controller => "/errors", :action => "forbidden" }
@@ -333,7 +324,7 @@ class ApplicationController < ActionController::Base
     begin
       referer = URI.parse(referer)
 
-      if referer.scheme == "http" || referer.scheme == "https"
+      if %w[http https].include?(referer.scheme)
         referer.scheme = nil
         referer.host = nil
         referer.port = nil
@@ -348,10 +339,4 @@ class ApplicationController < ActionController::Base
 
     referer&.to_s
   end
-
-  def scope_enabled?(scope)
-    doorkeeper_token&.includes_scope?(scope)
-  end
-
-  helper_method :scope_enabled?
 end

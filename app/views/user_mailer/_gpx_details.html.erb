@@ -1,0 +1,24 @@
+<p><%= t ".details" %></p>
+
+<dl>
+  <dt><%= t ".filename" %>
+  <% if @trace_url %>
+    <dd><%= link_to(@trace_name, @trace_url) %>
+  <% else %>
+    <dd><%= @trace_name %>
+  <% end %>
+  <dt><%= t ".description" %>
+  <dd><%= @trace_description %>
+  <% if @trace_tags.length > 0 %>
+    <dt><%= t ".tags" %>
+    <dd><%= @trace_tags.map(&:tag).join(", ") %>
+  <% end %>
+  <% if @possible_points %>
+    <dt><%= t ".total_points" %>
+    <dd><%= @possible_points %>
+  <% end %>
+  <% if @trace_points %>
+    <dt><%= t ".imported_points" %>
+    <dd><%= @trace_points %>
+  <% end %>
+</dl>

@@ -2,11 +2,11 @@
 #
 # Table name: current_ways
 #
-#  id           :bigint(8)        not null, primary key
-#  changeset_id :bigint(8)        not null
+#  id           :bigint           not null, primary key
+#  changeset_id :bigint           not null
 #  timestamp    :datetime         not null
 #  visible      :boolean          not null
-#  version      :bigint(8)        not null
+#  version      :bigint           not null
 #
 # Indexes
 #

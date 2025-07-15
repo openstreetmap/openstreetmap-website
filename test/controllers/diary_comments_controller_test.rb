@@ -9,10 +9,6 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
 
   def test_routes
     assert_routing(
-      { :path => "/user/username/diary/comments", :method => :get },
-      { :controller => "diary_comments", :action => "index", :display_name => "username" }
-    )
-    assert_routing(
       { :path => "/user/username/diary/1/comments", :method => :post },
       { :controller => "diary_comments", :action => "create", :display_name => "username", :id => "1" }
     )
@@ -24,53 +20,6 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/diary_comments/2/unhide", :method => :post },
       { :controller => "diary_comments", :action => "unhide", :comment => "2" }
     )
-
-    get "/user/username/diary/comments/1"
-    assert_redirected_to "/user/username/diary/comments"
-  end
-
-  def test_index
-    user = create(:user)
-    other_user = create(:user)
-    suspended_user = create(:user, :suspended)
-    deleted_user = create(:user, :deleted)
-
-    # Test a user with no comments
-    get diary_comments_path(:display_name => user.display_name)
-    assert_response :success
-    assert_template :index
-    assert_select "h4", :html => "No diary comments"
-
-    # Test a user with a comment
-    create(:diary_comment, :user => other_user)
-
-    get diary_comments_path(:display_name => other_user.display_name)
-    assert_response :success
-    assert_template :index
-    assert_dom "a[href='#{user_path(other_user)}']", :text => other_user.display_name
-    assert_select "table.table-striped tbody" do
-      assert_select "tr", :count => 1
-    end
-
-    # Test a suspended user
-    get diary_comments_path(:display_name => suspended_user.display_name)
-    assert_response :not_found
-
-    # Test a deleted user
-    get diary_comments_path(:display_name => deleted_user.display_name)
-    assert_response :not_found
-  end
-
-  def test_index_invalid_paged
-    user = create(:user)
-
-    %w[-1 0 fred].each do |id|
-      get diary_comments_path(:display_name => user.display_name, :before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-
-      get diary_comments_path(:display_name => user.display_name, :after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
-    end
   end
 
   def test_create
@@ -104,6 +53,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :new
+    assert_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
 
     # Now try again with the right id
     assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
@@ -122,7 +72,6 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "[OpenHistoricalMap] #{other_user.display_name} commented on a diary entry", email.subject
     assert_match(/New comment/, email.text_part.decoded)
     assert_match(/New comment/, email.html_part.decoded)
-    ActionMailer::Base.deliveries.clear
     assert_equal entry.id, comment.diary_entry_id
     assert_equal other_user.id, comment.user_id
     assert_equal "New comment", comment.body
@@ -164,7 +113,6 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "[OpenHistoricalMap] #{other_user.display_name} commented on a diary entry", email.subject
     assert_match %r{http://example.com/spam}, email.text_part.decoded
     assert_match %r{http://example.com/spam}, email.html_part.decoded
-    ActionMailer::Base.deliveries.clear
     assert_equal entry.id, comment.diary_entry_id
     assert_equal other_user.id, comment.user_id
     assert_equal spammy_text, comment.body

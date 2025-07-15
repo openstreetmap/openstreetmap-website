@@ -61,10 +61,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
       { :controller => "site", :action => "offline" }
     )
     assert_routing(
-      { :path => "/key", :method => :get },
-      { :controller => "site", :action => "key" }
-    )
-    assert_routing(
       { :path => "/go/shortcode", :method => :get },
       { :controller => "site", :action => "permalink", :code => "shortcode" }
     )
@@ -101,7 +97,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => :notes, :action => :show, :id => 123
 
     get root_path(:query => "test")
-    assert_redirected_to :controller => :geocoder, :action => :search, :query => "test"
+    assert_redirected_to search_path(:query => "test")
 
     get root_path(:lat => 4, :lon => 5)
     assert_redirected_to :controller => :site, :action => :index, :anchor => "map=5/4/5"
@@ -143,15 +139,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to changeset_path(4, :anchor => "map=3/4.8779296875/3.955078125")
   end
 
-  # Test the key page
-  def test_key
-    get key_path, :xhr => true
-
-    assert_response :success
-    assert_template "key"
-    assert_template :layout => false
-  end
-
   # Test the edit page redirects when you aren't logged in
   def test_edit
     get edit_path
@@ -167,7 +154,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "edit"
-    assert_select "a[href='https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits']"
+    assert_select "a[href='https://wiki.openstreetmap.org/wiki/Anonymous_edits']"
   end
 
   # Test the right editor gets used when the user hasn't set a preference

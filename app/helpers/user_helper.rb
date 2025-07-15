@@ -40,9 +40,9 @@ module UserHelper
     end
   end
 
-  def user_image_url(user, options = {})
+  def user_image_url(user)
     if user.image_use_gravatar
-      user_gravatar_url(user, options)
+      user_gravatar_url(user)
     elsif user.avatar.attached?
       polymorphic_url(user_avatar_variant(user, :resize_to_limit => [100, 100]), :host => Settings.server_url)
     else

@@ -5,12 +5,12 @@ module SvgHelper
     tag.svg path_tag, :width => 16, :height => 16
   end
 
-  def previous_page_svg_tag(**options)
-    adjacent_page_svg_tag(dir == "rtl" ? 1 : -1, **options)
+  def previous_page_svg_tag(**)
+    adjacent_page_svg_tag(dir == "rtl" ? 1 : -1, **)
   end
 
-  def next_page_svg_tag(**options)
-    adjacent_page_svg_tag(dir == "rtl" ? -1 : 1, **options)
+  def next_page_svg_tag(**)
+    adjacent_page_svg_tag(dir == "rtl" ? -1 : 1, **)
   end
 
   def key_svg_tag(**options)

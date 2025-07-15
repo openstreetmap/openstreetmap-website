@@ -1,6 +1,5 @@
 @use "sass:map";
 @import "parameters";
-@import "browse";
 @import "bootstrap";
 @import "rails_bootstrap_forms";
 
@@ -10,46 +9,24 @@
 
 body {
   font-size: $typeheight;
+  --dark-mode-map-filter: none;
 }
 
 time[title] {
   text-decoration: underline dotted;
 }
 
-/* Rules for icons */
-
-.icon {
-  display: inline-block;
-  vertical-align: top;
-  width: 20px;
-  height: 20px;
-  background: transparent image-url("sprite.svg") no-repeat 0 0;
-  text-indent: -9999px;
-  overflow: hidden;
-}
-
-.icon.search      { /*rtl:ignore*/ background-position: 0 0; }
-.icon.donate      { /*rtl:ignore*/ background-position: -20px 0; }
-.icon.zoomin      { /*rtl:ignore*/ background-position: -40px 0; }
-.icon.zoomout     { /*rtl:ignore*/ background-position: -60px 0; }
-.icon.geolocate   { /*rtl:ignore*/ background-position: -80px 0; }
-.active .icon.geolocate   { /*rtl:ignore*/ background-position: -80px -20px; }
-.icon.layers      { /*rtl:ignore*/ background-position: -100px 0; }
-.icon.key         { /*rtl:ignore*/ background-position: -120px 0; }
-.icon.share       { /*rtl:ignore*/ background-position: -140px 0; }
-.icon.clipboard   { /*rtl:ignore*/ background-position: -160px 0; }
-.icon.link        { /*rtl:ignore*/ background-position: -180px 0; }
-.icon.close       { /*rtl:ignore*/ background-position: -200px 0; }
-.icon.close:hover { /*rtl:ignore*/ background-position: -200px -20px; }
-.icon.check       { /*rtl:ignore*/ background-position: -220px 0; }
-.icon.note        { /*rtl:ignore*/ background-position: -240px 0; }
-.icon.note.grey   { /*rtl:ignore*/ background-position: -240px -20px; }
-.icon.query       { /*rtl:ignore*/ background-position: -260px 0; }
-
 /* Utility for de-emphasizing content */
 
 .text-body-secondary a {
   color: $blue;
+}
+
+/* Utility for transparent color */
+
+.text-transparent {
+  color: transparent !important;
+  user-select: none;
 }
 
 /* Bootstrap contextual table classes overrides in dark mode */
@@ -84,12 +61,14 @@ time[title] {
 
 /* Bootstrap close button overrides for nested light/dark themes */
 
-[data-bs-theme="dark"] .btn-close {
-  filter: var(--bs-btn-close-white-filter);
+[data-bs-theme="dark"],
+[data-bs-theme] [data-bs-theme="dark"] {
+  --bs-btn-close-filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-[data-bs-theme="light"] .btn-close {
-  filter: none;
+[data-bs-theme="light"],
+[data-bs-theme] [data-bs-theme="light"] {
+  --bs-btn-close-filter: none;
 }
 
 /* Rules for the header */
@@ -131,10 +110,6 @@ header {
     font-size: 14px;
   }
 
-  nav.primary {
-    margin-right: auto;
-  }
-
   .username {
     max-width: 12em;
   }
@@ -149,10 +124,6 @@ nav.primary {
     .btn-outline-primary {
       color: $grey;
       cursor: default;
-
-      .caret {
-        border-top-color: $grey;
-      }
 
       &:hover {
         background-color: lighten($green, 30%);
@@ -174,7 +145,11 @@ nav.primary {
 
 nav.secondary {
   .nav-link {
-    padding: 0.3rem;
+    padding: 0 0.3rem;
+  }
+
+  > ul {
+    height: 1.5em;
   }
 }
 
@@ -189,15 +164,6 @@ nav.primary, nav.secondary {
 
 #compact-secondary-nav {
   display: none;
-}
-
-body.compact-nav {
-  #compact-secondary-nav {
-    display: inline-block;
-  }
-  .compact-hide {
-    display: none;
-  }
 }
 
 body.small-nav {
@@ -217,6 +183,10 @@ body.small-nav {
     .search_forms {
       display: block;
     }
+
+    .username {
+      max-width: unset;
+    }
   }
 
   #sidebar .search_forms {
@@ -235,6 +205,11 @@ body.small-nav {
 
   nav.secondary {
     flex-direction: column;
+
+    > ul {
+      height: auto;
+      justify-content: center;
+    }
 
     .user-menu, .login-menu {
       width: 100%;
@@ -281,7 +256,8 @@ body.small-nav {
   display: block;
   height: 40px;
   width: 40px;
-  background-color: #333;
+  color: white;
+  padding: 10px;
   background-color: rgba(0,0,0,.6);
   outline: none;
 
@@ -292,13 +268,8 @@ body.small-nav {
 
   &.disabled,
   &.leaflet-disabled {
-    background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
-  }
-
-  &.active {
-    background-color: $vibrant-green;
   }
 
   &-first {
@@ -309,10 +280,10 @@ body.small-nav {
     border-end-start-radius: 4px;
     margin-bottom: 10px;
   }
+}
 
-  .icon {
-    margin: 10px;
-  }
+.leaflet-control.active .control-button {
+  background-color: $vibrant-green;
 }
 
 /* Rules for the sidebar and main map area */
@@ -336,10 +307,6 @@ body.small-nav {
   #sidebar {
     float: left;
     width: $sidebarWidth;
-
-    #sidebar_loader {
-      display: none;
-    }
   }
 
   .overlay-sidebar #sidebar {
@@ -355,6 +322,8 @@ body.small-nav {
       display: block;
     }
 
+    .sidebar-close-controls,
+    #sidebar_loader,
     #sidebar_content {
       display: none;
     }
@@ -454,7 +423,7 @@ body.small-nav {
   }
 
   .overlay-layers {
-    li.disabled { color: $darkgrey; }
+    .form-check.disabled { color: $darkgrey; }
   }
 }
 
@@ -502,17 +471,33 @@ body.small-nav {
 }
 
 @include color-mode(dark) {
-  .leaflet-tile-container .leaflet-tile,
-  .mapkey-table-entry td:first-child > * {
-    filter: brightness(.8);
-  }
-
   .leaflet-container .leaflet-control-attribution a {
     color: var(--bs-link-color);
   }
 
   .leaflet-control-scale-line {
     border-color: rgba(var(--bs-light-rgb), .75) !important;
+  }
+}
+
+@mixin dark-map-color-scheme {
+  .leaflet-tile-container,
+  #mapkey .filtered-image {
+    filter: var(--dark-mode-map-filter);
+  }
+
+  .leaflet-tile-container .leaflet-tile {
+    filter: none;
+  }
+}
+
+body[data-map-theme="dark"] {
+  @include dark-map-color-scheme;
+}
+
+@include color-mode(dark) {
+  body:not([data-map-theme]) {
+    @include dark-map-color-scheme;
   }
 }
 
@@ -566,31 +551,7 @@ header .search_forms,
   }
 }
 
-/* Rules for search sidebar */
-
-#sidebar .search_results_entry {
-  .search_more .loader {
-    display: none;
-  }
-}
-
 /* Rules for routing */
-
-div.direction {
-  background-image: image-url('routing-sprite.svg');
-  width: 20px;
-  height: 20px;
-  background-repeat: no-repeat;
-}
-@for $i from 0 through 25 {
-div.direction.i#{$i} { background-position: #{($i)*-20}px 0px; }
-}
-
-@include color-mode(dark) {
-  div.direction {
-    filter: invert(1);
-  }
-}
 
 td.distance {
     font-size: x-small;
@@ -600,6 +561,8 @@ tr.turn {
 }
 
 .routing_marker_column {
+  margin-left: .35rem;
+  margin-right: .35rem;
   width: 15px;
 
   img {
@@ -609,21 +572,43 @@ tr.turn {
 
 /* Rules for the history sidebar */
 
+.changeset-above-sidebar-viewport {
+  --changeset-border-color: #CC6655;
+  --changeset-fill-color: #DDBBBB;
+  --changeset-outline-color: #FFF4F4;
+}
+.changeset-in-sidebar-viewport {
+  --changeset-border-color: #FF9500;
+  --changeset-fill-color: #FFFFAF;
+  --changeset-outline-color: #FFFFFF;
+  &.changeset-highlight-outline {
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, .75));
+  }
+}
+.changeset-below-sidebar-viewport {
+  --changeset-border-color: #8888AA;
+  --changeset-fill-color: #CCCCDD;
+  --changeset-outline-color: #F4F4FF;
+}
+.changeset-highlight-outline {
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, .25));
+}
+
 #sidebar .changesets {
+  .changeset-color-hint-bar {
+    height: 2px;
+    background: var(--changeset-border-color);
+  }
+
   li {
     &.selected {
       @extend :hover;
     }
 
-    a.stretched-link > span, a:not(.stretched-link), [title] {
+    a.stretched-link > bdi, a:not(.stretched-link), [title] {
       position: relative;
       z-index: 2; /* needs to be higher than Bootstrap's stretched link ::after z-index */
     }
-  }
-
-  .changeset_more .loader {
-    display: none;
-    width: 100%;
   }
 }
 
@@ -679,12 +664,6 @@ tr.turn {
     > * {
         margin: -1px;
     }
-    #minlon {
-      /*rtl:ignore*/ float: left;
-    }
-    #maxlon {
-      /*rtl:ignore*/ float: right;
-    }
   }
 }
 
@@ -702,9 +681,7 @@ tr.turn {
 /* Rules for non-map content pages */
 
 .content-inner {
-  position: relative;
   max-width: 960px;
-  margin: auto;
   padding: $lineheight;
 }
 
@@ -768,15 +745,13 @@ tr.turn {
 
 .content_map .leaflet-popup-content {
   margin: $spacer;
-  min-height: 50px;
 }
 
 /* Rules for user popups on maps */
 
 .user_popup {
   p {
-    padding: 0 0 5px 0;
-    margin: 0 0 0 60px;
+    margin: 0 0 5px 0 !important;
     font-size: 12px;
   }
 }
@@ -796,9 +771,17 @@ tr.turn {
   }
 }
 
+/* Rules for the issues page */
+
+.issues.issues-index {
+  td.reporting_users {
+    max-width: 5rem;
+  }
+}
+
 /* Rules for the account confirmation page */
 
-.users-terms {
+.accounts-terms-show {
   .legale {
     padding: $lineheight;
     margin-bottom: $lineheight;
@@ -941,13 +924,18 @@ div.secondary-actions {
   }
 }
 
-/* Rules for block pages */
+/* Rules for tables with usernames */
 
+.messages-table .username,
 #block_list .username {
   max-width: 20em;
 }
 
-/* Rules for tabs inside secondary background sections */
+/* Rules for navigation tabs */
+
+.nav-tabs .username {
+  max-width: 20em;
+}
 
 .bg-body-secondary .nav-tabs {
   --bs-border-color: var(--bs-secondary-border-subtle);
@@ -970,30 +958,76 @@ img.trace_image {
 
 /* Rules for map sidebar icons */
 
-.browse-section {
-  .node::before,
-  .way::before,
-  .relation::before {
-    display: inline-block;
-    width: 25px;
-    margin-left: -25px;
+.browse-section .browse-element-list {
+  line-height: 1.25rem;
+
+  .browse-icon {
+    height: 1.25rem;
   }
 
-  .node, .way, .relation {
-    margin-left: 25px;
+  .d-flex > .browse-icon {
+    height: max(20px, 1.25rem);
+  }
+
+  @include color-mode(dark) {
+    .browse-icon-invertible {
+      filter: invert(.8) hue-rotate(180deg);
+    }
   }
 }
 
-@each $class, $item in $map-sidebar-icons {
-  .browse-section #{$class}::before {
-    content: image-url('browse/#{map.get($item, "filename")}');
+/* Rules for the social links */
+
+@include color-mode(dark) {
+  .social_links img {
+    filter: invert(1);
+  }
+}
+
+/* Rules for the heatmap */
+
+.heatmap {
+  grid-template-columns: auto;
+  grid-auto-columns: minmax(1em, 1fr);
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(1em, 1fr);
+  font-size: x-small;
+  gap: 0.3em;
+
+  [data-date], [data-date] span {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 25%;
   }
 
-  @if map.get($item, "invert") {
-    @include color-mode(dark) {
-      .browse-section #{$class}::before {
-        filter: invert(.8) hue-rotate(180deg);
+  [data-date] {
+    background-color: #ededed;
+    span {
+      background-color: #14432a;
+    }
+    &[data-count] {
+      background-color: #4dd05a;
+    }
+    &:hover {
+      box-shadow: 0px 0px 0px 1px #8884;
+    }
+  }
+}
+
+@include color-mode(dark) {
+  .heatmap {
+    [data-date] {
+      background-color: #2d333b;
+      span {
+        background-color: #4dd05a;
+      }
+      &[data-count] {
+        background-color: #14432a;
       }
     }
   }
+}
+
+.tooltip.wide {
+  --bs-tooltip-max-width: none;
 }

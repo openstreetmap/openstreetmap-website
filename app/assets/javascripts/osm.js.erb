@@ -1,52 +1,50 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= depend_on layers.yml
 //= depend_on key.yml
-//= require qs/dist/qs
 
 OSM = {
-<% if defined?(Settings.matomo) %>
-  MATOMO:                  <%= Settings.matomo.to_json %>,
-<% end %>
+  ...<%=
+    %i[
+      matomo
+      max_request_area
+      server_protocol
+      server_url
+      embed_server_url
+      api_version
+      status
+      max_note_request_area
+      overpass_url
+      overpass_credentials
+      nominatim_url
+      graphhopper_url
+      fossgis_osrm_url
+      fossgis_valhalla_url
+    ]
+      .each_with_object({}) do |key, hash|
+        hash[key.to_s.upcase] = Settings.send(key) if Settings.respond_to?(key)
+      end.to_json
+  %>,
 
-  MAX_REQUEST_AREA:        <%= Settings.max_request_area.to_json %>,
-  SERVER_PROTOCOL:         <%= Settings.server_protocol.to_json %>,
-  SERVER_URL:              <%= Settings.server_url.to_json %>,
-  EMBED_SERVER_URL:        <%= Settings.embed_server_url.to_json %>,
-  API_VERSION:             <%= Settings.api_version.to_json %>,
-  STATUS:                  <%= Settings.status.to_json %>,
-  MAX_NOTE_REQUEST_AREA:   <%= Settings.max_note_request_area.to_json %>,
-  OVERPASS_URL:            <%= Settings.overpass_url.to_json %>,
-  OVERPASS_CREDENTIALS:    <%= Settings.overpass_credentials.to_json %>,
-  NOMINATIM_URL:           <%= Settings.nominatim_url.to_json %>,
-  GRAPHHOPPER_URL:         <%= Settings.graphhopper_url.to_json %>,
-  FOSSGIS_OSRM_URL:        <%= Settings.fossgis_osrm_url.to_json %>,
-  FOSSGIS_VALHALLA_URL:    <%= Settings.fossgis_valhalla_url.to_json %>,
-  DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
+  DEFAULT_LOCALE: <%= I18n.default_locale.to_json %>,
 
-<% if Settings.key?(:thunderforest_key) %>
-  THUNDERFOREST_KEY:       <%= Settings.thunderforest_key.to_json %>,
-<% end %>
+  LAYER_DEFINITIONS: <%= MapLayers::full_definitions("config/layers.yml", :legends => "config/key.yml").to_json %>,
 
-<% if Settings.key?(:tracestrack_key) %>
-  TRACESTRACK_KEY:         <%= Settings.tracestrack_key.to_json %>,
-<% end %>
+  MARKER_BLUE: <%= image_path("marker-blue.png").to_json %>,
+  MARKER_GREEN: <%= image_path("marker-green.png").to_json %>,
+  MARKER_RED: <%= image_path("marker-red.png").to_json %>,
 
-  LAYERS_WITH_MAP_KEY:     <%= YAML.load_file(Rails.root.join("config/key.yml")).keys.to_json %>,
+  MARKER_ICON: <%= image_path("leaflet/dist/images/marker-icon.png").to_json %>,
+  MARKER_ICON_2X: <%= image_path("leaflet/dist/images/marker-icon-2x.png").to_json %>,
+  MARKER_SHADOW: <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
 
-  MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
-  MARKER_RED:              <%= image_path("marker-red.png").to_json %>,
-
-  MARKER_ICON:             <%= image_path("leaflet/dist/images/marker-icon.png").to_json %>,
-  MARKER_ICON_2X:          <%= image_path("leaflet/dist/images/marker-icon-2x.png").to_json %>,
-  MARKER_SHADOW:           <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
-
-  NEW_NOTE_MARKER:         <%= image_path("new_note_marker.svg").to_json %>,
-  OPEN_NOTE_MARKER:        <%= image_path("open_note_marker.svg").to_json %>,
-  CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.svg").to_json %>,
+  NEW_NOTE_MARKER: <%= image_path("new_note_marker.svg").to_json %>,
+  OPEN_NOTE_MARKER: <%= image_path("open_note_marker.svg").to_json %>,
+  CLOSED_NOTE_MARKER: <%= image_path("closed_note_marker.svg").to_json %>,
 
   apiUrl: function (object) {
-    var apiType = object.type === "note" ? "notes" : object.type;
-    var url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
+    const apiType = object.type === "note" ? "notes" : object.type;
+    let url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
 
     if (object.type === "way" || object.type === "relation") {
       url += "/full";
@@ -57,92 +55,78 @@ OSM = {
     return url;
   },
 
-  params: function(search) {
-    var params = {};
-
-    search = (search || window.location.search).replace('?', '').split(/&|;/);
-
-    for (var i = 0; i < search.length; ++i) {
-      var pair = search[i],
-        j = pair.indexOf('='),
-        key = pair.slice(0, j),
-        val = pair.slice(++j);
-
-      try {
-        params[key] = decodeURIComponent(val);
-      } catch (e) {
-        // Ignore parse exceptions
-      }
-    }
-
-    return params;
-  },
-
   mapParams: function (search) {
-    // any params not handed back in parseHash() willl be stripped when formatHash() is used to update URL params
-    // any params not in mapParams() will not be set up immeduately on page load
+    // any params not handed back in parseHash() will be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immediately on page load
     // so keep the three in sync
-    var params = OSM.params(search), mapParams = {}, loc, match;
+    const params = new URLSearchParams(search || location.search),
+      geoURI = OSM.parseGeoURI(params.get("geouri")),
+      mapParams = {};
 
-    if (params.mlon && params.mlat) {
+    if (params.has("mlon") && params.has("mlat")) {
       mapParams.marker = true;
-      mapParams.mlon = parseFloat(params.mlon);
-      mapParams.mlat = parseFloat(params.mlat);
+      mapParams.mlon = parseFloat(params.get("mlon"));
+      mapParams.mlat = parseFloat(params.get("mlat"));
+      mapParams.mrad = parseFloat(params.get("mrad"));
+    }
+    if (geoURI) {
+      mapParams.marker = true;
+      mapParams.mlon = geoURI.coords.lng;
+      mapParams.mlat = geoURI.coords.lat;
+      mapParams.mrad = geoURI.uncertainty;
     }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
-    if (params.node) {
-      mapParams.object = {type: 'node', id: parseInt(params.node)};
-    } else if (params.way) {
-      mapParams.object = {type: 'way', id: parseInt(params.way)};
-    } else if (params.relation) {
-      mapParams.object = {type: 'relation', id: parseInt(params.relation)};
-    } else if (params.note) {
-      mapParams.object = {type: 'note', id: parseInt(params.note)};
+    for (const type of ["node", "way", "relation", "note"]) {
+      if (params.has(type)) {
+        mapParams.object = { type, id: parseInt(params.get(type), 10) };
+      }
     }
 
-    var hash = OSM.parseHash(location.hash);
+    const hash = OSM.parseHash(location.hash);
+    const loc = Cookies.get("_osm_location")?.split("|");
+
+    function bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat }) {
+      return L.latLngBounds([minlat, minlon], [maxlat, maxlon]);
+    }
 
     // Decide on a map starting position. Various ways of doing this.
     if (hash.center) {
-      mapParams.lon = hash.center.lng;
-      mapParams.lat = hash.center.lat;
-      mapParams.zoom = hash.zoom;
-    } else if (params.bbox) {
-      var bbox = params.bbox.split(',');
-      mapParams.bounds = L.latLngBounds(
-        [parseFloat(bbox[1]), parseFloat(bbox[0])],
-        [parseFloat(bbox[3]), parseFloat(bbox[2])]);
-    } else if (params.minlon && params.minlat && params.maxlon && params.maxlat) {
-      mapParams.bounds = L.latLngBounds(
-        [parseFloat(params.minlat), parseFloat(params.minlon)],
-        [parseFloat(params.maxlat), parseFloat(params.maxlon)]);
-    } else if (params.mlon && params.mlat) {
-      mapParams.lon = parseFloat(params.mlon);
-      mapParams.lat = parseFloat(params.mlat);
-      mapParams.zoom = parseInt(params.zoom || 12);
-    } else if (loc = Cookies.get('_osm_location')) {
-      loc = loc.split("|");
-      mapParams.lon = parseFloat(loc[0]);
-      mapParams.lat = parseFloat(loc[1]);
-      mapParams.zoom = parseInt(loc[2]);
+      Object.assign(mapParams, hash);
+    } else if (params.has("bbox")) {
+      const [minlon, minlat, maxlon, maxlat] = params.get("bbox").split(",");
+      mapParams.bounds = bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat });
+    } else if (params.has("minlon") && params.has("minlat") && params.has("maxlon") && params.has("maxlat")) {
+      mapParams.bounds = bboxToLatLngBounds(Object.fromEntries(params));
+    } else if (params.has("mlon") && params.has("mlat")) {
+      mapParams.lon = params.get("mlon");
+      mapParams.lat = params.get("mlat");
+      mapParams.zoom = params.get("zoom") || 12;
+    } else if (geoURI?.uncertainty > 0 && !("zoom" in geoURI)) {
+      mapParams.bounds = geoURI.coords.toBounds(geoURI.uncertainty * 4);
+    } else if (geoURI) {
+      mapParams.lon = geoURI.coords.lng;
+      mapParams.lat = geoURI.coords.lat;
+      mapParams.zoom = geoURI.zoom || 12;
+    } else if (loc) {
+      [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
     } else if (OSM.home) {
       mapParams.lon = OSM.home.lon;
       mapParams.lat = OSM.home.lat;
       mapParams.zoom = 10;
     } else if (OSM.location) {
-      mapParams.bounds = L.latLngBounds(
-        [OSM.location.minlat,
-         OSM.location.minlon],
-        [OSM.location.maxlat,
-         OSM.location.maxlon]);
+      mapParams.bounds = bboxToLatLngBounds(OSM.location);
     } else {
       mapParams.lon = -0.1;
       mapParams.lat = 51.5;
-      mapParams.zoom = parseInt(params.zoom || 5);
+      mapParams.zoom = params.get("zoom") || 5;
     }
 
-    mapParams.layers = hash.layers || (loc && loc[3]) || '';
+    if (typeof mapParams.lat === "string") mapParams.lat = parseFloat(mapParams.lat);
+    if (typeof mapParams.lon === "string") mapParams.lon = parseFloat(mapParams.lon);
+    if (typeof mapParams.zoom === "string") mapParams.zoom = parseInt(mapParams.zoom, 10);
+
+    mapParams.layers = hash.layers || (loc && loc[3]) || "";
 
     // timeslider state
     if (hash.date) {
@@ -159,74 +143,91 @@ OSM = {
       mapParams.daterange = [ 1800 , (new Date()).getFullYear() ].join(',');
     }
 
-    var scale = parseFloat(params.scale);
+    const scale = parseFloat(params.get("scale"));
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
     }
-
     return mapParams;
   },
 
-  parseHash: function(hash) {
-    // any params not handed back in parseHash() willl be stripped when formatHash() is used to update URL params
-    // any params not in mapParams() will not be set up immeduately on page load
+  parseGeoURI: function (geoURI) {
+    let url;
+    try {
+      url = new URL(geoURI);
+    } catch (e) { return; }
+    if (!url?.pathname || url.protocol !== "geo:") return;
+    const [path, ...params] = url.pathname.split(";");
+    let coords;
+    try {
+      coords = L.latLng(path.split(","));
+    } catch (e) { return; }
+    if (!coords) return;
+    const searchParams = new URLSearchParams(params.join("&").toLowerCase());
+    const crs = searchParams.get("crs");
+    if (crs && crs !== "wgs84") return;
+    const uncertainty = parseFloat(searchParams.get("u"));
+    const zoom = parseFloat(url.searchParams.get("z"));
+    const out = { coords };
+    if (uncertainty >= 0) out.uncertainty = uncertainty;
+    if (zoom >= 0) out.zoom = zoom;
+    return out;
+  },
+
+  parseHash: function (hash = location.hash) {
+    // any params not handed back in parseHash() will be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immediately on page load
     // so keep the three in sync
-    var args = {};
+    const i = hash.indexOf("#");
+    if (i < 0) return {};
 
-    var i = hash.indexOf('#');
-    if (i < 0) {
-      return args;
-    }
-
-    hash = Qs.parse(hash.slice(i + 1));
-
-    var map = (hash.map || '').split('/'),
+    const hashParams = new URLSearchParams(hash.slice(i + 1)),
+      map = (hashParams.get("map") || "").split("/"),
       zoom = parseInt(map[0], 10),
       lat = parseFloat(map[1]),
-      lon = parseFloat(map[2]);
+      lon = parseFloat(map[2]),
+      args = {};
 
     if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
       args.center = new L.LatLng(lat, lon);
+      args.lat = lat;
+      args.lon = lon;
       args.zoom = zoom;
     }
 
-    if (hash.layers) {
-      args.layers = hash.layers;
+    if (hashParams.has("layers")) {
+      args.layers = hashParams.get("layers");
     }
 
     // timeslider state
-    if (hash.date) args.date = hash.date;
-    if (hash.daterange) args.daterange = hash.daterange;
+    if (hashParams.has("date")) args.date = hashParams.get("date");
+    if (hashParams.has("daterange")) args.daterange = hashParams.get("daterange");
 
     return args;
   },
 
-  formatHash: function(args) {
-    // any params not handed back in parseHash() willl be stripped when formatHash() is used to update URL params
-    // any params not in mapParams() will not be set up immeduately on page load
-    // so keep the three in sync
-    var center, zoom, layers;
+  formatHash: function (args) {
+    let center, zoom, layers;
 
     if (args instanceof L.Map) {
       center = args.getCenter();
       zoom = args.getZoom();
       layers = args.getLayersCode();
+    } else if (args instanceof URLSearchParams) {
+      center = args.get("center") || L.latLng(args.get("lat"), args.get("lon"));
+      zoom = Number(args.get("zoom"));
+      layers = args.get("layers") || "";
     } else {
       center = args.center || L.latLng(args.lat, args.lon);
-      zoom = args.zoom;
-      layers = args.layers || '';
+      zoom = Number(args.zoom);
+      layers = args.layers || "";
     }
 
-    center = center.wrap();
-    layers = layers.replace('M', '');
+    layers = layers.replace("M", "");
 
-    var precision = OSM.zoomPrecision(zoom),
-      hash = '#map=' + zoom +
-        '/' + center.lat.toFixed(precision) +
-        '/' + center.lng.toFixed(precision);
+    let hash = "#map=" + [zoom, ...OSM.cropLocation(center, zoom)].join("/");
 
     if (layers) {
-      hash += '&layers=' + layers;
+      hash += "&layers=" + layers;
     }
 
     // timeslider state: make sure we got a map, which has the Leaflet control, which in turn does have the underlying real control ready
@@ -238,35 +239,24 @@ OSM = {
       if (args.date) hash += '&date=' + args.date;
       if (args.daterange) hash += '&daterange=' + args.daterange;
     }
-
     return hash;
   },
 
-  zoomPrecision: function(zoom) {
-    var pixels = Math.pow(2, 8 + zoom);
-    var degrees = 180;
+  zoomPrecision: function (zoom) {
+    const pixels = Math.pow(2, 8 + zoom);
+    const degrees = 180;
     return Math.ceil(Math.log10(pixels / degrees));
   },
 
-  locationCookie: function(map) {
-    var center = map.getCenter().wrap(),
-      zoom = map.getZoom(),
-      precision = OSM.zoomPrecision(zoom);
-    return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, map.getLayersCode()].join('|');
+  cropLocation: function (latLng, zoom) {
+    const precision = OSM.zoomPrecision(zoom),
+      wrapped = latLng.wrap();
+    return [wrapped.lat, wrapped.lng].map(c => c.toFixed(precision));
   },
 
-  distance: function(latlng1, latlng2) {
-    var lat1 = latlng1.lat * Math.PI / 180,
-      lng1 = latlng1.lng * Math.PI / 180,
-      lat2 = latlng2.lat * Math.PI / 180,
-      lng2 = latlng2.lng * Math.PI / 180,
-      latdiff = lat2 - lat1,
-      lngdiff = lng2 - lng1;
-
-    return 6372795 * 2 * Math.asin(
-      Math.sqrt(
-        Math.pow(Math.sin(latdiff / 2), 2) +
-        Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
-      ));
+  locationCookie: function (map) {
+    const zoom = map.getZoom(),
+      center = OSM.cropLocation(map.getCenter(), zoom).reverse();
+    return [...center, zoom, map.getLayersCode()].join("|");
   }
 };

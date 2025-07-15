@@ -1,0 +1,84 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <div class='header-illustration new-user-terms'>
+    <h1><%= t ".heading" %></h1>
+  </div>
+<% end %>
+
+<%= form_tag account_terms_path, :method => :put do %>
+  <!-- legale is <%= @legale %> -->
+  <p class="text-body-secondary"><%= t ".read and accept with tou" %></p>
+  <h4>
+    <%= t ".heading_ct" %>
+  </h4>
+  <p class="text-body-secondary"><%= t ".contributor_terms_explain" %></p>
+  <label class="form-label">
+    <%= t ".legale_select" %>
+  </label>
+  <div class="mb-3">
+    <% [%w[france FR], %w[italy IT], %w[rest_of_world GB]].each do |name, legale| %>
+      <div class="form-check form-check-inline">
+        <%= radio_button_tag "legale", legale, @legale == legale, :data => { :url => url_for(:legale => legale) }, :class => "form-check-input" %>
+        <label for="legale_<%= legale %>" class="form-check-label">
+          <%= t(".legale_names.#{name}") %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="contributorTerms" class="legale border border-secondary-subtle rounded">
+    <%= render :partial => "terms" %>
+  </div>
+
+  <div>
+    <p id="contributorGuidance" class="text-body-secondary">
+      <%= t ".guidance_info_html",
+            :readable_summary_link => link_to(t(".readable_summary"),
+                                              "https://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary"),
+            :informal_translations_link => link_to(t(".informal_translations"),
+                                                   "https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations") %>
+    </p>
+  </div>
+  <div class="mb-3">
+    <div class="form-check">
+      <%= check_box_tag "read_ct", "1", false, :class => "form-check-input" %>
+      <label for="read_ct" class="form-check-label">
+        <%= t ".read_ct" %>
+      </label>
+    </div>
+  </div>
+
+  <h4>
+    <%= t "layouts.tou" %>
+  </h4>
+  <p class="text-body-secondary"><%= t ".tou_explain_html", :tou_link => link_to(t("layouts.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
+
+  <div class="mb-3">
+    <div class="form-check">
+      <%= check_box_tag "read_tou", "1", false, :class => "form-check-input" %>
+      <label for="read_tou" class="form-check-label">
+        <%= t ".read_tou" %>
+      </label>
+    </div>
+  </div>
+
+  <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
+
+  <div class="mb-3">
+    <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :disabled => true, :class => "btn btn-primary") %>
+    <%= submit_tag(t(".cancel"), :name => "decline", :id => "decline", :class => "btn btn-outline-secondary") %>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-check">
+      <%= check_box("user", "consider_pd", :class => "form-check-input") %>
+      <label for="user_consider_pd" class="form-check-label">
+        <%= t ".consider_pd" %>
+      </label>
+      <span class="minorNote">(<%= link_to(t(".consider_pd_why"), t(".consider_pd_why_url"), :target => :new) %>)</span>
+    </div>
+<% end %>

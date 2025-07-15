@@ -13,7 +13,7 @@ class UserMutingTest < ApplicationSystemTestCase
     click_on "Mute this User"
     assert_content "You muted #{other_user.display_name}"
 
-    visit edit_account_path
+    visit account_path
     assert_content "Muted Users"
     click_on "Muted Users"
     assert_content "You have muted 1 User"
@@ -21,7 +21,7 @@ class UserMutingTest < ApplicationSystemTestCase
 
     assert_content "You unmuted #{other_user.display_name}"
     refute_content "Muted Users"
-    assert_current_path edit_account_path
+    assert_current_path account_path
   end
 
   test "messages sent by muted users are set `muted` and do not cause notification emails" do

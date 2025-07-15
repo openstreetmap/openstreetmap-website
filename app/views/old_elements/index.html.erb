@@ -1,0 +1,18 @@
+<% set_title(t(".#{@type}.title_html", :name => printable_element_name(@feature))) %>
+
+<%= render "sidebar_header", :title => t(".#{@type}.title_html", :name => printable_element_name(@feature)) %>
+
+<%= render :partial => "browse/#{@type}", :collection => @feature.send(:"old_#{@type}s").reverse %>
+
+<div class='secondary-actions'>
+  <%= link_to t("browse.download_xml"), send(:"api_#{@type}_versions_path", @feature.id) %>
+  &middot;
+  <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
+  <% if params[:show_redactions] %>
+    &middot;
+    <%= link_to t("browse.view_history") %>
+  <% elsif current_user&.moderator? %>
+    &middot;
+    <%= link_to t("browse.view_unredacted_history"), :params => { :show_redactions => true } %>
+  <% end %>
+</div>

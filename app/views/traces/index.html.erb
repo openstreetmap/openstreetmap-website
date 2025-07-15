@@ -16,8 +16,8 @@
 
   <div class="d-flex flex-column flex-md-row-reverse align-items-md-end">
     <div class="pb-1 ps-1 d-flex flex-wrap flex-shrink-0 gap-1 justify-content-end">
-      <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] },
-                  { :class => "btn btn-secondary btn-sm" }) do %>
+      <%= link_to traces_feed_path(:display_name => @target_user&.display_name, :tag => params[:tag]),
+                  :class => "btn btn-secondary btn-sm" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="align-text-bottom">
           <circle cx="2" cy="14" r="2" fill="white" />
           <path d="M 8 14 a 6 6 0 0 0 -6 -6 M 14 14 a 12 12 0 0 0 -12 -12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" />
@@ -56,7 +56,8 @@
             </li>
           <% end %>
           <li class="nav-item">
-            <%= link_to t(".traces_from", :user => @target_user&.display_name), { :controller => "traces", :action => "index", :display_name => @target_user&.display_name }, { :class => "nav-link active" } %>
+            <%= link_to t(".traces_from_html", :user => tag.span(@target_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
+                        { :controller => "traces", :action => "index", :display_name => @target_user.display_name }, { :class => "nav-link active" } %>
           </li>
         <% end %>
       </ul>
@@ -65,7 +66,7 @@
 <% end %>
 
 <% content_for :auto_discovery_link_tag do %>
-  <%= auto_discovery_link_tag :rss, :action => "georss", :display_name => @target_user&.display_name, :tag => params[:tag] %>
+  <%= auto_discovery_link_tag :rss, traces_feed_path(:display_name => @target_user&.display_name, :tag => params[:tag]) %>
 <% end %>
 
 <% if @traces.size > 0 %>

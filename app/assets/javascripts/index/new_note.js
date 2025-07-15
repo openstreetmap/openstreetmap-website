@@ -1,30 +1,11 @@
-//= require qs/dist/qs
-
 OSM.NewNote = function (map) {
-  var noteLayer = map.noteLayer,
-      content = $("#sidebar_content"),
-      page = {},
-      addNoteButton = $(".control-note .control-button"),
-      newNote,
-      halo;
-
-  var noteIcons = {
-    "new": L.icon({
-      iconUrl: OSM.NEW_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "open": L.icon({
-      iconUrl: OSM.OPEN_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    }),
-    "closed": L.icon({
-      iconUrl: OSM.CLOSED_NOTE_MARKER,
-      iconSize: [25, 40],
-      iconAnchor: [12, 40]
-    })
-  };
+  const noteLayer = map.noteLayer,
+    content = $("#sidebar_content"),
+    page = {},
+    control = $(".control-note"),
+    addNoteButton = control.find(".control-button");
+  let newNoteMarker,
+    halo;
 
   addNoteButton.on("click", function (e) {
     e.preventDefault();
@@ -35,47 +16,91 @@ OSM.NewNote = function (map) {
     OSM.router.route("/note/new");
   });
 
-  function createNote(marker, form, url) {
-    var location = marker.getLatLng().wrap();
-
-    marker.options.draggable = false;
-    marker.dragging.disable();
-
-    $(form).find("input[type=submit]").prop("disabled", true);
-
-    $.ajax({
-      url: url,
-      type: "POST",
-      oauth: true,
-      data: {
+  function createNote(location, text, callback) {
+    fetch("/api/0.6/notes.json", {
+      method: "POST",
+      headers: { ...OSM.oauth },
+      body: new URLSearchParams({
         lat: location.lat,
         lon: location.lng,
-        text: $(form.text).val()
-      },
-      success: function (feature) {
-        noteCreated(feature, marker);
-      }
-    });
-
-    function noteCreated(feature, marker) {
-      content.find("textarea").val("");
-      updateMarker(feature);
-      newNote = null;
-      noteLayer.removeLayer(marker);
-      addNoteButton.removeClass("active");
-      OSM.router.route("/note/" + feature.properties.id);
-    }
+        text
+      })
+    })
+      .then(response => response.json())
+      .then(callback);
   }
 
-  function updateMarker(feature) {
-    var marker = L.marker(feature.geometry.coordinates.reverse(), {
-      icon: noteIcons[feature.properties.status],
+  function addCreatedNoteMarker(feature) {
+    const marker = L.marker(feature.geometry.coordinates.reverse(), {
+      icon: OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }),
       opacity: 0.9,
       interactive: true
     });
     marker.id = feature.properties.id;
     marker.addTo(noteLayer);
-    return marker;
+  }
+
+  function addHalo(latlng) {
+    if (halo) map.removeLayer(halo);
+
+    halo = L.circleMarker(latlng, {
+      weight: 2.5,
+      radius: 20,
+      fillOpacity: 0.5,
+      color: "#FF6200"
+    });
+
+    map.addLayer(halo);
+  }
+
+  function removeHalo() {
+    if (halo) map.removeLayer(halo);
+    halo = null;
+  }
+
+  function addNewNoteMarker(latlng) {
+    if (newNoteMarker) map.removeLayer(newNoteMarker);
+
+    newNoteMarker = L.marker(latlng, {
+      icon: OSM.getMarker({ icon: "NEW_NOTE_MARKER", shadow: false, height: 40 }),
+      opacity: 0.9,
+      draggable: true
+    });
+
+    newNoteMarker.on("dragstart dragend", function (a) {
+      removeHalo();
+      if (a.type === "dragend") {
+        addHalo(newNoteMarker.getLatLng());
+      }
+    });
+
+    newNoteMarker.addTo(map);
+    addHalo(newNoteMarker.getLatLng());
+
+    newNoteMarker.on("dragend", function () {
+      content.find("textarea").trigger("focus");
+    });
+  }
+
+  function removeNewNoteMarker() {
+    removeHalo();
+    if (newNoteMarker) map.removeLayer(newNoteMarker);
+    newNoteMarker = null;
+  }
+
+  function moveNewNoteMarkerToClick(e) {
+    if (newNoteMarker) newNoteMarker.setLatLng(e.latlng);
+    if (halo) halo.setLatLng(e.latlng);
+    content.find("textarea").trigger("focus");
+  }
+
+  function updateControls() {
+    const zoomedOut = addNoteButton.hasClass("disabled");
+    const withoutText = content.find("textarea").val() === "";
+
+    content.find("#new-note-zoom-warning").prop("hidden", !zoomedOut);
+    content.find("input[type=submit]").prop("disabled", zoomedOut || withoutText);
+    if (newNoteMarker) newNoteMarker.setOpacity(zoomedOut ? 0.5 : 0.9);
   }
 
   page.pushstate = page.popstate = function (path) {
@@ -84,98 +109,77 @@ OSM.NewNote = function (map) {
     });
   };
 
-  function newHalo(loc, a) {
-    var hasHalo = halo && map.hasLayer(halo);
-
-    if (a === "dragstart" && hasHalo) {
-      map.removeLayer(halo);
-    } else {
-      if (hasHalo) map.removeLayer(halo);
-
-      halo = L.circleMarker(loc, {
-        weight: 2.5,
-        radius: 20,
-        fillOpacity: 0.5,
-        color: "#FF6200"
-      });
-
-      map.addLayer(halo);
-    }
-  }
-
   page.load = function (path) {
     // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
     // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
     function originalLoadFunction () {
-    if (addNoteButton.hasClass("disabled")) return;
-    if (addNoteButton.hasClass("active")) return;
+      control.addClass("active");
 
-    addNoteButton.addClass("active");
+      map.addLayer(noteLayer);
 
-    map.addLayer(noteLayer);
+      const params = new URLSearchParams(path.substring(path.indexOf("?")));
+      let markerLatlng;
 
-    var markerLatlng;
+      if (params.has("lat") && params.has("lon")) {
+        markerLatlng = L.latLng(params.get("lat"), params.get("lon"));
+      } else {
+        markerLatlng = map.getCenter();
+      }
 
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
-    if (params.lat && params.lon) {
-      markerLatlng = L.latLng(params.lat, params.lon);
-    } else {
-      markerLatlng = map.getCenter();
-    }
+      map.panInside(markerLatlng, {
+        padding: [50, 50]
+      });
 
-    map.panInside(markerLatlng, {
-      padding: [50, 50]
-    });
+      addNewNoteMarker(markerLatlng);
 
-    newNote = L.marker(markerLatlng, {
-      icon: noteIcons.new,
-      opacity: 0.9,
-      draggable: true
-    });
+      content.find("textarea")
+        .on("input", updateControls)
+        .attr("readonly", "readonly") // avoid virtual keyboard popping up on focus
+        .trigger("focus")
+        .removeAttr("readonly");
 
-    newNote.on("dragstart dragend", function (a) {
-      newHalo(newNote.getLatLng(), a.type);
-    });
+      content.find("input[type=submit]").on("click", function (e) {
+        const location = newNoteMarker.getLatLng().wrap();
+        const text = content.find("textarea").val();
 
-    newNote.addTo(noteLayer);
-    newHalo(newNote.getLatLng());
+        e.preventDefault();
+        $(this).prop("disabled", true);
+        newNoteMarker.options.draggable = false;
+        newNoteMarker.dragging.disable();
 
-    newNote.on("remove", function () {
-      addNoteButton.removeClass("active");
-    }).on("dragend", function () {
-      content.find("textarea").focus();
-    });
+        createNote(location, text, (feature) => {
+          if (typeof OSM.user === "undefined") {
+            const anonymousNotesCount = Number(Cookies.get("_osm_anonymous_notes_count")) || 0;
+            Cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { secure: true, expires: 30, path: "/", samesite: "lax" });
+          }
+          content.find("textarea").val("");
+          addCreatedNoteMarker(feature);
+          OSM.router.route("/note/" + feature.properties.id);
+        });
+      });
 
-    content.find("textarea")
-      .on("input", disableWhenBlank)
-      .focus();
+      map.on("click", moveNewNoteMarkerToClick);
+      addNoteButton.on("disabled enabled", updateControls);
+      updateControls();
 
-    function disableWhenBlank(e) {
-      $(e.target.form.add).prop("disabled", $(e.target).val() === "");
-    }
-
-    content.find("input[type=submit]").on("click", function (e) {
-      e.preventDefault();
-      createNote(newNote, e.target.form, "/api/0.6/notes.json");
-    });
-
-    return map.getState();
-    }  // end originalLoadFunction
+      return map.getState();
+    } // end originalLoadFunction
 
     // "if map.timeslider" only try to add the timeslider if we don't already have it
     if (map.timeslider) {
       originalLoadFunction();
     }
     else {
-      var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+      const params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
       addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
     }
   };
 
   page.unload = function () {
-    if (newNote) noteLayer.removeLayer(newNote);
-    if (halo) map.removeLayer(halo);
-    addNoteButton.removeClass("active");
+    map.off("click", moveNewNoteMarkerToClick);
+    addNoteButton.off("disabled enabled", updateControls);
+    removeNewNoteMarker();
+    control.removeClass("active");
   };
 
   return page;

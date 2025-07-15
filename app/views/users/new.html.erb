@@ -78,21 +78,13 @@
                                                  :contributor_terms_link => link_to(t(".by_signing_up.contributor_terms"),
                                                                                     t(".by_signing_up.contributor_terms_url"),
                                                                                     :target => :new)) %></p>
-  <%= f.form_group do %>
-    <%= f.check_box :consider_pd,
-                    :tabindex => 5,
-                    :label => t(".consider_pd_html",
-                                :consider_pd_link => link_to(t(".consider_pd"),
-                                                             t(".consider_pd_url"),
-                                                             :target => :new)) %>
-  <% end %>
 
   <div class="mb-3">
-    <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary", :tabindex => 6) %>
+    <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary", :tabindex => 5) %>
   </div>
 <% end %>
 
-<% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? %>
+<% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? and !Auth.providers.empty? %>
   <%= render :partial => "shared/section_divider", :locals => { :text => t(".use external auth") } %>
   <%= render :partial => "auth_providers" %>
 <% end %>

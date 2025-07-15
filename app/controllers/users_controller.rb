@@ -2,12 +2,10 @@ class UsersController < ApplicationController
   include EmailMethods
   include SessionMethods
   include UserMethods
-  include PaginationMethods
 
   layout "site"
 
   skip_before_action :verify_authenticity_token, :only => [:auth_success]
-  before_action :disable_terms_redirect, :only => [:terms, :save]
   before_action :authorize_web
   before_action :set_locale
   before_action :check_database_readable
@@ -16,43 +14,16 @@ class UsersController < ApplicationController
 
   before_action :check_database_writable, :only => [:new, :go_public]
   before_action :require_cookies, :only => [:new]
-  before_action :lookup_user_by_name, :only => [:set_status, :destroy]
 
   allow_thirdparty_images :only => :show
   allow_social_login :only => :new
 
-  ##
-  # display a list of users matching specified criteria
-  def index
-    if request.post?
-      ids = params[:user].keys.collect(&:to_i)
-
-      User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
-      User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
-
-      redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
-    else
-      @params = params.permit(:status, :ip, :before, :after)
-
-      users = User.all
-      users = users.where(:status => @params[:status]) if @params[:status]
-      users = users.where(:creation_address => @params[:ip]) if @params[:ip]
-
-      @users_count = users.limit(501).count
-      @users_count = I18n.t("count.at_least_pattern", :count => 500) if @users_count > 500
-
-      @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
-
-      render :partial => "page" if turbo_frame_request_id == "pagination"
-    end
-  end
-
   def show
     @user = User.find_by(:display_name => params[:display_name])
 
-    if @user &&
-       (@user.visible? || current_user&.administrator?)
+    if @user && (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
+      @heatmap_frame = true
     else
       render_unknown_user params[:display_name]
     end
@@ -104,66 +75,25 @@ class UsersController < ApplicationController
         render :action => "new"
       else
         # Save the user record
-        save_new_user params[:email_hmac], params[:referer]
+        if save_new_user params[:email_hmac]
+          SIGNUP_IP_LIMITER&.update(request.remote_ip)
+          SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
+
+          flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
+
+          referer = welcome_path(welcome_options(params[:referer]))
+
+          if current_user.status == "active"
+            successful_login(current_user, referer)
+          else
+            session[:pending_user] = current_user.id
+            UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
+            redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
+          end
+        else
+          render :action => "new", :referer => params[:referer]
+        end
       end
-    end
-  end
-
-  ##
-  # destroy a user, marking them as deleted and removing personal data
-  def destroy
-    @user.soft_destroy!
-    redirect_to user_path(:display_name => params[:display_name])
-  end
-
-  def terms
-    @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || Settings.default_legale
-    @text = OSM.legal_text_for_country(@legale)
-
-    if request.xhr?
-      render :partial => "terms"
-    else
-      @title = t ".title"
-
-      if current_user&.terms_agreed?
-        # Already agreed to terms, so just show settings
-        redirect_to edit_account_path
-      elsif current_user.nil?
-        redirect_to login_path(:referer => request.fullpath)
-      end
-    end
-  end
-
-  def save
-    @title = t "users.new.title"
-
-    if params[:decline] || !(params[:read_tou] && params[:read_ct])
-      if current_user
-        current_user.terms_seen = true
-
-        flash[:notice] = { :partial => "users/terms_declined_flash" } if current_user.save
-
-        referer = safe_referer(params[:referer]) if params[:referer]
-
-        redirect_to referer || edit_account_path
-      elsif params[:decline]
-        redirect_to t("users.terms.declined"), :allow_other_host => true
-      else
-        redirect_to :action => :terms
-      end
-    elsif current_user
-      unless current_user.terms_agreed?
-        current_user.consider_pd = params[:user][:consider_pd]
-        current_user.tou_agreed = Time.now.utc
-        current_user.terms_agreed = Time.now.utc
-        current_user.terms_seen = true
-
-        flash[:notice] = t "users.new.terms accepted" if current_user.save
-      end
-
-      referer = safe_referer(params[:referer]) if params[:referer]
-
-      redirect_to referer || edit_account_path
     end
   end
 
@@ -171,19 +101,7 @@ class UsersController < ApplicationController
     current_user.data_public = true
     current_user.save
     flash[:notice] = t ".flash success"
-    redirect_to edit_account_path
-  end
-
-  ##
-  # sets a user's status
-  def set_status
-    @user.activate! if params[:event] == "activate"
-    @user.confirm! if params[:event] == "confirm"
-    @user.unconfirm! if params[:event] == "unconfirm"
-    @user.hide! if params[:event] == "hide"
-    @user.unhide! if params[:event] == "unhide"
-    @user.unsuspend! if params[:event] == "unsuspend"
-    redirect_to user_path(:display_name => params[:display_name])
+    redirect_to account_path
   end
 
   ##
@@ -198,9 +116,6 @@ class UsersController < ApplicationController
     email = auth_info[:info][:email]
 
     email_verified = case provider
-                     when "openid"
-                       uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
-                       uid.match(%r{https://me.yahoo.com/(.*)})
                      when "google", "facebook", "microsoft", "github", "wikipedia", "openstreetmap"
                        true
                      else
@@ -217,7 +132,7 @@ class UsersController < ApplicationController
 
       session[:user_errors] = current_user.errors.as_json
 
-      redirect_to edit_account_path
+      redirect_to account_path
     else
       user = User.find_by(:auth_provider => provider, :auth_uid => uid)
 
@@ -265,11 +180,15 @@ class UsersController < ApplicationController
 
   private
 
-  def save_new_user(email_hmac, referer = nil)
+  def save_new_user(email_hmac)
     current_user.data_public = true
     current_user.description = "" if current_user.description.nil?
     current_user.creation_address = request.remote_ip
-    current_user.languages = http_accept_language.user_preferred_languages
+    current_user.languages = if request.cookies["_osm_locale"]
+                               Locale.list(request.cookies["_osm_locale"])
+                             else
+                               http_accept_language.user_preferred_languages
+                             end
     current_user.terms_agreed = Time.now.utc
     current_user.tou_agreed = Time.now.utc
     current_user.terms_seen = true
@@ -281,24 +200,7 @@ class UsersController < ApplicationController
       current_user.activate
     end
 
-    if current_user.save
-      SIGNUP_IP_LIMITER&.update(request.remote_ip)
-      SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
-
-      flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
-
-      referer = welcome_path(welcome_options(referer))
-
-      if current_user.status == "active"
-        successful_login(current_user, referer)
-      else
-        session[:pending_user] = current_user.id
-        UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
-        redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
-      end
-    else
-      render :action => "new", :referer => params[:referer]
-    end
+    current_user.save
   end
 
   def welcome_options(referer = nil)
@@ -317,20 +219,11 @@ class UsersController < ApplicationController
   end
 
   ##
-  # ensure that there is a "user" instance variable
-  def lookup_user_by_name
-    @user = User.find_by(:display_name => params[:display_name])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :action => "view", :display_name => params[:display_name] unless @user
-  end
-
-  ##
   # return permitted user parameters
   def user_params
-    params.require(:user).permit(:email, :display_name,
-                                 :auth_provider, :auth_uid,
-                                 :pass_crypt, :pass_crypt_confirmation,
-                                 :consider_pd)
+    params.expect(:user => [:email, :display_name,
+                            :auth_provider, :auth_uid,
+                            :pass_crypt, :pass_crypt_confirmation])
   end
 
   ##

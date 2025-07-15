@@ -15,7 +15,7 @@
     </div>
     <div class="mb-3 col-md-auto">
       <%= select_tag :issue_type,
-                     options_for_select(@issue_types, params[:issue_type]),
+                     options_for_select(@issue_types.map { |issue_type| [issue_type.constantize.model_name.human, issue_type] }, params[:issue_type]),
                      :include_blank => t(".select_type"),
                      :data => { :behavior => "category_dropdown" },
                      :class => "form-select" %>
@@ -29,8 +29,8 @@
     </div>
     <div class="mb-3 col-md-auto">
       <%= select_tag :last_updated_by,
-                     options_for_select(@users.all.collect { |f| [f.display_name, f.id] } << [t(".not_updated"), "nil"], params[:last_updated_by]),
-                     :include_blank => t(".select_last_updated_by"),
+                     options_for_select(@users.all.collect { |f| [f.display_name, f.id] } << [t(".not_managed"), "nil"], params[:last_updated_by]),
+                     :include_blank => t(".select_last_managed_by"),
                      :data => { :behavior => "category_dropdown" },
                      :class => "form-select" %>
     </div>

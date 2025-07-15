@@ -18,7 +18,7 @@ class ExportControllerTest < ActionDispatch::IntegrationTest
   # test the finish action for raw OSM data
   def test_finish_osm
     post export_finish_path(:minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => 51, :format => "osm")
-    assert_redirected_to "controller" => "api/map", "action" => "index", "bbox" => "0.0,50.0,1.0,51.0"
+    assert_redirected_to api_map_path(:bbox => "0.0,50.0,1.0,51.0")
   end
 
   ###

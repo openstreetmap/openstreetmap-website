@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # Encodes and decodes locations from Morton-coded "quad tile" strings. Each
 # variable-length string encodes to a precision of one pixel per tile (roughly,
@@ -23,7 +25,7 @@ module ShortLink
       # keep support for old shortlinks which use the @ character, now
       # replaced by the ~ character because twitter is horribly broken
       # and we can't have that.
-      str.tr!("@", "~")
+      str = str.tr("@", "~")
 
       str.each_char do |c|
         t = ARRAY.index c
@@ -57,7 +59,7 @@ module ShortLink
     def encode(lon, lat, z)
       code = interleave_bits(((lon + 180.0) * (2**32) / 360.0).to_i,
                              ((lat + 90.0) * (2**32) / 180.0).to_i)
-      str = ""
+      str = +""
       # add eight to the zoom level, which approximates an accuracy of
       # one pixel in a tile.
       ((z + 8) / 3.0).ceil.times do |i|

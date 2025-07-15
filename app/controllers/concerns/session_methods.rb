@@ -17,10 +17,8 @@ module SessionMethods
 
   ##
   # return the URL to use for authentication
-  def auth_url(provider, uid, referer = nil)
+  def auth_url(provider, referer = nil)
     params = { :provider => provider }
-
-    params[:openid_url] = uid if provider == "openid"
 
     if referer.nil?
       params[:origin] = request.path
@@ -39,6 +37,8 @@ module SessionMethods
     session[:fingerprint] = user.fingerprint
     session_expires_after 28.days if session[:remember_me]
 
+    cookies.delete :_osm_anonymous_notes_count
+
     target = referer || url_for(:controller => :site, :action => :index)
 
     # The user is logged in, so decide where to send them:
@@ -48,7 +48,7 @@ module SessionMethods
     # - If they were referred to the login, send them back there.
     # - Otherwise, send them to the home page.
     if !user.terms_seen
-      redirect_to :controller => :users, :action => :terms, :referer => target
+      redirect_to account_terms_path(:referer => target)
     elsif user.blocked_on_view
       redirect_to user.blocked_on_view, :referer => target
     else
@@ -78,14 +78,5 @@ module SessionMethods
                 :display_name => user.display_name, :referer => referer
 
     session.delete(:remember_me)
-  end
-
-  ##
-  #
-  def disable_terms_redirect
-    # this is necessary otherwise going to the user terms page, when
-    # having not agreed already would cause an infinite redirect loop.
-    # it's .now so that this doesn't propagate to other pages.
-    flash.now[:skip_terms] = true
   end
 end

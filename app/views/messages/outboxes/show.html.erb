@@ -1,0 +1,13 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "messages" %>
+<% end %>
+
+<%= render :partial => "heading", :locals => { :active_link_path => messages_outbox_path } %>
+
+<h4><%= t ".messages", :count => current_user.sent_messages.size %></h4>
+
+<% if current_user.sent_messages.size > 0 %>
+  <%= render :partial => "messages_table", :locals => { :columns => %w[to subject date], :messages => current_user.sent_messages } %>
+<% else %>
+  <div class="messages"><%= t(".no_sent_messages_html", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), dashboard_path)) %></div>
+<% end %>

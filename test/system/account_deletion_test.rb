@@ -7,7 +7,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
   end
 
   test "the status is deleted and the personal data removed" do
-    visit edit_account_path
+    visit account_path
 
     click_on "Delete Account..."
     accept_confirm do
@@ -21,7 +21,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
   end
 
   test "the user is signed out after deletion" do
-    visit edit_account_path
+    visit account_path
 
     click_on "Delete Account..."
     accept_confirm do
@@ -32,7 +32,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
   end
 
   test "the user is shown a confirmation flash message" do
-    visit edit_account_path
+    visit account_path
 
     click_on "Delete Account..."
     accept_confirm do
@@ -45,7 +45,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "can delete with any delay setting value if the user has no changesets" do
     with_user_account_deletion_delay(10000) do
       travel 1.hour do
-        visit edit_account_path
+        visit account_path
 
         click_on "Delete Account..."
 
@@ -59,7 +59,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       create(:changeset, :user => @user)
 
       travel 1.hour do
-        visit edit_account_path
+        visit account_path
 
         click_on "Delete Account..."
 
@@ -73,7 +73,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       create(:changeset, :user => @user, :created_at => Time.now.utc, :closed_at => Time.now.utc + 1.hour)
 
       travel 12.hours do
-        visit edit_account_path
+        visit account_path
 
         click_on "Delete Account..."
 
@@ -87,7 +87,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       create(:changeset, :user => @user, :created_at => Time.now.utc, :closed_at => Time.now.utc + 1.hour)
 
       travel 10.hours do
-        visit edit_account_path
+        visit account_path
 
         click_on "Delete Account..."
 

@@ -40,9 +40,16 @@ class NotesController < ApplicationController
       @note = Note.visible.find(params[:id])
       @note_comments = @note.comments
     end
+
+    @note_includes_anonymous = @note.author.nil? || @note_comments.find { |comment| comment.author.nil? }
+
+    @note_comments = @note_comments.drop(1) if @note_comments.first&.event == "opened"
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end
 
-  def new; end
+  def new
+    @anonymous_notes_count = request.cookies["_osm_anonymous_notes_count"].to_i
+    render :action => :new_readonly if api_status != "online"
+  end
 end

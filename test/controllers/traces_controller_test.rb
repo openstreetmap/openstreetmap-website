@@ -31,23 +31,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/traces/rss", :method => :get },
-      { :controller => "traces", :action => "georss", :format => :rss }
-    )
-    assert_routing(
-      { :path => "/traces/tag/tagname/rss", :method => :get },
-      { :controller => "traces", :action => "georss", :tag => "tagname", :format => :rss }
-    )
-    assert_routing(
-      { :path => "/user/username/traces/rss", :method => :get },
-      { :controller => "traces", :action => "georss", :display_name => "username", :format => :rss }
-    )
-    assert_routing(
-      { :path => "/user/username/traces/tag/tagname/rss", :method => :get },
-      { :controller => "traces", :action => "georss", :display_name => "username", :tag => "tagname", :format => :rss }
-    )
-
-    assert_routing(
       { :path => "/user/username/traces/1", :method => :get },
       { :controller => "traces", :action => "show", :display_name => "username", :id => "1" }
     )
@@ -59,14 +42,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_routing(
       { :path => "/traces", :method => :post },
       { :controller => "traces", :action => "create" }
-    )
-    assert_routing(
-      { :path => "/trace/1/data", :method => :get },
-      { :controller => "traces", :action => "data", :id => "1" }
-    )
-    assert_routing(
-      { :path => "/trace/1/data.xml", :method => :get },
-      { :controller => "traces", :action => "data", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/traces/1/edit", :method => :get },
@@ -333,61 +308,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  # Check the RSS feed
-  def test_rss
-    user = create(:user)
-    # The fourth test below is surprisingly sensitive to timestamp ordering when the timestamps are equal.
-    trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
-      create(:tracetag, :trace => trace, :tag => "London")
-    end
-    trace_b = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago) do |trace|
-      create(:tracetag, :trace => trace, :tag => "Birmingham")
-    end
-    create(:trace, :visibility => "private", :user => user, :timestamp => 2.seconds.ago) do |trace|
-      create(:tracetag, :trace => trace, :tag => "London")
-    end
-    create(:trace, :visibility => "private", :user => user, :timestamp => 1.second.ago) do |trace|
-      create(:tracetag, :trace => trace, :tag => "Birmingham")
-    end
-
-    # First with the public feed
-    get traces_rss_path
-    check_trace_feed [trace_b, trace_a]
-
-    # Restrict traces to those with a given tag
-    get traces_rss_path(:tag => "London")
-    check_trace_feed [trace_a]
-  end
-
-  # Check the RSS feed for a specific user
-  def test_rss_user
-    user = create(:user)
-    second_user = create(:user)
-    create(:user)
-    create(:trace)
-    trace_b = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago, :user => user)
-    trace_c = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago, :user => user) do |trace|
-      create(:tracetag, :trace => trace, :tag => "London")
-    end
-    create(:trace, :visibility => "private")
-
-    # Test a user with no traces
-    get traces_rss_path(:display_name => second_user.display_name)
-    check_trace_feed []
-
-    # Test the user with the traces - should see only public ones
-    get traces_rss_path(:display_name => user.display_name)
-    check_trace_feed [trace_c, trace_b]
-
-    # Should only see traces with the correct tag when a tag is specified
-    get traces_rss_path(:display_name => user.display_name, :tag => "London")
-    check_trace_feed [trace_c]
-
-    # Should no traces if the user does not exist
-    get traces_rss_path(:display_name => "UnknownUser")
-    check_trace_feed []
-  end
-
   # Test showing a trace
   def test_show
     public_trace_file = create(:trace, :visibility => "public")
@@ -438,85 +358,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     session_for(deleted_trace_file.user)
     get show_trace_path(deleted_trace_file.user, deleted_trace_file)
     assert_redirected_to :action => :index
-  end
-
-  # Test downloading a trace
-  def test_data
-    public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
-
-    # First with no auth, which should work since the trace is public
-    get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-
-    # Now with some other user, which should work since the trace is public
-    session_for(create(:user))
-    get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(public_trace_file.user)
-    get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
-  end
-
-  # Test downloading a compressed trace
-  def test_data_compressed
-    identifiable_trace_file = create(:trace, :visibility => "identifiable", :fixture => "d")
-
-    # First get the data as is
-    get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/gzip", "gpx.gz"
-
-    # Now ask explicitly for XML format
-    get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "xml")
-    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
-
-    # Now ask explicitly for GPX format
-    get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "gpx")
-    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
-  end
-
-  # Check an anonymous trace can't be downloaded by another user
-  def test_data_anon
-    anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
-
-    # First with no auth
-    get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :not_found
-
-    # Now with some other user, which shouldn't work since the trace is anon
-    session_for(create(:user))
-    get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :not_found
-
-    # And finally we should be able to do it with the owner of the trace
-    session_for(anon_trace_file.user)
-    get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    follow_redirect!
-    follow_redirect!
-    check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
-  end
-
-  # Test downloading a trace that doesn't exist
-  def test_data_not_found
-    deleted_trace_file = create(:trace, :deleted)
-
-    # First with a trace that has never existed
-    get trace_data_path(:display_name => create(:user).display_name, :id => 0)
-    assert_response :not_found
-
-    # Now with a trace that has been deleted
-    session_for(deleted_trace_file.user)
-    get trace_data_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
-    assert_response :not_found
   end
 
   # Test fetching the new trace page
@@ -721,34 +562,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   private
 
-  def check_trace_feed(traces)
-    assert_response :success
-    assert_template "georss"
-    assert_equal "application/rss+xml", @response.media_type
-    assert_select "rss", :count => 1 do
-      assert_select "channel", :count => 1 do
-        assert_select "title"
-        assert_select "description"
-        assert_select "link"
-        assert_select "image"
-        assert_select "item", :count => traces.length do |items|
-          traces.zip(items).each do |trace, item|
-            assert_select item, "title", trace.name
-            assert_select item, "link", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
-            assert_select item, "guid", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
-            assert_select item, "description" do
-              assert_dom_encoded do
-                assert_select "img[src='#{trace_icon_url trace.user, trace}']"
-              end
-            end
-            # assert_select item, "dc:creator", trace.user.display_name
-            assert_select item, "pubDate", trace.timestamp.rfc822
-          end
-        end
-      end
-    end
-  end
-
   def check_trace_index(traces)
     assert_response :success
     assert_template "index"
@@ -779,11 +592,5 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       assert_select "td a[href='#{user_path trace.user}']", :text => trace.user.display_name
       assert_select "td", trace.description
     end
-  end
-
-  def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
-    assert_equal digest, Digest::MD5.hexdigest(response.body)
-    assert_equal content_type, response.media_type
-    assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
   end
 end

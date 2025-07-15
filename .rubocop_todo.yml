@@ -6,26 +6,21 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Work around erblint issues.
-# https://github.com/openstreetmap/openstreetmap-website/issues/2472
-require:
-  - rubocop-minitest
-  - rubocop-performance
-  - rubocop-rails
-  - rubocop-rake
-
 # Offense count: 13
 # Configuration parameters: Include, MaxAmount.
 # Include: **/*_spec.rb, **/spec/**/*, **/test/**/*, **/features/support/factories/**/*.rb
 FactoryBot/ExcessiveCreateList:
   Exclude:
     - 'test/controllers/api/changeset_comments_controller_test.rb'
-    - 'test/controllers/api/messages_controller_test.rb'
+    - 'test/controllers/api/messages/inboxes_controller_test.rb'
+    - 'test/controllers/api/messages/outboxes_controller_test.rb'
     - 'test/controllers/changesets_controller_test.rb'
     - 'test/controllers/diary_entries_controller_test.rb'
     - 'test/controllers/notes_controller_test.rb'
     - 'test/controllers/traces_controller_test.rb'
     - 'test/controllers/user_blocks_controller_test.rb'
+    - 'test/controllers/users/issued_blocks_controller_test.rb'
+    - 'test/controllers/users/received_blocks_controller_test.rb'
     - 'test/system/users_test.rb'
 
 # Offense count: 635
@@ -43,13 +38,11 @@ Lint/AssignmentInCondition:
     - 'app/controllers/accounts_controller.rb'
     - 'app/controllers/api/traces_controller.rb'
     - 'app/controllers/api/user_preferences_controller.rb'
-    - 'app/controllers/geocoder_controller.rb'
     - 'app/controllers/traces_controller.rb'
     - 'app/controllers/users_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/browse_tags_helper.rb'
     - 'app/mailers/user_mailer.rb'
-    - 'app/models/client_application.rb'
     - 'lib/nominatim.rb'
     - 'lib/osm.rb'
     - 'script/deliver-message'
@@ -73,7 +66,7 @@ Metrics/BlockNesting:
 # Offense count: 26
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 309
+  Max: 333
 
 # Offense count: 58
 # Configuration parameters: AllowedMethods, AllowedPatterns.
@@ -104,20 +97,6 @@ Minitest/EmptyLineBeforeAssertionMethods:
 Minitest/MultipleAssertions:
   Max: 60
 
-# Offense count: 10
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Rails/ActionControllerFlashBeforeRender:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/confirmations_controller.rb'
-    - 'app/controllers/friendships_controller.rb'
-    - 'app/controllers/issue_comments_controller.rb'
-    - 'app/controllers/messages_controller.rb'
-    - 'app/controllers/passwords_controller.rb'
-    - 'app/controllers/traces_controller.rb'
-    - 'app/controllers/user_blocks_controller.rb'
-    - 'app/controllers/users_controller.rb'
-
 # Offense count: 2
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
@@ -140,7 +119,6 @@ Rails/InverseOf:
   Exclude:
     - 'app/models/changeset.rb'
     - 'app/models/diary_entry.rb'
-    - 'app/models/friendship.rb'
     - 'app/models/issue.rb'
     - 'app/models/message.rb'
     - 'app/models/note.rb'
@@ -169,6 +147,7 @@ Rails/NotNullColumn:
 Rails/OutputSafety:
   Exclude:
     - 'app/helpers/application_helper.rb'
+    - 'app/helpers/user_mailer_helper.rb'
     - 'lib/rich_text.rb'
     - 'test/helpers/application_helper_test.rb'
 
@@ -187,7 +166,6 @@ Rails/ThreeStateBooleanColumn:
 # This cop supports safe autocorrection (--autocorrect).
 Rake/Desc:
   Exclude:
-    - 'lib/tasks/auto_annotate_models.rake'
     - 'lib/tasks/eslint.rake'
     - 'lib/tasks/subscribe_diary_authors.rake'
     - 'lib/tasks/subscribe_old_changesets.rake'

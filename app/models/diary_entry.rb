@@ -2,8 +2,8 @@
 #
 # Table name: diary_entries
 #
-#  id            :bigint(8)        not null, primary key
-#  user_id       :bigint(8)        not null
+#  id            :bigint           not null, primary key
+#  user_id       :bigint           not null
 #  title         :string           not null
 #  body          :text             not null
 #  created_at    :datetime         not null
@@ -38,7 +38,7 @@ class DiaryEntry < ApplicationRecord
   scope :visible, -> { where(:visible => true) }
 
   validates :title, :presence => true, :length => 1..255, :characters => true
-  validates :body, :presence => true, :characters => true
+  validates :body, :presence => true, :characters => true, :length => 1..262144
   validates :latitude, :allow_nil => true,
                        :numericality => { :greater_than_or_equal_to => -90,
                                           :less_than_or_equal_to => 90 }
