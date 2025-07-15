@@ -62,7 +62,7 @@ L.OSM.Map = L.Map.extend({
       // https://github.com/mapbox/mapbox-gl-language/issues/4
       selectedLanguage = selectedLanguage.split("-")[0];
     }
-    console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
+    // console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
     language.supportedLanguages.push(selectedLanguage);
 
     this.baseLayers.unshift(new L.MaplibreGL(

@@ -56,6 +56,9 @@ OSM = {
   },
 
   mapParams: function (search) {
+    // any params not handed back in parseHash() will be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immediately on page load
+    // so keep the three in sync
     const params = new URLSearchParams(search || location.search),
       geoURI = OSM.parseGeoURI(params.get("geouri")),
       mapParams = {};
@@ -80,8 +83,7 @@ OSM = {
       }
     }
 
-    const hash = OSM.parseHash();
-
+    const hash = OSM.parseHash(location.hash);
     const loc = Cookies.get("_osm_location")?.split("|");
 
     function bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat }) {
@@ -145,7 +147,6 @@ OSM = {
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
     }
-
     return mapParams;
   },
 
@@ -173,6 +174,9 @@ OSM = {
   },
 
   parseHash: function (hash = location.hash) {
+    // any params not handed back in parseHash() will be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immediately on page load
+    // so keep the three in sync
     const i = hash.indexOf("#");
     if (i < 0) return {};
 
@@ -195,8 +199,8 @@ OSM = {
     }
 
     // timeslider state
-    if (hash.date) args.date = hash.date;
-    if (hash.daterange) args.daterange = hash.daterange;
+    if (hashParams.has("date")) args.date = hashParams.get("date");
+    if (hashParams.has("daterange")) args.daterange = hashParams.get("daterange");
 
     return args;
   },
@@ -235,7 +239,6 @@ OSM = {
       if (args.date) hash += '&date=' + args.date;
       if (args.daterange) hash += '&daterange=' + args.daterange;
     }
-
     return hash;
   },
 
