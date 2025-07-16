@@ -14,6 +14,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const idContext = iD.coreContext();
     idContext.connection().apiConnections([]);
     const url = location.protocol + "//" + location.host;
+
+    // Access user preferences from server-side rendered data
+    const userPreferences = container.dataset.userPreferences ?
+      JSON.parse(container.dataset.userPreferences) : {};
+
+    // Make user preferences available globally in iD context
+    window.OSM = window.OSM || {};
+    window.OSM.userPreferences = userPreferences;
+
     idContext.preauth({
       url: url,
       apiUrl: url.replace("www.openstreetmap.org", "api.openstreetmap.org"),
