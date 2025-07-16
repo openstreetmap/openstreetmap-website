@@ -347,6 +347,7 @@ $(function () {
   });
 
   $(document).on("click", "#sidebar .sidebar-close-controls button", function () {
+    $(".search_form input[name=query]").val("");
     OSM.router.route("/" + OSM.formatHash(map));
   });
 });

@@ -135,7 +135,6 @@ OSM.Search = function (map) {
 
   page.unload = function () {
     markers.clearLayers();
-    $(".search_form input[name=query]").val("");
   };
 
   return page;
