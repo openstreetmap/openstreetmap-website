@@ -136,6 +136,9 @@ gem "aws-sdk-s3"
 # Used to resize user images
 gem "image_processing"
 
+# Used to manage svg files
+gem "inline_svg"
+
 # Used to validate widths
 gem "unicode-display_width"
 
