@@ -18,12 +18,11 @@
    data[:asset_map] = assets("iD").to_json
 
   # Include user preferences for iD editor
-   if current_user
-     user_preferences = current_user.preferences.each_with_object({}) do |pref, hash|
-       hash[pref.k] = pref.v
-     end
-     data[:user_preferences] = user_preferences.to_json
-    end %>
+  user_preferences = current_user.preferences.each_with_object({}) do |pref, hash|
+    hash[pref.k] = pref.v
+  end
+  data[:user_preferences] = user_preferences.to_json
+%>
 <%= tag.div "", :id => "id-container", :data => data %>
 </body>
 </html>

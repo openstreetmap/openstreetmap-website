@@ -19,9 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const userPreferences = container.dataset.userPreferences ?
       JSON.parse(container.dataset.userPreferences) : {};
 
-    // Make user preferences available globally in iD context
-    window.OSM = window.OSM || {};
-    window.OSM.userPreferences = userPreferences;
+    // Store user preferences in the idContext object
+    idContext.userPreferences = function (prefs) {
+      if (arguments.length) {
+        idContext._userPreferences = prefs;
+        return idContext;
+      }
+      return idContext._userPreferences || {};
+    };
+
+    idContext.userPreferences(userPreferences);
 
     idContext.preauth({
       url: url,
