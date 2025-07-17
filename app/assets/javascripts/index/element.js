@@ -171,8 +171,8 @@
       .addClass("bg-body-tertiary");
 
     if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
-      let src = OSM.WIKIMEDIA_COMMONS_URL + "Special:Redirect/file/" + encodeURIComponent(icon);
-      if (!icon.endsWith(".svg")) src += "?width=128";
+      let src = OSM.WIKIMEDIA_COMMONS_URL + "Special:Redirect/file/" + encodeURIComponent(icon) + "?mobileaction=toggle_view_desktop";
+      if (!icon.endsWith(".svg")) src += "&width=128";
       $("<a>")
         .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
         .append($("<img>").attr({ src, height: "32" }))
