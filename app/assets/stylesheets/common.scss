@@ -633,11 +633,14 @@ tr.turn {
 #sidebar_content {
   .browse-tag-list {
     table-layout: fixed;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-word;
 
-    tr:last-child th, tr:last-child td {
+    tr > *:not([colspan]) {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    tr:last-child > * {
       border-bottom: 0;
     }
   }

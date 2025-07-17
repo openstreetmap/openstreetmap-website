@@ -41,14 +41,20 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
 
     html = format_value("wikidata", "Q42")
-    assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/entity/Q42?uselang=en\">Q42</a>", html
+    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    assert_select dom, "a[title='The Q42 item on Wikidata'][href$='www.wikidata.org/entity/Q42?uselang=en']", :text => "Q42"
+    assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
     html = format_value("operator:wikidata", "Q12;Q98")
-    assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/entity/Q12?uselang=en\">Q12</a>;" \
-                     "<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/entity/Q98?uselang=en\">Q98</a>", html
+    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    assert_select dom, "a[title='The Q12 item on Wikidata'][href$='www.wikidata.org/entity/Q12?uselang=en']", :text => "Q12"
+    assert_select dom, "a[title='The Q98 item on Wikidata'][href$='www.wikidata.org/entity/Q98?uselang=en']", :text => "Q98"
+    assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
     html = format_value("name:etymology:wikidata", "Q123")
-    assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/entity/Q123?uselang=en\">Q123</a>", html
+    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    assert_select dom, "a[title='The Q123 item on Wikidata'][href$='www.wikidata.org/entity/Q123?uselang=en']", :text => "Q123"
+    assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
     html = format_value("wikimedia_commons", "File:Test.jpg")
     assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
