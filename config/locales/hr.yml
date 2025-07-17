@@ -7,6 +7,7 @@
 # Author: Ex13
 # Author: Gravitystorm
 # Author: Helena
+# Author: Ivana
 # Author: Janjko
 # Author: Macofe
 # Author: Marwin H.H.
@@ -24,6 +25,9 @@
 # Author: Сербијана
 ---
 hr:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y u %H:%M'
@@ -32,7 +36,7 @@ hr:
       prompt: Izaberi datoteku
     submit:
       diary_comment:
-        create: Spremi
+        create: Komentar
       diary_entry:
         create: Objavi
         update: Ažuriraj
@@ -43,6 +47,9 @@ hr:
       oauth2_application:
         create: Registracija
         update: Ažuriraj
+      redaction:
+        create: Kreiraj redakciju
+        update: Spremi redakciju
       trace:
         create: Pošalji
         update: 'Snimi promjene:'
@@ -50,6 +57,17 @@ hr:
         create: Napravi blokadu
         update: Ažuriraj blokadu
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ne može biti user_n osim ako n nije vaš korisnički
+          ID
+      models:
+        user_mute:
+          is_already_muted: je već isključen
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL treba početi s http:// ili https://
     models:
       acl: Kontrole pristupa
       changeset: Set promjena
@@ -58,10 +76,12 @@ hr:
       diary_comment: Komentar dnevnika
       diary_entry: Unos dnevnika
       friend: Prijatelj
+      issue: Predmet
       language: Jezik
       message: Poruka
       node: Točka
       node_tag: Oznaka točke
+      note: Bilješka
       old_node: Stara točka
       old_node_tag: Oznaka stare točke
       old_relation: Stara relacija
@@ -87,18 +107,31 @@ hr:
     attributes:
       client_application:
         name: Naziv (obvezno)
+        url: Glavni URL aplikacije (obavezno)
         callback_url: Callback URL
         support_url: Podrška URL
+        allow_read_prefs: čitaj njihove korisničke postavke
+        allow_write_prefs: izmijeni njihove korisničke postavke
+        allow_write_diary: kreiraj dnevničke zapise i komentare
         allow_write_api: uredi kartu
+        allow_write_changeset_comments: komentiraj skupove promjena
+        allow_read_gpx: čitati njihove privatne GNSS tragove
+        allow_write_gpx: postavi GNSS tragove
         allow_write_notes: izmijeni bilješke
       diary_comment:
         body: Tijelo
       diary_entry:
         user: Korisnik
         title: Naslov
+        body: Sadržaj
         latitude: Geografska širina (Latitude)
         longitude: Geografska dužina (Longitude)
         language_code: Jezik
+      doorkeeper/application:
+        name: Naziv
+        redirect_uri: Preusmjeravanje URI-jeva
+        confidential: Povjerljiva aplikacija?
+        scopes: Dopuštenje
       friend:
         user: Korisnik
         friend: Prijatelj
@@ -111,7 +144,7 @@ hr:
         longitude: Geografska dužina (Longitude)
         public: Javno
         description: Opis
-        gpx_file: Prenesi GPX datoteku
+        gpx_file: Izberi datoteku za GPS praćenje
         visibility: Vidljivost
         tagstring: Oznake
       message:
@@ -122,74 +155,89 @@ hr:
       redaction:
         title: Naslov
         description: Opis
+      report:
+        category: Izaberi razlog za tvoje izvješće
+        details: Molimo vas navedite još neke detalje o problemu (obavezno).
       user:
+        auth_provider: Pružatelj autentifikacije
+        auth_uid: UID za provjeru autentičnosti
         email: Email
         new_email: 'Nova adresa e-pošte:'
         active: Aktivan
         display_name: Prikaži ime
         description: 'Opis profila:'
+        company: Tvrtka
         home_lat: 'Geografska širina (latitude):'
         home_lon: 'Geografska dužina (longitude):'
+        home_location_name: Naziv početne lokacije
         languages: 'Željeni jezici:'
         preferred_editor: 'Preferencijalni uređivač:'
         pass_crypt: Lozinka
         pass_crypt_confirmation: Potvrdi lozinku
     help:
+      doorkeeper/application:
+        confidential: Aplikacija će se koristiti kada je povjerljivost klijenta pouzdana
+          (nativne mobilne aplikacije i jednostranične aplikacije nisu povjerljive)
+        redirect_uri: Koristi jedan red po URI-ju
       trace:
         tagstring: odvojeno zarezom
       user_block:
+        reason: Razlog zašto je korisnik blokiran. Molimo vas budite što je moguće
+          smireniji i razumni, navodeći što više možete detalja o situaciji, imajući
+          u vidu da će poruka biti javno vidljiva. Imajte na umu da svi korisnici
+          ne razumiju žargon zajednice, te stoga pokušajte koristiti laičke izraze.
         needs_view: Da li se korisnik mora prijaviti prije nego li se očisti blokada?
       user:
         new_email: (nikada se ne prikazuje javno)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: prije otprilike 1 sat
+        one: prije otprilike %{count} sat
         few: prije otprilike %{count} sata
         other: prije otprilike %{count} sati
       about_x_months:
-        one: prije otprilike 1 mjesec
+        one: prije otprilike %{count} mjesec
         few: prije otprilike %{count} mjeseca
         other: prije otprilike %{count} mjeseci
       about_x_years:
-        one: prije otprilike 1 godine
+        one: prije otprilike %{count} godine
         few: prije otprilike %{count} godine
         other: prije otprilike %{count} godina
       almost_x_years:
-        one: prije skoro 1 godine
+        one: prije skoro %{count} godine
         few: prije skoro %{count} godine
         other: prije skoro %{count} godina
       half_a_minute: prije pola minute
       less_than_x_seconds:
-        one: prije manje od sekunde
+        one: prije manje od %{count} sekunde
         few: prije manje od %{count} sekunde
         other: prije manje od %{count} sekundi
       less_than_x_minutes:
-        one: prije manje od minute
+        one: prije manje od %{count}minute
         few: prije manje od %{count} minute
         other: prije manje od %{count} minuta
       over_x_years:
-        one: prije preko 1 godine
-        few: prije preko %{count} godine
-        other: prije preko %{count} godina
+        one: prije više od %{count} godine
+        few: prije više od %{count} godine
+        other: prije više od %{count} godina
       x_seconds:
-        one: prije 1 sekunde
+        one: prije %{count} sekunde
         few: prije %{count} sekunde
         other: prije %{count} sekundi
       x_minutes:
-        one: prije 1 minute
+        one: prije %{count} minute
         few: prije %{count} minute
         other: prije %{count} minuta
       x_days:
-        one: prije 1 dana
+        one: prije %{count} dan
         few: prije %{count} dana
         other: prije %{count} dana
       x_months:
-        one: prije 1 mjeseca
+        one: prije %{count} mjesec
         few: prije %{count} mjeseca
         other: prije %{count} mjeseci
       x_years:
-        one: prije 1 godine
+        one: prije %{count} godine
         few: prije %{count} godine
         other: prije %{count} godina
   editor:
@@ -220,6 +268,7 @@ hr:
         reopened_at_by_html: Reaktivirao korisnik %{user} u %{when}
       rss:
         title: Bilješke OpenStreetMap-a
+        description_all: Popis prijavljenih, komentiranih ili zatvorenih bilješki
         description_area: Lista bilješki, prijavljenih, komentiranih ili zatvorenih
           u tvojem području [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-tok bilješke %{id}
@@ -233,47 +282,130 @@ hr:
   accounts:
     show:
       title: Uredi korisnički račun
+      my_account: Moj korisnički račun
       current email address: Trenutna adresa e-pošte
+      external auth: Vanjska provjera autentičnosti
       contributor_terms:
-        heading: Uvjeti doprinositelja
-        agreed: Prihvatio/la si nove Uvjete doprinositelja.
+        heading: Uvjeti za suradnika
+        agreed: Prihvatili ste Uvjete suradnje dana %{date}.
+        not_agreed: Još niste prihvatili Uvjete suradnje.
         agreed_with_pd: Također ste sve svoje izmjene proglasili javnim vlasništvom.
+        not_agreed_with_pd: Niste izjavili da vaša uređivanja smatrate područjem javnog
+          vlasništva.
+        review: Pregledajte Uvjete
+        review_and_accept: Pregledajte i prihvatite Uvjete
+        consider_pd: Razmotrite javnu domenu
+      terms_of_use:
+        heading: Uvjeti korištenja
+        agreed: Pristali ste na Uvjete korištenja dana %{date}.
+        not_agreed: Još niste prihvatili Uvjete korištenja.
+        review: Pregledajte Uvjete
+        review_and_accept: Pregledajte i prihvatite Uvjete
       save changes button: Snimi promjene
+      delete_account: Obriši Korisnički račun
     go_public:
       heading: Javno uređivanje
+      currently_not_public: Trenutno su vaša uređivanja anonimna i ljudi vam ne mogu
+        poslati poruke niti vidjeti vašu lokaciju. Kako biste prikazali što ste uredili
+        i ljudima omogućili da vas kontaktiraju preko web stranice, kliknite na tipku
+        ispod.
+      only_public_can_edit: Od prelaska na verziju 0.6 API-ja, samo javni korisnici
+        mogu uređivati podatke karte.
+      find_out_why: saznaj zašto
+      email_not_revealed: Vaša adresa e-pošte neće biti javno prikazana.
+      not_reversible: Ovu radnju nije moguće poništiti i svi novi korisnici su sada
+        javni prema zadanim postavkama.
       make_edits_public_button: Napravi sve moje promjene javnim
     update:
       success_confirm_needed: Korisničke informacije su uspješno ažurirane. Provjeri
         email za poruku potvrde nove email adrese.
       success: Korisničke informacije su uspješno ažurirane.
+    destroy:
+      success: Korisnički račun obrisan.
+    deletions:
+      show:
+        title: Obriši moj račun
+        warning: Upozorenje! Postupak brisanja računa je konačan i ne može se poništiti.
+        delete_account: Obriši Korisnički račun
+        delete_introduction: 'Svoj OpenStreetMap račun možete izbrisati pomoću donje
+          tipke. Imajte na umu sljedeće detalje:'
+        delete_profile: Podaci vašeg profila, uključujući vaš avatar, opis i početnu
+          lokaciju, bit će uklonjeni.
+        delete_display_name: Vaše prikazano ime će biti uklonjeno te se može koristiti
+          na drugim računima.
+        retain_caveats: 'Međutim, neke informacije o vama će biti sačuvane na OpenStreetMap-u,
+          čak i nakon brisanja vašeg računa:'
+        retain_edits: Vaša uređivanja u bazi podataka karata, ako ih ima, bit će sačuvana.
+        retain_traces: Vaši GNSS tragovi, ako ih ima, bit će sačuvani.
+        retain_diary_entries: Vaši dnevnički zapisi i dnevnički komentari, ako ih
+          ima, bit će sačuvani, ali skriveni od pogleda.
+        retain_notes: Vaše bilješke i komentari o karti, ako ih ima, bit će sačuvani,
+          ali skriveni od pogleda.
+        retain_changeset_discussions: Vaše rasprave o promjenama, ako ih ima, bit
+          će sačuvane.
+        retain_email: Vaša adresa e-pošte bit će sačuvana.
+        recent_editing_html: Budući da ste nedavno uređivali, vaš se račun trenutno
+          ne može izbrisati. Brisanje će biti moguće za %{time}.
+        confirm_delete: Jeste li sigurni?
+        cancel: Otkaži
     terms:
       show:
-        title: Uvjeti doprinositelja
+        title: Uvjeti
         heading: Uvjeti
+        heading_ct: Uvjeti suradnika
+        read and accept with tou: Molimo pročitajte ugovor za suradnike i uvjete korištenja,
+          kada završite označite oba kvadratića a zatim pritisnite tipku za nastavak.
+        contributor_terms_explain: Ovaj ugovor uređuje uvjete za vaše postojeće i
+          buduće doprinose.
+        read_ct: Pročitao/la sam i slažem se s gore navedenim uvjetima za suradnike
+        tou_explain_html: Ovi %{tou_link} uvjeti uređuju korištenje web stranice i
+          ostale infrastrukture koju pruža OSMF. Molimo kliknite na poveznicu, pročitajte
+          i prihvatite tekst.
+        read_tou: Pročitao/la sam i slažem se s Uvjetima korištenja
+        guidance_info_html: 'Informacije koje će vam pomoći razumijeti ove pojmove:
+          %{readable_summary_link} i nešto %{informal_translations_link}'
+        readable_summary: sažetak čitljiv ljudima
+        informal_translations: neformalni prijevodi
         continue: Nastavi
-        you need to accept or decline: Molim pročitaj, a zatim ili prihvati ili odbij
-          nove Uvjete doprinošenja.
-        legale_select: 'Molimo odaberite svoju zemlju prebivališta:'
+        cancel: Otkaži
+        you need to accept or decline: Molimo pročitajte, a zatim prihvatite ili odbijte
+          nove Uvjete za suradnike kako biste nastavili.
+        legale_select: 'Zemlja prebivališta:'
         legale_names:
           france: Francuska
           italy: Italija
           rest_of_world: Ostatak svijeta
       update:
-        terms accepted: Hvala za prihvaćanje novih pridonositeljskih uvjeta!
+        terms accepted: Hvala za prihvaćanje novih Uvjeta za suradnike!
+      terms_declined_flash:
+        terms_declined_html: Žao nam je što ste odlučili ne prihvatiti nove Uvjete
+          za suradnike. Za više informacija pogledajte %{terms_declined_link}.
+        terms_declined_link: ova wiki stranica
+    pd_declarations:
+      show:
+        title: Smatrajte moje doprinose javnom domenom.
+        consider_pd: Smatram da su moji doprinosi javna domena.
+        consider_pd_why: Zašto bih želio da moji doprinosi budu javno dostupni?
+        confirm: Potvrdi
+      create:
+        successfully_declared: Uspješno ste izjavili da vaša uređivanja smatrate područjem
+          javne domene.
+        already_declared: Već ste izjavili da vaša uređivanja smatrate javnom domenom.
+        did_not_confirm: Niste potvrdili da vaša uređivanja smatrate javnom domenom.
   browse:
     version: Inačica
     in_changeset: Set promjena
     anonymous: anonimno
     no_comment: (bez komentara)
-    part_of: Dio od
+    part_of: Dio
     part_of_relations:
-      one: 1 relacija
+      one: '%{count} relacija'
       few: '%{count} relacije'
       other: '%{count} relacija'
     part_of_ways:
-      one: 1 put
+      one: '%{count} put'
       few: '%{count} puta'
-      other: '%{count} putova'
+      other: '%{count} puta'
     download_xml: Preuzmi XML
     location: 'Lokacija:'
     node:
@@ -282,7 +414,7 @@ hr:
       title_html: 'Put: %{name}'
       nodes: Točke
       nodes_count:
-        one: 1 točka
+        one: '%{count} točka'
         few: '%{count} točke'
         other: '%{count} točaka'
       also_part_of_html:
@@ -292,7 +424,7 @@ hr:
       title_html: 'Relacija: %{name}'
       members: Članovi
       members_count:
-        one: 1 član
+        one: '%{count} član'
         few: '%{count} člana'
         other: '%{count} članova'
     relation_member:
@@ -302,9 +434,9 @@ hr:
         way: Put
         relation: Relacija
     containing_relation:
-      entry_role_html: Relacija %{relation_name} (kao %{relation_role})
+      entry_role_html: '%{relation_name} (kao %{relation_role})'
     timeout:
-      sorry: Žao mi je, podaci za %{type} sa id %{id}, predugo se čekaju.
+      sorry: Žao mi je, predugo traje učitavanje podataka za %{type} sa id %{id}
       type:
         node: točka
         way: put

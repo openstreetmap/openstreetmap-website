@@ -332,10 +332,20 @@ cs:
       external auth: Externí autentizace
       contributor_terms:
         heading: Podmínky pro přispěvatele
-        agreed: Odsouhlasili jste nové Podmínky pro přispěvatele.
+        agreed: Podmínky pro přispěvatele jste odsouhlasili %{date}.
+        not_agreed: Dosud jste neodsouhlasili Podmínky pro přispěvatele.
         agreed_with_pd: Také jste prohlásili, že své editace považujete za volné dílo.
         not_agreed_with_pd: Neprohlásili jste, že své editace považujete za volné
           dílo.
+        review: Přečíst si Podmínky
+        review_and_accept: Přečíst a přijmout Podmínky
+        consider_pd: Zvažte volné dílo
+      terms_of_use:
+        heading: Podmínky užití
+        agreed: Podmínky užití jste odsouhlasili %{date}.
+        not_agreed: Zatím jste neodsouhlasili Podmínky užití.
+        review: Přečíst si Podmínky
+        review_and_accept: Přečíst a přijmout Podmínky
       save changes button: Uložit změny
       delete_account: Smazat účet…
     go_public:
@@ -516,6 +526,13 @@ cs:
       telephone_link: Volat %{phone_number}
       colour_preview: Náhled barvy %{colour_value}
       email_link: Poslat e-mail na %{email}
+    versions_navigation:
+      node: Uzel
+      way: Cesta
+      relation: Relace
+      history: Historie
+      version: 'Verze #%{version}'
+      versions_label: 'Verze:'
   feature_queries:
     show:
       title: Průzkum prvků
@@ -530,6 +547,8 @@ cs:
         title_html: 'Historie cesty: %{name}'
       relation:
         title_html: 'Historie relace: %{name}'
+      older_versions: Starší verze
+      newer_versions: Novější verze
     actions:
       view_redacted_data: Zobrazit upravená data
       view_redaction_message: Zobrazit zprávu o revizi
@@ -753,9 +772,20 @@ cs:
       heading: Odhlásit odběr následující diskuse k deníkovému záznamu?
       button: Zrušit odběr diskuse
     navigation:
+      in_language: Deníkové záznamy v jazyce %{language}
       my_diary: Můj deník
       new: Nový záznam do deníku
       new_title: Vložit nový záznam do mého uživatelského deníku
+    profile_diaries:
+      latest_diaries: Nejnovější deníkové záznamy
+      comments:
+        one: '%{count} komentář'
+        few: '%{count} komentáře'
+        many: '%{count} komentáře'
+        other: '%{count} komentářů'
+      title_label: Deníkový záznam
+      comments_label: Komentáře
+      date_label: Datum
   diary_comments:
     new:
       heading: Přidat komentář do následující diskuse k deníkovému záznamu?
@@ -1644,6 +1674,10 @@ cs:
       time: Čas
       ascend: Výstup
       descend: Klesání
+      kilometers: kilometry
+      miles_feet: míle, stopy
+      miles_yards: míle, yardy
+      distance_units_settings: Nastavení jednotek vzdálenosti
       download: Stáhnout trasu jako GeoJSON
       filename: trasa
       directions_courtesy_html: Trasa díky %{link}
@@ -1784,6 +1818,10 @@ cs:
     communities: Komunity
     learn_more: Více informací
     more: Další
+    header:
+      select_language: Zvolte si jazyk
+    select_language_button:
+      title: Zvolte si jazyk
     offline_flash:
       osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
         údržbě mimo provoz.
@@ -2088,9 +2126,13 @@ cs:
         failure: Nepodařilo se nastavit preference.
       update_success_flash:
         message: Preference nastaveny.
+      navigation:
+        preferences: Preference
+        advanced_preferences: Pokročilé preference
     basic_preferences:
       show:
         title: Moje preference
+        preferred_language: Preferovaný jazyk
         preferred_site_color_scheme: Preferované barevné schéma webu
         site_color_schemes:
           auto: Automaticky
@@ -2102,20 +2144,43 @@ cs:
           light: Světlé
           dark: Tmavé
         save: Nastavit preference
+    advanced_preferences:
+      show:
+        title: Moje pokročilé preference
+        save: Nastavit preference
   profiles:
     profile_sections:
       navigation:
+        description: Popis
+        links: Odkazy
         image: Obrázek
+        company: Firma
+        location: Poloha
     descriptions:
       show:
         title: Upravit profil
         save: Nastavit profil
         cancel: Storno
+      update:
+        success: Popis profilu byl aktualizován.
+        failure: Nepodařilo se aktualizovat popis profilu.
     links:
       show:
         title: Upravit profil
+        save: Nastavit profil
+        cancel: Storno
+        social_links:
+          title: Odkazy na sociální profily
+          remove: Odebrat
+          add: Přidat odkaz
+      update:
+        success: Odkazy na profily aktualizovány.
+        failure: Nepodařilo se aktualizovat odkazy na profily.
     images:
       show:
+        title: Upravit profil
+        save: Nastavit profil
+        cancel: Storno
         gravatar:
           gravatar: Používat Gravatar
           link: https://wiki.openstreetmap.org/wiki/CS:Gravatar
@@ -2125,8 +2190,22 @@ cs:
         delete image: Odstranit stávající obrázek
         replace image: Nahradit stávající obrázek
         image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
+      update:
+        success: Profilový obrázek aktualizován.
+        failure: Nepodařilo se aktualizovat profilový obrázek.
+    companies:
+      show:
+        title: Upravit profil
+        save: Nastavit profil
+        cancel: Storno
+      update:
+        success: Firma v profilu aktualizována.
+        failure: Nepodařilo se aktualizovat firmu v profilu.
     locations:
       show:
+        title: Upravit profil
+        save: Nastavit profil
+        cancel: Storno
         no home location: Nezadali jste polohu svého bydliště.
         update home location on click: Upravit pozici domova při kliknutí na mapu?
         show: Zobrazit
@@ -2183,24 +2262,36 @@ cs:
       changeset_comments:
         older: Starší komentáře
         newer: Novější komentáře
+        oldest: Nejstarší komentáře
+        newest: Nejnovější komentáře
       diary_comments:
         older: Starší komentáře
         newer: Novější komentáře
+        oldest: Nejstarší komentáře
+        newest: Nejnovější komentáře
       diary_entries:
         older: Starší záznamy
         newer: Novější záznamy
+        oldest: Nejstarší záznamy
+        newest: Nejnovější záznamy
       issues:
         older: Starší problémy
         newer: Novější problémy
       traces:
         older: Starší stopy
         newer: Novější stopy
+        oldest: Nejstarší stopy
+        newest: Nejnovější stopy
       user_blocks:
         older: Starší bloky
         newer: Novější bloky
+        oldest: Nejstarší bloky
+        newest: Nejnovější bloky
       users:
         older: Starší uživatelé
         newer: Novější uživatelé
+        oldest: Nejstarší uživatelé
+        newest: Nejnovější uživatelé
   site:
     about:
       heading_html: '%{copyright}přispěvatelé %{br} OpenStreetMap'

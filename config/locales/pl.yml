@@ -361,12 +361,21 @@ pl:
       current email address: Aktualny adres e-mail
       external auth: Zewnętrzne uwierzytelnienie
       contributor_terms:
-        heading: Warunki uczestnictwa
+        heading: Warunki Uczestnictwa
         agreed: Wyrażono zgodę na nowe Warunki Uczestnictwa %{date}.
         not_agreed: Nie wyrażono zgodę na nowe Warunki Uczestnictwa.
         agreed_with_pd: Zadeklarowałeś, że swoje edycje publikujesz w domenie publicznej.
         not_agreed_with_pd: Nie zadeklarowałeś, że uznajesz swoje zmiany za należące
           do domeny publicznej.
+        review: Przejrzyj Warunki
+        review_and_accept: Przejrzyj i zaakceptuj Warunki
+        consider_pd: Rozważ domenę publiczną
+      terms_of_use:
+        heading: Warunki Użytkowania
+        agreed: Wyrażono zgodę na Warunki Użytkowania %{date}.
+        not_agreed: Jeszcze nie wyrażono zgody na Warunki Użytkowania.
+        review: Przejrzyj Warunki
+        review_and_accept: Przejrzyj i zaakceptuj Warunki
       save changes button: Zapisz zmiany
       delete_account: Usuń konto...
     go_public:
@@ -419,16 +428,16 @@ pl:
       show:
         title: Warunki
         heading: Warunki
-        heading_ct: Warunki uczestnictwa
-        read and accept with tou: Przeczytaj Warunki uczestnictwa i Warunki użytkowania,
+        heading_ct: Warunki Uczestnictwa
+        read and accept with tou: Przeczytaj Warunki Uczestnictwa i Warunki Użytkowania,
           zaznacz oba pola wyboru po zakończeniu, a następnie naciśnij przycisk Kontynuuj.
         contributor_terms_explain: Niniejsza umowa reguluje warunki twoich obecnych
           i przyszłych wkładów.
-        read_ct: Przeczytałem i akceptuję powyższe warunki współautora
+        read_ct: Przeczytałem i akceptuję powyższe Warunki Uczestnictwa
         tou_explain_html: Te %{tou_link} regulują korzystanie ze strony internetowej
           i innej infrastruktury zapewnianej przez OSMF. Kliknij link, przeczytaj
           i zaakceptuj tekst.
-        read_tou: Przeczytałem i akceptuję Warunki użytkowania
+        read_tou: Przeczytałem i akceptuję Warunki Użytkowania
         guidance_info_html: 'Informacje pomocne w zrozumieniu tych terminów: %{readable_summary_link}
           i %{informal_translations_link}'
         readable_summary: czytelne podsumowanie
@@ -436,17 +445,17 @@ pl:
         continue: Dalej
         cancel: Anuluj
         you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub
-          odrzucić nowe Warunki uczestnictwa, aby kontynuować.
+          odrzucić nowe Warunki Uczestnictwa, aby kontynuować.
         legale_select: 'Kraj zamieszkania:'
         legale_names:
           france: Francja
           italy: Włochy
           rest_of_world: Reszta świata
       update:
-        terms accepted: Dziękujemy za przyjęcie nowych Warunków uczestnictwa!
+        terms accepted: Dziękujemy za przyjęcie nowych Warunków Uczestnictwa!
       terms_declined_flash:
         terms_declined_html: Jest nam przykro, że zdecydowałeś się nie przyjmować
-          nowych Warunków uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
+          nowych Warunków Uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
         terms_declined_link: na tej stronie
     pd_declarations:
       show:
@@ -813,6 +822,9 @@ pl:
         few: '%{count} komentarze'
         many: '%{count} komentarzy'
         other: '%{count} komentarzy'
+      title_label: Wpis do dziennika
+      comments_label: Komentarze
+      date_label: Data
   diary_comments:
     new:
       heading: Czy dodać komentarz do tej dyskusji o wpisie dziennika?
@@ -1806,6 +1818,8 @@ pl:
         diary_comment: '%{entry_title}, komentarz #%{comment_id}'
         note: 'Uwaga #%{note_id}'
     reporters:
+      index:
+        title: 'Zgłaszający sprawę #%{issue_id}'
       reporters:
         more_reporters: i jeszcze %{count}
   issue_comments:
@@ -1872,7 +1886,7 @@ pl:
       i innych %{partners}.
     partners_corpmembers: członków korporacyjnych OSMF
     partners_partners: partnerów
-    tou: Warunki użytkowania
+    tou: Warunki Użytkowania
     nothing_to_preview: Nie ma nic do podglądu.
     help: Pomoc
     about: Informacje
@@ -2400,7 +2414,7 @@ pl:
         ze wszystkich usług obsługiwanych przez OSMF podlega naszym %{terms_of_use_link},
         %{aup_link} i naszej %{privacy_policy_link}.
       legal_1_1_openstreetmap_foundation: Fundację OpenStreetMap
-      legal_1_1_terms_of_use: Warunkom użytkowania
+      legal_1_1_terms_of_use: Warunkom Użytkowania
       legal_1_1_aup: Zasadom dopuszczalnego użytkowania
       legal_1_1_privacy_policy: Polityce prywatności
       legal_2_1_html: W przypadku pytań dotyczących licencji, praw autorskich lub
@@ -2424,25 +2438,78 @@ pl:
         native_link: wersji po polsku
         mapping_link: rozpocząć tworzenie mapy
       legal_babble:
+        lead_1_html: OpenStreetMap dostarcza otwarte dane mapowe tysiącom stron internetowych,
+          aplikacji oraz urządzeń. OpenStreetMap jest tworzony przez społeczność ludzich
+          takich jak ty, którzy dodają dane o drogach, ścieżkach, kawiarniach, dworcach
+          i wielu innych, na całym świecie.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} i %{get_started_mapping_link}!
+          Możesz przeczytać więcej na %{osm_blog_link} i subskrybować %{weeklyosm_link}.
+          Znajdź innych mapujących w lokalnej  %{osm_community_link}.
+          Wesprzyj projekt, dołączając do %{osm_foundation_link} i %{making_donation_link}.
+        lead_2_learn_more_about_osm: Dowiedz się więcej o OpenStreetMap
         lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/Pl:Wst%C4%99p
+        lead_2_get_started_mapping: zacznij mapować
+        lead_2_osm_blog: blogu OpenStreetMap
         lead_2_osm_blog_url: https://blog.openstreetmap.org
         lead_2_weeklyosm: WeeklyOSM
         lead_2_weeklyosm_url: https://weeklyosm.eu
+        lead_2_osm_community: społeczności OSM
+        lead_2_osm_foundation: Fundacji OSM
         lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: przekazując darowiznę
         lead_2_making_donation_url: https://supporting.openstreetmap.org
+        licensing_title: Licencjonowanie OpenStreetMap
+        licensing_1_html: OpenStreetMap to projekt %{open}, rozpowszechniany na licencji
+          %{odc_odbl_link} (ODbL) przez %{osm_foundation_link} (OSMF).
+        licensing_1_open: open data
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: OpenStreetMap Foundation
         licensing_1_osm_foundation_url: https://osmfoundation.org
+        licensing_2_html: Możesz swobodnie kopiować, rozpowszechniać, przekazywać
+          innym i dostosowywać nasze dane, pod warunkiem podania OpenStreetMap i jego
+          autorów jako źródła. Jeśli zmienisz, przekształcisz lub wykorzystasz nasze
+          dane, wynik swojej pracy możesz rozpowszechniać tylko na podstawie tej samej
+          licencji. %{legal_code_link} dokładnie opisuje twoje prawa i obowiązki.
+        licensing_2_legal_code: Pełny tekst licencji na Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: Nasza dokumentacja rozpowszechniana jest na warunkach licencji
+          %{creative_commons_license_link} (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Attribution-ShareAlike
+          2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Dowiedz się więcej o korzystaniu z naszych danych na %{osmf_license_page_link}.
         licensing_4_osmf_license_page: stronie OSMF License
         licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Jak określić pochodzenie danych
         credit_1_html: 'W przypadku korzystania z danych OpenStreetMap należy:'
+        credit_2_attribution: Podać źródło poprzez wyświetlenie informacji o prawach
+          autorskich (np. w postaci „© autorzy OpenStreetMap”).
         credit_2_license: Wyraźnie zaznaczyć, że dane dostępne są na licencji Open
           Database License.
+        credit_3_v2025_html: W przypadku informacji o prawach autorskich mamy różne
+          %{requirements_on_how_displayed_link}, w zależności od tego, jak korzysta
+          się z naszych danych. Na przykład, różne zasady dotyczące sposobu wyświetlania
+          informacji o prawach autorskich zależą od tego, czy utworzono interaktywną
+          mapę elektroniczną, mapę drukowaną czy obraz statyczny. Pełne informacje
+          na temat wymagań można znaleźć w %{attribution_guidelines_link} oraz %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: wymagania co do sposobu jej
+          wyświetlania
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_attribution_guidelines: wytycznych dotyczących atrybucji
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: wymaganiach licencyjnych
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: Żeby jasno zaznaczyć, że dane dostępne są na licencji
+          Open Database License, możesz to zrobić przez podlinkowanie %{this_copyright_page_link}.
+          W przypadku rozpowszechniania OSM w formie danych możesz podać nazwy licencji
+          i umieścić do nich bezpośredni link. Jeśli niemożliwe jest umieszczenie
+          linków (np. na mapach papierowych), sugerujemy pokierowanie czytelników
+          na stronę %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: tej strony licencyjnej
+        credit_5_v2025_html: 'W przykładzie poniżej podziękowania pojawiają się w
+          rogu mapy:'
         attribution_example:
           alt: Przykład, jak przypisywać OpenStreetMap na stronie internetowej
           title: Przykład uznania autorstwa
@@ -2464,6 +2531,11 @@ pl:
           pytania dotyczące ich używania, zobacz naszą %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: politykę znaków towarowych
         trademarks_1_1_trademark_policy_url: https://osmfoundation.org/wiki/Trademark_Policy
+        services_title_html: Dodatkowe usługi
+        services_1_html: Chociaż dane OpenStreetMap są otwarte, nie jesteśmy w stanie
+          zapewnić nieograniczonego dostępu do naszego API i kafelków wszystkim chętnym.
+          Zapoznaj się z naszą %{api_usage_policy_link}, %{tile_usage_policy_link}
+          oraz %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Polityką korzystania z API
         services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: Polityką korzystania z kafelków
@@ -2711,6 +2783,8 @@ pl:
         bicycle: Rowerem
         car: Samochodem
         foot: Pieszo
+      providers:
+        description: Nawigacje
     welcome:
       title: Witamy!
       introduction: Witamy w OpenStreetMap, wolnej mapie świata. Teraz, gdy masz już
@@ -2756,6 +2830,9 @@ pl:
       title: Nie masz czasu na edycję? Dodaj uwagę!
       para_1: Jeśli chcesz wprowadzić małą zmianę, ale nie masz czasu na rejestrację
         i poznanie sposobów edycji, możesz łatwo dodać uwagę.
+      para_2_html: Wystarczy, że klikniesz ikonę %{note_icon} lub przejdziesz na %{map_link}.
+        Ta czynność doda znacznik, który możesz przesunąć przez przeciągnięcie. Dodaj
+        swoją uwagę i zapisz ją – inni mapujący zajmą się twoim zgłoszeniem.
       the_map: mapę
     communities:
       title: Społeczności
@@ -3034,6 +3111,8 @@ pl:
         title: Zaloguj się przez Wikipedię
         alt: Logo Wikipedii
     share:
+      share:
+        title: Udostępnij
       email:
         title: Udostępnij przez e-mail
         alt: ikona e-maila
@@ -3153,12 +3232,13 @@ pl:
       by_signing_up:
         html: Rejestrując się, wyrażasz zgodę na nasze %{tou_link}, %{privacy_policy_link}
           i %{contributor_terms_link}.
+        tou: Warunki Użytkowania
         privacy_policy: politykę prywatności
         privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Polityka prywatności OSMF, w tym sekcja dotycząca adresów
           e-mail
         contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
-        contributor_terms: warunki uczestnictwa
+        contributor_terms: Warunki Uczestnictwa
       continue: Zarejestruj się
       email_help:
         privacy_policy: politykę prywatności
@@ -3202,7 +3282,7 @@ pl:
       last map edit: 'Ostatnia edycja mapy:'
       no activity yet: —
       uid: 'Identyfikator użytkownika:'
-      ct status: 'Warunki uczestnictwa:'
+      ct status: 'Warunki Uczestnictwa:'
       ct undecided: niezdecydowane
       ct declined: odrzucone
       email address: Adres e‐mail
@@ -3282,6 +3362,8 @@ pl:
         title: Użytkownicy
         heading: Użytkownicy
         select_status: Wybierz status
+        states:
+          deleted: Usunięto
         name_or_email: Nazwa lub e-mail
         ip_address: Adres IP
         search: Szukaj
@@ -3502,6 +3584,7 @@ pl:
       open_title: 'Nierozwiązana uwaga #%{note_name}'
       closed_title: 'Rozwiązana uwaga #%{note_name}'
       hidden_title: 'Ukryta uwaga #%{note_name}'
+      description_when_author_is_deleted: usunięto
       event_opened_by_html: Utworzona przez %{user} %{time_ago}
       event_opened_by_anonymous_html: Utworzona anonimowo %{time_ago}
       event_commented_by_html: Komentarz od %{user} %{time_ago}
@@ -3737,6 +3820,7 @@ pl:
       show_address: Pokaż adres
       query_features: Wyświetl dane obiektów
       centre_map: Wycentruj mapę tutaj
+      scroll_to_changeset: Przewiń do zestawu zmian
     home:
       marker_title: Położenie domu
       not_set: Położenie domu nie jest ustawione w twoim profilu
