@@ -159,6 +159,8 @@ class Node < ApplicationRecord
       # update the changeset with the deleted position
       changeset.update_bbox!(bbox)
 
+      changeset.num_deleted_nodes += 1
+
       save_with_history!
     end
   end
@@ -184,6 +186,8 @@ class Node < ApplicationRecord
       # update changeset bbox with *new* position
       changeset.update_bbox!(bbox)
 
+      changeset.num_modified_nodes += 1
+
       save_with_history!
     end
   end
@@ -195,6 +199,8 @@ class Node < ApplicationRecord
 
     # update the changeset to include the new location
     changeset.update_bbox!(bbox)
+
+    changeset.num_created_nodes += 1
 
     save_with_history!
   end

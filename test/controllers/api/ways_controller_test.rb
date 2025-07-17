@@ -249,6 +249,11 @@ module Api
         assert_equal [node1, node2], way.nodes
         assert_equal changeset.id, way.changeset_id, "saved way does not belong to the correct changeset"
         assert way.visible, "saved way is not visible"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_created_ways
       end
     end
 
@@ -583,6 +588,11 @@ module Api
         way.reload
         assert_not_predicate way, :visible?
         assert_equal response_way_version, way.version
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_deleted_ways
       end
     end
 
@@ -886,6 +896,11 @@ module Api
         put api_way_path(way), :params => osm_xml.to_s, :headers => headers
 
         assert_response :success, "a valid update request failed"
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_ways
       end
     end
 
@@ -923,6 +938,11 @@ module Api
 
         assert_response :success, "adding a new tag to a way should succeed"
         assert_equal way.version + 1, @response.body.to_i
+
+        changeset.reload
+        assert_equal 1, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal 1, changeset.num_modified_ways
       end
     end
 
