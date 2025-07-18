@@ -43,6 +43,8 @@ jobs:
         cp config/github.database.yml config/database.yml
         cp config/example.storage.yml config/storage.yml
         touch config/settings.local.yml
+    - name: Install node modules
+      run: bundle exec bin/yarn install
     - name: Populate database
       run: |
         sed -f script/normalise-structure db/structure.sql > db/structure.expected
@@ -50,8 +52,6 @@ jobs:
         bundle exec rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
-    - name: Install node modules
-      run: bundle exec bin/yarn install
     - name: Export javascript strings
       run: bundle exec i18n export
     - name: Compile assets
