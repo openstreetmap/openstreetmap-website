@@ -274,7 +274,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary" => "diary_entries#index"
+  get "/user/:display_name/diary" => "diary_entries#index", :as => :user_diary_entries
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/ do

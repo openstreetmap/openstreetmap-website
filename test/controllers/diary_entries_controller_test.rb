@@ -468,44 +468,15 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_paged
-    # Create several pages worth of diary entries
     create_list(:diary_entry, 50)
-    next_path = diary_entries_path
+    check_pagination_of_50_entries diary_entries_path
+  end
 
-    # Try and get the index
-    get next_path
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    check_no_page_link "Newer Entries"
-    next_path = check_page_link "Older Entries"
-
-    # Try and get the second page
-    get next_path
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    check_page_link "Newer Entries"
-    next_path = check_page_link "Older Entries"
-
-    # Try and get the third page
-    get next_path
-    assert_response :success
-    assert_select "article.diary_post", :count => 10
-    next_path = check_page_link "Newer Entries"
-    check_no_page_link "Older Entries"
-
-    # Go back to the second page
-    get next_path
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    next_path = check_page_link "Newer Entries"
-    check_page_link "Older Entries"
-
-    # Go back to the first page
-    get next_path
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    check_no_page_link "Newer Entries"
-    check_page_link "Older Entries"
+  def test_index_user_paged
+    user = create(:user)
+    create_list(:diary_entry, 50, :user => user)
+    user.confirm!
+    check_pagination_of_50_entries user_diary_entries_path(user)
   end
 
   def test_index_invalid_paged
@@ -994,6 +965,43 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
     end
+  end
+
+  def check_pagination_of_50_entries(path)
+    # Try and get the index
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    check_no_page_link "Newer Entries"
+    path = check_page_link "Older Entries"
+
+    # Try and get the second page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    check_page_link "Newer Entries"
+    path = check_page_link "Older Entries"
+
+    # Try and get the third page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 10
+    path = check_page_link "Newer Entries"
+    check_no_page_link "Older Entries"
+
+    # Go back to the second page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    path = check_page_link "Newer Entries"
+    check_page_link "Older Entries"
+
+    # Go back to the first page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    check_no_page_link "Newer Entries"
+    check_page_link "Older Entries"
   end
 
   def check_no_page_link(name)
