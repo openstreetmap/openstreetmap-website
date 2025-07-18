@@ -42,7 +42,7 @@ module Profiles
       assert_response :success
       assert_template :show
       assert_dom ".alert-success", :text => "Profile links updated."
-      assert_dom "a", "test.com/test"
+      assert_dom "a[href*='test.com/test'] span", "test.com/test"
     end
 
     def test_update_empty_social_link
