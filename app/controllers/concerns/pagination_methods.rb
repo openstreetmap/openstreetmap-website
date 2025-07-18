@@ -11,11 +11,11 @@ module PaginationMethods
 
     qualified_cursor_column = "#{items.table_name}.#{cursor_column}"
     page_items = if params[:before]
-                   items.where("#{qualified_cursor_column} < ?", params[:before]).order(cursor_column => :desc)
+                   items.where("#{qualified_cursor_column} < ?", params[:before]).reorder(cursor_column => :desc)
                  elsif params[:after]
-                   items.where("#{qualified_cursor_column} > ?", params[:after]).order(cursor_column => :asc)
+                   items.where("#{qualified_cursor_column} > ?", params[:after]).reorder(cursor_column => :asc)
                  else
-                   items.order(cursor_column => :desc)
+                   items.reorder(cursor_column => :desc)
                  end
 
     page_items = page_items.limit(limit)
