@@ -7,8 +7,10 @@
   of the above pages support.
 
   The router is initialized with a set of routes: a mapping of URL path templates
-  to route controller objects. Path templates can contain placeholders
-  (`/note/:id`) and optional segments (`/:type/:id(/history)`).
+  to route controller objects. Path templates can contain
+    placeholders (`/note/:id`),
+    scoped placeholders (`/type:node way relation/:id`) and
+    optional segments (`/:type/:id(/history)`).
 
   Route controller objects can define four methods that are called at defined
   times during routing:
@@ -49,17 +51,21 @@
 OSM.Router = function (map, rts) {
   const escapeRegExp = /[-{}[\]+?.,\\^$|#\s]/g;
   const optionalParam = /\((.*?)\)/g;
+  const enumParam = /\w+:([^/]+)/g;
   const namedParam = /(\(\?)?:\w+/g;
   const splatParam = /\*\w+/g;
 
   function Route(path, controller) {
-    const regexp = new RegExp("^" +
-      path.replace(escapeRegExp, "\\$&")
+    const regexp = new RegExp(
+      "^" +
+      path
+        .replace(escapeRegExp, "\\$&")
         .replace(optionalParam, "(?:$1)?")
-        .replace(namedParam, function (match, optional) {
-          return optional ? match : "([^/]+)";
-        })
-        .replace(splatParam, "(.*?)") + "(?:\\?.*)?$");
+        .replace(enumParam, (match, options) => "(" + options.replaceAll("\\ ", "|") + ")")
+        .replace(namedParam, (match, optional) => optional ? match : "([^/]+)")
+        .replace(splatParam, "(.*?)") +
+      "(?:\\?.*)?$"
+    );
 
     const route = {};
 
