@@ -3,7 +3,7 @@ module Users
     include UserMethods
     include PaginationMethods
 
-    layout "site"
+    layout :site_layout
 
     before_action :authorize_web
     before_action :set_locale
@@ -24,8 +24,6 @@ module Users
 
       @show_user_name = true
       @show_creator_name = false
-
-      render :partial => "user_blocks/page" if turbo_frame_request_id == "pagination"
     end
   end
 end
