@@ -2,7 +2,6 @@
   let abortController = null;
   const languagesToRequest = [...new Set([...OSM.preferred_languages.map(l => l.toLowerCase()), "mul", "en"])];
   const wikisToRequest = [...new Set(languagesToRequest.filter(l => l !== "mul").map(l => l.split("-")[0] + "wiki"))];
-  const localeName = new Intl.DisplayNames(OSM.preferred_languages, { type: "language" });
   const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
 
   $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
@@ -166,6 +165,7 @@
   }
 
   function renderWikidataResponse({ icon, label, article, description }, $link) {
+    const localeName = new Intl.DisplayNames(OSM.preferred_languages, { type: "language" });
     const cell = $("<td>")
       .attr("colspan", 2)
       .addClass("bg-body-tertiary");
