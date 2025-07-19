@@ -10,6 +10,7 @@
 <% end %>
 
 <svg class="d-none"><%= render :partial => "layouts/control_icons", :locals => { :icons => %w[zoomin zoomout geolocate] } %></svg>
+<%= render :partial => "layouts/markers", :locals => { :types => %w[dot] } %>
 
 <%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
   <p id="home_message" class="text-body-secondary m-0<% if current_user.home_location? %> invisible<% end %>"><%= t ".no home location" %></p>

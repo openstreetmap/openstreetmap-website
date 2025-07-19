@@ -1,7 +1,7 @@
 <% user_data = {
      :lon => contact.home_lon,
      :lat => contact.home_lat,
-     :icon => type == "following" ? "MARKER_BLUE" : "MARKER_GREEN",
+     :color => "var(--marker-#{type == 'following' ? 'blue' : 'green'})",
      :description => render(:partial => "popup", :object => contact, :locals => { :type => type })
    } %>
 <%= tag.div :class => "row", :data => { :user => user_data } do %>

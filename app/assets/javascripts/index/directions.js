@@ -24,8 +24,8 @@ OSM.Directions = function (map) {
   };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "MARKER_GREEN" }, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "MARKER_RED" }, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
   ];
 
   const expiry = new Date();
@@ -156,14 +156,19 @@ OSM.Directions = function (map) {
     getRoute(true, true);
   });
 
-  $(".routing_marker_column img").on("dragstart", function (e) {
+  $(".routing_marker_column span").on("dragstart", function (e) {
     const dt = e.originalEvent.dataTransfer;
     dt.effectAllowed = "move";
-    const dragData = { type: $(this).data("type") };
-    dt.setData("text", JSON.stringify(dragData));
+    const jqthis = $(this);
+    dt.setData("text", JSON.stringify(jqthis.data()));
     if (dt.setDragImage) {
-      const img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
+      const img = jqthis.clone()
+        .appendTo(document.body);
+      img.find("svg")
+        .toggleClass("position-absolute bottom-100 end-100")
+        .attr({ width: "25", height: "40" });
       dt.setDragImage(img.get(0), 12, 21);
+      setTimeout(() => img.remove(), 0);
     }
   });
 
