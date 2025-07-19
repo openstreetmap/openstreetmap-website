@@ -28,6 +28,25 @@ L.OSM.share = function (options) {
     const csrfInput = $ui.find("#csrf_export")[0];
     [[csrfInput.name, csrfInput.value]] = Object.entries(OSM.csrf);
 
+    $("#export-image").on("turbo:submit-end", function (event) {
+      if (event.detail.success) {
+        event.detail.fetchResponse.response.blob().then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = OSM.i18n.t("javascripts.share.filename");
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      } else {
+        const detailMessage = event?.detail?.error?.message || "(unknown)";
+        // eslint-disable-next-line no-alert
+        alert(OSM.i18n.t("javascripts.share.export_failed", { reason: detailMessage }));
+      }
+    });
+
     locationFilter
       .on("change", update)
       .addTo(map);
@@ -197,6 +216,34 @@ L.OSM.share = function (options) {
       $("#export-image").toggle(canDownloadImage);
       $("#export-warning").toggle(!canDownloadImage);
       $("#mapnik_scale_row").toggle(canDownloadImage && layer.options.layerId === "mapnik");
+
+      updateSelectOptions(canDownloadImage, layer);
+    }
+
+    function updateSelectOptions(canDownloadImage, layer) {
+      if (canDownloadImage) {
+        const formats = layer.options.formats || [];
+        let firstEnabledOption = null;
+
+        $("#mapnik_format option").each(function () {
+          const $option = $(this);
+          const value = $option.val();
+          const isEnabled = formats.includes(value);
+
+          $option.prop("disabled", !isEnabled);
+
+          if (isEnabled && !firstEnabledOption) {
+            firstEnabledOption = this;
+          }
+        });
+
+        // In case currently selected option is now disabled,
+        // choose first enabled option instead
+        const $format = $("#mapnik_format");
+        if (firstEnabledOption && $format.find(":selected").prop("disabled")) {
+          $format.val($(firstEnabledOption).val());
+        }
+      }
     }
 
     function select() {
