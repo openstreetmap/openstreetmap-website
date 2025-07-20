@@ -26,26 +26,21 @@
     <div class="d-flex flex-column gap-2">
       <div class="d-flex gap-2 align-items-center">
         <div class="btn-group routing_modes" role="group">
-          <input type="radio" class="btn-check" name="modes" id="car" autocomplete="off" disabled>
-          <label class="btn btn-outline-secondary px-2" for="car" title="<%= t("site.search.modes.car") %>">
-            <%= inline_svg_tag "search/car.svg", :class => "d-block" %>
-          </label>
-          <input type="radio" class="btn-check" name="modes" id="bicycle" autocomplete="off" disabled>
-          <label class="btn btn-outline-secondary px-2" for="bicycle" title="<%= t("site.search.modes.bicycle") %>">
-            <%= inline_svg_tag "search/bicycle.svg", :class => "d-block" %>
-          </label>
-          <input type="radio" class="btn-check" name="modes" id="foot" autocomplete="off" disabled>
-          <label class="btn btn-outline-secondary px-2" for="foot" title="<%= t("site.search.modes.foot") %>">
-            <%= inline_svg_tag "search/foot.svg", :class => "d-block" %>
-          </label>
+          <% %w[car bicycle foot].each do |mode| %>
+            <%= radio_button_tag "modes", mode, false, { :class => "btn-check", :autocomplete => "off", :disabled => true } %>
+            <%= label_tag "modes_#{mode}",
+                          inline_svg_tag("search/#{mode}.svg", :class => "d-block"),
+                          :class => "btn btn-outline-secondary px-2",
+                          :title => t("site.search.modes.#{mode}") %>
+          <% end %>
         </div>
-        <select class="routing_engines form-select py-1 px-2" name="routing_engines" title="<%= t("site.search.providers.description") %>">
-          <optgroup label="<%= t("site.search.providers.description") %>">
-            <option value="graphhopper" disabled><%= t("site.search.providers.graphhopper") %></option>
-            <option value="fossgis_osrm" disabled><%= t("site.search.providers.fossgis_osrm") %></option>
-            <option value="fossgis_valhalla" disabled><%= t("site.search.providers.fossgis_valhalla") %></option>
-          </optgroup>
-        </select>
+        <%= options = %w[graphhopper fossgis_osrm fossgis_valhalla].map do |engine|
+              [t("site.search.providers.#{engine}"), engine, { :disabled => true }]
+            end
+            select_tag "routing_engines",
+                       grouped_options_for_select({ t("site.search.providers.description") => options }),
+                       :class => "form-select py-1 px-2",
+                       :title => t("site.search.providers.description") %>
         <button type="button" class="btn-close flex-shrink-0 p-2 rounded-5" aria-label="<%= t("javascripts.close") %>"></button>
       </div>
       <div class="d-flex gap-2 align-items-center">
@@ -63,9 +58,10 @@
             <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2 ps-4", :dir => "auto" %>
           </div>
         </div>
-        <button type="button" class="reverse_directions btn btn-outline-secondary border-0 p-1" title="<%= t("site.search.reverse_directions_text") %>">
-          <%= inline_svg_tag "search/reverse_directions.svg", :class => "d-block" %>
-        </button>
+        <%= button_tag inline_svg_tag("search/reverse_directions.svg", :class => "d-block"),
+                       :type => "button",
+                       :class => "reverse_directions btn btn-outline-secondary border-0 p-1",
+                       :title => t("site.search.reverse_directions_text") %>
       </div>
     </div>
   </form>

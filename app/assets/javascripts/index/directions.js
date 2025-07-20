@@ -32,7 +32,7 @@ OSM.Directions = function (map) {
   expiry.setYear(expiry.getFullYear() + 10);
 
   const modeGroup = $(".routing_modes");
-  const select = $("select.routing_engines");
+  const select = $("select#routing_engines");
 
   $(".directions_form .reverse_directions").on("click", function () {
     const coordFrom = endpoints[0].latlng,
@@ -70,10 +70,10 @@ OSM.Directions = function (map) {
     modeGroup
       .find("input[id]")
       .prop("disabled", function () {
-        return !modes.includes(this.id);
+        return !modes.includes(this.value);
       })
       .prop("checked", function () {
-        return this.id === chosenEngine.mode;
+        return this.value === chosenEngine.mode;
       });
 
     const providers = engines
@@ -140,7 +140,7 @@ OSM.Directions = function (map) {
   setEngine(Cookies.get("_osm_directions_engine"));
 
   modeGroup.on("change", "input[name='modes']", function (e) {
-    setEngine(chosenEngine.provider + "_" + e.target.id);
+    setEngine(chosenEngine.provider + "_" + e.target.value);
     Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
     getRoute(true, true);
   });
