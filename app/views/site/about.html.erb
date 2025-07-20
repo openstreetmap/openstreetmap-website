@@ -21,19 +21,11 @@
     <div class='bg-body px-5 py-4'>
       <p class="lead"><%= t ".lede_text" %></p>
 
-      <section>
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <%= inline_svg_tag "about/local.svg", :class => "flex-shrink-0" %>
-          <h2 class="flex-grow-1 mb-0"><%= t ".local_knowledge_title" %></h2>
-        </div>
+      <%= render :layout => "about_section", :locals => { :icon => "local", :title => "local_knowledge" } do %>
         <p><%= t ".local_knowledge_html" %></p>
-      </section>
+      <% end %>
 
-      <section>
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <%= inline_svg_tag "about/community.svg", :class => "flex-shrink-0" %>
-          <h2 class="flex-grow-1 mb-0"><%= t ".community_driven_title" %></h2>
-        </div>
+      <%= render :layout => "about_section", :locals => { :icon => "community", :title => "community_driven" } do %>
         <p>
           <%= t ".community_driven_1_html", :osm_blog_link => link_to(t(".community_driven_osm_blog"),
                                                                       t(".community_driven_osm_blog_url")),
@@ -44,24 +36,16 @@
                                             :osm_foundation_link => link_to(t(".community_driven_osm_foundation"),
                                                                             t(".community_driven_osm_foundation_url")) %>
         </p>
-      </section>
+      <% end %>
 
-      <section id="open-data">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <%= inline_svg_tag "about/open.svg", :class => "flex-shrink-0" %>
-          <h2 class="flex-grow-1 mb-0"><%= t ".open_data_title" %></h2>
-        </div>
+      <%= render :layout => "about_section", :locals => { :id => "open-data", :icon => "open", :title => "open_data" } do %>
         <p>
           <%= t ".open_data_1_html", :open_data => tag.i(t(".open_data_open_data")),
                                      :copyright_license_link => link_to(t(".open_data_copyright_license"),
                                                                         copyright_path) %></p>
-      </section>
+      <% end %>
 
-      <section id="legal">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <%= inline_svg_tag "about/legal.svg", :class => "flex-shrink-0" %>
-          <h2 class="flex-grow-1 mb-0"><%= t ".legal_title" %></h2>
-        </div>
+      <%= render :layout => "about_section", :locals => { :id => "legal", :icon => "legal", :title => "legal" } do %>
         <p>
           <%= t ".legal_1_1_html", :openstreetmap_foundation_link => link_to(t(".legal_1_1_openstreetmap_foundation"),
                                                                              t(".legal_1_1_openstreetmap_foundation_url")),
@@ -80,18 +64,14 @@
           <%= t ".legal_2_2_html", :registered_trademarks_link => link_to(t(".legal_2_2_registered_trademarks"),
                                                                           t(".legal_2_2_registered_trademarks_url")) %>
         </p>
-      </section>
+      <% end %>
 
-      <section id="partners">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <%= inline_svg_tag "about/partners.svg", :class => "flex-shrink-0" %>
-          <h2 class="flex-grow-1 mb-0"><%= t ".partners_title" %></h2>
-        </div>
+      <%= render :layout => "about_section", :locals => { :id => "partners", :icon => "partners", :title => "partners" } do %>
         <p><%= t "layouts.hosting_partners_2024_html", :fastly => link_to(t("layouts.partners_fastly"), "https://www.fastly.com/"),
                                                        :corpmembers => link_to(t("layouts.partners_corpmembers"), "https://osmfoundation.org/wiki/Corporate_Members"),
                                                        :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
         </p>
-      </section>
+      <% end %>
     </div>
   <% end %>
 <% end %>
