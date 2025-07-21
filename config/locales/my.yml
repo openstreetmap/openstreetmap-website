@@ -3,12 +3,16 @@
 # Export driver: phpyaml
 # Author: Dr Lotus Black
 # Author: Ninjastrikers
+# Author: Phosai
 # Author: Sithu015
 # Author: Zyh333222
 # Author: ခွန်ပညာႏ(တောင်ႏကီꩻ)
 # Author: သူထွန်း
 ---
 my:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: |-
@@ -19,7 +23,7 @@ my:
       prompt: ဖိုင်ရွေးပါ
     submit:
       diary_comment:
-        create: သိမ်းရန်
+        create: မှတ်ချက်
       diary_entry:
         create: လွှင့်တင်ရန်
         update: မွမ်းမံ
@@ -30,11 +34,29 @@ my:
       oauth2_application:
         create: မှတ်ပုံတင်ရန်
         update: မွမ်းမံ
+      redaction:
+        create: ပြင်ဆင်တည်းဖြတ်မှု ဖန်တီးရန်
+        update: ပြင်ဆင်တည်းဖြတ်မှု သိမ်းဆည်းရန်
       trace:
         create: တင်ရန်
         update: ပြောင်းလဲမှုများကို သိမ်းရန်
+      user_block:
+        create: ပိတ်ဆို့တားဆီးမှု ဖန်တီးရန်
+        update: ပိတ်ဆို့တားဆီးမှု အပ်ဒိတ်လုပ်ရန်
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: n သည် သင့်အသုံးပြုသူ အိုင်ဒီ မဟုတ်လျှင် အသုံးပြုသူ_n
+          သည် မဖြစ်နိုင်
+      models:
+        user_mute:
+          is_already_muted: အသံတိတ်ဖုံးကွယ်ထားနှင့်ပြီးဖြစ်သည်
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Url သည် http:// သို့မဟုတ် https:// ဖြင့်သာ အစပြုသင့်သည်။
     models:
+      acl: ထိန်းချုပ်မှုစာရင်း ဝင်ရောက်ကြည့်ရှုရန်
       country: နိုင်ငံ
       friend: သူငယ်ချင်း
       language: ဘာသာစကား
@@ -653,7 +675,7 @@ my:
         older: ပိုဟောင်းသော မှတ်ချက်များ
         newer: ပိုသစ်သော မှတ်ချက်များ
   site:
-    about:
+    about_section:
       local_knowledge_title: ဒေသန္တရ ဗဟုသုတ
       legal_title: တရားဝင်
       partners_title: လုပ်ဖော်ကိုင်ဖက်များ

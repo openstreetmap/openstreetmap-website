@@ -393,7 +393,10 @@ hr:
         already_declared: Već ste izjavili da vaša uređivanja smatrate javnom domenom.
         did_not_confirm: Niste potvrdili da vaša uređivanja smatrate javnom domenom.
   browse:
+    deleted_ago_by_html: Izbrisao %{time_ago} korisnik %{user}
+    edited_ago_by_html: Uredio %{time_ago} korisnik %{user}
     version: Inačica
+    redacted_version: Redigirana verzija
     in_changeset: Set promjena
     anonymous: anonimno
     no_comment: (bez komentara)
@@ -407,6 +410,7 @@ hr:
       few: '%{count} puta'
       other: '%{count} puta'
     download_xml: Preuzmi XML
+    view_unredacted_history: Prikaži neredigiranu povijest
     location: 'Lokacija:'
     node:
       title_html: 'Točka: %{name}'
@@ -435,7 +439,10 @@ hr:
         relation: Relacija
     containing_relation:
       entry_role_html: '%{relation_name} (kao %{relation_role})'
+    not_found:
+      title: Nije nađeno
     timeout:
+      title: Greška vremenskog ograničenja
       sorry: Žao mi je, predugo traje učitavanje podataka za %{type} sa id %{id}
       type:
         node: točka
@@ -452,8 +459,10 @@ hr:
         way: put
         relation: relacija
     start_rjs:
-      feature_warning: Učitavam %{num_features} elemenata, što može usporiti ili zaglaviti
-        tvoj internet preglednik. Jesi li siguran/na da želiš prikazati ove podatke?
+      feature_warning: Učitavanje %{num_features} značajki može usporiti ili uzrokovati
+        nereagiranje vašeg internet preglednika. Jeste li sigurani da želite prikazati
+        ove podatke?
+      feature_error: 'Nije moguće učitati značajke: %{message}'
       load_data: Učitaj podatke
       loading: Učitavanje...
     tag_details:
@@ -462,9 +471,20 @@ hr:
         key: Opis wiki stranica za oznaku %{key} (tag)
         tag: Opis wiki stranica za oznaku %{key}=%{value} (tag)
       wikidata_link: '%{page} Predmet na Wikidata'
+      wikidata_preview: '{{PLURAL|jedan=pregled Wikidata stavke|few=pregled Wikidata
+        stakvi|Pregled Wikidata stavki}'
       wikipedia_link: Članak o %{page} na Wikipediji
       wikimedia_commons_link: '%{page} element na Wikimedia Commons'
       telephone_link: Nazovi %{phone_number}
+      colour_preview: Pregled boje %{colour_value}
+      email_link: E-mail %{email}
+    versions_navigation:
+      node: Točka
+      way: Put
+      relation: Relacija
+      history: Povijest
+      version: 'Inačica #%{version}'
+      versions_label: 'Inačice:'
   feature_queries:
     show:
       title: Provjeri elemente karte
@@ -479,6 +499,41 @@ hr:
         title_html: 'Povijest puta: %{name}'
       relation:
         title_html: 'Povijest relacije: %{name}'
+      older_versions: Starije verzije
+      newer_versions: Novije verzije
+    actions:
+      view_redacted_data: Prikaz redigiranih podataka
+      view_redaction_message: Prikaži poruku o redakciji
+  nodes:
+    not_found_message:
+      sorry: 'Nažalost, točka #%{id} se ne može naći.'
+    timeout:
+      sorry: Nažalost, dohvaćanje podataka za čvora ID %{id} traje predugo.
+  old_nodes:
+    not_found_message:
+      sorry: 'Nažalost, čvor #%{id} verzija %{version} nije pronađena.'
+    timeout:
+      sorry: Nažalost, dohvaćanje povijesti čvora ID %{id} traje predugo.
+  ways:
+    not_found_message:
+      sorry: 'Nažalost, put #%{id} se ne može naći.'
+    timeout:
+      sorry: Nažalost, dohvaćanje podataka za put ID %{id} traje predugo.
+  old_ways:
+    not_found_message:
+      sorry: 'Nažalost, čvor #%{id} verzija %{version} se ne može pronaći.'
+    timeout:
+      sorry: Nažalost, dohvaćanje povijesti puta ID %{id} traje predugo.
+  relations:
+    not_found_message:
+      sorry: 'Nažalost, relacija #%{id} se ne može pronaći.'
+    timeout:
+      sorry: Nažalost, dohvaćanje podataka za relaciju ID %{id} traju predugo.
+  old_relations:
+    not_found_message:
+      sorry: 'Nažalost, relacija #%{id} verzija %{version} se ne može pronaći.'
+    timeout:
+      sorry: Nažalost, dohvaćanje povijesti relacije ID %{id} traje predugo.
   changeset_comments:
     feeds:
       comment:
@@ -487,10 +542,35 @@ hr:
       show:
         title_all: Rasprava o OpenStreetMap setu promjena
         title_particular: 'Rasprava o OpenStreetMap setu promjena #%{changeset_id}'
+      timeout:
+        sorry: Nažalost, preuzimanje popisa komentara skupova promjena predugo traje.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} komentar'
+        few: '%{count} komentara'
+        other: '%{count} komentara'
+      changes:
+        one: '%{count} promjena'
+        few: '%{count} promjena'
+        other: '%{count} promjena'
+      n_elements_created:
+        one: '%{count} element stvoren'
+        few: '%{count} elemenata stvoreno'
+        other: '%{count} elemenata stovreno'
+      n_elements_modified:
+        one: '%{count} element promijenjen'
+        few: '%{count} elementa promijenjeno'
+        other: '%{count} elemenata promijenjeno'
+      n_elements_deleted:
+        one: '%{count} element obrisan'
+        few: '%{count} elemenata obrisano'
+        other: '%{count} elemenata obrisano'
     index:
       title: Setovi promjena
       title_user: Setovi promjena od %{user}
+      title_user_link_html: Skupovi promjena %{user_link}
+      title_followed: Skupovi promjena korisnika koje pratite
       title_nearby: Setovi promjena obližnjih korisnika
       empty: Nisu pronađeni setovi promjena.
       empty_area: Nema setova promjena na ovom području.
@@ -498,6 +578,8 @@ hr:
       no_more: Nema više pronađenih setova promjena.
       no_more_area: Nema više paketa uređivanja na ovom području.
       no_more_user: Nema više setova promjena ovog korisnika.
+      older_changesets: Stari skupovi promjena
+      newer_changesets: Noviji skupovi promjena
       feed:
         title: Set promjena %{id}
         title_comment: Set promjena %{id} - %{comment}
@@ -506,21 +588,47 @@ hr:
         belongs_to: Autor
     show:
       title: 'Set promjena: %{id}'
+      created: 'Uređeno: %{when}'
+      closed: 'Zatvoreno: %{when}'
+      created_ago_html: Uređeno %{time_ago}
+      closed_ago_html: Zatvoreno %{time_ago}
+      created_ago_by_html: Uredio %{time_ago} korisnik %{user}
+      closed_ago_by_html: Zatvorio %{time_ago} korisnik %{user}
       discussion: Razgovor
       join_discussion: Prijavi se za uključivanje u raspravu
+      still_open: Skup promjena je još uvijek otvoren - rasprava će se otvoriti nakon
+        što se skup promjena zatvori.
       subscribe: Pretplati se
       unsubscribe: Otkaži pretplatu
+      comment_by_html: Komentar %{user} %{time_ago}
+      hidden_comment_by_html: Skriveni komentar %{user} %{time_ago}
       hide_comment: sakrij
       unhide_comment: vrati sakriveno
       comment: Komentiraj
       changesetxml: XLM Set promjena
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Čvorovi
       nodes_paginated: Točke (%{x}-%{y} od %{count})
+      ways_title: Putevi
       ways_paginated: Putovi(%{x}-%{y} od %{count})
+      relations_title: Relacije
       relations_paginated: Relacije(%{x}-%{y} od %{count})
+      range: '%{x}-%{y} od %{count}'
+    not_found_message:
+      sorry: 'Nažalost, skup promjena #%{id} nije pronađen.'
     timeout:
       sorry: Nažalost, preuzimanje popisa setova promjena predugo traje.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Želite li se pretplatiti na slijedeću raspravu o skupu promjena?
+        button: Pretplatite se na raspravu
+      unsubscribe:
+        heading: Želite li se odjaviti sa sljedeće rasprave o skupu promjena?
+        button: Odjavite se s rasprave
+    heading:
+      title: Skup promjena %{id}
   dashboards:
     contact:
       km away: udaljen %{count}km
@@ -569,8 +677,8 @@ hr:
       comment_link: Komentiraj ovaj zapis
       reply_link: Pošalji poruku autoru
       comment_count:
-        zero: Nema komentara
         one: '%{count} komentar'
+        few: '%{count} komentara'
         other: '%{count} komentara'
       edit_link: Uredi ovaj zapis
       hide_link: Sakrij ovaj unos
@@ -611,12 +719,12 @@ hr:
           aerodrome: Zračna luka
           airstrip: Uzletno/sletna pista
           apron: Pristanišna platforma
-          gate: Izlaz
+          gate: Izlaz zračne luke
           hangar: Hangar
           helipad: Heliodrom
           runway: Pista
           taxiway: Rulnica
-          terminal: Terminal
+          terminal: Terminal zračne luke
         amenity:
           animal_boarding: Hotel za kućne ljubimce
           animal_shelter: Sklonište za životinje
@@ -657,7 +765,7 @@ hr:
           fire_station: Vatrogasna postaja
           food_court: Blagovaonski kutak
           fountain: Fontana
-          fuel: Benzinska
+          fuel: Benzinska crpka
           gambling: Kockarnica
           grave_yard: Groblje
           hospital: Bolnica
@@ -1006,7 +1114,7 @@ hr:
           deli: Delikatesni dućan
           department_store: Robna kuća
           discount: Diskont
-          doityourself: Uradi sam
+          doityourself: '''Sam svoj majstor'' trgovina'
           dry_cleaning: Kemijska čistionica
           electronics: Trgovina elektronikom
           erotic: Erotska trgovina
@@ -1025,7 +1133,7 @@ hr:
           grocery: Trgovina prehranom
           hairdresser: Frizer
           hardware: Željezar
-          hifi: Hi-Fi
+          hifi: Trgovina Hi-Fi opremom
           jewelry: Zlatarna
           kiosk: Kiosk
           laundry: Praonica rublja
@@ -1056,7 +1164,7 @@ hr:
           artwork: Umjetničko djelo
           attraction: Atrakcija
           bed_and_breakfast: Noćenje i doručak
-          cabin: Koliba
+          cabin: Turistička kabina
           camp_site: Kamp
           caravan_site: Kamp-kućice (mjesto)
           chalet: Planinska kuća
@@ -1092,14 +1200,14 @@ hr:
           weir: Brana
           "yes": Vodotok
       admin_levels:
-        level2: Državna granica
-        level3: Granica regije
-        level5: Granica regije
-        level6: Granica županije
-        level7: Granica općine/grada
-        level8: Granica naselja
-        level9: Granica sela
-        level10: Granica predgrađa
+        level2: Međunarodna granica
+        level3: Administrativna granica (razina 3)
+        level5: Administrativna granica (razina 5)
+        level6: Administrativna granica (razina 6)
+        level7: Administrativna granica (razina 7)
+        level8: Administrativna granica (razina 8)
+        level9: Administrativna granica (razina 9)
+        level10: Administrativna granica (razina 10)
   searches:
     queries:
       create:
@@ -1147,7 +1255,7 @@ hr:
     follow_notification:
       see_their_profile: Možeš vidjeti njihov profil na %{userurl}.
     gpx_failure:
-      failed_to_import: 'Import nije uspio. Ovdje je greška:'
+      failed_to_import: Izgleda da nije uspio uvoz vaše datoteke kao GNSS traga.
       subject: '[OpenStreetMap] GPX Import nije uspio'
     gpx_success:
       subject: '[OpenStreetMap] GPX Import uspješan'
@@ -1219,9 +1327,9 @@ hr:
       unread_button: Označi kao nepročitano
       destroy_button: Obriši
       back: Natrag
-      wrong_user: 'Prijavljeni ste kao: `%{user}'', ali poruka za koju ste zamoljeni
-        da pročitate nije poslana od ili prema tom korisniku. Molimo, prijavite se
-        kao ispravan korisnik kako bi ste pročitali.'
+      wrong_user: Prijavljeni ste kao `%{user}', ali poruka koju ste zamoljeni pročitati
+        nije poslana od ili prema tom korisniku. Molimo, prijavite se kao ispravni
+        korisnik kako bi ste je pročitali.
     destroy:
       destroyed: Poruka obrisana
     read_marks:
@@ -1267,14 +1375,14 @@ hr:
         destroy_button: Obriši
     replies:
       new:
-        wrong_user: 'Prijavljeni ste kao: `%{user}'', ali poruka za koju ste zamoljeni
-          da odgovorite nije poslana na tom korisniku. Molimo, prijavite se kao ispravan
-          korisnik kako bi se odgovorili.'
+        wrong_user: Prijavljeni ste kao `%{user}', ali poruka koju ste zamoljeni odgovoriti
+          nije poslana tom korisniku. Molimo, prijavite se kao ispravni korisnik kako
+          bi ste odgovorili.
   passwords:
     new:
       title: Izgubljena zaporka
       heading: Zaboravljena zaporka?
-      email address: 'Email adresa:'
+      email address: 'E-mail adresa:'
       new password button: Reset lozinke
       help_text: Unesite email adresu koju ste koristili za otvaranje računa i poslati
         ćemo vam poveznicu kojom možete resetirati zaporku.
@@ -1288,7 +1396,7 @@ hr:
   profiles:
     profile_sections:
       navigation:
-        image: 'Slika:'
+        image: Slika
     images:
       show:
         gravatar:
@@ -1308,13 +1416,13 @@ hr:
         update home location on click: Ažuriraj lokaciju doma kada kliknem na kartu?
   sessions:
     new:
-      tab_title: Prijava
-      email or username: 'Email adresa ili korisničko ime:'
-      password: 'Lozinka:'
+      tab_title: Prijavite se
+      email or username: E-mail adresa ili korisničko ime
+      password: Zaporka
       remember: Zapamti me
       lost password link: Izgubljena zaporka?
-      login_button: Prijava
-      with external: 'Ili koristite drugi servis za prijavljivanje:'
+      login_button: Prijavite se
+      with external: ili koristite prijavu treće strane
       auth failure: Žao mi je, ne mogu prijaviti s ovim detaljima.
     destroy:
       title: Odjava
@@ -1338,6 +1446,7 @@ hr:
       lede_text: OpenStreetMap je izgradila zajednica kartografa koji donose i održavaju
         podatke o cestama, stazama, kafićima, željezničkim postajama i još mnogo čemu
         drugom diljem cijelog svijeta.
+    about_section:
       local_knowledge_title: Lokalno znanje
       local_knowledge_html: OpenStreetMap pridodaje posebnu važnost lokalnom znanju.
         Doprinositelji koriste zračne snimke, GPS uređaje i vlastite terenske podatke
@@ -1425,11 +1534,11 @@ hr:
       export_button: Export
     help:
       welcome:
-        title: Dobrodošao/la na OSM
+        title: Dobrodošao/la na OpenStreetMap
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Hr:Beginners%27_guide
       wiki:
-        title: wiki.openstreetmap.org
+        title: OpenStreetMap Wiki
     any_questions:
       title: Ima li pitanja?
     sidebar:
@@ -1581,7 +1690,10 @@ hr:
       visibility: 'Vidljivost:'
     trace:
       pending: U TIJEKU
-      count_points: '%{count} točaka'
+      count_points:
+        one: '%{count} točka'
+        few: '%{count} točke'
+        other: '%{count} točaka'
       more: više
       trace_details: Vidi detalje traga
       view_map: Prikaži kartu
@@ -1596,7 +1708,7 @@ hr:
       description: Pretraži nedavno objavljene GNSS tragove
       tagged_with: ' označeni sa %{tags}'
       upload_trace: Postavi GNSS trag
-      my_traces: Moji GNSS tragovi
+      my_traces: Moji tragovi
     destroy:
       scheduled_for_deletion: Trase raspoređene za brisanje
     offline_warning:
@@ -1614,37 +1726,37 @@ hr:
       cookies_needed: Čini se da su vam cookie-i onemogućeni, molim omogućite cookie
         u vašem pregledniku prije nastavka.
     setup_user_auth:
-      blocked: Tvoj pristup API-u je blokiran. Prijavite se na web sučelje da saznate
-        više.
+      blocked: Vaš pristup API-ju je blokiran. Prijavite se na web sučelje kako biste
+        saznali više.
     auth_providers:
       google:
-        title: Prijavi se sa Google-om
-        alt: Prijavi se sa Google-ovim OpenID-om
+        title: Prijavite se pomoću Googlea
+        alt: Logotip Googlea
       facebook:
-        title: Prijavi se sa Facebook-om
-        alt: Prijavi se sa računom Facebook-a
+        title: Prijavite se pomoću Facebooka
+        alt: Logotip Facebooka
       microsoft:
-        title: Prijavi se sa Windows Live-om
-        alt: Prijavi se sa računom Windows Live-a
+        title: Prijavite se pomoću Microsofta
+        alt: Microsoftov logotip
       github:
-        title: Prijavi se sa Github-om
-        alt: Prijavi se sa računom Github-a
+        title: Prijavite se pomoću GitHuba
+        alt: Logotip GitHuba
       wikipedia:
-        title: Prijavi se preko Wikipedije
-        alt: Prijavi se s Wikipedijinim računom
+        title: Prijavi se pomoću Wikipedije
+        alt: Logotip Wikipedije
   users:
     new:
       title: Otvori račun
       no_auto_account_create: Nažalost nismo u mogućnosti automatski otvarati korisničke
         račune.
       about:
-        header: Slobodna i svatko je može uređivati
+        header: Besplatno i s mogućnošću uređivanja
       display name description: Javno prikazano korisničko ime. Možete ga promjeniti
         i kasnije u postavkama.
       by_signing_up:
         tou: Uvjeti upotrebe
       continue: Otvori račun
-      use external auth: Alternativno, koristite drugi servis za prijavljivanje
+      use external auth: ili se prijavite pomoću treće strane
     no_such_user:
       title: Nema takvog korisnika
       heading: Korisnik %{user}  ne postoji
@@ -1729,15 +1841,15 @@ hr:
       heading: Račun suspendiran
   user_role:
     filter:
-      not_a_role: String `%{role}' nije valjana uloga.
+      not_a_role: Niz '%{role}' nije valjana uloga.
       already_has_role: Korisnik već ima ulogu %{role}.
       doesnt_have_role: Korisnik nema ulogu %{role}.
     grant:
-      are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
-        `%{name}'?
+      are_you_sure: Jeste li sigurni da želite dodjeliti ulogu '%{role}' korisniku
+        '%{name}'?
     revoke:
-      are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' iz korisnika
-        `%{name}'?
+      are_you_sure: Jeste li sigurni da želite opozvati ulogu '%{role}' od korisnika
+        '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Morate biti moderator da stvorite ili ažurirate  blokadu.
@@ -1770,22 +1882,23 @@ hr:
       time_past_html: Završeno %{time}.
       block_duration:
         hours:
-          one: 1 sat
+          one: '%{count} sat'
+          few: '%{count} sata'
           other: '%{count} sati'
         days:
-          one: 1 dan
+          one: '%{count} dan'
           few: '%{count} dana'
           other: '%{count} dana'
         weeks:
-          one: 1 tjedan
+          one: '%{count} tjedan'
           few: '%{count} tjedna'
           other: '%{count} tjedana'
         months:
-          one: 1 mjesec
+          one: '%{count} mjesec'
           few: '%{count} mjeseca'
           other: '%{count} mjeseci'
         years:
-          one: 1 godina
+          one: '%{count} godina'
           few: '%{count} godine'
           other: '%{count} godina'
     show:
@@ -1808,7 +1921,7 @@ hr:
     index:
       title: Bilješke stvorio ili komentirao %{user}
       heading: Bilješke korisnika %{user}
-      subheading_html: Bilješke stvorio ili komentirao %{user}
+      subheading_html: Bilješke %{submitted} ili %{commented} %{user}
       id: Id
       creator: Tvorac
       description: Opis
