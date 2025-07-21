@@ -12,12 +12,12 @@
             <p class="card-text flex-grow-1"><%= truncate(strip_tags(entry.body.to_html), :length => 150) %></p>
 
             <div class="card-text d-flex justify-content-between align-items-center mt-auto">
-              <small class="text-body-secondary d-flex align-items-center">
-                <%= inline_svg_tag "diary/comment.svg", :class => "me-1", :title => t(".comments_label") %>
+              <small class="text-body-secondary d-flex gap-1 align-items-center">
+                <%= inline_svg_tag "diary/comment.svg", :title => t(".comments_label") %>
                 <%= link_to t(".comments", :count => entry.comments.size), diary_entry_path(@user, entry, :anchor => "comments"), :class => "text-body-secondary" %>
               </small>
-              <small class="text-body-secondary d-flex align-items-center">
-                <%= inline_svg_tag "diary/date.svg", :class => "me-1", :title => t(".date_label") %>
+              <small class="text-body-secondary d-flex gap-1 align-items-center">
+                <%= inline_svg_tag "diary/date.svg", :title => t(".date_label") %>
                 <span><%= l(entry.created_at.to_date, :format => :long) %></span>
               </small>
             </div>
