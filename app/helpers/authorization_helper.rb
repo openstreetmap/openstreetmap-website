@@ -6,7 +6,7 @@ module AuthorizationHelper
     html << t("oauth.scopes.#{scope}")
     if Oauth::MODERATOR_SCOPES.include? scope
       html << " "
-      html << role_icon_svg_tag("moderator", false, t("oauth.for_roles.moderator"), :class => "align-text-bottom")
+      html << role_icon_svg_tag("moderator", false, t("oauth.for_roles.moderator"), ["align-text-bottom"])
     end
     safe_join(html)
   end
