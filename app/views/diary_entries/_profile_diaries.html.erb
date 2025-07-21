@@ -13,7 +13,7 @@
 
             <div class="card-text d-flex justify-content-between align-items-center mt-auto">
               <small class="text-body-secondary d-flex gap-1 align-items-center">
-                <%= inline_svg_tag "diary/comment.svg", :title => t(".comments_label") %>
+                <%= inline_svg_tag entry.comments.empty? ? "icons/chat.svg" : "icons/chat-fill.svg", :size => "20px", :title => t(".comments_label") %>
                 <%= link_to t(".comments", :count => entry.comments.size), diary_entry_path(@user, entry, :anchor => "comments"), :class => "text-body-secondary" %>
               </small>
               <small class="text-body-secondary d-flex gap-1 align-items-center">
