@@ -5,9 +5,9 @@
       <div class="col profile-diary-card">
         <div class="card h-100">
           <div class="card-body d-flex flex-column">
-            <p class="card-title">
-              <%= inline_svg_tag "diary/entry.svg", :title => t(".title_label") %>
-              <%= link_to entry.title, diary_entry_path(@user, entry) %>
+            <p class="card-title d-flex gap-2">
+              <%= inline_svg_tag "icons/journal-text.svg", :size => "32px", :title => t(".title_label"), :class => "flex-shrink-0" %>
+              <%= link_to entry.title, diary_entry_path(@user, entry), :class => "align-self-center lh-sm" %>
             </p>
             <p class="card-text flex-grow-1"><%= truncate(strip_tags(entry.body.to_html), :length => 150) %></p>
 
