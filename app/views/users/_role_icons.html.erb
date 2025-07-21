@@ -1,17 +1,20 @@
 <% UserRole::ALL_ROLES.each do |role| %>
   <% if current_user&.administrator? %>
     <% if @user.role?(role) %>
-      <%= link_to role_icon_svg_tag(role, false, t("users.show.role.revoke.#{role}")),
+      <%= link_to inline_svg_tag("icons/role-star.svg", :class => "role-icon #{role}",
+                                                        :title => t("users.show.role.revoke.#{role}")),
                   user_role_path(@user, role),
                   :method => :delete,
                   :data => { :confirm => t("user_role.revoke.are_you_sure", :name => @user.display_name, :role => role) } %>
     <% else %>
-      <%= link_to role_icon_svg_tag(role, true, t("users.show.role.grant.#{role}")),
+      <%= link_to inline_svg_tag("icons/role-star.svg", :class => "role-icon #{role} inactive",
+                                                        :title => t("users.show.role.grant.#{role}")),
                   user_role_path(@user, role),
                   :method => :post,
                   :data => { :confirm => t("user_role.grant.are_you_sure", :name => @user.display_name, :role => role) } %>
     <% end %>
   <% elsif @user.role?(role) %>
-    <%= role_icon_svg_tag(role, false, t("users.show.role.#{role}")) %>
+    <%= inline_svg_tag "icons/role-star.svg", :class => "role-icon #{role}",
+                                              :title => t("users.show.role.#{role}") %>
   <% end %>
 <% end %>
