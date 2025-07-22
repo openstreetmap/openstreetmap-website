@@ -1,4 +1,5 @@
 //= require leaflet.maplibre
+//= require @maptiler/maplibre-gl-omt-language
 
 L.OSM.OpenMapTiles = L.MaplibreGL.extend({
   initialize: function (options) {
