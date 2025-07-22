@@ -19,7 +19,9 @@
 
   # Include user preferences for iD editor
   user_preferences = current_user.preferences.each_with_object({}) do |pref, hash|
-    hash[pref.k] = pref.v
+    if pref.k.start_with?("id-")
+      hash[pref.k] = pref.v
+    end
   end
   data[:user_preferences] = user_preferences.to_json
 %>
