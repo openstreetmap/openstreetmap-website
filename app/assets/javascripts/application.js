@@ -8,6 +8,7 @@
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require leaflet.shortbread
+//= require leaflet.maptiler
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
