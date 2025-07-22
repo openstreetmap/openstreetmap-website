@@ -352,23 +352,6 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-L.Icon.Default.imagePath = "/images/";
-
-L.Icon.Default.imageUrls = {
-  "/images/marker-icon.png": OSM.MARKER_ICON,
-  "/images/marker-icon-2x.png": OSM.MARKER_ICON_2X,
-  "/images/marker-shadow.png": OSM.MARKER_SHADOW
-};
-
-L.extend(L.Icon.Default.prototype, {
-  _oldGetIconUrl: L.Icon.Default.prototype._getIconUrl,
-
-  _getIconUrl: function (name) {
-    const url = this._oldGetIconUrl(name);
-    return L.Icon.Default.imageUrls[url];
-  }
-});
-
 OSM.isDarkMap = function () {
   const mapTheme = $("body").attr("data-map-theme");
   if (mapTheme) return mapTheme === "dark";
@@ -377,17 +360,22 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-OSM.getMarker = function ({ icon = "MARKER_RED", shadow = true, height = 41 }) {
-  const options = {
-    iconUrl: OSM[icon.toUpperCase()] || OSM.MARKER_RED,
-    iconSize: [25, height],
-    iconAnchor: [12, height],
+OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", shadow = true }) {
+  const html = `<svg viewBox="0 0 25 40"${
+    shadow ? " overflow='visible'" : ""
+  }>${
+    shadow ? "<use href='#pin-shadow' />" : ""
+  }<use href="#pin-${icon}" color="${color}" /></svg>`;
+  return L.divIcon({
+    html,
+    iconSize: [25, 40],
+    iconAnchor: [12, 40],
     popupAnchor: [1, -34]
-  };
-  if (shadow) {
-    options.shadowUrl = OSM.MARKER_SHADOW;
-    options.shadowSize = [41, 41];
-    options.shadowAnchor = [12, 41];
-  }
-  return L.icon(options);
+  });
+};
+
+OSM.noteMarkers = {
+  "closed": OSM.getMarker({ icon: "tick", color: "var(--marker-green)", shadow: false }),
+  "new": OSM.getMarker({ icon: "plus", color: "var(--marker-blue)", shadow: false }),
+  "open": OSM.getMarker({ icon: "cross", color: "var(--marker-red)", shadow: false })
 };
