@@ -1,7 +1,7 @@
 (function () {
   let abortController = null;
-  const languagesToRequest = [...new Set([...OSM.preferred_languages.map(l => l.toLowerCase()), "mul", "en"])];
-  const wikisToRequest = [...new Set(languagesToRequest.filter(l => l !== "mul").map(l => l.split("-")[0] + "wiki"))];
+  const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
+  const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
   const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
 
   $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
@@ -124,6 +124,7 @@
       ids: items.join("|"),
       props: "labels|sitelinks/urls|claims|descriptions",
       languages: languagesToRequest.join("|"),
+      languagefallback: 1,
       sitefilter: wikisToRequest.join("|")
     }), {
       headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
