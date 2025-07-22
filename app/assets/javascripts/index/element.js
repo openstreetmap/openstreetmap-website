@@ -149,17 +149,17 @@
   function getLocalizedResponse(entity) {
     const rank = ({ rank }) => ({ preferred: 1, normal: 0, deprecated: -1 })[rank] ?? 0;
     const toBestClaim = (out, claim) => (rank(claim) > rank(out)) ? claim : out;
-    const toFirstOf = (property) => (out, localization) => out ?? entity[property][localization];
+    const toFirstOf = (property) => (out, localization) => out ?? property[localization];
     const data = {
       qid: entity.id,
-      label: languagesToRequest.reduce(toFirstOf("labels"), null),
+      label: languagesToRequest.reduce(toFirstOf(entity.labels), null),
       icon: [
         "P8972", // small logo or icon
         "P154", // logo image
         "P14" // traffic sign
       ].reduce((out, prop) => out ?? entity.claims[prop]?.reduce(toBestClaim)?.mainsnak?.datavalue?.value, null),
-      description: languagesToRequest.reduce(toFirstOf("descriptions"), null),
-      article: wikisToRequest.reduce(toFirstOf("sitelinks"), null)
+      description: languagesToRequest.reduce(toFirstOf(entity.descriptions), null),
+      article: wikisToRequest.reduce(toFirstOf(entity.sitelinks), null)
     };
     if (data.article) data.article.language = data.article.site.replace("wiki", "");
     return data;
