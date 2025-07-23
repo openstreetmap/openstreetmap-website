@@ -33,11 +33,10 @@ OSM.Search = function (map) {
 
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
-    .on("click", ".search_results_entry a.set_position", clickSearchResult)
-    .on("mouseover", "li.search_results_entry:has(a.set_position)", showSearchResult)
-    .on("mouseout", "li.search_results_entry:has(a.set_position)", hideSearchResult);
+    .on("click", ".search_results_entry a.set_position", clickSearchResult);
 
   const markers = L.layerGroup().addTo(map);
+  let processedResults = 0;
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -58,30 +57,32 @@ OSM.Search = function (map) {
     })
       .then(response => response.text())
       .then(html => {
-        $target.replaceWith(html);
+        const result = $(html);
+        $target.replaceWith(result);
+        result.filter("ul").children().each(showSearchResult);
       });
   }
 
   function showSearchResult() {
-    let marker = $(this).data("marker");
-
-    if (!marker) {
-      const data = $(this).find("a.set_position").data();
-
-      marker = L.marker([data.lat, data.lon], { icon: OSM.getMarker({}) });
-
-      $(this).data("marker", marker);
-    }
-
+    const index = processedResults++;
+    const listItem = $(this);
+    const inverseGoldenAngle = (Math.sqrt(5) - 1) * 180;
+    const color = `hwb(${(index * inverseGoldenAngle) % 360}deg 5% 5%)`;
+    listItem.css("--marker-color", color);
+    const anchor = $("<a>").attr("href", listItem.find("a.set_position").attr("href"));
+    const data = listItem.find("a.set_position").data();
+    const marker = L.marker([data.lat, data.lon], { icon: OSM.getMarker({ color }) });
+    marker.on("mouseover", () => listItem.addClass("bg-body-secondary"));
+    marker.on("mouseout", () => listItem.removeClass("bg-body-secondary"));
+    marker.on("add", function () {
+      $(this.getElement()).replaceWith(anchor).appendTo(anchor);
+    });
+    marker.on("remove", function () {
+      anchor.remove();
+    });
     markers.addLayer(marker);
-  }
-
-  function hideSearchResult() {
-    const marker = $(this).data("marker");
-
-    if (marker) {
-      markers.removeLayer(marker);
-    }
+    listItem.on("mouseover", () => $(marker.getElement()).addClass("active"));
+    listItem.on("mouseout", () => $(marker.getElement()).removeClass("active"));
   }
 
   function panToSearchResult(data) {
@@ -117,7 +118,7 @@ OSM.Search = function (map) {
   };
 
   page.load = function () {
-    $(".search_results_entry").each(function (index) {
+    $(".search_results_entry[data-href]").each(function (index) {
       const entry = $(this);
       fetchReplace(this.dataset, entry.children().first())
         .then(() => {
@@ -136,6 +137,7 @@ OSM.Search = function (map) {
 
   page.unload = function () {
     markers.clearLayers();
+    processedResults = 0;
   };
 
   return page;
