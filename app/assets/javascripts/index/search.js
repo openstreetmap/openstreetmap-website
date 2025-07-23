@@ -48,12 +48,18 @@ OSM.Search = function (map) {
     $(this).hide();
     div.find(".loader").prop("hidden", false);
 
-    fetch($(this).attr("href"), {
+    fetchReplace(this, div);
+  }
+
+  function fetchReplace({ href }, $target) {
+    return fetch(href, {
       method: "POST",
       body: new URLSearchParams(OSM.csrf)
     })
       .then(response => response.text())
-      .then(data => div.replaceWith(data));
+      .then(html => {
+        $target.replaceWith(html);
+      });
   }
 
   function showSearchResult() {
@@ -113,13 +119,8 @@ OSM.Search = function (map) {
   page.load = function () {
     $(".search_results_entry").each(function (index) {
       const entry = $(this);
-      fetch(entry.data("href"), {
-        method: "POST",
-        body: new URLSearchParams(OSM.csrf)
-      })
-        .then(response => response.text())
-        .then(function (html) {
-          entry.html(html);
+      fetchReplace(this.dataset, entry.children().first())
+        .then(() => {
           // go to first result of first geocoder
           if (index === 0) {
             const firstResult = entry.find("*[data-lat][data-lon]:first").first();
