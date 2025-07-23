@@ -24,8 +24,8 @@ OSM.Directions = function (map) {
   };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "play", color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "stop", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
   ];
 
   const expiry = new Date();
