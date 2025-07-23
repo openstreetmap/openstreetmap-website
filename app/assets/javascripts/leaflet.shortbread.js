@@ -1,8 +1,8 @@
 //= require leaflet.maplibre
 
-L.OSM.Shortbread = L.MaplibreGL.extend({
+L.OSM.Shortbread = L.OSM.MaplibreGL.extend({
   onAdd: function (map) {
-    L.MaplibreGL.prototype.onAdd.call(this, map);
+    L.OSM.MaplibreGL.prototype.onAdd.call(this, map);
     const styleURL = "https://vector.openstreetmap.org/demo/shortbread/" + this.options.styleName;
     this.getMaplibreMap().setStyle(styleURL, {
       transformStyle: (previousStyle, nextStyle) => ({
@@ -25,7 +25,7 @@ L.OSM.Shortbread = L.MaplibreGL.extend({
     });
   },
   onRemove: function (map) {
-    L.MaplibreGL.prototype.onRemove.call(this, map);
+    L.OSM.MaplibreGL.prototype.onRemove.call(this, map);
   }
 });
 
