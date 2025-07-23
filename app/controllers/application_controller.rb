@@ -249,6 +249,7 @@ class ApplicationController < ActionController::Base
                        Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url, Settings.wikidata_api_url)
     policy.form_action(*policy.form_action, "render.openstreetmap.org", "tile.thunderforest.com")
     policy.img_src(*policy.img_src, Settings.wikimedia_commons_url, "upload.wikimedia.org")
+    policy.script_src(*policy.script_src, :wasm_unsafe_eval)
     policy.style_src(*policy.style_src, :unsafe_inline)
 
     request.content_security_policy = policy
