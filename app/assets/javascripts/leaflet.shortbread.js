@@ -3,7 +3,7 @@
 L.OSM.Shortbread = L.MaplibreGL.extend({
   onAdd: function (map) {
     L.MaplibreGL.prototype.onAdd.call(this, map);
-    const styleURL = "https://vector.openstreetmap.org/demo/shortbread/colorful.json";
+    const styleURL = "https://vector.openstreetmap.org/demo/shortbread/" + this.options.styleName;
     this.getMaplibreMap().setStyle(styleURL, {
       transformStyle: (previousStyle, nextStyle) => ({
         ...nextStyle,
@@ -26,5 +26,17 @@ L.OSM.Shortbread = L.MaplibreGL.extend({
   },
   onRemove: function (map) {
     L.MaplibreGL.prototype.onRemove.call(this, map);
+  }
+});
+
+L.OSM.ShortbreadColorful = L.OSM.Shortbread.extend({
+  options: {
+    styleName: "colorful.json"
+  }
+});
+
+L.OSM.ShortbreadEclipse = L.OSM.Shortbread.extend({
+  options: {
+    styleName: "eclipse.json"
   }
 });
