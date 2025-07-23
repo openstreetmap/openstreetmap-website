@@ -4,7 +4,6 @@
 L.OSM.OpenMapTiles = L.MaplibreGL.extend({
   initialize: function (options) {
     L.MaplibreGL.prototype.initialize.call(this, {
-      maxZoom: 23,
       style:
         "https://api.maptiler.com/maps/openstreetmap/style.json?key=" +
         options.apikey,
