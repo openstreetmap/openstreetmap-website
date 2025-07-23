@@ -215,7 +215,7 @@ $(function () {
   if (params.marker && params.mrad) {
     L.circle([params.mlat, params.mlon], { radius: params.mrad }).addTo(map);
   } else if (params.marker) {
-    L.marker([params.mlat, params.mlon]).addTo(map);
+    L.marker([params.mlat, params.mlon], { icon: OSM.getMarker({ color: "var(--marker-blue)" }) }).addTo(map);
   }
 
   function remoteEditHandler(bbox, object) {

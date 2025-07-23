@@ -1,6 +1,6 @@
 L.OSM.share = function (options) {
   const control = L.OSM.sidebarPane(options, "share", "javascripts.share.title", "javascripts.share.title"),
-        marker = L.marker([0, 0], { draggable: true }),
+        marker = L.marker([0, 0], { draggable: true, icon: OSM.getMarker({ color: "var(--marker-blue)" }) }),
         locationFilter = new L.LocationFilter({
           enableButton: false,
           adjustButton: false
