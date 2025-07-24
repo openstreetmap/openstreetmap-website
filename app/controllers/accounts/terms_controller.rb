@@ -13,6 +13,8 @@ module Accounts
     def show
       @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || Settings.default_legale
       @text = OSM.legal_text_for_country(@legale)
+      @text_legale = @legale
+      @text_legale = "GB" unless @legale == "FR" || @legale == "IT"
 
       if request.xhr?
         render :partial => "terms"
