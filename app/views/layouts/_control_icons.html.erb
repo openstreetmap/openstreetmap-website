@@ -1,4 +1,6 @@
 <% icons ||= Rails.root.glob("app/assets/images/map-controls/*.svg").map { |f| File.basename(f, ".svg") } %>
-<% icons.each do |icon| %>
-  <%= inline_svg_tag "map-controls/#{icon}.svg", :id => "icon-#{icon}", :to_symbol => true %>
-<% end %>
+<svg class="d-none">
+  <% icons.each do |icon| %>
+    <%= inline_svg_tag "map-controls/#{icon}.svg", :id => "icon-#{icon}", :to_symbol => true %>
+  <% end %>
+</svg>
