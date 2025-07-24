@@ -219,7 +219,7 @@ $(function () {
 
   $("input[name=legale]").change(function () {
     $("#contributorTerms").html("<div class='spinner-border' role='status'><span class='visually-hidden'>" + OSM.i18n.t("browse.start_rjs.loading") + "</span></div>");
-    fetch($(this).data("url"))
+    fetch(this.dataset.url, { headers: { "x-requested-with": "XMLHttpRequest" } })
       .then(r => r.text())
       .then(html => { $("#contributorTerms").html(html); });
   });
