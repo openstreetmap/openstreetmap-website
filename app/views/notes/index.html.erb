@@ -26,7 +26,7 @@
 <% else %>
   <%= render :partial => "notes_paging_nav" %>
 
-  <%= render :partial => "layouts/markers", :locals => { :types => %w[cross tick] } %>
+  <%= render :partial => "layouts/markers", :locals => { :types => %w[cross tick minus] } %>
 
   <table class="table table-sm note_list">
     <thead>
@@ -42,8 +42,18 @@
   <% @notes.each do |note| -%>
     <tr<% if note.author == @user %> class="table-primary"<% end %>>
       <td>
-        <svg width="25" height="40" alt="<%= t(note.closed? ? ".closed" : ".open") %>">
-          <%= tag.use :href => note.closed? ? "#pin-tick" : "#pin-cross", :color => "var(--marker-#{note.closed? ? 'green' : 'red'})" %>
+        <% if !note.visible?
+             alt_text_key = ".hidden"
+             pin_marker = tag.use :href => "#pin-minus", :color => "gray"
+           elsif note.closed?
+             alt_text_key = ".closed"
+             pin_marker = tag.use :href => "#pin-tick", :color => "var(--marker-green)"
+           else
+             alt_text_key = ".open"
+             pin_marker = tag.use :href => "#pin-cross", :color => "var(--marker-red)"
+           end %>
+        <svg width="25" height="40" alt="<%= t alt_text_key %>">
+          <%= pin_marker %>
         </svg>
       </td>
       <td><%= link_to note.id, note %></td>
