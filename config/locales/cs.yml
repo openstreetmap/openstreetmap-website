@@ -58,6 +58,9 @@
 # Author: Zbycz
 ---
 cs:
+  date:
+    formats:
+      heatmap: '%-d. %-m.'
   time:
     formats:
       friendly: '%e. %m. %Y v %H:%M'
@@ -199,6 +202,7 @@ cs:
         company: Firma
         home_lat: Zeměpisná šířka
         home_lon: Zeměpisná délka
+        home_location_name: Název polohy domova
         languages: Preferované jazyky
         preferred_editor: Preferovaný editor
         pass_crypt: Heslo
@@ -521,6 +525,11 @@ cs:
         key: Stránka s popisem značky %{key} na wiki
         tag: Stránka s popisem značky %{key}=%{value} na wiki
       wikidata_link: Položka %{page} na Wikidatech
+      wikidata_preview:
+        one: Náhled položky Wikidat
+        few: Náhled položek Wikidat
+        many: Náhled položek Wikidat
+        other: Náhled položek Wikidat
       wikipedia_link: Článek %{page} na Wikipedii
       wikimedia_commons_link: Položka %{page} na Wikimedia Commons
       telephone_link: Volat %{phone_number}
@@ -605,6 +614,21 @@ cs:
         few: '%{count} změny'
         many: '%{count} změny'
         other: '%{count} změn'
+      n_elements_created:
+        one: Založen %{count} prvek
+        few: Založeny %{count} prvky
+        many: Založeno %{count} prvku
+        other: Založeno %{count} prvků
+      n_elements_modified:
+        one: Změněn %{count} prvek
+        few: Změněny %{count} prvky
+        many: Změněno %{count} prvku
+        other: Změněno %{count} prvků
+      n_elements_deleted:
+        one: Smazán %{count} prvek
+        few: Smazány %{count} prvky
+        many: Smazáno %{count} prvku
+        other: Smazáno %{count} prvků
     index:
       title: Sady změn
       title_user: Sady změn uživatele %{user}
@@ -2211,6 +2235,9 @@ cs:
         show: Zobrazit
         delete: Smazat
         undelete: Vrátit smazání
+      update:
+        success: Profilová poloha byla aktualizována.
+        failure: Nepodařilo se aktualizovat profilovou polohu.
   sessions:
     new:
       tab_title: Přihlášení
@@ -2277,6 +2304,8 @@ cs:
       issues:
         older: Starší problémy
         newer: Novější problémy
+        oldest: Nejstarší problémy
+        newest: Nejnovější problémy
       traces:
         older: Starší stopy
         newer: Novější stopy
@@ -2349,17 +2378,65 @@ cs:
         native_link: českou verzi
         mapping_link: začít mapovat
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap poskytuje mapová data pro tisíce webových stránek, mobilních aplikací a hardwarových zařízení.
+          OpenStreetMap tvoří komunita lidí jako vy, kteří přidávají a udržují data o silnicích, cestách, kavárnách, železničních stanicích a mnohém dalším po celém světě.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} a %{get_started_mapping_link}!
+          Více informací se dozvíte na %{osm_blog_link} a můžete se přihlásit k odběru %{weeklyosm_link}.
+          Ostatní mappery můžete najít ve vaší místní %{osm_community_link}.
+          Podpořte projekt tím, že vstoupíte do %{osm_foundation_link} či %{making_donation_link}.
+        lead_2_learn_more_about_osm: Zjistěte více o OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/Cs:Co_je_OpenStreetMap
+        lead_2_get_started_mapping: začněte mapovat
+        lead_2_osm_blog: blogu OpenStreetMap
+        lead_2_weeklyosm_url: https://weeklyosm.eu/cz/
+        lead_2_osm_community: komunitě OSM
+        lead_2_osm_foundation: Nadace OSM
+        lead_2_making_donation: poskytnete příspěvek
+        licensing_title: Licencování OpenStreetMap
+        licensing_1_html: 'OpenStreetMap jsou %{open} data, která za podmínek %{odc_odbl_link}
+          (ODbL) nabízí %{osm_foundation_link} (OSMF). Stručně řečeno:'
+        licensing_1_open: otevřená
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_osm_foundation: Nadace OpenStreetMap
+        licensing_2_html: Smíte kopírovat, distribuovat, sdělovat veřejnosti a upravovat
+          naše data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele. Pokud
+          naše data budete upravovat nebo je použijete ve svém díle, musíte výsledek
+          šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny v %{legal_code_link}.
+        licensing_2_legal_code: plném licenčním ujednání na Open Data Commons
+        licensing_3_html: Naše dokumentace je licencována pod licencí %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Uveďte autora-Zachovejte
+          licenci 2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.cs
+        licensing_4_html: O používání našich dat se můžete dočíst více na %{osmf_license_page_link}.
         licensing_4_osmf_license_page: licenční stránce OSMF
         credit_title_html: Jak uvádět OpenStreetMap
         credit_1_html: 'Pokud používáte data OpenStreetMap, máte povinnost učinit
           následující dvě věci:'
+        credit_2_attribution: Uvést jako zdroj OpenStreetMap zobrazením naší informace
+          o autorských právech.
         credit_2_license: Jasně uvést, že data jsou dostupná za podmínek Open Database
           License.
-        credit_3_v2025_attribution_guidelines: Pokynech pro uvádění původu
+        credit_3_v2025_html: |-
+          Co se týká uvedení autorských práv, liší se %{requirements_on_how_displayed_link} podle toho, jak naše data používáte.
+          Různá pravidla zobrazení informací o autorských právech například platí, když tvoříte interaktivní mapu, tištěnou mapu nebo statický obrázek.
+          Podrobné informace naleznete v části %{attribution_guidelines_link} našich %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: naše požadavky na jejich uvádění
+        credit_3_v2025_attribution_guidelines: Pokyny pro uvádění původu
+        credit_3_v2025_licensing_requirements: licenčních požadavků
+        credit_4_v2025_html: |-
+          Obecně řečeno,
+          aby bylo zřejmé, že jsou data dostupná za podmínek Open
+          Database License, můžete odkázat na %{this_copyright_page_link}.
+          Pokud OSM šíříte v datové podobě,
+          uveďte a odkažte přímo na licenci. Ve formě,
+          ve které odkazování není možné (např. v tištěných dílech),
+          vložte na stránku plné URL, např. %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: tuto stránku k autorským právům
+        credit_5_v2025_html: 'V tomto příkladu se informace o zdroji objevuje v rohu
+          mapy:'
         attribution_example:
           alt: Příklad, jak uvádět autorství OpenStreetMap na webové stránce
           title: Příklad uvedení autorství
@@ -2378,6 +2455,11 @@ cs:
           zapsané ochranné známky OpenStreetMap Foundation. Pokud máte dotazy ohledně
           vašeho používání těchto známek, vizte naše %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Pravidla k ochranným známkám
+        services_title_html: Další služby
+        services_1_html: |-
+          Přestože jsou OpenStreetMap otevřená data, nemůžeme třetím stranám poskytovat
+          bezplatné mapové API nebo mapové dlaždice.
+          Vizte naše %{api_usage_policy_link}, %{tile_usage_policy_link} a %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Pravidla použití API
         services_1_tile_usage_policy: Pravidla použití dlaždic
         services_1_nominatim_usage_policy: Pravidla použití Nominatimu
@@ -2589,6 +2671,8 @@ cs:
         bicycle: Na kole
         car: Autem
         foot: Pěšky
+      providers:
+        description: Služby výpočtu trasy
     welcome:
       title: Vítejte!
       introduction: Vítejte v OpenStreetMap, svobodné a editovatelné mapě světa. Teď,
@@ -2634,7 +2718,11 @@ cs:
       title: Nemáte čas editovat? Přidejte poznámku!
       para_1: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat
         a učit se editovat, můžete jednoduše přidat poznámku.
-      the_map: mapu
+      para_2_html: |-
+        Stačí kliknout na %{note_icon} nebo na stejnou ikonku na %{map_link}.
+        Tím do mapy přidáte značku, kterou můžete přesunout tažením myší.
+        Přidejte svou zprávu a klikněte na uložit a ostatní uživatelé se na to podívají.
+      the_map: mapě
     communities:
       title: Komunity
       lede_text: |-
@@ -2657,6 +2745,9 @@ cs:
           komunitní skupina. Kdokoli může založit takovou skupinu nebo se připojit.
           Více informací najdete na %{communities_wiki_link}.
         communities_wiki: wiki stránce pro komunity
+  social_links:
+    show:
+      website: webová stránka
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Pro zobrazení poznámek k mapě přejděte na větší měřítko.
@@ -2751,6 +2842,7 @@ cs:
         bicycle_parking: Parkoviště pro kola
         bicycle_parking_small: Malé parkoviště pro kola
         toilets: Záchody
+      see_external_legend: Zobrazit externí legendu mapy
   share_panes:
     show:
       link: Odkaz nebo HTML
@@ -3032,6 +3124,7 @@ cs:
       by_signing_up:
         html: Registrací souhlasíte s našimi %{tou_link}, %{privacy_policy_link} a
           %{contributor_terms_link}.
+        tou: podmínkami užití
         privacy_policy: pravidly ochrany osobních údajů
         privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o
           e-mailových adresách
@@ -3084,18 +3177,6 @@ cs:
       created from: 'Vytvořeno od:'
       status: 'Stav:'
       spam score: 'Spam skóre:'
-      role:
-        administrator: Tento uživatel je správce
-        moderator: Tento uživatel je moderátor
-        importer: Tento uživatel je importér
-        grant:
-          administrator: Přidělit práva správce
-          moderator: Přidělit práva moderátora
-          importer: Udělit přístup importérům
-        revoke:
-          administrator: Odebrat práva správce
-          moderator: Odebrat práva moderátora
-          importer: Zrušit přístup importéra
       block_history: Účinná zablokování
       moderator_history: Udělená zablokování
       revoke_all_blocks: Zrušit všechny bloky
@@ -3116,6 +3197,11 @@ cs:
       change_image: Změnit obrázek
       edit_company: Upravit firmu
       edit_location: Upravit polohu
+      contributions:
+        one: '%{count} příspěvek za poslední rok'
+        few: '%{count} příspěvky za poslední rok'
+        many: '%{count} příspěvku za poslední rok'
+        other: '%{count} příspěvků za poslední rok'
     sidebar_section:
       home_location: Poloha domova
       company: Firma
@@ -3215,6 +3301,21 @@ cs:
         níže zobrazeného formuláře.
       option_2: Pokud již účet máte, můžete se k němu přihlásit pomocí svého uživatelského
         jména a hesla a poté v uživatelském nastavení účet propojit s vaším ID.
+    role_icons:
+      title:
+        administrator: Tento uživatel je správce
+        moderator: Tento uživatel je moderátor
+        importer: Tento uživatel je importér
+      grant:
+        administrator: Přidělit práva správce
+        moderator: Přidělit práva moderátora
+        importer: Udělit přístup importérům
+        are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
+      revoke:
+        administrator: Odebrat práva správce
+        moderator: Odebrat práva moderátora
+        importer: Zrušit přístup importéra
+        are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_role:
     filter:
       not_a_role: Řetězec „%{role}“ neoznačuje platnou roli.
@@ -3222,10 +3323,6 @@ cs:
       doesnt_have_role: Uživatel nemá roli %{role}.
       not_revoke_admin_current_user: Správcovskou roli nelze odebrat aktuálně přihlášenému
         uživateli.
-    grant:
-      are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
-    revoke:
-      are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_blocks:
     model:
       non_moderator_update: K vytvoření nebo aktualizaci bloku musíte být moderátorem.
@@ -3489,6 +3586,7 @@ cs:
       tracestrack_credit: Dlaždice laskavostí %{tracestrack_link}
       hotosm_credit: Styl dlaždic od %{hotosm_link} hostuje %{osm_france_link}
       hotosm_name: Humanitárního týmu OpenStreetMap
+      openmaptiles_credit: Vektorové dlaždice z %{openmaptiles_link} hostuje %{maptiler_link}
     site:
       edit_tooltip: Upravit mapu
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
@@ -3506,6 +3604,7 @@ cs:
         m: '%{distance} m'
         km: '%{distance} km'
         ft: '%{distance} ft'
+        yd: '%{distance} yd'
         mi: '%{distance} mi'
       errors:
         no_route: Nepodařilo se nalézt trasu mezi zadanými místy.
@@ -3601,6 +3700,7 @@ cs:
       show_address: Zobrazit adresu
       query_features: Průzkum prvků
       centre_map: Zde vycentrovat mapu
+      scroll_to_changeset: Najít sadu změn
     home:
       marker_title: Poloha mého domova
       not_set: Ve vašem účtu není nastavena poloha domova
@@ -3608,10 +3708,10 @@ cs:
       tooltip:
         no_contributions: Dne %{date} žádné úpravy
         contributions:
-          one: Dne %{date} %{count} úprava
-          few: Dne %{date} %{count} úpravy
-          many: Dne %{date} %{count} úpravy
-          other: Dne %{date} %{count} úprav
+          one: '%{count} úprava dne %{date}'
+          few: '%{count} úpravy dne %{date}'
+          many: '%{count} úpravy dne %{date}'
+          other: '%{count} úprav dne %{date}'
   redactions:
     edit:
       heading: Upravit redakci

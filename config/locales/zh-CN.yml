@@ -10,6 +10,7 @@
 # Author: Anterdc99
 # Author: Assoc
 # Author: Boyuan Yang
+# Author: By H
 # Author: C933103
 # Author: Chimes
 # Author: David S. Hwang
@@ -349,9 +350,15 @@ zh-CN:
       external auth: 外部身份验证
       contributor_terms:
         heading: 贡献者条款
-        agreed: 您已同意新的贡献者条款。
+        agreed: 您于%{date}同意贡献者条款。
+        not_agreed: 您尚未同意贡献者条款。
         agreed_with_pd: 您也将您的编辑释于公有领域。
         not_agreed_with_pd: 你仍未宣称您的编辑将在公有领域发布。
+        consider_pd: 考虑公有领域
+      terms_of_use:
+        heading: 使用条款
+        agreed: 您于 %{date} 同意使用条款。
+        not_agreed: 您尚未同意使用条款。
       save changes button: 保存更改
       delete_account: 删除账户
     go_public:
@@ -491,6 +498,7 @@ zh-CN:
         key: '%{key} 标签的 wiki 说明页面'
         tag: '%{key}=%{value} 标签的 wiki 说明页面'
       wikidata_link: 维基数据上的%{page}项
+      wikidata_preview: 维基数据项目预览
       wikipedia_link: 维基百科上的 %{page} 条目
       wikimedia_commons_link: 在维基共享资源上的%{page}项目
       telephone_link: 请拨打 %{phone_number}
@@ -570,6 +578,9 @@ zh-CN:
       changes:
         one: '%{count}个更改'
         other: '%{count}个更改'
+      n_elements_created: 已创建%{count}个元素
+      n_elements_modified: 已修改%{count}个元素
+      n_elements_deleted: 已删除%{count}个元素
     index:
       title: 变更集
       title_user: '%{user}的变更集'
@@ -2225,9 +2236,12 @@ zh-CN:
       community_driven_1_html: OpenStreetMap 是一个多元化的社区，它充满激情，并且每天都在成长。我们的参与者包括地图制作爱好者，地理信息系统(GIS)从业人员，维护
         OSM 服务器的工程师，标注灾害区域的人道主义自愿者，已经其他很多各界人士。想更多的了解社区请参见%{osm_blog_link}、%{user_diaries_link}、%{community_blogs_link}，以及%{osm_foundation_link}网站。
       community_driven_osm_blog: OpenStreetMap 博客
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
       community_driven_user_diaries: 用户日记
       community_driven_community_blogs: 社区博客
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org/
       community_driven_osm_foundation: OSM基金会
+      community_driven_osm_foundation_url: https://www.osmfoundation.org/
       open_data_title: 开放数据
       open_data_1_html: OpenStreetMap 是%{open_data}:只要您表明使用了 OpenStreetMap 并承认其贡献者的工作，您就可以使用
         OpenStreetMap。如果您改变或者使用这些数据，您必须按照相同的版权协议发布结果。详情请参见%{copyright_license_link}。
@@ -2236,13 +2250,18 @@ zh-CN:
       legal_title: 法律
       legal_1_1_html: 此网站和很多其他相关服务已由%{openstreetmap_foundation_link}（OSMF）正式代表社群运营。使用所有由OSMF运营的服务均需符合我们的%{terms_of_use_link}、%{aup_link}和我们的%{privacy_policy_link}。
       legal_1_1_openstreetmap_foundation: OpenStreetMap 基金会
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
       legal_1_1_terms_of_use: 使用条款
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: 可接受的使用政策
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: 隐私政策
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_2_1_html: |-
         若您有许可证、著作权或其他法律上的问题，请%{contact_the_osmf_link}
         。
       legal_2_1_contact_the_osmf: 联系 OSM 基金会
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
       legal_2_2_html: OpenStreetMap、放大镜标志和SotM是%{registered_trademarks_link}。
       legal_2_2_registered_trademarks: OSMF 的注册商标
       partners_title: 合作伙伴
@@ -2949,18 +2968,6 @@ zh-CN:
       created from: 创建于：
       status: 状态：
       spam score: 垃圾邮件评分：
-      role:
-        administrator: 此用户是管理员
-        moderator: 此用户是仲裁员
-        importer: 此用户是导入者
-        grant:
-          administrator: 授予管理员权限
-          moderator: 授予仲裁员权限
-          importer: 授予导入者权限
-        revoke:
-          administrator: 撤销管理员权限
-          moderator: 撤销仲裁员权限
-          importer: 撤销导入者权限
       block_history: 激活的封禁
       moderator_history: 给予封禁
       revoke_all_blocks: 撤销所有封禁
@@ -3071,16 +3078,27 @@ zh-CN:
       heading: 您的ID尚未与OpenStreetMap账户相关联。
       option_1: 如果您是OpenStreetMap的新手，请使用下面的表单创建一个新账户。
       option_2: 如果您已拥有一个账户，您可以使用您的用户名和密码登录您的账户，然后在您的用户设置中将账户与您的ID相关联。
+    role_icons:
+      title:
+        administrator: 此用户是管理员
+        moderator: 此用户是仲裁员
+        importer: 此用户是导入者
+      grant:
+        administrator: 授予管理员权限
+        moderator: 授予仲裁员权限
+        importer: 授予导入者权限
+        are_you_sure: 您确定要赋予用户 '%{name}' 角色 '%{role}' 吗?
+      revoke:
+        administrator: 撤销管理员权限
+        moderator: 撤销仲裁员权限
+        importer: 撤销导入者权限
+        are_you_sure: 您确定要吊销用户 '%{name}' 角色 '%{role}' 吗?
   user_role:
     filter:
       not_a_role: 字串 '%{role}' 不是有效的角色。
       already_has_role: 这个用户已经有角色 %{role}。
       doesnt_have_role: 这个用户没有角色 %{role}。
       not_revoke_admin_current_user: 不能撤销当前用户的管理员角色。
-    grant:
-      are_you_sure: 您确定要赋予用户 '%{name}' 角色 '%{role}' 吗?
-    revoke:
-      are_you_sure: 您确定要吊销用户 '%{name}' 角色 '%{role}' 吗?
   user_blocks:
     model:
       non_moderator_update: 必须为仲裁员才能创建或更新一个封禁。
@@ -3404,6 +3422,8 @@ zh-CN:
       nothing_found: 未找到要素
       error: 连接 %{server} 时出错：%{error}
       timeout: 连接 %{server} 超时
+    element:
+      wikipedia: 维基百科
     context:
       directions_from: 从此处出发
       directions_to: 到此处的路线
