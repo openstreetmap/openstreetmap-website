@@ -29,7 +29,7 @@ class SocialLink < ApplicationRecord
     :flickr => %r{\Ahttps?://(?:www\.)?flickr\.com/people/([a-zA-Z0-9@._-]+)},
     :github => %r{\Ahttps?://(?:www\.)?github\.com/([a-zA-Z0-9_-]+)},
     :gitlab => %r{\Ahttps?://(?:www\.)?gitlab\.com/([a-zA-Z0-9_-]+)},
-    :hdyc => %r{\Ahttps?://(?:www\.)?hdyc\.neis-one\.org/?([a-zA-Z0-9_-]+)},
+    :hdyc => %r{\Ahttps?://(?:www\.)?hdyc\.neis-one\.org/\?([a-zA-Z0-9_-]+)},
     :hot => %r{\Ahttps?://tasks\.hotosm\.org/users/([a-zA-Z0-9_-]+)},
     :instagram => %r{\Ahttps?://(?:www\.)?instagram\.com/([a-zA-Z0-9._]+)},
     :linkedin => %r{\Ahttps?://(?:www\.)?linkedin\.com/in/([a-zA-Z0-9_-]+)},
