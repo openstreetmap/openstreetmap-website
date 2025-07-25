@@ -369,7 +369,7 @@ OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", shadow = 
   return L.divIcon({
     html,
     iconSize: [25, 40],
-    iconAnchor: [12, 40],
+    iconAnchor: [12.5, 40],
     popupAnchor: [1, -34]
   });
 };
