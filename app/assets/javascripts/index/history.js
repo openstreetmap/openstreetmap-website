@@ -1,4 +1,3 @@
-//= require jquery-simulate/jquery.simulate
 //= require ./history-changesets-layer
 
 OSM.History = function (map) {
@@ -27,7 +26,7 @@ OSM.History = function (map) {
       toggleChangesetHighlight(e.layer.id, false);
     })
     .on("click", function (e) {
-      clickChangeset(e.layer.id, e.originalEvent);
+      clickChangeset(e.layer.id);
     })
     .on("requestscrolltochangeset", function (e) {
       const [item] = $(`#changeset_${e.id}`);
@@ -122,8 +121,14 @@ OSM.History = function (map) {
     }
   }
 
-  function clickChangeset(id, e) {
-    $("#changeset_" + id).find("a.changeset_id").simulate("click", e);
+  function clickChangeset(id) {
+    const changesetElem = document.getElementById("changeset_" + id);
+    if (changesetElem) {
+      const link = changesetElem.querySelector("a.changeset_id");
+      if (link) {
+        link.click();
+      }
+    }
   }
 
   function displayFirstChangesets(html) {
