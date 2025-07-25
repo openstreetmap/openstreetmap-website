@@ -361,11 +361,11 @@ OSM.isDarkMap = function () {
 };
 
 OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", shadow = true }) {
-  const html = `<svg viewBox="0 0 25 40"${
+  const html = `<svg viewBox="0 0 25 40" class="pe-none"${
     shadow ? " overflow='visible'" : ""
   }>${
     shadow ? "<use href='#pin-shadow' />" : ""
-  }<use href="#pin-${icon}" color="${color}" /></svg>`;
+  }<use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
   return L.divIcon({
     html,
     iconSize: [25, 40],
