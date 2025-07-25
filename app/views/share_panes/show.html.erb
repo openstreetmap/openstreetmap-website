@@ -40,7 +40,7 @@
       <% end %>
     </ul>
   </div>
-  <form id="export-image" action="/export/finish" method="post">
+  <form id="export-image" action="/export/finish" method="post" data-turbo="true">
     <div class="row mb-3">
       <label for="mapnik_format" class="col-auto col-form-label"><%= t ".format" %></label>
       <div class="col-auto">
@@ -82,6 +82,6 @@
             **%w[layer width height]
               .to_h { |key| [key.to_sym, content_tag(:span, "", :id => "mapnik_image_#{key}")] } %>
     </p>
-    <input type="submit" class="btn btn-primary" value="<%= t ".download" %>" />
+    <input type="submit" class="btn btn-primary" value="<%= t ".download" %>" data-turbo-submits-with="<%= t ".downloading" %>" />
   </form>
 </div>
