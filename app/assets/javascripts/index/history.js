@@ -25,6 +25,9 @@ OSM.History = function (map) {
       if (inZoom) return;
       toggleChangesetHighlight(e.layer.id, false);
     })
+    .on("click", function (e) {
+      clickChangeset(e);
+    })
     .on("requestscrolltochangeset", function (e) {
       const [item] = $(`#changeset_${e.id}`);
       item?.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -115,6 +118,21 @@ OSM.History = function (map) {
     $("#sidebar_content .changesets ol li").removeClass("selected");
     if (state) {
       $("#changeset_" + id).addClass("selected");
+    }
+  }
+
+  function clickChangeset(e) {
+    const link = document.querySelector(`#changeset_${e.layer.id} a.changeset_id`);
+    if (!link) return;
+
+    const { ctrlKey, metaKey, shiftKey } = e.originalEvent;
+
+    if (ctrlKey || metaKey) {
+      window.open(link.href, "_blank");
+    } else if (shiftKey) {
+      window.open(link.href, "_blank", "noopener");
+    } else {
+      link.click();
     }
   }
 
