@@ -38,12 +38,10 @@ window.onload = function () {
   new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
 
   if (args.has("marker")) {
-    L.marker(args.get("marker").split(","), { icon: L.icon({
-      iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
-      iconSize: new L.Point(25, 41),
-      iconAnchor: new L.Point(12.5, 41),
-      shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
-      shadowSize: new L.Point(41, 41)
+    L.marker(args.get("marker").split(","), { icon: L.divIcon({
+      html: "<svg viewBox='0 0 25 40' overflow='visible'><use href='#pin-shadow' /><use href='#pin-dot' color='#0b8ef1' /></svg>",
+      iconSize: [25, 40],
+      iconAnchor: [12.5, 40]
     }) }).addTo(map);
   }
 
