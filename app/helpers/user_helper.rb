@@ -60,7 +60,7 @@ module UserHelper
                 :size => "36"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button btn btn-outline-secondary border p-2",
+      :class => "auth_button auth_button_#{provider} btn btn-outline-secondary border p-2",
       :title => t("application.auth_providers.#{provider}.title")
     )
   end
@@ -73,7 +73,7 @@ module UserHelper
                 :size => "36") + t("application.auth_providers.#{provider}.title"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button btn btn-outline-secondary border py-2 px-4 d-flex justify-content-center align-items-center",
+      :class => "auth_button auth_button_#{provider} btn btn-outline-secondary border py-2 px-4 d-flex justify-content-center align-items-center",
       :title => t("application.auth_providers.#{provider}.title")
     )
   end
