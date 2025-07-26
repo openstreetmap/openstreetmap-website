@@ -9,6 +9,8 @@ module Users
       @params = params.permit(:display_name, :before, :after)
 
       @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, :includes => [:author, :changeset])
+
+      render "_page", :layout => "turbo_frame_visit" if turbo_frame_request_id == "pagination"
     end
   end
 end
