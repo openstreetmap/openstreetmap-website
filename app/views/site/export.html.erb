@@ -2,7 +2,7 @@
 
 <%= render "sidebar_header", :title => t(".title") %>
 
-<%= form_tag({ :controller => "export", :action => "finish" }, { :class => "export_form" }) do %>
+<%= form_tag({ :controller => "export", :action => "finish" }, :class => "export_form", :data => { "turbo" => true }) do %>
   <%= hidden_field_tag "format", "osm", :autocomplete => "off" %>
 
   <div class='export_area_inputs text-center mb-3'>
@@ -28,7 +28,7 @@
 
   <div id="export_commit">
     <div class="mb-3 d-flex">
-      <%= submit_tag t(".export_button"), :class => "btn btn-primary mx-auto" %>
+      <%= submit_tag t(".export_button"), :class => "btn btn-primary mx-auto", :data => { "turbo-submits-with" => t(".export_download") } %>
     </div>
   </div>
 
