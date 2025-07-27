@@ -360,12 +360,8 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", shadow = true }) {
-  const html = `<svg viewBox="0 0 25 40" class="pe-none"${
-    shadow ? " overflow='visible'" : ""
-  }>${
-    shadow ? "<use href='#pin-shadow' />" : ""
-  }<use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
+OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)" }) {
+  const html = `<svg viewBox="0 0 25 40" class="pe-none" overflow="visible"><use href="#pin-shadow" /><use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
   return L.divIcon({
     html,
     iconSize: [25, 40],
@@ -375,7 +371,7 @@ OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", shadow = 
 };
 
 OSM.noteMarkers = {
-  "closed": OSM.getMarker({ icon: "tick", color: "var(--marker-green)", shadow: false }),
-  "new": OSM.getMarker({ icon: "plus", color: "var(--marker-blue)", shadow: false }),
-  "open": OSM.getMarker({ icon: "cross", color: "var(--marker-red)", shadow: false })
+  "closed": OSM.getMarker({ icon: "tick", color: "var(--marker-green)" }),
+  "new": OSM.getMarker({ icon: "plus", color: "var(--marker-blue)" }),
+  "open": OSM.getMarker({ icon: "cross", color: "var(--marker-red)" })
 };
