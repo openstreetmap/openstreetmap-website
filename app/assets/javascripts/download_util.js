@@ -17,7 +17,7 @@ OSM.showAlert = function (message) {
 };
 
 OSM.getTurboBlobHandler = function (filename) {
-  async function handleExportSuccess(fetchResponse, filename) {
+  async function handleExportSuccess(fetchResponse) {
     try {
       const blob = await fetchResponse.response.blob();
       OSM.downloadBlob(blob, filename);
@@ -52,7 +52,7 @@ OSM.getTurboBlobHandler = function (filename) {
 
   return function (event) {
     if (event.detail.success) {
-      handleExportSuccess(event.detail.fetchResponse, filename);
+      handleExportSuccess(event.detail.fetchResponse);
     } else {
       handleExportError(event);
     }
