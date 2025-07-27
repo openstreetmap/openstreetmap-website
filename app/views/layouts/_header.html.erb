@@ -1,12 +1,12 @@
 <header class="d-flex bg-body text-nowrap closed z-3">
-  <h1 class="d-flex m-0 fw-semibold">
-    <a href="<%= root_path %>" class="icon-link gap-1 text-body-emphasis text-decoration-none geolink">
+  <h1 class="d-flex m-0 align-items-center fw-semibold">
+    <a href="<%= root_path %>" class="icon-link gap-1 me-auto text-body-emphasis text-decoration-none geolink">
       <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text"), :size => 30 %>
       <%= t "layouts.project_name.h1" %>
     </a>
+    <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none"] %>
+    <a href="#" id="menu-icon"></a>
   </h1>
-  <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none position-absolute"] %>
-  <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <%= content_for :header %>
     <div id="edit_tab" class="btn-group">
