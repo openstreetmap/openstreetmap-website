@@ -10,14 +10,20 @@
     URL.revokeObjectURL(url);
   };
 
+  OSM.showAlert = function (message) {
+    const modalBody = document.getElementById("osm_alert_message");
+    modalBody.textContent = message;
+    const alertModal = new bootstrap.Modal(document.getElementById("osm_alert_modal"));
+    alertModal.show();
+  };
+
   class DownloadUtil {
     static async handleExportSuccess(fetchResponse, filename) {
       try {
         const blob = await fetchResponse.response.blob();
         OSM.downloadBlob(blob, filename);
       } catch (err) {
-        // eslint-disable-next-line no-alert
-        alert(OSM.i18n.t("javascripts.share.export_failed", { reason: "(blob error)" }));
+        OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: "(blob error)" }));
       }
     }
 
@@ -34,8 +40,7 @@
       } catch (err) {
         detailMessage = "(unknown)";
       }
-      // eslint-disable-next-line no-alert
-      alert(OSM.i18n.t("javascripts.share.export_failed", { reason: detailMessage }));
+      OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: detailMessage }));
     }
 
     static getTurboBlobHandler(filename) {
