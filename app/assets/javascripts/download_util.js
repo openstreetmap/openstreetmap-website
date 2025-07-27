@@ -17,7 +17,7 @@ OSM.showAlert = function (message) {
 };
 
 OSM.getTurboBlobHandler = function (filename) {
-  async function handleExportSuccess(fetchResponse) {
+  async function handleExportSuccess({ fetchResponse }) {
     try {
       const blob = await fetchResponse.response.blob();
       OSM.downloadBlob(blob, filename);
@@ -26,12 +26,12 @@ OSM.getTurboBlobHandler = function (filename) {
     }
   }
 
-  async function handleExportError(event) {
+  async function handleExportError({ error, fetchResponse }) {
     let detailMessage;
     try {
-      detailMessage = event?.detail?.error?.message;
+      detailMessage = error?.message;
       if (!detailMessage) {
-        const responseText = await event.detail.fetchResponse.responseText;
+        const responseText = await fetchResponse.responseText;
         detailMessage = extractTextFromHTML(responseText);
       }
     } catch (err) {
@@ -50,11 +50,11 @@ OSM.getTurboBlobHandler = function (filename) {
     OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason }));
   }
 
-  return function (event) {
-    if (event.detail.success) {
-      handleExportSuccess(event.detail.fetchResponse);
+  return function ({ detail }) {
+    if (detail.success) {
+      handleExportSuccess(detail);
     } else {
-      handleExportError(event);
+      handleExportError(detail);
     }
   };
 };
