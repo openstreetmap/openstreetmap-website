@@ -42,7 +42,6 @@ L.OSM.Map = L.Map.extend({
       this.fire("overlayremove", { layer: this.gpsLayer });
     });
 
-
     this.on("baselayerchange", function (event) {
       if (this.baseLayers.indexOf(event.layer) >= 0) {
         this.setMaxZoom(event.layer.options.maxZoom);

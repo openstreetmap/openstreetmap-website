@@ -71,7 +71,7 @@ export default [
       "@stylistic/no-floating-decimal": "error",
       "@stylistic/no-mixed-operators": "error",
       "@stylistic/no-multi-spaces": "error",
-      "@stylistic/no-multiple-empty-lines": "error",
+      "@stylistic/no-multiple-empty-lines": ["error", { max: 1 }],
       "@stylistic/no-trailing-spaces": "error",
       "@stylistic/no-whitespace-before-property": "error",
       "@stylistic/object-curly-newline": ["error", { consistent: true }],

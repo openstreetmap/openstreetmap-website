@@ -30,7 +30,6 @@ L.OSM.share = function (options) {
     const csrfInput = $ui.find("#csrf_export")[0];
     [[csrfInput.name, csrfInput.value]] = Object.entries(OSM.csrf);
 
-
     document.getElementById("export-image")
       .addEventListener("turbo:submit-end",
                         OSM.getTurboBlobHandler(OSM.i18n.t("javascripts.share.filename")));
