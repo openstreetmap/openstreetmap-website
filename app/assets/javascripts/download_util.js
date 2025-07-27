@@ -27,17 +27,15 @@ OSM.getTurboBlobHandler = function (filename) {
   }
 
   async function handleExportError({ error, fetchResponse }) {
-    let detailMessage;
     try {
-      detailMessage = error?.message;
+      let detailMessage = error?.message;
       if (!detailMessage) {
-        const responseText = await fetchResponse.responseText;
-        detailMessage = extractTextFromHTML(responseText);
+        detailMessage = await fetchResponse.responseText.then(extractTextFromHTML);
       }
+      notifyExportFailure(detailMessage);
     } catch (err) {
-      detailMessage = "(unknown)";
+      notifyExportFailure("(unknown)");
     }
-    notifyExportFailure(detailMessage);
   }
 
   function extractTextFromHTML(htmlString) {
