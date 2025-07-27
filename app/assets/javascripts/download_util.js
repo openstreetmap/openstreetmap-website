@@ -17,25 +17,19 @@ OSM.showAlert = function (message) {
 };
 
 OSM.getTurboBlobHandler = function (filename) {
-  async function handleExportSuccess({ fetchResponse }) {
-    try {
-      const blob = await fetchResponse.response.blob();
-      OSM.downloadBlob(blob, filename);
-    } catch (err) {
-      notifyExportFailure("(blob error)");
-    }
+  function handleExportSuccess({ fetchResponse }) {
+    fetchResponse.response.blob()
+      .then(blob => OSM.downloadBlob(blob, filename))
+      .catch(() => notifyExportFailure("(blob error)"));
   }
 
-  async function handleExportError({ error, fetchResponse }) {
-    try {
-      let detailMessage = error?.message;
-      if (!detailMessage) {
-        detailMessage = await fetchResponse.responseText.then(extractTextFromHTML);
-      }
-      notifyExportFailure(detailMessage);
-    } catch (err) {
-      notifyExportFailure("(unknown)");
-    }
+  function handleExportError({ error, fetchResponse }) {
+    Promise.resolve(
+      error?.message ||
+      fetchResponse.responseText.then(extractTextFromHTML)
+    )
+      .then(notifyExportFailure)
+      .catch(() => notifyExportFailure("(unknown)"));
   }
 
   function extractTextFromHTML(htmlString) {
