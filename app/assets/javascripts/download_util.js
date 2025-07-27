@@ -22,7 +22,7 @@ OSM.getTurboBlobHandler = function (filename) {
       const blob = await fetchResponse.response.blob();
       OSM.downloadBlob(blob, filename);
     } catch (err) {
-      OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: "(blob error)" }));
+      notifyExportFailure("(blob error)");
     }
   }
 
@@ -39,7 +39,11 @@ OSM.getTurboBlobHandler = function (filename) {
     } catch (err) {
       detailMessage = "(unknown)";
     }
-    OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: detailMessage }));
+    notifyExportFailure(detailMessage);
+  }
+
+  function notifyExportFailure(reason) {
+    OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason }));
   }
 
   return function (event) {
