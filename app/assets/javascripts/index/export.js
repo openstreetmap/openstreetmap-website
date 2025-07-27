@@ -1,3 +1,5 @@
+//= require download_util
+
 OSM.Export = function (map) {
   const page = {};
 
@@ -69,6 +71,14 @@ OSM.Export = function (map) {
     $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
     $("#drag_box").click(enableFilter);
     $(".export_form").on("submit", checkSubmit);
+
+    document.querySelector(".export_form")
+      .addEventListener("turbo:submit-end", OSM.getTurboBlobHandler("map.osm"));
+
+    document.querySelector(".export_form")
+      .addEventListener("turbo:before-fetch-request", function (event) {
+        event.detail.fetchOptions.headers.Accept = "application/xml";
+      });
 
     update();
     return map.getState();
