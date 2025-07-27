@@ -17,8 +17,8 @@
     alertModal.show();
   };
 
-  class DownloadUtil {
-    static async handleExportSuccess(fetchResponse, filename) {
+  OSM.getTurboBlobHandler = function (filename) {
+    async function handleExportSuccess(fetchResponse, filename) {
       try {
         const blob = await fetchResponse.response.blob();
         OSM.downloadBlob(blob, filename);
@@ -27,7 +27,7 @@
       }
     }
 
-    static async handleExportError(event) {
+    async function handleExportError(event) {
       let detailMessage;
       try {
         detailMessage = event?.detail?.error?.message;
@@ -43,16 +43,12 @@
       OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: detailMessage }));
     }
 
-    static getTurboBlobHandler(filename) {
-      return function (event) {
-        if (event.detail.success) {
-          DownloadUtil.handleExportSuccess(event.detail.fetchResponse, filename);
-        } else {
-          DownloadUtil.handleExportError(event);
-        }
-      };
-    }
-  }
-
-  OSM.getTurboBlobHandler = DownloadUtil.getTurboBlobHandler;
+    return function (event) {
+      if (event.detail.success) {
+        handleExportSuccess(event.detail.fetchResponse, filename);
+      } else {
+        handleExportError(event);
+      }
+    };
+  };
 }());
