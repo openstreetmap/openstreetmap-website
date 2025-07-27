@@ -334,13 +334,14 @@ $(function () {
     }
 
     // Ignore cross-protocol and cross-origin links.
-    if (location.protocol !== this.protocol || location.host !== this.host) {
+    const url = new URL($(this).attr("href"), location);
+    if (location.protocol !== url.protocol || location.host !== url.host) {
       return;
     }
 
-    if (OSM.router.route(this.pathname + this.search + this.hash)) {
+    if (OSM.router.route(url.pathname + url.search + url.hash)) {
       e.preventDefault();
-      if (this.pathname !== "/directions") {
+      if (url.pathname !== "/directions") {
         $("header").addClass("closed");
       }
     }
