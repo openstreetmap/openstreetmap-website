@@ -32,14 +32,18 @@ OSM.getTurboBlobHandler = function (filename) {
       detailMessage = event?.detail?.error?.message;
       if (!detailMessage) {
         const responseText = await event.detail.fetchResponse.responseText;
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(responseText, "text/html");
-        detailMessage = doc.body ? doc.body.textContent.trim() : "(unknown)";
+        detailMessage = extractTextFromHTML(responseText);
       }
     } catch (err) {
       detailMessage = "(unknown)";
     }
     notifyExportFailure(detailMessage);
+  }
+
+  function extractTextFromHTML(htmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, "text/html");
+    return doc.body ? doc.body.textContent.trim() : "(unknown)";
   }
 
   function notifyExportFailure(reason) {
