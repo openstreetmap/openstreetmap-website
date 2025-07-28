@@ -66,12 +66,16 @@ OSM.Search = function (map) {
   function showSearchResult() {
     const index = processedResults++;
     const listItem = $(this);
+    const data = listItem.find("a.set_position").data();
+    if (!data) return;
     const inverseGoldenAngle = (Math.sqrt(5) - 1) * 180;
     const color = `hwb(${(index * inverseGoldenAngle) % 360}deg 5% 5%)`;
     listItem.css("--marker-color", color);
-    const anchor = $("<a>").attr("href", listItem.find("a.set_position").attr("href"));
-    const data = listItem.find("a.set_position").data();
+    const link = listItem.find("a.set_position").attr("href");
+    const anchor = $("<a>").attr("href", link);
     const marker = L.marker([data.lat, data.lon], { icon: OSM.getMarker({ color, className: "activatable" }) });
+    map.on("movestart", () => anchor.removeAttr("href"));
+    map.on("moveend", () => anchor.attr("href", link));
     marker.on("mouseover", () => listItem.addClass("bg-body-secondary"));
     marker.on("mouseout", () => listItem.removeClass("bg-body-secondary"));
     marker.on("add", function () {

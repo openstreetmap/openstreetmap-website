@@ -5,7 +5,8 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
 
   addChangesetLayer: function (changeset) {
     const style = this._getChangesetStyle(changeset);
-    const anchor = $(L.SVG.create("a")).attr("href", $(`#changeset_${changeset.id} a.changeset_id`).attr("href"));
+    const link = $(`#changeset_${changeset.id} a.changeset_id`).attr("href");
+    const anchor = $(L.SVG.create("a")).attr("href", link);
     const rectangle = L.rectangle(changeset.bounds, {
       ...style,
       contextmenu: true,
@@ -21,6 +22,8 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
       }]
     });
     rectangle.id = changeset.id;
+    this._map?.on("movestart", () => anchor.removeAttr("href"));
+    this._map?.on("moveend", () => anchor.attr("href", link));
     rectangle.on("add", function () {
       $(this.getElement()).replaceWith(anchor).appendTo(anchor);
     });
