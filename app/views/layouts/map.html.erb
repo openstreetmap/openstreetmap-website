@@ -5,12 +5,12 @@
 <% content_for(:body_class) { "map-layout" } %>
 
 <% content_for :header do %>
-  <%= render :partial => "layouts/search", :locals => { :autofocus => false } %>
+  <%= render :partial => "layouts/search", :locals => { :autofocus => false, :extra_classes => ["d-md-none"] } %>
 <% end %>
 
 <% content_for :content do %>
   <div id="sidebar" class="bg-body z-1">
-    <%= render :partial => "layouts/search", :locals => { :autofocus => true } %>
+    <%= render :partial => "layouts/search", :locals => { :autofocus => true, :extra_classes => ["d-none d-md-block"] } %>
 
     <div id="flash">
       <%= render :partial => "layouts/flash" %>
