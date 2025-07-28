@@ -366,8 +366,8 @@ hr:
           %{readable_summary_link} i nešto %{informal_translations_link}'
         readable_summary: sažetak čitljiv ljudima
         informal_translations: neformalni prijevodi
-        continue: Nastavi
-        cancel: Otkaži
+        continue: Nastavite
+        cancel: Otkažite
         you need to accept or decline: Molimo pročitajte, a zatim prihvatite ili odbijte
           nove Uvjete za suradnike kako biste nastavili.
         legale_select: 'Zemlja prebivališta:'
@@ -598,7 +598,7 @@ hr:
       join_discussion: Prijavi se za uključivanje u raspravu
       still_open: Skup promjena je još uvijek otvoren - rasprava će se otvoriti nakon
         što se skup promjena zatvori.
-      subscribe: Pretplati se
+      subscribe: Pretplatite se
       unsubscribe: Otkaži pretplatu
       comment_by_html: Komentar %{user} %{time_ago}
       hidden_comment_by_html: Skriveni komentar %{user} %{time_ago}
@@ -629,6 +629,11 @@ hr:
         button: Odjavite se s rasprave
     heading:
       title: Skup promjena %{id}
+      created_by_html: Izradio %{link_user} dana %{created}.
+    no_such_entry:
+      heading: 'Nema zapisa s ID: %{id}'
+      body: Nažalost, ne postoji skup promjena s ID %{id}. Molim provjerite pravopis
+        ili je možda poveznica na koju ste kliknuli neispravna.
   dashboards:
     contact:
       km away: udaljen %{count}km
@@ -639,10 +644,21 @@ hr:
     popup:
       your location: Vaša lokacija
       nearby mapper: Obližnji maper
+      following: Slijedeće
     show:
+      title: Moja nadzorna ploča
+      no_home_location_html: '%{edit_profile_link} i postavite svoju početnu lokaciju
+        kako biste vidjeli korisnike u blizini.'
+      edit_your_profile: Uredite svoj profil
+      followings: Korisnici koje pratite
+      no followings: Još niste pratili nijednog korisnika.
       nearby users: Drugi korisnici u blizini
       no nearby users: Još uvijek nema drugih korisnika koji kartiraju-mapiraju u
         blizini.
+      followed_changesets: skupovi promjena
+      followed_diaries: dnevnički zapisi
+      nearby_changesets: skupovi promjena korisnika u blizini
+      nearby_diaries: dnevnički zapisi korisnika u blizini
   diary_entries:
     new:
       title: Novi zapis u dnevnik
@@ -651,6 +667,7 @@ hr:
       use_map_link: Koristi kartu
     index:
       title: Dnevnici korisnika
+      title_followed: Dnevnici praćenih korisnika
       title_nearby: Dnevnici obližnjih članova
       user_title: '%{user}ov dnevnik'
       in_language_title: 'Zapisi u dnevniku na jeziku: %{language}'
@@ -663,6 +680,9 @@ hr:
     show:
       title: Dnevnik korisnika %{user} | %{title}
       user_title: '%{user}ov dnevnik'
+      discussion: Rasprava
+      subscribe: Pretplatite se
+      unsubscribe: Otkažite pretplatu
       leave_a_comment: Napiši komentar
       login_to_leave_a_comment_html: '%{login_link} da bi ostavili komentar'
       login: Prijava
@@ -674,19 +694,25 @@ hr:
     diary_entry:
       posted_by_html: Poslao %{link_user} u %{created} na jeziku %{language_link}
       updated_at_html: Zadnji put ažurirano %{updated}.
+      full_entry: Pogledajte cijeli unos
       comment_link: Komentiraj ovaj zapis
       reply_link: Pošalji poruku autoru
       comment_count:
         one: '%{count} komentar'
         few: '%{count} komentara'
         other: '%{count} komentara'
+      no_comments: Bez komentara
       edit_link: Uredi ovaj zapis
       hide_link: Sakrij ovaj unos
+      unhide_link: Otkrijte ovaj unos
       confirm: Potvrdi
+      report: Prijavite ovaj unos
     diary_comment:
       comment_from_html: Komentar od %{link_user} u %{comment_created_at}
       hide_link: Sakrij ovaj komentar
+      unhide_link: Otkrijte ovaj komentar
       confirm: Potvrdi
+      report: Prijavite ovaj komentar
     location:
       location: 'Lokacija:'
     feed:
@@ -700,10 +726,103 @@ hr:
       all:
         title: Zapisi u OpenStreetMap dnevniku
         description: Nedavni zapisi u dnevnik korisnika OpenStreetMapa
+    subscribe:
+      heading: Želite li se pretplatiti na slijedeću raspravu o skupu promjena?
+      button: Pretplatite se na raspravu
+    unsubscribe:
+      heading: Želite li se odjaviti sa slijedeće rasprave o dnevničkom zapisu?
+      button: Odjavite se s rasprave
     navigation:
+      in_language: Dnevnički zapisi na %{language}
       my_diary: Moj dnevnik
       new: Novi zapis u dnevnik
       new_title: Sročite novi zapis u vaš dnevnik
+    profile_diaries:
+      latest_diaries: Najnovije rasprave
+      comments:
+        one: '%{count} komentar'
+        few: '%{count} komentara'
+        other: '%{count} komentara'
+      title_label: Dnevnički zapis
+      comments_label: Komentari
+      date_label: Datum
+  diary_comments:
+    new:
+      heading: Želite li dodati komentar sljedećoj raspravi o dnevničkom zapisu?
+  doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Poslužitelj za autorizaciju zahtijeva izbor računa
+          krajnjeg korisnika
+        consent_required: Poslužitelj za autorizaciju zahtijeva suglasnost krajnjeg
+          korisnika
+        interaction_required: Poslužitelj za autorizaciju zahtjeva interakciju krajnjeg
+          korisnika
+        login_required: Poslužitelj za autorizaciju zahtijeva autentifikaciju krajnjeg
+          korisnika
+    flash:
+      applications:
+        create:
+          notice: Prijava registrirana.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Greška zbog nedostajuće konfiguracije
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+          reauthenticate_resource_owner_not_configured: Greška zbog nedostajuće konfiguracije
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+          resource_owner_from_access_token_not_configured: Greška zbog nedostajuće
+            konfiguracije Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+          select_account_for_resource_owner_not_configured: Greška zbog nedostajuće
+            konfiguracije Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+          subject_not_configured: Generiranje ID tokena nije uspjelo zbog nedostajuće
+            konfiguracije Doorkeeper::OpenidConnect.configure.subject
+    scopes:
+      address: Pogledajte svoju fizičku adresu
+      email: Pogledajte svoju adresu e-mail adresu
+      openid: Autentificirajte svoj račun
+      phone: Pogledajte svoj telefonski broj
+      profile: Pogledajte podatke svog profila
+  errors:
+    contact:
+      contact_url_title: Objašnjenje različitih kontaktnih kanala
+      contact: kontakt
+      contact_the_community_html: Slobodno se obratite %{contact_link} OpenStreetMap
+        zajednici ako ste pronašli neispravnu poveznicu / grešku. Zabilježite točan
+        URL vašeg zahtjeva.
+    bad_request:
+      title: Neispravan zahtjev
+      description: Operacija koju ste zatražili na OpenStreetMap poslužitelju nije
+        valjana (HTTP 400)
+    forbidden:
+      title: Zabranjeno
+      description: Operacija koju ste zatražili na OpenStreetMap poslužitelju dostupna
+        je samo administratorima (HTTP 403)
+    internal_server_error:
+      title: Greška aplikacije
+      description: OpenStreetMap poslužitelj naišao je na neočekivano stanje koje
+        ga je spriječilo u ispunjavanju zahtjeva (HTTP 500)
+    not_found:
+      title: Datoteka nije pronađena
+      description: Nije pronađena datoteka/direktorij/API operacija file/directory/API
+        operation s tim imenom na OpenStreetMap postužitelju (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Želite li pratiti %{user}?
+        button: Pratite korisnika
+      unfollow:
+        heading: Želite li prestati pratiti %{user}?
+        button: Prestanite pratiti korisnika
+    create:
+      success: Sada pratite %{name}!
+      failed: Nažalost, vaš zahtjev za praćenje %{name} nije uspio.
+      already_followed: Već pratite %{name}.
+      limit_exceeded: Nedavno ste pratili puno korisnika. Pričekajte malo prije nego
+        što pokušate pratiti još.
+    destroy:
+      success: Uspješno ste prestali pratiti %{name}.
+      not_followed: Ne pratite %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -712,6 +831,9 @@ hr:
           chair_lift: Sedežnica
           drag_lift: Sidro/tanjurić
           gondola: Žičara
+          magic_carpet: Pokretna traka
+          platter: Tanjurić vučnica
+          pylon: Stup žičare
           station: Stanica žičare
           t-bar: Sidro
           "yes": Žičara
@@ -722,9 +844,14 @@ hr:
           gate: Izlaz zračne luke
           hangar: Hangar
           helipad: Heliodrom
+          holding_position: Držanje pozicije
+          navigationaid: Pomoćna sredstva u zrakoplovnoj navigaciji
+          parking_position: Parkirni položaj
           runway: Pista
+          taxilane: Taxi traka
           taxiway: Rulnica
           terminal: Terminal zračne luke
+          windsock: Vjetrokaz
         amenity:
           animal_boarding: Hotel za kućne ljubimce
           animal_shelter: Sklonište za životinje
@@ -736,7 +863,9 @@ hr:
           bench: Klupa
           bicycle_parking: Biciklistički parking
           bicycle_rental: Rent a bicikl
+          bicycle_repair_station: Stanica za popravak bicikala
           biergarten: Vrtna pivnica
+          blood_bank: Banka krvi
           boat_rental: Najam brodova
           brothel: Bordel
           bureau_de_change: Mjenjačnica
@@ -753,6 +882,7 @@ hr:
           clock: Sat
           college: Fakultet
           community_centre: Društveni centar
+          conference_centre: Konferencijski centar
           courthouse: Sud
           crematorium: Krematorij
           dentist: Zubar
@@ -760,6 +890,7 @@ hr:
           drinking_water: Pitka voda
           driving_school: Autoškola
           embassy: Veleposlanstvo
+          events_venue: Mjesto događaja
           fast_food: Fast food
           ferry_terminal: Trajektni terminal
           fire_station: Vatrogasna postaja
@@ -768,19 +899,28 @@ hr:
           fuel: Benzinska crpka
           gambling: Kockarnica
           grave_yard: Groblje
+          grit_bin: Kanta za pijesak
           hospital: Bolnica
           hunting_stand: Čeka
           ice_cream: Slastičarna
+          internet_cafe: Internet kafić
           kindergarten: Dječji vrtić
+          language_school: Škola jezika
           library: Knjižnica
+          loading_dock: Utovarna rampa
+          love_hotel: Hotel za ljubavnike
           marketplace: Tržnica
+          mobile_money_agent: Agent za mobilni novac
           monastery: Samostan
+          money_transfer: Prijenos novca
           motorcycle_parking: Parking za motocikle
           music_school: Muzička škola
           nightclub: Noćni klub
           nursing_home: Starački dom
           parking: Parking
           parking_entrance: Ulaz na parking
+          parking_space: Parkirno mjesto
+          payment_terminal: Platni terminal
           pharmacy: Ljekarna
           place_of_worship: Crkva
           police: Policija
@@ -788,9 +928,13 @@ hr:
           post_office: Pošta
           prison: Zatvor
           pub: Pub
+          public_bath: Javno kupalište
+          public_bookcase: Kućica za knjige
           public_building: Ustanova
+          ranger_station: Stanica rendžera
           recycling: Reciklažna točka
           restaurant: Restoran
+          sanitary_dump_station: Sanitarno odlagalište
           school: Škola
           shelter: Sklonište
           shower: Tuš
@@ -803,74 +947,135 @@ hr:
           theatre: Kazalište
           toilets: WC
           townhall: Gradsko poglavarstvo
+          training: Objekt za obuku
           university: Sveučilište
+          vehicle_inspection: Pregled vozila
           vending_machine: Automat
           veterinary: Veterinar
           village_hall: Seoski Dom
           waste_basket: Kanta za otpatke
           waste_disposal: Kontejner za smeće
+          waste_dump_site: Odlagalište otpada
+          watering_place: Pojilo
+          water_point: Voda za piće
+          weighbridge: Kolna vaga
+          "yes": Sadržaji
         boundary:
+          aboriginal_lands: Aboridžinske zemlje
           administrative: Administrativna granica
           census: Statističke granice
           national_park: Nacionalni park
+          political: Izborna granica
           protected_area: Zaštićeno područje
+          "yes": Granica
         bridge:
           aqueduct: Akvadukt
+          boardwalk: Šetalište
           suspension: Viseći most
           swing: Pokretni most
           viaduct: Vijadukt
           "yes": Most
         building:
+          apartment: Apartman
           apartments: Stambena zgrada
+          barn: Štala
+          bungalow: Bungalov
+          cabin: Kabina
           chapel: Kapelica
           church: Crkvena zgrada
+          civic: Javna zgrada
+          college: Zgrada fakulteta
           commercial: Poslovna zgrada
           construction: Zgrada u izgradnji
+          cowshed: Staja
+          detached: Samostojeća kuća
           dormitory: Studentski dom
+          duplex: Duplex kuća
           farm: Zgrada farme
+          farm_auxiliary: Pomoćna poljoprivredna zgrada
           garage: Garaža
           garages: Garaže
           greenhouse: Plastenik/staklenik
+          hangar: Hangar
           hospital: Bolnica
           hotel: Zgrada hotela
           house: Kuća
+          houseboat: Kuća na čamcu
+          hut: Koliba
           industrial: Industrijska zgrada
+          kindergarten: Dječji vrtić
           manufacture: Tvornička zgrada
           office: Uredska zgrada
           public: Javna zgrada
           residential: Stambena zgrada
           retail: Maloprodajna zgrada
           roof: Krov
+          ruins: Ruševna zgrada
           school: Školska zgrada
+          semidetached_house: Dvojna kuća
+          service: Pomoćni tehnički objekt
+          shed: Spremište
           stable: Staja
+          static_caravan: Karavan
+          sty: Svinjac
+          temple: Hram
           terrace: Kućica u nizu
           train_station: Zgrada željezničkog kolodvora
           university: Zgrada Sveučilišta
           warehouse: Skladište
           "yes": Zgrada
+        club:
+          scout: Baza izviđačke grupe
+          sport: Sportski klub
+          "yes": Klub
         craft:
+          beekeeper: Pčelar
+          blacksmith: Kovač
           brewery: Pivovara
           carpenter: Stolar
+          caterer: Ugostitelj
+          confectionery: Trgovina slatkišima
+          dressmaker: Krojač
           electrician: Električar
+          electronics_repair: Servis elektronike
           gardener: Vrtlar
+          glaziery: Staklarija
+          handicraft: Ručni rad
+          hvac: HVAC obrt
+          metal_construction: Obrt za izradu metalnih konstrukcija
           painter: Soboslikar
           photographer: Fotograf
           plumber: Vodoinstalater
+          roofer: Krovopokrivač
+          sawmill: Pilana
           shoemaker: Obućar
+          stonemason: Kamenoklesar
           tailor: Krojač
+          window_construction: Obrt za izradu prozora i vrata
           winery: Vinarija
           "yes": Radionica
         emergency:
+          access_point: Pristupna točka
           ambulance_station: Garaža hitne pomoći
+          assembly_point: Mjesto okupljanja
           defibrillator: Defibrilator
+          fire_extinguisher: Vatrogasni aparat
+          fire_water_pond: Protupožarni bazen vode
           landing_site: Mjesto slijetanja u nuždi
+          life_ring: Kolut za spašavanje
           phone: Telefon za hitne službe
+          siren: Sirena za uzbunjivanje
+          suction_point: Točka za crpljenje vode za gašenje požara
+          water_tank: Spremnik vode za hitne slučajeve
         highway:
           abandoned: Napuštena cesta
           bridleway: Konjička staza
           bus_guideway: Autobusna traka
           bus_stop: Autobusno stajalište
+          busway: Autobusni put
           construction: Autocesta u izgradnji
+          corridor: Koridor
+          crossing: Križanje
           cycleway: Biciklistička staza
           elevator: Dizalo
           emergency_access_point: S.O.S. točka
