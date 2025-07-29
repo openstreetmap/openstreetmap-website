@@ -305,8 +305,9 @@ $(function () {
       // "if map.timeslider" only try to add the timeslider if we don't already have it
       if (map.timeslider) {
         originalLoadFunction();
-      } else {
-        var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+      }
+      else {
+        const params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
         addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
       }
     };
@@ -326,20 +327,9 @@ $(function () {
     // page.load was originally simply the addObject() call
     // but with MBGLTimeSlider we need to wait for it to become ready
     page.load = function (path, id, version) {
-      // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
-      // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
-      function originalLoadFunction () {
-        addObject(type, id, version, true);
-      } // end originalLoadFunction
-
-      // "if map.timeslider" only try to add the timeslider if we don't already have it
-      if (map.timeslider) {
-        originalLoadFunction();
-      }
-      else {
-        var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
-        addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
-      }
+      addObject(type, id, version, true);
+      const params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+      addOpenHistoricalMapTimeSlider(map, params);
     };
 
     function addObject(type, id, version, center) {
@@ -374,9 +364,7 @@ $(function () {
         }
       });
 
-      setTimeout(() => {
-        addOpenHistoricalMapInspector()
-      }, 250);
+      addOpenHistoricalMapInspector()
 
       $(".colour-preview-box").each(function () {
         $(this).css("background-color", $(this).data("colour"));
