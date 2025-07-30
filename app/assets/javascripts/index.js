@@ -237,8 +237,8 @@ $(function () {
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-alert
-        alert(OSM.i18n.t("site.index.remote_failed"));
+        OSM.showAlert(OSM.i18n.t("javascripts.remote_edit.failed.title"),
+                      OSM.i18n.t("javascripts.remote_edit.failed.body"));
       });
 
     function sendRemoteEditCommand(url) {
