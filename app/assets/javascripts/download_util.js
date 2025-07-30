@@ -9,13 +9,6 @@ OSM.downloadBlob = function (blob, filename) {
   URL.revokeObjectURL(url);
 };
 
-OSM.showAlert = function (message) {
-  const modalBody = document.getElementById("osm_alert_message");
-  modalBody.textContent = message;
-  const alertModal = new bootstrap.Modal(document.getElementById("osm_alert_modal"));
-  alertModal.show();
-};
-
 OSM.getTurboBlobHandler = function (filename) {
   function handleExportSuccess({ fetchResponse }) {
     fetchResponse.response.blob()
