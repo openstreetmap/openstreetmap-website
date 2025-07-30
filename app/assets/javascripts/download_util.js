@@ -32,7 +32,7 @@ OSM.getTurboBlobHandler = function (filename) {
   }
 
   function notifyExportFailure(reason) {
-    OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason }));
+    OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed_title"), reason);
   }
 
   return function ({ detail }) {
