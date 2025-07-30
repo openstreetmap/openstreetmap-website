@@ -16,7 +16,7 @@
         const blob = await fetchResponse.response.blob();
         OSM.downloadBlob(blob, filename);
       } catch (err) {
-        OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: "(blob error)" }));
+        OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed_title"), "(blob error)");
       }
     }
 
@@ -33,7 +33,7 @@
       } catch (err) {
         detailMessage = "(unknown)";
       }
-      OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed", { reason: detailMessage }));
+      OSM.showAlert(OSM.i18n.t("javascripts.share.export_failed_title"), detailMessage);
     }
 
     static getTurboBlobHandler(filename) {
