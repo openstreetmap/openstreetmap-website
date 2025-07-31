@@ -67,14 +67,10 @@ time[title] {
 
 /* Rules for the header */
 
-#menu-icon {
-  display: none;
+#menu-icon svg {
+  fill: var(--bs-emphasis-color);
+  stroke: var(--bs-body-bg);
   opacity: 0.6;
-
-  svg {
-    fill: var(--bs-emphasis-color);
-    stroke: var(--bs-body-bg);
-  }
 }
 
 header {
@@ -153,12 +149,7 @@ nav.primary, nav.secondary {
 }
 
 body.small-nav {
-  #menu-icon {
-    display: block;
-  }
-
   header {
-    flex-direction: column;
     height: auto;
     min-height: $headerHeight;
 
@@ -166,35 +157,22 @@ body.small-nav {
       display: none !important;
     }
 
-    .search_forms {
-      display: block;
-    }
-
     .username {
       max-width: unset;
     }
   }
 
-  #sidebar .search_forms {
-    display: none;
-  }
-
   nav.primary {
-    margin-right: 0;
     padding: 0;
 
     #edit_tab {
-      width: 100%;
       padding: 10px;
     }
   }
 
   nav.secondary {
-    flex-direction: column;
-
     > ul {
       height: auto;
-      justify-content: center;
     }
 
     .user-menu, .login-menu {
@@ -206,16 +184,11 @@ body.small-nav {
     display: none;
   }
 
-  .compact-hide {
-    display: inline-block;
-  }
-
-  .overlay-sidebar #sidebar .welcome {
-    display: none;
-  }
-
-  .overlay-sidebar #sidebar #banner {
-    display: none;
+  .overlay-sidebar #sidebar {
+    .welcome,
+    #banner {
+      display: block;
+    }
   }
 }
 
@@ -310,11 +283,8 @@ body.small-nav {
     height: auto;
     overflow: hidden;
 
+    .welcome,
     #banner {
-      display: block;
-    }
-
-    .welcome {
       display: block;
     }
 
@@ -325,17 +295,14 @@ body.small-nav {
     }
   }
 
-  .welcome {
+  .welcome,
+  #banner {
     display: none;
   }
 
-  #banner {
-    display: none;
-
-    img {
-      display: block;
-      width: $sidebarWidth;
-    }
+  #banner img {
+    display: block;
+    width: $sidebarWidth;
   }
 
   #map {
@@ -536,7 +503,6 @@ legend {
 
 /* Rules for the search and direction forms */
 
-header .search_forms,
 .directions_form {
   display: none;
 }

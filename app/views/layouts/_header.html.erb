@@ -1,17 +1,17 @@
-<header class="d-flex bg-body text-nowrap closed z-3">
+<header class="d-flex bg-body flex-column flex-md-row text-nowrap closed z-3">
   <h1 class="d-flex m-0 align-items-center fw-semibold">
     <a href="<%= root_path %>" class="icon-link gap-1 me-auto text-body-emphasis text-decoration-none geolink">
       <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text"), :size => 30 %>
       <%= t "layouts.project_name.h1" %>
     </a>
     <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none"] %>
-    <a href="#" id="menu-icon">
+    <a href="#" id="menu-icon" class="d-md-none">
       <%= inline_svg_tag "menu-icon.svg", :size => "30px" %>
     </a>
   </h1>
   <nav class='primary'>
     <%= content_for :header %>
-    <div id="edit_tab" class="btn-group">
+    <div id="edit_tab" class="btn-group w-100">
       <%= link_to t("layouts.edit"),
                   edit_path,
                   :class => "btn btn-outline-primary geolink editlink",
@@ -30,8 +30,8 @@
       </ul>
     </div>
   </nav>
-  <nav class='secondary d-flex gap-2 flex-grow-1 align-items-center'>
-    <ul id='secondary-nav-menu' class='nav flex-grow-1' data-turbo-permanent>
+  <nav class='secondary d-flex flex-column flex-md-row gap-2 flex-grow-1 align-items-center'>
+    <ul id='secondary-nav-menu' class='nav flex-grow-1 justify-content-center justify-content-md-start' data-turbo-permanent>
       <% if Settings.status != "database_offline" && can?(:index, Issue) %>
         <li class="nav-item">
           <%= link_to issues_path(:status => "open"), :class => header_nav_link_class(issues_path) do %>
