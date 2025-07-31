@@ -359,9 +359,10 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)" }) {
+OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
   const html = `<svg viewBox="0 0 25 40" class="pe-none" overflow="visible"><use href="#pin-shadow" /><use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
   return L.divIcon({
+    ...options,
     html,
     iconSize: [25, 40],
     iconAnchor: [12.5, 40],
