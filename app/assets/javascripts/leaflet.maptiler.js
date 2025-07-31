@@ -1,9 +1,9 @@
 //= require leaflet.maplibre
 //= require @maptiler/maplibre-gl-omt-language
 
-L.OSM.OpenMapTiles = L.MaplibreGL.extend({
+L.OSM.OpenMapTiles = L.OSM.MaplibreGL.extend({
   initialize: function (options) {
-    L.MaplibreGL.prototype.initialize.call(this, {
+    L.OSM.MaplibreGL.prototype.initialize.call(this, {
       style:
         "https://api.maptiler.com/maps/openstreetmap/style.json?key=" +
         options.apikey,
@@ -11,7 +11,7 @@ L.OSM.OpenMapTiles = L.MaplibreGL.extend({
     });
   },
   onAdd: function (map) {
-    L.MaplibreGL.prototype.onAdd.call(this, map);
+    L.OSM.MaplibreGL.prototype.onAdd.call(this, map);
     const maplibreMap = this.getMaplibreMap();
     const supportedLanguages = maplibregl.Map.prototype.supportedLanguages;
     for (const preferredLanguage of OSM.preferred_languages) {
@@ -28,6 +28,6 @@ L.OSM.OpenMapTiles = L.MaplibreGL.extend({
     }
   },
   onRemove: function (map) {
-    L.MaplibreGL.prototype.onRemove.call(this, map);
+    L.OSM.MaplibreGL.prototype.onRemove.call(this, map);
   }
 });
