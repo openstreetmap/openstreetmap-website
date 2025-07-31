@@ -71,7 +71,7 @@ OSM.Search = function (map) {
     listItem.css("--marker-color", color);
     const anchor = $("<a>").attr("href", listItem.find("a.set_position").attr("href"));
     const data = listItem.find("a.set_position").data();
-    const marker = L.marker([data.lat, data.lon], { icon: OSM.getMarker({ color }) });
+    const marker = L.marker([data.lat, data.lon], { icon: OSM.getMarker({ color, className: "activatable" }) });
     marker.on("mouseover", () => listItem.addClass("bg-body-secondary"));
     marker.on("mouseout", () => listItem.removeClass("bg-body-secondary"));
     marker.on("add", function () {
