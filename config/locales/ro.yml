@@ -358,9 +358,10 @@ ro:
 
           Acest acord guvernează termenii pentru contribuțiile dvs. existente și viitoare.
         read_ct: Am citit și sunt de acord cu termenii contribuitorilor de mai sus
-        tou_explain_html: Aceste %{tou_link} guvernează utilizarea site-ului web și
-          a altor infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și
-          agregați textul.
+        tou_explain:
+          html: Aceste %{tou_link} guvernează utilizarea site-ului web și a altor
+            infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și agregați
+            textul.
         read_tou: Am citit și sunt de acord cu Termenii și condițiile
         guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
           un %{readable_summary_link} și câteva %{informal_translations_link}'
@@ -1640,6 +1641,11 @@ ro:
     communities: Comunități
     learn_more: Aflați mai multe
     more: Mai multe
+    offline_flash:
+      osm_offline: Baza de date OpenStreetMap este momentan offline, de vreme ce se
+        desfășoară lucrări esențiale de întreținere.
+      osm_read_only: Baza de date OpenStreetMap este momentan în modul read-only (numai
+        citire) deoarece sunt în desfășurare lucrări esențiale de întreținere a acesteia.
   user_mailer:
     diary_comment_notification:
       description: 'Intrare Jurnal OpenStreetMap #%{id}'
@@ -1666,6 +1672,8 @@ ro:
         la %{replyurl}
     follow_notification:
       hi: Salut %{to_user},
+      subject: '[OpenStreetMap] %{user} v-a urmărit'
+      followed_you: '%{user} vă urmărește acum pe OpenStreetMap.'
       see_their_profile: Puteți vedea profilul lor la %{userurl}.
       see_their_profile_html: Puteți vedea profilul respectiv la %{userurl}.
     gpx_failure:
@@ -1996,8 +2004,8 @@ ro:
         newer: Utilizatori noi
   site:
     about:
-      heading_html: '%{copyright}OpenStreetMap %{br} contributori'
-      used_by_html: '%{name} furnizează date de hărți pentru mii de site-uri web,
+      heading_html: '%{copyright}Contribuitorii%{br}OpenStreetMap'
+      used_by_html: '%{name} furnizează date cartografice pentru mii de site-uri web,
         aplicații mobile și dispozitive hardware'
       lede_text: |-
         OpenStreetMap este construit de o comunitate de cartografi care contribuie și întrețin datele
@@ -2058,15 +2066,39 @@ ro:
         native_link: Versiune THIS_LANGUAGE_NAME_HERE
         mapping_link: Începeți să cartografiați
       legal_babble:
-        licensing_1_odc_odbl: Open Data Commons Licență pentru baze de date deschise
+        lead_1_html: |-
+          OpenStreetMap furnizează date cartografice deschise pentru mii de site-uri web, aplicații mobile și dispozitive hardware.
+          OpenStreetMap este construit de către o comunitate de oameni ca dvs., care contribuie și întrețin date cartografice legate de drumuri, cărări, cafenele, stații de tren și multe altele din întreaga lume.
+        lead_2_learn_more_about_osm: Aflați mai multe despre OpenStreetMap
+        lead_2_osm_blog: Blogul OpenStreetMap
+        licensing_title: Licențierea OpenStreetMap
+        licensing_1_html: 'OpenStreetMap este format din date %{open}, licențiate
+          sub %{odc_odbl_link} (ODbL) de %{osm_foundation_link} (OSMF). Pe scurt:'
+        licensing_1_open: deschise
+        licensing_1_odc_odbl: Licența pentru Baze de Date Deschise „Open Data Commons”
         licensing_1_osm_foundation: Fundația OpenStreetMap
+        licensing_2_html: Dvs. sunteți liber de a copia, distribui, transmite sau
+          adapta datele noastre, atâta timp cât creditați (menționați contribuția)
+          OpenStreetMap și contribuitorii acestei platforme. Dacă alterați sau construiți
+          pe baza datelor noastre, puteți distribui rezultatul numai sub aceeași licență.
+          %{legal_code_link} vă explică drepturile și responsabilitățile dvs.
+        licensing_2_legal_code: codul legal complet al „Open Data Commons”
         licensing_4_osmf_license_page: Pagina de licență OSMF
         credit_title_html: Cum se creditează OpenStreetMap
         credit_1_html: 'Acolo unde utilizați datele OpenStreetMap, vi se cere să faceți
           următoarele două lucruri:'
+        credit_2_attribution: Să creditați OpenStreetMap prin afișarea notificării
+          de atribuire a contribuției noastre.
         credit_2_license: Asigurați-vă că datele sunt disponibile în baza licenței
           pentru baze de date deschise.
-        credit_3_v2025_attribution_guidelines: Orientări Privind Atribuirea
+        credit_3_v2025_html: |-
+          Pentru notificarea de atribuire, avem diferite %{requirements_on_how_displayed_link}, care depind de modul în care ne utilizați datele.
+          De exemplu, se aplică reguli diferite legate de modul de afișare a notificării de atribuție, reguli care depind de faptul că ați creat o hartă răsfoibilă, imprimată sau statică.
+          Mai multe detalii pot fi găsite la secțiunea %{attribution_guidelines_link} a %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: cerințe legate de modul în care
+          aceasta ar trebui să fie afișată
+        credit_3_v2025_attribution_guidelines: orientări privind atribuirea
+        credit_3_v2025_licensing_requirements: cerințelor de licențiere
         credit_4_v2025_this_copyright_page: această pagină de drepturi de autor
         attribution_example:
           alt: Exemplu de atribuire a OpenStreetMap pe o pagină Web
@@ -2089,14 +2121,16 @@ ro:
           Fundația OpenStreetMap. Dacă aveți întrebări despre utilizarea mărcilor, vă rugăm să consultați
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Politica Mărcilor Înregistrate
+        services_1_html: |-
+          Deși OpenStreetMap este format din date deschise, noi nu putem furniza gratuit un API cartografic sau plăci de hartă pentru terțe părți.
+          Vedeți urătoarele politici ale noastre: %{api_usage_policy_link}, %{tile_usage_policy_link} și %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Politica de utilizare API
         services_1_tile_usage_policy: Politica de Utilizare a Plăcilor
-        services_1_nominatim_usage_policy: Politica Utilizare Nominatim
+        services_1_nominatim_usage_policy: Politica de Utilizare Nominatim
         contributors_title_html: Contribuitorii noștri
-        contributors_intro_html: |-
-          Contribuitorii noștri sunt mii de indivizi. De asemenea, includem
-          date cu licență de la agențiile naționale de cartografiere
-          și alte surse, printre care:
+        contributors_intro_html: 'Contribuitorii noștri sunt mii de persoane individuale.
+          De asemenea, includem date cu licență deschisă de la agențiile naționale
+          de cartografiere și alte surse, printre care:'
         contributors_at_credit_html: |-
           %{austria}: conține date de la %{stadt_wien_link} (sub %{cc_by_link}), %{land_vorarlberg_link}
           și Land Tirol (sub %{cc_by_at_with_amendments_link}).
@@ -2106,8 +2140,8 @@ ro:
         contributors_at_land_vorarlberg: Land Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT cu amendamente
         contributors_au_credit_html: |-
-          %{australia}: Încorporează sau dezvoltat folosind limite administrative &copy; %{geoscape_australia_link}
-          licențiat de Commonwealth of Australia sub %{cc_licence_link}.
+          %{australia}: Încorporate sau dezvoltate folosind Limitele Administrative &copy; %{geoscape_australia_link}
+          licențiate de Commonwealth of Australia sub %{cc_licence_link}.
         contributors_au_australia: Australia
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Creative Commons Attribution 4.0 International
@@ -2134,9 +2168,12 @@ ro:
           %{france}: Conține date provenite din
           Direction Générale des Impôts.
         contributors_fr_france: Franța
+        contributors_hr_credit_html: |-
+          %{croatia}: Conține date de la %{dgu_link} și de la %{open_data_portal}
+          (informații publice ale Croației).
         contributors_hr_croatia: Croația
         contributors_hr_dgu: Administrația Statală Geodetică a Croației
-        contributors_hr_open_data_portal: Portalul Național de Date Libere
+        contributors_hr_open_data_portal: Portalul Național de Date Deschise
         contributors_nl_credit_html: '%{netherlands}: Conține &copy; AND data, 2007
           (%{and_link})'
         contributors_nl_netherlands: Țările de Jos
@@ -2170,8 +2207,7 @@ ro:
         contributors_za_south_africa: Africa de Sud
         contributors_za_ngi: 'Directoratul Șef: Informații Geo-Spațiale Naționale'
         contributors_gb_credit_html: |-
-          %{united_kingdom}: Contains Ordnance
-          Datele sondajului &copy; Dreptul de autor al coroanei și dreptul de bază de date
+          %{united_kingdom}: Conține datele Sondajului Ordonanței &copy; Dreptul de autor al coroanei și dreptul bazei de date
           2010-2023.
         contributors_gb_united_kingdom: Regatul Unit
         contributors_2_html: |-
@@ -2258,8 +2294,9 @@ ro:
         title: Ghidul începătorilor
         description: Ghid menținut de comunitate pentru începători.
       community:
-        title: Forumul Comunității
-        description: Un loc comun pentru discuții despre OpenStreetMap.
+        title: Ajutor și Forumul Comunității
+        description: Un loc comun pentru a căuta ajutor și a avea discuții despre
+          OpenStreetMap.
       mailing_lists:
         title: Lista de e-mail-uri
         description: Adresați o întrebare sau discutați despre probleme interesante
@@ -2310,6 +2347,8 @@ ro:
         bicycle: Bicicletă
         car: Mașină
         foot: Mers
+      providers:
+        description: Servicii de indicații
     welcome:
       title: Bun-venit!
       introduction: Bun-venit la OpenStreetMap, harta liberă și editabilă a lumii.
@@ -2607,25 +2646,25 @@ ro:
       oauth2_authorizations: Autorizări OAuth 2
     auth_providers:
       google:
-        title: Autentificare cu Google
-        alt: Conectați-vă cu un Google OpenID
+        title: Autentificați-vă cu Google
+        alt: Sigla Google
       facebook:
         title: Autentificare cu Facebook
-        alt: Conectați-vă cu un cont Facebook
+        alt: Sigla Facebook
       microsoft:
-        title: Conectare cu Microsoft
-        alt: Conectare cu un Cont Microsoft
+        title: Autentificați-vă cu Microsoft
+        alt: Sigla Microsoft
       github:
         title: Conectare cu GitHub
-        alt: Conectați-vă cu un cont GitHub
+        alt: Sigla GitHub
       wikipedia:
-        title: Autentificare la Wikipedia
-        alt: Conectați-vă cu un cont Wikipedia
+        title: Autentificați-vă cu Wikipedia
+        alt: Sigla Wikipedia
   oauth:
     permissions:
       missing: Nu ați permis accesul aplicației la această facilitate
     scopes:
-      openid: Conectați-vă folosind OpenStreetMap
+      openid: Autentificați-vă folosind OpenStreetMap
       read_prefs: Citiți preferințele utilizatorului
       write_prefs: Modificați preferințele utilizatorului
       write_diary: Creați intrări în jurnal și comentarii

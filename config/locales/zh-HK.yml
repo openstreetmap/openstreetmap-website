@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: C933103
 # Author: Hkjacksonhk
+# Author: KX675
 # Author: Liuxinyu970226
 # Author: LuciferianThomas
 # Author: StarrySky
@@ -17,7 +18,7 @@ zh-HK:
       prompt: 選擇檔案
     submit:
       diary_comment:
-        create: 儲存
+        create: 留言
       diary_entry:
         create: 發佈
         update: 更新
@@ -38,6 +39,14 @@ zh-HK:
         create: 創建封鎖
         update: 更新封鎖
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: 除非你的用戶名稱為「n」，否則不接受「user_n」
+      models:
+        social_link:
+          attributes:
+            url:
+              http_parse_error: 網址應以 http:// 或 https:// 起首
     models:
       acl: 存取控制清單
       changeset: 變更集
@@ -51,6 +60,7 @@ zh-HK:
       message: 訊息
       node: 節點
       node_tag: 節點標籤
+      note: 註記
       old_node: 舊節點
       old_node_tag: 舊節點標籤
       old_relation: 舊關聯
@@ -81,8 +91,9 @@ zh-HK:
         support_url: 支援URL
         allow_read_prefs: 讀取他們的用戶設定。
         allow_write_prefs: 修改他們的用戶設定。
-        allow_write_diary: 建立日記項目、評論和加入好友
+        allow_write_diary: 建立日誌條目及留言
         allow_write_api: 修改地圖
+        allow_write_changeset_comments: 在變更集上留言
         allow_read_gpx: 讀取他們的私人GPS軌跡
         allow_write_gpx: 上載GPS軌跡
         allow_write_notes: 修改註記
@@ -91,6 +102,7 @@ zh-HK:
       diary_entry:
         user: 用戶
         title: 主題
+        body: 內文
         latitude: 緯度
         longitude: 經度
         language_code: 語言
@@ -111,7 +123,7 @@ zh-HK:
         longitude: 經度
         public: 公開
         description: 描述
-        gpx_file: 上載GPX檔案
+        gpx_file: 上載GPS軌跡檔案
         visibility: 可見度
         tagstring: 標籤
       message:
@@ -123,7 +135,7 @@ zh-HK:
         title: 標題
         description: 描述
       report:
-        category: 選擇您舉報的原因
+        category: 選擇你舉報的原因
         details: 請就這問題提供多點詳情（必需）。
       user:
         auth_provider: 認證提供者
@@ -133,8 +145,10 @@ zh-HK:
         active: 活躍
         display_name: 顯示名稱
         description: 個人檔案描述
+        company: 公司
         home_lat: 緯度
         home_lon: 經度
+        home_location_name: 住處名稱
         languages: 偏好的語言
         preferred_editor: 偏好的編輯軟件
         pass_crypt: 密碼
@@ -152,41 +166,41 @@ zh-HK:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: 約1小時前
+        one: 約%{count}小時前
         other: 約%{count}小時前
       about_x_months:
-        one: 約1個月前
+        one: 約%{count}個月前
         other: 約%{count}個月前
       about_x_years:
-        one: 約1年前
+        one: 約%{count}年前
         other: 約%{count}年前
       almost_x_years:
-        one: 差不多1年前
+        one: 差不多%{count}年前
         other: 差不多%{count}年前
       half_a_minute: 半分鐘前
       less_than_x_seconds:
-        one: 不到1秒前
+        one: 不到%{count}秒前
         other: 不到%{count}秒前
       less_than_x_minutes:
-        one: 不到一分鐘前
+        one: 不到%{count}分鐘前
         other: 不到%{count}分鐘前
       over_x_years:
-        one: 超過1年前
+        one: 超過%{count}年前
         other: 超過%{count}年前
       x_seconds:
-        one: 1秒前
+        one: '%{count}秒前'
         other: '%{count}秒前'
       x_minutes:
-        one: 一分鐘前
+        one: '%{count}分鐘前'
         other: '%{count}分鐘前'
       x_days:
-        one: 1日前
+        one: '%{count}日前'
         other: '%{count}日前'
       x_months:
-        one: 1個月前
+        one: '%{count}個月前'
         other: '%{count}個月前'
       x_years:
-        one: 1年前
+        one: '%{count}年前'
         other: '%{count}年前'
   editor:
     default: 預設（現為%{name}）
@@ -217,122 +231,371 @@ zh-HK:
       rss:
         title: OpenStreetMap註記
       entry:
-        comment: 評論
+        comment: 留言
   accounts:
     show:
-      title: 編輯帳號
+      title: 編輯賬戶
+      my_account: 我的賬戶
       current email address: 現在的電郵地址
       external auth: 外部認證
       contributor_terms:
         heading: 貢獻者條款
-        agreed: 您已同意新的貢獻者條款。
+        agreed: 你已於%{date}接納貢獻者條款。
+        not_agreed: 你尚未接納貢獻者條款。
         agreed_with_pd: 您亦同意將您的編輯放到公共領域。
+        not_agreed_with_pd: 你尚未聲明你的編輯將歸屬公有領域。
+        review: 檢閱條款
+        review_and_accept: 檢閱並接納條款
+        consider_pd: 認定公有領域
+      terms_of_use:
+        heading: 使用條款
+        agreed: 你已於%{date}接納使用條款。
+        not_agreed: 你尚未接納使用條款。
+        review: 檢閱條款
+        review_and_accept: 檢閱並接納條款
       save changes button: 儲存變更
       delete_account: 刪除帳號……
     go_public:
       heading: 公開編輯
+      currently_not_public: 你目前以匿名身份編輯，其他用戶無法向你發送訊息，亦不能得知你的位置。如欲披露你的編輯紀錄並允許他人透過此網站與你聯絡，請按下面按鈕。
+      only_public_can_edit: 自0.6 API版本生效起，只有公開用戶方可編輯地圖數據。
+      find_out_why: 了解原因
+      email_not_revealed: 你的電郵地址並不會因公開賬戶而對外披露。
+      not_reversible: 賬戶一經公開即無法還原。同時，所有新用戶皆預設為公開賬戶。
       make_edits_public_button: 將我所有的編輯設為公開
     update:
       success_confirm_needed: 使用者資訊更新成功。請檢查電郵，以確認新電郵地址。
       success: 使用者資訊更新成功。
     destroy:
-      success: 帳號已刪除。
+      success: 賬戶已刪除。
     deletions:
       show:
-        title: 刪除我的帳號
-        warning: 警告！帳號刪除程序不可逆轉，無法復原。
+        title: 刪除我的賬戶
+        warning: 警告！賬戶刪除程序一經確認，即無法還原。
         delete_account: 刪除帳號
-        delete_introduction: 您可以用以下按鈕來刪除閣下的OpenStreetMap帳號。請注意這些細節：
-        delete_profile: 您的個人檔案資訊，如頭像圖片、描述、住家位置，都會刪除。
-        delete_display_name: 您的顯示名稱將會刪除，並且可由其他帳號重新使用。
-        retain_caveats: 但，在刪除帳號後，OpenStreetMap內依然會保留一些關於閣下的資料，包括：
-        retain_edits: 您在地圖數據庫的編輯會保留。
-        retain_traces: 您的上傳軌跡也會保留。
-        retain_diary_entries: 您的日記和日記評論會保留但會隱藏起來。
-        retain_notes: 您如曾在地圖上的註記和對註記所發表的評論會被保留，但會隱藏起來。
-        retain_changeset_discussions: 您的變更集討論都會保留。
-        retain_email: 您的電郵地址會繼續保留下來。
-        confirm_delete: 您確定嗎？
+        delete_introduction: 你可以用以下按鈕刪除閣下的OpenStreetMap帳號。請注意以下細節：
+        delete_profile: 你的個人檔案資訊，如頭像圖片、描述、居住地點，都會刪除。
+        delete_display_name: 你的顯示名稱將會刪除，並且可由其他賬戶重新使用。
+        retain_caveats: 但在刪除帳號後，OpenStreetMap系統內依然會保留一些關於閣下的資料，包括：
+        retain_edits: 你過往對地圖資料庫作出的編輯會被保留。
+        retain_traces: 如你曾上載GPS軌跡，也會獲保留。
+        retain_diary_entries: 你的日誌和日誌留言會保留，但會隱藏起來。
+        retain_notes: 你如曾在地圖上的註記和對註記所發表的評論會被保留，但會隱藏起來。
+        retain_changeset_discussions: 你的變更集討論都會保留。
+        retain_email: 你的電郵地址會繼續保留下來。
+        recent_editing_html: 你的賬戶因最近曾有編輯紀錄而無法即時刪除，須待%{time}後方可刪除。
+        confirm_delete: 你確定嗎？
         cancel: 取消
     terms:
       show:
         title: 條款
         heading: 條款
         heading_ct: 貢獻者條款
+        read and accept with tou: 請閱讀貢獻者協議及使用條款，剔選相應方格以示接納，然後按「繼續」鍵。
+        contributor_terms_explain: 此協議之條文規管你現有以及日後之編輯貢獻。
+        read_ct: 本人已閱讀並接納以上貢獻者條款。
+        tou_explain:
+          html: 此等%{tou_link}規管用戶使用本網站及OSM基金會不時提供的其他基礎內容之行為。請按連結閱讀並接納%{tou_link}全文。
+          tou: 使用條款
         read_tou: 我已經閱讀過並同意使用條款
+        guidance_info_html: 有助理解此等術語的資訊：%{readable_summary_link}，以及一些%{informal_translations_link}
+        readable_summary: 人類可讀的摘要
+        informal_translations: 非正式譯本
         continue: 繼續
-        legale_select: 請選擇您的居住地：
+        cancel: 取消
+        you need to accept or decline: 請先閱讀下文，然後選擇接納或拒絕新版本的貢獻者條款，方可繼續操作。
+        legale_select: 請選擇你的居住地：
         legale_names:
           france: 法國
           italy: 意大利
           rest_of_world: 世界其他地方
       update:
-        terms accepted: 感謝您接受新的貢獻條款！
+        terms accepted: 感謝你接受新的貢獻者條款！
+      terms_declined_flash:
+        terms_declined_html: 你決定不接納新版本的貢獻者條款，我們深感遺憾。有關詳細資訊，請參閱%{terms_declined_link}。
+        terms_declined_link: 本wiki頁面
+    pd_declarations:
+      show:
+        title: 認定我的編輯貢獻應歸屬於公有領域
+        consider_pd: 本人謹此聲明，本人作出之編輯貢獻應當歸屬於公有領域
+        consider_pd_why: 為何需要聲明編輯貢獻歸屬公有領域？
+        confirm: 確認
+      create:
+        successfully_declared: 你已成功聲明你的貢獻歸屬公有領域。
+        already_declared: 你已聲明你的貢獻歸屬公有領域。
+        did_not_confirm: 你尚未聲明你的貢獻歸屬公有領域。
   browse:
+    deleted_ago_by_html: 由%{user}於%{time_ago}刪除
+    edited_ago_by_html: 由%{user}於%{time_ago}編輯
     version: 版本
+    redacted_version: 經遮蓋的版本
     in_changeset: 變更集
     anonymous: 匿名
     no_comment: （沒有評論）
     part_of: 屬於：
+    part_of_relations: '%{count}個關聯集'
+    part_of_ways: '%{count}條路徑'
     download_xml: 下載 XML
+    view_unredacted_history: 查看未經遮蓋的編輯記錄
     location: 位置：
+    node:
+      title_html: 節點：%{name}
+    way:
+      title_html: 路徑：%{name}
+      nodes: 節點
+      nodes_count: '%{count}個節點'
+      also_part_of_html: 路徑%{related_ways}的一部份
+    relation:
+      title_html: 關聯集：%{name}
+      members: 成員
+      members_count: '%{count}個成員'
     relation_member:
+      entry_role_html: '%{type} %{name} 作為 %{role}'
       type:
         node: 節點
         way: 路徑
+        relation: 關聯集
+    containing_relation:
+      entry_role_html: '%{relation_name}（作為 %{relation_role}）'
+    not_found:
+      title: 找不到
     timeout:
+      title: 逾時錯誤
       type:
         node: 節點
         way: 路徑
+        relation: 關聯集
         changeset: 變更集
         note: 註記
     redacted:
       type:
         node: 節點
         way: 路徑
+        relation: 關聯集
     start_rjs:
-      feature_warning: 正在載入%{num_features}項地圖特徵，可能會拖慢您的瀏覽器或導致瀏覽器未能回應。您是否肯定想要顯示這些資料？
+      feature_warning: 正在載入%{num_features}項地圖特徵，可能會拖慢你的瀏覽器，或導致瀏覽器未能回應。你是否肯定想要顯示這些資料？
+      feature_error: 無法載入地圖特徵：%{message}
+      load_data: 載入數據
+      loading: 載入中⋯⋯
+    tag_details:
+      tags: 標籤
+      wikidata_link: 維基數據上的%{page}條目
+      wikidata_preview: 預覽維基數據條目
+      wikipedia_link: 維基百科上的%{page}條目
+      wikimedia_commons_link: 維基共享資源上的%{page}項目
+      telephone_link: 致電%{phone_number}
+      colour_preview: 色彩%{colour_value}預覽
+      email_link: 電郵 %{email}
+    versions_navigation:
+      node: 節點
+      way: 路徑
+      relation: 關聯集
+      history: 歷史
+      version: 第%{version}版
+      versions_label: 版本：
   feature_queries:
     show:
       title: 查詢地圖特徴
       introduction: 點擊地圖以尋找附近的地圖特徵。
+      nearby: 附近地圖特徵
       enclosing: 包圍着的地圖特徵
+  old_elements:
+    index:
+      node:
+        title_html: 節點編輯紀錄：%{name}
+      way:
+        title_html: 路徑編輯紀錄：%{name}
+      relation:
+        title_html: 關聯集編輯紀錄：%{name}
+      older_versions: 較舊版本
+      newer_versions: 較新版本
+    actions:
+      view_redacted_data: 查看經隱刪的數據
+  nodes:
+    not_found_message:
+      sorry: 抱歉，找不到節點 %{id}。
+    timeout:
+      sorry: 抱歉，檢索id為%{id}之節點用時過長。
+  old_nodes:
+    not_found_message:
+      sorry: 抱歉，找不到節點%{id}的第%{version}版本。
+    timeout:
+      sorry: 抱歉，檢索節點%{id}編輯紀錄用時過長。
+  ways:
+    not_found_message:
+      sorry: 抱歉，找不到路徑%{id}。
+    timeout:
+      sorry: 抱歉，檢索路徑%{id}數據用時過長。
+  old_ways:
+    not_found_message:
+      sorry: 抱歉，找不到路徑%{id}的第%{version}版本。
+    timeout:
+      sorry: 抱歉，檢索路徑%{id}編輯紀錄用時過長。
+  relations:
+    not_found_message:
+      sorry: 抱歉，找不到關聯集%{id}。
+    timeout:
+      sorry: 抱歉，檢索關聯集%{id}數據用時過長。
+  old_relations:
+    not_found_message:
+      sorry: 抱歉，找不到關聯集%{id}的第%{version}版本。
+    timeout:
+      sorry: 抱歉，檢索關聯集%{id}編輯紀錄用時過長。
+  changeset_comments:
+    feeds:
+      comment:
+        commented_at_by_html: 由%{user}於%{when}更新
+      show:
+        title_all: OpenStreetMap變更集討論
+        title_particular: OpenStreetMap變更集#%{changeset_id}討論
+      timeout:
+        sorry: 抱歉，檢索變更集留言用時過長。
   changesets:
+    changeset_line:
+      comments: '%{count}則留言'
+      changes: '%{count}次更改'
+      n_elements_created: 已建立%{count}個元素
+      n_elements_modified: 已修改%{count}個元素
+      n_elements_deleted: 已刪除%{count}嘅元素
     index:
       title: 變更集
       title_user: '%{user}的變更集'
+      title_user_link_html: '%{user_link}的變更集'
+      title_followed: 你追蹤的用戶之變更集
       title_nearby: 附近用戶的變更集
+      empty: 查無變更集。
       empty_area: 此區域沒有變更集。
       empty_user: 此用戶沒有變更集。
+      no_more: 查無更多變更集。
       no_more_area: 此區域沒有更多變更集。
       no_more_user: 此用戶沒有更多變更集。
+      older_changesets: 較舊的變更集
+      newer_changesets: 較新的變更集
       feed:
         title: 變更集 %{id}
+        title_comment: 變更集 %{id} - %{comment}
+        created: 建立於
+        closed: 關閉於
         belongs_to: 製作者
     show:
       title: 變更集：%{id}
+      created: 建立於：%{when}
+      closed: 關閉於：%{when}
+      created_ago_html: 於%{time_ago}建立
+      closed_ago_html: 於%{time_ago}前關閉
+      created_ago_by_html: 由%{user}於%{time_ago}建立
+      closed_ago_by_html: 由%{user}於%{time_ago}關閉
+      discussion: 討論
+      join_discussion: 登入以參加討論
+      still_open: 變更集仍處於開放狀態 - 關閉後才會開放討論
+      subscribe: 訂閱
+      unsubscribe: 取消訂閱
+      comment_by_html: '%{user}於%{time_ago}的留言'
+      hidden_comment_by_html: '%{user}於%{time_ago}的隱藏留言'
+      hide_comment: 隱藏
+      unhide_comment: 取消隱藏
+      comment: 留言
       changesetxml: 變更集XML
       osmchangexml: osmChange格式XML
-  dashboards:
+    paging_nav:
+      nodes_title: 節點
+      nodes_paginated: 節點（共 %{count} 項中的第 %{x}-%{y} 項）
+      ways_title: 路徑
+      ways_paginated: 路徑（共 %{count} 項中的第 %{x}-%{y} 項）
+      relations_title: 關聯集
+      relations_paginated: 關聯集（共 %{count} 項中的第 %{x}-%{y} 項）
+      range: （共 %{count} 項中的第 %{x}-%{y} 項）
+    not_found_message:
+      sorry: 抱歉，找不到關聯集%{id}。
+    timeout:
+      sorry: 抱歉，檢索變更集留言用時過長。
+  changeset_subscriptions:
     show:
+      subscribe:
+        heading: 是否訂閱以下變更集討論？
+        button: 訂閱討論內容
+      unsubscribe:
+        heading: 是否要停止訂閱以下變更集討論？
+        button: 停止訂閱討論內容
+    heading:
+      title: 變更集 %{id}
+      created_by_html: 由 %{link_user} 於 %{created} 建立。
+    no_such_entry:
+      heading: 沒有 id 為 %{id} 的項目
+      body: 抱歉，查無編號為%{id}的變更集。請檢查拼寫，或者你可能按到了錯誤的連結。
+  dashboards:
+    contact:
+      km away: '%{count}公里以外'
+      m away: '%{count}米外'
+      latest_edit_html: 最後一次修訂（%{ago}）：
+      no_edits: （沒有編輯紀錄）
+      view_changeset_details: 查看編輯集詳情
+    popup:
+      your location: 你的位置
+      nearby mapper: 附近的製圖者
+      following: 追蹤中的用戶
+    show:
+      title: 控制台
+      no_home_location_html: '%{edit_profile_link}並設定你的居住地點，以查看你附近的用戶。'
+      edit_your_profile: 編輯個人檔案
+      followings: 你追蹤的用戶
+      no followings: 你尚未追蹤任何用戶。
       nearby users: 其他附近的用戶
       no nearby users: 附近還沒有已加入製圖的用戶。
+      followed_changesets: 變更集
+      followed_diaries: 日誌文章
+      nearby_changesets: 附近用戶的變更集
+      nearby_diaries: 附近用戶的日誌內容
   diary_entries:
+    new:
+      title: 新日誌文章
     form:
       location: 位置
       use_map_link: 使用地圖
     index:
       title: 用戶日記
+      title_followed: 你追蹤的用戶之日誌
       title_nearby: 附近用戶的日記
+      user_title: '%{user}的日誌'
+      in_language_title: '%{language}日誌文章'
       no_entries: 沒有日記項目
+    page:
+      recent_entries: 最近的日誌文章
+    edit:
+      title: 編輯日誌文章
+      marker_text: 日誌文章位置
     show:
       title: '%{user}的日記 | %{title}'
+      user_title: '%{user}的日誌'
+      discussion: 討論
+      subscribe: 訂閱
+      unsubscribe: 停止訂閱
+      leave_a_comment: 留言
+      login_to_leave_a_comment_html: '%{login_link}以留言'
       login: 登入
+    no_such_entry:
+      title: 查無相符日誌文章
+      heading: 查無編號為%{id}的日誌文章
+      body: 抱歉，查無編號為%{id}的日誌文章或留言。請檢查拼寫，或者你可能按到了錯誤的連結。
     diary_entry:
+      posted_by_html: 於 %{created} 由 %{link_user} 以%{language_link}發表。
+      updated_at_html: 上一次更新時間為%{updated}。
+      full_entry: 查看全文
+      comment_link: 就日誌內容留言
+      reply_link: 傳送訊息予作者
+      comment_count: '%{count}則留言'
+      no_comments: 沒有留言
+      edit_link: 編輯此文章
+      hide_link: 隱藏此文章
+      unhide_link: 取消隱藏此文章
       confirm: 確認
       report: 回報此項目
     diary_comment:
+      comment_from_html: 由%{link_user}於%{comment_created_at}發表的評論
+      hide_link: 隱藏此留言
+      unhide_link: 取消隱藏此留言
       confirm: 確認
+      report: 舉報此留言
     location:
       location: 位置：
     feed:
@@ -340,12 +603,69 @@ zh-HK:
         title: '%{user}的OpenStreetMap日記文章'
         description: 近期由%{user}所寫的OpenStreetMap日記文章
       language:
+        title: 以%{language_name}書寫的OpenStreetMap日誌文章
         description: 近期以%{language_name}撰寫的OpenStreetMap用戶日記文章
       all:
+        title: OpenStreetMap日誌文章
         description: 近期的OpenStreetMap用戶日記文章
+    subscribe:
+      heading: 是否訂閱以下日誌文章留言？
+      button: 訂閱討論內容
+    unsubscribe:
+      heading: 是否取消訂閱以下日誌文章討論內容？
+      button: 取消訂閱討論內容
     navigation:
+      in_language: '%{language}日誌文章'
       my_diary: 我的日記
+      new: 新日誌文章
       new_title: 在我的用戶日記中撰寫新文章
+    profile_diaries:
+      latest_diaries: 最新日誌文章
+      comments: '%{count}則留言'
+      title_label: 日誌文章
+      comments_label: 留言
+      date_label: 日期
+  diary_comments:
+    new:
+      heading: 是否要留言回應以下日誌文章？
+  doorkeeper:
+    scopes:
+      address: 查看你的實際地址
+      email: 查看你的電郵地址
+      openid: 驗證你的賬戶
+      phone: 查看你的電話號碼
+      profile: 查看你的個人資訊
+  errors:
+    contact:
+      contact: 聯絡
+    bad_request:
+      title: 錯誤請求
+      description: 你在OpenStreetMap伺服器上請求的操作無效 (HTTP 400)
+    forbidden:
+      title: 禁止
+      description: 你在OpenStreetMap伺服器上請求的操作只限管理員使用 (HTTP 403）
+    internal_server_error:
+      title: 應用程式錯誤
+      description: OpenStreetMap伺服器遇到意外情況，無法滿足請求 (HTTP 500)
+    not_found:
+      title: 找不到檔案
+      description: 在OpenStreetMap伺服器上找不到該名稱的檔案/目錄/API操作 （HTTP 404）
+  follows:
+    show:
+      follow:
+        heading: 是否要追蹤%{user}？
+        button: 追蹤用戶
+      unfollow:
+        heading: 你是否要停止追蹤%{user}？
+        button: 停止追蹤用戶
+    create:
+      success: 你正在追蹤%{name}！
+      failed: 抱歉，你對%{name}的追蹤請求失敗。
+      already_followed: 你已在追蹤%{name}。
+      limit_exceeded: 你最近追蹤了大量用戶。請稍後再試。
+    destroy:
+      success: 你已成功停止追蹤%{name}。
+      not_followed: 你並未追蹤%{name}。
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -369,7 +689,7 @@ zh-HK:
           helipad: 直升機坪
           holding_position: 等待位置
           navigationaid: 航空導航輔助
-          parking_position: 停車位置
+          parking_position: 停機位
           runway: 跑道
           taxilane: 滑行道
           taxiway: 滑行道
@@ -382,10 +702,10 @@ zh-HK:
           atm: 自動櫃員機
           bank: 銀行
           bar: 酒吧
-          bbq: 燒烤場
+          bbq: 燒烤爐
           bench: 長椅
           bicycle_parking: 單車停泊處
-          bicycle_rental: 單車租貸
+          bicycle_rental: 單車租賃
           bicycle_repair_station: 單車維修站
           biergarten: 啤酒庭園
           blood_bank: 血庫
@@ -394,7 +714,7 @@ zh-HK:
           bureau_de_change: 找換店
           bus_station: 巴士總站
           cafe: Cafe
-          car_rental: 汽車租貸
+          car_rental: 汽車租賃
           car_sharing: 汽車共乘
           car_wash: 洗車
           casino: 賭場
@@ -431,9 +751,9 @@ zh-HK:
           language_school: 語言學校
           library: 圖書館
           loading_dock: 卸貨平台
-          love_hotel: 恋爱賓館
+          love_hotel: 時鐘酒店
           marketplace: 墟市/市集
-          mobile_money_agent: 行動支付代理
+          mobile_money_agent: 流動支付代理
           monastery: 修道院
           money_transfer: 匯款
           motorcycle_parking: 電單車停車場
@@ -443,25 +763,25 @@ zh-HK:
           parking: 停車場
           parking_entrance: 停車場入口
           parking_space: 停車位
-          payment_terminal: 支付終端
+          payment_terminal: 自助繳費終端機
           pharmacy: 藥房
           place_of_worship: 宗教場所
           police: 警察
-          post_box: 郵箱
-          post_office: 郵局
+          post_box: 郵筒
+          post_office: 郵政局
           prison: 監獄
           pub: 酒館
           public_bath: 公眾浴場
-          public_bookcase: 公共書櫃
+          public_bookcase: 漂書櫃
           public_building: 公共建築
-          ranger_station: 護林員站
+          ranger_station: 郊野公園管理站
           recycling: 回收點
           restaurant: 餐廳
           sanitary_dump_station: 衛生排污站
           school: 學校
           shelter: 涼亭
           shower: 淋浴
-          social_centre: 非盈利團體會所
+          social_centre: 非牟利團體會所
           social_facility: 社會福利設施
           studio: 工作室
           swimming_pool: 游泳池
@@ -472,7 +792,7 @@ zh-HK:
           townhall: 市政廳
           training: 訓練設施
           university: 大學
-          vehicle_inspection: 車輛檢查
+          vehicle_inspection: 車輛檢驗中心
           vending_machine: 自動售賣機
           veterinary: 獸醫診所
           village_hall: 村公所
@@ -481,7 +801,7 @@ zh-HK:
           waste_dump_site: 垃圾掩埋場
           watering_place: 集水地點
           water_point: 取水點
-          weighbridge: 地磅
+          weighbridge: 秤車站
           "yes": 便利設施
         boundary:
           aboriginal_lands: 原住民土地
@@ -506,22 +826,23 @@ zh-HK:
           cabin: 小木屋
           chapel: 禮拜堂
           church: 教堂建築
-          civic: 城市建築
-          college: 學院建物
+          civic: 市政建築
+          college: 學院建築
           commercial: 商業建築
-          construction: 在建建築
+          construction: 興建中之樓宇
+          cowshed: 牛棚
           detached: 獨立住宅
           dormitory: 宿舍
           duplex: 複式住宅
           farm: 農舍
           farm_auxiliary: 附屬農舍建築
-          garage: 車庫
-          garages: 車庫
+          garage: 車房
+          garages: 車房
           greenhouse: 溫室
           hangar: 機庫
           hospital: 醫院建築
-          hotel: 賓館建築
-          house: 房屋
+          hotel: 酒店建築
+          house: 屋宇
           houseboat: 船屋
           hut: 小屋
           industrial: 工業建築
@@ -534,11 +855,12 @@ zh-HK:
           roof: 屋頂
           ruins: 已毀損建築
           school: 學校建築
-          semidetached_house: 半獨立房
+          semidetached_house: 半獨立屋
           service: 服務建築
           shed: 棚
           stable: 馬廄
-          static_caravan: 旅行拖車
+          static_caravan: 露營車
+          sty: 豬欄
           temple: 廟宇建築
           terrace: 陽台建築
           train_station: 車站建物
@@ -546,38 +868,38 @@ zh-HK:
           warehouse: 倉庫
           "yes": 建築物
         club:
-          scout: 童軍團團部
-          sport: 体育俱樂部
+          scout: 童軍旅部
+          sport: 體育會
           "yes": 俱樂部
         craft:
-          beekeeper: 養蜂人之家
+          beekeeper: 養蜂場
           blacksmith: 鐵匠鋪
-          brewery: 釀酒
+          brewery: 釀酒廠
           carpenter: 木匠工坊
-          caterer: 外燴承辦
+          caterer: 到會膳食供應商
           confectionery: 糖果店
           dressmaker: 女裝裁縫工作室
-          electrician: 電工工坊
+          electrician: 電工
           electronics_repair: 電子產品維修
           gardener: 園丁工坊
           glaziery: 玻璃工坊
           handicraft: 手工藝工坊
-          hvac: 暖通空調工坊
+          hvac: 冷氣工程公司
           metal_construction: 金屬結構坊
           painter: 畫家
-          photographer: 摄影室
-          plumber: 管道工坊
-          roofer: 屋顶工作室
+          photographer: 攝影師
+          plumber: 水喉匠
+          roofer: 屋頂維修
           sawmill: 鋸木廠
-          shoemaker: 鞋匠工坊
-          stonemason: 石匠鋪
-          tailor: 裁缝
-          window_construction: 窗戶建設
+          shoemaker: 製鞋匠
+          stonemason: 石匠
+          tailor: 裁縫
+          window_construction: 窗戶工程
           winery: 釀酒廠
           "yes": 工藝品商店
         emergency:
           access_point: 進入點
-          ambulance_station: 急救站
+          ambulance_station: 救護站
           assembly_point: 集合處
           defibrillator: 除顫器
           fire_extinguisher: 滅火器
@@ -590,14 +912,15 @@ zh-HK:
           water_tank: 緊急水箱
         highway:
           abandoned: 廢棄道路
-          bridleway: 馬車路
-          bus_guideway: 導軌巴士專線
+          bridleway: 馬徑
+          bus_guideway: 導軌巴士專用綫
           bus_stop: 巴士站
+          busway: 巴士專用道
           construction: 建造中公路
           corridor: 走廊
-          crossing: 十字路口
+          crossing: 行人過路處
           cycleway: 單車徑
-          elevator: 電梯
+          elevator: 升降機
           emergency_access_point: 緊急聯絡點
           emergency_bay: 緊急停車灣
           footway: 行人路
@@ -605,16 +928,16 @@ zh-HK:
           give_way: 讓路標誌
           living_street: 生活街道
           milestone: 里程碑
-          motorway: 高速公路
-          motorway_junction: 高速公路出口
-          motorway_link: 高速公路聯絡道
-          passing_place: 避車彎
+          motorway: 快速公路
+          motorway_junction: 快速公路交匯處
+          motorway_link: 快速公路支路
+          passing_place: 避車處
           path: 小徑
           pedestrian: 行人路
           platform: 月台
           primary: 一級道路
           primary_link: 一級道路聯絡道
-          proposed: 計畫中道路
+          proposed: 計劃中道路
           raceway: 賽道
           residential: 住宅區道路
           rest_area: 休息區
@@ -624,20 +947,20 @@ zh-HK:
           service: 服務道路
           services: 高速公路服務區
           speed_camera: 測速照相機
-          steps: 階梯
+          steps: 梯級
           stop: 停止標誌
-          street_lamp: 路燈
+          street_lamp: 街燈
           tertiary: 三級道路
           tertiary_link: 地區道路聯絡道
           track: 軌跡
           traffic_mirror: 道路反射鏡
           traffic_signals: 交通號誌
           trailhead: 小徑入口處
-          trunk: 快速道路
-          trunk_link: 快速道路聯絡道
-          turning_circle: 回轉圈
-          turning_loop: 環形迴車道
-          unclassified: 無編制道路
+          trunk: 主幹道
+          trunk_link: 主幹道支路
+          turning_circle: 掉頭處
+          turning_loop: 掉頭迴圈
+          unclassified: 未分級道路
           "yes": 路
         historic:
           aircraft: 歷史飛行機
@@ -675,10 +998,18 @@ zh-HK:
           wayside_shrine: 路邊神龕
           wreck: 殘骸
           "yes": 古蹟
+        information:
+          guidepost: 指示牌
+          board: 傳意牌
+          map: 地圖
+          office: 旅客諮詢中心
+          terminal: 資訊終端機
+          sign: 資訊牌
+          stele: 資訊碑
         junction:
           "yes": 路口
         landuse:
-          allotments: 社區農園
+          allotments: 社區園圃
           aquaculture: 水產養殖
           basin: 盆地
           brownfield: 棕地
@@ -689,7 +1020,7 @@ zh-HK:
           farmland: 農地
           farmyard: 農舍
           forest: 森林
-          garages: 車庫
+          garages: 車房
           grass: 草地
           greenfield: 空地
           industrial: 工業區
@@ -727,9 +1058,9 @@ zh-HK:
           fitness_station: 健身設施
           garden: 花園
           golf_course: 哥爾夫球場
-          horse_riding: 馬場
+          horse_riding: 騎術中心
           ice_rink: 溜冰場
-          marina: 小船塢
+          marina: 遊艇會
           miniature_golf: 小型高爾夫球場
           nature_reserve: 自然保護區
           outdoor_seating: 戶外座椅
@@ -747,6 +1078,8 @@ zh-HK:
           track: 跑道
           water_park: 水上樂園
           "yes": 休閒
+        lock:
+          "yes": 水閘
         man_made:
           adit: 坑道
           advertising: 廣告
@@ -770,18 +1103,18 @@ zh-HK:
           flagpole: 旗竿
           gasometer: 儲氣槽
           groyne: 丁壩
-          kiln: 窯
+          kiln: 窰
           lighthouse: 燈塔
-          manhole: 人孔
+          manhole: 渠蓋
           mast: 柱杆
           mine: 礦場
           mineshaft: 礦井
           monitoring_station: 監控站台
           petroleum_well: 油井
           pier: 棧橋/碼頭（Pier）
-          pipeline: 管線
-          pumping_station: 泵站
-          reservoir_covered: 有蓋蓄水槽
+          pipeline: 管綫
+          pumping_station: 泵房
+          reservoir_covered: 有蓋配水庫
           silo: 筒倉
           snow_cannon: 雪砲
           snow_fence: 雪欄
@@ -808,7 +1141,7 @@ zh-HK:
           trench: 壕溝
           "yes": 軍事
         mountain_pass:
-          "yes": 埡口
+          "yes": 山坳
         natural:
           atoll: 環礁
           bare_rock: 裸岩
@@ -816,8 +1149,8 @@ zh-HK:
           beach: 沙灘
           cape: 海角
           cave_entrance: 洞穴入口
-          cliff: 懸崖
-          coastline: 海岸線
+          cliff: 峭壁
+          coastline: 海岸綫
           crater: 火山口
           dune: 沙丘
           fell: 高原荒地
@@ -841,19 +1174,53 @@ zh-HK:
           reef: 礁
           ridge: 山脊
           rock: 獨立岩
+          saddle: 鞍部
           sand: 沙地
+          scree: 碎石堆
+          scrub: 灌木叢
+          shingle: 礫石灘
+          spring: 湧泉
           stone: 岩石
           strait: 海峽
           tree: 樹木
+          tree_row: 一排樹
+          tundra: 苔原
           valley: 山谷
           volcano: 火山
           water: 水
           wetland: 濕地
+          wood: 樹林
           "yes": 自然特徵
         office:
+          accountant: 會計師事務所
+          administrative: 行政機關
+          advertising_agency: 廣告公司
+          architect: 建築師樓
+          association: 團體
+          company: 公司
+          diplomatic: 外交機關
+          educational_institution: 教育機構
+          employment_agency: 職業介紹所
+          energy_supplier: 能源供應商辦事處
+          estate_agent: 地產代理
+          financial: 財務辦事處
+          government: 政府辦事處
+          insurance: 保險公司
+          it: 資訊科技公司
+          lawyer: 律師樓
+          logistics: 物流公司
+          newspaper: 報館
+          ngo: 非政府組織辦公室
+          notary: 公證人事務所
+          religion: 宗教團體辦公室
+          research: 科研機構
+          tax_advisor: 税務顧問
+          telecommunication: 電訊公司寫字樓
           travel_agent: 旅行社
           "yes": 辦公室
         place:
+          allotments: 社區園圃
+          archipelago: 群島
           city: 城市
           city_block: 街區
           country: 國家
@@ -861,21 +1228,35 @@ zh-HK:
           farm: 農田
           hamlet: 村莊
           house: 房屋
+          houses: 屋宇
           island: 島嶼
           islet: 小島
+          locality: 地方
+          municipality: 直轄市
+          neighbourhood: 鄰里社區
+          plot: 地段
           postcode: 郵政編號
+          quarter: 社區
           region: 區域
           sea: 海
           square: 廣場
+          state: 州
+          subdivision: 行政分區
           suburb: 市郊
           town: 鎮
           village: 村落
           "yes": 地點
         railway:
           abandoned: 廢棄鐵路
+          buffer_stop: 止衝擋
+          construction: 興建中之鐵路
           disused: 已停用鐵路
           funicular: 纜索鐵路
+          halt: 鐵路招呼站
+          junction: 鐵路分岔點
+          level_crossing: 平交道
           light_rail: 輕便鐵路
+          miniature: 小火車
           monorail: 單軌鐵路
           narrow_gauge: 窄軌鐵路
           platform: 鐵路月臺
@@ -894,87 +1275,260 @@ zh-HK:
           yard: 鐵路站場
         shop:
           agrarian: 農業商品店
+          alcohol: 士多（合法售賣非當場飲用之酒類飲品）
+          antiques: 古董店
+          appliance: 家用電器行
+          art: 美術用品店
+          baby_goods: 嬰兒用品
+          bag: 袋店
           bakery: 麵包店
+          bathroom_furnishing: 浴室裝修
           beauty: 美容店
+          bed: 床上用品
           beverages: 飲料店
           bicycle: 單車店
           bookmaker: 投注站
           books: 書店
           boutique: 精品店
+          butcher: 肉檔
+          car: 車行
           car_parts: 汽車零件店
+          car_repair: 汽車維修
+          carpet: 地毯店
           charity: 慈善商店
+          cheese: 芝士店
+          chemist: 藥妝店
+          chocolate: 朱古力店
+          clothes: 服裝店
+          coffee: 咖啡豆專門店
           computer: 電腦商店
+          confectionery: 糖果店
+          convenience: 便利店
           copyshop: 影印店
           cosmetics: 化妝品店
+          craft: 美術用品店
+          curtain: 窗簾店
+          dairy: 乳製品店
           deli: 高級食品店
           department_store: 百貨公司
+          discount: 特價商品店
           doityourself: DIY用品店
           dry_cleaning: 乾洗店
           e-cigarette: 電子煙店
+          electronics: 電子用品店
           erotic: 情趣用品店
           estate_agent: 地產代理
+          fabric: 布行
+          farm: 農產品直銷店
           fashion: 時裝店
           fishing: 釣魚用品店
           florist: 花店
+          food: 食品店
+          frame: 裱框店
+          funeral_directors: 殯儀館
+          furniture: 傢俬店
+          garden_centre: 園藝中心
+          gas: 瓶裝氣體分銷商
+          general: 雜貨舖
+          gift: 禮品店
+          greengrocer: 蔬果檔
+          grocery: 雜貨店
           hairdresser: 理髮店
+          hardware: 五金舖
+          health_food: 保健食品店
+          hearing_aids: 助聽器
+          herbalist: 藥草店/中藥行
           hifi: Hi-Fi店
           houseware: 生活用品店
           ice_cream: 冰淇淋店
           interior_decoration: 室內裝潢
           jewelry: 珠寶店
+          kiosk: 小賣亭
+          kitchen: 士多（有售供處所外飲用之酒類飲品）
           laundry: 洗衣店
+          locksmith: 鎖匠
           lottery: 彩票
           mall: 商場
           massage: 按摩
+          medical_supply: 醫療用品店
           mobile_phone: 手機店
+          money_lender: 財務公司
+          motorcycle: 電單車行
+          motorcycle_repair: 電單車維修
+          music: 唱片舖
+          musical_instrument: 琴行
+          newsagent: 書報攤
+          nutrition_supplements: 營養補充品
           optician: 視光師
           organic: 有機食品店
           outdoor: 戶外用品店
+          paint: 油漆行
+          pastry: 糕餅店
+          pawnbroker: 當舖
+          perfumery: 香水店
           pet: 寵物店
+          pet_grooming: 寵物美容
+          photo: 沖曬店
           seafood: 海鮮店
           second_hand: 二手商店
+          sewing: 縫紉用品店
           shoes: 鞋店
           sports: 運動用品店
           stationery: 文具店
+          storage_rental: 迷你倉
           supermarket: 超級市場
+          tailor: 裁縫
           tattoo: 紋身店
+          tea: 茶葉行
+          ticket: 售票處
           tobacco: 煙草店
           toys: 玩具店
           travel_agency: 旅行社
+          tyres: 輪胎行
           vacant: 空置店舖
+          variety_store: 均一價商店
+          video: 影碟店
+          video_games: 電玩店
+          wholesale: 批發店
+          wine: 洋酒經銷商
           "yes": 商店
         tourism:
+          alpine_hut: 高山小屋
+          apartment: 度假單位
+          artwork: 公共藝術
+          attraction: 景點
+          bed_and_breakfast: 民宿
+          cabin: 小木屋
+          camp_pitch: 紮營位置
+          camp_site: 營地
+          caravan_site: 露營車營地
+          chalet: 小屋
+          gallery: 畫廊
+          guest_house: 民宿
+          hostel: 賓館
+          hotel: 酒店
+          information: 觀光資訊
+          motel: 汽車旅館
           museum: 博物館
           picnic_site: 野餐地點
           theme_park: 主題公園
           viewpoint: 觀景點
+          wilderness_hut: 荒野小屋
           zoo: 動物園
         tunnel:
+          building_passage: 室內走廊
+          culvert: 渠口
           "yes": 隧道
+        water:
+          lake: 湖泊
+          pond: 池塘
+          reservoir: 水塘
+          basin: 蓄水池
+          fishpond: 魚湯
+          lagoon: 潟湖
+          wastewater: 污水處理池
+          oxbow: 牛軛湖
+          stream_pool: 流水池
+          lock: 水閘
         waterway:
+          artificial: 人工水道
+          boatyard: 船廠
           canal: 運河
           dam: 水壩
+          derelict_canal: 廢棄運河
+          ditch: 溝渠
+          dock: 船塢
+          drain: 去水渠
+          lock: 水閘
+          lock_gate: 船閘
+          mooring: 繫泊設備
+          rapids: 急流
           river: 河流
           stream: 小溪
+          wadi: 乾河
           waterfall: 瀑布
+          weir: 堰
+          "yes": 水道
       admin_levels:
         level2: 國界
-        level4: 省界
-        level5: 區界
-        level6: 縣界
-        level8: 市界
-        level9: 村界
-        level10: 市郊邊界
+        level3: 行政邊界（第3級）
+        level4: 行政邊界（第4級）
+        level5: 行政邊界（第5級）
+        level6: 行政邊界（第6級）
+        level7: 行政邊界（第7級）
+        level8: 行政邊界（第8級）
+        level9: 行政邊界（第9級）
+        level10: 行政邊界（第10級）
+        level11: 行政邊界（第11級）
+      border_types:
+        arrondissement: 區界
+        borough: 行政區界
+        cercle: 環界
+        city: 市界
+        comarca: 縣界
+        county: 縣界
+        departement: 省界
+        department: 縣界
+        district: 區界
+        distrito: 區界
+        freguesia: 堂區界
+        local_authority: 地方政府界
+        municipality: 市鎮界
+        municipi: 市鎮界
+        município: 市鎮界
+        nation: 國界
+        national: 國界
+        neighbourhood: 鄰里邊界
+        parish: 堂區界
+        province: 省界
+        região: 區界
+        region: 區界
+        state: 州界
+        town: 鎮界
+        township: 鄉界
+        village: 村界
   searches:
+    show:
+      title:
+        nominatim: 地名錄
+        nominatim_reverse: 地名錄
     queries:
       create:
         no_results: 找不到結果
         more_results: 更多結果
+  directions:
+    show:
+      title: 路綫指引
+      distance: 距離
+      time: 時間
+      ascend: 攀升
+      descend: 下降
+      kilometers: 公里
+      download: 以GeoJSON格式下載路綫指引
+      filename: 路綫
+      directions_courtesy_html: 路綫指引由%{link}提供
   issues:
     index:
+      title: 問題
+      select_status: 選擇狀態
+      select_type: 選擇類型
+      select_last_managed_by: 選取上次管理者
       reported_user: 曾經舉報的用戶
+      not_managed: 未經管理
+      search: 搜尋
+      search_guidance: 搜尋問題：
+      states:
+        ignored: 已忽略
+        open: 未解決
+        resolved: 已解決
     page:
       user_not_found: 用戶並不存在
+      issues_not_found: 查無如此問題
+      reported_user: 已被舉報之用戶
+      status: 狀態
+      reports: 報告
+      last_updated: 最後更新
+      last_managed: 上次管理
     show:
       resolve: 解決
       ignore: 忽略
@@ -984,17 +1538,39 @@ zh-HK:
         note: 註記#%{note_id}
   reports:
     new:
+      disclaimer:
+        intro: 提交報告前，請確保：
+        not_just_mistake: 你確知問題並非出於誤會
+        unable_to_fix: 你無法自行或在其他社群成員協助下修正問題
+        resolve_with_user: 你已嘗試聯絡有關用戶解決問題
       categories:
+        diary_entry:
+          spam_label: 日誌文章屬於/含有濫發訊息
+          offensive_label: 日誌留言帶有猥褻或冒犯成份
+          threat_label: 日誌內容帶有恐嚇成份
+          other_label: 其他
+        diary_comment:
+          spam_label: 日誌留言屬於/含有濫發訊息
+          offensive_label: 日誌留言帶有猥褻或冒犯成份
+          threat_label: 日誌留言帶有恐嚇成份
+          other_label: 其他
         user:
           spam_label: 此用戶個人檔案為/含有垃圾信息
+          offensive_label: 此用戶個人檔案含有猥褻/冒犯內容
           threat_label: 此用戶個人檔案有威脅或恐嚇內容
+          vandal_label: 此用戶是破壞者
         note:
           spam_label: 此註記是垃圾訊息
+          personal_label: 此註記包含個人私隱
+          abusive_label: 此註記帶有辱罵成份
+          other_label: 其他
     create:
+      successful_report: 你的舉報經已成功提交
       provide_details: 請提供所需要的詳情
   layouts:
     logo:
       alt_text: OpenStreetMap標誌
+    home: 移至居住地點
     logout: 登出
     log_in: 登入
     sign_up: 註冊
@@ -1002,120 +1578,819 @@ zh-HK:
     edit: 編輯
     history: 歷史
     export: 匯出
+    issues: 問題
     gps_traces: GPS軌跡
     user_diaries: 用戶日記
     edit_with: 用%{editor}來編輯
     intro_header: 歡迎來到 OpenStreetMap！
+    partners_partners: 合作伙伴
     tou: 使用條款
+    nothing_to_preview: 並無可供預覽之內容。
     help: 幫助
+    about: 關於
     copyright: 版權
+    communities: 社群
+    learn_more: 了解更多
+    more: 更多
+    header:
+      select_language: 選擇語言
+    select_language_button:
+      title: 選擇語言
+    offline_flash:
+      osm_offline: OpenStreetMap資料庫現正處於離綫狀態，以便必要維修工作進行。
+      osm_read_only: OpenStreetMap資料庫目前處於唯讀模式，以便必要維護工作進行。
+      expected_restore_html: 服務預料會於%{time}內恢復正常。
+      announcement: 你可在此閱讀公告。
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user}在日記中留下了評論'
+      hi: '%{to_user}：'
+      header: '%{from_user}已在題為「%{subject}」的OpenStreetMap日誌文章下留言：'
+      header_html: '%{from_user}已在題為「%{subject}」的OpenStreetMap日誌文章下留言：'
+      footer: 你亦可到%{readurl}閱讀該則留言，在%{commenturl}回覆，或在%{replyurl}向留言者發送私人訊息
+      footer_html: 你亦可到%{readurl}閱讀該則留言，在%{commenturl}回覆，或在%{replyurl}向留言者發送私人訊息
+      footer_unsubscribe: 如欲停止訂閱討論內容，可到%{unsubscribeurl}
+      footer_unsubscribe_html: 如欲停止訂閱討論內容，可到%{unsubscribeurl}
+    message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
+      hi: '%{to_user}：'
+      header: '%{from_user}透過OpenStreetMap向你發送題為「%{subject}」的訊息：'
+      header_html: '%{from_user}透過OpenStreetMap向你發送題為「%{subject}」的訊息：'
+      footer: 你亦可到%{readurl}閱讀該則留言，或到%{replyurl}向寄件人發送私人訊息
+      footer_html: 你亦可到%{readurl}閱讀該則留言，或到%{replyurl}向寄件人發送私人訊息
     follow_notification:
+      hi: '%{to_user}：'
+      subject: '[OpenStreetMap] %{user}正在追蹤你'
+      followed_you: '%{user}現正於OpenStreetMap上追蹤你。'
       see_their_profile: 您可以在 %{userurl} 查看他的個人檔案。
+      see_their_profile_html: 你可在%{userurl}查看其個人檔案。
+      follow_them: 你亦可到%{followurl}追蹤該用戶。
+      follow_them_html: 你亦可到%{followurl}追蹤該用戶。
+    gpx_details:
+      details: 檔案詳情：
+      filename: 檔案名稱
+      url: 網址
+      description: 描述
+      tags: 標籤
+      total_points: 點總數
+    gpx_failure:
+      failed_to_import: 你所上載的檔案似乎未有成功匯入成GPS軌跡。
+      verify: 請檢查檔案是否有效的GPX檔案，或內含受支援GPX格式（.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2）檔案的壓縮檔；並請核對檔案有否出現格式或語法錯誤。以下為匯入的錯誤內容：
+      more_info: 有關GPX匯入失敗的原因及避免方法之詳情，可瀏覽%{url}。
+      more_info_html: 有關GPX匯入失敗的原因及避免方法之詳情，可瀏覽%{url}。
+      subject: '[OpenStreetMap] GPX匯入失敗'
+    gpx_success:
+      hi: '%{to_user}：'
+      imported_successfully: 你所上載的檔案似乎已順利匯入成GPS軌跡。
+      all_your_traces: 你可到 %{url} 查閱所有你成功上載的GPX軌跡。
+      all_your_traces_html: 你可到 %{url} 查閱所有你成功上載的GPX軌跡。
+      subject: '[OpenStreetMap] GPX匯入成功'
+    signup_confirm:
+      subject: '[OpenStreetMap] 歡迎加入OpenStreetMap'
+      greeting: 你好！
+      created: 有人（希望是你）剛在 %{site_url} 申請註冊賬戶。
+      confirm: 我們需要確認申請是由你本人作出，方可繼續操作。若確實如此，請按以下連結確認你的賬戶：
+      welcome: 賬戶一經確認，將有進一步資訊協助你開始使用OpenStreetMap。
     email_confirm:
+      subject: '[OpenStreetMap] 確認你的電郵地址'
       greeting: 您好，
+      hopefully_you: 有人（希望是你）欲將其在%{server_url}登記之電郵地址修改為 %{new_address} 。
+      click_the_link: 如修改請求確實由你提出，請按下列連結確認。
     lost_password:
       subject: '[OpenStreetMap] 密碼重設請求'
       greeting: 您好，
       hopefully_you: 有人 (或許是您) 要求將以此電子郵件地址註冊的openstreetmap.org帳號的密碼重設。
-      click_the_link: 如果是您請求的話，請按下列連結重設您的密碼。
+      click_the_link: 如確實是你提出請求，請按下列連結重設密碼。
     note_comment_notification:
+      description: OpenStreetMap註記#%{id}
       anonymous: 一位匿名用戶
       greeting: 您好，
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} 於你的註記下留言'
+        subject_other: '[OpenStreetMap] %{commenter} 在你感興趣的註記下留言'
+      closed:
+        your_note: '%{commenter}已處理你在%{place}附近留下的註記。'
+        your_note_html: '%{commenter}已處理你在%{place}附近留下的其中一則註記。'
+        commented_note: '%{commenter}已處理你曾留言的一則註記，該註記在%{place}附近。'
+        commented_note_html: '%{commenter}已處理你曾留言的一則註記，該註記在%{place}附近。'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter}已重啟你其中一則地圖註記'
+        subject_other: '[OpenStreetMap] %{commenter}已重啟你感興趣的一則地圖註記'
+        your_note: '%{commenter}已重啟你在%{place}附近留下的其中一則註記。'
+        your_note_html: '%{commenter}已重啟你在%{place}附近留下的其中一則註記。'
+        commented_note: '%{commenter}已重啟你曾留言的一則註記，該註記在%{place}附近。'
+        commented_note_html: '%{commenter}已重啟你曾留言的一則註記，該註記在%{place}附近。'
+      details: 如欲回覆或查閱該註記，請到%{url}。
+      details_html: 如欲回覆或查閱該註記，請到%{url}。
+    changeset_comment_notification:
+      description: OpenStreetMap變更集#%{id}
+      hi: '%{to_user}君：'
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter}在你的變更集下留言'
+        subject_other: '[OpenStreetMap] %{commenter}在你感興趣的變更集下留言'
+        your_changeset: '%{commenter}於%{time}在你的變更集下留言'
+        your_changeset_html: '%{commenter}於%{time}在你的變更集下留言'
+        commented_changeset: '%{commenter}於%{time}在你正監視的變更集（由%{changeset_author}建立）下留言'
+        commented_changeset_html: '%{commenter}於%{time}在你正監視的變更集（由%{changeset_author}建立）下留言'
+        partial_changeset_with_comment: 留言內容如下：「%{changeset_comment}」
+        partial_changeset_with_comment_html: 留言內容如下：「%{changeset_comment}」
+        partial_changeset_without_comment: 並無留言
   confirmations:
+    confirm:
+      heading: 請檢查電子郵箱
+      introduction_1: 我們已向你發送一封確認電郵。
+      introduction_2: 按電郵內的連結確認賬戶，即可開始參與繪圖。
+      press confirm button: 請按下面的「確認」按鈕以啟動賬戶。
+      button: 確認
+      success: 賬戶經已確認，感謝你的註冊！
+      already active: 此賬戶早前已被確認。
+      unknown token: 確認碼經已過期或不存在。
+      if_need_resend: 如需重新收取確認電郵，請按下面的按鈕。
     confirm_resend:
       failure: 找不到用戶%{name}。
+    confirm_email:
+      heading: 確認更改電郵地址
+      press confirm button: 請按下方確認按鈕驗證你的新電郵地址。
+      button: 確認
+      success: 電郵地址更改經已確認！
   messages:
+    new:
+      title: 發送訊息
+      send_message_to_html: 寄出新訊息予%{name}
+      back_to_inbox: 返回收件箱
+    create:
+      message_sent: 訊息經已送出
+      limit_exceeded: 你最近寄出了大量訊息，如要繼續寄發訊息，請稍候。
+    no_such_message:
+      title: 查無如此訊息
+      heading: 查無如此訊息
+      body: 抱歉，查無此編號訊息。
+    show:
+      title: 讀取訊息
+      reply_button: 回覆
+      unread_button: 標記為未讀
+      destroy_button: 刪除
+      wrong_user: 你已經以「%{user}」的身份登入，但你試圖讀取的訊息並非寄給該賬戶或由其寄出。如欲讀取該訊息，請以正確的用戶身份重新登入。
+    destroy:
+      destroyed: 訊息已被刪除
+    read_marks:
+      create:
+        notice: 訊息已被標記為已讀
+      destroy:
+        notice: 訊息已被標記為未讀
+    mutes:
+      destroy:
+        notice: 訊息已移至收件箱
+        error: 無法將訊息移至收件箱。
+    mailboxes:
+      heading:
+        my_inbox: 我的收件箱
+        my_outbox: 我的寄件備份
+      messages_table:
+        from: 寄件人
+        to: 收件人
+        subject: 標題
+        date: 日期
+        actions: 操作
+      message:
+        unread_button: 標記為未讀
+        read_button: 標記為已讀
+        destroy_button: 刪除
+        unmute_button: 移至收件箱
+    inboxes:
+      show:
+        title: 收件箱
+        messages: 你有%{new_messages}和%{old_messages}
+        new_messages: '%{count}則新訊息'
+        old_messages: '%{count}則舊訊息'
+        no_messages_yet_html: 你尚未收到任何訊息。不妨跟%{people_mapping_nearby_link}接觸一下？
+        people_mapping_nearby: 在你附近的繪圖者
+    muted_inboxes:
+      show:
+        title: 已忽視訊息
+        messages:
+          one: 1 條忽視訊息
+          other: 你有 %{count} 條忽視訊息
     outboxes:
       show:
         title: 寄件匣
+        messages:
+          one: 你有 %{count} 則已寄出訊息
+          other: 你有 %{count} 則已寄出訊息
+        no_sent_messages_html: 你尚未寄出任何訊息。不妨跟%{people_mapping_nearby_link}接觸一下？
+        people_mapping_nearby: 在你附近的繪圖者
+      message:
+        destroy_button: 刪除
+    replies:
+      new:
+        wrong_user: 你已經以「%{user}」的身份登入，但是你擬回覆的訊息並非寄給這個用戶。請以正確的用戶身份登入以回覆這個訊息。
   passwords:
     new:
       title: 忘記密碼
       heading: 忘記密碼？
-      email address: 電郵地址：
+      email address: 電郵地址
       new password button: 重設密碼
       help_text: 輸入您註冊時用的電郵地址，我們會將可用於重設密碼的連結發送至該地址。
+    create:
+      send_paranoid_instructions: 若我們的資料庫內存有你的電郵地址，你將在幾分鐘後收到重設密碼連結。
     edit:
       title: 重設密碼
       heading: 重設%{user}的密碼
       reset: 重設密碼
+      flash token bad: 找不到該授權密鑰，建議檢查URL？
     update:
       flash changed: 您的密碼已經變更。
+      flash token bad: 找不到該授權密鑰，建議檢查URL？
+  preferences:
+    preferences:
+      update:
+        failure: 無法更新偏好設定。
+      update_success_flash:
+        message: 偏好設定經已更新。
+      navigation:
+        preferences: 偏好設定
+        advanced_preferences: 進階偏好設定
+    basic_preferences:
+      show:
+        title: 我的偏好設定
+        preferred_language: 偏好語言
+        preferred_site_color_scheme: 偏好的網站配色
+        site_color_schemes:
+          auto: 自動
+          light: 淺色
+          dark: 深色
+        preferred_map_color_scheme: 偏好的地圖配色
+        map_color_schemes:
+          auto: 自動
+          light: 明亮
+          dark: 深色
+        save: 更新偏好選項
+    advanced_preferences:
+      show:
+        title: 我的進階偏好設定
+  profiles:
+    profile_sections:
+      navigation:
+        links: 連結
+        image: 圖片
+        company: 公司
+        location: 位置
+    descriptions:
+      show:
+        title: 編輯個人檔案
+        save: 更新個人檔案
+        cancel: 取消
+      update:
+        success: 個人檔案描述經已更新。
+        failure: 無法更新個人檔案描述。
+    links:
+      show:
+        title: 編輯個人檔案
+        save: 更新個人檔案
+        cancel: 取消
+        social_links:
+          title: 社交媒體賬號連結
+          remove: 移除
+          add: 新增社交媒體連結
+      update:
+        success: 已更新個人檔案連結。
+        failure: 無法更新個人檔案連結。
+    images:
+      show:
+        title: 編輯個人檔案
+        save: 更新個人檔案
+        cancel: 取消
+        gravatar:
+          gravatar: 使用Gravatar
+          what_is_gravatar: 甚麼是Gravatar？
+        new image: 添加圖片
+        keep image: 保留現有圖片
+        delete image: 移除現有圖片
+        replace image: 取代現有圖片
+        image size hint: （尺寸不低於100×100的方形圖片效果最佳）
+      update:
+        success: 個人資料圖片經已更新。
+        failure: 無法更新個人資料圖片。
+    companies:
+      show:
+        title: 編輯個人檔案
+        save: 更新個人檔案
+        cancel: 取消
+      update:
+        success: 個人檔案中的公司資料經已更新。
+        failure: 無法更新個人檔案中的公司資料。
+    locations:
+      show:
+        title: 編輯個人檔案
+        save: 更新個人檔案
+        cancel: 取消
+        no home location: 你尚未輸入居住地點。
+        update home location on click: 是否在點擊地圖時更新居住地點？
+        show: 顯示
+        delete: 刪除
+        undelete: 還原刪除
+      update:
+        success: 個人檔案位置經已更新。
+        failure: 無法更新個人檔案位置。
   sessions:
     new:
-      email or username: 電郵地址或用戶名稱：
-      password: 密碼：
+      tab_title: 登入
+      login_to_authorize_html: 登入OpenStreetMap以存取%{client_app_name}。
+      already_logged_in_html: 你目前經已以%{user}身份登入，如再次登入，將變更你目前的賬戶。
+      access_another_page: 你在嘗試進入另一頁面期間到達此處。如欲以你現時已登入的賬戶身份瀏覽該頁面，請按下方按鈕：
+      email or username: 電郵地址或用戶名稱
+      password: 密碼
+      remember: 記住我
       lost password link: 忘記您的密碼？
+      login_button: 登入
+      with external: 或者使用第三方服務登入
+      or: 或
+      auth failure: 抱歉，無法以此等資料登入。
     destroy:
       title: 登出
+      heading: 登出OpenStreetMap
+      logout_button: 登出
+    suspended_flash:
+      suspended: 抱歉，你的賬戶錄得可疑活動，因而已被停權。
+      contact_support_html: 如欲討論此事，請聯絡%{support_link}。
+      support: 用戶支援
   shared:
+    markdown_help:
+      heading_html: 以%{kramdown_link}解析
+      headings: 標題
+      heading: 標題
+      subheading: 副標題
+      first: 第一項
+      second: 第二項
+      link: 連結
+      text: 文字
+      image: 圖片
+      alt: 替代文字
+      url: 網址
+      codeblock: 代碼區塊
+    richtext_field:
+      edit: 編輯
+      preview: 預覽
+      help: 說明
     pagination:
+      changeset_comments:
+        older: 較舊留言
+        newer: 較新留言
+        oldest: 最舊留言
+        newest: 最新留言
       diary_comments:
         older: 較舊評論
         newer: 較新評論
+        oldest: 最舊留言
+        newest: 最新留言
+      diary_entries:
+        older: 較舊文章
+        newer: 較新文章
+        oldest: 最舊文章
+        newest: 最新文章
+      issues:
+        oldest: 最舊問題
+        newest: 最新問題
+      traces:
+        oldest: 最舊軌跡
+        newest: 最新軌跡
+      users:
+        older: 較舊用戶
+        newer: 較新用戶
+        oldest: 最舊用戶
+        newest: 最新用戶
   site:
+    about:
+      heading_html: '%{copyright}OpenStreetMap%{br}貢獻者'
+      used_by_html: '%{name} 為數以千計的網站、手機應用程式與硬件設備提供地圖數據'
+      lede_text: OpenStreetMap是由像你一樣的人組成的社群所建立，他們努力編修世界各地有關街道、小徑、咖啡店、車站等不同地圖特徵的數據。
+    about_section:
+      local_knowledge_title: 地方智慧
+      local_knowledge_html: OpenStreetMap強調在地知識之運用，貢獻者利用航空攝影照片、GPS裝置以及傳統實地考察地圖蒐集數據，確保地圖準確而具時效性。
+      community_driven_title: 社群主導
+      community_driven_1_html: |-
+        OpenStreetMap的社群多元化、懷有熱情，而且日益壯大。我們的貢獻者包括地圖製作愛好者、地理訊息系統專業人員、運行OSM伺服器的工程師、為災區繪製地圖的人道主義者，以及其他各界人士。
+        如欲進一步了解這個社群，請參閱%{osm_blog_link}、%{user_diaries_link}、
+        %{community_blogs_link}，以及%{osm_foundation_link}網站。
+      community_driven_osm_blog: OpenStreetMap網誌
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
+      community_driven_user_diaries: 用戶日誌
+      community_driven_community_blogs: 社群網誌
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org/
+      community_driven_osm_foundation: OSM基金會
+      community_driven_osm_foundation_url: https://www.osmfoundation.org/
+      open_data_title: 開放數據
+      open_data_1_html: OpenStreetMap屬於%{open_data} —— 你可自由使用有關數據作任何用途，惟須清楚註明資料的來源為OpenStreetMap及其貢獻者。若你修改數據內容，或透過若干形式建立建基於有關數據的新素材，有關衍生成品必須依相同授權條款發布。詳情請參閱：%{copyright_license_link}
+      open_data_open_data: 開放數據
+      open_data_copyright_license: 版權與使用授權
+      legal_title: 法律資訊
+      legal_1_1_html: 本網站以及眾多相關服務，皆由%{openstreetmap_foundation_link}（OSMF）代表OSM社群負責管理及營運。任何人使用OSM基金營運的服務，須受%{terms_of_use_link}、%{aup_link}及%{privacy_policy_link}所約束。
+      legal_1_1_openstreetmap_foundation: OpenStreetMap基金會
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
+      legal_1_1_terms_of_use: 使用條款
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
+      legal_1_1_aup: 可接受使用政策
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
+      legal_1_1_privacy_policy: 私隱政策
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
+      legal_2_1_html: 如有有關授權、版權及其他法律事宜之查詢，請%{contact_the_osmf_link}。
+      legal_2_1_contact_the_osmf: 聯絡OSM基金會
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
+      legal_2_2_html: 「OpenStreetMap」、放大鏡標誌與「State of the Map」是%{registered_trademarks_link}。
+      legal_2_2_registered_trademarks: OSM基金會的註冊商標
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
+      partners_title: 合作伙伴
+    copyright:
+      title: 版權與使用授權
+      foreign:
+        title: 關於本翻譯
+        html: 本譯本文義如與%{english_original_link}有歧異，概以英文版本為準
+        english_link: 英文原文
+      native:
+        title: 關於此頁
+        html: 此乃版權頁的英文原版。你可返回本頁的%{native_link}，亦可停止閱讀版權資訊並%{mapping_link}。
+        native_link: 中文（香港）版本
+        mapping_link: 開始繪製地圖
+      legal_babble:
+        lead_1_html: |-
+          OpenStreetMap為數以千計的網站、手機應用程式和硬件設備提供開放地圖數據。
+          OpenStreetMap是由像你一樣的人組成的社群所建立，他們努力編修全世界有關街道、小徑、咖啡店、車站等不同地圖特徵的數據。
+        lead_2_html: |-
+          %{learn_more_about_osm_link}並%{get_started_mapping_link}吧！如欲深入了解本計劃，可細閱%{osm_blog_link}及訂閱%{weeklyosm_link}。
+
+          你可以透過本地%{osm_community_link}，尋找你所在地附近的其他貢獻者。
+
+          要支持本計劃營運，請加入%{osm_foundation_link}，及考慮%{making_donation_link}。
+        lead_2_learn_more_about_osm: 深入認識OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
+        lead_2_get_started_mapping: 開始繪製地圖
+        lead_2_osm_blog: OpenStreetMap網誌
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: OSM周刊
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
+        lead_2_osm_community: OSM社群
+        lead_2_osm_foundation: OSM Foundation
+        lead_2_osm_foundation_url: https://osmfoundation.org/
+        lead_2_making_donation: 捐款
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
+        licensing_title: OpenStreetMap使用授權
+        licensing_1_html: |-
+          OpenStreetMap屬於%{open}數據，由%{osm_foundation_link}（OSMF）按照
+          %{odc_odbl_link}（ODbL）對外發布。簡而言之：
+        licensing_1_open: 開放
+        licensing_1_odc_odbl: 開放數據共享開放資料庫授權協議
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
+        licensing_1_osm_foundation: OpenStreetMap基金會
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
+        licensing_2_html: 你可自由複製、分發、傳輸和改編我們提供的數據，惟須清楚註明資料來源為OpenStreetMap及其貢獻者。若你修改數據內容或製作建基於有關數據的衍生素材，有關成品必須依相同授權條款發布。數據使用者的權責詳列於%{legal_code_link}。
+        licensing_2_legal_code: 開放數據共享（Open Data Commons）之完整條文
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
+        licensing_3_html: 我們的說明文件是依據 %{creative_commons_license_link} 授權條款（CC BY-SA
+          2.0）發布。
+        licensing_3_creative_commons_license: 共享創意姓名標示-相同方式分享2.0（CC-BY-SA 2.0）授權條款
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: 有關使用OSM數據的詳情，請參閱%{osmf_license_page_link}。
+        licensing_4_osmf_license_page: OSM基金授權條款頁面
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
+        credit_title_html: 如何標示OpenStreetMap為資料來源
+        credit_1_html: 使用OpenStreetMap數據時，你須：
+        credit_2_attribution: 展示出處告示，以標明數據來自OpenStreetMap；及
+        credit_2_license: 明確標示數據可透過開放數據共享開放資料庫授權條款（Open Database License）取用。
+        credit_3_v2025_html: "對於出處告示，我們有不同的%{requirements_on_how_displayed_link}，這取決於您如何使用我們的資料。
+          \n例如可瀏覽地圖、列印地圖或靜態圖像對出處告示的要求各有不同。 \n更多詳細資訊，請參閱 %{licensing_requirements_link}的%{attribution_guidelines_link}部份。"
+        credit_3_v2025_requirements_on_how_displayed: 標示守則
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_attribution_guidelines: 出處標示指引
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_licensing_requirements: 授權條款要求
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_4_v2025_html: |-
+          一般來說，你可透過連結至%{this_copyright_page_link}，明確表示數據按開放資料庫授權條款（Open
+          Database License）取用。如你以數據形式分發OSM內容，請標明授權條款名稱並提供條款全文連結。若用於無法運用超連結技術的媒體（例如印刷作品），請列出條款全文的網址，例如%{copyright_page_url}。
+        credit_4_v2025_this_copyright_page: 此版權頁面
+        credit_5_v2025_html: 於此示例中，出處標示在地圖的角落：
+        attribution_example:
+          alt: 於網頁上標明出處為OpenStreetMap之示例
+          title: 標示出處之示例
+        infringement_title_html: 侵犯版權行為
+        infringement_1_html: 謹此提醒各貢獻者，切勿在未經版權持有人明確授權之情況下，從任何來自具有版權的資料來源（如Google地圖或印刷本地圖）擷取數據加進OSM。
+        infringement_2_1_html: 如果你發現有受版權保護的素材被不當地加到OSM資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反映。
+        infringement_2_1_takedown_procedure: 侵權處理程序
+        infringement_2_1_online_filing_page: 網上舉報頁面
+        trademarks_title: 商標
+        trademarks_1_1_html: 「OpenStreetMap」、放大鏡標誌和「State of the Map」是OpenStreetMap基金會的註冊商標。如對商標之使用有任何疑問，請參閱%{trademark_policy_link}。
+        trademarks_1_1_trademark_policy: 商標政策
+        services_title_html: 額外服務
+        services_1_html: 儘管OpenStreetMap屬於開放數據，本計劃不會向第三方免費提供地圖應用程式介面（API）。請參閱%{api_usage_policy_link}、%{tile_usage_policy_link}及%{nominatim_usage_policy_link}。
+        services_1_api_usage_policy: API使用政策
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
+        services_1_tile_usage_policy: 圖磚使用方針
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
+        services_1_nominatim_usage_policy: 地名錄使用政策
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
+        contributors_title_html: 我們的貢獻者
+        contributors_intro_html: 我們的數據源自成千上萬的個人貢獻者，並收納了從各國測繪機構等處取得的開放版權數據，其中包括：
+        contributors_at_credit_html: '%{austria}：包含來自%{stadt_wien_link} (依據%{cc_by_link})、%{land_vorarlberg_link}、與
+          Land Tirol (依據%{cc_by_at_with_amendments_link}) 的資料。'
+        contributors_at_austria: 奧地利
+        contributors_at_stadt_wien: 維也納州
+        contributors_at_land_vorarlberg: 福拉爾貝格邦
+        contributors_at_cc_by_at_with_amendments: CC BY AT 修正條款
+        contributors_au_credit_html: '%{australia}：使用澳大利亞聯邦依據%{cc_licence_link}授權使用的%{geoscape_australia_link}行政區域界綫數據，並據之開發衍生數據。'
+        contributors_au_australia: 澳洲
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: 共享創意姓名標示4.0國際授權條款（CC BY 4.0）
+        contributors_ca_credit_html: '%{canada}：包含來自GeoBase&reg;、GeoGratis（&copy;加拿大自然資源部）、CanVec（&copy;加拿大自然資源部）、和
+          StatCan (加拿大統計局地理科) 的資料。'
+        contributors_ca_canada: 加拿大
+        contributors_cz_credit_html: '%{czechia}：包含來自國家土地測量暨地籍局，依據%{cc_licence_link}授權使用的數據'
+        contributors_cz_czechia: 捷克
+        contributors_cz_cc_licence: 共享創意姓名標示4.0國際授權條款（CC BY 4.0）
+        contributors_fi_credit_html: '%{finland}：包含來自芬蘭測量局地形資料庫與其他數據集的資料，依據%{nlsfi_license_link}授權。'
+        contributors_fi_finland: 芬蘭
+        contributors_fi_nlsfi_license: NLSFI授權條款
+        contributors_fr_credit_html: '%{france}：包含來自前法國國稅局（Direction Générale des
+          Impôts）的資料。'
+        contributors_fr_france: France
+        contributors_hr_credit_html: '%{croatia}：包含來自%{dgu_link}和%{open_data_portal}（克羅地亞的公共資訊）的資料。'
+        contributors_hr_croatia: 克羅地亞
+        contributors_hr_dgu: 克羅地亞國家大地測量局
+        contributors_hr_open_data_portal: 國家開放數據平台
+        contributors_nl_credit_html: '%{netherlands}：包含&copy;AND資料，2007（%{and_link}）'
+        contributors_nl_netherlands: 荷蘭
+        contributors_nz_credit_html: '%{new_zealand}：包含來自%{linz_data_service_link}的數據，按照%{cc_by_link}重用。'
+        contributors_nz_new_zealand: 紐西蘭
+        contributors_nz_linz_data_service: LINZ數據服務
+        contributors_rs_credit_html: '%{serbia}：包含來自%{rgz_link}和%{open_data_portal}（塞爾維亞的公共資訊）的資料，2018年。'
+        contributors_rs_serbia: 塞爾維亞
+        contributors_rs_rgz: 塞爾維亞大地測量局
+        contributors_rs_open_data_portal: 國家開放數據平台
+        contributors_si_credit_html: '%{slovenia}：包含來自%{gu_link}和%{mkgp_link}（斯洛文尼亞公開資訊）的數據。'
+        contributors_si_slovenia: 斯洛文尼亞
+        contributors_si_gu: 測繪局
+        contributors_si_mkgp: 農林食品部
+        contributors_es_credit_html: '%{spain}：包含來自西班牙國家地理研究所（%{ign_link}）和國家製圖系統（%{scne_link}）的資料，在%{cc_by_link}下授權重用。'
+        contributors_es_spain: 西班牙
+        contributors_za_credit_html: '%{south_africa}：包含來自%{ngi_link}的資料。版權屬國家所有。'
+        contributors_za_south_africa: 南非
+        contributors_za_ngi: 國家地理空間資訊總局
+        contributors_gb_credit_html: '%{united_kingdom}：包含英國測繪處（Ordnance Survey）數據&copy;皇家版權與資料庫版權
+          2010-2023。'
+        contributors_gb_united_kingdom: 英國
+        contributors_2_html: 詳情及其餘已用於改善OpenStreetMap的資料來源，請參閱OSM Wiki上的%{contributors_page_link}。
+        contributors_2_contributors_page: 貢獻者頁面
+        contributors_footer_2_html: 本計劃取用數據，並不代表相應之原始數據提供者認可或認同OpenStreetMap，或提供任何種類的保證，原始數據提供者亦不須承擔任何責任。
+    index:
+      js_1: 你正在使用不支援或已停用JavaScript的瀏覽器。
+      js_2: OpenStreetMap使用JavaScript，令操控地圖更為暢順。
+      license:
+        copyright: 版權所有 © OpenStreetMap及其貢獻者，按開放授權協議發布
+      remote_failed: 編輯失敗 - 請確保已載入JOSM或Merkaartor，並開啟遠端控制選項
     not_public_flash:
       not_public: 您尚未把編輯公開。
       not_public_description_html: 您不這樣設定的話就將再無法編輯地圖。您可以在%{user_page}將閣下的編輯設為公開。
+      user_page_link: 用戶頁
+      anon_edits_link_text: 了解為何如此。
+    edit:
+      id_not_configured: iD 尚未設定
     export:
       title: 匯出
       manually_select: 手動選擇另一範圍
       licence: 授權
+      licence_details_html: OpenStreetMap數據是以%{odbl_link}（ODbL）授權使用。
+      odbl: 開放數據共享開放資料庫授權協議
+      too_large:
+        advice: 如匯出失敗，可考慮嘗試下列來源：
+        body: 所選區域過大，未能匯出為OpenStreetMap XML 數據。請放大地圖，或重新選取較小區域；你亦可使用下列大量下載數據工具。
+        planet:
+          title: OSM星球
+          description: 定期備份的完整OpenStreetMap資料庫副本
+        overpass:
+          title: Overpass API
+          description: 由OpenStreetMap資料庫的鏡像下載此區域內容
+        geofabrik:
+          title: Geofabrik下載
+          description: 定期更新的洲、國家及指定城市摘錄資料
+        other:
+          title: 其他來源
+          description: OpenStreetMap wiki上列出的其他來源
+      export_button: 匯出
+      export_download: 下載中⋯⋯
+    fixthemap:
+      title: 報告錯漏／修正地圖
+      how_to_help:
+        title: 如何提供協助
+        join_the_community:
+          title: 加入社群
+          explanation_html: 如你發現地圖數據有任何問題——例如缺少某條街道，或漏掉你的住址——最好的處理方法就是加入OpenStreetMap社群，然後自行添加或修改數據。
+      other_concerns:
+        title: 其他疑問
+        concerns_html: 如你對我們的數據使用方式或內容有所疑慮，請參閱%{copyright_link}來了解更多法律相關資訊，或聯絡相應的%{working_group_link}。
+        copyright: 版權資訊頁面
+        working_group: OSM基金工作小組
     help:
+      title: 要求協助
+      introduction: OpenStreetMap提供一些教學資源，可用於了解本計劃，學習提出和回答問題，以及討論和紀錄與地圖製作相關的話題。
+      welcome:
+        url: /welcome
+        title: 歡迎蒞臨 OpenStreetMap！
+        description: 你可透過本入門指南迅速了解OpenStreetMap的基礎知識。
       beginners_guide:
+        title: 新手指南
         description: 由社群編修的新手指南。
+      community:
+        title: 幫助與社群論壇
+        description: 尋求協助與討論有關OpenStreetMap的分享場所。
       mailing_lists:
+        title: 電郵發送名單
         description: 在有着各式各樣主題或地域分類的郵件列表中發問或討論有趣的事。
       irc:
         title: IRC
+        description: 使用各種語言就不同主題聊天互動。
+      switch2osm:
+        title: switch2osm
+        description: 協助企業與團體轉用以OpenStreetMap數據為基礎的地圖及相關服務。
+      welcomemat:
+        title: 團體專區
+        description: 想代表一個團體來為OpenStreetMap製作計劃嗎？請在 Welcome Mat 尋找你所需要的事項。
+      wiki:
+        title: OpenStreetMap Wiki
+        description: 瀏覽wiki，取得詳盡的OpenStreetMap使用及編輯說明書。
+    potlatch:
+      removed: 你預設的OpenStreetMap編輯器為Potlatch，但由於Adobe Flash Player已終止支援，因此Potlatch不能繼續在瀏覽器上使用。
+      desktop_application_html: 你仍然可以透過%{download_link}使用Potlatch。
+      download: 下載適用於Mac和Windows的桌面應用程式
+      id_editor_html: 你亦可考慮更改預設編輯器為iD。一如之前的Potlatch，iD可在瀏覽器中運行。%{change_preferences_link}
+      change_preferences: 按此更改偏好設定
+    any_questions:
+      title: 仍有問題？
+      get_help_here: 在此尋求協助
+      welcome_mat: 看看歡迎墊
     sidebar:
       search_results: 搜尋結果
     search:
       search: 搜尋
+      get_directions_title: 搜尋兩點之間的路綫指引
+      from: 由
+      to: 前往
       where_am_i: 這是哪裡？
+      where_am_i_title: 使用搜尋器描述目前位置
+      submit_text: 出發
       reverse_directions_text: 反轉方向
+      modes:
+        bicycle: 單車
+        car: 駕車
+        foot: 步行
+      providers:
+        description: 導航服務
     welcome:
+      title: 歡迎！
       introduction: 歡迎來到OpenStreetMap，自由而可以編輯的世界地圖。現在您已經注冊完成，繪製地圖所需要的準備已經就緒。以下是一份快速指南，裡面包含着您所需要知道的最重要事項。
+      whats_on_the_map:
+        title: 地圖上有甚麼
+      basic_terms:
+        title: 繪製地圖的基本術語
+        paragraph_1: OpenStreetMap社群有其獨特術語，以下是一些常用詞彙。
+        an_editor_html: '%{editor}是可用於編輯地圖的程式或網站。'
+        a_node_html: '%{node}是地圖上的一個點，例如一間餐廳或者一棵樹。'
+        a_way_html: '%{way}是一條綫或者區域，例如一條街道、一條溪流、一個湖泊或一幢建築物。'
+        a_tag_html: '%{tag}是關於節點或路徑的詳細資料，例如餐廳的名稱或者道路的速度限制。'
+        editor: 編輯器
+        node: 節點
+        way: 路徑
+        tag: 標籤
+      rules:
+        title: 規矩！
+        para_1_html: OpenStreetMap幾乎沒有正式規則，但我們希望所有參與者都能與其他社群成員通力合作，並保持緊密溝通。如你正考慮透過手動編輯以外的方式貢獻OSM，請閱讀%{imports_link}及%{automated_edits_link}指引，並遵從當中指示。
+        imports: 匯入
+        automated_edits: 自動化編輯
+      start_mapping: 開始繪製地圖
+      continue_authorization: 繼續授權
     add_a_note:
       title: 沒時間編輯？加筆註記吧！
       para_1: 如果你只想讓一些小問題得以更正，而沒有時間注冊並學習如何編輯，那麼加入註記是非常容易的。
+      para_2_html: 只需按一下%{note_icon}，或%{map_link}上的同一圖案，即可在地圖上添加標記，你可以透過拖動標記將之移往其他位置。輸入資料後按「儲存」，交由其他繪圖者跟進。
+      the_map: 地圖
+    communities:
+      title: 社群
+      lede_text: OpenStreetMap的貢獻者和使用者來自世界各地，不少人以個人身份參與，但亦有部份用戶組成了社群團體。這些團體規模不一，小至單一城鎮，大至跨國地域皆有之，既有正式團體，亦有非正式的群體。
+      local_chapters:
+        title: 地方分會
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: 請放大地圖以檢視註記
+      map_data_zoom_in_tooltip: 放大以檢視地圖元數據
   legend_panes:
     show:
       entries:
         motorway: 高速公路
+        main_road: 主要幹道
+        trunk: 主幹路
+        primary: 主要道路
+        secondary: 次要道路
+        unclassified: 未分級道路
+        pedestrian: 行人路
+        track: 泥路
+        bridleway: 馬徑
+        cycleway: 單車徑
+        international_bike_route: 國際級區域單車徑主幹綫
+        national_bike_route: 國家級單車徑主幹綫
+        regional_bike_route: 區域性單車徑主幹綫
+        local_bike_route: 本地單車徑主幹綫
+        mountain_bike_route: 越野單車徑
+        footway: 行人徑
         rail: 鐵路
+        train: 列車
         subway: 地鐵
+        ferry: 渡輪
+        light_rail: 輕便鐵路
+        tram: 電車
+        trolleybus: 無軌電車
+        bus: 巴士
+        cable_car: 吊車
+        chair_lift: 吊椅式索道
         runway: 機場跑道
+        taxiway: 滑行道
         apron: 機場停機坪
         admin: 行政邊界
+        capital: 首都
+        city: 城市
+        orchard: 果園
+        vineyard: 葡萄園
         forest: 森林
+        wood: 樹林
+        farmland: 農地
+        grass: 草地
+        meadow: 牧草地
+        bare_rock: 裸岩
+        sand: 沙地
         golf: 哥爾夫球場
         park: 公園
+        common: 共有地
+        built_up: 已建區
         resident: 住宅區
+        retail: 零售用地
         industrial: 工業區
         commercial: 商業區
+        heathland: 荒原
+        scrubland: 灌木叢生境
         lake: 湖泊
         reservoir: 水庫
+        intermittent_water: 間歇性水體
+        glacier: 冰川
+        reef: 暗礁
+        wetland: 濕地
+        farm: 農場
         brownfield: 棕地
         cemetery: 墓地
+        allotments: 社區園圃
         pitch: 運動場
         centre: 運動中心
+        beach: 海灘
         reserve: 自然保護區
         military: 軍事區
         school: 學校
         university: 大學
+        hospital: 醫院
+        building: 主要建築物
         station: 火車站
+        railway_halt: 鐵路招呼站
+        subway_station: 地鐵站
+        tram_stop: 電車站
+        summit: 頂峰
+        peak: 山頂
+        tunnel: 虛綫外框 = 隧道
+        bridge: 黑綫外框 = 橋樑
+        private: 私人通行權
+        destination: 前往此區者通行權
+        construction: 興建中道路
+        bus_stop: 巴士站
         bicycle_shop: 單車店
+        bicycle_rental: 單車租賃
         bicycle_parking: 單車停泊處
+        bicycle_parking_small: 小型單車停泊處
         toilets: 廁所
+      see_external_legend: 參閱詳細地圖圖例
   share_panes:
     show:
+      link: 連結或HTML
       embed: HTML
+      paste_html: 貼上HTML供嵌入網站
+      geo_uri: Geo URI
+      image: 圖片
+      only_layers_exported_as_image: 只有以下圖層可供匯出成圖像：
+      format: 格式：
+      scale: 比例：
+      custom_dimensions: 設定自訂尺寸
+      image_dimensions_html: 輸出之圖像會以%{width} × %{height}之尺寸顯示%{layer}圖層
       download: 下載
+      downloading: 下載中⋯⋯
   traces:
+    visibility:
+      private: 私密（只以匿名形式顯示，節點排列不分先後）
+      public: 公開（於軌跡列表以匿名形式顯示，節點排列不分先後）
+      trackable: 可供追蹤（只以匿名形式顯示，節點按時序排列並附有時間紀錄）
     create:
       traces_waiting: 您有%{count}條軌跡等待上傳。請考慮先讓目前的軌跡處理完成後，再來繼續上傳其他軌跡，以免阻礙其他用戶的排程。
     index:
@@ -1181,6 +2456,9 @@ zh-HK:
         header: 地圖圖層
         notes: 地圖註記
         title: 圖層
+      openstreetmap_contributors: OpenStreetMap貢獻者
+      make_a_donation: 捐款
+      website_and_api_terms: 網站及API使用條款
     site:
       createnote_tooltip: 在地圖加入註記
       createnote_disabled_tooltip: 放大以在地圖加入註記

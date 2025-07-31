@@ -34,9 +34,12 @@
 # Author: 神樂坂秀吉
 ---
 vi:
+  date:
+    formats:
+      heatmap: '%-d tháng %-m'
   time:
     formats:
-      friendly: '%e tháng %m năm %Y lúc %H:%M'
+      friendly: '%e tháng %-m năm %Y lúc %H:%M'
       blog: '%d tháng %m năm %Y'
   helpers:
     file:
@@ -71,6 +74,10 @@ vi:
       models:
         user_mute:
           is_already_muted: đã bị tắt tiếng
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL phải bắt đầu với http:// hoặc https://
     models:
       acl: Danh sách Điều khiển Truy cập
       changeset: Bộ thay đổi
@@ -266,11 +273,21 @@ vi:
       external auth: Xác minh Bên ngoài
       contributor_terms:
         heading: Các Điều khoản Đóng góp
-        agreed: Bạn đã đồng ý với các Điều khoản Đóng góp mới.
+        agreed: Bạn đã đồng ý với các Điều khoản Đóng góp mới vào %{date}.
+        not_agreed: Bạn chưa đồng ý với các Điều khoản Đóng góp.
         agreed_with_pd: Bạn cũng đã tuyên bố coi rằng các đóng góp của bạn thuộc về
           phạm vi công cộng.
         not_agreed_with_pd: Bạn chưa tuyên bố coi rằng các đóng góp của bạn thuộc
           về phạm vi công cộng.
+        review: Xem lại các Điều khoản
+        review_and_accept: Xem lại và chấp nhận các Điều khoản
+        consider_pd: Gợi ý Phạm vi Công cộng
+      terms_of_use:
+        heading: Điều khoản sử dụng
+        agreed: Bạn đã đồng ý với các Điều khoản Sử dụng vào %{date}.
+        not_agreed: Bạn chưa đồng ý với các Điều khoản Sử dụng.
+        review: Xem lại các Điều khoản
+        review_and_accept: Xem lại và chấp nhận các Điều khoản
       save changes button: Lưu các Thay đổi
       delete_account: Xóa Tài khoản…
     go_public:
@@ -330,9 +347,10 @@ vi:
         contributor_terms_explain: Thỏa thuận này quy định các đóng góp do bạn đã
           thực hiện và sẽ thực hiện.
         read_ct: Tôi đã đọc và chấp nhận các điều khoản đóng góp bên trên
-        tou_explain_html: Các %{tou_link} quy định cách sử dụng trang Web và các cơ
-          sở hạ tầng khác do OSMF cung cấp. Xin vui lòng mở liên kết và đọc và chấp
-          nhận thỏa thuận.
+        tou_explain:
+          html: Các %{tou_link} quy định cách sử dụng trang Web và các cơ sở hạ tầng
+            khác do OSMF cung cấp. Xin vui lòng mở liên kết và đọc và chấp nhận thỏa
+            thuận.
         read_tou: Tôi đã đọc và chấp nhận Điều khoản sử dụng
         guidance_info_html: 'Thông tin giúp hiểu các thuật ngữ này: a %{readable_summary_link}
           và một số %{informal_translations_link}'
@@ -439,11 +457,20 @@ vi:
         key: Trang wiki miêu tả khóa %{key}
         tag: Trang wiki miêu tả thẻ %{key}=%{value}
       wikidata_link: Khoản mục %{page} trên Wikidata
+      wikidata_preview:
+        other: xem trước khoản mục Wikidata
       wikipedia_link: Bài %{page} trên Wikipedia
       wikimedia_commons_link: Mục %{page} tại Wikimedia Commons
       telephone_link: Gọi %{phone_number}
       colour_preview: Xem trước màu %{colour_value}
       email_link: Gửi thư cho %{email}
+    versions_navigation:
+      node: Nốt
+      way: Lối
+      relation: Quan hệ
+      history: Lịch sử
+      version: 'Phiên bản #%{version}'
+      versions_label: 'Phiên bản:'
   feature_queries:
     show:
       title: Thăm dò Yếu tố
@@ -458,6 +485,8 @@ vi:
         title_html: 'Lịch sử Lối: %{name}'
       relation:
         title_html: 'Lịch sử Quan hệ: %{name}'
+      older_versions: Phiên bản Cũ hơn
+      newer_versions: Phiên bản Mới hơn
     actions:
       view_redacted_data: Xem Dữ liệu Ẩn
       view_redaction_message: Xem Thông điệp Ẩn Dữ liệu
@@ -510,6 +539,12 @@ vi:
         other: '%{count} bình luận'
       changes:
         other: '%{count} thay đổi'
+      n_elements_created:
+        other: tạo %{count} phần tử
+      n_elements_modified:
+        other: thay đổi %{count} phần tử
+      n_elements_deleted:
+        other: xóa %{count} phần tử
     index:
       title: Bộ thay đổi
       title_user: Những bộ thay đổi bởi %{user}
@@ -681,6 +716,9 @@ vi:
       latest_diaries: Các Mục Nhật ký Gần đây
       comments:
         other: '%{count} bình luận'
+      title_label: Mục Nhật ký
+      comments_label: Bình luận
+      date_label: Ngày tháng
   diary_comments:
     new:
       heading: Thêm bình luận vào cuộc thảo luận về mục nhật ký sau đây?
@@ -980,6 +1018,7 @@ vi:
           bridleway: Đường Cưỡi ngựa
           bus_guideway: Làn đường Dẫn Xe buýt
           bus_stop: Trạm Xe buýt
+          busway: Đường Xe buýt
           construction: Đường Đang Xây
           corridor: Hành lang
           crossing: Lối Qua đường
@@ -1119,6 +1158,8 @@ vi:
           track: Đường Chạy
           water_park: Công viên Nước
           "yes": Giải trí
+        lock:
+          "yes": Âu tàu
         man_made:
           adit: Lối vào
           advertising: Quảng cáo
@@ -1494,6 +1535,10 @@ vi:
       time: Thời gian
       ascend: Lên
       descend: Xuống
+      kilometers: kilômét
+      miles_feet: bộ dặm Anh
+      miles_yards: thước dặm Anh
+      distance_units_settings: Đặt Đơn vị Đo Chiều dài
       download: Tải về tuyến đường dưới dạng GeoJSON
       filename: tuyến đường
       directions_courtesy_html: Chỉ đường do %{link} cung cấp
@@ -1502,7 +1547,9 @@ vi:
       title: Vấn đề
       select_status: Chọn Trạng thái
       select_type: Chọn Loại
+      select_last_managed_by: Chọn Người Xử lý Cuối cùng
       reported_user: Người dùng Báo cáo
+      not_managed: Chưa Xử lý
       search: Tìm kiếm
       search_guidance: 'Tìm kiếm Vấn đề:'
       states:
@@ -1516,6 +1563,8 @@ vi:
       status: Trạng thái
       reports: Báo cáo
       last_updated: Lần Cập nhật Cuối
+      last_managed: Ngày Xử lý Cuối
+      reporting_users: Báo cáo Người dùng
       reports_count:
         other: '%{count} Báo cáo'
       reported_item: Mục Báo cáo
@@ -1551,6 +1600,8 @@ vi:
       reopened: Trạng thái vấn đề được đánh dấu là “Mở”
     comments:
       comment_from_html: Bình luận của %{user_link} vào %{comment_created_at}
+      reassign_to_moderators: Giao lại cho Điều hành viên
+      reassign_to_administrators: Giao lại cho Quản lý viên
     reports:
       reported_by_html: Báo cáo là %{category} bởi %{user} vào %{updated_at}
     helper:
@@ -1558,6 +1609,10 @@ vi:
         diary_comment: '%{entry_title}, bình luận #%{comment_id}'
         note: 'Ghi chú #%{note_id}'
       reportable_heading:
+        diary_comment_html: Bình luận nhật ký %{title} được tạo ra vào %{datetime_created},
+          cập nhật vào %{datetime_updated}
+        diary_entry_html: Mục nhật ký %{title} được tạo ra vào %{datetime_created},
+          cập nhật vào %{datetime_updated}
         note_html: '%{title} tạo ra vào %{datetime_created}, cập nhật vào %{datetime_updated}'
         user_html: Người dùng %{title} được tạo ra vào %{datetime_created}
     reporters:
@@ -1634,6 +1689,10 @@ vi:
     communities: Cộng đồng
     learn_more: Tìm hiểu Thêm
     more: Thêm
+    header:
+      select_language: Chọn Ngôn ngữ
+    select_language_button:
+      title: Chọn Ngôn ngữ
     offline_flash:
       osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực
         hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
@@ -1950,22 +2009,36 @@ vi:
   profiles:
     profile_sections:
       navigation:
+        description: Miêu tả
+        links: Liên kết
         image: Hình
         company: Công ty
+        location: Vị trí
     descriptions:
       show:
         title: Sửa đổi Hồ sơ
         save: Cập nhật Hồ sơ
         cancel: Hủy bỏ
+      update:
+        success: Đã cập nhật lời miêu tả trong hồ sơ.
+        failure: Không thể cập nhật lời miêu tả trong hồ sơ.
     links:
       show:
         title: Sửa đổi Hồ sơ
+        save: Cập nhật Hồ sơ
+        cancel: Hủy bỏ
         social_links:
           title: Các Liên kết Hồ sơ Xã hội
           remove: Xóa
           add: Thêm Liên kết Xã hội
+      update:
+        success: Đã cập nhật các liên kết trong hồ sơ.
+        failure: Không thể cập nhật các liên kết trong hồ sơ.
     images:
       show:
+        title: Sửa đổi Hồ sơ
+        save: Cập nhật Hồ sơ
+        cancel: Hủy bỏ
         gravatar:
           gravatar: Sử dụng Gravatar
           link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=vi
@@ -1975,14 +2048,31 @@ vi:
         delete image: Xóa hình hiện dùng
         replace image: Thay hình hiện dùng
         image size hint: (hình vuông ít nhất 100×100 điểm ảnh là tốt nhất)
+      update:
+        success: Đã cập nhật hình trong hồ sơ.
+        failure: Không thể cập nhật hình trong hồ sơ.
+    companies:
+      show:
+        title: Sửa đổi Hồ sơ
+        save: Cập nhật Hồ sơ
+        cancel: Hủy bỏ
+      update:
+        success: Đã cập nhật công ty trong hồ sơ.
+        failure: Không thể cập nhật công ty trong hồ sơ.
     locations:
       show:
+        title: Sửa đổi Hồ sơ
+        save: Cập nhật Hồ sơ
+        cancel: Hủy bỏ
         no home location: Bạn chưa định vị trí nhà.
         update home location on click: Cập nhật vị trí nhà khi tôi nhấn chuột vào
           bản đồ?
         show: Hiện
         delete: Xóa
         undelete: Phục hồi
+      update:
+        success: Đã cập nhật vị trí trong hồ sơ.
+        failure: Không thể cập nhật vị trí trong hồ sơ.
   sessions:
     new:
       tab_title: Đăng nhập
@@ -2034,24 +2124,38 @@ vi:
       changeset_comments:
         older: Các Bình luận Cũ hơn
         newer: Các Bình luận Mới hơn
+        oldest: Bình luận Cũ nhất
+        newest: Bình luận Mới nhất
       diary_comments:
         older: Các Bình luận Cũ hơn
         newer: Các Bình luận Mới hơn
+        oldest: Bình luận Cũ nhất
+        newest: Bình luận Mới nhất
       diary_entries:
         older: Mục cũ hơn
         newer: Mục mới hơn
+        oldest: Mục Cũ nhất
+        newest: Mục Mới nhất
       issues:
         older: Vấn đề Cũ hơn
         newer: Vấn đề Mới hơn
+        oldest: Vấn đề Cũ nhất
+        newest: Vấn đề Mới nhất
       traces:
         older: Tuyến đường Cũ hơn
         newer: Tuyến đường Mới hơn
+        oldest: Tuyến đường Cũ nhất
+        newest: Tuyến đường Mới nhất
       user_blocks:
         older: Tác vụ Cấm Cũ hơn
         newer: Tác vụ Cấm Mới hơn
+        oldest: Tác vụ Cấm Cũ nhất
+        newest: Tác vụ Cấm Mới nhất
       users:
         older: Người dùng Lâu hơn
         newer: Người dùng Mới hơn
+        oldest: Người dùng Cũ nhất
+        newest: Người dùng Mới nhất
   site:
     about:
       heading_html: '%{copyright}những người đóng góp vào %{br} OpenStreetMap'
@@ -2092,14 +2196,19 @@ vi:
       legal_1_1_openstreetmap_foundation: Quỹ OpenStreetMap
       legal_1_1_openstreetmap_foundation_url: https://www.osmfoundation.org/?uselang=vi
       legal_1_1_terms_of_use: Điều khoản Sử dụng
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use?uselang=vi
       legal_1_1_aup: Quy định Sử dụng Đàng hoàng
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi
       legal_1_1_privacy_policy: Quy định về Quyền riêng tư
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy?uselang=vi
       legal_2_1_html: |-
         Xin vui lòng %{contact_the_osmf_link}
         nếu có thắc mắc về giấy phép, bản quyền, hoặc vấn đề pháp lý khác.
       legal_2_1_contact_the_osmf: liên lạc với Quỹ OSM
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact?uselang=vi
       legal_2_2_html: OpenStreetMap, biểu trưng kính lúp, và State of the Map là %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: nhãn hiệu đăng ký của OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy?uselang=vi
       partners_title: Nhà bảo trợ
     copyright:
       title: Bản quyền và Giấy phép
@@ -2115,24 +2224,34 @@ vi:
         native_link: bản dịch tiếng Việt
         mapping_link: bắt đầu vẽ bản đồ
       legal_babble:
+        lead_1_html: |-
+          OpenStreetMap cung cấp dữ liệu bản đồ nguồn mở cho hàng ngàn trang Web, ứng dụng di động, và thiết bị phần cứng.
+          OpenStreetMap tồn tại nhờ những người như bạn góp sức xây dựng và bảo quản các dữ liệu bản đồ về đường sá, đường mòn, quán cà phê, nhà ga, và đủ mọi thứ ở khắp mọi nơi trên thế giới.
         lead_2_html: |-
           %{learn_more_about_osm_link} và %{get_started_mapping_link}!
           Đọc thêm tại %{osm_blog_link} và đăng ký theo dõi %{weeklyosm_link}.
           Tìm người lập bản đồ khác trong %{osm_community_link} địa phương gần bạn.
           Ủng hộ dự án bằng cách gia nhập %{osm_foundation_link} và %{making_donation_link}.
         lead_2_learn_more_about_osm: Tìm hiểu thêm về OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap?uselang=vi
         lead_2_get_started_mapping: bắt đầu lập bản đồ
         lead_2_osm_blog: Blog OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
         lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
         lead_2_osm_community: cộng đồng OSM
         lead_2_osm_foundation: Quỹ OSM
+        lead_2_osm_foundation_url: https://www.osmfoundation.org/?uselang=vi
         lead_2_making_donation: quyên góp
+        lead_2_making_donation_url: https://supporting.openstreetmap.org/
         licensing_title: giấy phép OpenStreetMap
         licensing_1_html: 'OpenStreetMap là dữ liệu %{open} được phát hành dưới %{odc_odbl_link}
           (ODbL) bởi %{osm_foundation_link} (OSMF). Tóm tắt:'
         licensing_1_open: mở
         licensing_1_odc_odbl: Giấy phép Cơ sở dữ liệu Mở của Open Data Commons
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: Quỹ OpenStreetMap
+        licensing_1_osm_foundation_url: https://www.osmfoundation.org/?uselang=vi
         licensing_2_html: Bạn được tự do sao chép, phân phối, truyền, và tạo ra các
           tác phẩm phái sinh từ các dữ liệu của chúng ta, miễn là bạn ghi công OpenStreetMap
           và những người đóng góp vào nó. Nếu bạn sửa đổi hoặc tạo sản phẩm dựa trên
@@ -2140,18 +2259,40 @@ vi:
           giấy phép. %{legal_code_link} đầy đủ giải thích các quyền và trách nhiệm
           của bạn.
         licensing_2_legal_code: các điều khoản pháp lý tại Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
         licensing_3_html: Tài liệu của chúng tôi được phát hành dưới %{creative_commons_license_link}
           (CC BY-SA 2.0).
         licensing_3_creative_commons_license: giấy phép Creative Commons Ghi công–Chia
           sẻ tương tự 2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.vi
+        licensing_4_html: Tìm hiểu thêm về cách sử dụng dữ liệu của chúng tôi tại
+          %{osmf_license_page_link}.
         licensing_4_osmf_license_page: trang Giấy phép của Quỹ OSM
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence?uselang=vi
         credit_title_html: Cách ghi công OpenStreetMap
         credit_1_html: 'Khi nào bạn sử dụng dữ liệu OpenStreetMap, bạn cần phải tuân
           tho hai quy tắc sau:'
+        credit_2_attribution: Ghi công OpenStreetMap bằng cách hiển thị lời thông
+          báo bản quyền của chúng tôi.
         credit_2_license: Làm rõ rằng dữ liệu được phát hành theo Giấy phép Cơ sở
           dữ liệu Mở.
+        credit_3_v2025_html: |-
+          Chúng ta có %{requirements_on_how_displayed_link} tùy cách sử dụng dữ liệu.
+          Ví dụ quy tắc hiển thị lời ghi công tùy theo bạn tạo bản đồ tương tác, bản đồ in giấy, hoặc hình ảnh tĩnh.
+          Xem thêm chi tiết trong phần %{attribution_guidelines_link} của %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: các yêu cầu hiển thị lời ghi
+          công
+        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines?uselang=vi
         credit_3_v2025_attribution_guidelines: hướng dẫn ghi công
+        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines?uselang=vi
+        credit_3_v2025_licensing_requirements: các yêu cầu giấy phép
+        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence?uselang=vi
+        credit_4_v2025_html: |-
+          Nói chung, bạn có thể đặt liên kết đến %{this_copyright_page_link} để cho biết rõ ràng rằng dữ liệu được phát hành theo Giấy phép Cơ sở dữ liệu Mở.
+          Nếu bạn phân phối OSM dưới dạng dữ liệu thô, xin vui lòng cho biết tên (các) giấy phép và đặt liên kết đến nó/chúng. Đối với các phương tiện không thể có siêu liên kết (chẳng hạn tác phẩm in giấy),
+          xin vui lòng ghi URL đầy đủ vào trang, ví dụ %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: trang bản quyền này
+        credit_5_v2025_html: 'Trong ví dụ này, lời ghi công xuất hiện ở góc bản đồ:'
         attribution_example:
           alt: Ví dụ ghi công OpenStreetMap trên một trang Web
           title: Ví dụ ghi công
@@ -2159,6 +2300,9 @@ vi:
         infringement_1_html: Những người đóng góp vào OSM được khuyên không bao giờ
           bổ sung dữ liệu từ những nguồn có bản quyền (chẳng hạn Bản đồ Google hoặc
           các bản đồ trên giấy) trước khi các nhà giữ bản quyền cho phép rõ ràng.
+        infringement_2_1_html: |-
+          Nếu bạn tin rằng tài liệu có bản quyền đã được thêm vào cơ sở dữ liệu OpenStreetMap hoặc trang Web này, xin vui lòng tham khảo %{takedown_procedure_link} của chúng tôi hoặc nộp đơn trực tiếp tại
+          %{online_filing_page_link} của chúng tôi.
         infringement_2_1_takedown_procedure: thủ tục tháo gỡ
         infringement_2_1_online_filing_page: trang nộp đơn trực tuyến
         trademarks_title: Nhãn hiệu
@@ -2167,7 +2311,11 @@ vi:
           %{trademark_policy_link} của chúng tôi.
         trademarks_1_1_trademark_policy: Quy định Nhãn hiệu
         services_title_html: Dịch vụ bổ sung
+        services_1_html: |-
+          Mặc dù OpenStreetMap là dữ liệu mở, nhưng chúng tôi không thể cung cấp API hoặc mảnh bản đồ miễn phí để bên thứ ba sử dụng.
+          Xem %{api_usage_policy_link}, %{tile_usage_policy_link}, và %{nominatim_usage_policy_link} của chúng tôi.
         services_1_api_usage_policy: Quy định Sử dụng API
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: Quy định Sử dụng Mảnh bản đồ
         services_1_nominatim_usage_policy: Quy định Sử dụng Nominatim
         contributors_title_html: Những người đóng góp vào đây
@@ -2193,11 +2341,19 @@ vi:
           (© Bộ Tài nguyên Canada), CanVec (© Bộ Tài nguyên Canada), và StatCan (Sở
           Địa lý, Statistics Canada).'
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: '%{czechia}: Chứa dữ liệu từ Cơ quan Quản lý
+          Khảo sát Đất đai và Địa chính Nhà nước được phát hành theo %{cc_licence_link}'
         contributors_cz_czechia: Séc
         contributors_cz_cc_licence: giấy phép Creative Commons Ghi công 4.0 Quốc tế
           (CC BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: Chứa dữ liệu từ
+          Cơ sở dữ liệu Địa hình của Cơ quan Khảo sát Đất đai Quốc gia Phần Lan và các tập hợp dữ liệu khác theo %{nlsfi_license_link}.
         contributors_fi_finland: Phần Lan
         contributors_fi_nlsfi_license: Giấy phép NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Chứa dữ liệu bắt nguồn từ
+          Tổng cục Thuế.
         contributors_fr_france: Pháp
         contributors_hr_credit_html: |-
           %{croatia}: Chứa dữ liệu từ %{dgu_link} và %{open_data_portal}
@@ -2226,9 +2382,17 @@ vi:
         contributors_si_slovenia: Slovenia
         contributors_si_gu: Cơ quan Khảo sát và Bản đồ Cộng hòa Slovenia
         contributors_si_mkgp: Bộ Nông nghiệp, Lâm nghiệp, và Thức ăn
+        contributors_es_credit_html: |-
+          %{spain}: Chứa dữ liệu bắt nguồn từ
+          Viện Địa lý Quốc gia Tây Ban Nha (%{ign_link}) và
+          Hệ thống Bản đồ học Quốc gia (%{scne_link})
+          được cấp phép tái sử dụng theo %{cc_by_link}.
         contributors_es_spain: Tây Ban Nha
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Chứa dữ liệu bắt nguồn từ %{ngi_link},
+          quyền tác giả của nhà nước được bảo lưu.'
         contributors_za_south_africa: Nam Phi
+        contributors_za_ngi: 'Tổng cục: Thông tin Không gian địa lý Quốc gia'
         contributors_gb_credit_html: '%{united_kingdom}: Bao gồm dữ liệu Ordnance
           Survey © bản quyền bản quyền Hoàng gia và quyền cơ sở dữ liệu 2010–2023.'
         contributors_gb_united_kingdom: Vương quốc Anh
@@ -2283,6 +2447,7 @@ vi:
           title: Nguồn Khác
           description: Những nguồn khác được liệt kê trên wiki OpenStreetMap
       export_button: Xuất
+      export_download: Đang tải về…
     fixthemap:
       title: Báo lỗi / Sửa bản đồ
       how_to_help:
@@ -2295,6 +2460,9 @@ vi:
             lấy.
       other_concerns:
         title: Vấn đề khác
+        concerns_html: |-
+          Nếu có thắc mắc về cách sử dụng dữ liệu của chúng tôi hoặc về nội dung của cơ sở dữ liệu, xin vui lòng tham khảo các thông tin pháp lý tại
+          %{copyright_link} hoặc liên lạc với %{working_group_link} thích hợp.
         copyright: trang bản quyền
         working_group: nhóm làm việc của Quỹ OSM
     help:
@@ -2437,6 +2605,9 @@ vi:
           rất thành công tuy chỉ là cuộc họp mặt thoải mái. Ai có thể tổ chức một
           nhóm cộng đồng bình thường như thế. Để biết thêm chi tiết, xem %{communities_wiki_link}.
         communities_wiki: trang wiki về nhóm người dùng
+  social_links:
+    show:
+      website: trang Web
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Phóng to để xem các ghi chú trên bản đồ
@@ -2534,7 +2705,7 @@ vi:
       link: Liên kết hoặc HTML
       include_marker: Ghim trên bản đồ
       long_link: Liên kết
-      short_link: Liên kết rút gọn
+      short_link: Liên kết Rút gọn
       embed: HTML
       embed_html_disabled: Chức năng nhúng HTML không có sẵn đối với lớp bản đồ này
       paste_html: Dán HTML để nhúng vào trang Web
@@ -2546,6 +2717,7 @@ vi:
       custom_dimensions: Tùy biến kích thước
       image_dimensions_html: Hình của lớp %{layer} với kích thước %{width}×%{height}
       download: Tải về
+      downloading: Đang tải về…
   traces:
     visibility:
       private: Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)
@@ -2798,6 +2970,7 @@ vi:
       by_signing_up:
         html: Bằng cách mở tài khoản, bạn chấp nhận %{tou_link}, %{privacy_policy_link},
           và %{contributor_terms_link} của chúng tôi.
+        tou: Điều khoản Sử dụng
         privacy_policy: quy định về quyền riêng tư
         privacy_policy_title: Quy định về quyền riêng tư của OSMF, bao gồm phần về
           địa chỉ thư điện tử
@@ -2864,10 +3037,17 @@ vi:
       delete_user: Xóa Tài khoản Này
       confirm: Xác nhận
       report: Báo cáo Người dùng này
+      edit_profile_details: Sửa đổi Chi tiết Hồ sơ
+      edit_description: Sửa đổi Miêu tả
+      edit_links: Sửa đổi Liên kết
+      change_image: Sửa đổi Hình ảnh
+      edit_company: Sửa đổi Công ty
+      edit_location: Sửa đổi Vị trí
       contributions:
         other: Đóng góp %{count} lần trong năm qua
     sidebar_section:
       home_location: Vị trí nhà
+      company: Công ty
       company_tooltip: Mối liên quan đến công ty được tự giới thiệu và không được
         xác minh
     go_public:
@@ -3110,8 +3290,9 @@ vi:
       last_changed: Thay đổi gần đây nhất
       apply: Áp dụng
       all: Tất cả
-      open: Mở
-      closed: Đóng
+      open: Chưa Giải quyết
+      closed: Đã Giải quyết
+      hidden: Ẩn
       status: Trạng thái
     show:
       title: 'Ghi chú: %{id}'
@@ -3183,9 +3364,13 @@ vi:
       sorry: 'Rất tiếc, không tìm thấy ghi chú #%{id}.'
   javascripts:
     close: Đóng
+    alert: Nhắc nhở
+    ok: OK
     share:
       title: Chia sẻ
       view_larger_map: Xem Bản đồ Rộng hơn
+      export_failed: 'Thất bại khi xuất bản đồ: %{reason}'
+      filename: bản đồ
     embed:
       report_problem: Báo vấn đề
     legend:
@@ -3208,6 +3393,8 @@ vi:
         transport_map: Bản đồ Giao thông
         tracestracktop_topo: Tracestrack Địa hình
         hot: Nhân đạo Chủ nghĩa
+        shortbread: Shortbread
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Lớp Bản đồ
         notes: Ghi chú Bản đồ
@@ -3227,6 +3414,10 @@ vi:
       hotosm_credit: Kiểu mảnh bản đồ do %{hotosm_link} cung cấp và %{osm_france_link}
         lưu trữ
       hotosm_name: Tổ chức Nhân đạo OpenStreetMap
+      openmaptiles_credit: Mảnh bản đồ %{openmaptiles_link} do %{maptiler_link} cung
+        cấp
+      openmaptiles_name: OpenMapTiles
+      maptiler_name: MapTiler
     site:
       edit_tooltip: Sửa đổi bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
@@ -3241,10 +3432,11 @@ vi:
       chuột vào đây.
     directions:
       distance_in_units:
-        m: '%{distance}&nbsp;m'
-        km: '%{distance}&nbsp;km'
-        ft: '%{distance}&thinsp;bộ'
-        mi: '%{distance}&nbsp;dặm'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} bộ'
+        yd: '%{distance} thước'
+        mi: '%{distance} dặm'
       errors:
         no_route: Không tìm thấy tuyến đường giữa hai địa điểm này.
         no_place: Rất tiếc, không tìm thấy “%{place}”.
@@ -3326,6 +3518,8 @@ vi:
       nothing_found: Không tìm thấy yếu tố nào
       error: 'Lỗi khi kết nối với %{server}: %{error}'
       timeout: Hết thời gian kết nối với %{server}
+    element:
+      wikipedia: Wikipedia
     context:
       directions_from: Chỉ đường từ đây
       directions_to: Chỉ đường tới đây
@@ -3350,6 +3544,7 @@ vi:
       empty: Không có dãy ẩn để xem.
       heading: Danh sách dãy ẩn
       title: Danh sách dãy ẩn
+      new: Dãy ẩn Mới
     new:
       heading: Ghi thông tin của dãy ẩn mới
       title: Đang ẩn dãy phiên bản

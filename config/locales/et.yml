@@ -256,11 +256,21 @@ et:
       external auth: Väline autentimine
       contributor_terms:
         heading: Kaastöötingimused
-        agreed: Oled nõustunud uute kaastöötingimustega.
+        agreed: Oled kuupäeval %{date} nõustunud uute kaastöötingimustega.
+        not_agreed: Sa ei ole veel kaastöötingimustega nõustunud.
         agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks
           (Public Domain).
         not_agreed_with_pd: Sa ei ole andnud teada, et pead enda muudatusi avalikku
           omandisse kuuluvaks.
+        review: Vaata tingimused üle
+        review_and_accept: Vaata tingimused üle ja nõustu nendega
+        consider_pd: Kaalu avalikku omandit
+      terms_of_use:
+        heading: Kasutustingimused
+        agreed: Nõustusid kasutustingimustega kuupäeval %{date}.
+        not_agreed: Sa ei ole veel kasutustingimustega nõustunud.
+        review: Vaata tingimused üle
+        review_and_accept: Vaata tingimused üle ja nõustu nendega
       save changes button: Salvesta muudatused
       delete_account: Kustuta konto...
     go_public:
@@ -318,18 +328,21 @@ et:
         contributor_terms_explain: See leping reguleerib sinu olemasoleva ja tulevase
           kaastöö tingimusi.
         read_ct: Ma olen lugenud kaastöötingimusi ja nõustun nendega
-        tou_explain_html: Need %{tou_link} reguleerivad selle veebisaidi ja muu OSMF-i
-          pakutava infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi
-          ja nõustu sellega.
+        tou_explain:
+          html: Need %{tou_link} reguleerivad selle veebisaidi ja muu OSMF-i pakutava
+            infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi ja nõustu
+            sellega.
+          tou: kasutustingimused
         read_tou: Ma olen lugenud kasutustingimusi ja nõustun nendega
         guidance_info_html: 'Teave, mis aitab mõista neid tingimusi: %{readable_summary_link}
           ja mõned %{informal_translations_link}'
         readable_summary: inimloetav kokkuvõte
         informal_translations: mitteametlikud tõlked
         continue: Jätka
+        cancel: Loobu
         you need to accept or decline: Enne jätkamist tutvu palun uute kaastöötingimustega
           ning seejärel kas nõustu või ära nõustu nendega.
-        legale_select: 'Palun valige oma elukohariik:'
+        legale_select: 'Elukohariik:'
         legale_names:
           france: Prantsusmaa
           italy: Itaalia
@@ -426,6 +439,9 @@ et:
         key: Sildi %{key} kirjelduse leht vikis
         tag: Sildi %{key}=%{value} kirjelduse leht vikis
       wikidata_link: '%{page} Wikidatas'
+      wikidata_preview:
+        one: Wikidata üksuse eelvaade
+        other: Wikidata üksuste eelvaade
       wikipedia_link: Artikkel %{page} Vikipeedias
       wikimedia_commons_link: Üksus "%{page}" Wikimedia Commonsis
       telephone_link: Helista %{phone_number}
@@ -495,6 +511,15 @@ et:
       changes:
         one: '%{count} muudatus'
         other: '%{count} muudatust'
+      n_elements_created:
+        one: '%{count} objekt loodud'
+        other: '%{count} objekti loodud'
+      n_elements_modified:
+        one: '%{count} objekt muudetud'
+        other: '%{count} objekti muudetud'
+      n_elements_deleted:
+        one: '%{count} objekt kustutatud'
+        other: '%{count} objekti kustutatud'
     index:
       title: Muudatuskogumid
       title_user: Kasutaja %{user} muudatuskogumid
@@ -1507,6 +1532,10 @@ et:
       time: Ajakulu
       ascend: Tee tõuseb ülespoole
       descend: Tee laskub allapoole
+      kilometers: kilomeetrid
+      miles_feet: miilid, jalad
+      miles_yards: miilid, jardid
+      distance_units_settings: Pikkusühiku sätted
       download: Laadi teekond alla GeoJSON-ina
       filename: teekond
       directions_courtesy_html: Tee juhatamisel oli abiks %{link}
@@ -1592,7 +1621,7 @@ et:
       ja muud %{partners}.
     partners_corpmembers: OSMF-i äriühingutest liikmed
     partners_partners: partnerid
-    tou: kasutustingimused
+    tou: Kasutustingimused
     nothing_to_preview: Eelvaates pole midagi näidata.
     help: Juhend
     about: Teave
@@ -1756,6 +1785,9 @@ et:
       success: Sinu kasutajakonto on kinnitatud, täname registreerimast!
       already active: See konto on juba kinnitatud.
       unknown token: See kinnituskood on aegunud või seda pole olemas.
+      if_need_resend: Kui sul on vaja kinnitamise e-kiri uuesti saata, siis klõpsa
+        allolevat nuppu.
+      resend_button: Saada kinnitamise e-kiri uuesti
     confirm_resend:
       failure: Kasutajat %{name} ei leitud.
     confirm_email:
@@ -1907,21 +1939,36 @@ et:
   profiles:
     profile_sections:
       navigation:
+        description: Kirjeldus
+        links: Lingid
         image: Pilt
+        company: Ettevõte
+        location: Asukoht
     descriptions:
       show:
         title: Profiili muutmine
         save: Uuenda profiili
         cancel: Loobu
+      update:
+        success: Profiili kirjeldus uuendatud.
+        failure: Ei õnnestunud profiili kirjeldust uuendada.
     links:
       show:
-        title: Muuda profiili
+        title: Profiili muutmine
+        save: Uuenda profiili
+        cancel: Loobu
         social_links:
           title: Sotsiaalprofiilide lingid
           remove: Eemalda
           add: Lisa sotsiaallink
+      update:
+        success: Profiili lingid uuendatud.
+        failure: Ei õnnestunud profiili linke uuendada.
     images:
       show:
+        title: Profiili muutmine
+        save: Uuenda profiili
+        cancel: Loobu
         gravatar:
           gravatar: Kasuta Gravatari
           what_is_gravatar: Mis on Gravatar?
@@ -1929,14 +1976,31 @@ et:
         keep image: Säilitada praegune pilt
         delete image: Eemalda praegune pilt
         replace image: Asenda praegune pilt
-        image size hint: (ruudukujuline pilt mõõtudega vähemalt 100x100 on sobiv)
+        image size hint: (ruudukujuline pilt mõõtudega vähemalt 100 × 100 on sobiv)
+      update:
+        success: Profiili pilt uuendatud.
+        failure: Ei õnnestunud profiili pilti uuendada.
+    companies:
+      show:
+        title: Profiili muutmine
+        save: Uuenda profiili
+        cancel: Loobu
+      update:
+        success: Profiili ettevõte uuendatud.
+        failure: Ei õnnestunud profiili ettevõtet uuendada.
     locations:
       show:
+        title: Profiili muutmine
+        save: Uuenda profiili
+        cancel: Loobu
         no home location: Sa pole oma kodu asukohta märkinud.
         update home location on click: Kas uuendan kodu asukohta, kui klõpsan kaardil?
         show: Näita
         delete: Kustuta
         undelete: Võta kustutamine tagasi
+      update:
+        success: Profiili asukoht uuendatud.
+        failure: Ei õnnestunud profiili asukohta uuendada.
   sessions:
     new:
       tab_title: Logi sisse
@@ -1982,18 +2046,28 @@ et:
       changeset_comments:
         older: Vanemad kommentaarid
         newer: Uuemad kommentaarid
+        oldest: Vanimad kommentaarid
+        newest: Uusimad kommentaarid
       diary_comments:
         older: Vanemad kommentaarid
         newer: Uuemad kommentaarid
+        oldest: Vanimad kommentaarid
+        newest: Uusimad kommentaarid
       diary_entries:
         older: Vanemad...
         newer: Uuemad...
+        oldest: Vanimad sissekanded
+        newest: Uusimad sissekanded
       traces:
         older: Vanemad rajad
         newer: Uuemad rajad
+        oldest: Vanimad rajad
+        newest: Uusimad rajad
       user_blocks:
         older: Vanemad blokeeringud
         newer: Uuemad blokeeringud
+        oldest: Vanimad blokeeringud
+        newest: Uusimad blokeeringud
       users:
         older: Vanemad kasutajad
         newer: Uuemad kasutajad
@@ -2537,6 +2611,7 @@ et:
       custom_dimensions: Vali suurus käsitsi
       image_dimensions_html: Pildil näeb kihti %{layer} suuruses %{width} × %{height}
       download: Laadi alla
+      downloading: Allalaadimine...
   traces:
     visibility:
       private: Isiklik (jagatud ainult anonüümselt, järjestamata punktid)
@@ -2757,6 +2832,7 @@ et:
         eelistustes.
       by_signing_up:
         html: Registreerudes nõustud meie %{tou_link}, %{privacy_policy_link} ja %{contributor_terms_link}.
+        tou: kasutustingimustega
         privacy_policy: andmekaitsereeglitega
         privacy_policy_title: OSMF-i andmekaitsereeglid, milles on alaosa e-posti
           aadresside kohta
@@ -2818,9 +2894,19 @@ et:
       delete_user: Kustuta see kasutaja
       confirm: Kinnita
       report: Teata sellest kasutajast
+      edit_profile_details: Muuda profiili üksikasju
+      edit_description: Muuda kirjeldust
+      edit_links: Muuda linke
+      change_image: Muuda pilti
+      edit_company: Muuda ettevõtet
+      edit_location: Muuda asukohta
       contributions:
         one: '%{count} kaastöö viimase aasta jooksul'
         other: '%{count} kaastööd viimase aasta jooksul'
+    sidebar_section:
+      home_location: Kodu asukoht
+      company: Ettevõte
+      company_tooltip: Seos ettevõttega põhineb kasutaja enda ütlusel ja on kinnitamata.
     go_public:
       flash success: Kõik sinu muudatused on nüüd avalikud ja sul on lubatud muudatusi
         teha.
@@ -3032,8 +3118,8 @@ et:
       last_changed: Viimati muudetud
       apply: Rakenda
       all: Kõik
-      open: Avatud
-      closed: Suletud
+      open: Lahendamata
+      closed: Lahendatud
       status: Olek
     show:
       title: 'Märkus: %{id}'
@@ -3089,9 +3175,13 @@ et:
       previous: Eelmine
   javascripts:
     close: Sulge
+    alert: Märguanne
+    ok: Sobib
     share:
       title: Jaga
       view_larger_map: Vaata suuremat kaarti
+      export_failed: 'Kaardi eksport ei õnnestunud: %{reason}'
+      filename: kaart
     embed:
       report_problem: Teata probleemist
     legend:
@@ -3142,7 +3232,10 @@ et:
     directions:
       distance_in_units:
         m: '%{distance}&nbsp;m'
-        km: '%{distance}&nbsp;km'
+        km: '%{distance} km'
+        ft: '%{distance} ft'
+        yd: '%{distance} yd'
+        mi: '%{distance} mi'
       errors:
         no_route: Ei suutnud leida teekonda nende kahe koha vahel.
         no_place: Kohta "%{place}" ei õnnestunud kahjuks leida.
@@ -3240,6 +3333,10 @@ et:
       show_address: Kuva aadress
       query_features: Mis siin on?
       centre_map: Kuva kaardi keskel
+      scroll_to_changeset: Keri muudatuskogumini
+    home:
+      marker_title: Minu kodu asukoht
+      not_set: Sinu konto kodu asukoht on määramata.
     heatmap:
       tooltip:
         no_contributions: Kaastöö puudub – %{date}
