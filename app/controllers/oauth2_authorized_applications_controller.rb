@@ -1,5 +1,5 @@
 class Oauth2AuthorizedApplicationsController < Doorkeeper::AuthorizedApplicationsController
-  layout "site"
+  layout :site_layout
 
   prepend_before_action :authorize_web
   before_action :set_locale
