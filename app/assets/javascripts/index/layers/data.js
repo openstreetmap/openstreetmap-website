@@ -7,7 +7,8 @@ OSM.initializeDataLayer = function (map) {
   };
 
   dataLayer.on("click", function (e) {
-    onSelect(e.layer);
+    const feature = e.layer.feature;
+    OSM.router.click(e.originalEvent, `/${feature.type}/${feature.id}`);
   });
 
   dataLayer.on("add", function () {
@@ -132,9 +133,5 @@ OSM.initializeDataLayer = function (map) {
       .finally(() => {
         spanLoading.remove();
       });
-  }
-
-  function onSelect(layer) {
-    OSM.router.route("/" + layer.feature.type + "/" + layer.feature.id);
   }
 };

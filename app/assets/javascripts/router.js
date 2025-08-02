@@ -183,6 +183,17 @@ OSM.Router = function (map, rts) {
     currentRoute = routes.recognize(currentPath);
   };
 
+  router.click = function (event, href) {
+    const eventOptions = {};
+    for (const key in event) eventOptions[key] = event[key];
+    const clickEvent = new (event.constructor)("click", eventOptions);
+    const link = document.createElement("a");
+    link.href = href;
+    document.body.appendChild(link);
+    link.dispatchEvent(clickEvent);
+    document.body.removeChild(link);
+  };
+
   map.on("moveend baselayerchange overlayadd overlayremove", router.updateHash);
   $(window).on("hashchange", router.hashUpdated);
 
