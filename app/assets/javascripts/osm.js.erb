@@ -217,5 +217,14 @@ OSM = {
     const zoom = map.getZoom(),
           center = OSM.cropLocation(map.getCenter(), zoom).reverse();
     return [...center, zoom, map.getLayersCode()].join("|");
+  },
+
+  showAlert: function (title, message) {
+    const modalTitle = document.getElementById("osm_alert_title");
+    modalTitle.textContent = title;
+    const modalBody = document.getElementById("osm_alert_message");
+    modalBody.textContent = message;
+    const alertModal = new bootstrap.Modal(document.getElementById("osm_alert_modal"));
+    alertModal.show();
   }
 };
