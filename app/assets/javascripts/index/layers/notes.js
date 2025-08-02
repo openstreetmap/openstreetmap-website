@@ -16,7 +16,7 @@ OSM.initializeNotesLayer = function (map) {
     map.fire("overlayremove", { layer: noteLayer });
   }).on("click", function (e) {
     if (e.layer.id) {
-      OSM.router.route("/note/" + e.layer.id);
+      OSM.router.click(e.originalEvent, "/note/" + e.layer.id);
     }
   });
 
