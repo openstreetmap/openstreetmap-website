@@ -76,6 +76,9 @@ OSM.Export = function (map) {
       .addEventListener("turbo:submit-end", OSM.getTurboBlobHandler("map.osm"));
 
     document.querySelector(".export_form")
+      .addEventListener("turbo:before-fetch-response", OSM.turboHtmlResponseHandler);
+
+    document.querySelector(".export_form")
       .addEventListener("turbo:before-fetch-request", function (event) {
         event.detail.fetchOptions.headers.Accept = "application/xml";
       });
