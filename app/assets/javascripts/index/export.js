@@ -80,6 +80,9 @@ OSM.Export = function (map) {
         event.detail.fetchOptions.headers.Accept = "application/xml";
       });
 
+    document.querySelector(".export_form")
+      .addEventListener("turbo:before-fetch-response", OSM.turboHtmlResponseHandler);
+
     update();
     return map.getState();
   };

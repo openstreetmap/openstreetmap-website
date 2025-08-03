@@ -34,17 +34,8 @@ L.OSM.share = function (options) {
       .addEventListener("turbo:submit-end",
                         OSM.getTurboBlobHandler(OSM.i18n.t("javascripts.share.filename")));
 
-    document.getElementById("export-image").addEventListener("turbo:before-fetch-response", function (event) {
-      const response = event.detail.fetchResponse.response;
-      const contentType = response.headers.get("content-type");
-
-      if (!response.ok && contentType?.includes("text/html")) {
-        // Prevent Turbo from replacing the current page with an error HTML response
-        // from the image export endpoint
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    });
+    document.getElementById("export-image")
+      .addEventListener("turbo:before-fetch-response", OSM.turboHtmlResponseHandler);
 
     locationFilter
       .on("change", update)

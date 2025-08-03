@@ -52,7 +52,20 @@
         }
       };
     }
+
+    static turboHtmlResponseHandler(event) {
+      const response = event.detail.fetchResponse.response;
+      const contentType = response.headers.get("content-type");
+
+      if (!response.ok && contentType?.includes("text/html")) {
+        // Prevent Turbo from replacing the current page with an error HTML response
+        // from the export endpoint
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
   }
 
   OSM.getTurboBlobHandler = DownloadUtil.getTurboBlobHandler;
+  OSM.turboHtmlResponseHandler = DownloadUtil.turboHtmlResponseHandler;
 }());
