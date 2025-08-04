@@ -438,6 +438,7 @@ pl:
           html: Te %{tou_link} regulują korzystanie ze strony internetowej i innej
             infrastruktury zapewnianej przez OSMF. Kliknij link, przeczytaj i zaakceptuj
             tekst.
+          tou: Warunki Użytkowania
         read_tou: Przeczytałem i akceptuję Warunki Użytkowania
         guidance_info_html: 'Informacje pomocne w zrozumieniu tych terminów: %{readable_summary_link}
           i %{informal_translations_link}'
@@ -555,6 +556,11 @@ pl:
         key: Strona Wiki klucza %{key}
         tag: Strona Wiki znacznika %{key}=%{value}
       wikidata_link: '%{page} element na Wikidata'
+      wikidata_preview:
+        one: Podgląd elementu Wikidanych
+        few: Podgląd elementów Wikidanych
+        many: Podgląd elementów Wikidanych
+        other: Podgląd elementów Wikidanych
       wikipedia_link: Artykuł %{page} w Wikipedii
       wikimedia_commons_link: Plik %{page} na Wikimedia Commons
       telephone_link: Zadzwoń pod %{phone_number}
@@ -643,6 +649,21 @@ pl:
         few: '%{count} zmiany'
         many: '%{count} zmian'
         other: '%{count} zmiany'
+      n_elements_created:
+        one: '%{count} utworzony element'
+        few: '%{count} utworzone elementy'
+        many: '%{count} utworzonych elementów'
+        other: '%{count} utworzonych elementów'
+      n_elements_modified:
+        one: '%{count} zmieniony element'
+        few: '%{count} zmienione elementy'
+        many: '%{count} zmienionych elementów'
+        other: '%{count} zmienionych elementów'
+      n_elements_deleted:
+        one: '%{count} usunięty element'
+        few: '%{count} usunięte elementy'
+        many: '%{count} usuniętych elementów'
+        other: '%{count} usuniętych elementów'
     index:
       title: Zestawy zmian
       title_user: Zestawy zmian użytkownika %{user}
@@ -2246,7 +2267,7 @@ pl:
         failure: Nie udało się zaktualizować opisu profilu.
     links:
       show:
-        title: Edytuj profil
+        title: Edycja profilu
         save: Zapisz zmiany
         cancel: Anuluj
         social_links:
@@ -2400,9 +2421,12 @@ pl:
         więcej o społeczności, odwiedź %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link}
         i stronę %{osm_foundation_link}.
       community_driven_osm_blog: blog OpenStreetMap
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
       community_driven_user_diaries: dzienniki użytkowników
       community_driven_community_blogs: blogi społeczności
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org
       community_driven_osm_foundation: Fundacji OSM
+      community_driven_osm_foundation_url: https://www.osmfoundation.org
       open_data_title: Otwarte dane
       open_data_1_html: 'OpenStreetMap to %{open_data}: można z nich korzystać w dowolnym
         celu, pod warunkiem podania nazwy OpenStreetMap i jej autorów. Jeśli zmienisz
@@ -2416,14 +2440,20 @@ pl:
         ze wszystkich usług obsługiwanych przez OSMF podlega naszym %{terms_of_use_link},
         %{aup_link} i naszej %{privacy_policy_link}.
       legal_1_1_openstreetmap_foundation: Fundację OpenStreetMap
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org
       legal_1_1_terms_of_use: Warunkom Użytkowania
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: Zasadom dopuszczalnego użytkowania
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: Polityce prywatności
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_2_1_html: W przypadku pytań dotyczących licencji, praw autorskich lub
         innych kwestii prawnych prosimy o %{contact_the_osmf_link}.
       legal_2_1_contact_the_osmf: kontakt z OSMF
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
       legal_2_2_html: OpenStreetMap, logo z lupą i State of the Map są %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: zastrzeżonymi znakami towarowymi OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Partnerzy
     copyright:
       title: Prawa autorskie i licencja
@@ -2696,6 +2726,7 @@ pl:
           title: Inne zasoby
           description: Dodatkowe zasoby wymienione w OpenStreetMap Wiki
       export_button: Wyeksportuj
+      export_download: Pobieranie...
     fixthemap:
       title: Zgłoś błąd / Popraw mapę
       how_to_help:
@@ -2859,6 +2890,9 @@ pl:
           W rzeczywistości wiele grup istnieje z powodzeniem jako nieformalne zgromadzenie ludzi lub jako grupa społeczna. Każdy może je założyć lub do nich dołączyć. Dowiedz się więcej na %{communities_wiki_link}.
         communities_wiki: stronie Wiki
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
+  social_links:
+    show:
+      website: strona internetowa
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Powiększ, aby zobaczyć uwagi
@@ -2972,6 +3006,7 @@ pl:
       image_dimensions_html: Obraz będzie przedstawiał warstwę %{layer} w rozdzielczości
         %{width}×%{height}
       download: Pobierz
+      downloading: Pobieranie...
   traces:
     visibility:
       private: Prywatny (udostępniany jedynie jako anonimowy, nieuporządkowane punkty)
@@ -3658,9 +3693,13 @@ pl:
       sorry: Nie odnaleziono uwagi %{id}.
   javascripts:
     close: Zamknij
+    alert: Błąd
+    ok: OK
     share:
       title: Udostępnianie
       view_larger_map: Wyświetl większą mapę
+      export_failed: 'Eksportowanie mapy nie powiodło się: %{reason}'
+      filename: mapa
     embed:
       report_problem: Zgłoś błąd
     legend:
@@ -3690,6 +3729,8 @@ pl:
         transport_map: Transportu publicznego
         tracestracktop_topo: Tracestrack Topo
         hot: Humanitarna
+        shortbread: Shortbread
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Warstwy
         notes: Uwagi
@@ -3710,6 +3751,8 @@ pl:
       tracestrack: Tracestrack
       hotosm_credit: 'Styl kafelków: %{hotosm_link}. Hosting: %{osm_france_link}'
       hotosm_name: Humanitarian OpenStreetMap Team
+      openmaptiles_name: OpenMapTiles
+      maptiler_name: MapTiler
     site:
       edit_tooltip: Edytuje mapę
       edit_disabled_tooltip: Przybliż mapę, aby ją edytować
@@ -3814,6 +3857,8 @@ pl:
       nothing_found: Nie znaleziono obiektów
       error: 'Błąd komunikacji z %{server}: %{error}'
       timeout: Przekroczono czas oczekiwania z %{server}
+    element:
+      wikipedia: Wikipedia
     context:
       directions_from: Nawiguj stąd
       directions_to: Nawiguj tutaj

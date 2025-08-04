@@ -10,6 +10,9 @@
 # Author: 捍粵者
 ---
 zh-HK:
+  date:
+    formats:
+      heatmap: '%-m月%-d日'
   time:
     formats:
       friendly: '%Y年%-m月%-d日%H:%M'
@@ -23,15 +26,15 @@ zh-HK:
         create: 發佈
         update: 更新
       issue_comment:
-        create: 添加評論
+        create: 新增留言
       message:
         create: 傳送
       oauth2_application:
         create: 註冊
         update: 更新
       redaction:
-        create: 建立修訂
-        update: 儲存修訂
+        create: 遮蓋
+        update: 儲存遮蓋
       trace:
         create: 上載
         update: 儲存變更
@@ -1504,6 +1507,9 @@ zh-HK:
       ascend: 攀升
       descend: 下降
       kilometers: 公里
+      miles_feet: 哩、呎
+      miles_yards: 哩、碼
+      distance_units_settings: 距離單位設定
       download: 以GeoJSON格式下載路綫指引
       filename: 路綫
       directions_courtesy_html: 路綫指引由%{link}提供
@@ -1529,13 +1535,48 @@ zh-HK:
       reports: 報告
       last_updated: 最後更新
       last_managed: 上次管理
+      reporting_users: 舉報人
+      reports_count: '%{count}宗舉報'
+      reported_item: 舉報項目
+      states:
+        ignored: 已忽略
+        open: 未解決
+        resolved: 已解決
     show:
+      title:
+        open: 待決問題%{issue_id}
+        ignored: 忽視問題%{issue_id}
+        resolved: 已解決問題%{issue_id}
+      reports: '%{count}宗舉報'
+      no_reports: 未接獲舉報
+      report_created_at_html: 於%{datetime}首次舉報
+      last_resolved_at_html: 最後解決於%{datetime}
+      last_updated_at_html: 最後由%{displayname}於%{datetime}更新
       resolve: 解決
       ignore: 忽略
       reopen: 重新開啟
+      reports_of_this_issue: 針對此問題的舉報
+      read_reports: 讀取舉報
+      new_reports: 新舉報
+      other_issues_against_this_user: 其餘針對此用戶的問題
+      no_other_issues: 未有其他針對此用戶的問題
+      comments_on_this_issue: 就此問題的議論
+    resolve:
+      resolved: 舉報處理狀況已設為「已解決」
+    ignore:
+      ignored: 舉報處理狀況已設為「已忽略」
+    reopen:
+      reopened: 舉報處理狀況已設為「待決」
+    comments:
+      reassign_to_moderators: 重新指派問題予仲裁員
+      reassign_to_administrators: 重新指派問題予管理員
     helper:
       reportable_title:
         note: 註記#%{note_id}
+  issue_comments:
+    create:
+      comment_created: 留言成功
+      issue_reassigned: 留言成功，問題已獲重新指派
   reports:
     new:
       disclaimer:
@@ -1583,6 +1624,9 @@ zh-HK:
     user_diaries: 用戶日記
     edit_with: 用%{editor}來編輯
     intro_header: 歡迎來到 OpenStreetMap！
+    intro_text: OpenStreetMap是由像你我一樣的人們編製的世界地圖，可依據開放數據授權條款自由取用。
+    hosting_partners_2024_html: 網頁寄存由%{fastly}、%{corpmembers}與其他%{partners}支援。
+    partners_corpmembers: OSMF企業會員
     partners_partners: 合作伙伴
     tou: 使用條款
     nothing_to_preview: 並無可供預覽之內容。
@@ -1603,6 +1647,7 @@ zh-HK:
       announcement: 你可在此閱讀公告。
   user_mailer:
     diary_comment_notification:
+      description: OpenStreetMap日誌文章#%{id}
       subject: '[OpenStreetMap] %{user}在日記中留下了評論'
       hi: '%{to_user}：'
       header: '%{from_user}已在題為「%{subject}」的OpenStreetMap日誌文章下留言：'
@@ -1669,6 +1714,7 @@ zh-HK:
       commented:
         subject_own: '[OpenStreetMap] %{commenter} 於你的註記下留言'
         subject_other: '[OpenStreetMap] %{commenter} 在你感興趣的註記下留言'
+        your_note: '%{commenter}已就你在%{place}附近留下的其中一則註記留言。'
       closed:
         your_note: '%{commenter}已處理你在%{place}附近留下的註記。'
         your_note_html: '%{commenter}已處理你在%{place}附近留下的其中一則註記。'
@@ -1707,6 +1753,7 @@ zh-HK:
       already active: 此賬戶早前已被確認。
       unknown token: 確認碼經已過期或不存在。
       if_need_resend: 如需重新收取確認電郵，請按下面的按鈕。
+      resend_button: 重新寄出確認電郵
     confirm_resend:
       failure: 找不到用戶%{name}。
     confirm_email:
@@ -1714,6 +1761,14 @@ zh-HK:
       press confirm button: 請按下方確認按鈕驗證你的新電郵地址。
       button: 確認
       success: 電郵地址更改經已確認！
+      failure: 已有電郵地址使用此授權密鑰認證過。
+      unknown_token: 該確認碼經已過期或不存在。
+    resend_success_flash:
+      confirmation_sent: 我們已重發確認電郵予%{email}。賬戶一經驗證，即可開始繪圖。
+      whitelist: 如你的電郵收件箱設有垃圾電郵過濾系統，而系統會發送訊息要求寄件人驗證身份，請確保你已將%{sender}列入白名單，因我們無法回覆任何驗證請求。
+    gravatar:
+      disabled: Gravatar經已停用。
+      enabled: 你的Gravatar顯示功能經已啟用。
   messages:
     new:
       title: 發送訊息
@@ -1731,6 +1786,7 @@ zh-HK:
       reply_button: 回覆
       unread_button: 標記為未讀
       destroy_button: 刪除
+      back: 返回
       wrong_user: 你已經以「%{user}」的身份登入，但你試圖讀取的訊息並非寄給該賬戶或由其寄出。如欲讀取該訊息，請以正確的用戶身份重新登入。
     destroy:
       destroyed: 訊息已被刪除
@@ -1747,6 +1803,7 @@ zh-HK:
       heading:
         my_inbox: 我的收件箱
         my_outbox: 我的寄件備份
+        muted_messages: 已忽視訊息
       messages_table:
         from: 寄件人
         to: 收件人
@@ -1829,9 +1886,11 @@ zh-HK:
     advanced_preferences:
       show:
         title: 我的進階偏好設定
+        save: 更新偏好選項
   profiles:
     profile_sections:
       navigation:
+        description: 描述
         links: 連結
         image: 圖片
         company: 公司
@@ -2055,7 +2114,7 @@ zh-HK:
         licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: 如何標示OpenStreetMap為資料來源
         credit_1_html: 使用OpenStreetMap數據時，你須：
-        credit_2_attribution: 展示出處告示，以標明數據來自OpenStreetMap；及
+        credit_2_attribution: 按照我們的格式要求，清楚列明資料來源為OpenStreetMap；及
         credit_2_license: 明確標示數據可透過開放數據共享開放資料庫授權條款（Open Database License）取用。
         credit_3_v2025_html: "對於出處告示，我們有不同的%{requirements_on_how_displayed_link}，這取決於您如何使用我們的資料。
           \n例如可瀏覽地圖、列印地圖或靜態圖像對出處告示的要求各有不同。 \n更多詳細資訊，請參閱 %{licensing_requirements_link}的%{attribution_guidelines_link}部份。"
@@ -2067,15 +2126,15 @@ zh-HK:
         credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
         credit_4_v2025_html: |-
           一般來說，你可透過連結至%{this_copyright_page_link}，明確表示數據按開放資料庫授權條款（Open
-          Database License）取用。如你以數據形式分發OSM內容，請標明授權條款名稱並提供條款全文連結。若用於無法運用超連結技術的媒體（例如印刷作品），請列出條款全文的網址，例如%{copyright_page_url}。
+          Database License）取用。如你以數據形式分發OSM內容，請標明授權條款名稱並提供條款全文連結。若用於非電子格式或無法運用超連結技術的媒體（例如印刷品），請列出條款全文的網址，例如%{copyright_page_url}。
         credit_4_v2025_this_copyright_page: 此版權頁面
         credit_5_v2025_html: 於此示例中，出處標示在地圖的角落：
         attribution_example:
           alt: 於網頁上標明出處為OpenStreetMap之示例
           title: 標示出處之示例
         infringement_title_html: 侵犯版權行為
-        infringement_1_html: 謹此提醒各貢獻者，切勿在未經版權持有人明確授權之情況下，從任何來自具有版權的資料來源（如Google地圖或印刷本地圖）擷取數據加進OSM。
-        infringement_2_1_html: 如果你發現有受版權保護的素材被不當地加到OSM資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反映。
+        infringement_1_html: 謹此提醒各貢獻者，切勿在未經版權持有人明確授權之情況下，從任何具有版權的資料來源（如Google地圖或印刷本地圖）擷取數據加進OSM。
+        infringement_2_1_html: 如你發現有受版權保護的素材被不當地加到OSM資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反映。
         infringement_2_1_takedown_procedure: 侵權處理程序
         infringement_2_1_online_filing_page: 網上舉報頁面
         trademarks_title: 商標
@@ -2091,8 +2150,7 @@ zh-HK:
         services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: 我們的貢獻者
         contributors_intro_html: 我們的數據源自成千上萬的個人貢獻者，並收納了從各國測繪機構等處取得的開放版權數據，其中包括：
-        contributors_at_credit_html: '%{austria}：包含來自%{stadt_wien_link} (依據%{cc_by_link})、%{land_vorarlberg_link}、與
-          Land Tirol (依據%{cc_by_at_with_amendments_link}) 的資料。'
+        contributors_at_credit_html: '%{austria}：包含來自%{stadt_wien_link} (依據%{cc_by_link}）、%{land_vorarlberg_link}及提洛州（依據%{cc_by_at_with_amendments_link}）的資料。'
         contributors_at_austria: 奧地利
         contributors_at_stadt_wien: 維也納州
         contributors_at_land_vorarlberg: 福拉爾貝格邦
@@ -2101,7 +2159,7 @@ zh-HK:
         contributors_au_australia: 澳洲
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: 共享創意姓名標示4.0國際授權條款（CC BY 4.0）
-        contributors_ca_credit_html: '%{canada}：包含來自GeoBase&reg;、GeoGratis（&copy;加拿大自然資源部）、CanVec（&copy;加拿大自然資源部）、和
+        contributors_ca_credit_html: '%{canada}：包含來自GeoBase&reg;、GeoGratis（&copy;加拿大自然資源部）、CanVec（&copy;加拿大自然資源部）及
           StatCan (加拿大統計局地理科) 的資料。'
         contributors_ca_canada: 加拿大
         contributors_cz_credit_html: '%{czechia}：包含來自國家土地測量暨地籍局，依據%{cc_licence_link}授權使用的數據'
@@ -2112,7 +2170,7 @@ zh-HK:
         contributors_fi_nlsfi_license: NLSFI授權條款
         contributors_fr_credit_html: '%{france}：包含來自前法國國稅局（Direction Générale des
           Impôts）的資料。'
-        contributors_fr_france: France
+        contributors_fr_france: 法國
         contributors_hr_credit_html: '%{croatia}：包含來自%{dgu_link}和%{open_data_portal}（克羅地亞的公共資訊）的資料。'
         contributors_hr_croatia: 克羅地亞
         contributors_hr_dgu: 克羅地亞國家大地測量局
@@ -2249,6 +2307,10 @@ zh-HK:
       introduction: 歡迎來到OpenStreetMap，自由而可以編輯的世界地圖。現在您已經注冊完成，繪製地圖所需要的準備已經就緒。以下是一份快速指南，裡面包含着您所需要知道的最重要事項。
       whats_on_the_map:
         title: 地圖上有甚麼
+        on_the_map_html: OpenStreetMap旨在將既%{real_and_current}的事物——例如數以百萬計的大廈、街道，以及其他地理細節——一一繪成地圖。你可將現實生活中的一切有趣事物繪入地圖。
+        real_and_current: 真實而具時效
+        off_the_map_html: 但是，具主觀性（如評分）、歷史性或假設性，以及取自受版權保護之出處的資訊，則%{doesnt}加入OpenStreetMap。除非你已獲明確授權，否則請勿從其他網上或紙本地圖挪用或抄襲資訊。
+        doesnt: 不應
       basic_terms:
         title: 繪製地圖的基本術語
         paragraph_1: OpenStreetMap社群有其獨特術語，以下是一些常用詞彙。
@@ -2375,6 +2437,8 @@ zh-HK:
   share_panes:
     show:
       link: 連結或HTML
+      long_link: 連結
+      short_link: 簡短連結
       embed: HTML
       paste_html: 貼上HTML供嵌入網站
       geo_uri: Geo URI
@@ -2391,23 +2455,199 @@ zh-HK:
       private: 私密（只以匿名形式顯示，節點排列不分先後）
       public: 公開（於軌跡列表以匿名形式顯示，節點排列不分先後）
       trackable: 可供追蹤（只以匿名形式顯示，節點按時序排列並附有時間紀錄）
+    new:
+      visibility_help: 這是甚麼意思？
     create:
+      upload_failed: 抱歉，GPX上載失敗。已知會管理員此錯誤。請重試。
       traces_waiting: 您有%{count}條軌跡等待上傳。請考慮先讓目前的軌跡處理完成後，再來繼續上傳其他軌跡，以免阻礙其他用戶的排程。
+    edit:
+      cancel: 取消
+      title: 正在編輯軌跡%{name}
+      heading: 編輯軌跡%{name}
+      visibility_help: 這是甚麼意思？
+    update:
+      updated: 軌跡經已更新
+    show:
+      title: 查看軌跡%{name}
+      heading: 查看軌跡%{name}
+      pending: 等候
+      filename: 檔案名稱：
+      download: 下載
+      uploaded: 上載時間：
+      points: 點數：
+      start_coordinates: 起始座標：
+      coordinates_html: '%{latitude}; %{longitude}'
+      map: 地圖
+      edit: 編輯
+      owner: 擁有人：
+      description: 描述：
+      tags: 標籤：
+      none: 無
+      edit_trace: 編輯此軌跡
+      delete_trace: 刪除此軌跡
+      trace_not_found: 找不到軌跡！
+      visibility: 能見度：
+      confirm_delete: 是否刪除此軌跡？
+    trace:
+      pending: 等候
+      count_points: '%{count}個點'
+      more: 更多
+      trace_details: 檢視軌跡詳細資料
+      view_map: 檢視地圖
+      edit_map: 編輯地圖
+      public: 公開
+      identifiable: 可辨識
+      private: 私密
+      trackable: 可供追蹤
+      details_with_tags_html: 由 %{user} 在 %{tags} 於 %{time_ago}
     index:
+      public_traces: 公開GPS軌跡
+      my_gps_traces: 我的GPS軌跡
       public_traces_from: '%{user}的公開GPS軌跡'
+      description: 瀏覽最近上載的GPS軌跡
+      tagged_with: 附有%{tags}標籤
+      empty_title: 尚無東西
+      empty_upload_html: '%{upload_link}，或到%{wiki_link}深入了解與GPS軌跡相關的資訊。'
+      upload_new: 上載新軌跡
+      wiki_page: wiki頁面
+      upload_trace: 上載軌跡
+      all_traces: 所有軌跡
+      my_traces: 我的軌跡
+      traces_from_html: '%{user}的公開GPS軌跡'
+      remove_tag_filter: 移除標籤篩選
+    destroy:
+      scheduled_for_deletion: 已被排程刪除的軌跡
+    offline_warning:
+      message: GPX檔案上載系統目前無法使用
+    offline:
+      heading: GPX儲存空間現時離綫
+      message: GPX檔案儲存及上載系統現時暫停使用。
+    feeds:
+      show:
+        title: OpenStreetMap GPS軌跡
+  application:
+    permission_denied: 你未獲授權執行該操作。
+    setup_user_auth:
+      blocked_zero_hour: 你在OpenStreetMap網站有一則緊急訊息，必須先行閱讀，隨後才可繼續儲存你的編輯內容。
+      blocked: 你已被禁止使用 API。請登入網頁介面了解詳情。
+      need_to_see_terms: 你使用API的權限已被暫停，請登入網頁介面查閱貢獻者條款。你不必同意有關條款，但必須查閱。
+    settings_menu:
+      account_settings: 賬戶設定
+      oauth2_applications: OAuth 2應用程式
+      oauth2_authorizations: OAuth 2授權
+      muted_users: 已忽視用戶
+    auth_providers:
+      google:
+        title: 使用Google賬戶登入
+        alt: Google標誌
+      facebook:
+        title: 使用Facebook賬戶登入
+        alt: Facebook標誌
+      microsoft:
+        title: 使用Microsoft賬戶登入
+        alt: 微軟標誌
+      github:
+        title: 使用GitHub賬戶登入
+        alt: GitHub標誌
+      wikipedia:
+        title: 使用維基百科賬戶登入
+        alt: 維基百科標誌
+    share:
+      share:
+        title: 分享
+        alt: 分享圖示
+      email:
+        title: 透過電郵分享
+        alt: 電郵圖示
+      bluesky:
+        title: 分享到Bluesky
+        alt: Bluesky圖示
+      facebook:
+        title: 分享到Facebook
+        alt: Facebook圖示
+      linkedin:
+        title: 分享到LinkedIn
+        alt: LinkedIn圖示
+      mastodon:
+        title: 分享到Mastodon
+        alt: Mastodon圖示
+      telegram:
+        title: 分享到Telegram
+        alt: Telegram圖示
+      x:
+        title: 分享到X
+        alt: X圖示
   oauth:
+    permissions:
+      missing: 你尚未允許應用程式訪問此設施
     scopes:
+      openid: 使用OpenStreetMap賬戶登入
+      read_prefs: 讀取用戶偏好設定
+      write_prefs: 修改用戶偏好設定
+      write_diary: 新增日誌文章並留言
+      write_api: 修改地圖
+      write_changeset_comments: 就變更集留言
+      read_gpx: 查閱私密GPS軌跡
+      write_gpx: 上載GPS軌跡
       write_notes: 修改註記
+      write_redactions: 遮蓋地圖資料
+      write_blocks: 建立及撤銷用戶封鎖
+      read_email: 查閱用戶電郵地址
+      consume_messages: 查閱、更新狀態與刪除用戶訊息
+      send_messages: 發送私人訊息予其他用戶
+      skip_authorization: 自動核准應用程式
+    for_roles:
+      moderator: 此權限用於只限仲裁員執行的操作
+  oauth2_applications:
+    index:
+      title: 我的客戶端應用程式
+      new: 登記新應用程式
+      name: 名稱
+      permissions: 權限
+    application:
+      edit: 編輯
+      delete: 刪除
+      confirm_delete: 是否刪除此應用程式？
+    new:
+      title: 登記新應用程式
+    edit:
+      title: 編輯你的應用程式
+    show:
+      edit: 編輯
+      delete: 刪除
+      confirm_delete: 是否刪除此應用程式？
+      client_id: 客戶端ID
+      client_secret: 客戶端密鑰
+      client_secret_warning: 緊記儲存此密鑰——往後你無法再存取
+      permissions: 權限
+      redirect_uris: 重新導向URI
+    not_found:
+      sorry: 抱歉，找不到該應用程式。
+  oauth2_authorizations:
+    new:
+      title: 需要授權
+      introduction: 是否准許%{application}使用以下權限存取你的賬戶？
+      authorize: 准許
+      deny: 拒絕
   users:
     new:
       title: 註冊
+      tab_title: 註冊
       no_auto_account_create: 很遺憾，我們現時無法為您自動建立帳號。
       about:
         header: 自由而可編輯
-      display name description: 您公開顯示的用戶名稱。以後還可以在設定中更換。
+        paragraph_1: 有別於其他地圖，OpenStreetMap是完全由像你我這樣的人建立，任何人皆可修正、更新、下載和使用。
+        paragraph_2: 要開始貢獻，請即註冊賬戶：
+      display name description: 你公開顯示的用戶名稱，往後可在設定頁面修改。
+      by_signing_up:
+        html: 賬戶一經註冊，即表示你同意受%{tou_link}、%{privacy_policy_link}及%{contributor_terms_link}約束。
       continue: 註冊
+      email_help:
+        html: 你的電郵地址不會公開顯示，詳情請參閱%{privacy_policy_link}。
+      use external auth: 或使用第三方服務註冊
     no_such_user:
       title: 沒有這用戶
+      heading: 查無用戶%{user}
       body: 抱歉，沒有名為%{user}的用戶。請檢查您的拼寫，或者您可能按到了錯誤的連結。
     show:
       my notes: 我的註記
@@ -2426,6 +2666,9 @@ zh-HK:
         post: 貼文
     auth_association:
       option_2: 如果您已經有帳號，您可以用該帳號的用戶名稱和密碼登入，然後到用戶設定中把您的ID和帳號關聯到一起。
+  user_role:
+    filter:
+      doesnt_have_role: 該用戶並無%{role}身份。
   notes:
     index:
       title: 由%{user}提交或評論過的註記
@@ -2438,6 +2681,7 @@ zh-HK:
       report: 舉報此註記
     new:
       title: 新增註記
+      anonymous_warning_sign_up: 註冊
     notes_paging_nav:
       showing_page: 第%{page}頁
   javascripts:
