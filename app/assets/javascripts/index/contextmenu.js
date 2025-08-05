@@ -1,4 +1,4 @@
-OSM.initializeContextMenu = function (map) {
+OSM.initializations.push(function (map) {
   const $contextMenu = $("#map-context-menu");
   map.osm_contextmenu = new OSM.ContextMenu(map, $contextMenu);
 
@@ -99,7 +99,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.on("zoomend", updateContextMenuState);
-};
+});
 
 class ContextMenu {
   constructor(map, $element) {
