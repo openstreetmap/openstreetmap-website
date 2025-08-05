@@ -12,7 +12,7 @@
 
   $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.currentTarget)));
 
-  OSM.Element = function (map, type) {
+  OSM.Element = type => function () {
     const page = {};
     let scrollStartObserver, scrollEndObserver;
 
@@ -73,8 +73,8 @@
     return page;
   };
 
-  OSM.MappedElement = function (map, type) {
-    const page = OSM.Element(map, type);
+  OSM.MappedElement = type => function (map) {
+    const page = OSM.Element(type)(map);
 
     page._addObject = function (type, id, version, center) {
       const hashParams = OSM.parseHash();
