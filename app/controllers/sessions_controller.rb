@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   include SessionMethods
 
-  layout "site"
+  layout :site_layout
 
   before_action :authorize_web, :except => [:destroy]
   before_action -> { authorize_web(:skip_terms => true) }, :only => [:destroy]

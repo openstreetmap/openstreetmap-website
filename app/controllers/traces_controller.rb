@@ -2,7 +2,7 @@ class TracesController < ApplicationController
   include UserMethods
   include PaginationMethods
 
-  layout "site"
+  layout :site_layout
 
   before_action :authorize_web
   before_action :set_locale
@@ -65,8 +65,6 @@ class TracesController < ApplicationController
 
     # final helper vars for view
     @target_user = target_user
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show

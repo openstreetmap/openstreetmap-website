@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
-  layout "site"
+  layout :site_layout
   layout :map_layout, :only => [:index, :export]
 
   before_action :authorize_web

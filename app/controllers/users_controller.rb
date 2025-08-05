@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include SessionMethods
   include UserMethods
 
-  layout "site"
+  layout :site_layout
 
   skip_before_action :verify_authenticity_token, :only => [:auth_success]
   before_action :authorize_web
