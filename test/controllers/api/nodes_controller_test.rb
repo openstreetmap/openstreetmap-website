@@ -78,12 +78,12 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 5, js["elements"].count
-      assert_equal 5, (js["elements"].count { |a| a["type"] == "node" })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == node1.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == node2.id && a["visible"] == false })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == node3.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == node4.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == node5.id && a["visible"] == false })
+      assert_equal(5, js["elements"].count { |a| a["type"] == "node" })
+      assert_equal(1, js["elements"].count { |a| a["id"] == node1.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == node2.id && a["visible"] == false })
+      assert_equal(1, js["elements"].count { |a| a["id"] == node3.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == node4.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == node5.id && a["visible"] == false })
 
       # check error when a non-existent node is included
       get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0")

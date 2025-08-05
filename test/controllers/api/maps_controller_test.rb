@@ -186,11 +186,11 @@ module Api
       result_node = result_nodes.first
 
       assert_equal result_node["tags"], tag.k => tag.v
-      assert_equal 2, (js["elements"].count { |a| a["type"] == "way" })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way1.id })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way2.id })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" && a["id"] == relation.id })
+      assert_equal(2, js["elements"].count { |a| a["type"] == "way" })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "way" && a["id"] == way1.id })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "way" && a["id"] == way2.id })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "relation" })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "relation" && a["id"] == relation.id })
     end
 
     # This differs from the above test in that we are making the bbox exactly

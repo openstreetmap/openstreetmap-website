@@ -84,11 +84,11 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 4, js["elements"].count
-      assert_equal 4, (js["elements"].count { |a| a["type"] == "way" })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == way1.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == way2.id && a["visible"] == false })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == way3.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
+      assert_equal(4, js["elements"].count { |a| a["type"] == "way" })
+      assert_equal(1, js["elements"].count { |a| a["id"] == way1.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == way2.id && a["visible"] == false })
+      assert_equal(1, js["elements"].count { |a| a["id"] == way3.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
 
       # check error when a non-existent way is included
       get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")

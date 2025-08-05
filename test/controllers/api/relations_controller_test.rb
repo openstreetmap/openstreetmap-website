@@ -85,11 +85,11 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 4, js["elements"].count
-      assert_equal 4, (js["elements"].count { |a| a["type"] == "relation" })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == relation1.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == relation2.id && a["visible"] == false })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == relation3.id && a["visible"].nil? })
-      assert_equal 1, (js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
+      assert_equal(4, js["elements"].count { |a| a["type"] == "relation" })
+      assert_equal(1, js["elements"].count { |a| a["id"] == relation1.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == relation2.id && a["visible"] == false })
+      assert_equal(1, js["elements"].count { |a| a["id"] == relation3.id && a["visible"].nil? })
+      assert_equal(1, js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
 
       # check error when a non-existent relation is included
       get api_relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
