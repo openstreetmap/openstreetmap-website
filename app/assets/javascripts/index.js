@@ -287,28 +287,26 @@ $(function () {
     return page;
   };
 
-  const history = OSM.History(map);
-
   OSM.router = OSM.Router(map, {
-    "/": OSM.Index(map),
-    "/search": OSM.Search(map),
-    "/directions": OSM.Directions(map),
-    "/export": OSM.Export(map),
-    "/note/new": OSM.NewNote(map),
-    "/history/friends": history,
-    "/history/nearby": history,
-    "/history": history,
-    "/user/:display_name/history": history,
-    "/note/:id": OSM.Note(map),
-    "/node/:id(/history)": OSM.MappedElement("node")(map),
-    "/node/:id/history/:version": OSM.MappedElement("node")(map),
-    "/way/:id(/history)": OSM.MappedElement("way")(map),
-    "/way/:id/history/:version": OSM.Element("way")(map),
-    "/relation/:id(/history)": OSM.MappedElement("relation")(map),
-    "/relation/:id/history/:version": OSM.Element("relation")(map),
-    "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map),
-    "/account/home": OSM.Home(map)
+    "/": OSM.Index,
+    "/search": OSM.Search,
+    "/directions": OSM.Directions,
+    "/export": OSM.Export,
+    "/note/new": OSM.NewNote,
+    "/history/friends": OSM.History,
+    "/history/nearby": OSM.History,
+    "/history": OSM.History,
+    "/user/:display_name/history": OSM.History,
+    "/note/:id": OSM.Note,
+    "/node/:id(/history)": OSM.MappedElement("node"),
+    "/node/:id/history/:version": OSM.MappedElement("node"),
+    "/way/:id(/history)": OSM.MappedElement("way"),
+    "/way/:id/history/:version": OSM.Element("way"),
+    "/relation/:id(/history)": OSM.MappedElement("relation"),
+    "/relation/:id/history/:version": OSM.Element("relation"),
+    "/changeset/:id": OSM.Changeset,
+    "/query": OSM.Query,
+    "/account/home": OSM.Home
   });
 
   if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {
