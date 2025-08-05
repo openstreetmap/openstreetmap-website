@@ -1866,7 +1866,7 @@ module Api
 
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
-        assert_response :payload_too_large, "upload did not hit size limit"
+        assert_response :content_too_large, "upload did not hit size limit"
 
         assert_no_changes_in changeset
       end
@@ -1895,7 +1895,7 @@ module Api
 
         post api_changeset_upload_path(changeset), :params => diff, :headers => auth_header
 
-        assert_response :payload_too_large, "upload did not hit size limit"
+        assert_response :content_too_large, "upload did not hit size limit"
 
         assert_no_changes_in changeset
       end
