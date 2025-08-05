@@ -53,6 +53,7 @@ OSM.Router = function (map, rts) {
   const splatParam = /\*\w+/g;
 
   function Route(path, controller) {
+    let controllerInstance = null;
     const regexp = new RegExp("^" +
       path.replace(escapeRegExp, "\\$&")
         .replace(optionalParam, "(?:$1)?")
@@ -76,14 +77,16 @@ OSM.Router = function (map, rts) {
         });
       }
 
-      return controller[action]?.(...params, ...args);
+      if (!controllerInstance) controllerInstance = controller(map);
+
+      return controllerInstance[action]?.(...params, ...args);
     };
 
     return route;
   }
 
   const routes = Object.entries(rts)
-    .map(([path, controller]) => new Route(path, controller(map)));
+    .map(([path, controller]) => new Route(path, controller));
 
   routes.recognize = function (path) {
     for (const route of this) {
