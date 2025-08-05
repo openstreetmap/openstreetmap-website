@@ -83,7 +83,7 @@ OSM.Router = function (map, rts) {
   }
 
   const routes = Object.entries(rts)
-    .map(([r, t]) => new Route(r, t));
+    .map(([path, controller]) => new Route(path, controller(map)));
 
   routes.recognize = function (path) {
     for (const route of this) {
