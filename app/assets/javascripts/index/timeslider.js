@@ -27,7 +27,7 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
       Cookies.set("_ohm_timeslider_daterange", map.timeslider.getRange().join(","), dateCookieOptions);
     },
     onReady: function () {
-      OSM.router.updateHash('force');
+      OSM.router.updateHash(null, true /* force */);
     },
     position: 'bottomright',
   };
