@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 
   def self.allow_social_login(**options)
     content_security_policy(options) do |policy|
-      policy.form_action(*policy.form_action, "accounts.google.com", "*.facebook.com", "login.microsoftonline.com", "github.com", "meta.wikimedia.org")
+      policy.form_action(*policy.form_action, "accounts.google.com", "appleid.apple.com", "*.facebook.com", "login.microsoftonline.com", "github.com", "meta.wikimedia.org")
     end
   end
 
