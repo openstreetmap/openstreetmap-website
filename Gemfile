@@ -79,6 +79,7 @@ gem "rack-uri_sanitizer"
 # Omniauth for authentication
 gem "multi_json"
 gem "omniauth", "~> 2.1.3"
+gem "omniauth-apple"
 gem "omniauth-facebook"
 gem "omniauth-github"
 gem "omniauth-google-oauth2", ">= 0.6.0"
