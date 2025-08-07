@@ -47,7 +47,7 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
     onreadycallback();
   }
 
-  map.on('baselayerchange layeradd', function () {
+  map.on('baselayerchange', function () {
     // do not use this.removeControl(this.timeslider)
     // by now, the timeslider is already gone from the visible map, along with the MBGL map
     // but the Leaflet wrapper will leave behind an empty DIV, and those pile up

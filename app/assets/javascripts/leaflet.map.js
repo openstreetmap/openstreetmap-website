@@ -65,41 +65,43 @@ L.OSM.Map = L.Map.extend({
     // console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
     language.supportedLanguages.push(selectedLanguage);
 
-    this.baseLayers.unshift(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
-        code: "J",
-        keyid: "japanese",
-        name: OSM.i18n.t("javascripts.map.base.japanesescroll"),
-        style: language.setLanguage(ohmVectorStyles.JapaneseScroll, selectedLanguage),
-      })
-    ));
-
-    this.baseLayers.unshift(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
-        code: "W",
-        keyid: "woodblock",
-        name: OSM.i18n.t("javascripts.map.base.woodblock"),
-        style: language.setLanguage(ohmVectorStyles.Woodblock, selectedLanguage),
-      })
-    ));
-
-    this.baseLayers.unshift(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
-        code: "R",
-        keyid: "railway",
-        name: OSM.i18n.t("javascripts.map.base.railway"),
-        style: language.setLanguage(ohmVectorStyles.Railway, selectedLanguage),
-      })
-    ));
-
-    this.baseLayers.unshift(new L.MaplibreGL(
-      Object.assign(this.ohmMaplibreOptions, {
+    let ohmLayerOptions = [
+      {
         code: "O",
         keyid: "historical",
         name: OSM.i18n.t("javascripts.map.base.historical"),
-        style: language.setLanguage(ohmVectorStyles.Historical, selectedLanguage)
-      })
-    ));
+        style: ohmVectorStyles.Historical,
+      },
+      {
+        code: "R",
+        keyid: "railway",
+        name: OSM.i18n.t("javascripts.map.base.railway"),
+        style: ohmVectorStyles.Railway,
+      },
+      {
+        code: "W",
+        keyid: "woodblock",
+        name: OSM.i18n.t("javascripts.map.base.woodblock"),
+        style: ohmVectorStyles.Woodblock,
+      },
+      {
+        code: "J",
+        keyid: "japanese",
+        name: OSM.i18n.t("javascripts.map.base.japanesescroll"),
+        style: ohmVectorStyles.JapaneseScroll,
+      },
+    ];
+
+    this.baseLayers.unshift(...ohmLayerOptions.map(layerOptions => {
+      layerOptions.style = language.setLanguage(layerOptions.style, selectedLanguage);
+      let layer = new L.MaplibreGL(
+        Object.assign(this.ohmMaplibreOptions, layerOptions)
+      );
+      layer.on("add", () => {
+        this.fire("baselayerchange", { layer: layer });
+      });
+      return layer;
+    }));
 
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = { code: "N" };
