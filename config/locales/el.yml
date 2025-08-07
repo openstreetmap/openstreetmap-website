@@ -747,7 +747,7 @@ el:
     feed:
       user:
         title: Καταχωρίσεις ημερολογίου OpenStreetMap για τον/την %{user}
-        description: Πρόσφατες καταχωρίσεις ημερολογίου OpenStreetMap από τον %{user}
+        description: Πρόσφατες καταχωρίσεις ημερολογίου OpenStreetMap από %{user}
       language:
         title: Καταχωρίσεις ημερολογίου OpenStreetMap στα %{language_name}
         description: Πρόσφατες καταχωρίσεις ημερολογίου από χρήστες του OpenStreetMap
@@ -1854,6 +1854,7 @@ el:
     learn_more: Μάθετε περισσότερα
     more: Περισσότερα
     header:
+      ok: Εντάξει
       select_language: Επιλογή γλώσσας
     select_language_button:
       title: Επιλογή γλώσσας
@@ -1892,8 +1893,8 @@ el:
         μήνυμα στον συγγραφέα στο %{replyurl}
     follow_notification:
       hi: Γεια σας %{to_user},
-      subject: '[OpenStreetMap] %{user} σας ακολούθησε'
-      followed_you: '%{user} σας ακολουθεί τώρα στο OpenStreetMap.'
+      subject: '[OpenStreetMap] Ο/Η %{user} σας ακολούθησε'
+      followed_you: Ο/Η %{user} σας ακολουθεί τώρα στο OpenStreetMap.
       see_their_profile: Μπορείτε να δείτε το προφίλ του/της στο %{userurl}.
       see_their_profile_html: Μπορείτε να δείτε το προφίλ του/της στο %{userurl}.
       follow_them: Μπορείτε επίσης να τους ακολουθήσετε στο %{followurl}.
@@ -2615,8 +2616,6 @@ el:
       license:
         copyright: Πνευματικά δικαιώματα του OpenStreetMap και των συνεισφερόντων
           του, υπό ελεύθερη άδεια
-      remote_failed: Η επεξεργασία απέτυχε - βεβαιωθείτε ότι ο JOSM ή ο Merkaartor
-        έχουν φορτωθεί και η επιλογή τηλεχειρισμού είναι ενεργή
     not_public_flash:
       not_public: Δεν έχετε ορίσει τις επεξεργασίες σας να είναι δημόσιες.
       not_public_description_html: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν
@@ -2624,8 +2623,6 @@ el:
       user_page_link: σελίδα χρήστη
       anon_edits_html: (%{link})
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
-    edit:
-      id_not_configured: Ο iD δεν έχει ρυθμιστεί
     export:
       title: Εξαγωγή
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
@@ -3345,14 +3342,14 @@ el:
         no_comments: Κανένα σχόλιο
     changeset_comments:
       index:
-        title: Σχόλιο συνόλου αλλαγών προστέθηκε από %{user}
+        title: Σχόλια συνόλου αλλαγών που προστέθηκαν από %{user}
       page:
         changeset: Σύνολο αλλαγών
         when: Πότε
         comment: Σχόλιο
     diary_comments:
       index:
-        title: Σχόλια ημερολογίου που προστέθηκαν από τον/την %{user}
+        title: Σχόλια ημερολογίου που προστέθηκαν από %{user}
       page:
         post: Καταχώριση
         when: Πότε
@@ -3613,12 +3610,10 @@ el:
       sorry: 'Λυπούμαστε, η σημείωση #%{id} δεν βρέθηκε.'
   javascripts:
     close: Κλείσιμο
-    alert: Ειδοποίηση
-    ok: Εντάξει
     share:
       title: Διαμοιρασμός
       view_larger_map: Προβολή μεγαλύτερου χάρτη
-      export_failed: 'Η εξαγωγή του χάρτη απέτυχε: %{reason}'
+      export_failed_title: Η εξαγωγή του χάρτη απέτυχε.
       filename: χάρτης
     embed:
       report_problem: Αναφορά προβλήματος
@@ -3690,7 +3685,9 @@ el:
         mi: '%{distance}μι'
       errors:
         no_route: Δεν βρέθηκε διαδρομή ανάμεσα σε αυτά τα δύο μέρη.
-        no_place: Συγγνώμη, δεν βρέθηκε αυτό το '%{place}'.
+        no_place:
+          title: Η αναζήτηση απέτυχε
+          body: Δεν ήταν δυνατός ο εντοπισμός του μέρους '%{place}'.
       instructions:
         continue_without_exit: Συνεχίστε στην %{name}
         slight_right_without_exit: Ελαφριά δεξιά στην %{name}
@@ -3793,6 +3790,15 @@ el:
         contributions:
           one: '%{count} συνεισφορά στις %{date}'
           other: '%{count} συνεισφορές στις %{date}'
+    remote_edit:
+      failed:
+        title: Η επεξεργασία απέτυχε
+        body: Βεβαιωθείτε ότι το JOSM ή το Merkaartor έχει φορτώσει και ότι η επιλογή
+          απομακρυσμένου ελέγχου είναι ενεργοποιημένη.
+    edit:
+      id_not_configured:
+        title: Ο iD δεν έχει ρυθμιστεί
+        body: Ανατρέξτε στο CONFIGURE.md για περισσότερες πληροφορίες
   redactions:
     edit:
       heading: Επεξεργασία Απόκρυψης

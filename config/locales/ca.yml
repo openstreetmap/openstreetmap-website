@@ -22,6 +22,7 @@
 # Author: Jlrb+
 # Author: Jmaspons
 # Author: Jmontane
+# Author: L'Arpetani
 # Author: Macofe
 # Author: Martorell
 # Author: Marwin H.H.
@@ -52,6 +53,9 @@
 # Author: 아라
 ---
 ca:
+  date:
+    formats:
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y a les %H.%M'
@@ -82,9 +86,15 @@ ca:
         update: Actualitza el bloc
   activerecord:
     errors:
+      messages:
+        display_name_is_user_n: no pot ser user_n tret que n sigui el vostre ID d'usuari
       models:
         user_mute:
           is_already_muted: ja està silenciat
+        social_link:
+          attributes:
+            url:
+              http_parse_error: L'URL ha de començar amb http:// o https://
     models:
       acl: Llista de control d'accés
       changeset: Conjunt de canvis
@@ -98,6 +108,7 @@ ca:
       message: Missatge
       node: Node
       node_tag: Etiqueta del Node
+      note: Nota
       old_node: Node Antic
       old_node_tag: Etiqueta de node antiga
       old_relation: Relació antiga
@@ -128,8 +139,9 @@ ca:
         support_url: URL de suport
         allow_read_prefs: llegir les vostres preferències d'usuari
         allow_write_prefs: modificar les vostres preferències d'usuari.
-        allow_write_diary: Escriviu entrades de diari, comentaris i feu amics
+        allow_write_diary: Escriviu entrades de diari i comentaris
         allow_write_api: Modifica el mapa
+        allow_write_changeset_comments: comentar els conjunts de canvis
         allow_read_gpx: Llegeix les seves traces GPS privades
         allow_write_gpx: Carrega traces GPS
         allow_write_notes: Modifica notes
@@ -159,7 +171,7 @@ ca:
         longitude: Longitud
         public: Públic
         description: Descripció
-        gpx_file: Carregar fitxer GPX
+        gpx_file: Triar traces de GPS
         visibility: Visibilitat
         tagstring: Etiquetes
       message:
@@ -181,8 +193,10 @@ ca:
         active: Actiu
         display_name: Nom en pantalla
         description: Descripció del perfil
+        company: Empresa
         home_lat: Latitud
         home_lon: Longitud
+        home_location_name: Nom de la ubicació de casa
         languages: Llengües preferides
         preferred_editor: Editor preferit
         pass_crypt: Contrasenya
@@ -286,11 +300,12 @@ ca:
   accounts:
     show:
       title: Edita el compte
+      my_account: El meu compte
       current email address: Adreça electrònica actual
       external auth: Autenticació externa
       contributor_terms:
         heading: Termes de col·laboració
-        agreed: Heu acceptat els nous termes de col·laboració.
+        agreed: Vas acceptar els nous termes de col·laboració el %{date}.
         agreed_with_pd: També declareu que considereu que les vostres modificacions
           són de domini públic.
       save changes button: Desa els canvis
@@ -415,7 +430,7 @@ ca:
         way: Via
         relation: Relació
     containing_relation:
-      entry_role_html: Relació %{relation_name} (com a %{relation_role})
+      entry_role_html: '%{relation_name} (com a %{relation_role})'
     not_found:
       title: No s'ha trobat
     timeout:
@@ -1427,16 +1442,16 @@ ca:
           weir: Assut
           "yes": Curs d'aigua
       admin_levels:
-        level2: Frontera (nivell 2)
-        level3: Límit regional
-        level4: Límit estatal (nivell 4)
+        level2: Frontera internacional (nivell 2)
+        level3: Límit inter-regional (nivell 3)
+        level4: Límit regional (nivell 4)
         level5: Límit regional (nivell 5)
-        level6: Límit comarcal (nivell 6)
-        level7: Límit municipal
+        level6: Límit provincial (nivell 6)
+        level7: Límit comarcal (nivell 7)
         level8: Límit municipal (nivell 8)
         level9: Límit inframunicipal (nivell 9)
         level10: Límit de suburbi-barri (nivell 10)
-        level11: Límit del veïnat
+        level11: Límit del veïnat (nivell 11)
   searches:
     show:
       title:
@@ -2070,8 +2085,6 @@ ca:
       license:
         copyright: Copyright d'OpenStreetMap i els seus col·laboradors sota llicència
           oberta
-      remote_failed: L'edició ha fallat. Assegureu-vos que el JOSM o el Merkaartor
-        està executant-se i que l'opció de comandament a distància està habilitada
     not_public_flash:
       not_public: No heu configurat les vostres modificacions perquè siguin públiques.
       not_public_description_html: Ja no podeu modificar el mapa a menys que feu públics
@@ -2079,8 +2092,6 @@ ca:
         vostra %{user_page}.
       user_page_link: pàgina d'usuari
       anon_edits_link_text: Llegeix aquí per què.
-    edit:
-      id_not_configured: iD no s'ha configurat
     export:
       title: Exporta
       manually_select: Selecciona manualment una àrea diferent
@@ -2958,7 +2969,6 @@ ca:
         km: '%{distance}km'
       errors:
         no_route: No s'ha pogut establir una ruta entre aquests dos punts.
-        no_place: No hem pogut trobar «%{place}».
       instructions:
         continue_without_exit: Continuar a %{name}
         slight_right_without_exit: Gira lleugerament a la dreta a %{name}
@@ -3049,6 +3059,9 @@ ca:
       show_address: Mostra l'adreça
       query_features: Consulta les característiques
       centre_map: Centra el mapa aquí
+    edit:
+      id_not_configured:
+        title: iD no s'ha configurat
   redactions:
     edit:
       heading: Modifica la redacció
