@@ -1,32 +1,37 @@
 (function () {
-  let scrollStartObserver, scrollEndObserver;
+  let shadowEffect;
 
-  function initVersionsNavigation() {
-    $(document).trigger("numbered_pagination:center");
+  class ShadowEffect {
+    constructor() {
+      const $scrollableList = $("#versions-navigation-list-middle");
+      const [scrollableFirstItem] = $scrollableList.children().first();
+      const [scrollableLastItem] = $scrollableList.children().last();
 
-    const $scrollableList = $("#versions-navigation-list-middle");
-    const [scrollableFirstItem] = $scrollableList.children().first();
-    const [scrollableLastItem] = $scrollableList.children().last();
+      if (scrollableFirstItem) {
+        this.scrollStartObserver = createScrollObserver("#versions-navigation-list-start", "2px 0px");
+        this.scrollStartObserver.observe(scrollableFirstItem);
+      }
 
-    if (scrollableFirstItem) {
-      scrollStartObserver = createScrollObserver("#versions-navigation-list-start", "2px 0px");
-      scrollStartObserver.observe(scrollableFirstItem);
+      if (scrollableLastItem) {
+        this.scrollEndObserver = createScrollObserver("#versions-navigation-list-end", "-2px 0px");
+        this.scrollEndObserver.observe(scrollableLastItem);
+      }
+
+      function createScrollObserver(shadowTarget, shadowOffset) {
+        const threshold = 0.95;
+        return new IntersectionObserver(([entry]) => {
+          const floating = entry.intersectionRatio < threshold;
+          $(shadowTarget)
+            .css("box-shadow", floating ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "")
+            .css("z-index", floating ? "5" : ""); // floating z-index should be larger than z-index of Bootstrap's .page-link:focus, which is 3
+        }, { threshold });
+      }
     }
 
-    if (scrollableLastItem) {
-      scrollEndObserver = createScrollObserver("#versions-navigation-list-end", "-2px 0px");
-      scrollEndObserver.observe(scrollableLastItem);
+    disable() {
+      this.scrollStartObserver?.disconnect();
+      this.scrollEndObserver?.disconnect();
     }
-  }
-
-  function createScrollObserver(shadowTarget, shadowOffset) {
-    const threshold = 0.95;
-    return new IntersectionObserver(([entry]) => {
-      const floating = entry.intersectionRatio < threshold;
-      $(shadowTarget)
-        .css("box-shadow", floating ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "")
-        .css("z-index", floating ? "5" : ""); // floating z-index should be larger than z-index of Bootstrap's .page-link:focus, which is 3
-    }, { threshold });
   }
 
   $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
@@ -36,14 +41,13 @@
   });
 
   $(document).on("numbered_pagination:enable", function () {
-    initVersionsNavigation();
+    shadowEffect = new ShadowEffect();
+    $(document).trigger("numbered_pagination:center");
   });
 
   $(document).on("numbered_pagination:disable", function () {
-    scrollStartObserver?.disconnect();
-    scrollStartObserver = null;
-    scrollEndObserver?.disconnect();
-    scrollEndObserver = null;
+    shadowEffect?.disable();
+    shadowEffect = null;
   });
 
   $(document).on("numbered_pagination:center", function () {
