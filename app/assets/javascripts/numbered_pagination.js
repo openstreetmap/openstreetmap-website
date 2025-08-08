@@ -1,4 +1,10 @@
 (function () {
+  $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
+    $(document).trigger("numbered_pagination:center");
+    $("#versions-navigation-active-page-item a.page-link").trigger("focus");
+    e.preventDefault();
+  });
+
   $(document).on("numbered_pagination:center", function () {
     const [scrollableList] = $("#versions-navigation-list-middle");
 
