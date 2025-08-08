@@ -1,23 +1,22 @@
-<% pages_count = element_pages_count pages.item_count %>
+<% pages_count = element_pages_count elements_count %>
 <% if pages_count == 1 %>
   <h4 class="fs-5">
     <%= t ".#{type.pluralize}_title" %>
     <span class="badge count-number">
-      <%= pages.item_count %>
+      <%= elements_count %>
     </span>
   </h4>
 <% elsif pages_count > 1 %>
   <h4 class="fs-5">
     <%= t ".#{type.pluralize}_title" %>
     <span class="badge count-number">
-      <%= t ".range", **element_range_values(pages.item_count, pages.current_page.number) %>
+      <%= t ".range", **element_range_values(elements_count, current_page) %>
     </span>
   </h4>
 
-  <%= sidebar_classic_pagination(pages, "#{type}_page") do |page|
-        {
-          :title => t(".#{type.pluralize}_paginated", **element_range_values(pages.item_count, page.number)),
-          :data => { :turbo => "true" }
-        }
+  <%= numbered_pagination(pages_count, "#{type}-pagination-active-page-item", :active_page => current_page) do |page|
+        { :href => url_for("#{type}_page" => page),
+          :title => t(".#{type.pluralize}_paginated", **element_range_values(elements_count, page)),
+          :data => { :turbo => "true" } }
       end %>
 <% end %>
