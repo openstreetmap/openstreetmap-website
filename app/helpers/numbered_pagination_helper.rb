@@ -67,13 +67,13 @@ module NumberedPaginationHelper
 
   private
 
-  def numbered_pagination_item(body, href: nil, title: nil, active_id: nil, edge: [false, false], edge_border: false)
+  def numbered_pagination_item(body, href: nil, active_id: nil, edge: [false, false], edge_border: false, **link_options)
     link_class = ["page-link", { "rounded-start-0" => edge.first,
                                  "border-start-0" => edge.first && !edge_border,
                                  "rounded-end-0" => edge.last,
                                  "border-end-0" => edge.last && !edge_border }]
     link = if href
-             link_to body, href, :class => link_class, "aria-current" => ("page" if active_id), :title => title
+             link_to body, href, :class => link_class, "aria-current" => ("page" if active_id), **link_options
            else
              tag.span body, :class => link_class
            end
