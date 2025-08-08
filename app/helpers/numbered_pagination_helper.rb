@@ -1,41 +1,41 @@
 module NumberedPaginationHelper
-  def numbered_pagination(top_version, active_version: top_version + 1, window_half_size: 50, step_size: 50, &)
+  def numbered_pagination(top_page, active_page: top_page + 1, window_half_size: 50, step_size: 50, &)
     lists = []
 
-    if top_version <= 5
+    if top_page <= 5
       lists << tag.ul(:class => "pagination pagination-sm mt-1") do
-        (1..top_version).each do |v|
-          concat numbered_pagination_item(v, **yield(v), :active => v == active_version)
+        (1..top_page).each do |page|
+          concat numbered_pagination_item(page, **yield(page), :active => page == active_page)
         end
       end
     else
-      start_list_versions = 1..(active_version < 3 ? active_version + 1 : 1)
-      end_list_versions = (active_version > top_version - 2 ? active_version - 1 : top_version)..top_version
+      start_list_pages = 1..(active_page < 3 ? active_page + 1 : 1)
+      end_list_pages = (active_page > top_page - 2 ? active_page - 1 : top_page)..top_page
 
-      middle_list_version_sentinels = [start_list_versions.last, end_list_versions.first]
-      middle_list_version_steps = Range.new(*middle_list_version_sentinels).filter { |v| (v % step_size).zero? }
-      middle_list_version_window = Range.new([active_version - window_half_size, start_list_versions.last].max,
-                                             [active_version + window_half_size, end_list_versions.first].min).to_a
-      middle_list_versions_with_sentinels = (middle_list_version_sentinels | middle_list_version_steps | middle_list_version_window).sort
-      middle_list_versions_with_sentinels_and_gaps = [middle_list_versions_with_sentinels.first] +
-                                                     middle_list_versions_with_sentinels.each_cons(2).flat_map do |previous_version, v|
-                                                       v == previous_version + 1 ? [v] : [:gap, v]
-                                                     end
-      middle_list_versions_with_small_gaps_filled = middle_list_versions_with_sentinels_and_gaps.each_cons(3).map do |previous_version, v, next_version|
-        if v == :gap && previous_version != :gap && next_version != :gap && next_version - previous_version == 2
-          previous_version + 1
+      middle_list_page_sentinels = [start_list_pages.last, end_list_pages.first]
+      middle_list_page_steps = Range.new(*middle_list_page_sentinels).filter { |page| (page % step_size).zero? }
+      middle_list_page_window = Range.new([active_page - window_half_size, start_list_pages.last].max,
+                                          [active_page + window_half_size, end_list_pages.first].min).to_a
+      middle_list_pages_with_sentinels = (middle_list_page_sentinels | middle_list_page_steps | middle_list_page_window).sort
+      middle_list_pages_with_sentinels_and_gaps = [middle_list_pages_with_sentinels.first] +
+                                                  middle_list_pages_with_sentinels.each_cons(2).flat_map do |previous_page, page|
+                                                    page == previous_page + 1 ? [page] : [:gap, page]
+                                                  end
+      middle_list_pages_with_small_gaps_filled = middle_list_pages_with_sentinels_and_gaps.each_cons(3).map do |previous_page, page, next_page|
+        if page == :gap && previous_page != :gap && next_page != :gap && next_page - previous_page == 2
+          previous_page + 1
         else
-          v
+          page
         end
       end
-      middle_list_versions = middle_list_versions_with_small_gaps_filled
+      middle_list_pages = middle_list_pages_with_small_gaps_filled
 
       lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
-        start_list_versions.each do |v|
-          concat numbered_pagination_item(v, **yield(v), :active => v == active_version,
-                                                         :edge => [false, v == start_list_versions.last],
-                                                         :edge_border => true)
+        start_list_pages.each do |page|
+          concat numbered_pagination_item(page, **yield(page), :active => page == active_page,
+                                                               :edge => [false, page == start_list_pages.last],
+                                                               :edge_border => true)
         end
       end
       lists << tag.ul(:id => "versions-navigation-list-middle",
@@ -43,23 +43,23 @@ module NumberedPaginationHelper
                         "pagination pagination-sm",
                         "overflow-x-auto pb-3", # horizontal scrollbar with reserved space below
                         "pt-1 px-1 mx-n1", # space reserved for focus outlines
-                        "position-relative" # required for centering when clicking "Version #n"
+                        "position-relative" # required for centering when clicking current page links ("Version #n" on pages showing element versions)
                       ]) do
-        middle_list_versions.each_with_index do |v, i|
-          edge = [i.zero?, i == middle_list_versions.length - 1]
-          if v == :gap
+        middle_list_pages.each_with_index do |page, i|
+          edge = [i.zero?, i == middle_list_pages.length - 1]
+          if page == :gap
             concat numbered_pagination_item("...", :edge => edge)
           else
-            concat numbered_pagination_item(v, **yield(v), :active => v == active_version, :edge => edge)
+            concat numbered_pagination_item(page, **yield(page), :active => page == active_page, :edge => edge)
           end
         end
       end
       lists << tag.ul(:id => "versions-navigation-list-end",
                       :class => "pagination pagination-sm mt-1") do
-        end_list_versions.each do |v|
-          concat numbered_pagination_item(v, **yield(v), :active => v == active_version,
-                                                         :edge => [v == end_list_versions.first, false],
-                                                         :edge_border => true)
+        end_list_pages.each do |page|
+          concat numbered_pagination_item(page, **yield(page), :active => page == active_page,
+                                                               :edge => [page == end_list_pages.first, false],
+                                                               :edge_border => true)
         end
       end
     end
