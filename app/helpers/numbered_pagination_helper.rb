@@ -1,11 +1,11 @@
 module NumberedPaginationHelper
-  def numbered_pagination(top_page, active_page: top_page + 1, window_half_size: 50, step_size: 50, &)
+  def numbered_pagination(top_page, active_id, active_page: top_page + 1, window_half_size: 50, step_size: 50, &)
     lists = []
 
     if top_page <= 5
       lists << tag.ul(:class => "pagination pagination-sm mt-1") do
         (1..top_page).each do |page|
-          concat numbered_pagination_item(page, **yield(page), :active => page == active_page)
+          concat numbered_pagination_item(page, **yield(page), :active_id => (active_id if page == active_page))
         end
       end
     else
@@ -33,7 +33,7 @@ module NumberedPaginationHelper
       lists << tag.ul(:id => "versions-navigation-list-start",
                       :class => "pagination pagination-sm mt-1") do
         start_list_pages.each do |page|
-          concat numbered_pagination_item(page, **yield(page), :active => page == active_page,
+          concat numbered_pagination_item(page, **yield(page), :active_id => (active_id if page == active_page),
                                                                :edge => [false, page == start_list_pages.last],
                                                                :edge_border => true)
         end
@@ -50,14 +50,15 @@ module NumberedPaginationHelper
           if page == :gap
             concat numbered_pagination_item("...", :edge => edge)
           else
-            concat numbered_pagination_item(page, **yield(page), :active => page == active_page, :edge => edge)
+            concat numbered_pagination_item(page, **yield(page), :active_id => (active_id if page == active_page),
+                                                                 :edge => edge)
           end
         end
       end
       lists << tag.ul(:id => "versions-navigation-list-end",
                       :class => "pagination pagination-sm mt-1") do
         end_list_pages.each do |page|
-          concat numbered_pagination_item(page, **yield(page), :active => page == active_page,
+          concat numbered_pagination_item(page, **yield(page), :active_id => (active_id if page == active_page),
                                                                :edge => [page == end_list_pages.first, false],
                                                                :edge_border => true)
         end
@@ -69,7 +70,7 @@ module NumberedPaginationHelper
 
   private
 
-  def numbered_pagination_item(body, href: nil, title: nil, active: false, edge: [false, false], edge_border: false)
+  def numbered_pagination_item(body, href: nil, title: nil, active_id: nil, edge: [false, false], edge_border: false)
     link_class = ["page-link", { "rounded-start-0" => edge.first,
                                  "border-start-0" => edge.first && !edge_border,
                                  "rounded-end-0" => edge.last,
@@ -79,7 +80,6 @@ module NumberedPaginationHelper
            else
              tag.span body, :class => link_class
            end
-    tag.li link, :id => ("versions-navigation-active-page-item" if active),
-                 :class => ["page-item", { "disabled" => !href, "active" => active }]
+    tag.li link, :id => active_id, :class => ["page-item", { "disabled" => !href, "active" => !!active_id }]
   end
 end
