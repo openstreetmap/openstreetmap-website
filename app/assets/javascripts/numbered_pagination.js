@@ -34,9 +34,11 @@
     }
   }
 
-  $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
-    $(document).trigger("numbered_pagination:center");
-    $("#versions-navigation-active-page-item a.page-link").trigger("focus");
+  $(document).on("click", "a.numbered_pagination_link", function (e) {
+    const targetItemId = $(this).attr("href");
+    const $targetItem = $(targetItemId);
+    $targetItem.trigger("numbered_pagination:center");
+    $targetItem.find("a.page-link").trigger("focus");
     e.preventDefault();
   });
 
