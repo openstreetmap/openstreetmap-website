@@ -9,9 +9,9 @@
 <% elsif pages_count > 1 %>
   <h4 class="fs-5">
     <%= t ".#{type.pluralize}_title" %>
-    <span class="badge count-number">
+    <%= link_to "##{type}-pagination-active-page-item", :class => "numbered_pagination_link badge count-number" do %>
       <%= t ".range", **element_range_values(elements_count, current_page) %>
-    </span>
+    <% end %>
   </h4>
 
   <%= numbered_pagination(pages_count, "#{type}-pagination-active-page-item", :active_page => current_page) do |page|
