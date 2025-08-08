@@ -65,7 +65,7 @@ module NumberedPaginationHelper
       end
     end
 
-    tag.div safe_join(lists), :class => "d-flex align-items-start"
+    tag.div safe_join(lists), :class => "numbered_pagination d-flex align-items-start"
   end
 
   private
