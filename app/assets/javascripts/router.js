@@ -146,7 +146,7 @@ OSM.Router = function (map, rts) {
     window.history.replaceState(state, document.title, url);
   };
 
-  router.updateHash = function(force) {
+  router.updateHash = function(event, force) {
     var hash = OSM.formatHash(map);
     if (hash === currentHash && !force) return;
     currentHash = hash;
