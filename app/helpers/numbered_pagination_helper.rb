@@ -30,16 +30,14 @@ module NumberedPaginationHelper
       end
       middle_list_pages = middle_list_pages_with_small_gaps_filled
 
-      lists << tag.ul(:id => "versions-navigation-list-start",
-                      :class => "pagination pagination-sm mt-1") do
+      lists << tag.ul(:class => "pagination pagination-sm mt-1") do
         start_list_pages.each do |page|
           concat numbered_pagination_item(page, **yield(page), :active_id => (active_id if page == active_page),
                                                                :edge => [false, page == start_list_pages.last],
                                                                :edge_border => true)
         end
       end
-      lists << tag.ul(:id => "versions-navigation-list-middle",
-                      :class => [
+      lists << tag.ul(:class => [
                         "pagination pagination-sm",
                         "overflow-x-auto pb-3", # horizontal scrollbar with reserved space below
                         "pt-1 px-1 mx-n1", # space reserved for focus outlines
@@ -55,8 +53,7 @@ module NumberedPaginationHelper
           end
         end
       end
-      lists << tag.ul(:id => "versions-navigation-list-end",
-                      :class => "pagination pagination-sm mt-1") do
+      lists << tag.ul(:class => "pagination pagination-sm mt-1") do
         end_list_pages.each do |page|
           concat numbered_pagination_item(page, **yield(page), :active_id => (active_id if page == active_page),
                                                                :edge => [page == end_list_pages.first, false],

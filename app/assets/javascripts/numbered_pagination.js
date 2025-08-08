@@ -2,18 +2,18 @@
   let shadowEffect;
 
   class ShadowEffect {
-    constructor() {
-      const $scrollableList = $("#versions-navigation-list-middle");
-      const [scrollableFirstItem] = $scrollableList.children().first();
-      const [scrollableLastItem] = $scrollableList.children().last();
+    constructor(target) {
+      const [startList, scrollableList, endList] = $(target).children();
+      const [scrollableFirstItem] = $(scrollableList).children().first();
+      const [scrollableLastItem] = $(scrollableList).children().last();
 
       if (scrollableFirstItem) {
-        this.scrollStartObserver = createScrollObserver("#versions-navigation-list-start", "2px 0px");
+        this.scrollStartObserver = createScrollObserver(startList, "2px 0px");
         this.scrollStartObserver.observe(scrollableFirstItem);
       }
 
       if (scrollableLastItem) {
-        this.scrollEndObserver = createScrollObserver("#versions-navigation-list-end", "-2px 0px");
+        this.scrollEndObserver = createScrollObserver(endList, "-2px 0px");
         this.scrollEndObserver.observe(scrollableLastItem);
       }
 
@@ -43,7 +43,7 @@
   });
 
   $(document).on("numbered_pagination:enable", ".numbered_pagination", function () {
-    shadowEffect = new ShadowEffect();
+    shadowEffect = new ShadowEffect(this);
     $(this).trigger("numbered_pagination:center");
   });
 
@@ -53,12 +53,12 @@
   });
 
   $(document).on("numbered_pagination:center", ".numbered_pagination", function () {
-    const [scrollableList] = $("#versions-navigation-list-middle");
+    const [startList, scrollableList] = $(this).children();
 
     if (!scrollableList) return;
 
-    const [activeStartItem] = $("#versions-navigation-list-start #versions-navigation-active-page-item");
-    const [activeScrollableItem] = $("#versions-navigation-list-middle #versions-navigation-active-page-item");
+    const [activeStartItem] = $(startList).find(".page-item.active");
+    const [activeScrollableItem] = $(scrollableList).find(".page-item.active");
 
     if (activeStartItem) {
       scrollableList.scrollLeft = 0;
