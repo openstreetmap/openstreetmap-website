@@ -1,8 +1,8 @@
 require "test_helper"
 
 class NumberedPaginationHelperTest < ActionView::TestCase
-  def test_element_versions_pagination1
-    pagination = element_versions_pagination(1) { |v| sample_item_data v }
+  def test_numbered_pagination1
+    pagination = numbered_pagination(1) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 1 do
       assert_dom "> li", 1 do
@@ -11,8 +11,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination1_active1
-    pagination = element_versions_pagination(1, :active_version => 1) { |v| sample_item_data v }
+  def test_numbered_pagination1_active1
+    pagination = numbered_pagination(1, :active_version => 1) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 1 do
       assert_dom "> li", 1 do
@@ -21,8 +21,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination5
-    pagination = element_versions_pagination(5) { |v| sample_item_data v }
+  def test_numbered_pagination5
+    pagination = numbered_pagination(5) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 1 do
       assert_dom "> li", 5 do |items|
@@ -33,8 +33,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6
-    pagination = element_versions_pagination(6) { |v| sample_item_data v }
+  def test_numbered_pagination6
+    pagination = numbered_pagination(6) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do
@@ -51,8 +51,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6_active1
-    pagination = element_versions_pagination(6, :active_version => 1) { |v| sample_item_data v }
+  def test_numbered_pagination6_active1
+    pagination = numbered_pagination(6, :active_version => 1) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 2 do |items|
@@ -70,8 +70,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6_active2
-    pagination = element_versions_pagination(6, :active_version => 2) { |v| sample_item_data v }
+  def test_numbered_pagination6_active2
+    pagination = numbered_pagination(6, :active_version => 2) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 3 do |items|
@@ -89,8 +89,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6_active3
-    pagination = element_versions_pagination(6, :active_version => 3) { |v| sample_item_data v }
+  def test_numbered_pagination6_active3
+    pagination = numbered_pagination(6, :active_version => 3) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -108,8 +108,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6_active4
-    pagination = element_versions_pagination(6, :active_version => 4) { |v| sample_item_data v }
+  def test_numbered_pagination6_active4
+    pagination = numbered_pagination(6, :active_version => 4) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -127,8 +127,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6_active5
-    pagination = element_versions_pagination(6, :active_version => 5) { |v| sample_item_data v }
+  def test_numbered_pagination6_active5
+    pagination = numbered_pagination(6, :active_version => 5) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -146,8 +146,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination6_active6
-    pagination = element_versions_pagination(6, :active_version => 6) { |v| sample_item_data v }
+  def test_numbered_pagination6_active6
+    pagination = numbered_pagination(6, :active_version => 6) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -165,8 +165,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_window_start_include
-    pagination = element_versions_pagination(50, :window_half_size => 3, :active_version => 3) { |v| sample_item_data v }
+  def test_numbered_pagination_window_start_include
+    pagination = numbered_pagination(50, :window_half_size => 3, :active_version => 3) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -186,8 +186,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_window_start_touch
-    pagination = element_versions_pagination(50, :window_half_size => 3, :active_version => 5) { |v| sample_item_data v }
+  def test_numbered_pagination_window_start_touch
+    pagination = numbered_pagination(50, :window_half_size => 3, :active_version => 5) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -209,8 +209,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_window_start_touch_almost
-    pagination = element_versions_pagination(50, :window_half_size => 3, :active_version => 6) { |v| sample_item_data v }
+  def test_numbered_pagination_window_start_touch_almost
+    pagination = numbered_pagination(50, :window_half_size => 3, :active_version => 6) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -233,8 +233,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_window_middle
-    pagination = element_versions_pagination(50, :window_half_size => 3, :active_version => 43) { |v| sample_item_data v }
+  def test_numbered_pagination_window_middle
+    pagination = numbered_pagination(50, :window_half_size => 3, :active_version => 43) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -257,8 +257,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_window_end_touch
-    pagination = element_versions_pagination(50, :window_half_size => 3, :active_version => 46) { |v| sample_item_data v }
+  def test_numbered_pagination_window_end_touch
+    pagination = numbered_pagination(50, :window_half_size => 3, :active_version => 46) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -280,8 +280,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_window_end_beyond
-    pagination = element_versions_pagination(50, :window_half_size => 3) { |v| sample_item_data v }
+  def test_numbered_pagination_window_end_beyond
+    pagination = numbered_pagination(50, :window_half_size => 3) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -298,8 +298,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_step
-    pagination = element_versions_pagination(35, :step_size => 10, :window_half_size => 0) { |v| sample_item_data v }
+  def test_numbered_pagination_step
+    pagination = numbered_pagination(35, :step_size => 10, :window_half_size => 0) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -320,8 +320,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_step_end_touch
-    pagination = element_versions_pagination(31, :step_size => 10, :window_half_size => 0) { |v| sample_item_data v }
+  def test_numbered_pagination_step_end_touch
+    pagination = numbered_pagination(31, :step_size => 10, :window_half_size => 0) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -341,8 +341,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_step_window
-    pagination = element_versions_pagination(35, :active_version => 15, :step_size => 10, :window_half_size => 1) { |v| sample_item_data v }
+  def test_numbered_pagination_step_window
+    pagination = numbered_pagination(35, :active_version => 15, :step_size => 10, :window_half_size => 1) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
@@ -367,8 +367,8 @@ class NumberedPaginationHelperTest < ActionView::TestCase
     end
   end
 
-  def test_element_versions_pagination_step_window_touch
-    pagination = element_versions_pagination(35, :active_version => 12, :step_size => 10, :window_half_size => 1) { |v| sample_item_data v }
+  def test_numbered_pagination_step_window_touch
+    pagination = numbered_pagination(35, :active_version => 12, :step_size => 10, :window_half_size => 1) { |v| sample_item_data v }
     pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
