@@ -4,12 +4,6 @@
   const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
   const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
 
-  $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
-    $(document).trigger("numbered_pagination:center");
-    $("#versions-navigation-active-page-item a.page-link").trigger("focus");
-    e.preventDefault();
-  });
-
   $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.currentTarget)));
 
   OSM.Element = type => function () {
