@@ -9,17 +9,13 @@
   <h4 class="fs-5">
     <%= t ".#{type.pluralize}_title" %>
     <span class="badge count-number">
-      <%= t ".range", :x => pages.current_page.first_item,
-                      :y => pages.current_page.last_item,
-                      :count => pages.item_count %>
+      <%= t ".range", **element_range_values(pages.item_count, pages.current_page.number) %>
     </span>
   </h4>
 
   <%= sidebar_classic_pagination(pages, "#{type}_page") do |page|
         {
-          :title => t(".#{type.pluralize}_paginated", :x => page.first_item,
-                                                      :y => page.last_item,
-                                                      :count => pages.item_count),
+          :title => t(".#{type.pluralize}_paginated", **element_range_values(pages.item_count, page.number)),
           :data => { :turbo => "true" }
         }
       end %>
