@@ -3,7 +3,7 @@ require "application_system_test_case"
 class ChangesetElementsTest < ApplicationSystemTestCase
   test "can navigate between element subpages without losing comment input" do
     element_page_size = 20
-    changeset = create(:changeset, :closed)
+    changeset = create(:changeset, :closed, :num_changes => 2 * (element_page_size + 1))
     ways = create_list(:way, element_page_size + 1, :with_history, :changeset => changeset)
     way_paths = ways.map { |way| way_path(way) }
     nodes = create_list(:node, element_page_size + 1, :with_history, :changeset => changeset)
