@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "changeset_#{type.pluralize}" do %>
-  <%= render :partial => "paging_nav", :locals => { :type => type, :pages => pages } %>
+  <%= render :partial => "paging_nav", :locals => { :type => type, :elements_count => elements_count, :current_page => current_page } %>
   <ul class="list-unstyled browse-element-list" data-turbo="false">
     <% elements.each do |element| %>
       <%= element_list_item_with_strikethrough type, element do %>

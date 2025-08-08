@@ -14,36 +14,36 @@ class ChangesetElementsTest < ApplicationSystemTestCase
 
     within_sidebar do
       next_page_way_path = assert_one_missing_link way_paths
-      assert_no_link "Ways (1-20 of 21)"
-      assert_link "Ways (21-21 of 21)"
+      assert_equal "page", find_link("Ways (1-20 of 21)")["aria-current"]
+      assert_nil find_link("Ways (21-21 of 21)")["aria-current"]
 
       assert_one_missing_link node_paths
-      assert_no_link "Nodes (1-20 of 21)"
-      assert_link "Nodes (21-21 of 21)"
+      assert_equal "page", find_link("Nodes (1-20 of 21)")["aria-current"]
+      assert_nil find_link("Nodes (21-21 of 21)")["aria-current"]
 
       fill_in "text", :with => "Comment text we don't want to lose"
 
       click_on "Ways (21-21 of 21)"
 
       assert_one_present_link way_paths, next_page_way_path
-      assert_link "Ways (1-20 of 21)"
-      assert_no_link "Ways (21-21 of 21)"
+      assert_nil find_link("Ways (1-20 of 21)")["aria-current"]
+      assert_equal "page", find_link("Ways (21-21 of 21)")["aria-current"]
 
       next_page_node_path = assert_one_missing_link node_paths
-      assert_no_link "Nodes (1-20 of 21)"
-      assert_link "Nodes (21-21 of 21)"
+      assert_equal "page", find_link("Nodes (1-20 of 21)")["aria-current"]
+      assert_nil find_link("Nodes (21-21 of 21)")["aria-current"]
 
       assert_field "text", :with => "Comment text we don't want to lose"
 
       click_on "Nodes (21-21 of 21)"
 
       assert_one_present_link way_paths, next_page_way_path
-      assert_link "Ways (1-20 of 21)"
-      assert_no_link "Ways (21-21 of 21)"
+      assert_nil find_link("Ways (1-20 of 21)")["aria-current"]
+      assert_equal "page", find_link("Ways (21-21 of 21)")["aria-current"]
 
       assert_one_present_link node_paths, next_page_node_path
-      assert_link "Nodes (1-20 of 21)"
-      assert_no_link "Nodes (21-21 of 21)"
+      assert_nil find_link("Nodes (1-20 of 21)")["aria-current"]
+      assert_equal "page", find_link("Nodes (21-21 of 21)")["aria-current"]
 
       assert_field "text", :with => "Comment text we don't want to lose"
     end
