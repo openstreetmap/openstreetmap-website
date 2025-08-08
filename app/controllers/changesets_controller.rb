@@ -157,7 +157,7 @@ class ChangesetsController < ApplicationController
   end
 
   def load_nodes
-    @nodes_count = @changeset.old_nodes.count
+    @nodes_count = @changeset.actual_num_changed_nodes
     @current_node_page = params[:node_page].to_i.clamp(1, element_pages_count(@nodes_count))
     @nodes = @changeset.old_nodes
                        .order(:node_id, :version)
@@ -166,7 +166,7 @@ class ChangesetsController < ApplicationController
   end
 
   def load_ways
-    @ways_count = @changeset.old_ways.count
+    @ways_count = @changeset.actual_num_changed_ways
     @current_way_page = params[:way_page].to_i.clamp(1, element_pages_count(@ways_count))
     @ways = @changeset.old_ways
                       .order(:way_id, :version)
@@ -175,7 +175,7 @@ class ChangesetsController < ApplicationController
   end
 
   def load_relations
-    @relations_count = @changeset.old_relations.count
+    @relations_count = @changeset.actual_num_changed_relations
     @current_relation_page = params[:relation_page].to_i.clamp(1, element_pages_count(@relations_count))
     @relations = @changeset.old_relations
                            .order(:relation_id, :version)
