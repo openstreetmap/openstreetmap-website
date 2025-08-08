@@ -248,4 +248,8 @@ class Changeset < ApplicationRecord
   def num_type_changes_in_sync?
     num_changes == num_created_elements + num_modified_elements + num_deleted_elements
   end
+
+  def actual_num_changed_nodes = num_type_changes_in_sync? ? num_changed_nodes : old_nodes.count
+  def actual_num_changed_ways = num_type_changes_in_sync? ? num_changed_ways : old_ways.count
+  def actual_num_changed_relations = num_type_changes_in_sync? ? num_changed_relations : old_relations.count
 end
