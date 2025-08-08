@@ -310,6 +310,35 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_predicate changeset, :num_type_changes_in_sync?
   end
 
+  def test_actual_num_changed_elements_in_sync
+    changeset = create(:changeset, :num_changes => 5 + 4 + 3,
+                                   :num_created_nodes => 5,
+                                   :num_created_ways => 4,
+                                   :num_created_relations => 3)
+    create_list(:old_node, 5, :changeset => changeset)
+    create_list(:old_way, 4, :changeset => changeset)
+    create_list(:old_relation, 3, :changeset => changeset)
+
+    assert_predicate changeset, :num_type_changes_in_sync?
+
+    assert_equal 5, changeset.actual_num_changed_nodes
+    assert_equal 4, changeset.actual_num_changed_ways
+    assert_equal 3, changeset.actual_num_changed_relations
+  end
+
+  def test_actual_num_changed_elements_out_of_sync
+    changeset = create(:changeset, :num_changes => 5 + 4 + 3)
+    create_list(:old_node, 5, :changeset => changeset)
+    create_list(:old_way, 4, :changeset => changeset)
+    create_list(:old_relation, 3, :changeset => changeset)
+
+    assert_not_predicate changeset, :num_type_changes_in_sync?
+
+    assert_equal 5, changeset.actual_num_changed_nodes
+    assert_equal 4, changeset.actual_num_changed_ways
+    assert_equal 3, changeset.actual_num_changed_relations
+  end
+
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) do
