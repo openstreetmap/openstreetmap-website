@@ -15,6 +15,8 @@ class ChangesetsController < ApplicationController
 
   around_action :web_timeout
 
+  ELEMENTS_PER_PAGE = 20
+
   ##
   # list non-empty changesets in reverse chronological order
   def index
@@ -155,14 +157,14 @@ class ChangesetsController < ApplicationController
   end
 
   def load_nodes
-    @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
+    @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => ELEMENTS_PER_PAGE, :parameter => "node_page")
   end
 
   def load_ways
-    @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
+    @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => ELEMENTS_PER_PAGE, :parameter => "way_page")
   end
 
   def load_relations
-    @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
+    @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => ELEMENTS_PER_PAGE, :parameter => "relation_page")
   end
 end
