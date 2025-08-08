@@ -1,11 +1,12 @@
-<% if pages.page_count == 1 %>
+<% pages_count = element_pages_count pages.item_count %>
+<% if pages_count == 1 %>
   <h4 class="fs-5">
     <%= t ".#{type.pluralize}_title" %>
     <span class="badge count-number">
       <%= pages.item_count %>
     </span>
   </h4>
-<% elsif pages.page_count > 1 %>
+<% elsif pages_count > 1 %>
   <h4 class="fs-5">
     <%= t ".#{type.pluralize}_title" %>
     <span class="badge count-number">
