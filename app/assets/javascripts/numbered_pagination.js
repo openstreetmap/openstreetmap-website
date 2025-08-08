@@ -1,6 +1,4 @@
 (function () {
-  let shadowEffect;
-
   class ShadowEffect {
     constructor(target) {
       const [startList, scrollableList, endList] = $(target).children();
@@ -43,13 +41,13 @@
   });
 
   $(document).on("numbered_pagination:enable", ".numbered_pagination", function () {
-    shadowEffect = new ShadowEffect(this);
+    $(this).data("shadow-effect", new ShadowEffect(this));
     $(this).trigger("numbered_pagination:center");
   });
 
   $(document).on("numbered_pagination:disable", ".numbered_pagination", function () {
-    shadowEffect?.disable();
-    shadowEffect = null;
+    $(this).data("shadow-effect")?.disable();
+    $(this).removeData("shadow-effect");
   });
 
   $(document).on("numbered_pagination:center", ".numbered_pagination", function () {
