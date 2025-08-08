@@ -168,6 +168,10 @@ class ChangesetsController < ApplicationController
     @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => ELEMENTS_PER_PAGE, :parameter => "relation_page")
   end
 
+  helper_method def element_pages_count(elements_count)
+    [1, 1 + ((elements_count - 1) / ELEMENTS_PER_PAGE)].max
+  end
+
   helper_method def element_range_values(elements_count, page)
     { :x => (ELEMENTS_PER_PAGE * (page - 1)) + 1,
       :y => [ELEMENTS_PER_PAGE * page, elements_count].min,
