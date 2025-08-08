@@ -76,7 +76,7 @@ module NumberedPaginationHelper
                                  "rounded-end-0" => edge.last,
                                  "border-end-0" => edge.last && !edge_border }]
     link = if href
-             link_to body, href, :class => link_class, :title => title
+             link_to body, href, :class => link_class, "aria-current" => ("page" if active_id), :title => title
            else
              tag.span body, :class => link_class
            end
