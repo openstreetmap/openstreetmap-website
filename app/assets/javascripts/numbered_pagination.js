@@ -42,17 +42,17 @@
     e.preventDefault();
   });
 
-  $(document).on("numbered_pagination:enable", function () {
+  $(document).on("numbered_pagination:enable", ".numbered_pagination", function () {
     shadowEffect = new ShadowEffect();
-    $(document).trigger("numbered_pagination:center");
+    $(this).trigger("numbered_pagination:center");
   });
 
-  $(document).on("numbered_pagination:disable", function () {
+  $(document).on("numbered_pagination:disable", ".numbered_pagination", function () {
     shadowEffect?.disable();
     shadowEffect = null;
   });
 
-  $(document).on("numbered_pagination:center", function () {
+  $(document).on("numbered_pagination:center", ".numbered_pagination", function () {
     const [scrollableList] = $("#versions-navigation-list-middle");
 
     if (!scrollableList) return;
