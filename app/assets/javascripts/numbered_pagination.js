@@ -1,8 +1,49 @@
 (function () {
+  let scrollStartObserver, scrollEndObserver;
+
+  function initVersionsNavigation() {
+    $(document).trigger("numbered_pagination:center");
+
+    const $scrollableList = $("#versions-navigation-list-middle");
+    const [scrollableFirstItem] = $scrollableList.children().first();
+    const [scrollableLastItem] = $scrollableList.children().last();
+
+    if (scrollableFirstItem) {
+      scrollStartObserver = createScrollObserver("#versions-navigation-list-start", "2px 0px");
+      scrollStartObserver.observe(scrollableFirstItem);
+    }
+
+    if (scrollableLastItem) {
+      scrollEndObserver = createScrollObserver("#versions-navigation-list-end", "-2px 0px");
+      scrollEndObserver.observe(scrollableLastItem);
+    }
+  }
+
+  function createScrollObserver(shadowTarget, shadowOffset) {
+    const threshold = 0.95;
+    return new IntersectionObserver(([entry]) => {
+      const floating = entry.intersectionRatio < threshold;
+      $(shadowTarget)
+        .css("box-shadow", floating ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "")
+        .css("z-index", floating ? "5" : ""); // floating z-index should be larger than z-index of Bootstrap's .page-link:focus, which is 3
+    }, { threshold });
+  }
+
   $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
     $(document).trigger("numbered_pagination:center");
     $("#versions-navigation-active-page-item a.page-link").trigger("focus");
     e.preventDefault();
+  });
+
+  $(document).on("numbered_pagination:enable", function () {
+    initVersionsNavigation();
+  });
+
+  $(document).on("numbered_pagination:disable", function () {
+    scrollStartObserver?.disconnect();
+    scrollStartObserver = null;
+    scrollEndObserver?.disconnect();
+    scrollEndObserver = null;
   });
 
   $(document).on("numbered_pagination:center", function () {
