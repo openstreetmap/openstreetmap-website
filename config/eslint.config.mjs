@@ -1,7 +1,7 @@
 import globals from "globals";
 import js from "@eslint/js";
 import erb from "eslint-plugin-erb";
-import stylisticJs from "@stylistic/eslint-plugin-js";
+import stylistic from "@stylistic/eslint-plugin";
 
 export default [
   js.configs.recommended,
@@ -16,7 +16,7 @@ export default [
   },
   {
     plugins: {
-      "@stylistic": stylisticJs
+      "@stylistic": stylistic
     },
     languageOptions: {
       ecmaVersion: 2021,
@@ -57,7 +57,7 @@ export default [
       "@stylistic/computed-property-spacing": "error",
       "@stylistic/dot-location": ["error", "property"],
       "@stylistic/eol-last": "error",
-      "@stylistic/func-call-spacing": "error",
+      "@stylistic/function-call-spacing": "error",
       "@stylistic/indent": ["error", 2, {
         CallExpression: { arguments: "first" },
         FunctionDeclaration: { parameters: "first" },
