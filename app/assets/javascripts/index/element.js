@@ -4,71 +4,33 @@
   const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
   const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
 
-  $(document).on("click", "a[href='#versions-navigation-active-page-item']", function (e) {
-    scrollToActiveVersion();
-    $("#versions-navigation-active-page-item a.page-link").trigger("focus");
-    e.preventDefault();
-  });
-
   $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.currentTarget)));
 
   OSM.Element = type => function () {
     const page = {};
-    let scrollStartObserver, scrollEndObserver;
 
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
-        initVersionsNavigation();
         page._addObject(type, id, version);
+        $(document).trigger("numbered_pagination:enable");
         abortController = new AbortController();
       });
     };
 
     page.load = function (path, id, version) {
-      initVersionsNavigation();
       page._addObject(type, id, version, true);
+      $(document).trigger("numbered_pagination:enable");
       abortController = new AbortController();
     };
 
     page.unload = function () {
       page._removeObject();
-      scrollStartObserver?.disconnect();
-      scrollStartObserver = null;
-      scrollEndObserver?.disconnect();
-      scrollEndObserver = null;
+      $(document).trigger("numbered_pagination:disable");
       abortController?.abort();
     };
 
     page._addObject = function () {};
     page._removeObject = function () {};
-
-    function initVersionsNavigation() {
-      scrollToActiveVersion();
-
-      const $scrollableList = $("#versions-navigation-list-middle");
-      const [scrollableFirstItem] = $scrollableList.children().first();
-      const [scrollableLastItem] = $scrollableList.children().last();
-
-      if (scrollableFirstItem) {
-        scrollStartObserver = createScrollObserver("#versions-navigation-list-start", "2px 0px");
-        scrollStartObserver.observe(scrollableFirstItem);
-      }
-
-      if (scrollableLastItem) {
-        scrollEndObserver = createScrollObserver("#versions-navigation-list-end", "-2px 0px");
-        scrollEndObserver.observe(scrollableLastItem);
-      }
-    }
-
-    function createScrollObserver(shadowTarget, shadowOffset) {
-      const threshold = 0.95;
-      return new IntersectionObserver(([entry]) => {
-        const floating = entry.intersectionRatio < threshold;
-        $(shadowTarget)
-          .css("box-shadow", floating ? `rgba(0, 0, 0, 0.075) ${shadowOffset} 2px` : "")
-          .css("z-index", floating ? "5" : ""); // floating z-index should be larger than z-index of Bootstrap's .page-link:focus, which is 3
-      }, { threshold });
-    }
 
     return page;
   };
@@ -94,23 +56,6 @@
 
     return page;
   };
-
-  function scrollToActiveVersion() {
-    const [scrollableList] = $("#versions-navigation-list-middle");
-
-    if (!scrollableList) return;
-
-    const [activeStartItem] = $("#versions-navigation-list-start #versions-navigation-active-page-item");
-    const [activeScrollableItem] = $("#versions-navigation-list-middle #versions-navigation-active-page-item");
-
-    if (activeStartItem) {
-      scrollableList.scrollLeft = 0;
-    } else if (activeScrollableItem) {
-      scrollableList.scrollLeft = Math.round(activeScrollableItem.offsetLeft - (scrollableList.offsetWidth / 2) + (activeScrollableItem.offsetWidth / 2));
-    } else {
-      scrollableList.scrollLeft = scrollableList.scrollWidth - scrollableList.offsetWidth;
-    }
-  }
 
   function previewWikidataValue($btn) {
     if (!OSM.WIKIDATA_API_URL) return;

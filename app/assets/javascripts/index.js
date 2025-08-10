@@ -1,4 +1,5 @@
 //= require_self
+//= require numbered_pagination
 //= require leaflet.sidebar
 //= require leaflet.sidebar-pane
 //= require leaflet.locate
