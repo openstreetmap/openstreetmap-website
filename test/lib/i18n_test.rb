@@ -77,8 +77,7 @@ class I18nTest < ActiveSupport::TestCase
 
   def test_ui_languages_have_required_fields
     AVAILABLE_LANGUAGES.each do |language|
-      assert language[:code]
-      assert language[:native_name]
+      assert_pattern { language => { code: String, native_name: String, english_name: String } }
     end
   end
 
