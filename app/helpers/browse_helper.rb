@@ -50,17 +50,14 @@ module BrowseHelper
     # away redacted version tag information.
     unless object.redacted?
       feature_name = feature_name(object.tags)
-      label = t "printable_name.with_name_html", :name => tag.bdi(feature_name), :id => tag.bdi(id.to_s) if feature_name.present?
 
       if (object.tags.include? "start_date") || (object.tags.include? "end_date")
         start_date = (object.tags.include? "start_date") ? object.tags["start_date"].to_s : nil
         end_date = (object.tags.include? "end_date") ? object.tags["end_date"].to_s : nil
-        label = t "printable_name.with_date_html", :name => label, :dates => tag.bdi(DateRange.new(start_date, end_date).to_s)
+        feature_name = t "printable_name.with_date_html", :name => tag.bdi(feature_name), :dates => DateRange.new(start_date, end_date).to_s
       end
 
-      if label
-        name = t "printable_name.with_name_html", :name => tag.bdi(label), :id => tag.bdi(id.to_s)
-      end
+      name = t "printable_name.with_name_html", :name => tag.bdi(feature_name), :id => tag.bdi(id.to_s) if feature_name.present?
     end
 
     name
