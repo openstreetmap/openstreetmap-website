@@ -12,20 +12,20 @@
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
         page._addObject(type, id, version);
-        $(document).trigger("numbered_pagination:enable");
+        $(".numbered_pagination").trigger("numbered_pagination:enable");
         abortController = new AbortController();
       });
     };
 
     page.load = function (path, id, version) {
       page._addObject(type, id, version, true);
-      $(document).trigger("numbered_pagination:enable");
+      $(".numbered_pagination").trigger("numbered_pagination:enable");
       abortController = new AbortController();
     };
 
     page.unload = function () {
       page._removeObject();
-      $(document).trigger("numbered_pagination:disable");
+      $(".numbered_pagination").trigger("numbered_pagination:disable");
       abortController?.abort();
     };
 

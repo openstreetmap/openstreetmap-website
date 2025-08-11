@@ -23,13 +23,13 @@
       <%= link_to t("browse.versions_navigation.history"), :controller => "old_#{@type.pluralize}" %>
     </li>
     <li class="breadcrumb-item">
-      <a href="#versions-navigation-active-page-item" class="link-body-emphasis">
+      <a href="#versions-navigation-active-page-item" class="numbered_pagination_link link-body-emphasis">
         <%= t "browse.versions_navigation.versions_label" %>
       </a>
     </li>
   </ol>
 
-  <%= element_versions_pagination(@feature.version, :active_version => @feature.version) do |v|
+  <%= numbered_pagination(@feature.version, "versions-navigation-active-page-item", :active_page => @feature.version) do |v|
         { :href => { :controller => "old_#{@type.pluralize}", :action => :show, :version => v },
           :title => t("browse.versions_navigation.version", :version => v) }
       end %>
