@@ -258,6 +258,7 @@ ko:
     providers:
       none: 없음
       google: Google
+      apple: 애플
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -452,6 +453,8 @@ ko:
         key: '%{key} 태그에 대한 위키 설명 문서'
         tag: '%{key}=%{value} 태그에 대한 위키 설명 문서'
       wikidata_link: 위키데이터 %{page} 항목
+      wikidata_preview:
+        other: 위키데이터 항목 미리 보기
       wikipedia_link: 위키백과 %{page} 문서
       wikimedia_commons_link: 위키미디어 공용의 %{page} 항목
       telephone_link: '%{phone_number}(으)로 전화 걸기'
@@ -479,6 +482,7 @@ ko:
       relation:
         title_html: '관계 역사: %{name}'
       older_versions: 이전 버전
+      newer_versions: 최신 버전
     actions:
       view_redacted_data: 수정된 데이터 보기
       view_redaction_message: 수정 메시지 보기
@@ -528,6 +532,12 @@ ko:
         other: 댓글 %{count}개
       changes:
         other: 수정 사항 %{count}개
+      n_elements_created:
+        other: '%{count}개의 요소가 생성됨'
+      n_elements_modified:
+        other: '%{count}개의 요소가 수정됨'
+      n_elements_deleted:
+        other: '%{count}개의 요소가 삭제됨'
     index:
       title: 바뀜집합
       title_user: '%{user}의 바뀜집합'
@@ -1012,6 +1022,7 @@ ko:
           bridleway: 승마로
           bus_guideway: 가이드 버스 차선
           bus_stop: 버스 정류장
+          busway: 버스전용차로
           construction: 건설 중인 고속도로
           corridor: 통로
           crossing: 횡단보도
@@ -1076,12 +1087,14 @@ ko:
           house: 주택
           manor: 장원
           memorial: 기념비
+          milestone: 역사적 이정표
           mine: 광산
           mine_shaft: 탄갱
           monument: 기념물
           railway: 역사적인 철도
           roman_road: 로마 도로
           ruins: 폐허
+          rune_stone: 룬석
           stone: 돌
           tomb: 무덤
           tower: 탑
@@ -1274,6 +1287,7 @@ ko:
           architect: 건축가
           association: 협회
           company: 회사
+          diplomatic: 외교 관청
           educational_institution: 교육 기관
           employment_agency: 직업 소개소
           energy_supplier: 전력 공급 업체 사무실
@@ -1283,6 +1297,7 @@ ko:
           insurance: 보험 회사 사옥
           it: IT 오피스
           lawyer: 변호사 사무실
+          logistics: 물류사무소
           newspaper: 신문사
           ngo: 비정부 기구 사무실
           religion: 종교 사무소
@@ -1496,6 +1511,8 @@ ko:
         water:
           lake: 호수
           pond: 연못
+          reservoir: 저수지
+          stream_pool: 스트림 풀
         waterway:
           artificial: 인공 수로
           boatyard: 조선소
@@ -1526,6 +1543,13 @@ ko:
         level9: 행정 구역 경계 (9수준)
         level10: 행정 구역 경계 (10수준)
         level11: 행정 구역 경계 (11수준)
+      border_types:
+        city: 시 경계
+        county: 군 경계
+        nation: 국제 경계
+        national: 국제 경계
+        state: 주 경계
+        village: 마을 경계
   searches:
     show:
       title:
@@ -1578,7 +1602,7 @@ ko:
       no_reports: 보고서 없음
       report_created_at_html: '%{datetime}에 처음 보고됨'
       last_resolved_at_html: '%{datetime}에 마지막으로 해결됨'
-      last_updated_at_html: '%{displayname}에 의해 %{datetime}에 마지막으로 갱신됨'
+      last_updated_at_html: '%{displayname}에 의해 %{datetime}에 마지막으로 업데이트됨'
       resolve: 해결
       ignore: 무시
       reopen: 다시 열림
@@ -1671,6 +1695,11 @@ ko:
     communities: 커뮤니티
     learn_more: 더 알아보기
     more: 더 보기
+    header:
+      ok: 확인
+      select_language: 언어 선택
+    select_language_button:
+      title: 언어 선택
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap 일기 항목 #%{id}'
@@ -1904,9 +1933,9 @@ ko:
   preferences:
     preferences:
       update:
-        failure: 환경 설정을 갱신할 수 없음.
+        failure: 환경 설정을 업데이트할 수 없음.
       update_success_flash:
-        message: 환경 설정이 갱신 됨.
+        message: 환경 설정이 업데이트되었습니다
       navigation:
         preferences: 환경 설정
         advanced_preferences: 고급 환경 설정
@@ -1923,10 +1952,10 @@ ko:
           auto: 자동
           light: 밝음
           dark: 어두움
-        save: 환경 설정 갱신
+        save: 환경 설정 업데이트
     advanced_preferences:
       show:
-        save: 환경 설정 갱신
+        save: 환경 설정 업데이트
   profiles:
     profile_sections:
       navigation:
@@ -1938,7 +1967,7 @@ ko:
     descriptions:
       show:
         title: 프로필 수정
-        save: 프로필 갱신
+        save: 프로필 업데이트
         cancel: 취소
       update:
         success: 프로필 설명이 업데이트되었습니다.
@@ -2032,15 +2061,23 @@ ko:
       changeset_comments:
         older: 이전 댓글
         newer: 새 의견
+        oldest: 이전 의견
+        newest: 새 의견
       diary_comments:
         older: 이전 의견
         newer: 새 의견
+        oldest: 이전 의견
+        newest: 새 의견
       diary_entries:
         older: 이전 항목
         newer: 다음 항목
+        oldest: 이전 항목
+        newest: 다음 항목
       issues:
         older: 이전 문제
         newer: 새 문제
+        oldest: 이전 문제
+        newest: 새 문제
       traces:
         older: 이전 궤적
         newer: 다음 궤적
@@ -2050,6 +2087,8 @@ ko:
       users:
         older: 이전 사용자
         newer: 신규 사용자
+        oldest: 이전 사용자
+        newest: 신규 사용자
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} 기여자'
@@ -2261,6 +2300,7 @@ ko:
           title: 다른 소스
           description: OpenStreetMap Wiki에서 찾아보기
       export_button: 내보내기
+      export_download: 다운로드 중...
     fixthemap:
       title: 문제 보고 / 지도 수정
       how_to_help:
@@ -2392,6 +2432,9 @@ ko:
           그룹으로 잘 꾸려지고 있습니다. 누구나 이러한 그룹을 만들거나 가입할 수 있습니다. 커뮤니티 위키에 대한 자세한 내용은 %{communities_wiki_link}를
           보시기 바랍니다.
         communities_wiki: 커뮤니티 위키 페이지
+  social_links:
+    show:
+      website: 웹사이트
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: 지도 참고를 보려면 확대
@@ -2614,6 +2657,9 @@ ko:
       google:
         title: Google로 로그인
         alt: Google 로고
+      apple:
+        title: 애플로 로그인
+        alt: 애플 로고
       facebook:
         title: Facebook으로 로그인
         alt: Facebook 로고
@@ -2729,7 +2775,7 @@ ko:
       about:
         header: 자유롭게 편집할 수 있습니다.
         paragraph_1: 다른 지도와 달리 OpenStreetMap은 전부 여러분과 같은 사람들이 제작합니다. 누구나 자유롭게 고치고,
-          갱신하고, 다운로드하고, 사용할 수 있습니다.
+          업데이트하고, 다운로드하고, 사용할 수 있습니다.
         paragraph_2: 회원으로 가입해서 기여를 시작하세요.
         welcome: OpenStreetMap에 오신 것을 환영합니다
       display name description: 공개적으로 표시되는 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
@@ -2772,6 +2818,8 @@ ko:
       edits: 편집
       traces: 궤적
       notes: 지도 참고
+      unfollow: 팔로우 취소
+      follow: 팔로우
       mapper since: '가입일:'
       last map edit: '마지막 지도 편집:'
       no activity yet: 아직 활동이 없습니다
@@ -2827,6 +2875,7 @@ ko:
       show:
         title: 사용자
         heading: 사용자
+        select_status: 상태 선택
         states:
           pending: 보류 중
           confirmed: 확인됨
@@ -2834,6 +2883,9 @@ ko:
           deleted: 삭제됨
         name_or_email: 이름 또는 이메일
         ip_address: IP 주소
+        edits: 편집?
+        has_edits: 편집이 있음
+        no_edits: 편집이 없음
         search: 검색
       page:
         found_users:
@@ -3113,9 +3165,13 @@ ko:
       distance_in_units:
         m: '%{distance}m'
         km: '%{distance}km'
+        ft: '%{distance}ft'
         yd: '%{distance}야드'
+        mi: '%{distance}mi'
       errors:
         no_route: 두 장소 사이의 경로를 찾을 수 없습니다.
+        no_place:
+          title: 검색 실패
       instructions:
         continue_without_exit: '%{name}(으)로 계속 가세요'
         slight_right_without_exit: '%{name}을(를) 따라 오른쪽으로 완만하게 도세요'
@@ -3200,6 +3256,9 @@ ko:
       show_address: 주소 보기
       query_features: 지물 보기
       centre_map: 여기를 가운데로 지정
+    remote_edit:
+      failed:
+        title: 편집 실패
     edit:
       id_not_configured:
         title: iD가 설정되지 않았습니다

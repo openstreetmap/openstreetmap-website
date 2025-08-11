@@ -98,7 +98,7 @@ ps:
         longitude: اوږدوالی
         public: ټولگړی
         description: څرگندونه
-        gpx_file: 'GPX دوتنه پورته کول:'
+        gpx_file: 'جي‌اېف‌اېکس څار دوتنه غوره‌کول:'
         visibility: ښکارېدنه
         tagstring: نښلنونه
       message:
@@ -132,6 +132,7 @@ ps:
     providers:
       none: هيڅ
       google: گوگل
+      apple: مڼه
       facebook: فيسبوک
       github: گيټ‌هاب
       wikipedia: ويکيپېډيا
@@ -154,63 +155,132 @@ ps:
         review: منښتونو بياکتنه
         review_and_accept: د منښتونو بياکتنه او منل
       save changes button: بدلونونه خوندي کول
+    go_public:
+      heading: ټولگړی سمون
+    destroy:
+      success: گڼون ړنگ شو.
+    deletions:
+      show:
+        title: زما گڼون ړنگول
+        warning: خبرداری! د گڼون ړنگولو بهير وروستی دی او بېرته نشي راگرځېدلی.
+        delete_account: گڼون ړنگول
+        confirm_delete: ايا تاسو ډاډه ياست؟
+        cancel: ناگارل
     terms:
       show:
         title: منښتونه
         heading: منښتونه
+        heading_ct: د ونډه‌وال منښتونه
         tou_explain:
           tou: کارولو منښتونه
+        readable_summary: انساني لوست‌وړ لنډيز
+        informal_translations: نارسمي ژباړې
+        continue: پرله‌پورې
+        cancel: ناگارل
+        legale_select: 'د استوگنې هېواد:'
         legale_names:
           france: فرانسه
           italy: اېټاليا
+          rest_of_world: د نړۍ پاتې برخه
+      terms_declined_flash:
+        terms_declined_link: دا ويکي مخ
+    pd_declarations:
+      show:
+        confirm: تاييدول
   browse:
+    version: بل‌بڼه
+    in_changeset: بدلون‌ټولگه
+    anonymous: ورکنومی
+    no_comment: (هېڅ څرگندونه نشته)
+    part_of: برخه د
+    download_xml: اېکس‌اېم‌اېل راکښته‌کول
+    location: 'ځای:'
     relation:
       members: غړي
     relation_member:
       type:
         way: لار
+    not_found:
+      title: ونه موندل شو
     timeout:
+      title: د وخت پای تېروتنه
       type:
         way: لار
+        relation: اړيکه
+        changeset: بدلون‌ټولگه
     redacted:
       type:
         way: لار
+        relation: اړيکه
     start_rjs:
+      load_data: اومتوک بارول
       loading: رابرسېرېږي...
+    tag_details:
+      tags: نښلنونه
+      email_link: برېښليک %{email}
     versions_navigation:
       way: لار
       relation: اړيکه
       history: پېښليک
       version: 'بلبڼه #%{version}'
       versions_label: 'بل‌بڼې:'
+  old_elements:
+    index:
+      older_versions: زړې بلبڼې
+      newer_versions: نوې بلبڼې
+  changeset_comments:
+    feeds:
+      comment:
+        commented_at_by_html: هم‌مهاله‌ %{when} کوونکی %{user}
   changesets:
     index:
+      older_changesets: زړې بدلون‌ټولگې
+      newer_changesets: نوې بدلون‌ټولگې
       feed:
         created: جوړ شو
         closed: تړل شوی
+        belongs_to: ليکوال
+    paging_nav:
+      ways_title: لارې
+  dashboards:
+    popup:
+      your location: ستاسو ځای
   diary_entries:
     form:
       location: 'ځای:'
       use_map_link: نخشه کارول
     show:
-      leave_a_comment: يوه تبصره پرېښودل
+      discussion: شننه
+      subscribe: ونډه‌کښل
+      unsubscribe: له ونډې‌وتل
+      leave_a_comment: يوه څرگندونه پرېښودل
       login: ننوتل
     diary_entry:
       full_entry: بشپړه ننوتنه کتل
-      confirm: تاييد
+      no_comments: هېڅ څرگندونه نشته
+      edit_link: دا ننوتنه سمول
+      hide_link: دا ننوتنه پټول
+      unhide_link: دا ننوتنه نه‌پټول
+      confirm: تاييدول
+      report: د دې ننوتنې راپور ورکول
     diary_comment:
       comment_from_html: په %{comment_created_at} باندې د %{link_user} تبصره
-      hide_link: دا تبصره پټول
-      confirm: تاييد
+      hide_link: دا څرگندونه پټول
+      confirm: تاييدول
+      report: د دې څرگندونې راپور ورکول
     location:
       location: 'ځای:'
   geocoder:
     search_osm_nominatim:
       prefix:
+        aeroway:
+          gate: د هوايي ډگر ور
+          runway: ځغاست‌ليکه
         amenity:
           bank: بانک
           brothel: کنجرتون
           bus_station: د بسونو اډه
+          cafe: چای‌ځی
           casino: جوارګرتون
           cinema: سينما
           clinic: کلينيک
@@ -228,6 +298,8 @@ ps:
           ice_cream: آيسکريم
           kindergarten: وړکتون
           library: کتابتون
+          marketplace: بازارځی
+          parking: تمځی
           pharmacy: درملتون
           place_of_worship: عبادتځی
           police: پوليس
@@ -538,6 +610,9 @@ ps:
       edit_map: نخشه سمول
   application:
     auth_providers:
+      apple:
+        title: ايپل سره ورننوتل
+        alt: ايپل نښان
       github:
         title: د گېټ هب له لارې ننوتل
         alt: د يو گېټ هب گڼون له لارې ننوتل
@@ -605,10 +680,16 @@ ps:
       social_link_n: ټولنيزه پېژنيال وېبتړ %{n}
       remove_social_link_n: د ټولنيزه پېژنيال وېبتړ %{n} لرې‌کول
     directions:
+      errors:
+        no_place:
+          title: پلټل ناکام شو
       instructions:
         unnamed: بې نومه
     element:
       wikipedia: ويکيپېډيا
+    remote_edit:
+      failed:
+        title: سمون نابريالی شو
   redactions:
     show:
       description: 'څرگندونه:'

@@ -272,6 +272,7 @@ cy:
     providers:
       none: Dim
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -309,15 +310,20 @@ cy:
       contributor_terms:
         heading: Telerau Cyfranwyr
         agreed: Rydych chi wedi cytuno â'r Telerau Cyfranwyr newydd ar %{date}.
+        not_agreed: Nid ydych wedi cytuno â'r Telerau Cyfranwyr newydd eto.
         agreed_with_pd: Rydych hefyd wedi datgan eich bod yn ystyried bod eich golygiadau
           yn y Parth Cyhoeddus.
         not_agreed_with_pd: Nid ydych wedi datgan eich bod yn ystyried bod eich golygiadau
           yn y Parth Cyhoeddus.
         review: Adolygu'r Telerau
         review_and_accept: Adolygu a derbyn y Telerau
+        consider_pd: Ystyried y Parth Cyhoeddus
       terms_of_use:
         heading: Telerau Defnydd
+        agreed: Gwnaethoch chi gytuno â'r Telerau Defnydd ar %{date}.
+        not_agreed: Nid ydych wedi cytuno â'r Telerau Defnyddio eto.
         review: Adolygu'r Telerau
+        review_and_accept: Darllen a derbyn y Telerau
       save changes button: Cadw Newidiadau
       delete_account: Dileu Cyfrif...
     go_public:
@@ -364,6 +370,8 @@ cy:
         retain_changeset_discussions: Bydd eich trafodaethau grwpiau newid, os ydynt
           yn bodoli, yn cael eu cadw.
         retain_email: Bydd eich cyfeiriad e-bost yn cael ei gadw.
+        recent_editing_html: Gan eich bod wedi golygu'n ddiweddar, ni ellir dileu
+          eich cyfrif ar hyn o bryd. Bydd modd ei ddileu ymhen %{time}.
         confirm_delete: Ydych chi'n siŵr?
         cancel: Canslo
     terms:
@@ -374,6 +382,8 @@ cy:
         contributor_terms_explain: Mae'r cytundeb hwn yn rheoli telerau eich cyfraniadau
           presennol a chyfraniadau yn y dyfodol.
         read_ct: Rwyf wedi darllen ac yn cytuno â'r telerau cyfranwyr uchod
+        tou_explain:
+          tou: Telerau Defnydd
         read_tou: Rwyf wedi darllen ac yn cytuno â'r Telerau Defnydd
         guidance_info_html: 'Gwybodaeth i helpu i ddeall y termau hyn: %{readable_summary_link}
           a rhai %{informal_translations_link}'
@@ -734,7 +744,7 @@ cy:
       posted_by_html: Postiwyd gan %{link_user} ar %{created} yn %{language_link}
       updated_at_html: Diweddarwyd ddiwethaf ar %{updated}.
       full_entry: Gweld y cofnod llawn
-      comment_link: Sylw ar y cofnod hwn
+      comment_link: Rhoi sylw ar y cofnod hwn
       reply_link: Anfon neges at yr awdur
       comment_count:
         zero: Dim sylwadau
@@ -1704,6 +1714,7 @@ cy:
       select_status: Dewis Statws
       select_type: Dewis Math
       reported_user: Defnyddiwr a roddwyd gwybod
+      not_managed: Heb ei Reoli
       search: Chwilio
       search_guidance: 'Chwilio Gwallau:'
       states:
@@ -1717,6 +1728,7 @@ cy:
       status: Statws
       reports: Adroddiadau
       last_updated: Diweddarwyd ddiwethaf
+      last_managed: Rheolwyd Ddiwethaf
       reporting_users: Defnyddiwyr sydd wedi rhoi gwybod
       reports_count:
         zero: '%{count} Adroddiad'
@@ -1852,6 +1864,7 @@ cy:
     learn_more: Dysgu Rhagor
     more: Rhagor
     header:
+      ok: Iawn
       select_language: Dewis iaith
     select_language_button:
       title: Dewis iaith
@@ -1894,6 +1907,8 @@ cy:
       url: URL
       description: Disgrifiad
       tags: Tagiau
+      total_points: Cyfanswm nifer y pwyntiau
+      imported_points: Nifer y pwyntiau a fewnforiwyd
     gpx_failure:
       hi: Helo %{to_user},
       failed_to_import: Mae'n edrych fel bod eich ffeil wedi methu â chael ei mewnforio
@@ -2297,9 +2312,12 @@ cy:
         Mae ein cyfranwyr yn cynnwys mapwyr brwdfrydig, gweithwyr profesiynol GIS, peirianwyr sy'n rhedeg y gweinyddion OSM, gwirfoddolwyr dyngarol sy'n mapio ardaloedd wedi'u heffeithio gan drychinebau, a llawer mwy.
         Er mwyn dysgu rhagor am y gymuned, gweler %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} a gwefan %{osm_foundation_link}.
       community_driven_osm_blog: Blog OpenStreetMap
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
       community_driven_user_diaries: dyddiaduron defnyddwyr
       community_driven_community_blogs: blogiau cymunedol
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org/
       community_driven_osm_foundation: OSM Foundation
+      community_driven_osm_foundation_url: https://www.osmfoundation.org/
       open_data_title: Data Agored
       open_data_1_html: 'Mae OpenStreetMap yn %{open_data}: mae modd i''w ddefnyddio
         at unrhyw ddiben oni bai eich bod yn rhoi cydnabyddiaeth i OpenStreetMap a''i
@@ -2310,15 +2328,21 @@ cy:
       open_data_copyright_license: dudalen Hawlfraint a Thrwydded
       legal_title: Cyfreithiol
       legal_1_1_openstreetmap_foundation: Sefydliad OpenStreetMap
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
       legal_1_1_terms_of_use: Telerau Defnydd
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: Polisïau Defnydd Derbyniol
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: Polisi Preifatrwydd
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_2_1_html: '%{contact_the_osmf_link} os oes gennych gwestiynau am drwydded,
         hawlfraint neu gwestiynau cyfreithiol eraill.'
       legal_2_1_contact_the_osmf: Cysylltwch â'r OSMF
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
       legal_2_2_html: Mae OpenStreetMap, y logo chwyddwydr a "State of the Map" yn
         %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: nodau masnach cofrestredig yr OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Partneriaid
     copyright:
       title: Hawlfraint a Thrwydded
@@ -2541,6 +2565,7 @@ cy:
           title: Ffynonellau Eraill
           description: Nodir ffynonellau ychwanegol ar Wici OpenStreetMap
       export_button: Allforio
+      export_download: Wrthi'n lawrlwytho...
     fixthemap:
       title: Rhoi gwybod am broblem / Cywiro'r map
       how_to_help:
@@ -2807,6 +2832,7 @@ cy:
       image_dimensions_html: Bydd y llun yn dangos yr haen %{layer} ar %{width} x
         %{height}
       download: Lawrlwytho
+      downloading: Wrthi'n lawrlwytho...
   traces:
     visibility:
       private: Preifat (dim ond yn cael ei rannu fel pwyntiau dienw, heb eu trefnu)
@@ -2943,6 +2969,9 @@ cy:
       google:
         title: Mewngofnodi â Google
         alt: Logo Google
+      apple:
+        title: Mewngofnodi ag Apple
+        alt: Logo Apple
       facebook:
         title: Mewngofnodi â Facebook
         alt: Logo Facebook
@@ -3389,8 +3418,9 @@ cy:
       last_changed: Newidiwyd ddiwethaf
       apply: Gweithredu
       all: Popeth
-      open: Agored
-      closed: Wedi cau
+      open: Heb ei ddatrys
+      closed: Wedi ei ddatrys
+      hidden: Cudd
       status: Statws
     show:
       title: 'Nodyn: %{id}'
@@ -3470,6 +3500,7 @@ cy:
     share:
       title: Rhannu
       view_larger_map: Gweld Map Mawr
+      filename: map
     embed:
       report_problem: Rhoi gwybod am broblem
     legend:
@@ -3545,6 +3576,8 @@ cy:
         mi: '%{distance}mi'
       errors:
         no_route: Ni ellir dod o hyd i'r llwybr rhwng y ddau le.
+        no_place:
+          body: Ni ellid dod o hyd i '%{place}'.
       instructions:
         continue_without_exit: Parhau ar %{name}
         slight_right_without_exit: Ychydig i'r dde i %{name}
@@ -3649,6 +3682,9 @@ cy:
           few: '%{count} chyfraniad ar %{date}'
           many: '%{count} cyfraniad ar %{date}'
           other: '%{count} o gyfraniadau ar %{date}'
+    remote_edit:
+      failed:
+        title: Methwyd â golygu
     edit:
       id_not_configured:
         title: iD heb ei ffurfweddu

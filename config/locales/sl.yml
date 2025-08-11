@@ -22,6 +22,9 @@
 # Author: Upwinxp
 ---
 sl:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e. %B %Y ob %H:%M'
@@ -59,6 +62,10 @@ sl:
       models:
         user_mute:
           is_already_muted: je že utišan
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL se mora začeti s http:// ali https://
     models:
       acl: Seznam nadzora dostopa
       changeset: Nabor sprememb
@@ -72,6 +79,7 @@ sl:
       message: Sporočilo
       node: Vozlišče
       node_tag: Oznaka vozlišča
+      note: Opomba
       old_node: Staro vozlišče
       old_node_tag: Oznaka starega vozlišča
       old_relation: Stara relacija
@@ -102,9 +110,9 @@ sl:
         support_url: URL za podporo
         allow_read_prefs: branje uporabniških prilagoditev
         allow_write_prefs: spreminjanje uporabniških nastavitev
-        allow_write_diary: ustvarjanje dnevniških zapisov, komentarjev in dodajanje
-          prijateljev
+        allow_write_diary: ustvarjanje dnevniških zapisov in komentarjev
         allow_write_api: spreminjanje zemljevida
+        allow_write_changeset_comments: komentiranje naborov sprememb
         allow_read_gpx: branje zasebnih sledi GPS
         allow_write_gpx: nalaganje sledi GPS
         allow_write_notes: spreminjanje opomb
@@ -134,7 +142,7 @@ sl:
         longitude: Zemljepisna dolžina
         public: Javnost sledi
         description: Opis
-        gpx_file: Naloži datoteko GPX
+        gpx_file: Izberi datoteko GPS Trace
         visibility: Vidnost
         tagstring: Oznake
       message:
@@ -156,8 +164,10 @@ sl:
         active: Aktiven
         display_name: Prikazano ime
         description: Opis profila
+        company: Podjetje
         home_lat: Zemljepisna širina
         home_lon: Zemljepisna dolžina
+        home_location_name: Ime domače lokacije
         languages: Prednostni jeziki
         preferred_editor: Prednostni urejevalnik
         pass_crypt: Geslo
@@ -252,6 +262,7 @@ sl:
     providers:
       none: Brez
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -283,12 +294,20 @@ sl:
   accounts:
     show:
       title: Urejanje uporabniškega računa
+      my_account: Moj račun
       current email address: Trenutni e-poštni naslov
       external auth: Zunanja avtentikacija
       contributor_terms:
         heading: Pogoji sodelovanja
-        agreed: Sprejeli ste nove pogoje sodelovanja.
+        agreed: Pogoje sodelovanja ste sprejeli dne %{date}.
+        not_agreed: Niste še sprejeli pogojev sodelovanja.
         agreed_with_pd: Prav tako ste izjavili, da so vaša urejanja v javni domeni.
+        not_agreed_with_pd: Niste izjavili, da so vaša urejanja v javni domeni.
+        review: Preglejte pogoje
+        review_and_accept: Preglejte in sprejmite pogoje
+        consider_pd: Razmislite o javni domeni
+      terms_of_use:
+        heading: Pogoji uporabe
       save changes button: Shrani spremembe
       delete_account: Izbriši račun ...
     go_public:
@@ -3125,6 +3144,8 @@ sl:
       nothing_found: Značilnosti ni bilo mogoče najti
       error: 'Napaka pri povezovanju s strežnikom %{server}: %{error}'
       timeout: Časovna omejitev povezovanja s strežnikom %{server}
+    element:
+      wikipedia: Wikipedija
     context:
       directions_from: Navodila za pot od tu
       directions_to: Navodila za pot do tu
