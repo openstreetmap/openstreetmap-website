@@ -14,11 +14,11 @@ module OpenStreetMap
 
     def call(env)
       if method_handled?(env) && encoding_handled?(env)
-        extracted = decode(env["rack.input"], env["HTTP_CONTENT_ENCODING"])
+        extracted = decode(env[::Rack::RACK_INPUT], env["HTTP_CONTENT_ENCODING"])
 
         env.delete("HTTP_CONTENT_ENCODING")
         env["CONTENT_LENGTH"] = extracted.bytesize
-        env["rack.input"] = StringIO.new(extracted)
+        env[::Rack::RACK_INPUT] = StringIO.new(extracted)
       end
 
       if env["HTTP_CONTENT_ENCODING"]
