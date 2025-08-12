@@ -130,7 +130,7 @@ OSM.Query = function (map) {
     }
 
     // Get the date range format in structured form, then filter out anything untagged.
-    let format = new Intl.DateTimeFormat(I18n.currentLocale(), options);
+    let format = new Intl.DateTimeFormat(OSM.i18n.locale, options);
     let lateDate = new Date(Date.UTC(9999));
     let parts = format.formatRangeToParts(startDate || lateDate, endDate || lateDate);
     if (!startDate) {
@@ -244,7 +244,7 @@ OSM.Query = function (map) {
           if (suffix) {
             $li
               .append(" ")
-              .append(OSM.I18n.t("javascripts.query.suffix_format", { dates: featureSuffix(element) }));
+              .append(OSM.i18n.t("javascripts.query.suffix_format", { dates: featureSuffix(element) }));
           }
         }
 
