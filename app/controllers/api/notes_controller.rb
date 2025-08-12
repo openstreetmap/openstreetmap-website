@@ -38,7 +38,7 @@ module Api
       @max_lat = bbox.max_lat
 
       # Find the notes we want to return
-      notes = notes.bbox(bbox).order("updated_at DESC")
+      notes = notes.bbox(bbox).order(:updated_at => :desc)
       notes = query_limit(notes)
       @notes = notes.preload(:comments)
 
@@ -275,15 +275,15 @@ module Api
       # Choose the sort order
       @notes = if params[:sort] == "created_at"
                  if params[:order] == "oldest"
-                   @notes.order("created_at ASC")
+                   @notes.order(:created_at)
                  else
-                   @notes.order("created_at DESC")
+                   @notes.order(:created_at => :desc)
                  end
                else
                  if params[:order] == "oldest"
-                   @notes.order("updated_at ASC")
+                   @notes.order(:updated_at)
                  else
-                   @notes.order("updated_at DESC")
+                   @notes.order(:updated_at => :desc)
                  end
                end
 

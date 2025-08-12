@@ -180,7 +180,7 @@ class DiaryEntriesController < ApplicationController
         @link = url_for :action => "index", :host => Settings.server_url, :protocol => Settings.server_protocol
       end
     end
-    @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
+    @entries = @entries.visible.includes(:user).order(:created_at => :desc).limit(20)
   end
 
   def hide

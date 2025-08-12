@@ -14,7 +14,7 @@ module Api
     ##
     # show all comments or search for a subset
     def index
-      @comments = ChangesetComment.includes(:author).where(:visible => true).order("created_at DESC")
+      @comments = ChangesetComment.includes(:author).where(:visible => true).order(:created_at => :desc)
       @comments = query_conditions_time(@comments)
       @comments = query_conditions_user(@comments, :author)
       @comments = query_limit(@comments)

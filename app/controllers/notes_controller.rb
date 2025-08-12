@@ -26,7 +26,7 @@ class NotesController < ApplicationController
     @notes = @user.notes
     @notes = @notes.visible unless current_user&.moderator?
     @notes = @notes.where(:status => params[:status]) unless params[:status] == "all" || params[:status].blank?
-    @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * PAGE_SIZE).limit(PAGE_SIZE + 1).preload(:comments => :author)
+    @notes = @notes.order(:updated_at => :desc, :id => :asc).distinct.offset((@page - 1) * PAGE_SIZE).limit(PAGE_SIZE + 1).preload(:comments => :author)
     @notes = @notes.to_a
     if @notes.size > PAGE_SIZE
       @notes.pop
