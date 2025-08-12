@@ -567,11 +567,15 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # check the result of a index
   def check_index_result(changesets)
-    assert_select "ol", :count => [changesets.size, 1].min do
-      assert_select "li", :count => changesets.size
+    if changesets.empty?
+      assert_select "ol", :count => 0
+    else
+      assert_select "ol", :count => 1 do
+        assert_select "li", :count => changesets.size
 
-      changesets.each do |changeset|
-        assert_select "li#changeset_#{changeset.id}", :count => 1
+        changesets.each do |changeset|
+          assert_select "li#changeset_#{changeset.id}", :count => 1
+        end
       end
     end
   end
@@ -581,26 +585,30 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def check_feed_result(changesets)
     assert_operator changesets.size, :<=, 20
 
-    assert_select "feed", :count => [changesets.size, 1].min do
-      assert_select "> title", :count => 1, :text => /^Changesets/
-      assert_select "> entry", :count => changesets.size do |entries|
-        entries.zip(changesets) do |entry, changeset|
-          assert_select entry, "> id", :text => changeset_url(:id => changeset.id)
+    if changesets.empty?
+      assert_select "feed", :count => 0
+    else
+      assert_select "feed", :count => 1 do
+        assert_select "> title", :count => 1, :text => /^Changesets/
+        assert_select "> entry", :count => changesets.size do |entries|
+          entries.zip(changesets) do |entry, changeset|
+            assert_select entry, "> id", :text => changeset_url(:id => changeset.id)
 
-          changeset_comment = changeset.tags["comment"]
-          if changeset_comment
-            assert_select entry, "> title", :count => 1, :text => "Changeset #{changeset.id} - #{changeset_comment}"
-          else
-            assert_select entry, "> title", :count => 1, :text => "Changeset #{changeset.id}"
-          end
-
-          assert_select entry, "> content > xhtml|div > xhtml|table" do
-            if changeset.tags.empty?
-              assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 0
+            changeset_comment = changeset.tags["comment"]
+            if changeset_comment
+              assert_select entry, "> title", :count => 1, :text => "Changeset #{changeset.id} - #{changeset_comment}"
             else
-              assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 1 do
-                changeset.tags.each_key do |key|
-                  assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
+              assert_select entry, "> title", :count => 1, :text => "Changeset #{changeset.id}"
+            end
+
+            assert_select entry, "> content > xhtml|div > xhtml|table" do
+              if changeset.tags.empty?
+                assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 0
+              else
+                assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 1 do
+                  changeset.tags.each_key do |key|
+                    assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
+                  end
                 end
               end
             end
