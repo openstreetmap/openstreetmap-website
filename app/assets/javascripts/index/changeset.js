@@ -2,6 +2,14 @@ OSM.Changeset = function (map) {
   const page = {},
         content = $("#sidebar_content");
 
+  content.on("turbo:before-frame-render", "turbo-frame", function () {
+    $(this).find(".numbered_pagination").trigger("numbered_pagination:disable");
+  });
+
+  content.on("turbo:frame-render", "turbo-frame", function () {
+    $(this).find(".numbered_pagination").trigger("numbered_pagination:enable");
+  });
+
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
       page.load();
@@ -21,6 +29,7 @@ OSM.Changeset = function (map) {
         });
       }
     });
+    $(".numbered_pagination").trigger("numbered_pagination:enable");
   };
 
   function updateChangeset(method, url, include_data) {
@@ -75,6 +84,7 @@ OSM.Changeset = function (map) {
 
   page.unload = function () {
     map.removeObject();
+    $(".numbered_pagination").trigger("numbered_pagination:disable");
   };
 
   return page;
