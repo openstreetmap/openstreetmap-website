@@ -15,6 +15,7 @@
      data[:token] = token.token
    end
    data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s
+   data[:theme] = (preferred_color_scheme(:site) if preferred_color_scheme(:site) != "auto")
    data[:asset_map] = assets("iD").to_json %>
 <%= tag.div "", :id => "id-container", :data => data %>
 </body>
