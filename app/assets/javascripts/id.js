@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .assetPath("iD/")
       .assetMap(JSON.parse(container.dataset.assetMap))
       .locale(container.dataset.locale)
+      .theme(container.dataset.theme)
       .containerNode(container)
       .init();
 
