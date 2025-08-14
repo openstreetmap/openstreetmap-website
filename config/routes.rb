@@ -305,6 +305,7 @@ OpenStreetMap::Application.routes.draw do
   end
   get "/user/:display_name/account", :to => redirect(:path => "/account")
   get "/user/:display_name/diary/comments(/:page)", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/diary_comments")
+  get "/uid/:id" => "users#show", :id => /\d+/, :as => :uid
 
   resource :account, :only => [:show, :update, :destroy] do
     scope :module => :accounts do
