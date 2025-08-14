@@ -70,29 +70,6 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
-  def sidebar_classic_pagination(pages, page_param)
-    max_width_for_default_padding = 35
-
-    width = 0
-    pagination_items(pages, {}).each do |(body)|
-      width += 2 # padding width
-      width += body.length
-    end
-    link_classes = ["page-link", { "px-1" => width > max_width_for_default_padding }]
-
-    tag.ul :class => "pagination pagination-sm mb-2" do
-      pagination_items(pages, {}).each do |body, page_or_class|
-        linked = !(page_or_class.is_a? String)
-        link = if linked
-                 link_to body, url_for(page_param => page_or_class.number), :class => link_classes, **yield(page_or_class)
-               else
-                 tag.span body, :class => link_classes
-               end
-        concat tag.li link, :class => ["page-item", { page_or_class => !linked }]
-      end
-    end
-  end
-
   private
 
   def feature_name(tags)
