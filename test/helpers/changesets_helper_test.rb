@@ -32,7 +32,7 @@ class ChangesetsHelperTest < ActionView::TestCase
     changeset_details_dom = Rails::Dom::Testing.html_document_fragment.parse "<div>#{changeset_details(changeset)}</div>"
     assert_dom changeset_details_dom, ":root", :text => /^Closed .* by #{changeset.user.display_name}$/ do
       assert_dom "> time", :count => 1 do
-        assert_dom "> @title", "Created: Mon, 01 Jan 2007 00:00:00 +0000\nClosed: Tue, 02 Jan 2007 00:00:00 +0000"
+        assert_dom "> @title", :html => "Created: Mon, 01 Jan 2007 00:00:00 +0000\nClosed: Tue, 02 Jan 2007 00:00:00 +0000"
         assert_dom "> @datetime", "2007-01-02T00:00:00Z"
       end
       assert_dom "> a", :count => 1, :text => changeset.user.display_name do
