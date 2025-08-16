@@ -100,6 +100,8 @@ There are two built-in applications which communicate via the API, and therefore
 * **iD** - the web-based editor
 * **The website itself** - for the Notes functionality
 
+You need to register these applications with *one* of the users you created. After that iD and Notes functionality become available to every user of the website.
+
 ### Automated OAuth Setup (Recommended)
 
 > [!TIP]
