@@ -52,7 +52,7 @@ sudo npm install --global yarn
 
 > [!TIP]
 > On Ubuntu 24.04, you may need to start PostgreSQL:
-> 
+>
 > ```bash
 > sudo systemctl start postgresql.service
 > ```
@@ -137,11 +137,11 @@ git clone https://github.com/openstreetmap/openstreetmap-website.git
 
 > [!TIP]
 > To clone only the most recent version (~23MB), instead use a 'shallow clone':
-> 
+>
 > ```bash
 > git clone --depth=1 https://github.com/openstreetmap/openstreetmap-website.git
 > ```
-> 
+>
 > If you want to add in the full history later on, perhaps to run `git blame` or `git log`, run `git fetch --depth=1000000`
 
 ### Step 3: Install Application Dependencies

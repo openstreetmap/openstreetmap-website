@@ -104,11 +104,11 @@ There are two built-in applications which communicate via the API, and therefore
 
 > [!TIP]
 > You can register both applications automatically by running the following rake task:
-> 
+>
 > ```bash
 > bundle exec rails oauth:register_apps["My New User Name"]
 > ```
-> 
+>
 > This task registers the applications with the "My New User Name" user as the owner and saves their keys to `config/settings.local.yml`. When logged in, the owner should be able to see the apps on the OAuth 2 applications page.
 
 Alternatively you can register the applications manually, as described in the next section.
@@ -191,17 +191,17 @@ tail -f log/development.log
 
 > [!TIP]
 > If your installation stops working for some reason:
-> 
+>
 > - **Update gems:** Sometimes the bundle has been updated. Go to your `openstreetmap-website` directory and run:
 >   ```bash
 >   bundle install
 >   ```
-> 
+>
 > - **Update Node.js modules:** If Node.js modules have been updated, run:
 >   ```bash
 >   bundle exec bin/yarn install
 >   ```
-> 
+>
 > - **Run database migrations:** The OSM database schema is changed periodically. To keep up with improvements:
 >   ```bash
 >   bundle exec rails db:migrate

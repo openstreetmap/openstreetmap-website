@@ -62,7 +62,7 @@ bundle exec erb_lint . --autocorrect
 
 > [!TIP]
 > You can also install hooks to have git run checks automatically when you commit using [overcommit](https://github.com/sds/overcommit) with:
-> 
+>
 > ```bash
 > bundle exec overcommit --install
 > ```
@@ -98,7 +98,7 @@ The tests are automatically run on Pull Requests and other commits via github ac
 
 > [!TIP]
 > **System tests** use Selenium with Firefox for browser automation. On Ubuntu 24.04, if Firefox is installed via snap, you may need to override the Firefox binary path in `config/settings.local.yml`:
-> 
+>
 > ```yaml
 > system_test_firefox_binary: /snap/firefox/current/usr/lib/firefox/firefox
 > ```
@@ -148,13 +148,13 @@ If your pull request is small, for example one or two commits each containing on
 
 > [!IMPORTANT]
 > If you are creating a larger pull request, then please help the maintainers with making the reviews as straightforward as possible:
-> 
+>
 > * The smaller the PR, the easier it is to review. In particular if a PR is too large to review in one sitting, or if changes are requested, then the maintainer needs to repeatedly re-read code that has already been considered.
 > * The commit history is important. This is a large codebase, developed over many years by many developers. We frequently need to read the commit history (for example using `git blame`) to figure out what is going on. So small, understandable, and relevant commits are important for other developers looking back at your work in future.
 
 > [!TIP]
 > If you are creating a large pull request then please:
-> 
+>
 > * Consider splitting your pull request into multiple PRs. If part of your work can be considered standalone, or is a foundation for the rest of your work, please submit it separately first.
 > * Avoid including "fixup" commits. If you have added a fixup commit (for example to fix a rubocop warning, or because you changed your own new code) please combine the fixup commit into the commit that introduced the problem. `git rebase -i` is very useful for this.
 > * Avoid including "merge" commits. If your PR can no longer be merged cleanly (for example, an unrelated change to Gemfile.lock on master now conflicts with your PR) then please rebase your PR onto the latest master. This allows you to fix the conflicts, while keeping the PR a straightforward list of commits. If there are no conflicts, then there is no need to rebase anything.
@@ -170,9 +170,9 @@ The list of attributions on the /copyright page is managed by the [OSMF Licensin
 
 > [!IMPORTANT]
 > If you want to add another attribution, or make changes to the text of an existing attribution, please follow these steps:
-> 
+>
 > * First, contact the LWG to discuss your proposed changes.
 > * If the LWG approves, please create a pull request with your proposed changes.
 > * Finally, please ask the LWG to formally approve the wording used in the pull request (by having an LWG member comment on the PR).
-> 
+>
 > When we have formal confirmation from LWG, we can go ahead and merge the PR.
