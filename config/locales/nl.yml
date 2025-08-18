@@ -83,7 +83,7 @@ nl:
       prompt: Bestand kiezen
     submit:
       diary_comment:
-        create: Opmerking
+        create: Reactie
       diary_entry:
         create: Publiceren
         update: Bijwerken
@@ -160,7 +160,7 @@ nl:
         allow_write_prefs: gebruikersvoorkeuren wijzigen
         allow_write_diary: dagboekberichten schrijven en reacties toevoegen
         allow_write_api: de kaart wijzigen
-        allow_write_changeset_comments: opmerkingen over wijzigingensets plaatsen
+        allow_write_changeset_comments: reacties over wijzigingensets plaatsen
         allow_read_gpx: privé-gps-trajecten lezen
         allow_write_gpx: gps-trajecten uploaden
         allow_write_notes: opmerkingen wijzigen
@@ -287,6 +287,7 @@ nl:
     providers:
       none: Geen
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -304,17 +305,17 @@ nl:
         reopened_at_by_html: '%{when} opnieuw geactiveerd door %{user}'
       rss:
         title: OpenStreetMap-opmerkingen
-        description_all: Een lijst met gerapporteerde, becommentarieerde of gesloten
-          opmerkingen
-        description_area: Een lijst met opmerkingen en reacties in uw gebied [(%{min_lat}|%{min_lon})
-          -- (%{max_lat}|%{max_lon})]
+        description_all: Een lijst met opmerkingen die zijn gemeld, waarop is gereageerd
+          of die zijn gesloten
+        description_area: Een lijst met opmerkingen die zijn gemeld, waarop is gereageerd
+          of die zijn gesloten in uw gebied [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Een RSS-feed voor opmerking %{id}
         opened: nieuwe opmerking (bij %{place})
         commented: nieuwe reactie (bij %{place})
         closed: gesloten opmerking (bij %{place})
         reopened: opnieuw geactiveerde opmerking (bij %{place})
       entry:
-        comment: Opmerking
+        comment: Reactie
         full: Volledige opmerking
   accounts:
     show:
@@ -356,8 +357,8 @@ nl:
         gebruikers zijn nu standaard openbaar.
       make_edits_public_button: Al mijn wijzigingen  openbaar maken
     update:
-      success_confirm_needed: Gebruikersinformatie succesvol bijgewerkt. Controleer
-        uw e-mail om uw nieuwe e-mailadres te bevestigen.
+      success_confirm_needed: De gebruikersgegevens zijn bijgewerkt. Kijk in uw e-mail
+        voor een bericht om uw nieuwe e-mailadres te bevestigen.
       success: De gebruikersinformatie is bijgewerkt.
     destroy:
       success: Account verwijderd.
@@ -378,10 +379,10 @@ nl:
         retain_edits: Uw wijzigingen aan de kaart database worden, indien van toepassing,
           behouden.
         retain_traces: Uw geüploade trajecten, indien van toepassing, blijven behouden.
-        retain_diary_entries: Uw dagboekberichten en reacties, indien van toepassing,
-          blijven behouden maar zullen niet langer zichtbaar zijn.
-        retain_notes: Uw kaartopmerkingen en reacties worden, indien van toepassing,
-          behouden maar verborgen van weergave.
+        retain_diary_entries: Uw eventuele dagboekberichten en -reacties blijven behouden
+          maar zullen niet langer zichtbaar zijn.
+        retain_notes: Uw eventuele kaartopmerkingen en reacties op opmerkingen blijven
+          behouden maar zullen niet langer zichtbaar zijn.
         retain_changeset_discussions: Uw overleg over wijzigingensets, indien van
           toepassing, blijft behouden.
         retain_email: Uw e-mailadres blijft behouden.
@@ -447,7 +448,7 @@ nl:
     redacted_version: Geredigeerde versie
     in_changeset: Wijzigingenset
     anonymous: anoniem
-    no_comment: (geen opmerking)
+    no_comment: (geen reactie)
     part_of: Onderdeel van
     part_of_relations:
       one: '%{count} relatie'
@@ -593,13 +594,13 @@ nl:
         title_all: Overleg over een wijzigingenset van OpenStreetMap
         title_particular: 'Overleg over wijzigingenset #%{changeset_id} van OpenStreetMap'
       timeout:
-        sorry: Sorry, het oproepen van de lijst met wijzigingenset-opmerkingen die
-          u hebt opgevraagd duurde te lang.
+        sorry: Sorry, het oproepen van de lijst met wijzigingenset-reacties die u
+          hebt opgevraagd duurde te lang.
   changesets:
     changeset_line:
       comments:
-        one: '%{count} opmerking'
-        other: '%{count} opmerkingen'
+        one: '%{count} reactie'
+        other: '%{count} reacties'
       changes:
         one: '%{count} wijziging'
         other: '%{count} wijzigingen'
@@ -731,23 +732,23 @@ nl:
       subscribe: Abonneren
       unsubscribe: Deabonneren
       leave_a_comment: Een reactie achterlaten
-      login_to_leave_a_comment_html: U moet moet zich %{login_link} om te kunnen reageren
+      login_to_leave_a_comment_html: U moet zich %{login_link} om te kunnen reageren
       login: Aanmelden
     no_such_entry:
       title: Het opgegeven dagboekbericht bestaat niet
       heading: Het bericht met id %{id} bestaat niet
-      body: Er is geen dagboekbericht of reactie met het id %{id}. Controleer de spelling,
+      body: Er is geen dagboekbericht of -reactie met de ID %{id}. Controleer de spelling,
         of misschien is de koppeling waarop u geklikt hebt onjuist.
     diary_entry:
       posted_by_html: Geplaatst door %{link_user} op %{created} in het %{language_link}.
       updated_at_html: Laatst aangepast op %{updated}.
       full_entry: Bekijk het volledige bericht
-      comment_link: Reageer op dit bericht
+      comment_link: Op dit bericht reageren
       reply_link: Een bericht sturen naar de auteur
       comment_count:
-        one: '%{count} commentaar'
-        other: '%{count} commentaren'
-      no_comments: Geen commentaar
+        one: '%{count} reactie'
+        other: '%{count} reacties'
+      no_comments: Geen reacties
       edit_link: Dit bericht bewerken
       hide_link: Verberg dit bericht
       unhide_link: Dit bericht zichtbaar maken
@@ -756,9 +757,9 @@ nl:
     diary_comment:
       comment_from_html: Reactie van %{link_user} op %{comment_created_at}
       hide_link: Deze reactie verbergen
-      unhide_link: Reactie zichtbaar maken
+      unhide_link: Deze reactie zichtbaar maken
       confirm: Bevestigen
-      report: Rapporteer deze reactie
+      report: Deze reactie melden
     location:
       location: 'Locatie:'
     feed:
@@ -786,8 +787,8 @@ nl:
     profile_diaries:
       latest_diaries: Nieuwste dagboekberichten
       comments:
-        one: '%{count} commentaar'
-        other: '%{count} commentaren'
+        one: '%{count} reactie'
+        other: '%{count} reacties'
       title_label: Dagboekbericht
       comments_label: Reacties
       date_label: Datum
@@ -1795,8 +1796,7 @@ nl:
   issue_comments:
     create:
       comment_created: Uw reactie is succesvol aangemaakt
-      issue_reassigned: Uw commentaar is aangemaakt en de probleemrapportage is opnieuw
-        toegewezen
+      issue_reassigned: Uw reactie is aangemaakt en het probleem is opnieuw toegewezen
   reports:
     new:
       title_html: Rapporteer %{link}
@@ -1880,15 +1880,15 @@ nl:
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap-dagboekbericht #%{id}'
-      subject: '[OpenStreetMap] %{user} heeft een reactie bij uw dagboek geplaatst'
+      subject: '[OpenStreetMap] %{user} heeft een reactie bij een dagboekbericht geplaatst'
       hi: Hallo %{to_user},
       header: '%{from_user} heeft gereageerd op het OpenStreetMap-dagboekbericht met
         het onderwerp %{subject}:'
       header_html: '%{from_user} heeft gereageerd op het OpenStreetMap-dagboekbericht
         met het onderwerp %{subject}:'
-      footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
-        op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
-      footer_html: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
+      footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf reageren op
+        %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
+      footer_html: U kunt de reactie ook lezen op %{readurl} en u kunt zelf reageren
         op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
       footer_unsubscribe: U kunt zich afmelden voor de discussie op %{unsubscribeurl}
       footer_unsubscribe_html: U kunt zich afmelden van de discussie op %{unsubscribeurl}
@@ -1963,7 +1963,7 @@ nl:
       click_the_link: Als u dit bent, klik dan op de onderstaande koppeling om uw
         wachtwoord opnieuw in te stellen.
     note_comment_notification:
-      description: 'OpenStreetMap-notitie #%{id}'
+      description: 'OpenStreetMap-opmerking #%{id}'
       anonymous: Een anonieme gebruiker
       greeting: Hallo,
       commented:
@@ -2024,7 +2024,7 @@ nl:
         commented_changeset_html: '%{commenter} heeft om %{time} een reactie geplaatst
           bij een wijzigingenset die u volgt van %{changeset_author}'
         partial_changeset_with_comment: met reactie "%{changeset_comment}"
-        partial_changeset_with_comment_html: met commentaar "%{changeset_comment}"
+        partial_changeset_with_comment_html: met reactie "%{changeset_comment}"
         partial_changeset_without_comment: zonder reactie
       details: Reageer of lees meer over de wijzigingenset op %{url}.
       details_html: Reageer of lees meer over de wijzigingenset op %{url}.
@@ -2057,8 +2057,8 @@ nl:
       failure: Er is al een e-mailadres bevestigd met dit token.
       unknown_token: De opgegeven bevestigingscode is verlopen of bestaat niet.
     resend_success_flash:
-      confirmation_sent: We hebben een nieuwe bevestigingsnotitie naar %{email} gestuurd
-        en zodra u uw registratie bevestigt, kunt u gaan mappen.
+      confirmation_sent: We hebben een nieuw bevestigingsbericht naar %{email} gestuurd.
+        Zodra u uw account bevestigt, kunt u aan de slag met het bewerken van de kaart.
       whitelist: Als u een antispamsysteem gebruikt dat bevestigingsverzoeken verzendt,
         zorg er dan voor dat u %{sender} op de witte lijst plaatst, aangezien we niet
         kunnen reageren op bevestigingsverzoeken.
@@ -2131,8 +2131,8 @@ nl:
       show:
         title: Gedempte berichten
         messages:
-          one: '%{count} verborgen bericht'
-          other: U hebt %{count} genegeerde berichten
+          one: '%{count} gedempt bericht'
+          other: U hebt %{count} gedempte berichten
     outboxes:
       show:
         title: Postvak UIT
@@ -2313,8 +2313,8 @@ nl:
       help: Hulp
     pagination:
       changeset_comments:
-        older: Oudere opmerkingen
-        newer: Nieuwere opmerkingen
+        older: Oudere reacties
+        newer: Nieuwere reacties
         oldest: Oudste reacties
         newest: Nieuwste reacties
       diary_comments:
@@ -2369,9 +2369,12 @@ nl:
         en de \nwebsite van de %{osm_foundation_link} voor meer informatie over de
         gemeenschap."
       community_driven_osm_blog: OpenStreetMap-blog
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
       community_driven_user_diaries: gebruikersdagboeken
       community_driven_community_blogs: gemeenschapsblogs
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org/
       community_driven_osm_foundation: OSM Foundation
+      community_driven_osm_foundation_url: https://www.osmfoundation.org/
       open_data_title: Open data
       open_data_1_html: 'OpenStreetMap is %{open_data}: u mag de gegevens gebruiken
         voor ieder doel, als u de naam van OpenStreetMap en haar bijdragers maar vermeldt.
@@ -2385,16 +2388,22 @@ nl:
         van deze website en diensten is onderworpen\naan ons %{terms_of_use_link},
         %{aup_link} en ons %{privacy_policy_link}."
       legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
       legal_1_1_terms_of_use: gebruiksvoorwaarden
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: beleid voor acceptabel gebruik
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: privacybeleid
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_2_1_html: |-
         %{contact_the_osmf_link}
         als u licentie-, copyright- of andere juridische vragen heeft.
       legal_2_1_contact_the_osmf: Neem contact op met de OSMF
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
       legal_2_2_html: OpenStreetMap, het vergrootglaslogo en State of the Map zijn
         %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: geregistreerde handelsmerken van de OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Partners
     copyright:
       title: Auteursrechten en licentie
@@ -3045,6 +3054,9 @@ nl:
       google:
         title: Aanmelden met Google
         alt: Google-logo
+      apple:
+        title: Aanmelden met Apple
+        alt: Apple-logo
       facebook:
         title: Aanmelden met Facebook
         alt: Facebook-logo
@@ -3089,7 +3101,7 @@ nl:
       openid: Aanmelden met OpenStreetMap
       read_prefs: Gebruikersvoorkeuren lezen
       write_prefs: Gebruikersvoorkeuren wijzigen
-      write_diary: Dagboekberichten schrijven en reacties bij dagboekberichten plaatsen
+      write_diary: Dagboekberichten en -reacties aanmaken
       write_api: De kaart wijzigen
       write_changeset_comments: Reageren op wijzigingensets
       read_gpx: Persoonlijke gps-trajecten lezen
@@ -3211,7 +3223,7 @@ nl:
       my_dashboard: Mijn dashboard
       blocks on me: Blokkades voor u
       blocks by me: Blokkades door u
-      create_mute: Demp deze gebruiker
+      create_mute: Deze gebruiker dempen
       destroy_mute: Hef het dempen van deze gebruiker op
       send message: Bericht verzenden
       diary: Dagboek
@@ -3311,10 +3323,10 @@ nl:
         summary_no_ip_html: '%{name} aangemaakt op %{date}'
     comments:
       index:
-        heading_html: Opmerkingen van %{user}
+        heading_html: Reacties van %{user}
         changesets: Wijzigingensets
         diary_entries: Dagboekberichten
-        no_comments: Geen opmerkingen
+        no_comments: Geen reacties
     changeset_comments:
       index:
         title: Reacties op wijzingenset toegevoegd door %{user}
@@ -3328,7 +3340,7 @@ nl:
       page:
         post: Dagboekbericht
         when: Wanneer
-        comment: Opmerking
+        comment: Reactie
     suspended:
       title: Gebruiker opgeschort
       heading: Account opgeschort
@@ -3474,8 +3486,8 @@ nl:
       title: Gedempte gebruikers
       my_muted_users: Mijn gedempte gebruikers
       you_have_muted_n_users:
-        one: Je hebt %{count} gebruiker gedempt
-        other: Je hebt %{count} gebruikers gedempt
+        one: U hebt %{count} gebruiker gedempt
+        other: U hebt %{count} gebruikers gedempt
       user_mute_explainer: Berichten van gedempte gebruikers worden naar een aparte
         inbox verplaatst en u ontvangt geen e-mailmeldingen.
       user_mute_admins_and_moderators: U kunt beheerders en moderators dempen, maar
@@ -3488,18 +3500,19 @@ nl:
           unmute: Dempen opheffen
           send_message: Bericht verzenden
     create:
-      notice: Je hebt %{name} gedempt.
+      notice: U hebt %{name} gedempt.
       error: '%{name} kan niet worden gedempt. %{full_message}.'
     destroy:
       notice: Je hebt het dempen van %{name} opgeheven.
       error: Het dempen van de gebruiker kan niet worden opgeheven. Probeer het opnieuw.
   notes:
     index:
-      title: Opmerkingen gemaakt door %{user}
+      title: Opmerkingen die %{user} heeft geplaatst of waar %{user} op heeft gereageerd
       heading: Opmerkingen van %{user}
-      subheading_html: Opmerkingen %{submitted} door %{user} of waar %{user} op %{commented}
+      subheading_html: Opmerkingen die %{user} heeft %{submitted} of waar %{user}
+        op heeft %{commented}
       subheading_submitted: geplaatst
-      subheading_commented: reageerde
+      subheading_commented: gereageerd
       no_notes: Geen opmerkingen
       id: Id
       creator: Auteur
@@ -3529,10 +3542,10 @@ nl:
       event_reopened_by_html: '%{time_ago} opnieuw geactiveerd door %{user}'
       event_reopened_by_anonymous_html: '%{time_ago} anoniem opnieuw geactiveerd'
       event_hidden_by_html: '%{time_ago} verborgen door %{user}'
-      report: deze opmerking rapporteren
+      report: deze opmerking melden
       coordinates_html: '%{latitude}; %{longitude}'
       anonymous_warning: In deze opmerking staan reacties van anonieme gebruikers
-        die moeten worden gecontroleerd.
+        die onafhankelijk moeten worden gecontroleerd.
       discussion: Overleg
       subscribe: Abonneren
       unsubscribe: Uitschrijven
@@ -3541,11 +3554,11 @@ nl:
       reactivate: Opnieuw activeren
       comment_and_resolve: Reageren en oplossen
       comment: Reageren
-      log_in_to_comment: Log in om op deze notitie te reageren
+      log_in_to_comment: Meld u aan om op deze opmerking te reageren
       report_link_html: Als deze opmerking gevoelige informatie bevat die verwijderd
         moet worden, kunt u %{link}.
-      other_problems_resolve: Voor alle andere problemen met de notitie, gelieve deze
-        zelf op te lossen met een opmerking.
+      other_problems_resolve: Los alle andere problemen met de opmerking zelf op door
+        een reactie te plaatsen.
       other_problems_resolved: Voor alle andere problemen is oplossen voldoende.
       disappear_date_html: Deze opgeloste opmerking zal van de kaart verdwijnen over
         %{disappear_in}.
@@ -3554,14 +3567,14 @@ nl:
       intro: Een fout gezien? Ontbreekt er iets? Laat het andere kaartmakers weten
         zodat wij het kunnen verbeteren. Verplaats de markering naar de juiste positie
         en beschrijf het probleem.
-      anonymous_warning_html: Je bent niet aangemeld. Het is aanbevolen %{log_in}
-        of %{sign_up} zodat u reacties van andere kaartmakers kunt ontvangen en uw
-        opmerking beter opgevolgd kan worden.
-      anonymous_warning_log_in: je aan te melden
-      anonymous_warning_sign_up: je te registreren
-      counter_warning_html: Je hebt meer dan %{x_anonymous_notes} geplaatst, dat is
-        geweldig voor de community, bedankt! We willen je graag uitnodigen om %{contribute_by_yourself},
-        het is niet zo heel ingewikkeld en %{community_can_help}.
+      anonymous_warning_html: U bent niet aangemeld. %{log_in} of %{sign_up} zodat
+        u reacties van andere kaartmakers kunt ontvangen en uw opmerking beter opgevolgd
+        kan worden.
+      anonymous_warning_log_in: Meld u aan
+      anonymous_warning_sign_up: schrijf u in
+      counter_warning_html: U hebt meer dan %{x_anonymous_notes} geplaatst. Dat is
+        goed voor de gemeenschap, bedankt! Maar probeer ook eens %{contribute_by_yourself}.
+        Zo ingewikkeld is het niet en %{community_can_help}.
       x_anonymous_notes:
         one: '%{count} anonieme opmerking'
         other: '%{count} anonieme opmerkingen'
@@ -3569,10 +3582,10 @@ nl:
         text: zelf de kaart te bewerken
         url: https://wiki.openstreetmap.org/wiki/NL:Beginnershandleiding
       counter_warning_forum_link:
-        text: de community helpt je graag
-      advice: Deze opmerking is openbaar en kan gebruikt worden om de kaart bij te
-        werken. Vul hier dus geen persoonlijke informatie in, en ook geen informatie
-        uit kaarten of telefoonboeken waar auteursrechtelijke bescherming op rust.
+        text: de gemeenschap helpt u graag
+      advice: Uw opmerking is openbaar en kan gebruikt worden om de kaart bij te werken.
+        Vul hier dus geen persoonlijke informatie in, en ook geen informatie uit kaarten
+        of telefoonboeken waar auteursrechtelijke bescherming op rust.
       add: Opmerking toevoegen
     new_readonly:
       title: Nieuwe opmerking
@@ -3589,6 +3602,7 @@ nl:
     share:
       title: Delen
       view_larger_map: Grotere kaart weergeven
+      export_failed_title: Kaart exporteren mislukt
       filename: kaart
     embed:
       report_problem: Een probleem melden
@@ -3657,6 +3671,9 @@ nl:
         mi: '%{distance} mi'
       errors:
         no_route: Kon geen route tussen deze twee plaatsen vinden.
+        no_place:
+          title: Zoeken mislukt
+          body: Kon ‘%{place}’ niet vinden.
       instructions:
         continue_without_exit: Verder op %{name}
         slight_right_without_exit: Flauwe bocht naar rechts naar %{name}
@@ -3756,9 +3773,15 @@ nl:
         contributions:
           one: '%{count} bijdrage op %{date}'
           other: '%{count} bijdragen op %{date}'
+    remote_edit:
+      failed:
+        title: Bewerken mislukt
+        body: Zorg ervoor dat JOSM of Merkaartor is geladen en dat de optie voor afstandsbediening
+          is ingeschakeld
     edit:
       id_not_configured:
         title: iD is niet ingesteld
+        body: Zie CONFIGURE.md voor meer informatie
   redactions:
     edit:
       heading: Redigering bewerken

@@ -299,8 +299,19 @@ ja:
       external auth: 外部認証
       contributor_terms:
         heading: 協力者規約
-        agreed: あなたは、新しい協力者規約を承諾しています。
+        agreed: あなたは %{date} に投稿者規約に同意しました。
+        not_agreed: あなたは貢献者規約にまだ同意していません。
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
+        not_agreed_with_pd: あなたは自分の編集内容がパブリックドメインであると宣言していません。
+        review: 利用規約を確認する
+        review_and_accept: 利用規約を確認して同意する
+        consider_pd: パブリックドメインとみなす
+      terms_of_use:
+        heading: 利用規約
+        agreed: '%{date}に利用規約に同意しました。'
+        not_agreed: あなたは利用規約にまだ同意していません。
+        review: 利用規約を確認する
+        review_and_accept: 利用規約を確認して同意する
       save changes button: 変更を保存
       delete_account: アカウントを削除
     go_public:
@@ -345,6 +356,7 @@ ja:
         read_ct: 私は以下の貢献者同意を読み終え、これに同意します
         tou_explain:
           html: これらの%{tou_link}では、OSMFによって提供されているウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして、読み、文書に同意してください。
+          tou: 利用規約
         read_tou: 私は利用規約を読み終え、これに同意します
         guidance_info_html: 'これらの用語を理解するのに役立つ情報: %{readable_summary_link} といくつかの %{informal_translations_link}'
         readable_summary: 人間が読める要約
@@ -366,7 +378,14 @@ ja:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
     pd_declarations:
       show:
+        title: 私の貢献はパブリックドメインであるものとみなしてください
+        consider_pd: 私の貢献はパブリックドメインであるものとみなします
+        consider_pd_why: わたしはなぜ自分の貢献をパブリックドメインにしたいのでしょうか?
         confirm: 確認
+      create:
+        successfully_declared: あなたは、自分の編集結果がパブリックドメインにあるとみなすと宣言しました。
+        already_declared: あなたはすでに、自分の編集内容をパブリックドメインであるとみなしていることを宣言しています。
+        did_not_confirm: あなたは自分の編集内容がパブリックドメインであるものとみなすと宣言していません。
   browse:
     deleted_ago_by_html: '%{user}が%{time_ago}に削除'
     edited_ago_by_html: '%{user}が%{time_ago}に編集'
@@ -426,6 +445,7 @@ ja:
         relation: リレーション
     start_rjs:
       feature_warning: '%{num_features}件の地物を読み込むことで、お使いのブラウザが遅くなったり反応がなくなったりするおそれがあります。このデータを本当に表示しますか？'
+      feature_error: '機能を読み込めませんでした: %{message}'
       load_data: データの読み込み
       loading: 読み込み中...
     tag_details:
@@ -434,11 +454,20 @@ ja:
         key: タグ %{key} のウィキでの説明ページ
         tag: タグ %{key}=%{value} のウィキでの説明ページ
       wikidata_link: ウィキデータの項目 %{page}
+      wikidata_preview:
+        other: Wikidata 項目のプレビュー
       wikipedia_link: ウィキペディアの記事 %{page}
       wikimedia_commons_link: ウィキメディアコモンズの項目 %{page}
       telephone_link: '%{phone_number}に電話'
       colour_preview: 色彩%{colour_value}プレビュー
       email_link: メール %{email}
+    versions_navigation:
+      node: ノード
+      way: ウェイ
+      relation: リレーション
+      history: 履歴
+      version: 'バージョン #%{version}'
+      versions_label: 'バージョン:'
   feature_queries:
     show:
       title: 地物を検索
@@ -453,6 +482,8 @@ ja:
         title_html: 'ウェイ: %{name} の履歴'
       relation:
         title_html: 'リレーション: %{name} の履歴'
+      older_versions: 古いバージョン
+      newer_versions: 新しいバージョン
     actions:
       view_redacted_data: 編集されたデータを表示
       view_redaction_message: 編集メッセージを表示
@@ -497,10 +528,16 @@ ja:
       timeout:
         sorry: 申し訳ありませんが、要求した変更セットのコメントの一覧は時間がかかりすぎたため取得できませんでした。
   changesets:
+    changeset_line:
+      comments:
+        other: '%{count} コメント'
+      n_elements_created:
+        other: '%{count} 個の要素が作成されました'
     index:
       title: 変更セット
       title_user: '%{user} による変更セット'
       title_user_link_html: '%{user_link} による変更セット'
+      title_followed: フォローしているユーザーによる変更セット
       title_nearby: 周辺の利用者による変更セット
       empty: 変更セットが見つかりませんでした。
       empty_area: この領域には変更セットはありません。
@@ -508,6 +545,8 @@ ja:
       no_more: 変更セットはこれ以上ありません。
       no_more_area: この領域には変更セットはこれ以上ありません。
       no_more_user: この利用者による変更セットはこれ以上ありません。
+      older_changesets: 古い変更セット
+      newer_changesets: 新しい変更セット
       feed:
         title: 変更セット %{id}
         title_comment: 変更セット %{id} - %{comment}
@@ -535,8 +574,11 @@ ja:
       changesetxml: 変更セット XML
       osmchangexml: OSM 差分 XML
     paging_nav:
+      nodes_title: ノード
       nodes_paginated: ノード (%{x}-%{y} / %{count})
+      ways_title: ウェイ
       ways_paginated: ウェイ (%{x}-%{y} / %{count})
+      relations_title: リレーション
       relations_paginated: リレーション (%{x}-%{y} / %{count})
     not_found_message:
       sorry: '変更セット #%{id} は見つかりませんでした。'
@@ -570,6 +612,8 @@ ja:
       title: 私のダッシュボード
       no_home_location_html: '%{edit_profile_link}そして、近くの利用者が表示されるように自宅の場所を設定します。'
       edit_your_profile: プロフィールの編集
+      followings: フォロー中のユーザー
+      no followings: フォロー中のユーザーはいません。
       nearby users: 周辺にいるその他の利用者
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
       followed_changesets: 変更セット
@@ -584,6 +628,7 @@ ja:
       use_map_link: 地図を使用
     index:
       title: 利用者の日記
+      title_followed: フォロー中のユーザーの日記
       title_nearby: 周辺の利用者の日記
       user_title: '%{user}さんの日記'
       in_language_title: '%{language}の日記エントリ'
@@ -609,6 +654,7 @@ ja:
     diary_entry:
       posted_by_html: '%{link_user} が %{created} に投稿 (%{language_link}) 。'
       updated_at_html: 最終更新日 %{updated}
+      full_entry: 全文を見る
       comment_link: このエントリにコメント
       reply_link: 筆者にメッセージを送る
       comment_count:
@@ -644,9 +690,15 @@ ja:
       heading: この日記エントリの議論の通知を解除しますか？
       button: 議論の通知を解除
     navigation:
+      in_language: '%{language}の日記エントリ'
       my_diary: 自分の日記
       new: 日記エントリを新規作成
       new_title: 自分の日記にエントリを新規作成
+    profile_diaries:
+      latest_diaries: 最新の日記
+      title_label: 日記エントリ
+      comments_label: コメント
+      date_label: 日付
   diary_comments:
     new:
       heading: この日記エントリの議論にコメントを追加しますか？
