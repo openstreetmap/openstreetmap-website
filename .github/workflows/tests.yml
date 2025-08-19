@@ -18,15 +18,15 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Checkout source
-      uses: actions/checkout@v5
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@829114fc20da43a41d27359103ec7a63020954d4 # v1.255.0
       with:
         ruby-version: ${{ matrix.ruby }}
         rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
       with:
         cache: yarn
     - name: Install packages
@@ -64,14 +64,14 @@ jobs:
     - name: Run javascript tests
       run: bundle exec teaspoon
     - name: Upload screenshots
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       if: failure()
       with:
         name: screenshots
         path: tmp/screenshots
         if-no-files-found: ignore
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.3.6
+      uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
       with:
         github-token: ${{ secrets.github_token }}
         flag-name: ruby-${{ matrix.ruby }}
@@ -84,7 +84,7 @@ jobs:
     timeout-minutes: 1
     steps:
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.3.6
+      uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true
