@@ -308,6 +308,7 @@ OpenStreetMap::Application.routes.draw do
 
   resource :account, :only => [:show, :update, :destroy] do
     scope :module => :accounts do
+      resources :blocks, :only => :index
       resource :terms, :only => [:show, :update]
       resource :pd_declaration, :only => [:show, :create]
       resource :deletion, :only => :show
