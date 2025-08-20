@@ -16,7 +16,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
 
-      @relations = Relation.find(ids)
+      @relations = Relation.includes(:relation_members, :element_tags).find(ids)
 
       # Render the result
       respond_to do |format|
@@ -26,7 +26,7 @@ module Api
     end
 
     def show
-      relation = Relation.find(params[:id])
+      relation = Relation.includes(:relation_members, :element_tags).find(params[:id])
 
       response.last_modified = relation.timestamp unless params[:full]
 
