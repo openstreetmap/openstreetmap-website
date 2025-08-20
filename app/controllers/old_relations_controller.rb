@@ -1,7 +1,7 @@
 class OldRelationsController < OldElementsController
   def index
     @type = "relation"
-    @current_feature = @feature = Relation.preload(:relation_tags).find(params[:id])
+    @current_feature = @feature = Relation.preload(:element_tags).find(params[:id])
     @old_features, @newer_features_version, @older_features_version = get_page_items(
       OldRelation.where(:relation_id => params[:id]),
       :cursor_column => :version,

@@ -32,7 +32,7 @@ class Way < ApplicationRecord
   has_many :way_nodes, -> { order(:sequence_id) }, :inverse_of => :way
   has_many :nodes, :through => :way_nodes
 
-  has_many :way_tags
+  has_many :element_tags, :class_name => "WayTag"
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
@@ -110,7 +110,7 @@ class Way < ApplicationRecord
   end
 
   def tags
-    @tags ||= way_tags.to_h { |t| [t.k, t.v] }
+    @tags ||= element_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :nds, :tags

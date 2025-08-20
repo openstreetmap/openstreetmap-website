@@ -49,8 +49,8 @@ module Api
 
           # next load the relations and the ways.
 
-          relations = Relation.where(:id => relation_ids).includes(:relation_tags)
-          ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
+          relations = Relation.where(:id => relation_ids).includes(:element_tags)
+          ways = Way.where(:id => way_ids).includes(:way_nodes, :element_tags)
 
           # now additionally collect nodes referenced by ways. Note how we
           # recursively evaluate ways but NOT relations.
@@ -59,7 +59,7 @@ module Api
             way.way_nodes.collect(&:node_id)
           end
           node_ids += way_node_ids.flatten
-          nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
+          nodes = Node.where(:id => node_ids.uniq).includes(:element_tags)
 
           @nodes = []
           nodes.each do |node|

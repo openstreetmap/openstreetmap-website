@@ -30,7 +30,7 @@ class Relation < ApplicationRecord
   has_many :old_relations, -> { order(:version) }, :inverse_of => :current_relation
 
   has_many :relation_members, -> { order(:sequence_id) }, :inverse_of => :relation
-  has_many :relation_tags
+  has_many :element_tags, :class_name => "RelationTag"
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
@@ -128,7 +128,7 @@ class Relation < ApplicationRecord
   end
 
   def tags
-    @tags ||= relation_tags.to_h { |t| [t.k, t.v] }
+    @tags ||= element_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :members, :tags
@@ -281,7 +281,7 @@ class Relation < ApplicationRecord
       clone.save!
 
       tags = self.tags.clone
-      relation_tags.each do |old_tag|
+      element_tags.each do |old_tag|
         key = old_tag.k
         # if we can match the tags we currently have to the list
         # of old tags, then we never set the tags_changed flag. but
