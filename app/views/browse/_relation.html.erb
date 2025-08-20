@@ -23,9 +23,26 @@
       <h4><%= t ".members" %></h4>
       <details <%= "open" if relation.relation_members.count < 10 %>>
         <summary><%= t ".members_count", :count => relation.relation_members.count %></summary>
-        <ul class="list-unstyled browse-element-list">
-          <%= render :partial => "browse/relation_member", :collection => relation.relation_members %>
-        </ul>
+        <% if relation.relation_members.count >= 10 %>
+          <turbo-frame id="member_relation_<%= relation.id %>"
+            <% if relation.is_a?(OldRelation) %>
+              <% path_params = [relation.relation_id, relation.version] %>
+              <% path_params << { :show_redactions => params[:show_redactions] } if params[:show_redactions] %>
+              src="<%= old_relation_members_path(*path_params) %>">
+            <% else %>
+              src="<%= relation_members_path(relation) %>">
+            <% end %>
+            <div class="text-center my-2">
+              <div class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </turbo-frame>
+        <% else %>
+          <ul class="list-unstyled browse-element-list">
+            <%= render :partial => "browse/relation_member", :collection => relation.relation_members %>
+          </ul>
+        <% end %>
       </details>
     <% end %>
   <% end %>

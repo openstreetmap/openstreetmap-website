@@ -142,9 +142,13 @@ OpenStreetMap::Application.routes.draw do
   get "/node/:id" => "nodes#show", :id => /\d+/, :as => :node
   get "/node/:id/history" => "old_nodes#index", :id => /\d+/, :as => :node_history
   resources :old_nodes, :path => "/node/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+
   get "/relation/:id" => "relations#show", :id => /\d+/, :as => :relation
+  get "/relation/:id/members" => "relation_members#show", :id => /\d+/, :as => :relation_members
+
   get "/relation/:id/history" => "old_relations#index", :id => /\d+/, :as => :relation_history
   resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+  get "/relation/:id/history/:version/members" => "old_relation_members#show", :id => /\d+/, :version => /\d+/, :as => :old_relation_members
 
   resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
     resource :subscription, :controller => :changeset_subscriptions, :only => [:show, :create, :destroy]
