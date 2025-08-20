@@ -27,7 +27,7 @@ module Api
 
     def show
       @way = Way
-      @way = @way.includes(:nodes => :node_tags) if params[:full]
+      @way = @way.includes(:nodes => :element_tags) if params[:full]
       @way = @way.find(params[:id])
 
       response.last_modified = @way.timestamp unless params[:full]

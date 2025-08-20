@@ -177,7 +177,7 @@ class WayTest < ActiveSupport::TestCase
   def test_way_tags
     way = create(:way)
     taglist = create_list(:way_tag, 2, :way => way)
-    tags = Way.find(way.id).way_tags.order(:k)
+    tags = Way.find(way.id).element_tags.order(:k)
     assert_equal taglist.count, tags.count
     taglist.sort_by!(&:k).each_index do |i|
       assert_equal taglist[i].k, tags[i].k

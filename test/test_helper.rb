@@ -229,7 +229,7 @@ module ActiveSupport
         el["lon"] = node.lon.to_s
       end
 
-      add_tags_to_xml_node(el, node.node_tags)
+      add_tags_to_xml_node(el, node.element_tags)
 
       el
     end
@@ -260,7 +260,7 @@ module ActiveSupport
         el << node_el
       end
 
-      add_tags_to_xml_node(el, way.way_tags)
+      add_tags_to_xml_node(el, way.element_tags)
 
       el
     end
@@ -285,7 +285,7 @@ module ActiveSupport
         el << member_el
       end
 
-      add_tags_to_xml_node(el, relation.relation_tags)
+      add_tags_to_xml_node(el, relation.element_tags)
 
       el
     end
