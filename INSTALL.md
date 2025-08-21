@@ -98,7 +98,7 @@ nano ~/.profile
 and adding:
 
 ```bash
-export PATH=/Applications/Postgres.app/Contents/MacOS/bin:$PATH
+export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 ```
 
 After this, you may need to start a new shell window, or source the profile again by running `. ~/.profile`.
