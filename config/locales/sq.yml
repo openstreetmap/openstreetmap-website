@@ -19,6 +19,7 @@
 # Author: Sidorela.uku
 # Author: Techlik
 # Author: Vinie007
+# Author: Xhulianoo
 # Author: 아라
 ---
 sq:
@@ -26,17 +27,39 @@ sq:
     formats:
       friendly: '%e %B %Y te %H:%M'
   helpers:
+    file:
+      prompt: Zgjidh skedarin
     submit:
       diary_comment:
-        create: Ruaj
+        create: Komento
       diary_entry:
         create: Publiko
+        update: Përditëso
+      issue_comment:
+        create: Shto koment
       message:
         create: Dërgo
+      oauth2_application:
+        create: Regjistrohu
+        update: Përditëso
+      redaction:
+        create: Krijo redaktimin
+        update: Ruaj redaktimin
       trace:
         create: Ngarko
         update: Ruaj Ndryshimet
+      user_block:
+        create: Krijo bllokun
+        update: Përditëso bllokun
   activerecord:
+    errors:
+      models:
+        user_mute:
+          is_already_muted: është tashmë i heshtur
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL-ja duhet të fillojë me http:// ose https://
     models:
       acl: Qasja në Listën e Kontrollit
       changeset: Grupi i Ndryshimeve
@@ -60,6 +83,7 @@ sq:
       relation: Lidhja
       relation_member: Anëtar i Marrëdhënies
       relation_tag: Etiketë Lidhjeje
+      report: Raporto
       session: Seancë
       trace: Gjurmë
       tracepoint: Pika e Gjurmës
@@ -71,6 +95,16 @@ sq:
       way_node: Nyjë Rruge
       way_tag: Etiketë Rruge
     attributes:
+      client_application:
+        name: Emri (i detyrueshëm)
+        support_url: URL-ja e mbështetjes
+        allow_read_prefs: lexo parapëlqimet e tyre të përdoruesit
+        allow_write_prefs: modifiko parapëlqimet e tyre të përdoruesit
+        allow_write_diary: krijo shënime dhe komente në ditar
+        allow_write_api: modifiko hartën
+        allow_read_gpx: lexo gjurmët e tyre private të GPS-it
+        allow_write_gpx: ngarko gjurmët e GPS-it
+        allow_write_notes: modifiko shënimet
       diary_comment:
         body: Trupi i Mesazhit
       diary_entry:
@@ -79,6 +113,9 @@ sq:
         latitude: Gjerësia Gjeografike
         longitude: Gjatësia Gjeografike
         language_code: Gjuha
+      doorkeeper/application:
+        name: Emri
+        scopes: Lejet
       friend:
         user: Përdoruesi
         friend: Mik
@@ -91,7 +128,7 @@ sq:
         longitude: Gjatësia Gjeografike
         public: Publik
         description: Përshkrimi
-        gpx_file: Ngarko një skedar GPX
+        gpx_file: Zgjidh skedarin e gjurmimit të GPS-it
         visibility: Dukshmëria
         tagstring: Etiketat
       message:
@@ -99,21 +136,32 @@ sq:
         title: Titulli
         body: Trupi i Mesazhit
         recipient: Marrësi
+      redaction:
+        title: Titulli
+        description: Përshkrimi
+      report:
+        category: Zgjidh një arsye për raportin tënd
+        details: Të lutem, jep disa detaje të mëtejshme rreth problemit (e detyrueshme).
       user:
         email: Emaili
         new_email: Adresa e re e emailit
         active: Aktiv
         display_name: Emri i Dukshëm
         description: Përshkrimi i Profilit
+        company: Kompania
         home_lat: Gjerësia gjeografike
         home_lon: Gjatësia gjeografike
         languages: Gjuhët e Parapëlqyera
         pass_crypt: Fjalëkalimi
+        pass_crypt_confirmation: Konfirmo fjalëkalimin
     help:
       trace:
         tagstring: ndarë me presje
       user:
         new_email: (asnjëherë nuk është publikuar)
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: gjysmë minute më parë
   editor:
     default: E parazgjedhur (aktualisht %{name})
     id:
@@ -122,27 +170,86 @@ sq:
     remote:
       name: Kontroll nga Larg
       description: Kontrollo nga larg (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Asnjë
+      google: Google
+      apple: Apple
+      facebook: Facebook
+      github: GitHub
+      wikipedia: Wikipedia
+  api:
+    notes:
+      entry:
+        comment: Komento
   accounts:
     show:
       title: Redakto llogarinë
+      my_account: Llogaria ime
       current email address: Adresa e Tanishme e Emailit
       contributor_terms:
         heading: Kushtet e kontribuesit
-        agreed: Ti je pajtuar me kushtet e reja për kontribues.
+        agreed: Je pajtuar me Kushtet e Kontribuesit më %{date}.
+        not_agreed: Nuk je pajtuar ende me Kushtet e Kontribuesit.
         agreed_with_pd: Ti gjithashtu ke deklaruar, që redaktimet e tua të jenë në
           pronësi publike.
+        review: Shqyrto Kushtet
+        review_and_accept: Shqyrto dhe prano Kushtet
+      terms_of_use:
+        heading: Kushtet e Përdorimit
+        agreed: Je pajtuar me Kushtet e Përdorimit më %{date}.
+        not_agreed: Nuk je pajtuar ende me Kushtet e Përdorimit.
+        review: Shqyrto Kushtet
+        review_and_accept: Shqyrto dhe prano Kushtet
       save changes button: Ruaj ndryshimet
+      delete_account: Fshi llogarinë...
     go_public:
       heading: Redaktim publik
+      find_out_why: zbulo pse
+      email_not_revealed: Adresa jote e email-it nuk do të zbulohet nëse bëhet publike.
+      not_reversible: Ky veprim nuk mund të zhbëhet dhe të gjithë përdoruesit e rinj
+        tani janë publikë si parazgjedhje.
       make_edits_public_button: Të gjitha redaktimet e mia bëjë publike
     update:
       success_confirm_needed: Informacioni i përdoruesit u përditësua me sukses. Kontrolloni
         emailin tuaj për një shënim për të konfirmuar adresën e re të emailit tuaj.
       success: Informacioni i përdoruesit u përditësua me sukses.
+    destroy:
+      success: Llogaria u fshi.
+    deletions:
+      show:
+        title: Fshi llogarinë time
+        warning: Kujdes! Procesi i fshirjes së llogarisë është përfundimtar dhe nuk
+          mund të zhbëhet.
+        delete_account: Fshi llogarinë
+        delete_introduction: 'Mund ta fshish llogarinë tënde OpenStreetMap duke përdorur
+          butonin më poshtë. Të lutem, vër re detajet e mëposhtme:'
+        delete_profile: Informacioni i profilit tënd, duke përfshirë avatarin, përshkrimin
+          dhe vendndodhjen e shtëpisë, do të hiqet.
+        delete_display_name: Emri yt i shfaqur do të hiqet dhe mund të ripërdoret
+          nga llogari të tjera.
+        retain_caveats: 'Megjithatë, disa informacione rreth teje do të ruhen në OpenStreetMap,
+          edhe pasi llogaria jote të jetë fshirë:'
+        retain_edits: Ndryshimet e tua në databazën e hartave, nëse ka, do të ruhen.
+        retain_traces: Gjurmët e tua të ngarkuara, nëse ka, do të ruhen.
+        retain_diary_entries: Shënimet dhe komentet e tua në ditar, nëse ka, do të
+          ruhen, por nuk do të jenë të dukshme.
+        retain_notes: Shënimet dhe komentet e tua në harta, nëse ka, do të ruhen,
+          por nuk do të jenë të dukshme.
+        retain_changeset_discussions: Diskutimet e tua mbi ndryshimet, nëse ka, do
+          të ruhen.
+        retain_email: Adresa jote e email-it do të ruhet.
+        recent_editing_html: Meqenëse e ke modifikuar së fundmi llogarinë tënde, ajo
+          nuk mund të fshihet aktualisht. Fshirja do të jetë e mundur pas %{time}.
+        confirm_delete: Je i sigurtë?
+        cancel: Anulo
     terms:
       show:
         title: Kushtet
         heading: Kushtet
+        heading_ct: Kushtet e kontribuesit
+        tou_explain:
+          tou: Kushtet e Përdorimit
         legale_select: 'Vendi i banimit:'
         legale_names:
           france: Francë
@@ -295,7 +402,7 @@ sq:
       user_title: Ditari i %{user}
       leave_a_comment: Lëre ndonjë koment
       login_to_leave_a_comment_html: '%{login_link} për të lënë një koment'
-      login: Identifikohu
+      login: Hyr
     no_such_entry:
       title: Nuk ka shënim të tillë në ditar
       heading: 'Nuk ka shënim me id: %{id}'
@@ -303,7 +410,7 @@ sq:
         ose ndoshta linku ku ke klikuar është gabim.
     diary_entry:
       posted_by_html: Postuar nga %{link_user} më %{created} në %{language_link}
-      comment_link: Komento në këtë shënim
+      comment_link: Komento mbi këtë shënim
       reply_link: Dërgoni një mesazh autorit
       comment_count:
         zero: Nuk ka komente
@@ -344,11 +451,11 @@ sq:
         aeroway:
           aerodrome: Aeroport
           apron: Platformë
-          gate: Portë
+          gate: Portë aeroporti
           helipad: Helipad
           runway: Pistë
           taxiway: Rrugë taksie
-          terminal: Terminal
+          terminal: Terminal aeroporti
         amenity:
           animal_shelter: Strehim i kafshëve
           arts_centre: Qendër arti
@@ -545,8 +652,8 @@ sq:
           brownfield: Deponi industriale
           cemetery: Varreza
           commercial: Zonë tregtare
-          conservation: Mbrojtje natyre
-          construction: Ndërtimtari
+          conservation: Zonë e ruajtur
+          construction: Zonë ndërtimi
           farmland: Tokë bujqësore
           farmyard: Oborr ferme
           forest: Pyll
@@ -565,7 +672,7 @@ sq:
           reservoir: Rezervuar
           reservoir_watershed: Rezervuar ujëmbledhës
           residential: Zonë e banuar
-          retail: Me pakicë
+          retail: Zonë e shitjes me pakicë
           village_green: Fshat me gjelbrim
           vineyard: Vreshtë
           "yes": Përdorim toke
@@ -579,7 +686,7 @@ sq:
           fitness_station: Saticion palestre
           garden: Kopsht
           golf_course: Fushë golfi
-          horse_riding: Kalërim
+          horse_riding: Qendër kalërimi
           ice_rink: Vend patinazhi
           marina: Sport porti (limani)
           miniature_golf: Minigolf
@@ -724,7 +831,7 @@ sq:
           cosmetics: Dyqan kozmetike
           department_store: Shtëpi mallrash
           discount: Dyqan artikujsh me zbritje
-          doityourself: Dyqan 'bëje vet'
+          doityourself: Dyqan 'Bëje vet'
           dry_cleaning: Pastrim kimik
           electronics: Dyqan elektronike
           estate_agent: Agjent i patundshmërive
@@ -740,7 +847,7 @@ sq:
           grocery: Dyqan ushqimor
           hairdresser: Floktar
           hardware: Hekrari
-          hifi: Hi-Fi
+          hifi: Dyqan Hi-Fi
           jewelry: Dyqan bizhuterie
           kiosk: Kiosk
           laundry: Lavanderi
@@ -758,7 +865,7 @@ sq:
           apartment: Apartament Pushimesh
           artwork: Vepër artistike
           bed_and_breakfast: Bujtinë me mëngjes
-          cabin: Kabinë
+          cabin: Kabinë turistike
           camp_site: Vend për kampim
           gallery: Galeri
           hostel: Bujtinë
@@ -784,9 +891,9 @@ sq:
           weir: Pendë
           "yes": Ujore (rrugë)
       admin_levels:
-        level2: Kufi vendi
-        level4: Kufi i njësisë federale
-        level5: Kufi regjional
+        level2: Kufi ndërkombëtar
+        level4: Kufi administrativ (niveli 4)
+        level5: Kufi administrativ (niveli 5)
   searches:
     queries:
       create:
@@ -950,7 +1057,7 @@ sq:
     new:
       title: Fjalëkalimi i humbur
       heading: Ke harruar fjalëkalimin?
-      email address: 'Adresa e emailit:'
+      email address: Adresa e email-it
       new password button: Rivendos fjalëkalimin
       help_text: Shkruani adresën e emailit që keni përdorur për tu regjistruar, ne
         do të dërgojmë një lidhje të cilën mund të përdorni për të rivendosur fjalëkalimin
@@ -982,12 +1089,12 @@ sq:
           në hartë!
   sessions:
     new:
-      tab_title: Identifikohu
-      email or username: 'Adresa e emailit ose emri i përdoruesit:'
-      password: 'Fjalëkalimi:'
+      tab_title: Hyr
+      email or username: 'Adresa e email-it ose emri i përdoruesit:'
+      password: Fjalëkalimi
       remember: Më mbaj mend
       lost password link: Ke humbur fjalëkalimin?
-      login_button: Identifikohu
+      login_button: Hyr
       auth failure: Na vjen keq, nuk mund të identifikohemi me ato detaje.
     destroy:
       title: Çidentifikohu
@@ -1018,8 +1125,8 @@ sq:
         mapping_link: fillo hatrografimin
       legal_babble:
         credit_title_html: Si të citoni OpenStreetMap
-        credit_1_html: Ne kërkojmë që ju të përdorni kreditet e &ldquo;&copy; OpenStreetMap
-          contributors&rdquo;.
+        credit_1_html: 'Kur të përdorësh të dhëna të OpenStreetMap, duhet të bësh
+          dy gjërat e mëposhtme:'
         contributors_title_html: Kontribuuesit tanë
         contributors_intro_html: "  Licenca jonë CC BY-SA kërkon nga ju që &ldquo;të
           vlerësoni Autorin\n  Origjinal përkatës të mediumit apo masave që jeni duke
@@ -1164,7 +1271,9 @@ sq:
       visibility: 'Dukshmëria:'
     trace:
       pending: NE PRITJE
-      count_points: '%{count} pikë'
+      count_points:
+        one: '%{count} pikë'
+        other: '%{count} pikë'
       more: më shumë
       trace_details: Shfaq detajet e gjurmës
       view_map: Shiko hartën
@@ -1190,16 +1299,16 @@ sq:
   application:
     auth_providers:
       github:
-        title: Identifikohuni me GitHub
+        title: Hyr me GitHub
       wikipedia:
-        alt: Identifikohuni me një llogari të Wikipedia-s
+        alt: Logoja e Wikipedia-s
   users:
     new:
       title: Krijo llogari
       no_auto_account_create: Për fat të keq aktualisht nuk jeni në gjendje për të
         krijuar automatikisht një llogari për ty.
       about:
-        header: E lirë dhe e redaktueshme
+        header: Falas dhe i redaktueshëm.
       display name description: Emri yt publik. Ti mund ta ndryshosh më vonë në preferenca.
       continue: Vazhdo
     no_such_user:
@@ -1265,16 +1374,16 @@ sq:
       grant:
         administrator: Mundëso qasje administratori
         moderator: Mundëso qasje moderatori
-        are_you_sure: A jeni i sigurt që ju doni t'i jepni rolin `%{role}' përdoruesit
-          `%{name}'?
+        are_you_sure: A je i sigurtë që dëshiron t'i japësh rolin '%{role}' përdoruesit
+          '%{name}'?
       revoke:
         administrator: Revoko qasjen e administratorit
         moderator: Revoko qasjen e moderatorit
-        are_you_sure: A je i sigurt që do ta revokosh rolin `%{role}' prej perdoruesit
-          `%{name}'?
+        are_you_sure: A je i sigurtë që dëshiron t'ia heqësh rolin '%{role}' përdoruesit
+          '%{name}'?
   user_role:
     filter:
-      not_a_role: Vargu `%{role}' nuk është një rol i vlefshëm.
+      not_a_role: Fjala '%{role}' nuk është një rol i vlefshëm.
       already_has_role: Përdoruesi tashmë e ka rolin %{role}.
       doesnt_have_role: Përdoruesi nuk e ka rolin %{role}.
   user_blocks:
