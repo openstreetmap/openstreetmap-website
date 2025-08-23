@@ -73,6 +73,8 @@ module BrowseHelper
   private
 
   def feature_name(tags)
+    return nil if tags.empty?
+
     locale_keys = preferred_languages.expand.map { |locale| "name:#{locale}" }
 
     (locale_keys + %w[name ref addr:housename]).each do |key|
