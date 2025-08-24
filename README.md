@@ -3,6 +3,7 @@
 [![Lint](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/lint.yml/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/lint.yml?query=branch%3Amaster+event%3Apush)
 [![Tests](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/tests.yml?query=branch%3Amaster+event%3Apush)
 [![Coverage Status](https://coveralls.io/repos/openstreetmap/openstreetmap-website/badge.svg?branch=master)](https://coveralls.io/r/openstreetmap/openstreetmap-website?branch=master)
+[![Explore database with Azimutt](https://img.shields.io/badge/PostgreSQL-browse_online-gray?labelColor=4169E1&logo=postgresql&logoColor=fff&style=flat)](https://azimutt.app/create?sql=https://raw.githubusercontent.com/openstreetmap/openstreetmap-website/refs/heads/master/db/structure.sql&name=OpenStreetMap)
 
 This is `openstreetmap-website`, the [Ruby on Rails](https://rubyonrails.org/)
 application that powers the [OpenStreetMap](https://www.openstreetmap.org) website and API.
