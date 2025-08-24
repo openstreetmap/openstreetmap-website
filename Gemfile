@@ -70,8 +70,6 @@ gem "quad_tile", "~> 1.0.1"
 gem "addressable", "~> 2.8"
 gem "rack-uri_sanitizer"
 
-# Omniauth for authentication
-gem "multi_json"
 gem "omniauth", "~> 2.1.3"
 gem "omniauth-apple"
 gem "omniauth-facebook"

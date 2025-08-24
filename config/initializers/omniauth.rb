@@ -1,5 +1,3 @@
-require "multi_json"
-
 OmniAuth.config.logger = Rails.logger
 OmniAuth.config.failure_raise_out_environments = []
 OmniAuth.config.allowed_request_methods = [:post, :patch]
