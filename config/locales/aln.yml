@@ -13,6 +13,7 @@
 # Author: McDutchie
 # Author: Mdupont
 # Author: MicroBoy
+# Author: Minh Nguyen
 # Author: Nemo bis
 # Author: 아라
 ---
@@ -26,9 +27,6 @@ aln:
         create: Ruje
       message:
         create: Dërgo
-      client_application:
-        create: Regjistrohu
-        update: Redaktoj
       trace:
         create: Ngarko
         update: Ruaj Ndryshimet
@@ -126,18 +124,9 @@ aln:
       entry:
         comment: Koment
   accounts:
-    edit:
+    show:
       title: Ndrysho akountin
-      my settings: Preferencat e mia
       current email address: 'Email adresa e tanishme:'
-      public editing:
-        heading: Duke ndryshue publikisht
-        enabled: E pranishme. Jo anonime dhe muni me i ndryshue t'dhanat.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: çka osht kjo?
-        disabled: E çkyckur dhe smuni me i ndryshu të dhanat, të gjitha ndryshimet
-          e ma hershme jan anonime.
-        disabled link text: pse spo muj me i ndryshue?
       save changes button: Ruaj Ndryshimet
     go_public:
       heading: 'Ndryshime publike:'
@@ -146,6 +135,14 @@ aln:
       success_confirm_needed: Informatat e shfyrtezuesit u ndryshan me sukses. Shihni
         emailin per konfirmim.
       success: Informatat e shfrytëzuesit u ndryshuan me sukses.
+    terms:
+      show:
+        heading: rregullat për Pjesëmarrës
+        legale_select: 'Ju lutem zgjidhni vendin tuaj të banimit:'
+        legale_names:
+          france: Franca
+          italy: Italia
+          rest_of_world: Pjesa tjetër e botës
   browse:
     relation_member:
       entry_role_html: '%{type} %{name} asht si %{role}'
@@ -154,15 +151,7 @@ aln:
         way: Udhë
         relation: Lidhje
     containing_relation:
-      entry_html: Lidhja %{relation_name}
       entry_role_html: Lidhja %{relation_name} (sikur %{relation_role})
-    not_found:
-      sorry: Na vjen keq, %{type} me ID %{id}, nuk mujti me u gjetë.
-      type:
-        node: pikë
-        way: udhë
-        relation: lidhje
-        changeset: shka asht ndrrue
     timeout:
       sorry: Kerkojme falje, t'dhanunat për %{type} me %{id}, u vanuen shumë për me
         u rigjetë.
@@ -181,9 +170,6 @@ aln:
         tag: Pērshkrimi i wiki faqes pēr %{key}=%{value} tag
       wikipedia_link: '%{page} artikulli nē Wikipedia'
   changesets:
-    changeset:
-      no_edits: (Nuk ka redaktimet)
-      view_changeset_details: Shikoni detajet changeset
     index:
       title: Changesets
       title_user: Changesets nga %{user}
@@ -199,12 +185,12 @@ aln:
     contact:
       km away: '%{count}km larg'
       m away: '%{count}m larg'
+      no_edits: (Nuk ka redaktimet)
+      view_changeset_details: Shikoni detajet changeset
     popup:
       your location: Vendi juej
       nearby mapper: Hartues i aftërt
-      friend: Shoq
     show:
-      no friends: Hala nuk ke shtue asni shoq.
       nearby users: Shfrytëzuesit e tjer që jan afër
       no nearby users: Hala nuk ka shfrytëzues që pranon hartimin e aftërt.
   diary_entries:
@@ -217,8 +203,6 @@ aln:
       title: ditarë Përdorues ,
       user_title: Ditari i %{user}
       in_language_title: Shënimet e Ditarit në %{language}
-      new: Hyrja e re Ditari
-      new_title: Shkruaj një hyrje e re në ditarin tuaj përdorues
       no_entries: Nuk ka shënime në ditar
     page:
       recent_entries: 'shënimet e fundit ditar:'
@@ -263,17 +247,11 @@ aln:
       all:
         title: hyra OpenStreetMap ditar
         description: Shënimet mat fundit të ditarit nga anëtarët e OpenStreetMap
-  diary_comments:
-    page:
-      comment: Koment
-  friendships:
-    make_friend:
-      success: '%{name} është shok/shoqe jot/e.'
-      failed: Na vjen keq, dështuam ta shtojm %{name} si shok/qe.
-      already_a_friend: Ju tashma jeni shok me %{name}.
-    remove_friend:
-      success: '%{name} u hek pi shokve tu'
-      not_a_friend: '%{name} nuk osht njoni pi shokve tu.'
+    navigation:
+      new: Hyrja e re Ditari
+      new_title: Shkruaj një hyrje e re në ditarin tuaj përdorues
+    profile_diaries:
+      date_label: Data
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -615,6 +593,9 @@ aln:
           theme_park: Park i lojnave
           viewpoint: Pike shikimi
           zoo: Kopsht Zoologjik
+        water:
+          lake: Liqe
+          reservoir: rezervuar
         waterway:
           boatyard: Kantier detar
           canal: Kanal
@@ -632,9 +613,11 @@ aln:
           wadi: luginë
           waterfall: Ujëvarë
           weir: Pendë
-    results:
-      no_results: Nuk është gjetur asnjë rezultat
-      more_results: Më shumë rezultate
+  searches:
+    queries:
+      create:
+        no_results: Nuk është gjetur asnjë rezultat
+        more_results: Më shumë rezultate
   layouts:
     logo:
       alt_text: logo e OpenStreetMap
@@ -648,10 +631,6 @@ aln:
     gps_traces: GPS Gjurmët
     user_diaries: Përdoruesi Diaries
     tag_line: Free Harta Wiki Botërore
-    osm_offline: Baza e të dhanave të OpenStreetMap niher për niher jasht funksioni
-      derisa disa punë themelore po kryhen në bazën e të dhanave.
-    osm_read_only: Baza e të dhënave OpenStreetMap është aktualisht në mënyrë read-only
-      ndërsa thelbësor bazës së të dhënave mirëmbajtjen puna është kryer.
     copyright: Copyright & License
   user_mailer:
     diary_comment_notification:
@@ -665,18 +644,15 @@ aln:
       hi: Tung %{to_user},
       header: '%{from_user} ju ka dërgu një mesazh përmes OpenStreetMap me titullin
         %{subject}:'
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} ju ka shtu juve si një shok'
-      had_added_you: '%{user} ju ka shtu juve si një shok në OpenStreetMap.'
+    follow_notification:
       see_their_profile: Ju muni me pa profilin e tyre tek %{userurl}.
-      befriend_them: Ju muni gjithashtu me i shtu ata si shokë tek %{befriendurl}.
     gpx_failure:
       failed_to_import: 'nuk arriti të importit. Këtu është gabim:'
       subject: '[OpenStreetMap] te re dështimit Import'
     gpx_success:
       subject: '[OpenStreetMap] Import sukses te re'
     signup_confirm:
-      subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
+      subject: '[OpenHistoricalMap] Konfirmoje email adresën tonde'
     email_confirm:
       subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
       greeting: Tung,
@@ -702,20 +678,6 @@ aln:
       success: Konfirmo email adresën tone, ju faleminderit për regjistrim!
       failure: Ni email adres tashma osht konfirmue me kët token.
   messages:
-    inbox:
-      title: Inbox
-      no_messages_yet_html: Ju nuk keni asnjë mesazh. Pse nuk po llidheni me disa
-        prej %{people_mapping_nearby_link}?
-      people_mapping_nearby: njerëzit pranë hartës
-    messages_table:
-      from: Prej
-      to: Te
-      subject: Tema
-      date: Data
-    message_summary:
-      unread_button: Bone si të palexume
-      read_button: Bone si të lexume
-      destroy_button: Fshije
     new:
       title: Qo mesazh
       send_message_to_html: Qoje një mesazh të ri te %{name}
@@ -728,15 +690,6 @@ aln:
       title: Nuk ka ksi mesazhi
       heading: Nuk ka ksi mesazhi
       body: Me na fal por nuk ka asnjë mesazh me at id.
-    outbox:
-      title: Dalje
-      no_sent_messages_html: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni me
-        disa prej %{people_mapping_nearby_link}?
-      people_mapping_nearby: njerëzit pranë hartës
-    reply:
-      wrong_user: Ju keni hy si `%{user}' por mesazhi që po doni me ju përgjigj nuk
-        u dërgu për at anëtar. Ju lutem hyni si anëtari korrekt nëse doni me ju përgjigj
-        atij mesazhi.
     show:
       title: Lexo mesazhin
       reply_button: Përgjigju
@@ -744,15 +697,43 @@ aln:
       wrong_user: Ju keni hy si `%{user}' por mesazhi që po doni me lexu nuk u dërgu
         për ose nga ai anëtar. Ju lutem hyni si anëtari korrekt nëse doni me lexu
         atë mesazh.
-    sent_message_summary:
-      destroy_button: Fshij
-    heading:
-      my_inbox: postë e mia
-    mark:
-      as_read: Mesazhi u bo si i lexum
-      as_unread: Mesazhi u bo si i palexum
     destroy:
       destroyed: Mesazhi u fshi
+    read_marks:
+      create:
+        notice: Mesazhi u bo si i lexum
+      destroy:
+        notice: Mesazhi u bo si i palexum
+    mailboxes:
+      heading:
+        my_inbox: postë e mia
+      messages_table:
+        from: Prej
+        to: Te
+        subject: Tema
+      message:
+        unread_button: Bone si të palexume
+        read_button: Bone si të lexume
+        destroy_button: Fshije
+    inboxes:
+      show:
+        title: Inbox
+        no_messages_yet_html: Ju nuk keni asnjë mesazh. Pse nuk po llidheni me disa
+          prej %{people_mapping_nearby_link}?
+        people_mapping_nearby: njerëzit pranë hartës
+    outboxes:
+      show:
+        title: Dalje
+        no_sent_messages_html: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni
+          me disa prej %{people_mapping_nearby_link}?
+        people_mapping_nearby: njerëzit pranë hartës
+      message:
+        destroy_button: Fshij
+    replies:
+      new:
+        wrong_user: Ju keni hy si `%{user}' por mesazhi që po doni me ju përgjigj
+          nuk u dërgu për at anëtar. Ju lutem hyni si anëtari korrekt nëse doni me
+          ju përgjigj atij mesazhi.
   passwords:
     new:
       title: T'ka hup fjalkalimi
@@ -769,7 +750,7 @@ aln:
     update:
       flash changed: Fjalëkalimi juaj u ndryshua.
   profiles:
-    edit:
+    show:
       image: 'Imazhi:'
       new image: Shto ni imazh
       keep image: Maje imazhin e tanishëm
@@ -840,12 +821,13 @@ aln:
       js_1: Ju jeni duke përdorur ndonjë shfletues që nuk e përkrah JavaScript, ose
         i keni çativizuar JavaScript.
       js_2: OpenStreetMap përdor Java skriptet për planet e saj të rrëshqitshëm.
-    edit:
+    not_public_flash:
       not_public: Ju nuk keni vendosur redaktimet e juaj të jetë publike.
       not_public_description_html: Ju nuk mund të redaktoni hartën e nëse ju një gjë
         të tillë. Ju mund të vendosni redaktimet e tuaja si publik nga %{user_page}
         tuaj.
       user_page_link: faqe përdorues
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Find out pse kjo është e rastit.
     export:
       manually_select: Manualisht zgedhe ni zon te ndryshme
@@ -861,60 +843,58 @@ aln:
       where_am_i: Ku jom une?
       where_am_i_title: Përshkruje lokacionin e tanishëm tuj e përdor makinën kërkuese
       submit_text: Shkoj
-    key:
-      table:
-        entry:
-          motorway: Autostradë
-          trunk: rrugë nacionale
-          primary: Udhë kryesore
-          secondary: rrugë e mesme
-          unclassified: Udhë e paklasifikume
-          track: Udhë
-          bridleway: Bridleway
-          cycleway: Cycleway
-          footway: Këmbësore
-          rail: Hekurudhor
-          subway: Metro
-          light_rail: hekurudhor Lehta
-          tram: tramvaj
-          cable_car: teleferik
-          chair_lift: heqë karrige
-          runway: Aeroporti i pistës
-          taxiway: taxiway
-          apron: aeroportit Aeroporti
-          admin: kufitare administrative
-          forest: Pyll
-          wood: Druri
-          meadow: livadh
-          golf: fushë e golfit
-          park: Park
-          common: I përbashkët
-          resident: Zonë Rezidenciale
-          retail: zonë me pakicë
-          industrial: Zonë Industriale
-          commercial: Zona Tregtare
-          heathland: Heathland
-          lake: Liqe
-          reservoir: rezervuar
-          farm: Ferm
-          brownfield: site Brownfield
-          cemetery: Varrezë
-          allotments: Ndarje
-          pitch: katran Sport
-          centre: Qendër Sportive
-          reserve: rezervë Natyra
-          military: Zonë Ushtarake
-          school: Shkollë
-          university: universitet
-          building: ndërtimin e rëndësishme
-          station: Stacion hekurudhor
-          summit: Samiti i
-          peak: pik
-          tunnel: tunel zorrë thye =
-          bridge: Shtresë e jashtme e Zi = urë
-          private: qasje privat
-          destination: qasje Destinacioni
-          construction: Rrugët në ndërtim e sipër
+  map_keys:
+    show:
+      entries:
+        motorway: Autostradë
+        trunk: rrugë nacionale
+        primary: Udhë kryesore
+        secondary: rrugë e mesme
+        unclassified: Udhë e paklasifikume
+        track: Udhë
+        bridleway: Bridleway
+        cycleway: Cycleway
+        footway: Këmbësore
+        rail: Hekurudhor
+        subway: Metro
+        light_rail: hekurudhor Lehta
+        tram: tramvaj
+        cable_car: teleferik
+        chair_lift: heqë karrige
+        runway: Aeroporti i pistës
+        taxiway: taxiway
+        apron: aeroportit Aeroporti
+        admin: kufitare administrative
+        forest: Pyll
+        wood: Druri
+        meadow: livadh
+        golf: fushë e golfit
+        park: Park
+        common: I përbashkët
+        resident: Zonë Rezidenciale
+        retail: zonë me pakicë
+        industrial: Zonë Industriale
+        commercial: Zona Tregtare
+        heathland: Heathland
+        farm: Ferm
+        brownfield: site Brownfield
+        cemetery: Varrezë
+        allotments: Ndarje
+        pitch: katran Sport
+        centre: Qendër Sportive
+        reserve: rezervë Natyra
+        military: Zonë Ushtarake
+        school: Shkollë
+        university: universitet
+        building: ndërtimin e rëndësishme
+        station: Stacion hekurudhor
+        summit: Samiti i
+        peak: pik
+        tunnel: tunel zorrë thye =
+        bridge: Shtresë e jashtme e Zi = urë
+        private: qasje privat
+        destination: qasje Destinacioni
+        construction: Rrugët në ndërtim e sipër
   traces:
     visibility:
       private: Private (ndahen vetem si pika anonime të rendituna)
@@ -996,15 +976,6 @@ aln:
       display name description: Emni jot publik. Ju muni me ndrru ma von në preferencat
         e tua.
       continue: Vazhdo
-    terms:
-      heading: rregullat për Pjesëmarrës
-      consider_pd: Unë e konsideroj kontributet e mia të jenë në domenin publik
-      consider_pd_why: çka o kjo?
-      legale_select: 'Ju lutem zgjidhni vendin tuaj të banimit:'
-      legale_names:
-        france: Franca
-        italy: Italia
-        rest_of_world: Pjesa tjetër e botës
     no_such_user:
       title: Ska ksi shfrytëzuesi
       heading: Ky shfrytzues %{user} nuk egziston
@@ -1014,15 +985,12 @@ aln:
       my diary: ditari im
       my edits: ndryshimet e mia
       my traces: gjurmët e mia
-      my settings: preferencat e mia
       blocks on me: bllokimet e mia
       blocks by me: bllokimet e dhana nga un
       send message: dërgo mesazh
       diary: ditari
       edits: ndryshimet
       traces: gjurmet
-      remove as friend: heke si shok
-      add as friend: shtoje si shoq
       mapper since: 'Hartues qe prej:'
       email address: 'Email Adresa:'
       created from: 'U krijue prej:'
@@ -1049,15 +1017,33 @@ aln:
     go_public:
       flash success: Gjitha ndryshimet tuja janë publike tash, edhe tash t'lejohet
         me ndryshue
-    index:
-      title: Perdoruesit
-      heading: Perdoruesit
-      summary_html: '%{name} u kriju prej %{ip_address} në %{date}'
-      summary_no_ip_html: '%{name} u krijue me %{date}'
-      empty: Asni perputhje e perdoruesve nuk asht gjetun
-    page:
-      confirm: Konfirmo Anëtarët e Selektum
-      hide: Mshefi Perdorust e Zgjedhun
+    issued_blocks:
+      show:
+        title: Blloqe me %{name}
+        heading_html: Lista e blloqeve me %{name}
+        empty: '%{name} nuk ka bërë ndonjë blloqe ende.'
+    received_blocks:
+      show:
+        title: Blocks në %{name}
+        heading_html: Lista e blloqeve në %{name}
+        empty: '%{name} nuk është bllokuar akoma.'
+      edit:
+        revoke: Tërheq!
+    lists:
+      show:
+        title: Perdoruesit
+        heading: Perdoruesit
+      page:
+        confirm: Konfirmo Anëtarët e Selektum
+        hide: Mshefi Perdorust e Zgjedhun
+        empty: Asni perputhje e perdoruesve nuk asht gjetun
+      user:
+        summary_html: '%{name} u kriju prej %{ip_address} në %{date}'
+        summary_no_ip_html: '%{name} u krijue me %{date}'
+    changeset_comments:
+      page:
+        changeset: shka asht ndrrue
+        comment: Koment
     suspended:
       title: Llogaria u Suspendu
       heading: Llogaria u Suspendu
@@ -1100,8 +1086,6 @@ aln:
       title: blloqe Përdoruesi
       heading: Lista e blloqeve përdorues
       empty: Nuk ka blloqe janë bërë ende.
-    revoke_all:
-      revoke: Tërheq!
     helper:
       time_future_html: Përfundon në %{time}.
       until_login: Aktiv deri kur përdoruesi shkrimet in
@@ -1110,14 +1094,6 @@ aln:
         hours:
           one: 1 orë
           other: '%{count} orë'
-    blocks_on:
-      title: Blocks në %{name}
-      heading_html: Lista e blloqeve në %{name}
-      empty: '%{name} nuk është bllokuar akoma.'
-    blocks_by:
-      title: Blloqe me %{name}
-      heading_html: Lista e blloqeve me %{name}
-      empty: '%{name} nuk ka bërë ndonjë blloqe ende.'
     show:
       title: '%{block_on} bllokuar nga %{block_by}'
       heading_html: '%{block_on} bllokuar nga %{block_by}'
@@ -1126,7 +1102,6 @@ aln:
       reason: 'Arsyeja për bllok:'
       revoker: 'Revoker:'
     block:
-      not_revoked: (Jo revokuar)
       show: Tregoj
       edit: Redaktoj
     page:
@@ -1134,7 +1109,6 @@ aln:
       creator_name: Krijuesi
       reason: Arsyeja për bllok
       status: Statusi
-      revoker_name: Revokuar nga ana
   notes:
     notes_paging_nav:
       showing_page: Tu e shfaq faqen %{page}

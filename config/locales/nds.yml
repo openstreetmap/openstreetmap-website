@@ -14,8 +14,6 @@ nds:
         create: Spiekern
       message:
         create: Versennen
-      client_application:
-        update: Ännern
       trace:
         create: Hoochladen
         update: Ännern spiekern
@@ -76,11 +74,8 @@ nds:
       github: GitHub
       wikipedia: Wikipedia
   accounts:
-    edit:
+    show:
       title: Brukerkonto ännern
-      public editing:
-        enabled link text: Wat is dat?
-        disabled link text: Worüm kann ik nix ännern?
       save changes button: Ännern spiekern
     go_public:
       make_edits_public_button: All mien Ännern apen wiesen
@@ -90,28 +85,22 @@ nds:
       type:
         node: Knütt
         way: Weg
-    not_found:
-      type:
-        node: Knütt
-        way: Weg
     timeout:
       type:
         way: Weg
     start_rjs:
       loading: An’t Laden...
   changesets:
-    changeset:
-      no_edits: (keen Ännern)
     show:
       comment: Kommentar
   dashboards:
     contact:
       km away: '%{count} km weg'
       m away: '%{count} m weg'
+      no_edits: (keen Ännern)
     popup:
       your location: Dien Standoort
       nearby mapper: Koortenmaker in de Neegd
-      friend: Fründ
     show:
       nearby users: Annere Brukers in de Neegd
   diary_entries:
@@ -124,8 +113,6 @@ nds:
       title: Bruker-Dagböker
       user_title: '%{user} sien Dagbook'
       in_language_title: Dagbook-Indrääg op %{language}
-      new: Ne’en Dagbook-Indrag
-      new_title: Ne’en Indrag in’t Bruker-Dagbook anleggen
       no_entries: Keen Dagbook-Indrääg
     page:
       recent_entries: Jüngste Dagbook-Indrääg
@@ -145,14 +132,11 @@ nds:
         one: 1 Kommentar
         other: '%{count} Kommentare'
       edit_link: Dissen Indrag ännern
-  friendships:
-    make_friend:
-      success: '%{name} ist nu dien Fründ.'
-      failed: Dat hett nich klappt,  %{name} as Fründ totofögen.
-      already_a_friend: '%{name} is al dien Fründ.'
-    remove_friend:
-      success: '%{name} is rutnahmen bi de Frünn.'
-      not_a_friend: '%{name} is keen von dien Frünn.'
+    navigation:
+      new: Ne’en Dagbook-Indrag
+      new_title: Ne’en Indrag in’t Bruker-Dagbook anleggen
+    profile_diaries:
+      date_label: Datum
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -372,6 +356,9 @@ nds:
           motel: Motel
           museum: Museum
           zoo: Zoo
+        water:
+          lake: See
+          reservoir: Stausee
         waterway:
           canal: Kanaal
           dam: Damm
@@ -385,9 +372,11 @@ nds:
           wadi: Wadi
           waterfall: Waterfall
           weir: Wehr
-    results:
-      no_results: nix funnen
-      more_results: Mehr
+  searches:
+    queries:
+      create:
+        no_results: nix funnen
+        more_results: Mehr
   layouts:
     logo:
       alt_text: OpenHistoricalMap-Logo
@@ -409,32 +398,34 @@ nds:
     lost_password:
       greeting: Moin,
   messages:
-    inbox:
-      title: Postfack Ingang
-      people_mapping_nearby: Koortenmakers in de Neegd
-    messages_table:
-      from: Von
-      to: An
-      date: Datum
-    message_summary:
-      unread_button: as ‚noch nich leest‘ kennteken
-      read_button: as ‚leest‘ kennteken
-      destroy_button: Wegdoon
     new:
       title: Naricht sennen
       back_to_inbox: Trüch na’t Postfack Ingang
     create:
       message_sent: Naricht afsennt
-    outbox:
-      title: Postfack Utgang
     show:
       reply_button: Antern
-    sent_message_summary:
-      destroy_button: Wegdoon
-    heading:
-      my_inbox: Mien Postfack Ingang
     destroy:
       destroyed: Naricht wegdaan
+    mailboxes:
+      heading:
+        my_inbox: Mien Postfack Ingang
+      messages_table:
+        from: Von
+        to: An
+      message:
+        unread_button: as ‚noch nich leest‘ kennteken
+        read_button: as ‚leest‘ kennteken
+        destroy_button: Wegdoon
+    inboxes:
+      show:
+        title: Postfack Ingang
+        people_mapping_nearby: Koortenmakers in de Neegd
+    outboxes:
+      show:
+        title: Postfack Utgang
+      message:
+        destroy_button: Wegdoon
   passwords:
     new:
       title: Passwoord vergeten
@@ -448,7 +439,7 @@ nds:
     update:
       flash changed: Dien Passwoord is nu ännert.
   profiles:
-    edit:
+    show:
       image: 'Bild:'
       new image: Bild tofögen
       no home location: Du hest dien Standoort nich angeven.
@@ -469,7 +460,7 @@ nds:
     copyright:
       native:
         title: Över disse Siet
-    edit:
+    not_public_flash:
       user_page_link: Brukersied
     export:
       licence: Lizenz
@@ -478,59 +469,57 @@ nds:
       search: Söken
       where_am_i: Woneem bün ik?
       submit_text: Los
-    key:
-      table:
-        entry:
-          motorway: Autobahn
-          trunk: Snellstraat
-          primary: wichtige Landstraat
-          secondary: lüttjere Landstraat
-          unclassified: Straat
-          track: Feldweg
-          bridleway: Riedpadd
-          cycleway: Fohrradpadd
-          footway: Footpadd
-          rail: Iesenbahn
-          subway: U-Bahn
-          light_rail: Stadtbahn
-          tram: Stratenbahn
-          cable_car: Kavelbahn
-          chair_lift: Skilift
-          runway: Fleger-Lannbahn
-          taxiway: Fleger-Rullweg
-          apron: Terminal
-          admin: Grenz
-          forest: Forst
-          wood: Woold
-          meadow: Wisch
-          golf: Golfplatz
-          park: Park
-          common: Wisch
-          resident: Wahnrebeed
-          retail: Ladenrebeed
-          industrial: Industrierebeed
-          commercial: Hannelsrebeed
-          heathland: Heid
-          lake: See
-          reservoir: Stausee
-          farm: Buurnhoff
-          brownfield: Industrie-Braakland
-          cemetery: Karkhoff
-          allotments: Schrebergoorns
-          pitch: Sportfeld
-          centre: Sportzentrum
-          reserve: Naturpark
-          military: Militärrebeed
-          school: School
-          university: Universität
-          building: Wichtig Bowark
-          station: Bahnhoff
-          summit: Bargtopp
-          peak: Bargtopp
-          tunnel: Strekel-Rand = Tunnel
-          bridge: Fett Rand = Brügg
-          private: Privat Togang
-          construction: Straat, an de noch boot warrt
+  map_keys:
+    show:
+      entries:
+        motorway: Autobahn
+        trunk: Snellstraat
+        primary: wichtige Landstraat
+        secondary: lüttjere Landstraat
+        unclassified: Straat
+        track: Feldweg
+        bridleway: Riedpadd
+        cycleway: Fohrradpadd
+        footway: Footpadd
+        rail: Iesenbahn
+        subway: U-Bahn
+        light_rail: Stadtbahn
+        tram: Stratenbahn
+        cable_car: Kavelbahn
+        chair_lift: Skilift
+        runway: Fleger-Lannbahn
+        taxiway: Fleger-Rullweg
+        apron: Terminal
+        admin: Grenz
+        forest: Forst
+        wood: Woold
+        meadow: Wisch
+        golf: Golfplatz
+        park: Park
+        common: Wisch
+        resident: Wahnrebeed
+        retail: Ladenrebeed
+        industrial: Industrierebeed
+        commercial: Hannelsrebeed
+        heathland: Heid
+        farm: Buurnhoff
+        brownfield: Industrie-Braakland
+        cemetery: Karkhoff
+        allotments: Schrebergoorns
+        pitch: Sportfeld
+        centre: Sportzentrum
+        reserve: Naturpark
+        military: Militärrebeed
+        school: School
+        university: Universität
+        building: Wichtig Bowark
+        station: Bahnhoff
+        summit: Bargtopp
+        peak: Bargtopp
+        tunnel: Strekel-Rand = Tunnel
+        bridge: Fett Rand = Brügg
+        private: Privat Togang
+        construction: Straat, an de noch boot warrt
   traces:
     new:
       help: Hülp
@@ -564,8 +553,6 @@ nds:
       send message: Naricht sennen
       diary: Dagbook
       edits: Ännern
-      remove as friend: as Fründ rutnehmen
-      add as friend: as Fründ tofögen
       mapper since: 'Koortenmaker sied:'
       email address: 'E-Mail-Adress:'
   user_blocks:

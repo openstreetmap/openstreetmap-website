@@ -27,9 +27,6 @@ my:
         create: မှတ်ချက် ပေါင်းထည့်ရန်
       message:
         create: ပို့
-      client_application:
-        create: မှတ်ပုံတင်ရန်
-        update: မွမ်းမံ
       trace:
         create: တင်ရန်
         update: ပြောင်းလဲမှုများကို သိမ်းရန်
@@ -39,6 +36,7 @@ my:
       friend: သူငယ်ချင်း
       language: ဘာသာစကား
       message: စာသား
+      note: မှတ်စု
       notifier: အသိပေးသူ
       trace: သဲလွန်စ
       user: အသုံးပြုသူ
@@ -131,16 +129,23 @@ my:
       entry:
         comment: မှတ်ချက်
         full: မှတ်စု အပြည့်အစုံ
-  account:
+  accounts:
+    show:
+      title: အကောင့်ကို ပြင်ဆင်ရန်
+      current email address: လက်ရှိ အီးမေးလ်လိပ်စာ
+      save changes button: ပြောင်းလဲမှုများကို သိမ်းရန်
     deletions:
       show:
         confirm_delete: သေချာပါသလား
         cancel: မလုပ်တော့ပါ
-  accounts:
-    edit:
-      title: အကောင့်ကို ပြင်ဆင်ရန်
-      current email address: လက်ရှိ အီးမေးလ်လိပ်စာ
-      save changes button: ပြောင်းလဲမှုများကို သိမ်းရန်
+    terms:
+      show:
+        title: သတ်မှတ်ချက်များ
+        heading: သတ်မှတ်ချက်များ
+        legale_select: 'နေထိုင်ရာ နိုင်ငံ:'
+        legale_names:
+          france: ပြင်သစ်
+          italy: အီတလီ
   browse:
     version: ဗားရှင်း
     anonymous: အမည်မသိ
@@ -150,9 +155,6 @@ my:
     location: 'တည်နေရာ:'
     relation:
       members: အဖွဲ့ဝင်များ
-    not_found:
-      type:
-        note: မှတ်စု
     timeout:
       type:
         note: မှတ်စု
@@ -168,10 +170,7 @@ my:
       comment:
         commented_at_by_html: '%{user} က %{when} အကြာက မွမ်းမံခဲ့သည်'
   changesets:
-    changeset:
-      no_edits: (တည်းဖြတ်မှု မရှိ)
     index:
-      load_more: ပိုမိုခေါ်ယူရန်
       feed:
         created: ဖန်တီးလိုက်သည်
         closed: ပိတ်လိုက်သည်
@@ -186,16 +185,15 @@ my:
     contact:
       km away: '%{count}ကီလိုမီတာ အကွာ'
       m away: '%{count}မိုင် အကွာ'
+      no_edits: (တည်းဖြတ်မှု မရှိ)
     popup:
       your location: သင်၏ တည်နေရာ
-      friend: သူငယ်ချင်း
   diary_entries:
     form:
       location: တည်နေရာ
       use_map_link: မြေပုံကို အသုံးချရန်
     index:
       title: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများ
-      title_friends: မိတ်ဆွေများ၏ နေ့စဉ်မှတ်တမ်းများ
       title_nearby: အနီးအနားရှိ အသုံးပြု၏နေ့စဉ်မှတ်တမ်းများ
       user_title: '%{user}၏ နေ့စဉ်မှတ်တမ်း'
     show:
@@ -213,9 +211,8 @@ my:
       report: ဤမှတ်ချက်ကို အစီရင်ခံတင်ပြရန်
     location:
       location: 'တည်နေရာ:'
-  diary_comments:
-    page:
-      comment: မှတ်ချက်
+    profile_diaries:
+      date_label: နေ့စွဲ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -458,14 +455,22 @@ my:
           motel: မိုတယ်
           museum: ပြတိုက်
           zoo: တိရစ္ဆာန်ဥယျာဉ်
+        water:
+          lake: ရေကန်
         waterway:
           canal: တူးမြောင်း
           dam: တမံ
           river: မြစ်
           waterfall: ရေတံခွန်
-    results:
-      no_results: မည်သည့်ရလဒ်မျှ မရပါ
-      more_results: ရလဒ်များ ပို၍
+  searches:
+    queries:
+      create:
+        no_results: မည်သည့်ရလဒ်မျှ မရပါ
+        more_results: ရလဒ်များ ပို၍
+  directions:
+    show:
+      distance: အကွာအဝေး
+      time: အချိန်
   issues:
     index:
       search: ရှာဖွေရန်
@@ -525,7 +530,7 @@ my:
       hi: ဟိုင်း %{to_user}၊
     message_notification:
       hi: ဟိုင်း %{to_user}၊
-    friendship_notification:
+    follow_notification:
       hi: ဟိုင်း %{to_user}၊
     email_confirm:
       greeting: ဟိုင်း၊
@@ -545,16 +550,6 @@ my:
     confirm_email:
       button: အတည်ပြု
   messages:
-    inbox:
-      title: အဝင်စာ
-    messages_table:
-      from: မှ
-      to: သို့
-      subject: အကြောင်းအရာ
-      date: နေ့စွဲ
-    message_summary:
-      read_button: ဖတ်ပြီးကြောင်း မှတ်သားရန်
-      destroy_button: ဖျက်​ပါ​
     new:
       title: မက်ဆေ့ ပို့ရန်
     create:
@@ -562,15 +557,27 @@ my:
     no_such_message:
       title: ယင်းကဲ့သို့မက်ဆေ့မရှိပါ
       heading: ယင်းကဲ့သို့မက်ဆေ့မရှိပါ
-    outbox:
-      title: အထွက်စာ
     show:
       title: မက်ဆေ့ ဖတ်ရန်
       reply_button: အကြောင်းပြန်ရန်
       destroy_button: ဖျက်​ပါ​
       back: နောက်သို့
-    sent_message_summary:
-      destroy_button: ဖျက်​ပါ​
+    mailboxes:
+      messages_table:
+        from: မှ
+        to: သို့
+        subject: အကြောင်းအရာ
+      message:
+        read_button: ဖတ်ပြီးကြောင်း မှတ်သားရန်
+        destroy_button: ဖျက်​ပါ​
+    inboxes:
+      show:
+        title: အဝင်စာ
+    outboxes:
+      show:
+        title: အထွက်စာ
+      message:
+        destroy_button: ဖျက်​ပါ​
   passwords:
     new:
       title: စကားဝှက် ပျောက်ဆုံးသွား
@@ -584,7 +591,7 @@ my:
     update:
       flash changed: သင့်စကားဝှက်ကို ပြောင်းလဲပြီးပါပြီ
   profiles:
-    edit:
+    show:
       show: ပြ
   sessions:
     new:
@@ -621,7 +628,7 @@ my:
         mapping_link: မြေပုံ စတင်ရေးဆွဲရန်
       legal_babble:
         contributors_title_html: မိမိတို့၏ ပံ့ပို့ပေးသူများ
-    edit:
+    not_public_flash:
       user_page_link: အသုံးပြုသူ စာမျက်နှာ
     export:
       title: တင်ပို့ရန်
@@ -649,23 +656,6 @@ my:
       from: မှ
       to: သို့
       submit_text: သွားပါ
-    key:
-      table:
-        entry:
-          primary: ပင်မလမ်း
-          bridleway: မြင်းစီးလမ်း
-          cycleway: စက်ဘီးသွားလမ်း
-          rail: ရထားလမ်း
-          runway: လေယာဉ်ကွင်းပြေးလမ်း
-          forest: သစ်တော
-          park: ပန်းခြံ
-          lake: ရေကန်
-          cemetery: သုဿန်
-          school: ကျောင်း
-          university: တက္ကသိုလ်
-          station: ရထားဘူတာ
-          construction: ဖောက်နေဆဲ လမ်းများ
-          toilets: အိမ်သာများ
     welcome:
       title: ကြိုဆိုပါသည်!
       rules:
@@ -674,6 +664,22 @@ my:
     communities:
       other_groups:
         title: အခြားအုပ်စုများ
+  map_keys:
+    show:
+      entries:
+        primary: ပင်မလမ်း
+        bridleway: မြင်းစီးလမ်း
+        cycleway: စက်ဘီးသွားလမ်း
+        rail: ရထားလမ်း
+        runway: လေယာဉ်ကွင်းပြေးလမ်း
+        forest: သစ်တော
+        park: ပန်းခြံ
+        cemetery: သုဿန်
+        school: ကျောင်း
+        university: တက္ကသိုလ်
+        station: ရထားဘူတာ
+        construction: ဖောက်နေဆဲ လမ်းများ
+        toilets: အိမ်သာများ
   traces:
     new:
       visibility_help: ဒါက ဘာကိုဆိုလိုတာပါလိမ့်
@@ -705,14 +711,6 @@ my:
     new:
       title: မှတ်ပုံတင်ရန်
       continue: မှတ်ပုံတင်ရန်
-    terms:
-      title: သတ်မှတ်ချက်များ
-      heading: သတ်မှတ်ချက်များ
-      continue: ဆက်လက်
-      legale_select: 'နေထိုင်ရာ နိုင်ငံ:'
-      legale_names:
-        france: ပြင်သစ်
-        italy: အီတလီ
     show:
       diary: နေ့စဉ်မှတ်တမ်း
       edits: တည်းဖြတ်မှုများ
@@ -724,9 +722,13 @@ my:
       comments: မှတ်ချက်များ
       create_block: ဤအသုံးပြုသူကို ပိတ်ပင်ရန်
       confirm: အတည်ပြု
-    index:
-      title: အသုံးပြုသူများ
-      heading: အသုံးပြုသူများ
+    lists:
+      show:
+        title: အသုံးပြုသူများ
+        heading: အသုံးပြုသူများ
+    changeset_comments:
+      page:
+        comment: မှတ်ချက်
   user_blocks:
     helper:
       block_duration:
@@ -773,9 +775,6 @@ my:
       image: ရုပ်ပုံ
       long_link: လင့်
       download: ဒေါင်းလုဒ်
-    directions:
-      distance: အကွာအဝေး
-      time: အချိန်
   redactions:
     show:
       description: 'ဖော်ပြချက်:'

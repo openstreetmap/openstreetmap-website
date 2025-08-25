@@ -22,9 +22,6 @@ kk-cyrl:
         create: Пікір қосу
       message:
         create: Жіберу
-      client_application:
-        create: Тіркелу
-        update: Жаңарту
       oauth2_application:
         create: Тіркелу
         update: Жаңарту
@@ -51,6 +48,7 @@ kk-cyrl:
       message: Хабарлама
       node: Нүкте
       node_tag: Нүкте тегі
+      note: ескертпе
       old_node: Ескі нүкте
       old_node_tag: Нүктенің ескі тегі
       old_relation: Ескі қатынас
@@ -201,23 +199,9 @@ kk-cyrl:
         title: OpenStreetMap ескертпелері
       entry:
         comment: Пікір
-  account:
-    deletions:
-      show:
-        title: Тіркелгімді жою
-        delete_account: Тіркелгіні жою
-        confirm_delete: Сенімдісіз бе?
-        cancel: Болдырмау
   accounts:
-    edit:
-      my settings: Баптауларым
+    show:
       current email address: Ағымдағы е-пошта мекенжайы
-      openid:
-        link text: бұл не?
-      public editing:
-        heading: Жария өңдеу
-        enabled link text: бұл не?
-        disabled link text: Неге өзгерістер енгізе алмаймын?
       contributor terms:
         heading: Жобаға қатысу шарттары
         link text: бұл не?
@@ -232,6 +216,19 @@ kk-cyrl:
       not_reversible: Бұл қайтымсыз әрекет. Барлық жаңа қолданушы жария болып тіркеледі.
     destroy:
       success: Тіркелгі жойылды.
+    deletions:
+      show:
+        title: Тіркелгімді жою
+        delete_account: Тіркелгіні жою
+        confirm_delete: Сенімдісіз бе?
+        cancel: Болдырмау
+    terms:
+      show:
+        cancel: Болдырмау
+        legale_names:
+          france: Франция
+          italy: Италия
+          rest_of_world: Қалған әлем
   browse:
     version: Нұсқа
     in_changeset: Өңдеме дестесі
@@ -249,32 +246,21 @@ kk-cyrl:
     location: 'Орналасуы:'
     node:
       title_html: 'Нүкте: %{name}'
-      history_title_html: 'Нүкте тарихы: %{name}'
     way:
       title_html: 'Сызық: %{name}'
-      history_title_html: 'Сызық тарихы: %{name}'
       nodes: Нүктелер
       nodes_count:
         one: '%{count} нүкте'
         other: '%{count} нүкте'
     relation:
       title_html: 'Қатынас: %{name}'
-      history_title_html: 'Қатынас тарихы: %{name}'
     relation_member:
       type:
         node: Нүкте
         way: Сызық
         relation: Қатынас
-    containing_relation:
-      entry_html: Қатынас %{relation_name}
     not_found:
       title: Табылмады
-      type:
-        node: нүкте
-        way: сызық
-        relation: қатынас
-        changeset: өңдеме дестесі
-        note: ескертпе
     timeout:
       type:
         node: нүкте
@@ -303,38 +289,41 @@ kk-cyrl:
       telephone_link: '%{phone_number} қоңырау шалу'
       colour_preview: '%{colour_value} түсін көру'
       email_link: '%{email} хат жіберу'
-    query:
+  feature_queries:
+    show:
       title: Маңайдағы нысандар
       nearby: Маңайдағы нысандар
+  old_elements:
+    index:
+      node:
+        title_html: 'Нүкте тарихы: %{name}'
+      way:
+        title_html: 'Сызық тарихы: %{name}'
+      relation:
+        title_html: 'Қатынас тарихы: %{name}'
   changesets:
-    changeset:
-      no_edits: (өңдемелер жоқ)
-      view_changeset_details: Өңдеме дестесінің егжей-тегжейін көру
     index:
       title: Өңдеме дестелері
       title_user: '%{user} жасаған өңдемелер дестелері'
       title_user_link_html: '%{user_link} жасаған өңдеме дестелері'
-      title_friend: Достарымның өңдемелер дестелері
-      load_more: Көбірек жүктеу
-    heading:
-      title: Өңдеме дестесі %{id}
     show:
       discussion: Талқылау
       subscribe: Жазылу
       hide_comment: жасыру
       osmchangexml: osmChange XML
+  changeset_subscriptions:
+    heading:
+      title: Өңдеме дестесі %{id}
   dashboards:
     contact:
       km away: Бұдан %{count} км жерде
       m away: Бұдан %{count} м жерде
+      no_edits: (өңдемелер жоқ)
+      view_changeset_details: Өңдеме дестесінің егжей-тегжейін көру
     popup:
       your location: Орналасқан жеріңіз
-      friend: Дос
     show:
       title: Ақпарат панелім
-      my friends: Достарым
-      friends_changesets: достардың өңдеме дестелері
-      friends_diaries: Достардың күнделік жазбалары
   diary_entries:
     new:
       title: Жаңа күнделік жазбасы
@@ -342,11 +331,8 @@ kk-cyrl:
       location: Орналасуы
     index:
       title: Қолданушылардың күнделіктері
-      title_friends: Достардың күнделіктері
       user_title: '%{user} күнделігі'
       in_language_title: '%{language} тіліндегі күнделік жазбалары'
-      new: Жаңа күнделік жазбасы
-      my_diary: Күнделігім
       no_entries: Күнделікте еш жазба жоқ
     page:
       recent_entries: Жуықтағы күнделік жазбалары
@@ -371,10 +357,9 @@ kk-cyrl:
       confirm: Құптау
     subscribe:
       button: Талқыға жазылу
-  diary_comments:
-    page:
-      when: Қашан
-      comment: Пікір
+    navigation:
+      my_diary: Күнделігім
+      new: Жаңа күнделік жазбасы
   doorkeeper:
     flash:
       applications:
@@ -387,15 +372,6 @@ kk-cyrl:
   errors:
     not_found:
       title: Файл табылмады
-  friendships:
-    make_friend:
-      heading: '%{user} достарға қосу керек пе?'
-      button: Достарға қосу
-    remove_friend:
-      heading: '%{user} достардан жою керек пе?'
-      button: Достардан жою
-      success: '%{name} достардан жойылды.'
-      not_a_friend: '%{name} досыңыз емес.'
   geocoder:
     search:
       title:
@@ -835,6 +811,8 @@ kk-cyrl:
           zoo: Зообақ
         tunnel:
           "yes": Туннель
+        water:
+          lake: Көл
         waterway:
           dam: Бөгетше
           lock: Шлюз
@@ -848,8 +826,13 @@ kk-cyrl:
         level6: Аудан шекарасы
         level8: Қала шекарасы
         level9: Ауыл шекарасы
-    results:
-      no_results: Ештеңе табылмады
+  searches:
+    queries:
+      create:
+        no_results: Ештеңе табылмады
+  directions:
+    show:
+      time: Ұзақтығы
   issues:
     index:
       search: Іздеу
@@ -899,7 +882,7 @@ kk-cyrl:
       hi: Сәлеметсіз бе, %{to_user},
       header: 'OpenStreetMap қолданушысы %{from_user} сізге хат жіберді. Тақырыбы:
         %{subject}'
-    friendship_notification:
+    follow_notification:
       hi: Сәлеметсіз бе, %{to_user},
     gpx_failure:
       hi: Сәлеметсіз бе, %{to_user},
@@ -907,7 +890,7 @@ kk-cyrl:
       hi: Сәлеметсіз бе, %{to_user},
       subject: '[OpenStreetMap] GPX сәтті импортталды'
     signup_confirm:
-      subject: '[OpenStreetMap] OpenStreetMap-ке қош келдіңіз'
+      subject: '[OpenHistoricalMap] OpenHistoricalMap-ке қош келдіңіз'
     email_confirm:
       greeting: Сәлеметсіз бе,
     lost_password:
@@ -918,43 +901,44 @@ kk-cyrl:
     changeset_comment_notification:
       hi: Сәлеметсіз бе, %{to_user},
   messages:
-    messages_table:
-      subject: Тақырып
-      actions: Әрекеттер
-    message_summary:
-      unread_button: Оқылмаған деп белгілеу
-      read_button: Оқылды деп белгілеу
-      destroy_button: Жою
     new:
       title: Хат жіберу
-    outbox:
-      messages:
-        one: '%{count} хат жібердіңіз'
-        other: '%{count} хат жібердіңіз'
     show:
       reply_button: Жауап беру
       unread_button: Оқылмаған деп белгілеу
       destroy_button: Жою
       back: Артқа
-    sent_message_summary:
-      destroy_button: Жою
-    mark:
-      as_read: Хатқа оқылды деген белгі қойдыңыз
-      as_unread: Хатқа оқылмады деген белгі қойдыңыз
+    read_marks:
+      create:
+        notice: Хатқа оқылды деген белгі қойдыңыз
+      destroy:
+        notice: Хатқа оқылмады деген белгі қойдыңыз
+    mailboxes:
+      messages_table:
+        subject: Тақырып
+        actions: Әрекеттер
+      message:
+        unread_button: Оқылмаған деп белгілеу
+        read_button: Оқылды деп белгілеу
+        destroy_button: Жою
+    outboxes:
+      show:
+        messages:
+          one: '%{count} хат жібердіңіз'
+          other: '%{count} хат жібердіңіз'
+      message:
+        destroy_button: Жою
   passwords:
     new:
       email address: Эл. пошта мекенжайы
     update:
       flash changed: Құпия сөзіңіз өзгертілді.
   preferences:
-    show:
-      title: Қалауларым
-      preferred_editor: Қалаған редактор
-      preferred_languages: Қалаған тілдер
-    edit:
-      cancel: Болдырмау
+    basic_preferences:
+      show:
+        title: Қалауларым
   profiles:
-    edit:
+    show:
       title: Бейінді өңдеу
       save: Бейінді жаңарту
       cancel: Болдырмау
@@ -1004,7 +988,7 @@ kk-cyrl:
         english_link: Ағылшынша түпнұсқасы
       native:
         title: Бұл бет туралы
-    edit:
+    not_public_flash:
       user_page_link: қолданушы беті
     export:
       title: Экспорттау
@@ -1021,7 +1005,7 @@ kk-cyrl:
     help:
       welcome:
         url: /welcome
-        title: OpenStreetMap-ке қош келдіңіз
+        title: OpenHistoricalMap-ке қош келдіңіз
       irc:
         title: IRC
       switch2osm:
@@ -1040,43 +1024,6 @@ kk-cyrl:
       search: Іздеу
       where_am_i: Бұл қайда?
       submit_text: Өту
-    key:
-      table:
-        entry:
-          motorway: Автокүрежол
-          main_road: Бас жол
-          trunk: Тас жол
-          primary: Бірінші дәрежелі жол
-          secondary: Екінші дәрежелі жол
-          unclassified: Жергілікті жол
-          rail: Темір жол
-          train: Пойыз
-          subway: Метро
-          light_rail: Жеңіл рельсті көлік
-          bus: Автобус
-          admin: Әкімшілік шекара
-          forest: Орман
-          golf: Гольф алаңы
-          park: Саябақ
-          resident: Тұрғын аудан
-          retail: Сауда аймағы
-          industrial: Өнеркәсіп аймағы
-          lake: Көл
-          farm: Ферма
-          cemetery: Зират
-          allotments: Саяжайлар
-          pitch: Спорт алаңы
-          centre: Спорт орталығы
-          military: Әскери аймақ
-          school: Мектеп
-          university: университет
-          building: Елеулі ғимарат
-          station: Темір жол бекеті
-          peak: шың
-          bus_stop: Автобус аялдамасы
-          bicycle_shop: Велосипед дүкені
-          bicycle_parking: Велосипед тұрағы
-          toilets: Дәретхана
     welcome:
       title: Қош келдіңіз!
       basic_terms:
@@ -1086,6 +1033,42 @@ kk-cyrl:
         title: Ережелерi!
     communities:
       title: Қауымдастықтар
+  map_keys:
+    show:
+      entries:
+        motorway: Автокүрежол
+        main_road: Бас жол
+        trunk: Тас жол
+        primary: Бірінші дәрежелі жол
+        secondary: Екінші дәрежелі жол
+        unclassified: Жергілікті жол
+        rail: Темір жол
+        train: Пойыз
+        subway: Метро
+        light_rail: Жеңіл рельсті көлік
+        bus: Автобус
+        admin: Әкімшілік шекара
+        forest: Орман
+        golf: Гольф алаңы
+        park: Саябақ
+        resident: Тұрғын аудан
+        retail: Сауда аймағы
+        industrial: Өнеркәсіп аймағы
+        farm: Ферма
+        cemetery: Зират
+        allotments: Саяжайлар
+        pitch: Спорт алаңы
+        centre: Спорт орталығы
+        military: Әскери аймақ
+        school: Мектеп
+        university: университет
+        building: Елеулі ғимарат
+        station: Темір жол бекеті
+        peak: шың
+        bus_stop: Автобус аялдамасы
+        bicycle_shop: Велосипед дүкені
+        bicycle_parking: Велосипед тұрағы
+        toilets: Дәретхана
   traces:
     new:
       help: Анықтама
@@ -1109,8 +1092,6 @@ kk-cyrl:
     settings_menu:
       oauth2_applications: OAuth 2 қосымшалары
     auth_providers:
-      openid:
-        title: OpenID арқылы кіру
       google:
         title: Google арқылы кіру
       facebook:
@@ -1139,13 +1120,6 @@ kk-cyrl:
     new:
       display name description: Басқа қолданушыларға көрінетін атыңыз. Кейінірек оны
         баптауларда өзгерте аласыз.
-    terms:
-      consider_pd_why: бұл не?
-      continue: Жалғастыру
-      legale_names:
-        france: Франция
-        italy: Италия
-        rest_of_world: Қалған әлем
     no_such_user:
       deleted: жойылған
     show:
@@ -1155,16 +1129,20 @@ kk-cyrl:
       my notes: Ескертпелерім
       my messages: Хаттарым
       my profile: Бейінім
-      my settings: Баптауларым
       my_preferences: Қалауларым
       send message: Хат жіберу
       diary: Күнделік
       traces: Бағдарлары
-      remove as friend: Достардан жою
       mapper since: 'Тіркелген күні:'
-    index:
-      title: Қолданушылар
-      heading: Қолданушылар
+    lists:
+      show:
+        title: Қолданушылар
+        heading: Қолданушылар
+    changeset_comments:
+      page:
+        changeset: өңдеме дестесі
+        when: Қашан
+        comment: Пікір
   user_blocks:
     helper:
       block_duration:
@@ -1239,10 +1217,6 @@ kk-cyrl:
       queryfeature_disabled_tooltip: Маңайдағы нысандарды көру үшін картаны үлкейтіп
         жіберіңіз
     directions:
-      engines:
-        fossgis_osrm_bike: Велосипед (OSRM)
-        fossgis_osrm_foot: Жаяу (OSRM)
-        graphhopper_foot: Жаяу (GraphHopper)
       instructions:
         via_point_without_exit: (нүкте арқылы)
         unnamed: атаусыз жол
@@ -1257,7 +1231,6 @@ kk-cyrl:
           eighth: 8-ші
           ninth: 9-шы
           tenth: 10-шы
-      time: Ұзақтығы
     query:
       node: Нүкте
       way: Сызық

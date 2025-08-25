@@ -25,9 +25,6 @@ hsb:
         create: Komentar přidać
       message:
         create: Pósłać
-      client_application:
-        create: Registrować
-        update: Aktualizować
       oauth2_application:
         create: Registrować
         update: Aktualizować
@@ -61,6 +58,7 @@ hsb:
       message: Powěsć
       node: Suk
       node_tag: Sukowy atribut
+      note: pokiw
       notifier: Zdźělenje
       old_node: Stary suk
       old_node_tag: Atribut stareho suka
@@ -265,37 +263,11 @@ hsb:
       entry:
         comment: Komentar
         full: Dospołna pokazka
-  account:
-    deletions:
-      show:
-        title: Moje konto zhašeć
-        warning: Kedźbu! Proces zhašenja konta je doskónčny a njeda so cofnyć.
-        delete_account: Konto zhašeć
-        delete_introduction: 'Móžeš swoje konto OpenStreetMap z pomocu tłóčatka deleka
-          zhašeć. Prošu dźiwajće na slědowace podrobnosće:'
-        delete_profile: Waše profilowe informacije, mjez nimi waš awatar, wopisanje
-          a bydlišćo so wotstronja.
-        delete_display_name: Waše pokazowanske mjeno so wotstroni a da so z druhimi
-          kontami znowa wužiwać.
-        confirm_delete: Sy sej wěsty?
-        cancel: Přetorhnyć
   accounts:
-    edit:
+    show:
       title: Konto wobdźěłać
-      my settings: Moje nastajenja
       current email address: Aktualna e-mejlowa adresa
       external auth: Eksterna awtentifikacija
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: Što to je?
-      public editing:
-        heading: Zjawne wobdźěłowanje
-        enabled: Zmóžnjene. Nic anonymne a daty hodźa so wobdźěłać.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: Što to je?
-        disabled: Znjemóžnjeny a daty njehodźa so wobdźěłać, wšě prjedawše změny su
-          anonymne.
-        disabled link text: čehodla njemóžu wobdźěłać?
       contributor terms:
         heading: Wuměnjenja za sobuskutkowarjow
         agreed: Sy do nowych wuměnjenjow za sobuskutkowarjow zwolił.
@@ -304,7 +276,7 @@ hsb:
           za sobuskutkowarjow přehladał a akceptował.
         agreed_with_pd: Sy tež deklarował, zo twoje změny su zjawne.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: što to je?
+        link text: Što to je?
       save changes button: Změny składować
       delete_account: Konto zhašeć…
     go_public:
@@ -316,6 +288,38 @@ hsb:
       success: Wužiwarske informacije wuspěšnje zaktualizowane.
     destroy:
       success: Konto je so zhašało.
+    deletions:
+      show:
+        title: Moje konto zhašeć
+        warning: Kedźbu! Proces zhašenja konta je doskónčny a njeda so cofnyć.
+        delete_account: Konto zhašeć
+        delete_profile: Waše profilowe informacije, mjez nimi waš awatar, wopisanje
+          a bydlišćo so wotstronja.
+        delete_display_name: Waše pokazowanske mjeno so wotstroni a da so z druhimi
+          kontami znowa wužiwać.
+        confirm_delete: Sy sej wěsty?
+        cancel: Přetorhnyć
+    terms:
+      show:
+        title: Wuměnjenja
+        heading: Wuměnjenja
+        heading_ct: Wuměnjenja za sobuskutkowarjow
+        read_tou: Sym wužiwanske wuměnjenja přečitał a sym z nimi přezjedny|přezjedna
+        cancel: Přetorhnyć
+        you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a
+          akceptuj abo wotpokazaj je, prjedy hač dale činiš.
+        legale_select: 'Prošu wubjer kraj swojeho bydlišća:'
+        legale_names:
+          france: Francoska
+          italy: Italska
+          rest_of_world: Zbytk swěta
+      update:
+        terms accepted: Dźakujemy so, zo sy nowe wuměnjenja za sobuskutkowarjow akceptował!
+      terms_declined_flash:
+        terms_declined_html: Wobžarujemy, zo sy so rozsudźił, nowe wuměnjenja za sobuskutkowarjow
+          njeakceptować. Za dalše informacije hlej prošu %{terms_declined_link}.
+        terms_declined_link: tuta wikistrona
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
   browse:
     version: Wersija
     in_changeset: Sadźba změnow
@@ -338,10 +342,8 @@ hsb:
     location: 'Městno:'
     node:
       title_html: 'Suk: %{name}'
-      history_title_html: 'Sukata historija: %{name}'
     way:
       title_html: 'Puć: %{name}'
-      history_title_html: 'Historija puća: %{name}'
       nodes: Suki
       nodes_count:
         one: '%{count} suk'
@@ -355,7 +357,6 @@ hsb:
         other: dźěl pućow %{related_ways}
     relation:
       title_html: 'Relacija: %{name}'
-      history_title_html: 'Historija relacije: %{name}'
       members: Čłonojo
       members_count:
         one: '%{count} čłon'
@@ -369,17 +370,9 @@ hsb:
         way: Puć
         relation: Relacija
     containing_relation:
-      entry_html: Relacija %{relation_name}
       entry_role_html: Relacija %{relation_name} (jako %{relation_role})
     not_found:
       title: Njenamakane
-      sorry: 'Wodaj, %{type} #%{id} njebu namakany.'
-      type:
-        node: suk
-        way: puć
-        relation: relacija
-        changeset: sadźba změnow
-        note: pokiw
     timeout:
       title: Zmylk časoweho překročenja
       sorry: Wodaj, traje předołho, daty za %{type} z ID %{id} wotwołać.
@@ -413,11 +406,20 @@ hsb:
       telephone_link: '%{phone_number} zawołać'
       colour_preview: Přehlad barba %{colour_value}
       email_link: E-mejl %{email}
-    query:
+  feature_queries:
+    show:
       title: Funkcije naprašować
       introduction: Klikń na kartu, zo by susodne objekty namakał(a).
       nearby: Objekty w bliskosći
       enclosing: Wobdawace funkcije
+  old_elements:
+    index:
+      node:
+        title_html: 'Sukata historija: %{name}'
+      way:
+        title_html: 'Historija puća: %{name}'
+      relation:
+        title_html: 'Historija relacije: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -429,13 +431,9 @@ hsb:
       timeout:
         sorry: Bohužel je předołho trało, wot tebje požadanu lisćinu komentarow wotwołać.
   changesets:
-    changeset:
-      no_edits: (žane změny)
-      view_changeset_details: Podrobnosće sadźby změnow pokazać
     index:
       title: Sadźby změnow
       title_user: Sadźby změnow wot %{user}
-      title_friend: Změny mojich přećelow
       title_nearby: Sadźby změnow wužiwarjow w bliskosći
       empty: Žane sadźby změnow namakane.
       empty_area: Žane sadźby změnow w tutej kónčinje.
@@ -443,17 +441,12 @@ hsb:
       no_more: Žane dalše sadźby změnow namakane.
       no_more_area: Žane dalše sadźby změnow w tutej kónčinje.
       no_more_user: Žane dalše sadźby změnow wot tutoho wužiwarja.
-      load_more: Wjace začitać
       feed:
         title: Sadźba změnow %{id}
         title_comment: Sadźba změnow %{id} - %{comment}
         created: Wutworjeny
         closed: 'Začinjeny:'
         belongs_to: Awtor
-    subscribe:
-      button: Diskusiju abonować
-    unsubscribe:
-      button: Diskusiju wotskazać
     show:
       title: 'Sadźba změnow: %{id}'
       created: 'Wutworjeny: %{when}'
@@ -470,34 +463,34 @@ hsb:
       changesetxml: Sadźba změnow XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: Suki (%{count})
       nodes_paginated: Suki (%{x}-%{y} z %{count})
-      ways: Puće (%{count})
       ways_paginated: Puće (%{x}-%{y} z %{count})
-      relations: Relacije (%{count})
       relations_paginated: Relacije (%{x}-%{y} z %{count})
     timeout:
       sorry: Bohužel je předołho trało, požadanu lisćinu změnow wotwołać.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        button: Diskusiju abonować
+      unsubscribe:
+        button: Diskusiju wotskazać
   dashboards:
     contact:
       km away: '%{count} km zdaleny'
       m away: '%{count} m zdaleny'
       latest_edit_html: 'Najnowša změna (%{ago}):'
+      no_edits: (žane změny)
+      view_changeset_details: Podrobnosće sadźby změnow pokazać
     popup:
       your location: Twoje městno
       nearby mapper: Kartěrowar w bliskosći
-      friend: Přećel
     show:
       title: Moja přehladna strona
       no_home_location_html: '%{edit_profile_link} a nastaj swoje ródne město, zo
         by wužiwarjow w bliskosći widźał.'
       edit_your_profile: Wobdźěłaj swój profil
-      my friends: Moji přećeljo
-      no friends: Hišće njejsy přećelow přidał.
       nearby users: Druzy wužiwarjo w bliskosći
       no nearby users: Njejsu druzy wužiwarjo, kotřiž w bliskosći kartěruja.
-      friends_changesets: Sadźby změnow twojich přećelow
-      friends_diaries: Dźenikowe zapiski přećelow
       nearby_changesets: sadźby změnow wužiwarjow w bliskosći
       nearby_diaries: dźenikowe zapiski wužiwarjow w bliskosći
   diary_entries:
@@ -508,13 +501,9 @@ hsb:
       use_map_link: Kartu wužiwać
     index:
       title: Wužiwarske dźeniki
-      title_friends: Dźeniki přećelow
       title_nearby: Dźeniki wužiwarjow w bliskosći
       user_title: dźenik wužiwarja %{user}
       in_language_title: Dźenikowe zapiski w rěči %{language}
-      new: Nowy zapisk do dźenika
-      new_title: Nowy zapisk do twojeho wužiwarskeho dźenika pisać
-      my_diary: Mój dźenik
       no_entries: Žane zapiski w dźeniku
     page:
       recent_entries: Najnowše zapiski w dźeniku
@@ -572,14 +561,12 @@ hsb:
       button: Diskusiju abonować
     unsubscribe:
       button: Diskusiju wotskazać
-  diary_comments:
-    index:
-      subheading_html: Dźenikowe komentary přidate wot wužiwarja %{user}
-      no_comments: Žane dźenikowe komentary
-    page:
-      post: Zapisk
-      when: Hdy
-      comment: Komentar
+    navigation:
+      my_diary: Mój dźenik
+      new: Nowy zapisk do dźenika
+      new_title: Nowy zapisk do twojeho wužiwarskeho dźenika pisać
+    profile_diaries:
+      date_label: Datum
   doorkeeper:
     flash:
       applications:
@@ -599,20 +586,6 @@ hsb:
       title: Nałoženski zmylk
     not_found:
       title: Dataja njeje so namakała
-  friendships:
-    make_friend:
-      heading: '%{user} jako přećela přidać?'
-      button: Jako přećela přidać
-      success: '%{name} je nětko twój přećel!'
-      failed: Wodaj, %{name} njeda so jako přećel přidać.
-      already_a_friend: Sy hižo přećel wužiwarja %{name}.
-      limit_exceeded: Sy so njedawno z wjele přećelemi spřećeliłm prošu dočakaj chwilku,
-        prjedy hač pospytuješ dalšich přećelow namakać.
-    remove_friend:
-      heading: '%{user} jako přećela wotstronić?'
-      button: Přećela wotstronić
-      success: '%{name} je so jako přećel wotstronił.'
-      not_a_friend: '%{name} twój přećel njeje.'
   geocoder:
     search:
       title:
@@ -1329,6 +1302,9 @@ hsb:
           building_passage: přechod přez twarjenje
           culvert: wotwódny kanal
           "yes": tunl
+        water:
+          lake: Jězor
+          reservoir: spjaty jězor
         waterway:
           artificial: kumštna wodowa dróha
           boatyard: łódźnica
@@ -1359,17 +1335,25 @@ hsb:
         level9: hranica měšćanskeho dźěla
         level10: hranica štwórće
         level11: Susodstwowa hranica
-    results:
-      no_results: Žane wuslědki namakane
-      more_results: Dalše wuslědki
+  searches:
+    queries:
+      create:
+        no_results: Žane wuslědki namakane
+        more_results: Dalše wuslědki
+  directions:
+    show:
+      title: Směry
+      distance: Zdalenosć
+      time: Čas
+      ascend: Postupowacy
+      descend: Spadowacy
+      directions_courtesy_html: Směrowe instrukcije pochadźeja wot %{link}
   issues:
     index:
       title: Problemy
       select_status: Status wubrać
       select_type: Typ wubrać
-      select_last_updated_by: Wuběr naposledk aktualizowany wot
       reported_user: zjewjeny wužiwar
-      not_updated: Njeaktualizowany
       search: Pytać
       search_guidance: 'Problemy přepytać:'
       states:
@@ -1389,7 +1373,6 @@ hsb:
         other: '%{count} rozprawow'
       reported_item: Zjewjeny objekt
     show:
-      title: '%{status} Problem čo. %{issue_id}'
       reports:
         one: '%{count} rozprawa'
         two: '%{count} rozprawje'
@@ -1416,7 +1399,6 @@ hsb:
       reopened: Status problema je so změnił na „wočinjene“
     comments:
       comment_from_html: Komentar wužiwarja %{user_link} wot %{comment_created_at}
-      reassign_param: Problem znowa připokazać?
     reports:
       reported_by_html: Zdźěleny jako %{category} wot %{user} %{updated_at}
     helper:
@@ -1487,10 +1469,6 @@ hsb:
     intro_2_create_account: Załož wužiwarske konto
     partners_title: partnerow
     tou: Wužiwanske wuměnjenja
-    osm_offline: Datowa banka OpenStreetMap je tuchwilu offline, dokelž so wažne hladanske
-      dźěła na njej přewjedu.
-    osm_read_only: Datowa banka OpenStreetMap je tuchwilu jenož čitajomna, dokelž
-      so wažne hladanske dźěła na njej přewjedu.
     help: Pomoc
     about: Wo projekće
     copyright: Awtorske prawo
@@ -1518,19 +1496,10 @@ hsb:
       footer: Móžeš tež powěsć na %{readurl} čitać a móžeš awtorej powěsć na %{replyurl}
         pósłać
       footer_html: Móžeš powěsć tež pod %{readurl} čitać a pod %{replyurl} wotmołwić
-    friendship_notification:
+    follow_notification:
       hi: Witaj %{to_user},
-      subject: '[OpenStreetMap] %{user} je će jako přećela přidał'
-      had_added_you: '%{user} je će na OpenStreetMap jako přećela přidał.'
       see_their_profile: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
       see_their_profile_html: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
-      befriend_them: Móžeš jeho/nju na %{befriendurl} jako přećela přidać.
-      befriend_them_html: Móžeš jeho/ju na %{befriendurl} jako přećela přidać.
-    gpx_description:
-      description_with_tags_html: 'Wupada za wašej GPX-dataju %{trace_name} z wopisanjom
-        %{trace_description} a slědowacymi značkami: %{tags}'
-      description_with_no_tags_html: Wupada za wašej GPX-dataju %{trace_name} z wopisanjom
-        %{trace_description} a bjez značkow
     gpx_failure:
       hi: Witaj %{to_user},
       failed_to_import: 'njemóhło so importować. Zmylk je:'
@@ -1540,7 +1509,7 @@ hsb:
       hi: Witaj %{to_user},
       subject: '[OpenStreetMap] GPX-import wuspěšny'
     signup_confirm:
-      subject: '[OpenStreetMap] Witaj k OpenStreetMap'
+      subject: '[OpenHistoricalMap] Witaj k OpenHistoricalMap'
       greeting: Witaj!
       created: Něchtó (nadźijomnje ty) je runje konto na %{site_url} załožił.
       confirm: 'Prjedy hač něšto činimy, trjebamy wobkrućenje, zo přińdźe tute naprašowanje
@@ -1653,32 +1622,6 @@ hsb:
         sćele, přewzmi %{sender} do swojeje běłeje lisćiny, dokelž njemóžemy na wobkrućenske
         naprašowanja wotmołwić.
   messages:
-    inbox:
-      title: Póštowy kašćik
-      messages: Maš %{new_messages} a %{old_messages}
-      new_messages:
-        one: '%{count} nowu powěsć'
-        two: '%{count} nowej powěsći'
-        few: '%{count} nowe powěsće'
-        other: '%{count} nowych powěsćow'
-      old_messages:
-        one: '%{count} staru powěsć'
-        two: '%{count} starej powěsći'
-        few: '%{count} stare powěsće'
-        other: '%{count} starych powěsćow'
-      no_messages_yet_html: Hišće nimaš powěsće. Chceš z %{people_mapping_nearby_link}
-        styki nawjazać?
-      people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
-    messages_table:
-      from: Wot
-      to: Komu
-      subject: Tema
-      date: Datum
-      actions: Akcije
-    message_summary:
-      unread_button: Jako njepřečitanu markěrować
-      read_button: Jako přečitanu markěrować
-      destroy_button: Wotstronić
     new:
       title: Powěsć pósłać
       send_message_to_html: Wužiwarjej %{name} nowu powěsć pósłać
@@ -1691,26 +1634,6 @@ hsb:
       title: Powěsć njeeksistuje
       heading: Powěsć njeeksistuje
       body: Bohužel njeje powěsć z tutej ID.
-    outbox:
-      title: Pósłane
-      messages:
-        few: Sy %{count} powěsće pósłał(a)
-        one: Sy %{count} powěsć pósłał(a)
-        two: Sy %{count} powěsći pósłał(a)
-        other: Sy  %{count} powěsćow pósłał(a)
-      no_sent_messages_html: Hišće njejsy žane powěsće pósłał(a). Chceš z %{people_mapping_nearby_link}
-        styki nawjazać?
-      people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
-    muted:
-      title: Zněmjene powěsće
-      messages:
-        one: '%{count} zněmjena powěsć'
-        two: Maš %{count} zněmjenej powěsći
-        few: Maš %{count} zněmjene powěsće
-        other: Maš %{count} zněmjenych powěsćow
-    reply:
-      wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chceš wotmołwić,
-        bu na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by wotmołwił(a).
     show:
       title: Powěsć čitać
       reply_button: Wotmołwić
@@ -1719,17 +1642,70 @@ hsb:
       back: Wróćo
       wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, kotruž chceš čitać, bu
         na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by ju čitał(a).
-    sent_message_summary:
-      destroy_button: Wotstronić
-    heading:
-      my_inbox: Moja póšta
-      my_outbox: Mój póstowy wuchad
-      muted_messages: Zněmjene powěsće
-    mark:
-      as_read: Powěsć jako přečitanu markěrowana
-      as_unread: Powěsć jako njepřečitanu markěrowana
     destroy:
       destroyed: Powěsć wotstronjena
+    read_marks:
+      create:
+        notice: Powěsć jako přečitanu markěrowana
+      destroy:
+        notice: Powěsć jako njepřečitanu markěrowana
+    mailboxes:
+      heading:
+        my_inbox: Moja póšta
+        my_outbox: Mój póstowy wuchad
+        muted_messages: Zněmjene powěsće
+      messages_table:
+        from: Wot
+        to: Komu
+        subject: Tema
+        actions: Akcije
+      message:
+        unread_button: Jako njepřečitanu markěrować
+        read_button: Jako přečitanu markěrować
+        destroy_button: Wotstronić
+    inboxes:
+      show:
+        title: Póštowy kašćik
+        messages: Maš %{new_messages} a %{old_messages}
+        new_messages:
+          one: '%{count} nowu powěsć'
+          two: '%{count} nowej powěsći'
+          few: '%{count} nowe powěsće'
+          other: '%{count} nowych powěsćow'
+        old_messages:
+          one: '%{count} staru powěsć'
+          two: '%{count} starej powěsći'
+          few: '%{count} stare powěsće'
+          other: '%{count} starych powěsćow'
+        no_messages_yet_html: Hišće nimaš powěsće. Chceš z %{people_mapping_nearby_link}
+          styki nawjazać?
+        people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
+    muted_inboxes:
+      show:
+        title: Zněmjene powěsće
+        messages:
+          one: '%{count} zněmjena powěsć'
+          two: Maš %{count} zněmjenej powěsći
+          few: Maš %{count} zněmjene powěsće
+          other: Maš %{count} zněmjenych powěsćow
+    outboxes:
+      show:
+        title: Pósłane
+        messages:
+          few: Sy %{count} powěsće pósłał(a)
+          one: Sy %{count} powěsć pósłał(a)
+          two: Sy %{count} powěsći pósłał(a)
+          other: Sy  %{count} powěsćow pósłał(a)
+        no_sent_messages_html: Hišće njejsy žane powěsće pósłał(a). Chceš z %{people_mapping_nearby_link}
+          styki nawjazać?
+        people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
+      message:
+        destroy_button: Wotstronić
+    replies:
+      new:
+        wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chceš wotmołwić,
+          bu na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by
+          wotmołwił(a).
   passwords:
     new:
       title: Hesło zabyte
@@ -1746,21 +1722,17 @@ hsb:
     update:
       flash changed: Twoje hesło je so změniło.
   preferences:
-    show:
-      title: Moje preferency
-      preferred_editor: Preferowany editor
-      preferred_languages: Preferowane rěče
-      edit_preferences: Preferency wobdźěłać
-    edit:
-      title: Preferency wobdźěłać
-      save: Preferency aktualizować
-      cancel: Přetorhnyć
-    update:
-      failure: Preferency njedachu so aktualizować.
-    update_success_flash:
-      message: Nastajenja su so zaktualizowali.
+    preferences:
+      update:
+        failure: Preferency njedachu so aktualizować.
+      update_success_flash:
+        message: Nastajenja su so zaktualizowali.
+    basic_preferences:
+      show:
+        title: Moje preferency
+        save: Preferency aktualizować
   profiles:
-    edit:
+    show:
       title: Profil wobdźěłać
       save: Profil aktualizować
       cancel: Přetorhnyć
@@ -1885,12 +1857,14 @@ hsb:
         copyright: Copyright OpenStreetMap a sobuskutkowarjo, pod wotewrjenej licencu
       remote_failed: Wobdźěłowanje je so njeporadźiło - zawěsć, zo JOSM abo Merkaartor
         je začitany a dalokowodźenska opcija je zmóžnjena
-    edit:
+    not_public_flash:
       not_public: Njejsy swoje změny jako zjawne markěrowane.
       not_public_description_html: Njemožeš hižo kartu wobźěłać, chibazo činiš to.
         Móžeš swoje změny na swojej %{user_page} jako zjawne markěrować.
       user_page_link: wužiwarskej stronje
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Zwěsćić, čehoždla je tomu tak.
+    edit:
       id_not_configured: iD njeje so konfigurował
     export:
       title: Eksportować
@@ -1936,12 +1910,12 @@ hsb:
         title: Druhe naležnosće
     help:
       title: Wo pomoc prosyć
-      introduction: OpenStreetMap ma wšelake resursy za zeznaće projekta, prašenja
+      introduction: OpenHistoricalMap ma wšelake resursy za zeznaće projekta, prašenja
         a wotmołwy wo něčim a zhromadnu diskusiju a dokumentowanje kartěrowanskich
         temow.
       welcome:
         url: /welcome
-        title: Witaj k OpenStreetMap
+        title: Witaj k OpenHistoricalMap
         description: Započń z tutym spěšnym nawodom, kotryž zakłady OpenStreetMap
           wobsahuje.
       beginners_guide:
@@ -1990,80 +1964,6 @@ hsb:
       where_am_i_title: Aktualne městno z pomocu pytawy wopisać
       submit_text: Dźi
       reverse_directions_text: Směry wobroćić
-    key:
-      table:
-        entry:
-          motorway: Awtodróha
-          main_road: Hłowna dróha
-          trunk: Dalokodróha
-          primary: Zwjazkowa dróha
-          secondary: Krajna dróha, statna dróha
-          unclassified: Njeklasifikowana dróha
-          track: Čara
-          bridleway: Jěchanski puć
-          cycleway: Kolesowarska šćežka
-          cycleway_national: Narodna kolesowarska šćežka
-          cycleway_regional: Regionalna kolesowarska šćežka
-          cycleway_local: Lokalna kolesowarska šćežka
-          footway: Chódnik
-          rail: Železnica
-          train: Ćah
-          subway: Podzemska železnica
-          ferry: Přewoz
-          light_rail: Měšćanska železnica
-          tram: nadróžna
-          trolleybus: Obus
-          bus: Bus
-          cable_car: Kablowa nadróžna
-          chair_lift: sydłowy lift
-          runway: Přizemišćo
-          taxiway: lětadłowa jězdnja
-          apron: Lětanišćowe předpolo
-          admin: Zarjadniska hranica
-          city: Město
-          forest: Hajina
-          wood: Lěs
-          grass: Trawa
-          meadow: łuka
-          bare_rock: Naha skała
-          sand: Pěsk
-          golf: Golfownišćo
-          park: Park
-          common: Powšitkowny
-          resident: Bydlenski wobwod
-          retail: Nakupowanišćo
-          industrial: Industrijowa kónčina
-          commercial: Přemysłowa kónčina
-          heathland: Hola
-          lake: Jězor
-          reservoir: spjaty jězor
-          glacier: Lodowc
-          reef: Rif
-          farm: Farma
-          brownfield: Industrijowe lado
-          cemetery: Kěrchow
-          allotments: Małozahrodki
-          pitch: Sportnišćo
-          centre: Sportowy centrum
-          beach: Brjóh
-          reserve: Přirodoškitne pasmo
-          military: Wojerske pasmo
-          school: Šula
-          university: uniwersita
-          hospital: Chorownja
-          building: Wuznamne twarjenje
-          station: Dwórnišćo
-          summit: Wjeršk
-          peak: kónčk hory
-          tunnel: Smužkowana kroma = tunl
-          bridge: Čorna kroma = móst
-          private: Priwatny přistup
-          destination: Jenož za přidróžnych
-          construction: Dróhi w twarje
-          bus_stop: Busowe zastanišćo
-          bicycle_shop: Kolesarnja
-          bicycle_parking: Kólaso parkowanišćo
-          toilets: Nuzniki
     welcome:
       title: Witaj!
       introduction: Witaj k OpenstreetMap, swobodnej a wobdźěłujomnej karće swěta.
@@ -2071,10 +1971,6 @@ hsb:
         nawod z najwažnišimi informacijemi, kotrež dyrbiš wědźeć.
       whats_on_the_map:
         title: Štož na kartu słuša
-        on_the_map_html: OpenHistoricalMap je městno za kartěrowanje wěcow, kotrež
-          su <em>realne a aktualne</em> - wobsahuje miliony twarjenjow, pućow a druhe
-          podrobnosće wo městnach. Móžeš kartěrować, štožkuli će we woprawdźitym swěće
-          zajimuje.
         off_the_map_html: Štož <em>nje</em>ma wobsahować, su subjektiwne daty kaž
           pohódnoćenja, historiske abo hypotetiske funkcije a daty z přez awtorske
           prawo škitanych žórłow. Njekopěruju z online- abo papjernych kartow, chibazo
@@ -2099,11 +1995,11 @@ hsb:
         automated_edits: Awtomatizowane wobdźěłanja
       start_mapping: Kartěrowanje započeć
       continue_authorization: Z awtorizaciju pokročować
-      add_a_note:
-        title: Nimaš chwile za wobdźěłowanje? Přidaj pokazku!
-        para_1: Jeli chceš jenož drobnosć korigować a nimaš chwile, zo by so zregistrował
-          a wuknył, kak so wobdźěłuje, móžeš prosće pokazku přidać.
-        the_map: karta
+    add_a_note:
+      title: Nimaš chwile za wobdźěłowanje? Přidaj pokazku!
+      para_1: Jeli chceš jenož drobnosć korigować a nimaš chwile, zo by so zregistrował
+        a wuknył, kak so wobdźěłuje, móžeš prosće pokazku přidać.
+      the_map: karta
     communities:
       title: Zhromadnosće
       local_chapters:
@@ -2112,6 +2008,75 @@ hsb:
       other_groups:
         title: Druhe skupiny
         communities_wiki: Wikistrona zhromadnosćow
+  map_keys:
+    show:
+      entries:
+        motorway: Awtodróha
+        main_road: Hłowna dróha
+        trunk: Dalokodróha
+        primary: Zwjazkowa dróha
+        secondary: Krajna dróha, statna dróha
+        unclassified: Njeklasifikowana dróha
+        track: Čara
+        bridleway: Jěchanski puć
+        cycleway: Kolesowarska šćežka
+        footway: Chódnik
+        rail: Železnica
+        train: Ćah
+        subway: Podzemska železnica
+        ferry: Přewoz
+        light_rail: Měšćanska železnica
+        tram: nadróžna
+        trolleybus: Obus
+        bus: Bus
+        cable_car: Kablowa nadróžna
+        chair_lift: sydłowy lift
+        runway: Přizemišćo
+        taxiway: lětadłowa jězdnja
+        apron: Lětanišćowe předpolo
+        admin: Zarjadniska hranica
+        city: Město
+        forest: Hajina
+        wood: Lěs
+        grass: Trawa
+        meadow: łuka
+        bare_rock: Naha skała
+        sand: Pěsk
+        golf: Golfownišćo
+        park: Park
+        common: Powšitkowny
+        resident: Bydlenski wobwod
+        retail: Nakupowanišćo
+        industrial: Industrijowa kónčina
+        commercial: Přemysłowa kónčina
+        heathland: Hola
+        glacier: Lodowc
+        reef: Rif
+        farm: Farma
+        brownfield: Industrijowe lado
+        cemetery: Kěrchow
+        allotments: Małozahrodki
+        pitch: Sportnišćo
+        centre: Sportowy centrum
+        beach: Brjóh
+        reserve: Přirodoškitne pasmo
+        military: Wojerske pasmo
+        school: Šula
+        university: uniwersita
+        hospital: Chorownja
+        building: Wuznamne twarjenje
+        station: Dwórnišćo
+        summit: Wjeršk
+        peak: kónčk hory
+        tunnel: Smužkowana kroma = tunl
+        bridge: Čorna kroma = móst
+        private: Priwatny přistup
+        destination: Jenož za přidróžnych
+        construction: Dróhi w twarje
+        bus_stop: Busowe zastanišćo
+        bicycle_shop: Kolesarnja
+        bicycle_parking: Kólaso parkowanišćo
+        toilets: Nuzniki
   traces:
     visibility:
       private: Priwatna (jenož jako anonymna, njezrjadowane dypki )
@@ -2192,7 +2157,7 @@ hsb:
       upload_trace: Ćěr nahrać
       all_traces: Wšě ćěrje
       my_traces: Moje ćěrje
-      traces_from: Zjawne ćěrje wot %{user}
+      traces_from_html: Zjawne ćěrje wot %{user}
     destroy:
       scheduled_for_deletion: Čara předwidźana za zničenje
     offline_warning:
@@ -2201,15 +2166,16 @@ hsb:
       heading: Składowanje offline GPX
       message: Składowanje a nahrawanski system GPX-datajow tuchwilu k dispoziciji
         steji.
-    georss:
-      title: OpenStreetMap GPS-slědy
-    description:
-      description_with_count:
-        one: GPX-dataja z %{count} dypkom wot %{user}
-        two: GPX-dataja z %{count} dypkomaj wot %{user}
-        few: GPX-dataja z %{count} dypkami wot %{user}
-        other: GPX-dataja z %{count} dypkami wot %{user}
-      description_without_count: GPX-dataja wot %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS-slědy
+      description:
+        description_with_count:
+          one: GPX-dataja z %{count} dypkom wot %{user}
+          two: GPX-dataja z %{count} dypkomaj wot %{user}
+          few: GPX-dataja z %{count} dypkami wot %{user}
+          other: GPX-dataja z %{count} dypkami wot %{user}
+        description_without_count: GPX-dataja wot %{user}
   application:
     require_cookies:
       cookies_needed: Zda so, zo maš placki znjemóžnjene - prošu zmóžń placki w swojim
@@ -2226,9 +2192,6 @@ hsb:
       oauth2_authorizations: Prawa OAUTH 2
       muted_users: Zněmjeni wužiwarjo
     auth_providers:
-      openid:
-        title: Přizjewjenje z OpenID
-        alt: Přizjewjenje z OpenID-URL
       google:
         title: Přizjewjenje z Google
         alt: Přizjewjenje z Google OpenID
@@ -2309,31 +2272,7 @@ hsb:
       by_signing_up:
         privacy_policy: prawidła priwatnosće
       continue: Registrować
-      terms accepted: Dźakujemy so, zo sy nowe wuměnjenja za sobuskutkowarjow akceptował!
       use external auth: Jako alternatiwa wužij třeću stronu za přizjewjenje
-    terms:
-      title: Wuměnjenja
-      heading: Wuměnjenja
-      heading_ct: Wuměnjenja za sobuskutkowarjow
-      read_tou: Sym wužiwanske wuměnjenja přečitał a sym z nimi přezjedny|přezjedna
-      consider_pd: Přidatnje k horjeka mjenowanym wuměnjenjam, mam swoje přinoški
-        za powšitkownosći wužitne.
-      consider_pd_why: Što to je?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      continue: Dale
-      declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
-      you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a akceptuj
-        abo wotpokazaj je, prjedy hač dale činiš.
-      legale_select: 'Prošu wubjer kraj swojeho bydlišća:'
-      legale_names:
-        france: Francoska
-        italy: Italska
-        rest_of_world: Zbytk swěta
-    terms_declined_flash:
-      terms_declined_html: Wobžarujemy, zo sy so rozsudźił, nowe wuměnjenja za sobuskutkowarjow
-        njeakceptować. Za dalše informacije hlej prošu %{terms_declined_link}.
-      terms_declined_link: tuta wikistrona
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
     no_such_user:
       title: Wužiwar njeeksistuje
       heading: Wužiwar %{user} njeeksistuje
@@ -2347,7 +2286,6 @@ hsb:
       my notes: Moje pokazki
       my messages: Moje powěsće
       my profile: Mój profil
-      my settings: Moje nastajenja
       my comments: Moje komentary
       my_preferences: Moje preferency
       my_dashboard: Moja přehladna strona
@@ -2361,8 +2299,6 @@ hsb:
       edits: Změny
       traces: Ćěrje
       notes: Pokazki
-      remove as friend: Přećela wotstronić
-      add as friend: Přećela přidać
       mapper since: 'Kartěrowar wot:'
       uid: 'Wužiwarski ID:'
       ct status: 'Wuměnjenja za sobuskutkowarjow:'
@@ -2395,15 +2331,45 @@ hsb:
       report: Tutoho wužiwarja zdźělić
     go_public:
       flash success: Wšě twoje změny su nětko zjawne, a směš nětko wobdźěłać.
-    index:
-      title: Wužiwarjo
-      heading: Wužiwarjo
-      summary_html: '%{name} wot %{ip_address} dnja %{date} wutworjeny'
-      summary_no_ip_html: '%{name} dnja %{date} wutworjeny'
-      empty: Žani wotpowědowacy wužiwarjo namakani
-    page:
-      confirm: Wubranych wužiwarjow wobkrućic
-      hide: Wubranych wužiwarjow schować
+    issued_blocks:
+      show:
+        title: Blokowanja wudźělenych wot %{name}
+        heading_html: Lisćina blokowanjow wudźelenych wot %{name}
+        empty: '%{name} hišće njeje žane blokowanja wudźělił.'
+    received_blocks:
+      show:
+        title: Blokowanja přećiwo %{name}
+        heading_html: Lisćina blokowanjow přećiwo %{name}
+        empty: '%{name} hišće njeje so zablokował.'
+      edit:
+        empty: '%{name} aktiwne zablokowanja nima.'
+        active_blocks:
+          one: '%{count} aktiwne zablokowanje'
+          two: '%{count} aktiwnej zablokowani'
+          few: '%{count} aktiwne zablokowanja'
+          other: '%{count} aktiwnych zablokowanjow'
+        revoke: Anulować!
+      destroy:
+        flash: Wšě aktiwne zablokowanja su zběhnjene.
+    lists:
+      show:
+        title: Wužiwarjo
+        heading: Wužiwarjo
+      page:
+        confirm: Wubranych wužiwarjow wobkrućic
+        hide: Wubranych wužiwarjow schować
+        empty: Žani wotpowědowacy wužiwarjo namakani
+      user:
+        summary_html: '%{name} wot %{ip_address} dnja %{date} wutworjeny'
+        summary_no_ip_html: '%{name} dnja %{date} wutworjeny'
+    changeset_comments:
+      page:
+        changeset: sadźba změnow
+        when: Hdy
+        comment: Komentar
+    diary_comments:
+      page:
+        post: Zapisk
     suspended:
       title: Konto wupowědźene
       heading: Konto wupowědźene
@@ -2415,7 +2381,7 @@ hsb:
       unknown_signature_algorithm: Njeznaty signaturowy algoritmus
       invalid_scope: Njepłaćiwy wobłuk
     auth_association:
-      heading: Waš ID hišće z kontom OpenStreetMap zwjazany njeje.
+      heading: Waš ID hišće z kontom OpenHistoricalMap zwjazany njeje.
       option_1: Jeli sy nowy na OpenStreetMap, załož nowe konto z pomocu slědowaceho
         formulara.
       option_2: Jeli konto hižo maš, móžeš so pola swojeho konta z pomocu swojeho
@@ -2460,15 +2426,6 @@ hsb:
       title: Wužiwarske blokowanja
       heading: Lisćina wužiwarskich blokowanjow
       empty: Hišće njejsu so žane blokowanja wudźělili.
-    revoke_all:
-      empty: '%{name} aktiwne zablokowanja nima.'
-      active_blocks:
-        one: '%{count} aktiwne zablokowanje'
-        two: '%{count} aktiwnej zablokowani'
-        few: '%{count} aktiwne zablokowanja'
-        other: '%{count} aktiwnych zablokowanjow'
-      revoke: Anulować!
-      flash: Wšě aktiwne zablokowanja su zběhnjene.
     helper:
       time_future_html: Kónči so %{time}.
       until_login: Aktiwne, doniž so wužiwar njepřizjewja.
@@ -2501,14 +2458,6 @@ hsb:
           two: '%{count} lěće'
           few: '%{count} lěta'
           other: '%{count} lět'
-    blocks_on:
-      title: Blokowanja přećiwo %{name}
-      heading_html: Lisćina blokowanjow přećiwo %{name}
-      empty: '%{name} hišće njeje so zablokował.'
-    blocks_by:
-      title: Blokowanja wudźělenych wot %{name}
-      heading_html: Lisćina blokowanjow wudźelenych wot %{name}
-      empty: '%{name} hišće njeje žane blokowanja wudźělił.'
     show:
       title: '%{block_on} wot %{block_by} zablokowany'
       heading_html: '%{block_on} wot %{block_by} zablokowany'
@@ -2519,7 +2468,6 @@ hsb:
       reason: 'Přičina za blokowanje:'
       revoker: 'Zeběracy wužiwar:'
     block:
-      not_revoked: (njezběhnjeny)
       show: Pokazać
       edit: Wobdźěłać
     page:
@@ -2527,7 +2475,6 @@ hsb:
       creator_name: Blokowar
       reason: Přičina za blokowanje
       status: Status
-      revoker_name: Zběhnjene wot
   user_mutes:
     index:
       title: Zněmjeni wužiwarjo
@@ -2612,7 +2559,6 @@ hsb:
       center_marker: Kartu na marce centrować
       paste_html: HTML-kod kopěrować, zo by so do websydła zasadźił
       view_larger_map: Wjetšu kartu pokazać
-      only_standard_layer: Jenož standardna runina da so jako wobraz eksportować
     embed:
       report_problem: Problem zdźělić
     key:
@@ -2665,22 +2611,10 @@ hsb:
     edit_help: Přesuń kartu do městna, kotrež chceš wobdźěłać, powjetš tam a klikń
       potom tu.
     directions:
-      ascend: Postupowacy
-      engines:
-        fossgis_osrm_bike: Koleso (OSRM)
-        fossgis_osrm_car: Awto (OSRM)
-        fossgis_osrm_foot: Pěši (OSRM)
-        graphhopper_bicycle: Koleso (GraphHopper)
-        graphhopper_car: Awto (GraphHopper)
-        graphhopper_foot: Pěši (GraphHopper)
-        fossgis_valhalla_bicycle: Koleso (Valhalla)
-        fossgis_valhalla_car: Awto (Valhalla)
-        fossgis_valhalla_foot: Pěši (Valhalla)
-      descend: Spadowacy
-      directions: Směry
-      distance: Zdalenosć
-      distance_m: '%{distance} m'
-      distance_km: '%{distance} km'
+      distance_in_units:
+        meters:
+          m: '%{distance} m'
+          km: '%{distance} km'
       errors:
         no_route: Njenamakach čaru mjez tutymaj městnomaj.
         no_place: Bohužel njemóžachmy městno „%{place}“ namakać.
@@ -2747,7 +2681,6 @@ hsb:
           wzać
         exit_roundabout: Kružny wobchad na %{name} wopušćić
         unnamed: njeznaty puć
-        courtesy: Směrowe instrukcije pochadźeja wot %{link}
         exit_counts:
           first: prěni
           second: druhi
@@ -2759,7 +2692,6 @@ hsb:
           eighth: wosmy
           ninth: dźewjaty
           tenth: dźesaty
-      time: Čas
     query:
       node: Suk
       way: Puć

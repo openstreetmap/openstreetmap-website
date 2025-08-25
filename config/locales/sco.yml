@@ -104,7 +104,7 @@ sco:
       name: Remote Control
       description: Remote Control (JOSM or Merkaartor)
   accounts:
-    edit:
+    show:
       title: Eedit accoont
   browse:
     version: Version
@@ -118,17 +118,14 @@ sco:
     location: 'Location:'
     node:
       title_html: 'Node: %{name}'
-      history_title_html: 'Node History: %{name}'
     way:
       title_html: 'Way: %{name}'
-      history_title_html: 'Way History: %{name}'
       nodes: Nodes
       also_part_of_html:
         one: pairt o wey %{related_ways}
         other: pairt o weys %{related_ways}
     relation:
       title_html: 'Relation: %{name}'
-      history_title_html: 'Relation History: %{name}'
       members: Members
     relation_member:
       entry_role_html: '%{type} %{name} as %{role}'
@@ -137,15 +134,7 @@ sco:
         way: Wey
         relation: Relation
     containing_relation:
-      entry_html: Relation %{relation_name}
       entry_role_html: Relation %{relation_name} (as %{relation_role})
-    not_found:
-      sorry: 'Sorry, %{type} #%{id} could nae be foond.'
-      type:
-        node: node
-        way: way
-        relation: relation
-        changeset: chyngeset
     timeout:
       sorry: Sorry, the data for the %{type} wi the id %{id}, teuk too lang tae retrieve.
       type:
@@ -174,18 +163,22 @@ sco:
       wikidata_link: The %{page} item on Wikidata
       wikipedia_link: The %{page} airticle on Wikipaedia
       telephone_link: Caw %{phone_number}
+  old_elements:
+    index:
+      node:
+        title_html: 'Node History: %{name}'
+      way:
+        title_html: 'Way History: %{name}'
+      relation:
+        title_html: 'Relation History: %{name}'
   changeset_comments:
     feeds:
       comment:
         commented_at_by_html: Updatit %{when} ago bi %{user}
   changesets:
-    changeset:
-      no_edits: (no eedits)
-      view_changeset_details: View chyngeset details
     index:
       title: Chyngesets
       title_user: Chyngesets bi %{user}
-      title_friend: Chyngesets bi yer friends
       title_nearby: Chyngesets bi nearbi uisers
       empty: No chyngesets foond.
       empty_area: No chyngesets in this aurie.
@@ -193,7 +186,6 @@ sco:
       no_more: No mair chyngesets foond.
       no_more_area: No mair chyngesets in this aurie.
       no_more_user: No mair chyngesets bi this uiser.
-      load_more: Load mair
       feed:
         title: Chyngeset %{id}
         title_comment: Chyngeset %{id} - %{comment}
@@ -208,14 +200,15 @@ sco:
       changesetxml: Chyngeset XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: Nodes (%{count})
       nodes_paginated: Nodes (%{x}-%{y} of %{count})
-      ways: Ways (%{count})
       ways_paginated: Ways (%{x}-%{y} of %{count})
-      relations: Relations (%{count})
       relations_paginated: Relations (%{x}-%{y} of %{count})
     timeout:
       sorry: Sorry, the leet o chyngesets ye requestit teuk too lang tae retrieve.
+  dashboards:
+    contact:
+      no_edits: (no eedits)
+      view_changeset_details: View chyngeset details
   diary_entries:
     new:
       title: New Diary Entry
@@ -224,12 +217,9 @@ sco:
       use_map_link: uise map
     index:
       title: Uisers' diaries
-      title_friends: Friends' diaries
       title_nearby: Nearbi Uisers' diaries
       user_title: '%{user}''s diary'
       in_language_title: Diary Entries in %{language}
-      new: New Diary Entry
-      new_title: Compone a new entry in yer uiser diary
       no_entries: No diary entries
     page:
       recent_entries: Recent diary entries
@@ -274,11 +264,9 @@ sco:
       all:
         title: OpenStreetMap diary entries
         description: Recent diary entries frae uisers o OpenStreetMap
-  diary_comments:
-    page:
-      post: Post
-      when: When
-      comment: Comment
+    navigation:
+      new: New Diary Entry
+      new_title: Compone a new entry in yer uiser diary
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -698,6 +686,8 @@ sco:
         tunnel:
           culvert: Culvert
           "yes": Tunnel
+        water:
+          lake: Loch
         waterway:
           artificial: Airtifeecial Watterway
           boatyard: Boatyard
@@ -725,9 +715,15 @@ sco:
         level8: Ceety Boondary
         level9: Veelage Boondary
         level10: Suburb Boondary
-    results:
-      no_results: No results foond
-      more_results: Mair results
+  searches:
+    queries:
+      create:
+        no_results: No results foond
+        more_results: Mair results
+  directions:
+    show:
+      time: Time
+      directions_courtesy_html: Directions coortesy o %{link}
   layouts:
     logo:
       alt_text: OpenStreetMap logo
@@ -748,10 +744,6 @@ sco:
       tae uise unner an open license.
     intro_2_create_account: Create a uiser accoont
     partners_title: pairtners
-    osm_offline: The OpenStreetMap database is currently offline while essential database
-      maintenance wirk is carried oot.
-    osm_read_only: The OpenStreetMap database is currently in read-anly mode while
-      essential database maintenance wirk is carried oot.
     help: Help
     about: Aboot
     copyright: Copyricht
@@ -855,22 +847,6 @@ sco:
       where_am_i: Whaur am I?
       where_am_i_title: Descrive the current location uisin the sairch ingine
       submit_text: Gae
-    key:
-      table:
-        entry:
-          wood: Wid
-          golf: Gowf coorse
-          park: Pairk
-          resident: Residential aurie
-          retail: Retail aurie
-          industrial: Industrial aurie
-          commercial: Commercial aurie
-          lake: Loch
-          farm: Ferm
-          military: Militar aurie
-          school: Schuil
-          university: varsity
-          building: Signeeficant biggin
     welcome:
       title: Walcome!
       introduction: |-
@@ -879,14 +855,25 @@ sco:
         things ye need tae ken.
       whats_on_the_map:
         title: Whit's on the Cairt
-        on_the_map_html: |-
-          OpenHistoricalMap is a place for cairttin things that are baith <em>real an current</em> -
-          it includes millions o biggins, roads, an ither details aboot places. Ye can cairt
-          whitever real-warld featurs are interestin tae ye.
         off_the_map_html: |-
           Whit it <em>disna</em> include is opinionatit data lik ratins, historical or
           hypothetical featurs, an data frae copyrichtit soorces. Unless ye hae special
           permission, dinna copy frae online or paper cairts.
+  map_keys:
+    show:
+      entries:
+        wood: Wid
+        golf: Gowf coorse
+        park: Pairk
+        resident: Residential aurie
+        retail: Retail aurie
+        industrial: Industrial aurie
+        commercial: Commercial aurie
+        farm: Ferm
+        military: Militar aurie
+        school: Schuil
+        university: varsity
+        building: Signeeficant biggin
   traces:
     create:
       upload_trace: Uplaid GPS Trace
@@ -911,6 +898,14 @@ sco:
     show:
       edits: Eedits
       created from: 'Made frae:'
+    changeset_comments:
+      page:
+        changeset: chyngeset
+        when: When
+        comment: Comment
+    diary_comments:
+      page:
+        post: Post
   notes:
     show:
       title: 'Note: %{id}'
@@ -959,8 +954,6 @@ sco:
         end_oneway_without_exit: End o ane-wey on %{name}
         roundabout_with_exit: At roondaboot tak exit %{exit} ontae %{name}
         unnamed: unnamed road
-        courtesy: Directions coortesy o %{link}
-      time: Time
     query:
       node: Node
       way: Wey

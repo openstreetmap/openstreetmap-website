@@ -34,9 +34,6 @@ et:
         create: Lisa kommentaar
       message:
         create: Saada
-      client_application:
-        create: Registreeri
-        update: Uuenda
       redaction:
         create: Loo kinnikatmine
         update: Salvesta kinnikatmine
@@ -65,6 +62,7 @@ et:
       message: Sõnum
       node: Sõlm
       node_tag: Sõlme silt
+      note: märkust
       old_node: Vana sõlm
       old_node_tag: Sõlme vana silt
       old_relation: Vana relatsioon
@@ -244,49 +242,11 @@ et:
       entry:
         comment: Kommentaar
         full: Täielik tekst
-  account:
-    deletions:
-      show:
-        title: Konto kustutamine
-        warning: Hoiatus! Konto kustutamine on jäädav. Seda ei saa tagasi pöörata.
-        delete_account: Kustuta konto
-        delete_introduction: 'Saad enda OpenStreetMapi konto kustutada, kasutades
-          allolevat nuppu. Palun pea silmas järgmisi üksikasju:'
-        delete_profile: Sinu profiiliteave, sealhulgas avatar, kirjeldus ja kodu asukoht
-          eemaldatakse.
-        delete_display_name: Sinu kuvatav nimi eemaldatakse ja mõni teine konto saab
-          seda kasutada.
-        retain_caveats: Samas järgmine teave sinu kohta säilib OpenStreetMapis ka
-          pärast konto kustutamist.
-        retain_edits: Sinu muudatused kaardiandmebaasis säilivad, kui oled neid teinud.
-        retain_traces: Sinu rajad säilivad, kui oled neid üles laadinud.
-        retain_diary_entries: Sinu päevikusissekanded ja päevikukommentaarid säilivad,
-          kui oled neid kirjutanud, kuid need peidetakse.
-        retain_notes: Sinu märkused kaardil ja märkuste kommentaarid säilivad, kui
-          oled neid kirjutanud, kuid need peidetakse.
-        retain_changeset_discussions: Sinu kommentaarid muudatuskogumites säilivad,
-          kui oled neid kirjutanud.
-        retain_email: Sinu e-posti aadress säilib.
-        recent_editing_html: Kuna oled hiljuti muudatusi teinud, siis pole sinu kasutajakonto
-          kustutamine hetkel võimalik. Kustutamine on võimalik %{time} pärast.
-        confirm_delete: Kas oled kindel?
-        cancel: Loobu
   accounts:
-    edit:
+    show:
       title: Konto muutmine
-      my settings: Minu sätted
       current email address: Praegune e-posti aadress
       external auth: Väline autentimine
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: mis see on?
-      public editing:
-        heading: Avalik toimetamine
-        enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: mis see on?
-        disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
-        disabled link text: Miks ma ei saa kaarti töödelda?
       contributor terms:
         heading: Kaastöötingimused
         agreed: Oled nõustunud uute kaastöötingimustega.
@@ -317,6 +277,61 @@ et:
       success: Kasutaja informatsioon uuendatud edukalt.
     destroy:
       success: Konto kustutatud.
+    deletions:
+      show:
+        title: Konto kustutamine
+        warning: Hoiatus! Konto kustutamine on jäädav. Seda ei saa tagasi pöörata.
+        delete_account: Kustuta konto
+        delete_profile: Sinu profiiliteave, sealhulgas avatar, kirjeldus ja kodu asukoht
+          eemaldatakse.
+        delete_display_name: Sinu kuvatav nimi eemaldatakse ja mõni teine konto saab
+          seda kasutada.
+        retain_edits: Sinu muudatused kaardiandmebaasis säilivad, kui oled neid teinud.
+        retain_traces: Sinu rajad säilivad, kui oled neid üles laadinud.
+        retain_diary_entries: Sinu päevikusissekanded ja päevikukommentaarid säilivad,
+          kui oled neid kirjutanud, kuid need peidetakse.
+        retain_notes: Sinu märkused kaardil ja märkuste kommentaarid säilivad, kui
+          oled neid kirjutanud, kuid need peidetakse.
+        retain_changeset_discussions: Sinu kommentaarid muudatuskogumites säilivad,
+          kui oled neid kirjutanud.
+        retain_email: Sinu e-posti aadress säilib.
+        recent_editing_html: Kuna oled hiljuti muudatusi teinud, siis pole sinu kasutajakonto
+          kustutamine hetkel võimalik. Kustutamine on võimalik %{time} pärast.
+        confirm_delete: Kas oled kindel?
+        cancel: Loobu
+    terms:
+      show:
+        title: Tingimused
+        heading: Tingimused
+        heading_ct: Kaastöötingimused
+        read and accept with tou: Palun loe läbi kaastööleping ja kasutustingimused,
+          märgi ristiga mõlemad märkeruudud ning kui oled valmis, siis vajuta jätkamisnuppu.
+        contributor_terms_explain: See leping reguleerib sinu olemasoleva ja tulevase
+          kaastöö tingimusi.
+        read_ct: Ma olen lugenud kaastöötingimusi ja nõustun nendega
+        tou_explain_html: Need %{tou_link} reguleerivad selle veebisaidi ja muu OSMF-i
+          pakutava infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi
+          ja nõustu sellega.
+        read_tou: Ma olen lugenud kasutustingimusi ja nõustun nendega
+        guidance_info_html: 'Teave, mis aitab mõista neid tingimusi: %{readable_summary_link}
+          ja mõned %{informal_translations_link}'
+        readable_summary: inimloetav kokkuvõte
+        informal_translations: mitteametlikud tõlked
+        continue: Jätka
+        cancel: Loobu
+        you need to accept or decline: Enne jätkamist tutvu palun uute kaastöötingimustega
+          ning seejärel kas nõustu või ära nõustu nendega.
+        legale_select: 'Palun valige oma elukohariik:'
+        legale_names:
+          france: Prantsusmaa
+          italy: Itaalia
+          rest_of_world: Muu maailm
+      update:
+        terms accepted: Täname, et nõustusid uute kaastöötingimustega!
+      terms_declined_flash:
+        terms_declined_html: Meil on kahju, et otsustasid kaastöötingimustega mitte
+          nõustutada. Lisateavet leiad %{terms_declined_link}.
+        terms_declined_link: sellelt vikileheküljelt
   browse:
     deleted_ago_by_html: Kustutanud %{user} %{time_ago}
     edited_ago_by_html: Muutnud %{user} %{time_ago}
@@ -336,15 +351,11 @@ et:
     view_history: Vaata ajalugu
     view_unredacted_history: Vaata ajalugu kinnikatmata kujul
     view_details: Vaata üksikasju
-    view_redacted_data: Vaata kinni kaetud andmeid
-    view_redaction_message: Vaata kinnikatmise sõnumit
     location: 'Asukoht:'
     node:
       title_html: 'Sõlm: %{name}'
-      history_title_html: 'Sõlme ajalugu: %{name}'
     way:
       title_html: 'Joon: %{name}'
-      history_title_html: 'Joone ajalugu: %{name}'
       nodes: Sõlmed
       nodes_count:
         one: 1 sõlm
@@ -354,7 +365,6 @@ et:
         other: osa joontest %{related_ways}
     relation:
       title_html: 'Relatsioon: %{name}'
-      history_title_html: 'Relatsiooni ajalugu: %{name}'
       members: Liikmed
       members_count:
         one: '%{count} liige'
@@ -366,17 +376,9 @@ et:
         way: joon
         relation: relatsioon
     containing_relation:
-      entry_html: Relatsioon %{relation_name}
       entry_role_html: Relatsioon %{relation_name} (kui %{relation_role})
     not_found:
       title: Ei leidu
-      sorry: Vabandust, %{type} %{id} ei leitud.
-      type:
-        node: sõlme
-        way: joont
-        relation: relatsiooni
-        changeset: muudatuskogumit
-        note: märkust
     timeout:
       title: Päringu aegumise viga
       sorry: Kahjuks võttis %{type} %{id} andmete laadimine liiga kaua aega.
@@ -410,19 +412,31 @@ et:
       telephone_link: Helista %{phone_number}
       colour_preview: 'Värvuse eelvaade: %{colour_value}'
       email_link: Kirjuta e-kiri aadressil %{email}
-    query:
+  feature_queries:
+    show:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
       nearby: Läheduses asuvad objektid
       enclosing: Ümbritsevad objektid
+  old_elements:
+    index:
+      node:
+        title_html: 'Sõlme ajalugu: %{name}'
+      way:
+        title_html: 'Joone ajalugu: %{name}'
+      relation:
+        title_html: 'Relatsiooni ajalugu: %{name}'
+    actions:
+      view_redacted_data: Vaata kinni kaetud andmeid
+      view_redaction_message: Vaata kinnikatmise sõnumit
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Vabandust, sõlme #%{id} versiooni %{version} ei õnnestu leida.'
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Vabandust, joone #%{id} versiooni %{version} ei õnnestu leida.'
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Vabandust, relatsiooni #%{id} versiooni %{version} ei õnnestu leida.'
   changeset_comments:
     feeds:
@@ -434,14 +448,10 @@ et:
         title_all: OpenHistoricalMapi muudatuskogumi arutelu
         title_particular: 'OpenHistoricalMapi muudatuskogumi #%{changeset_id} arutelu'
   changesets:
-    changeset:
-      no_edits: (muudatused puuduvad)
-      view_changeset_details: Vaata muudatuskogumi üksikasju
     index:
       title: Muudatuskogumid
       title_user: Kasutaja %{user} muudatuskogumid
       title_user_link_html: Kasutaja %{user_link} muudatuskogumid
-      title_friend: Sõprade muudatuskogumid
       title_nearby: Läheduses asuvate kasutajate muudatuskogumid
       empty: Muudatuskogumeid ei leitud.
       empty_area: Selles alas ei ole muudatuskogumeid.
@@ -449,27 +459,12 @@ et:
       no_more: Rohkem muudatuskogumeid ei leitud.
       no_more_area: Sellest alast ei leitud rohkem muudatuskogumeid.
       no_more_user: Sellelt kasutajalt ei leitud rohkem muudatuskogumeid.
-      load_more: Laadi veel
       feed:
         title: Muudatuskogum %{id}
         title_comment: Muudatuskogum %{id} – %{comment}
         created: Loodud
         closed: Suletud
         belongs_to: Autor
-    subscribe:
-      heading: Kas soovid selle muudatuskogumi arutelu tellida?
-      button: Telli arutelu
-    unsubscribe:
-      heading: Kas soovid selle muudatuskogumi arutelu tellimusest loobuda?
-      button: Loobu arutelu jälgimisest
-    heading:
-      title: Muudatuskogum %{id}
-      created_by_html: Loonud %{link_user} kuupäeval %{created}
-    no_such_entry:
-      heading: Ei leidu kirjet identifikaatoriga %{id}
-      body: Vabandust, muudatuskogumit identifikaatoriga %{id} ei ole olemas. Palun
-        kontrolli, kas kirjutasid selle õigesti või kas link millel klõpsasid, on
-        vale.
     show:
       title: 'Muudatuskogum: %{id}'
       created: 'Loodud: %{when}'
@@ -486,35 +481,45 @@ et:
       changesetxml: Muudatuskogumi XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: Sõlmed (%{count})
       nodes_paginated: Sõlmed (%{x}–%{y} %{count}-st)
-      ways: Jooned (%{count})
       ways_paginated: Jooned (%{x}–%{y} %{count}-st)
-      relations: Relatsioonid (%{count})
       relations_paginated: Relatsioonid (%{x}–%{y} %{count}-st)
     timeout:
       sorry: Kahjuks võttis taotletud muudatuskogumite laadimine liiga kaua aega.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Kas soovid selle muudatuskogumi arutelu tellida?
+        button: Telli arutelu
+      unsubscribe:
+        heading: Kas soovid selle muudatuskogumi arutelu tellimusest loobuda?
+        button: Loobu arutelu jälgimisest
+    heading:
+      title: Muudatuskogum %{id}
+      created_by_html: Loonud %{link_user} kuupäeval %{created}
+    no_such_entry:
+      heading: Ei leidu kirjet identifikaatoriga %{id}
+      body: Vabandust, muudatuskogumit identifikaatoriga %{id} ei ole olemas. Palun
+        kontrolli, kas kirjutasid selle õigesti või kas link millel klõpsasid, on
+        vale.
   dashboards:
     contact:
       km away: '%{count} kilomeetri kaugusel'
       m away: '%{count} meetri kaugusel'
       latest_edit_html: 'Viimane muudatus (%{ago}):'
+      no_edits: (muudatused puuduvad)
+      view_changeset_details: Vaata muudatuskogumi üksikasju
     popup:
       your location: Sinu asukoht
       nearby mapper: Lähedaloevad kaardistajad
-      friend: Sõber
     show:
       title: Minu andmelaud
       no_home_location_html: '%{edit_profile_link} ja määra enda asukoht, et näha
         ümberkaudseid kasutajaid.'
       edit_your_profile: Muuda profiili
-      my friends: Minu sõbrad
-      no friends: Sa ei ole lisanud veel ühtegi sõpra.
       nearby users: Teised lähedal asuvad kasutajad
       no nearby users: Puuduvad teised kasutajad, kes tunnistavad, et kaardistavad
         läheduses.
-      friends_changesets: sõprade muudatuskogumid
-      friends_diaries: sõprade päevikusissekanded
       nearby_changesets: lähedalasuvate kasutajate muudatuskogumid
       nearby_diaries: lähedalasuvate kasutajate päevikusissekanded
   diary_entries:
@@ -525,13 +530,9 @@ et:
       use_map_link: Kasuta kaarti
     index:
       title: Kasutajate päevikud
-      title_friends: Sõprade päevikud
       title_nearby: Lähedalasuvate kasutajate päevikud
       user_title: Kasutaja %{user} päevik
       in_language_title: Päevikusissekanded (%{language})
-      new: Uus päevikusissekanne
-      new_title: Lisa päevikusse uus sissekanne
-      my_diary: Minu päevik
       no_entries: Päevikus pole sissekandeid.
     page:
       recent_entries: Hiljutised päeviku sissekanded
@@ -591,14 +592,12 @@ et:
     unsubscribe:
       heading: Kas soovid selle päevikusissekande arutelu tellimusest loobuda?
       button: Loobu arutelu jälgimisest
-  diary_comments:
-    index:
-      subheading_html: Päevikukommentaarid, mille on lisanud kasutaja %{user}
-      no_comments: Päeviku kommentaarid puuduvad.
-    page:
-      post: Postitus
-      when: Millal
-      comment: Kommentaar
+    navigation:
+      my_diary: Minu päevik
+      new: Uus päevikusissekanne
+      new_title: Lisa päevikusse uus sissekanne
+    profile_diaries:
+      date_label: Kuupäev
   doorkeeper:
     flash:
       applications:
@@ -618,8 +617,8 @@ et:
         teatesse ka päringu täpne URL.
     forbidden:
       title: Keelatud
-      description: Tegevus, mida sa üritasid OpenStreetMap'i serveris teha on lubadud
-        vaid administraatoriele (HTTP 403)
+      description: Tegevus, mida sa üritasid OpenHistoricalMap'i serveris teha on
+        lubadud vaid administraatoriele (HTTP 403)
     internal_server_error:
       title: Rakenduse viga
       description: OpenStreetMapi serveris tekkis ootamatu olukord, mistõttu vastust
@@ -628,20 +627,6 @@ et:
       title: Faili ei leidu
       description: Sellise nimega faili/kataloogi/API meetodit ei leidu OpenStreetMapi
         serveris (HTTP 404)
-  friendships:
-    make_friend:
-      heading: Lisada %{user} sõbraks?
-      button: Lisa sõbraks
-      success: '%{name} on nüüd sinu sõber.'
-      failed: Vabandust, kasutaja %{name} sõbraks lisamine ebaõnnestus.
-      already_a_friend: Sa oled kasutajaga %{name} juba sõber.
-      limit_exceeded: Sa oled endale hiljuti lisanud palju sõpru. Palun oota mõnda
-        aega, enne kui proovid veel sõpru lisada.
-    remove_friend:
-      heading: Eemaldada %{user} sõprade hulgast?
-      button: Eemalda sõprade hulgast
-      success: '%{name} eemaldati sinu sõprade hulgast.'
-      not_a_friend: '%{name} ei ole üks sinu sõpradest.'
   geocoder:
     search:
       title:
@@ -1383,6 +1368,9 @@ et:
           building_passage: Läbikäik hoonest
           culvert: Truup
           "yes": Tunnel
+        water:
+          lake: Järv
+          reservoir: veehoidla
         waterway:
           artificial: Tehisveetee
           boatyard: Verf
@@ -1413,20 +1401,27 @@ et:
         level9: 9. järgu piir
         level10: 10. järgu piir
         level11: Naabruskonna piirjoon
-    results:
-      no_results: Ei leidnud midagi
-      more_results: Veel tulemusi
+  searches:
+    queries:
+      create:
+        no_results: Ei leidnud midagi
+        more_results: Veel tulemusi
+  directions:
+    show:
+      title: Juhised
+      distance: Vahemaa
+      time: Ajakulu
+      ascend: Tee tõuseb ülespoole
+      descend: Tee laskub allapoole
+      directions_courtesy_html: Tee juhatamisel oli abiks %{link}
   issues:
     index:
       select_status: Vali olek
       select_type: Vali tüüp
-      select_last_updated_by: Vali viimane muutja
       reported_user: Kasutaja, kellest on teada antud
-      not_updated: Pole uuendatud
       search: Otsi
     page:
       user_not_found: Kasutajat pole olemas.
-      last_updated_time_ago_user_html: '%{user} %{time_ago} eest'
       reports_count:
         one: '%{count} kaebus'
         other: '%{count} kaebust'
@@ -1494,10 +1489,6 @@ et:
     intro_2_create_account: loo oma konto
     partners_title: partnerid
     tou: kasutustingimused
-    osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse
-      vajalikke hooldustöid.
-    osm_read_only: OpenStreetMapi andmebaas on hetkel oluliste hooldustööde tõttu
-      ligipääsetav ainult lugemiseks.
     help: Juhend
     about: Teave
     copyright: Autoriõigused
@@ -1529,19 +1520,10 @@ et:
         aadressil %{replyurl}.
       footer_html: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
         aadressil %{replyurl}.
-    friendship_notification:
+    follow_notification:
       hi: Tere, %{to_user}
-      subject: '[OpenStreetMap] %{user} lisas sind oma sõbraks'
-      had_added_you: '%{user} lisas sind OpenStreetMapis sõbraks.'
       see_their_profile: Tema profiiliga võid tutvuda aadressil %{userurl}.
       see_their_profile_html: Tema profiiliga saad tutvuda aadressil %{userurl}.
-      befriend_them: Sa võid ta lisada oma sõbraks aadressil %{befriendurl}.
-      befriend_them_html: Saad ta ka enda sõbraks lisada aadressil %{befriendurl}.
-    gpx_description:
-      description_with_tags_html: Tundub, et sinu fail %{trace_name} kirjeldusega
-        %{trace_description} ning siltidega %{tags}
-      description_with_no_tags_html: Tundub, et sinu siltideta fail %{trace_name}
-        kirjeldusega %{trace_description}
     gpx_failure:
       hi: Tere, %{to_user}
       failed_to_import: 'importimine GPS-rajafailiks ebaõnnestus. Palun veendu, et
@@ -1553,14 +1535,11 @@ et:
       subject: '[OpenStreetMap] GPX-faili importimine nurjus'
     gpx_success:
       hi: Tere, %{to_user}
-      loaded:
-        one: laaditi üles edukalt %{trace_points} punkt võimalikust %{count} punktist.
-        other: laaditi üles edukalt %{trace_points} punkti võimalikust %{count} punktist.
       all_your_traces_html: Kõik sinu üles laaditud GPX-rajad on leitavad aadressil
         %{url}.
       subject: '[OpenStreetMap] GPX-faili importimine õnnestus'
     signup_confirm:
-      subject: '[OpenStreetMap] Tere tulemast OpenStreetMapi'
+      subject: '[OpenHistoricalMap] Tere tulemast OpenHistoricalMapi'
       greeting: Tere!
       created: Keegi (loodetavasti sina) lõi äsja saidil %{site_url} kasutajakonto.
       confirm: 'Enne kasutajakonto loomist peame saama kinnituse, et see taotlus tuli
@@ -1655,8 +1634,6 @@ et:
       success: Sinu kasutajakonto on kinnitatud, täname registreerimast!
       already active: See konto on juba kinnitatud.
       unknown token: See kinnituskood on aegunud või seda pole olemas.
-      resend_html: Kui soovid, et saadaksime sulle uuesti kinnitusmeili, siis %{reconfirm_link}.
-      click_here: klõpsa siia
     confirm_resend:
       failure: Kasutajat %{name} ei leitud.
     confirm_email:
@@ -1673,29 +1650,6 @@ et:
         siis veendu, et oled kandnud aadressi %{sender} valgesse nimekirja, sest meil
         pole võimalik kinnitustaotlustele vastata.
   messages:
-    inbox:
-      title: Saabunud sõnumid
-      messages: Sul on %{new_messages} ja %{old_messages}.
-      new_messages:
-        one: '%{count} uus sõnum'
-        other: '%{count} uut sõnumit'
-      old_messages:
-        one: '%{count} vana sõnum'
-        other: '%{count} vana sõnumit'
-      no_messages_yet_html: Sul ei ole veel sõnumeid. Miks mitte kontakteeruda mõne
-        %{people_mapping_nearby_link}?
-      people_mapping_nearby: lähedaloleva kaardistajaga
-    messages_table:
-      from: Saatja
-      to: Kellele
-      subject: Teema
-      date: Kuupäev
-      actions: Toimingud
-    message_summary:
-      unread_button: Märgi mitteloetuks
-      read_button: Märgi loetuks
-      destroy_button: Kustuta
-      unmute_button: Teisalda postkasti
     new:
       title: Saada sõnum
       send_message_to_html: Sõnumi saatmine kasutajale %{name}
@@ -1708,22 +1662,6 @@ et:
       title: Sellist sõnumit ei ole olemas
       heading: Sellist sõnumit ei ole olemas
       body: Vabandust, kuid sellise ID-ga sõnum puudub.
-    outbox:
-      title: Saadetud sõnumid
-      messages:
-        one: Sul on %{count} saadetud sõnum.
-        other: Sul on %{count} saadetud sõnumit.
-      no_sent_messages_html: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda
-        mõne %{people_mapping_nearby_link}?
-      people_mapping_nearby: lähedaloleva kaardistajaga
-    muted:
-      title: Vaigistatud sõnumid
-      messages:
-        one: Üks vaigistatud sõnum.
-        other: Sul on %{count} vaigistatud sõnumit.
-    reply:
-      wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, millele soovid vastata
-        ei olnud sellele kasutajale saadetud. Vastamiseks palun logi sisse õige kasutajana.
     show:
       title: Loe sõnumit
       reply_button: Vasta
@@ -1733,20 +1671,67 @@ et:
       wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, mida soovid lugeda ei
         ole sellele kasutajale saadetud ega selle kasutaja poolt saadetud. Lugemiseks
         palun logi sisse õige kasutajana.
-    sent_message_summary:
-      destroy_button: Kustuta
-    heading:
-      my_inbox: Saabunud sõnumid
-      my_outbox: Saadetud sõnumid
-      muted_messages: Vaigistatud sõnumid
-    mark:
-      as_read: Sõnum on märgitud loetud sõnumiks.
-      as_unread: Sõnum on märgitud lugemata sõnumiks.
-    unmute:
-      notice: Sõnum on teisaldatud postkasti.
-      error: Sõnumit ei õnnestunud postkasti teisaldada.
     destroy:
       destroyed: Sõnum kustutatud.
+    read_marks:
+      create:
+        notice: Sõnum on märgitud loetud sõnumiks.
+      destroy:
+        notice: Sõnum on märgitud lugemata sõnumiks.
+    mutes:
+      destroy:
+        notice: Sõnum on teisaldatud postkasti.
+        error: Sõnumit ei õnnestunud postkasti teisaldada.
+    mailboxes:
+      heading:
+        my_inbox: Saabunud sõnumid
+        my_outbox: Saadetud sõnumid
+        muted_messages: Vaigistatud sõnumid
+      messages_table:
+        from: Saatja
+        to: Kellele
+        subject: Teema
+        actions: Toimingud
+      message:
+        unread_button: Märgi mitteloetuks
+        read_button: Märgi loetuks
+        destroy_button: Kustuta
+        unmute_button: Teisalda postkasti
+    inboxes:
+      show:
+        title: Saabunud sõnumid
+        messages: Sul on %{new_messages} ja %{old_messages}.
+        new_messages:
+          one: '%{count} uus sõnum'
+          other: '%{count} uut sõnumit'
+        old_messages:
+          one: '%{count} vana sõnum'
+          other: '%{count} vana sõnumit'
+        no_messages_yet_html: Sul ei ole veel sõnumeid. Miks mitte kontakteeruda mõne
+          %{people_mapping_nearby_link}?
+        people_mapping_nearby: lähedaloleva kaardistajaga
+    muted_inboxes:
+      show:
+        title: Vaigistatud sõnumid
+        messages:
+          one: Üks vaigistatud sõnum.
+          other: Sul on %{count} vaigistatud sõnumit.
+    outboxes:
+      show:
+        title: Saadetud sõnumid
+        messages:
+          one: Sul on %{count} saadetud sõnum.
+          other: Sul on %{count} saadetud sõnumit.
+        no_sent_messages_html: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda
+          mõne %{people_mapping_nearby_link}?
+        people_mapping_nearby: lähedaloleva kaardistajaga
+      message:
+        destroy_button: Kustuta
+    replies:
+      new:
+        wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, millele soovid vastata
+          ei olnud sellele kasutajale saadetud. Vastamiseks palun logi sisse õige
+          kasutajana.
   passwords:
     new:
       title: Unustatud parool
@@ -1766,21 +1751,17 @@ et:
     update:
       flash changed: Sinu parool on muudetud.
   preferences:
-    show:
-      title: Minu eelistused
-      preferred_editor: Eelistatav redaktor
-      preferred_languages: Eelistatavad keeled
-      edit_preferences: Muuda eelistusi
-    edit:
-      title: Eelistuste muutmine
-      save: Uuenda eelistusi
-      cancel: Loobu
-    update:
-      failure: Eelistusi ei õnnestunud uuendada.
-    update_success_flash:
-      message: Eelistused uuendatud.
+    preferences:
+      update:
+        failure: Eelistusi ei õnnestunud uuendada.
+      update_success_flash:
+        message: Eelistused uuendatud.
+    basic_preferences:
+      show:
+        title: Minu eelistused
+        save: Uuenda eelistusi
   profiles:
-    edit:
+    show:
       title: Profiili muutmine
       save: Uuenda profiili
       cancel: Loobu
@@ -1871,14 +1852,14 @@ et:
       legal_title: Juriidiline teave
       legal_1_html: |-
         Seda saiti ja paljusid teisi seotud teenuseid haldab ametlikult
-        %{openstreetmap_foundation_link} (OSMF)
+        %{group_link}
         kogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad
         meie %{terms_of_use_link}, %{aup_link} ja %{privacy_policy_link}.
       legal_1_terms_of_use: kasutustingimused
       legal_1_aup: kasutamisreeglid
       legal_1_privacy_policy: andmekaitsereeglid
       legal_2_html: |-
-        Palun %{contact_the_osmf_link},
+        Palun %{contact_team_link},
         kui sul on küsimusi litsentsimise, autoriõiguse või muude õiguslike teemade kohta.
       partners_title: Partnerid
     copyright:
@@ -1936,12 +1917,14 @@ et:
         copyright: Autoriõigused OpenStreetMap ja kaasautorid avatud litsentsi alusel
       remote_failed: Redigeerimise ebaõnnestus - veendu, et  JOSM või Merkaartor töötab
         ning kaugjuhtimine on lubatud
-    edit:
+    not_public_flash:
       not_public: Sa ei ole seadnud oma muudatused avalikuks.
       not_public_description_html: Sa ei saa enam anonüümselt kaarti muuta. Sa saad
         muuta oma muudatused avalikuks lehel %{user_page}.
       user_page_link: kasutajaleht
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Uuri välja, miks see on nii.
+    edit:
       id_not_configured: iD ei ole seadistatud
     export:
       title: Eksportimine
@@ -1985,12 +1968,12 @@ et:
         copyright: autoriõiguste lehele
     help:
       title: Abikeskus
-      introduction: OpenStreetMap pakub erinevaid võimalusi projekti tundmaõppimiseks,
+      introduction: OpenHistoricalMap pakub erinevaid võimalusi projekti tundmaõppimiseks,
         küsimuste esitamiseks ja vastamiseks ning kaardistamise teemade üle üheskoos
         arupidamiseks ja dokumenteerimiseks.
       welcome:
         url: /welcome
-        title: Tere tulemast OpenStreetMapi
+        title: Tere tulemast OpenHistoricalMapi
         description: Alusta selle kiirjuhendiga, mis hõlmab OpenStreetMapi põhitõdesid.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Et:Beginners%27_guide
@@ -2049,92 +2032,6 @@ et:
       where_am_i_title: Määra praegune asukoht otsimootori abil
       submit_text: Otsi
       reverse_directions_text: Pööra suund
-    key:
-      table:
-        entry:
-          motorway: Kiirtee
-          main_road: Peatee
-          trunk: Esimese klassi tee
-          primary: Põhimaantee
-          secondary: Tugimaantee
-          unclassified: Klassifitseerimata tee
-          pedestrian: Jalakäijate tee
-          track: Rada
-          bridleway: Ratsatee
-          cycleway: Jalgrattatee
-          cycleway_national: Riigiülene jalgrattatee
-          cycleway_regional: Piirkondlik jalgrattatee
-          cycleway_local: Kohalik jalgrattatee
-          cycleway_mtb: Mägirattarada
-          footway: Jalgtee
-          rail: Raudtee
-          train: Rong
-          subway: Metroo
-          ferry: Praam
-          light_rail: Trammitee
-          tram: tramm
-          trolleybus: Trollibuss
-          bus: Buss
-          cable_car: Köisraudtee
-          chair_lift: toolilift
-          runway: Lennurada
-          taxiway: ruleerimistee
-          apron: Lennujaama perroon
-          admin: Halduspiir
-          capital: Pealinn
-          city: Linn
-          orchard: Viljapuuaed
-          vineyard: Viinamarjaistandus
-          forest: Tulundusmets
-          wood: Mets
-          farmland: Põllumaa
-          grass: Muru
-          meadow: luht
-          bare_rock: Paljand
-          sand: Liiv
-          golf: Golfiväljak
-          park: Park
-          common: Heinamaa
-          built_up: Hoonestatud ala
-          resident: Elamurajoon
-          retail: Kaubanduspiirkond
-          industrial: Tööstuspiirkond
-          commercial: Äripiirkond
-          heathland: Nõmm
-          scrubland: Võsamaa
-          lake: Järv
-          reservoir: veehoidla
-          intermittent_water: Perioodiline veekogu
-          glacier: Liustik
-          reef: Riff
-          wetland: Märgala
-          farm: Põllumajanduslik maa
-          brownfield: Ehitusmaa
-          cemetery: Surnuaed
-          allotments: Aiamaa
-          pitch: Spordiväljak
-          centre: Spordikeskus
-          beach: Rand
-          reserve: Looduskaitseala
-          military: Militaarala
-          school: Kool
-          university: ülikool
-          hospital: Haigla
-          building: Märkimisväärne hoone
-          station: Raudteejaam
-          summit: Mägi
-          peak: tipp
-          tunnel: Katkendlik ümbris = tunnel
-          bridge: Must ümbris = sild
-          private: Üksnes omanikule
-          destination: Üksnes läbisõiduks
-          construction: Ehitatavad teed
-          bus_stop: Bussipeatus
-          bicycle_shop: Rattapood
-          bicycle_rental: Jalgrattarent
-          bicycle_parking: Jalgrattaparkla
-          bicycle_parking_small: Väike jalgrattaparkla
-          toilets: Tualettruumid
     welcome:
       title: Tere tulemast!
       introduction: Tere tulemast OpenStreetMapi, vabasse ja muudetavasse maailmakaarti.
@@ -2142,11 +2039,6 @@ et:
         kõige olulisematest asjadest, mida peaksid teadma.
       whats_on_the_map:
         title: Mis on kaardil?
-        on_the_map_html: |-
-          OpenStreetMap on koht, kus saab kaardile kanda objekte, mis on %{real_and_current}.
-          Need on miljonid hooned, teed ja muud kohti puudutavad üksikasjad.
-          Võid kaardile kanda looduses leiduvaid mis tahes objekte, mis sulle huvi pakuvad.
-        real_and_current: praegu päriselt olemas
         off_the_map_html: |-
           Kaart %{doesnt} seisukohti väljendavaid andmed nagu hinnangud, ajaloolisi
           ega oletuslikke objekte ega andmeid autoriõigusega kaitstud allikatest. Kui sul
@@ -2176,15 +2068,11 @@ et:
         imports: importimise
         automated_edits: automaatsete muudatuste
       start_mapping: Alusta kaardistamist
-      add_a_note:
-        title: Pole aega kaarti muuta? Lisa märkus!
-        para_1: Kui soovid teha väikest parandust ja sul pole aega registreeruda ning
-          õppida, kuidas kaarti muuta, siis lisa lihtsalt kaardile märkus.
-        para_2_html: |-
-          See on lihtne! Mine %{map_link} ja klõpsa märkuse ikooni %{note_icon}.
-          See lisab kaardile markeri, mida saad lohistamise teel liigutada.
-          Lisa sõnum, klõpsa salvestamisnuppu ja teised kaardistajad uurivad seejärel asja.
-        the_map: kaardile
+    add_a_note:
+      title: Pole aega kaarti muuta? Lisa märkus!
+      para_1: Kui soovid teha väikest parandust ja sul pole aega registreeruda ning
+        õppida, kuidas kaarti muuta, siis lisa lihtsalt kaardile märkus.
+      the_map: kaardile
     communities:
       title: Kogukonnad
       lede_text: |-
@@ -2206,6 +2094,87 @@ et:
           Rühma ei pea moodustama haruühinguna ega sama ametlikul moel.
           Paljud rühmad tegutsevad õigupoolest väga edukalt, olles kokku tulnud mitteametlikult või kogukonnarühmana. Igaüks võib neid kokku kutsuda või nendega ühineda. Loe rohkem %{communities_wiki_link}.
         communities_wiki: kogukondade viki leheküljelt
+  map_keys:
+    show:
+      entries:
+        motorway: Kiirtee
+        main_road: Peatee
+        trunk: Esimese klassi tee
+        primary: Põhimaantee
+        secondary: Tugimaantee
+        unclassified: Klassifitseerimata tee
+        pedestrian: Jalakäijate tee
+        track: Rada
+        bridleway: Ratsatee
+        cycleway: Jalgrattatee
+        mountain_bike_route: Mägirattarada
+        footway: Jalgtee
+        rail: Raudtee
+        train: Rong
+        subway: Metroo
+        ferry: Praam
+        light_rail: Trammitee
+        tram: tramm
+        trolleybus: Trollibuss
+        bus: Buss
+        cable_car: Köisraudtee
+        chair_lift: toolilift
+        runway: Lennurada
+        taxiway: ruleerimistee
+        apron: Lennujaama perroon
+        admin: Halduspiir
+        capital: Pealinn
+        city: Linn
+        orchard: Viljapuuaed
+        vineyard: Viinamarjaistandus
+        forest: Tulundusmets
+        wood: Mets
+        farmland: Põllumaa
+        grass: Muru
+        meadow: luht
+        bare_rock: Paljand
+        sand: Liiv
+        golf: Golfiväljak
+        park: Park
+        common: Heinamaa
+        built_up: Hoonestatud ala
+        resident: Elamurajoon
+        retail: Kaubanduspiirkond
+        industrial: Tööstuspiirkond
+        commercial: Äripiirkond
+        heathland: Nõmm
+        scrubland: Võsamaa
+        intermittent_water: Perioodiline veekogu
+        glacier: Liustik
+        reef: Riff
+        wetland: Märgala
+        farm: Põllumajanduslik maa
+        brownfield: Ehitusmaa
+        cemetery: Surnuaed
+        allotments: Aiamaa
+        pitch: Spordiväljak
+        centre: Spordikeskus
+        beach: Rand
+        reserve: Looduskaitseala
+        military: Militaarala
+        school: Kool
+        university: ülikool
+        hospital: Haigla
+        building: Märkimisväärne hoone
+        station: Raudteejaam
+        summit: Mägi
+        peak: tipp
+        tunnel: Katkendlik ümbris = tunnel
+        bridge: Must ümbris = sild
+        private: Üksnes omanikule
+        destination: Üksnes läbisõiduks
+        construction: Ehitatavad teed
+        bus_stop: Bussipeatus
+        bicycle_shop: Rattapood
+        bicycle_rental: Jalgrattarent
+        bicycle_parking: Jalgrattaparkla
+        bicycle_parking_small: Väike jalgrattaparkla
+        toilets: Tualettruumid
   traces:
     visibility:
       private: Isiklik (jagatud ainult anonüümselt, järjestamata punktid)
@@ -2278,7 +2247,7 @@ et:
       upload_trace: Lisa GPS-rada
       all_traces: Kõik rajad
       my_traces: Minu rajad
-      traces_from: Kasutaja %{user} avalikud rajad
+      traces_from_html: Kasutaja %{user} avalikud rajad
       remove_tag_filter: Eemalda sildifilter
     destroy:
       scheduled_for_deletion: Raja kustutamine kantud tööplaani.
@@ -2287,13 +2256,14 @@ et:
     offline:
       heading: GPX-failide salvestamine hetkel ei tööta
       message: GPX-failide salvestamise ja üleslaadimise süsteem pole hetkel kasutatav.
-    georss:
-      title: OpenStreetMapi GPS-rajad
-    description:
-      description_with_count:
-        one: Kasutaja %{user} %{count}-punktline GPX-fail
-        other: Kasutaja %{user} %{count}-punktline GPX-fail
-      description_without_count: Kasutaja %{user} GPX-fail
+    feeds:
+      show:
+        title: OpenStreetMapi GPS-rajad
+      description:
+        description_with_count:
+          one: Kasutaja %{user} %{count}-punktline GPX-fail
+          other: Kasutaja %{user} %{count}-punktline GPX-fail
+        description_without_count: Kasutaja %{user} GPX-fail
   application:
     require_cookies:
       cookies_needed: Paistab, et sul on küpsised keelatud. Enne jätkamist luba palun
@@ -2310,10 +2280,6 @@ et:
       oauth2_authorizations: OAuth 2 volitused
       muted_users: Vaigistatud kasutajad
     auth_providers:
-      openid_login_button: Jätka
-      openid:
-        title: Logi sisse OpenID-ga
-        alt: OpenID logo
       google:
         title: Logi sisse Google'i kaudu
         alt: Google'i logo
@@ -2410,47 +2376,12 @@ et:
           aadresside kohta
         contributor_terms: kaastöötingimustega
       continue: Registreeru
-      terms accepted: Täname, et nõustusid uute kaastöötingimustega!
       email_help:
         privacy_policy: andmekaitsereeglitega
         privacy_policy_title: OSMF-i andmekaitsereeglid, sealhulgas peatükk e-posti
           aadresside kohta
         html: Sinu aadressi ei kuvata avalikult, tutvu meie %{privacy_policy_link}.
-      consider_pd_html: Pean enda kaastööd %{consider_pd_link} kuuluvaks.
-      consider_pd: avalikku omandisse
       use external auth: või registreeru kolmanda osapoole kaudu
-    terms:
-      title: Tingimused
-      heading: Tingimused
-      heading_ct: Kaastöötingimused
-      read and accept with tou: Palun loe läbi kaastööleping ja kasutustingimused,
-        märgi ristiga mõlemad märkeruudud ning kui oled valmis, siis vajuta jätkamisnuppu.
-      contributor_terms_explain: See leping reguleerib sinu olemasoleva ja tulevase
-        kaastöö tingimusi.
-      read_ct: Ma olen lugenud kaastöötingimusi ja nõustun nendega
-      tou_explain_html: Need %{tou_link} reguleerivad selle veebisaidi ja muu OSMF-i
-        pakutava infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi ja
-        nõustu sellega.
-      read_tou: Ma olen lugenud kasutustingimusi ja nõustun nendega
-      consider_pd: Eelnevale lisaks leian, et minu kaastöö kuulub avalikku omandisse
-        (Public Domain)
-      consider_pd_why: mis see on?
-      guidance_info_html: 'Teave, mis aitab mõista neid tingimusi: %{readable_summary_link}
-        ja mõned %{informal_translations_link}'
-      readable_summary: inimloetav kokkuvõte
-      informal_translations: mitteametlikud tõlked
-      continue: Jätka
-      you need to accept or decline: Enne jätkamist tutvu palun uute kaastöötingimustega
-        ning seejärel kas nõustu või ära nõustu nendega.
-      legale_select: 'Palun valige oma elukohariik:'
-      legale_names:
-        france: Prantsusmaa
-        italy: Itaalia
-        rest_of_world: Muu maailm
-    terms_declined_flash:
-      terms_declined_html: Meil on kahju, et otsustasid kaastöötingimustega mitte
-        nõustutada. Lisateavet leiad %{terms_declined_link}.
-      terms_declined_link: sellelt vikileheküljelt
     no_such_user:
       title: Sellist kasutajat ei ole
       heading: Kasutajat %{user}  pole olemas
@@ -2464,7 +2395,6 @@ et:
       my notes: Minu märkused
       my messages: Minu sõnumid
       my profile: Minu profiil
-      my settings: Minu sätted
       my comments: Minu kommentaarid
       my_preferences: Minu eelistused
       my_dashboard: Minu andmelaud
@@ -2478,8 +2408,6 @@ et:
       edits: Muudatused
       traces: Rajaloend
       notes: Märkused
-      remove as friend: Eemalda sõprade hulgast
-      add as friend: Lisa sõbraks
       mapper since: 'Kaardistaja alates:'
       last map edit: 'Viimane muudatus kaardil:'
       uid: 'Kasutaja ID:'
@@ -2514,18 +2442,40 @@ et:
     go_public:
       flash success: Kõik sinu muudatused on nüüd avalikud ja sul on lubatud muudatusi
         teha.
-    index:
-      title: Kasutajad
-      heading: Kasutajad
-      summary_html: '%{name} loodud IP-aadressilt %{ip_address} (%{date})'
-      summary_no_ip_html: '%{name} loodud (%{date})'
-      empty: Sobivaid kasutajaid ei leitud!
-    page:
-      found_users:
-        one: '%{count} kasutaja leitud'
-        other: '%{count} kasutajat leitud'
-      confirm: Kinnita valitud kasutajad
-      hide: Peida valitud Kasutajad
+    issued_blocks:
+      show:
+        title: Kasutaja %{name} seatud blokeeringud
+        heading_html: Kasutaja %{name} seatud blokeeringud
+        empty: Kasutaja %{name} pole veel kedagi blokeerinud.
+    received_blocks:
+      show:
+        title: Kasutaja %{name} blokeeringud
+        heading_html: Kasutaja %{name} blokeeringud
+        empty: Kasutajat %{name} ei ole veel kordagi blokeeritud.
+      edit:
+        revoke: Tühista!
+    lists:
+      show:
+        title: Kasutajad
+        heading: Kasutajad
+      page:
+        found_users:
+          one: '%{count} kasutaja leitud'
+          other: '%{count} kasutajat leitud'
+        confirm: Kinnita valitud kasutajad
+        hide: Peida valitud Kasutajad
+        empty: Sobivaid kasutajaid ei leitud!
+      user:
+        summary_html: '%{name} loodud IP-aadressilt %{ip_address} (%{date})'
+        summary_no_ip_html: '%{name} loodud (%{date})'
+    changeset_comments:
+      page:
+        changeset: muudatuskogumit
+        when: Millal
+        comment: Kommentaar
+    diary_comments:
+      page:
+        post: Postitus
     suspended:
       title: Konto peatatud
       heading: Konto peatatud
@@ -2539,7 +2489,7 @@ et:
       invalid_credentials: Vigased autentimisandmed.
       no_authorization_code: Volitamiskood puudub.
     auth_association:
-      heading: Sinu ID ei ole veel seotud OpenStreetMapi kasutajakontoga.
+      heading: Sinu ID ei ole veel seotud OpenHistoricalMapi kasutajakontoga.
       option_1: |-
         Kui oled esimest korda OpenStreetMapis, siis loo palun uus kasutajakonto,
         täites allpool oleva vormi.
@@ -2583,8 +2533,6 @@ et:
       title: Kasutajate blokeeringud
       heading: Kasutajate blokeeringute loetelu
       empty: Ühtegi blokeeringut pole veel antud.
-    revoke_all:
-      revoke: Tühista!
     helper:
       time_future_html: Lõpuni %{time}.
       until_login: Aktiivne kuni kasutaja logib sisse.
@@ -2606,14 +2554,6 @@ et:
         years:
           one: '%{count} aasta'
           other: '%{count} aastat'
-    blocks_on:
-      title: Kasutaja %{name} blokeeringud
-      heading_html: Kasutaja %{name} blokeeringud
-      empty: Kasutajat %{name} ei ole veel kordagi blokeeritud.
-    blocks_by:
-      title: Kasutaja %{name} seatud blokeeringud
-      heading_html: Kasutaja %{name} seatud blokeeringud
-      empty: Kasutaja %{name} pole veel kedagi blokeerinud.
     show:
       title: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
       heading_html: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
@@ -2624,7 +2564,6 @@ et:
       reason: 'Blokeerimise põhjus:'
       revoker: Tühistaja
     block:
-      not_revoked: (pole tühistatud)
       show: Näita
       edit: Redigeeri
     page:
@@ -2632,13 +2571,12 @@ et:
       creator_name: Blokeerija
       reason: Blokeerimise põhjus
       status: Olek
-      revoker_name: Tühistanud
     navigation:
       all_blocks: Kõik blokeeringud
       blocks_on_me: Mulle seatud blokeeringud
-      blocks_on_user: Blokeeritava %{user} blokeeringud
+      blocks_on_user_html: Blokeeritava %{user} blokeeringud
       blocks_by_me: Minu seatud blokeeringud
-      blocks_by_user: Blokeerija %{user} blokeeringud
+      blocks_by_user_html: Blokeerija %{user} blokeeringud
       block: 'Blokeering #%{id}'
   user_mutes:
     index:
@@ -2744,8 +2682,6 @@ et:
       center_marker: Tsentreeri kaart markerile
       paste_html: Kopeeri HTML-kood oma veebilehele
       view_larger_map: Vaata suuremat kaarti
-      only_standard_layer: Ainult tava-, ratta- ja transpordikaardi kihte saab pildina
-        eksportida
     embed:
       report_problem: Teata probleemist
     key:
@@ -2794,22 +2730,10 @@ et:
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
     directions:
-      ascend: Tee tõuseb ülespoole
-      engines:
-        fossgis_osrm_bike: Rattaga (OSRM)
-        fossgis_osrm_car: Autoga (OSRM)
-        fossgis_osrm_foot: Jalgsi (OSRM)
-        graphhopper_bicycle: Rattaga (GraphHopper)
-        graphhopper_car: Autoga (GraphHopper)
-        graphhopper_foot: Jalgsi (GraphHopper)
-        fossgis_valhalla_bicycle: Rattaga (Valhalla)
-        fossgis_valhalla_car: Autoga (Valhalla)
-        fossgis_valhalla_foot: Jalgsi (Valhalla)
-      descend: Tee laskub allapoole
-      directions: Juhised
-      distance: Vahemaa
-      distance_m: '%{distance}&nbsp;m'
-      distance_km: '%{distance}&nbsp;km'
+      distance_in_units:
+        meters:
+          m: '%{distance}&nbsp;m'
+          km: '%{distance}&nbsp;km'
       errors:
         no_route: Ei suutnud leida teekonda nende kahe koha vahel.
         no_place: Kohta "%{place}" ei õnnestunud kahjuks leida.
@@ -2882,7 +2806,6 @@ et:
         roundabout_with_exit_ordinal: 'Keera ringtee %{exit}. väljumisest teele: %{name}'
         exit_roundabout: 'Pööra ringteelt ära teele: %{name}'
         unnamed: nimetu
-        courtesy: Tee juhatamisel oli abiks %{link}
         exit_counts:
           first: "1"
           second: "2"
@@ -2894,7 +2817,6 @@ et:
           eighth: "8"
           ninth: "9"
           tenth: "10"
-      time: Ajakulu
     query:
       node: Sõlm
       way: Joon

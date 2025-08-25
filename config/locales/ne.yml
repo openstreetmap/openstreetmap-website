@@ -38,9 +38,6 @@ ne:
         create: टिप्पणी थप्नुहाेस्
       message:
         create: पठाउनुहोस्
-      client_application:
-        create: दर्ता गर्नुहाेस्
-        update: अद्यावधिक गर्नुहोस्
       oauth2_application:
         create: दर्ता गर्नुहाेस्
         update: अद्यावधिक गर्नुहोस्
@@ -71,6 +68,7 @@ ne:
       message: सन्देश
       node: नोड
       node_tag: नोड चिनो
+      note: टिपोट
       notifier: सुचक
       old_node: पूरानो नोड
       old_node_tag: पूरानो नोड ट्याग
@@ -233,27 +231,11 @@ ne:
       entry:
         comment: टिप्पणी
         full: पूर्ण टिप्पणी
-  account:
-    deletions:
-      show:
-        title: मेरो खाता मेटाउनुहोस्
-        delete_account: खाता मेटाउनुहोस्
-        confirm_delete: निश्चित हुनुहुन्छ ?
-        cancel: रद्द गर्नुहोस्
   accounts:
-    edit:
+    show:
       title: खाता सम्पादन गर्नुहोस्
-      my settings: मेरो सेटिङहरू
       current email address: हालको इमेल ठेगाना
       external auth: वाह्य अथेन्टिकेसन
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: यो के हो ?
-      public editing:
-        heading: सार्वजनिक सम्पादन
-        enabled: सक्रिय। Not anonymous and can edit data.
-        enabled link text: यो के हो ?
-        disabled link text: म किन सम्पादन गर्न सक्दिन?
       contributor terms:
         heading: योगदानकर्ता सर्तहरू
         agreed: तपाईँले नयाँ योगदानकर्ता सर्तहरू स्वीकार गर्नुभएको छ।
@@ -266,6 +248,22 @@ ne:
       success_confirm_needed: प्रयोगकर्ताको जानकारीहरू सफलतापूर्वक अध्यावधिक गरियो।
         Check your email for a note to confirm your new email address.
       success: प्रयोगकर्ताको जानकारीहरू सफलतापूर्वक अध्यावधिक गरियो।
+    deletions:
+      show:
+        title: मेरो खाता मेटाउनुहोस्
+        delete_account: खाता मेटाउनुहोस्
+        confirm_delete: निश्चित हुनुहुन्छ ?
+        cancel: रद्द गर्नुहोस्
+    terms:
+      show:
+        title: सर्तहरू
+        heading: सर्तहरू
+        heading_ct: योगदानकर्ता सर्तहरू
+        continue: जारी राख्ने
+        cancel: रद्द गर्नुहोस्
+        legale_names:
+          france: फ्रान्स
+          italy: इटाली
   browse:
     version: संस्करण
     in_changeset: परिवर्नहरू
@@ -278,17 +276,14 @@ ne:
     location: 'स्थान:'
     node:
       title_html: 'अंश: %{name}'
-      history_title_html: 'अंशको इतिहास: %{name}'
     way:
       title_html: 'बाटो: %{name}'
-      history_title_html: 'बाटोको इतिहास: %{name}'
       nodes: अंशहरू
       also_part_of_html:
         one: बाटोको अंश %{related_ways}
         other: बाटोको अंशहरू %{related_ways}
     relation:
       title_html: 'सम्बन्ध: %{name}'
-      history_title_html: 'सम्बन्धको इतिहास: %{name}'
       members: 'सदस्यहरू:'
     relation_member:
       entry_role_html: '%{type} %{name}  %{role}को रुपमा'
@@ -297,17 +292,9 @@ ne:
         way: बाटो
         relation: सम्बन्ध
     containing_relation:
-      entry_html: सम्बन्ध %{relation_name}
       entry_role_html: सम्बन्ध %{relation_name} (as %{relation_role})
     not_found:
       title: फेला परेन
-      sorry: 'माफ गर्नुहोला, %{type} #%{id} फेला पार्न सकिएन ।'
-      type:
-        node: नोड
-        way: बाटो
-        relation: सम्बन्ध
-        changeset: परिवर्तनसेट
-        note: टिपोट
     timeout:
       title: समयसमाप्ति त्रुटि
       sorry: माफ गर्नुहोला, %{id} अाइडि भएको %{type}को लागि तथ्याङ्क प्राप्त गर्न
@@ -341,11 +328,20 @@ ne:
       wikipedia_link: '%{page}को बारेमा विकिपीडियामा भएको लेख'
       telephone_link: '%{phone_number} मा फोन गर्नुहोस्'
       colour_preview: रङ %{colour_value} पूर्वावलोकन
-    query:
+  feature_queries:
+    show:
       title: क्वेरी गुणहरू
       introduction: नजिकैका फिचरहरू भेटाउन नक्सामा क्लिक गर्नुहोस्
       nearby: नजिकैका फिचरहरू
       enclosing: यसभित्र रहेका फिचरहरू
+  old_elements:
+    index:
+      node:
+        title_html: 'अंशको इतिहास: %{name}'
+      way:
+        title_html: 'बाटोको इतिहास: %{name}'
+      relation:
+        title_html: 'सम्बन्धको इतिहास: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -355,13 +351,9 @@ ne:
         title_all: OpenHistoricalMap परिवर्वतन सूची छलफल
         title_particular: 'OpenHistoricalMap परिवर्तन सूची #%{changeset_id} छलफल'
   changesets:
-    changeset:
-      no_edits: (कुनै सम्पादनहरू छैनन्)
-      view_changeset_details: परिवर्तनहरूको विवरण हेर्नुहोस्
     index:
       title: परिवर्नहरू
       title_user: '%{user}द्वरा गरिएका परिवर्तनहरू'
-      title_friend: तपाईको मित्रहरूद्वारा गरिएका परिवर्तनहरू
       title_nearby: तपाईँको नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
       empty: कुनै पनि परिवर्तनहरू भेटिएनन्।
       empty_area: यो क्षेत्रमा कुनै परिवर्तनहरू छैनन्।
@@ -369,17 +361,12 @@ ne:
       no_more: अन्य कुनै परिवर्तनहरू भेटिएनन्।
       no_more_area: यो क्षेत्रमा अन्य कुनै परिवर्तनहरू छैनन्।
       no_more_user: यस प्रयोगकर्तटद्वारा अन्य कुनै परिवर्तनहरू गरिएका छैनन् ।
-      load_more: अझै बढी खोल्नुहोस्
       feed:
         title: 'परिवर्तनहरू: %{id}'
         title_comment: परिवर्तनहरू %{id} - %{comment}
         created: सृजना गरिएको
         closed: समापन भएको
         belongs_to: रचयिता
-    heading:
-      title: 'परिवर्तनहरू: %{id}'
-    no_such_entry:
-      heading: '%{id} आइडी भएको कुनै अभिलेख भेटिएन'
     show:
       title: 'परिवर्तनहरू: %{id}'
       discussion: छलफल
@@ -391,26 +378,27 @@ ne:
       changesetxml: चेन्जसेट XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: अंशहरू (%{count})
       nodes_paginated: अंशहरू (जम्मा %{count} मध्येबाट %{x}-%{y})
-      ways: बाटोहरू (%{count})
       ways_paginated: बाटोहरू (जम्मा %{count} मध्येबाट %{x}-%{y})
-      relations: सम्बन्धहरू (%{count})
       relations_paginated: सम्बन्धहरू (जम्मा %{count} मध्येबाट %{x}-%{y})
     timeout:
       sorry: माफ गर्नुहोला, तपाईँले खोज्नुभएको परिवर्तनहरूको सूची प्राप्त गर्न निकै
         समय लाग्यो ।
+  changeset_subscriptions:
+    heading:
+      title: 'परिवर्तनहरू: %{id}'
+    no_such_entry:
+      heading: '%{id} आइडी भएको कुनै अभिलेख भेटिएन'
   dashboards:
     contact:
       km away: '%{count}किमि टाढा'
       m away: '%{count} मि टाढा'
+      no_edits: (कुनै सम्पादनहरू छैनन्)
+      view_changeset_details: परिवर्तनहरूको विवरण हेर्नुहोस्
     popup:
       your location: तपाईँको स्थान
       nearby mapper: नजिकको मानचित्रकर्मी
-      friend: साथी
     show:
-      my friends: मेरा साथीहरू
-      no friends: तपाईँ कुनै साथीहरूलाई थप्नु भएको छैन
       nearby users: अन्य नजिकका प्रयोगकर्ताहरू
   diary_entries:
     new:
@@ -420,13 +408,9 @@ ne:
       use_map_link: नक्सा प्रयोग गर्ने
     index:
       title: प्रयोगकर्ताका डायरीहरू
-      title_friends: साथीहरूका डायरीहरू
       title_nearby: नजिकका प्रयोगकर्ताहरूका डायरीहरू
       user_title: '%{user}को डायरी'
       in_language_title: '%{language} भाषामा भएका दैनिकीहरू'
-      new: नयाँ दैनिकी
-      new_title: तपाईँको डायरीमा नयाँ दैनिकी सिर्जना गर्नुहोस्
-      my_diary: मेरो डायरी
       no_entries: कुनै पनि अभिलेखहरू भेटिएनन्
     page:
       recent_entries: हालैका दैनिकीहरू
@@ -485,11 +469,12 @@ ne:
       button: छलफलको लागि सदस्यता लिनुहोस्
     unsubscribe:
       button: छलफलबाट सदस्यता रद्द गर्नुहोस्
-  diary_comments:
-    page:
-      post: पोष्ट
-      when: कहिले
-      comment: टिप्पणी
+    navigation:
+      my_diary: मेरो डायरी
+      new: नयाँ दैनिकी
+      new_title: तपाईँको डायरीमा नयाँ दैनिकी सिर्जना गर्नुहोस्
+    profile_diaries:
+      date_label: मिति
   errors:
     contact:
       contact: सम्पर्क
@@ -499,16 +484,6 @@ ne:
       title: अनुप्रयोगसम्बन्धी त्रुटि
     not_found:
       title: फाइल फेला परेन
-  friendships:
-    make_friend:
-      button: साथीको रूपमा थप्नुहोस्
-      success: '%{name} अब तपाईँको साथी हुनुभएको छ!'
-      failed: माफ गर्नुहोला, %{name}लाई मित्रको रुपमा थप्न सकिएन।
-      already_a_friend: '%{name} सँग तपाईँले पहिले साथी हुनुहुन्छ।'
-      limit_exceeded: तपाईँले हालसालै थुप्रै प्रयोगकर्ताहरूलाई साथी बनाउनु भएको छ।
-        Please wait a while before trying to friend any more.
-    remove_friend:
-      button: साथीबाट हटाउने
   geocoder:
     search:
       title:
@@ -988,6 +963,9 @@ ne:
           zoo: चिडियाखाना
         tunnel:
           "yes": सुरुङ
+        water:
+          lake: ताल
+          reservoir: मुहान
         waterway:
           canal: नहर
           dam: ड्याम
@@ -1008,9 +986,16 @@ ne:
         level8: सहर सीमा
         level9: गाउँ सीमा
         level10: उपनगर सीमा
-    results:
-      no_results: कुनै नतिजाहरू भेटिएनन्
-      more_results: थप नतिजाहरू
+  searches:
+    queries:
+      create:
+        no_results: कुनै नतिजाहरू भेटिएनन्
+        more_results: थप नतिजाहरू
+  directions:
+    show:
+      title: दिशाहरू
+      distance: दूरी
+      time: समय
   issues:
     index:
       search: खोज्नुहोस्
@@ -1063,9 +1048,8 @@ ne:
       hi: नमस्ते %{to_user},
     message_notification:
       hi: नमस्ते %{to_user},
-    friendship_notification:
+    follow_notification:
       hi: नमस्ते %{to_user},
-      subject: '[OpenStreetMap] %{user} ले तपाईँलाई मित्रको रूपमा थप्नु भयो'
     gpx_failure:
       hi: नमस्ते %{to_user},
     gpx_success:
@@ -1091,17 +1075,6 @@ ne:
       success: तपाईंको इमेल निश्चित गर्नुहोस्, ग्राह्याताको लागि धन्यवाद!
       failure: यो टोकन को साथम एक इमेल पहिले नै निश्चित गरिसकिएको छ।
   messages:
-    inbox:
-      title: इनबक्स
-    messages_table:
-      from: बाट
-      to: लाई
-      subject: विषय
-      date: मिति
-    message_summary:
-      unread_button: नपढिएको रूपमा चिनो लगाउनुहोस्
-      read_button: पढिएको रूपमा चिनो लगाउनुहोस्
-      destroy_button: हटाउनुहोस्
     new:
       title: सान्देस पठाउ
       send_message_to_html: '%{name} लाई नयाँ सन्देश पठाउनुहोस्'
@@ -1111,20 +1084,33 @@ ne:
     no_such_message:
       title: त्यस्तो कुनै पनि सन्देश छैन
       heading: त्यस्तो कुनै पनि सन्देश छैन
-    outbox:
-      title: आउटबक्स
     show:
       title: सन्देश पढ्नुहोस्
       reply_button: जवाफ दिने
       unread_button: नपढिएको रूपमा चिनो लगाउनुहोस्
       destroy_button: मेट्नुहोस्
       back: पछाडि
-    sent_message_summary:
-      destroy_button: हटाउनुहोस्
-    heading:
-      my_inbox: मेरो इनबक्स
     destroy:
       destroyed: सन्देश मेटियो
+    mailboxes:
+      heading:
+        my_inbox: मेरो इनबक्स
+      messages_table:
+        from: बाट
+        to: लाई
+        subject: विषय
+      message:
+        unread_button: नपढिएको रूपमा चिनो लगाउनुहोस्
+        read_button: पढिएको रूपमा चिनो लगाउनुहोस्
+        destroy_button: हटाउनुहोस्
+    inboxes:
+      show:
+        title: इनबक्स
+    outboxes:
+      show:
+        title: आउटबक्स
+      message:
+        destroy_button: हटाउनुहोस्
   passwords:
     new:
       title: पासवर्ड बिर्सियो
@@ -1137,11 +1123,8 @@ ne:
       reset: नयाँ प्रवेशशव्द
     update:
       flash changed: तपाईंको प्रवेश शब्द परिवर्तन गरिएको छ।
-  preferences:
-    edit:
-      cancel: रद्द गर्नुहोस्
   profiles:
-    edit:
+    show:
       cancel: रद्द गर्नुहोस्
       image: तस्विर
       home location: 'गृह स्थान:'
@@ -1197,7 +1180,7 @@ ne:
         more_title_html: थप जान्नको लागि
         contributors_title_html: हाम्रा योगदान कर्ताहरू
         trademarks_title: ट्रेडमार्कहरू
-    edit:
+    not_public_flash:
       user_page_link: प्रयोगकर्ता पृष्ठ
     export:
       title: निर्यात गर्नुहोस्
@@ -1257,49 +1240,6 @@ ne:
       to: लाई
       where_am_i: यो कहाँ छ?
       submit_text: जानुहोस्
-    key:
-      table:
-        entry:
-          motorway: मोटरमार्ग
-          main_road: मुख्य सडक
-          trunk: ट्रङ्क सडक
-          primary: प्राथमिक सडक
-          secondary: माध्यमिक सडक
-          unclassified: वर्गिकरण नगरिएको सडक
-          track: ट्रयाक
-          cycleway: साइकल मार्ग
-          rail: रेलमार्ग
-          subway: सबवे
-          cable_car: केबल कार
-          chair_lift: कुर्सी लिफ्ट
-          city: शहर
-          vineyard: अङ्गुर-बगैँचा
-          forest: वन
-          wood: कुञ्ज
-          farmland: खेतीयोग्य जमिन
-          grass: घाँस
-          sand: बालुवा
-          golf: गल्फ कोर्स
-          park: उद्यान
-          resident: आवासीय क्षेत्र
-          lake: ताल
-          reservoir: मुहान
-          glacier: हिमनदी
-          wetland: सिमसार
-          farm: खेती
-          cemetery: अन्त्यष्टी स्थल
-          beach: समुद्र किनारा
-          school: विद्यालय
-          university: विश्वविद्यालय
-          hospital: अस्पताल
-          summit: शिखर
-          peak: शिखर
-          bus_stop: बस बिसौनी
-          bicycle_shop: साइकल पसल
-          bicycle_rental: साइकल भाडामा
-          bicycle_parking: साकल पार्किङ
-          bicycle_parking_small: सानो साइकल पार्किङ
-          toilets: शौचालय
     welcome:
       title: स्वागत!
       whats_on_the_map:
@@ -1315,14 +1255,47 @@ ne:
       start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
     communities:
       title: समुदायहरू
-    ohm_privacy_policy:
-      page_title_html: गोपनीयता नीति
-      introduction:
-        title_html: परिचय
-      email:
-        title_html: इमेल ठेगाना
-      contact:
-        title_html: सम्पर्क
+  map_keys:
+    show:
+      entries:
+        motorway: मोटरमार्ग
+        main_road: मुख्य सडक
+        trunk: ट्रङ्क सडक
+        primary: प्राथमिक सडक
+        secondary: माध्यमिक सडक
+        unclassified: वर्गिकरण नगरिएको सडक
+        track: ट्रयाक
+        cycleway: साइकल मार्ग
+        rail: रेलमार्ग
+        subway: सबवे
+        cable_car: केबल कार
+        chair_lift: कुर्सी लिफ्ट
+        city: शहर
+        vineyard: अङ्गुर-बगैँचा
+        forest: वन
+        wood: कुञ्ज
+        farmland: खेतीयोग्य जमिन
+        grass: घाँस
+        sand: बालुवा
+        golf: गल्फ कोर्स
+        park: उद्यान
+        resident: आवासीय क्षेत्र
+        glacier: हिमनदी
+        wetland: सिमसार
+        farm: खेती
+        cemetery: अन्त्यष्टी स्थल
+        beach: समुद्र किनारा
+        school: विद्यालय
+        university: विश्वविद्यालय
+        hospital: अस्पताल
+        summit: शिखर
+        peak: शिखर
+        bus_stop: बस बिसौनी
+        bicycle_shop: साइकल पसल
+        bicycle_rental: साइकल भाडामा
+        bicycle_parking: साकल पार्किङ
+        bicycle_parking_small: सानो साइकल पार्किङ
+        toilets: शौचालय
   traces:
     new:
       upload_trace: GPS Trace अपलोड गर्ने
@@ -1376,9 +1349,6 @@ ne:
       scheduled_for_deletion: मेट्नको लागि तालिकावद्ध गरिएको ट्रेस
   application:
     auth_providers:
-      openid_login_button: जारी राख्ने
-      openid:
-        title: ओपनआईडीसँग प्रवेश गर्नुहोस्
       google:
         title: गुगल प्रयोग गरेर प्रवेश गर्नुहोस्
       facebook:
@@ -1418,15 +1388,6 @@ ne:
       continue: खाता खाेल्नुहाेस्
       email_help:
         privacy_policy: गोपनीयता नीति
-    terms:
-      title: सर्तहरू
-      heading: सर्तहरू
-      heading_ct: योगदानकर्ता सर्तहरू
-      consider_pd_why: यो के हो ?
-      continue: जारी राख्ने
-      legale_names:
-        france: फ्रान्स
-        italy: इटाली
     no_such_user:
       deleted: मेटाइयो
     show:
@@ -1436,13 +1397,10 @@ ne:
       my notes: मेरा टिपोटहरू
       my messages: मेरा सन्देशहरू
       my profile: मेरो प्रोफाइल
-      my settings: मेरो सेटिङहरू
       my comments: मेरा टिप्पणीहरू
       edits: सम्पादनहरू
       traces: ट्रेसहरू
       notes: म्याप टिप्पणीहरू
-      remove as friend: साथीबाट हटाउने
-      add as friend: साथी जोड्नुहोस्
       status: 'स्थिति:'
       role:
         administrator: यी प्रयोगकर्ता प्रबन्धक हुनुहुन्छ
@@ -1451,9 +1409,18 @@ ne:
     go_public:
       flash success: तपाईँका सबै सम्पादनहरू सार्वाजनिक छन् , तपाईँ अब सम्पादन लायक
         हुनु भयो ।
-    index:
-      title: प्रयोगकर्ताहरू
-      heading: प्रयोगकर्ताहरू
+    lists:
+      show:
+        title: प्रयोगकर्ताहरू
+        heading: प्रयोगकर्ताहरू
+    changeset_comments:
+      page:
+        changeset: परिवर्तनसेट
+        when: कहिले
+        comment: टिप्पणी
+    diary_comments:
+      page:
+        post: पोष्ट
   user_role:
     filter:
       not_a_role: '`%{role}''  मान्य भूमिका हैन ।'
@@ -1527,8 +1494,6 @@ ne:
       make_a_donation: दान गर्नुहोस्
       tracestrack: ट्रेसट्र्याक
     directions:
-      directions: दिशाहरू
-      distance: दूरी
       instructions:
         exit_counts:
           first: प्रथम
@@ -1541,7 +1506,6 @@ ne:
           eighth: ८अौँ
           ninth: ९अौँ
           tenth: १०अौँ
-      time: समय
     query:
       node: नोड
       way: बाटो

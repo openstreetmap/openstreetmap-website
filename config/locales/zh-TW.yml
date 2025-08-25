@@ -56,6 +56,9 @@
 # Author: 아라
 ---
 zh-TW:
+  date:
+    formats:
+      brief: '%{year}'
   time:
     formats:
       friendly: '%Y年%m月%e日　%H時%M分'
@@ -73,9 +76,6 @@ zh-TW:
         create: 添加評論
       message:
         create: 寄出
-      client_application:
-        create: 註冊
-        update: 更新
       oauth2_application:
         create: 註冊
         update: 更新
@@ -94,6 +94,9 @@ zh-TW:
         display_name_is_user_n: 不能是「user_n」，除非「n」是你的使用者 ID
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: 已忽視
     models:
       acl: 存取控制清單
@@ -108,6 +111,7 @@ zh-TW:
       message: 訊息
       node: 節點
       node_tag: 節點標籤
+      note: 註記
       notifier: 通知
       old_node: 舊的節點
       old_node_tag: 舊的節點標籤
@@ -192,6 +196,7 @@ zh-TW:
         active: 活躍
         display_name: 顯示名稱
         description: 個人檔案描述
+        company: 公司
         home_lat: 緯度
         home_lon: 經度
         languages: 偏好的語言
@@ -281,48 +286,19 @@ zh-TW:
       entry:
         comment: 評論
         full: 註記原文
-  account:
-    deletions:
-      show:
-        title: 刪除我的帳號
-        warning: 警告！帳號刪除程序不可逆轉，無法復原。
-        delete_account: 刪除帳號
-        delete_introduction: 你可以使用下方按鈕來刪除你的 OpenStreetMap 帳號。並請留意以下細節：
-        delete_profile: 你的個人檔案資訊，包含：例如你的頭像圖片、描述，以及住家位置將會移除。
-        delete_display_name: 你的顯示名稱將會移除，並且會被其他帳號拿來重覆使用。
-        retain_caveats: 然而，即使你的帳號被刪除後，一些關於你的資訊仍會繼續保留在 OpenStreetMap 裡：
-        retain_edits: 你對於地圖資料庫的編輯次數，假如存在，這將會繼續保留。
-        retain_traces: 若有你上傳過的軌跡資料內容，這將會繼續保留。
-        retain_diary_entries: 若有你的日誌項目與日誌評論內容，這將會繼續保留。
-        retain_notes: 若有你的地圖註記與註記評論內容，這將會繼續保留；不過會隱藏起來。
-        retain_changeset_discussions: 若有你的變更集討論，這將會繼續保留。
-        retain_email: 你的電子郵件地址將會繼續保留。
-        recent_editing_html: 因為你最近進行過編輯，目前無法刪除你的帳號。在 %{time} 後才可刪除。
-        confirm_delete: 你確定嗎？
-        cancel: 取消
   accounts:
-    edit:
+    show:
       title: 編輯帳號
-      my settings: 我的設定值
+      my_account: 我的帳號
       current email address: 目前的電子郵件地址
       external auth: 外部認證
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: 這是什麼？
-      public editing:
-        heading: 公開編輯
-        enabled: 已開啟。非匿名且可以編輯資料。
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: 這是什麼？
-        disabled: 已停用且不能編輯資料，所有你先前的編輯都會成為匿名的。
-        disabled link text: 為什麼我不能編輯？
       contributor terms:
         heading: 貢獻者條款
         agreed: 你已同意新的貢獻者條款。
         not yet agreed: 你未同意新的貢獻者條款。
         review link text: 請跟隨此連結，方便你檢視並接受新的貢獻者條款。
         agreed_with_pd: 你亦同意將你的編輯放到公共領域
-        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: 這是什麼？
       save changes button: 儲存變更
       delete_account: 刪除帳號…
@@ -340,6 +316,52 @@ zh-TW:
       success: 使用者資訊已成功更新。
     destroy:
       success: 帳號已刪除。
+    deletions:
+      show:
+        title: 刪除我的帳號
+        warning: 警告！帳號刪除程序不可逆轉，無法復原。
+        delete_account: 刪除帳號
+        delete_profile: 你的個人檔案資訊，包含：例如你的頭像圖片、描述，以及住家位置將會移除。
+        delete_display_name: 你的顯示名稱將會移除，並且會被其他帳號拿來重覆使用。
+        retain_edits: 你對於地圖資料庫的編輯次數，假如存在，這將會繼續保留。
+        retain_traces: 若有你上傳過的軌跡資料內容，這將會繼續保留。
+        retain_diary_entries: 若有你的日誌項目與日誌評論內容，這將會繼續保留。
+        retain_notes: 若有你的地圖註記與註記評論內容，這將會繼續保留；不過會隱藏起來。
+        retain_changeset_discussions: 若有你的變更集討論，這將會繼續保留。
+        retain_email: 你的電子郵件地址將會繼續保留。
+        recent_editing_html: 因為你最近進行過編輯，目前無法刪除你的帳號。在 %{time} 後才可刪除。
+        confirm_delete: 你確定嗎？
+        cancel: 取消
+    terms:
+      show:
+        title: 條款
+        heading: 條款
+        heading_ct: 貢獻者條款
+        read and accept with tou: 請閱讀貢獻者協議與使用條款，勾選兩項方框後點擊繼續按鈕。
+        contributor_terms_explain: 此協議適用於你現有與往後貢獻的條款。
+        read_ct: 我已閱讀過並同意以上的貢獻者條款
+        tou_explain_html: 這些%{tou_link}適用於網站方面的使用，與其它由 OSMF 提供的基礎內容。請在連結上點擊，閱讀並同意該文字。
+        read_tou: 我已經閱讀過並同意使用條款
+        guidance_info_html: 有助於理解這些術語的資訊：一個%{readable_summary_link}和一些%{informal_translations_link}
+        readable_summary: 人類可讀的摘要
+        informal_translations: 非正式翻譯
+        continue: 繼續
+        cancel: 取消
+        you need to accept or decline: 請先閱讀，然後選擇接受或拒絕新的貢獻者條款，再繼續。
+        legale_select: 請選擇您的居住地：
+        legale_names:
+          france: 法國
+          italy: 義大利
+          rest_of_world: 世界其他地區
+      update:
+        terms accepted: 感謝你接受新的貢獻條款！
+      terms_declined_flash:
+        terms_declined_html: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱 %{terms_declined_link}。
+        terms_declined_link: 此 wiki 頁面
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
   browse:
     deleted_ago_by_html: 由%{user}%{time_ago}刪除
     edited_ago_by_html: 由%{user}%{time_ago}編輯
@@ -359,17 +381,13 @@ zh-TW:
     view_history: 檢視歷史
     view_unredacted_history: 查看未編輯的歷史記錄
     view_details: 檢視詳細資料
-    view_redacted_data: 查看編修資料
-    view_redaction_message: 查看密文訊息
     location: 位置：
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 節點：%{name}
-      history_title_html: 節點歷史：%{name}
     way:
       title_html: 路徑：%{name}
-      history_title_html: 路徑歷史：%{name}
       nodes: 節點
       nodes_count:
         one: '%{count} 個節點'
@@ -379,7 +397,6 @@ zh-TW:
         other: 路徑 %{related_ways} 的部份
     relation:
       title_html: 關聯：%{name}
-      history_title_html: 關聯歷史：%{name}
       members: 成員
       members_count:
         one: '%{count} 名成員'
@@ -392,17 +409,9 @@ zh-TW:
         way: 路徑
         relation: 關聯
     containing_relation:
-      entry_html: 關聯 %{relation_name}
       entry_role_html: 關聯 %{relation_name} (作為 %{relation_role})
     not_found:
       title: 找不到
-      sorry: 抱歉，找不到 %{type}#%{id}。
-      type:
-        node: 節點
-        way: 路徑
-        relation: 關聯
-        changeset: 變更集
-        note: 註記
     timeout:
       title: 逾時錯誤
       sorry: 很抱歉，索取 id 為 %{id} 的%{type}資料花費時間過長。
@@ -434,16 +443,28 @@ zh-TW:
       telephone_link: 致電 %{phone_number}
       colour_preview: 色彩%{colour_value}預覽
       email_link: 電子郵件 %{email}
-    query:
+  feature_queries:
+    show:
       title: 查詢圖徵
       introduction: 點選地圖以尋找附近的圖徵
       nearby: 附近圖徵
       enclosing: 區域內圖徵
+  old_elements:
+    index:
+      node:
+        title_html: 節點歷史：%{name}
+      way:
+        title_html: 路徑歷史：%{name}
+      relation:
+        title_html: 關聯歷史：%{name}
+    actions:
+      view_redacted_data: 查看編修資料
+      view_redaction_message: 查看密文訊息
   nodes:
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的節點資料花費時間過長。
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: '很抱歉，無法找到版本 %{version} 的節點 #%{id}。'
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的節點歷史花費時間過長。
@@ -451,7 +472,7 @@ zh-TW:
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的路徑資料花費時間過長。
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 很抱歉，找不到版本 %{version} 的路徑 %{id}。
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的路徑歷史花費時間過長。
@@ -459,7 +480,7 @@ zh-TW:
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的關聯資料花費時間過長。
   old_relations:
-    not_found:
+    not_found_message:
       sorry: '很抱歉，找不到版本 %{version} 的關聯 #%{id}。'
     timeout:
       sorry: 很抱歉，索取 id 為 %{id} 的關聯歷史花費時間過長。
@@ -474,14 +495,10 @@ zh-TW:
       timeout:
         sorry: 很抱歉，您請求的變更集評論過長無法讀取
   changesets:
-    changeset:
-      no_edits: (沒有編輯)
-      view_changeset_details: 檢視變更集詳細資料
     index:
       title: 變更集
       title_user: '%{user} 的變更集'
       title_user_link_html: '%{user_link} 的變更集'
-      title_friend: 好友的變更集
       title_nearby: 附近使用者的變更集
       empty: 查無變更集。
       empty_area: 此區域沒有變更集。
@@ -489,25 +506,12 @@ zh-TW:
       no_more: 查無更多變更集。
       no_more_area: 此區域沒有更多變更集。
       no_more_user: 此使用者沒有更多變更集。
-      load_more: 載入更多
       feed:
         title: 變更集 %{id}
         title_comment: 變更集 %{id} - %{comment}
         created: 建立於
         closed: 關閉於
         belongs_to: 作者
-    subscribe:
-      heading: 訂閱以下變更集討論？
-      button: 訂閱討論
-    unsubscribe:
-      heading: 取消訂閱以下變更集討論？
-      button: 取消訂閱討論
-    heading:
-      title: 變更集 %{id}
-      created_by_html: 由 %{link_user} 在 %{created} 建立。
-    no_such_entry:
-      heading: 沒有 id 為 %{id} 的項目
-      body: 抱歉，沒有 id 為 %{id} 的變更集。請檢查你的拼字，或者可能是你按到錯誤的連結。
     show:
       title: 變更集：%{id}
       created: 建立於：%{when}
@@ -529,33 +533,41 @@ zh-TW:
       changesetxml: 變更集 XML
       osmchangexml: osmChange 格式 XML
     paging_nav:
-      nodes: 節點 (共 %{count} 項)
       nodes_paginated: 節點 (共 %{count} 項中的第 %{x}-%{y} 項)
-      ways: 路徑 (共 %{count} 項)
       ways_paginated: 路線 (%{count} 的 %{x}-%{y})
-      relations: 關聯 (%{count})
       relations_paginated: 關聯 (%{count} 的 %{x}-%{y})
     timeout:
       sorry: 很抱歉，你請求的變更集清單過長無法讀取。
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: 訂閱以下變更集討論？
+        button: 訂閱討論
+      unsubscribe:
+        heading: 取消訂閱以下變更集討論？
+        button: 取消訂閱討論
+    heading:
+      title: 變更集 %{id}
+      created_by_html: 由 %{link_user} 在 %{created} 建立。
+    no_such_entry:
+      heading: 沒有 id 為 %{id} 的項目
+      body: 抱歉，沒有 id 為 %{id} 的變更集。請檢查你的拼字，或者可能是你按到錯誤的連結。
   dashboards:
     contact:
       km away: '%{count} 公里遠'
       m away: '%{count} 公尺遠'
       latest_edit_html: 上次編輯於%{ago}：
+      no_edits: (沒有編輯)
+      view_changeset_details: 檢視變更集詳細資料
     popup:
       your location: 你的位置
       nearby mapper: 附近的製圖者
-      friend: 好友
     show:
       title: 我的功能面板
       no_home_location_html: '%{edit_profile_link}並編輯你的家位置，來查看附近的使用者。'
       edit_your_profile: 編輯你的個人檔案
-      my friends: 我的好友
-      no friends: 你尚未加入任何好友。
       nearby users: 其他附近的使用者
       no nearby users: 附近沒有已加入製圖的使用者。
-      friends_changesets: 好友的變更集
-      friends_diaries: 好友的日記項目
       nearby_changesets: 附近使用者的變更集
       nearby_diaries: 附近使用者的日記項目
   diary_entries:
@@ -566,13 +578,9 @@ zh-TW:
       use_map_link: 使用地圖
     index:
       title: 使用者日記
-      title_friends: 好友日記
       title_nearby: 附近的使用者的日記
       user_title: '%{user} 的日記'
       in_language_title: 語言為%{language}的日記項目
-      new: 新增日記項目
-      new_title: 在我的使用者日記裡撰寫新內容
-      my_diary: 我的日記
       no_entries: 沒有日記項目
     page:
       recent_entries: 最近的日記項目
@@ -633,16 +641,13 @@ zh-TW:
     unsubscribe:
       heading: 取消訂閱以下日記項目討論？
       button: 取消訂閱討論
+    navigation:
+      my_diary: 我的日記
+      new: 新增日記項目
+      new_title: 在我的使用者日記裡撰寫新內容
+    profile_diaries:
+      date_label: 日期
   diary_comments:
-    index:
-      title: 日記評論由%{user}添加
-      heading: '%{user}的日記評論'
-      subheading_html: 日記評論由%{user}添加
-      no_comments: 沒有日記評論
-    page:
-      post: 貼文
-      when: 於
-      comment: 評論
     new:
       heading: 在以下日記項目討論添加評論？
   doorkeeper:
@@ -686,26 +691,29 @@ zh-TW:
       description: 你在 OpenStreetMap 伺服器上請求的操作無效 (HTTP 400)
     forbidden:
       title: Forbidden
-      description: 你在 OpenStreetMap 伺服器上請求的運作僅限管理員使用 (HTTP 403}
+      description: 您在 OpenHistoricalMap 伺服器上請求的運作僅限管理員使用（HTTP 403）
     internal_server_error:
       title: 應用程式錯誤
       description: OpenStreetMap 伺服器遇到意外情況，而無法滿足請求 (HTTP 500)
     not_found:
       title: 檔案未找到
       description: 在 OpenStreetMap 伺服器上找不到該名稱的檔案/目錄/API 操作 (HTTP 404)
-  friendships:
-    make_friend:
-      heading: 將 %{user} 加入為好友？
-      button: 加入為好友
-      success: '%{name} 現在已成為你的好友！'
-      failed: 抱歉，無法將 %{name} 加入為好友。
-      already_a_friend: 你已經是 %{name} 的好友了。
-      limit_exceeded: 你最近與許多使用者成為朋友，要再與其他人成為朋友前請稍候。
-    remove_friend:
-      heading: 移除好友 %{user}？
-      button: 移除好友
-      success: '%{name} 已從你的好友中移除。'
-      not_a_friend: '%{name} 並不是你的好友。'
+  follows:
+    show:
+      follow:
+        heading: 您要關注%{user}嗎？
+        button: 關注使用者
+      unfollow:
+        heading: 您要取消關注%{user}嗎？
+        button: 取消關注使用者
+    create:
+      success: 您正在關注%{name}！
+      failed: 很抱歉，您要關注%{name}的請求失敗。
+      already_followed: 您已關注%{name}。
+      limit_exceeded: 您最近已關注了大量使用者。請等待一段時間後再嘗試關注其他人。
+    destroy:
+      success: 您成功取消關注%{name}。
+      not_followed: 您並未關注%{name}。
   geocoder:
     search:
       title:
@@ -1046,6 +1054,8 @@ zh-TW:
           wayside_shrine: 小祠堂
           wreck: 沈船
           "yes": 古蹟
+        information:
+          map: 地圖
         junction:
           "yes": 路口
         landuse:
@@ -1458,6 +1468,9 @@ zh-TW:
           building_passage: 建築物穿堂
           culvert: 涵管
           "yes": 隧道
+        water:
+          lake: 湖泊
+          reservoir: 水庫
         waterway:
           artificial: 人工水道
           boatyard: 船廠
@@ -1488,17 +1501,25 @@ zh-TW:
         level9: 村里界
         level10: 市區邊界
         level11: 鄰近區界
-    results:
-      no_results: 找不到結果
-      more_results: 更多結果
+  searches:
+    queries:
+      create:
+        no_results: 找不到結果
+        more_results: 更多結果
+  directions:
+    show:
+      title: 路線
+      distance: 距離
+      time: 時間
+      ascend: 上升
+      descend: 下降
+      directions_courtesy_html: 感謝 %{link} 提供路線資訊
   issues:
     index:
       title: 問題
       select_status: 選擇狀態
       select_type: 選擇類型
-      select_last_updated_by: 選擇上一次更新按照
       reported_user: 已回報使用者
-      not_updated: 尚未更新
       search: 搜尋
       search_guidance: 搜尋問題：
       states:
@@ -1512,7 +1533,6 @@ zh-TW:
       status: 狀態
       reports: 回報
       last_updated: 上一次更新
-      last_updated_time_ago_user_html: 由%{user}%{time_ago}
       reports_count:
         one: '%{count} 份回報'
         other: '%{count} 份回報'
@@ -1522,7 +1542,6 @@ zh-TW:
         open: 開放
         resolved: 已解決
     show:
-      title: '%{status} 問題 #%{issue_id}'
       reports:
         one: '%{count} 份回報'
         other: '%{count} 份回報'
@@ -1547,7 +1566,6 @@ zh-TW:
       reopened: 問題狀態已設定成「開啟」
     comments:
       comment_from_html: 由 %{user_link} 於 %{comment_created_at} 發表的評論
-      reassign_param: 重新指派問題？
     reports:
       reported_by_html: 由 %{user} 於 %{updated_at} 回報為 %{category}
     helper:
@@ -1616,8 +1634,6 @@ zh-TW:
     intro_2_create_account: 建立使用者帳號
     partners_title: 合作夥伴
     tou: 使用條款
-    osm_offline: OpenStreetMap 資料庫目前正在離線，直到必要的資料庫維護工作完成為止。
-    osm_read_only: OpenStreetMap 資料庫目前處於唯讀模式，直到必要的資料庫維護工作完成為止。
     nothing_to_preview: 無可預覽內容。
     help: 說明
     about: 關於
@@ -1643,19 +1659,10 @@ zh-TW:
       header_html: '%{from_user} 透過 OpenStreetMap 寄給你主旨為 %{subject} 的訊息：'
       footer: 你也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
       footer_html: 你也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
-    friendship_notification:
+    follow_notification:
       hi: 嗨 %{to_user}，
-      subject: '[OpenStreetMap] %{user} 將你加為好友'
-      had_added_you: '%{user} 已在 OpenStreetMap 將你加為好友。'
       see_their_profile: 你可以在 %{userurl} 查看他的基本資料。
       see_their_profile_html: 你可以在 %{userurl} 查看他的基本資料。
-      befriend_them: 你可以在 %{befriendurl} 把他加入為好友。
-      befriend_them_html: 你可以在 %{befriendurl} 把他加入為好友。
-    gpx_description:
-      description_with_tags: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤：%{tags}
-      description_with_tags_html: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤：%{tags}
-      description_with_no_tags: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤
-      description_with_no_tags_html: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤
     gpx_failure:
       hi: '%{to_user} 你好，'
       failed_to_import: 匯入成 GPS 軌跡檔案失敗。請驗證您的檔案是否為有效的 GPX 檔案，或是否為含有 GPX 檔案的支援格式存檔（.tar.gz、.tar.bz2、.tar、.zip、.gpx.gz、.gpx.bz2）。您的檔案是否有格式或語法問題？此為匯入的錯誤內容：
@@ -1665,15 +1672,11 @@ zh-TW:
       subject: '[OpenStreetMap] GPX 匯入失敗'
     gpx_success:
       hi: '%{to_user} 您好，'
-      loaded:
-        one: 成功載入 %{count} 個可能軌跡點中的 %{trace_points} 個。
-        other: 成功載入 %{count} 個可能軌跡點中的 %{trace_points} 個。
-      trace_location: 你的軌跡已在 %{trace_url} 上可用
       all_your_traces: 你可以在 %{url} 找到所有上傳成功的 GPX 軌跡
       all_your_traces_html: 你可以在 %{url} 找到所有上傳成功的 GPX 軌跡。
       subject: '[OpenStreetMap] GPX 匯入成功'
     signup_confirm:
-      subject: '[OpenStreetMap] 歡迎加入 OpenStreetMap'
+      subject: '[OpenHistoricalMap] 歡迎加入 OpenHistoricalMap'
       greeting: 你好！
       created: 有人 (希望是你) 剛在 %{site_url} 建立了帳號。
       confirm: 在我們作出任何動作之前，我們需要確認這是你提出的要求。如果確實是這樣，請按以下連結，以確認你的帳號：
@@ -1742,8 +1745,6 @@ zh-TW:
       success: 已確認你的帳號，感謝你的註冊！
       already active: 該帳號已經確認。
       unknown token: 確認碼已經過期或不存在。
-      resend_html: 如果你要我們重新發送確認郵件，%{reconfirm_link}。
-      click_here: 在此點擊
     confirm_resend:
       failure: 找不到使用者 %{name}。
     confirm_email:
@@ -1757,28 +1758,6 @@ zh-TW:
       confirmation_sent: 我們已發送新的確認通知到 %{email}，一旦你確認你的帳號後，就能取得製圖權限。
       whitelist: 如果你用來發送確認請求的信箱有反垃圾郵件系統，請確認有將 %{sender} 將入白名單，因為我們無法回覆任何確認請求。
   messages:
-    inbox:
-      title: 收件匣
-      messages: 您有 %{new_messages} 及 %{old_messages}。
-      new_messages:
-        one: '%{count} 項新訊息'
-        other: '%{count} 項新訊息'
-      old_messages:
-        one: '%{count} 項舊訊息'
-        other: '%{count} 項舊訊息'
-      no_messages_yet_html: 你還沒有訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
-      people_mapping_nearby: 在附近製圖的人
-    messages_table:
-      from: 寄件者
-      to: 收件者
-      subject: 主旨
-      date: 日期
-      actions: 操作
-    message_summary:
-      unread_button: 標記為未讀
-      read_button: 標記為已讀
-      destroy_button: 刪除
-      unmute_button: 移至收件匣
     new:
       title: 寄出訊息
       send_message_to_html: 寄出新訊息給 %{name}
@@ -1790,20 +1769,6 @@ zh-TW:
       title: 沒有這個訊息
       heading: 沒有這個訊息
       body: 抱歉，並沒有這個 id 的訊息。
-    outbox:
-      title: 寄件匣
-      messages:
-        one: 你有 %{count} 項已寄訊息
-        other: 你有 %{count} 項已寄訊息
-      no_sent_messages_html: 你還沒有已寄訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
-      people_mapping_nearby: 附近製作地圖的使用者
-    muted:
-      title: 已忽視訊息
-      messages:
-        one: 1 條忽視訊息
-        other: 你有 %{count} 條忽視訊息
-    reply:
-      wrong_user: 你已經以「%{user}」的身份登入，但是你想要回覆的訊息並非寄給這個使用者。請以正確的使用者身份登入以回覆這個訊息。
     show:
       title: 閱讀訊息
       reply_button: 回覆
@@ -1811,20 +1776,63 @@ zh-TW:
       destroy_button: 刪除
       back: 返回
       wrong_user: 你已經以「%{user}」的身份登入，但是你想要閱讀的訊息並非寄給那個使用者。請以正確的使用者身份登入以閱讀它。
-    sent_message_summary:
-      destroy_button: 刪除
-    heading:
-      my_inbox: 我的收件匣
-      my_outbox: 我的寄件匣
-      muted_messages: 已忽視訊息
-    mark:
-      as_read: 將訊息標記為已讀
-      as_unread: 訊息標記為未讀
-    unmute:
-      notice: 訊息已移至收件匣
-      error: 無法將訊息移至收件匣。
     destroy:
       destroyed: 訊息已刪除
+    read_marks:
+      create:
+        notice: 將訊息標記為已讀
+      destroy:
+        notice: 訊息標記為未讀
+    mutes:
+      destroy:
+        notice: 訊息已移至收件匣
+        error: 無法將訊息移至收件匣。
+    mailboxes:
+      heading:
+        my_inbox: 我的收件匣
+        my_outbox: 我的寄件匣
+        muted_messages: 已忽視訊息
+      messages_table:
+        from: 寄件者
+        to: 收件者
+        subject: 主旨
+        actions: 操作
+      message:
+        unread_button: 標記為未讀
+        read_button: 標記為已讀
+        destroy_button: 刪除
+        unmute_button: 移至收件匣
+    inboxes:
+      show:
+        title: 收件匣
+        messages: 您有 %{new_messages} 及 %{old_messages}。
+        new_messages:
+          one: '%{count} 項新訊息'
+          other: '%{count} 項新訊息'
+        old_messages:
+          one: '%{count} 項舊訊息'
+          other: '%{count} 項舊訊息'
+        no_messages_yet_html: 你還沒有訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
+        people_mapping_nearby: 在附近製圖的人
+    muted_inboxes:
+      show:
+        title: 已忽視訊息
+        messages:
+          one: 1 條忽視訊息
+          other: 你有 %{count} 條忽視訊息
+    outboxes:
+      show:
+        title: 寄件匣
+        messages:
+          one: 你有 %{count} 項已寄訊息
+          other: 你有 %{count} 項已寄訊息
+        no_sent_messages_html: 你還沒有已寄訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
+        people_mapping_nearby: 附近製作地圖的使用者
+      message:
+        destroy_button: 刪除
+    replies:
+      new:
+        wrong_user: 你已經以「%{user}」的身份登入，但是你想要回覆的訊息並非寄給這個使用者。請以正確的使用者身份登入以回覆這個訊息。
   passwords:
     new:
       title: 遺失密碼
@@ -1843,21 +1851,17 @@ zh-TW:
       flash changed: 您的密碼已經變更。
       flash token bad: 找不到該授權密鑰，可能要檢查一下 URL？
   preferences:
-    show:
-      title: 我的偏好設定
-      preferred_editor: 偏好編輯器
-      preferred_languages: 偏好語言
-      edit_preferences: 編輯偏好
-    edit:
-      title: 編輯偏好設定
-      save: 更新偏好
-      cancel: 取消
-    update:
-      failure: 無法更新偏好設定。
-    update_success_flash:
-      message: 偏好設定已更新。
+    preferences:
+      update:
+        failure: 無法更新偏好設定。
+      update_success_flash:
+        message: 偏好設定已更新。
+    basic_preferences:
+      show:
+        title: 我的偏好設定
+        save: 更新偏好
   profiles:
-    edit:
+    show:
       title: 編輯基本資料
       save: 更新基本資料
       cancel: 取消
@@ -1891,7 +1895,7 @@ zh-TW:
       remember: 記住我
       lost password link: 忘記密碼了？
       login_button: 登入
-      with external: 或者使用第三方服務登入
+      with external: 或使用第三方服務登入
       or: 或
       auth failure: 很抱歉，無法以這些資料登入。
     destroy:
@@ -1905,6 +1909,7 @@ zh-TW:
   shared:
     markdown_help:
       heading_html: 以%{kramdown_link}解析
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
       headings: 標題
       heading: 標題
       subheading: 副標題
@@ -1948,12 +1953,11 @@ zh-TW:
       contribute_1_user_diaries: 使用者日記
       open_data_title: 開放資料
       legal_title: 法律資訊
-      legal_1_html: 本站以及許多相關的服務正式由%{openstreetmap_foundation_link} (OSMF) 代表社群所營運。所有使用的
-        OSMF 運行服務皆符合我們的%{terms_of_use_link}、%{aup_link}、和%{privacy_policy_link}。
+      legal_1_html: 本站以及許多相關的服務正式由%{group_link}代表社群所營運。所有使用的 OSMF 運行服務皆符合我們的%{terms_of_use_link}、%{aup_link}、和%{privacy_policy_link}。
       legal_1_terms_of_use: 使用條款
       legal_1_aup: 可接受使用方針
       legal_1_privacy_policy: 隱私權政策
-      legal_2_html: 若你有授權、版權、或其他法律上的問題，請%{contact_the_osmf_link}。
+      legal_2_html: 若你有授權、版權、或其他法律上的問題，請%{contact_team_link}。
       partners_title: 合作夥伴
     copyright:
       title: 版權與授權條款
@@ -1981,10 +1985,12 @@ zh-TW:
           儘管 OpenStreetMap 是開放資料，我們不對第三方提供免費的地圖 API。
           請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}、和%{nominatim_usage_policy_link}。
         more_2_1_api_usage_policy: API 使用方針
+        more_2_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         more_2_1_tile_usage_policy: 圖磚使用方針
         more_2_1_nominatim_usage_policy: 提名使用方針
-        contributors_title_html: 我們的貢獻者
+        contributors_title_html: 銘謝
         contributors_intro_html: 我們的貢獻者為成千上萬的人。我們也收納了從國家測繪機構及其他來源等取得的開放版權資料，其中包括：
+        contributors_osm_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh-hant
         contributors_footer_2_html: OpenStreetMap 收錄一項資料，並不意味原本的資料提供者認可 OpenStreetMap、提供任何保證或承擔任何法律責任。
         infringement_title_html: 侵犯版權
         infringement_1_html: OSM 的貢獻者會被提醒，絕不要在沒有版權所有人的明確淮許下，加入來自任何有版權的來源的資料 (如 Google
@@ -1996,12 +2002,14 @@ zh-TW:
       license:
         copyright: 版權所有，由 OpenStreetMap 及貢獻者根據開放的授權協議提供
       remote_failed: 編輯失敗 - 請確定已載入 JOSM 或 Merkaartor 並開啟遠端控制選項
-    edit:
+    not_public_flash:
       not_public: 你尚未將你的編輯設為公開。
       not_public_description_html: 在你這麼做之前將無法再編輯地圖，可以在你的 %{user_page} 將自己的編輯設定為公開。
       user_page_link: 使用者頁面
       anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: 瞭解為什麼這很重要。
+    edit:
       id_not_configured: iD 尚未設定
     export:
       title: 匯出
@@ -2038,18 +2046,21 @@ zh-TW:
       other_concerns:
         title: 其他問題
         copyright: 版權頁面
+        contact: 聯絡我們
+        contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
     help:
       title: 取得協助
-      introduction: OpenStreetMap 有一些資源，可用於學習本專案、提出和回答問題，以及討論和紀錄與製作地圖相關的話題。
+      introduction: OpenHistoricalMap 有一些資源，可用於學習本專案、提出和回答問題，以及討論和紀錄與製作地圖相關的話題。
       welcome:
         url: /welcome
-        title: 歡迎來到開放街圖
+        title: 歡迎來到 OpenHistoricalMap
         description: 這個快速指南涵蓋了開放街圖的基礎知識。
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Zh-hant:Beginners%27_guide
         title: 新手指南
         description: 社群維護的新手指南
       community:
+        url: https://community.openstreetmap.org/
         title: 幫助與社群論壇
         description: 尋求幫助與討論有關 OpenStreetMap 的分享場所。
       mailing_lists:
@@ -2087,13 +2098,12 @@ zh-TW:
       removed: 你預設的開放街圖編輯器是設定為 Potlatch。但因為 Adobe Flash Player 已終止維護，Potlatch 已不能在網路瀏覽器上使用。
       desktop_application_html: 你仍然可以透過 %{download_link} 使用 Potlatch。
       download: 下載適用於 Mac 和 Windows 的桌面應用程式
+      download_url: https://www.systemed.net/potlatch/
       id_editor_html: 除此之外，你可以設定預設編輯器為 iD，這可以和之前的 Potlatch 一樣在你的網路瀏覽器上運作。%{change_preferences_link}。
       change_preferences: 在此更改你的偏好設定
     any_questions:
       title: 有任何問題嗎？
-      paragraph_1_html: |-
-        有數項資源能夠學習，詢問與解答開放街圖計畫相關的問題，並且共同合作討論與記錄畫地圖主題。
-        %{help_link}。以組織方式為開放街圖制訂計畫吧？ %{welcome_mat_link}。
+      paragraph_1_html: 有數項資源能夠學習，詢問與解答開放街圖計畫相關的問題，並且共同合作討論與記錄畫地圖主題。%{help_link}。
       get_help_here: 在這裡尋求協助
       welcome_mat: 查看歡迎墊
       welcome_mat_url: https://welcome.openstreetmap.org/
@@ -2108,104 +2118,11 @@ zh-TW:
       where_am_i_title: 使用搜尋引擎描述目前的位置
       submit_text: 出發
       reverse_directions_text: 反向
-    key:
-      table:
-        entry:
-          motorway: 高速公路
-          main_road: 主要幹道
-          trunk: 快速公路
-          primary: 省道
-          secondary: 縣道
-          unclassified: 未分級道路
-          pedestrian: 人行道
-          track: 產業道路
-          bridleway: 馬道
-          cycleway: 自行車道
-          cycleway_national: 國家自行車道
-          cycleway_regional: 地區自行車道
-          cycleway_local: 地方自行車道
-          cycleway_mtb: 登山車路線
-          footway: 步道
-          rail: 鐵路
-          train: 列車
-          subway: 地下鐵
-          ferry: 渡輪
-          light_rail: 輕軌
-          tram: 電車軌道
-          trolleybus: 無軌電車
-          bus: 公車
-          cable_car: 大型纜車
-          chair_lift: 升降吊椅
-          runway: 機場跑道
-          taxiway: 滑行道
-          apron: 機場停機坪
-          admin: 行政區邊界
-          capital: 首都
-          city: 城市
-          orchard: 果園
-          vineyard: 葡萄園
-          forest: 人工林
-          wood: 自然林
-          farmland: 農地
-          grass: 草坪
-          meadow: 野草地
-          bare_rock: 裸岩
-          sand: 沙地
-          golf: 高爾夫球場
-          park: 公園
-          common: 共有地
-          built_up: 建成區
-          resident: 住宅區
-          retail: 零售商區
-          industrial: 工業區
-          commercial: 商業區
-          heathland: 石楠荒地
-          scrubland: 灌木叢林地
-          lake: 湖泊
-          reservoir: 水庫
-          intermittent_water: 間歇性水體
-          glacier: 冰河
-          reef: 暗礁
-          wetland: 濕地
-          farm: 農田
-          brownfield: 棕色地 (受污染放置待恢復重開發地)
-          cemetery: 公墓
-          allotments: 社區農園
-          pitch: 運動場地
-          centre: 運動中心
-          beach: 海灘
-          reserve: 自然保育
-          military: 軍事區
-          school: 學校
-          university: 大學
-          hospital: 醫院
-          building: 重要建築
-          station: 鐵路車站
-          railway_halt: 鐵路招呼站
-          subway_station: 地鐵站
-          tram_stop: 路面電車停靠站
-          summit: 頂峰
-          peak: 山峰
-          tunnel: 虛線邊框 = 隧道
-          bridge: 黑線邊框 = 橋樑
-          private: 私人進出
-          destination: 目的地進出
-          construction: 興建中道路
-          bus_stop: 公車站牌
-          bicycle_shop: 自行車店
-          bicycle_rental: 自行車出租
-          bicycle_parking: 自行車停車場
-          bicycle_parking_small: 小型自行車停車場
-          toilets: 廁所
     welcome:
       title: 歡迎！
       introduction: 歡迎來到 OpenStreetMap，自由和可編輯的世界地圖。你目前已經登入，可以開始繪製地圖。這裡有一份你必須知道的最重要事項的快速指南。
       whats_on_the_map:
         title: 地圖上有什麼
-        on_the_map_html: |-
-          開放街圖是繪製%{real_and_current}的地圖專案 -
-          因此能包括數以百萬計的建築、道路，以及其他關於地方的詳細資訊。你可以繪製任何你感興趣的真實世界圖徵。
-        real_and_current: 真實與即時
         off_the_map_html: |-
           %{doesnt}包括的東西有主觀資料，如評分、歷史或假設的圖徵，
           以及從有版權來源的資料，除非你有得到許可，不然不要抽襲線上或紙本地圖。
@@ -2231,14 +2148,10 @@ zh-TW:
         automated_edits: 自動化編輯
       start_mapping: 開始製圖
       continue_authorization: 繼續授權
-      add_a_note:
-        title: 沒有時間編輯嗎？可加入註記！
-        para_1: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
-        para_2_html: |-
-          只要到%{map_link}並點選註解圖示：%{note_icon}。
-          這樣做會在地圖上新增標記，你可以用拖拉方式移動。
-          並且新增你註記內容，接著點儲存，其他圖客則會開始調查。
-        the_map: 地圖
+    add_a_note:
+      title: 沒有時間編輯嗎？可加入註記！
+      para_1: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
+      the_map: 地圖
     communities:
       title: 社群
       lede_text: |-
@@ -2257,96 +2170,90 @@ zh-TW:
           沒有需要正式建立一個與地方分會同等規模的團體。
           事實上，許多團體作為人們的非正式集會或是社群團體而非常成功地存在。任何人都可以設定或是加入這些團體。請在%{communities_wiki_link}上閱讀更多內容。
         communities_wiki: 社群 wiki 頁面
-    ohm_privacy_policy:
-      page_title_html: 隱私權政策
-      introduction:
-        title_html: 介紹
-        2_1_html: OHM 網站（<a href='/' target='_blank' rel='noopener'>openhistoricalmap.org</a>）與相關服務和
-          API
-      why:
-        title_html: 我們為什麼要儲存和處理個人資料？
-        1_html: OpenHistoricalMap 專案的目的是向任何人提供開放的歷史地理資料，例如街道地圖、歷史建築輪廓、鐵路、步道等等。
-        2_1_html: 識別帳號做出的所有貢獻
-        2_4_html: 促進 OpenHistoricalMap 貢獻者之間的溝通
-      what:
-        title_html: 我們儲存處理哪些資料？
-        1_html: 來自對 OpenHistoricalMap 貢獻的資料。
-        2_2_html: 對目標做出的每次更動的作者使用者 ID、登入名稱，以及更動的時間戳記。
-        2_3_html: 與您的帳號關聯的電子郵件地址
-        2_4_html: 使用者收到的任何封鎖與相關訊息
-        2_5_html: OHM 營運系統與服務的網路存取資料（例如：IP 位址）。
-      who:
-        title_html: 誰有權存取資料
-        1_html: 我們不會分享給任何第三方與帳號關聯的電子郵件地址。使用者發送給使用者的訊息，只對發送者與接收者可見，其他存取權限僅限於我們的營運人員，並且僅在出於營運原因時才能執行，以實施我們的可接受使用政策與履行任何法律義務，以及最重要的–防止垃圾訊息。
-        2_html: 同樣地，網路存取資料僅用於內部目的，存取僅限於操作人員用於操作、防護破壞與垃圾訊息。
-      where:
-        title_html: 我們在哪裡儲存資料</h3>
-        1_html: 網站、API 伺服器、資料庫、輔助服務伺服器目前託管在位於美國東海岸地區的 Amazon 網路服務上。
-        2_1_html: 從 IP 位址判斷客戶端所在位置的不確定性
-        2_2_html: 操作問題（伺服器停機等）
-        2_3_html: 網路拓撲和負載
-      how:
-        title_html: 如何控制您的資料處理，並減少相關隱私問題</h3>
-        1_html: 雖然法律沒有要求，但我們提供以下機制來減少暴露您潛在的隱私相關資訊：
-        1_1_html: 您可以選擇一個非識別登入名稱，並隨時更改它
-        1_2_html: 您不需要在日記貼文、評論、電子郵件清單服務、wiki、或其他 OHM 交流方式裡包含個人資料，您還可以隨時透過您的帳號來刪除日記貼文
-        2_html: 若有隱私疑慮，您不應啟用個人頭像支援，或是使用與頭像關聯的電子郵件地址。
-        3_html: 您可以藉由不在地圖資料中新增個人資訊（像是個人姓名等）來進一步減少暴露。此類個人資訊對我們的資料來說，通常不被視為是有用的補充內容，您應該避免添加這些資訊。
-      right_to_object:
-        title_html: 反對權力
-        1_html: |-
-          您<a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank" rel="noopener
-          ">有權反對</a>資料控制者基於正當利益之下的處理。
-      details:
-        title_html: 詳細資料
-      trace_data:
-        title_html: GPS 追蹤資料
-        1_html: |-
-          上傳 GPS 資料是可選擇的行為，並不是對 OpenHistoricalMap 做出貢獻的先決條件。如果您有提交 GPS 資料，會以單獨的 GPX 檔案形式上傳。這些會保存為原始檔案，然後匯入到資料庫裡。GPX 檔案可以被上傳者標記為<a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces" target="_blank" rel="noopener
-          ">公開</a>（這與將編輯給「公開」的選項無關）。
-        2_html: 當透過 API 下載某個區域的 GPS 資料時，不會提供是由哪位使用者上傳了某個點，或是與該點關聯時間戳記的指示。然而，點會以時間戳記的順序返回。以這種方式下載的
-          GPS 資料會包括未標記為公開的軌跡點。
-      map_data:
-        title_html: 地圖資料
-        1_html: 對地圖所做的所有編輯，都會以做出更改的使用者 ID，以及更改上傳時的時間戳記來記錄到資料庫中。一般情況下，這些所有的資訊會透過網站讓任何人可用，包括允許任何人輕鬆交叉引用到使用者所做出編輯的連結。
-      home_location:
-        title_html: 使用者「住家」位置
-        1_html: 如果使用者設定了住家位置，會出現在其他也有設定住家位置使用者的「附近的製圖者」清單中。這是您帳號設定頁面上的選項。
-      email:
-        title_html: 電子郵件地址
-        1_html: OHM 使用者帳號的註冊電子郵件地址絕不會故意公布在網路上的任何地方，也不會分享給第三方組織或直接透露給其他使用者。伺服器會使用電子郵件地址來通知使用者是否有其他使用者透過網站發送了訊息，以及其他系統產生的通知。
-        2_html: 僅有系統管理員可直接存取與 OHM 帳號關聯的電子郵件地址資料。這可被系統管理員使用來直接聯絡使用者來了解他們的編輯，或是其他 OpenHistoricalMap
-          相關問題。
-      gravatar:
-        title_html: 個人頭像
-      voluntarily:
-        title_html: 您可以自願加入到您的個人檔案或是日記貼文裡的資料
-      automatically:
-        title_html: 我們會自動接收到的資料
-        1_html: |-
-          OHM 為 OHM 社群提供多項服務，例如 <a href="/" target="_blank" rel="noopener
-          ">openhistoricalmap.org</a> 網站、標準 OHM 向量圖塊線上地圖、OHM API 和 Nominatim 搜尋工具。
-        3_html: 往後我們可能會運行像是 Piwik 的使用者互動追蹤軟體，此軟體將產生使用者活動的附加紀錄。
-        4_html: 使用 Geo-DNS 或將負載分配到地理上所分佈伺服器的類似機制服務，可能會大規模產生您的位置紀錄。
-        5_html: 這些紀錄可透過以下方式使用：</p>
-        5_3_html: 改進 OpenHistoricalMap 資料集。例如透過分析缺少地址和郵遞區號的 Nominatim 查詢，並將此類資料提供給
-          OHM 社群
-        7_html: 由 Piwik 儲存的 IP 位址會縮短成兩個位元組，詳細的使用資訊將保留 180 天。
-        9_html: 上述資料是基於合法利益處理的（請查看<a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank"
-          rel="noopener">一般資料保護規則條款 6.1f</a>）。
-      account_removal:
-        title_html: 帳號移除
-        1_html: 您可以要求移除掉您的帳號，對此要求我們感到遺憾但尊重您的決定。
-        2_html: 若您沒有積極為該專案做出貢獻，我們就不會保留任何紀錄。將會刪除使用者頁面、日記貼文和類似內容。
-        3_html: 若您曾做出貢獻，您的帳號將被重新命名為 user_''USERID''（USERID 代表您的舊 OHM 使用者名稱），您的貢獻和變更集評論將以此名稱保留，日記項目與您的使用者頁面則會被移除。由於我們不允許匿名編輯，我們會以非公開方式保留您的電子郵件地址，以便有與您的貢獻相關事情時與您聯繫。
-        5_html: 在您的帳號移除請求裡，您需要確認出所有受影響的帳號，因為我們沒有關於哪些帳號是屬於哪些 OpenHistoricalMap 使用者的資訊。
-      cookies:
-        title_html: Cookies
-      contact:
-        title_html: 聯絡
-        1_html: |-
-          如果您對此方針有問題或是疑慮，請透過 <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com
-          </a> 聯絡 OHM 管理員。
+  map_keys:
+    show:
+      entries:
+        motorway: 高速公路
+        main_road: 主要幹道
+        trunk: 快速公路
+        primary: 省道
+        secondary: 縣道
+        unclassified: 未分級道路
+        pedestrian: 人行道
+        track: 產業道路
+        bridleway: 馬道
+        cycleway: 自行車道
+        mountain_bike_route: 登山車路線
+        footway: 步道
+        rail: 鐵路
+        train: 列車
+        subway: 地下鐵
+        ferry: 渡輪
+        light_rail: 輕軌
+        tram: 電車軌道
+        trolleybus: 無軌電車
+        bus: 公車
+        cable_car: 大型纜車
+        chair_lift: 升降吊椅
+        runway: 機場跑道
+        taxiway: 滑行道
+        apron: 機場停機坪
+        admin: 行政區邊界
+        capital: 首都
+        city: 城市
+        orchard: 果園
+        vineyard: 葡萄園
+        forest: 人工林
+        wood: 自然林
+        farmland: 農地
+        grass: 草坪
+        meadow: 野草地
+        bare_rock: 裸岩
+        sand: 沙地
+        golf: 高爾夫球場
+        park: 公園
+        common: 共有地
+        built_up: 建成區
+        resident: 住宅區
+        retail: 零售商區
+        industrial: 工業區
+        commercial: 商業區
+        heathland: 石楠荒地
+        scrubland: 灌木叢林地
+        intermittent_water: 間歇性水體
+        glacier: 冰河
+        reef: 暗礁
+        wetland: 濕地
+        farm: 農田
+        brownfield: 棕色地 (受污染放置待恢復重開發地)
+        cemetery: 公墓
+        allotments: 社區農園
+        pitch: 運動場地
+        centre: 運動中心
+        beach: 海灘
+        reserve: 自然保育
+        military: 軍事區
+        school: 學校
+        university: 大學
+        hospital: 醫院
+        building: 重要建築
+        station: 鐵路車站
+        railway_halt: 鐵路招呼站
+        subway_station: 地鐵站
+        tram_stop: 路面電車停靠站
+        summit: 頂峰
+        peak: 山峰
+        tunnel: 虛線邊框 = 隧道
+        bridge: 黑線邊框 = 橋樑
+        private: 私人進出
+        destination: 目的地進出
+        construction: 興建中道路
+        bus_stop: 公車站牌
+        bicycle_shop: 自行車店
+        bicycle_rental: 自行車出租
+        bicycle_parking: 自行車停車場
+        bicycle_parking_small: 小型自行車停車場
+        toilets: 廁所
   traces:
     visibility:
       private: 私人 (以匿名方式分享，節點無順序)
@@ -2422,7 +2329,7 @@ zh-TW:
       upload_trace: 上傳軌跡
       all_traces: 所有軌跡
       my_traces: 我的軌跡
-      traces_from: 來自 %{user} 的公開軌跡
+      traces_from_html: 來自 %{user} 的公開軌跡
       remove_tag_filter: 移除標籤篩選
     destroy:
       scheduled_for_deletion: 軌跡已被排程刪除
@@ -2431,13 +2338,14 @@ zh-TW:
     offline:
       heading: GPX 離線儲存
       message: GPX 檔案儲存，上傳系統目前無法使用。
-    georss:
-      title: OpenStreetMap GPS 軌跡
-    description:
-      description_with_count:
-        one: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
-        other: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
-      description_without_count: 由 %{user} 上傳的 GPX 檔案
+    feeds:
+      show:
+        title: OpenStreetMap GPS 軌跡
+      description:
+        description_with_count:
+          one: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
+          other: 由 %{user} 上傳的 GPX 檔案，含有 %{count} 點
+        description_without_count: 由 %{user} 上傳的 GPX 檔案
   application:
     permission_denied: 你沒有權限來存取該操作。
     require_cookies:
@@ -2452,11 +2360,6 @@ zh-TW:
       oauth2_authorizations: OAuth 2 授權
       muted_users: 已忽視使用者
     auth_providers:
-      openid_url: OpenID URL
-      openid_login_button: 繼續
-      openid:
-        title: 使用 OpenID 登入
-        alt: OpenID 標誌
       google:
         title: 使用 Google 登入
         alt: Google 標誌
@@ -2472,6 +2375,9 @@ zh-TW:
       wikipedia:
         title: 使用維基百科登入
         alt: 維基百科標誌
+    share:
+      share:
+        title: 分享
   oauth:
     permissions:
       missing: 你尚未允許應用程式來訪問此設施
@@ -2536,6 +2442,7 @@ zh-TW:
       permissions: 權限
       last_authorized: 最後授權
       no_applications_html: 你未授權任何 %{oauth2} 應用程式。
+      oauth_2: OAuth 2
     application:
       revoke: 撤銷存取權限
       confirm_revoke: 撤銷此應用程式的撤銷存取權限？
@@ -2551,54 +2458,24 @@ zh-TW:
         header: 自由且可編輯。
         paragraph_1: 不像其他地圖，開放街圖是完全由像你我這類創建，而且任何都能修正、更新、下載與使用。
         paragraph_2: 註冊並開始貢獻。
-        welcome: 歡迎來到 OpenStreetMap
+        welcome: 歡迎來到 OpenHistoricalMap
       duplicate_social_email: 若你已有 OpenStreetMap 帳號，並希望使用第三方身份提供者，請使用你的密碼登入並修改帳號的設定。
       display name description: 你公開顯示的使用者名稱，之後可以在偏好設定中改變它。
       by_signing_up:
         html: 註冊即表示你同意我們的 %{tou_link}、%{privacy_policy_link} 與 %{contributor_terms_link}。
         privacy_policy: 隱私權政策
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: 貢獻者條款
       continue: 註冊
-      terms accepted: 感謝你接受新的貢獻條款！
       email_help:
         privacy_policy: 隱私權政策
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
         html: 你的地址不會公開顯示，請參閱我們的%{privacy_policy_link}來了解更多資訊。
-      consider_pd_html: 我認為我的貢獻屬於 %{consider_pd_link}。
-      consider_pd: 公有領域
-      consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: 或
       use external auth: 或者使用第三方服務註冊
-    terms:
-      title: 條款
-      heading: 條款
-      heading_ct: 貢獻者條款
-      read and accept with tou: 請閱讀貢獻者協議與使用條款，勾選兩項方框後點擊繼續按鈕。
-      contributor_terms_explain: 此協議適用於你現有與往後貢獻的條款。
-      read_ct: 我已閱讀過並同意以上的貢獻者條款
-      tou_explain_html: 這些%{tou_link}適用於網站方面的使用，與其它由 OSMF 提供的基礎內容。請在連結上點擊，閱讀並同意該文字。
-      read_tou: 我已經閱讀過並同意使用條款
-      consider_pd: 除上述內容之外，我同意將我的貢獻放到公共領域
-      consider_pd_why: 這是什麼？
-      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_info_html: 有助於理解這些術語的資訊：一個%{readable_summary_link}和一些%{informal_translations_link}
-      readable_summary: 人類可讀的摘要
-      informal_translations: 非正式翻譯
-      continue: 繼續
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      cancel: 取消
-      you need to accept or decline: 請先閱讀，然後選擇接受或拒絕新的貢獻者條款，再繼續。
-      legale_select: 請選擇您的居住地：
-      legale_names:
-        france: 法國
-        italy: 義大利
-        rest_of_world: 世界其他地區
-    terms_declined_flash:
-      terms_declined_html: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱 %{terms_declined_link}。
-      terms_declined_link: 此 wiki 頁面
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 沒有這個使用者
       heading: 使用者 %{user} 不存在
@@ -2611,7 +2488,7 @@ zh-TW:
       my notes: 我的註記
       my messages: 我的訊息
       my profile: 我的基本資料
-      my settings: 我的設定值
+      my_account: 我的帳號
       my comments: 我的評論
       my_preferences: 我的偏好設定
       my_dashboard: 我的功能面板
@@ -2625,10 +2502,9 @@ zh-TW:
       edits: 編輯
       traces: 軌跡
       notes: 地圖註記
-      remove as friend: 移除好友
-      add as friend: 加入為好友
       mapper since: 註冊為製圖者日期：
       last map edit: 最後地圖編輯於：
+      company: 公司
       no activity yet: 尚無活動
       uid: 使用者 ID：
       ct status: 貢獻者條款：
@@ -2666,18 +2542,51 @@ zh-TW:
       report: 回報此使用者
     go_public:
       flash success: 現在你所有的編輯都是公開的，而你已獲准編輯。
-    index:
-      title: 使用者
-      heading: 使用者
-      summary_html: '%{name} 由 %{ip_address} 於 %{date} 建立'
-      summary_no_ip_html: '%{name} 建立於：%{date}'
-      empty: 找不到符合的使用者
-    page:
-      found_users:
-        one: 找到 %{count} 位使用者
-        other: 找到 %{count} 位使用者
-      confirm: 確認選取的使用者
-      hide: 隱藏選取的使用者
+    issued_blocks:
+      show:
+        title: '%{name} 設的封鎖'
+        heading_html: 列出 %{name} 所設定的封鎖
+        empty: '%{name} 尚未設定任何封鎖。'
+    received_blocks:
+      show:
+        title: 對 %{name} 的封鎖
+        heading_html: 對 %{name} 封鎖的清單
+        empty: 未封鎖%{name}。
+      edit:
+        title: 正在撤銷對%{block_on}的封鎖
+        heading_html: 正在撤銷對%{block_on}的所有封鎖
+        empty: '%{name}沒有生效的封鎖。'
+        confirm: 你確定要撤銷%{active_blocks}嗎？
+        active_blocks:
+          one: '%{count} 個生效封鎖'
+          other: '%{count} 個生效封鎖'
+        revoke: 撤銷！
+      destroy:
+        flash: 已撤銷所有生效封鎖。
+    lists:
+      show:
+        title: 使用者
+        heading: 使用者
+      page:
+        found_users:
+          one: 找到 %{count} 位使用者
+          other: 找到 %{count} 位使用者
+        confirm: 確認選取的使用者
+        hide: 隱藏選取的使用者
+        empty: 找不到符合的使用者
+      user:
+        summary_html: '%{name} 由 %{ip_address} 於 %{date} 建立'
+        summary_no_ip_html: '%{name} 建立於：%{date}'
+    changeset_comments:
+      page:
+        changeset: 變更集
+        when: 於
+        comment: 評論
+    diary_comments:
+      index:
+        title: 日記評論由%{user}添加
+      page:
+        post: 貼文
     suspended:
       title: 帳號已暫停
       heading: 帳號已暫停
@@ -2692,7 +2601,7 @@ zh-TW:
       invalid_scope: 無效範圍
       unknown_error: 驗證失敗
     auth_association:
-      heading: 你的 ID 尚未與 OpenStreetMap 帳號關聯。
+      heading: 您的ID尚未與OpenHistoricalMap帳號關聯。
       option_1: 如果你是新來到 OpenStreetMap，請使用下方表單建立一個帳號。
       option_2: 如果你已擁有一個帳號，可以用你的使用者名稱與密碼登入你的帳號，並在使用者設定中關連你的 ID。
   user_role:
@@ -2735,16 +2644,6 @@ zh-TW:
       title: 使用者封鎖
       heading: 使用者封鎖清單
       empty: 尚未設定任何使用者封鎖。
-    revoke_all:
-      title: 正在撤銷對%{block_on}的封鎖
-      heading_html: 正在撤銷對%{block_on}的所有封鎖
-      empty: '%{name}沒有生效的封鎖。'
-      confirm: 你確定要撤銷%{active_blocks}嗎？
-      active_blocks:
-        one: '%{count} 個生效封鎖'
-        other: '%{count} 個生效封鎖'
-      revoke: 撤銷！
-      flash: 已撤銷所有生效封鎖。
     helper:
       time_future_html: 於 %{time} 結束。
       until_login: 在使用者登入之前一直生效。
@@ -2766,14 +2665,6 @@ zh-TW:
         years:
           one: '%{count} 年'
           other: '%{count} 年'
-    blocks_on:
-      title: 對 %{name} 的封鎖
-      heading_html: 對 %{name} 封鎖的清單
-      empty: 未封鎖%{name}。
-    blocks_by:
-      title: '%{name} 設的封鎖'
-      heading_html: 列出 %{name} 所設定的封鎖
-      empty: '%{name} 尚未設定任何封鎖。'
     show:
       title: '%{block_by}封鎖了%{block_on}'
       heading_html: '%{block_by}封鎖了%{block_on}'
@@ -2784,7 +2675,6 @@ zh-TW:
       reason: 封鎖的理由：
       revoker: 撤銷者：
     block:
-      not_revoked: (沒有撤銷)
       show: 顯示
       edit: 編輯
     page:
@@ -2792,13 +2682,12 @@ zh-TW:
       creator_name: 建立者
       reason: 封鎖的理由
       status: 狀態
-      revoker_name: 撤銷者
     navigation:
       all_blocks: 所有封鎖
       blocks_on_me: 對我的封鎖
-      blocks_on_user: 對%{user}的封鎖
+      blocks_on_user_html: 對%{user}的封鎖
       blocks_by_me: 由我做出的封鎖
-      blocks_by_user: 由%{user}做出的封鎖
+      blocks_by_user_html: 由%{user}做出的封鎖
       block: 封鎖#%{id}
       new_block: 新封鎖
   user_mutes:
@@ -2836,12 +2725,18 @@ zh-TW:
       description: 說明
       created_at: 建立於：
       last_changed: 最新變更
+      apply: 套用
+      all: 全部
+      open: 開放
+      closed: 已關閉
+      status: 狀態
     show:
       title: 註記：%{id}
       description: 說明
       open_title: 未解決的註記：#%{note_name}
       closed_title: 已解決的註記：#%{note_name}
       hidden_title: 已隱藏的註記：#%{note_name}
+      description_when_there_is_no_opening_comment: 不明
       event_opened_by_html: 由%{user}%{time_ago}建立
       event_opened_by_anonymous_html: 由匿名使用者%{time_ago}建立
       event_commented_by_html: 來自%{user}%{time_ago}的評論
@@ -2854,6 +2749,9 @@ zh-TW:
       report: 回報此註記
       coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: 此項註記包含來自匿名使用者的評論，應作獨立核實。
+      discussion: 討論
+      subscribe: 訂閱
+      unsubscribe: 取消訂閱
       hide: 隱藏
       resolve: 解決
       reactivate: 重新開啟
@@ -2897,7 +2795,6 @@ zh-TW:
       center_marker: 將標記設為地圖中心點
       paste_html: 貼上 HTML 以嵌入網站
       view_larger_map: 查看更大的地圖
-      only_standard_layer: 只有標準圖層、自行車地圖、交通運輸圖層能匯出成圖片
     embed:
       report_problem: 回報問題
     key:
@@ -2958,22 +2855,10 @@ zh-TW:
       embed_html_disabled: HTML 內嵌對此地圖圖層不可用
     edit_help: 將地圖移至你想編輯的位置並放大，然後按這裡。
     directions:
-      ascend: 上升
-      engines:
-        fossgis_osrm_bike: 自行車（OSRM）
-        fossgis_osrm_car: 開車 (OSRM)
-        fossgis_osrm_foot: 步行（OSRM）
-        graphhopper_bicycle: 自行車 (GraphHopper)
-        graphhopper_car: 開車 (GraphHopper)
-        graphhopper_foot: 步行 (GraphHopper)
-        fossgis_valhalla_bicycle: 自行車 (Valhalla)
-        fossgis_valhalla_car: 開車 (Valhalla)
-        fossgis_valhalla_foot: 步行 (Valhalla)
-      descend: 下降
-      directions: 路線
-      distance: 距離
-      distance_m: '%{distance} 公尺'
-      distance_km: '%{distance}公里'
+      distance_in_units:
+        meters:
+          m: '%{distance} 公尺'
+          km: '%{distance}公里'
       errors:
         no_route: 查無兩個地點間的路徑。
         no_place: 抱歉 - 查無地點「%{place}」。
@@ -3031,7 +2916,6 @@ zh-TW:
         roundabout_with_exit_ordinal: 從出口 %{exit} 離開圓環到 %{name}
         exit_roundabout: 離開圓環到 %{name}
         unnamed: 未命名道路
-        courtesy: 感謝 %{link} 提供路線資訊
         exit_counts:
           first: 第 1
           second: 第 2
@@ -3043,7 +2927,6 @@ zh-TW:
           eighth: 第 8
           ninth: 第 9
           tenth: 第 10
-      time: 時間
     query:
       node: 節點
       way: 路徑
@@ -3051,6 +2934,7 @@ zh-TW:
       nothing_found: 找不到圖徵
       error: '%{server} 連線錯誤：%{error}'
       timeout: '%{server} 連線逾時'
+      suffix_format: '[%{dates}]'
     context:
       directions_from: 從這裡的路線
       directions_to: 到這裡的路線
