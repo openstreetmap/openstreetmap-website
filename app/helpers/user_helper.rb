@@ -52,28 +52,16 @@ module UserHelper
 
   # External authentication support
 
-  def auth_button(provider, options = {})
+  def auth_button(provider, preferred: false)
+    body = inline_svg_tag("auth_providers/#{provider}.svg",
+                          :class => "rounded-1 text-body-emphasis",
+                          :size => "36")
+    body += t("application.auth_providers.#{provider}.title") if preferred
     link_to(
-      image_tag("auth_providers/#{provider}.svg",
-                :alt => t("application.auth_providers.#{provider}.alt"),
-                :class => "rounded-1",
-                :size => "36"),
-      auth_path(options.merge(:provider => provider)),
+      body,
+      auth_path(:provider => provider),
       :method => :post,
-      :class => "auth_button btn btn-outline-secondary border p-2",
-      :title => t("application.auth_providers.#{provider}.title")
-    )
-  end
-
-  def auth_button_preferred(provider, options = {})
-    link_to(
-      image_tag("auth_providers/#{provider}.svg",
-                :alt => t("application.auth_providers.#{provider}.alt"),
-                :class => "rounded-1 me-3",
-                :size => "36") + t("application.auth_providers.#{provider}.title"),
-      auth_path(options.merge(:provider => provider)),
-      :method => :post,
-      :class => "auth_button btn btn-outline-secondary border py-2 px-4 d-flex justify-content-center align-items-center",
+      :class => ["auth_button btn btn-outline-secondary border p-2", { "px-4 d-flex gap-3 justify-content-center align-items-center" => preferred }],
       :title => t("application.auth_providers.#{provider}.title")
     )
   end
