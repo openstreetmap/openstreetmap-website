@@ -37,7 +37,7 @@ class Node < ApplicationRecord
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
 
-  has_many :node_tags
+  has_many :element_tags, :class_name => "NodeTag"
 
   has_many :old_way_nodes
   has_many :ways_via_history, :class_name => "Way", :through => :old_way_nodes, :source => :way
@@ -206,7 +206,7 @@ class Node < ApplicationRecord
   end
 
   def tags
-    @tags ||= node_tags.to_h { |t| [t.k, t.v] }
+    @tags ||= element_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :tags

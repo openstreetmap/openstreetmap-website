@@ -2,7 +2,7 @@ class OldRelationMembersController < OldElementsController
   def show
     @type = "relation"
     @current_feature = Relation.find(params[:id])
-    @feature = OldRelation.preload(:old_members => :member).find([params[:id], params[:version]])
+    @feature = OldRelation.preload(:old_members => { :member => :element_tags }).find([params[:id], params[:version]])
     @frame_id = "member_relation_#{@feature.id}"
 
     return deny_access(nil) if @feature.redacted? && !params[:show_redactions]
