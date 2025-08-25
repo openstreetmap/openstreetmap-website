@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDoorkeeperOpenidConnectTables < ActiveRecord::Migration[7.0]
   def change
     create_table :oauth_openid_requests do |t|

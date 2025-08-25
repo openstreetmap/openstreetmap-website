@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoveToInnodb < ActiveRecord::Migration[4.2]
   @conv_tables = %w[nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags]
 

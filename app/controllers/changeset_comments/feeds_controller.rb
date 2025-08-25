@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ChangesetComments
   class FeedsController < ApplicationController
     include QueryMethods

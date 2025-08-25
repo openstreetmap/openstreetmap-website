@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Oauth2AuthorizationsController < Doorkeeper::AuthorizationsController
   layout :site_layout
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   task :subscribe_diary_authors => :environment do
     DiaryEntry.find_each do |diary_entry|

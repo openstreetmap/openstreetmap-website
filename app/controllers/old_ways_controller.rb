@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OldWaysController < OldElementsController
   def index
     @type = "way"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The MessagesController is the RESTful interface to Message objects
 
 module Api

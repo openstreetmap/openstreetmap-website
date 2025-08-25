@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NodesController < ElementsController
   def show
     @type = "node"
