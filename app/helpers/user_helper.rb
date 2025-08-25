@@ -69,11 +69,11 @@ module UserHelper
     link_to(
       image_tag("auth_providers/#{provider}.svg",
                 :alt => t("application.auth_providers.#{provider}.alt"),
-                :class => "rounded-1 me-3",
+                :class => "rounded-1",
                 :size => "36") + t("application.auth_providers.#{provider}.title"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button btn btn-outline-secondary border py-2 px-4 d-flex justify-content-center align-items-center",
+      :class => "auth_button btn btn-outline-secondary border py-2 px-4 d-flex gap-3 justify-content-center align-items-center",
       :title => t("application.auth_providers.#{provider}.title")
     )
   end
