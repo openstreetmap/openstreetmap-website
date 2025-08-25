@@ -53,10 +53,9 @@ module UserHelper
   # External authentication support
 
   def auth_button(provider, preferred: false)
-    body = image_tag("auth_providers/#{provider}.svg",
-                     :alt => t("application.auth_providers.#{provider}.alt"),
-                     :class => "rounded-1",
-                     :size => "36")
+    body = inline_svg_tag("auth_providers/#{provider}.svg",
+                          :class => "rounded-1 text-body-emphasis",
+                          :size => "36")
     body += t("application.auth_providers.#{provider}.title") if preferred
     link_to(
       body,
