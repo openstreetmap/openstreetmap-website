@@ -11,6 +11,7 @@
 # Author: Angoca
 # Author: Anita
 # Author: AnupamM
+# Author: Arely
 # Author: Armando-Martin
 # Author: Atzerritik
 # Author: BnSrSa
@@ -65,6 +66,7 @@
 # Author: Kresp0
 # Author: Ktranz
 # Author: La Mantis
+# Author: Laranxa
 # Author: Larjona
 # Author: Laura Ospina
 # Author: Locos epraix
@@ -93,6 +95,7 @@
 # Author: Rodhos
 # Author: Rodm23
 # Author: Rodney Araujo
+# Author: Rousmery96
 # Author: Rubenwap
 # Author: Ruila
 # Author: Sim6
@@ -109,12 +112,17 @@
 # Author: Yonseca
 ---
 es:
+  html:
+    dir: ltr
   date:
     formats:
       heatmap: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y a las %H:%M'
+      blog: '%e %B %Y'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Seleccionar archivo
@@ -314,6 +322,9 @@ es:
       x_years:
         one: hace %{count} año
         other: hace %{count} años
+  printable_name:
+    with_name_html: '%{name} (%{id})'
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Predeterminado (actualmente %{name})
     id:
@@ -325,7 +336,9 @@ es:
   auth:
     providers:
       none: Ninguno
+      openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -362,11 +375,21 @@ es:
       external auth: Autentificación externa
       contributor_terms:
         heading: Términos de Colaborador
-        agreed: Has aceptado los nuevos Términos de Colaborador.
+        agreed: Has aceptado los nuevos Términos de Colaborador el %{date}.
+        not_agreed: Aún no ha aceptado los términos de contribución
         agreed_with_pd: También has declarado que consideras que tus ediciones son
           de Dominio Público.
         not_agreed_with_pd: No has declarado que consideras que tus ediciones son
           de Dominio Público.
+        review: Revisar los términos
+        review_and_accept: Revisar y aceptar los términos
+        consider_pd: Considere un dominio público
+      terms_of_use:
+        heading: Términos de uso
+        agreed: Ha aceptado los términos de uso el %{date}.
+        not_agreed: Aún no ha aceptado los términos de uso
+        review: Revisar los términos
+        review_and_accept: Revisar y aceptar los términos
       save changes button: Guardar cambios
       delete_account: Eliminar cuenta...
     go_public:
@@ -377,6 +400,7 @@ es:
         botón de abajo.
       only_public_can_edit: Desde el cambio de API 0.6, solo los usuarios públicos
         pueden editar los datos de los mapas.
+      find_out_why_html: (%{link}).
       find_out_why: averiguar por qué
       find_out_why_url: https://wiki.openstreetmap.org/wiki/ES:Ediciones_an%C3%B3nimas
       email_not_revealed: Tu dirección de correo electrónico no será revelada al hacerse
@@ -433,6 +457,7 @@ es:
         tou_explain:
           html: Estos %{tou_link} rigen el uso del sitio web y de la infraestructura
             provista por OSMF. Haz clic en el enlace, lee y acepta el texto.
+          tou: Términos de uso
         read_tou: He leído y estoy de acuerdo con los Términos de Uso
         guidance_info_html: 'Información para ayudar a comprender estos términos:
           un %{readable_summary_link} y algunas %{informal_translations_link}'
@@ -460,6 +485,7 @@ es:
         consider_pd: Yo considero que mis contribuciones están en el Dominio Público
         consider_pd_why: ¿Por qué querría que mis contribuciones fueran de Dominio
           Público?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         confirm: Confirmar
       create:
         successfully_declared: Has declarado con éxito que consideras que tus ediciones
@@ -486,6 +512,8 @@ es:
     download_xml: Descargar XML
     view_unredacted_history: Ver historial sin censura
     location: 'Ubicación:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Nodo: %{name}'
     way:
@@ -504,6 +532,7 @@ es:
         one: '%{count} miembro'
         other: '%{count} miembros'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} como %{role}'
       type:
         node: Nodo
@@ -606,12 +635,24 @@ es:
     timeout:
       sorry: Lo sentimos, los datos para la relación con identificador %{id} han tardado
         demasiado tiempo en obtenerse.
+  relation_members:
+    not_found_message:
+      sorry: 'Lo sentimos, no se pudo encontrar la relación #%{id}.'
+    timeout:
+      sorry: Lo sentimos, los datos de la relación con el id %{id} tardaron demasiado
+        en recuperarse.
   old_relations:
     not_found_message:
       sorry: 'Lo sentimos, no se pudo encontrar la relación #%{id} versión %{version}.'
     timeout:
       sorry: Lo sentimos, el historial de la relación con id %{id} tardó demasiado
         en obtenerse.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Lo sentimos, no se pudo encontrar la relación #%{id} versión %{version}.'
+    timeout:
+      sorry: Lo sentimos, los miembros de la relación con el id %{id} tardaron demasiado
+        en recuperarse.
   changeset_comments:
     feeds:
       comment:
@@ -790,6 +831,7 @@ es:
       report: Denunciar este comentario
     location:
       location: 'Ubicación:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Entradas de diario de OpenStreetMap de %{user}
@@ -900,6 +942,7 @@ es:
       not_followed: No estás siguiendo a %{name}.
   geocoder:
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Teleférico
@@ -1737,6 +1780,10 @@ es:
       time: Tiempo
       ascend: Ascender
       descend: Descender
+      kilometers: kilómetros
+      miles_feet: millas, pies
+      miles_yards: millas, yardas
+      distance_units_settings: Configuración de las unidades de medida
       download: Descargar ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicaciones cortesía de %{link}
@@ -1883,6 +1930,7 @@ es:
       uso libre bajo una licencia abierta.
     hosting_partners_2024_html: El alojamiento cuenta con el respaldo de %{fastly},
       %{corpmembers} y otros %{partners}.
+    partners_fastly: Fastly
     partners_corpmembers: Miembros corporativos de OSMF
     partners_partners: socios
     tou: Términos de Uso
@@ -1894,6 +1942,7 @@ es:
     learn_more: Más información
     more: Más
     header:
+      ok: Ok
       select_language: Seleccionar idioma
     select_language_button:
       title: Seleccionar idioma
@@ -1955,6 +2004,7 @@ es:
         se puede encontrar en %{url}.
       more_info_html: Más información sobre los fallos de importación de GPX y y cómo
         evitarlos se pueden encontrar en %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Fallo al importar GPX'
     gpx_success:
       hi: 'Hola, %{to_user}:'
@@ -2224,22 +2274,36 @@ es:
   profiles:
     profile_sections:
       navigation:
+        description: Descripción
+        links: Enlaces
         image: Imagen
         company: Empresa
+        location: Ubicación
     descriptions:
       show:
         title: Editar Perfil
         save: Actualizar perfil
         cancel: Cancelar
+      update:
+        success: Descripción del perfil actualizada.
+        failure: No se ha podido actualizar la descripción del perfil.
     links:
       show:
         title: Editar perfil
+        save: Actualizar perfil
+        cancel: Cancelar
         social_links:
           title: Enlaces de perfiles de redes sociales
           remove: Quitar
           add: Añadir enlace de redes sociales
+      update:
+        success: Enlaces del perfil actualizados.
+        failure: No se ha podido actualizar los enlaces del perfil.
     images:
       show:
+        title: Editar perfil
+        save: Actualizar perfil
+        cancel: Cancelar
         gravatar:
           gravatar: Usa Gravatar
           link: https://wiki.openstreetmap.org/wiki/ES:Gravatar
@@ -2249,14 +2313,31 @@ es:
         delete image: Eliminar la imagen actual
         replace image: Reemplazar la imagen actual
         image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
+      update:
+        success: Imagen del perfil actualizada.
+        failure: No se ha podido actualizar la imagen del perfil.
+    companies:
+      show:
+        title: Editar perfil
+        save: Actualizar perfil
+        cancel: Cancelar
+      update:
+        success: Perfil de la compañia actualizado
+        failure: No se ha podido actualizar el perfil de la compañía.
     locations:
       show:
+        title: Editar perfil
+        save: Actualizar perfil
+        cancel: Cancelar
         no home location: No has introducido tu Ubicación de Casa.
         update home location on click: ¿Actualizar tu Ubicación de Casa cuando hagas
           clic sobre el mapa?
         show: Mostrar
         delete: Eliminar
         undelete: Deshacer eliminación
+      update:
+        success: Ubicación del perfil actualizada
+        failure: No se ha podido actualizar la ubicación del perfil.
   sessions:
     new:
       tab_title: Iniciar sesión
@@ -2287,6 +2368,7 @@ es:
   shared:
     markdown_help:
       heading_html: Procesado con %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
       kramdown: kramdown
       headings: Títulos
       heading: Título
@@ -2363,9 +2445,12 @@ es:
         mira el %{osm_blog_link}, \n%{user_diaries_link}, %{community_blogs_link}
         y el sitio web de %{osm_foundation_link}."
       community_driven_osm_blog: Blog de OpenStreetMap
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
       community_driven_user_diaries: diarios de usuario
       community_driven_community_blogs: blogs comunitarios
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org/
       community_driven_osm_foundation: OSM Foundation
+      community_driven_osm_foundation_url: https://www.osmfoundation.org/
       open_data_title: Datos abiertos
       open_data_1_html: 'OpenStreetMap es %{open_data}: puedes usarlo libremente para
         cualquier propósito siempre que des crédito a OpenStreetMap y a sus colaboradores.
@@ -2380,15 +2465,21 @@ es:
         de la comunidad. El uso de todos los servicios operados por el OSMF está sujeto
         a nuestros %{terms_of_use_link}, %{aup_link} y nuestra %{privacy_policy_link}."
       legal_1_1_openstreetmap_foundation: Fundación OpenStreetMap
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
       legal_1_1_terms_of_use: Términos de Uso
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: Normativas de uso aceptable
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: Normativa de privacidad
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_2_1_html: Sí tienes alguna pregunta sobre licencias, derechos de autor
         u otras cuestiones legales, por favor %{contact_the_osmf_link}.
       legal_2_1_contact_the_osmf: contacta la OSMF
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
       legal_2_2_html: OpenStreetMap, el logotipo de la lupa y el estado del mapa son
         %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marcas registradas de la OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Socios
     copyright:
       title: Derechos de Autor y Licencia
@@ -2486,13 +2577,16 @@ es:
           Si crees que material protegido por derechos de autor se ha agregado de manera inapropiada a la base de datos de OpenStreetMap o a este sitio, consulta nuestro %{takedown_procedure_link} o presenta tu queja directamente en nuestro
           %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: procedimiento de eliminación
+        infringement_2_1_takedown_procedure_url: https://wiki.osmfoundation.org/wiki/Takedown_procedure
         infringement_2_1_online_filing_page: página de presentación en línea
+        infringement_2_1_online_filing_page_url: https://dmca.openstreetmap.org/
         trademarks_title: Marcas
         trademarks_1_1_html: |-
           OpenStreetMap, el logotipo de la lupa y State of the Map son marcas registradas de la Fundación
           OpenStreetMap. Si tienes preguntas sobre el uso de las marcas, consulta nuestra
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Normativa de marcas
+        trademarks_1_1_trademark_policy_url: https://wiki.osmfoundation.org/wiki/Trademark_Policy
         services_title_html: Servicios adicionales
         services_1_html: "Aunque OpenStreetMap es un sistema de datos abiertos, no
           podemos proporcionar una API de mapas gratuita ni teselas de mapas gratuitas
@@ -2513,14 +2607,19 @@ es:
           el %{cc_by_at_with_amendments_link})."
         contributors_at_austria: Austria
         contributors_at_stadt_wien: Ciudad de Viena
+        contributors_at_stadt_wien_url: https://data.wien.gv.at/
         contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.de
         contributors_at_land_vorarlberg: El territorio de Vorarlberg
+        contributors_at_land_vorarlberg_url: https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm
         contributors_at_cc_by_at_with_amendments: CC BY-AT con modificaciones
+        contributors_at_cc_by_at_with_amendments_url: https://www.tirol.gv.at/data/nutzungsbedingungen/
         contributors_au_credit_html: "%{australia}: Incorpora o desarrolla usando
           Fronteras Administrativas &copy; %{geoscape_australia_link} \nlicenciadas
           por la Mancomunidad de Australia bajo el %{cc_licence_link}."
         contributors_au_australia: Australia
         contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_geoscape_australia_url: https://geoscape.com.au/legal/data-copyright-and-disclaimer/
         contributors_au_cc_licence: Licencia internacional Creative Commons Attribution
           4.0 (CC BY 4.0)
         contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.es
@@ -2534,11 +2633,13 @@ es:
         contributors_cz_czechia: República Checa
         contributors_cz_cc_licence: Licencia internacional Creative Commons Attribution
           4.0 (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_fi_credit_html: "%{finland}: Contiene datos de la \nBase de datos
           topográficos del Estudio Nacional de Tierras de Finlandia \ny otros conjuntos
           de datos, bajo el enlace %{nlsfi_license_link}."
         contributors_fi_finland: Finlandia
         contributors_fi_nlsfi_license: Licencia NLSFI
+        contributors_fi_nlsfi_license_url: https://www.maanmittauslaitos.fi/en/opendata-licence-version1
         contributors_fr_credit_html: |-
           %{france}: Contiene datos de la
           Dirección General de Impuestos.
@@ -2548,27 +2649,36 @@ es:
           (información pública de Croacia).
         contributors_hr_croatia: Croacia
         contributors_hr_dgu: Administración Geodésica Estatal de Croacia
+        contributors_hr_dgu_url: https://dgu.gov.hr/
         contributors_hr_open_data_portal: Portal Nacional de Datos Abiertos
+        contributors_hr_open_data_portal_url: https://data.gov.hr/
         contributors_nl_credit_html: '%{netherlands}: Contiene &copy; y datos, 2007
           (%{and_link})'
         contributors_nl_netherlands: Países Bajos
+        contributors_nl_and: www.and.com
+        contributors_nl_and_url: https://www.and.com
         contributors_nz_credit_html: "%{new_zealand}: Contiene datos del %{linz_data_service_link}
           \ny licenciados para su reutilización bajo %{cc_by_link}."
         contributors_nz_new_zealand: Nueva Zelanda
         contributors_nz_linz_data_service: Servicio de datos de LINZ
+        contributors_nz_linz_data_service_url: https://data.linz.govt.nz/
         contributors_nz_cc_by: CC BY 4.0
         contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.es
         contributors_rs_credit_html: "%{serbia}: Contiene datos del %{rgz_link} y
           %{open_data_portal} \n (información pública de Serbia), 2018."
         contributors_rs_serbia: Serbia
         contributors_rs_rgz: Autoridad geodética serbia
+        contributors_rs_rgz_url: https://geosrbija.rs/
         contributors_rs_open_data_portal: Portal Nacional de Datos Abiertos
+        contributors_rs_open_data_portal_url: https://data.gov.rs/sr/
         contributors_si_credit_html: |-
           %{slovenia}: Contiene datos de %{gu_link} y %{mkgp_link}
           (información pública de Eslovenia).
         contributors_si_slovenia: Eslovenia
         contributors_si_gu: Autoridad de Topografía y Cartografía
+        contributors_si_gu_url: https://www.gov.si/en/state-authorities/bodies-within-ministries/surveying-and-mapping-authority/
         contributors_si_mkgp: Ministerio de Agricultura, Silvicultura y Alimentación
+        contributors_si_mkgp_url: https://www.gov.si/en/state-authorities/ministries/ministry-of-agriculture-forestry-and-food/
         contributors_es_credit_html: |-
           %{spain}: Contiene datos del
           Instituto Geográfico Nacional de España (%{ign_link}) y
@@ -2576,13 +2686,16 @@ es:
           con licencia para su reutilización bajo %{cc_by_link}.
         contributors_es_spain: España
         contributors_es_ign: IGN
+        contributors_es_ign_url: https://www.ign.es/
         contributors_es_scne: SCNE
+        contributors_es_scne_url: https://www.scne.es/
         contributors_es_cc_by: CC BY 4.0
         contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.es
         contributors_za_credit_html: '%{south_africa}: Contiene datos de %{ngi_link},
           derechos de autor reservados por del Estado.'
         contributors_za_south_africa: Sudáfrica
         contributors_za_ngi: 'Dirección General: Información Geoespacial Nacional'
+        contributors_za_ngi_url: https://ngi.dalrrd.gov.za/
         contributors_gb_credit_html: |-
           %{united_kingdom}: contiene datos de Ordnance Survey &copy; Crown copyright and database right
           2010-2023.
@@ -2606,6 +2719,8 @@ es:
       not_public_description_html: No puedes seguir editando el mapa a menos que lo
         hagas. Puedes marcar tus ediciones como públicas desde tu %{user_page}.
       user_page_link: página de usuario
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Descubre a qué se debe.
     export:
       title: Exportar
@@ -2614,6 +2729,7 @@ es:
       licence_details_html: Los datos de OpenStreetMap están registrados bajo %{odbl_link}
         (ODbL).
       odbl: Licencia de Base de Datos Abierta de Open Data Commons
+      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: 'Si la exportación anterior falla, considera utilizar una de las fuentes
           que se enumeran a continuación:'
@@ -2636,6 +2752,7 @@ es:
           title: Otras Fuentes
           description: Fuentes adicionales enumeradas en la wiki de OpenStreetMap
       export_button: Exportar
+      export_download: Descargando...
     fixthemap:
       title: Reportar un problema / Corregir el mapa
       how_to_help:
@@ -2653,6 +2770,7 @@ es:
           %{copyright_link} para obtener más información legal, o comunícate con el %{working_group_link} correspondiente.
         copyright: página de derechos de autor
         working_group: grupo de trabajo OSMF
+        working_group_url: https://osmfoundation.org/wiki/Working_Groups
     help:
       title: Cómo Obtener Ayuda
       introduction: OpenStreetMap tiene varios recursos para aprender sobre el proyecto,
@@ -2667,6 +2785,7 @@ es:
         title: Guía para Principiantes
         description: Guía para principiantes, mantenida por la comunidad.
       community:
+        url: https://community.openstreetmap.org/
         title: Ayuda y Foro Comunitario
         description: Un lugar compartido para buscar ayuda y tener conversaciones
           sobre OpenStreetMap.
@@ -2683,6 +2802,7 @@ es:
         description: Ayuda para las empresas y organizaciones para que migren a mapas
           y otros servicios, basados en OpenStreetMap.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Para Organizaciones
         description: ¿Con una organización haciendo planes para OpenStreetMap? Encuentra
           lo que debes saber en nuestro Tapete de Bienvenida.
@@ -2696,6 +2816,7 @@ es:
         para su uso en un navegador web.
       desktop_application_html: Todavía puedes usar Potlatch en %{download_link}.
       download: descargando la aplicación de escritorio para Mac y Windows
+      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Alternativamente, puedes establecer tu editor predeterminado
         a iD, el cual se ejecuta en tu navegador como hacía Potlatch anteriormente.
         %{change_preferences_link}.
@@ -2708,6 +2829,7 @@ es:
         %{help_link}. ¿Con una organización que haciendo planes para OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Obtén ayuda aquí
       welcome_mat: Echa un vistazo al Tapete de Bienvenida
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Resultados de la búsqueda
     search:
@@ -2725,6 +2847,9 @@ es:
         foot: A pie
       providers:
         description: Servicios de indicaciones
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     welcome:
       title: ¡Bienvenido!
       introduction: Te damos la bienvenida a OpenStreetMap, el mapa libre y editable
@@ -3046,6 +3171,9 @@ es:
       google:
         title: Inicia sesión con Google
         alt: Logotipo de Google
+      apple:
+        title: Inciar sesión con Apple
+        alt: Logo de apple
       facebook:
         title: Inicia sesión con Facebook
         alt: Logotipo de Facebook
@@ -3110,6 +3238,7 @@ es:
       no_applications_html: ¿Tienes una aplicación que te gustaría registrar para
         usar con nosotros utilizando el estándar %{oauth2}? Debes registrar tu aplicación
         antes de que pueda hacer solicitudes OAuth a este servicio.
+      oauth_2: OAuth 2
       new: Registra tu aplicación
       name: Nombre
       permissions: Permisos
@@ -3151,6 +3280,7 @@ es:
       permissions: Permisos
       last_authorized: Último autorizado
       no_applications_html: Aún no has autorizado aplicaciones a %{oauth2}.
+      oauth_2: OAuth 2
     application:
       revoke: Revocar el acceso
       confirm_revoke: ¿Revocar el acceso a esta aplicación?
@@ -3178,13 +3308,17 @@ es:
       by_signing_up:
         html: Al inscribirse, estás de acuerdo con nuestro %{tou_link}, %{privacy_policy_link}
           y %{contributor_terms_link}.
+        tou: Términos de uso
         privacy_policy: política de privacidad
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Política de privacidad de la OSMF, incluida la sección
           sobre direcciones de correo electrónico
+        contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: términos de colaborador
       continue: Registrarse
       email_help:
         privacy_policy: política de privacidad
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Política de privacidad de la OSMF, incluida la sección
           sobre direcciones de correo electrónico
         html: Tu dirección de correo electrónico no se mostrará públicamente, consulta
@@ -3244,11 +3378,18 @@ es:
       delete_user: Eliminar este usuario
       confirm: Confirmar
       report: Denunciar a este usuario
+      edit_profile_details: Editar detalles del perfil
+      edit_description: Editar descripción
+      edit_links: Editar enlaces
+      change_image: Cambiar imagen
+      edit_company: Editar compañía
+      edit_location: Editar ubicación
       contributions:
         one: '%{count} contribución en el último año'
         other: '%{count} contribuciones en el último año'
     sidebar_section:
       home_location: Ubicación de Casa
+      company: Compañía
       company_tooltip: La afiliación de la empresa es autoinformada y no verificada.
     go_public:
       flash success: Todas tus ediciones ahora son públicas y ya estás autorizado
@@ -3504,6 +3645,7 @@ es:
       all: Todas
       open: Abierta
       closed: Cerrada
+      hidden: Oculto
       status: Estado
     show:
       title: 'Nota: %{id}'
@@ -3523,6 +3665,7 @@ es:
       event_reopened_by_anonymous_html: Reactivado por anónimo %{time_ago}
       event_hidden_by_html: Ocultado por %{user} %{time_ago}
       report: denunciar esta nota
+      coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: Esta nota incluye comentarios de usuarios anónimos que deben
         ser verificados de forma independiente.
       discussion: Discusión
@@ -3557,8 +3700,10 @@ es:
         other: '%{count} notas anónimas'
       counter_warning_guide_link:
         text: contribuir tu mismo
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       counter_warning_forum_link:
         text: La comunidad puede ayudarte
+        url: https://community.openstreetmap.org/
       advice: Tu nota será pública y podría utilizarse para actualizar el mapa, así
         que no des información personal ni datos provenientes de mapas o catálogos
         protegidos por derechos de autor.
@@ -3578,6 +3723,7 @@ es:
     share:
       title: Compartir
       view_larger_map: Ver el mapa más grande
+      export_failed_title: Exportación del mapa fallida
       filename: mapa
     embed:
       report_problem: Reportar un problema
@@ -3599,10 +3745,13 @@ es:
           other: Estás a %{count} pies desde este punto
       base:
         standard: Estándar
+        cyclosm: CyclOSM
         cycle_map: Mapa ciclista
         transport_map: Mapa de transporte
         tracestracktop_topo: Tracestrack Topo
         hot: Humanitario
+        shortbread: Shortbread
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Capas del mapa
         notes: Notas del mapa
@@ -3610,6 +3759,7 @@ es:
         gps: Trazas GPS públicas
         overlays: Activar superposiciones para solucionar problemas en el mapa
         title: Capas
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: Colaboradores de OpenStreetMap
       make_a_donation: Hacer una donación
       website_and_api_terms: Términos del sitio web y de la API
@@ -3619,8 +3769,13 @@ es:
       thunderforest_credit: Teselas cortesía de %{thunderforest_link}
       andy_allan: Andy Allan
       tracestrack_credit: Teselas cortesía de %{tracestrack_link}
+      tracestrack: Tracestrack
       hotosm_credit: Estilo de teselas por %{hotosm_link} alojados por %{osm_france_link}
       hotosm_name: Equipo humanitario de OpenStreetMap
+      openmaptiles_credit: Cuadrículas vectoriales de %{openmaptiles_link} alojadas
+        por %{maptiler_link}
+      openmaptiles_name: OpenMapTiles
+      maptiler_name: MapTiler
     site:
       edit_tooltip: Editar el mapa
       edit_disabled_tooltip: Acercar para editar el mapa
@@ -3638,9 +3793,13 @@ es:
         m: '%{distance} m'
         km: '%{distance} km'
         ft: '%{distance} pies'
+        yd: '%{distance}yd'
         mi: '%{distance} millas'
       errors:
         no_route: No se pudo encontrar una ruta entre esos dos lugares.
+        no_place:
+          title: Busqueda fallida
+          body: No se pudo encontrar '%{place}'.
       instructions:
         continue_without_exit: Continúa por %{name}
         slight_right_without_exit: Gira un poco a la derecha hacia %{name}
@@ -3744,9 +3903,15 @@ es:
         contributions:
           one: '%{count} contribución el %{date}'
           other: '%{count} contribuciones el %{date}'
+    remote_edit:
+      failed:
+        title: Fallo en la editación
+        body: Asegurese de que JOSM o Merkaator esten cargados y la opción de control
+          remoto habilitada
     edit:
       id_not_configured:
         title: iD no ha sido configurado
+        body: Por favor, vea CONFIGURE.md para más información
   redactions:
     edit:
       heading: Editar censura
