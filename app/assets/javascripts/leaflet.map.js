@@ -1,3 +1,4 @@
+//= require download_util
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
@@ -277,7 +278,19 @@ L.OSM.Map = L.Map.extend({
         headers: { accept: "application/json" },
         signal: this._objectLoader.signal
       })
-        .then(response => response.json())
+        .then(async response => {
+          if (response.ok) {
+            return response.json();
+          }
+
+          const status = response.statusText || response.status;
+          if (response.status !== 400 && response.status !== 509) {
+            throw new Error(status);
+          }
+
+          const text = await response.text();
+          throw new Error(text || status);
+        })
         .then(function (data) {
           map._object = object;
 
@@ -300,8 +313,14 @@ L.OSM.Map = L.Map.extend({
 
           if (callback) callback(map._objectLayer.getBounds());
           map.fire("overlayadd", { layer: map._objectLayer });
+          $("#browse_status").empty();
         })
-        .catch(() => {});
+        .catch(function (error) {
+          if (error.name === "AbortError") return;
+          OSM.displayLoadError(error?.message, () => {
+            $("#browse_status").empty();
+          });
+        });
     }
   },
 

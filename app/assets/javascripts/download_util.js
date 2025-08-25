@@ -54,3 +54,17 @@ OSM.turboHtmlResponseHandler = function (event) {
     event.stopPropagation();
   }
 };
+
+OSM.displayLoadError = function (message, close) {
+  $("#browse_status").html(
+    $("<div class='p-3'>").append(
+      $("<div class='d-flex'>").append(
+        $("<h2 class='flex-grow-1 text-break'>")
+          .text(OSM.i18n.t("browse.start_rjs.load_data")),
+        $("<div>").append(
+          $("<button type='button' class='btn-close'>")
+            .attr("aria-label", OSM.i18n.t("javascripts.close"))
+            .on("click", close))),
+      $("<p class='alert alert-warning'>")
+        .text(OSM.i18n.t("browse.start_rjs.feature_error", { message: message }))));
+};

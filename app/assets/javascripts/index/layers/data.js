@@ -1,3 +1,4 @@
+//= require download_util
 OSM.initializeDataLayer = function (map) {
   let dataLoader, loadedBounds;
   const dataLayer = map.dataLayer;
@@ -47,20 +48,6 @@ OSM.initializeDataLayer = function (map) {
         $("<input type='submit' class='btn btn-primary d-block mx-auto'>")
           .val(OSM.i18n.t("browse.start_rjs.load_data"))
           .click(add)));
-  }
-
-  function displayLoadError(message, close) {
-    $("#browse_status").html(
-      $("<div class='p-3'>").append(
-        $("<div class='d-flex'>").append(
-          $("<h2 class='flex-grow-1 text-break'>")
-            .text(OSM.i18n.t("browse.start_rjs.load_data")),
-          $("<div>").append(
-            $("<button type='button' class='btn-close'>")
-              .attr("aria-label", OSM.i18n.t("javascripts.close"))
-              .click(close))),
-        $("<p class='alert alert-warning'>")
-          .text(OSM.i18n.t("browse.start_rjs.feature_error", { message: message }))));
   }
 
   function getData() {
@@ -166,7 +153,7 @@ OSM.initializeDataLayer = function (map) {
       .catch(function (error) {
         if (error.name === "AbortError") return;
 
-        displayLoadError(error?.message, () => {
+        OSM.displayLoadError(error?.message, () => {
           $("#browse_status").empty();
         });
       })
