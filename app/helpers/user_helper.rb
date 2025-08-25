@@ -1,4 +1,6 @@
 module UserHelper
+  include InlineSvg::ActionView::Helpers
+
   # User images
 
   def user_image(user, options = {})
