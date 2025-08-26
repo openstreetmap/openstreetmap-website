@@ -19,11 +19,7 @@ module Api
       raise OSM::APINotFoundError if @elements.empty?
 
       # determine visible elements
-      @elems = if show_redactions?
-                 @elements
-               else
-                 @elements.unredacted
-               end
+      @elements = @elements.unredacted unless show_redactions?
 
       # Render the result
       respond_to do |format|
