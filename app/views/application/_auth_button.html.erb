@@ -1,0 +1,12 @@
+<%# locals: (provider:, preferred: false) %>
+<%= link_to auth_path(:provider => provider),
+            :method => :post,
+            :class => ["auth_button btn btn-outline-secondary border p-2", { "px-4 d-flex gap-3 justify-content-center align-items-center" => preferred }],
+            :title => t("application.auth_providers.#{provider}.title") do %>
+  <%= inline_svg_tag "auth_providers/#{provider}.svg",
+                     :class => "rounded-1 text-body-emphasis",
+                     :size => "36" %>
+  <% if preferred %>
+    <%= t "application.auth_providers.#{provider}.title" %>
+  <% end %>
+<% end %>
