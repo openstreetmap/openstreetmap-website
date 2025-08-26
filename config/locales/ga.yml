@@ -23,9 +23,6 @@ ga:
         create: Cuir nóta tráchta leis
       message:
         create: Seol
-      client_application:
-        create: Cláraigh
-        update: Nuashonraigh
       oauth2_application:
         update: Nuashonraigh
       redaction:
@@ -50,6 +47,7 @@ ga:
       message: Teachtaireacht
       node: Nód
       node_tag: Clib do Nód
+      note: nóta
       notifier: An té a thug fógra
       old_node: Sean-nód
       old_node_tag: Sean-Chlib Nóid
@@ -191,16 +189,10 @@ ga:
         comment: Nóta tráchta
         full: An nóta iomlán
   accounts:
-    edit:
+    show:
       title: Cuir an cuntas in eagar
-      my settings: Mo chuid socruithe
       current email address: An seoladh ríomhphoist reatha
       external auth: Fíordheimhniú Seachtrach
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: céard é seo?
-      public editing:
-        enabled link text: céard é seo?
       contributor terms:
         heading: Téarmaí do Rannchuiditheoirí
         agreed: D'aontaigh tú leis na Téarmaí nua do Rannchuiditheoirí.
@@ -210,6 +202,17 @@ ga:
       save changes button: Sábháil na hAthruithe
     go_public:
       heading: Eagarthóireacht phoiblí
+    terms:
+      show:
+        title: Téarmaí
+        heading: Téarmaí
+        legale_select: 'Tír chónaithe:'
+        legale_names:
+          france: An Fhrainc
+          italy: An Iodáil
+          rest_of_world: An chuid eile den Domhan
+      update:
+        terms accepted: Go raibh maith agat as glacadh leis na téarmaí nua do rannchuiditheoirí.
   browse:
     version: Leagan
     in_changeset: Tacar athruithe
@@ -222,17 +225,14 @@ ga:
     location: 'Suíomh:'
     node:
       title_html: 'Nód: %{name}'
-      history_title_html: 'Stair an Nóid: %{name}'
     way:
       title_html: 'Bealach: %{name}'
-      history_title_html: 'Stair an Bhealaigh: %{name}'
       nodes: Nóid
       also_part_of_html:
         one: cuid de bhealach %{related_ways}
         other: cuid de bhealaí %{related_ways}
     relation:
       title_html: 'Gaol: %{name}'
-      history_title_html: 'Stair an Ghaoil: %{name}'
       members: Baill
     relation_member:
       entry_role_html: '%{type} %{name} mar %{role}'
@@ -241,16 +241,7 @@ ga:
         way: Bealach
         relation: Gaol
     containing_relation:
-      entry_html: Gaol %{relation_name}
       entry_role_html: Gaol %{relation_name} (mar %{relation_role})
-    not_found:
-      sorry: 'Ár leithscéil, níorbh fhéidir %{type} #%{id} a aimsiú.'
-      type:
-        node: nód
-        way: bealach
-        relation: gaol
-        changeset: tacar athruithe
-        note: nóta
     timeout:
       sorry: Ár leithscéil, thóg sé rófhada an %{type} leis an ID %{id} a aisghabháil.
       type:
@@ -281,11 +272,20 @@ ga:
       wikidata_link: An mhír %{page} ar Vicíshonraí
       wikipedia_link: An t-alt %{page} ar an Vicipéid
       telephone_link: Glaoigh ar %{phone_number}
-    query:
+  feature_queries:
+    show:
       title: Gnéithe a Fhiosrú
       introduction: Cliceáil ar an léarscáil chun gnéithe in aice láimhe a aimsiú.
       nearby: Gnéithe in aice láimhe
       enclosing: Gnéithe thart timpeall air
+  old_elements:
+    index:
+      node:
+        title_html: 'Stair an Nóid: %{name}'
+      way:
+        title_html: 'Stair an Bhealaigh: %{name}'
+      relation:
+        title_html: 'Stair an Ghaoil: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -298,13 +298,9 @@ ga:
         sorry: Ár leithscéil, thóg sé rófhada an liosta de na tacair athruithe a d'iarr
           tú a aisghabháil.
   changesets:
-    changeset:
-      no_edits: (níl aon athrú ann)
-      view_changeset_details: Amharc ar shonraí an tacair athruithe
     index:
       title: Tacair athruithe
       title_user: Tacair athruithe de chuid %{user}
-      title_friend: Tacair athruithe de chuid mo chairde
       title_nearby: Tacair athruithe a rinne úsáideoirí in aice láimhe
       empty: Níor aimsíodh aon tacar athruithe.
       empty_area: Níl aon tacar athruithe sa limistéar seo.
@@ -312,7 +308,6 @@ ga:
       no_more: Níor aimsíodh aon tacar athruithe eile.
       no_more_area: Níl aon tacar athruithe eile sa limistéar seo.
       no_more_user: Níl aon tacar athruithe eile ón úsáideoir seo.
-      load_more: Lódáil tuilleadh
       feed:
         title: Tacar athruithe %{id}
         title_comment: Tacar athruithe %{id} - %{comment}
@@ -331,11 +326,8 @@ ga:
       changesetxml: XML an Tacair athruithe
       osmchangexml: XML osmChange
     paging_nav:
-      nodes: Nóid (%{count})
       nodes_paginated: Nóid (%{x}-%{y} de %{count})
-      ways: Bealaí (%{count})
       ways_paginated: Bealaí (%{x}-%{y} de %{count})
-      relations: Gaolta (%{count})
       relations_paginated: Gaolta (%{x}-%{y} de %{count})
     timeout:
       sorry: Ár leithscéil, thóg sé rófhada an liosta de na tacair athruithe a d'iarr
@@ -345,12 +337,12 @@ ga:
       km away: '%{count} km uait'
       m away: '%{count} m uait'
       latest_edit_html: 'An t-athrú is déanaí (%{ago}):'
+      no_edits: (níl aon athrú ann)
+      view_changeset_details: Amharc ar shonraí an tacair athruithe
     popup:
       nearby mapper: Léarscálaí in aice láimhe
-      friend: Cara
     show:
       nearby users: Úsáideoirí eile in aice láimhe
-      friends_diaries: iontrálacha dialainne do chairde
   diary_entries:
     new:
       title: Iontráil Nua Dialainne
@@ -359,13 +351,9 @@ ga:
       use_map_link: An Léarscáil a Úsáid
     index:
       title: Dialanna úsáideoirí
-      title_friends: Dialanna cairde
       title_nearby: Dialann de chuid Úsáideoirí In Aice Láimhe
       user_title: Dialann %{user}
       in_language_title: 'Iontrálacha Dialainne i: %{language}'
-      new: Iontráil Nua Dialainne
-      new_title: Iontráil nua a scríobh i mo dhialann úsáideora
-      my_diary: Mo Dhialann
       no_entries: Níl aon iontráil dialainne ann
     page:
       recent_entries: Iontrálacha dialainne le déanaí
@@ -419,20 +407,12 @@ ga:
       all:
         title: Iontrálacha dialainne OpenStreetMap
         description: Iontrálacha dialainne le déanaí ó úsáideoirí OpenStreetMap
-  diary_comments:
-    index:
-      no_comments: Níl aon nóta tráchta dialainne ann
-    page:
-      post: Postáil
-      when: Cá huair
-      comment: Nóta tráchta
-  friendships:
-    make_friend:
-      heading: Cuir %{user} leis mar chara?
-      button: Cuir leis mar chara
-      success: Is cara leat %{name} anois!
-      failed: Ár leithscéal, níorbh fhéidir %{name} a chur leis mar chara.
-      already_a_friend: Is cairde tú féin agus %{name} cheana féin
+    navigation:
+      my_diary: Mo Dhialann
+      new: Iontráil Nua Dialainne
+      new_title: Iontráil nua a scríobh i mo dhialann úsáideora
+    profile_diaries:
+      date_label: Dáta
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -953,6 +933,9 @@ ga:
         tunnel:
           culvert: Lintéar
           "yes": Tollán
+        water:
+          lake: Loch
+          reservoir: taiscumar
         waterway:
           artificial: Uiscebhealach Saorga
           boatyard: Bádchlós
@@ -980,9 +963,19 @@ ga:
         level8: Teorainn Cathrach
         level9: Teorainn Sráidbhaile
         level10: Teorainn Bruachbhaile
-    results:
-      no_results: Gan torthaí
-      more_results: Tuilleadh torthaí
+  searches:
+    queries:
+      create:
+        no_results: Gan torthaí
+        more_results: Tuilleadh torthaí
+  directions:
+    show:
+      title: Treoracha
+      distance: Fad
+      time: Am
+      ascend: Dul suas
+      descend: Dul síos
+      directions_courtesy_html: Treoracha le caoinchead %{link}
   issues:
     index:
       title: Fadhbanna
@@ -990,7 +983,6 @@ ga:
     page:
       last_updated: Nuashonrú deireanach
     show:
-      title: '%{status} Fadhb #%{issue_id}'
       reports:
         zero: Tuairisc ar bith
         one: Tuairisc amháin
@@ -1013,8 +1005,6 @@ ga:
       ignored: Stádas na faidhbe socraithe go 'Neamhaird'
     reopen:
       reopened: Stádas na faidhbe socraithe go 'Oscailte'
-    comments:
-      reassign_param: Athshann an Fhadhb?
   reports:
     new:
       disclaimer:
@@ -1070,10 +1060,6 @@ ga:
       leatsa agus atá saor in aisce le húsáid faoi cheadúnas oscailte.
     intro_2_create_account: Cruthaigh cuntas úsáideora
     partners_title: comhpháirtithe
-    osm_offline: Tá bunachar sonraí OpenStreetMap as líne faoi láthair fad agus atá
-      obair chothabhála riachtanach á dhéanamh ar an mbunachar sonraí.
-    osm_read_only: Tá bunachar sonraí OpenStreetMap sa mhód inléite amháin faoi láthair
-      fad agus a dhéantar obair chothabhála riachtanach ar an mbunachar sonraí.
     help: Cabhair
     about: Maidir linn
     copyright: Cóipcheart
@@ -1094,20 +1080,16 @@ ga:
         ábhar %{subject}:'
       footer_html: Is féidir leat an teachtaireacht a léamh ag %{readurl} freisin
         agus is féidir leat freagra a scríobh ag %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: A %{to_user}, a chara,
-      subject: '[OpenStreetMap] Chuir %{user} ar liosta na gcairde thú'
-      had_added_you: Chuir %{user} ar liosta na gcairde atá acu ar OpenStreetMap thú.
       see_their_profile: Is féidir leat a p(h)róifíl a fheiceáil ag %{userurl}.
-      befriend_them: Is féidir an duine sin a chur ar liosta na gcairde atá agatsa
-        ag %{befriendurl}.
     gpx_failure:
       failed_to_import: ', theip ar an iompórtáil. Seo an earráid:'
       subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
     gpx_success:
       subject: '[OpenStreetMap] Iompórtáladh an GPX'
     signup_confirm:
-      subject: '[OpenStreetMap] Fáilte go OpenStreetMap'
+      subject: '[OpenHistoricalMap] Fáilte go OpenHistoricalMap'
       greeting: A chara,
       created: Tá duine éigin (tusa, tá súil againn) tar éis cuntas a chruthú ag %{site_url}.
       confirm: Sula ndéanfaimid aon rud eile, ní mór dúinn a chinntiú gur tháinig
@@ -1198,31 +1180,6 @@ ga:
       button: Deimhnigh
       success: Deimhníodh an t-athrú ar an seoladh ríomhphoist!
   messages:
-    inbox:
-      title: Bosca isteach
-      messages: Tá %{new_messages} agus %{old_messages} agat.
-      new_messages:
-        one: '%{count} theachtaireacht amháin'
-        few: '%{count} theachtaireacht nua'
-        many: '%{count} dteachtaireacht nua'
-        other: '%{count} teachtaireacht nua'
-      old_messages:
-        one: '%{count} sheanteachtaireacht'
-        few: '%{count} seanteachtaireacht'
-        many: '%{count} seanteachtaireacht nua'
-        other: '%{count} seanteachtaireacht'
-      no_messages_yet_html: Níl aon teachtaireacht agat fós. Nach smaoineofá ar theagmháil
-        a dhéanamh le roinnt de na %{people_mapping_nearby_link}?
-      people_mapping_nearby: daoine atá i mbun léarscáilithe in aice láimhe
-    messages_table:
-      from: Ó
-      to: Chuig
-      subject: Ábhar
-      date: Dáta
-    message_summary:
-      unread_button: Marcáil neamhléite
-      read_button: Marcáil léite
-      destroy_button: Scrios
     new:
       title: Seol teachtaireacht
       send_message_to_html: Teachtaireacht nua a sheoladh chuig %{name}
@@ -1235,18 +1192,6 @@ ga:
       title: Níl teachtaireacht den sórt sin ann
       heading: Níl teachtaireacht den sórt sin ann
       body: Ár leithscéil, níl teachtaireacht ann a bhfuil an ID sin aici.
-    outbox:
-      title: Bosca amach
-      messages:
-        one: Tá %{count} teachtaireacht seolta amháin agat
-        other: Tá %{count} teachtaireacht seolta agat
-      no_sent_messages_html: Níl aon teachtaireacht seolta agat fós. Nach smaoineofá
-        ar theagmháil a dhéanamh le roinnt de na %{people_mapping_nearby_link}?
-      people_mapping_nearby: daoine atá i mbun léarscáilithe in aice láimhe
-    reply:
-      wrong_user: Tá tú logáilte isteach mar '%{user}' ach níor seoladh an teachtaireacht
-        atá tú ag iarraidh freagra a thabhairt uirthi chuig an úsáideoir sin. Logáil
-        isteach mar an t-úsáideoir ceart chun freagra a thabhairt.
     show:
       title: Léigh an teachtaireacht
       reply_button: Freagair
@@ -1256,15 +1201,57 @@ ga:
       wrong_user: Tá tú logáilte isteach mar '%{user}' ach níor seoladh an teachtaireacht
         atá tú ag iarraidh léamh chuig an úsáideoir sin agus ní hé a sheol é ach an
         oiread. Logáil isteach mar an t-úsáideoir ceart chun é a léamh.
-    sent_message_summary:
-      destroy_button: Scrios
-    heading:
-      my_inbox: Mo Bhosca Isteach
-    mark:
-      as_read: Teachtaireacht marcáilte mar léite
-      as_unread: Teachtaireacht marcáilte mar neamhléite
     destroy:
       destroyed: Teachtaireacht scriosta
+    read_marks:
+      create:
+        notice: Teachtaireacht marcáilte mar léite
+      destroy:
+        notice: Teachtaireacht marcáilte mar neamhléite
+    mailboxes:
+      heading:
+        my_inbox: Mo Bhosca Isteach
+      messages_table:
+        from: Ó
+        to: Chuig
+        subject: Ábhar
+      message:
+        unread_button: Marcáil neamhléite
+        read_button: Marcáil léite
+        destroy_button: Scrios
+    inboxes:
+      show:
+        title: Bosca isteach
+        messages: Tá %{new_messages} agus %{old_messages} agat.
+        new_messages:
+          one: '%{count} theachtaireacht amháin'
+          few: '%{count} theachtaireacht nua'
+          many: '%{count} dteachtaireacht nua'
+          other: '%{count} teachtaireacht nua'
+        old_messages:
+          one: '%{count} sheanteachtaireacht'
+          few: '%{count} seanteachtaireacht'
+          many: '%{count} seanteachtaireacht nua'
+          other: '%{count} seanteachtaireacht'
+        no_messages_yet_html: Níl aon teachtaireacht agat fós. Nach smaoineofá ar
+          theagmháil a dhéanamh le roinnt de na %{people_mapping_nearby_link}?
+        people_mapping_nearby: daoine atá i mbun léarscáilithe in aice láimhe
+    outboxes:
+      show:
+        title: Bosca amach
+        messages:
+          one: Tá %{count} teachtaireacht seolta amháin agat
+          other: Tá %{count} teachtaireacht seolta agat
+        no_sent_messages_html: Níl aon teachtaireacht seolta agat fós. Nach smaoineofá
+          ar theagmháil a dhéanamh le roinnt de na %{people_mapping_nearby_link}?
+        people_mapping_nearby: daoine atá i mbun léarscáilithe in aice láimhe
+      message:
+        destroy_button: Scrios
+    replies:
+      new:
+        wrong_user: Tá tú logáilte isteach mar '%{user}' ach níor seoladh an teachtaireacht
+          atá tú ag iarraidh freagra a thabhairt uirthi chuig an úsáideoir sin. Logáil
+          isteach mar an t-úsáideoir ceart chun freagra a thabhairt.
   passwords:
     new:
       title: Focal faire caillte
@@ -1282,7 +1269,7 @@ ga:
     update:
       flash changed: Athraíodh d'fhocal faire.
   profiles:
-    edit:
+    show:
       image: Íomhá
       gravatar:
         gravatar: Úsáid Gravatar
@@ -1363,13 +1350,14 @@ ga:
           oscailte
       remote_failed: Theip ar eagarthóireacht - déan cinnte go bhfuil JOSM nó Merkaartor
         lódáilte agus go bhfuil an rogha 'cianrialú' cumasaithe
-    edit:
+    not_public_flash:
       not_public: Níl do chuid athruithe socraithe mar athruithe poiblí agat.
       not_public_description_html: Ní féidir leat an léarscáil a chur in eagar a thuilleadh
         mura ndéanfaidh tú sin. Is féidir leat do chuid athruithe a shocrú mar athruithe
         poiblí ar do %{user_page}.
       user_page_link: leathanach úsáideora
       anon_edits_link_text: Faigh amach cén fáth ar amhlaidh atá.
+    edit:
       id_not_configured: Níor cumraíodh iD
     export:
       title: Easportáil
@@ -1409,7 +1397,7 @@ ga:
       title: Cabhair a Fháil
       welcome:
         url: /welcome
-        title: Fáilte go OpenStreetMap
+        title: Fáilte go OpenHistoricalMap
         description: Tosaigh leis an treoir thapa seo a chlúdaíonn gnéithe bunúsacha
           OpenStreetMap.
       beginners_guide:
@@ -1448,67 +1436,6 @@ ga:
       where_am_i_title: Cur síos a dhéanamh ar an suíomh reatha leis an inneall cuardaigh
       submit_text: Gabh
       reverse_directions_text: Aisiompaigh na treoracha
-    key:
-      table:
-        entry:
-          motorway: Mótarbhealach
-          main_road: Príomhbhóthar
-          trunk: Mórbhóthar
-          primary: Príomhbhóthar
-          secondary: Fobhóthar
-          unclassified: Bóthar neamhaicmithe
-          track: Cosán
-          bridleway: Cosán marcaíochta
-          cycleway: Slí rothar
-          cycleway_national: Slí rothar náisiúnta
-          cycleway_regional: Slí rothar réigiúnach
-          cycleway_local: Slí rothar áitiúil
-          footway: Cosán
-          rail: Iarnród
-          subway: Meitreo
-          light_rail: Iarnród Éadrom
-          tram: tram
-          cable_car: Carr cábla
-          chair_lift: cathaoir chábla
-          runway: Rúidbhealach Aerfoirt
-          taxiway: bealach innealta
-          apron: Naprún Aerfoirt
-          admin: Teorainn riaracháin
-          forest: Foraois
-          wood: Coill
-          meadow: móinéar
-          golf: Galfchúrsa
-          park: Páirc
-          common: Coimín
-          resident: Ceantar cónaithe
-          retail: Limistéar miondíola
-          industrial: Limistéar tionsclaíoch
-          commercial: Limistéar tráchtála
-          heathland: Móinteach/fraochmhá
-          lake: Loch
-          reservoir: taiscumar
-          farm: Feirm
-          brownfield: Láithreán athfhorbraíochta
-          cemetery: Reilig
-          allotments: Cuibhrinn
-          pitch: Páirc spóirt
-          centre: Ionad spóirt
-          reserve: Tearmann dúlra
-          military: Limistéar míleata
-          school: Scoil
-          university: ollscoil
-          building: Foirgneamh suntasach
-          station: Stáisiún Iarnróid
-          summit: Mullach
-          peak: binn
-          tunnel: Líne bhriste = tollán
-          bridge: Líne dhubh = droichead
-          private: Rochtain phríobháideach
-          destination: Rochtain ar cheann scríbe
-          construction: Bóithre á dtógáil
-          bicycle_shop: Siopa rothar
-          bicycle_parking: Páirceáil do rothair
-          toilets: Leithreas
     welcome:
       title: Fáilte!
       introduction: Fáilte go OpenStreepMap, léarscáil den Domhan atá saor in aisce
@@ -1517,10 +1444,6 @@ ga:
         a bheidh ag teastáil uait.
       whats_on_the_map:
         title: Cad atá ar an léarscáil
-        on_the_map_html: Is áit é OpenHistoricalMap chun léarscáiliú a dhéanamh ar
-          rudaí <em>atá ann dáiríre agus faoi láthair</em> - tá na milliúin foirgneamh,
-          bóithre agus sonraí eile faoi áiteacha ar fáil air. Is féidir leat cibé
-          na gnéithe den fhíorshaol atá suimiúil duit féin a léarscáiliú.
         off_the_map_html: I measc na rudaí <em>nach</em> bhfuil ann tá sonraí bunaithe
           ar thuairimí cosúil le rátálacha, gnéithe stairiúla nó teoiriciúla, agus
           sonraí ó fhoinsí faoi chóipcheart. Mura bhfuil cead speisialta agat, ná
@@ -1535,11 +1458,67 @@ ga:
           Is beag riail fhoirmiúil atá ag OpenHistoricalMap ach bímid ag súil leis go mbeidh rannpháirtithe ag comhoibriú leis an bpobal agus go rachaidh siad i mbun cumarsáide leis. Má tá tú ag smaoineamh ar aon ghníomhaíocht eile a dhéanamh seachas eagarthóireacht a dhéanamh de láimh, léigh agus lean na treoirlínte maidir le h<a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Iompórtálacha</a> agus
           <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Eagarthóireacht Uathoibrithe</a>.
       start_mapping: Téigh i mbun Léarscáilithe
-      add_a_note:
-        title: Easpa Ama chun Eagarthóireacht a Dhéanamh? Fág Nóta!
-        para_1: Mura bhfuil tú ag iarraidh ach go ndéanfaí rud beag a cheartú agus
-          gan an t-am agat clárú agus foghlaim conas eagarthóireacht a dhéanamh, tá
-          sé an-éasca nóta a scríobh.
+    add_a_note:
+      title: Easpa Ama chun Eagarthóireacht a Dhéanamh? Fág Nóta!
+      para_1: Mura bhfuil tú ag iarraidh ach go ndéanfaí rud beag a cheartú agus gan
+        an t-am agat clárú agus foghlaim conas eagarthóireacht a dhéanamh, tá sé an-éasca
+        nóta a scríobh.
+  map_keys:
+    show:
+      entries:
+        motorway: Mótarbhealach
+        main_road: Príomhbhóthar
+        trunk: Mórbhóthar
+        primary: Príomhbhóthar
+        secondary: Fobhóthar
+        unclassified: Bóthar neamhaicmithe
+        track: Cosán
+        bridleway: Cosán marcaíochta
+        cycleway: Slí rothar
+        footway: Cosán
+        rail: Iarnród
+        subway: Meitreo
+        light_rail: Iarnród Éadrom
+        tram: tram
+        cable_car: Carr cábla
+        chair_lift: cathaoir chábla
+        runway: Rúidbhealach Aerfoirt
+        taxiway: bealach innealta
+        apron: Naprún Aerfoirt
+        admin: Teorainn riaracháin
+        forest: Foraois
+        wood: Coill
+        meadow: móinéar
+        golf: Galfchúrsa
+        park: Páirc
+        common: Coimín
+        resident: Ceantar cónaithe
+        retail: Limistéar miondíola
+        industrial: Limistéar tionsclaíoch
+        commercial: Limistéar tráchtála
+        heathland: Móinteach/fraochmhá
+        farm: Feirm
+        brownfield: Láithreán athfhorbraíochta
+        cemetery: Reilig
+        allotments: Cuibhrinn
+        pitch: Páirc spóirt
+        centre: Ionad spóirt
+        reserve: Tearmann dúlra
+        military: Limistéar míleata
+        school: Scoil
+        university: ollscoil
+        building: Foirgneamh suntasach
+        station: Stáisiún Iarnróid
+        summit: Mullach
+        peak: binn
+        tunnel: Líne bhriste = tollán
+        bridge: Líne dhubh = droichead
+        private: Rochtain phríobháideach
+        destination: Rochtain ar cheann scríbe
+        construction: Bóithre á dtógáil
+        bicycle_shop: Siopa rothar
+        bicycle_parking: Páirceáil do rothair
+        toilets: Leithreas
   traces:
     visibility:
       private: Príobháideacha (ní chomhroinnfear é ach mar phointí gan ainm, gan ord)
@@ -1607,15 +1586,16 @@ ga:
     offline:
       heading: Stóráil GPX As Líne
       message: Níl córas uaslódála agus stórála na gcomhad GPX ar fáil faoi láthair
-    georss:
-      title: Loirg GPX OpenStreetMap
-    description:
-      description_with_count:
-        one: Comhad GPX a bhfuil %{count} phointe ann ó %{user}
-        few: Comhad GPX a bhfuil %{count} phointe ann ó %{user}}
-        many: Comhad GPX a bhfuil %{count} bpointe ann ó %{user}}
-        other: Comhad GPX a bhfuil %{count} pointe ann ó %{user}
-      description_without_count: Comhad GPX ó %{user}
+    feeds:
+      show:
+        title: Loirg GPX OpenStreetMap
+      description:
+        description_with_count:
+          one: Comhad GPX a bhfuil %{count} phointe ann ó %{user}
+          few: Comhad GPX a bhfuil %{count} phointe ann ó %{user}}
+          many: Comhad GPX a bhfuil %{count} bpointe ann ó %{user}}
+          other: Comhad GPX a bhfuil %{count} pointe ann ó %{user}
+        description_without_count: Comhad GPX ó %{user}
   application:
     require_cookies:
       cookies_needed: Is cosúil go bhfuil fianáin díchumasaithe agat - cumasaigh fianáin
@@ -1630,9 +1610,6 @@ ga:
         isteach ar an gcomhéadan gréasáin le hamharc ar Théarmaí na Rannchuiditheoirí.
         Ní gá duit aontú, ach ní mór duit amharc orthu.
     auth_providers:
-      openid:
-        title: Logáil isteach le OpenID
-        alt: Logáil isteach le URL OpenID
       google:
         title: Logáil isteach le Google
         alt: Logáil isteach le OpenID Google
@@ -1664,17 +1641,7 @@ ga:
       display name description: An t-ainm úsáideora atá agat a thaispeántar go poiblí.
         Is féidir leat é seo a athrú níos moille sna sainroghanna.
       continue: Cláraigh
-      terms accepted: Go raibh maith agat as glacadh leis na téarmaí nua do rannchuiditheoirí.
       use external auth: Nó, bain úsáid as tríú páirtí le logáil isteach
-    terms:
-      title: Téarmaí
-      heading: Téarmaí
-      consider_pd_why: céard é seo?
-      legale_select: 'Tír chónaithe:'
-      legale_names:
-        france: An Fhrainc
-        italy: An Iodáil
-        rest_of_world: An chuid eile den Domhan
     no_such_user:
       title: Níl an t-úsáideoir sin ann
       deleted: scriosta
@@ -1685,7 +1652,6 @@ ga:
       my notes: Mo Nótaí
       my messages: Mo Theachtaireachtaí
       my profile: Mo Phróifíl
-      my settings: Mo Shocruithe
       my comments: Mo Nótaí Tráchta
       blocks on me: Baic Orm
       blocks by me: Baic a Rinne Mé
@@ -1694,8 +1660,6 @@ ga:
       edits: Athruithe
       traces: Loirg
       notes: Nótaí Léarscáile
-      remove as friend: Bris cairdeas
-      add as friend: Cuir Cara Leis
       mapper since: 'Ag léarscáiliú ó:'
       ct status: 'Téarmaí do rannchuiditheoirí:'
       ct declined: Diúltaithe
@@ -1714,19 +1678,28 @@ ga:
       unhide_user: Taispeáin an tÚsáideoir seo
       delete_user: Scrios an tÚsáideoir seo
       confirm: Deimhnigh
-    index:
-      title: Úsáideoirí
-      heading: Úsáideoirí
+    received_blocks:
+      edit:
+        revoke: Tarraing siar!
+    lists:
+      show:
+        title: Úsáideoirí
+        heading: Úsáideoirí
+    changeset_comments:
+      page:
+        changeset: tacar athruithe
+        when: Cá huair
+        comment: Nóta tráchta
+    diary_comments:
+      page:
+        post: Postáil
   user_blocks:
-    revoke_all:
-      revoke: Tarraing siar!
     helper:
       block_duration:
         hours:
           one: uair amháin an chloig
           other: '%{count} uair an chloig'
     block:
-      not_revoked: (nár tarraingíodh siar)
       show: Taispeáin
       edit: Cuir in Eagar
     page:
@@ -1734,7 +1707,6 @@ ga:
       creator_name: Cruthaitheoir
       reason: Cúis don bhac
       status: Stádas
-      revoker_name: Tarraingthe siar ag
   notes:
     index:
       id: ID
@@ -1799,15 +1771,6 @@ ga:
     edit_help: Bog an léarscáil agus zúmáil isteach ar áit is mian leat a chur in
       eagar, ansin cliceáil anseo.
     directions:
-      ascend: Dul suas
-      engines:
-        fossgis_osrm_car: Carr (OSRM)
-        graphhopper_bicycle: Rothar (GraphHopper)
-        graphhopper_car: Carr (GraphHopper)
-        graphhopper_foot: Ag Siúl (GraphHopper)
-      descend: Dul síos
-      directions: Treoracha
-      distance: Fad
       errors:
         no_route: Níorbh fhéidir bealach a aimsiú idir an dhá áit sin.
         no_place: Ár leithscéil - níorbh fhéidir '%{place}' a aimsiú.
@@ -1867,8 +1830,6 @@ ga:
         end_oneway_without_exit: Deireadh an aontreo ar %{name}
         roundabout_with_exit: Ag an timpeallán, tóg bealach amach %{exit} go %{name}
         unnamed: bóthar gan ainm
-        courtesy: Treoracha le caoinchead %{link}
-      time: Am
     query:
       node: Nód
       way: Bealach

@@ -54,9 +54,6 @@ hu:
         create: Hozzászólás
       message:
         create: Küldés
-      client_application:
-        create: Regisztrálás
-        update: Frissítés
       oauth2_application:
         create: Regisztráció
         update: Frissítés
@@ -90,6 +87,7 @@ hu:
       message: Üzenet
       node: Pont
       node_tag: Pont címkéje
+      note: jegyzet
       notifier: Értesítő
       old_node: Régi pont
       old_node_tag: Régi pont címkéje
@@ -281,50 +279,11 @@ hu:
       entry:
         comment: Hozzászólás
         full: Teljes jegyzet
-  account:
-    deletions:
-      show:
-        title: Felhasználói fiókom törlése
-        warning: A fiók törlése végleges, nem lehet visszaállítani!
-        delete_account: Fiók törlése
-        delete_introduction: 'Az alábbi gombbal törölheted az OpenStreetMap-fiókodat.
-          Vedd figyelembe az alábbiakat:'
-        delete_profile: Ezzel törlődnek a profiladataid, köztük az avatarod, a leírásod
-          és az otthoni tartózkodási helyed is.
-        delete_display_name: A megjelenített neved is eltávolításra kerül, és más
-          fiókok újra felhasználhatják.
-        retain_caveats: 'Néhány Rád vonatkozó információ azonban még a fiókod törlése
-          után is megmarad az OpenStreetMapen:'
-        retain_edits: A térképadatbázisban végzett szerkesztéseid (ha vannak) megmaradnak.
-        retain_traces: Az általad feltöltött nyomvonalak (ha vannak) szintén megőrződnek.
-        retain_diary_entries: Naplóbejegyzéseid és naplóhozzászólásait (ha vannak)
-          megmaradnak, de nem lesznek láthatóak.
-        retain_notes: Térképjegyzeteid és jegyzethozzászólásaid (ha vannak) megmaradnak,
-          de nem lesznek láthatóak.
-        retain_changeset_discussions: A módosításkészletekhez fűzött hozzászólásaid
-          (ha vannak) megőrződnek.
-        retain_email: Az e-mail-címed is megmarad.
-        recent_editing_html: Mivel nemrégiben szerkesztettél, fiókod jelenleg nem
-          törölhető. A törlés %{time} múlva lehetséges.
-        confirm_delete: Biztos vagy benne?
-        cancel: Mégsem
   accounts:
-    edit:
+    show:
       title: Fiók szerkesztése
-      my settings: Személyes beállítások
       current email address: Jelenlegi e-mail-cím
       external auth: Külső hitelesítés
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: mi ez?
-      public editing:
-        heading: Nyilvános szerkesztés
-        enabled: Engedélyezve. Nem vagy névtelen, így szerkesztheted az adatokat.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: mi ez?
-        disabled: Tiltva, így nem szerkesztheted az adatokat, az összes eddigi szerkesztés
-          névtelen.
-        disabled link text: miért nem tudok szerkeszteni?
       contributor terms:
         heading: Hozzájárulási feltételek
         agreed: Elfogadtad az új közreműködési feltételeket.
@@ -355,6 +314,63 @@ hu:
       success: Felhasználói információk sikeresen frissítve.
     destroy:
       success: Fiók törölve.
+    deletions:
+      show:
+        title: Felhasználói fiókom törlése
+        warning: A fiók törlése végleges, nem lehet visszaállítani!
+        delete_account: Fiók törlése
+        delete_profile: Ezzel törlődnek a profiladataid, köztük az avatarod, a leírásod
+          és az otthoni tartózkodási helyed is.
+        delete_display_name: A megjelenített neved is eltávolításra kerül, és más
+          fiókok újra felhasználhatják.
+        retain_edits: A térképadatbázisban végzett szerkesztéseid (ha vannak) megmaradnak.
+        retain_traces: Az általad feltöltött nyomvonalak (ha vannak) szintén megőrződnek.
+        retain_diary_entries: Naplóbejegyzéseid és naplóhozzászólásait (ha vannak)
+          megmaradnak, de nem lesznek láthatóak.
+        retain_notes: Térképjegyzeteid és jegyzethozzászólásaid (ha vannak) megmaradnak,
+          de nem lesznek láthatóak.
+        retain_changeset_discussions: A módosításkészletekhez fűzött hozzászólásaid
+          (ha vannak) megőrződnek.
+        retain_email: Az e-mail-címed is megmarad.
+        recent_editing_html: Mivel nemrégiben szerkesztettél, fiókod jelenleg nem
+          törölhető. A törlés %{time} múlva lehetséges.
+        confirm_delete: Biztos vagy benne?
+        cancel: Mégsem
+    terms:
+      show:
+        title: Feltételek
+        heading: Feltételek
+        heading_ct: Hozzájárulási feltételek
+        read and accept with tou: Kérjük, olvasd el a közreműködői megállapodást és
+          felhasználási feltételeket, majd a jelölőnégyzetek használatával erősítsd
+          meg, hogy elfogadod őket, ezután kattints a folytatás gombra.
+        contributor_terms_explain: Ez a megállapodás vonatkozik a jelenlegi és jövőbeli
+          hozzájárulásaidra.
+        read_ct: Elolvastam és elfogadom a hozzájárulói feltételeket
+        tou_explain_html: A webhely és az OSMF által biztosított egyéb infrastruktúra
+          használatát ezek a %{tou_link} szabályozzák. Kérjük, kattints a linkre,
+          majd olvasd el és fogadd el a szöveget.
+        read_tou: Elolvastam és elfogadom a felhasználási feltételeket
+        guidance_info_html: 'Információk a kifejezések megértéséhez: egy %{readable_summary_link}
+          és néhány %{informal_translations_link}'
+        readable_summary: ember által olvasható összefoglaló
+        informal_translations: informális fordítások
+        continue: Folytatás
+        cancel: Mégse
+        you need to accept or decline: A folytatáshoz kérjük, olvasd el, majd fogadd
+          el vagy utasítsd el az új közreműködési feltételeket.
+        legale_select: 'Kérlek, válaszd ki a lakóhelyed szerinti országot:'
+        legale_names:
+          france: Franciaország
+          italy: Olaszország
+          rest_of_world: A világ többi része
+      update:
+        terms accepted: Köszönjük, hogy elfogadtad az új közreműködési feltételeket!
+      terms_declined_flash:
+        terms_declined_html: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új közreműködési
+          feltételeket. További információkért lásd %{terms_declined_link}.
+        terms_declined_link: ezt a wikioldalt
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: Törölte %{user} %{time_ago}
     edited_ago_by_html: Szerkesztette %{user} %{time_ago}
@@ -374,15 +390,11 @@ hu:
     view_history: Előzmények megtekintése
     view_unredacted_history: Módosítatlan előzményeket megtekintése
     view_details: Részletek megtekintése
-    view_redacted_data: Módosított előzményeket megtekintése
-    view_redaction_message: Adattörlési üzenet megtekintése
     location: 'Hely:'
     node:
       title_html: '%{name} pont'
-      history_title_html: '%{name} pont előzményei'
     way:
       title_html: '%{name} vonal'
-      history_title_html: '%{name} vonal előzményei'
       nodes: Pontok
       nodes_count:
         one: '%{count} pont'
@@ -392,7 +404,6 @@ hu:
         other: '%{related_ways} vonalak része'
     relation:
       title_html: '%{name} kapcsolat'
-      history_title_html: '%{name} kapcsolat előzményei'
       members: Tagok
       members_count:
         one: '%{count} tag'
@@ -404,17 +415,9 @@ hu:
         way: 'Vonal:'
         relation: 'Kapcsolat:'
     containing_relation:
-      entry_html: '%{relation_name} kapcsolat'
       entry_role_html: '%{relation_name} kapcsolat (mint %{relation_role})'
     not_found:
       title: Nem található
-      sorry: Sajnáljuk, a(z) %{id} %{type} nem található.
-      type:
-        node: pont
-        way: vonal
-        relation: kapcsolat
-        changeset: módosításkészlet
-        note: jegyzet
     timeout:
       title: Időtúllépési hiba
       sorry: Sajnáljuk, a %{id} azonosítójú %{type} adatainak beolvasása túl sokáig
@@ -449,17 +452,29 @@ hu:
       telephone_link: '%{phone_number} felhívása'
       colour_preview: '%{colour_value} szín előnézete'
       email_link: E-mail %{email}
-    query:
+  feature_queries:
+    show:
       title: Objektumok lekérdezése
       introduction: Kattints a térképre a közeli objektumok megtalálásához.
       nearby: Közeli objektumok
       enclosing: A helyet körülvevő objektumok
+  old_elements:
+    index:
+      node:
+        title_html: '%{name} pont előzményei'
+      way:
+        title_html: '%{name} vonal előzményei'
+      relation:
+        title_html: '%{name} kapcsolat előzményei'
+    actions:
+      view_redacted_data: Módosított előzményeket megtekintése
+      view_redaction_message: Adattörlési üzenet megtekintése
   nodes:
     timeout:
       sorry: Sajnáljuk, a %{id} azonosítójú csomópont adatainak lekérése túl sokáig
         tartott.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Sajnáljuk, nem található meg #%{id} pont %{version} verziója.'
     timeout:
       sorry: Sajnáljuk, a %{id} azonosítójú csomópont előzményeinek lekérése túl sokáig
@@ -469,7 +484,7 @@ hu:
       sorry: Sajnáljuk, a %{id} azonosítójú úthoz tartozó adatok lekérése túl sokáig
         tartott.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Sajnáljuk, nem található meg #%{id} vonal %{version} verziója.'
     timeout:
       sorry: Sajnáljuk, a(z) %{id} azonosítójú út előzményeinek lekérése túl sokáig
@@ -479,7 +494,7 @@ hu:
       sorry: Sajnáljuk, a %{id} azonosítójú reláció adatainak lekérése túl sokáig
         tartott.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Sajnáljuk, nem található meg #%{id} kapcsolat %{version} verziója.'
     timeout:
       sorry: Sajnáljuk, a %{id} azonosítójú reláció előzményeinek lekérése túl sokáig
@@ -497,14 +512,10 @@ hu:
         sorry: Sajnáljuk, túl sokáig tartott az általad kért módosításcsomag-hozzászólások
           listájának lekérése.
   changesets:
-    changeset:
-      no_edits: (nincs szerkesztés)
-      view_changeset_details: Módosításkészlet részleteinek megtekintése
     index:
       title: Módosításkészletek
       title_user: '%{user} módosításkészletei'
       title_user_link_html: '%{user_link} módosításkészletei'
-      title_friend: Ismerősök módosításkészletei
       title_nearby: Közeli felhasználók módosításkészletei
       empty: Nem található módosításkészlet
       empty_area: Ezen a területen nincs módosításkészlet.
@@ -512,26 +523,12 @@ hu:
       no_more: Nem találtunk több módosításkészletet.
       no_more_area: Ezen a területen nincs több módosításkészlet.
       no_more_user: Ettől a felhasználótól nincs több módosításkészlet.
-      load_more: Továbbiak betöltése
       feed:
         title: '%{id} módosításcsomag'
         title_comment: '%{id} módosításcsomag - %{comment}'
         created: Létrehozva
         closed: Lezárva
         belongs_to: Szerző
-    subscribe:
-      heading: Feliratkozol a következő módosításkészlet megbeszélésére?
-      button: Feliratkozás a megbeszélésre
-    unsubscribe:
-      heading: Leiratkozol a következő módosításkészlet megbeszéléséről?
-      button: Leiratkozás a megbeszélésről
-    heading:
-      title: '%{id} számú módosításkészlet'
-      created_by_html: 'Létrehozta: %{link_user} (%{created}).'
-    no_such_entry:
-      heading: Nincs %{id} azonosítójú naplóbejegyzés
-      body: Sajnáljuk, nincs %{id} azonosítójú módosításkészlet. Ellenőrizd a helyességét.
-        Az is lehet, hogy rossz linkre kattintottál.
     show:
       title: '%{id} módosításcsomag'
       created: 'Létrehozva: %{when}'
@@ -548,36 +545,45 @@ hu:
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: Pontok (%{count})
       nodes_paginated: 'Pontok (%{x}-%{y} ennyiből: %{count})'
-      ways: Vonalak (%{count})
       ways_paginated: 'Vonalak (%{x}-%{y} ennyiből: %{count})'
-      relations: Kapcsolatok (%{count})
       relations_paginated: 'Kapcsolatok (%{x}-%{y} ennyiből: %{count})'
     timeout:
       sorry: Sajnáljuk, az általad kért módosításkészletek listájának beolvasása túl
         sokáig tartott.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Feliratkozol a következő módosításkészlet megbeszélésére?
+        button: Feliratkozás a megbeszélésre
+      unsubscribe:
+        heading: Leiratkozol a következő módosításkészlet megbeszéléséről?
+        button: Leiratkozás a megbeszélésről
+    heading:
+      title: '%{id} számú módosításkészlet'
+      created_by_html: 'Létrehozta: %{link_user} (%{created}).'
+    no_such_entry:
+      heading: Nincs %{id} azonosítójú naplóbejegyzés
+      body: Sajnáljuk, nincs %{id} azonosítójú módosításkészlet. Ellenőrizd a helyességét.
+        Az is lehet, hogy rossz linkre kattintottál.
   dashboards:
     contact:
       km away: '%{count} km távolságra'
       m away: '%{count} m távolságra'
       latest_edit_html: 'Utolsó szerkesztés (%{ago}):'
+      no_edits: (nincs szerkesztés)
+      view_changeset_details: Módosításkészlet részleteinek megtekintése
     popup:
       your location: Helyed
       nearby mapper: Közeli térképszerkesztő
-      friend: Ismerős
     show:
       title: Irányítópult
       no_home_location_html: '%{edit_profile_link}, és add meg az otthoni tartózkodási
         helyed, hogy lásd a közeli felhasználókat.'
       edit_your_profile: Szerkeszd a profilodat
-      my friends: Ismerősök
-      no friends: Még nem adtál meg egyetlen ismerőst sem.
       nearby users: További közeli felhasználók
       no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben
         szerkesztenek.
-      friends_changesets: ismerősök módosításkészletei
-      friends_diaries: ismerősök naplóbejegyzései
       nearby_changesets: közeli felhasználók módosításkészletei
       nearby_diaries: közeli felhasználók naplóbejegyzései
   diary_entries:
@@ -588,13 +594,9 @@ hu:
       use_map_link: térkép használata
     index:
       title: Felhasználók naplói
-      title_friends: Ismerősök naplói
       title_nearby: Közeli felhasználók naplói
       user_title: '%{user} naplója'
       in_language_title: Naplóbejegyzések %{language} nyelven
-      new: Új naplóbejegyzés
-      new_title: Új bejegyzés írása a felhasználói naplómba
-      my_diary: Naplóm
       no_entries: Nincs naplóbejegyzés
     page:
       recent_entries: Legutóbbi naplóbejegyzések
@@ -657,16 +659,13 @@ hu:
     unsubscribe:
       heading: Leiratkozol a következő naplóbejegyzés-megbeszélésről?
       button: Leiratkozás a megbeszélésről
+    navigation:
+      my_diary: Naplóm
+      new: Új naplóbejegyzés
+      new_title: Új bejegyzés írása a felhasználói naplómba
+    profile_diaries:
+      date_label: Érkezett
   diary_comments:
-    index:
-      title: '%{user} naplóhozzászólásai'
-      heading: '%{user} naplóhozzászólásai'
-      subheading_html: '%{user} naplóhozzászólásai'
-      no_comments: Nincs naplóhozzászólás
-    page:
-      post: Bejegyzés
-      when: Mikor
-      comment: Hozzászólás
     new:
       heading: Hozzáfűzől egy megjegyzést a következő naplóhozzászóláshoz?
   doorkeeper:
@@ -714,7 +713,7 @@ hu:
       description: Az OpenStreetMap szerveren kért művelet nem érvényes (HTTP 400)
     forbidden:
       title: Tiltott
-      description: Az OpenStreetMap szerveren kért művelet csak a rendszergazdáknak
+      description: Az OpenHistoricalMap szerveren kért művelet csak a rendszergazdáknak
         érhető el (HTTP 403).
     internal_server_error:
       title: Alkalmazáshiba
@@ -724,20 +723,6 @@ hu:
       title: A fájl nem található
       description: Nem található ilyen nevű fájl/könyvtár/API-művelet az OpenStreetMap
         szerveren (HTTP 404)
-  friendships:
-    make_friend:
-      heading: '%{user} hozzáadása ismerősként?'
-      button: Hozzáadás ismerősként
-      success: '%{name} mostantól az ismerősöd.'
-      failed: Sajnáljuk, sikertelen volt %{name} felvétele ismerősnek.
-      already_a_friend: '%{name} már az ismerősöd.'
-      limit_exceeded: Sok felhasználóval barátkoztál az utóbbi időben. Kérjük, várj
-        egy kicsit, mielőtt további ismerősöket próbálnál találni.
-    remove_friend:
-      heading: '%{user} eltávolítása az ismerőseid közül?'
-      button: Ismerős eltávolítása
-      success: '%{name} eltávolítva az ismerőseid közül.'
-      not_a_friend: '%{name} nem tartozik az ismerőseid közé.'
   geocoder:
     search:
       title:
@@ -1484,6 +1469,9 @@ hu:
           building_passage: Épület alatti átjáró
           culvert: Áteresz
           "yes": Alagút
+        water:
+          lake: Tó
+          reservoir: víztározó
         waterway:
           artificial: Mesterséges vízfolyás
           boatyard: Hajótelep
@@ -1514,17 +1502,25 @@ hu:
         level9: Faluhatár
         level10: Városrészhatár
         level11: Környékhatár
-    results:
-      no_results: Nincs találat
-      more_results: További eredmények
+  searches:
+    queries:
+      create:
+        no_results: Nincs találat
+        more_results: További eredmények
+  directions:
+    show:
+      title: Irányok
+      distance: Távolság
+      time: Időtartam
+      ascend: Emelkedés
+      descend: Ereszkedés
+      directions_courtesy_html: Útvonaltervezés a(z) %{link} jóvoltából
   issues:
     index:
       title: Problémák
       select_status: Állapot kiválasztása
       select_type: Típus kiválasztása
-      select_last_updated_by: Utoljára módosította kiválasztása
       reported_user: Bejelentett felhasználó
-      not_updated: Nem frissített
       search: Keresés
       search_guidance: 'Problémák keresése:'
       states:
@@ -1538,7 +1534,6 @@ hu:
       status: Állapot
       reports: Bejelentések
       last_updated: Utoljára frissítve
-      last_updated_time_ago_user_html: '%{time_ago} %{user} felhasználó által'
       reports_count:
         one: '%{count} bejelentés'
         other: '%{count} bejelentés'
@@ -1548,7 +1543,6 @@ hu:
         open: Nyitva
         resolved: Megoldva
     show:
-      title: '#%{issue_id} probléma %{status}'
       reports:
         one: '%{count} bejelentés'
         other: '%{count} bejelentés'
@@ -1573,7 +1567,6 @@ hu:
       reopened: 'A probléma állapota átállítva a következőre: „nyitott”'
     comments:
       comment_from_html: '%{user_link} hozzászólása (%{comment_created_at})'
-      reassign_param: Probléma újrakiadása?
     reports:
       reported_by_html: '%{user} bejelentette %{category} kategóriájúként ekkor: %{updated_at}'
     helper:
@@ -1641,10 +1634,6 @@ hu:
     intro_2_create_account: Felhasználói fiók létrehozása
     partners_title: partnerek
     tou: Felhasználási feltételek
-    osm_offline: Az OpenStreetMap-adatbázis jelenleg offline, miközben alapvető adatbázis-karbantartási
-      munkát végeznek.
-    osm_read_only: Az OpenStreetMap-adatbázis jelenleg csak olvasható, miközben alapvető
-      adatbázis-karbantartási munkát végeznek.
     nothing_to_preview: Nincs mit megtekinteni.
     help: Súgó
     about: Névjegy
@@ -1676,23 +1665,10 @@ hu:
         a szerzőnek (%{replyurl}).
       footer_html: 'Az üzenet a %{readurl} címen is elolvashatod, vagy válaszolhatsz
         rá itt: %{replyurl}'
-    friendship_notification:
+    follow_notification:
       hi: Szia %{to_user}!
-      subject: '[OpenStreetMap] %{user} felvett az ismerősei közé'
-      had_added_you: '%{user} felvett az ismerősei közé az OpenStreetMapen.'
       see_their_profile: 'Megnézheted a profilját itt: %{userurl}.'
       see_their_profile_html: 'A felhasználó profilját megtekintheti itt: %{userurl}'
-      befriend_them: 'Te is hozzáadhatod ismerősként itt: %{befriendurl}.'
-      befriend_them_html: 'Te is hozzáadhatod ismerősként itt: %{befriendurl}'
-    gpx_description:
-      description_with_tags: Ez úgy néz ki, mint a te %{trace_name} nevű, %{trace_description}
-        leírású és %{tags} címkékkel rendelkező fájlod
-      description_with_tags_html: Ez úgy néz ki, mint a te %{trace_name} nevű, %{trace_description}
-        leírású és %{tags} címkékkel rendelkező fájlod
-      description_with_no_tags: Ez úgy néz ki, mint te %{trace_name} nevű, %{trace_description}
-        leírású, címke nélküli fájlod
-      description_with_no_tags_html: Ez úgy néz ki, mint a te %{trace_name} nevű,
-        %{trace_description} leírású, címke nélküli fájlod
     gpx_failure:
       hi: Szia %{to_user}!
       failed_to_import: 'nem sikerült GPS nyomkövetési fájlként importálni. Kérjük,
@@ -1708,18 +1684,13 @@ hu:
       subject: '[OpenStreetMap] Sikertelen GPX importálás'
     gpx_success:
       hi: Szia %{to_user}!
-      loaded:
-        one: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points} ponttal.
-        other: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points}
-          ponttal.
-      trace_location: 'Nyomkövetése itt érhető el: %{trace_url}'
       all_your_traces: 'Az összes sikeresen feltöltött GPX nyomkövetés megtalálható
         itt: %{url}'
       all_your_traces_html: 'Az összes sikeresen feltöltött GPX nyomkövetés megtalálható
         itt: %{url}.'
       subject: '[OpenStreetMap] Sikeres GPX importálás'
     signup_confirm:
-      subject: '[OpenStreetMap] Üdvözlünk az OpenStreetMapen'
+      subject: '[OpenHistoricalMap] Üdvözlünk az OpenHistoricalMapen'
       greeting: Szia!
       created: Valaki (remélhetőleg te) most hozott létre egy fiókot az %{site_url}-on.
       confirm: 'Mielőtt folytathatnánk, meg kell bizonyosodnunk arról, hogy ez a kérés
@@ -1812,8 +1783,6 @@ hu:
       success: Felhasználói fiókod megerősítve, köszönjük a regisztrációt!
       already active: Ez a fiók már megerősítésre került.
       unknown token: Ez a megerősítési kód lejárt vagy nem létezik.
-      resend_html: Ha újra el kell küldenünk a megerősítő e-mailt, %{reconfirm_link}.
-      click_here: kattints ide
     confirm_resend:
       failure: '%{name} felhasználó nem található.'
     confirm_email:
@@ -1831,29 +1800,6 @@ hu:
         küld, akkor kérjük, ellenőrizd, hogy a(z) %{sender} az engedélyezett listán
         van-e, mivel nem tudunk válaszolni a visszaigazolási kérésekre.
   messages:
-    inbox:
-      title: Beérkezett üzenetek
-      messages: '%{new_messages} és %{old_messages} van'
-      new_messages:
-        one: 1 új üzeneted
-        other: '%{count} új üzeneted'
-      old_messages:
-        one: 1 régi üzeneted
-        other: '%{count} régi üzeneted'
-      no_messages_yet_html: Nincs még üzeneted. Miért nem veszed fel a kapcsolatot
-        néhány %{people_mapping_nearby_link}vel?
-      people_mapping_nearby: közeli térképszerkesztő
-    messages_table:
-      from: Feladó
-      to: Címzett
-      subject: Tárgy
-      date: Érkezett
-      actions: Műveletek
-    message_summary:
-      unread_button: Jelölés olvasatlanként
-      read_button: Jelölés olvasottként
-      destroy_button: Törlés
-      unmute_button: Áthelyezés a Beérkezett üzenetek mappába
     new:
       title: Üzenet küldése
       send_message_to_html: 'Új üzenet küldése neki: %{name}'
@@ -1866,23 +1812,6 @@ hu:
       title: Nincs ilyen üzenet
       heading: Nincs ilyen üzenet
       body: Sajnáljuk, nincs ilyen azonosítójú üzenet.
-    outbox:
-      title: Elküldött üzenetek
-      messages:
-        one: Egy elküldött üzeneted van
-        other: '%{count} elküldött üzeneted van'
-      no_sent_messages_html: Nincs még elküldött üzeneted. Miért nem veszed fel a
-        kapcsolatot néhány %{people_mapping_nearby_link}vel?
-      people_mapping_nearby: közeli térképszerkesztő
-    muted:
-      title: Elnémított üzenetek
-      messages:
-        one: '%{count} némított üzeneted van'
-        other: '%{count} némított üzeneted van'
-    reply:
-      wrong_user: '''%{user}'' néven jelentkeztél be, de azt az üzenetet, amelyre
-        válaszolni szeretnél, nem ez a felhasználó kapta. A válaszadáshoz jelentkezz
-        be a helyes felhasználónévvel.'
     show:
       title: Üzenet elolvasása
       reply_button: Válasz
@@ -1892,20 +1821,67 @@ hu:
       wrong_user: '''%{user}'' néven jelentkeztél be, de az üzenetet, amelyet el szeretnél
         olvasni, nem ez a felhasználó küldte vagy kapta. Az elolvasásához jelentkezz
         be a helyes felhasználónévvel.'
-    sent_message_summary:
-      destroy_button: Törlés
-    heading:
-      my_inbox: Beérkezett üzenetek
-      my_outbox: Elküldött üzenetek
-      muted_messages: Elnémított üzenetek
-    mark:
-      as_read: Üzenet megjelölve olvasottként
-      as_unread: Üzenet megjelölve olvasatlanként
-    unmute:
-      notice: Az üzenet átkerült a Beérkezett üzenetek mappába
-      error: Az üzenetet nem sikerült áthelyezni a Beérkezett üzenetek mappába.
     destroy:
       destroyed: Üzenet törölve
+    read_marks:
+      create:
+        notice: Üzenet megjelölve olvasottként
+      destroy:
+        notice: Üzenet megjelölve olvasatlanként
+    mutes:
+      destroy:
+        notice: Az üzenet átkerült a Beérkezett üzenetek mappába
+        error: Az üzenetet nem sikerült áthelyezni a Beérkezett üzenetek mappába.
+    mailboxes:
+      heading:
+        my_inbox: Beérkezett üzenetek
+        my_outbox: Elküldött üzenetek
+        muted_messages: Elnémított üzenetek
+      messages_table:
+        from: Feladó
+        to: Címzett
+        subject: Tárgy
+        actions: Műveletek
+      message:
+        unread_button: Jelölés olvasatlanként
+        read_button: Jelölés olvasottként
+        destroy_button: Törlés
+        unmute_button: Áthelyezés a Beérkezett üzenetek mappába
+    inboxes:
+      show:
+        title: Beérkezett üzenetek
+        messages: '%{new_messages} és %{old_messages} van'
+        new_messages:
+          one: 1 új üzeneted
+          other: '%{count} új üzeneted'
+        old_messages:
+          one: 1 régi üzeneted
+          other: '%{count} régi üzeneted'
+        no_messages_yet_html: Nincs még üzeneted. Miért nem veszed fel a kapcsolatot
+          néhány %{people_mapping_nearby_link}vel?
+        people_mapping_nearby: közeli térképszerkesztő
+    muted_inboxes:
+      show:
+        title: Elnémított üzenetek
+        messages:
+          one: '%{count} némított üzeneted van'
+          other: '%{count} némított üzeneted van'
+    outboxes:
+      show:
+        title: Elküldött üzenetek
+        messages:
+          one: Egy elküldött üzeneted van
+          other: '%{count} elküldött üzeneted van'
+        no_sent_messages_html: Nincs még elküldött üzeneted. Miért nem veszed fel
+          a kapcsolatot néhány %{people_mapping_nearby_link}vel?
+        people_mapping_nearby: közeli térképszerkesztő
+      message:
+        destroy_button: Törlés
+    replies:
+      new:
+        wrong_user: '''%{user}'' néven jelentkeztél be, de azt az üzenetet, amelyre
+          válaszolni szeretnél, nem ez a felhasználó kapta. A válaszadáshoz jelentkezz
+          be a helyes felhasználónévvel.'
   passwords:
     new:
       title: Elvesztett jelszó
@@ -1926,21 +1902,17 @@ hu:
       flash changed: Jelszavad megváltozott.
       flash token bad: Nem találtad meg a tokent? Esetleg ellenőrizd az URL-t.
   preferences:
-    show:
-      title: Megjelenési beállítások
-      preferred_editor: Előnyben részesített szerkesztő
-      preferred_languages: Előnyben részesített nyelvek
-      edit_preferences: Beállítások szerkesztése
-    edit:
-      title: Beállítások szerkesztése
-      save: Beállítások frissítése
-      cancel: Mégse
-    update:
-      failure: Nem sikerült frissíteni a beállításokat.
-    update_success_flash:
-      message: Beállítások frissítve.
+    preferences:
+      update:
+        failure: Nem sikerült frissíteni a beállításokat.
+      update_success_flash:
+        message: Beállítások frissítve.
+    basic_preferences:
+      show:
+        title: Megjelenési beállítások
+        save: Beállítások frissítése
   profiles:
-    edit:
+    show:
       title: Profil szerkesztése
       save: Profil frissítése
       cancel: Mégse
@@ -2038,14 +2010,14 @@ hu:
       open_data_title: Nyílt adat
       legal_title: Jogi segítség
       legal_1_html: 'Ezt a webhelyet és sok más kapcsolódó szolgáltatást hivatalosan
-        az %{openstreetmap_foundation_link} (OSMF) üzemelteti a közösség nevében.
-        Az összes OSMF által üzemeltetett szolgáltatás igénybevételére irányadók a
-        következők: %{terms_of_use_link}, %{aup_link} és %{privacy_policy_link}.'
-      legal_1_terms_of_use: Felhasználási Feltételek
+        az %{group_link} üzemelteti a közösség nevében. Az összes OSMF által üzemeltetett
+        szolgáltatás igénybevételére irányadók a következők: %{terms_of_use_link},
+        %{aup_link} és %{privacy_policy_link}.'
+      legal_1_terms_of_use: Felhasználási feltételek
       legal_1_aup: Elfogadható felhasználási szabályzat
       legal_1_privacy_policy: Adatvédelmi irányelvek
-      legal_2_html: Kérjük, %{contact_the_osmf_link}, ha licencekkel kapcsolatos,
-        szerzői jogi vagy egyéb jogi kérdései vannak.
+      legal_2_html: Kérjük, %{contact_team_link}, ha licencekkel kapcsolatos, szerzői
+        jogi vagy egyéb jogi kérdései vannak.
       partners_title: Partnerek
     copyright:
       title: Szerzői jog és licenc
@@ -2100,13 +2072,15 @@ hu:
         copyright: Copyright OpenStreetMap és közreműködői, egy nyílt licenc alatt
       remote_failed: A szerkesztés nem sikerült. Győződj meg róla, hogy a JOSM vagy
         a Merkaartor be van töltve, és a távirányító opció engedélyezve van
-    edit:
+    not_public_flash:
       not_public: Nem állítottad a szerkesztéseidet nyilvánossá.
       not_public_description_html: Nem szerkesztheted tovább a térképet, amíg nem
         teszed meg. Nyilvánossá teheted szerkesztéseidet a %{user_page}adról.
       user_page_link: felhasználói oldal
       anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Nézz utána, miért van ez.
+    edit:
       id_not_configured: Az iD nincs beállítva
     export:
       title: Exportálás
@@ -2152,12 +2126,12 @@ hu:
         copyright: szerzői jogi oldal
     help:
       title: Segítségkérés
-      introduction: Az OpenStreetMap számos anyagot kínál fel ahhoz, hogy ismerkedj
+      introduction: Az OpenHistoricalMap számos anyagot kínál fel ahhoz, hogy ismerkedj
         a projekttel, kérdéseket tégy fel vagy válaszolj meg, vagy térképezési témákat
         beszélj meg a közösség tagjaival.
       welcome:
         url: /welcome
-        title: Üdvözlünk az OpenStreetMapen
+        title: Üdvözlünk az OpenHistoricalMapen
         description: Ez a gyors útmutató megismertet az OpenStreetMap alapjaival.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Hu:Beginners%27_guide
@@ -2216,95 +2190,6 @@ hu:
       where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
       submit_text: Menj
       reverse_directions_text: Irány megfordítása
-    key:
-      table:
-        entry:
-          motorway: Autópálya
-          main_road: Fő út
-          trunk: Autóút
-          primary: Főút
-          secondary: Összekötő út
-          unclassified: Egyéb út
-          pedestrian: Sétálóutca
-          track: Mezőgazdasági/erdészeti út
-          bridleway: Lovaglóút
-          cycleway: Kerékpárút
-          cycleway_national: Országos kerékpárút
-          cycleway_regional: Regionális kerékpárút
-          cycleway_local: Helyi kerékpárút
-          cycleway_mtb: Hegyikerékpáros útvonal
-          footway: Gyalogút
-          rail: Vasút
-          train: Vonat
-          subway: Metró
-          ferry: Komp
-          light_rail: HÉV
-          tram: villamos
-          trolleybus: Trolibusz
-          bus: Busz
-          cable_car: Nagykabinos felvonó
-          chair_lift: függőszékes felvonó
-          runway: Kifutópálya
-          taxiway: gurulóút
-          apron: Forgalmi előtér
-          admin: Közigazgatási határ
-          capital: Főváros
-          city: Nagyváros
-          orchard: Gyümölcsös
-          vineyard: Szőlő
-          forest: Erdő
-          wood: Természetes erdő
-          farmland: Mezőgazdasági terület
-          grass: Fű
-          meadow: rét
-          bare_rock: Csupasz szikla
-          sand: Homok
-          golf: Golfpálya
-          park: Park
-          common: Füves terület
-          built_up: Beépített terület
-          resident: Gyalogos övezet
-          retail: Kereskedelmi terület
-          industrial: Ipari terület
-          commercial: Kereskedelmi terület
-          heathland: Fenyér
-          scrubland: Bozót
-          lake: Tó
-          reservoir: víztározó
-          intermittent_water: Időszakos víztest
-          glacier: Gleccser
-          reef: Zátony
-          wetland: Vizenyős terület
-          farm: Tanya
-          brownfield: Bontási terület
-          cemetery: Temető
-          allotments: Kiskertek
-          pitch: Sportpálya
-          centre: Sportközpont
-          beach: Természetes strand
-          reserve: Természetvédelmi terület
-          military: Katonai terület
-          school: Iskola
-          university: egyetem
-          hospital: Kórház
-          building: Fontosabb épület
-          station: Vasútállomás
-          railway_halt: Vasúti megálló
-          subway_station: Metrómegálló
-          tram_stop: Villamosmegálló
-          summit: Hegycsúcs
-          peak: magaslat
-          tunnel: Szaggatott szegély = alagút
-          bridge: Fekete szegély = híd
-          private: Behajtás csak engedéllyel
-          destination: Csak célforgalom
-          construction: Épülő utak
-          bus_stop: Buszmegálló
-          bicycle_shop: Kerékpárbolt
-          bicycle_rental: Kerékpárkölcsönzés
-          bicycle_parking: Kerékpártároló
-          bicycle_parking_small: Kis kerékpártároló
-          toilets: WC
     welcome:
       title: Üdvözlünk!
       introduction: Üdvözöl az OpenStreetMap - a szabad és szerkeszthető világtérkép
@@ -2312,10 +2197,6 @@ hu:
         elérhető egy gyors összefoglaló a legfontosabb tudnivalókkal.
       whats_on_the_map:
         title: Mi van a térképen
-        on_the_map_html: 'Az OpenStreetMapen olyan dolgokat ábrázolunk, amelyek %{real_and_current}:
-          milliónyi épület, út és más hely különféle jellemzőkkel. A térképre bármilyen
-          téged érdeklő, valóságban is létező objektumot felrajzolhatsz.'
-        real_and_current: valódiak és jelenleg is léteznek
         off_the_map_html: '%{doesnt} szubjektív adatokat (vélemények, minősítések,
           történelmi vagy feltételezett jellemzők) valamint a szerzői jogvédelem alatt
           álló forrásokból származó adatokat. Sose másolj semmit más internetes vagy
@@ -2346,15 +2227,11 @@ hu:
         automated_edits: automatizált szerkesztések
       start_mapping: Térképezés indítása
       continue_authorization: Engedélyezés folytatása
-      add_a_note:
-        title: Nincs időd szerkeszteni? Küldj be jegyzetet!
-        para_1: Ha valami apróságot szeretnél kijavíttatni és nincs időd regisztrálni
-          és megtanulni a szerkesztést, nagyon egyszerűen beküldhetsz egy jegyzetet!
-        para_2_html: |-
-          Egyszerűen menj a %{map_link}re, és kattints a jegyzet ikonra: %{note_icon}.
-          Ez elhelyez egy jelölőt a térképen, amely húzással mozgatható.
-          Adj hozzá adatokat, majd kattints a Mentés gombra, és más térképészek meg fogják vizsgálni.
-        the_map: térkép
+    add_a_note:
+      title: Nincs időd szerkeszteni? Küldj be jegyzetet!
+      para_1: Ha valami apróságot szeretnél kijavíttatni és nincs időd regisztrálni
+        és megtanulni a szerkesztést, nagyon egyszerűen beküldhetsz egy jegyzetet!
+      the_map: térkép
     communities:
       title: Közösségek
       lede_text: |-
@@ -2379,6 +2256,90 @@ hu:
           Ilyent bárki létrehozhat, vagy csatlakozhat ilyenhez. Bővebben a %{communities_wiki_link}in
           olvashatsz.
         communities_wiki: Közösségek wikioldala
+  map_keys:
+    show:
+      entries:
+        motorway: Autópálya
+        main_road: Fő út
+        trunk: Autóút
+        primary: Főút
+        secondary: Összekötő út
+        unclassified: Egyéb út
+        pedestrian: Sétálóutca
+        track: Mezőgazdasági/erdészeti út
+        bridleway: Lovaglóút
+        cycleway: Kerékpárút
+        mountain_bike_route: Hegyikerékpáros útvonal
+        footway: Gyalogút
+        rail: Vasút
+        train: Vonat
+        subway: Metró
+        ferry: Komp
+        light_rail: HÉV
+        tram: villamos
+        trolleybus: Trolibusz
+        bus: Busz
+        cable_car: Nagykabinos felvonó
+        chair_lift: függőszékes felvonó
+        runway: Kifutópálya
+        taxiway: gurulóút
+        apron: Forgalmi előtér
+        admin: Közigazgatási határ
+        capital: Főváros
+        city: Nagyváros
+        orchard: Gyümölcsös
+        vineyard: Szőlő
+        forest: Erdő
+        wood: Természetes erdő
+        farmland: Mezőgazdasági terület
+        grass: Fű
+        meadow: rét
+        bare_rock: Csupasz szikla
+        sand: Homok
+        golf: Golfpálya
+        park: Park
+        common: Füves terület
+        built_up: Beépített terület
+        resident: Gyalogos övezet
+        retail: Kereskedelmi terület
+        industrial: Ipari terület
+        commercial: Kereskedelmi terület
+        heathland: Fenyér
+        scrubland: Bozót
+        intermittent_water: Időszakos víztest
+        glacier: Gleccser
+        reef: Zátony
+        wetland: Vizenyős terület
+        farm: Tanya
+        brownfield: Bontási terület
+        cemetery: Temető
+        allotments: Kiskertek
+        pitch: Sportpálya
+        centre: Sportközpont
+        beach: Természetes strand
+        reserve: Természetvédelmi terület
+        military: Katonai terület
+        school: Iskola
+        university: egyetem
+        hospital: Kórház
+        building: Fontosabb épület
+        station: Vasútállomás
+        railway_halt: Vasúti megálló
+        subway_station: Metrómegálló
+        tram_stop: Villamosmegálló
+        summit: Hegycsúcs
+        peak: magaslat
+        tunnel: Szaggatott szegély = alagút
+        bridge: Fekete szegély = híd
+        private: Behajtás csak engedéllyel
+        destination: Csak célforgalom
+        construction: Épülő utak
+        bus_stop: Buszmegálló
+        bicycle_shop: Kerékpárbolt
+        bicycle_rental: Kerékpárkölcsönzés
+        bicycle_parking: Kerékpártároló
+        bicycle_parking_small: Kis kerékpártároló
+        toilets: WC
   traces:
     visibility:
       private: Magán (megosztva csak névtelenül, rendezetlen pontok)
@@ -2463,7 +2424,7 @@ hu:
       upload_trace: Nyomvonal feltöltése
       all_traces: Minden nyomvonal
       my_traces: Saját nyomvonalak
-      traces_from: '%{user} nyilvános nyomvonalai'
+      traces_from_html: '%{user} nyilvános nyomvonalai'
       remove_tag_filter: Címkeszűrő eltávolítása
     destroy:
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
@@ -2472,13 +2433,14 @@ hu:
     offline:
       heading: A GPX-tároló offline
       message: A GPX-fájltároló és -feltöltő rendszer jelenleg nem érhető el.
-    georss:
-      title: OpenStreetMap GPS-nyomvonalak
-    description:
-      description_with_count:
-        one: '%{user} GPX-fájlja %{count} ponttal'
-        other: '%{user} GPX-fájlja %{count} ponttal'
-      description_without_count: GPX fájl %{user} felhasználótól
+    feeds:
+      show:
+        title: OpenStreetMap GPS-nyomvonalak
+      description:
+        description_with_count:
+          one: '%{user} GPX-fájlja %{count} ponttal'
+          other: '%{user} GPX-fájlja %{count} ponttal'
+        description_without_count: GPX fájl %{user} felhasználótól
   application:
     permission_denied: Nincs megfelelő jogosultságod a művelet végrehajtásához
     require_cookies:
@@ -2498,11 +2460,6 @@ hu:
       oauth2_authorizations: OAuth 2 engedélyek
       muted_users: Elnémított felhasználók
     auth_providers:
-      openid_url: OpenID URL
-      openid_login_button: Folytatás
-      openid:
-        title: Bejelentkezés OpenID-vel
-        alt: OpenID-logó
       google:
         title: Bejelentkezés Google-lel
         alt: Google logó
@@ -2607,7 +2564,7 @@ hu:
           hozzád hasonló emberek hozzák létre, és bárki ingyenesen javíthatja, frissítheti,
           letöltheti és használhatja.
         paragraph_2: Regisztrálj a közreműködés megkezdéséhez.
-        welcome: Üdvözlünk az OpenStreetMapen
+        welcome: Üdvözlünk az OpenHistoricalMapen
       duplicate_social_email: Ha már rendelkezel OpenStreetMap fiókkal, és külső identitásszolgáltatót
         szeretnél használni, kérjük, jelentkezz be jelszavaddal, és módosítsd fiókod
         beállításait.
@@ -2621,54 +2578,14 @@ hu:
           címekről szóló részt
         contributor_terms: közreműködői feltételek
       continue: Regisztráció
-      terms accepted: Köszönjük, hogy elfogadtad az új közreműködési feltételeket!
       email_help:
         privacy_policy: adatvédelmi irányelvek
         privacy_policy_title: Az OSMF adatvédelmi szabályzata, beleértve az e-mail
           címekről szóló részt
         html: Címed nem jelenik meg nyilvánosan; további információért tekintsd meg
           a %{privacy_policy_link} oldalunkat.
-      consider_pd_html: Úgy vélem, hogy szerkesztéseim a %{consider_pd_link} kategóriába
-        tartoznak.
-      consider_pd: közkincs
       or: vagy
       use external auth: vagy használhatsz külső fiókokat a bejelentkezéshez
-    terms:
-      title: Feltételek
-      heading: Feltételek
-      heading_ct: Hozzájárulási feltételek
-      read and accept with tou: Kérjük, olvasd el a közreműködői megállapodást és
-        felhasználási feltételeket, majd a jelölőnégyzetek használatával erősítsd
-        meg, hogy elfogadod őket, ezután kattints a folytatás gombra.
-      contributor_terms_explain: Ez a megállapodás vonatkozik a jelenlegi és jövőbeli
-        hozzájárulásaidra.
-      read_ct: Elolvastam és elfogadom a hozzájárulói feltételeket
-      tou_explain_html: A webhely és az OSMF által biztosított egyéb infrastruktúra
-        használatát ezek a %{tou_link} szabályozzák. Kérjük, kattints a linkre, majd
-        olvasd el és fogadd el a szöveget.
-      read_tou: Elolvastam és elfogadom a felhasználási feltételeket
-      consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
-      consider_pd_why: mi ez?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_info_html: 'Információk a kifejezések megértéséhez: egy %{readable_summary_link}
-        és néhány %{informal_translations_link}'
-      readable_summary: ember által olvasható összefoglaló
-      informal_translations: informális fordítások
-      continue: Folytatás
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      cancel: Mégse
-      you need to accept or decline: A folytatáshoz kérjük, olvasd el, majd fogadd
-        el vagy utasítsd el az új közreműködési feltételeket.
-      legale_select: 'Kérlek, válaszd ki a lakóhelyed szerinti országot:'
-      legale_names:
-        france: Franciaország
-        italy: Olaszország
-        rest_of_world: A világ többi része
-    terms_declined_flash:
-      terms_declined_html: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új közreműködési
-        feltételeket. További információkért lásd %{terms_declined_link}.
-      terms_declined_link: ezt a wikioldalt
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nincs ilyen felhasználó
       heading: '%{user} felhasználó nem létezik'
@@ -2682,7 +2599,6 @@ hu:
       my notes: Saját jegyzetek
       my messages: Üzenetek
       my profile: Profil
-      my settings: Személyes beállítások
       my comments: Saját hozzászólások
       my_preferences: Megjelenési beállítások
       my_dashboard: Irányítópult
@@ -2696,8 +2612,6 @@ hu:
       edits: Szerkesztések
       traces: Nyomvonalak
       notes: Térképjegyzetek
-      remove as friend: Ismerős eltávolítása
-      add as friend: Felvétel ismerősnek
       mapper since: 'Térképszerkesztő ezóta:'
       last map edit: 'Legutóbbi térképszerkesztés:'
       no activity yet: Még nincs tevékenység
@@ -2738,18 +2652,51 @@ hu:
     go_public:
       flash success: Mostantól az összes szerkesztésed nyilvános, és engedélyezett
         a szerkesztés.
-    index:
-      title: Felhasználók
-      heading: Felhasználók
-      summary_html: '%{name} létrejött innen: %{ip_address}, ekkor: %{date}'
-      summary_no_ip_html: '%{name} letrejött ekkor: %{date}'
-      empty: Nem találtam egyező felhasználót
-    page:
-      found_users:
-        one: '%{count} felhasználó található'
-        other: '%{count} felhasználó található'
-      confirm: Kijelölt felhasználók megerősítése
-      hide: Kijelölt felhasználók elrejtése
+    issued_blocks:
+      show:
+        title: '%{name} által kiosztott blokkolások'
+        heading_html: '%{name} által kiosztott blokkolások listája'
+        empty: '%{name} még nem osztott ki blokkolást.'
+    received_blocks:
+      show:
+        title: '%{name} blokkolásai'
+        heading_html: '%{name} blokkolásainak felsorolása'
+        empty: '%{name} még nem volt blokkolva.'
+      edit:
+        title: '%{block_on} valamennyi blokkolásának visszavonása'
+        heading_html: '%{block_on} valamennyi blokkolásának visszavonása'
+        empty: '%{name} nem rendelkezik aktív blokkolással.'
+        confirm: Biztos benne, hogy visszavonod a %{active_blocks} blookkolást?
+        active_blocks:
+          one: '%{count} aktív blokkolás'
+          other: '%{count} aktív blokkolás'
+        revoke: Visszavonás!
+      destroy:
+        flash: Minden aktív blokkolás visszavonva.
+    lists:
+      show:
+        title: Felhasználók
+        heading: Felhasználók
+      page:
+        found_users:
+          one: '%{count} felhasználó található'
+          other: '%{count} felhasználó található'
+        confirm: Kijelölt felhasználók megerősítése
+        hide: Kijelölt felhasználók elrejtése
+        empty: Nem találtam egyező felhasználót
+      user:
+        summary_html: '%{name} létrejött innen: %{ip_address}, ekkor: %{date}'
+        summary_no_ip_html: '%{name} letrejött ekkor: %{date}'
+    changeset_comments:
+      page:
+        changeset: módosításkészlet
+        when: Mikor
+        comment: Hozzászólás
+    diary_comments:
+      index:
+        title: '%{user} naplóhozzászólásai'
+      page:
+        post: Bejegyzés
     suspended:
       title: Felhasználói fiók felfüggesztve
       heading: Felhasználói fiók felfüggesztve
@@ -2766,7 +2713,7 @@ hu:
       invalid_scope: Érvénytelen kód
       unknown_error: A hitelesítés sikertelen
     auth_association:
-      heading: Az azonosítódhoz még nem tartozik OpenStreetMap fiók.
+      heading: Az azonosítódhoz még nem tartozik OpenHistoricalMap fiók.
       option_1: Ha most vagy itt először, készíts magadnak egy OpenStreetMap-fiókot
         a lenti űrlap segítségével.
       option_2: Ha már van fiókod, bejelentkezhetsz a felhasználóneveddel és jelszavaddal,
@@ -2817,16 +2764,6 @@ hu:
       title: Felhasználói blokkolások
       heading: Felhasználói blokkolások listája
       empty: Még nem lett kiosztva blokkolás.
-    revoke_all:
-      title: '%{block_on} valamennyi blokkolásának visszavonása'
-      heading_html: '%{block_on} valamennyi blokkolásának visszavonása'
-      empty: '%{name} nem rendelkezik aktív blokkolással.'
-      confirm: Biztos benne, hogy visszavonod a %{active_blocks} blookkolást?
-      active_blocks:
-        one: '%{count} aktív blokkolás'
-        other: '%{count} aktív blokkolás'
-      revoke: Visszavonás!
-      flash: Minden aktív blokkolás visszavonva.
     helper:
       time_future_html: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
@@ -2849,14 +2786,6 @@ hu:
         years:
           one: '%{count} év'
           other: '%{count} év'
-    blocks_on:
-      title: '%{name} blokkolásai'
-      heading_html: '%{name} blokkolásainak felsorolása'
-      empty: '%{name} még nem volt blokkolva.'
-    blocks_by:
-      title: '%{name} által kiosztott blokkolások'
-      heading_html: '%{name} által kiosztott blokkolások listája'
-      empty: '%{name} még nem osztott ki blokkolást.'
     show:
       title: '%{block_on} blokkolva %{block_by} által'
       heading_html: '%{block_by} blokkolta %{block_on} felhasználót'
@@ -2867,7 +2796,6 @@ hu:
       reason: 'Blokkolás indoklása:'
       revoker: 'Visszavonó:'
     block:
-      not_revoked: (nincs visszavonva)
       show: Megjelenítés
       edit: Szerkesztés
     page:
@@ -2875,13 +2803,12 @@ hu:
       creator_name: Készítő
       reason: Blokkolás indoklása
       status: Állapot
-      revoker_name: 'Visszavonta:'
     navigation:
       all_blocks: Minden blokk
       blocks_on_me: Engem sújtó blokkolások
-      blocks_on_user: '%{user} blokkolásai'
+      blocks_on_user_html: '%{user} blokkolásai'
       blocks_by_me: Általam kiosztott blokkolások
-      blocks_by_user: '%{user} blokkolásai'
+      blocks_by_user_html: '%{user} blokkolásai'
       block: '#%{id} blokk'
       new_block: Újabb blokkolások
   user_mutes:
@@ -2991,8 +2918,6 @@ hu:
       center_marker: Legyen a helyjelölő a térkép középpontja
       paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
       view_larger_map: Nagyobb térkép
-      only_standard_layer: Csak az alap, kerékpáros és tömegközlekedési rétegek exportálható
-        képként
     embed:
       report_problem: Probléma bejelentése
     key:
@@ -3047,22 +2972,10 @@ hu:
     edit_help: Mozgasd a térképet, nagyíts ott ahol módosítani szeretnéd, majd kattints
       ide.
     directions:
-      ascend: Emelkedés
-      engines:
-        fossgis_osrm_bike: Kerékpár (OSRM)
-        fossgis_osrm_car: Autó (OSRM)
-        fossgis_osrm_foot: Gyalog (OSRM)
-        graphhopper_bicycle: Kerékpár (GraphHopper)
-        graphhopper_car: Autó (GraphHopper)
-        graphhopper_foot: Gyalog (GraphHopper)
-        fossgis_valhalla_bicycle: Kerékpár (Valhalla)
-        fossgis_valhalla_car: Autó (Valhalla)
-        fossgis_valhalla_foot: Gyalog (Valhalla)
-      descend: Ereszkedés
-      directions: Irányok
-      distance: Távolság
-      distance_m: '%{distance}&nbsp;m'
-      distance_km: '%{distance}&nbsp;km'
+      distance_in_units:
+        meters:
+          m: '%{distance}&nbsp;m'
+          km: '%{distance}&nbsp;km'
       errors:
         no_route: Nem található útvonal a két hely között.
         no_place: Sajnáljuk, %{place} helyet nem sikerült megtalálnunk a térképen.
@@ -3133,7 +3046,6 @@ hu:
           erre: %{name}'
         exit_roundabout: 'Hajtson ki a körforgalomból a következőre: %{name}'
         unnamed: névtelen út
-        courtesy: Útvonaltervezés a(z) %{link} jóvoltából
         exit_counts:
           first: "1."
           second: "2."
@@ -3145,7 +3057,6 @@ hu:
           eighth: "8."
           ninth: "9."
           tenth: "10."
-      time: Időtartam
     query:
       node: Pont
       way: Vonal

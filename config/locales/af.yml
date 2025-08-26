@@ -30,9 +30,6 @@ af:
         create: Lewer kommentaar
       message:
         create: Stuur
-      client_application:
-        create: Registreer
-        update: Opdateer
       oauth2_application:
         create: Registreer
         update: Opdateer
@@ -59,6 +56,7 @@ af:
       message: Boodskap
       node: Knooppunt
       node_tag: Knooppuntmerker
+      note: nota
       notifier: Kennisgewer
       old_node: Ou Knooppunt
       old_node_tag: Ou knooppuntmerker
@@ -246,39 +244,41 @@ af:
       entry:
         comment: Kommentaar
         full: Volle nota
-  account:
-    deletions:
-      show:
-        title: Skrap my rekening
-        delete_account: Skrap my rekening
-        delete_introduction: 'U kan jou OpenStreetMap-rekening skrap deur die knoppie
-          hieronder te druk. Let sseblief op na die volgende besonderhede:'
-        delete_profile: Jou profielinligting sowel as jou avatar en tuisligging sal
-          geskrap word.
-        retain_caveats: Sommige inligting oor jou sal egter behou word op OpenStreetMap
-          behou word, selfs nadat jou rekening geskrap is.
-        retain_diary_entries: Jou dagboekinskrywings en dagboekopmerkings, indien
-          enige, sl behou word, maar versteek word,
   accounts:
-    edit:
+    show:
       title: Redigeer rekening
-      my settings: My instellings
       current email address: Huidige e-posadres
       external auth: Ekserne veriviering.
-      public editing:
-        heading: Openbare redigerings
-        enabled: Geaktiveer. Nie anoniem nie en kan data redigeer.
-        enabled link text: wat is dié?
-        disabled link text: hoekom kan ek nie redigeer nie?
       contributor terms:
         heading: Bydraervoorwaardes
-        link text: wat is dié?
       save changes button: Stoor Wysigings
     go_public:
       heading: Openbare redigerings
       make_edits_public_button: Stel al my wysigings openbaar
     update:
       success: Gebruikersbesonderhede suksesvol bygewerk.
+    deletions:
+      show:
+        title: Skrap my rekening
+        delete_account: Skrap my rekening
+        delete_profile: Jou profielinligting sowel as jou avatar en tuisligging sal
+          geskrap word.
+        retain_diary_entries: Jou dagboekinskrywings en dagboekopmerkings, indien
+          enige, sl behou word, maar versteek word,
+    terms:
+      show:
+        title: Voorwaardes
+        heading: Voorwaardes
+        heading_ct: Bydraervoorwaardes
+        cancel: Kanselleer
+        legale_names:
+          france: Frankryk
+          italy: Italië
+          rest_of_world: Die res van die wêreld
+      update:
+        terms accepted: Dankie dat u die nuwe bydraerooreenkoms aanvaar het!
+      terms_declined_flash:
+        terms_declined_link: diehier wiki-bladsy
   browse:
     version: Weergawe
     in_changeset: Wysigingstel
@@ -297,10 +297,8 @@ af:
     location: 'Ligging:'
     node:
       title_html: 'Knooppunt: %{name}'
-      history_title_html: 'Knooppuntgeskiedenis: %{name}'
     way:
       title_html: 'Weg: %{name}'
-      history_title_html: 'Weggeskiedenis: %{name}'
       nodes: Knooppunte
       nodes_count:
         one: 1 nodus
@@ -310,7 +308,6 @@ af:
         other: gedeelte van weë %{related_ways}
     relation:
       title_html: 'Verwantskap: %{name}'
-      history_title_html: 'Verwantskapgeskiedenis: %{name}'
       members: Lede
       members_count:
         one: 1 lid
@@ -322,17 +319,9 @@ af:
         way: Weg
         relation: Verwantskap
     containing_relation:
-      entry_html: Verwantskap %{relation_name}
       entry_role_html: Verwantskap %{relation_name} (as %{relation_role})
     not_found:
       title: Kon nie gevind word
-      sorry: 'Jammer, %{type} #%{id} kon nie gevind word.'
-      type:
-        node: knooppunt
-        way: weg
-        relation: verwantskap
-        changeset: wysigingstel
-        note: nota
     timeout:
       title: Tydlimiet oorskry
       sorry: Jammer, die gegewens vir die %{type} met die id %{id} neem te lank om
@@ -366,11 +355,20 @@ af:
       wikimedia_commons_link: Die item %{page} op Wikimedia Commons
       telephone_link: Skakel %{phone_number}
       colour_preview: Kleur %{colour_value}-voorskou
-    query:
+  feature_queries:
+    show:
       title: Soek bakens op
       introduction: Klik op die kaart om bakens naby te ontdek.
       nearby: Bakens naby
       enclosing: Omsluitende bakens
+  old_elements:
+    index:
+      node:
+        title_html: 'Knooppuntgeskiedenis: %{name}'
+      way:
+        title_html: 'Weggeskiedenis: %{name}'
+      relation:
+        title_html: 'Verwantskapgeskiedenis: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -383,13 +381,9 @@ af:
         sorry: Jammer, die lys met kommentaar wat u versoek het, het te lank geneem
           om op te spoor.
   changesets:
-    changeset:
-      no_edits: (geen wysigings)
-      view_changeset_details: Beskou die wysigingstel se besonderhede
     index:
       title: Wysigingstelle
       title_user: Veranderings deur %{user}
-      title_friend: Wysigingstelle deur my vriende
       title_nearby: Veranderings deur gebruikers naby
       empty: Geen wysigingstelle gevind nie.
       empty_area: Geen wysigingstelle in hierdie gebied.
@@ -397,7 +391,6 @@ af:
       no_more: Geen meer wysigingstelle gevind nie.
       no_more_area: Geen wysigingstelle in hierdie gebied nie.
       no_more_user: Geen ander wysigingstelle deur hierdie gebruiker nie.
-      load_more: Laai nog
       feed:
         title: Wysigingstel %{id}
         title_comment: Wysigingstel %{id} - %{comment}
@@ -418,11 +411,8 @@ af:
       changesetxml: Wysigingstel XML
       osmchangexml: osmWysiging XML
     paging_nav:
-      nodes: Knooppunte (%{count})
       nodes_paginated: Knooppunte (%{x}-%{y} van %{count})
-      ways: Weë (%{count})
       ways_paginated: Weë (%{x}-%{y} van %{count})
-      relations: Verwantskappe (%{count})
       relations_paginated: Verwantskappe (%{x}-%{y} of %{count})
     timeout:
       sorry: Jammer, die lys wysigingstelle wat u versoek het, neem lank om uit te
@@ -432,19 +422,17 @@ af:
       km away: '%{count}km vêr'
       m away: '%{count}m vêr'
       latest_edit_html: 'Meest onlangse wysiging (%{ago}):'
+      no_edits: (geen wysigings)
+      view_changeset_details: Beskou die wysigingstel se besonderhede
     popup:
       your location: U ligging
       nearby mapper: Nabygeleë karteerder
-      friend: Vriend
     show:
       title: My paneelbord
       edit_your_profile: Wysig u profiel
-      my friends: My vriende
-      no friends: U het nog geen vriende bygevoeg nie.
       nearby users: Ander gebruikers naby
       no nearby users: Daar is nog geen ander gebruikers wat sê dat hulle in die nabye
         omgewing karteer nie.
-      friends_changesets: Wysigingstelle deur my vriende
       nearby_changesets: gebruikerswysigingstelle naby
   diary_entries:
     new:
@@ -454,13 +442,9 @@ af:
       use_map_link: Kies op kaart
     index:
       title: Gebruikersdagboeke
-      title_friends: Dagboeke van vriende
       title_nearby: Gebruikers in die omgewing se dagboeke
       user_title: '%{user} se dagboek'
       in_language_title: Dagboekinkrywings in %{language}
-      new: Nuwe dagboekinskrywing
-      new_title: Maak 'n nuwe inskrywing in jou dagboek
-      my_diary: My Dagboek
       no_entries: Geen dagboekinskrywings nie
     page:
       recent_entries: Onlangse dagboekinskrywings
@@ -511,32 +495,17 @@ af:
       all:
         title: OpenHistoricalMap-dagboekinskrywings
         description: Onlangse dagboekinskrywings van OpenHistoricalMap-gebruikers
-  diary_comments:
-    index:
-      no_comments: Geen dagboekkommentaar
-    page:
-      post: Inskrywing
-      when: Wanneer
-      comment: Kommentaar
+    navigation:
+      my_diary: My Dagboek
+      new: Nuwe dagboekinskrywing
+      new_title: Maak 'n nuwe inskrywing in jou dagboek
+    profile_diaries:
+      date_label: Datum
   doorkeeper:
     flash:
       applications:
         create:
           notice: Program geregistreer.
-  friendships:
-    make_friend:
-      heading: '%{user} as vriend toevoeg?'
-      button: As vriend byvoeg
-      success: '%{name} is nou u vriend!'
-      failed: Jammer, kon nie %{name} as 'n vriend byvoeg nie.
-      already_a_friend: U is reeds met %{name} bevriend.
-      limit_exceeded: U het onlangs baie vriendskapsversoeke gestuur. Wag 'n tyd voordat
-        u nuwe versoeke probeer stuur.
-    remove_friend:
-      heading: '%{user} as vriend verwyder?'
-      button: Verwyder as vriend
-      success: '%{name} is uit u vriendekring verwyder.'
-      not_a_friend: '%{name} is nie een van u vriende nie.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1235,6 +1204,9 @@ af:
           building_passage: Geboudeurgang
           culvert: Duiksloot
           "yes": Tonnel
+        water:
+          lake: Meer
+          reservoir: reservoir
         waterway:
           artificial: Kunsmatige waterweg
           boatyard: Skeepswerf
@@ -1265,17 +1237,22 @@ af:
         level9: Dorpsgrens
         level10: Voorstedelike grens
         level11: Buurtgrens
-    results:
-      no_results: Geen resultate gevind nie
-      more_results: Nog resultate
+  searches:
+    queries:
+      create:
+        no_results: Geen resultate gevind nie
+        more_results: Nog resultate
+  directions:
+    show:
+      distance: Afstand
+      time: Tyd
+      directions_courtesy_html: Aanwysings danksy %{link}
   issues:
     index:
       title: Probleme
       select_status: Kies Status
       select_type: Kies Tipe
-      select_last_updated_by: Kies Laas opgedateer deur
       reported_user: Gerapporteerde gebruiker
-      not_updated: Nie opgedateer nie
       search: Soek
       search_guidance: 'Deursoek probleme:'
       states:
@@ -1293,7 +1270,6 @@ af:
         other: '%{count} verslae'
       reported_item: Gerapporteerde item
     show:
-      title: '%{status} Probleem #%{issue_id}'
       report_created_at_html: Eerste vermelding op %{datetime}
       last_resolved_at_html: Laas geregmaak op %{datetime}
       last_updated_at_html: Laaste opgedateer op %{datetime} deur %{displayname}
@@ -1314,7 +1290,6 @@ af:
       reopened: Probleemstatus is op 'Oop' gestel
     comments:
       comment_from_html: Kommentaar van %{user_link} op %{comment_created_at}
-      reassign_param: Ken die probleem weer toe?
     reports:
       reported_by_html: As %{category} gerapporteer deur %{user} op %{updated_at}
     helper:
@@ -1383,10 +1358,6 @@ af:
     intro_2_create_account: Skep 'n gebruikerrekening
     partners_title: vennote
     tou: Gebruiksvoorwaardes
-    osm_offline: Die OpenHistoricalMap-databasis is tans vanlyn terwyl noodsaaklike
-      onderhoud gedoen word.
-    osm_read_only: Die OpenHistoricalMap-databasis kan tans slegs gelees word terwyl
-      noodsaaklike onderhoud gedoen word.
     help: Hulp
     about: Aangaande
     copyright: Kopiereg
@@ -1402,9 +1373,8 @@ af:
     message_notification:
       subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hallo %{to_user},
-    friendship_notification:
+    follow_notification:
       hi: Hallo %{to_user},
-      subject: '[OpenHistoricalMap] %{user} het u as ''n vriend bygevoeg'
     gpx_failure:
       hi: Hallo %{to_user},
     gpx_success:
@@ -1451,20 +1421,6 @@ af:
       button: Bevestig
       success: Die verandering van u e-posadres is bevestig!
   messages:
-    inbox:
-      title: In-vakkie
-      no_messages_yet_html: U het nog geen boodskappe nie. Waarom tree u nie met sommige
-        van die %{people_mapping_nearby_link} in verbinding nie?
-      people_mapping_nearby: nabygeleë karteerders
-    messages_table:
-      from: Van
-      to: Aan
-      subject: Onderwerp
-      date: Datum
-    message_summary:
-      unread_button: Merk as ongelees
-      read_button: Merk as gelees
-      destroy_button: Skrap
     new:
       title: Stuur boodskap
       send_message_to_html: Stuur 'n nuwe boodskap aan %{name}
@@ -1474,27 +1430,45 @@ af:
     no_such_message:
       title: Geen so 'n boodskap nie
       heading: Geen so 'n boodskap nie
-    outbox:
-      title: Uit-vakkie
-      no_sent_messages_html: U het nog geen boodskappe gestuur nie. Waarom tree u
-        nie met sommige van die %{people_mapping_nearby_link} in verbinding nie?
-      people_mapping_nearby: nabygeleë karteerders
     show:
       title: Lees boodskap
       reply_button: Beantwoord
       unread_button: Merk as ongelees
       destroy_button: Skrap
       back: Terug
-    sent_message_summary:
-      destroy_button: Skrap
-    heading:
-      my_inbox: My in-vakkie
-      my_outbox: My uit-vakkie
-    mark:
-      as_read: Boodskap as gelees gemerk
-      as_unread: Boodskap as ongelees gemerk
     destroy:
       destroyed: Boodskap is verwyder
+    read_marks:
+      create:
+        notice: Boodskap as gelees gemerk
+      destroy:
+        notice: Boodskap as ongelees gemerk
+    mailboxes:
+      heading:
+        my_inbox: My in-vakkie
+        my_outbox: My uit-vakkie
+      messages_table:
+        from: Van
+        to: Aan
+        subject: Onderwerp
+      message:
+        unread_button: Merk as ongelees
+        read_button: Merk as gelees
+        destroy_button: Skrap
+    inboxes:
+      show:
+        title: In-vakkie
+        no_messages_yet_html: U het nog geen boodskappe nie. Waarom tree u nie met
+          sommige van die %{people_mapping_nearby_link} in verbinding nie?
+        people_mapping_nearby: nabygeleë karteerders
+    outboxes:
+      show:
+        title: Uit-vakkie
+        no_sent_messages_html: U het nog geen boodskappe gestuur nie. Waarom tree
+          u nie met sommige van die %{people_mapping_nearby_link} in verbinding nie?
+        people_mapping_nearby: nabygeleë karteerders
+      message:
+        destroy_button: Skrap
   passwords:
     new:
       title: Wagwoord verloor
@@ -1508,14 +1482,12 @@ af:
     update:
       flash changed: U wagwoord is gewysig.
   preferences:
-    show:
-      title: My voorkeure
-      edit_preferences: Wysig voorkeure
-    edit:
-      save: Opdateer voorkeure
-      cancel: Kanselleer
+    basic_preferences:
+      show:
+        title: My voorkeure
+        save: Opdateer voorkeure
   profiles:
-    edit:
+    show:
       title: Wysig profiel
       save: Opdateer profiel
       cancel: Kanselleer
@@ -1578,7 +1550,7 @@ af:
         credit_title_html: Hoe om na OpenHistoricalMap te verwys
         contributors_title_html: Ons bydraers
         infringement_title_html: Kopieregoortreding
-    edit:
+    not_public_flash:
       user_page_link: gebruikersbladsy
       anon_edits_link_text: Lees waarom dit so is.
     export:
@@ -1627,65 +1599,6 @@ af:
       to: Na
       where_am_i: Waar is dié?
       submit_text: Soek
-    key:
-      table:
-        entry:
-          motorway: Snelweg
-          main_road: Hoofweg
-          trunk: Hoofroete
-          primary: Primêre weg
-          secondary: Sekondêre pad
-          unclassified: Ongeklassifiseerde weg
-          track: Spoor
-          bridleway: Ruiterpad
-          cycleway: Fietspad
-          cycleway_national: Nasionale fietsroete
-          footway: Voetpad
-          rail: Spoorweg
-          subway: Ondergrondse spoorweg
-          light_rail: Ligte spoor
-          tram: trem
-          cable_car: Sweefspoor
-          chair_lift: stoelhyser
-          runway: Aanloopbaan
-          taxiway: vliegtuigrybaan
-          apron: Lughaweplatform
-          admin: Administratiewe grens
-          forest: Woud
-          wood: Bos
-          meadow: weiland
-          golf: Gholfbaan
-          park: Park
-          common: Gemeen
-          resident: Woongebied
-          retail: Kleinhandel-gebied
-          industrial: Nywerheidsgebied
-          commercial: Handelsgebied
-          heathland: Heide
-          lake: Meer
-          reservoir: reservoir
-          farm: Plaas
-          brownfield: Braakveldterrein
-          cemetery: Begraafplaas
-          allotments: Volkstuine
-          pitch: Sportveld
-          centre: Sportsentrum
-          reserve: Natuurreservaat
-          military: Militêre gebied
-          school: Skool
-          university: universiteit
-          building: Betekenisvolle gebou
-          station: Spoorwegstasie
-          summit: Piek
-          peak: piek
-          tunnel: Strepieomhulsel = tonnel
-          bridge: Swart omhulsel = brug
-          private: Privaat toegang
-          destination: Bestemmingsverkeer
-          construction: Wege in aanbou
-          bicycle_shop: Fietswinkel
-          bicycle_parking: Fietsparkering
-          toilets: Toilette
     welcome:
       title: Welkom!
       basic_terms:
@@ -1695,8 +1608,64 @@ af:
       rules:
         title: Reëls!
       start_mapping: Begin karteer
-      add_a_note:
-        title: Geen tyd om te redigeer nie? Voeg 'n nota by!
+    add_a_note:
+      title: Geen tyd om te redigeer nie? Voeg 'n nota by!
+  map_keys:
+    show:
+      entries:
+        motorway: Snelweg
+        main_road: Hoofweg
+        trunk: Hoofroete
+        primary: Primêre weg
+        secondary: Sekondêre pad
+        unclassified: Ongeklassifiseerde weg
+        track: Spoor
+        bridleway: Ruiterpad
+        cycleway: Fietspad
+        footway: Voetpad
+        rail: Spoorweg
+        subway: Ondergrondse spoorweg
+        light_rail: Ligte spoor
+        tram: trem
+        cable_car: Sweefspoor
+        chair_lift: stoelhyser
+        runway: Aanloopbaan
+        taxiway: vliegtuigrybaan
+        apron: Lughaweplatform
+        admin: Administratiewe grens
+        forest: Woud
+        wood: Bos
+        meadow: weiland
+        golf: Gholfbaan
+        park: Park
+        common: Gemeen
+        resident: Woongebied
+        retail: Kleinhandel-gebied
+        industrial: Nywerheidsgebied
+        commercial: Handelsgebied
+        heathland: Heide
+        farm: Plaas
+        brownfield: Braakveldterrein
+        cemetery: Begraafplaas
+        allotments: Volkstuine
+        pitch: Sportveld
+        centre: Sportsentrum
+        reserve: Natuurreservaat
+        military: Militêre gebied
+        school: Skool
+        university: universiteit
+        building: Betekenisvolle gebou
+        station: Spoorwegstasie
+        summit: Piek
+        peak: piek
+        tunnel: Strepieomhulsel = tonnel
+        bridge: Swart omhulsel = brug
+        private: Privaat toegang
+        destination: Bestemmingsverkeer
+        construction: Wege in aanbou
+        bicycle_shop: Fietswinkel
+        bicycle_parking: Fietsparkering
+        toilets: Toilette
   traces:
     new:
       upload_trace: Laai GPS-spore op
@@ -1749,7 +1718,7 @@ af:
       tagged_with: gemerk met %{tags}
       upload_trace: Laai 'n GPS-spoor op
       my_traces: My Spore
-      traces_from: Openbare spore van %{user}
+      traces_from_html: Openbare spore van %{user}
     destroy:
       scheduled_for_deletion: Spoor is vir verwydering geoormerk
   application:
@@ -1757,9 +1726,6 @@ af:
       account_settings: Rekeninginstellings
       oauth2_applications: OAuth 2 programme
     auth_providers:
-      openid:
-        title: Meld aan met OpenID
-        alt: Meld aan met 'n OpenID-URL
       google:
         title: Meld aan met Google
         alt: Meld aan met 'n Google-OpenID
@@ -1817,19 +1783,7 @@ af:
       display name description: U gebruikernaam wat openbaar verskyn. U kan dit wel
         later nog onder voorkeure wysig.
       continue: Meld aan
-      terms accepted: Dankie dat u die nuwe bydraerooreenkoms aanvaar het!
       use external auth: Gebruik andersins 'n derde party om mee aan te meld
-    terms:
-      title: Voorwaardes
-      heading: Voorwaardes
-      heading_ct: Bydraervoorwaardes
-      continue: Gaan voort
-      legale_names:
-        france: Frankryk
-        italy: Italië
-        rest_of_world: Die res van die wêreld
-    terms_declined_flash:
-      terms_declined_link: diehier wiki-bladsy
     no_such_user:
       title: Geen so 'n gebruiker nie
       heading: Die gebruiker %{user} bestaan nie
@@ -1842,7 +1796,6 @@ af:
       my traces: My Spore
       my notes: My notas
       my profile: My profiel
-      my settings: My Instellings
       my comments: My kommentaar
       my_preferences: My voorkeure
       my_dashboard: My paneelbord
@@ -1854,8 +1807,6 @@ af:
       edits: Wysigings
       traces: Spore
       notes: Kaartnotas
-      remove as friend: Verwyder as vriend
-      add as friend: Voeg by as vriend
       mapper since: 'Karteerder sedert:'
       ct status: 'Bydraervoorwaardes:'
       email address: 'E-posadres:'
@@ -1882,15 +1833,37 @@ af:
       delete_user: Skrap dié Gebruiker
       confirm: Bevestig
       report: Rapporteer hierdie gebruiker
-    index:
-      title: Gebruikers
-      heading: Gebruikers
-      summary_html: '%{name} geskep vanaf %{ip_address} op %{date}'
-      summary_no_ip_html: '%{name} geskep op %{date}'
-      empty: Geen gebruikers gevind nie
-    page:
-      confirm: Bevestig geselekteerde gebruikers
-      hide: Versteek verkose gebruikers
+    issued_blocks:
+      show:
+        title: Versperrings deur %{name}
+        heading_html: Lys van versperrings deur %{name}
+        empty: '%{name} het nog niemand versper nie.'
+    received_blocks:
+      show:
+        title: Versperrings op %{name}
+        heading_html: Lys van versperrings teen %{name}
+        empty: '%{name} is nog nooit versper nie.'
+      edit:
+        revoke: Herroep!
+    lists:
+      show:
+        title: Gebruikers
+        heading: Gebruikers
+      page:
+        confirm: Bevestig geselekteerde gebruikers
+        hide: Versteek verkose gebruikers
+        empty: Geen gebruikers gevind nie
+      user:
+        summary_html: '%{name} geskep vanaf %{ip_address} op %{date}'
+        summary_no_ip_html: '%{name} geskep op %{date}'
+    changeset_comments:
+      page:
+        changeset: wysigingstel
+        when: Wanneer
+        comment: Kommentaar
+    diary_comments:
+      page:
+        post: Inskrywing
     auth_failure:
       no_authorization_code: Geen matigingskode
   user_blocks:
@@ -1910,8 +1883,6 @@ af:
       title: Gebruikerversperrings
       heading: Lys van gebruikersversperrings
       empty: Niemand is nog versper nie.
-    revoke_all:
-      revoke: Herroep!
     helper:
       time_future_html: Tyd oor %{time} verstreke.
       until_login: Aktief totdat die gebruiker aanmeld.
@@ -1929,14 +1900,6 @@ af:
         months:
           one: 1 maand
           other: '%{count} maande'
-    blocks_on:
-      title: Versperrings op %{name}
-      heading_html: Lys van versperrings teen %{name}
-      empty: '%{name} is nog nooit versper nie.'
-    blocks_by:
-      title: Versperrings deur %{name}
-      heading_html: Lys van versperrings deur %{name}
-      empty: '%{name} het nog niemand versper nie.'
     show:
       title: '%{block_on} is deur %{block_by} versper'
       heading_html: '%{block_on} is deur %{block_by} versper'
@@ -1946,7 +1909,6 @@ af:
       reason: 'Rede agter die versperring:'
       revoker: 'Herroep deur:'
     block:
-      not_revoked: (nie herroep nie)
       show: Wys
       edit: Redigeer
     page:
@@ -1954,7 +1916,6 @@ af:
       creator_name: Skepper
       reason: Rede vir die versperring
       status: Status
-      revoker_name: Herroep deur
   notes:
     index:
       heading: Notas van %{user}
@@ -1991,7 +1952,6 @@ af:
       scale: 'Skaal:'
       download: Laai af
       paste_html: Plak HTML om in die webblad te versteek
-      only_standard_layer: Slegs die standaardlaag kan as ’n beeld uitgevoer word
     embed:
       report_problem: Rapporteer 'n probleem
     key:
@@ -2018,15 +1978,8 @@ af:
       queryfeature_tooltip: Soek bakens op
       queryfeature_disabled_tooltip: Zoem in om bakens te zoek
     directions:
-      engines:
-        fossgis_osrm_car: Kar (OSRM)
-        graphhopper_bicycle: Fiets (GraphHopper)
-        graphhopper_car: Kar (GraphHopper)
-      distance: Afstand
       instructions:
         continue_without_exit: Gaan voort op %{name}
-        courtesy: Aanwysings danksy %{link}
-      time: Tyd
     query:
       node: Knooppunt
       way: Weg

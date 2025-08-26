@@ -34,9 +34,6 @@ tl:
         create: Magdagdag ng Puna
       message:
         create: Ipadala
-      client_application:
-        create: Magpatala
-        update: Isapanahon
       oauth2_application:
         create: Magpatala
         update: Isapanahon
@@ -63,6 +60,7 @@ tl:
       message: Mensahe
       node: Buko
       node_tag: Tatak ng Buko
+      note: tala
       notifier: Tagapagpabatid
       old_node: Lumang Buko
       old_node_tag: Tatak ng Lumang Buko
@@ -226,31 +224,11 @@ tl:
         reopened: tala na nabuhay muli (malapit sa %{place})
       entry:
         full: Buong tala
-  account:
-    deletions:
-      show:
-        title: Burahin ang Aking Akawnt
-        delete_account: Burahin ang Akawnt
-        retain_email: Pananatilihin ang iyong tirahan ng e-liham.
-        confirm_delete: Sigurado ka ba?
-        cancel: Huwag ituloy
   accounts:
-    edit:
+    show:
       title: Baguhin ang akawnt
-      my settings: Mga pagtatakda ko
       current email address: Pangkasalukuyang Tirahan ng E-liham
       external auth: Panlabas na Pagpapatunay
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: ano ba ito?
-      public editing:
-        heading: Pangmadlang pamamatnugot
-        enabled: Pinagana. Nagpakilala at maaaring magbago ng dato.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: ano ba ito?
-        disabled: Hindi pinagana at hindi makapagbabago ng dato, lahat ng nakaraang
-          mga pagbabago ay bilang hindi nagpapakilala.
-        disabled link text: bakit hindi ako makapamatnugot?
       contributor terms:
         heading: Mga Tuntunin sa Tagapag-ambag
         agreed: Sumang-ayon ka sa bagong mga Tuntunin na Pangtagapag-ambag.
@@ -271,6 +249,34 @@ tl:
         Suriin ang e-liham mo para sa isang tala upang matiyak ang bago mong tirahan
         ng e-liham.
       success: Matagumpay na naisapanahon ang kabatiran sa tagagamit.
+    deletions:
+      show:
+        title: Burahin ang Aking Akawnt
+        delete_account: Burahin ang Akawnt
+        retain_email: Pananatilihin ang iyong tirahan ng e-liham.
+        confirm_delete: Sigurado ka ba?
+        cancel: Huwag ituloy
+    terms:
+      show:
+        title: 'Mga tuntunin:'
+        heading: Mga tuntunin
+        heading_ct: Mga tuntunin sa taga-ambag
+        cancel: Huwag ituloy
+        you need to accept or decline: Mangyaring basahin at pagkaraan ay tanggipin
+          o tanggihan ang bagong mga Tuntunin ng Tagapag-ambag upang makapagpatuloy.
+        legale_select: 'Mangyaring piliin ang iyong bansang pinamamalagian:'
+        legale_names:
+          france: Pransiya
+          italy: Italya
+          rest_of_world: Iba pang bahagi ng mundo
+      update:
+        terms accepted: Salamat sa pagtanggap ng bagong mga tuntunin ng tagapag-ambag!
+      terms_declined_flash:
+        terms_declined_html: Ikinalulungkot namin na nagpasya kang hindi tanggapin
+          ang bagong Mga Tuntunin sa Tagapag-ambag. Para sa karagdagang impormasyon,
+          mangyaring tingnan %{terms_declined_link}
+        terms_declined_link: ang pahinang wiki na ito
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     version: Bersyon
     in_changeset: Pangkat ng pagbabago
@@ -289,10 +295,8 @@ tl:
     location: Pook (lokasyon)
     node:
       title_html: 'Buko: %{name}'
-      history_title_html: 'Kasaysayan ng Buko: %{name}'
     way:
       title_html: 'Daan: %{name}'
-      history_title_html: 'Kasaysayan ng Daan: %{name}'
       nodes: Mga buko
       nodes_count:
         one: 1 buko
@@ -302,7 +306,6 @@ tl:
         other: bahagi ng mga daan %{related_ways}
     relation:
       title_html: 'Kaugnayan: %{name}'
-      history_title_html: 'Kasaysayan ng Kaugnayan: %{name}'
       members: Mga kasapi
       members_count:
         one: 1 kasapi
@@ -315,17 +318,9 @@ tl:
         way: Daan
         relation: Kaugnayan
     containing_relation:
-      entry_html: Kaugnayan %{relation_name}
       entry_role_html: Kaugnayan %{relation_name} (bilang %{relation_role})
     not_found:
       title: Hindi Matagpuan
-      sorry: 'Paumanhin, %{type} #%{id} ay hindi matagpuan.'
-      type:
-        node: buko
-        way: daan
-        relation: kaugnayan
-        changeset: palitan ang pagtatakda
-        note: tala
     timeout:
       sorry: Paumanhin, ang dato para sa %{type} na may ID na %{id}, ay natagalan
         bago nakuha uli.
@@ -356,11 +351,20 @@ tl:
       wikipedia_link: Ang %{page} ng artikulo sa Wikipedia
       wikimedia_commons_link: Ang %{page} ng bagay sa Wikimedia Commons
       telephone_link: Tawagan ang %{phone_number}
-    query:
+  feature_queries:
+    show:
       title: Usisain ang mga Tampok
       introduction: Pumindot sa mapa upang makahanap ng mga kalapit na tampok.
       nearby: Mga kalapit na tampok
       enclosing: Kalakip na mga tampok
+  old_elements:
+    index:
+      node:
+        title_html: 'Kasaysayan ng Buko: %{name}'
+      way:
+        title_html: 'Kasaysayan ng Daan: %{name}'
+      relation:
+        title_html: 'Kasaysayan ng Kaugnayan: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -368,13 +372,9 @@ tl:
       show:
         title_all: Pagtalakay ng pangkat ng pagbabago sa OpenHistoricalMap
   changesets:
-    changeset:
-      no_edits: (walang mga pamamatnugot)
-      view_changeset_details: Tingnan ang mga detalye ng pangkat ng pagbabago
     index:
       title: Mga pangkat ng pagbabago
       title_user: Mga pangkat ng pagbabago ayon sa %{user}
-      title_friend: Mga pangkat ng pagbabago ng mga kaibigan mo
       title_nearby: Mga pangkat ng pagbabago ng kalapit na mga tagagamit
       empty: Walang natagpuang mga aparato/gadyet.
       empty_area: Walang pangkat ng pagbabago sa lugar na ito.
@@ -382,7 +382,6 @@ tl:
       no_more: Wala nang mga pangkat ng pagbabago ang nakita.
       no_more_area: Wala nang mga pangkat ng pagbabago sa lugar na ito.
       no_more_user: Wala nang mga pangkat ng pagbabago mula sa tagagamit na ito.
-      load_more: Magkarga pa
       feed:
         title: '%{id} ng pangkat ng pagbabago'
         title_comment: '%{id} ng angkat ng pagbabago - %{comment}'
@@ -401,11 +400,8 @@ tl:
       changesetxml: XML ng pangkat ng pagbabago
       osmchangexml: XML ng osmChange
     paging_nav:
-      nodes: Mga buko (%{count})
       nodes_paginated: Mga buko (%{x}-%{y} ng %{count})
-      ways: Mga daan (%{count})
       ways_paginated: Mga daan (%{x}-%{y} ng %{count})
-      relations: Mga kaugnayan (%{count})
       relations_paginated: Mga kaugnayan (%{x}-%{y} ng %{count})
     timeout:
       sorry: Paumanhin, ang talaan ng mga pangkat ng pagbabagong hiniling mo ay naging
@@ -415,19 +411,16 @@ tl:
       km away: '%{count}km ang layo'
       m away: '%{count}m ang layo'
       latest_edit_html: 'Pinakahuling pagbabago (%{ago}):'
+      no_edits: (walang mga pamamatnugot)
+      view_changeset_details: Tingnan ang mga detalye ng pangkat ng pagbabago
     popup:
       your location: Kinalalagyan mo
       nearby mapper: Malapit na tagapagmapa
-      friend: Kaibigan
     show:
       title: Aking Tapalodo
       edit_your_profile: Baguhin ang iyong balangkas
-      my friends: Aking mga kaibigan
-      no friends: Hindi ka pa nagdaragdag ng sinumang mga kaibigan.
       nearby users: Iba pang kalapit na mga tagagamit
       no nearby users: Wala pang ibang mga tagagamit na umaamin sa pagmamapa ng malapitan.
-      friends_changesets: mga pagbabago ng mga kaibigan
-      friends_diaries: mga lahok ng mga kaibigan
       nearby_changesets: mga pagtatakda ng pagbabago mula sa kalapit na mga tagagamit
       nearby_diaries: mga inilahok sa talaarawan ng kalapit na mga tagagamit
   diary_entries:
@@ -438,13 +431,9 @@ tl:
       use_map_link: Gamitin ang Mapa
     index:
       title: Mga talaarawan ng mga tagagamit
-      title_friends: Mga talaarawan ng mga kaibigan
       title_nearby: Mga talaarawan ng Kanugnog na mga Tagagamit
       user_title: Talaarawan ni %{user}
       in_language_title: Mga Pagpapasok sa Talaarawan na nasa %{language}
-      new: Bagong Pagpapasok sa Talaarawan
-      new_title: Bumuo ng isang bagong pagpapasok sa loob ng talaarawan mo ng tagagamit
-      my_diary: Aking Talaarawan
       no_entries: Walang mga pagpapasok sa talaarawan
     page:
       recent_entries: Kamakailang mga pagpapasok sa talaarawan
@@ -497,26 +486,12 @@ tl:
           ng OpenStreetMap
     comments:
       title: Mga Puna sa Talaarawan ay idinagdag ni %{user}
-  diary_comments:
-    index:
-      title: Mga Puna sa Talaarawan ay idinagdag ni %{user}
-      subheading_html: Mga Puna sa Talaarawan ay idinagdag ni %{user}
-    page:
-      post: Ipaskil
-      when: Kailan
-      comment: Puna
-  friendships:
-    make_friend:
-      heading: Idagdag si %{user} bilang isang kaibigan?
-      button: idagdag bilang kaibigan
-      success: Kaibigan mo na ngayon si %{name}!
-      failed: Paumanhin, nabigong maidagdag si %{name} bilang isang kaibigan.
-      already_a_friend: Kaibigan ka na ni %{name}.
-    remove_friend:
-      heading: Tanggalin bilang isang kaibigan si %{user}?
-      button: Tanggalin bilang kaibigan
-      success: Si %{name} ay tinanggal mula sa mga kaibigan mo.
-      not_a_friend: Si %{name} ay hindi isa sa mga kaibigan mo.
+    navigation:
+      my_diary: Aking Talaarawan
+      new: Bagong Pagpapasok sa Talaarawan
+      new_title: Bumuo ng isang bagong pagpapasok sa loob ng talaarawan mo ng tagagamit
+    profile_diaries:
+      date_label: Petsa
   geocoder:
     search_osm_nominatim:
       prefix_format: '%{name}'
@@ -1065,6 +1040,9 @@ tl:
           building_passage: Daanan ng Gusali
           culvert: Alkantarilya
           "yes": Lagusan
+        water:
+          lake: Lawa
+          reservoir: tinggalan ng tubig
         waterway:
           artificial: Daanan ng Tubig na Gawang-Tao
           boatyard: Bakuran ng bangka
@@ -1095,16 +1073,25 @@ tl:
         level9: Hangganan ng Nayon
         level10: Hangganan ng Kanugnog ng Lungsod
         level11: Hangganan ng Kapitbahayan
-    results:
-      no_results: Walang natagpuang mga kinalabasan
-      more_results: Marami pang mga kinalabasan
+  searches:
+    queries:
+      create:
+        no_results: Walang natagpuang mga kinalabasan
+        more_results: Marami pang mga kinalabasan
+  directions:
+    show:
+      title: Mga Direksyon
+      distance: Layo
+      time: Oras
+      ascend: Umakyat
+      descend: Pagbaba
+      directions_courtesy_html: Mga direksyon mula sa kagandahang-loob ng %{link}
   issues:
     index:
       title: Mga isyu
       select_status: Pumili ng Kalagayan
       select_type: Pumili ng Uri
       reported_user: Naiulat na Tagagamit
-      not_updated: Hindi Naisapanahon
       search: Maghanap
       search_guidance: 'Maghanap ng mga Isyu:'
       states:
@@ -1119,7 +1106,6 @@ tl:
         other: '%{count} mga Ulat'
       reported_item: Naiulat na bagay
     show:
-      title: '%{status} Isyu #%{issue_id}'
       reports:
         one: 1 ulat
         other: '%{count} mga ulat'
@@ -1138,8 +1124,6 @@ tl:
       ignored: Kalagayan ng isyu ay nakatakda bilang 'Hindi pinansin'
     reopen:
       reopened: Kalagayan ng isyu ay nakatakda bilang 'Bukas'
-    comments:
-      reassign_param: Muling italaga ang isyu?
     reports:
       reported_by_html: Naiulat bilang %{category} ni %{user} noong %{updated_at}
     helper:
@@ -1193,11 +1177,6 @@ tl:
     intro_2_create_account: Lumikha ng isang akawnt ng tagagamit
     partners_title: mga kawaksi
     tou: Pagtatakda sa Paggamit
-    osm_offline: Ang kalipunan ng dato ng OpenStreetMap ay pangkasalukuyang nakapatay
-      habang isinasagawa ang mahalagang gawain ng pagpapanatili ng kalipunan ng dato.
-    osm_read_only: Ang kalipunan ng dato ng OpenStreetMap ay pangkasalukuyang nasa
-      pamamaraang mababasa lamang habang isinasagawa ang mahalagang gawain ng pagpapanatili
-      ng kalipunan ng dato.
     help: Tulong
     about: Patungkol
     copyright: Karapatang-sipi
@@ -1220,15 +1199,10 @@ tl:
         ng OpenStreetMap na may paksang %{subject}:'
       header_html: 'Si %{from_user} ay nagpadala sa iyo ng isang mensahe sa pamamagitan
         ng OpenStreetMap na may paksang %{subject}:'
-    friendship_notification:
+    follow_notification:
       hi: Kumusta %{to_user},
-      subject: '[OpenStreetMap] Idinagdag ka ni %{user} bilang isang kaibigan'
-      had_added_you: Idinagdag ka ni %{user} bilang isang kaibigan doon sa OpenStreetMap.
       see_their_profile: Maaari mong makita ang kaniyang balangkas sa %{userurl}.
       see_their_profile_html: Maaari mong makita ang kaniyang balangkas sa %{userurl}.
-      befriend_them: Maaari mong rin siyang idagdag bilang isang kaibigan sa %{befriendurl}.
-      befriend_them_html: Maaari mong rin siyang idagdag bilang isang kaibigan sa
-        %{befriendurl}.
     gpx_failure:
       hi: Kumusta %{to_user},
       failed_to_import: 'nabigo sa pag-angkat. Narito ang kamalian:'
@@ -1240,7 +1214,7 @@ tl:
       hi: Kumusta %{to_user},
       subject: Tagumpay ng Pag-angkat ng GPX ng [OpenStreetMap]
     signup_confirm:
-      subject: '[OpenStreetMap] Maligayang pagdating sa OpenStreetMap'
+      subject: '[OpenHistoricalMap] Maligayang pagdating sa OpenHistoricalMap'
       greeting: Kumusta!
       created: Isang tao (sana ikaw) ay kakagawa lang ng account sa %{site_url}.
       confirm: 'Bago kami gumawa ng anumang bagay, kailangan naming kumpirmahin na
@@ -1335,27 +1309,6 @@ tl:
       failure: Isang tirahan ng e-liham ang natiyak nang may ganitong kahalip.
       unknown_token: Tila lumipas o hindi umiiral ang kahalip na iyan.
   messages:
-    inbox:
-      title: Kahon ng pumapasok
-      messages: Mayroong kang %{new_messages} at %{old_messages}
-      new_messages:
-        one: '%{count} bagong mensahe'
-        other: '%{count} bagong mga mensahe'
-      old_messages:
-        one: '%{count} lumang mensahe'
-        other: '%{count} lumang mga mensahe'
-      no_messages_yet_html: Wala ka pang mga mensahe. Bakit hindi makipag-ugnayan
-        sa ilang mga %{people_mapping_nearby_link}?
-      people_mapping_nearby: mga taong kalapit na nagmamapa
-    messages_table:
-      from: Mula sa
-      to: Para kay
-      subject: Paksa
-      date: Petsa
-    message_summary:
-      unread_button: Tatakan bilang hindi pa nababasa
-      read_button: Tatakan bilang nabasa na
-      destroy_button: Burahin
     new:
       title: Magpadala ng mensahe
       send_message_to_html: Magpadala ng bagong mensahe sa %{name}
@@ -1368,18 +1321,6 @@ tl:
       title: Walang ganyang mensahe
       heading: Walang ganyang mensahe
       body: Paumanhin walang mensahe na may ganyang ID.
-    outbox:
-      title: Kahong-labasan
-      messages:
-        one: Mayroon kang %{count} ipinadalang mensahe
-        other: Mayroon kang %{count} ipinadalang mga mensahe
-      no_sent_messages_html: Wala ka pang ipinadadalang mga mensahe. Bakit hindi makipag-ugnayan
-        sa ilang mga %{people_mapping_nearby_link}?
-      people_mapping_nearby: mga taong kalapit na nagmamapa
-    reply:
-      wrong_user: Lumagda ka bilang si `%{user}' ngunit ang mensaheng hiniling mong
-        tugunin ay hindi naipadala sa tagagamit na iyan. Mangyaring lumagda bilang
-        ang tamang tagagamit upang makatugon.
     show:
       title: Basahin ang mensahe
       reply_button: Tumugon
@@ -1389,16 +1330,54 @@ tl:
       wrong_user: Lumagda ka bilang si `%{user}' ngunit ang mensaheng hiniling mong
         basahin ay hindi ipinadala ni o papunta sa tagagamit na iyan. Mangyaring lumagda
         bilang ang tamang tagagamit upang mabasa ito.
-    sent_message_summary:
-      destroy_button: Burahin
-    heading:
-      my_inbox: Kahong-tanggapan Ko
-      my_outbox: Kahong-labasan Ko
-    mark:
-      as_read: Minarkahan ang mensahe bilang nabasa na
-      as_unread: Minarkahan ang mensahe bilang hindi pa nababasa
     destroy:
       destroyed: Binura ang mensahe
+    read_marks:
+      create:
+        notice: Minarkahan ang mensahe bilang nabasa na
+      destroy:
+        notice: Minarkahan ang mensahe bilang hindi pa nababasa
+    mailboxes:
+      heading:
+        my_inbox: Kahong-tanggapan Ko
+        my_outbox: Kahong-labasan Ko
+      messages_table:
+        from: Mula sa
+        to: Para kay
+        subject: Paksa
+      message:
+        unread_button: Tatakan bilang hindi pa nababasa
+        read_button: Tatakan bilang nabasa na
+        destroy_button: Burahin
+    inboxes:
+      show:
+        title: Kahon ng pumapasok
+        messages: Mayroong kang %{new_messages} at %{old_messages}
+        new_messages:
+          one: '%{count} bagong mensahe'
+          other: '%{count} bagong mga mensahe'
+        old_messages:
+          one: '%{count} lumang mensahe'
+          other: '%{count} lumang mga mensahe'
+        no_messages_yet_html: Wala ka pang mga mensahe. Bakit hindi makipag-ugnayan
+          sa ilang mga %{people_mapping_nearby_link}?
+        people_mapping_nearby: mga taong kalapit na nagmamapa
+    outboxes:
+      show:
+        title: Kahong-labasan
+        messages:
+          one: Mayroon kang %{count} ipinadalang mensahe
+          other: Mayroon kang %{count} ipinadalang mga mensahe
+        no_sent_messages_html: Wala ka pang ipinadadalang mga mensahe. Bakit hindi
+          makipag-ugnayan sa ilang mga %{people_mapping_nearby_link}?
+        people_mapping_nearby: mga taong kalapit na nagmamapa
+      message:
+        destroy_button: Burahin
+    replies:
+      new:
+        wrong_user: Lumagda ka bilang si `%{user}' ngunit ang mensaheng hiniling mong
+          tugunin ay hindi naipadala sa tagagamit na iyan. Mangyaring lumagda bilang
+          ang tamang tagagamit upang makatugon.
   passwords:
     new:
       title: Naiwalang password
@@ -1415,13 +1394,8 @@ tl:
       flash token bad: Hindi natagpuan ang ganyang kahalip, suriin kaya ang URL?
     update:
       flash changed: Napalitan na ang hudyat mo.
-  preferences:
-    show:
-      preferred_languages: Nais na mga Wika
-    edit:
-      cancel: Huwag ituloy
   profiles:
-    edit:
+    show:
       cancel: Huwag ituloy
       image: Larawan
       gravatar:
@@ -1537,13 +1511,14 @@ tl:
           ilalim ng isang bukas na lisensya
       remote_failed: Nabigo ang pamamatnugot - tiyaking naikarga ang JOSM or Merkaartor
         at kung gumagana ang pagpipilian ng malayong pantaban
-    edit:
+    not_public_flash:
       not_public: Hindi mo pa naitatakda ang mga pamamatnugot mo upang maging pangmadla.
       not_public_description_html: Hindi mo na maaaring baguhin ang mapa maliban na
         lamang kung gagawin mo. Maitatakda mo ang iyong mga pamamatnugot bilang pangmadla
         magmula sa iyong %{user_page}.
       user_page_link: pahina ng tagagamit
       anon_edits_html: (%{link})
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Alamin kung bakit ganito ang katayuan.
     export:
       title: Iluwas
@@ -1574,7 +1549,7 @@ tl:
     help:
       welcome:
         url: /welcome
-        title: Maligayang pagdating sa OpenStreetMap!
+        title: Maligayang pagdating sa OpenHistoricalMap!
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
       irc:
@@ -1603,67 +1578,6 @@ tl:
         makinang panghanap
       submit_text: Gawin
       reverse_directions_text: Baliktarin ang mga Direksyon
-    key:
-      table:
-        entry:
-          motorway: Daanan ng Sasakyang may Motor
-          main_road: Pangunahing daan
-          trunk: Punong Kalsada
-          primary: Pangunahing kalsada
-          secondary: Pampangalawang kalsada
-          unclassified: Kalsadang walang kaurian
-          track: Bakas
-          bridleway: Daanan ng Kabayo
-          cycleway: Daanan ng bisikleta
-          cycleway_national: Pambansang daanan ng bisikleta
-          cycleway_regional: Panrehiyong daanan ng bisikleta
-          cycleway_local: Pampook na daanan ng bisikleta
-          footway: Lakaran ng tao
-          rail: Daambakal
-          subway: Daanang pang-ilalim
-          light_rail: Banayad na riles
-          tram: trambya
-          cable_car: Kotse ng kable
-          chair_lift: upuang inaangat
-          runway: Rampa ng Paliparan
-          taxiway: daanan ng taksi
-          apron: Tapis ng paliparan
-          admin: Hangganang pampangangasiwa
-          forest: Gubat
-          wood: Kahoy
-          meadow: kaparangan
-          golf: Kurso ng golp
-          park: Liwasan
-          common: Karaniwan
-          resident: Pook na panuluyan
-          retail: Lugar na tingian
-          industrial: Pook na pang-industriya
-          commercial: Pook na pangkalakalan
-          heathland: Lupain ng halamang erika
-          lake: Lawa
-          reservoir: tinggalan ng tubig
-          farm: Bukid
-          brownfield: Pook ng kayumangging bukirin
-          cemetery: Libingan
-          allotments: Mga Laang Bahagi
-          pitch: Hagisang pampalakasan
-          centre: Lunduyang pampalakasan
-          reserve: Lupaing laan sa kalikasan
-          military: Pook ng militar
-          school: Paaralan
-          university: pamantasan
-          building: Makabuluhang gusali
-          station: Himpilan ng daambakal
-          summit: Taluktok
-          peak: tugatog
-          tunnel: Ginitlingang pambalot = lagusan
-          bridge: Itim na pambalot = tulay
-          private: Pribadong pagpunta
-          destination: Pagpapapunta sa patutunguhan
-          construction: Mga kalsadang ginagawa
-          bicycle_shop: Tindahan ng Bisikleta
-          bicycle_parking: Paradahan ng bisikleta
-          toilets: Mga banyo
     welcome:
       title: Maligayang pagdating!
       whats_on_the_map:
@@ -1673,6 +1587,62 @@ tl:
       rules:
         title: Mga Patakaran!
       start_mapping: Simulan ang Pagmamapa
+  map_keys:
+    show:
+      entries:
+        motorway: Daanan ng Sasakyang may Motor
+        main_road: Pangunahing daan
+        trunk: Punong Kalsada
+        primary: Pangunahing kalsada
+        secondary: Pampangalawang kalsada
+        unclassified: Kalsadang walang kaurian
+        track: Bakas
+        bridleway: Daanan ng Kabayo
+        cycleway: Daanan ng bisikleta
+        footway: Lakaran ng tao
+        rail: Daambakal
+        subway: Daanang pang-ilalim
+        light_rail: Banayad na riles
+        tram: trambya
+        cable_car: Kotse ng kable
+        chair_lift: upuang inaangat
+        runway: Rampa ng Paliparan
+        taxiway: daanan ng taksi
+        apron: Tapis ng paliparan
+        admin: Hangganang pampangangasiwa
+        forest: Gubat
+        wood: Kahoy
+        meadow: kaparangan
+        golf: Kurso ng golp
+        park: Liwasan
+        common: Karaniwan
+        resident: Pook na panuluyan
+        retail: Lugar na tingian
+        industrial: Pook na pang-industriya
+        commercial: Pook na pangkalakalan
+        heathland: Lupain ng halamang erika
+        farm: Bukid
+        brownfield: Pook ng kayumangging bukirin
+        cemetery: Libingan
+        allotments: Mga Laang Bahagi
+        pitch: Hagisang pampalakasan
+        centre: Lunduyang pampalakasan
+        reserve: Lupaing laan sa kalikasan
+        military: Pook ng militar
+        school: Paaralan
+        university: pamantasan
+        building: Makabuluhang gusali
+        station: Himpilan ng daambakal
+        summit: Taluktok
+        peak: tugatog
+        tunnel: Ginitlingang pambalot = lagusan
+        bridge: Itim na pambalot = tulay
+        private: Pribadong pagpunta
+        destination: Pagpapapunta sa patutunguhan
+        construction: Mga kalsadang ginagawa
+        bicycle_shop: Tindahan ng Bisikleta
+        bicycle_parking: Paradahan ng bisikleta
+        toilets: Mga banyo
   traces:
     visibility:
       private: Pribado (ipinamamahagi lang bilang hindi nagpapakilala, hindi nakaayos
@@ -1744,7 +1714,7 @@ tl:
       tagged_with: tinatakan ng %{tags}
       upload_trace: Magkargang paitaas ng isang bakas
       all_traces: Lahat ng mga Bakas
-      traces_from: Pangmadlang Pagbakas mula kay %{user}
+      traces_from_html: Pangmadlang Pagbakas mula kay %{user}
     destroy:
       scheduled_for_deletion: Itinakda ang bakas para sa pagtatanggal
     offline_warning:
@@ -1770,9 +1740,6 @@ tl:
       account_settings: Mga Katakdaan ng Akawnt
       oauth2_authorizations: Mga pahintulot para sa OAuth 2
     auth_providers:
-      openid:
-        title: Lumagda gamit ang OpenID
-        alt: Lumagda gamit ang isang OpenID URL
       google:
         title: Lumagda gamit ang Google
         alt: Lumagda gamit ang isang Google OpenID
@@ -1831,32 +1798,8 @@ tl:
       display name description: Ang iyong pangalan ng tagagamit na ipinapakita sa
         madla. Maaari mo itong baguhin mamaya sa loob ng mga kanaisan.
       continue: Magpatala
-      terms accepted: Salamat sa pagtanggap ng bagong mga tuntunin ng tagapag-ambag!
       use external auth: Bilang alternatibo, gumamit ng serbisyo ikatlong partido
         para lumagda
-    terms:
-      title: 'Mga tuntunin:'
-      heading: Mga tuntunin
-      heading_ct: Mga tuntunin sa taga-ambag
-      consider_pd: Bukod sa nabanggit, itinuturing ko ang mga ambag ko bilang nasa
-        Nasasaklawan ng Madla.
-      consider_pd_why: ano ba ito?
-      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
-      continue: Magpatuloy
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      you need to accept or decline: Mangyaring basahin at pagkaraan ay tanggipin
-        o tanggihan ang bagong mga Tuntunin ng Tagapag-ambag upang makapagpatuloy.
-      legale_select: 'Mangyaring piliin ang iyong bansang pinamamalagian:'
-      legale_names:
-        france: Pransiya
-        italy: Italya
-        rest_of_world: Iba pang bahagi ng mundo
-    terms_declined_flash:
-      terms_declined_html: Ikinalulungkot namin na nagpasya kang hindi tanggapin ang
-        bagong Mga Tuntunin sa Tagapag-ambag. Para sa karagdagang impormasyon, mangyaring
-        tingnan %{terms_declined_link}
-      terms_declined_link: ang pahinang wiki na ito
-      terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Walang ganyang tagagamit
       heading: Hindi umiiral ang tagagamit na %{user}
@@ -1869,7 +1812,6 @@ tl:
       my traces: Mga Bakas Ko
       my notes: Aking Talaan
       my messages: Aking mga Mensahe
-      my settings: mga pagtatakda ko
       my comments: mga puna ko
       my_dashboard: Aking Tapalodo
       blocks on me: mga paghadlang sa akin
@@ -1879,8 +1821,6 @@ tl:
       edits: mga pagbabago
       traces: mga bakas
       notes: Mga tala ng mapa
-      remove as friend: tanggalin bilang kaibigan
-      add as friend: idagdag bilang kaibigan
       mapper since: 'Tagapagmapa mula pa noong:'
       ct status: 'Mga tuntunin sa taga-ambag:'
       ct undecided: Walang kapasyahan
@@ -1911,15 +1851,39 @@ tl:
     go_public:
       flash success: Pangmadla na ngayon ang lahat ng mga binago mo, at pinapayagan
         ka nang mamatnugot.
-    index:
-      title: Mga tagagamit
-      heading: Mga tagagamit
-      summary_html: Nilikha ang %{name} mula sa %{ip_address} noong %{date}
-      summary_no_ip_html: Nilikha ang %{name} noong %{date}
-      empty: Walang natagpuan na katugmang mga tagagamit
-    page:
-      confirm: Tiyakin ang Napiling mga Tagagamit
-      hide: Itago ang Napiling mga Tagagamit
+    issued_blocks:
+      show:
+        title: Mga paghadlang ni %{name}
+        heading_html: Tala ng mga paghadlang ni %{name}
+        empty: Hindi pa gumagawa ng anumang mga paghadlang si %{name}.
+    received_blocks:
+      show:
+        title: Mga paghadlang kay %{name}
+        heading_html: Tala ng mga paghadlang kay %{name}
+        empty: Hindi pa hinahadlangan si %{name}.
+      edit:
+        revoke: Bawiin!
+    lists:
+      show:
+        title: Mga tagagamit
+        heading: Mga tagagamit
+      page:
+        confirm: Tiyakin ang Napiling mga Tagagamit
+        hide: Itago ang Napiling mga Tagagamit
+        empty: Walang natagpuan na katugmang mga tagagamit
+      user:
+        summary_html: Nilikha ang %{name} mula sa %{ip_address} noong %{date}
+        summary_no_ip_html: Nilikha ang %{name} noong %{date}
+    changeset_comments:
+      page:
+        changeset: palitan ang pagtatakda
+        when: Kailan
+        comment: Puna
+    diary_comments:
+      index:
+        title: Mga Puna sa Talaarawan ay idinagdag ni %{user}
+      page:
+        post: Ipaskil
     suspended:
       title: Naantalang Akawnt
       heading: Inantala ang Akawnt
@@ -1964,8 +1928,6 @@ tl:
       title: Mga paghadlang ng tagagamit
       heading: Talaan ng mga paghadlang ng tagagamit
       empty: Wala pang nagagawang mga paghadlang.
-    revoke_all:
-      revoke: Bawiin!
     helper:
       time_future_html: Magwawakas sa %{time}.
       until_login: Masigla hanggang sa paglagda ng tagagamit.
@@ -1988,14 +1950,6 @@ tl:
         years:
           one: 1 taon
           other: '%{count} mga taon'
-    blocks_on:
-      title: Mga paghadlang kay %{name}
-      heading_html: Tala ng mga paghadlang kay %{name}
-      empty: Hindi pa hinahadlangan si %{name}.
-    blocks_by:
-      title: Mga paghadlang ni %{name}
-      heading_html: Tala ng mga paghadlang ni %{name}
-      empty: Hindi pa gumagawa ng anumang mga paghadlang si %{name}.
     show:
       title: '%{block_on} hinadlangan ni %{block_by}'
       heading_html: '%{block_on} hinadlangan ni %{block_by}'
@@ -2006,7 +1960,6 @@ tl:
       reason: 'Dahilan ng paghadlang:'
       revoker: 'Tagapagbawi:'
     block:
-      not_revoked: (hindi binawi)
       show: Ipakita
       edit: Baguhin
     page:
@@ -2014,7 +1967,6 @@ tl:
       creator_name: Tagapaglikha
       reason: Dahilan ng pagharang
       status: Kalagayan
-      revoker_name: Binawi ni
   notes:
     index:
       title: Mga tala na isinumite o pinuna ni %{user}
@@ -2091,15 +2043,6 @@ tl:
       queryfeature_tooltip: Usisain ang mga tampok
       queryfeature_disabled_tooltip: Lumapit upang usisain ang mga tampok
     directions:
-      ascend: Umakyat
-      engines:
-        fossgis_osrm_bike: Bisikleta (OSRM)
-        fossgis_osrm_car: Kotse (OSRM)
-        graphhopper_bicycle: Bisikleta (GraphHopper)
-        graphhopper_car: Kotse (GraphHopper)
-      descend: Pagbaba
-      directions: Mga Direksyon
-      distance: Layo
       errors:
         no_route: Walang nakitang ruta sa pagitan ng dalawang mga lokasyon.
         no_place: Paumanhin - hindi mahanap ang %{place}
@@ -2167,7 +2110,6 @@ tl:
           %{name}
         exit_roundabout: Exit sa rotondang daan patungong %{name}
         unnamed: Kalsadang walang pangalan
-        courtesy: Mga direksyon mula sa kagandahang-loob ng %{link}
         exit_counts:
           first: Ika-1
           second: Ika-2
@@ -2179,7 +2121,6 @@ tl:
           eighth: Ika-8
           ninth: Ika-9
           tenth: Ika-10
-      time: Oras
     query:
       node: Buko
       way: Daan

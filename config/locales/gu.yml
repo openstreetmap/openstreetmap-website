@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: CptViraj
 # Author: KartikMistry
+# Author: Minh Nguyen
 # Author: Mitulverma13
 # Author: Sushant savla
 ---
@@ -123,21 +124,8 @@ gu:
     notes:
       entry:
         comment: ટિપ્પણી
-  account:
-    deletions:
-      show:
-        title: મારું ખાતું દૂર કરી નાખો
-        warning: ચેતવણી! ખાતું કાઢી નાખવાની પ્રક્રિયા અંતિમ છે અને તેને ઉલટાવી શકાતી
-          નથી.
-        delete_account: ખાતું દૂર કરો
-        confirm_delete: શું તમે ચોક્કસ છો?
   accounts:
-    edit:
-      openid:
-        link text: આ શું છે?
-      public editing:
-        enabled link text: આ શું છે?
-        disabled link text: હું શા માટે સંપાદન કરી શકતો નથી?
+    show:
       contributor terms:
         link text: આ શું છે?
       save changes button: ફેરફારો સાચવો
@@ -146,6 +134,21 @@ gu:
       find_out_why: જાણો શા માટે
     destroy:
       success: ખાતું કાઢી નાંખ્યું.
+    deletions:
+      show:
+        title: મારું ખાતું દૂર કરી નાખો
+        warning: ચેતવણી! ખાતું કાઢી નાખવાની પ્રક્રિયા અંતિમ છે અને તેને ઉલટાવી શકાતી
+          નથી.
+        delete_account: ખાતું દૂર કરો
+        confirm_delete: શું તમે ચોક્કસ છો?
+    terms:
+      show:
+        title: શરતો
+        heading: શરતો
+        continue: આગળ વધો
+        cancel: રદ કરો
+        legale_names:
+          france: ફ્રાન્સ
   browse:
     version: આવૃત્તિ
     no_comment: (કોઈ ટિપ્પણી નહીં)
@@ -160,10 +163,6 @@ gu:
       type:
         way: માર્ગ
         relation: સંબંધ
-    not_found:
-      type:
-        node: નાકો
-        way: માર્ગ
     timeout:
       type:
         node: નાકો
@@ -176,8 +175,6 @@ gu:
       telephone_link: '%{phone_number} પર ફોન કરો'
       email_link: '%{email} પર ઇમેઇલ કરો'
   changesets:
-    changeset:
-      no_edits: (કોઈ સંપાદન નહીં)
     show:
       discussion: ચર્ચા
       hide_comment: છુપાવો
@@ -187,20 +184,13 @@ gu:
     contact:
       km away: '%{count} કિમી દૂર'
       m away: '%{count} મીટર દૂર'
-    popup:
-      friend: મિત્ર
-    show:
-      my friends: મારા મિત્રો
-      no friends: તમે હજુ સુધી કોઈ મિત્ર ઉમેર્યા નથી.
+      no_edits: (કોઈ સંપાદન નહીં)
   diary_entries:
     index:
       title: વપરાશકર્તાઓની ડાયરી
-      title_friends: મિત્રોની ડાયરી
       title_nearby: નજીકના વપરાશકર્તાઓની ડાયરી
       user_title: '%{user}ની ડાયરી'
       in_language_title: '%{language} ભાષામાં ડાયરીની નોંધણીઓ'
-      new: ડાયરીની નવી નોંધણી
-      my_diary: મારી ડાયરી
       no_entries: ડાયરીમાં કોઈ નોંધણી નથી
     page:
       recent_entries: તાજેતરની ડાયરીની નોંધણીઓ
@@ -212,10 +202,11 @@ gu:
       discussion: ચર્ચા
     diary_comment:
       confirm: ખાતરી કરો
-  diary_comments:
-    page:
-      when: ક્યારે
-      comment: ટિપ્પણી
+    navigation:
+      my_diary: મારી ડાયરી
+      new: ડાયરીની નવી નોંધણી
+    profile_diaries:
+      date_label: તારીખ
   doorkeeper:
     scopes:
       address: તમારું ભૌતિક સરનામું જુઓ
@@ -227,17 +218,6 @@ gu:
       contact: સંપર્ક
     bad_request:
       title: ખરાબ વિનંતી
-  friendships:
-    make_friend:
-      button: મિત્ર તરીકે ઉમેરો
-      success: '%{name} હવે તમારા મિત્ર છે!'
-      failed: માફ કરશો, %{name}ને મિત્ર તરીકે ઉમેરવામાં અસફળ.
-      already_a_friend: તમે પહેલેથી જ %{name} સાથે મિત્ર છો.
-    remove_friend:
-      heading: '%{user}ને મિત્ર માંથી દૂર કરો?'
-      button: મિત્ર માંથી દૂર કરો
-      success: '%{name}ને તમારા મિત્રોમાંથી દૂર કરવામાં આવ્યા છે.'
-      not_a_friend: '%{name} એ તમારા મિત્રોમાં નથી.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -529,6 +509,9 @@ gu:
           zoo: પ્રાણીસંગ્રહાલય
         tunnel:
           "yes": ટનલ
+        water:
+          lake: તળાવ
+          reservoir: જળાશય
         waterway:
           artificial: કૃત્રિમ જળમાર્ગ
           canal: નહેર
@@ -544,16 +527,19 @@ gu:
         level8: શહેરની સીમા
         level9: ગામની સીમા
         level10: ઉપનગરની સીમા
-    results:
-      no_results: કોઈ પરિણામો ન મળ્યા
+  searches:
+    queries:
+      create:
+        no_results: કોઈ પરિણામો ન મળ્યા
+  directions:
+    show:
+      time: સમય
   issues:
     index:
       title: સમસ્યાઓ
       select_status: સ્થિતિ પસંદ કરો
       select_type: પ્રકાર પસંદ કરો
-      select_last_updated_by: છેલ્લે કોના દ્વારા સુધારેલ તે પસંદ કરો
       reported_user: જાણ કરાયેલ વપરાશકર્તા
-      not_updated: સુધારેલ નથી
       search_guidance: 'સમસ્યાઓ શોધો:'
     page:
       user_not_found: વપરાશકર્તા અસ્તિત્વમાં નથી
@@ -561,7 +547,6 @@ gu:
       status: સ્થિતિ
       reports: અહેવાલો
       last_updated: છેલ્લે સુધારેલ
-      last_updated_time_ago_user_html: '%{time_ago} %{user} દ્વારા'
     show:
       no_reports: કોઈ અહેવાલ નહીં
   reports:
@@ -611,10 +596,8 @@ gu:
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: નમસ્તે %{to_user},
-    friendship_notification:
+    follow_notification:
       hi: નમસ્તે %{to_user},
-      subject: '[OpenStreetMap] %{user} એ તમને મિત્ર તરીકે ઉમેર્યા'
-      had_added_you: '%{user} એ તમને મિત્ર તરીકે ઉમેર્યા છે.'
       see_their_profile: તમે તેમની પ્રોફાઇલ %{userurl} પર જોઈ શકો છો.
       see_their_profile_html: તમે તેમની પ્રોફાઇલ %{userurl} પર જોઈ શકો છો.
     gpx_failure:
@@ -635,11 +618,11 @@ gu:
     confirm_email:
       button: ખાતરી કરો
   messages:
-    messages_table:
-      subject: વિષય
-      date: તારીખ
-    message_summary:
-      destroy_button: દૂર કરો
+    mailboxes:
+      messages_table:
+        subject: વિષય
+      message:
+        destroy_button: દૂર કરો
   passwords:
     new:
       title: ગુમ થયેલ ગુપ્તસંજ્ઞા
@@ -651,21 +634,17 @@ gu:
       heading: '%{user} માટે ગુપ્તસંજ્ઞા ફરીથી ગોઠવો'
       reset: ગુપ્તસંજ્ઞા ફરીથી ગોઠવો
   preferences:
-    show:
-      title: મારી પસંદગીઓ
-      preferred_editor: પસંદીત સંપાદક
-      preferred_languages: પસંદીત ભાષા
-      edit_preferences: પસંદગીમાં ફેરફાર કરો
-    edit:
-      title: પસંદગીમાં ફેરફાર કરો
-      save: પસંદગી બદલો
-      cancel: રદ કરો
-    update:
-      failure: પસંદગીઓ બદલી શકાય નહીં.
-    update_success_flash:
-      message: પસંદગીઓ બદલવામાં આવી છે.
+    preferences:
+      update:
+        failure: પસંદગીઓ બદલી શકાય નહીં.
+      update_success_flash:
+        message: પસંદગીઓ બદલવામાં આવી છે.
+    basic_preferences:
+      show:
+        title: મારી પસંદગીઓ
+        save: પસંદગી બદલો
   profiles:
-    edit:
+    show:
       title: પ્રોફાઇલમાં ફેરફાર કરો
       save: પ્રોફાઇલ બદલો
       cancel: રદ કરો
@@ -701,11 +680,11 @@ gu:
     copyright:
       legal_babble:
         more_2_1_api_usage_policy: APIના ઉપયોગની નીતિ
-    edit:
+    not_public_flash:
       user_page_link: વપરાશકર્તા પાનું
     help:
       welcome:
-        title: OpenStreetMapમાં સ્વાગત છે
+        title: OpenHistoricalMapમાં સ્વાગત છે
       irc:
         title: IRC
       welcomemat:
@@ -715,45 +694,43 @@ gu:
     any_questions:
       title: કોઈ પ્રશ્ન?
       get_help_here: અહીં સહાયતા મેળવો
-    key:
-      table:
-        entry:
-          main_road: મુખ્ય માર્ગ
-          primary: પ્રાથમિક માર્ગ
-          rail: રેલવે
-          train: ટ્રેન
-          bus: બસ
-          admin: વહીવટી સીમા
-          capital: પાટનગર
-          city: શહેર
-          forest: જંગલ
-          wood: લાકડું
-          farmland: ખેતીની જમીન
-          grass: ઘાસ
-          meadow: ઘાસનું મેદાન
-          sand: રેતી
-          park: પાર્ક
-          industrial: ઔદ્યોગિક વિસ્તાર
-          lake: તળાવ
-          reservoir: જળાશય
-          military: લશ્કરી વિસ્તાર
-          school: શાળા
-          university: યુનિવર્સિટી
-          hospital: હોસ્પિટલ
-          station: રેલવે સ્ટેશન
-          peak: શિખર
-          bus_stop: બસ સ્ટોપ
-          bicycle_shop: સાયકલની દુકાન
-          bicycle_rental: ભાડેથી સાયકલ
-          bicycle_parking: સાયકલ પાર્કિંગ
-          bicycle_parking_small: નાનું સાયકલ પાર્કિંગ
-          toilets: શૌચાલયો
     welcome:
       title: સ્વાગત છે!
       basic_terms:
         editor: સંપાદક
       rules:
         title: નિયમો!
+  map_keys:
+    show:
+      entries:
+        main_road: મુખ્ય માર્ગ
+        primary: પ્રાથમિક માર્ગ
+        rail: રેલવે
+        train: ટ્રેન
+        bus: બસ
+        admin: વહીવટી સીમા
+        capital: પાટનગર
+        city: શહેર
+        forest: જંગલ
+        wood: લાકડું
+        farmland: ખેતીની જમીન
+        grass: ઘાસ
+        meadow: ઘાસનું મેદાન
+        sand: રેતી
+        park: પાર્ક
+        industrial: ઔદ્યોગિક વિસ્તાર
+        military: લશ્કરી વિસ્તાર
+        school: શાળા
+        university: યુનિવર્સિટી
+        hospital: હોસ્પિટલ
+        station: રેલવે સ્ટેશન
+        peak: શિખર
+        bus_stop: બસ સ્ટોપ
+        bicycle_shop: સાયકલની દુકાન
+        bicycle_rental: ભાડેથી સાયકલ
+        bicycle_parking: સાયકલ પાર્કિંગ
+        bicycle_parking_small: નાનું સાયકલ પાર્કિંગ
+        toilets: શૌચાલયો
   traces:
     show:
       filename: 'ફાઇલનામ:'
@@ -766,33 +743,23 @@ gu:
       details_without_tags_html: '%{time_ago} %{user} દ્વારા'
     index:
       wiki_page: વિકિ પાનું
-  application:
-    auth_providers:
-      openid_login_button: આગળ વધો
   oauth2_applications:
     index:
       permissions: પરવાનગીઓ
   users:
     new:
       about:
-        welcome: OpenStreetMapમાં સ્વાગત છે
+        welcome: OpenHistoricalMapમાં સ્વાગત છે
       by_signing_up:
         privacy_policy: ગોપનિયતા નીતિ
       email_help:
         privacy_policy: ગોપનીયતા નીતિ
       or: અથવા
-    terms:
-      title: શરતો
-      heading: શરતો
-      legale_names:
-        france: ફ્રાન્સ
     show:
       my diary: મારી ડાયરી
       my edits: મારા સંપાદનો
       diary: ડાયરી
       edits: સંપાદનો
-      remove as friend: મિત્ર માંથી દૂર કરો
-      add as friend: મિત્ર તરીકે ઉમેરો
       uid: 'વપરાશકર્તા id:'
       email address: 'ઇમેઇલ સરનામું:'
       status: 'સ્થિતિ:'
@@ -812,9 +779,17 @@ gu:
     go_public:
       flash success: તમારા બધા સંપાદનો હવે જાહેરમાં છે, અને હવે તમને સંપાદનો કરવાની
         મંજૂરી છે.
-    index:
-      title: વપરાશકર્તાઓ
-      heading: વપરાશકર્તાઓ
+    received_blocks:
+      edit:
+        empty: '%{name} ને કોઈ સક્રિય અવરોધ નથી.'
+    lists:
+      show:
+        title: વપરાશકર્તાઓ
+        heading: વપરાશકર્તાઓ
+    changeset_comments:
+      page:
+        when: ક્યારે
+        comment: ટિપ્પણી
     suspended:
       title: ખાતું નિલંબિત
       heading: ખાતું નિલંબિત
@@ -823,8 +798,6 @@ gu:
       title: વપરાશકર્તા અવરોધો
       heading: વપરાશકર્તા અવરોધોની યાદી
       empty: હજુ સુધી કોઈ અવરોધો કરવામાં આવ્યા નથી.
-    revoke_all:
-      empty: '%{name} ને કોઈ સક્રિય અવરોધ નથી.'
     helper:
       block_duration:
         hours:
@@ -866,7 +839,6 @@ gu:
           eighth: આઠમું
           ninth: નવમું
           tenth: દસમું
-      time: સમય
   redactions:
     show:
       description: 'વર્ણન:'

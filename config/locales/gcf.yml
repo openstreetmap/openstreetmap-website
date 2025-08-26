@@ -76,37 +76,9 @@ gcf:
         commented: Komantasyon nèf (ora a %{place})
       entry:
         comment: Komantasyon
-  account:
-    deletions:
-      show:
-        title: Néyantizé kont a-w la
-        warning: Penga! Si-w ka néyantizé kont a-w, ou ka pèdi-y poubon é ou pé ké
-          pésa woutini-y ankò.
-        delete_account: Néyantizé on kont
-        delete_introduction: |-
-          Ou pé NÉYANTIZÉ kont OpenStreetMap a-w èvè bouton-la.
-          Kanmensa ou pou sav sa:
-        delete_display_name: Tinon a-w la ké néyantizé, é nenpòt kimoun ké pé sèvi
-          épi-y èvè on dòt kont.
-        retain_caveats: 'Kanmenmsa, OpenStreetMap ké woutyenn dotwa kamo asi-w, menmsi
-          sé aprédavwa ou néyantizé kont a-w la:'
-        retain_email: Nou ké chonjé email a-w la.
-        recent_editing_html: |-
-          Davwa ou sòti modifyé biten, nou pé pa néyantizé kont a-w ankò.
-          Nou ké pé fè-y adan %{time}
-        confirm_delete: Ès ou sèkten?
   accounts:
-    edit:
+    show:
       title: Modifyé kont a-w la
-      my settings: Mes options
-      openid:
-        link text: Ka sa yé?
-      public editing:
-        enabled: Aktif. Y pa anonnim, y pé édité doné.
-        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
-        enabled link text: Ka sa yé?
-        disabled: Inaktif y pé pa édité doné ; tout édision pasé anonim.
-        disabled link text: Pouki an pé pa modifyé?
       contributor terms:
         link text: Ka sa yé?
       save changes button: Enrèjisré tout chanjman
@@ -123,6 +95,25 @@ gcf:
       success: Efowmasion asi itilisatè la bien anrejistré.
     destroy:
       success: Kont néyantizé.
+    deletions:
+      show:
+        title: Néyantizé kont a-w la
+        warning: Penga! Si-w ka néyantizé kont a-w, ou ka pèdi-y poubon é ou pé ké
+          pésa woutini-y ankò.
+        delete_account: Néyantizé on kont
+        delete_display_name: Tinon a-w la ké néyantizé, é nenpòt kimoun ké pé sèvi
+          épi-y èvè on dòt kont.
+        retain_email: Nou ké chonjé email a-w la.
+        recent_editing_html: |-
+          Davwa ou sòti modifyé biten, nou pé pa néyantizé kont a-w ankò.
+          Nou ké pé fè-y adan %{time}
+        confirm_delete: Ès ou sèkten?
+    terms:
+      show:
+        legale_names:
+          france: Frans
+          italy: Itali
+          rest_of_world: Larèstan a lèmonn-la
   browse:
     no_comment: (pon komantasyon)
     download_xml: Chantyé XML
@@ -133,12 +124,7 @@ gcf:
       type:
         way: Chimen
     containing_relation:
-      entry_html: Rèlasion %{relation_name}
       entry_role_html: Rèlasion %{relation_name} (adan wol %{relation_role})
-    not_found:
-      sorry: Désolé, l’objet %{type} nº %{id} n’a pas pu être trouvé.
-      type:
-        way: chimen
     timeout:
       type:
         way: chimen
@@ -151,7 +137,8 @@ gcf:
     tag_details:
       wikipedia_link: Kotéfèy %{page} asi Wikipégya
       telephone_link: Kriyé %{phone_number}
-    query:
+  feature_queries:
+    show:
       introduction: Pijé asi kat-la pou jwenn biten toupréla.
       nearby: Biten pa lwen
   changesets:
@@ -168,10 +155,7 @@ gcf:
     popup:
       your location: Koté ou yé
       nearby mapper: Arpantè owa aw
-      friend: Zanmi
     show:
-      my friends: Zanmi a-w
-      no friends: Ou poko ni pon zanmi
       nearby users: 'Itilizatè owa a-w :'
       no nearby users: Ou poko ni itilizatè owa a-w.
   diary_entries:
@@ -181,9 +165,6 @@ gcf:
       location: 'Ki koté:'
       use_map_link: Sèvi èvè kat-la
     index:
-      new: Nouvel nèf an jounal la
-      new_title: Mèt on nouvèl nèf an jounal a-w
-      my_diary: Jounal a-w la
       no_entries: Pa ni nouvèl an jounal a-w
     page:
       recent_entries: 'Nouvel fré:'
@@ -212,30 +193,16 @@ gcf:
       confirm: Konfirmé
     location:
       location: 'Ki koté:'
-  diary_comments:
-    page:
-      comment: Komantasyon
+    navigation:
+      my_diary: Jounal a-w la
+      new: Nouvel nèf an jounal la
+      new_title: Mèt on nouvèl nèf an jounal a-w
   doorkeeper:
     scopes:
       phone: Vwè liméwo a téléfòn a-w
   errors:
     forbidden:
       title: Défandi
-  friendships:
-    make_friend:
-      heading: Mèt %{user} adan sé zanmi a-w la?
-      button: Jouté on zanmi
-      success: Alè-la %{name} sé sendika a-w la!
-      failed: Malérèzsò, Zingchap toupannan joutaj a %{name} adan sé zanmi a-w la
-      already_a_friend: '%{name} ja zanmi a-w'
-      limit_exceeded: |-
-        Pa ni enpé tan ou jwenn zanmi kon tilili.
-        Atann tibwen avan ou ka séyé trapé dòt ankò.
-    remove_friend:
-      heading: Kasé-lo èvè %{user}?
-      button: Woté on zanmi
-      success: '%{name} pa zanmi a-w ankò.'
-      not_a_friend: '%{name} pa zanmi a-w'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -409,6 +376,8 @@ gcf:
           museum: Mizé
         tunnel:
           "yes": Tinèl
+        water:
+          reservoir: rézèvwa
         waterway:
           canal: Kannal
           drain: Dalo
@@ -419,8 +388,10 @@ gcf:
         level8: Lizyè a konmin
         level9: Lizyè a vilaj
         level10: Lizyè a sèksyon
-    results:
-      no_results: Yo pa jwenn p'on rézilta
+  searches:
+    queries:
+      create:
+        no_results: Yo pa jwenn p'on rézilta
   issues:
     index:
       search: Chaché
@@ -454,10 +425,6 @@ gcf:
     intro_header: Kontan vwè-w asi OpenHistoricalMap!
     intro_text: Openstreetmap, sé on kat a lèmonn-la ki fèt parapòt a moun kon-w é
       lib pou sèvi épi-y évè on lisans lib.
-    osm_offline: Base a doné a OpenStreetMap dékonekté atchelman ; Yo ka fè on gwo
-      travay enpòtan asi-y pou-y maché bien.
-    osm_read_only: Atchelman ou pé li selamn base a doné a OpenStreetMap ; Yo ka fè
-      on gwo travay enpòtan asi-y pou-y maché bien.
     help: Anmwé
     more: Plis
   user_mailer:
@@ -465,10 +432,8 @@ gcf:
       hi: Yéla %{to_user},
     message_notification:
       hi: Yéla %{to_user},
-    friendship_notification:
+    follow_notification:
       hi: Yéla %{to_user},
-      subject: '[OpenStreetMap] %{user} jouté-w kon on zanmi'
-      had_added_you: '%{user} jouté-w kontèl on zanmi adan OpenStreetMap.'
     gpx_failure:
       hi: Yéla %{to_user},
     gpx_success:
@@ -503,7 +468,6 @@ gcf:
       press confirm button: Apiyé asi bouton la ki an ba pou konfirmé kont aw aktif
         menm.
       button: Konfirmé
-      click_here: pijé kotésit
     confirm_email:
       heading: Konfirmé chanjman a adres imél aw
       press confirm button: Apiyé asi bouton la ki an ba pou konfirmé nouvo adres
@@ -519,11 +483,11 @@ gcf:
       email address: 'Adres imél aw :'
       new password button: Voyé on nouvo kòd
   preferences:
-    show:
-      title: Sa ou simyé
-      preferred_languages: Lang ou pisimyé
+    basic_preferences:
+      show:
+        title: Sa ou simyé
   profiles:
-    edit:
+    show:
       gravatar:
         gravatar: Sèvi épi Gravatar
         what_is_gravatar: Ka ki Gravatar?
@@ -556,51 +520,51 @@ gcf:
       js_1: Ou ka sèvi èvè on navigatè ki pa ka sipòté Javascript ouben Javascript
         éten.
       js_2: OpenStreetMap ka sèvi èvè Javascript pou kat glisad.
-    edit:
+    not_public_flash:
       not_public: Ou pé pa réglé édision aw pou yo piblik.
       not_public_description_html: Pou modifié kat la fok édision aw piblik. Ou pé
         rann édision aw piblik asi %{user_page}.
       user_page_link: paj_itilizatè
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
       anon_edits_link_text: Ka y ni la.
     fixthemap:
       how_to_help:
         title: Kijan pou ba on pal
     help:
       welcome:
-        title: Kontan vwè-w asi OpenStreetMap
+        title: Kontan vwè-w asi OpenHistoricalMap
     sidebar:
       search_results: Rézilta a chèché aw
     search:
       search: Chèché
       where_am_i: Ola sa yé?
       submit_text: Voyé
-    key:
-      table:
-        entry:
-          motorway: Lotowout
-          main_road: Chimen a gouvèlman
-          trunk: Wokad
-          primary: Chimen a gouvèlman
-          train: Tren
-          taxiway: koulwa a avyon
-          city: Vil prensipal
-          forest: Granbwa
-          grass: Zèb
-          sand: Sab
-          reservoir: rézèvwa
-          reef: Kay
-          cemetery: Simityè
-          beach: Bòdlanmè
-          school: Lékòl
-          hospital: Lopital
-          station: Laga féwovyè
-          toilets: Kakatwa
     welcome:
       title: Kontan vwè-w!
       rules:
         title: Larèl-la!
-      add_a_note:
-        the_map: Kat-la
+    add_a_note:
+      the_map: Kat-la
+  map_keys:
+    show:
+      entries:
+        motorway: Lotowout
+        main_road: Chimen a gouvèlman
+        trunk: Wokad
+        primary: Chimen a gouvèlman
+        train: Tren
+        taxiway: koulwa a avyon
+        city: Vil prensipal
+        forest: Granbwa
+        grass: Zèb
+        sand: Sab
+        reef: Kay
+        cemetery: Simityè
+        beach: Bòdlanmè
+        school: Lékòl
+        hospital: Lopital
+        station: Laga féwovyè
+        toilets: Kakatwa
   traces:
     new:
       help: Anmwé
@@ -624,12 +588,6 @@ gcf:
   users:
     new:
       no_auto_account_create: Malérezman, alè kilé, nou pé pa ouvè kont automatikman.
-    terms:
-      continue: Kontinyé
-      legale_names:
-        france: Frans
-        italy: Itali
-        rest_of_world: Larèstan a lèmonn-la
     no_such_user:
       body: Malérezman, pa ti ni pon itilisatè èvè non la sa %{user}. Kontrolé lòtograf
         la ouben lien la ou kliké asiy la pa bon.
@@ -638,18 +596,18 @@ gcf:
       my edits: Édision an mwen
       my traces: Chimen an mwen
       my messages: Sé mésaj a-w la
-      my settings: Opsion an mwen
       my_preferences: Sa ou simyé
       send message: Voyé on mésaj
       diary: Jounal
       edits: Édision
       traces: Chimen
-      remove as friend: Woté on zanmi
-      add as friend: Ajouté on zanmi
       mapper since: 'Arpantè dèpi:'
       comments: Komantasyon
     go_public:
       flash success: Tou sa ou fè jis alè ki lé piblik ou pa otorizé édité.
+    changeset_comments:
+      page:
+        comment: Komantasyon
     suspended:
       support: janmdifòs
   user_mutes:
@@ -673,8 +631,6 @@ gcf:
       edit_tooltip: Modifyé kat-la
       createnote_tooltip: Jouté on komantasyon asi kat-la
     directions:
-      engines:
-        fossgis_valhalla_bicycle: biskèt (Valhalla)
       errors:
         no_place: Malérèzsò, yo pa sav ola '%{place}' yé.
       instructions:

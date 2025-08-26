@@ -4,6 +4,7 @@
 # Author: AKJ GOWDA
 # Author: Ananth subray
 # Author: Anzx
+# Author: Minh Nguyen
 # Author: Nayvik
 # Author: Omshivaprakash
 # Author: Shankar
@@ -32,9 +33,6 @@ kn:
         create: ಅಭಿಪ್ರಾಯ ದಾಖಲಿಸಿರಿ
       message:
         create: ಕಳುಹಿಸಿ
-      client_application:
-        create: ನೊಂದಾಯಿಸಿರಿ
-        update: ಪರಿಷ್ಕರಿಸು
       trace:
         create: ಅಪ್ಲೋಡ್
         update: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
@@ -50,6 +48,7 @@ kn:
       language: ಭಾಷೆ
       message: ಸಂದೇಶ
       node: ನೋಡ್
+      note: ಟಿಪ್ಪಣಿ
       notifier: ‍ಸೂಚಕ
       old_node: ‍ಹಳೆಯ ನೋಡ್
       old_node_tag: ಹಳೆಯ ನೊಡ್ ನ ಭಾಗ
@@ -189,28 +188,27 @@ kn:
       entry:
         comment: ಅಭಿಪ್ರಾಯ
         full: ಪೂರ್ತಿ ಟಿಪ್ಪಣಿ
-  account:
-    deletions:
-      show:
-        title: ನನ್ನ ಖಾತೆಯನ್ನು ಅಳಿಸಿ
-        delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
-        cancel: ರದ್ದುಗೊಳಿಸಿ
   accounts:
-    edit:
+    show:
       title: ಖಾತೆಯನ್ನು ಸಂಪಾದಿಸಿ
-      my settings: ನನ್ನ ಸೆಟ್ಟಿಂಗ್‌ಗಳು
       current email address: ಪ್ರಸ್ತುತ ಇಮೇಲ್ ವಿಳಾಸ
       external auth: ಬಾಹ್ಯ ದೃಢೀಕರಣ
-      openid:
-        link text: ಇದು ಏನು?
-      public editing:
-        enabled link text: ಇದು ಏನು?
       contributor terms:
         link text: ಇದು ಏನು?
       save changes button: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
       delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
     destroy:
       success: ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗಿದೆ.
+    deletions:
+      show:
+        title: ನನ್ನ ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+        delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+        cancel: ರದ್ದುಗೊಳಿಸಿ
+    terms:
+      show:
+        legale_names:
+          france: ಫ಼್ರಾನ್ಸ್
+          italy: ಇಟಲಿ
   browse:
     version: ಆವೃತ್ತಿ
     in_changeset: ಬದಲಾವಣೆಗಳು
@@ -223,7 +221,6 @@ kn:
     location: 'ಸ್ಥಳ:'
     node:
       title_html: 'ನೋಡ್: %{name}'
-      history_title_html: 'ನೊಡ್ ನ ಇತಿಹಾಸ: %{name}'
     way:
       title_html: 'ದಾರಿ: %{name}'
     relation:
@@ -234,17 +231,8 @@ kn:
       type:
         way: ರಸ್ತೆ
         relation: ಸಂಬಂಧ
-    containing_relation:
-      entry_html: ಸಂಬಂಧ %{relation_name}
     not_found:
       title: ಸಿಗಲಿಲ್ಲ
-      sorry: 'ಕ್ಷಮಿಸಿ, %{type} #%{id} ಸಿಗುತ್ತಿಲ್ಲ.'
-      type:
-        node: ‍ನೋಡ್
-        way: ದಾರಿ
-        relation: ಸಂಬಂಧ
-        changeset: ಬದಲಾವಣೆಗಳು
-        note: ಟಿಪ್ಪಣಿ
     timeout:
       sorry: ಕ್ಷಮಿಸಿ, %{type}ನ %{id} ಹೊಂದಿರುವ  ಮಾಹಿತಿ ಹುಡುಕಲು ಸಾಕಷ್ಟು ಸಮಯ ಬೇಕಾಯಿತು.
       type:
@@ -264,10 +252,15 @@ kn:
     tag_details:
       tags: ಟ್ಯಾಗ್‌ಗಳು
       telephone_link: '%{phone_number} ಕರೆಮಾಡಿ'
-    query:
+  feature_queries:
+    show:
       introduction: ಹತ್ತಿರದ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಹುಡುಕಲು ನಕ್ಷೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.
       nearby: ಹತ್ತಿರದ ವೈಶಿಷ್ಟ್ಯಗಳು
       enclosing: ಆವರಿಸಿರುವ ವೈಶಿಷ್ಟ್ಯಗಳು
+  old_elements:
+    index:
+      node:
+        title_html: 'ನೊಡ್ ನ ಇತಿಹಾಸ: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -277,13 +270,9 @@ kn:
         title_all: ಓಪನ್ ಸ್ಟ್ತ್ರೀಟ್ ಮ್ಯಾಪ್ ಬದಲಾವಣೆಗಳ ಚರ್ಚೆ
         title_particular: ಓಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಬದಲಾವಣಾ ಸಂಖ್ಯೆ %{changeset_id} ಯ ಚರ್ಚೆ
   changesets:
-    changeset:
-      no_edits: (ಸಂಪಾದನೆಗಳಿಲ್ಲ)
-      view_changeset_details: ಬದಲಾವಣೆಯ ವಿವರಗಳನ್ನು ತೋರಿಸಿ
     index:
       title: ಬದಲಾವಣೆಗಳು
       title_user: '%{user}ಅವರಿಂದಾದ ಬದಲಾವಣೆಗಳು'
-      title_friend: ನನ್ನ ಗೆಳೆಯರಿಂದಾದ ಬದಲಾವಣೆಗಳು
       title_nearby: ಹತ್ತಿರದ ಬಳಕೆದಾರರಿಂದಾದ ಬದಲಾವಣೆಗಳು
       empty: ಯಾವುದೇ ಬದಲಾವಣೆಗಳು ಸಿಗುತ್ತಿಲ್ಲ.
       empty_area: ಈ ಪ್ರದೇಶದಲ್ಲಿ ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.
@@ -291,7 +280,6 @@ kn:
       no_more: ಇನ್ಯಾವ ಬದಲಾವಣೆಗಳು ಸಿಗುತ್ತಿಲ್ಲ.
       no_more_area: ಈ ಪ್ರದೇಶದಲ್ಲಿ ಇನ್ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.
       no_more_user: ಈ ಬಳಕೆದಾರರಿಂದ ಇನ್ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.
-      load_more: ಇನ್ನೂ ತೋರಿಸಿ
       feed:
         title: ಬದಲಾವಣೆಗಳು %{id}
         title_comment: ಬದಲಾವಣೆಗಳು %{id} - %{comment}
@@ -304,11 +292,8 @@ kn:
       join_discussion: ‍ಚರ್ಚೆಗೆ ಸೇರಲು ಲಾಗ್ ಇನ್ ಆಗಿರಿ
       comment: ಟಿಪ್ಪಣಿ
     paging_nav:
-      nodes: ನೋಡ್ಸ್  (%{count})
       nodes_paginated: ನೋಡ್ಸ್  (%{x}-%{y} ರ %{count})
-      ways: ರೀತಿಯಲ್ಲಿ (%{count})
       ways_paginated: ದಾರಿಗಳು (%{x}-%{y} ರ %{count})
-      relations: ಸಂಬಂಧಗಳು (%{count})
       relations_paginated: ಸಂಬಂಧಗಳು(%{x}-%{y} of %{count})
     timeout:
       sorry: ಕ್ಷಮಿಸಿ, ನೀವು ಕೇಳಿದ ಬದಲಾವಣಾ ಪಟ್ಟಿ ಪಡೆಯಲು ದೀರ್ಘ ಸಮಯ ಬೇಕಾಯಿತು.
@@ -316,12 +301,10 @@ kn:
     contact:
       km away: '%{count} ಕಿಮೀ ದೂರ'
       m away: '%{count} ಮೀ ದೂರ'
+      no_edits: (ಸಂಪಾದನೆಗಳಿಲ್ಲ)
+      view_changeset_details: ಬದಲಾವಣೆಯ ವಿವರಗಳನ್ನು ತೋರಿಸಿ
     popup:
       your location: ನಿಮ್ಮ ಸ್ಥಳ
-      friend: ಗೆಳೆಯ
-    show:
-      my friends: ನನ್ನ ಗೆಳೆಯರು
-      no friends: ನೀವು ಇನ್ನೂ ಯಾವ ಗೆಳೆಯರನ್ನೂ ಸೇರಿಸಿಲ್ಲ.
   diary_entries:
     new:
       title: ದಿನಚರಿಯಲ್ಲಿ ಹೊಸದಾದ ದಾಖಲೆ
@@ -330,13 +313,9 @@ kn:
       use_map_link: ನಕ್ಷೆ ಬಳಸು
     index:
       title: ಬಳಕೆದಾರರ ದಿನಚರಿಗಳು
-      title_friends: ಗೆಳೆಯರ ದಿನಚರಿಗಳು
       title_nearby: ಹತ್ತಿರದ ಬಳಕೆದಾರರ ದಿನಚರಿಗಳು
       user_title: '%{user}ರ ದಿನಚರಿ'
       in_language_title: ದಿನಚರಿ ದಾಖಲಾತಿ %{language}ನಲ್ಲಿ
-      new: ಹೊಸದಾದ ದಿನಚರಿ ದಾಖಲು
-      new_title: ನನ್ನ ಬಳಕೆದಾರ ದಿನಚರಿಯಲ್ಲಿ ಹೊಸ ದಾಖಲಾತಿ ನಿರ್ಮಿಸಿ
-      my_diary: ನನ್ನ ಡೈರಿ
       no_entries: ದಿನಚರಿ ದಾಖಲಾತಿಗಳಿಲ್ಲ
     page:
       recent_entries: ಇತ್ತೀಚೆಗಿನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
@@ -373,14 +352,12 @@ kn:
         description: ಓಪನ್‍ಸ್ಟ್ರೀಟ್‍ಮ್ಯಾಪ್ ನಲ್ಲಿ %{user} ಅವರ ಇತ್ತೀಚಿನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
       language:
         title: '%{language_name} ಭಾಷೆಯಲ್ಲಿ ಓಪನ್‍ಸ್ಟ್ರೀಟ್‍ಮ್ಯಾಪ್‍ನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು'
-  diary_comments:
-    page:
-      post: ಪೋಸ್ಟ್ ಮಾಡಿ
-      when: ಯಾವಾಗ
-      comment: ಟಿಪ್ಪಣಿ
-  friendships:
-    make_friend:
-      button: ಸ್ನೇಹಿತರಾಗಿ ಸೇರಿಸಿ
+    navigation:
+      my_diary: ನನ್ನ ಡೈರಿ
+      new: ಹೊಸದಾದ ದಿನಚರಿ ದಾಖಲು
+      new_title: ನನ್ನ ಬಳಕೆದಾರ ದಿನಚರಿಯಲ್ಲಿ ಹೊಸ ದಾಖಲಾತಿ ನಿರ್ಮಿಸಿ
+    profile_diaries:
+      date_label: ದಿನಾಂಕ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -605,6 +582,9 @@ kn:
           zoo: ಮೃಗಾಲಯ
         tunnel:
           "yes": ಸುರಂಗ
+        water:
+          lake: ಕೆರೆ
+          reservoir: ಅಣೆಕಟ್ಟು
         waterway:
           canal: ‍‍ಕಾಲುವೆ
           dam: ಅಣೆಕಟ್ಟು
@@ -618,8 +598,10 @@ kn:
         level4: ರಾಜ್ಯದ ಗಡಿ
         level8: ನಗರದ ಗಡಿ
         level9: ಹಳ್ಳಿಯ ಗಡಿ
-    results:
-      no_results: ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ
+  searches:
+    queries:
+      create:
+        no_results: ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ
   issues:
     index:
       search: ಹುಡುಕು
@@ -681,48 +663,48 @@ kn:
     confirm_email:
       button: ಧೃಡಪಡಿಸಿ
   messages:
-    messages_table:
-      from: ಇಂದ
-      to: ಗೆ
-      subject: ವಿಷಯ
-      date: ದಿನಾಂಕ
-    message_summary:
-      destroy_button: ಅಳಿಸು
     new:
       title: ಸಂದೇಶ ಕಳುಹಿಸಿ
       send_message_to_html: ಹೊಸ ಸಂದೇಶವನ್ನು %{name} ಗೆ ಕಳುಹಿಸಿ
     no_such_message:
       title: ಅಂತಹ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ
       heading: ಅಂತಹ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ
-    outbox:
-      people_mapping_nearby: ನಿಮ್ಮ ಹತ್ತಿರವಿರುವ ಬಳಕೆದಾರರು
     show:
       title: ಸಂದೇಶವನ್ನು ಓದಿ
       reply_button: ಉತ್ತರಿಸಿ
       unread_button: ಓದಿಲ್ಲವೆಂದು ಗುರುತು ಮಾಡಿ
       destroy_button: ಅಳಿಸು
       back: ಹಿಂದಕ್ಕೆ
-    sent_message_summary:
-      destroy_button: ಅಳಿಸು
-    mark:
-      as_read: ಸಂದೇಶ ಓದಾಲಾಗಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ
-      as_unread: ಸಂದೇಶ ಓದಾಲಾಗಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ
     destroy:
       destroyed: ಸಂದೇಶವನ್ನು ಅಳಿಸಿ ಹಾಕಲಾಗಿದೆ
+    read_marks:
+      create:
+        notice: ಸಂದೇಶ ಓದಾಲಾಗಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ
+      destroy:
+        notice: ಸಂದೇಶ ಓದಾಲಾಗಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ
+    mailboxes:
+      messages_table:
+        from: ಇಂದ
+        to: ಗೆ
+        subject: ವಿಷಯ
+      message:
+        destroy_button: ಅಳಿಸು
+    outboxes:
+      show:
+        people_mapping_nearby: ನಿಮ್ಮ ಹತ್ತಿರವಿರುವ ಬಳಕೆದಾರರು
+      message:
+        destroy_button: ಅಳಿಸು
   passwords:
     new:
       email address: 'ಮಿಂಚಂಚೆ ವಿಳಾಸ:'
     update:
       flash changed: ನಿಮ್ಮ ಪ್ರವೇಶಪದವನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ.
   preferences:
-    show:
-      title: ನನ್ನ ಪ್ರಾಶಸ್ತ್ಯಗಳು
-      preferred_languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
-      edit_preferences: ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು ಸಂಪಾದಿಸಿ
-    edit:
-      title: ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು ಸಂಪಾದಿಸಿ
+    basic_preferences:
+      show:
+        title: ನನ್ನ ಪ್ರಾಶಸ್ತ್ಯಗಳು
   profiles:
-    edit:
+    show:
       image: ಚಿತ್ರ
       delete: ಅಳಿಸಿ
   sessions:
@@ -796,27 +778,25 @@ kn:
       to: ಗೆ
       where_am_i: ಇದು ಎಲ್ಲಿದೆ?
       submit_text: ಹೋಗು
-    key:
-      table:
-        entry:
-          main_road: ಮುಖ್ಯ ರಸ್ತೆ
-          forest: ಅರಣ್ಯ
-          park: ಉದ್ಯಾನ
-          resident: ವಾಸ ಮಾಡುವ ಸ್ಥಳ
-          lake: ಕೆರೆ
-          reservoir: ಅಣೆಕಟ್ಟು
-          farm: ಒಕ್ಕಲು ಜಮೀನು
-          cemetery: ಸ್ಮಾಶಾಣ
-          school: ಪಾಠಶಾಲೆ
-          university: ವಿಶ್ವವಿದ್ಯಾಲಯ
-          station: ರೈಲು ನಿಲ್ದಾಣ
     welcome:
       title: ಸುಸ್ವಾಗತ!
       whats_on_the_map:
         title: ನಕ್ಷೆಯ ಮೇಲೆನಿದೆ
       start_mapping: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿಲು ಪ್ರಾರಂಭಿಸಿ
-      add_a_note:
-        title: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿಲು ಸಮಯವಿಲ್ಲವೇ? ಟಿಪ್ಪಣಿಯನ್ನು ಸೇರಿಸಿರಿ!
+    add_a_note:
+      title: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿಲು ಸಮಯವಿಲ್ಲವೇ? ಟಿಪ್ಪಣಿಯನ್ನು ಸೇರಿಸಿರಿ!
+  map_keys:
+    show:
+      entries:
+        main_road: ಮುಖ್ಯ ರಸ್ತೆ
+        forest: ಅರಣ್ಯ
+        park: ಉದ್ಯಾನ
+        resident: ವಾಸ ಮಾಡುವ ಸ್ಥಳ
+        farm: ಒಕ್ಕಲು ಜಮೀನು
+        cemetery: ಸ್ಮಾಶಾಣ
+        school: ಪಾಠಶಾಲೆ
+        university: ವಿಶ್ವವಿದ್ಯಾಲಯ
+        station: ರೈಲು ನಿಲ್ದಾಣ
   traces:
     new:
       help: ಸಹಾಯ
@@ -842,13 +822,17 @@ kn:
     show:
       edit: ಸಂಪಾದಿಸಿ
   users:
-    terms:
-      legale_names:
-        france: ಫ಼್ರಾನ್ಸ್
-        italy: ಇಟಲಿ
     show:
       my messages: ನನ್ನ ಸಂದೇಶಗಳು
       edits: ಸಂಪಾದನೆಗಳು
+    changeset_comments:
+      page:
+        changeset: ಬದಲಾವಣೆಗಳು
+        when: ಯಾವಾಗ
+        comment: ಟಿಪ್ಪಣಿ
+    diary_comments:
+      page:
+        post: ಪೋಸ್ಟ್ ಮಾಡಿ
   user_blocks:
     show:
       created: 'ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟಿದೆ:'

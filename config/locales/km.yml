@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Gravitystorm
+# Author: Minh Nguyen
 # Author: Sovichet
 # Author: គីមស៊្រុន
 # Author: វ័ណថារិទ្ធ
@@ -23,9 +24,6 @@ km:
         create: បន្ថែមមតិ
       message:
         create: ផ្ញើ​
-      client_application:
-        create: ចុះឈ្មោះ​
-        update: អាប់ដេត
       trace:
         create: ផ្ទុកឡើង​
         update: រក្សាទុក​បន្លាស់ប្តូរនានា​
@@ -97,14 +95,19 @@ km:
         languages: ភាសា​
         pass_crypt: ពាក្យ​សម្ងាត់
   accounts:
-    edit:
+    show:
       title: កែប្រែគណនី​
-      public editing:
-        disabled link text: មូលហេតុអ្វី​ ខ្ញុំមិនអាចកែប្រែបាន​?
     update:
       success_confirm_needed: ព័ត៌មានអ្នកប្រើប្រាស់​ បានបន្ទាន់សម័យដោយជោគជ័យ​។ សូមពិនិត្យមើលអ៊ីមែលរបស់អ្នក
         ដើម្បីបញ្ជាក់អាសយដ្ឋានអ៊ីមែលថ្មីរបស់អ្នក។
       success: ព័ត៌មានអ្នកប្រើប្រាស់​ បានបន្ទាន់សម័យដោយជោគជ័យ​។
+    terms:
+      show:
+        legale_select: ប្រទេស​ស្នាក់​នៅ៖
+        legale_names:
+          france: ប្រទេសបារាំង
+          italy: ប្រទេសអ៊ីតាលី
+          rest_of_world: ប្រទេសផ្សេងទៀត
   browse:
     version: កំណែ
     in_changeset: សំណុំបន្លាស់ប្ដូរ
@@ -117,10 +120,8 @@ km:
     location: ទីតាំង​៖​
     node:
       title_html: ខ្នែង៖ %{name}
-      history_title_html: ប្រវត្តិខ្នែង៖ %{name}
     way:
       title_html: ផ្លូវ៖ %{name}
-      history_title_html: ប្រវត្តិផ្លូវ៖ %{name}
       nodes: ខ្នែង
     relation:
       members: សមាជិក
@@ -131,15 +132,7 @@ km:
         way: ផ្លូវ​
         relation: ទំនាក់ទំនង
     containing_relation:
-      entry_html: ទំនាក់ទំនង​ %{relation_name}
       entry_role_html: ទំនាក់ទំនង %{relation_name} (ជា %{relation_role})
-    not_found:
-      sorry: សូមទោស រកមិនឃើញ %{type}%{id}​ ទេ។
-      type:
-        node: ខ្នែង
-        way: ផ្លូវ​
-        relation: ទំនាក់ទំនង
-        changeset: សំនុំ​បំលាស់ប្តូរ​
     timeout:
       type:
         node: ខ្នែង
@@ -157,14 +150,16 @@ km:
     tag_details:
       tags: ស្លាក​
       wikipedia_link: អត្ថបទ %{page} នៅលើវិគីភីឌា
+  old_elements:
+    index:
+      node:
+        title_html: ប្រវត្តិខ្នែង៖ %{name}
+      way:
+        title_html: ប្រវត្តិផ្លូវ៖ %{name}
   changesets:
-    changeset:
-      no_edits: (គ្មានកំណែប្រែ​)
-      view_changeset_details: មើលព័ត៌មានលម្អិតរបស់សំណុំបន្លាស់ប្តូរ​
     index:
       title: សំណុំបន្លាស់ប្ដូរ
       title_user: សំណុំបន្លាស់ប្ដូរធ្វើដោយ %{user}
-      title_friend: សំណុំបន្លាស់ប្ដូរធ្វើដោយមិត្តភក្ដិខ្ញុំ
       title_nearby: សំណុំបន្លាស់ប្ដូរធ្វើដោយអ្នកប្រើប្រាស់ក្បែរៗអ្នក
       empty: រកមិនឃើញសំណុំបន្លាស់ប្ដូរទេ។
       empty_area: គ្មានសំណុំបន្លាស់ប្ដូរនៅក្នុងតំបន់នេះទេ។
@@ -172,7 +167,6 @@ km:
       no_more: រកមិនឃើញសំណុំបន្លាស់ប្ដូរថែមទៀតទេ។
       no_more_area: គ្មានសំណុំបន្លាស់ប្ដូរថែមទៀតទេក្នុងតំបន់នេះ។
       no_more_user: គ្មានសំណុំបន្លាស់ប្ដូរដោយអ្នកប្រើប្រាស់នេះថែមទៀតទេ។
-      load_more: ផ្ទុកបន្ថែម
       feed:
         title: សំណុំបន្លាស់ប្ដូរ​ %{id}
         title_comment: សំណុំបន្លាស់ប្តូរ​ %{id} - %{comment}
@@ -186,18 +180,15 @@ km:
       comment: មតិយោបល់​
       changesetxml: សំណុំបន្លាស់ប្ដូរ​ XML
     paging_nav:
-      nodes: ខ្នែងចំនួន (%{count})
       nodes_paginated: ខ្នែងចំនួន (%{x}-%{y} ក្នុងចំណោម %{count})
-      ways: ផ្លូវចំនួន (%{count})
       ways_paginated: ផ្លូវចំនួន (%{x}-%{y} ក្នុងចំណោម %{count})
-      relations: ទំនាក់ទំនងចំនួន (%{count})
       relations_paginated: ទំនាក់ទំនងចំនួន (%{x}-%{y} ក្នុងចំណោម %{count})
   dashboards:
     contact:
       km away: ចម្ងាយ %{count} គ.ម.
       m away: ចម្ងាយ %{count} ម.
-    show:
-      no friends: អ្នកមិនទាន់បានបន្ថែមមិត្តណាមួយនៅឡើយទេ​។
+      no_edits: (គ្មានកំណែប្រែ​)
+      view_changeset_details: មើលព័ត៌មានលម្អិតរបស់សំណុំបន្លាស់ប្តូរ​
   diary_entries:
     new:
       title: ប្រកាសកំណត់ហេតុថ្មី
@@ -206,12 +197,9 @@ km:
       use_map_link: ប្រើផែនទី​
     index:
       title: កំណត់ហេតុរបស់អ្នកប្រើប្រាស់
-      title_friends: កំណត់ហេតុរបស់មិត្តភក្ដិ
       title_nearby: កំណត់ហេតុរបស់អ្នកប្រើប្រាស់នៅក្បែរៗ
       user_title: កំណត់ហេតុរបស់ %{user}
       in_language_title: ប្រកាសន៍កំណត់ហេតុជា %{language}
-      new: ប្រកាសន៍កំណត់ហេតុថ្មី
-      new_title: បង្កើតប្រកាសថ្មីមួយក្នុងកំណត់ហេតុអ្នកប្រើប្រាស់របស់អ្នក
       no_entries: គ្មានកំណត់ហេតុទេ
     page:
       recent_entries: ប្រកាសកំណត់ហេតុថ្មីៗ
@@ -235,13 +223,11 @@ km:
       confirm: បញ្ជាក់​
     location:
       location: ទីតាំង​៖​
-  friendships:
-    make_friend:
-      success: '%{name} ឥឡូវនេះជាមិត្តរបស់អ្នក​។'
-      failed: អភ័យទោស, បរាជ័យក្នុងការបន្ដែម %{name} ជាមិត្ត​។
-      already_a_friend: អ្នកគឺជាមិត្តជាមួយ %{name} រួចហើយ​។
-    remove_friend:
-      not_a_friend: '%{name} មិនមែនជាមិត្តរបស់អ្នកទេ​។'
+    navigation:
+      new: ប្រកាសន៍កំណត់ហេតុថ្មី
+      new_title: បង្កើតប្រកាសថ្មីមួយក្នុងកំណត់ហេតុអ្នកប្រើប្រាស់របស់អ្នក
+    profile_diaries:
+      date_label: កាលបរិច្ឆេទ​
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -606,12 +592,10 @@ km:
       hi: សួស្ដី %{to_user},
     message_notification:
       hi: សួស្ដី %{to_user},
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} បានបន្ថែមអ្នកជា​មិត្ត​'
-      had_added_you: '%{user} បានបន្ថែមអ្នកជា​មិត្ត​នៅ [OpenStreetMap] ។'
+    follow_notification:
       see_their_profile: អ្នកអាចមើល​ប្រវត្តិរូប​របស់ពួកគេនៅ %{userurl} និងបន្ថែម​ពួកគេជាមិត្តរបស់អ្នកវិញបើអ្នកចង់​។
     signup_confirm:
-      subject: '[OpenStreetMap] សូមស្វាគមន៍មកកាន់ OpenStreetMap'
+      subject: '[OpenHistoricalMap] សូមស្វាគមន៍មកកាន់ OpenHistoricalMap'
     email_confirm:
       subject: '[OpenStreetMap] បញ្ជាក់​អាសយដ្ឋាន​អ៊ីមែលរបស់អ្នក​'
       greeting: សួស្ដី,
@@ -627,13 +611,13 @@ km:
       button: បញ្ជាក់​
       success: បានបញ្ជាក់អាសយដ្ឋានអ៊ីមែលរបស់អ្នករូចរាល់ហើយ!
   messages:
-    messages_table:
-      from: ពី​
-      to: ទៅ​
-      subject: ប្រធានបទ​
-      date: កាលបរិច្ឆេទ​
     new:
       back_to_inbox: ត្រឡប់ទៅប្រអប់សំបុត្រ​
+    mailboxes:
+      messages_table:
+        from: ពី​
+        to: ទៅ​
+        subject: ប្រធានបទ​
   sessions:
     new:
       tab_title: កត់ឈ្មោះចូល
@@ -651,7 +635,7 @@ km:
     copyright:
       foreign:
         title: អំពីការបកប្រែនេះ
-    edit:
+    not_public_flash:
       not_public: អ្នកមិនបានកំណត់​កំណែប្រែរបស់អ្នកជាសាធារណៈ​។
       user_page_link: ទំព័រអ្នកប្រើប្រាស់​
     export:
@@ -666,26 +650,24 @@ km:
       search: ស្វែងរក​
       where_am_i: ខ្ញុំនៅទីណា​?
       submit_text: ទៅ​
-    key:
-      table:
-        entry:
-          motorway: ផ្លូវល្បឿនលឿន
-          main_road: ផ្លូវធំ
-          cycleway: ផ្លូវទោចក្រយាន
-          cycleway_national: ផ្លូវទោចក្រយានជាតិ
-          cycleway_local: ផ្លូវទោចក្រយានតំបន់
-          rail: ផ្លូវដែក
-          subway: ផ្លូវដែកក្រោមដី
-          light_rail: ផ្លូវដែកធុនស្រាល
-          admin: ព្រំដែនរដ្ឋបាល
-          forest: ព្រៃឈើ​
-          park: ឧទ្យាន​
-          industrial: តំបន់ឧស្សាហកម្ម​
-          farm: កសិដ្ឋាន​
-          centre: មជ្ឈមណ្ឌល​កីឡា​
-          school: សាលារៀន​
-          university: សាកលវិទ្យាល័យ​
-          station: ស្ថានីយ៍ផ្លូវដែក
+  map_keys:
+    show:
+      entries:
+        motorway: ផ្លូវល្បឿនលឿន
+        main_road: ផ្លូវធំ
+        cycleway: ផ្លូវទោចក្រយាន
+        rail: ផ្លូវដែក
+        subway: ផ្លូវដែកក្រោមដី
+        light_rail: ផ្លូវដែកធុនស្រាល
+        admin: ព្រំដែនរដ្ឋបាល
+        forest: ព្រៃឈើ​
+        park: ឧទ្យាន​
+        industrial: តំបន់ឧស្សាហកម្ម​
+        farm: កសិដ្ឋាន​
+        centre: មជ្ឈមណ្ឌល​កីឡា​
+        school: សាលារៀន​
+        university: សាកលវិទ្យាល័យ​
+        station: ស្ថានីយ៍ផ្លូវដែក
   traces:
     new:
       visibility_help: តើនេះមានន័យ​ដូចម្ដេច​?
@@ -710,8 +692,6 @@ km:
       tagged_with: '  បានដាកស្លាកជា %{tags}'
   application:
     auth_providers:
-      openid:
-        title: កត់ឈ្មោះចូលដោយប្រើ OpenID
       google:
         title: កត់ឈ្មោះចូលដោយប្រើ Google
       facebook:
@@ -727,17 +707,12 @@ km:
       title: ចុះឈ្មោះ​ចូល
       continue: ចុះឈ្មោះចូល
       use external auth: ប្រើភ្នាក់ងារទី៣ដើម្បីកត់ឈ្មោះចូល
-    terms:
-      legale_select: ប្រទេស​ស្នាក់​នៅ៖
-      legale_names:
-        france: ប្រទេសបារាំង
-        italy: ប្រទេសអ៊ីតាលី
-        rest_of_world: ប្រទេសផ្សេងទៀត
     show:
       my edits: កំណែប្រែ​របស់ខ្ញុំ​
       edits: កំណែប្រែ​
-      remove as friend: ដកចេញជាមិត្ត​
-      add as friend: បន្ថែមជាមិត្ត​
+    changeset_comments:
+      page:
+        changeset: សំនុំ​បំលាស់ប្តូរ​
   notes:
     show:
       title: កំណត់សម្គាល់៖ %{id}

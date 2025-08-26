@@ -88,9 +88,6 @@ ja:
         create: コメントを追加
       message:
         create: 送信
-      client_application:
-        create: 登録
-        update: 更新
       oauth2_application:
         create: 登録
         update: 更新
@@ -123,6 +120,7 @@ ja:
       message: メッセージ
       node: ノード
       node_tag: ノードのタグ
+      note: メモ
       notifier: 通知
       old_node: 古いノード
       old_node_tag: 古いノードのタグ
@@ -296,41 +294,11 @@ ja:
       entry:
         comment: コメント
         full: メモ全文
-  account:
-    deletions:
-      show:
-        title: 自分のアカウントを削除する
-        warning: 警告！アカウントの削除プロセスは最終的なものであり、元に戻すことはできません。
-        delete_account: アカウントを削除
-        delete_introduction: 下のボタンを使用してご自分の OpenStreetMap アカウントを削除できます。次の詳細に注意してください。
-        delete_profile: アバター、説明、自宅の場所などのプロフィール情報が削除されます。
-        delete_display_name: 表示名は削除され、他のアカウントで再利用できます。
-        retain_caveats: ただし、アカウントが削除された後でも、あなたに関する一部の情報は OpenStreetMap に保持されます（以下ご参照）。
-        retain_edits: マップ データベースへの編集内容は保持されます。
-        retain_traces: アップロードされたトレースがあれば、保持されます。
-        retain_diary_entries: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
-        retain_notes: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
-        retain_changeset_discussions: 変更セットのディスカッションがあれば、保持されます。
-        retain_email: メールアドレスは保持されます。
-        recent_editing_html: 最近編集したため、現在アカウントを削除できません。 %{time}以内に削除可能になります。
-        confirm_delete: 本当によろしいですか?
-        cancel: キャンセル
   accounts:
-    edit:
+    show:
       title: アカウントの編集
-      my settings: 設定
       current email address: 現在のメールアドレス
       external auth: 外部認証
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
-        link text: これは何ですか?
-      public editing:
-        heading: 公開編集
-        enabled: 有効。匿名ではなく、データを編集できます。
-        enabled link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
-        enabled link text: これは何ですか?
-        disabled: 無効。データを編集できず、これまでの編集はすべて匿名です。
-        disabled link text: なぜ編集できないのですか?
       contributor terms:
         heading: 協力者規約
         agreed: あなたは、新しい協力者規約を承諾しています。
@@ -355,6 +323,50 @@ ja:
       success: 利用者情報を更新しました。
     destroy:
       success: アカウントを削除しました。
+    deletions:
+      show:
+        title: 自分のアカウントを削除する
+        warning: 警告！アカウントの削除プロセスは最終的なものであり、元に戻すことはできません。
+        delete_account: アカウントを削除
+        delete_profile: アバター、説明、自宅の場所などのプロフィール情報が削除されます。
+        delete_display_name: 表示名は削除され、他のアカウントで再利用できます。
+        retain_edits: マップ データベースへの編集内容は保持されます。
+        retain_traces: アップロードされたトレースがあれば、保持されます。
+        retain_diary_entries: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
+        retain_notes: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
+        retain_changeset_discussions: 変更セットのディスカッションがあれば、保持されます。
+        retain_email: メールアドレスは保持されます。
+        recent_editing_html: 最近編集したため、現在アカウントを削除できません。 %{time}以内に削除可能になります。
+        confirm_delete: 本当によろしいですか?
+        cancel: キャンセル
+    terms:
+      show:
+        title: 規約
+        heading: 規約
+        heading_ct: 協力者規約
+        read and accept with tou: 貢献者同意と利用規約を読んで、読み終わりましたら、両方のチェックボックスをチェックし、次ボタンを押してください。
+        contributor_terms_explain: この同意では、あなたが今まで行い、およびこれから行う貢献における規約について定めています。
+        read_ct: 私は以下の貢献者同意を読み終え、これに同意します
+        tou_explain_html: これらの%{tou_link}では、OSMFによって提供されているウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして、読み、文書に同意してください。
+        read_tou: 私は利用規約を読み終え、これに同意します
+        guidance_info_html: 'これらの用語を理解するのに役立つ情報: %{readable_summary_link} といくつかの %{informal_translations_link}'
+        readable_summary: 人間が読める要約
+        informal_translations: 非公式の翻訳
+        continue: 次へ
+        cancel: キャンセル
+        you need to accept or decline: 続行するには新しい協力者規約を読んで承諾または拒否してください。
+        legale_select: 'お住まいの国:'
+        legale_names:
+          france: フランス
+          italy: イタリア
+          rest_of_world: それ以外の国
+      update:
+        terms accepted: 新しい協力者規約を承諾していただき、ありがとうございます!
+      terms_declined_flash:
+        terms_declined_html: 新しい投稿者規約に同意しないことを決定されたことを残念に思います。詳細については、%{terms_declined_link}
+          を参照してください。
+        terms_declined_link: このwikiページ
+        terms_declined_url: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: '%{user}が%{time_ago}に削除'
     edited_ago_by_html: '%{user}が%{time_ago}に編集'
@@ -372,15 +384,11 @@ ja:
     view_history: 履歴を表示
     view_unredacted_history: 未編集の履歴を表示
     view_details: 詳細を表示
-    view_redacted_data: 編集されたデータを表示
-    view_redaction_message: 編集メッセージを表示
     location: '場所:'
     node:
       title_html: 'ノード: %{name}'
-      history_title_html: 'ノード: %{name} の履歴'
     way:
       title_html: 'ウェイ: %{name}'
-      history_title_html: 'ウェイ: %{name} の履歴'
       nodes: ノード
       nodes_count:
         other: '%{count}件のノード'
@@ -388,7 +396,6 @@ ja:
         other: ウェイ %{related_ways} の一部
     relation:
       title_html: 'リレーション: %{name}'
-      history_title_html: 'リレーション: %{name} の履歴'
       members: メンバー
       members_count:
         other: '%{count}件'
@@ -399,17 +406,9 @@ ja:
         way: ウェイ
         relation: リレーション
     containing_relation:
-      entry_html: リレーション %{relation_name}
       entry_role_html: リレーション %{relation_name} (%{relation_role} として)
     not_found:
       title: 見つかりません
-      sorry: '%{type} #%{id} は見つかりませんでした。'
-      type:
-        node: ノード
-        way: ウェイ
-        relation: リレーション
-        changeset: 変更セット
-        note: メモ
     timeout:
       title: タイムアウトエラー
       sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは時間がかかりすぎたため取得できませんでした。
@@ -442,16 +441,28 @@ ja:
       telephone_link: '%{phone_number}に電話'
       colour_preview: 色彩%{colour_value}プレビュー
       email_link: メール %{email}
-    query:
+  feature_queries:
+    show:
       title: 地物を検索
       introduction: 地図上をクリックすると、近くの地物を探します。
       nearby: 近くの地物
       enclosing: 付近の地物
+  old_elements:
+    index:
+      node:
+        title_html: 'ノード: %{name} の履歴'
+      way:
+        title_html: 'ウェイ: %{name} の履歴'
+      relation:
+        title_html: 'リレーション: %{name} の履歴'
+    actions:
+      view_redacted_data: 編集されたデータを表示
+      view_redaction_message: 編集メッセージを表示
   nodes:
     timeout:
       sorry: 申し訳ありませんが、ノードのデータ（id %{id}）は、時間がかかりすぎたため取得できませんでした。
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'ノード #%{id} のバージョン %{version} が見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、ID %{id} の履歴データは時間がかかりすぎたため取得できませんでした。
@@ -459,7 +470,7 @@ ja:
     timeout:
       sorry: 申し訳ありませんが、ウェイのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'ウェイ #%{id} のバージョン %{version} が見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、ウェイの履歴データ（id %{id}）は時間がかかりすぎたため取得できませんでした。
@@ -467,7 +478,7 @@ ja:
     timeout:
       sorry: 申し訳ありませんが、リレーションのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'リレーション #%{id} のバージョン %{version} が見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、リレーションの履歴データ（id %{id}）は時間がかかりすぎたため取得できませんでした。
@@ -482,14 +493,10 @@ ja:
       timeout:
         sorry: 申し訳ありませんが、要求した変更セットのコメントの一覧は時間がかかりすぎたため取得できませんでした。
   changesets:
-    changeset:
-      no_edits: (編集がありません)
-      view_changeset_details: 変更セットの詳細を閲覧
     index:
       title: 変更セット
       title_user: '%{user} による変更セット'
       title_user_link_html: '%{user_link} による変更セット'
-      title_friend: 友達による変更セット
       title_nearby: 周辺の利用者による変更セット
       empty: 変更セットが見つかりませんでした。
       empty_area: この領域には変更セットはありません。
@@ -497,25 +504,12 @@ ja:
       no_more: 変更セットはこれ以上ありません。
       no_more_area: この領域には変更セットはこれ以上ありません。
       no_more_user: この利用者による変更セットはこれ以上ありません。
-      load_more: 続きを読み込む
       feed:
         title: 変更セット %{id}
         title_comment: 変更セット %{id} - %{comment}
         created: 作成
         closed: クローズ
         belongs_to: 作者
-    subscribe:
-      heading: この変更セットのディスカッションの通知を受け取りますか？
-      button: 議論に参加する
-    unsubscribe:
-      heading: この変更セットの議論の通知を解除しますか？
-      button: 議論の通知を解除
-    heading:
-      title: 変更セット %{id}
-      created_by_html: ユーザ %{link_user} によって %{created} に作成されました。
-    no_such_entry:
-      heading: 'ID番号: %{id} のエントリはありません'
-      body: 申し訳ありませんが、ID %{id} という変更セットはありません。入力した文字列が誤っているか、クリックしたリンクが間違っている可能性があります。
     show:
       title: '変更セット: %{id}'
       created: '作成日: %{when}'
@@ -535,33 +529,41 @@ ja:
       changesetxml: 変更セット XML
       osmchangexml: OSM 差分 XML
     paging_nav:
-      nodes: ノード (%{count})
       nodes_paginated: ノード (%{x}-%{y} / %{count})
-      ways: ウェイ (%{count}件)
       ways_paginated: ウェイ (%{x}-%{y} / %{count})
-      relations: リレーション (%{count}件)
       relations_paginated: リレーション (%{x}-%{y} / %{count})
     timeout:
       sorry: 申し訳ありませんが、要求した変更セットの一覧は時間がかかりすぎたため取得できませんでした。
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: この変更セットのディスカッションの通知を受け取りますか？
+        button: 議論に参加する
+      unsubscribe:
+        heading: この変更セットの議論の通知を解除しますか？
+        button: 議論の通知を解除
+    heading:
+      title: 変更セット %{id}
+      created_by_html: ユーザ %{link_user} によって %{created} に作成されました。
+    no_such_entry:
+      heading: 'ID番号: %{id} のエントリはありません'
+      body: 申し訳ありませんが、ID %{id} という変更セットはありません。入力した文字列が誤っているか、クリックしたリンクが間違っている可能性があります。
   dashboards:
     contact:
       km away: 距離 %{count} km
       m away: 距離 %{count} m
       latest_edit_html: '最終編集 %{ago}:'
+      no_edits: (編集がありません)
+      view_changeset_details: 変更セットの詳細を閲覧
     popup:
       your location: 自分の位置
       nearby mapper: 周辺のマッパー
-      friend: 友達
     show:
       title: 私のダッシュボード
       no_home_location_html: '%{edit_profile_link}そして、近くの利用者が表示されるように自宅の場所を設定します。'
       edit_your_profile: プロフィールの編集
-      my friends: 友達
-      no friends: あなたはまだ誰も友達として登録していません。
       nearby users: 周辺にいるその他の利用者
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
-      friends_changesets: 友達による変更セット
-      friends_diaries: 友達の日記エントリ
       nearby_changesets: 周辺の利用者の変更セット
       nearby_diaries: 周辺の利用者の日記エントリ
   diary_entries:
@@ -572,13 +574,9 @@ ja:
       use_map_link: 地図を使用
     index:
       title: 利用者の日記
-      title_friends: 友達の日記
       title_nearby: 周辺の利用者の日記
       user_title: '%{user}さんの日記'
       in_language_title: '%{language}の日記エントリ'
-      new: 日記エントリを新規作成
-      new_title: 自分の日記にエントリを新規作成
-      my_diary: 自分の日記
       no_entries: 日記エントリはありません
     page:
       recent_entries: 最近の日記エントリ
@@ -637,16 +635,13 @@ ja:
     unsubscribe:
       heading: この日記エントリに付随する議論の通知を解除しますか？
       button: 議論の通知を解除
+    navigation:
+      my_diary: 自分の日記
+      new: 日記エントリを新規作成
+      new_title: 自分の日記にエントリを新規作成
+    profile_diaries:
+      date_label: 日付
   diary_comments:
-    index:
-      title: '%{user}が追加した日記コメント'
-      heading: '%{user}の日記コメント'
-      subheading_html: '%{user}が追加した日記コメント'
-      no_comments: 日記のコメントはありません
-    page:
-      post: 投稿
-      when: 日時
-      comment: コメント
     new:
       heading: この日記エントリの議論にコメントを追加しますか？
   doorkeeper:
@@ -690,26 +685,13 @@ ja:
       description: OpenStreetMapサーバへ要求した操作は無効な形式です (HTTP 400)
     forbidden:
       title: 閲覧禁止
-      description: OpenStreetMapサーバへ要求した操作は管理者のみが可能です (HTTP 403)
+      description: OpenHistoricalMapサーバへ要求した操作は管理者のみが可能です (HTTP 403)
     internal_server_error:
       title: アプリケーションエラー
       description: OpenStreetMapサーバは予期しない状態となり、リクエストを処理できませんでした (HTTP 500)
     not_found:
       title: ファイルが見つかりません
       description: OpenStreetMapサーバ上に、その名称のファイル/ディレクトリ/API操作はありません (HTTP 404)
-  friendships:
-    make_friend:
-      heading: '%{user} を友達に追加しますか?'
-      button: 友達に追加
-      success: '%{name} と友達になりました!'
-      failed: '%{name} を友達として登録できませんでした。'
-      already_a_friend: あなたは %{name} と既に友達です。
-      limit_exceeded: 短い間隔で大量の友達申請を送っていますね。しばらくしてから友達申請してください。
-    remove_friend:
-      heading: '%{user} を友達から削除しますか?'
-      button: 友達を解除
-      success: '%{name} を友達から解除しました。'
-      not_a_friend: '%{name} は友達ではありません。'
   geocoder:
     search:
       title:
@@ -1456,6 +1438,9 @@ ja:
           building_passage: ビルの通路
           culvert: 暗渠
           "yes": トンネル
+        water:
+          lake: 湖
+          reservoir: 溜池
         waterway:
           artificial: 人工的な水路
           boatyard: ボートヤード
@@ -1486,17 +1471,25 @@ ja:
         level9: 村境
         level10: 街区境
         level11: 町会の境界
-    results:
-      no_results: 該当するものはありません
-      more_results: その他の結果
+  searches:
+    queries:
+      create:
+        no_results: 該当するものはありません
+        more_results: その他の結果
+  directions:
+    show:
+      title: 方向
+      distance: 距離
+      time: 時刻
+      ascend: 上り坂
+      descend: 下り坂
+      directions_courtesy_html: 道順は%{link}による
   issues:
     index:
       title: 問題点
       select_status: 状態を選択
       select_type: タイプを選択
-      select_last_updated_by: 最近の更新を選択
       reported_user: 通報された利用者
-      not_updated: 更新はありません
       search: 検索
       search_guidance: '検索の問題点:'
       states:
@@ -1510,7 +1503,6 @@ ja:
       status: 状態
       reports: 報告
       last_updated: 最近の更新
-      last_updated_time_ago_user_html: '%{time_ago}, 実施ユーザ %{user}'
       reports_count:
         other: '%{count}件のレポート'
       reported_item: レポートした項目
@@ -1519,7 +1511,6 @@ ja:
         open: 開く
         resolved: 解決済
     show:
-      title: '%{status} 問題 #%{issue_id}'
       reports:
         other: '%{count}件のレポート'
       no_reports: 報告はありません
@@ -1543,7 +1534,6 @@ ja:
       reopened: 問題の状態は「未解決」に設定されました
     comments:
       comment_from_html: '%{comment_created_at} の %{user_link} さんからのコメント'
-      reassign_param: 問題を再度、割り当てますか？
     reports:
       reported_by_html: '%{user}による %{category} として%{updated_at}に報告済み'
     helper:
@@ -1611,8 +1601,6 @@ ja:
     intro_2_create_account: 新しい利用者アカウントを作成
     partners_title: パートナー
     tou: 利用規約
-    osm_offline: OpenStreetMap のデータベースはメンテナンスのため一時的に停止しています。
-    osm_read_only: OpenStreetMap のデータベースは、メンテナンスのため一時的に読み取り専用モードになっています。
     nothing_to_preview: プレビューするものはありません。
     help: ヘルプ
     about: このサイトについて
@@ -1638,19 +1626,10 @@ ja:
       header_html: '%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:'
       footer: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
       footer_html: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: '%{to_user},'
-      subject: '[OpenStreetMap] %{user} さんがあなたを友達に追加しました。'
-      had_added_you: OpenStreetMap で %{user} さんがあなたを友達に追加しました。
       see_their_profile: '%{userurl} でプロフィールを閲覧できます。'
       see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
-      befriend_them: '%{befriendurl} で友達になることができます。'
-      befriend_them_html: '%{befriendurl} で友達になることができます。'
-    gpx_description:
-      description_with_tags: その GPX ファイル%{trace_name}の解説は%{trace_description}で、次のタグがついているようです：%{tags}
-      description_with_tags_html: その GPX ファイル%{trace_name}の解説は%{trace_description}で、次のタグがついているようです：%{tags}
-      description_with_no_tags: その GPX ファイル%{trace_name}の解説は%{trace_description}ですが、タグがないようです
-      description_with_no_tags_html: その GPX ファイル%{trace_name}の解説は%{trace_description}ですが、タグがないようです
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
       failed_to_import: 'GPS トレース ファイルとしてインポートできませんでした。ファイルが有効な GPXファイル、または、GPX ファイルを含む圧縮ファイル（対応形式は.tar.gz,
@@ -1661,14 +1640,11 @@ ja:
       subject: '[OpenStreetMap] GPX インポートに失敗'
     gpx_success:
       hi: こんにちは、%{to_user} さん。
-      loaded:
-        other: 利用可能なポイント %{count} 個のうち、%{trace_points} 個の読み込みに成功しました。
-      trace_location: トレースは %{trace_url} で確認できます
       all_your_traces: アップロードされたGPXトレースログは %{url} から参照できます。
       all_your_traces_html: アップロードが完了したGPXトレースログは %{url} から参照できます。
       subject: '[OpenStreetMap] GPX のインポートが成功'
     signup_confirm:
-      subject: '[OpenStreetMap] OpenStreetMapへようこそ'
+      subject: '[OpenHistoricalMap] OpenHistoricalMapへようこそ'
       greeting: こんにちは、
       created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
       confirm: 私たちが他に何かする前に、この要求があなたのものであることを確認する必要がありますので、その後であなたのアカウントを確認するために下のリンクをクリックしてください。
@@ -1737,8 +1713,6 @@ ja:
       success: アカウントを確認しました。登録ありがとうございます!
       already active: このアカウントは確認済みです。
       unknown token: この確認コードは期限切れ、または存在しません。
-      resend_html: 確認メールの再送信が必要な場合は、%{reconfirm_link}。
-      click_here: ここをクリック
     confirm_resend:
       failure: '%{name}というアカウントは登録されていません。'
     confirm_email:
@@ -1752,26 +1726,6 @@ ja:
       confirmation_sent: 新しい確認書を%{email}に送りましたので、アカウントを確認したらすぐにマッピングができるようになります。
       whitelist: 確認リクエストを送信するアンチスパムシステムを使用している場合は、確認リクエストに返信することができませんので、%{sender}をホワイトリストに登録してください。
   messages:
-    inbox:
-      title: 受信箱
-      messages: '%{new_messages}、%{old_messages}があります'
-      new_messages:
-        other: '%{count} 件の新着メッセージ'
-      old_messages:
-        other: '%{count} 件の古いメッセージ'
-      no_messages_yet_html: まだメッセージがありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
-      people_mapping_nearby: 近所でマッピングしている人々
-    messages_table:
-      from: 差出人
-      to: 宛先
-      subject: 件名
-      date: 日付
-      actions: 操作
-    message_summary:
-      unread_button: 未読にする
-      read_button: 既読にする
-      destroy_button: 削除
-      unmute_button: 受信箱へ移動
     new:
       title: メッセージの送信
       send_message_to_html: '%{name} への新規メッセージ送信'
@@ -1783,18 +1737,6 @@ ja:
       title: 存在しないメッセージです
       heading: 存在しないメッセージです
       body: 申し訳ありませんが、この ID のメッセージはありません。
-    outbox:
-      title: 送信箱
-      messages:
-        other: '%{count} 件の送信済みメッセージがあります'
-      no_sent_messages_html: 送信したメッセージはまだありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
-      people_mapping_nearby: 近所でマッピングしている人々
-    muted:
-      title: ミュートされたメッセージ
-      messages:
-        other: '%{count} 件のミュートされたメッセージがあります'
-    reply:
-      wrong_user: あなたは「%{user}」としてログインしていますが、返信しようとしたメッセージはこの利用者宛てではありません。返信するには、正しい利用者としてログインしてください。
     show:
       title: メッセージを読む
       reply_button: 返信
@@ -1802,20 +1744,59 @@ ja:
       destroy_button: 削除
       back: 戻る
       wrong_user: あなたは「%{user}」としてログインしていますが、閲覧しようとしたメッセージは、この利用者が送信したものでも、この利用者宛てのものでもありません。メッセージを閲覧するには、正しい利用者としてログインしてください。
-    sent_message_summary:
-      destroy_button: 削除
-    heading:
-      my_inbox: 自分の受信箱
-      my_outbox: 自分の送信ボックス
-      muted_messages: ミュートされたメッセージ
-    mark:
-      as_read: 既読メッセージ
-      as_unread: 未読メッセージ
-    unmute:
-      notice: メッセージは受信箱に移動されました
-      error: メッセージを受信箱に移動できませんでした。
     destroy:
       destroyed: メッセージを削除しました
+    read_marks:
+      create:
+        notice: 既読メッセージ
+      destroy:
+        notice: 未読メッセージ
+    mutes:
+      destroy:
+        notice: メッセージは受信箱に移動されました
+        error: メッセージを受信箱に移動できませんでした。
+    mailboxes:
+      heading:
+        my_inbox: 自分の受信箱
+        my_outbox: 自分の送信ボックス
+        muted_messages: ミュートされたメッセージ
+      messages_table:
+        from: 差出人
+        to: 宛先
+        subject: 件名
+        actions: 操作
+      message:
+        unread_button: 未読にする
+        read_button: 既読にする
+        destroy_button: 削除
+        unmute_button: 受信箱へ移動
+    inboxes:
+      show:
+        title: 受信箱
+        messages: '%{new_messages}、%{old_messages}があります'
+        new_messages:
+          other: '%{count} 件の新着メッセージ'
+        old_messages:
+          other: '%{count} 件の古いメッセージ'
+        no_messages_yet_html: まだメッセージがありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
+        people_mapping_nearby: 近所でマッピングしている人々
+    muted_inboxes:
+      show:
+        title: ミュートされたメッセージ
+        messages:
+          other: '%{count} 件のミュートされたメッセージがあります'
+    outboxes:
+      show:
+        title: 送信箱
+        messages:
+          other: '%{count} 件の送信済みメッセージがあります'
+        no_sent_messages_html: 送信したメッセージはまだありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
+        people_mapping_nearby: 近所でマッピングしている人々
+      message:
+        destroy_button: 削除
+    replies:
+      new:
+        wrong_user: あなたは「%{user}」としてログインしていますが、返信しようとしたメッセージはこの利用者宛てではありません。返信するには、正しい利用者としてログインしてください。
   passwords:
     new:
       title: パスワードを忘れた
@@ -1834,21 +1815,17 @@ ja:
       flash changed: あなたのパスワードは変更されました。
       flash token bad: トークンが見つかりませんでした。URLを確認してください。
   preferences:
-    show:
-      title: 個人設定
-      preferred_editor: 優先エディター
-      preferred_languages: 優先言語
-      edit_preferences: 設定の編集
-    edit:
-      title: 設定の編集
-      save: 設定の更新
-      cancel: キャンセル
-    update:
-      failure: 設定を更新できませんでした。
-    update_success_flash:
-      message: 設定を更新しました。
+    preferences:
+      update:
+        failure: 設定を更新できませんでした。
+      update_success_flash:
+        message: 設定を更新しました。
+    basic_preferences:
+      show:
+        title: 個人設定
+        save: 設定の更新
   profiles:
-    edit:
+    show:
       title: プロフィールを編集
       save: プロフィールを更新
       cancel: キャンセル
@@ -1939,13 +1916,13 @@ ja:
       contribute_1_user_diaries: 利用者の日記
       open_data_title: オープンデータ
       legal_title: 法律関係
-      legal_1_html: このサイトおよびその他の関連サービスは、コミュニティを代表して%{openstreetmap_foundation_link}
-        (OSMF) が運営しています。OpenStreetMap財団の運営するサービス利用者は、私たちの定める%{terms_of_use_link}、%{aup_link}ならびに当財団の%{privacy_policy_link}の対象となります。
+      legal_1_html: このサイトおよび関連サービスはコミュニティを代表し、OpenStreetMap U.S.財団の提携団体である%{group_link}が運営しています。OpenHistoricalMap
+        のいずれのサービスの利用も、私たちの定める%{terms_of_use_link}、%{aup_link}ならびに当財団の%{privacy_policy_link}の対象となります。
       legal_1_terms_of_use: 利用規約
       legal_1_aup: 利用規定
       legal_1_privacy_policy: プライバシー・ポリシー
       legal_2_html: |-
-        ライセンス、著作権、その他の法的な問題については、%{contact_the_osmf_link}
+        ライセンス、著作権、その他の法的な問題については、%{contact_team_link}
         までお問い合わせください。
       partners_title: パートナー
     copyright:
@@ -1986,11 +1963,13 @@ ja:
       license:
         copyright: オープンライセンスによるOpenStreetMapおよび協力者の著作権を保護する
       remote_failed: 編集に失敗しました - JOSM または Merkaartor を起動し、リモート制御オプションが有効になっていることを確認してください
-    edit:
+    not_public_flash:
       not_public: あなたの編集結果を公開できません。
       not_public_description_html: このようなことをしない限り、あなたは地図を編集できません。あなたは%{user_page}から編集内容を公開できます。
       user_page_link: 利用者ページ
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
       anon_edits_link_text: なぜそうなのかを調べる。
+    edit:
       id_not_configured: iDが設定されていません。
     export:
       title: エクスポート
@@ -2029,10 +2008,10 @@ ja:
         copyright: 著作権ページ
     help:
       title: ヘルプの取得
-      introduction: OpenStreetMapにはプロジェクトについて学んだり、質疑応答したり、協議したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。
+      introduction: OpenHistoricalMapにはプロジェクトについて学んだり、質疑応答したり、協議したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。
       welcome:
         url: /welcome
-        title: OpenStreetMap へようこそ
+        title: OpenHistoricalMap へようこそ
         description: OpenStreetMap の基礎を網羅しているこのクイック ガイドから始めましょう。
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
@@ -2087,101 +2066,11 @@ ja:
       where_am_i_title: 検索エンジンを使用して現在の場所を記述
       submit_text: 検索
       reverse_directions_text: 反対方向
-    key:
-      table:
-        entry:
-          motorway: 自動車専用道路
-          main_road: 主要道
-          trunk: 国道
-          primary: 主要地方道
-          secondary: 一般県道
-          unclassified: 一般道
-          pedestrian: 歩行者専用道路
-          track: 農道・林道
-          bridleway: 乗馬道
-          cycleway: 自転車道
-          cycleway_national: 国立自転車道路
-          cycleway_regional: 地方管轄の自転車道路
-          cycleway_local: 地域の自転車道路
-          cycleway_mtb: 山岳自転車コース
-          footway: 歩道
-          rail: 鉄道
-          train: 電車
-          subway: 地下鉄
-          ferry: フェリー
-          light_rail: 軽便鉄道
-          tram: 路面電車
-          trolleybus: トロリーバス
-          bus: バス
-          cable_car: 交走式ロープウェイ
-          chair_lift: チェアリフト
-          runway: 空港滑走路
-          taxiway: 空港誘導路
-          apron: 空港ビル
-          admin: 行政境界
-          capital: 首都
-          city: 都市
-          orchard: 果樹園
-          vineyard: ブドウ園
-          forest: 森
-          wood: 森林
-          farmland: 農地
-          grass: 草地
-          meadow: 牧草地
-          bare_rock: 露岩
-          sand: 砂地
-          golf: ゴルフ場
-          park: 公園
-          common: 共有地
-          built_up: 市街地
-          resident: 住宅地
-          retail: 小売業地域
-          industrial: 工業地域
-          commercial: オフィス地域
-          heathland: 荒地
-          scrubland: 低木地帯
-          lake: 湖
-          reservoir: 溜池
-          intermittent_water: 間欠性水路
-          glacier: 氷河
-          reef: 暗礁
-          wetland: 湿地帯
-          farm: 農牧場
-          brownfield: 褐色地
-          cemetery: 墓地
-          allotments: 家庭菜園
-          pitch: 運動場
-          centre: スポーツセンター
-          beach: 砂浜
-          reserve: 自然保護区
-          military: 軍用地域
-          school: 学校
-          university: 大学
-          hospital: 病院
-          building: 重要建造物
-          station: 鉄道駅
-          subway_station: 地下鉄駅
-          tram_stop: 路面電車の停留所
-          summit: 山脈
-          peak: 山頂
-          tunnel: 点線の枠 = トンネル
-          bridge: 黒枠 = 橋梁
-          private: 私的通行
-          destination: 目的通行
-          construction: 建設中の道路
-          bus_stop: バス停
-          bicycle_shop: 自転車販売店
-          bicycle_rental: 自転車レンタル
-          bicycle_parking: 駐輪場
-          bicycle_parking_small: 小規模駐輪場
-          toilets: トイレ
     welcome:
       title: ようこそ!
       introduction: フリーで編集可能な世界地図、OpenStreetMapへようこそ。サインアップが完了し、マッピングの準備はすべて整いました。知っておかなければならない重要事項を簡単に説明します。
       whats_on_the_map:
         title: 地図上にあるもの
-        on_the_map_html: OpenStreetMapは、現在ほんとうに実在している %{real_and_current}ものをマッピングする場所です。
-          - それはつまり、建物や道路、あるいはそれ以外にも存在する場所の詳細情報、ということです。現実世界に存在し、あなたが気がついたものであればなんであっても、マッピングすることが可能です。
         off_the_map_html: 含んではいけないもの %{doesnt} は、評価のような主観的なデータ、過去のデータ、仮想的な地物、そして著作権で保護された情報源からのデータなどです。特別な許可が得られている場合を除いて、オンライン地図や紙地図からの情報をコピーしてはいけません。
       basic_terms:
         title: マッピングのための基本的な用語
@@ -2201,11 +2090,10 @@ ja:
         automated_edits: 自動編集
       start_mapping: マッピングを開始
       continue_authorization: 認可を続行
-      add_a_note:
-        title: 編集する時間がないためメモを残す
-        para_1: ちょっとした修正をしたいが、利用者登録して編集の仕方を勉強する時間がない場合は、簡単にメモを残せます。
-        para_2_html: '%{map_link}の地図に移動してメモアイコン%{note_icon}をクリックするだけです。これで地図上に印が追加され、ドラッグして移動させることができます。メッセージを追加し、保存をクリックすれば、他のマッパーが調査するでしょう。'
-        the_map: 地図
+    add_a_note:
+      title: 編集する時間がないためメモを残す
+      para_1: ちょっとした修正をしたいが、利用者登録して編集の仕方を勉強する時間がない場合は、簡単にメモを残せます。
+      the_map: 地図
     communities:
       title: コミュニティ
       lede_text: |-
@@ -2225,10 +2113,89 @@ ja:
           実際に多くのグループが非公式な集まりとして、または
           コミュニティグループとして非常にうまく存続しています。誰でもこれらを設定または参加できます。 %{communities_wiki_link} で詳細をお読みください。
         communities_wiki: コミュニティウィキのページ
-    ohm_privacy_policy:
-      page_title_html: プライバシーポリシー
-      who:
-        1_html: アカウントに関連付けられた電子メールアドレスを第三者と共有することはありません。ユーザー間のメッセージは送信者と受信者を除き、アクセスするのは当社の運用スタッフに限定されており、運用上の理由、当社の許容使用ポリシーの施行、法的義務の履行、そして最も重要なのはスパムの防止のために必要な場合のみアクセスされます。
+  map_keys:
+    show:
+      entries:
+        motorway: 自動車専用道路
+        main_road: 主要道
+        trunk: 国道
+        primary: 主要地方道
+        secondary: 一般県道
+        unclassified: 一般道
+        pedestrian: 歩行者専用道路
+        track: 農道・林道
+        bridleway: 乗馬道
+        cycleway: 自転車道
+        mountain_bike_route: 山岳自転車コース
+        footway: 歩道
+        rail: 鉄道
+        train: 電車
+        subway: 地下鉄
+        ferry: フェリー
+        light_rail: 軽便鉄道
+        tram: 路面電車
+        trolleybus: トロリーバス
+        bus: バス
+        cable_car: 交走式ロープウェイ
+        chair_lift: チェアリフト
+        runway: 空港滑走路
+        taxiway: 空港誘導路
+        apron: 空港ビル
+        admin: 行政境界
+        capital: 首都
+        city: 都市
+        orchard: 果樹園
+        vineyard: ブドウ園
+        forest: 森
+        wood: 森林
+        farmland: 農地
+        grass: 草地
+        meadow: 牧草地
+        bare_rock: 露岩
+        sand: 砂地
+        golf: ゴルフ場
+        park: 公園
+        common: 共有地
+        built_up: 市街地
+        resident: 住宅地
+        retail: 小売業地域
+        industrial: 工業地域
+        commercial: オフィス地域
+        heathland: 荒地
+        scrubland: 低木地帯
+        intermittent_water: 間欠性水路
+        glacier: 氷河
+        reef: 暗礁
+        wetland: 湿地帯
+        farm: 農牧場
+        brownfield: 褐色地
+        cemetery: 墓地
+        allotments: 家庭菜園
+        pitch: 運動場
+        centre: スポーツセンター
+        beach: 砂浜
+        reserve: 自然保護区
+        military: 軍用地域
+        school: 学校
+        university: 大学
+        hospital: 病院
+        building: 重要建造物
+        station: 鉄道駅
+        subway_station: 地下鉄駅
+        tram_stop: 路面電車の停留所
+        summit: 山脈
+        peak: 山頂
+        tunnel: 点線の枠 = トンネル
+        bridge: 黒枠 = 橋梁
+        private: 私的通行
+        destination: 目的通行
+        construction: 建設中の道路
+        bus_stop: バス停
+        bicycle_shop: 自転車販売店
+        bicycle_rental: 自転車レンタル
+        bicycle_parking: 駐輪場
+        bicycle_parking_small: 小規模駐輪場
+        toilets: トイレ
   traces:
     visibility:
       private: 非公開 (匿名、点は順不同)
@@ -2303,7 +2270,7 @@ ja:
       upload_trace: トレースをアップロード
       all_traces: 全てのトレース
       my_traces: 自分のトレース
-      traces_from: '%{user}さんによる公開GPSトレース'
+      traces_from_html: '%{user}さんによる公開GPSトレース'
       remove_tag_filter: タグフィルターの削除
     destroy:
       scheduled_for_deletion: トレースの削除準備を行いました
@@ -2312,12 +2279,13 @@ ja:
     offline:
       heading: GPX のストレージが利用できません
       message: GPX ファイルのストレージとアップロード システムは現在利用できません。
-    georss:
-      title: OpenStreetMap GPSトレース
-    description:
-      description_with_count: '{{%{user}|GPX ファイルによる地 %{count}件と%{user}による地点%{count}件を含む{PLURAL|one=GPX
-        ファイル}}'
-      description_without_count: '%{user} による GPX ファイル'
+    feeds:
+      show:
+        title: OpenStreetMap GPSトレース
+      description:
+        description_with_count:
+          other: GPX ファイルによる地 %{count}件と%{user}
+        description_without_count: '%{user} による GPX ファイル'
   application:
     permission_denied: その処理をする権限がありません
     require_cookies:
@@ -2332,11 +2300,6 @@ ja:
       oauth2_authorizations: OAuth 2 認証
       muted_users: ミュートした利用者
     auth_providers:
-      openid_url: OpenID URL
-      openid_login_button: 次へ
-      openid:
-        title: OpenID でログイン
-        alt: OpenID ロゴ
       google:
         title: Googleでログイン
         alt: Google ロゴ
@@ -2428,7 +2391,7 @@ ja:
         header: フリーで編集可能
         paragraph_1: 他の地図とは異なり、OpenStreetMapは完全に皆さんのような人によって作成されており、誰でも自由に修正・更新・ダウンロード・利用ができます。
         paragraph_2: 投稿を通じて貢献するには、登録が必要です。
-        welcome: OpenStreetMap へようこそ。
+        welcome: OpenHistoricalMap へようこそ。
       duplicate_social_email: すでに OpenStreetMap アカウントをお持ちで第三者認証プロバイダーを使用したい場合は、パスワードを使用してログインしたうえでアカウントの設定を変更してください。
       display name description: あなたの公開利用者名です。あとで個人設定で変更できます。
       by_signing_up:
@@ -2437,43 +2400,12 @@ ja:
         privacy_policy_title: OSMFのプライバシーポリシー（電子メールアドレスに関するセクションを含む）
         contributor_terms: 協力者規約
       continue: 利用者登録
-      terms accepted: 新しい協力者規約を承諾していただき、ありがとうございます!
       email_help:
         privacy_policy: プライバシー・ポリシー
         privacy_policy_title: OSMFのプライバシーポリシー（メールアドレスに関するセクションを含む）
         html: あなたのアドレスは公開されません。詳細については、%{privacy_policy_link} をご覧ください。
-      consider_pd_html: 私の貢献は %{consider_pd_link} にあるとみなします。
-      consider_pd: パブリックドメイン
       or: または
       use external auth: サードパーティのアカウントでもログインできます。
-    terms:
-      title: 規約
-      heading: 規約
-      heading_ct: 協力者規約
-      read and accept with tou: 貢献者同意と利用規約を読んで、読み終わりましたら、両方のチェックボックスをチェックし、次ボタンを押してください。
-      contributor_terms_explain: この同意では、あなたが今まで行い、およびこれから行う貢献における規約について定めています。
-      read_ct: 私は以下の貢献者同意を読み終え、これに同意します
-      tou_explain_html: これらの%{tou_link}では、OSMFによって提供されているウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして、読み、文書に同意してください。
-      read_tou: 私は利用規約を読み終え、これに同意します
-      consider_pd: 上記に加え、私の投稿をパブリック ドメインとします
-      consider_pd_why: これは何ですか?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_info_html: 'これらの用語を理解するのに役立つ情報: %{readable_summary_link} といくつかの %{informal_translations_link}'
-      readable_summary: 人間が読める要約
-      informal_translations: 非公式の翻訳
-      continue: 続行
-      declined: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
-      you need to accept or decline: 続行するには新しい協力者規約を読んで承諾または拒否してください。
-      legale_select: 'お住まいの国:'
-      legale_names:
-        france: フランス
-        italy: イタリア
-        rest_of_world: それ以外の国
-    terms_declined_flash:
-      terms_declined_html: 新しい投稿者規約に同意しないことを決定されたことを残念に思います。詳細については、%{terms_declined_link}
-        を参照してください。
-      terms_declined_link: このwikiページ
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
     no_such_user:
       title: 存在しない利用者です
       heading: '%{user} という利用者は存在しません'
@@ -2486,7 +2418,6 @@ ja:
       my notes: 自分のメモ
       my messages: 自分のメッセージ
       my profile: 自分のプロフィール
-      my settings: 設定
       my comments: 自分のコメント
       my_preferences: 個人設定
       my_dashboard: 私のダッシュボード
@@ -2500,8 +2431,6 @@ ja:
       edits: 編集
       traces: トレース
       notes: 地図メモ
-      remove as friend: 友達を解除
-      add as friend: 友達として追加
       mapper since: 'マッパー歴:'
       last map edit: '地図の最後の編集:'
       no activity yet: 活動がありません
@@ -2539,15 +2468,39 @@ ja:
       report: この利用者を通報
     go_public:
       flash success: あなたの編集はすべて公開され、あなたは編集できるようになりました。
-    index:
-      title: 利用者
-      heading: 利用者
-      summary_html: '%{name} は %{ip_address}から%{date}に作成されました。'
-      summary_no_ip_html: '%{name} は%{date}に作成されました。'
-      empty: 該当する利用者が見つかりません
-    page:
-      confirm: 選択した利用者を承認
-      hide: 選択したユーザーを隠す
+    issued_blocks:
+      show:
+        title: '%{name} が行ったブロック'
+        heading_html: '%{name} によるブロックの一覧'
+        empty: '%{name} は一度もブロックしていません。'
+    received_blocks:
+      show:
+        title: '%{name} がされたブロック'
+        heading_html: '%{name} のブロックのリスト'
+        empty: '%{name} は一度もブロックされていません。'
+      edit:
+        revoke: 取り消す!
+    lists:
+      show:
+        title: 利用者
+        heading: 利用者
+      page:
+        confirm: 選択した利用者を承認
+        hide: 選択したユーザーを隠す
+        empty: 該当する利用者が見つかりません
+      user:
+        summary_html: '%{name} は %{ip_address}から%{date}に作成されました。'
+        summary_no_ip_html: '%{name} は%{date}に作成されました。'
+    changeset_comments:
+      page:
+        changeset: 変更セット
+        when: 日時
+        comment: コメント
+    diary_comments:
+      index:
+        title: '%{user}が追加した日記コメント'
+      page:
+        post: 投稿
     suspended:
       title: アカウント停止
       heading: アカウント停止
@@ -2563,7 +2516,7 @@ ja:
       invalid_scope: 無効な範囲
       unknown_error: 認証に失敗
     auth_association:
-      heading: あなたのIDはまだOpenStreetMapアカウントと関連付けが済んでいません。
+      heading: あなたのIDはまだOpenHistoricalMapアカウントと関連付けが済んでいません。
       option_1: OpenStreetMapを初めてお使いの方は、以下のフォームを使用して新しいアカウントを作成してください。
       option_2: 既にアカウントをお持ちの場合は、利用者名とパスワードを使用してあなたの利用者設定でIDと関連付け、アカウントにログインできます。
   user_role:
@@ -2602,8 +2555,6 @@ ja:
       title: 利用者のブロック
       heading: 利用者ブロックの一覧
       empty: ブロックはまだ行われていません。
-    revoke_all:
-      revoke: 取り消す!
     helper:
       time_future_html: '%{time} に終了します。'
       until_login: 利用者がログインするまで有効です。
@@ -2620,14 +2571,6 @@ ja:
           other: '%{count}か月'
         years:
           other: '%{count}年'
-    blocks_on:
-      title: '%{name} がされたブロック'
-      heading_html: '%{name} のブロックのリスト'
-      empty: '%{name} は一度もブロックされていません。'
-    blocks_by:
-      title: '%{name} が行ったブロック'
-      heading_html: '%{name} によるブロックの一覧'
-      empty: '%{name} は一度もブロックしていません。'
     show:
       title: '%{block_by} が %{block_on} をブロックしました'
       heading_html: '%{block_by} が %{block_on} をブロックしました'
@@ -2638,7 +2581,6 @@ ja:
       reason: 'ブロックの理由:'
       revoker: '取消:'
     block:
-      not_revoked: (取り消されていません)
       show: 表示する
       edit: 編集
     page:
@@ -2646,7 +2588,6 @@ ja:
       creator_name: 作成者
       reason: ブロックの理由
       status: 状態
-      revoker_name: 取り消し者
   user_mutes:
     index:
       title: ミュートした利用者
@@ -2741,7 +2682,6 @@ ja:
       center_marker: マーカーを地図の中心にする
       paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       view_larger_map: 大きな地図を表示
-      only_standard_layer: 標準、サイクリングマップ、交通マップレイヤーのみ画像としてエクスポートできます
     embed:
       report_problem: 問題を報告
     key:
@@ -2794,22 +2734,10 @@ ja:
       embed_html_disabled: このマップレイヤーではHTML埋め込みは利用できません
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
     directions:
-      ascend: 上り坂
-      engines:
-        fossgis_osrm_bike: 自転車(OSRM)
-        fossgis_osrm_car: 自動車(OSRM)
-        fossgis_osrm_foot: 徒歩(OSRM)
-        graphhopper_bicycle: 自転車(GraphHopper)
-        graphhopper_car: 自動車(GraphHopper)
-        graphhopper_foot: 歩行(GraphHopper)
-        fossgis_valhalla_bicycle: 自転車(Valhalla)
-        fossgis_valhalla_car: 自動車(Valhalla)
-        fossgis_valhalla_foot: 歩行(Valhalla)
-      descend: 下り坂
-      directions: 方向
-      distance: 距離
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: ２点間のルートが見つかりません。
         no_place: 残念ながら、場所「%{place}」は見つかりませんでした。
@@ -2867,7 +2795,6 @@ ja:
         roundabout_with_exit_ordinal: ロータリーの%{exit}出口で%{name}へ
         exit_roundabout: ロータリーで%{name}へ
         unnamed: 名前なし
-        courtesy: 道順は%{link}による
         exit_counts:
           first: 第1
           second: 第2
@@ -2879,7 +2806,6 @@ ja:
           eighth: 第8
           ninth: 第9
           tenth: 第10
-      time: 時刻
     query:
       node: ノード
       way: ウェイ
