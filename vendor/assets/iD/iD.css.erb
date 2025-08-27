@@ -1190,6 +1190,7 @@
 .ideditor path.line.shadow.tag-highway-bridleway,
 .ideditor path.line.shadow.tag-highway-corridor,
 .ideditor path.line.shadow.tag-highway-ladder,
+.ideditor path.line.shadow.tag-highway-via_ferrata,
 .ideditor path.line.shadow.tag-highway-steps {
     stroke-width: 16;
 }
@@ -1199,6 +1200,7 @@
 .ideditor path.line.casing.tag-highway-bridleway,
 .ideditor path.line.casing.tag-highway-corridor,
 .ideditor path.line.casing.tag-highway-ladder,
+.ideditor path.line.casing.tag-highway-via_ferrata,
 .ideditor path.line.casing.tag-highway-steps {
     stroke-width: 5;
 }
@@ -1208,6 +1210,7 @@
 .ideditor path.line.stroke.tag-highway-bridleway,
 .ideditor path.line.stroke.tag-highway-corridor,
 .ideditor path.line.stroke.tag-highway-ladder,
+.ideditor path.line.stroke.tag-highway-via_ferrata,
 .ideditor path.line.stroke.tag-highway-steps {
     stroke-width: 3;
 }
@@ -1261,6 +1264,7 @@
 .ideditor .low-zoom path.line.shadow.tag-highway-bridleway,
 .ideditor .low-zoom path.line.shadow.tag-highway-corridor,
 .ideditor .low-zoom path.line.shadow.tag-highway-ladder,
+.ideditor .low-zoom path.line.shadow.tag-highway-via_ferrata,
 .ideditor .low-zoom path.line.shadow.tag-highway-steps {
     stroke-width: 12;
 }
@@ -1270,6 +1274,7 @@
 .ideditor .low-zoom path.line.casing.tag-highway-bridleway,
 .ideditor .low-zoom path.line.casing.tag-highway-corridor,
 .ideditor .low-zoom path.line.casing.tag-highway-ladder,
+.ideditor .low-zoom path.line.casing.tag-highway-via_ferrata,
 .ideditor .low-zoom path.line.casing.tag-highway-steps {
     stroke-width: 3;
 }
@@ -1279,6 +1284,7 @@
 .ideditor .low-zoom path.line.stroke.tag-highway-bridleway,
 .ideditor .low-zoom path.line.stroke.tag-highway-corridor,
 .ideditor .low-zoom path.line.stroke.tag-highway-ladder,
+.ideditor .low-zoom path.line.stroke.tag-highway-via_ferrata,
 .ideditor .low-zoom path.line.stroke.tag-highway-steps {
     stroke-width: 1;
 }
@@ -1561,6 +1567,16 @@
     stroke: #fff;
 }
 
+.ideditor path.line.casing.tag-highway-via_ferrata {
+    stroke: none;
+}
+
+.ideditor path.line.stroke.tag-highway-via_ferrata {
+    stroke-width: 5;
+    stroke: #6f1f1f;
+    stroke-linecap: round;
+    stroke-dasharray: 0, 9;
+}
 
 /* crossings */
 .ideditor path.line.stroke.tag-highway.tag-crossing-unmarked {
@@ -2015,6 +2031,13 @@
     stroke: #444;
 }
 
+/* climbing routes */
+.ideditor path.line.stroke.tag-climbing-route {
+    stroke: #6f1f1f;
+    stroke-linecap: round;
+    stroke-dasharray: 0, 7;
+    stroke-width: 3;
+}
 
 /* Attractions */
 .ideditor path.line.stroke.tag-attraction-summer_toboggan {
@@ -3851,6 +3874,18 @@
     font-style: italic;
 }
 
+.ideditor[dir='rtl'] input:-moz-placeholder[dir="auto"] {
+    /* hard-set rtl for placeholder texts in rtl locales, see
+       https://github.com/openstreetmap/iD/pull/11091#issuecomment-2936953197 */
+    direction: rtl;
+}
+
+.ideditor[dir='rtl'] input:placeholder-shown[dir="auto"] {
+    /* hard-set rtl for placeholder texts in rtl locales, see
+       https://github.com/openstreetmap/iD/pull/11091#issuecomment-2936953197 */
+    direction: rtl;
+}
+
 /* keytraps need to be invisible yet not be display:none or visibility:hidden */
 .ideditor .keytrap {
     width: 0;
@@ -4223,6 +4258,9 @@
     cursor: url(<%= asset_path("iD/img/cursor-select-remove.png") %>), pointer;
 }
 
+.ideditor button.save {
+    background-image: linear-gradient(0, var(--accent-color), var(--accent-color));
+}
 .ideditor button.save .count {
     display: inline-block;
     min-width: 32px;
@@ -4858,6 +4896,14 @@
 
 .ideditor .preset-list-item.mixed-types .label {
     font-style: italic;
+}
+
+.ideditor button.preset-reset .label.flash-bg {
+    animation: flash-bg 750ms;
+}
+@keyframes flash-bg {
+    0% { background-color: #fff; }
+    100% { background-color: #f6f6f6; }
 }
 
 .ideditor .preset-list-button .label-inner {
@@ -6482,6 +6528,10 @@
     margin: 0;
     padding-bottom: 10px;
 }
+/* only the raw-member-editor is reorederable, not the raw-membership-editor */
+.ideditor .section-raw-member-editor .member-row .label-text { cursor: grab; }
+.ideditor .section-raw-member-editor .member-row .label-text:active { cursor: grabbing; }
+
 .ideditor .section-raw-member-editor .member-row .member-entity-name,
 .ideditor .section-raw-membership-editor .member-row .member-entity-name {
     font-weight: normal;
@@ -6570,6 +6620,25 @@
 .ideditor .add-tag {
     border-radius: 0 0 4px 4px;
 }
+.ideditor .add-tag button {
+    visibility: hidden;
+}
+.ideditor .add-tag input.key {
+    border-bottom-left-radius: 4px;
+}
+.ideditor .add-tag input.key::-moz-placeholder {
+    font-weight: normal;
+}
+.ideditor .add-tag input.key::placeholder {
+    font-weight: normal;
+}
+.ideditor .add-tag input.value {
+    border-bottom-right-radius: 4px;
+}
+.ideditor .tag-row:has(+ .add-tag) button:last-child {
+    border-bottom-right-radius: 4px;
+}
+
 .ideditor .add-relation {
     margin-top: 10px;
     border-radius: 4px;
@@ -7199,6 +7268,57 @@
 }
 .ideditor .autofix-all-link-icon svg use {
     color: #fff;
+}
+
+/* suggestion styles */
+.ideditor .suggestions-list,
+.ideditor .suggestions-list *,
+.ideditor .issue-container.active .issue.severity-suggestion,
+.ideditor .issue-container.active .issue.severity-suggestion * {
+    border-color: #2f7eff;
+}
+.ideditor .suggestions-list .issue.severity-suggestion .issue-label,
+.ideditor .issue.severity-suggestion .issue-fix-list,
+.ideditor .suggestion-section {
+    background: #e1effe;
+}
+
+.ideditor .issue-container.active .issue.severity-suggestion .issue-label {
+    background: #e1effe;
+}
+
+.ideditor .issue.severity-suggestion .issue-icon {
+    color: #49f;
+}
+
+.ideditor .issue.severity-suggestion .issue-fix-item button.actionable,
+.ideditor .issue-container.active .issue.severity-suggestion .issue-info-button {
+    color: #0066cc;
+    fill: #0066cc;
+}
+.ideditor .suggestions-list .issue.severity-suggestion .issue-label:active,
+.ideditor .suggestions-list .issue.severity-suggestion .issue-label:focus,
+.ideditor .issue.severity-suggestion .issue-fix-item button.actionable:active,
+.ideditor .issue.severity-suggestion .issue-fix-item button.actionable:focus {
+    background: #abd5ff;
+}
+.ideditor .issue.severity-suggestion .issue-fix-item button.actionable:active,
+.ideditor .issue.severity-suggestion .issue-fix-item button.actionable:focus,
+.ideditor .issue-container.active .issue.severity-suggestion .issue-info-button:active,
+.ideditor .issue-container.active .issue.severity-suggestion .issue-info-button:focus {
+    color: #0066cc;
+    fill: #1f4d82;
+}
+@media (hover: hover) {
+    .ideditor .suggestions-list .issue.severity-suggestion .issue-label:hover,
+    .ideditor .issue.severity-warning .issue-fix-item button.actionable:hover {
+        background: #bdf;
+    }
+    .ideditor .issue.severity-suggestion .issue-fix-item button.actionable:hover,
+    .ideditor .issue-container.active .issue.severity-suggestion .issue-info-button:hover {
+        color: #1f4d82;
+        fill: #1f4d82;
+    }
 }
 
 /* warning styles */
@@ -8005,8 +8125,8 @@
     transition: opacity 1ms linear;
 }
 
-.ideditor .layer-background img.tile,
-.ideditor .map-in-map-background img.tile {
+.ideditor .layer-background .layer,
+.ideditor .map-in-map-background {
     filter: url(#alpha-slope5);
 }
 
