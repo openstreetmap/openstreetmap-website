@@ -1,7 +1,7 @@
 class OldNodesController < OldElementsController
   def index
     @type = "node"
-    @current_feature = @feature = Node.preload(:node_tags).find(params[:id])
+    @current_feature = @feature = Node.preload(:element_tags).find(params[:id])
     @old_features, @newer_features_version, @older_features_version = get_page_items(
       OldNode.where(:node_id => params[:id]),
       :cursor_column => :version,

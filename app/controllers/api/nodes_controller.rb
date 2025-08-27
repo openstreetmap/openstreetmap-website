@@ -19,7 +19,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
-      @nodes = Node.find(ids)
+      @nodes = Node.includes(:element_tags).find(ids)
 
       # Render the result
       respond_to do |format|
@@ -30,7 +30,7 @@ module Api
 
     # Dump the details on a node given in params[:id]
     def show
-      @node = Node.find(params[:id])
+      @node = Node.includes(:element_tags).find(params[:id])
 
       response.last_modified = @node.timestamp
 

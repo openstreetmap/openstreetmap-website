@@ -309,10 +309,10 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal "Element node/23 has duplicate tags with key dup", message_update.message
   end
 
-  def test_node_tags
+  def test_element_tags
     node = create(:node)
     taglist = create_list(:node_tag, 2, :node => node)
-    tags = Node.find(node.id).node_tags.order(:k)
+    tags = Node.find(node.id).element_tags.order(:k)
     assert_equal taglist.count, tags.count
     taglist.sort_by!(&:k).each_index do |i|
       assert_equal taglist[i].k, tags[i].k

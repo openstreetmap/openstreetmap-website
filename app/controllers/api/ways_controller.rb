@@ -16,7 +16,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
 
-      @ways = Way.find(ids)
+      @ways = Way.includes(:nodes, :element_tags).find(ids)
 
       # Render the result
       respond_to do |format|
@@ -27,7 +27,8 @@ module Api
 
     def show
       @way = Way
-      @way = @way.includes(:nodes => :node_tags) if params[:full]
+      @way = @way.includes(:nodes, :element_tags)
+      @way = @way.includes(:nodes => :element_tags) if params[:full]
       @way = @way.find(params[:id])
 
       response.last_modified = @way.timestamp unless params[:full]
