@@ -16,32 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const url = location.protocol + "//" + location.host;
 
     // Access user preferences from server-side rendered data
-    const userPreferencesRaw = container.dataset.userPreferences ?
-      JSON.parse(container.dataset.userPreferences) : {};
-
-    // Only keep preferences with 'id-' prefix and strip the prefix
-    const userPreferences = {};
-    Object.keys(userPreferencesRaw).forEach(key => {
-      if (key.startsWith('id-')) {
-        userPreferences[key.slice(3)] = userPreferencesRaw[key];
-      }
-    });
-
-    // Store user preferences in the idContext object
-    idContext.userPreferences = function (prefs) {
-      if (arguments.length) {
-        idContext._userPreferences = prefs;
-        return idContext;
-      }
-      return idContext._userPreferences || {};
-    };
-
-    idContext.userPreferences(userPreferences);
+    const userPreferences= container.dataset.userPreferences ? JSON.parse(container.dataset.userPreferences) : {};
 
     idContext.preauth({
       url: url,
       apiUrl: url.replace("www.openstreetmap.org", "api.openstreetmap.org"),
-      access_token: container.dataset.token
+      access_token: container.dataset.token,
+      userPreferences: userPreferences
     });
 
     const id = idContext

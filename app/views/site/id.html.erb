@@ -10,16 +10,15 @@
 </head>
 <body>
 <% data = {}
-   if Settings.key?(:id_application)
-     token = current_user.oauth_token(Settings.id_application)
-     data[:token] = token.token
-   end
-   data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s
-   data[:asset_map] = assets("iD").to_json
+  if Settings.key?(:id_application)
+    token = current_user.oauth_token(Settings.id_application)
+    data[:token] = token.token
+  end
+  data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s
+  data[:asset_map] = assets("iD").to_json
 
-  # Include user preferences for iD editor
   user_preferences = current_user.preferences.each_with_object({}) do |pref, hash|
-    if pref.k.start_with?("id-")
+    if pref.k.start_with?("iD-")
       hash[pref.k] = pref.v
     end
   end
