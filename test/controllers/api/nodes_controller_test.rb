@@ -137,6 +137,16 @@ module Api
       end
     end
 
+    def test_create_in_missing_changeset
+      with_unchanging_request do |headers|
+        osm = "<osm><node lat='0' lon='0' changeset='0'/></osm>"
+
+        post api_nodes_path, :params => osm, :headers => headers
+
+        assert_response :conflict
+      end
+    end
+
     def test_create_with_invalid_osm_structure
       with_unchanging_request do |headers|
         osm = "<create/>"
@@ -253,6 +263,27 @@ module Api
         assert_equal db_node.tags, api_node.tags, "tags are corrupted"
         assert_includes api_node.tags, "\#{@user.inspect}"
       end
+    end
+
+    def test_create_race_condition
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      auth_header = bearer_authorization_header user
+      path = api_nodes_path
+      concurrency_level = 16
+
+      threads = Array.new(concurrency_level) do
+        Thread.new do
+          osm = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+          post path, :params => osm, :headers => auth_header
+        end
+      end
+      threads.each(&:join)
+
+      changeset.reload
+      assert_equal concurrency_level, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
+      assert_equal concurrency_level, changeset.num_created_nodes
     end
 
     def test_show_not_found

@@ -257,6 +257,26 @@ module Api
       end
     end
 
+    def test_create_in_missing_changeset
+      node1 = create(:node)
+      node2 = create(:node)
+
+      with_unchanging_request do |headers|
+        osm = <<~OSM
+          <osm>
+            <way changeset='0'>
+              <nd ref='#{node1.id}'/>
+              <nd ref='#{node2.id}'/>
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :conflict
+      end
+    end
+
     def test_create_with_missing_node_by_private_user
       with_unchanging_request([:data_public => false]) do |headers, changeset|
         osm = <<~OSM
@@ -413,6 +433,34 @@ module Api
         assert_response :bad_request, "adding new duplicate tags to a way should fail with 'bad request'"
         assert_equal "Element way/ has duplicate tags with key addr:housenumber", @response.body
       end
+    end
+
+    def test_create_race_condition
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      node = create(:node)
+      auth_header = bearer_authorization_header user
+      path = api_ways_path
+      concurrency_level = 16
+
+      threads = Array.new(concurrency_level) do
+        Thread.new do
+          osm = <<~OSM
+            <osm>
+              <way changeset='#{changeset.id}'>
+                <nd ref='#{node.id}'/>
+              </way>
+            </osm>
+          OSM
+          post path, :params => osm, :headers => auth_header
+        end
+      end
+      threads.each(&:join)
+
+      changeset.reload
+      assert_equal concurrency_level, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
+      assert_equal concurrency_level, changeset.num_created_ways
     end
 
     # -------------------------------------
