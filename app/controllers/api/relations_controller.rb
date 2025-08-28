@@ -110,7 +110,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})" unless new_relation && new_relation.id == relation.id
 
-      relation.update_from new_relation, current_user
+      Changeset.transaction do
+        new_relation.changeset&.lock!
+        relation.update_from(new_relation, current_user)
+      end
       render :plain => relation.version.to_s
     end
 

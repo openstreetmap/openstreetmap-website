@@ -63,7 +63,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id
 
-      node.update_from(new_node, current_user)
+      Changeset.transaction do
+        new_node.changeset&.lock!
+        node.update_from(new_node, current_user)
+      end
       render :plain => node.version.to_s
     end
 

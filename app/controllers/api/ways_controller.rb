@@ -67,7 +67,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})" unless new_way && new_way.id == way.id
 
-      way.update_from(new_way, current_user)
+      Changeset.transaction do
+        new_way.changeset&.lock!
+        way.update_from(new_way, current_user)
+      end
       render :plain => way.version.to_s
     end
 
