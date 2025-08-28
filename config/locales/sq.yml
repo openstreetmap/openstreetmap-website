@@ -47,10 +47,10 @@ sq:
         update: Ruaj redaktimin
       trace:
         create: Ngarko
-        update: Ruaj Ndryshimet
+        update: Ruaj ndryshimet
       user_block:
-        create: Krijo bllokun
-        update: Përditëso bllokun
+        create: Krijo bllokimin
+        update: Përditëso bllokimin
   activerecord:
     errors:
       models:
@@ -65,9 +65,10 @@ sq:
       changeset: Grupi i Ndryshimeve
       changeset_tag: Etiketa e Grupit të Ndryshimeve
       country: Vendi
-      diary_comment: Koment Ditari
-      diary_entry: Shënim Ditari
+      diary_comment: Koment ditari
+      diary_entry: Shënim ditari
       friend: Mik
+      issue: Problemi
       language: Gjuha
       message: Mesazh
       node: Nyjë
@@ -86,10 +87,10 @@ sq:
       report: Raporto
       session: Seancë
       trace: Gjurmë
-      tracepoint: Pika e Gjurmës
-      tracetag: Etiketa e Gjurmës
+      tracepoint: Pika e gjurmës
+      tracetag: Etiketa e gjurmës
       user: Përdoruesi
-      user_preference: Parapëlqimet e Përdoruesit
+      user_preference: Parapëlqimet e përdoruesit
       user_token: Shenja e Përdoruesit
       way: Rruga
       way_node: Nyjë Rruge
@@ -100,10 +101,10 @@ sq:
         support_url: URL-ja e mbështetjes
         allow_read_prefs: lexo parapëlqimet e tyre të përdoruesit
         allow_write_prefs: modifiko parapëlqimet e tyre të përdoruesit
-        allow_write_diary: krijo shënime dhe komente në ditar
+        allow_write_diary: krijo shënime dhe komente ditari
         allow_write_api: modifiko hartën
         allow_read_gpx: lexo gjurmët e tyre private të GPS-it
-        allow_write_gpx: ngarko gjurmët e GPS-it
+        allow_write_gpx: ngarko gjurmët GPS
         allow_write_notes: modifiko shënimet
       diary_comment:
         body: Trupi i Mesazhit
@@ -157,6 +158,9 @@ sq:
     help:
       trace:
         tagstring: ndarë me presje
+      user_block:
+        needs_view: A duhet që përdoruesi të hyjë në llogari para se të spastrohet
+          ky bllok?
       user:
         new_email: (asnjëherë nuk është publikuar)
   datetime:
@@ -180,21 +184,30 @@ sq:
       wikipedia: Wikipedia
   api:
     notes:
+      rss:
+        title: Shënime të OpenStreetMap
+        description_all: Një listë e shënimeve të raportuara, të komentuara ose të
+          mbyllura
       entry:
         comment: Komento
+        full: Shënim i plotë
   accounts:
     show:
       title: Redakto llogarinë
       my_account: Llogaria ime
       current email address: Adresa e Tanishme e Emailit
+      external auth: Autentifikimi i jashtëm
       contributor_terms:
         heading: Kushtet e kontribuesit
         agreed: Je pajtuar me Kushtet e Kontribuesit më %{date}.
         not_agreed: Nuk je pajtuar ende me Kushtet e Kontribuesit.
-        agreed_with_pd: Ti gjithashtu ke deklaruar, që redaktimet e tua të jenë në
-          pronësi publike.
+        agreed_with_pd: Ke deklaruar gjithashtu se i konsideron redaktimet e tua të
+          jenë në domenin publik.
+        not_agreed_with_pd: Nuk ke deklaruar se i konsideron redaktimet e tua të jenë
+          në domenin publik.
         review: Shqyrto Kushtet
         review_and_accept: Shqyrto dhe prano Kushtet
+        consider_pd: Konsidero domenin publik
       terms_of_use:
         heading: Kushtet e Përdorimit
         agreed: Je pajtuar me Kushtet e Përdorimit më %{date}.
@@ -250,6 +263,8 @@ sq:
         heading_ct: Kushtet e kontribuesit
         tou_explain:
           tou: Kushtet e Përdorimit
+        continue: Vazhdo
+        cancel: Anulo
         legale_select: 'Vendi i banimit:'
         legale_names:
           france: Francë
@@ -257,7 +272,13 @@ sq:
           rest_of_world: Pjesa tjetër e botës
       update:
         terms accepted: Faleminderit për pranimin kushteve të reja për kontribues!
+    pd_declarations:
+      show:
+        title: Konsidero kontributet e mia si të jenë në domenin publik
+        consider_pd: I konsideroj kontributet e mia si të jenë në domenin publik.
+        confirm: Konfirmo
   browse:
+    deleted_ago_by_html: Fshirë %{time_ago} nga %{user}
     version: Versioni
     in_changeset: Grupi i Ndryshimeve
     anonymous: Anonim
@@ -295,8 +316,8 @@ sq:
         note: shënim
     redacted:
       redaction: Redaktimi %{id}
-      message_html: Versioni %{version} i %{type} nuk mund të shfaqet pasiqë është
-        redaktuar. Ju lutem shiko %{redaction_link} për detaje.
+      message_html: Versioni %{version} i këtij %{type} nuk mund të shfaqet pasi është
+        redaktuar. Të lutem, shih %{redaction_link} për detaje.
       type:
         node: nyjë
         way: rrugë
@@ -315,6 +336,10 @@ sq:
       wikidata_link: Artikulli %{page} në Wikidata
       wikipedia_link: Artikulli %{page} nē Wikipedia
       telephone_link: Thirr %{phone_number}
+    versions_navigation:
+      history: Historiku
+      version: 'Versioni #%{version}'
+      versions_label: 'Versionet:'
   feature_queries:
     show:
       title: Tiparet e Pyetësorit
@@ -329,6 +354,17 @@ sq:
         title_html: 'Historiku i Rrugës: %{name}'
       relation:
         title_html: 'Historiku i lidhjes: %{name}'
+      older_versions: Versione më të vjetra
+      newer_versions: Versione më të reja
+    actions:
+      view_redacted_data: Shih të dhënat e redaktuara
+      view_redaction_message: Shih Mesazhin e Redaktimit
+  nodes:
+    not_found_message:
+      sorry: 'Na vjen keq, nyja #%{id} nuk mund të gjendet.'
+    timeout:
+      sorry: Na vjen keq, të dhënat për nyjen me id %{id} morën shumë kohë për t'u
+        rikuperuar.
   changeset_comments:
     feeds:
       comment:
@@ -339,9 +375,14 @@ sq:
         title_particular: 'Diskutimi mbi grupin e ndryshimeve #%{changeset_id} të
           OpenStreetMap'
   changesets:
+    changeset_line:
+      n_elements_deleted:
+        one: '%{count} element u fshi'
+        other: '%{count} elementë u fshinë'
     index:
       title: Ndryshimet
       title_user: Ndryshime fjalish nga %{user}
+      title_followed: Grupet e ndryshimeve nga përdoruesit që ndjek
       title_nearby: Ndryshime nga përdorues të zonës
       empty: Asnjë ndryshim nuk u gjet.
       empty_area: Asnjë ndryshim në këtë zonë.
@@ -358,7 +399,12 @@ sq:
     show:
       title: 'Grupi i Ndryshimeve: %{id}'
       discussion: Diskutim
-      join_discussion: Identifikohuni për t'iu bashkuar diskutimit
+      join_discussion: Hyr në llogari për t'iu bashkuar diskutimit
+      subscribe: Abonohu
+      unsubscribe: Çabonohu
+      hide_comment: fshih
+      unhide_comment: shfaq
+      comment: Komento
       changesetxml: Grupi i ndryshimeve në XML
       osmchangexml: osmNdrsyhimi XML
     paging_nav:
@@ -367,19 +413,34 @@ sq:
       relations_paginated: Marrëdhëniet (%{x}-%{y} nga %{count})
     timeout:
       sorry: Na vjen keq, lista e ndryshimeve që ju kërkuat zgjati shumë për t'u rikuperuar.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Të abonohet diskutimi i mëposhtëm i ndryshimeve?
+        button: Abonohu në diskutim
+      unsubscribe:
+        heading: Të çabonohet diskutimi i mëposhtëm i ndryshimeve?
+        button: Çabonohu nga diskutimi
   dashboards:
     contact:
       km away: '%{count}km larg'
       m away: '%{count}m larg'
       latest_edit_html: 'Redaktimi i fundit %{ago}:'
       no_edits: (nuk ka redaktime)
-      view_changeset_details: Shikoni detajet e ndryshimeve
+      view_changeset_details: Shih detajet e grupit të ndryshimeve
     popup:
       your location: Vendndodhja e jote
       nearby mapper: Hartuesi aty pranë
+      following: Duke ndjekur
     show:
+      title: Paneli im
+      edit_your_profile: Redakto profilin tënd
+      followings: Përdoruesit që ndjek
+      no followings: Nuk ke ndjekur ende asnjë përdorues.
       nearby users: Përdoruesit e tjerë aty pranë
       no nearby users: Nuk ka përdorues tjerë aty pranë, të cilët pranojnë të hartografojnë.
+      followed_changesets: grupet e ndryshimeve
+      followed_diaries: shënimet e ditarit
   diary_entries:
     new:
       title: Shënim i ri në Ditar
@@ -388,18 +449,22 @@ sq:
       use_map_link: Përdor Hartën
     index:
       title: Ditarët e përdoruesëve
+      title_followed: Ditarët e përdoruesve që ndjek
       title_nearby: Ditarët e përdoruesve këtu pranë
       user_title: Ditari i %{user}
-      in_language_title: Shënimet në Ditar në %{language}
+      in_language_title: Shënimet në ditar në %{language}
       no_entries: Nuk ka shënime në ditar
     page:
-      recent_entries: 'Shënimet më të fundit në ditar:'
+      recent_entries: Shënimet e fundit në ditar
     edit:
       title: Redakto Shënimin në Ditar
       marker_text: Vendndodhja e shënimit në ditar
     show:
       title: Ditari i %{user} | %{title}
       user_title: Ditari i %{user}
+      discussion: Diskutimi
+      subscribe: Abonohu
+      unsubscribe: Çabonohu
       leave_a_comment: Lëre ndonjë koment
       login_to_leave_a_comment_html: '%{login_link} për të lënë një koment'
       login: Hyr
@@ -410,19 +475,26 @@ sq:
         ose ndoshta linku ku ke klikuar është gabim.
     diary_entry:
       posted_by_html: Postuar nga %{link_user} më %{created} në %{language_link}
+      updated_at_html: Përditësuar për herë të fundit më %{updated}.
+      full_entry: Shih shënimin e plotë
       comment_link: Komento mbi këtë shënim
       reply_link: Dërgoni një mesazh autorit
       comment_count:
         zero: Nuk ka komente
         one: '%{count} koment'
         other: '%{count} komente'
+      no_comments: Nuk ka komente
       edit_link: Redakto këtë shënim
       hide_link: Fshih këtë shënim
+      unhide_link: Shfaq këtë shënim
       confirm: Konfirmo
+      report: Raporto këtë shënim
     diary_comment:
       comment_from_html: Koment nga %{link_user} më %{comment_created_at}
       hide_link: Fshih këtë koment
+      unhide_link: Shfaq këtë koment
       confirm: Konfirmo
+      report: Raporto këtë koment
     location:
       location: 'Vendndodhja:'
     feed:
@@ -434,11 +506,77 @@ sq:
         description: Shënimet e fundit në ditar nga përdoruesit e OpenStreetMap në
           %{language_name}
       all:
-        title: Shënimet e ditarit të OpenStreetMap
+        title: Shënimet e ditarit të OpenStreetMap-it
         description: Shënimet e fundit në ditar nga përdoruesit e OpenStreetMap
+    subscribe:
+      heading: Të abonohet diskutimi i mëposhtëm i shënimeve të ditarit?
+      button: Abonohu në diskutim
+    unsubscribe:
+      heading: Të çabonohet diskutimi i mëposhtëm i shënimeve të ditarit?
+      button: Çabonohu nga diskutimi
     navigation:
+      my_diary: Ditari im
       new: Shënim i ri në Ditar
       new_title: Shkruani një shënim të ri në ditarin tuaj
+    profile_diaries:
+      latest_diaries: Ditarët më të fundit
+      title_label: Shënim ditari
+      comments_label: Komentet
+      date_label: Data
+  diary_comments:
+    new:
+      heading: Të shtohet komenti te diskutimi i mëposhtëm i shënimeve të ditarit?
+  doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Serveri i autorizimit kërkon zgjedhjen e llogarisë
+          së përdoruesit fundor
+        consent_required: Serveri i autorizimit kërkon lejen e përdoruesit fundor
+        interaction_required: Serveri i autorizimit kërkon ndërveprimin e përdoruesit
+          fundor
+        login_required: Serveri i autorizimit kërkon vërtetimin e përdoruesit fundor
+    flash:
+      applications:
+        create:
+          notice: Aplikacioni u regjistrua.
+    scopes:
+      address: Shih adresën tënde fizike
+      email: Shih adresën tënde të email-it
+      openid: Vërteto llogarinë tënde
+      phone: Shih numrin tënd të telefonit
+      profile: Shih informacionin e profilit tënd
+  errors:
+    contact:
+      contact: kontakto
+    bad_request:
+      title: Kërkesë e keqe
+    forbidden:
+      title: E ndaluar
+      description: Operacioni që kërkove në serverin OpenStreetMap është i disponueshëm
+        vetëm për administratorët (HTTP 403)
+    internal_server_error:
+      title: Gabim i aplikacionit
+    not_found:
+      title: Skedari nuk u gjet
+      description: Nuk mund të gjendej një skedar/dosje/operacion API me atë emër
+        në serverin OpenStreetMap (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Të ndiqet %{user}?
+        button: Ndiq përdoruesin
+      unfollow:
+        heading: Të çndiqet %{user}?
+        button: Çndiq përdoruesin
+    create:
+      success: Tani je duke ndjekur %{name}!
+      failed: Na vjen keq, kërkesa jote për të ndjekur %{name} dështoi.
+      already_followed: Ti e ndjek tashmë %{name}.
+      limit_exceeded: Ke ndjekur shumë përdorues kohët e fundit. Prit pak para se
+        të provosh të ndjekësh të tjerë.
+    destroy:
+      success: E çndoqe me sukses %{name}.
+      not_followed: Nuk je duke ndjekur %{name}!
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -450,7 +588,7 @@ sq:
           station: Stacion teleferiku
         aeroway:
           aerodrome: Aeroport
-          apron: Platformë
+          apron: Platformë aeroporti
           gate: Portë aeroporti
           helipad: Helipad
           runway: Pistë
@@ -555,27 +693,58 @@ sq:
           church: Kishë
           commercial: Qendër tregtare
           dormitory: Konvikt
+          garage: Garazh
+          garages: Garazhe
+          greenhouse: Serë
+          hangar: Hangar
+          hospital: Ndërtesë spitali
           hotel: Hotel
           house: Shtëpi
+          houseboat: Shtëpi-lundër
+          hut: Kasolle
+          industrial: Ndërtesë industriale
+          kindergarten: Ndërtesë kopshti
+          manufacture: Ndërtesë prodhimi
+          office: Ndërtesë zyrash
           public: Ndërtesë publike
+          residential: Ndërtesë banimi
+          retail: Ndërtesë shitjeje me pakicë
+          roof: Çati
+          ruins: Ndërtesë e rrënuar
+          school: Ndërtesë shkolle
+          service: Ndërtesë shërbimi
+          stable: Stallë
+          static_caravan: Karvan
+          temple: Ndërtesë tempulli
           terrace: Tarracë
           train_station: Stacion Hekurudhor
           university: Godinë universitare
+          warehouse: Magazinë
           "yes": Ndërtesë
+        club:
+          sport: Klub sportiv
+          "yes": Klub
         craft:
+          beekeeper: Bletar/e
           brewery: Birrari
           carpenter: Marangoz
+          confectionery: Ëmbëltore
+          dressmaker: Rrobaqepës/e
           electrician: Elektricist
+          electronics_repair: Riparim pajisjesh elektronike
           gardener: Kopshtar
           painter: Piktor
           photographer: Fotograf
           plumber: Hidraulik
           shoemaker: Këpuctar
           tailor: Rrobaqepës
+          winery: Verari
           "yes": Dyqan zeje
         emergency:
+          access_point: Pikë qasjeje
           ambulance_station: Stacion ambulance
           defibrillator: Defibrilator
+          fire_extinguisher: Fikës zjarri
           landing_site: Vend për ulje emergjente
           phone: Kabinë telefoni për emergjencë
         highway:
@@ -584,6 +753,8 @@ sq:
           bus_guideway: Shirit i rezervuar për autobusë
           bus_stop: Stacion autobusi
           construction: Autostradë në ndërtim
+          corridor: Korridor
+          crossing: Kalim
           cycleway: Rrugë biçikletash
           elevator: Ashensor
           emergency_access_point: Pikë qasjeje emeregjente
@@ -610,6 +781,7 @@ sq:
           services: Shërbime autostrade
           speed_camera: Kamerë shpejtësie (radar)
           steps: Hapat
+          stop: Shenjë stop
           street_lamp: Llambë rruge
           tertiary: Rrugë terciare
           tertiary_link: Rrugë terciare
@@ -644,10 +816,16 @@ sq:
           wayside_cross: Kryq përgjatë rrugës
           wayside_shrine: Kuti reliktesh përgjatë rrugës
           wreck: Anije e mbytur
+        information:
+          map: Hartë
+          office: Zyrë turistike
+          terminal: Terminal informacioni
+          sign: Shenjë informacioni
         junction:
           "yes": Kryqëzim
         landuse:
           allotments: Kopsht i vogël
+          aquaculture: Akuakulturë
           basin: Pellg
           brownfield: Deponi industriale
           cemetery: Varreza
@@ -708,13 +886,20 @@ sq:
           bunker_silo: Bunker
           lighthouse: Fanar
           pipeline: Tubacion
+          telescope: Teleskop
           tower: Kullë
+          watermill: Mulli uji
+          water_tower: Kullë uji
+          water_well: Pus
+          windmill: Mulli ere
           works: Fabrikë
           "yes": I/e bërë nga njeriu
         military:
           airfield: Aeroport ushtarak
           barracks: Kazerma
           bunker: Bunker
+          checkpoint: Pikë kontrolli
+          "yes": Ushtri
         mountain_pass:
           "yes": Kalim malor
         natural:
@@ -723,6 +908,7 @@ sq:
           cape: Kep
           cave_entrance: Hyrje shpelle
           cliff: Shkëmb
+          coastline: Vijë bregdetare
           crater: Krater
           dune: Dunë
           fell: Kodrinë
@@ -733,12 +919,14 @@ sq:
           grassland: Barishte
           heath: Rrafshinë
           hill: Kodër
+          hot_spring: Burim i nxehtë
           island: Ishull
           land: Vend
           marsh: Kënetë
           moor: Moçal
           mud: Baltë
           peak: Majë
+          peninsula: Gadishull
           point: Pikë
           reef: Gumë
           ridge: Vargmal
@@ -751,6 +939,7 @@ sq:
           stone: Gur
           strait: Rrugicë (ngushticë)
           tree: Pemë
+          tree_row: Rresht pemësh
           valley: Luginë
           volcano: Vullkan
           water: Ujë
@@ -760,13 +949,25 @@ sq:
           accountant: Kontabilist
           administrative: Administratë
           architect: Arkitekt
+          association: Shoqatë
           company: Kompani
+          diplomatic: Zyrë diplomatike
+          educational_institution: Institucion arsimor
           employment_agency: Agjensi punësimi
+          energy_supplier: Zyrë furnizuesi energjie
           estate_agent: Agjent i patundshmërive
+          financial: Zyrë financiare
           government: Ent qeveritar
           insurance: Zyrë sigurimi
+          it: Zyrë IT
           lawyer: Avokat
+          logistics: Zyrë logjistike
+          newspaper: Zyrë gazete
           ngo: Zyra e OJQ
+          notary: Noter/e
+          religion: Zyrë fetare
+          research: Zyrë kërkimi
+          tax_advisor: Këshilltar/e tatimesh
           telecommunication: Zyrë telekomunikacioni
           travel_agent: Agjensi udhëtimesh
           "yes": Zyrë
@@ -788,6 +989,7 @@ sq:
           postcode: Kodi postar
           region: Regjion
           sea: Det
+          square: Shesh
           state: Shtet
           subdivision: Nënndarje
           suburb: Periferi
@@ -799,7 +1001,7 @@ sq:
           construction: Hekurudhë në ndërtim e sipër
           disused: Hekurudhë e braktisur
           funicular: Linjë teleferiku
-          halt: Stacion hekerudhor
+          halt: Stacion treni
           junction: Nyje hekurudhore
           level_crossing: Kryqzim hekurudhor
           light_rail: Hekurudhë e lehtë
@@ -809,38 +1011,66 @@ sq:
           platform: Platformë hekurudhore
           preserved: Hekurudhë muze
           proposed: Hekurudhë e planifikuar
+          rail: Hekurudhë
           spur: Hekurudhë
           station: Stacion hekurudhor
-          stop: Stacion hekurudhor
+          stop: Stacion hekurudhe
           subway: Metro
           subway_entrance: Hyrje metroje
           switch: Pika hekurudhore
+          tram_stop: Stacion tramvaji
         shop:
+          agrarian: Dyqan agrar
           antiques: Antike
+          appliance: Dyqan pajisjesh
+          art: Dyqan arti
+          baby_goods: Mallra për foshnje
+          bag: Dyqan çantash
           bakery: Furrë buke
+          bathroom_furnishing: Mobilje banjoje
           beauty: Sallon bukurie
+          bed: Produkte shtrati
           beverages: Dyqan pijesh
+          bicycle: Dyqan biçikletash
+          books: Dyqan librash
+          boutique: Butik
           butcher: Mishtore
           car: Sallon automobilash
           car_parts: Autopjesë
           car_repair: Autoservis
           carpet: Dyqan qilimash
+          charity: Dyqan bamirësie
+          cheese: Dyqan djathi
           chemist: Drogeri
+          chocolate: Çokollatë
           clothes: Dyqani rrobash
+          coffee: Kafene
           computer: Dyqan kompjuterësh
+          confectionery: Dyqan ëmbëltoreje
+          copyshop: Dyqan fotokopjimi
           cosmetics: Dyqan kozmetike
+          craft: Dyqan punimesh artizanale
+          curtain: Dyqan perdesh
+          dairy: Dyqan produktesh qumështi
           department_store: Shtëpi mallrash
           discount: Dyqan artikujsh me zbritje
           doityourself: Dyqan 'Bëje vet'
           dry_cleaning: Pastrim kimik
+          e-cigarette: Dyqan cigaresh elektronike
           electronics: Dyqan elektronike
+          erotic: Dyqan erotik
           estate_agent: Agjent i patundshmërive
+          fabric: Dyqan pëlhurash
+          farm: Dyqan ferme
           fashion: Dyqan i veshjeve të modës
+          fishing: Dyqan pajisjesh peshkimi
           florist: Luleshitës
           food: Ushqimore
+          frame: Dyqan kornizash
           funeral_directors: Ndërmarrje varrimi
           furniture: Mobilieri
           garden_centre: Qendër kopshti
+          gas: Dyqan karburanti
           general: Dyqab me fushëveprim të përgjithshëm
           gift: Dyqan dhuratash
           greengrocer: Shitës frutash
@@ -848,9 +1078,13 @@ sq:
           hairdresser: Floktar
           hardware: Hekrari
           hifi: Dyqan Hi-Fi
+          ice_cream: Dyqan akulloresh
+          interior_decoration: Dekorim i brendshëm
           jewelry: Dyqan bizhuterie
           kiosk: Kiosk
+          kitchen: Dyqan kuzhine
           laundry: Lavanderi
+          lottery: Lotari
           mall: Qendër tregtare
           mobile_phone: Dyqan telefonash celular
           motorcycle: Dyqan motoçikletash
@@ -859,15 +1093,26 @@ sq:
           photo: Fotograf
           supermarket: Supermarket
           tailor: Rrobaqepës
+          tea: Dyqan çaji
+          ticket: Dyqan biletash
+          tobacco: Dyqan duhani
           toys: Dyqan lodrash
+          travel_agency: Agjenci udhëtimesh
+          tyres: Dyqan gomash
+          variety_store: Dyqan varietetesh
+          video: Dyqan videosh
+          video_games: Dyqan videolojërash
+          wine: Dyqan verërash
           "yes": Dyqan
         tourism:
+          alpine_hut: Kasolle alpine
           apartment: Apartament Pushimesh
           artwork: Vepër artistike
           bed_and_breakfast: Bujtinë me mëngjes
           cabin: Kabinë turistike
           camp_site: Vend për kampim
           gallery: Galeri
+          guest_house: Bujtinë
           hostel: Bujtinë
           hotel: Hotel
           information: Informacion
@@ -877,6 +1122,11 @@ sq:
           zoo: Kopsht zoologjik
         tunnel:
           "yes": Tunel
+        water:
+          lake: Liqen
+          reservoir: Rezervuar
+          lagoon: Lagunë
+          wastewater: Ujëra të zeza
         waterway:
           canal: Kanal
           dam: Digë
@@ -894,39 +1144,99 @@ sq:
         level2: Kufi ndërkombëtar
         level4: Kufi administrativ (niveli 4)
         level5: Kufi administrativ (niveli 5)
+      border_types:
+        city: Kufi qyteti
+        county: Kufi qarku
+        district: Kufi rrethi
+        municipi: Kufi bashkie
+        município: Kufi bashkie
+        nation: Kufi ndërkombëtar
+        national: Kufi ndërkombëtar
+        neighbourhood: Kufi lagjeje
+        province: Kufi province
+        região: Kufi rajonal
+        region: Kufi rajonal
+        village: Kufi fshati
   searches:
     queries:
       create:
         no_results: Nuk është gjetur asnjë rezultat
         more_results: Më shumë rezultate
+  directions:
+    show:
+      title: Udhëzimet
+      distance: Distanca
+      time: Koha
+      ascend: Ngjitja
+      descend: Zbritja
+      kilometers: kilometra
+      miles_feet: milje, këmbë
+      miles_yards: milje, jardë
+      distance_units_settings: Cilësimet e njësive të distancës
+      download: Shkarko rrugën si GeoJSON
+      filename: rruga
+      directions_courtesy_html: Udhëzimet janë dhënë nga %{link}
   issues:
     index:
+      title: Problemet
       select_status: Përzgjidh statsin
       select_type: Selekto llojin
+      reported_user: Përdoruesi i raportuar
+      not_managed: Nuk menaxhohet
       search: Kërko
-      search_guidance: Probleme të kërkimit
+      search_guidance: 'Probleme të kërkimit:'
       states:
         ignored: Injoruar
-        open: E hapur
+        open: Hapur
+        resolved: Zgjidhur
     page:
       user_not_found: Përdoruesi nuk ekziston
+      issues_not_found: Nuk u gjetën probleme të tilla
+      reported_user: Përdoruesi i raportuar
       status: Statusi
+      reports: Raportimet
+      last_updated: Përditësuar për herë të fundit
+      last_managed: Menaxhuar për herë të fundit
+      reporting_users: Përdoruesit raportues
       reports_count:
-        one: 1 Raport
-        other: '%{count} raportet'
+        one: '%{count} raportim'
+        other: '%{count} raportime'
+      reported_item: Element i raportuar
+      states:
+        ignored: Injoruar
+        open: Hap
+        resolved: Zgjidhur
     show:
-      report_created_at_html: E raportuar së pari tek %{datetime}
-      last_updated_at_html: Herën e fundit i ri- freskuar%{datetime}nga%{displayname}
+      title:
+        open: 'Hap problemin #%{issue_id}'
+        ignored: 'Problem i injoruar #%{issue_id}'
+        resolved: 'Problem i zgjidhur #%{issue_id}'
+      reports:
+        one: '%{count} raportim'
+        other: '%{count} raportime'
+      no_reports: Nuk ka raportime
+      report_created_at_html: Raportuar për herë të parë më %{datetime}
+      last_resolved_at_html: Zgjidhur për herë të fundit më %{datetime}
+      last_updated_at_html: Përditësuar për herë të fundit më %{datetime} nga %{displayname}
       resolve: Zgjidh
       ignore: injoro
+      reopen: Rihap
       reports_of_this_issue: Raportimet e këtij problemi
-      no_other_issues: Nuk ka qështje tjera kundër këtij përdoruesi
+      read_reports: Lexo raportimet
+      new_reports: Raportimet e reja
+      other_issues_against_this_user: Probleme të tjera kundër këtij përdoruesi
+      no_other_issues: Nuk ka probleme të tjera kundër këtij përdoruesi.
+      comments_on_this_issue: Komentet mbi këtë problem
     resolve:
-      resolved: Qështja e statusit është vendosur tek " E zgjedhur"
+      resolved: Statusi i problemit është vendosur si 'Zgjidhur'
     ignore:
-      ignored: Statusi i lëshimit është vendosur në 'Injoruar'
+      ignored: Statusi i problemit është vendosur si 'Injoruar'
     reopen:
-      reopened: Statusi i lëshimit është vendosur në 'të hapur'
+      reopened: Statusi i problemit është vendosur si 'Hapur'
+  issue_comments:
+    create:
+      comment_created: Komenti yt u krijua me sukses
+      issue_reassigned: Komenti yt u krijua dhe problemi u ricaktua
   reports:
     new:
       disclaimer:
@@ -934,44 +1244,93 @@ sq:
       categories:
         diary_entry:
           threat_label: Kjo hyrje e ditarit përmban një kërcënim
+          other_label: Të tjera
         diary_comment:
-          offensive_label: Ky koment i ditarit është i turpshëm / ofendues
-          threat_label: Ky koment i ditarit përmban një kërcënim
+          spam_label: Ky koment ditari është/përmban spam
+          offensive_label: Ky koment ditari është i pahijshëm/ofendues
+          threat_label: Ky koment ditari përmban një kërcënim
+          other_label: Të tjera
         user:
           spam_label: Ky profil është/ përmban mashtrim
+          offensive_label: Ky profil përdoruesi është i pahijshëm/ofendues
+          threat_label: Ky profil përdoruesi përmban një kërcënim
           vandal_label: Ky përdorues është vandal
           other_label: Të tjera
         note:
           spam_label: Ky shënim është mashtrim
           personal_label: Ky shënim përmban të dhëna personale
           abusive_label: Ky shkrim është abuzues
+          other_label: Të tjera
     create:
+      successful_report: Raporti yt u regjistrua me sukses
       provide_details: Ju lutemi paraqitni detajet e kërkuara
   layouts:
     logo:
       alt_text: Logoja e OpenStreetMap
-    logout: Çidentifikohu
-    log_in: Identifikohu
+    logout: Dil
+    log_in: Hyr
     sign_up: Krijo llogari
     start_mapping: Fillo hartografimin
     edit: Redakto
     history: Historia
-    export: Eksporti
+    export: Eksporto
+    issues: Problemet
+    gps_traces: Gjurmët GPS
     user_diaries: Ditarët e përdoruesit
     edit_with: Redakto me %{editor}
     intro_header: Mirësevjen në OpenStreetMap!
     intro_text: OpenStreetMap është hartë e botës, e krijuar nga njerëz si ti dhe
       për përdorim të lirshëm në kuadrin e një licence të hapur.
     partners_partners: partnerët
-    help: Ndihmë
+    help: Ndihma
     about: Rreth
     copyright: Të drejtat e autorit
+    communities: Komunitetet
     learn_more: Mëso më shumë
     more: Më shumë
+    header:
+      ok: Në rregull
+      select_language: Zgjidh gjuhën
+    select_language_button:
+      title: Zgjidh gjuhën
+    offline_flash:
+      osm_offline: Databaza e OpenStreetMap-it është aktualisht jashtë linje teksa
+        kryhen punime thelbësore mirëmbajtjeje.
+      announcement: Mund ta lexosh njoftimin këtu.
   user_mailer:
     diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} komentoi mbi një shënim ditari'
       hi: Përshëndetje %{to_user},
+      header: '%{from_user} ka komentuar në shënimin e ditarit OpenStreetMap me temën
+        %{subject}:'
+      header_html: '%{from_user} ka komentuar në shënimin e ditarit OpenStreetMap
+        me temën %{subject}:'
+      footer: Mund ta lexosh komentin edhe te %{readurl} dhe mund të komentosh te
+        %{commenturl} ose t'i dërgosh një mesazh autorit te %{replyurl}
+      footer_unsubscribe: Mund të çabonohesh nga diskutimi në %{unsubscribeurl}
+      footer_unsubscribe_html: Mund të çabonohesh nga diskutimi në %{unsubscribeurl}
     message_notification:
+      hi: Përshëndetje %{to_user},
+    follow_notification:
+      hi: Përshëndetje %{to_user},
+      subject: '[OpenStreetMap] %{user} të ndoqi'
+      followed_you: '%{user} tani është duke të ndjekur në OpenStreetMap.'
+      see_their_profile: Mund ta shohësh profilin e tyre në %{userurl}.
+      see_their_profile_html: Mund ta shohësh profilin e tyre në %{userurl}.
+      follow_them: Mund t'i ndjekësh edhe në %{followurl}.
+      follow_them_html: Mund t'i ndjekësh edhe në %{followurl}.
+    gpx_details:
+      details: 'Detajet e skedarit tënd:'
+      filename: Emri i skedarit
+      url: URL-ja
+      description: Përshkrimi
+      tags: Etiketat
+      total_points: Numri total i pikëve
+      imported_points: Numri i pikëve të importuara
+    gpx_failure:
+      hi: Përshëndetje %{to_user},
+      failed_to_import: Mesa duket, importimi i skedarit tënd si gjurmë GPS dështoi.
+    gpx_success:
       hi: Përshëndetje %{to_user},
     signup_confirm:
       subject: '[OpenStreetMap] Mirësevjen në OpenStreetMap'
@@ -982,10 +1341,29 @@ sq:
     lost_password:
       greeting: Përshëndetje,
     note_comment_notification:
+      anonymous: Një përdorues anonim
       greeting: Përshëndetje,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} ka komentuar mbi një nga shënimet
+          e tua'
+        subject_other: '[OpenStreetMap] %{commenter} ka komentuar mbi një shënim që
+          të intereson'
+        your_note: '%{commenter} ka lënë një koment mbi një nga shënimet e tua të
+          hartave pranë %{place}.'
+        your_note_html: '%{commenter} ka lënë një koment mbi një nga shënimet e tua
+          të hartave pranë %{place}.'
+        commented_note: '%{commenter} ka lënë një koment mbi një shënim harte mbi
+          të cilin ke komentuar ti. Shënimi është pranë %{place}.'
+        commented_note_html: '%{commenter} ka lënë një koment mbi një shënim në hartë
+          mbi të cilin ke komentuar ti. Shënimi është pranë %{place}.'
     changeset_comment_notification:
+      hi: Përshëndetje %{to_user},
       commented:
         partial_changeset_without_comment: pa koment
+      unsubscribe: Mund të çabonohesh nga përditësimet e këtij grupi ndryshimesh në
+        %{url}.
+      unsubscribe_html: Mund të çabonohesh nga përditësimet e këtij grupi ndryshimesh
+        në %{url}.
   confirmations:
     confirm:
       heading: Kontrollo emailin tënd!
@@ -1018,29 +1396,41 @@ sq:
       heading: Nuk ka mesazh të tillë
       body: Na vjen keq, nuk ka mesazh me këtë id.
     show:
+      title: Lexo mesazhin
       reply_button: Përgjigje
       unread_button: Shëno si të palexuar
+      destroy_button: Fshi
       back: Prapa
-      wrong_user: 'TI je identifikuar si: "%{user}'', por mesazhi që ke kërkuar për
-        të lexuar nuk ishte dërguar nga ose për atë përdorues. Të lutem identifikohu
-        si përdorues i saktë për të lexuar atë.'
+      wrong_user: Ke hyrë në llogari si '%{user}', por mesazhi që ke kërkuar të lexosh
+        nuk është dërguar nga ose tek ai përdorues. Të lutem, hyr në llogari si përdoruesi
+        i saktë për ta lexuar atë.
+    destroy:
+      destroyed: Mesazhi u fshi
     read_marks:
       create:
         notice: Mesazhi është shënuar si të lexuar
       destroy:
         notice: Mesazhi është shënuar si i palexuar
+    mutes:
+      destroy:
+        notice: Mesazhi u zhvendos te kutia e hyrjeve
+        error: Mesazhi nuk mund të zhvendosej te kutia e hyrjeve.
     mailboxes:
       heading:
         my_inbox: Kutia ime mbërritëse
+        my_outbox: Kutia ime e daljeve
+        muted_messages: Mesazhet e heshtura
       messages_table:
         from: Prej
         to: Për
         subject: Titulli
         date: Data
+        actions: Veprimet
       message:
         unread_button: Shëno si të palexuar
         read_button: Shëno si të lexuar
         destroy_button: Fshi
+        unmute_button: Zhvendos te kutia e hyrjeve
     inboxes:
       show:
         title: Kutia mbërritëse
@@ -1048,6 +1438,9 @@ sq:
         no_messages_yet_html: Ti nuk ke mesazhe ende. Pse nuk kontakton ndonjërin
           nga %{people_mapping_nearby_link}?
         people_mapping_nearby: hartografët aty pranë
+    muted_inboxes:
+      show:
+        title: Mesazhet e heshtura
     outboxes:
       show:
         title: Dalje
@@ -1069,46 +1462,169 @@ sq:
       flash token bad: Nuk e gjet atë shenjë, kontrollo URL-në?
     update:
       flash changed: Fjalëkalimi yt është ndryshuar.
+  preferences:
+    preferences:
+      update:
+        failure: Parapëlqimet nuk mund të përditësoheshin.
+      update_success_flash:
+        message: Parapëlqimet u përditësuan.
+      navigation:
+        preferences: Parapëlqimet
+        advanced_preferences: Parapëlqimet e përparuara
+    basic_preferences:
+      show:
+        title: Parapëlqimet e mia
+        preferred_language: Gjuha e parapëlqyer
+        preferred_site_color_scheme: Skema e preferuar e ngjyrave të faqes së internetit
+        site_color_schemes:
+          auto: Automatike
+          light: E ndriçuar
+          dark: E errët
+        preferred_map_color_scheme: Skema e preferuar e ngjyrave të hartës
+        map_color_schemes:
+          auto: Automatike
+          light: E ndriçuar
+          dark: E errët
+        save: Përditëso parapëlqimet
+    advanced_preferences:
+      show:
+        title: Parapëlqimet e mia të përparuara
+        save: Përditëso parapëlqimet
   profiles:
     profile_sections:
       navigation:
+        description: Përshkrimi
+        links: Lidhjet
         image: Imazhi
+        location: Vendndodhja
+    descriptions:
+      show:
+        title: Redakto profilin
+        save: Përditëso profilin
+        cancel: Anulo
+      update:
+        success: Përshkrimi i profilit u përditësua.
+        failure: Përshkrimi i profilit nuk mund të përditësohej.
+    links:
+      show:
+        title: Redakto profilin
+        save: Përditëso profilin
+        cancel: Anulo
+        social_links:
+          remove: Hiq
+      update:
+        success: Lidhjet e profilit u përditësuan.
+        failure: Lidhjet e profilit nuk mund të përditësoheshin.
     images:
       show:
+        title: Redakto profilin
+        save: Përditëso profilin
+        cancel: Anulo
         gravatar:
           gravatar: Përdor Gravatar
         new image: Shto një imazh
         keep image: Mbaj imazhin e tanishëm
-        delete image: Heq imazhin e tanishëm
+        delete image: Hiq imazhin e tanishëm
         replace image: Zëvendëso imazhin e tanishëm
         image size hint: (imazhet katror të paktën 100x100 duken më mirë)
+      update:
+        success: Imazhi i profilit u përditësua.
+        failure: Imazhi i profilit nuk mund të përditësohej.
+    companies:
+      show:
+        title: Redakto profilin
+        save: Përditëso profilin
+        cancel: Anulo
+      update:
+        success: Profili i kompanisë u përditësua.
+        failure: Profili i kompanisë nuk mund të përditësohej.
     locations:
       show:
+        title: Redakto profilin
+        save: Përditëso profilin
+        cancel: Anulo
         no home location: Nuk ke shëuar vendndodhjen e shtëpisë tënde.
         update home location on click: Përditëso vendndodhjen e shtëpisë kur unë klikoj
           në hartë!
+        show: Shfaq
+        delete: Fshi
+        undelete: Zhbëj fshirjen
+      update:
+        success: Vendndodhja e profilit u përditësua.
+        failure: Vendndodhja e profilit nuk mund të përditësohej.
   sessions:
     new:
       tab_title: Hyr
+      login_to_authorize_html: Hyr në OpenStreetMap për t'u qasur te %{client_app_name}.
+      visit_referring_page: Vizito faqen referuese
       email or username: 'Adresa e email-it ose emri i përdoruesit:'
       password: Fjalëkalimi
       remember: Më mbaj mend
       lost password link: Ke humbur fjalëkalimin?
       login_button: Hyr
-      auth failure: Na vjen keq, nuk mund të identifikohemi me ato detaje.
+      with external: ose hyr me një palë të tretë
+      or: ose
+      auth failure: Na vjen keq, nuk munda të hyj me ato detaje.
     destroy:
-      title: Çidentifikohu
-      heading: Çidentifikohu nga OpenStreetMap
-      logout_button: Çidentifikohu
+      title: Dil
+      heading: Dil nga OpenStreetMap
+      logout_button: Dil
+    suspended_flash:
+      suspended: Na vjen keq, llogaria jote është pezulluar për aktivitet të dyshimtë.
+      contact_support_html: Të lutem, kontakto %{support_link} nëse dëshiron ta diskutosh
+        këtë.
+      support: mbështetjen
   shared:
+    markdown_help:
+      link: Lidhja
+      text: Teksti
+      image: Imazhi
+      alt: Teksti alternativ
+      url: URL-ja
+      codeblock: Bloku i kodit
+    richtext_field:
+      edit: Redakto
+      preview: Parashfaq
+      help: Ndihma
     pagination:
+      changeset_comments:
+        older: Komente më të vjetra
+        newer: Komente më të reja
+        oldest: Komentet më të vjetra
+        newest: Komentet më të reja
       diary_comments:
         older: Komentet e vjetra
         newer: Komentet më të fundit
+        oldest: Komentet më të vjetra
+        newest: Komentet më të reja
       diary_entries:
-        older: Shënimet e Vjetra
-        newer: Shënimet më të reja
+        older: Shënime më të vjetra
+        newer: Shënime më të reja
+        oldest: Shënimet më të vjetra
+        newest: Shënimet më të reja
+      issues:
+        older: Probleme më të vjetra
+        newer: Probleme më të reja
+        oldest: Problemet më të vjetra
+        newest: Problemet më të reja
+      traces:
+        older: Gjurmë më të vjetra
+        newer: Gjurmë më të reja
+        oldest: Gjurmët më të vjetra
+        newest: Gjurmët më të reja
+      user_blocks:
+        older: Bllokime më të vjetra
+        newer: Bllokime më të reja
+        oldest: Bllokimet më të vjetra
+        newest: Bllokimet më të reja
+      users:
+        older: Përdorues më të vjetër
+        newer: Përdorues më të rinj
+        oldest: Përdoruesit më të vjetër
+        newest: Përdoruesit më të rinj
   site:
+    about_section:
+      partners_title: Partnerët
     copyright:
       title: Të drejtat autoriale dhe licensa
       foreign:
@@ -1118,12 +1634,13 @@ sq:
         english_link: origjinalit në anglisht
       native:
         title: Rreth kësaj faqeje
-        html: Je duke parë versionin në anglisht të faqes së të drejtave autoriale.
-          Mund të shkosh mbrapa tek %{native_link} i kësaj faqeje ose mund të ndalesh
-          së lexuari rreth të drejtave autoriale dhe %{mapping_link}.
+        html: Je duke shikuar versionin në anglisht të faqes së të drejtave të autorit.
+          Mund të kthehesh te %{native_link} i kësaj faqeje ose të ndalosh së lexuari
+          rreth të drejtave të autorit dhe %{mapping_link}.
         native_link: Versioni në THIS_LANGUAGE_NAME_HERE
         mapping_link: fillo hatrografimin
       legal_babble:
+        licensing_1_open: hap
         credit_title_html: Si të citoni OpenStreetMap
         credit_1_html: 'Kur të përdorësh të dhëna të OpenStreetMap, duhet të bësh
           dy gjërat e mëposhtme:'
@@ -1135,9 +1652,19 @@ sq:
           por kur përfshihen në OSM, hartat nga një agjencion nacional i hartave \n
           \ apo faktor tjerë madhor burimor, është e arsyeshme të citohen drejtpërsëdrejti
           \n   duke paraqitur emrin apo duke lidhur faqen e tyre me link."
+        contributors_at_austria: Austri
+        contributors_at_stadt_wien: Qyteti i Vjenës
+        contributors_au_australia: Australi
+        contributors_ca_canada: Kanada
+        contributors_cz_czechia: Çeki
+        contributors_fi_finland: Finlandë
+        contributors_hr_croatia: Kroaci
+        contributors_nl_netherlands: Holandë
         contributors_footer_2_html: "  Përfshirja e të dhënave në OpenStreetMap nuk
           thekson se të ofruesi origjinal i të \n  dhënave përdor OpenStreetMap, ofron
           garancion, apo\n  pranon çfarëdo anekse."
+    not_public_flash:
+      user_page_link: '{{GENDER:{{ROOTPAGENAME}}|faqja e përdoruesit|faqja e përdorueses}}'
     export:
       title: Eksporto
       manually_select: Zgjidh me dorë një zonë tjetër
@@ -1164,6 +1691,7 @@ sq:
           title: Burime të tjera
           description: Burime shtesë të listuara në faqen e OpenStreetMap wiki
       export_button: Eksporto
+      export_download: Duke shkarkuar...
     fixthemap:
       how_to_help:
         title: Si të ndihmosh
@@ -1176,7 +1704,7 @@ sq:
       other_concerns:
         title: Shqetësime të tjera
     help:
-      title: Merr ndihmë
+      title: Ndihma
       introduction: OpenStreetMap ka disa burime për të mësuar në lidhje me projektin,
         duke bërë pyetje dhe duke ju përgjigjur dhe duke diskutuar bashkërisht dhe
         duke dokumentuar temat e hartës.
@@ -1192,6 +1720,12 @@ sq:
         title: Listat E Postimeve
         description: Bëni një pyetje ose diskutoni çështje interesante në një gamë
           të gjerë të listës së postimeve të ditës apo rajonale.
+    potlatch:
+      removed: Redaktuesi yt i parazgjedhur i OpenStreetMap është vendosur si Potlatch.
+        Meqenëse Adobe Flash Player është tërhequr, Potlatch nuk është më i disponueshëm
+        për t'u përdorur në një shfletues interneti.
+      desktop_application_html: Mund ta përdorësh ende Potlatch nga %{download_link}.
+      download: duke shkarkuar aplikacionin desktop për Mac dhe Windows
     sidebar:
       search_results: Rezultatet e kërkimit
     search:
@@ -1209,20 +1743,45 @@ sq:
           disa fjalë kyçe mund të jenë të dobishme.
       rules:
         title: Rregullat!
+        para_1_html: OpenStreetMap ka pak rregulla formale, por ne presim që të gjithë
+          pjesëmarrësit të bashkëpunojnë dhe të komunikojnë me komunitetin. Nëse je
+          duke marrë në konsideratë çdo aktivitet tjetër përveç redaktimit manual,
+          të lutem, lexo dhe ndiq udhëzimet në %{imports_link} dhe %{automated_edits_link}.
       start_mapping: Fillo hartografimin
     add_a_note:
       title: Nuk ke kohë për të redaktuar? Shto një shënim!
+      para_2_html: |-
+        Thjesht kliko %{note_icon} ose të njëjtën ikonë në %{map_link}.
+        Kjo do të shtojë një shënues në hartë, të cilin mund ta lëvizësh duke e zvarritur.
+        Shto mesazhin tënd, pastaj ruaje dhe hartografë të tjerë do ta hetojnë.
+    communities:
+      title: Komunitetet
+      local_chapters:
+        title: Kapitujt lokalë
+        list_text: 'Komunitetet e mëposhtme janë themeluar zyrtarisht si Degë Lokale:'
+      other_groups:
+        title: Grupe të tjera
   legend_panes:
     show:
       entries:
+        runway: Pistë aeroporti
+        apron: Platformë aeroporti
         centre: Qendër sportive
         military: Zonë ushtarake
         school: Shkollë
         university: Universitet
         building: Ndërtesë
         station: Stacioni hekurudhor
+        tram_stop: Stacion tramvaji
         summit: Samit
         peak: majë
+        bus_stop: Stacion autobusi
+  share_panes:
+    show:
+      only_layers_exported_as_image: 'Vetëm shtresat e mëposhtme mund të eksportohen
+        si imazh:'
+      download: Shkarko
+      downloading: Duke shkarkuar...
   traces:
     visibility:
       private: Privat (ndahet vetëm si anonim, pika të parenditura)
@@ -1234,7 +1793,7 @@ sq:
     new:
       upload_trace: Ngarko GPS Percjellesin
       visibility_help: çfarë do të thotë kjo?
-      help: Ndihmë
+      help: Ndihma
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Ngarko gjurmët e GPS
@@ -1267,6 +1826,7 @@ sq:
       delete_trace: Fshi këtë gjurmë
       trace_not_found: Gjurma nuk u gjet!
       visibility: 'Dukshmëria:'
+      confirm_delete: Të fshihet kjo gjurmë?
     trace:
       pending: NE PRITJE
       count_points:
@@ -1274,18 +1834,20 @@ sq:
         other: '%{count} pikë'
       more: më shumë
       trace_details: Shfaq detajet e gjurmës
-      view_map: Shiko hartën
+      view_map: Shih hartën
       edit_map: Redakto hartën
       public: PUBLIKE
       identifiable: E IDENTIFIKUESHME
       private: PRIVAT
       trackable: E GJURMUESHME
     index:
-      public_traces: Gjurmët publike të GPS
-      public_traces_from: Gjurmët publike të GPS nga %{user}
+      public_traces: Gjurmët publike GPS
+      my_gps_traces: Gjurmët e mia GPS
+      public_traces_from: Gjurmët publike GPS nga %{user}
       description: Shfletoni ngarkimet e fundit gjurmëve të GPS
       tagged_with: etiketuar me %{tags}
       upload_trace: Ngarko një gjurmë
+      remove_tag_filter: Hiq filtrin e etiketës
     destroy:
       scheduled_for_deletion: Gjurmë e planifikuar për fshirje
     offline_warning:
@@ -1294,12 +1856,53 @@ sq:
       heading: Ruajtësi GPX jashtë linje
       message: Ruajtja e skedës GPC dhe sistemi i ngarkimit aktualisht është jashtë
         përdonimit
+    feeds:
+      show:
+        title: Gjurmët GPS të OpenStreetMap-it
   application:
+    setup_user_auth:
+      blocked_zero_hour: Ke një mesazh urgjent në faqen e internetit të OpenStreetMap.
+        Duhet ta lexosh mesazhin para se të jesh në gjendje të ruash ndryshimet e
+        tua.
+      blocked: Qasja jote te API-ja është bllokuar. Të lutem, hyr në ndërfaqen e internetit
+        për të mësuar më shumë.
+      need_to_see_terms: Qasja jote te API-ja është pezulluar përkohësisht. Të lutem,
+        hyr në ndërfaqen e internetit për të parë Kushtet e Kontribuesit. Nuk ke nevojë
+        t'i pranosh ato, por duhet t'i shohësh.
     auth_providers:
+      google:
+        title: Hyr me Google
+      apple:
+        title: Hyr me Apple
+      facebook:
+        title: Hyr me Facebook
+      microsoft:
+        title: Hyr me Microsoft
       github:
         title: Hyr me GitHub
       wikipedia:
+        title: Hyr me Wikipedia
         alt: Logoja e Wikipedia-s
+  oauth:
+    scopes:
+      write_diary: Krijo shënime dhe komente ditari
+      write_changeset_comments: Komento mbi grupet e ndryshimeve
+      read_gpx: Lexo gjurmët private GPS
+      write_gpx: Ngarko gjurmët GPS
+      consume_messages: Lexo, përditëso statusin dhe fshi mesazhet e përdoruesit
+  oauth2_applications:
+    application:
+      delete: Fshi
+      confirm_delete: Të fshihet ky aplikacion?
+    show:
+      delete: Fshi
+      confirm_delete: Të fshihet ky aplikacion?
+      client_secret_warning: Sigurohu që ta ruash këtë sekret - nuk do të jetë më
+        i arritshëm.
+  oauth2_authorizations:
+    new:
+      introduction: Të autorizohet %{application} për të hyrë në llogarinë tënde me
+        lejet e mëposhtme?
   users:
     new:
       title: Krijo llogari
@@ -1307,6 +1910,9 @@ sq:
         krijuar automatikisht një llogari për ty.
       about:
         header: Falas dhe i redaktueshëm.
+        paragraph_1: Ndryshe nga hartat e tjera, OpenStreetMap është krijuar tërësisht
+          nga njerëz si ti, dhe është falas për këdo që ta rregullojë, përditësojë,
+          shkarkojë dhe përdorë.
       display name description: Emri yt publik. Ti mund ta ndryshosh më vonë në preferenca.
       continue: Vazhdo
     no_such_user:
@@ -1314,6 +1920,7 @@ sq:
       heading: Përdoruesi %{user} nuk ekziston
       body: Na vjen keq, nuk ka përdorues me emrin %{user}. Të lutem kontrollo drejtshkrimin,
         ose ndoshta linku që ke klikuar është gabim.
+      deleted: fshirë
     show:
       my diary: Ditari im
       my edits: Redaktimet e mia
@@ -1329,6 +1936,8 @@ sq:
       edits: Redaktimet
       traces: Gjurmët
       notes: Shënimet e hartës
+      unfollow: Çndiq
+      follow: Ndiq
       mapper since: 'Hartues që prej:'
       email address: 'Adresa e emailit:'
       created from: 'Krijuar nga:'
@@ -1336,21 +1945,29 @@ sq:
       spam score: 'Rezultati me Spam:'
       block_history: bllokimet e pranuara
       moderator_history: bllokimet e dhëna
+      comments: Komentet
       create_block: blloko këtë përdorues
       activate_user: aktivizo këtë përdorues
       confirm_user: konfirmo këtë përdorues
       hide_user: fsheh këtë përdorues
       unhide_user: zbulo këtë përdorues
-      delete_user: fshi këtë përdorues
+      delete_user: Fshi këtë përdorues
       confirm: Konfirmo
       report: Raporto ķëtë përdorues
     go_public:
       flash success: Të gjitha redaktimet e tua tani janë publike dhe tani të lejohet
         t'i redaktosh ato.
+    issued_blocks:
+      show:
+        title: Bllokimet nga %{name}
+        heading_html: Lista e bllokimeve nga %{name}
+        empty: '%{name} nuk ka krijuar ende asnjë bllokim.'
     lists:
       show:
         title: Përdoruesi
         heading: Përdorues
+        states:
+          deleted: Fshirë
       page:
         confirm: Konfirmo përdoruesit e zgjedhur
         hide: Fshih përdoruesit e zgjedhur
@@ -1358,13 +1975,24 @@ sq:
       user:
         summary_html: '%{name} krijuar nga %{ip_address} më %{date}'
         summary_no_ip_html: '%{name} krijuar më %{date}'
+    comments:
+      index:
+        heading_html: Komentet e %{user}
+        changesets: Grupet e ndryshimeve
+        diary_entries: Shënimet e ditarit
+        no_comments: Nuk ka komente
     changeset_comments:
+      index:
+        title: Komentet e grupit të ndryshimeve u shtuan nga %{user}
       page:
         when: Kur
-        comment: Koment
+        comment: Komenti
     diary_comments:
+      index:
+        title: Komentet e shtuara të ditarit nga %{user}
       page:
         post: Posto
+        comment: Komenti
     role_icons:
       title:
         administrator: Ky përdorues është një administrator
@@ -1391,21 +2019,50 @@ sq:
     page:
       status: Statusi
   notes:
+    index:
+      title: Shënimet e dërguara ose komentuara nga %{user}
+      subheading_html: Shënimet e %{submitted} ose %{commented} nga %{user}
+      subheading_commented: komentoi mbi
     show:
       title: 'Shënim: %{id}'
       description: Përshkrimi
       open_title: 'Shënim i pazgjidhur #%{note_name}'
       closed_title: 'Shënim i zgjidhur #%{note_name}'
       hidden_title: 'Shënim i fshehur #%{note_name}'
+      description_when_author_is_deleted: fshirë
+      event_commented_by_html: Koment nga %{user} %{time_ago}
+      event_commented_by_anonymous_html: Koment anonim %{time_ago}
+      anonymous_warning: Ky shënim përfshin komente nga përdorues anonimë të cilat
+        duhet të verifikohen në mënyrë të pavarur.
+      subscribe: Abonohu
+      unsubscribe: Çabonohu
+      comment_and_resolve: Komento dhe zgjidh
+      comment: Komento
+      log_in_to_comment: Hyr në llogari për të komentuar mbi këtë shënim
+      report_link_html: Nëse ky shënim përmban informacione të ndjeshme që duhen hequr,
+        ti mund të %{link}.
+      other_problems_resolve: Për të gjitha problemet e tjera me shënimin, të lutem,
+        zgjidhe vetë me një koment.
     new:
       title: Shënim i ri
+      anonymous_warning_log_in: hyr
     notes_paging_nav:
       showing_page: Faqe %{page}
   javascripts:
+    map:
+      layers:
+        gps: Gjurmët publike GPS
     site:
       edit_tooltip: Redakto hartën
+    profile:
+      remove_social_link_n: Hiq lidhjen e profilit social %{n}
+    directions:
+      instructions:
+        follow_without_exit: Ndiq %{name}
   redactions:
     show:
-      destroy: Revoko këtë redaktim
+      destroy: Hiq këtë redaktim
       confirm: A je i sigurt?
+    update:
+      flash: Ndryshimet u ruajtën.
 ...
