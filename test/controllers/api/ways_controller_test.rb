@@ -435,6 +435,34 @@ module Api
       end
     end
 
+    def test_create_race_condition
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      node = create(:node)
+      auth_header = bearer_authorization_header user
+      path = api_ways_path
+      concurrency_level = 16
+
+      threads = Array.new(concurrency_level) do
+        Thread.new do
+          osm = <<~OSM
+            <osm>
+              <way changeset='#{changeset.id}'>
+                <nd ref='#{node.id}'/>
+              </way>
+            </osm>
+          OSM
+          post path, :params => osm, :headers => auth_header
+        end
+      end
+      threads.each(&:join)
+
+      changeset.reload
+      assert_equal concurrency_level, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
+      assert_equal concurrency_level, changeset.num_created_ways
+    end
+
     # -------------------------------------
     # Test deleting ways.
     # -------------------------------------

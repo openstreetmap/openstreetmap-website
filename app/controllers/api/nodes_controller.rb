@@ -49,8 +49,10 @@ module Api
     def create
       node = Node.from_xml(request.raw_post, :create => true)
 
-      # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
-      node.create_with_history current_user
+      Changeset.transaction do
+        node.changeset&.lock!
+        node.create_with_history current_user
+      end
       render :plain => node.id.to_s
     end
 
