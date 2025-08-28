@@ -137,6 +137,16 @@ module Api
       end
     end
 
+    def test_create_in_missing_changeset
+      with_unchanging_request do |headers|
+        osm = "<osm><node lat='0' lon='0' changeset='0'/></osm>"
+
+        post api_nodes_path, :params => osm, :headers => headers
+
+        assert_response :conflict
+      end
+    end
+
     def test_create_with_invalid_osm_structure
       with_unchanging_request do |headers|
         osm = "<create/>"

@@ -257,6 +257,26 @@ module Api
       end
     end
 
+    def test_create_in_missing_changeset
+      node1 = create(:node)
+      node2 = create(:node)
+
+      with_unchanging_request do |headers|
+        osm = <<~OSM
+          <osm>
+            <way changeset='0'>
+              <nd ref='#{node1.id}'/>
+              <nd ref='#{node2.id}'/>
+            </way>
+          </osm>
+        OSM
+
+        post api_ways_path, :params => osm, :headers => headers
+
+        assert_response :conflict
+      end
+    end
+
     def test_create_with_missing_node_by_private_user
       with_unchanging_request([:data_public => false]) do |headers, changeset|
         osm = <<~OSM
