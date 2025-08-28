@@ -121,7 +121,10 @@ module Api
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
       if new_relation && new_relation.id == relation.id
-        relation.delete_with_history!(new_relation, current_user)
+        Changeset.transaction do
+          new_relation.changeset&.lock!
+          relation.delete_with_history!(new_relation, current_user)
+        end
         render :plain => relation.version.to_s
       else
         head :bad_request

@@ -80,7 +80,10 @@ module Api
       new_way = Way.from_xml(request.raw_post)
 
       if new_way && new_way.id == way.id
-        way.delete_with_history!(new_way, current_user)
+        Changeset.transaction do
+          new_way.changeset&.lock!
+          way.delete_with_history!(new_way, current_user)
+        end
         render :plain => way.version.to_s
       else
         head :bad_request
