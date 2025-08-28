@@ -220,6 +220,13 @@ L.OSM.Map = L.Map.extend({
   },
 
   addObject: function (object, callback) {
+    class ElementGoneError extends Error {
+      constructor(message = "Element is gone") {
+        super(message);
+        this.name = "ElementGoneError";
+      }
+    }
+
     const objectStyle = {
       color: "#FF6200",
       weight: 4,
@@ -283,6 +290,10 @@ L.OSM.Map = L.Map.extend({
             return response.json();
           }
 
+          if (response.status === 410) {
+            throw new ElementGoneError();
+          }
+
           const status = response.statusText || response.status;
           if (response.status !== 400 && response.status !== 509) {
             throw new Error(status);
@@ -292,6 +303,11 @@ L.OSM.Map = L.Map.extend({
           throw new Error(text || status);
         })
         .then(function (data) {
+          const visible_data = {
+            ...data,
+            elements: data.elements?.filter(el => el.visible !== false) ?? []
+          };
+
           map._object = object;
 
           map._objectLayer = new L.OSM.DataLayer(null, {
@@ -308,7 +324,7 @@ L.OSM.Map = L.Map.extend({
                    (object.type === "relation" && Boolean(relationNodes[node.id]));
           };
 
-          map._objectLayer.addData(data);
+          map._objectLayer.addData(visible_data);
           map._objectLayer.addTo(map);
 
           if (callback) callback(map._objectLayer.getBounds());
@@ -317,6 +333,10 @@ L.OSM.Map = L.Map.extend({
         })
         .catch(function (error) {
           if (error.name === "AbortError") return;
+          if (error instanceof ElementGoneError) {
+            $("#browse_status").empty();
+            return;
+          }
           OSM.displayLoadError(error?.message, () => {
             $("#browse_status").empty();
           });
