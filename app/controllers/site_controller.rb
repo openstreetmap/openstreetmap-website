@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SiteController < ApplicationController
   layout :site_layout
   layout :map_layout, :only => [:index, :export]

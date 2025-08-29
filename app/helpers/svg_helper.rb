@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SvgHelper
   def previous_page_svg_tag(**)
     adjacent_page_svg_tag(dir == "rtl" ? 1 : -1, **)

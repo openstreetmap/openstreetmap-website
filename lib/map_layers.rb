@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MapLayers
   def self.full_definitions(layers_filename, legends: nil)
     legended_layers = YAML.load_file(Rails.root.join(legends)).keys if legends

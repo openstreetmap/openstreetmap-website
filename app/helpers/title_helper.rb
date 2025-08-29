@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TitleHelper
   def self.coder
     @coder ||= HTMLEntities.new

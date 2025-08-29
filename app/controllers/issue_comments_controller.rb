@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IssueCommentsController < ApplicationController
   layout :site_layout
 

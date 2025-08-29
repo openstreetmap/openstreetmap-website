@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rate_limiter"
 
 SIGNUP_IP_LIMITER = if Settings.memcache_servers && Settings.signup_ip_per_day && Settings.signup_ip_max_burst

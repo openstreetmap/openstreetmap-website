@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WaysController < ElementsController
   def show
     @type = "way"

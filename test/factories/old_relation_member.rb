@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :old_relation_member do
     sequence(:sequence_id)

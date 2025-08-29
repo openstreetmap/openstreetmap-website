@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Issues
   class ReportersController < ApplicationController
     layout :site_layout

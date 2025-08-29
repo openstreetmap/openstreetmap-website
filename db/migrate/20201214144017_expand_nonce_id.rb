@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExpandNonceId < ActiveRecord::Migration[6.0]
   def up
     safety_assured do

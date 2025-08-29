@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSocialLinks < ActiveRecord::Migration[7.2]
   def change
     create_table :social_links do |t|

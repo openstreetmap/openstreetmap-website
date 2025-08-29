@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Accounts
   class HomesController < ApplicationController
     layout :map_layout

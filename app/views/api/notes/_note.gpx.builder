@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.wpt("lon" => note.lon, "lat" => note.lat) do
   xml.time note.created_at.to_fs(:iso8601)
   xml.name t("notes.show.title", :id => note.id)

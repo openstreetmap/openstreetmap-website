@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A map of each OSM key to its formatter URL. For example:
 # { "ref:vatin" => "https://example.com/$1" }
 # The JSON data is an array with duplicate entries, which is not efficient for lookups.

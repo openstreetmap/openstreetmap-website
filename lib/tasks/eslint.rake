@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 task "eslint" => "eslint:check"
 
 def yarn_path
