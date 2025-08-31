@@ -55,6 +55,12 @@
     updateHelp();
   });
 
+  $(document).on("click", ".richtext_help_close", function () {
+    const container = $(this).closest(".richtext_container");
+    $(this).closest(".card.bg-body-tertiary.h-100").hide();
+    container.find(".tab-content.col-sm-8").css("width", "100%");
+  });
+
   function invalidTextareaListener() {
     const container = $(this).closest(".richtext_container");
 
