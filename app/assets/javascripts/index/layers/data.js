@@ -97,6 +97,7 @@ OSM.initializeDataLayer = function (map) {
 
     function fetchDataForBounds(bounds) {
       return fetch(`/api/${OSM.API_VERSION}/map.json?bbox=${bounds.toBBoxString()}`, {
+        headers: { ...OSM.oauth },
         signal: dataLoader.signal
       });
     }

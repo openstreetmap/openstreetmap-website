@@ -282,7 +282,7 @@ L.OSM.Map = L.Map.extend({
       const map = this;
       this._objectLoader = new AbortController();
       fetch(OSM.apiUrl(object), {
-        headers: { accept: "application/json" },
+        headers: { accept: "application/json", ...OSM.oauth },
         signal: this._objectLoader.signal
       })
         .then(async response => {
