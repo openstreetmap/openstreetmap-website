@@ -408,13 +408,21 @@ ru:
       external auth: 'Внешняя аутентификация:'
       contributor_terms:
         heading: Условия участия
-        agreed: Вы согласились с новыми Условиями участия.
+        agreed: Вы согласились с условиями участия в %{date}.
+        not_agreed: Вы ещё не согласились с Условиями участия.
         agreed_with_pd: Вы также заявили, что вы считаете свои правки находящимися
           в общественном достоянии.
         not_agreed_with_pd: Вы не заявили, что считаете свои правки находящимися в
           общественном достоянии.
+        review: Просмотреть Условия
+        review_and_accept: Проверьте и примите Условия
+        consider_pd: Рассмотрите использование Общественного Достояния
       terms_of_use:
         heading: Условия использования
+        agreed: Вы согласились с Условиями использования %{date}.
+        not_agreed: Вы еще не приняли Условия использования.
+        review: Просмотреть Условия
+        review_and_accept: Проверьте и примите Условия
       save changes button: Сохранить изменения
       delete_account: Удалить учётную запись…
     go_public:
@@ -596,6 +604,11 @@ ru:
         key: Страница вики, описывающая тег %{key}
         tag: Страница вики, описывающая тег %{key}=%{value}
       wikidata_link: Элемент %{page} в Викиданных
+      wikidata_preview:
+        one: Предпросмотр элемента Викиданных
+        few: Предпросмотр элементов Викиданных
+        many: Предпросмотр элементов Викиданных
+        other: Предпросмотр элементов Викиданных
       wikipedia_link: Статья %{page} в Википедии
       wikimedia_commons_link: Элемент %{page} на Викискладе
       telephone_link: Позвонить %{phone_number}
@@ -657,12 +670,21 @@ ru:
     timeout:
       sorry: Извините, данные для отношения с id %{id} потребовали слишком много времени
         для извлечения.
+  relation_members:
+    not_found_message:
+      sorry: 'К сожалению, отношение #%{id} не найдено.'
+    timeout:
+      sorry: Извините, данные для отношения с id %{id} потребовали слишком много времени
+        для извлечения.
   old_relations:
     not_found_message:
       sorry: 'К сожалению, версия %{version} отношения #%{id} не найдена.'
     timeout:
       sorry: Извините, история отношения с id %{id} потребовала слишком много времени
         для извлечения.
+  old_relation_members:
+    not_found_message:
+      sorry: 'К сожалению, отношение #%{id} версии %{version} не найдено.'
   changeset_comments:
     feeds:
       comment:
@@ -675,10 +697,37 @@ ru:
         sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
           много времени для извлечения.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} комментарий'
+        few: '%{count} комментария'
+        many: '%{count} комментариев'
+        other: ""
+      changes:
+        one: '%{count} изменение'
+        few: '%{count} изменения'
+        many: '%{count} изменений'
+        other: ""
+      n_elements_created:
+        one: '%{count} элемент создан'
+        few: '%{count} элемента создано'
+        many: '%{count} элементов создано'
+        other: '%{count} элементов создано'
+      n_elements_modified:
+        one: '%{count} элемент изменён'
+        few: '%{count} элемента изменено'
+        many: '%{count} элементов изменено'
+        other: '%{count} элементов изменено'
+      n_elements_deleted:
+        one: '%{count} элемент удалён'
+        few: '%{count} элемента удалено'
+        many: '%{count} элементов удалено'
+        other: '%{count} элементов удалено'
     index:
       title: Пакеты правок
       title_user: Пакеты правок пользователя %{user}
       title_user_link_html: Пакеты правок пользователя %{user_link}
+      title_followed: Пакеты правок участников, на которых вы подписаны
       title_nearby: Пакеты правок соседних участников
       empty: Пакеты правок не найдены.
       empty_area: Нет пакетов правок в этой области.
@@ -758,6 +807,8 @@ ru:
       no_home_location_html: '%{edit_profile_link} и установите ваше местоположение,
         чтобы видеть близлежащих  пользователей.'
       edit_your_profile: Отредактируйте свой профиль
+      followings: Участники, на которых вы подписаны
+      no followings: Вы пока не подписались ни на одного участника.
       nearby users: Другие ближайшие пользователи
       no nearby users: Пока нет других пользователей, которые признают, что занимаются
         составлением карты поблизости.
@@ -844,6 +895,12 @@ ru:
       new: Новая запись в дневнике
       new_title: Создать новую запись в моём дневнике
     profile_diaries:
+      latest_diaries: Последние дневники
+      comments:
+        one: '%{count} комментарий'
+        few: '%{count} комментария'
+        many: '%{count} комментариев'
+        other: ""
       comments_label: Комментарии
       date_label: Дата
   diary_comments:
@@ -1845,6 +1902,7 @@ ru:
       и вы, и может свободно использоваться под открытой лицензией.
     hosting_partners_2024_html: Хостинг поддерживается %{fastly}, %{corpmembers} и
       другими %{partners}.
+    partners_corpmembers: корпоративные члены OSMF
     partners_partners: партнёрами
     tou: Условия использования
     nothing_to_preview: Нечего предпросматривать.
@@ -2186,6 +2244,7 @@ ru:
         title: Редактировать профиль
         cancel: Отмена
         social_links:
+          title: Ссылки на социальные сети
           remove: Удалить
           add: Добавить ссылку на социальную сеть
     images:
@@ -2206,6 +2265,8 @@ ru:
         cancel: Отмена
     locations:
       show:
+        title: Редактировать профиль
+        save: Обновить профиль
         cancel: Отмена
         no home location: Вы не обозначили свое домашнее местоположение.
         update home location on click: Обновлять моё местоположение, когда я нажимаю
@@ -2256,6 +2317,9 @@ ru:
       preview: Предпросмотр
       help: Помощь
     pagination:
+      changeset_comments:
+        newer: Более новые комментарии
+        oldest: Более старые комментарии
       diary_comments:
         older: Более старые комментарии
         newer: Более новые комментарии
@@ -2337,18 +2401,59 @@ ru:
         native_link: русской версии
         mapping_link: начать картографирование
       legal_babble:
+        lead_1_html: OpenStreetMap предоставляет открытые картографические данные
+          для тысяч веб-сайтов, мобильных приложений и устройств. OpenStreetMap создан
+          сообществом таких же людей, как и вы, которые вносят и поддерживают картографические
+          данные о дорогах, тропах, кафе, железнодорожных станциях и многом другом
+          по всему миру.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} и %{get_started_mapping_link}!
+          Вы можете узнать больше на %{osm_blog_link} и подписаться на %{weeklyosm_link}.
+          Найдите других картографов в вашем местном %{osm_community_link}.
+          Поддержите проект, присоединившись к %{osm_foundation_link} и %{making_donation_link}.
         lead_2_learn_more_about_osm: Узнайте больше про OpenStreetMap
         lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/RU:%D0%9E_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5
-        licensing_1_open: открыть
-        licensing_1_odc_odbl: Лицензия Open Data Commons Open Database
+        lead_2_get_started_mapping: начните картографирование
+        lead_2_osm_blog: блоге OpenStreetMap
+        lead_2_weeklyosm: еженедельную рассылку OSM
+        lead_2_osm_community: сообществе OSM
+        lead_2_osm_foundation: фонду OSM
+        lead_2_making_donation: сделав пожертвование
+        licensing_title: Лицензирование OpenStreetMap
+        licensing_1_html: 'OpenStreetMap — это %{open} данные, лицензированные по
+          %{odc_odbl_link} (ODbL) организацией %{osm_foundation_link} (OSMF). Вкратце:'
+        licensing_1_open: открытые
+        licensing_1_odc_odbl: лицензии Open Data Commons Open Database
         licensing_1_osm_foundation: Фонд OpenStreetMap
+        licensing_2_html: Вы можете свободно копировать, распространять, передавать
+          и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap
+          и его участников. Если вы изменяете или берёте наши данные за основу, то
+          вы должны распространять результат только по такой же лицензии. %{legal_code_link}
+          разъясняет ваши права и обязанности.
+        licensing_2_legal_code: Полный юридический текст на сайте Open Data Commons
+        licensing_3_html: Наша документация распространяется по %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: лицензии Creative Commons Attribution-ShareAlike
+          2.0
+        licensing_4_html: Подробнее об использовании наших данных читайте на %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: странице лицензии OSMF
         credit_title_html: Как сослаться на OpenStreetMap
         credit_1_html: 'Если вы используете данные OpenStreetMap, вы должны выполнить
           следующие два условия:'
+        credit_2_attribution: Отдайте должное OpenStreetMap, поместив наше уведомление
+          об авторских правах.
         credit_2_license: Дайте понять, что данные доступны по лицензии открытой базы
           данных.
+        credit_3_v2025_html: '%{requirements_on_how_displayed_link} уведомления об
+          атрибуции различаются в зависимости от того, как вы используете наши данные.
+          Например, правила отображения уведомления об атрибуции различаются в зависимости
+          от того, создали ли вы карту для просмотра, печатную карту или статическое
+          изображение. Подробнее см. в разделе %{attribution_guidelines_link} %{licensing_requirements_link}.'
+        credit_3_v2025_requirements_on_how_displayed: Требования к отображению
         credit_3_v2025_attribution_guidelines: руководство по атрибуции
+        credit_3_v2025_licensing_requirements: требований к лицензированию
         credit_4_v2025_this_copyright_page: эту страницу об авторских правах
+        credit_5_v2025_html: 'В этом примере атрибут отображается в углу карты:'
         attribution_example:
           alt: Пример того, как сослаться на OpenStreetMap с веб-страницы
           title: Пример указания авторства
@@ -2567,7 +2672,11 @@ ru:
       para_1: Если нужно сделать небольшое уточнение, ради которого слишком долго
         регистрироваться и изучать правила правки, можно просто добавить заметку на
         карту.
-      the_map: карта
+      para_2_html: |-
+        Просто нажмите %{note_icon} или тот же значок на %{map_link}.
+        Это добавит маркер на карту, который вы сможете перемещать.
+        Добавьте свое сообщение, и другие картографы изучат его.
+      the_map: карте
     communities:
       title: Сообщества
       lede_text: "Люди со всего мира вносят свой вклад или используют OpenStreetMap.\nНесмотря
@@ -2687,6 +2796,7 @@ ru:
         bicycle_parking: Парковка для велосипедов
         bicycle_parking_small: Небольшая велопарковка
         toilets: Туалет
+      see_external_legend: См. внешнюю легенду карты
   share_panes:
     show:
       link: Ссылка или HTML
@@ -2973,6 +3083,7 @@ ru:
       edits: Правки
       traces: Треки
       notes: Заметки
+      follow: Подписаться
       mapper since: 'Зарегистрирован:'
       last map edit: Последняя правка карты
       no activity yet: Пока нет активности
@@ -2997,6 +3108,7 @@ ru:
       delete_user: Удалить этого пользователя
       confirm: Подтвердить
       report: Сообщить об этом пользователе
+      edit_profile_details: Редактировать данные профиля
     sidebar_section:
       company: Компания
     go_public:
@@ -3015,6 +3127,7 @@ ru:
       show:
         title: Пользователи
         heading: Пользователи
+        select_status: Выберите статус
         states:
           pending: В ожидании
           active: Активен
@@ -3224,6 +3337,8 @@ ru:
       title: Заметки, созданные или прокомментированный участником %{user}
       heading: Заметки участника %{user}
       subheading_html: Заметки %{submitted} или %{commented} участником %{user}
+      subheading_submitted: отправленные
+      subheading_commented: прокомментированные
       no_notes: Нет заметок
       id: Идентификатор
       creator: Автор
@@ -3276,8 +3391,19 @@ ru:
         и напечатайте сообщение, объясняющее проблему.
       anonymous_warning_log_in: войти
       anonymous_warning_sign_up: зарегистрироваться
+      counter_warning_html: Вы уже опубликовали как минимум %{x_anonymous_notes},
+        это здорово для сообщества, спасибо! Теперь мы призываем вас %{contribute_by_yourself}
+        — это не так уж сложно, и %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} анонимную заметку'
+        few: '%{count} анонимных заметки'
+        many: '%{count} анонимных заметок'
+        other: '%{count} анонимных заметок '
       counter_warning_guide_link:
+        text: внести свой вклад самостоятельно
         url: https://wiki.openstreetmap.org/wiki/RU:%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BA%D0%B0
+      counter_warning_forum_link:
+        text: сообщество может вам помочь
       advice: Ваша заметка является общедоступной и может использоваться для обновления
         карты, поэтому не вводите личную информацию, информацию из защищённых авторскими
         правами карт или справочников.
