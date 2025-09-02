@@ -273,10 +273,8 @@ describe("OSM", function () {
       let args = { center: L.latLng(57.6247, -3.6845), zoom: 5 };
       expect(OSM.formatHash(args)).to.eq("#map=5/57.62/-3.68");
 
-
       args = { center: L.latLng(57.6247, -3.6845), zoom: 9 };
       expect(OSM.formatHash(args)).to.eq("#map=9/57.625/-3.685");
-
 
       args = { center: L.latLng(57.6247, -3.6845), zoom: 12 };
       expect(OSM.formatHash(args)).to.eq("#map=12/57.6247/-3.6845");
@@ -292,7 +290,6 @@ describe("OSM", function () {
       expect(OSM.formatHash(args)).to.eq("#map=9/57.625/-3.685");
     });
   });
-
 
   describe(".zoomPrecision", function () {
     it("suggests 1 digit for z0-2", function () {

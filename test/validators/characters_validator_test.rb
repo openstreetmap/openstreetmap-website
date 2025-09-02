@@ -2,12 +2,14 @@ require "test_helper"
 
 class InvalidCharsValidatable
   include ActiveModel::Validations
+
   validates :chars, :characters => true
   attr_accessor :chars
 end
 
 class InvalidUrlCharsValidatable
   include ActiveModel::Validations
+
   validates :chars, :characters => { :url_safe => true }
   attr_accessor :chars
 end

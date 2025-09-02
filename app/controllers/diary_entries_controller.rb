@@ -2,7 +2,7 @@ class DiaryEntriesController < ApplicationController
   include UserMethods
   include PaginationMethods
 
-  layout "site", :except => :rss
+  layout :site_layout, :except => :rss
 
   before_action :authorize_web
   before_action :set_locale
@@ -17,31 +17,23 @@ class DiaryEntriesController < ApplicationController
 
   def index
     if params[:display_name]
-      @user = User.active.find_by(:display_name => params[:display_name])
+      lookup_user
+      return unless @user
 
-      if @user
-        @title = t ".user_title", :user => @user.display_name
-        entries = @user.diary_entries
-      else
-        render_unknown_user params[:display_name]
-        return
-      end
+      @title = t ".user_title", :user => @user.display_name
+      entries = @user.diary_entries
     elsif params[:friends]
-      if current_user
-        @title = t ".title_followed"
-        entries = DiaryEntry.where(:user => current_user.followings)
-      else
-        require_user
-        return
-      end
+      require_user
+      return unless current_user
+
+      @title = t ".title_followed"
+      entries = DiaryEntry.where(:user => current_user.followings)
     elsif params[:nearby]
-      if current_user
-        @title = t ".title_nearby"
-        entries = DiaryEntry.where(:user => current_user.nearby)
-      else
-        require_user
-        return
-      end
+      require_user
+      return unless current_user
+
+      @title = t ".title_nearby"
+      entries = DiaryEntry.where(:user => current_user.nearby)
     else
       entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
@@ -60,8 +52,6 @@ class DiaryEntriesController < ApplicationController
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
     @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, :includes => [:user, :language])
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
@@ -190,7 +180,7 @@ class DiaryEntriesController < ApplicationController
         @link = url_for :action => "index", :host => Settings.server_url, :protocol => Settings.server_protocol
       end
     end
-    @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
+    @entries = @entries.visible.includes(:user).order(:created_at => :desc).limit(20)
   end
 
   def hide

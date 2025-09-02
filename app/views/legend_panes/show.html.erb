@@ -1,0 +1,27 @@
+<div id="legend" class="p-3">
+  <table class="table table-sm table-borderless mb-0 align-middle">
+    <% @legend.each do |layer_name, layer_data| %>
+      <% layer_data["entries"].each do |entry| %>
+        <%= tag.tr :data => { :layer => layer_name, :zoom_min => entry["min_zoom"], :zoom_max => entry["max_zoom"] } do %>
+          <td>
+            <% if entry["image"] %>
+              <%= image_tag "legend/#{layer_name}/#{entry['image']}", :class => "filtered-image d-block mx-auto" %>
+            <% else %>
+              <%= legend_svg_tag :class => "filtered-image d-block mx-auto", **entry %>
+            <% end %>
+          </td>
+          <td>
+            <%= entry["name"].map { |feature_name| t ".entries.#{feature_name}" }.join(" · ") %>
+          </td>
+        <% end %>
+      <% end %>
+    <% end %>
+  </table>
+  <% @legend.each do |layer_name, layer_data| %>
+    <% if layer_data["legend"] %>
+      <%= tag.div :data => { :layer => layer_name }, :class => "mt-3 text-center" do %>
+        <%= link_to t(".see_external_legend"), layer_data["legend"], :target => "_blank", :rel => "noopener" %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

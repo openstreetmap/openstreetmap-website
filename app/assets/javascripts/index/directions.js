@@ -25,15 +25,15 @@ OSM.Directions = function (map) {
   };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "MARKER_GREEN" }, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "MARKER_RED" }, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "play", color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "stop", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
   ];
 
   const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
   const modeGroup = $(".routing_modes");
-  const select = $("select.routing_engines");
+  const select = $("select#routing_engines");
 
   $(".directions_form .reverse_directions").on("click", function () {
     const coordFrom = endpoints[0].latlng,
@@ -55,7 +55,6 @@ OSM.Directions = function (map) {
 
   $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
-    $(".describe_location").toggle(!endpoints[1].value);
     $(".search_form input[name='query']").val(endpoints[1].value);
     OSM.router.route("/" + OSM.formatHash(map));
   });
@@ -72,10 +71,10 @@ OSM.Directions = function (map) {
     modeGroup
       .find("input[id]")
       .prop("disabled", function () {
-        return !modes.includes(this.id);
+        return !modes.includes(this.value);
       })
       .prop("checked", function () {
-        return this.id === chosenEngine.mode;
+        return this.value === chosenEngine.mode;
       });
 
     const providers = engines
@@ -142,7 +141,7 @@ OSM.Directions = function (map) {
   setEngine(Cookies.get("_osm_directions_engine"));
 
   modeGroup.on("change", "input[name='modes']", function (e) {
-    setEngine(chosenEngine.provider + "_" + e.target.id);
+    setEngine(chosenEngine.provider + "_" + e.target.value);
     Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
     getRoute(true, true);
   });
@@ -158,14 +157,19 @@ OSM.Directions = function (map) {
     getRoute(true, true);
   });
 
-  $(".routing_marker_column img").on("dragstart", function (e) {
+  $(".routing_marker_column span").on("dragstart", function (e) {
     const dt = e.originalEvent.dataTransfer;
     dt.effectAllowed = "move";
-    const dragData = { type: $(this).data("type") };
-    dt.setData("text", JSON.stringify(dragData));
+    const jqthis = $(this);
+    dt.setData("text", JSON.stringify(jqthis.data()));
     if (dt.setDragImage) {
-      const img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
+      const img = jqthis.clone()
+        .appendTo(document.body);
+      img.find("svg")
+        .toggleClass("position-absolute bottom-100 end-100")
+        .attr({ width: "25", height: "40" });
       dt.setDragImage(img.get(0), 12, 21);
+      setTimeout(() => img.remove(), 0);
     }
   });
 

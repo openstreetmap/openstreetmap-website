@@ -1,7 +1,7 @@
 class UserRolesController < ApplicationController
   include UserMethods
 
-  layout "site"
+  layout :site_layout
 
   before_action :authorize_web
 

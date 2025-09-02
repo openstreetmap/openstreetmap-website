@@ -1,0 +1,47 @@
+<svg width="0" height="0" class="end-100 position-absolute">
+  <defs>
+    <linearGradient id="fill" x1="0" x2="0" y1="0" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#aaa6" />
+      <stop offset="1" stop-color="#2224" />
+    </linearGradient>
+    <linearGradient id="stroke" x1="0" x2="0" y1="0" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6666" />
+      <stop offset="1" stop-color="#4448" />
+    </linearGradient>
+    <clipPath id="pin-clip">
+      <path id="pin-path" d="M12.5 40 2.94 21.6448C1.47 18.8224 0 16 0 12.5a12.5 12.5 0 0 1 25 0c0 3.5-1.47 6.3224-2.94 9.1448z" />
+    </clipPath>
+    <image id="pin-shadow" x="-1" href="<%= image_path("leaflet/dist/images/marker-shadow.png") %>" />
+
+    <% markers = {
+         "plus" => { :"stroke-linecap" => "round", :d => "M5.75 13h13.5m-6.75-6.75v13.5" },
+         "tick" => { :"stroke-linecap" => "round", :"stroke-linejoin" => "round", :fill => "none", :d => "M7.157 14.649Q8.9 16 11.22 18.761 14.7 11.7 17.843 8.239" },
+         "cross" => { :"stroke-linecap" => "round", :d => "m7.5 8 10 10m0-10-10 10" },
+         "minus" => { :"stroke-linecap" => "round", :d => "M5.75 13h13.5" },
+         "play" => { :"stroke-linejoin" => "round", :fill => "#fff", :d => "M10 17.5v-9l7 4.5z" },
+         "stop" => { :"stroke-linejoin" => "round", :fill => "#fff", :d => "M9 9.5h7v7H9z" },
+         "dot" => { :"stroke-linecap" => "round", :fill => "#fff", :d => "M11.5 10a1 1 0 0 0 2 5 1 1 0 0 0-2-5" }
+       } %>
+
+    <% types.filter { |type| markers[type] }.each do |type| %>
+      <path id="<%= type %>-path" <%= tag.attributes(markers[type]) %> />
+      <g id="pin-<%= type %>" clip-path="url(#pin-clip)">
+        <use href="#pin-path" fill="currentColor" />
+        <use href="#pin-path" fill="url(#fill)" />
+        <g stroke="#fff" opacity="0.122">
+          <use href="#pin-path" fill="none" stroke-width="4.4" />
+          <use href="#<%= type %>-path" stroke-width="7.2" />
+        </g>
+        <g stroke="currentColor">
+          <use href="#pin-path" fill="none" stroke-width="2.2" />
+          <use href="#<%= type %>-path" stroke-width="5" />
+        </g>
+        <g stroke="url(#stroke)">
+          <use href="#pin-path" fill="none" stroke-width="2.2" />
+          <use href="#<%= type %>-path" stroke-width="5" />
+        </g>
+        <use href="#<%= type %>-path" stroke="#fff" stroke-width="2.8" />
+      </g>
+    <% end %>
+  </defs>
+</svg>

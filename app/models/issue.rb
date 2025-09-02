@@ -58,6 +58,7 @@ class Issue < ApplicationRecord
   end
 
   include AASM
+
   aasm :column => :status, :no_direct_assignment => true do
     state :open, :initial => true
     state :ignored

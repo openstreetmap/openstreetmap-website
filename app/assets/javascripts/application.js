@@ -8,6 +8,8 @@
 //= require maplibre-gl
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
+//= require leaflet.shortbread
+//= require leaflet.maptiler
 //= require @maplibre/maplibre-gl-leaflet
 //= require ohm.style
 //= require leaflet-ohm-timeslider.js
@@ -63,7 +65,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function (index, link) {
     let href = link.href.split(/[?#]/)[0];
     const queryArgs = new URLSearchParams(link.search),
-      editlink = $(link).hasClass("editlink");
+          editlink = $(link).hasClass("editlink");
 
     for (const arg of ["node", "way", "relation", "changeset", "note"]) {
       queryArgs.delete(arg);
@@ -108,11 +110,10 @@ $(function () {
   Turbo.session.drive = false;
 
   const $expandedSecondaryMenu = $("header nav.secondary > ul"),
-    $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
-    secondaryMenuItems = [],
-    breakpointWidth = 768;
-  let moreItemWidth = 0,
-    notCollapsibleItemsWidth = 0;
+        $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
+        secondaryMenuItems = [],
+        breakpointWidth = 768;
+  let moreItemWidth = 0;
 
   OSM.csrf = {};
   OSM.csrf[($("meta[name=csrf-param]").attr("content"))] = $("meta[name=csrf-token]").attr("content");
@@ -129,9 +130,9 @@ $(function () {
       secondaryMenuItems.forEach(function (item) {
         $(item[0]).remove();
       });
-      let runningWidth = notCollapsibleItemsWidth,
-        i = 0,
-        requiredWidth;
+      let runningWidth = 0,
+          i = 0,
+          requiredWidth;
       for (; i < secondaryMenuItems.length; i++) {
         runningWidth += secondaryMenuItems[i][1];
         if (i < secondaryMenuItems.length - 1) {
@@ -188,14 +189,10 @@ $(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav):not(.not-collapsible)").each(function () {
+    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
       secondaryMenuItems.push([this, $(this).width()]);
     });
     moreItemWidth = $("#compact-secondary-nav").width();
-    notCollapsibleItemsWidth = $expandedSecondaryMenu
-      .find("li.not-collapsible")
-      .toArray()
-      .reduce((accWidth, item) => accWidth + $(item).outerWidth(), 0);
 
     updateHeader();
 

@@ -1,7 +1,7 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
 //= depend_on layers.yml
-//= depend_on key.yml
+//= depend_on legend.yml
 
 OSM = {
   ...<%=
@@ -20,6 +20,8 @@ OSM = {
       graphhopper_url
       fossgis_osrm_url
       fossgis_valhalla_url
+      wikidata_api_url
+      wikimedia_commons_url
     ]
       .each_with_object({}) do |key, hash|
         hash[key.to_s.upcase] = Settings.send(key) if Settings.respond_to?(key)
@@ -28,19 +30,9 @@ OSM = {
 
   DEFAULT_LOCALE: <%= I18n.default_locale.to_json %>,
 
-  LAYER_DEFINITIONS: <%= MapLayers::full_definitions("config/layers.yml", :legends => "config/key.yml").to_json %>,
+  LAYER_DEFINITIONS: <%= MapLayers::full_definitions("config/layers.yml", :legends => "config/legend.yml").to_json %>,
 
-  MARKER_BLUE: <%= image_path("marker-blue.png").to_json %>,
-  MARKER_GREEN: <%= image_path("marker-green.png").to_json %>,
-  MARKER_RED: <%= image_path("marker-red.png").to_json %>,
-
-  MARKER_ICON: <%= image_path("leaflet/dist/images/marker-icon.png").to_json %>,
-  MARKER_ICON_2X: <%= image_path("leaflet/dist/images/marker-icon-2x.png").to_json %>,
-  MARKER_SHADOW: <%= image_path("leaflet/dist/images/marker-shadow.png").to_json %>,
-
-  NEW_NOTE_MARKER: <%= image_path("new_note_marker.svg").to_json %>,
-  OPEN_NOTE_MARKER: <%= image_path("open_note_marker.svg").to_json %>,
-  CLOSED_NOTE_MARKER: <%= image_path("closed_note_marker.svg").to_json %>,
+  RTL_TEXT_PLUGIN: <%= javascript_path("@mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js").to_json %>,
 
   apiUrl: function (object) {
     const apiType = object.type === "note" ? "notes" : object.type;
@@ -258,5 +250,14 @@ OSM = {
     const zoom = map.getZoom(),
       center = OSM.cropLocation(map.getCenter(), zoom).reverse();
     return [...center, zoom, map.getLayersCode()].join("|");
+  },
+
+  showAlert: function (title, message) {
+    const modalTitle = document.getElementById("osm_alert_title");
+    modalTitle.textContent = title;
+    const modalBody = document.getElementById("osm_alert_message");
+    modalBody.textContent = message;
+    const alertModal = new bootstrap.Modal(document.getElementById("osm_alert_modal"));
+    alertModal.show();
   }
 };

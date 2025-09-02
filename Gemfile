@@ -4,9 +4,6 @@ source "https://rubygems.org"
 gem "rails", "~> 8.0.0"
 gem "turbo-rails"
 
-# Require json for multi_json
-gem "json"
-
 # Use postgres as the database
 gem "pg"
 
@@ -45,9 +42,6 @@ gem "argon2"
 # Support brotli compression for assets
 gem "sprockets-exporters_pack"
 
-# Restore File.exists? for oauth gem
-gem "file_exists"
-
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
@@ -76,9 +70,8 @@ gem "quad_tile", "~> 1.0.1"
 gem "addressable", "~> 2.8"
 gem "rack-uri_sanitizer"
 
-# Omniauth for authentication
-gem "multi_json"
 gem "omniauth", "~> 2.1.3"
+gem "omniauth-apple"
 gem "omniauth-facebook"
 gem "omniauth-github"
 gem "omniauth-google-oauth2", ">= 0.6.0"
@@ -136,6 +129,9 @@ gem "aws-sdk-s3"
 
 # Used to resize user images
 gem "image_processing"
+
+# Used to manage svg files
+gem "inline_svg"
 
 # Used to validate widths
 gem "unicode-display_width"

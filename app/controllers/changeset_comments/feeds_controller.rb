@@ -25,7 +25,7 @@ module ChangesetComments
         @comments = query_limit(@comments)
       else
         # Return comments
-        @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC")
+        @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order(:created_at => :desc)
         @comments = query_limit(@comments)
         @comments = @comments.preload(:changeset)
       end

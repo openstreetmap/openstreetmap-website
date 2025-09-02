@@ -1,0 +1,25 @@
+<ul class="select_language_list list-unstyled column-gap-0">
+  <% AVAILABLE_LANGUAGES.each do |language| %>
+    <li>
+      <%= link_to({ :locale => language[:code] },
+                  { :class => ["btn btn-link text-start",
+                               { "bg-body-secondary text-secondary-emphasis" => language[:code] == I18n.locale.to_s }],
+                    :data => { :bs_dismiss => "modal",
+                               :language_code => language[:code] } }) do %>
+        <span class="native_name d-block">
+          <% if language[:short_native_name] %>
+            <%= language[:short_native_name] %>
+            <% if language[:short_native_note] %>
+              <small>(<%= language[:short_native_note] %>)</small>
+            <% end %>
+          <% else %>
+            <%= language[:native_name] %>
+          <% end %>
+        </span>
+        <small lang="en" class="english_name d-block text-secondary">
+          <%= language[:english_name] %>
+        </small>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

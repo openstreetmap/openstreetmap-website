@@ -81,7 +81,7 @@ OSM.Note = function (map) {
         type: "note",
         id: parseInt(id, 10),
         latLng: L.latLng(data.coordinates.split(",")),
-        icon: OSM.getMarker({ icon: `${data.status}_NOTE_MARKER`, shadow: false, height: 40 })
+        icon: OSM.noteMarkers[data.status]
       }, function () {
         if (!hashParams.center && !skipMoveToNote) {
           const latLng = L.latLng(data.coordinates.split(","));

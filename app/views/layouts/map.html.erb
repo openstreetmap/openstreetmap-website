@@ -5,12 +5,12 @@
 <% content_for(:body_class) { "map-layout" } %>
 
 <% content_for :header do %>
-  <%= render :partial => "layouts/search", :locals => { :autofocus => false } %>
+  <%= render :partial => "layouts/search", :locals => { :autofocus => false, :extra_classes => ["d-md-none"] } %>
 <% end %>
 
 <% content_for :content do %>
   <div id="sidebar" class="bg-body z-1">
-    <%= render :partial => "layouts/search", :locals => { :autofocus => true } %>
+    <%= render :partial => "layouts/search", :locals => { :autofocus => true, :extra_classes => ["d-none d-md-block"] } %>
 
     <div id="flash">
       <%= render :partial => "layouts/flash" %>
@@ -51,8 +51,8 @@
     <%= render :partial => "layouts/banner" %>
   </div>
 
-  <svg class="d-none"><defs><%= render :partial => "layouts/control_icons",
-                                       :locals => { :icons => %w[zoomin zoomout geolocate layers key share note query] } %></defs></svg>
+  <%= render :partial => "layouts/control_icons" %>
+  <%= render :partial => "layouts/markers", :locals => { :types => %w[dot cross tick plus play stop] } %>
 
   <noscript>
     <div class="mt-5 p-3">

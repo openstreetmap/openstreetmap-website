@@ -11,11 +11,12 @@ jobs:
   rubocop:
     name: RuboCop
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@efbf473cab83af4468e8606cc33eca9281bb213f # v1.256.0
       with:
         ruby-version: ${{ env.ruby }}
         rubygems: 3.4.10
@@ -25,11 +26,12 @@ jobs:
   erblint:
     name: ERB Lint
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@efbf473cab83af4468e8606cc33eca9281bb213f # v1.256.0
       with:
         ruby-version: ${{ env.ruby }}
         rubygems: 3.4.10
@@ -39,17 +41,18 @@ jobs:
   eslint:
     name: ESLint
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@efbf473cab83af4468e8606cc33eca9281bb213f # v1.256.0
       with:
         ruby-version: ${{ env.ruby }}
         rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
       with:
         cache: yarn
     - name: Install node modules
@@ -61,11 +64,12 @@ jobs:
   brakeman:
     name: Brakeman
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@efbf473cab83af4468e8606cc33eca9281bb213f # v1.256.0
       with:
         ruby-version: ${{ env.ruby }}
         rubygems: 3.4.10
@@ -77,11 +81,12 @@ jobs:
       RAILS_ENV: test
     name: Rails Annotate Models
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@efbf473cab83af4468e8606cc33eca9281bb213f # v1.256.0
       with:
         ruby-version: ${{ env.ruby }}
         rubygems: 3.4.10
@@ -90,6 +95,12 @@ jobs:
       run: |
         cp config/github.database.yml config/database.yml
         cp config/example.storage.yml config/storage.yml
+    - name: Cache node modules
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bundle exec bin/yarn install
     - name: Setup database
       run: |
         sudo systemctl start postgresql

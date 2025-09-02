@@ -4,7 +4,7 @@ class ChangesetsController < ApplicationController
   include UserMethods
   include PaginationMethods
 
-  layout "site"
+  layout :site_layout
 
   before_action :authorize_web
   before_action :set_locale
@@ -14,6 +14,8 @@ class ChangesetsController < ApplicationController
   authorize_resource
 
   around_action :web_timeout
+
+  ELEMENTS_PER_PAGE = 20
 
   ##
   # list non-empty changesets in reverse chronological order
@@ -81,23 +83,23 @@ class ChangesetsController < ApplicationController
     @changeset = Changeset.find(params[:id])
     case turbo_frame_request_id
     when "changeset_nodes"
-      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
-      render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages }
+      load_nodes
+      render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :elements_count => @nodes_count, :current_page => @current_node_page }
     when "changeset_ways"
-      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
-      render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages }
+      load_ways
+      render :partial => "elements", :locals => { :type => "way", :elements => @ways, :elements_count => @ways_count, :current_page => @current_way_page }
     when "changeset_relations"
-      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
-      render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages }
+      load_relations
+      render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :elements_count => @relations_count, :current_page => @current_relation_page }
     else
       @comments = if current_user&.moderator?
                     @changeset.comments.unscope(:where => :visible).includes(:author)
                   else
                     @changeset.comments.includes(:author)
                   end
-      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :order => [:node_id, :version], :per_page => 20, :parameter => "node_page")
-      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :order => [:way_id, :version], :per_page => 20, :parameter => "way_page")
-      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :order => [:relation_id, :version], :per_page => 20, :parameter => "relation_page")
+      load_nodes
+      load_ways
+      load_relations
       if @changeset.user.active? && @changeset.user.data_public?
         changesets = conditions_nonempty(@changeset.user.changesets)
         @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
@@ -152,5 +154,42 @@ class ChangesetsController < ApplicationController
   # this should be applied to all changeset list displays
   def conditions_nonempty(changesets)
     changesets.where("num_changes > 0")
+  end
+
+  def load_nodes
+    @nodes_count = @changeset.actual_num_changed_nodes
+    @current_node_page = params[:node_page].to_i.clamp(1, element_pages_count(@nodes_count))
+    @nodes = @changeset.old_nodes
+                       .order(:node_id, :version)
+                       .offset(ELEMENTS_PER_PAGE * (@current_node_page - 1))
+                       .limit(ELEMENTS_PER_PAGE)
+  end
+
+  def load_ways
+    @ways_count = @changeset.actual_num_changed_ways
+    @current_way_page = params[:way_page].to_i.clamp(1, element_pages_count(@ways_count))
+    @ways = @changeset.old_ways
+                      .order(:way_id, :version)
+                      .offset(ELEMENTS_PER_PAGE * (@current_way_page - 1))
+                      .limit(ELEMENTS_PER_PAGE)
+  end
+
+  def load_relations
+    @relations_count = @changeset.actual_num_changed_relations
+    @current_relation_page = params[:relation_page].to_i.clamp(1, element_pages_count(@relations_count))
+    @relations = @changeset.old_relations
+                           .order(:relation_id, :version)
+                           .offset(ELEMENTS_PER_PAGE * (@current_relation_page - 1))
+                           .limit(ELEMENTS_PER_PAGE)
+  end
+
+  helper_method def element_pages_count(elements_count)
+    [1, 1 + ((elements_count - 1) / ELEMENTS_PER_PAGE)].max
+  end
+
+  helper_method def element_range_values(elements_count, page)
+    { :x => (ELEMENTS_PER_PAGE * (page - 1)) + 1,
+      :y => [ELEMENTS_PER_PAGE * page, elements_count].min,
+      :count => elements_count }
   end
 end

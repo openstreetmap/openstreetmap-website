@@ -120,7 +120,6 @@ L.OSM.Map = L.Map.extend({
       this.fire("overlayremove", { layer: this.gpsLayer });
     });
 
-
     this.on("baselayerchange", function (event) {
       if (this.baseLayers.indexOf(event.layer) >= 0) {
         this.setMaxZoom(event.layer.options.maxZoom);
@@ -449,23 +448,6 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-L.Icon.Default.imagePath = "/images/";
-
-L.Icon.Default.imageUrls = {
-  "/images/marker-icon.png": OSM.MARKER_ICON,
-  "/images/marker-icon-2x.png": OSM.MARKER_ICON_2X,
-  "/images/marker-shadow.png": OSM.MARKER_SHADOW
-};
-
-L.extend(L.Icon.Default.prototype, {
-  _oldGetIconUrl: L.Icon.Default.prototype._getIconUrl,
-
-  _getIconUrl: function (name) {
-    const url = this._oldGetIconUrl(name);
-    return L.Icon.Default.imageUrls[url];
-  }
-});
-
 OSM.isDarkMap = function () {
   const mapTheme = $("body").attr("data-map-theme");
   if (mapTheme) return mapTheme === "dark";
@@ -474,17 +456,19 @@ OSM.isDarkMap = function () {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-OSM.getMarker = function ({ icon = "MARKER_RED", shadow = true, height = 41 }) {
-  const options = {
-    iconUrl: OSM[icon.toUpperCase()] || OSM.MARKER_RED,
-    iconSize: [25, height],
-    iconAnchor: [12, height],
+OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
+  const html = `<svg viewBox="0 0 25 40" class="pe-none" overflow="visible"><use href="#pin-shadow" /><use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
+  return L.divIcon({
+    ...options,
+    html,
+    iconSize: [25, 40],
+    iconAnchor: [12.5, 40],
     popupAnchor: [1, -34]
-  };
-  if (shadow) {
-    options.shadowUrl = OSM.MARKER_SHADOW;
-    options.shadowSize = [41, 41];
-    options.shadowAnchor = [12, 41];
-  }
-  return L.icon(options);
+  });
+};
+
+OSM.noteMarkers = {
+  "closed": OSM.getMarker({ icon: "tick", color: "var(--marker-green)" }),
+  "new": OSM.getMarker({ icon: "plus", color: "var(--marker-blue)" }),
+  "open": OSM.getMarker({ icon: "cross", color: "var(--marker-red)" })
 };

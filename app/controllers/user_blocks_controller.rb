@@ -2,7 +2,7 @@ class UserBlocksController < ApplicationController
   include UserMethods
   include PaginationMethods
 
-  layout "site"
+  layout :site_layout
 
   before_action :authorize_web
   before_action :set_locale
@@ -24,8 +24,6 @@ class UserBlocksController < ApplicationController
 
     @show_user_name = true
     @show_creator_name = true
-
-    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show

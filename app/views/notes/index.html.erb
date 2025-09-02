@@ -26,6 +26,8 @@
 <% else %>
   <%= render :partial => "notes_paging_nav" %>
 
+  <%= render :partial => "layouts/markers", :locals => { :types => %w[cross tick minus] } %>
+
   <table class="table table-sm note_list">
     <thead>
       <tr>
@@ -40,11 +42,19 @@
   <% @notes.each do |note| -%>
     <tr<% if note.author == @user %> class="table-primary"<% end %>>
       <td>
-        <% if note.closed? %>
-          <%= image_tag("closed_note_marker.svg", :alt => "closed", :width => 25, :height => 40) %>
-        <% else %>
-          <%= image_tag("open_note_marker.svg", :alt => "open", :width => 25, :height => 40) %>
-        <% end %>
+        <% if !note.visible?
+             alt_text_key = ".hidden"
+             pin_marker = tag.use :href => "#pin-minus", :color => "gray"
+           elsif note.closed?
+             alt_text_key = ".closed"
+             pin_marker = tag.use :href => "#pin-tick", :color => "var(--marker-green)"
+           else
+             alt_text_key = ".open"
+             pin_marker = tag.use :href => "#pin-cross", :color => "var(--marker-red)"
+           end %>
+        <svg width="25" height="40" alt="<%= t alt_text_key %>">
+          <%= pin_marker %>
+        </svg>
       </td>
       <td><%= link_to note.id, note %></td>
       <td><%= note_author(note.author) %></td>

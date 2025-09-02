@@ -56,10 +56,4 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     assert_not_predicate issue, :resolved?
     assert_predicate issue, :open?
   end
-
-  def test_missing_report_params
-    sign_in_as(create(:user))
-    visit new_report_path
-    assert_content I18n.t("reports.new.missing_params")
-  end
 end

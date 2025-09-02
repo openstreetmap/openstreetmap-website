@@ -109,8 +109,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, cha
       delete endpoint.geocodeRequest;
       if (json.length === 0) {
         input.addClass("is-invalid");
-        // eslint-disable-next-line no-alert
-        alert(OSM.i18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
+        OSM.showAlert(OSM.i18n.t("javascripts.directions.errors.no_place.title"),
+                      OSM.i18n.t("javascripts.directions.errors.no_place.body", { place: endpoint.value }));
         return;
       }
 

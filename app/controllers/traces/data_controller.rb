@@ -1,6 +1,6 @@
 module Traces
   class DataController < ApplicationController
-    layout "site"
+    layout :site_layout
 
     before_action :authorize_web
     before_action :set_locale
@@ -14,7 +14,7 @@ module Traces
       trace = Trace.visible.find(params[:trace_id])
 
       if trace.public? || (current_user && current_user == trace.user)
-        if Acl.no_trace_download(request.remote_ip)
+        if Acl.no_trace_download?(request.remote_ip)
           head :forbidden
         elsif request.format == Mime[:xml]
           send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")

@@ -2,12 +2,14 @@ require "test_helper"
 
 class LeadingWhitespaceValidatable
   include ActiveModel::Validations
+
   validates :string, :whitespace => { :leading => false }
   attr_accessor :string
 end
 
 class TrailingWhitespaceValidatable
   include ActiveModel::Validations
+
   validates :string, :whitespace => { :trailing => false }
   attr_accessor :string
 end

@@ -22,7 +22,7 @@
   <div class="mb-3">
     <% [%w[france FR], %w[italy IT], %w[rest_of_world GB]].each do |name, legale| %>
       <div class="form-check form-check-inline">
-        <%= radio_button_tag "legale", legale, @legale == legale, :data => { :url => url_for(:legale => legale) }, :class => "form-check-input" %>
+        <%= radio_button_tag "legale", legale, @text_legale == legale, :data => { :url => url_for(:legale => legale) }, :class => "form-check-input" %>
         <label for="legale_<%= legale %>" class="form-check-label">
           <%= t(".legale_names.#{name}") %>
         </label>
@@ -55,7 +55,7 @@
   <h4>
     <%= t "layouts.tou" %>
   </h4>
-  <p class="text-body-secondary"><%= t ".tou_explain_html", :tou_link => link_to(t("layouts.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
+  <p class="text-body-secondary"><%= t ".tou_explain.html", :tou_link => link_to(t(".tou_explain.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
 
   <div class="mb-3">
     <div class="form-check">

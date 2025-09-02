@@ -1,0 +1,84 @@
+<div class="share-link p-3 border-bottom border-secondary-subtle">
+  <h4><%= t ".link" %></h4>
+  <form>
+    <div class="form-check mb-3">
+      <%= label_tag "link_marker", t(".include_marker"), :class => "form-check-label" %>
+      <%= check_box_tag "link_marker", nil, :class => "form-check-input" %>
+    </div>
+    <div class="btn-group btn-group-sm mb-2 nav nav-pills" id="nav-tab" role="tablist">
+      <a class="btn btn-primary flex-grow-0 active" id="long_link" data-bs-toggle="tab" data-bs-target="#nav-long-link" type="button" role="tab" aria-controls="nav-long-link" aria-selected="true"><%= t ".long_link" %></a>
+      <a class="btn btn-primary flex-grow-0" id="short_link" data-bs-toggle="tab" data-bs-target="#nav-short-link" type="button" role="tab" aria-controls="nav-short-link" aria-selected="false"><%= t ".short_link" %></a>
+      <span class="btn-group btn-group-sm" tabindex="0" data-bs-title="<%= t ".embed_html_disabled" %>" data-bs-toggle="tooltip">
+        <a class="btn btn-primary" id="embed_link" data-bs-toggle="tab" data-bs-target="#nav-embed" type="button" role="tab" aria-controls="nav-embed" aria-selected="false"><%= t ".embed" %></a>
+      </span>
+    </div>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane active" id="nav-long-link" role="tabpanel" aria-labelledby="long_link">
+        <input type="text" id="long_input" class="form-control form-control-sm font-monospace" autocomplete="off" readonly />
+      </div>
+      <div class="tab-pane" id="nav-short-link" role="tabpanel" aria-labelledby="short_link">
+        <input type="text" id="short_input" class="form-control form-control-sm font-monospace" autocomplete="off" readonly />
+      </div>
+      <div class="tab-pane" id="nav-embed" role="tabpanel" aria-labelledby="embed_link">
+        <textarea id="embed_html" class="form-control form-control-sm font-monospace" readonly></textarea>
+        <p class="text-body-secondary mb-0"><%= t ".paste_html" %></p>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="share-geo-uri p-3 border-bottom border-secondary-subtle">
+  <h4><%= t ".geo_uri" %></h4>
+  <div><a id="geo_uri"></a></div>
+</div>
+<div class="share-image p-3">
+  <h4><%= t ".image" %></h4>
+  <div id="export-warning" class="text-body-secondary">
+    <%= t ".only_layers_exported_as_image" %>
+    <ul>
+      <% @downloadable_layers.each do |layer| %>
+        <li><%= t "javascripts.map.base.#{layer['nameId']}" %></li>
+      <% end %>
+    </ul>
+  </div>
+  <form id="export-image" action="/export/finish" method="post" data-turbo="true">
+    <div class="row mb-3">
+      <%= label_tag "mapnik_format", t(".format"), :class => "col-auto col-form-label" %>
+      <div class="col-auto">
+        <%= select_tag "mapnik_format",
+                       options_for_select(%w[png jpeg webp svg pdf].map { |f| [f.upcase, f] }),
+                       :class => "form-select w-auto",
+                       :required => true %>
+      </div>
+    </div>
+    <div class="row mb-3" id="mapnik_scale_row">
+      <%= label_tag "mapnik_scale", t(".scale"), :class => "col-auto col-form-label" %>
+      <div class="col-auto">
+        <div class="input-group flex-nowrap">
+          <span class="input-group-text">1 : </span>
+          <%= text_field_tag "mapnik_scale", nil, :class => "form-control", :autocomplete => "off" %>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-auto">
+        <div class="form-check">
+          <%= label_tag "image_filter", t(".custom_dimensions"), :class => "form-check-label" %>
+          <%= check_box_tag "image_filter", nil, :class => "form-check-input" %>
+        </div>
+      </div>
+    </div>
+    <% %w[minlon minlat maxlon maxlat lat lon].each do |name| %>
+      <%= hidden_field_tag "mapnik_#{name}", nil, :name => name %>
+    <% end %>
+    <% { :format => "mapnik", :zoom => 0, :width => 0, :height => 0 }.each do |name, value| %>
+      <%= hidden_field_tag "map_#{name}", value, :name => name %>
+    <% end %>
+    <input id="csrf_export" type="hidden" />
+    <p class="text-body-secondary">
+      <%= t ".image_dimensions_html",
+            **%w[layer width height]
+              .to_h { |key| [key.to_sym, content_tag(:span, "", :id => "mapnik_image_#{key}")] } %>
+    </p>
+    <%= submit_tag t(".download"), :class => "btn btn-primary", :data => { :turbo_submits_with => t(".downloading") } %>
+  </form>
+</div>

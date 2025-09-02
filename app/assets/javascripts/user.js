@@ -1,12 +1,6 @@
 //= require leaflet.locate
 //= require ./home_location_name-endpoint
 
-(function () {
-  $(document).on("change", "#user_all", function () {
-    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
-  });
-}());
-
 $(function () {
   const defaultHomeZoom = 12;
   let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
@@ -226,7 +220,7 @@ $(function () {
 
   $("input[name=legale]").change(function () {
     $("#contributorTerms").html("<div class='spinner-border' role='status'><span class='visually-hidden'>" + OSM.i18n.t("browse.start_rjs.loading") + "</span></div>");
-    fetch($(this).data("url"))
+    fetch(this.dataset.url, { headers: { "x-requested-with": "XMLHttpRequest" } })
       .then(r => r.text())
       .then(html => { $("#contributorTerms").html(html); });
   });

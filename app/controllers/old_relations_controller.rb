@@ -1,14 +1,20 @@
 class OldRelationsController < OldElementsController
   def index
     @type = "relation"
-    @feature = Relation.preload(:relation_tags, :old_relations => [:old_tags, { :changeset => [:changeset_tags, :user], :old_members => :member }]).find(params[:id])
+    @current_feature = @feature = Relation.preload(:relation_tags).find(params[:id])
+    @old_features, @newer_features_version, @older_features_version = get_page_items(
+      OldRelation.where(:relation_id => params[:id]),
+      :cursor_column => :version,
+      :includes => [:old_tags, { :changeset => [:changeset_tags, :user], :old_members => :member }]
+    )
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end
 
   def show
     @type = "relation"
-    @feature = OldRelation.preload(:old_tags, :changeset => [:changeset_tags, :user], :old_members => :member).find([params[:id], params[:version]])
+    @current_feature = Relation.find(params[:id])
+    @feature = OldRelation.preload(:old_tags, :changeset => [:changeset_tags, :user]).find([params[:id], params[:version]])
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end

@@ -190,7 +190,7 @@ module Users
     def test_show_invalid_paginated
       session_for(create(:administrator_user))
 
-      %w[-1 0 fred].each do |id|
+      %w[-1 fred].each do |id|
         get users_list_path(:before => id)
         assert_redirected_to :controller => "/errors", :action => :bad_request
 

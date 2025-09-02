@@ -1,0 +1,20 @@
+<% UserRole::ALL_ROLES.each do |role| %>
+  <% if current_user&.administrator? %>
+    <% if @user.role?(role) %>
+      <%= link_to inline_svg_tag("icons/role-star.svg", :class => "role-icon #{role}",
+                                                        :title => t(".revoke.#{role}")),
+                  user_role_path(@user, role),
+                  :method => :delete,
+                  :data => { :confirm => t(".revoke.are_you_sure", :name => @user.display_name, :role => role) } %>
+    <% else %>
+      <%= link_to inline_svg_tag("icons/role-star.svg", :class => "role-icon #{role} inactive",
+                                                        :title => t(".grant.#{role}")),
+                  user_role_path(@user, role),
+                  :method => :post,
+                  :data => { :confirm => t(".grant.are_you_sure", :name => @user.display_name, :role => role) } %>
+    <% end %>
+  <% elsif @user.role?(role) %>
+    <%= inline_svg_tag "icons/role-star.svg", :class => "role-icon #{role}",
+                                              :title => t(".title.#{role}") %>
+  <% end %>
+<% end %>

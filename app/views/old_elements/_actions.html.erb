@@ -1,10 +1,7 @@
-<div class='secondary-actions'>
-  <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
+<div class='secondary-actions mb-3'>
   <% if !@feature.redacted? %>
-    &middot;
     <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
   <% elsif current_user&.moderator? %>
-    &middot;
     <% if !params[:show_redactions] %>
       <%= link_to t(".view_redacted_data"), :params => { :show_redactions => true } %>
     <% else %>
@@ -13,20 +10,23 @@
   <% end %>
 </div>
 
-<div class='secondary-actions'>
-  <% if @feature.version > 1 %>
-    <%= link_to({ :version => @feature.version - 1 }, { :class => "icon-link" }) do %>
-      <%= previous_page_svg_tag :height => 11 %>
-      <%= "#{t('browse.version')} ##{@feature.version - 1}" %>
-    <% end %>
-    &middot;
-  <% end %>
-  <%= link_to t("browse.view_history"), :action => :index %>
-  <% unless @feature.latest_version? %>
-    &middot;
-    <%= link_to({ :version => @feature.version + 1 }, { :class => "icon-link" }) do %>
-      <%= "#{t('browse.version')} ##{@feature.version + 1}" %>
-      <%= next_page_svg_tag :height => 11 %>
-    <% end %>
-  <% end %>
-</div>
+<nav>
+  <ol class="breadcrumb mb-1">
+    <li class="breadcrumb-item">
+      <%= link_to t(@type, :scope => "browse.versions_navigation"), @current_feature %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to t("browse.versions_navigation.history"), :action => :index %>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      <a href="#versions-navigation-active-page-item" class="numbered_pagination_link py-1 px-2 rounded bg-body-secondary link-body-emphasis">
+        <%= t "browse.versions_navigation.version", :version => @feature.version %>
+      </a>
+    </li>
+  </ol>
+
+  <%= numbered_pagination(@current_feature.version, "versions-navigation-active-page-item", :active_page => @feature.version) do |v|
+        { :href => { :version => v },
+          :title => t("browse.versions_navigation.version", :version => v) }
+      end %>
+</nav>

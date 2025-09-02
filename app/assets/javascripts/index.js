@@ -1,9 +1,10 @@
 //= require_self
+//= require numbered_pagination
 //= require leaflet.sidebar
 //= require leaflet.sidebar-pane
 //= require leaflet.locate
 //= require leaflet.layers
-//= require leaflet.key
+//= require leaflet.legend
 //= require leaflet.note
 //= require leaflet.share
 //= require leaflet.polyline
@@ -21,6 +22,7 @@
 //= require index/changeset
 //= require index/query
 //= require index/home
+//= require index/element
 //= require @openhistoricalmap/map-styles/dist/ohm.styles
 //= require index/timeslider
 //= require router
@@ -126,7 +128,7 @@ $(function () {
       sidebar,
       layers: map.baseLayers
     }),
-    L.OSM.key({ position, sidebar }),
+    L.OSM.legend({ position, sidebar }),
     L.OSM.share({
       position,
       sidebar,
@@ -220,28 +222,18 @@ $(function () {
   if (params.marker && params.mrad) {
     L.circle([params.mlat, params.mlon], { radius: params.mrad }).addTo(map);
   } else if (params.marker) {
-    L.marker([params.mlat, params.mlon]).addTo(map);
+    L.marker([params.mlat, params.mlon], { icon: OSM.getMarker({ color: "var(--marker-blue)" }) }).addTo(map);
   }
-
-  $("#homeanchor").on("click", function (e) {
-    e.preventDefault();
-
-    var data = $(this).data(),
-      center = L.latLng(data.lat, data.lon);
-
-    map.setView(center, data.zoom);
-    L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
-  });
 
   function remoteEditHandler(bbox, object) {
     const remoteEditHost = "http://127.0.0.1:8111",
-      osmHost = location.protocol + "//" + location.host,
-      query = new URLSearchParams({
-        left: bbox.getWest() - 0.0001,
-        top: bbox.getNorth() + 0.0001,
-        right: bbox.getEast() + 0.0001,
-        bottom: bbox.getSouth() - 0.0001
-      });
+          osmHost = location.protocol + "//" + location.host,
+          query = new URLSearchParams({
+            left: bbox.getWest() - 0.0001,
+            top: bbox.getNorth() + 0.0001,
+            right: bbox.getEast() + 0.0001,
+            bottom: bbox.getSouth() - 0.0001
+          });
 
     if (object && object.type !== "note") query.set("select", object.type + object.id); // can't select notes
     sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + query)
@@ -252,8 +244,8 @@ $(function () {
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-alert
-        alert(OSM.i18n.t("site.index.remote_failed"));
+        OSM.showAlert(OSM.i18n.t("javascripts.remote_edit.failed.title"),
+                      OSM.i18n.t("javascripts.remote_edit.failed.body"));
       });
 
     function sendRemoteEditCommand(url) {
@@ -315,116 +307,26 @@ $(function () {
     return page;
   };
 
-  OSM.Browse = function (map, type) {
-    const page = {};
-
-    page.pushstate = page.popstate = function (path, id, version) {
-      OSM.loadSidebarContent(path, function () {
-        addObject(type, id, version);
-      });
-    };
-
-    // page.load was originally simply the addObject() call
-    // but with MBGLTimeSlider we need to wait for it to become ready
-    page.load = function (path, id, version) {
-      addObject(type, id, version, true);
-      const params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
-      addOpenHistoricalMapTimeSlider(map, params);
-    };
-
-    function addObject(type, id, version, center) {
-      // cache these now, before the URL param updating starts and messes it up
-      // is this still true? 24 June 2025
-      const hasurlparam_center = window.location.hash.indexOf('map=') !== -1;
-      const hasurlparam_daterange = window.location.hash.indexOf('daterange=') !== -1;
-
-      const hashParams = OSM.parseHash();
-      map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
-        if (!hashParams.center && bounds.isValid() &&
-          (center || !map.getBounds().contains(bounds))) {
-          OSM.router.withoutMoveListener(function () {
-            map.fitBounds(bounds);
-          });
-        }
-
-        var drawing = map._objectLayer.getLayers()[0];
-        if (drawing && map.timeslider && ! hasurlparam_daterange) {
-          var startdate = drawing.feature.tags.start_date && ! isNaN(parseInt(drawing.feature.tags.start_date)) ? drawing.feature.tags.start_date : undefined;
-          var enddate = drawing.feature.tags.end_date && ! isNaN(parseInt(drawing.feature.tags.end_date)) ? drawing.feature.tags.end_date : undefined;
-
-          if (startdate && enddate) {
-            map.timeslider.setDate(startdate).setRange([startdate, enddate]);
-          }
-          else if (startdate) {
-            map.timeslider.setDate(startdate).setRangeLower(startdate);
-          }
-          else if (enddate) {
-            map.timeslider.setDate(enddate).setRangeUpper(enddate);
-          }
-        }
-      });
-
-      addOpenHistoricalMapInspector()
-
-      $(".colour-preview-box").each(function () {
-        $(this).css("background-color", $(this).data("colour"));
-      });
-    }
-
-    page.unload = function () {
-      map.removeObject();
-    };
-
-    return page;
-  };
-
-  OSM.OldBrowse = function () {
-    const page = {};
-
-    page.pushstate = page.popstate = function (path) {
-      OSM.loadSidebarContent(path);
-    };
-
-    return page;
-  };
-
-  // add the enhanced inspector
-  function addOpenHistoricalMapInspector () {
-    var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
-      debug: true,
-      onFeatureFail: function (type, id) {
-        console.log([ 'failed to load feature', type, id ]);
-      },
-      onFeatureLoaded: function (type, id, xmldoc) {
-        console.log([ 'loaded feature', type, id, xmldoc ]);
-      },
-      apiBaseUrl: "/api",  // no trailing /
-    });
-    inspector.selectFeatureFromUrl();
-  }
-
-  const history = OSM.History(map);
-
   OSM.router = OSM.Router(map, {
-    "/": OSM.Index(map),
-    "/search": OSM.Search(map),
-    "/directions": OSM.Directions(map),
-    "/export": OSM.Export(map),
-    "/note/new": OSM.NewNote(map),
-    "/history/friends": history,
-    "/history/nearby": history,
-    "/history": history,
-    "/user/:display_name/history": history,
-    "/note/:id": OSM.Note(map),
-    "/node/:id(/history)": OSM.Browse(map, "node"),
-    "/node/:id/history/:version": OSM.Browse(map, "node"),
-    "/way/:id(/history)": OSM.Browse(map, "way"),
-    "/way/:id/history/:version": OSM.OldBrowse(),
-    "/relation/:id(/history)": OSM.Browse(map, "relation"),
-    "/relation/:id/history/:version": OSM.OldBrowse(),
-    "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map),
-    "/account/home": OSM.Home(map)
+    "/": OSM.Index,
+    "/search": OSM.Search,
+    "/directions": OSM.Directions,
+    "/export": OSM.Export,
+    "/note/new": OSM.NewNote,
+    "/history/friends": OSM.History,
+    "/history/nearby": OSM.History,
+    "/history": OSM.History,
+    "/user/:display_name/history": OSM.History,
+    "/note/:id": OSM.Note,
+    "/node/:id(/history)": OSM.MappedElement("node"),
+    "/node/:id/history/:version": OSM.MappedElement("node"),
+    "/way/:id(/history)": OSM.MappedElement("way"),
+    "/way/:id/history/:version": OSM.Element("way"),
+    "/relation/:id(/history)": OSM.MappedElement("relation"),
+    "/relation/:id/history/:version": OSM.Element("relation"),
+    "/changeset/:id": OSM.Changeset,
+    "/query": OSM.Query,
+    "/account/home": OSM.Home
   });
 
   if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {
@@ -450,19 +352,21 @@ $(function () {
     }
 
     // Ignore cross-protocol and cross-origin links.
-    if (location.protocol !== this.protocol || location.host !== this.host) {
+    const url = new URL($(this).attr("href"), location);
+    if (location.protocol !== url.protocol || location.host !== url.host) {
       return;
     }
 
-    if (OSM.router.route(this.pathname + this.search + this.hash)) {
+    if (OSM.router.route(url.pathname + url.search + url.hash)) {
       e.preventDefault();
-      if (this.pathname !== "/directions") {
+      if (url.pathname !== "/directions") {
         $("header").addClass("closed");
       }
     }
   });
 
   $(document).on("click", "#sidebar .sidebar-close-controls button", function () {
+    $(".search_form input[name=query]").val("");
     OSM.router.route("/" + OSM.formatHash(map));
   });
 });

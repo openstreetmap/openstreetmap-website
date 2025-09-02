@@ -111,8 +111,7 @@ class UserHelperTest < ActionView::TestCase
 
   def test_auth_button
     button = auth_button("google")
-    img_tag = "<img alt=\"Google logo\" class=\"rounded-1\" src=\"/images/auth_providers/google.svg\" width=\"36\" height=\"36\" />"
-    assert_equal("<a class=\"auth_button btn btn-outline-secondary border p-2\" title=\"Log in with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\">#{img_tag}</a>", button)
+    assert_match %r{^<a class="auth_button btn btn-outline-secondary border p-2" title="Log in with Google" rel="nofollow" data-method="post" href="/auth/google"><svg .*>.*</svg></a>$}, button
   end
 
   private

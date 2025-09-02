@@ -1,533 +1,376 @@
 require "test_helper"
 
-module Api
-  class UsersControllerTest < ActionDispatch::IntegrationTest
-    ##
-    # test all routes which lead to this controller
-    def test_routes
-      assert_routing(
-        { :path => "/api/0.6/user/1", :method => :get },
-        { :controller => "api/users", :action => "show", :id => "1" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/1.json", :method => :get },
-        { :controller => "api/users", :action => "show", :id => "1", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/details", :method => :get },
-        { :controller => "api/users", :action => "details" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/user/details.json", :method => :get },
-        { :controller => "api/users", :action => "details", :format => "json" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/users", :method => :get },
-        { :controller => "api/users", :action => "index" }
-      )
-      assert_routing(
-        { :path => "/api/0.6/users.json", :method => :get },
-        { :controller => "api/users", :action => "index", :format => "json" }
-      )
-    end
+class UsersControllerTest < ActionDispatch::IntegrationTest
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/user/new", :method => :get },
+      { :controller => "users", :action => "new" }
+    )
 
-    def test_show
-      user = create(:user,
-                    :description => "test",
-                    :terms_agreed => Date.yesterday,
-                    :home_lat => 12.1, :home_lon => 23.4,
-                    :languages => ["en"])
+    assert_routing(
+      { :path => "/user", :method => :post },
+      { :controller => "users", :action => "create" }
+    )
 
-      # check that a visible user is returned properly
-      get api_user_path(:id => user.id)
-      assert_response :success
-      assert_equal "application/xml", response.media_type
+    assert_routing(
+      { :path => "/user/go_public", :method => :post },
+      { :controller => "users", :action => "go_public" }
+    )
 
-      # check the data that is returned
-      check_xml_details(user, false, false)
+    assert_routing(
+      { :path => "/user/suspended", :method => :get },
+      { :controller => "users", :action => "suspended" }
+    )
 
-      # check that a suspended user is not returned
-      get api_user_path(:id => create(:user, :suspended).id)
-      assert_response :gone
+    assert_routing(
+      { :path => "/user/username", :method => :get },
+      { :controller => "users", :action => "show", :display_name => "username" }
+    )
+  end
 
-      # check that a deleted user is not returned
-      get api_user_path(:id => create(:user, :deleted).id)
-      assert_response :gone
+  # The user creation page loads
+  def test_new
+    get new_user_path
+    assert_redirected_to new_user_path(:cookie_test => "true")
 
-      # check that a non-existent user is not returned
-      get api_user_path(:id => 0)
-      assert_response :not_found
+    get new_user_path, :params => { :cookie_test => "true" }
+    assert_response :success
 
-      # check that a visible user is returned properly in json
-      get api_user_path(:id => user.id, :format => "json")
-      assert_response :success
-      assert_equal "application/json", response.media_type
+    assert_no_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
 
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, user, false, false)
-    end
-
-    def test_show_oauth2
-      user = create(:user,
-                    :home_lat => 12.1, :home_lon => 23.4,
-                    :languages => ["en"])
-      good_auth = bearer_authorization_header(user, :scopes => %w[read_prefs])
-      bad_auth = bearer_authorization_header(user, :scopes => %w[])
-      other_user = create(:user,
-                          :home_lat => 12.1, :home_lon => 23.4,
-                          :languages => ["en"])
-
-      # check that we can fetch our own details as XML with read_prefs
-      get api_user_path(:id => user.id), :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      check_xml_details(user, true, false)
-
-      # check that we can fetch a different user's details as XML with read_prefs
-      get api_user_path(:id => other_user.id), :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      check_xml_details(other_user, false, false)
-
-      # check that we can fetch our own details as XML without read_prefs
-      get api_user_path(:id => user.id), :headers => bad_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      check_xml_details(user, false, false)
-
-      # check that we can fetch our own details as JSON with read_prefs
-      get api_user_path(:id => user.id, :format => "json"), :headers => good_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, user, true, false)
-
-      # check that we can fetch a different user's details as JSON with read_prefs
-      get api_user_path(:id => other_user.id, :format => "json"), :headers => good_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, other_user, false, false)
-
-      # check that we can fetch our own details as JSON without read_prefs
-      get api_user_path(:id => user.id, :format => "json"), :headers => bad_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, user, false, false)
-    end
-
-    def test_details
-      user = create(:user,
-                    :description => "test",
-                    :terms_agreed => Date.yesterday,
-                    :home_lat => 12.1, :home_lon => 23.4,
-                    :languages => ["en"])
-      create(:message, :read, :recipient => user)
-      create(:message, :sender => user)
-
-      # check that nothing is returned when not logged in
-      get api_user_details_path
-      assert_response :unauthorized
-
-      # check that we get a response when logged in
-      auth_header = bearer_authorization_header user
-      get api_user_details_path, :headers => auth_header
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      check_xml_details(user, true, false)
-
-      # check that data is returned properly in json
-      auth_header = bearer_authorization_header user
-      get api_user_details_path(:format => "json"), :headers => auth_header
-      assert_response :success
-      assert_equal "application/json", response.media_type
-
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, user, true, false)
-    end
-
-    def test_details_oauth2
-      user = create(:user,
-                    :home_lat => 12.1, :home_lon => 23.4,
-                    :languages => ["en"])
-      good_auth = bearer_authorization_header(user, :scopes => %w[read_prefs])
-      bad_auth = bearer_authorization_header(user, :scopes => %w[])
-      email_auth = bearer_authorization_header(user, :scopes => %w[read_prefs read_email])
-
-      # check that we can't fetch details as XML without read_prefs
-      get api_user_details_path, :headers => bad_auth
-      assert_response :forbidden
-
-      # check that we can fetch details as XML without read_email
-      get api_user_details_path, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      check_xml_details(user, true, false)
-
-      # check that we can fetch details as XML with read_email
-      get api_user_details_path, :headers => email_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-
-      # check the data that is returned
-      check_xml_details(user, true, true)
-
-      # check that we can't fetch details as JSON without read_prefs
-      get api_user_details_path(:format => "json"), :headers => bad_auth
-      assert_response :forbidden
-
-      # check that we can fetch details as JSON without read_email
-      get api_user_details_path(:format => "json"), :headers => good_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, user, true, false)
-
-      # check that we can fetch details as JSON with read_email
-      get api_user_details_path(:format => "json"), :headers => email_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-
-      # parse the response
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-
-      # check the data that is returned
-      check_json_details(js, user, true, true)
-    end
-
-    def test_index
-      user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
-      user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
-      user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
-
-      get api_users_path, :params => { :users => user1.id }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 1 do
-        check_xml_details(user1, false, false)
-        assert_select "user[id='#{user2.id}']", :count => 0
-        assert_select "user[id='#{user3.id}']", :count => 0
+    assert_select "html", :count => 1 do
+      assert_select "head", :count => 1 do
+        assert_select "title", :text => /Sign Up/, :count => 1
       end
-
-      get api_users_path, :params => { :users => user2.id }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 1 do
-        assert_select "user[id='#{user1.id}']", :count => 0
-        check_xml_details(user2, false, false)
-        assert_select "user[id='#{user3.id}']", :count => 0
-      end
-
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 2 do
-        check_xml_details(user1, false, false)
-        assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false, false)
-      end
-
-      get api_users_path, :params => { :users => user1.id, :format => "json" }
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user1, false, false)
-
-      get api_users_path, :params => { :users => user2.id, :format => "json" }
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user2, false, false)
-
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, false, false)
-      check_json_details(js["users"][1], user3, false, false)
-
-      get api_users_path, :params => { :users => create(:user, :suspended).id }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
-
-      get api_users_path, :params => { :users => create(:user, :deleted).id }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
-
-      get api_users_path, :params => { :users => 0 }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
-    end
-
-    def test_index_oauth2
-      user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
-      user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
-      user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
-      good_auth = bearer_authorization_header(user1, :scopes => %w[read_prefs])
-      bad_auth = bearer_authorization_header(user1, :scopes => %w[])
-
-      get api_users_path, :params => { :users => user1.id }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 1 do
-        check_xml_details(user1, true, false)
-        assert_select "user[id='#{user2.id}']", :count => 0
-        assert_select "user[id='#{user3.id}']", :count => 0
-      end
-
-      get api_users_path, :params => { :users => user2.id }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 1 do
-        assert_select "user[id='#{user1.id}']", :count => 0
-        check_xml_details(user2, false, false)
-        assert_select "user[id='#{user3.id}']", :count => 0
-      end
-
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 2 do
-        check_xml_details(user1, true, false)
-        assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false, false)
-      end
-
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => bad_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 2 do
-        check_xml_details(user1, false, false)
-        assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false, false)
-      end
-
-      get api_users_path, :params => { :users => user1.id, :format => "json" }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user1, true, false)
-
-      get api_users_path, :params => { :users => user2.id, :format => "json" }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user2, false, false)
-
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, true, false)
-      check_json_details(js["users"][1], user3, false, false)
-
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => bad_auth
-      assert_response :success
-      assert_equal "application/json", response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, false, false)
-      check_json_details(js["users"][1], user3, false, false)
-
-      get api_users_path, :params => { :users => create(:user, :suspended).id }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
-
-      get api_users_path, :params => { :users => create(:user, :deleted).id }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
-
-      get api_users_path, :params => { :users => 0 }, :headers => good_auth
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
-    end
-
-    private
-
-    def check_xml_details(user, include_private, include_email)
-      assert_select "user[id='#{user.id}']", :count => 1 do
-        assert_select "description", :count => 1, :text => user.description
-
-        assert_select "contributor-terms", :count => 1 do
-          if user.terms_agreed.present?
-            assert_select "[agreed='true']", :count => 1
-          else
-            assert_select "[agreed='false']", :count => 1
-          end
-
-          if include_private
-            assert_select "[pd='false']", :count => 1
-          else
-            assert_select "[pd]", :count => 0
+      assert_select "body", :count => 1 do
+        assert_select "div#content", :count => 1 do
+          assert_select "form[action='/user'][method='post']", :count => 1 do
+            assert_select "input[id='user_email']", :count => 1
+            assert_select "input[id='user_display_name']", :count => 1
+            assert_select "input[id='user_pass_crypt'][type='password']", :count => 1
+            assert_select "input[id='user_pass_crypt_confirmation'][type='password']", :count => 1
+            assert_select "input[type='submit'][value='Sign Up']", :count => 1
           end
         end
+      end
+    end
+  end
 
-        assert_select "img", :count => 0
+  def test_new_logged_in
+    session_for(create(:user))
 
-        assert_select "roles", :count => 1 do
-          assert_select "role", :count => 0
-        end
+    get new_user_path
+    assert_redirected_to root_path
 
-        assert_select "changesets", :count => 1 do
-          assert_select "[count='0']", :count => 1
-        end
+    get new_user_path, :params => { :referer => "/test" }
+    assert_redirected_to "/test"
+  end
 
-        assert_select "traces", :count => 1 do
-          assert_select "[count='0']", :count => 1
-        end
+  def test_create_success
+    user = build(:user, :pending)
 
-        assert_select "blocks", :count => 1 do
-          assert_select "received", :count => 1 do
-            assert_select "[count='0'][active='0']", :count => 1
-          end
-
-          assert_select "issued", :count => 0
-        end
-
-        if include_private && user.home_lat.present? && user.home_lon.present?
-          assert_select "home", :count => 1 do
-            assert_select "[lat='12.1'][lon='23.4'][zoom='3']", :count => 1
-          end
-        else
-          assert_select "home", :count => 0
-        end
-
-        if include_private
-          assert_select "languages", :count => 1 do
-            assert_select "lang", :count => user.languages.count
-
-            user.languages.each do |language|
-              assert_select "lang", :count => 1, :text => language
-            end
-          end
-
-          assert_select "messages", :count => 1 do
-            assert_select "received", :count => 1 do
-              assert_select "[count='#{user.messages.count}'][unread='0']", :count => 1
-            end
-
-            assert_select "sent", :count => 1 do
-              assert_select "[count='#{user.sent_messages.count}']", :count => 1
-            end
-          end
-        else
-          assert_select "languages", :count => 0
-          assert_select "messages", :count => 0
-        end
-
-        if include_email
-          assert_select "email", :count => 1, :text => user.email
-        else
-          assert_select "email", :count => 0
+    assert_difference "User.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 1 do
+        perform_enqueued_jobs do
+          post users_path, :params => { :user => user.attributes }
         end
       end
     end
 
-    def check_json_details(js, user, include_private, include_email)
-      assert_equal user.id, js["user"]["id"]
-      assert_equal user.description, js["user"]["description"]
-      assert_operator js["user"]["contributor_terms"], :[], "agreed"
+    # Check the e-mail
+    register_email = ActionMailer::Base.deliveries.first
 
-      if include_private
-        assert_not js["user"]["contributor_terms"]["pd"]
-      else
-        assert_nil js["user"]["contributor_terms"]["pd"]
-      end
+    assert_equal register_email.to[0], user.email
+    assert_match(/#{@url}/, register_email.body.to_s)
 
-      assert_nil js["user"]["img"]
-      assert_empty js["user"]["roles"]
-      assert_equal 0, js["user"]["changesets"]["count"]
-      assert_equal 0, js["user"]["traces"]["count"]
-      assert_equal 0, js["user"]["blocks"]["received"]["count"]
-      assert_equal 0, js["user"]["blocks"]["received"]["active"]
-      assert_nil js["user"]["blocks"]["issued"]
+    # Check the page
+    assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => user.display_name
+  end
 
-      if include_private && user.home_lat.present? && user.home_lon.present?
-        assert_in_delta 12.1, js["user"]["home"]["lat"]
-        assert_in_delta 23.4, js["user"]["home"]["lon"]
-        assert_equal 3, js["user"]["home"]["zoom"]
-      else
-        assert_nil js["user"]["home"]
-      end
+  def test_create_duplicate_email
+    user = build(:user, :pending)
+    create(:user, :email => user.email)
 
-      if include_private && user.languages.present?
-        assert_equal user.languages, js["user"]["languages"]
-      else
-        assert_nil js["user"]["languages"]
-      end
-
-      if include_private
-        assert_equal user.messages.count, js["user"]["messages"]["received"]["count"]
-        assert_equal 0, js["user"]["messages"]["received"]["unread"]
-        assert_equal user.sent_messages.count, js["user"]["messages"]["sent"]["count"]
-      else
-        assert_nil js["user"]["messages"]
-      end
-
-      if include_email
-        assert_equal user.email, js["user"]["email"]
-      else
-        assert_nil js["user"]["email"]
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post users_path, :params => { :user => user.attributes }
+        end
       end
     end
+
+    assert_response :success
+    assert_template "new"
+    assert_select "form > div > input.is-invalid#user_email"
+  end
+
+  def test_create_duplicate_email_uppercase
+    user = build(:user, :pending)
+    create(:user, :email => user.email.upcase)
+
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post users_path, :params => { :user => user.attributes }
+        end
+      end
+    end
+
+    assert_response :success
+    assert_template "new"
+    assert_select "form > div > input.is-invalid#user_email"
+  end
+
+  def test_create_duplicate_name
+    user = build(:user, :pending)
+    create(:user, :display_name => user.display_name)
+
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post users_path, :params => { :user => user.attributes }
+        end
+      end
+    end
+
+    assert_response :success
+    assert_template "new"
+    assert_select "form > div > input.is-invalid#user_display_name"
+  end
+
+  def test_create_duplicate_name_uppercase
+    user = build(:user, :pending)
+    create(:user, :display_name => user.display_name.upcase)
+
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post users_path, :params => { :user => user.attributes }
+        end
+      end
+    end
+
+    assert_response :success
+    assert_template "new"
+    assert_select "form > div > input.is-invalid#user_display_name"
+  end
+
+  def test_create_blocked_domain
+    user = build(:user, :pending, :email => "user@example.net")
+
+    # Now block that domain
+    create(:acl, :domain => "example.net", :k => "no_account_creation")
+
+    # Check that the second half of registration fails
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post users_path, :params => { :user => user.attributes }
+        end
+      end
+    end
+
+    assert_response :success
+    assert_template "blocked"
+  end
+
+  def test_create_referer_params
+    user = build(:user, :pending)
+
+    assert_difference "User.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 1 do
+        post users_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
+        assert_enqueued_with :job => ActionMailer::MailDeliveryJob,
+                             :args => proc { |args| args[3][:args][2] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
+        perform_enqueued_jobs
+      end
+    end
+  end
+
+  def test_go_public
+    user = create(:user, :data_public => false)
+    session_for(user)
+
+    post user_go_public_path
+
+    assert_redirected_to account_path
+    assert User.find(user.id).data_public
+  end
+
+  # Check that the user account page will display and contains some relevant
+  # information for the user
+  def test_show
+    # Test a non-existent user
+    get user_path("unknown")
+    assert_response :not_found
+
+    # Test a normal user
+    user = create(:user)
+
+    get user_path(user)
+    assert_response :success
+    assert_match(/img-src \* data:;/, @response.headers["Content-Security-Policy-Report-Only"])
+    assert_select "div.content-heading" do
+      assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary_comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(user.display_name)}']", 0
+    end
+
+    # Test a user who has been blocked
+    blocked_user = create(:user)
+    create(:user_block, :user => blocked_user)
+    get user_path(blocked_user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "a[href^='/user/#{ERB::Util.u(blocked_user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/diary_comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/blocks']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(blocked_user.display_name)}']", 0
+    end
+
+    # Test a moderator who has applied blocks
+    moderator_user = create(:moderator_user)
+    create(:user_block, :creator => moderator_user)
+    get user_path(moderator_user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "a[href^='/user/#{ERB::Util.u(moderator_user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/diary_comments']", 1
+      assert_select "a[href='/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/blocks_by']", 1
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(moderator_user.display_name)}']", 0
+    end
+
+    # Login as a normal user
+    session_for(user)
+
+    # Test the normal user
+    get user_path(user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
+      assert_select "a[href='/traces/mine']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary_comments']", 1
+      assert_select "a[href='/account']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(user.display_name)}']", 0
+      assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 0
+    end
+
+    # Login as a moderator
+    session_for(create(:moderator_user))
+
+    # Test the normal user
+    get user_path(user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary_comments']", 1
+      assert_select "a[href='/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/user_blocks/new/#{ERB::Util.u(user.display_name)}']", 1
+      assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 1
+    end
+  end
+
+  # Test whether information about contributor terms is shown for users who haven't agreed
+  def test_terms_not_agreed
+    agreed_user = create(:user, :terms_agreed => 3.days.ago)
+    seen_user = create(:user, :terms_seen => true, :terms_agreed => nil)
+    not_seen_user = create(:user, :terms_seen => false, :terms_agreed => nil)
+
+    get user_path(agreed_user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "dt", :count => 0, :text => /Contributor terms/
+    end
+
+    get user_path(seen_user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "dt", :count => 1, :text => /Contributor terms/
+      assert_select "dd", /Declined/
+    end
+
+    get user_path(not_seen_user)
+    assert_response :success
+    assert_select "div.content-heading" do
+      assert_select "dt", :count => 1, :text => /Contributor terms/
+      assert_select "dd", /Undecided/
+    end
+  end
+
+  def test_auth_failure_callback
+    get auth_failure_path
+    assert_redirected_to login_path
+
+    get auth_failure_path, :params => { :origin => "/" }
+    assert_redirected_to root_path
+
+    get auth_failure_path, :params => { :origin => "http://www.google.com" }
+    assert_redirected_to login_path
+  end
+
+  def test_show_profile_diaries
+    user = create(:user)
+    create(:language, :code => "en")
+    create(:diary_entry, :user => user, :title => "First Entry", :body => "First body")
+    create(:diary_entry, :user => user, :title => "Second Entry", :body => "Second body")
+    create(:diary_entry, :user => user, :title => "Third Entry", :body => "Third body")
+    create(:diary_entry, :user => user, :title => "Fourth Entry", :body => "Fourth body")
+    create(:diary_entry, :user => user, :title => "Fifth Entry", :body => "Fifth body")
+
+    get user_path(user)
+    assert_response :success
+
+    # Should only show the 4 most recent entries
+    assert_select ".profile-diary-card", 4
+    assert_select ".card-title a", "Fifth Entry"
+    assert_select ".card-title a", "Fourth Entry"
+    assert_select ".card-title a", "Third Entry"
+    assert_select ".card-title a", "Second Entry"
+    assert_select ".card-title a", { :text => "First Entry", :count => 0 }
+  end
+
+  def test_show_profile_diaries_with_comments
+    user = create(:user)
+    create(:language, :code => "en")
+    entry = create(:diary_entry, :user => user, :title => "Entry with Comments")
+    create(:diary_comment, :diary_entry => entry)
+    create(:diary_comment, :diary_entry => entry)
+
+    get user_path(user)
+    assert_response :success
+
+    assert_select ".profile-diary-card" do
+      assert_select ".card-title a", "Entry with Comments"
+      assert_select "small.text-body-secondary", /2 comments/
+    end
+  end
+
+  def test_show_profile_diaries_empty
+    user = create(:user)
+    get user_path(user)
+    assert_response :success
+    assert_select ".profile-diary-card", 0
   end
 end

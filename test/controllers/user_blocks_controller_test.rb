@@ -92,7 +92,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the index action with invalid pages
   def test_index_invalid_paged
-    %w[-1 0 fred].each do |id|
+    %w[-1 fred].each do |id|
       get user_blocks_path(:before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
@@ -421,7 +421,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     post user_blocks_path
     assert_response :not_found
     assert_template "users/no_such_user"
-    assert_select "h1", "The user  does not exist"
+    assert_select "h1", :html => "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     post user_blocks_path(:display_name => "non_existent_user")

@@ -7,6 +7,7 @@ class LoginTest < ActionDispatch::IntegrationTest
 
   def teardown
     OmniAuth.config.mock_auth[:google] = nil
+    OmniAuth.config.mock_auth[:apple] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
     OmniAuth.config.mock_auth[:microsoft] = nil
     OmniAuth.config.mock_auth[:github] = nil
@@ -520,6 +521,155 @@ class LoginTest < ActionDispatch::IntegrationTest
     u = User.find_by(:display_name => user.display_name)
     assert_equal "google", u.auth_provider
     assert_equal "987654321", u.auth_uid
+  end
+
+  def test_login_apple_success
+    user = create(:user, :auth_provider => "apple", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:apple, :uid => user.auth_uid, :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changesets/history"
+    assert_select "span.username", user.display_name
+  end
+
+  def test_login_apple_pending
+    user = create(:user, :pending, :auth_provider => "apple", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:apple, :uid => user.auth_uid, :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_apple_suspended
+    user = create(:user, :suspended, :auth_provider => "apple", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:apple, :uid => user.auth_uid, :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+    end
+  end
+
+  def test_login_apple_blocked
+    user = create(:user, :auth_provider => "apple", :auth_uid => "1234567890")
+    create(:user_block, :needs_view, :user => user)
+    OmniAuth.config.add_mock(:apple, :uid => user.auth_uid, :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
+    assert_select "span.username", user.display_name
+  end
+
+  def test_login_apple_connection_failed
+    OmniAuth.config.mock_auth[:apple] = :connection_failed
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_redirected_to auth_failure_path(:strategy => "apple", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
+    assert_select "span.username", false
+  end
+
+  def test_login_apple_invalid_credentials
+    OmniAuth.config.mock_auth[:apple] = :invalid_credentials
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_redirected_to auth_failure_path(:strategy => "apple", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
+    assert_select "span.username", false
+  end
+
+  def test_login_apple_unknown
+    OmniAuth.config.add_mock(:apple, :uid => "987654321", :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "users/new"
+    assert_select "span.username", false
   end
 
   def test_login_facebook_success
