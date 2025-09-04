@@ -18,6 +18,7 @@
 # Author: Marwin H.H.
 # Author: Md. Golam Mukit Khan
 # Author: Nasir8891
+# Author: R1F4T
 # Author: R4356th
 # Author: R4bb1
 # Author: Rasal Lia
@@ -36,6 +37,9 @@
 # Author: জয়শ্রীরাম সরকার
 ---
 bn:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y %H:%M-এ'
@@ -71,6 +75,10 @@ bn:
       models:
         user_mute:
           is_already_muted: ইতিমধ্যেই মিউট করা হয়েছে
+        social_link:
+          attributes:
+            url:
+              http_parse_error: ইউআরএল http:// অথবা https:// দিয়ে শুরু হওয়া উচিত
     models:
       acl: প্রবেশাধিকার নিয়ন্ত্রণ তালিকা
       changeset: পরিবর্তনসমূহ
@@ -84,6 +92,7 @@ bn:
       message: বার্তা
       node: সংযোগস্থল
       node_tag: সংযোগস্থলের ট্যাগ
+      note: টীকা
       old_node: পুরাতন সংযোগস্থল
       old_node_tag: পুরাতন সংযোগস্থলের ট্যাগ
       old_relation: পুরনো সম্পর্ক
@@ -114,8 +123,9 @@ bn:
         support_url: সহায়তা ইউআরএল
         allow_read_prefs: ব্যবহারকারীর পছন্দগুলি পড়ে
         allow_write_prefs: তাদের ব্যবহারকারী পছন্দসমূহ যাচাই করুন
-        allow_write_diary: ডায়েরি ভুক্তি তৈরি, মন্তব্য এবং বন্ধু বানান
+        allow_write_diary: ডায়েরি ভুক্তি এবং মন্তব্য তৈরি করুন
         allow_write_api: মানচিত্রটি সম্পাদন করুন
+        allow_write_changeset_comments: পরিবর্তনগুলি সম্পর্কে মন্তব্য করুন
         allow_read_gpx: তাদের ব্যক্তিগত জিপিএস অনুসরণ করুন
         allow_write_gpx: জিপিএস ট্রেস আপলোড করুন
         allow_write_notes: টীকা পরিবর্তন করুন
@@ -167,8 +177,10 @@ bn:
         active: সক্রিয়
         display_name: প্রদর্শনের জন্য নাম
         description: প্রোফাইলের বর্ণনা
+        company: কোম্পানি
         home_lat: অক্ষাংশ
         home_lon: দ্রাঘিমাংশ
+        home_location_name: বাড়ির অবস্থানের নাম
         languages: পছন্দের ভাষা
         preferred_editor: পছন্দের সম্পাদক
         pass_crypt: পাসওয়ার্ড
@@ -240,6 +252,7 @@ bn:
       none: কিছু নয়
       openid: ওপেনআইডি
       google: গুগল
+      apple: অ্যাপেল
       facebook: ফেসবুক
       microsoft: মাইক্রোসফট
       github: গিটহাব
@@ -271,13 +284,24 @@ bn:
   accounts:
     show:
       title: অ্যাকাউন্ট সম্পাদনা করুন
+      my_account: আমার অ্যাকাউন্ট
       current email address: বর্তমান ই-মেইল ঠিকানা
       external auth: বাহ্যিক প্রমাণীকরণ
       contributor_terms:
         heading: অবদানকারীর জন্য নিয়মাবলি
-        agreed: আপনি নতুন অবদানকারীর শর্তাবলীতে সম্মত।
+        agreed: আপনি %{date} তারিখে অবদানকারী শর্তাবলীতে সম্মত হয়েছেন।
+        not_agreed: আপনি এখনও অবদানকারী শর্তাবলীতে সম্মত হননি।
         agreed_with_pd: আপনি ঘোষণা করেছেন যে আপনি আপনার সম্পাদনাগুলো পাবলিক ডোমেইনের
           অধীনে প্রকাশ করছেন।
+        review: শর্তাবলীসমূহ পর্যালোচনা করুন
+        review_and_accept: শর্তাবলীসমূহ পর্যালোচনা এবং গ্রহণ করুন
+        consider_pd: পাবলিক ডোমেইন বিবেচনা করুন
+      terms_of_use:
+        heading: ব্যবহারের শর্তাবলী
+        agreed: আপনি %{date} তারিখে ব্যবহারের শর্তাবলীতে সম্মত হয়েছেন।
+        not_agreed: আপনি এখনও ব্যবহারের শর্তাবলীতে সম্মত হননি।
+        review: শর্তাবলীসমূহ পর্যালোচনা করুন
+        review_and_accept: শর্তাবলীসমূহ পর্যালোচনা এবং গ্রহণ করুন
       save changes button: পরিবর্তন সংরক্ষণ
       delete_account: অ্যাকাউন্ট অপসারণ করুন...
     go_public:
