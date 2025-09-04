@@ -421,6 +421,24 @@ module Api
       end
     end
 
+    def test_create_in_missing_changeset
+      node = create(:node)
+
+      with_unchanging_request do |headers|
+        osm = <<~OSM
+          <osm>
+            <relation changeset='0'>
+              <member type='node' ref='#{node.id}' role='some'/>
+            </relation>
+          </osm>
+        OSM
+
+        post api_relations_path, :params => osm, :headers => headers
+
+        assert_response :conflict
+      end
+    end
+
     def test_create_with_missing_node_member
       with_unchanging_request do |headers, changeset|
         osm = <<~OSM
@@ -479,6 +497,34 @@ module Api
       assert_response :success
     end
 
+    def test_create_race_condition
+      user = create(:user)
+      changeset = create(:changeset, :user => user)
+      node = create(:node)
+      auth_header = bearer_authorization_header user
+      path = api_relations_path
+      concurrency_level = 16
+
+      threads = Array.new(concurrency_level) do
+        Thread.new do
+          osm = <<~OSM
+            <osm>
+              <relation changeset='#{changeset.id}'>
+                <member type='node' ref='#{node.id}' role=''/>
+              </relation>
+            </osm>
+          OSM
+          post path, :params => osm, :headers => auth_header
+        end
+      end
+      threads.each(&:join)
+
+      changeset.reload
+      assert_equal concurrency_level, changeset.num_changes
+      assert_predicate changeset, :num_type_changes_in_sync?
+      assert_equal concurrency_level, changeset.num_created_relations
+    end
+
     # ------------------------------------
     # Test updating relations
     # ------------------------------------
@@ -501,6 +547,19 @@ module Api
         assert_equal 1, changeset.num_changes
         assert_predicate changeset, :num_type_changes_in_sync?
         assert_equal 1, changeset.num_modified_relations
+      end
+    end
+
+    def test_update_in_missing_changeset
+      with_unchanging(:relation) do |relation|
+        with_unchanging_request do |headers|
+          osm_xml = xml_for_relation relation
+          osm_xml = update_changeset osm_xml, 0
+
+          put api_relation_path(relation), :params => osm_xml.to_s, :headers => headers
+
+          assert_response :conflict, "update with changeset=0 should be rejected"
+        end
       end
     end
 

@@ -54,8 +54,10 @@ module Api
     def create
       way = Way.from_xml(request.raw_post, :create => true)
 
-      # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
-      way.create_with_history current_user
+      Changeset.transaction do
+        way.changeset&.lock!
+        way.create_with_history current_user
+      end
       render :plain => way.id.to_s
     end
 
@@ -65,7 +67,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})" unless new_way && new_way.id == way.id
 
-      way.update_from(new_way, current_user)
+      Changeset.transaction do
+        new_way.changeset&.lock!
+        way.update_from(new_way, current_user)
+      end
       render :plain => way.version.to_s
     end
 
@@ -75,7 +80,10 @@ module Api
       new_way = Way.from_xml(request.raw_post)
 
       if new_way && new_way.id == way.id
-        way.delete_with_history!(new_way, current_user)
+        Changeset.transaction do
+          new_way.changeset&.lock!
+          way.delete_with_history!(new_way, current_user)
+        end
         render :plain => way.version.to_s
       else
         head :bad_request

@@ -97,8 +97,10 @@ module Api
     def create
       relation = Relation.from_xml(request.raw_post, :create => true)
 
-      # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
-      relation.create_with_history current_user
+      Changeset.transaction do
+        relation.changeset&.lock!
+        relation.create_with_history current_user
+      end
       render :plain => relation.id.to_s
     end
 
@@ -108,7 +110,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})" unless new_relation && new_relation.id == relation.id
 
-      relation.update_from new_relation, current_user
+      Changeset.transaction do
+        new_relation.changeset&.lock!
+        relation.update_from(new_relation, current_user)
+      end
       render :plain => relation.version.to_s
     end
 
@@ -116,7 +121,10 @@ module Api
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
       if new_relation && new_relation.id == relation.id
-        relation.delete_with_history!(new_relation, current_user)
+        Changeset.transaction do
+          new_relation.changeset&.lock!
+          relation.delete_with_history!(new_relation, current_user)
+        end
         render :plain => relation.version.to_s
       else
         head :bad_request

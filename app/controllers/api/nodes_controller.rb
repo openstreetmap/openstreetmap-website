@@ -49,8 +49,10 @@ module Api
     def create
       node = Node.from_xml(request.raw_post, :create => true)
 
-      # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
-      node.create_with_history current_user
+      Changeset.transaction do
+        node.changeset&.lock!
+        node.create_with_history current_user
+      end
       render :plain => node.id.to_s
     end
 
@@ -61,7 +63,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id
 
-      node.update_from(new_node, current_user)
+      Changeset.transaction do
+        new_node.changeset&.lock!
+        node.update_from(new_node, current_user)
+      end
       render :plain => node.version.to_s
     end
 
@@ -74,7 +79,10 @@ module Api
 
       raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id
 
-      node.delete_with_history!(new_node, current_user)
+      Changeset.transaction do
+        new_node.changeset&.lock!
+        node.delete_with_history!(new_node, current_user)
+      end
       render :plain => node.version.to_s
     end
   end
