@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddJoinTableBetweenUsersAndDiaryEntries < ActiveRecord::Migration[4.2]
   def self.up
     create_table :diary_entry_subscriptions, :id => false do |t|

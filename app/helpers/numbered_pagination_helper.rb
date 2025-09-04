@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NumberedPaginationHelper
   def numbered_pagination(top_page, active_id, active_page: top_page + 1, window_half_size: 50, step_size: 50, &)
     lists = []

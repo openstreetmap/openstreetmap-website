@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeUserLocale < ActiveRecord::Migration[4.2]
   def self.up
     remove_foreign_key :users, :column => :locale, :name => "users_locale_fkey"

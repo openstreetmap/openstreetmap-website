@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RateLimiter
   def initialize(cache, interval, limit, max_burst)
     @cache = cache

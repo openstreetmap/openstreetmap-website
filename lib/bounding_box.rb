@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BoundingBox
   attr_reader :min_lon, :min_lat, :max_lon, :max_lat
 

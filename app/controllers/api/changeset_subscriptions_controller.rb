@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class ChangesetSubscriptionsController < ApiController
     before_action :check_api_writable

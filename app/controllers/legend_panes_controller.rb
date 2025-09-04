@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LegendPanesController < ApplicationController
   before_action :authorize_web
   before_action :set_locale

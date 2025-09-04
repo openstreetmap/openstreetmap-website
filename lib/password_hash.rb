@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "argon2"
 require "base64"
 require "digest/md5"

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module OpenStreetMap
   module Rack
     class PolicyHeaders
-      COOP_HEADER = "Cross-Origin-Opener-Policy".freeze
+      COOP_HEADER = "Cross-Origin-Opener-Policy"
 
       def initialize(app)
         @app = app

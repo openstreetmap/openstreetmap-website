@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IssuesHelper
   def reportable_url(reportable)
     case reportable

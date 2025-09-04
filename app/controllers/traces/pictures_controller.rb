@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Traces
   class PicturesController < ApplicationController
     before_action :authorize_web
