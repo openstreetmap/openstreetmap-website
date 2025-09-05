@@ -31,6 +31,7 @@ module Api
 
         diff_reader = DiffReader.new(request.raw_post, changeset)
         Changeset.transaction do
+          changeset.lock!
           result = diff_reader.commit
           # the number of changes in this changeset has already been
           # updated and is visible in this transaction so we don't need
