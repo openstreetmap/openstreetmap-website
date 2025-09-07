@@ -109,7 +109,6 @@ gem "rotp"
 # Load memcache client in case we are using it
 gem "connection_pool"
 gem "dalli"
-gem "kgio"
 
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails"
