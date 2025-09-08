@@ -559,11 +559,23 @@ pt-PT:
     timeout:
       sorry: Os dados para a relação com o id %{id} levaram demasiado tempo a ser
         carregados.
+  relation_members:
+    not_found_message:
+      sorry: 'Lamentamos, não foi possível encontrar a relação #%{id}.'
+    timeout:
+      sorry: Lamentamos, demorou demasiado tempo a obter os dados da relação com o
+        id %{id}.
   old_relations:
     not_found_message:
       sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
     timeout:
       sorry: O histórico da relação com o id %{id} levou demasiado tempo a ser carregado.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Lamentamos, a relação #%{id} versão %{version} não foi encontrada.'
+    timeout:
+      sorry: Lamentamos, demorou demasiado tempo a obter os membros da relação com
+        o id %{id}.
   changeset_comments:
     feeds:
       comment:
@@ -598,7 +610,7 @@ pt-PT:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
       title_user_link_html: Conjuntos de alterações de %{user_link}
-      title_followed: Conjuntos de de utilizadores que segues
+      title_followed: Conjuntos de utilizadores que segues
       title_nearby: Conjuntos de alterações feitos por utilizadores próximos
       empty: Não foi encontrado nenhum conjunto de alterações.
       empty_area: Não há nenhum conjunto de alterações nesta área.
@@ -1853,6 +1865,116 @@ pt-PT:
       select_language: Selecionar Idioma
     select_language_button:
       title: Selecionar Idioma
+    select_language_list:
+      languages:
+        af: Africânder
+        gsw: Alemânico
+        frp: Arpitano
+        ast: Asturiano
+        az: Azeri
+        id: Indonésio
+        ms: Malaio
+        bs: Bósnio
+        br: Bretão
+        ca: Catalão
+        cs: Checo
+        cy: Galês
+        da: Dinamarquês
+        de: Alemão
+        dsb: Baixo sorábio
+        et: Estoniano
+        en: Inglês
+        en-GB: Inglês (Reino Unido)
+        es: Espanhol
+        eo: Esperanto
+        eu: Basco
+        fr: Francês
+        fy: Frísio ocidental
+        fur: Friulano
+        ga: Irlandês
+        gd: Gaélico escocês
+        gl: Galego
+        aln: Gheg albanês
+        hsb: Alto sorábio
+        hr: Croata
+        ia: Interlíngua
+        is: Islandês
+        it: Italiano
+        gcf: Crioulo de Guadalupe
+        ku-Latn: Curdo (latim)
+        lv: Letão
+        lb: Luxemburguês
+        lt: Lituano
+        hu: Húngaro
+        fit: Finlandês tornedaliano
+        nl: Neerlandês
+        nb: Bokmål norueguês
+        nn: Nynorsk norueguês
+        oc: Occitano
+        nds: Baixo alemão
+        pl: Polaco
+        pt-PT: Português
+        pt: Português (Brasil)
+        ksh: Coloniano
+        ro: Romeno
+        sc: Sardo
+        sco: Escocês
+        sq: Albanês
+        scn: Siciliano
+        sk: Eslovaco
+        sl: Esloveno
+        sr-Latn: Sérvio (latim)
+        sh: Servo-croata (latim)
+        fi: Finlandês
+        sv: Sueco
+        tl: Tagalogue
+        kab: Cabila
+        vi: Vietnamita
+        tr: Turco
+        yo: Ioruba
+        diq: Dimli
+        el: Grego
+        ba: Basquir
+        be: Bielorrusso
+        be-Tarask: Bielorrusso (Tarašk.)
+        bg: Búlgaro
+        mk: Macedónio
+        mo: Moldavo
+        ce: Checheno
+        ru: Russo
+        sr: Sérvio (cirílico)
+        tt: Tatar (cirílico)
+        uk: Ucraniano
+        kk-cyrl: Cazaque (cirílico)
+        yi: Iídiche
+        he: Hebraico
+        ar: Árabe
+        skr-arab: Saraiki (escrita árabe)
+        fa: Persa
+        arz: Árabe (Egito)
+        pnb: Panjabi ocidental
+        ps: Pastó
+        nqo: N’Ko
+        ne: Nepalês
+        mr: Marata
+        hi: Hindi
+        bn: Bangla
+        pa: Panjabi
+        gu: Guzerate
+        ta: Tamil
+        te: Telugu
+        kn: Canarim
+        th: Tailandês
+        my: Birmanês
+        xmf: Mingrélio
+        ka: Georgiano
+        km: Khmer
+        sat: Santalí
+        zh-CN: Chinês (simplificado)
+        zh-TW: Chinês (tradicional)
+        zh-HK: Chinês (Hong Kong)
+        ja: Japonês
+        ko: Coreano
     offline_flash:
       osm_offline: A base de dados do OpenStreetMap encontra-se indisponível devido
         a trabalhos de manutenção essenciais.
@@ -2048,7 +2170,7 @@ pt-PT:
   messages:
     new:
       title: Enviar mensagem
-      send_message_to_html: Enviar uma nova mensagem para %{name}
+      send_message_to_html: Enviar uma nova mensagem a %{name}
       back_to_inbox: Voltar à caixa de entrada
     create:
       message_sent: Mensagem enviada
@@ -2598,7 +2720,7 @@ pt-PT:
       odbl: Licença de Base de Dados Aberta de Open Data Commons
       too_large:
         advice: 'Se a exportação acima falhar, por favor, considera o uso de uma das
-          fontes seguintes:'
+          seguintes fontes:'
         body: Esta área é demasiado grande para exportar em dados XML do OpenStreetMap.
           Por favor, amplia a vista ou seleciona uma área mais pequena. Para transferir
           dados em massa, usa uma das seguintes fontes.
@@ -3152,7 +3274,7 @@ pt-PT:
       display name description: O nome de utilizador ficará visível publicamente.
         Poderás alterar o nome posteriormente nas configurações do teu perfil.
       by_signing_up:
-        html: Ao registares-te, aceitas as nossas %{tou_link}, a %{privacy_policy_link}
+        html: Ao registares-te, aceitas os nossos %{tou_link}, a %{privacy_policy_link}
           e os %{contributor_terms_link}.
         tou: Termos de Utilização
         privacy_policy: Política de Privacidade
@@ -3566,6 +3688,7 @@ pt-PT:
     share:
       title: Partilhar
       view_larger_map: Ver mapa maior
+      export_failed_title: Falha na exportação do mapa
       filename: mapa
     embed:
       report_problem: Reportar um problema
@@ -3634,6 +3757,9 @@ pt-PT:
         mi: '%{distance} milhas'
       errors:
         no_route: Não foi encontrada uma rota entre os dois pontos.
+        no_place:
+          title: A pesquisa falhou
+          body: Não foi possível encontrar '%{place}'.
       instructions:
         continue_without_exit: Continuar em %{name}
         slight_right_without_exit: Virar ligeiramente à direita para %{name}
@@ -3736,9 +3862,15 @@ pt-PT:
         contributions:
           one: '%{count} contribuição em %{date}'
           other: '%{count} contribuições em %{date}'
+    remote_edit:
+      failed:
+        title: A edição falhou
+        body: Certifica-te de que o JOSM ou o Merkaartor está carregado e que a opção
+          de controlo remoto está ativada
     edit:
       id_not_configured:
         title: O editor iD não foi configurado
+        body: Consulta CONFIGURE.md para obteres mais informações
   redactions:
     edit:
       heading: Editar supressão

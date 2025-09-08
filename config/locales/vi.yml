@@ -238,6 +238,7 @@ vi:
     providers:
       none: Không có
       google: Google
+      apple: Apple
       facebook: Facebook
       github: GitHub
       wikipedia: Wikipedia
@@ -351,6 +352,7 @@ vi:
           html: Các %{tou_link} quy định cách sử dụng trang Web và các cơ sở hạ tầng
             khác do OSMF cung cấp. Xin vui lòng mở liên kết và đọc và chấp nhận thỏa
             thuận.
+          tou: Điều khoản Sử dụng
         read_tou: Tôi đã đọc và chấp nhận Điều khoản sử dụng
         guidance_info_html: 'Thông tin giúp hiểu các thuật ngữ này: a %{readable_summary_link}
           và một số %{informal_translations_link}'
@@ -516,12 +518,24 @@ vi:
     timeout:
       sorry: Rất tiếc, việc lấy dữ liệu cho quan hệ số %{id} vượt quá thời gian cho
         phép.
+  relation_members:
+    not_found_message:
+      sorry: 'Rất tiếc, không tìm thấy quan hệ #%{id}.'
+    timeout:
+      sorry: Rất tiếc, việc lấy dữ liệu cho quan hệ số %{id} vượt quá thời gian cho
+        phép.
   old_relations:
     not_found_message:
       sorry: 'Rất tiếc, không tìm thấy #%{id} phiên bản %{version}.'
     timeout:
       sorry: Rất tiếc, việc lấy lịch sử cho quan hệ số %{id} vượt quá thời gian cho
         phép.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Rất tiếc, không tìm thấy #%{id} phiên bản %{version}.'
+    timeout:
+      sorry: Rất tiếc, việc lấy các thành viên của quan hệ số %{id} vượt quá thời
+        gian cho phép.
   changeset_comments:
     feeds:
       comment:
@@ -1696,6 +1710,116 @@ vi:
       select_language: Chọn Ngôn ngữ
     select_language_button:
       title: Chọn Ngôn ngữ
+    select_language_list:
+      languages:
+        af: Afrikaans
+        gsw: Alemanni
+        frp: Arpitan
+        ast: Asturias
+        az: Azerbaijan
+        id: Indonesia
+        ms: Mã Lai
+        bs: Bosna
+        br: Breton
+        ca: Catalunya
+        cs: Séc
+        cy: Wales
+        da: Đan Mạch
+        de: Đức
+        dsb: Hạ Sorb
+        et: Estonia
+        en: Anh
+        en-GB: Anh (Anh)
+        es: Tây Ban Nha
+        eo: Quốc tế ngữ
+        eu: Basque
+        fr: Pháp
+        fy: Tây Frisia
+        fur: Friuli
+        ga: Ireland
+        gd: Gael Scotland
+        gl: Galicia
+        aln: Albania Gheg
+        hsb: Thượng Sorb
+        hr: Croatia
+        ia: Khoa học Quốc tế
+        is: Iceland
+        it: Ý
+        gcf: Lai Guadeloupe
+        ku-Latn: Kurd (Latinh)
+        lv: Latvia
+        lb: Luxembourg
+        lt: Litva
+        hu: Hungary
+        fit: Phần Lan Thung lũng Torne
+        nl: Hà Lan
+        nb: Na Uy Bokmål
+        nn: Na Uy Nynorsk
+        oc: Occitania
+        nds: Hạ Đức
+        pl: Ba Lan
+        pt-PT: Bồ Đào Nha
+        pt: Bồ Đào Nha (Brasil)
+        ksh: Cô-lô-nhơ
+        ro: Romania
+        sc: Sardinia
+        sco: Scotland
+        sq: Albania
+        scn: Sicilia
+        sk: Slovakia
+        sl: Slovenia
+        sr-Latn: Serbia (Latinh)
+        sh: Serbia-Croatia (Latinh)
+        fi: Phần Lan
+        sv: Thụy Điển
+        tl: Tagalog
+        kab: Kabylia
+        vi: Việt
+        tr: Thổ Nhĩ Kỳ
+        yo: Yoruba
+        diq: Dimli
+        el: Hy Lạp
+        ba: Bashkir
+        be: Belarus
+        be-Tarask: Belarus (Taraškievič)
+        bg: Bulgaria
+        mk: Macedonia
+        mo: Moldova
+        ce: Chechnya
+        ru: Nga
+        sr: Serbia (Kirin)
+        tt: Tatar (Kirin)
+        uk: Ukraina
+        kk-cyrl: Kazakh (Kirin)
+        yi: Yiddish
+        he: Hê-brơ
+        ar: Ả Rập
+        skr-arab: Saraiki (Ả Rập)
+        fa: Ba Tư
+        arz: Ả Rập (Ai Cập)
+        pnb: Punjab Tây
+        ps: Pashto
+        nqo: N’Ko
+        ne: Nepal
+        mr: Marathi
+        hi: Hindi
+        bn: Bengal
+        pa: Punjab
+        gu: Gujarat
+        ta: Tamil
+        te: Telugu
+        kn: Kannada
+        th: Thái
+        my: Miến Điện
+        xmf: Mingrelia
+        ka: Gruzia
+        km: Khơ-me
+        sat: Santal
+        zh-CN: Trung (Giản thể)
+        zh-TW: Trung (Phồn thể)
+        zh-HK: Trung (Hồng Kông)
+        ja: Nhật
+        ko: Hàn
     offline_flash:
       osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực
         hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
@@ -2837,6 +2961,9 @@ vi:
       google:
         title: Đăng nhập qua Google
         alt: Biểu trưng Google
+      apple:
+        title: Đăng nhập qua Apple
+        alt: Biểu tượng Apple
       facebook:
         title: Đăng nhập qua Facebook
         alt: Biểu trưng Facebook
@@ -3367,6 +3494,7 @@ vi:
     share:
       title: Chia sẻ
       view_larger_map: Xem Bản đồ Rộng hơn
+      export_failed_title: Thất bại khi xuất bản đồ
       filename: bản đồ
     embed:
       report_problem: Báo vấn đề
@@ -3436,6 +3564,9 @@ vi:
         mi: '%{distance} dặm'
       errors:
         no_route: Không tìm thấy tuyến đường giữa hai địa điểm này.
+        no_place:
+          title: Thất bại khi tìm kiếm
+          body: Không tìm thấy “%{place}”.
       instructions:
         continue_without_exit: Chạy tiếp trên %{name}
         slight_right_without_exit: Nghiêng về bên phải vào %{name}
@@ -3532,9 +3663,15 @@ vi:
         no_contributions: Không đóng góp vào %{date}
         contributions:
           other: Đóng góp %{count} lần vào %{date}
+    remote_edit:
+      failed:
+        title: Thất bại khi mở trình sửa đổi
+        body: Hãy chắc chắn rằng JOSM hoặc Markaartor đã khởi động và tùy chọn phần
+          điều khiển từ xa được kích hoạt
     edit:
       id_not_configured:
         title: iD chưa được cấu hình
+        body: Vui lòng xem thêm thông tin trong CONFIGURE.md
   redactions:
     edit:
       heading: Sửa đổi dãy ẩn
