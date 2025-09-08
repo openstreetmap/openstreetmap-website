@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Preferences
   class PreferencesController < ApplicationController
     layout :site_layout

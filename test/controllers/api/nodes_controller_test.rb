@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 require_relative "elements_test_helper"
 

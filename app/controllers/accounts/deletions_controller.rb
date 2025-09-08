@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Accounts
   class DeletionsController < ApplicationController
     layout :site_layout

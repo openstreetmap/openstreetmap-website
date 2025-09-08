@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddChangesets < ActiveRecord::Migration[4.2]
   @conv_user_tables = %w[current_nodes current_relations current_ways nodes relations ways]
 

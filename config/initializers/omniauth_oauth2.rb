@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenStreetMap
   module OmniAuth
     module Strategies

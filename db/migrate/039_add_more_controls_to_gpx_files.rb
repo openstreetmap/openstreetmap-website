@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMoreControlsToGpxFiles < ActiveRecord::Migration[4.2]
   class Trace < ApplicationRecord
     self.table_name = "gpx_files"

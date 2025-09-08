@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 attrs = {
   "id" => message.id,
   "from_user_id" => message.from_user_id,

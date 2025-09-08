@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WayNodesNodeIdx < ActiveRecord::Migration[4.2]
   def self.up
     add_index "way_nodes", ["node_id"], :name => "way_nodes_node_idx"

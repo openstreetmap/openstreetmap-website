@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop:disable Metrics/BlockLength
 namespace :db do
   desc "Backfill enhanced changeset stats"

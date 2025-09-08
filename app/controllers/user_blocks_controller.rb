@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserBlocksController < ApplicationController
   include UserMethods
   include PaginationMethods
