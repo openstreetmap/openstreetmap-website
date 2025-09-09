@@ -37,20 +37,6 @@ window.onload = function () {
   const layer = (isDarkTheme && layerConfig.leafletOsmDarkId) || layerConfig.leafletOsmId;
   new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
 
-  if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
-    new L.OSM.Mapnik().addTo(map);
-  } else if (args.layer === "historical") {
-    new L.OSM.Historical().addTo(map);
-  } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
-    new L.OSM.CycleMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "transportmap") {
-    new L.OSM.TransportMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "hot") {
-    new L.OSM.HOT().addTo(map);
-  } else {
-    new L.OSM.Mapnik(mapnikOptions).addTo(map);
-  }
-
   if (args.has("marker")) {
     L.marker(args.get("marker").split(","), { icon: L.divIcon({
       html: "<svg viewBox='0 0 25 40' overflow='visible'><use href='#pin-shadow' /><use href='#pin-dot' color='#0b8ef1' /></svg>",

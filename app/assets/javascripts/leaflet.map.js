@@ -65,32 +65,7 @@ L.OSM.Map = L.Map.extend({
     // console.info(`language:\n  preferred: ${OSM.preferred_languages}\n  browser: ${navigator.language}\n  using: ${selectedLanguage}`);
     language.supportedLanguages.push(selectedLanguage);
 
-    let ohmLayerOptions = [
-      {
-        code: "O",
-        keyid: "historical",
-        name: OSM.i18n.t("javascripts.map.base.historical"),
-        style: ohmVectorStyles.Historical,
-      },
-      {
-        code: "R",
-        keyid: "railway",
-        name: OSM.i18n.t("javascripts.map.base.railway"),
-        style: ohmVectorStyles.Railway,
-      },
-      {
-        code: "W",
-        keyid: "woodblock",
-        name: OSM.i18n.t("javascripts.map.base.woodblock"),
-        style: ohmVectorStyles.Woodblock,
-      },
-      {
-        code: "J",
-        keyid: "japanese",
-        name: OSM.i18n.t("javascripts.map.base.japanesescroll"),
-        style: ohmVectorStyles.JapaneseScroll,
-      },
-    ];
+    let ohmLayerOptions = [];
 
     this.baseLayers.unshift(...ohmLayerOptions.map(layerOptions => {
       layerOptions.style = language.setLanguage(layerOptions.style, selectedLanguage);

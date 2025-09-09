@@ -10,6 +10,7 @@
 //= require leaflet.osm
 //= require leaflet.shortbread
 //= require leaflet.maptiler
+//= require leaflet.ohm
 //= require @maplibre/maplibre-gl-leaflet
 //= require ohm.style
 //= require leaflet-ohm-timeslider.js
