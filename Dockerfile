@@ -1,4 +1,5 @@
-FROM ruby:3.2-bookworm
+ARG RUBY_VERSION=3.2
+FROM ruby:$RUBY_VERSION-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
