@@ -14,6 +14,7 @@
 # Author: Ibai
 # Author: Iñaki LL
 # Author: Juele
+# Author: Laquin
 # Author: Maite
 # Author: Marwin H.H.
 # Author: McDutchie
@@ -231,6 +232,7 @@ eu:
     providers:
       none: Ezer
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -426,6 +428,10 @@ eu:
       telephone_link: Deitu %{phone_number} zenbakira
       colour_preview: '%{colour_value} kolore aurrikuspena'
       email_link: Helbide-elektronikoa %{email}
+    versions_navigation:
+      way: Bidea
+      version: '#%{version} bertsioa'
+      versions_label: 'Bertsioak:'
   feature_queries:
     show:
       title: Eskaeraren ezaugarriak
@@ -440,9 +446,17 @@ eu:
         title_html: 'Bidearen historia: %{name}'
       relation:
         title_html: 'Erlazioaren historia: %{name}'
+      older_versions: Bertsio Zaharragoak
+      newer_versions: Bertsio Berriagoak
   old_nodes:
     not_found_message:
       sorry: Barkatu, ezin izan da %{id} nodoaren %{version} bertsioa aurkitu.
+  ways:
+    not_found_message:
+      sorry: 'Barkatu, #%{id} bidea ezin izan da aurkitu.'
+    timeout:
+      sorry: Barkatu, %{id} IDa duen bidearen datuak berreskuratzeko denbora gehiegi
+        behar izan da.
   old_ways:
     not_found_message:
       sorry: Barkatu, ezin izan da %{id} bidearen %{version} bertsioa aurkitu.
@@ -509,6 +523,7 @@ eu:
     show:
       subscribe:
         heading: Aldaketa multzoko eztabaida honetara harpidetu nahi duzu?
+        button: Eztabaidara harpidetu
       unsubscribe:
         button: Eztabaidatik harpidetza kendu
   dashboards:
@@ -551,6 +566,7 @@ eu:
       title: '%{user}(r)en egunerokoa | %{title}'
       user_title: '%{user}(r)en egunerokoa'
       discussion: Eztabaida
+      subscribe: Harpidetu
       leave_a_comment: Iruzkin bat utzi
       login_to_leave_a_comment_html: '%{login_link} iruzkin bat uzteko'
       login: Hasi saioa
@@ -563,6 +579,7 @@ eu:
       posted_by_html: '%{link_user} erabiltzaileak %{created} datan argitaratua %{language_link}
         hizkuntzan'
       updated_at_html: Azken eguneratzea %{updated} egunean.
+      full_entry: Sarrera osoa ikusi
       comment_link: Sarrera honetan iruzkina utzi
       reply_link: Egileari mezua bidali
       comment_count:
@@ -597,6 +614,9 @@ eu:
       my_diary: Nire egunerokoa
       new: Eguneroko sarrera berria
       new_title: Nire erabiltzaile egunerokoan sarrera berri bat sortu
+    profile_diaries:
+      comments_label: Iruzkinak
+      date_label: Data
   doorkeeper:
     errors:
       messages:
@@ -624,6 +644,8 @@ eu:
       contact_the_community_html: Anima zaitez OpenStreetMap komunitatearekin %{contact_link}
         arazoren bat edo apurtutako estekaren bat aurkitu baduzu. Zure eskaeraren
         URL zehatza kontuan hartu.
+    bad_request:
+      title: Eskaera okerra
     forbidden:
       title: Debekatuta
       description: OpenStreetMap zerbitzarian eskatu duzun eragiketa administratzaileentzat
@@ -636,6 +658,13 @@ eu:
       title: Fitxategia ez da aurkitu
       description: Ezin izan da izen hori duen fitxategi/karpeta/API eragiketarik
         OpenStreetMap zerbitzarian aurkitu (HTTP 404)
+  follows:
+    show:
+      follow:
+        button: Erabiltzailea jarraitu
+      unfollow:
+        heading: '%{user} jarraitzeari utzi nahi diozu?'
+        button: Erabiltzailea jarraitzeari utzi
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -965,6 +994,8 @@ eu:
           wayside_shrine: Ermitarako bidea
           wreck: Aztarnak
           "yes": Leku historikoa
+        information:
+          map: Mapa
         junction:
           "yes": Bide-gurutzea
         landuse:
@@ -1476,6 +1507,9 @@ eu:
       reportable_title:
         diary_comment: '%{entry_title}, iruzkina #%{comment_id}'
         note: 'Oharra #%{note_id}'
+    reporters:
+      reporters:
+        more_reporters: eta %{count} gehiago
   issue_comments:
     create:
       comment_created: Zure iruzkina arrakastaz sortu da
@@ -1541,6 +1575,10 @@ eu:
     communities: Komunitateak
     learn_more: Ikasi gehiago
     more: Gehiago
+    select_language_list:
+      languages:
+        de: Alemana
+        ja: Japoniera
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} eguneroko sarrera batean iruzkina utzi du'

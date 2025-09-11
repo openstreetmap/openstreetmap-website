@@ -13,6 +13,7 @@
 # Author: Crazymadlover
 # Author: Cristofer Alves
 # Author: Danieldegroot2
+# Author: Dheff022
 # Author: Dianakc
 # Author: Duke of Wikipädia
 # Author: EGobi
@@ -581,12 +582,24 @@ pt:
     timeout:
       sorry: Desculpe, os dados do caminho com o id %{id} demoraram muito para serem
         recuperados.
+  relation_members:
+    not_found_message:
+      sorry: 'Desculpe, não foi possível encontrar a relação #%{id}.'
+    timeout:
+      sorry: Desculpe, os dados da relação com o id %{id} demoraram muito para serem
+        recuperados.
   old_relations:
     not_found_message:
       sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
     timeout:
       sorry: Desculpe, o histórico do caminho com o id %{id} levou muito tempo para
         ser recuperado.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Desculpe, a relação #%{id} versão %{version} não pôde ser encontrada.'
+    timeout:
+      sorry: Desculpe, os merda relação com o id %{id} demoraram muito para serem
+        recuperados.
   changeset_comments:
     feeds:
       comment:
@@ -1874,6 +1887,116 @@ pt:
       select_language: Selecionar idioma
     select_language_button:
       title: Selecionar idioma
+    select_language_list:
+      languages:
+        af: Africâner
+        gsw: Alemânico
+        frp: Arpitano
+        ast: Asturiano
+        az: Azerbaijano
+        id: Indonésio
+        ms: Malaio
+        bs: Bósnio
+        br: Bretã
+        ca: Catalão
+        cs: Checo
+        cy: Galês
+        da: Dinamarquês
+        de: Alemão
+        dsb: Baixo Sorábio
+        et: Estoniano
+        en: Inglês
+        en-GB: Inglês (Reino Unido)
+        es: Espanhol
+        eo: Esperanto
+        eu: Basco
+        fr: Francês
+        fy: Frísio Ocidental
+        fur: Friuliano
+        ga: Irlandês
+        gd: Gaélico Escocês
+        gl: Galego
+        aln: Gheg Albanês
+        hsb: Sorábio Superior
+        hr: Croata
+        ia: Interlíngua
+        is: Islandês
+        it: Italiano
+        gcf: Crioulo de Guadalupe
+        ku-Latn: Curdo (Latim)
+        lv: Letão
+        lb: Luxemburguês
+        lt: Lituano
+        hu: Húngaro
+        fit: Finlandês Tornedaliano
+        nl: Holandês
+        nb: Norueguês (Bokmål)
+        nn: Norueguês (Nynorsk)
+        oc: Occitano
+        nds: Baixo Alemão
+        pl: Polonês
+        pt-PT: Português
+        pt: Português (Brasil)
+        ksh: Colôniano
+        ro: Romeno
+        sc: Sardo
+        sco: Escocês
+        sq: Albanês
+        scn: Siciliano
+        sk: Eslovaco
+        sl: Esloveno
+        sr-Latn: Sérvio (Latim)
+        sh: Servo-Croata (Latim)
+        fi: Finlandês
+        sv: Sueco
+        tl: Tagalo
+        kab: Cabila
+        vi: Vietnamita
+        tr: Turco
+        yo: Ioruba
+        diq: Dimli
+        el: Grego
+        ba: Basquir
+        be: Bielorrusso
+        be-Tarask: Bielorrusso (Tarašk.)
+        bg: Búlgaro
+        mk: Macedônio
+        mo: Moldavo
+        ce: Checheno
+        ru: Russo
+        sr: Sérvio (Cirílico)
+        tt: Tatar (Cirílico)
+        uk: Ucraniano
+        kk-cyrl: Cazaque (Cirílico)
+        yi: Iídiche
+        he: Hebraico
+        ar: Árabe
+        skr-arab: Saraiki (Alfabeto Árabe)
+        fa: Persa
+        arz: Árabe (Egito)
+        pnb: Panjabi Ocidental
+        ps: Pashto
+        nqo: N’Ko
+        ne: Nepalês
+        mr: Marathi
+        hi: Hindi
+        bn: Bengali
+        pa: Panjábi
+        gu: Gujarati
+        ta: Tâmil
+        te: Télugo
+        kn: Canarês
+        th: Tailandês
+        my: Birmanês
+        xmf: Mingrélio
+        ka: Georgiano
+        km: Khmer
+        sat: Santali
+        zh-CN: Chinês (Simplificado)
+        zh-TW: Chinês (Tradicional)
+        zh-HK: Chinês (Hong Kong)
+        ja: Japonês
+        ko: Coreano
     offline_flash:
       osm_offline: A base de dados do OpenStreetMap, no momento, está fora do ar para
         manutenção.
@@ -3600,6 +3723,7 @@ pt:
     share:
       title: Compartilhar
       view_larger_map: Ver mapa ampliado
+      export_failed_title: Falha na exportação do mapa
       filename: mapa
     embed:
       report_problem: Reportar um problema
@@ -3669,6 +3793,9 @@ pt:
         mi: '%{distance}mi'
       errors:
         no_route: Rota entre esses dois lugares não encontrada.
+        no_place:
+          title: A busca falhou
+          body: Não foi possível encontrar '%{place}'.
       instructions:
         continue_without_exit: Continue em %{name}
         slight_right_without_exit: Curva suave à direita para %{name}
@@ -3769,9 +3896,15 @@ pt:
         contributions:
           one: '%{count} contribuição em %{date}'
           other: '%{count} contribuições em %{date}'
+    remote_edit:
+      failed:
+        title: A edição falhou
+        body: Certifique-se de que o JOSM ou o Merkaartor estão carregados e que a
+          opção controle remoto está ativada.
     edit:
       id_not_configured:
         title: iD não foi configurado
+        body: Por favor veja CONFIGURE.md para mais informações
   redactions:
     edit:
       heading: Editar anulação
